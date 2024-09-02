@@ -338,7 +338,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 				continue;
 			}
 
-			for (long i = 0; i < customized_spartan_character.customized_areas.count(); i++)
+			for (long i = 0; i < customized_spartan_character.customized_areas.count; i++)
 			{
 				s_multiplayer_customized_model_selection& customized_area = customized_spartan_character.customized_areas[i];
 
@@ -390,7 +390,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 				continue;
 			}
 
-			for (long i = 0; i < customized_elite_character.customized_areas.count(); i++)
+			for (long i = 0; i < customized_elite_character.customized_areas.count; i++)
 			{
 				s_multiplayer_customized_model_selection& customized_area = customized_elite_character.customized_areas[i];
 

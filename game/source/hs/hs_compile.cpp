@@ -296,7 +296,7 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 		long unit_seat_start_index = NONE;
 		long unit_seat_mapping_count = seats_stack.count();
 
-		if (scenario->hs_unit_seats.count() > 0)
+		if (scenario->hs_unit_seats.count > 0)
 		{
 			s_hs_unit_seat_mapping* seats_blocks_begin = scenario->hs_unit_seats.begin();
 			s_hs_unit_seat_mapping* seats_blocks_end = scenario->hs_unit_seats.end();
@@ -661,9 +661,9 @@ bool hs_parse_folder(long expression_index)
 	ASSERT(expression->type == _hs_type_folder);
 
 	struct scenario* scenario = global_scenario_get();
-	if (scenario->editor_folders.count() > 0)
+	if (scenario->editor_folders.count > 0)
 	{
-		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count(); editor_folder_index++)
+		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count; editor_folder_index++)
 		{
 			s_scenario_editor_folder& editor_folder = scenario->editor_folders[editor_folder_index];
 			if (editor_folder.name.is_equal(source_offset))
@@ -896,10 +896,10 @@ bool hs_parse_budget_reference(long expression_index)
 		ASSERT(HS_TYPE_IS_BUDGET_REFERENCE(expression->type));
 
 		struct scenario* scenario = global_scenario_get();
-		if (scenario->budget_references.count() <= 0)
+		if (scenario->budget_references.count <= 0)
 			return true;
 
-		for (long budget_reference_index = 0; budget_reference_index < scenario->budget_references.count(); budget_reference_index++)
+		for (long budget_reference_index = 0; budget_reference_index < scenario->budget_references.count; budget_reference_index++)
 		{
 			s_scenario_budget_reference& budget_reference = scenario->budget_references[budget_reference_index];
 			if (budget_reference.reference.index != NONE && csstrcmp(budget_reference.reference.get_name(), source_offset) == 0)
@@ -1188,7 +1188,7 @@ bool hs_parse_nonprimitive(long expression_index)
 				expression->type = script.return_type;
 
 			short script_argument_count = hs_count_children(expression_index) - 1;
-			if (script_argument_count != script.parameters.count())
+			if (script_argument_count != script.parameters.count)
 			{
 				hs_compile_globals.error_message = "wrong number of script arguments";
 				hs_compile_globals.error_offset = expression->source_offset;
@@ -1200,7 +1200,7 @@ bool hs_parse_nonprimitive(long expression_index)
 			parse_result = true;
 			while (next_node_index != NONE && parse_result)
 			{
-				ASSERT(parameter_index >= 0 && parameter_index < script.parameters.count());
+				ASSERT(parameter_index >= 0 && parameter_index < script.parameters.count);
 
 				hs_script_parameter& parameter = script.parameters[parameter_index];
 				parse_result = hs_parse(next_node_index, parameter.return_type.get());

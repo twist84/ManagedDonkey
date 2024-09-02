@@ -346,7 +346,7 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
 
 	struct scenario* scenario = global_scenario_get();
-	if (VALID_INDEX(zone_set_index, scenario->zone_sets.count()))
+	if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
 	{
 		s_scenario_zone_state zone_state{};
 		scenario_get_global_zone_state(&zone_state);
@@ -463,7 +463,7 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_structure_bsp = true;
-	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count(); structure_bsp_index++)
+	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (TEST_BIT(mask, structure_bsp_index))
 		{
@@ -492,7 +492,7 @@ char const* scenario_get_designer_zone_string_from_mask(dword mask, char* design
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_designer_zone = true;
-	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count(); designer_zone_index++)
+	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
 	{
 		if (TEST_BIT(mask, designer_zone_index))
 		{
@@ -527,7 +527,7 @@ char const* scenario_get_cinematic_zone_string_from_mask(dword mask, char* cinem
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_cinematic = true;
-	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count(); cinematic_zone_index++)
+	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
 	{
 		if (TEST_BIT(mask, cinematic_zone_index))
 		{
@@ -546,7 +546,7 @@ char const* scenario_get_cinematic_zone_string_from_mask(dword mask, char* cinem
 
 short scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
 {
-	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count()); object_name_index++)
+	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count); object_name_index++)
 	{
 		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
 		if (object_name.name.is_equal(name))
@@ -558,7 +558,7 @@ short scenario_object_name_index_from_string(struct scenario* scenario, char con
 
 long scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
 {
-	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count(); zone_set_index++)
+	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
 	{
 		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
 
@@ -578,7 +578,7 @@ long scenario_get_designer_zone_index_by_name(struct scenario const* scenario, c
 	string_id retrieved_string_id = string_id_retrieve(name);
 	if (retrieved_string_id != NONE)
 	{
-		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count(); designer_zone_index++)
+		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
 		{
 			s_scenario_designer_zone& designer_zone = scenario->designer_zones[designer_zone_index];
 			if (designer_zone.name.get_value() == retrieved_string_id)
@@ -590,9 +590,9 @@ long scenario_get_designer_zone_index_by_name(struct scenario const* scenario, c
 }
 
 #define SCENARIO_PRINT_ZONE_SETS()\
-if (scenario->zone_sets.count())\
+if (scenario->zone_sets.count)\
 {\
-	c_console::write_line("    zone sets: %d", scenario->zone_sets.count());\
+	c_console::write_line("    zone sets: %d", scenario->zone_sets.count);\
 	for (auto zone_set : scenario->zone_sets)\
 	{\
 		char const* name = zone_set.name.get_string();\
@@ -603,9 +603,9 @@ if (scenario->zone_sets.count())\
 }
 
 #define SCENARIO_PRINT_LIGHTING_ZONE_SETS()\
-if (scenario->lighting_zone_sets.count())\
+if (scenario->lighting_zone_sets.count)\
 {\
-	c_console::write_line("    lighting zone sets: %d", scenario->lighting_zone_sets.count());\
+	c_console::write_line("    lighting zone sets: %d", scenario->lighting_zone_sets.count);\
 	for (auto lighting_zone_set : scenario->lighting_zone_sets)\
 	{\
 		char const* name = lighting_zone_set.name.get_string();\
@@ -616,9 +616,9 @@ if (scenario->lighting_zone_sets.count())\
 }
 
 #define SCENARIO_PRINT_CAMPAIN_PLAYERS()\
-if (scenario->campaign_players.count())\
+if (scenario->campaign_players.count)\
 {\
-	c_console::write_line("    campaign players: %d", scenario->campaign_players.count());\
+	c_console::write_line("    campaign players: %d", scenario->campaign_players.count);\
 	for (auto campaign_player : scenario->campaign_players)\
 	{\
 		char const* name = campaign_player.name.get_string();\
@@ -629,9 +629,9 @@ if (scenario->campaign_players.count())\
 }
 
 #define SCENARIO_PRINT_OBJECT_NAMES()\
-if (scenario->object_names.count())\
+if (scenario->object_names.count)\
 {\
-	c_console::write_line("    object names: %d", scenario->object_names.count());\
+	c_console::write_line("    object names: %d", scenario->object_names.count);\
 	for (auto object_name : scenario->object_names)\
 	{\
 		char const* name = object_name.name.get_string();\
@@ -642,9 +642,9 @@ if (scenario->object_names.count())\
 }
 
 #define SCENARIO_PRINT_MAP_VARIANT_PALETTES(NAME)\
-if (scenario->map_variant_##NAME##_palette.count())\
+if (scenario->map_variant_##NAME##_palette.count)\
 {\
-	c_console::write_line("    %s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count());\
+	c_console::write_line("    %s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count);\
 	for (auto palette : scenario->map_variant_##NAME##_palette)\
 	{\
 		char const* display_name = palette.display_name.get_string();\
@@ -655,9 +655,9 @@ if (scenario->map_variant_##NAME##_palette.count())\
 }
 
 #define SCENARIO_PRINT_SOFT_CEILINGS()\
-if (scenario->soft_ceilings.count())\
+if (scenario->soft_ceilings.count)\
 {\
-	c_console::write_line("    soft ceilings: %d", scenario->soft_ceilings.count());\
+	c_console::write_line("    soft ceilings: %d", scenario->soft_ceilings.count);\
 	for (auto soft_ceiling : scenario->soft_ceilings)\
 	{\
 		char const* name = soft_ceiling.name.get_string();\
@@ -668,9 +668,9 @@ if (scenario->soft_ceilings.count())\
 }
 
 #define SCENARIO_PRINT_PLAYER_STARTING_PROFILES()\
-if (scenario->player_starting_profile.count())\
+if (scenario->player_starting_profile.count)\
 {\
-	c_console::write_line("    player starting profiles: %d", scenario->player_starting_profile.count());\
+	c_console::write_line("    player starting profiles: %d", scenario->player_starting_profile.count);\
 	for (auto profile : scenario->player_starting_profile)\
 	{\
 		char const* name = profile.name.get_string();\
@@ -681,9 +681,9 @@ if (scenario->player_starting_profile.count())\
 }
 
 #define SCENARIO_PRINT_TRIGGER_VOLUMES()\
-if (scenario->trigger_volumes.count())\
+if (scenario->trigger_volumes.count)\
 {\
-	c_console::write_line("    trigger volumes: %d", scenario->trigger_volumes.count());\
+	c_console::write_line("    trigger volumes: %d", scenario->trigger_volumes.count);\
 	for (auto trigger_volume : scenario->trigger_volumes)\
 	{\
 		char const* name = trigger_volume.name.get_string();\
@@ -694,17 +694,17 @@ if (scenario->trigger_volumes.count())\
 }
 
 #define SCENARIO_PRINT_SCRIPTS()\
-if (scenario->scripts.count())\
+if (scenario->scripts.count)\
 {\
-	c_console::write_line("    scripts: %d", scenario->scripts.count());\
+	c_console::write_line("    scripts: %d", scenario->scripts.count);\
 	for (auto script : scenario->scripts)\
 	{\
 		char const* script_name = script.name.get_string();\
 		if (script_name && *script_name)\
 			c_console::write_line("        name: %s", script_name);\
-		if (script.parameters.count())\
+		if (script.parameters.count)\
 		{\
-			c_console::write_line("            parameters: %d", script.parameters.count());\
+			c_console::write_line("            parameters: %d", script.parameters.count);\
 			for (auto parameter : script.parameters)\
 			{\
 				char const* parameter_name = parameter.name.get_string();\
@@ -718,9 +718,9 @@ if (scenario->scripts.count())\
 }
 
 #define SCENARIO_PRINT_GLOBALS()\
-if (scenario->globals.count())\
+if (scenario->globals.count)\
 {\
-	c_console::write_line("    globals: %d", scenario->globals.count());\
+	c_console::write_line("    globals: %d", scenario->globals.count);\
 	for (auto global : scenario->globals)\
 	{\
 		char const* name = global.name.get_string();\
@@ -731,9 +731,9 @@ if (scenario->globals.count())\
 }
 
 #define GLOBALS_PRINT_PLAYER_REPRESENTATION()\
-if (game_globals->player_representation.count())\
+if (game_globals->player_representation.count)\
 {\
-	c_console::write_line("    player representation: %d", game_globals->player_representation.count());\
+	c_console::write_line("    player representation: %d", game_globals->player_representation.count);\
 	for (auto player_representation : game_globals->player_representation)\
 	{\
 		char const* name = player_representation.name.get_string();\
@@ -747,9 +747,9 @@ if (game_globals->player_representation.count())\
 }
 
 #define UNIVERSAL_DATA_PRINT_EQUIPMENT()\
-if (universal_data->equipment.count())\
+if (universal_data->equipment.count)\
 {\
-	c_console::write_line("    equipment: %d", universal_data->equipment.count());\
+	c_console::write_line("    equipment: %d", universal_data->equipment.count);\
 	for (auto equipment : universal_data->equipment)\
 	{\
 		char const* name = equipment.name.get_string();\
@@ -760,9 +760,9 @@ if (universal_data->equipment.count())\
 }
 
 #define UNIVERSAL_DATA_PRINT_SELECTIONS(NAME)\
-if (universal_data->NAME##_selections.count())\
+if (universal_data->NAME##_selections.count)\
 {\
-	c_console::write_line("    %s selections: %d", #NAME, universal_data->NAME##_selections.count());\
+	c_console::write_line("    %s selections: %d", #NAME, universal_data->NAME##_selections.count);\
 	for (auto selection : universal_data->NAME##_selections)\
 	{\
 		char const* name = selection.name.get_string();\
@@ -775,17 +775,17 @@ if (universal_data->NAME##_selections.count())\
 }
 
 #define UNIVERSAL_DATA_PRINT_SETS(NAME)\
-if (universal_data->NAME##_sets.count())\
+if (universal_data->NAME##_sets.count)\
 {\
-	c_console::write_line("    %s sets: %d", #NAME, universal_data->NAME##_sets.count());\
+	c_console::write_line("    %s sets: %d", #NAME, universal_data->NAME##_sets.count);\
 	for (auto set : universal_data->NAME##_sets)\
 	{\
 		char const* name = set.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
-		if (set.remap_table.count())\
+		if (set.remap_table.count)\
 		{\
-			c_console::write_line("            remap table: %d", set.remap_table.count());\
+			c_console::write_line("            remap table: %d", set.remap_table.count);\
 			for (auto remap_entry : set.remap_table)\
 			{\
 				char const* placed_object_name = remap_entry.placed_object_name.get_string();\
@@ -802,9 +802,9 @@ if (universal_data->NAME##_sets.count())\
 }
 
 #define UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS(NAME)\
-if (universal_data->customized_##NAME##_characters.count())\
+if (universal_data->customized_##NAME##_characters.count)\
 {\
-	c_console::write_line("    customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count());\
+	c_console::write_line("    customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count);\
 	for (auto customized_character : universal_data->customized_##NAME##_characters)\
 	{\
 		char const* armor_region = customized_character.armor_region.get_string();\
@@ -813,9 +813,9 @@ if (universal_data->customized_##NAME##_characters.count())\
 		char const* biped_region = customized_character.biped_region.get_string();\
 		if (biped_region && *biped_region)\
 			c_console::write_line("        biped region: %s", biped_region);\
-		if (customized_character.customized_areas.count())\
+		if (customized_character.customized_areas.count)\
 		{\
-			c_console::write_line("            customized areas: %d", customized_character.customized_areas.count());\
+			c_console::write_line("            customized areas: %d", customized_character.customized_areas.count);\
 			for (auto customized_area : customized_character.customized_areas)\
 			{\
 				char const* selection_name = customized_area.selection_name.get_string();\

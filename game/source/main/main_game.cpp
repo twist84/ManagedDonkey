@@ -881,7 +881,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	if (game_in_editor())
 	{
 		zone_set_index = (short)scenario_zone_set_index_get();
-		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count()))
+		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
 			options.initial_zone_set_index = zone_set_index;
 		else
 			options.initial_zone_set_index = 0;
@@ -915,8 +915,8 @@ bool __cdecl main_game_start(game_options const* options)
 	if (options->initial_zone_set_index > 0)
 		zone_set_index = options->initial_zone_set_index;
 
-	if (zone_set_index > global_scenario->zone_sets.count() - 1)
-		zone_set_index = global_scenario->zone_sets.count() - 1;
+	if (zone_set_index > global_scenario->zone_sets.count - 1)
+		zone_set_index = global_scenario->zone_sets.count - 1;
 
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 

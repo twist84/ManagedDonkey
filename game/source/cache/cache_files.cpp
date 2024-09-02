@@ -1558,7 +1558,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 			if (instance->tag_group == BITMAP_TAG)
 			{
 				bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
-				ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+				ASSERT(bitmap_instance->bitmaps.count == bitmap_instance->hardware_textures.count);
 
 				bitmap_data& bitmap = bitmap_instance->bitmaps[0];
 				s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
@@ -1680,7 +1680,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 		//if (is_base_cache)
 		//{
-		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count() <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
+		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
 		//		return;
 		//
 		//	for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
@@ -2161,7 +2161,7 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 		return;
 
 	bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
-	ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+	ASSERT(bitmap_instance->bitmaps.count == bitmap_instance->hardware_textures.count);
 
 	bitmap_data& bitmap = bitmap_instance->bitmaps[file_header->resource_index];
 	s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[file_header->resource_index].get();
@@ -2203,7 +2203,7 @@ void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_i
 	if (instance->tag_group == BITMAP_TAG)
 	{
 		bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
-		ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+		ASSERT(bitmap_instance->bitmaps.count == bitmap_instance->hardware_textures.count);
 
 		bitmap_data& bitmap = bitmap_instance->bitmaps[0];
 		s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();

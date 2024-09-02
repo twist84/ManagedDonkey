@@ -845,7 +845,7 @@ long customized_spartan_character_from_name(s_multiplayer_customized_model_chara
 
 	if (armor_region && csstricmp(region_or_biped_name, armor_region) == 0)
 	{
-		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count(); selection_absolute_index++)
+		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count; selection_absolute_index++)
 		{
 			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_areas[selection_absolute_index];
 			if (customized_area_selection_from_name(customized_model_selection, selection_name))
@@ -855,7 +855,7 @@ long customized_spartan_character_from_name(s_multiplayer_customized_model_chara
 
 	if (biped_region && csstricmp(region_or_biped_name, biped_region) == 0)
 	{
-		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count(); selection_absolute_index++)
+		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count; selection_absolute_index++)
 		{
 			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_areas[selection_absolute_index];
 			if (customized_area_selection_from_name(customized_model_selection, selection_name))
@@ -873,7 +873,7 @@ long multiplayer_universal_data_get_absolute_equipment_block_index(char const* n
 		return 0;
 
 	long result = 0;
-	for (long equipment_absolute_index = 0; equipment_absolute_index < universal_data->equipment.count(); equipment_absolute_index++)
+	for (long equipment_absolute_index = 0; equipment_absolute_index < universal_data->equipment.count; equipment_absolute_index++)
 	{
 		s_multiplayer_equipment& equipment = universal_data->equipment[equipment_absolute_index];
 		char const* equipment_name = equipment.name.get_string();
@@ -915,9 +915,9 @@ short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char
 	if (!universal_data)
 		return short(0xFFFD);
 
-	if (universal_data->weapon_selections.count())
+	if (universal_data->weapon_selections.count)
 	{
-		for (short weapon_selection_index = 0; weapon_selection_index < universal_data->weapon_selections.count(); weapon_selection_index++)
+		for (short weapon_selection_index = 0; weapon_selection_index < universal_data->weapon_selections.count; weapon_selection_index++)
 		{
 			s_multiplayer_weapon_selection& weapon_selection = universal_data->weapon_selections[weapon_selection_index];
 
@@ -945,7 +945,7 @@ long get_spartan_representation_index()
 
 	if (s_game_globals* game_globals = scenario_get_game_globals())
 	{
-		for (long i = 0; i < game_globals->player_representation.count(); i++)
+		for (long i = 0; i < game_globals->player_representation.count; i++)
 		{
 			if (name == game_globals->player_representation[i].name.get_value())
 				return i;
@@ -964,7 +964,7 @@ long get_elite_representation_index()
 
 	if (s_game_globals* game_globals = scenario_get_game_globals())
 	{
-		for (long i = 0; i < game_globals->player_representation.count(); i++)
+		for (long i = 0; i < game_globals->player_representation.count; i++)
 		{
 			if (name == game_globals->player_representation[i].name.get_value())
 				return i;

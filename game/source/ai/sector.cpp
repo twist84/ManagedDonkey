@@ -10,7 +10,7 @@ pathfinding_data const* __cdecl pathfinding_data_get(short structure_bsp_index)
 
 void sector_link_render_debug(long link_index, pathfinding_data const* pf_data, real_argb_color const* color, bool a4)
 {
-	if (VALID_INDEX(link_index, pf_data->links.count()))
+	if (VALID_INDEX(link_index, pf_data->links.count))
 	{
 		sector_link& link = pf_data->links[link_index];
 		sector_vertex& vertex1 = pf_data->vertices[link.index];

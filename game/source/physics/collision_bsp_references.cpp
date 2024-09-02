@@ -24,13 +24,13 @@ void c_collision_bsp_reference::initialize(s_structure_bsp_resources const* bsp_
 	m_bsp = NULL;
 	m_large_bsp = NULL;
 
-	if (bsp_resources->bsp.count() == 1)
+	if (bsp_resources->bsp.count == 1)
 	{
 		m_bsp = &bsp_resources->bsp[0];
 	}
 	else
 	{
-		if (bsp_resources->large_bsp.count() == 1)
+		if (bsp_resources->large_bsp.count == 1)
 		{
 			m_large_bsp = &bsp_resources->large_bsp[0];
 		}
@@ -70,9 +70,9 @@ long c_collision_bsp_reference::get_leaf_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->leaves.count();
+		return m_bsp->leaves.count;
 
-	return m_large_bsp->leaves.count();
+	return m_large_bsp->leaves.count;
 }
 
 long c_collision_bsp_reference::get_bsp2d_reference_count() const
@@ -80,9 +80,9 @@ long c_collision_bsp_reference::get_bsp2d_reference_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->bsp2d_references.count();
+		return m_bsp->bsp2d_references.count;
 
-	return m_large_bsp->bsp2d_references.count();
+	return m_large_bsp->bsp2d_references.count;
 }
 
 long c_collision_bsp_reference::get_bsp2d_node_count() const
@@ -90,9 +90,9 @@ long c_collision_bsp_reference::get_bsp2d_node_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->bsp2d_nodes.count();
+		return m_bsp->bsp2d_nodes.count;
 
-	return m_large_bsp->bsp2d_nodes.count();
+	return m_large_bsp->bsp2d_nodes.count;
 }
 
 long c_collision_bsp_reference::get_surface_count() const
@@ -100,9 +100,9 @@ long c_collision_bsp_reference::get_surface_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->surfaces.count();
+		return m_bsp->surfaces.count;
 
-	return m_large_bsp->surfaces.count();
+	return m_large_bsp->surfaces.count;
 }
 
 long c_collision_bsp_reference::get_edge_count() const
@@ -110,9 +110,9 @@ long c_collision_bsp_reference::get_edge_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->edges.count();
+		return m_bsp->edges.count;
 
-	return m_large_bsp->edges.count();
+	return m_large_bsp->edges.count;
 }
 
 long c_collision_bsp_reference::get_vertex_count() const
@@ -120,8 +120,8 @@ long c_collision_bsp_reference::get_vertex_count() const
 	ASSERT(valid());
 
 	if (is_small())
-		return m_bsp->vertices.count();
+		return m_bsp->vertices.count;
 
-	return m_large_bsp->vertices.count();
+	return m_large_bsp->vertices.count;
 }
 

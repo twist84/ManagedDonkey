@@ -135,7 +135,7 @@ c_debug_menu_zone_sets::~c_debug_menu_zone_sets()
 
 void c_debug_menu_zone_sets::notify_selected(short selected_value)
 {
-	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count()))
+	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count))
 	{
 		main_switch_zone_set(selected_value);
 	}
@@ -176,7 +176,7 @@ void c_debug_menu_zone_sets::update_caption()
 {
 	char caption[1024]{};
 
-	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count()))
+	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count))
 		scenario_get_structure_bsp_string_from_mask(global_scenario_get()->zone_sets[get_selection()].flags, caption, sizeof(caption));
 
 	set_caption(caption);

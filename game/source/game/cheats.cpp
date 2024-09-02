@@ -270,9 +270,9 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 void __cdecl cheat_all_powerups()
 {
 	s_game_globals* game_globals = scenario_get_game_globals();
-	if (game_globals->cheat_powerups.count())
+	if (game_globals->cheat_powerups.count)
 	{
-		cheat_objects(game_globals->cheat_powerups.begin(), (short)game_globals->cheat_powerups.count());
+		cheat_objects(game_globals->cheat_powerups.begin(), (short)game_globals->cheat_powerups.count);
 	}
 	else
 	{
@@ -287,7 +287,7 @@ void __cdecl cheat_all_powerups()
 				break;
 
 			struct equipment_definition* equipment_definition = (struct equipment_definition*)tag_get(iterator.group_tag, tag_index);
-			if (equipment_definition->equipment.spawner.count())
+			if (equipment_definition->equipment.spawner.count)
 				tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 		}
 
@@ -308,7 +308,7 @@ void __cdecl cheat_all_vehicles()
 			break;
 
 		struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(iterator.group_tag, tag_index);
-		if (vehicle_definition->unit.powered_seats.count() > 0)
+		if (vehicle_definition->unit.powered_seats.count > 0)
 			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
 

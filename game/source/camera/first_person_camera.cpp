@@ -77,7 +77,7 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 		}
 		else
 		{
-			if (scenario_get_game_globals()->player_control.count())
+			if (scenario_get_game_globals()->player_control.count)
 				set_real_point2d(&result->crosshair_location, 1.0f, scenario_get_game_globals()->player_control[0].crosshair_location.y);
 		}
 

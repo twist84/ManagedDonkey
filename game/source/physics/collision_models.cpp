@@ -9,7 +9,7 @@ long __cdecl collision_model_get_bsp_node_index(collision_model_instance const* 
 	//ASSERT(bsp_reference != NONE);
 	//
 	//long node_index = bsp_reference & 0xFF;
-	//ASSERT(node_index >= 0 && node_index < instance->collision_model->nodes.count());
+	//ASSERT(node_index >= 0 && node_index < instance->collision_model->nodes.count);
 	//
 	//return node_index;
 }

@@ -132,10 +132,10 @@ short __cdecl hs_find_script_by_name(char const* name, short parameter_count)
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_script>& scripts = global_scenario_get()->scripts;
-		for (long script_index = 0; script_index < scripts.count(); script_index++)
+		for (long script_index = 0; script_index < scripts.count; script_index++)
 		{
 			hs_script& script = scripts[script_index];
-			if (script.name.is_equal(name) && parameter_count == NONE || parameter_count == script.parameters.count())
+			if (script.name.is_equal(name) && parameter_count == NONE || parameter_count == script.parameters.count)
 				return static_cast<short>(script_index);
 		}
 	}
@@ -218,7 +218,7 @@ short hs_find_function_by_name(char const* name, short parameter_count)
 short __cdecl hs_script_find_parameter_by_name(long script_index, char const* name)
 {
 	hs_script& script = global_scenario_get()->scripts[script_index];
-	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count()); parameter_index++)
+	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count); parameter_index++)
 	{
 		hs_script_parameter& parameter = script.parameters[parameter_index];
 		if (parameter.name.is_equal(name))
@@ -260,7 +260,7 @@ short hs_find_global_by_name(char const* name)
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->globals;
-		for (short global_index = 0; global_index < static_cast<short>(globals.count()); global_index++)
+		for (short global_index = 0; global_index < static_cast<short>(globals.count); global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
 			if (global_internal.name.is_equal(name))
@@ -471,9 +471,9 @@ void __cdecl hs_enumerate_ai_names(void)
 		for (orders_definition& order : scenario->orders)
 			hs_tokens_enumerate_add_string(order.name.get_string());
 	
-		if (scenario->scripting_data.count())
+		if (scenario->scripting_data.count)
 		{
-			for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count(); point_set_index++)
+			for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count; point_set_index++)
 				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name.get_string());
 		}
 	}

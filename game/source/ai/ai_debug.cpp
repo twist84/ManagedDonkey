@@ -517,7 +517,7 @@ void ai_debug_render_character_names()
 
 void ai_debug_render_sectors()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -527,7 +527,7 @@ void ai_debug_render_sectors()
 			continue;
 
 		long sectors_range_min = 0;
-		long sectors_range_max = pf_data->sectors.count();
+		long sectors_range_max = pf_data->sectors.count;
 
 		if (g_ai_render_sectors_range_min != NONE)
 			sectors_range_min = g_ai_render_sectors_range_min;
@@ -535,7 +535,7 @@ void ai_debug_render_sectors()
 		if (g_ai_render_sectors_range_max != NONE)
 			sectors_range_max = g_ai_render_sectors_range_max;
 
-		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			sector_link& link = pf_data->links[link_index];
 
@@ -580,7 +580,7 @@ void ai_render_object_properties()
 		object_datum* object = object_iterator.get_datum();
 		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
 
-		if (object_definition->object.ai_properties.count())
+		if (object_definition->object.ai_properties.count)
 		{
 			object_ai_properties& ai_properties = object_definition->object.ai_properties[0];
 			ai_debug_drawstack_setup(&object->object.bounding_sphere_center);
@@ -593,7 +593,7 @@ void ai_render_object_properties()
 
 void ai_debug_render_intersection_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -602,7 +602,7 @@ void ai_debug_render_intersection_links()
 		if (!pf_data)
 			continue;
 
-		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			if (pf_data->links[link_index].link_flags.test(_sector_link_section_link_bit))
 				sector_link_render_debug(link_index, pf_data, NULL, false);
@@ -612,7 +612,7 @@ void ai_debug_render_intersection_links()
 
 void ai_debug_render_threshold_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -621,7 +621,7 @@ void ai_debug_render_threshold_links()
 		if (!pf_data)
 			continue;
 
-		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			if (pf_data->links[link_index].link_flags.test(_sector_link_threshold_bit))
 				sector_link_render_debug(link_index, pf_data, global_real_argb_orange, true);

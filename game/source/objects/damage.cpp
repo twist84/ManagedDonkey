@@ -60,13 +60,13 @@ void render_debug_object_damage()
 
 				if (s_model_damage_info const* damage_info = object_get_damage_info(global_debug_damage_object_index))
 				{
-					if (damage_info->damage_sections.count() > 0)
+					if (damage_info->damage_sections.count > 0)
 					{
 						long element_count = 0;
 						struct object_damage_section* object_damage_section = (struct object_damage_section*)object_header_block_get_with_count(global_debug_damage_object_index, &object->object.damage_sections, sizeof(struct object_damage_section), &element_count);
 
-						if (element_count > damage_info->damage_sections.count())
-							element_count = damage_info->damage_sections.count();
+						if (element_count > damage_info->damage_sections.count)
+							element_count = damage_info->damage_sections.count;
 
 						for (long i = 0; i < element_count; i++)
 						{

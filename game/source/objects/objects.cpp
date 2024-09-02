@@ -993,7 +993,7 @@ long __cdecl object_new(object_placement_data* data)
 	//
 	//bool v53 = false;
 	//bool v60 = false;
-	//bool v63 = object_definition->object.multiplayer_object.count() > 0;
+	//bool v63 = object_definition->object.multiplayer_object.count > 0;
 	//bool v64 = false;
 	//
 	//object_header_datum* object_header = object_header_get_mutable(object_index);
@@ -1107,7 +1107,7 @@ void __cdecl object_place(long object_index, s_scenario_object const* scenario_o
 
 	//object_datum* object = object_get(object_index);
 	//struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
-	//if (object_definition->object.ai_properties.count() > 0)
+	//if (object_definition->object.ai_properties.count > 0)
 	//{
 	//	bool non_flight_blocking = object_definition->object.ai_properties[0].ai_flags.test(_ai_properties_non_flight_blocking_bit);
 	//	SET_BIT(object->object.object_ai_flags, 2, non_flight_blocking);

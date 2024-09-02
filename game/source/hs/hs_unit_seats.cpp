@@ -14,7 +14,7 @@ bool hs_get_unit_seats_from_substring(long unit_definition_index, char const* se
 
 	struct unit_definition* unit_definition = (struct unit_definition*)tag_get(UNIT_TAG, unit_definition_index);
 
-	for (long seat_index = 0; seat_index < unit_definition->unit.seats_block.count(); seat_index++)
+	for (long seat_index = 0; seat_index < unit_definition->unit.seats_block.count; seat_index++)
 	{
 		unit_seat& seat = unit_definition->unit.seats_block[seat_index];
 		if (csstrstr(seat.label.get_string(), seat_substring) != 0)

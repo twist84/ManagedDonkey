@@ -1609,9 +1609,9 @@ void __cdecl game_update_pvs()
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
 
 			dword active_clusters[8]{};
-			if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count()))
+			if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count))
 			{
-				for (long cluster_index = 0; cluster_index < bsp->clusters.count(); cluster_index++)
+				for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 				{
 					if (!game_globals->cluster_pvs.flags[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(active_clusters, cluster_index))
 					{
@@ -1620,7 +1620,7 @@ void __cdecl game_update_pvs()
 				}
 
 				bit_vector_or(
-					bsp->clusters.count(),
+					bsp->clusters.count,
 					game_globals->cluster_pvs.flags[structure_bsp_index].get_bits_direct(),
 					active_clusters,
 					game_globals->cluster_activation.flags[structure_bsp_index].get_writeable_bits_direct());
@@ -1650,9 +1650,9 @@ void __cdecl game_update_pvs()
 			{
 				structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
 
-				ASSERT(VALID_COUNT(bsp->clusters.count(), MAXIMUM_CLUSTERS_PER_STRUCTURE));
+				ASSERT(VALID_COUNT(bsp->clusters.count, MAXIMUM_CLUSTERS_PER_STRUCTURE));
 
-				for (long cluster_index = 0; cluster_index < bsp->clusters.count(); cluster_index++)
+				for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 				{
 					s_cluster_reference cluster_reference{};
 					cluster_reference_set(&cluster_reference, structure_bsp_index, cluster_index);
@@ -1829,7 +1829,7 @@ void __cdecl game_pvs_debug_render()
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
-			for (long cluster_index = 0; cluster_index < bsp->clusters.count(); cluster_index++)
+			for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 			{
 				real_argb_color const* activation_color = nullptr;
 				if (debug_pvs_activation)

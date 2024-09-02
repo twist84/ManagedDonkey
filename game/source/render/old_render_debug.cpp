@@ -119,13 +119,13 @@ void render_debug_structure_decals()
 		{
 			struct scenario* scenario = global_scenario_get();
 
-			ASSERT(VALID_INDEX(runtime_decal.decal_palette_index, scenario->decal_palette.count()));
+			ASSERT(VALID_INDEX(runtime_decal.decal_palette_index, scenario->decal_palette.count));
 			scenario_decal_palette_entry& decal_palette = scenario->decal_palette[runtime_decal.decal_palette_index];
 
 			s_cluster_reference scenario_cluster = scenario_cluster_reference_from_point(&runtime_decal.position);
 			structure_bsp const* bsp = scenario_structure_bsp_get(scenario, scenario_cluster.bsp_index);
 
-			ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count()));
+			ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count));
 			structure_cluster& cluster = bsp->clusters[scenario_cluster.cluster_index];
 
 			matrix3x3 matrix{};

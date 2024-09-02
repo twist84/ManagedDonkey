@@ -10,7 +10,7 @@ bool const clear_mopps = true;
 
 bool __cdecl mesh_has_subpart_mopp(s_render_geometry* render_geometry, long mesh_index)
 {
-	//if (clear_mopps && render_geometry->per_mesh_mopp.count())
+	//if (clear_mopps && render_geometry->per_mesh_mopp.count)
 	//		render_geometry->per_mesh_mopp.clear();
 	//return INVOKE(0x0078C780, mesh_has_subpart_mopp, render_geometry, mesh_index);
 

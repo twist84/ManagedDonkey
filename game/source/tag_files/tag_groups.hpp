@@ -210,7 +210,7 @@
 extern bool const print_reference_updates;
 
 #define UPDATE_REFERENCE_NAME(_reference) { _reference.get_name(); if (_reference.name) { if (print_reference_updates) c_console::write_line("\t%s: '%s.%s'", #_reference, _reference.name, _reference.get_group_name()); } }
-#define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (long i = 0; i < _block.count(); i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
+#define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (long i = 0; i < _block.count; i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
 #define UPDATE_STRUCT_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct.update_reference_names(); }
 #define UPDATE_STRUCT_POINTER_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_reference_names(); }
 
@@ -265,13 +265,9 @@ static_assert(sizeof(s_tag_data) == 0x14);
 template<typename t_element_type, dword ...t_extra>
 //using c_typed_tag_block = s_tag_block;
 struct c_typed_tag_block :
-	s_tag_block
+	public s_tag_block
 {
 public:
-	long count() const
-	{
-		return s_tag_block::count;
-	}
 
 	t_element_type* begin()
 	{

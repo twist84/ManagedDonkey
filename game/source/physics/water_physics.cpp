@@ -54,7 +54,7 @@ void __cdecl water_physics_render_debug(real_point3d const* point, vector3d cons
 					}
 				}
 
-				if (water_instance.water_debug_triangles.count() > 0)
+				if (water_instance.water_debug_triangles.count > 0)
 				{
 					real_point3d enclosed_rect_center{};
 					rectangle3d_center(&enclosed_rect, &enclosed_rect_center);

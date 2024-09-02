@@ -40,14 +40,14 @@ c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compi
 
 c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const
 {
-	if (entry_point >= entry_points.count())
+	if (entry_point >= entry_points.count)
 	{
 		generate_event(_event_level_error, "rasterizer: vertex shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
 		return NULL;
 	}
 
 	s_rasterizer_vertex_shader_entry_point const* shader_entry_point = get_entry_point(entry_point);
-	if (vertex_type >= shader_entry_point->vertex_types.count())
+	if (vertex_type >= shader_entry_point->vertex_types.count)
 		return NULL;
 
 	s_compiled_shader_reference const* shader_reference = shader_entry_point->get_shader_reference(vertex_type);
@@ -77,7 +77,7 @@ c_rasterizer_pixel_shader* c_rasterizer_pixel_shader::get_modifiable(long defini
 
 c_rasterizer_compiled_pixel_shader const* c_rasterizer_pixel_shader::get_compiled_shader(e_entry_point entry_point, long shader_index) const
 {
-	if (entry_point >= entry_points.count())
+	if (entry_point >= entry_points.count)
 	{
 		generate_event(_event_level_error, ": pixel shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
 		return NULL;

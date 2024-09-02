@@ -272,7 +272,7 @@ long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script
 	if (!scenario)
 		return NONE;
 
-	if (script_index < 0 || script_index >= scenario->scripts.count())
+	if (script_index < 0 || script_index >= scenario->scripts.count)
 		return NONE;
 
 	hs_script& script = scenario->scripts[script_index];
@@ -436,7 +436,7 @@ void render_debug_scripting_globals()
 	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 	//
 	//	csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
-	//	for (short global_index = 0; global_index < scenario->globals.count(); global_index++)
+	//	for (short global_index = 0; global_index < scenario->globals.count; global_index++)
 	//	{
 	//		hs_global_internal& global = scenario->globals[global_index];
 	//		csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name.get_string());

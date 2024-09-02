@@ -63,7 +63,7 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 			long v4 = 20 - v2;
 
 			char string[1024]{};
-			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count() - 1, v3, v1, v4);
+			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count - 1, v3, v1, v4);
 
 			real_point3d origin{};
 			object_get_origin(vehicle_index, &origin);
