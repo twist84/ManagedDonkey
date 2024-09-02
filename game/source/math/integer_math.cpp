@@ -35,6 +35,14 @@ void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned long co
 //.text:0052E3E0 ; 
 //.text:0052E4A0 ; short __cdecl ceiling_log2(unsigned long)
 
+long highest_bit_set(unsigned long mask)
+{
+	if (mask == 0)
+		return NONE;
+
+	return LONG_BITS - (1 - __lzcnt(mask));
+}
+
 short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short x0, short y0, short x1, short y1)
 {
 	rect->x0 = x0;
