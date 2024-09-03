@@ -642,6 +642,28 @@ dword __cdecl compute_realtime_checksum(char* a1, int a2)
 	return INVOKE(0x00502300, compute_realtime_checksum, a1, a2);
 }
 
+//.text:00502360 ; 
+//.text:00502370 ; 
+//.text:00502380 ; 
+//.text:00502390 ; 
+//.text:005023A0 ; 
+//.text:005023B0 ; 
+//.text:005023D0 ; 
+//.text:005023E0 ; 
+//.text:005023F0 ; 
+//.text:00502400 ; 
+//.text:00502410 ; 
+//.text:00502420 ; 
+//.text:00502430 ; 
+//.text:00502440 ; 
+//.text:00502450 ; 
+//.text:00502460 ; 
+//.text:00502490 ; 
+//.text:005024B0 ; 
+//.text:005024D0 ; 
+//.text:005024E0 ; 
+//.text:005024F0 ; 
+
 void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file_header* header)
 {
 	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
@@ -758,6 +780,10 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resou
 
 	resource_offsets->set_elements(file_offsets, file_count);
 }
+
+//.text:00502750 ; 
+//.text:00502760 ; bool __cdecl scenario_structure_bsp_load(long, short, s_tag_reference*)
+//.text:00502770 ; void __cdecl scenario_structure_bsp_unload(long, short, scenario_structure_bsp_reference*)
 
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
@@ -1135,6 +1161,27 @@ void __cdecl cache_file_tags_unload()
 	}
 }
 
+void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string)
+{
+	if (in_out_creator_string[0])
+	{
+		ASSERT(NUMBEROF(g_cache_file_creator_key) >= in_out_creator_string.count());
+
+		for (long i = 0; i < in_out_creator_string.count(); i++)
+			in_out_creator_string[i] ^= g_cache_file_creator_key[i];
+	}
+}
+
+void cache_files_update_main_status()
+{
+	c_static_string<32> author = g_cache_file_globals.header.author;
+	c_wrapped_array<char> creator_string = c_wrapped_array<char>(author.get());
+	cache_file_transform_creator_string(creator_string);
+	author.null_terminate_buffer();
+	main_status("map created by", "%s", author.get_string());
+	c_console::write_line("map created by %s", author.get_string());
+}
+
 void load_external_files();
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
@@ -1378,26 +1425,12 @@ void __cdecl scenario_tags_unload()
 	csmemset(&g_cache_file_globals.header, 0, sizeof(g_cache_file_globals.header));
 }
 
-void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string)
-{
-	if (in_out_creator_string[0])
-	{
-		ASSERT(NUMBEROF(g_cache_file_creator_key) >= in_out_creator_string.count());
-
-		for (long i = 0; i < in_out_creator_string.count(); i++)
-			in_out_creator_string[i] ^= g_cache_file_creator_key[i];
-	}
-}
-
-void cache_files_update_main_status()
-{
-	c_static_string<32> author = g_cache_file_globals.header.author;
-	c_wrapped_array<char> creator_string = c_wrapped_array<char>(author.get());
-	cache_file_transform_creator_string(creator_string);
-	author.null_terminate_buffer();
-	main_status("map created by", "%s", author.get_string());
-	c_console::write_line("map created by %s", author.get_string());
-}
+//.text:00503270 ; 
+//.text:00503290 ; 
+//.text:005032B0 ; 
+//.text:005032D0 ; 
+//.text:005032E0 ; 
+//.text:005032F0 ; 
 
 void __cdecl tag_files_close()
 {
@@ -1418,6 +1451,11 @@ void __cdecl tag_files_close()
 	//ASSERT(g_tag_file_globals.shim);
 	//g_tag_file_globals.shim->tag_files_new_sync_initialize();
 	//g_tag_file_globals.shim->tag_files_new_single_file_close();
+}
+
+void __cdecl tag_files_initialize_from_main()
+{
+	INVOKE(0x00503330, tag_files_initialize_from_main);
 }
 
 void __cdecl tag_files_open()
@@ -1466,6 +1504,9 @@ dword __cdecl tag_get_group_tag(long tag_index)
 	return INVOKE(0x005033A0, tag_get_group_tag, tag_index);
 }
 
+//.text:005033C0 ; dword __cdecl tag_group_get_parent_group_tag(dword)
+//.text:005033D0 ; long __cdecl cache_files_get_loaded_tags_count()
+
 void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag)
 {
 	INVOKE(0x005033E0, tag_iterator_new, iterator, group_tag);
@@ -1489,6 +1530,8 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	type_as_byte_string(instance, tag_instance_byte_string);
 	c_console::write_line(tag_instance_byte_string);
 }
+
+//.text:00503510 ; void* __cdecl tag_try_and_get_unsafe(dword, long)
 
 bool cache_file_tags_single_tag_file_load(s_file_reference* file, long* out_tag_index, cache_file_tag_instance** out_instance)
 {

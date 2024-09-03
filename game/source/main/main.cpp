@@ -1108,7 +1108,7 @@ void __cdecl main_loop_enter()
 	g_main_render_timing_data = (s_game_tick_time_samples*)g_main_render_timing_data_allocator.allocate(sizeof(s_game_tick_time_samples), "timing samples");
 
 	shell_halt_if_necessary();
-	//tag_files_initialize_from_main();
+	tag_files_initialize_from_main();
 	main_render_predict_initialize();
 	console_execute_initial_commands();
 	physical_memory_resize_region_initialize();
