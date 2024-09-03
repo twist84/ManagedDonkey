@@ -62,6 +62,7 @@ struct s_trigger_volume_triangle
 };
 static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 
+extern bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&faces)[k_faces_per_cube_count][4]);
 extern bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, union real_point3d* center);
 extern bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix);
 extern real __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume);
