@@ -43,8 +43,7 @@ long highest_bit_set(unsigned long mask)
 		return NONE;
 
 	dword index;
-	if (!_BitScanReverse(&index, mask))
-		return NONE;
+	_BitScanReverse(&index, mask);
 
 	return static_cast<long>(index);
 }
@@ -55,8 +54,7 @@ long lowest_bit_set(unsigned long mask)
 		return NONE;
 
 	dword index;
-	if (!_BitScanForward(&index, mask))
-		return NONE;
+	_BitScanForward(&index, mask);
 
 	return static_cast<long>(index);
 }
