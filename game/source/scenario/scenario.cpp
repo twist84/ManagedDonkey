@@ -14,6 +14,7 @@
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler_stopwatch.hpp"
+#include "scenario/scenario_pvs.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
 #include "scenario/scenario_zone_resources.hpp"
 #include "scenario/scenario_zone_sets.hpp"
@@ -34,6 +35,7 @@ REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAED1, bool, byte_22AAED1);
 
 HOOK_DECLARE(0x004E9CB0, scenario_connect_zone_set_resources);
+HOOK_DECLARE(0x004EB950, scenario_unload);
 
 c_stop_watch scenario_load_resources_blocking_watch(true);
 
@@ -137,14 +139,14 @@ s_structure_design* global_structure_design_get(long structure_bsp_index)
 //.text:004E9890 ; 
 //.text:004E98A0 ; 
 //.text:004E98B0 ; 
-//.text:004E98C0 ; 
+//.text:004E98C0 ; void __cdecl scenario_activate_all_designer_zones()
 
 bool __cdecl scenario_activate_initial_designer_zones(long zone_set_index)
 {
-	return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zone_set_index);
+	//return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zone_set_index);
 
-	//s_scenario_zone_change zone_change{};
-	//return scenario_modify_zone_activation_internal(zone_set_index, 0, 0, 0, &zone_change, false, true);
+	s_scenario_zone_change zone_change{};
+	return scenario_modify_zone_activation_internal(zone_set_index, 0, 0, 0, &zone_change, false, true);
 }
 
 bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
@@ -167,9 +169,9 @@ bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
 //.text:004E99C0 ; 
 //.text:004E99D0 ; 
 //.text:004E99E0 ; bool __cdecl scenario_attach_game_to_new_non_bsp_zones(s_scenario_zone_change const*)
-//.text:004E9A70 ; 
-//.text:004E9A90 ; 
-//.text:004E9AB0 ; long __cdecl scenario_budget_resource_get_looping_sound_reference(long)
+//.text:004E9A70 ; long __cdecl scenario_budget_resource_get_looping_sound_reference(long)
+//.text:004E9A90 ; long __cdecl scenario_budget_resource_get_model_animation_graph_reference(long)
+//.text:004E9AB0 ; long __cdecl scenario_budget_resource_get_sound_reference(long)
 //.text:004E9AD0 ; 
 //.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(long, long)
 //.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(long, real_point3d const*)
@@ -228,9 +230,9 @@ bool __cdecl scenario_connect_zone_set_resources(
 }
 
 //.text:004E9D90 ; 
-//.text:004E9DA0 ; 
+//.text:004E9DA0 ; void __cdecl scenario_deactivate_all_zones_for_cache_builder()
 //.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
-//.text:004E9F00 ; 
+//.text:004E9F00 ; void __cdecl scenario_disconnect_from_old_zone_set(dword, dword)
 //.text:004E9F10 ; bool __cdecl scenario_disconnect_game_from_old_bsps(dword, dword)
 
 void __cdecl scenario_dispose()
@@ -272,8 +274,8 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 }
 
 //.text:004EA280 ; 
-//.text:004EA290 ; //return g_touched_structure_bsp_mask
-//.text:004EA2A0 ; //return g_touched_cinematic_zone_mask
+//.text:004EA290 ; dword __cdecl scenario_get_touched_bsp_mask_internal()
+//.text:004EA2A0 ; dword __cdecl scenario_get_touched_cinematics_mask_internal()
 //.text:004EA2B0 ; 
 //.text:004EA2C0 ; 
 //.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, vector3d*, vector3d*, real_rgb_color*, real_rgb_color*)
@@ -311,7 +313,12 @@ void __cdecl scenario_initialize_for_new_structure_bsp(dword new_structure_bsp_m
 
 void __cdecl scenario_invalidate()
 {
-	return INVOKE(0x004EA3E0, scenario_invalidate);
+	//INVOKE(0x004EA3E0, scenario_invalidate);
+
+	global_scenario_index = NONE;
+	global_scenario = NULL;
+	global_game_globals = NULL;
+	scenario_invalidate_zone_set_internal();
 }
 
 void __cdecl scenario_invalidate_zone_set_internal()
@@ -450,6 +457,8 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 	return true;
 }
 
+//.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(s_scenario_game_state const*)
+
 void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
 {
 	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, zone_set_index);
@@ -472,6 +481,13 @@ void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
 		generate_event(_event_level_critical, "failed to reset to initial zone, things are about to go BOOM!");
 	}
 }
+
+//.text:004EB420 ; bool __cdecl scenario_prepare_to_switch_zone_set(long)
+//.text:004EB4B0 ; bool __cdecl scenario_prepare_zone_set_for_cache_builder(long)
+//.text:004EB4D0 ; void __cdecl scenario_reset_zone_resources_from_main()
+//.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(long, short, s_tag_reference*)
+//.text:004EB4F0 ; short __cdecl scenario_structure_index_from_point(real_point3d const*)
+//.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(dword)
 
 void __cdecl scenario_switch_to_null_zone_set()
 {
@@ -526,12 +542,28 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
 }
 
-//.text:004EB880 ; 
-//.text:004EB910 ; bool __cdecl scenario_test_pvs(s_cluster_reference, s_cluster_reference)
+void __cdecl scenario_tags_teardown()
+{
+	INVOKE(0x004EB880, scenario_tags_teardown);
+}
+
+bool __cdecl scenario_test_pvs(s_cluster_reference a1, s_cluster_reference a2)
+{
+	return INVOKE(0x004EB910, scenario_test_pvs, a1, a2);
+
+	//s_scenario_pvs_row pvs_row{};
+	//scenario_zone_set_pvs_get_row(global_scenario_index_get(), &pvs_row, scenario_zone_set_index_get(), a1, false);
+	//return scenario_zone_set_pvs_row_test(global_scenario_index_get(), &pvs_row, a2);
+}
 
 void __cdecl scenario_unload()
 {
-	INVOKE(0x004EB950, scenario_unload);
+	//INVOKE(0x004EB950, scenario_unload);
+
+	scenario_resources_unload_active_zone_set();
+	scenario_tags_teardown();
+	scenario_tags_unload();
+	scenario_invalidate();
 }
 
 //.text:004EB9A0 ; void __cdecl scenario_unload_old_bsps(dword, dword, bool)
