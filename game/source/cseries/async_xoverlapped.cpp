@@ -30,25 +30,25 @@ HOOK_DECLARE(0x005A91E0, task_block_until_finished);
 HOOK_DECLARE(0x005A9230, task_is_complete);
 HOOK_DECLARE(0x005A9280, task_now_finished);
 
-//HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task::success
-//HOOK_DECLARE_CALL(0x00A82786, overlapped_task_start_internal); // user_interface_session_string_verify_update
-////HOOK_DECLARE_CALL(0x00AA4306, overlapped_task_start_internal); // c_player_profile_interface::update_service_tag
-////HOOK_DECLARE_CALL(0x00AD3699, overlapped_task_start_internal); // c_player_marketplace::show_purchase_ui
-////HOOK_DECLARE_CALL(0x00AD36F6, overlapped_task_start_internal); // c_player_marketplace::start_asset_consume
-////HOOK_DECLARE_CALL(0x00AD3810, overlapped_task_start_internal); // c_player_marketplace::start_assets_enumerate
-//HOOK_DECLARE_CALL(0x00AE668B, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
-//HOOK_DECLARE_CALL(0x00AE6868, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
-//HOOK_DECLARE_CALL(0x00AEA33B, overlapped_task_start_internal); // ?
-//HOOK_DECLARE_CALL(0x00AF0D67, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable50
-//HOOK_DECLARE_CALL(0x00AF0FBE, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable49
-//HOOK_DECLARE_CALL(0x00AF26D6, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_item_selected::__vftable50
-//HOOK_DECLARE_CALL(0x00AF5088, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
-//HOOK_DECLARE_CALL(0x00AF52D2, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
-//HOOK_DECLARE_CALL(0x00AF8495, overlapped_task_start_internal); // c_start_menu_settings_appearance_emblem::handle_list_item_chosen
-//HOOK_DECLARE_CALL(0x00B0373C, overlapped_task_start_internal); // c_gui_screen_pregame_selection::begin_selected_item_text_edit
-//HOOK_DECLARE_CALL(0x00B0B8D6, overlapped_task_start_internal); // ?
-//HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // ?
-//HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_game_options::update_save_as_new_operation
+//HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task, c_content_enumeration_overlapped_task::success
+//HOOK_DECLARE_CALL(0x00A82786, overlapped_task_start_internal); // c_string_verify_task, user_interface_session_string_verify_update
+////HOOK_DECLARE_CALL(0x00AA4306, overlapped_task_start_internal); // c_string_verify_task, c_player_profile_interface::update_service_tag
+////HOOK_DECLARE_CALL(0x00AD3699, overlapped_task_start_internal); // c_online_marketplace_purchase_task, c_player_marketplace::show_purchase_ui
+////HOOK_DECLARE_CALL(0x00AD36F6, overlapped_task_start_internal); // c_online_marketplace_consume_asset_task, c_player_marketplace::start_asset_consume
+////HOOK_DECLARE_CALL(0x00AD3810, overlapped_task_start_internal); // c_online_marketplace_enumerate_assets_task, c_player_marketplace::start_assets_enumerate
+//HOOK_DECLARE_CALL(0x00AE668B, overlapped_task_start_internal); // c_virtual_keyboard_task, c_saved_film_take_screenshot::update
+//HOOK_DECLARE_CALL(0x00AE6868, overlapped_task_start_internal); // c_virtual_keyboard_task, c_saved_film_take_screenshot::update
+//HOOK_DECLARE_CALL(0x00AEA33B, overlapped_task_start_internal); // c_virtual_keyboard_task, c_start_menu_game_editor::begin_save_as_current_edited_variant
+//HOOK_DECLARE_CALL(0x00AF0D67, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_start_menu_hq_service_record_file_share_choose_item::handle_dialog_result
+//HOOK_DECLARE_CALL(0x00AF0FBE, overlapped_task_start_internal); // c_string_verify_task, c_gui_start_menu_hq_service_record_file_share_choose_item::handle_list_item_chosen
+//HOOK_DECLARE_CALL(0x00AF26D6, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_start_menu_hq_service_record_file_share_item_selected::handle_dialog_result
+//HOOK_DECLARE_CALL(0x00AF5088, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_start_menu_hq_screenshots_options::update
+//HOOK_DECLARE_CALL(0x00AF52D2, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_start_menu_hq_screenshots_options::update
+//HOOK_DECLARE_CALL(0x00AF8495, overlapped_task_start_internal); // c_virtual_keyboard_task, c_start_menu_settings_appearance_emblem::handle_list_item_chosen
+//HOOK_DECLARE_CALL(0x00B0373C, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_pregame_selection::begin_selected_item_text_edit
+//HOOK_DECLARE_CALL(0x00B0B8D6, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::?
+//HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::?
+//HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_string_verify_task, c_gui_screen_game_options::update_save_as_new_operation
 
 long const k_maximum_task_slots = 64;
 
