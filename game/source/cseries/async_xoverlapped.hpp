@@ -64,6 +64,7 @@ protected:
 };
 static_assert(sizeof(c_overlapped_task) == 0x10);
 
+enum e_event_level;
 struct s_task_slot;
 
 extern s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task);
@@ -81,3 +82,4 @@ extern void __cdecl task_block_until_finished(s_task_slot* task_slot);
 extern bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_result, dword* calling_result, dword* overlapped_error, dword* overlapped_extended_error);
 extern void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 
+extern void overlapped_tasks_log_to_debug_txt(e_event_level event_level);

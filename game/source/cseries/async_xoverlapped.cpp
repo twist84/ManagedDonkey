@@ -603,3 +603,53 @@ void c_overlapped_task::set_line(long line)
 	m_line = line;
 }
 
+void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
+{
+	c_async_xoverlapped_scope_lock scope_lock;
+
+	long task_index = 0;
+	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	{
+		if (g_overlapped_globals.task_slots[task_slot_index].task)
+		{
+			s_task_slot* task_slot = &g_overlapped_globals.task_slots[task_slot_index];
+
+			char const* status = NULL;
+			switch (task_slot->task->get_task_state())
+			{
+			case _overlapped_task_state_none:
+				status = "none";
+				break;
+			case _overlapped_task_state_starting:
+				status = "starting";
+				break;
+			case _overlapped_task_state_pending:
+				status = "pending";
+				break;
+			case _overlapped_task_state_completing:
+				status = "completing";
+				break;
+			case _overlapped_task_state_succeeded:
+				status = "success";
+				break;
+			case _overlapped_task_state_failure:
+				status = "failure";
+				break;
+			default:
+				status = "<unknown>";
+				break;
+			}
+
+			generate_event(event_level, "xoverlapped: #%ld task info: context= '%s', status= '%s', file= '%s', line= '%ld'",
+				task_index + 1,
+				task_slot->task->get_context_string(),
+				status,
+				task_slot->task->get_file(),
+				task_slot->task->get_line());
+
+			task_index++;
+		}
+	}
+
+}
+
