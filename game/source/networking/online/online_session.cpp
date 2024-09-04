@@ -9,17 +9,17 @@
 
 #define VALID_HANDLE(HANDLE) (HANDLE && HANDLE != INVALID_HANDLE_VALUE)
 
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C00, c_managed_session_overlapped_task, process_add_players);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C00, c_managed_session_overlapped_task, process_add_players);
 //HOOK_DECLARE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C20, c_managed_session_overlapped_task, process_create);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C30, c_managed_session_overlapped_task, process_delete);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C40, c_managed_session_overlapped_task, process_game_end);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C50, c_managed_session_overlapped_task, process_game_start);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C60, c_managed_session_overlapped_task, process_modify);
-////HOOK_DECLARE_CLASS_MEMBER(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C20, c_managed_session_overlapped_task, process_create);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C30, c_managed_session_overlapped_task, process_delete);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C40, c_managed_session_overlapped_task, process_game_end);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C50, c_managed_session_overlapped_task, process_game_start);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C60, c_managed_session_overlapped_task, process_modify);
+//HOOK_DECLARE_CLASS_MEMBER(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players);
+HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
+HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
 
 //.text:00442C00 ; void __cdecl c_managed_session_overlapped_task::process_add_players(long, void(__cdecl*)(long, bool, dword), s_online_session*, qword const*, bool const*, bool const*, long);
 void __thiscall c_managed_session_overlapped_task::process_add_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, bool const* a6, long player_count)
@@ -176,8 +176,8 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_session);
-
+		//ASSERT(m_session);
+		//
 		//DWORD dwFlags = m_session->controller_index;
 		//DWORD dwUserIndex = m_session->controller_index;
 		//DWORD dwMaxPublicSlots = m_session->public_slots_flags;
@@ -202,9 +202,9 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_session);
-		ASSERT(VALID_HANDLE(m_session->handle));
-
+		//ASSERT(m_session);
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//
 		//DWORD cbResultsBuffer = 640;
 		//XSESSION_LOCAL_DETAILS SessionDetails{};
 		//if (XSessionGetDetails(m_session->handle, &cbResultsBuffer, &SessionDetails, NULL))
@@ -223,8 +223,8 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_session);
-
+		//ASSERT(m_session);
+		//
 		//DWORD userIndex = m_is_host ? m_session->controller_index : 0xFE;
 		//result = XSessionMigrateHost(m_session->handle, userIndex, m_host_migration_description, (PXOVERLAPPED)overlapped);
 	}
@@ -233,8 +233,8 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(VALID_HANDLE(m_session->handle));
-
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//
 		//DWORD dwMaxPublicSlots;
 		//DWORD dwMaxPrivateSlots;
 		//DWORD dwFlags = calculate_slot_counts(m_desired_session, m_actual_session, &dwMaxPublicSlots, &dwMaxPrivateSlots);
@@ -251,11 +251,11 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(VALID_HANDLE(m_session->handle));
-		ASSERT(m_player_xuids);
-		ASSERT(m_player_count > 0);
-		ASSERT(m_private_slots);
-
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//ASSERT(m_player_xuids);
+		//ASSERT(m_player_count > 0);
+		//ASSERT(m_private_slots);
+		//
 		//result = XSessionJoinRemote(m_session->handle, m_player_count, m_player_xuids, m_private_slots, (PXOVERLAPPED)overlapped);
 	}
 	break;
@@ -263,11 +263,11 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_player_xuids);
-		ASSERT(m_player_count > 0);
-		ASSERT(m_session);
-		ASSERT(VALID_HANDLE(m_session->handle));
-
+		//ASSERT(m_player_xuids);
+		//ASSERT(m_player_count > 0);
+		//ASSERT(m_session);
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//
 		//result = XSessionLeaveRemote(m_session->handle, m_player_count, m_player_xuids, (PXOVERLAPPED)overlapped);
 	}
 	break;
@@ -275,9 +275,9 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_session);
-		ASSERT(VALID_HANDLE(m_session->handle));
-
+		//ASSERT(m_session);
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//
 		//result = XSessionStart(m_session->handle, (PXOVERLAPPED)overlapped);
 	}
 	break;
@@ -285,9 +285,9 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 	{
 		c_console::write_line("managed-session-context: %s", get_context_string());
 
-		ASSERT(m_session);
-		ASSERT(VALID_HANDLE(m_session->handle));
-
+		//ASSERT(m_session);
+		//ASSERT(VALID_HANDLE(m_session->handle));
+		//
 		//result = XSessionEnd(m_session->handle, (PXOVERLAPPED)overlapped);
 	}
 	break;
