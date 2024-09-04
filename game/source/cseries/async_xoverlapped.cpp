@@ -76,7 +76,7 @@ struct s_overlapped_globals
 	bool inject_error;
 	c_static_string<64> inject_error_context;
 
-	bool paused;
+	bool pause;
 	c_static_string<64> pause_context;
 
 	long description_count;
@@ -165,7 +165,7 @@ void __cdecl overlapped_initialize()
 	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, NULL, NULL, NULL, 0, 0, true);
 	g_overlapped_globals.toggle_debug_rendering = false;
 	g_overlapped_globals.inject_error = false;
-	g_overlapped_globals.paused = false;
+	g_overlapped_globals.pause = false;
 	g_overlapped_globals.description_count = false;
 }
 
@@ -479,7 +479,7 @@ bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_result, dwor
 		}
 	}
 	
-	if (g_overlapped_globals.paused)
+	if (g_overlapped_globals.pause)
 	{
 		if (g_overlapped_globals.pause_context.is_equal(task_slot->task->get_context_string()))
 			result = false;
@@ -651,5 +651,81 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 		}
 	}
 
+}
+
+void overlapped_task_display_task_descriptions()
+{
+	c_async_xoverlapped_scope_lock scope_lock;
+
+	generate_event(_event_level_warning, "xoverlapped: dumping task descriptions [count %d]",
+		g_overlapped_globals.description_count);
+
+	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	{
+		generate_event(_event_level_warning, "xoverlapped: %s",
+			g_overlapped_globals.descriptions[description_index].get_string());
+	}
+}
+
+void overlapped_task_inject_error(char const* context, bool inject_error)
+{
+	c_async_xoverlapped_scope_lock scope_lock;
+
+	bool context_matches_description = false;
+	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	{
+		if (g_overlapped_globals.descriptions[description_index].is_equal(context))
+		{
+			context_matches_description = true;
+			break;
+		}
+	}
+
+	if (context_matches_description)
+	{
+		generate_event(_event_level_warning, "xoverlapped: setting error injection for %s to %s",
+			context,
+			inject_error ? "TRUE" : "FALSE");
+
+		g_overlapped_globals.inject_error_context.set(context);
+		g_overlapped_globals.inject_error = inject_error;
+	}
+	else
+	{
+		generate_event(_event_level_warning, "xoverlapped: failed to find setting error injection for %s to %s",
+			context,
+			inject_error ? "TRUE" : "FALSE");
+	}
+}
+
+void overlapped_task_pause(char const* context, bool pause)
+{
+	c_async_xoverlapped_scope_lock scope_lock;
+
+	bool context_matches_description = false;
+	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	{
+		if (g_overlapped_globals.descriptions[description_index].is_equal(context))
+		{
+			context_matches_description = true;
+			break;
+		}
+	}
+
+	if (context_matches_description)
+	{
+		generate_event(_event_level_warning, "xoverlapped: setting pause for %s to %s",
+			context,
+			pause ? "TRUE" : "FALSE");
+
+		g_overlapped_globals.pause_context.set(context);
+		g_overlapped_globals.pause = pause;
+	}
+	else
+	{
+		generate_event(_event_level_warning, "xoverlapped: failed to find setting pause for %s to %s",
+			context,
+			pause ? "TRUE" : "FALSE");
+	}
 }
 

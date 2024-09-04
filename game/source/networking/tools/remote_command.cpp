@@ -2016,3 +2016,36 @@ callback_result_t xoverlapped_debug_render_callback(void const* userdata, long t
 	return result;
 }
 
+callback_result_t overlapped_display_task_descriptions_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	overlapped_task_display_task_descriptions();
+
+	return result;
+}
+
+callback_result_t overlapped_task_inject_error_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* context = tokens[1]->get_string();
+	long value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		overlapped_task_inject_error(context, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t overlapped_task_pause_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* context = tokens[1]->get_string();
+	long value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		overlapped_task_pause(context, static_cast<bool>(value - 1));
+
+	return result;
+}
+

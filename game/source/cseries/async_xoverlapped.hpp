@@ -83,3 +83,7 @@ extern bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_resul
 extern void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 
 extern void overlapped_tasks_log_to_debug_txt(e_event_level event_level);
+extern void overlapped_task_display_task_descriptions();
+extern void overlapped_task_inject_error(char const* context, bool inject_error);
+extern void overlapped_task_pause(char const* context, bool pause);
+

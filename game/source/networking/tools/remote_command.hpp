@@ -204,6 +204,9 @@ COMMAND_CALLBACK_DECLARE(levels_add_map_solo);
 COMMAND_CALLBACK_DECLARE(levels_add_fake_map_multi);
 COMMAND_CALLBACK_DECLARE(levels_add_map_multi);
 COMMAND_CALLBACK_DECLARE(xoverlapped_debug_render);
+COMMAND_CALLBACK_DECLARE(overlapped_display_task_descriptions);
+COMMAND_CALLBACK_DECLARE(overlapped_task_inject_error);
+COMMAND_CALLBACK_DECLARE(overlapped_task_pause);
 
 //-----------------------------------------------------------------------------
 
@@ -351,6 +354,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(levels_add_map_multi, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(xoverlapped_debug_render, 1, "<bool>", "toggle display a list of active xoverlapped tasks\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(overlapped_display_task_descriptions, 0, "", "displays all tasks\r\nNETWORK SAFE: lol"),
+	COMMAND_CALLBACK_REGISTER(overlapped_task_inject_error, 2, "<string> <bool>", "inject error for tasks\r\nNETWORK SAFE: lol"),
+	COMMAND_CALLBACK_REGISTER(overlapped_task_pause, 2, "<string> <bool>", "pause tasks\r\nNETWORK SAFE: lol"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
