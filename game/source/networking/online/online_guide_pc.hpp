@@ -44,6 +44,8 @@ public:
 		dword_flags character_flags,
 		bool sanitize_result
 	);
+	
+	static void __cdecl dispose_instance();
 
 	virtual void* destructor(dword a1) override;
 	virtual char const* get_context_string() override;

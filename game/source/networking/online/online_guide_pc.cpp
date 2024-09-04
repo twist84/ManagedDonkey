@@ -187,6 +187,20 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 	return m_instance;
 }
 
+void overlapped_track_delete(c_overlapped_task* task)
+{
+	INVOKE(0x014E2120, overlapped_track_delete, task);
+}
+
+void __cdecl c_virtual_keyboard_task::dispose_instance()
+{
+	if (m_instance)
+	{
+		overlapped_track_delete(m_instance);
+		m_instance = NULL;
+	}
+}
+
 c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = nullptr;
 
 void* c_virtual_keyboard_task::destructor(dword a1)
