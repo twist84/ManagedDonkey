@@ -50,6 +50,8 @@ HOOK_DECLARE(0x005A9280, task_now_finished);
 //HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // ?
 //HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_game_options::update_save_as_new_operation
 
+long const k_maximum_task_slots = 64;
+
 struct s_task_slot
 {
 	// added back
@@ -69,16 +71,16 @@ struct s_overlapped_globals
 {
 	bool toggle_debug_rendering;
 
-	c_static_array<s_task_slot, 64> task_slots;
+	c_static_array<s_task_slot, k_maximum_task_slots> task_slots;
 
-	bool error_injection_enabled;
-	c_static_string<64> error_injection_context;
+	bool inject_error;
+	c_static_string<64> inject_error_context;
 
 	bool paused;
 	c_static_string<64> pause_context;
 
 	long description_count;
-	c_static_array<c_static_string<64>, 64> descriptions;
+	c_static_array<c_static_string<64>, k_maximum_task_slots> descriptions;
 };
 //static_assert(sizeof(s_overlapped_globals) == 0x30C);
 static_assert(sizeof(s_overlapped_globals) == 0x1A8C);
@@ -134,7 +136,7 @@ s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
 	ASSERT(task);
 
 	s_task_slot* task_slot = NULL;
-	for (long task_slot_index = 0; task_slot_index < 64; task_slot_index++)
+	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (g_overlapped_globals.task_slots[task_slot_index].task == task)
 			task_slot = &g_overlapped_globals.task_slots[task_slot_index];
@@ -162,13 +164,9 @@ void __cdecl overlapped_initialize()
 	overlapped_memory_initialize();
 	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, NULL, NULL, NULL, 0, 0, true);
 	g_overlapped_globals.toggle_debug_rendering = false;
-	g_overlapped_globals.error_injection_enabled = false;
+	g_overlapped_globals.inject_error = false;
 	g_overlapped_globals.paused = false;
 	g_overlapped_globals.description_count = false;
-
-	g_overlapped_globals.toggle_debug_rendering = true;
-	g_overlapped_globals.paused = true;
-	g_overlapped_globals.pause_context.set("XStringVerify");
 }
 
 void __cdecl overlapped_render()
@@ -187,7 +185,7 @@ void __cdecl overlapped_render()
 
 		draw_string.draw(NULL, "---------- xoverlapped tasks ----------\r\n");
 
-		for (long task_slot_index = 0; task_slot_index < 64; task_slot_index++)
+		for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 		{
 			char const* status = NULL;
 			char string[256]{};
@@ -274,7 +272,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 	c_async_xoverlapped_scope_lock scope_lock;
 
 	s_task_slot* first_free_task_slot = NULL;
-	for (long task_slot_index = 0; task_slot_index < 64; task_slot_index++)
+	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (!g_overlapped_globals.task_slots[task_slot_index].task)
 		{
@@ -289,7 +287,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 		first_free_task_slot->task->set_task_state_internal(_overlapped_task_state_starting);
 
 		bool context_matches_description = false;
-		if (strlen(task->get_context_string()) < 64)
+		if (strlen(task->get_context_string()) < k_maximum_task_slots)
 		{
 			for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 			{
@@ -350,7 +348,7 @@ void __cdecl overlapped_task_wait_for_all_tasks_to_finish()
 {
 	//INVOKE(0x005A8FB0, overlapped_task_wait_for_all_tasks_to_finish);
 
-	for (long task_slot_index = 0; task_slot_index < 64; task_slot_index++)
+	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		c_async_xoverlapped_scope_lock scope_lock;
 		if (g_overlapped_globals.task_slots[task_slot_index].task)
@@ -365,7 +363,7 @@ void __cdecl overlapped_update()
 {
 	//INVOKE(0x005A9050, overlapped_update);
 
-	for (long task_slot_index = 0; task_slot_index < 64; task_slot_index++)
+	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		{
 			c_async_xoverlapped_scope_lock scope_lock;
@@ -506,12 +504,12 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 	{
 		succeeded = !task_slot->terminated && task_slot->task->is_result_successful(calling_result, overlapped_error, overlapped_extended_error);
 
-		if (g_overlapped_globals.error_injection_enabled)
+		if (g_overlapped_globals.inject_error)
 		{
-			if (g_overlapped_globals.error_injection_context.is_equal(task_slot->task->get_context_string()))
+			if (g_overlapped_globals.inject_error_context.is_equal(task_slot->task->get_context_string()))
 			{
 				generate_event(_event_level_warning, "xoverlapped: injecting error for task %s",
-					g_overlapped_globals.error_injection_context.get_string());
+					g_overlapped_globals.inject_error_context.get_string());
 		
 				succeeded = false;
 			}
