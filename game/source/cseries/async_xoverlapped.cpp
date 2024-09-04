@@ -50,9 +50,6 @@ HOOK_DECLARE(0x005A9280, task_now_finished);
 //HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // ?
 //HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_game_options::update_save_as_new_operation
 
-// #TODO: add me to `s_overlapped_globals`
-c_static_array<XOVERLAPPED, 64> task_slot_overlapped;
-
 struct s_task_slot
 {
 	// added back
@@ -70,7 +67,6 @@ static_assert(sizeof(s_task_slot) == 0x28);
 
 struct s_overlapped_globals
 {
-	// added back
 	bool toggle_debug_rendering;
 
 	c_static_array<s_task_slot, 64> task_slots;
@@ -162,13 +158,13 @@ void __cdecl overlapped_initialize()
 {
 	//INVOKE(0x005A8DE0, overlapped_initialize);
 
-	g_overlapped_globals.toggle_debug_rendering = false;
 	csmemset(&g_overlapped_globals, 0, sizeof(g_overlapped_globals));
 	overlapped_memory_initialize();
 	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, NULL, NULL, NULL, 0, 0, true);
+	g_overlapped_globals.toggle_debug_rendering = false;
 	g_overlapped_globals.error_injection_enabled = false;
-	g_overlapped_globals.paused = 0;
-	g_overlapped_globals.description_count = 0;
+	g_overlapped_globals.paused = false;
+	g_overlapped_globals.description_count = false;
 }
 
 void __cdecl overlapped_render()
@@ -228,8 +224,8 @@ void __cdecl overlapped_render()
 						task_slot_index,
 						task_slot->task->get_context_string(),
 						status,
-						task_slot->task->m_file,
-						task_slot->task->m_line);
+						task_slot->task->get_file(),
+						task_slot->task->get_line());
 				}
 			}
 
@@ -552,8 +548,8 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 				online_error_get_string(calling_result).get_string(),
 				online_error_get_string(overlapped_error).get_string(),
 				online_error_get_string(overlapped_extended_error).get_string(),
-				task_slot->task->m_file,
-				task_slot->task->m_line);
+				task_slot->task->get_file(),
+				task_slot->task->get_line());
 		}
 	}
 
@@ -583,5 +579,25 @@ bool c_overlapped_task::task_was_recycled_during_completion() const
 	//return DECLFUNC(0x005A9380, bool, __thiscall, c_overlapped_task const*)(this);
 
 	return m_task_flags.test(_overlapped_task_task_recycled_during_completion_bit);
+}
+
+char const* c_overlapped_task::get_file() const
+{
+	return m_file;
+}
+
+long c_overlapped_task::get_line() const
+{
+	return m_line;
+}
+
+void c_overlapped_task::set_file(char const* file)
+{
+	m_file = file;
+}
+
+void c_overlapped_task::set_line(long line)
+{
+	m_line = line;
 }
 

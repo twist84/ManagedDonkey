@@ -70,16 +70,6 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	return this;
 }
 
-void c_overlapped_task::set_file(char const* file)
-{
-	m_file = file;
-}
-
-void c_overlapped_task::set_line(long line)
-{
-	m_line = line;
-}
-
 void __thiscall c_virtual_keyboard_task::_set_default_text(wchar_t const* default_text)
 {
 	set_default_text(default_text);

@@ -50,10 +50,13 @@ public:
 	c_overlapped_task* constructor(char const* file, long line);
 
 	bool busy() const;
+
+	char const* get_file() const;
 	void set_file(char const* file);
+	long get_line() const;
 	void set_line(long line);
 
-//protected:
+protected:
 	c_flags<e_overlapped_task_flags, word, k_overlapped_task_flags> m_task_flags;
 	c_enum<e_overlapped_task_state, short, _overlapped_task_state_none, k_overlapped_task_state_count> m_task_state;
 	char const* m_file;
