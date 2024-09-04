@@ -16,7 +16,6 @@
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
-HOOK_DECLARE(0x00538510, player_can_assassinate_object);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 
 bool debug_player_network_aiming = false;
