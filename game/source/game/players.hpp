@@ -812,7 +812,6 @@ extern string_id g_player_desired_mode_override;
 extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
-extern bool __cdecl player_can_assassinate_object(long player_index, long object_index);
 extern void __cdecl player_delete(long player_index);
 extern long __cdecl player_index_from_unit_index(long unit_index);
 extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
