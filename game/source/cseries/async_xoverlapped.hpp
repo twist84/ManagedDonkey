@@ -44,6 +44,8 @@ public:
 
 	e_overlapped_task_state get_task_state() const;
 	void set_task_state_internal(e_overlapped_task_state task_state);
+	void task_recycled_during_completion(bool recycled_during_completion);
+	bool task_was_recycled_during_completion() const;
 
 	c_overlapped_task* constructor(char const* file, long line);
 
@@ -59,38 +61,20 @@ public:
 };
 static_assert(sizeof(c_overlapped_task) == 0x10);
 
-struct s_task_slot
-{
-	c_overlapped_task* task;
-	dword calling_result;
-	bool terminated;
+struct s_task_slot;
 
-	// pad?
-	byte __data9[0x3];
-};
-static_assert(sizeof(s_task_slot) == 0xC);
-
-struct s_overlapped_globals
-{
-	c_static_array<s_task_slot, 64> task_slots;
-
-	// pad?
-	byte __data300[0xA];
-
-	bool debug_render_enabled;
-
-	// pad?
-	byte __data30B[0x1];
-};
-static_assert(sizeof(s_overlapped_globals) == 0x30C);
-
-extern s_overlapped_globals& g_overlapped_globals;
-
+extern s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task);
 extern void __cdecl overlapped_dispose();
 extern void __cdecl overlapped_initialize();
 extern void __cdecl overlapped_render();
+extern void __cdecl overlapped_task_block_until_finished(c_overlapped_task const* task);
+extern bool __cdecl overlapped_task_is_running(c_overlapped_task const* task);
 extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, long line);
+extern void __cdecl overlapped_task_terminate(c_overlapped_task* task);
+extern void __cdecl overlapped_task_toggle_debug_rendering(bool toggle_debug_rendering);
+extern void __cdecl overlapped_task_wait_for_all_tasks_to_finish();
 extern void __cdecl overlapped_update();
+extern void __cdecl task_block_until_finished(s_task_slot* task_slot);
 extern bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_result, dword* calling_result, dword* overlapped_error, dword* overlapped_extended_error);
 extern void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 
