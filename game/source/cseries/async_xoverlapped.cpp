@@ -165,6 +165,10 @@ void __cdecl overlapped_initialize()
 	g_overlapped_globals.error_injection_enabled = false;
 	g_overlapped_globals.paused = false;
 	g_overlapped_globals.description_count = false;
+
+	g_overlapped_globals.toggle_debug_rendering = true;
+	g_overlapped_globals.paused = true;
+	g_overlapped_globals.pause_context.set("XStringVerify");
 }
 
 void __cdecl overlapped_render()
