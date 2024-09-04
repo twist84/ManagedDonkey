@@ -5,7 +5,36 @@
 #include "shell/shell_windows.hpp"
 #include "resource.h"
 
-#include <windows.h>
+// ==============================================================================================
+
+// from `https://github.com/pnill/cartographer/blob/f280be10d04975fd48dda115c2eab3a239ffca4d/xlive/xliveless.cpp#L69-L111`
+
+DWORD WINAPI XGetOverlappedExtendedError(PXOVERLAPPED pOverlapped)
+{
+	if (pOverlapped == NULL)
+		return GetLastError();
+
+	if (pOverlapped->InternalLow == ERROR_IO_PENDING)
+		return ERROR_IO_INCOMPLETE;
+
+	return pOverlapped->dwExtendedError;
+}
+
+DWORD WINAPI XGetOverlappedResult(PXOVERLAPPED pOverlapped, LPDWORD pResult, BOOL bWait)
+{
+	if (bWait)
+	{
+		while (pOverlapped->InternalLow == ERROR_IO_INCOMPLETE)
+			Sleep(1);
+	}
+
+	if (pResult)
+		*pResult = pOverlapped->InternalHigh;
+
+	return pOverlapped->InternalLow;
+}
+
+// ==============================================================================================
 
 bool __cdecl get_clipboard_as_text(char* buf, long len)
 {
@@ -124,7 +153,7 @@ long XShowKeyboardUI(
 	wchar_t const* description_text,
 	wchar_t* result_text,
 	unsigned long maximum_character_count,
-	void* platform_handle
+	void* overlapped
 )
 {
 	XShowKeyboardUI_struct params
@@ -136,9 +165,9 @@ long XShowKeyboardUI(
 		description_text,
 		result_text,
 		maximum_character_count,
-		platform_handle
+		overlapped
 	};
-	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_TEXT_BOX_DIALOG), g_windows_params.created_window_handle, &XShowKeyboardUI_proc, (LPARAM)&params);
+	DialogBoxParam((HINSTANCE)overlapped, MAKEINTRESOURCE(IDD_TEXT_BOX_DIALOG), g_windows_params.created_window_handle, &XShowKeyboardUI_proc, (LPARAM)&params);
 
 	return 0;
 }

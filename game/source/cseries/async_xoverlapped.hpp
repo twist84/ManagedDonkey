@@ -42,6 +42,9 @@ public:
 	virtual void reset();
 	virtual bool is_result_successful(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 
+	e_overlapped_task_state get_task_state() const;
+	void set_task_state_internal(e_overlapped_task_state task_state);
+
 	c_overlapped_task* constructor(char const* file, long line);
 
 	bool busy() const;
@@ -88,4 +91,6 @@ extern void __cdecl overlapped_initialize();
 extern void __cdecl overlapped_render();
 extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, long line);
 extern void __cdecl overlapped_update();
+extern bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_result, dword* calling_result, dword* overlapped_error, dword* overlapped_extended_error);
+extern void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 

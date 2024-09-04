@@ -47,10 +47,10 @@ public:
 
 	virtual void* destructor(dword a1) override;
 	virtual char const* get_context_string() override;
-	virtual dword start(void* platform_handle) override;
+	virtual dword start(void* overlapped) override;
 
-	dword __thiscall _start(void* platform_handle);
-	static void __fastcall _success(c_virtual_keyboard_task* _this, dword a1);
+	dword __thiscall _start(void* overlapped);
+	void __thiscall _success(dword return_result);
 
 	static c_virtual_keyboard_task* m_instance;
 

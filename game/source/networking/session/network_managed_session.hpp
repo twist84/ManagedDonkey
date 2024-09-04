@@ -36,7 +36,7 @@ enum e_session_overlapped_task_context
 
 struct s_online_session;
 struct c_managed_session_overlapped_task :
-	c_overlapped_task
+	public c_overlapped_task
 {
 	void __thiscall process_add_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, bool const* a6, long a7);
 	void __thiscall process_create(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, word_flags flags);
