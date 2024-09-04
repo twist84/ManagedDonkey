@@ -21,7 +21,7 @@ HOOK_DECLARE(0x005A8DE0, overlapped_initialize);
 HOOK_DECLARE(0x005A8E20, overlapped_render);
 HOOK_DECLARE(0x005A8E30, overlapped_task_block_until_finished);
 HOOK_DECLARE(0x005A8ED0, overlapped_task_is_running);
-//HOOK_DECLARE(0x005A8F40, overlapped_task_start_internal);
+HOOK_DECLARE(0x005A8F40, overlapped_task_start_internal);
 HOOK_DECLARE(0x005A8F50, overlapped_task_terminate);
 HOOK_DECLARE(0x005A8FA0, overlapped_task_toggle_debug_rendering);
 HOOK_DECLARE(0x005A8FB0, overlapped_task_wait_for_all_tasks_to_finish);
@@ -30,25 +30,25 @@ HOOK_DECLARE(0x005A91E0, task_block_until_finished);
 HOOK_DECLARE(0x005A9230, task_is_complete);
 HOOK_DECLARE(0x005A9280, task_now_finished);
 
-HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task::success
-HOOK_DECLARE_CALL(0x00A82786, overlapped_task_start_internal); // user_interface_session_string_verify_update
-//HOOK_DECLARE_CALL(0x00AA4306, overlapped_task_start_internal); // c_player_profile_interface::update_service_tag
-//HOOK_DECLARE_CALL(0x00AD3699, overlapped_task_start_internal); // c_player_marketplace::show_purchase_ui
-//HOOK_DECLARE_CALL(0x00AD36F6, overlapped_task_start_internal); // c_player_marketplace::start_asset_consume
-//HOOK_DECLARE_CALL(0x00AD3810, overlapped_task_start_internal); // c_player_marketplace::start_assets_enumerate
-HOOK_DECLARE_CALL(0x00AE668B, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
-HOOK_DECLARE_CALL(0x00AE6868, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
-HOOK_DECLARE_CALL(0x00AEA33B, overlapped_task_start_internal); // ?
-HOOK_DECLARE_CALL(0x00AF0D67, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable50
-HOOK_DECLARE_CALL(0x00AF0FBE, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable49
-HOOK_DECLARE_CALL(0x00AF26D6, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_item_selected::__vftable50
-HOOK_DECLARE_CALL(0x00AF5088, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
-HOOK_DECLARE_CALL(0x00AF52D2, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
-HOOK_DECLARE_CALL(0x00AF8495, overlapped_task_start_internal); // c_start_menu_settings_appearance_emblem::handle_list_item_chosen
-HOOK_DECLARE_CALL(0x00B0373C, overlapped_task_start_internal); // c_gui_screen_pregame_selection::begin_selected_item_text_edit
-HOOK_DECLARE_CALL(0x00B0B8D6, overlapped_task_start_internal); // ?
-HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // ?
-HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_game_options::update_save_as_new_operation
+//HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task::success
+//HOOK_DECLARE_CALL(0x00A82786, overlapped_task_start_internal); // user_interface_session_string_verify_update
+////HOOK_DECLARE_CALL(0x00AA4306, overlapped_task_start_internal); // c_player_profile_interface::update_service_tag
+////HOOK_DECLARE_CALL(0x00AD3699, overlapped_task_start_internal); // c_player_marketplace::show_purchase_ui
+////HOOK_DECLARE_CALL(0x00AD36F6, overlapped_task_start_internal); // c_player_marketplace::start_asset_consume
+////HOOK_DECLARE_CALL(0x00AD3810, overlapped_task_start_internal); // c_player_marketplace::start_assets_enumerate
+//HOOK_DECLARE_CALL(0x00AE668B, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
+//HOOK_DECLARE_CALL(0x00AE6868, overlapped_task_start_internal); // c_saved_film_take_screenshot::update
+//HOOK_DECLARE_CALL(0x00AEA33B, overlapped_task_start_internal); // ?
+//HOOK_DECLARE_CALL(0x00AF0D67, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable50
+//HOOK_DECLARE_CALL(0x00AF0FBE, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_choose_item::__vftable49
+//HOOK_DECLARE_CALL(0x00AF26D6, overlapped_task_start_internal); // c_gui_start_menu_hq_service_record_file_share_item_selected::__vftable50
+//HOOK_DECLARE_CALL(0x00AF5088, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
+//HOOK_DECLARE_CALL(0x00AF52D2, overlapped_task_start_internal); // c_gui_start_menu_hq_screenshots_options::__vftable24
+//HOOK_DECLARE_CALL(0x00AF8495, overlapped_task_start_internal); // c_start_menu_settings_appearance_emblem::handle_list_item_chosen
+//HOOK_DECLARE_CALL(0x00B0373C, overlapped_task_start_internal); // c_gui_screen_pregame_selection::begin_selected_item_text_edit
+//HOOK_DECLARE_CALL(0x00B0B8D6, overlapped_task_start_internal); // ?
+//HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // ?
+//HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_game_options::update_save_as_new_operation
 
 // #TODO: add me to `s_overlapped_globals`
 c_static_array<XOVERLAPPED, 64> task_slot_overlapped;
@@ -162,7 +162,7 @@ void __cdecl overlapped_initialize()
 {
 	//INVOKE(0x005A8DE0, overlapped_initialize);
 
-	g_overlapped_globals.toggle_debug_rendering = true;
+	g_overlapped_globals.toggle_debug_rendering = false;
 	csmemset(&g_overlapped_globals, 0, sizeof(g_overlapped_globals));
 	overlapped_memory_initialize();
 	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, NULL, NULL, NULL, 0, 0, true);
@@ -225,7 +225,7 @@ void __cdecl overlapped_render()
 					}
 
 					csnzprintf(string, sizeof(string), "#%ld task info: context= '%s', status= '%s', file= '%s', line= '%ld'\r\n",
-						task_slot_index++,
+						task_slot_index,
 						task_slot->task->get_context_string(),
 						status,
 						task_slot->task->m_file,

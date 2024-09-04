@@ -203,6 +203,7 @@ COMMAND_CALLBACK_DECLARE(levels_add_fake_map_solo);
 COMMAND_CALLBACK_DECLARE(levels_add_map_solo);
 COMMAND_CALLBACK_DECLARE(levels_add_fake_map_multi);
 COMMAND_CALLBACK_DECLARE(levels_add_map_multi);
+COMMAND_CALLBACK_DECLARE(xoverlapped_debug_render);
 
 //-----------------------------------------------------------------------------
 
@@ -348,6 +349,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(levels_add_map_solo, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for campaign\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(levels_add_fake_map_multi, 1, "<string>", "<scenario_path> adds a fake map for multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(levels_add_map_multi, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(xoverlapped_debug_render, 1, "<bool>", "toggle display a list of active xoverlapped tasks\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

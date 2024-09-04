@@ -2005,3 +2005,14 @@ callback_result_t levels_add_map_multi_callback(void const* userdata, long token
 	return result;
 }
 
+callback_result_t xoverlapped_debug_render_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		overlapped_task_toggle_debug_rendering(static_cast<bool>(value - 1));
+
+	return result;
+}
+
