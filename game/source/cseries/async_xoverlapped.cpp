@@ -47,7 +47,7 @@ HOOK_DECLARE(0x005A9280, task_now_finished);
 //HOOK_DECLARE_CALL(0x00AF8495, overlapped_task_start_internal); // c_virtual_keyboard_task, c_start_menu_settings_appearance_emblem::handle_list_item_chosen
 //HOOK_DECLARE_CALL(0x00B0373C, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_pregame_selection::begin_selected_item_text_edit
 //HOOK_DECLARE_CALL(0x00B0B8D6, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::?
-//HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::?
+//HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::begin_save_as_current_edited_variant
 //HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_string_verify_task, c_gui_screen_game_options::update_save_as_new_operation
 
 long const k_maximum_task_slots = 64;
