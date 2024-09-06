@@ -270,7 +270,7 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	csmemset(descriptions, 0, sizeof(descriptions));
 	image_file_base.clear();
 	scenario_path.clear();
-	precense_context_id = 0;
+	presence_context_id = 0;
 	sort_order = 0;
 	multiplayer_minimum_desired_players = 0;
 	multiplayer_maximum_desired_players = 0;

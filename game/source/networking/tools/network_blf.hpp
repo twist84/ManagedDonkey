@@ -402,7 +402,7 @@ struct s_blf_chunk_scenario
 	c_static_string<k_tag_long_string_length> image_file_base;
 	c_static_string<k_tag_long_string_length> scenario_path;
 
-	long precense_context_id;
+	long presence_context_id;
 	long sort_order;
 
 	char multiplayer_minimum_desired_players;

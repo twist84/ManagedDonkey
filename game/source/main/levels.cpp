@@ -255,7 +255,7 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 		wcsncpy_s(level->name, scenario->names[language].get_string(), NUMBEROF(level->name));
 		wcsncpy_s(level->description, scenario->descriptions[language].get_string(), NUMBEROF(level->description));
 
-		level->presence_context_id = scenario->precense_context_id;
+		level->presence_context_id = scenario->presence_context_id;
 		level->sort_order = scenario->sort_order;
 
 		level->multiplayer_minimum_desired_players = scenario->multiplayer_minimum_desired_players;
