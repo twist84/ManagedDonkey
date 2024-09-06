@@ -603,8 +603,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 			bink_playback_render();
 		}
 
-		if (pregame_frame_type == _main_pregame_frame_normal ||
-			pregame_frame_type == _main_pregame_frame_progress_report)
+		if (pregame_frame_type == _main_pregame_frame_normal || pregame_frame_type == _main_pregame_frame_progress_report)
 			game_engine_render_frame_watermarks(true);
 
 		c_view::end();
