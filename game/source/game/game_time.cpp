@@ -330,6 +330,20 @@ void __cdecl game_time_set_speed(real speed)
 	game_time_globals->speed = speed;
 }
 
+void game_time_set_cinematic_rate()
+{
+	if (!game_in_progress())
+		return;
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+
+	real tick_rate = game_options_get()->game_tick_rate;
+	if (game_is_campaign() && cinematic_in_progress())
+		tick_rate = 30.0f;
+	game_time_globals->tick_rate = short(tick_rate);
+	game_time_globals->tick_length = 1.0f / tick_rate;
+}
+
 bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed_)
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
@@ -358,7 +372,9 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	
 	if (game_is_playback())
 		game_time_set_speed(0.0f);
-	
+
+	game_time_set_cinematic_rate();
+
 	if (game_in_progress())
 	{
 		if (game_time_globals->shell_seconds_elapsed > 0.0f)
