@@ -75,6 +75,7 @@ HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x005063A0, main_loop_pregame);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
+HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
 bool g_fake_minidump_creation = true;
@@ -1741,7 +1742,42 @@ void __cdecl main_switch_bsp(long zone_set_index)
 
 void __cdecl main_switch_zone_set(long zone_set_index)
 {
-	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
+	//INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
+
+	if (struct scenario* scenario = global_scenario_try_and_get())
+	{
+		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+		{
+			if (scenario_zone_set_is_fully_active(zone_set_index))
+			{
+				if (main_globals.switch_zone_set)
+				{
+					main_globals.switch_zone_set_index = zone_set_index;
+					main_globals.switch_zone_set = false;
+					chud_messaging_special_load(false);
+				}
+				else
+				{
+					console_warning("tried to switch to current zone-set %d", zone_set_index);
+				}
+			}
+			else
+			{
+				main_trace_event_internal(__FUNCTION__);
+				main_globals.switch_zone_set_index = zone_set_index;
+				main_globals.switch_zone_set = true;
+				chud_messaging_special_load(true);
+			}
+		}
+		else
+		{
+			console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+		}
+	}
+	else
+	{
+		console_warning("tried to switch to a zone-set without a scenario loaded");
+	}
 }
 
 void __cdecl main_switch_zone_set_private()
