@@ -75,6 +75,7 @@ HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x005063A0, main_loop_pregame);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
+HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
 HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
@@ -1423,41 +1424,42 @@ void __cdecl main_modify_zone_activation_private()
 
 void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
 {
-	INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
+	//INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
 
-	//struct scenario* scenario = global_scenario_try_and_get();
-	//if (!scenario)
-	//{
-	//	console_warning("tried to switch to a zone-set without a scenario loaded");
-	//	return;
-	//}
-	//
-	//if (!VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
-	//{
-	//	console_warning("tried to switch to invalid zone-set %d", zone_set_index);
-	//	return;
-	//}
-	//
-	//if (zone_set_index == scenario_zone_set_index_get())
-	//{
-	//	if (main_globals.prepare_to_switch_zone_set)
-	//	{
-	//		main_globals.prepare_to_switch_zone_set = false;
-	//		main_globals.prepare_to_switch_zone_set_index = 0;
-	//		//chud_messaging_special_load(false);
-	//	}
-	//	else
-	//	{
-	//		console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
-	//	}
-	//}
-	//else
-	//{
-	//	//main_trace_event_internal(__FUNCTION__);
-	//	main_globals.prepare_to_switch_zone_set = true;
-	//	main_globals.prepare_to_switch_zone_set_index = zone_set_index;
-	//	//chud_messaging_special_load(true);
-	//}
+	if (struct scenario* scenario = global_scenario_try_and_get())
+	{
+		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+		{
+			if (zone_set_index == scenario_zone_set_index_get())
+			{
+				if (main_globals.prepare_to_switch_zone_set)
+				{
+					main_globals.prepare_to_switch_zone_set = false;
+					main_globals.prepare_to_switch_zone_set_index = 0;
+					//chud_messaging_special_load(false);
+				}
+				else
+				{
+					console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
+				}
+			}
+			else
+			{
+				main_trace_event_internal(__FUNCTION__);
+				main_globals.prepare_to_switch_zone_set = true;
+				main_globals.prepare_to_switch_zone_set_index = zone_set_index;
+				//chud_messaging_special_load(true);
+			}
+		}
+		else
+		{
+			console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+		}
+	}
+	else
+	{
+		console_warning("tried to switch to a zone-set without a scenario loaded");
+	}
 }
 
 void __cdecl main_prepare_to_switch_zone_set_private()
