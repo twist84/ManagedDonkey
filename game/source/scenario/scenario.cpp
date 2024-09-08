@@ -575,8 +575,15 @@ long __cdecl scenario_zone_set_index_get()
 	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
 }
 
-//.text:004EBA30 ; long __cdecl scenario_zone_set_index_get_if_fully_activated()
-//.text:004EBA90 ; bool __cdecl scenario_zone_set_is_fully_active(long)
+long __cdecl scenario_zone_set_index_get_if_fully_activated()
+{
+	return INVOKE(0x004EBA30, scenario_zone_set_index_get_if_fully_activated);
+}
+
+bool __cdecl scenario_zone_set_is_fully_active(long zone_set_index)
+{
+	return INVOKE(0x004EBA90, scenario_zone_set_is_fully_active, zone_set_index);
+}
 
 long __cdecl scenario_zone_set_name_get()
 {

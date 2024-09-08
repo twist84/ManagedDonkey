@@ -112,6 +112,8 @@ extern void __cdecl scenario_tags_teardown();
 extern bool __cdecl scenario_test_pvs(s_cluster_reference a1, s_cluster_reference a2);
 extern void __cdecl scenario_unload();
 extern long __cdecl scenario_zone_set_index_get();
+extern long __cdecl scenario_zone_set_index_get_if_fully_activated();
+extern bool __cdecl scenario_zone_set_is_fully_active(long zone_set_index);
 extern long __cdecl scenario_zone_set_name_get();
 extern structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index);
 
