@@ -85,9 +85,9 @@ struct c_player_profile_interface
 
 	struct // sizeof 0x1E4
 	{
-		long button_presets;   // 0-5
-		long joystick_presets; // 0-3
-		long look_sensitivity; // 0-9
+		long m_button_presets;   // 0-5
+		long m_joystick_presets; // 0-3
+		long m_look_sensitivity; // 0-9
 
 		byte __data1C[0x1D8];
 	};
@@ -107,19 +107,17 @@ struct c_player_profile_interface
 	struct // sizeof 0xC0
 	{
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> m_campaign_difficulty;
-
-		short __unknown214; // last_campaign_insertion_point?
-
-		short last_campaign_map_played_absolute_index;
-		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_completed_at_difficulty_level[32 /* campaign_level_index */];
-		c_static_array<qword, k_campaign_game_mode_count> last_campaign_played_time;
-		dword_flags last_primary_skulls;
-		dword_flags last_secondary_skulls;
+		short m_last_campaign_played_absolute_index;
+		short m_last_campaign_map_played_absolute_index; // 0-32 or -1
+		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> m_map_completed_at_difficulty_level[32 /* campaign_level_index */];
+		c_static_array<qword, k_campaign_game_mode_count> m_last_campaign_played_time;
+		dword_flags m_last_primary_skulls;
+		dword_flags m_last_secondary_skulls;
 
 		byte __data270[0x4];
 
-		c_static_flags<32> player_campaign_progress;
-		c_player_profile_insertion_point_flags<32, 9> player_campaign_insertion_progress;
+		c_static_flags<32> m_player_campaign_progress;
+		c_player_profile_insertion_point_flags<32, 9> m_player_campaign_insertion_progress;
 
 		struct
 		{
@@ -148,15 +146,13 @@ struct c_player_profile_interface
 		byte __data2CC[0x4]; // pad?
 	};
 
-	s_campaign_progression_profile_data campaign_progression;
+	s_campaign_progression_profile_data m_campaign_progression;
 
-	short __unknown470;
-	byte __data472[0x2]; // pad?
-	long __unknown474;
-
-	// linked
-	long __unknown478;
-	long __unknown47C; // 0-10
+	short m_last_network_game_hopper_played;
+	byte __pad472[0x2];
+	long m_last_custom_multiplayer_map_played; // map id
+	long m_last_variant_played_game_engine_index; // 0-10
+	long m_last_variant_played_unknown;
 
 	long __unknown480; // 0-4
 
@@ -171,26 +167,31 @@ struct c_player_profile_interface
 		long __unknown494;
 		long __unknown498;
 
-		// these fields are expanded from s_player_appearance
-		long player_model_choice;
-		s_emblem_info emblem_info;
+		long m_player_model_choice;
+		s_emblem_info m_emblem_info;
 
 		// model_customization_selection
+		// k_maximum_number_of_model_customization_areas_per_character
+		// - 8: Halo 3
+		// - 4: Halo 3: ODST
+		// - 10: Halo Online?
 		byte __dataAF0[10]; // what is the count?
 
-		wchar_t service_tag[5];
-		wchar_t desired_service_tag[5];
-		bool service_tag_was_randomly_generated;
-		bool service_tag_failed_verification;
+		wchar_t m_service_tag[5];
+		wchar_t m_desired_service_tag[5];
+		bool m_service_tag_was_randomly_generated;
+		bool m_service_tag_failed_verification;
 	};
 
 	long __unknownB10; // 0-1
 	long __unknownB14; // 0-1
 	long __unknownB18; // 0-1
 	long __unknownB1C;
-	byte __dataB20[0x8];
+	long __unknownB20; // 0-2
+	bool __unknownB24;
+	byte __padB25[0x3];
 
-	long m_popup_message_index;  // default: 0
+	c_static_array<long, 1> m_title_index_identifiers;  // default: 0
 	char m_vidmaster_popup_message_index; // default: 0
 	byte __padB2E[0x3];
 

@@ -160,11 +160,11 @@ bool __thiscall c_gui_roster_data::_get_text_value(long player_row_index, long n
 
 				if (!text_value->length())
 				{
-					text_value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.desired_service_tag);
+					text_value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.m_desired_service_tag);
 				}
 				else
 				{
-					text_value->append(controller->m_player_profile.desired_service_tag);
+					text_value->append(controller->m_player_profile.m_desired_service_tag);
 				}
 			}
 			else
