@@ -124,8 +124,8 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
-		//generate_event(_event_level_warning, "invalid game engine type #%ld requested variant size");
-		c_console::write_line("invalid game engine type #%ld requested variant size");
+		//generate_event(_event_level_warning, "invalid game engine type #%ld requested variant size", game_engine_index);
+		c_console::write_line("invalid game engine type #%ld requested variant size", game_engine_index);
 	}
 
 	long size = 0;
