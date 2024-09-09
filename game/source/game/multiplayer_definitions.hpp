@@ -75,7 +75,7 @@ struct s_multiplayer_customized_model_character
 {
 	c_string_id armor_region;
 	c_string_id biped_region;
-	c_typed_tag_block<s_multiplayer_customized_model_selection> customized_areas;
+	c_typed_tag_block<s_multiplayer_customized_model_selection> customized_selection;
 
 	void update_reference_names();
 };

@@ -837,9 +837,9 @@ long customized_spartan_character_from_name(s_multiplayer_customized_model_chara
 
 	if (armor_region && csstricmp(region_or_biped_name, armor_region) == 0)
 	{
-		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count; selection_absolute_index++)
+		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_selection.count; selection_absolute_index++)
 		{
-			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_areas[selection_absolute_index];
+			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_selection[selection_absolute_index];
 			if (customized_area_selection_from_name(customized_model_selection, selection_name))
 				return selection_absolute_index;
 		}
@@ -847,9 +847,9 @@ long customized_spartan_character_from_name(s_multiplayer_customized_model_chara
 
 	if (biped_region && csstricmp(region_or_biped_name, biped_region) == 0)
 	{
-		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_areas.count; selection_absolute_index++)
+		for (long selection_absolute_index = 0; selection_absolute_index < character.customized_selection.count; selection_absolute_index++)
 		{
-			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_areas[selection_absolute_index];
+			s_multiplayer_customized_model_selection& customized_model_selection = character.customized_selection[selection_absolute_index];
 			if (customized_area_selection_from_name(customized_model_selection, selection_name))
 				return selection_absolute_index;
 		}

@@ -1028,10 +1028,10 @@ if (universal_data->customized_##NAME##_characters.count)\
 		char const* biped_region = customized_character.biped_region.get_string();\
 		if (biped_region && *biped_region)\
 			c_console::write_line("        biped region: %s", biped_region);\
-		if (customized_character.customized_areas.count)\
+		if (customized_character.customized_selection.count)\
 		{\
-			c_console::write_line("            customized areas: %d", customized_character.customized_areas.count);\
-			for (auto customized_area : customized_character.customized_areas)\
+			c_console::write_line("            customized areas: %d", customized_character.customized_selection.count);\
+			for (auto customized_area : customized_character.customized_selection)\
 			{\
 				char const* selection_name = customized_area.selection_name.get_string();\
 				if (selection_name && *selection_name)\

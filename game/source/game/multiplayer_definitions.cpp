@@ -114,7 +114,7 @@ void s_multiplayer_universal_globals_definition::update_reference_names()
 
 void s_multiplayer_customized_model_character::update_reference_names()
 {
-	UPDATE_BLOCK_REFERENCE_NAMES(customized_areas);
+	UPDATE_BLOCK_REFERENCE_NAMES(customized_selection);
 }
 
 void s_multiplayer_customized_model_selection::update_reference_names()
