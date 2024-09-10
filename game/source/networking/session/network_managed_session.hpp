@@ -50,7 +50,7 @@ struct c_managed_session_overlapped_task :
 
 	void __thiscall complete_();
 	void __thiscall failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
-	void __thiscall success_(dword a1);
+	void __thiscall success_(dword return_result);
 
 	c_enum<e_session_overlapped_task_context, long, _session_overlapped_task_context_create, k_session_overlapped_task_context_count> m_context;
 
@@ -60,8 +60,11 @@ struct c_managed_session_overlapped_task :
 	long m_managed_session_index;
 
 	void(__cdecl* m_callback)(long, bool, dword);
-	bool m_callback_value0;
-	dword m_callback_value1;
+	bool m_callback_succeeded;
+
+	byte __pad29[0x3];
+
+	dword m_callback_return_result;
 
 	word_flags m_online_session_flags;
 	bool m_is_host;
@@ -69,10 +72,16 @@ struct c_managed_session_overlapped_task :
 	s_transport_session_description* m_host_migration_description;
 
 	long m_player_count;
+
+	byte __pad3C[0x4];
+
 	qword m_player_xuids[16];
 	dword_flags m_private_slots[16];
 };
 static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
+static_assert(0x29 == offsetof(c_managed_session_overlapped_task, __pad29));
+static_assert(0x33 == offsetof(c_managed_session_overlapped_task, __unknown33));
+static_assert(0x3C == offsetof(c_managed_session_overlapped_task, __pad3C));
 
 struct s_online_context
 {

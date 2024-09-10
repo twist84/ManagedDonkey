@@ -21,7 +21,11 @@ struct s_online_session
 	s_transport_session_description description;
 	qword nonce;
 	void* handle;
+
+	byte __pad4C[0x4];
+
 	c_static_array<s_online_session_player, 16> players;
 };
 static_assert(sizeof(s_online_session) == 0x150);
+static_assert(0x4C == offsetof(s_online_session, __pad4C));
 
