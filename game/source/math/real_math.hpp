@@ -403,3 +403,5 @@ extern vector2d* __cdecl set_real_vector2d(vector2d* vector, real i, real j);
 extern vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k);
 extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real l);
 
+extern bool point_intersects_rectangle2d(real_point2d const* point, real_rectangle2d const* rect);
+

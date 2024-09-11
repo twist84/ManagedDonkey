@@ -592,3 +592,8 @@ vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, re
 	return result;
 }
 
+bool point_intersects_rectangle2d(real_point2d const* point, real_rectangle2d const* rect)
+{
+	return point->x >= rect->x0 && rect->x1 >= point->x && point->y >= rect->y0 && rect->y1 >= point->y;
+}
+
