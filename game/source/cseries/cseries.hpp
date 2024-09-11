@@ -1486,12 +1486,16 @@ extern char* tag_to_string(tag _tag, char* buffer);
 struct c_string_id
 {
 public:
-	c_string_id() : m_value() {}
+	c_string_id() : m_value(NONE) {}
 	c_string_id(long value) : m_value(value) {}
+	c_string_id(c_string_id const& other) : m_value(other.m_value) {}
 
 	char const* get_string();
 	char const* get_string() const;
 	long get_value() const { return m_value; }
+
+	bool operator==(c_string_id const& other) const { return m_value == other.m_value; }
+	void operator=(c_string_id const& other) { m_value = other.m_value; }
 
 protected:
 	string_id m_value;
