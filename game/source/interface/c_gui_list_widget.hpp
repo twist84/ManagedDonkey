@@ -43,10 +43,11 @@ struct c_gui_list_widget :
 	public c_gui_widget
 {
 public:
-	c_gui_data* __cdecl get_data();
-	void __cdecl set_selectable_item_cap_count(long selectable_item_cap_count);
+	c_gui_data* get_data();
+	bool set_focused_item_index(long focused_item_index, bool a2);
+	void set_selectable_item_cap_count(long selectable_item_cap_count);
 
-protected:
+//protected:
 	long __unknownDC;
 	s_runtime_list_widget_definition m_core_definition;
 	c_string_id m_datasource_name;
