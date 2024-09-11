@@ -66,7 +66,12 @@ c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_in
 //.text:00AAB550 ; public: class c_gui_screen_widget * __cdecl c_window_manager::get_screen_by_name(enum e_window_index, long)
 //.text:00AAB5B0 ; public: class c_gui_screen_widget * __cdecl c_window_manager::get_screen_by_screen_index(long)
 //.text:00AAB620 ; 
-//.text:00AAB630 ; public: class c_gui_screen_widget * __cdecl c_window_manager::get_topmost_screen(enum e_window_index)
+
+c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_index)
+{
+	return DECLFUNC(0x00AAB630, c_gui_screen_widget*, __thiscall, c_window_manager*, e_window_index)(this, window_index);
+}
+
 //.text:00AAB680 ; 
 //.text:00AAB690 ; 
 //.text:00AAB6B0 ; 

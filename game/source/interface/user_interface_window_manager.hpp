@@ -32,6 +32,7 @@ struct c_window_manager
 	c_gui_screen_widget* load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index);
 	bool named_screen_defined_in_code(long screen_name);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
+	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 };
 static_assert(sizeof(c_window_manager) == 0x128);
 
