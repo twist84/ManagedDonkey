@@ -214,7 +214,7 @@ void __cdecl director_render()
 		s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
 		if (camera)
 		{
-			c_rasterizer_draw_string rasterizer_draw_string;
+			c_rasterizer_draw_string draw_string;
 			c_font_cache_mt_safe font_cache;
 
 			euler_angles2d facing{};
@@ -241,12 +241,12 @@ void __cdecl director_render()
 			interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 			bounds.y0 += 80;
 
-			rasterizer_draw_string.set_font(4);
-			rasterizer_draw_string.set_style(-1);
-			rasterizer_draw_string.set_justification(0);
-			rasterizer_draw_string.set_bounds(&bounds);
-			rasterizer_draw_string.set_color(global_real_argb_white);
-			rasterizer_draw_string.draw(&font_cache, rasterizer_string.get_string());
+			draw_string.set_font(4);
+			draw_string.set_style(-1);
+			draw_string.set_justification(0);
+			draw_string.set_bounds(&bounds);
+			draw_string.set_color(global_real_argb_white);
+			draw_string.draw(&font_cache, rasterizer_string.get_string());
 		}
 	}
 }
