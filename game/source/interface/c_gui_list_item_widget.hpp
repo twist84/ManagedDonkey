@@ -19,7 +19,7 @@ static_assert(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_
 struct c_gui_list_item_widget :
 	public c_gui_widget
 {
-protected:
+//protected:
 	long __unknownDC;
 	s_runtime_list_item_widget_definition m_core_definition;
 	long m_list_item_index;
