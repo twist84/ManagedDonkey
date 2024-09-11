@@ -5,6 +5,8 @@
 
 c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 {
+	//return DECLFUNC(0x00AB0DB0, c_gui_data*, __thiscall, c_gui_screen_widget*, long, long*)(this, name, datasource_index);
+
 	if (datasource_index)
 		*datasource_index = -1;
 
@@ -22,6 +24,11 @@ c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 		*datasource_index = index;
 
 	return m_datasource[index];
+}
+
+c_gui_widget* c_gui_screen_widget::get_focused_widget()
+{
+	return DECLFUNC(0x00AB0F40, c_gui_widget*, __thiscall, c_gui_screen_widget*)(this);
 }
 
 e_window_index c_gui_screen_widget::get_render_window()

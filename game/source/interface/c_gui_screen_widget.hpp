@@ -81,6 +81,7 @@ struct c_gui_screen_widget :
 {
 public:
 	c_gui_data* get_data(long name, long* datasource_index);
+	c_gui_widget* get_focused_widget();
 	e_window_index get_render_window();
 
 	void add_game_tag_parser(c_game_tag_parser* parser);
