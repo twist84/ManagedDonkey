@@ -189,7 +189,7 @@ bool __cdecl game_time_get_paused()
 	{
 		c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
 	
-		bool v1 = game_is_campaign() && (game_is_playback() && !game_is_authoritative_playback());
+		bool v1 = game_is_campaign() && !(game_is_playback() && !game_is_authoritative_playback());
 		result = TEST_FLAG(pause_flags, _game_time_pause_reason_debug);
 		if (TEST_FLAG(pause_flags, _game_time_pause_reason_ui) ||
 			TEST_FLAG(pause_flags, _game_time_pause_reason_unknown0))
