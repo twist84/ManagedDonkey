@@ -188,12 +188,15 @@ static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 char const* tag_get_name(long tag_name_index)
 {
 	if (!g_cache_file_globals.header.debug_tag_name_count)
-		return nullptr;
+		return "";
 
 	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
-	return g_cache_file_debug_globals->debug_tag_names[tag_name_index];
+	if (char const* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+		return name;
+
+	return "";
 
 	//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
 	//ASSERT(VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)));
@@ -206,18 +209,21 @@ char const* tag_get_name_safe(long tag_name_index)
 	//ASSERT(g_cache_file_globals.tags_loaded);
 
 	if (!g_cache_file_globals.header.debug_tag_name_count)
-		return nullptr;
+		return "";
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
-		return g_cache_file_debug_globals->debug_tag_names[tag_name_index];
+		if (char const* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+			return name;
+
+		return "";
 
 		//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
 		//if (VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)))
 		//	return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
 	}
 
-	return nullptr;
+	return "";
 }
 
 long tag_name_get_index(tag group_tag, char const* name)
