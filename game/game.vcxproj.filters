@@ -1602,6 +1602,15 @@
     <ClCompile Include="source\interface\user_interface_main_menu_music.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_pregame_setup_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\attract_mode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\user_interface_player_model_camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3765,6 +3774,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_main_menu_music.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_pregame_setup_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\attract_mode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_player_model_camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

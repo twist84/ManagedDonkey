@@ -10,6 +10,7 @@ public:
 	long increment();
 	long peek() const;
 	long set(long value);
+	long add(long value);
 	void operator=(long value);
 	operator long() const;
 

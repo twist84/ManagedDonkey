@@ -7,6 +7,7 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
+#include "main/main_render.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
@@ -171,7 +172,7 @@ void __cdecl render_debug_frame_render()
 {
 	//INVOKE(0x00A29220, render_debug_frame_render);
 
-	if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
+	if (sub_42E5D0())
 		return;
 
 	short_rectangle2d screen_pixel_bounds{};

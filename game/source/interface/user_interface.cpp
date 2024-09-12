@@ -1,11 +1,24 @@
 #include "interface/user_interface.hpp"
 
 #include "cseries/cseries.hpp"
+#include "data_mining/data_mine_management.hpp"
+#include "game/game.hpp"
+#include "game/player_mapping.hpp"
+#include "interface/attract_mode.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/damaged_media.hpp"
+#include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
+#include "interface/user_interface_mouse.hpp"
+#include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_player_model_camera.hpp"
+#include "interface/user_interface_session.hpp"
 #include "interface/user_interface_window_manager.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
+
+#include <windows.h>
 
 real g_ui_time_scale = 1.0f;
 real g_ui_time_step = 0.0f;
@@ -13,6 +26,7 @@ real g_ui_time_step = 0.0f;
 REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
 
 HOOK_DECLARE(0x00A84C00, user_interface_scoreboard_update);
+HOOK_DECLARE(0x00A84EE0, user_interface_update);
 
 bool __cdecl get_alpha_custom_games_disabled()
 {
@@ -111,7 +125,12 @@ dword __cdecl user_interface_milliseconds()
 
 //.text:00A848F0 ; unsigned long __cdecl user_interface_milliseconds_at_last_event()
 //.text:00A84900 ; 
-//.text:00A84920 ; void __cdecl user_interface_non_idle_event_occured()
+
+void __cdecl user_interface_non_idle_event_occured()
+{
+	INVOKE(0x00A84920, user_interface_non_idle_event_occured);
+}
+
 //.text:00A84940 ; 
 //.text:00A84960 ; 
 //.text:00A84970 ; 
@@ -181,16 +200,83 @@ s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_g
 	return INVOKE(0x00A84E80, user_interface_tag_globals_try_and_get);
 }
 
-void __cdecl user_interface_update(real ui_time)
+void __cdecl user_interface_update(real shell_seconds_elapsed)
 {
+	//INVOKE(0x00A84EE0, user_interface_update, shell_seconds_elapsed);
+
 	PROFILER(user_interface_update)
 	{
-		real new_ui_time = (ui_time * g_ui_time_scale) + g_ui_time_step;
+		real ui_time = (shell_seconds_elapsed * g_ui_time_scale) + g_ui_time_step;
+		g_ui_time_step = 0.0f;
+	
+		g_user_interface_globals.shell_seconds_elapsed = ui_time;
+		g_user_interface_globals.milliseconds.add(long(ui_time * 1000));
+		long milliseconds = g_user_interface_globals.milliseconds.peek();
+	
+		long output_user_active_count = player_mapping_output_user_active_count();
+		bool v3 = g_user_interface_globals.active_output_user_count == output_user_active_count;
+		g_user_interface_globals.active_output_user_count = output_user_active_count;
+		bool update_toast_position = !v3;
 
-		INVOKE(0x00A84EE0, user_interface_update, new_ui_time);
+		damaged_media_update();
+		//user_interface_memory_update();
+	
+		if (game_in_progress())
+		{
+			if (!debugging_system_has_focus())
+				user_interface_controller_update();
+
+			saved_game_files_update();
+			user_interface_messaging_update();
+			user_interface_mouse_update();
+			user_interface_scoreboard_update();
+			window_manager_get()->update(milliseconds);
+			user_interface_error_manager_get()->update(milliseconds);
+			c_gui_pregame_setup_manager::get()->update();
+			user_interface_networking_update();
+			//user_interface_process_magic_key_combos();
+	
+			if (user_interface_xbox_guide_is_active())
+				user_interface_non_idle_event_occured();
+	
+			if (attract_mode_should_start())
+				attract_mode_start();
+	
+			g_user_interface_globals.main_menu_music.update();
+	
+			if (game_is_ui_shell()/* && user_interface_should_render_fancy()*/)
+				g_user_interface_globals.main_menu_music.__unknown18 = milliseconds;
+	
+			if (game_is_ui_shell())
+			{
+				if (update_toast_position)
+					user_interface_update_toast_position();
+
+				//if (user_interface_squad_exists() && user_interface_squad_get_ui_game_mode() == _ui_game_mode_survival)
+				//	user_interface_show_campaign_custom_music_warning_if_needed(NULL);
+
+				user_interface_player_model_camera_update();
+				//user_interface_hs_update();
+			}
+			else if (game_is_campaign())
+			{
+				//user_interface_show_campaign_custom_music_warning_if_needed(NULL);
+			}
+	
+			//sub_635120(shell_seconds_elapsed); // saber function
+		}
+	
+		if (g_user_interface_globals.__unknown2248 != NONE &&
+			system_milliseconds() > dword(g_user_interface_globals.__unknown2248 + 2000))
+		{
+			data_mine_flush();
+			exit(0); // relaunch
+		}
 	}
 }
-HOOK_DECLARE_CALL(0x00505DB1, user_interface_update);
-//HOOK_DECLARE_CALL(0x0069D618, user_interface_update);
-//HOOK_DECLARE_CALL(0x0069D648, user_interface_update);
+
+void __cdecl user_interface_update_toast_position()
+{
+	INVOKE(0x00A85050, user_interface_update_toast_position);
+}
 

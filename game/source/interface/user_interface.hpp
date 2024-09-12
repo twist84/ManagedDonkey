@@ -232,10 +232,12 @@ extern void __cdecl user_interface_initialize_for_new_map();
 extern void __cdecl user_interface_enter_game_shell();
 extern void __cdecl user_interface_get_number_of_render_windows(long user_index, long* a2, long* a3);
 extern dword __cdecl user_interface_milliseconds();
+extern void __cdecl user_interface_non_idle_event_occured();
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
 extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();
-extern void __cdecl user_interface_update(real ui_time);
+extern void __cdecl user_interface_update(real shell_seconds_elapsed);
+extern void __cdecl user_interface_update_toast_position();
 

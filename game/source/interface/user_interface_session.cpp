@@ -123,7 +123,12 @@ bool __cdecl user_interface_squad_delegate_leadership(long player_index)
 HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
 //.text:00A82960 ; bool __cdecl user_interface_squad_end_game()
-//.text:00A82980 ; bool __cdecl user_interface_squad_exists()
+
+bool __cdecl user_interface_squad_exists()
+{
+	return INVOKE(0x00A82980, user_interface_squad_exists);
+}
+
 //.text:00A829D0 ; bool __cdecl user_interface_squad_exists_or_is_leaving()
 //.text:00A82A10 ; bool __cdecl user_interface_squad_fully_established()
 //.text:00A82A70 ; e_controller_index __cdecl user_interface_squad_get_controller_index(long player_index)
@@ -141,7 +146,7 @@ long __cdecl user_interface_squad_get_countdown_timer()
 {
 	//return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
-	if (user_interface_get_session_game_start_status(0, 0) == _session_game_start_status_countdown)
+	if (user_interface_get_session_game_start_status(NULL, NULL) == _session_game_start_status_countdown)
 		return network_squad_session_get_countdown_timer();
 
 	return -1;

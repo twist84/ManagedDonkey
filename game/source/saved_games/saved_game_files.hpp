@@ -56,11 +56,11 @@ static_assert(sizeof(s_content_item_metadata) == 0xF8);
 
 struct s_saved_game_file_text_parser_input
 {
-	long __unknown0;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
+	long user_index;
+	wchar_t const* map_variant_name;
+	wchar_t const* game_variant_name;
+	wchar_t const* campaign_map_name;
+	long campaign_difficulty;
 };
 static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);
 
@@ -82,4 +82,5 @@ extern void __cdecl saved_game_files_dispose();
 extern void __cdecl saved_game_files_dispose_from_old_map();
 extern void __cdecl saved_game_files_initialize();
 extern void __cdecl saved_game_files_initialize_for_new_map();
+extern void __cdecl saved_game_files_update();
 

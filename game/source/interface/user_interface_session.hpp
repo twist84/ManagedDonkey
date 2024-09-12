@@ -20,6 +20,7 @@ extern s_player_configuration* __cdecl user_interface_session_get_player_data(lo
 extern bool __cdecl user_interface_session_is_local_player(long player_index);
 extern bool __cdecl user_interface_squad_is_player_valid(long player_index);
 extern long __cdecl user_interface_squad_get_player_index(s_player_identifier const* player_identifier);
+extern bool __cdecl user_interface_squad_exists();
 extern long __cdecl user_interface_squad_get_countdown_delaying_player();
 extern long __cdecl user_interface_squad_get_countdown_timer();
 extern long __cdecl user_interface_squad_get_machine_count();

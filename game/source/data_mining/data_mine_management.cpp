@@ -9,7 +9,12 @@ void __cdecl data_mine_dispose()
 
 //.text:005AC750 ; void __cdecl data_mine_enable(bool)
 //.text:005AC760 ; bool __cdecl data_mine_enabled()
-//.text:005AC770 ; void __cdecl data_mine_flush()
+
+void __cdecl data_mine_flush()
+{
+	INVOKE(0x005AC770, data_mine_flush);
+}
+
 //.text:005AC780 ; char const* __cdecl data_mine_get_tag_name(long)
 
 void __cdecl data_mine_initialize()
