@@ -33,10 +33,10 @@ void widget_bounds_from_window_bounds(real_rectangle2d const* window_bounds, rea
 	real adjusted_x = real(bounds_width / 2) + window_bounds->x0;
 	real adjusted_y = real(bounds_height / 2) + window_bounds->y0;
 
-	widget_bounds->x0 = ((widget_bounds->x0 * normalized_width) * aspect_ratio_scale.i) + adjusted_x;
-	widget_bounds->x1 = ((widget_bounds->x1 * normalized_width) * aspect_ratio_scale.i) + adjusted_x;
-	widget_bounds->y0 = ((widget_bounds->y0 * normalized_height) * aspect_ratio_scale.j) + adjusted_y;
-	widget_bounds->y1 = ((widget_bounds->y1 * normalized_height) * aspect_ratio_scale.j) + adjusted_y;
+	widget_bounds->x0 = adjusted_x + (aspect_ratio_scale.i * (widget_bounds->x0 * normalized_width));
+	widget_bounds->x1 = adjusted_x + (aspect_ratio_scale.i * (widget_bounds->x1 * normalized_width));
+	widget_bounds->y0 = adjusted_y + (aspect_ratio_scale.j * (widget_bounds->y0 * normalized_height));
+	widget_bounds->y1 = adjusted_y + (aspect_ratio_scale.j * (widget_bounds->y1 * normalized_height));
 }
 
 void user_interface_mouse_update_tracking()
@@ -52,6 +52,7 @@ void user_interface_mouse_update_tracking()
 
 	POINT cursor_position{};
 	GetCursorPos(&cursor_position);
+	ScreenToClient(g_windows_params.created_window_handle, &cursor_position);
 
 	long x_delta = abs(cursor_position.x - global_cursor_position.x);
 	long y_delta = abs(cursor_position.y - global_cursor_position.y);
