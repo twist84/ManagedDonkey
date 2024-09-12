@@ -235,6 +235,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\interface\overhead_map.cpp" />
+    <ClCompile Include="source\interface\user_interface_main_menu_music.cpp" />
     <ClCompile Include="source\interface\user_interface_mouse.cpp" />
     <ClCompile Include="source\items\equipment.cpp" />
     <ClCompile Include="source\items\items.cpp" />
@@ -848,6 +849,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\overhead_map.hpp" />
     <ClInclude Include="source\interface\terminal.hpp" />
     <ClInclude Include="source\interface\user_interface_error_manager.hpp" />
+    <ClInclude Include="source\interface\user_interface_main_menu_music.hpp" />
     <ClInclude Include="source\interface\user_interface_mapping.hpp" />
     <ClInclude Include="source\interface\user_interface_mouse.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />

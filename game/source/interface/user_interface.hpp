@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_main_menu_music.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -181,18 +182,6 @@ struct s_user_interface_shared_globals
 	s_tag_block pda_fourth_wall_audio_sounds;
 };
 static_assert(sizeof(s_user_interface_shared_globals) == 0x3CC);
-
-struct c_user_interface_main_menu_music
-{
-	long __unknown0;
-	long m_state;
-	long m_game_shell_music_state;
-	long __unknownC;
-	long m_looping_sound_index;
-	long __unknown14;
-	c_synchronized_long __unknown18;
-};
-static_assert(sizeof(c_user_interface_main_menu_music) == 0x1C);
 
 struct s_user_interface_globals
 {

@@ -1599,6 +1599,9 @@
     <ClCompile Include="source\interface\user_interface_mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_main_menu_music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3759,6 +3762,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_mouse.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_main_menu_music.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
