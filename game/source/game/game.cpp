@@ -1397,27 +1397,6 @@ void __cdecl game_tick()
 
 		if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
 		{
-			// CINEMATIC SKIP HACK
-
-			if (game_is_campaign() && cinematic_in_progress())
-			{
-				e_key_code keys[]
-				{
-					_key_code_tab,
-					_key_code_spacebar
-				};
-
-				for (long key_index = 0; key_index < NUMBEROF(keys); key_index++)
-				{
-					if (input_key_frames_down(keys[key_index], _input_type_ui))
-					{
-						s_player_action& player_action = update.player_actions[0];
-						SET_BIT(player_action.action_flags, 12, true);
-						break;
-					}
-				}
-			}
-
 			chud_game_tick();
 			players_update_before_game(&update);
 			sound_update();

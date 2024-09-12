@@ -1,5 +1,8 @@
 #include "cutscene/cinematics.hpp"
 
+#include "game/game.hpp"
+#include "input/input_windows.hpp"
+
 //bool g_debug_cinematic_controls_enable = false;
 //bool g_cinematic_debugging_enable = false;
 //bool g_cinematic_render_enable = false;
@@ -115,7 +118,12 @@ void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_s
 //.text:0067E950 ; 
 //.text:0067E970 ; 
 //.text:0067E990 ; void __cdecl cinematic_start()
-//.text:0067EA10 ; void __cdecl cinematic_start_user_skip_fade_out()
+
+void __cdecl cinematic_start_user_skip_fade_out()
+{
+	INVOKE(0x0067EA10, cinematic_start_user_skip_fade_out);
+}
+
 //.text:0067EA60 ; void __cdecl cinematic_stop()
 //.text:0067EAD0 ; bool __cdecl cinematic_suppressing_bsp_object_creation()
 //.text:0067EAF0 ; long __cdecl cinematic_tag_reference_get_animation(long, long, long)
@@ -134,6 +142,26 @@ void __cdecl cinematic_update()
 
 void __cdecl cinematics_game_tick()
 {
+	// CINEMATIC SKIP HACK
+
+	if (game_is_campaign() && cinematic_in_progress())
+	{
+		e_key_code keys[]
+		{
+			_key_code_tab,
+			_key_code_spacebar
+		};
+
+		for (long key_index = 0; key_index < NUMBEROF(keys); key_index++)
+		{
+			if (input_key_frames_down(keys[key_index], _input_type_ui))
+			{
+				cinematic_start_user_skip_fade_out();
+				break;
+			}
+		}
+	}
+
 	return INVOKE(0x0067F080, cinematics_game_tick);
 }
 
