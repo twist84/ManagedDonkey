@@ -18,7 +18,19 @@ static_assert(sizeof(weapon_trigger) == 0xC);
 
 struct weapon_magazine
 {
-	byte __data0[0x1A];
+	short state;
+	short reload_cooldown;
+	short __unknown4;
+	short rounds_unloaded;
+	short __unknown8;
+	short rounds_loaded;
+	short __unknownC;
+	short __unknownE;
+	short __unknown10;
+	short firing_cooldown;
+	short __unknown14;
+	short __unknown16;
+	short __unknown18;
 };
 static_assert(sizeof(weapon_magazine) == 0x1A);
 
@@ -89,6 +101,7 @@ struct weapon_datum
 };
 static_assert(sizeof(weapon_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
+extern void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted);
 extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
 extern real __cdecl weapon_get_age(long weapon_index);
 extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);

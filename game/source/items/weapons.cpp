@@ -5,6 +5,7 @@
 #include "items/weapon_definitions.hpp"
 #include "memory/module.hpp"
 
+HOOK_DECLARE(0x00B5F860, weapon_barrel_fire);
 HOOK_DECLARE(0x00B61550, weapon_can_be_dual_wielded);
 HOOK_DECLARE(0x00B62AC0, weapon_get_age);
 HOOK_DECLARE(0x00B63C30, weapon_has_infinite_ammo);
@@ -63,7 +64,32 @@ HOOK_DECLARE(0x00B63C30, weapon_has_infinite_ammo);
 //.text:00B5F2D0 ; dword __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(long, s_predicted_weapon_fire_data const*, bool, bool, dword*)
 //.text:00B5F470 ; bool __cdecl weapon_barrel_evaluate_penalty_function(long, long, bool, s_projectile_accuracy_penalty_functions::e_penalty_function, real, real*)
 //.text:00B5F5D0 ; 
-//.text:00B5F860 ; void __cdecl weapon_barrel_fire(long, short, bool)
+
+void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted)
+{
+	//INVOKE(0x00B5F860, weapon_barrel_fire, weapon_index, barrel_index, predicted);
+	HOOK_INVOKE(, weapon_barrel_fire, weapon_index, barrel_index, predicted);
+
+	if (!cheat.bottomless_clip)
+		return;
+
+	weapon_datum* weapon = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	if (!weapon || weapon->item.inventory_unit_index == NONE)
+		return;
+
+	unit_datum* unit = (unit_datum*)object_get_and_verify_type(weapon->item.inventory_unit_index, _object_mask_unit);
+	if (!unit || unit->unit.player_index == NONE)
+		return;
+
+	weapon->weapon.heat = 0.0f;
+	weapon->weapon.age = 0.0f;
+
+	struct weapon_definition* weapon_definition = (struct weapon_definition*)tag_get(WEAPON_TAG, weapon->definition_index);
+	short magazine_index = weapon_definition->weapon.barrels[barrel_index].magazine;
+	if (magazine_index != NONE && magazine_index < weapon_definition->weapon.magazines.count)
+		const_cast<weapon_magazine*>(weapon->weapon.magazines)[magazine_index].rounds_loaded = weapon_definition->weapon.magazines[magazine_index].rounds_loaded_maximum;
+}
+
 //.text:00B605D0 ; double __cdecl weapon_barrel_get_barrel_error_angle_from_weapon(long, long, bool, short, real)
 //.text:00B606D0 ; long __cdecl weapon_barrel_get_marker_name(long, long)
 //.text:00B60750 ; 

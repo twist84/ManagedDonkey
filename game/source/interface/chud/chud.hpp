@@ -64,6 +64,14 @@ struct s_chud_navpoint
 };
 static_assert(sizeof(s_chud_navpoint) == 0x30);
 
+struct s_some_chud_struct
+{
+	void __thiscall sub_A8AED0(long a1, long a2, long a3);
+
+	byte __data[0x910];
+};
+static_assert(sizeof(s_some_chud_struct) == 0x910);
+
 extern s_chud_globals_definition*& chud_globals;
 
 extern void __cdecl chud_dispose();

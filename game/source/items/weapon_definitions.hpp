@@ -145,6 +145,169 @@ struct weapon_interface_definition_new
 };
 static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
 
+struct s_weapon_barrel_firing_parameters
+{
+	// the number of firing effects created per second
+	real rounds_per_second;
+
+	// the continuous firing time it takes for the weapon to achieve its final rounds per second
+	real acceleration_time; // seconds
+
+	// the continuous idle time it takes for the weapon to return from its final rounds per second to its initial
+	real deceleration_time; // seconds
+
+	// scale the barrel spin speed by this amount
+	real barrel_spin_scale;
+
+	// a percentage between 0 and 1 which controls how soon in its firing animation the weapon blurs
+	real blurred_rate_of_fire;
+
+	// allows designer caps to the shots you can fire from one firing action
+	real shots_per_fire;
+
+	// how long after a set of shots it takes before the barrel can fire again
+	real fire_recovery_time; // seconds
+
+	// how much of the recovery allows shots to be queued
+	real_fraction soft_recovery_fraction;
+
+	real __unknown;
+};
+static_assert(sizeof(s_weapon_barrel_firing_parameters) == sizeof(real) * 9);
+
+struct s_weapon_barrel_firing_error
+{
+	// the continuous firing time it takes for the weapon to achieve its final error
+	real acceleration_time; // seconds
+
+	// the continuous idle time it takes for the weapon to return to its initial error
+	real deceleration_time; // seconds
+
+	// the range of angles (in degrees) that a damaged weapon will skew fire
+	real damage_error;
+
+	angle min_error_look_pitch_rate; // yaw rate is doubled
+	angle full_error_look_pitch_rate; // yaw rate is doubled
+
+	// use to soften or sharpen the rate ding
+	real look_pitch_error_power;
+
+	real __unknown;
+};
+static_assert(sizeof(s_weapon_barrel_firing_error) == sizeof(real) * 7);
+
+struct s_weapon_barrel_dual_weapon_error
+{
+	// the continuous firing time it takes for the weapon to achieve its final error
+	real acceleration_time; // seconds
+
+	// the continuous idle time it takes for the weapon to return to its initial error
+	real deceleration_time; // seconds
+
+	real runtime_acceleration_time;
+	real runtime_deceleration_time;
+	real minimum_error; // degrees
+	real error_angle; // degrees
+	real dual_wield_damage_scale;
+	real __unknown;
+};
+static_assert(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real) * 8);
+
+struct s_weapon_barrel
+{
+	dword_flags flags;
+
+	// firing
+	s_weapon_barrel_firing_parameters firing;
+
+	// the magazine from which this trigger draws its ammunition
+	short magazine;
+
+	// the number of rounds expended to create a single firing effect
+	short rounds_per_shot;
+
+	// the minimum number of rounds necessary to fire the weapon
+	short minimum_rounds_loaded;
+
+	// the number of non-tracer rounds fired between tracers
+	short rounds_between_tracers;
+
+	c_string_id optional_barrel_marker_name;
+
+
+	// prediction properties
+	// what the behavior of this barrel is in a predicted network game
+
+	short_enum prediction_type;
+
+	// how loud this weapon appears to the AI
+	short_enum firing_noise;
+
+
+	// error
+	// full error look pitch rate controlls how fast you can turn
+	// with full error, yaw is implied from pitch. 0==130.
+	// for reference, profile sensitivities are set to:
+	// 1: 40
+	// 3: 60
+	// 9: 130
+
+	s_weapon_barrel_firing_error firing_error;
+
+	// dual weapon error
+	s_weapon_barrel_dual_weapon_error dual_weapon_error;
+
+
+	// projectile
+
+	short_enum distribution_function;
+	short projectiles_per_shot;
+	real distribution_angle; // degrees
+	angle minimum_error; // degrees
+	angle_bounds error_angle; // degrees
+
+	// #TODO: map the rest of this struct
+	byte __data88[0x1AC - 0x88];
+};
+static_assert(sizeof(s_weapon_barrel) == 0x1AC);
+
+struct s_weapon_magazine
+{
+	dword_flags flags;
+	short rounds_recharged; // per second
+	short rounds_total_initial;
+	short rounds_total_maximum;
+	short rounds_loaded_maximum;
+	short runtime_rounds_inventory_maximum;
+
+	// pad
+	byte IIO[0x2];
+
+	// the length of time it takes to load a single magazine into the weapon
+	real reload_time; // seconds
+
+	short rounds_reloaded;
+
+	// pad
+	byte VJGZW[0x2];
+
+	// the length of time it takes to chamber the next round
+	real chamber_time; // seconds
+
+	// pad
+	byte HPMIV[0x8];
+
+	// pad
+	byte P[0x10];
+
+	s_tag_reference reloading_effect;
+	s_tag_reference reloading_damage_effect;
+	s_tag_reference chambering_effect;
+	s_tag_reference chambering_damage_effect;
+	s_tag_block magazines;
+};
+static_assert(sizeof(s_weapon_magazine) == 0x80);
+
 struct _weapon_definition
 {
 	// $$$ WEAPON $$$
@@ -304,9 +467,9 @@ struct _weapon_definition
 	long special_hud_icon;
 	weapon_interface_definition_new player_interface;
 	s_tag_block predicted_resources;
-	s_tag_block magazines;
+	c_typed_tag_block<s_weapon_magazine> magazines;
 	s_tag_block new_triggers;
-	s_tag_block barrels;
+	c_typed_tag_block<s_weapon_barrel> barrels;
 	real runtime_weapon_power_on_velocity;
 	real runtime_weapon_power_off_velocity;
 

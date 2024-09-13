@@ -1,6 +1,39 @@
 #include "interface/chud/chud.hpp"
 
+#include "game/cheats.hpp"
+#include "items/weapons.hpp"
+#include "memory/module.hpp"
+#include "objects/objects.hpp"
+#include "units/units.hpp"
+
 REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
+
+HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, s_some_chud_struct, sub_A8AED0);
+
+// bottomless clip hud symbol
+void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long a3)
+{
+	HOOK_INVOKE_CLASS_MEMBER(, s_some_chud_struct, sub_A8AED0, weapon_index, a2, a3);
+
+	if (!cheat.bottomless_clip)
+		return;
+
+	weapon_datum* weapon = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	if (!weapon || weapon->item.inventory_unit_index == NONE)
+		return;
+
+	unit_datum* unit = (unit_datum*)object_get_and_verify_type(weapon->item.inventory_unit_index, _object_mask_unit);
+	if (!unit || unit->unit.player_index == NONE)
+		return;
+
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x34), real, __unknown34);
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x48), real, __unknown48);
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x50), real, __unknown50);
+
+	__unknown34 = k_real_max;
+	__unknown48 = k_real_max;
+	__unknown50 = k_real_max;
+}
 
 //.text:00A88640 ; 
 //.text:00A88660 ; 
