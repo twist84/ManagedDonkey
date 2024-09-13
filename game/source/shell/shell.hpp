@@ -2,6 +2,42 @@
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
+enum e_text_justification
+{
+	_text_justification_left = 0,
+	_text_justification_right,
+	_text_justification_center,
+
+	k_text_justification_count
+};
+
+enum e_text_vertical_justification
+{
+	_text_vertical_justification_default = 0,
+	_text_vertical_justification_top,
+	_text_vertical_justification_center,
+	_text_vertical_justification_bottom,
+
+	k_text_vertical_justification_count
+};
+
+enum e_font_id
+{
+	_font_id_terminal_font = 0,
+	_font_id_body_text_font,
+	_font_id_title_font,
+	_font_id_super_large_font,
+	_font_id_large_body_text_font,
+	_font_id_split_screen_hud_message_font,
+	_font_id_full_screen_hud_message_font,
+	_font_id_english_body_text_font,
+	_font_id_hud_number_font,
+	_font_id_subtitle_font,
+	_font_id_main_menu_font,
+
+	k_font_id_count
+};
+
 enum e_session_creation_flags
 {
 	_session_creation_unknown_bit0 = 0,
