@@ -343,11 +343,11 @@ bool __cdecl c_rasterizer::reset_device()
 
 		int window_x = 0;
 		int window_y = 0;
-		//if (strstr(shell_get_command_line(), "-centered") != 0)
-		//{
-		//	window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
-		//	window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
-		//}
+		if (strstr(shell_get_command_line(), "-centered") != 0)
+		{
+			window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
+			window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+		}
 
 		AdjustWindowRect(&rect, window_style, 0);
 		SetWindowPos(
@@ -355,8 +355,8 @@ bool __cdecl c_rasterizer::reset_device()
 			HWND_NOTOPMOST,
 			window_x,
 			window_y,
-			rect.right - rect.left,
-			rect.bottom - rect.top,
+			rect.right,
+			rect.bottom,
 			SWP_SHOWWINDOW);
 		ShowWindow(g_windows_params.created_window_handle, SW_SHOWNORMAL);
 	}
@@ -523,6 +523,10 @@ void __cdecl c_rasterizer::initialize_window()
 
 	if (class_registered != INVALID_ATOM)
 	{
+		long width = display_width;
+		long height = display_height;
+		global_preferences_get_screen_resolution(&width, &height);
+
 		HWND window_handle_created = CreateWindowExA(
 			0,
 			g_windows_params.class_name,
@@ -530,8 +534,8 @@ void __cdecl c_rasterizer::initialize_window()
 			WS_TILEDWINDOW,
 			0,
 			0,
-			display_width,
-			display_height,
+			width,
+			height,
 			GetDesktopWindow(),
 			NULL,
 			window_class.hInstance,
@@ -540,38 +544,22 @@ void __cdecl c_rasterizer::initialize_window()
 
 		if (window_handle_created != NULL)
 		{
-			RECT client_rect{};
-			RECT window_rect{};
-
-			GetClientRect(window_handle_created, &client_rect);
-			GetWindowRect(window_handle_created, &window_rect);
+			int window_x = 0;
+			int window_y = 0;
+			if (strstr(shell_get_command_line(), "-centered") != 0)
+			{
+				window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+				window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+			}
 
 			BOOL window_position_set = SetWindowPos(
 				window_handle_created,
 				HWND_NOTOPMOST,
 				0,
 				0,
-				window_rect.right - window_rect.left + display_width - (client_rect.right - client_rect.left),
-				window_rect.bottom - window_rect.top + display_height - (client_rect.bottom - client_rect.top),
+				width,
+				height,
 				SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOMOVE) > 0;
-
-			if (strstr(shell_get_command_line(), "-centered") != 0)
-			{
-				GetWindowRect(window_handle_created, &window_rect);
-				GetClientRect(window_handle_created, &client_rect);
-
-				POINT client_point = { client_rect.left, client_rect.top };
-				ClientToScreen(window_handle_created, &client_point);
-
-				SetWindowPos(
-					window_handle_created,
-					HWND_NOTOPMOST,
-					(GetSystemMetrics(SM_CXSCREEN) - display_width) / 2 - (client_rect.left - window_rect.left),
-					(GetSystemMetrics(SM_CYSCREEN) - display_height) / 2 - (client_rect.top - window_rect.top),
-					0,
-					0,
-					SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOSIZE);
-			}
 
 			if (window_position_set == TRUE)
 			{
