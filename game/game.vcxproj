@@ -666,6 +666,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
     <ClCompile Include="source\simulation\simulation_gamestate_entities.cpp" />
     <ClCompile Include="source\simulation\simulation_queue.cpp" />
+    <ClCompile Include="source\simulation\simulation_queue_events.cpp" />
     <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
     <ClCompile Include="source\simulation\simulation_view.cpp" />
     <ClCompile Include="source\simulation\simulation_watcher.cpp" />
