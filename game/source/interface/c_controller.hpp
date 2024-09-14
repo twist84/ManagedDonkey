@@ -49,7 +49,8 @@ public:
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;
 	c_static_wchar_string<16> m_display_name;
-	byte __data1420[0x18];
+	byte __data1420[0x10];
+	c_static_flags<47> m_achievements;
 	c_player_marketplace* m_marketplace;
 	byte __data143C[0x5];
 	byte vidmaster;
