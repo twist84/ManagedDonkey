@@ -210,7 +210,7 @@ void cinematic_debug_camera_control_update()
 	//	debug_game_speed = 1.0f + (-1.0f * input_state->get_button(_button_action_left_trigger).down_amount());
 	//
 	//if (input_state->get_button(_button_action_right_trigger).down_amount())
-	//	debug_game_speed = 4.0f  * input_state->get_button(_button_action_right_trigger).down_amount();
+	//	debug_game_speed = 4.0f * input_state->get_button(_button_action_right_trigger).down_amount();
 	//
 	//if (input_state->get_button(_button_action_y).down_amount())
 	//{

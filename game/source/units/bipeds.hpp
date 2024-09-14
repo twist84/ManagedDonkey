@@ -68,7 +68,7 @@ struct _biped_datum
 	long __unknown2C0;
 	short __unknown2C4;
 	byte __data2C6[0x1];
-	bool __unknown2C7;
+	char ai_combat_status;
 };
 static_assert(sizeof(_biped_datum) == 0x2C8);
 
