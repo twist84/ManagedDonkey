@@ -8,10 +8,10 @@
 #include "interface/interface_constants.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "shell/shell_windows.hpp"
-#include "user_interface_window_manager.hpp"
 
 #define WIDGET_GET_FIRST_CHILD(WIDGET) (WIDGET)->m_children.__unknown0
 #define WIDGET_GET_NEXT_CHILD(WIDGET) (WIDGET)->m_next.__unknown0
@@ -32,6 +32,15 @@ void __cdecl user_interface_mouse_update()
 	user_interface_mouse_update_internal();
 
 	c_gui_screen_widget* topmost_screen = window_manager_get()->get_topmost_screen(_window_index4);
+	if (!topmost_screen)
+		topmost_screen = window_manager_get()->get_topmost_screen(_window_index0);
+	//if (!topmost_screen)
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index1);
+	//if (!topmost_screen)
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index2);
+	//if (!topmost_screen)
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index3);
+
 	if (topmost_screen && topmost_screen->get_focused_widget())
 	{
 		if (!user_interface_mouse_handle_screen_widget(topmost_screen))
@@ -60,10 +69,10 @@ void user_interface_mouse_update_tracking()
 {
 	static bool cursor_shown = false;
 
-	bool window4_has_count = window_manager_get()->m_current_channel_count[_window_index4].peek() > 0;
-	if (cursor_shown != window4_has_count)
+	bool screen_active = g_window_manager.m_active_screens->actual_count > 0;
+	if (cursor_shown != screen_active)
 	{
-		cursor_shown = window4_has_count;
+		cursor_shown = screen_active;
 		ShowCursor(cursor_shown ? TRUE : FALSE);
 	}
 
@@ -284,13 +293,15 @@ bool user_interface_mouse_handle_list_widgets(c_gui_screen_widget* screen_widget
 	{
 		if (list_widget->m_visible)
 		{
-			if (list_widget->m_type == _gui_widget_type_list)
+			e_gui_widget_type widget_type = list_widget->m_type;
+			switch (widget_type)
 			{
-				return user_interface_mouse_handle_list_widget(screen_widget, list_widget);
-			}
-			else if (list_widget->m_type != _gui_widget_type_list_item)
-			{
-				return user_interface_mouse_handle_list_widgets(screen_widget, list_widget);
+			case _gui_widget_type_list:
+				result = user_interface_mouse_handle_list_widget(screen_widget, list_widget);
+				break;
+			default:
+				result = user_interface_mouse_handle_list_widgets(screen_widget, list_widget);
+				break;
 			}
 		}
 	}
