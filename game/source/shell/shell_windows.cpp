@@ -393,9 +393,9 @@ void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam)
 	case WM_MBUTTONDOWN: HANDLE_MOUSE_BUTTON(type_down, button_middle_click);
 	case WM_MBUTTONUP:   HANDLE_MOUSE_BUTTON(type_up,   button_middle_click);
 	case WM_MOUSEWHEEL:
+		input_globals.raw_mouse_state.wheel_delta += GET_WHEEL_DELTA_WPARAM(wParam);
 		mouse.mouse_type = _mouse_type_wheel;
-		mouse.wheel_delta = GET_WHEEL_DELTA_WPARAM(wParam);
-		input_globals.raw_mouse_state.wheel_delta += mouse.wheel_delta;
+		mouse.wheel_delta = input_globals.raw_mouse_state.wheel_delta;
 		break;
 	case WM_XBUTTONDOWN:
 		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) HANDLE_MOUSE_BUTTON(type_down, button_4);

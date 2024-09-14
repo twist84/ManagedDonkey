@@ -392,7 +392,7 @@ struct mouse_state
 	c_flags<e_mouse_button, byte, k_mouse_button_count> raw_flags;
 	long relative_x;
 	long relative_y;
-	long wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
+	short wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
@@ -449,7 +449,7 @@ struct s_input_globals
 	// sub_511AF0
 	long mouse_relative_x;  // 1
 	long mouse_relative_y;  // 1
-	long mouse_wheel_delta; // 120, WHEEL_DELTA
+	short mouse_wheel_delta; // 120, WHEEL_DELTA
 	long mouse_x_ticks;     // 1
 	long mouse_y_ticks;     // 1
 	long mouse_wheel_ticks; // 1
