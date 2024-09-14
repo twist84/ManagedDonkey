@@ -527,13 +527,21 @@ void __cdecl c_rasterizer::initialize_window()
 		long height = display_height;
 		global_preferences_get_screen_resolution(&width, &height);
 
+		int window_x = 0;
+		int window_y = 0;
+		if (strstr(shell_get_command_line(), "-centered") != 0)
+		{
+			window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+			window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+		}
+
 		HWND window_handle_created = CreateWindowExA(
 			0,
 			g_windows_params.class_name,
 			g_windows_params.window_name,
 			WS_TILEDWINDOW,
-			0,
-			0,
+			window_x,
+			window_y,
 			width,
 			height,
 			GetDesktopWindow(),
@@ -544,14 +552,6 @@ void __cdecl c_rasterizer::initialize_window()
 
 		if (window_handle_created != NULL)
 		{
-			int window_x = 0;
-			int window_y = 0;
-			if (strstr(shell_get_command_line(), "-centered") != 0)
-			{
-				window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-				window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
-			}
-
 			BOOL window_position_set = SetWindowPos(
 				window_handle_created,
 				HWND_NOTOPMOST,
