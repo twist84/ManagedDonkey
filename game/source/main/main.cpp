@@ -1880,6 +1880,21 @@ void __cdecl process_published_game_state(bool a1)
 void __cdecl publish_waiting_gamestate()
 {
 	INVOKE(0x005074D0, publish_waiting_gamestate);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	//if (render_thread_enabled())
+	//{
+	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flags));
+	//	{
+	//		main_time_mark_publishing_start_time();
+	//		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+	//		{
+	//			g_main_gamestate_timing_data->reset();
+	//			main_render_purge_pending_messages();
+	//			main_time_mark_publishing_end_time();
+	//		}
+	//	}
+	//}
 }
 
 bool __cdecl render_thread_enabled()
