@@ -6,6 +6,7 @@
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/interface_constants.hpp"
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_window_manager.hpp"
@@ -119,6 +120,7 @@ void user_interface_mouse_update_internal()
 	user_interface_mouse_globals.right_button_frames_down = input_mouse_frames_down(_mouse_button_right_click, _input_type_ui);
 
 	user_interface_mouse_globals.mouse_wheel_delta = input_globals.raw_mouse_state.wheel_delta;
+	user_interface_mouse_globals.mouse_hwheel_delta = input_globals.raw_mouse_state.hwheel_delta;
 }
 
 void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_rectangle2d* accumulated_bounds, bool(*child_filter)(c_gui_widget const*))
@@ -342,6 +344,12 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 		{
 			long parent_focused_item_index = parent_list_widget->m_focused_item_index;
 			user_interface_mouse_handle_scroll_list_widget(screen_widget, parent_list_widget, user_interface_mouse_globals.mouse_wheel_delta / -input_globals.mouse_wheel_delta);
+
+			if (short hscroll_ammount = user_interface_mouse_globals.mouse_hwheel_delta / -input_globals.mouse_wheel_delta)
+			{
+				int16_point2d point = { .x = hscroll_ammount > 0 ? 0x7FFF : -0x7FFF };
+				event_manager_tab(0, user_interface_mouse_globals.controller_index, &point, user_interface_milliseconds(), _controller_component_any_stick);
+			}
 		}
 	}
 

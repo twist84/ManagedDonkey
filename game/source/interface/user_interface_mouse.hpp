@@ -15,6 +15,7 @@ struct s_user_interface_mouse_globals
 	byte left_button_frames_down;
 	byte right_button_frames_down;
 	short mouse_wheel_delta;
+	short mouse_hwheel_delta;
 	void* last_focused_widget;
 	bool list_item_selected_dirty;
 };
