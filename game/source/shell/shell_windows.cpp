@@ -444,6 +444,7 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			input_globals.raw_mouse_state.relative_x += raw_buf.data.mouse.lLastX;
 			input_globals.raw_mouse_state.relative_y += raw_buf.data.mouse.lLastY;
 			input_globals.raw_mouse_state.wheel_delta += TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_WHEEL) ? raw_buf.data.mouse.usButtonData : 0;
+			input_globals.raw_mouse_state.hwheel_delta += TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_HWHEEL) ? raw_buf.data.mouse.usButtonData : 0;
 
 #define HANDLE_RAW_MOUSE_BUTTON(RAW_BUTTON, BUTTON) \
 { \

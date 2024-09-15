@@ -393,6 +393,7 @@ struct mouse_state
 	long relative_x;
 	long relative_y;
 	short wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
+	short hwheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_HWHEEL) ? usButtonData : 0
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 

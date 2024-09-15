@@ -611,6 +611,7 @@ void __cdecl input_update_mouse(long duration_ms)
 	input_globals.raw_mouse_state.relative_y %= input_globals.mouse_relative_y;
 	input_globals.raw_mouse_state.relative_x %= input_globals.mouse_relative_x;
 	input_globals.raw_mouse_state.wheel_delta %= input_globals.mouse_wheel_delta;
+	input_globals.raw_mouse_state.hwheel_delta %= input_globals.mouse_wheel_delta;
 
 	if (game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow())
 	{
