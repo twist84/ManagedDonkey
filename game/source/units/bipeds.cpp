@@ -5,9 +5,12 @@
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/motor_system.hpp"
 #include "physics/character_physics.hpp"
 #include "render/render_debug.hpp"
 #include "units/bipeds.hpp"
+
+#include <math.h>
 
 HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);
 HOOK_DECLARE(0x00B70DF0, biped_render_debug);
@@ -407,4 +410,53 @@ bool __cdecl biped_update_without_parent(long biped_index)
 //.text:00B72BF0 ; void __cdecl bipeds_initialize(void)
 //.text:00B72C00 ; void __cdecl bipeds_initialize_for_new_map(void)
 
+void biped_update_jetpack(long biped_index)
+{
+	biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	if (cheat.jetpack && biped->unit.player_index != NONE)
+	{
+		if (TEST_BIT(biped->unit.unit_control_flags, 15) || TEST_BIT(biped->unit.unit_control_flags, 1) && biped_in_airborne_state(biped_index))
+		{
+			vector3d linear_velocity{};
+			object_get_velocities(biped_index, &linear_velocity, NULL);
+			if (TEST_BIT(biped->unit.unit_control_flags, 15))
+			{
+				real v7 = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
+				if (v7 < 0.0f)
+					v7 = 0.0f;
+
+				real v8 = fminf(1.0f, fmaxf(v7 * 0.0625f, 0.0f));
+				if (v8 >= 1.0f)
+					v8 = 1.0f;
+
+				real v9 = -v7;
+				linear_velocity.i -= (0.2f * (linear_velocity.i + (v9 * biped->unit.aiming_vector.i)));
+				linear_velocity.j -= (0.2f * (linear_velocity.j + (v9 * biped->unit.aiming_vector.j)));
+				linear_velocity.k -= (0.2f * (linear_velocity.k + (v9 * biped->unit.aiming_vector.k)));
+
+				real v10 = game_tick_length();
+				real v11 = v10 * (9.0f + ((9.0f * v8) - (18.0f * (v8 * v8))));
+				linear_velocity.i += v11 * biped->unit.aiming_vector.i;
+				linear_velocity.j += v11 * biped->unit.aiming_vector.j;
+				linear_velocity.k += v11 * biped->unit.aiming_vector.k;
+
+				c_motor_request motor_request{};
+				motor_request.__unknown4 = 7;
+				motor_request.__unknown8 = 1;
+				motor_request.__unknownC = NONE;
+				motor_system_submit(biped_index, &motor_request);
+			}
+			else
+			{
+				linear_velocity.i *= 0.9f;
+				linear_velocity.j *= 0.9f;
+				linear_velocity.k *= 0.9f;
+				printf("");
+			}
+
+			linear_velocity.k += global_gravity_get() * game_tick_length();
+			object_set_velocities(biped_index, &linear_velocity, NULL);
+		}
+	}
+}
 

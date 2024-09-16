@@ -1,13 +1,16 @@
 #include "game/player_control.hpp"
 
+#include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/mover.hpp"
 #include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
+#include "units/bipeds.hpp"
 
 HOOK_DECLARE_CALL(0x005D1389, evaluate_piecewise_linear_function);
 HOOK_DECLARE_CALL(0x005D13B4, evaluate_piecewise_linear_function);
@@ -183,7 +186,11 @@ void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_in
 	INVOKE(0x005D0C30, player_control_get_aiming_vector, output_user_index, aiming_vector);
 }
 
-//.text:005D0C90 ; void __cdecl player_control_get_controller_input(e_input_user_index, e_controller_index, real, real, s_game_input_state**, s_player_control_input*)
+void __cdecl player_control_get_controller_input(e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+{
+	INVOKE(0x005D0C90, player_control_get_controller_input, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
+}
+
 //.text:005D29E0 ; euler_angles2d const* __cdecl player_control_get_facing_angles(long)
 //.text:005D2A10 ; real __cdecl player_control_get_field_of_view(long)
 //.text:005D2AA0 ; real __cdecl player_control_get_field_of_view_change_time(long)
@@ -425,4 +432,32 @@ void __cdecl player_control_update_player(long player_index, e_input_user_index 
 //.text:005D6250 ; void __cdecl player_control_lock_y_button_until_pressed(long)
 //.text:005D62B0 ; 
 //.text:005D62C0 ; bool __cdecl user_currently_piloting_aircraft(enum e_input_user_index)
+
+void __cdecl player_control_get_controller_input_for_jetpack(e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+{
+	player_control_get_controller_input(input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
+
+	if (cheat.jetpack)
+	{
+		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
+
+		long unit_index = player_control_globals->input_states[controller_index].unit_index;
+		if (biped_datum* biped = (biped_datum*)object_get_and_verify_type(unit_index, _object_mask_biped))
+		{
+			bool v0 = false;
+			if (input_states[controller_index]->get_button(_button_action_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
+			{
+				bool v1 = TEST_BIT(biped->unit.unit_control_flags, 1);
+				real jump_control_ticks = (real)biped->biped.jump_control_ticks;
+				real v2 = (real)game_tick_rate() / 15.0f;
+				bool v3 = v2 > jump_control_ticks;
+				if ((v1 && v3) || TEST_BIT(biped->unit.unit_control_flags, 15))
+					v0 = true;
+			}
+
+			SET_BIT(input->control_flags, 15, v0);
+		}
+	}
+}
+HOOK_DECLARE_CALL(0x005D4C66, player_control_get_controller_input_for_jetpack);
 

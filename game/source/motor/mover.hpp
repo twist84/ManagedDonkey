@@ -18,3 +18,5 @@ struct motor_datum
 };
 static_assert(sizeof(motor_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_motor_datum));
 
+extern long __cdecl mover_get_motor_program(long motor_index);
+

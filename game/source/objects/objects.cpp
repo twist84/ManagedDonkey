@@ -1509,7 +1509,12 @@ void __cdecl object_set_requires_motion(long object_index)
 //.text:00B33EE0 ; 
 //.text:00B33F80 ; void __cdecl object_set_sync_action(long, long, long)
 //.text:00B33FC0 ; void __cdecl object_set_variant_direct(long, long)
-//.text:00B34040 ; void __cdecl object_set_velocities(long, vector3d const*, vector3d const*)
+
+void __cdecl object_set_velocities(long object_index, vector3d const* linear_velocity, vector3d const* angular_velocity)
+{
+	INVOKE(0x00B34040, object_set_velocities, object_index, linear_velocity, angular_velocity);
+}
+
 //.text:00B34130 ; void __cdecl object_set_velocities_direct(long, vector3d const*, vector3d const*)
 //.text:00B341E0 ; void __cdecl object_set_velocities_internal(long, vector3d const*, vector3d const*, bool)
 //.text:00B34280 ; 

@@ -300,6 +300,8 @@ struct s_player_control_globals
 };
 static_assert(sizeof(s_player_control_globals) == 0x8B0);
 
+struct s_game_input_state;
+
 extern e_input_user_index first_input_user();
 extern e_input_user_index next_input_user(e_input_user_index input_user_index);
 extern e_output_user_index first_output_user();
@@ -368,7 +370,7 @@ extern void __cdecl player_control_dispose_from_old_map();
 extern s_player_action_context const* __cdecl player_control_get_action_context(long user_index);
 //extern long __cdecl player_control_get_aiming_unit_index(e_output_user_index);
 extern void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_index, vector3d* aiming_vector);
-//extern void __cdecl player_control_get_controller_input(e_input_user_index, e_controller_index, real, real, s_game_input_state**, s_player_control_input*);
+extern void __cdecl player_control_get_controller_input(e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input);
 //extern euler_angles2d const* __cdecl player_control_get_facing_angles(long);
 //extern real __cdecl player_control_get_field_of_view(long);
 //extern real __cdecl player_control_get_field_of_view_change_time(long);
