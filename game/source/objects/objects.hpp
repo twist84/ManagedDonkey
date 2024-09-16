@@ -571,6 +571,7 @@ extern short __cdecl object_get_markers_by_string_id(long object_index, string_i
 extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);
 extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
+extern long __cdecl object_get_root_object(long object_index);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern long __cdecl object_get_variant_index(long object_index);
 extern void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity);

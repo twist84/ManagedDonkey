@@ -95,6 +95,17 @@ extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base,
 extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity);
 extern void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, vector3d const* a5, vector3d const* desired_facing_vector, vector3d const* desired_gun_offset, real_point3d* camera_position);
+extern bool __cdecl biped_in_airborne_state(long biped_index);
 extern void __cdecl biped_scripting_ragdoll(long biped_index);
 extern void __cdecl biped_render_debug(long biped_index);
+extern bool __cdecl biped_update(long biped_index);
+extern void __cdecl biped_update_camera(long biped_index);
+extern void __cdecl biped_update_keyframed_rigid_bodies(long biped_index);
+extern void __cdecl biped_update_kill_volumes(long biped_index);
+extern void __cdecl biped_update_pendulum(long biped_index);
+extern void __cdecl biped_update_root_matrix_history(long biped_index);
+extern bool __cdecl biped_update_soft_ceilings(long biped_index);
+extern bool __cdecl biped_update_stun(long biped_index);
+extern bool __cdecl biped_update_with_parent(long biped_index, long parent_index);
+extern bool __cdecl biped_update_without_parent(long biped_index);
 

@@ -732,6 +732,11 @@ real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin)
 	return origin;
 }
 
+long __cdecl object_get_root_object(long object_index)
+{
+	return INVOKE(0x00B2E8F0, object_get_root_object, object_index);
+}
+
 long __cdecl object_get_ultimate_parent(long object_index)
 {
 	return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
