@@ -17,7 +17,6 @@ void __cdecl __tls_set_g_main_time_globals_allocator(void* address)
 	//INVOKE(0x00507A30, __tls_set_g_main_time_globals_allocator, address);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
-
 	g_main_time_globals = (s_main_time_globals*)address;
 }
 
@@ -83,6 +82,9 @@ __int64 __cdecl main_time_get_absolute_milliseconds()
 __int64 __cdecl main_time_get_input_collection_time()
 {
 	return INVOKE(0x00507DF0, main_time_get_input_collection_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//return g_main_time_globals->input_collection_time;
 }
 
 long __cdecl main_time_get_native_tick_rate()
@@ -93,21 +95,33 @@ long __cdecl main_time_get_native_tick_rate()
 __int64 __cdecl main_time_get_publishing_end_time()
 {
 	return INVOKE(0x00507E40, main_time_get_publishing_end_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//return g_main_time_globals->publishing_end_time;
 }
 
 __int64 __cdecl main_time_get_publishing_start_time()
 {
 	return INVOKE(0x00507E60, main_time_get_publishing_start_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//return g_main_time_globals->publishing_start_time;
 }
 
 __int64 __cdecl main_time_get_target_display_vblank_index()
 {
 	return INVOKE(0x00507E80, main_time_get_target_display_vblank_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//return g_main_time_globals->target_display_vblank_index;
 }
 
 long __cdecl main_time_get_time_since_input_collection(__int64 a1)
 {
 	return INVOKE(0x00507EA0, main_time_get_time_since_input_collection, a1);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//return a1 - g_main_time_globals->input_collection_time;
 }
 
 long __cdecl main_time_get_vblank_rate()
@@ -118,6 +132,8 @@ long __cdecl main_time_get_vblank_rate()
 void __cdecl main_time_globals_post_copy_update(void* userdata)
 {
 	INVOKE(0x00507EF0, main_time_globals_post_copy_update, userdata);
+
+	//((s_main_time_globals*)userdata)->publishing_end_time = system_milliseconds();
 }
 
 void __cdecl main_time_initialize()
@@ -146,16 +162,25 @@ bool __cdecl main_time_is_throttled()
 void __cdecl main_time_mark_input_collection_time()
 {
 	INVOKE(0x00508030, main_time_mark_input_collection_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//g_main_time_globals->input_collection_time = main_time_get_absolute_milliseconds();
 }
 
 void __cdecl main_time_mark_publishing_end_time()
 {
 	INVOKE(0x00508070, main_time_mark_publishing_end_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//g_main_time_globals->publishing_end_time = main_time_get_absolute_milliseconds();
 }
 
 void __cdecl main_time_mark_publishing_start_time()
 {
 	INVOKE(0x005080B0, main_time_mark_publishing_start_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//g_main_time_globals->publishing_start_time = main_time_get_absolute_milliseconds();
 }
 
 //.text:005080F0 ; void __cdecl sub_5080F0()
