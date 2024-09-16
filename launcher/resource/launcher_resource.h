@@ -1,4 +1,6 @@
 
+//#define DLL_FROM_RESOURCE
+
 #if defined(DLL_FROM_RESOURCE)
 
 #define DLL_RESOURCE_ID 101

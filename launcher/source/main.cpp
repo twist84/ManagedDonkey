@@ -1,10 +1,6 @@
 #include "main.hpp"
 
-#define DLL_FROM_RESOURCE
-
-#if defined(DLL_FROM_RESOURCE)
 #include "launcher_resource.h"
-#endif
 
 #if defined(_DEBUG)
 #if !defined(DLL_FROM_RESOURCE)
@@ -12,7 +8,7 @@
 #endif // DLL_FROM_RESOURCE
 #endif // _DEBUG
 
-#ifdef DEDICATED_SERVER
+#if defined(DEDICATED_SERVER)
 #define REMOTE_CONSOLE_ENABLED
 #endif // DEDICATED_SERVER
 
@@ -42,8 +38,8 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		char* ApplicationName = argv[1];
-		char* DllName = argv[2];
+		ApplicationName = argv[1];
+		DllName = argv[2];
 
 		arg_start_index = 3;
 	}
