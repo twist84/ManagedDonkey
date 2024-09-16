@@ -4,11 +4,7 @@
 #if defined(DLL_FROM_RESOURCE)
 
 #define DLL_RESOURCE_ID 101
-#if defined(_DEBUG)
-#define DLL_RESOURCE_PATH "..\\..\\bin\\Debug\\game.dll"
-#else
-#define DLL_RESOURCE_PATH "..\\..\\bin\\Release\\game.dll"
-#endif // _DEBUG
+#define DLL_RESOURCE_PATH "..\\..\\bin\\game.dll"
 
 enum e_resource_type
 {

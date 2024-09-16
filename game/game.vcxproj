@@ -106,7 +106,8 @@ PUSHD $(LocalDebuggerWorkingDirectory)
 COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
-</Command>
+
+COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,7 +139,8 @@ PUSHD $(LocalDebuggerWorkingDirectory)
 COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
-</Command>
+
+COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
@@ -175,7 +177,8 @@ PUSHD $(LocalDebuggerWorkingDirectory)
 COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
-</Command>
+
+COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
