@@ -23,5 +23,13 @@
     <ClInclude Include="source\main.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource\launcher_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\launcher_resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

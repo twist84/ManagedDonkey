@@ -1,27 +1,56 @@
 #include "main.hpp"
 
+#define DLL_FROM_RESOURCE
+
+#if defined(DLL_FROM_RESOURCE)
+#include "launcher_resource.h"
+#endif
+
 #if defined(_DEBUG)
+#if !defined(DLL_FROM_RESOURCE)
 #define NO_WAIT_FOR_PROCESS
+#endif // DLL_FROM_RESOURCE
 #endif // _DEBUG
 
-#if defined(DEDICATED_SERVER)
+#ifdef DEDICATED_SERVER
 #define REMOTE_CONSOLE_ENABLED
 #endif // DEDICATED_SERVER
 
+char k_app_name[] = "eldorado.exe";
+char k_dll_name[] = "bin\\game.dll";
+
 int main(int argc, char* argv[])
 {
-	if (argc < 3)
+	char* ApplicationName = k_app_name;
+	char* DllName = k_dll_name;
+
+	int arg_start_index = 1;
+
+#if defined(DLL_FROM_RESOURCE)
+	if (!embedded_resource_extract(DLL_RESOURCE_ID, _resource_type_dll, k_dll_name))
+#endif
 	{
-		printf(usage);
-		return 1;
+		if (argc < 3)
+		{
+			printf(usage);
+			return 1;
+		}
+
+		if (!strstr(argv[1], ".exe") || !strstr(argv[2], ".dll"))
+		{
+			printf(usage);
+			return 1;
+		}
+
+		char* ApplicationName = argv[1];
+		char* DllName = argv[2];
+
+		arg_start_index = 3;
 	}
 
-	char* ApplicationName = argv[1];
-	char* DllName = argv[2];
-
-	if (argc > 3)
+	if (argc > arg_start_index)
 	{
-		for (int argi = 3; argi < argc; argi++)
+		for (int argi = arg_start_index; argi < argc; argi++)
 		{
 			strcat_s(CommandLine, argv[argi]);
 
@@ -51,10 +80,15 @@ int main(int argc, char* argv[])
 	if (DetourCreateProcessWithDllA(ApplicationPath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
 		return 5;
 
-#if !defined(REMOTE_CONSOLE_ENABLED)
-#if !defined(NO_WAIT_FOR_PROCESS)
+#ifndef REMOTE_CONSOLE_ENABLED
+#ifndef NO_WAIT_FOR_PROCESS
+	ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
 	WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
-#endif // NO_WAIT_FOR_PROCESS
+
+#if defined(DLL_FROM_RESOURCE)
+	DeleteFileA(k_dll_name);
+#endif // DLL_FROM_RESOURCE
+#endif
 #else
 	// leave enough time for `remote_command_initialize` to be called
 	Sleep(1000);
