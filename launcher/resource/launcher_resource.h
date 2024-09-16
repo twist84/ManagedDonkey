@@ -1,5 +1,5 @@
 
-#define DLL_FROM_RESOURCE
+//#define DLL_FROM_RESOURCE
 
 #if defined(DLL_FROM_RESOURCE)
 
