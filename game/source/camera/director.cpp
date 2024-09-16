@@ -135,6 +135,14 @@ e_director_perspective __cdecl director_get_perspective(e_output_user_index outp
 void __cdecl director_get_position(e_output_user_index output_user_index, real_point3d* position)
 {
 	INVOKE(0x00591A70, director_get_position, output_user_index, position);
+
+	//c_director* director = director_get(output_user_index);
+	//s_observer_command const* observer_command = director->get_last_observer_command();
+	//
+	//real scale = -observer_command->focus_distance;
+	//position->x = observer_command->focus_position.x + (observer_command->forward.i * scale);
+	//position->y = observer_command->focus_position.y + (observer_command->forward.j * scale);
+	//position->z = observer_command->focus_position.z + (observer_command->forward.k * scale);
 }
 
 void __cdecl director_handle_deleted_object(long object_index)
@@ -155,7 +163,7 @@ void __cdecl director_handle_deleted_player(long player_index)
 
 bool __cdecl director_in_scripted_camera()
 {
-	INVOKE(0x00591B80, director_in_scripted_camera);
+	//return INVOKE(0x00591B80, director_in_scripted_camera);
 
 	if (!get_tls())
 		return false;
@@ -172,21 +180,52 @@ bool __cdecl director_in_unit_perspective(e_output_user_index output_user_index)
 bool __cdecl director_inhibited_facing(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00591BE0, director_inhibited_facing, output_user_index);
+
+	//c_director* director = director_get(output_user_index);
+	//return director->inhibits_facing();
 }
 
 bool __cdecl director_inhibited_input(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00591C10, director_inhibited_input, output_user_index);
+
+	//c_director* director = director_get(output_user_index);
+	//return director->inhibits_input();
 }
 
 void __cdecl director_initialize()
 {
 	INVOKE(0x00591C40, director_initialize);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
+	//TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
+	//
+	//director_globals = (s_director_globals*)g_director_globals_allocator.allocate(sizeof(s_director_globals), "director globals");
+	//director_camera_scripted = (bool*)g_director_camera_scripted_allocator.allocate(sizeof(bool), "director scripting");
+	//*director_camera_scripted = false;
+	//scripted_camera_initialize();
 }
 
 void __cdecl director_initialize_for_new_map()
 {
 	INVOKE(0x00591CE0, director_initialize_for_new_map);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
+	//TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
+	//
+	//static bool initialize_from_tags = true;
+	//if (initialize_from_tags)
+	//{
+	//	camera_globals_initialize_from_tags();
+	//	initialize_from_tags = false;
+	//}
+	//
+	//*director_camera_scripted = false;
+	//for (long i = 0; i < 4; i++)
+	//{
+	//	// #TODO: set director
+	//}
+	//director_reset();
 }
 
 void __cdecl director_initialize_for_saved_game(long flags)

@@ -29,7 +29,12 @@ void __cdecl scripted_camera_game_tick()
 //.text:0072D090 ; long __cdecl scripted_camera_get_first_person_camera_object()
 //.text:0072D0E0 ; void __cdecl scripted_camera_get_relative_object_space(long, real_matrix4x3*)
 //.text:0072D130 ; 
-//.text:0072D200 ; void __cdecl scripted_camera_initialize()
+
+void __cdecl scripted_camera_initialize()
+{
+	INVOKE(0x0072D200, scripted_camera_initialize);
+}
+
 //.text:0072D260 ; void __cdecl scripted_camera_initialize_for_animation()
 //.text:0072D290 ; void __cdecl scripted_camera_initialize_for_cinematic_camera()
 //.text:0072D2D0 ; void __cdecl scripted_camera_initialize_for_constant_pan()

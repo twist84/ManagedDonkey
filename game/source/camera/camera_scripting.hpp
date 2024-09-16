@@ -44,4 +44,5 @@ struct s_scripted_camera_globals
 static_assert(sizeof(s_scripted_camera_globals) == 0xF0);
 
 extern void __cdecl scripted_camera_game_tick();
+extern void __cdecl scripted_camera_initialize();
 
