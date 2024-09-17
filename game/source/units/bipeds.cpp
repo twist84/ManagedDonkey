@@ -405,10 +405,24 @@ bool __cdecl biped_update_without_parent(long biped_index)
 }
 
 //.text:00B72B20 ; bool __cdecl biped_verify_surface_reference(short, long, long, long, long)
-//.text:00B72BD0 ; void __cdecl bipeds_dispose(void)
-//.text:00B72BE0 ; void __cdecl bipeds_dispose_from_old_map(void)
-//.text:00B72BF0 ; void __cdecl bipeds_initialize(void)
-//.text:00B72C00 ; void __cdecl bipeds_initialize_for_new_map(void)
+//.text:00B72BD0 ; void __cdecl bipeds_dispose()
+//.text:00B72BE0 ; void __cdecl bipeds_dispose_from_old_map()
+//.text:00B72BF0 ; void __cdecl bipeds_initialize()
+//.text:00B72C00 ; void __cdecl bipeds_initialize_for_new_map()
+//.text:00B72C10 ; 
+//.text:00B72C20 ; 
+//.text:00B72C30 ; 
+//.text:00B72C50 ; 
+//.text:00B72C70 ; 
+//.text:00B72C80 ; 
+//.text:00B72CB0 ; void __cdecl process_all_ik_points(long, long, long, bool, real, c_animation_manager const*, ik_point_iterator*, long, real_matrix4x3*)
+//.text:00B72EC0 ; void __cdecl process_mode_ik(long, long, long, real_matrix4x3*)
+//.text:00B72FD0 ; 
+//.text:00B730E0 ; 
+//.text:00B73110 ; 
+//.text:00B73130 ; 
+//.text:00B73150 ; 
+//.text:00B73180 ; 
 
 void biped_update_jetpack(long biped_index)
 {
