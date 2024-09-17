@@ -281,6 +281,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\objects\object_scripting.cpp" />
     <ClCompile Include="source\objects\reference_lists.cpp" />
     <ClCompile Include="source\objects\scenery.cpp" />
+    <ClCompile Include="source\objects\target_tracking.cpp" />
     <ClCompile Include="source\objects\watch_window.cpp" />
     <ClCompile Include="source\objects\widgets\widgets.cpp" />
     <ClCompile Include="source\physics\breakable_surfaces.cpp" />
