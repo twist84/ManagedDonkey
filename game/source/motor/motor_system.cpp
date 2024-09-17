@@ -70,3 +70,4 @@ void c_motor_request::setup_force_airborne(e_action action)
 
 	__unknown0 = 1;
 }
+
