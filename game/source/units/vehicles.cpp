@@ -11,10 +11,32 @@
 
 HOOK_DECLARE(0x00B76AB0, vehicle_render_debug);
 
+//.text:00B75420 ; public: __cdecl suspension_animation_iterator::suspension_animation_iterator()
+//.text:00B75440 ; 
+//.text:00B75450 ; 
+//.text:00B75460 ; 
+//.text:00B75470 ; 
+//.text:00B75480 ; bool __cdecl object_is_huge_vehicle(long)
+//.text:00B754F0 ; 
+
 bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 {
 	return INVOKE(0x00B75510, vehicle_about_to_detonate_near_any_player, out_vehicle_index);
 }
+
+//.text:00B756E0 ; void __cdecl vehicle_adjust_gravity(long, vector3d*)
+//.text:00B75770 ; bool __cdecl vehicle_auto_control(long)
+//.text:00B757B0 ; 
+//.text:00B757C0 ; bool __cdecl vehicle_calculate_aabb_phantom_bounds(long, real_rectangle3d*)
+//.text:00B75810 ; bool __cdecl vehicle_can_be_teleported(long)
+//.text:00B75860 ; bool __cdecl vehicle_causes_collision_damage(long)
+//.text:00B758B0 ; bool __cdecl vehicle_compute_function_value(long, long, long, real*, bool*, bool*)
+//.text:00B75A90 ; long __cdecl vehicle_count_bipeds_killed(long)
+//.text:00B75AD0 ; void __cdecl vehicle_deplete_function_variables(long)
+//.text:00B75B10 ; void __cdecl vehicle_enable_ghost_effects(bool)
+//.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, dword*)
+//.text:00B75D90 ; bool __cdecl vehicle_get_auto_turret_damage_owner(long, s_damage_owner*)
+//.text:00B75DD0 ; short __cdecl vehicle_get_driver_seat(long, long*)
 
 void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position)
 {
@@ -26,10 +48,28 @@ e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 	return INVOKE(0x00B75EE0, vehicle_get_type, vehicle_index);
 }
 
+//.text:00B75F20 ; long __cdecl vehicle_get_ultimate_parent(long)
+//.text:00B75F70 ; void __cdecl vehicle_handle_deleted_object(long, long)
+//.text:00B75FB0 ; void __cdecl vehicle_handle_tag_change(long)
+//.text:00B75FF0 ; bool __cdecl vehicle_has_fixed_camera_yaw(long)
+//.text:00B76050 ; vehicle_has_gameplay_modifier?
+//.text:00B76100 ; void __cdecl vehicle_hover(long, bool)
+//.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(long, render_model_definition const*, c_animation_channel*, real, real, real, void*)
+//.text:00B76230 ; bool __cdecl vehicle_is_flipped(long)
+//.text:00B76270 ; bool __cdecl vehicle_is_running_trick(long)
+//.text:00B762B0 ; bool __cdecl vehicle_is_stopped(long)
+
 bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 {
 	return INVOKE(0x00B762F0, vehicle_moving_near_any_player, out_vehicle_index);
 }
+
+//.text:00B764D0 ; bool __cdecl vehicle_new(long, object_placement_data*, bool*)
+//.text:00B765E0 ; 
+//.text:00B765F0 ; bool __cdecl vehicle_physics_disabled(long)
+//.text:00B76630 ; void __cdecl vehicle_place(long, s_scenario_vehicle*)
+//.text:00B766F0 ; void __cdecl vehicle_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)
+//.text:00B76720 ; void __cdecl vehicle_process_animation_channels(long, void(__cdecl*)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void*)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
@@ -72,4 +112,17 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 		}
 	}
 }
+
+//.text:00B76AC0 ; void __cdecl vehicle_reset(long)
+//.text:00B76C80 ; void __cdecl vehicle_set_auto_turret(long, long, real, real, real)
+//.text:00B76CC0 ; void __cdecl vehicle_set_auto_turret(long, long, real, real, real, long)
+//.text:00B76D50 ; void __cdecl vehicle_set_auto_turret_damage_owner(long, long)
+//.text:00B76D90 ; bool __cdecl vehicle_should_override_deactivation(long)
+//.text:00B76DD0 ; bool __cdecl vehicle_start_trick(long, e_vehicle_trick_type)
+//.text:00B76E10 ; long __cdecl vehicle_player_occupant(long, long*, bool, bool)
+//.text:00B76EC0 ; bool __cdecl vehicle_update(long)
+//.text:00B770A0 ; void __cdecl vehicles_dispose()
+//.text:00B770B0 ; void __cdecl vehicles_dispose_from_old_map()
+//.text:00B770C0 ; void __cdecl vehicles_initialize()
+//.text:00B770D0 ; void __cdecl vehicles_initialize_for_new_map()
 
