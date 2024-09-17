@@ -72,16 +72,16 @@ struct object_type_definition
 };
 static_assert(sizeof(object_type_definition) == 0xF4);
 
+extern bool debug_objects_player_only;
 extern long debug_object_index;
 extern long debug_objects_type_mask;
-extern bool debug_objects_player_only;
 
-extern object_type_definition* (&object_type_definitions)[k_object_type_count];
+extern object_type_definition*(&object_type_definitions)[k_object_type_count];
 
 extern void __cdecl object_type_adjust_placement(object_placement_data* data);
-
-extern void __cdecl render_debug_objects();
-extern void __cdecl object_type_render_debug(long object_index);
-extern bool __cdecl should_render_debug_object(long object_index);
 extern object_type_definition* __cdecl object_type_definition_get(e_object_type object_type);
+
+extern void render_debug_objects();
+extern void object_type_render_debug(long object_index);
+extern bool should_render_debug_object(long object_index);
 

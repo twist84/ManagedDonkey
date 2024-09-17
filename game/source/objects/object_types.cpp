@@ -1,30 +1,14 @@
 #include "objects/object_types.hpp"
 
 #include "game/players.hpp"
-#include "visibility/visibility_collection.hpp"
+#include "render/render_visibility.hpp"
+#include "render/render_objects_static_lighting.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x01948004, object_type_definition*, object_type_definitions, k_object_type_count);
 
+bool debug_objects_player_only = false;
 long debug_object_index = NONE;
 long debug_objects_type_mask = 0;
-
-bool debug_objects_player_only = false;
-
-void __cdecl render_invisible_objects_iterate(void(*function)(long))
-{
-    ASSERT(function);
-    ASSERT(c_visible_items::get_cluster_starting_index() == 0);
-
-    INVOKE(0x00A7BC50, render_invisible_objects_iterate, function);
-}
-
-long __cdecl render_visible_objects_iterate(void(*function)(long))
-{
-    ASSERT(function);
-    ASSERT(c_visible_items::get_root_objects_starting_index() == 0);
-
-    return INVOKE(0x00A7C130, render_visible_objects_iterate, function);
-}
 
 void __cdecl object_type_adjust_placement(object_placement_data* data)
 {
@@ -37,7 +21,17 @@ void __cdecl object_type_adjust_placement(object_placement_data* data)
 //.text:00B73370 ; bool __cdecl object_type_compute_activation(long, s_game_cluster_bit_vectors const*, bool*)
 //.text:00B733E0 ; bool __cdecl object_type_compute_function_value(long, long, long, real*, bool*, bool*)
 //.text:00B73480 ; void __cdecl object_type_create_children(long)
-//.text:00B734F0 ; object_type_definition* __cdecl object_type_definition_get(e_object_type)
+
+object_type_definition* __cdecl object_type_definition_get(e_object_type object_type)
+{
+    //return INVOKE(0x00B734F0, object_type_definition_get, object_type);
+
+    ASSERT(object_type_definitions[object_type]);
+    ASSERT(object_type_definitions[object_type]->group_tag);
+
+    return object_type_definitions[object_type];
+}
+
 //.text:00B73500 ; void __cdecl object_type_delete(long)
 //.text:00B735A0 ; void __cdecl object_type_detach_from_parent(long)
 //.text:00B73610 ; void __cdecl object_detach_simulation_object_glue(long, long)
@@ -75,7 +69,7 @@ void __cdecl object_type_adjust_placement(object_placement_data* data)
 //.text:00B742B0 ; void __cdecl object_types_initialize()
 //.text:00B74480 ; void __cdecl object_types_initialize_for_new_map()
 
-void __cdecl render_debug_objects()
+void render_debug_objects()
 {
     if (!debug_objects)
         return;
@@ -84,7 +78,7 @@ void __cdecl render_debug_objects()
     render_invisible_objects_iterate(object_type_render_debug);
 }
 
-void __cdecl object_type_render_debug(long object_index)
+void object_type_render_debug(long object_index)
 {
 	if (!should_render_debug_object(object_index))
 		return;
@@ -97,7 +91,6 @@ void __cdecl object_type_render_debug(long object_index)
     if (!definition)
         return;
 
-
     for (long i = 0; definition->type_definitions[i]; i++)
     {
         if (definition->type_definitions[i]->render_debug_proc && (!debug_objects_player_only || player_index_from_unit_index(object_index) != NONE))
@@ -108,12 +101,7 @@ void __cdecl object_type_render_debug(long object_index)
         object_type_render_debug(child_object_index);
 }
 
-bool __cdecl render_object_should_be_visible(long object_index)
-{
-    return INVOKE(0x00A450F0, render_object_should_be_visible, object_index);
-}
-
-bool __cdecl should_render_debug_object(long object_index)
+bool should_render_debug_object(long object_index)
 {
     if (debug_object_index == NONE)
     {
@@ -126,13 +114,5 @@ bool __cdecl should_render_debug_object(long object_index)
     }
 
     return false;
-}
-
-object_type_definition* __cdecl object_type_definition_get(e_object_type object_type)
-{
-    ASSERT(object_type_definitions[object_type]);
-    ASSERT(object_type_definitions[object_type]->group_tag);
-
-    return object_type_definitions[object_type];
 }
 
