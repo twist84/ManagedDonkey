@@ -4,7 +4,8 @@
 
 enum e_action
 {
-	_action_death_ping = 0,
+	_action_none = -1,
+	_action_death_ping,
 	_action_custom_animation,
 	_action_stop_custom_animation,
 	_action_sync_container,

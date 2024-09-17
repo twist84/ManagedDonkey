@@ -441,9 +441,7 @@ void biped_update_jetpack(long biped_index)
 				linear_velocity.k += v11 * biped->unit.aiming_vector.k;
 
 				c_motor_request motor_request{};
-				motor_request.__unknown4 = 7;
-				motor_request.__unknown8 = 1;
-				motor_request.__unknownC = NONE;
+				motor_request.setup_force_airborne(_action_none);
 				motor_system_submit(biped_index, &motor_request);
 			}
 			else
