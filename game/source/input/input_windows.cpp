@@ -6,7 +6,9 @@
 #include "input/input_abstraction.hpp"
 #include "input/input_xinput.hpp"
 #include "main/console.hpp"
+#include "main/global_preferences.hpp"
 #include "memory/module.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "shell/shell_windows.hpp"
 
 //#include <windows.h> // for `key_to_virtual_table`
@@ -529,6 +531,8 @@ void __cdecl input_update()
 		input_update_mouse(duration_ms);
 		input_update_gamepads(duration_ms);
 		input_update_gamepads_rumble();
+
+		input_handle_key_combos();
 	}
 }
 
@@ -688,6 +692,16 @@ void __cdecl update_key(key_state* key, bool key_down, long duration_ms)
 	//	key->__unknown3 = false;
 	//	update_button(&key->frames_down, &key->msec_down, key_down, duration_ms);
 	//}
+}
+
+void input_handle_key_combos()
+{
+	if (input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_enter, _input_type_ui) == 1 ||
+		input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+	{
+		global_preferences_set_fullscreen(!global_preferences_get_fullscreen());
+		rasterizer_reset_device();
+	}
 }
 
 void input_get_raw_data_string(char* buffer, short size)

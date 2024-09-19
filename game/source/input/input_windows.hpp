@@ -532,6 +532,7 @@ extern void __cdecl input_update_gamepads_rumble();
 extern void __cdecl update_button(byte* frames_down, word* msec_down, bool key_down, long duration_ms);
 extern void __cdecl update_key(key_state* key, bool key_down, long duration_ms);
 
+extern void input_handle_key_combos();
 extern void input_get_raw_data_string(char* buffer, short size);
 extern void input_mouse_state_get_raw_data_string(char* buffer, short size);
 
