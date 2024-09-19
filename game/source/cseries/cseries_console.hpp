@@ -7,6 +7,7 @@ class c_console
 public:
 	static void initialize(char const* window_title);
 	static void dispose();
+	static void toggle();
 
 	static void write(char const* format, ...);
 	static void write_line(char const* format, ...);

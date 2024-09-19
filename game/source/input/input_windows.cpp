@@ -702,6 +702,11 @@ void input_handle_key_combos()
 		global_preferences_set_fullscreen(!global_preferences_get_fullscreen());
 		rasterizer_reset_device();
 	}
+
+	if (input_key_frames_down(_key_code_control, _input_type_ui) && input_key_frames_down(_key_code_shift, _input_type_ui) && input_key_frames_down(_key_code_j, _input_type_ui) == 1)
+	{
+		c_console::toggle();
+	}
 }
 
 void input_get_raw_data_string(char* buffer, short size)

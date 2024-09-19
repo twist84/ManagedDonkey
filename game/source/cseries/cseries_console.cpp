@@ -26,7 +26,10 @@ void c_console::initialize(char const* window_title)
 		freopen_s(&m_file, "CONIN$", "r", stdin);
 		freopen_s(&m_file, "CONOUT$", "w", stderr);
 		freopen_s(&m_file, "CONOUT$", "w", stdout);
-#endif // _DEBUG
+
+		toggle();
+
+#endif // CONSOLE_ENABLED
 	}
 }
 
@@ -42,8 +45,16 @@ void c_console::dispose()
 
 		FreeConsole();
 		PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
-#endif // _DEBUG
+#endif // CONSOLE_ENABLED
 	}
+}
+
+void c_console::toggle()
+{
+#if defined(CONSOLE_ENABLED)
+	HWND hwnd = GetConsoleWindow();
+	ShowWindow(hwnd, IsWindowVisible(hwnd) ? SW_HIDE : SW_SHOW);
+#endif // CONSOLE_ENABLED
 }
 
 void c_console::write(char const* format, ...)
@@ -91,7 +102,7 @@ void c_console::write_va(char const* format, va_list list)
 	printf(str.get_string());
 #else
 	OutputDebugStringA(str.get_string());
-#endif // _DEBUG
+#endif // CONSOLE_ENABLED
 }
 
 void c_console::write_line_va(char const* format, va_list list)
@@ -108,7 +119,7 @@ void c_console::write_line_va(char const* format, va_list list)
 	printf(str.get_string());
 #else
 	OutputDebugStringA(str.get_string());
-#endif // _DEBUG
+#endif // CONSOLE_ENABLED
 }
 
 void c_console::write_va(wchar_t const* format, va_list list)
@@ -124,7 +135,7 @@ void c_console::write_va(wchar_t const* format, va_list list)
 	wprintf(str.get_string());
 #else
 	OutputDebugStringW(str.get_string());
-#endif // _DEBUG
+#endif // CONSOLE_ENABLED
 }
 
 void c_console::write_line_va(wchar_t const* format, va_list list)
@@ -141,7 +152,7 @@ void c_console::write_line_va(wchar_t const* format, va_list list)
 	wprintf(str.get_string());
 #else
 	OutputDebugStringW(str.get_string());
-#endif // _DEBUG
+#endif // CONSOLE_ENABLED
 }
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
