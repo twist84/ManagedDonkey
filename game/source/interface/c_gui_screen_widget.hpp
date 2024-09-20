@@ -85,6 +85,7 @@ public:
 	e_window_index get_render_window();
 
 	void add_game_tag_parser(c_game_tag_parser* parser);
+	void transfer_focus(c_gui_widget* widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, long item_index, bool a3, bool a4);
 
 protected:
