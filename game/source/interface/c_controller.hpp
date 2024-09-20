@@ -37,6 +37,7 @@ public:
 		k_controller_state_flags
 	};
 
+	c_player_profile_interface* get_player_profile_interface();
 	bool is_attached() const;
 	bool in_use() const;
 	bool is_signed_in_to_machine() const;

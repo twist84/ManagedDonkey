@@ -4,12 +4,54 @@
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
 
+rgb_color const k_player_colors[]
+{
+	{ .value = 0x6E6E6E }, // Steel
+	{ .value = 0xB9B9B9 }, // Silver
+	{ .value = 0xE3E3E3 }, // White
+	{ .value = 0xA73B3B }, // Red
+	{ .value = 0xE07373 }, // Mauve
+	{ .value = 0xF28D8D }, // Salmon
+	{ .value = 0xDF9600 }, // Orange
+	{ .value = 0xFBB862 }, // Coral
+	{ .value = 0xFFD2A7 }, // Peach
+	{ .value = 0xD4B632 }, // Gold
+	{ .value = 0xF0CD35 }, // Yellow
+	{ .value = 0xFFDF84 }, // Pale
+	{ .value = 0x63801C }, // Sage
+	{ .value = 0x9BB06C }, // Green
+	{ .value = 0xDAF1A9 }, // Olive
+	{ .value = 0x388489 }, // Teal
+	{ .value = 0x55C4C9 }, // Aqua
+	{ .value = 0x9CEFEF }, // Cyan
+	{ .value = 0x3B659E }, // Blue
+	{ .value = 0x6094DF }, // Cobalt
+	{ .value = 0xA3BFF6 }, // Sapphire
+	{ .value = 0x60479B }, // Violet
+	{ .value = 0x9C81E9 }, // Orchid
+	{ .value = 0xD0C4FF }, // Lavender
+	{ .value = 0x900051 }, // Crimson
+	{ .value = 0xD8458F }, // Rubine
+	{ .value = 0xFF96C3 }, // Pink
+	{ .value = 0x5D4016 }, // Brown
+	{ .value = 0xB69679 }, // Tan
+	{ .value = 0xE4C6AC }, // Khaki
+};
+
+c_typed_tag_block<rgb_color> s_game_globals::profile_colors{};
+
 long get_map_minor_version()
 {
 	if (global_scenario)
 		return cache_files_get_header()->minor_version;
 	else
 		return 0xFFFFFFFF;
+}
+
+void s_game_globals::update_static_runtime_data()
+{
+	profile_colors.count = NUMBEROF(k_player_colors);
+	profile_colors.address = (void*)&k_player_colors;
 }
 
 void s_game_globals::update_reference_names()

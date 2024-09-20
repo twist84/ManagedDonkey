@@ -2291,6 +2291,45 @@ enum e_network_file_load_status
 	k_network_file_load_status_count
 };
 
+enum e_player_color_index
+{
+	_player_color_none = -1,
+	_player_color_00,
+	_player_color_01,
+	_player_color_02,
+	_player_color_03,
+	_player_color_04,
+	_player_color_05,
+	_player_color_06,
+	_player_color_07,
+	_player_color_08,
+	_player_color_09,
+	_player_color_10,
+	_player_color_11,
+	_player_color_12,
+	_player_color_13,
+	_player_color_14,
+	_player_color_15,
+	_player_color_16,
+	_player_color_17,
+	_player_color_18,
+	_player_color_19,
+	_player_color_20,
+	_player_color_21,
+	_player_color_22,
+	_player_color_23,
+	_player_color_24,
+	_player_color_25,
+	_player_color_26,
+	_player_color_27,
+	_player_color_28,
+	_player_color_29,
+	_player_color_30,
+	_player_color_31,
+
+	k_number_of_player_colors
+};
+
 //e_network_interface_user_state
 // none
 // local user exists

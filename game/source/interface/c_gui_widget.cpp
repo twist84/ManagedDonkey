@@ -274,6 +274,11 @@ c_gui_text_widget* c_gui_widget::get_child_text_widget(string_id name)
 	return (c_gui_text_widget*)get_child_widget(_gui_widget_type_text, name);
 }
 
+e_controller_index c_gui_widget::get_any_responding_controller() const
+{
+	return DECLFUNC(0x00AB8900, e_controller_index, __thiscall, c_gui_widget const*)(this);
+}
+
 c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type widget_type, string_id name)
 {
 	return DECLFUNC(0x00AB8B00, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type, string_id)(this, widget_type, name);

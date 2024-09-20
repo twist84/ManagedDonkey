@@ -213,6 +213,7 @@ extern bool const print_reference_updates;
 #define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (long i = 0; i < _block.count; i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
 #define UPDATE_STRUCT_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct.update_reference_names(); }
 #define UPDATE_STRUCT_POINTER_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_reference_names(); }
+#define UPDATE_STATIC_RUNTIME_DATA(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_static_runtime_data(); }
 
 long const k_tag_file_name_length = 256;
 

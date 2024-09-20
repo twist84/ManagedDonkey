@@ -37,6 +37,11 @@ bool __cdecl controller_has_centered_crosshair(e_controller_index controller_ind
 	return controller_centered_crosshair;
 }
 
+c_player_profile_interface* c_controller_interface::get_player_profile_interface()
+{
+	return &m_player_profile;
+}
+
 bool c_controller_interface::is_attached() const
 {
 	return m_state_flags.test(_controller_state_flag_attached);

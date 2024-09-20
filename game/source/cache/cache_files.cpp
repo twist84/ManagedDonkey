@@ -1667,6 +1667,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
 	{
+		UPDATE_STATIC_RUNTIME_DATA(game_globals);
 	}
 	break;
 	}

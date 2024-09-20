@@ -6,6 +6,7 @@
 #include "game/game_engine_util.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "game/players.hpp"
+#include "interface/c_controller.hpp"
 #include "main/console.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -193,6 +194,17 @@ void __cdecl hf2p_game_update()
 			s_s3d_player_armor_configuration_loadout& loadout = get_armor_loadout();
 
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
+
+			// #TODO: when we have full control over player profile and player customization maybe update and use this
+			//c_player_profile_interface* player_profile = controller_get(_controller_index0)->get_player_profile_interface();
+			//e_player_color_index primary_change_color = player_profile->get_primary_change_color();
+			//e_player_color_index secondary_change_color = player_profile->get_secondary_change_color();
+			//
+			//if (VALID_INDEX(primary_change_color, k_number_of_player_colors))
+			//	loadout.colors[_color_type_primary] = s_game_globals::profile_colors[primary_change_color];
+			//
+			//if (VALID_INDEX(secondary_change_color, k_number_of_player_colors))
+			//	loadout.colors[_color_type_secondary] = s_game_globals::profile_colors[secondary_change_color];
 
 			for (long color_index = 0; color_index < k_color_type_count; color_index++)
 			{

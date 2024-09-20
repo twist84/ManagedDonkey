@@ -69,6 +69,17 @@ static_assert(sizeof(c_player_profile_insertion_point_flags<32, 9>) == 0x24);
 
 struct c_player_profile_interface
 {
+//private:
+	void __thiscall dirty_or(bool a1);
+
+	e_player_color_index get_primary_change_color() const;
+	e_player_color_index get_secondary_change_color() const;
+
+//public:
+	void __thiscall set_primary_change_color(long player_color_index, bool a2);
+	void __thiscall set_secondary_change_color(long secondary_change_color, bool a2);
+
+//protected:
 	// 0: controller_look_inverted
 	// 1: controller_flight_stick_aircraft_controls
 	// 2: controller_auto_center_look
@@ -160,8 +171,8 @@ struct c_player_profile_interface
 
 	struct // sizeof 0x688
 	{
-		long m_primary_change_color; // STRING_ID(gui, color_armor1)
-		long m_secondary_change_color; // STRING_ID(gui, color_armor2)
+		c_enum<e_player_color_index, long, _player_color_none, k_number_of_player_colors> m_primary_change_color; // STRING_ID(gui, color_armor1)
+		c_enum<e_player_color_index, long, _player_color_none, k_number_of_player_colors> m_secondary_change_color; // STRING_ID(gui, color_armor2)
 
 		long __unknown490;
 		long __unknown494;

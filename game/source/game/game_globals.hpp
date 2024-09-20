@@ -138,6 +138,8 @@ struct s_game_globals
 	c_typed_tag_block<s_game_globals_shield_boost> shield_boost;
 	c_typed_tag_block<s_global_material_definition, 'sort'> materials;
 
+	static c_typed_tag_block<rgb_color> profile_colors;
+
 	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG> multiplayer_globals;
 	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG> survival_mode_globals;
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
@@ -215,6 +217,7 @@ struct s_game_globals
 	};
 	static_assert(sizeof(damage_reporting_type_block) == 0x24);
 
+	void update_static_runtime_data();
 	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals) == 0x608);
