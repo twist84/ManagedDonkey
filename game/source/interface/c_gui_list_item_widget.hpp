@@ -19,6 +19,12 @@ static_assert(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_
 struct c_gui_list_item_widget :
 	public c_gui_widget
 {
+public:
+	long get_list_item_index()
+	{
+		return DECLFUNC(__vftable->__funcs[37], long, __thiscall, c_gui_list_item_widget*)(this);
+	}
+
 //protected:
 	long __unknownDC;
 	s_runtime_list_item_widget_definition m_core_definition;
