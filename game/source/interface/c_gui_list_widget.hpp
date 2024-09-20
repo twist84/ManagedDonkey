@@ -44,6 +44,7 @@ struct c_gui_list_widget :
 {
 public:
 	c_gui_data* get_data();
+	long get_focused_item_index();
 	long get_scroll_position();
 	long get_selectable_item_count();
 	bool set_focused_item_index(long focused_item_index, bool a2);

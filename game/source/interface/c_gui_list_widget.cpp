@@ -10,7 +10,12 @@ c_gui_data* c_gui_list_widget::get_data()
 //.text:00B15020 ; public: virtual long c_gui_list_widget::get_datasource_index()
 //.text:00B15060 ; public: long c_gui_list_widget::get_element_handle_from_list_item_index(long)
 //.text:00B150E0 ; public: long c_gui_list_widget::get_focused_element_handle()
-//.text:00B15160 ; public: long c_gui_list_widget::get_focused_item_index()
+
+long c_gui_list_widget::get_focused_item_index()
+{
+	return DECLFUNC(0x00B15160, long, __thiscall, c_gui_list_widget*)(this);
+}
+
 //.text:00B15170 ; public: long c_gui_list_widget::get_item_count(bool)
 //.text:00B151C0 ; 
 
