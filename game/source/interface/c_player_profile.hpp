@@ -125,7 +125,8 @@ struct c_player_profile_interface
 		dword_flags m_last_primary_skulls;
 		dword_flags m_last_secondary_skulls;
 
-		byte __data270[0x4];
+		short __unknown270;
+		short __unknown272;
 
 		c_static_flags<32> m_player_campaign_progress;
 		c_player_profile_insertion_point_flags<32, 9> m_player_campaign_insertion_progress;
