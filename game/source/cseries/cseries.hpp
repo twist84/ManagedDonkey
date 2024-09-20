@@ -1102,6 +1102,27 @@ public:
 	{
 	}
 
+	t_type get()
+	{
+		return static_cast<t_type>(m_storage);
+	}
+
+	t_type const get() const
+	{
+		return static_cast<t_type>(m_storage);
+	}
+
+	void set_raw_value(t_storage_type raw_value)
+	{
+		m_storage = raw_value;
+	}
+
+	template <class T>
+	operator T () const
+	{
+		return static_cast<T>(m_storage);
+	}
+
 	template<typename T>
 	bool operator==(T value) const
 	{
@@ -1160,22 +1181,6 @@ public:
 	void operator++()
 	{
 		m_storage++;
-	}
-
-	template <class T>
-	operator T () const
-	{
-		return static_cast<T>(m_storage);
-	}
-
-	t_type get()
-	{
-		return static_cast<t_type>(m_storage);
-	}
-
-	t_type const get() const
-	{
-		return static_cast<t_type>(m_storage);
 	}
 
 protected:
