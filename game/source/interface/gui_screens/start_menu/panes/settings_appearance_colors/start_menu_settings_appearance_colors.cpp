@@ -3,9 +3,73 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_list_widget.hpp"
+#include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00AF9C20, c_start_menu_settings_appearance_colors, initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AF9F70, c_start_menu_settings_appearance_colors, set_color_values_from_profile);
+
+bool __cdecl parse_xml_armor1(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return INVOKE(0x00AF9D90, parse_xml_armor1, this_ptr, buffer, buffer_length);
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor1));
+}
+
+bool __cdecl parse_xml_armor2(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return INVOKE(0x00AF9DB0, parse_xml_armor2, this_ptr, buffer, buffer_length);
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor2));
+}
+
+bool __cdecl parse_xml_armor3(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor3));
+
+	return false;
+}
+
+bool __cdecl parse_xml_color(c_gui_screen_widget* screen_widget, wchar_t* buffer, long buffer_length, long name)
+{
+	return INVOKE(0x00AF9DD0, parse_xml_color, screen_widget, buffer, buffer_length, name);
+}
+
+bool __cdecl parse_xml_emblem1(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return INVOKE(0x00AF9EE0, parse_xml_emblem1, this_ptr, buffer, buffer_length);
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem1));
+}
+
+bool __cdecl parse_xml_emblem2(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return INVOKE(0x00AF9F00, parse_xml_emblem2, this_ptr, buffer, buffer_length);
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem2));
+}
+
+bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_length)
+{
+	//return INVOKE(0x00AF9F20, parse_xml_emblem3, this_ptr, buffer, buffer_length);
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem3));
+}
+
+void __thiscall c_start_menu_settings_appearance_colors::initialize_()
+{
+	//DECLFUNC(0x00AF9C20, void, __thiscall, c_start_menu_settings_appearance_colors*)(this);
+
+	DECLFUNC(0x00AB14D0, void, __thiscall, c_gui_screen_widget*)(this);
+	//c_gui_screen_widget::initialize();
+
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor1", this, parse_xml_armor1));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor2", this, parse_xml_armor2));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor3", this, parse_xml_armor3));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem1", this, parse_xml_emblem1));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem2", this, parse_xml_emblem2));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem3", this, parse_xml_emblem3));
+}
 
 void c_start_menu_settings_appearance_colors::set_color_focused_list_item(long name, e_player_color_index player_color_index)
 {
