@@ -7,6 +7,10 @@
 struct c_start_menu_pane_screen_widget :
 	public c_gui_screen_widget
 {
+public:
+	void close_current_subpane();
+
+//protected:
 	byte __data1AA0[0x18];
 	s_service_record_identity m_identity;
 	byte __data2158[0x8];
