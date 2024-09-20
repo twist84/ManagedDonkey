@@ -27,7 +27,11 @@ bool __cdecl parse_xml_armor3(void* this_ptr, wchar_t* buffer, long buffer_lengt
 {
 	//return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor3));
 
-	return false;
+	long color_armor3 = string_id_retrieve("color_armor3");
+	if (color_armor3 == _string_id_invalid)
+		return false;
+
+	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, color_armor3);
 }
 
 bool __cdecl parse_xml_color(c_gui_screen_widget* screen_widget, wchar_t* buffer, long buffer_length, long name)
