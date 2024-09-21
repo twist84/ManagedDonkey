@@ -36,31 +36,41 @@ struct s_player_identifier
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
+enum e_emblem_info_flags
+{
+	_emblem_info_bit0 = 0,
+	_emblem_info_bit1,
+	_emblem_info_bit2,
+
+	k_emblem_info_flags
+};
+
 struct s_emblem_info
 {
-	struct
+	s_emblem_info() :
+		foreground_emblem(),
+		background_emblem(),
+		emblem_flags(),
+		emblem_primary_color(),
+		emblem_secondary_color(),
+		emblem_background_color(),
+		pad(0),
+		__pad8({})
 	{
-		struct
-		{
-			word __unknown0;
-			word __unknown2;
-			word __unknown4;
-			word __unknown6;
-			word __unknown8;
-			word __unknownA;
-			word __unknownC;
-			byte __unknownE;
-			byte __unknownF;
-		} __unknown0[50];
+	}
+	
+	void __thiscall decode(c_bitstream* packet);
+	void __thiscall encode(c_bitstream* packet);
 
-		long __unknown0_count;
-	} __unknown0[2];
+	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> foreground_emblem;
+	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> background_emblem;
+	c_flags<e_emblem_info_flags, byte, k_emblem_info_flags> emblem_flags;
+	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_primary_color;
+	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_secondary_color;
+	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_background_color;
+	word pad;
 
-	// checksums calculated with `fast_checksum` 
-	// `fast_checksum` is a wrapper around the `hashlittle` as part of `lookup3`
-	// lookup3.c, by Bob Jenkins, May 2006, Public Domain.
-	// https://burtleburtle.net/bob/c/lookup3.c
-	dword __unknown0_checksums[2];
+	byte __pad8[0x648];
 };
 static_assert(sizeof(s_emblem_info) == 0x650);
 
@@ -79,8 +89,12 @@ struct s_player_appearance
 	byte_flags flags;
 	byte player_model_choice;
 
+	byte __pad2[0x2];
+
 	s_emblem_info emblem_info;
 	c_static_wchar_string<5> service_tag;
+
+	byte __pad65E[0x2];
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 

@@ -6,6 +6,7 @@
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/interface_constants.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
@@ -17,6 +18,8 @@
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
+HOOK_DECLARE_CLASS_MEMBER(0x00B26390, s_emblem_info, decode);
+HOOK_DECLARE_CLASS_MEMBER(0x00B267B0, s_emblem_info, encode);
 
 bool debug_player_network_aiming = false;
 bool debug_objects_biped_melee_in_range = false;
@@ -793,6 +796,26 @@ void __cdecl players_verify()
 //.text:00544440 ; void __cdecl players_zone_set_switch_trigger_clear()
 //.text:00544610 ; 
 //.text:00544680 ; 
+
+void s_emblem_info::decode(c_bitstream* packet)
+{
+	foreground_emblem = (char)packet->read_integer("foreground-emblem", 6);
+	background_emblem = (char)packet->read_integer("background-emblem", 6);
+	emblem_flags.set_unsafe((byte)packet->read_integer("emblem-flags", 3));
+	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-primary-color", 6));
+	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-secondary-color", 6));
+	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-background-color", 6));
+}
+
+void s_emblem_info::encode(c_bitstream* packet)
+{
+	packet->write_integer("foreground-emblem", foreground_emblem, 6);
+	packet->write_integer("background-emblem", background_emblem, 6);
+	packet->write_integer("emblem-flags", emblem_flags.get_unsafe(), 3);
+	packet->write_integer("emblem-primary-color", emblem_primary_color, 6);
+	packet->write_integer("emblem-secondary-color", emblem_primary_color, 6);
+	packet->write_integer("emblem-background-color", emblem_primary_color, 6);
+}
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
