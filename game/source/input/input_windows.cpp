@@ -705,7 +705,7 @@ void input_handle_key_combos()
 
 	if (input_key_frames_down(_key_code_control, _input_type_ui) && input_key_frames_down(_key_code_shift, _input_type_ui) && input_key_frames_down(_key_code_j, _input_type_ui) == 1)
 	{
-		c_console::toggle();
+		c_console::toggle_window_visibility();
 	}
 }
 

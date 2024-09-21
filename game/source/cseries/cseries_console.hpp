@@ -7,8 +7,12 @@ class c_console
 public:
 	static void initialize(char const* window_title);
 	static void dispose();
-	static void toggle();
+	static void toggle_window_visibility();
 
+private:
+	static bool console_allocated();
+
+public:
 	static void write(char const* format, ...);
 	static void write_line(char const* format, ...);
 	static void write(wchar_t const* format, ...);

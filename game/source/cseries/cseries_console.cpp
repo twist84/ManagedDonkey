@@ -5,10 +5,6 @@
 
 #include <windows.h>
 
-#if defined(_DEBUG) || defined(DEDICATED_SERVER)
-#define CONSOLE_ENABLED
-#endif // _DEBUG, DEDICATED_SERVER
-
 FILE* c_console::m_file = NULL;
 bool c_console::m_initialized = false;
 
@@ -18,7 +14,6 @@ void c_console::initialize(char const* window_title)
 	{
 		m_initialized = true;
 
-#if defined(CONSOLE_ENABLED)
 		AllocConsole();
 		AttachConsole(GetCurrentProcessId());
 		SetConsoleTitleA(window_title);
@@ -27,9 +22,9 @@ void c_console::initialize(char const* window_title)
 		freopen_s(&m_file, "CONOUT$", "w", stderr);
 		freopen_s(&m_file, "CONOUT$", "w", stdout);
 
-		toggle();
-
-#endif // CONSOLE_ENABLED
+#if !defined(_DEBUG) && !defined(DEDICATED_SERVER)
+		toggle_window_visibility();
+#endif
 	}
 }
 
@@ -39,22 +34,23 @@ void c_console::dispose()
 	{
 		m_initialized = false;
 
-#if defined(CONSOLE_ENABLED)
 		if (m_file)
 			fclose(m_file);
 
 		FreeConsole();
 		PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
-#endif // CONSOLE_ENABLED
 	}
 }
 
-void c_console::toggle()
+void c_console::toggle_window_visibility()
 {
-#if defined(CONSOLE_ENABLED)
 	HWND hwnd = GetConsoleWindow();
 	ShowWindow(hwnd, IsWindowVisible(hwnd) ? SW_HIDE : SW_SHOW);
-#endif // CONSOLE_ENABLED
+}
+
+bool c_console::console_allocated()
+{
+	return GetConsoleWindow() != NULL;
 }
 
 void c_console::write(char const* format, ...)
@@ -98,11 +94,10 @@ void c_console::write_va(char const* format, va_list list)
 
 	str.print_va(format, list);
 
-#if defined(CONSOLE_ENABLED)
-	printf(str.get_string());
-#else
-	OutputDebugStringA(str.get_string());
-#endif // CONSOLE_ENABLED
+	if (console_allocated())
+		printf(str.get_string());
+	else
+		OutputDebugStringA(str.get_string());
 }
 
 void c_console::write_line_va(char const* format, va_list list)
@@ -115,11 +110,10 @@ void c_console::write_line_va(char const* format, va_list list)
 	str.print_va(format, list);
 	str.append("\n");
 
-#if defined(CONSOLE_ENABLED)
-	printf(str.get_string());
-#else
-	OutputDebugStringA(str.get_string());
-#endif // CONSOLE_ENABLED
+	if (console_allocated())
+		printf(str.get_string());
+	else
+		OutputDebugStringA(str.get_string());
 }
 
 void c_console::write_va(wchar_t const* format, va_list list)
@@ -131,11 +125,10 @@ void c_console::write_va(wchar_t const* format, va_list list)
 
 	str.print_va(format, list);
 
-#if defined(CONSOLE_ENABLED)
-	wprintf(str.get_string());
-#else
-	OutputDebugStringW(str.get_string());
-#endif // CONSOLE_ENABLED
+	if (console_allocated())
+		wprintf(str.get_string());
+	else
+		OutputDebugStringW(str.get_string());
 }
 
 void c_console::write_line_va(wchar_t const* format, va_list list)
@@ -148,11 +141,10 @@ void c_console::write_line_va(wchar_t const* format, va_list list)
 	str.print_va(format, list);
 	str.append(L"\n");
 
-#if defined(CONSOLE_ENABLED)
-	wprintf(str.get_string());
-#else
-	OutputDebugStringW(str.get_string());
-#endif // CONSOLE_ENABLED
+	if (console_allocated())
+		wprintf(str.get_string());
+	else
+		OutputDebugStringW(str.get_string());
 }
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
