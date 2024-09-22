@@ -45,6 +45,23 @@ void __cdecl async_idle()
 void __cdecl async_initialize()
 {
 	INVOKE(0x00508520, async_initialize);
+
+	//sub_5AD600();
+	//csmemset(async_globals.task_list, 0, sizeof(async_globals.task_list));
+	//for (long i = 0; i < NUMBEROF(async_globals.task_list) - 1; i++)
+	//{
+	//	s_async_queue_element* task = &async_globals.task_list[i];
+	//	s_async_queue_element* next_task = &async_globals.task_list[i + 1];
+	//	task->next = next_task;
+	//	next_task->task_id = NONE;
+	//}
+	//async_globals.task_list[NUMBEROF(async_globals.task_list) - 1].next = NULL;
+	//async_globals.free_list = async_globals.task_list;
+	//async_globals.work_list = NULL;
+	//async_task_buffer_initialize();
+	//start_thread(k_thread_async_io);
+	//if (shell_application_type())
+	//	thread_set_priority(k_thread_async_io, _thread_priority_above_normal);
 }
 
 dword __cdecl async_main(void* thread_params)
