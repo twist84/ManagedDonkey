@@ -1,12 +1,102 @@
 #include "motor/motor_system_biped.hpp"
 
+#include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
+#include "game/cheats.hpp"
+#include "game/game.hpp"
+#include "memory/module.hpp"
+#include "objects/objects.hpp"
+#include "scenario/scenario.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
+#include "units/biped_definitions.hpp"
+#include "units/bipeds.hpp"
+
+HOOK_DECLARE(0x00BAE400, biped_falling_damage);
+
 //.text:00BAD3B0 ; void __cdecl biped_adjust_aiming(long, euler_angles2d*, real*, real*)
 //.text:00BADC30 ; void __cdecl biped_build_axes_from_desired_facing(vector3d const*, vector3d const*, vector3d const*, vector3d*)
 //.text:00BAE000 ; double __cdecl biped_calculate_crouch_delta(long)
-//.text:00BAE130 ; bool __cdecl biped_calculate_crouch_velocity_delta(long, real*)
+
+bool __cdecl biped_calculate_crouch_velocity_delta(long biped_index, real* crouch_velocity_delta)
+{
+	return INVOKE(0x00BAE130, biped_calculate_crouch_velocity_delta, biped_index, crouch_velocity_delta);
+}
+
 //.text:00BAE1F0 ; bool __cdecl biped_can_melee_target_unit(long, long)
 //.text:00BAE380 ; void __cdecl biped_clear_pathfinding_cache(long)
-//.text:00BAE400 ; void __cdecl biped_falling_damage(long)
+
+void __cdecl biped_falling_damage(long biped_index)
+{
+	//INVOKE(0x00BAE400, biped_falling_damage, biped_index);
+
+	biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	struct biped_definition* biped_definition = (struct biped_definition*)tag_get(BIPED_TAG, biped->definition_index);
+
+	void* motor_state = object_header_block_get(biped_index, &biped->motor.motor_state);
+	REFERENCE_DECLARE(offset_pointer(motor_state, 4), byte_flags, motor_state_flags);
+
+	s_game_globals_falling_damage& falling_damage = scenario_get_game_globals()->falling_damage[0];
+
+	bool v7 = 
+		TEST_BIT(biped->unit.flags, 8) ||
+		biped_definition->biped.flags.test(_biped_definition_flags_immune_to_falling_damage) || 
+		TEST_BIT(biped->object.damage_flags, 8);
+
+	real gravity_scale = biped_definition->biped.physics.ground_physics.gravity_scale;
+	if (gravity_scale <= 0.0f)
+		gravity_scale = 1.0f;
+
+	if (!game_is_multiplayer() && biped->object.parent_object_index == NONE)
+	{
+		vector3d linear_velocity{};
+		object_get_velocities(biped_index, &linear_velocity, NULL);
+
+		real k = linear_velocity.k;
+		real crouch_velocity_delta = 0.0f;
+		if (TEST_BIT(motor_state_flags, 0) && biped_calculate_crouch_velocity_delta(biped_index, &crouch_velocity_delta))
+			k -= crouch_velocity_delta;
+
+		vector3d linear_local_space_velocity{};
+		vector3d angular_local_space_velocity{};
+		if (object_get_early_mover_local_space_velocity(biped_index, &linear_local_space_velocity, &angular_local_space_velocity, false, false))
+			k -= linear_local_space_velocity.k;
+
+		ASSERT(!game_is_predicted());
+
+		if ((!cheat.jetpack /*&& !game_skull_is_active(45)*/ || biped->unit.player_index == NONE) &&
+			biped->biped.physics.get_mode() == c_character_physics_component::e_mode::_mode_ground &&
+			-(falling_damage.runtime_maximum_falling_velocity * gravity_scale) > k)
+		{
+			if (!v7 && !TEST_BIT(biped->object.damage_flags, 2))
+			{
+				SET_BIT(biped->biped.flags, 5, true);
+				s_damage_data damage_data{};
+				damage_data.material_type = c_global_material_type();
+				damage_data_new(&damage_data, falling_damage.distance_damage.index);
+				SET_BIT(damage_data.flags, 2, true);
+				damage_data.damage_reporting_info.type = _damage_reporting_type_falling_damage;
+				damage_compute_damage_owner_from_object_index(biped_index, &damage_data.damage_owner);
+				object_cause_damage_simple(&damage_data, biped_index, 5);
+			}
+
+			if (!game_is_multiplayer() &&
+				biped->object.flags.test(_object_outside_of_map_bit) &&
+				biped->unit.player_index == NONE &&
+				!simulation_query_object_is_predicted(biped_index))
+			{
+				char const* object_description = "";// object_describe(biped_index);
+				generate_event(_event_level_warning, "WARNING: %s reached terminal velocity outside world (%f %f %f) and was erased",
+					object_description,
+					biped->object.position.x,
+					biped->object.position.y,
+					biped->object.position.z);
+
+				object_delete(biped_index);
+			}
+		}
+	}
+}
+
 //.text:00BAE600 ; void __cdecl biped_get_control_vectors(long, bool, vector3d*, vector3d*, vector3d*)
 //.text:00BAE8D0 ; double __cdecl biped_get_player_specific_scale(long)
 //.text:00BAE9D0 ; void __cdecl biped_ground_plane_fix_transform_from_physics(long, real_matrix4x3*)

@@ -151,14 +151,16 @@ extern long global_debug_damage_object_index;
 
 struct s_model_damage_info;
 
-extern void render_debug_object_damage();
-
 extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
 extern void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration);
 extern void __cdecl damage_acceleration_queue_begin();
 extern void __cdecl damage_acceleration_queue_end();
+extern void __cdecl damage_data_new(s_damage_data* damage_data, long definition_index);
 extern void __cdecl damage_initialize_for_new_map();
 extern void __cdecl damage_update();
 extern void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability);
+extern void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, long predictability);
 extern s_model_damage_info const* __cdecl object_get_damage_info(long object_index);
+
+extern void render_debug_object_damage();
 

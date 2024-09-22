@@ -27,6 +27,107 @@ bool debug_player_damage = false;
 bool debug_damage = false;
 long global_debug_damage_object_index = NONE;
 
+//real __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
+real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
+{
+	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
+
+	if (cheat.jetpack && TEST_MASK(FLAG(object_get_type(object_index)), _object_mask_biped))
+	{
+		if (damage_data->damage_reporting_info.type == _damage_reporting_type_generic_collision_damage)
+			result = 0.0f;
+	}
+
+	if (cheat.chevy && TEST_MASK(FLAG(object_get_type(object_index)), _object_mask_vehicle))
+		result = 0.0f;
+
+	return result;
+};
+
+void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration)
+{
+	INVOKE(0x00B4FD70, damage_acceleration_apply, damage_acceleration);
+}
+
+void __cdecl damage_acceleration_queue_begin()
+{
+	//INVOKE(0x00B50120, damage_acceleration_queue_begin);
+
+	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
+
+	damage_globals->damage_acceleration_queue_active = true;
+}
+
+void __cdecl damage_acceleration_queue_end()
+{
+	//INVOKE(0x00B50140, damage_acceleration_queue_end);
+
+	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
+
+	for (long i = 0; i < damage_globals->damage_acceleration_count; i++)
+	{
+		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[i];
+		if (damage_acceleration.object_index != NONE)
+			damage_acceleration_apply(&damage_acceleration);
+	}
+
+	damage_globals->damage_acceleration_count = 0;
+	damage_globals->damage_accelerations_evictable.clear();
+	damage_globals->damage_acceleration_queue_active = false;
+}
+
+void __cdecl damage_data_new(s_damage_data* damage_data, long definition_index)
+{
+	INVOKE(0x00B50330, damage_data_new, damage_data, definition_index);
+}
+
+void __cdecl damage_initialize_for_new_map()
+{
+	//INVOKE(0x00B50720, damage_initialize_for_new_map);
+
+	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
+
+	debug_damage_this_event = false;
+	global_debug_damage_object_index = NONE;
+	csmemset(damage_globals, 0, sizeof(s_damage_globals));
+}
+
+void __cdecl damage_update() // nullsub
+{
+	//INVOKE(0x00B51F70, damage_update);
+}
+
+void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability)
+{
+	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
+
+	if (debug_damage_this_event = damage_data->damage_owner.player_index != NONE)
+	{
+		global_debug_damage_object_index = object_index;
+		if (debug_damage_verbose)
+		{
+			object_datum* object = object_get(object_index);
+			generate_event(_event_level_warning, "damaging '%s' 0x%08lx with '%s'",
+				tag_name_strip_path(tag_get_name(object->definition_index)),
+				object_index,
+				tag_name_strip_path(tag_get_name(damage_data->damage_effect_definition_index)));
+		}
+	}
+
+	HOOK_INVOKE(, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
+}
+
+//void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, e_predictability predictability)
+void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, long predictability)
+{
+	INVOKE(0x00B542A0, object_cause_damage_simple, damage_data, object_index, predictability);
+}
+
+s_model_damage_info const* __cdecl object_get_damage_info(long object_index)
+{
+	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
+}
+
 void render_debug_object_damage()
 {
 	if (debug_damage_radius)
@@ -114,95 +215,5 @@ void render_debug_object_damage()
 			}
 		}
 	}
-}
-
-//real __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
-real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
-{
-	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
-
-	if (cheat.jetpack && TEST_MASK(FLAG(object_get_type(object_index)), _object_mask_biped))
-	{
-		if (damage_data->damage_reporting_info.type == _damage_reporting_type_falling_damage || damage_data->damage_reporting_info.type == _damage_reporting_type_generic_collision_damage)
-			result = 0.0f;
-	}
-
-	if (cheat.chevy && TEST_MASK(FLAG(object_get_type(object_index)), _object_mask_vehicle))
-		result = 0.0f;
-
-	return result;
-};
-
-void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration)
-{
-	INVOKE(0x00B4FD70, damage_acceleration_apply, damage_acceleration);
-}
-
-void __cdecl damage_acceleration_queue_begin()
-{
-	//INVOKE(0x00B50120, damage_acceleration_queue_begin);
-
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
-
-	damage_globals->damage_acceleration_queue_active = true;
-}
-
-void __cdecl damage_acceleration_queue_end()
-{
-	//INVOKE(0x00B50140, damage_acceleration_queue_end);
-
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
-
-	for (long i = 0; i < damage_globals->damage_acceleration_count; i++)
-	{
-		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[i];
-		if (damage_acceleration.object_index != NONE)
-			damage_acceleration_apply(&damage_acceleration);
-	}
-
-	damage_globals->damage_acceleration_count = 0;
-	damage_globals->damage_accelerations_evictable.clear();
-	damage_globals->damage_acceleration_queue_active = false;
-}
-
-void __cdecl damage_initialize_for_new_map()
-{
-	//INVOKE(0x00B50720, damage_initialize_for_new_map);
-
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
-
-	debug_damage_this_event = false;
-	global_debug_damage_object_index = NONE;
-	csmemset(damage_globals, 0, sizeof(s_damage_globals));
-}
-
-void __cdecl damage_update() // nullsub
-{
-	//INVOKE(0x00B51F70, damage_update);
-}
-
-void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability)
-{
-	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
-
-	if (debug_damage_this_event = damage_data->damage_owner.player_index != NONE)
-	{
-		global_debug_damage_object_index = object_index;
-		if (debug_damage_verbose)
-		{
-			object_datum* object = object_get(object_index);
-			generate_event(_event_level_warning, "damaging '%s' 0x%08lx with '%s'",
-				tag_name_strip_path(tag_get_name(object->definition_index)),
-				object_index,
-				tag_name_strip_path(tag_get_name(damage_data->damage_effect_definition_index)));
-		}
-	}
-
-	HOOK_INVOKE(, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
-}
-
-s_model_damage_info const* __cdecl object_get_damage_info(long object_index)
-{
-	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
 }
 
