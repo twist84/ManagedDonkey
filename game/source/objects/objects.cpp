@@ -100,7 +100,7 @@ object_header_datum* __cdecl object_header_get_mutable(long object_index)
 
 object_datum* __cdecl object_get(long object_index)
 {
-	return (object_datum*)object_get_and_verify_type(object_index, 0xFFFFFFFF);
+	return (object_datum*)object_get_and_verify_type(object_index, _object_mask_object);
 }
 
 void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask)
@@ -465,6 +465,7 @@ void __cdecl object_adjust_garbage_timer(long object_index, long time)
 {
 	INVOKE(0x00B29500, object_adjust_garbage_timer, object_index, time);
 }
+
 //.text:00B29540 ; 
 //.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(long, vector3d const*, vector3d const*)
 //.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
@@ -727,10 +728,10 @@ void __cdecl object_get_orientation(long object_index, vector3d* forward, vector
 
 real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin)
 {
-	if (object_datum* object = object_get(object_index))
-		return INVOKE(0x00B2E5A0, object_get_origin, object_index, origin);
+	if (!object_get(object_index))
+		return origin;
 
-	return origin;
+	return INVOKE(0x00B2E5A0, object_get_origin, object_index, origin);
 }
 
 long __cdecl object_get_root_object(long object_index)
@@ -1797,7 +1798,7 @@ void __cdecl objects_update()
 	//				object_header->flags.test(_object_header_awake_bit) &&
 	//				!object_header->flags.test(_object_header_post_update_bit))
 	//			{
-	//				object_datum* object = (object_datum*)object_get_and_verify_type(object_header_iter.get_index(), NONE);
+	//				object_datum* object = object_get(object_header_iter.get_index());
 	//				ASSERT(object->object.parent_object_index == NONE);
 	//				ASSERT(object->object.next_object_index == NONE);
 	//

@@ -45,7 +45,7 @@ s_watch_object_results& __cdecl watch_object(long object_index)
 	{
 		watch_object_describe(object_index);
 		watch_object_results.object_information = watch_object_description;
-		watch_object_results.object = (object_datum*)object_try_and_get_and_verify_type(object_index, _object_mask_object);
+		watch_object_results.object = object_get(object_index);
 	}
 	return watch_object_results;
 }
@@ -65,7 +65,7 @@ char const* __cdecl watch_object_describe_internal(long object_index, char* buff
 {
 	//INVOKE(0x0068C810, watch_object_describe_internal, object_index, buffer, buffer_size);
 
-	if (object_datum* object = (object_datum*)object_try_and_get_and_verify_type(object_index, _object_mask_object))
+	if (object_datum* object = object_get(object_index))
 	{
 		char object_name[128]{};
 		csstrnzcpy(object_name, " ", sizeof(object_name));
