@@ -54,7 +54,7 @@ bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type b
 		hs_compile_globals.error_offset = expression->source_offset;
 		return false;
 	}
-	
+
 	if (object_name.scenario_datum_index == NONE)
 	{
 		hs_compile_globals.error_message = "this object no longer exists in the scenario.";
@@ -377,7 +377,7 @@ bool hs_parse_ai(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	
+
 	bool valid = false;
 	if (!HS_TYPE_IS_OBJECT(expression->type))
 	{
@@ -388,7 +388,7 @@ bool hs_parse_ai(long expression_index)
 	{
 		valid = true;
 	}
-	
+
 	bool ai_index_from_string_result = false;
 	if (global_scenario_index_get() != NONE)
 	{
@@ -400,13 +400,13 @@ bool hs_parse_ai(long expression_index)
 				expression->constant_type = _hs_type_ai;
 		}
 	}
-	
+
 	if (!ai_index_from_string_result && !valid)
 	{
 		hs_compile_globals.error_message = "this is not a valid ai squad or squad group";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
-	
+
 	return ai_index_from_string_result;
 }
 
@@ -564,13 +564,13 @@ bool hs_parse_point_ref(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	
+
 	bool valid = false;
 	if (global_scenario_index_get() != NONE)
 	{
 		ASSERT(hs_syntax_get(expression_index)->type == _hs_type_point_ref);
 		ASSERT(expression->constant_type == expression->type);
-	
+
 		if (char* v7 = strrchr(source_offset, '/'))
 		{
 			char name[k_tag_string_length]{};
@@ -602,13 +602,13 @@ bool hs_parse_point_ref(long expression_index)
 			}
 		}
 	}
-	
+
 	if (!valid)
 	{
 		hs_compile_globals.error_message = "this is not a valid point reference";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
-	
+
 	return valid;
 }
 
@@ -1013,9 +1013,9 @@ bool hs_parse_variable(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	
+
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
-	
+
 	bool valid = false;
 	short type = NONE;
 	bool v9 = false;
@@ -1026,12 +1026,12 @@ bool hs_parse_variable(long expression_index)
 		{
 			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
 			type = script.parameters[expression->short_value].return_type.get();
-	
+
 			v9 = true;
 			valid = true;
 		}
 	}
-	
+
 	if (!valid && (!hs_compile_globals.variables_predetermined
 		|| expression->type.get() == NONE
 		|| expression->short_value == NONE
@@ -1044,10 +1044,10 @@ bool hs_parse_variable(long expression_index)
 			valid = true;
 		}
 	}
-	
+
 	if (!valid)
 		return false;
-	
+
 	ASSERT(type != NONE);
 	if (expression->type.get() && !hs_can_cast(type, expression->type))
 	{
@@ -1056,38 +1056,38 @@ bool hs_parse_variable(long expression_index)
 			hs_type_names[expression->type.get()],
 			hs_global_get_name(expression->short_value),
 			hs_type_names[type]);
-	
+
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
-	
+
 		return false;
 	}
 	else
 	{
 		if (!expression->type)
 			expression->type = type;
-	
+
 		expression->flags.set(_hs_syntax_node_variable_bit, true);
-	
+
 		if (v9)
 			expression->flags.set(_hs_syntax_node_unknown_bit4, true);
 		else
 			hs_compile_add_reference(expression->long_value, _reference_type_global, expression_index);
-	
+
 		return true;
 	}
-	
+
 	if (!hs_compile_globals.variables_predetermined)
 		return false;
-	
+
 	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
 	{
 		hs_compile_globals.error_message = "this is not a valid variable name.";
 		hs_compile_globals.error_offset = expression->source_offset;
-	
+
 		return false;
 	}
-	
+
 	return true;
 }
 
