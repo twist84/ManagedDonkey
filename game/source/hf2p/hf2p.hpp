@@ -68,8 +68,6 @@ struct c_service_client
 	long m_content_length;
 };
 
-extern bool& g_hf2p_first_run;
-extern c_service_client*& g_service_client;
 extern long& mainmenu_spartan_unit_index;
 extern long& mainmenu_elite_unit_index;
 
@@ -84,6 +82,20 @@ extern void __cdecl hf2p_dispose_from_old_map();
 extern void __cdecl hf2p_game_update();
 extern void __cdecl hf2p_idle();
 extern void __cdecl hf2p_render();
+extern void __cdecl hf2p_bot_client_initialize();
+extern void __cdecl hf2p_dedicated_server_initialize();
+extern void __cdecl hf2p_client_initialize();
+extern void __cdecl hf2p_security_initialize();
+extern void __cdecl hf2p_editor_initialize();
+extern void __cdecl hf2p_main_initialize();
+extern void __cdecl hf2p_config_initialize();
+extern void __cdecl hf2p_bot_client_dispose();
+extern void __cdecl hf2p_dedicated_server_dispose();
+extern void __cdecl hf2p_client_dispose();
+extern void __cdecl hf2p_main_dispose();
+extern void __cdecl hf2p_bot_client_update();
+extern void __cdecl hf2p_dedicated_server_update();
+extern void __cdecl hf2p_client_update();
 extern void __cdecl hf2p_backend_register(void* backend);
 extern void __cdecl hf2p_backend_unregister(void* backend);
 extern void __cdecl hf2p_backend_update();

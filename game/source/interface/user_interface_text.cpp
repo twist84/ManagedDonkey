@@ -11,6 +11,9 @@ REFERENCE_DECLARE(0x052697B8, s_last_known_session_state, g_last_known_session_s
 
 HOOK_DECLARE(0x00ABC070, parse_build_number_string);
 
+t_value_type<bool> const use_keyboard_hints = { .value = true }; // Press <E> to pick up
+DATA_PATCH_DECLARE(0x052697B1, use_keyboard_hints, use_keyboard_hints.bytes);
+
 void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count)
 {
 	ASSERT(string != NULL);

@@ -1,12 +1,10 @@
 #include "hf2p/hf2p.hpp"
 
 #include "cache/cache_files.hpp"
-#include "fmod/src/sound_fmod.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "game/players.hpp"
-#include "interface/c_controller.hpp"
 #include "main/console.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -15,13 +13,8 @@
 #include "units/bipeds.hpp"
 #include "units/units.hpp"
 
-#include <stdlib.h>
-
-REFERENCE_DECLARE(0x018B59D4, bool, g_hf2p_first_run);
-REFERENCE_DECLARE(0x0229ECF0, c_service_client*, g_service_client);
 REFERENCE_DECLARE(0x04FE67A0, long, mainmenu_spartan_unit_index);
 REFERENCE_DECLARE(0x04FE67A4, long, mainmenu_elite_unit_index);
-REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
 
 HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
 HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
@@ -34,6 +27,21 @@ HOOK_DECLARE(0x00600830, hf2p_dispose_from_old_map);
 HOOK_DECLARE(0x00600850, hf2p_game_update);
 HOOK_DECLARE(0x006008F0, hf2p_idle);
 HOOK_DECLARE(0x00600900, hf2p_render);
+HOOK_DECLARE(0x00600910, hf2p_bot_client_initialize);
+HOOK_DECLARE(0x00600960, hf2p_dedicated_server_initialize);
+HOOK_DECLARE(0x00600990, hf2p_client_initialize);
+HOOK_DECLARE(0x00600A20, hf2p_security_initialize);
+HOOK_DECLARE(0x00600A80, hf2p_editor_initialize);
+HOOK_DECLARE(0x00600A90, hf2p_main_initialize);
+HOOK_DECLARE(0x00600C70, hf2p_config_initialize);
+HOOK_DECLARE(0x00600D40, hf2p_bot_client_dispose);
+HOOK_DECLARE(0x00600D80, hf2p_dedicated_server_dispose);
+HOOK_DECLARE(0x00600DB0, hf2p_client_dispose);
+HOOK_DECLARE(0x00600E00, hf2p_main_dispose);
+HOOK_DECLARE(0x00600E80, hf2p_bot_client_update);
+HOOK_DECLARE(0x00600EB0, hf2p_dedicated_server_update);
+HOOK_DECLARE(0x00600ED0, hf2p_client_update);
+
 HOOK_DECLARE(0x007B8810, hf2p_backend_register);
 HOOK_DECLARE(0x007B8830, hf2p_backend_unregister);
 HOOK_DECLARE(0x007B8870, hf2p_backend_update);
@@ -83,67 +91,36 @@ DATA_PATCH_DECLARE(0x00B26710, dedicated_server_patch, _return); // saber_update
 
 #endif // DEDICATED_SERVER
 
-void __cdecl game_statistics_reset()
-{
-	INVOKE(0x00853FC0, game_statistics_reset);
-}
-
-void* hp2p_ui_proxy = reinterpret_cast<void*>(0x0244ED28);
-
 void __cdecl hf2p_handle_deleted_object(long object_index)
 {
 }
 
 void __cdecl hf2p_initialize_for_new_map()
 {
-	fmod_initialize_for_new_map();
 }
 
 void __cdecl hf2p_initialize()
 {
-	//INVOKE(0x00600630, hf2p_initialize);
-
-	game_statistics_reset();
-	hp2p_ui_proxy = nullptr;
-
-	fmod_initialize();
 }
 
 void __cdecl hf2p_game_initialize()
 {
-	//HOOK_INVOKE(, hf2p_game_initialize);
-
-	// Press <E> to pick up
-	g_hf2p_use_keyboard_hints = true;
 }
 
 void __cdecl hf2p_scenario_tags_load_finished()
 {
-	//INVOKE(0x00600750, hf2p_scenario_tags_load_finished);
-
-	//g_hf2p_first_run = true;
-	if (g_hf2p_first_run)
-	{
-		hf2p_initialize();
-		g_hf2p_first_run = false;
-	}
 }
 
 void __cdecl hf2p_scenario_load()
 {
-	//HOOK_INVOKE(, hf2p_scenario_load);
 }
 
 void __cdecl hf2p_game_dispose()
 {
-	//HOOK_INVOKE(, hf2p_game_dispose);
-
-	fmod_dispose();
 }
 
 void __cdecl hf2p_dispose_from_old_map()
 {
-	fmod_dispose_from_old_map();
 }
 
 long& mainmenu_unit_index = mainmenu_spartan_unit_index;
@@ -226,6 +203,63 @@ void __cdecl hf2p_idle()
 }
 
 void __cdecl hf2p_render()
+{
+}
+
+void __cdecl hf2p_bot_client_initialize()
+{
+}
+
+void __cdecl hf2p_dedicated_server_initialize()
+{
+}
+
+void __cdecl hf2p_client_initialize()
+{
+}
+
+void __cdecl hf2p_security_initialize()
+{
+}
+
+void __cdecl hf2p_editor_initialize()
+{
+
+}
+
+void __cdecl hf2p_main_initialize()
+{
+}
+
+void __cdecl hf2p_config_initialize()
+{
+}
+
+void __cdecl hf2p_bot_client_dispose()
+{
+}
+
+void __cdecl hf2p_dedicated_server_dispose()
+{
+}
+
+void __cdecl hf2p_client_dispose()
+{
+}
+
+void __cdecl hf2p_main_dispose()
+{
+}
+
+void __cdecl hf2p_bot_client_update()
+{
+}
+
+void __cdecl hf2p_dedicated_server_update()
+{
+}
+
+void __cdecl hf2p_client_update()
 {
 }
 

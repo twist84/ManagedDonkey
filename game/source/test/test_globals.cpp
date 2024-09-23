@@ -154,7 +154,6 @@ void __cdecl test_main_loop_body_begin()
 		g_runtime_state_globals;
 		g_screenshots_uploader;
 		g_server_descriptions;
-		g_service_client;
 		g_synch_globals;
 		g_user_interface_globals;
 		game_engines;

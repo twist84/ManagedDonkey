@@ -5,6 +5,7 @@
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "fmod/src/sound_fmod.hpp"
 #include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
@@ -359,7 +360,13 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 		{
 			scenario_tags_fixup();
 			scenario_tags_load_finished();
-			hf2p_scenario_tags_load_finished();
+
+			static bool fmod_initialized = false;
+			if (!fmod_initialized)
+			{
+				fmod_initialize();
+				fmod_initialized = true;
+			}
 
 			//on_scenario_loaded();
 			return true;

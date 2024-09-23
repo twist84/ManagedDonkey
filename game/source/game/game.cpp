@@ -308,6 +308,8 @@ void __cdecl game_dispose()
 		ASSERT(g_game_systems[system_index].dispose_proc);
 		g_game_systems[system_index].dispose_proc();
 	}
+
+	fmod_dispose();
 }
 
 void __cdecl game_dispose_from_old_map()
@@ -328,6 +330,8 @@ void __cdecl game_dispose_from_old_map()
 
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 	game_globals->game_in_progress = false;
+
+	fmod_dispose_from_old_map();
 
 	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
@@ -702,7 +706,7 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 
 	game_globals->initializing = true;
 	game_globals_initialize_for_new_map(options);
-	fmod_initialize_for_new_map(); // hf2p_initialize_for_new_map
+	fmod_initialize_for_new_map();
 
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
