@@ -80,6 +80,7 @@ extern object_type_definition*(&object_type_definitions)[k_object_type_count];
 
 extern void __cdecl object_type_adjust_placement(object_placement_data* data);
 extern object_type_definition* __cdecl object_type_definition_get(e_object_type object_type);
+extern char const* __cdecl object_type_get_name(e_object_type object_type);
 
 extern void render_debug_objects();
 extern void object_type_render_debug(long object_index);

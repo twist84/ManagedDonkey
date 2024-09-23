@@ -43,7 +43,12 @@ object_type_definition* __cdecl object_type_definition_get(e_object_type object_
 //.text:00B738A0 ; e_object_type __cdecl object_type_from_group_tag(dword)
 //.text:00B738D0 ; short __cdecl object_type_get_datum_size(e_object_type)
 //.text:00B738F0 ; dword __cdecl object_type_get_maximum_placement_count(e_object_type)
-//.text:00B73910 ; char const* __cdecl object_type_get_name(e_object_type)
+
+char const* __cdecl object_type_get_name(e_object_type object_type)
+{
+    return INVOKE(0x00B73910, object_type_get_name, object_type);
+}
+
 //.text:00B73930 ; long __cdecl object_type_get_palette_tag_block_offset(e_object_type)
 //.text:00B73950 ; void __cdecl object_type_get_placement_tag_block(e_object_type, long*, long*)
 //.text:00B73980 ; void __cdecl object_type_handle_deleted_object(long, long)
