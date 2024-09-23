@@ -6,6 +6,7 @@
 #include "memory/thread_local.hpp"
 #include "models/model_definitions.hpp"
 #include "objects/object_types.hpp"
+#include "objects/watch_window.hpp"
 #include "physics/havok.hpp"
 #include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
@@ -1277,6 +1278,8 @@ void __cdecl object_remove_pending_messages(long object_index)
 
 void __cdecl object_render_debug(long object_index)
 {
+	//INVOKE(0x00B32130, object_render_debug, object_index);
+
 	if (TEST_BIT(_object_mask_sound_scenery, object_get_type(object_index)) && !debug_objects_sound_spheres)
 		return;
 
@@ -1872,7 +1875,7 @@ void __cdecl scripted_object_function_set(long object_function_index, real objec
 
 //.text:00B373D0 ; void __cdecl set_memory_pool_address(void*)
 
-void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
+void object_debug_teleport(long object_index, real_point3d const* position)
 {
 	if (object_datum* object = object_get(object_index))
 	{
@@ -1891,7 +1894,7 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 	}
 }
 
-void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_string<256>* name)
+void object_get_debug_name(long object_index, bool full_name, c_static_string<256>* name)
 {
 	object_datum* object = object_get(object_index);
 
@@ -1942,7 +1945,7 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 	}
 }
 
-void __cdecl object_render_debug_internal(long object_index)
+void object_render_debug_internal(long object_index)
 {
 	object_header_datum const* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
@@ -2150,6 +2153,11 @@ void __cdecl object_render_debug_internal(long object_index)
 	{
 
 	}
+}
+
+char const* object_describe(long object_index)
+{
+	return watch_object_describe(object_index);
 }
 
 #pragma warning(push)

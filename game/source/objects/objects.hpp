@@ -702,6 +702,8 @@ extern void __cdecl reset_object_cached_render_state(long object_index);
 extern void __cdecl reset_object_render_message_queue();
 extern bool __cdecl sample_object_lighting_from_probes(long object_index);
 extern void __cdecl scripted_object_function_set(long object_function_index, real object_function_value);
-extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
-extern void __cdecl object_render_debug_internal(long object_index);
+
+extern void object_debug_teleport(long object_index, real_point3d const* position);
+extern void object_render_debug_internal(long object_index);
+extern char const* object_describe(long object_index);
 
