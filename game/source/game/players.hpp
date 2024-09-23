@@ -55,7 +55,7 @@ struct s_emblem_info
 		emblem_secondary_color(),
 		emblem_background_color(),
 		pad(0),
-		__pad8({})
+		__pad8()
 	{
 	}
 	
