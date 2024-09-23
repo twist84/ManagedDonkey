@@ -1,18 +1,99 @@
 #include "objects/watch_window.hpp"
 
-//.text:0068C600 ; dword __cdecl clear_watch_window_globals()
-//.text:0068C630 ; bool __cdecl object_index_valid_for_try_and_get(long)
-//.text:0068C680 ; s_watch_object_results& __cdecl watch_object(long)
-//.text:0068C750 ; char const* __cdecl watch_object_describe(long)
-//.text:0068C810 ; char const* __cdecl watch_object_describe_internal(long, char*, long)
+#include "cache/cache_files.hpp"
+#include "memory/data.hpp"
+#include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "objects/object_types.hpp"
+#include "objects/objects.hpp"
+
+REFERENCE_DECLARE_ARRAY(0x024E00A8, char, watch_object_description, 512);
+REFERENCE_DECLARE(0x024E02A8, s_watch_object_results, watch_object_results);
+
+HOOK_DECLARE(0x0068C600, clear_watch_window_globals);
+HOOK_DECLARE(0x0068C630, object_index_valid_for_try_and_get);
+HOOK_DECLARE(0x0068C680, watch_object);
+HOOK_DECLARE(0x0068C750, watch_object_describe);
+HOOK_DECLARE(0x0068C810, watch_object_describe_internal);
+//HOOK_DECLARE(0x0068C8E0, watch_window_dispose);
+//HOOK_DECLARE(0x0068C8F0, watch_window_initialize);
+
+dword __cdecl clear_watch_window_globals()
+{
+	//INVOKE(0x0068C600, clear_watch_window_globals);
+
+	csstrnzcpy(watch_object_description, "failed to get object information", sizeof(watch_object_description));
+	csmemset(&watch_object_results, 0, sizeof(s_watch_object_results));
+	return NONE;
+}
+
+bool __cdecl object_index_valid_for_try_and_get(long object_index)
+{
+	//INVOKE(0x0068C630, object_index_valid_for_try_and_get, object_index);
+
+	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
+	return object_index != NONE && *object_header_data && DATUM_INDEX_TO_ABSOLUTE_INDEX(object_index) != object_index;
+}
+
+s_watch_object_results& __cdecl watch_object(long object_index)
+{
+	//INVOKE(0x0068C680, watch_object, object_index);
+
+	clear_watch_window_globals();
+	watch_object_results.object_information = watch_object_description;
+	if (object_index_valid_for_try_and_get(object_index))
+	{
+		watch_object_describe(object_index);
+		watch_object_results.object_information = watch_object_description;
+		watch_object_results.object = (object_datum*)object_try_and_get_and_verify_type(object_index, _object_mask_object);
+	}
+	return watch_object_results;
+}
+
+char const* __cdecl watch_object_describe(long object_index)
+{
+	//INVOKE(0x0068C750, watch_object_describe, object_index);
+
+	clear_watch_window_globals();
+	if (object_index_valid_for_try_and_get(object_index))
+		watch_object_describe_internal(object_index, watch_object_description, sizeof(watch_object_description));
+
+	return watch_object_description;
+}
+
+char const* __cdecl watch_object_describe_internal(long object_index, char* buffer, long buffer_size)
+{
+	//INVOKE(0x0068C810, watch_object_describe_internal, object_index, buffer, buffer_size);
+
+	if (object_datum* object = (object_datum*)object_try_and_get_and_verify_type(object_index, _object_mask_object))
+	{
+		char object_name[128]{};
+		csstrnzcpy(object_name, " ", sizeof(object_name));
+		if (DATUM_INDEX_TO_ABSOLUTE_INDEX(object->object.name_index) != 0xFFFF && global_scenario_index_get() != NONE)
+		{
+			global_scenario->object_names[object->object.name_index].name.copy_to(object_name, sizeof(object_name));
+			csstrnzcat(object_name, " ", sizeof(object_name));
+		}
+
+		char const* tag_name = tag_get_name_safe(object->definition_index);
+		char const* object_tag_name = tag_name ? tag_name : NULL;
+		char const* object_type_name = object_type_get_name(object->object.object_identifier.m_type);
+
+		csnzprintf(buffer, buffer_size, "%s %s%s", object_type_name, object_name, object_tag_name);
+	}
+
+	return buffer;
+}
 
 void __cdecl watch_window_dispose()
 {
-	INVOKE(0x0068C8E0, watch_window_dispose);
+	//INVOKE(0x0068C8E0, watch_window_dispose);
 }
 
 void __cdecl watch_window_initialize()
 {
-	INVOKE(0x0068C8F0, watch_window_initialize);
+	//INVOKE(0x0068C8F0, watch_window_initialize);
+
+	watch_object(NONE);
 }
 
