@@ -84,9 +84,8 @@ void __cdecl biped_falling_damage(long biped_index)
 				biped->unit.player_index == NONE &&
 				!simulation_query_object_is_predicted(biped_index))
 			{
-				char const* object_description = "";// object_describe(biped_index);
 				generate_event(_event_level_warning, "WARNING: %s reached terminal velocity outside world (%f %f %f) and was erased",
-					object_description,
+					object_describe(biped_index),
 					biped->object.position.x,
 					biped->object.position.y,
 					biped->object.position.z);
