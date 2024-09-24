@@ -73,7 +73,7 @@ void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool pred
 	if (!cheat.bottomless_clip)
 		return;
 
-	weapon_datum* weapon = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	weapon_datum* weapon = weapon_get(weapon_index);
 	if (!weapon || weapon->item.inventory_unit_index == NONE)
 		return;
 
@@ -108,7 +108,7 @@ bool __cdecl weapon_can_be_dual_wielded(long weapon_index)
 {
 	//return INVOKE(0x00B61550, weapon_can_be_dual_wielded, weapon_index);
 
-	weapon_datum* weapon = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	weapon_datum* weapon = weapon_get(weapon_index);
 	struct weapon_definition* weapon_definition = (struct weapon_definition*)tag_get(WEAPON_TAG, weapon->definition_index);
 	return weapon_definition->weapon.flags.test(_weapon_can_be_dual_wielded_bit) || weapon_definition->weapon.flags.test(_weapon_can_only_be_dual_wielded_bit);
 }
@@ -283,4 +283,9 @@ bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 //.text:00B69A20 ; bool __cdecl weapon_uses_3rd_person_camera(long)
 //.text:00B69A70 ; bool __cdecl weapon_uses_charging_melee(long)
 //.text:00B69AD0 ; void __cdecl weapons_fire_barrels()
+
+weapon_datum* weapon_get(long weapon_index)
+{
+	return (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+}
 

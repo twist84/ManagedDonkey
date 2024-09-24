@@ -18,7 +18,7 @@ void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long 
 	if (!cheat.bottomless_clip)
 		return;
 
-	weapon_datum* weapon = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	weapon_datum* weapon = weapon_get(weapon_index);
 	if (!weapon || weapon->item.inventory_unit_index == NONE)
 		return;
 
