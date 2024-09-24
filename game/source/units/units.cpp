@@ -154,7 +154,7 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 {
 	//INVOKE(0x00B3F8C0, unit_debug_ninja_rope, unit_index);
 
-	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	unit_datum* unit = unit_get(unit_index);
 	s_collision_test_flags flags{}; // 0x1001
 	real_point3d camera_position{};
 	vector3d aiming_vector{};
@@ -365,7 +365,7 @@ void __cdecl unit_render_debug(long unit_index)
 {
 	//INVOKE(0x00B47080, unit_render_debug, unit_index);
 
-	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	unit_datum* unit = unit_get(unit_index);
 	struct unit_definition* unit_definition = (struct unit_definition*)tag_get(UNIT_TAG, unit->definition_index);
 
 	if (debug_objects_unit_vectors)
@@ -518,7 +518,7 @@ bool __cdecl unit_update(long unit_index)
 
 		// HO
 		unit_update_armor_lock(unit_index);
-		unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+		unit_datum* unit = unit_get(unit_index);
 		sub_B4BCB0(&unit->unit.__unknown2FC);
 		sub_B4BCB0(&unit->unit.__unknown310);
 
@@ -569,13 +569,13 @@ bool __cdecl unit_update_equipment(long unit_index, long slot_index)
 	// HO
 	//if (VALID_INDEX(slot_index, 4))
 	//{
-	//	long current_equipment_index = ((unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit))->unit.equipment_object_indices[slot_index];
+	//	long current_equipment_index = unit_get(unit_index)->unit.equipment_object_indices[slot_index];
 	//	if (current_equipment_index != NONE)
 	//		sub_B891F0(current_equipment_index, unit_index);
 	//}
 
 	// H3
-	//long current_equipment_index = ((unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit))->unit.equipment_object_indices[slot_index];
+	//long current_equipment_index = unit_get(unit_index)->unit.equipment_object_indices[slot_index];
 	//if (equipment_remaining_charges(current_equipment_index) || equipment_active_fraction(current_equipment_index) != 0.0f)
 	//{
 	//	sub_B891F0(current_equipment_index, unit_index);
@@ -602,7 +602,7 @@ void __cdecl unit_update_illumination(long unit_index)
 {
 	if (debug_unit_illumination)
 	{
-		unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+		unit_datum* unit = unit_get(unit_index);
 		if (unit->unit.player_index != NONE)
 		{
 			long current_time = game_time_get();
@@ -627,7 +627,7 @@ bool __cdecl sub_B4BD70(long unit_index)
 {
 	return INVOKE(0x00B4BD70, sub_B4BD70, unit_index);
 
-	//unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	//unit_datum* unit = unit_get(unit_index);
 	//if (unit->unit.__unknown3A8_object_index != NONE && !unit->unit.emp_timer)
 	//	unit->unit.__unknown3A8_object_index = NONE;
 	//
@@ -713,7 +713,7 @@ bool __cdecl units_debug_can_select_unit(long unit_index)
 	if (!object)
 		return false;
 
-	unit_datum* unit = (unit_datum*)object_try_and_get_and_verify_type(unit_index, _object_mask_unit);
+	unit_datum* unit = unit_get(unit_index);
 	return unit->unit.player_index == NONE && !TEST_BIT(unit->object.damage_flags, 2) && !unit->object.flags.test(_object_created_with_parent_bit);
 }
 
@@ -799,5 +799,10 @@ LABEL_12:
 			return next_unit_index;
 	}
 	return unit_iterator.get_index();
+}
+
+unit_datum* unit_get(long unit_index)
+{
+	return (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
 }
 

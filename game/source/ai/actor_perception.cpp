@@ -22,7 +22,7 @@ void debug_render_vehicle_interest()
 				player_datum* player = (player_datum*)datum_get(*player_data, ai_player.player_index);
 				if (player->unit_index != NONE)
 				{
-					unit_datum* unit = (unit_datum*)object_get_and_verify_type(player->unit_index, _object_mask_unit);
+					unit_datum* unit = unit_get(player->unit_index);
 
 					real_argb_color const* color = actor->player.interested_ticks <= game_seconds_to_ticks_round(2.0f) ? global_real_argb_yellow : global_real_argb_red;
 

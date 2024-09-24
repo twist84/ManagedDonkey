@@ -383,3 +383,5 @@ extern bool __cdecl units_debug_can_select_unit(long unit_index);
 extern long __cdecl units_debug_get_closest_unit(long unit_index);
 extern long __cdecl units_debug_get_next_unit(long unit_index);
 
+extern unit_datum* unit_get(long unit_index);
+

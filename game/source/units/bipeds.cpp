@@ -323,7 +323,7 @@ bool __cdecl biped_update(long biped_index)
 
 	if (biped->unit.actor_index != NONE)
 	{
-		actor_datum* actor = (actor_datum*)datum_get(*actor_data, biped->unit.actor_index);
+		actor_datum* actor = actor_get(biped->unit.actor_index);
 		biped->biped.ai_combat_status = (char)actor->state.combat_status;
 	}
 

@@ -416,7 +416,7 @@ void __cdecl player_set_facing(long player_index, vector3d const* facing)
 	//{
 	//	if (player->unit_index != NONE)
 	//	{
-	//		unit_datum* unit = (unit_datum*)object_get_and_verify_type(player->unit_index, _object_mask_unit);
+	//		unit_datum* unit = unit_get(player->unit_index);
 	//		unit->unit.facing_vector = *facing;
 	//		unit->unit.desired_aiming_vector = *facing;
 	//		unit->unit.desired_looking_vector = *facing;
