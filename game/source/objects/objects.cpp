@@ -1804,7 +1804,7 @@ void __cdecl objects_update()
 	//
 	//				if (object->object.flags.test(_object_in_limbo_bit))
 	//				{
-	//					item_datum* item = (item_datum*)object_get_and_verify_type(object_header_iter.get_index(), _object_mask_item);
+	//					item_datum* item = item_get(object_header_iter.get_index());
 	//					//ASSERT(TEST_FLAG(item->item.flags, _item_in_unit_inventory_bit));
 	//					//ASSERT(TEST_FLAG(item->item.flags, _item_hidden_in_unit_inventory_bit));
 	//				}

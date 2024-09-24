@@ -25,3 +25,5 @@ static_assert(sizeof(item_datum) == sizeof(long) + sizeof(_object_datum) + sizeo
 
 extern bool __cdecl dangerous_items_near_player(long* out_item_index);
 
+extern item_datum* item_get(long item_index);
+

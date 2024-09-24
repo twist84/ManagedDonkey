@@ -55,7 +55,7 @@ void __cdecl chud_post_action_response(long user_index)
 		if (!player_interaction_exists(user_index, _object_mask_item, &action_context->interaction))
 			return;
 
-		item_datum* item = (item_datum*)object_get_and_verify_type(action_context->interaction.object_index, _object_mask_item);
+		item_datum* item = item_get(action_context->interaction.object_index);
 		struct item_definition* item_definition = (struct item_definition*)tag_get(ITEM_TAG, item->definition_index);
 
 		string_id message = _string_id_empty_string;

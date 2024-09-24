@@ -33,3 +33,8 @@ bool __cdecl dangerous_items_near_player(long* out_item_index)
 //.text:00BACA40 ; bool __cdecl item_update(long)
 //.text:00BACF40 ; void __cdecl item_update_player_inventory(long)
 
+item_datum* item_get(long item_index)
+{
+	return (item_datum*)object_get_and_verify_type(item_index, _object_mask_item);
+}
+
