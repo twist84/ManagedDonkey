@@ -97,7 +97,7 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 			m_field_of_view = result->field_of_view;
 		}
 	
-		if (TEST_MASK(FLAG(object_get_type(m_object_index)), _object_mask_biped))
+		if (TEST_BIT(_object_mask_biped, object_get_type(m_object_index)))
 		{
 			result->flags |= FLAG(13);
 			biped_get_physics_pill(m_object_index, &result->physics_pill_position, &result->physics_pill_height, &result->physics_pill_radius);
