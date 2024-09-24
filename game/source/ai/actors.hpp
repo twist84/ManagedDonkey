@@ -481,6 +481,7 @@ extern void __cdecl actor_erase(long actor_index, bool delete_immediately);
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
 
+extern actor_datum* actor_get(long actor_index);
 extern bool actor_datum_available_to_current_thread();
 extern bool actor_is_active(actor_datum const* actor);
 

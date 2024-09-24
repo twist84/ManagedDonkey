@@ -166,7 +166,7 @@ void __cdecl ai_debug_render()
 	//dword_143C86DD8 = (dword_143C86DD8 + 1) % 1000;
 	if (g_ai_debug_selected_actor_index != NONE)
 	{
-		actor_datum* actor = (actor_datum*)datum_get(*actor_data, g_ai_debug_selected_actor_index);
+		actor_datum* actor = actor_get(g_ai_debug_selected_actor_index);
 		g_ai_debug_selected_actor_unit_index = actor->meta.unit_index;
 	}
 	
@@ -737,7 +737,7 @@ void ai_debug_render_vehicle_reservations()
 						}
 						else
 						{
-							actor_datum* actor = (actor_datum*)datum_get(*actor_data, actor_index);
+							actor_datum* actor = actor_get(actor_index);
 							switch (actor->vehicle.attachment_status)
 							{
 							case 1: color = global_real_argb_yellow; break;

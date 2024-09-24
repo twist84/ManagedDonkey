@@ -28,9 +28,7 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 {
 	//INVOKE(0x01429DF0, actor_erase, actor_index, delete_immediately);
 
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	
-	actor_datum* actor = (actor_datum*)datum_get(*actor_data, actor_index);
+	actor_datum* actor = actor_get(actor_index);
 	long unit_index = actor->meta.unit_index;
 	long swarm_index = actor->meta.swarm_index;
 	
@@ -219,6 +217,13 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 //.text:01430880 ; 
 //.text:01430890 ; 
 //.text:014308B0 ; 
+
+actor_datum* actor_get(long actor_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+
+	return (actor_datum*)datum_get(*actor_data, actor_index);
+}
 
 bool actor_datum_available_to_current_thread()
 {
