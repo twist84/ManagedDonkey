@@ -109,5 +109,6 @@ extern bool __cdecl biped_update_stun(long biped_index);
 extern bool __cdecl biped_update_with_parent(long biped_index, long parent_index);
 extern bool __cdecl biped_update_without_parent(long biped_index);
 
+extern biped_datum* biped_get(long biped_index);
 extern void biped_update_jetpack(long biped_index);
 

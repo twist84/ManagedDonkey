@@ -29,7 +29,7 @@ void __cdecl biped_falling_damage(long biped_index)
 {
 	//INVOKE(0x00BAE400, biped_falling_damage, biped_index);
 
-	biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	biped_datum* biped = biped_get(biped_index);
 	struct biped_definition* biped_definition = (struct biped_definition*)tag_get(BIPED_TAG, biped->definition_index);
 
 	void* motor_state = object_header_block_get(biped_index, &biped->motor.motor_state);

@@ -37,7 +37,7 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d c
 {
 	//INVOKE(0x00B6B8F0, biped_bumped_object, biped_index, object_index, linear_velocity);
 
-	biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	biped_datum* biped = biped_get(biped_index);
 
 	if (biped->biped.bump_ticks < 0)
 	{
@@ -59,7 +59,7 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d c
 
 	if (TEST_BIT(_object_mask_biped, object_get_type(object_index)))
 	{
-		biped_datum* bumped_biped = (biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped);
+		biped_datum* bumped_biped = biped_get(object_index);
 		if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
 			//biped->biped.flags.set(15, true);
@@ -245,7 +245,7 @@ void __cdecl biped_render_debug(long biped_index)
 
 	if (debug_objects_movement_mode)
 	{
-		biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+		biped_datum* biped = biped_get(biped_index);
 
 		real_point3d base{};
 		vector3d height{};
@@ -317,7 +317,7 @@ bool __cdecl biped_update(long biped_index)
 
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 
-	biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	biped_datum* biped = biped_get(biped_index);
 
 	bool v5 = biped_update_soft_ceilings(biped_index);
 
@@ -423,6 +423,11 @@ bool __cdecl biped_update_without_parent(long biped_index)
 //.text:00B73130 ; 
 //.text:00B73150 ; 
 //.text:00B73180 ; 
+
+biped_datum* biped_get(long biped_index)
+{
+	return (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+}
 
 void biped_update_jetpack(long biped_index)
 {

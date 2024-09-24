@@ -166,7 +166,7 @@ void players_debug_render()
 		//		//&& player->machine_user_index
 		//		&& TEST_MASK(_object_mask_biped, FLAG(object_get_type(player->unit_index))))
 		//	{
-		//		biped_datum* biped = (biped_datum*)object_get_and_verify_type(player->unit_index, _object_mask_biped);
+		//		biped_datum* biped = biped_get(player->unit_index);
 		// 
 		//		// #TODO: find the bit index
 		//		if (TEST_BIT(biped->biped.flags, ??))
