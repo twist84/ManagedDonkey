@@ -437,27 +437,28 @@ void __cdecl player_control_get_controller_input_for_jetpack(e_input_user_index 
 {
 	player_control_get_controller_input(input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 
-	if (cheat.jetpack)
+	if (!cheat.jetpack)
+		return;
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
+
+	long unit_index = player_control_globals->input_states[controller_index].unit_index;
+	biped_datum* biped = biped_get(unit_index);
+	if (!biped)
+		return;
+
+	bool v0 = false;
+	if (input_states[controller_index]->get_button(_button_action_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-
-		long unit_index = player_control_globals->input_states[controller_index].unit_index;
-		if (biped_datum* biped = (biped_datum*)object_get_and_verify_type(unit_index, _object_mask_biped))
-		{
-			bool v0 = false;
-			if (input_states[controller_index]->get_button(_button_action_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
-			{
-				bool v1 = TEST_BIT(biped->unit.unit_control_flags, 1);
-				real jump_control_ticks = (real)biped->biped.jump_control_ticks;
-				real v2 = (real)game_tick_rate() / 15.0f;
-				bool v3 = v2 > jump_control_ticks;
-				if ((v1 && v3) || TEST_BIT(biped->unit.unit_control_flags, 15))
-					v0 = true;
-			}
-
-			SET_BIT(input->control_flags, 15, v0);
-		}
+		bool v1 = TEST_BIT(biped->unit.unit_control_flags, _unit_control_jump_bit);
+		real jump_control_ticks = (real)biped->biped.jump_control_ticks;
+		real v2 = (real)game_tick_rate() / 15.0f;
+		bool v3 = v2 > jump_control_ticks;
+		if ((v1 && v3) || TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
+			v0 = true;
 	}
+
+	SET_BIT(input->control_flags, _unit_control_jetpack_bit, v0);
 }
 HOOK_DECLARE_CALL(0x005D4C66, player_control_get_controller_input_for_jetpack);
 
