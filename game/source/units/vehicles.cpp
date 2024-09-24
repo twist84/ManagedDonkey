@@ -73,7 +73,7 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
-	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
+	vehicle_datum* vehicle = vehicle_get(vehicle_index);
 	struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(VEHICLE_TAG, vehicle->definition_index);
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
@@ -125,4 +125,9 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 //.text:00B770B0 ; void __cdecl vehicles_dispose_from_old_map()
 //.text:00B770C0 ; void __cdecl vehicles_initialize()
 //.text:00B770D0 ; void __cdecl vehicles_initialize_for_new_map()
+
+vehicle_datum* vehicle_get(long vehicle_index)
+{
+	return (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
+}
 

@@ -713,7 +713,7 @@ void ai_debug_render_vehicle_reservations()
 			unit_seat_source& source = sources[source_index];
 			if (!source.flags->test(_unit_seat_allow_ai_noncombatants_bit))
 			{
-				vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(source.vehicle_index, _object_mask_vehicle);
+				vehicle_datum* vehicle = vehicle_get(source.vehicle_index);
 
 				real_point3d seat_position{};
 				vehicle_get_seat_position(source.vehicle_index, source.seat_index, &seat_position);

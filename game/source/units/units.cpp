@@ -633,7 +633,7 @@ bool __cdecl sub_B4BD70(long unit_index)
 	//
 	//for (long parent_object_index = unit->object.parent_object_index; parent_object_index != NONE; parent_object_index = unit->object.parent_object_index)
 	//{
-	//	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(parent_object_index, _object_mask_vehicle);
+	//	vehicle_datum* vehicle = vehicle_get(parent_object_index);
 	//	if (vehicle->unit.driver_object_index == unit_index && vehicle->unit.emp_timer > 0)
 	//		unit->unit.__unknown3A8_object_index = parent_object_index;
 	//}
