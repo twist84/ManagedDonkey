@@ -230,8 +230,8 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	c_static_string<64> name;
 	name.print("HaloOnline %s", sub_5013A0());
-	csstrnzcpy(g_windows_params.class_name, name.get_string(), sizeof(g_windows_params.class_name));
-	csstrnzcpy(g_windows_params.window_name, name.get_string(), sizeof(g_windows_params.window_name));
+	name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
+	name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
 
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-haltonstartup", NULL, 0))
 	{
