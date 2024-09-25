@@ -9,6 +9,9 @@
 #include "rasterizer/rasterizer.hpp"
 #include "shell/shell.hpp"
 
+#include <commctrl.h>  // For common controls like status bar
+#pragma comment(lib, "Comctl32.lib")
+
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
 HOOK_DECLARE(0x0042E940, shell_idle);
@@ -64,17 +67,20 @@ CHAR s_windows_params::editor_window_name[64]{};
 
 LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	static HMENU menu_handle = NULL;
+	static HMENU file_menu_handle = NULL;
+	static HMENU edit_menu_handle = NULL;
+	static HMENU view_menu_handle = NULL;
+	static HMENU scenarios_menu_handle = NULL;
+	static HMENU help_menu_handle = NULL;
+
+	static HINSTANCE status_bar_instance = NULL;
+	static HWND status_bar_handle = NULL;
+
 	switch (uMsg)
 	{
 	case WM_CREATE:
 	{
-		static HMENU menu_handle = NULL;
-		static HMENU file_menu_handle = NULL;
-		static HMENU edit_menu_handle = NULL;
-		static HMENU view_menu_handle = NULL;
-		static HMENU scenarios_menu_handle = NULL;
-		static HMENU help_menu_handle = NULL;
-
 		if (menu_handle = CreateMenu())
 		{
 			if (file_menu_handle = CreateMenu())
@@ -147,6 +153,32 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			SetMenu(hwnd, menu_handle);
 		}
+
+		INITCOMMONCONTROLSEX init_common_controls_ex{};
+		init_common_controls_ex.dwSize = sizeof(init_common_controls_ex);
+		init_common_controls_ex.dwICC = ICC_BAR_CLASSES;
+		InitCommonControlsEx(&init_common_controls_ex);
+
+		status_bar_handle = CreateWindowEx(
+			0,
+			STATUSCLASSNAME,
+			NULL,
+			WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP,
+			0, 0,
+			0, 0,
+			hwnd,
+			(HMENU)1,
+			status_bar_instance,
+			NULL);
+
+		SendMessageA(status_bar_handle, SB_SETTEXT, 0, (LPARAM)L"Ready");
+		SetWindowPos(status_bar_handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	}
+	break;
+	case WM_SIZE:
+	{
+		SendMessageA(status_bar_handle, WM_SIZE, 0, 0);
+		SetWindowPos(status_bar_handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	}
 	break;
 	case WM_COMMAND:

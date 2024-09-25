@@ -402,7 +402,7 @@ bool __cdecl c_rasterizer::reset_device()
 				SetParent(console_window, g_windows_params.editor_window_handle);
 				SetWindowPos(
 					console_window,
-					HWND_TOP,
+					HWND_BOTTOM,
 					3, rect.bottom - 297,
 					1406, 296,
 					SWP_SHOWWINDOW);
