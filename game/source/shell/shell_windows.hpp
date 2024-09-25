@@ -7,7 +7,7 @@
 struct s_windows_params
 {
 	HINSTANCE instance;
-	HWND created_window_handle;
+	HWND game_window_handle;
 	HWND window_handle;
 	int cmd_show;
 	WNDPROC window_proc;

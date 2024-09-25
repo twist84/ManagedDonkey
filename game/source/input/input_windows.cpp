@@ -50,7 +50,7 @@ void __cdecl sub_5114A0()
 	//		(GetAsyncKeyState(VK_MBUTTON) & 0xFFFE) != 0 ||
 	//		(GetAsyncKeyState(VK_XBUTTON1) & 0xFFFE) != 0 ||
 	//		(GetAsyncKeyState(VK_XBUTTON2) & 0xFFFE) != 0 ||
-	//		GetForegroundWindow() != g_windows_params.created_window_handle)
+	//		GetForegroundWindow() != g_windows_params.game_window_handle)
 	//	{
 	//		input_globals.raw_input_unknownAB5 = true;
 	//		return;
@@ -103,12 +103,12 @@ void __cdecl sub_511620()
 	INVOKE(0x00511620, sub_511620);
 
 	//RECT client_rect{};
-	//GetClientRect(g_windows_params.created_window_handle, &client_rect);
+	//GetClientRect(g_windows_params.game_window_handle, &client_rect);
 	//
 	//POINT client_point0 = { .x = client_rect.left, .y = client_rect.top };
 	//POINT client_point1 = { .x = client_rect.right, .y = client_rect.bottom };
-	//ClientToScreen(g_windows_params.created_window_handle, &client_point0);
-	//ClientToScreen(g_windows_params.created_window_handle, &client_point1);
+	//ClientToScreen(g_windows_params.game_window_handle, &client_point0);
+	//ClientToScreen(g_windows_params.game_window_handle, &client_point1);
 	//
 	//client_rect = { .left = client_point0.x, .top = client_point0.y, .right = client_point1.x, .bottom = client_point1.y };
 	//ClipCursor(&client_rect);
@@ -432,7 +432,7 @@ bool __cdecl sub_512450()
 	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
 	//	.usUsage     = 2, // HID_USAGE_GENERIC_MOUSE
 	//	.dwFlags     = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
-	//	.hwndTarget  = shell_application_type() == _shell_application_type_client ? g_windows_params.created_window_handle : g_windows_params.window_handle
+	//	.hwndTarget  = shell_application_type() == _shell_application_type_client ? g_windows_params.game_window_handle : g_windows_params.window_handle
 	//};
 	//
 	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
@@ -471,7 +471,7 @@ void __cdecl input_suppress_type(e_input_type input_type, bool suppress)
 	//	else
 	//	{
 	//		input_globals.raw_input_unknownAB6 = false;
-	//		if (!game_in_editor() && g_windows_params.created_window_handle == GetForegroundWindow())
+	//		if (!game_in_editor() && g_windows_params.game_window_handle == GetForegroundWindow())
 	//			sub_5114A0();
 	//	}
 	//}
@@ -540,7 +540,7 @@ void __cdecl sub_5129B0()
 {
 	INVOKE(0x005129B0, sub_5129B0);
 
-	//if (!game_in_editor() && GetForegroundWindow() == g_windows_params.created_window_handle)
+	//if (!game_in_editor() && GetForegroundWindow() == g_windows_params.game_window_handle)
 	//{
 	//	if (input_globals.raw_input_unknownAB4 || game_options_valid() && !game_is_ui_shell())
 	//		sub_511620();
@@ -555,7 +555,7 @@ void __cdecl input_update_device_connections()
 
 void __cdecl input_update_keyboard(long duration_ms)
 {
-	bool window_has_focus = game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow();
+	bool window_has_focus = game_in_editor() || g_windows_params.game_window_handle == GetForegroundWindow();
 
 	input_globals.buffered_key_read_index = 0;
 	input_globals.buffered_key_read_count = 0;
@@ -617,7 +617,7 @@ void __cdecl input_update_mouse(long duration_ms)
 	input_globals.raw_mouse_state.wheel_delta %= input_globals.mouse_wheel_delta;
 	input_globals.raw_mouse_state.hwheel_delta %= input_globals.mouse_wheel_delta;
 
-	if (game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow())
+	if (game_in_editor() || g_windows_params.game_window_handle == GetForegroundWindow())
 	{
 		for (long i = 0; i < k_mouse_button_count; i++)
 		{

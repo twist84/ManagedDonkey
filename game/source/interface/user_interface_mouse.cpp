@@ -21,7 +21,7 @@ s_user_interface_mouse_globals user_interface_mouse_globals{};
 
 void user_interface_mouse_update()
 {
-	if (g_windows_params.created_window_handle != GetForegroundWindow())
+	if (g_windows_params.game_window_handle != GetForegroundWindow())
 		return;
 
 	if (director_get(_output_user_index0)->get_camera()->get_type() == _camera_mode_flying)
@@ -76,7 +76,7 @@ void user_interface_mouse_update_tracking()
 
 	POINT cursor_position{};
 	GetCursorPos(&cursor_position);
-	ScreenToClient(g_windows_params.created_window_handle, &cursor_position);
+	ScreenToClient(g_windows_params.game_window_handle, &cursor_position);
 
 	long x_delta = abs(cursor_position.x - user_interface_mouse_globals.update_cursor_position.x);
 	long y_delta = abs(cursor_position.y - user_interface_mouse_globals.update_cursor_position.y);

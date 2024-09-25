@@ -22,7 +22,7 @@ bool __cdecl rasterizer_get_is_widescreen()
 	RECT client_rect{};
 
 	HWND window_handle = g_windows_params.window_handle;
-	if (window_handle != NULL || (window_handle = g_windows_params.created_window_handle) != NULL)
+	if (window_handle != NULL || (window_handle = g_windows_params.game_window_handle) != NULL)
 	{
 		GetClientRect(window_handle, &client_rect);
 	}

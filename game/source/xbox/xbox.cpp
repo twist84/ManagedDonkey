@@ -38,7 +38,7 @@ DWORD WINAPI XGetOverlappedResult(PXOVERLAPPED pOverlapped, LPDWORD pResult, BOO
 
 bool __cdecl get_clipboard_as_text(char* buf, long len)
 {
-	if (!IsClipboardFormatAvailable(CF_TEXT) || !OpenClipboard(g_windows_params.created_window_handle))
+	if (!IsClipboardFormatAvailable(CF_TEXT) || !OpenClipboard(g_windows_params.game_window_handle))
 		return false;
 
 	bool result = false;
@@ -62,7 +62,7 @@ bool __cdecl get_clipboard_as_text(char* buf, long len)
 
 bool __cdecl set_clipboard_as_text(char* buf, long len)
 {
-	if (!OpenClipboard(g_windows_params.created_window_handle))
+	if (!OpenClipboard(g_windows_params.game_window_handle))
 		return false;
 
 	EmptyClipboard();
@@ -167,7 +167,7 @@ long XShowKeyboardUI(
 		maximum_character_count,
 		overlapped
 	};
-	DialogBoxParam((HINSTANCE)overlapped, MAKEINTRESOURCE(IDD_TEXT_BOX_DIALOG), g_windows_params.created_window_handle, &XShowKeyboardUI_proc, (LPARAM)&params);
+	DialogBoxParam((HINSTANCE)overlapped, MAKEINTRESOURCE(IDD_TEXT_BOX_DIALOG), g_windows_params.game_window_handle, &XShowKeyboardUI_proc, (LPARAM)&params);
 
 	return 0;
 }
@@ -181,7 +181,7 @@ void display_notification(wchar_t const* tip, wchar_t const* info, wchar_t const
 
 	NOTIFYICONDATAW notify_icon_data = { sizeof(NOTIFYICONDATAW) };
 
-	notify_icon_data.hWnd = g_windows_params.created_window_handle;
+	notify_icon_data.hWnd = g_windows_params.game_window_handle;
 
 	// Unique ID for the notification icon
 	notify_icon_data.uID = 1;
