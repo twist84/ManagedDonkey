@@ -696,11 +696,14 @@ void __cdecl update_key(key_state* key, bool key_down, long duration_ms)
 
 void input_handle_key_combos()
 {
-	if (input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_enter, _input_type_ui) == 1 ||
-		input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+	if (!g_windows_params.editor_window_create)
 	{
-		global_preferences_set_fullscreen(!global_preferences_get_fullscreen());
-		rasterizer_reset_device();
+		if (input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_enter, _input_type_ui) == 1 ||
+			input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+		{
+			global_preferences_set_fullscreen(!global_preferences_get_fullscreen());
+			rasterizer_reset_device();
+		}
 	}
 
 	if (input_key_frames_down(_key_code_control, _input_type_ui) && input_key_frames_down(_key_code_shift, _input_type_ui) && input_key_frames_down(_key_code_j, _input_type_ui) == 1)
