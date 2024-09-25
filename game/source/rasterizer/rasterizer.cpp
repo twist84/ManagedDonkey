@@ -326,6 +326,8 @@ bool __cdecl c_rasterizer::reset_device()
 
 	bool fullscreen = global_preferences_get_fullscreen();
 	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_CAPTION | WS_SYSMENU | WS_THICKFRAME;
+	if (g_windows_params.create_editor_window)
+		window_style &= ~WS_SYSMENU;
 	SetWindowLongA(g_windows_params.created_window_handle, GWL_STYLE, window_style);
 
 	if (fullscreen)
@@ -352,12 +354,29 @@ bool __cdecl c_rasterizer::reset_device()
 		SetWindowPos(
 			g_windows_params.created_window_handle,
 			HWND_NOTOPMOST,
-			window_x,
-			window_y,
+			g_windows_params.create_editor_window ? 0 : window_x,
+			g_windows_params.create_editor_window ? 0 : window_y,
 			rect.right,
 			rect.bottom,
 			SWP_SHOWWINDOW);
 		ShowWindow(g_windows_params.created_window_handle, SW_SHOWNORMAL);
+
+		if (g_windows_params.create_editor_window)
+		{
+			GetClientRect(g_windows_params.editor_window_handle, &rect);
+
+			if (HWND console_window = GetConsoleWindow())
+			{
+				SetParent(console_window, g_windows_params.editor_window_handle);
+				SetWindowPos(
+					console_window,
+					HWND_TOP,
+					3, rect.bottom - 297,
+					1406, 296,
+					SWP_SHOWWINDOW);
+				ShowWindow(console_window, SW_SHOWNORMAL);
+			}
+		}
 	}
 
 	RECT rect{};
@@ -478,6 +497,22 @@ bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
 }
 
+// Window procedure for parent window
+LRESULT CALLBACK EditorWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		return 0;
+	}
+
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+LPCWSTR editor_class_name = TEXT("EditorWindowClass");
+
 void __cdecl c_rasterizer::initialize_window()
 {
 	//INVOKE(0x00A223F0, initialize_window);
@@ -489,6 +524,34 @@ void __cdecl c_rasterizer::initialize_window()
 	c_rasterizer::get_display_pixel_bounds(&bounds);
 	short display_width = bounds.x1;
 	short display_height = bounds.y1;
+
+	if (g_windows_params.create_editor_window)
+	{
+		WNDCLASS editor_window_class = { };
+		editor_window_class.lpfnWndProc = EditorWindowProc;
+		editor_window_class.hInstance = g_windows_params.instance;
+		editor_window_class.lpszClassName = editor_class_name;
+		editor_window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
+		editor_window_class.hbrBackground = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
+		RegisterClass(&editor_window_class);
+
+		HWND editor_window_handle_created = CreateWindowEx(
+			0,
+			editor_class_name,
+			TEXT("Managed Donkey - Editor"),
+			WS_TILEDWINDOW,
+			0,
+			0,
+			display_width,
+			display_height,
+			NULL,
+			NULL,
+			editor_window_class.hInstance,
+			NULL
+		);
+		g_windows_params.editor_window_handle = editor_window_handle_created;
+		ShowWindow(editor_window_handle_created, SW_MAXIMIZE);
+	}
 
 	WNDCLASSEXA window_class{};
 	window_class.cbSize = sizeof(WNDCLASSEXA);
@@ -524,7 +587,14 @@ void __cdecl c_rasterizer::initialize_window()
 	{
 		long width = display_width;
 		long height = display_height;
-		global_preferences_get_screen_resolution(&width, &height);
+		if (g_windows_params.create_editor_window)
+		{
+			// #TODO: 
+		}
+		else
+		{
+			global_preferences_get_screen_resolution(&width, &height);
+		}
 
 		int window_x = 0;
 		int window_y = 0;
@@ -538,12 +608,12 @@ void __cdecl c_rasterizer::initialize_window()
 			0,
 			g_windows_params.class_name,
 			g_windows_params.window_name,
-			WS_TILEDWINDOW,
-			window_x,
-			window_y,
+			g_windows_params.create_editor_window ? WS_CHILD : WS_TILEDWINDOW,
+			g_windows_params.create_editor_window ? 0 : window_x,
+			g_windows_params.create_editor_window ? 0 : window_y,
 			width,
 			height,
-			GetDesktopWindow(),
+			g_windows_params.editor_window_handle,
 			NULL,
 			window_class.hInstance,
 			NULL);

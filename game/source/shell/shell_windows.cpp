@@ -15,6 +15,9 @@ HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
 
 bool fake_system_identifier = false;
 
+bool s_windows_params::create_editor_window = false;
+HWND s_windows_params::editor_window_handle = NULL;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//return INVOKE(0x0042E6A0, WndProc, hWnd, uMsg, wParam, lParam);
@@ -228,11 +231,6 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	g_windows_params.window_proc = WndProc;
 	g_windows_params.window_handle = NULL;
 
-	c_static_string<64> name;
-	name.print("HaloOnline %s", sub_5013A0());
-	name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
-	name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
-
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-haltonstartup", NULL, 0))
 	{
 		while (!is_debugger_present())
@@ -242,6 +240,20 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	long cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
 		g_physical_memory_cache_size_increase_mb = static_cast<dword>(cache_size_increase);
+
+	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
+		g_windows_params.create_editor_window = true;
+
+	c_static_string<64> name;
+	if (g_windows_params.create_editor_window)
+		name.set("Game window");
+	else
+		name.print("HaloOnline %s", sub_5013A0());
+	name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
+	name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+
+	if (HWND hwnd = GetConsoleWindow())
+		SetConsoleTitleA(g_windows_params.create_editor_window ? "Output window" : "ManagedDonkey");
 
 	physical_memory_initialize();
 	physical_memory_stage_push(_memory_stage_game_initialize);

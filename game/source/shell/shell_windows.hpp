@@ -14,6 +14,9 @@ struct s_windows_params
 	CHAR class_name[64];
 	CHAR window_name[64];
 	LPSTR cmd_line;
+
+	static bool create_editor_window;
+	static HWND editor_window_handle;
 };
 static_assert(sizeof(s_windows_params));
 
