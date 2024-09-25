@@ -19,9 +19,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//return INVOKE(0x0042E6A0, WndProc, hWnd, uMsg, wParam, lParam);
 
-	if (uMsg == WM_MOUSEACTIVATE)
-		return 2;
-
 	if (uMsg == WM_DESTROY)
 	{
 		PostQuitMessage(0);
