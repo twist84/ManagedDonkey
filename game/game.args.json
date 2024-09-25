@@ -7,6 +7,10 @@
       "Command": "eldorado.exe $(TargetFileName)"
     },
     {
+      "Id": "28ca5a68-9b9f-4ab4-b6ea-41768881f76d",
+      "Command": "-editor"
+    },
+    {
       "Id": "42deb9be-308e-48af-ae4e-d212197f55a8",
       "Command": "-centered"
     },

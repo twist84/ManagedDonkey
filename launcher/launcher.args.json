@@ -11,6 +11,10 @@
       "Command": "eldorado.exe dedicated_server.dll"
     },
     {
+      "Id": "2b61ead4-823a-4eb1-8271-3cc674314370",
+      "Command": "-editor"
+    },
+    {
       "Id": "6165b7d8-7a1f-4373-b29c-88d1bb2d9f5f",
       "Command": "-centered"
     },
