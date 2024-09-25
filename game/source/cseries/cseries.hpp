@@ -1297,7 +1297,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		cvsnzprintf(m_string, k_maximum_count, format, list);
+		print_va(format, list);
 
 		va_end(list);
 
@@ -1309,7 +1309,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		cvsnzprintf(m_string, k_maximum_count, format, list);
+		print_va(format, list);
 		append_line();
 
 		va_end(list);

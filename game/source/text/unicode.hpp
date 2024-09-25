@@ -167,7 +167,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		uvsnzprintf(m_string, k_buffer_size, format, list);
+		print_va(format, list);
 
 		va_end(list);
 
@@ -179,7 +179,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		uvsnzprintf(m_string, k_buffer_size, format, list);
+		print_va(format, list);
 		append_line();
 
 		va_end(list);
@@ -242,7 +242,7 @@ public:
 		return is_equal(s, true);
 	}
 
-	wchar_t* copy_to(wchar_t* s, unsigned int size)const
+	wchar_t* copy_to(wchar_t* s, unsigned int size) const
 	{
 		if (size > k_buffer_size)
 			size = k_buffer_size;
