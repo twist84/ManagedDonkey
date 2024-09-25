@@ -156,6 +156,9 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		case ID_FILE_OPTION_06:
 			PostQuitMessage(0);
 			break;
+		case ID_VIEW_OPTION_03:
+			ShowWindow(g_windows_params.game_window_handle, IsWindowVisible(g_windows_params.game_window_handle) ? SW_HIDE : SW_SHOW);
+			break;
 		case ID_ABOUT_OPTION_1:
 			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
 			break;
