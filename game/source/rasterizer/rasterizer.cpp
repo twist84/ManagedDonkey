@@ -325,8 +325,7 @@ bool __cdecl c_rasterizer::reset_device()
 	*presentation_parameters = *get_new_presentation_parameters();
 
 	bool fullscreen = global_preferences_get_fullscreen();
-
-	LONG window_style = fullscreen ? 0 : 0xCA0000;
+	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_CAPTION | WS_SYSMENU | WS_THICKFRAME;
 	SetWindowLongA(g_windows_params.created_window_handle, GWL_STYLE, window_style);
 
 	if (fullscreen)
