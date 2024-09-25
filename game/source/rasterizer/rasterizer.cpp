@@ -315,6 +315,33 @@ bool __cdecl c_rasterizer::test_cooperative_level()
 	return INVOKE(0x00A22670, test_cooperative_level);
 }
 
+void editor_set_console_attributes()
+{
+	int text_color = 0;
+	int bg_color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+	int font_size = 13;
+
+	HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
+	GetConsoleScreenBufferInfo(console_handle, &console_screen_buffer_info);
+
+	WORD attributes = (bg_color << 4) | text_color;
+	DWORD length = length = console_screen_buffer_info.dwSize.X * console_screen_buffer_info.dwSize.Y;
+	DWORD written = 0;
+
+	FillConsoleOutputAttribute(console_handle, attributes, length, { 0, 0 }, &written);
+	SetConsoleTextAttribute(console_handle, attributes);
+	SetConsoleCursorPosition(console_handle, console_screen_buffer_info.dwMaximumWindowSize);
+
+	CONSOLE_FONT_INFOEX console_font_info;
+	console_font_info.cbSize = sizeof(console_font_info);
+	GetCurrentConsoleFontEx(console_handle, FALSE, &console_font_info);
+	console_font_info.dwFontSize.X = 0;
+	console_font_info.dwFontSize.Y = font_size;
+	SetCurrentConsoleFontEx(console_handle, FALSE, &console_font_info);
+}
+
 bool __cdecl c_rasterizer::reset_device()
 {
 	//return INVOKE(0x00A226D0, reset_device);
@@ -370,6 +397,8 @@ bool __cdecl c_rasterizer::reset_device()
 
 			if (HWND console_window = GetConsoleWindow())
 			{
+				editor_set_console_attributes();
+
 				SetParent(console_window, g_windows_params.editor_window_handle);
 				SetWindowPos(
 					console_window,
