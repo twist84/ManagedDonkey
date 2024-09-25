@@ -636,14 +636,6 @@ LRESULT CALLBACK EditorWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		PostQuitMessage(0);
 		return 0;
 	}
-	//case WM_SIZE:
-	//{
-	//	int width = LOWORD(lParam);
-	//	int height = HIWORD(lParam);
-	//	global_preferences_set_screen_resolution(width, height - 200);
-	//	rasterizer_reset_device();
-	//	return 0;
-	//}
 	break;
 	}
 

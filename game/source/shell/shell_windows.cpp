@@ -2,9 +2,11 @@
 
 #include "cache/physical_memory_map.hpp"
 #include "input/input_windows.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
@@ -31,6 +33,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	if (uMsg == WM_ACTIVATE)
 	{
 		WndProc_HandleActivate(WM_ACTIVATE, wParam);
+		return 0;
+	}
+
+	if (uMsg == WM_SIZE)
+	{
+		int width = LOWORD(lParam);
+		int height = HIWORD(lParam);
+		global_preferences_set_screen_resolution(width, height);
+		rasterizer_reset_device();
 		return 0;
 	}
 
