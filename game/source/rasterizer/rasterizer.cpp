@@ -344,29 +344,27 @@ bool __cdecl c_rasterizer::reset_device()
 
 		int window_x = 0;
 		int window_y = 0;
-		static bool first_run = true;
-		if (first_run)
+		if (!g_windows_params.editor_window_create)
 		{
 			if (strstr(shell_get_command_line(), "-centered") != 0)
 			{
 				window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
 				window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
 			}
-			first_run = false;
 		}
 
 		AdjustWindowRect(&rect, window_style, 0);
 		SetWindowPos(
 			g_windows_params.game_window_handle,
 			HWND_NOTOPMOST,
-			g_windows_params.game_window_handle ? 0 : window_x,
-			g_windows_params.game_window_handle ? 0 : window_y,
+			g_windows_params.editor_window_create ? 0 : window_x,
+			g_windows_params.editor_window_create ? 0 : window_y,
 			rect.right,
 			rect.bottom,
 			SWP_SHOWWINDOW);
 		ShowWindow(g_windows_params.game_window_handle, SW_SHOWNORMAL);
 
-		if (g_windows_params.game_window_handle)
+		if (g_windows_params.editor_window_create)
 		{
 			GetClientRect(g_windows_params.editor_window_handle, &rect);
 
@@ -572,7 +570,7 @@ void __cdecl c_rasterizer::initialize_window()
 
 		int window_x = 0;
 		int window_y = 0;
-		if (g_windows_params.game_window_handle)
+		if (g_windows_params.editor_window_create)
 		{
 			// #TODO: 
 		}
