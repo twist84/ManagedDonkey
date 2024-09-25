@@ -116,16 +116,14 @@ void __cdecl shell_idle()
 	MSG message{};
 	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
 	{
+		TranslateMessage(&message);
 		if (message.message == WM_QUIT)
 		{
 			main_exit_game();
 			quit_timeout = system_milliseconds();
+			continue;
 		}
-		else
-		{
-			TranslateMessage(&message);
-			DispatchMessageA(&message);
-		}
+		DispatchMessageA(&message);
 	}
 
 	if (quit_timeout != NONE && system_milliseconds() > quit_timeout + 2000)
