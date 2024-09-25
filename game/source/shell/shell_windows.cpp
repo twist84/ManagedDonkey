@@ -17,8 +17,161 @@ HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
 
 bool fake_system_identifier = false;
 
-bool s_windows_params::create_editor_window = false;
+bool s_windows_params::editor_window_create = false;
 HWND s_windows_params::editor_window_handle = NULL;
+WNDPROC s_windows_params::editor_window_proc = DefWindowProcA;
+CHAR s_windows_params::editor_class_name[64]{};
+CHAR s_windows_params::editor_window_name[64]{};
+
+#define ID_FILE_OPTION_01 57601
+#define ID_FILE_OPTION_02 57603
+#define ID_FILE_OPTION_03 57604
+#define ID_FILE_OPTION_04 32803
+#define ID_FILE_OPTION_05 32802
+#define ID_FILE_OPTION_06 57665
+
+#define ID_EDIT_OPTION_01 32925
+#define ID_EDIT_OPTION_02 32837
+#define ID_EDIT_OPTION_03 273
+#define ID_EDIT_OPTION_04 32863
+#define ID_EDIT_OPTION_05 32864
+#define ID_EDIT_OPTION_06 32880
+#define ID_EDIT_OPTION_07 32893
+
+#define ID_VIEW_OPTION_01 59392
+#define ID_VIEW_OPTION_02 59393
+#define ID_VIEW_OPTION_03 32794
+#define ID_VIEW_OPTION_04 32795
+#define ID_VIEW_OPTION_05 32796
+#define ID_VIEW_OPTION_06 32811
+#define ID_VIEW_OPTION_07 32975
+#define ID_VIEW_OPTION_08 32883
+#define ID_VIEW_OPTION_09 32920
+
+#define ID_SCENARIOS_OPTION_01 32870
+#define ID_SCENARIOS_OPTION_02 32871
+#define ID_SCENARIOS_OPTION_03 32916
+#define ID_SCENARIOS_OPTION_04 32917
+#define ID_SCENARIOS_OPTION_05 32839
+#define ID_SCENARIOS_OPTION_06 264
+#define ID_SCENARIOS_OPTION_07 266
+#define ID_SCENARIOS_OPTION_08 268
+#define ID_SCENARIOS_OPTION_09 269
+#define ID_SCENARIOS_OPTION_10 270
+#define ID_SCENARIOS_OPTION_11 32888
+
+#define ID_ABOUT_OPTION_1 57664
+
+LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_CREATE:
+	{
+		static HMENU menu_handle = NULL;
+		static HMENU file_menu_handle = NULL;
+		static HMENU edit_menu_handle = NULL;
+		static HMENU view_menu_handle = NULL;
+		static HMENU scenarios_menu_handle = NULL;
+		static HMENU help_menu_handle = NULL;
+
+		if (menu_handle = CreateMenu())
+		{
+			if (file_menu_handle = CreateMenu())
+			{
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_01, TEXT("&Open Scenario\tCtrl+O"));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_02, TEXT("&Save Scenario\tCtrl+S"));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_03, TEXT("Save Scenario &As..."));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_04, TEXT("&Compile scripts\tCtrl+Shift+C"));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_05, TEXT("&Export script names\tCtrl+Shift+E"));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_06, TEXT("E&xit"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)file_menu_handle, TEXT("&File"));
+			}
+
+			if (edit_menu_handle = CreateMenu())
+			{
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_01, TEXT("&Switch Zone Set...\tCtrl+B"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_02, TEXT("E&xpert mode...\tCtrl+Alt+Shift+X"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_03, TEXT("Reset object &z...\tCtrl+Alt+Z"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_04, TEXT("Copy object transform\tCtrl+K"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_05, TEXT("Apply object transform\tCtrl+L"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_06, TEXT("&Hexidecimal mode..."));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_07, TEXT("&Clear output window"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)edit_menu_handle, TEXT("&Edit"));
+			}
+
+			if (view_menu_handle = CreateMenu())
+			{
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_01, TEXT("Toolbar"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_02, TEXT("&Status Bar"));
+				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_03, TEXT("&Game window"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_04, TEXT("&Properties palette"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_05, TEXT("&Hierarchy view"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_06, TEXT("&Tool window"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_07, TEXT("&Output Window"));
+				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_08, TEXT("Reset window prefs"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_09, TEXT("&Lock aspect ratio"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)view_menu_handle, TEXT("View"));
+			}
+
+			if (scenarios_menu_handle = CreateMenu())
+			{
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_04, TEXT("Erase Squad\tCtrl+Shift+P")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_05, TEXT("Generate all pathfinding data"));
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_06, TEXT("S&plit Mission resources\tCtrl+Shift+P"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_07, TEXT("Split Mission &scripts"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_08, TEXT("&Add Mission script"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_09, TEXT("Split Mission AI"));
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_10, TEXT("Set Active Mission AI")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_11, TEXT("&Import comments\tCtrl+Shift+L"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)scenarios_menu_handle, TEXT("Scenarios"));
+			}
+
+			if (help_menu_handle = CreateMenu())
+			{
+				AppendMenu(help_menu_handle, MF_STRING, ID_ABOUT_OPTION_1, TEXT("About Donkey..."));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)help_menu_handle, TEXT("Help"));
+			}
+
+			SetMenu(hwnd, menu_handle);
+		}
+	}
+	break;
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case ID_FILE_OPTION_06:
+			PostQuitMessage(0);
+			break;
+		case ID_ABOUT_OPTION_1:
+			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
+			break;
+		}
+	}
+	break;
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		return 0;
+	}
+	break;
+	}
+
+	return DefWindowProcA(hwnd, uMsg, wParam, lParam);
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -252,19 +405,29 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
 		g_physical_memory_cache_size_increase_mb = static_cast<dword>(cache_size_increase);
 
+
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
-		g_windows_params.create_editor_window = true;
+	{
+		g_windows_params.editor_window_create = true;
+		g_windows_params.editor_window_proc = EditorWndProc;
 
-	c_static_string<64> name;
-	if (g_windows_params.create_editor_window)
-		name.set("Game window");
+		SetConsoleTitleA("Output window");
+
+		c_static_string<64> editor_name = "Managed Donkey - Editor";
+		editor_name.copy_to(g_windows_params.editor_class_name, sizeof(g_windows_params.editor_class_name));
+		editor_name.copy_to(g_windows_params.editor_window_name, sizeof(g_windows_params.editor_window_name));
+
+		c_static_string<64> name("Game window");
+		name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
+		name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+	}
 	else
-		name.print("HaloOnline %s", sub_5013A0());
-	name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
-	name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+	{
+		c_static_string<64> name = c_static_string<64>().print("HaloOnline %s", sub_5013A0());
+		name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
+		name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+	}
 
-	if (HWND hwnd = GetConsoleWindow())
-		SetConsoleTitleA(g_windows_params.create_editor_window ? "Output window" : "ManagedDonkey");
 
 	physical_memory_initialize();
 	physical_memory_stage_push(_memory_stage_game_initialize);

@@ -325,14 +325,14 @@ bool __cdecl c_rasterizer::reset_device()
 	*presentation_parameters = *get_new_presentation_parameters();
 
 	bool fullscreen = global_preferences_get_fullscreen();
-	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_CAPTION | WS_SYSMENU | WS_THICKFRAME;
-	if (g_windows_params.create_editor_window)
-		window_style &= ~WS_SYSMENU;
-	SetWindowLongA(g_windows_params.created_window_handle, GWL_STYLE, window_style);
+	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
+	if (g_windows_params.editor_window_create)
+		window_style &= ~(WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
+	SetWindowLongA(g_windows_params.game_window_handle, GWL_STYLE, window_style);
 
 	if (fullscreen)
 	{
-		ShowWindow(g_windows_params.created_window_handle, SW_MAXIMIZE);
+		ShowWindow(g_windows_params.game_window_handle, SW_MAXIMIZE);
 	}
 	else
 	{
@@ -344,24 +344,29 @@ bool __cdecl c_rasterizer::reset_device()
 
 		int window_x = 0;
 		int window_y = 0;
-		if (strstr(shell_get_command_line(), "-centered") != 0)
+		static bool first_run = true;
+		if (first_run)
 		{
-			window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
-			window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+			if (strstr(shell_get_command_line(), "-centered") != 0)
+			{
+				window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
+				window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+			}
+			first_run = false;
 		}
 
 		AdjustWindowRect(&rect, window_style, 0);
 		SetWindowPos(
-			g_windows_params.created_window_handle,
+			g_windows_params.game_window_handle,
 			HWND_NOTOPMOST,
-			g_windows_params.create_editor_window ? 0 : window_x,
-			g_windows_params.create_editor_window ? 0 : window_y,
+			g_windows_params.game_window_handle ? 0 : window_x,
+			g_windows_params.game_window_handle ? 0 : window_y,
 			rect.right,
 			rect.bottom,
 			SWP_SHOWWINDOW);
-		ShowWindow(g_windows_params.created_window_handle, SW_SHOWNORMAL);
+		ShowWindow(g_windows_params.game_window_handle, SW_SHOWNORMAL);
 
-		if (g_windows_params.create_editor_window)
+		if (g_windows_params.game_window_handle)
 		{
 			GetClientRect(g_windows_params.editor_window_handle, &rect);
 
@@ -380,7 +385,7 @@ bool __cdecl c_rasterizer::reset_device()
 	}
 
 	RECT rect{};
-	GetClientRect(g_windows_params.created_window_handle, &rect);
+	GetClientRect(g_windows_params.game_window_handle, &rect);
 	c_rasterizer::render_globals.window_width24 = rect.right - rect.left;
 	c_rasterizer::render_globals.window_height28 = rect.bottom - rect.top;
 
@@ -497,158 +502,11 @@ bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
 }
 
-// Menu item IDs
-#define ID_FILE_OPTION_01 57601
-#define ID_FILE_OPTION_02 57603
-#define ID_FILE_OPTION_03 57604
-#define ID_FILE_OPTION_04 32803
-#define ID_FILE_OPTION_05 32802
-#define ID_FILE_OPTION_06 57665
-
-#define ID_EDIT_OPTION_01 32925
-#define ID_EDIT_OPTION_02 32837
-#define ID_EDIT_OPTION_03 273
-#define ID_EDIT_OPTION_04 32863
-#define ID_EDIT_OPTION_05 32864
-#define ID_EDIT_OPTION_06 32880
-#define ID_EDIT_OPTION_07 32893
-
-#define ID_VIEW_OPTION_01 59392
-#define ID_VIEW_OPTION_02 59393
-#define ID_VIEW_OPTION_03 32794
-#define ID_VIEW_OPTION_04 32795
-#define ID_VIEW_OPTION_05 32796
-#define ID_VIEW_OPTION_06 32811
-#define ID_VIEW_OPTION_07 32975
-#define ID_VIEW_OPTION_08 32883
-#define ID_VIEW_OPTION_09 32920
-
-#define ID_SCENARIOS_OPTION_01 32870
-#define ID_SCENARIOS_OPTION_02 32871
-#define ID_SCENARIOS_OPTION_03 32916
-#define ID_SCENARIOS_OPTION_04 32917
-#define ID_SCENARIOS_OPTION_05 32839
-#define ID_SCENARIOS_OPTION_06 264
-#define ID_SCENARIOS_OPTION_07 266
-#define ID_SCENARIOS_OPTION_08 268
-#define ID_SCENARIOS_OPTION_09 269
-#define ID_SCENARIOS_OPTION_10 270
-#define ID_SCENARIOS_OPTION_11 32888
-
-#define ID_ABOUT_OPTION_1 57664
-
-// Window procedure for parent window
-LRESULT CALLBACK EditorWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch (uMsg)
-	{
-	case WM_CREATE:
-	{
-		if (HMENU menu_handle = CreateMenu())
-		{
-			if (HMENU file_menu_handle = CreateMenu())
-			{
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_01, TEXT("&Open Scenario\tCtrl+O"));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_02, TEXT("&Save Scenario\tCtrl+S"));
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_03, TEXT("Save Scenario &As..."));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_04, TEXT("&Compile scripts\tCtrl+Shift+C"));
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_05, TEXT("&Export script names\tCtrl+Shift+E"));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_06, TEXT("E&xit"));
-				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)file_menu_handle, TEXT("&File"));
-			}
-
-			if (HMENU edit_menu_handle = CreateMenu())
-			{
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_01, TEXT("&Switch Zone Set...\tCtrl+B"));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_02, TEXT("E&xpert mode...\tCtrl+Alt+Shift+X"));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_03, TEXT("Reset object &z...\tCtrl+Alt+Z"));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_04, TEXT("Copy object transform\tCtrl+K"));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_05, TEXT("Apply object transform\tCtrl+L"));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_06, TEXT("&Hexidecimal mode..."));
-				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_07, TEXT("&Clear output window"));
-				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)edit_menu_handle, TEXT("&Edit"));
-			}
-
-			if (HMENU view_menu_handle = CreateMenu())
-			{
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_01, TEXT("Toolbar"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_02, TEXT("&Status Bar"));
-				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_03, TEXT("&Game window"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_04, TEXT("&Properties palette"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_05, TEXT("&Hierarchy view"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_06, TEXT("&Tool window"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_07, TEXT("&Output Window"));
-				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_08, TEXT("Reset window prefs"));
-				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_09, TEXT("&Lock aspect ratio"));
-				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)view_menu_handle, TEXT("View"));
-			}
-
-			if (HMENU scenarios_menu_handle = CreateMenu())
-			{
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P")); // INACTIVE
-				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_04, TEXT("Erase Squad\tCtrl+Shift+P")); // INACTIVE
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_05, TEXT("Generate all pathfinding data"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_06, TEXT("S&plit Mission resources\tCtrl+Shift+P"));
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_07, TEXT("Split Mission &scripts"));
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_08, TEXT("&Add Mission script"));
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_09, TEXT("Split Mission AI"));
-				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_10, TEXT("Set Active Mission AI")); // INACTIVE
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
-				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_11, TEXT("&Import comments\tCtrl+Shift+L"));
-				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)scenarios_menu_handle, TEXT("Scenarios"));
-			}
-
-			if (HMENU help_menu_handle = CreateMenu())
-			{
-				AppendMenu(help_menu_handle, MF_STRING, ID_ABOUT_OPTION_1, TEXT("About Donkey..."));
-				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)help_menu_handle, TEXT("Help"));
-			}
-	
-			SetMenu(hwnd, menu_handle);
-		}
-	}
-	break;
-	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam))
-		{
-		case ID_FILE_OPTION_06:
-			PostQuitMessage(0);
-			break;
-		case ID_ABOUT_OPTION_1:
-			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
-			break;
-		}
-	}
-	break;
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-		return 0;
-	}
-	break;
-	}
-
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-
-LPCWSTR editor_class_name = TEXT("EditorWindowClass");
-
 void __cdecl c_rasterizer::initialize_window()
 {
 	//INVOKE(0x00A223F0, initialize_window);
 
-	if (g_windows_params.created_window_handle != NULL)
+	if (g_windows_params.game_window_handle != NULL)
 		return;
 
 	short_rectangle2d bounds{};
@@ -656,99 +514,91 @@ void __cdecl c_rasterizer::initialize_window()
 	short display_width = bounds.x1;
 	short display_height = bounds.y1;
 
-	if (g_windows_params.create_editor_window)
+	if (g_windows_params.editor_window_create)
 	{
-		WNDCLASS editor_window_class = { };
-		editor_window_class.lpfnWndProc = EditorWindowProc;
+		WNDCLASSA editor_window_class = { };
+		editor_window_class.lpfnWndProc = g_windows_params.editor_window_proc;
 		editor_window_class.hInstance = g_windows_params.instance;
-		editor_window_class.lpszClassName = editor_class_name;
+		editor_window_class.lpszClassName = g_windows_params.editor_class_name;
 		editor_window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
-		editor_window_class.hbrBackground = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
-		RegisterClass(&editor_window_class);
+		editor_window_class.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+		ATOM editor_class_registered = RegisterClassA(&editor_window_class);
+		if (editor_class_registered != INVALID_ATOM)
+		{
+			HWND editor_window_handle_created = CreateWindowA(
+				g_windows_params.editor_class_name,
+				g_windows_params.editor_window_name,
+				WS_TILEDWINDOW,
+				0,
+				0,
+				display_width,
+				display_height,
+				NULL,
+				NULL,
+				editor_window_class.hInstance,
+				NULL
+			);
+			g_windows_params.editor_window_handle = editor_window_handle_created;
+			ShowWindow(editor_window_handle_created, SW_MAXIMIZE);
+		}
+		else
+		{
+			CHAR error_message_buffer[256]{};
+			FormatMessageA(
+				FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+				NULL,
+				GetLastError(),
+				0,
+				error_message_buffer,
+				sizeof(error_message_buffer),
+				NULL);
 
-		HWND editor_window_handle_created = CreateWindowEx(
-			0,
-			editor_class_name,
-			TEXT("Managed Donkey - Editor"),
-			WS_TILEDWINDOW,
-			0,
-			0,
-			display_width,
-			display_height,
-			NULL,
-			NULL,
-			editor_window_class.hInstance,
-			NULL
-		);
-		g_windows_params.editor_window_handle = editor_window_handle_created;
-		ShowWindow(editor_window_handle_created, SW_MAXIMIZE);
+			generate_event(_event_level_warning, "%s", error_message_buffer);
+		}
 	}
 
-	WNDCLASSEXA window_class{};
-	window_class.cbSize = sizeof(WNDCLASSEXA);
-	window_class.style = CS_CLASSDC;
+	WNDCLASSA window_class{};
+	//window_class.style = CS_CLASSDC;
 	window_class.lpfnWndProc = g_windows_params.window_proc;
-	window_class.cbClsExtra = 0;
-	window_class.cbWndExtra = 0;
 	window_class.hInstance = g_windows_params.instance;
-	window_class.hIcon = NULL;
 	window_class.hCursor = sub_A22340();
-	window_class.hbrBackground = NULL;
-	window_class.lpszMenuName = NULL;
 	window_class.lpszClassName = g_windows_params.class_name;
-	window_class.hIconSm = NULL;
 
-	ATOM class_registered = RegisterClassExA(&window_class);
-	if (class_registered == INVALID_ATOM)
-	{
-		CHAR error_message_buffer[256]{};
-		FormatMessageA(
-			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-			NULL,
-			GetLastError(),
-			0,
-			error_message_buffer,
-			sizeof(error_message_buffer),
-			NULL);
-
-		generate_event(_event_level_warning, "%s", error_message_buffer);
-	}
-
+	ATOM class_registered = RegisterClassA(&window_class);
 	if (class_registered != INVALID_ATOM)
 	{
 		long width = display_width;
 		long height = display_height;
-		if (g_windows_params.create_editor_window)
+
+		int window_x = 0;
+		int window_y = 0;
+		if (g_windows_params.game_window_handle)
 		{
 			// #TODO: 
 		}
 		else
 		{
 			global_preferences_get_screen_resolution(&width, &height);
+			if (strstr(shell_get_command_line(), "-centered") != 0)
+			{
+				window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+				window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+			}
 		}
 
-		int window_x = 0;
-		int window_y = 0;
-		if (strstr(shell_get_command_line(), "-centered") != 0)
-		{
-			window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-			window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
-		}
-
-		HWND window_handle_created = CreateWindowExA(
-			0,
+		HWND window_handle_created = CreateWindowA(
 			g_windows_params.class_name,
 			g_windows_params.window_name,
-			g_windows_params.create_editor_window ? WS_CHILD : WS_TILEDWINDOW,
-			g_windows_params.create_editor_window ? 0 : window_x,
-			g_windows_params.create_editor_window ? 0 : window_y,
+			g_windows_params.editor_window_create ? WS_CHILD : WS_TILEDWINDOW,
+			g_windows_params.editor_window_create ? 0 : window_x,
+			g_windows_params.editor_window_create ? 0 : window_y,
 			width,
 			height,
 			g_windows_params.editor_window_handle,
 			NULL,
 			window_class.hInstance,
 			NULL);
-		g_windows_params.created_window_handle = window_handle_created;
+		g_windows_params.game_window_handle = window_handle_created;
 
 		if (window_handle_created != NULL)
 		{
@@ -768,6 +618,20 @@ void __cdecl c_rasterizer::initialize_window()
 				return;
 			}
 		}
+	}
+	else
+	{
+		CHAR error_message_buffer[256]{};
+		FormatMessageA(
+			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+			NULL,
+			GetLastError(),
+			0,
+			error_message_buffer,
+			sizeof(error_message_buffer),
+			NULL);
+
+		generate_event(_event_level_warning, "%s", error_message_buffer);
 	}
 
 	LPSTR error_message = NULL;
@@ -1580,7 +1444,7 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	if (file_exists(&info))
 		file_delete(&info);
 
-	HWND window_handle = g_windows_params.created_window_handle;
+	HWND window_handle = g_windows_params.game_window_handle;
 	if (!window_handle)
 		return false;
 
