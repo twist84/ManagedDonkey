@@ -497,15 +497,156 @@ bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
 }
 
+// Menu item IDs
+#define ID_SEPARATOR 0x1
+#define ID_FILE_OPTION_01 57601
+#define ID_FILE_OPTION_02 57603
+#define ID_FILE_OPTION_03 57604
+#define ID_FILE_OPTION_04 32803
+#define ID_FILE_OPTION_05 32802
+#define ID_FILE_OPTION_06 57665
+
+#define ID_EDIT_OPTION_01 32925
+#define ID_EDIT_OPTION_02 32837
+#define ID_EDIT_OPTION_03 273
+#define ID_EDIT_OPTION_04 32863
+#define ID_EDIT_OPTION_05 32864
+#define ID_EDIT_OPTION_06 32880
+#define ID_EDIT_OPTION_07 32893
+
+#define ID_VIEW_OPTION_01 59392
+#define ID_VIEW_OPTION_02 59393
+#define ID_VIEW_OPTION_03 32794
+#define ID_VIEW_OPTION_04 32795
+#define ID_VIEW_OPTION_05 32796
+#define ID_VIEW_OPTION_06 32811
+#define ID_VIEW_OPTION_07 32975
+#define ID_VIEW_OPTION_08 32883
+#define ID_VIEW_OPTION_09 32920
+
+#define ID_SCENARIOS_OPTION_01 32870
+#define ID_SCENARIOS_OPTION_02 32871
+#define ID_SCENARIOS_OPTION_03 32916
+#define ID_SCENARIOS_OPTION_04 32917
+#define ID_SCENARIOS_OPTION_05 32839
+#define ID_SCENARIOS_OPTION_06 264
+#define ID_SCENARIOS_OPTION_07 266
+#define ID_SCENARIOS_OPTION_08 268
+#define ID_SCENARIOS_OPTION_09 269
+#define ID_SCENARIOS_OPTION_10 270
+#define ID_SCENARIOS_OPTION_11 32888
+
+
+#define ID_ABOUT_OPTION_1 57664
+
 // Window procedure for parent window
 LRESULT CALLBACK EditorWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
+	case WM_CREATE:
+	{
+		if (HMENU menu_handle = CreateMenu())
+		{
+			if (HMENU file_menu_handle = CreateMenu())
+			{
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_01, TEXT("&Open Scenario\tCtrl+O"));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_02, TEXT("&Save Scenario\tCtrl+S"));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_03, TEXT("Save Scenario &As..."));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_04, TEXT("&Compile scripts\tCtrl+Shift+C"));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_05, TEXT("&Export script names\tCtrl+Shift+E"));
+				AppendMenu(file_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_06, TEXT("E&xit"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)file_menu_handle, TEXT("&File"));
+			}
+
+			if (HMENU edit_menu_handle = CreateMenu())
+			{
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_01, TEXT("&Switch Zone Set...\tCtrl+B"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_02, TEXT("E&xpert mode...\tCtrl+Alt+Shift+X"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_03, TEXT("Reset object &z...\tCtrl+Alt+Z"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_04, TEXT("Copy object transform\tCtrl+K"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_05, TEXT("Apply object transform\tCtrl+L"));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_06, TEXT("&Hexidecimal mode..."));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_07, TEXT("&Clear output window"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)edit_menu_handle, TEXT("&Edit"));
+			}
+
+			if (HMENU view_menu_handle = CreateMenu())
+			{
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_01, TEXT("Toolbar"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_02, TEXT("&Status Bar"));
+				AppendMenu(view_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_03, TEXT("&Game window"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_04, TEXT("&Properties palette"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_05, TEXT("&Hierarchy view"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_06, TEXT("&Tool window"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_07, TEXT("&Output Window"));
+				AppendMenu(view_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_08, TEXT("Reset window prefs"));
+				AppendMenu(view_menu_handle, MF_STRING, ID_VIEW_OPTION_09, TEXT("&Lock aspect ratio"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)view_menu_handle, TEXT("View"));
+			}
+
+			if (HMENU scenarios_menu_handle = CreateMenu())
+			{
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_04, TEXT("Erase Squad\tCtrl+Shift+P")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_05, TEXT("Generate all pathfinding data"));
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_06, TEXT("S&plit Mission resources\tCtrl+Shift+P"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_07, TEXT("Split Mission &scripts"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_08, TEXT("&Add Mission script"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_09, TEXT("Split Mission AI"));
+				AppendMenu(scenarios_menu_handle, MF_DISABLED, ID_SCENARIOS_OPTION_10, TEXT("Set Active Mission AI")); // INACTIVE
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, ID_SEPARATOR, TEXT(""));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_11, TEXT("&Import comments\tCtrl+Shift+L"));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)scenarios_menu_handle, TEXT("Scenarios"));
+			}
+
+			if (HMENU help_menu_handle = CreateMenu())
+			{
+				AppendMenu(help_menu_handle, MF_STRING, ID_ABOUT_OPTION_1, TEXT("About Donkey..."));
+				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)help_menu_handle, TEXT("Help"));
+			}
+	
+			SetMenu(hwnd, menu_handle);
+		}
+	}
+	break;
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case ID_FILE_OPTION_06:
+			PostQuitMessage(0);
+			break;
+		case ID_ABOUT_OPTION_1:
+			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
+			break;
+		}
+	}
+	break;
 	case WM_DESTROY:
 	{
 		PostQuitMessage(0);
 		return 0;
+	}
+	//case WM_SIZE:
+	//{
+	//	int width = LOWORD(lParam);
+	//	int height = HIWORD(lParam);
+	//	global_preferences_set_screen_resolution(width, height - 200);
+	//	rasterizer_reset_device();
+	//	return 0;
+	//}
+	break;
 	}
 
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
