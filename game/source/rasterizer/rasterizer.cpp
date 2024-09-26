@@ -418,7 +418,7 @@ bool __cdecl c_rasterizer::reset_device()
 			}
 		}
 
-		AdjustWindowRect(&rect, window_style, 0);
+		AdjustWindowRect(&rect, window_style, FALSE);
 		SetWindowPos(
 			g_windows_params.game_window_handle,
 			HWND_NOTOPMOST,
