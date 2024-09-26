@@ -5,6 +5,7 @@
 #include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "rasterizer/rasterizer_main.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/screen_postprocess.hpp"
@@ -303,6 +304,43 @@ void __cdecl c_rasterizer::shell_dispose()
 void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 {
 	INVOKE(0x00A20370, shell_initialize, window_exists, windowed);
+
+	//if (!c_rasterizer::initialized)
+	//{
+	//	if (c_rasterizer::initialize_device(window_exists, windowed))
+	//	{
+	//		if (c_rasterizer::g_device)
+	//		{
+	//			c_particle_emitter_gpu::shell_initialize();
+	//			c_contrail_gpu::shell_initialize();
+	//			c_light_volume_gpu::shell_initialize();
+	//			c_beam_gpu::shell_initialize();
+	//			c_rasterizer_texture_ref::initialize();
+	//			c_dynamic_render_targets::shell_initialize();
+	//			c_rasterizer::initialize_after_device_creation_or_reset();
+	//			rasterizer_memory_initialize();
+	//		}
+	//
+	//		c_rasterizer::initialized = true;
+	//	}
+	//}
+	//else if (!c_rasterizer::initialized)
+	//{
+	//	return;
+	//}
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_game_states);
+	//TLS_DATA_GET_VALUE_REFERENCE(g_hue_saturation_control_in_gamestate);
+	//
+	//g_rasterizer_game_states = (s_rasterizer_game_states*)g_rasterizer_game_states_allocator.allocate(sizeof(s_rasterizer_game_states), "rasterizer game states");
+	//g_rasterizer_game_states->motion_blur = true;
+	//g_rasterizer_game_states->atmosphere_fog = true;
+	//g_rasterizer_game_states->patchy_fog = true;
+	//g_rasterizer_game_states->weather = true;
+	//g_rasterizer_game_states->cinematic_motion_blur = false;
+	//
+	//g_hue_saturation_control_in_gamestate = (c_hue_saturation_control*)g_hue_saturation_control_allocator.allocate(sizeof(c_hue_saturation_control), "hue saturation control");
+	//*g_hue_saturation_control_in_gamestate = g_hue_saturation_control_default;
 }
 
 void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool fullscreen)
