@@ -65,7 +65,9 @@ CHAR s_windows_params::editor_window_name[64]{};
 
 #define ID_ABOUT_OPTION_1 57664
 
-LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+#define MF_UNIMPLEMENTED MF_GRAYED
+
+LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HMENU menu_handle = NULL;
 	static HMENU file_menu_handle = NULL;
@@ -151,7 +153,7 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)help_menu_handle, TEXT("Help"));
 			}
 
-			SetMenu(hwnd, menu_handle);
+			SetMenu(hWnd, menu_handle);
 		}
 
 		INITCOMMONCONTROLSEX init_common_controls_ex{};
@@ -166,7 +168,7 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP,
 			0, 0,
 			0, 0,
-			hwnd,
+			hWnd,
 			(HMENU)1,
 			status_bar_instance,
 			NULL);
@@ -188,6 +190,9 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		case ID_FILE_OPTION_06:
 			PostQuitMessage(0);
 			break;
+		case ID_VIEW_OPTION_02:
+			ShowWindow(status_bar_handle, IsWindowVisible(status_bar_handle) ? SW_HIDE : SW_SHOW);
+			break;
 		case ID_VIEW_OPTION_03:
 			ShowWindow(g_windows_params.game_window_handle, IsWindowVisible(g_windows_params.game_window_handle) ? SW_HIDE : SW_SHOW);
 			break;
@@ -208,7 +213,7 @@ LRESULT CALLBACK EditorWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	break;
 	}
 
-	return DefWindowProcA(hwnd, uMsg, wParam, lParam);
+	return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
