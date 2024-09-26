@@ -574,11 +574,6 @@ void __cdecl c_rasterizer::initialize_window()
 	if (g_windows_params.game_window_handle != NULL)
 		return;
 
-	short_rectangle2d bounds{};
-	c_rasterizer::get_display_pixel_bounds(&bounds);
-	short display_width = bounds.x1;
-	short display_height = bounds.y1;
-
 	if (g_windows_params.editor_window_create)
 	{
 		WNDCLASSA editor_window_class = { };
@@ -596,8 +591,8 @@ void __cdecl c_rasterizer::initialize_window()
 				WS_TILEDWINDOW,
 				0,
 				0,
-				display_width,
-				display_height,
+				GetSystemMetrics(SM_CXSCREEN),
+				GetSystemMetrics(SM_CYSCREEN),
 				NULL,
 				NULL,
 				editor_window_class.hInstance,
@@ -632,14 +627,15 @@ void __cdecl c_rasterizer::initialize_window()
 	ATOM class_registered = RegisterClassA(&window_class);
 	if (class_registered != INVALID_ATOM)
 	{
-		long width = display_width;
-		long height = display_height;
-
 		int window_x = 0;
 		int window_y = 0;
+		long width = 1152;
+		long height = 640;
+
 		if (g_windows_params.editor_window_create)
 		{
-			// #TODO: 
+			width = 1244;
+			height = 700;
 		}
 		else
 		{
