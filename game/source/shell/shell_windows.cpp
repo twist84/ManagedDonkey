@@ -203,6 +203,29 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
 			break;
 		}
+
+		switch (LOWORD(wParam))
+		{
+		case ID_VIEW_OPTION_01:
+		case ID_VIEW_OPTION_02:
+		case ID_VIEW_OPTION_03:
+		case ID_VIEW_OPTION_04:
+		case ID_VIEW_OPTION_05:
+		case ID_VIEW_OPTION_06:
+		case ID_VIEW_OPTION_07:
+		case ID_VIEW_OPTION_09:
+		{
+			MENUITEMINFO menu_item_info = { sizeof(MENUITEMINFO) };
+			menu_item_info.fMask = MIIM_STATE;
+
+			GetMenuItemInfo(view_menu_handle, LOWORD(wParam), FALSE, &menu_item_info);
+			SET_MASK(menu_item_info.fState, MFS_CHECKED, !TEST_MASK(menu_item_info.fState, MFS_GRAYED));
+			SetMenuItemInfo(view_menu_handle, LOWORD(wParam), FALSE, &menu_item_info);
+
+			DrawMenuBar(GetParent((HWND)view_menu_handle));
+		}
+		break;
+		}
 	}
 	break;
 	case WM_DESTROY:
