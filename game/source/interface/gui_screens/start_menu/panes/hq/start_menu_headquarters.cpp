@@ -22,5 +22,5 @@ e_download_status __thiscall t_motd_data_downloader::get_data(s_motd_data const*
 
 	return _http_download_status_succeeded;
 }
-HOOK_DECLARE_CLASS_MEMBER(0x00AEC340, t_motd_data_downloader, get_data);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AEC340, t_motd_data_downloader, get_data);
 
