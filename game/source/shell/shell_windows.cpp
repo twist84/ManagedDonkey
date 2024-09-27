@@ -130,7 +130,7 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (scenarios_menu_handle = CreateMenu())
 			{
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
-				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
 				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_04, TEXT("Erase Squad\tCtrl+Shift+P"));
@@ -198,6 +198,9 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			break;
 		case ID_VIEW_OPTION_07:
 			c_console::toggle_window_visibility();
+			break;
+		case ID_SCENARIOS_OPTION_02:
+			main_reset_map();
 			break;
 		case ID_ABOUT_OPTION_1:
 			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
