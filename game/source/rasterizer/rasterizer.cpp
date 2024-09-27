@@ -390,12 +390,12 @@ bool __cdecl c_rasterizer::reset_device()
 	*presentation_parameters = *get_new_presentation_parameters();
 
 	bool fullscreen = global_preferences_get_fullscreen();
-	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
+	LONG window_style = fullscreen && !g_windows_params.editor_window_create ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
 	if (g_windows_params.editor_window_create)
 		window_style &= ~(WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
 	SetWindowLongA(g_windows_params.game_window_handle, GWL_STYLE, window_style);
 
-	if (fullscreen)
+	if (fullscreen && !g_windows_params.editor_window_create)
 	{
 		ShowWindow(g_windows_params.game_window_handle, SW_MAXIMIZE);
 	}
