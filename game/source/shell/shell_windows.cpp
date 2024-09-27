@@ -102,12 +102,12 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (edit_menu_handle = CreateMenu())
 			{
 				AppendMenu(edit_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_EDIT_OPTION_01, TEXT("&Switch Zone Set...\tCtrl+B"));
-				AppendMenu(edit_menu_handle, MF_STRING | MF_CHECKED | MF_UNIMPLEMENTED, ID_EDIT_OPTION_02, TEXT("E&xpert mode...\tCtrl+Alt+Shift+X"));
+				AppendMenu(edit_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_EDIT_OPTION_02, TEXT("E&xpert mode...\tCtrl+Alt+Shift+X"));
 				AppendMenu(edit_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_EDIT_OPTION_03, TEXT("Reset object &z...\tCtrl+Alt+Z"));
 				AppendMenu(edit_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_EDIT_OPTION_04, TEXT("Copy object transform\tCtrl+K"));
 				AppendMenu(edit_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_EDIT_OPTION_05, TEXT("Apply object transform\tCtrl+L"));
-				AppendMenu(edit_menu_handle, MF_STRING | MF_CHECKED | MF_UNIMPLEMENTED, ID_EDIT_OPTION_06, TEXT("&Hexidecimal mode..."));
-				AppendMenu(edit_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_EDIT_OPTION_07, TEXT("&Clear output window"));
+				AppendMenu(edit_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_EDIT_OPTION_06, TEXT("&Hexidecimal mode..."));
+				AppendMenu(edit_menu_handle, MF_STRING, ID_EDIT_OPTION_07, TEXT("&Clear output window"));
 				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)edit_menu_handle, TEXT("&Edit"));
 			}
 
@@ -189,6 +189,9 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		{
 		case ID_FILE_OPTION_06:
 			PostQuitMessage(0);
+			break;
+		case ID_EDIT_OPTION_07:
+			c_console::clear();
 			break;
 		case ID_VIEW_OPTION_02:
 			ShowWindow(status_bar_handle, IsWindowVisible(status_bar_handle) ? SW_HIDE : SW_SHOW);
