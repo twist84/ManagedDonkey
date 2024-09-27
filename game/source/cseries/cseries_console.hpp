@@ -8,6 +8,7 @@ public:
 	static void initialize(char const* window_title);
 	static void dispose();
 	static void toggle_window_visibility();
+	static void clear();
 
 private:
 	static bool console_allocated();

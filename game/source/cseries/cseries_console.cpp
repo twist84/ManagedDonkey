@@ -48,6 +48,24 @@ void c_console::toggle_window_visibility()
 	ShowWindow(hwnd, IsWindowVisible(hwnd) ? SW_HIDE : SW_SHOW);
 }
 
+void c_console::clear()
+{
+	HANDLE output_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (output_handle != INVALID_HANDLE_VALUE)
+	{
+		CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
+		GetConsoleScreenBufferInfo(output_handle, &console_screen_buffer_info);
+
+		DWORD console_size = console_screen_buffer_info.dwSize.X * console_screen_buffer_info.dwSize.Y;
+		COORD top_left = { 0, 0 };
+		DWORD chars_written = 0;
+		FillConsoleOutputCharacter(output_handle, ' ', console_size, top_left, &chars_written);
+
+		FillConsoleOutputAttribute(output_handle, console_screen_buffer_info.wAttributes, console_size, top_left, &chars_written);
+		SetConsoleCursorPosition(output_handle, top_left);
+	}
+}
+
 bool c_console::console_allocated()
 {
 	return GetConsoleWindow() != NULL;
