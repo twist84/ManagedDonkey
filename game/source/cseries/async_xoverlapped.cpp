@@ -545,13 +545,16 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 		}
 		else
 		{
-			generate_event(_event_level_warning, "xoverlapped: task '%s' failed. calling result= %s, error= %s, extended error= %s, file= '%s', line= '%ld'",
-				task_slot->task->get_context_string(),
-				online_error_get_string(calling_result).get_string(),
-				online_error_get_string(overlapped_error).get_string(),
-				online_error_get_string(overlapped_extended_error).get_string(),
-				task_slot->task->get_file(),
-				task_slot->task->get_line());
+			if (csstrcmp("XStringVerify", task_slot->task->get_context_string()) != 0)
+			{
+				generate_event(_event_level_warning, "xoverlapped: task '%s' failed. calling result= %s, error= %s, extended error= %s, file= '%s', line= '%ld'",
+					task_slot->task->get_context_string(),
+					online_error_get_string(calling_result).get_string(),
+					online_error_get_string(overlapped_error).get_string(),
+					online_error_get_string(overlapped_extended_error).get_string(),
+					task_slot->task->get_file(),
+					task_slot->task->get_line());
+			}
 		}
 	}
 
