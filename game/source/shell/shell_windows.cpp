@@ -67,6 +67,16 @@ CHAR s_windows_params::editor_window_name[64]{};
 
 #define MF_UNIMPLEMENTED MF_GRAYED
 
+#define UPDATE_MENU_OPTION_CHECKBOX(MENU_HANDLE) \
+{ \
+	MENUITEMINFO menu_item_info = { sizeof(MENUITEMINFO) }; \
+	menu_item_info.fMask = MIIM_STATE; \
+	GetMenuItemInfo((MENU_HANDLE), LOWORD(wParam), FALSE, &menu_item_info); \
+	SET_MASK(menu_item_info.fState, MFS_CHECKED, !TEST_MASK(menu_item_info.fState, MFS_CHECKED)); \
+	SetMenuItemInfo((MENU_HANDLE), LOWORD(wParam), FALSE, &menu_item_info); \
+	DrawMenuBar(GetParent((HWND)(MENU_HANDLE))); \
+}
+
 LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HMENU menu_handle = NULL;
@@ -214,6 +224,8 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		{
 		case ID_EDIT_OPTION_02:
 		case ID_EDIT_OPTION_06:
+			UPDATE_MENU_OPTION_CHECKBOX(edit_menu_handle);
+			break;
 		case ID_VIEW_OPTION_01:
 		case ID_VIEW_OPTION_02:
 		case ID_VIEW_OPTION_03:
@@ -222,17 +234,8 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		case ID_VIEW_OPTION_06:
 		case ID_VIEW_OPTION_07:
 		case ID_VIEW_OPTION_09:
-		{
-			MENUITEMINFO menu_item_info = { sizeof(MENUITEMINFO) };
-			menu_item_info.fMask = MIIM_STATE;
-
-			GetMenuItemInfo(view_menu_handle, LOWORD(wParam), FALSE, &menu_item_info);
-			SET_MASK(menu_item_info.fState, MFS_CHECKED, !TEST_MASK(menu_item_info.fState, MFS_GRAYED));
-			SetMenuItemInfo(view_menu_handle, LOWORD(wParam), FALSE, &menu_item_info);
-
-			DrawMenuBar(GetParent((HWND)view_menu_handle));
-		}
-		break;
+			UPDATE_MENU_OPTION_CHECKBOX(view_menu_handle);
+			break;
 		}
 	}
 	break;
