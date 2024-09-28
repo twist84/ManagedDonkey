@@ -60,7 +60,6 @@ HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
 //HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds); // ui
 //HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
 //HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
-HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
 // Add back `render_debug_toggle_default_lightmaps_texaccum` control
 HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
@@ -69,6 +68,8 @@ HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
 HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 
 HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
+HOOK_DECLARE_CLASS(0x00A22130, c_rasterizer, set_render_resolution);
+HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
 //HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
 //HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
@@ -83,10 +84,6 @@ HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
 //HOOK_DECLARE_CLASS(0x00A24650, c_rasterizer, set_vertex_declaration);
 //HOOK_DECLARE_CLASS(0x00A246E0, c_rasterizer, set_vertex_shader);
 //HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
-
-// Disable converting the game's resolution to 16:9
-byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
-DATA_PATCH_DECLARE(0x00A2217D, resolution_patch, resolution_patch_bytes); // 7D 0C
 
 // patch clear color if statement
 byte const rasterizer_clear_color_fix_bytes[9] = { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 };
@@ -345,7 +342,27 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 
 void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool fullscreen)
 {
-	INVOKE(0x00A22130, set_render_resolution, width, height, fullscreen);
+	//INVOKE(0x00A22130, set_render_resolution, width, height, fullscreen);
+
+	if (fullscreen)
+	{
+		render_globals.back_buffer_width = GetSystemMetrics(SM_CXSCREEN);
+		render_globals.back_buffer_height = GetSystemMetrics(SM_CYSCREEN);
+	}
+	else
+	{
+		render_globals.back_buffer_width = width;
+		render_globals.back_buffer_height = height;
+	}
+
+	render_globals.resolution_width = width;
+	render_globals.resolution_height = height;
+	real real_back_buffer_width = (real)c_rasterizer::render_globals.back_buffer_width;
+	real real_back_buffer_height = (real)c_rasterizer::render_globals.back_buffer_height;
+	render_globals.resolution_scale_x = real_back_buffer_width / (real)width;
+	render_globals.resolution_scale_y = real_back_buffer_height / (real)height;
+	render_globals.resolution_offset_x = long((real_back_buffer_width - ((real)width * render_globals.resolution_scale_x)) / 2);
+	render_globals.resolution_offset_y = long((real_back_buffer_height - ((real)height * render_globals.resolution_scale_y)) / 2);
 }
 
 bool __cdecl c_rasterizer::test_cooperative_level()
