@@ -407,12 +407,15 @@ bool __cdecl c_rasterizer::reset_device()
 	*presentation_parameters = *get_new_presentation_parameters();
 
 	bool fullscreen = global_preferences_get_fullscreen();
-	LONG window_style = fullscreen && !g_windows_params.editor_window_create ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
+	if (fullscreen && g_windows_params.editor_window_create)
+		global_preferences_set_fullscreen(fullscreen = false);
+
+	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
 	if (g_windows_params.editor_window_create)
 		window_style &= ~(WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
 	SetWindowLongA(g_windows_params.game_window_handle, GWL_STYLE, window_style);
 
-	if (fullscreen && !g_windows_params.editor_window_create)
+	if (fullscreen)
 	{
 		ShowWindow(g_windows_params.game_window_handle, SW_MAXIMIZE);
 	}
@@ -426,12 +429,24 @@ bool __cdecl c_rasterizer::reset_device()
 
 		int window_x = 0;
 		int window_y = 0;
-		if (!g_windows_params.editor_window_create)
+		if (g_windows_params.editor_window_create)
 		{
-			if (strstr(shell_get_command_line(), "-centered") != 0)
+			RECT window_rect{};
+			GetWindowRect(g_windows_params.game_window_handle, &window_rect);
+			window_x = window_rect.left;
+			window_y = window_rect.top;
+		}
+		else
+		{
+			static bool first_run = true;
+			if (first_run)
 			{
-				window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
-				window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+				if (strstr(shell_get_command_line(), "-centered") != 0)
+				{
+					window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
+					window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+				}
+				first_run = false;
 			}
 		}
 
