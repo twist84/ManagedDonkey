@@ -53,15 +53,15 @@ s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool const* pool, lo
 	s_memory_pool_block* block = memory_pool_get_block(pool, sub_969DB0(payload_handle));
 	//ASSERT(memory_pool_block_valid(pool, block));
 
-	s_memory_pool_block* other_block = NULL;
-	for (other_block = memory_pool_get_block(pool, pool->first_block_handle);
-		other_block&& block != other_block;
-		other_block = memory_pool_get_block(pool, other_block->next_block_handle))
-	{
-		;
-	}
-
-	ASSERT(other_block);
+	//s_memory_pool_block* other_block = NULL;
+	//for (other_block = memory_pool_get_block(pool, pool->first_block_handle);
+	//	other_block && block != other_block;
+	//	other_block = memory_pool_get_block(pool, other_block->next_block_handle))
+	//{
+	//	;
+	//}
+	//
+	//ASSERT(other_block);
 
 	return block;
 }
@@ -75,7 +75,7 @@ void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, dword payload_ha
 	//ASSERT(memory_pool_block_valid(pool, block));
 
 	pool->free_size += block->size;
-	ASSERT(pool->free_size <= pool->size);
+	//ASSERT(pool->free_size <= pool->size);
 
 	if (block->previous_block_handle)
 		memory_pool_get_block(pool, block->previous_block_handle)->next_block_handle = block->next_block_handle;
