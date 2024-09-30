@@ -249,6 +249,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
+    <ClCompile Include="source\memory\memory_pool.cpp" />
     <ClCompile Include="source\motor\biped_ground_motor_program.cpp" />
     <ClCompile Include="source\motor\motor_system.cpp" />
     <ClCompile Include="source\motor\motor_system_biped.cpp" />

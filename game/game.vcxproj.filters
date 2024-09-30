@@ -1632,6 +1632,9 @@
     <ClCompile Include="source\motor\biped_ground_motor_program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\memory\memory_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
