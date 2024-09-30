@@ -1230,6 +1230,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 	//INVOKE(0x00506460, main_loop_pregame_show_progress_screen);
 
 	static c_static_wchar_string<12288> status_message;
+	status_message.clear();
 	e_main_pregame_frame pregame_frame_type = main_loading_get_loading_status(&status_message);
 	if (pregame_frame_type == _main_pregame_frame_none)
 	{

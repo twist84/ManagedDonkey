@@ -4,6 +4,7 @@
 #include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cseries/progress.hpp"
 #include "game/game.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -217,84 +218,82 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 {
 	//return INVOKE(0x0052F930, main_loading_get_loading_status, loading_status);
 
-#if defined(_DEBUG)
-	main_loading_enable_spinner(true);
-#endif // _DEBUG
-
 	if (bink_playback_active())
 		return _main_pregame_frame_normal;
 
+	if (disable_progress_screen)
+		return _main_pregame_frame_none;
+
+	if (loading_globals.tag_load_in_progress || loading_globals.loading_in_progress || loading_globals.spinner_enabled)
+	{
+		if (game_in_progress() && !loading_globals.tag_load_in_progress)
+			return _main_pregame_frame_none;
+
+		static wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
+		static long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
+
+		if (loading_globals.tag_load_in_progress)
+		{
+			static dword last_time = system_milliseconds();
+			dword time = system_milliseconds();
+			if (time < last_time + 250)
+				return _main_pregame_frame_none;
+
+			last_time = time;
+			spinner_state_index = (spinner_state_index + 1) % NUMBEROF(spinner_states);
+		}
+
+		if (game_in_progress() && !loading_globals.tag_sync_in_progress && !loading_globals.tag_load_in_progress)
+			return _main_pregame_frame_none;
+
+		if (loading_status)
+			loading_status->append_print(L"%s|n", spinner_states[spinner_state_index]);
+
+		if (string_is_not_empty(loading_globals.scenario_path))
+		{
+			if (loading_status)
+			{
+				//if (loading_globals.zone_set_index == NONE)
+					loading_status->append_print(L"loading scenario %S...", loading_globals.scenario_path);
+				//else
+				//	loading_status->append_print(L"loading ZONE SET #%d %S...", loading_globals.zone_set_index, loading_globals.scenario_path);
+
+				loading_status->append_print(L"|n");
+			}
+		}
+
+		if (loading_globals.loading_in_progress && !loading_globals.loading_progress.is_empty())
+		{
+			if (loading_status)
+				loading_status->append_print(L"%S", loading_globals.loading_progress.get_string());
+		}
+		else
+		{
+			if (loading_status)
+				loading_status->append_print(L"|n");
+		}
+
+		if (loading_status)
+			loading_status->append_print(L"|n|n%S", events_get());
+
+		return _main_pregame_frame_progress_report;
+	}
+
 	if (loading_globals.basic_progress_enabled)
 	{
-		if (disable_progress_screen)
-			return _main_pregame_frame_loading_screen;
-
 		long loading_progress = 0;
 		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
 			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
-
-		if (loading_globals.spinner_enabled)
+	
+		if (loading_status)
+			loading_status->append_print(L" %d%%", loading_progress);
+	
+		if (loading_globals.insertion_point)
 		{
-			if (!g_active_designer_zone_mask)
-			{
-				static wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
-				static long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
-
-				static dword last_time = system_milliseconds();
-				dword time = system_milliseconds();
-				if (time < last_time + 250)
-					return _main_pregame_frame_none;
-
-				last_time = time;
-				spinner_state_index = (spinner_state_index + 1) % NUMBEROF(spinner_states);
-
-				if (game_in_progress() && !loading_globals.tag_load_in_progress)
-					return _main_pregame_frame_none;
-
-				if (loading_status)
-					loading_status->print(L"%s %d%%|n", spinner_states[spinner_state_index], loading_progress);
-
-				if (!loading_globals.copy_progress.is_empty())
-				{
-					if (loading_status)
-						loading_status->append_print(L"%S|n", loading_globals.copy_progress.get_string());
-				}
-
-				if (loading_globals.loading_in_progress && !loading_globals.loading_progress.is_empty())
-				{
-					if (loading_status)
-						loading_status->append_print(L"%S", loading_globals.loading_progress.get_string());
-				}
-
-				if (string_is_not_empty(loading_globals.scenario_path))
-				{
-					if (loading_status)
-						loading_status->append_print(L"loading scenario %S...", loading_globals.scenario_path);
-				}
-
-				if (loading_status)
-					loading_status->append(L"|n");
-
-				return _main_pregame_frame_progress_report;
-			}
-		}
-
-		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
-		{
-			REFERENCE_DECLARE(0x0189DEE4, dword, game_language);
-
-			dword temp_game_language = game_language;
-			game_language = 0;
-			wchar_t const* loading_text = loading_get_text();
-			game_language = temp_game_language;
-
 			if (loading_status)
-			{
-				loading_status->print(L"%s %d%%", loading_text, loading_progress);
-				loading_status->append(L"|n|nhttps://github.com/twist84/ManagedDonkey/");
-			}
+				loading_status->append_print(L"|n%S", loading_globals.insertion_point);
 		}
-
+	
 		return _main_pregame_frame_status_message;
 	}
 
