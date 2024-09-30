@@ -20,7 +20,7 @@ static_assert(sizeof(s_memory_pool_block) == 0x10);
 
 dword memory_pool_handle_from_address(s_memory_pool const* pool, void const* pointer)
 {
-	ASSERT(memory_pool);
+	ASSERT(pool);
 	ASSERT(pointer);
 
 	return pointer_distance(pool, pointer);
@@ -89,30 +89,6 @@ void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, dword payload_ha
 
 	//csmemset(memory_pool_block_get_base(pool, block), 0xDD, block->size);
 	//memory_pool_verify(pool);
-
-	//int v2; // ecx
-	//int next_block_handle; // eax
-	//int previous_block_handle; // esi
-	//int v5; // esi
-	//int v6; // eax
-	//
-	//if (payload_handle == 0x10)
-	//	v2 = 0;
-	//else
-	//	v2 = (int)pool + payload_handle - 0x10;
-	//pool->free_size += *(dword*)v2;
-	//next_block_handle = *(dword*)(v2 + 8);
-	//previous_block_handle = *(dword*)(v2 + 12);
-	//if (previous_block_handle)
-	//	*(dword*)&pool->name[previous_block_handle + 4] = next_block_handle;
-	//else
-	//	pool->first_block_handle = next_block_handle;
-	//v5 = *(dword*)(v2 + 8);
-	//v6 = *(dword*)(v2 + 12);
-	//if (v5)
-	//	*(dword*)&pool->name[v5 + 8] = v6;
-	//else
-	//	pool->last_block_handle = v6;
 }
 
 void memory_pool_block_free(s_memory_pool* pool, void const** payload_data)
