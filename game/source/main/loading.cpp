@@ -286,7 +286,7 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
 	
 		if (loading_status)
-			loading_status->append_print(L" %d%%", loading_progress);
+			loading_status->append_print(L"basic loading progress: %%%d|n", loading_progress);
 	
 		if (loading_globals.insertion_point)
 		{
