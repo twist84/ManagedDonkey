@@ -124,7 +124,7 @@ enum e_rasterizer_constant_table_type
 	k_rasterizer_constant_table_type_count
 };
 
-struct s_global_rasterizer_constant_table
+struct c_rasterizer_constant_table_definition
 {
 	s_tag_block constants;
 	c_enum<e_rasterizer_constant_table_type, char, _rasterizer_constant_table_type_vertex, k_rasterizer_constant_table_type_count> type;
@@ -132,7 +132,7 @@ struct s_global_rasterizer_constant_table
 	// pad
 	byte qersaui[0x3];
 };
-static_assert(sizeof(s_global_rasterizer_constant_table) == 0x10);
+static_assert(sizeof(c_rasterizer_constant_table_definition) == 0x10);
 
 struct c_rasterizer_compiled_shader
 {
@@ -142,7 +142,7 @@ struct c_rasterizer_compiled_shader
 
 	// Xenon constant table
 	// DX9 constant table
-	s_global_rasterizer_constant_table rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_platform_count
+	c_rasterizer_constant_table_definition rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_platform_count
 
 	// ..:gprs
 	long gprs;
