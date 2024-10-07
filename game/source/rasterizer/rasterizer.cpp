@@ -7,6 +7,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "rasterizer/rasterizer_main.hpp"
+#include "rasterizer/rasterizer_memory.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render_methods/render_method_submit.hpp"
