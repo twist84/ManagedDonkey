@@ -1638,6 +1638,24 @@
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gpu_particle\particle_block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gpu_particle\contrail_gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gpu_particle\light_volume_gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gpu_particle\beam_gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\render\render_lens_flares.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3822,6 +3840,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_lens_flares.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

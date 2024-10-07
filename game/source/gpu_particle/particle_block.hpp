@@ -6,6 +6,9 @@
 struct c_particle_emitter_gpu :
 	s_datum_header
 {
+public:
+	static void __cdecl shell_initialize();
+
 	struct s_row :
 		s_datum_header
 	{

@@ -10,6 +10,11 @@ IDirect3DTexture9* __cdecl c_rasterizer_texture_ref::get_d3d_texture() const
 	return DECLFUNC(0x00A6E8E0, IDirect3DTexture9*, __thiscall, c_rasterizer_texture_ref const*)(this);
 }
 
+void __cdecl c_rasterizer_texture_ref::initialize()
+{
+	INVOKE(0x00A6E9C0, c_rasterizer_texture_ref::initialize);
+}
+
 void __cdecl c_rasterizer_texture_ref::release(c_rasterizer_texture_ref& texture_ref)
 {
 	INVOKE(0x00A6EB10, c_rasterizer_texture_ref::release, texture_ref);

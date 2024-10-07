@@ -231,6 +231,10 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\game\materials.cpp" />
     <ClCompile Include="source\game\player_training.cpp" />
     <ClCompile Include="source\game\survival_mode.cpp" />
+    <ClCompile Include="source\gpu_particle\beam_gpu.cpp" />
+    <ClCompile Include="source\gpu_particle\contrail_gpu.cpp" />
+    <ClCompile Include="source\gpu_particle\light_volume_gpu.cpp" />
+    <ClCompile Include="source\gpu_particle\particle_block.cpp" />
     <ClCompile Include="source\interface\attract_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
@@ -301,11 +305,13 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\physics\point_physics.cpp" />
     <ClCompile Include="source\profiler\profiler.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
+    <ClCompile Include="source\render\render_lens_flares.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
@@ -1121,8 +1127,10 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\physics\point_physics.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
+    <ClInclude Include="source\render\render_lens_flares.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
