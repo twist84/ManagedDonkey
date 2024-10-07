@@ -53,6 +53,34 @@
     {
       "Id": "391e4bb3-fa03-49b8-848f-7cf769515e6c",
       "Command": "-maps maps\\test7\\"
+    },
+    {
+      "Id": "a5773ad1-e11e-42ab-9985-4d6b359b362f",
+      "Command": "-maps maps\\test8\\"
+    },
+    {
+      "Id": "c1466d37-55a8-4370-a749-d1803462518d",
+      "Command": "-maps maps\\test9\\"
+    },
+    {
+      "Id": "6e20cc8c-904c-4291-b200-7084dab2fbef",
+      "Command": "/?"
+    },
+    {
+      "Id": "364bc45e-c629-4524-9717-51c8ef45cd03",
+      "Command": "/h"
+    },
+    {
+      "Id": "a30772bd-c6d5-4065-a574-d742390ad7dc",
+      "Command": "/help"
+    },
+    {
+      "Id": "078d9e93-9cdd-4c94-a921-941c458856e8",
+      "Command": "-h"
+    },
+    {
+      "Id": "f6fec387-72c5-493c-b480-eeb6061de785",
+      "Command": "--help"
     }
   ]
 }

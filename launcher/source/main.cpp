@@ -13,7 +13,12 @@
 #endif // DEDICATED_SERVER
 
 char k_app_name[] = "eldorado.exe";
+
+#if defined(DLL_FROM_RESOURCE)
 char k_dll_name[] = "bin\\game.dll";
+#else
+char k_dll_name[] = "game.dll";
+#endif // DLL_FROM_RESOURCE
 
 int main(int argc, char* argv[])
 {
@@ -22,26 +27,54 @@ int main(int argc, char* argv[])
 
 	int arg_start_index = 1;
 
+	if (argc > arg_start_index)
+	{
+		bool print_usage = false;
+		for (int argi = arg_start_index; !print_usage && argi < argc && argv[argi]; argi++)
+		{
+			print_usage |= strcmp(argv[argi], "/?") == 0;
+			print_usage |= strcmp(argv[argi], "/h") == 0;
+			print_usage |= strcmp(argv[argi], "-h") == 0;
+			print_usage |= strcmp(argv[argi], "/help") == 0;
+			print_usage |= strcmp(argv[argi], "--help") == 0;
+		}
+
+		if (print_usage)
+		{
+			printf(usage);
+			return 1;
+		}
+	}
+
 #if defined(DLL_FROM_RESOURCE)
 	if (!embedded_resource_extract(DLL_RESOURCE_ID, _resource_type_dll, k_dll_name))
 #endif
 	{
-		if (argc < 3)
+		// explicit arg checks
+		if (argc == 2)
 		{
-			printf(usage);
-			return 1;
+			if (strstr(argv[1], ".exe") != 0)
+			{
+				ApplicationName = argv[arg_start_index++];
+			}
+			else if (strstr(argv[1], ".dll") != 0)
+			{
+				DllName = argv[arg_start_index++];
+			}
 		}
-
-		if (!strstr(argv[1], ".exe") || !strstr(argv[2], ".dll"))
+		else if (argc == 3)
 		{
-			printf(usage);
-			return 1;
+			if (strstr(argv[1], ".exe") != 0 && strstr(argv[2], ".dll") != 0)
+			{
+				ApplicationName = argv[arg_start_index++];
+				DllName = argv[arg_start_index++];
+			}
+			else if (strstr(argv[1], ".dll") != 0 && strstr(argv[2], ".exe") != 0)
+			{
+				DllName = argv[arg_start_index++];
+				ApplicationName = argv[arg_start_index++];
+			}
 		}
-
-		ApplicationName = argv[1];
-		DllName = argv[2];
-
-		arg_start_index = 3;
 	}
 
 	if (argc > arg_start_index)
@@ -61,20 +94,32 @@ int main(int argc, char* argv[])
 
 	printf("Launcher: Checking `%s` exists\n", ApplicationName);
 
-	PathCombineA(ApplicationPath, CurrentDirectory, ApplicationName);
+	if (strstr(ApplicationName, ":\\") != 0)
+		strcpy_s(ApplicationPath, ApplicationName);
+	else
+		PathCombineA(ApplicationPath, CurrentDirectory, ApplicationName);
+
 	if (GetFileAttributesA(ApplicationPath) == INVALID_FILE_ATTRIBUTES)
 		return 3;
 
 	printf("Launcher: Checking `%s` exists\n", DllName);
 
-	PathCombineA(DllPath, CurrentDirectory, DllName);
+	if (strstr(DllName, ":\\") != 0)
+		strcpy_s(DllPath, DllName);
+	else
+		PathCombineA(DllPath, CurrentDirectory, DllName);
+
 	if (GetFileAttributesA(DllPath) == INVALID_FILE_ATTRIBUTES)
 		return 4;
+
+	strcpy_s(CurrentDirectory, ApplicationPath);
+	if (PathRemoveFileSpecA(CurrentDirectory) == FALSE && GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
+		return 5;
 
 	printf("Launcher: Creating process `%s`\n", ApplicationName);
 
 	if (DetourCreateProcessWithDllA(ApplicationPath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
-		return 5;
+		return 6;
 
 #ifndef REMOTE_CONSOLE_ENABLED
 #ifndef NO_WAIT_FOR_PROCESS
