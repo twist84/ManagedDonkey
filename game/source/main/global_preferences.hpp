@@ -306,7 +306,7 @@ struct s_global_preferences_data
 	long checksum;
 	long adapter;
 	bool fullscreen;
-	long __unknown41BD0;
+	long aspect_ratio;
 	long brightness;
 	long contrast;
 	s_video_settings video_settings;
@@ -356,7 +356,7 @@ extern void __cdecl global_preferences_create_default();
 extern void __cdecl global_preferences_dispose();
 extern void __cdecl global_preferences_flush();
 extern bool __cdecl global_preferences_get_antialiasing();
-extern long __cdecl global_preferences_get_unknown41BD0();
+extern long __cdecl global_preferences_get_aspect_ratio();
 extern real __cdecl global_preferences_get_betrayal_count();
 extern long __cdecl global_preferences_get_build_number();
 extern real __cdecl global_preferences_get_camera_fov();
@@ -415,7 +415,7 @@ extern void __cdecl global_preferences_initialize();
 extern void __cdecl global_preferences_invalidate_maps();
 extern void __cdecl global_preferences_make_safe(s_global_preferences* preferences);
 extern void __cdecl global_preferences_set_antialiasing(bool antialiasing);
-extern void __cdecl global_preferences_set_unknown41BD0(bool unknown41BD0);
+extern void __cdecl global_preferences_set_aspect_ratio(bool aspect_ratio);
 extern void __cdecl global_preferences_set_betrayal_count(real betrayal_count);
 extern void __cdecl global_preferences_set_build_number(long build_number);
 extern void __cdecl global_preferences_set_camera_fov(real camera_fov);
@@ -471,7 +471,7 @@ extern void __cdecl global_preferences_write();
 enum e_global_preference
 {
 	_global_preference_antialiasing = 0,
-	//_global_preference_unknown41BD0,
+	//_global_preference_aspect_ratio,
 	//_global_preference_betrayal_count,
 	//_global_preference_build_number,
 	_global_preference_camera_fov,

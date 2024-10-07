@@ -82,15 +82,15 @@ bool __cdecl global_preferences_get_antialiasing()
 	return global_preferences_get()->preferences0.data.video_settings.antialiasing;
 }
 
-long __cdecl global_preferences_get_unknown41BD0()
+long __cdecl global_preferences_get_aspect_ratio()
 {
-	//return INVOKE(0x0050A8B0, global_preferences_get_unknown41BD0);
+	//return INVOKE(0x0050A8B0, global_preferences_get_aspect_ratio);
 
 	if (!global_preferences_available())
 		return 0;
 
 	c_global_preferences_scope_lock scope_lock;
-	return global_preferences_get()->preferences0.data.__unknown41BD0;
+	return global_preferences_get()->preferences0.data.aspect_ratio;
 }
 
 real __cdecl global_preferences_get_betrayal_count()
@@ -755,8 +755,8 @@ void __cdecl global_preferences_make_safe(s_global_preferences* preferences)
 	if (!VALID_INDEX(preferences->data.subtitle_setting, k_number_of_subtitle_settings))
 		preferences->data.subtitle_setting = _subtitle_setting_automatic;
 
-	if (!VALID_INDEX(preferences->data.__unknown41BD0, 3))
-		preferences->data.__unknown41BD0 = 0;
+	if (!VALID_INDEX(preferences->data.aspect_ratio, 3))
+		preferences->data.aspect_ratio = 0;
 
 	if (!VALID_INDEX(preferences->data.brightness, 100))
 		preferences->data.brightness = 50;
@@ -784,15 +784,15 @@ void __cdecl global_preferences_set_antialiasing(bool antialiasing)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_unknown41BD0(bool unknown41BD0)
+void __cdecl global_preferences_set_aspect_ratio(bool aspect_ratio)
 {
-	//INVOKE(0x0050CD70, global_preferences_set_unknown41BD0, unknown41BD0);
+	//INVOKE(0x0050CD70, global_preferences_set_aspect_ratio, aspect_ratio);
 
 	if (!global_preferences_available())
 		return;
 
 	c_global_preferences_scope_lock scope_lock;
-	global_preferences_get()->preferences0.data.__unknown41BD0 = unknown41BD0;
+	global_preferences_get()->preferences0.data.aspect_ratio = aspect_ratio;
 	global_preferences_dirty(true);
 }
 
@@ -1451,7 +1451,7 @@ void __stdcall sound_system_set_sfx_volume(long volume, bool update_preference)
 char const* const k_global_preference_names[k_global_preference_count]
 {
 	"antialiasing",
-	//"unknown41BD0",
+	//"aspect_ratio",
 	//"betrayal_count",
 	//"build_number",
 	"camera_fov",
@@ -1506,7 +1506,7 @@ char const* const k_global_preference_names[k_global_preference_count]
 s_global_preference const* k_global_preferences[k_global_preference_count]
 {
 	DECLARE_GLOBAL_PREFERENCE(antialiasing, "<bool>", 1, _global_preference_type_bool),
-	//DECLARE_GLOBAL_PREFERENCE(unknown41BD0, "<bool>", 1, _global_preference_type_bool),
+	//DECLARE_GLOBAL_PREFERENCE(aspect_ratio, "<long>", 1, _global_preference_type_long),
 	//DECLARE_GLOBAL_PREFERENCE(betrayal_count, "<real>", 1, _global_preference_type_real),
 	//DECLARE_GLOBAL_PREFERENCE(build_number, "<long>", 1, _global_preference_type_long),
 	DECLARE_GLOBAL_PREFERENCE(camera_fov, "<real>", 1, _global_preference_type_real),

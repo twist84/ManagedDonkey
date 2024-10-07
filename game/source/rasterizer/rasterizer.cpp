@@ -10,7 +10,9 @@
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer_d3d_allocations.hpp"
 #include "rasterizer/rasterizer_dynamic_render_targets.hpp"
+#include "rasterizer/rasterizer_globals.hpp"
 #include "rasterizer/rasterizer_main.hpp"
 #include "rasterizer/rasterizer_memory.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
@@ -29,6 +31,7 @@ REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_ren
 REFERENCE_DECLARE(0x019104FC, dword, c_rasterizer::g_render_thread);
 REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
 REFERENCE_DECLARE(0x0194FEA8, dword, c_rasterizer::g_render_thread_begin_scene);
+REFERENCE_DECLARE(0x050DADD8, IDirect3D9Ex*, c_rasterizer::g_direct3d);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);
 REFERENCE_DECLARE_ARRAY(0x050DADE4, IDirect3DQuery9*, c_rasterizer::dword_50DADE4, 3);
@@ -54,6 +57,7 @@ REFERENCE_DECLARE(0x050DD998, short_rectangle2d, c_rasterizer::g_last_viewport);
 REFERENCE_DECLARE(0x050DD9A0, short_rectangle2d, c_rasterizer::g_last_scissor_rect);
 REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
 REFERENCE_DECLARE(0x050DD9C0, dword, c_rasterizer::g_max_ps_gprs);
+REFERENCE_DECLARE(0x050DD9C4, long, c_rasterizer::g_adapter);
 
 long render_debug_toggle_default_lightmaps_texaccum = 0;
 REFERENCE_DECLARE(0x0191C920, bool, render_debug_toggle_default_static_lighting);
@@ -311,6 +315,8 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 
 	if (!c_rasterizer::initialized)
 	{
+		//set_render_resolution(1920, 1080, true);
+
 		if (c_rasterizer::initialize_device(window_exists, windowed))
 		{
 			if (c_rasterizer::g_device)
@@ -566,24 +572,249 @@ void __cdecl c_rasterizer::end_high_quality_blend()
 	INVOKE(0x00A21880, end_high_quality_blend);
 }
 
+decltype(Direct3DCreate9)* __cdecl GetDirect3DCreate9()
+{
+	return INVOKE(0x00A218E0, GetDirect3DCreate9);
+}
+
+decltype(Direct3DCreate9Ex)* __cdecl GetDirect3DCreate9Ex()
+{
+	return INVOKE(0x00A21950, GetDirect3DCreate9Ex);
+}
+
 c_rasterizer::e_platform __cdecl c_rasterizer::get_runtime_platform()
 {
 	return INVOKE(0x00A21A80, get_runtime_platform);
+
+	//return _platform_dx9;
 }
 
 bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 {
 	return INVOKE(0x00A21B40, initialize_device, window_exists, windowed);
+
+	//if (LoadLibraryA("d3dx9_43.dll"))
+	//{
+	//	bool v3 = shell_application_type() == _shell_application_type_client;
+	//
+	//	bool d3d9ex = v3;
+	//	if (char const* command_line = shell_get_command_line())
+	//	{
+	//		if (strstr(command_line, "-d3d9ex") != 0)
+	//			d3d9ex = true;
+	//
+	//		if (strstr(command_line, "-nod3d9ex") != 0)
+	//			d3d9ex = false;
+	//	}
+	//
+	//	if (d3d9ex)
+	//	{
+	//		IDirect3D9Ex* direct3d = NULL;
+	//		decltype(Direct3DCreate9Ex)* Direct3DCreateEx = GetDirect3DCreate9Ex();
+	//		if (SUCCEEDED(Direct3DCreateEx(D3D_SDK_VERSION, &direct3d)))
+	//			g_direct3d = direct3d;
+	//		else
+	//			d3d9ex = false;
+	//	}
+	//
+	//	render_globals.is_d3d9ex = d3d9ex;
+	//	if (!g_direct3d)
+	//	{
+	//		decltype(Direct3DCreate9)* Direct3DCreate = GetDirect3DCreate9();
+	//		g_direct3d = (IDirect3D9Ex*)Direct3DCreate(D3D_SDK_VERSION);
+	//		if (!g_direct3d)
+	//			return false;
+	//	}
+	//
+	//	g_adapter = 0;
+	//	if (!windowed)
+	//	{
+	//		if (v3)
+	//		{
+	//			long adapter = global_preferences_get_adapter();
+	//			if (char const* command_line = shell_get_command_line())
+	//			{
+	//				if (char const* adapter_arg = strstr(command_line, "-adapter "))
+	//					adapter = atol(adapter_arg + 9);
+	//			}
+	//
+	//			if (adapter == NONE)
+	//				adapter = 0;
+	//
+	//			g_adapter = adapter;
+	//		}
+	//	}
+	//
+	//	if (v3)
+	//		global_preferences_set_adapter(g_adapter);
+	//
+	//	g_direct3d->GetDeviceCaps(g_adapter, windowed ? D3DDEVTYPE_NULLREF : D3DDEVTYPE_HAL, get_global_device_caps());
+	//
+	//	bool vsync = global_preferences_get_vsync();
+	//	if (strstr(shell_get_command_line(), "-no_vsync") != 0)
+	//		vsync = false;
+	//
+	//	//windowed_check(windowed);
+	//	{
+	//		bool window = true;
+	//		if (shell_application_type() == _shell_application_type_client)
+	//		{
+	//			window = false;
+	//			if (!windowed)
+	//				window = !global_preferences_get_fullscreen();
+	//		}
+	//
+	//		if (shell_get_command_line())
+	//		{
+	//			if (strstr(shell_get_command_line(), "-fullscreen") != 0)
+	//				window = false;
+	//
+	//			if (strstr(shell_get_command_line(), "-window") != 0)
+	//				window = true;
+	//		}
+	//
+	//		global_preferences_set_fullscreen(!window);
+	//	}
+	//
+	//	long width = 1152;
+	//	long height = 640;
+	//	long aspect_ratio = 0;
+	//
+	//	if (v3)
+	//	{
+	//		//if (sub_A22920())
+	//		if (DECLFUNC(0x00A22920, bool, __cdecl)())
+	//		{
+	//			global_preferences_get_screen_resolution(&width, &height);
+	//			aspect_ratio = global_preferences_get_aspect_ratio();
+	//		}
+	//	}
+	//
+	//	if (char const* command_line = shell_get_command_line())
+	//	{
+	//		char const* width_arg = strstr(command_line, "-width ");
+	//		char const* height_arg = strstr(command_line, "-height ");
+	//		if (width_arg && height_arg)
+	//		{
+	//			width = atol(width_arg + 7);
+	//			height = atol(height_arg + 8);
+	//		}
+	//	}
+	//
+	//	D3DDISPLAYMODE* global_display_mode = get_global_display_mode();
+	//	g_direct3d->GetAdapterDisplayMode(g_adapter, global_display_mode);
+	//
+	//	real real_aspect_ratio = 0.0f;
+	//	if (global_display_mode->Height)
+	//		real_aspect_ratio = (real)global_display_mode->Width / (real)global_display_mode->Height;
+	//
+	//	if (!aspect_ratio)
+	//	{
+	//		if (v3)
+	//			aspect_ratio = (real_aspect_ratio > 1.5) + 1;
+	//		else
+	//			aspect_ratio = 2;
+	//	}
+	//
+	//	if (width <= 0 || height <= 0)
+	//	{
+	//		switch (aspect_ratio)
+	//		{
+	//		case 1:
+	//		{
+	//			width = render_globals.resolution_width34;
+	//			height = render_globals.resolution_height38;
+	//		}
+	//		break;
+	//		case 2:
+	//		{
+	//			width = render_globals.width2C;
+	//			height = render_globals.height30;
+	//		}
+	//		break;
+	//		}
+	//	}
+	//
+	//	D3DPRESENT_PARAMETERS* presentation_parameters = get_presentation_parameters();
+	//	csmemset(presentation_parameters, 0, sizeof(D3DPRESENT_PARAMETERS));
+	//
+	//	presentation_parameters->Windowed = TRUE;
+	//	presentation_parameters->SwapEffect = D3DSWAPEFFECT_DISCARD;
+	//	presentation_parameters->EnableAutoDepthStencil = TRUE;
+	//	presentation_parameters->AutoDepthStencilFormat = D3DFMT_D24S8;
+	//	presentation_parameters->BackBufferCount = 2;
+	//	presentation_parameters->BackBufferFormat = D3DFMT_A8R8G8B8;
+	//	presentation_parameters->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	//
+	//	if (vsync)
+	//		presentation_parameters->PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+	//
+	//	rasterizer_set_presentation_interval(vsync ? 1 : 5);
+	//
+	//	if (window_exists)
+	//	{
+	//		g_windows_params.game_window_handle = GetDesktopWindow();
+	//	}
+	//	else
+	//	{
+	//		render_globals.back_buffer_width = width;
+	//		render_globals.back_buffer_height = height;
+	//		initialize_window();
+	//	}
+	//
+	//	set_render_resolution(width, height, global_preferences_get_fullscreen());
+	//	presentation_parameters->BackBufferWidth = render_globals.back_buffer_width;
+	//	presentation_parameters->BackBufferHeight = render_globals.back_buffer_height;
+	//
+	//	if (v3)
+	//	{
+	//		global_preferences_set_screen_resolution(width, height);
+	//		global_preferences_set_aspect_ratio(aspect_ratio);
+	//	}
+	//
+	//	if (SUCCEEDED(g_direct3d->CreateDevice(
+	//		g_adapter,
+	//		windowed ? D3DDEVTYPE_NULLREF : D3DDEVTYPE_HAL,
+	//		g_windows_params.game_window_handle,
+	//		D3DCREATE_PUREDEVICE | D3DCREATE_HARDWARE_VERTEXPROCESSING,
+	//		get_presentation_parameters(),
+	//		(IDirect3DDevice9**)&g_device)))
+	//	{
+	//		g_thread_owning_device = get_current_thread_index();
+	//		g_render_thread = get_current_thread_index();
+	//
+	//		g_device->GetDeviceCaps(get_global_device_caps());
+	//
+	//		if (!windowed)
+	//		{
+	//			//sub_A1FCE0(true);
+	//			DECLFUNC(0x00A1FCE0, void*, __cdecl, bool)(true);
+	//		}
+	//
+	//		c_d3d_resource_allocator::set_d3d_device(c_rasterizer::g_device);
+	//		return true;
+	//	}
+	//}
+	//else
+	//{
+	//	MessageBoxA(NULL, "d3dx9_43.dll not found.", "Error", MB_OK);
+	//}
+	//
+	//return false;
 }
 
 void __cdecl c_rasterizer::rasterizer_device_acquire_thread()
 {
 	INVOKE(0x00A222D0, rasterizer_device_acquire_thread);
+
+	//g_thread_owning_device = get_current_thread_index();
 }
 
 void __cdecl c_rasterizer::rasterizer_device_release_thread()
 {
 	INVOKE(0x00A222F0, rasterizer_device_release_thread);
+
+	//g_thread_owning_device = NONE;
 }
 
 // get cursor image
@@ -604,6 +835,8 @@ HCURSOR __cdecl sub_A22340()
 bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 {
 	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
+
+	//return g_thread_owning_device == get_current_thread_index();
 }
 
 void __cdecl c_rasterizer::initialize_window()

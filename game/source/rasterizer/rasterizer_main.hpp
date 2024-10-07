@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "multithreading/synchronized_value.hpp"
 
 struct s_rasterizer_game_states
 {
@@ -24,6 +25,7 @@ struct _D3DCAPS9;
 struct _D3DDISPLAYMODE;
 struct _D3DPRESENT_PARAMETERS_;
 
+extern c_interlocked_long& g_thread_owning_device;
 extern _D3DCAPS9& g_global_device_caps;
 extern _D3DDISPLAYMODE& g_global_display_mode;
 extern _D3DPRESENT_PARAMETERS_& g_presentation_parameters;

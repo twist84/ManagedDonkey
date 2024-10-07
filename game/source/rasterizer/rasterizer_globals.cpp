@@ -72,3 +72,10 @@ void __cdecl rasterizer_lag_timing_mark_render_start()
 	INVOKE(0x00A25DB0, rasterizer_lag_timing_mark_render_start);
 }
 
+void __cdecl rasterizer_set_presentation_interval(long presentation_interval)
+{
+	INVOKE(0x00A25E60, rasterizer_set_presentation_interval, presentation_interval);
+
+	//rasterizer_globals.presentation_interval = presentation_interval;
+}
+

@@ -4,6 +4,7 @@
 
 #include <d3d9.h>
 
+REFERENCE_DECLARE(0x050DCA38, c_interlocked_long, g_thread_owning_device);
 REFERENCE_DECLARE(0x050DD7E8, D3DCAPS9, g_global_device_caps);
 REFERENCE_DECLARE(0x050DD918, D3DDISPLAYMODE, g_global_display_mode);
 REFERENCE_DECLARE(0x050DD928, D3DPRESENT_PARAMETERS, g_presentation_parameters);

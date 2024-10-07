@@ -7,6 +7,7 @@
 #include "tag_files/tag_groups.hpp"
 
 enum _D3DRENDERSTATETYPE;
+__interface IDirect3D9Ex;
 __interface IDirect3DDevice9Ex;
 __interface IDirect3DQuery9;
 __interface IDirect3DVertexBuffer9;
@@ -390,6 +391,7 @@ struct c_rasterizer
 
 	static dword& g_render_thread_begin_scene;
 
+	static IDirect3D9Ex*& g_direct3d;
 	static IDirect3DDevice9Ex*& g_device;
 
 	static bool(&byte_50DADE0)[3];
@@ -420,6 +422,7 @@ struct c_rasterizer
 
 	static dword& g_max_vs_gprs;
 	static dword& g_max_ps_gprs;
+	static long& g_adapter;
 
 	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
 	static bool __cdecl end_albedo(short_rectangle2d const* bounds);

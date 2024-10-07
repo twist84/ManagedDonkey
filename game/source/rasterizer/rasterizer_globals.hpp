@@ -46,4 +46,5 @@ extern void __cdecl rasterizer_lag_timing_mark_input_adjustment(__int64 a1);
 extern void __cdecl rasterizer_lag_timing_mark_render_end();
 extern void __cdecl rasterizer_lag_timing_mark_render_present(__int64 a1);
 extern void __cdecl rasterizer_lag_timing_mark_render_start();
+extern void __cdecl rasterizer_set_presentation_interval(long presentation_interval);
 
