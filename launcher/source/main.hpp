@@ -5,7 +5,9 @@
 #include <shlwapi.h>
 #include <stdio.h>
 
-CHAR ApplicationPath[4096]{};
+#define STRING_ENDS_WITH(STRING, END_STRING) (memcmp(STRING + strlen(STRING) - strlen(END_STRING), END_STRING, strlen(END_STRING)) == 0)
+
+CHAR ExecutablePath[4096]{};
 CHAR CurrentDirectory[4096]{};
 CHAR CommandLine[4096]{};
 CHAR DllPath[4096]{};

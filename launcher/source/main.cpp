@@ -12,7 +12,7 @@
 #define REMOTE_CONSOLE_ENABLED
 #endif // DEDICATED_SERVER
 
-char k_app_name[] = "eldorado.exe";
+char k_exe_name[] = "eldorado.exe";
 
 #if defined(DLL_FROM_RESOURCE)
 char k_dll_name[] = "bin\\game.dll";
@@ -22,69 +22,36 @@ char k_dll_name[] = "game.dll";
 
 int main(int argc, char* argv[])
 {
-	char* ApplicationName = k_app_name;
+	char* ExecutableName = k_exe_name;
 	char* DllName = k_dll_name;
 
-	int arg_start_index = 1;
-
-	if (argc > arg_start_index)
+	bool print_usage = false;
+	for (int argi = 1; !print_usage && argi < argc && argv[argi]; argi++)
 	{
-		bool print_usage = false;
-		for (int argi = arg_start_index; !print_usage && argi < argc && argv[argi]; argi++)
-		{
-			print_usage |= strcmp(argv[argi], "/?") == 0;
-			print_usage |= strcmp(argv[argi], "/h") == 0;
-			print_usage |= strcmp(argv[argi], "-h") == 0;
-			print_usage |= strcmp(argv[argi], "/help") == 0;
-			print_usage |= strcmp(argv[argi], "--help") == 0;
-		}
+		print_usage |= strcmp(argv[argi], "/?") == 0;
+		print_usage |= strcmp(argv[argi], "/h") == 0;
+		print_usage |= strcmp(argv[argi], "-h") == 0;
+		print_usage |= strcmp(argv[argi], "/help") == 0;
+		print_usage |= strcmp(argv[argi], "--help") == 0;
+	}
 
-		if (print_usage)
-		{
-			printf(usage);
-			return 1;
-		}
+	if (print_usage)
+	{
+		printf(usage);
+		return 1;
 	}
 
 #if defined(DLL_FROM_RESOURCE)
 	if (!embedded_resource_extract(DLL_RESOURCE_ID, _resource_type_dll, k_dll_name))
 #endif
 	{
-		// explicit arg checks
-		if (argc == 2)
+		for (int argi = 1; argi < argc; argi++)
 		{
-			if (strstr(argv[1], ".exe") != 0)
-			{
-				ApplicationName = argv[arg_start_index++];
-			}
-			else if (strstr(argv[1], ".dll") != 0)
-			{
-				DllName = argv[arg_start_index++];
-			}
-		}
-		else if (argc == 3)
-		{
-			if (strstr(argv[1], ".exe") != 0 && strstr(argv[2], ".dll") != 0)
-			{
-				ApplicationName = argv[arg_start_index++];
-				DllName = argv[arg_start_index++];
-			}
-			else if (strstr(argv[1], ".dll") != 0 && strstr(argv[2], ".exe") != 0)
-			{
-				DllName = argv[arg_start_index++];
-				ApplicationName = argv[arg_start_index++];
-			}
-		}
-	}
+			if (STRING_ENDS_WITH(argv[argi], ".exe"))
+				ExecutableName = argv[argi];
 
-	if (argc > arg_start_index)
-	{
-		for (int argi = arg_start_index; argi < argc; argi++)
-		{
-			strcat_s(CommandLine, argv[argi]);
-
-			if (argi < argc - 1)
-				strcat_s(CommandLine, " ");
+			if (STRING_ENDS_WITH(argv[argi], ".dll"))
+				DllName = argv[argi];
 		}
 	}
 
@@ -92,33 +59,53 @@ int main(int argc, char* argv[])
 	if (GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
 		return 2;
 
-	printf("Launcher: Checking `%s` exists\n", ApplicationName);
-
-	if (strstr(ApplicationName, ":\\") != 0)
-		strcpy_s(ApplicationPath, ApplicationName);
+	if (strstr(ExecutableName, ":\\") != 0)
+		strcpy_s(ExecutablePath, ExecutableName);
 	else
-		PathCombineA(ApplicationPath, CurrentDirectory, ApplicationName);
+		PathCombineA(ExecutablePath, CurrentDirectory, ExecutableName);
 
-	if (GetFileAttributesA(ApplicationPath) == INVALID_FILE_ATTRIBUTES)
+	printf("Launcher: Checking `%s` exists\n", ExecutableName);
+
+	if (GetFileAttributesA(ExecutablePath) == INVALID_FILE_ATTRIBUTES)
 		return 3;
-
-	printf("Launcher: Checking `%s` exists\n", DllName);
 
 	if (strstr(DllName, ":\\") != 0)
 		strcpy_s(DllPath, DllName);
 	else
 		PathCombineA(DllPath, CurrentDirectory, DllName);
 
+	printf("Launcher: Checking `%s` exists\n", DllName);
+
 	if (GetFileAttributesA(DllPath) == INVALID_FILE_ATTRIBUTES)
 		return 4;
 
-	strcpy_s(CurrentDirectory, ApplicationPath);
+	strcpy_s(CurrentDirectory, ExecutablePath);
 	if (PathRemoveFileSpecA(CurrentDirectory) == FALSE && GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
 		return 5;
 
-	printf("Launcher: Creating process `%s`\n", ApplicationName);
+	printf("Launcher: Parsing process commandline '");
 
-	if (DetourCreateProcessWithDllA(ApplicationPath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+	for (int argi = 0; argi < argc; argi++)
+	{
+		if (STRING_ENDS_WITH(argv[argi], ".exe"))
+			continue;
+
+		if (STRING_ENDS_WITH(argv[argi], ".dll"))
+			continue;
+
+		strcat_s(CommandLine, argv[argi]);
+		printf("%s", argv[argi]);
+
+		if (argi < argc - 1)
+		{
+			strcat_s(CommandLine, " ");
+			printf(" ");
+		}
+	}
+	printf("'");
+
+	printf("Launcher: Creating executable `%s`\n", ExecutableName);
+	if (DetourCreateProcessWithDllA(ExecutablePath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
 		return 6;
 
 #ifndef REMOTE_CONSOLE_ENABLED
