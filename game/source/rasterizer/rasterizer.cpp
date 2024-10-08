@@ -611,7 +611,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	{
 	//		IDirect3D9Ex* direct3d = NULL;
 	//		decltype(Direct3DCreate9Ex)* Direct3DCreateEx = GetDirect3DCreate9Ex();
-	//		if (SUCCEEDED(Direct3DCreateEx(D3D_SDK_VERSION, &direct3d)))
+	//		if (SUCCEEDED(Direct3DCreateEx(D3D_SDK_VERSION, &direct3d))) // 32 | 0x80000000
 	//			g_direct3d = direct3d;
 	//		else
 	//			d3d9ex = false;
@@ -621,7 +621,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	if (!g_direct3d)
 	//	{
 	//		decltype(Direct3DCreate9)* Direct3DCreate = GetDirect3DCreate9();
-	//		g_direct3d = (IDirect3D9Ex*)Direct3DCreate(D3D_SDK_VERSION);
+	//		g_direct3d = (IDirect3D9Ex*)Direct3DCreate(D3D_SDK_VERSION); // 32 | 0x80000000
 	//		if (!g_direct3d)
 	//			return false;
 	//	}
@@ -651,7 +651,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	g_direct3d->GetDeviceCaps(g_adapter, windowed ? D3DDEVTYPE_NULLREF : D3DDEVTYPE_HAL, get_global_device_caps());
 	//
 	//	bool vsync = global_preferences_get_vsync();
-	//	if (strstr(shell_get_command_line(), "-no_vsync") != 0)
+	//	if (shell_get_command_line() && strstr(shell_get_command_line(), "-no_vsync") != 0)
 	//		vsync = false;
 	//
 	//	//windowed_check(windowed);
@@ -676,8 +676,8 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//		global_preferences_set_fullscreen(!window);
 	//	}
 	//
-	//	long width = 1152;
-	//	long height = 640;
+	//	long width = -1;
+	//	long height = -1;
 	//	long aspect_ratio = 0;
 	//
 	//	if (v3)
