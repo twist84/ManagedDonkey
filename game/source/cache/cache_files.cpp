@@ -1730,7 +1730,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 		//if (is_base_cache)
 		//{
-		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
+		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count <= 0)
 		//		return;
 		//
 		//	for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
