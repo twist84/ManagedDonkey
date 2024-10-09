@@ -14,6 +14,16 @@
 #include "effects/vision_mode.hpp"
 #include "memory/data.hpp"
 
+enum e_effect_pass
+{
+	_effect_pass_opaque = 0,
+	_effect_pass_transparents,
+	_effect_pass_distortion,
+	_effect_pass_first_person,
+
+	k_effect_pass_count
+};
+
 struct s_effect_vector
 {
 	real_point3d point;
@@ -25,7 +35,11 @@ static_assert(sizeof(s_effect_vector) == 0x1C);
 struct effect_datum :
 	s_datum_header
 {
-	byte __data[0x9E];
+	byte __data2[0x2];
+
+	dword_flags flags;
+
+	byte __data[0x98];
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
