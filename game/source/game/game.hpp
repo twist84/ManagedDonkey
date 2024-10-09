@@ -22,9 +22,7 @@ struct c_scenario_resource_registry;
 
 struct s_game_system
 {
-#if defined(_DEBUG)
 	char const* name;
-#endif
 
 	void(__cdecl* initialize_proc)();
 	void(__cdecl* dispose_proc)();
@@ -39,11 +37,7 @@ struct s_game_system
 	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
 };
-#if defined(_DEBUG)
 static_assert(sizeof(s_game_system) == sizeof(void*) * 13);
-#else
-static_assert(sizeof(s_game_system) == sizeof(void*) * 12);
-#endif
 
 enum e_game_create_mode
 {
