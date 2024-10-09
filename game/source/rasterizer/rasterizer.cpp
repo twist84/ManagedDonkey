@@ -440,16 +440,12 @@ bool __cdecl c_rasterizer::reset_device()
 		rect.right = presentation_parameters->BackBufferWidth;
 		rect.bottom = presentation_parameters->BackBufferHeight;
 
-		int window_x = 0;
-		int window_y = 0;
-		if (g_windows_params.editor_window_create)
-		{
-			RECT window_rect{};
-			GetWindowRect(g_windows_params.game_window_handle, &window_rect);
-			window_x = window_rect.left;
-			window_y = window_rect.top;
-		}
-		else
+		RECT window_rect{};
+		GetWindowRect(g_windows_params.game_window_handle, &window_rect);
+		int window_x = window_rect.left;
+		int window_y = window_rect.top;
+
+		if (!g_windows_params.editor_window_create)
 		{
 			static bool first_run = true;
 			if (first_run)
@@ -467,8 +463,8 @@ bool __cdecl c_rasterizer::reset_device()
 		SetWindowPos(
 			g_windows_params.game_window_handle,
 			HWND_NOTOPMOST,
-			g_windows_params.editor_window_create ? 0 : window_x,
-			g_windows_params.editor_window_create ? 0 : window_y,
+			window_x,
+			window_y,
 			rect.right,
 			rect.bottom,
 			SWP_SHOWWINDOW);
