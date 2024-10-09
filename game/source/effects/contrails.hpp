@@ -3,6 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
+enum e_output_user_index;
+enum e_effect_pass;
+
 struct c_contrail_system :
 	s_datum_header
 {
@@ -16,6 +19,9 @@ struct c_contrail_system :
 
 		k_flags
 	};
+
+public:
+	static void __cdecl submit_all(e_output_user_index output_user_index, e_effect_pass effect_pass);
 
 	long m_effect_index;
 	byte m_event_block_index;

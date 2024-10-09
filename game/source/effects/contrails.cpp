@@ -19,3 +19,8 @@ void __cdecl c_contrail::render() const
 	DECLFUNC(0x007572B0, void, __thiscall, c_contrail const*)(this);
 }
 
+void __cdecl c_contrail_system::submit_all(e_output_user_index output_user_index, e_effect_pass effect_pass)
+{
+	INVOKE(0x00757890, c_contrail_system::submit_all, output_user_index, effect_pass);
+}
+

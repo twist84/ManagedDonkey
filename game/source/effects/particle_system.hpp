@@ -9,6 +9,9 @@ enum e_effect_pass;
 struct c_particle_system :
 	s_datum_header
 {
+public:
+	static void __cdecl submit_all(e_output_user_index output_user_index, e_effect_pass effect_pass);
+
 	real m_age;
 
 	// 1: ever_frame_advanced

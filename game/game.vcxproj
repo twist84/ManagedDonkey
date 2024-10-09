@@ -210,8 +210,11 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
     <ClCompile Include="source\devices\device_machines.cpp" />
     <ClCompile Include="source\devices\device_terminals.cpp" />
+    <ClCompile Include="source\effects\beams.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
+    <ClCompile Include="source\effects\light_volumes.cpp" />
+    <ClCompile Include="source\effects\particle_system.cpp" />
     <ClCompile Include="source\effects\vision_mode.cpp" />
     <ClCompile Include="source\error\error_report_render.cpp" />
     <ClCompile Include="source\game\game_achievements.cpp" />
