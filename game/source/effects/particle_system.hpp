@@ -22,7 +22,7 @@ public:
 	// 6: should_render
 	word_flags m_flags;
 
-	word m_particle_system_block_index; // effect->events->particle_system
+	word m_particle_system_index;
 	long m_definition_index;
 	byte m_event_index;
 	byte m_priority;
