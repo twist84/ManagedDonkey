@@ -8,6 +8,21 @@ HOOK_DECLARE(0x005BCF60, effects_render);
 
 bool debug_damage_effects = false;
 
+bool enable_opaque_effect_render_pass = true;
+bool enable_transparents_effect_render_pass = true;
+bool enable_distortion_effect_render_pass = true;
+bool enable_first_person_effect_render_pass = true;
+
+bool effects_render_pass_check(e_effect_pass pass)
+{
+	bool result = false;
+	result |= !enable_opaque_effect_render_pass && pass == _effect_pass_opaque;
+	result |= !enable_transparents_effect_render_pass && pass == _effect_pass_transparents;
+	result |= !enable_distortion_effect_render_pass && pass == _effect_pass_distortion;
+	result |= !enable_first_person_effect_render_pass && pass == _effect_pass_first_person;
+	return result;
+}
+
 void __cdecl effects_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
 {
 	INVOKE(0x00530200, effects_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
@@ -77,6 +92,9 @@ void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set
 void __cdecl effects_render(e_output_user_index output_user_index, e_effect_pass pass)
 {
 	//INVOKE(0x005BCF60, effects_render, output_user_index, pass);
+
+	if (effects_render_pass_check(pass))
+		return;
 
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::e_z_buffer_mode(pass != _effect_pass_opaque));
 
