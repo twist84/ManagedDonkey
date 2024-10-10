@@ -218,7 +218,7 @@ struct s_thread_local_storage
 	//  name: "effect event"
 	// count: 640
 	//  size: 0x14
-	c_smart_data_array<effect_event_datum> event_data;
+	c_smart_data_array<event_datum> event_data;
 
 	//  name: "effect location"
 	// count: 1152

@@ -13,6 +13,7 @@
 #include "effects/screen_effect.hpp"
 #include "effects/vision_mode.hpp"
 #include "memory/data.hpp"
+#include "objects/damage_owner.hpp"
 
 enum e_effect_pass
 {
@@ -41,7 +42,7 @@ struct effect_datum :
 	long definition_index;
 	long looping_sound_index;
 
-	string_id marker_name;
+	c_string_id marker_name;
 
 	byte __unknown14;
 	byte __unknown15;
@@ -78,12 +79,23 @@ struct effect_datum :
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
-struct effect_event_datum :
+struct event_datum :
 	s_datum_header
 {
-	byte __data[0x12];
+	byte_flags flags;
+
+	byte __data3[0x1];
+
+	word event_counter; // `counter`?
+
+	byte __data6[0x2];
+
+	long next_event_index; // `next_index`?
+
+	real __unknownC;
+	real __unknown10;
 };
-static_assert(sizeof(effect_event_datum) == 0x14);
+static_assert(sizeof(event_datum) == 0x14);
 
 struct effect_location_datum :
 	s_datum_header
