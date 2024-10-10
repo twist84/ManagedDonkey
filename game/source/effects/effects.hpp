@@ -38,8 +38,43 @@ struct effect_datum :
 	byte __data2[0x2];
 
 	dword_flags flags;
+	long definition_index;
+	long looping_sound_index;
 
-	byte __data[0x98];
+	string_id marker_name;
+
+	byte __unknown14;
+	byte __unknown15;
+	byte __data16[0x2];
+
+	long scale_a_function_reference;
+	long scale_b_function_reference;
+	s_location location;
+
+	byte __data22[0x2];
+
+	vector3d transitional_velocity;
+	long object_index;
+	s_damage_owner damage_owner;
+
+	byte __data40[0x6];
+	byte_flags __flags46;
+	byte_flags __flags47;
+
+	long parent_particle_index;
+	long event_index;
+	real m_effect_scale_a;
+	real m_effect_scale_b;
+
+	byte __data58[0x8];
+
+	long locations[8];
+	long lightprobe_index;
+	real death_delay;
+	dword random_seed;
+
+	long __unknown8C;
+	plane3d __plane90;
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
