@@ -83,9 +83,7 @@ struct event_datum :
 	s_datum_header
 {
 	byte_flags flags;
-
-	byte __data3[0x1];
-
+	byte event_block_index;
 	word event_counter; // `counter`?
 
 	byte __data6[0x2];
@@ -179,4 +177,5 @@ extern void __cdecl effects_submit_cheap_first_person_attachments(e_output_user_
 extern void __cdecl effects_update();
 
 extern void render_debug_damage_effects();
+extern void debug_effects_full();
 

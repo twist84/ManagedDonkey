@@ -1,12 +1,16 @@
 #include "effects/effects.hpp"
 
+#include "cache/cache_files.hpp"
+#include "effects/effect_definitions.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/render_debug.hpp"
 
 HOOK_DECLARE(0x005BCF60, effects_render);
 
 bool debug_damage_effects = false;
+bool g_debug_effects_full = false;
 
 bool enable_opaque_effect_render_pass = true;
 bool enable_transparents_effect_render_pass = true;
@@ -280,6 +284,9 @@ void __cdecl effects_render(e_output_user_index output_user_index, e_effect_pass
 	if (effects_render_pass_check(pass))
 		return;
 
+	if (g_debug_effects_full)
+		debug_effects_full();
+
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::e_z_buffer_mode(pass != _effect_pass_opaque));
 
 	if (pass == _effect_pass_transparents)
@@ -511,5 +518,65 @@ void render_debug_damage_effects()
 	{
 
 	}
+}
+
+void debug_effects_full()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(effect_data);
+	TLS_DATA_GET_VALUE_REFERENCE(event_data);
+
+	c_static_string<8192> string;
+	string.print("|n|n|n|n|nlayer  index sort  alpha  name|n");
+
+	for (long effect_index = data_next_index(*effect_data, NONE); effect_index != NONE; effect_index = data_next_index(*effect_data, effect_index))
+	{
+		effect_datum* effect = (effect_datum*)datum_get(*effect_data, effect_index);
+		struct effect_definition* effect_definition = (struct effect_definition*)tag_get(EFFECT_TAG, effect->definition_index);
+
+		c_static_string<256> effect_string;
+		effect_string.print("effect: %s (%s %s %s)|n",
+			tag_get_name(effect->definition_index),
+			TEST_BIT(effect->flags, 1) ? "stopped" : "running",
+			TEST_BIT(effect->flags, 2) ? "invisible" : "visible",
+			TEST_BIT(effect->flags, 5) ? "deleted" : "");
+		string.append(effect_string.get_string());
+
+		if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
+		{
+			event_datum* _event = NULL;
+			for (long event_index = effect->event_index; event_index != NONE; event_index = _event->next_event_index)
+			{
+				_event = (event_datum*)datum_get(*event_data, event_index);
+				effect_event_definition& effect_event = effect_definition->events[_event->event_block_index];
+
+				real unknown10 = _event->__unknown10;
+				real unknownC = _event->__unknownC;
+				if (unknown10 != 0.0f)
+					unknownC /= unknown10;
+
+				c_static_string<256> effect_event_string;
+				effect_event_string.print("  event: %s (%s, %s, %d parts, age %f)|n",
+					effect_event.event_name.get_string(),
+					TEST_BIT(_event->flags, 0) ? "actual" : "delay",
+					TEST_BIT(_event->flags, 1) ? "stopped" : "running",
+					effect_event.parts.count,
+					unknownC);
+				string.append(effect_event_string.get_string());
+
+				for (long part_index = 0; part_index < effect_event.parts.count; part_index++)
+				{
+					effect_part_definition& effect_part = effect_event.parts[part_index];
+
+					c_static_string<256> effect_part_string;
+					effect_part_string.print("    part %d: (%s)|n",
+						part_index,
+						effect_part.type.index == NONE ? "<none>" : effect_part.type.get_name());
+					string.append(effect_part_string.get_string());
+				}
+			}
+		}
+	}
+
+	render_debug_string(string.get_string());
 }
 

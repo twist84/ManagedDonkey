@@ -4,6 +4,7 @@
 #include "tag_files/string_ids.hpp"
 #include "tag_files/tag_group_definitions.hpp"
 
+#define INVALID_TAG NONE
 #define ACHIEVEMENTS_TAG 'achi'
 #define AI_DIALOGUE_GLOBALS_TAG 'adlg'
 #define AI_GLOBALS_TAG 'aigl'
