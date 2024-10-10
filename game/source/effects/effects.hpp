@@ -111,7 +111,9 @@ static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 struct s_effect_message
 {
 	long m_type;
-	byte __data[0x58];
+	byte __data4[0x14];
+	real_matrix4x3 matrix;
+	byte __data4C[0x10];
 };
 static_assert(sizeof(s_effect_message) == 0x5C);
 
