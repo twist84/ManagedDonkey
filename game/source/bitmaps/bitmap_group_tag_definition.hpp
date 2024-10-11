@@ -215,6 +215,15 @@ enum e_bitmap_flags
 
 	_bitmap_flag_bit3,
 
+	// do these exist?
+	_bitmap_flag_bit4,
+	_bitmap_flag_bit5,
+	_bitmap_flag_bit6,
+	_bitmap_flag_bit7,
+
+	// used in `simple_font::s_font_data::install`
+	_bitmap_flag_bit8,
+
 	k_bitmap_flags
 };
 

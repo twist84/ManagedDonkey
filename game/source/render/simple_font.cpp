@@ -1,24 +1,11 @@
 #include "render/simple_font.hpp"
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
+#include "bitmaps/bitmaps.hpp"
+#include "memory/module.hpp"
+#include "rasterizer/rasterizer.hpp"
+
 #include <string.h>
-
-namespace simple_font // probably struct
-{
-	//struct s_font_data;
-	//REFERENCE_DECLARE(0x0524B6B8, s_font_data*, g_activeFont);
-
-	//void __cdecl render_text(s_font_data* a1, long a2, long a3, long a4, long a5, dword a6, char const* string, unsigned int string_length, bool a9)
-	//{
-	//	INVOKE(0x00A77480, render_text, a1, a2, a3, a4, a5, a6, string, string_length, a9);
-	//}
-
-	void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6)
-	{
-		INVOKE(0x00A770E0, print, a1, a2, a3, string, string_length, a6);
-
-		//render_text(g_activeFont, a1, a2, 1024, 0, a3, string, string_length, a6);
-	}
-}
 
 c_simple_font_screen_display::c_simple_font_screen_display() :
 	m_rendering(false),
@@ -66,3 +53,86 @@ bool c_simple_font_screen_display::open_session(real scale)
 	return DECLFUNC(0x00A76FA0, bool, __thiscall, c_simple_font_screen_display*, real)(this, scale);
 }
 
+namespace simple_font
+{
+	HOOK_DECLARE_CLASS_MEMBER(0x00A76B50, s_font_data, install);
+	HOOK_DECLARE(0x00A76C60, install);
+
+	REFERENCE_DECLARE_ARRAY(0x0191BFD0, s_font_data*, g_fonts, 2);
+	REFERENCE_DECLARE(0x0191C000, s_font_data, g_font_6x10);
+	REFERENCE_DECLARE(0x0191C03C, s_font_data, g_font_4x6);
+	REFERENCE_DECLARE(0x0524B6B4, s_simple_font_globals, g_simple_font_globals);
+	REFERENCE_DECLARE(0x0524B6B8, s_font_data*, g_activeFont);
+	REFERENCE_DECLARE(0x0524B6BC, bool, __unknown8);
+	REFERENCE_DECLARE(0x0524B6C0, vector2d, __vectorC);
+	REFERENCE_DECLARE(0x0524B6C8, vector2d, __vector14);
+
+	void s_font_data::install()
+	{
+		//DECLFUNC(0x00A76B50, void, __thiscall, simple_font::s_font_data*)(this);
+
+		if (!installed && c_rasterizer::g_device)
+		{
+			if (texture_bitmap = bitmap_2d_new((short)texture_width, (short)texture_height, 0, _bitmap_format_a8y8, 0))
+			{
+				c_rasterizer_texture_ref internal_hardware_format;
+
+				// c_rasterizer_texture_ref::allocate?
+				DECLFUNC(0x00A6DFF0, void, __cdecl, c_rasterizer_texture_ref&, bitmap_data*, char const*, bool)(
+					internal_hardware_format, texture_bitmap, "simple_font", true);
+
+				texture_ref = internal_hardware_format;
+				if (internal_hardware_format.valid())
+				{
+					texture_bitmap->internal_hardware_format = internal_hardware_format;
+					texture_bitmap->flags.set(_bitmap_flag_bit8, true);
+
+					__unknown2C = texture_width;
+
+					short_rectangle2d rect{};
+					rect.x1 = (short)x1;
+					rect.y1 = (short)y1;
+
+					long buffer_offset = 0;
+					for (short y = 0; y < rect.y1; y++)
+					{
+						for (short x = 0; x < rect.x1; x++)
+						{
+							char font_char = buffer[buffer_offset++];
+							byte* char_address = (byte*)bitmap_2d_address(texture_bitmap, x, y, 0);
+							byte char_value = (font_char != '#') - 1;
+							char_address[0] = char_value;
+							char_address[1] = char_value;
+						}
+					}
+
+					rasterizer_bitmap_2d_changed_rect(texture_bitmap, texture_ref, &rect, true);
+				}
+			}
+		}
+
+		installed = true;
+	}
+
+	void __cdecl install()
+	{
+		//INVOKE(0x00A76C60, simple_font::install);
+
+		for (s_font_data* font_data : g_fonts)
+			font_data->install();
+
+		g_simple_font_globals.__unknown0 = false;
+	}
+
+	//void __cdecl render_text(s_font_data* a1, long a2, long a3, long a4, long a5, dword a6, char const* string, unsigned int string_length, bool a9)
+	//{
+	//	INVOKE(0x00A77480, render_text, a1, a2, a3, a4, a5, a6, string, string_length, a9);
+	//}
+
+	void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6)
+	{
+		INVOKE(0x00A770E0, print, a1, a2, a3, string, string_length, a6);
+
+		//render_text(g_activeFont, a1, a2, 1024, 0, a3, string, string_length, a6);
+	}
+}

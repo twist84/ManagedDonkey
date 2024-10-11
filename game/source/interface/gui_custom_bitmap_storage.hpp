@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "bitmaps/bitmaps.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"

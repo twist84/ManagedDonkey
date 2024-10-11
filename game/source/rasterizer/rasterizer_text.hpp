@@ -2,7 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct IDirect3DTexture9;
+struct bitmap_data;
+__interface IDirect3DTexture9;
 struct c_rasterizer_texture_ref
 {
 public:
@@ -17,4 +18,6 @@ public:
 	dword m_datum_ref;
 };
 static_assert(sizeof(c_rasterizer_texture_ref) == 0x4);
+
+extern void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref texture_ref, short_rectangle2d const* dirty_rect, bool a4);
 
