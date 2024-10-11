@@ -1,8 +1,13 @@
 #include "interface/user_interface_main_menu_music.hpp"
 
+#include "memory/module.hpp"
+#include "text/draw_string.hpp"
+
+bool main_menu_music_render_debug_enabled = false;
+
 c_user_interface_main_menu_music::c_user_interface_main_menu_music() :
 	__unknown0(0),
-	m_state((e_music_state)0),
+	m_state(_music_state_stopped),
 	m_game_shell_music_state(0),
 	__unknownC(0),
 	m_looping_sound_index(NONE),
@@ -44,9 +49,24 @@ bool c_user_interface_main_menu_music::music_done_fading_out()
 	return DECLFUNC(0x00AD5790, bool, __thiscall, c_user_interface_main_menu_music*)(this);
 }
 
-void c_user_interface_main_menu_music::render()
+HOOK_DECLARE_CLASS_MEMBER(0x00AD57E0, c_user_interface_main_menu_music, render);
+
+void __thiscall c_user_interface_main_menu_music::render()
 {
-	DECLFUNC(0x00AD57E0, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	//DECLFUNC(0x00AD57E0, void, __thiscall, c_user_interface_main_menu_music*)(this);
+
+	if (main_menu_music_render_debug_enabled)
+	{
+		static char const* music_states[k_music_state_count]
+		{
+			"music state stopped",
+			"music state playing"
+		};
+
+		c_simple_font_draw_string draw_string;
+		draw_string.set_color(global_real_argb_yellow);
+		draw_string.draw(NULL, music_states[m_state]);
+	}
 }
 
 void c_user_interface_main_menu_music::start()

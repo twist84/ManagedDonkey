@@ -8,7 +8,10 @@ struct c_user_interface_main_menu_music
 public:
 	enum e_music_state
 	{
-		// #TODO: map this
+		_music_state_stopped = 0,
+		_music_state_playing,
+
+		k_music_state_count
 	};
 
 	c_user_interface_main_menu_music();
@@ -26,7 +29,7 @@ private:
 
 public:
 	bool music_done_fading_out();
-	void render();
+	void __thiscall render();
 
 private:
 	void start();

@@ -201,7 +201,7 @@ static_assert(sizeof(s_render_debug_globals) == 0x81020);
 
 static s_render_debug_globals _render_debug_globals
 {
-	.use_simple_font = false
+	.use_simple_font = true
 };
 
 thread_local s_render_debug_globals* g_render_debug_globals = &_render_debug_globals;
@@ -1167,8 +1167,8 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 	ASSERT(string);
 	ASSERT(color);
 
-	//render_debug_string_at_point_immediate(point, string, color, 0.6f);
-	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color, 0.6f);
+	real font_scale = get_render_debug_globals()->use_simple_font ? 1.0f : 0.6f;
+	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color, font_scale);
 }
 
 void __cdecl render_debug_string_immediate(bool draw_immediately, short const* tab_stops, short tab_stop_count, char const* string)

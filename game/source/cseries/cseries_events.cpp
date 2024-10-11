@@ -359,9 +359,6 @@ void __cdecl events_debug_render()
 	if (!g_events_debug_render_enable)
 		return;
 
-	c_rasterizer_draw_string draw_string;
-	c_font_cache_mt_safe font_cache;
-
 	short_rectangle2d display_title_safe_pixel_bounds{};
 	interface_get_current_display_settings(nullptr, nullptr, nullptr, &display_title_safe_pixel_bounds);
 
@@ -379,6 +376,7 @@ void __cdecl events_debug_render()
 	interpolate_linear(global_real_argb_red->color.green, global_real_argb_white->color.green, interpolation_factor);
 	interpolate_linear(global_real_argb_red->color.blue, global_real_argb_white->color.blue, interpolation_factor);
 
+	c_simple_font_draw_string draw_string;
 	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 	draw_string.set_color(&color);
 	draw_string.set_tab_stops(nullptr, 0);
@@ -399,12 +397,12 @@ void __cdecl events_debug_render()
 		{
 			if (first_event)
 			{
-				draw_string.draw(&font_cache, spamming_event.text);
+				draw_string.draw(NULL, spamming_event.text);
 				first_event = false;
 			}
 			else
 			{
-				draw_string.draw_more(&font_cache, spamming_event.text);
+				draw_string.draw_more(NULL, spamming_event.text);
 			}
 		}
 	}
