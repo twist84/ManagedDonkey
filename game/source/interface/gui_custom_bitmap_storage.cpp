@@ -44,15 +44,18 @@ const dword bitmap_pixel_buffer_alignment_bits = 12;
 void __thiscall c_gui_custom_bitmap_storage_item::initialize(long width, long height, bool use_compressed_format)
 {
 	m_use_compressed_format = use_compressed_format;
-	bitmap_2d_initialize(&m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8, FLAG(3) | FLAG(6), false, false);
+	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
+	D3DFORMAT d3d_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
+
+	bitmap_2d_initialize(&m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, bitmap_format, FLAG(3) | FLAG(6), false, false);
 	m_bitmap.curve = 3;
 
-	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, false, 0, 0);
+	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, d3d_format, D3DPOOL_DEFAULT, false, 0, 0);
 	texture_header = new D3DBaseTexture();
 
 	dword base_size = 0;
 	dword mip_size = 0;
-	dword resource_bytes = XGSetTextureHeader(m_bitmap.width, m_bitmap.height, 1, 4, m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 0, 0, -1, 0, texture_header, &base_size, &mip_size);
+	dword resource_bytes = XGSetTextureHeader(m_bitmap.width, m_bitmap.height, 1, 4, d3d_format, 0, 0, -1, 0, texture_header, &base_size, &mip_size);
 	if (resource_bytes)
 	{
 		long allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
