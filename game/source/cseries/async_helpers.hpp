@@ -5,6 +5,11 @@
 #include "tag_files/files_windows.hpp"
 
 struct c_synchronized_long;
+extern long __cdecl async_close_file(
+	s_file_handle file_handle,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* done);
 extern long __cdecl async_close_file_no_stfs_flush(
 	s_file_handle file_handle,
 	e_async_category category,

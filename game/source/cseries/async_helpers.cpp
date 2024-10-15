@@ -1,6 +1,21 @@
 #include "cseries/async_helpers.hpp"
 
-//.text:005ACA70 ; long __cdecl async_close_file(s_file_handle, e_async_category, e_async_priority, c_synchronized_long*)
+long __cdecl async_close_file(
+	s_file_handle file_handle,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* done)
+{
+	//return INVOKE(0x005ACA70, async_close_file,
+	//	file_handle,
+	//	category,
+	//	priority,
+	//	done);
+
+	s_async_task task{};
+	task.close_file_task.file_handle = file_handle;
+	return async_task_add(priority, &task, category, async_close_file_callback, done);
+}
 
 long __cdecl async_close_file_no_stfs_flush(
 	s_file_handle file_handle,
