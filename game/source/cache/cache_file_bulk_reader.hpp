@@ -6,6 +6,10 @@
 
 struct c_asynchronous_io_arena
 {
+public:
+	void close_file(long a1);
+	void close_file(s_indirect_file* indirect_file);
+
 	struct s_async_io_file
 	{
 		s_file_handle file;

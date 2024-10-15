@@ -204,6 +204,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\squads.cpp" />
     <ClCompile Include="source\ai\swarms.cpp" />
     <ClCompile Include="source\animations\animation_manager.cpp" />
+    <ClCompile Include="source\cache\cache_file_bulk_reader.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
     <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
     <ClCompile Include="source\creatures\creatures.cpp" />
