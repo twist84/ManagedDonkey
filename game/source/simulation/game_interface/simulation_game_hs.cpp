@@ -70,7 +70,7 @@ void c_simulation_hs_script_wake_event_definition::event_payload_encode(long pay
 	packet->write_string("script-name", definition->script_name, 32);
 }
 
-bool c_simulation_hs_script_wake_event_definition::event_payload_decode(long payload_size, void* payload, c_bitstream* packet)
+bool c_simulation_hs_script_wake_event_definition::event_payload_decode(long payload_size, void* payload, c_bitstream* packet, bool a4)
 {
 	ASSERT(payload_size == c_simulation_hs_script_wake_event_definition::payload_size());
 	ASSERT(payload);

@@ -1,6 +1,7 @@
 #include "simulation/simulation_gamestate_entities.hpp"
 
 #include "main/main_game.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/thread_local.hpp"
 
 //.text:00471BC0 ; void __cdecl simulation_gamestate_entities_build_clear_flags(s_simulation_queue_gamestate_clear_data*)
@@ -69,9 +70,36 @@ void __cdecl simulation_gamestate_entity_set_object_index(long simulation_object
 }
 
 //.text:00472020 ; void __cdecl simulation_gamestate_entity_set_simulation_entity_index(long, long)
-//.text:00472050 ; void __cdecl simulation_object_glue_index_decode(c_bitstream*, long*)
-//.text:00472080 ; void __cdecl simulation_object_glue_index_encode(c_bitstream*, long)
-//.text:00472120 ; bool __cdecl simulation_gamestate_index_valid(long)
+
+void __cdecl simulation_object_glue_index_decode(c_bitstream* bitstream, long* gamestate_index_out)
+{
+	//INVOKE(0x00472050, simulation_object_glue_index_decode, bitstream, gamestate_index_out);
+
+	ASSERT(bitstream);
+	ASSERT(gamestate_index_out);
+
+	*gamestate_index_out = BUILD_DATUM_INDEX(bitstream->read_integer("gamestgate-index-id", 16), bitstream->read_integer("gamestate-index-absolute", 11));
+}
+
+void __cdecl simulation_object_glue_index_encode(c_bitstream* bitstream, long gamestate_index)
+{
+	//INVOKE(0x00472080, simulation_object_glue_index_encode, bitstream, gamestate_index);
+
+	ASSERT(bitstream);
+	ASSERT(gamestate_index);
+
+	bitstream->write_integer("gamestgate-index-id", DATUM_INDEX_TO_IDENTIFIER(gamestate_index), 16);
+	bitstream->write_integer("gamestate-index-absolute", DATUM_INDEX_TO_ABSOLUTE_INDEX(gamestate_index), 11);
+}
+
+bool __cdecl simulation_gamestate_index_valid(long gamestate_index)
+{
+	//return INVOKE(0x00472120, simulation_gamestate_index_valid, gamestate_index);
+
+	TLS_DATA_GET_VALUE_REFERENCE(simulation_gamestate_entity_data);
+
+	return gamestate_index != NONE && datum_try_and_get(*simulation_gamestate_entity_data, gamestate_index) != NULL;
+}
 
 long __cdecl simulation_entity_create(e_simulation_entity_type entity_type, long object_index, long simulation_object_glue_index)
 {
