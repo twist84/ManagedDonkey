@@ -71,6 +71,7 @@ void* (__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
 REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
 
+HOOK_DECLARE(0x005016D0, cache_file_blocking_read);
 HOOK_DECLARE(0x00501FC0, cache_files_map_directory);
 HOOK_DECLARE(0x00501FD0, cache_files_populate_resource_gestalt);
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
@@ -252,7 +253,14 @@ long tag_name_get_index(tag group_tag, char const* name)
 //bool cache_file_blocking_read(enum e_cache_file_section,long,long,void *)
 bool __cdecl cache_file_blocking_read(long cache_file_section, long section_offset, long buffer_size, void* buffer)
 {
-	return INVOKE(0x005016D0, cache_file_blocking_read, cache_file_section, section_offset, buffer_size, buffer);
+	//return INVOKE(0x005016D0, cache_file_blocking_read, cache_file_section, section_offset, buffer_size, buffer);
+
+	c_synchronized_long done{};
+	c_synchronized_long size{};
+	cache_file_read_ex(cache_file_section, section_offset, buffer_size, buffer, &size, &done, _async_category_cache_file_misc, _async_priority_blocking_generic);
+	internal_async_yield_until_done_with_networking(&done, false, true, __FILE__, __LINE__);
+
+	return size.peek() == buffer_size;
 }
 
 bool __cdecl cache_file_content_signatures_match(long signature0_size, byte const* signature0, long signature1_size, byte const* signature1, bool unused)
@@ -1230,7 +1238,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		cache_file_load_tags_section();
 
 		// only needed if `sub_503470` is called in `cache_file_tags_load_recursive`
-		cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
+		//cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
 
 		cache_file_tags_load_allocate();
 
