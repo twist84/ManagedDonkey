@@ -19,8 +19,10 @@ REFERENCE_DECLARE(0x0240B1E8, s_cache_file_table_of_contents, cache_file_table_o
 REFERENCE_DECLARE(0x0243C098, s_cache_file_copy_globals, cache_file_copy_globals);
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
+HOOK_DECLARE(0x005AA7C0, cache_file_open);
 HOOK_DECLARE(0x005AA870, cache_file_read_ex);
 HOOK_DECLARE(0x005AAE70, cache_files_copy_map_start_only);
+HOOK_DECLARE(0x005AB630, cached_map_file_close);
 HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 
 bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
@@ -823,7 +825,23 @@ void __cdecl cache_requests_flush()
 
 void __cdecl cached_map_file_close(e_map_file_index map_file_index)
 {
-	INVOKE(0x005AB630, cached_map_file_close, map_file_index);
+	//INVOKE(0x005AB630, cached_map_file_close, map_file_index);
+
+	s_cached_map_file* map_file = cached_map_file_get(map_file_index);
+	if (file_handle_is_valid(map_file->file_handle))
+	{
+		c_synchronized_long done{};
+		async_close_file(map_file->file_handle, _async_category_none, _async_priority_blocking_generic, &done);
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+		invalidate_file_handle(&map_file->file_handle);
+
+		g_cache_file_io_arena.close_file(&map_file->indirect_file);
+
+		async_close_file(map_file->overlapped_handle, _async_category_none, _async_priority_blocking_generic, &done);
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+		invalidate_file_handle(&map_file->overlapped_handle);
+	}
+	csmemset(&map_file->header, 0, sizeof(map_file->header));
 }
 
 bool __cdecl cached_map_file_dependencies_loaded(s_cache_file_header const* header, dword* shared_files_flags)
