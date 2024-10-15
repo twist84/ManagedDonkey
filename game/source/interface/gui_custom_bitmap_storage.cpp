@@ -2,6 +2,7 @@
 
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
 #include "networking/online/online_error.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_d3d_allocations.hpp"
@@ -15,6 +16,8 @@
 #include <d3dx9tex.h>
 
 REFERENCE_DECLARE(0x05270C14, c_gui_custom_bitmap_storage_manager, g_gui_custom_bitmap_storage_manager);
+
+//#define ISEXPERIMENTAL
 
 #if defined(ISEXPERIMENTAL)
 HOOK_DECLARE_CLASS_MEMBER(0x00B20460, c_gui_custom_bitmap_storage_item, dispose);
@@ -140,7 +143,7 @@ void __thiscall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap()
 {
 	if (m_hardware_format_bitmap.valid())
 		c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
-	
+
 	m_bitmap_ready = false;
 };
 
@@ -151,11 +154,22 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 
 bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
 {
-	// #TODO: investigate the error below, the calling convention is __thiscall in IDA
-	// - Run-Time Check Failure #0 - The value of ESP was not properly saved across a function call.
-	// - This is usually a result of calling a function declared with one calling convention with a function pointer declared with a different calling convention.
-	// 
-	//return DECLFUNC(0x00AE5440, bool, __thiscall, c_gui_custom_bitmap_storage_manager*, long, char const*, long, long)(this, storage_item_index, buffer, buffer_size, a5);
+	c_gui_custom_bitmap_storage_manager::s_bitmap_storage_handle_datum* storage_item = NULL;
+	{
+		c_critical_section_scope section_scope(_critical_section_ui_custom_bitmaps);
+		if (storage_item = (decltype(storage_item))datum_try_and_get(*m_bitmap_storage_items, storage_item_index))
+			storage_item->__unknown8 = 1;
+	}
 
-	return false;
+	if (!storage_item)
+		return false;
+
+	bool result = storage_item->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, a5);
+
+	{
+		c_critical_section_scope section_scope(_critical_section_ui_custom_bitmaps);
+		storage_item->__unknown8 = result ? 2 : 0;
+	}
+
+	return result;
 }
