@@ -257,6 +257,7 @@ extern bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_
 extern void __cdecl cache_file_map_clear_all_failures();
 extern void __cdecl cache_file_map_has_failed(char const* scenario_path);
 extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
+extern long __cdecl cache_file_read_ex(long cache_file_section, long section_offset, long buffer_size, void* buffer, c_synchronized_long* size, c_synchronized_long* done, e_async_category category, e_async_priority priority);
 extern long __cdecl cache_file_round_up_read_size(long size);
 extern s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_shared_resource_usage();
 extern void __cdecl cache_files_copy_do_work();

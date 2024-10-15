@@ -19,6 +19,7 @@ REFERENCE_DECLARE(0x0240B1E8, s_cache_file_table_of_contents, cache_file_table_o
 REFERENCE_DECLARE(0x0243C098, s_cache_file_copy_globals, cache_file_copy_globals);
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
+HOOK_DECLARE(0x005AA870, cache_file_read_ex);
 HOOK_DECLARE(0x005AAE70, cache_files_copy_map_start_only);
 HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 
@@ -591,7 +592,17 @@ bool __cdecl cache_file_open(char const* scenario_path, void* header)
 	return true;
 }
 
-//.text:005AA870 ; long __cdecl cache_file_read_ex(long, long, long, void*, c_synchronized_long*, c_synchronized_long*, e_async_category, e_async_priority)
+long __cdecl cache_file_read_ex(long cache_file_section, long section_offset, long buffer_size, void* buffer, c_synchronized_long* size, c_synchronized_long* done, e_async_category category, e_async_priority priority)
+{
+	//return INVOKE(0x005AA870, cache_file_read_ex, cache_file_section, section_offset, buffer_size, buffer, size, done, category, priority);
+
+	long section_base_offset = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].header.section_offsets[cache_file_section];
+	if (section_base_offset == NONE)
+		return -1;
+
+	s_file_handle section_handle = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].file_handle;
+	return async_read_position(section_handle, buffer, buffer_size, section_base_offset + section_offset, category, priority, size, done);
+}
 
 long __cdecl cache_file_round_up_read_size(long size)
 {
