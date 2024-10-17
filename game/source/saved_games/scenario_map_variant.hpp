@@ -97,7 +97,7 @@ public:
 		owner_team = 9;
 		shared_storage = { 0 };
 		spawn_rate = 0;
-		teleporter_channel = _teleporter_channel_alpha;
+		object_type = 0;
 		boundary_shape = _multiplayer_object_boundary_shape_unused;
 		boundary_radius = 0.0f;
 		boundary_box_length = 0.0f;
@@ -122,7 +122,7 @@ protected:
 	// seconds
 	char spawn_rate;
 
-	c_enum<e_teleporter_channel, byte, _teleporter_channel_alpha, k_teleporter_channel_count> teleporter_channel;
+	byte object_type;
 
 	c_enum<e_multiplayer_object_boundary_shape, char, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
 

@@ -58,7 +58,7 @@ void s_variant_multiplayer_object_properties_definition::print(long const tab_co
 	PRINT_TABS; c_console::write_line("<item name = \"Owner Team\" value = %d>", (long)owner_team);
 	PRINT_TABS; c_console::write_line("<item name = \"Shared Storage\" value = %d>", shared_storage);
 	PRINT_TABS; c_console::write_line("<item name = \"Spawn Rate\" value = %d>", spawn_rate);
-	PRINT_TABS; c_console::write_line("<item name = \"Teleporter Channel\" value = %d>", (long)teleporter_channel);
+	PRINT_TABS; c_console::write_line("<item name = \"Object Type\" value = %d>", object_type);
 	PRINT_TABS; c_console::write_line("<item name = \"Boundary Shape\" value = %d>", (long)boundary_shape);
 	PRINT_TABS; c_console::write_line("<item name = \"Boundary Radius\" value = %.2f>", boundary_radius);
 	PRINT_TABS; c_console::write_line("<item name = \"Boundary Box Length\" value = %.2f>", boundary_box_length);
