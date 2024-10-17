@@ -37,7 +37,7 @@ void __cdecl biped_falling_damage(long biped_index)
 
 	s_game_globals_falling_damage& falling_damage = scenario_get_game_globals()->falling_damage[0];
 
-	bool v7 = 
+	bool immune_to_falling_damage = 
 		TEST_BIT(biped->unit.flags, 8) ||
 		biped_definition->biped.flags.test(_biped_definition_flags_immune_to_falling_damage) || 
 		TEST_BIT(biped->object.damage_flags, 8);
@@ -67,7 +67,7 @@ void __cdecl biped_falling_damage(long biped_index)
 			biped->biped.physics.get_mode() == c_character_physics_component::e_mode::_mode_ground &&
 			-(falling_damage.runtime_maximum_falling_velocity * gravity_scale) > k)
 		{
-			if (!v7 && !TEST_BIT(biped->object.damage_flags, 2))
+			if (!immune_to_falling_damage && !TEST_BIT(biped->object.damage_flags, 2))
 			{
 				SET_BIT(biped->biped.flags, 5, true);
 				s_damage_data damage_data{};
