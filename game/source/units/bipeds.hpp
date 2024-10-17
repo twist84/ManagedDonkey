@@ -21,7 +21,7 @@ struct _biped_datum
 
 	byte __data28[0x18];
 
-	long current_bump_object_index;
+	long last_falling_communication_time;
 	long bump_object_index;
 	char bump_ticks;
 	char jump_control_ticks;
@@ -67,7 +67,8 @@ struct _biped_datum
 	// linked
 	long __unknown2C0;
 	short __unknown2C4;
-	byte __data2C6[0x1];
+
+	byte airborne_intentional_ticks;
 	char ai_combat_status;
 };
 static_assert(sizeof(_biped_datum) == 0x2C8);
