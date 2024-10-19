@@ -2,6 +2,12 @@
 
 #include "cache/cache_files.hpp"
 
+//.text:00580B00 ; 
+//.text:00580B10 ; 
+//.text:00580B20 ; 
+//.text:00580B30 ; 
+//.text:00580B50 ; 
+
 c_map_variant::c_map_variant()
 {
 	csmemset(this, 0, sizeof(*this));
@@ -9,39 +15,167 @@ c_map_variant::c_map_variant()
 	DECLFUNC(0x00580B80, void, __thiscall, c_map_variant*)(this);
 }
 
-//void __cdecl c_map_variant::create_default(e_map_id map_id)
-void __cdecl c_map_variant::create_default(long map_id)
+//.text:00580C10 ; 
+//.text:00580C20 ; 
+//.text:00580C40 ; 
+//.text:00580C60 ; public: c_map_variant::~c_map_variant(void)
+//.text:00580C80 ; 
+//.text:00580CA0 ; 
+//.text:00580CC0 ; 
+//.text:00580CE0 ; 
+//.text:00580CF0 ; 
+//.text:00580D00 ; 
+//.text:00580D10 ; 
+//.text:00580D20 ; 
+//.text:00580D30 ; 
+//.text:00580D40 ; 
+//.text:00580D50 ; 
+//.text:00580D60 ; 
+//.text:00580D70 ; 
+//.text:00580D80 ; 
+//.text:00580D90 ; 
+//.text:00580E30 ; public: void c_map_variant::apply_multiplayer_properties(long, long) const
+//.text:00580E80 ; public: void c_map_variant::apply_multiplayer_properties(s_variant_multiplayer_object_properties_definition const*, long) const
+//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(long, dword, long, void const*)
+//.text:00581400 ; public: bool c_map_variant::build_simulation_baseline(long, long, void*)
+//.text:005816C0 ; 
+//.text:00581B90 ; public: bool c_map_variant::can_place_scenario_object(e_object_type, long) const
+//.text:00581C20 ; 
+//.text:00581C90 ; public: static bool c_map_variant::collect_object_type(enum e_object_type)
+//.text:00581CC0 ; 
+//.text:00581D60 ; 
+
+//void c_map_variant::create_default(e_map_id map_id)
+void c_map_variant::create_default(long map_id)
 {
 	DECLFUNC(0x00581F70, void, __thiscall, c_map_variant*, long)(this, map_id);
 }
 
-bool __cdecl c_map_variant::is_valid() const
+//.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, vector3d const*, vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, word)
+
+bool c_map_variant::decode(c_bitstream* packet)
+{
+	return DECLFUNC(0x00582550, bool, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
+}
+
+//.text:00582930 ; 
+//.text:00582940 ; 
+
+void c_map_variant::encode(c_bitstream* packet) const
+{
+	DECLFUNC(0x005829A0, void, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
+}
+
+//.text:005831C0 ; public: long c_map_variant::find_definition_index(long)
+//.text:00583200 ; 
+//.text:00583210 ; 
+//.text:00583220 ; 
+//.text:00583230 ; c_map_variant* __cdecl game_engine_get_runtime_map_variant()
+//.text:00583250 ; public: real c_map_variant::get_budget_fraction(long*, long*) const
+//.text:005832A0 ; 
+//.text:005832E0 ; public: long c_map_variant::get_object_index(long) const
+//.text:00583300 ; public: s_variant_quota const* c_map_variant::get_object_quota_datum(long)
+//.text:00583320 ; 
+//.text:005833F0 ; public: bool c_map_variant::get_object_scenario_properties(long, e_object_type*, long*)
+//.text:005834E0 ; 
+//.text:00583530 ; 
+//.text:005835F0 ; 
+//.text:00583600 ; public: s_variant_object_datum const* c_map_variant::get_variant_object_datum(long) const
+//.text:00583630 ; public: void c_map_variant::get_variant_object_datum(long, s_variant_object_datum*) const
+//.text:005836C0 ; public: void c_map_variant::get_variant_object_spawn_location(long, real_point3d*, vector3d*, vector3d*)
+//.text:00583860 ; public: s_variant_quota* c_map_variant::get_writable_object_quota_datum(long)
+//.text:00583880 ; public: void c_map_variant::handle_deleted_object(long)
+//.text:00583920 ; 
+//.text:00583B20 ; public: void c_map_variant::initialize_for_scenario()
+//.text:00583F90 ; 
+//.text:00583FA0 ; public: __cdecl s_variant_multiplayer_object_properties_definition::s_variant_multiplayer_object_properties_definition()
+//.text:00583FD0 ; 
+//.text:00583FF0 ; 
+//.text:00584010 ; 
+//.text:00584030 ; 
+//.text:00584050 ; 
+//.text:00584070 ; public: bool c_map_variant::is_equal_to(c_map_variant const*) const
+//.text:005841C0 ; public: bool c_map_variant::is_showing_helpers()
+
+bool c_map_variant::is_valid() const
 {
 	return DECLFUNC(0x005841D0, bool, __thiscall, c_map_variant const*)(this);
 }
 
-bool __cdecl c_map_variant::read_from(c_map_variant const* source)
+//.text:005842F0 ; 
+//.text:005845C0 ; 
+//.text:005845E0 ; 
+//.text:00584600 ; 
+//.text:00584610 ; 
+//.text:00584620 ; void __cdecl map_variant_create_helper_object(long)
+//.text:00584790 ; why is `c_simulation_object_entity_definition::object_create_object` here?
+//.text:005848D0 ; public: void c_map_variant::create_all_objects() const
+//.text:005849D0 ; public: long c_map_variant::create_object(long) const
+//.text:00584A70 ; 
+//.text:00584CF0 ; public: void c_map_variant::quantize(void)
+//.text:00584D80 ; public: void c_map_variant::recalculate_budget()
+//.text:00584E10 ; public: void c_map_variant::recalculate_quota(long, bool)
+//.text:00584FA0 ; public: void c_map_variant::recover_from_promotion_to_simulation_authority()
+//.text:005855E0 ; public: void c_map_variant::register_object(long, long)
+//.text:00585840 ; public: void c_map_variant::register_scenario_object(e_object_type, long)
+//.text:00585890 ; public: bool c_map_variant::register_scenario_object(long, bool)
+//.text:00585C00 ; public: void c_map_variant::remove_object(long, e_object_removal_origin)
+//.text:00585DE0 ; 
+//.text:00585E50 ; 
+//.text:00585EE0 ; public: void c_map_variant::reset_objects()
+//.text:00586090 ; public: void c_map_variant::sanity_check(long)
+
+bool c_map_variant::read_from(c_map_variant const* source)
 {
 	return DECLFUNC(0x005860F0, bool, __thiscall, c_map_variant*, c_map_variant const*)(this, source);
 }
 
-void __cdecl c_map_variant::set_description(char const* description)
+//.text:00586270 ; s_scenario_multiplayer_object_properties const* __cdecl scenario_multiplayer_object_properties_try_and_get(e_object_type, long)
+//.text:00586300 ; 
+//.text:00586330 ; 
+//.text:00586350 ; 
+//.text:00586370 ; 
+//.text:005863A0 ; 
+//.text:005863C0 ; 
+//.text:005863F0 ; 
+//.text:00586420 ; 
+//.text:00586440 ; public: void c_map_variant::set_client_spent_budget(long)
+
+void c_map_variant::set_description(char const* description)
 {
 	return DECLFUNC(0x00586460, void, __thiscall, c_map_variant*, char const*)(this, description);
 }
 
-void __cdecl c_map_variant::set_name(wchar_t const* name)
+//.text:005864A0 ; public: void c_map_variant::set_metadata(s_content_item_metadata const*)
+
+void c_map_variant::set_name(wchar_t const* name)
 {
 	return DECLFUNC(0x00586570, void, __thiscall, c_map_variant*, wchar_t const*)(this, name);
 }
 
-bool __cdecl c_map_variant::validate()
+//.text:005865B0 ;
+//.text:005865C0 ;
+//.text:005865D0 ; public: void c_map_variant::set_variant_object_datum(long, s_variant_object_datum const*, bool)
+//.text:00586680 ; public: void c_map_variant::setup_object_properties(s_variant_object_datum*)
+//.text:00586860 ; public: void c_map_variant::show_helpers(bool)
+//.text:005868E0 ; 
+//.text:00586920 ; 
+//.text:00586940 ; 
+//.text:00586960 ; 
+//.text:00586A00 ; public: void c_map_variant::update()
+//.text:00586A90 ; void __cdecl update_helper_position(long)
+//.text:00586C20 ; public: bool c_map_variant::update_scenario_object_properties(long) const
+
+bool c_map_variant::validate()
 {
 	return DECLFUNC(0x00586D00, bool, __thiscall, c_map_variant*)(this);
 }
 
+//.text:00586D20 ; 
+//.text:00587220 ; 
+
 //e_map_id c_map_variant::get_map_id() const
-long __cdecl c_map_variant::get_map_id() const
+long c_map_variant::get_map_id() const
 {
 	return m_map_id;
 }

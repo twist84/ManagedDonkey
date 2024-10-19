@@ -207,17 +207,21 @@ public:
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
 
+struct c_bitstream;
+
 struct c_map_variant
 {
 public:
 	c_map_variant();
-	void __cdecl create_default(long map_id);
-	bool __cdecl is_valid() const;
-	bool __cdecl read_from(c_map_variant const* source);
-	void __cdecl set_description(char const* description);
-	void __cdecl set_name(wchar_t const* name);
-	bool __cdecl validate();
-	long __cdecl get_map_id() const;
+	void create_default(long map_id);
+	bool decode(c_bitstream* packet);
+	void encode(c_bitstream* packet) const;
+	bool is_valid() const;
+	bool read_from(c_map_variant const* source);
+	void set_description(char const* description);
+	void set_name(wchar_t const* name);
+	bool validate();
+	long get_map_id() const;
 
 	void print();
 
