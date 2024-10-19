@@ -1,6 +1,7 @@
 #include "game/multiplayer_game_hopper.hpp"
 
 #include "cache/cache_files.hpp"
+#include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
@@ -344,6 +345,73 @@ long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer
 long __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, long buffer_size, c_map_variant const* map_variant)
 {
 	return INVOKE(0x00548C70, multiplayer_game_hopper_pack_map_variant, buffer, buffer_size, map_variant);
+
+	//ASSERT(buffer_size > sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file));
+	//
+	//byte* start = (byte*)buffer;
+	//s_blf_chunk_start_of_file* start_of_file = (s_blf_chunk_start_of_file*)start;
+	//start_of_file->initialize();
+	//start_of_file->name.set("map variant");
+	//
+	//s_blf_chunk_author* author = (s_blf_chunk_author*)offset_pointer(start_of_file, sizeof(s_blf_chunk_start_of_file));
+	//author->initialize();
+	//author->build_name.set(version_get_build_name());
+	//author->build_identifier = bswap_qword(version_get_build_number_identifier());
+	//author->build_string.set(version_get_build_string());
+	//author->author_name.clear();
+	//
+	//s_blf_header* map_variant_header = (s_blf_header*)offset_pointer(author, sizeof(s_blf_chunk_author));
+	//byte* map_variant_data = (byte*)offset_pointer(map_variant_header, sizeof(s_blf_header));
+	//c_bitstream bitstream(map_variant_data, buffer_size - (map_variant_data - start));
+	//bitstream.begin_writing(1);
+	//
+	//map_variant->encode(&bitstream);
+	//
+	//long space_used_in_bytes = (bitstream.get_space_used_in_bits() + CHAR_BITS-1) / CHAR_BITS;
+	//map_variant_header->setup('mvar', sizeof(s_blf_header) + space_used_in_bytes, 12, 1);
+	//
+	//bitstream.finish_writing(NULL);
+	//
+	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
+	//end_of_file->initialize();
+	//end_of_file->file_size = bswap_dword((byte*)end_of_file - start);
+	//end_of_file->authentication_type = _blf_file_authentication_type_none;
+	//
+	//byte* current = (byte*)offset_pointer(end_of_file, sizeof(s_blf_chunk_end_of_file));
+	//
+	//{
+	//	c_map_variant test_map_variant = c_map_variant();
+	//	c_map_variant map_variant_copy = c_map_variant();
+	//
+	//	csmemset(&test_map_variant, 0, sizeof(c_map_variant));
+	//
+	//	csmemcpy(&map_variant_copy, map_variant, sizeof(c_map_variant));
+	//	bool success = multiplayer_game_hopper_unpack_map_variant(start, current - start, &test_map_variant);
+	//	if (!map_variant_copy.sub_5842F0(&test_map_variant))
+	//		ASSERT(success);
+	//
+	//	byte* map_variant_copy_start = (byte*)&map_variant_copy;
+	//	byte* test_map_variant_start = (byte*)&test_map_variant;
+	//	for (long byte_index = 0; byte_index < sizeof(c_map_variant); byte_index++)
+	//	{
+	//		byte* map_variant_copy_byte = map_variant_copy_start + byte_index;
+	//		byte* test_map_variant_byte = test_map_variant_start + byte_index;
+	//		if (map_variant_copy_byte != test_map_variant_byte)
+	//		{
+	//			ASSERT2(c_string_builder("Map variant encode/decode mismatch at byte index %d. 0x%02X != 0x%02X",
+	//				byte_index,
+	//				map_variant_copy_byte,
+	//				test_map_variant_start).get_string());
+	//		}
+	//	}
+	//
+	//	// c_map_variant::~c_map_variant()
+	//	DECLFUNC(0x00580C60, void, __thiscall, c_map_variant*)(&map_variant_copy);
+	//	DECLFUNC(0x00580C60, void, __thiscall, c_map_variant*)(&test_map_variant);
+	//}
+	//
+	//ASSERT(current - start <= buffer_size);
+	//return current - start;
 }
 
 void __cdecl multiplayer_game_hopper_request_game_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash)
