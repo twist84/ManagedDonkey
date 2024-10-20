@@ -18,7 +18,12 @@ c_map_variant::c_map_variant()
 //.text:00580C10 ; 
 //.text:00580C20 ; 
 //.text:00580C40 ; 
-//.text:00580C60 ; public: c_map_variant::~c_map_variant(void)
+
+//c_map_variant::~c_map_variant()
+//{
+//	DECLFUNC(0x00580C60, void, __thiscall, c_map_variant*)(this);
+//}
+
 //.text:00580C80 ; 
 //.text:00580CA0 ; 
 //.text:00580CC0 ; 
@@ -102,7 +107,11 @@ bool c_map_variant::is_valid() const
 	return DECLFUNC(0x005841D0, bool, __thiscall, c_map_variant const*)(this);
 }
 
-//.text:005842F0 ; 
+bool c_map_variant::sub_5842F0(c_map_variant* map_variant)
+{
+	return DECLFUNC(0x005842F0, bool, __thiscall, c_map_variant*, c_map_variant*)(this, map_variant);
+}
+
 //.text:005845C0 ; 
 //.text:005845E0 ; 
 //.text:00584600 ; 
@@ -305,9 +314,9 @@ void c_map_variant::print()
 		PRINT_TABS; c_console::write_line("</menu>");
 	}
 
-	for (long i = 0; i < m_chunk_simulation_object_glue_indices.get_count(); i++)
+	for (long i = 0; i < m_simulation_entities.get_count(); i++)
 	{
-		PRINT_TABS; c_console::write_line("<item name = \"Chunk Simulation Object Glue Index\" index = %d value = %d>", i, m_chunk_simulation_object_glue_indices[i]);
+		PRINT_TABS; c_console::write_line("<item name = \"Simulation Entity Index\" index = %d value = %d>", i, m_simulation_entities[i]);
 	}
 	c_console::write_line("</menu>");
 }
