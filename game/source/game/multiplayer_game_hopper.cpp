@@ -58,6 +58,8 @@ byte const multiplayer_game_is_playable_hopper_checks_patch_bytes[]
 
 DATA_PATCH_DECLARE(0x005496A0, multiplayer_game_is_playable_hopper_checks, multiplayer_game_is_playable_hopper_checks_patch_bytes);
 
+long const k_multiplayer_game_hopper_pack_game_variant_buffer_size = sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(c_game_variant) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file);
+
 enum e_multiplayer_files
 {
 	_multiplayer_file_configuration = 0,
@@ -337,6 +339,47 @@ e_hopper_load_status __cdecl multiplayer_game_hopper_map_variant_load_status()
 long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer_size, c_game_variant const* game_variant)
 {
 	return INVOKE(0x00548610, multiplayer_game_hopper_pack_game_variant, buffer, buffer_size, game_variant);
+
+	//ASSERT(buffer_size >= k_multiplayer_game_hopper_pack_game_variant_buffer_size);
+	//
+	//byte* start = (byte*)buffer;
+	//s_blf_chunk_start_of_file* start_of_file = (s_blf_chunk_start_of_file*)start;
+	//start_of_file->initialize();
+	//start_of_file->name.set("game var");
+	//
+	//s_blf_chunk_author* author = (s_blf_chunk_author*)offset_pointer(start_of_file, sizeof(s_blf_chunk_start_of_file));
+	//author->initialize();
+	//author->build_name.set(version_get_build_name());
+	//author->build_identifier = bswap_qword(version_get_build_number_identifier());
+	//author->build_string.set(version_get_build_string());
+	//author->author_name.clear();
+	//
+	//s_blf_header* map_variant_header = (s_blf_header*)offset_pointer(author, sizeof(s_blf_chunk_author));
+	//byte* map_variant_data = (byte*)offset_pointer(map_variant_header, sizeof(s_blf_header));
+	//c_bitstream bitstream(map_variant_data, buffer_size - (map_variant_data - start));
+	//bitstream.begin_writing(1);
+	//
+	//game_variant->encode(&bitstream);
+	//
+	//long space_used_in_bytes = (bitstream.get_space_used_in_bits() + CHAR_BITS - 1) / CHAR_BITS;
+	//map_variant_header->setup('gvar', sizeof(s_blf_header) + space_used_in_bytes, 10, 1);
+	//
+	//bitstream.finish_writing(NULL);
+	//
+	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
+	//end_of_file->initialize();
+	//end_of_file->file_size = bswap_dword((byte*)end_of_file - start);
+	//end_of_file->authentication_type = _blf_file_authentication_type_none;
+	//
+	//byte* current = (byte*)offset_pointer(end_of_file, sizeof(s_blf_chunk_end_of_file));
+	//
+	//c_game_variant test_game_variant = c_game_variant();
+	//bool success = multiplayer_game_hopper_unpack_game_variant(buffer, current - buffer, &test_game_variant);
+	//ASSERT(success);
+	//ASSERT(!memcmp(&test_game_variant, game_variant, sizeof(c_game_variant)));
+	//
+	//ASSERT(current - start <= buffer_size);
+	//return current - start;
 }
 
 //.text:00548830 ; long __cdecl multiplayer_game_hopper_pack_hopper_description(void*, long, s_game_hopper_description_table const*)
