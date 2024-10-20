@@ -118,6 +118,37 @@ void c_game_variant::copy_from_unsafe(class c_game_variant const* other)
 	DECLFUNC(0x005730F0, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
 }
 
+bool c_game_variant::decode(c_bitstream* packet)
+{
+	return DECLFUNC(0x00573340, bool, __thiscall, c_game_variant*, c_bitstream*)(this, packet);
+
+	//ASSERT(packet);
+	//
+	//m_game_engine_index = packet->read_integer("variant-game-engine-index", 4);
+	//set_game_engine_index(m_game_engine_index);
+	//
+	//if (m_game_engine_index == _game_engine_type_none)
+	//	return false;
+	//
+	//get_active_variant_writeable()->set_built_in(false);
+	//get_active_variant_writeable()->decode(packet);
+	//
+	//return true;
+}
+
+void c_game_variant::encode(c_bitstream* packet) const
+{
+	DECLFUNC(0x005733C0, void, __thiscall, c_game_variant const*, c_bitstream*)(this, packet);
+
+	//ASSERT(packet);
+	//
+	//e_game_engine_type game_engine_index = m_game_engine_index;
+	//packet->write_integer("variant-game-engine-index", game_engine_index, 4);
+	//
+	//if (game_engine_index)
+	//	get_active_variant()->encode(packet);
+}
+
 long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
 {
 	//DECLFUNC(0x0057A2E0, void, __thiscall, c_game_variant const*, e_game_engine_type)(this, game_engine_index);

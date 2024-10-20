@@ -29,6 +29,8 @@ struct c_bitstream;
 
 long const k_maximum_game_engine_variant_size = 0x260;
 
+struct c_bitstream;
+
 struct c_game_variant
 {
 public:
@@ -38,7 +40,9 @@ public:
 	bool decode_from_mcc(c_bitstream* packet);
 
 	void copy_from_and_validate(c_game_variant const* other);
-	void copy_from_unsafe(class c_game_variant const* other);
+	void copy_from_unsafe(c_game_variant const* other);
+	bool decode(c_bitstream* packet);
+	void encode(c_bitstream* packet) const;
 
 	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
 	bool is_equal_to(c_game_variant const* other) const;
