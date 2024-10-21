@@ -4,6 +4,7 @@
 #include "memory/secure_signature.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "networking/online/online_url.hpp"
+#include "shell/shell.hpp"
 
 struct s_online_file
 {
@@ -39,7 +40,7 @@ public:
 	e_entry_state __thiscall get_entry_state(s_network_storage_cache_key const* cache_key);
 	void update();
 
-protected:
+//protected:
 	long __time0;
 	s_online_file_manifest* m_online_file_manifest;
 	bool m_unavailable;
@@ -59,6 +60,7 @@ protected:
 static_assert(sizeof(c_network_storage_manifest) == 0x50D4);
 
 extern void __cdecl network_storage_manifest_dispose();
+extern e_network_file_load_status __cdecl network_storage_manifest_get_load_status();
 extern void __cdecl network_storage_manifest_initialize();
 extern void __cdecl network_storage_manifest_update();
 

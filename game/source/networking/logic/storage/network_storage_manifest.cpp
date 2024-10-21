@@ -7,6 +7,7 @@
 #include "networking/online/online.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x004A5720, c_network_storage_manifest, get_entry_state);
+HOOK_DECLARE(0x004A5A50, network_storage_manifest_get_load_status);
 
 c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 {
@@ -58,7 +59,24 @@ void __cdecl network_storage_manifest_dispose()
 }
 
 //.text:004A59F0 ; 
-//.text:004A5A50 ; e_network_file_load_status __cdecl network_storage_manifest_get_load_status()
+
+e_network_file_load_status __cdecl network_storage_manifest_get_load_status()
+{
+	//return INVOKE(0x004A5A50, network_storage_manifest_get_load_status);
+
+	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
+	{
+		if (manifest->m_online_file_manifest)
+			return _network_file_load_status_available;
+
+		if (manifest->m_unavailable)
+			return _network_file_load_status_unavailable;
+
+		return _network_file_load_status_pending;
+	}
+
+	return _network_file_load_status_none;
+}
 
 void __cdecl network_storage_manifest_initialize()
 {
