@@ -158,11 +158,6 @@ public:
 		return &m_shared_network_membership.peers[host_peer_index()];
 	}
 
-	bool is_peer_valid(long peer_index) const
-	{
-		return m_shared_network_membership.peer_valid_mask.test(peer_index);
-	}
-
 	bool is_player_valid(long player_index) const
 	{
 		return m_shared_network_membership.player_valid_mask.test(player_index);
@@ -181,9 +176,13 @@ public:
 		return &m_shared_network_membership.players[player_index];
 	}
 
-	long get_player_index_from_peer(long peer_index);
 	long get_first_peer() const;
+	long get_first_player() const;
 	long get_next_peer(long peer_index) const;
+	long get_next_player(long peer_index) const;
+	s_network_session_peer* get_peer(long peer_index);
+	long get_player_index_from_peer(long peer_index);
+	bool is_peer_valid(long peer_index) const;
 	long get_observer_channel_index(long peer_index) const;
 	long get_peer_from_observer_channel(long observer_channel_index) const;
 

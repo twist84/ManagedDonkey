@@ -13,14 +13,20 @@ bool __cdecl bit_vector_and(long count, unsigned long const* v0, unsigned long c
 	return INVOKE(0x0052DF40, bit_vector_and, count, v0, v1, result);
 }
 
-//.text:0052DFA0 ; long __cdecl bit_vector_count_bits(unsigned long const*, long)
+long __cdecl bit_vector_count_bits(unsigned long const* vector, long count)
+{
+	return INVOKE(0x0052DFA0, bit_vector_count_bits, vector, count);
+}
 
 long __cdecl bit_vector_highest_bit_set(unsigned long const* vector, long count)
 {
 	return INVOKE(0x0052E1E0, bit_vector_highest_bit_set, vector, count);
 }
 
-//.text:0052E280 ; long __cdecl bit_vector_lowest_bit_set(unsigned long const*, long)
+long __cdecl bit_vector_lowest_bit_set(unsigned long const* vector, long count)
+{
+	return INVOKE(0x0052E280, bit_vector_lowest_bit_set, vector, count);
+}
 
 void __cdecl bit_vector_not(long count, unsigned long const* vector, unsigned long* result)
 {

@@ -359,6 +359,37 @@ bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader)
 	return INVOKE(0x004385F0, network_squad_session_controls_coop_game_options, is_leader);
 }
 
+//.text:00438640 ; bool __cdecl network_squad_session_delegate_leadership(long)
+//.text:00438780 ; bool __cdecl network_squad_session_end_game()
+//.text:00438840 ; long __cdecl network_squad_session_get_best_host_estimated_maximum_player_count()
+//.text:00438890 ; 
+//.text:00438910 ; 
+//.text:00438990 ; e_campaign_difficulty_level __cdecl network_squad_session_get_campaign_difficulty()
+//.text:00438A10 ; 
+//.text:00438A90 ; 
+//.text:00438B10 ; bool __cdecl network_interactive_session_get_campaign_quit()
+//.text:00438B80 ; bool __cdecl network_squad_session_get_closed()
+//.text:00438C00 ; 
+//.text:00438C70 ; 
+//.text:00438CA0 ; word __cdecl network_squad_session_get_hopper()
+//.text:00438D10 ; bool __cdecl network_squad_session_get_hopper_statistics(s_matchmaking_single_hopper_statistics*)
+//.text:00438D80 ; 
+//.text:00438DE0 ; long __cdecl network_squad_session_get_host_player_index()
+//.text:00438E70 ; void __cdecl network_squad_session_get_map(e_campaign_id*, e_map_id*, char*)
+//.text:00438F10 ; e_matchmaking_search_preference __cdecl network_squad_session_get_matchmaking_search_preference()
+//.text:00438F70 ; long __cdecl network_squad_session_get_matchmaking_tip()
+//.text:00438FF0 ; long __cdecl network_squad_session_get_maximum_player_count()
+//.text:00439020 ; bool __cdecl network_squad_session_get_membership(long*, long*, long*, long*, long*, dword*, s_network_session_peer const**, long*, dword*, s_network_session_player const**)
+//.text:00439080 ; 
+//.text:004390D0 ; e_network_session_class __cdecl network_squad_session_get_session_class()
+//.text:00439110 ; wchar_t const* __cdecl network_squad_session_get_session_name()
+//.text:00439160 ; e_network_game_privacy __cdecl network_squad_session_get_privacy_mode()
+
+e_network_game_start_mode __cdecl network_squad_session_get_start_mode()
+{
+	return INVOKE(0x004391C0, network_squad_session_get_start_mode);
+}
+
 bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
 {
 	return INVOKE(0x00439510, network_squad_session_set_campaign_difficulty, campaign_difficulty);

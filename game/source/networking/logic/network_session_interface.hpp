@@ -175,6 +175,7 @@ extern bool __cdecl network_squad_session_boot_player(long player_index, e_netwo
 extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
+extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);
 extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);

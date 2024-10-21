@@ -215,18 +215,23 @@ static_assert(sizeof(multiplayer_file_load) == 0x24);
 
 struct multiplayer_hopper_check
 {
-	dword_flags __flags0;
-	dword_flags __flags4;
-	dword_flags __flags8;
-	dword_flags __flagsC;
-	dword_flags __flags10;
-	long game_start_error;
-	byte __data18[0x4];
-	dword_flags __flags1C;
-	dword_flags __flags20;
-	dword_flags __flags24;
-	byte __data28[0x18];
-	dword_flags __flags40;
+	dword_flags player_mask;
+	dword_flags guest_allowed_mask;
+	dword_flags player_stats_pending_mask;
+	dword_flags ban_mask;
+	dword_flags hopper_id_mask;
+	e_session_game_start_error game_start_error;
+	dword_flags required_region_mask;
+	dword_flags language_filter_mask;
+	dword_flags country_code_filter_mask;
+	dword_flags gamerzone_filter_mask;
+	dword_flags games_played_too_low_mask;
+	dword_flags games_played_too_high_mask;
+	dword_flags experience_too_low;
+	dword_flags experience_too_high;
+	dword_flags access_mask;
+	dword_flags paid_hopper_mask;
+	dword_flags required_maps_mask;
 };
 static_assert(sizeof(multiplayer_hopper_check) == 0x44);
 

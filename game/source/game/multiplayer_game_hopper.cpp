@@ -4,6 +4,7 @@
 #include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
+#include "interface/user_interface.hpp"
 #include "main/levels.hpp"
 #include "math/random_math.hpp"
 #include "memory/bitstream.hpp"
@@ -19,6 +20,7 @@
 #include "networking/online/online.hpp"
 #include "networking/online/online_lsp.hpp"
 #include "networking/online/online_url.hpp"
+#include "networking/session/network_session_membership.hpp"
 #include "networking/tools/network_blf.hpp"
 
 HOOK_DECLARE(0x00545700, multiplayer_game_hopper_catalog_load_status);
@@ -43,20 +45,6 @@ HOOK_DECLARE(0x00549620, multiplayer_game_hoppers_get_current_hopper_configurati
 HOOK_DECLARE(0x00549630, multiplayer_game_hoppers_get_hopper_configuration);
 HOOK_DECLARE(0x00549640, multiplayer_game_hoppers_pick_random_game_collection);
 HOOK_DECLARE(0x00549650, multiplayer_game_is_playable);
-
-byte const multiplayer_game_is_playable_hopper_checks_patch_bytes[]
-{
-	// jnz     loc_549855
-
-
-	// jmp     loc_549855
-	// nop
-
-	0xE9, 0xB0, 0x01, 0x00, 0x00,
-	0x90
-};
-
-DATA_PATCH_DECLARE(0x005496A0, multiplayer_game_is_playable_hopper_checks, multiplayer_game_is_playable_hopper_checks_patch_bytes);
 
 long const k_multiplayer_game_hopper_pack_game_variant_buffer_size = sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(c_game_variant) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file);
 
@@ -292,16 +280,39 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 {
 	//return INVOKE(0x005483C0, multiplayer_game_hopper_is_hopper_visible, hopper_identifier, session_membership);
 
+	return true;
+
+	//bool result = false;
 	//if (c_hopper_configuration* hopper_configuration = multiplayer_game_hoppers_get_hopper_configuration(hopper_identifier))
 	//{
 	//	multiplayer_hopper_check check{};
 	//	multiplayer_game_hopper_get_players_status(hopper_configuration, session_membership, &check);
 	//
+	//	result = check.player_mask == check.required_region_mask;
+	//
+	//	if (hopper_configuration->hide_hopper_from_games_played_restricted_players)
+	//	{
+	//		if (hopper_configuration->require_all_party_members_meet_games_played_requirements)
+	//		{
+	//			if (check.player_mask != (check.games_played_too_high_mask & check.games_played_too_low_mask))
+	//				result = false;
+	//		}
+	//		else if ((check.games_played_too_high_mask & check.games_played_too_low_mask) == 0)
+	//		{
+	//			result = false;
+	//		}
+	//	}
+	//
 	//	if (hopper_configuration->hide_hopper_from_experience_restricted_players)
 	//	{
 	//		if (hopper_configuration->require_all_party_members_meet_experience_requirements)
 	//		{
-	//
+	//			if (check.player_mask != (check.games_played_too_high_mask & check.games_played_too_low_mask))
+	//				result = false;
+	//		}
+	//		else if ((check.games_played_too_high_mask & check.games_played_too_low_mask) == 0)
+	//		{
+	//			result = false;
 	//		}
 	//	}
 	//
@@ -309,7 +320,12 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 	//	{
 	//		if (hopper_configuration->require_all_party_members_meet_access_requirements)
 	//		{
-	//
+	//			if (check.player_mask != (check.experience_too_high & check.experience_too_low))
+	//				result = false;
+	//		}
+	//		else if ((check.experience_too_high & check.experience_too_low) == 0)
+	//		{
+	//			result = false;
 	//		}
 	//	}
 	//
@@ -317,12 +333,47 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 	//	{
 	//		if (hopper_configuration->require_all_party_members_meet_live_account_access_requirements)
 	//		{
+	//			if (check.player_mask != check.access_mask)
+	//				result = false;
+	//		}
+	//		else if (!check.access_mask)
+	//		{
+	//			result = false;
+	//		}
+	//	}
 	//
+	//	if (false && hopper_configuration->hide_hopper_due_to_time_restriction)
+	//	{
+	//		s_file_last_modification_date current_time{};
+	//		get_current_file_time(&current_time);
+	//
+	//		//if (hopper_configuration->get_hopper_start_time())
+	//		//{
+	//		//	s_file_last_modification_date hopper_start_time = hopper->get_hopper_start_time();
+	//		//	if (hopper_start_time > current_time)
+	//		//		result = false;
+	//		//}
+	//		//
+	//		//if (hopper_configuration->get_hopper_end_time())
+	//		//{
+	//		//	s_file_last_modification_date hopper_end_time = hopper_configuration->get_hopper_end_time();
+	//		//	if (hopper_end_time < current_time)
+	//		//		return false;
+	//		//}
+	//
+	//		if (*(qword*)&hopper_configuration->start_time > *(qword*)&current_time)
+	//		{
+	//			return false;
+	//		}
+	//
+	//		if (*(qword*)&hopper_configuration->end_time < *(qword*)&current_time)
+	//		{
+	//			return false;
 	//		}
 	//	}
 	//}
-
-	return true;
+	//
+	//return result;
 }
 
 //.text:005483D0 ; sub_5483D0
