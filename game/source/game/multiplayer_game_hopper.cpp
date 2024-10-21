@@ -358,17 +358,17 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 	//		//{
 	//		//	s_file_last_modification_date hopper_end_time = hopper_configuration->get_hopper_end_time();
 	//		//	if (hopper_end_time < current_time)
-	//		//		return false;
+	//		//		result = false;
 	//		//}
 	//
 	//		if (*(qword*)&hopper_configuration->start_time > *(qword*)&current_time)
 	//		{
-	//			return false;
+	//			result = false;
 	//		}
 	//
 	//		if (*(qword*)&hopper_configuration->end_time < *(qword*)&current_time)
 	//		{
-	//			return false;
+	//			result = false;
 	//		}
 	//	}
 	//}
@@ -991,12 +991,151 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 //.text:00549650 ; enum e_session_game_start_error __cdecl multiplayer_game_is_playable(word, bool, bool, c_network_session_membership const*, word*);
 e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask)
 {
-	is_matchmaking = false;
-	check_hopper = false;
+	//return INVOKE(0x00549650, multiplayer_game_is_playable, hopper_identifier, is_matchmaking, check_hopper, session_membership, out_player_error_mask);
 
-	e_session_game_start_error result = _session_game_start_error_none;
-	HOOK_INVOKE(result =, multiplayer_game_is_playable, hopper_identifier, is_matchmaking, check_hopper, session_membership, out_player_error_mask);
-	return result;
+	e_session_game_start_error game_start_error = _session_game_start_error_none;
+	word player_error_mask = 0;
+
+	c_hopper_configuration* hopper = multiplayer_game_hoppers_get_hopper_configuration(hopper_identifier);
+
+	if (check_hopper && !is_matchmaking)
+	{
+		if (online_is_connected_to_live() || !online_has_any_silver_or_gold_live_users())
+		{
+			if (online_has_all_online_enabled_users())
+			{
+				game_start_error = _session_game_start_match_error_must_have_live_for_match;
+			}
+			else
+			{
+				//for (long player_index = session_membership->get_first_player();
+				//	player_index != NONE;
+				//	player_index = session_membership->get_next_player(player_index))
+				//{
+				//	if (!session_membership->is_player_online_enabled(player_index))
+				//		player_error_mask |= FLAG(player_index);
+				//}
+
+				game_start_error = _session_game_start_match_error_must_have_online_enabled_profiles_for_match;
+			}
+		}
+		else
+		{
+			game_start_error = _session_game_start_match_error_must_connect_to_live_for_match;
+		}
+	}
+
+	if (game_start_error == _session_game_start_error_none && check_hopper)
+		game_start_error = multiplayer_game_hopper_check_required_files(check_hopper, hopper_identifier != 0xFFFF);
+
+	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == 0xFFFF || hopper == NULL))
+		game_start_error = _session_game_start_match_error_invalid_hopper;
+
+	if (game_start_error == _session_game_start_error_none && is_matchmaking)
+	{
+		//for (long player_index = session_membership->get_first_player();
+		//	player_index != NONE;
+		//	player_index = session_membership->get_next_player(player_index))
+		//{
+		//	if (!session_membership->is_player_online_enabled(player_index))
+		//	{
+		//		player_error_mask |= FLAG(player_index);
+		//		game_start_error = _session_game_start_error_account_not_online_enabled;
+		//	}
+		//}
+	}
+
+	if (game_start_error == _session_game_start_error_none && network_squad_session_get_start_mode() == _network_game_start_mode_custom_game && get_alpha_custom_games_disabled())
+		game_start_error = _session_game_start_error_custom_games_are_disabled_for_alpha;
+
+	if (game_start_error == _session_game_start_error_none)
+	{
+		for (long peer_index = session_membership->get_first_peer();
+			peer_index != NONE;
+			peer_index = session_membership->get_next_peer(peer_index))
+		{
+			//s_network_session_peer const* peer = session_membership->get_peer(peer_index);
+			s_network_session_peer const* peer = &session_membership->m_shared_network_membership.peers[peer_index];
+			if (bit_vector_count_bits(peer->player_mask, 16) > network_configuration_maximum_multiplayer_split_screen())
+			{
+				long player_index = bit_vector_lowest_bit_set(peer->player_mask, 16);
+				if (player_index != NONE)
+					player_error_mask |= FLAG(player_index);
+			}
+
+			if (player_error_mask)
+				game_start_error = _session_game_start_error_maximum_multiplayer_split_screen_exceeded;
+		}
+	}
+
+	if (false && hopper)
+	{
+		s_file_last_modification_date current_time{};
+		get_current_file_time(&current_time);
+		if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFF)
+		{
+			//if (hopper->get_hopper_start_time())
+			//{
+			//	s_file_last_modification_date hopper_start_time = hopper->get_hopper_start_time();
+			//	if (hopper_start_time > current_time)
+			//		game_start_error = _session_game_start_match_error_not_yet_start_time;
+			//}
+
+			if (*(qword*)&hopper->start_time > *(qword*)&current_time)
+			{
+				game_start_error = _session_game_start_match_error_not_yet_start_time;
+			}
+		}
+
+		if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFF)
+		{
+			//if (hopper->get_hopper_end_time())
+			//{
+			//	s_file_last_modification_date hopper_end_time = hopper->get_hopper_end_time();
+			//	if (hopper_end_time < current_time)
+			//		game_start_error = _session_game_start_match_error_end_time_has_passed;
+			//}
+
+			if (*(qword*)&hopper->end_time < *(qword*)&current_time)
+			{
+				game_start_error = _session_game_start_match_error_end_time_has_passed;
+			}
+		}
+
+		//if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFF)
+		//{
+		//	//long player_count = session_membership->get_player_count();
+		//	//if (player_count < hopper->get_minimum_party_size())
+		//	//{
+		//	//	game_start_error = _session_game_start_match_error_squad_too_small;
+		//	//}
+		//	//else if (player_count > hopper->get_maximum_party_size())
+		//	//{
+		//	//	game_start_error = _session_game_start_match_error_squad_too_large;
+		//	//}
+		//
+		//	s_network_session_peer const* peer = &session_membership->m_shared_network_membership.peers[peer_index];
+		//	long player_count = bit_vector_count_bits(peer->player_mask, 16);
+		//	if (player_count < hopper->minimum_party_size)
+		//	{
+		//		game_start_error = _session_game_start_match_error_squad_too_small;
+		//	}
+		//	else if (player_count > hopper->maximum_party_size)
+		//	{
+		//		game_start_error = _session_game_start_match_error_squad_too_large;
+		//	}
+		//}
+
+		//while (game_start_error == _session_game_start_error_none && hopper)
+		//{
+		//	// #TODO: hopper checks
+		//}
+	}
+
+	if (out_player_error_mask)
+		*out_player_error_mask = player_error_mask;
+
+	return game_start_error;
 }
 
 //.text:00549870 ; bool __cdecl multiplayer_game_set_decode(c_bitstream*, s_game_set*)
