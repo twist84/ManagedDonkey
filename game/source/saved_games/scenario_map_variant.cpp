@@ -1,6 +1,8 @@
 #include "saved_games/scenario_map_variant.hpp"
 
 #include "cache/cache_files.hpp"
+#include "memory/bitstream.hpp"
+#include "simulation/simulation_encoding.hpp"
 
 //.text:00580B00 ; 
 //.text:00580B10 ; 
@@ -61,6 +63,118 @@ void c_map_variant::create_default(long map_id)
 bool c_map_variant::decode(c_bitstream* packet)
 {
 	return DECLFUNC(0x00582550, bool, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
+
+	//content_item_metadata_decode(&m_metadata);
+	//m_map_variant_version = (short)packet->read_integer("map-variant-version", 8);
+	//m_map_variant_checksum = packet->read_integer("map-variant-checksum", 32);
+	//m_number_of_scenario_objects = (short)packet->read_integer("number_of_scenario_objects", 10);
+	//m_number_of_variant_objects = (short)packet->read_integer("number_of_variant_objects", 10);
+	//m_number_of_placeable_object_quotas = (short)packet->read_integer("number_of_placeable_object_quotas", 9);
+	//
+	//bool variant_has_objects = VALID_INDEX(m_number_of_variant_objects, 640) && VALID_INDEX(m_number_of_placeable_object_quotas, 256);
+	//
+	//m_map_id = (long)packet->read_integer("map_id", 32);
+	//m_built_in = packet->read_bool("built_in");
+	//packet->read_bits_internal(&m_world_bounds, SIZEOF_BITS(m_world_bounds)); // world-bounds
+	//m_game_engine_subtype = (long)packet->read_integer("game_engine_subtype", 4);
+	//packet->read_bits_internal(&m_maximum_budget, SIZEOF_BITS(m_maximum_budget)); // maximum_budget
+	//packet->read_bits_internal(&m_spent_budget, SIZEOF_BITS(m_spent_budget)); // spent_budget
+	//
+	//bool result = variant_has_objects;
+	//
+	//if (!variant_has_objects)
+	//	return false;
+	//
+	//for (long variant_object_index = 0; variant_object_index < 640; variant_object_index++)
+	//{
+	//	s_variant_object_datum& variant_object = m_variant_objects[variant_object_index];
+	//
+	//	if (variant_object_index >= m_number_of_variant_objects)
+	//	{
+	//		variant_object = s_variant_object_datum{};
+	//		continue;
+	//	}
+	//
+	//	if (!packet->read_bool("variant_object_exists"))
+	//	{
+	//		variant_object = s_variant_object_datum{};
+	//		continue;
+	//	}
+	//
+	//	variant_object.flags.set_unsafe((word)packet->read_integer("variant-object-flags", 16));
+	//	variant_object.variant_quota_index = (long)packet->read_integer("variant-object-definition-index", 32);
+	//
+	//	if (packet->read_bool("parent-object-exists"))
+	//	{
+	//		packet->read_bits_internal(&variant_object.parent_object_identifier, 64); // parent-object-identifier
+	//	}
+	//	else
+	//	{
+	//		variant_object.parent_object_identifier.clear();
+	//	}
+	//
+	//	if (!packet->read_bool("variant_object_position_exists"))
+	//		continue;
+	//
+	//	simulation_read_quantized_position(packet, &variant_object.position, 16, &m_world_bounds);
+	//	packet->read_axes<14, 20>("variant-object-axes", &variant_object.forward, &variant_object.up);
+	//
+	//	s_variant_multiplayer_object_properties_definition& variant_properties = variant_object.multiplayer_game_object_properties;
+	//	variant_properties.object_type = (byte)packet->read_integer("variant-properties-cached-object-type", 8);
+	//	variant_properties.symmetry_placement_flags.set_unsafe((word)packet->read_integer("variant-properties-flags", 8));
+	//	variant_properties.game_engine_flags.set_unsafe((byte)packet->read_integer("variant-properties-game-engine-flags", 8));
+	//	variant_properties.shared_storage.value = (byte)packet->read_integer("variant-properties-shared-storage", 8);
+	//	variant_properties.spawn_rate = (char)packet->read_integer("variant-properties-spawn-time", 8);
+	//	variant_properties.owner_team.set_raw_value((byte)packet->read_integer("variant-properties-team-affiliation", 8));
+	//
+	//	e_multiplayer_object_boundary_shape shape_type = (e_multiplayer_object_boundary_shape)packet->read_integer("variant-properties-shape_type", 8);
+	//	variant_properties.boundary_shape = shape_type;
+	//
+	//	switch (shape_type)
+	//	{
+	//	case _multiplayer_object_boundary_shape_sphere:
+	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		break;
+	//	case _multiplayer_object_boundary_shape_cylinder:
+	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		break;
+	//	case _multiplayer_object_boundary_shape_box:
+	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.boundary_box_length = packet->read_quantized_real("variant-properties-shape-length", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		break;
+	//	}
+	//}
+	//
+	//for (long object_type_index = 0; object_type_index < k_object_type_count; object_type_index++)
+	//{
+	//	m_object_type_start_index[object_type_index] = (short)packet->read_integer("map-variant-object-type-map", 9) - 1;
+	//}
+	//
+	//long placable_object_quota_index = 0;
+	//for (long quota_index = 0; quota_index < 256; quota_index++)
+	//{
+	//	s_variant_quota& variant_quota = m_quotas[quota_index];
+	//
+	//	if (placable_object_quota_index >= m_number_of_placeable_object_quotas)
+	//	{
+	//		variant_quota = s_variant_quota{};
+	//		variant_quota.price_per_item = -1.0f;
+	//		continue;
+	//	}
+	//
+	//	variant_quota.object_definition_index = (long)packet->read_integer("object_definition_index", 32);
+	//	variant_quota.minimum_count = (byte)packet->read_integer("minimum_count", 8);
+	//	variant_quota.maximum_count = (byte)packet->read_integer("maximum_count", 8);
+	//	variant_quota.placed_on_map = (byte)packet->read_integer("placed_on_map", 8);
+	//	variant_quota.maximum_allowed = (byte)packet->read_integer("maximum_allowed", 8);
+	//	variant_quota.price_per_item = (real)packet->read_integer("price-per-item", 32);
+	//}
+	//
+	//return result;
 }
 
 //.text:00582930 ; 

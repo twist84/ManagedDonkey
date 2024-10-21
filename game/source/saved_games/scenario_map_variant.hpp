@@ -105,7 +105,7 @@ public:
 
 	void print(long const tab_count);
 
-protected:
+//protected:
 	c_flags<e_game_engine_symmetric_placement, word, k_game_engine_symmetric_placement_count> symmetry_placement_flags;
 	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_count> game_engine_flags;
 	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defenders, k_multiplayer_team_designator_count> owner_team;
@@ -115,6 +115,8 @@ protected:
 		char spare_clips;
 		char teleporter_channel;
 		char spawn_order;
+
+		byte value;
 	} shared_storage;
 
 	// seconds
