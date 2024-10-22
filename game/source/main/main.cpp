@@ -1793,6 +1793,28 @@ void __cdecl main_switch_zone_set(long zone_set_index)
 void __cdecl main_switch_zone_set_private()
 {
 	INVOKE(0x00507280, main_switch_zone_set_private);
+
+	//bool load_succeeded = false;
+	//if (game_in_editor())
+	//{
+	//	load_succeeded = editor_switch_zone_set(main_globals.switch_zone_set_index);
+	//}
+	//else
+	//{
+	//	load_succeeded = scenario_switch_zone_set(main_globals.switch_zone_set_index);
+	//	chud_messaging_special_load(false);
+	//}
+	//
+	//if (!load_succeeded)
+	//{
+	//	generate_event(_event_level_error, "main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
+	//		game_options_get()->scenario_path.get_string(),
+	//		main_globals.switch_zone_set_index);
+	//	main_game_load_panic();
+	//}
+	//
+	//main_globals.switch_zone_set = false;
+	//main_globals.switch_zone_set_index = NONE;
 }
 
 void __cdecl main_thread_combine_timing_data(void* address)
