@@ -322,6 +322,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\views\hud_camera_view.cpp" />
     <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\saved_games\autosave_queue.cpp" />
+    <ClCompile Include="source\saved_games\content\content_item_metadata.cpp" />
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
@@ -1139,6 +1140,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
     <ClInclude Include="source\saved_games\autosave_queue.hpp" />
+    <ClInclude Include="source\saved_games\content\content_item_metadata.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\players.hpp" />

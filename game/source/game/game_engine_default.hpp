@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_engine_traits.hpp"
-#include "saved_games/saved_game_files.hpp"
+#include "saved_games/content/content_item_metadata.hpp"
 #include "tag_files/files.hpp"
 #include "text/unicode.hpp"
 

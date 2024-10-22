@@ -17,6 +17,7 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
+#include "saved_games/saved_game_files.hpp"
 
 #include <windows.h>
 

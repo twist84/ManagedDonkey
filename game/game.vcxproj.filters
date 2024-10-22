@@ -1668,6 +1668,9 @@
     <ClCompile Include="source\cache\cache_file_bulk_reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\content\content_item_metadata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3858,6 +3861,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_lens_flares.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\content\content_item_metadata.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

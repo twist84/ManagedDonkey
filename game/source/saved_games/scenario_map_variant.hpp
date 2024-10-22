@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "objects/objects.hpp"
-#include "saved_games/saved_game_files.hpp"
+#include "saved_games/content/content_item_metadata.hpp"
 
 struct c_map_variant;
 
