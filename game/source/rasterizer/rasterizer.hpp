@@ -284,7 +284,7 @@ struct c_rasterizer
 
 	static void __cdecl begin(short_rectangle2d, short_rectangle2d);
 	static bool __cdecl cleanup_before_device_reset();
-	static void __cdecl cleanup_d3d_states();
+	static void __cdecl cleanup_d3d_states(bool wait_for_gpu_idle_);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
@@ -356,6 +356,7 @@ struct c_rasterizer
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2);
 	static void __cdecl set_depth_stencil_surface(e_surface surface);
 	static void __cdecl set_render_target(long render_target_index, e_surface surface, long render_state);
+	static void __cdecl wait_for_gpu_idle();
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);

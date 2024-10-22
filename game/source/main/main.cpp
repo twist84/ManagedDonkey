@@ -1821,6 +1821,9 @@ void __cdecl main_thread_process_pending_messages()
 void __cdecl main_thread_unlock_rasterizer_and_resources()
 {
 	INVOKE(0x00507350, main_thread_unlock_rasterizer_and_resources);
+
+	//c_rasterizer::cleanup_d3d_states(false);
+	//tag_resources_unlock_render_gpu_usage(tag_resources_unlock_render_access());
 }
 
 bool __cdecl main_time_halted()

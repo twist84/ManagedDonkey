@@ -126,9 +126,13 @@ bool __cdecl c_rasterizer::cleanup_before_device_reset()
 	return INVOKE(0x00A1F830, cleanup_before_device_reset);
 }
 
-void __cdecl c_rasterizer::cleanup_d3d_states()
+void __cdecl c_rasterizer::cleanup_d3d_states(bool wait_for_gpu_idle_)
 {
-	INVOKE(0x00A1F890, cleanup_d3d_states);
+	INVOKE(0x00A1F890, cleanup_d3d_states, wait_for_gpu_idle_);
+
+	//c_rasterizer::clear_sampler_textures(NONE);
+	//if (wait_for_gpu_idle_)
+	//	c_rasterizer::wait_for_gpu_idle();
 }
 
 void __cdecl c_rasterizer::dispose()
@@ -1466,6 +1470,11 @@ void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
 void __cdecl c_rasterizer::set_render_target(long render_target_index, e_surface surface, long render_state)
 {
 	INVOKE(0x00A48E40, c_rasterizer::set_render_target, render_target_index, surface, render_state);
+}
+
+void __cdecl c_rasterizer::wait_for_gpu_idle()
+{
+	//INVOKE(0x00A49130, c_rasterizer::wait_for_gpu_idle);
 }
 
 void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
