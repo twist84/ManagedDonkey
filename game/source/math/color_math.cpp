@@ -74,20 +74,24 @@ void __cdecl color_regamma(real_linear_rgb_color const* linear_color, real_rgb_c
 	gamma_color->blue = value_regamma(linear_color->blue);
 }
 
+bool valid_real_argb_color(real_argb_color const* color)
+{
+	//return INVOKE(0x00523B20, valid_real_argb_color, color);
+
+	return valid_real(color->alpha)
+		&& IN_RANGE_INCLUSIVE(color->alpha, 0.0f, 1.0f)
+		&& valid_real_rgb_color(&color->color);
+}
+
 bool valid_real_rgb_color(real_rgb_color const* color)
 {
+	//return INVOKE(0x00523B70, valid_real_rgb_color, color);
+
 	return valid_real(color->red)
 		&& valid_real(color->green)
 		&& valid_real(color->blue)
 		&& IN_RANGE_INCLUSIVE(color->red, 0.0f, 1.0f)
 		&& IN_RANGE_INCLUSIVE(color->green, 0.0f, 1.0f)
 		&& IN_RANGE_INCLUSIVE(color->blue, 0.0f, 1.0f);
-}
-
-bool valid_real_argb_color(real_argb_color const* color)
-{
-	return valid_real(color->alpha)
-		&& IN_RANGE_INCLUSIVE(color->alpha, 0.0f, 1.0f)
-		&& valid_real_rgb_color(&color->color);
 }
 

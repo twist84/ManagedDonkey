@@ -226,5 +226,10 @@ extern void __cdecl observer_update_positions(e_output_user_index user_index);
 extern void __cdecl observer_update_velocities(e_output_user_index user_index);
 extern bool __cdecl observer_valid_camera_command(s_observer_command* command);
 extern void __cdecl observer_validate_camera_command(s_observer_command* command);
+extern bool __cdecl valid_field_of_view(real field_of_view);
+extern bool __cdecl valid_focus_distance(real focus_distance);
+extern bool __cdecl valid_timer(real timer);
+extern bool __cdecl valid_world_real(real world_real);
+extern bool __cdecl valid_world_real_point3d(real_point3d* world_real_point);
 extern void __cdecl debug_render_observer();
 

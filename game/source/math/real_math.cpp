@@ -41,91 +41,18 @@ REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectang
 REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectangle2d);
 REFERENCE_DECLARE(0x0189CF64, real_rectangle3d const* const, global_zero_rectangle3d);
 
-bool __cdecl valid_real(real const& value)
-{
-	return ((dword)value & 0x7F800000) != 0x7F800000;
-}
-
-bool __cdecl valid_timer(real timer)
-{
-	//return INVOKE(0x006150D0, valid_timer, timer);
-
-	return valid_real(timer)
-		&& IN_RANGE_INCLUSIVE(timer, 0.0f, 3600.0f);
-}
-
-bool __cdecl valid_field_of_view(real field_of_view)
-{
-	//return INVOKE(0x00615050, valid_field_of_view, field_of_view);
-
-	return valid_real(field_of_view)
-		&& IN_RANGE_INCLUSIVE(field_of_view, k_horizontal_field_of_view_min, k_horizontal_field_of_view_max);
-}
-
-bool __cdecl valid_focus_distance(real focus_distance)
-{
-	//return INVOKE(0x00615090, valid_focus_distance, focus_distance);
-
-	return valid_real(focus_distance)
-		&& IN_RANGE_INCLUSIVE(focus_distance, 0.0f, k_distance_max);
-}
-
-bool __cdecl valid_world_real(real world_real)
-{
-	//return INVOKE(0x00615110, valid_world_real, world_real);
-
-	return valid_real(world_real)
-		&& IN_RANGE_INCLUSIVE(world_real, -50000.0f, 50000.0f);
-}
-
-bool __cdecl valid_world_real_point3d(real_point3d* world_real_point)
-{
-	//return INVOKE(0x00615150, valid_world_real_point3d, world_real_point);
-
-	return valid_world_real(world_real_point->x)
-		&& valid_world_real(world_real_point->y)
-		&& valid_world_real(world_real_point->z);
-}
-
-bool __cdecl valid_real_point2d(real_point2d const* point)
-{
-	return valid_real(point->x)
-		&& valid_real(point->y);
-}
-
-bool __cdecl valid_real_point3d(real_point3d const* point)
-{
-	return valid_real(point->x)
-		&& valid_real(point->y)
-		&& valid_real(point->z);
-}
-
 bool __cdecl valid_real_vector2d(vector2d const* vector)
 {
 	return valid_real(vector->i)
 		&& valid_real(vector->j);
 }
 
-bool __cdecl valid_real_vector3d(vector3d const* vector)
-{
-	return valid_real(vector->i)
-		&& valid_real(vector->j)
-		&& valid_real(vector->k);
-}
-
-bool __cdecl valid_real_vector3d(vector4d const* vector)
+bool __cdecl valid_real_vector4d(vector4d const* vector)
 {
 	return valid_real(vector->i)
 		&& valid_real(vector->j)
 		&& valid_real(vector->k)
 		&& valid_real(vector->l);
-}
-
-bool __cdecl valid_realcmp(real a, real b)
-{
-	real diff = a - b;
-	return valid_real(diff)
-		&& fabs(diff) < k_test_real_epsilon;
 }
 
 bool __cdecl valid_real_sine_cosine(real sine, real cosine)
@@ -143,11 +70,6 @@ bool __cdecl valid_real_normal2d(vector2d const* normal)
 	return valid_realcmp(magnitude_squared2d(normal), 1.0f);
 }
 
-bool __cdecl valid_real_normal3d(vector3d const* normal)
-{
-	return valid_realcmp(magnitude_squared3d(normal), 1.0f);
-}
-
 bool __cdecl valid_real_plane2d(plane2d const* plane)
 {
 	return valid_real_normal2d(&plane->n)
@@ -158,23 +80,6 @@ bool __cdecl valid_real_plane3d(plane3d const* plane)
 {
 	return valid_real_normal3d(&plane->n)
 		&& valid_real(plane->d);
-}
-
-bool __cdecl valid_real_vector3d_axes2(vector3d const* forward, vector3d const* up)
-{
-	return valid_real_normal3d(forward)
-		&& valid_real_normal3d(up)
-		&& valid_realcmp(dot_product3d(forward, up), 0.0f);
-}
-
-bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
-{
-	return valid_real_normal3d(forward)
-		&& valid_real_normal3d(left)
-		&& valid_real_normal3d(up)
-		&& valid_realcmp(dot_product3d(forward, left), 0.0f)
-		&& valid_realcmp(dot_product3d(left, up), 0.0f)
-		&& valid_realcmp(dot_product3d(up, forward), 0.0f);
 }
 
 bool __cdecl valid_real_vector3d_right_handed_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
@@ -188,14 +93,6 @@ bool __cdecl valid_real_matrix4x3(real_matrix4x3 const* matrix)
 	return valid_real(matrix->scale)
 		&& valid_real_vector3d_axes3(&matrix->forward, &matrix->left, &matrix->up)
 		&& valid_real_point3d(&matrix->position);
-}
-
-bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles)
-{
-	return valid_real(angles->yaw)
-		&& valid_real(angles->pitch)
-		&& IN_RANGE_INCLUSIVE(angles->yaw, 0.0f, k_full_circle)
-		&& IN_RANGE_INCLUSIVE(angles->pitch, -k_quarter_circle, k_quarter_circle);
 }
 
 bool __cdecl valid_real_euler_angles3d(euler_angles3d const* angles)
@@ -212,6 +109,74 @@ bool __cdecl valid_real_euler_angles3d(euler_angles3d const* angles)
 real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor)
 {
 	return start_value + ((end_value - start_value) * interpolation_factor);
+}
+
+bool __cdecl valid_real(real const& value)
+{
+	//return INVOKE(0x004AB2A0, valid_real, value);
+
+	return ((dword)value & 0x7F800000) != 0x7F800000;
+}
+
+bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles)
+{
+	//return INVOKE(0x004AB2C0, valid_real_euler_angles2d, angles);
+
+	return valid_real(angles->yaw)
+		&& valid_real(angles->pitch)
+		&& IN_RANGE_INCLUSIVE(angles->yaw, 0.0f, k_full_circle)
+		&& IN_RANGE_INCLUSIVE(angles->pitch, -k_quarter_circle, k_quarter_circle);
+}
+
+bool __cdecl valid_real_normal3d(vector3d const* normal)
+{
+	//return INVOKE(0x004AB330, valid_real_normal3d, normal);
+
+	return valid_realcmp(magnitude_squared3d(normal), 1.0f);
+}
+
+bool __cdecl valid_real_point3d(real_point3d const* point)
+{
+	//return INVOKE(0x004AB3A0, valid_real_point3d, point);
+
+	return valid_real(point->x)
+		&& valid_real(point->y)
+		&& valid_real(point->z);
+}
+
+bool __cdecl valid_real_point2d(real_point2d const* point)
+{
+	//return INVOKE(0x004AB3E0, valid_real_point2d, point);
+
+	return valid_real(point->x)
+		&& valid_real(point->y);
+}
+
+bool __cdecl valid_real_vector3d(vector3d const* vector)
+{
+	//return INVOKE(0x004AB410, valid_real_vector3d, vector);
+
+	return valid_real(vector->i)
+		&& valid_real(vector->j)
+		&& valid_real(vector->k);
+}
+
+bool __cdecl valid_real_vector3d_axes2(vector3d const* forward, vector3d const* up)
+{
+	//return INVOKE(0x004AB450, valid_real_vector3d_axes2, forward, up);
+
+	return valid_real_normal3d(forward)
+		&& valid_real_normal3d(up)
+		&& valid_realcmp(dot_product3d(forward, up), 0.0f);
+}
+
+bool __cdecl valid_realcmp(real a, real b)
+{
+	//return INVOKE(0x004AB570, valid_realcmp, a, b);
+
+	real diff = a - b;
+	return valid_real(diff)
+		&& fabs(diff) < k_test_real_epsilon;
 }
 
 real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b)
@@ -255,6 +220,21 @@ euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vec
 	return INVOKE(0x004F13E0, euler_angles2d_from_vector3d, facing, forward);
 }
 
+//.text:00523B20 ; 
+//.text:00523B70 ; 
+
+bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
+{
+	//return INVOKE(0x005B3D30, valid_real_vector3d_axes3, forward, left, up);
+
+	return valid_real_normal3d(forward)
+		&& valid_real_normal3d(left)
+		&& valid_real_normal3d(up)
+		&& valid_realcmp(dot_product3d(forward, left), 0.0f)
+		&& valid_realcmp(dot_product3d(left, up), 0.0f)
+		&& valid_realcmp(dot_product3d(up, forward), 0.0f);
+}
+
 //.text:005B0330 ; real __cdecl matrix3x3_determinant(matrix3x3 const*)
 //.text:005B03B0 ; void __cdecl matrix3x3_from_angles(matrix3x3*, real, real, real)
 //.text:005B04F0 ; 
@@ -285,6 +265,26 @@ void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_po
 {
 	INVOKE(0x005B1F30, matrix4x3_from_point_and_quaternion, matrix, point, quaternion);
 }
+
+bool __cdecl valid_polygon2d(long point_count, real_point2d const* const points)
+{
+	//return INVOKE(0x0078AF90, valid_polygon2d, point_count, points);
+
+	ASSERT(point_count >= 0);
+	ASSERT(point_count == 0 || points);
+
+	for (long i = 0; i < point_count; i++)
+	{
+		if (!valid_real_point2d(&points[i]))
+			return false;
+	}
+
+	return true;
+}
+
+//.text:0078B440 ; 
+//.text:0078BF90 ; 
+//.text:00C35C30 ; 
 
 vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out)
 {
@@ -736,6 +736,16 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* e
 	enclosed_rect->z.upper = z_upper;
 
 	return enclosed_rect;
+}
+
+vector3d* __cdecl vector3d_from_angle(vector3d* vector, real angle)
+{
+	return INVOKE(0x004FF020, vector3d_from_angle, vector, angle);
+
+	//vector->i = cosf(angle);
+	//vector->j = sinf(angle);
+	//vector->k = 0.0f;
+	//return vector;
 }
 
 vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles)

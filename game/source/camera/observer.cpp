@@ -515,6 +515,47 @@ void __cdecl observer_validate_camera_command(s_observer_command* command)
 	INVOKE(0x00614D60, observer_validate_camera_command, command);
 }
 
+bool __cdecl valid_field_of_view(real field_of_view)
+{
+	//return INVOKE(0x00615050, valid_field_of_view, field_of_view);
+
+	return valid_real(field_of_view)
+		&& IN_RANGE_INCLUSIVE(field_of_view, k_horizontal_field_of_view_min, k_horizontal_field_of_view_max);
+}
+
+bool __cdecl valid_focus_distance(real focus_distance)
+{
+	//return INVOKE(0x00615090, valid_focus_distance, focus_distance);
+
+	return valid_real(focus_distance)
+		&& IN_RANGE_INCLUSIVE(focus_distance, 0.0f, k_distance_max);
+}
+
+bool __cdecl valid_timer(real timer)
+{
+	//return INVOKE(0x006150D0, valid_timer, timer);
+
+	return valid_real(timer)
+		&& IN_RANGE_INCLUSIVE(timer, 0.0f, 3600.0f);
+}
+
+bool __cdecl valid_world_real(real world_real)
+{
+	//return INVOKE(0x00615110, valid_world_real, world_real);
+
+	return valid_real(world_real)
+		&& IN_RANGE_INCLUSIVE(world_real, -50000.0f, 50000.0f);
+}
+
+bool __cdecl valid_world_real_point3d(real_point3d* world_real_point)
+{
+	//return INVOKE(0x00615150, valid_world_real_point3d, world_real_point);
+
+	return valid_world_real(world_real_point->x)
+		&& valid_world_real(world_real_point->y)
+		&& valid_world_real(world_real_point->z);
+}
+
 void __cdecl debug_render_observer()
 {
 	if (!g_debug_observer_render)
