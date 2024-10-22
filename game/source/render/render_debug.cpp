@@ -398,7 +398,7 @@ void __cdecl render_debug_clients(long user_index)
 		collision_log_render();
 		game_pvs_debug_render();
 		players_debug_render();
-		//simulation_debug_render();
+		simulation_debug_render();
 		//voice_render();
 		debug_render_observer();
 		render_debug_scenario_comments();

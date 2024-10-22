@@ -1085,6 +1085,8 @@ long __cdecl object_new(object_placement_data* data)
 	//
 	//SET_BIT(object->object.simulation_flags, 1, data->multiplayer_cinematic_object);
 	//
+	//// #TODO: implement the rest
+	//
 	//return object_index;
 }
 

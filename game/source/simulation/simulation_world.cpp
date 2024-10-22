@@ -51,9 +51,11 @@ void __cdecl c_simulation_world::destroy_update(struct simulation_update* update
 
 void c_simulation_world::debug_render()
 {
-	ASSERT(m_distributed_world);
-
-	m_distributed_world->m_entity_database.debug_render();
+	if (exists() && is_distributed())
+	{
+		ASSERT(m_distributed_world);
+		m_distributed_world->m_entity_database.debug_render();
+	}
 }
 
 char const* c_simulation_world::get_state_string(long state)
