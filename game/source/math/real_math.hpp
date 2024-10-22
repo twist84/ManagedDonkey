@@ -380,6 +380,7 @@ extern real __cdecl magnitude3d(vector3d const* vector);
 extern vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector);
 extern real __cdecl normalize3d(vector3d* vector);
 extern vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector);
+extern real __cdecl magnitude_squared2d(vector2d const* a);
 extern vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector);
 extern vector3d* __cdecl add_vectors3d(vector3d const* in_vector_a, vector3d const* in_vector_b, vector3d* out_vector);
 extern vector3d* __cdecl negate_vector3d(vector3d const* in_vector, vector3d* out_vector);

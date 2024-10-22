@@ -227,6 +227,11 @@ vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vect
 	return out_vector;
 }
 
+real __cdecl magnitude_squared2d(vector2d const* a)
+{
+	return real(a->n[0] * a->n[0]) + real(a->n[1] * a->n[1]);
+}
+
 vector3d* __cdecl negate_vector3d(vector3d const* in_vector, vector3d* out_vector)
 {
 	out_vector->i = -in_vector->i;
