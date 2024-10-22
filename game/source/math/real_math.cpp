@@ -210,13 +210,13 @@ vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
 
 real __cdecl normalize3d(vector3d* vector)
 {
-	real result = magnitude3d(vector);
-	if (fabsf(result - 0.0f) < k_real_epsilon)
-		result = 0.0f;
+	real magnitude = magnitude3d(vector);
+	if (fabsf(magnitude - 0.0f) < k_real_epsilon)
+		magnitude = 0.0f;
 	else
-		scale_vector3d(vector, 1.0f / result, vector);
+		scale_vector3d(vector, 1.0f / magnitude, vector);
 
-	return result;
+	return magnitude;
 }
 
 vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector)
