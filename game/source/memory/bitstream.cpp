@@ -1,5 +1,6 @@
 #include "memory/bitstream.hpp"
 
+#include "math/unit_vector_quantization.hpp"
 #include "memory/byte_swapping.hpp"
 
 // ===================== halo 4 begin =====================
@@ -42,6 +43,41 @@ t_type right_shift_safe(t_type value, long shift_bits)
 
 //.text:0043B5B0 ; c_bitstream::c_bitstream(byte* data, long data_length)
 //.text:0043B5D0 ; c_bitstream::~c_bitstream()
+
+//template<long k_forward_angle_bits, long k_up_quantization_bits>
+//void c_bitstream::read_axes(char const* name, vector3d* forward, vector3d* up)
+//{
+//	if (read_bool("up-is-global-up3d"))
+//	{
+//		*up = *global_up3d;
+//	}
+//	else
+//	{
+//		dequantize_unit_vector3d(read_integer("up-quantization", k_up_quantization_bits), up, k_up_quantization_bits);
+//	}
+//
+//	angle_to_axes_internal(up, read_quantized_real("forward-angle", -_pi, _pi, k_forward_angle_bits, false, false), forward);
+//}
+
+//template<long k_forward_angle_bits, long k_up_quantization_bits>
+//void c_bitstream::write_axes(char const* name, vector3d const* forward, vector3d const* up)
+//{
+//	vector3d dequantized_up{};
+//	if (fabs(up->i - global_up3d->i) > k_real_epsilon ||
+//		fabs(up->j - global_up3d->j) > k_real_epsilon ||
+//		fabs(up->k - global_up3d->k) > k_real_epsilon)
+//	{
+//		long quantized_up = quantize_unit_vector3d_fast<k_up_quantization_bits>(up);
+//		write_bool("up-is-global-up3d", false);
+//		write_integer("up-quantization", quantized_up, k_up_quantization_bits);
+//		dequantize_unit_vector3d(quantized_up, &dequantized_up, k_up_quantization_bits);
+//	}
+//	else
+//	{
+//		write_bool("up-is-global-up3d", true);
+//		dequantized_up = *global_up3d;
+//	}
+//}
 
 void c_bitstream::read_raw_data(char const* name, void* value, long size_in_bits)
 {
@@ -106,7 +142,34 @@ void __cdecl c_bitstream::write_qword(char const* name, qword value, long size_i
 
 //.text:0049ED60 ; c_bitstream::c_bitstream()
 
-//.text:00556FC0 ; public: static void __cdecl c_bitstream::angle_to_axes_internal(vector3d const*, real, vector3d*)
+//template<>
+//void __cdecl c_bitstream::read_axes<14, 20>(char const* name, vector3d* forward, vector3d* up)
+//{
+//	//004A9B30
+//}
+//
+//template<>
+//void __cdecl c_bitstream::write_axes<14, 20>(char const* name, vector3d const* forward, vector3d const* up)
+//{
+//	//004A9BC0
+//}
+//
+//template<>
+//void __cdecl c_bitstream::read_axes<8, 19>(char const* name, vector3d* forward, vector3d* up)
+//{
+//	//004AB910
+//}
+//
+//template<>
+//void __cdecl c_bitstream::write_axes<8, 19>(char const* name, vector3d const* forward, vector3d const* up)
+//{
+//	//004AB9A0
+//}
+
+void __cdecl c_bitstream::angle_to_axes_internal(vector3d const* up, real forward_angle, vector3d* forward)
+{
+	INVOKE(0x00556FC0, c_bitstream::angle_to_axes_internal, up, forward_angle, forward);
+}
 
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
@@ -120,8 +183,40 @@ void __cdecl c_bitstream::append(c_bitstream const* stream)
 	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, c_bitstream const*)(this, stream);
 }
 
-//.text:00557150 ; public: static void __cdecl c_bitstream::axes_compute_reference_internal(vector3d const*, vector3d*, vector3d*)
-//.text:005573F0 ; public: static real __cdecl c_bitstream::axes_to_angle_internal(vector3d const*, vector3d const*)
+void __cdecl c_bitstream::axes_compute_reference_internal(vector3d const* up, vector3d* forward_reference, vector3d* left_reference)
+{
+	INVOKE(0x00557150, c_bitstream::axes_compute_reference_internal, up, forward_reference, left_reference);
+
+	//ASSERT(up);
+	//ASSERT(forward_reference);
+	//ASSERT(left_reference);
+	//
+	//assert_valid_real_normal3d(up);
+	//
+	//if (fabsf(dot_product3d(up, global_forward3d)) < fabsf(dot_product3d(up, global_left3d)))
+	//	cross_product3d(up, global_forward3d, forward_reference);
+	//else
+	//	cross_product3d(global_left3d, up, forward_reference);
+	//real forward_magnitude = normalize3d(forward_reference);
+	//ASSERT(forward_magnitude > k_real_epsilon);
+	//
+	//cross_product3d(up, forward_reference, left_reference);
+	//real left_magnitude = normalize3d(left_reference);
+	//ASSERT(left_magnitude > k_real_epsilon);
+	//
+	//assert_valid_real_vector3d_axes3(forward_reference, left_reference, up);
+}
+
+real __cdecl c_bitstream::axes_to_angle_internal(vector3d const* forward, vector3d const* up)
+{
+	return INVOKE(0x005573F0, c_bitstream::axes_to_angle_internal, forward, up);
+
+	//vector3d forward_reference{};
+	//vector3d left_reference{};
+	//axes_compute_reference_internal(up, &forward_reference, &left_reference);
+	//return arctangent(dot_product3d(&left_reference, forward), dot_product3d(&left_reference, forward));
+}
+
 
 bool __cdecl c_bitstream::begin_consistency_check()
 {

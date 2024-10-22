@@ -67,6 +67,12 @@ public:
 		set_data(data, data_length);
 	}
 
+	//template<long k_angle_bits, long k_quantization_bits>
+	//void read_axes(char const* name, vector3d* forward, vector3d* up);
+	//
+	//template<long k_forward_angle_bits, long k_up_quantization_bits>
+	//void write_axes(char const* name, vector3d const* forward, vector3d const* up);
+
 	// functions as they appear in memory
 
 	void __cdecl read_raw_data(char const* name, void* value, long size_in_bits);
@@ -77,8 +83,10 @@ public:
 	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
 	qword __cdecl read_qword(char const* name, long size_in_bits);
 	void __cdecl write_qword(char const* name, qword value, long size_in_bits);
-
+	static void __cdecl angle_to_axes_internal(vector3d const* up, real forward_angle, vector3d* forward);
 	void __cdecl append(c_bitstream const* stream);
+	static void __cdecl axes_compute_reference_internal(vector3d const* up, vector3d* forward_reference, vector3d* left_reference);
+	static real __cdecl axes_to_angle_internal(vector3d const* forward, vector3d const* up);
 	bool __cdecl begin_consistency_check();
 	void __cdecl begin_reading();
 	void __cdecl begin_writing(long data_size_alignment);
