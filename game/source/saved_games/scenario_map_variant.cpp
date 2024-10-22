@@ -64,7 +64,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 {
 	return DECLFUNC(0x00582550, bool, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
 
-	//content_item_metadata_decode(&m_metadata);
+	//m_metadata.decode(packet);
 	//m_map_variant_version = (short)packet->read_integer("map-variant-version", 8);
 	//m_map_variant_checksum = packet->read_integer("map-variant-checksum", 32);
 	//m_number_of_scenario_objects = (short)packet->read_integer("number_of_scenario_objects", 10);
