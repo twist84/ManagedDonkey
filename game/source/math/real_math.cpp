@@ -133,6 +133,12 @@ real __cdecl dot_product3d(vector3d const* a, vector3d const* b)
 	return ((a->n[0] * b->n[0]) + (a->n[1] * b->n[1])) + (a->n[2] * b->n[2]);
 }
 
+real __cdecl triple_product3d(vector3d const* a, vector3d const* b, vector3d const* c)
+{
+	vector3d product3d;
+	return dot_product3d(cross_product3d(a, b, &product3d), c);
+}
+
 vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out)
 {
 	out->n[0] = b->n[0] - a->n[0];
