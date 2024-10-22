@@ -178,6 +178,11 @@ real __cdecl magnitude3d(vector3d const* vector)
 	return square_root(magnitude_squared3d(vector));
 }
 
+real __cdecl arctangent(real y, real x)
+{
+	return atan2f(y, x); // atan2
+}
+
 vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
 {
 	real i = fabsf(vector->i);

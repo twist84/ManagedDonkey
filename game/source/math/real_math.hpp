@@ -377,6 +377,7 @@ extern real __cdecl distance_squared3d(real_point3d const* a, real_point3d const
 extern real __cdecl distance3d(real_point3d const* a, real_point3d const* b);
 extern real __cdecl square_root(real value);
 extern real __cdecl magnitude3d(vector3d const* vector);
+extern real __cdecl arctangent(real y, real x);
 extern vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector);
 extern real __cdecl normalize3d(vector3d* vector);
 extern vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector);
