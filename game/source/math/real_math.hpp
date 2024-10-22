@@ -1,9 +1,43 @@
 #pragma once
 
+#define assert_valid_real_normal3d(NORMAL) \
+{ \
+	if (!valid_real_normal3d(NORMAL)) \
+	{ \
+		ASSERT2(c_string_builder("%s: assert_valid_real_normal3d(%f, %f, %f)", \
+			#NORMAL, \
+			##NORMAL->i, \
+			##NORMAL->j, \
+			##NORMAL->k \
+		).get_string()); \
+	} \
+}
+
+#define assert_valid_real_vector3d_axes3(FORWARD, LEFT, UP) \
+{ \
+	if (!valid_real_vector3d_axes3(FORWARD, LEFT, UP)) \
+	{ \
+		ASSERT2(c_string_builder("%s, %s, %s: assert_valid_real_vector3d_axes3(%f, %f, %f / %f, %f, %f / %f, %f, %f)", \
+			#FORWARD, \
+			#LEFT, \
+			#UP, \
+			##FORWARD->i, \
+			##FORWARD->j, \
+			##FORWARD->k, \
+			##LEFT->i, \
+			##LEFT->j, \
+			##LEFT->k, \
+			##UP->i, \
+			##UP->j, \
+			##UP->k \
+		).get_string()); \
+	} \
+}
+
 #define PI 3.14159265359f
-#define TWO_PI real(PI * 2)
-#define RAD real(180 / PI)
-#define DEG real(PI / 180)
+#define TWO_PI real(PI * 2) // 6.28318530718
+#define RAD real(180 / PI)  // 57.2957795131
+#define DEG real(PI / 180)  // 0.01745329251
 
 typedef float real;
 static_assert(sizeof(real) == sizeof(float));
@@ -25,6 +59,13 @@ DEFINE_REAL_CONSTANT(_real_epsilon);
 DEFINE_REAL_CONSTANT(_real_tiny_epsilon);
 DEFINE_REAL_CONSTANT(_real_max);
 DEFINE_REAL_CONSTANT(_real_min);
+
+real const k_distance_max = 50000.0f;
+real const k_horizontal_field_of_view_min = DEG * 1.0f;
+real const k_horizontal_field_of_view_max = DEG * 150.0f;
+real const k_full_circle = TWO_PI;
+real const k_half_circle = k_full_circle / 2;
+real const k_quarter_circle = k_full_circle / 4;
 
 enum
 {
@@ -138,15 +179,15 @@ static_assert(sizeof(vector4d) == sizeof(real) * k_4d_count);
 
 struct plane2d
 {
-	vector2d n;
-	real d;
+	vector2d n; // normal
+	real d; // distance
 };
 static_assert(sizeof(plane2d) == 0xC);
 
 struct plane3d
 {
-	vector3d n;
-	real d;
+	vector3d n; // normal
+	real d; // distance
 };
 static_assert(sizeof(plane3d) == 0x10);
 
@@ -358,6 +399,31 @@ extern real_rectangle2d const* const& global_null_rectangle2d;
 extern real_rectangle3d const* const& global_null_rectangle3d;
 extern real_rectangle2d const* const& global_zero_rectangle2d;
 extern real_rectangle3d const* const& global_zero_rectangle3d;
+
+extern bool __cdecl valid_real(real const& value);
+extern bool __cdecl valid_timer(real timer);
+extern bool __cdecl valid_field_of_view(real field_of_view);
+extern bool __cdecl valid_focus_distance(real focus_distance);
+extern bool __cdecl valid_world_real(real world_real);
+extern bool __cdecl valid_world_real_point3d(real_point3d* world_real_point);
+extern bool __cdecl valid_real_point2d(real_point2d const* point);
+extern bool __cdecl valid_real_point3d(real_point3d const* point);
+extern bool __cdecl valid_real_vector2d(vector2d const* vector);
+extern bool __cdecl valid_real_vector3d(vector3d const* vector);
+extern bool __cdecl valid_real_vector3d(vector4d const* vector);
+extern bool __cdecl valid_realcmp(real a, real b);
+extern bool __cdecl valid_real_sine_cosine(real sine, real cosine);
+extern bool __cdecl valid_real_quaternion(real_quaternion const* quaternion);
+extern bool __cdecl valid_real_normal2d(vector2d const* normal);
+extern bool __cdecl valid_real_normal3d(vector3d const* normal);
+extern bool __cdecl valid_real_plane2d(plane2d const* plane);
+extern bool __cdecl valid_real_plane3d(plane3d const* plane);
+extern bool __cdecl valid_real_vector3d_axes2(vector3d const* forward, vector3d const* up);
+extern bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* left, vector3d const* up);
+extern bool __cdecl valid_real_vector3d_right_handed_axes3(vector3d const* forward, vector3d const* left, vector3d const* up);
+extern bool __cdecl valid_real_matrix4x3(real_matrix4x3 const* matrix);
+extern bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles);
+extern bool __cdecl valid_real_euler_angles3d(euler_angles3d const* angles);
 
 extern real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor);
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);

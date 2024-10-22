@@ -502,9 +502,9 @@ bool __cdecl observer_valid_camera_command(s_observer_command* command)
 
 	//if (command && (!TEST_BIT(command->flags, 0) ||
 	//	valid_real_vector3d_axes2(&command->forward, &command->up) &&
-	//	valid_world_real_point3d(&command->position) &&
+	//	valid_world_real_point3d(&command->focus_position) &&
 	//	valid_world_real_point3d((real_point3d*)&command->focus_offset) &&
-	//	valid_real_vector3d(&command->velocities) &&
+	//	valid_real_vector3d(&command->focus_velocity) &&
 	//	valid_focus_distance(command->focus_distance) &&
 	//	valid_field_of_view(command->field_of_view) &&
 	//	valid_timer(command->timer)));
@@ -513,31 +513,6 @@ bool __cdecl observer_valid_camera_command(s_observer_command* command)
 void __cdecl observer_validate_camera_command(s_observer_command* command)
 {
 	INVOKE(0x00614D60, observer_validate_camera_command, command);
-}
-
-bool __cdecl valid_field_of_view(real field_of_view)
-{
-	return INVOKE(0x00615050, valid_field_of_view, field_of_view);
-}
-
-bool __cdecl valid_focus_distance(real focus_distance)
-{
-	return INVOKE(0x00615090, valid_focus_distance, focus_distance);
-}
-
-bool __cdecl valid_timer(real timer)
-{
-	return INVOKE(0x006150D0, valid_timer, timer);
-}
-
-bool __cdecl valid_world_real(real world_real)
-{
-	return INVOKE(0x00615110, valid_world_real, world_real);
-}
-
-bool __cdecl valid_world_real_point3d(real_point3d* world_real_point3d)
-{
-	return INVOKE(0x00615150, valid_world_real_point3d, world_real_point3d);
 }
 
 void __cdecl debug_render_observer()

@@ -255,7 +255,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.forward = forward;
 		data.up = up;
 
-		real angle_scaling_factor = atan2f(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
+		real angle_scaling_factor = arctangent(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
 		data.position.x += (cosf(angle_scaling_factor) * radius);
 		data.position.y += (sinf(angle_scaling_factor) * radius);
 		data.position.z += 0.8f;

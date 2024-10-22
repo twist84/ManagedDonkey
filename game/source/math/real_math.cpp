@@ -41,6 +41,173 @@ REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectang
 REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectangle2d);
 REFERENCE_DECLARE(0x0189CF64, real_rectangle3d const* const, global_zero_rectangle3d);
 
+bool __cdecl valid_real(real const& value)
+{
+	return ((dword)value & 0x7F800000) != 0x7F800000;
+}
+
+bool __cdecl valid_timer(real timer)
+{
+	//return INVOKE(0x006150D0, valid_timer, timer);
+
+	return valid_real(timer)
+		&& IN_RANGE_INCLUSIVE(timer, 0.0f, 3600.0f);
+}
+
+bool __cdecl valid_field_of_view(real field_of_view)
+{
+	//return INVOKE(0x00615050, valid_field_of_view, field_of_view);
+
+	return valid_real(field_of_view)
+		&& IN_RANGE_INCLUSIVE(field_of_view, k_horizontal_field_of_view_min, k_horizontal_field_of_view_max);
+}
+
+bool __cdecl valid_focus_distance(real focus_distance)
+{
+	//return INVOKE(0x00615090, valid_focus_distance, focus_distance);
+
+	return valid_real(focus_distance)
+		&& IN_RANGE_INCLUSIVE(focus_distance, 0.0f, k_distance_max);
+}
+
+bool __cdecl valid_world_real(real world_real)
+{
+	//return INVOKE(0x00615110, valid_world_real, world_real);
+
+	return valid_real(world_real)
+		&& IN_RANGE_INCLUSIVE(world_real, -50000.0f, 50000.0f);
+}
+
+bool __cdecl valid_world_real_point3d(real_point3d* world_real_point)
+{
+	//return INVOKE(0x00615150, valid_world_real_point3d, world_real_point);
+
+	return valid_world_real(world_real_point->x)
+		&& valid_world_real(world_real_point->y)
+		&& valid_world_real(world_real_point->z);
+}
+
+bool __cdecl valid_real_point2d(real_point2d const* point)
+{
+	return valid_real(point->x)
+		&& valid_real(point->y);
+}
+
+bool __cdecl valid_real_point3d(real_point3d const* point)
+{
+	return valid_real(point->x)
+		&& valid_real(point->y)
+		&& valid_real(point->z);
+}
+
+bool __cdecl valid_real_vector2d(vector2d const* vector)
+{
+	return valid_real(vector->i)
+		&& valid_real(vector->j);
+}
+
+bool __cdecl valid_real_vector3d(vector3d const* vector)
+{
+	return valid_real(vector->i)
+		&& valid_real(vector->j)
+		&& valid_real(vector->k);
+}
+
+bool __cdecl valid_real_vector3d(vector4d const* vector)
+{
+	return valid_real(vector->i)
+		&& valid_real(vector->j)
+		&& valid_real(vector->k)
+		&& valid_real(vector->l);
+}
+
+bool __cdecl valid_realcmp(real a, real b)
+{
+	real diff = a - b;
+	return valid_real(diff)
+		&& fabs(diff) < k_test_real_epsilon;
+}
+
+bool __cdecl valid_real_sine_cosine(real sine, real cosine)
+{
+	return valid_realcmp(((sine * sine) + (cosine * cosine)), 1.0f);
+}
+
+bool __cdecl valid_real_quaternion(real_quaternion const* quaternion)
+{
+	return valid_realcmp((magnitude_squared3d(&quaternion->v) + (quaternion->w * quaternion->w)), 1.0f);
+}
+
+bool __cdecl valid_real_normal2d(vector2d const* normal)
+{
+	return valid_realcmp(magnitude_squared2d(normal), 1.0f);
+}
+
+bool __cdecl valid_real_normal3d(vector3d const* normal)
+{
+	return valid_realcmp(magnitude_squared3d(normal), 1.0f);
+}
+
+bool __cdecl valid_real_plane2d(plane2d const* plane)
+{
+	return valid_real_normal2d(&plane->n)
+		&& valid_real(plane->d);
+}
+
+bool __cdecl valid_real_plane3d(plane3d const* plane)
+{
+	return valid_real_normal3d(&plane->n)
+		&& valid_real(plane->d);
+}
+
+bool __cdecl valid_real_vector3d_axes2(vector3d const* forward, vector3d const* up)
+{
+	return valid_real_normal3d(forward)
+		&& valid_real_normal3d(up)
+		&& valid_realcmp(dot_product3d(forward, up), 0.0f);
+}
+
+bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
+{
+	return valid_real_normal3d(forward)
+		&& valid_real_normal3d(left)
+		&& valid_real_normal3d(up)
+		&& valid_realcmp(dot_product3d(forward, left), 0.0f)
+		&& valid_realcmp(dot_product3d(left, up), 0.0f)
+		&& valid_realcmp(dot_product3d(up, forward), 0.0f);
+}
+
+bool __cdecl valid_real_vector3d_right_handed_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
+{
+	return valid_real_vector3d_axes3(forward, left, up)
+		&& triple_product3d(forward, left, up) > 0.0f;
+}
+
+bool __cdecl valid_real_matrix4x3(real_matrix4x3 const* matrix)
+{
+	return valid_real(matrix->scale)
+		&& valid_real_vector3d_axes3(&matrix->forward, &matrix->left, &matrix->up)
+		&& valid_real_point3d(&matrix->position);
+}
+
+bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles)
+{
+	return valid_real(angles->yaw)
+		&& valid_real(angles->pitch)
+		&& IN_RANGE_INCLUSIVE(angles->yaw, 0.0f, k_full_circle)
+		&& IN_RANGE_INCLUSIVE(angles->pitch, -k_quarter_circle, k_quarter_circle);
+}
+
+bool __cdecl valid_real_euler_angles3d(euler_angles3d const* angles)
+{
+	return valid_real(angles->yaw)
+		&& valid_real(angles->pitch)
+		&& valid_real(angles->roll)
+		&& IN_RANGE_INCLUSIVE(angles->yaw, 0.0f, k_full_circle)
+		&& IN_RANGE_INCLUSIVE(angles->pitch, -k_quarter_circle, k_quarter_circle)
+		&& IN_RANGE_INCLUSIVE(angles->roll, -k_half_circle, k_half_circle);
+}
+
 // networking/network_configuration.cpp
 real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor)
 {
