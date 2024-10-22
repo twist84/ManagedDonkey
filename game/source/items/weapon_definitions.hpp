@@ -145,6 +145,174 @@ struct weapon_interface_definition_new
 };
 static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
 
+struct s_weapon_magazine
+{
+	dword_flags flags;
+	short rounds_recharged; // per second
+	short rounds_total_initial;
+	short rounds_total_maximum;
+	short rounds_loaded_maximum;
+	short runtime_rounds_inventory_maximum;
+
+	// pad
+	byte IIO[0x2];
+
+	// the length of time it takes to load a single magazine into the weapon
+	real reload_time; // seconds
+
+	short rounds_reloaded;
+
+	// pad
+	byte VJGZW[0x2];
+
+	// the length of time it takes to chamber the next round
+	real chamber_time; // seconds
+
+	// pad
+	byte HPMIV[0x8];
+
+	// pad
+	byte P[0x10];
+
+	s_tag_reference reloading_effect;
+	s_tag_reference reloading_damage_effect;
+	s_tag_reference chambering_effect;
+	s_tag_reference chambering_damage_effect;
+	s_tag_block magazines;
+};
+static_assert(sizeof(s_weapon_magazine) == 0x80);
+
+enum e_weapon_trigger_flags
+{
+	_weapon_trigger_autofire_single_action_only_bit = 0,
+
+	k_weapon_trigger_flags
+};
+
+enum e_weapon_trigger_input
+{
+	_weapon_trigger_input_right_trigger = 0,
+	_weapon_trigger_input_left_trigger,
+	_weapon_trigger_input_melee_attack,
+
+	k_weapon_trigger_inputs
+};
+
+enum e_weapon_trigger_behavior
+{
+	_weapon_trigger_behavior_spew = 0,
+	_weapon_trigger_behavior_latch,
+	_weapon_trigger_behavior_latch_autofire,
+	_weapon_trigger_behavior_charge,
+	_weapon_trigger_behavior_latch_zoom,
+	_weapon_trigger_behavior_latch_rocket_launcher,
+	_weapon_trigger_behavior_spew_charge,
+	_weapon_trigger_behavior_sword_charge,
+
+	k_weapon_trigger_behaviors
+};
+
+enum e_trigger_prediction_type
+{
+	_trigger_prediction_type_none = 0,
+	_trigger_prediction_type_spew,
+	_trigger_prediction_type_charge,
+
+	k_trigger_prediction_types
+};
+
+enum e_weapon_trigger_autofire_action
+{
+	_weapon_trigger_autofire_action_fire = 0,
+	_weapon_trigger_autofire_action_charge,
+	_weapon_trigger_autofire_action_track,
+	_weapon_trigger_autofire_action_fire_other,
+
+	k_weapon_trigger_autofire_actions
+};
+
+enum e_weapon_trigger_overcharged_action
+{
+	_weapon_trigger_overcharged_action_none = 0,
+	_weapon_trigger_overcharged_action_explode,
+	_weapon_trigger_overcharged_action_discharge,
+
+	k_weapon_trigger_overcharged_actions
+};
+
+struct weapon_trigger_definition
+{
+	struct s_autofire_fields
+	{
+		// AUTOFIRE
+
+		real autofire_time;
+		real autofire_throw;
+		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> secondary_action;
+		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> primary_action;
+	};
+	static_assert(sizeof(s_autofire_fields) == 0xC);
+
+	struct s_charging_fields
+	{
+		// CHARGING
+
+		// the amount of time it takes for this trigger to become fully charged
+		real charging_time; // seconds
+
+		// the amount of time this trigger can be charged before becoming overcharged
+		real charged_time; // seconds
+
+		c_enum<e_weapon_trigger_overcharged_action, short, _weapon_trigger_overcharged_action_none, k_weapon_trigger_overcharged_actions> overcharged_action;
+
+		// 96 was the constant in code for the pp
+		short cancelled_trigger_throw;
+
+		// the amount of illumination given off when the weapon is fully charged
+		real charged_illumination; // [0,1]
+
+		// length of time the weapon will spew (fire continuously) while discharging
+		real spew_time; // seconds
+
+		// the charging effect is created once when the trigger begins to charge
+		s_tag_reference charging_effect;
+
+		// the charging effect is created once when the trigger begins to charge
+		s_tag_reference charging_damage_effect;
+
+		// plays every tick you're charging or charged, scaled to charging fraction
+		s_tag_reference charging_continuous_damage_response;
+
+		// how much battery to drain per second when charged
+		real charged_drain_rate;
+
+		// the discharging effect is created once when the trigger releases its charge
+		s_tag_reference discharge_effect;
+
+		// the discharging effect is created once when the trigger releases its charge
+		s_tag_reference discharge_damage_effect;
+	};
+	static_assert(sizeof(s_charging_fields) == 0x68);
+
+	c_flags<e_weapon_trigger_flags, dword, k_weapon_trigger_flags> flags;
+	c_enum<e_weapon_trigger_input, short, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
+	c_enum<e_weapon_trigger_behavior, short, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
+	short primary_barrel;
+	short secondary_barrel;
+	c_enum<e_trigger_prediction_type, short, _trigger_prediction_type_none, k_trigger_prediction_types> prediction;
+
+	// pad
+	byte GNFR[0x2];
+
+	s_autofire_fields autofire;
+	s_charging_fields charging;
+
+	real lock_on_hold_time;
+	real lock_on_acquire_time;
+	real lock_on_grace_time;
+};
+static_assert(sizeof(weapon_trigger_definition) == 0x90);
+
 struct s_weapon_barrel_firing_parameters
 {
 	// the number of firing effects created per second
@@ -270,43 +438,6 @@ struct s_weapon_barrel
 	byte __data88[0x1AC - 0x88];
 };
 static_assert(sizeof(s_weapon_barrel) == 0x1AC);
-
-struct s_weapon_magazine
-{
-	dword_flags flags;
-	short rounds_recharged; // per second
-	short rounds_total_initial;
-	short rounds_total_maximum;
-	short rounds_loaded_maximum;
-	short runtime_rounds_inventory_maximum;
-
-	// pad
-	byte IIO[0x2];
-
-	// the length of time it takes to load a single magazine into the weapon
-	real reload_time; // seconds
-
-	short rounds_reloaded;
-
-	// pad
-	byte VJGZW[0x2];
-
-	// the length of time it takes to chamber the next round
-	real chamber_time; // seconds
-
-	// pad
-	byte HPMIV[0x8];
-
-	// pad
-	byte P[0x10];
-
-	s_tag_reference reloading_effect;
-	s_tag_reference reloading_damage_effect;
-	s_tag_reference chambering_effect;
-	s_tag_reference chambering_damage_effect;
-	s_tag_block magazines;
-};
-static_assert(sizeof(s_weapon_magazine) == 0x80);
 
 struct _weapon_definition
 {
@@ -468,7 +599,7 @@ struct _weapon_definition
 	weapon_interface_definition_new player_interface;
 	s_tag_block predicted_resources;
 	c_typed_tag_block<s_weapon_magazine> magazines;
-	s_tag_block new_triggers;
+	c_typed_tag_block<weapon_trigger_definition> triggers;
 	c_typed_tag_block<s_weapon_barrel> barrels;
 	real runtime_weapon_power_on_velocity;
 	real runtime_weapon_power_off_velocity;

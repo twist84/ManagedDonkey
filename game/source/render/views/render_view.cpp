@@ -6,6 +6,7 @@
 #include "interface/chud/cortana_effect.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
+#include "items/weapons.hpp"
 #include "main/console.hpp"
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
@@ -192,7 +193,7 @@ void __cdecl render_debug_frame_render()
 	//profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
 	render_synchronization_stats();
 	//player_control_debug_render();
-	//weapons_debug_render();
+	weapons_debug_render();
 	render_debug_debug_menu();
 	//game_time_render_debug();
 	overlapped_render();

@@ -321,7 +321,12 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 //.text:00B45260 ; void __cdecl unit_inventory_cycle_weapon_set_identifier(long)
 //.text:00B452F0 ; void __cdecl unit_inventory_drop_weapon(long, short, e_unit_drop_type, bool)
 //.text:00B45470 ; short __cdecl unit_inventory_get_must_be_readied_weapon(long)
-//.text:00B454D0 ; long __cdecl unit_inventory_get_weapon(long, short)
+
+long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index)
+{
+	return INVOKE(0x00B454D0, unit_inventory_get_weapon, unit_index, inventory_index);
+}
+
 //.text:00B45520 ; short __cdecl unit_inventory_next_grenade(long, short, short)
 //.text:00B455B0 ; short __cdecl unit_inventory_next_weapon(long, short, short)
 //.text:00B455D0 ; void __cdecl unit_inventory_set_weapon_index(long, short, long, e_unit_drop_type)

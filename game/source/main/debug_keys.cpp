@@ -8,6 +8,7 @@
 #include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "interface/terminal.hpp"
+#include "items/weapons.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
@@ -1025,12 +1026,6 @@ void __cdecl debug_player_input_toggle(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 		player_control_debug_render_toggle();
-}
-
-bool debug_weapons;
-void __cdecl weapons_debug_render_toggle()
-{
-	debug_weapons = !debug_weapons;
 }
 
 void __cdecl debug_key_toggle_weapons(bool key_is_down)

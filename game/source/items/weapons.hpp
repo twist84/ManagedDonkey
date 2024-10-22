@@ -6,13 +6,32 @@
 
 struct weapon_barrel
 {
-	byte __data0[0x34];
+	char idle_ticks;
+	char state;
+	short timer;
+	word_flags flags;
+
+	byte __data4[0x16];
+
+	real current_error;
+	real angle_change_scale;
+	real bonus_round_fraction;
+	real overflow;
+
+	byte __data2C[0x8];
 };
 static_assert(sizeof(weapon_barrel) == 0x34);
 
 struct weapon_trigger
 {
-	byte __data0[0xC];
+	char state;
+
+	byte __data1[0x3];
+
+	short timer;
+	word_flags flags;
+
+	byte __data8[0x4];
 };
 static_assert(sizeof(weapon_trigger) == 0xC);
 
@@ -20,14 +39,21 @@ struct weapon_magazine
 {
 	short state;
 	short reload_cooldown;
+
 	short __unknown4;
+
 	short rounds_unloaded;
+
 	short __unknown8;
+
 	short rounds_loaded;
+
 	short __unknownC;
 	short __unknownE;
 	short __unknown10;
+
 	short firing_cooldown;
+
 	short __unknown14;
 	short __unknown16;
 	short __unknown18;
@@ -108,4 +134,8 @@ extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);
 extern bool __cdecl weapon_has_infinite_ammo(long weapon_index);
 
 extern weapon_datum* weapon_get(long weapon_index);
+
+extern void weapons_debug_render_toggle();
+extern void weapons_debug_render();
+extern void weapon_debug_render(long weapon_index, long weapon_slot);
 

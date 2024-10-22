@@ -427,6 +427,7 @@ extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, sh
 extern void __cdecl unit_get_head_position(long unit_index, real_point3d* position);
 extern short __cdecl unit_get_zoom_level(long unit_index);
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);
+extern long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index);
 extern void __cdecl unit_render_debug(long unit_index);
 extern bool __cdecl unit_try_to_drop_weapon(long unit_index, bool drop_secondary);
 extern bool __cdecl unit_unsuspecting(long unit_index, real_point3d const* attacker_position, vector3d const* attacker_direction);
