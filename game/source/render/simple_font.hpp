@@ -21,14 +21,14 @@ public:
 	//long get_column_width(long) const;
 	//long get_char_width() const;
 
-protected:
+//protected:
 	bool m_rendering;
 	long m_x;
 	long m_y;
 	long m_width;
 	long m_height;
 	long m_column_width;
-	long m_char_height;
+	long m_row_height;
 	long m_max_column;
 	long m_max_row;
 	char m_string[1024];
@@ -64,9 +64,13 @@ namespace simple_font
 		char* buffer;
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
-
-	void __cdecl install();
-	void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6);
+	
+	extern bool __cdecl begin_rendering(real scale, bool a2);
+	extern void __cdecl end_rendering();
+	extern long __cdecl get_height();
+	extern long __cdecl get_width();
+	extern void __cdecl install();
+	extern void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6);
 
 	extern s_font_data*(&g_fonts)[2];
 	extern s_font_data& g_font_6x10;

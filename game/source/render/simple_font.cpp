@@ -14,7 +14,7 @@ c_simple_font_screen_display::c_simple_font_screen_display() :
 	m_width(),        // not initialized
 	m_height(),       // not initialized
 	m_column_width(), // not initialized
-	m_char_height(),  // not initialized
+	m_row_height(),   // not initialized
 	m_max_column(),   // not initialized
 	m_max_row(),      // not initialized
 	m_string()        // not initialized
@@ -41,7 +41,7 @@ void c_simple_font_screen_display::draw(long a1, long a2, dword a3, char const* 
 	cvsnzprintf(m_string, sizeof(m_string) - 1, format, list);
 	simple_font::print(
 		m_x + a1 * m_column_width,
-		m_y + a2 * m_char_height,
+		m_y + a2 * m_row_height,
 		a3,
 		m_string,
 		strlen(m_string),
@@ -50,7 +50,26 @@ void c_simple_font_screen_display::draw(long a1, long a2, dword a3, char const* 
 
 bool c_simple_font_screen_display::open_session(real scale)
 {
-	return DECLFUNC(0x00A76FA0, bool, __thiscall, c_simple_font_screen_display*, real)(this, scale);
+	//return DECLFUNC(0x00A76FA0, bool, __thiscall, c_simple_font_screen_display*, real)(this, scale);
+
+	if (m_rendering = simple_font::begin_rendering(scale, true))
+	{
+		short_rectangle2d bounds{};
+		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&bounds);
+		m_x = bounds.x0;
+		m_y = bounds.y0;
+		m_width = bounds.x1 - bounds.x0;
+		m_height = bounds.y1 - bounds.y0;
+		m_column_width = simple_font::get_width();
+		m_row_height = simple_font::get_height();
+		m_max_column = m_width / m_column_width;
+		m_max_row = m_height / m_row_height;
+		csmemset(m_string, 0, sizeof(m_string));
+
+		return m_rendering;
+	}
+
+	return false;
 }
 
 namespace simple_font
@@ -66,6 +85,51 @@ namespace simple_font
 	REFERENCE_DECLARE(0x0524B6BC, bool, __unknown8);
 	REFERENCE_DECLARE(0x0524B6C0, vector2d, __vectorC);
 	REFERENCE_DECLARE(0x0524B6C8, vector2d, __vector14);
+
+	bool __cdecl begin_rendering(real scale, bool a2)
+	{
+		return INVOKE(0x00A76690, simple_font::begin_rendering, scale, a2);
+
+		//if (simple_font::g_activeFont->installed)
+		//{
+		//	bool rendering = c_rasterizer_draw_string::begin_rendering();
+		//	c_rasterizer::set_sampler_texture(0, simple_font::g_activeFont->texture_ref);
+		//
+		//	real v4 = 0.1f;
+		//	if (scale <= 0.1f || (v4 = 10.0f, scale >= 10.0f))
+		//		scale = v4;
+		//
+		//	simple_font::g_activeFont->scale = scale;
+		//	simple_font::g_simple_font_globals.__unknown0 = a2;
+		//	return rendering;
+		//}
+		//
+		//return false;
+	}
+
+	//.text:00A769F0 ; void __cdecl simple_font::draw_quads(rasterizer_vertex_screen*, long, bool)
+
+	void __cdecl end_rendering()
+	{
+		INVOKE(0x00A76AE0, simple_font::end_rendering);
+
+		//if (simple_font::g_activeFont->installed)
+		//	c_rasterizer_draw_string::end_rendering();
+	}
+
+	long __cdecl get_height()
+	{
+		return INVOKE(0x00A76AF0, simple_font::get_height);
+
+		//return long(real(simple_font::g_activeFont->height) * simple_font::g_activeFont->scale);
+	}
+
+	long __cdecl get_width()
+	{
+		return INVOKE(0x00A76B30, simple_font::get_width);
+
+		//return long(real(simple_font::g_activeFont->width) * simple_font::g_activeFont->scale);
+	}
 
 	void s_font_data::install()
 	{
