@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "game/cheats.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/first_person_weapons.hpp"
 #include "items/weapon_definitions.hpp"
 #include "memory/module.hpp"
 #include "render/simple_font.hpp"
@@ -13,11 +14,11 @@ HOOK_DECLARE(0x00B62AC0, weapon_get_age);
 HOOK_DECLARE(0x00B63C30, weapon_has_infinite_ammo);
 
 bool debug_weapons = false;
-bool debug_weapons_secondary = false;
 bool debug_weapons_triggers = true;
 bool debug_weapons_barrels = true;
 bool debug_weapons_magazines = true;
 bool debug_weapons_primary = true;
+bool debug_weapons_secondary = false;
 
 //.text:00B5B120 ; 
 //.text:00B5B130 ; 
@@ -409,22 +410,25 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 
 		if (inventory_unit_index != NONE)
 		{
-			// #TODO: implement these
-			//   first_person_weapon_get_current_state_string
-			//   first_person_weapon_get_pending_state_string
+			long current_state_string_id = first_person_weapon_get_current_state_string(inventory_unit_index, weapon_slot);
+			long pending_state_string_id = first_person_weapon_get_pending_state_string(inventory_unit_index, weapon_slot);
 
-			long current_state_string = NONE; // first_person_weapon_get_current_state_string(inventory_unit_index, weapon_slot);
-			long pending_state_string = NONE; // first_person_weapon_get_pending_state_string(inventory_unit_index, weapon_slot);
-			if (pending_state_string == NONE)
+			bool current_state_invalid = current_state_string_id == _string_id_invalid;
+			bool pending_state_invalid = pending_state_string_id == _string_id_invalid;
+
+			char const* current_state_string = current_state_invalid ? "<unknown>" : string_id_get_string_const(current_state_string_id);
+			char const* pending_state_string = pending_state_invalid ? "<unknown>" : string_id_get_string_const(pending_state_string_id);
+
+			if (pending_state_invalid)
 			{
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "1P state cur: %s",
-					current_state_string == NONE ? "<unknown>" : string_id_get_string_const(current_state_string));
+					current_state_string);
 			}
 			else
 			{
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "1P state cur: %s pending: %s",
-					current_state_string == NONE ? "<unknown>" : string_id_get_string_const(current_state_string),
-					string_id_get_string_const(pending_state_string));
+					current_state_string,
+					pending_state_string);
 			}
 		}
 

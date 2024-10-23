@@ -127,6 +127,13 @@ struct weapon_datum
 };
 static_assert(sizeof(weapon_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
+extern bool debug_weapons;
+extern bool debug_weapons_triggers;
+extern bool debug_weapons_barrels;
+extern bool debug_weapons_magazines;
+extern bool debug_weapons_primary;
+extern bool debug_weapons_secondary;
+
 extern void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted);
 extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
 extern real __cdecl weapon_get_age(long weapon_index);

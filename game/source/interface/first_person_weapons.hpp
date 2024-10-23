@@ -60,7 +60,12 @@ static_assert(sizeof(first_person_weapon) == 0x5000);
 
 enum e_output_user_index;
 
+extern first_person_weapon_data* __cdecl first_person_weapon_get_weapon_data(first_person_weapon* fp_weapon, long weapon_slot);
 extern void __cdecl first_person_weapon_perspective_changed(e_output_user_index output_user_index);
 extern void __cdecl first_person_weapons_update();
 extern void __cdecl first_person_weapons_update_camera_estimates();
+
+extern first_person_weapon* first_person_weapon_get(e_output_user_index output_user_index);
+extern long first_person_weapon_get_current_state_string(long unit_index, long weapon_slot);
+extern long first_person_weapon_get_pending_state_string(long unit_index, long weapon_slot);
 
