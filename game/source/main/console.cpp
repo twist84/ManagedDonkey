@@ -14,6 +14,7 @@
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "items/weapons.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
@@ -899,6 +900,13 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
 
 	CONSOLE_GLOBAL_DECLARE_LONG2(watermark_enabled, g_watermark_enabled),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_triggers),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_barrels),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_magazines),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_primary),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_secondary),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 
