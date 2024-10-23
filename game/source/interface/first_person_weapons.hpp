@@ -58,6 +58,8 @@ struct first_person_weapon
 };
 static_assert(sizeof(first_person_weapon) == 0x5000);
 
+extern bool& debug_animation_fp_sprint_disable;
+
 enum e_output_user_index;
 
 extern first_person_weapon_data* __cdecl first_person_weapon_get_weapon_data(first_person_weapon* fp_weapon, long weapon_slot);

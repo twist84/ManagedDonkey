@@ -11,6 +11,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/chud/chud_draw.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/first_person_weapons.hpp"
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_hs.hpp"
@@ -907,6 +908,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_magazines),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_primary),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_secondary),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_animation_fp_sprint_disable),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

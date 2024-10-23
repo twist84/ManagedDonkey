@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/thread_local.hpp"
 
+REFERENCE_DECLARE(0x0526070E, bool, debug_animation_fp_sprint_disable);
+
 first_person_weapon_data* __cdecl first_person_weapon_get_weapon_data(first_person_weapon* fp_weapon, long weapon_slot)
 {
 	//INVOKE(0x00A9BF20, first_person_weapon_get_weapon_data, fp_weapon, weapon_slot);
