@@ -209,7 +209,7 @@ static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
 struct s_multiplayer_constants;
 struct s_game_engine_status_response;
-template<tag group_tag>
+template<tag ...k_group_tags>
 struct s_multiplayer_globals_tag_reference;
 struct s_multiplayer_runtime_globals_definition
 {
@@ -231,8 +231,8 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> default_respawn_sound;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> modifier_respawn_sound;
 
-	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_TAG>> sounds;
-	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_LOOPING_TAG>> looping_sounds;
+	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_TAG, INVALID_TAG>> sounds;
+	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG>> looping_sounds;
 
 	c_typed_tag_block<s_multiplayer_event_response_definition> earn_wp_events;
 	c_typed_tag_block<s_multiplayer_event_response_definition> general_events;
@@ -419,7 +419,7 @@ struct s_game_engine_status_response
 };
 static_assert(sizeof(s_game_engine_status_response) == 0x24);
 
-template<tag group_tag>
+template<tag ...k_group_tags>
 struct s_multiplayer_globals_tag_reference :
 	s_tag_reference
 {

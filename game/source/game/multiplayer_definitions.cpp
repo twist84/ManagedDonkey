@@ -227,8 +227,8 @@ void s_game_engine_status_response::update_reference_names()
 	UPDATE_REFERENCE_NAME(unused);
 }
 
-template<tag group_tag>
-void s_multiplayer_globals_tag_reference<group_tag>::update_reference_names()
+template<tag ...k_group_tags>
+void s_multiplayer_globals_tag_reference<k_group_tags...>::update_reference_names()
 {
 	get_name();
 }
