@@ -5,7 +5,7 @@
 
 struct s_dialogue_definition
 {
-	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG> global_dialogue_info;
+	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG, INVALID_TAG> global_dialogue_info;
 	dword_flags flags;
 	s_tag_block vocalizations;
 

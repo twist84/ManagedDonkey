@@ -15,8 +15,8 @@ enum e_screen_widget_definition_flags
 struct s_screen_widget_definition :
 	s_core_widget_definition
 {
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> string_list;
-	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG> screen_template;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> string_list;
+	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG, INVALID_TAG> screen_template;
 
 	c_string_id initial_button_key_name;
 

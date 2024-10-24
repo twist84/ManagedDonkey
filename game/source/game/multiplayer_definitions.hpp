@@ -30,15 +30,15 @@ struct s_multiplayer_vehicle_set;
 struct s_multiplayer_podium_animation;
 struct s_multiplayer_universal_globals_definition
 {
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> random_player_names;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> team_names;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> random_player_names;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> team_names;
 	c_typed_tag_block<s_multiplayer_customized_model_character> customized_spartan_characters;
 	c_typed_tag_block<s_multiplayer_customized_model_character> customized_elite_characters;
 	c_typed_tag_block<s_multiplayer_equipment> equipment;
 	c_typed_tag_block<s_multiplayer_energy_regeneration> energy_regeneration;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> multiplayer_text;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> sandbox_text;
-	c_typed_tag_reference<SANDBOX_TEXT_VALUE_PAIR_DEFINITION_TAG> sandbox_object_properties_values;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> multiplayer_text;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> sandbox_text;
+	c_typed_tag_reference<SANDBOX_TEXT_VALUE_PAIR_DEFINITION_TAG, INVALID_TAG> sandbox_object_properties_values;
 
 	// Weapon Selections Halo3
 	// Define the weapons you want to be available in multiplayer games here (does not include mp objects like ball or flag)
@@ -64,7 +64,7 @@ struct s_multiplayer_universal_globals_definition
 
 	// Game Engine Settings Halo3
 	// This tag is only placeholder, until the Excel/XML setup system is up and running
-	c_typed_tag_reference<GAME_ENGINE_SETTINGS_DEFINITION_TAG> halo3_game_engine_settings;
+	c_typed_tag_reference<GAME_ENGINE_SETTINGS_DEFINITION_TAG, INVALID_TAG> halo3_game_engine_settings;
 
 	void update_reference_names();
 };
@@ -122,7 +122,7 @@ struct s_multiplayer_weapon_selection
 	// used only for random weapon set
 	real random_weapon_set_weight;
 
-	c_typed_tag_reference<WEAPON_TAG> weapon_tag;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon_tag;
 
 	void update_reference_names();
 };
@@ -131,7 +131,7 @@ static_assert(sizeof(s_multiplayer_weapon_selection) == 0x18);
 struct s_multiplayer_vehicle_selection
 {
 	c_string_id name;
-	c_typed_tag_reference<VEHICLE_TAG> vehicle_tag;
+	c_typed_tag_reference<VEHICLE_TAG, INVALID_TAG> vehicle_tag;
 
 	void update_reference_names();
 };
@@ -140,7 +140,7 @@ static_assert(sizeof(s_multiplayer_vehicle_selection) == 0x14);
 struct s_multiplayer_grenade_selection
 {
 	c_string_id name;
-	c_typed_tag_reference<EQUIPMENT_TAG> grenade_tag;
+	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> grenade_tag;
 
 	void update_reference_names();
 };
@@ -172,7 +172,7 @@ struct s_multiplayer_podium_stance_animation;
 struct s_multiplayer_podium_move_animation;
 struct s_multiplayer_podium_animation
 {
-	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG> animation_tag;
+	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG, INVALID_TAG> animation_tag;
 	c_string_id default_unarmed;
 	c_string_id default_armed;
 	c_typed_tag_block<s_multiplayer_podium_stance_animation> stance_animations;
@@ -200,8 +200,8 @@ struct s_multiplayer_podium_move_animation
 	c_string_id loop_animation;
 	c_string_id out_transition;
 	real offset;
-	c_typed_tag_reference<WEAPON_TAG> primary_weapon;
-	c_typed_tag_reference<WEAPON_TAG> secondary_weapon;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> primary_weapon;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> secondary_weapon;
 
 	void update_reference_names();
 };
@@ -213,23 +213,23 @@ template<tag group_tag>
 struct s_multiplayer_globals_tag_reference;
 struct s_multiplayer_runtime_globals_definition
 {
-	c_typed_tag_reference<BIPED_TAG> editor_biped;
-	c_typed_tag_reference<SCENERY_TAG> editor_helper;
-	c_typed_tag_reference<WEAPON_TAG> flag;
-	c_typed_tag_reference<WEAPON_TAG> ball;
-	c_typed_tag_reference<WEAPON_TAG> assault_bomb;
-	c_typed_tag_reference<CRATE_TAG> vip_influence_area;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> in_game_text;
+	c_typed_tag_reference<BIPED_TAG, INVALID_TAG> editor_biped;
+	c_typed_tag_reference<SCENERY_TAG, INVALID_TAG> editor_helper;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> flag;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> ball;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> assault_bomb;
+	c_typed_tag_reference<CRATE_TAG, INVALID_TAG> vip_influence_area;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> in_game_text;
 
 	// gameplay modifier tags
-	c_typed_tag_reference<PROJECTILE_TAG> plant_plasma_on_death_projectile;
-	c_typed_tag_reference<EFFECT_TAG> vehicle_autoflip_effect;
-	c_typed_tag_reference<EFFECT_TAG> safety_booster_effect;
+	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> plant_plasma_on_death_projectile;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> vehicle_autoflip_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> safety_booster_effect;
 
 	// `player_spawn`
 	// long sound_index = player_has_gameplay_modifier(_gameplay_modifier_respawn_modifier) ? runtime_data->modifier_respawn_sound.index : runtime_data->default_respawn_sound.index
-	c_typed_tag_reference<SOUND_TAG> default_respawn_sound;
-	c_typed_tag_reference<SOUND_TAG> modifier_respawn_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> default_respawn_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> modifier_respawn_sound;
 
 	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_TAG>> sounds;
 	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_LOOPING_TAG>> looping_sounds;
@@ -253,27 +253,27 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_block<s_multiplayer_constants> multiplayer_constants;
 	c_typed_tag_block<s_game_engine_status_response> state_responses;
 
-	c_typed_tag_reference<BITMAP_TAG> scoreboard_emblem_bitmap;
-	c_typed_tag_reference<BITMAP_TAG> scoreboard_dead_emblem_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> scoreboard_emblem_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> scoreboard_dead_emblem_bitmap;
 
-	c_typed_tag_reference<SHADER_HALOGRAM_TAG> hill_shader;
+	c_typed_tag_reference<SHADER_HALOGRAM_TAG, INVALID_TAG> hill_shader;
 
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> unused_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> ctf_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> slayer_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> oddball_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> king_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> sandbox_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> vip_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> juggernaut_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> territories_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> assault_intro_message;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> infection_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> unused_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> ctf_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> slayer_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> oddball_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> king_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> sandbox_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> vip_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> juggernaut_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> territories_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> assault_intro_message;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> infection_intro_message;
 
-	c_typed_tag_reference<SOUND_LOOPING_TAG> menu_music_a;
-	c_typed_tag_reference<SOUND_LOOPING_TAG> menu_music_b;
-	c_typed_tag_reference<SOUND_LOOPING_TAG> menu_music_c;
-	c_typed_tag_reference<SOUND_LOOPING_TAG> menu_music_d;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> menu_music_a;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> menu_music_b;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> menu_music_c;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> menu_music_d;
 
 	void update_reference_names();
 };
@@ -365,16 +365,16 @@ struct s_multiplayer_constants
 	real vehicle_danger_radius;
 	real vehicle_danger_lead_time; // seconds
 	real vehicle_nearby_player_dist; // how nearby a player is to count a vehicle as 'occupied'
-	c_typed_tag_reference<BITMAP_TAG> hill_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> hill_bitmap;
 	real flag_return_distance;
 	real flag_contest_inner_radius;
 	real flag_contest_outer_radius;
 	real territories_waypoint_vertical_offset;
-	c_typed_tag_reference<EFFECT_TAG> bomb_explode_effect;
-	c_typed_tag_reference<EFFECT_TAG> bomb_explode_secondary_effect;
-	c_typed_tag_reference<EFFECT_TAG> bomb_explode_dmg_effect;
-	c_typed_tag_reference<EFFECT_TAG> bomb_defuse_effect;
-	c_typed_tag_reference<EFFECT_TAG> sandbox_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_secondary_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_dmg_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_defuse_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> sandbox_effect;
 	c_string_id bomb_defusal_string;
 	c_string_id blocked_teleporter_string;
 	long __unknown1DC;

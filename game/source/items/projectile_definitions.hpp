@@ -78,14 +78,14 @@ struct _projectile_definition
 	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> detonation_noise;
 	short super_detonation_projectile_count;
 	real super_detonation_time;
-	c_typed_tag_reference<EFFECT_TAG> detonation_started;
-	c_typed_tag_reference<EFFECT_TAG> detonation_effect_airborne;
-	c_typed_tag_reference<EFFECT_TAG> detonation_effect_ground;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> detonation_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> attached_detonation_damage;
-	c_typed_tag_reference<EFFECT_TAG> super_detonation;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> super_detonation_damage; // your momma
-	c_typed_tag_reference<SOUND_TAG> detonation_sound;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_started;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_effect_airborne;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_effect_ground;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> detonation_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> attached_detonation_damage;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> super_detonation;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> super_detonation_damage; // your momma
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> detonation_sound;
 
 	c_enum<e_damage_reporting_type, short, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
 
@@ -93,21 +93,21 @@ struct _projectile_definition
 	byte UAQLONXGN[1];
 
 	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> super_detonation_object_types;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> super_attached_detonation_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> super_attached_detonation_damage;
 
 	// radius within we will generate material effects
 	real material_effect_radius;
 
 	// flyby/impact
-	c_typed_tag_reference<SOUND_TAG> flyby_sound;
-	c_typed_tag_reference<EFFECT_TAG> impact_effect;
-	c_typed_tag_reference<EFFECT_TAG> object_impact_effect;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> impact_damage;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> flyby_sound;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> impact_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> object_impact_effect;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> impact_damage;
 
 	// boarding fields
 	real boarding_detonation_time;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> boarding_detonation_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> boarding_attached_detonation_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> boarding_detonation_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> boarding_attached_detonation_damage;
 
 	// physics
 

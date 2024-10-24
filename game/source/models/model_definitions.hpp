@@ -72,10 +72,10 @@ struct s_model_definition
 {
 	static tag const k_group_tag = MODEL_TAG;
 
-	c_typed_tag_reference<RENDER_MODEL_TAG> render_model;
-	c_typed_tag_reference<COLLISION_MODEL_TAG> collision_model;
-	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG> animation;
-	c_typed_tag_reference<PHYSICS_MODEL_TAG> physics_model;
+	c_typed_tag_reference<RENDER_MODEL_TAG, INVALID_TAG> render_model;
+	c_typed_tag_reference<COLLISION_MODEL_TAG, INVALID_TAG> collision_model;
+	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG, INVALID_TAG> animation;
+	c_typed_tag_reference<PHYSICS_MODEL_TAG, INVALID_TAG> physics_model;
 
 
 	// level of detail
@@ -96,7 +96,7 @@ struct s_model_definition
 	real animation_lod_distance; // world units
 	real reduce_to_L1; // world units (low)
 	real instance_disappear_distance; // world units
-	c_typed_tag_reference<RENDER_MODEL_TAG> lod_render_model;
+	c_typed_tag_reference<RENDER_MODEL_TAG, INVALID_TAG> lod_render_model;
 
 
 	c_typed_tag_block<s_model_variant> variants;
@@ -114,10 +114,10 @@ struct s_model_definition
 	// more stuff
 
 	// The default dialogue tag for this model (overriden by variants)
-	c_typed_tag_reference<DIALOGUE_TAG> primary_dialogue;
+	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> primary_dialogue;
 
 	// The default FEMALE dialogue tag for this model (overriden by variants)
-	c_typed_tag_reference<DIALOGUE_TAG> secondary_dialogue;
+	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> secondary_dialogue;
 
 	c_flags<e_model_definition_flags, dword, k_model_definition_flags> flags;
 
@@ -163,8 +163,8 @@ struct s_model_definition
 
 	// Regular and 1st person shield impact effect overrides
 
-	c_typed_tag_reference<SHIELD_IMPACT_TAG> shield_impact_parameter_override;
-	c_typed_tag_reference<SHIELD_IMPACT_TAG> first_person_shield_impact_parameter_override;
+	c_typed_tag_reference<SHIELD_IMPACT_TAG, INVALID_TAG> shield_impact_parameter_override;
+	c_typed_tag_reference<SHIELD_IMPACT_TAG, INVALID_TAG> first_person_shield_impact_parameter_override;
 	s_tag_reference overshield_parameter_override;
 	s_tag_reference first_person_overshield_parameter_override;
 };
@@ -275,7 +275,7 @@ struct s_model_variant_state
 	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> state;
 
 	// played while the model is in this state
-	c_typed_tag_reference<EFFECT_TAG> looping_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> looping_effect;
 
 	c_string_id looping_effect_marker_name;
 	real_fraction initial_probability;
@@ -290,7 +290,7 @@ struct s_model_variant_object
 	// optional
 	c_string_id child_variant_name;
 
-	c_typed_tag_reference<OBJECT_TAG> child_object;
+	c_typed_tag_reference<OBJECT_TAG, INVALID_TAG> child_object;
 };
 static_assert(sizeof(s_model_variant_object) == 0x1C);
 
@@ -434,9 +434,9 @@ struct s_model_damage_info
 
 		real shield_damaged_threshold;
 
-		c_typed_tag_reference<EFFECT_TAG> shield_damaged_effect;
-		c_typed_tag_reference<EFFECT_TAG> shield_depleted_effect;
-		c_typed_tag_reference<EFFECT_TAG> shield_recharging_effect;
+		c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> shield_damaged_effect;
+		c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> shield_depleted_effect;
+		c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> shield_recharging_effect;
 
 	} shield;
 

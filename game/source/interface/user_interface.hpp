@@ -8,7 +8,7 @@
 
 struct s_user_interface_widget_reference
 {
-	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG> widget_tag;
+	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG, INVALID_TAG> widget_tag;
 };
 static_assert(sizeof(s_user_interface_widget_reference) == sizeof(s_tag_reference));
 
@@ -18,15 +18,15 @@ struct s_user_interface_tag_globals
 
 	// Shared Globals
 	// This is a reference to the ui shared globals tag
-	c_typed_tag_reference<USER_INTERFACE_SHARED_GLOBALS_DEFINITION_TAG> shared_globals;
+	c_typed_tag_reference<USER_INTERFACE_SHARED_GLOBALS_DEFINITION_TAG, INVALID_TAG> shared_globals;
 
 	// Multiplayer Variant Settings Interface
 	// This blob defines the ui for setting multiplayer game variant parameters
-	c_typed_tag_reference<MULTIPLAYER_VARIANT_SETTINGS_INTERFACE_DEFINITION_TAG> mp_variant_settings_ui;
+	c_typed_tag_reference<MULTIPLAYER_VARIANT_SETTINGS_INTERFACE_DEFINITION_TAG, INVALID_TAG> mp_variant_settings_ui;
 
 	// Game Hopper Localization Strings
 	// This is for the loc game hopper strings
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> game_hopper_descriptions;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> game_hopper_descriptions;
 
 	// Screen Widgets
 	// These are the HaloX screen widgets
@@ -34,7 +34,7 @@ struct s_user_interface_tag_globals
 
 	// Render Textures
 	// These are Saber tags
-	c_typed_tag_reference<TEXTURE_RENDER_LIST_TAG> texture_render_list;
+	c_typed_tag_reference<TEXTURE_RENDER_LIST_TAG, INVALID_TAG> texture_render_list;
 };
 static_assert(sizeof(s_user_interface_tag_globals) == 0x4C);
 
@@ -60,13 +60,13 @@ struct s_user_interface_shared_globals
 
 	// Global Text Strings
 	// Global UI Text goes here
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> unicode_string_list_tag;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> unicode_damage_reporting_string_list_tag;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> unicode_input_string_list_tag;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_string_list_tag;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_damage_reporting_string_list_tag;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_input_string_list_tag;
 
 	// Main menu music
 	// Looping sound that plays while the main menu is active
-	c_typed_tag_reference<SOUND_LOOPING_TAG> main_menu_music;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> main_menu_music;
 	long music_fade_time; // milliseconds
 
 	// Default Text and Shadow Colors
@@ -86,7 +86,7 @@ struct s_user_interface_shared_globals
 
 	// User interface sounds
 	// Default sound effects for various UI actions
-	c_typed_tag_reference<USER_INTERFACE_SOUNDS_DEFINITION_TAG> default_sounds;
+	c_typed_tag_reference<USER_INTERFACE_SOUNDS_DEFINITION_TAG, INVALID_TAG> default_sounds;
 
 	// HaloX Alerts
 	// Alerts are triggered by specific events that happen in the game.

@@ -37,12 +37,12 @@ struct _item_definition
 	c_string_id switch_to_msg;
 	c_string_id switch_to_from_ai_msg;
 	c_string_id notify_empty_msg;
-	c_typed_tag_reference<SOUND_TAG> collision_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> collision_sound;
 	c_typed_tag_block<s_predicted_bitmaps> predicted_bitmaps;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> detonation_damage_effect;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> detonation_damage_effect;
 	real_bounds detonation_delay; // seconds
-	c_typed_tag_reference<EFFECT_TAG> detonating_effect;
-	c_typed_tag_reference<EFFECT_TAG> detonation_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonating_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_effect;
 
 
 	// Item scale settings
@@ -86,7 +86,7 @@ static_assert(sizeof(item_definition) == sizeof(_object_definition) + sizeof(_it
 
 struct s_predicted_bitmaps
 {
-	c_typed_tag_reference<BITMAP_TAG> bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> bitmap;
 
 	void update_reference_names();
 };

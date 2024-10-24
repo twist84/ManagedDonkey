@@ -106,7 +106,7 @@ static_assert(sizeof(structure_edge_to_seam_edge_mapping) == 0x4);
 
 struct structure_collision_material
 {
-	c_typed_tag_reference<RENDER_METHOD_TAG> render_method; // old shader
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> render_method; // old shader
 	short runtime_global_material_index;
 	short conveyor_surface_index;
 	short seam_mapping_index;

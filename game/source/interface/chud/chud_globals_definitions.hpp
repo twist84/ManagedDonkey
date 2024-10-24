@@ -52,9 +52,9 @@ struct s_chud_globals_definition
 	c_typed_tag_block<s_player_training_entry_data> player_training_data;
 
 	// Miscellany
-	c_typed_tag_reference<BITMAP_TAG> metagame_emblems;
-	c_typed_tag_reference<BITMAP_TAG> metagame_medals;
-	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG> metagame_medal_animation;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_emblems;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_medals;
+	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> metagame_medal_animation;
 	short metagame_medal_basis;
 	byte __pad6E[0x2];
 	real metagame_medal_scale;
@@ -63,7 +63,7 @@ struct s_chud_globals_definition
 	real metagame_medal_vertical_offset;
 	real metagame_scoreboard_primary_height;
 	real metagame_scoreboard_other_height;
-	c_typed_tag_reference<BITMAP_TAG> directional_damage_microtexture;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> directional_damage_microtexture;
 	real directional_damage_micro_scale;
 
 	// Motion Sensor
@@ -73,10 +73,10 @@ struct s_chud_globals_definition
 	real max_age_size;
 	real size_power;
 	real alpha_power;
-	c_typed_tag_reference<BITMAP_TAG> blip_texture_reference;
-	c_typed_tag_reference<EFFECT_TAG> grunt_birthday_effect;
-	c_typed_tag_reference<BITMAP_TAG> tentacle_porn;
-	c_typed_tag_reference<BITMAP_TAG> flood_goo;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> blip_texture_reference;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> grunt_birthday_effect;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> tentacle_porn;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> flood_goo;
 	real motion_sensor_level_height_range;
 	real shield_minor_threshold;
 	real shield_major_threshold;
@@ -99,7 +99,7 @@ struct s_chud_globals_definition
 	real sprint_fov_transition_in_time;
 	real sprint_fov_transition_out_time;
 
-	c_typed_tag_reference<CHUD_WIDGET_PARALLAX_DATA_TAG> parallax_data;
+	c_typed_tag_reference<CHUD_WIDGET_PARALLAX_DATA_TAG, INVALID_TAG> parallax_data;
 
 	struct
 	{
@@ -111,7 +111,7 @@ struct s_chud_globals_definition
 		c_function_definition roll;
 	} camera_shake[2];
 
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> survival_mode_multiplayer_intro;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> survival_mode_multiplayer_intro;
 	real achievement_toast_time; // seconds
 
 	void update_reference_names();
@@ -160,10 +160,10 @@ struct s_chud_curvature_info
 	real global_safe_frame_vertical;
 	real safe_frame_horizontal_ding;
 	real safe_frame_vertical_ding;
-	c_typed_tag_reference<BITMAP_TAG> health_effect;
-	c_typed_tag_reference<BITMAP_TAG> third_person_health_effect;
-	c_typed_tag_reference<BITMAP_TAG> shield_effect;
-	c_typed_tag_reference<BITMAP_TAG> third_person_shield_effect;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> health_effect;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> third_person_health_effect;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> shield_effect;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> third_person_shield_effect;
 
 	real state_message_scale;
 	real_point2d state_message_offset;
@@ -244,7 +244,7 @@ struct s_chud_sound_character_definition
 	// pad
 	byte HKJNCIUW[0x3];
 
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> sound;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> sound;
 
 	void update_reference_names();
 };
@@ -320,17 +320,17 @@ struct s_chud_skin_info
 	argb_color power_item_outline;
 	c_typed_tag_block<s_chud_curvature_info> curvature_infos;
 	c_typed_tag_block<chud_sound_element_definition> hud_sounds;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> banned_vehicle_entrance_sound;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> grenade_switch_frag;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> grenade_switch_plasma;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> grenade_switch_claymore;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> grenade_switch_firebomb;
-	c_typed_tag_reference<BITMAP_TAG> microtexture_reference;
-	c_typed_tag_reference<BITMAP_TAG> noise_texture_reference;
-	c_typed_tag_reference<BITMAP_TAG> damage_arrow_reference;
-	c_typed_tag_reference<BITMAP_TAG> grenade_waypoint_reference;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> banned_vehicle_entrance_sound;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> grenade_switch_frag;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> grenade_switch_plasma;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> grenade_switch_claymore;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> grenade_switch_firebomb;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> microtexture_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> noise_texture_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> damage_arrow_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> grenade_waypoint_reference;
 
-	c_typed_tag_reference<BITMAP_TAG> unknown_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> unknown_reference;
 
 	real direction_damage_duration_modifier;
 	real direction_damage_hide_angle;
@@ -340,22 +340,22 @@ struct s_chud_skin_info
 	real __unknown160;
 	real __unknown164;
 
-	c_typed_tag_reference<BITMAP_TAG> navpoints_reference;
-	c_typed_tag_reference<BITMAP_TAG> player_navpoints_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> mini_scoreboard_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> meta_scoreboard_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> survival_scoreboard_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> null_scoreboard_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> saved_film_reference;
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> sandbox_reference;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> chud_text;
-	c_typed_tag_reference<BITMAP_TAG> medals_texture_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> navpoints_reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> player_navpoints_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> mini_scoreboard_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> meta_scoreboard_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> survival_scoreboard_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> null_scoreboard_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> saved_film_reference;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> sandbox_reference;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> chud_text;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> medals_texture_reference;
 	c_typed_tag_block<s_chud_medal_name> medal_names;
-	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG> multiplayer_medal_animation;
-	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG> medal_animation;
-	c_typed_tag_reference<BITMAP_TAG> test_bitmap[3];
-	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG> jammer_damage;
-	c_typed_tag_reference<SOUND_TAG> jammer_damage_sound;
+	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> multiplayer_medal_animation;
+	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> medal_animation;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> test_bitmap[3];
+	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> jammer_damage;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> jammer_damage_sound;
 	s_chud_config_info config_info;
 	real waypoint_minimum_distance_scale;
 	real waypoint_maximum_distance_scale;
@@ -367,8 +367,8 @@ static_assert(sizeof(s_chud_skin_info) == 0x2B0);
 
 struct s_chud_shader
 {
-	c_typed_tag_reference<VERTEX_SHADER_TAG> vertex_shader;
-	c_typed_tag_reference<PIXEL_SHADER_TAG> pixel_shader;
+	c_typed_tag_reference<VERTEX_SHADER_TAG, INVALID_TAG> vertex_shader;
+	c_typed_tag_reference<PIXEL_SHADER_TAG, INVALID_TAG> pixel_shader;
 
 	void update_reference_names();
 };
@@ -418,7 +418,7 @@ struct s_cortana_effect_heading_config
 	real_bounds translation_scale_x;
 	real_bounds translation_scale_y;
 
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> sound_reference;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> sound_reference;
 
 	void update_reference_names();
 };

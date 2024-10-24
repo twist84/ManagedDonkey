@@ -20,7 +20,7 @@ struct s_ai_globals_definition
 	real danger_exetended_shield_damage;
 	real danger_body_damage;
 	real danger_extended_body_damage;
-	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG> global_dialogue_tag;
+	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG, INVALID_TAG> global_dialogue_tag;
 	c_string_id default_mission_dialogue_sound_effect;
 	real jump_down;
 	real jump_step;
@@ -108,7 +108,7 @@ static_assert(sizeof(s_ai_globals_gravemind_definition) == 0xC);
 
 struct s_ai_globals_styles_definition
 {
-	c_typed_tag_reference<STYLE_TAG> style;
+	c_typed_tag_reference<STYLE_TAG, INVALID_TAG> style;
 
 	void update_reference_names();
 };
@@ -116,7 +116,7 @@ static_assert(sizeof(s_ai_globals_styles_definition) == 0x10);
 
 struct s_ai_globals_formation_definition
 {
-	c_typed_tag_reference<FORMATION_TAG> formation;
+	c_typed_tag_reference<FORMATION_TAG, INVALID_TAG> formation;
 
 	void update_reference_names();
 };
@@ -124,7 +124,7 @@ static_assert(sizeof(s_ai_globals_formation_definition) == 0x10);
 
 struct s_ai_globals_squad_template_definition
 {
-	c_typed_tag_reference<SQUAD_TEMPLATE_TAG> squad_template;
+	c_typed_tag_reference<SQUAD_TEMPLATE_TAG, INVALID_TAG> squad_template;
 
 	void update_reference_names();
 };

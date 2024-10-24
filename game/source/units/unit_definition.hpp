@@ -8,7 +8,7 @@
 
 struct s_unit_camera_track
 {
-	c_typed_tag_reference<CAMERA_TRACK_TAG> track;
+	c_typed_tag_reference<CAMERA_TRACK_TAG, INVALID_TAG> track;
 
 	void update_reference_names();
 };
@@ -84,15 +84,15 @@ static_assert(sizeof(s_unit_additional_node_names) == sizeof(string_id));
 
 struct s_unit_boarding_melee
 {
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> boarding_melee_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> boarding_melee_response;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> eviction_melee_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> eviction_melee_response;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> landing_melee_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> flurry_melee_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> obstacle_smash_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> assassination_primary_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> assassination_ragdoll_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> boarding_melee_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> boarding_melee_response;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> eviction_melee_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> eviction_melee_response;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> landing_melee_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> flurry_melee_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> obstacle_smash_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> assassination_primary_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> assassination_ragdoll_damage;
 
 	void update_reference_names();
 };
@@ -100,7 +100,7 @@ static_assert(sizeof(s_unit_boarding_melee) == sizeof(s_tag_reference) * 9);
 
 struct s_unit_boost
 {
-	c_typed_tag_reference<COLLISION_DAMAGE_TAG> boost_collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> boost_collision_damage;
 	real boost_peak_power;
 	real boost_rise_power;
 	real boost_peak_time;
@@ -210,9 +210,9 @@ struct _unit_definition
 	c_flags<e_unit_definition_flags, dword_flags, k_unit_definition_flags> flags;
 	c_enum<e_unit_default_teams, short, _unit_default_teams_default, k_unit_default_teams_count> default_team;
 	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
-	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG> hologram_unit_reference;
+	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG, INVALID_TAG> hologram_unit_reference;
 	c_typed_tag_block<s_campaign_metagame_bucket> campaign_metagame_bucket;
-	c_typed_tag_reference<EFFECT_TAG> integrated_light_toggle;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> integrated_light_toggle;
 	angle camera_field_of_view; // degrees
 	real camera_stiffness;
 	s_unit_camera unit_camera;
@@ -220,8 +220,8 @@ struct _unit_definition
 	// sync action camera fields
 	s_unit_camera sync_action_camera;
 
-	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG> assasination_start_damage_response;
-	c_typed_tag_reference<WEAPON_TAG> assassination_weapon;
+	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> assasination_start_damage_response;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> assassination_weapon;
 
 	// the anchor we attach the knife to when we stow it
 	c_string_id assassination_weapon_stow_marker;
@@ -251,7 +251,7 @@ struct _unit_definition
 	real feign_repeat_chance; // [0,1]
 
 	// automatically created character when this unit is driven
-	c_typed_tag_reference<CHARACTER_TAG> spawned_turret_character;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> spawned_turret_character;
 
 	// number of actors which we spawn
 	int16_bounds spawned_actor_count;
@@ -274,7 +274,7 @@ struct _unit_definition
 	c_string_id left_hand_node;
 
 	s_unit_additional_node_names more_damn_nodes;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> melee_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> melee_damage;
 	s_unit_boarding_melee your_momma;
 	c_enum<e_global_chud_blip_type, short, _global_chud_blip_type_medium, k_global_chud_blip_type_count> motion_sensor_blip_size;
 	c_enum<e_unit_item_owner_size, short, _unit_item_owner_size_small, k_unit_item_owner_size_count> item_owner_size;
@@ -296,7 +296,7 @@ struct _unit_definition
 
 	// EMP Disabling
 	real emp_disabled_time; // seconds
-	c_typed_tag_reference<EFFECT_TAG> emp_disabled_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> emp_disabled_effect;
 
 	// Boost
 	s_unit_boost boost;
@@ -305,8 +305,8 @@ struct _unit_definition
 	s_unit_lipsync_scales lipsync;
 
 	// Exit and Detach
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> exit_and_detach_damage;
-	c_typed_tag_reference<WEAPON_TAG> exit_and_detach_weapon;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> exit_and_detach_damage;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> exit_and_detach_weapon;
 
 	void update_reference_names();
 };
@@ -332,7 +332,7 @@ static_assert(sizeof(s_posture_definition) == 0x10);
 
 struct unit_hud_reference
 {
-	c_typed_tag_reference<CHUD_DEFINITION_TAG> chud_interface;
+	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> chud_interface;
 
 	void update_reference_names();
 };
@@ -342,7 +342,7 @@ struct dialogue_variant_definition
 {
 	short variant_number;
 	byte BQCVEMF[2]; // pad
-	c_typed_tag_reference<DIALOGUE_TAG> dialogue;
+	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 
 	void update_reference_names();
 };
@@ -357,7 +357,7 @@ static_assert(sizeof(powered_seat_definition) == 0x8);
 
 struct unit_initial_weapon
 {
-	c_typed_tag_reference<WEAPON_TAG> weapon;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon;
 
 	void update_reference_names();
 };
@@ -375,8 +375,8 @@ struct s_target_tracking_parameters
 	real acquire_time;
 	real grace_time;
 	real decay_time;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> tracking_sound;
-	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG> locked_sound;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> tracking_sound;
+	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> locked_sound;
 
 	void update_reference_names();
 };
@@ -477,7 +477,7 @@ struct unit_seat
 
 	angle yaw_minimum;
 	angle yaw_maximum;
-	c_typed_tag_reference<CHARACTER_TAG> built_in_gunner;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> built_in_gunner;
 
 	// entry fields
 	// note: the entry radius shouldn't exceed 3 world units,

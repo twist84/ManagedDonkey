@@ -5,7 +5,7 @@
 
 struct cinematics_globals_block
 {
-	c_typed_tag_reference<SCENERY_TAG> cinematic_anchor_reference;
+	c_typed_tag_reference<SCENERY_TAG, INVALID_TAG> cinematic_anchor_reference;
 	real cinematic_film_aperture;
 	real subtitles_screen_position;
 
@@ -15,7 +15,7 @@ static_assert(sizeof(cinematics_globals_block) == 0x18);
 
 struct s_cinematic_reference
 {
-	c_typed_tag_reference<CINEMATIC_TAG> name;
+	c_typed_tag_reference<CINEMATIC_TAG, INVALID_TAG> name;
 };
 static_assert(sizeof(s_cinematic_reference) == sizeof(s_tag_reference));
 

@@ -68,7 +68,7 @@ struct s_vision_mode_definition
 	// falloff for flying_camera
 	s_vision_mode_ping_falloff ping_falloff[3];
 
-	c_typed_tag_reference<SOUND_TAG> ping_start_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> ping_start_sound;
 
 	// WEAPONS EQUIPMENT VEHICLES AND DEVICES
 	// FRIENDLY BIPEDS
@@ -79,11 +79,11 @@ struct s_vision_mode_definition
 
 	// MASK BITMAP
 	// masks the area on screen where the vision mode appears
-	c_typed_tag_reference<BITMAP_TAG> mask_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> mask_bitmap;
 
 	// CAMERA FX OVERALY
 	// allows override of camera fx settings when vision mode is on
-	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> camera_fx_overlay;
+	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG, INVALID_TAG> camera_fx_overlay;
 
 	void update_reference_names();
 };

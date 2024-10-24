@@ -292,8 +292,8 @@ struct s_equipment_type_invincibility_mode
 
 	real shield_recharge_time; // seconds
 
-	c_typed_tag_reference<EFFECT_TAG> activation_effect;
-	c_typed_tag_reference<EFFECT_TAG> attached_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> activation_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> attached_effect;
 
 	void update_reference_names();
 };
@@ -411,8 +411,8 @@ static_assert(sizeof(s_equipment_type_bomb_run) == 0x34);
 
 struct s_equipment_type_armor_lock
 {
-	c_typed_tag_reference<COLLISION_DAMAGE_TAG> collision_damage;
-	c_typed_tag_reference<COLLISION_DAMAGE_TAG> friendly_collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> friendly_collision_damage;
 
 	void update_reference_names();
 };
@@ -421,8 +421,8 @@ static_assert(sizeof(s_equipment_type_armor_lock) == 0x20);
 struct s_equipment_type_adrenaline
 {
 	real sprint_restore;
-	c_typed_tag_reference<EFFECT_TAG> activation_effect;
-	c_typed_tag_reference<EFFECT_TAG> active_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> activation_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> active_effect;
 
 	void update_reference_names();
 };
@@ -466,7 +466,7 @@ static_assert(sizeof(s_equipment_type_weapon_jammer) == 0x24);
 struct s_equipment_type_ammo_pack_weapon
 {
 	c_string_id name;
-	c_typed_tag_reference<WEAPON_TAG> weapon;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon;
 	long clip_size;
 
 	void update_reference_names();

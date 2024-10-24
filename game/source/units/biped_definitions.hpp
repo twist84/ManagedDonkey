@@ -203,7 +203,7 @@ struct _biped_definition
 	// 0 defaults to the standard acceleration scale
 	real head_shot_acc_scale;
 
-	c_typed_tag_reference<EFFECT_TAG> area_damage_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> area_damage_effect;
 	c_typed_tag_block<s_biped_movement_gate> movement_gates;
 	c_typed_tag_block<s_biped_movement_gate> movement_gates_crouching;
 	real jump_aim_offset_distance; // world units
@@ -218,13 +218,13 @@ struct _biped_definition
 	c_typed_tag_block<biped_contact_point> contact_points;
 
 	// when the flood reanimate this guy, he turns into a ...
-	c_typed_tag_reference<CHARACTER_TAG> reanimation_character;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> reanimation_character;
 
 	// the kind of muffins I create to cover my horrible transformation
-	c_typed_tag_reference<MUFFIN_TAG> reanimation_morph_muffins;
+	c_typed_tag_reference<MUFFIN_TAG, INVALID_TAG> reanimation_morph_muffins;
 
 	// when I die, out of the ashes of my death crawls a ...
-	c_typed_tag_reference<CHARACTER_TAG> death_spawn_character;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> death_spawn_character;
 
 	short death_spawn_count;
 	byte TQYQEWG[2]; // pad

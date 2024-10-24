@@ -147,28 +147,28 @@ struct s_multiplayer_object_properties_definition
 
 	// SPAWNED OBJECT
 	// If this object is intended to spawn something, the object it spawns should be specified here
-	c_typed_tag_reference<OBJECT_TAG> spawned_object;
+	c_typed_tag_reference<OBJECT_TAG, INVALID_TAG> spawned_object;
 	c_string_id nyi_boundary_material;
 
 	// BOUNDARY SHADER - DEFAULT
 	// These are default shaders used for boundary geometry
-	c_typed_tag_reference<RENDER_METHOD_TAG> boundary_standard_shader;
-	c_typed_tag_reference<RENDER_METHOD_TAG> boundary_opaque_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> boundary_standard_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> boundary_opaque_shader;
 
 	// BOUNDARY SHADER - SPHERE
 	// These are custom shaders used for spherical boundary geometry
-	c_typed_tag_reference<RENDER_METHOD_TAG> sphere_standard_shader;
-	c_typed_tag_reference<RENDER_METHOD_TAG> sphere_opaque_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> sphere_standard_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> sphere_opaque_shader;
 
 	// BOUNDARY SHADER - CYLINDER
 	// These are custom shaders used for cylindrical boundary geometry
-	c_typed_tag_reference<RENDER_METHOD_TAG> cylinder_standard_shader;
-	c_typed_tag_reference<RENDER_METHOD_TAG> cylinder_opaque_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> cylinder_standard_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> cylinder_opaque_shader;
 
 	// BOUNDARY SHADER - BOX
 	// These are custom shaders used for box boundary geometry
-	c_typed_tag_reference<RENDER_METHOD_TAG> box_standard_shader;
-	c_typed_tag_reference<RENDER_METHOD_TAG> box_opaque_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> box_standard_shader;
+	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> box_opaque_shader;
 
 	void update_reference_names();
 };

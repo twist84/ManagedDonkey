@@ -145,20 +145,20 @@ struct _object_definition
 	real_point3d dynamic_light_sphere_offset;
 
 	c_string_id default_model_variant;
-	c_typed_tag_reference<MODEL_TAG> model;
-	c_typed_tag_reference<CRATE_TAG> crate_object;
+	c_typed_tag_reference<MODEL_TAG, INVALID_TAG> model;
+	c_typed_tag_reference<CRATE_TAG, INVALID_TAG> crate_object;
 
 	// only set this tag if you want to override the default collision damage values in globals.globals
-	c_typed_tag_reference<COLLISION_DAMAGE_TAG> collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> collision_damage;
 
 	c_typed_tag_block<s_object_early_mover_obb_definition> early_mover_obb;
-	c_typed_tag_reference<EFFECT_TAG> creation_effect;
-	c_typed_tag_reference<MATERIAL_EFFECTS_TAG> material_effects;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> creation_effect;
+	c_typed_tag_reference<MATERIAL_EFFECTS_TAG, INVALID_TAG> material_effects;
 	s_tag_reference armor_sounds;
 
 	// this is the sound that is made when I am meleed.
 	// This overrides the sweetener sound of my material.
-	c_typed_tag_reference<SOUND_TAG> melee_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> melee_sound;
 
 	c_typed_tag_block<object_ai_properties> ai_properties;
 	c_typed_tag_block<s_object_function_definition> functions;
@@ -306,7 +306,7 @@ enum e_global_object_change_color
 struct object_attachment_definition
 {
 	c_flags<e_object_attachment_flags, int32_t, k_object_attachment_flags> flags;
-	c_typed_tag_reference<LIGHT_TAG, EFFECT_TAG, SOUND_LOOPING_TAG, LENS_FLARE_TAG> type;
+	c_typed_tag_reference<LIGHT_TAG, EFFECT_TAG, SOUND_LOOPING_TAG, LENS_FLARE_TAG, INVALID_TAG> type;
 	c_string_id marker; // old string id
 
 	c_enum<e_global_object_change_color, short, _global_object_change_color_none, k_global_object_change_color_count> change_color;
@@ -320,7 +320,7 @@ static_assert(sizeof(object_attachment_definition) == 0x24);
 
 struct object_definition_widget
 {
-	c_typed_tag_reference<ANTENNA_TAG, CELLULAR_AUTOMATA_TAG, CELLULAR_AUTOMATA2D_TAG, STEREO_SYSTEM_TAG> type;
+	c_typed_tag_reference<ANTENNA_TAG, CELLULAR_AUTOMATA_TAG, CELLULAR_AUTOMATA2D_TAG, STEREO_SYSTEM_TAG, INVALID_TAG> type;
 
 	void update_reference_names();
 };
@@ -374,7 +374,7 @@ static_assert(sizeof(object_node_map_defintion) == 0x1);
 
 struct s_object_health_pack_definition
 {
-	c_typed_tag_reference<EQUIPMENT_TAG> health_pack_equipment;
+	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> health_pack_equipment;
 
 	void update_reference_names();
 };

@@ -39,7 +39,7 @@ static_assert(sizeof(s_player_spawn_influence) == 0x14);
 
 struct s_weapon_spawn_influence
 {
-	c_typed_tag_reference<WEAPON_TAG> weapon;
+	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon;
 	real full_weight_range;
 	real fall_off_range;
 	real fall_off_cone_radius;
@@ -51,7 +51,7 @@ static_assert(sizeof(s_weapon_spawn_influence) == 0x20);
 
 struct s_vehicle_spawn_influence
 {
-	c_typed_tag_reference<VEHICLE_TAG> vehicle;
+	c_typed_tag_reference<VEHICLE_TAG, INVALID_TAG> vehicle;
 	real pill_radius;
 	real lead_time;
 	real minimum_velocity;
@@ -63,7 +63,7 @@ static_assert(sizeof(s_vehicle_spawn_influence) == 0x20);
 
 struct s_projectile_spawn_influence
 {
-	c_typed_tag_reference<PROJECTILE_TAG> projectile;
+	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> projectile;
 	real lead_time;
 	real collision_cylinder_radius;
 	real weight;
@@ -74,7 +74,7 @@ static_assert(sizeof(s_projectile_spawn_influence) == 0x1C);
 
 struct s_equipment_spawn_influence
 {
-	c_typed_tag_reference<EQUIPMENT_TAG> equipment;
+	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> equipment;
 	real weight;
 
 	void update_reference_names();

@@ -63,22 +63,22 @@ enum e_game_engine_sound_response_flags
 
 struct s_sound_response_extra_sounds_definition
 {
-	c_typed_tag_reference<SOUND_TAG> japanese_sound;
-	c_typed_tag_reference<SOUND_TAG> german_sound;
-	c_typed_tag_reference<SOUND_TAG> french_sound;
-	c_typed_tag_reference<SOUND_TAG> spanish_sound;
-	c_typed_tag_reference<SOUND_TAG> mexican_sound;
-	c_typed_tag_reference<SOUND_TAG> italian_sound;
-	c_typed_tag_reference<SOUND_TAG> korean_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> japanese_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> german_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> french_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> spanish_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> mexican_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> italian_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> korean_sound;
 
 	// Note on Chinese audio
 	// Although text is different between simplified and traditional Chinese, audio should be the same.
 	// Cantonese? Mandarin? I don't know. I'm a gwailo.
-	c_typed_tag_reference<SOUND_TAG> chinese_sound_traditional;
-	c_typed_tag_reference<SOUND_TAG> chinese_sound_simplified;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> chinese_sound_traditional;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> chinese_sound_simplified;
 
-	c_typed_tag_reference<SOUND_TAG> portuguese_sound;
-	c_typed_tag_reference<SOUND_TAG> russian_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> portuguese_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> russian_sound;
 
 	void update_reference_names();
 };
@@ -88,7 +88,7 @@ struct s_multiplayer_event_sound_response_definition
 {
 	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
 	byte AGQD[0x2]; // pad
-	c_typed_tag_reference<SOUND_TAG> english_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> english_sound;
 	s_sound_response_extra_sounds_definition extra_sounds;
 	real probability;
 
@@ -122,7 +122,7 @@ struct s_multiplayer_event_response_definition
 	// inlined `s_multiplayer_event_sound_response_definition`
 	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
 	byte PDHM[0x2]; // pad
-	c_typed_tag_reference<SOUND_TAG> sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound;
 	s_sound_response_extra_sounds_definition extra_sounds;
 	real probability;
 

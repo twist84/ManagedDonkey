@@ -67,23 +67,23 @@ enum e_materials_sweeteners_inheritance_flags
 
 struct s_global_material_sweeteners_definition
 {
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_small;
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_medium;
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_large;
-	c_typed_tag_reference<SOUND_LOOPING_TAG> sound_sweetener_rolling;
-	c_typed_tag_reference<SOUND_LOOPING_TAG> sound_sweetener_grinding;
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_melee_small;
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_melee;
-	c_typed_tag_reference<SOUND_TAG> sound_sweetener_melee_large;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_small;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_medium;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_large;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_rolling;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_grinding;
-	c_typed_tag_reference<EFFECT_TAG> effect_sweetener_melee;
-	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG> water_ripple_small;
-	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG> water_ripple_medium;
-	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG> water_ripple_large;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_small;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_medium;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_large;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> sound_sweetener_rolling;
+	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> sound_sweetener_grinding;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_melee_small;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_melee;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound_sweetener_melee_large;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_small;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_medium;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_large;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_rolling;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_grinding;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> effect_sweetener_melee;
+	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG, INVALID_TAG> water_ripple_small;
+	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG, INVALID_TAG> water_ripple_medium;
+	c_typed_tag_reference<RENDER_WATER_RIPPLE_TAG, INVALID_TAG> water_ripple_large;
 
 	// sweetener inheritance flags
 	// 
@@ -117,9 +117,9 @@ struct s_global_material_definition
 	c_string_id general_armor;
 	c_string_id specific_armor;
 	s_material_physics_properties_definition physics_properties;
-	c_typed_tag_reference<BREAKABLE_SURFACE_TAG> breakable_surface;
+	c_typed_tag_reference<BREAKABLE_SURFACE_TAG, INVALID_TAG> breakable_surface;
 	s_global_material_sweeteners_definition sweeteners;
-	c_typed_tag_reference<MATERIAL_EFFECTS_TAG> material_effects;
+	c_typed_tag_reference<MATERIAL_EFFECTS_TAG, INVALID_TAG> material_effects;
 	c_typed_tag_block<s_global_material_underwater_proxy> underwater_proxies_block;
 	c_string_id footsteps_in_rain_material_name; // When it's raining, use this as the footstep material
 	short runtime_rain_material_index;

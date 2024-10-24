@@ -107,7 +107,7 @@ struct s_vehicle_engine_definition
 	real engine_moment;
 	real engine_max_angular_velocity;
 	c_typed_tag_block<s_vehicle_gear_definition> gears;
-	c_typed_tag_reference<SOUND_TAG> gear_shift_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> gear_shift_sound;
 
 	void update_reference_names();
 };
@@ -642,10 +642,10 @@ struct _vehicle_definition
 
 	// sounds and effects
 
-	c_typed_tag_reference<SOUND_TAG> suspension_sound;
-	c_typed_tag_reference<EFFECT_TAG> special_effect;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG> driver_boost_damage_effect_or_response;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG> rider_boost_damage_effect_or_response;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> suspension_sound;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> special_effect;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> driver_boost_damage_effect_or_response;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> rider_boost_damage_effect_or_response;
 
 	void update_reference_names();
 };

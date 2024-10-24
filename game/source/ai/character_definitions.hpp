@@ -52,11 +52,11 @@ struct character_definition
 	static tag const k_group_tag = CHARACTER_TAG;
 
 	c_enum<e_character_flags, dword, _character_flag_flag1_bit, k_character_flags> character_flags;
-	c_typed_tag_reference<CHARACTER_TAG> parent_character;
-	c_typed_tag_reference<UNIT_TAG> unit;
-	c_typed_tag_reference<CREATURE_TAG> creature;
-	c_typed_tag_reference<STYLE_TAG> style;
-	c_typed_tag_reference<CHARACTER_TAG> major_character;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> parent_character;
+	c_typed_tag_reference<UNIT_TAG, INVALID_TAG> unit;
+	c_typed_tag_reference<CREATURE_TAG, INVALID_TAG> creature;
+	c_typed_tag_reference<STYLE_TAG, INVALID_TAG> style;
+	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> major_character;
 	c_typed_tag_block<character_variant> variants;
 	c_typed_tag_block<character_voice_properties> voice;
 	c_typed_tag_block<character_general_properties> general_properties;
@@ -100,7 +100,7 @@ static_assert(sizeof(character_definition) == 0x1F8);
 
 struct s_character_voice
 {
-	c_typed_tag_reference<DIALOGUE_TAG> dialogue;
+	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 	c_string_id designator;
 	real weight;
 };
@@ -423,7 +423,7 @@ struct character_engineer_properties
 	real proximity_detonation_chance;
 
 	// if target enters radius and detonation is not chosen, deploy this equipment.
-	c_typed_tag_reference<EQUIPMENT_TAG> proximity_equipment;
+	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> proximity_equipment;
 };
 static_assert(sizeof(character_engineer_properties) == 0x38);
 
@@ -492,7 +492,7 @@ static_assert(sizeof(character_equipment_definition) == 0x1);
 struct character_activity_objects
 {
 	c_string_id activity_name;
-	c_typed_tag_reference<CRATE_TAG> crate;
+	c_typed_tag_reference<CRATE_TAG, INVALID_TAG> crate;
 	c_string_id crate_marker_name;
 	c_string_id unit_marker_name;
 };

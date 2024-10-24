@@ -114,7 +114,7 @@ struct s_game_globals
 	// AI globals
 	// I have moved the ai globals out of this tag, and into its own tag which is referenced here.
 	c_typed_tag_block<s_ai_globals_definition, 'slap'> ai_globals; // DEPRECATED
-	c_typed_tag_reference<AI_GLOBALS_TAG> ai_globals_ref;
+	c_typed_tag_reference<AI_GLOBALS_TAG, INVALID_TAG> ai_globals_ref;
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
 	c_typed_tag_block<g_null_block> empty;
@@ -140,28 +140,28 @@ struct s_game_globals
 
 	static c_typed_tag_block<rgb_color> profile_colors;
 
-	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG> multiplayer_globals;
-	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG> survival_mode_globals;
+	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG, INVALID_TAG> multiplayer_globals;
+	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG, INVALID_TAG> survival_mode_globals;
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
 	c_typed_tag_block<s_campaign_metagame_globals> campaign_metagame_globals;
 
 	c_static_array<c_language_pack, k_language_count> language_packs;
 
 	// Rasterizer globals
-	c_typed_tag_reference<RASTERIZER_GLOBALS_TAG> rasterizer_globals_ref;
+	c_typed_tag_reference<RASTERIZER_GLOBALS_TAG, INVALID_TAG> rasterizer_globals_ref;
 
 	// Default camera fx settings
-	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> default_camera_fx_settings;
+	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG, INVALID_TAG> default_camera_fx_settings;
 
 	// halo online
-	c_typed_tag_reference<PODIUM_SETTINGS_TAG> podium_definition;
+	c_typed_tag_reference<PODIUM_SETTINGS_TAG, INVALID_TAG> podium_definition;
 
 	// Default wind settings
-	c_typed_tag_reference<WIND_TAG> default_wind_settings;
+	c_typed_tag_reference<WIND_TAG, INVALID_TAG> default_wind_settings;
 
 	// Default collision damage
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> collision_damage_effect;
-	c_typed_tag_reference<COLLISION_DAMAGE_TAG> collision_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> collision_damage_effect;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> collision_damage;
 
 	// global water material
 	// the default value for what material type water is
@@ -171,13 +171,13 @@ struct s_game_globals
 	// pad
 	byte pad_water_material[2];
 
-	c_typed_tag_reference<EFFECT_GLOBALS_TAG> effect_globals;
-	c_typed_tag_reference<GAME_PROGRESSION_TAG> game_progression;
-	c_typed_tag_reference<ACHIEVEMENTS_TAG> game_achievements;
+	c_typed_tag_reference<EFFECT_GLOBALS_TAG, INVALID_TAG> effect_globals;
+	c_typed_tag_reference<GAME_PROGRESSION_TAG, INVALID_TAG> game_progression;
+	c_typed_tag_reference<ACHIEVEMENTS_TAG, INVALID_TAG> game_achievements;
 
 	// halo online
 
-	c_typed_tag_reference<INPUT_GLOBALS_TAG> input_globals;
+	c_typed_tag_reference<INPUT_GLOBALS_TAG, INVALID_TAG> input_globals;
 
 	real biped_camo_reference;
 	real vehicle_camo_reference;
@@ -246,7 +246,7 @@ static_assert(sizeof(s_armor_modifier_definition) == 0x8);
 
 struct s_game_globals_havok_cleanup_resources
 {
-	c_typed_tag_reference<EFFECT_TAG> object_cleanup_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> object_cleanup_effect;
 
 	void update_reference_names();
 };
@@ -254,7 +254,7 @@ static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
 
 struct s_game_globals_camera
 {
-	c_typed_tag_reference<CAMERA_TRACK_TAG> default_unit_camera_track;
+	c_typed_tag_reference<CAMERA_TRACK_TAG, INVALID_TAG> default_unit_camera_track;
 
 	// CAMERA UNIVERSALS
 
@@ -483,13 +483,13 @@ static_assert(sizeof(s_game_globals_difficulty_information) == 0x284);
 struct s_game_globals_falling_damage
 {
 	real_bounds harmful_falling_distance; // world units
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> falling_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> jumping_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> soft_landing_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> hard_landing_damage;
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> hs_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> falling_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> jumping_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> soft_landing_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> hard_landing_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> hs_damage;
 	real maximum_falling_distance; // world units
-	c_typed_tag_reference<DAMAGE_EFFECT_TAG> distance_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> distance_damage;
 	real runtime_maximum_falling_velocity;
 	real_bounds runtime_damage_velocity_bounds;
 
@@ -501,10 +501,10 @@ struct s_game_globals_grenade
 {
 	short maximum_count;
 	byte GQGKOFEHN[0x2]; // pad, previously `short mp_spawn_default`
-	c_typed_tag_reference<EFFECT_TAG> throwing_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> throwing_effect;
 	byte TF[0x10]; // pad, previously `s_tag_reference hud_interface`
-	c_typed_tag_reference<EQUIPMENT_TAG> equipment; // pad, `s_tag_reference item`
-	c_typed_tag_reference<PROJECTILE_TAG> projectile;
+	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> equipment; // pad, `s_tag_reference item`
+	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> projectile;
 
 	void update_reference_names();
 };
@@ -514,30 +514,30 @@ struct s_game_globals_interface_tag_references
 {
 	struct gfx_ui_string_block;
 
-	c_typed_tag_reference<BITMAP_TAG> obsolete1; // spinner bitmap
-	c_typed_tag_reference<BITMAP_TAG> obsolete2;
-	c_typed_tag_reference<COLOR_TABLE_TAG> screen_color_table;
-	c_typed_tag_reference<COLOR_TABLE_TAG> hud_color_table;
-	c_typed_tag_reference<COLOR_TABLE_TAG> editor_color_table;
-	c_typed_tag_reference<COLOR_TABLE_TAG> dialog_color_table;
-	c_typed_tag_reference<BITMAP_TAG> motion_sensor_sweep_bitmap;
-	c_typed_tag_reference<BITMAP_TAG> motion_sensor_sweep_bitmap_mask;
-	c_typed_tag_reference<BITMAP_TAG> multiplayer_hud_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> obsolete1; // spinner bitmap
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> obsolete2;
+	c_typed_tag_reference<COLOR_TABLE_TAG, INVALID_TAG> screen_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG, INVALID_TAG> hud_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG, INVALID_TAG> editor_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG, INVALID_TAG> dialog_color_table;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> motion_sensor_sweep_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> motion_sensor_sweep_bitmap_mask;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> multiplayer_hud_bitmap;
 	s_tag_reference unused;
-	c_typed_tag_reference<BITMAP_TAG> motion_sensor_blip_bitmap;
-	c_typed_tag_reference<BITMAP_TAG> interface_goo_map1;
-	c_typed_tag_reference<BITMAP_TAG> interface_goo_map2;
-	c_typed_tag_reference<BITMAP_TAG> interface_goo_map3;
-	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> mainmenu_ui_globals;
-	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> singleplayer_ui_globals;
-	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> multiplayer_ui_globals;
-	c_typed_tag_reference<CHUD_GLOBALS_DEFINITION_TAG> chud_globals;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> motion_sensor_blip_bitmap;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> interface_goo_map1;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> interface_goo_map2;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> interface_goo_map3;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG, INVALID_TAG> mainmenu_ui_globals;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG, INVALID_TAG> singleplayer_ui_globals;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG, INVALID_TAG> multiplayer_ui_globals;
+	c_typed_tag_reference<CHUD_GLOBALS_DEFINITION_TAG, INVALID_TAG> chud_globals;
 	c_typed_tag_block<gfx_ui_string_block> gfx_ui_strings;
 
 	struct gfx_ui_string_block
 	{
 		c_static_string<k_tag_string_length> name;
-		c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> strings;
+		c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> strings;
 
 		void update_reference_names();
 	};
@@ -584,16 +584,16 @@ struct s_game_globals_player_information
 	// time to prevent player from melee attacking after being hit by damage that supports this (singleplayer only)
 	real melee_inhibit_time; // seconds
 
-	c_typed_tag_reference<SOUND_TAG> coop_countdown_sound;
-	c_typed_tag_reference<SOUND_TAG> coop_respawn_sound;
-	c_typed_tag_reference<EFFECT_TAG> coop_respawn_effect;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_countdown_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_respawn_sound;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> coop_respawn_effect;
 	long binoculars_zoom_count;
 	real_bounds binoculars_zoom_range;
 	real __unknown94;
 	real __unknown98;
-	c_typed_tag_reference<SOUND_TAG> flashlight_on;
-	c_typed_tag_reference<SOUND_TAG> flashlight_off;
-	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG> default_damage_response;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> flashlight_on;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> flashlight_off;
+	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> default_damage_response;
 
 	void update_reference_names();
 };

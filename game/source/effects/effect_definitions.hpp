@@ -114,7 +114,7 @@ enum e_effect_part_scaleable_values
 	k_effect_part_scaleable_values
 };
 
-using effect_part_definition_type_group_tags = c_typed_tag_reference<BEAM_SYSTEM_TAG, RENDER_WATER_RIPPLE_TAG, DAMAGE_EFFECT_TAG, SOUND_TAG, DECAL_SYSTEM_TAG, CONTRAIL_SYSTEM_TAG, LENS_FLARE_TAG, LIGHT_TAG, LIGHT_VOLUME_SYSTEM_TAG, AREA_SCREEN_EFFECT_TAG, CHARACTER_TAG, OBJECT_TAG>;
+using effect_part_definition_type_group_tags = c_typed_tag_reference<BEAM_SYSTEM_TAG, RENDER_WATER_RIPPLE_TAG, DAMAGE_EFFECT_TAG, SOUND_TAG, DECAL_SYSTEM_TAG, CONTRAIL_SYSTEM_TAG, LENS_FLARE_TAG, LIGHT_TAG, LIGHT_VOLUME_SYSTEM_TAG, AREA_SCREEN_EFFECT_TAG, CHARACTER_TAG, OBJECT_TAG, INVALID_TAG>;
 struct effect_part_definition
 {
 	c_enum<e_effect_environment, short, _effect_environment_any_environment, k_effect_environment_count> create_in;

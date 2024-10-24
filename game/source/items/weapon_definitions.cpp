@@ -21,6 +21,28 @@ void weapon_interface_definition_new::update_reference_names()
 	UPDATE_REFERENCE_NAME(chud_interface);
 }
 
+void s_weapon_magazine::update_reference_names()
+{
+	UPDATE_REFERENCE_NAME(reloading_effect);
+	UPDATE_REFERENCE_NAME(reloading_damage_effect);
+	UPDATE_REFERENCE_NAME(chambering_effect);
+	UPDATE_REFERENCE_NAME(chambering_damage_effect);
+}
+
+void weapon_trigger_definition::s_charging_fields::update_reference_names()
+{
+	UPDATE_REFERENCE_NAME(charging_effect);
+	UPDATE_REFERENCE_NAME(charging_damage_effect);
+	UPDATE_REFERENCE_NAME(charging_continuous_damage_response);
+	UPDATE_REFERENCE_NAME(discharge_effect);
+	UPDATE_REFERENCE_NAME(discharge_damage_effect);
+}
+
+void weapon_trigger_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(charging);
+}
+
 void _weapon_definition::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(ready_effect);
@@ -42,6 +64,9 @@ void _weapon_definition::update_reference_names()
 	UPDATE_REFERENCE_NAME(age_effect);
 	UPDATE_REFERENCE_NAME(age_weapon);
 	UPDATE_REFERENCE_NAME(age_material_effects);
+
+	UPDATE_BLOCK_REFERENCE_NAMES(magazines);
+	UPDATE_BLOCK_REFERENCE_NAMES(triggers);
 
 	UPDATE_STRUCT_REFERENCE_NAMES(melee_damage_parameters);
 }

@@ -174,11 +174,13 @@ struct s_weapon_magazine
 	// pad
 	byte P[0x10];
 
-	s_tag_reference reloading_effect;
-	s_tag_reference reloading_damage_effect;
-	s_tag_reference chambering_effect;
-	s_tag_reference chambering_damage_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> reloading_effect;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> reloading_damage_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> chambering_effect;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> chambering_damage_effect;
 	s_tag_block magazines;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_weapon_magazine) == 0x80);
 
@@ -275,22 +277,24 @@ struct weapon_trigger_definition
 		real spew_time; // seconds
 
 		// the charging effect is created once when the trigger begins to charge
-		s_tag_reference charging_effect;
+		c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> charging_effect;
 
 		// the charging effect is created once when the trigger begins to charge
-		s_tag_reference charging_damage_effect;
+		c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> charging_damage_effect;
 
 		// plays every tick you're charging or charged, scaled to charging fraction
-		s_tag_reference charging_continuous_damage_response;
+		c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> charging_continuous_damage_response;
 
 		// how much battery to drain per second when charged
 		real charged_drain_rate;
 
 		// the discharging effect is created once when the trigger releases its charge
-		s_tag_reference discharge_effect;
+		c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> discharge_effect;
 
 		// the discharging effect is created once when the trigger releases its charge
-		s_tag_reference discharge_damage_effect;
+		c_typed_tag_reference<DAMAGE_EFFECT_TAG, DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> discharge_damage_effect;
+
+		void update_reference_names();
 	};
 	static_assert(sizeof(s_charging_fields) == 0x68);
 
@@ -310,6 +314,8 @@ struct weapon_trigger_definition
 	real lock_on_hold_time;
 	real lock_on_acquire_time;
 	real lock_on_grace_time;
+
+	void update_reference_names();
 };
 static_assert(sizeof(weapon_trigger_definition) == 0x90);
 
