@@ -38,7 +38,6 @@ first_person_weapon* first_person_weapon_get(e_output_user_index output_user_ind
 
 long first_person_weapon_get_current_state_string(long unit_index, long weapon_slot)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(first_person_weapons);
 	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 	{
 		struct first_person_weapon* first_person_weapon = first_person_weapon_get(user_index);
