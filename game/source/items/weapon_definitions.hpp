@@ -182,11 +182,11 @@ struct s_weapon_magazine
 };
 static_assert(sizeof(s_weapon_magazine) == 0x80);
 
-enum e_weapon_trigger_flags
+enum e_weapon_trigger_definition_flags
 {
-	_weapon_trigger_autofire_single_action_only_bit = 0,
+	_weapon_trigger_definition_autofire_single_action_only_bit = 0,
 
-	k_weapon_trigger_flags
+	k_weapon_trigger_definition_flags
 };
 
 enum e_weapon_trigger_input
@@ -294,7 +294,7 @@ struct weapon_trigger_definition
 	};
 	static_assert(sizeof(s_charging_fields) == 0x68);
 
-	c_flags<e_weapon_trigger_flags, dword, k_weapon_trigger_flags> flags;
+	c_flags<e_weapon_trigger_definition_flags, dword, k_weapon_trigger_definition_flags> flags;
 	c_enum<e_weapon_trigger_input, short, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
 	c_enum<e_weapon_trigger_behavior, short, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
 	short primary_barrel;

@@ -362,49 +362,51 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 		long text_x_offset = (200 - screen_display.m_x) / screen_display.m_column_width;
 		long text_y_offset = (525 - screen_display.m_y) / screen_display.m_row_height;
 
-		char const* state_string = NULL;
-		switch (weapon->weapon.state)
+		char const* weapon_state_string = NULL;
+
+		e_weapon_state weapon_state = weapon->weapon.state;
+		switch (weapon_state)
 		{
-		case 0:
-			state_string = "idle";
+		case _weapon_state_idle:
+			weapon_state_string = "idle";
 			break;
-		case 1:
-			state_string = "fire_1";
+		case _weapon_state_fire_1:
+			weapon_state_string = "fire_1";
 			break;
-		case 2:
-			state_string = "fire_2";
+		case _weapon_state_fire_2:
+			weapon_state_string = "fire_2";
 			break;
-		case 3:
-			state_string = "chamber_1";
+		case _weapon_state_chamber_1:
+			weapon_state_string = "chamber_1";
 			break;
-		case 4:
-			state_string = "chamber_2";
+		case _weapon_state_chamber_2:
+			weapon_state_string = "chamber_2";
 			break;
-		case 5:
-			state_string = "reload_1";
+		case _weapon_state_reload_1:
+			weapon_state_string = "reload_1";
 			break;
-		case 6:
-			state_string = "reload_2";
+		case _weapon_state_reload_2:
+			weapon_state_string = "reload_2";
 			break;
-		case 7:
-			state_string = "charged_1";
+		case _weapon_state_charged_1:
+			weapon_state_string = "charged_1";
 			break;
-		case 8:
-			state_string = "charged_2";
+		case _weapon_state_charged_2:
+			weapon_state_string = "charged_2";
 			break;
-		case 9:
-			state_string = "ready";
+		case _weapon_state_ready:
+			weapon_state_string = "ready";
 			break;
-		case 10:
-			state_string = "put_away";
+		case _weapon_state_put_away:
+			weapon_state_string = "put_away";
 			break;
 		default:
-			state_string = "<unknown>";
+			weapon_state_string = "<unknown>";
 			break;
 		}
 
 		screen_display.draw(text_x_offset, text_y_offset++, NONE, "weapon(3P) state: %s timer: %d",
-			state_string,
+			weapon_state_string,
 			weapon->weapon.state_timer
 		);
 
@@ -433,8 +435,8 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 		}
 
 		screen_display.draw(text_x_offset, text_y_offset++, NONE, "flags: overheated: %s oh_exit: %s",
-			TEST_BIT(weapon->weapon.flags, 1) ? "y" : "n",
-			TEST_BIT(weapon->weapon.flags, 2) ? "y" : "n"
+			TEST_FLAG(weapon->weapon.flags, _weapon_overheated_bit) ? "y" : "n",
+			TEST_FLAG(weapon->weapon.flags, _weapon_overheated_exit_bit) ? "y" : "n"
 		);
 
 		long magazine_index = 0;
@@ -442,81 +444,80 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 		{
 			for (long trigger_index = 0; trigger_index < weapon_definition->weapon.triggers.count; trigger_index++)
 			{
-				weapon_trigger_definition* trigger = &weapon_definition->weapon.triggers[trigger_index];
-
+				weapon_trigger const& trigger = weapon->weapon.triggers[trigger_index];
 				ASSERT(trigger_index >= 0 && trigger_index < weapon_definition->weapon.triggers.count);
 
-				e_weapon_trigger_behavior behavior = trigger->behavior;
-
-				char const* trigger_behavior = NULL;
-				switch (behavior)
+				char const* trigger_behavior_string = NULL;
+				e_weapon_trigger_behavior trigger_behavior = weapon_definition->weapon.triggers[trigger_index].behavior;
+				switch (trigger_behavior)
 				{
 				case _weapon_trigger_behavior_spew:
-					trigger_behavior = "spew";
+					trigger_behavior_string = "spew";
 					break;
 				case _weapon_trigger_behavior_latch:
-					trigger_behavior = "latch";
+					trigger_behavior_string = "latch";
 					break;
 				case _weapon_trigger_behavior_latch_autofire:
-					trigger_behavior = "latch-autofire";
+					trigger_behavior_string = "latch-autofire";
 					break;
 				case _weapon_trigger_behavior_charge:
-					trigger_behavior = "charge";
+					trigger_behavior_string = "charge";
 					break;
 				case _weapon_trigger_behavior_latch_zoom:
-					trigger_behavior = "latch-zoom";
+					trigger_behavior_string = "latch-zoom";
 					break;
 				case _weapon_trigger_behavior_latch_rocket_launcher:
-					trigger_behavior = "latch-rl";
+					trigger_behavior_string = "latch-rl";
 					break;
 				case _weapon_trigger_behavior_spew_charge:
-					trigger_behavior = "spew-charge";
+					trigger_behavior_string = "spew-charge";
 					break;
 				case _weapon_trigger_behavior_sword_charge:
-					trigger_behavior = "sword-charge";
+					trigger_behavior_string = "sword-charge";
 					break;
 				default:
-					trigger_behavior = "<unknown>";
+					trigger_behavior_string = "<unknown>";
 					break;
 				}
 
-				char const* trigger_state = NULL;
-				switch (weapon->weapon.triggers[trigger_index].state)
+				char const* trigger_state_string = NULL;
+				e_weapon_trigger_state trigger_state = trigger.state;
+				switch (trigger_state)
 				{
-				case 0:
-					trigger_state = "idle";
+				case _weapon_trigger_state_idle:
+					trigger_state_string = "idle";
 					break;
-				case 1:
-					trigger_state = "charging";
+				case _weapon_trigger_state_charging:
+					trigger_state_string = "charging";
 					break;
-				case 2:
-					trigger_state = "charged";
+				case _weapon_trigger_state_charged:
+					trigger_state_string = "charged";
 					break;
-				case 4:
-					trigger_state = "spewing";
+				case _weapon_trigger_state_spewing:
+					trigger_state_string = "spewing";
 					break;
 				default:
-					trigger_state = "<unknown>";
+					trigger_state_string = "<unknown>";
 					break;
 				}
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Trigger[%d] behavior: %s state: %s  timer: %d",
 					trigger_index,
-					trigger_behavior,
-					trigger_state,
-					weapon->weapon.triggers[trigger_index].timer
+					trigger_behavior_string,
+					trigger_state_string,
+					trigger.timer
 				);
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Trigger[%d] flags: rel: %s dest: %s f b4 charge %s 1aa %s 2aa %s spew: %s p-charge: %s s-held: %s",
 					trigger_index,
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 0) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 1) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 2) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 3) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 4) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 5) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 6) ? "y" : "n",
-					TEST_BIT(weapon->weapon.triggers[trigger_index].flags, 7) ? "y" : "n"
+					TEST_FLAG(trigger.flags, _weapon_trigger_rel_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_dest_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_f_b4_charge_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_1aa_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_2aa_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_spew_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_p_charge_bit) ? "y" : "n",
+					TEST_FLAG(trigger.flags, _weapon_trigger_s_held_bit) ? "y" : "n"
 				);
 			}
 
@@ -527,56 +528,59 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 		{
 			for (long barrel_index = 0; barrel_index < weapon_definition->weapon.barrels.count; barrel_index++)
 			{
+				weapon_barrel const& barrel = weapon->weapon.barrels[barrel_index];
 				ASSERT(barrel_index >= 0 && barrel_index < weapon_definition->weapon.barrels.count);
 
-				char const* barrel_state = NULL;
-				switch (weapon->weapon.barrels[barrel_index].state)
+				char const* barrel_state_string = NULL;
+
+				e_weapon_barrel_state barrel_state = barrel.state;
+				switch (barrel_state)
 				{
-				case 0:
-					barrel_state = "idle";
+				case _weapon_barrel_state_idle:
+					barrel_state_string = "idle";
 					break;
-				case 1:
-					barrel_state = "firing";
+				case _weapon_barrel_state_firing:
+					barrel_state_string = "firing";
 					break;
-				case 2:
-					barrel_state = "locked recovering";
+				case _weapon_barrel_state_locked_recovering:
+					barrel_state_string = "locked recovering";
 					break;
-				case 3:
-					barrel_state = "locked recovering empty";
+				case _weapon_barrel_state_locked_recovering_empty:
+					barrel_state_string = "locked recovering empty";
 					break;
-				case 4:
-					barrel_state = "recovering";
+				case _weapon_barrel_state_recovering:
+					barrel_state_string = "recovering";
 					break;
 				default:
-					barrel_state = "<unknown>";
+					barrel_state_string = "<unknown>";
 					break;
 				}
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Barrel[%d] state: %s  timer: %d  overflow: %f  idle_ticks: %d  bonus_round_fraction: %1.3f",
 					barrel_index,
-					barrel_state,
-					weapon->weapon.barrels[barrel_index].timer,
-					weapon->weapon.barrels[barrel_index].overflow,
-					weapon->weapon.barrels[barrel_index].idle_ticks,
-					weapon->weapon.barrels[barrel_index].bonus_round_fraction
+					barrel_state_string,
+					barrel.timer,
+					barrel.overflow,
+					barrel.idle_ticks,
+					barrel.bonus_round_fraction
 				);
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Barrel[%d] current_error: %f  angle_change_scale: %f",
 					barrel_index,
-					weapon->weapon.barrels[barrel_index].current_error,
-					weapon->weapon.barrels[barrel_index].angle_change_scale
+					barrel.current_error,
+					barrel.angle_change_scale
 				);
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Barrel[%d] flags: fire: %s create: %s dest: %s blur %s f b4 charge %s dmg %s click %s fx: %s",
 					barrel_index,
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 0) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 1) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 2) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 3) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 4) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 5) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 6) ? "y" : "n",
-					TEST_BIT(weapon->weapon.barrels[barrel_index].flags, 7) ? "y" : "n"
+					TEST_FLAG(barrel.flags, _weapon_barrel_fire_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_create_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_dest_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_blur_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_f_b4_charge_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_dmg_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_click_bit) ? "y" : "n",
+					TEST_FLAG(barrel.flags, _weapon_barrel_fx_bit) ? "y" : "n"
 				);
 			}
 
@@ -587,45 +591,48 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 		{
 			for (; magazine_index < weapon_definition->weapon.magazines.count; magazine_index++)
 			{
+				weapon_magazine const& magazine = weapon->weapon.magazines[magazine_index];
 				ASSERT(magazine_index >= 0 && magazine_index < weapon_definition->weapon.magazines.count);
 
-				char const* magazine_state = NULL;
-				switch (weapon->weapon.magazines[magazine_index].state)
+				char const* magazine_state_string = NULL;
+
+				e_weapon_magazine_state magazine_state = magazine.state;
+				switch (magazine_state)
 				{
-				case 0:
-					magazine_state = "idle\t\t\t\t\t\t";
+				case _weapon_magazine_state_idle:
+					magazine_state_string = "idle\t\t\t\t\t\t";
 					break;
-				case 1:
-					magazine_state = "reload_single\t\t\t\t";
+				case _weapon_magazine_state_reload_single:
+					magazine_state_string = "reload_single\t\t\t\t";
 					break;
-				case 2:
-					magazine_state = "reload_continuous_starting ";
+				case _weapon_magazine_state_reload_continuous_starting:
+					magazine_state_string = "reload_continuous_starting ";
 					break;
-				case 3:
-					magazine_state = "reload_continue_underway\t";
+				case _weapon_magazine_state_reload_continue_underway:
+					magazine_state_string = "reload_continue_underway\t";
 					break;
-				case 4:
-					magazine_state = "reload_continue_ending\t\t";
+				case _weapon_magazine_state_reload_continue_ending:
+					magazine_state_string = "reload_continue_ending\t\t";
 					break;
-				case 5:
-					magazine_state = "unchambered\t\t\t\t";
+				case _weapon_magazine_state_unchambered:
+					magazine_state_string = "unchambered\t\t\t\t";
 					break;
-				case 6:
-					magazine_state = "chambering\t\t\t\t\t";
+				case _weapon_magazine_state_chambering:
+					magazine_state_string = "chambering\t\t\t\t\t";
 					break;
-				case 7:
-					magazine_state = "busy\t\t\t\t\t\t";
+				case _weapon_magazine_state_busy:
+					magazine_state_string = "busy\t\t\t\t\t\t";
 					break;
 				default:
-					magazine_state = "<unknown>\t\t\t\t\t";
+					magazine_state_string = "<unknown>\t\t\t\t\t";
 					break;
 				}
 
 				screen_display.draw(text_x_offset, text_y_offset++, NONE, "Magazine[%d] state: %s  timers(state/reload): %d/%d",
 					magazine_index,
-					magazine_state,
-					weapon->weapon.magazines[magazine_index].reload_cooldown,
-					weapon->weapon.magazines[magazine_index].firing_cooldown
+					magazine_state_string,
+					magazine.reload_cooldown,
+					magazine.firing_cooldown
 				);
 			}
 		}
