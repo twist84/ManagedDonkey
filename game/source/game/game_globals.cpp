@@ -163,8 +163,8 @@ void s_game_globals_player_representation::update_reference_names()
 	UPDATE_REFERENCE_NAME(voice);
 }
 
-template<tag group_tag>
-void s_game_globals_tag_reference<group_tag>::update_reference_names()
+template<tag ...k_group_tags>
+void s_game_globals_tag_reference<k_group_tags...>::update_reference_names()
 {
 	get_name();
 }

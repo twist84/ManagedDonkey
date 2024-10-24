@@ -96,7 +96,7 @@ struct s_game_globals_player_control;
 struct s_game_globals_player_information;
 struct s_game_globals_player_representation;
 struct s_game_globals_shield_boost;
-template<tag group_tag>
+template<tag ...k_group_tags>
 struct s_game_globals_tag_reference;
 struct s_game_globals
 {
@@ -118,7 +118,7 @@ struct s_game_globals
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
 	c_typed_tag_block<g_null_block> empty;
-	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG>> sounds;
+	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG, INVALID_TAG>> sounds;
 	c_typed_tag_block<s_game_globals_camera> camera;
 	c_typed_tag_block<s_game_globals_player_control> player_control;
 	c_typed_tag_block<s_game_globals_difficulty_information> difficulty_information;
@@ -127,8 +127,8 @@ struct s_game_globals
 	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tag_references;
 
 	// @weapon list (update _weapon_list enum in game_globals.h)
-	c_typed_tag_block<s_game_globals_tag_reference<WEAPON_TAG>> weapon_list;
-	c_typed_tag_block<s_game_globals_tag_reference<EQUIPMENT_TAG>> cheat_powerups;
+	c_typed_tag_block<s_game_globals_tag_reference<WEAPON_TAG, INVALID_TAG>> weapon_list;
+	c_typed_tag_block<s_game_globals_tag_reference<EQUIPMENT_TAG, INVALID_TAG>> cheat_powerups;
 
 	c_typed_tag_block<s_game_globals_player_information> player_information;
 	c_typed_tag_block<s_game_globals_player_representation> player_representation;
@@ -628,7 +628,7 @@ struct s_game_globals_shield_boost
 };
 static_assert(sizeof(s_game_globals_shield_boost) == 0xC);
 
-template<tag group_tag>
+template<tag ...k_group_tags>
 struct s_game_globals_tag_reference :
 	s_tag_reference
 {
