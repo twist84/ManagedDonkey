@@ -139,6 +139,8 @@ enum e_weapon_flags
 	_weapon_overheated_bit,
 	_weapon_overheated_exit_bit,
 
+	// anymore flags?
+
 	k_weapon_flags
 };
 
