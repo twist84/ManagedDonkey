@@ -4,6 +4,61 @@
 #include "items/items.hpp"
 #include "objects/target_tracking.hpp"
 
+enum e_unit_messages
+{
+	_unit_message_idle = 0,
+	_unit_message_fire_1,
+	_unit_message_fire_2,
+	_unit_message_misfire_1,
+	_unit_message_misfire_2,
+	_unit_message_light_on,
+	_unit_message_light_off,
+	_unit_message_reload_empty,
+	_unit_message_reload_full,
+	_unit_message_reload_enter,
+	_unit_message_reload_continue_empty,
+	_unit_message_reload_continue_full,
+	_unit_message_reload_exit,
+	_unit_message_overcharged,
+	_unit_message_overheating,
+	_unit_message_o_h_exit,
+	_unit_message_unknown16,
+	_unit_message_melee,
+	_unit_message_put_away_1,
+	_unit_message_put_away_2,
+	_unit_message_ready_1,
+	_unit_message_ready_2,
+	_unit_message_ready_overheated_1,
+	_unit_message_ready_overheated_2,
+	_unit_message_unknown24,
+	_unit_message_unknown25,
+	_unit_message_throw_grenade,
+	_unit_message_throw_overheated,
+	_unit_message_throw_equipment,
+	_unit_message_melee_1sthit,
+	_unit_message_melee_1sthit2idle,
+	_unit_message_melee_2ndhit,
+	_unit_message_melee_2ndhit2idle,
+	_unit_message_melee_3rdhit,
+	_unit_message_melee_strike_1,
+	_unit_message_melee_strike_2,
+	_unit_message_melee_strike_3,
+	_unit_message_melee_strike_4,
+	_unit_message_melee_dash,
+	_unit_message_melee_lunge,
+	_unit_message_melee_dash_airborne,
+	_unit_message_melee_lunge_airborne,
+	_unit_message_melee_lunge_unaimed,
+	_unit_message_melee_lunge_unaimed_airborne,
+	_unit_message_jump,
+	_unit_message_fall,
+	_unit_message_land_soft,
+	_unit_message_land_hard,
+	_unit_message_sprint_enter,
+
+	k_unit_messages
+};
+
 enum e_weapon_barrel_state
 {
 	_weapon_barrel_state_idle = 0,
