@@ -32,6 +32,8 @@ extern void main_game_launch_survival();
 extern void main_game_launch_multiplayer();
 extern void main_game_launch_ui_shell();
 extern void main_game_launch_set_coop_player_count(long coop_player_count);
+extern void main_game_launch_set_active_primary_skulls(long active_primary_skulls);
+extern void main_game_launch_set_active_secondary_skulls(long active_secondary_skulls);
 extern void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitscreen_count);
 extern void main_game_launch_set_multiplayer_engine(char const* multiplayer_engine);
 //extern void main_game_launch_set_multiplayer_variant(char const*);

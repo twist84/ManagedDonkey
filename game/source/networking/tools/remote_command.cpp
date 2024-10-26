@@ -642,6 +642,26 @@ callback_result_t game_difficulty_callback(void const* userdata, long token_coun
 	return result;
 }
 
+callback_result_t game_active_primary_skulls_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long active_primary_skulls = atol(tokens[1]->get_string());
+	main_game_launch_set_active_primary_skulls(active_primary_skulls);
+
+	return result;
+}
+
+callback_result_t game_active_secondary_skulls_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long active_secondary_skulls = atol(tokens[1]->get_string());
+	main_game_launch_set_active_secondary_skulls(active_secondary_skulls);
+
+	return result;
+}
+
 callback_result_t game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

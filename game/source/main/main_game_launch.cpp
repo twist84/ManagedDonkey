@@ -50,6 +50,18 @@ void main_game_launch_ui_shell()
 	g_launch_globals.options.game_mode = _game_mode_mainmenu;
 }
 
+void main_game_launch_set_active_primary_skulls(long active_primary_skulls)
+{
+	g_launch_globals.options.game_mode = _game_mode_campaign;
+	g_launch_globals.options.initial_primary_skulls = active_primary_skulls;
+}
+
+void main_game_launch_set_active_secondary_skulls(long active_secondary_skulls)
+{
+	g_launch_globals.options.game_mode = _game_mode_campaign;
+	g_launch_globals.options.initial_secondary_skulls = active_secondary_skulls;
+}
+
 void main_game_launch_set_coop_player_count(long coop_player_count)
 {
 	if (!IN_RANGE_INCLUSIVE(coop_player_count, 1, 4))

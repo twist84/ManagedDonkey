@@ -588,7 +588,7 @@ struct _weapon_definition
 	c_string_id handle_node;
 
 	// Halo Online
-	real __unknown280;
+	real __unknown280; // STRING_ID(global, sprint_exit) related
 
 	// weapon labels
 	c_string_id weapon_class;

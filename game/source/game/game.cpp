@@ -1238,7 +1238,6 @@ void __cdecl game_pvs_scripted_set_object(long object_index)
 
 //.text:00532D90 ; void __cdecl update_controller_game_progression()
 
-//.text: ; skull_secondary_enable
 void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, bool enable)
 {
 	//INVOKE(0x00532EE0, game_skull_enable_secondary, secondary_skull, enable);
