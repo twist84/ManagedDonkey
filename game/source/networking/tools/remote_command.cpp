@@ -682,6 +682,16 @@ callback_result_t game_start_callback(void const* userdata, long token_count, to
 	return result;
 }
 
+callback_result_t language_set_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* display_name = tokens[1]->get_string();
+	set_current_language_from_display_name_slow(display_name);
+
+	return result;
+}
+
 callback_result_t game_won_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

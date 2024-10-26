@@ -110,6 +110,7 @@ COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_initial_bsp);
 COMMAND_CALLBACK_DECLARE(game_tick_rate);
 COMMAND_CALLBACK_DECLARE(game_start);
+COMMAND_CALLBACK_DECLARE(language_set);
 COMMAND_CALLBACK_DECLARE(game_won);
 COMMAND_CALLBACK_DECLARE(game_revert);
 COMMAND_CALLBACK_DECLARE(main_menu);
@@ -231,6 +232,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_initial_bsp, 1, "<long>", "debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_tick_rate, 1, "<long>", "debug map launching: sets the tick rate for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only"),
+	COMMAND_CALLBACK_REGISTER(language_set, 1, "<string>", "change the language for localization\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_won, 0, "", "causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_revert, 0, "", "causes the player to revert to their previous saved game (for testing and cinematic skipping only please!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(main_menu, 0, "", "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
