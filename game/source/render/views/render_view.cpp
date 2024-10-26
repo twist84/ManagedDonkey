@@ -1,6 +1,7 @@
 #include "render/views/render_view.hpp"
 
 #include "cseries/async_xoverlapped.hpp"
+#include "game/campaign_metagame.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
@@ -187,6 +188,7 @@ void __cdecl render_debug_frame_render()
 	terminal_draw();
 	status_line_draw();
 	//cinematic_status_draw();
+	render_debug_campaign_metagame();
 	main_time_frame_rate_display();
 	render_debug_scripting();
 	//render_debug_cluster_blend_info();

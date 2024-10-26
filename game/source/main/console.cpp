@@ -5,6 +5,7 @@
 #include "cseries/cseries_events.hpp"
 #include "cubemaps/cubemap_debug.hpp"
 #include "effects/contrails.hpp"
+#include "game/campaign_metagame.hpp"
 #include "game/cheats.hpp"
 #include "hs/hs_runtime.hpp"
 #include "input/input_abstraction.hpp"
@@ -901,6 +902,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
 
 	CONSOLE_GLOBAL_DECLARE_LONG2(watermark_enabled, g_watermark_enabled),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_skulls),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_triggers),
