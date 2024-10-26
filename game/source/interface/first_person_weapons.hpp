@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animations/animation_interpolation.hpp"
+#include "animations/animation_manager.hpp"
 #include "cseries/cseries.hpp"
 
 enum
@@ -24,16 +25,32 @@ struct first_person_weapon_data
 {
 	dword_flags flags;
 	first_person_weapon_attachment attachment;
+	c_animation_manager current_animation;
 
-	byte __data34[0xA0];
+	// is this actually this?
+	c_animation_manager pending_animation;
 
-	string_id current_state_string;
-
-	byte __dataD4[0xEA];
-
+	real __unknown1B4;
+	real __unknown1B8;
+	short __unknown1BC;
+	short __unknown1BE;
+	short __unknown1C0;
 	word frames_remaining;
 
-	byte __data1C4[0x25D0];
+	long __unknown1CC_count;
+	long __unknown424_count;
+	long __unknown1CC[150];
+	long __unknown424[150];
+
+	long __unknown67C[150];
+
+	byte __data4D4[0xC];
+
+	real_matrix4x3 node_matrices[150];
+	long __unknown2758;
+	real_matrix4x3 camera_offset_matrix;
+
+	long __unknown2790;
 	string_id __string_id2794;
 
 	string_id pending_state_string;
@@ -51,8 +68,18 @@ struct first_person_weapon
 	first_person_weapon_data weapon_slots[k_first_person_max_weapons];
 
 	c_interpolator_control __unknown4F78;
-	byte __data4F84[0x3C];
-	real_matrix4x3 __identity4FC0;
+	byte __data4F84[0xC];
+	real __unknown4F90;
+	real __unknown4F94;
+	real __unknown4F98;
+	real __unknown4F9C;
+	real __unknown4FA0;
+	real __unknown4FA4;
+	real __unknown4FA8;
+	real __unknown4FAC;
+	euler_angles2d __angles4FB0;
+	euler_angles2d __angles4FB8;
+	real_matrix4x3 camera_offset_matrix_estimate;
 	dword __unknown4FF4;
 	byte __data4FF8[0x8];
 };

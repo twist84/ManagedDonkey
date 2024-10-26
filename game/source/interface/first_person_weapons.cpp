@@ -136,8 +136,7 @@ long first_person_weapon_get_current_state_string(long unit_index, long weapon_s
 		struct first_person_weapon* first_person_weapon = first_person_weapon_get(user_index);
 		if (first_person_weapon->unit_index == unit_index)
 		{
-			//return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->animation_manager.get_state_name();
-			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->current_state_string;
+			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->current_animation.get_state_name();
 		}
 	}
 
