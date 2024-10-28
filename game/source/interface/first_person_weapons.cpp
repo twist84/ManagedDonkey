@@ -7,10 +7,10 @@ REFERENCE_DECLARE(0x0526070E, bool, debug_animation_fp_sprint_disable);
 
 //.text:00A99610 ; void __cdecl __tls_set_g_first_person_weapon_orientations_allocator(void*)
 //.text:00A99630 ; void __cdecl __tls_set_g_first_person_weapons_allocator(void*)
-//.text:00A99650 ; 
-//.text:00A99690 ; 
-//.text:00A996D0 ; 
-//.text:00A99700 ; 
+//.text:00A99650 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::allocate
+//.text:00A99690 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::allocate
+//.text:00A996D0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::deallocate
+//.text:00A99700 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::deallocate
 //.text:00A99730 ; bool __cdecl first_person_claw_lower_weapon_on_unit(long, long)
 //.text:00A997A0 ; bool __cdecl first_person_claw_raise_weapon_on_unit(long, long)
 //.text:00A99800 ; bool __cdecl first_person_custom_animation_running_on_unit(long)
@@ -36,9 +36,9 @@ REFERENCE_DECLARE(0x0526070E, bool, debug_animation_fp_sprint_disable);
 //.text:00A9B010 ; void __cdecl first_person_weapon_build_node_matrices(e_output_user_index, long)
 //.text:00A9B9F0 ; void __cdecl first_person_weapon_clear_animations(e_output_user_index, long)
 //.text:00A9BA80 ; void __cdecl first_person_weapon_detach_unit(e_output_user_index)
-//.text:00A9BAA0 ; 
+//.text:00A9BAA0 ; e_output_user_index __cdecl first_person_weapon_find_first_output_user_index_from_unit(long)
 //.text:00A9BAE0 ; e_output_user_index __cdecl first_person_weapon_find_first_output_user_index_from_weapon(long)
-//.text:00A9BB40 ; 
+//.text:00A9BB40 ; e_output_user_index __cdecl first_person_weapon_find_next_output_user_index_from_unit(long, e_output_user_index)
 //.text:00A9BB90 ; e_output_user_index __cdecl first_person_weapon_find_next_output_user_index_from_weapon(long, e_output_user_index)
 
 first_person_weapon* __cdecl first_person_weapon_get(e_output_user_index output_user_index)
@@ -116,15 +116,15 @@ void __cdecl first_person_weapons_update_camera_estimates()
 	INVOKE(0x00A9EDF0, first_person_weapons_update_camera_estimates);
 }
 
-//.text:00A9EEA0 ; 
-//.text:00A9EED0 ; 
+//.text:00A9EEA0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::free_memory
+//.text:00A9EED0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::free_memory
 //.text:00A9EF00 ; 
 //.text:00A9EF10 ; 
 //.text:00A9EF20 ; void __cdecl handle_first_person_animation_event_callback(e_output_user_index, s_animation_event_data const*, long)
 //.text:00A9F0F0 ; void __cdecl model_remap_node_matrices_to_match_animation_graph(long, real_matrix4x3 const*, real_matrix4x3*, long, real_matrix4x3 const*, long const*)
 //.text:00A9F170 ; void __cdecl process_first_person_weapon_ik(e_output_user_index, render_first_person_model*, render_first_person_model const*)
-//.text:00A9F370 ; 
-//.text:00A9F3B0 ; 
+//.text:00A9F370 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::reserve_memory
+//.text:00A9F3B0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::reserve_memory
 //.text:00A9F3F0 ; c_model_animation const* __cdecl weapon_get_deterministic_first_person_animation(long, long, long*)
 //.text:00A9F580 ; short __cdecl weapon_get_deterministic_first_person_animation_duration_ticks(long, long, short)
 //.text:00A9F6B0 ; long __cdecl weapon_get_deterministic_first_person_animation_from_message(long, short)
@@ -136,7 +136,7 @@ long first_person_weapon_get_current_state_string(long unit_index, long weapon_s
 		struct first_person_weapon* first_person_weapon = first_person_weapon_get(user_index);
 		if (first_person_weapon->unit_index == unit_index)
 		{
-			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->current_animation.get_state_name();
+			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->animation_manager.get_state_name();
 		}
 	}
 

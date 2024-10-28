@@ -34,12 +34,14 @@ static_assert(sizeof(first_person_weapon_attachment) == 0x30);
 
 struct first_person_weapon_data
 {
+	// 0: _weapon_attached_bit
+	// 1: _weapon_visibility_bit
+
 	dword_flags flags;
 	first_person_weapon_attachment attachment;
-	c_animation_manager current_animation;
+	c_animation_manager animation_manager;
 
-	// is this actually this?
-	c_animation_manager pending_animation;
+	byte __dataF4[0xC0];
 
 	real __unknown1B4;
 	real __unknown1B8;
@@ -48,17 +50,20 @@ struct first_person_weapon_data
 	short __unknown1C0;
 	word frames_remaining;
 
-	long __unknown1CC_count;
-	long __unknown424_count;
-	long __unknown1CC[150];
-	long __unknown424[150];
+	long weapon_node_remapping_table_count;
+	long hands_node_remapping_table_count;
+	long weapon_node_remapping_table[150];
+	long hands_node_remapping_table[150];
 
 	long __unknown67C[150];
 
-	byte __data4D4[0xC];
+	short __unknown8D4;
+	short __unknown8D8;
+	long node_orientations_count;
+	long __unknown4DC;
 
 	real_matrix4x3 node_matrices[150];
-	long __unknown2758;
+	long camera_control_node;
 	real_matrix4x3 camera_offset_matrix;
 
 	long __unknown2790;
