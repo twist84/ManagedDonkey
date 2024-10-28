@@ -1674,6 +1674,9 @@
     <ClCompile Include="source\saved_games\content\content_item_metadata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\animations\animation_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3870,6 +3873,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\content\content_item_metadata.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\animations\animation_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

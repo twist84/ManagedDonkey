@@ -206,6 +206,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\sector.cpp" />
     <ClCompile Include="source\ai\squads.cpp" />
     <ClCompile Include="source\ai\swarms.cpp" />
+    <ClCompile Include="source\animations\animation_definitions.cpp" />
     <ClCompile Include="source\animations\animation_manager.cpp" />
     <ClCompile Include="source\cache\cache_file_bulk_reader.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
@@ -758,6 +759,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\ai\path_smoothing.hpp" />
     <ClInclude Include="source\ai\sector.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
+    <ClInclude Include="source\animations\animation_definitions.hpp" />
     <ClInclude Include="source\animations\animation_interpolation.hpp" />
     <ClInclude Include="source\animations\animation_manager.hpp" />
     <ClInclude Include="source\animations\mixing_board\channels\animation_channel.hpp" />
