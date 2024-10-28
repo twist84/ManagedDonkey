@@ -17,7 +17,18 @@ static_assert(sizeof(s_first_person_orientations) == 0x12C00);
 
 struct first_person_weapon_attachment
 {
-	byte __data0[0x30];
+	long unit_index;
+	long __unknown4;
+	long weapon_index;
+	long __unknownC;
+	long weapon_render_model_definition_index;
+	long __unknown14;
+	long hands_render_model_definition_index;
+	long __unknown1C;
+	long __unknown20;
+	long __unknown24;
+	long weapon_node_count;
+	long hands_node_count;
 };
 static_assert(sizeof(first_person_weapon_attachment) == 0x30);
 
