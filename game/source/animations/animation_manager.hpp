@@ -19,10 +19,13 @@ struct c_animation_manager
 
 	byte __data88[0x4];
 
-	int m_graph_tag_index;
+	long m_model_animation_graph_definition_index;
 
-	byte __data90[0x10];
+	byte __data90[0x4];
 
+	c_string_id __unknown94;
+	c_string_id __unknown98;
+	c_string_id __unknown9C;
 	c_string_id m_state_name;
 
 	byte __data[0x1C];
