@@ -565,7 +565,7 @@ void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, sh
 	ASSERT(center);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
 		render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
@@ -640,7 +640,7 @@ void __cdecl render_debug_point(bool draw_immediately, real_point3d const* point
 	ASSERT(point);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		scale *= 0.5f;
 		real_point3d points[6]{};
@@ -666,7 +666,7 @@ void __cdecl render_debug_line(bool draw_immediately, real_point3d const* point0
 	ASSERT(point1);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		rasterizer_debug_line(point0, point1, color, color);
 	}
@@ -683,7 +683,7 @@ void __cdecl render_debug_line_shaded(bool draw_immediately, real_point3d const*
 	ASSERT(color0);
 	ASSERT(color1);
 
-	if (draw_immediately || (render_debug_draw_immediately(color0) && render_debug_draw_immediately(color1)))
+	if (/*draw_immediately || */(render_debug_draw_immediately(color0) && render_debug_draw_immediately(color1)))
 	{
 		rasterizer_debug_line(point0, point1, color0, color1);
 	}
@@ -834,7 +834,7 @@ void __cdecl render_debug_triangle(bool draw_immediately, real_point3d const* po
 	ASSERT(point2);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		rasterizer_debug_triangle(point0, point1, point2, color);
 	}
@@ -873,7 +873,7 @@ void __cdecl render_debug_sphere(bool draw_immediately, real_point3d const* cent
 	ASSERT(center);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		if (render_sphere_visible(center, radius))
 		{
@@ -913,7 +913,7 @@ void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* ba
 	ASSERT(height);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
 		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
@@ -947,7 +947,7 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 	ASSERT(height);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
 		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
@@ -986,7 +986,7 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d 
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point3d points[4]{};
 
@@ -1013,7 +1013,7 @@ void __cdecl render_debug_box(bool draw_immediately, real_rectangle3d const* bou
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point3d faces[k_faces_per_cube_count][4]{};
 		rectangle3d_build_faces(bounds, k_faces_per_cube_count, faces);
@@ -1042,7 +1042,7 @@ void __cdecl render_debug_box_outline(bool draw_immediately, real_rectangle3d co
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (draw_immediately || render_debug_draw_immediately(color))
+	if (/*draw_immediately || */render_debug_draw_immediately(color))
 	{
 		real_point3d edges[k_edges_per_cube_count][2]{};
 		rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
@@ -1175,7 +1175,7 @@ void __cdecl render_debug_string_immediate(bool draw_immediately, short const* t
 {
 	if (string && *string)
 	{
-		if (draw_immediately || get_render_debug_globals()->use_simple_font)
+		if (/*draw_immediately || */get_render_debug_globals()->use_simple_font)
 		{
 			c_simple_font_draw_string draw_string;
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
@@ -1259,7 +1259,10 @@ bool __cdecl render_debug_draw_immediately(real_argb_color const* color)
 {
 	ASSERT(g_render_debug_globals);
 
-	if (!render_debug_allowed_in_current_thread() || !render_debug_active())
+	if (!render_debug_allowed_in_current_thread())
+		return false;
+
+	if (!render_debug_active())
 		return false;
 
 	if (color)
