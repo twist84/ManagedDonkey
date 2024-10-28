@@ -4,12 +4,12 @@
 #include "animations/mixing_board/channels/animation_channel.hpp"
 #include "cseries/cseries.hpp"
 
+struct c_model_animation_graph;
 struct c_animation_manager
 {
-	long get_state_name() const
-	{
-		return m_state_name.get_value();
-	}
+	c_model_animation_graph const* get_graph() const;
+	bool valid_graph() const;
+	long get_state_name() const;
 
 	c_animation_channel __unknown0;
 	c_animation_channel __unknown3C;
