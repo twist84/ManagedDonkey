@@ -9,6 +9,7 @@
 #include "math/integer_math.hpp"
 #include "math/matrix_math.hpp"
 #include "math/real_math.hpp"
+#include "memory/member_to_static.hpp"
 
 #include <stdarg.h>
 #include <type_traits>
@@ -23,6 +24,7 @@
 
 #define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
 #define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(&TYPE)>(ADDR)(__VA_ARGS__)
+#define INVOKE_CLASS_MEMBER(ADDRESS, CLASS, NAME, ...) (this->*static_to_member_t<decltype(&CLASS##::##NAME)>{ .address = ADDRESS }.function)(__VA_ARGS__)
 
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))

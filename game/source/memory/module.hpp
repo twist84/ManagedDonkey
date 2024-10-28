@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/member_to_static.hpp"
 
 #define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
 #define HOOK_DECLARE_CALL(ADDR, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
