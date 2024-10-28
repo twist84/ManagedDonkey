@@ -1,9 +1,15 @@
 #include "interface/first_person_weapons.hpp"
 
-#include "cseries/cseries.hpp"
+#include "animations/animation_definitions.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "render/render_debug.hpp"
+
+HOOK_DECLARE_CALL(0x00A45360, first_person_weapon_build_models);
 
 REFERENCE_DECLARE(0x0526070E, bool, debug_animation_fp_sprint_disable);
+
+bool debug_first_person_skeleton = false;
 
 //.text:00A99610 ; void __cdecl __tls_set_g_first_person_weapon_orientations_allocator(void*)
 //.text:00A99630 ; void __cdecl __tls_set_g_first_person_weapons_allocator(void*)
@@ -32,7 +38,42 @@ REFERENCE_DECLARE(0x0526070E, bool, debug_animation_fp_sprint_disable);
 //.text:00A9A1E0 ; bool __cdecl first_person_weapon_attach(e_output_user_index, long, bool)
 //.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(e_output_user_index, long, first_person_weapon_attachment const*, bool)
 //.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(long, long, dword, real_matrix4x3 const*, long, real_matrix4x3 const*, long const*, render_first_person_model*)
-//.text:00A9AAE0 ; long __cdecl first_person_weapon_build_models(e_output_user_index, long, long, render_first_person_model*)
+
+long __cdecl first_person_weapon_build_models(e_output_user_index output_user_index, long object_index, long maximum_model_count, render_first_person_model* first_person_model)
+{
+	long model_count = INVOKE(0x00A9AAE0, first_person_weapon_build_models, output_user_index, object_index, maximum_model_count, first_person_model);
+
+	if (debug_first_person_skeleton)
+	{
+		first_person_weapon* weapon = first_person_weapon_get(output_user_index);
+		first_person_weapon_data* weapon_data = first_person_weapon_get_weapon_data(weapon, 0);
+
+		if (weapon_data->animation_manager.valid_graph())
+		{
+			for (long node_index = 0; node_index < weapon_data->__unknown4DC; node_index++)
+			{
+				c_model_animation_graph const* graph = weapon_data->animation_manager.get_graph();
+				s_animation_graph_node* node = graph->get_node(node_index);
+
+				real_matrix4x3 node_matrix{};
+				matrix4x3_multiply(&weapon->camera_offset_matrix_estimate, &weapon_data->node_matrices[node_index], &node_matrix);
+				render_debug_matrix(true, &node_matrix, 0.01f);
+
+				if (node->parent_node_index != NONE)
+				{
+					real_matrix4x3 parent_node_matrix{};
+					matrix4x3_multiply(&weapon->camera_offset_matrix_estimate, &weapon_data->node_matrices[node->parent_node_index], &parent_node_matrix);
+					render_debug_line(true, &node_matrix.position, &parent_node_matrix.position, global_real_argb_white);
+				}
+			}
+		}
+	}
+
+	ASSERT(model_count <= maximum_model_count);
+
+	return model_count;
+}
+
 //.text:00A9B010 ; void __cdecl first_person_weapon_build_node_matrices(e_output_user_index, long)
 //.text:00A9B9F0 ; void __cdecl first_person_weapon_clear_animations(e_output_user_index, long)
 //.text:00A9BA80 ; void __cdecl first_person_weapon_detach_unit(e_output_user_index)

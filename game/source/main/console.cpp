@@ -913,6 +913,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_secondary),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_animation_fp_sprint_disable),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_first_person_skeleton),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 
