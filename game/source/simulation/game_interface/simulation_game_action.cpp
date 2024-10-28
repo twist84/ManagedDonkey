@@ -7,7 +7,7 @@
 
 e_simulation_entity_type c_simulation_object_update_flags::get_simulation_entity_type(long object_index)
 {
-	return DECLFUNC(0x004B1C20, e_simulation_entity_type, __thiscall, c_simulation_object_update_flags*, long)(this, object_index);
+	return INVOKE_CLASS_MEMBER(0x004B1C20, c_simulation_object_update_flags, get_simulation_entity_type, object_index);
 }
 
 void c_simulation_object_update_flags::set_flag(long device_index, e_simulation_device_update_flag flag)

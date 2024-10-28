@@ -28,8 +28,7 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 
 void __thiscall c_gui_screen_pregame_lobby::initialize_()
 {
-	//c_gui_screen_widget::initialize
-	DECLFUNC(0x00AB14D0, void, __thiscall, c_gui_screen_widget*)(this);
+	INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_lobby_title));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_lobby_header));

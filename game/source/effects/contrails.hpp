@@ -47,7 +47,7 @@ struct c_contrail :
 	s_datum_header
 {
 	static void __cdecl render_callback(void const*, long);
-	void __cdecl render() const;
+	void render() const;
 
 	enum e_flags
 	{

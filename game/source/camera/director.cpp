@@ -444,14 +444,14 @@ c_camera const* c_director::get_camera() const
 
 s_observer_command const* c_director::get_last_observer_command() const
 {
-	return DECLFUNC(0x00592850, s_observer_command const*, __thiscall, c_director const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00592850, c_director, get_last_observer_command);
 
 	//return &m_observer_command;
 }
 
 e_director_perspective c_director::get_perspective() const
 {
-	//return DECLFUNC(0x00592860, e_director_perspective, __thiscall, c_director const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00592860, c_director, get_perspective);
 
 	if (!game_in_progress())
 		return _director_perspective_3;
@@ -478,7 +478,7 @@ e_director_perspective c_director::get_perspective() const
 
 bool c_director::in_free_camera_mode() const
 {
-	//return DECLFUNC(0x00592A20, bool, __thiscall, c_director const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00592A20, c_director, in_free_camera_mode);
 
 	if (!m_camera[0])
 		return false;
@@ -508,14 +508,14 @@ bool c_director::in_free_camera_mode() const
 
 bool c_director::set_camera_mode(e_camera_mode camera_mode, real transition_time)
 {
-	//return DECLFUNC(0x005931F0, bool, __thiscall, c_director*, e_camera_mode, real)(this, camera_mode, transition_time);
+	//return INVOKE_CLASS_MEMBER(0x005931F0, c_director, set_camera_mode, camera_mode, transition_time);
 
 	return set_camera_mode_internal(camera_mode, transition_time, false);
 }
 
 bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transition_time, bool force_update)
 {
-	//return DECLFUNC(0x00593210, bool, __thiscall, c_director*, e_camera_mode, real, bool)(this, camera_mode, transition_time, force_update);
+	//return INVOKE_CLASS_MEMBER(0x00593210, c_director, set_camera_mode_internal, camera_mode, transition_time, force_update);
 
 	if (!can_use_camera_mode(camera_mode))
 		return false;

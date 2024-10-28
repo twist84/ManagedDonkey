@@ -8,11 +8,11 @@ public:
 	c_read_write_lock();
 	~c_read_write_lock();
 
-	void __cdecl read_lock();
-	void __cdecl read_unlock();
-	void __cdecl setup(long critcal_section_index, long semaphore_index);
-	void __cdecl write_lock();
-	void __cdecl write_unlock();
+	void read_lock();
+	void read_unlock();
+	void setup(long critcal_section_index, long semaphore_index);
+	void write_lock();
+	void write_unlock();
 
 protected:
 	long m_critcal_section_index;

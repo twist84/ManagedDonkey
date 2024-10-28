@@ -420,7 +420,7 @@ void c_message_globals::empty_queue()
 
 c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unknown)
 {
-	//return DECLFUNC(0x00A92EC0, c_message*, __thiscall, c_message_globals*, s_message_queue_node*, bool)(this, node, unknown);
+	//return INVOKE_CLASS_MEMBER(0x00A92EC0, c_message_globals, dequeue_node, node, unknown);
 
 	ASSERT(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
 	ASSERT(node->m_message != NULL);
@@ -449,7 +449,7 @@ c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unkn
 
 bool c_message_globals::can_read()
 {
-	//return DECLFUNC(0x00A92E10, bool, __thiscall, c_message_globals*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00A92E10, c_message_globals, can_read);
 
 	return m_next_read->m_message != NULL;
 }

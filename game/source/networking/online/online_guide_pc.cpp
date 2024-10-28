@@ -195,7 +195,7 @@ c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = nullptr;
 
 void* c_virtual_keyboard_task::destructor(dword a1)
 {
-	DECLFUNC(0x004E17D0, void, __thiscall, c_virtual_keyboard_task*, dword)(this, a1);
+	INVOKE_CLASS_MEMBER(0x004E17D0, c_virtual_keyboard_task, destructor, a1);
 
 	return this;
 }
@@ -248,7 +248,7 @@ dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
 
 void __thiscall c_virtual_keyboard_task::_success(dword return_result)
 {
-	//DECLFUNC(0x004E1A20, void, __thiscall, c_virtual_keyboard_task*, dword)(this, return_result);
+	INVOKE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, success, return_result);
 
 	//c_overlapped_task::success(return_result);
 

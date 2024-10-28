@@ -14,86 +14,86 @@ HOOK_DECLARE_CLASS_MEMBER(0x00724890, c_character_physics_mode_ground_datum, upd
 //.text:00723530
 //.text:00723550 ; c_character_physics_mode_ground_datum::get_ground_material_type() const
 
-vector3d const* __cdecl c_character_physics_mode_ground_datum::get_ground_plane() const
+vector3d const* c_character_physics_mode_ground_datum::get_ground_plane() const
 {
-	return DECLFUNC(0x00723570, vector3d const*, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_ground_plane);
 }
 
-real __cdecl c_character_physics_mode_ground_datum::get_ground_plane_contact_offset() const
+real c_character_physics_mode_ground_datum::get_ground_plane_contact_offset() const
 {
-	return DECLFUNC(0x00723580, real, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_ground_plane_contact_offset);
 }
 
-real __cdecl c_character_physics_mode_ground_datum::get_landing_velocity() const
+real c_character_physics_mode_ground_datum::get_landing_velocity() const
 {
-	return DECLFUNC(0x007235C0, real, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_landing_velocity);
 }
 
 //.text:007235D0
 
-long __cdecl c_character_physics_mode_ground_datum::get_support_havok_component_index() const
+long c_character_physics_mode_ground_datum::get_support_havok_component_index() const
 {
-	return DECLFUNC(0x007235E0, long, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_support_havok_component_index);
 }
 
-real_matrix4x3 const* __cdecl c_character_physics_mode_ground_datum::get_support_havok_component_matrix() const
+real_matrix4x3 const* c_character_physics_mode_ground_datum::get_support_havok_component_matrix() const
 {
-	return DECLFUNC(0x007235F0, real_matrix4x3 const*, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_support_havok_component_matrix);
 }
 
-long __cdecl c_character_physics_mode_ground_datum::get_support_object_index() const
+long c_character_physics_mode_ground_datum::get_support_object_index() const
 {
-	return DECLFUNC(0x00723600, long, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_support_object_index);
 }
 
-long __cdecl c_character_physics_mode_ground_datum::get_support_rigid_body_index() const
+long c_character_physics_mode_ground_datum::get_support_rigid_body_index() const
 {
-	return DECLFUNC(0x00723610, long, __thiscall, c_character_physics_mode_ground_datum const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, get_support_rigid_body_index);
 }
 
-bool __cdecl havok_contact_point_reference_valid(s_havok_contact_point_reference const* reference)
+bool havok_contact_point_reference_valid(s_havok_contact_point_reference const* reference)
 {
 	return INVOKE(0x00723620, havok_contact_point_reference_valid, reference);
 }
 
-void __cdecl c_character_physics_mode_ground_datum::initialize()
+void c_character_physics_mode_ground_datum::initialize()
 {
-	DECLFUNC(0x00723640, void, __thiscall, c_character_physics_mode_ground_datum*)(this);
+	INVOKE_CLASS_MEMBER(0x00723640, c_character_physics_mode_ground_datum, initialize);
 }
 
-void __cdecl c_character_physics_mode_ground_datum::initialize_internal(bool a1)
+void c_character_physics_mode_ground_datum::initialize_internal(bool a1)
 {
-	DECLFUNC(0x007236C0, void, __thiscall, c_character_physics_mode_ground_datum*, bool)(this, a1);
+	INVOKE_CLASS_MEMBER(0x007236C0, c_character_physics_mode_ground_datum, initialize_internal, a1);
 }
 
-void __cdecl c_character_physics_mode_ground_datum::move(s_character_physics_move_output_datum* output, s_character_physics_move_input_datum const* input)
+void c_character_physics_mode_ground_datum::move(s_character_physics_move_output_datum* output, s_character_physics_move_input_datum const* input)
 {
-	DECLFUNC(0x00723720, void, __thiscall, c_character_physics_mode_ground_datum*, s_character_physics_move_output_datum*, s_character_physics_move_input_datum const*)(this, output, input);
+	INVOKE_CLASS_MEMBER(0x00723720, c_character_physics_mode_ground_datum, move, output, input);
 }
 
 //.text:00723DC0
 //.text:00723DD0
 
-void __cdecl c_character_physics_mode_ground_datum::notify_in_slip_surface_volume()
+void c_character_physics_mode_ground_datum::notify_in_slip_surface_volume()
 {
-	DECLFUNC(0x00723E60, void, __thiscall, c_character_physics_mode_ground_datum*)(this);
+	INVOKE_CLASS_MEMBER(0x00723E60, c_character_physics_mode_ground_datum, notify_in_slip_surface_volume);
 }
 
-void __cdecl c_character_physics_mode_ground_datum::set_contact(long a1, long a2, vector3d const* a3)
+void c_character_physics_mode_ground_datum::set_contact(long a1, long a2, vector3d const* a3)
 {
-	DECLFUNC(0x00723E70, void, __thiscall, c_character_physics_mode_ground_datum*, long, long, vector3d const*)(this, a1, a2, a3);
+	INVOKE_CLASS_MEMBER(0x00723E70, c_character_physics_mode_ground_datum, set_contact, a1, a2, a3);
 }
 
-void __cdecl c_character_physics_mode_ground_datum::set_ground_plane(vector3d const* a1)
+void c_character_physics_mode_ground_datum::set_ground_plane(vector3d const* a1)
 {
-	DECLFUNC(0x00723F00, void, __thiscall, c_character_physics_mode_ground_datum*, vector3d const*)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00723F00, c_character_physics_mode_ground_datum, set_ground_plane, a1);
 }
 
 //.text:00723F20 ; c_character_physics_mode_ground_datum::snap_facing
 
-void __cdecl c_character_physics_mode_ground_datum::update(s_character_physics_update_output_datum* output, struct s_character_physics_update_input_datum const* input)
+void c_character_physics_mode_ground_datum::update(s_character_physics_update_output_datum* output, struct s_character_physics_update_input_datum const* input)
 {
-	DECLFUNC(0x00724550, void, __thiscall, c_character_physics_mode_ground_datum*, s_character_physics_update_output_datum*, s_character_physics_update_input_datum const*)(this, output, input);
+	INVOKE_CLASS_MEMBER(0x00724550, c_character_physics_mode_ground_datum, update, output, input);
 }
 
 //.text:00724800
@@ -123,14 +123,14 @@ bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_
 	return result;
 }
 
-void __cdecl c_character_physics_mode_ground_datum::update_internal(s_character_physics_update_output_datum* output, s_character_physics_update_input_datum const* input, bool a2, vector3d const* a3)
+void c_character_physics_mode_ground_datum::update_internal(s_character_physics_update_output_datum* output, s_character_physics_update_input_datum const* input, bool a2, vector3d const* a3)
 {
-	DECLFUNC(0x00724BB0, void, __thiscall, c_character_physics_mode_ground_datum*, s_character_physics_update_output_datum*, s_character_physics_update_input_datum const*, bool, vector3d const*)(this, output, input, a2, a3);
+	INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, update_internal, output, input, a2, a3);
 }
 
-bool __cdecl c_character_physics_mode_ground_datum::update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* input, vector3d* a1, vector3d* a2, matrix3x3* a3)
+bool c_character_physics_mode_ground_datum::update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* input, vector3d* a1, vector3d* a2, matrix3x3* a3)
 {
-	return DECLFUNC(0x00724BB0, bool, __thiscall, c_character_physics_mode_ground_datum*, s_character_physics_update_input_datum const*, vector3d*, vector3d*, matrix3x3*)(this, input, a1, a2, a3);
+	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, update_localized_physics_space_linear_velocity, input, a1, a2, a3);
 }
 
 //.text:00725A60

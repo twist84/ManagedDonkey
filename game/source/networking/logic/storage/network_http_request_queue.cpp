@@ -39,7 +39,7 @@ c_network_http_request_queue::c_network_http_request_queue(e_network_http_reques
 
 void c_network_http_request_queue::cancel_request(long request_cookie)
 {
-	DECLFUNC(0x004A3050, void, __thiscall, c_network_http_request_queue*, long)(this, request_cookie);
+	INVOKE_CLASS_MEMBER(0x004A3050, c_network_http_request_queue, cancel_request, request_cookie);
 }
 
 //.text:004A3140 ; void c_network_http_request_item::failed(bool failed)
@@ -48,7 +48,7 @@ void c_network_http_request_queue::cancel_request(long request_cookie)
 
 c_network_http_request_queue* c_network_http_request_queue::get(e_network_http_request_queue_type queue_type)
 {
-	//return DECLFUNC(0x004A3220, c_network_http_request_queue*, __thiscall, c_network_http_request_queue*, e_network_http_request_queue_type)(this, queue_type);
+	//return INVOKE(0x004A3220, c_network_http_request_queue::get, queue_type);
 
 	ASSERT(VALID_INDEX(queue_type, k_network_http_request_queue_type_count));
 
@@ -77,8 +77,7 @@ bool c_network_http_request_queue::has_file_changed(c_network_http_request_descr
 
 e_network_http_request_result c_network_http_request_queue::is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason)
 {
-	return DECLFUNC(0x004A3350, e_network_http_request_result, __thiscall, c_network_http_request_queue*, long, long*, s_network_http_request_hash*, e_network_http_request_queue_failure_reason*)
-		(this, request_cookie, bytes_read, request_hash, out_failure_reason);
+	return INVOKE_CLASS_MEMBER(0x004A3350, c_network_http_request_queue, is_fill_buffer_complete, request_cookie, bytes_read, request_hash, out_failure_reason);
 }
 
 void __cdecl make_url(c_static_string<256> const* url, c_static_string<256>* out_url)
@@ -121,7 +120,7 @@ void __cdecl network_http_request_queue_update()
 
 e_network_http_request_result c_network_http_request_queue::read_bytes(long request_cookie, char* buffer, long buffer_length, long* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason)
 {
-	return DECLFUNC(0x004A3730, e_network_http_request_result, __thiscall, c_network_http_request_queue*, long, char*, long, long*, e_network_http_request_queue_failure_reason*)(this, request_cookie, buffer, buffer_length, out_bytes_read, out_failure_reason);
+	return INVOKE_CLASS_MEMBER(0x004A3730, c_network_http_request_queue, read_bytes, request_cookie, buffer, buffer_length, out_bytes_read, out_failure_reason);
 }
 
 //.text:004A37E0 ; e_network_http_request_result c_network_http_request_queue::read_bytes_internal(c_network_http_request_item* request_item, char* buffer, long buffer_length, long* out_bytes_read, bool* out_item_was_removed, e_network_http_request_queue_failure_reason* out_failure_reason)
@@ -136,11 +135,11 @@ e_network_http_request_result c_network_http_request_queue::read_bytes(long requ
 
 long c_network_http_request_queue::start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description)
 {
-	return DECLFUNC(0x004A3C50, long, __thiscall, c_network_http_request_queue*, e_online_lsp_service_type, c_network_http_request_description const*)(this, service_type, request_description);
+	return INVOKE_CLASS_MEMBER(0x004A3C50, c_network_http_request_queue, start_request, service_type, request_description);
 }
 
 long c_network_http_request_queue::start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, long buffer_length)
 {
-	return DECLFUNC(0x004A3D80, long, __thiscall, c_network_http_request_queue*, e_online_lsp_service_type, c_network_http_request_description const*, char*, long)(this, service_type, request_description, buffer, buffer_length);
+	return INVOKE_CLASS_MEMBER(0x004A3D80, c_network_http_request_queue, start_request_into_buffer, service_type, request_description, buffer, buffer_length);
 }
 

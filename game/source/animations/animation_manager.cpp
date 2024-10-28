@@ -95,7 +95,7 @@
 
 c_model_animation_graph const* c_animation_manager::get_graph() const
 {
-    return DECLFUNC(0x006DBEC0, c_model_animation_graph const*, __thiscall, c_animation_manager const*)(this);
+    return INVOKE_CLASS_MEMBER(0x006DBEC0, c_animation_manager, get_graph);
 }
 
 //.text:006DBED0 ; 

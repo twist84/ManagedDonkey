@@ -25,7 +25,7 @@ struct c_following_camera :
 
 	void constructor(long unit_index)
 	{
-		DECLFUNC(0x00728630, void, __thiscall, c_camera*, long)(this, unit_index);
+		INVOKE_CLASS_MEMBER(0x00728630, c_following_camera, constructor, unit_index);
 	}
 };
 static_assert(sizeof(c_following_camera) == 0x4C);

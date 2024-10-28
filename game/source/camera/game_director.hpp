@@ -9,7 +9,7 @@ struct c_game_director :
 
 	void constructor(long user_index)
 	{
-		DECLFUNC(0x007215C0, void, __thiscall, c_director*, long)(this, user_index);
+		INVOKE_CLASS_MEMBER(0x007215C0, c_game_director, constructor, user_index);
 	}
 };
 static_assert(sizeof(c_game_director) == 0x160);

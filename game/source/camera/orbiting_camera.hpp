@@ -18,7 +18,7 @@ struct c_orbiting_camera :
 
 	void constructor(long unit_index)
 	{
-		DECLFUNC(0x0072A5E0, void, __thiscall, c_camera*, long)(this, unit_index);
+		INVOKE_CLASS_MEMBER(0x0072A5E0, c_orbiting_camera, constructor, unit_index);
 	}
 };
 static_assert(sizeof(c_orbiting_camera) == 0x4C);

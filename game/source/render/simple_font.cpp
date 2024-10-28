@@ -28,12 +28,12 @@ c_simple_font_screen_display::~c_simple_font_screen_display()
 
 void c_simple_font_screen_display::close_session()
 {
-	DECLFUNC(0x00A767F0, void, __thiscall, c_simple_font_screen_display*)(this);
+	INVOKE_CLASS_MEMBER(0x00A767F0, c_simple_font_screen_display, close_session);
 }
 
 void c_simple_font_screen_display::draw(long a1, long a2, dword a3, char const* format, ...)
 {
-	//DECLFUNC(0x00A76960, void, __thiscall, c_simple_font_screen_display*, long, long, dword, char const*, ...)(this, a1, a2, a3, format);
+	//return INVOKE_CLASS_MEMBER(0x00A76960, c_simple_font_screen_display, draw, a1, a2, a3, format);
 
 	va_list list;
 	va_start(list, format);
@@ -50,7 +50,7 @@ void c_simple_font_screen_display::draw(long a1, long a2, dword a3, char const* 
 
 bool c_simple_font_screen_display::open_session(real scale)
 {
-	//return DECLFUNC(0x00A76FA0, bool, __thiscall, c_simple_font_screen_display*, real)(this, scale);
+	//return INVOKE_CLASS_MEMBER(0x00A76FA0, c_simple_font_screen_display, open_session, scale);
 
 	if (m_rendering = simple_font::begin_rendering(scale, true))
 	{
@@ -133,7 +133,7 @@ namespace simple_font
 
 	void s_font_data::install()
 	{
-		//DECLFUNC(0x00A76B50, void, __thiscall, simple_font::s_font_data*)(this);
+		//INVOKE_CLASS_MEMBER(0x00A76B50, simple_font::s_font_data, install);
 
 		if (!installed && c_rasterizer::g_device)
 		{

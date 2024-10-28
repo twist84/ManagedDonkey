@@ -101,7 +101,7 @@ c_async_xoverlapped_scope_lock::~c_async_xoverlapped_scope_lock()
 
 bool c_overlapped_task::busy() const
 {
-	//return DECLFUNC(0x00476C30, bool, __thiscall, c_overlapped_task const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00476C30, c_overlapped_task, busy);
 
 	return m_task_state == _overlapped_task_state_starting
 		|| m_task_state == _overlapped_task_state_pending
@@ -110,7 +110,7 @@ bool c_overlapped_task::busy() const
 
 c_overlapped_task* c_overlapped_task::constructor(char const* file, long line)
 {
-	//DECLFUNC(0x005A8C80, c_overlapped_task*, __thiscall, c_overlapped_task const*, char const*, long)(this, file, line);
+	//INVOKE_CLASS_MEMBER(0x005A8C80, c_overlapped_task, constructor, file, line);
 
 	REFERENCE_DECLARE(this, dword, vftable);
 	vftable = 0x0165B220;
@@ -416,7 +416,7 @@ e_overlapped_task_state c_overlapped_task::get_task_state() const
 
 void c_overlapped_task::set_task_state_internal(e_overlapped_task_state task_state)
 {
-	//DECLFUNC(0x005A91B0, void, __thiscall, c_overlapped_task const*, e_overlapped_task_state)(this, task_state);
+	//INVOKE_CLASS_MEMBER(0x005A91B0, c_overlapped_task, set_task_state_internal, task_state);
 
 	m_task_state = task_state;
 }
@@ -574,14 +574,14 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 
 void c_overlapped_task::task_recycled_during_completion(bool recycled_during_completion)
 {
-	//return DECLFUNC(0x005A9360, void, __thiscall, c_overlapped_task*, bool)(this, recycled_during_completion);
+	//return INVOKE_CLASS_MEMBER(0x005A9360, c_overlapped_task, task_recycled_during_completion, recycled_during_completion);
 
 	m_task_flags.set(_overlapped_task_task_recycled_during_completion_bit, recycled_during_completion);
 }
 
 bool c_overlapped_task::task_was_recycled_during_completion() const
 {
-	//return DECLFUNC(0x005A9380, bool, __thiscall, c_overlapped_task const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x005A9380, c_overlapped_task, task_was_recycled_during_completion);
 
 	return m_task_flags.test(_overlapped_task_task_recycled_during_completion_bit);
 }

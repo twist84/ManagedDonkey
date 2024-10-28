@@ -25,7 +25,7 @@ c_gui_location_manager::c_gui_location_manager() :
 }
 
 // 00ADF6C0
-bool __cdecl c_gui_location_manager::can_change_location()
+bool c_gui_location_manager::can_change_location()
 {
 	return m_change_location >= 30;
 }
@@ -53,25 +53,25 @@ long __thiscall c_gui_location_manager::get_current_ui_location()
 }
 
 // 00ADF8A0
-c_gui_screen_widget* __cdecl c_gui_location_manager::get_location_screen()
+c_gui_screen_widget* c_gui_location_manager::get_location_screen()
 {
-	c_gui_screen_widget* result = DECLFUNC(0x00ADF8A0, c_gui_screen_widget*, __thiscall, c_gui_location_manager*)(this);
+	c_gui_screen_widget* result = INVOKE_CLASS_MEMBER(0x00ADF8A0, c_gui_location_manager, get_location_screen);
 
 	return result;
 }
 
 // 00ADF8F0
-long __cdecl c_gui_location_manager::get_location_screen_name(long gui_location)
+long c_gui_location_manager::get_location_screen_name(long gui_location)
 {
-	long result = DECLFUNC(0x00ADF8F0, long, __thiscall, c_gui_location_manager*, long)(this, gui_location);
+	long result = INVOKE_CLASS_MEMBER(0x00ADF8F0, c_gui_location_manager, get_location_screen_name, gui_location);
 
 	return result;
 }
 
 // 00ADF960
-long __cdecl c_gui_location_manager::get_pregame_lobby_name(long gui_game_mode)
+long c_gui_location_manager::get_pregame_lobby_name(long gui_game_mode)
 {
-	long result = DECLFUNC(0x00ADF960, long, __thiscall, c_gui_location_manager*, long)(this, gui_game_mode);
+	long result = INVOKE_CLASS_MEMBER(0x00ADF960, c_gui_location_manager, get_pregame_lobby_name, gui_game_mode);
 
 	return result;
 }
@@ -95,14 +95,14 @@ void __cdecl location_manager_stop()
 }
 
 // 00ADFA00
-void __cdecl c_gui_location_manager::set_running(bool running)
+void c_gui_location_manager::set_running(bool running)
 {
 	m_running = running;
 }
 
 // 00ADFA10
-void __cdecl c_gui_location_manager::update()
+void c_gui_location_manager::update()
 {
-	DECLFUNC(0x00ADFA10, void, __thiscall, c_gui_location_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x00ADFA10, c_gui_location_manager, update);
 }
 

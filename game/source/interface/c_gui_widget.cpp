@@ -183,65 +183,65 @@ bool c_gui_widget::get_string_by_string_id(string_id name, c_static_wchar_string
 
 c_gui_bitmap_widget* c_gui_widget::get_next_bitmap_widget()
 {
-	//return DECLFUNC(0x00AB9220, c_gui_bitmap_widget*, __thiscall, c_gui_widget*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00AB9220, c_gui_widget, get_next_bitmap_widget);
 
 	return (c_gui_bitmap_widget*)get_next_widget_of_type(_gui_widget_type_bitmap);
 }
 
 c_gui_list_item_widget* c_gui_widget::get_next_list_item_widget(bool a1)
 {
-	return DECLFUNC(0x00AB9230, c_gui_list_item_widget*, __thiscall, c_gui_widget*, bool)(this, a1);
+	return INVOKE_CLASS_MEMBER(0x00AB9230, c_gui_widget, get_next_list_item_widget, a1);
 }
 
 c_gui_list_widget* c_gui_widget::get_next_list_widget()
 {
-	//return DECLFUNC(0x00AB9260, c_gui_list_widget*, __thiscall, c_gui_widget*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00AB9260, c_gui_widget, get_next_list_widget);
 
 	return (c_gui_list_widget*)get_next_widget_of_type(_gui_widget_type_list);
 }
 
 c_gui_model_widget* c_gui_widget::get_next_model_widget()
 {
-	//return DECLFUNC(0x00AB9270, c_gui_model_widget*, __thiscall, c_gui_widget*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00AB9270, c_gui_widget, get_next_model_widget);
 
 	return (c_gui_model_widget*)get_next_widget_of_type(_gui_widget_type_model);
 }
 
 c_gui_text_widget* c_gui_widget::get_next_text_widget()
 {
-	//return DECLFUNC(0x00AB9280, c_gui_text_widget*, __thiscall, c_gui_widget*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00AB9280, c_gui_widget, get_next_text_widget);
 
 	return (c_gui_text_widget*)get_next_widget_of_type(_gui_widget_type_model);
 }
 
 c_gui_widget* c_gui_widget::get_next_widget_of_type(e_gui_widget_type widget_type)
 {
-	return DECLFUNC(0x00AB9290, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type)(this, widget_type);
+	return INVOKE_CLASS_MEMBER(0x00AB9290, c_gui_widget, get_next_widget_of_type, widget_type);
 }
 
 c_gui_group_widget* c_gui_widget::get_parent_group()
 {
-	return DECLFUNC(0x00AB92F0, c_gui_group_widget*, __thiscall, c_gui_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AB92F0, c_gui_widget, get_parent_group);
 }
 
 c_gui_list_widget* c_gui_widget::get_parent_list()
 {
-	return DECLFUNC(0x00AB9360, c_gui_list_widget*, __thiscall, c_gui_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AB9360, c_gui_widget, get_parent_list);
 }
 
 c_gui_list_item_widget* c_gui_widget::get_parent_list_item()
 {
-	return DECLFUNC(0x00AB93D0, c_gui_list_item_widget*, __thiscall, c_gui_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AB93D0, c_gui_widget, get_parent_list_item);
 }
 
 c_gui_screen_widget* c_gui_widget::get_parent_screen()
 {
-	return DECLFUNC(0x00AB9440, c_gui_screen_widget*, __thiscall, c_gui_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AB9440, c_gui_widget, get_parent_screen);
 }
 
 void c_gui_widget::set_visible(bool is_visible)
 {
-	DECLFUNC(0x00ABA7E0, c_gui_widget*, __thiscall, c_gui_widget*, bool)(this, is_visible);
+	INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget, set_visible, is_visible);
 }
 
 c_gui_bitmap_widget* c_gui_widget::get_child_bitmap_widget(string_id name)
@@ -276,17 +276,17 @@ c_gui_text_widget* c_gui_widget::get_child_text_widget(string_id name)
 
 e_controller_index c_gui_widget::get_any_responding_controller() const
 {
-	return DECLFUNC(0x00AB8900, e_controller_index, __thiscall, c_gui_widget const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AB8900, c_gui_widget, get_any_responding_controller);
 }
 
 c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type widget_type, string_id name)
 {
-	return DECLFUNC(0x00AB8B00, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type, string_id)(this, widget_type, name);
+	return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, widget_type, name);
 }
 
 c_gui_widget* c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type widget_type)
 {
-	return DECLFUNC(0x00AB8F80, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type)(this, widget_type);
+	return INVOKE_CLASS_MEMBER(0x00AB8F80, c_gui_widget, get_first_child_widget_by_type, widget_type);
 }
 
 void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5)

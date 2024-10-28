@@ -22,7 +22,7 @@ struct c_magic_string_game_tag_parser :
 public:
 	virtual bool parse_tag(wchar_t const* a1, long* a2, wchar_t* a3, long a4, long* a5) override
 	{
-		return DECLFUNC(0x00AA67C0, bool, __thiscall, c_magic_string_game_tag_parser*, wchar_t const*, long*, wchar_t*, long, long*)(this, a1, a2, a3, a4, a5);
+		return INVOKE_CLASS_MEMBER(0x00AA67C0, c_magic_string_game_tag_parser, parse_tag, a1, a2, a3, a4, a5);
 	}
 
 	virtual bool get_magic_string(wchar_t* buffer, long buffer_length) override;

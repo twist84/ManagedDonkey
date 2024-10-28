@@ -27,7 +27,7 @@ c_simple_io_result::~c_simple_io_result()
 
 bool c_simple_io_result::check_success()
 {
-	//return DECLFUNC(0x005FB3B0, bool, __thiscall, c_simple_io_result*)(this);
+	//return INVOKE_CLASS_MEMBER(0x005FB3B0, c_simple_io_result, check_success);
 
 	m_check_success = true;
 	return !m_disk_failure && !m_fail_boat && !m_checksum_failure;
@@ -35,21 +35,21 @@ bool c_simple_io_result::check_success()
 
 bool c_simple_io_result::checksum_failure() const
 {
-	//return DECLFUNC(0x005FB3D0, bool, __thiscall, c_simple_io_result const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x005FB3D0, c_simple_io_result, checksum_failure);
 
 	return m_checksum_failure;
 }
 
 bool c_simple_io_result::disk_failure() const
 {
-	//return DECLFUNC(0x005FB3E0, bool, __thiscall, c_simple_io_result const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x005FB3E0, c_simple_io_result, disk_failure);
 
 	return m_disk_failure;
 }
 
 void c_simple_io_result::handle_failure()
 {
-	//DECLFUNC(0x005FB3F0, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//INVOKE_CLASS_MEMBER(0x005FB3F0, c_simple_io_result, handle_failure);
 
 	// damaged_media_halt_and_display_error("c_simple_io_result: i/o failed: fail_boat %d, disk %d, checksum %d")
 	//damaged_media_halt_and_display_error();
@@ -59,7 +59,7 @@ void c_simple_io_result::handle_failure()
 
 void c_simple_io_result::set_checksum_failure()
 {
-	//DECLFUNC(0x005FB400, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//INVOKE_CLASS_MEMBER(0x005FB400, c_simple_io_result, set_checksum_failure);
 
 	//if (m_halt_and_display_error)
 	//	damaged_media_halt_and_display_error();
@@ -69,7 +69,7 @@ void c_simple_io_result::set_checksum_failure()
 
 void c_simple_io_result::set_disk_failure()
 {
-	//DECLFUNC(0x005FB420, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//INVOKE_CLASS_MEMBER(0x005FB420, c_simple_io_result, set_disk_failure);
 
 	//if (m_halt_and_display_error)
 	//	damaged_media_halt_and_display_error();
@@ -79,7 +79,7 @@ void c_simple_io_result::set_disk_failure()
 
 void c_simple_io_result::set_fail_boat()
 {
-	//DECLFUNC(0x005FB440, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//INVOKE_CLASS_MEMBER(0x005FB440, c_simple_io_result, set_fail_boat);
 
 	//if (m_halt_and_display_error)
 	//	damaged_media_halt_and_display_error();
@@ -89,7 +89,7 @@ void c_simple_io_result::set_fail_boat()
 
 bool c_simple_io_result::unknown_failure() const
 {
-	//return DECLFUNC(0x005FB460, bool, __thiscall, c_simple_io_result const*)(this);
+	//INVOKE_CLASS_MEMBER(0x005FB460, c_simple_io_result, unknown_failure);
 
 	return m_fail_boat && !m_disk_failure && !m_checksum_failure;
 }

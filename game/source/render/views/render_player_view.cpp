@@ -7,7 +7,7 @@ REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
 
-void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)
+void c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)
 {
 	//INVOKE(0x00A39640, get_player_render_camera_orientation, camera);
 
@@ -23,9 +23,9 @@ void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3*
 	camera->scale = 1.0f;
 }
 
-void __cdecl c_player_view::create_frame_textures(long player_index)
+void c_player_view::create_frame_textures(long player_index)
 {
-	DECLFUNC(0x00A38D70, void, __thiscall, c_player_view*, long)(this, player_index);
+	INVOKE_CLASS_MEMBER(0x00A38D70, c_player_view, create_frame_textures, player_index);
 }
 
 //.text:00A3A790 ; 

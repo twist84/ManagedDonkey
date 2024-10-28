@@ -646,7 +646,7 @@ void c_restricted_memory_callbacks::handle_release(c_restricted_memory const* me
 
 void c_game_state_compressor::initialize()
 {
-	DECLFUNC(0x00511110, void, __thiscall, c_game_state_compressor*)(this);
+	INVOKE_CLASS_MEMBER(0x00511110, c_game_state_compressor, initialize);
 
 	//m_scratch_buffer = (char*)g_runtime_state_allocation->allocate(0x4B000, "game-state-compression-scratch");
 	//m_scratch_buffer_size = 0x4B000;

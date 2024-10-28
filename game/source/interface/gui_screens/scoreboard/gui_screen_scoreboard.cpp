@@ -130,8 +130,7 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
 	c_gui_data* data = get_data(STRING_ID(gui, scoreboard), 0);
 
-	//c_gui_widget::update_render_state
-	DECLFUNC(0x00ABB1A0, void, __thiscall, c_gui_widget*, dword)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, a1);
 
 	if (child_list_widget)
 	{

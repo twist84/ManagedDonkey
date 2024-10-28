@@ -52,8 +52,8 @@ struct c_network_link
 	dword generate_channel_identifier();
 	c_network_channel* get_associated_channel(transport_address const* address) const;
 	bool initialize_link();
-	static void initialize_packet(s_link_packet* packet);
-	static bool physical_link_available();
+	static void __cdecl initialize_packet(s_link_packet* packet);
+	static bool __cdecl physical_link_available();
 	void process_all_channels();
 	void process_incoming_packets();
 	void process_packet_internal(s_link_packet const* packet);

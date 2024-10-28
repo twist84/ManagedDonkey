@@ -4,7 +4,7 @@
 
 void c_vehicle_type_component::adjust_gravity(long vehicle_index, vector3d* a2)
 {
-	DECLFUNC(0x00B8A190, void, __thiscall, c_vehicle_type_component*, long, vector3d*)(this, vehicle_index, a2);
+	INVOKE_CLASS_MEMBER(0x00B8A190, c_vehicle_type_component, adjust_gravity, vehicle_index, a2);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -43,7 +43,7 @@ void c_vehicle_type_component::adjust_gravity(long vehicle_index, vector3d* a2)
 
 bool c_vehicle_type_component::auto_control(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A290, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A290, c_vehicle_type_component, auto_control, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -57,7 +57,7 @@ bool c_vehicle_type_component::auto_control(long vehicle_index)
 
 bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function_name, real* function_value, bool* function_result)
 {
-	return DECLFUNC(0x00B8A2D0, bool, __thiscall, c_vehicle_type_component*, long, long, real*, bool*)(this, vehicle_index, function_name, function_value, function_result);
+	return INVOKE_CLASS_MEMBER(0x00B8A2D0, c_vehicle_type_component, compute_function_value, vehicle_index, function_name, function_value, function_result);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -87,7 +87,7 @@ bool c_vehicle_type_component::compute_function_value(long vehicle_index, long f
 
 void c_vehicle_type_component::create_effects(long vehicle_index)
 {
-	DECLFUNC(0x00B8A400, s_vehicle_engine* const, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	INVOKE_CLASS_MEMBER(0x00B8A400, c_vehicle_type_component, create_effects, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -126,7 +126,7 @@ void c_vehicle_type_component::create_effects(long vehicle_index)
 
 void c_vehicle_type_component::deplete_function_variables(long vehicle_index)
 {
-	DECLFUNC(0x00B8A4E0, s_vehicle_engine* const, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	INVOKE_CLASS_MEMBER(0x00B8A4E0, c_vehicle_type_component, deplete_function_variables, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -165,7 +165,7 @@ void c_vehicle_type_component::deplete_function_variables(long vehicle_index)
 
 bool c_vehicle_type_component::effected_by_vehicle_ceiling(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A5B0, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A5B0, c_vehicle_type_component, effected_by_vehicle_ceiling, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -195,7 +195,7 @@ bool c_vehicle_type_component::effected_by_vehicle_ceiling(long vehicle_index)
 
 c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A680, c_vehicle_auto_turret*, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A680, c_vehicle_type_component, get_auto_turret, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -209,7 +209,7 @@ c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(long vehicle_in
 
 bool c_vehicle_type_component::get_auto_turret_damage_owner(long vehicle_index, s_damage_owner* auto_turret_damage_owner)
 {
-	return DECLFUNC(0x00B8A6E0, bool, __thiscall, c_vehicle_type_component*, long, s_damage_owner*)(this, vehicle_index, auto_turret_damage_owner);
+	return INVOKE_CLASS_MEMBER(0x00B8A6E0, c_vehicle_type_component, get_auto_turret_damage_owner, vehicle_index, auto_turret_damage_owner);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -223,7 +223,7 @@ bool c_vehicle_type_component::get_auto_turret_damage_owner(long vehicle_index, 
 
 s_vehicle_engine* const c_vehicle_type_component::get_engine(long vehicle_index)
 {
-	//return DECLFUNC(0x00B8A720, s_vehicle_engine* const, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	//return INVOKE_CLASS_MEMBER(0x00B8A720, c_vehicle_type_component, get_engine, vehicle_index);
 
 	switch (vehicle_get_type(vehicle_index))
 	{
@@ -239,7 +239,7 @@ s_vehicle_engine* const c_vehicle_type_component::get_engine(long vehicle_index)
 
 c_vehicle_type_human_tank* c_vehicle_type_component::get_type_human_tank()
 {
-	//return DECLFUNC(0x00B8A780, c_vehicle_type_human_tank*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A780, c_vehicle_type_component, get_type_human_tank);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_tank);
 	return &m_type_human_tank;
@@ -247,7 +247,7 @@ c_vehicle_type_human_tank* c_vehicle_type_component::get_type_human_tank()
 
 c_vehicle_type_human_jeep* c_vehicle_type_component::get_type_human_jeep()
 {
-	//return DECLFUNC(0x00B8A790, c_vehicle_type_human_jeep*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A790, c_vehicle_type_component, get_type_human_jeep);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_jeep);
 	return &m_type_human_jeep;
@@ -255,7 +255,7 @@ c_vehicle_type_human_jeep* c_vehicle_type_component::get_type_human_jeep()
 
 c_vehicle_type_human_plane* c_vehicle_type_component::get_type_human_plane()
 {
-	//return DECLFUNC(0x00B8A7A0, c_vehicle_type_human_plane*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7A0, c_vehicle_type_component, get_type_human_plane);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_plane);
 	return &m_type_human_plane;
@@ -263,7 +263,7 @@ c_vehicle_type_human_plane* c_vehicle_type_component::get_type_human_plane()
 
 c_vehicle_type_alien_scout* c_vehicle_type_component::get_type_alien_scout()
 {
-	//return DECLFUNC(0x00B8A7B0, c_vehicle_type_alien_scout*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7B0, c_vehicle_type_component, get_type_alien_scout);
 
 	ASSERT(m_initialization_type == _vehicle_type_alien_scout);
 	return &m_type_alien_scout;
@@ -271,7 +271,7 @@ c_vehicle_type_alien_scout* c_vehicle_type_component::get_type_alien_scout()
 
 c_vehicle_type_alien_fighter* c_vehicle_type_component::get_type_alien_fighter()
 {
-	//return DECLFUNC(0x00B8A7C0, c_vehicle_type_alien_fighter*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7C0, c_vehicle_type_component, get_type_alien_fighter);
 
 	ASSERT(m_initialization_type == _vehicle_type_alien_fighter);
 	return &m_type_alien_fighter;
@@ -279,7 +279,7 @@ c_vehicle_type_alien_fighter* c_vehicle_type_component::get_type_alien_fighter()
 
 c_vehicle_type_turret* c_vehicle_type_component::get_type_turret()
 {
-	//return DECLFUNC(0x00B8A7D0, c_vehicle_type_turret*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7D0, c_vehicle_type_component, get_type_turret);
 
 	ASSERT(m_initialization_type == _vehicle_type_turret);
 	return &m_type_turret;
@@ -287,7 +287,7 @@ c_vehicle_type_turret* c_vehicle_type_component::get_type_turret()
 
 c_vehicle_type_mantis* c_vehicle_type_component::get_type_mantis()
 {
-	//return DECLFUNC(0x00B8A7E0, c_vehicle_type_mantis*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7E0, c_vehicle_type_component, get_type_mantis);
 
 	ASSERT(m_initialization_type == _vehicle_type_mantis);
 	return &m_type_mantis;
@@ -295,7 +295,7 @@ c_vehicle_type_mantis* c_vehicle_type_component::get_type_mantis()
 
 c_vehicle_type_vtol* c_vehicle_type_component::get_type_vtol()
 {
-	//return DECLFUNC(0x00B8A7F0, c_vehicle_type_vtol*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A7F0, c_vehicle_type_component, get_type_vtol);
 
 	ASSERT(m_initialization_type == _vehicle_type_vtol);
 	return &m_type_vtol;
@@ -303,7 +303,7 @@ c_vehicle_type_vtol* c_vehicle_type_component::get_type_vtol()
 
 c_vehicle_type_chopper* c_vehicle_type_component::get_type_chopper()
 {
-	//return DECLFUNC(0x00B8A800, c_vehicle_type_chopper*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A800, c_vehicle_type_component, get_type_chopper);
 
 	ASSERT(m_initialization_type == _vehicle_type_chopper);
 	return &m_type_chopper;
@@ -311,7 +311,7 @@ c_vehicle_type_chopper* c_vehicle_type_component::get_type_chopper()
 
 c_vehicle_type_guardian* c_vehicle_type_component::get_type_guardian()
 {
-	//return DECLFUNC(0x00B8A810, c_vehicle_type_guardian*, __thiscall, c_vehicle_type_component*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B8A810, c_vehicle_type_component, get_type_guardian);
 
 	ASSERT(m_initialization_type == _vehicle_type_guardian);
 	return &m_type_guardian;
@@ -319,7 +319,7 @@ c_vehicle_type_guardian* c_vehicle_type_component::get_type_guardian()
 
 void c_vehicle_type_component::handle_deleted_object(long vehicle_index, long object_index)
 {
-	DECLFUNC(0x00B8A820, void, __thiscall, c_vehicle_type_component*, long, long)(this, vehicle_index, object_index);
+	INVOKE_CLASS_MEMBER(0x00B8A820, c_vehicle_type_component, handle_deleted_object, vehicle_index, object_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -334,7 +334,7 @@ void c_vehicle_type_component::handle_deleted_object(long vehicle_index, long ob
 
 void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 {
-	DECLFUNC(0x00B8A850, void, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	INVOKE_CLASS_MEMBER(0x00B8A850, c_vehicle_type_component, handled_changed_vehicle_type, vehicle_index);
 
 	//vehicle_datum* vehicle = vehicle_get(vehicle_index);
 	//if (vehicle_definition_get_default_type(vehicle->definition_index) != m_initialization_type)
@@ -343,8 +343,7 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 
 bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real a3, real a4, real a5, long object_index)
 {
-	return DECLFUNC(0x00B8A8A0, bool, __thiscall, c_vehicle_type_component*, long, long, real, real, real, long)(
-		this, vehicle_index, trigger_volume, a3, a4, a5, object_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, a3, a4, a5, object_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -358,7 +357,7 @@ bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger
 
 bool c_vehicle_type_component::is_e_braking(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A910, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A910, c_vehicle_type_component, is_e_braking, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -372,7 +371,7 @@ bool c_vehicle_type_component::is_e_braking(long vehicle_index)
 
 bool c_vehicle_type_component::is_running_trick(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A940, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A940, c_vehicle_type_component, is_running_trick, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -384,7 +383,7 @@ bool c_vehicle_type_component::is_running_trick(long vehicle_index)
 
 bool c_vehicle_type_component::is_stopped(long vehicle_index)
 {
-	return DECLFUNC(0x00B8A970, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A970, c_vehicle_type_component, is_stopped, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -414,7 +413,7 @@ bool c_vehicle_type_component::is_stopped(long vehicle_index)
 
 bool c_vehicle_type_component::kills_riders_at_terminal_velocity(long vehicle_index)
 {
-	return DECLFUNC(0x00B8AA50, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8AA50, c_vehicle_type_component, kills_riders_at_terminal_velocity, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -444,7 +443,7 @@ bool c_vehicle_type_component::kills_riders_at_terminal_velocity(long vehicle_in
 
 bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 {
-	return DECLFUNC(0x00B8AB20, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8AB20, c_vehicle_type_component, physics_disabled, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -474,7 +473,7 @@ bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 
 void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* callback_data, c_animation_channel* channel, bool a5)
 {
-	DECLFUNC(0x00B8ABF0, void, __thiscall, c_vehicle_type_component*, long, decltype(callback), c_animation_channel*, bool)(this, vehicle_index, callback, channel, a5);
+	INVOKE_CLASS_MEMBER(0x00B8ABF0, c_vehicle_type_component, process_animation_channels, vehicle_index, callback, callback_data, channel, a5);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -513,7 +512,7 @@ void c_vehicle_type_component::process_animation_channels(long vehicle_index, vo
 
 void c_vehicle_type_component::reset(long vehicle_index)
 {
-	DECLFUNC(0x00B8AD30, void, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	INVOKE_CLASS_MEMBER(0x00B8AD30, c_vehicle_type_component, reset, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -552,7 +551,7 @@ void c_vehicle_type_component::reset(long vehicle_index)
 
 void c_vehicle_type_component::set_auto_turret_damage_owner(long vehicle_index, long object_index)
 {
-	DECLFUNC(0x00B8AE20, void, __thiscall, c_vehicle_type_component*, long, long)(this, vehicle_index, object_index);
+	INVOKE_CLASS_MEMBER(0x00B8AE20, c_vehicle_type_component, set_auto_turret_damage_owner, vehicle_index, object_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -567,7 +566,7 @@ void c_vehicle_type_component::set_auto_turret_damage_owner(long vehicle_index, 
 
 bool c_vehicle_type_component::should_override_deactivation(long vehicle_index)
 {
-	return DECLFUNC(0x00B8AE60, bool, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8AE60, c_vehicle_type_component, should_override_deactivation, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -598,7 +597,7 @@ bool c_vehicle_type_component::should_override_deactivation(long vehicle_index)
 //void c_vehicle_type_component::start_trick(long vehicle_index, e_vehicle_trick_type trick_type)
 void c_vehicle_type_component::start_trick(long vehicle_index, long trick_type)
 {
-	DECLFUNC(0x00B8AF30, void, __thiscall, c_vehicle_type_component*, long, long)(this, vehicle_index, trick_type);
+	INVOKE_CLASS_MEMBER(0x00B8AF30, c_vehicle_type_component, start_trick, vehicle_index, trick_type);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -610,7 +609,7 @@ void c_vehicle_type_component::start_trick(long vehicle_index, long trick_type)
 
 void c_vehicle_type_component::update_control(long vehicle_index)
 {
-	DECLFUNC(0x00B8AF60, void, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
+	return INVOKE_CLASS_MEMBER(0x00B8AF60, c_vehicle_type_component, update_control, vehicle_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -649,7 +648,7 @@ void c_vehicle_type_component::update_control(long vehicle_index)
 
 void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance)
 {
-	DECLFUNC(0x00B8B030, void, __thiscall, c_vehicle_type_component*, long, s_havok_vehicle_physics_instance*)(this, vehicle_index, instance);
+	return INVOKE_CLASS_MEMBER(0x00B8B030, c_vehicle_type_component, update_physics, vehicle_index, instance);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
@@ -688,7 +687,7 @@ void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicl
 
 bool c_vehicle_type_component::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
 {
-	return DECLFUNC(0x00B8B1A0, bool, __thiscall, c_vehicle_type_component*, long, vector3d const*)(this, vehicle_index, vector);
+	return INVOKE_CLASS_MEMBER(0x00B8B1A0, c_vehicle_type_component, vector_is_upsides_down, vehicle_index, vector);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{

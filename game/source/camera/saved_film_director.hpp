@@ -13,7 +13,7 @@ struct c_saved_film_director :
 
 	void constructor(long user_index)
 	{
-		DECLFUNC(0x007276C0, void, __thiscall, c_director*, long)(this, user_index);
+		INVOKE_CLASS_MEMBER(0x007276C0, c_saved_film_director, constructor, user_index);
 	}
 };
 static_assert(sizeof(c_saved_film_director) == 0x160);

@@ -10,11 +10,11 @@ struct c_tag_resource_cache_thread_lock_lock_freeish;
 struct c_tag_resource_thread_access
 {
 public:
-	bool __cdecl resource_available(long resource_handle);
-	void* __cdecl get_resource_data(long resource_handle);
+	bool resource_available(long resource_handle);
+	void* get_resource_data(long resource_handle);
 
 private:
-	c_tag_resource_cache_file_access_cache* __cdecl get_current_thread_access_cache();
+	c_tag_resource_cache_file_access_cache* get_current_thread_access_cache();
 
 protected:
 	long m_per_thread_acquired_access_cache_storage[k_registered_thread_count];
@@ -31,7 +31,7 @@ struct c_io_result;
 struct c_thread_safeish_tag_resource_cache
 {
 public:
-	void* __cdecl get_resource_data(long resource_handle)
+	void* get_resource_data(long resource_handle)
 	{
 		if (!m_resource_thread_access.resource_available(resource_handle))
 			report_unavailable_resource(resource_handle);
@@ -40,11 +40,11 @@ public:
 	}
 
 	//private:
-	void __cdecl report_unavailable_resource(long resource_handle)
+	void report_unavailable_resource(long resource_handle)
 	{
 	}
 
-	c_tag_resource_thread_access* __cdecl get_thread_access()
+	c_tag_resource_thread_access* get_thread_access()
 	{
 		return &m_resource_thread_access;
 	}

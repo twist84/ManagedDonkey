@@ -3,49 +3,49 @@
 #include "math/color_math.hpp"
 #include "text/font_loading.hpp"
 
-void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b)
+void c_draw_string::set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b)
 {
 	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, real_rectangle2d const*, real_rectangle2d const*)(this, bounds_a, bounds_b);
 }
 
-void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds)
+void c_draw_string::set_bounds(real_rectangle2d const* bounds)
 {
 	DECLFUNC(0x00658BC0, void, __thiscall, c_draw_string*, real_rectangle2d const*)(this, bounds);
 }
 
-void __cdecl c_draw_string::set_bounds(short_rectangle2d const* bounds)
+void c_draw_string::set_bounds(short_rectangle2d const* bounds)
 {
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);
 }
 
-void __cdecl c_draw_string::set_color(dword color)
+void c_draw_string::set_color(dword color)
 {
 	real_argb_color real_color{};
 	set_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
 }
 
-void __cdecl c_draw_string::set_color(argb_color color)
+void c_draw_string::set_color(argb_color color)
 {
 	real_argb_color real_color{};
 	set_color(pixel32_to_real_argb_color(color, &real_color));
 }
 
-void __cdecl c_draw_string::set_color(real_argb_color const* color)
+void c_draw_string::set_color(real_argb_color const* color)
 {
 	m_color = *color;
 }
 
-void __cdecl c_draw_string::set_shadow_color(real_argb_color const* shadow_color)
+void c_draw_string::set_shadow_color(real_argb_color const* shadow_color)
 {
 	m_shadow_color = *shadow_color;
 }
 
-void __cdecl c_draw_string::set_style(long style)
+void c_draw_string::set_style(long style)
 {
 	m_style = style;
 }
 
-void __cdecl c_draw_string::set_tab_stops(short const* tab_stops, short count)
+void c_draw_string::set_tab_stops(short const* tab_stops, short count)
 {
 	ASSERT((tab_stops != NULL && count >= 0) || (tab_stops == NULL && count == 0));
 
@@ -65,22 +65,22 @@ void __cdecl c_draw_string::set_tab_stops(short const* tab_stops, short count)
 	}
 }
 
-void __cdecl c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
+void c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
 {
 	m_flags.set(_text_flag_wrap_horizontally_bit, wrap_horizontally);
 }
 
-void __cdecl c_draw_string::text_bounds_draw_character(real a1, real a2, real a3, real a4)
+void c_draw_string::text_bounds_draw_character(real a1, real a2, real a3, real a4)
 {
-	DECLFUNC(0x00659340, void, __thiscall, c_draw_string*, real, real, real, real)(this, a1, a2, a3, a4);
+	INVOKE_CLASS_MEMBER(0x00659340, c_draw_string, text_bounds_draw_character, a1, a2, a3, a4);
 }
 
-void __cdecl c_draw_string::set_scale(real scale)
+void c_draw_string::set_scale(real scale)
 {
 	m_scale = scale;
 }
 
-void __cdecl c_draw_string::set_font(long font_id)
+void c_draw_string::set_font(long font_id)
 {
 	if (font_id < 0)
 		font_id = 0;
@@ -92,27 +92,27 @@ void __cdecl c_draw_string::set_font(long font_id)
 	m_font = font_get_header(font_id);
 }
 
-void __cdecl c_draw_string::set_justification(long justification)
+void c_draw_string::set_justification(long justification)
 {
 	m_justification = justification;
 }
 
-bool __cdecl c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
+bool c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
 {
-	return DECLFUNC(0x00657DD0, bool, __thiscall, c_draw_string*, c_font_cache_base*, char const*)(this, font_cache, s);
+	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string, draw_more, font_cache, s);
 }
 
-void __cdecl c_draw_string::get_cursor(int16_point2d* cursor) const
+void c_draw_string::get_cursor(int16_point2d* cursor) const
 {
-	return DECLFUNC(0x006583E0, void, __thiscall, c_draw_string const*, int16_point2d*)(this, cursor);
+	return INVOKE_CLASS_MEMBER(0x006583E0, c_draw_string, get_cursor, cursor);
 }
 
 //.text:00658410 ; public: void c_draw_string::get_cursor(real_point2d*) const
 //.text:00658430 ; public: e_text_justification c_draw_string::get_justification() const
 
-short __cdecl c_draw_string::get_line_height() const
+short c_draw_string::get_line_height() const
 {
-	return DECLFUNC(0x00658440, short, __thiscall, c_draw_string const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string, get_line_height);
 }
 
 c_draw_string::c_draw_string() :
@@ -174,12 +174,12 @@ c_simple_font_draw_string::s_character_group_render_data::s_character_group_rend
 	csmemset(characters, 0, sizeof(characters));
 }
 
-bool __cdecl c_simple_font_draw_string::s_character_group_render_data::is_full()
+bool c_simple_font_draw_string::s_character_group_render_data::is_full()
 {
 	return count == 255;
 }
 
-void __cdecl c_simple_font_draw_string::s_character_group_render_data::reset()
+void c_simple_font_draw_string::s_character_group_render_data::reset()
 {
 	__unknown0 = 0;
 	__unknown4 = 0;

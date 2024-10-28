@@ -10,9 +10,9 @@ void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& textur
 	INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, levels, format, a6, a7, a8, a9);
 }
 
-IDirect3DTexture9* __cdecl c_rasterizer_texture_ref::get_d3d_texture() const
+IDirect3DTexture9* c_rasterizer_texture_ref::get_d3d_texture() const
 {
-	return DECLFUNC(0x00A6E8E0, IDirect3DTexture9*, __thiscall, c_rasterizer_texture_ref const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00A6E8E0, c_rasterizer_texture_ref, get_d3d_texture);
 }
 
 void __cdecl c_rasterizer_texture_ref::initialize()

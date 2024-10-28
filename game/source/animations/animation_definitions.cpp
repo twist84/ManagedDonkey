@@ -52,7 +52,7 @@ c_model_animation_graph const* __cdecl c_model_animation_graph::get_from_object_
 
 s_animation_graph_node* c_model_animation_graph::get_node(long node_index) const
 {
-	//return DECLFUNC(0x007856F0, s_animation_graph_node*, __thiscall, c_model_animation_graph const*, long)(this, node_index);
+	//return INVOKE_CLASS_MEMBER(0x007856F0, c_model_animation_graph, get_node, node_index);
 
 	return &definitions.skeleton_nodes[node_index];
 }

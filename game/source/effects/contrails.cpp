@@ -14,9 +14,9 @@ void __cdecl c_contrail::render_callback(void const* a1, long a2)
 		contrail->render();
 }
 
-void __cdecl c_contrail::render() const
+void c_contrail::render() const
 {
-	DECLFUNC(0x007572B0, void, __thiscall, c_contrail const*)(this);
+	INVOKE_CLASS_MEMBER(0x007572B0, c_contrail, render);
 }
 
 void __cdecl c_contrail_system::submit_all(e_output_user_index output_user_index, e_effect_pass effect_pass)

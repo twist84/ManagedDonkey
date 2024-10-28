@@ -26,12 +26,12 @@ c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_fil
 
 void c_cache_file_tag_resource_runtime_manager::commit_zone_state()
 {
-	DECLFUNC(0x0055FDC0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x0055FDC0, c_cache_file_tag_resource_runtime_manager, commit_zone_state);
 }
 
 void __thiscall c_cache_file_tag_resource_runtime_manager_allocation::construct()
 {
-	DECLFUNC(0x0055FF10, void, __thiscall, c_cache_file_tag_resource_runtime_manager_allocation*)(this);
+	INVOKE_CLASS_MEMBER(0x0055FF10, c_cache_file_tag_resource_runtime_manager_allocation, construct);
 }
 
 #define ISEXPERIMENTAL
@@ -304,7 +304,7 @@ void __cdecl cache_file_tag_resources_stop_map_prefetch()
 
 void c_cache_file_tag_resource_runtime_manager::load_pending_resources_blocking(c_io_result* io_result)
 {
-	DECLFUNC(0x005626C0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_io_result*)(this, io_result);
+	INVOKE_CLASS_MEMBER(0x005626C0, c_cache_file_tag_resource_runtime_manager, load_pending_resources_blocking, io_result);
 
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.load_pending_data_only_blocking(io_result);
@@ -319,7 +319,7 @@ void c_cache_file_tag_resource_runtime_manager::load_pending_resources_blocking(
 
 void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking(c_io_result* io_result)
 {
-	DECLFUNC(0x00562710, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_io_result*)(this, io_result);
+	INVOKE_CLASS_MEMBER(0x00562710, c_cache_file_tag_resource_runtime_manager, load_required_resources_blocking, io_result);
 
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.load_required_data_only_blocking(io_result);
@@ -335,7 +335,7 @@ void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking
 
 void c_cache_file_tag_resource_runtime_manager::lock_for_game()
 {
-	return DECLFUNC(0x005627A0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x005627A0, c_cache_file_tag_resource_runtime_manager, lock_for_game);
 
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
@@ -343,7 +343,7 @@ void c_cache_file_tag_resource_runtime_manager::lock_for_game()
 
 void c_cache_file_tag_resource_runtime_manager::lock_for_render()
 {
-	return DECLFUNC(0x005627C0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x005627C0, c_cache_file_tag_resource_runtime_manager, lock_for_render);
 
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
@@ -351,27 +351,27 @@ void c_cache_file_tag_resource_runtime_manager::lock_for_render()
 
 bool c_cache_file_tag_resource_runtime_manager::locked_for_current_thread_UGLY()
 {
-	return DECLFUNC(0x005627E0, bool, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	return INVOKE_CLASS_MEMBER(0x005627E0, c_cache_file_tag_resource_runtime_manager, locked_for_current_thread_UGLY);
 }
 
 bool c_cache_file_tag_resource_runtime_manager::locked_for_game_UGLY() const
 {
-	return DECLFUNC(0x005627F0, bool, __thiscall, c_cache_file_tag_resource_runtime_manager const*)(this);
+	return INVOKE_CLASS_MEMBER(0x005627F0, c_cache_file_tag_resource_runtime_manager, locked_for_game_UGLY);
 }
 
 void c_cache_file_tag_resource_runtime_manager::prepare_for_next_map()
 {
-	DECLFUNC(0x00562D90, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x00562D90, c_cache_file_tag_resource_runtime_manager, prepare_for_next_map);
 }
 
 void c_cache_file_tag_resource_runtime_manager::pump_io()
 {
-	DECLFUNC(0x005630E0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x005630E0, c_cache_file_tag_resource_runtime_manager, pump_io);
 }
 
 void c_cache_file_tag_resource_runtime_manager::stagnate_deferred_resources()
 {
-	DECLFUNC(0x00563C70, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x00563C70, c_cache_file_tag_resource_runtime_manager, stagnate_deferred_resources);
 }
 
 bool __cdecl tag_resource_available(s_tag_resource const* resource)
@@ -455,17 +455,17 @@ void __cdecl tag_resources_unlock_game(long& lock)
 
 void c_cache_file_tag_resource_runtime_manager::unlock_for_game()
 {
-	DECLFUNC(0x00564840, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x00564840, c_cache_file_tag_resource_runtime_manager, unlock_for_game);
 }
 
 void c_cache_file_tag_resource_runtime_manager::idle()
 {
-	DECLFUNC(0x005619D0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x005619D0, c_cache_file_tag_resource_runtime_manager, idle);
 }
 
 void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* allocation)
 {
-	DECLFUNC(0x00561B40, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_allocation_base*)(this, allocation);
+	INVOKE_CLASS_MEMBER(0x00561B40, c_cache_file_tag_resource_runtime_manager, initialize, allocation);
 
 	//m_running_off_dvd = cache_files_running_off_dvd();
 	//m_in_level_memory_manager.m_resource_header_location_table.m_uber_location_table.__unknown4 = 0;
@@ -535,8 +535,7 @@ void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(
 	s_cache_file_tag_resource_vtable const** resource_vtable_list,
 	c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry)
 {
-	DECLFUNC(0x00561DF0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, e_game_mode, long, long, s_cache_file_tag_resource_vtable const**, c_cache_file_runtime_decompressor_registry*)(
-		this,
+	INVOKE_CLASS_MEMBER(0x00561DF0, c_cache_file_tag_resource_runtime_manager, initialize_for_new_map,
 		game_mode,
 		cache_file_resource_gestalt_index,
 		resource_vtable_list_count,

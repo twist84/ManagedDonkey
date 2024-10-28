@@ -29,7 +29,7 @@ struct c_flying_camera :
 
 	void constructor(long user_index)
 	{
-		DECLFUNC(0x0072ACA0, void, __thiscall, c_camera*, long)(this, user_index);
+		INVOKE_CLASS_MEMBER(0x0072ACA0, c_flying_camera, constructor, user_index);
 	}
 
 	void set_lock_in_xy_plane(bool value)

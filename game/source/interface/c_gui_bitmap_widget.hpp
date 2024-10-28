@@ -52,9 +52,9 @@ struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
 public:
-	void __cdecl set_sprite_frame(long sprite_frame);
-	void __cdecl set_sprite_sequence(long sprite_sequence);
-	bitmap_data const* __cdecl get_current_bitmap() const;
+	void set_sprite_frame(long sprite_frame);
+	void set_sprite_sequence(long sprite_sequence);
+	bitmap_data const* get_current_bitmap() const;
 
 protected:
 	long __unknownDC;

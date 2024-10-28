@@ -15,9 +15,9 @@ c_hash::~c_hash()
 	DECLFUNC(0x00967E90, c_hash*, __thiscall, c_hash*)(this);
 }
 
-dword __cdecl c_hash::add_byte(byte byte_to_add)
+dword c_hash::add_byte(byte byte_to_add)
 {
-	return DECLFUNC(0x00967EA0, dword, __thiscall, c_hash*, byte)(this, byte_to_add);
+	return INVOKE_CLASS_MEMBER(0x00967EA0, c_hash, add_byte, byte_to_add);
 
 	//ASSERT((m_polynomial_index >= 0) && (m_polynomial_index < k_hash_polynomial_count));
 	//
@@ -30,9 +30,9 @@ dword __cdecl c_hash::add_byte(byte byte_to_add)
 	//return m_hash;
 }
 
-dword __cdecl c_hash::add_data_range(void const* data, long data_size)
+dword c_hash::add_data_range(void const* data, long data_size)
 {
-	return DECLFUNC(0x00967EE0, dword, __thiscall, c_hash*, void const*, long)(this, data, data_size);
+	return INVOKE_CLASS_MEMBER(0x00967EE0, c_hash, add_data_range, data, data_size);
 
 	//for (long i = 0; i < data_size; i++)
 	//	add_byte(static_cast<byte const*>(data)[i]);
@@ -40,9 +40,9 @@ dword __cdecl c_hash::add_data_range(void const* data, long data_size)
 	//return m_hash;
 }
 
-dword __cdecl c_hash::get_hash() const
+dword c_hash::get_hash() const
 {
-	return DECLFUNC(0x00967F30, dword, __thiscall, c_hash const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00967F30, c_hash, get_hash);
 
 	//return m_hash;
 }

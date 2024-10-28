@@ -15,7 +15,7 @@ struct c_game_engine_infection_variant :
 public:
 	c_game_engine_infection_variant* constructor()
 	{
-		return DECLFUNC(0x00572B60, c_game_engine_infection_variant*, __thiscall, c_game_engine_infection_variant*)(this);
+		return INVOKE_CLASS_MEMBER(0x00572B60, c_game_engine_infection_variant, constructor);
 	}
 
 	void byteswap();

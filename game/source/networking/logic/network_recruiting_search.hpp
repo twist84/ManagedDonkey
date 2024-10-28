@@ -11,7 +11,7 @@ static_assert(sizeof(s_recruiting_session_search) == 0x2E8);
 
 struct c_recruiting_seeker
 {
-	void __cdecl update();
+	void update();
 
 	byte_flags m_flags;
 	dword_flags m_squad_search_flags;

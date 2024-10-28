@@ -68,7 +68,7 @@ long __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type s
 
 void c_online_lsp_manager::clear_activated_servers()
 {
-	//DECLFUNC(0x00431740, void, __thiscall, c_online_lsp_manager*)(this);
+	//INVOKE_CLASS_MEMBER(0x00431740, c_online_lsp_manager, clear_activated_servers);
 
 	for (s_server_data& server : m_service)
 	{
@@ -83,7 +83,7 @@ void c_online_lsp_manager::clear_activated_servers()
 
 void c_online_lsp_manager::clear_client(long client_index)
 {
-	//DECLFUNC(0x004317F0, void, __thiscall, c_online_lsp_manager*, long)(this, client_index);
+	//INVOKE_CLASS_MEMBER(0x004317F0, c_online_lsp_manager, clear_client, client_index);
 
 	m_current_clients[client_index].client_state = 0;
 	m_current_clients[client_index].service_type = NONE;
@@ -93,7 +93,7 @@ void c_online_lsp_manager::clear_client(long client_index)
 
 void c_online_lsp_manager::disconnect_from_server(long connection_token, bool success)
 {
-	//DECLFUNC(0x00431830, void, __thiscall, c_online_lsp_manager*, long, bool)(this, connection_token, success);
+	//INVOKE_CLASS_MEMBER(0x00431830, c_online_lsp_manager, disconnect_from_server, connection_token, success);
 
 	ASSERT(connection_token != NONE);
 
@@ -116,7 +116,7 @@ void c_online_lsp_manager::disconnect_from_server(long connection_token, bool su
 
 long c_online_lsp_manager::find_empty_slot_index()
 {
-	//return DECLFUNC(0x00431830, long, __thiscall, c_online_lsp_manager*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00431910, c_online_lsp_manager, find_empty_slot_index);
 
 	for (long slot_index = 0; slot_index < k_maximum_simultaneous_clients; slot_index++)
 	{
@@ -128,7 +128,7 @@ long c_online_lsp_manager::find_empty_slot_index()
 
 long c_online_lsp_manager::find_slot_index_from_token(long connection_token)
 {
-	//return DECLFUNC(0x00431830, long, __thiscall, c_online_lsp_manager*, long)(this, connection_token);
+	//return INVOKE_CLASS_MEMBER(0x00431930, c_online_lsp_manager, find_slot_index_from_token, connection_token);
 
 	for (long slot_index = 0; slot_index < k_maximum_simultaneous_clients; slot_index++)
 	{
@@ -151,7 +151,7 @@ c_online_lsp_manager* c_online_lsp_manager::get()
 
 void c_online_lsp_manager::go_into_crash_mode()
 {
-	//DECLFUNC(0x00431C40, void, __thiscall, c_online_lsp_manager*)(this);
+	//INVOKE_CLASS_MEMBER(0x00431C40, c_online_lsp_manager, go_into_crash_mode);
 
 	c_critical_section_scope section_scope(_critical_section_lsp_manager);
 	generate_event(_event_level_message, "networking:online:lsp: entering crash mode");
@@ -164,7 +164,7 @@ void c_online_lsp_manager::go_into_crash_mode()
 
 void c_online_lsp_manager::reset()
 {
-	//DECLFUNC(0x00431EF0, void, __thiscall, c_online_lsp_manager*)(this);
+	//INVOKE_CLASS_MEMBER(0x00431EF0, c_online_lsp_manager, reset);
 
 	generate_event(_event_level_message, "networking:online:lsp: resetting");
 	m_lsp_server_count = false;
@@ -177,7 +177,7 @@ void c_online_lsp_manager::reset()
 
 void c_online_lsp_manager::server_connected(long connection_token)
 {
-	//DECLFUNC(0x00431F50, void, __thiscall, c_online_lsp_manager*, long)(this, connection_token);
+	//INVOKE_CLASS_MEMBER(0x00431F50, c_online_lsp_manager, server_connected, connection_token);
 
 	ASSERT(connection_token != NONE);
 
@@ -192,9 +192,9 @@ void c_online_lsp_manager::server_connected(long connection_token)
 
 //.text:00431FD0 ; c_online_lsp_manager::service_type_in_list
 
-void __cdecl c_online_lsp_manager::update()
+void c_online_lsp_manager::update()
 {
-	DECLFUNC(0x004322A0, void, __thiscall, c_online_lsp_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x004322A0, c_online_lsp_manager, update);
 }
 
 //.text:00432400 ; c_online_lsp_manager::update_online_status

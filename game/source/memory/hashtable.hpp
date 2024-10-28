@@ -11,9 +11,9 @@ public:
 	c_hash();
 	~c_hash();
 
-	dword __cdecl add_byte(byte byte_to_add);
-	dword __cdecl add_data_range(void const* data, long data_size);
-	dword __cdecl get_hash() const;
+	dword add_byte(byte byte_to_add);
+	dword add_data_range(void const* data, long data_size);
+	dword get_hash() const;
 
 protected:
 	dword m_hash;

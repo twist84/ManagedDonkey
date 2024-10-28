@@ -12,7 +12,7 @@ struct c_game_engine_ctf_variant :
 public:
 	c_game_engine_ctf_variant* constructor()
 	{
-		return DECLFUNC(0x00572B40, c_game_engine_ctf_variant*, __thiscall, c_game_engine_ctf_variant*)(this);
+		return INVOKE_CLASS_MEMBER(0x00572B40, c_game_engine_ctf_variant, constructor);
 	}
 
 	void byteswap();

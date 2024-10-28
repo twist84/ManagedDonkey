@@ -4,7 +4,7 @@
 
 c_gui_data* c_gui_list_widget::get_data()
 {
-	return DECLFUNC(0x00B14FE0, c_gui_data*, __thiscall, c_gui_list_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B14FE0, c_gui_list_widget, get_data);
 }
 
 //.text:00B15020 ; public: virtual long c_gui_list_widget::get_datasource_index()
@@ -13,7 +13,7 @@ c_gui_data* c_gui_list_widget::get_data()
 
 long c_gui_list_widget::get_focused_item_index()
 {
-	return DECLFUNC(0x00B15160, long, __thiscall, c_gui_list_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B15160, c_gui_list_widget, get_focused_item_index);
 }
 
 //.text:00B15170 ; public: long c_gui_list_widget::get_item_count(bool)
@@ -21,12 +21,12 @@ long c_gui_list_widget::get_focused_item_index()
 
 long c_gui_list_widget::get_scroll_position()
 {
-	return DECLFUNC(0x00B15250, long, __thiscall, c_gui_list_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B15250, c_gui_list_widget, get_scroll_position);
 }
 
 long c_gui_list_widget::get_selectable_item_count()
 {
-	return DECLFUNC(0x00B15260, long, __thiscall, c_gui_list_widget*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B15260, c_gui_list_widget, get_selectable_item_count);
 }
 
 //.text:00B152C0 ; 
@@ -53,12 +53,12 @@ long c_gui_list_widget::get_selectable_item_count()
 
 bool c_gui_list_widget::set_focused_item_index(long focused_item_index, bool a2)
 {
-	return DECLFUNC(0x00B162E0, bool, __thiscall, c_gui_list_widget*, long, bool)(this, focused_item_index, a2);
+	return INVOKE_CLASS_MEMBER(0x00B162E0, c_gui_list_widget, set_focused_item_index, focused_item_index, a2);
 }
 
 void c_gui_list_widget::set_scroll_position(long scroll_position)
 {
-	DECLFUNC(0x00B16440, void, __thiscall, c_gui_list_widget*, long)(this, scroll_position);
+	INVOKE_CLASS_MEMBER(0x00B16440, c_gui_list_widget, set_scroll_position, scroll_position);
 }
 
 //.text:00B16490 ; 

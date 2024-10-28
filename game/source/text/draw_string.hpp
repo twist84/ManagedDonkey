@@ -101,24 +101,24 @@ public:
 		return __vftable->draw_character(this, font_cache, font_id, character, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
 	
-	void __cdecl set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b);
-	void __cdecl set_bounds(real_rectangle2d const* bounds);
-	void __cdecl set_bounds(short_rectangle2d const* bounds);
-	void __cdecl set_color(dword color);
-	void __cdecl set_color(argb_color color);
-	void __cdecl set_color(real_argb_color const* color);
-	void __cdecl set_shadow_color(real_argb_color const* shadow_color);
-	void __cdecl set_style(long style);
-	void __cdecl set_tab_stops(short const* tab_stops, short count);
-	void __cdecl set_wrap_horizontally(bool wrap_horizontally);
-	void __cdecl text_bounds_draw_character(real a1, real a2, real a3, real a4);
-	void __cdecl set_scale(real scale);
-	void __cdecl set_font(long font_id);
-	void __cdecl set_justification(long justification);
-	bool __cdecl draw_more(c_font_cache_base* font_cache, char const* s);
+	void set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b);
+	void set_bounds(real_rectangle2d const* bounds);
+	void set_bounds(short_rectangle2d const* bounds);
+	void set_color(dword color);
+	void set_color(argb_color color);
+	void set_color(real_argb_color const* color);
+	void set_shadow_color(real_argb_color const* shadow_color);
+	void set_style(long style);
+	void set_tab_stops(short const* tab_stops, short count);
+	void set_wrap_horizontally(bool wrap_horizontally);
+	void text_bounds_draw_character(real a1, real a2, real a3, real a4);
+	void set_scale(real scale);
+	void set_font(long font_id);
+	void set_justification(long justification);
+	bool draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial
-	void __cdecl get_cursor(int16_point2d* cursor) const;
-	short __cdecl get_line_height() const;
+	void get_cursor(int16_point2d* cursor) const;
+	short get_line_height() const;
 
 protected:
 	c_flags<e_text_flags, dword, k_text_flags> m_flags;
@@ -188,8 +188,8 @@ struct c_simple_font_draw_string :
 	struct s_character_group_render_data
 	{
 		s_character_group_render_data();
-		bool __cdecl is_full();
-		void __cdecl reset();
+		bool is_full();
+		void reset();
 
 	protected:
 		long __unknown0;

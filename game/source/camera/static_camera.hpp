@@ -16,7 +16,7 @@ struct c_static_camera :
 
 	void constructor(long user_index)
 	{
-		DECLFUNC(0x0072F170, void, __thiscall, c_camera*, long)(this, user_index);
+		INVOKE_CLASS_MEMBER(0x0072F170, c_static_camera, constructor, user_index);
 	}
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
@@ -28,7 +28,7 @@ struct c_scripted_camera :
 
 	void constructor()
 	{
-		DECLFUNC(0x0072BEB0, void, __thiscall, c_camera*)(this);
+		INVOKE_CLASS_MEMBER(0x0072BEB0, c_scripted_camera, constructor);
 	}
 };
 static_assert(sizeof(c_scripted_camera) == 0x4C);

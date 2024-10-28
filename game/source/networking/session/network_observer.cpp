@@ -15,7 +15,7 @@ c_network_observer::s_channel_observer const* c_network_observer::find_observer_
 
 void c_network_observer::destroy_observer()
 {
-    DECLFUNC(0x00446190, void, __thiscall, c_network_observer*)(this);
+    INVOKE_CLASS_MEMBER(0x00446190, c_network_observer, destroy_observer);
 }
 
 //.text:004465D0 ; e_transport_secure_connection c_network_observer::get_secure_connection_status(long) const
@@ -23,20 +23,14 @@ void c_network_observer::destroy_observer()
 
 void c_network_observer::handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request)
 {
-    DECLFUNC(0x004466A0, long, __thiscall, c_network_observer*, transport_address const*, s_network_message_connect_request const*)(this, incoming_address, connect_request);
+    INVOKE_CLASS_MEMBER(0x004466A0, c_network_observer, handle_connect_request, incoming_address, connect_request);
 }
 
 //.text:00446A10 ; void c_network_observer::handle_packet_event(c_network_channel*, e_network_packet_event, long, long, long)
 
 bool c_network_observer::initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration)
 {
-    return DECLFUNC(0x00446C00, bool, __thiscall, c_network_observer*, c_network_link*, c_network_message_type_collection*, c_network_message_gateway*, c_network_message_handler*, s_observer_configuration const*)(
-        this,
-        link,
-        message_types,
-        message_gateway,
-        message_handler,
-        configuration);
+    return INVOKE_CLASS_MEMBER(0x00446C00, c_network_observer, initialize_observer, link, message_types, message_gateway, message_handler, configuration);
 
     //ASSERT(link);
     //ASSERT(message_types);
@@ -51,7 +45,7 @@ bool c_network_observer::initialize_observer(c_network_link* link, c_network_mes
 
 void c_network_observer::monitor()
 {
-    DECLFUNC(0x00446DD0, void, __thiscall, c_network_observer*)(this);
+    INVOKE_CLASS_MEMBER(0x00446DD0, c_network_observer, monitor);
 }
 
 //.text:00446ED0 ; 
@@ -63,7 +57,7 @@ void c_network_observer::monitor()
 
 long c_network_observer::observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const
 {
-    //return DECLFUNC(0x00447150, long, __thiscall, c_network_observer const*, long, c_network_channel*)(this, owner_type, channel);
+    //return INVOKE_CLASS_MEMBER(0x00447150, c_network_observer, observer_channel_find_by_network_channel, owner_type, channel);
 
     //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
     ASSERT(channel != NULL);
@@ -93,7 +87,7 @@ long c_network_observer::observer_channel_find_by_network_channel(long owner_typ
 
 void c_network_observer::observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data)
 {
-    DECLFUNC(0x004474F0, void, __thiscall, c_network_observer*, long, long, bool, e_network_message_type, long, void const*)(this, owner_type, observer_index, a3, message_type, data_size, data);
+    INVOKE_CLASS_MEMBER(0x004474F0, c_network_observer, observer_channel_send_message, owner_type, observer_index, a3, message_type, data_size, data);
 }
 
 //.text:00447660 ; void c_network_observer::observer_channel_set_observer_is_bad_client(e_network_observer_owner, long, bool)
@@ -104,7 +98,7 @@ void c_network_observer::observer_channel_send_message(long owner_type, long obs
 
 void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth)
 {
-    //DECLFUNC(0x004477E0, void, __thiscall, c_network_observer*, bool)(this, prioritize_upload_bandwidth);
+    //INVOKE_CLASS_MEMBER(0x004477E0, c_network_observer, observer_prioritize_upload_bandwidth, prioritize_upload_bandwidth);
 
     if (m_prioritize_upload_bandwidth != prioritize_upload_bandwidth)
     {
@@ -138,7 +132,7 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_up
 
 void c_network_observer::set_online_network_environment(bool online_network_environment)
 {
-    //DECLFUNC(0x00448590, void, __thiscall, c_network_observer*, bool)(this, online_network_environment);
+    //INVOKE_CLASS_MEMBER(0x00448590, c_network_observer, set_online_network_environment, online_network_environment);
 
     m_online_network_environment = online_network_environment;
 }

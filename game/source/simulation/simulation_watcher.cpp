@@ -6,7 +6,7 @@
 
 void c_simulation_watcher::describe_status(char* buffer, long buffer_size) const
 {
-	//DECLFUNC(0x0046C080, void, __thiscall, c_simulation_watcher const*, char*, long)(this, buffer, buffer_size);
+	//INVOKE_CLASS_MEMBER(0x0046C080, c_simulation_watcher, describe_status, buffer, buffer_size);
 
 	csstrnzcpy(buffer, "", buffer_size);
 
@@ -167,6 +167,6 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_size) const
 
 bool c_simulation_watcher::need_to_generate_updates() const
 {
-	return DECLFUNC(0x0046D090, bool, __thiscall, c_simulation_watcher const*)(this);
+	return INVOKE_CLASS_MEMBER(0x0046D090, c_simulation_watcher, need_to_generate_updates);
 }
 

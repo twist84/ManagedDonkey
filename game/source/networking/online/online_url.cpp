@@ -102,21 +102,21 @@ void __cdecl create_user_url_base(c_url_string* url, qword user_id)
 
 e_network_http_request_queue_type c_url_string::get_request_type() const
 {
-	//return DECLFUNC(0x004516A0, e_network_http_request_queue_type, __thiscall, c_url_string const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004516A0, c_url_string, get_request_type);
 
 	return m_request_type;
 }
 
 e_online_lsp_service_type c_url_string::get_service_type() const
 {
-	//return DECLFUNC(0x004516B0, e_online_lsp_service_type, __thiscall, c_url_string const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004516B0, c_url_string, get_service_type);
 
 	return m_service_type;
 }
 
 long c_url_string::get_untracked_cache_lifetime_seconds() const
 {
-	//return DECLFUNC(0x004516D0, long, __thiscall, c_url_string const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004516D0, c_url_string, get_untracked_cache_lifetime_seconds);
 
 	return m_untracked_cache_lifetime_seconds;
 }
@@ -501,7 +501,7 @@ void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_di
 
 void c_url_string::set(c_url_string const* other)
 {
-	//DECLFUNC(0x004521E0, void, __thiscall, c_url_string*, c_url_string const*)(this, other);
+	//INVOKE_CLASS_MEMBER(0x004521E0, c_url_string, set, other);
 
 	m_string = other->m_string;
 	m_service_type = other->m_service_type;
@@ -512,21 +512,21 @@ void c_url_string::set(c_url_string const* other)
 
 void c_url_string::set_cachable(e_cachable_type cachable)
 {
-	//DECLFUNC(0x00452230, void, __thiscall, c_url_string*, e_cachable_type)(this, cachable);
+	//INVOKE_CLASS_MEMBER(0x00452230, c_url_string, set_cachable, cachable);
 
 	m_cachable = cachable;
 }
 
 void c_url_string::set_request_type(e_network_http_request_queue_type queue_type)
 {
-	//DECLFUNC(0x00452240, void, __thiscall, c_url_string*, e_network_http_request_queue_type)(this, queue_type);
+	//INVOKE_CLASS_MEMBER(0x00452240, c_url_string, set_request_type, queue_type);
 
 	m_request_type = queue_type;
 }
 
 void c_url_string::set_service_type(e_online_lsp_service_type service_type)
 {
-	//DECLFUNC(0x00452250, void, __thiscall, c_url_string*, e_online_lsp_service_type)(this, service_type);
+	//INVOKE_CLASS_MEMBER(0x00452250, c_url_string, set_service_type, service_type);
 
 	m_service_type = service_type;
 }

@@ -13,6 +13,6 @@ c_gui_pregame_setup_manager* __cdecl c_gui_pregame_setup_manager::get()
 
 void c_gui_pregame_setup_manager::update()
 {
-	DECLFUNC(0x00AA8A00, void, __thiscall, c_gui_pregame_setup_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x00AA8A00, c_gui_pregame_setup_manager, update);
 }
 

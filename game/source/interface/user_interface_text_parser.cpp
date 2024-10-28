@@ -11,7 +11,7 @@ c_game_tag_parser::c_game_tag_parser(wchar_t const* xml_tag) :
 
 bool c_magic_string_game_tag_parser::get_magic_string(wchar_t* buffer, long buffer_length)
 {
-	return DECLFUNC(0x00AA6490, bool, __thiscall, c_magic_string_game_tag_parser*, wchar_t*, long)(this, buffer, buffer_length);
+	return INVOKE_CLASS_MEMBER(0x00AA6490, c_magic_string_game_tag_parser, get_magic_string, buffer, buffer_length);
 }
 
 c_magic_string_game_tag_parser::c_magic_string_game_tag_parser(wchar_t const* xml_tag, void* game_data, bool(*game_data_function)(void*, wchar_t*, long)) :
@@ -24,12 +24,12 @@ c_magic_string_game_tag_parser::c_magic_string_game_tag_parser(wchar_t const* xm
 
 void c_user_interface_text_parse_manager::register_parser(c_game_tag_parser* parser, long screen_index)
 {
-	DECLFUNC(0x00AA68E0, void, __thiscall, c_user_interface_text_parse_manager*, c_game_tag_parser*, long)(this, parser, screen_index);
+	INVOKE_CLASS_MEMBER(0x00AA68E0, c_user_interface_text_parse_manager, register_parser, parser, screen_index);
 }
 
 void c_user_interface_text_parse_manager::unregister_parser(c_game_tag_parser* parser, long screen_index)
 {
-	DECLFUNC(0x00AA6A20, void, __thiscall, c_user_interface_text_parse_manager*, c_game_tag_parser*, long)(this, parser, screen_index);
+	INVOKE_CLASS_MEMBER(0x00AA6A20, c_user_interface_text_parse_manager, unregister_parser, parser, screen_index);
 }
 
 void __cdecl user_interface_text_parser_register(c_game_tag_parser* parser, long screen_index)

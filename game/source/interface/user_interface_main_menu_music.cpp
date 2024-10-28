@@ -17,14 +17,14 @@ c_user_interface_main_menu_music::c_user_interface_main_menu_music() :
 	DECLFUNC(0x00AD54F0, c_user_interface_main_menu_music*, __thiscall, c_user_interface_main_menu_music*)(this);
 }
 
-void c_user_interface_main_menu_music::change_state(c_user_interface_main_menu_music::e_music_state)
+void c_user_interface_main_menu_music::change_state(c_user_interface_main_menu_music::e_music_state state)
 {
-	DECLFUNC(0x00AD5520, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD5520, c_user_interface_main_menu_music, change_state, state);
 }
 
 void c_user_interface_main_menu_music::update_state()
 {
-	DECLFUNC(0x00AD5530, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD5530, c_user_interface_main_menu_music, update_state);
 }
 
 real c_user_interface_main_menu_music::fade_out_progress()
@@ -36,24 +36,24 @@ real c_user_interface_main_menu_music::fade_out_progress()
 
 long c_user_interface_main_menu_music::get_music_index()
 {
-	return DECLFUNC(0x00AD56C0, long, __thiscall, c_user_interface_main_menu_music*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AD56C0, c_user_interface_main_menu_music, get_music_index);
 }
 
 void c_user_interface_main_menu_music::handle_music_for_loading_screen()
 {
-	DECLFUNC(0x00AD56E0, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD56E0, c_user_interface_main_menu_music, handle_music_for_loading_screen);
 }
 
 bool c_user_interface_main_menu_music::music_done_fading_out()
 {
-	return DECLFUNC(0x00AD5790, bool, __thiscall, c_user_interface_main_menu_music*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AD5790, c_user_interface_main_menu_music, music_done_fading_out);
 }
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AD57E0, c_user_interface_main_menu_music, render);
 
 void __thiscall c_user_interface_main_menu_music::render()
 {
-	//DECLFUNC(0x00AD57E0, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	//INVOKE_CLASS_MEMBER(0x00AD57E0, c_user_interface_main_menu_music, render);
 
 	if (main_menu_music_render_debug_enabled)
 	{
@@ -71,22 +71,22 @@ void __thiscall c_user_interface_main_menu_music::render()
 
 void c_user_interface_main_menu_music::start()
 {
-	DECLFUNC(0x00AD5820, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD5820, c_user_interface_main_menu_music, start);
 }
 
 void c_user_interface_main_menu_music::stop()
 {
-	DECLFUNC(0x00AD5850, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD5850, c_user_interface_main_menu_music, stop);
 }
 
 void c_user_interface_main_menu_music::update()
 {
-	DECLFUNC(0x00AD5880, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD5880, c_user_interface_main_menu_music, update);
 }
 
 void c_user_interface_main_menu_music::update_game_shell_music_state()
 {
-	DECLFUNC(0x00AD58F0, void, __thiscall, c_user_interface_main_menu_music*)(this);
+	INVOKE_CLASS_MEMBER(0x00AD58F0, c_user_interface_main_menu_music, update_game_shell_music_state);
 }
 
 

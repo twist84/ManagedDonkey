@@ -110,17 +110,17 @@ bool c_game_variant::decode_from_mcc(c_bitstream* packet)
 
 void c_game_variant::copy_from_and_validate(c_game_variant const* other)
 {
-	DECLFUNC(0x00573030, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
+	INVOKE_CLASS_MEMBER(0x00573030, c_game_variant, copy_from_and_validate, other);
 }
 
 void c_game_variant::copy_from_unsafe(class c_game_variant const* other)
 {
-	DECLFUNC(0x005730F0, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
+	INVOKE_CLASS_MEMBER(0x005730F0, c_game_variant, copy_from_unsafe, other);
 }
 
 bool c_game_variant::decode(c_bitstream* packet)
 {
-	return DECLFUNC(0x00573340, bool, __thiscall, c_game_variant*, c_bitstream*)(this, packet);
+	return INVOKE_CLASS_MEMBER(0x00573340, c_game_variant, decode, packet);
 
 	//ASSERT(packet);
 	//
@@ -138,7 +138,7 @@ bool c_game_variant::decode(c_bitstream* packet)
 
 void c_game_variant::encode(c_bitstream* packet) const
 {
-	DECLFUNC(0x005733C0, void, __thiscall, c_game_variant const*, c_bitstream*)(this, packet);
+	INVOKE_CLASS_MEMBER(0x005733C0, c_game_variant, encode, packet);
 
 	//ASSERT(packet);
 	//
@@ -151,7 +151,7 @@ void c_game_variant::encode(c_bitstream* packet) const
 
 long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
 {
-	//DECLFUNC(0x0057A2E0, void, __thiscall, c_game_variant const*, e_game_engine_type)(this, game_engine_index);
+	//INVOKE_CLASS_MEMBER(0x0057A2E0, c_game_variant, get_variant_size_for_game_engine_index, game_engine_index);
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
@@ -203,7 +203,7 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 
 bool c_game_variant::is_equal_to(c_game_variant const* other) const
 {
-	return DECLFUNC(0x0057A4C0, bool, __thiscall, c_game_variant const*, c_game_variant const*)(this, other);
+	return INVOKE_CLASS_MEMBER(0x0057A4C0, c_game_variant, is_equal_to, other);
 
 	// #TODO
 	//ASSERT(other != NULL);
@@ -217,7 +217,7 @@ bool c_game_variant::is_equal_to(c_game_variant const* other) const
 
 void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
 {
-	//DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+	//INVOKE_CLASS_MEMBER(0x0057A570, c_game_variant, recreate_variant_vtable_for_game_engine_index, game_engine_index);
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
@@ -271,7 +271,7 @@ e_game_engine_type c_game_variant::get_game_engine_index() const
 
 void c_game_variant::set_game_engine_index(e_game_engine_type game_engine_index)
 {
-	DECLFUNC(0x0057AA70, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+	return INVOKE_CLASS_MEMBER(0x0057AA70, c_game_variant, set_game_engine_index, game_engine_index);
 }
 
 c_game_engine_base_variant const* c_game_variant::get_active_variant() const
@@ -426,12 +426,12 @@ bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter 
 
 bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const
 {
-	return DECLFUNC(0x00574530, bool, __thiscall, c_game_variant const*, e_game_variant_parameter, e_text_value_pair_parameter_type, long*)(this, parameter, parameter_type, out_value);
+	return INVOKE_CLASS_MEMBER(0x00574530, c_game_variant, get_game_engine_setting, parameter, parameter_type, out_value);
 }
 
 bool c_game_variant::set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value)
 {
-	return DECLFUNC(0x0057AAB0, bool, __thiscall, c_game_variant*, e_game_variant_parameter, e_text_value_pair_parameter_type, long)(this, parameter, parameter_type, value);
+	return INVOKE_CLASS_MEMBER(0x0057AAB0, c_game_variant, set_game_engine_setting, parameter, parameter_type, value);
 }
 
 char const* k_game_engine_type_names[k_game_engine_type_count] =

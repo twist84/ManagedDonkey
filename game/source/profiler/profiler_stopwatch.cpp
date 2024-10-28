@@ -37,36 +37,36 @@ __int64 __cdecl c_stop_watch::get_absolute_time()
 
 __int64 c_stop_watch::get_current_delta() const
 {
-	return DECLFUNC(0x00618F80, __int64, __thiscall, c_stop_watch const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00618F80, c_stop_watch, get_current_delta);
 }
 
 __int64 c_stop_watch::hold()
 {
-	return DECLFUNC(0x00618FD0, __int64, __thiscall, c_stop_watch*)(this);
+	return INVOKE_CLASS_MEMBER(0x00618FD0, c_stop_watch, hold);
 }
 
 __int64 c_stop_watch::reset()
 {
-	return DECLFUNC(0x00619030, __int64, __thiscall, c_stop_watch*)(this);
+	return INVOKE_CLASS_MEMBER(0x00619030, c_stop_watch, reset);
 }
 
 __int64 c_stop_watch::start()
 {
-	return DECLFUNC(0x006190A0, __int64, __thiscall, c_stop_watch*)(this);
+	return INVOKE_CLASS_MEMBER(0x006190A0, c_stop_watch, start);
 }
 
 __int64 c_stop_watch::stop()
 {
-	return DECLFUNC(0x00619100, __int64, __thiscall, c_stop_watch*)(this);
+	return INVOKE_CLASS_MEMBER(0x00619100, c_stop_watch, stop);
 }
 
 __int64 c_stop_watch::total_elapsed_time_in_cycles() const
 {
-	return DECLFUNC(0x00619170, __int64, __thiscall, c_stop_watch const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00619170, c_stop_watch, total_elapsed_time_in_cycles);
 }
 
 real c_stop_watch::total_elapsed_time_in_seconds() const
 {
-	return DECLFUNC(0x006191E0, real, __thiscall, c_stop_watch const*)(this);
+	return INVOKE_CLASS_MEMBER(0x006191E0, c_stop_watch, total_elapsed_time_in_seconds);
 }
 

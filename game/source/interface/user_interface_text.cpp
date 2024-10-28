@@ -87,28 +87,28 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
 {
-	//DECLFUNC(0x00ABDA90, void, __thiscall, c_user_interface_text*, real_argb_color*)(this, color);
+	//INVOKE_CLASS_MEMBER(0x00ABDA90, c_user_interface_text, set_argb_color, color);
 
 	m_argb_color.value = real_argb_color_to_pixel32(color);
 }
 
 void c_user_interface_text::set_font(long font)
 {
-	//DECLFUNC(0x00ABDAB0, void, __thiscall, c_user_interface_text*, long)(this, font);
+	//INVOKE_CLASS_MEMBER(0x00ABDAB0, c_user_interface_text, set_font, font);
 
 	m_font = font;
 }
 
 void c_user_interface_text::set_justification(long justification)
 {
-	//DECLFUNC(0x00ABDAC0, void, __thiscall, c_user_interface_text*, long)(this, justification);
+	//INVOKE_CLASS_MEMBER(0x00ABDAC0, c_user_interface_text, set_justification, justification);
 
 	m_justification = justification;
 }
 
 void c_user_interface_text::set_style(long style)
 {
-	//DECLFUNC(0x00ABDAD0, void, __thiscall, c_user_interface_text*, long)(this, style);
+	//INVOKE_CLASS_MEMBER(0x00ABDAD0, c_user_interface_text, set_style, style);
 
 	m_style = style;
 }

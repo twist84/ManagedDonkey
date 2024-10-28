@@ -283,7 +283,7 @@ void __thiscall c_gui_roster_list_widget::update(dword a1)
 	}
 
 	set_selectable_item_cap_count(selectable_item_cap_count);
-	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00B16650, c_gui_list_widget, update_render_state, a1);
 }
 
 void __thiscall c_gui_roster_list_widget::update_render_state(dword a1)
@@ -291,7 +291,7 @@ void __thiscall c_gui_roster_list_widget::update_render_state(dword a1)
 	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, dword), _this, a1);
 
 	//c_gui_list_widget::update_render_state
-	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00B16650, c_gui_list_widget, update_render_state, a1);
 
 	c_gui_data* data = get_data();
 	if (data)
@@ -385,8 +385,8 @@ void __thiscall c_gui_roster_list_widget::update_render_state(dword a1)
 	}
 }
 
-void __cdecl c_gui_roster_list_widget::update_team_mode()
+void c_gui_roster_list_widget::update_team_mode()
 {
-	DECLFUNC(0x00B26210, void, __thiscall, c_gui_roster_list_widget*)(this);
+	INVOKE_CLASS_MEMBER(0x00B26210, c_gui_roster_list_widget, update_team_mode);
 }
 

@@ -214,7 +214,7 @@ void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center,
 
 void c_object_identifier::clear()
 {
-	//DECLFUNC(0x00B27CB0, void, __thiscall, c_object_identifier*)(this);
+	//INVOKE_CLASS_MEMBER(0x00B27CB0, c_object_identifier, clear);
 
 	m_type = k_object_type_none;
 	m_source = k_object_source_none;
@@ -227,7 +227,7 @@ void c_object_identifier::clear()
 
 void c_object_identifier::clear_for_deletion()
 {
-	//DECLFUNC(0x00B27D20, void, __thiscall, c_object_identifier*)(this);
+	//INVOKE_CLASS_MEMBER(0x00B27D20, c_object_identifier, clear_for_deletion);
 
 	m_source = k_object_source_none;
 	m_origin_bsp_index = NONE;
@@ -281,7 +281,7 @@ long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_inde
 
 void c_object_identifier::create_dynamic(e_object_type type)
 {
-	//DECLFUNC(0x00B282E0, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//INVOKE_CLASS_MEMBER(0x00B282E0, c_object_identifier, create_dynamic, type);
 
 	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
 
@@ -293,7 +293,7 @@ void c_object_identifier::create_dynamic(e_object_type type)
 
 void c_object_identifier::create_from_parent(e_object_type type)
 {
-	//DECLFUNC(0x00B28320, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//INVOKE_CLASS_MEMBER(0x00B28320, c_object_identifier, create_from_parent, type);
 
 	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
 
@@ -305,7 +305,7 @@ void c_object_identifier::create_from_parent(e_object_type type)
 
 void c_object_identifier::create_from_scenario(e_object_type type, long unique_id)
 {
-	//DECLFUNC(0x00B28360, void, __thiscall, c_object_identifier*, e_object_type, long)(this, type, unique_id);
+	//INVOKE_CLASS_MEMBER(0x00B28360, c_object_identifier, create_from_scenario, type, unique_id);
 
 	m_type = type;
 	m_origin_bsp_index = NONE;
@@ -315,7 +315,7 @@ void c_object_identifier::create_from_scenario(e_object_type type, long unique_i
 
 void c_object_identifier::create_from_sky(e_object_type type, long unique_id)
 {
-	//DECLFUNC(0x00B28380, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//INVOKE_CLASS_MEMBER(0x00B28380, c_object_identifier, create_from_sky, type, unique_id);
 
 	m_type = type;
 	m_origin_bsp_index = NONE;
@@ -325,7 +325,7 @@ void c_object_identifier::create_from_sky(e_object_type type, long unique_id)
 
 void c_object_identifier::create_from_structure(e_object_type type, short origin_bsp_index, long unique_id)
 {
-	//DECLFUNC(0x00B283A0, void, __thiscall, c_object_identifier*, e_object_type, short, long)(this, type, origin_bsp_index, unique_id);
+	//INVOKE_CLASS_MEMBER(0x00B283A0, c_object_identifier, create_from_structure, type, origin_bsp_index, unique_id);
 
 	m_type = type;
 	m_origin_bsp_index = origin_bsp_index;
@@ -356,21 +356,21 @@ long __cdecl find_first_predicted_object_recursive(long object_index)
 
 long c_object_identifier::find_object_index() const
 {
-	return DECLFUNC(0x00B28740, long, __thiscall, c_object_identifier const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B28740, c_object_identifier, find_object_index);
 
 	// #TODO: implement me
 }
 
 s_scenario_object* c_object_identifier::find_scenario_object(long* tag_block_index) const
 {
-	//return DECLFUNC(0x00B28800, s_scenario_object*, __thiscall, c_object_identifier const*, long*)(this, tag_block_index);
+	//return INVOKE_CLASS_MEMBER(0x00B28800, c_object_identifier, find_scenario_object, tag_block_index);
 
 	return find_scenario_object_from_scenario(global_scenario, tag_block_index);
 }
 
 s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(struct scenario* scenario, long* tag_block_index) const
 {
-	return DECLFUNC(0x00B28820, s_scenario_object*, __thiscall, c_object_identifier const*, struct scenario*, long*)(this, scenario, tag_block_index);
+	return INVOKE_CLASS_MEMBER(0x00B28820, c_object_identifier, find_scenario_object_from_scenario, scenario, tag_block_index);
 
 	// #TODO: implement me
 }
@@ -419,7 +419,7 @@ bool __cdecl garbage_collection_can_run()
 
 long c_object_identifier::get_unique_id_direct() const
 {
-	//return DECLFUNC(0x00B28E60, long, __thiscall, c_object_identifier const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00B28E60, c_object_identifier, get_unique_id_direct);
 
 	return m_unique_id;
 }
@@ -438,7 +438,7 @@ long c_object_identifier::get_unique_id_direct() const
 
 bool c_object_identifier::is_equal(c_object_identifier const* other) const
 {
-	return DECLFUNC(0x00B292E0, bool, __thiscall, c_object_identifier const*, c_object_identifier const*)(this, other);
+	return INVOKE_CLASS_MEMBER(0x00B292E0, c_object_identifier, is_equal, other);
 
 	// #TODO: implement me
 }
@@ -863,22 +863,22 @@ long c_object_iterator_base::get_index()
 	return m_index;
 }
 
-void __cdecl c_object_iterator_base::object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index)
+void c_object_iterator_base::object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index)
 {
-	DECLFUNC(0x00B2F4B0, void, __thiscall, c_object_iterator_base*, dword_flags, dword, dword, long)(this, type_flags, header_mask, match_flags, object_index);
+	return INVOKE_CLASS_MEMBER(0x00B2F4B0, c_object_iterator_base, object_iterator_begin_internal, type_flags, header_mask, match_flags, object_index);
 }
 
-bool __cdecl c_object_iterator_base::object_iterator_next_internal()
+bool c_object_iterator_base::object_iterator_next_internal()
 {
-	return DECLFUNC(0x00B2F500, bool, __thiscall, c_object_iterator_base*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B2F500, c_object_iterator_base, object_iterator_next_internal);
 }
 
-bool __cdecl c_object_iterator_base::object_iterator_next_with_match_flags_internal()
+bool c_object_iterator_base::object_iterator_next_with_match_flags_internal()
 {
-	return DECLFUNC(0x00B2F5A0, bool, __thiscall, c_object_iterator_base*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B2F5A0, c_object_iterator_base, object_iterator_next_with_match_flags_internal);
 }
 
-object_datum* __cdecl c_object_iterator_base::get_datum_internal()
+object_datum* c_object_iterator_base::get_datum_internal()
 {
 	return m_datum;
 }

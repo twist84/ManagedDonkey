@@ -68,47 +68,47 @@ c_view* __cdecl c_view::top()
 		return g_view_stack[g_view_stack_top];
 }
 
-render_camera const* __cdecl c_view::get_render_camera() const
+render_camera const* c_view::get_render_camera() const
 {
 	return &m_render_camera;
 }
 
-render_camera* __cdecl c_view::get_render_camera_modifiable()
+render_camera* c_view::get_render_camera_modifiable()
 {
 	return &m_render_camera;
 }
 
-render_camera const* __cdecl c_view::get_rasterizer_camera() const
+render_camera const* c_view::get_rasterizer_camera() const
 {
 	return &m_rasterizer_camera;
 }
 
-render_camera* __cdecl c_view::get_rasterizer_camera_modifiable()
+render_camera* c_view::get_rasterizer_camera_modifiable()
 {
 	return &m_rasterizer_camera;
 }
 
-render_projection const* __cdecl c_view::get_rasterizer_projection() const
+render_projection const* c_view::get_rasterizer_projection() const
 {
 	return &m_rasterizer_projection;
 }
 
-render_projection* __cdecl c_view::get_rasterizer_projection_modifiable()
+render_projection* c_view::get_rasterizer_projection_modifiable()
 {
 	return &m_rasterizer_projection;
 }
 
-render_projection const* __cdecl c_view::get_render_projection() const
+render_projection const* c_view::get_render_projection() const
 {
 	return &m_render_projection;
 }
 
-render_projection* __cdecl c_view::get_render_projection_modifiable()
+render_projection* c_view::get_render_projection_modifiable()
 {
 	return &m_render_projection;
 }
 
-void __cdecl c_fullscreen_view::setup_camera(s_observer_result const* result)
+void c_fullscreen_view::setup_camera(s_observer_result const* result)
 {
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
 	csmemset(rasterizer_camera_modifiable, 0, sizeof(render_camera));
@@ -131,7 +131,7 @@ void __cdecl c_fullscreen_view::setup_camera(s_observer_result const* result)
 	csmemcpy(render_projection_modifiable, rasterizer_projection, sizeof(render_projection));
 }
 
-void __cdecl c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
+void c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
 {
 	DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
 }

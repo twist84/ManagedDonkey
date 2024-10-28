@@ -5,17 +5,17 @@
 
 bool c_life_cycle_state_manager::current_state_ready_for_state_transition_or_query() const
 {
-	return DECLFUNC(0x0048D030, bool, __thiscall, c_life_cycle_state_manager const*)(this);
+	return INVOKE_CLASS_MEMBER(0x0048D030, c_life_cycle_state_manager, current_state_ready_for_state_transition_or_query);
 }
 
 bool c_life_cycle_state_manager::current_state_ready_for_update() const
 {
-	return DECLFUNC(0x0048D0C0, bool, __thiscall, c_life_cycle_state_manager const*)(this);
+	return INVOKE_CLASS_MEMBER(0x0048D0C0, c_life_cycle_state_manager, current_state_ready_for_update);
 }
 
 void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
 {
-	//DECLFUNC(0x0048D180, void, __thiscall, c_life_cycle_state_manager*, e_life_cycle_state, c_life_cycle_state_handler*)(this, state, handler);
+	//INVOKE_CLASS_MEMBER(0x0048D180, c_life_cycle_state_manager, deregister_state_handler, state, handler);
 
 	ASSERT(m_handlers[state] == handler);
 	m_handlers[state] = NULL;
@@ -23,7 +23,7 @@ void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state sta
 
 c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handler() const
 {
-	//return DECLFUNC(0x0048D340, c_life_cycle_state_handler*, __thiscall, c_life_cycle_state_manager const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x0048D340, c_life_cycle_state_manager, get_current_state_handler);
 
 	ASSERT(m_handlers[get_current_state()] != NULL);
 	return m_handlers[get_current_state()];
@@ -31,12 +31,12 @@ c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handle
 
 void c_life_cycle_state_manager::initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* active_squad_session, c_network_session* target_session, c_network_session* group_session)
 {
-	DECLFUNC(0x0048D820, void, __thiscall, c_life_cycle_state_manager*, c_network_observer*, c_network_session_manager*, c_network_session*, c_network_session*, c_network_session*)(this, observer, session_manager, active_squad_session, target_session, group_session);
+	INVOKE_CLASS_MEMBER(0x0048D820, c_life_cycle_state_manager, initialize, observer, session_manager, active_squad_session, target_session, group_session);
 }
 
 void c_life_cycle_state_manager::notify_expect_squad_join()
 {
-	DECLFUNC(0x0048D9F0, void, __thiscall, c_life_cycle_state_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x0048D9F0, c_life_cycle_state_manager, notify_expect_squad_join);
 }
 
 //.text:0048DA40 ; public: void __cdecl c_life_cycle_state_manager::notify_lost_connection(e_network_lost_connection_type)
@@ -44,7 +44,7 @@ void c_life_cycle_state_manager::notify_expect_squad_join()
 
 void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 {
-	//DECLFUNC(0x0048DDD0, void, __thiscall, c_life_cycle_state_manager*, bool)(this, disconnect);
+	//INVOKE_CLASS_MEMBER(0x0048DDD0, c_life_cycle_state_manager, request_leave_sessions, disconnect);
 
 	c_console::write_line("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
 
@@ -56,7 +56,7 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void const* entry_data)
 {
-	//DECLFUNC(0x0048DE50, void, __thiscall, c_life_cycle_state_manager*, e_life_cycle_state, long, void const*)(this, state, entry_data_size, entry_data);
+	//INVOKE_CLASS_MEMBER(0x0048DE50, c_life_cycle_state_manager, request_state_change, state, entry_data_size, entry_data);
 
 	ASSERT(entry_data_size <= k_maximum_state_change_entry_data_size);
 	ASSERT(state != m_current_state);
@@ -75,7 +75,7 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
-	//DECLFUNC(0x0048E0E0, void, __thiscall, c_life_cycle_state_manager*, e_life_cycle_state, long, void*)(this, state, entry_data_size, entry_data);
+	//INVOKE_CLASS_MEMBER(0x0048E0E0, c_life_cycle_state_manager, set_current_state, state, entry_data_size, entry_data);
 
 	ASSERT((entry_data_size == 0 && entry_data == NULL) || (entry_data_size > 0 && entry_data != NULL));
 
@@ -95,12 +95,12 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, lon
 
 void c_life_cycle_state_manager::swap_squad_sessions()
 {
-	DECLFUNC(0x0048E420, void, __thiscall, c_life_cycle_state_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x0048E420, c_life_cycle_state_manager, swap_squad_sessions);
 }
 
 void c_life_cycle_state_manager::swap_target_and_group_sessions()
 {
-	DECLFUNC(0x0048E430, void, __thiscall, c_life_cycle_state_manager*)(this);
+	INVOKE_CLASS_MEMBER(0x0048E430, c_life_cycle_state_manager, swap_target_and_group_sessions);
 }
 
 e_life_cycle_state c_life_cycle_state_manager::get_current_state() const
@@ -111,14 +111,14 @@ e_life_cycle_state c_life_cycle_state_manager::get_current_state() const
 
 void c_life_cycle_state_manager::terminate()
 {
-	//DECLFUNC(0x0048E440, void, __thiscall, c_life_cycle_state_manager*)(this);
+	//INVOKE_CLASS_MEMBER(0x0048E440, c_life_cycle_state_manager, terminate);
 
 	set_current_state(_life_cycle_state_none, 0, NULL);
 }
 
 void c_life_cycle_state_manager::update()
 {
-	DECLFUNC(0x0048E4B0, void, __thiscall, c_life_cycle_state_manager*);
+	INVOKE_CLASS_MEMBER(0x0048E4B0, c_life_cycle_state_manager, update);
 }
 
 //.text:0048E890 ; private: void __cdecl c_life_cycle_state_manager::update_handle_session_parameters()

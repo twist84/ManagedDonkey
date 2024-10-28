@@ -61,7 +61,7 @@ struct c_online_lsp_manager
 	void reset();
 	void server_connected(long connection_token);
 
-	void __cdecl update();
+	void update();
 
 	static long const k_maximum_simultaneous_clients = 16;
 	static long const k_client_description_length = 48;

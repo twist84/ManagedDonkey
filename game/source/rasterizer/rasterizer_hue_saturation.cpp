@@ -51,7 +51,7 @@ void __cdecl render_postprocess_reset_color_tweaking()
 
 void c_hue_saturation_control::reset()
 {
-	//DECLFUNC(0x00A41170, void, __thiscall, c_hue_saturation_control*)(this);
+	//INVOKE_CLASS_MEMBER(0x00A41170, c_hue_saturation_control, reset);
 
 	m_hue = 0.0f;
 	m_saturation = 1.0f;

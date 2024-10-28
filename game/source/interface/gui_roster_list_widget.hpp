@@ -10,7 +10,7 @@ public:
 	void __thiscall update(dword a1);
 	void __thiscall update_render_state(dword a1);
 
-	void __cdecl update_team_mode();
+	void update_team_mode();
 
 protected:
 	bool m_game_roster_is_local_party;

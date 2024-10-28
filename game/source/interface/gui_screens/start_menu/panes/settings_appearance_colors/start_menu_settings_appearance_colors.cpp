@@ -65,7 +65,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 
 //bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* input_message)
 //{
-//	//return DECLFUNC(0x00AF9A30, bool, __thiscall, c_start_menu_settings_appearance_colors*, c_controller_input_message const*)(this, input_message);
+//	//return INVOKE_CLASS_MEMBER(0x00AF9A30, c_start_menu_settings_appearance_colors*, handle_controller_input_message, input_message);
 //
 //	bool result = false;
 //
@@ -203,7 +203,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //	if (!result)
 //	{
 //		//result = c_start_menu_pane_screen_widget::handle_controller_input_message(input_message);
-//		result = DECLFUNC(0x00B1F620, bool, __thiscall, c_start_menu_pane_screen_widget*, c_controller_input_message const*)(this, input_message);
+//		result = INVOKE_CLASS_MEMBER(0x00B1F620, c_start_menu_pane_screen_widget, handle_controller_input_message, input_message);
 //	}
 //
 //	return result;
@@ -211,10 +211,9 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 
 void __thiscall c_start_menu_settings_appearance_colors::initialize_()
 {
-	//DECLFUNC(0x00AF9C20, void, __thiscall, c_start_menu_settings_appearance_colors*)(this);
+	//INVOKE_CLASS_MEMBER(0x00AF9C20, c_start_menu_settings_appearance_colors, initialize);
 
-	DECLFUNC(0x00AB14D0, void, __thiscall, c_gui_screen_widget*)(this);
-	//c_gui_screen_widget::initialize();
+	INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor1", this, parse_xml_armor1));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor2", this, parse_xml_armor2));
@@ -226,7 +225,7 @@ void __thiscall c_start_menu_settings_appearance_colors::initialize_()
 
 void c_start_menu_settings_appearance_colors::set_color_focused_list_item(long name, e_player_color_index player_color_index)
 {
-	DECLFUNC(0x00AF9F50, void, __thiscall, c_start_menu_settings_appearance_colors*, long, e_player_color_index)(this, name, player_color_index);
+	INVOKE_CLASS_MEMBER(0x00AF9F50, c_start_menu_settings_appearance_colors, set_color_focused_list_item, name, player_color_index);
 
 	//if (c_gui_list_widget* child_list_widget = get_child_list_widget(name))
 	//	child_list_widget->set_focused_item_index(player_color_index, false);
@@ -234,7 +233,7 @@ void c_start_menu_settings_appearance_colors::set_color_focused_list_item(long n
 
 void __thiscall c_start_menu_settings_appearance_colors::set_color_values_from_profile()
 {
-	//DECLFUNC(0x00AF9F70, void, __thiscall, c_start_menu_settings_appearance_colors*)(this);
+	//INVOKE_CLASS_MEMBER(0x00AF9F70, c_start_menu_settings_appearance_colors, set_color_values_from_profile);
 
 	e_controller_index controller_index = get_any_responding_controller();
 	if (controller_get(controller_index)->in_use())

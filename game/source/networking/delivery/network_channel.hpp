@@ -157,19 +157,19 @@ public:
 	char const* get_name() const;
 	static char const* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
 	static char const* __cdecl get_state_string(e_network_channel_state state);
-	bool __cdecl get_remote_address(transport_address* address) const;
-	dword __cdecl get_remote_identifier() const;
-	dword __cdecl get_identifier() const;
-	c_network_message_queue const* __cdecl network_message_queue_get() const;
-	c_network_connection const* __cdecl network_connection_get() const;
-	bool __cdecl allocated() const;
-	e_network_channel_state __cdecl get_state() const;
-	bool __cdecl closed() const;
-	bool __cdecl established() const;
-	bool __cdecl connected() const;
-	void __cdecl close(e_network_channel_closure_reason reason);
-	void __cdecl establish(dword remote_channel_identifier);
-	void __cdecl open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
+	bool get_remote_address(transport_address* address) const;
+	dword get_remote_identifier() const;
+	dword get_identifier() const;
+	c_network_message_queue const* network_message_queue_get() const;
+	c_network_connection const* network_connection_get() const;
+	bool allocated() const;
+	e_network_channel_state get_state() const;
+	bool closed() const;
+	bool established() const;
+	bool connected() const;
+	void close(e_network_channel_closure_reason reason);
+	void establish(dword remote_channel_identifier);
+	void open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
 
 	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
 

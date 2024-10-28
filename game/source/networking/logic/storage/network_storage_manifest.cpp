@@ -28,7 +28,7 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 
 c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest::get_entry_state(s_network_storage_cache_key const* cache_key)
 {
-	//return DECLFUNC(0x004A5720, c_network_storage_manifest::e_entry_state, __thiscall, c_network_storage_manifest*, s_network_storage_cache_key const*)(this, cache_key);
+	//return INVOKE_CLASS_MEMBER(0x004A5720, c_network_storage_manifest, get_entry_state, cache_key);
 
 	// prevent big endian a manifest from exploding this call
 	if (m_online_file_manifest && !VALID_COUNT(m_online_file_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
@@ -96,6 +96,6 @@ void __cdecl network_storage_manifest_update()
 
 void c_network_storage_manifest::update()
 {
-	DECLFUNC(0x004A5CF0, void, __thiscall, c_network_storage_manifest*)(this);
+	INVOKE_CLASS_MEMBER(0x004A5CF0, c_network_storage_manifest, update);
 }
 

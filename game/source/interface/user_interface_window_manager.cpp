@@ -10,12 +10,12 @@ REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 
 c_gui_screen_widget* c_window_manager::allocate_codeless_screen(long screen_name)
 {
-	return DECLFUNC(0x00AA8D90, c_gui_screen_widget*, __thiscall, c_window_manager*, long)(this, screen_name);
+	return INVOKE_CLASS_MEMBER(0x00AA8D90, c_window_manager, allocate_codeless_screen, screen_name);
 }
 
 c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 {
-	return DECLFUNC(0x00AA8E00, c_gui_screen_widget*, __thiscall, c_window_manager*, long)(this, screen_name);
+	return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
 }
 
 //.text:00AAA7A0 ; public: bool c_window_manager::any_ui_active()
@@ -59,7 +59,7 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 
 c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_index, c_gui_screen_widget* screen)
 {
-	return DECLFUNC(0x00AAB490, c_gui_screen_widget*, __thiscall, c_window_manager*, e_window_index, c_gui_screen_widget*)(this, window_index, screen);
+	return INVOKE_CLASS_MEMBER(0x00AAB490, c_window_manager, get_screen_above, window_index, screen);
 }
 
 //.text:00AAB4E0 ; public: c_gui_screen_widget* c_window_manager::get_screen_below(e_window_index, c_gui_screen_widget*)
@@ -69,7 +69,7 @@ c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_in
 
 c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_index)
 {
-	return DECLFUNC(0x00AAB630, c_gui_screen_widget*, __thiscall, c_window_manager*, e_window_index)(this, window_index);
+	return INVOKE_CLASS_MEMBER(0x00AAB630, c_window_manager, get_topmost_screen, window_index);
 }
 
 //.text:00AAB680 ; 
@@ -80,7 +80,7 @@ c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_
 
 void c_window_manager::handle_global_controller_event(s_event_record* event_record)
 {
-	DECLFUNC(0x00AAB7D0, void, __thiscall, c_window_manager*, s_event_record*)(this, event_record);
+	INVOKE_CLASS_MEMBER(0x00AAB7D0, c_window_manager, handle_global_controller_event, event_record);
 }
 
 //.text:00AAB9C0 ; public: void c_window_manager::initialize()
@@ -98,7 +98,7 @@ c_gui_screen_widget* c_window_manager::load_screen(long controller_index, bool u
 
 bool c_window_manager::named_screen_defined_in_code(long screen_name)
 {
-	return DECLFUNC(0x00AABFD0, bool, __thiscall, c_window_manager*, long)(this, screen_name);
+	return INVOKE_CLASS_MEMBER(0x00AABFD0, c_window_manager, named_screen_defined_in_code, screen_name);
 }
 
 //.text:00AAC430 ; 
@@ -126,7 +126,7 @@ bool c_window_manager::named_screen_defined_in_code(long screen_name)
 
 void c_window_manager::update(dword milliseconds)
 {
-	DECLFUNC(0x00AAD050, void, __thiscall, c_window_manager*, dword)(this, milliseconds);
+	INVOKE_CLASS_MEMBER(0x00AAD050, c_window_manager, update, milliseconds);
 }
 
 //.text:00AAD540 ; public: void c_window_manager::update_fade(dword)

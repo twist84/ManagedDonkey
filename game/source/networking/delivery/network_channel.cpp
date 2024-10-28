@@ -89,9 +89,9 @@ char const* __cdecl c_network_channel::get_state_string(e_network_channel_state 
 	return "<unknown>";
 }
 
-bool __cdecl c_network_channel::get_remote_address(transport_address* address) const
+bool c_network_channel::get_remote_address(transport_address* address) const
 {
-	//return DECLFUNC(0x00446570, bool, __thiscall, c_network_channel const*, transport_address*)(this, address);
+	//return INVOKE_CLASS_MEMBER(0x00446570, c_network_channel, get_remote_address, address);
 
 	ASSERT(address);
 
@@ -104,56 +104,56 @@ bool __cdecl c_network_channel::get_remote_address(transport_address* address) c
 	return false;
 }
 
-dword __cdecl c_network_channel::get_remote_identifier() const
+dword c_network_channel::get_remote_identifier() const
 {
-	//return DECLFUNC(0x004465C0, dword, __thiscall, c_network_channel const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004465C0, c_network_channel, get_remote_identifier);
 
 	return m_remote_channel_identifier;
 }
 
-dword __cdecl c_network_channel::get_identifier() const
+dword c_network_channel::get_identifier() const
 {
 	return m_local_channel_identifier;
 }
 
-c_network_message_queue const* __cdecl c_network_channel::network_message_queue_get() const
+c_network_message_queue const* c_network_channel::network_message_queue_get() const
 {
 	return &m_message_queue;
 }
 
-c_network_connection const* __cdecl c_network_channel::network_connection_get() const
+c_network_connection const* c_network_channel::network_connection_get() const
 {
 	return &m_connection;
 }
 
-bool __cdecl c_network_channel::allocated() const
+bool c_network_channel::allocated() const
 {
 	return get_state() != _network_channel_state_none;
 }
 
-e_network_channel_state __cdecl c_network_channel::get_state() const
+e_network_channel_state c_network_channel::get_state() const
 {
 	return m_channel_state;
 }
 
-bool __cdecl c_network_channel::closed() const
+bool c_network_channel::closed() const
 {
 	return get_state() <= _network_channel_state_closed;
 }
 
-bool __cdecl c_network_channel::established() const
+bool c_network_channel::established() const
 {
 	return get_state() >= _network_channel_state_established;
 }
 
-bool __cdecl c_network_channel::connected() const
+bool c_network_channel::connected() const
 {
 	return get_state() == _network_channel_state_connected;
 }
 
-void __cdecl c_network_channel::close(e_network_channel_closure_reason closure_reason)
+void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 {
-	//DECLFUNC(0x0045FA30, void, __thiscall, c_network_channel*, e_network_channel_closure_reason)(this, closure_reason);
+	INVOKE_CLASS_MEMBER(0x0045FA30, c_network_channel, close, closure_reason);
 
 	ASSERT(closure_reason > _network_channel_reason_none && closure_reason < k_network_channel_reason_count);
 	ASSERT(allocated());
@@ -191,14 +191,14 @@ void __cdecl c_network_channel::close(e_network_channel_closure_reason closure_r
 //.text:0045FBB0 ; void c_network_channel::deallocate()
 //.text:0045FC00 ; void c_network_channel::detach_simulation(c_network_channel_simulation_interface*)
 
-void __cdecl c_network_channel::establish(dword remote_channel_identifier)
+void c_network_channel::establish(dword remote_channel_identifier)
 {
-	DECLFUNC(0x0045FC20, void, __thiscall, c_network_channel*, dword)(this, remote_channel_identifier);
+	INVOKE_CLASS_MEMBER(0x0045FC20, c_network_channel, establish, remote_channel_identifier);
 }
 
-void __cdecl c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier)
+void c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier)
 {
-	DECLFUNC(0x004603B0, void, __thiscall, c_network_channel*, transport_address const*, bool, long)(this, remote_address, send_connect_packets, channel_identifier);
+	INVOKE_CLASS_MEMBER(0x004603B0, c_network_channel, open, remote_address, send_connect_packets, channel_identifier);
 
 	//ASSERT(remote_address && transport_address_valid(remote_address));
 	//ASSERT(allocated());
@@ -238,7 +238,7 @@ void __cdecl c_network_channel::open(transport_address const* remote_address, bo
 
 void c_network_channel::send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload)
 {
-	//DECLFUNC(0x00460930, void, __thiscall, c_network_channel*, e_network_message_type, long, void const*)(this, message_type, raw_message_size, raw_message_payload);
+	//INVOKE_CLASS_MEMBER(0x00460930, c_network_channel, send_message, message_type, raw_message_size, raw_message_payload);
 
 	m_message_queue.send_message(message_type, raw_message_size, raw_message_payload);
 }

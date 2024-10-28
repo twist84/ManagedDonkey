@@ -73,22 +73,22 @@ struct s_character_physics_update_output_datum;
 
 struct c_character_physics_mode_ground_datum
 {
-	vector3d const* __cdecl get_ground_plane() const;
-	real __cdecl get_ground_plane_contact_offset() const;
-	real __cdecl get_landing_velocity() const;
-	long __cdecl get_support_havok_component_index() const;
-	real_matrix4x3 const* __cdecl get_support_havok_component_matrix() const;
-	long __cdecl get_support_object_index() const;
-	long __cdecl get_support_rigid_body_index() const;
-	void __cdecl initialize();
-	void __cdecl initialize_internal(bool a1);
-	void __cdecl move(s_character_physics_move_output_datum* output, s_character_physics_move_input_datum const* input);
-	void __cdecl notify_in_slip_surface_volume();
-	void __cdecl set_contact(long a1, long a2, vector3d const* a3);
-	void __cdecl set_ground_plane(vector3d const* a1);
-	void __cdecl update(s_character_physics_update_output_datum* output, struct s_character_physics_update_input_datum const* input);
-	void __cdecl update_internal(s_character_physics_update_output_datum* output, s_character_physics_update_input_datum const* input, bool a2, vector3d const* a3);
-	bool __cdecl update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* input, vector3d* a1, vector3d* a2, matrix3x3* a3);
+	vector3d const* get_ground_plane() const;
+	real get_ground_plane_contact_offset() const;
+	real get_landing_velocity() const;
+	long get_support_havok_component_index() const;
+	real_matrix4x3 const* get_support_havok_component_matrix() const;
+	long get_support_object_index() const;
+	long get_support_rigid_body_index() const;
+	void initialize();
+	void initialize_internal(bool a1);
+	void move(s_character_physics_move_output_datum* output, s_character_physics_move_input_datum const* input);
+	void notify_in_slip_surface_volume();
+	void set_contact(long a1, long a2, vector3d const* a3);
+	void set_ground_plane(vector3d const* a1);
+	void update(s_character_physics_update_output_datum* output, struct s_character_physics_update_input_datum const* input);
+	void update_internal(s_character_physics_update_output_datum* output, s_character_physics_update_input_datum const* input, bool a2, vector3d const* a3);
+	bool update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* input, vector3d* a1, vector3d* a2, matrix3x3* a3);
 
 	bool __thiscall update_ground_velocity(s_character_physics_update_input_datum const* physics_input, vector3d* linear_velocity, matrix3x3* rotation);
 };

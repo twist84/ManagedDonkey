@@ -4,7 +4,7 @@
 
 long c_network_session_membership::get_first_peer() const
 {
-	//return DECLFUNC(0x0044E690, long, __thiscall, c_network_session_membership const*)(this);
+	//return INVOKE_CLASS_MEMBER(0x0044E690, c_network_session_membership, get_first_peer);
 
 	long first_peer = NONE;
 	for (long i = 0; i < 17; i++)
@@ -20,14 +20,14 @@ long c_network_session_membership::get_first_peer() const
 
 long c_network_session_membership::get_first_player() const
 {
-	return DECLFUNC(0x0044E6C0, long, __thiscall, c_network_session_membership const*)(this);
+	return INVOKE_CLASS_MEMBER(0x0044E6C0, c_network_session_membership, get_first_player);
 }
 
 //.text:0044E6F0 ; public: s_player_add_queue_entry const* c_network_session_membership::get_first_player_from_player_add_queue() const
 
 long c_network_session_membership::get_next_peer(long peer_index) const
 {
-	//return DECLFUNC(0x0044E710, long, __thiscall, c_network_session_membership const*, long)(this, peer_index);
+	//return INVOKE_CLASS_MEMBER(0x0044E710, c_network_session_membership, get_next_peer, peer_index);
 
 	ASSERT(peer_index != NONE);
 
@@ -45,7 +45,7 @@ long c_network_session_membership::get_next_peer(long peer_index) const
 
 long c_network_session_membership::get_next_player(long peer_index) const
 {
-	return DECLFUNC(0x0044E750, long, __thiscall, c_network_session_membership const*, long)(this, peer_index);
+	return INVOKE_CLASS_MEMBER(0x0044E750, c_network_session_membership, get_next_player, peer_index);
 }
 
 //.text:0044E790 ; public: long c_network_session_membership::update_number() const
@@ -53,7 +53,7 @@ long c_network_session_membership::get_next_player(long peer_index) const
 
 s_network_session_peer* c_network_session_membership::get_peer(long peer_index)
 {
-	return DECLFUNC(0x0044E7C0, s_network_session_peer*, __thiscall, c_network_session_membership*, long)(this, peer_index);
+	return INVOKE_CLASS_MEMBER(0x0044E7C0, c_network_session_membership, get_peer, peer_index);
 }
 
 //.text:0044E7E0 ; public: e_network_session_peer_state c_network_session_membership::get_peer_connection_state(long) const
@@ -87,7 +87,7 @@ s_network_session_peer* c_network_session_membership::get_peer(long peer_index)
 
 bool c_network_session_membership::is_peer_valid(long peer_index) const
 {
-	//return DECLFUNC(0x0044FB10, bool, __thiscall, c_network_session_membership const*, long)(this, peer_index);
+	//return INVOKE_CLASS_MEMBER(0x0044FB10, c_network_session_membership, is_peer_valid, peer_index);
 
 	return m_shared_network_membership.peer_valid_mask.test(peer_index);
 }

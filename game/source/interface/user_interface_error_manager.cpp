@@ -307,7 +307,7 @@ void c_gui_error_manager::resolve_error_with_custom_message(long error_name, e_c
 
 void c_gui_error_manager::update(dword ui_time)
 {
-	DECLFUNC(0x00A92340, void, __thiscall, c_gui_error_manager*, dword)(this, ui_time);
+	INVOKE_CLASS_MEMBER(0x00A92340, c_gui_error_manager, update, ui_time);
 
 	//e_controller_index controller_index;
 	//e_alert_display_mode display_mode = c_gui_error_manager::get_error_display_mode(&controller_index);
@@ -420,12 +420,12 @@ c_gui_queued_error const* c_gui_error_manager::get_current_for_window(e_window_i
 
 c_gui_error_manager::e_alert_display_mode c_gui_error_manager::get_error_display_mode(e_controller_index* controller_index)
 {
-	return DECLFUNC(0x00A91CE0, e_alert_display_mode, __thiscall, c_gui_error_manager*, e_controller_index*)(this, controller_index);
+	return INVOKE_CLASS_MEMBER(0x00A91CE0, c_gui_error_manager, get_error_display_mode, controller_index);
 }
 
 void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution, bool blocking)
 {
-	//return DECLFUNC(0x00A91FD0, bool, __thiscall, c_gui_error_manager*, long, wchar_t const*, wchar_t const*, e_controller_index, bool, bool)(this, error_name, custom_title, custom_message, controller_index, requires_resolution, blocking);
+	//return INVOKE_CLASS_MEMBER(0x00A91FD0, c_gui_error_manager, post_error_with_custom_message, error_name, custom_title, custom_message, controller_index, requires_resolution, blocking);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers) || controller_index == k_any_controller);
 

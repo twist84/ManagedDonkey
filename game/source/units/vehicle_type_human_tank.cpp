@@ -10,7 +10,7 @@
 
 s_vehicle_engine* const c_vehicle_type_human_tank::get_engine(long vehicle_index)
 {
-	//DECLFUNC(0x00BC7D10, s_vehicle_engine* const, __thiscall, c_vehicle_type_human_tank*, long)(this, vehicle_index);
+	//return INVOKE_CLASS_MEMBER(0x00BC7D10, c_vehicle_type_human_tank, get_engine, vehicle_index);
 
 	return &m_engine;
 }

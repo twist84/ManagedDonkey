@@ -30,7 +30,7 @@ s_async_buffer::s_async_buffer()
 
 bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buffer_size)
 {
-	return DECLFUNC(0x005AC9E0, bool, __thiscall, c_async_buffer_set*, c_allocation_base*, long)(this, allocator, buffer_size);
+	return INVOKE_CLASS_MEMBER(0x005AC9E0, c_async_buffer_set, allocate_storage, allocator, buffer_size);
 
 	//ASSERT(allocator);
 	//ASSERT(buffer_size > 0);
@@ -72,12 +72,12 @@ bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buf
 
 void c_async_buffer_set::async_read_buffer(long buffer_index)
 {
-	DECLFUNC(0x005AD930, void, __thiscall, c_async_buffer_set*, long)(this, buffer_index);
+	INVOKE_CLASS_MEMBER(0x005AD930, c_async_buffer_set, async_read_buffer, buffer_index);
 }
 
 void c_async_buffer_set::async_write_buffer(long buffer_index)
 {
-	DECLFUNC(0x005ADF50, void, __thiscall, c_async_buffer_set*, long)(this, buffer_index);
+	INVOKE_CLASS_MEMBER(0x005ADF50, c_async_buffer_set, async_write_buffer, buffer_index);
 
 	//ASSERT(ready_to_write());
 	//
@@ -90,14 +90,14 @@ void c_async_buffer_set::async_write_buffer(long buffer_index)
 
 bool c_async_buffer_set::at_end_of_file() const
 {
-	return DECLFUNC(0x005AE1E0, bool, __thiscall, c_async_buffer_set const*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE1E0, c_async_buffer_set, at_end_of_file);
 
 	//return m_at_end_of_file;
 }
 
 void c_async_buffer_set::block_until_not_busy()
 {
-	DECLFUNC(0x005AE1F0, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AE1F0, c_async_buffer_set, block_until_not_busy);
 
 	//if (async_usable() && (ready_to_read() || ready_to_write()))
 	//{
@@ -109,7 +109,7 @@ void c_async_buffer_set::block_until_not_busy()
 
 bool c_async_buffer_set::close_file()
 {
-	return DECLFUNC(0x005AE250, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE250, c_async_buffer_set, close_file);
 
 	//if (async_usable() && file_handle_is_valid(m_async_file_handle))
 	//{
@@ -134,7 +134,7 @@ bool c_async_buffer_set::close_file()
 
 void c_async_buffer_set::complete_pending_async_buffer_activity()
 {
-	DECLFUNC(0x005AE350, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AE350, c_async_buffer_set, complete_pending_async_buffer_activity);
 
 	//switch (m_state)
 	//{
@@ -190,7 +190,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 
 long c_async_buffer_set::consume_bytes(void const* source, long bytes_to_consume)
 {
-	return DECLFUNC(0x005AE440, long, __thiscall, c_async_buffer_set_base*, void const*, long)(this, source, bytes_to_consume);
+	return INVOKE_CLASS_MEMBER(0x005AE440, c_async_buffer_set, consume_bytes, source, bytes_to_consume);
 
 	//s_async_buffer* buffer = get_buffer(m_buffer_index);
 	//if (bytes_to_consume > buffer->data_allocation_size - buffer->data_size)
@@ -212,7 +212,7 @@ long c_async_buffer_set::consume_bytes(void const* source, long bytes_to_consume
 
 long c_async_buffer_set::fill_bytes(void* destination, long bytes_to_fill)
 {
-	return DECLFUNC(0x005AE5C0, long, __thiscall, c_async_buffer_set_base*, void*, long)(this, destination, bytes_to_fill);
+	return INVOKE_CLASS_MEMBER(0x005AE5C0, c_async_buffer_set, fill_bytes, destination, bytes_to_fill);
 
 	//s_async_buffer* buffer = get_buffer(m_buffer_index);
 	//long bytes_available_to_read = buffer->__unknown14 - buffer->__unknownC;
@@ -239,7 +239,7 @@ long c_async_buffer_set::fill_bytes(void* destination, long bytes_to_fill)
 
 bool c_async_buffer_set::flush()
 {
-	return DECLFUNC(0x005AE640, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE640, c_async_buffer_set, flush);
 
 	//if (async_usable() && ready_to_write())
 	//{
@@ -256,21 +256,21 @@ bool c_async_buffer_set::flush()
 
 s_async_buffer* c_async_buffer_set_base::get_buffer(long buffer_index)
 {
-	return DECLFUNC(0x005AE6C0, s_async_buffer*, __thiscall, c_async_buffer_set_base*, long)(this, buffer_index);
+	return INVOKE_CLASS_MEMBER(0x005AE6C0, c_async_buffer_set_base, get_buffer, buffer_index);
 
 	//return &m_buffers[buffer_index];
 }
 
 long c_async_buffer_set_base::get_buffer_count() const
 {
-	return DECLFUNC(0x005AE6E0, long, __thiscall, c_async_buffer_set_base const*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE6E0, c_async_buffer_set_base, get_buffer_count);
 
 	//return m_buffer_count;
 }
 
 long c_async_buffer_set::get_position()
 {
-	return DECLFUNC(0x005AE710, long, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE710, c_async_buffer_set, get_position);
 
 	//if (async_usable() && (ready_to_write() || ready_to_read()))
 	//{
@@ -281,7 +281,7 @@ long c_async_buffer_set::get_position()
 
 bool c_async_buffer_set::handle_state(e_async_buffer_state new_state)
 {
-	return DECLFUNC(0x005AE760, bool, __thiscall, c_async_buffer_set*, e_async_buffer_state)(this, new_state);
+	return INVOKE_CLASS_MEMBER(0x005AE760, c_async_buffer_set, handle_state, new_state);
 
 	//ASSERT(new_state != k_async_buffer_state_none);
 	//if (async_usable())
@@ -292,14 +292,14 @@ bool c_async_buffer_set::handle_state(e_async_buffer_state new_state)
 
 void c_async_buffer_set::initialize()
 {
-	DECLFUNC(0x005AE7E0, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AE7E0, c_async_buffer_set, initialize);
 
 	//initialize_internal();
 }
 
 void c_async_buffer_set::initialize_buffer(long buffer_index)
 {
-	DECLFUNC(0x005AE7F0, void, __thiscall, c_async_buffer_set*, long)(this, buffer_index);
+	INVOKE_CLASS_MEMBER(0x005AE7F0, c_async_buffer_set, initialize_buffer, buffer_index);
 
 	//s_async_buffer* buffer = get_buffer(buffer_index);
 	//buffer->__unknown14 = 0;
@@ -311,7 +311,7 @@ void c_async_buffer_set::initialize_buffer(long buffer_index)
 
 void c_async_buffer_set::initialize_internal()
 {
-	DECLFUNC(0x005AE830, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AE830, c_async_buffer_set, initialize_internal);
 
 	//m_file_access = _async_buffer_file_access_none;
 	//m_state = k_async_buffer_state_none;
@@ -331,7 +331,7 @@ void c_async_buffer_set::initialize_internal()
 
 bool c_async_buffer_set::is_async_io_in_progress()
 {
-	return DECLFUNC(0x005AE8E0, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE8E0, c_async_buffer_set, is_async_io_in_progress);
 
 	//for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//{
@@ -343,14 +343,14 @@ bool c_async_buffer_set::is_async_io_in_progress()
 
 bool c_async_buffer_set::is_data_waiting()
 {
-	return DECLFUNC(0x005AE920, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AE920, c_async_buffer_set, is_data_waiting);
 
 	//return async_usable() && (ready_to_read() || ready_to_write()) && get_buffer(m_buffer_index)->data_size > 0;
 }
 
 bool c_async_buffer_set::open_file(wchar_t const* file_path, e_async_buffer_file_access file_access, e_async_buffer_disposition disposition)
 {
-	return DECLFUNC(0x005AE980, bool, __thiscall, c_async_buffer_set*, wchar_t const*, e_async_buffer_file_access, e_async_buffer_disposition)(this, file_path, file_access, disposition);
+	return INVOKE_CLASS_MEMBER(0x005AE980, c_async_buffer_set, open_file, file_path, file_access, disposition);
 
 	//ASSERT(m_storage_initialized);
 	//if (!async_usable())
@@ -364,7 +364,7 @@ bool c_async_buffer_set::open_file(wchar_t const* file_path, e_async_buffer_file
 
 void c_async_buffer_set::prime_buffers_for_reading()
 {
-	DECLFUNC(0x005AEBD0, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AEBD0, c_async_buffer_set, prime_buffers_for_reading);
 
 	//if (async_usable() && ready_to_read())
 	//{
@@ -380,7 +380,7 @@ void c_async_buffer_set::prime_buffers_for_reading()
 
 void c_async_buffer_set::read(void* destination, long bytes_to_read, long* bytes_read)
 {
-	DECLFUNC(0x005AEC30, void, __thiscall, c_async_buffer_set*, void const*, long, long*)(this, destination, bytes_to_read, bytes_read);
+	INVOKE_CLASS_MEMBER(0x005AEC30, c_async_buffer_set, read, destination, bytes_to_read, bytes_read);
 
 	//ASSERT(destination);
 	//ASSERT(bytes_to_read > 0);
@@ -390,21 +390,21 @@ void c_async_buffer_set::read(void* destination, long bytes_to_read, long* bytes
 
 bool c_async_buffer_set::ready_to_read()
 {
-	return DECLFUNC(0x005AEE10, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AEE10, c_async_buffer_set, ready_to_read);
 
 	//return file_handle_is_valid(m_async_file_handle) && (m_file_access == 1 || m_file_access == 2);
 }
 
 bool c_async_buffer_set::ready_to_write()
 {
-	return DECLFUNC(0x005AEE40, bool, __thiscall, c_async_buffer_set*)(this);
+	return INVOKE_CLASS_MEMBER(0x005AEE40, c_async_buffer_set, ready_to_write);
 
 	//return file_handle_is_valid(m_async_file_handle) && (m_file_access == 0 || m_file_access == 2);
 }
 
 void c_async_buffer_set::release_storage(c_allocation_base* allocator)
 {
-	DECLFUNC(0x005AEE70, void, __thiscall, c_async_buffer_set*, c_allocation_base*)(this, allocator);
+	INVOKE_CLASS_MEMBER(0x005AEE70, c_async_buffer_set, release_storage, allocator);
 
 	//if (m_storage_initialized)
 	//{
@@ -427,7 +427,7 @@ void c_async_buffer_set::release_storage(c_allocation_base* allocator)
 
 bool c_async_buffer_set::set_position(long file_position)
 {
-	return DECLFUNC(0x005AEF60, bool, __thiscall, c_async_buffer_set*, long)(this, file_position);
+	return INVOKE_CLASS_MEMBER(0x005AEF60, c_async_buffer_set, set_position, file_position);
 
 	//ASSERT(file_position >= 0);
 	////...
@@ -435,7 +435,7 @@ bool c_async_buffer_set::set_position(long file_position)
 
 bool c_async_buffer_set::set_state(e_async_buffer_state new_state)
 {
-	return DECLFUNC(0x005AF080, bool, __thiscall, c_async_buffer_set*, e_async_buffer_state)(this, new_state);
+	return INVOKE_CLASS_MEMBER(0x005AF080, c_async_buffer_set, set_state, new_state);
 
 	//if (async_usable() && (ready_to_read() || ready_to_write()))
 	//{
@@ -446,12 +446,12 @@ bool c_async_buffer_set::set_state(e_async_buffer_state new_state)
 
 void c_async_buffer_set::swap_buffers()
 {
-	DECLFUNC(0x005AF110, void, __thiscall, c_async_buffer_set*)(this);
+	INVOKE_CLASS_MEMBER(0x005AF110, c_async_buffer_set, swap_buffers);
 }
 
 void c_async_buffer_set::use_external_storage(char** buffers, long buffer_count, long buffer_size)
 {
-	DECLFUNC(0x005AF240, void, __thiscall, c_async_buffer_set*, char**, long, long)(this, buffers, buffer_count, buffer_size);
+	INVOKE_CLASS_MEMBER(0x005AF240, c_async_buffer_set, use_external_storage, buffers, buffer_count, buffer_size);
 
 	//ASSERT(buffer_count == get_buffer_count());
 	//ASSERT(buffer_size > 0);
@@ -467,7 +467,7 @@ void c_async_buffer_set::use_external_storage(char** buffers, long buffer_count,
 
 void c_async_buffer_set::write(void const* source, long bytes_to_write, long* byte_written)
 {
-	DECLFUNC(0x005AF2A0, void, __thiscall, c_async_buffer_set*, void const*, long, long*)(this, source, bytes_to_write, byte_written);
+	INVOKE_CLASS_MEMBER(0x005AF2A0, c_async_buffer_set, write, source, bytes_to_write, byte_written);
 
 	//ASSERT(source);
 	//ASSERT(bytes_to_write > 0);

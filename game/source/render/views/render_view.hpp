@@ -31,10 +31,10 @@ public:
 	{
 	}
 
-	void __cdecl render() { __vftable->render(this); }
-	long __cdecl render_setup() { return __vftable->render_setup(this); }
-	long __cdecl compute_visibility() { return __vftable->compute_visibility(this); }
-	long __cdecl render_submit_visibility() { return __vftable->render_submit_visibility(this); }
+	void render() { __vftable->render(this); }
+	long render_setup() { return __vftable->render_setup(this); }
+	long compute_visibility() { return __vftable->compute_visibility(this); }
+	long render_submit_visibility() { return __vftable->render_submit_visibility(this); }
 
 	static void __cdecl abort_current_view_stack();
 	static void __cdecl begin(c_view* view);
@@ -42,17 +42,17 @@ public:
 	static long __cdecl get_current_stack_level();
 	static c_view* __cdecl top();
 	
-	render_camera const* __cdecl get_render_camera() const;
-	render_camera* __cdecl get_render_camera_modifiable();
+	render_camera const* get_render_camera() const;
+	render_camera* get_render_camera_modifiable();
 
-	render_camera const* __cdecl get_rasterizer_camera() const;
-	render_camera* __cdecl get_rasterizer_camera_modifiable();
+	render_camera const* get_rasterizer_camera() const;
+	render_camera* get_rasterizer_camera_modifiable();
 
-	render_projection const* __cdecl get_rasterizer_projection() const;
-	render_projection* __cdecl get_rasterizer_projection_modifiable();
+	render_projection const* get_rasterizer_projection() const;
+	render_projection* get_rasterizer_projection_modifiable();
 
-	render_projection const* __cdecl get_render_projection() const;
-	render_projection* __cdecl get_render_projection_modifiable();
+	render_projection const* get_render_projection() const;
+	render_projection* get_render_projection_modifiable();
 
 protected:
 	static long& g_view_stack_top;
@@ -96,8 +96,8 @@ public:
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBC0);
 	}
 
-	void __cdecl setup_camera(s_observer_result const* result);
-	void __cdecl render_blank_frame(real_rgb_color const* color);
+	void setup_camera(s_observer_result const* result);
+	void render_blank_frame(real_rgb_color const* color);
 };
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
@@ -196,18 +196,18 @@ struct c_player_view :
 		x_current_player_view = view;
 	}
 
-	long __cdecl get_player_view_user_index()
+	long get_player_view_user_index()
 	{
 		return m_player_view_user_index;
 	}
 
-	e_output_user_index __cdecl get_player_view_output_user_index()
+	e_output_user_index get_player_view_output_user_index()
 	{
 		return m_output_user_index;
 	}
 
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
-	void __cdecl create_frame_textures(long player_index);
+	void create_frame_textures(long player_index);
 
 protected:
 	// c_camera_fx_values?

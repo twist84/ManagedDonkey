@@ -4,14 +4,14 @@
 
 c_static_flags<20000>* c_scenario_resource_registry::get_tag_instance_flags()
 {
-	//return DECLFUNC(0x005FB0E0, c_static_flags<20000>*, __thiscall, c_scenario_resource_registry*)(this);
+	//return INVOKE_CLASS_MEMBER(0x005FB0E0, c_scenario_resource_registry, get_tag_instance_flags);
 
 	return &m_tag_instance_flags;
 }
 
 bool c_scenario_resource_registry::is_tag_available(long tag_index) const
 {
-	//return DECLFUNC(0x005FB0F0, bool, __thiscall, c_scenario_resource_registry const*, long)(this, tag_index);
+	//return INVOKE_CLASS_MEMBER(0x005FB0F0, c_scenario_resource_registry, is_tag_available, tag_index);
 
 	//ASSERT(tag_get(NONE, tag_index));
 	//return m_tag_instance_flags.test(DATUM_INDEX_TO_ABSOLUTE_INDEX(tag_index));

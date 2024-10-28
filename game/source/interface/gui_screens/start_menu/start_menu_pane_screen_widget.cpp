@@ -2,6 +2,6 @@
 
 void c_start_menu_pane_screen_widget::close_current_subpane()
 {
-	DECLFUNC(0x00B1F360, void, __thiscall, c_start_menu_pane_screen_widget*)(this);
+	INVOKE_CLASS_MEMBER(0x00B1F360, c_start_menu_pane_screen_widget, close_current_subpane);
 }
 

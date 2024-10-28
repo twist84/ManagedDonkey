@@ -55,14 +55,14 @@ c_map_variant::c_map_variant()
 //void c_map_variant::create_default(e_map_id map_id)
 void c_map_variant::create_default(long map_id)
 {
-	DECLFUNC(0x00581F70, void, __thiscall, c_map_variant*, long)(this, map_id);
+	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
 
 //.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, vector3d const*, vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, word)
 
 bool c_map_variant::decode(c_bitstream* packet)
 {
-	return DECLFUNC(0x00582550, bool, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
+	return INVOKE_CLASS_MEMBER(0x00582550, c_map_variant, decode, packet);
 
 	//m_metadata.decode(packet);
 	//m_map_variant_version = (short)packet->read_integer("map-variant-version", 8);
@@ -182,7 +182,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 
 void c_map_variant::encode(c_bitstream* packet) const
 {
-	DECLFUNC(0x005829A0, void, __thiscall, c_map_variant const*, c_bitstream*)(this, packet);
+	INVOKE_CLASS_MEMBER(0x005829A0, c_map_variant, encode, packet);
 }
 
 //.text:005831C0 ; public: long c_map_variant::find_definition_index(long)
@@ -218,12 +218,12 @@ void c_map_variant::encode(c_bitstream* packet) const
 
 bool c_map_variant::is_valid() const
 {
-	return DECLFUNC(0x005841D0, bool, __thiscall, c_map_variant const*)(this);
+	return INVOKE_CLASS_MEMBER(0x005841D0, c_map_variant, is_valid);
 }
 
 bool c_map_variant::sub_5842F0(c_map_variant* map_variant)
 {
-	return DECLFUNC(0x005842F0, bool, __thiscall, c_map_variant*, c_map_variant*)(this, map_variant);
+	return INVOKE_CLASS_MEMBER(0x005842F0, c_map_variant, sub_5842F0, map_variant);
 }
 
 //.text:005845C0 ; 
@@ -250,7 +250,7 @@ bool c_map_variant::sub_5842F0(c_map_variant* map_variant)
 
 bool c_map_variant::read_from(c_map_variant const* source)
 {
-	return DECLFUNC(0x005860F0, bool, __thiscall, c_map_variant*, c_map_variant const*)(this, source);
+	return INVOKE_CLASS_MEMBER(0x005860F0, c_map_variant, read_from, source);
 }
 
 //.text:00586270 ; s_scenario_multiplayer_object_properties const* __cdecl scenario_multiplayer_object_properties_try_and_get(e_object_type, long)
@@ -266,14 +266,14 @@ bool c_map_variant::read_from(c_map_variant const* source)
 
 void c_map_variant::set_description(char const* description)
 {
-	return DECLFUNC(0x00586460, void, __thiscall, c_map_variant*, char const*)(this, description);
+	return INVOKE_CLASS_MEMBER(0x00586460, c_map_variant, set_description, description);
 }
 
 //.text:005864A0 ; public: void c_map_variant::set_metadata(s_content_item_metadata const*)
 
 void c_map_variant::set_name(wchar_t const* name)
 {
-	return DECLFUNC(0x00586570, void, __thiscall, c_map_variant*, wchar_t const*)(this, name);
+	return INVOKE_CLASS_MEMBER(0x00586570, c_map_variant, set_name, name);
 }
 
 //.text:005865B0 ;
@@ -291,7 +291,7 @@ void c_map_variant::set_name(wchar_t const* name)
 
 bool c_map_variant::validate()
 {
-	return DECLFUNC(0x00586D00, bool, __thiscall, c_map_variant*)(this);
+	return INVOKE_CLASS_MEMBER(0x00586D00, c_map_variant, validate);
 }
 
 //.text:00586D20 ; 

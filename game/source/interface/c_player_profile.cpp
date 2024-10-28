@@ -31,7 +31,7 @@ DATA_PATCH_DECLARE(0x0191D4FC, controller_all_solo_levels_unlocked, controller_a
 
 void __thiscall c_player_profile_interface::dirty_or(bool a1)
 {
-	DECLFUNC(0x00AA0320, void, __thiscall, c_player_profile_interface*, bool)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00AA0320, c_player_profile_interface, dirty_or, a1);
 
 	//if (TEST_BIT(m_flags, 5) || a1)
 	//{
@@ -95,7 +95,7 @@ void __thiscall c_player_profile_interface::dirty_or(bool a1)
 
 e_player_color_index c_player_profile_interface::get_primary_change_color() const
 {
-	return DECLFUNC(0x00AA0AE0, e_player_color_index, __thiscall, c_player_profile_interface const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AA0AE0, c_player_profile_interface, get_primary_change_color);
 
 	//return m_primary_change_color;
 }
@@ -106,7 +106,7 @@ e_player_color_index c_player_profile_interface::get_primary_change_color() cons
 
 e_player_color_index c_player_profile_interface::get_secondary_change_color() const
 {
-	return DECLFUNC(0x00AA0B20, e_player_color_index, __thiscall, c_player_profile_interface const*)(this);
+	return INVOKE_CLASS_MEMBER(0x00AA0B20, c_player_profile_interface, get_secondary_change_color);
 
 	//return m_secondary_change_color;
 }
@@ -204,7 +204,7 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //void c_player_profile_interface::set_primary_change_color(e_player_color_index primary_change_color, bool a2)
 void __thiscall c_player_profile_interface::set_primary_change_color(long primary_change_color, bool a2)
 {
-	DECLFUNC(0x00AA36B0, void, __thiscall, c_player_profile_interface*, long, bool)(this, primary_change_color, a2);
+	INVOKE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color, primary_change_color, a2);
 
 	//if (VALID_INDEX(primary_change_color, k_number_of_player_colors))
 	//{
@@ -223,7 +223,7 @@ void __thiscall c_player_profile_interface::set_primary_change_color(long primar
 //void c_player_profile_interface::set_secondary_change_color(e_player_color_index secondary_change_color, bool a2)
 void __thiscall c_player_profile_interface::set_secondary_change_color(long secondary_change_color, bool a2)
 {
-	DECLFUNC(0x00AA3860, void, __thiscall, c_player_profile_interface*, long, bool)(this, secondary_change_color, a2);
+	INVOKE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color, secondary_change_color, a2);
 
 	//if (VALID_INDEX(secondary_change_color, k_number_of_player_colors))
 	//{

@@ -1002,7 +1002,7 @@ bool __cdecl map_names_are_equal(char const* map_name_a, char const* map_name_b)
 
 void c_cache_file_copy_fake_decompressor::setup(s_file_handle file_handle, dword offset, dword checksum, c_basic_buffer<void> buffer)
 {
-	DECLFUNC(0x005AC580, void, __thiscall, c_cache_file_copy_fake_decompressor*, s_file_handle, dword, dword, c_basic_buffer<void>)(this, file_handle, offset, checksum, buffer);
+	INVOKE_CLASS_MEMBER(0x005AC580, c_cache_file_copy_fake_decompressor, setup, file_handle, offset, checksum, buffer);
 }
 
 char const* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type shared_file_type)
@@ -1033,7 +1033,7 @@ char const* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type sh
 
 void c_cache_file_copy_fake_decompressor::teardown()
 {
-	DECLFUNC(0x005AC640, void, __thiscall, c_cache_file_copy_fake_decompressor*)(this);
+	INVOKE_CLASS_MEMBER(0x005AC640, c_cache_file_copy_fake_decompressor, teardown);
 
 	//m_done.peek();
 	//m_buffer.set_buffer(NULL, 0ul);

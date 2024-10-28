@@ -57,14 +57,13 @@ void __thiscall c_debug_director::_update(real a1)
 		}
 	}
 
-	//c_director::update(a1);
-	DECLFUNC(0x00593540, void, __thiscall, c_director*, real)(this, a1);
+	INVOKE_CLASS_MEMBER(0x00593540, c_director, update, a1);
 }
 
 void c_debug_director::constructor(long user_index)
 {
 	changed_camera();
-	DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
+	INVOKE_CLASS_MEMBER(0x007260D0, c_debug_director, constructor, user_index);
 }
 
 void c_debug_director::changed_camera()

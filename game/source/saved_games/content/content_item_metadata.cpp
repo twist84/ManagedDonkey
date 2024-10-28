@@ -28,7 +28,7 @@ bool s_content_item_metadata::is_valid() const
 
 void s_content_item_metadata::decode(c_bitstream* packet)
 {
-	//DECLFUNC(0x00523FE0, void, __thiscall, s_content_item_metadata*, c_bitstream*)(this, packet);
+	//INVOKE_CLASS_MEMBER(0x00523FE0, s_content_item_metadata, decode, packet);
 
 	long const k_name_size = NUMBEROF(name);
 	long const k_description_size = NUMBEROF(description);
@@ -55,7 +55,7 @@ void s_content_item_metadata::decode(c_bitstream* packet)
 
 void s_content_item_metadata::encode(c_bitstream* packet) const
 {
-	//DECLFUNC(0x00524120, void, __thiscall, s_content_item_metadata const*, c_bitstream*)(this, packet);
+	//INVOKE_CLASS_MEMBER(0x00524120, s_content_item_metadata, encode, packet);
 
 	ASSERT(is_valid());
 

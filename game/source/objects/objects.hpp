@@ -259,13 +259,13 @@ static_assert(sizeof(object_header_datum) == 0x10);
 struct c_object_iterator_base
 {
 public:
-	long __cdecl get_index();
+	long get_index();
 
 protected:
-	void __cdecl object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index);
-	bool __cdecl object_iterator_next_internal();
-	bool __cdecl object_iterator_next_with_match_flags_internal();
-	object_datum* __cdecl get_datum_internal();
+	void object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index);
+	bool object_iterator_next_internal();
+	bool object_iterator_next_with_match_flags_internal();
+	object_datum* get_datum_internal();
 
 private:
 	object_datum* m_datum;
@@ -281,17 +281,17 @@ template<typename t_object_type>
 struct c_object_iterator :
 	c_object_iterator_base
 {
-	void __cdecl begin(dword type_flags, byte match_flags)
+	void begin(dword type_flags, byte match_flags)
 	{
 		object_iterator_begin_internal(type_flags, match_flags, 0, NONE);
 	}
 
-	bool __cdecl next()
+	bool next()
 	{
 		return object_iterator_next_internal();
 	}
 
-	t_object_type* __cdecl get_datum()
+	t_object_type* get_datum()
 	{
 		return static_cast<t_object_type*>(get_datum_internal());
 	}

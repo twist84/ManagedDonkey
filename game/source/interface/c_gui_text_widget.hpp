@@ -62,11 +62,11 @@ struct c_gui_text_widget :
 
 public:
 
-	c_user_interface_text* __cdecl get_text_internal();
-	dword __cdecl get_text_buffer_size() const;
-	void __cdecl set_text(wchar_t const* text);
-	void __cdecl set_text_from_string_id(c_gui_screen_widget* screen, long id);
-	wchar_t const* __cdecl get_text();
+	c_user_interface_text* get_text_internal();
+	dword get_text_buffer_size() const;
+	void set_text(wchar_t const* text);
+	void set_text_from_string_id(c_gui_screen_widget* screen, long id);
+	wchar_t const* get_text();
 
 protected:
 	real __unknownDC;

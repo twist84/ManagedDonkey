@@ -15,13 +15,13 @@ struct c_editor_director :
 
 	void constructor(long user_index)
 	{
-		DECLFUNC(0x00727EA0, void, __thiscall, c_director*, long)(this, user_index);
+		INVOKE_CLASS_MEMBER(0x00727EA0, c_editor_director, constructor, user_index);
 	}
 
 	static void __cdecl bump_speed();
 	static real __cdecl get_speed();
-	void __cdecl set_position_and_roll(real_point3d const* position, euler_angles2d const* facing);
-	void __cdecl set_scripted(bool scripted);
+	void set_position_and_roll(real_point3d const* position, euler_angles2d const* facing);
+	void set_scripted(bool scripted);
 };
 static_assert(sizeof(c_editor_director) == 0x160);
 

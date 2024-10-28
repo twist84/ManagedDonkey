@@ -99,58 +99,58 @@ struct c_matchmaking_quality;
 struct c_session_tracker
 {
 public:
-	bool __cdecl add_session(char const* name, s_transport_session_description const* description);
+	bool add_session(char const* name, s_transport_session_description const* description);
 
 private:
-	void __cdecl add_session_to_unsuitable_sessions(s_transport_secure_identifier const* session_id);
+	void add_session_to_unsuitable_sessions(s_transport_secure_identifier const* session_id);
 
 public:
-	bool __cdecl allocate_storage(long tracker_sort_method, long qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
+	bool allocate_storage(long tracker_sort_method, long qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
 
 private:
-	void __cdecl build_qos_target_list(e_transport_qos_type qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count);
-	void __cdecl clear_qos_attempt(long qos_attempt_index);
+	void build_qos_target_list(e_transport_qos_type qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count);
+	void clear_qos_attempt(long qos_attempt_index);
 
 public:
-	void __cdecl clear();
-	void __cdecl clear_unsuitable_sessions();
-	void __cdecl dispose();
+	void clear();
+	void clear_unsuitable_sessions();
+	void dispose();
 
 private:
-	long __cdecl get_maximum_qos_target_count(e_transport_qos_type qos_type);
+	long get_maximum_qos_target_count(e_transport_qos_type qos_type);
 
 public:
-	long __cdecl get_session_count();
-	bool __cdecl get_session_data(long tracked_session_index, s_network_session_tracker_session_data* session_data);
-	void __cdecl get_session_status(long tracked_session_index, s_network_session_tracker_session_status* session_status);
+	long get_session_count();
+	bool get_session_data(long tracked_session_index, s_network_session_tracker_session_data* session_data);
+	void get_session_status(long tracked_session_index, s_network_session_tracker_session_status* session_status);
 
 private:
-	long __cdecl get_tracked_session_index(s_transport_secure_identifier const* session_id);
+	long get_tracked_session_index(s_transport_secure_identifier const* session_id);
 
 public:
-	bool __cdecl initialize(bool a1);
-	bool __cdecl mark_session_undesireable(s_transport_session_description const* description, long undesirable_reason);
-	bool __cdecl mark_session_unsuitable(s_transport_session_description const* description, long unsuitable_reason);
+	bool initialize(bool a1);
+	bool mark_session_undesireable(s_transport_session_description const* description, long undesirable_reason);
+	bool mark_session_unsuitable(s_transport_session_description const* description, long unsuitable_reason);
 
 private:
-	void __cdecl release_qos_attempt(long qos_attempt_index);
+	void release_qos_attempt(long qos_attempt_index);
 
 public:
-	void __cdecl release_storage();
-	bool __cdecl session_completed_initial_qos(long tracked_session_index);
+	void release_storage();
+	bool session_completed_initial_qos(long tracked_session_index);
 
 private:
-	bool __cdecl session_is_unsuitable(s_transport_secure_identifier const* session_id);
+	bool session_is_unsuitable(s_transport_secure_identifier const* session_id);
 
 public:
-	void __cdecl update();
+	void update();
 
 private:
-	void __cdecl update_qos_receive(long qos_attempt_index);
-	void __cdecl update_qos_send(long qos_attempt_index);
-	void __cdecl update_sessions_for_refresh();
-	void __cdecl update_sort();
-	bool __cdecl update_sort_by_desirability();
+	void update_qos_receive(long qos_attempt_index);
+	void update_qos_send(long qos_attempt_index);
+	void update_sessions_for_refresh();
+	void update_sort();
+	bool update_sort_by_desirability();
 
 protected:
 	long m_sort_method;
