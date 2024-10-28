@@ -79,6 +79,8 @@ static_assert(sizeof(c_model_animation_runtime_data) == 0x58);
 
 struct c_model_animation_graph
 {
+	static c_model_animation_graph const* __cdecl get(long definition_index);
+	static c_model_animation_graph const* __cdecl get_from_object_definition(long object_definition_index);
 	s_animation_graph_node* get_node(long node_index) const;
 
 	c_animation_graph_definitions definitions;
