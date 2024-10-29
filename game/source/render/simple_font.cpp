@@ -123,14 +123,14 @@ namespace simple_font
 	{
 		return INVOKE(0x00A76AF0, simple_font::get_height);
 
-		//return long(real(simple_font::g_activeFont->font_character_height) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->character_height) * simple_font::g_activeFont->scale);
 	}
 
 	long __cdecl get_width()
 	{
 		return INVOKE(0x00A76B30, simple_font::get_width);
 
-		//return long(real(simple_font::g_activeFont->font_character_width) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->character_width) * simple_font::g_activeFont->scale);
 	}
 
 	void s_font_data::install()
@@ -156,8 +156,8 @@ namespace simple_font
 					__unknown2C = texture_width;
 
 					short_rectangle2d rect{};
-					rect.x1 = (short)font_width;
-					rect.y1 = (short)font_height;
+					rect.x1 = (short)font_buffer_width;
+					rect.y1 = (short)font_buffer_height;
 
 					long buffer_offset = 0;
 					for (short y = 0; y < rect.y1; y++)
@@ -190,10 +190,8 @@ namespace simple_font
 		g_simple_font_globals.__unknown0 = false;
 	}
 
-	//void __cdecl render_text(s_font_data* a1, long a2, long a3, long a4, long a5, dword a6, char const* string, unsigned int string_length, bool a9)
-	//{
-	//	INVOKE(0x00A77480, render_text, a1, a2, a3, a4, a5, a6, string, string_length, a9);
-	//}
+	//.text:00A76DB0 ; 
+	//.text:00A76DC0 ; long __cdecl simple_font::make_quad(long, long, real, real, long, long, real, real, dword, long, rasterizer_vertex_screen*)
 
 	void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6)
 	{

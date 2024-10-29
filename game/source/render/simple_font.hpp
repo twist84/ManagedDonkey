@@ -50,19 +50,32 @@ namespace simple_font
 		void remove();
 
 		bool installed;
-		byte __data1[0x3];
-		long font_character_width;
-		long font_character_height;
-		byte __dataC[0xC];
-		real scale;
-		long texture_width;
-		long texture_height;
-		bitmap_data* texture_bitmap;
-		c_rasterizer_texture_ref texture_ref;
-		long __unknown2C;
-		long font_width;
-		long font_height;
-		char* font_buffer;
+
+		struct
+		{
+			long character_width;
+			long character_height;
+			long characters_per_line;
+			long character_first;
+			long character_last;
+			real character_scale;
+		};
+
+		struct
+		{
+			long texture_width;
+			long texture_height;
+			bitmap_data* texture_bitmap;
+			c_rasterizer_texture_ref texture_ref;
+		};
+
+		struct
+		{
+			long __unknown2C;
+			long font_buffer_width;
+			long font_buffer_height;
+			char* font_buffer;
+		};
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
 	
