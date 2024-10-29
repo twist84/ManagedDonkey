@@ -47,6 +47,7 @@ namespace simple_font
 	struct s_font_data
 	{
 		void install();
+		void remove();
 
 		bool installed;
 		byte __data1[0x3];
@@ -70,6 +71,7 @@ namespace simple_font
 	extern long __cdecl get_height();
 	extern long __cdecl get_width();
 	extern void __cdecl install();
+	extern void __cdecl remove();
 	extern void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6);
 
 	extern s_font_data*(&g_fonts)[2];

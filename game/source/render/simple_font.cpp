@@ -76,6 +76,8 @@ namespace simple_font
 {
 	HOOK_DECLARE_CLASS_MEMBER(0x00A76B50, s_font_data, install);
 	HOOK_DECLARE(0x00A76C60, install);
+	HOOK_DECLARE_CLASS_MEMBER(0x00A77390, s_font_data, remove);
+	HOOK_DECLARE(0x00A773C0, remove);
 
 	REFERENCE_DECLARE_ARRAY(0x0191BFD0, s_font_data*, g_fonts, 2);
 	REFERENCE_DECLARE(0x0191C000, s_font_data, g_font_6x10);
@@ -199,6 +201,42 @@ namespace simple_font
 
 		//render_text(g_activeFont, a1, a2, 1024, 0, a3, string, string_length, a6);
 	}
+
+	//.text:00A77110 ; void __cdecl simple_font::print_block(long, long, long, long, dword, char const*)
+	//.text:00A77140 ; void __cdecl simple_font::print_white(long, long, char const*, long)
+	//.text:00A77160 ; void __cdecl simple_font::printf(long, long, dword, char const*, ...)
+	//.text:00A771D0 ; void __cdecl simple_font::printf(long, long, char const*, ...)
+	//.text:00A77240 ; void __cdecl simple_font::printf_down(long, long, dword, char const*, ...)
+	//.text:00A772B0 ; void __cdecl simple_font::printf_left(long, long, dword, char const*, ...)
+	//.text:00A77320 ; void __cdecl simple_font::printf_up(long, long, dword, char const*, ...)
+
+	void s_font_data::remove()
+	{
+		//INVOKE_CLASS_MEMBER(0x00A77390, simple_font::s_font_data, remove);
+
+		if (installed)
+		{
+			bitmap_delete(texture_bitmap);
+			c_rasterizer_texture_ref::release(texture_ref);
+			texture_bitmap = NULL;
+			installed = false;
+		}
+	}
+
+	void __cdecl remove()
+	{
+		//INVOKE(0x00A773C0, simple_font::remove);
+
+		for (s_font_data* font_data : g_fonts)
+			font_data->remove();
+	}
+
+	//void __cdecl render_text(s_font_data* a1, long a2, long a3, long a4, long a5, dword a6, char const* string, unsigned int string_length, bool a9)
+	//{
+	//	INVOKE(0x00A77480, render_text, a1, a2, a3, a4, a5, a6, string, string_length, a9);
+	//}
+
+	//.text:00A779B0 ; void __cdecl simple_font::vprintf(long, long, long, dword, char const*, char*)
 }
 
 /*                                                                                        simple_font::g_font_6x10 */
