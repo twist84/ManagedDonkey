@@ -50,8 +50,8 @@ namespace simple_font
 
 		bool installed;
 		byte __data1[0x3];
-		long width;
-		long height;
+		long font_character_width;
+		long font_character_height;
 		byte __dataC[0xC];
 		real scale;
 		long texture_width;
@@ -59,9 +59,9 @@ namespace simple_font
 		bitmap_data* texture_bitmap;
 		c_rasterizer_texture_ref texture_ref;
 		long __unknown2C;
-		long x1;
-		long y1;
-		char* buffer;
+		long font_width;
+		long font_height;
+		char* font_buffer;
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
 	

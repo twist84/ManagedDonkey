@@ -121,14 +121,14 @@ namespace simple_font
 	{
 		return INVOKE(0x00A76AF0, simple_font::get_height);
 
-		//return long(real(simple_font::g_activeFont->height) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->font_character_height) * simple_font::g_activeFont->scale);
 	}
 
 	long __cdecl get_width()
 	{
 		return INVOKE(0x00A76B30, simple_font::get_width);
 
-		//return long(real(simple_font::g_activeFont->width) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->font_character_width) * simple_font::g_activeFont->scale);
 	}
 
 	void s_font_data::install()
@@ -154,15 +154,15 @@ namespace simple_font
 					__unknown2C = texture_width;
 
 					short_rectangle2d rect{};
-					rect.x1 = (short)x1;
-					rect.y1 = (short)y1;
+					rect.x1 = (short)font_width;
+					rect.y1 = (short)font_height;
 
 					long buffer_offset = 0;
 					for (short y = 0; y < rect.y1; y++)
 					{
 						for (short x = 0; x < rect.x1; x++)
 						{
-							char font_char = buffer[buffer_offset++];
+							char font_char = font_buffer[buffer_offset++];
 							byte* char_address = (byte*)bitmap_2d_address(texture_bitmap, x, y, 0);
 							byte char_value = (font_char != '#') - 1;
 							char_address[0] = char_value;
