@@ -101,7 +101,7 @@ namespace simple_font
 		//	if (scale <= 0.1f || (v4 = 10.0f, scale >= 10.0f))
 		//		scale = v4;
 		//
-		//	simple_font::g_activeFont->scale = scale;
+		//	simple_font::g_activeFont->character_scale = scale;
 		//	simple_font::g_simple_font_globals.__unknown0 = a2;
 		//	return rendering;
 		//}
@@ -123,21 +123,21 @@ namespace simple_font
 	{
 		return INVOKE(0x00A76AF0, simple_font::get_height);
 
-		//return long(real(simple_font::g_activeFont->character_height) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->character_height) * simple_font::g_activeFont->character_scale);
 	}
 
 	long __cdecl get_width()
 	{
 		return INVOKE(0x00A76B30, simple_font::get_width);
 
-		//return long(real(simple_font::g_activeFont->character_width) * simple_font::g_activeFont->scale);
+		//return long(real(simple_font::g_activeFont->character_width) * simple_font::g_activeFont->character_scale);
 	}
 
 	void s_font_data::install()
 	{
 		//INVOKE_CLASS_MEMBER(0x00A76B50, simple_font::s_font_data, install);
 
-		if (!installed && c_rasterizer::g_device)
+		if (!installed && c_rasterizer::g_device) // c_rasterizer::get_device()
 		{
 			if (texture_bitmap = bitmap_2d_new((short)texture_width, (short)texture_height, 0, _bitmap_format_a8y8, 0))
 			{
@@ -153,7 +153,7 @@ namespace simple_font
 					texture_bitmap->internal_hardware_format = internal_hardware_format;
 					texture_bitmap->flags.set(_bitmap_flag_bit8, true);
 
-					__unknown2C = texture_width;
+					texture_pitch = texture_width;
 
 					short_rectangle2d rect{};
 					rect.x1 = (short)font_buffer_width;

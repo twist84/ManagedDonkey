@@ -67,11 +67,11 @@ namespace simple_font
 			long texture_height;
 			bitmap_data* texture_bitmap;
 			c_rasterizer_texture_ref texture_ref;
+			long texture_pitch;
 		};
 
 		struct
 		{
-			long __unknown2C;
 			long font_buffer_width;
 			long font_buffer_height;
 			char* font_buffer;
