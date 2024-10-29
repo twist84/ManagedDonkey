@@ -17,3 +17,8 @@ bitmap_data* __cdecl bitmap_2d_new(short width, short height, short mipmap_count
 	return INVOKE(0x0086AC20, bitmap_2d_new, width, height, mipmap_count, format, flags);
 }
 
+void __cdecl bitmap_delete(bitmap_data* bitmap)
+{
+	INVOKE(0x0086B8C0, bitmap_delete, bitmap);
+}
+
