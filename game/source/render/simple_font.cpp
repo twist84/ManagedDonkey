@@ -141,9 +141,7 @@ namespace simple_font
 		{
 			if (texture_bitmap = bitmap_2d_new((short)texture_width, (short)texture_height, 0, _bitmap_format_a8y8, 0))
 			{
-				c_rasterizer_texture_ref hardware_format;
-				texture_ref = c_rasterizer_texture_ref::allocate(hardware_format, texture_bitmap, "simple_font", true);
-				if (texture_ref.valid())
+				if (texture_ref = c_rasterizer_texture_ref::allocate(texture_ref, texture_bitmap, "simple_font", true), texture_ref.valid())
 				{
 					texture_bitmap->internal_hardware_format = texture_ref;
 					texture_bitmap->flags.set(_bitmap_flag_bit8, true);
