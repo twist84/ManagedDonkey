@@ -37,6 +37,11 @@ IDirect3DTexture9* c_rasterizer_texture_ref::get_d3d_texture() const
 	return INVOKE_CLASS_MEMBER(0x00A6E8E0, c_rasterizer_texture_ref, get_d3d_texture);
 }
 
+bool c_rasterizer_texture_ref::get_width_height(long level, long* width, long* height)
+{
+	return INVOKE_CLASS_MEMBER(0x00A6E950, c_rasterizer_texture_ref, get_width_height, level, width, height);
+}
+
 void __cdecl c_rasterizer_texture_ref::initialize()
 {
 	INVOKE(0x00A6E9C0, c_rasterizer_texture_ref::initialize);
