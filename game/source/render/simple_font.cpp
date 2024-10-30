@@ -141,16 +141,11 @@ namespace simple_font
 		{
 			if (texture_bitmap = bitmap_2d_new((short)texture_width, (short)texture_height, 0, _bitmap_format_a8y8, 0))
 			{
-				c_rasterizer_texture_ref internal_hardware_format;
-
-				// c_rasterizer_texture_ref::allocate?
-				DECLFUNC(0x00A6DFF0, void, __cdecl, c_rasterizer_texture_ref&, bitmap_data*, char const*, bool)(
-					internal_hardware_format, texture_bitmap, "simple_font", true);
-
-				texture_ref = internal_hardware_format;
-				if (internal_hardware_format.valid())
+				c_rasterizer_texture_ref hardware_format;
+				texture_ref = c_rasterizer_texture_ref::allocate(hardware_format, texture_bitmap, "simple_font", true);
+				if (texture_ref.valid())
 				{
-					texture_bitmap->internal_hardware_format = internal_hardware_format;
+					texture_bitmap->internal_hardware_format = texture_ref;
 					texture_bitmap->flags.set(_bitmap_flag_bit8, true);
 
 					texture_pitch = texture_width;
@@ -159,13 +154,18 @@ namespace simple_font
 					rect.x1 = (short)font_buffer_width;
 					rect.y1 = (short)font_buffer_height;
 
+					byte* start_address = (byte*)bitmap_2d_address(texture_bitmap, 0, 0, 0);
+
 					long buffer_offset = 0;
 					for (short y = 0; y < rect.y1; y++)
 					{
 						for (short x = 0; x < rect.x1; x++)
 						{
-							char font_char = font_buffer[buffer_offset++];
 							byte* char_address = (byte*)bitmap_2d_address(texture_bitmap, x, y, 0);
+
+							long char_offset = char_address - start_address;
+
+							char font_char = font_buffer[buffer_offset++];
 							byte char_value = (font_char != '#') - 1;
 							char_address[0] = char_value;
 							char_address[1] = char_value;
