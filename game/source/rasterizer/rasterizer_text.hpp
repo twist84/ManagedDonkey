@@ -14,6 +14,7 @@ public:
 	static void __cdecl initialize();
 	static void __cdecl release(c_rasterizer_texture_ref& texture_ref);
 	void* lock(long* pitch);
+	void unlock();
 
 	bool __cdecl valid();
 
