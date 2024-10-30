@@ -218,7 +218,10 @@ enum e_bitmap_flags
 	// do these exist?
 	_bitmap_flag_bit4,
 	_bitmap_flag_bit5,
+
+	// don't allocate base_address
 	_bitmap_flag_bit6,
+
 	_bitmap_flag_bit7,
 
 	// used in `simple_font::s_font_data::install`
@@ -277,7 +280,7 @@ struct bitmap_data
 
 	c_rasterizer_texture_ref internal_hardware_format;
 
-	dword base_address;
+	void* base_address;
 };
 static_assert(sizeof(bitmap_data) == 0x30);
 
