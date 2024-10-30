@@ -52,6 +52,11 @@ void __cdecl c_rasterizer_texture_ref::release(c_rasterizer_texture_ref& texture
 	INVOKE(0x00A6EB10, c_rasterizer_texture_ref::release, texture_ref);
 }
 
+void* c_rasterizer_texture_ref::lock(long* pitch)
+{
+	return INVOKE_CLASS_MEMBER(0x00A74150, c_rasterizer_texture_ref, lock, pitch);
+}
+
 bool __cdecl c_rasterizer_texture_ref::valid()
 {
 	return m_datum_ref && m_datum_ref != NONE;
