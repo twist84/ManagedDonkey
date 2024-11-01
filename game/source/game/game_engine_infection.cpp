@@ -381,5 +381,71 @@ void c_infection_engine::dump_settings(s_file_reference* file) const
 
 	c_game_engine::dump_settings(file);
 
+	file_printf(file, "---------- INFECTION variant settings\r\n");
+
+	file_printf(file, "safe havens= ");
+	switch (infection_variant->get_safe_havens())
+	{
+	case _infection_safe_havens_off:
+		file_printf(file, "OFF\r\n");
+		break;
+	case _infection_safe_havens_sequential:
+		file_printf(file, "SEQUENTIAL\r\n");
+		break;
+	case _infection_safe_havens_random:
+		file_printf(file, "RANDOM\r\n");
+		break;
+	default:
+		file_printf(file, "<current option setting not exported!>\r\n");
+		break;
+	}
+
+	file_printf(file, "respawn on haven move= %s\r\n", infection_variant->get_respawn_on_haven_move() ? "ENABLED" : "DISABLED");
+
+	file_printf(file, "next zombie= ");
+	switch (infection_variant->get_next_zombie())
+	{
+	case _infection_next_zombie_winner:
+		file_printf(file, "WINNER\r\n");
+		break;
+	case _infection_next_zombie_chump:
+		file_printf(file, "CHUMP\r\n");
+		break;
+	case _infection_next_zombie_unchanged:
+		file_printf(file, "UNCHANGED\r\n");
+		break;
+	case _infection_next_zombie_random:
+		file_printf(file, "RANDOM\r\n");
+		break;
+	}
+
+	file_printf(file, "initial zombie count= ");
+	switch (infection_variant->get_initial_zombie_count())
+	{
+	case _infection_initial_zombie_count_25_percent:
+		file_printf(file, "25%\r\n");
+		break;
+	case _infection_initial_zombie_count_50_percent:
+		file_printf(file, "50%\r\n");
+		break;
+	default:
+		file_printf(file, "%d\r\n", infection_variant->get_initial_zombie_count() - 1);
+		break;
+	}
+
+	file_printf(file, "safe haven movement time= %d seconds\r\n", infection_variant->get_safe_haven_movement_time());
+	file_printf(file, "zombie kill points= %d\r\n", infection_variant->get_zombie_kill_points());
+	file_printf(file, "infection points= %d\r\n", infection_variant->get_infection_points());
+	file_printf(file, "safe haven arrival points= %d\r\n", infection_variant->get_safe_haven_arrival_points());
+	file_printf(file, "suicide points= %d\r\n", infection_variant->get_suicide_points());
+	file_printf(file, "betrayal points= %d\r\n", infection_variant->get_betrayal_points());
+	file_printf(file, "last man bonus points= %d\r\n", infection_variant->get_last_man_bonus_points());
+
+	c_game_engine::dump_player_trait_settings("zombie", infection_variant->get_zombie_traits(), file);
+	c_game_engine::dump_player_trait_settings("first zombie", infection_variant->get_first_zombie_traits(), file);
+	c_game_engine::dump_player_trait_settings("safe haven defender", infection_variant->get_safe_haven_defender_traits(), file);
+	c_game_engine::dump_player_trait_settings("last human", infection_variant->get_last_human_traits(), file);
+
+	file_printf(file, "---------- END INFECTION variant settings\r\n");
 }
 
