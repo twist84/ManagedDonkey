@@ -315,12 +315,15 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\profiler\profiler.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_loading_screen.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_lens_flares.cpp" />
+    <ClCompile Include="source\render\render_patchy_fog.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
@@ -1140,8 +1143,10 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_loading_screen.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />

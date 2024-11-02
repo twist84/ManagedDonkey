@@ -243,8 +243,16 @@ void __cdecl effects_dispose_from_old_structure_bsp(dword old_structure_bsp_mask
 	INVOKE(0x005BBFD0, effects_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
-//.text:005BBFE0 ; void __cdecl effects_frame_advance(real)
-//.text:005BC0B0 ; void __cdecl effects_frame_advance_gpu(real)
+void __cdecl effects_frame_advance(real seconds_elapsed)
+{
+	INVOKE(0x005BBFE0, effects_frame_advance, seconds_elapsed);
+}
+
+void __cdecl effects_frame_advance_gpu(real seconds_elapsed)
+{
+	INVOKE(0x005BC0B0, effects_frame_advance_gpu, seconds_elapsed);
+}
+
 //.text:005BC1A0 ; void __cdecl effects_gather_damage_obstacles(c_damage_effect_obstacles*)
 //.text:005BC380 ; bool __cdecl effects_get_weather_occlusion_obb(render_camera const*, s_oriented_bounding_box*)
 //.text:005BC3E0 ; void __cdecl effects_handle_deleted_object(long)

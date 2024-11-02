@@ -168,6 +168,8 @@ extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();
 extern void __cdecl effects_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
+extern void __cdecl effects_frame_advance(real seconds_elapsed);
+extern void __cdecl effects_frame_advance_gpu(real seconds_elapsed);
 extern void __cdecl effects_initialize();
 extern void __cdecl effects_initialize_for_new_map();
 extern void __cdecl effects_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);

@@ -2,6 +2,7 @@
 
 #include "render/render_cameras.hpp"
 #include "render/render_patchy_fog.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
 enum e_output_user_index;
@@ -78,10 +79,12 @@ public:
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBAC);
 	}
 
+	void setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface);
+
 	// if true bypass if statement in `c_gui_widget::render`
 	bool __unknown298;
 
-	long m_render_target;
+	c_rasterizer::e_surface m_render_target;
 };
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
@@ -208,8 +211,9 @@ struct c_player_view :
 
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
 	void create_frame_textures(long player_index);
+	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);
 
-protected:
+//protected:
 	// c_camera_fx_values?
 	byte __data298[0x20];
 
@@ -241,8 +245,8 @@ protected:
 
 	long __unknown26B0;
 
-	// __unknown26B4 = player_window_index == iterator.m_window_count - 1
-	// last_splitcreen_player?
+	// __unknown26B4 = window_index == iterator.get_window_count() - 1
+	// is_last_window?
 	bool __unknown26B4;
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);

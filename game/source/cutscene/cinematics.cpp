@@ -97,7 +97,12 @@ void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_s
 }
 
 //.text:0067DDF0 ; void __cdecl cinematic_print(char const*)
-//.text:0067DE00 ; void __cdecl cinematic_render(bool, bool)
+
+void __cdecl cinematic_render(bool a1, bool a2)
+{
+	INVOKE(0x0067DE00, cinematic_render, a1, a2);
+}
+
 //.text:0067E4C0 ; bool __cdecl cinematic_reverts_when_skipped()
 //.text:0067E4F0 ; 
 //.text:0067E590 ; 

@@ -222,3 +222,22 @@ void __cdecl render_debug_window_render(long user_index)
 	render_debug_end(true, false, false);
 }
 
+void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface)
+{
+	INVOKE_CLASS_MEMBER(0x00A29330, c_ui_view, setup_camera, result, surface);
+
+	//render_camera* rasterizer_camera = get_rasterizer_camera_modifiable();
+	//
+	//m_render_target = surface;
+	//render_view_compute_fullscreen_bounds(rasterizer_camera);
+	//render_camera_build(rasterizer_camera, result);
+	//c_rasterizer::g_current_splitscreen_res = 0;
+	//c_rasterizer::begin(rasterizer_camera->render_pixel_bounds, rasterizer_camera->render_pixel_bounds);
+	//
+	//if (c_rasterizer::get_render_target(0) != m_render_target)
+	//{
+	//	c_rasterizer::set_render_target(0, m_render_target, NONE);
+	//	c_rasterizer::clear(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
+	//}
+}
+

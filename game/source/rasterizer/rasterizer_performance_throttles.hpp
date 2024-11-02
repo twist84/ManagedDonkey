@@ -51,6 +51,11 @@ struct s_performance_throttles
 	s_performane_throttle throttles[4];
 };
 
+struct c_performance_throttles
+{
+	static void __cdecl update_current_performance_throttles();
+};
+
 extern bool& g_ignore_predefined_performance_throttles;
 extern s_performance_throttles& g_default_performance_throttles;
 extern s_performane_throttle& g_current_performance_throttles;

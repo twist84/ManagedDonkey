@@ -7,7 +7,7 @@ REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
 
-void c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)
+void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)
 {
 	//INVOKE(0x00A39640, get_player_render_camera_orientation, camera);
 
@@ -79,4 +79,9 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 //.text:00A3B2E0 ; void __cdecl render_texture_camera_set_target(real, real, real)
 //.text:00A3B330 ; void __cdecl render_texture_camera_target_object(long, long)
 //.text:00A3B380 ; protected: void __cdecl c_player_view::render_transparents()
+
+void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze)
+{
+	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, output_user_index, result, render_freeze);
+}
 

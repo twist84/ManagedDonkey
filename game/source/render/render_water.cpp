@@ -7,6 +7,17 @@ REFERENCE_DECLARE(0x019146F1, bool, render_water_tessellation_enabled);
 REFERENCE_DECLARE(0x019146F2, bool, render_water_interaction_enabled);
 REFERENCE_DECLARE(0x050FAB18, bool, render_water_wireframe_enabled);
 
+void __cdecl c_water_renderer::set_player_window(long window_index, long window_count, bool is_widescreen)
+{
+	INVOKE(0x006041F0, c_water_renderer::set_player_window, window_index, window_count, is_widescreen);
+}
+
+//.text:00A35A30 ; void __cdecl __tls_set_g_water_interaction_event_allocator(void*)
+//.text:00A35A50 ; 
+//.text:00A35A60 ; 
+//.text:00A35A70 ; 
+//.text:00A35AB0 ; 
+
 void __cdecl c_water_renderer::dispose()
 {
 	INVOKE(0x00A35AE0, dispose);
@@ -16,6 +27,8 @@ void __cdecl c_water_renderer::dispose_from_old_map()
 {
 	INVOKE(0x00A35BA0, dispose_from_old_map);
 }
+
+//.text:00A35C40 ; public: static void __cdecl c_water_renderer::game_interation_event_add(long, real_point3d const*, vector3d const*, vector3d const*)
 
 void __cdecl c_water_renderer::game_update()
 {
@@ -30,5 +43,82 @@ void __cdecl c_water_renderer::initialize()
 void __cdecl c_water_renderer::initialize_for_new_map()
 {
 	INVOKE(0x00A36220, initialize_for_new_map);
+}
+
+bool __cdecl c_water_renderer::is_active_ripple_exist()
+{
+	return INVOKE(0x00A362B0, c_water_renderer::is_active_ripple_exist);
+}
+
+//.text:00A362D0 ; private: static void __cdecl c_water_renderer::render_cluster_parts(e_entry_point, long)
+
+void __cdecl c_water_renderer::render_shading()
+{
+	INVOKE(0x00A363E0, c_water_renderer::render_shading);
+}
+
+void __cdecl c_water_renderer::render_tessellation()
+{
+	INVOKE(0x00A36550, c_water_renderer::render_tessellation);
+}
+
+void __cdecl c_water_renderer::render_underwater_fog()
+{
+	INVOKE(0x00A36580, c_water_renderer::render_underwater_fog);
+}
+
+//.text:00A36660 ; private: static void __cdecl c_water_renderer::render_water_part(s_render_geometry const*, long, long, e_entry_point, geometry_material const*)
+//.text:00A36930 ; 
+
+void __cdecl c_water_renderer::ripple_add(dword a1)
+{
+	INVOKE(0x00A36970, c_water_renderer::ripple_add, a1);
+}
+
+void __cdecl c_water_renderer::ripple_apply()
+{
+	INVOKE(0x00A37000, c_water_renderer::ripple_apply);
+}
+
+dword __cdecl c_water_renderer::ripple_check_new()
+{
+	return INVOKE(0x00A37230, c_water_renderer::ripple_check_new);
+}
+
+void __cdecl c_water_renderer::ripple_slope()
+{
+	INVOKE(0x00A372B0, c_water_renderer::ripple_slope);
+}
+
+void __cdecl c_water_renderer::ripple_update()
+{
+	INVOKE(0x00A37350, c_water_renderer::ripple_update);
+}
+
+void __cdecl c_water_renderer::set_performance_throttles()
+{
+	INVOKE(0x00A373C0, c_water_renderer::set_performance_throttles);
+}
+
+//.text:00A373F0 ; public: static bool __cdecl c_water_renderer::update_water_part_list()
+//.text:00A37B40 ; void __cdecl water_interaction_clear_all(long)
+
+void c_water_renderer::frame_advance(real seconds_elapsed)
+{
+	c_water_renderer::set_performance_throttles();
+	if (render_water_enabled && render_water_interaction_enabled)
+	{
+		dword ripple_index = c_water_renderer::ripple_check_new();
+		if (c_water_renderer::is_active_ripple_exist())
+		{
+			//{
+			//	char pix_name[32]{};
+			//	sprintf_s(pix_name, 32, "ripple_frame_adavance");
+			//}
+
+			c_water_renderer::ripple_add(ripple_index);
+			c_water_renderer::ripple_update();
+		}
+	}
 }
 

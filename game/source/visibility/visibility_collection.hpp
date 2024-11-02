@@ -144,40 +144,15 @@ struct c_visible_items
 		word sky_starting_index;
 	};
 
-	static word __cdecl get_root_objects_starting_index()
-	{
-		return m_marker_indices[m_marker_count].root_objects_starting_index;
-	}
+	static void __cdecl clear_all();
 
-	static word __cdecl get_objects_starting_index()
-	{
-		return m_marker_indices[m_marker_count].objects_starting_index;
-	}
-
-	static word __cdecl get_instance_list_starting_index()
-	{
-		return m_marker_indices[m_marker_count].instance_list_starting_index;
-	}
-
-	static word __cdecl get_instances_starting_index()
-	{
-		return m_marker_indices[m_marker_count].instances_starting_index;
-	}
-
-	static word __cdecl get_cluster_starting_index()
-	{
-		return m_marker_indices[m_marker_count].cluster_starting_index;
-	}
-
-	static word __cdecl get_light_starting_index()
-	{
-		return m_marker_indices[m_marker_count].light_starting_index;
-	}
-
-	static word __cdecl get_sky_starting_index()
-	{
-		return m_marker_indices[m_marker_count].sky_starting_index;
-	}
+	static word __cdecl get_root_objects_starting_index();
+	static word __cdecl get_objects_starting_index();
+	static word __cdecl get_instance_list_starting_index();
+	static word __cdecl get_instances_starting_index();
+	static word __cdecl get_cluster_starting_index();
+	static word __cdecl get_light_starting_index();
+	static word __cdecl get_sky_starting_index();
 
 //private:
 	static long& m_marker_count;

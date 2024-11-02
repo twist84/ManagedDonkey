@@ -4,6 +4,8 @@
 
 struct c_patchy_fog
 {
+	static void __cdecl frame_advance_all(real seconds_elapsed);
+
 	real_point3d __point0;
 	vector3d __vectorC;
 	vector3d __vector18;

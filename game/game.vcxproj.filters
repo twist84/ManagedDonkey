@@ -1677,6 +1677,15 @@
     <ClCompile Include="source\animations\animation_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_patchy_fog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_loading_screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3876,6 +3885,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\animations\animation_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_loading_screen.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

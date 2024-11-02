@@ -10,8 +10,11 @@
 #include "cutscene/cinematics.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
+#include "game/game_engine_display.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/closed_caption.hpp"
+#include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
@@ -26,12 +29,18 @@
 #include "profiler/profiler_stopwatch.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
+#include "rasterizer/rasterizer_loading_screen.hpp"
+#include "rasterizer/rasterizer_performance_throttles.hpp"
+#include "rasterizer/rasterizer_synchronization.hpp"
 #include "render/render.hpp"
+#include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
 #include "text/draw_string.hpp"
+#include "visibility/visibility_collection.hpp"
 
 //HOOK_DECLARE(0x006042C0, main_render);
+HOOK_DECLARE(0x00604440, main_render_game);
 HOOK_DECLARE(0x00604860, main_render_pregame);
 //HOOK_DECLARE(0x00604AE0, main_render_start_blocking_frame);
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
@@ -274,7 +283,117 @@ void __cdecl main_render_frame_begin()
 
 void __cdecl main_render_game()
 {
-	INVOKE(0x00604440, main_render_game);
+	//INVOKE(0x00604440, main_render_game);
+
+	PROFILER(main_render_game)
+	{
+		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+
+		if (!cinematic_in_progress())
+			observer_adopt_global_update_list();
+
+		main_render_update_loading_screen();
+
+		c_player_render_camera_iterator iterator{};
+		long window_count = iterator.get_window_count();
+		long window_arrangement = iterator.get_window_arrangement();
+
+		bool render_freeze = false;// debug_render_freeze;
+
+		main_render_process_messages();
+		main_render_frame_begin();
+
+		c_cpu_gpu_synchronizer::insert_fence_at_beginning_of_frame();
+
+		texture_cache_update_for_render();
+		geometry_cache_update_for_render();
+
+		for (long view_index = 0; view_index < iterator.get_window_count(); view_index++)
+		{
+			c_player_view* player_view = c_player_view::get_current(view_index);
+			if (iterator.next())
+			{
+				player_view->setup_camera(
+					view_index,
+					window_count,
+					window_arrangement,
+					iterator.get_output_user_index(),
+					iterator.get_observer_result(),
+					render_freeze);
+			}
+			else
+			{
+				player_view->setup_camera(
+					view_index,
+					window_count,
+					window_arrangement,
+					k_output_user_none,
+					NULL,
+					render_freeze);
+			}
+		}
+
+		c_visible_items::clear_all();
+
+		// c_player_view::frame_advance
+		{
+			TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+			effects_frame_advance(g_main_render_timing_data->game_seconds_elapsed);
+			effects_frame_advance_gpu(g_main_render_timing_data->game_seconds_elapsed);
+			c_water_renderer::frame_advance(g_main_render_timing_data->game_seconds_elapsed);
+			c_patchy_fog::frame_advance_all(g_main_render_timing_data->game_seconds_elapsed);
+		}
+
+		if (!c_rasterizer_loading_screen::suppress_render_scene())
+		{
+			c_performance_throttles::update_current_performance_throttles();
+
+			c_screen_postprocess::accept_edited_settings();
+
+			bool is_widescreen = rasterizer_get_is_widescreen();
+
+			for (long view_index = 0; view_index < window_count; view_index++)
+			{
+				c_player_view* player_view = c_player_view::get_current(view_index);
+
+				//{
+				//	char pix_name[32]{};
+				//	sprintf_s(pix_name, 32, "player_view %d", view_index);
+				//}
+
+				c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
+				player_view->__unknown26B4 = view_index == window_count - 1;
+				main_render_view(player_view, view_index);
+			}
+
+			c_ui_view ui_view{};
+			ui_view.setup_camera(NULL, c_rasterizer::e_surface::_surface_screenshot_display /*surface_screenshot_display_get()*/);
+
+			c_ui_view::begin(&ui_view);
+			c_rasterizer::begin_high_quality_blend();
+			if (bink_playback_in_progress())
+				bink_playback_render();
+			interface_draw_fullscreen_overlays();
+			director_render();
+			cinematic_render(true, true);
+			ui_view.render();
+			closed_caption_render();
+			render_debug_frame_render();
+			game_engine_render_watermarks();
+			c_view::end();
+
+			// #TODO: implement these?
+			// `screenshot_post_render` is a nullsub, so skip `screenshot_render` logic
+			//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->camera_fx_values, iterator.m_window_count))
+			//	screenshot_post_render();
+
+			c_render_globals::set_depth_fade_active(false);
+			c_render_globals::set_distortion_active(false);
+		}
+
+		if (c_rasterizer_loading_screen::active())
+			c_rasterizer_loading_screen::render();
+	}
 }
 
 void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
@@ -502,6 +621,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 
 void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index)
 {
+
 	switch (g_watermark_enabled)
 	{
 	case 1:
@@ -672,25 +792,6 @@ void __cdecl main_render_update_loading_screen()
 	INVOKE(0x00604C70, main_render_update_loading_screen);
 }
 
-// I don't like this at all but for the moment
-// I don't perticularly want to reimplement `main_render_game` as its quite large
-__declspec(naked) void main_render_view_inline()
-{
-	ASM_ADDR(0x00604747, loc_604747);
-
-	__asm
-	{
-        // main_render_view(player_view, player_view->get_player_view_user_index())
-        push dword ptr[esi + 0x26A4]
-        push esi
-        call main_render_view
-
-        // jump out after the inlined `main_render_view`
-        jmp loc_604747
-	}
-}
-//HOOK_DECLARE(0x006046EB, main_render_view_inline);
-
 void __cdecl main_render_view(c_player_view* player_view, long player_index)
 {
 	//INVOKE(0x00604D70, main_render_view, player_view, player_index);
@@ -699,19 +800,11 @@ void __cdecl main_render_view(c_player_view* player_view, long player_index)
 	c_view::begin(player_view);
 	render_window_reset(player_view->get_player_view_user_index());
 	player_view->create_frame_textures(player_index);
-
-	// don't need this, because `bink_texture_view_update` is this and its bad
-	//c_bink_texture_view::update(player_index);
-
 	render_prepare_for_window(player_index, player_view->get_player_view_user_index());
 	player_view->compute_visibility();
 	player_view->render_submit_visibility();
 	player_view->render();
-
-	// all this logic just to call little ol' me
-	render_debug_window_render(player_view->get_player_view_user_index());
-
 	c_view::end();
-	c_player_view::set_global_player_view(0);
+	c_player_view::set_global_player_view(NULL);
 }
 

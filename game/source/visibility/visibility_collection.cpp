@@ -14,3 +14,43 @@ void __cdecl visibility_collection_initialize()
 	INVOKE(0x006874F0, visibility_collection_initialize);
 }
 
+void __cdecl c_visible_items::clear_all()
+{
+	INVOKE(0x00686950, c_visible_items::clear_all);
+}
+
+word __cdecl c_visible_items::get_root_objects_starting_index()
+{
+	return m_marker_indices[m_marker_count].root_objects_starting_index;
+}
+
+word __cdecl c_visible_items::get_objects_starting_index()
+{
+	return m_marker_indices[m_marker_count].objects_starting_index;
+}
+
+word __cdecl c_visible_items::get_instance_list_starting_index()
+{
+	return m_marker_indices[m_marker_count].instance_list_starting_index;
+}
+
+word __cdecl c_visible_items::get_instances_starting_index()
+{
+	return m_marker_indices[m_marker_count].instances_starting_index;
+}
+
+word __cdecl c_visible_items::get_cluster_starting_index()
+{
+	return m_marker_indices[m_marker_count].cluster_starting_index;
+}
+
+word __cdecl c_visible_items::get_light_starting_index()
+{
+	return m_marker_indices[m_marker_count].light_starting_index;
+}
+
+word __cdecl c_visible_items::get_sky_starting_index()
+{
+	return m_marker_indices[m_marker_count].sky_starting_index;
+}
+
