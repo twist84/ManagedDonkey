@@ -95,15 +95,6 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	}
 }
 
-s_observer_result const* __cdecl observer_get_camera_for_main_render_game(e_output_user_index output_user_index)
-{
-	if (debug_force_all_player_views_to_default_player)
-		output_user_index = player_mapping_first_active_output_user();
-
-	return observer_get_camera(output_user_index);
-}
-HOOK_DECLARE_CALL(0x006046C7, observer_get_camera_for_main_render_game);
-
 bool c_player_render_camera_iterator::next()
 {
 	bool result = m_next < m_window_count;
