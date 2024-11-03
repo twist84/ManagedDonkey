@@ -302,26 +302,22 @@ void __cdecl main_render_game()
 		for (long view_index = 0; view_index < iterator.get_window_count(); view_index++)
 		{
 			c_player_view* player_view = c_player_view::get_current(view_index);
+
+			e_output_user_index output_user_index = k_output_user_none;
+			s_observer_result const* observer_result = NULL;
 			if (iterator.next())
 			{
-				player_view->setup_camera(
-					view_index,
-					window_count,
-					window_arrangement,
-					iterator.get_output_user_index(),
-					iterator.get_observer_result(),
-					render_freeze);
+				output_user_index = iterator.get_output_user_index();
+				observer_result = iterator.get_observer_result();
 			}
-			else
-			{
-				player_view->setup_camera(
-					view_index,
-					window_count,
-					window_arrangement,
-					k_output_user_none,
-					NULL,
-					render_freeze);
-			}
+
+			player_view->setup_camera(
+				view_index,
+				window_count,
+				window_arrangement,
+				output_user_index,
+				observer_result,
+				render_freeze);
 		}
 
 		c_visible_items::clear_all();
@@ -604,7 +600,6 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 
 void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index)
 {
-
 	switch (g_watermark_enabled)
 	{
 	case 1:
