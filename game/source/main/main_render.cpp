@@ -334,15 +334,7 @@ void __cdecl main_render_game()
 		}
 
 		c_visible_items::clear_all();
-
-		// c_player_view::frame_advance
-		{
-			TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-			effects_frame_advance(g_main_render_timing_data->game_seconds_elapsed);
-			effects_frame_advance_gpu(g_main_render_timing_data->game_seconds_elapsed);
-			c_water_renderer::frame_advance(g_main_render_timing_data->game_seconds_elapsed);
-			c_patchy_fog::frame_advance_all(g_main_render_timing_data->game_seconds_elapsed);
-		}
+		c_player_view::frame_advance();
 
 		if (!c_rasterizer_loading_screen::suppress_render_scene())
 		{

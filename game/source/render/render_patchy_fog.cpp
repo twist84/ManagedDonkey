@@ -1,4 +1,4 @@
-#include "render_patchy_fog.hpp"
+#include "render/render_patchy_fog.hpp"
 
 void __cdecl c_patchy_fog::frame_advance_all(real seconds_elapsed)
 {

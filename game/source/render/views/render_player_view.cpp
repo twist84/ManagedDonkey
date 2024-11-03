@@ -1,5 +1,6 @@
 #include "render/views/render_player_view.hpp"
 
+#include "memory/thread_local.hpp"
 #include "render/views/render_view.hpp"
 
 REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
@@ -83,5 +84,14 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze)
 {
 	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, output_user_index, result, render_freeze);
+}
+
+void c_player_view::frame_advance()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+	effects_frame_advance(g_main_render_timing_data->game_seconds_elapsed);
+	effects_frame_advance_gpu(g_main_render_timing_data->game_seconds_elapsed);
+	c_water_renderer::frame_advance(g_main_render_timing_data->game_seconds_elapsed);
+	c_patchy_fog::frame_advance_all(g_main_render_timing_data->game_seconds_elapsed);
 }
 

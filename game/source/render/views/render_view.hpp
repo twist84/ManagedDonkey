@@ -213,6 +213,8 @@ struct c_player_view :
 	void create_frame_textures(long player_index);
 	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);
 
+	static void frame_advance();
+
 //protected:
 	// c_camera_fx_values?
 	byte __data298[0x20];
