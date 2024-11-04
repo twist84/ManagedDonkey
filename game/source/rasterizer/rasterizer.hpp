@@ -282,7 +282,7 @@ struct c_rasterizer
 	};
 	static_assert(sizeof(s_stream_source) == 0xC);
 
-	static void __cdecl begin(short_rectangle2d, short_rectangle2d);
+	static void __cdecl begin(short_rectangle2d viewport, short_rectangle2d scissor_rect);
 	static bool __cdecl cleanup_before_device_reset();
 	static void __cdecl cleanup_d3d_states(bool wait_for_gpu_idle_);
 	static void __cdecl dispose();

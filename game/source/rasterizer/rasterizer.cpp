@@ -116,9 +116,9 @@ void rasterizer_reset_device()
 	sub_79BA30(width, height);
 }
 
-void __cdecl c_rasterizer::begin(short_rectangle2d viewport_top, short_rectangle2d mipmap_lod_bias_top)
+void __cdecl c_rasterizer::begin(short_rectangle2d viewport, short_rectangle2d scissor_rect)
 {
-	INVOKE(0x00A1F7E0, begin, viewport_top, mipmap_lod_bias_top);
+	INVOKE(0x00A1F7E0, c_rasterizer::begin, viewport, scissor_rect);
 }
 
 bool __cdecl c_rasterizer::cleanup_before_device_reset()
@@ -128,7 +128,7 @@ bool __cdecl c_rasterizer::cleanup_before_device_reset()
 
 void __cdecl c_rasterizer::cleanup_d3d_states(bool wait_for_gpu_idle_)
 {
-	INVOKE(0x00A1F890, cleanup_d3d_states, wait_for_gpu_idle_);
+	INVOKE(0x00A1F890, c_rasterizer::cleanup_d3d_states, wait_for_gpu_idle_);
 
 	//c_rasterizer::clear_sampler_textures(NONE);
 	//if (wait_for_gpu_idle_)
@@ -137,17 +137,17 @@ void __cdecl c_rasterizer::cleanup_d3d_states(bool wait_for_gpu_idle_)
 
 void __cdecl c_rasterizer::dispose()
 {
-	INVOKE(0x00A1F910, dispose);
+	INVOKE(0x00A1F910, c_rasterizer::dispose);
 }
 
 void __cdecl c_rasterizer::dispose_from_old_map()
 {
-	INVOKE(0x00A1F950, dispose_from_old_map);
+	INVOKE(0x00A1F950, c_rasterizer::dispose_from_old_map);
 }
 
 void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x00A1F9A0, dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00A1F9A0, c_rasterizer::dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
@@ -215,7 +215,7 @@ bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
 
 real __cdecl c_rasterizer::get_aspect_ratio()
 {
-	//return INVOKE(0x00A1FA30, get_aspect_ratio);
+	//return INVOKE(0x00A1FA30, c_rasterizer::get_aspect_ratio);
 
 	return (real)render_globals.resolution_width / (real)render_globals.resolution_height;
 }
@@ -255,37 +255,37 @@ void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_p
 
 void __cdecl c_rasterizer::get_display_title_safe_pixel_bounds(short_rectangle2d* resolution)
 {
-	INVOKE(0x00A1FB10, get_display_title_safe_pixel_bounds, resolution);
+	INVOKE(0x00A1FB10, c_rasterizer::get_display_title_safe_pixel_bounds, resolution);
 }
 
 void __cdecl c_rasterizer::get_fullscreen_render_pixel_bounds(short_rectangle2d* resolution)
 {
-	INVOKE(0x00A1FB80, get_fullscreen_render_pixel_bounds, resolution);
+	INVOKE(0x00A1FB80, c_rasterizer::get_fullscreen_render_pixel_bounds, resolution);
 }
 
 void __cdecl c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(short_rectangle2d* resolution)
 {
-	INVOKE(0x00A1FBB0, get_fullscreen_render_title_safe_pixel_bounds, resolution);
+	INVOKE(0x00A1FBB0, c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds, resolution);
 }
 
 void __cdecl c_rasterizer::initialize()
 {
-	INVOKE(0x00A1FD20, initialize);
+	INVOKE(0x00A1FD20, c_rasterizer::initialize);
 }
 
 bool __cdecl c_rasterizer::initialize_after_device_creation_or_reset()
 {
-	return INVOKE(0x00A1FD80, initialize_after_device_creation_or_reset);
+	return INVOKE(0x00A1FD80, c_rasterizer::initialize_after_device_creation_or_reset);
 }
 
 void __cdecl c_rasterizer::initialize_for_new_map()
 {
-	INVOKE(0x00A1FEC0, initialize_for_new_map);
+	INVOKE(0x00A1FEC0, c_rasterizer::initialize_for_new_map);
 }
 
 void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x00A1FF40, initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00A1FF40, c_rasterizer::initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 bool __cdecl rasterizer_initialized()
@@ -295,27 +295,27 @@ bool __cdecl rasterizer_initialized()
 
 void __cdecl c_rasterizer::notify_game_tick_begin()
 {
-	INVOKE(0x00A1FF60, notify_game_tick_begin);
+	INVOKE(0x00A1FF60, c_rasterizer::notify_game_tick_begin);
 }
 
 void __cdecl c_rasterizer::restore_last_scissor_rect()
 {
-	INVOKE(0x00A202E0, restore_last_scissor_rect);
+	INVOKE(0x00A202E0, c_rasterizer::restore_last_scissor_rect);
 }
 
 void __cdecl c_rasterizer::restore_last_viewport()
 {
-	INVOKE(0x00A202F0, restore_last_viewport);
+	INVOKE(0x00A202F0, c_rasterizer::restore_last_viewport);
 }
 
 void __cdecl c_rasterizer::shell_dispose()
 {
-	INVOKE(0x00A20340, shell_dispose);
+	INVOKE(0x00A20340, c_rasterizer::shell_dispose);
 }
 
 void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 {
-	//INVOKE(0x00A20370, shell_initialize, window_exists, windowed);
+	//INVOKE(0x00A20370, c_rasterizer::shell_initialize, window_exists, windowed);
 
 	if (!c_rasterizer::initialized)
 	{
@@ -359,7 +359,7 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 
 void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool fullscreen)
 {
-	//INVOKE(0x00A22130, set_render_resolution, width, height, fullscreen);
+	//INVOKE(0x00A22130, c_rasterizer::set_render_resolution, width, height, fullscreen);
 
 	if (fullscreen)
 	{
@@ -384,7 +384,7 @@ void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool f
 
 bool __cdecl c_rasterizer::test_cooperative_level()
 {
-	return INVOKE(0x00A22670, test_cooperative_level);
+	return INVOKE(0x00A22670, c_rasterizer::test_cooperative_level);
 }
 
 void editor_set_console_attributes()
@@ -416,7 +416,7 @@ void editor_set_console_attributes()
 
 bool __cdecl c_rasterizer::reset_device()
 {
-	//return INVOKE(0x00A226D0, reset_device);
+	//return INVOKE(0x00A226D0, c_rasterizer::reset_device);
 
 	c_rasterizer::cleanup_before_device_reset();
 
@@ -519,7 +519,7 @@ bool __cdecl c_rasterizer::reset_device()
 
 bool __cdecl c_rasterizer::begin_frame()
 {
-	//return INVOKE(0x00A212A0, begin_frame);
+	//return INVOKE(0x00A212A0, c_rasterizer::begin_frame);
 
 	if (!c_rasterizer::g_device)
 		return true;
@@ -552,7 +552,7 @@ bool __cdecl c_rasterizer::begin_frame()
 
 void __cdecl c_rasterizer::begin_high_quality_blend()
 {
-	INVOKE(0x00A21350, begin_high_quality_blend);
+	INVOKE(0x00A21350, c_rasterizer::begin_high_quality_blend);
 }
 
 //void __cdecl c_rasterizer::clearf(unsigned long, union real_vector4d const*, float, unsigned long)
@@ -564,12 +564,12 @@ void __cdecl c_rasterizer::clearf(dword flags, dword color, real z, byte stencil
 
 bool __cdecl c_rasterizer::end_frame()
 {
-	return INVOKE(0x00A21510, end_frame);
+	return INVOKE(0x00A21510, c_rasterizer::end_frame);
 }
 
 void __cdecl c_rasterizer::end_high_quality_blend()
 {
-	INVOKE(0x00A21880, end_high_quality_blend);
+	INVOKE(0x00A21880, c_rasterizer::end_high_quality_blend);
 }
 
 decltype(Direct3DCreate9)* __cdecl GetDirect3DCreate9()
@@ -584,14 +584,14 @@ decltype(Direct3DCreate9Ex)* __cdecl GetDirect3DCreate9Ex()
 
 c_rasterizer::e_platform __cdecl c_rasterizer::get_runtime_platform()
 {
-	return INVOKE(0x00A21A80, get_runtime_platform);
+	return INVOKE(0x00A21A80, c_rasterizer::get_runtime_platform);
 
 	//return _platform_dx9;
 }
 
 bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 {
-	return INVOKE(0x00A21B40, initialize_device, window_exists, windowed);
+	return INVOKE(0x00A21B40, c_rasterizer::initialize_device, window_exists, windowed);
 
 	//if (LoadLibraryA("d3dx9_43.dll"))
 	//{
@@ -805,14 +805,14 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 
 void __cdecl c_rasterizer::rasterizer_device_acquire_thread()
 {
-	INVOKE(0x00A222D0, rasterizer_device_acquire_thread);
+	INVOKE(0x00A222D0, c_rasterizer::rasterizer_device_acquire_thread);
 
 	//g_thread_owning_device = get_current_thread_index();
 }
 
 void __cdecl c_rasterizer::rasterizer_device_release_thread()
 {
-	INVOKE(0x00A222F0, rasterizer_device_release_thread);
+	INVOKE(0x00A222F0, c_rasterizer::rasterizer_device_release_thread);
 
 	//g_thread_owning_device = NONE;
 }
@@ -834,14 +834,14 @@ HCURSOR __cdecl sub_A22340()
 
 bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 {
-	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
+	return INVOKE(0x00A22390, c_rasterizer::rasterizer_thread_owns_device);
 
 	//return g_thread_owning_device == get_current_thread_index();
 }
 
 void __cdecl c_rasterizer::initialize_window()
 {
-	//INVOKE(0x00A223F0, initialize_window);
+	//INVOKE(0x00A223F0, c_rasterizer::initialize_window);
 
 	if (g_windows_params.game_window_handle != NULL)
 		return;
@@ -984,24 +984,24 @@ void __cdecl c_rasterizer::initialize_window()
 
 c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_allocation a1)
 {
-	return INVOKE(0x00A228C0, set_gprs_allocation, a1);
+	return INVOKE(0x00A228C0, c_rasterizer::set_gprs_allocation, a1);
 }
 
 void __cdecl c_rasterizer::clear_sampler_textures(dword a1)
 {
-	INVOKE(0x00A22AB0, clear_sampler_textures, a1);
+	INVOKE(0x00A22AB0, c_rasterizer::clear_sampler_textures, a1);
 }
 
 enum c_rasterizer::e_cull_mode __cdecl c_rasterizer::get_cull_mode()
 {
-	return INVOKE(0x00A22BA0, get_cull_mode);
+	return INVOKE(0x00A22BA0, c_rasterizer::get_cull_mode);
 
 	//return g_current_cull_mode;
 }
 
 void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode alpha_blend_mode)
 {
-	INVOKE(0x00A22D10, set_alpha_blend_mode, alpha_blend_mode);
+	INVOKE(0x00A22D10, c_rasterizer::set_alpha_blend_mode, alpha_blend_mode);
 
 	//if (alpha_blend_mode == g_current_alpha_blend_mode)
 	//	return;
@@ -1012,12 +1012,12 @@ void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode alpha_blend_m
 
 void __cdecl c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex* device, e_alpha_blend_mode alpha_blend_mode)
 {
-	INVOKE(0x00A22D40, set_alpha_blend_mode_custom_device_no_cache, device, alpha_blend_mode);
+	INVOKE(0x00A22D40, c_rasterizer::set_alpha_blend_mode_custom_device_no_cache, device, alpha_blend_mode);
 }
 
 void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render_state_value)
 {
-	INVOKE(0x00A231E0, set_color_write_enable, render_state, render_state_value);
+	INVOKE(0x00A231E0, c_rasterizer::set_color_write_enable, render_state, render_state_value);
 
 	//if (render_state_value == x_last_render_state_value[render_state])
 	//	return;
@@ -1029,7 +1029,7 @@ void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render
 
 bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const* compiled_pixel_shader, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23220, set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
+	return INVOKE(0x00A23220, c_rasterizer::set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
 
 	//if (!g_device)
 	//	return true;
@@ -1047,7 +1047,7 @@ bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel
 
 bool __cdecl c_rasterizer::set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const* compiled_vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23260, set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	return INVOKE(0x00A23260, c_rasterizer::set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
 	//if (!g_device)
 	//	return true;
@@ -1067,7 +1067,7 @@ bool __cdecl c_rasterizer::set_compiled_vertex_shader(c_rasterizer_compiled_vert
 
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 {
-	INVOKE(0x00A232D0, set_cull_mode, cull_mode);
+	INVOKE(0x00A232D0, c_rasterizer::set_cull_mode, cull_mode);
 
 	//if (cull_mode != g_current_cull_mode)
 	//{
@@ -1078,19 +1078,19 @@ void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 
 bool __cdecl c_rasterizer::set_explicit_shaders(long explicit_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23300, set_explicit_shaders, explicit_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	return INVOKE(0x00A23300, c_rasterizer::set_explicit_shaders, explicit_shader, base_vertex_type, transfer_vertex_type, entry_point);
 }
 
 void __cdecl c_rasterizer::set_fill_mode(e_fill_mode fill_mode)
 {
-	INVOKE(0x00A233A0, set_fill_mode, fill_mode);
+	INVOKE(0x00A233A0, c_rasterizer::set_fill_mode, fill_mode);
 
 	//g_device->SetRenderState(D3DRS_FILLMODE, fill_mode);
 }
 
 void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 {
-	INVOKE(0x00A233C0, set_indices, index_buffer);
+	INVOKE(0x00A233C0, c_rasterizer::set_indices, index_buffer);
 
 	//if (index_buffer != g_current_index_buffer)
 	//{
@@ -1101,7 +1101,7 @@ void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 
 bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pixel_shader, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23460, set_pixel_shader, pixel_shader, entry_point);
+	return INVOKE(0x00A23460, c_rasterizer::set_pixel_shader, pixel_shader, entry_point);
 
 	//if (!g_device)
 	//	return true;
@@ -1128,27 +1128,27 @@ bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pix
 
 void __cdecl c_rasterizer::set_aliased_surface_as_texture(long sampler_index, e_surface surface)
 {
-	INVOKE(0x00A23530, set_aliased_surface_as_texture, sampler_index, surface);
+	INVOKE(0x00A23530, c_rasterizer::set_aliased_surface_as_texture, sampler_index, surface);
 }
 
 void __cdecl c_rasterizer::set_sampler_address_mode(long sampler_index, e_sampler_address_mode sampler_address_mode)
 {
-	INVOKE(0x00A23570, set_sampler_address_mode, sampler_index, sampler_address_mode);
+	INVOKE(0x00A23570, c_rasterizer::set_sampler_address_mode, sampler_index, sampler_address_mode);
 }
 
 void __cdecl c_rasterizer::set_sampler_filter_mode(long sampler_index, e_sampler_filter_mode sampler_filter_mode)
 {
-	INVOKE(0x00A23660, set_sampler_filter_mode, sampler_index, sampler_filter_mode);
+	INVOKE(0x00A23660, c_rasterizer::set_sampler_filter_mode, sampler_index, sampler_filter_mode);
 }
 
 void __cdecl c_rasterizer::set_sampler_texture(long sampler_index, c_rasterizer_texture_ref sampler_texture)
 {
-	INVOKE(0x00A23810, set_sampler_texture, sampler_index, sampler_texture);
+	INVOKE(0x00A23810, c_rasterizer::set_sampler_texture, sampler_index, sampler_texture);
 };
 
 void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rect)
 {
-	INVOKE(0x00A239B0, set_scissor_rect, scissor_rect);
+	//INVOKE(0x00A239B0, c_rasterizer::set_scissor_rect, scissor_rect);
 
 	//if (scissor_rect)
 	//{
@@ -1171,7 +1171,7 @@ void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rec
 
 void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode separate_alpha_blend_mode)
 {
-	INVOKE(0x00A23A20, set_separate_alpha_blend_mode, separate_alpha_blend_mode);
+	INVOKE(0x00A23A20, c_rasterizer::set_separate_alpha_blend_mode, separate_alpha_blend_mode);
 
 	//if (separate_alpha_blend_mode == g_current_separate_alpha_blend_mode)
 	//	return;
@@ -1222,17 +1222,17 @@ void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_
 
 void __cdecl c_rasterizer::set_stencil_mode(e_stencil_mode stencil_mode)
 {
-	INVOKE(0x00A23BA0, set_stencil_mode, stencil_mode);
+	INVOKE(0x00A23BA0, c_rasterizer::set_stencil_mode, stencil_mode);
 }
 
 void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mode, byte value)
 {
-	INVOKE(0x00A242E0, set_stencil_mode_with_value, stencil_mode, value);
+	INVOKE(0x00A242E0, c_rasterizer::set_stencil_mode_with_value, stencil_mode, value);
 }
 
 bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* vertex_declaration)
 {
-	return INVOKE(0x00A24650, set_vertex_declaration, vertex_declaration);
+	return INVOKE(0x00A24650, c_rasterizer::set_vertex_declaration, vertex_declaration);
 
 	//if (vertex_declaration == g_current_vertex_declaration)
 	//	return true;
@@ -1243,7 +1243,7 @@ bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* v
 
 bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	return INVOKE(0x00A246E0, c_rasterizer::set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
 	//if (!g_device)
 	//	return true;
@@ -1272,7 +1272,7 @@ bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* v
 
 void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 {
-	INVOKE(0x00A247E0, set_z_buffer_mode, z_buffer_mode);
+	INVOKE(0x00A247E0, c_rasterizer::set_z_buffer_mode, z_buffer_mode);
 
 	//REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
 	//REFERENCE_DECLARE(0x01692A1C, real, flt_1692A1C); // -0.0000049999999
@@ -1384,7 +1384,7 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 
 void __cdecl c_rasterizer::setup_occlusion_state()
 {
-	INVOKE(0x00A24B30, setup_occlusion_state);
+	INVOKE(0x00A24B30, c_rasterizer::setup_occlusion_state);
 
 	//if (g_device)
 	//{
@@ -1401,12 +1401,12 @@ void __cdecl c_rasterizer::setup_occlusion_state()
 
 void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real a1, real a2, bool a3)
 {
-	INVOKE(0x00A24B90, setup_render_target_globals_with_exposure, a1, a2, a3);
+	INVOKE(0x00A24B90, c_rasterizer::setup_render_target_globals_with_exposure, a1, a2, a3);
 }
 
 void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* bounds)
 {
-	INVOKE(0x00A250D0, setup_targets_distortion, bounds);
+	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, bounds);
 
 	//set_depth_stencil_surface(_surface_depth_stencil);
 	//set_render_target(0, _surface_distortion, 0xFFFFFFFF);
@@ -1414,13 +1414,13 @@ void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* bounds)
 	//set_render_target(2, _surface_none, 0xFFFFFFFF);
 	//set_render_target(3, _surface_none, 0xFFFFFFFF);
 	//clearf(1, 0x808000, 0.0f, 0);
-	//set_viewport(bounds, 0.0f, 1.0);
+	//set_viewport(bounds, 0.0f, 1.0f);
 	//set_scissor_rect(bounds);
 }
 
 void __cdecl c_rasterizer::setup_targets_simple()
 {
-	INVOKE(0x00A25280, setup_targets_simple);
+	INVOKE(0x00A25280, c_rasterizer::setup_targets_simple);
 
 	//if (g_device)
 	//{
@@ -1434,27 +1434,27 @@ void __cdecl c_rasterizer::setup_targets_simple()
 
 void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool a1, bool a2)
 {
-	INVOKE(0x00A25400, setup_targets_static_lighting_alpha_blend, a1, a2);
+	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, a1, a2);
 }
 
 void __cdecl c_rasterizer::draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count)
 {
-	INVOKE(0x00A28270, draw_indexed_primitive, indices, base_vertex_index, num_vertices, min_index, triangle_count);
+	INVOKE(0x00A28270, c_rasterizer::draw_indexed_primitive, indices, base_vertex_index, num_vertices, min_index, triangle_count);
 }
 
 void __cdecl c_rasterizer::draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count)
 {
-	INVOKE(0x00A282F0, draw_primitive, primitive_type, start_vertex, primitive_count);
+	INVOKE(0x00A282F0, c_rasterizer::draw_primitive, primitive_type, start_vertex, primitive_count);
 }
 
 void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride)
 {
-	INVOKE(0x00A28330, draw_primitive_up, primitive_type, primitive_count, stream_data, stride);
+	INVOKE(0x00A28330, c_rasterizer::draw_primitive_up, primitive_type, primitive_count, stream_data, stride);
 }
 
 void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count)
 {
-	INVOKE(0x00A283B0, draw_vertices, primitive_type, start_vertex, primitive_count);
+	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
 void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2)
@@ -1479,39 +1479,39 @@ void __cdecl c_rasterizer::wait_for_gpu_idle()
 
 void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
 {
-	INVOKE(0x00A66270, set_pixel_shader_constant, start_register, vector4f_count, constant_data);
+	INVOKE(0x00A66270, c_rasterizer::set_pixel_shader_constant, start_register, vector4f_count, constant_data);
 }
 
 void __cdecl c_rasterizer::set_pixel_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
 {
-	INVOKE(0x00A66370, set_pixel_shader_constant_bool, start_register, bool_count, constant_data);
+	INVOKE(0x00A66370, c_rasterizer::set_pixel_shader_constant_bool, start_register, bool_count, constant_data);
 }
 
 void __cdecl c_rasterizer::set_pixel_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
 {
-	INVOKE(0x00A663A0, set_pixel_shader_constant_int, start_register, vector4i_count, constant_data);
+	INVOKE(0x00A663A0, c_rasterizer::set_pixel_shader_constant_int, start_register, vector4i_count, constant_data);
 }
 
 void __cdecl c_rasterizer::set_pixel_shader_constant_single(long start_register, real constant_value)
 {
-	INVOKE(0x00A663C0, set_pixel_shader_constant_single, start_register, constant_value);
+	INVOKE(0x00A663C0, c_rasterizer::set_pixel_shader_constant_single, start_register, constant_value);
 }
 
 //.text:00A66400 ; 
 
 void __cdecl c_rasterizer::set_vertex_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
 {
-	INVOKE(0x00A66410, set_vertex_shader_constant, start_register, vector4f_count, constant_data);
+	INVOKE(0x00A66410, c_rasterizer::set_vertex_shader_constant, start_register, vector4f_count, constant_data);
 }
 
 void __cdecl c_rasterizer::set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
 {
-	INVOKE(0x00A66370, set_vertex_shader_constant_bool, start_register, bool_count, constant_data);
+	INVOKE(0x00A66370, c_rasterizer::set_vertex_shader_constant_bool, start_register, bool_count, constant_data);
 }
 
 void __cdecl c_rasterizer::set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
 {
-	INVOKE(0x00A663A0, set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
+	INVOKE(0x00A663A0, c_rasterizer::set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
 }
 
 //.text:00A66660 ; 
