@@ -774,8 +774,29 @@ void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identi
 //.text:005432D0 ; void __cdecl players_store_campaign_armaments_on_game_won(s_campaign_armaments*)
 //.text:00543560 ; void __cdecl players_update_activation()
 
+void verify_coop_respawn_effect()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	c_data_iterator<player_datum> player_iterator;
+	player_iterator.begin(*player_data);
+	while (player_iterator.next())
+	{
+		player_datum* player = player_iterator.get_datum();
+		if (!TEST_BIT(player->flags, _player_unknown_bit11))
+			continue;
+
+		long control_index = player_get_control_index_from_unit(player->unit_index);
+		if (VALID_INDEX(control_index, global_game_globals->player_information.count))
+			continue;
+
+		SET_BIT(player->flags, _player_unknown_bit11, false);
+	}
+}
+
 void __cdecl players_update_after_game(struct simulation_update const* update)
 {
+	verify_coop_respawn_effect();
+	
 	INVOKE(0x00543650, players_update_after_game, update);
 }
 
