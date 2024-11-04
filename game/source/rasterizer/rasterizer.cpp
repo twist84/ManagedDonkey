@@ -118,7 +118,13 @@ void rasterizer_reset_device()
 
 void __cdecl c_rasterizer::begin(short_rectangle2d viewport, short_rectangle2d scissor_rect)
 {
-	INVOKE(0x00A1F7E0, c_rasterizer::begin, viewport, scissor_rect);
+	//INVOKE(0x00A1F7E0, c_rasterizer::begin, viewport, scissor_rect);
+
+	c_rasterizer::set_viewport(viewport, 0.0f, 1.0f);
+	c_rasterizer::g_last_viewport = viewport;
+	
+	c_rasterizer::set_scissor_rect(&scissor_rect);
+	c_rasterizer::g_last_scissor_rect = scissor_rect;
 }
 
 bool __cdecl c_rasterizer::cleanup_before_device_reset()
