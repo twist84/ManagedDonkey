@@ -98,7 +98,12 @@
 //.text:00B9E9B0 ; 
 //.text:00B9E9D0 ; 
 //.text:00B9EA00 ; void __cdecl lights_place(long)
-//.text:00B9EA80 ; void __cdecl lights_prepare_for_window(long)
+
+void __cdecl lights_prepare_for_window(long player_window_index)
+{
+	INVOKE(0x00B9EA80, lights_prepare_for_window, player_window_index);
+}
+
 //.text:00B9EB20 ; long __cdecl lights_unattached_connect_to_object(long, bool, bool)
 
 void __cdecl lights_update()
