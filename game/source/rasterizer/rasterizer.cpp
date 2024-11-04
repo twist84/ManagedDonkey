@@ -1158,7 +1158,7 @@ void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rec
 
 	if (scissor_rect)
 	{
-		RECT rect
+		RECT d3d_scissor_rect
 		{
 			.left = scissor_rect->x0,
 			.top = scissor_rect->y0,
@@ -1167,7 +1167,7 @@ void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rec
 		};
 	
 		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
-		g_device->SetScissorRect(&rect);
+		g_device->SetScissorRect(&d3d_scissor_rect);
 	}
 	else
 	{

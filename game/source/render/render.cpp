@@ -3,8 +3,10 @@
 #include "config/version.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
+#include "objects/lights.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_cameras.hpp"
+#include "render/render_objects_static_lighting.hpp"
 #include "text/draw_string.hpp"
 
 REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
@@ -168,6 +170,11 @@ void __cdecl render_initialize_for_new_structure_bsp(dword new_structure_bsp_mas
 void __cdecl render_prepare_for_window(long player_window_index, long output_user_index)
 {
 	INVOKE(0x00A29990, render_prepare_for_window, player_window_index, output_user_index);
+
+	//render_objects_prepare_for_window(output_user_index);
+	//render_sky_prepare_for_window();
+	//lights_prepare_for_window(player_window_index);
+	//c_render_flags::prepare_for_player_window();
 }
 
 void __cdecl render_setup_window(render_camera* camera, render_projection* projection)

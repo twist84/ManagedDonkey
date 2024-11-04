@@ -29,7 +29,17 @@ void c_player_view::create_frame_textures(long player_index)
 	INVOKE_CLASS_MEMBER(0x00A38D70, c_player_view, create_frame_textures, player_index);
 }
 
-//.text:00A3A790 ; 
+//.text:00A39960 ; public: virtual void __cdecl c_player_view::render()
+//.text:00A3A0E0 ; protected: bool __cdecl c_player_view::render_albedo()
+//.text:00A3A310 ; protected: static void __cdecl c_player_view::render_albedo_decals(bool, bool)
+//.text:00A3A3C0 ; 
+//.text:00A3A3F0 ; protected: void __cdecl c_player_view::render_effects(e_effect_pass)
+//.text:00A3A420 ; protected: void __cdecl c_player_view::render_first_person()
+//.text:00A3A5F0 ; protected: void __cdecl c_player_view::render_first_person_albedo()
+//.text:00A3A6B0 ; 
+//.text:00A3A6C0 ; protected: void __cdecl c_player_view::render_lens_flares()
+//.text:00A3A700 ; protected: void __cdecl c_player_view::render_lightmap_shadows()
+//.text:00A3A790 ; protected: void __cdecl c_player_view::render_misc_transparents()
 //.text:00A3A7A0 ; public: void __cdecl c_player_view::render_patchy_fog()
 //.text:00A3A7F0 ; render_patchy_fog_callback
 //.text:00A3A850 ; public: virtual void __cdecl c_player_view::render_setup()

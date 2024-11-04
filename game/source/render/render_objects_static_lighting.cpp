@@ -52,7 +52,13 @@ bool __cdecl render_object_should_be_visible(long object_index)
 //.text:00A45270 ; 
 //.text:00A452B0 ; void __cdecl render_objects_initialize()
 //.text:00A452F0 ; void __cdecl render_objects_initialize_for_new_map()
-//.text:00A45310 ; void __cdecl render_objects_prepare_for_window(e_output_user_index)
+
+//void __cdecl render_objects_prepare_for_window(e_output_user_index output_user_index)
+void __cdecl render_objects_prepare_for_window(long output_user_index)
+{
+	INVOKE(0x00A45310, render_objects_prepare_for_window, output_user_index);
+}
+
 //.text:00A45410 ; void __cdecl render_objects_reset_render_state(long)
 //.text:00A45470 ; 
 //.text:00A454B0 ; 

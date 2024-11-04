@@ -82,4 +82,5 @@ extern s_render_object_first_person_globals& render_object_globals;
 
 extern render_lighting const* object_get_cached_render_lighting(long object_index);
 extern bool __cdecl render_object_should_be_visible(long object_index);
+extern void __cdecl render_objects_prepare_for_window(long output_user_index);
 
