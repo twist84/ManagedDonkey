@@ -70,9 +70,10 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 		if (output_user_active_count > 1)
 			player_count = output_user_active_count;
 
-		long window_count = 1;
-		if (player_count > MAXIMUM_PLAYER_WINDOWS)
-			window_count = MAXIMUM_PLAYER_WINDOWS;
+		long window_count = MAXIMUM_PLAYER_WINDOWS;
+		if (player_count < window_count)
+			window_count = player_count;
+
 		m_window_count = window_count;
 	}
 
