@@ -1150,23 +1150,23 @@ void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rec
 {
 	//INVOKE(0x00A239B0, c_rasterizer::set_scissor_rect, scissor_rect);
 
-	//if (scissor_rect)
-	//{
-	//	RECT rect
-	//	{
-	//		.left = scissor_rect->x0,
-	//		.top = scissor_rect->y0,
-	//		.right = scissor_rect->x1,
-	//		.bottom = scissor_rect->y1
-	//	};
-	//
-	//	g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
-	//	g_device->SetScissorRect(&rect);
-	//}
-	//else
-	//{
-	//	g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-	//}
+	if (scissor_rect)
+	{
+		RECT rect
+		{
+			.left = scissor_rect->x0,
+			.top = scissor_rect->y0,
+			.right = scissor_rect->x1,
+			.bottom = scissor_rect->y1
+		};
+	
+		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+		g_device->SetScissorRect(&rect);
+	}
+	else
+	{
+		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	}
 }
 
 void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode separate_alpha_blend_mode)
@@ -1470,6 +1470,22 @@ void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
 void __cdecl c_rasterizer::set_render_target(long render_target_index, e_surface surface, long render_state)
 {
 	INVOKE(0x00A48E40, c_rasterizer::set_render_target, render_target_index, surface, render_state);
+}
+
+void __cdecl c_rasterizer::set_viewport(short_rectangle2d const& viewport, real min_z, real max_z)
+{
+	//INVOKE(0x00A49010, c_rasterizer::set_viewport, viewport, z_min, z_max);
+
+	D3DVIEWPORT9 d3d_viewport
+	{
+		.X = (DWORD)viewport.x0,
+		.Y = (DWORD)viewport.y0,
+		.Width = DWORD(viewport.x1 - viewport.x0),
+		.Height = DWORD(viewport.y1 - viewport.y0),
+		.MinZ = min_z,
+		.MaxZ = max_z
+	};
+	c_rasterizer::g_device->SetViewport(&d3d_viewport);
 }
 
 void __cdecl c_rasterizer::wait_for_gpu_idle()

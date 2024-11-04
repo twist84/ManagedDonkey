@@ -356,6 +356,7 @@ struct c_rasterizer
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2);
 	static void __cdecl set_depth_stencil_surface(e_surface surface);
 	static void __cdecl set_render_target(long render_target_index, e_surface surface, long render_state);
+	static void __cdecl set_viewport(short_rectangle2d const& viewport, real min_z, real max_z);
 	static void __cdecl wait_for_gpu_idle();
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
