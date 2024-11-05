@@ -363,6 +363,15 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 	}
 }
 
+void __cdecl c_rasterizer::window_reset()
+{
+	INVOKE(0x00A204D0, c_rasterizer::window_reset);
+
+	//c_rasterizer::invalidate_all_surfaces();
+	//rasterizer_memory_reset();
+	//rasterizer_occlusion_window_reset();
+}
+
 void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool fullscreen)
 {
 	//INVOKE(0x00A22130, c_rasterizer::set_render_resolution, width, height, fullscreen);
