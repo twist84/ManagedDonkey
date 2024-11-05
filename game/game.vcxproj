@@ -321,6 +321,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
+    <ClCompile Include="source\render\render_flags.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_lens_flares.cpp" />
     <ClCompile Include="source\render\render_patchy_fog.cpp" />
@@ -1148,6 +1149,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
+    <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
     <ClInclude Include="source\render\render_sky.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />

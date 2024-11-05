@@ -1689,6 +1689,9 @@
     <ClCompile Include="source\render\render_sky.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_flags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3897,6 +3900,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_sky.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_flags.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
