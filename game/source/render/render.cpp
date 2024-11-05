@@ -26,6 +26,9 @@ REFERENCE_DECLARE(0x050E88F7, bool, c_render_globals::m_depth_fade_active);
 REFERENCE_DECLARE(0x050E88F9, bool, c_render_globals::m_weather_occlusion_available);
 REFERENCE_DECLARE(0x050E88FA, bool, render_pc_albedo_lighting);
 
+REFERENCE_DECLARE(0x050E88FC, void*, g_restricted_render_memory);
+REFERENCE_DECLARE(0x050E8904, c_restricted_section, g_restricted_render_memory_section);
+
 HOOK_DECLARE(0x00A2A080, render_setup_window);
 
 void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
@@ -161,6 +164,22 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 void __cdecl render_initialize()
 {
 	INVOKE(0x00A29900, render_initialize);
+
+	render_debug_initialize();
+
+	//g_restricted_render_memory = VirtualAlloc(0, 0xA0000, MEM_COMMIT, PAGE_READWRITE);
+	//g_restricted_render_memory_section.initialize(g_restricted_render_memory, 0xA0000, _critical_section_g_render_section);
+	//
+	//restricted_region_create(k_global_render_data_region, &g_restricted_render_memory_section, _critical_section_g_render_region, 0);
+	//restricted_region_lock_primary(k_global_render_data_region);
+	//
+	//c_render_globals::set_frame_index(0);
+	//c_render_globals::set_frame_time(0.0);
+	//
+	//render_objects_initialize();
+	//render_debug_initialize();
+	//c_object_renderer::initialize();
+	//vision_mode_initialize();
 }
 
 void __cdecl render_initialize_for_new_map()

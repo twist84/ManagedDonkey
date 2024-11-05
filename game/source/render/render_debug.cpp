@@ -199,14 +199,19 @@ struct s_render_debug_globals
 };
 static_assert(sizeof(s_render_debug_globals) == 0x81020);
 
-static s_render_debug_globals _render_debug_globals
-{
-	.use_simple_font = true
-};
+static s_render_debug_globals _render_debug_globals{};
 
-thread_local s_render_debug_globals* g_render_debug_globals = &_render_debug_globals;
+thread_local s_render_debug_globals* g_render_debug_globals = NULL;
 
 long type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
+
+void __cdecl render_debug_initialize()
+{
+	g_render_debug_globals = &_render_debug_globals;
+	csmemset(g_render_debug_globals, 0, sizeof(s_render_debug_globals));
+
+	g_render_debug_globals->use_simple_font = true;
+}
 
 s_render_debug_globals* __cdecl get_render_debug_globals()
 {
