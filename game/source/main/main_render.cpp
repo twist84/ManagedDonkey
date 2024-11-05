@@ -32,6 +32,7 @@
 #include "rasterizer/rasterizer_loading_screen.hpp"
 #include "rasterizer/rasterizer_performance_throttles.hpp"
 #include "rasterizer/rasterizer_synchronization.hpp"
+#include "render/old_render_debug.hpp"
 #include "render/render.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
@@ -39,7 +40,7 @@
 #include "text/draw_string.hpp"
 #include "visibility/visibility_collection.hpp"
 
-//HOOK_DECLARE(0x006042C0, main_render);
+HOOK_DECLARE(0x006042C0, main_render);
 HOOK_DECLARE(0x00604440, main_render_game);
 HOOK_DECLARE(0x00604860, main_render_pregame);
 //HOOK_DECLARE(0x00604AE0, main_render_start_blocking_frame);
@@ -158,105 +159,103 @@ bool __cdecl sub_42E5D0()
 
 void __cdecl main_render()
 {
-	INVOKE(0x006042C0, main_render);
+	//INVOKE(0x006042C0, main_render);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-	//REFERENCE_DECLARE(0x02446778, long, dword_2446778);
-	//
-	//PROFILER(main_render)
-	//{
-	//	bool should_draw = !sub_42E5D0() || !debug_no_drawing;
-	//
-	//	{
-	//		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-	//		rasterizer_lag_timing_mark_render_start();
-	//		main_render_process_messages();
-	//
-	//		if (dword_2446778 > 50)
-	//		{
-	//			should_draw = false;
-	//			dword_2446778 = 0;
-	//		}
-	//
-	//		if (rasterizer_lag_timing_get_gamestate_delay() > 10)
-	//			dword_2446778++;
-	//		else
-	//			dword_2446778 = 0;
-	//
-	//		if (should_draw)
-	//		{
-	//			bool render_game = true;
-	//			bool render_sapien = false;
-	//
-	//			if (c_rasterizer::begin_frame())
-	//			{
-	//				PROFILER(render)
-	//				{
-	//					PROFILER(general)
-	//					{
-	//						if (game_in_progress() && game_get_active_structure_bsp_mask())
-	//						{
-	//							if (simulation_starting_up())
-	//								render_game = false;
-	//						}
-	//						else
-	//						{
-	//							render_game = false;
-	//						}
-	//
-	//						if (render_game)
-	//						{
-	//							render_sapien = game_in_editor();
-	//							render_game = !render_sapien;
-	//						}
-	//
-	//						main_render_frame_begin();
-	//
-	//						if (render_game)
-	//						{
-	//							main_render_game();
-	//						}
-	//						else if (render_sapien)
-	//						{
-	//							main_render_sapien();
-	//						}
-	//						else
-	//						{
-	//							main_render_pregame(_main_pregame_frame_normal, NULL);
-	//						}
-	//
-	//						should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
-	//					}
-	//				}
-	//			}
-	//			else
-	//			{
-	//				should_draw = false;
-	//			}
-	//
-	//			c_render_globals::increment_frame_index();
-	//		}
-	//
-	//		if (should_draw)
-	//		{
-	//			if (__int64 blocking_cycles = g_main_render_block_watch.stop())
-	//				status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
-	//		}
-	//
-	//		rasterizer_lag_timing_mark_render_end();
-	//	}
-	//
-	//	if (should_draw)
-	//	{
-	//		__int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
-	//		restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region);
-	//		main_time_throttle(target_display_vblank_index);
-	//
-	//		// done in `sub_604A20`
-	//		//c_rasterizer::end_frame();
-	//		//g_main_render_timing_data->reset();
-	//	}
-	//}
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+	REFERENCE_DECLARE(0x02446778, long, dword_2446778);
+	
+	PROFILER(main_render)
+	{
+		bool should_draw = !sub_42E5D0() || !debug_no_drawing;
+	
+		{
+			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+			rasterizer_lag_timing_mark_render_start();
+			main_render_process_messages();
+	
+			if (dword_2446778 > 50)
+			{
+				should_draw = false;
+				dword_2446778 = 0;
+			}
+	
+			if (rasterizer_lag_timing_get_gamestate_delay() > 10)
+				dword_2446778++;
+			else
+				dword_2446778 = 0;
+	
+			if (should_draw)
+			{
+				bool render_game = true;
+				bool render_sapien = false;
+	
+				if (c_rasterizer::begin_frame())
+				{
+					PROFILER(render)
+					{
+						PROFILER(general)
+						{
+							if (game_in_progress() && game_get_active_structure_bsp_mask())
+							{
+								if (simulation_starting_up())
+									render_game = false;
+							}
+							else
+							{
+								render_game = false;
+							}
+	
+							if (render_game)
+							{
+								render_sapien = game_in_editor();
+								render_game = !render_sapien;
+							}
+	
+							main_render_frame_begin();
+	
+							if (render_game)
+							{
+								main_render_game();
+							}
+							else if (render_sapien)
+							{
+								main_render_sapien();
+							}
+							else
+							{
+								main_render_pregame(_main_pregame_frame_normal, NULL);
+							}
+	
+							should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
+						}
+					}
+				}
+				else
+				{
+					should_draw = false;
+				}
+	
+				c_render_globals::increment_frame_index();
+			}
+	
+			//if (should_draw)
+			//{
+			//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
+			//		status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
+			//}
+	
+			rasterizer_lag_timing_mark_render_end();
+		}
+	
+		if (should_draw)
+		{
+			__int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
+			restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region);
+			main_time_throttle(target_display_vblank_index);
+	
+			sub_604A20();
+		}
+	}
 }
 
 void __cdecl main_render_assert_no_pending_messages()
@@ -290,7 +289,7 @@ void __cdecl main_render_game()
 		long window_count = iterator.get_window_count();
 		long window_arrangement = iterator.get_window_arrangement();
 
-		bool render_freeze = false;// debug_render_freeze;
+		bool render_freeze = debug_render_freeze;
 
 		main_render_process_messages();
 		main_render_frame_begin();

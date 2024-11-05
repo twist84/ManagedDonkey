@@ -1898,7 +1898,6 @@ void __cdecl process_published_game_state(bool a1)
 		if (a1 && c_rasterizer::rasterizer_thread_owns_device())
 		{
 			main_render();
-			sub_604A20();
 		}
 		else
 		{
