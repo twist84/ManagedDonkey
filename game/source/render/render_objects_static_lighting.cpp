@@ -50,8 +50,16 @@ bool __cdecl render_object_should_be_visible(long object_index)
 //.text:00A45240 ; 
 //.text:00A45250 ; 
 //.text:00A45270 ; 
-//.text:00A452B0 ; void __cdecl render_objects_initialize()
-//.text:00A452F0 ; void __cdecl render_objects_initialize_for_new_map()
+
+void __cdecl render_objects_initialize()
+{
+	INVOKE(0x00A452B0, render_objects_initialize);
+}
+
+void __cdecl render_objects_initialize_for_new_map()
+{
+	INVOKE(0x00A452F0, render_objects_initialize_for_new_map);
+}
 
 //void __cdecl render_objects_prepare_for_window(e_output_user_index output_user_index)
 void __cdecl render_objects_prepare_for_window(long output_user_index)
