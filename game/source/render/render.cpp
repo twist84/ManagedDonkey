@@ -1,12 +1,19 @@
 #include "render/render.hpp"
 
+#include "cache/restricted_memory.hpp"
+#include "cache/restricted_memory_regions.hpp"
 #include "config/version.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
 #include "objects/lights.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/old_render_debug.hpp"
 #include "render/render_cameras.hpp"
+#include "render/render_debug.hpp"
+#include "render/render_flags.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render/render_sky.hpp"
 #include "text/draw_string.hpp"
 
 REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
@@ -159,22 +166,28 @@ void __cdecl render_initialize()
 void __cdecl render_initialize_for_new_map()
 {
 	INVOKE(0x00A29970, render_initialize_for_new_map);
+
+	//debug_render_freeze = false;
+	//c_render_globals::set_frame_time(0.0f);
+	//render_objects_initialize_for_new_map();
 }
 
 void __cdecl render_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
 	INVOKE(0x00A29980, render_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+
+	//c_structure_renderer::reset();
 }
 
 //void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index)
 void __cdecl render_prepare_for_window(long player_window_index, long output_user_index)
 {
-	INVOKE(0x00A29990, render_prepare_for_window, player_window_index, output_user_index);
+	//INVOKE(0x00A29990, render_prepare_for_window, player_window_index, output_user_index);
 
-	//render_objects_prepare_for_window(output_user_index);
-	//render_sky_prepare_for_window();
-	//lights_prepare_for_window(player_window_index);
-	//c_render_flags::prepare_for_player_window();
+	render_objects_prepare_for_window(output_user_index);
+	render_sky_prepare_for_window();
+	lights_prepare_for_window(player_window_index);
+	c_render_flags::prepare_for_player_window(player_window_index);
 }
 
 void __cdecl render_setup_window(render_camera* camera, render_projection* projection)
@@ -232,7 +245,9 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 
 void __cdecl render_window_reset(long user_index)
 {
-	INVOKE(0x00A2A2E0, render_window_reset, user_index);
+	//INVOKE(0x00A2A2E0, render_window_reset, user_index);
+
+	c_rasterizer::window_reset();
 }
 
 void __cdecl c_render_globals::set_depth_fade_active(bool depth_fade_active)
