@@ -104,6 +104,47 @@ DATA_PATCH_DECLARE(0x00A2508C, rasterizer_clear_color_fix, rasterizer_clear_colo
 byte const rasterizer_clear_color_bytes[4] = { 0xCC, 0x77, 0x55, 0x00 };
 DATA_PATCH_DECLARE(0x00A250A8 + 1, rasterizer_clear_color, rasterizer_clear_color_bytes);
 
+//void __cdecl sub_A24D30(bool a1, bool a2)
+//{
+//	//INVOKE(0x00A24D30, sub_A24D30, a1, a2);
+//
+//	if (!c_rasterizer::g_device)
+//		return;
+//
+//	c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
+//	c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
+//
+//	if (a2)
+//	{
+//		c_rasterizer::set_render_target(0, c_rasterizer::_surface_depth_fp32, 0xFFFFFFFF);
+//		c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+//		c_rasterizer::set_render_target(2, c_rasterizer::_surface_none, 0xFFFFFFFF);
+//
+//		c_rasterizer::restore_last_viewport();
+//		c_rasterizer::restore_last_scissor_rect();
+//	}
+//
+//	c_rasterizer::set_render_target(0, c_rasterizer::_surface_albedo, 0);
+//	c_rasterizer::set_render_target(1, c_rasterizer::_surface_normal, 0);
+//
+//	if (!a2)
+//		c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
+//
+//	c_rasterizer::restore_last_viewport();
+//	c_rasterizer::restore_last_scissor_rect();
+//
+//	if (a2)
+//	{
+//		dword flags = D3DCLEAR_ZBUFFER;
+//		if (!a1)
+//			flags = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
+//
+//		c_rasterizer::clearf(flags, 0x005577CCu, 1.0f, 0);
+//		c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
+//	}
+//}
+//HOOK_DECLARE(0x00A24D30, sub_A24D30);
+
 void __stdcall sub_79BA30(long width, long height)
 {
 	INVOKE(0x0079BA30, sub_79BA30, width, height);
