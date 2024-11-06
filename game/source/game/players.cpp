@@ -606,7 +606,12 @@ void __cdecl players_finish_creation()
 }
 
 //.text:00541BA0 ; void __cdecl players_force_detach_from_object(long)
-//.text:00541C70 ; long __cdecl players_get_active_and_in_game_count(bool)
+
+long __cdecl players_get_active_and_in_game_count(bool a1)
+{
+	return INVOKE(0x00541C70, players_get_active_and_in_game_count, a1);
+}
+
 //.text:00541CF0 ; long __cdecl players_get_alive_count()
 //.text:00541D60 ; s_campaign_armaments_player const* __cdecl players_get_campaign_armaments_player_from_player_index(long)
 //.text:00541DF0 ; 

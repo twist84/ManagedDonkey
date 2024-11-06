@@ -58,6 +58,9 @@ void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3*
 
 void __thiscall c_player_view::queue_patchy_fog()
 {
+	if (players_get_active_and_in_game_count(true) > 1)
+		return;
+
 	INVOKE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 }
 

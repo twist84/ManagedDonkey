@@ -855,6 +855,7 @@ extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();
 extern void __cdecl players_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
 extern void __cdecl players_finish_creation();
+extern long __cdecl players_get_active_and_in_game_count(bool a1);
 extern void __cdecl players_handle_deleted_player_internal(long player_index);
 extern void __cdecl players_initialize();
 extern void __cdecl players_initialize_for_new_map();
