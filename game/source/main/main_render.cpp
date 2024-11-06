@@ -31,6 +31,7 @@
 #include "rasterizer/rasterizer_globals.hpp"
 #include "rasterizer/rasterizer_loading_screen.hpp"
 #include "rasterizer/rasterizer_performance_throttles.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 #include "rasterizer/rasterizer_synchronization.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/render.hpp"
@@ -320,58 +321,95 @@ void __cdecl main_render_game()
 				render_freeze);
 		}
 
-		c_visible_items::clear_all();
-		c_player_view::frame_advance();
-
-		if (!c_rasterizer_loading_screen::suppress_render_scene())
 		{
-			c_performance_throttles::update_current_performance_throttles();
+			c_d3d_pix_event _main_render(g_rasterizer_profile_pix_colors[1], L"main_render");
 
-			c_screen_postprocess::accept_edited_settings();
+			c_visible_items::clear_all();
+			c_player_view::frame_advance();
 
-			bool is_widescreen = rasterizer_get_is_widescreen();
-
-			for (long view_index = 0; view_index < window_count; view_index++)
+			if (!c_rasterizer_loading_screen::suppress_render_scene())
 			{
-				c_player_view* player_view = c_player_view::get_current(view_index);
+				c_performance_throttles::update_current_performance_throttles();
 
-				//{
-				//	char pix_name[32]{};
-				//	sprintf_s(pix_name, 32, "player_view %d", view_index);
-				//}
+				c_screen_postprocess::accept_edited_settings();
 
-				c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-				player_view->__unknown26B4 = view_index == window_count - 1;
-				main_render_view(player_view, view_index);
+				bool is_widescreen = rasterizer_get_is_widescreen();
+
+				for (long view_index = 0; view_index < window_count; view_index++)
+				{
+					c_player_view* player_view = c_player_view::get_current(view_index);
+
+					c_static_wchar_string<32> pix_name;
+					pix_name.print(L"player_view %d", view_index);
+					c_d3d_pix_event _player_view(g_rasterizer_profile_pix_colors[1], pix_name.get_string());
+
+					c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
+					player_view->__unknown26B4 = view_index == window_count - 1;
+					main_render_view(player_view, view_index);
+				}
+
+				c_ui_view ui_view{};
+				ui_view.setup_camera(NULL, c_rasterizer::e_surface::_surface_screenshot_display /*surface_screenshot_display_get()*/);
+				{
+					c_d3d_pix_event _fullscreen_view_render(g_rasterizer_profile_pix_colors[1], L"fullscreen_view_render");
+
+					c_ui_view::begin(&ui_view);
+					c_rasterizer::begin_high_quality_blend();
+
+					if (bink_playback_in_progress())
+					{
+						c_d3d_pix_event _bink_playback_render(g_rasterizer_profile_pix_colors[1], L"bink_playback_render");
+						bink_playback_render();
+					}
+					{
+						c_d3d_pix_event _interface_draw_fullscreen_overlays(g_rasterizer_profile_pix_colors[1], L"interface_draw_fullscreen_overlays");
+						interface_draw_fullscreen_overlays();
+					}
+
+					{
+						c_d3d_pix_event _director_render(g_rasterizer_profile_pix_colors[1], L"director_render");
+						director_render();
+					}
+
+					{
+						c_d3d_pix_event _cinematic_render(g_rasterizer_profile_pix_colors[1], L"cinematic_render");
+						cinematic_render(true, true);
+					}
+
+					{
+						c_d3d_pix_event _ui_view_render(g_rasterizer_profile_pix_colors[1], L"ui_view_render");
+						ui_view.render();
+					}
+
+					{
+						c_d3d_pix_event _closed_caption_render(g_rasterizer_profile_pix_colors[1], L"closed_caption_render");
+						closed_caption_render();
+					}
+
+					{
+						c_d3d_pix_event _render_debug_frame_render(g_rasterizer_profile_pix_colors[1], L"render_debug_frame_render");
+						render_debug_frame_render();
+					}
+
+					game_engine_render_watermarks();
+					c_view::end();
+				}
+
+				// #TODO: implement these?
+				// `screenshot_post_render` is a nullsub, so skip `screenshot_render` logic
+				//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->camera_fx_values, iterator.m_window_count))
+				//	screenshot_post_render();
+
+				c_render_globals::set_depth_fade_active(false);
+				c_render_globals::set_distortion_active(false);
 			}
 
-			c_ui_view ui_view{};
-			ui_view.setup_camera(NULL, c_rasterizer::e_surface::_surface_screenshot_display /*surface_screenshot_display_get()*/);
-
-			c_ui_view::begin(&ui_view);
-			c_rasterizer::begin_high_quality_blend();
-			if (bink_playback_in_progress())
-				bink_playback_render();
-			interface_draw_fullscreen_overlays();
-			director_render();
-			cinematic_render(true, true);
-			ui_view.render();
-			closed_caption_render();
-			render_debug_frame_render();
-			game_engine_render_watermarks();
-			c_view::end();
-
-			// #TODO: implement these?
-			// `screenshot_post_render` is a nullsub, so skip `screenshot_render` logic
-			//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->camera_fx_values, iterator.m_window_count))
-			//	screenshot_post_render();
-
-			c_render_globals::set_depth_fade_active(false);
-			c_render_globals::set_distortion_active(false);
+			{
+				c_d3d_pix_event(g_rasterizer_profile_pix_colors[1], L"loading_screen");
+				if (c_rasterizer_loading_screen::active())
+					c_rasterizer_loading_screen::render();
+			}
 		}
-
-		if (c_rasterizer_loading_screen::active())
-			c_rasterizer_loading_screen::render();
 	}
 }
 

@@ -7,11 +7,15 @@ struct c_render_flags
 public:
 	enum e_frame_bit
 	{
+		_frame_bit0 = 0,
+
 		// #TODO: find all bits
 	};
 	
 	enum e_window_bit
 	{
+		_window_bit0 = 0,
+
 		// #TODO: find all bits
 	};
 

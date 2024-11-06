@@ -1,13 +1,60 @@
 #include "render/screen_postprocess.hpp"
 
+#include "main/global_preferences.hpp"
 #include "memory/module.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
+#include "render/camera_fx_settings.hpp"
+#include "render/render.hpp"
+
+REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
 
 decltype(c_screen_postprocess::postprocess_player_view)* screen_postprocess_postprocess_player_view = c_screen_postprocess::postprocess_player_view;
 HOOK_DECLARE_CALL(0x00A39F4E, screen_postprocess_postprocess_player_view);
+HOOK_DECLARE_CALL(0x00A3A171, sub_A62D70);
+
+HOOK_DECLARE_CLASS(0x00A60460, c_screen_postprocess, copy);
+HOOK_DECLARE_CLASS(0x00A601E0, c_screen_postprocess, blit);
+HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
+
+void __cdecl sub_A62D70(c_camera_fx_values* fx_values, render_projection* projection, render_camera* camera)
+{
+	REFERENCE_DECLARE(offset_pointer(fx_values->m_settings.__data, 0x164), dword_flags, ssao_flags);
+
+	bool ssao_enable = TEST_BIT(ssao_flags, 1);
+	if (g_ssao_enable != NONE)
+		ssao_enable = g_ssao_enable == 1;
+
+	if (ssao_enable && global_preferences_get_postprocessing_quality())
+	{
+		c_d3d_pix_event _ssao(g_rasterizer_profile_pix_colors[1], L"ssao");
+
+		INVOKE(0x00A62D70, sub_A62D70, fx_values, projection, camera);
+	}
+}
 
 void __cdecl c_screen_postprocess::accept_edited_settings()
 {
 	INVOKE(0x00604150, c_screen_postprocess::accept_edited_settings);
+}
+
+void __cdecl c_screen_postprocess::blit(
+	long explicit_shader_index,
+	c_rasterizer::e_surface surface_a,
+	c_rasterizer::e_surface surface_b,
+	c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
+	c_rasterizer::e_sampler_address_mode sampler_address_mode,
+	real a6,
+	real a7,
+	real a8,
+	real a9,
+	real_rectangle2d* a10,
+	real_rectangle2d* a11)
+{
+	//INVOKE(0x00A601E0, c_screen_postprocess::blit, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
+
+	c_d3d_pix_event _blit(g_rasterizer_profile_pix_colors[1], L"blit");
+
+	HOOK_INVOKE_CLASS(, c_screen_postprocess, blit, decltype(&c_screen_postprocess::blit), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
 }
 
 c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
@@ -27,7 +74,20 @@ void __cdecl c_screen_postprocess::copy(
 	real a9,
 	real_rectangle2d* bounds)
 {
-	INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
+	//INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
+
+	c_d3d_pix_event _copy(g_rasterizer_profile_pix_colors[1], L"copy");
+
+	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
+}
+
+void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
+{
+	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, surface_a, surface_b);
+
+	c_d3d_pix_event _gaussian_blur(g_rasterizer_profile_pix_colors[1], L"gaussian_blur");
+
+	HOOK_INVOKE_CLASS(, c_screen_postprocess, gaussian_blur, decltype(&c_screen_postprocess::gaussian_blur), surface_a, surface_b);
 }
 
 void __cdecl c_screen_postprocess::postprocess_player_view(

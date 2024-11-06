@@ -45,6 +45,7 @@
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
 #include "render/views/render_player_view.hpp"
+#include "render/views/render_view.hpp"
 #include "scenario/scenario_soft_ceilings.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
@@ -896,6 +897,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
 	CONSOLE_GLOBAL_DECLARE_SHORT(render_debug_transparent_sort_method),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_pix_events),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
 

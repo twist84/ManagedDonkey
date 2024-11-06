@@ -1,9 +1,10 @@
 #pragma once
 
-#include "render/render_cameras.hpp"
-#include "render/render_patchy_fog.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_text.hpp"
+#include "render/render_cameras.hpp"
+#include "render/render_game_state.hpp"
+#include "render/render_patchy_fog.hpp"
 
 enum e_output_user_index;
 struct s_observer_result;
@@ -175,6 +176,8 @@ public:
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 
+enum e_effect_pass;
+
 // 0165E130
 struct c_player_view :
 	public c_world_view
@@ -209,15 +212,31 @@ struct c_player_view :
 		return m_output_user_index;
 	}
 
-	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
+	void __thiscall render_distortions();
 	void create_frame_textures(long player_index);
+	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
+	void __thiscall queue_patchy_fog();
+	void __thiscall render_();
+	bool __thiscall render_albedo();
+	static void __cdecl render_albedo_decals(bool a1, bool a2);
+	void __thiscall render_effects(e_effect_pass pass);
+	void __thiscall render_first_person(bool a1);
+	void __thiscall render_first_person_albedo();
+	void __thiscall render_lightmap_shadows();
+	void __thiscall render_static_lighting();
+	void __thiscall render_water();
+	void __thiscall render_weather_occlusion();
 	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);
+	void __thiscall distortion_generate();
 
 	static void frame_advance();
 
 //protected:
 	// c_camera_fx_values?
-	byte __data298[0x20];
+	s_render_game_state::s_player_window* m_player_window;
+	real __unknown29C;
+	real __unknown2A0;
+	byte __data2A4[0x14];
 
 	c_patchy_fog m_patchy_fog;
 
@@ -277,6 +296,8 @@ protected:
 	long __unknown26E4;
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
+
+extern bool render_debug_pix_events;
 
 extern void __cdecl render_debug_frame_render();
 extern void __cdecl render_debug_window_render(long user_index);

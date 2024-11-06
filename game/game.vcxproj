@@ -317,6 +317,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_loading_screen.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_profile.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
@@ -324,9 +325,11 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\render_flags.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_lens_flares.cpp" />
+    <ClCompile Include="source\render\render_objects.cpp" />
     <ClCompile Include="source\render\render_patchy_fog.cpp" />
     <ClCompile Include="source\render\render_sky.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
+    <ClCompile Include="source\render\render_tron_effect.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\render\views\hud_camera_view.cpp" />
@@ -1147,12 +1150,14 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_loading_screen.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_profile.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
     <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
     <ClInclude Include="source\render\render_sky.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
+    <ClInclude Include="source\render\render_tron_effect.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
     <ClInclude Include="source\saved_games\autosave_queue.hpp" />

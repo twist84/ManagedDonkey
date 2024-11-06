@@ -32,3 +32,10 @@ struct s_render_object_globals
 	long context_mesh_part_markers[6];
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
+
+struct c_object_renderer
+{
+	static void __cdecl render_albedo(dword flags);
+	static void __cdecl submit_and_render_sky(long a1, long player_index);
+};
+

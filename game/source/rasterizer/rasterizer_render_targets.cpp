@@ -7,12 +7,6 @@
 
 #include <d3d9.h>
 
-struct c_render_surface
-{
-	IDirect3DSurface9* m_d3d_surface;
-	IDirect3DTexture9* m_d3d_texture;
-};
-
 // c_render_surface* c_render_surfaces_interface::get_render_surface_default(c_rasterizer::e_surface)
 c_render_surface* __cdecl get_render_surface_default(c_rasterizer::e_surface surface)
 {

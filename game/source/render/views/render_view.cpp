@@ -13,6 +13,7 @@
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
 
@@ -34,6 +35,8 @@ REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
+
+bool render_debug_pix_events = false;
 
 void __cdecl c_view::abort_current_view_stack()
 {
@@ -177,33 +180,37 @@ void __cdecl render_debug_frame_render()
 	if (sub_42E5D0())
 		return;
 
-	short_rectangle2d screen_pixel_bounds{};
-	c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
+	{
+		c_d3d_pix_event _frame_debug(g_rasterizer_profile_pix_colors[1], L"frame_debug");
 
-	short_rectangle2d screen_safe_pixel_bounds{};
-	c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&screen_safe_pixel_bounds);
+		short_rectangle2d screen_pixel_bounds{};
+		c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
 
-	render_debug_begin(true, true, true);
+		short_rectangle2d screen_safe_pixel_bounds{};
+		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&screen_safe_pixel_bounds);
 
-	terminal_draw();
-	status_line_draw();
-	//cinematic_status_draw();
-	render_debug_campaign_metagame();
-	main_time_frame_rate_display();
-	render_debug_scripting();
-	//render_debug_cluster_blend_info();
-	//profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
-	render_synchronization_stats();
-	//player_control_debug_render();
-	weapons_debug_render();
-	render_debug_debug_menu();
-	//game_time_render_debug();
-	overlapped_render();
-	controllers_render();
-	//font_cache_debug_render();
-	//async_tasks_render();
+		render_debug_begin(true, true, true);
 
-	render_debug_end(false, false, false);
+		terminal_draw();
+		status_line_draw();
+		//cinematic_status_draw();
+		render_debug_campaign_metagame();
+		main_time_frame_rate_display();
+		render_debug_scripting();
+		//render_debug_cluster_blend_info();
+		//profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
+		render_synchronization_stats();
+		//player_control_debug_render();
+		weapons_debug_render();
+		render_debug_debug_menu();
+		//game_time_render_debug();
+		overlapped_render();
+		controllers_render();
+		//font_cache_debug_render();
+		//async_tasks_render();
+
+		render_debug_end(false, false, false);
+	}
 }
 
 void __cdecl render_debug_window_render(long user_index)

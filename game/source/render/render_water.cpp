@@ -1,11 +1,19 @@
 #include "render/render_water.hpp"
 
 #include "cseries/cseries.hpp"
+#include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 
 REFERENCE_DECLARE(0x019146EE, bool, render_water_enabled);
 REFERENCE_DECLARE(0x019146F1, bool, render_water_tessellation_enabled);
 REFERENCE_DECLARE(0x019146F2, bool, render_water_interaction_enabled);
 REFERENCE_DECLARE(0x050FAB18, bool, render_water_wireframe_enabled);
+
+HOOK_DECLARE_CLASS(0x00A36970, c_water_renderer, ripple_add);
+HOOK_DECLARE_CLASS(0x00A37000, c_water_renderer, ripple_apply);
+HOOK_DECLARE_CLASS(0x00A372B0, c_water_renderer, ripple_slope);
+HOOK_DECLARE_CLASS(0x00A37350, c_water_renderer, ripple_update);
 
 void __cdecl c_water_renderer::set_player_window(long window_index, long window_count, bool is_widescreen)
 {
@@ -72,12 +80,25 @@ void __cdecl c_water_renderer::render_underwater_fog()
 
 void __cdecl c_water_renderer::ripple_add(dword a1)
 {
-	INVOKE(0x00A36970, c_water_renderer::ripple_add, a1);
+	//INVOKE(0x00A36970, c_water_renderer::ripple_add, a1);
+
+	c_d3d_pix_event _ripple_add(g_rasterizer_profile_pix_colors[1], L"ripple_add");
+
+	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_add, decltype(&c_water_renderer::ripple_add), a1);
 }
 
 void __cdecl c_water_renderer::ripple_apply()
 {
-	INVOKE(0x00A37000, c_water_renderer::ripple_apply);
+	//INVOKE(0x00A37000, c_water_renderer::ripple_apply);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+
+	if (g_main_render_timing_data->game_seconds_elapsed > 0.00001f)
+	{
+		c_d3d_pix_event _ripple_apply(g_rasterizer_profile_pix_colors[1], L"ripple_apply");
+	
+		HOOK_INVOKE_CLASS(, c_water_renderer, ripple_apply, decltype(&c_water_renderer::ripple_apply));
+	}
 }
 
 dword __cdecl c_water_renderer::ripple_check_new()
@@ -87,12 +108,20 @@ dword __cdecl c_water_renderer::ripple_check_new()
 
 void __cdecl c_water_renderer::ripple_slope()
 {
-	INVOKE(0x00A372B0, c_water_renderer::ripple_slope);
+	//INVOKE(0x00A372B0, c_water_renderer::ripple_slope);
+
+	c_d3d_pix_event _ripple_slope(g_rasterizer_profile_pix_colors[1], L"ripple_slope");
+
+	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_slope, decltype(&c_water_renderer::ripple_slope));
 }
 
 void __cdecl c_water_renderer::ripple_update()
 {
-	INVOKE(0x00A37350, c_water_renderer::ripple_update);
+	//INVOKE(0x00A37350, c_water_renderer::ripple_update);
+
+	c_d3d_pix_event _ripple_update(g_rasterizer_profile_pix_colors[1], L"ripple_update");
+
+	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_update, decltype(&c_water_renderer::ripple_update));
 }
 
 void __cdecl c_water_renderer::set_performance_throttles()
@@ -111,10 +140,7 @@ void c_water_renderer::frame_advance(real seconds_elapsed)
 		dword ripple_index = c_water_renderer::ripple_check_new();
 		if (c_water_renderer::is_active_ripple_exist())
 		{
-			//{
-			//	char pix_name[32]{};
-			//	sprintf_s(pix_name, 32, "ripple_frame_adavance");
-			//}
+			c_d3d_pix_event _ripple_frame_adavance(g_rasterizer_profile_pix_colors[1], L"ripple_frame_adavance");
 
 			c_water_renderer::ripple_add(ripple_index);
 			c_water_renderer::ripple_update();

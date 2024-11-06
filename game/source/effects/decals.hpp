@@ -55,6 +55,10 @@ static_assert(sizeof(s_decal_counts) == 0x20);
 struct c_decal :
 	s_datum_header
 {
+public:
+	void __thiscall render(long pass);
+	static void __cdecl render_all(long pass);
+
 	byte __data[0x12E];
 };
 static_assert(sizeof(c_decal) == 0x130);

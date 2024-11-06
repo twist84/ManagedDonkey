@@ -345,6 +345,7 @@ struct c_rasterizer
 
 	static void __cdecl setup_occlusion_state();
 	static void __cdecl setup_render_target_globals_with_exposure(real, real, bool);
+	static void __cdecl sub_A24D30(bool a1, bool a2);
 	static void __cdecl setup_targets_distortion(short_rectangle2d*);
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
@@ -428,6 +429,7 @@ struct c_rasterizer
 	static long& g_adapter;
 
 	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
+	static void __cdecl sub_A21440();
 	static bool __cdecl end_albedo(short_rectangle2d const* bounds);
 };
 

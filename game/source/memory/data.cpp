@@ -320,6 +320,9 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
 	word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
+	if (index == NONE || index == 0 || identifier == 0xFFFF || absolute_index == 0xFFFF)
+		return NULL;
+
 	if (index != NONE || absolute_index != 0xFFFF)
 	{
 		if (!identifier)

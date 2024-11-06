@@ -304,6 +304,8 @@ struct c_structure_renderer
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+	static void __cdecl render_albedo();
+	static void __cdecl render_decorators();
 };
 
 extern render_structure_globals& g_render_structure_globals;
