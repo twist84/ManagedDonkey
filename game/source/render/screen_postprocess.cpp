@@ -1,5 +1,6 @@
 #include "render/screen_postprocess.hpp"
 
+#include "game/game.hpp"
 #include "main/global_preferences.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
@@ -18,6 +19,9 @@ HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
 
 void __cdecl sub_A62D70(c_camera_fx_values* fx_values, render_projection* projection, render_camera* camera)
 {
+	if (players_get_active_and_in_game_count(true) > 1)
+		return;
+
 	REFERENCE_DECLARE(offset_pointer(fx_values->m_settings.__data, 0x164), dword_flags, ssao_flags);
 
 	bool ssao_enable = TEST_BIT(ssao_flags, 1);
