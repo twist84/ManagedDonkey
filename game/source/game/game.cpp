@@ -268,6 +268,26 @@ void __cdecl game_create_players()
 	//	players_finish_creation();
 	//	simulation_notify_players_created();
 	//}
+
+	if (game_is_splitscreen_deterministic())
+	{
+		c_player_in_game_iterator player_iterator;
+		player_iterator.begin();
+		while (player_iterator.next())
+		{
+			if (player_is_local(player_iterator.get_index()))
+			{
+				short absolute_index = player_iterator.get_absolute_index();
+				player_datum* player = player_iterator.get_datum();
+
+				if (player->configuration.host.name.is_empty())
+					player->configuration.host.name.print(L"player_%d", absolute_index);
+
+				if (player->configuration.client.desired_name.is_empty())
+					player->configuration.client.desired_name.print(L"player_%d", absolute_index);
+			}
+		}
+	}
 }
 
 void __cdecl game_create_unlock_resources(e_game_create_mode mode, long& lock)
