@@ -327,7 +327,11 @@ bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_p
 //.text:0053B340 ; 
 //.text:0053B370 ; bool __cdecl player_is_allowed_to_attempt_assassination(long, long)
 //.text:0053B480 ; bool __cdecl player_is_immune_to_headshot(long, bool)
-//.text:0053B4E0 ; bool __cdecl player_is_local(long)
+
+bool __cdecl player_is_local(long player_index)
+{
+	return INVOKE(0x0053B4E0, player_is_local, player_index);
+}
 
 bool __cdecl player_is_reading_terminal()
 {

@@ -829,6 +829,7 @@ extern void players_debug_render();
 extern void __cdecl player_delete(long player_index);
 extern long __cdecl player_index_from_unit_index(long unit_index);
 extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
+extern bool __cdecl player_is_local(long player_index);
 extern bool __cdecl player_is_reading_terminal();
 extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_positions_dispose();

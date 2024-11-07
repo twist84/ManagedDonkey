@@ -936,7 +936,22 @@ bool __cdecl game_is_server()
 	return false;
 }
 
-//.text:00531DD0 ; bool __cdecl game_is_splitscreen_deterministic()
+bool __cdecl game_is_splitscreen_deterministic()
+{
+	return INVOKE(0x00531DD0, game_is_splitscreen_deterministic);
+
+	//long player_count = 0;
+	//
+	//c_player_in_game_iterator player_iterator;
+	//player_iterator.begin();
+	//while (player_iterator.next())
+	//{
+	//	if (player_is_local(player_iterator.get_index()))
+	//		player_count++;
+	//}
+	//
+	//return player_count > 1;
+}
 
 bool __cdecl game_is_survival()
 {

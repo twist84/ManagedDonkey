@@ -67,7 +67,7 @@ void __thiscall c_player_view::queue_patchy_fog()
 {
 	//INVOKE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 
-	if (players_get_active_and_in_game_count(true) > 1)
+	if (game_is_splitscreen_deterministic())
 		return;
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);

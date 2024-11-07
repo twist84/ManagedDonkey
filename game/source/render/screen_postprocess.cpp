@@ -27,7 +27,7 @@ void __cdecl sub_A62720(s_lightshafts* lightshafts, render_projection* projectio
 
 void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
 {
-	if (players_get_active_and_in_game_count(true) > 1)
+	if (game_is_splitscreen_deterministic())
 		return;
 
 	bool ssao_enable = TEST_BIT(fx_settings->ssao.flags, 1);

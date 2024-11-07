@@ -165,7 +165,7 @@ extern bool __cdecl game_is_playback();
 extern bool __cdecl game_is_playtest();
 extern bool __cdecl game_is_predicted();
 extern bool __cdecl game_is_server();
-//extern bool __cdecl game_is_splitscreen_deterministic();
+extern bool __cdecl game_is_splitscreen_deterministic();
 extern bool __cdecl game_is_survival();
 extern bool __cdecl game_is_synchronous_networking();
 extern bool __cdecl game_is_ui_shell();
