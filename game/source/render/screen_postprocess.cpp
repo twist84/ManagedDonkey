@@ -12,19 +12,25 @@ REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
 decltype(c_screen_postprocess::postprocess_player_view)* screen_postprocess_postprocess_player_view = c_screen_postprocess::postprocess_player_view;
 HOOK_DECLARE_CALL(0x00A39F4E, screen_postprocess_postprocess_player_view);
 HOOK_DECLARE_CALL(0x00A3A171, sub_A62D70);
+HOOK_DECLARE_CALL(0x00A61BBD, sub_A62720);
 
 HOOK_DECLARE_CLASS(0x00A60460, c_screen_postprocess, copy);
 HOOK_DECLARE_CLASS(0x00A601E0, c_screen_postprocess, blit);
 HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
 
-void __cdecl sub_A62D70(c_camera_fx_values* fx_values, render_projection* projection, render_camera* camera)
+void __cdecl sub_A62720(s_lightshafts* lightshafts, render_projection* projection, render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
+{
+	c_d3d_pix_event _lightshafts(g_rasterizer_profile_pix_colors[1], L"lightshafts");
+
+	INVOKE(0x00A62720, sub_A62720, lightshafts, projection, camera, surface_a, surface_b);
+}
+
+void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
 {
 	if (players_get_active_and_in_game_count(true) > 1)
 		return;
 
-	REFERENCE_DECLARE(offset_pointer(fx_values->m_settings.__data, 0x164), dword_flags, ssao_flags);
-
-	bool ssao_enable = TEST_BIT(ssao_flags, 1);
+	bool ssao_enable = TEST_BIT(fx_settings->ssao.flags, 1);
 	if (g_ssao_enable != NONE)
 		ssao_enable = g_ssao_enable == 1;
 
@@ -32,7 +38,7 @@ void __cdecl sub_A62D70(c_camera_fx_values* fx_values, render_projection* projec
 	{
 		c_d3d_pix_event _ssao(g_rasterizer_profile_pix_colors[1], L"ssao");
 
-		INVOKE(0x00A62D70, sub_A62D70, fx_values, projection, camera);
+		INVOKE(0x00A62D70, sub_A62D70, fx_settings, projection, camera);
 	}
 }
 

@@ -1704,6 +1704,9 @@
     <ClCompile Include="source\rasterizer\rasterizer_stipple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_occlusion_queries.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3924,6 +3927,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer_stipple.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_occlusion_queries.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

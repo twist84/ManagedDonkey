@@ -47,6 +47,7 @@
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "rasterizer/rasterizer_implicit_geometry.hpp"
 #include "rasterizer/rasterizer_main.hpp"
+#include "render/camera_fx_settings.hpp"
 #include "render/depth_of_field.hpp"
 #include "render/render_game_state.hpp"
 #include "render/render_objects.hpp"

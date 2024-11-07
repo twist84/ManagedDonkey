@@ -1049,6 +1049,11 @@ void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render
 	//g_device->SetRenderState(x_last_render_state_types[render_state], render_state_value);
 }
 
+bool __cdecl c_rasterizer::surface_valid(e_surface surface)
+{
+	return INVOKE(0x00A490E0, c_rasterizer::surface_valid, surface);
+}
+
 bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const* compiled_pixel_shader, e_entry_point entry_point)
 {
 	return INVOKE(0x00A23220, c_rasterizer::set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
@@ -1523,9 +1528,10 @@ void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_
 	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
-void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2)
+// nullsub
+void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5)
 {
-	INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2);
+	//INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2, a3, a4, a5);
 }
 
 void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
@@ -1536,6 +1542,11 @@ void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
 void __cdecl c_rasterizer::set_render_target(long render_target_index, e_surface surface, long render_state)
 {
 	INVOKE(0x00A48E40, c_rasterizer::set_render_target, render_target_index, surface, render_state);
+}
+
+void __cdecl c_rasterizer::set_using_albedo_sampler(bool using_albedo_sampler)
+{
+	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, using_albedo_sampler);
 }
 
 void __cdecl c_rasterizer::set_viewport(short_rectangle2d const& viewport, real min_z, real max_z)

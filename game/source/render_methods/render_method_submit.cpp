@@ -1,9 +1,19 @@
 #include "render_methods/render_method_submit.hpp"
 
+void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern)
+{
+	INVOKE(0x00A3CA30, render_method_clear_extern, render_method_extern);
+}
+
 void __cdecl render_method_submit_invalidate_cache()
 {
 	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);
 };
+
+void __cdecl render_method_submit_extern_texture_static(e_render_method_extern render_method_extern, bool a2)
+{
+	INVOKE(0x00A3D200, render_method_submit_extern_texture_static, render_method_extern, a2);
+}
 
 void __cdecl render_state_cache_dispose()
 {
@@ -34,7 +44,6 @@ void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword new_struc
 {
 	INVOKE(0x00A3DB40, render_state_cache_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
-
 
 char const* k_render_method_extern_names[k_render_method_extern_count]
 {

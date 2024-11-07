@@ -6,6 +6,7 @@ enum e_splitscreen_res;
 enum e_output_user_index;
 
 struct c_camera_fx_values;
+struct c_camera_fx_settings;
 struct render_projection;
 struct render_camera;
 struct s_screen_effect_settings;
@@ -54,7 +55,20 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface);
 
 	static void __cdecl setup_rasterizer_for_postprocess(bool a1);
+
+	struct s_settings
+	{
+		bool __unknown0;
+		byte __data1[0x37];
+	};
+	static_assert(sizeof(s_settings) == 0x38);
+
+	static c_screen_postprocess::s_settings const* const& x_settings;
+
 };
 
-extern void __cdecl sub_A62D70(c_camera_fx_values* fx_values, render_projection* projection, render_camera* camera);
+struct s_lightshafts;
+
+extern void __cdecl sub_A62720(s_lightshafts* lightshafts, render_projection* projection, render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b);
+extern void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera);
 

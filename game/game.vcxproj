@@ -317,6 +317,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_loading_screen.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_occlusion_queries.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_profile.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_stipple.cpp" />
@@ -1151,6 +1152,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_loading_screen.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_occlusion_queries.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_profile.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_stipple.hpp" />

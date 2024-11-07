@@ -121,6 +121,8 @@ struct c_lights_view :
 	public c_world_view
 {
 public:
+	void submit_simple_light_draw_list_to_shader() const;
+
 	static long& g_gel_bitmap_index;
 	static real& g_render_light_intensity;
 	static dword& g_debug_clip_planes;
@@ -222,8 +224,11 @@ struct c_player_view :
 	void __thiscall render_effects(e_effect_pass pass);
 	void __thiscall render_first_person(bool a1);
 	void __thiscall render_first_person_albedo();
+	void __thiscall render_lens_flares();
 	void __thiscall render_lightmap_shadows();
+	static void __cdecl render_misc_transparents();
 	void __thiscall render_static_lighting();
+	void __thiscall render_transparents();
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
 	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);

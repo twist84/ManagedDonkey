@@ -2,15 +2,20 @@
 
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer_occlusion_queries.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render_flags.hpp"
+#include "render/render_lens_flares.hpp"
+#include "render/render_transparents.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
+#include "render_methods/render_method_submit.hpp"
 
 REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
+REFERENCE_DECLARE(0x01694EC8, c_screen_postprocess::s_settings const* const, c_screen_postprocess::x_settings);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
@@ -20,8 +25,10 @@ HOOK_DECLARE_CLASS(0x00A3A310, c_player_view, render_albedo_decals);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A3F0, c_player_view, render_effects);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A420, c_player_view, render_first_person);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A5F0, c_player_view, render_first_person_albedo);
+HOOK_DECLARE_CLASS_MEMBER(0x00A3A6C0, c_player_view, render_lens_flares);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A700, c_player_view, render_lightmap_shadows);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A8C0, c_player_view, render_static_lighting);
+HOOK_DECLARE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B470, c_player_view, render_water);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B500, c_player_view, render_weather_occlusion);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
@@ -121,7 +128,21 @@ void __thiscall c_player_view::render_first_person_albedo()
 }
 
 //.text:00A3A6B0 ; 
-//.text:00A3A6C0 ; protected: void __cdecl c_player_view::render_lens_flares()
+
+void __thiscall c_player_view::render_lens_flares()
+{
+	//INVOKE_CLASS_MEMBER(0x00A3A6C0, c_player_view::render_lens_flares);
+
+	c_rasterizer::set_using_albedo_sampler(false);
+	rasterizer_occlusions_retrieve(m_player_index);
+
+	{
+		c_d3d_pix_event _lens_flares(g_rasterizer_profile_pix_colors[1], L"lens flares");
+		lens_flares_render(m_player_view_user_index);
+	}
+
+	c_rasterizer::set_using_albedo_sampler(c_rasterizer::surface_valid(c_rasterizer::_surface_albedo));
+}
 
 void __thiscall c_player_view::render_lightmap_shadows()
 {
@@ -132,7 +153,13 @@ void __thiscall c_player_view::render_lightmap_shadows()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_lightmap_shadows);
 }
 
-//.text:00A3A790 ; protected: void __cdecl c_player_view::render_misc_transparents()
+void __cdecl c_player_view::render_misc_transparents()
+{
+	c_d3d_pix_event _render_misc_transparents(g_rasterizer_profile_pix_colors[1], L"render_misc_transparents");
+
+	INVOKE(0x00A3A790, c_player_view::render_misc_transparents);
+}
+
 //.text:00A3A7A0 ; public: void __cdecl c_player_view::render_patchy_fog()
 //.text:00A3A7F0 ; render_patchy_fog_callback
 //.text:00A3A850 ; public: virtual void __cdecl c_player_view::render_setup()
@@ -191,7 +218,53 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 //.text:00A3B280 ; void __cdecl render_texture_camera_set_resolution(long, long)
 //.text:00A3B2E0 ; void __cdecl render_texture_camera_set_target(real, real, real)
 //.text:00A3B330 ; void __cdecl render_texture_camera_target_object(long, long)
-//.text:00A3B380 ; protected: void __cdecl c_player_view::render_transparents()
+
+// #TODO: move this
+bool __cdecl screenshot_in_progress()
+{
+	return INVOKE(0x00610310, screenshot_in_progress);
+}
+
+void __thiscall c_player_view::render_transparents()
+{
+	//INVOKE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
+
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, 0);
+	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, 0);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_texaccum, 1);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_normal, 1);
+	m_lights_view.submit_simple_light_draw_list_to_shader();
+
+	{
+		c_d3d_pix_event _transparents(g_rasterizer_profile_pix_colors[1], L"transparents");
+
+		c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), true);
+		c_transparency_renderer::set_active_camo_bounds(&m_rasterizer_camera.window_pixel_bounds, &m_rasterizer_camera.render_pixel_bounds);
+		c_rasterizer::set_using_albedo_sampler(false);
+
+		{
+			c_d3d_pix_event _transparents_sky(g_rasterizer_profile_pix_colors[1], L"transparents: sky");
+			c_object_renderer::submit_and_render_sky(2, m_player_index);
+		}
+
+		{
+			c_d3d_pix_event _transparents_misc(g_rasterizer_profile_pix_colors[1], L"transparents: misc");
+			render_misc_transparents();
+		}
+
+		c_player_view::render_effects(_effect_pass_transparents);
+
+		{
+			c_d3d_pix_event _transparents_other(g_rasterizer_profile_pix_colors[1], L"transparents: other");
+			c_transparency_renderer::sort();
+			c_transparency_renderer::render(true);
+			c_rasterizer::set_using_albedo_sampler(c_rasterizer::surface_valid(c_rasterizer::_surface_albedo));
+		}
+	}
+
+	render_method_clear_extern(_render_method_extern_texture_global_target_texaccum);
+	render_method_clear_extern(_render_method_extern_texture_global_target_normal);
+}
 
 void __thiscall c_player_view::render_water()
 {

@@ -61,7 +61,9 @@ enum e_render_method_extern
 
 extern char const* k_render_method_extern_names[k_render_method_extern_count];
 
+extern void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern);
 extern void __cdecl render_method_submit_invalidate_cache();
+extern void __cdecl render_method_submit_extern_texture_static(e_render_method_extern render_method_extern, bool a2);
 extern void __cdecl render_state_cache_dispose();
 extern void __cdecl render_state_cache_dispose_from_old_map();
 extern void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);

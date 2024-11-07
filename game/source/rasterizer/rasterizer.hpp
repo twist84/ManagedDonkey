@@ -323,6 +323,7 @@ struct c_rasterizer
 	static void __cdecl set_alpha_blend_mode(e_alpha_blend_mode);
 	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
 	static void __cdecl set_color_write_enable(long, long);
+	static bool __cdecl surface_valid(e_surface surface);
 	static bool __cdecl set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const*, e_entry_point);
 	static bool __cdecl set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_cull_mode(e_cull_mode);
@@ -355,9 +356,10 @@ struct c_rasterizer
 	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
-	static void __cdecl resolve_entire_surface(e_surface surface, long a2);
+	static void __cdecl resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5);
 	static void __cdecl set_depth_stencil_surface(e_surface surface);
 	static void __cdecl set_render_target(long render_target_index, e_surface surface, long render_state);
+	static void __cdecl set_using_albedo_sampler(bool using_albedo_sampler);
 	static void __cdecl set_viewport(short_rectangle2d const& viewport, real min_z, real max_z);
 	static void __cdecl wait_for_gpu_idle();
 
