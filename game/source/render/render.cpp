@@ -24,7 +24,7 @@ REFERENCE_DECLARE(0x050E88F5, bool, c_render_globals::m_distortion_visible);
 REFERENCE_DECLARE(0x050E88F6, bool, c_render_globals::m_distortion_history);
 REFERENCE_DECLARE(0x050E88F7, bool, c_render_globals::m_depth_fade_active);
 REFERENCE_DECLARE(0x050E88F9, bool, c_render_globals::m_weather_occlusion_available);
-REFERENCE_DECLARE(0x050E88FA, bool, render_pc_albedo_lighting);
+REFERENCE_DECLARE(0x050E88FA, bool, c_render_globals::m_render_pc_albedo_lighting);
 
 REFERENCE_DECLARE(0x050E88FC, void*, g_restricted_render_memory);
 REFERENCE_DECLARE(0x050E8904, c_restricted_section, g_restricted_render_memory_section);
@@ -227,7 +227,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	set_real_vector4d(&pc_only_shader_constant, pc_specular, pc_specular, pc_specular, pc_specular);
 	c_rasterizer::set_pixel_shader_constant(95, 1, &pc_only_shader_constant);
 
-	if (render_pc_albedo_lighting)
+	if (c_render_globals::m_render_pc_albedo_lighting)
 		pc_albedo_lighting = 1.0f;
 	else
 		pc_albedo_lighting = 0.0f;

@@ -26,7 +26,7 @@ public:
 	static void __cdecl set_weather_occlusion_available(bool weather_occlusion_available);
 	static bool __cdecl get_weather_occlusion_available();
 
-private:
+//private:
 	static dword& m_frame_index;
 	static real& m_frame_time;
 	static bool& m_distortion_active;
@@ -34,10 +34,10 @@ private:
 	static bool& m_distortion_history;
 	static bool& m_depth_fade_active;
 	static bool& m_weather_occlusion_available;
+	static bool& m_render_pc_albedo_lighting;
 };
 
 extern bool& render_pc_specular;
-extern bool& render_pc_albedo_lighting;
 
 struct c_draw_string;
 struct c_font_cache_base;

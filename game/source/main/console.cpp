@@ -899,7 +899,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_SHORT(render_debug_transparent_sort_method),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_pix_events),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_pc_albedo_lighting, c_render_globals::m_render_pc_albedo_lighting),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
 
