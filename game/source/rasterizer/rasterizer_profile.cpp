@@ -28,24 +28,26 @@ unsigned long g_rasterizer_profile_pix_colors[]
 
 void d3d_pix_begin_event(unsigned long color, wchar_t const* name)
 {
-	D3DPERF_BeginEvent(color, name);
-	//D3DPERF_SetMarker(color, name);
+	if (render_debug_pix_events)
+	{
+		D3DPERF_BeginEvent(color, name);
+		//D3DPERF_SetMarker(color, name);
+	}
 }
 
 void d3d_pix_end_event()
 {
-	D3DPERF_EndEvent();
+	if (render_debug_pix_events)
+		D3DPERF_EndEvent();
 }
 
 c_d3d_pix_event::c_d3d_pix_event(unsigned long color, wchar_t const* name)
 {
-	if (render_debug_pix_events)
-		d3d_pix_begin_event(color, name);
+	d3d_pix_begin_event(color, name);
 }
 
 c_d3d_pix_event::~c_d3d_pix_event()
 {
-	if (render_debug_pix_events)
-		D3DPERF_EndEvent();
+	D3DPERF_EndEvent();
 }
 
