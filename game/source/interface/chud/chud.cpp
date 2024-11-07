@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "render/views/render_view.hpp"
 #include "units/units.hpp"
 
 REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
@@ -74,7 +75,17 @@ void __cdecl chud_draw_screen(e_output_user_index output_user_index)
 	// #TODO: move this out when `c_player_view::render` is implemented
 	c_d3d_pix_event _chud_draw_screen(g_rasterizer_profile_pix_colors[1], L"chud_draw_screen");
 
+	if (c_player_view* player_view = c_player_view::get_current())
+	{
+		render_camera const* rasterizer_camera = player_view->get_rasterizer_camera();
+		c_rasterizer::set_viewport(rasterizer_camera->window_pixel_bounds, 0.0f, 1.0f);
+		c_rasterizer::set_scissor_rect(&rasterizer_camera->window_pixel_bounds);
+	}
+
 	HOOK_INVOKE(, chud_draw_screen, output_user_index);
+
+	//c_rasterizer::restore_last_viewport();
+	//c_rasterizer::restore_last_scissor_rect();
 }
 
 //.text:00A88FE0 ; 
