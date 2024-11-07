@@ -356,6 +356,8 @@ struct c_rasterizer
 	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
+	static e_surface __cdecl get_render_target(long render_target_index);
+
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5);
 	static void __cdecl set_depth_stencil_surface(e_surface surface);
 	static void __cdecl set_render_target(long render_target_index, e_surface surface, long render_state);

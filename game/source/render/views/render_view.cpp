@@ -231,6 +231,12 @@ void __cdecl render_debug_window_render(long user_index)
 	render_debug_end(true, false, false);
 }
 
+// #TODO: move this
+void __cdecl sub_A292A0(long splitscreen_res)
+{
+	INVOKE(0x00A292A0, sub_A292A0, splitscreen_res);
+}
+
 void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface)
 {
 	INVOKE_CLASS_MEMBER(0x00A29330, c_ui_view, setup_camera, result, surface);
@@ -240,13 +246,14 @@ void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_su
 	//m_render_target = surface;
 	//render_view_compute_fullscreen_bounds(rasterizer_camera);
 	//render_camera_build(rasterizer_camera, result);
-	//c_rasterizer::g_current_splitscreen_res = 0;
+	//sub_A292A0(0);
+	//
 	//c_rasterizer::begin(rasterizer_camera->render_pixel_bounds, rasterizer_camera->render_pixel_bounds);
 	//
 	//if (c_rasterizer::get_render_target(0) != m_render_target)
 	//{
 	//	c_rasterizer::set_render_target(0, m_render_target, NONE);
-	//	c_rasterizer::clear(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
+	//	c_rasterizer::clearf(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
 	//}
 }
 

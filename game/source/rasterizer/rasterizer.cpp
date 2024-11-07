@@ -98,6 +98,10 @@ HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
 HOOK_DECLARE_CLASS(0x00A24D30, c_rasterizer, sub_A24D30);
 
+HOOK_DECLARE_CLASS(0x00A1F7E0, c_rasterizer, begin);
+HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
+HOOK_DECLARE_CLASS(0x00A49010, c_rasterizer, set_viewport);
+
 // patch clear color if statement
 byte const rasterizer_clear_color_fix_bytes[9] = { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 };
 DATA_PATCH_DECLARE(0x00A2508C, rasterizer_clear_color_fix, rasterizer_clear_color_fix_bytes);
@@ -1526,6 +1530,11 @@ void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primit
 void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count)
 {
 	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
+}
+
+c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long render_target_index)
+{
+	return INVOKE(0x00A48720, c_rasterizer::get_render_target, render_target_index);
 }
 
 // nullsub
