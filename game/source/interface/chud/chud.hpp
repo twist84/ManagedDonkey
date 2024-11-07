@@ -74,8 +74,13 @@ static_assert(sizeof(s_some_chud_struct) == 0x910);
 
 extern s_chud_globals_definition*& chud_globals;
 
+enum e_output_user_index;
+
 extern void __cdecl chud_dispose();
 extern void __cdecl chud_dispose_from_old_map();
+extern void __cdecl chud_draw_screen(e_output_user_index output_user_index);
+extern void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index);
+extern void __cdecl chud_draw_turbulence(e_output_user_index output_user_index);
 extern void __cdecl chud_game_tick();
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();

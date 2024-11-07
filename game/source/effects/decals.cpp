@@ -72,14 +72,14 @@ void __thiscall c_decal::render(long pass)
 {
 	//INVOKE_CLASS_MEMBER(0x00694430, c_decal, render, pass);
 
+	static c_static_wchar_string<128> tag_name;
+	char const* tag_name_ = "#TODO: tag_name";
 	//TLS_DATA_GET_VALUE_REFERENCE(g_decal_system_data_array);
-	//
 	//REFERENCE_DECLARE(offset_pointer(this, 0x8), long, decal_system_index);
 	//void* decal_system = datum_get(*g_decal_system_data_array, decal_system_index);
 	//REFERENCE_DECLARE(offset_pointer(decal_system, 0x4), long, tag_index);
-	//
-	//static c_static_wchar_string<256> tag_name;
-	//c_d3d_pix_event _decal(g_rasterizer_profile_pix_colors[1], tag_name.print(L"%hs", tag_name_strip_path(tag_get_name(tag_index))));
+	//tag_name_ = tag_name_strip_path(tag_get_name(tag_index));
+	c_d3d_pix_event _decal(g_rasterizer_profile_pix_colors[1], tag_name.print(L"%hs", tag_name_));
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_decal, render, pass);
 }

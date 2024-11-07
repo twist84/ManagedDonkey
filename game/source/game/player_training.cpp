@@ -1,5 +1,10 @@
 #include "game/player_training.hpp"
 
+#include "memory/module.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
+
+HOOK_DECLARE(0x00689EF0, player_training_render_screen);
+
 //.text:00689550 ; 
 //.text:00689570 ; 
 //.text:00689580 ; void __cdecl __tls_set_g_player_training_globals_allocator(void*)
@@ -51,7 +56,15 @@ void __cdecl player_training_initialize_for_new_map()
 //.text:00689E10 ; 
 //.text:00689E50 ; void __cdecl player_training_profile_data_set_completion_count(s_player_training_profile_data*, long, long)
 //.text:00689EB0 ; 
-//.text:00689EF0 ; void __cdecl player_training_render_screen(long)
+
+void __cdecl player_training_render_screen(e_output_user_index output_user_index)
+{
+	//INVOKE(0x00689EF0, player_training_render_screen, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _player_training(g_rasterizer_profile_pix_colors[1], L"player_training");
+}
+
 //.text:00689F00 ; void __cdecl player_training_save_changes_to_profiles(e_training_data_save)
 //.text:0068A050 ; 
 //.text:0068A080 ; 

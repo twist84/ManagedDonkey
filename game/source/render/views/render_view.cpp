@@ -215,6 +215,8 @@ void __cdecl render_debug_frame_render()
 
 void __cdecl render_debug_window_render(long user_index)
 {
+	c_d3d_pix_event _window_debug(g_rasterizer_profile_pix_colors[1], L"window_debug");
+
 	// asserts
 
 	INVOKE(0x00A29230, render_debug_window_render, user_index);

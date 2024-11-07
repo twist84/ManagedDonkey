@@ -4,9 +4,14 @@
 #include "items/weapons.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 #include "units/units.hpp"
 
 REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
+
+HOOK_DECLARE(0x00A88DA0, chud_draw_screen);
+HOOK_DECLARE(0x00A89100, chud_draw_screen_saved_film);
+HOOK_DECLARE(0x00A89250, chud_draw_turbulence);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, s_some_chud_struct, sub_A8AED0);
 
@@ -62,10 +67,37 @@ void __cdecl chud_dispose_from_old_map()
 	INVOKE(0x00A88D80, chud_dispose_from_old_map);
 }
 
-//.text:00A88DA0 ; void __cdecl chud_draw_screen(e_output_user_index)
+void __cdecl chud_draw_screen(e_output_user_index output_user_index)
+{
+	//INVOKE(0x00A88DA0, chud_draw_screen, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _chud_draw_screen(g_rasterizer_profile_pix_colors[1], L"chud_draw_screen");
+
+	HOOK_INVOKE(, chud_draw_screen, output_user_index);
+}
+
 //.text:00A88FE0 ; 
-//.text:00A89100 ; void __cdecl chud_draw_screen_saved_film(e_output_user_index)
-//.text:00A89250 ; void __cdecl chud_draw_turbulence(e_output_user_index)
+
+void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
+{
+	//INVOKE(0x00A89100, chud_draw_screen_saved_film, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _chud_draw_screen_saved_film(g_rasterizer_profile_pix_colors[1], L"chud_draw_screen_saved_film");
+
+	HOOK_INVOKE(, chud_draw_screen_saved_film, output_user_index);
+}
+
+void __cdecl chud_draw_turbulence(e_output_user_index output_user_index)
+{
+	//INVOKE(0x00A89250, chud_draw_turbulence, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _chud_turbulence(g_rasterizer_profile_pix_colors[1], L"chud turbulence");
+
+	HOOK_INVOKE(, chud_draw_turbulence, output_user_index);
+}
 
 void __cdecl chud_game_tick()
 {

@@ -8,10 +8,12 @@
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x0471AA0C, s_game_engine_render_globals, g_game_engine_render_globals);
 
+HOOK_DECLARE(0x006E4E50, game_engine_render);
 HOOK_DECLARE(0x006E5040, game_engine_render_fade_to_black);
 HOOK_DECLARE(0x006E5160, game_engine_render_watermarks);
 
@@ -81,13 +83,26 @@ bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message
 
 //.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(long)
 //.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, long)
-//.text:006E4E50 ; void __cdecl game_engine_render(e_output_user_index)
+
+void __cdecl game_engine_render(e_output_user_index output_user_index)
+{
+	//INVOKE(0x006E4E50, game_engine_render, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _game_engine(g_rasterizer_profile_pix_colors[1], L"game_engine");
+
+	HOOK_INVOKE(, game_engine_render, output_user_index);
+}
+
 //.text:006E4E90 ; void __cdecl game_engine_render_all_multiplayer_object_boundaries()
 //.text:006E4FE0 ; void __cdecl game_engine_render_debug(long)
 
 void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_index)
 {
 	//INVOKE(0x006E5040, game_engine_render_fade_to_black, output_user_index);
+
+	// #TODO: move this out when `c_player_view::render` is implemented
+	c_d3d_pix_event _fade_to_black(g_rasterizer_profile_pix_colors[1], L"fade_to_black");
 
 	if (!g_fade_to_black_enabled)
 		return;
