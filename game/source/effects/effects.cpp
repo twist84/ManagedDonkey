@@ -251,7 +251,7 @@ void __cdecl effects_frame_advance(real seconds_elapsed)
 
 void __cdecl effects_frame_advance_gpu(real seconds_elapsed)
 {
-	c_d3d_pix_event _effects_frame_advance(g_rasterizer_profile_pix_colors[1], L"effects_frame_advance");
+	c_rasterizer_profile_scope _effects_frame_advance(_rasterizer_profile_element_effects, L"effects_frame_advance");
 
 	INVOKE(0x005BC0B0, effects_frame_advance_gpu, seconds_elapsed);
 }

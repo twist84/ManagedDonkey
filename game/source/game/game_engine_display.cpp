@@ -89,7 +89,7 @@ void __cdecl game_engine_render(e_output_user_index output_user_index)
 	//INVOKE(0x006E4E50, game_engine_render, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _game_engine(g_rasterizer_profile_pix_colors[1], L"game_engine");
+	c_rasterizer_profile_scope _game_engine(_rasterizer_profile_element_game_engine, L"game_engine");
 
 	HOOK_INVOKE(, game_engine_render, output_user_index);
 }
@@ -102,7 +102,7 @@ void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_in
 	//INVOKE(0x006E5040, game_engine_render_fade_to_black, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _fade_to_black(g_rasterizer_profile_pix_colors[1], L"fade_to_black");
+	c_rasterizer_profile_scope _fade_to_black(_rasterizer_profile_element_total, L"fade_to_black");
 
 	if (!g_fade_to_black_enabled)
 		return;

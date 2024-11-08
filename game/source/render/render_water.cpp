@@ -82,7 +82,7 @@ void __cdecl c_water_renderer::ripple_add(dword a1)
 {
 	//INVOKE(0x00A36970, c_water_renderer::ripple_add, a1);
 
-	c_d3d_pix_event _ripple_add(g_rasterizer_profile_pix_colors[1], L"ripple_add");
+	c_rasterizer_profile_scope _ripple_add(_rasterizer_profile_element_total, L"ripple_add");
 
 	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_add, decltype(&c_water_renderer::ripple_add), a1);
 }
@@ -95,7 +95,7 @@ void __cdecl c_water_renderer::ripple_apply()
 
 	if (g_main_render_timing_data->game_seconds_elapsed > 0.00001f)
 	{
-		c_d3d_pix_event _ripple_apply(g_rasterizer_profile_pix_colors[1], L"ripple_apply");
+		c_rasterizer_profile_scope _ripple_apply(_rasterizer_profile_element_total, L"ripple_apply");
 	
 		HOOK_INVOKE_CLASS(, c_water_renderer, ripple_apply, decltype(&c_water_renderer::ripple_apply));
 	}
@@ -110,7 +110,7 @@ void __cdecl c_water_renderer::ripple_slope()
 {
 	//INVOKE(0x00A372B0, c_water_renderer::ripple_slope);
 
-	c_d3d_pix_event _ripple_slope(g_rasterizer_profile_pix_colors[1], L"ripple_slope");
+	c_rasterizer_profile_scope _ripple_slope(_rasterizer_profile_element_total, L"ripple_slope");
 
 	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_slope, decltype(&c_water_renderer::ripple_slope));
 }
@@ -119,7 +119,7 @@ void __cdecl c_water_renderer::ripple_update()
 {
 	//INVOKE(0x00A37350, c_water_renderer::ripple_update);
 
-	c_d3d_pix_event _ripple_update(g_rasterizer_profile_pix_colors[1], L"ripple_update");
+	c_rasterizer_profile_scope _ripple_update(_rasterizer_profile_element_total, L"ripple_update");
 
 	HOOK_INVOKE_CLASS(, c_water_renderer, ripple_update, decltype(&c_water_renderer::ripple_update));
 }
@@ -140,7 +140,7 @@ void c_water_renderer::frame_advance(real seconds_elapsed)
 		dword ripple_index = c_water_renderer::ripple_check_new();
 		if (c_water_renderer::is_active_ripple_exist())
 		{
-			c_d3d_pix_event _ripple_frame_adavance(g_rasterizer_profile_pix_colors[1], L"ripple_frame_adavance");
+			c_rasterizer_profile_scope _ripple_frame_adavance(_rasterizer_profile_element_total, L"ripple_frame_adavance");
 
 			c_water_renderer::ripple_add(ripple_index);
 			c_water_renderer::ripple_update();

@@ -10,7 +10,7 @@ HOOK_DECLARE_CALL(0x00A39B17, rasterizer_stipple_initialize);
 
 void __cdecl rasterizer_stipple_initialize()
 {
-	c_d3d_pix_event _stipple_initialize(g_rasterizer_profile_pix_colors[1], L"stipple initialize");
+	c_rasterizer_profile_scope _stipple_initialize(_rasterizer_profile_element_total, L"stipple initialize");
 
 	INVOKE(0x00A7A930, rasterizer_stipple_initialize);
 }

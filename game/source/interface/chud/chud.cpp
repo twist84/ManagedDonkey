@@ -73,7 +73,7 @@ void __cdecl chud_draw_screen(e_output_user_index output_user_index)
 	//INVOKE(0x00A88DA0, chud_draw_screen, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _chud_draw_screen(g_rasterizer_profile_pix_colors[1], L"chud_draw_screen");
+	c_rasterizer_profile_scope _chud_draw_screen(_rasterizer_profile_element_interface_hud, L"chud_draw_screen");
 
 	if (c_player_view* player_view = c_player_view::get_current())
 	{
@@ -95,7 +95,7 @@ void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
 	//INVOKE(0x00A89100, chud_draw_screen_saved_film, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _chud_draw_screen_saved_film(g_rasterizer_profile_pix_colors[1], L"chud_draw_screen_saved_film");
+	c_rasterizer_profile_scope _chud_draw_screen_saved_film(_rasterizer_profile_element_interface_hud, L"chud_draw_screen_saved_film");
 
 	HOOK_INVOKE(, chud_draw_screen_saved_film, output_user_index);
 }
@@ -105,7 +105,7 @@ void __cdecl chud_draw_turbulence(e_output_user_index output_user_index)
 	//INVOKE(0x00A89250, chud_draw_turbulence, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _chud_turbulence(g_rasterizer_profile_pix_colors[1], L"chud turbulence");
+	c_rasterizer_profile_scope _chud_turbulence(_rasterizer_profile_element_interface_hud, L"chud turbulence");
 
 	HOOK_INVOKE(, chud_draw_turbulence, output_user_index);
 }

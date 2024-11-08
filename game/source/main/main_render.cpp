@@ -322,7 +322,7 @@ void __cdecl main_render_game()
 		}
 
 		{
-			c_d3d_pix_event _main_render(g_rasterizer_profile_pix_colors[1], L"main_render");
+			c_rasterizer_profile_scope _main_render(_rasterizer_profile_element_total, L"main_render");
 
 			c_visible_items::clear_all();
 			c_player_view::frame_advance();
@@ -341,7 +341,7 @@ void __cdecl main_render_game()
 
 					c_static_wchar_string<32> pix_name;
 					pix_name.print(L"player_view %d", view_index);
-					c_d3d_pix_event _player_view(g_rasterizer_profile_pix_colors[1], pix_name.get_string());
+					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.get_string());
 
 					c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
 					player_view->__unknown26B4 = view_index == window_count - 1;
@@ -351,43 +351,43 @@ void __cdecl main_render_game()
 				c_ui_view ui_view{};
 				ui_view.setup_camera(NULL, c_rasterizer::e_surface::_surface_screenshot_display /*surface_screenshot_display_get()*/);
 				{
-					c_d3d_pix_event _fullscreen_view_render(g_rasterizer_profile_pix_colors[1], L"fullscreen_view_render");
+					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
 					c_ui_view::begin(&ui_view);
 					c_rasterizer::begin_high_quality_blend();
 
 					if (bink_playback_in_progress())
 					{
-						c_d3d_pix_event _bink_playback_render(g_rasterizer_profile_pix_colors[1], L"bink_playback_render");
+						c_rasterizer_profile_scope _bink_playback_render(_rasterizer_profile_element_total, L"bink_playback_render");
 						bink_playback_render();
 					}
 					{
-						c_d3d_pix_event _interface_draw_fullscreen_overlays(g_rasterizer_profile_pix_colors[1], L"interface_draw_fullscreen_overlays");
+						c_rasterizer_profile_scope _interface_draw_fullscreen_overlays(_rasterizer_profile_element_total, L"interface_draw_fullscreen_overlays");
 						interface_draw_fullscreen_overlays();
 					}
 
 					{
-						c_d3d_pix_event _director_render(g_rasterizer_profile_pix_colors[1], L"director_render");
+						c_rasterizer_profile_scope _director_render(_rasterizer_profile_element_total, L"director_render");
 						director_render();
 					}
 
 					{
-						c_d3d_pix_event _cinematic_render(g_rasterizer_profile_pix_colors[1], L"cinematic_render");
+						c_rasterizer_profile_scope _cinematic_render(_rasterizer_profile_element_total, L"cinematic_render");
 						cinematic_render(true, true);
 					}
 
 					{
-						c_d3d_pix_event _ui_view_render(g_rasterizer_profile_pix_colors[1], L"ui_view_render");
+						c_rasterizer_profile_scope _ui_view_render(_rasterizer_profile_element_total, L"ui_view_render");
 						ui_view.render();
 					}
 
 					{
-						c_d3d_pix_event _closed_caption_render(g_rasterizer_profile_pix_colors[1], L"closed_caption_render");
+						c_rasterizer_profile_scope _closed_caption_render(_rasterizer_profile_element_total, L"closed_caption_render");
 						closed_caption_render();
 					}
 
 					{
-						c_d3d_pix_event _render_debug_frame_render(g_rasterizer_profile_pix_colors[1], L"render_debug_frame_render");
+						c_rasterizer_profile_scope _render_debug_frame_render(_rasterizer_profile_element_total, L"render_debug_frame_render");
 						render_debug_frame_render();
 					}
 
@@ -405,7 +405,7 @@ void __cdecl main_render_game()
 			}
 
 			{
-				c_d3d_pix_event(g_rasterizer_profile_pix_colors[1], L"loading_screen");
+				c_rasterizer_profile_scope _loading_screen(_rasterizer_profile_element_total, L"loading_screen");
 				if (c_rasterizer_loading_screen::active())
 					c_rasterizer_loading_screen::render();
 			}

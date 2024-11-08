@@ -35,7 +35,7 @@ bool __cdecl chud_compute_render_data(void* draw_widget_data, void* render_data,
 		static c_static_wchar_string<128> pix_name;
 		REFERENCE_DECLARE(offset_pointer(draw_widget_data, 0x10), void*, draw_widget_data10);
 		REFERENCE_DECLARE(draw_widget_data10, c_string_id, name_id);
-		d3d_pix_begin_event(g_rasterizer_profile_pix_colors[1], pix_name.print(L"%hs", name_id.get_string()));
+		rasterizer_profile_begin_event(_rasterizer_profile_element_interface_hud, pix_name.print(L"%hs", name_id.get_string()));
 	}
 
 	return chud_compute_render_data_result;
@@ -113,7 +113,7 @@ void __cdecl chud_draw_bitmap_widget(long a1, void* a2, bool a3)
 	HOOK_INVOKE(, chud_draw_bitmap_widget, a1, a2, a3);
 
 	if (chud_compute_render_data_result)
-		d3d_pix_end_event();
+		rasterizer_profile_end_event();
 }
 
 void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3)
@@ -125,6 +125,6 @@ void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3)
 	HOOK_INVOKE(, chud_draw_text_widget, a1, a2, a3);
 
 	if (chud_compute_render_data_result)
-		d3d_pix_end_event();
+		rasterizer_profile_end_event();
 }
 

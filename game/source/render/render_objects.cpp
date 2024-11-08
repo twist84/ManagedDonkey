@@ -15,7 +15,7 @@ void __cdecl c_object_renderer::render_albedo(dword flags)
 {
 	//INVOKE(0x00A78410, c_object_renderer::render_albedo, flags);
 
-	c_d3d_pix_event _objects_albedo(g_rasterizer_profile_pix_colors[1], L"objects_albedo");
+	c_rasterizer_profile_scope _objects_albedo(_rasterizer_profile_element_total, L"objects_albedo");
 
 	HOOK_INVOKE_CLASS(, c_object_renderer, render_albedo, decltype(&c_object_renderer::render_albedo), flags);
 }

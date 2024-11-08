@@ -15,6 +15,7 @@
 #include "rasterizer/rasterizer_globals.hpp"
 #include "rasterizer/rasterizer_main.hpp"
 #include "rasterizer/rasterizer_memory.hpp"
+#include "rasterizer/rasterizer_profile.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/render_lens_flares.hpp"
 #include "render/screen_postprocess.hpp"

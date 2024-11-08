@@ -62,7 +62,7 @@ void __cdecl player_training_render_screen(e_output_user_index output_user_index
 	//INVOKE(0x00689EF0, player_training_render_screen, output_user_index);
 
 	// #TODO: move this out when `c_player_view::render` is implemented
-	c_d3d_pix_event _player_training(g_rasterizer_profile_pix_colors[1], L"player_training");
+	c_rasterizer_profile_scope _player_training(_rasterizer_profile_element_total, L"player_training");
 }
 
 //.text:00689F00 ; void __cdecl player_training_save_changes_to_profiles(e_training_data_save)

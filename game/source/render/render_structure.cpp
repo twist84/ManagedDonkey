@@ -64,7 +64,7 @@ void __cdecl c_structure_renderer::render_albedo()
 {
 	//INVOKE(0x00A2F050, c_structure_renderer::render_albedo);
 
-	c_d3d_pix_event _structure_albedo(g_rasterizer_profile_pix_colors[1], L"structure_albedo");
+	c_rasterizer_profile_scope _structure_albedo(_rasterizer_profile_element_total, L"structure_albedo");
 
 	HOOK_INVOKE_CLASS(, c_structure_renderer, render_albedo, decltype(&c_structure_renderer::render_albedo));
 }
@@ -77,7 +77,7 @@ void __cdecl c_structure_renderer::render_decorators()
 {
 	//INVOKE(0x00A2F340, c_structure_renderer::render_decorators);
 
-	c_d3d_pix_event _decorators(g_rasterizer_profile_pix_colors[1], L"decorators");
+	c_rasterizer_profile_scope _decorators(_rasterizer_profile_element_total, L"decorators");
 
 	HOOK_INVOKE_CLASS(, c_structure_renderer, render_decorators, decltype(&c_structure_renderer::render_decorators));
 }

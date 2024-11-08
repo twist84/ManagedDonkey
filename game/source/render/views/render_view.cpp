@@ -181,7 +181,7 @@ void __cdecl render_debug_frame_render()
 		return;
 
 	{
-		c_d3d_pix_event _frame_debug(g_rasterizer_profile_pix_colors[1], L"frame_debug");
+		c_rasterizer_profile_scope _frame_debug(_rasterizer_profile_element_debug, L"frame_debug");
 
 		short_rectangle2d screen_pixel_bounds{};
 		c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
@@ -215,7 +215,7 @@ void __cdecl render_debug_frame_render()
 
 void __cdecl render_debug_window_render(long user_index)
 {
-	c_d3d_pix_event _window_debug(g_rasterizer_profile_pix_colors[1], L"window_debug");
+	c_rasterizer_profile_scope _window_debug(_rasterizer_profile_element_debug, L"window_debug");
 
 	// asserts
 

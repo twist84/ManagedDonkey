@@ -20,7 +20,7 @@ HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
 
 void __cdecl sub_A62720(s_lightshafts* lightshafts, render_projection* projection, render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
 {
-	c_d3d_pix_event _lightshafts(g_rasterizer_profile_pix_colors[1], L"lightshafts");
+	c_rasterizer_profile_scope _lightshafts(_rasterizer_profile_element_total, L"lightshafts");
 
 	INVOKE(0x00A62720, sub_A62720, lightshafts, projection, camera, surface_a, surface_b);
 }
@@ -36,7 +36,7 @@ void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* pr
 
 	if (ssao_enable && global_preferences_get_postprocessing_quality())
 	{
-		c_d3d_pix_event _ssao(g_rasterizer_profile_pix_colors[1], L"ssao");
+		c_rasterizer_profile_scope _ssao(_rasterizer_profile_element_total, L"ssao");
 
 		INVOKE(0x00A62D70, sub_A62D70, fx_settings, projection, camera);
 	}
@@ -62,7 +62,7 @@ void __cdecl c_screen_postprocess::blit(
 {
 	//INVOKE(0x00A601E0, c_screen_postprocess::blit, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
 
-	c_d3d_pix_event _blit(g_rasterizer_profile_pix_colors[1], L"blit");
+	c_rasterizer_profile_scope _blit(_rasterizer_profile_element_total, L"blit");
 
 	HOOK_INVOKE_CLASS(, c_screen_postprocess, blit, decltype(&c_screen_postprocess::blit), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
 }
@@ -86,7 +86,7 @@ void __cdecl c_screen_postprocess::copy(
 {
 	//INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
 
-	c_d3d_pix_event _copy(g_rasterizer_profile_pix_colors[1], L"copy");
+	c_rasterizer_profile_scope _copy(_rasterizer_profile_element_total, L"copy");
 
 	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
 }
@@ -95,7 +95,7 @@ void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface
 {
 	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, surface_a, surface_b);
 
-	c_d3d_pix_event _gaussian_blur(g_rasterizer_profile_pix_colors[1], L"gaussian_blur");
+	c_rasterizer_profile_scope _gaussian_blur(_rasterizer_profile_element_total, L"gaussian_blur");
 
 	HOOK_INVOKE_CLASS(, c_screen_postprocess, gaussian_blur, decltype(&c_screen_postprocess::gaussian_blur), surface_a, surface_b);
 }

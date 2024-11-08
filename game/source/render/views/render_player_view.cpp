@@ -37,7 +37,7 @@ void __thiscall c_player_view::render_distortions()
 {
 	//INVOKE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
 
-	c_d3d_pix_event _distortion_apply(g_rasterizer_profile_pix_colors[1], L"distortion_apply");
+	c_rasterizer_profile_scope _distortion_apply(_rasterizer_profile_element_distortions, L"distortion_apply");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_distortions);
 }
@@ -82,7 +82,7 @@ bool __thiscall c_player_view::render_albedo()
 {
 	//return INVOKE_CLASS_MEMBER(0x00A3A0E0, c_player_view, render_albedo);
 
-	c_d3d_pix_event _albedo(g_rasterizer_profile_pix_colors[1], L"albedo");
+	c_rasterizer_profile_scope _albedo(_rasterizer_profile_element_texaccum, L"albedo");
 
 	bool result = false;
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_player_view, render_albedo);
@@ -93,7 +93,7 @@ void __cdecl c_player_view::render_albedo_decals(bool a1, bool a2)
 {
 	//INVOKE(0x00A3A310, c_player_view::render_albedo_decals, a1, a2);
 
-	c_d3d_pix_event _decorators(g_rasterizer_profile_pix_colors[1], L"decorators");
+	c_rasterizer_profile_scope _decorators(_rasterizer_profile_element_total, L"decorators");
 
 	HOOK_INVOKE_CLASS(, c_player_view, render_albedo_decals, decltype(&c_player_view::render_albedo_decals), a1, a2);
 }
@@ -104,7 +104,7 @@ void __thiscall c_player_view::render_effects(e_effect_pass pass)
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A3F0, c_player_view, render_effects, pass);
 
-	c_d3d_pix_event _render_effects(g_rasterizer_profile_pix_colors[1], L"render_effects");
+	c_rasterizer_profile_scope _render_effects(_rasterizer_profile_element_effects, L"render_effects");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, pass);
 }
@@ -113,7 +113,7 @@ void __thiscall c_player_view::render_first_person(bool a1)
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A420, c_player_view, render_first_person);
 
-	c_d3d_pix_event _first_person(g_rasterizer_profile_pix_colors[1], L"first_person");
+	c_rasterizer_profile_scope _first_person(_rasterizer_profile_element_total, L"first_person");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person, a1);
 }
@@ -122,7 +122,7 @@ void __thiscall c_player_view::render_first_person_albedo()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A5F0, c_player_view, render_first_person_albedo);
 
-	c_d3d_pix_event _first_person_albedo(g_rasterizer_profile_pix_colors[1], L"first_person_albedo");
+	c_rasterizer_profile_scope _first_person_albedo(_rasterizer_profile_element_total, L"first_person_albedo");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person_albedo);
 }
@@ -137,7 +137,7 @@ void __thiscall c_player_view::render_lens_flares()
 	rasterizer_occlusions_retrieve(m_player_index);
 
 	{
-		c_d3d_pix_event _lens_flares(g_rasterizer_profile_pix_colors[1], L"lens flares");
+		c_rasterizer_profile_scope _lens_flares(_rasterizer_profile_element_transparents, L"lens flares");
 		lens_flares_render(m_player_view_user_index);
 	}
 
@@ -148,14 +148,14 @@ void __thiscall c_player_view::render_lightmap_shadows()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A700, c_player_view, render_lightmap_shadows);
 
-	c_d3d_pix_event _lightmap_shadows(g_rasterizer_profile_pix_colors[1], L"lightmap_shadows");
+	c_rasterizer_profile_scope _lightmap_shadows(_rasterizer_profile_element_total, L"lightmap_shadows");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_lightmap_shadows);
 }
 
 void __cdecl c_player_view::render_misc_transparents()
 {
-	c_d3d_pix_event _render_misc_transparents(g_rasterizer_profile_pix_colors[1], L"render_misc_transparents");
+	c_rasterizer_profile_scope _render_misc_transparents(_rasterizer_profile_element_widgets, L"render_misc_transparents");
 
 	INVOKE(0x00A3A790, c_player_view::render_misc_transparents);
 }
@@ -168,7 +168,7 @@ void __thiscall c_player_view::render_static_lighting()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A8C0, c_player_view, render_static_lighting);
 
-	c_d3d_pix_event _static_lighting(g_rasterizer_profile_pix_colors[1], L"static_lighting");
+	c_rasterizer_profile_scope _static_lighting(_rasterizer_profile_element_static_lighting, L"static_lighting");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_static_lighting);
 }
@@ -236,26 +236,26 @@ void __thiscall c_player_view::render_transparents()
 	m_lights_view.submit_simple_light_draw_list_to_shader();
 
 	{
-		c_d3d_pix_event _transparents(g_rasterizer_profile_pix_colors[1], L"transparents");
+		c_rasterizer_profile_scope _transparents(_rasterizer_profile_element_transparents, L"transparents");
 
 		c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), true);
 		c_transparency_renderer::set_active_camo_bounds(&m_rasterizer_camera.window_pixel_bounds, &m_rasterizer_camera.render_pixel_bounds);
 		c_rasterizer::set_using_albedo_sampler(false);
 
 		{
-			c_d3d_pix_event _transparents_sky(g_rasterizer_profile_pix_colors[1], L"transparents: sky");
+			c_rasterizer_profile_scope _transparents_sky(_rasterizer_profile_element_transparents, L"transparents: sky");
 			c_object_renderer::submit_and_render_sky(2, m_player_index);
 		}
 
 		{
-			c_d3d_pix_event _transparents_misc(g_rasterizer_profile_pix_colors[1], L"transparents: misc");
+			c_rasterizer_profile_scope _transparents_misc(_rasterizer_profile_element_transparents, L"transparents: misc");
 			render_misc_transparents();
 		}
 
 		c_player_view::render_effects(_effect_pass_transparents);
 
 		{
-			c_d3d_pix_event _transparents_other(g_rasterizer_profile_pix_colors[1], L"transparents: other");
+			c_rasterizer_profile_scope _transparents_other(_rasterizer_profile_element_transparents, L"transparents: other");
 			c_transparency_renderer::sort();
 			c_transparency_renderer::render(true);
 			c_rasterizer::set_using_albedo_sampler(c_rasterizer::surface_valid(c_rasterizer::_surface_albedo));
@@ -270,7 +270,7 @@ void __thiscall c_player_view::render_water()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B470, c_player_view, render_water);
 
-	c_d3d_pix_event _water_render(g_rasterizer_profile_pix_colors[1], L"water_render");
+	c_rasterizer_profile_scope _water_render(_rasterizer_profile_element_water, L"water_render");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_water);
 }
@@ -279,7 +279,7 @@ void __thiscall c_player_view::render_weather_occlusion()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B500, c_player_view, render_weather_occlusion);
 
-	c_d3d_pix_event _weather_occlusion(g_rasterizer_profile_pix_colors[1], L"weather_occlusion");
+	c_rasterizer_profile_scope _weather_occlusion(_rasterizer_profile_element_total, L"weather_occlusion");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_weather_occlusion);
 }
@@ -298,7 +298,7 @@ void __thiscall c_player_view::distortion_generate()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
 
-	c_d3d_pix_event _distortion_generate(g_rasterizer_profile_pix_colors[1], L"distortion_generate");
+	c_rasterizer_profile_scope _distortion_generate(_rasterizer_profile_element_distortions, L"distortion_generate");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, distortion_generate);
 }
