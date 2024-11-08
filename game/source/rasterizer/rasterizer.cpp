@@ -293,6 +293,8 @@ bool __cdecl c_rasterizer::initialize_after_device_creation_or_reset()
 void __cdecl c_rasterizer::initialize_for_new_map()
 {
 	INVOKE(0x00A1FEC0, c_rasterizer::initialize_for_new_map);
+
+	//rasterizer_profile_initialize_for_new_map();
 }
 
 void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
@@ -322,7 +324,22 @@ void __cdecl c_rasterizer::restore_last_viewport()
 
 void __cdecl c_rasterizer::shell_dispose()
 {
-	INVOKE(0x00A20340, c_rasterizer::shell_dispose);
+	//INVOKE(0x00A20340, c_rasterizer::shell_dispose);
+
+	if (c_rasterizer::initialized)
+	{
+		c_rasterizer::cleanup_before_device_reset();
+
+		if (c_rasterizer::g_device)
+		{
+			lens_flares_dispose();
+			//rasterizer_profile_dispose();
+			c_dynamic_render_targets::shell_dispose();
+			c_rasterizer_texture_ref::dispose();
+		}
+
+		c_rasterizer::initialized = false;
+	}
 }
 
 void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
@@ -345,6 +362,7 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 				c_dynamic_render_targets::shell_initialize();
 				c_rasterizer::initialize_after_device_creation_or_reset();
 				rasterizer_memory_initialize();
+				//rasterizer_profile_initialize();
 				lens_flares_initialize();
 			}
 	
@@ -568,7 +586,11 @@ bool __cdecl c_rasterizer::begin_frame()
 
 	main_set_single_thread_request_flag(8, false);
 
-	return SUCCEEDED(c_rasterizer::g_device->BeginScene());
+	bool result = SUCCEEDED(c_rasterizer::g_device->BeginScene());
+
+	//rasterizer_profile_frame_begin();
+
+	return result;
 }
 
 void __cdecl c_rasterizer::begin_high_quality_blend()
@@ -590,6 +612,8 @@ void __cdecl c_rasterizer::sub_A21440()
 
 bool __cdecl c_rasterizer::end_frame()
 {
+	//rasterizer_profile_frame_end();
+
 	return INVOKE(0x00A21510, c_rasterizer::end_frame);
 }
 

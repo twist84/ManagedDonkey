@@ -2,6 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
+void __cdecl lens_flares_dispose()
+{
+	INVOKE(0x00A5A460, lens_flares_dispose);
+}
+
 //.text:00A5A840 ; void __cdecl lens_flares_garbage_collect()
 
 void __cdecl lens_flares_initialize()

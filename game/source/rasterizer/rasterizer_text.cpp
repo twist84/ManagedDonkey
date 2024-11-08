@@ -32,6 +32,11 @@ c_rasterizer_texture_ref& __cdecl c_rasterizer_texture_ref::allocate(c_rasterize
 		system_memory);
 }
 
+void __cdecl c_rasterizer_texture_ref::dispose()
+{
+	INVOKE(0x00A6E7B0, c_rasterizer_texture_ref::dispose);
+}
+
 IDirect3DTexture9* c_rasterizer_texture_ref::get_d3d_texture() const
 {
 	return INVOKE_CLASS_MEMBER(0x00A6E8E0, c_rasterizer_texture_ref, get_d3d_texture);
