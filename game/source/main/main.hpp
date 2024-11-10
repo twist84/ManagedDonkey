@@ -203,7 +203,7 @@ extern void __cdecl main_save_map();
 extern void __cdecl main_save_map_and_exit_private();
 extern bool __cdecl main_save_map_pending();
 extern void __cdecl main_save_map_private();
-extern void __cdecl main_set_active_designer_zone_mask(dword a1);
+extern void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask);
 extern void __cdecl main_set_single_thread_request_flag(long single_threaded_request_flags, bool set);
 extern void __cdecl main_skip_cinematic();
 extern void __cdecl main_skip_cinematic_private();

@@ -183,13 +183,13 @@ dword __cdecl audio_thread_loop(void* thread_parameter)
 {
 	return INVOKE(0x00504F80, audio_thread_loop, thread_parameter);
 
-	//if (game_is_multithreaded() && !current_thread_should_exit())
+	//if (game_is_multithreaded())
 	//{
-	//	do
+	//	while (!current_thread_should_exit())
 	//	{
 	//		current_thread_update_test_functions();
 	//		sound_render_dispatch();
-	//	} while (!current_thread_should_exit());
+	//	}
 	//}
 	//
 	//return 1;
@@ -1507,6 +1507,8 @@ void __cdecl main_print_version()
 void __cdecl main_reload_active_zone_set_private()
 {
 	INVOKE(0x00506AE0, main_reload_active_zone_set_private);
+
+	//main_globals.reloading_active_zone_set = false;
 }
 
 void __cdecl main_reset_map()
@@ -1688,9 +1690,18 @@ void __cdecl main_save_map_private()
 	//main_globals.save = false;
 }
 
-void __cdecl main_set_active_designer_zone_mask(dword a1)
+void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask)
 {
-	INVOKE(0x00506E50, main_set_active_designer_zone_mask, a1);
+	INVOKE(0x00506E50, main_set_active_designer_zone_mask, designer_zone_mask);
+
+	//dword designer_zone_active_mask = global_designer_zone_active_mask_get();
+	//main_globals.scenario_zone_activation.activating_designer_zone_mask = designer_zone_mask & ~designer_zone_active_mask;
+	//main_globals.scenario_zone_activation.deactivating_designer_zone_mask = designer_zone_active_mask & ~designer_zone_mask;
+	//main_globals.non_bsp_zone_activation =
+	//	TEST_MASK(designer_zone_active_mask, ~designer_zone_mask) ||
+	//	TEST_MASK(designer_zone_mask, ~designer_zone_active_mask) ||
+	//	main_globals.scenario_zone_activation.deactivating_cinematic_zone_mask || 
+	//	main_globals.scenario_zone_activation.activating_cinematic_zone_mask;
 }
 
 void __cdecl main_set_single_thread_request_flag(long single_threaded_request_flags, bool set)
@@ -1703,11 +1714,19 @@ void __cdecl main_set_single_thread_request_flag(long single_threaded_request_fl
 void __cdecl main_skip_cinematic()
 {
 	INVOKE(0x00506ED0, main_skip_cinematic);
+
+	//main_globals.switch_zone_set = false;
+	//main_globals.save = false;
+	//main_globals.skip_cinematic = true;
 }
 
 void __cdecl main_skip_cinematic_private()
 {
 	INVOKE(0x00506EF0, main_skip_cinematic_private);
+
+	//main_globals.map_revert = true;
+	//main_globals.map_revert_flags.clear();
+	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting, true);
 }
 
 bool __cdecl main_startup_sequence()
@@ -1961,8 +1980,8 @@ void __cdecl unlock_resources_and_resume_render_thread(dword flags)
 	//	if (TEST_BIT(flags, 0))
 	//	{
 	//		c_rasterizer::rasterizer_device_release_thread();
-	//		restricted_region_unlock_primary(4);
-	//		restricted_region_unlock_primary(2);
+	//		restricted_region_unlock_primary(k_global_render_data_region);
+	//		restricted_region_unlock_primary(k_game_state_render_region);
 	//	}
 	//
 	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
