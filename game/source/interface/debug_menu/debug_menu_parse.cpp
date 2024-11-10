@@ -248,7 +248,7 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	long console_global_index = NONE;
 	for (long i = 0; i < k_console_global_count; i++)
 	{
-		if (!csstricmp(g_parser_state.m_variable_buffer, k_console_globals[i]->name) && k_console_globals[i]->pointer)
+		if (!csstricmp(g_parser_state.m_variable_buffer, k_console_globals[i].name) && k_console_globals[i].pointer)
 		{
 			console_global_index = i;
 			break;
@@ -256,9 +256,9 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	}
 
 	c_debug_menu_item* item = NULL;
-	if (console_global_index != NONE && k_console_globals[console_global_index]->pointer)
+	if (console_global_index != NONE && k_console_globals[console_global_index].pointer)
 	{
-		e_hs_type type = k_console_globals[console_global_index]->type;
+		e_hs_type type = k_console_globals[console_global_index].type;
 		switch (type)
 		{
 		case _hs_type_boolean:

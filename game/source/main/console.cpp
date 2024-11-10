@@ -574,29 +574,29 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	return result;
 }
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_name })
+#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_name })
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_variable_name })
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_REAL3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT3(_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_LONG3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_BOOL3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_REAL3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT3(_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_LONG3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _name })
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_BOOL4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
 
 REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting);
 
-s_console_global const* const k_console_globals[] =
+s_console_global const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
@@ -991,7 +991,7 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	long console_global_index = NONE;
 	for (long i = 0; i < k_console_global_count; i++)
 	{
-		if (!tokens[0]->is_equal(k_console_globals[i]->name))
+		if (!tokens[0]->is_equal(k_console_globals[i].name))
 			continue;
 
 		console_global_index = i;
@@ -1001,7 +1001,7 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	if (!VALID_INDEX(console_global_index, k_console_global_count))
 		return result;
 
-	s_console_global const* console_global = k_console_globals[console_global_index];
+	s_console_global const* console_global = &k_console_globals[console_global_index];
 
 	if (!console_global->pointer)
 		return result;

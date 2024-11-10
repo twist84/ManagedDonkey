@@ -537,7 +537,7 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 		file_printf(&help_file, "; %s\n\n", "AVAILABLE EXTERNAL GLOBALS:");
 		for (long global_index = 0; global_index < k_console_global_count; global_index++)
 		{
-			s_console_global const* global = k_console_globals[global_index];
+			s_console_global const* global = &k_console_globals[global_index];
 
 			callback_result_t out;
 			out.append_print("(<%s> %s)", hs_type_names[global->type.get()], global->name);

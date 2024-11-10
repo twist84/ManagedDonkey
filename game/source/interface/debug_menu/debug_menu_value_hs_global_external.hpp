@@ -15,13 +15,13 @@ public:
 		m_hs_global_external_index = NONE;
 		for (short hs_global_external_index = 0; hs_global_external_index < k_console_global_count && m_hs_global_external_index == NONE; hs_global_external_index++)
 		{
-			if (csstricmp(hs_global_name, k_console_globals[hs_global_external_index]->name))
+			if (csstricmp(hs_global_name, k_console_globals[hs_global_external_index].name))
 				continue;
 
-			if (!k_console_globals[hs_global_external_index]->pointer)
+			if (!k_console_globals[hs_global_external_index].pointer)
 				continue;
 
-			e_hs_type type = k_console_globals[hs_global_external_index]->type;
+			e_hs_type type = k_console_globals[hs_global_external_index].type;
 			if (IN_RANGE_INCLUSIVE(type, _hs_type_boolean, _hs_type_long_integer))
 				m_hs_global_external_index = hs_global_external_index;
 		}
@@ -35,9 +35,9 @@ public:
 
 		if (m_hs_global_external_index != NONE)
 		{
-			ASSERT(k_console_globals[m_hs_global_external_index]->pointer != NULL);
+			ASSERT(k_console_globals[m_hs_global_external_index].pointer != NULL);
 
-			*reinterpret_cast<t_type*>(bytes) = *static_cast<t_type*>(k_console_globals[m_hs_global_external_index]->pointer);
+			*reinterpret_cast<t_type*>(bytes) = *static_cast<t_type*>(k_console_globals[m_hs_global_external_index].pointer);
 		}
 
 		return *reinterpret_cast<t_type*>(bytes);
@@ -47,9 +47,9 @@ public:
 	{
 		if (m_hs_global_external_index != NONE)
 		{
-			ASSERT(k_console_globals[m_hs_global_external_index]->pointer != NULL);
+			ASSERT(k_console_globals[m_hs_global_external_index].pointer != NULL);
 
-			*static_cast<t_type*>(k_console_globals[m_hs_global_external_index]->pointer) = value;
+			*static_cast<t_type*>(k_console_globals[m_hs_global_external_index].pointer) = value;
 		}
 	}
 
