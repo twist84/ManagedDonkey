@@ -2,11 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
-#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
-#define HOOK_DECLARE_CALL(ADDR, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
-#define HOOK_DECLARE(ADDR, NAME) static c_hook NAME##_hook(#NAME, ADDR, { .pointer = NAME })
-#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = CLASS::NAME })
-#define HOOK_DECLARE_CLASS_MEMBER(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = member_to_static_function(&CLASS##::##NAME) })
+#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) inline static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
+#define HOOK_DECLARE_CALL(ADDR, NAME) inline static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
+#define HOOK_DECLARE(ADDR, NAME) inline static c_hook NAME##_hook(#NAME, ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) inline static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = CLASS::NAME })
+#define HOOK_DECLARE_CLASS_MEMBER(ADDR, CLASS, NAME) inline static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = member_to_static_function(&CLASS##::##NAME) })
 
 #define HOOK_INVOKE(RESULT, NAME, ...) \
 { \
