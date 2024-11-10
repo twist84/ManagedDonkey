@@ -461,12 +461,10 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if (GetAsyncKeyState(VK_SHIFT) & 0x8000) // if shift is held open the "Choose Rasterizer" dialog
 		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
 
-	lpCmdLine = GetCommandLineA();
-
 	SetLastError(NO_ERROR);
 	SetProcessDPIAware();
 
-	g_windows_params.cmd_line = lpCmdLine;
+	g_windows_params.cmd_line = GetCommandLineA(); // lpCmdLine is empty set
 	g_windows_params.instance = hInstance;
 	g_windows_params.cmd_show = nCmdShow;
 	g_windows_params.window_proc = WndProc;
@@ -481,7 +479,6 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	long cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
 		g_physical_memory_cache_size_increase_mb = static_cast<dword>(cache_size_increase);
-
 
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
 	{
@@ -504,7 +501,6 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
 		name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
 	}
-
 
 	physical_memory_initialize();
 	physical_memory_stage_push(_memory_stage_game_initialize);
