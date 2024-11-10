@@ -163,6 +163,12 @@ void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword old_structure_bs
 	INVOKE(0x00A1F9A0, c_rasterizer::dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
+// nullsub
+void __cdecl c_rasterizer::end()
+{
+	//INVOKE(0x00A1F9B0, c_rasterizer::end);
+}
+
 bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
 {
 	//INVOKE(0x00A1F9C0, c_rasterizer::end_albedo, bounds);
