@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_performane_throttle
+struct s_performance_throttles
 {
 	// e_performance_throttle_flags
 	dword_flags flags;
@@ -40,22 +40,29 @@ struct s_performane_throttle
 	// less than 1.0 - off, equals 1.0 - 4x, larger than 1.0 - 8x
 	// real anisotropy_level;
 };
-static_assert(sizeof(s_performane_throttle) == 0x38);
+static_assert(sizeof(s_performance_throttles) == 0x38);
 
-struct s_performance_throttles
+struct c_performance_throttles
 {
+public:
+	static s_performance_throttles* __cdecl get_current_performance_throttles();
+	static real __cdecl get_performance_throttle(char const* name, long player_count);
+	static void __cdecl set_performance_throttle(char const* name, long player_count, real value);
+	static void __cdecl update_current_performance_throttles();
+
+public:
 	// index 0:	default non split screen
 	// index 1:	two way split screen
 	// index 2:	three way split screen
 	// index 3:	four way split screen
-	s_performane_throttle throttles[4];
+	static s_performance_throttles(&m_default_throttles)[4];
+
+	static real(&m_object_modifiers)[15 /* k_object_type_count */];
+
+	static bool& m_ignore_predefined_performance_throttles;
+	static s_performance_throttles& m_current_throttles;
 };
 
-struct c_performance_throttles
-{
-	static void __cdecl update_current_performance_throttles();
-};
+extern real __cdecl get_performance_throttle(char const* name, long player_count);
+extern void __cdecl set_performance_throttle(char const* name, long player_count, real value);
 
-extern bool& g_ignore_predefined_performance_throttles;
-extern s_performance_throttles& g_default_performance_throttles;
-extern s_performane_throttle& g_current_performance_throttles;
