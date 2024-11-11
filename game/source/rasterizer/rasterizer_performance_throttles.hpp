@@ -2,6 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_performance_throttle_flags
+{
+
+};
+
 struct s_performance_throttles
 {
 	// e_performance_throttle_flags

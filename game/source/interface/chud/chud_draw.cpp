@@ -104,6 +104,9 @@ void __cdecl chud_debug_render()
 	//}
 }
 
+//.text:00AC80E0 ; 
+//.text:00AC80F0 ; void __cdecl chud_draw_begin(long, real, long, bool)
+
 void __cdecl chud_draw_bitmap_widget(long a1, void* a2, bool a3)
 {
 	//INVOKE(0x00AC8CE0, chud_draw_bitmap_widget, a1, a2, a3);
@@ -116,6 +119,11 @@ void __cdecl chud_draw_bitmap_widget(long a1, void* a2, bool a3)
 		rasterizer_profile_end_event();
 }
 
+//.text:00AC8E50 ; 
+//.text:00AC8E60 ; void __cdecl chud_draw_end(long, bool)
+//.text:00AC8E80 ; void __cdecl chud_draw_initialize()
+//.text:00AC8E90 ; 
+
 void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3)
 {
 	//INVOKE(0x00AC9490, chud_draw_text_widget, a1, a2, a3);
@@ -127,4 +135,10 @@ void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3)
 	if (chud_compute_render_data_result)
 		rasterizer_profile_end_event();
 }
+
+//.text:00AC9560 ; 
+//.text:00AC9570 ; void __cdecl chud_draw_widget(e_output_user_index, s_chud_runtime_widget_datum*, long, long)
+//.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry*, s_anchor_basis*, bool, bool)
+//.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(dword, vector4d*)
+//.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(s_widget_geometry_properties const&, real_matrix4x3*)
 
