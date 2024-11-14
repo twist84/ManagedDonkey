@@ -94,6 +94,14 @@ void __cdecl c_decal::render_all(long pass)
 	HOOK_INVOKE_CLASS(, c_decal, render_all, decltype(&c_decal::render_all), pass);
 }
 
+//.text:00695030 ; public: void __cdecl c_decal::submit() const
+//.text:00695120 ; private: void __cdecl c_decal_system::submit()
+
+void __cdecl c_decal_system::submit_all()
+{
+	INVOKE(0x006951B0, c_decal_system::submit_all);
+}
+
 void __cdecl sub_6948C0(long a1)
 {
 	if (disable_sub_6948C0)

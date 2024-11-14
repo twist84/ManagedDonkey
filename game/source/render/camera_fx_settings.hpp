@@ -91,6 +91,10 @@ static_assert(sizeof(c_camera_fx_settings) == 0x1F0);
 
 struct c_camera_fx_values
 {
+public:
+	static real& g_HDR_target_stops;
+
+//protected:
 	byte __data[0x1F0];
 };
 static_assert(sizeof(c_camera_fx_values) == 0x1F0);

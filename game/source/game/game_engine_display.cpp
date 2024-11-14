@@ -88,21 +88,19 @@ void __cdecl game_engine_render(e_output_user_index output_user_index)
 {
 	//INVOKE(0x006E4E50, game_engine_render, output_user_index);
 
-	// #TODO: move this out when `c_player_view::render` is implemented
-	c_rasterizer_profile_scope _game_engine(_rasterizer_profile_element_game_engine, L"game_engine");
-
 	HOOK_INVOKE(, game_engine_render, output_user_index);
 }
 
 //.text:006E4E90 ; void __cdecl game_engine_render_all_multiplayer_object_boundaries()
-//.text:006E4FE0 ; void __cdecl game_engine_render_debug(long)
+
+void __cdecl game_engine_render_debug(long user_index)
+{
+	INVOKE(0x006E4FE0, game_engine_render_debug, user_index);
+}
 
 void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_index)
 {
 	//INVOKE(0x006E5040, game_engine_render_fade_to_black, output_user_index);
-
-	// #TODO: move this out when `c_player_view::render` is implemented
-	c_rasterizer_profile_scope _fade_to_black(_rasterizer_profile_element_total, L"fade_to_black");
 
 	if (!g_fade_to_black_enabled)
 		return;
@@ -151,5 +149,9 @@ void __cdecl game_engine_render_watermarks()
 }
 
 //.text:006E54D0 ; void __cdecl game_engine_submit_nav_points(long, long)
-//.text:006E5510 ; bool __cdecl game_engine_suppress_render_scene(long)
+
+bool __cdecl game_engine_suppress_render_scene(long user_index)
+{
+	return INVOKE(0x006E5510, game_engine_suppress_render_scene, user_index);
+}
 

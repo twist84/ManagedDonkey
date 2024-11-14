@@ -237,6 +237,14 @@ union real_ahsv_color
 };
 static_assert(sizeof(real_ahsv_color) == sizeof(real) * 4);
 
+struct real_linear_rgb_color
+{
+	real red;
+	real green;
+	real blue;
+};
+static_assert(sizeof(real_linear_rgb_color) == sizeof(real) * 3);
+
 typedef float angle;
 static_assert(sizeof(angle) == sizeof(float));
 

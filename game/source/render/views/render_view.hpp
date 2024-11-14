@@ -2,6 +2,7 @@
 
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_text.hpp"
+#include "render/depth_of_field.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_game_state.hpp"
 #include "render/render_patchy_fog.hpp"
@@ -43,7 +44,7 @@ public:
 	static void __cdecl end();
 	static long __cdecl get_current_stack_level();
 	static c_view* __cdecl top();
-	
+
 	render_camera const* get_render_camera() const;
 	render_camera* get_render_camera_modifiable();
 
@@ -110,11 +111,15 @@ struct c_world_view :
 	public c_view
 {
 public:
+	void get_starting_cluster(s_cluster_reference* starting_cluster);
+
 //protected:
 	s_location m_location;
 	byte __data286[0x2];
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
+
+__interface IDirect3DSurface9;
 
 // 0165E0C4
 struct c_lights_view :
@@ -122,6 +127,9 @@ struct c_lights_view :
 {
 public:
 	void submit_simple_light_draw_list_to_shader() const;
+	void build_simple_light_draw_list(long a1);
+	void clear_simple_light_draw_list(long a1);
+	void render(e_output_user_index output_user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
 
 	static long& g_gel_bitmap_index;
 	static real& g_render_light_intensity;
@@ -178,12 +186,15 @@ public:
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 
+enum e_controller_index;
 enum e_effect_pass;
+enum e_splitscreen_res;
 
 // 0165E130
 struct c_player_view :
 	public c_world_view
 {
+public:
 	static c_player_view*& x_current_player_view;
 	static c_player_view(&x_global_player_views)[4];
 
@@ -204,16 +215,15 @@ struct c_player_view :
 		x_current_player_view = view;
 	}
 
-	long get_player_view_user_index()
-	{
-		return m_player_view_user_index;
-	}
-
 	e_output_user_index get_player_view_output_user_index()
 	{
 		return m_output_user_index;
 	}
 
+protected:
+	void animate_water();
+
+public:
 	void __thiscall render_distortions();
 	void create_frame_textures(long player_index);
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
@@ -232,7 +242,11 @@ struct c_player_view :
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
 	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);
+	void __thiscall setup_camera_fx_parameters(real a1);
+	void __thiscall setup_cinematic_clip_planes();
+	void __thiscall submit_attachments();
 	void __thiscall distortion_generate();
+	void __thiscall submit_occlusion_tests(bool a1, bool a2);
 
 	static void frame_advance();
 
@@ -241,7 +255,8 @@ struct c_player_view :
 	s_render_game_state::s_player_window* m_player_window;
 	real __unknown29C;
 	real __unknown2A0;
-	byte __data2A4[0x14];
+
+	s_observer_depth_of_field m_observer_depth_of_field;
 
 	c_patchy_fog m_patchy_fog;
 
@@ -251,7 +266,7 @@ struct c_player_view :
 	vector3d m_up;
 	long __unknown630;
 	real_matrix4x3 __matrix634;
-	real m_projection_matrix[4][4];
+	s_oriented_bounding_box m_projection_matrix;
 
 	c_first_person_view m_first_person_view;
 	c_ui_view m_ui_view;
@@ -265,9 +280,9 @@ struct c_player_view :
 	long m_player_index;
 	long m_player_view_count;
 	long m_player_view_arrangement;
-	long m_player_view_user_index;
 	e_output_user_index m_output_user_index;
-	long m_splitscreen_res;
+	e_controller_index m_controller_index;
+	e_splitscreen_res m_splitscreen_res;
 
 	long __unknown26B0;
 
@@ -280,6 +295,10 @@ static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 struct c_hud_camera_view :
 	public c_player_view
 {
+public:
+	c_hud_camera_view* constructor();
+
+	void render(long player_index, c_player_view const* player_view, void* data);
 };
 static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 
@@ -306,4 +325,7 @@ extern bool render_debug_pix_events;
 
 extern void __cdecl render_debug_frame_render();
 extern void __cdecl render_debug_window_render(long user_index);
+
+enum e_splitscreen_res;
+extern void __cdecl sub_A292A0(e_splitscreen_res splitscreen_res);
 

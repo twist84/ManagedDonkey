@@ -1,16 +1,28 @@
 #include "render/views/render_player_view.hpp"
 
+#include "effects/screen_shader.hpp"
+#include "game/game_engine_display.hpp"
+#include "interface/interface_constants.hpp"
+#include "interface/overhead_map.hpp"
+#include "interface/user_interface.hpp"
+#include "main/main_screenshot.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "rasterizer/rasterizer_occlusion_queries.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "rasterizer/rasterizer_render_targets.hpp"
+#include "rasterizer/rasterizer_stipple.hpp"
+#include "rasterizer/rasterizer_synchronization.hpp"
+#include "render/render.hpp"
 #include "render/render_flags.hpp"
 #include "render/render_lens_flares.hpp"
 #include "render/render_transparents.hpp"
+#include "render/render_tron_effect.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
 #include "render_methods/render_method_submit.hpp"
 
+REFERENCE_DECLARE(0x019147B8, real, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
@@ -32,6 +44,17 @@ HOOK_DECLARE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B470, c_player_view, render_water);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B500, c_player_view, render_weather_occlusion);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
+HOOK_DECLARE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests);
+
+void c_player_view::animate_water()
+{
+	//INVOKE_CLASS_MEMBER(0x00A38030, c_player_view, animate_water);
+
+	c_rasterizer_profile_scope _water_animate(_rasterizer_profile_element_distortions, L"water_animate");
+
+	c_water_renderer::ripple_apply();
+	c_water_renderer::ripple_slope();
+}
 
 void __thiscall c_player_view::render_distortions()
 {
@@ -73,9 +96,412 @@ void __thiscall c_player_view::queue_patchy_fog()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 }
 
+// #TODO: move this
+struct s_surface_group_description
+{
+	dword_flags flags;
+	IDirect3DTexture9* Texture;
+	real DepthWidth;
+	real __unknownC;
+	dword DepthFormat;
+	byte __unknown14[4];
+	dword Srgb;
+	dword MultiSample;
+	real __unknown20;
+	real __unknown24;
+	dword __unknown28;
+	dword __unknown2C;
+	dword __unknown30;
+	dword __unknown34;
+	dword __unknown38;
+	dword __unknown3C;
+	dword Alias;
+	dword __unknown44;
+	dword index_unknown_of_size_54;
+};
+
+// #TODO: move this
+struct c_render_surface_group
+{
+	s_surface_group_description description;
+	long m_count_specializations;
+	c_render_surface* m_default_surface;
+};
+
+// #TODO: move this
+struct c_render_surfaces_interface
+{
+	static c_render_surface* get_render_surface_default(c_rasterizer::e_surface surface)
+	{
+		return m_render_surface_groups[surface].m_default_surface;
+	}
+
+	static c_render_surface_group(&m_render_surface_groups)[60];
+};
+
+// #TODO: move this
+REFERENCE_DECLARE_ARRAY(0x0510D8D0, c_render_surface_group, c_render_surfaces_interface::m_render_surface_groups, 60);
+
+// #TODO: move this
+void __cdecl sub_14E56A0(long player_index, c_player_view* player_view)
+{
+	INVOKE(0x014E56A0, sub_14E56A0, player_index, player_view);
+}
+
+// #TODO: move this
+void __cdecl vision_mode_render(long player_index, c_player_view const* player_view, real a3, real a4, real a5, long a6, long a7)
+{
+	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);
+}
+
 void __thiscall c_player_view::render_()
 {
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_);
+	//HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_);
+
+	render_camera* rasterizer_camera = get_rasterizer_camera_modifiable();
+	
+	s_screen_effect_settings screen_effect_settings{};
+	s_screen_effect_shader_sample_result screen_effect_shader_sample_result{};
+	screen_effect_sample(
+		&rasterizer_camera->position,
+		&rasterizer_camera->forward,
+		&screen_effect_settings,
+		&screen_effect_shader_sample_result,
+		m_output_user_index);
+	
+	sub_A292A0(m_splitscreen_res);
+	
+	if (!game_engine_suppress_render_scene(m_output_user_index))
+	{
+		TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_game_states);
+
+		render_method_clear_externs();
+		
+		s_cluster_reference cluster_reference{};
+		c_world_view::get_starting_cluster(&cluster_reference);
+		
+		c_atmosphere_fog_interface::compute_cluster_weights(cluster_reference, &rasterizer_camera->position);
+		
+		{
+			real horizontal_field_of_view = observer_get_camera(m_output_user_index)->horizontal_field_of_view;
+			if (horizontal_field_of_view < k_real_epsilon)
+				horizontal_field_of_view = k_real_epsilon;
+			g_particle_hack_near_fade_scale = 1.0f / horizontal_field_of_view;
+		}
+		
+		c_player_view::submit_attachments();
+	
+		bool water_updated = c_water_renderer::update_water_part_list();
+		if (water_updated && render_water_interaction_enabled && c_water_renderer::is_active_ripple_exist())
+		{
+			c_player_view::animate_water();
+		}
+	
+		{
+			c_rasterizer_profile_scope _chud_turbulence(_rasterizer_profile_element_interface_hud, L"chud turbulence");
+			chud_draw_turbulence(m_output_user_index);
+		}
+
+		c_player_view::setup_camera_fx_parameters(screen_effect_settings.__unknown0);
+		c_player_view::setup_cinematic_clip_planes();
+		m_lights_view.clear_simple_light_draw_list(m_output_user_index);
+		m_lights_view.build_simple_light_draw_list(m_player_index);
+		
+		{
+			c_atmosphere_fog_interface::sub_A397D0();
+
+			s_weighted_atmosphere_parameters weighted_atmosphere_parameters{};
+			c_atmosphere_fog_interface::populate_atmosphere_parameters(cluster_reference, &weighted_atmosphere_parameters);
+
+			c_atmosphere_fog_interface::set_default_atmosphere_constants(&weighted_atmosphere_parameters);
+			c_atmosphere_fog_interface::restore_atmosphere_constants();
+		}
+	
+		rasterizer_stipple_initialize();
+		c_decal_system::submit_all();
+	
+		bool rendering_albedo = c_player_view::render_albedo();
+	
+		if (screenshot_allow_postprocess())
+			c_screen_postprocess::sub_A62710(
+				&m_rasterizer_projection,
+				&m_rasterizer_camera,
+				&__matrix634,
+				&m_projection_matrix,
+				c_rasterizer::_surface_color_half_fp16_0,
+				c_rasterizer::_surface_depth_fp32,
+				c_rasterizer::_surface_color_half_fp16_1);
+	
+		if (rendering_albedo)
+		{
+			c_rasterizer::set_using_albedo_sampler(true);
+			c_player_view::submit_occlusion_tests(false, true);
+		
+			if (__unknown26B4)
+			{
+				c_cpu_gpu_synchronizer::wait_for_gpu_to_catch_up();
+				__unknown26B4 = false;
+			}
+		
+			if (render_debug_toggle_default_static_lighting)
+				c_player_view::render_static_lighting();
+		
+			if (render_debug_toggle_default_dynamic_lighting)
+			{
+				c_player_view::render_lightmap_shadows();
+		
+				c_rasterizer::setup_targets_static_lighting(
+					__unknown29C,
+					__unknown2A0,
+					true,
+					c_camera_fx_values::g_HDR_target_stops,
+					false,
+					false,
+					false);
+		
+				IDirect3DSurface9* accum_LDR_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_accum_LDR)->m_d3d_surface;
+				IDirect3DSurface9* accum_HDR_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_accum_HDR)->m_d3d_surface;
+				IDirect3DSurface9* depth_stencil_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_depth_stencil)->m_d3d_surface;
+				
+				m_lights_view.render(
+					m_output_user_index,
+					m_player_index,
+					accum_LDR_surface,
+					accum_HDR_surface,
+					depth_stencil_surface);
+			}
+		
+			if (render_debug_toggle_default_sfx)
+			{
+				c_rasterizer::setup_targets_static_lighting(
+					__unknown29C,
+					__unknown2A0,
+					c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(),
+					c_camera_fx_values::g_HDR_target_stops,
+					false,
+					false,
+					true);
+		
+				if (!render_debug_depth_render)
+					c_player_view::render_first_person(false);
+		
+				if (render_debug_toggle_default_sfx)
+				{
+					if (c_rasterizer::sub_A218D0())
+						sub_A7B5F0(m_player_index, &rasterizer_camera->window_pixel_bounds); // tron effect
+					
+					c_screen_postprocess::sub_A60AF0(
+						&m_rasterizer_projection,
+						&m_rasterizer_camera,
+						c_rasterizer::_surface_accum_LDR,
+						c_rasterizer::_surface_accum_HDR,
+						c_rasterizer::_surface_color_half_fp16_0);
+					
+					if (screenshot_allow_postprocess())
+						c_screen_postprocess::sub_A61CD0(
+							&m_rasterizer_projection,
+							&m_rasterizer_camera,
+							c_rasterizer::_surface_accum_LDR,
+							c_rasterizer::_surface_accum_HDR,
+							c_rasterizer::_surface_normal,
+							c_rasterizer::_surface_depth_fp32,
+							c_rasterizer::_surface_gbuf,
+							c_rasterizer::_surface_post_LDR,
+							c_rasterizer::_surface_post_HDR,
+							c_rasterizer::_surface_depth_half_fp32,
+							c_rasterizer::_surface_color_half_fp16_0,
+							c_rasterizer::_surface_color_half_fp16_1,
+							c_rasterizer::_surface_normal_half,
+							c_rasterizer::_surface_post_half_LDR);
+		
+					c_rasterizer::setup_targets_static_lighting(
+						__unknown29C,
+						__unknown2A0,
+						c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(),
+						c_camera_fx_values::g_HDR_target_stops,
+						false,
+						false,
+						false);
+		
+					if (water_updated || render_underwater_fog_enabled)
+						c_player_view::render_water();
+		
+					if (g_rasterizer_game_states->patchy_fog)
+						c_player_view::queue_patchy_fog();
+		
+					c_player_view::render_transparents();
+		
+					c_player_view::distortion_generate();
+					bool distortion_history = c_render_globals::get_distortion_visible();
+					if (distortion_history || water_updated || render_underwater_fog_enabled)
+						distortion_history = true;
+					c_render_globals::set_distortion_history(distortion_history);
+		
+					{
+						c_rasterizer_profile_scope _game_engine(_rasterizer_profile_element_game_engine, L"game_engine");
+						game_engine_render(m_output_user_index);
+					}
+		
+					c_player_view::render_distortions();
+		
+					if (!render_debug_depth_render)
+					{
+						c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), true);
+						c_player_view::render_first_person(true);
+					}
+		
+					c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), false);
+		
+					c_player_view::render_lens_flares();
+					c_player_view::submit_occlusion_tests(true, false);
+		
+					{
+						c_rasterizer_profile_scope _chud_draw_screen_LDR(_rasterizer_profile_element_total, L"chud_draw_screen_LDR");
+						
+						if (sub_A89440(m_output_user_index))
+						{
+							c_rasterizer::setup_targets_static_lighting_alpha_blend(false, true);
+							c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
+							c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+							sub_A88FE0(m_output_user_index);
+						}
+					}
+		
+					render_setup_window(&m_rasterizer_camera, &m_rasterizer_projection);
+					c_rasterizer::setup_targets_static_lighting(
+						__unknown29C,
+						__unknown2A0,
+						true,
+						c_camera_fx_values::g_HDR_target_stops,
+						false,
+						false,
+						false);
+					c_player_view::render_weather_occlusion();
+				}
+			}
+		
+			if (screenshot_allow_postprocess())
+			{
+				c_screen_postprocess::postprocess_player_view(
+					m_player_window->camera_fx_values,
+					&m_rasterizer_projection,
+					&m_rasterizer_camera,
+					screen_effect_settings,
+					m_splitscreen_res,
+					&m_observer_depth_of_field,
+					m_output_user_index);
+			
+				c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+				c_screen_postprocess::copy(
+					c_rasterizer_globals::_explicit_shader_copy_surface,
+					c_rasterizer::_surface_accum_LDR,
+					c_rasterizer::_surface_disable,
+					c_rasterizer::_sampler_filter_mode_unknown1,
+					c_rasterizer::_sampler_address_mode_unknown1,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					NULL);
+			}
+		}
+	}
+	
+	if (screenshot_allow_ui_render())
+	{
+		TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+
+		c_rasterizer_profile_scope _interface_and_hud(_rasterizer_profile_element_interface_hud, L"interface_and_hud");
+	
+		c_rasterizer::restore_last_viewport();
+		c_rasterizer::restore_last_scissor_rect();
+		c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
+
+		{
+			c_rasterizer_profile_scope _vision_mode(_rasterizer_profile_element_total, L"vision_mode");
+		
+			if (screen_effect_settings.__unknown38 <= 0.0f)
+			{
+				sub_14E56A0(
+					m_player_index,
+					this);
+			}
+			else
+			{
+				vision_mode_render(
+					m_player_index,
+					this,
+					screen_effect_settings.__unknown38,
+					g_main_render_timing_data->game_seconds_elapsed,
+					screen_effect_settings.__unknown3C,
+					0,
+					0);
+			}
+		}
+		
+		render_screen_shaders(&screen_effect_shader_sample_result, 1, c_rasterizer::sub_A48770(), c_rasterizer::_surface_none, NULL);
+		
+		{
+			c_rasterizer_profile_scope _chud_draw_screen(_rasterizer_profile_element_total, L"chud_draw_screen");
+		
+			// added by us
+			c_rasterizer::set_viewport(rasterizer_camera->window_pixel_bounds, 0.0f, 1.0f);
+			c_rasterizer::set_scissor_rect(&rasterizer_camera->window_pixel_bounds);
+		
+			chud_draw_screen(m_output_user_index);
+		
+			// added by us
+			c_rasterizer::restore_last_viewport();
+			c_rasterizer::restore_last_scissor_rect();
+		}
+		{
+			c_rasterizer_profile_scope _fade_to_black(_rasterizer_profile_element_total, L"fade_to_black");
+			game_engine_render_fade_to_black(m_output_user_index);
+		}
+		{
+			c_rasterizer_profile_scope _user_interface_render(_rasterizer_profile_element_total, L"user_interface_render");
+		
+			short_rectangle2d display_pixel_bounds{};
+			interface_get_current_window_settings(NULL, NULL, &display_pixel_bounds, NULL);
+			user_interface_render(
+				m_controller_index,
+				m_output_user_index,
+				m_player_index,
+				&display_pixel_bounds,
+				c_rasterizer::sub_A48770(),
+				false);
+		}
+		{
+			c_rasterizer_profile_scope _watermarks(_rasterizer_profile_element_total, L"watermarks");
+			game_engine_render_watermarks();
+		}
+		{
+			c_rasterizer_profile_scope _chud_draw_screen_saved_film(_rasterizer_profile_element_total, L"chud_draw_screen_saved_film");
+			chud_draw_screen_saved_film(m_output_user_index);
+		}
+		{
+			c_rasterizer_profile_scope _player_training(_rasterizer_profile_element_total, L"player_training");
+			player_training_render_screen(m_output_user_index);
+		}
+		{
+			c_rasterizer_profile_scope _debug_render(_rasterizer_profile_element_total, L"debug_render");
+		}
+		{
+			c_rasterizer_profile_scope _overhead_map(_rasterizer_profile_element_total, L"overhead_map");
+			overhead_map_render();
+		}
+		{
+			c_rasterizer_profile_scope _player_effect_render(_rasterizer_profile_element_total, L"player_effect_render");
+			player_effect_render(m_output_user_index);
+		}
+	}
+	
+	game_engine_render_debug(m_output_user_index);
+	
+	if (!sub_610260())
+		render_debug_window_render(m_output_user_index);
+	
+	c_rasterizer::end();
 }
 
 bool __thiscall c_player_view::render_albedo()
@@ -138,7 +564,7 @@ void __thiscall c_player_view::render_lens_flares()
 
 	{
 		c_rasterizer_profile_scope _lens_flares(_rasterizer_profile_element_transparents, L"lens flares");
-		lens_flares_render(m_player_view_user_index);
+		lens_flares_render(m_output_user_index);
 	}
 
 	c_rasterizer::set_using_albedo_sampler(c_rasterizer::surface_valid(c_rasterizer::_surface_albedo));
@@ -219,12 +645,6 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 //.text:00A3B2E0 ; void __cdecl render_texture_camera_set_target(real, real, real)
 //.text:00A3B330 ; void __cdecl render_texture_camera_target_object(long, long)
 
-// #TODO: move this
-bool __cdecl screenshot_in_progress()
-{
-	return INVOKE(0x00610310, screenshot_in_progress);
-}
-
 void __thiscall c_player_view::render_transparents()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
@@ -289,10 +709,22 @@ void c_player_view::setup_camera(long player_index, long window_count, long wind
 	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, output_user_index, result, render_freeze);
 }
 
-//.text:00A3B990 ; public: void __cdecl c_player_view::setup_camera_fx_parameters()
-//.text:00A3BBA0 ; protected: void __cdecl c_player_view::setup_cinematic_clip_planes()
+void __thiscall c_player_view::setup_camera_fx_parameters(real a1)
+{
+	INVOKE_CLASS_MEMBER(0x00A3B990, c_player_view, setup_camera_fx_parameters, a1);
+}
+
+void __thiscall c_player_view::setup_cinematic_clip_planes()
+{
+	INVOKE_CLASS_MEMBER(0x00A3BBA0, c_player_view, setup_cinematic_clip_planes);
+}
+
 //.text:00A3BD10 ; protected: void __cdecl c_player_view::static_lighting_setup_internals()
-//.text:00A3BDB0 ; protected: void __cdecl c_player_view::submit_attachments()
+
+void __thiscall c_player_view::submit_attachments()
+{
+	INVOKE_CLASS_MEMBER(0x00A3BDB0, c_player_view, submit_attachments);
+}
 
 void __thiscall c_player_view::distortion_generate()
 {
@@ -301,6 +733,15 @@ void __thiscall c_player_view::distortion_generate()
 	c_rasterizer_profile_scope _distortion_generate(_rasterizer_profile_element_distortions, L"distortion_generate");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, distortion_generate);
+}
+
+void __thiscall c_player_view::submit_occlusion_tests(bool a1, bool a2)
+{
+	//INVOKE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests, a1, a2);
+
+	c_rasterizer_profile_scope _occlusion_tests(_rasterizer_profile_element_occlusions, L"occlusion_tests");
+
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_occlusion_tests, a1, a2);
 }
 
 void c_player_view::frame_advance()

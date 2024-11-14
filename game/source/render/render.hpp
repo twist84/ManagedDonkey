@@ -39,6 +39,8 @@ public:
 
 extern bool& render_pc_specular;
 
+enum e_output_user_index;
+
 struct c_draw_string;
 struct c_font_cache_base;
 
@@ -56,7 +58,7 @@ extern void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_con
 extern void __cdecl render_initialize();
 extern void __cdecl render_initialize_for_new_map();
 extern void __cdecl render_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
-extern void __cdecl render_prepare_for_window(long player_window_index, long output_user_index);
+extern void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index);
 extern void __cdecl render_setup_window(render_camera* camera, render_projection* projection);
-extern void __cdecl render_window_reset(long user_index);
+extern void __cdecl render_window_reset(e_output_user_index output_user_index);
 

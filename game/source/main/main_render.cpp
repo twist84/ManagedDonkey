@@ -335,7 +335,7 @@ void __cdecl main_render_game()
 
 				bool is_widescreen = rasterizer_get_is_widescreen();
 
-				for (long view_index = window_count - 1; view_index >= 0; view_index--)
+				for (long view_index = 0; view_index < window_count; view_index++)
 				{
 					c_player_view* player_view = c_player_view::get_current(view_index);
 
@@ -348,7 +348,7 @@ void __cdecl main_render_game()
 				}
 
 				c_ui_view ui_view{};
-				ui_view.setup_camera(NULL, c_rasterizer::e_surface::_surface_screenshot_display /*surface_screenshot_display_get()*/);
+				ui_view.setup_camera(NULL, c_rasterizer::sub_A48770());
 				{
 					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
@@ -813,9 +813,9 @@ void __cdecl main_render_view(c_player_view* player_view, long player_index)
 
 	c_player_view::set_global_player_view(player_view);
 	c_view::begin(player_view);
-	render_window_reset(player_view->get_player_view_user_index());
+	render_window_reset(player_view->get_player_view_output_user_index());
 	player_view->create_frame_textures(player_index);
-	render_prepare_for_window(player_index, player_view->get_player_view_user_index());
+	render_prepare_for_window(player_index, player_view->get_player_view_output_user_index());
 	player_view->compute_visibility();
 	player_view->render_submit_visibility();
 	player_view->render();

@@ -629,6 +629,16 @@ void __cdecl c_rasterizer::end_high_quality_blend()
 	INVOKE(0x00A21880, c_rasterizer::end_high_quality_blend);
 }
 
+bool __cdecl c_rasterizer::sub_A218C0()
+{
+	return INVOKE(0x00A218C0, c_rasterizer::sub_A218C0);
+}
+
+bool __cdecl c_rasterizer::sub_A218D0()
+{
+	return INVOKE(0x00A218D0, c_rasterizer::sub_A218D0);
+}
+
 decltype(Direct3DCreate9)* __cdecl GetDirect3DCreate9()
 {
 	return INVOKE(0x00A218E0, GetDirect3DCreate9);
@@ -1538,6 +1548,11 @@ void __cdecl c_rasterizer::setup_targets_simple()
 	//}
 }
 
+void __cdecl c_rasterizer::setup_targets_static_lighting(real a1, real a2, bool a3, real a4, bool a5, bool a6, bool a7)
+{
+	INVOKE(0x00A252C0, c_rasterizer::setup_targets_static_lighting, a1, a2, a3, a4, a5, a6, a7);
+}
+
 void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool a1, bool a2)
 {
 	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, a1, a2);
@@ -1566,6 +1581,15 @@ void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_
 c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long render_target_index)
 {
 	return INVOKE(0x00A48720, c_rasterizer::get_render_target, render_target_index);
+}
+
+//.text:00A48730 ; public: static real __cdecl c_rasterizer::get_render_target_alpha_multiplier(long a1)
+
+c_rasterizer::e_surface c_rasterizer::sub_A48770()
+{
+	//return INVOKE(0x00A48770, c_rasterizer::sub_A48770);
+
+	return _surface_screenshot_display;
 }
 
 // nullsub

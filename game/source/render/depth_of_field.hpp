@@ -2,6 +2,16 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_observer_depth_of_field
+{
+	byte_flags flags;
+	real __unknown4;
+	real __unknown8;
+	real __unknownC;
+	real __unknown10;
+};
+static_assert(sizeof(s_observer_depth_of_field) == 0x14);
+
 struct s_depth_of_field
 {
 //public:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "render/camera_fx_settings.hpp"
 
 struct s_render_game_state
 {
@@ -12,7 +13,8 @@ public:
 
 	struct s_player_window
 	{
-		byte __data[0x360];
+		byte __data[0x170];
+		c_camera_fx_values camera_fx_values;
 	};
 	static_assert(sizeof(s_player_window) == 0x360);
 

@@ -5,6 +5,11 @@ void __cdecl render_method_clear_extern(e_render_method_extern render_method_ext
 	INVOKE(0x00A3CA30, render_method_clear_extern, render_method_extern);
 }
 
+void __cdecl render_method_clear_externs()
+{
+	INVOKE(0x00A3CA50, render_method_clear_externs);
+}
+
 void __cdecl render_method_submit_invalidate_cache()
 {
 	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);

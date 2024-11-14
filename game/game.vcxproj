@@ -220,6 +220,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\effects\effects.cpp" />
     <ClCompile Include="source\effects\light_volumes.cpp" />
     <ClCompile Include="source\effects\particle_system.cpp" />
+    <ClCompile Include="source\effects\screen_shader.cpp" />
     <ClCompile Include="source\effects\vision_mode.cpp" />
     <ClCompile Include="source\error\error_report_render.cpp" />
     <ClCompile Include="source\game\game_achievements.cpp" />
@@ -260,6 +261,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\items\equipment.cpp" />
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\items\weapon_definitions.cpp" />
+    <ClCompile Include="source\main\main_screenshot.cpp" />
     <ClCompile Include="source\math\unit_vector_quantization.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\memory\memory_pool.cpp" />
@@ -800,6 +802,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\devices\device_terminals.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />
     <ClInclude Include="source\editor\editor_render_stubs.hpp" />
+    <ClInclude Include="source\effects\screen_shader.hpp" />
     <ClInclude Include="source\error\error_report_render.hpp" />
     <ClInclude Include="source\game\game_achievements.hpp" />
     <ClInclude Include="source\game\game_engine_notifications.hpp" />
@@ -908,6 +911,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\main\main_predict.hpp" />
+    <ClInclude Include="source\main\main_screenshot.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
     <ClInclude Include="source\math\matrix_math.hpp" />
     <ClInclude Include="source\math\random_math.hpp" />

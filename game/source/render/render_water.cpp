@@ -8,6 +8,7 @@
 REFERENCE_DECLARE(0x019146EE, bool, render_water_enabled);
 REFERENCE_DECLARE(0x019146F1, bool, render_water_tessellation_enabled);
 REFERENCE_DECLARE(0x019146F2, bool, render_water_interaction_enabled);
+REFERENCE_DECLARE(0x050FAAEC, bool, render_underwater_fog_enabled);
 REFERENCE_DECLARE(0x050FAB18, bool, render_water_wireframe_enabled);
 
 HOOK_DECLARE_CLASS(0x00A36970, c_water_renderer, ripple_add);
@@ -129,7 +130,11 @@ void __cdecl c_water_renderer::set_performance_throttles()
 	INVOKE(0x00A373C0, c_water_renderer::set_performance_throttles);
 }
 
-//.text:00A373F0 ; public: static bool __cdecl c_water_renderer::update_water_part_list()
+bool __cdecl c_water_renderer::update_water_part_list()
+{
+	return INVOKE(0x00A373F0, c_water_renderer::update_water_part_list);
+}
+
 //.text:00A37B40 ; void __cdecl water_interaction_clear_all(long)
 
 void c_water_renderer::frame_advance(real seconds_elapsed)

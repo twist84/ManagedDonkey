@@ -198,8 +198,7 @@ void __cdecl render_initialize_for_new_structure_bsp(dword new_structure_bsp_mas
 	//c_structure_renderer::reset();
 }
 
-//void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index)
-void __cdecl render_prepare_for_window(long player_window_index, long output_user_index)
+void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index)
 {
 	//INVOKE(0x00A29990, render_prepare_for_window, player_window_index, output_user_index);
 
@@ -262,9 +261,9 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	c_rasterizer::set_pixel_shader_constant(16, 1, &position);
 }
 
-void __cdecl render_window_reset(long user_index)
+void __cdecl render_window_reset(e_output_user_index output_user_index)
 {
-	//INVOKE(0x00A2A2E0, render_window_reset, user_index);
+	//INVOKE(0x00A2A2E0, render_window_reset, output_user_index);
 
 	c_rasterizer::window_reset();
 }

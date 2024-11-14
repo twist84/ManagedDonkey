@@ -1,5 +1,7 @@
 #include "render/camera_fx_settings.hpp"
 
+REFERENCE_DECLARE(0x019134C0, real, c_camera_fx_values::g_HDR_target_stops);
+
 void __cdecl s_scripted_exposure::dispose()
 {
 	INVOKE(0x00A2A7E0, dispose);

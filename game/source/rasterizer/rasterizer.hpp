@@ -311,6 +311,8 @@ struct c_rasterizer
 	//static void __cdecl clearf(unsigned long, union real_vector4d const*, float, unsigned long);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
+	static bool __cdecl sub_A218C0();
+	static bool __cdecl sub_A218D0();
 	static e_platform __cdecl get_runtime_platform();
 	static bool __cdecl initialize_device(bool window_exists, bool windowed);
 	static void __cdecl rasterizer_device_acquire_thread();
@@ -349,6 +351,7 @@ struct c_rasterizer
 	static void __cdecl sub_A24D30(bool a1, bool a2);
 	static void __cdecl setup_targets_distortion(short_rectangle2d*);
 	static void __cdecl setup_targets_simple();
+	static void __cdecl setup_targets_static_lighting(real a1, real a2, bool a3, real a4, bool a5, bool a6, bool a7);
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
 
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count);
@@ -357,6 +360,8 @@ struct c_rasterizer
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
 	static e_surface __cdecl get_render_target(long render_target_index);
+
+	static e_surface sub_A48770();
 
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5);
 	static void __cdecl set_depth_stencil_surface(e_surface surface);

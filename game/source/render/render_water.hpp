@@ -37,6 +37,7 @@ public:
 	static void __cdecl ripple_slope();
 	static void __cdecl ripple_update();
 	static void __cdecl set_performance_throttles();
+	static bool __cdecl update_water_part_list();
 
 	static void frame_advance(real seconds_elapsed);
 };
@@ -44,5 +45,6 @@ public:
 extern bool& render_water_enabled;
 extern bool& render_water_tessellation_enabled;
 extern bool& render_water_interaction_enabled;
+extern bool& render_underwater_fog_enabled;
 extern bool& render_water_wireframe_enabled;
 

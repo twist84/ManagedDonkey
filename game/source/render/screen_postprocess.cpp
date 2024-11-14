@@ -91,6 +91,14 @@ void __cdecl c_screen_postprocess::copy(
 	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
 }
 
+//.text:00A605B0 ; 
+
+// nullsub
+void __cdecl c_screen_postprocess::sub_A60AF0(render_projection const* projection, render_camera const* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
+{
+	//INVOKE(0x00A60AF0, c_screen_postprocess::sub_A60AF0, projection, camera, surface_a, surface_b, surface_c);
+}
+
 void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
 {
 	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, surface_a, surface_b);
@@ -102,30 +110,61 @@ void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface
 
 void __cdecl c_screen_postprocess::postprocess_player_view(
 	c_camera_fx_values& fx_values,
+	render_projection const* projection,
 	render_camera const* camera,
 	s_screen_effect_settings& screen_effect_settings,
 	e_splitscreen_res splitscreen_res,
 	s_observer_depth_of_field const* observer_dof,
-	e_output_user_index output_user_index,
-	c_rasterizer::e_surface surface)
+	e_output_user_index output_user_index)
 {
-	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, camera, screen_effect_settings, splitscreen_res, observer_dof, output_user_index, surface);
+	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, projection, camera, screen_effect_settings, splitscreen_res, observer_dof, output_user_index);
+}
 
-	if (render_debug_toggle_default_lightmaps_texaccum == 3)
-	{
-		c_screen_postprocess::setup_rasterizer_for_postprocess(false);
-		c_screen_postprocess::copy(
-			c_rasterizer_globals::_explicit_shader_copy_surface,
-			c_rasterizer::_surface_accum_LDR,
-			c_rasterizer::_surface_disable,
-			c_rasterizer::_sampler_filter_mode_unknown1,
-			c_rasterizer::_sampler_address_mode_unknown1,
-			1.0f,
-			1.0f,
-			1.0f,
-			1.0f,
-			NULL);
-	}
+// nullsub
+void __cdecl c_screen_postprocess::sub_A62710(
+	render_projection const* projection,
+	render_camera const* camera,
+	real_matrix4x3 const* matrix,
+	s_oriented_bounding_box const* projection_matrix,
+	c_rasterizer::e_surface surface_a,
+	c_rasterizer::e_surface surface_b,
+	c_rasterizer::e_surface surface_c)
+{
+	//INVOKE(0x00A62710, c_screen_postprocess::sub_A62710, projection, camera, matrix, bounding_box, surface_a, surface_b, surface_c);
+}
+
+// saber reflections
+void __cdecl c_screen_postprocess::sub_A61CD0(
+	render_projection const* projection,
+	render_camera const* camera,
+	c_rasterizer::e_surface surface_a,
+	c_rasterizer::e_surface surface_b,
+	c_rasterizer::e_surface surface_c,
+	c_rasterizer::e_surface surface_d,
+	c_rasterizer::e_surface surface_e,
+	c_rasterizer::e_surface surface_f,
+	c_rasterizer::e_surface surface_g,
+	c_rasterizer::e_surface surface_h,
+	c_rasterizer::e_surface surface_i,
+	c_rasterizer::e_surface surface_j,
+	c_rasterizer::e_surface surface_k,
+	c_rasterizer::e_surface surface_l)
+{
+	INVOKE(0x00A61CD0, sub_A61CD0,
+		projection,
+		camera,
+		surface_a,
+		surface_b,
+		surface_c,
+		surface_d,
+		surface_e,
+		surface_f,
+		surface_g,
+		surface_h,
+		surface_i,
+		surface_j,
+		surface_k,
+		surface_l);
 }
 
 void __cdecl c_screen_postprocess::setup_rasterizer_for_postprocess(bool a1)

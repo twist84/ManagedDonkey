@@ -72,29 +72,17 @@ void __cdecl chud_draw_screen(e_output_user_index output_user_index)
 {
 	//INVOKE(0x00A88DA0, chud_draw_screen, output_user_index);
 
-	// #TODO: move this out when `c_player_view::render` is implemented
-	c_rasterizer_profile_scope _chud_draw_screen(_rasterizer_profile_element_interface_hud, L"chud_draw_screen");
-
-	if (c_player_view* player_view = c_player_view::get_current(output_user_index))
-	{
-		render_camera const* rasterizer_camera = player_view->get_rasterizer_camera();
-		c_rasterizer::begin(rasterizer_camera->window_pixel_bounds, rasterizer_camera->window_pixel_bounds);
-	}
-
 	HOOK_INVOKE(, chud_draw_screen, output_user_index);
-
-	c_rasterizer::restore_last_viewport();
-	c_rasterizer::restore_last_scissor_rect();
 }
 
-//.text:00A88FE0 ; 
+void __cdecl sub_A88FE0(e_output_user_index output_user_index)
+{
+	INVOKE(0x00A88FE0, sub_A88FE0, output_user_index);
+}
 
 void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
 {
 	//INVOKE(0x00A89100, chud_draw_screen_saved_film, output_user_index);
-
-	// #TODO: move this out when `c_player_view::render` is implemented
-	c_rasterizer_profile_scope _chud_draw_screen_saved_film(_rasterizer_profile_element_interface_hud, L"chud_draw_screen_saved_film");
 
 	HOOK_INVOKE(, chud_draw_screen_saved_film, output_user_index);
 }
@@ -102,9 +90,6 @@ void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
 void __cdecl chud_draw_turbulence(e_output_user_index output_user_index)
 {
 	//INVOKE(0x00A89250, chud_draw_turbulence, output_user_index);
-
-	// #TODO: move this out when `c_player_view::render` is implemented
-	c_rasterizer_profile_scope _chud_turbulence(_rasterizer_profile_element_interface_hud, L"chud turbulence");
 
 	HOOK_INVOKE(, chud_draw_turbulence, output_user_index);
 }
@@ -114,7 +99,11 @@ void __cdecl chud_game_tick()
 	INVOKE(0x00A89420, chud_game_tick);
 }
 
-//.text:00A89440 ; 
+bool __cdecl sub_A89440(e_output_user_index output_user_index)
+{
+	return INVOKE(0x00A89440, sub_A89440, output_user_index);
+}
+
 //.text:00A895C0 ; long __cdecl chud_find_active_skin_index(long)
 //.text:00A89630 ; 
 //.text:00A89670 ; s_player_navpoint_data* __cdecl chud_get_campaign_navpoint_data(long)

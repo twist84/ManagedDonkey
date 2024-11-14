@@ -16,6 +16,7 @@
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
+#include "render/views/hud_camera_view.hpp"
 
 #include <math.h>
 
@@ -69,6 +70,11 @@ c_view* __cdecl c_view::top()
 		return 0;
 	else
 		return g_view_stack[g_view_stack_top];
+}
+
+void c_lights_view::render(e_output_user_index output_user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
+{
+	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, output_user_index, player_index, a3, a4, a5);
 }
 
 render_camera const* c_view::get_render_camera() const
@@ -139,8 +145,15 @@ void c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
 	DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
 }
 
+void c_world_view::get_starting_cluster(s_cluster_reference* starting_cluster)
+{
+	INVOKE_CLASS_MEMBER(0x00A28B50, c_world_view, get_starting_cluster, starting_cluster);
+}
+
 void __thiscall c_first_person_view::override_projection(bool first_person_squish)
 {
+	//INVOKE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection, first_person_squish);
+
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
 	render_projection* render_projection_modifiable = get_render_projection_modifiable();
 
@@ -232,7 +245,7 @@ void __cdecl render_debug_window_render(long user_index)
 }
 
 // #TODO: move this
-void __cdecl sub_A292A0(long splitscreen_res)
+void __cdecl sub_A292A0(e_splitscreen_res splitscreen_res)
 {
 	INVOKE(0x00A292A0, sub_A292A0, splitscreen_res);
 }
@@ -255,5 +268,15 @@ void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_su
 	//	c_rasterizer::set_render_target(0, m_render_target, NONE);
 	//	c_rasterizer::clearf(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
 	//}
+}
+
+c_hud_camera_view* c_hud_camera_view::constructor()
+{
+	return INVOKE_CLASS_MEMBER(0x0060DC00, c_hud_camera_view, constructor);
+}
+
+void c_hud_camera_view::render(long player_index, c_player_view const* player_view, void* data)
+{
+	INVOKE_CLASS_MEMBER(0x00A2D490, c_hud_camera_view, render, player_index, player_view, data);
 }
 
