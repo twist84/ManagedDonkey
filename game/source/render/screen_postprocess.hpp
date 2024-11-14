@@ -44,7 +44,7 @@ struct c_screen_postprocess
 		real a9,
 		real_rectangle2d* bounds);
 
-	static void __cdecl sub_A60AF0(
+	static void __cdecl render_ssao(
 		render_projection const* projection,
 		render_camera const* camera,
 		c_rasterizer::e_surface surface_a,

@@ -169,7 +169,7 @@ void __thiscall c_player_view::render_()
 		&screen_effect_shader_sample_result,
 		m_output_user_index);
 	
-	sub_A292A0(m_splitscreen_res);
+	c_rasterizer::set_current_splitscreen_res(m_splitscreen_res);
 	
 	if (!game_engine_suppress_render_scene(m_output_user_index))
 	{
@@ -287,10 +287,10 @@ void __thiscall c_player_view::render_()
 		
 				if (render_debug_toggle_default_sfx)
 				{
-					if (c_rasterizer::sub_A218D0())
-						sub_A7B5F0(m_player_index, &rasterizer_camera->window_pixel_bounds); // tron effect
+					if (c_rasterizer::get_is_tiling_enabled())
+						c_tron_effect::resolve_and_process_z_camera(m_player_index, &rasterizer_camera->window_pixel_bounds, false);
 					
-					c_screen_postprocess::sub_A60AF0(
+					c_screen_postprocess::render_ssao(
 						&m_rasterizer_projection,
 						&m_rasterizer_camera,
 						c_rasterizer::_surface_accum_LDR,
@@ -391,18 +391,21 @@ void __thiscall c_player_view::render_()
 					&m_observer_depth_of_field,
 					m_output_user_index);
 			
-				c_screen_postprocess::setup_rasterizer_for_postprocess(false);
-				c_screen_postprocess::copy(
-					c_rasterizer_globals::_explicit_shader_copy_surface,
-					c_rasterizer::_surface_accum_LDR,
-					c_rasterizer::_surface_disable,
-					c_rasterizer::_sampler_filter_mode_unknown1,
-					c_rasterizer::_sampler_address_mode_unknown1,
-					1.0f,
-					1.0f,
-					1.0f,
-					1.0f,
-					NULL);
+				//if (render_debug_toggle_default_lightmaps_texaccum == 3)
+				{
+					c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+					c_screen_postprocess::copy(
+						c_rasterizer_globals::_explicit_shader_copy_surface,
+						c_rasterizer::_surface_accum_LDR,
+						c_rasterizer::_surface_disable,
+						c_rasterizer::_sampler_filter_mode_unknown1,
+						c_rasterizer::_sampler_address_mode_unknown1,
+						1.0f,
+						1.0f,
+						1.0f,
+						1.0f,
+						NULL);
+				}
 			}
 		}
 	}
@@ -420,13 +423,12 @@ void __thiscall c_player_view::render_()
 		{
 			c_rasterizer_profile_scope _vision_mode(_rasterizer_profile_element_total, L"vision_mode");
 		
-			if (screen_effect_settings.__unknown38 <= 0.0f)
-			{
-				sub_14E56A0(
-					m_player_index,
-					this);
-			}
-			else
+			// #TODO: remove this after a proper fix is implemented
+			//        this is a stop-gap for rendering all huds
+			//        there are some artifacts from vision mode rendering
+			//        this will break in a future commit
+			//if (screen_effect_settings.__unknown38 > 0.0f)
+			if (screen_effect_settings.__unknown38 > 0.0f || m_player_index >= m_player_view_count - 1)
 			{
 				vision_mode_render(
 					m_player_index,
@@ -436,6 +438,12 @@ void __thiscall c_player_view::render_()
 					screen_effect_settings.__unknown3C,
 					0,
 					0);
+			}
+			else
+			{
+				sub_14E56A0(
+					m_player_index,
+					this);
 			}
 		}
 		

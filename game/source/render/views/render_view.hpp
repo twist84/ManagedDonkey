@@ -326,6 +326,3 @@ extern bool render_debug_pix_events;
 extern void __cdecl render_debug_frame_render();
 extern void __cdecl render_debug_window_render(long user_index);
 
-enum e_splitscreen_res;
-extern void __cdecl sub_A292A0(e_splitscreen_res splitscreen_res);
-

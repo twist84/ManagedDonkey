@@ -634,9 +634,9 @@ bool __cdecl c_rasterizer::sub_A218C0()
 	return INVOKE(0x00A218C0, c_rasterizer::sub_A218C0);
 }
 
-bool __cdecl c_rasterizer::sub_A218D0()
+bool __cdecl c_rasterizer::get_is_tiling_enabled()
 {
-	return INVOKE(0x00A218D0, c_rasterizer::sub_A218D0);
+	return INVOKE(0x00A218D0, c_rasterizer::get_is_tiling_enabled);
 }
 
 decltype(Direct3DCreate9)* __cdecl GetDirect3DCreate9()
@@ -1576,6 +1576,17 @@ void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primit
 void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count)
 {
 	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
+}
+
+void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res splitscreen_res)
+{
+	INVOKE(0x00A292A0, c_rasterizer::set_current_splitscreen_res, splitscreen_res);
+
+	//c_rasterizer::set_render_target(0, c_rasterizer::get_render_target(0), 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(1, c_rasterizer::get_render_target(1), 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(2, c_rasterizer::get_render_target(2), 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(3, c_rasterizer::get_render_target(3), 0xFFFFFFFF);
+	//c_rasterizer::set_depth_stencil_surface(c_rasterizer::g_depth_stencil_surface);
 }
 
 c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long render_target_index)

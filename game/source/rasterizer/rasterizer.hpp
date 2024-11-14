@@ -96,6 +96,7 @@ struct s_rasterizer_render_globals
 };
 static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
 
+enum e_splitscreen_res;
 struct c_rasterizer
 {
 	enum e_separate_alpha_blend_mode
@@ -312,7 +313,7 @@ struct c_rasterizer
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
 	static bool __cdecl sub_A218C0();
-	static bool __cdecl sub_A218D0();
+	static bool __cdecl get_is_tiling_enabled();
 	static e_platform __cdecl get_runtime_platform();
 	static bool __cdecl initialize_device(bool window_exists, bool windowed);
 	static void __cdecl rasterizer_device_acquire_thread();
@@ -358,6 +359,8 @@ struct c_rasterizer
 	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
+
+	static void __cdecl set_current_splitscreen_res(e_splitscreen_res splitscreen_res);
 
 	static e_surface __cdecl get_render_target(long render_target_index);
 

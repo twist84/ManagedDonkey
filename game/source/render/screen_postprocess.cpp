@@ -94,9 +94,9 @@ void __cdecl c_screen_postprocess::copy(
 //.text:00A605B0 ; 
 
 // nullsub
-void __cdecl c_screen_postprocess::sub_A60AF0(render_projection const* projection, render_camera const* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
+void __cdecl c_screen_postprocess::render_ssao(render_projection const* projection, render_camera const* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
 {
-	//INVOKE(0x00A60AF0, c_screen_postprocess::sub_A60AF0, projection, camera, surface_a, surface_b, surface_c);
+	//INVOKE(0x00A60AF0, c_screen_postprocess::render_ssao, projection, camera, surface_a, surface_b, surface_c);
 }
 
 void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
