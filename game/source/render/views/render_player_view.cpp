@@ -298,29 +298,29 @@ void __thiscall c_player_view::render_1st_pass()
 					if (c_rasterizer::get_is_tiling_enabled())
 						c_tron_effect::resolve_and_process_z_camera(m_player_index, &rasterizer_camera->window_pixel_bounds, false);
 
-					//c_screen_postprocess::render_ssao(
-					//	&m_rasterizer_projection,
-					//	&m_rasterizer_camera,
-					//	c_rasterizer::_surface_accum_LDR,
-					//	c_rasterizer::_surface_accum_HDR,
-					//	c_rasterizer::_surface_color_half_fp16_0);
-					//
-					//if (screenshot_allow_postprocess())
-					//	c_screen_postprocess::sub_A61CD0(
-					//		&m_rasterizer_projection,
-					//		&m_rasterizer_camera,
-					//		c_rasterizer::_surface_accum_LDR,
-					//		c_rasterizer::_surface_accum_HDR,
-					//		c_rasterizer::_surface_normal,
-					//		c_rasterizer::_surface_depth_fp32,
-					//		c_rasterizer::_surface_gbuf,
-					//		c_rasterizer::_surface_post_LDR,
-					//		c_rasterizer::_surface_post_HDR,
-					//		c_rasterizer::_surface_depth_half_fp32,
-					//		c_rasterizer::_surface_color_half_fp16_0,
-					//		c_rasterizer::_surface_color_half_fp16_1,
-					//		c_rasterizer::_surface_normal_half,
-					//		c_rasterizer::_surface_post_half_LDR);
+					c_screen_postprocess::render_ssao(
+						&m_rasterizer_projection,
+						&m_rasterizer_camera,
+						c_rasterizer::_surface_accum_LDR,
+						c_rasterizer::_surface_accum_HDR,
+						c_rasterizer::_surface_color_half_fp16_0);
+					
+					if (screenshot_allow_postprocess())
+						c_screen_postprocess::render_ssr(
+							&m_rasterizer_projection,
+							&m_rasterizer_camera,
+							c_rasterizer::_surface_accum_LDR,
+							c_rasterizer::_surface_accum_HDR,
+							c_rasterizer::_surface_normal,
+							c_rasterizer::_surface_depth_fp32,
+							c_rasterizer::_surface_gbuf,
+							c_rasterizer::_surface_post_LDR,
+							c_rasterizer::_surface_post_HDR,
+							c_rasterizer::_surface_depth_half_fp32,
+							c_rasterizer::_surface_color_half_fp16_0,
+							c_rasterizer::_surface_color_half_fp16_1,
+							c_rasterizer::_surface_normal_half,
+							c_rasterizer::_surface_post_half_LDR);
 
 					c_rasterizer::setup_targets_static_lighting(
 						__unknown29C,

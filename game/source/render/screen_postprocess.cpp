@@ -133,8 +133,7 @@ void __cdecl c_screen_postprocess::sub_A62710(
 	//INVOKE(0x00A62710, c_screen_postprocess::sub_A62710, projection, camera, matrix, bounding_box, surface_a, surface_b, surface_c);
 }
 
-// saber reflections
-void __cdecl c_screen_postprocess::sub_A61CD0(
+void __cdecl c_screen_postprocess::render_ssr(
 	render_projection const* projection,
 	render_camera const* camera,
 	c_rasterizer::e_surface surface_a,
@@ -150,7 +149,7 @@ void __cdecl c_screen_postprocess::sub_A61CD0(
 	c_rasterizer::e_surface surface_k,
 	c_rasterizer::e_surface surface_l)
 {
-	INVOKE(0x00A61CD0, sub_A61CD0,
+	INVOKE(0x00A61CD0, c_screen_postprocess::render_ssr,
 		projection,
 		camera,
 		surface_a,

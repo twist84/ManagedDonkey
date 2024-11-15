@@ -73,7 +73,7 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c);
 
-	static void __cdecl sub_A61CD0(
+	static void __cdecl render_ssr(
 		render_projection const* projection,
 		render_camera const* camera,
 		c_rasterizer::e_surface surface_a,
