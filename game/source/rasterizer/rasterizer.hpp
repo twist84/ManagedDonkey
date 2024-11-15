@@ -242,8 +242,12 @@ struct c_rasterizer
 
 	enum e_sampler_address_mode
 	{
-		_sampler_address_mode_unknown0 = 0,
-		_sampler_address_mode_unknown1,
+		_sampler_address_wrap = 0,
+		_sampler_address_clamp,
+		_sampler_address_mirror,
+		_sampler_address_border,
+
+		k_number_of_sampler_address_modes
 	};
 
 	enum e_sampler_filter_mode

@@ -219,7 +219,7 @@ bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
 			surface,
 			c_rasterizer::_surface_disable,
 			c_rasterizer::_sampler_filter_mode_unknown1,
-			c_rasterizer::_sampler_address_mode_unknown1,
+			c_rasterizer::_sampler_address_clamp,
 			1.0f,
 			1.0f,
 			1.0f,
