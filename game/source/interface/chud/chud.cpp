@@ -75,9 +75,9 @@ void __cdecl chud_draw_screen(e_output_user_index output_user_index)
 	HOOK_INVOKE(, chud_draw_screen, output_user_index);
 }
 
-void __cdecl sub_A88FE0(e_output_user_index output_user_index)
+void __cdecl chud_draw_screen_LDR(e_output_user_index output_user_index)
 {
-	INVOKE(0x00A88FE0, sub_A88FE0, output_user_index);
+	INVOKE(0x00A88FE0, chud_draw_screen_LDR, output_user_index);
 }
 
 void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
@@ -99,9 +99,9 @@ void __cdecl chud_game_tick()
 	INVOKE(0x00A89420, chud_game_tick);
 }
 
-bool __cdecl sub_A89440(e_output_user_index output_user_index)
+bool __cdecl chud_generate_damage_flash_texture(e_output_user_index output_user_index)
 {
-	return INVOKE(0x00A89440, sub_A89440, output_user_index);
+	return INVOKE(0x00A89440, chud_generate_damage_flash_texture, output_user_index);
 }
 
 //.text:00A895C0 ; long __cdecl chud_find_active_skin_index(long)
