@@ -354,62 +354,64 @@ void __cdecl main_render_game()
 
 				c_screen_postprocess::accept_edited_settings();
 
-				bool is_widescreen = rasterizer_get_is_widescreen();
 				c_static_wchar_string<32> pix_name;
+				bool is_widescreen = rasterizer_get_is_widescreen();
 
-				//for (long view_index = 0; view_index < window_count; view_index++)
-				//{
-				//	c_player_view* player_view = c_player_view::get_current(view_index);
-				//
-				//	c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
-				//
-				//	c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-				//	player_view->__unknown26B4 = view_index == window_count - 1;
-				//	main_render_view(player_view, view_index);
-				//}
-
-				for (long view_index = 0; view_index < window_count; view_index++)
+				if (window_count == 1)
 				{
-					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_1st_pass", view_index));
+					long view_index = 0;
+					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
 					c_player_view* player_view = c_player_view::get_current(view_index);
 
 					c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
 					player_view->__unknown26B4 = view_index == window_count - 1;
-
-					PLAYER_VIEW_RENDER_BEGIN;
-					PLAYER_VIEW_RENDER_PREPARE;
-					player_view->render_1st_pass();
-					PLAYER_VIEW_RENDER_END;
+					main_render_view(player_view, view_index);
 				}
-
-				for (long view_index = 0; view_index < window_count; view_index++)
+				else
 				{
-					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_2nd_pass", view_index));
-					c_player_view* player_view = c_player_view::get_current(view_index);
+					for (long view_index = 0; view_index < window_count; view_index++)
+					{
+						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_1st_pass", view_index));
+						c_player_view* player_view = c_player_view::get_current(view_index);
 
-					PLAYER_VIEW_RENDER_BEGIN;
-					player_view->render_2nd_pass();
-					PLAYER_VIEW_RENDER_END;
-				}
+						c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
+						player_view->__unknown26B4 = view_index == window_count - 1;
 
-				for (long view_index = 0; view_index < window_count; view_index++)
-				{
-					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_3rd_pass", view_index));
-					c_player_view* player_view = c_player_view::get_current(view_index);
+						PLAYER_VIEW_RENDER_BEGIN;
+						PLAYER_VIEW_RENDER_PREPARE;
+						player_view->render_1st_pass();
+						PLAYER_VIEW_RENDER_END;
+					}
 
-					PLAYER_VIEW_RENDER_BEGIN;
-					player_view->render_3rd_pass();
-					PLAYER_VIEW_RENDER_END;
-				}
+					for (long view_index = 0; view_index < window_count; view_index++)
+					{
+						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_2nd_pass", view_index));
+						c_player_view* player_view = c_player_view::get_current(view_index);
 
-				for (long view_index = 0; view_index < window_count; view_index++)
-				{
-					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_4th_pass", view_index));
-					c_player_view* player_view = c_player_view::get_current(view_index);
+						PLAYER_VIEW_RENDER_BEGIN;
+						player_view->render_2nd_pass();
+						PLAYER_VIEW_RENDER_END;
+					}
 
-					PLAYER_VIEW_RENDER_BEGIN;
-					player_view->render_4th_pass();
-					PLAYER_VIEW_RENDER_END;
+					for (long view_index = 0; view_index < window_count; view_index++)
+					{
+						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_3rd_pass", view_index));
+						c_player_view* player_view = c_player_view::get_current(view_index);
+
+						PLAYER_VIEW_RENDER_BEGIN;
+						player_view->render_3rd_pass();
+						PLAYER_VIEW_RENDER_END;
+					}
+
+					for (long view_index = 0; view_index < window_count; view_index++)
+					{
+						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_4th_pass", view_index));
+						c_player_view* player_view = c_player_view::get_current(view_index);
+
+						PLAYER_VIEW_RENDER_BEGIN;
+						player_view->render_4th_pass();
+						PLAYER_VIEW_RENDER_END;
+					}
 				}
 
 				c_ui_view ui_view{};
