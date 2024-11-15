@@ -217,7 +217,7 @@ public:
 
 	e_output_user_index get_player_view_output_user_index()
 	{
-		return m_output_user_index;
+		return m_camera_user_data.output_user_index;
 	}
 
 protected:
@@ -255,22 +255,34 @@ public:
 	static void frame_advance();
 
 //protected:
-	// c_camera_fx_values?
-	s_render_game_state::s_player_window* m_player_window;
-	real __unknown29C;
-	real __unknown2A0;
+	struct s_camera_user_data
+	{
+		long player_window_index;
+		long player_window_count;
+		long player_window_arrangement;
+		e_output_user_index output_user_index;
+		e_controller_index controller_index;
+		e_splitscreen_res m_splitscreen_res_index;
+		long m_splitscreen_resolve_surface;
+	};
+	static_assert(sizeof(s_camera_user_data) == 0x1C);
 
+
+	s_render_game_state::s_player_window* m_window_game_state;
+	real m_render_exposure;
+	real m_illum_render_scale;
 	s_observer_depth_of_field m_observer_depth_of_field;
-
 	c_patchy_fog m_patchy_fog;
 
-	// struct?
-	real_point3d m_position;
-	vector3d m_forward;
-	vector3d m_up;
-	long __unknown630;
-	real_matrix4x3 __matrix634;
-	s_oriented_bounding_box m_projection_matrix;
+	struct
+	{
+		real_point3d position;
+		vector3d forward;
+		vector3d up;
+		real game_time;
+		real_matrix4x3 view_matrix;
+		real projection_matrix[4][4];
+	} m_last_frame_motion_blur_state;
 
 	c_first_person_view m_first_person_view;
 	c_ui_view m_ui_view;
@@ -278,21 +290,9 @@ public:
 	c_lightmap_shadows_view m_lightmap_shadows_view;
 	c_reflection_view m_reflection_view;
 	c_occlusion_view m_occlusion_view;
-
-	short_rectangle2d __rectangle2690;
-
-	long m_player_index;
-	long m_player_view_count;
-	long m_player_view_arrangement;
-	e_output_user_index m_output_user_index;
-	e_controller_index m_controller_index;
-	e_splitscreen_res m_splitscreen_res;
-
-	long __unknown26B0;
-
-	// __unknown26B4 = window_index == iterator.get_window_count() - 1
-	// is_last_window?
-	bool __unknown26B4;
+	short_rectangle2d m_final_surface_window_rect;
+	s_camera_user_data m_camera_user_data;
+	bool m_stall_cpu_to_wait_for_gpu;
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 

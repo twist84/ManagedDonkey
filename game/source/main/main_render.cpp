@@ -364,7 +364,7 @@ void __cdecl main_render_game()
 					c_player_view* player_view = c_player_view::get_current(view_index);
 
 					c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-					player_view->__unknown26B4 = view_index == window_count - 1;
+					player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
 					main_render_view(player_view, view_index);
 				}
 				else
@@ -375,7 +375,7 @@ void __cdecl main_render_game()
 						c_player_view* player_view = c_player_view::get_current(view_index);
 
 						c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-						player_view->__unknown26B4 = view_index == window_count - 1;
+						player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
 
 						PLAYER_VIEW_RENDER_BEGIN;
 						PLAYER_VIEW_RENDER_PREPARE;

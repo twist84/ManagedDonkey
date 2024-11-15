@@ -125,7 +125,7 @@ void __cdecl c_screen_postprocess::sub_A62710(
 	render_projection const* projection,
 	render_camera const* camera,
 	real_matrix4x3 const* matrix,
-	s_oriented_bounding_box const* projection_matrix,
+	real const(*projection_matrix)[4],
 	c_rasterizer::e_surface surface_a,
 	c_rasterizer::e_surface surface_b,
 	c_rasterizer::e_surface surface_c)
