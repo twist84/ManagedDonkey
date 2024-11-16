@@ -6,10 +6,14 @@
 
 struct s_console_globals
 {
-	bool is_active;
+	bool active;
 	bool status_render;
-	real __time4;
+	real open_timeout_seconds;
 	terminal_gets_state input_state;
+	c_static_string<255> previous_commands[16];
+	short previous_command_count;
+	short newest_previous_command_index;
+	short selected_previous_command_index;
 };
 //static_assert(sizeof(s_console_globals) == 0x1204);
 

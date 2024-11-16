@@ -7,12 +7,12 @@ enum e_parse_state
 	_parse_state_none = 0,
 	_parse_state_reading_tag,
 	_parse_state_reading_open_tag,
-	_parse_state_reading_forward_slash,
+	_parse_state_reading_close_tag,
 	_parse_state_reading_property,
 	_parse_state_reading_property_found_eqauls,
-	_parse_state_unknown6,
+	_parse_state_reading_menu_items,
 	_parse_state_reading_string,
-	_parse_state_reading_escape_sequence,
+	_parse_state_reading_escape_character,
 	_parse_state_reading_number,
 
 	k_parse_state_count
@@ -28,7 +28,7 @@ enum e_advance_type
 	k_advance_type_count
 };
 
-enum e_token
+enum e_tokens
 {
 	_token_none = 0,
 	
@@ -67,16 +67,16 @@ enum e_token
 	//_token_sequence_command
 
 	// CR LF
-	_token_crlf,
+	_token_eol_0,
 
 	// LF CR
-	_token_lfcr,
+	_token_eol_1,
 
 	// CR
-	_token_carriage_return,
+	_token_eol_2,
 
 	// LF
-	_token_line_feed,
+	_token_eol_3,
 
 	k_token_count
 };
@@ -96,7 +96,7 @@ enum e_property
 	k_property_count
 };
 
-enum e_property_owner
+enum e_property_owners
 {
 	_property_owner_none = 0,
 	_property_owner_item,
@@ -119,10 +119,10 @@ enum e_property_owner
 	k_property_owner_count
 };
 
-enum e_item_type
+enum e_item_types
 {
 	_item_type_none = 0,
-	_item_type_global,
+	_item_type_hs_variable_global,
 	_item_type_command,
 
 	k_item_type_count
@@ -141,8 +141,8 @@ struct s_parser_state
 		k_string_length = 2048
 	};
 
-	c_enum<e_property, short, _property_none, k_property_count> m_property;
-	c_enum<e_property_owner, long, _property_owner_none, k_property_owner_count> m_property_owner;
+	c_enum<e_property, short, _property_none, k_property_count> m_current_property_type;
+	c_enum<e_property_owners, long, _property_owner_none, k_property_owner_count> m_current_property_owner;
 
 	char m_string_buffer[k_string_length];
 	short m_string_buffer_index;
@@ -150,29 +150,29 @@ struct s_parser_state
 	char m_number_buffer[k_string_length];
 	short m_number_buffer_index;
 
-	bool m_name;
-	char m_name_buffer[k_string_length];
+	bool m_has_name;
+	char m_name[k_string_length];
 
-	bool m_color;
-	char m_color_buffer[k_string_length];
+	bool m_has_color;
+	char m_color[k_string_length];
 
-	bool m_variable;
-	char m_variable_buffer[k_string_length];
+	bool m_has_variable;
+	char m_variable[k_string_length];
 
-	bool m_caption;
-	char m_caption_buffer[k_string_length];
+	bool m_has_caption;
+	char m_caption[k_string_length];
 
-	bool m_min;
-	real m_min_value;
+	bool m_has_min;
+	real m_min;
 
-	bool m_max;
-	real m_max_value;
+	bool m_has_max;
+	real m_max;
 
-	bool m_inc;
-	real m_inc_value;
+	bool m_has_inc;
+	real m_inc;
 
-	bool m_item;
-	c_enum<e_item_type, long, _item_type_none, k_item_type_count> m_item_type;
+	bool m_has_item_type;
+	c_enum<e_item_types, long, _item_type_none, k_item_type_count> m_item_type;
 };
 //static_assert(sizeof(s_parser_state) == 0x330);
 static_assert(sizeof(s_parser_state) == 0x3030);

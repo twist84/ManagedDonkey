@@ -52,7 +52,7 @@ void __cdecl edit_text_selection_reset(edit_text* edit)
 	edit->selection_start_index = NONE;
 }
 
-byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* out_selection_index0, short* out_selection_index1)
+byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* start_index, short* end_index)
 {
 	ASSERT(valid_edit_text(edit));
 
@@ -61,8 +61,8 @@ byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* out_selecti
 	if (edit->selection_start_index == NONE)
 		return 0;
 
-	*out_selection_index0 = (edit->selection_start_index <= edit->insertion_point_index) ? edit->selection_start_index : edit->insertion_point_index;
-	*out_selection_index1 = (edit->selection_start_index <= edit->insertion_point_index) ? edit->insertion_point_index : edit->selection_start_index;
+	*start_index = (edit->selection_start_index <= edit->insertion_point_index) ? edit->selection_start_index : edit->insertion_point_index;
+	*end_index = (edit->selection_start_index <= edit->insertion_point_index) ? edit->insertion_point_index : edit->selection_start_index;
 
 	return 1;
 }
@@ -75,8 +75,9 @@ void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key)
 
 	edit_text_fix_selection(edit);
 
+	e_key_type key_type = key->key_type;
 	e_key_code key_code = key->key_code;
-	if (key->key_type == _key_type_down && key_code == _key_code_backspace)
+	if (key_type == _key_type_down && key_code == _key_code_backspace)
 	{
 		edit->buffer[edit->insertion_point_index - 1] = 0;
 	}

@@ -44,13 +44,13 @@ void __cdecl terminal_initialize()
 	if (terminal_globals.initialized)
 		return;
 
-	terminal_globals.output_data.m_data = data_new("terminal output", 32, sizeof(terminal_output_datum), 0, g_normal_allocation);
-	data_make_valid(*terminal_globals.output_data);
+	terminal_globals.output_lines.m_data = data_new("terminal output", 32, sizeof(output_line_datum), 0, g_normal_allocation);
+	data_make_valid(*terminal_globals.output_lines);
 
-	terminal_globals.output_to_console = false;
+	terminal_globals.console_output = false;
 	terminal_globals.input_state = nullptr;
-	terminal_globals.line_count = NONE;
-	terminal_globals.line_index = NONE;
+	terminal_globals.newest_output_line_index = NONE;
+	terminal_globals.oldest_output_line_index = NONE;
 	terminal_globals.initialized = true;
 }
 
@@ -59,13 +59,13 @@ void __cdecl terminal_dispose()
 	if (!terminal_globals.initialized)
 		return;
 
-	if (*terminal_globals.output_data)
+	if (*terminal_globals.output_lines)
 	{
-		if (terminal_globals.output_data->valid)
-			data_make_invalid(*terminal_globals.output_data);
+		if (terminal_globals.output_lines->valid)
+			data_make_invalid(*terminal_globals.output_lines);
 
-		data_dispose(*terminal_globals.output_data);
-		terminal_globals.output_data = nullptr;
+		data_dispose(*terminal_globals.output_lines);
+		terminal_globals.output_lines = nullptr;
 	}
 
 	terminal_globals.initialized = false;
@@ -79,10 +79,10 @@ void __cdecl terminal_clear()
 	c_font_cache_mt_safe font_cache;
 	c_critical_section_scope critical_section_scope(_critical_section_terminal);
 
-	terminal_globals.line_count = NONE;
-	terminal_globals.line_index = NONE;
+	terminal_globals.newest_output_line_index = NONE;
+	terminal_globals.oldest_output_line_index = NONE;
 
-	data_delete_all(*terminal_globals.output_data);
+	data_delete_all(*terminal_globals.output_lines);
 }
 
 void terminal_handle_key(s_key_state* key)
@@ -95,8 +95,8 @@ void terminal_handle_key(s_key_state* key)
 	if (terminal_globals.input_state->edit.buffer)
 		edit_text_handle_key(&terminal_globals.input_state->edit, key);
 
-	terminal_globals.should_draw = true;
-	terminal_globals.draw_time = 0.0;
+	terminal_globals.insertion_point_visible = true;
+	terminal_globals.insertion_point_toggle_timer = 0.0f;
 }
 
 bool __cdecl terminal_update_input(real shell_seconds_elapsed)
@@ -111,15 +111,15 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 
 		input_suppress();
 
-		terminal_globals.draw_time += shell_seconds_elapsed;
-		if (terminal_globals.draw_time > 1.0f)
+		terminal_globals.insertion_point_toggle_timer += shell_seconds_elapsed;
+		if (terminal_globals.insertion_point_toggle_timer > 1.0f)
 		{
-			terminal_globals.should_draw = !terminal_globals.should_draw;
-			terminal_globals.draw_time = 0.0f;
+			terminal_globals.insertion_point_visible = !terminal_globals.insertion_point_visible;
+			terminal_globals.insertion_point_toggle_timer = 0.0f;
 		}
 
 		long cursor_position = terminal_globals.input_state->prompt.length() + terminal_globals.input_state->edit.insertion_point_index;
-		long scroll_amount = terminal_globals.input_state->scroll_amount;
+		long scroll_amount = terminal_globals.input_state->horizontal_scroll_amount;
 
 		if (cursor_position > scroll_amount + 59)
 			scroll_amount = cursor_position - 59;
@@ -132,7 +132,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 		}
 
 		ASSERT(scroll_amount >= 0);
-		terminal_globals.input_state->scroll_amount = scroll_amount;
+		terminal_globals.input_state->horizontal_scroll_amount = scroll_amount;
 
 		return true;
 	}
@@ -148,13 +148,13 @@ void __cdecl terminal_update_output(real shell_seconds_elapsed)
 		c_critical_section_scope critical_section_scope(_critical_section_terminal);
 
 		long line_count = NONE;
-		for (long line_index = terminal_globals.line_count; line_index != NONE; line_index = line_count)
+		for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE; line_index = line_count)
 		{
-			terminal_output_datum* line = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line_index));
+			output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line_index));
 			line_count = line->line_count;
 
-			line->shadow_color_alpha_scale += shell_seconds_elapsed;
-			if (line->shadow_color_alpha_scale > k_output_total_seconds)
+			line->timer += shell_seconds_elapsed;
+			if (line->timer > k_output_total_seconds)
 				terminal_remove_line(line_index);
 		}
 	}
@@ -179,69 +179,69 @@ void __cdecl terminal_remove_line(long line_index)
 {
 	c_critical_section_scope critical_section_scope(_critical_section_terminal);
 
-	terminal_output_datum* line = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line_index));
+	output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line_index));
 
 	if (line->line_count == NONE)
 	{
-		terminal_globals.line_index = line->line_index;
+		terminal_globals.oldest_output_line_index = line->line_index;
 	}
 	else
 	{
-		terminal_output_datum* temp = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line->line_count));
+		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line->line_count));
 		temp->line_index = line->line_index;
 	}
 
 	if (line->line_index == NONE)
 	{
-		terminal_globals.line_count = line->line_count;
+		terminal_globals.newest_output_line_index = line->line_count;
 	}
 	else
 	{
-		terminal_output_datum* temp = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line->line_index));
+		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line->line_index));
 		temp->line_count = line->line_count;
 	}
 
-	datum_delete(*terminal_globals.output_data, line_index);
+	datum_delete(*terminal_globals.output_lines, line_index);
 }
 
-long __cdecl terminal_new_line(char const* message, real_argb_color const* message_color, bool tab_stop)
+long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop)
 {
 	c_font_cache_mt_safe font_cache;
 	c_critical_section_scope critical_section_scope(_critical_section_terminal);
 
-	if (data_is_full(*terminal_globals.output_data))
-		terminal_remove_line(terminal_globals.line_index);
+	if (data_is_full(*terminal_globals.output_lines))
+		terminal_remove_line(terminal_globals.oldest_output_line_index);
 
-	long new_line_index = datum_new(*terminal_globals.output_data);
+	long new_line_index = datum_new(*terminal_globals.output_lines);
 	ASSERT(new_line_index != NONE);
 
-	terminal_output_datum* line = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, new_line_index));
+	output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, new_line_index));
 
 	line->line_index = NONE;
-	line->line_count = terminal_globals.line_count;
-	line->tab_stop = tab_stop;
-	line->message.set(message);
-	line->message_color = *message_color;
-	line->shadow_color_alpha_scale = 0.0f;
+	line->line_count = terminal_globals.newest_output_line_index;
+	line->tabstop = tabstop;
+	line->buffer.set(buffer);
+	line->color = *color;
+	line->timer = 0.0f;
 
-	terminal_globals.line_count = new_line_index;
+	terminal_globals.newest_output_line_index = new_line_index;
 
 	if (line->line_count != NONE)
 	{
-		terminal_output_datum* temp = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line->line_count));
+		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line->line_count));
 		temp->line_index = new_line_index;
 	}
 	else
 	{
-		terminal_globals.line_index = new_line_index;
+		terminal_globals.oldest_output_line_index = new_line_index;
 	}
 
 	return new_line_index;
 }
 
-void __cdecl terminal_output_to_console(bool output_to_console)
+void __cdecl terminal_output_to_console(bool console_output)
 {
-	terminal_globals.output_to_console = output_to_console;
+	terminal_globals.console_output = console_output;
 }
 
 void __cdecl terminal_suppress_output(bool suppress_output)
@@ -263,9 +263,9 @@ bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 	if (!terminal_gets_active())
 	{
 		terminal_globals.input_state = state;
-		state->edit.buffer = state->input_text;
-		terminal_globals.input_state->edit.maximum_length = NUMBEROF(state->input_text) - 1;
-		terminal_globals.input_state->scroll_amount = 0;
+		state->edit.buffer = state->result;
+		terminal_globals.input_state->edit.maximum_length = NUMBEROF(state->result) - 1;
+		terminal_globals.input_state->horizontal_scroll_amount = 0;
 		edit_text_new(&terminal_globals.input_state->edit);
 		state->key_count = 0;
 
@@ -302,7 +302,7 @@ void __cdecl terminal_draw()
 		{
 			c_static_string<288> buffer;
 			buffer.set(terminal_globals.input_state->prompt.get_string());
-			buffer.append(terminal_globals.input_state->input_text);
+			buffer.append(terminal_globals.input_state->result);
 
 			bounds.x0 = pixel_bounds_->x0;
 			bounds.x1 = pixel_bounds_->x1;
@@ -310,7 +310,7 @@ void __cdecl terminal_draw()
 			bounds.y1 = pixel_bounds_->y1;
 
 			// cursor blink
-			if (terminal_globals.should_draw)
+			if (terminal_globals.insertion_point_visible)
 			{
 				short index = short(terminal_globals.input_state->prompt.length()) + terminal_globals.input_state->edit.insertion_point_index;
 				buffer.set_character(index, '_');
@@ -318,7 +318,7 @@ void __cdecl terminal_draw()
 
 			draw_string.set_color(&terminal_globals.input_state->color);
 			draw_string.set_bounds(&bounds);
-			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->scroll_amount, 0l, buffer.length())));
+			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->horizontal_scroll_amount, 0l, buffer.length())));
 		}
 
 		if (g_terminal_render_enable)
@@ -327,20 +327,20 @@ void __cdecl terminal_draw()
 			short line_offset = pixel_bounds_->y1 - line_height;
 
 			long line_count = NONE;
-			for (long line_index = terminal_globals.line_count; line_index != NONE && line_offset - line_height > 0; line_index = line_count)
+			for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE && line_offset - line_height > 0; line_index = line_count)
 			{
 				if (line_offset - line_height <= 0)
 					break;
 
-				terminal_output_datum* line = static_cast<terminal_output_datum*>(datum_try_and_get(*terminal_globals.output_data, line_index));
+				output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(*terminal_globals.output_lines, line_index));
 				line_count = line->line_count;
 
-				real alpha_scale = fmaxf(4.0f - line->shadow_color_alpha_scale, 0.0f);
+				real alpha_scale = fmaxf(4.0f - line->timer, 0.0f);
 				if (alpha_scale >= 1.0f)
 					alpha_scale = 1.0f;
 
-				line->message_color.alpha *= alpha_scale;
-				shadow_color.alpha = line->message_color.alpha;
+				line->color.alpha *= alpha_scale;
+				shadow_color.alpha = line->color.alpha;
 
 				bounds.x0 = pixel_bounds_->x0;
 				bounds.x1 = pixel_bounds_->x1;
@@ -348,13 +348,13 @@ void __cdecl terminal_draw()
 				line_offset -= line_height;
 				bounds.y0 = line_offset;
 
-				if (line->tab_stop)
+				if (line->tabstop)
 					draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));
 
-				draw_string.set_color(&line->message_color);
+				draw_string.set_color(&line->color);
 				draw_string.set_shadow_color(&shadow_color);
 				draw_string.set_bounds(&bounds);
-				draw_string.draw(&font_cache, line->message.get_string());
+				draw_string.draw(&font_cache, line->buffer.get_string());
 
 				draw_string.set_tab_stops(k_tab_stops, 0);
 			}

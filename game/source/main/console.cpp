@@ -150,10 +150,10 @@ void __cdecl console_initialize()
 		console_globals.status_render = true;
 		console_globals.input_state.color = { 1.0f, 1.0f, 0.3f, 1.0f };
 		console_globals.input_state.prompt.set("donkey( ");
-		console_globals.input_state.input_text[0] = 0;
-		console_globals.input_state.__unknown11F4 = 0;
-		console_globals.input_state.previous_inputs_count = NONE;
-		console_globals.input_state.__unknown11F8 = NONE;
+		console_globals.input_state.result[0] = 0;
+		console_globals.previous_command_count = 0;
+		console_globals.newest_previous_command_index = NONE;
+		console_globals.selected_previous_command_index = NONE;
 
 		debug_keys_initialize();
 
@@ -182,12 +182,12 @@ void __cdecl console_dispose()
 
 bool __cdecl console_is_active()
 {
-	return console_globals.is_active;
+	return console_globals.active;
 }
 
 bool __cdecl console_is_empty()
 {
-	return console_globals.is_active && !console_globals.input_state.input_text[0];
+	return console_globals.active && !console_globals.input_state.result[0];
 }
 
 void __cdecl console_open(bool debug_menu)
@@ -200,8 +200,8 @@ void __cdecl console_open(bool debug_menu)
 		}
 		else
 		{
-			console_globals.input_state.input_text[0] = 0;
-			console_globals.is_active = terminal_gets_begin(&console_globals.input_state);
+			console_globals.input_state.result[0] = 0;
+			console_globals.active = terminal_gets_begin(&console_globals.input_state);
 		}
 	}
 }
@@ -211,8 +211,8 @@ void __cdecl console_close()
 	if (console_is_active())
 	{
 		terminal_gets_end(&console_globals.input_state);
-		console_globals.__time4 = 0.1f;
-		console_globals.is_active = false;
+		console_globals.open_timeout_seconds = 0.1f;
+		console_globals.active = false;
 	}
 	else
 	{
@@ -227,12 +227,12 @@ void __cdecl console_clear()
 
 char* __cdecl console_get_token()
 {
-	char* input_text = strrchr(console_globals.input_state.input_text, ' ') + 1;
-	char* v1 = strrchr(console_globals.input_state.input_text, '(') + 1;
-	char* result = strrchr(console_globals.input_state.input_text, '"') + 1;
+	char* input_text = strrchr(console_globals.input_state.result, ' ') + 1;
+	char* v1 = strrchr(console_globals.input_state.result, '(') + 1;
+	char* result = strrchr(console_globals.input_state.result, '"') + 1;
 
-	if (console_globals.input_state.input_text > input_text)
-		input_text = console_globals.input_state.input_text;
+	if (console_globals.input_state.result > input_text)
+		input_text = console_globals.input_state.result;
 
 	if (input_text > v1)
 		v1 = input_text;
@@ -323,7 +323,7 @@ void __cdecl console_complete()
 			csmemcpy(token, matching_items[0], last_similar_character_index + 1);
 			token[last_similar_character_index + 1] = 0;
 
-			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + short(token - console_globals.input_state.input_text + 1);
+			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + short(token - console_globals.input_state.result + 1);
 
 			suggestion_current_index = short(strlen(matching_items[0])) == last_similar_character_index + 1;
 		}
@@ -340,7 +340,7 @@ void __cdecl console_complete()
 			short suggestion_length = short(strlen(matching_items[suggestion_current_index++]));
 			token[suggestion_length] = 0;
 
-			console_globals.input_state.edit.insertion_point_index = short(token - console_globals.input_state.input_text) + suggestion_length;
+			console_globals.input_state.edit.insertion_point_index = short(token - console_globals.input_state.result) + suggestion_length;
 		}
 	}
 }
@@ -369,7 +369,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				{
 					char buffer[256]{};
 					get_clipboard_as_text(buffer, NUMBEROF(buffer));
-					csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), buffer);
+					csnzappendf(console_globals.input_state.result, NUMBEROF(console_globals.input_state.result), buffer);
 
 					suggestion_current_index = 0;
 					console_token_buffer.clear();
@@ -377,10 +377,10 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				}
 				else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
 				{
-					if (console_globals.input_state.input_text[0])
+					if (console_globals.input_state.result[0])
 					{
-						console_process_command(console_globals.input_state.input_text, true);
-						console_globals.input_state.input_text[0] = 0;
+						console_process_command(console_globals.input_state.result, true);
+						console_globals.input_state.result[0] = 0;
 						edit_text_selection_reset(&console_globals.input_state.edit);
 					}
 					break;
@@ -388,37 +388,37 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				else if (key->key_type == _key_type_up && (key->key_code == _key_code_up || key->key_code == _key_code_down))
 				{
 					if (key->key_code == _key_code_up)
-						console_globals.input_state.__unknown11F8 += 2;
+						console_globals.selected_previous_command_index += 2;
 
-					short v4 = console_globals.input_state.__unknown11F8 - 1;
-					console_globals.input_state.__unknown11F8 = v4;
+					short v4 = console_globals.selected_previous_command_index - 1;
+					console_globals.selected_previous_command_index = v4;
 
 					if (v4 <= 0)
-						console_globals.input_state.__unknown11F8 = 0;
+						console_globals.selected_previous_command_index = 0;
 
 					if (v4 <= 0)
 						v4 = 0;
 
-					if (v4 > console_globals.input_state.__unknown11F4 - 1)
+					if (v4 > console_globals.previous_command_count - 1)
 					{
-						v4 = console_globals.input_state.__unknown11F4 - 1;
-						console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
+						v4 = console_globals.previous_command_count - 1;
+						console_globals.selected_previous_command_index = console_globals.previous_command_count - 1;
 					}
 
 					if (v4 != NONE)
 					{
-						decltype(console_globals.input_state.input_text)& input_text = console_globals.input_state.input_text;
-						decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
-						decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
+						decltype(console_globals.input_state.result)& input_text = console_globals.input_state.result;
+						decltype(console_globals.previous_commands)& previous_commands = console_globals.previous_commands;
+						decltype(console_globals.newest_previous_command_index)& newest_previous_command_index = console_globals.newest_previous_command_index;
 
-						previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].copy_to(input_text, NUMBEROF(input_text));
+						previous_commands[(newest_previous_command_index - v4 + NUMBEROF(previous_commands)) % NUMBEROF(previous_commands)].copy_to(input_text, NUMBEROF(input_text));
 						edit_text_selection_reset(&console_globals.input_state.edit);
 					}
 					break;
 				}
 				else if (key->vk_code != NONE && key->key_type == _key_type_char)
 				{
-					csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
+					csnzappendf(console_globals.input_state.result, NUMBEROF(console_globals.input_state.result), key->character);
 					break;
 				}
 				else
@@ -443,10 +443,10 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			debug_keys_update();
 		}
 
-		if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
-			console_globals.__time4 -= shell_seconds_elapsed;
+		if ((console_globals.open_timeout_seconds - shell_seconds_elapsed) >= 0.0f)
+			console_globals.open_timeout_seconds -= shell_seconds_elapsed;
 		else
-			console_globals.__time4 = 0.0f;
+			console_globals.open_timeout_seconds = 0.0f;
 	}
 }
 
@@ -509,16 +509,16 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	generate_event(_event_level_message, "console_command: %s", command);
 
-	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
-	console_globals.input_state.previous_inputs_count = command_index;
-	console_globals.input_state.previous_inputs[command_index].set(command);
+	short command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
+	console_globals.newest_previous_command_index = command_index;
+	console_globals.previous_commands[command_index].set(command);
 
-	short v5 = NUMBEROF(console_globals.input_state.previous_inputs);
-	if (console_globals.input_state.__unknown11F4 + 1 <= NUMBEROF(console_globals.input_state.previous_inputs))
-		v5 = console_globals.input_state.__unknown11F4 + 1;
-	console_globals.input_state.__unknown11F4 = v5;
+	short v5 = NUMBEROF(console_globals.previous_commands);
+	if (console_globals.previous_command_count + 1 <= NUMBEROF(console_globals.previous_commands))
+		v5 = console_globals.previous_command_count + 1;
+	console_globals.previous_command_count = v5;
 
-	console_globals.input_state.__unknown11F8 = NONE;
+	console_globals.selected_previous_command_index = NONE;
 
 	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
 
