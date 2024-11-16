@@ -712,7 +712,7 @@ void __cdecl global_preferences_initialize()
 	c_global_preferences_scope_lock scope_lock;
 
 	global_preferences_init();
-	if (shell_application_type() == _shell_application_type_editor)
+	if (shell_application_type() == _shell_application_editor)
 	{
 		global_preferences_set_shadow_quality(_quality_setting_high);
 		global_preferences_set_texture_resolution_quality(_quality_setting_high);

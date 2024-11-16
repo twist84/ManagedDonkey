@@ -12,7 +12,7 @@ void __cdecl game_grief_record_reprieve()
 	//	return;
 	//
 	//game_grief_globals.reprieve_time = system_milliseconds();
-	//generate_event(_event_level_status, "betrayal forgiveness granted");
+	//generate_event(_event_status, "betrayal forgiveness granted");
 }
 
 bool __cdecl game_grief_can_eject(long player_index)
@@ -80,7 +80,7 @@ void __cdecl game_grief_record_betrayal(long player_index)
 	//	is_griefer = true;
 	//}
 	//
-	//generate_event(_event_level_status, "local absolute player %d controller %d betrayed (count %d, %s)!",
+	//generate_event(_event_status, "local absolute player %d controller %d betrayed (count %d, %s)!",
 	//	player_index,
 	//	controller,
 	//	betrayal_count,
@@ -99,7 +99,7 @@ void __cdecl game_grief_record_ejection(long player_index)
 	//long eviction_count = global_preferences_get_eviction_count();
 	//game_grief_globals.ejection_time = system_milliseconds();
 	//
-	//generate_event(_event_level_status, "ejection recorded for player %d", player_index);
+	//generate_event(_event_status, "ejection recorded for player %d", player_index);
 	//
 	//global_preferences_set_eviction_count(eviction_count + 1);
 }
@@ -130,7 +130,7 @@ void __cdecl game_grief_update()
 	//real betrayal_count = global_preferences_get_betrayal_count();
 	//if (betrayal_count > 0.0f && (time - game_grief_globals.betrayal_time) > g_network_configuration.griefer_betrayal_timeout)
 	//{
-	//	generate_event(_event_level_status, "ejection count decremented!");
+	//	generate_event(_event_status, "ejection count decremented!");
 	//
 	//	game_grief_globals.ejection_time = time;
 	//	global_preferences_set_betrayal_count(MAX(betrayal_count - 1.0f, 0.0f));
@@ -148,7 +148,7 @@ void __cdecl game_grief_update()
 	//long eviction_count = global_preferences_get_eviction_count();
 	//if (eviction_count > 0 && (time - game_grief_globals.ejection_time) > g_network_configuration.griefer_ejection_timeout)
 	//{
-	//	generate_event(_event_level_status, "ejection count decremented!");
+	//	generate_event(_event_status, "ejection count decremented!");
 	//
 	//	game_grief_globals.ejection_time = time;
 	//	global_preferences_set_eviction_count(MAX(eviction_count - 1, 0));
@@ -156,7 +156,7 @@ void __cdecl game_grief_update()
 	//
 	//if (game_grief_globals.reprieve_time > 0 && time - game_grief_globals.reprieve_time >= 10000)
 	//{
-	//	generate_event(_event_level_status, "forgiveness grace period expired");
+	//	generate_event(_event_status, "forgiveness grace period expired");
 	//
 	//	game_grief_globals.reprieve_time = 0;
 	//}

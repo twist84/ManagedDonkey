@@ -39,7 +39,7 @@ bool __cdecl font_header_validate(s_font_header const* header)
 
 	bool valid = header->version == 0xF0000005;
 	if (!valid)
-		generate_event(_event_level_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
+		generate_event(_event_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			header->version,
 			0xF0000005);
 
@@ -81,7 +81,7 @@ bool __cdecl font_header_validate(s_font_header const* header)
 	//
 	//bool valid = header_mcc->version == 0xF0000006;
 	//if (!valid)
-	//	generate_event(_event_level_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
+	//	generate_event(_event_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 	//		header_mcc->version,
 	//		0xF0000006);
 	//

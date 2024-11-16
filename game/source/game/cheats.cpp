@@ -91,7 +91,7 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 				console_printf(cheat.lines[controller_button].get_string());
 
 				// #TODO: add and implement `hs_compile_and_evaluate`
-				//hs_compile_and_evaluate(_event_level_message, "cheats", cheat.lines[controller_button].get_string(), true);
+				//hs_compile_and_evaluate(_event_message, "cheats", cheat.lines[controller_button].get_string(), true);
 				if (cheat.lines[controller_button].is_equal("(set cheat_controller (not cheat_controller))"))
 					cheat.controller = !cheat.controller;
 			}
@@ -139,7 +139,7 @@ void __cdecl cheat_teleport_to_camera()
 				{
 					if (unit_index == NONE)
 					{
-						generate_event(_event_level_warning, "networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
+						generate_event(_event_warning, "networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
 					}
 					else
 					{
@@ -377,7 +377,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 {
 	if (effect_index == NONE)
 	{
-		generate_event(_event_level_warning, "cheats: couldn't load effect '%s.effect' to drop it", effect_name);
+		generate_event(_event_warning, "cheats: couldn't load effect '%s.effect' to drop it", effect_name);
 		return false;
 	}
 
@@ -387,7 +387,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 
 	if (!collision_test_vector(_collision_test_structure_geometry_flags, position, &scaled_forward, NONE, NONE, &collision))
 	{
-		generate_event(_event_level_warning, "cheats: couldn't find location to drop effect '%s.effect'", effect_name);
+		generate_event(_event_warning, "cheats: couldn't find location to drop effect '%s.effect'", effect_name);
 		return false;
 	}
 
@@ -415,7 +415,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	if (object_definition_index == NONE)
 	{
 		if (expected_group_tag == OBJECT_TAG)
-			generate_event(_event_level_warning, "cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
+			generate_event(_event_warning, "cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
 
 		return false;
 	}
@@ -446,7 +446,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	long object_index = object_new(&data);
 	if (object_index == NONE)
 	{
-		generate_event(_event_level_warning, "cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
+		generate_event(_event_warning, "cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
 		return false;
 	}
 
@@ -503,7 +503,7 @@ long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* var
 
 	if (tag_index == NONE)
 	{
-		generate_event(_event_level_warning, "cheats: couldn't load tag '%s.%s' to place", tag_name, tag_group_name);
+		generate_event(_event_warning, "cheats: couldn't load tag '%s.%s' to place", tag_name, tag_group_name);
 	}
 	else
 	{
@@ -538,7 +538,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 
 		if (strlen(group_name))
 		{
-			generate_event(_event_level_warning, "cheats: unknown tag group '%s'", group_name);
+			generate_event(_event_warning, "cheats: unknown tag group '%s'", group_name);
 		}
 	}
 
@@ -551,7 +551,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 	{
 		if (++droppable_tag_type_index >= 14)
 		{
-			generate_event(_event_level_warning, "cheats: could not find any tags named '%s' to drop", name.get_string());
+			generate_event(_event_warning, "cheats: could not find any tags named '%s' to drop", name.get_string());
 			return;
 		}
 	}
@@ -572,7 +572,7 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 		permutation_string_next_index = permutations_string.next_index_of("=", permutation_string_index);
 		if (permutation_string_next_index == -1)
 		{
-			generate_event(_event_level_error, "error dropping permutation: string '%s' is in an unexpected format!", permutation_info);
+			generate_event(_event_error, "error dropping permutation: string '%s' is in an unexpected format!", permutation_info);
 			break;
 		}
 
@@ -666,7 +666,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 		}
 		else
 		{
-			generate_event(_event_level_warning, "cheats: don't know how to place tags of type '%s'", tag_group_get_name(group_tag_));
+			generate_event(_event_warning, "cheats: don't know how to place tags of type '%s'", tag_group_get_name(group_tag_));
 		}
 	}
 

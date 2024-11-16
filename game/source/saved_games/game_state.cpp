@@ -338,7 +338,7 @@ bool __cdecl game_state_read_core(char const* core_name, void* buffer, dword buf
 	{
 		result &= game_state_security_verify_signature_insecure(0);
 		if (!result)
-			generate_event(_event_level_critical, "game_state: core '%s' failed signature check", core_name);
+			generate_event(_event_critical, "game_state: core '%s' failed signature check", core_name);
 
 		game_state_buffer_handle_read();
 	}

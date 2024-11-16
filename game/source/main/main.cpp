@@ -277,7 +277,7 @@ void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_rea
 
 	if (*variable == true)
 	{
-		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		generate_event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
 		*variable = false;
 	}
 }
@@ -289,7 +289,7 @@ void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_rea
 
 	if (*variable == true)
 	{
-		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		generate_event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
 		*variable = false;
 	}
 }
@@ -372,7 +372,7 @@ void __cdecl main_game_gamestate_decompress_and_apply_private()
 
 	//if (!game_state_get_compressor()->game_state_decompress_buffer(true, true, false))
 	//{
-	//	generate_event(_event_level_error, "main_game: game_state_compressor failed to decompress and load gamestate.");
+	//	generate_event(_event_error, "main_game: game_state_compressor failed to decompress and load gamestate.");
 	//};
 	//main_globals.game_state_decompression = false;
 }
@@ -421,13 +421,13 @@ void __cdecl main_halt_and_catch_fire()
 	{
 		if (recursion_lock_triggered_while_exiting)
 		{
-			generate_event(_event_level_warning, "crash: recursion lock triggered!");
+			generate_event(_event_warning, "crash: recursion lock triggered!");
 			exit(NONE);
 		}
 		else
 		{
 			recursion_lock_triggered_while_exiting = true;
-			generate_event(_event_level_critical, "crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
+			generate_event(_event_critical, "crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
 			while (!is_debugger_present());
 			abort();
 		}
@@ -446,7 +446,7 @@ void __cdecl main_halt_and_catch_fire()
 
 		recursion_lock_triggered = true;
 
-		generate_event(_event_level_warning, "lifecycle: CRASH");
+		generate_event(_event_warning, "lifecycle: CRASH");
 		main_status("system_milliseconds", "time %d", system_milliseconds());
 		main_status_dump(NULL);
 
@@ -1487,7 +1487,7 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 	//
 	//if (!load_succeeded)
 	//{
-	//	generate_event(_event_level_error,
+	//	generate_event(_event_error,
 	//		"main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
 	//		main_globals.switch_zone_set_index);
@@ -1765,7 +1765,7 @@ void __cdecl main_switch_bsp(long zone_set_index)
 {
 	INVOKE(0x00507200, main_switch_bsp, zone_set_index);
 
-	//generate_event(_event_level_error, "switch bsp is a deprecated function. Use switch zone set instead.");
+	//generate_event(_event_error, "switch bsp is a deprecated function. Use switch zone set instead.");
 	//main_switch_zone_set(zone_set_index);
 }
 
@@ -1823,7 +1823,7 @@ void __cdecl main_switch_zone_set_private()
 	//
 	//if (!load_succeeded)
 	//{
-	//	generate_event(_event_level_error, "main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
+	//	generate_event(_event_error, "main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
 	//		main_globals.switch_zone_set_index);
 	//	main_game_load_panic();

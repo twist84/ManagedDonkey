@@ -28,7 +28,7 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 
 	bool valid = package_header->version == 0xC0000003;
 	if (!valid)
-		generate_event(_event_level_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
+		generate_event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			package_header->version,
 			0xC0000003);
 
@@ -67,7 +67,7 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 	//
 	//bool valid = package_header_mcc->version == 0xC0000004;
 	//if (!valid)
-	//	generate_event(_event_level_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
+	//	generate_event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 	//		package_header_mcc->version,
 	//		0xC0000004);
 	//

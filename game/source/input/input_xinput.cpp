@@ -131,7 +131,7 @@ bool __cdecl input_xinput_initialize()
 	}
 	else
 	{
-		generate_event(_event_level_message, "system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
+		generate_event(_event_message, "system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
 	}
 
 	return XInput_module != NULL;

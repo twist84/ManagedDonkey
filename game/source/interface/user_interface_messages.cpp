@@ -158,7 +158,7 @@ c_load_screen_message::c_load_screen_message(long screen_name, e_controller_inde
 	ASSERT(m_layered_position != _string_id_invalid);
 	if (screen_name == _string_id_invalid)
 	{
-		generate_event(_event_level_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
+		generate_event(_event_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
 	}
 }
 
@@ -625,12 +625,12 @@ void __cdecl user_interface_messaging_post(c_message* message)
 		}
 		else
 		{
-			generate_event(_event_level_message, "ui: failed to post message because message queue is not writeable!");
+			generate_event(_event_message, "ui: failed to post message because message queue is not writeable!");
 		}
 	}
 	else
 	{
-		generate_event(_event_level_message, "ui: failed to post message because game is not in progress!");
+		generate_event(_event_message, "ui: failed to post message because game is not in progress!");
 	}
 
 	if (!message_queued)

@@ -372,7 +372,7 @@ bool __cdecl levels_begin_dvd_enumeration()
 	//HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
 	//return result;
 
-	if (shell_application_type() == _shell_application_type_client)
+	if (shell_application_type() == _shell_application_game)
 	{
 		s_async_task task{};
 		task.configuration_enumeration_task.enumeration_index = 0;

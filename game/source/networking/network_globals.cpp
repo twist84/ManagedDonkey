@@ -233,7 +233,7 @@ void __cdecl network_initialize()
 {
 	//INVOKE(0x0049E1B0, network_initialize);
 
-	if (shell_application_type() == _shell_application_type_client && !network_globals.initialized)
+	if (shell_application_type() == _shell_application_game && !network_globals.initialized)
 	{
 		network_globals.thread_id = system_get_current_thread_id();
 		network_configuration_initialize(false);
@@ -339,13 +339,13 @@ void __cdecl network_initialize()
 			}
 			else
 			{
-				generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize networking");
+				generate_event(_event_warning, "network_globals_initialize(): failed to initialize networking");
 				network_dispose();
 			}
 		}
 		else
 		{
-			generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
+			generate_event(_event_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
 		}
 	}
 }
@@ -429,7 +429,7 @@ void __cdecl network_shutdown_transport(void* userdata)
 
 	if (network_initialized())
 	{
-		generate_event(_event_level_error, "networking:global: network terminating due to transport shutdown");
+		generate_event(_event_error, "networking:global: network terminating due to transport shutdown");
 	
 		if (g_network_link)
 			g_network_link->destroy_endpoints();
@@ -515,7 +515,7 @@ void network_test_set_map_name(char const* scenario_path)
 	}
 	else
 	{
-		generate_event(_event_level_warning, "unable to set map %s", scenario_path);
+		generate_event(_event_warning, "unable to set map %s", scenario_path);
 	}
 }
 
@@ -638,13 +638,13 @@ void network_test_ping()
 			.request_qos = false
 		};
 
-		generate_event(_event_level_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		generate_event(_event_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
 		for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			g_network_message_gateway->send_message_broadcast(_network_message_ping, sizeof(s_network_message_ping), &ping, broadcast_port);
 	}
 	else
 	{
-		generate_event(_event_level_error, "networking:test: networking is not initialized");
+		generate_event(_event_error, "networking:test: networking is not initialized");
 	}
 }
 
@@ -674,12 +674,12 @@ void network_test_ping_directed(transport_address const* address)
 			.request_qos = false
 		};
 
-		generate_event(_event_level_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		generate_event(_event_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
 		g_network_message_gateway->send_message_directed(address, _network_message_ping, sizeof(s_network_message_ping), &ping);
 	}
 	else
 	{
-		generate_event(_event_level_error, "networking:test: networking is not initialized");
+		generate_event(_event_error, "networking:test: networking is not initialized");
 	}
 }
 
@@ -698,7 +698,7 @@ void network_test_text_chat(char const* text)
 	}
 	else
 	{
-		generate_event(_event_level_error, "networking:test: networking is not initialized");
+		generate_event(_event_error, "networking:test: networking is not initialized");
 	}
 }
 
@@ -717,7 +717,7 @@ void network_test_text_chat_directed(transport_address const* address, char cons
 	}
 	else
 	{
-		generate_event(_event_level_error, "networking:test: networking is not initialized");
+		generate_event(_event_error, "networking:test: networking is not initialized");
 	}
 }
 

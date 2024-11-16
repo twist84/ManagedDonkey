@@ -200,12 +200,12 @@ void network_build_network_configuration()
 	configuration_filename.print("%snetwork_configuration_%03u.bin", "bin\\", 142);
 	if (create_configuration_file(configuration_filename.get_string(), &network_configuration_file, sizeof(s_network_configuration_file)))
 	{
-		generate_event(_event_level_message, "net_build_network_config: succeeded in writing %s", configuration_filename.get_string());
+		generate_event(_event_message, "net_build_network_config: succeeded in writing %s", configuration_filename.get_string());
 		console_printf("net_build_network_config: succeeded in writing %s", configuration_filename.get_string());
 	}
 	else
 	{
-		generate_event(_event_level_critical, "creation of network configuration file failed. Do you have it checked out?");
+		generate_event(_event_critical, "creation of network configuration file failed. Do you have it checked out?");
 	}
 }
 

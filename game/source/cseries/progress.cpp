@@ -33,7 +33,7 @@ void __cdecl progress_done()
 	//
 	//	progress_globals.__unknown28 = false;
 	//}
-	//generate_event(_event_level_message, "progress: %s, total time: %.2f seconds",
+	//generate_event(_event_message, "progress: %s, total time: %.2f seconds",
 	//	progress_globals.description, ((system_milliseconds() - progress_globals.start_time) / 1000.0f));
 }
 
@@ -113,7 +113,7 @@ long __cdecl progress_update_with_description(long index, long count, char const
 
 	//dword time = system_milliseconds();
 	//long progress = 100 * MIN(MAX(index, 0), count) / MAX(count, 1);
-	//if (progress_globals.__unknown28 && (shell_tool_type() != _shell_tool_type_tool || progress >= progress_globals.update_progress + 20 || time - progress_globals.update_time > 500))
+	//if (progress_globals.__unknown28 && (shell_tool_type() != _shell_tool_command_line || progress >= progress_globals.update_progress + 20 || time - progress_globals.update_time > 500))
 	//{
 	//	progress_globals.update_progress = progress;
 	//	progress_globals.update_time = time;

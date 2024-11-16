@@ -103,7 +103,7 @@ void c_online_lsp_manager::disconnect_from_server(long connection_token, bool su
 		return;
 
 	ASSERT(m_current_clients[slot_index].client_state != _client_state_none);
-	generate_event(_event_level_message, "networking:online:lsp: token=%d, server disconnected with %s",
+	generate_event(_event_message, "networking:online:lsp: token=%d, server disconnected with %s",
 		connection_token,
 		success ? "success" : "failure");
 
@@ -154,7 +154,7 @@ void c_online_lsp_manager::go_into_crash_mode()
 	//INVOKE_CLASS_MEMBER(0x00431C40, c_online_lsp_manager, go_into_crash_mode);
 
 	c_critical_section_scope section_scope(_critical_section_lsp_manager);
-	generate_event(_event_level_message, "networking:online:lsp: entering crash mode");
+	generate_event(_event_message, "networking:online:lsp: entering crash mode");
 	reset();
 	m_crash_mode = true;
 }
@@ -166,7 +166,7 @@ void c_online_lsp_manager::reset()
 {
 	//INVOKE_CLASS_MEMBER(0x00431EF0, c_online_lsp_manager, reset);
 
-	generate_event(_event_level_message, "networking:online:lsp: resetting");
+	generate_event(_event_message, "networking:online:lsp: resetting");
 	m_lsp_server_count = false;
 	m_total_server_count = 0;
 	m_best_service_indices.clear();
@@ -185,7 +185,7 @@ void c_online_lsp_manager::server_connected(long connection_token)
 	long slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index != NONE && m_current_clients[slot_index].client_state == _client_state_connecting)
 	{
-		generate_event(_event_level_message, "networking:online:lsp: token=%d, server connected", connection_token);
+		generate_event(_event_message, "networking:online:lsp: token=%d, server connected", connection_token);
 		m_current_clients[slot_index].client_state = _client_state_connected;
 	}
 }

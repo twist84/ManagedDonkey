@@ -2022,16 +2022,20 @@ enum e_multiplayer_powerup_flavor
 
 enum e_shell_application_type
 {
-	_shell_application_type_none = 0,
-	_shell_application_type_editor,
-	_shell_application_type_client,
+	_shell_application_tool = 0,
+	_shell_application_editor,
+	_shell_application_game,
+
+	k_shell_application_count
 };
 
 enum e_shell_tool_type
 {
-	_shell_tool_type_none = 0,
-	_shell_tool_type_guerilla,
-	_shell_tool_type_tool,
+	_shell_tool_invalid = 0,
+	_shell_tool_interactive,
+	_shell_tool_command_line,
+
+	k_shell_tool_count
 };
 
 enum e_init_file_type

@@ -6,126 +6,118 @@
 
 enum e_event_level
 {
-	_event_level_none = NONE,
-
-	_event_level_verbose,
-	_event_level_status,
-	_event_level_message,
-	_event_level_warning,
-	_event_level_error,
-	_event_level_critical,
+	_event_verbose = 0,
+	_event_status,
+	_event_message,
+	_event_warning,
+	_event_error,
+	_event_critical,
 
 	k_event_level_count,
+
+	k_event_level_none = NONE,
 };
 
 enum e_category_properties_flags
 {
-	_category_properties_flag_display_level_bit = 0,
-	_category_properties_flag_log_level_bit,
-	_category_properties_flag_remote_log_level_bit,
-	_category_properties_flag_debugger_break_level_bit,
-	_category_properties_flag_halt_level_bit,
-	_category_properties_flag_bit5,
+	_category_properties_display_level_bit = 0,
+	_category_properties_log_level_bit,
+	_category_properties_remote_log_level_bit,
+	_category_properties_debugger_break_level_bit,
+	_category_properties_halt_level_bit,
+	_category_properties_event_listener_bit,
 
-	k_category_properties_flags
+	k_category_properties_flags_count
 };
 
 struct s_spamming_event
 {
-	dword hit_time;
+	dword last_spam_time;
 	long hit_count;
-	char text[2048];
+	char spam_text[2048];
 	bool valid;
 };
 static_assert(sizeof(s_spamming_event) == 0x80C);
 
-struct s_event
+struct s_event_category_default_configuration
 {
 	char const* name;
-	e_event_level display_level;
-	real_rgb_color color;
-	e_event_level log_level;
-	char const* log_file;
-	void(__cdecl* build_buffer_for_log_proc)(char*, long);
-	e_event_level remote_log_level;
+	e_event_level initial_display_level;
+	real_rgb_color initial_display_color;
+	e_event_level initial_log_level;
+	char const* log_name;
+	void(__cdecl* log_format_func)(char*, long);
+	e_event_level initial_remote_log_level;
 };
-static_assert(sizeof(s_event) == 0x24);
+static_assert(sizeof(s_event_category_default_configuration) == 0x24);
 
 struct s_event_category
 {
-	short __unknown0;
+	short depth;
 	c_static_string<64> name;
 	long event_log_index;
-	e_event_level display_level;
-	real_rgb_color color;
-	dword __time58;
-	long __unknown5C;
-	e_event_level log_level;
-	c_static_string<k_tag_long_string_length> log_file;
-	void(__cdecl* build_buffer_for_log_proc)(char*, long);
-	e_event_level remote_log_level;
-	e_event_level debugger_break_level;
-	e_event_level halt_level;
-	long registered_event_listeners_flags;
+	e_event_level current_display_level;
+	real_rgb_color current_display_color;
+	dword last_event_time;
+	long possible_spam_event_count;
+	e_event_level current_log_level;
+	c_static_string<k_tag_long_string_length> log_name;
+	void(__cdecl* log_format_func)(char*, long);
+	e_event_level current_remote_log_level;
+	e_event_level current_debugger_break_level;
+	e_event_level current_halt_level;
+	dword event_listeners;
 	long parent_index;
-	long __unknown17C;
-	long __unknown180;
+	long first_child_index;
+	long sibling_index;
 };
 static_assert(sizeof(s_event_category) == 0x184);
 
 struct s_event_globals
 {
-	e_event_level display_level;
-	e_event_level log_level;
-	e_event_level remote_log_level;
-	e_event_level query_level;
-	long __unknown10;
-
+	e_event_level current_display_level;
+	e_event_level current_log_level;
+	e_event_level current_remote_log_level;
+	e_event_level current_minimum_level;
+	e_event_level current_minimum_category_level;
 	c_static_array<s_event_category, 1024> categories;
 	long category_count;
-
-	long __unknown61018_time;
-	e_event_level __unknown6101C_level;
-	long __unknown61020_time;
-
-	short error_message_length;
-	char error_message_buffer[2048];
-
+	long console_suppression_old_time;
+	long console_suppression_count;
+	long console_suppression_old_line_check_time;
+	short message_buffer_size;
+	char message_buffer[2048];
 	long external_primary_event_log_index;
 	long internal_primary_event_log_index;
 	long internal_primary_full_event_log_index;
 	long subfolder_internal_primary_event_log_index;
 	long subfolder_internal_primary_full_event_log_index;
-
-	long event_listener_count;
+	long event_index;
 	c_static_array<struct c_event_listener*, 8> event_listeners;
-
-	c_static_array<s_spamming_event, 64> spamming_events;
-
-	bool enabled;
-	bool spam_suppression_enabled;
-	bool __unknown81B62;
-	bool suppression_disabled;
-	bool event_log_flags_bit3_enabled;
-	bool __unknown81B65;
-	short __unknown81B66;
-
-	long thread_query_flags;
+	c_static_array<s_spamming_event, 64> spamming_event_list;
+	bool enable_events;
+	bool enable_spam_suppression;
+	bool dump_to_stderr;
+	bool disable_event_suppression;
+	bool disable_event_log_trimming;
+	bool disable_event_logging;
+	bool suppress_console_display_and_show_spinner;
+	long permitted_thread_bits;
 };
 static_assert(sizeof(s_event_globals) == 0x81B6C);
 
 struct c_event
 {
 public:
-	c_event(e_event_level event_level, long category_index, dword_flags event_flags);
+	c_event(e_event_level event_level, long event_category_index, dword event_response_suppress_flags);
 
 	bool query();
 	long generate(char const* event_name, ...);
 
 protected:
 	e_event_level m_event_level;
-	long m_category_index;
-	dword_flags m_event_flags;
+	long m_event_category_index;
+	dword m_event_response_suppress_flags;
 };
 static_assert(sizeof(c_event) == 0xC);
 

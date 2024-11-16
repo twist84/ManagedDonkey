@@ -175,7 +175,7 @@ void c_game_engine_vip_variant::set_score_to_win_round(short score_to_win_round)
 {
 	if (!VALID_INDEX(score_to_win_round, 500))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid score_to_win_round setting '%d' outside range '[%d, %d]'!", score_to_win_round, 0, 500);
+		generate_event(_event_warning, "game_engine:vip: invalid score_to_win_round setting '%d' outside range '[%d, %d]'!", score_to_win_round, 0, 500);
 
 		m_score_to_win_round = 15;
 	}
@@ -194,7 +194,7 @@ void c_game_engine_vip_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 0;
 	}
@@ -213,7 +213,7 @@ void c_game_engine_vip_variant::set_takedown_points(char takedown_points)
 {
 	if (!VALID_INDEX(takedown_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid takedown_points setting '%d' outside range '[%d, %d]'!", takedown_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid takedown_points setting '%d' outside range '[%d, %d]'!", takedown_points, -10, 10);
 
 		m_takedown_points = 0;
 	}
@@ -232,7 +232,7 @@ void c_game_engine_vip_variant::set_kill_as_vip_points(char kill_as_vip_points)
 {
 	if (!VALID_INDEX(kill_as_vip_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid kill_as_vip_points setting '%d' outside range '[%d, %d]'!", kill_as_vip_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid kill_as_vip_points setting '%d' outside range '[%d, %d]'!", kill_as_vip_points, -10, 10);
 
 		m_kill_as_vip_points = 0;
 	}
@@ -251,7 +251,7 @@ void c_game_engine_vip_variant::set_vip_death_points(char vip_death_points)
 {
 	if (!VALID_INDEX(vip_death_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid vip_death_points setting '%d' outside range '[%d, %d]'!", vip_death_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid vip_death_points setting '%d' outside range '[%d, %d]'!", vip_death_points, -10, 10);
 
 		m_vip_death_points = 0;
 	}
@@ -270,7 +270,7 @@ void c_game_engine_vip_variant::set_destination_arrival_points(char destination_
 {
 	if (!VALID_INDEX(destination_arrival_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", destination_arrival_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", destination_arrival_points, -10, 10);
 
 		m_destination_arrival_points = 0;
 	}
@@ -289,7 +289,7 @@ void c_game_engine_vip_variant::set_suicide_points(char suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
 
 		m_suicide_points = 0;
 	}
@@ -308,7 +308,7 @@ void c_game_engine_vip_variant::set_betrayal_points(char betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
 
 		m_betrayal_points = 0;
 	}
@@ -327,7 +327,7 @@ void c_game_engine_vip_variant::set_vip_suicide_points(char vip_suicide_points)
 {
 	if (!VALID_INDEX(vip_suicide_points + 10, 20))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid vip_suicide_points setting '%d' outside range '[%d, %d]'!", vip_suicide_points, -10, 10);
+		generate_event(_event_warning, "game_engine:vip: invalid vip_suicide_points setting '%d' outside range '[%d, %d]'!", vip_suicide_points, -10, 10);
 
 		m_vip_suicide_points = 0;
 	}
@@ -346,7 +346,7 @@ void c_game_engine_vip_variant::set_vip_selection(e_vip_vip_selection_settings v
 {
 	if (!VALID_INDEX(vip_selection, k_vip_vip_selection_settings))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid vip_selection setting '%d' outside range '[0, %d)'!", vip_selection, k_vip_vip_selection_settings);
+		generate_event(_event_warning, "game_engine:vip: invalid vip_selection setting '%d' outside range '[0, %d)'!", vip_selection, k_vip_vip_selection_settings);
 
 		m_vip_selection = k_vip_vip_selection_settings_default;
 	}
@@ -373,7 +373,7 @@ void c_game_engine_vip_variant::set_zone_movement(e_vip_zone_movement_settings z
 {
 	if (!VALID_INDEX(zone_movement, k_number_of_vip_zone_movement_settings))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid zone_movement setting '%d' outside range '[0, %d)'!", zone_movement, k_number_of_vip_zone_movement_settings);
+		generate_event(_event_warning, "game_engine:vip: invalid zone_movement setting '%d' outside range '[0, %d)'!", zone_movement, k_number_of_vip_zone_movement_settings);
 
 		m_zone_movement = k_vip_zone_movement_settings_default;
 	}
@@ -392,7 +392,7 @@ void c_game_engine_vip_variant::set_zone_order(e_vip_zone_order_settings zone_or
 {
 	if (!VALID_INDEX(zone_order, k_vip_zone_order_settings))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid zone_order setting '%d' outside range '[0, %d)'!", zone_order, k_vip_zone_order_settings);
+		generate_event(_event_warning, "game_engine:vip: invalid zone_order setting '%d' outside range '[0, %d)'!", zone_order, k_vip_zone_order_settings);
 
 		m_zone_order = k_vip_zone_order_settings_default;
 	}
@@ -411,7 +411,7 @@ void c_game_engine_vip_variant::set_influence_radius(short influence_radius)
 {
 	if (!VALID_INDEX(influence_radius, 50))
 	{
-		generate_event(_event_level_warning, "game_engine:vip: invalid influence_radius setting '%d' outside range '[%d, %d]'!", influence_radius, 0, 50);
+		generate_event(_event_warning, "game_engine:vip: invalid influence_radius setting '%d' outside range '[%d, %d]'!", influence_radius, 0, 50);
 
 		m_influence_radius = 0;
 	}

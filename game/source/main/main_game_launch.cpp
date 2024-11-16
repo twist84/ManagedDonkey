@@ -66,7 +66,7 @@ void main_game_launch_set_coop_player_count(long coop_player_count)
 {
 	if (!IN_RANGE_INCLUSIVE(coop_player_count, 1, 4))
 	{
-		generate_event(_event_level_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
+		generate_event(_event_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
 	}
 	else
 	{
@@ -79,7 +79,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitsc
 {
 	if (!IN_RANGE_INCLUSIVE(multiplayer_splitscreen_count, 1, 4))
 	{
-		generate_event(_event_level_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
+		generate_event(_event_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
 	}
 	else
 	{
@@ -148,7 +148,7 @@ void main_game_launch(char const* map_name)
 	}
 	else
 	{
-		generate_event(_event_level_warning, "main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
+		generate_event(_event_warning, "main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
 		return;
 	}
 

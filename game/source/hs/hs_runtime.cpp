@@ -204,7 +204,7 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 	//		if (expression_index != NONE)
 	//			string.append_print("   (line #%i)", hs_syntax_get(expression_index)->line_number);
 	//
-	//		generate_event(_event_level_warning, "hs: %s", string.get_string());
+	//		generate_event(_event_warning, "hs: %s", string.get_string());
 	//	}
 	//}
 	//return parameters;

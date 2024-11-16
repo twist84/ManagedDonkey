@@ -589,7 +589,7 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word
 		hopper_configuration == multiplayer_game_hopper_globals.current_configuration &&
 		multiplayer_game_hopper_game_set_load_status())
 	{
-		generate_event(_event_level_warning, "multiplayer_game_hopper: tried to set the current hopper to something invalid- %04X",
+		generate_event(_event_warning, "multiplayer_game_hopper: tried to set the current hopper to something invalid- %04X",
 			hopper_identifier);
 	}
 	else
@@ -825,7 +825,7 @@ void __cdecl multiplayer_game_hopper_update()
 			multiplayer_file->__time1C = network_time_get();
 			multiplayer_file->__time20 = network_configuration_calculate_next_retry_interval(multiplayer_file->__time20, g_network_configuration.__unknown8);
 
-			generate_event(_event_level_message, "networking:configuration: could not retrieve multiplayer game file [%d]",
+			generate_event(_event_message, "networking:configuration: could not retrieve multiplayer game file [%d]",
 				multiplayer_game_file);
 		}
 	}
@@ -877,7 +877,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 			char scenario_path[256]{};
 			if (!levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
 			{
-				generate_event(_event_level_error, "networking:hopper: hopper game set has invalid map id %d",
+				generate_event(_event_error, "networking:hopper: hopper game set has invalid map id %d",
 					entry->map_id);
 			}
 		}
@@ -935,7 +935,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 				}
 				else
 				{
-					generate_event(_event_level_warning, "networking:multiplayer_game_hopper: game/map entry index %d has no weight to use, repeating first selection",
+					generate_event(_event_warning, "networking:multiplayer_game_hopper: game/map entry index %d has no weight to use, repeating first selection",
 						pick_index);
 					ASSERT(pick_index != 0);
 
@@ -959,19 +959,19 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 					picked_game->map_id = entry->map_id;
 				}
 
-				generate_event(_event_level_warning, "networking:game:hopper: overriding hopper game selection with game %d",
+				generate_event(_event_warning, "networking:game:hopper: overriding hopper game selection with game %d",
 					override_game_entry_index);
 			}
 			else
 			{
-				generate_event(_event_level_warning, "networking:game:hopper: ignoring invalid game index %d for override",
+				generate_event(_event_warning, "networking:game:hopper: ignoring invalid game index %d for override",
 					override_game_entry_index);
 			}
 		}
 	}
 	else
 	{
-		generate_event(_event_level_error, "networking:multiplayer_game_hopper: current game set has 0 entries!");
+		generate_event(_event_error, "networking:multiplayer_game_hopper: current game set has 0 entries!");
 		result = false;
 	}
 
@@ -1167,7 +1167,7 @@ void __cdecl network_build_game_variant(char const* filename)
 	filepath.print("game_variants\\%s_%03u.bin", filename, 18);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
-		generate_event(_event_level_critical, "failed!");
+		generate_event(_event_critical, "failed!");
 	}
 
 	delete[] buffer;
@@ -1192,7 +1192,7 @@ void __cdecl network_build_map_variant(char const* filename)
 	filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
-		generate_event(_event_level_critical, "failed!");
+		generate_event(_event_critical, "failed!");
 	}
 
 	delete[] buffer;

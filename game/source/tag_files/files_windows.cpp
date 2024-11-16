@@ -180,7 +180,7 @@ void __cdecl file_error(char const* file_function, s_file_reference* reference_a
 		char error_message[2048]{};
 		get_error_message(error_message_id, error_message);
 
-		generate_event(_event_level_warning, "system: %s error 0x%08x '%s'", system_message, error_message_id, error_message);
+		generate_event(_event_warning, "system: %s error 0x%08x '%s'", system_message, error_message_id, error_message);
 	}
 	SetLastError(ERROR_SUCCESS);
 

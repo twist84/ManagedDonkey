@@ -167,7 +167,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 			main_status("map", "loaded %s", options->scenario_path.get_string());
 			main_status("minor_version", "%i", get_map_minor_version());
 
-			generate_event(_event_level_message, "lifecycle: MAP-LOADED %s", options->scenario_path.get_string());
+			generate_event(_event_message, "lifecycle: MAP-LOADED %s", options->scenario_path.get_string());
 
 			//c_datamine datamine(0, "map l oaded", 2, "main", "game");
 			//data_mine_usability_add_basic_information(&datamine);
@@ -197,8 +197,8 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 				char const* game_engine_name = game_engine_type_get_string(options->game_variant.get_game_engine_index());
 				char const* game_variant_name = options->game_variant.get_active_variant()->get_name();
 
-				generate_event(_event_level_message, "lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
-				generate_event(_event_level_message, "lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
+				generate_event(_event_message, "lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
+				generate_event(_event_message, "lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
 			}
 			break;
 			}
@@ -215,7 +215,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 		{
 			main_status("map", "load-failed %s", options->scenario_path.get_string());
 
-			generate_event(_event_level_critical, "main_game_change_immediate() failed for '%s', cannot load game", options->scenario_path.get_string());
+			generate_event(_event_critical, "main_game_change_immediate() failed for '%s', cannot load game", options->scenario_path.get_string());
 
 			main_game_load_panic();
 		}
@@ -294,7 +294,7 @@ void __cdecl main_game_change_update()
 					//	goto_next_level = ;
 					//	break;
 					//default:
-					//	generate_event(_event_level_error, "networking:main_game: invalid map advance type %d!", map_advance_type);
+					//	generate_event(_event_error, "networking:main_game: invalid map advance type %d!", map_advance_type);
 					//	break;
 				}
 			}
@@ -304,11 +304,11 @@ void __cdecl main_game_change_update()
 				bool is_leader = false;
 				if (!network_squad_session_controls_coop_game_options(&is_leader) || is_leader)
 				{
-					generate_event(_event_level_message, "networking:main_game: congratulations, you won the game! or, the next map failed to load");
+					generate_event(_event_message, "networking:main_game: congratulations, you won the game! or, the next map failed to load");
 
 					if (game_in_progress() && game_is_ui_shell())
 					{
-						generate_event(_event_level_message, "networking:main_game: already in the ui, not ending the simulation");
+						generate_event(_event_message, "networking:main_game: already in the ui, not ending the simulation");
 					}
 					else
 					{
@@ -592,7 +592,7 @@ void __cdecl main_tag_load_end()
 {
 	ASSERT(loading_globals.tag_load_in_progress);
 
-	if (shell_application_type() == _shell_application_type_none)
+	if (shell_application_type() == _shell_application_tool)
 		tag_load_missing_tags_report();
 
 	loading_globals.tag_load_in_progress = false;
@@ -721,7 +721,7 @@ void __cdecl main_game_load_panic()
 	{
 		if (load_panic_recursion_lock)
 		{
-			generate_event(_event_level_critical, "main_game_load_panic: recursion lock triggered (we must have failed to load the main menu from a panic state)");
+			generate_event(_event_critical, "main_game_load_panic: recursion lock triggered (we must have failed to load the main menu from a panic state)");
 		}
 		else
 		{
@@ -737,7 +737,7 @@ void __cdecl main_game_load_panic()
 
 	if (!successfully_loaded)
 	{
-		generate_event(_event_level_critical, "main game load failed, unable to recover, aborting to pregame");
+		generate_event(_event_critical, "main game load failed, unable to recover, aborting to pregame");
 
 		main_game_internal_pregame_load();
 		main_halt_and_display_errors();
@@ -759,7 +759,7 @@ void __cdecl main_game_load_from_core_name(char const* core_name)
 	}
 	else
 	{
-		generate_event(_event_level_warning, "Failed to get game options from core (so I can't load it!)");
+		generate_event(_event_warning, "Failed to get game options from core (so I can't load it!)");
 	}
 }
 
@@ -902,7 +902,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	main_game_globals.reset_in_progress = false;
 	if (!success)
 	{
-		generate_event(_event_level_critical, "main_game_reset_map couldn't restart the game!");
+		generate_event(_event_critical, "main_game_reset_map couldn't restart the game!");
 		main_game_load_panic();
 	}
 }

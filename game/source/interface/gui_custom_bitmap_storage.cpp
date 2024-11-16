@@ -102,7 +102,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	IDirect3DTexture9* d3d_texture = m_hardware_format_bitmap.get_d3d_texture();
 	if (d3d_texture == NULL)
 	{
-		generate_event(_event_level_error, "ui:custom_bitmaps: d3d_texture is null");
+		generate_event(_event_error, "ui:custom_bitmaps: d3d_texture is null");
 		return false;
 	}
 
@@ -116,7 +116,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 
 	if (FAILED(load_surface_result))
 	{
-		generate_event(_event_level_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
+		generate_event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
 		return false;
 	}
 

@@ -458,7 +458,7 @@ long __cdecl render_debug_add_cache_string(char const* string)
 	static bool render_debug_cache_string_overflow = false;
 	if (!render_debug_cache_string_overflow)
 	{
-		generate_event(_event_level_warning, "render debug cache string overflow");
+		generate_event(_event_warning, "render debug cache string overflow");
 		render_debug_cache_string_overflow = true;
 	}
 
@@ -1455,7 +1455,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 	static bool render_debug_cache_overflow = false;
 	if (!render_debug_cache_overflow)
 	{
-		generate_event(_event_level_warning, "render debug cache overflow.");
+		generate_event(_event_warning, "render debug cache overflow.");
 		render_debug_cache_overflow = true;
 	}
 }
@@ -1487,7 +1487,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 			}
 			else
 			{
-				generate_event(_event_level_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
+				generate_event(_event_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
 			}
 
 			if (type_list[entry->type] != type)
@@ -1777,7 +1777,7 @@ void c_render_debug_line_drawer::flush()
 	}
 	else
 	{
-		generate_event(_event_level_error, "can't use debug_line_drawer w/o immediate debug drawing");
+		generate_event(_event_error, "can't use debug_line_drawer w/o immediate debug drawing");
 	}
 
 	vertex_count = 0;

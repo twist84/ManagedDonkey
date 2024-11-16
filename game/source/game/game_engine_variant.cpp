@@ -155,7 +155,7 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
-		//generate_event(_event_level_warning, "invalid game engine type #%ld requested variant size", game_engine_index);
+		//generate_event(_event_warning, "invalid game engine type #%ld requested variant size", game_engine_index);
 		c_console::write_line("invalid game engine type #%ld requested variant size", game_engine_index);
 	}
 
@@ -221,7 +221,7 @@ void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
-		//generate_event(_event_level_warning, "invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
+		//generate_event(_event_warning, "invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
 		c_console::write_line("invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
 		game_engine_index = _game_engine_type_none;
 	}

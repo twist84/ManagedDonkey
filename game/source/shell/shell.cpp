@@ -46,7 +46,7 @@ e_shell_application_type __cdecl shell_application_type()
 {
 	//return INVOKE(0x0042E350, shell_application_type);
 
-	return _shell_application_type_client;
+	return _shell_application_game;
 }
 
 bool __cdecl shell_build_number_is_compatible(long build_number)
@@ -196,7 +196,7 @@ e_shell_tool_type __cdecl shell_tool_type()
 {
 	//return INVOKE(0x0042E660, shell_tool_type);
 
-	return _shell_tool_type_none;
+	return _shell_tool_invalid;
 }
 
 char const* quality_setting_get_name(e_quality_setting quality_setting)

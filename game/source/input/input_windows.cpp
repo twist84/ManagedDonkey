@@ -43,7 +43,7 @@ void __cdecl sub_5114A0()
 {
 	INVOKE(0x005114A0, sub_5114A0);
 
-	//if (shell_application_type() == _shell_application_type_client)
+	//if (shell_application_type() == _shell_application_game)
 	//{
 	//	if ((GetAsyncKeyState(VK_LBUTTON) & 0xFFFE) != 0 ||
 	//		(GetAsyncKeyState(VK_RBUTTON) & 0xFFFE) != 0 ||
@@ -194,7 +194,7 @@ void __cdecl sub_511760(int error, char const* format, ...)
 		//DIERR_ERROR_CASE(DIERR_GENERIC);
 		//#undef DIERR_ERROR_CASE
 		//}
-		//generate_event(_event_level_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+		//generate_event(_event_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
 
 		c_console::write_line("RawInput: '%s' returned (%s#%d)", error_message, error_string, error);
 	}
@@ -292,10 +292,10 @@ void __cdecl input_initialize()
 {
 	INVOKE(0x00511A90, input_initialize);
 
-	//if (shell_application_type() == _shell_application_type_client)
+	//if (shell_application_type() == _shell_application_game)
 	//	sub_511550();
 	//
-	//if (shell_application_type() == _shell_application_type_client || shell_tool_type() == _shell_tool_type_guerilla)
+	//if (shell_application_type() == _shell_application_game || shell_tool_type() == _shell_tool_interactive)
 	//	sub_5115A0();
 	//
 	//input_xinput_initialize();
@@ -432,7 +432,7 @@ bool __cdecl sub_512450()
 	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
 	//	.usUsage     = 2, // HID_USAGE_GENERIC_MOUSE
 	//	.dwFlags     = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
-	//	.hwndTarget  = shell_application_type() == _shell_application_type_client ? g_windows_params.game_window_handle : g_windows_params.window_handle
+	//	.hwndTarget  = shell_application_type() == _shell_application_game ? g_windows_params.game_window_handle : g_windows_params.window_handle
 	//};
 	//
 	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;

@@ -662,7 +662,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 
 	//if (LoadLibraryA("d3dx9_43.dll"))
 	//{
-	//	bool v3 = shell_application_type() == _shell_application_type_client;
+	//	bool v3 = shell_application_type() == _shell_application_game;
 	//
 	//	bool d3d9ex = v3;
 	//	if (char const* command_line = shell_get_command_line())
@@ -724,7 +724,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	//windowed_check(windowed);
 	//	{
 	//		bool window = true;
-	//		if (shell_application_type() == _shell_application_type_client)
+	//		if (shell_application_type() == _shell_application_game)
 	//		{
 	//			window = false;
 	//			if (!windowed)
@@ -952,7 +952,7 @@ void __cdecl c_rasterizer::initialize_window()
 				sizeof(error_message_buffer),
 				NULL);
 
-			generate_event(_event_level_warning, "%s", error_message_buffer);
+			generate_event(_event_warning, "%s", error_message_buffer);
 		}
 	}
 
@@ -1031,7 +1031,7 @@ void __cdecl c_rasterizer::initialize_window()
 			sizeof(error_message_buffer),
 			NULL);
 
-		generate_event(_event_level_warning, "%s", error_message_buffer);
+		generate_event(_event_warning, "%s", error_message_buffer);
 	}
 
 	LPSTR error_message = NULL;
@@ -1046,7 +1046,7 @@ void __cdecl c_rasterizer::initialize_window()
 	MessageBoxA(NULL, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
 	LocalFree(error_message);
 
-	generate_event(_event_level_error, "failed to create a window");
+	generate_event(_event_error, "failed to create a window");
 }
 
 c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_allocation a1)

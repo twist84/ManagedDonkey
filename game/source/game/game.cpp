@@ -580,7 +580,7 @@ void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 	{
 		game_globals->options.game_variant.copy_from_and_validate(&options->game_variant);
 		if (!game_engine_variant_validate(&game_globals->options.game_variant))
-			generate_event(_event_level_warning, "variant validation failed, about to start playing a default variant");
+			generate_event(_event_warning, "variant validation failed, about to start playing a default variant");
 	}
 
 	random_seed_allow_use();

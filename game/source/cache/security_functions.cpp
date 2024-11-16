@@ -57,7 +57,7 @@ void __cdecl security_get_working_memory(e_secure_memory_region region, void** o
 
 	if (g_secure_memory_size < k_secure_memory_size)
 	{
-		generate_event(_event_level_critical, "security: failed to get working memory");
+		generate_event(_event_critical, "security: failed to get working memory");
 		*out_working_memory = NULL;
 		*out_working_memory_size = 0;
 	}

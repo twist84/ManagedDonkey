@@ -454,14 +454,14 @@ char const* console_get_init_file_name(e_shell_application_type shell_applicatio
 {
 	switch (shell_application_type)
 	{
-	case _shell_application_type_editor:
+	case _shell_application_editor:
 		return "editor_init.txt";
 	default:
 		switch (shell_tool_type())
 		{
-		case _shell_tool_type_guerilla:
+		case _shell_tool_interactive:
 			return "guerilla_init.txt";
-		case _shell_tool_type_tool:
+		case _shell_tool_command_line:
 			return "tool_init.txt";
 		}
 		return "init.txt";
@@ -507,7 +507,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	if (!command[0] || command[0] == ';')
 		return false;
 
-	generate_event(_event_level_message, "console_command: %s", command);
+	generate_event(_event_message, "console_command: %s", command);
 
 	short command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
 	console_globals.newest_previous_command_index = command_index;
@@ -520,7 +520,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	console_globals.selected_previous_command_index = NONE;
 
-	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
+	bool result = false;//hs_compile_and_evaluate(_event_message, "console_command", command, a2);
 
 	tokens_t tokens{};
 	long token_count = 0;
@@ -1378,7 +1378,7 @@ void status_line_dump()
 	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
 	{
 		if (status_line_visible(status_line))
-			generate_event(_event_level_message, "status_lines: %s", status_line->get_string());
+			generate_event(_event_message, "status_lines: %s", status_line->get_string());
 	}
 }
 

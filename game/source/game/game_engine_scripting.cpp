@@ -15,7 +15,7 @@ long __cdecl game_engine_active_player_count_by_team(long team)
 
 	//if (!VALID_INDEX(team, k_number_of_multiplayer_teams))
 	//{
-	//	generate_event(_event_level_warning, "invalid team index #%ld passed to game_engine_active_player_count_by_team", team);
+	//	generate_event(_event_warning, "invalid team index #%ld passed to game_engine_active_player_count_by_team", team);
 	//	return 0;
 	//}
 	//
@@ -40,13 +40,13 @@ void __cdecl game_engine_ai_scripting_allegiance(short campaign_team, short team
 
 	//if (!VALID_INDEX(campaign_team, k_number_of_campaign_teams))
 	//{
-	//	generate_event(_event_level_warning, "mp_ai_allegiance: invalid campaign team #%d!", campaign_team);
+	//	generate_event(_event_warning, "mp_ai_allegiance: invalid campaign team #%d!", campaign_team);
 	//	return;
 	//}
 	//
 	//if (!VALID_INDEX(team, k_number_of_multiplayer_teams))
 	//{
-	//	generate_event(_event_level_warning, "mp_ai_allegiance: invalid multiplayer team #%d!", team);
+	//	generate_event(_event_warning, "mp_ai_allegiance: invalid multiplayer team #%d!", team);
 	//	return;
 	//}
 	//
@@ -81,13 +81,13 @@ void __cdecl game_engine_game_won(short team)
 
 	if (!game_engine_has_teams())
 	{
-		generate_event(_event_level_warning, "game_engine_game_won: not a team game!");
+		generate_event(_event_warning, "game_engine_game_won: not a team game!");
 		return;
 	}
 
 	if (!VALID_INDEX(team, k_number_of_multiplayer_teams))
 	{
-		generate_event(_event_level_warning, "invalid team index #%ld passed to game_engine_game_won");
+		generate_event(_event_warning, "invalid team index #%ld passed to game_engine_game_won");
 		return;
 	}
 
