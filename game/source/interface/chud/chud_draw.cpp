@@ -11,6 +11,7 @@
 
 REFERENCE_DECLARE(0x0191CC64, bool, chud_enabled);
 REFERENCE_DECLARE(0x052604C1, bool, chud_debug_messages);
+REFERENCE_DECLARE(0x05269FC8, s_chud_draw_globals, g_chud_draw_globals);
 REFERENCE_DECLARE(0x0526A085, bool, chud_debug_crosshair);
 REFERENCE_DECLARE(0x0526A087, bool, chud_debug_grid);
 

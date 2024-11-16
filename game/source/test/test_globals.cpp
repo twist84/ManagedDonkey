@@ -12,6 +12,7 @@
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "input/input_windows.hpp"
+#include "interface/chud/chud_draw.hpp"
 #include "interface/chud/chud_messaging.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface.hpp"
@@ -127,6 +128,7 @@ void __cdecl test_main_loop_body_begin()
 		g_additional_raw_servers;
 		g_cache_file_globals;
 		g_cache_file_io_arena;
+		g_chud_draw_globals;
 		g_copy_decompressor;
 		g_current_game_results;
 		g_font_globals;
