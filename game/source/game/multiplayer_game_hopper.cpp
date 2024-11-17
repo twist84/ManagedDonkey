@@ -810,7 +810,7 @@ void __cdecl multiplayer_game_hopper_update()
 				multiplayer_file->__unknown0 = true;
 				multiplayer_file->__unknown1 = false;
 				multiplayer_file->__time1C = network_time_get();
-				multiplayer_file->__time20 = g_network_configuration.__unknown4;
+				multiplayer_file->__time20 = g_network_configuration.config_download.__unknown4;
 			}
 		}
 		else if (request_result == _network_http_request_result_failure)
@@ -823,7 +823,7 @@ void __cdecl multiplayer_game_hopper_update()
 			multiplayer_file->request_cookie = 0;
 			multiplayer_file->__unknown1 = true;
 			multiplayer_file->__time1C = network_time_get();
-			multiplayer_file->__time20 = network_configuration_calculate_next_retry_interval(multiplayer_file->__time20, g_network_configuration.__unknown8);
+			multiplayer_file->__time20 = network_configuration_calculate_next_retry_interval(multiplayer_file->__time20, g_network_configuration.config_download.__unknown8);
 
 			generate_event(_event_message, "networking:configuration: could not retrieve multiplayer game file [%d]",
 				multiplayer_game_file);

@@ -302,7 +302,7 @@ void __cdecl network_initialize()
 				&& network_session_interface_initialize(g_network_session_manager)
 				&& network_leaderboard_initialize()
 				&& network_arbitration_initialize()
-				&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth_configuration)
+				&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth)
 				&& network_session_tracker_initialize())
 			{
 				transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);

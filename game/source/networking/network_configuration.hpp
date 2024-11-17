@@ -390,22 +390,13 @@ struct s_channel_configuration
 };
 static_assert(sizeof(s_channel_configuration) == 0x10);
 
-struct s_lsp_service_configuration
+struct s_network_file_download_configuration
 {
-	long lsp_port;
+	long __unknown0;
 	long __unknown4;
 	long __unknown8;
-	long __unknownC;
-	long __time10;
 };
-static_assert(sizeof(s_lsp_service_configuration) == 0x14);
-
-struct s_map_information
-{
-	long map_id;
-	long __unknown4;
-};
-static_assert(sizeof(s_map_information) == 0x8);
+static_assert(sizeof(s_network_file_download_configuration) == 0xC);
 
 struct s_bandwidth_configuration
 {
@@ -418,16 +409,6 @@ struct s_bandwidth_configuration
 	long __unknown18;
 	long __unknown1C;
 	long __unknown20;
-};
-static_assert(sizeof(s_bandwidth_configuration) == 0x24);
-
-struct s_network_configuration
-{
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-
-	s_bandwidth_configuration bandwidth_configuration;
 
 	// used in `c_network_session::idle`
 	dword __unknown30;
@@ -529,28 +510,74 @@ struct s_network_configuration
 	} __unknown148[3];
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown220;
+	long __unknown220;
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown224;
+	long __unknown224;
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown228;
+	long __unknown228;
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown22C;
+	long __unknown22C;
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown230;
+	long __unknown230;
 
 	// used in `matchmaking_calculate_best_possible_host`
-	dword __unknown234;
+	long __unknown234;
 
-	dword __unknown238;
-	dword __unknown23C;
+	long __unknown238;
+	long __unknown23C;
 
 	// used in `c_network_observer::stream_balance_all_stream_bandwidth`
-	dword minimum_bandwidth;
+	long minimum_bandwidth;
+
+};
+static_assert(sizeof(s_bandwidth_configuration) == 0x238);
+
+struct s_lsp_configuration
+{
+	long port_range_start;
+	long port_range_count;
+	long server_retry_count;
+	long search_results_fresh_milliseconds;
+	long recent_activity_milliseconds;
+};
+static_assert(sizeof(s_lsp_configuration) == 0x14);
+
+struct s_map_information
+{
+	long map_id;
+	long map_status;
+};
+static_assert(sizeof(s_map_information) == 0x8);
+
+struct s_map_configuration
+{
+	c_static_array<s_map_information, 32> map_list;
+};
+
+struct s_chicken_switches
+{
+	bool allow_no_hdd_network_coop;
+	bool allow_matched_hdd_network_coop;
+	bool disallow_cross_language_coop;
+	bool disable_prefer_good_connection_changes;
+};
+static_assert(sizeof(s_chicken_switches) == 0x4);
+
+struct s_determinism_configuration
+{
+	long determinism_version;
+	long determinism_compatible_version;
+};
+static_assert(sizeof(s_determinism_configuration) == 0x8);
+
+struct s_network_configuration
+{
+	s_network_file_download_configuration config_download;
+	s_bandwidth_configuration bandwidth;
 
 	// used in `network_join_update`
 	dword __unknown244;
@@ -925,11 +952,10 @@ struct s_network_configuration
 	dword maximum_multiplayer_split_screen;
 	byte __unknown159C;
 	dword __unknown15A0;
-	s_lsp_service_configuration lsp_service_configuration;
-	s_map_information map_infos[32];
-	dword __unknown16B8;
-	long determinism_version;
-	long determinism_compatible_version;
+	s_lsp_configuration lsp_configuration;
+	s_map_configuration map_configuration;
+	s_chicken_switches chicken_switches;
+	s_determinism_configuration determinism_configuration;
 };
 static_assert(sizeof(s_network_configuration) == 0x16C4);
 
