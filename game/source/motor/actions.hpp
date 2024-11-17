@@ -212,9 +212,10 @@ static_assert(sizeof(action_request_vehicle_board) == 0x44);
 
 struct action_request_vehicle_enter
 {
-	long object_index;
+	int vehicle_index;
 	short seat_index;
-	short __unknown6;
+	bool immediate;
+	bool force_entry;
 
 	byte __data[0x44 - 0x8];
 };
@@ -379,7 +380,7 @@ static_assert(sizeof(action_request_melee_ai) == 0x44);
 struct action_request_weapon_pickup
 {
 	long weapon_index;
-	long weapon_addition_method; // e_weapon_addition_method
+	long add_weapon_mode; // e_weapon_addition_method
 
 	byte __data[0x44 - 0x8];
 };
@@ -471,7 +472,7 @@ static_assert(sizeof(action_request_equipment_animation) == 0x44);
 
 struct action_request_equipment_pickup
 {
-	long object_index;
+	long equipment_index;
 
 	byte __data[0x44 - 0x4];
 };
