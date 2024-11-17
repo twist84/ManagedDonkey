@@ -300,104 +300,20 @@ static_assert(sizeof(s_player_shot_info) == 0xC);
 // there's a high likelihood of Halo Online using the Halo Reach player flags enum
 enum e_player_flags
 {
-	// game_engine_player_is_playing
-	// players_update_activation
-	// c_game_engine::apply_player_update
-	// halo reach x360: bit 0
-	// halo 4 x360:     bit 0
 	_player_active_in_game_bit = 0,
-
-	// game_engine_player_is_playing
-	// player_rejoined_game
-	// players_joined_in_progress_allow_spawn
-	// halo 4 x360:     bit 1
-	// halo reach x360: bit 1
 	_player_left_game_bit,
-
-	// player_update_after_game
-	// c_game_engine::apply_player_update
-	// halo reach x360: bit 2
-	// halo 4 x360:     bit 2
 	_player_blocking_teleporter_bit,
-	
-	// game_engine_update_after_game_update_state
-	// player_spawn
-	// player_reset
-	// players_detach_from_map
-	// c_game_engine::apply_player_update
-	// halo reach x360: bit 3
-	// halo 4 x360:     bit 3
 	_player_initial_spawn_bit,
-
-	// halo 4 adds 2 new flags here
-	// bit 4, game_engine_display_role_selection_ui
-
-	// player_prepare_action
-	// unit_action_vehicle_exit_finished
-	// player_suppress_action
-	// halo reach x360: bit 4
-	// halo 4 x360:     bit 6
-	_player_unknown_bit4,
-
-	// player_prepare_action
-	// player_suppress_action
-	// halo reach x360: bit 5
-	// halo 4 x360:     bit 7
-	_player_unknown_bit5,
-
-	// player_prepare_action
-	// player_suppress_action
-	// halo reach x360: bit 6
-	// halo 4 x360:     bit 8
-	_player_unknown_bit6,
-
-	// player_suppress_action
-	// halo reach x360: bit 7
-	// halo 4 x360:     bit 9
-	_player_unknown_bit7,
-
-	// teleporter_flag_object_as_having_teleported_recursive
-	//  should pass `_object_mask_unit` test
-	// update_players_before_teleporters
-	// update_players_after_teleporters
-	// c_teleporter_area::update_players
-	// halo reach x360: bit 8
-	// halo 4 x360:     bit 10
-	_player_unknown_bit8,
-
-	// teleporter_flag_object_as_having_teleported_recursive
-	//  should pass `_object_mask_unit` test
-	// update_players_after_teleporters
-	// c_teleporter_area::update_players
-	// halo reach x360: bit 9
-	// halo 4 x360:     bit 11
-	_player_unknown_bit9,
-
-	// player_update_after_game
-	// player_notify_vehicle_ejection_finished
-	// c_game_engine::apply_player_update
-	// halo reach x360: bit 10
-	// halo 4 x360:     bit 12
+	_player_action_suppress_primary_bit,
+	_player_action_suppress_secondary_bit,
+	_player_action_suppress_tertiary_bit,
+	_player_action_dual_wield_grenade_latch_bit,
+	_player_standing_in_teleporter_bit,
+	_player_standing_in_teleporter_teleported_bit,
 	_player_vehicle_entrance_ban_bit,
-
-	// player_spawn
-	// players_coop_update_respawn
-	// halo reach x360: bit 11
-	// halo 4 x360:     bit 13
-	_player_unknown_bit11,
-
-	// game_engine_player_is_playing
-	// game_engine_update_player_sitting_out
-	// c_game_engine::apply_player_update
-	// halo reach x360: bit 12
-	// halo 4 x360:     bit 14
+	_player_play_coop_spawn_effect_bit,
 	_player_sitting_out_bit,
-
-	// player_reset
-	// players_joined_in_progress_allow_spawn
-	// halo reach x360: bit 13
-	// halo 4 x360:     bit 15
-	_player_unknown_bit13,
+	_player_joined_in_progress_bit,
 
 	// game_engine_update_coop_spawning
 	// halo reach x360: bit 14
@@ -417,14 +333,8 @@ enum e_player_flags
 	// halo reach x360: bit 16
 	// halo 4 x360:     bit 18
 	_player_unknown_bit16,
-		
-	// unit_action_melee_player_update
-	// halo reach x360: bit 19
-	// halo 4 x360:     bit 23
-
-	// halo 3:     count unknown
-	// halo reach: count 20
-	// halo 4:     count 31
+	
+	k_player_flag_count
 };
 
 #pragma pack(push, 4)

@@ -468,13 +468,13 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 	{
 	case 0:
 	{
-		if (!TEST_BIT(player->flags, _player_unknown_bit4))
+		if (!TEST_BIT(player->flags, _player_action_suppress_primary_bit))
 		{
 			if (global_game_globals->input_globals.index != NONE)
 			{
 				s_input_globals_definition* input_globals = global_game_globals->input_globals.cast_to<s_input_globals_definition>();
 
-				player->flags |= FLAG(_player_unknown_bit4);
+				player->flags |= FLAG(_player_action_suppress_primary_bit);
 				player->__unknown2CD4 = game_seconds_to_ticks_round(input_globals->__unknown30 / 1000.0f);
 				break;
 			}
@@ -482,19 +482,19 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 			player->__unknown2CD4 = 0;
 		}
 
-		player->flags |= FLAG(_player_unknown_bit4);
+		player->flags |= FLAG(_player_action_suppress_primary_bit);
 	}
 	break;
 	case 1:
 	{
-		player->flags |= FLAG(_player_unknown_bit5);
+		player->flags |= FLAG(_player_action_suppress_secondary_bit);
 		if (input_user != NONE)
 			player_control_suppress_rotate_weapons(input_user);
 	}
 	break;
 	case 2:
 	{
-		player->flags |= FLAG(_player_unknown_bit6);
+		player->flags |= FLAG(_player_action_suppress_tertiary_bit);
 	}
 	break;
 	}
@@ -791,14 +791,14 @@ void verify_coop_respawn_effect()
 	while (player_iterator.next())
 	{
 		player_datum* player = player_iterator.get_datum();
-		if (!TEST_BIT(player->flags, _player_unknown_bit11))
+		if (!TEST_BIT(player->flags, _player_play_coop_spawn_effect_bit))
 			continue;
 
 		long control_index = player_get_control_index_from_unit(player->unit_index);
 		if (VALID_INDEX(control_index, global_game_globals->player_information.count))
 			continue;
 
-		SET_BIT(player->flags, _player_unknown_bit11, false);
+		SET_BIT(player->flags, _player_play_coop_spawn_effect_bit, false);
 	}
 }
 
