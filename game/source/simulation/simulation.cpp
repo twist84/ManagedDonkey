@@ -105,12 +105,12 @@ void __cdecl simulation_apply_before_game(struct simulation_update const* update
 	//			ASSERT(update->game_simulation_queue.queued_size_in_bytes() > 0);
 	//			ASSERT(update->flags.test(_simulation_update_simulation_in_progress_bit) || update->flags.test(_simulation_update_game_simulation_queue_requires_application_bit));
 	//
-	//			if (!update->high_level_flags.test(_simulation_update_simulation_in_progress_bit) && !game_is_playback())
+	//			if (!update->flags.test(_simulation_update_simulation_in_progress_bit) && !game_is_playback())
 	//				resource_lock = tag_resources_lock_game();
 	//
 	//			simulation_globals.world->apply_simulation_queue(&update->game_simulation_queue);
 	//
-	//			if (!update->high_level_flags.test(_simulation_update_simulation_in_progress_bit))
+	//			if (!update->flags.test(_simulation_update_simulation_in_progress_bit))
 	//			{
 	//				objects_purge_deleted_objects();
 	//				if (!game_is_playback())
@@ -118,7 +118,7 @@ void __cdecl simulation_apply_before_game(struct simulation_update const* update
 	//			}
 	//		}
 	//
-	//		if (update->high_level_flags.test(_simulation_update_high_level_unknown_bit1) && !simulation_globals.world->is_authority())
+	//		if (update->flags.test(_simulation_update_flush_gamestate_bit) && !simulation_globals.world->is_authority())
 	//		{
 	//			ASSERT(!game_is_distributed());
 	//			simulation_globals.world->gamestate_flush();
@@ -172,7 +172,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//		{
 	//			bool should_go_out_of_sync = false;
 	//
-	//			if (update->high_level_flags.test(_simulation_update_high_level_unknown_bit2))
+	//			if (update->flags.test(_simulation_update_gamestate_flushed_outside_game_tick_bit))
 	//				simulation_globals.world->gamestate_flush();
 	//
 	//			if (update->update_number == simulation_globals.world->get_next_update_number())
@@ -647,7 +647,7 @@ void __cdecl simulation_update_pregame()
 	//struct simulation_update update {};
 	//s_simulation_update_metadata metadata{};
 	//simulation_build_update(false, &update, &metadata);
-	//ASSERT(!update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit));
+	//ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
 	//
 	////saved_film_history_after_update_built(&update, &metadata);
 	////simulation_record_update(&update);

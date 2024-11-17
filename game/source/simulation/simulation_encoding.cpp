@@ -100,7 +100,7 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 	//	ASSERT(update);
 	//
 	//	update->update_number = packet->read_integer("update-number", 32);
-	//	update->high_level_flags.set_unsafe(packet->read_integer("flags", 4));
+	//	update->flags.set_unsafe(packet->read_integer("flags", 4));
 	//	update->player_flags = packet->read_integer("player-flags", 16);
 	//	update->action_test_flags = packet->read_integer("action-test-flags", 26);
 	//
@@ -148,7 +148,7 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 	//	result &= !packet->error_occurred();
 	//	result &= update->verify_game_time >= 0;
 	//	result &= update->update_number >= 0;
-	//	result &= update->high_level_flags.valid();
+	//	result &= update->flags.valid();
 	//	if (!result)
 	//	{
 	//		update->bookkeeping_simulation_queue.dispose();
@@ -170,7 +170,7 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//	ASSERT(update);
 	//
 	//	packet->write_integer("update-number", update->update_number, 32);
-	//	packet->write_integer("flags", update->high_level_flags.get_unsafe(), 4);
+	//	packet->write_integer("flags", update->flags.get_unsafe(), 4);
 	//	packet->write_integer("player-flags", update->player_flags, 16);
 	//
 	//	packet->write_integer("action-test-flags", update->action_test_flags, 26);
