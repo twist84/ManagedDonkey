@@ -306,34 +306,31 @@ struct c_synchronization_object
 };
 static_assert(sizeof(c_synchronization_object) == 0x8);
 
-struct c_critical_section_data
+struct c_critical_section_data : c_synchronization_object
 {
-	c_synchronization_object object;
 	s_critical_section critical_section;
 };
 static_assert(sizeof(c_critical_section_data) == 0x20);
 
-struct c_synchronization_handle
+struct c_synchronization_handle : c_synchronization_object
 {
-	c_synchronization_object object;
 	void* handle;
 };
 static_assert(sizeof(c_synchronization_handle) == 0xC);
 
-struct c_semaphore_handle
+struct c_semaphore_handle : c_synchronization_handle
 {
-	c_synchronization_handle handle;
 	long thread_reference_count[k_registered_thread_count];
 };
 static_assert(sizeof(c_semaphore_handle) == 0x34);
 
 struct s_synchronization_globals
 {
-	bool initialized;
-	c_critical_section_data critical_sections[k_total_critical_sections];
-	c_synchronization_handle mutexes[k_total_synchronization_mutexes];
-	c_synchronization_handle events[k_total_synchronization_events];
-	c_semaphore_handle semaphores[k_total_synchronization_semaphores];
+	volatile bool initialized;
+	c_critical_section_data critical_section[k_total_critical_sections];
+	c_synchronization_handle mutex[k_total_synchronization_mutexes];
+	c_synchronization_handle sync_event[k_total_synchronization_events];
+	c_semaphore_handle semaphore[k_total_synchronization_semaphores];
 };
 static_assert(sizeof(s_synchronization_globals) == 0x91C);
 
