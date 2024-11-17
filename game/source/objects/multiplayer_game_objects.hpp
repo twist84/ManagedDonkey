@@ -60,14 +60,25 @@ enum e_teleporter_passability_flags
 	k_teleporter_passability_flags
 };
 
-enum e_multiplayer_object_flags
+enum e_multiplayer_object_data_flags
 {
-	_multiplayer_object_flag_only_visible_in_editor_bit = 0,
-	_multiplayer_object_flag_valid_initial_player_spawn_bit,
-	_multiplayer_object_flag_fixed_boundary_orientation_bit,
-	_multiplayer_object_flag_candy_monitor_should_ignore_bit,
+	_multiplayer_object_only_visible_in_editor_bit = 0,
+	_multiplayer_object_valid_initial_player_spawn_bit,
+	_multiplayer_object_fixed_boundary_orientation_bit,
+	_multiplayer_object_candy_monitor_should_ignore_bit,
 
-	k_multiplayer_object_flags
+	k_multiplayer_object_data_tag_flags_count,
+
+	//_use_opaque_boundary_shader_bit = k_multiplayer_object_data_tag_flags_count,
+	//_boundary_stops_projectiles_bit,
+	//_unique_spawn_bit,
+	//_not_initially_placed_bit,
+	//_active_goal_area_bit,
+	//_object_standing_in_teleporter_bit,
+	//_object_standing_in_teleporter_teleported_bit,
+	//_object_tracked_in_sandbox,
+	//
+	//k_multiplayer_object_data_flags_count,
 };
 
 enum e_multiplayer_object_boundary_shape
@@ -115,7 +126,7 @@ struct s_multiplayer_object_properties_definition
 	// Certain flags applicable only to certain object types, should be self evident
 	c_enum<e_multiplayer_object_type, char, _multiplayer_object_type_ordinary, k_multiplayer_object_type_count> type;
 	c_flags<e_teleporter_passability_flags, byte_flags, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
-	c_flags<e_multiplayer_object_flags, word_flags, k_multiplayer_object_flags> flags;
+	c_flags<e_multiplayer_object_data_flags, word_flags, k_multiplayer_object_data_tag_flags_count> flags;
 
 	// GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones
