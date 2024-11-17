@@ -1405,7 +1405,7 @@ void __cdecl game_tick()
 
 	PROFILER(game_tick)
 	{
-		struct simulation_update update = { .high_level_flags = 0 };
+		struct simulation_update update = { .flags = 0 };
 		s_simulation_update_metadata metadata = { .flags = 0 };
 
 		game_globals->update_tick_this_frame = true;
@@ -1429,7 +1429,7 @@ void __cdecl game_tick()
 		simulation_apply_before_game(&update);
 		levels_update();
 
-		if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+		if (update.flags.test(_simulation_update_simulation_in_progress_bit))
 		{
 			chud_game_tick();
 			players_update_before_game(&update);
@@ -1515,7 +1515,7 @@ void __cdecl game_tick()
 		}
 		simulation_update_aftermath(&update, &metadata);
 
-		if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+		if (update.flags.test(_simulation_update_simulation_in_progress_bit))
 			game_time_advance();
 
 		simulation_destroy_update(&update);

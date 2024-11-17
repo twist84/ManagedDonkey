@@ -2,7 +2,7 @@
 
 #include "physics/collision_features.hpp"
 
-//.text:006D2D70 ; dword __cdecl build_bsp_flags_from_collision_flags(c_flags<e_collision_test_flag, dword, k_collision_test_flags>)
+//.text:006D2D70 ; dword __cdecl build_bsp_flags_from_collision_flags(c_flags<e_collision_test_flag, dword, k_collision_test_flags_count>)
 //.text:006D2DE0 ; void __cdecl build_collision_result_from_bsp_result(collision_result*, c_collision_bsp_test_vector_result const*, real_matrix4x3 const*)
 //.text:006D2EF0 ; 
 //.text:006D2FA0 ; 
@@ -99,11 +99,11 @@ bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_p
 //.text:006D7D40 ; bool __cdecl collision_test_vector_exit(collision_result const*, real_point3d const*, vector3d const*, collision_result*)
 //.text:006D7FF0 ; bool __cdecl get_bsp_from_collision_result(collision_result const*, c_collision_bsp_reference*, real_matrix4x3 const**)
 //.text:006D80F0 ; void __cdecl initialize_collision_result(collision_result*)
-//.text:006D8130 ; void __cdecl instanced_geometry_get_features_in_sphere(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, real_point3d const*, real, real, real, collision_feature_list*)
+//.text:006D8130 ; void __cdecl instanced_geometry_get_features_in_sphere(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags_count>, real_point3d const*, real, real, real, collision_feature_list*)
 //.text:006D82B0 ; 
 //.text:006D8330 ; bool __cdecl instanced_geometry_test_point(long, long, dword, real_point3d const*)
-//.text:006D8440 ; bool __cdecl instanced_geometry_test_vector(long, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, real_point3d const*, vector3d const*, collision_result*)
-//.text:006D8580 ; bool __cdecl instanced_geometry_test_vector_internal(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, dword, real_point3d const*, vector3d const*, collision_result*)
+//.text:006D8440 ; bool __cdecl instanced_geometry_test_vector(long, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags_count>, real_point3d const*, vector3d const*, collision_result*)
+//.text:006D8580 ; bool __cdecl instanced_geometry_test_vector_internal(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags_count>, dword, real_point3d const*, vector3d const*, collision_result*)
 //.text:006D89E0 ; 
 //.text:006D8A30 ; void __cdecl object_get_features_in_sphere(long, s_collision_test_flags, real_point3d const*, real, real, real, long, long, collision_feature_list*)
 //.text:006D8BB0 ; bool __cdecl object_is_boarding(long object_index)
