@@ -44,7 +44,7 @@ void __cdecl terminal_initialize()
 	if (terminal_globals.initialized)
 		return;
 
-	terminal_globals.output_lines.m_data = data_new("terminal output", 32, sizeof(output_line_datum), 0, g_normal_allocation);
+	terminal_globals.output_lines = data_new("terminal output", 32, sizeof(output_line_datum), 0, g_normal_allocation);
 	data_make_valid(*terminal_globals.output_lines);
 
 	terminal_globals.console_output = false;

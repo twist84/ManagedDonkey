@@ -154,31 +154,41 @@ struct c_smart_data_array
 
 	t_datum_type& operator[](datum_index index) const
 	{
-		return *(t_datum_type*)datum_get(m_data, index);
+		return *(t_datum_type*)datum_get(m_data_array, index);
 	}
 
 	void operator=(s_data_array* rhs)
 	{
 		ASSERT(!rhs || sizeof(t_datum_type) == rhs->size);
 
-		m_data = rhs;
+		m_data_array = rhs;
 	}
 
 	s_data_array* operator*() const
 	{
-		return m_data;
+		return m_data_array;
 	}
 
 	s_data_array* operator->() const
 	{
-		return m_data;
+		return m_data_array;
 	}
 
 	//operator struct s_data_array*() const
 	//{
 	//}
 
-	s_data_array* m_data;
+	struct s_typed_access
+	{
+		byte unused[offsetof(s_data_array, data)];
+		t_datum_type* data;
+	};
+
+	union
+	{
+		s_data_array* m_data_array;
+		s_typed_access* m_type_access;
+	};
 };
 static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
 
@@ -189,37 +199,48 @@ typedef c_smart_data_array<s_datum_header> data_array_base;
 //{
 //	static_assert(__is_base_of(s_datum_header, t_datum_type));
 //
-//	void initialize(s_data_array* data)
+//	void initialize(s_data_array* new_data_array)
 //	{
+//		m_data_array = new_data_array;
+//		ASSERT(sizeof(t_datum_type) == m_data_array->size);
 //	}
 //
 //	void dispose()
 //	{
+//		data_dispose(*m_data_array);
 //	}
 //
-//	t_datum_type const* try_to_get(long) const
+//	void reset()
 //	{
+//		m_data_array = NULL;
 //	}
 //
-//	t_datum_type const* get(long) const
+//	t_datum_type const* get(long datum_index) const
 //	{
+//		return m_data_array[datum_index];
 //	}
 //
-//	s_datum_header* get_mutable(long)
+//	s_datum_header* get_mutable(long datum_index)
 //	{
+//		return m_data_array[datum_index];
 //	}
 //
 //	s_data_array const* get_data()
 //	{
+//		return m_data_array.m_data_array;
 //	}
 //
 //	s_data_array*& get_data_array_reference()
 //	{
+//		return m_data_array.m_data_array;
 //	}
 //
 //	operator s_data_array* ()
 //	{
+//		return m_data_array.m_data_array;
 //	}
+//
+//	c_smart_data_array<t_datum_type> m_data_array;
 //};
 //static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
 
@@ -248,6 +269,16 @@ struct c_typed_data_array
 	//s_data_array* get_data() const
 	//{
 	//}
+
+	s_data_array* operator*() const
+	{
+		return reinterpret_cast<s_data_array*>(this);
+	}
+
+	s_data_array* operator->() const
+	{
+		return reinterpret_cast<s_data_array*>(this);
+	}
 
 	c_static_string<32> name;
 	long maximum_count;
