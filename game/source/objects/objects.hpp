@@ -66,10 +66,7 @@ enum e_object_data_flags
 	_object_hidden_bit = 0,
 	_object_always_active_bit,
 	_object_being_created_bit,
-
-	// semi confirmed
-	_object_underwater_bit,
-
+	_object_wholly_under_media_bit,
 	_object_has_attached_lights_bit,
 	_object_has_attached_looping_sounds_bit,
 	_object_has_unattached_lights_bit,
@@ -99,7 +96,7 @@ enum e_object_data_flags
 	_object_render_only_orientations_needed_bit,
 	_object_is_prt_and_lightmapped_bit,
 
-	k_object_data_flags
+	k_object_data_flags_count
 };
 
 struct object_header_block_reference
@@ -111,7 +108,7 @@ static_assert(sizeof(object_header_block_reference) == 0x4);
 
 struct _object_datum
 {
-	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
+	c_flags<e_object_data_flags, dword, k_object_data_flags_count> flags;
 
 	// override
 	long collision_damage_definition_index;
