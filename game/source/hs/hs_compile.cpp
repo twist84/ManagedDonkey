@@ -223,7 +223,7 @@ bool hs_parse_script(long expression_index)
 	}
 
 	expression->short_value = script_index;
-	hs_compile_add_reference(script_index, _reference_type_script, expression_index);
+	hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
 	return true;
 }
 
@@ -440,7 +440,7 @@ bool hs_parse_ai_command_script(long expression_index)
 	}
 
 	expression->short_value = script_index;
-	hs_compile_add_reference(script_index, _reference_type_script, expression_index);
+	hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
 	return true;
 }
 
@@ -1072,7 +1072,7 @@ bool hs_parse_variable(long expression_index)
 		if (v9)
 			expression->flags.set(_hs_syntax_node_unknown_bit4, true);
 		else
-			hs_compile_add_reference(expression->long_value, _reference_type_global, expression_index);
+			hs_compile_add_reference(expression->long_value, _hs_reference_type_global, expression_index);
 
 		return true;
 	}
@@ -1138,7 +1138,7 @@ bool hs_parse_nonprimitive(long expression_index)
 
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_special_form || expression->type == _hs_unparsed);
 
-	hs_compile_globals.some_reference_count++;
+	hs_compile_globals.indent++;
 
 	hs_syntax_node* special_form_expression = hs_syntax_get(expression->long_value);
 	if (special_form_expression->flags.test(_hs_syntax_node_primitive_bit))
@@ -1210,7 +1210,7 @@ bool hs_parse_nonprimitive(long expression_index)
 			}
 
 			if (parse_result)
-				hs_compile_add_reference(expression->constant_type.get(), _reference_type_script, expression_index);
+				hs_compile_add_reference(expression->constant_type.get(), _hs_reference_type_script, expression_index);
 		}
 		else
 		{
@@ -1271,7 +1271,7 @@ bool hs_parse_nonprimitive(long expression_index)
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
 
-	hs_compile_globals.some_reference_count--;
+	hs_compile_globals.indent--;
 
 	return parse_result;
 }
@@ -1367,39 +1367,39 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 	{
 		ASSERT((hs_compile_globals.current_script_index != NONE) ^ (hs_compile_globals.current_global_index != NONE));
 
-		e_reference_type current_reference_type = _reference_type_global;
+		e_reference_type current_reference_type = _hs_reference_type_global;
 		long current_index = hs_compile_globals.current_global_index;
 		if (hs_compile_globals.current_script_index != NONE)
 		{
-			current_reference_type = _reference_type_script;
+			current_reference_type = _hs_reference_type_script;
 			current_index = hs_compile_globals.current_script_index;
 		}
 
-		hs_compile_globals_reference_struct* reference = &hs_compile_globals.references[hs_compile_globals.reference_count++];
-		reference->reference_type = current_reference_type;
+		s_hs_reference* reference = &hs_compile_globals.references[hs_compile_globals.reference_count++];
+		reference->type = current_reference_type;
 		reference->index = current_index;
-		reference->expression_index = expression_index;
-		reference->__unknown10 = NULL;
+		reference->node_index = expression_index;
+		reference->next = NULL;
 
 		switch (reference_type)
 		{
-		case _reference_type_global:
+		case _hs_reference_type_global:
 		{
 			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_globals_per_scenario));
 
-			reference->__unknown10 = (*hs_compile_globals.global_references)[referred_index];
+			reference->next = (*hs_compile_globals.global_references)[referred_index];
 			(*hs_compile_globals.global_references)[referred_index] = reference;
-			reference->has_return_type = true;
+			reference->strong = true;
 		}
 		break;
-		case _reference_type_script:
+		case _hs_reference_type_script:
 		{
 			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_scripts_per_scenario));
 
-			reference->__unknown10 = (*hs_compile_globals.script_references)[referred_index];
+			reference->next = (*hs_compile_globals.script_references)[referred_index];
 			(*hs_compile_globals.script_references)[referred_index] = reference;
 
-			reference->has_return_type = global_scenario_get()->scripts[referred_index].return_type != _hs_type_void;
+			reference->strong = global_scenario_get()->scripts[referred_index].return_type != _hs_type_void;
 		}
 		break;
 		default:
@@ -1553,82 +1553,164 @@ void hs_compile_initialize(bool permanent)
 	hs_compile_globals.permanent = permanent;
 	hs_compile_globals.error_message = NULL;
 	hs_compile_globals.error_offset = NONE;
-	hs_compile_globals.some_reference_count = 0;
+	hs_compile_globals.indent = 0;
 	hs_compile_globals.current_script_index = NONE;
 	hs_compile_globals.current_global_index = NONE;
-
 	hs_compile_globals.references = NULL;
 	hs_compile_globals.script_references = NULL;
 	hs_compile_globals.global_references = NULL;
 	hs_compile_globals.reference_count = 0;
 
-	//if (permanent)
-	//{
-	//	//editor_reset_script_referenced_blocks();
-	//	//resize_scenario_syntax_data(0xF000);
-	//	hs_compile_globals.references = static_cast<decltype(hs_compile_globals.references)>(debug_malloc(0x32000, 0, __FILE__, __LINE__));
-	//	hs_compile_globals.script_references = static_cast<decltype(hs_compile_globals.script_references)>(debug_malloc(0x1000, 0, __FILE__, __LINE__));
-	//	hs_compile_globals.global_references = static_cast<decltype(hs_compile_globals.global_references)>(debug_malloc(0x400, 0, __FILE__, __LINE__));
-	//
-	//	for (hs_compile_globals_reference_struct* reference : *hs_compile_globals.script_references)
-	//		reference = NULL;
-	//
-	//	for (hs_compile_globals_reference_struct* reference : *hs_compile_globals.global_references)
-	//		reference = NULL;
-	//}
+	if (permanent)
+	{
+		//editor_reset_script_referenced_blocks();
+		//resize_scenario_syntax_data(0xF000);
+		hs_compile_globals.references = static_cast<decltype(hs_compile_globals.references)>(system_malloc(0x3C000));
+		hs_compile_globals.script_references = static_cast<decltype(hs_compile_globals.script_references)>(system_malloc(0x2000));
+		hs_compile_globals.global_references = static_cast<decltype(hs_compile_globals.global_references)>(system_malloc(0x8C0));
+	
+		for (s_hs_reference* reference : *hs_compile_globals.script_references)
+			reference = NULL;
+	
+		for (s_hs_reference* reference : *hs_compile_globals.global_references)
+			reference = NULL;
+	}
 }
 
 struct s_hs_compile_state
 {
-	long script_references[32];
-	long global_references[8];
+	long failed_scripts[32];
+	long failed_globals[9];
 };
 
 void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* state)
 {
-	csmemset(state->global_references, 0, sizeof(state->global_references));
-	csmemset(state->script_references, 0, sizeof(state->script_references));
+	csmemset(state->failed_globals, 0, sizeof(state->failed_globals));
+	csmemset(state->failed_scripts, 0, sizeof(state->failed_scripts));
+}
+
+char* hs_compile_add_source(long source_size, char const* source_data)
+{
+	return NULL;
+
+	//long initial_size = source_size;
+	//char* result = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
+	//if (result)
+	//{
+	//	char* new_source = &result[hs_compile_globals.compiled_source_size];
+	//	hs_compile_globals.compiled_source = result;
+	//	csmemcpy(new_source, source_data, initial_size);
+	//	hs_compile_globals.compiled_source_size += initial_size;
+	//	hs_compile_globals.compiled_source[hs_compile_globals.compiled_source_size] = 0;
+	//	return new_source;
+	//}
+	//return result;
+}
+
+long hs_source_pointer_get_line_number(char const* source_pointer, char const* source)
+{
+	long line_number = 1;
+
+	ASSERT(source_pointer);
+
+	for (; source < source_pointer; source++)
+	{
+		if (*source == '\n')
+			line_number++;
+	}
+
+	return line_number;
+}
+
+struct hs_tokenizer
+{
+	char* cursor;
+	char const* source_file_data;
+	long source_file_size;
+};
+
+long hs_tokenize(hs_tokenizer* state)
+{
+	return NONE;
+
+	//ASSERT(!hs_compile_globals.error_message);
+	//ASSERT(g_hs_syntax_data);
+	//
+	//long expression_index = datum_new(**g_hs_syntax_data);
+	//if (expression_index == NONE)
+	//{
+	//	hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+	//	hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
+	//	return NONE;
+	//}
+	//
+	//hs_syntax_node* expression = (hs_syntax_node*)datum_get(**g_hs_syntax_data, expression_index);
+	//expression->type.set_raw_value(0);
+	//expression->flags.clear();
+	//expression->script_index = NONE;
+	//expression->source_offset = NONE;
+	//expression->line_number = NONE;
+	//expression->next_node_index = NONE;
+	//expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
+	//
+	//{
+	//	hs_syntax_node* _expression = (hs_syntax_node*)datum_get(**g_hs_syntax_data, expression_index);
+	//	if (_expression->flags.test(_hs_syntax_node_primitive_bit))
+	//		hs_tokenize_primitive(state, expression_index);
+	//	else
+	//		hs_tokenize_nonprimitive(state, expression_index);
+	//}
+	//
+	//long source_offset = expression->source_offset;
+	//if (source_offset != NONE && state->source_file_data)
+	//{
+	//	long offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
+	//	ASSERT(offset >= 0 && offset < state->source_file_size);
+	//	expression->line_number = hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
+	//}
+	//
+	//return expression_index;
 }
 
 void hs_compile_first_pass(s_hs_compile_state* referrals, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_source_pointer)
 {
-	//char* cursor = hs_compile_add_source(source_file_size, source_file_data);
-	//if (cursor)
+	//hs_tokenizer _tokenizer{};
+	//_tokenizer.source_file_data = source_file_data;
+	//_tokenizer.source_file_size = source_file_size;
+	//if (_tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
 	//{
-	//	c_hs_tokenizer hs_tokenizer{};
-	//	hs_tokenizer.cursor = cursor;
-	//	hs_tokenizer.source_file_buffer = source_file_data;
-	//	hs_tokenizer.source_file_size = source_file_size;
 	//
-	//	if (!hs_tokenizer.cursor)
+	//	if (!_tokenizer.cursor)
 	//	{
 	//		*error_message_pointer = "couldn't allocate memory for compiled source.";
 	//		return;
 	//	}
 	//
-	//	bool parse_succeeded = true;
 	//	hs_compile_globals.error_message = NULL;
 	//	*error_message_pointer = NULL;
+	//	hs_compile_globals.error_offset = NONE;
 	//
-	//	hs_tokenizer.skip_whitespace();
-	//	while (parse_succeeded && *hs_tokenizer.cursor)
+	//	skip_whitespace(&_tokenizer.cursor);
+	//	while (*_tokenizer.cursor)
 	//	{
-	//		long syntax_node_index = hs_tokenize(&hs_tokenizer);
-	//		hs_tokenizer.skip_whitespace();
-	//		parse_succeeded = hs_compile_globals.error_message != NULL;
-	//		if (parse_succeeded)
-	//			parse_succeeded = hs_parse_special_form(syntax_node_index);
-	//	}
-	//
-	//	if (!parse_succeeded)
-	//	{
-	//		if (!hs_compile_globals.error_message)
+	//		long expression_index = hs_tokenize(&_tokenizer);
+	//		skip_whitespace(&_tokenizer.cursor);
+	//		if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
 	//		{
-	//			ASSERT2("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+	//			if (!hs_compile_globals.error_message)
+	//			{
+	//				ASSERT2("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+	//			}
+	//
 	//			*error_message_pointer = hs_compile_globals.error_message;
 	//			*error_source_pointer = hs_compile_globals.error_offset;
+	//			return;
 	//		}
 	//	}
+	//}
+	//else
+	//{
+	//	*error_message_pointer = "couldn't allocate memory for compiled source.";
 	//}
 }
 

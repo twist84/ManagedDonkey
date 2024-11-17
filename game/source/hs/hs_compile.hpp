@@ -5,28 +5,23 @@
 
 enum e_reference_type
 {
-	_reference_type_global = 0,
-	_reference_type_script,
-
-	k_reference_type_count
+	_hs_reference_type_global = 0,
+	_hs_reference_type_script
 };
 
 long const k_hs_compile_error_buffer_size = 1024;
 long const k_maximum_hs_scripts_per_scenario = 1024;
 long const k_maximum_hs_globals_per_scenario = 256;
 
-struct hs_compile_globals_reference_struct
+struct s_hs_reference
 {
-	e_reference_type reference_type;
-
-	// script->return_type != _hs_type_void
-	bool has_return_type;
-
+	e_reference_type type;
+	bool strong;
 	long index;
-	long expression_index;
-	hs_compile_globals_reference_struct* __unknown10; // previous/next?
+	long node_index;
+	s_hs_reference* next;
 };
-static_assert(sizeof(hs_compile_globals_reference_struct) == 0x14);
+static_assert(sizeof(s_hs_reference) == 0x14);
 
 struct hs_compile_globals_struct
 {
@@ -48,18 +43,16 @@ struct hs_compile_globals_struct
 	bool disallow_blocks;
 	bool disallow_sets;
 	bool variables_predetermined;
-
-	long some_reference_count;
-
+	long indent;
 	long current_script_index;
 	long current_global_index;
 
 	struct
 	{
-		hs_compile_globals_reference_struct* references;
-		c_static_array<hs_compile_globals_reference_struct*, k_maximum_hs_scripts_per_scenario>* script_references;
-		c_static_array<hs_compile_globals_reference_struct*, k_maximum_hs_globals_per_scenario>* global_references;
-		short reference_count; // hs_compile_globals_reference_struct* references
+		s_hs_reference* references;
+		c_static_array<s_hs_reference*, k_maximum_hs_scripts_per_scenario>* script_references;
+		c_static_array<s_hs_reference*, k_maximum_hs_globals_per_scenario>* global_references;
+		short reference_count; // s_hs_reference* references
 	};
 };
 static_assert(sizeof(hs_compile_globals_struct) == 0x444);
