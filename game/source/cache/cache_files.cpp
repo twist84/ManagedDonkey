@@ -618,7 +618,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 
 	static char hash_string[4096]{};
 	s_network_http_request_hash hash{};
-	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, &header->hash, nullptr))
+	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, nullptr))
 	{
 		if (!override_cache_file_header_security_validate_hash)
 		{
@@ -629,12 +629,12 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 		type_as_byte_string(&hash, hash_string);
 		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
 
-		csmemcpy(&header->hash, &hash, sizeof(s_network_http_request_hash));
+		csmemcpy(header->content_hashes, &hash, sizeof(s_network_http_request_hash));
 	}
 
 	//type_as_byte_string(&hash, hash_string);
 
-	security_calculate_hash(&header->hash, sizeof(s_network_http_request_hash), true, &hash);
+	security_calculate_hash(header->content_hashes, sizeof(s_network_http_request_hash), true, &hash);
 
 	s_rsa_signature rsa_signature{};
 	csmemcpy(&rsa_signature, &header->rsa_signature, sizeof(s_rsa_signature));
@@ -946,9 +946,9 @@ bool __cdecl cache_file_debug_tag_names_load()
 
 	// header
 	decltype(g_cache_file_globals.header.debug_tag_name_count)& debug_tag_name_count = g_cache_file_globals.header.debug_tag_name_count;
-	decltype(g_cache_file_globals.header.debug_tag_name_buffer)& debug_tag_name_buffer = g_cache_file_globals.header.debug_tag_name_buffer;
-	decltype(g_cache_file_globals.header.debug_tag_name_buffer_length)& debug_tag_name_buffer_length = g_cache_file_globals.header.debug_tag_name_buffer_length;
-	decltype(g_cache_file_globals.header.debug_tag_name_offsets)& debug_tag_name_offsets = g_cache_file_globals.header.debug_tag_name_offsets;
+	decltype(g_cache_file_globals.header.debug_tag_name_data_offset)& debug_tag_name_data_offset = g_cache_file_globals.header.debug_tag_name_data_offset;
+	decltype(g_cache_file_globals.header.debug_tag_name_data_size)& debug_tag_name_data_size = g_cache_file_globals.header.debug_tag_name_data_size;
+	decltype(g_cache_file_globals.header.debug_tag_name_index_offset)& debug_tag_name_index_offset = g_cache_file_globals.header.debug_tag_name_index_offset;
 
 	// debug_tag_names
 	decltype(g_cache_file_debug_globals->debug_tag_name_offsets)& offsets = g_cache_file_debug_globals->debug_tag_name_offsets;
@@ -962,10 +962,10 @@ bool __cdecl cache_file_debug_tag_names_load()
 	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
 	if (debug_tag_name_count)
 	{
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_buffer, cache_file_round_up_read_size(debug_tag_name_buffer_length), buffer))
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_data_offset, cache_file_round_up_read_size(debug_tag_name_data_size), buffer))
 			return false;
 
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_offsets, cache_file_round_up_read_size(debug_tag_name_count * sizeof(long)), offsets))
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_index_offset, cache_file_round_up_read_size(debug_tag_name_count * sizeof(long)), offsets))
 			return false;
 	}
 	else
@@ -1188,12 +1188,12 @@ void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_st
 
 void cache_files_update_main_status()
 {
-	c_static_string<32> author = g_cache_file_globals.header.author;
-	c_wrapped_array<char> creator_string = c_wrapped_array<char>(author.get());
+	c_static_string<32> creator_name = g_cache_file_globals.header.creator_name;
+	c_wrapped_array<char> creator_string = c_wrapped_array<char>(creator_name.get());
 	cache_file_transform_creator_string(creator_string);
-	author.null_terminate_buffer();
-	main_status("map created by", "%s", author.get_string());
-	c_console::write_line("map created by %s", author.get_string());
+	creator_name.null_terminate_buffer();
+	main_status("map created by", "%s", creator_name.get_string());
+	c_console::write_line("map created by %s", creator_name.get_string());
 }
 
 void load_external_files();

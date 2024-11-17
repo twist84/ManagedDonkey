@@ -39,17 +39,19 @@ struct c_typed_tag_resource :
 };
 static_assert(sizeof(s_tag_resource) == sizeof(s_tag_resource));
 
-struct s_cache_file_shared_resource_usage
-{
-	byte __data[0x2328];
-};
-static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2328);
-
 struct s_cache_file_insertion_point_resource_usage
 {
 	byte __data[0xB4];
 };
 static_assert(sizeof(s_cache_file_insertion_point_resource_usage) == 0xB4);
+
+struct s_cache_file_shared_resource_usage
+{
+	byte __data0[0x2328];
+	long insertion_point_usage_count;
+	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_usages;
+};
+static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2980);
 
 template<typename t_type, long k_depth>
 struct c_typed_allocation_data_no_destruct

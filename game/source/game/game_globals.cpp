@@ -43,7 +43,7 @@ c_typed_tag_block<rgb_color> s_game_globals::profile_colors{};
 long get_map_minor_version()
 {
 	if (global_scenario)
-		return cache_files_get_header()->minor_version;
+		return cache_files_get_header()->minor_version_number;
 	else
 		return 0xFFFFFFFF;
 }

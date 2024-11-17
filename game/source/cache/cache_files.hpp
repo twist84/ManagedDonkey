@@ -54,68 +54,69 @@ union s_cache_file_header
 	{
 		tag header_signature;
 		long version;
-		long size;
+		long file_size;
 
-		dword __unknownC;
-		dword __unknown10;
-		dword __unknown14;
-		dword __unknown18;
+		long compressed_file_padding;
+		long tags_offset;
+		dword tag_buffer_offset;
+		dword total_tags_size;
 
-		c_static_string<k_tag_long_string_length> source_file;
-		c_static_string<k_tag_string_length> build;
+		c_static_string<k_tag_long_string_length> path;
+		c_static_string<k_tag_string_length> build_number;
 
 		short scenario_type;
-		short scenario_load_type;
+		short shared_cache_file_type;
 
-		bool __unknown140;
+		bool uncompressed;
 		bool tracked_build;
-		bool shared_resource_usage_available;
+		bool valid_shared_resource_usage;
 		byte_flags header_flags;
 
-		s_file_last_modification_date modification_date;
+		s_file_last_modification_date slot_modification_date;
 
-		byte __data14C[0xC];
+		long low_detail_texture_number;
+		dword low_detail_texture_offset;
+		dword low_detail_texture_byte_count;
 
-		long string_id_index_buffer_length;
-		long string_id_string_storage_length;
-		long string_id_index_buffer;
-		long string_id_string_storage;
+		long string_id_count;
+		long string_id_data_count;
+		dword string_id_index_offset;
+		dword string_id_data_offset;
 
 		// bool uses_shared_map[shared_file_count];
 		// c_flags<e_cache_file_shared_file_type, byte, k_number_of_cache_file_shared_file_types> shared_file_flags;
 		byte_flags shared_file_flags;
 
-		s_file_last_modification_date creation_time;
-		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_file_types> shared_file_times;
+		s_file_last_modification_date creation_date;
+		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_file_types> shared_creation_date;
 
 		c_static_string<k_tag_string_length> name;
-		c_enum<e_language, long, _language_invalid, k_language_count> game_language;
-		c_static_string<k_tag_long_string_length> relative_path;
-		long minor_version;
+		c_enum<e_language, long, _language_invalid, k_language_count> language;
+		c_static_string<k_tag_long_string_length> tag_path;
+		long minor_version_number;
 
 		long debug_tag_name_count;
-		long debug_tag_name_buffer;
-		long debug_tag_name_buffer_length;
-		long debug_tag_name_offsets;
+		dword debug_tag_name_data_offset;
+		long debug_tag_name_data_size;
+		dword debug_tag_name_index_offset;
 
 		s_cache_file_section_file_bounds reports;
 
 		byte __data2E4[0x4];
 
-		c_static_string<k_tag_string_length> author;
+		c_static_string<k_tag_string_length> creator_name;
 
 		byte __data308[0x10];
-		qword __unknown318;
 
-		s_network_http_request_hash hash;
+		qword signature_marker;
+
+		s_network_http_request_hash content_hashes[1];
 		s_rsa_signature rsa_signature;
 
 		c_static_array<long, k_number_of_cache_file_sections> section_offsets;
 		c_static_array<s_cache_file_section_file_bounds, k_number_of_cache_file_sections> original_section_bounds;
 
 		s_cache_file_shared_resource_usage shared_resource_usage;
-		long insertion_point_resource_usage_count; // `has_insertion_points`
-		c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
 
 		long tag_cache_offsets;
 		long tag_count;
@@ -124,7 +125,7 @@ union s_cache_file_header
 		long scenario_index;
 		long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
 
-		byte __data2DF8[0x594];
+		byte padding[0x594];
 
 		tag footer_signature;
 	};

@@ -9,13 +9,13 @@ void __cdecl cache_file_builder_security_clean_header(s_cache_file_header* out_h
 {
 	//INVOKE(0x00601BF0, cache_file_builder_security_clean_header, out_header);
 
-	csmemset(&out_header->__unknown318, 0, sizeof(out_header->__unknown318));
-	csmemset(&out_header->hash, 0, sizeof(out_header->hash));
+	csmemset(&out_header->signature_marker, 0, sizeof(out_header->signature_marker));
+	csmemset(out_header->content_hashes, 0, sizeof(out_header->content_hashes));
 	csmemset(&out_header->rsa_signature, 0, sizeof(out_header->rsa_signature));
-	csmemset(&out_header->source_file, 0, sizeof(out_header->source_file));
-	csmemset(&out_header->modification_date, 0, sizeof(out_header->modification_date));
-	csmemset(&out_header->creation_time, 0, sizeof(out_header->creation_time));
-	csmemset(&out_header->shared_file_times, 0, sizeof(out_header->shared_file_times));
+	csmemset(&out_header->path, 0, sizeof(out_header->path));
+	csmemset(&out_header->slot_modification_date, 0, sizeof(out_header->slot_modification_date));
+	csmemset(&out_header->creation_date, 0, sizeof(out_header->creation_date));
+	csmemset(&out_header->shared_creation_date, 0, sizeof(out_header->shared_creation_date));
 	csmemset(&out_header->shared_resource_usage, 0, 0x10);
 }
 
