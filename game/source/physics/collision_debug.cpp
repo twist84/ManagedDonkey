@@ -134,23 +134,23 @@ void collision_debug_render()
 	else
 	{
 		collision_test_flags.collision_flags.set(_collision_test_structure_bit, collision_debug_flag_structure);
-		collision_test_flags.collision_flags.set(_collision_test_water_bit, collision_debug_flag_water);
+		collision_test_flags.collision_flags.set(_collision_test_media_bit, collision_debug_flag_water);
 		collision_test_flags.collision_flags.set(_collision_test_instanced_geometry_bit, collision_debug_flag_instanced_geometry);
 
 		collision_test_flags.object_flags.set(_collision_test_objects_bit, collision_debug_flag_objects);
-		collision_test_flags.object_flags.set(_collision_test_objects_biped_bit, collision_debug_flag_objects_bipeds);
-		collision_test_flags.object_flags.set(_collision_test_objects_giant_bit, collision_debug_flag_objects_giants);
-		collision_test_flags.object_flags.set(_collision_test_objects_vehicle_bit, collision_debug_flag_objects_vehicles);
-		collision_test_flags.object_flags.set(_collision_test_objects_weapon_bit, collision_debug_flag_objects_weapons);
+		collision_test_flags.object_flags.set(_collision_test_objects_bipeds_bit, collision_debug_flag_objects_bipeds);
+		collision_test_flags.object_flags.set(_collision_test_objects_giants_bit, collision_debug_flag_objects_giants);
+		collision_test_flags.object_flags.set(_collision_test_objects_vehicles_bit, collision_debug_flag_objects_vehicles);
+		collision_test_flags.object_flags.set(_collision_test_objects_weapons_bit, collision_debug_flag_objects_weapons);
 		collision_test_flags.object_flags.set(_collision_test_objects_equipment_bit, collision_debug_flag_objects_equipment);
-		collision_test_flags.object_flags.set(_collision_test_objects_terminal_bit, collision_debug_flag_objects_terminals);
-		collision_test_flags.object_flags.set(_collision_test_objects_projectile_bit, collision_debug_flag_objects_projectiles);
+		collision_test_flags.object_flags.set(_collision_test_objects_terminals_bit, collision_debug_flag_objects_terminals);
+		collision_test_flags.object_flags.set(_collision_test_objects_projectiles_bit, collision_debug_flag_objects_projectiles);
 		collision_test_flags.object_flags.set(_collision_test_objects_scenery_bit, collision_debug_flag_objects_scenery);
-		collision_test_flags.object_flags.set(_collision_test_objects_machine_bit, collision_debug_flag_objects_machines);
-		collision_test_flags.object_flags.set(_collision_test_objects_control_bit, collision_debug_flag_objects_controls);
+		collision_test_flags.object_flags.set(_collision_test_objects_machines_bit, collision_debug_flag_objects_machines);
+		collision_test_flags.object_flags.set(_collision_test_objects_controls_bit, collision_debug_flag_objects_controls);
 		collision_test_flags.object_flags.set(_collision_test_objects_sound_scenery_bit, collision_debug_flag_objects_sound_scenery);
-		collision_test_flags.object_flags.set(_collision_test_objects_crate_bit, collision_debug_flag_objects_crates);
-		collision_test_flags.object_flags.set(_collision_test_objects_creature_bit, collision_debug_flag_objects_creatures);
+		collision_test_flags.object_flags.set(_collision_test_objects_crates_bit, collision_debug_flag_objects_crates);
+		collision_test_flags.object_flags.set(_collision_test_objects_creatures_bit, collision_debug_flag_objects_creatures);
 		collision_test_flags.object_flags.set(_collision_test_objects_effect_scenery_bit, collision_debug_flag_objects_effect_scenery);
 
 		collision_test_flags.collision_flags.set(_collision_test_ignore_child_objects_bit, collision_debug_flag_ignore_child_objects);
@@ -166,7 +166,7 @@ void collision_debug_render()
 		collision_test_flags.collision_flags.set(_collision_test_try_to_keep_location_valid_bit, collision_debug_flag_try_to_keep_location_valid);
 
 		if (!collision_test_flags.collision_flags.test(_collision_test_structure_bit) &&
-			!collision_test_flags.collision_flags.test(_collision_test_water_bit) &&
+			!collision_test_flags.collision_flags.test(_collision_test_media_bit) &&
 			!collision_test_flags.collision_flags.test(_collision_test_instanced_geometry_bit) &&
 			!collision_test_flags.object_flags.test(_collision_test_objects_bit))
 		{
