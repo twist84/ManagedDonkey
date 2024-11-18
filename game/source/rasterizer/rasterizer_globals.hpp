@@ -22,18 +22,30 @@ struct s_rasterizer_globals
 };
 static_assert(sizeof(s_rasterizer_globals) == 0x78);
 
-struct s_rasterizer_timing_event :
+struct s_rasterizer_timing_data :
 	s_synchronized_list_entry
 {
-	byte __data0[0x5C];
+	__int64 input_collection_time;
+	__int64 input_adjustment_time;
+	__int64 publishing_start_time;
+	__int64 publishing_end_time;
+	__int64 render_start_time;
+	__int64 render_end_time;
+	__int64 present_start_time;
+	__int64 present_end_time;
+	__int64 target_vblank_index;
+	__int64 throttle_vblank_overrun;
+	__int64 swap_vblank_overrun;
 };
-static_assert(sizeof(s_rasterizer_timing_event) == 0x60);
+static_assert(sizeof(s_rasterizer_timing_data) == 0x60);
 
 struct s_rasterizer_timing_globals
 {
-	byte __data0[0x60];
-	t_event_queue<s_rasterizer_timing_event, 45> timing_event_queue;
-	byte __data[0x208];
+	s_rasterizer_timing_data published_time_set;
+	t_event_queue<s_rasterizer_timing_data, 45> published_time_set_queue;
+	//t_fifo_event_queue<s_rasterizer_timing_data, 4> pending_time_set_queue;
+	byte __data[0x1A0];
+	s_rasterizer_timing_data next_time_set;
 };
 static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
 

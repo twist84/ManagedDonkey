@@ -65,3 +65,9 @@ struct c_synchronized_array
 	c_synchronized_long m_storage[k_count];
 };
 
+struct c_interlocked_int64
+{
+//protected:
+	volatile __int64 m_value;
+};
+

@@ -24,7 +24,7 @@ public:
 		if (resource_handle == NONE)
 			return false;
 
-		s_tag_resource_access_datum* cached_resource = m_cached_access_datums[resource_handle];
+		s_tag_resource_access_datum* cached_resource = m_cached_resources[resource_handle];
 		if (!cached_resource)
 			return false;
 
@@ -37,26 +37,19 @@ public:
 	{
 		ASSERT(resource_handle != NONE);
 
-		s_tag_resource_access_datum* cached_resource = m_cached_access_datums[DATUM_INDEX_TO_ABSOLUTE_INDEX(resource_handle)];
+		s_tag_resource_access_datum* cached_resource = m_cached_resources[DATUM_INDEX_TO_ABSOLUTE_INDEX(resource_handle)];
 		//ASSERT(cached_resource->resource_handle == resource_handle);
 		//ASSERT(cached_resource->resource_data);
 
 		return cached_resource;
 	}
 
-	// m_handles[interop->descriptor]
-	c_wrapped_array<qword*> __unknown0;
-
-	c_wrapped_array<s_tag_resource_access_datum*> m_cached_access_datums;
+	c_wrapped_array<qword> m_cached_resource_snapshots;
+	c_wrapped_array<s_tag_resource_access_datum*> m_cached_resources;
 	c_wrapped_array<dword*> m_cached_resource_handles;
-	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, dword, k_tag_resource_access_state_bits>*> m_resource_flags;
-	
+	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, dword, k_tag_resource_access_state_bits>*> m_resource_access_flags;
 	c_allocation_base* m_allocator;
-	void* m_allocation;
-
-	//c_tag_resource_cache_dpc_event m_dpc_event;
-	//c_interlocked_int32 __interlocked30;
-	byte __data28[0x10];
+	void* m_allocation_base;
 };
-static_assert(sizeof(c_tag_resource_cache_file_access_cache) == 0x38);
+static_assert(sizeof(c_tag_resource_cache_file_access_cache) == 0x28);
 

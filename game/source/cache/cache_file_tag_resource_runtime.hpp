@@ -145,39 +145,6 @@ struct c_cache_file_tag_resource_location_handler
 };
 static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
 
-struct c_cache_file_tag_resource_runtime_in_level_memory_manager
-{
-	c_basic_buffer<void> m_resource_storage_range;
-
-	// #TODO: name this
-	c_basic_buffer<void> __unknown8;
-
-	c_basic_buffer<void> m_actual_resource_storage_range;
-	c_basic_buffer<void> m_stoler_range;
-	bool m_actual_storage_range_read_locked;
-	c_basic_buffer<void> m_writeable_range;
-
-	// #TODO: map this
-	byte __data2C[0xC];
-
-	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
-	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
-	c_basic_buffer<void> m_cache_file_resource_allocation_region;
-	c_cache_file_resource_header_location_table m_resource_header_location_table;
-};
-static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x480);
-static_assert(0x000 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_storage_range));
-static_assert(0x008 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, __unknown8));
-static_assert(0x010 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_resource_storage_range));
-static_assert(0x018 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_stoler_range));
-static_assert(0x020 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_storage_range_read_locked));
-static_assert(0x024 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_writeable_range));
-static_assert(0x02C == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, __data2C));
-static_assert(0x038 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_tag_resource_cache));
-static_assert(0x438 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocator));
-static_assert(0x44C == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocation_region));
-static_assert(0x454 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_header_location_table));
-
 struct c_cache_file_resource_rollover_table
 {
 	struct s_rollover_entry_estimated
@@ -277,17 +244,10 @@ public:
 };
 static_assert(sizeof(c_tag_resource_page_range_allocator) == 0x4);
 
-struct c_indirect_cache_file_bulk_read_iterator;
-struct s_indirect_cache_file_read_request;
 struct c_tag_resource_cache_file_reader
 {
-public:
-	virtual void __cdecl update_io_state();
-	virtual void __cdecl spinning_for_blocking_io();
-	virtual bool __cdecl request_data(c_indirect_cache_file_bulk_read_iterator* bulk_read_iterator);
-	virtual bool __cdecl request_data_async(s_indirect_cache_file_read_request const* read_request, c_synchronized_long* out_size, c_asynchronous_io_marker* out_async_request_done);
+	struct c_tag_resource_cache_file_reader_vtbl* __vftable /*VFT*/;
 };
-static_assert(sizeof(c_tag_resource_cache_file_reader) == 0x4);
 
 struct s_indirect_cache_file_location;
 struct c_indirect_cache_file_location_atlas
@@ -314,6 +274,24 @@ public:
 };
 static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
 
+struct s_cache_file_tag_resource_runtime_shared_file :
+	s_datum_header
+{
+	word_flags flags;
+	s_file_handle async_file_handle;
+	s_file_handle overlapped_handle;
+	s_indirect_file indirect_file;
+	s_cache_file_shared_resource_usage const* shared_resource_usage;
+	dword resource_section_offset;
+	long map_file_index;
+};
+static_assert(sizeof(s_cache_file_tag_resource_runtime_shared_file) == 0x1C);
+
+struct c_tag_resource_cache_file_datum_handler
+{
+	struct c_tag_resource_cache_file_datum_handler_vtbl* __vftable /*VFT*/;
+};
+
 struct c_io_result;
 struct s_cache_file_resource_gestalt;
 struct c_cache_file_tag_resource_runtime_manager :
@@ -327,6 +305,16 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_prediction_atom_generator,
 	public c_cache_file_resource_stoler
 {
+	struct c_cache_file_tag_resource_datum_handler :
+		c_tag_resource_cache_file_datum_handler
+	{
+		s_cache_file_resource_gestalt* m_resource_gestalt;
+		c_basic_buffer<void> m_resource_runtime_data;
+		bool m_cache_streaming_data;
+		c_cache_file_resource_uber_location_table* m_file_location_table;
+	};
+	static_assert(sizeof(c_cache_file_tag_resource_datum_handler) == 0x18);
+
 public:
 	void commit_zone_state();
 	void load_pending_resources_blocking(c_io_result* io_result);
@@ -341,7 +329,7 @@ public:
 	void unlock_for_game();
 	void idle();
 	void initialize(c_allocation_base* allocation);
-	void __thiscall sub_561C00(e_game_mode game_mode);
+	void __thiscall initialize_files(e_game_mode game_mode);
 	void initialize_for_new_map(
 		e_game_mode game_mode,
 		long cache_file_resource_gestalt_index,
@@ -351,7 +339,7 @@ public:
 
 	void* get_cached_resource_data(long resource_handle)
 	{
-		return m_in_level_memory_manager.m_tag_resource_cache.get_resource_data(resource_handle);
+		return m_threaded_tag_resource_cache.get_resource_data(resource_handle);
 	}
 
 //protected:
@@ -359,33 +347,54 @@ public:
 	s_cache_file_resource_runtime_active_zone_state m_active_zone_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 
-	// #TODO: name this
-	bool __unknown260;
+	bool m_loaded_any_resources;
+	bool m_dirty_active_resource_mask;
+	bool m_dirty_pending_resource_mask;
+	bool m_dirty_prefetch_map_state;
 
-	bool m_resources_required; // m_dirty_active_resource_mask?
-	bool m_resources_pending;  // m_dirty_pending_resource_mask?
-	bool m_resources_loading;
+	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_resource_predictor;
+	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
 
-	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
-	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
-	c_static_flags<32768> m_required_resources;
-	c_static_flags<32768> m_pending_resources;
-	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_tag_resource_vtables;
+	c_static_flags<32768> m_active_resources_mask;
+	c_static_flags<32768> m_pending_resources_mask;
+
+	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_vtable_mapping;
+
 	c_wrapped_array<void*> m_resource_runtime_data;
-	c_basic_buffer<void> m_resource_interop_data_buffer;
-	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
+	c_basic_buffer<void> m_resource_interop_buffer;
+
+	c_cache_file_tag_resource_datum_handler m_resource_datum_handler;
 	c_cache_file_tag_resource_location_handler m_resource_location_handler;
-	c_cache_file_tag_resource_runtime_in_level_memory_manager m_in_level_memory_manager;
-	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states2A788;
+
+	c_basic_buffer<void> m_resource_storage_range;
+	c_basic_buffer<void> m_desired_resource_storage_range;
+	c_basic_buffer<void> m_actual_resource_storage_range;
+	c_basic_buffer<void> m_stoler_range;
+	bool m_actual_storage_range_read_locked;
+	byte __pad2A32D[0x3];
+	c_basic_buffer<void> m_writeable_range;
+	byte __pad2A33C[0xC];
+	c_thread_safeish_tag_resource_cache m_threaded_tag_resource_cache;
+	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
+	c_basic_buffer<void> m_cache_file_resource_allocation_region;
+	c_static_array<long, 7> m_shared_file_datum_indices;
+	struct
+	{
+		long m_element_count;
+		c_smart_data_array<s_cache_file_tag_resource_runtime_shared_file> m_elements;
+	} m_shared_file_handles;
+	c_cache_file_resource_uber_location_table m_uber_location_table;
+	e_game_mode m_last_game_mode;
+	s_cache_file_resource_prefetch_map_state m_last_ui_prefetch_state;
+	s_cache_file_resource_prefetch_map_state m_last_game_prefetch_state;
 	c_cache_file_resource_rollover_table m_rollover_table;
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
 	c_cache_file_resource_optional_cache_backend m_optional_cache_backend;
 
-	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> m_game_mode;
-	bool m_running_off_dvd;
+	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> m_active_game_mode;
 
-	// #TODO: name this
-	bool __unknown6ACA9;
+	bool m_cache_streaming_data;
+	bool m_cache_pages_for_next_map;
 
 	// #TODO: map this
 	byte __data6ACAA[0x16];
@@ -394,24 +403,40 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
 static_assert(0x00028 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_zone_state));
 static_assert(0x00048 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
-static_assert(0x00260 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __unknown260));
-static_assert(0x00264 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dynamic_predictor));
-static_assert(0x00274 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_precompiled_predictor));
-static_assert(0x28298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_required_resources));
-static_assert(0x29298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_pending_resources));
-static_assert(0x2A298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_tag_resource_vtables));
+static_assert(0x00260 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_loaded_any_resources));
+static_assert(0x00261 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dirty_active_resource_mask));
+static_assert(0x00262 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dirty_pending_resource_mask));
+static_assert(0x00263 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dirty_prefetch_map_state));
+static_assert(0x00264 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dynamic_resource_predictor));
+static_assert(0x00274 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_precomputed_resource_predictor));
+static_assert(0x28298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_resources_mask));
+static_assert(0x29298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_pending_resources_mask));
+static_assert(0x2A298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_vtable_mapping));
 static_assert(0x2A2D8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_runtime_data));
-static_assert(0x2A2E0 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_interop_data_buffer));
-static_assert(0x2A2E8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_combined_tag_resource_datum_handler));
+static_assert(0x2A2E0 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_interop_buffer));
+static_assert(0x2A2E8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_datum_handler));
 static_assert(0x2A300 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_location_handler));
-static_assert(0x2A308 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_in_level_memory_manager));
-static_assert(0x2A788 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetch_map_states2A788));
+static_assert(0x2A308 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_storage_range));
+static_assert(0x2A310 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_desired_resource_storage_range));
+static_assert(0x2A318 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_actual_resource_storage_range));
+static_assert(0x2A320 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_stoler_range));
+static_assert(0x2A328 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_actual_storage_range_read_locked));
+static_assert(0x2A32C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_writeable_range));
+static_assert(0x2A340 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_threaded_tag_resource_cache));
+static_assert(0x2A740 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation));
+static_assert(0x2A754 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation_region));
+static_assert(0x2A75C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_datum_indices));
+static_assert(0x2A778 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_handles));
+static_assert(0x2A780 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_uber_location_table));
+static_assert(0x2A784 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_game_mode));
+static_assert(0x2A788 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_ui_prefetch_state));
+static_assert(0x2A890 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_game_prefetch_state));
 static_assert(0x2A998 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_rollover_table));
 static_assert(0x6A9A8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_codec_service));
 static_assert(0x6AC14 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_optional_cache_backend));
-static_assert(0x6ACA4 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_game_mode));
-static_assert(0x6ACA8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_running_off_dvd));
-static_assert(0x6ACA9 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __unknown6ACA9));
+static_assert(0x6ACA4 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_game_mode));
+static_assert(0x6ACA8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_streaming_data));
+static_assert(0x6ACA9 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_pages_for_next_map));
 static_assert(0x6ACAA == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __data6ACAA));
 
 struct c_cache_file_tag_resource_runtime_manager_allocation :

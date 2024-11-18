@@ -14,7 +14,7 @@ REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_c
 
 REFERENCE_DECLARE(0x023916C0, c_cache_file_tag_resource_runtime_manager_allocation, g_resource_runtime_manager);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, sub_561C00);
+HOOK_DECLARE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, initialize_files);
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 HOOK_DECLARE(0x00563F80, tag_resources_lock_game);
 HOOK_DECLARE(0x00563FC0, tag_resources_lock_render);
@@ -309,11 +309,11 @@ void c_cache_file_tag_resource_runtime_manager::load_pending_resources_blocking(
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.load_pending_data_only_blocking(io_result);
 	//
-	//if (m_resources_loading)
+	//if (m_dirty_prefetch_map_state)
 	//{
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
-	//	m_resources_loading = false;
+	//	m_dirty_prefetch_map_state = false;
 	//}
 }
 
@@ -324,12 +324,12 @@ void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking
 	//if (m_resource_gestalt)
 	//	m_in_level_memory_manager.m_tag_resource_cache.load_required_data_only_blocking(io_result);
 	//
-	//__unknown260 = true;
-	//if (m_resources_loading)
+	//m_loaded_any_resources = true;
+	//if (m_dirty_prefetch_map_state)
 	//{
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
 	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
-	//	m_resources_loading = false;
+	//	m_dirty_prefetch_map_state = false;
 	//}
 }
 
@@ -486,33 +486,31 @@ void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* al
 }
 
 // does this actually take in `game_mode` or is IDA being IDA again
-void __thiscall c_cache_file_tag_resource_runtime_manager::sub_561C00(e_game_mode game_mode)
+void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_game_mode game_mode)
 {
-	c_cache_file_resource_header_location_table& resource_header_location_table = m_in_level_memory_manager.m_resource_header_location_table;
-
-	data_make_valid(*resource_header_location_table.m_header_file_locations);
-	resource_header_location_table.m_header_file_location_handle_index = 6;
-	for (long& header_file_location_handle : resource_header_location_table.m_header_file_location_handles)
+	data_make_valid(*m_shared_file_handles.m_elements);
+	m_shared_file_datum_indices[6] = 6;
+	for (long& header_file_location_handle : m_shared_file_datum_indices)
 		header_file_location_handle = NONE;
 
-	long header_file_location_handle = datum_new_at_absolute_index(*resource_header_location_table.m_header_file_locations, _map_file_index_shared_ui);
-	c_cache_file_resource_header_location_table::s_header_file_location& header_file_location = resource_header_location_table.m_header_file_locations[header_file_location_handle];
+	long header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_elements, _map_file_index_shared_ui);
+	s_cache_file_tag_resource_runtime_shared_file& runtime_shared_file = m_shared_file_handles.m_elements[header_file_location_handle];
 
-	if (cache_file_get_master_indirect_file_handle(&header_file_location.indirect_file))
-		cache_file_get_master_resource_section_offset(&header_file_location.resource_section_offset);
+	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file.indirect_file))
+		cache_file_get_master_resource_section_offset(&runtime_shared_file.resource_section_offset);
 
-	cache_file_get_master_async_file_handle(&header_file_location.async_file_handle);
-	cache_file_get_master_overlapped_file_handle(&header_file_location.overlapped_handle);
+	cache_file_get_master_async_file_handle(&runtime_shared_file.async_file_handle);
+	cache_file_get_master_overlapped_file_handle(&runtime_shared_file.overlapped_handle);
 
-	header_file_location.shared_resource_usage = cache_file_try_to_get_master_shared_resource_usage();
-	resource_header_location_table.m_header_file_location_handles[_map_file_index_shared_ui] = header_file_location_handle;
+	runtime_shared_file.shared_resource_usage = cache_file_try_to_get_master_shared_resource_usage();
+	m_shared_file_datum_indices[_map_file_index_shared_ui] = header_file_location_handle;
 
 	if (m_resource_gestalt->resources_available)
 	{
 		for (e_map_file_index map_file_index = _map_file_index_shared_resources; map_file_index < k_cached_map_file_shared_count; map_file_index++)
 		{
-			long next_header_file_location_handle = datum_new_at_absolute_index(*resource_header_location_table.m_header_file_locations, map_file_index);
-			c_cache_file_resource_header_location_table::s_header_file_location& next_header_file_location = resource_header_location_table.m_header_file_locations[next_header_file_location_handle];
+			long next_header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_elements, map_file_index);
+			s_cache_file_tag_resource_runtime_shared_file& next_header_file_location = m_shared_file_handles.m_elements[next_header_file_location_handle];
 
 			if (cached_map_file_is_shared(map_file_index - 1))
 			{
@@ -523,7 +521,7 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::sub_561C00(e_game_mod
 				cache_file_get_overlapped_file_handle_from_index(map_file_index, &next_header_file_location.overlapped_handle);
 			}
 
-			resource_header_location_table.m_header_file_location_handles[map_file_index] = next_header_file_location_handle;
+			m_shared_file_datum_indices[map_file_index] = next_header_file_location_handle;
 		}
 	}
 }

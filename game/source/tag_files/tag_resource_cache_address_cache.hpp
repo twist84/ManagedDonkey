@@ -9,44 +9,39 @@ struct c_tag_resource_address_cache_control_interface
 };
 static_assert(sizeof(c_tag_resource_address_cache_control_interface) == 0x4);
 
+struct s_tag_resource_location_handle_struct;
 struct c_tag_resource_cache_file_access_cache;
 struct c_tag_resource_address_cache
 {
 	struct s_published_resources_state
 	{
-		c_tag_resource_cache_file_access_cache* m_access_cache;
-
-		c_wrapped_flags __flags4;
-		c_wrapped_flags __flagsC;
-		c_wrapped_flags __flags14;
-
-		bool __unknown1C;
+		c_tag_resource_cache_file_access_cache* access_cache;
+		c_wrapped_flags locked_resources;
+		c_wrapped_flags published_required_resources;
+		c_wrapped_flags locked_pages;
+		bool active;
 	};
 	static_assert(sizeof(s_published_resources_state) == 0x20);
 
 	struct s_cached_resource_state
 	{
-		dword external_handle;
+		long external_handle;
 		void* required_address;
 		void* optional_address;
-
-		byte __dataC[0x8]; // ?
+		s_tag_resource_location_handle_struct* required_page_handle;
+		s_tag_resource_location_handle_struct* optional_page_handle;
 	};
 	static_assert(sizeof(s_cached_resource_state) == 0x14);
 
 	c_tag_resource_address_cache_control_interface m_control_interface;
 	c_wrapped_array<s_cached_resource_state*> m_cached_access_datums;
-
-	byte __dataC[0x8]; // ?
-
-	c_wrapped_flags m_available_resource_flags;
-	c_wrapped_flags m_required_resource_flags;
-	c_wrapped_flags m_demanded_flags;
-
-	byte __data2C[0x8]; // ?
-
+	c_wrapped_array<qword> m_cached_resource_snapshots;
+	c_wrapped_flags m_ready_resource_addresses;
+	c_wrapped_flags m_required_resource_addresses;
+	c_wrapped_flags m_demanded_external_resources;
+	c_wrapped_flags m_demanded_pages;
 	c_wrapped_array<s_published_resources_state*> m_published_resources_states;
-	void* m_allocation;
+	void* m_allocation_start;
 	c_allocation_base* m_allocator;
 };
 static_assert(sizeof(c_tag_resource_address_cache) == 0x44);

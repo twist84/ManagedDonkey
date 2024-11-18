@@ -88,7 +88,7 @@ static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
 
 struct c_tag_resource_cache_dynamic_predictor
 {
-	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
+	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
 	c_tag_index_hash_table m_index_hash_table;
 
 	// struct?

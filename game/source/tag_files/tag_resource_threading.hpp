@@ -28,7 +28,8 @@ protected:
 static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
 
 struct c_io_result;
-struct c_thread_safeish_tag_resource_cache
+struct c_thread_safeish_tag_resource_cache :
+	public c_tag_resource_cache_new//, c_tag_resource_thread_access
 {
 public:
 	void* get_resource_data(long resource_handle)
@@ -53,7 +54,6 @@ public:
 	void load_required_data_only_blocking(c_io_result* io_result);
 
 protected:
-	c_tag_resource_cache_new m_resource_cache_new;
 	c_tag_resource_thread_access m_resource_thread_access;
 };
 static_assert(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
