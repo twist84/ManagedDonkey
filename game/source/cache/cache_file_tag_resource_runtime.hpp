@@ -99,11 +99,12 @@ struct c_cache_file_streamed_sublocation_decompressor :
 };
 static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c_cache_file_decompressor) + 0x18);
 
-struct s_cache_file_resource_runtime_active_zone_state :
-	s_scenario_zone_state
+struct s_cache_file_resource_runtime_active_zone_state
 {
+	s_scenario_zone_state zone_state;
+	long prefetching_shared_file_index;
 };
-static_assert(sizeof(s_cache_file_resource_runtime_active_zone_state) == sizeof(s_scenario_zone_state));
+static_assert(sizeof(s_cache_file_resource_runtime_active_zone_state) == 0x24);
 
 struct s_cache_file_resource_prefetch_map_state
 {
@@ -115,12 +116,11 @@ static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
 
 struct s_cache_file_resource_runtime_prefetching_state
 {
-	long __unknown0;
 	long prefetching_shared_file_index;
 	s_cache_file_resource_prefetch_map_state active_prefetch;
 	s_cache_file_resource_prefetch_map_state requested_prefetch;
 };
-static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x218);
+static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x214);
 
 struct c_cache_file_tag_resource_runtime_control_allocation :
 	c_allocation_base
@@ -130,7 +130,7 @@ struct c_cache_file_tag_resource_runtime_control_allocation :
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
 
-struct c_cache_file_tag_resource_location_handler
+struct c_tag_resource_cache_file_location_handler
 {
 	struct
 	{
@@ -140,10 +140,8 @@ struct c_cache_file_tag_resource_location_handler
 		void* get_location_indirect_identifier;
 		void* get_location_file_sort_key;
 	}*__vftable;
-
-	c_cache_file_resource_uber_location_table* m_uber_location_table;
 };
-static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
+static_assert(sizeof(c_tag_resource_cache_file_location_handler) == 0x4);
 
 struct c_cache_file_resource_rollover_table
 {
@@ -294,6 +292,7 @@ struct c_tag_resource_cache_file_datum_handler
 
 struct c_io_result;
 struct s_cache_file_resource_gestalt;
+struct s_cache_file_resource_runtime_data_new;
 struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_runtime_listener,
 	public c_tag_resource_runtime_active_set,
@@ -301,20 +300,10 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_page_range_allocator,
 	public c_tag_resource_cache_file_reader,
 	public c_indirect_cache_file_location_atlas,
-	public c_physical_memory_contiguous_region_listener,
-	public c_tag_resource_prediction_atom_generator,
-	public c_cache_file_resource_stoler
+	private c_physical_memory_contiguous_region_listener,
+	private c_tag_resource_prediction_atom_generator,
+	private c_cache_file_resource_stoler
 {
-	struct c_cache_file_tag_resource_datum_handler :
-		c_tag_resource_cache_file_datum_handler
-	{
-		s_cache_file_resource_gestalt* m_resource_gestalt;
-		c_basic_buffer<void> m_resource_runtime_data;
-		bool m_cache_streaming_data;
-		c_cache_file_resource_uber_location_table* m_file_location_table;
-	};
-	static_assert(sizeof(c_cache_file_tag_resource_datum_handler) == 0x18);
-
 public:
 	void commit_zone_state();
 	void load_pending_resources_blocking(c_io_result* io_result);
@@ -343,37 +332,53 @@ public:
 	}
 
 //protected:
+	struct c_cache_file_tag_resource_datum_handler :
+		public c_tag_resource_cache_file_datum_handler
+	{
+	private:
+		s_cache_file_resource_gestalt* m_resource_gestalt;
+		c_wrapped_array<s_cache_file_resource_runtime_data_new> m_resource_runtime_data;
+		bool m_cache_streaming_data;
+		c_cache_file_resource_uber_location_table* m_file_location_table;
+	};
+	static_assert(sizeof(c_cache_file_tag_resource_datum_handler) == 0x18);
+
+	class c_cache_file_tag_resource_location_handler :
+		public c_tag_resource_cache_file_location_handler
+	{
+	private:
+		c_cache_file_resource_uber_location_table* m_file_location_table;
+	};
+	static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
+
 	s_cache_file_resource_gestalt* m_resource_gestalt;
 	s_cache_file_resource_runtime_active_zone_state m_active_zone_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
-
 	bool m_loaded_any_resources;
 	bool m_dirty_active_resource_mask;
 	bool m_dirty_pending_resource_mask;
 	bool m_dirty_prefetch_map_state;
-
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_resource_predictor;
 	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
-
 	c_static_flags<32767> m_active_resources_mask;
 	c_static_flags<32767> m_pending_resources_mask;
-
 	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_vtable_mapping;
-
 	c_wrapped_array<void*> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_buffer;
-
 	c_cache_file_tag_resource_datum_handler m_resource_datum_handler;
 	c_cache_file_tag_resource_location_handler m_resource_location_handler;
-
 	c_basic_buffer<void> m_resource_storage_range;
 	c_basic_buffer<void> m_desired_resource_storage_range;
 	c_basic_buffer<void> m_actual_resource_storage_range;
 	c_basic_buffer<void> m_stoler_range;
 	bool m_actual_storage_range_read_locked;
+
 	byte __pad2A32D[0x3];
+
 	c_basic_buffer<void> m_writeable_range;
+
 	byte __pad2A33C[0xC];
+
 	c_thread_safeish_tag_resource_cache m_threaded_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
@@ -387,9 +392,7 @@ public:
 	c_cache_file_resource_rollover_table m_rollover_table;
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
 	c_cache_file_resource_optional_cache_backend m_optional_cache_backend;
-
-	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> m_active_game_mode;
-
+	e_game_mode m_active_game_mode;
 	bool m_cache_streaming_data;
 	bool m_cache_pages_for_next_map;
 
@@ -399,7 +402,7 @@ public:
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
 static_assert(0x00028 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_zone_state));
-static_assert(0x00048 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
+static_assert(0x0004C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
 static_assert(0x00260 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_loaded_any_resources));
 static_assert(0x00261 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dirty_active_resource_mask));
 static_assert(0x00262 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dirty_pending_resource_mask));
