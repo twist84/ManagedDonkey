@@ -168,10 +168,7 @@ long __cdecl version_get_build_number()
 
 __int64 __cdecl version_get_build_number_identifier()
 {
-	long build_number = version_get_build_number();
-	long build_number_sequence_identifier = version_get_build_number_sequence_identifier();
-
-	return make_int64(build_number, build_number_sequence_identifier);
+	return make_int64(version_get_build_number(), version_get_build_number_sequence_identifier());
 }
 
 long __cdecl version_get_build_number_sequence_identifier()

@@ -181,8 +181,6 @@ union t_value_type
 
 extern void* offset_pointer(void* pointer, long offset);
 extern void const* offset_pointer(void const* pointer, long offset);
-extern unsigned int address_from_pointer(void const* pointer);
-extern void* pointer_from_address(unsigned int address);
 extern unsigned int align_address(unsigned int address, long alignment_bits);
 extern void* align_pointer(void* pointer, long alignment_bits);
 extern long pointer_distance(void const* pointer_a, void const* pointer_b);
@@ -575,7 +573,7 @@ struct c_static_sized_dynamic_array
 public:
 	c_static_sized_dynamic_array() :
 		m_storage(),
-		m_count(0)
+		m_allocated_count(0)
 	{
 	}
 
@@ -593,7 +591,7 @@ public:
 
 	t_type* end()
 	{
-		return begin() + m_count;
+		return begin() + m_allocated_count;
 	}
 
 	t_type const* begin() const
@@ -603,36 +601,36 @@ public:
 
 	t_type const* end() const
 	{
-		return begin() + m_count;
+		return begin() + m_allocated_count;
 	}
 
 	void clear()
 	{
 		csmemset(m_storage, 0, sizeof(m_storage));
-		m_count = 0;
+		m_allocated_count = 0;
 	}
 
 	long count() const
 	{
-		return m_count;
+		return m_allocated_count;
 	}
 
 	bool full() const
 	{
-		return m_count == m_storage.get_count();
+		return m_allocated_count == m_storage.get_count();
 	}
 
 	bool valid_index(long index) const
 	{
-		return VALID_INDEX(index, m_count);
+		return VALID_INDEX(index, m_allocated_count);
 	}
 
 	long new_element_index()
 	{
-		long new_index = m_count;
+		long new_index = m_allocated_count;
 		ASSERT(m_storage.valid(new_index));
 
-		m_count++;
+		m_allocated_count++;
 
 		return new_index;
 	}
@@ -646,7 +644,7 @@ public:
 
 protected:
 	c_static_array<t_type, k_count> m_storage;
-	long m_count;
+	long m_allocated_count;
 };
 
 template<typename t_type, long k_count>
@@ -762,11 +760,12 @@ struct c_typed_opaque_data
 {
 	t_type* get()
 	{
-		ASSERT(((dword)m_opaque_data & k_alignment_mask) == 0);
-		return reinterpret_cast<t_type*>(((dword)m_opaque_data + k_alignment_mask) & ~k_alignment_mask);
+		ASSERT(((dword)m_opaque_storage & k_alignment_mask) == 0);
+		return reinterpret_cast<t_type*>(((dword)m_opaque_storage + k_alignment_mask) & ~k_alignment_mask);
 	}
 
-	byte m_opaque_data[k_type_size];
+	byte m_opaque_storage[k_type_size];
+	//t_type* m_live_object;
 };
 
 template<typename t_type>
@@ -818,25 +817,24 @@ struct c_flags //: public c_flags_no_init<t_type, t_storage_type, k_count>
 
 public:
 	c_flags() :
-		m_storage(0)
+		m_flags(0)
 	{
 
 	}
 
 	c_flags(t_storage_type raw_bits) :
-		m_storage(raw_bits)
+		m_flags(raw_bits)
 	{
 
 	}
-
 	t_storage_type get_unsafe() const
 	{
-		return m_storage;
+		return m_flags;
 	}
 
 	void set_unsafe(t_storage_type raw_bits)
 	{
-		m_storage = raw_bits;
+		m_flags = raw_bits;
 	}
 
 	void set(t_type bit, bool enable)
@@ -844,22 +842,22 @@ public:
 		if (bit < k_maximum_count)
 		{
 			if (enable)
-				m_storage |= (1 << bit);
+				m_flags |= (1 << bit);
 			else
-				m_storage &= ~(1 << bit);
+				m_flags &= ~(1 << bit);
 		}
 	}
 
 	void clear()
 	{
-		m_storage = 0;
+		m_flags = 0;
 	}
 
 	bool is_empty() const
 	{
 #pragma warning(push)
 #pragma warning(disable : 4293)
-		return (m_storage & (MASK(SIZEOF_BITS(t_storage_type)) >> (SIZEOF_BITS(t_storage_type) - k_maximum_count))) == 0;
+		return (m_flags & (MASK(SIZEOF_BITS(t_storage_type)) >> (SIZEOF_BITS(t_storage_type) - k_maximum_count))) == 0;
 #pragma warning(pop)
 	}
 
@@ -875,52 +873,52 @@ public:
 
 	bool valid() const
 	{
-		return (m_storage & MASK(k_maximum_count)) == 0;
+		return (m_flags & MASK(k_maximum_count)) == 0;
 	}
 
 	bool test(t_type bit)
 	{
 		ASSERT(valid_bit(bit));
 
-		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
+		return TEST_BIT(m_flags, static_cast<t_storage_type>(bit));
 	}
 
 	bool test(t_type bit) const
 	{
 		ASSERT(valid_bit(bit));
 
-		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
+		return TEST_BIT(m_flags, static_cast<t_storage_type>(bit));
 	}
 
 	bool operator==(c_flags<t_type, t_storage_type, k_maximum_count>& value)
 	{
-		return m_storage == value.m_storage;
+		return m_flags == value.m_flags;
 	}
 
 	bool operator==(t_type value)
 	{
-		return !!(m_storage & (1 << value));
+		return !!(m_flags & (1 << value));
 	}
 
 	c_flags<t_type, t_storage_type, k_maximum_count> operator|(c_flags<t_type, t_storage_type, k_maximum_count> const& other) const
 	{
-		return c_flags(m_storage | other.m_storage);
+		return c_flags(m_flags | other.m_flags);
 	}
 
 	template <class T>
 	void operator= (T value)
 	{
-		m_storage = static_cast<t_storage_type>(value);
+		m_flags = static_cast<t_storage_type>(value);
 	}
 
 	template <class T>
 	operator T () const
 	{
-		return static_cast<T>(m_storage);
+		return static_cast<T>(m_flags);
 	}
 
 protected:
-	t_storage_type m_storage;
+	t_storage_type m_flags;
 };
 
 template<long k_maximum_count>
@@ -933,7 +931,7 @@ struct c_static_flags_no_init
 		ASSERT(vector_a);
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			m_storage[i] &= vector_a[i];
+			m_flags[i] &= vector_a[i];
 	}
 
 	void and_not_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, long count)
@@ -944,7 +942,7 @@ struct c_static_flags_no_init
 		dword const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			m_storage[i] = vector_a_bits[i] & ~vector_b_bits[i];
+			m_flags[i] = vector_a_bits[i] & ~vector_b_bits[i];
 	}
 
 	void and_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, long count)
@@ -955,69 +953,69 @@ struct c_static_flags_no_init
 		dword const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			m_storage[i] = vector_a_bits[i] & vector_b_bits[i];
+			m_flags[i] = vector_a_bits[i] & vector_b_bits[i];
 	}
 
 	void clear()
 	{
-		csmemset(m_storage, 0, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+		csmemset(m_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
 	void clear_range(long count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		csmemset(m_storage, 0, BIT_VECTOR_SIZE_IN_BYTES(count));
+		csmemset(m_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
 	void copy(c_static_flags_no_init<k_maximum_count> const* vector_a)
 	{
-		csmemcpy(m_storage, vector_a, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+		csmemcpy(m_flags, vector_a, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
 	long count_bits_set() const
 	{
-		return bit_vector_count_bits(m_storage, k_maximum_count);
+		return bit_vector_count_bits(m_flags, k_maximum_count);
 	}
 
 	void fill(long count, byte fill_value)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		csmemset(m_storage, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
+		csmemset(m_flags, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
 	dword const* get_bits_direct() const
 	{
-		return m_storage;
+		return m_flags;
 	}
 
 	dword* get_writeable_bits_direct()
 	{
-		return m_storage;
+		return m_flags;
 	}
 
 	long highest_bit_set_in_range(long count) const
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		return bit_vector_highest_bit_set(m_storage, count);
+		return bit_vector_highest_bit_set(m_flags, count);
 	}
 
 	void invert_bits()
 	{
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			m_storage[i] = ~m_storage[i];
+			m_flags[i] = ~m_flags[i];
 
 		// no clue
-		//m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (byte)m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
+		//m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (byte)m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
 	}
 
 	bool is_clear() const
 	{
 		byte result = 1;
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			result &= m_storage[i] == 0;
+			result &= m_flags[i] == 0;
 
 		return result;
 	}
@@ -1027,9 +1025,9 @@ struct c_static_flags_no_init
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
 		for (long i = BIT_VECTOR_SIZE_IN_LONGS(count); i < BIT_VECTOR_SIZE_IN_LONGS(count); ++i)
-			m_storage[i] = 0;
+			m_flags[i] = 0;
 
-		m_storage[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
+		m_flags[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
 	}
 
 	void or_bits(dword const* bits, long count)
@@ -1037,7 +1035,7 @@ struct c_static_flags_no_init
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
-			m_storage[i] |= bits[i];
+			m_flags[i] |= bits[i];
 	}
 
 	void set(long index, bool enable)
@@ -1045,38 +1043,38 @@ struct c_static_flags_no_init
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
 		if (enable)
-			BIT_VECTOR_OR_FLAG(m_storage, index);
+			BIT_VECTOR_OR_FLAG(m_flags, index);
 		else
-			BIT_VECTOR_AND_FLAG(m_storage, index);
+			BIT_VECTOR_AND_FLAG(m_flags, index);
 	}
 
 	void set_all()
 	{
-		csmemset(m_storage, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+		csmemset(m_flags, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
 	void set_bits_direct_destructive(long count, dword const* bits)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		csmemcpy(m_storage, bits, BIT_VECTOR_SIZE_IN_BYTES(count));
+		csmemcpy(m_flags, bits, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
 	void set_range(long count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		csmemset(m_storage, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(count));
+		csmemset(m_flags, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
 	bool test(long index) const
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
-		return BIT_VECTOR_TEST_FLAG(m_storage, index);
+		return BIT_VECTOR_TEST_FLAG(m_flags, index);
 	}
 
-	dword m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
+	dword m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
 };
 
 template<long k_maximum_count>
@@ -1090,110 +1088,110 @@ struct c_enum
 {
 public:
 	c_enum() :
-		m_storage(k_minimum_value)
+		m_enum_value(k_minimum_value)
 	{
 	}
 
 	c_enum(t_type value) :
-		m_storage(static_cast<t_storage_type>(value))
+		m_enum_value(static_cast<t_storage_type>(value))
 	{
 	}
 
 	c_enum(t_storage_type value) :
-		m_storage(value)
+		m_enum_value(value)
 	{
 	}
 
 	t_type get()
 	{
-		return static_cast<t_type>(m_storage);
+		return static_cast<t_type>(m_enum_value);
 	}
 
 	t_type const get() const
 	{
-		return static_cast<t_type>(m_storage);
+		return static_cast<t_type>(m_enum_value);
 	}
 
 	void set_raw_value(t_storage_type raw_value)
 	{
-		m_storage = raw_value;
+		m_enum_value = raw_value;
 	}
 
 	template <class T>
 	operator T () const
 	{
-		return static_cast<T>(m_storage);
+		return static_cast<T>(m_enum_value);
 	}
 
 	template<typename T>
 	bool operator==(T value) const
 	{
-		return m_storage == static_cast<t_storage_type>(value);
+		return m_enum_value == static_cast<t_storage_type>(value);
 	}
 
 	template<typename T> const
 	bool operator!=(T value)
 	{
-		return m_storage != static_cast<t_storage_type>(value);
+		return m_enum_value != static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	bool operator<(T value) const
 	{
-		return m_storage < static_cast<t_storage_type>(value);
+		return m_enum_value < static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	bool operator>(T value) const
 	{
-		return m_storage > static_cast<t_storage_type>(value);
+		return m_enum_value > static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	bool operator>=(T value) const
 	{
-		return m_storage >= static_cast<t_storage_type>(value);
+		return m_enum_value >= static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	bool operator<=(T value) const
 	{
-		return m_storage <= static_cast<t_storage_type>(value);
+		return m_enum_value <= static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	void operator+=(T value)
 	{
-		m_storage += static_cast<t_storage_type>(value);
+		m_enum_value += static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	void operator-=(T value)
 	{
-		m_storage -= static_cast<t_storage_type>(value);
+		m_enum_value -= static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	void operator= (T value)
 	{
-		m_storage = static_cast<t_storage_type>(value);
+		m_enum_value = static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
 	void operator++()
 	{
-		m_storage++;
+		m_enum_value++;
 	}
 
 protected:
-	t_storage_type m_storage;
+	t_storage_type m_enum_value;
 };
 
 // #TODO: find an actual home
 struct s_cluster_reference
 {
 	char bsp_index;
-	char cluster_index;
+	byte cluster_index;
 };
 static_assert(sizeof(s_cluster_reference) == 0x2);
 
@@ -1201,8 +1199,10 @@ static_assert(sizeof(s_cluster_reference) == 0x2);
 struct s_location
 {
 	s_cluster_reference cluster_reference;
+	//word leaf_index;
 };
 static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
+//static_assert(sizeof(s_location) == 0x4);
 
 // #TODO: find an actual home
 struct c_animation_id
@@ -1493,19 +1493,19 @@ extern char* tag_to_string(tag _tag, char* buffer);
 struct c_string_id
 {
 public:
-	c_string_id() : m_value(NONE) {}
-	c_string_id(long value) : m_value(value) {}
-	c_string_id(c_string_id const& other) : m_value(other.m_value) {}
+	c_string_id() : m_id(NONE) {}
+	c_string_id(long value) : m_id(value) {}
+	c_string_id(c_string_id const& other) : m_id(other.m_id) {}
 
 	char const* get_string();
 	char const* get_string() const;
-	long get_value() const { return m_value; }
+	long get_value() const { return m_id; }
 
-	bool operator==(c_string_id const& other) const { return m_value == other.m_value; }
-	void operator=(c_string_id const& other) { m_value = other.m_value; }
+	bool operator==(c_string_id const& other) const { return m_id == other.m_id; }
+	void operator=(c_string_id const& other) { m_id = other.m_id; }
 
 protected:
-	string_id m_value;
+	string_id m_id;
 };
 static_assert(sizeof(c_string_id) == sizeof(string_id));
 
@@ -1517,7 +1517,7 @@ public:
 };
 static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
-extern __int64 make_int64(__int64 a, __int64 b);
+extern __int64 make_int64(long low, long high);
 
 // IDA
 template<class T>

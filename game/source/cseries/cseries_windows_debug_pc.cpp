@@ -248,7 +248,7 @@ long __cdecl exceptions_update()
 	generate_event(_event_message, "crash: ");
 	generate_event(_event_message, "crash: ");
 
-	dword exception_address = address_from_pointer(g_exception_information.exception_address);
+	dword exception_address = (dword)g_exception_information.exception_address;
 	char const* symbol_name = symbol_name_from_address(exception_address, nullptr);
 	generate_event(_event_message, "crash: %s",
 		version_get_full_string());

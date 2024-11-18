@@ -133,7 +133,7 @@ void __cdecl initialize_thread(e_registered_threads thread_index)
 	{
 		//ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE, "Thread already created");
 		dword thread_id;
-		HANDLE thread_handle = CreateThread(NULL, definition->stack_size, thread_execution_wrapper, pointer_from_address(thread_index), 0, &thread_id);
+		HANDLE thread_handle = CreateThread(NULL, definition->stack_size, thread_execution_wrapper, (void*)thread_index, 0, &thread_id);
 		register_thread(thread_handle, thread_index, thread_id, NULL);
 	}
 }
@@ -296,7 +296,7 @@ dword __stdcall thread_execution_wrapper(void* thread_parameter)
 
 	//__try
 	//{
-	//	long registered_thread_index = static_cast<long>(address_from_pointer(thread_parameter));
+	//	long registered_thread_index = (long)thread_parameter;
 	//	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
 	//
 	//	s_registered_thread_definition* definition = &k_registered_thread_definitions[registered_thread_index];

@@ -360,52 +360,42 @@ char* tag_to_string(tag _tag, char* buffer)
 
 char const* c_string_id::get_string()
 {
-	return string_id_get_string_const(m_value);
+	return string_id_get_string_const(m_id);
 }
 
 char const* c_string_id::get_string() const
 {
-	return string_id_get_string_const(m_value);
+	return string_id_get_string_const(m_id);
 }
 
 bool c_old_string_id::is_string(char const* string) const
 {
-	return m_value != NONE && m_value == string_id_retrieve(string);
+	return m_id != NONE && m_id == string_id_retrieve(string);
 }
 
-__int64 make_int64(__int64 a, __int64 b)
+__int64 make_int64(long low, long high)
 {
-	return ((a << 0) | (b << 32));
+	return low | ((__int64)high << 32);
 }
 
 void* offset_pointer(void* pointer, long offset)
 {
-	return pointer_from_address(address_from_pointer(pointer) + offset);
+	return (char*)pointer + offset;
 }
 
 void const* offset_pointer(void const* pointer, long offset)
 {
-	return pointer_from_address(address_from_pointer(pointer) + offset);
-}
-
-unsigned int address_from_pointer(void const* pointer)
-{
-	return reinterpret_cast<unsigned int>(pointer);
-}
-
-void* pointer_from_address(unsigned int address)
-{
-	return reinterpret_cast<void*>(address);
+	return (char const*)pointer + offset;
 }
 
 unsigned int align_address(unsigned int address, long alignment_bits)
 {
-	return (address + (1 << alignment_bits) - 1) & ~((1 << alignment_bits) - 1);
+	return(address + (unsigned int)(1L << alignment_bits) - 1) & ~(unsigned int)((1L << alignment_bits) - 1);
 }
 
 void* align_pointer(void* pointer, long alignment_bits)
 {
-	return pointer_from_address(align_address(address_from_pointer(pointer), alignment_bits));
+	return (void*)align_address((unsigned int)pointer, alignment_bits);
 }
 
 long pointer_distance(void const* pointer_a, void const* pointer_b)

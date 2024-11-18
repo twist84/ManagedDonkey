@@ -345,8 +345,8 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 	case _ui_game_mode_theater:
 		if (global_preferences_get()->preferences0.data.last_game_setup.get_theater()->is_valid())
 		{
-			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film.campaign_id;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film.map_id;
+			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film_description.campaign_id;
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film_description.map_id;
 			return true;
 		}
 		break;

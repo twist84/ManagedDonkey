@@ -16,9 +16,9 @@ void __cdecl halo_external_breakpoint()
 bool __cdecl halo_managed_memory_address(hkReferencedObject const* object)
 {
     long total_tags_size = cache_files_get_total_tags_size();
-    unsigned int tag_cache_base_address = address_from_pointer(cache_file_globals_get_tag_cache_base_address());
+    unsigned int tag_cache_base_address = (unsigned int)cache_file_globals_get_tag_cache_base_address();
 
-    return IN_RANGE_INCLUSIVE(address_from_pointer(object), tag_cache_base_address, tag_cache_base_address + total_tags_size - 1);
+    return IN_RANGE_INCLUSIVE((unsigned int)object, tag_cache_base_address, tag_cache_base_address + total_tags_size - 1);
 }
 
 // unreferenced

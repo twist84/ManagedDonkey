@@ -17,7 +17,7 @@ struct c_gui_single_game_setup_storage
 		s_gui_game_setup_storage::s_survival_settings survival_settings;
 		s_gui_game_setup_storage::s_matchmaking_settings matchmaking_settings;
 		s_gui_game_setup_storage::s_multiplayer_settings multiplayer_settings;
-		s_gui_game_setup_storage::s_map_editor_settings map_editor_settings;
+		s_gui_game_setup_storage::s_mapeditor_settings map_editor_settings;
 		s_gui_game_setup_storage::s_theater_settings theater_settings;
 	};
 };

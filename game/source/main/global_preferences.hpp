@@ -23,65 +23,69 @@ protected:
 
 struct s_gui_game_setup_storage
 {
-	struct c_game_variant_settings
+	struct s_game_variant_settings
 	{
 	public:
 		bool is_valid() const
 		{
-			return game_engine_variant_is_valid(&m_variant);
+			return game_engine_variant_is_valid(&variant);
 		}
 
 		c_game_variant const* get_variant() const
 		{
-			return &m_variant;
+			return &variant;
 		}
 
 		void set_variant(c_game_variant const& other)
 		{
-			if (!m_variant.is_equal_to(&other))
-				m_variant.copy_from_unsafe(&other);
+			if (!variant.is_equal_to(&other))
+				variant.copy_from_unsafe(&other);
 		}
 
 	protected:
-		c_game_variant m_variant;
+		c_game_variant variant;
 
-		bool m_valid;
-		long : 32;
-
-		s_player_identifier m_player_identifier;
-		c_static_wchar_string<256> m_path;
+		struct
+		{
+			bool valid;
+			long location;
+			s_player_identifier owner;
+			c_static_wchar_string<256> file_path;
+		} only_local;
 	};
-	static_assert(sizeof(c_game_variant_settings) == 0x474);
+	static_assert(sizeof(s_game_variant_settings) == 0x474);
 
-	struct c_map_variant_settings
+	struct s_map_variant_settings
 	{
 	public:
 		bool is_valid() const
 		{
-			return m_variant.is_valid();
+			return variant.is_valid();
 		}
 
 		c_map_variant const* get_variant() const
 		{
-			return &m_variant;
+			return &variant;
 		}
 
 		void set_variant(c_map_variant& source)
 		{
-			//if (!m_variant.is_equal_to(&source))
-				source.read_from(&m_variant);
+			//if (!variant.is_equal_to(&source))
+				source.read_from(&variant);
 		}
 
 	protected:
-		c_map_variant m_variant;
+		c_map_variant variant;
 
-		bool m_valid;
-		long : 32;
-
-		s_player_identifier m_player_identifier;
-		c_static_wchar_string<256> m_path;
+		struct
+		{
+			bool valid;
+			long location;
+			s_player_identifier owner;
+			c_static_wchar_string<256> file_path;
+		} only_local;
 	};
-	static_assert(sizeof(c_map_variant_settings) == 0xE2A0);
+	static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
 
 	struct s_campaign_settings
 	{
@@ -93,7 +97,6 @@ struct s_gui_game_setup_storage
 
 	//protected:
 		bool valid;
-
 		long campaign_id;
 		long map_id;
 		short insertion_point;
@@ -135,8 +138,8 @@ struct s_gui_game_setup_storage
 	struct s_matchmaking_settings
 	{
 		bool valid;
+		word hopper_id;
 
-		word hopper_identifier;
 		long : 32;
 	};
 	static_assert(sizeof(s_matchmaking_settings) == 0x8);
@@ -151,12 +154,12 @@ struct s_gui_game_setup_storage
 
 	//protected:
 		bool valid;
-		c_game_variant_settings game_variant_settings;
-		c_map_variant_settings map_variant_settings;
+		s_game_variant_settings game_variant_settings;
+		s_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_multiplayer_settings) == 0xE718);
 
-	struct s_map_editor_settings
+	struct s_mapeditor_settings
 	{
 	public:
 		bool is_valid() const
@@ -166,11 +169,12 @@ struct s_gui_game_setup_storage
 
 	//protected:
 		bool valid;
+		bool dirtied_in_game;
 		long : 32;
 
-		c_map_variant_settings map_variant_settings;
+		s_map_variant_settings map_variant_settings;
 	};
-	static_assert(sizeof(s_map_editor_settings) == 0xE2A8);
+	static_assert(sizeof(s_mapeditor_settings) == 0xE2A8);
 
 	struct s_theater_settings
 	{
@@ -182,13 +186,12 @@ struct s_gui_game_setup_storage
 
 	//protected:
 		bool valid;
-		long : 32;
-		s_player_identifier player_identifier;
-
-		s_saved_film_description film;
+		long location;
+		s_player_identifier owner;
+		s_saved_film_description film_description;
 		game_options options;
-
-		byte __data24E78[0x8];
+		long length_in_ticks;
+		long start_tick;
 	};
 	static_assert(sizeof(s_theater_settings) == 0x24E80);
 
@@ -213,7 +216,7 @@ public:
 		return &multiplayer_settings;
 	};
 
-	s_map_editor_settings* get_mapeditor()
+	s_mapeditor_settings* get_mapeditor()
 	{
 		return &map_editor_settings;
 	};
@@ -229,7 +232,7 @@ protected:
 	s_survival_settings survival_settings;
 	s_matchmaking_settings matchmaking_settings;
 	s_multiplayer_settings multiplayer_settings;
-	s_map_editor_settings map_editor_settings;
+	s_mapeditor_settings map_editor_settings;
 	s_theater_settings theater_settings;
 };
 static_assert(sizeof(s_gui_game_setup_storage) == 0x41B78);
