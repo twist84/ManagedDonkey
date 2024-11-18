@@ -194,55 +194,55 @@ static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*
 
 typedef c_smart_data_array<s_datum_header> data_array_base;
 
-//template <typename t_datum_type>
-//struct c_wrapped_data_array
-//{
-//	static_assert(__is_base_of(s_datum_header, t_datum_type));
-//
-//	void initialize(s_data_array* new_data_array)
-//	{
-//		m_data_array = new_data_array;
-//		ASSERT(sizeof(t_datum_type) == m_data_array->size);
-//	}
-//
-//	void dispose()
-//	{
-//		data_dispose(*m_data_array);
-//	}
-//
-//	void reset()
-//	{
-//		m_data_array = NULL;
-//	}
-//
-//	t_datum_type const* get(long datum_index) const
-//	{
-//		return m_data_array[datum_index];
-//	}
-//
-//	s_datum_header* get_mutable(long datum_index)
-//	{
-//		return m_data_array[datum_index];
-//	}
-//
-//	s_data_array const* get_data()
-//	{
-//		return m_data_array.m_data_array;
-//	}
-//
-//	s_data_array*& get_data_array_reference()
-//	{
-//		return m_data_array.m_data_array;
-//	}
-//
-//	operator s_data_array* ()
-//	{
-//		return m_data_array.m_data_array;
-//	}
-//
-//	c_smart_data_array<t_datum_type> m_data_array;
-//};
-//static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
+template <typename t_datum_type>
+struct c_wrapped_data_array
+{
+	static_assert(__is_base_of(s_datum_header, t_datum_type));
+
+	void initialize(s_data_array* new_data_array)
+	{
+		m_data_array = new_data_array;
+		ASSERT(sizeof(t_datum_type) == m_data_array->size);
+	}
+
+	void dispose()
+	{
+		data_dispose(*m_data_array);
+	}
+
+	void reset()
+	{
+		m_data_array = NULL;
+	}
+
+	t_datum_type const* get(long datum_index) const
+	{
+		return m_data_array[datum_index];
+	}
+
+	s_datum_header* get_mutable(long datum_index)
+	{
+		return m_data_array[datum_index];
+	}
+
+	s_data_array const* get_data()
+	{
+		return m_data_array.m_data_array;
+	}
+
+	s_data_array*& get_data_array_reference()
+	{
+		return m_data_array.m_data_array;
+	}
+
+	operator s_data_array* ()
+	{
+		return m_data_array.m_data_array;
+	}
+
+	c_smart_data_array<t_datum_type> m_data_array;
+};
+static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 //template <typename t_datum_type>
 //struct c_typed_datum_index

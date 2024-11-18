@@ -488,13 +488,13 @@ void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* al
 // does this actually take in `game_mode` or is IDA being IDA again
 void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_game_mode game_mode)
 {
-	data_make_valid(*m_shared_file_handles.m_elements);
+	data_make_valid(*m_shared_file_handles.m_data_array);
 	m_shared_file_datum_indices[6] = 6;
 	for (long& header_file_location_handle : m_shared_file_datum_indices)
 		header_file_location_handle = NONE;
 
-	long header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_elements, _map_file_index_shared_ui);
-	s_cache_file_tag_resource_runtime_shared_file& runtime_shared_file = m_shared_file_handles.m_elements[header_file_location_handle];
+	long header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_data_array, _map_file_index_shared_ui);
+	s_cache_file_tag_resource_runtime_shared_file& runtime_shared_file = m_shared_file_handles.m_data_array[header_file_location_handle];
 
 	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file.indirect_file))
 		cache_file_get_master_resource_section_offset(&runtime_shared_file.resource_section_offset);
@@ -509,8 +509,8 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 	{
 		for (e_map_file_index map_file_index = _map_file_index_shared_resources; map_file_index < k_cached_map_file_shared_count; map_file_index++)
 		{
-			long next_header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_elements, map_file_index);
-			s_cache_file_tag_resource_runtime_shared_file& next_header_file_location = m_shared_file_handles.m_elements[next_header_file_location_handle];
+			long next_header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_data_array, map_file_index);
+			s_cache_file_tag_resource_runtime_shared_file& next_header_file_location = m_shared_file_handles.m_data_array[next_header_file_location_handle];
 
 			if (cached_map_file_is_shared(map_file_index - 1))
 			{

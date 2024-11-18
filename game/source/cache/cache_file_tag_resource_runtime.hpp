@@ -107,18 +107,18 @@ static_assert(sizeof(s_cache_file_resource_runtime_active_zone_state) == sizeof(
 
 struct s_cache_file_resource_prefetch_map_state
 {
-	long campaign_id;
-	c_static_string<k_tag_long_string_length> scenario_path;
+	long insertion_point_index;
+	c_static_string<k_tag_long_string_length> map_name;
 	bool __unknown104;
 };
 static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
 
 struct s_cache_file_resource_runtime_prefetching_state
 {
-	long __datum_handle0;
-	long __datum_handle4;
-	s_cache_file_resource_prefetch_map_state __state8;
-	s_cache_file_resource_prefetch_map_state __state110;
+	long __unknown0;
+	long prefetching_shared_file_index;
+	s_cache_file_resource_prefetch_map_state active_prefetch;
+	s_cache_file_resource_prefetch_map_state requested_prefetch;
 };
 static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x218);
 
@@ -355,8 +355,8 @@ public:
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_resource_predictor;
 	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
 
-	c_static_flags<32768> m_active_resources_mask;
-	c_static_flags<32768> m_pending_resources_mask;
+	c_static_flags<32767> m_active_resources_mask;
+	c_static_flags<32767> m_pending_resources_mask;
 
 	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_vtable_mapping;
 
@@ -378,11 +378,8 @@ public:
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
 	c_static_array<long, 7> m_shared_file_datum_indices;
-	struct
-	{
-		long m_element_count;
-		c_smart_data_array<s_cache_file_tag_resource_runtime_shared_file> m_elements;
-	} m_shared_file_handles;
+	long m_last_shared_file_datum_index;
+	c_wrapped_data_array<s_cache_file_tag_resource_runtime_shared_file> m_shared_file_handles;
 	c_cache_file_resource_uber_location_table m_uber_location_table;
 	e_game_mode m_last_game_mode;
 	s_cache_file_resource_prefetch_map_state m_last_ui_prefetch_state;
@@ -426,7 +423,8 @@ static_assert(0x2A340 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_t
 static_assert(0x2A740 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation));
 static_assert(0x2A754 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation_region));
 static_assert(0x2A75C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_datum_indices));
-static_assert(0x2A778 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_handles));
+static_assert(0x2A778 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_shared_file_datum_index));
+static_assert(0x2A77C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_handles));
 static_assert(0x2A780 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_uber_location_table));
 static_assert(0x2A784 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_game_mode));
 static_assert(0x2A788 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_ui_prefetch_state));
