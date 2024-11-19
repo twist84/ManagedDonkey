@@ -1068,8 +1068,8 @@ long __cdecl object_new(object_placement_data* data)
 	//object->object.physics_flags = 0;
 	//object->object.variant_index = NONE;
 	//
-	//object->object.physics_flags = TEST_FLAG(object_definition->object.flags, _object_definition_flag_does_not_collide_with_camera_bit) ? FLAG(21) : 0;
-	//SET_BIT(object->object.physics_flags, 22, TEST_FLAG(object_definition->object.secondary_flags, _object_definition_secondary_flag_does_not_affect_projectile_aiming_bit));
+	//object->object.physics_flags = TEST_FLAG(object_definition->object.flags, _object_does_not_collide_with_camera_bit) ? FLAG(21) : 0;
+	//SET_BIT(object->object.physics_flags, 22, TEST_FLAG(object_definition->object.secondary_flags, _object_does_not_affect_projectile_aiming_bit));
 	//SET_BIT(object->object.physics_flags, 9, TEST_BIT(data->flags, 3));
 	//
 	//object->object.in_water_ticks = 32768;
@@ -2105,10 +2105,10 @@ void object_render_debug_internal(long object_index)
 	//	render_debug_collision_model(&instance);
 	//}
 
-	if (debug_objects_early_movers && object_definition->object.flags.test(_object_definition_flag_early_mover_bit))
+	if (debug_objects_early_movers && object_definition->object.flags.test(_object_early_mover_bit))
 	{
 		char const* early_mover_string = "early mover";
-		if (object_definition->object.flags.test(_object_definition_flag_early_mover_localized_physics_bit))
+		if (object_definition->object.flags.test(_object_early_mover_localized_physics_bit))
 			early_mover_string = "early mover + localized physics";
 
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);

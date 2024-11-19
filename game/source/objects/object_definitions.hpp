@@ -45,34 +45,34 @@ enum e_object_source
 
 enum e_object_definition_flags
 {
-	_object_definition_flag_does_not_cast_shadow_bit = 0,
-	_object_definition_flag_search_cardinal_direction_lightmaps_on_failure_bit,
-	_object_definition_flag_preserves_initial_damage_owner_bit,
-	_object_definition_flag_not_a_pathfinding_obstacle_bit,
+	_object_does_not_cast_shadow_bit = 0,
+	_object_searches_lightmaps_on_failure_bit,
+	_object_preserves_damage_owner_bit,
+	_object_not_pathfinding_obstacle_bit,
 
 	// object passes all function values to parent and uses parent's markers
-	_object_definition_flag_extension_of_parent_bit,
+	_object_is_extension_of_parent_bit,
 
-	_object_definition_flag_does_not_cause_collision_damage_bit,
-	_object_definition_flag_early_mover_bit,
-	_object_definition_flag_early_mover_localized_physics_bit,
-	_object_definition_flag_use_static_massive_lightmap_sample_bit,
-	_object_definition_flag_object_scales_attachments_bit,
-	_object_definition_flag_inherits_players_appearance_bit,
-	_object_definition_flag_non_physical_in_map_editor_bit,
+	_object_cannot_cause_collision_damage_bit,
+	_object_early_mover_bit,
+	_object_early_mover_localized_physics_bit,
+	_object_use_fake_lightprobe_bit,
+	_object_scales_attachments_bit,
+	_object_inherit_player_appearance_bit,
+	_object_non_physical_in_map_editor,
 
 	// use this for the mac gun on spacestation
-	_object_definition_flag_attach_to_clusters_by_dynamic_sphere_bit,
+	_object_attach_to_clusters_using_dynamic_light_sphere_bit,
 
-	_object_definition_flag_effects_created_by_this_object_do_not_spawn_objects_in_multiplayer_bit,
+	_object_effects_do_not_spawn_objects_in_multiplayer_bit,
 
 	// specificly the flying observer camera
-	_object_definition_flag_does_not_collide_with_camera_bit,
+	_object_does_not_collide_with_camera_bit,
 
 	// AOE damage being applied to this object does not test for obstrutions.
-	_object_definition_flag_damage_not_blocked_by_obstructions_bit,
+	_object_damage_not_blocked_by_obstructions_bit,
 
-	k_object_definition_flags
+	k_object_definition_flags_count
 };
 
 enum e_lightmap_shadow_mode
@@ -110,9 +110,9 @@ enum e_water_density_type
 
 enum e_object_definition_secondary_flags
 {
-	_object_definition_secondary_flag_does_not_affect_projectile_aiming_bit = 0,
+	_object_does_not_affect_projectile_aiming_bit = 0,
 
-	k_object_definition_secondary_flags
+	k_object_definition_secondary_flags_count
 };
 
 struct s_object_early_mover_obb_definition;
@@ -126,7 +126,7 @@ struct s_object_health_pack_definition;
 struct _object_definition
 {
 	c_enum<e_object_type, short, _object_type_biped, k_object_type_count> type;
-	c_flags<e_object_definition_flags, word_flags, k_object_definition_flags> flags;
+	c_flags<e_object_definition_flags, word_flags, k_object_definition_flags_count> flags;
 	real bounding_radius; // world units
 	real_point3d bounding_offset;
 
@@ -163,7 +163,7 @@ struct _object_definition
 	c_typed_tag_block<object_ai_properties> ai_properties;
 	c_typed_tag_block<s_object_function_definition> functions;
 	short hud_text_message_index;
-	c_flags<e_object_definition_secondary_flags, word_flags, k_object_definition_secondary_flags> secondary_flags;
+	c_flags<e_object_definition_secondary_flags, word_flags, k_object_definition_secondary_flags_count> secondary_flags;
 	c_typed_tag_block<object_attachment_definition> attachments;
 	c_typed_tag_block<object_definition_widget> widgets;
 	c_typed_tag_block<object_change_color_definition> change_colors;
