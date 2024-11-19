@@ -14,8 +14,8 @@
 //.text:00BB8970 ; void __cdecl scenery_animation_start_relative_loop(long, long, long, long)
 //.text:00BB8990 ; bool __cdecl scenery_compute_activation(long, s_game_cluster_bit_vectors const*, bool*)
 //.text:00BB8A70 ; void __cdecl scenery_delete(long)
-//.text:00BB8A80 ; 
-//.text:00BB8A90 ; 
+//.text:00BB8A80 ; void __cdecl scenery_detach_from_physics(long)
+//.text:00BB8A90 ; long __cdecl scenery_get_lightmap_object_index(c_object_identifier*, long)
 //.text:00BB8AA0 ; long __cdecl scenery_get_mopp_index(long)
 //.text:00BB8B00 ; bool __cdecl scenery_has_physics_model(long)
 //.text:00BB8B20 ; void __cdecl scenery_initialize_for_new_structure_bsp(long)
