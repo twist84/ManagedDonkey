@@ -45,6 +45,12 @@ static_assert(sizeof(real) == sizeof(float));
 typedef float real_fraction;
 static_assert(sizeof(real_fraction) == sizeof(real));
 
+struct real_decibel
+{
+	real db;
+};
+static_assert(sizeof(real_decibel) == sizeof(real));
+
 #define DEFINE_REAL_CONSTANT(NAME) real const k##NAME = NAME
 
 #define _pi PI

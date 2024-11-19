@@ -718,6 +718,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\sound\sound_classes.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
     <ClCompile Include="source\sound\sound_manager.cpp" />
+    <ClCompile Include="source\sound\sound_scenery.cpp" />
     <ClCompile Include="source\spartan_program\spartan_program_handler.cpp" />
     <ClCompile Include="source\structures\structures.cpp" />
     <ClCompile Include="source\structures\structure_detail_objects.cpp" />
@@ -1436,6 +1437,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\sound\sound_classes.hpp" />
     <ClInclude Include="source\sound\sound_definitions.hpp" />
     <ClInclude Include="source\sound\sound_manager.hpp" />
+    <ClInclude Include="source\sound\sound_scenery.hpp" />
     <ClInclude Include="source\spartan_program\spartan_program_handler.hpp" />
     <ClInclude Include="source\structures\cluster_partitions.hpp" />
     <ClInclude Include="source\structures\structures.hpp" />
