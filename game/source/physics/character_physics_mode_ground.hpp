@@ -1,70 +1,85 @@
 #include "cseries/cseries.hpp"
 
+struct s_character_physics_definition;
+struct c_animation_manager;
+struct hkShape;
 struct s_character_physics_update_input_datum
 {
-	long mode;
-	byte __byte4;
-	byte __byte5;
-	byte __byte6;
-	byte __byte7;
-	void* __struct8;
-	dword_flags __flagsC;
-	long m_local_physics_object;
-	long m_accepted_local_physics_object;
-	dword __dword18;
-	void* __struct1C;
-	dword __dword20;
-	dword __dword24;
-	dword __dword28;
-	real_point3d __pointd2C;
-	real_point3d __pointd38;
-	vector3d __vector44;
-	dword __dword50;
-	long m_support_havok_component_index;
-	long m_support_rigid_body_index;
-	real_matrix4x3 m_support_havok_component_matrix;
-	vector3d m_ground_plane;
-	real __real9C;
-	vector3d __vectorA0;
-	real m_ground_adhesion_velocity_scale;
-	byte __byteB0;
-	byte __byteB1;
-	byte __byteB2;
-	byte __byteB3;
-	real __realB4;
-	real __realB8;
-	dword dwordBC;
-	byte __byteC0;
-	byte __byteC1;
-	byte __byteC2;
-	byte __byteC3;
-	dword __dwordC4;
-	dword __dwordC8;
-	dword __dwordCC;
-	dword __dwordD0;
-	dword __dwordD4;
-	dword __dwordD8;
-	dword __dwordDC;
-	dword __dwordE0;
-	dword __dwordE4;
-	dword __dwordE8;
-	vector3d __vectorEC;
-	real_point3d __pointF8;
-	vector3d __vector104;
-	vector3d __vector110;
-	vector3d __vector11C;
-	vector3d __vector12C;
-	vector3d __vector134;
-	vector3d m_early_mover_local_space_velocity;
-	real __real14C;
-	real __real150;
-	real __real154;
-	real __real158;
-	real walking_speed;
-	real __real160;
-	real __real164;
-	real airborne_acceleration;
+	struct s_flying
+	{
+		real bank;
+	};
+
+	struct s_sentinel
+	{
+		real_point3d position;
+		real_point3d animation_position;
+		vector3d desired_velocity;
+		c_animation_id animation_id;
+	};
+
+	struct s_ground
+	{
+		long last_support_havok_component_index;
+		long last_support_rigid_body_index;
+		real_matrix4x3 last_support_havok_component_matrix;
+		vector3d ground_plane;
+		real stun_fraction;
+		vector3d movement_forward;
+		real adhesion_velocity_scale;
+		bool effected_by_phantom_this_tick;
+		bool __unknown5D;
+	};
+
+	struct s_melee
+	{
+		bool has_target;
+		real physics_radius;
+		real target_physics_radius;
+		real_point3d target_position;
+		vector3d target_velocity;
+		real target_distance;
+	};
+
+	struct s_dead
+	{
+		vector3d resting_surface_normal;
+		bool update_size;
+		bool in_relaxation_state;
+	};
+
+	long mode; // c_character_physics_component::e_mode
+
+	bool sub_initialized;
+	s_character_physics_definition const* character_physics_definition;
+	dword_flags flags;
+	int early_mover_object_index;
+	int accepted_early_mover_object_index;
+	int havok_component_index;
+	c_animation_manager const* animation_manager;
+	real movement_scale;
+	long havok_group;
+	s_flying flying;
+	s_sentinel sentinel;
+	s_ground ground;
+	s_dead dead;
+	s_melee melee;
+	vector3d throttle;
+	real_point3d position;
+	vector3d forward;
+	vector3d up;
+	vector3d desired_facing_vector;
+	vector3d aiming;
+	vector3d velocity;
+	vector3d early_mover_localized_velocity;
+	real gravity;
+	real boost_power;
+	vector3d desired_movement_speed;
+	real acceleration_maximum;
+	real airborne_acceleration_maximum;
+	hkShape const* shape_switch_request;
 };
+static_assert(sizeof(s_character_physics_update_input_datum) == 0x16C);
 
 struct s_havok_contact_point_reference;
 struct s_character_physics_move_output_datum;
