@@ -240,13 +240,9 @@ struct _unit_datum
 	vector3d seat_acceleration;
 	c_static_array<real_point3d, k_seat_acceleration_memory_length> seat_acceleration_memory;
 	short seat_acceleration_memory_index;
-	byte seat_acceleration__data226[0x2];
-	long seat_acceleration_reset_time;
+	long last_seat_acceleration_reset_from_warping_time;
 
 	short predicted_seat_index;
-
-	byte __data22E[0x2];
-
 	long predicted_vehicle_index;
 
 	long __unknown234; // predicted?
@@ -255,33 +251,31 @@ struct _unit_datum
 	long predicted_player_index;
 	long predicted_simulation_actor_index;
 	long predicted_simulation_actor_squad_index;
-	long predicted_simulation_actor_cell_index;
-	long predicted_simulation_actor_spawn_point_index;
+	long predicted_simulation_actor_fire_team_index;
+	long predicted_simulation_actor_starting_location_index;
 	c_static_array<s_unit_predicted_weapon_state, 4> predicted_weapon_state;
 
 	real active_camouflage;
-	real active_camouflage_super_amount;
+	real recent_active_camouflage;
 	real active_camouflage_regrowth;
 	long active_camouflage_end_time;
 
 	// health pack equipment values
-	real last_used_healthpack_game_time; // health pack use end time
-	real healthpack_vitality;            // health pack heath amount  / health pack duration
-	real healthpack_shield;              // health pack shield amount / health pack duration;
+	real last_used_healthpack_time;
+	real healthpack_vitality;
+	real healthpack_shield;
 
 	byte_flags map_editor_helper_flags;
-	byte __data28D[0x1];
 
 	short emp_timer;
 	short emp_campaign_metagame_timer;
-	byte __data292[0x2];
 
 	real crouch;
 
-	short last_damage_category;
+	short delayed_damage_category;
 	short delayed_damage_timer;
 	real delayed_damage_peak;
-	long delayed_damage_attacker_object_index;
+	long delayed_damage_owner_object_index;
 	long flaming_death_attacker_object_index;
 
 	real run_blindly_angle;
@@ -309,10 +303,9 @@ struct _unit_datum
 	real movement_stun;
 	short movement_stun_ticks;
 
-	short __unknown32E;
-	long __unknown330; // time value
+	short killing_spree_count;
+	long killing_spree_last_time;
 
-	// updated in `unit_update_damage`, unit_damage_aftermath_apply
 	short melee_inhibit_ticks;
 
 	byte __data336[0x2];
@@ -342,8 +335,8 @@ struct _unit_datum
 	object_header_block_reference seat_storage;
 
 	dword_flags ai_unit_flags;
-	c_sector_ref pathfinding_sector;
-	byte __data3BC[0x40];
+	c_sector_ref ai_sector;
+	long debug_unit_input[16];
 
 	// _equipment_type_armor_lock, e_unit_flags bit 17
 	bool __unknown3FC;
@@ -357,21 +350,15 @@ struct _unit_datum
 static_assert(sizeof(_unit_datum) == 0x40C);
 static_assert(0x0AA == OFFSETOF(_unit_datum, __unknownAA));
 static_assert(0x0AB == OFFSETOF(_unit_datum, __padAB));
-static_assert(0x22E == OFFSETOF(_unit_datum, __data22E));
 static_assert(0x234 == OFFSETOF(_unit_datum, __unknown234));
 static_assert(0x238 == OFFSETOF(_unit_datum, __unknown238));
-static_assert(0x28D == OFFSETOF(_unit_datum, __data28D));
-static_assert(0x292 == OFFSETOF(_unit_datum, __data292));
 static_assert(0x2F9 == OFFSETOF(_unit_datum, __pad2F9));
 static_assert(0x2FC == OFFSETOF(_unit_datum, __unknown2FC));
 static_assert(0x310 == OFFSETOF(_unit_datum, __unknown310));
-static_assert(0x32E == OFFSETOF(_unit_datum, __unknown32E));
-static_assert(0x330 == OFFSETOF(_unit_datum, __unknown330));
 static_assert(0x336 == OFFSETOF(_unit_datum, __data336));
 static_assert(0x3A0 == OFFSETOF(_unit_datum, __unknown3A0_team_index_update_time));
 static_assert(0x3A4 == OFFSETOF(_unit_datum, __unknown3A4_team_index));
 static_assert(0x3A8 == OFFSETOF(_unit_datum, __unknown3A8_object_index));
-static_assert(0x3BC == OFFSETOF(_unit_datum, __data3BC));
 static_assert(0x3FC == OFFSETOF(_unit_datum, __unknown3FC));
 static_assert(0x3FD == OFFSETOF(_unit_datum, __pad3FD));
 static_assert(0x400 == OFFSETOF(_unit_datum, __unknown400));
@@ -390,7 +377,6 @@ struct unit_seat_source
 {
 	long vehicle_index;
 	short seat_index;
-	byte __data6[0x2];
 	c_flags<e_unit_seat_flags, dword, k_unit_seat_flags>* flags;
 };
 static_assert(sizeof(unit_seat_source) == 0xC);
