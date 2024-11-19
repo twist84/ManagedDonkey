@@ -669,7 +669,7 @@ void ai_debug_render_squads()
 				else
 					object_get_bounding_sphere(squad_actor->meta.unit_index, &center, &radius);
 
-				render_debug_line(true, &position, &center, squad_actor->meta.__unknown1E ? global_real_argb_yellow : global_real_argb_red);
+				render_debug_line(true, &position, &center, squad_actor->meta.squad_limbo ? global_real_argb_yellow : global_real_argb_red);
 			}
 
 			if (g_ai_render_strength)

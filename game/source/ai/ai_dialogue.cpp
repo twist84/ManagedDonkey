@@ -19,7 +19,7 @@ void ai_dialogue_render_player_weights()
 	actor_iterator_new(&iterator, true);
 	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
-		real_argb_color const* color = dialogue_team_get(actor->meta.team) == 1 ? global_real_argb_red : global_real_argb_green;
+		real_argb_color const* color = dialogue_team_get(actor->meta.team_index) == 1 ? global_real_argb_red : global_real_argb_green;
 
 		char string[50]{};
 		csnzprintf(string, sizeof(string), "%.2f", dialogue_player_weighting(actor->meta.unit_index));
