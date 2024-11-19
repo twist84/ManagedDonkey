@@ -1713,6 +1713,9 @@
     <ClCompile Include="source\effects\screen_shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\devices\device_controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3942,6 +3945,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\effects\screen_shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\devices\device_controls.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
