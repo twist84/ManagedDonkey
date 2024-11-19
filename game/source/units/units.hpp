@@ -368,10 +368,10 @@ struct unit_datum
 {
 	long definition_index;
 	_object_datum object;
-	_motor_datum motor;
+	_mover_datum mover;
 	_unit_datum unit;
 };
-static_assert(sizeof(unit_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum));
+static_assert(sizeof(unit_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum));
 
 struct unit_seat_source
 {

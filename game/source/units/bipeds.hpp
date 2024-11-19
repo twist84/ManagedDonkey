@@ -77,11 +77,11 @@ struct biped_datum
 {
 	long definition_index;
 	_object_datum object;
-	_motor_datum motor;
+	_mover_datum mover;
 	_unit_datum unit;
 	_biped_datum biped;
 };
-static_assert(sizeof(biped_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum) + sizeof(_biped_datum));
+static_assert(sizeof(biped_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_biped_datum));
 
 extern bool debug_objects_physics_control_node;
 extern bool debug_objects_biped_autoaim_pills;

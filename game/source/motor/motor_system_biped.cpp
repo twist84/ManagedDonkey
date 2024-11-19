@@ -32,7 +32,7 @@ void __cdecl biped_falling_damage(long biped_index)
 	biped_datum* biped = biped_get(biped_index);
 	struct biped_definition* biped_definition = (struct biped_definition*)tag_get(BIPED_TAG, biped->definition_index);
 
-	void* motor_state = object_header_block_get(biped_index, &biped->motor.motor_state);
+	void* motor_state = object_header_block_get(biped_index, &biped->mover.motor_state);
 	REFERENCE_DECLARE(offset_pointer(motor_state, 4), byte_flags, motor_state_flags);
 
 	s_game_globals_falling_damage& falling_damage = scenario_get_game_globals()->falling_damage[0];
