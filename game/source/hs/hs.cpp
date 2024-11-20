@@ -91,7 +91,7 @@
 //REFERENCE_DECLARE(0x018BEC94, char const* const, _hs_type_string_default);
 //REFERENCE_DECLARE_ARRAY(0x018BEC98, char const* const, hs_type_names, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x018BEDE8, char const* const, hs_script_type_names, k_hs_script_type_count);
-REFERENCE_DECLARE(0x024B06D4, c_typed_data_array<hs_syntax_node>*, g_hs_syntax_data);
+REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
 hs_function_definition const* hs_function_get(short function_index)
 {
@@ -109,8 +109,9 @@ hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 {
 	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
 
-	if (DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index) > g_hs_syntax_data->maximum_count)
-		return &g_hs_syntax_data->data[DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index)];
+	short index = DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index);
+	if (g_hs_syntax_data && g_hs_syntax_data->data && index < g_hs_syntax_data->maximum_count)
+		return (hs_syntax_node*)g_hs_syntax_data->data + index;
 
 	return NULL;
 }
@@ -172,7 +173,12 @@ void __cdecl hs_initialize_for_new_map()
 }
 
 //.text:006794A0 ; 
-//.text:006794D0 ; void __cdecl hs_node_gc()
+
+void __cdecl hs_node_gc()
+{
+	INVOKE(0x006794D0, hs_node_gc);
+}
+
 //.text:006795B0 ; 
 //.text:006795C0 ; void __cdecl hs_reset_time(long)
 //.text:006795D0 ; bool __cdecl hs_scenario_postprocess(bool, bool, bool)

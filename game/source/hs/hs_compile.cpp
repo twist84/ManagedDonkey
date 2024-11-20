@@ -7,6 +7,7 @@
 #include "ai/cs_scenario_definitions.hpp"
 #include "ai/styles.hpp"
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cseries/progress.hpp"
 #include "devices/devices.hpp"
 #include "hs/hs.hpp"
@@ -21,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-hs_compile_globals_struct hs_compile_globals = {};
+// #TODO: completely reorganize this file
 
 bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type byteswap_type)
 {
@@ -1375,7 +1376,7 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 			current_index = hs_compile_globals.current_script_index;
 		}
 
-		s_hs_reference* reference = &hs_compile_globals.references[hs_compile_globals.reference_count++];
+		s_hs_reference* reference = &hs_compile_globals.references[hs_compile_globals.allocated_references++];
 		reference->type = current_reference_type;
 		reference->index = current_index;
 		reference->node_index = expression_index;
@@ -1387,8 +1388,8 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 		{
 			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_globals_per_scenario));
 
-			reference->next = (*hs_compile_globals.global_references)[referred_index];
-			(*hs_compile_globals.global_references)[referred_index] = reference;
+			reference->next = hs_compile_globals.global_references[referred_index];
+			hs_compile_globals.global_references[referred_index] = reference;
 			reference->strong = true;
 		}
 		break;
@@ -1396,8 +1397,8 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 		{
 			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_scripts_per_scenario));
 
-			reference->next = (*hs_compile_globals.script_references)[referred_index];
-			(*hs_compile_globals.script_references)[referred_index] = reference;
+			reference->next = hs_compile_globals.script_references[referred_index];
+			hs_compile_globals.script_references[referred_index] = reference;
 
 			reference->strong = global_scenario_get()->scripts[referred_index].return_type != _hs_type_void;
 		}
@@ -1559,21 +1560,27 @@ void hs_compile_initialize(bool permanent)
 	hs_compile_globals.references = NULL;
 	hs_compile_globals.script_references = NULL;
 	hs_compile_globals.global_references = NULL;
-	hs_compile_globals.reference_count = 0;
+	hs_compile_globals.allocated_references = 0;
 
 	if (permanent)
 	{
+		// not using constant number variables or enum values is bad mkay
+
 		//editor_reset_script_referenced_blocks();
-		//resize_scenario_syntax_data(0xF000);
-		hs_compile_globals.references = static_cast<decltype(hs_compile_globals.references)>(system_malloc(0x3C000));
-		hs_compile_globals.script_references = static_cast<decltype(hs_compile_globals.script_references)>(system_malloc(0x2000));
-		hs_compile_globals.global_references = static_cast<decltype(hs_compile_globals.global_references)>(system_malloc(0x8C0));
+		//resize_scenario_syntax_data(61440);
+
+		hs_compile_globals.references = 
+			(s_hs_reference*)system_malloc(sizeof(s_hs_reference*)  * k_maximum_number_of_references);
+		hs_compile_globals.script_references =
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_script_references);
+		hs_compile_globals.global_references =
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_global_references);
 	
-		for (s_hs_reference* reference : *hs_compile_globals.script_references)
-			reference = NULL;
-	
-		for (s_hs_reference* reference : *hs_compile_globals.global_references)
-			reference = NULL;
+		for (long i = 0; i < k_maximum_number_of_script_references; i++)
+			hs_compile_globals.script_references = NULL;
+
+		for (long i = 0; i < k_maximum_number_of_global_references; i++)
+			hs_compile_globals.global_references = NULL;
 	}
 }
 
@@ -1591,6 +1598,8 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 
 char* hs_compile_add_source(long source_size, char const* source_data)
 {
+	// #TODO: implement me
+
 	return NULL;
 
 	//long initial_size = source_size;
@@ -1631,12 +1640,14 @@ struct hs_tokenizer
 
 long hs_tokenize(hs_tokenizer* state)
 {
+	// #TODO: implement me
+
 	return NONE;
 
 	//ASSERT(!hs_compile_globals.error_message);
 	//ASSERT(g_hs_syntax_data);
 	//
-	//long expression_index = datum_new(**g_hs_syntax_data);
+	//long expression_index = datum_new(g_hs_syntax_data);
 	//if (expression_index == NONE)
 	//{
 	//	hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
@@ -1644,7 +1655,7 @@ long hs_tokenize(hs_tokenizer* state)
 	//	return NONE;
 	//}
 	//
-	//hs_syntax_node* expression = (hs_syntax_node*)datum_get(**g_hs_syntax_data, expression_index);
+	//hs_syntax_node* expression = (hs_syntax_node*)datum_get(g_hs_syntax_data, expression_index);
 	//expression->type.set_raw_value(0);
 	//expression->flags.clear();
 	//expression->script_index = NONE;
@@ -1654,7 +1665,7 @@ long hs_tokenize(hs_tokenizer* state)
 	//expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
 	//
 	//{
-	//	hs_syntax_node* _expression = (hs_syntax_node*)datum_get(**g_hs_syntax_data, expression_index);
+	//	hs_syntax_node* _expression = (hs_syntax_node*)datum_get(g_hs_syntax_data, expression_index);
 	//	if (_expression->flags.test(_hs_syntax_node_primitive_bit))
 	//		hs_tokenize_primitive(state, expression_index);
 	//	else
@@ -1672,8 +1683,10 @@ long hs_tokenize(hs_tokenizer* state)
 	//return expression_index;
 }
 
-void hs_compile_first_pass(s_hs_compile_state* referrals, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_source_pointer)
+void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
 {
+	// #TODO: implement me
+
 	//hs_tokenizer _tokenizer{};
 	//_tokenizer.source_file_data = source_file_data;
 	//_tokenizer.source_file_size = source_file_size;
@@ -1703,7 +1716,7 @@ void hs_compile_first_pass(s_hs_compile_state* referrals, long source_file_size,
 	//			}
 	//
 	//			*error_message_pointer = hs_compile_globals.error_message;
-	//			*error_source_pointer = hs_compile_globals.error_offset;
+	//			*error_offset = hs_compile_globals.error_offset;
 	//			return;
 	//		}
 	//	}
@@ -1714,10 +1727,17 @@ void hs_compile_first_pass(s_hs_compile_state* referrals, long source_file_size,
 	//}
 }
 
+bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
+{
+	// #TODO: implement me
+
+	return false;
+}
+
 char* g_error_output_buffer = NULL;
 long g_error_buffer_length = 0;
 
-bool hs_compile_source(bool a1, bool a2)
+bool hs_compile_source(bool fail_on_error, bool verbose)
 {
 	return false;
 
@@ -1729,7 +1749,7 @@ bool hs_compile_source(bool a1, bool a2)
 	//hs_compile_initialize(true);
 	//hs_compile_state_initialize(global_scenario_get(), &state);
 	//
-	//if (g_error_output_buffer && a2)
+	//if (g_error_output_buffer && verbose)
 	//	csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
 	//
 	//for (hs_source_file& source_file : global_scenario_get()->source_files)
@@ -1737,16 +1757,16 @@ bool hs_compile_source(bool a1, bool a2)
 	//
 	//}
 	//
-	//if (success || !a1)
+	//if (success || !fail_on_error)
 	//{
-	//	success = hs_compile_second_pass(&state, a2);
+	//	success = hs_compile_second_pass(&state, verbose);
 	//	if (!success)
 	//		hs_compile_strip_failed_special_forms(&state);
 	//}
 	//
 	//hs_runtime_require_gc();
 	//
-	//if (a2)
+	//if (verbose)
 	//{
 	//	if (success)
 	//		console_printf("scripts successfully compiled.");
@@ -1755,11 +1775,140 @@ bool hs_compile_source(bool a1, bool a2)
 	//}
 	//
 	//if (!success)
-	//	success = !a1;
+	//	success = !fail_on_error;
 	//
 	//hs_compile_dispose();
 	//progress_done();
 	//
 	//return success;
+}
+
+void hs_compile_dispose()
+{
+	ASSERT(hs_compile_globals.initialized);
+
+	char* compiled_source = hs_compile_globals.compiled_source;
+	if (hs_compile_globals.permanent && hs_compile_globals.compiled_source)
+	{
+		system_free(hs_compile_globals.compiled_source);
+		compiled_source = hs_compile_globals.compiled_source;
+	}
+
+	if (hs_compile_globals.malloced)
+	{
+		system_free(compiled_source);
+		hs_compile_globals.compiled_source = NULL;
+		hs_compile_globals.malloced = false;
+	}
+
+	if (hs_compile_globals.references)
+	{
+		system_free(hs_compile_globals.references);
+		hs_compile_globals.references = NULL;
+	}
+
+	if (hs_compile_globals.script_references)
+	{
+		system_free(hs_compile_globals.script_references);
+		hs_compile_globals.script_references = NULL;
+	}
+
+	if (hs_compile_globals.global_references)
+	{
+		system_free(hs_compile_globals.global_references);
+		hs_compile_globals.global_references = NULL;
+	}
+
+	hs_compile_globals.initialized = false;
+
+	//long count = 61440;
+	//if (g_hs_syntax_data->maximum_count + 512 < 61440)
+	//	count = g_hs_syntax_data->maximum_count + 512;
+	//resize_scenario_syntax_data(count);
+}
+
+long hs_compile_expression(long source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
+{
+	// #TODO: implement me
+
+	//if (source_size < 4096)
+	//{
+	//
+	//}
+
+	return NONE;
+}
+
+void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, long out_expression_length)
+{
+	// #TODO: implement me
+}
+
+bool hs_runtime_safe_to_gc()
+{
+	// #TODO: implement me
+
+	return false;
+}
+
+bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive)
+{
+	// #TODO: implement me
+
+	bool result = false;
+
+	//generate_event(event_level, "hs:evaluate: %s: %s", source, expression);
+	//
+	////random_seed_allow_use();
+	//
+	//char expression_buffer[4096]{};
+	//hs_validify_expression(expression, expression_buffer, sizeof(expression_buffer));
+	//if (string_is_not_empty(expression_buffer))
+	//{
+	//	char const* error_message = NULL;
+	//	char const* error_source = NULL;
+	//
+	//	if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
+	//		hs_node_gc();
+	//
+	//	hs_compile_initialize(false);
+	//
+	//	hs_syntax_node temporary_syntax_data[128]{};
+	//	if (TEST_BIT(g_hs_syntax_data->flags, 1))
+	//	{
+	//		csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
+	//		data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
+	//	}
+	//
+	//	long source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
+	//	long expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
+	//	if (expression_index == NONE)
+	//	{
+	//		if (error_message)
+	//			hs_compile_source_error(NULL, error_message, error_source, expression_buffer);
+	//	}
+	//	else
+	//	{
+	//		result = true;
+	//		hs_runtime_evaluate(expression_index, interactive, false);
+	//	}
+	//
+	//	hs_compile_dispose();
+	//}
+	//
+	////if (g_recompile_scripts)
+	////{
+	////	hs_rebuild_and_compile(NULL, false, true);
+	////	g_recompile_scripts = false;
+	////}
+	//
+	////random_seed_disallow_use();
+
+	return result;
+}
+
+void hs_compile_source_error(char const* file_name, char const* error_message, char const* error_source, char const* source)
+{
+	// #TODO: implement me
 }
 

@@ -23,7 +23,14 @@ struct s_hs_reference
 };
 static_assert(sizeof(s_hs_reference) == 0x14);
 
-struct hs_compile_globals_struct
+enum
+{
+	k_maximum_number_of_references = 10240,
+	k_maximum_number_of_script_references = 1024,
+	k_maximum_number_of_global_references = 280,
+};
+
+static inline struct
 {
 	bool initialized;
 
@@ -47,17 +54,12 @@ struct hs_compile_globals_struct
 	long current_script_index;
 	long current_global_index;
 
-	struct
-	{
-		s_hs_reference* references;
-		c_static_array<s_hs_reference*, k_maximum_hs_scripts_per_scenario>* script_references;
-		c_static_array<s_hs_reference*, k_maximum_hs_globals_per_scenario>* global_references;
-		short reference_count; // s_hs_reference* references
-	};
-};
-static_assert(sizeof(hs_compile_globals_struct) == 0x444);
-
-extern hs_compile_globals_struct hs_compile_globals;
+	s_hs_reference* references;
+	s_hs_reference** script_references;
+	s_hs_reference** global_references;
+	short allocated_references;
+} hs_compile_globals;
+static_assert(sizeof(hs_compile_globals) == 0x444);
 
 using hs_type_primitive_parser_t = bool __cdecl(long expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];

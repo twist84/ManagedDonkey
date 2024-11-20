@@ -224,7 +224,7 @@ extern long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count
 extern char const* const hs_type_names[k_hs_type_count];
 extern char const* const hs_script_type_names[k_hs_script_type_count];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
-extern c_typed_data_array<hs_syntax_node>*& g_hs_syntax_data;
+extern s_data_array*& g_hs_syntax_data;
 
 extern hs_function_definition const* hs_function_get(short function_index);
 extern hs_function_definition_debug const* hs_function_get_debug(short function_index);
@@ -235,6 +235,7 @@ extern short __cdecl hs_find_script_by_name(char const* name, short parameter_co
 extern short __cdecl hs_global_get_type(short global_index);
 extern void __cdecl hs_initialize();
 extern void __cdecl hs_initialize_for_new_map();
+extern void __cdecl hs_node_gc();
 extern void __cdecl hs_update();
 extern short hs_find_function_by_name(char const* name, short parameter_count);
 extern short hs_script_find_parameter_by_name(long script_index, char const* name);

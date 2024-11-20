@@ -174,14 +174,14 @@ long __cdecl hs_find_thread_by_name(char const* script_name)
 //.text:005972C0 ; long __cdecl hs_boolean_to_long(long _boolean)
 //.text:005972E0 ; 
 
-long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool a3)
+long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool initialize)
 {
-	return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, a3);
+	return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, initialize);
 
 	//hs_function_definition const* function = hs_function_get(function_index);
 	//char const* function_name = hs_function_table_names[function_index];
 	//
-	//long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, a3);
+	//long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
 	//if (parameters)
 	//{
 	//	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
@@ -238,7 +238,11 @@ bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
 //.text:005976C0 ; void __cdecl hs_runtime_dirty()
 //.text:00597730 ; void __cdecl hs_runtime_dispose()
 //.text:00597750 ; void __cdecl hs_runtime_dispose_from_old_map()
-//.text:005977A0 ; bool __cdecl hs_runtime_evaluate(long, long*, bool)
+
+bool __cdecl hs_runtime_evaluate(long expression_index, bool display_expression_result, bool deterministic)
+{
+	return INVOKE(0x005977A0, hs_runtime_evaluate, expression_index, display_expression_result, deterministic);
+}
 
 char const* __cdecl hs_runtime_get_executing_thread_name()
 {
@@ -304,9 +308,9 @@ void __cdecl hs_runtime_update()
 //.text:00598790 ; 
 //.text:005987B0 ; 
 //.text:005987D0 ; void* __cdecl hs_stack_allocate(long, long, long, hs_stack_pointer*)
-//.text:005988C0 ; 
+//.text:005988C0 ; hs_stack_frame* __cdecl hs_stack(hs_thread*, hs_stack_pointer)
 //.text:005988E0 ; 
-//.text:00598900 ; 
+//.text:00598900 ; void __cdecl hs_stack_pop(long)
 //.text:00598940 ; bool __cdecl hs_stack_push(long)
 //.text:005989E0 ; long __cdecl hs_string_to_boolean(long _string)
 //.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(long)
@@ -328,9 +332,9 @@ long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool
 	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
 }
 
-//.text:00598F30 ; hs_stack_frame* __cdecl hs_thread_stack(hs_thread*)
-//.text:00598F50 ; 
-//.text:00598F70 ; 
+//.text:00598F30 ; hs_stack_frame* __cdecl hs_thread_stack(hs_thread*) // could be swapped?
+//.text:00598F50 ; hs_stack_frame const* __cdecl hs_thread_stack(hs_thread const*) // could be swapped?
+//.text:00598F70 ; void __cdecl hs_thread_try_to_delete(long, bool)
 //.text:00598FC0 ; void __cdecl hs_typecasting_table_initialize()
 //.text:00599170 ; void __cdecl hs_wake(long, long)
 
@@ -464,50 +468,50 @@ void render_debug_trigger_volumes()
 		if (trigger_volume_get_matrix(&trigger_volume, &matrix))
 		{
 			vector3d extents = *(vector3d*)&trigger_volume.extents;
-			vector3d extents_transformed{};
-			matrix4x3_transform_vector(&matrix, &extents, &extents_transformed);
+			vector3d world_extent{};
+			matrix4x3_transform_vector(&matrix, &extents, &world_extent);
 
 			for (long i = 0; i < 6; i++)
 			{
-				real_point3d points[4]{};
+				real_point3d sides[4]{};
 				vector3d v23{};
 				vector3d v24{};
 
 				short v21 = short(i / 2);
 				if (i % 2)
 				{
-					point_from_line3d(&matrix.position, &extents_transformed, 1.0f, points);
+					point_from_line3d(&matrix.position, &world_extent, 1.0f, sides);
 					v23.n[(v21 + 1) % 3] = -extents.n[(v21 + 1) % 3];
 					v24.n[(v21 + 2) % 3] = -extents.n[(v21 + 2) % 3];
 				}
 				else
 				{
-					points[0] = matrix.position;
+					sides[0] = matrix.position;
 					v23.n[(v21 + 1) % 3] = extents.n[(v21 + 1) % 3];
 					v24.n[(v21 + 2) % 3] = extents.n[(v21 + 2) % 3];
 				}
 
 				matrix4x3_transform_vector(&matrix, &v23, &v23);
 				matrix4x3_transform_vector(&matrix, &v24, &v24);
-				point_from_line3d(points, &v23, 1.0f, &points[1]);
-				point_from_line3d(&points[1], &v24, 1.0f, &points[2]);
-				point_from_line3d(&points[2], &v23, -1.0f, &points[3]);
+				point_from_line3d(sides, &v23, 1.0f, &sides[1]);
+				point_from_line3d(&sides[1], &v24, 1.0f, &sides[2]);
+				point_from_line3d(&sides[2], &v23, -1.0f, &sides[3]);
 
 				if (hs_debug_data.activated_trigger_volumes.test(trigger_volume_index))
 				{
-					render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_blue);
+					render_debug_polygon_edges(sides, NUMBEROF(sides), global_real_argb_blue);
 				}
 				else
 				{
 					real_argb_color polygon_color = *global_real_argb_blue;
 					polygon_color.alpha = 0.15f;
-					render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_red);
-					render_debug_polygon(points, NUMBEROF(points), &polygon_color);
+					render_debug_polygon_edges(sides, NUMBEROF(sides), global_real_argb_red);
+					render_debug_polygon(sides, NUMBEROF(sides), &polygon_color);
 				}
 			}
 
 			real_point3d name_point{};
-			point_from_line3d(&matrix.position, &extents_transformed, 0.5f, &name_point);
+			point_from_line3d(&matrix.position, &world_extent, 0.5f, &name_point);
 
 			render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
 			
@@ -515,8 +519,8 @@ void render_debug_trigger_volumes()
 			vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
 			scale_vector3d(&name_vector, 0.95f, &name_vector);
 			
-			collision_result collision;
-			if (!collision_test_vector(_collision_test_for_line_of_sight_obstruction_flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &collision))
+			collision_result result;
+			if (!collision_test_vector(_collision_test_for_line_of_sight_obstruction_flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &result))
 			{
 				real_argb_color const* color = hs_debug_data.activated_trigger_volumes.test(trigger_volume_index) ? global_real_argb_yellow : global_real_argb_white;
 				render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), color);
