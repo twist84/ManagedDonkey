@@ -315,9 +315,9 @@ LABEL_4:;
 			real_point3d camera_position = unsafe_object_position;
 			if (s_observer_result const* camera = observer_try_and_get_camera(player_mapping_first_active_output_user()))
 			{
-				camera_position.x = camera->focus_point.x + (camera->forward.i * 0.05f);
-				camera_position.y = camera->focus_point.y + (camera->forward.j * 0.05f);
-				camera_position.z = camera->focus_point.z + (camera->forward.k * 0.05f);
+				camera_position.x = camera->position.x + (camera->forward.i * 0.05f);
+				camera_position.y = camera->position.y + (camera->forward.j * 0.05f);
+				camera_position.z = camera->position.z + (camera->forward.k * 0.05f);
 			}
 
 			render_debug_line(false, &unsafe_object_position, &camera_position, global_real_argb_red);

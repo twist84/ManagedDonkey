@@ -119,7 +119,7 @@ bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_poi
 	}
 
 	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(output_user_index));
-	*position = result->focus_point;
+	*position = result->position;
 
 	return true;
 }
@@ -656,13 +656,13 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	{
 		if (group_tag == EFFECT_TAG)
 		{
-			real_point3d focus_point = result->focus_point;
+			real_point3d focus_point = result->position;
 			vector3d forward = result->forward;
 			cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &focus_point, &forward);
 		}
 		else if (group_tag == OBJECT_TAG)
 		{
-			cheat_drop_object(group_tag_, tag_get_name(tag_index), OBJECT_TAG, tag_index, variant_name, NONE, &result->focus_point, &result->forward, permutations, permutation_count);
+			cheat_drop_object(group_tag_, tag_get_name(tag_index), OBJECT_TAG, tag_index, variant_name, NONE, &result->position, &result->forward, permutations, permutation_count);
 		}
 		else
 		{

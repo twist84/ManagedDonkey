@@ -2,7 +2,7 @@
 
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_text.hpp"
-#include "render/depth_of_field.hpp"
+#include "camera/observer.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_game_state.hpp"
 #include "render/render_patchy_fog.hpp"

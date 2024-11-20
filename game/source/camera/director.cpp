@@ -267,9 +267,9 @@ void __cdecl director_render()
 
 			c_static_string<256> rasterizer_string;
 			rasterizer_string.print("%.3f %.3f %.3f / %.2f %.2f / %.3f [%s]",
-				camera->focus_point.x,
-				camera->focus_point.y,
-				camera->focus_point.z,
+				camera->position.x,
+				camera->position.y,
+				camera->position.z,
 				RAD * facing.yaw,
 				RAD * facing.pitch,
 				g_director_camera_speed_scale,
@@ -745,7 +745,7 @@ void director_save_camera_named(char const* name)
 
 		if (camera)
 		{
-			fprintf(file, "%f %f %f\n", camera->focus_point.x, camera->focus_point.y, camera->focus_point.z);
+			fprintf(file, "%f %f %f\n", camera->position.x, camera->position.y, camera->position.z);
 			fprintf(file, "%f %f %f\n", camera->forward.i, camera->forward.j, camera->forward.k);
 			fprintf(file, "%f %f %f\n", camera->up.i, camera->up.j, camera->up.k);
 			fprintf(file, "%f\n", camera->horizontal_field_of_view);

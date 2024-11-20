@@ -96,10 +96,10 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 		if (TEST_BIT(_object_mask_biped, object_get_type(m_object_index)))
 		{
 			result->flags |= FLAG(13);
-			biped_get_physics_pill(m_object_index, &result->physics_pill_position, &result->physics_pill_height, &result->physics_pill_radius);
+			biped_get_physics_pill(m_object_index, &result->pill_base, &result->pill_height, &result->pill_width);
 		}
 	
-		object_get_center_of_mass(object_get_ultimate_parent(m_object_index), &result->center);
+		object_get_center_of_mass(object_get_ultimate_parent(m_object_index), &result->safe_position);
 		result->flags |= FLAG(10);
 		result->flags |= FLAG(11);
 		result->flags |= FLAG(0);

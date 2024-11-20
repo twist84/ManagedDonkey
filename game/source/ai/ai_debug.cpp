@@ -351,7 +351,7 @@ void ai_debug_drawstack_setup(real_point3d const* position)
 	if (camera)
 	{
 		vector3d vector{};
-		vector_from_points3d(&global_ai_debug_drawstack_last_position, &camera->focus_point, &vector);
+		vector_from_points3d(&global_ai_debug_drawstack_last_position, &camera->position, &vector);
 		global_ai_debug_drawstack_height = magnitude3d(&vector) / 40.0f;
 	}
 	else

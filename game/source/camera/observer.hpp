@@ -12,9 +12,20 @@ struct s_focus_and_distance
 };
 static_assert(sizeof(s_focus_and_distance) == 0x10);
 
+struct s_observer_depth_of_field
+{
+	long flags;
+	real near_focal_plane_distance;
+	real far_focal_plane_distance;
+	real focal_depth;
+	real blur_amount;
+};
+static_assert(sizeof(s_observer_depth_of_field) == 0x14);
+
 struct s_observer_command
 {
 	dword_flags flags;
+
 	union
 	{
 		struct
@@ -34,17 +45,17 @@ struct s_observer_command
 	vector3d focus_velocity;
 	real_matrix4x3 focus_space;
 
-	dword __unknown84;
+	long relative_space_identifier;
 
-	real_point3d center;
+	real_point3d safe_position;
 	real timer;
 
-	long parent_objects[2];
-	long number_of_parents_objects;
+	long collision_ignore_objects[2];
+	long collision_ignore_objects_count;
 
-	real_point3d physics_pill_position;
-	real physics_pill_height;
-	real physics_pill_radius;
+	real_point3d pill_base;
+	real pill_height;
+	real pill_width;
 
 	union
 	{
@@ -52,11 +63,12 @@ struct s_observer_command
 		{
 			byte position_flags;
 			byte focus_offset_flags;
-			byte look_shift_flags;
+			byte view_offset_flags;
 			byte distance_flags;
 			byte field_of_view_flags;
 			byte orientation_flags;
 		};
+
 		byte parameter_flags[6];
 	};
 
@@ -66,61 +78,69 @@ struct s_observer_command
 		{
 			real position_timer;
 			real focus_offset_timer;
-			real look_shift_timer;
+			real view_offset_timer;
 			real distance_timer;
 			real field_of_view_timer;
 			real orientation_timer;
 		};
+
 		real parameter_timers[6];
 	};
 
-	byte __dataD8[0x14];
+	s_observer_depth_of_field depth_of_field;
 };
 static_assert(sizeof(s_observer_command) == 0xEC);
-static_assert(0x84 == OFFSETOF(s_observer_command, __unknown84));
-static_assert(0xB8 == OFFSETOF(s_observer_command, parameter_flags));
-static_assert(0xC0 == OFFSETOF(s_observer_command, parameter_timers));
-static_assert(0xD8 == OFFSETOF(s_observer_command, __dataD8));
 
 struct s_observer_result
 {
-	real_point3d focus_point;
+	real_point3d position;
 	s_location location;
-	byte __dataE[2];
-	vector3d __vector10;
-	vector3d __vector1C;
+	vector3d velocity;
+	vector3d rotation;
 	vector3d forward;
 	vector3d up;
 	real horizontal_field_of_view;
-	byte __data44[0x20];
-	real __unknown64;
+	s_observer_depth_of_field depth_of_field;
+	real aspect_ratio;
+	vector2d view_offset;
+	real magic_crosshair_offset;
 	real vertical_field_of_view;
-	real __unknown6C;
+	real field_of_view_scale;
 };
 static_assert(sizeof(s_observer_result) == 0x70);
 
-struct observer_derivative
+struct s_observer_derivative
 {
-	real n[13];
+	union
+	{
+		struct
+		{
+			vector3d focus_position;
+			vector3d focus_offset;
+			vector2d view_offset;
+			real focus_distance;
+			real field_of_view;
+			vector3d rotation;
+		};
+
+		real n[13];
+	};
 };
 
 struct s_observer
 {
-	tag header_signature;
+	long header_signature;
 	s_observer_command* pending_command;
 	s_observer_command last_command;
 	bool updated_for_frame;
-	bool __unknownF5;
-	bool __unknownF6;
-	bool __unknownF7;
-	real __unknownF8;
-	dword __unknownFC;
-	long __unknown100;
-	long __unknown104;
+	bool first_command;
+	bool is_relative;
+	bool variable_up;
+	real geometry_anticipation_buffer_scale;
+	real geometry_anticipation_buffer_scale_velocity;
+	long collision_ignore_object_a;
+	long collision_ignore_object_b;
 	bool result_valid;
-	byte __unknown109;
-	byte __unknown10A;
-	byte __unknown10B;
 	s_observer_result result;
 
 	union
@@ -129,39 +149,39 @@ struct s_observer
 		{
 			real_point3d focus_position;
 			vector3d focus_offset;
-			real_point2d look_shift;
+			vector2d view_offset;
 			real focus_distance;
-			real field_of_view;
+			real horizontal_field_of_view;
 			vector3d forward;
 			vector3d up;
 		};
+
 		real positions[16];
 	};
 
 	real_matrix4x3 focus_space;
 
-	observer_derivative velocities;
-	observer_derivative accelerations;
+	s_observer_derivative velocities;
+	s_observer_derivative accelerations;
 	real a[13];
 	real b[13];
 	real c[13];
 	real d[13];
 	real e[13];
 	real f[13];
-	observer_derivative displacements;
+	s_observer_derivative displacements;
 
-	tag trailer_signature;
+	long trailer_signature;
 };
 static_assert(sizeof(s_observer) == 0x3C8);
 
 struct s_observer_globals
 {
-	real timestep;
+	real dtime;
 	s_observer observers[4];
-	bool __unknownF24;
-	bool block_for_one_frame_block_type1;
-	bool block_for_one_frame_block_type0;
-	byte __dataF27[0x1];
+	bool first_call;
+	bool bsp_lightmap_block_requested_for_next_tick;
+	bool full_block_requested_for_next_tick;
 };
 static_assert(sizeof(s_observer_globals) == 0xF28);
 

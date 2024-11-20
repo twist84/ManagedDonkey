@@ -58,7 +58,7 @@ void __cdecl chud_debug_draw_reticle_labeled(e_output_user_index output_user_ind
 {
 	//INVOKE(0x00AC7F80, chud_debug_draw_reticle_labeled, output_user_index, a2, label, a4, color);
 
-	real unknown64 = observer_get(output_user_index)->result.__unknown64;
+	real magic_crosshair_offset = observer_get(output_user_index)->result.magic_crosshair_offset;
 	c_player_view* player_view = c_player_view::get_current();
 	render_projection const* rasterizer_projection = player_view->get_rasterizer_projection();
 
@@ -68,7 +68,7 @@ void __cdecl chud_debug_draw_reticle_labeled(e_output_user_index output_user_ind
 	real current_angle = 0.0f;
 	for (long i = 0; i < CIRCLE_DIVISIONS; i++)
 	{
-		set_real_point3d(&points[i], cosf(current_angle) * v2, real(sinf(current_angle) * v2) - real(unknown64 * (1.0f / CIRCLE_DIVISIONS)), -(1.0f / CIRCLE_DIVISIONS));
+		set_real_point3d(&points[i], cosf(current_angle) * v2, real(sinf(current_angle) * v2) - real(magic_crosshair_offset * (1.0f / CIRCLE_DIVISIONS)), -(1.0f / CIRCLE_DIVISIONS));
 		matrix4x3_transform_point(&rasterizer_projection->view_to_world, &points[i], &points[i]);
 	
 		current_angle += (TWO_PI / CIRCLE_DIVISIONS);

@@ -226,7 +226,7 @@ void __cdecl observer_game_tick()
 
 	s_observer_globals* observer_globals = observer_globals_get();
 
-	if (observer_globals->block_for_one_frame_block_type1)
+	if (observer_globals->bsp_lightmap_block_requested_for_next_tick)
 	{
 		if (!game_is_multiplayer())
 		{
@@ -235,10 +235,10 @@ void __cdecl observer_game_tick()
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown1);
 		}
 
-		observer_globals->block_for_one_frame_block_type1 = false;
+		observer_globals->bsp_lightmap_block_requested_for_next_tick = false;
 	}
 
-	if (observer_globals->block_for_one_frame_block_type0)
+	if (observer_globals->full_block_requested_for_next_tick)
 	{
 		if (!game_is_multiplayer())
 		{
@@ -247,7 +247,7 @@ void __cdecl observer_game_tick()
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown0);
 		}
 
-		observer_globals->block_for_one_frame_block_type0 = false;
+		observer_globals->full_block_requested_for_next_tick = false;
 	}
 }
 
@@ -433,7 +433,7 @@ void __cdecl observer_update(real world_seconds_elapsed)
 	
 	//collision_log_begin_period(6);
 
-	g_observer_globals->timestep = g_camera_speed * world_seconds_elapsed;
+	g_observer_globals->dtime = g_camera_speed * world_seconds_elapsed;
 	
 	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 	{
@@ -447,7 +447,7 @@ void __cdecl observer_update(real world_seconds_elapsed)
 	
 			observer_update_command(user_index);
 	
-			if (g_observer_globals->timestep != 0.0f)
+			if (g_observer_globals->dtime != 0.0f)
 				observer_pass_time(user_index);
 	
 			s_focus_and_distance focus_and_distance{};
@@ -459,9 +459,9 @@ void __cdecl observer_update(real world_seconds_elapsed)
 		}
 	}
 	
-	if (!g_observer_globals->__unknownF24)
+	if (!g_observer_globals->first_call)
 		observer_post_global_update_list();
-	g_observer_globals->__unknownF24 = false;
+	g_observer_globals->first_call = false;
 
 	//collision_log_end_period();
 }
@@ -572,7 +572,7 @@ void __cdecl debug_render_observer()
 	render_view_compute_fullscreen_bounds(&camera);
 
 	render_projection projection{};
-	render_camera_build_projection(&camera, nullptr, &projection, 0.0f);
+	render_camera_build_projection(&camera, NULL, &projection, 0.0f);
 
 	real_point2d screen_points[4]{};
 	screen_points[0].x = static_cast<real>(camera.render_pixel_bounds.x0);
@@ -595,7 +595,7 @@ void __cdecl debug_render_observer()
 	}
 	render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_red);
 
-	if (observer->__unknownF6)
+	if (observer->is_relative)
 		matrix4x3_transform_point(&observer->focus_space, &point, &point);
 }
 
