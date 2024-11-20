@@ -555,6 +555,49 @@ struct actor_path_control_data
 };
 static_assert(sizeof(actor_path_control_data) == 0x13C);
 
+struct turn_info
+{
+	bool left;
+	bool rev;
+	real angle;
+	real rating;
+	vector2d expected_facing;
+	real world_orientation;
+	short turn_index;
+	real current_throttle;
+	real last_throttle;
+	real last_yaw_angle;
+	real last_urgency;
+	real current_yaw_angle;
+	bool valid;
+};
+static_assert(sizeof(turn_info) == 0x34);
+
+struct flying_turn_info
+{
+	bool servo_to_target;
+	bool finished_turn;
+	short movement_mode;
+	real last_yaw_angle;
+	real current_yaw_angle;
+	real last_pitch_angle;
+	real current_pitch_angle;
+	real urgency;
+	vector3d current_throttle;
+	vector3d last_throttle;
+};
+static_assert(sizeof(flying_turn_info) == 0x30);
+
+struct hovering_turn_info
+{
+	real last_yaw_angle;
+	real last_throttle_scale;
+	real current_yaw_angle;
+	real current_throttle_scale;
+	short last_mode;
+};
+static_assert(sizeof(hovering_turn_info) == 0x14);
+
 struct actor_control_data
 {
 	dword_flags flags;
@@ -567,16 +610,30 @@ struct actor_control_data
 	plane3d persistent_movement_plane;
 	real persistent_movement_distance;
 	short persistent_movement_ticks;
+
+	// odst?
+	bool __unknown17E; // actor_move_update
+
 	short freeze_ticks;
 	short suppress_shooting_ticks;
 	vector2d jump_alignment_vector;
 	real jump_target_horizontal_vel;
 	real jump_target_vertical_vel;
 	long jump_target_pref_index;
+	long last_deceleration_to_zero_time;
 	long deceleration_object_index;
 	short deceleration_ticks;
-	long last_deceleration_to_zero_time;
-	byte __unknown1A4[52];
+
+	// odst?
+	byte __unknown1A2; // actor_ground_throttle_control
+	byte __unknown1A3; // actor_ground_throttle_control
+
+	union
+	{
+		turn_info turn;
+		flying_turn_info flying_turn;
+		hovering_turn_info hovering_turn;
+	};
 	short glance_priority;
 	short glance_timer;
 	c_ai_direction glance_direction;
@@ -604,8 +661,25 @@ struct actor_control_data
 	long last_burst_start_time;
 	short blocked_projectiles_count;
 	short current_fire_target_type;
-	long current_fire_target_prop_index;
-	byte __data274[128];
+	union
+	{
+		c_ai_point3d current_fire_target_manual_point;
+		long current_fire_target_prop_index;
+	};
+	long current_fire_target_timer;
+	short current_fire_target_line_of_sight;
+	short player_blocking_ticks;
+	long last_player_blocking_time;
+	c_ai_point3d current_fire_target_position;
+	real current_fire_target_range;
+	vector3d current_fire_target_aim_vector;
+	real current_fire_target_distance;
+	c_ai_point3d burst_initial_position;
+	real_point3d burst_origin;
+	vector3d burst_relative_position;
+	vector3d burst_adjustment;
+	real_point3d burst_target;
+	real burst_aim_by_vector_velocity;
 	vector3d burst_aim_vector;
 	real burst_error;
 	real burst_damage_modifier;
