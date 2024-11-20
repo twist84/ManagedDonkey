@@ -1,43 +1,377 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "networking/logic/storage/network_http_buffer_downloader.hpp"
+
+#pragma region config_download
+
+struct s_network_file_download_configuration
+{
+	long master_catalog_file_download_interval_msec;
+	long required_file_invalidation_check_interval_msec;
+	long required_file_download_retry_interval_msec;
+};
+static_assert(sizeof(s_network_file_download_configuration) == 0xC);
+
+#pragma endregion
+
+#pragma region bandwidth
+
+struct s_bandwidth_configuration_host_preference_table
+{
+	long connectivity_multiplier;
+	long host_bonus;
+	long desired_hostable_peers_multiplier;
+	long maximum_hostable_peers_multiplier;
+	long unbounded_hostable_peers_multiplier;
+	long latency_table_multiplier;
+	long gamestate_bonus;
+	long open_nat_bonus;
+	long hard_drive_bonus;
+	long local_user_table_multiplier;
+	long host_rating_multiplier;
+	long connectivity_rating_multiplier;
+	long synchronous_hostable_peers_multiplier;
+};
+static_assert(sizeof(s_bandwidth_configuration_host_preference_table) == 0x34);
+
+struct s_bandwidth_configuration
+{
+	real bandwidth_outlier_discard_fraction;
+	long bandwidth_minimum_measurement_count;
+	long bandwidth_safety_margin_bps;
+	long bandwidth_minimum_known_good_bps;
+	long bandwidth_tracking_minimum_duration_msec;
+	real bandwidth_tracking_maximum_satiation;
+	long bandwidth_dispute_minimum_count;
+	long bandwidth_dispute_threshold_bps;
+	long bandwidth_dispute_increase_bps;
+	long host_speculative_migration_check_interval_msec;
+	long host_speculative_migration_check_interval_custom_msec;
+	long host_speculative_migration_check_interval_matchmaking_msec;
+	long host_speculative_migration_remigrate_interval_msec;
+	long host_speculative_migration_required_lobby_peer_connectivity_difference;
+	long host_speculative_migration_required_match_host_rating_difference;
+	long host_speculative_migration_required_match_host_bandwidth_difference;
+	long host_speculative_migration_required_custom_host_rating_difference;
+	long host_speculative_migration_required_custom_host_bandwidth_difference;
+	byte host_preference_latency_table[20];
+	byte host_preference_local_user_table[5];
+	s_bandwidth_configuration_host_preference_table host_preferences[4];
+	long host_preference_connectivity_rankings_spread;
+	long host_preference_host_rankings_spread;
+	long upstream_bandwidth_absolute_minimum_bps[18];
+	long upstream_bandwidth_requirement_bps[18];
+	long upstream_bandwidth_desired_bps[18];
+	long minimum_player_restricted_count;
+	long minimum_host_upstream_bandwidth_bps;
+	long minimum_host_downstream_bandwidth_bps;
+	long minimum_host_delegation_advantage_bps;
+	long good_host_upstream_bandwidth_bps;
+	long good_host_downstream_bandwidth_bps;
+	long minimum_voice_repeater_upstream_bandwidth_bps;
+	long minimum_voice_repeater_downstream_bandwidth_bps;
+	long voice_channel_bandwidth_bps;
+};
+static_assert(sizeof(s_bandwidth_configuration) == 0x238);
+
+#pragma endregion
+
+#pragma region life_cycle
+
+struct s_life_cycle_handler_joining_configuration
+{
+	long network_session_migration_wait_timeout_msec;
+	long network_session_migration_disband_timeout_msec;
+	long join_remote_squad_player_reservation_timeout_msec;
+	long request_migration_start_rety_interval_msec;
+	long request_migration_abort_rety_interval_msec;
+	long joining_search_qos_bps;
+	long join_timeout_msec;
+	long desperation_wait_time_seconds;
+};
+static_assert(sizeof(s_life_cycle_handler_joining_configuration) == 0x20);
+
+struct s_life_cycle_handler_matchmaking_configuration
+{
+	bool perform_nat_check;
+	real matchmaking_strict_nat_host_percentage;
+	long matchmaking_start_failure_wait_time_ms;
+	long matchmaking_find_match_joinable_session_threshold;
+	long matchmaking_find_match_join_wait_time_ms;
+	long matchmaking_find_match_search_results_stale_ms;
+	long matchmaking_gather_join_wait_time_ms;
+	long matchmaking_search_give_up_time_seconds;
+	long join_request_wait_time_ms;
+	bool prepare_map_display_map_during_loading;
+	long prepare_map_veto_timer_seconds;
+	long prepare_map_minimum_load_time_seconds;
+	long prepare_map_countdown_timer_seconds;
+	long prepare_map_vetoed_countdown_timer_seconds;
+	long prepare_map_veto_failed_countdown_timer_seconds;
+	long end_match_write_stats_boot_threshold_seconds;
+	long arbitration_wait_for_establishment_and_connectivity_threshold_seconds;
+	long arbitration_wait_for_completion_threshold_seconds;
+	bool post_match_return_to_pre_game_lobby;
+	long post_match_stats_refresh_time;
+	long warning_toast_minimum_time_seconds;
+};
+static_assert(sizeof(s_life_cycle_handler_matchmaking_configuration) == 0x54);
+
+struct s_life_cycle_handler_in_game_configuration
+{
+	long simulation_aborted_host_delay_ms;
+	long simulation_aborted_peer_delay_ms;
+};
+static_assert(sizeof(s_life_cycle_handler_in_game_configuration) == 0x8);
+
+struct s_life_cycle_configuration
+{
+	s_life_cycle_handler_joining_configuration joining;
+	s_life_cycle_handler_matchmaking_configuration matchmaking;
+	s_life_cycle_handler_in_game_configuration in_game;
+};
+static_assert(sizeof(s_life_cycle_configuration) == 0x7C);
+
+#pragma endregion
+
+#pragma region logic
+
+struct s_logic_session_tracker_configuration
+{
+	long unsuitable_session_cache_count;
+	long qos_bps;
+	long default_qos_refresh_interval_msec;
+	long full_qos_timeout_msec;
+	long maximum_target_sessions_per_default_qos_task;
+	long maximum_qos_tasks;
+};
+static_assert(sizeof(s_logic_session_tracker_configuration) == 0x18);
+
+struct s_logic_matchmaking_desirability
+{
+	long add_to_match_desirability_bonus;
+	long combined_player_count_per_player_desirability_bonus;
+	long fill_out_match_desirability_bonus;
+	long needed_party_size_desirability_bonus;
+	long gather_time_bonus_threshold_seconds;
+	long gather_time_desirability_bonus;
+	long search_time_bonus_threshold_seconds;
+	long search_time_desirability_bonus;
+	long average_skill_range_for_desirability_bonus;
+	long average_skill_desirability_bonus_factor;
+	real average_mu_range_for_desirability_bonus;
+	long average_mu_desirability_bonus_factor;
+	long average_experience_rank_range_for_desirability_bonus;
+	long average_experience_rank_desirability_bonus_factor;
+	long good_host_desirability_bonus;
+	long language_match_desirability_bonus;
+	long gamer_region_match_desirability_bonus;
+	long gamer_zone_match_desirability_bonus;
+	long quitter_match_desirability_bonus;
+	long dlc_match_desirability_bonus;
+	long maximum_ping_for_desirability_bonus;
+	long ping_desirability_bonus_interval;
+	long desirability_bonus_per_ping_interval;
+};
+static_assert(sizeof(s_logic_matchmaking_desirability) == 0x5C);
+
+struct s_logic_matchmaking_seeker_configuration
+{
+	long session_search_wait_time_ms;
+	long failed_session_search_wait_time_ms;
+	long final_session_search_query_minimum_time_ms;
+	long search_stage_strict_skill_round_limit;
+	real search_stage_strict_skill_initial_mu_range;
+	real search_stage_strict_skill_final_mu_range;
+	long search_stage_strict_skill_initial_desired_skill_range;
+	long search_stage_strict_skill_final_desired_skill_range;
+	long search_stage_strict_skill_initial_average_skill_range;
+	long search_stage_strict_skill_final_average_skill_range;
+	long search_stage_strict_skill_initial_average_experience_rank_range;
+	long search_stage_strict_skill_connection_threshold_ms;
+	long search_stage_skill_round_limit;
+	long search_stage_skill_connection_threshold_ms;
+	long search_stage_any_round_limit;
+	long search_stage_any_final_connection_threshold_ms;
+	real search_stage_any_final_mu_range;
+	long search_stage_any_final_average_skill_range;
+	long search_stage_any_final_desired_skill_range;
+};
+static_assert(sizeof(s_logic_matchmaking_seeker_configuration) == 0x4C);
+
+struct s_logic_leaderboard_configuration
+{
+	long consecutive_failed_download_threshold;
+	long milliseconds_between_failed_downloads;
+	long milliseconds_between_consecutive_failed_downloads;
+	long refresh_request_wait_time_ms;
+};
+static_assert(sizeof(s_logic_leaderboard_configuration) == 0x10);
+
+struct s_session_interface_configuration
+{
+	long peer_properties_interval_msec;
+	long user_addition_interval_msec;
+	long user_removal_interval_msec;
+	long user_properties_interval_msec;
+	long local_specific_parameter_propagation_msec;
+	long ready_for_next_match_wait_time_milliseconds;
+	long stat_replication_wait_threshold_milliseconds;
+};
+static_assert(sizeof(s_session_interface_configuration) == 0x1C);
+
+struct s_qos_reply_block_configuration
+{
+	long qos_listener_update_interval;
+	long disabled_qos_reply_bandwidth_bps;
+};
+static_assert(sizeof(s_qos_reply_block_configuration) == 0x8);
+
+struct s_session_qos_reply_block_configuration
+{
+	long out_of_game_qos_reply_bandwidth_bps;
+	long in_game_qos_reply_bandwidth_bps;
+};
+static_assert(sizeof(s_session_qos_reply_block_configuration) == 0x8);
+
+struct s_logic_configuration
+{
+	s_logic_session_tracker_configuration session_tracker;
+	s_logic_matchmaking_desirability desirability;
+	s_logic_matchmaking_seeker_configuration seeker;
+	s_logic_leaderboard_configuration leaderboard;
+	s_session_interface_configuration session_interface;
+	s_qos_reply_block_configuration base_qos_reply_block;
+	s_session_qos_reply_block_configuration squad_qos_reply_block;
+	s_session_qos_reply_block_configuration group_qos_reply_block;
+	long maximum_players_in_coop;
+	long maximum_players_in_forge;
+};
+static_assert(sizeof(s_logic_configuration) == 0x10C);
+
+#pragma endregion
+
+#pragma region banhammer
+
+struct s_banhammer_configuration
+{
+	long machine_file_refresh_seconds;
+	long machine_file_refresh_threshold_seconds;
+	long user_file_refresh_seconds;
+	long user_file_refresh_threshold_seconds;
+	long host_chance_reduction_percentage;
+	long idle_controller_timeout_seconds;
+};
+static_assert(sizeof(s_banhammer_configuration) == 0x18);
+
+#pragma endregion
+
+#pragma region simulation
+
+struct s_simulation_zoom_relevance
+{
+	real zoom_0_tolerance;
+	real zoom_1_tolerance;
+	real zoom_0_relevance_bonus;
+	real zoom_1_relevance_bonus;
+};
+static_assert(sizeof(s_simulation_zoom_relevance) == 0x10);
+
+struct s_simulation_control_relevance
+{
+	real zero_relevance_distance;
+	real max_relevance;
+	real min_relevance;
+	long min_period;
+	long max_period;
+};
+static_assert(sizeof(s_simulation_control_relevance) == 0x14);
+
+struct s_simulation_position_relevance
+{
+	real distance_to_player_threshold;
+	real aiming_vector_high_tolerance;
+	real aiming_vector_medium_tolerance;
+	real distance_to_player_medium_tolerance;
+};
+static_assert(sizeof(s_simulation_position_relevance) == 0x10);
+
+struct s_simulation_netdebug_configuration
+{
+	long bar_maximum_count;
+	long axis_bounds[4][2];
+};
+static_assert(sizeof(s_simulation_netdebug_configuration) == 0x24);
+
+struct s_simulation_view_configuration
+{
+	long game_results_update_interval_msec;
+	long synchronous_client_block_duration_msec;
+};
+static_assert(sizeof(s_simulation_view_configuration) == 0x8);
+
+struct s_simulation_shared_configuration
+{
+	real action_persist_time;
+	real simulation_event_projectile_supercombine_request_fraction;
+};
+static_assert(sizeof(s_simulation_shared_configuration) == 0x8);
+
+struct s_simulation_world_configuration
+{
+	long maximum_catchup_views;
+	long join_timeout;
+	long host_join_minimum_wait_time;
+	long host_join_timeout;
+	long join_total_wait_timeout;
+	real pause_game_required_machines_fraction;
+	real join_activation_blocking_machines_fraction;
+	long maximum_catchup_attempts;
+	long catchup_failure_timeout;
+	long client_join_failure_count;
+	long client_activation_failure_timeout;
+	real game_simulation_queue_danger_allocation_size_percentage;
+	real game_simulation_queue_danger_allocation_count_percentage;
+};
+static_assert(sizeof(s_simulation_world_configuration) == 0x34);
 
 struct s_simulation_event_configuration
 {
-	real __unknown0;
-	dword __unknown4;
-	real __unknown8;
-	real __unknownC;
-	real __unknown10;
+	real constant_priority;
+	long cancel_timer_milliseconds;
+	real zero_relevance_distance;
+	real minimum_priority;
+	real maximum_priority;
 };
 static_assert(sizeof(s_simulation_event_configuration) == 0x14);
 
 struct s_simulation_entity_creation_configuration
 {
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
+	real constant_priority;
+	real creation_zero_relevance_distance;
+	real creation_minimum_priority;
+	real creation_maximum_priority;
 };
 static_assert(sizeof(s_simulation_entity_creation_configuration) == 0x10);
 
 struct s_simulation_entity_update_configuration
 {
-	dword __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
-	dword __unknown10;
-	dword __unknown14;
-	real __unknown18;
-	real __unknown1C;
-	dword __unknown20;
-	real __unknown24;
-	real __unknown28;
-	real __unknown2C;
-	dword __unknown30;
-	dword __unknown34;
-	dword __unknown38;
+	real constant_priority;
+	real zero_relevance_distance;
+	real minimum_relevance;
+	real maximum_relevance;
+	long minimum_period;
+	long maximum_period;
+	real normal_minimum_priority;
+	real normal_maximum_priority;
+	long delayed_time_threshold;
+	real delayed_minimum_priority;
+	real delayed_maximum_priority;
+	real maximum_priority;
+	real player_priority;
+	real dead_priority;
+	real in_motion_by_unit;
 };
 static_assert(sizeof(s_simulation_entity_update_configuration) == 0x3C);
 
@@ -48,493 +382,519 @@ struct s_simulation_entity_configuration
 };
 static_assert(sizeof(s_simulation_entity_configuration) == 0x4C);
 
+struct s_simulation_warping_configuration
+{
+	real simulation_position_update_object_corrective_accept_tolerance;
+	real simulation_position_update_object_predicted_accept_tolerance;
+	real simulation_position_update_vehicle_corrective_accept_tolerance;
+	real simulation_position_update_vehicle_predicted_accept_tolerance;
+	real position_update_recent_seconds;
+	real position_update_minimum_distance;
+};
+static_assert(sizeof(s_simulation_warping_configuration) == 0x18);
+
+struct s_simulation_weapon_configuration
+{
+	real trigger_recent_spew_time;
+	real prediction_delay_timer;
+	real predicted_fire_allow_ratio;
+	real predicted_fire_always_allow_threshold;
+};
+static_assert(sizeof(s_simulation_weapon_configuration) == 0x10);
+
 struct s_simulation_configuration
 {
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
-	real __unknown10;
-	real __unknown14;
-	real __unknown18;
-	dword __unknown1C;
-	dword __unknown20;
-	real __unknown24;
-	real __unknown28;
-	real __unknown2C;
-	real __unknown30;
-	dword __unknown34;
-	dword __unknown38;
-	dword __unknown3C;
-	dword __unknown40;
-	dword __unknown44;
-	dword __unknown48;
-	dword __unknown4C;
-	dword __unknown50;
-	dword __unknown54;
-	dword __unknown58;
-	dword __unknown5C;
-	real __unknown60;
-	real __unknown64;
+	s_simulation_zoom_relevance zoom_relevance;
+	s_simulation_control_relevance control_relevance;
+	s_simulation_position_relevance position_relevance;
+	s_simulation_netdebug_configuration netdebug;
+	s_simulation_view_configuration view;
+	s_simulation_shared_configuration shared;
+
+	// odst?
 	real __unknown68;
-	dword __unknown6C;
-	dword __unknown70;
-	dword __unknown74;
-	dword __unknown78;
-	dword __unknown7C;
-	real __unknown80;
-	real __unknown84;
-	dword __unknown88;
-	dword __unknown8C;
-	dword __unknown90;
-	dword __unknown94;
-	real __unknown98;
-	real __unknown9C;
+
+	s_simulation_world_configuration world;
 	c_static_array<s_simulation_event_configuration, 39> simulation_event_configurations;
 	c_static_array<s_simulation_entity_configuration, 22> simulation_entity_configurations;
-	real __unknownA34;
-	real __unknownA38;
-	real __unknownA3C;
-	real __unknownA40;
-	real __unknownA44;
-	real __unknownA48;
-	real __unknownA4C;
-	real __unknownA50;
-	real __unknownA54;
-	real __unknownA58;
-	dword __unknownA5C;
+	s_simulation_warping_configuration warping;
+	s_simulation_weapon_configuration weapon;
 };
-static_assert(sizeof(s_simulation_configuration) == 0xA60);
+static_assert(sizeof(s_simulation_configuration) == 0xA5C);
+
+#pragma endregion
+
+#pragma region replication
+
+struct s_event_manager_view_configuration
+{
+	long replication_event_maximum_blocked_time;
+};
+static_assert(sizeof(s_event_manager_view_configuration) == 0x4);
+
+struct s_replication_control_view
+{
+	real base_non_player_motion_priority;
+	long max_priority_threshold;
+	real max_priority;
+	real medium_priority_base;
+	real medium_priority_relevance_scale;
+	real min_priority_base;
+	real min_priority_relevance_scale;
+};
+static_assert(sizeof(s_replication_control_view) == 0x1C);
+
+struct s_replication_configuration
+{
+	s_event_manager_view_configuration event_manager_view;
+	s_replication_control_view replication_control_view;
+	long maximum_requests_to_send_in_one_frame;
+};
+static_assert(sizeof(s_replication_configuration) == 0x24);
+
+#pragma endregion
+
+#pragma region session
+
+struct s_session_configuration
+{
+	long session_recreate_timeout_msec;
+	long join_request_interval_msec;
+	long join_secure_connection_timeout_msec;
+	long join_initial_update_timeout_msec;
+	long join_time_to_hold_in_join_queue_msec;
+	long join_notify_client_join_in_queue_interval_msec;
+	long join_abort_interval_msec;
+	long join_abort_timeout_msec;
+	long host_rejoin_accept_timeout_msec;
+	long leave_timeout_msec;
+	long leave_request_interval_msec;
+	long host_handoff_initiate_timeout_msec;
+	long host_handoff_selection_delay_msec;
+	long host_handoff_selection_timeout_msec;
+	long host_transition_timeout_msec;
+	long host_reestablish_timeout_msec;
+	long host_reestablish_maximum_send_to_original_host_delay_msec;
+	long election_failsafe_timeout_msec;
+	long election_peer_timeout_msec;
+	long election_ignore_dissension_msec;
+	long guaranteed_election_send_interval_msec;
+	long time_synchronization_interval_msec;
+	long time_synchronization_retry_msec;
+	long minimum_election_send_interval_msec;
+	long allow_third_party_host_elections;
+};
+static_assert(sizeof(s_session_configuration) == 0x64);
+
+#pragma endregion
+
+#pragma region observer
 
 struct s_observer_configuration
 {
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-	dword __unknown10;
-	dword __unknown14;
-	dword __unknown18;
-	dword __unknown1C;
-	dword __unknown20;
-	dword __unknown24;
-	dword __unknown28;
-	dword __unknown2C;
-	dword __unknown30;
-	dword __unknown34;
-	dword __unknown38;
-	dword __unknown3C;
-	dword __unknown40;
-	dword __unknown44;
-	dword __unknown48;
-	dword __unknown4C;
-	dword __unknown50;
-	dword __unknown54;
-	dword __unknown58;
-	dword __unknown5C;
-	dword __unknown60;
-	dword __unknown64;
-	dword __unknown68;
-
-	dword connection_initiation_retry_count;
-
-	dword __unknown70;
-	dword __unknown74;
-	dword __unknown78;
-	dword __unknown7C;
-	dword __unknown80;
-	dword __unknown84;
-	dword __unknown88;
-	dword __unknown8C;
-	dword __unknown90;
-	dword __unknown94;
-	dword __unknown98;
-	dword __unknown9C;
-	dword __unknownA0;
-	dword __unknownA4;
-	dword __unknownA8;
-	dword __unknownAC;
-	dword __unknownB0;
-	dword __unknownB4;
-	dword __unknownB8;
-	real __unknownBC;
-	real __unknownC0;
-	real __unknownC4;
-	dword __unknownC8;
-	real __unknownCC;
-	real __unknownD0;
-	real __unknownD4;
-	real __unknownD8;
-	real __unknownDC;
-	real __unknownE0;
-	real __unknownE4;
-	dword __unknownE8;
-	dword __unknownEC;
-	dword __unknownF0;
-	dword __unknownF4;
-	dword __unknownF8;
-	dword __unknownFC;
-	dword __unknown100;
-	dword __unknown104;
-	dword __unknown108;
-	dword __unknown10C;
-	real __unknown110;
-	real __unknown114;
-	real __unknown118;
-	real __unknown11C;
-	dword __unknown120;
-
-	dword period_duration_msec;
-
-	dword __unknown128;
-	dword __unknown12C;
-	real __unknown130;
-	dword __unknown134;
-	dword __unknown138;
-	real __unknown13C;
-	dword __unknown140;
-	dword __unknown144;
-	real __unknown148;
-	dword __unknown14C;
-	dword __unknown150;
-	dword __unknown154;
-	dword __unknown158;
-	dword __unknown15C;
-	dword __unknown160;
-	dword __unknown164;
-	dword __unknown168;
-	dword __unknown16C;
-	byte __unknown170;
-	dword __unknown174;
-	dword __unknown178;
-	dword __unknown17C;
-	dword __unknown180;
-	dword __unknown184;
-	dword __unknown188;
-	dword __unknown18C;
-	dword __unknown190;
-	dword __unknown194;
-	dword __unknown198;
-	dword __unknown19C;
-	dword __unknown1A0;
-	dword __unknown1A4;
-	dword __unknown1A8;
-	dword __unknown1AC;
-	dword __unknown1B0;
-	dword __unknown1B4;
-	dword __unknown1B8;
-	dword __unknown1BC;
-	dword __unknown1C0;
-	dword __unknown1C4;
-	dword __unknown1C8;
-	dword __unknown1CC;
-	dword __unknown1D0;
-	dword __unknown1D4;
-	real __unknown1D8;
-	dword __unknown1DC;
-	real __unknown1E0;
-	dword __unknown1E4;
-	dword __unknown1E8;
-	dword __unknown1EC;
-	real __unknown1F0;
-	dword __unknown1F4;
-	real __unknown1F8;
-	dword __unknown1FC;
-	dword __unknown200;
-	dword __unknown204;
-	dword __unknown208;
-	real __unknown20C;
-	dword __unknown210;
-	dword __unknown214;
-	dword __unknown218;
-	dword __unknown21C;
-	dword __unknown220;
-	real __unknown224;
-	real __unknown228;
-	dword __unknown22C;
-	real __unknown230;
-	dword __unknown234;
-	dword __unknown238;
-	dword __unknown23C;
-	dword __unknown240;
-	dword __unknown244;
-	dword __unknown248;
-	dword __unknown24C;
-	dword __unknown250;
-	dword __unknown254;
-	dword __unknown258;
-	real __unknown25C;
-	dword __unknown260;
-	dword __unknown264;
-	dword __unknown268;
-
+	long secure_connect_attempts;
+	long secure_connect_intervals[8];
+	long connect_attempts;
+	long connect_intervals[8];
+	long non_simulation_reconnect_attempts;
+	long non_simulation_reconnect_intervals[8];
+	long reconnect_attempts;
+	long reconnect_intervals[8];
+	long death_recovery_time;
+	long heartbeat_send_timeout;
+	long connection_active_send_timeout;
+	long connection_alive_send_timeout;
+	long connection_alive_receive_timeout;
+	long connection_drop_minimum_active_time;
+	long connection_drop_receive_timeout;
+	long synchronous_connection_drop_minimum_active_time;
+	long synchronous_connection_drop_receive_timeout;
+	long minimum_undesired_connection_timeout_msec;
+	long maximum_undesired_connection_timeout_msec;
+	real safety_window_threshold;
+	real safety_packet_interval;
+	real safety_packet_maximum_interval;
+	long packet_rate_multiplier_count;
+	real packet_rate_multipliers[16];
+	long packet_window_minimum_bytes;
+	real voice_fraction_authority;
+	real voice_fraction_client;
+	real voice_fraction_non_simulation;
+	real voice_maximum_packet_rate;
+	long voice_receive_fast_acknowledge_time;
+	long bandwidth_interval;
+	long loss_detection_window_size;
+	long flood_max_aperture_msec;
+	real flood_packet_fraction;
+	long desired_payload_bytes_out_of_game;
+	long desired_payload_bytes_simulation;
+	real desired_minimum_packet_rate_multiplier;
+	long minimum_bandwidth_bps;
+	long bandwidth_adjust_interval;
+	real bandwidth_flood_channel_fraction;
+	long bandwidth_flood_check_threshold;
+	long bandwidth_flood_backoff_kbps;
+	long bandwidth_flood_backoff_repeat_interval;
+	long bandwidth_clear_check_threshold;
+	long bandwidth_check_threshold_maximum;
+	long bandwidth_initial_backoff_kbps;
+	long bandwidth_known_good_minimum_kbps;
+	long bandwidth_increment_known_bad_threshold_kbps;
+	long bandwidth_increment_kbps;
+	bool generate_stream_events;
+	long observer_stream_expansion_interval_msec;
+	long stream_minimum_bps;
+	long stream_maximum_bps;
+	long stream_initial_startup_msec;
+	long stream_initial_bps;
+	long stream_initial_total_bps_unreliable;
+	long stream_initial_total_bps_reliable;
+	long stream_initial_minimum_bps_per_stream;
+	long stream_minimum_great_bandwidth_bps;
+	long stream_out_of_game_upstream_bandwidth_bps;
+	long stream_distributed_client_upstream_bandwidth_bps;
+	long stream_distributed_host_upstream_bandwidth_bps;
+	long stream_synchronous_client_initial_upstream_bandwidth_bps;
+	long stream_synchronous_host_initial_upstream_bandwidth_bps;
+	long stream_synchronous_joining_host_initial_upstream_bandwidth_bps;
+	long stream_synchronous_client_upstream_bandwidth_bps;
+	long stream_synchronous_host_upstream_bandwidth_bps;
+	long stream_synchronous_joining_host_upstream_bandwidth_bps;
+	long stream_synchronous_non_joining_host_upstream_bandwidth_bps;
+	long stream_synchronous_client_minimum_upstream_bandwidth_bps;
+	long stream_synchronous_host_minimum_upstream_bandwidth_bps;
+	long stream_rtt_noise_msec;
+	long stream_minimum_rtt_msec;
+	long stream_rtt_average_gain_bits;
+	long stream_loss_window_size;
+	real stream_loss_throttle_fraction;
+	long stream_throttle_rtt_multiplier;
+	real stream_throttle_reduce_multiplier;
+	long stream_throttle_cookie_event_count;
+	long stream_throttle_cookie_backoff_threshold;
+	long stream_bandwidth_step_bps;
+	real stream_bandwidth_step_max_fraction;
+	long stream_bandwidth_backoff_bps;
+	real stream_bandwidth_backoff_max_fraction;
+	long stream_period_maximum_msec;
+	long stream_growth_period_minimum_msec;
+	long stream_throughput_recording_period_minimum_msec;
+	long stream_throughput_satiated_bandwidth_bps;
+	real stream_throughput_satiated_stream_fraction;
+	long stream_satiation_timeout_msec;
+	long stream_congestion_bandwidth_average_gain_bits;
+	long stream_congestion_offender_bandwidth_increment_bps;
+	long stream_congestion_offender_timeout_msec;
+	long stream_growth_maximum_count;
+	real stream_growth_maximum_fraction;
+	real stream_growth_desire_maximum;
+	long stream_growth_desire_delay_multiplier;
+	real stream_growth_desire_penalty_bandwidth_multiplier;
+	long stream_growth_out_of_game_maximum_rtt_increase_msec;
+	long stream_growth_simulation_maximum_rtt_increase_msec;
+	long stream_non_growth_simulation_maximum_rtt_increase_msec;
+	long stream_growth_backoff_rtt_event_threshold;
+	long stream_growth_incremental_rtt_event_threshold;
+	long stream_growth_incremental_rtt_increase_msec;
+	long stream_cautious_expansion_limited_periods_count;
+	long stream_cautious_expansion_instability_timeout_msec;
+	long bandwidth_monitor_period_count;
+	long bandwidth_monitor_limitation_bps;
+	real bandwidth_monitor_constriction_fraction;
+	long bandwidth_monitor_constriction_threshold_bps;
+	long client_badness_rating_threshold;
+	long bad_bandwidth_throughput_threshold;
 	bool disable_bad_client_anticheating;
 	bool disable_bad_connectivity_anticheating;
 	bool disable_bad_bandwidth_anticheating;
-
-	dword __unknown270;
-	dword __unknown274;
-	dword __unknown278;
-	dword __unknown27C;
-	dword __unknown280;
-	dword __unknown284;
-	dword __unknown288;
-	dword __unknown28C;
-	dword __unknown290;
-	dword __unknown294;
-	dword __unknown298;
-	dword __unknown29C;
-	dword __unknown2A0;
-	dword __unknown2A4;
-	dword __unknown2A8;
-	dword __unknown2AC;
-	dword __unknown2B0;
-	dword __unknown2B4;
-	dword __unknown2B8;
-	dword __unknown2BC;
-	dword __unknown2C0;
-	dword __unknown2C4;
-	dword __unknown2C8;
-	dword __unknown2CC;
-	dword __unknown2D0;
-	dword __unknown2D4;
-	dword __unknown2D8;
-	dword __unknown2DC;
-	dword __unknown2E0;
-	dword __unknown2E4;
-	dword __unknown2E8;
-	dword __unknown2EC;
-	dword __unknown2F0;
-	dword __unknown2F4;
-	dword __unknown2F8;
-	dword __unknown2FC;
-	dword __unknown300;
-	dword __unknown304;
-	dword __unknown308;
-	dword __unknown30C;
-	dword __unknown310;
-	dword __unknown314;
-	dword __unknown318;
-	dword __unknown31C;
-	dword __unknown320;
-	dword __unknown324;
-	dword __unknown328;
-	dword __unknown32C;
-	dword __unknown330;
-	dword __unknown334;
-	dword __unknown338;
-	dword __unknown33C;
-	dword __unknown340;
-	dword __unknown344;
-	dword __unknown348;
-	dword __unknown34C;
-	dword __unknown350;
-	dword __unknown354;
-	dword __unknown358;
-	dword __unknown35C;
-	dword __unknown360;
-	dword __unknown364;
-	dword __unknown368;
-	dword __unknown36C;
-	real __unknown370;
-	dword __unknown374;
-	dword __unknown378;
-	dword __unknown37C;
-	dword __unknown380;
-	dword __unknown384;
-	dword __unknown388;
-	dword __unknown38C;
-	dword __unknown390;
-	dword __unknown394;
-	dword __unknown398;
-	dword __unknown39C;
-	real __unknown3A0;
-	dword __unknown3A4;
-	dword __unknown3A8;
-	dword __unknown3AC;
-	dword __unknown3B0;
-	dword __unknown3B4;
-	dword __unknown3B8;
-	dword __unknown3BC;
-	dword __unknown3C0;
-	dword __unknown3C4;
-	dword __unknown3C8;
-	dword __unknown3CC;
-	real __unknown3D0;
-	dword __unknown3D4;
-	dword __unknown3D8;
-	dword __unknown3DC;
-	dword __unknown3E0;
-	dword __unknown3E4;
-	dword __unknown3E8;
-	dword __unknown3EC;
-	dword __unknown3F0;
-	dword __unknown3F4;
-	dword __unknown3F8;
-	dword __unknown3FC;
-	real __unknown400;
-	dword __unknown404;
-	dword __unknown408;
-	dword __unknown40C;
-	dword __unknown410;
-	dword __unknown414;
+	long initial_timeout;
+	long mini_period_minimum_duration;
+	long mini_period_minimum_rtt_deviation;
+	long stream_wants_more_bandwidth_fudge_factor;
+	long stream_wants_more_bandwidth_fudge_factor_small;
+	long stream_wants_more_allocation_fudge_factor;
+	long stream_wants_more_allocation_fudge_factor_small;
+	long stream_maximum_instability_value;
+	long stream_probe_failure_limit;
+	long stream_rebalance_interval_msec;
+	long packet_loss_rate_gain_bits;
+	long packet_loss_rate_deviation_gain_bits;
+	long maximum_rtt_increase_msec;
+	long maximum_lost_packet_rate_increase;
+	long minimum_packet_loss_deviation;
+	long minimum_probe_packet_loss_deviation;
+	long stream_maximum_bandwidth_maximum_delta;
+	long stream_maximum_bandwidth_skip_max;
+	long packet_loss_deviation_adjustment;
+	long packet_rate_deviation_adjustment;
+	long consecutive_rate_failures_before_badness;
+	long consecutive_latency_failures_before_badness;
+	long consecutive_packet_loss_failures_before_badness;
+	long consecutive_packet_loss_spike_failures_before_badness;
+	long badness_minimum_host_to_client_bandwidth;
+	long badness_minimum_allocated_host_to_client_bandwidth;
+	long badness_minimum_client_to_host_bandwidth;
+	long badness_minimum_allocated_client_to_host_bandwidth;
+	long badness_maximum_latency_msec;
+	long badness_maximum_packet_loss_rate;
+	long badness_maximum_packet_loss_spike_count;
+	long stream_congestion_rtt_multiplier;
+	long remote_client_downstream_usage_multiplier;
+	long remote_host_downstream_usage_multiplier;
+	long throttle_congested_stream_bandwidth_multiplier;
+	long throttle_noncongested_stream_bandwidth_multiplier;
+	long bandwidth_estimate_multiplier_reliable;
+	long bandwidth_estimate_multiplier_unreliable;
+	long bandwidth_estimate_multiplier_qos;
+	long qos_to_live_interval_msec;
+	long synchronous_joining_maximum_stream_growth_shift;
+	long maximum_aggressive_total_growth_bandwidth_bps;
+	long maximum_cautious_total_growth_bandwidth_bps;
+	long client_probe_base_delay_msec;
+	long client_probe_additional_client_delay_msec;
+	long client_probe_variability;
+	long stream_stability_deviation_multiplier;
+	long stream_growth_base_upstream_shift;
+	long stream_growth_base_upstream_shift_max;
+	long stream_fail_all_failed_related_probes;
+	long maximum_consecutive_probe_successes;
+	long minimum_packet_rate_for_automatic_congestion;
+	long maximum_rtt_for_automatic_congestion;
+	bool do_collateral_last_resort_throttle;
+	bool release_throttle_lock_on_first_congest;
+	bool round_robin_probes;
+	bool fail_all_member_probes_together;
+	bool mark_throttled_stream_with_one_failure;
+	bool check_single_stream_overprobe;
+	bool use_deviation_only_for_related_rtt_timeout;
+	bool fast_probe_failed_streams;
+	long packet_loss_spike_threshold;
+	long packet_loss_spike_minimum_packet_count;
+	long packet_loss_spike_skip_averaging_any_spike;
+	long stable_probe_start_stream_growth_base;
+	long stable_probe_start_stream_growth_shift_shift;
+	long stable_probe_maximum_stream_growth_shift;
+	long stable_probe_query_time_msec;
+	long stable_probe_query_time_minimum_msec;
+	long stable_probe_settle_time_msec;
+	real stable_probe_settle_bandwidth_multiplier;
+	long stable_probe_throttle_minimum_rollback;
+	long stable_probe_recover_minimum_time_msec;
+	long stable_probe_overprobe_minimum_bps;
+	long stable_probe_overprobe_maximum_bps;
+	long stable_probe_overprobe_transmit_ratio;
+	long initial_probe_start_stream_growth_base;
+	long initial_probe_start_stream_growth_shift_shift;
+	long initial_probe_maximum_stream_growth_shift;
+	long initial_probe_query_time_msec;
+	long initial_probe_query_time_minimum_msec;
+	long initial_probe_settle_time_msec;
+	real initial_probe_settle_bandwidth_multiplier;
+	long initial_probe_throttle_minimum_rollback;
+	long initial_probe_recover_minimum_time_msec;
+	long initial_probe_overprobe_minimum_bps;
+	long initial_probe_overprobe_maximum_bps;
+	long initial_probe_overprobe_transmit_ratio;
+	long fast_probe_start_stream_growth_base;
+	long fast_probe_start_stream_growth_shift_shift;
+	long fast_probe_maximum_stream_growth_shift;
+	long fast_probe_query_time_msec;
+	long fast_probe_query_time_minimum_msec;
+	long fast_probe_settle_time_msec;
+	real fast_probe_settle_bandwidth_multiplier;
+	long fast_probe_throttle_minimum_rollback;
+	long fast_probe_recover_minimum_time_msec;
+	long fast_probe_overprobe_minimum_bps;
+	long fast_probe_overprobe_maximum_bps;
+	long fast_probe_overprobe_transmit_ratio;
+	long slow_probe_start_stream_growth_base;
+	long slow_probe_start_stream_growth_shift_shift;
+	long slow_probe_maximum_stream_growth_shift;
+	long slow_probe_query_time_msec;
+	long slow_probe_query_time_minimum_msec;
+	long slow_probe_settle_time_msec;
+	real slow_probe_settle_bandwidth_multiplier;
+	long slow_probe_throttle_minimum_rollback;
+	long slow_probe_recover_minimum_time_msec;
+	long slow_probe_overprobe_minimum_bps;
+	long slow_probe_overprobe_maximum_bps;
+	long slow_probe_overprobe_transmit_ratio;
 };
 static_assert(sizeof(s_observer_configuration) == 0x418);
 
 struct s_channel_configuration
 {
-	long __unknown0; // c_network_channel::check_to_send_connect_packet
-	long __unknown4; // c_network_channel::check_to_send_connect_packet
-	long __unknown8; // c_network_channel::check_to_send_connect_packet
-	long __unknownC; // c_network_channel::check_establishment_timeout
+	long connect_request_interval_msec;
+	long connect_request_count;
+	long connect_request_timeout_msec;
+	long establish_timeout_msec;
+	long packet_statistics_interval;
 };
-static_assert(sizeof(s_channel_configuration) == 0x10);
+static_assert(sizeof(s_channel_configuration) == 0x14);
 
-struct s_network_file_download_configuration
+struct s_connection_configuration
 {
-	long __unknown0;
-	long __unknown4;
-	long __unknown8;
+	long sequence_advance_rate;
+	long discard_ancient_reply_sequence_threshold;
+	long packet_skipped_outoforder_threshold;
+	long retain_lost_packets_msec;
+	long latency_average_gain_bits;
+	long latency_deviation_gain_bits;
+	long timeout_deviations;
+	long timeout_minimum_tolerance_msec;
+	long timeout_minimum_msec;
+	long inactive_timeout_deviations;
+	long inactive_timeout_minimum_tolerance_msec;
+	long inactive_timeout_minimum_msec;
+	long initial_latency_minimum_msec;
+	long initial_latency_average_msec;
+	long initial_latency_deviation_msec;
+	long initial_timeout_msec;
+	long backoff_increment_msec;
+	long backoff_max_msec;
+	long backoff_decrement_msec;
+	real bandwidth_warning_latency_multiplier;
+	long bandwidth_warning_latency_minimum_increase;
 };
-static_assert(sizeof(s_network_file_download_configuration) == 0xC);
+static_assert(sizeof(s_connection_configuration) == 0x54);
 
-struct s_bandwidth_configuration
+#pragma endregion
+
+#pragma region delivery
+
+struct s_delivery_configuration
 {
-	real __unknown0;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	real __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-
-	// used in `c_network_session::idle`
-	dword __unknown30;
-	dword __unknown34;
-	dword __unknown38;
-	dword __unknown3C;
-
-	dword __unknown40;
-	dword __unknown44;
-	dword __unknown48;
-	dword __unknown4C;
-	dword __unknown50;
-	dword __unknown54;
-	dword __unknown58;
-	dword __unknown5C;
-	dword __unknown60;
-	dword __unknown64;
-	dword __unknown68;
-	dword __unknown6C;
-	dword __unknown70;
-	dword __unknown74;
-	dword __unknown78;
-	dword __unknown7C;
-	dword __unknown80;
-	dword __unknown84;
-	dword __unknown88;
-	dword __unknown8C;
-	dword __unknown90;
-	dword __unknown94;
-	dword __unknown98;
-	dword __unknown9C;
-	dword __unknownA0;
-	dword __unknownA4;
-	dword __unknownA8;
-	dword __unknownAC;
-	dword __unknownB0;
-	dword __unknownB4;
-	dword __unknownB8;
-	dword __unknownBC;
-	dword __unknownC0;
-	dword __unknownC4;
-	dword __unknownC8;
-	dword __unknownCC;
-	dword __unknownD0;
-	dword __unknownD4;
-	dword __unknownD8;
-	dword __unknownDC;
-	dword __unknownE0;
-	dword __unknownE4;
-	dword __unknownE8;
-	dword __unknownEC;
-	dword __unknownF0;
-	dword __unknownF4;
-	dword __unknownF8;
-	dword __unknownFC;
-	dword __unknown100;
-	dword __unknown104;
-	dword __unknown108;
-	dword __unknown10C;
-	dword __unknown110;
-	dword __unknown114;
-	dword __unknown118;
-	dword __unknown11C;
-	dword __unknown120;
-	dword __unknown124;
-	dword __unknown128;
-	dword __unknown12C;
-	dword __unknown130;
-	dword __unknown134;
-	dword __unknown138;
-	dword __unknown13C;
-
-	// used in `c_network_session::idle`
-	dword __unknown140;
-
-	dword __unknown144;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	struct
-	{
-		dword __unknown148;
-		dword __unknown14C;
-		dword __unknown150;
-		dword __unknown154;
-		dword __unknown158;
-		dword __unknown15C;
-		dword __unknown160;
-		dword __unknown164;
-		dword __unknown168;
-		dword __unknown16C;
-		dword __unknown170;
-		dword __unknown174;
-		dword __unknown178;
-		dword __unknown17C;
-		dword __unknown180;
-		dword __unknown184;
-		dword __unknown188;
-		dword __unknown18C;
-	} __unknown148[3];
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown220;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown224;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown228;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown22C;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown230;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	long __unknown234;
-
-	long __unknown238;
-	long __unknown23C;
-
-	// used in `c_network_observer::stream_balance_all_stream_bandwidth`
-	long minimum_bandwidth;
-
+	s_channel_configuration channel_configuration;
+	s_connection_configuration connection;
 };
-static_assert(sizeof(s_bandwidth_configuration) == 0x238);
+static_assert(sizeof(s_delivery_configuration) == 0x68);
+
+#pragma endregion
+
+#pragma region transport
+
+struct s_transport_configuration
+{
+	long address_resolution_timeout_msec;
+	long qos_probe_count[2];
+	long qos_probe_bps[2];
+	bool qos_upstream_cap_enabled;
+	long qos_upstream_cap_upstream_modifier_percentage;
+	long qos_upstream_cap_correction_modifier;
+};
+static_assert(sizeof(s_transport_configuration) == 0x20);
+
+#pragma endregion
+
+#pragma region voice
+
+struct s_voice_configuration
+{
+	real push_to_talk_inactivity_threshold_seconds;
+	real maximum_push_to_talk_time_seconds;
+	bool clients_can_be_preferred_consumers_of_voice_repeater;
+	long open_channel_player_count;
+};
+static_assert(sizeof(s_voice_configuration) == 0x10);
+
+#pragma endregion
+
+#pragma region data_mine
+
+struct s_data_mine_configuration
+{
+	long ui_upload_record_threshold;
+	long ui_upload_time_threshold;
+	bool record_uploads_prevent_game_from_starting;
+};
+static_assert(sizeof(s_data_mine_configuration) == 0xC);
+
+#pragma endregion
+
+#pragma region griefer_config
+
+struct s_griefer_configuration
+{
+	dword betrayal_decrement_time;
+	dword eject_decrement_time;
+	real betrayal_cutoff;
+	long ejection_cutoff;
+	real friendly_assist_amount; // UNUSED
+};
+static_assert(sizeof(s_griefer_configuration) == 0x14);
+
+#pragma endregion
+
+#pragma region memory
+
+struct s_network_memory_configuration
+{
+	long network_heap_large_size;
+	long network_heap_small_size;
+};
+static_assert(sizeof(s_network_memory_configuration) == 0x8);
+
+#pragma endregion
+
+#pragma region user_interface
+
+struct s_user_interface
+{
+	long allow_matchmaking_abort_interval_msec;
+	long networked_playback_maximum_player_count;
+	long basic_training_completion_minimum_games_completed;
+	long basic_training_completion_minimum_experience;
+};
+static_assert(sizeof(s_user_interface) == 0x10);
+
+#pragma endregion
+
+#pragma region skill_level_configuration
+
+struct s_skill_level_configuration
+{
+	long bonus_skill_level_wins_required[50];
+};
+static_assert(sizeof(s_skill_level_configuration) == 0xC8);
+
+#pragma endregion
+
+#pragma region experience_configuration
+
+struct s_experience_configuration
+{
+	long experience_for_rank[56];
+	long skill_for_rank[14];
+};
+static_assert(sizeof(s_experience_configuration) == 0x118);
+
+#pragma endregion
+
+#pragma region alpha_configuration
+
+struct s_alpha_configuration
+{
+	bool disable_game;
+	bool disable_custom_games;
+	long ui_level;
+	long maximum_multiplayer_split_screen;
+};
+static_assert(sizeof(s_alpha_configuration) == 0xC);
+
+#pragma endregion
+
+#pragma region crash_handling_configuration
+
+struct s_crash_handling_configuration
+{
+	bool display_crash_handling_ui;
+	long minidump_generation;
+};
+static_assert(sizeof(s_crash_handling_configuration) == 0x8);
+
+#pragma endregion
+
+#pragma region lsp_configuration
 
 struct s_lsp_configuration
 {
@@ -545,6 +905,10 @@ struct s_lsp_configuration
 	long recent_activity_milliseconds;
 };
 static_assert(sizeof(s_lsp_configuration) == 0x14);
+
+#pragma endregion
+
+#pragma region map_configuration
 
 struct s_map_information
 {
@@ -558,6 +922,10 @@ struct s_map_configuration
 	c_static_array<s_map_information, 32> map_list;
 };
 
+#pragma endregion
+
+#pragma region chicken_switches
+
 struct s_chicken_switches
 {
 	bool allow_no_hdd_network_coop;
@@ -567,6 +935,10 @@ struct s_chicken_switches
 };
 static_assert(sizeof(s_chicken_switches) == 0x4);
 
+#pragma endregion
+
+#pragma region determinism_configuration
+
 struct s_determinism_configuration
 {
 	long determinism_version;
@@ -574,384 +946,30 @@ struct s_determinism_configuration
 };
 static_assert(sizeof(s_determinism_configuration) == 0x8);
 
+#pragma endregion
+
 struct s_network_configuration
 {
 	s_network_file_download_configuration config_download;
 	s_bandwidth_configuration bandwidth;
-
-	// used in `network_join_update`
-	dword __unknown244;
-
-	// used in `network_join_update`
-	dword disband_timeout;
-
-	// used in `c_network_session::process_pending_joins`
-	dword __unknown24C;
-
-	dword __unknown250;
-	dword __unknown254;
-	dword __unknown258;
-
-	// used in `c_network_session::process_pending_joins`
-	dword __unknown25C;
-
-	dword __unknown260;
-
-	// used in `matchmaking_calculate_best_possible_host`
-	byte __unknown264;
-
-	// used in `initialize_fake_hopper`
-	real __unknown268;
-
-	// used in `c_life_cycle_state_handler_matchmaking_start::update`
-	dword __unknown26C;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
-	dword __unknown270;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
-	dword __unknown274;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
-	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_joining`
-	dword __unknown278;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_joining`
-	dword __unknown27C;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_leaving`
-	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_leaving`
-	dword __unknown280;
-
-	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update`
-	dword __unknown284;
-
-	byte __unknown288;
-
-	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_veto`
-	dword __unknown28C;
-
-	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_loading`
-	dword __unknown290;
-
-	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
-	dword __unknown294;
-
-	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
-	dword __unknown298;
-
-	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
-	dword __unknown29C;
-
-	// used in `c_life_cycle_state_handler_end_game_write_stats::update`
-	// used in `c_life_cycle_state_handler_end_match_write_stats::update`
-	dword grief_timer_timeout;
-
-	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
-	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
-	long arbitration_establishment_and_conectivity_giveup_timer;
-
-	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
-	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
-	long arbitration_completion_giveup_timer;
-
-	// used in `c_life_cycle_state_handler_post_match::update_for_state_transition`
-	// used in `c_life_cycle_state_handler_post_match::update_squad_host`
-	bool should_disband_to_pre_game;
-
-	dword __unknown2B0;
-	dword __unknown2B4;
-	dword simulation_abort_as_host_timeout;
-	dword simulation_abort_as_peer_timeout;
-	long logic_unsuitable_session_count;
-	dword __unknown2C4;
-	dword __unknown2C8;
-	dword __unknown2CC;
-	dword __unknown2D0;
-	long logic_qos_attempt_count;
-	dword __unknown2D8;
-	dword __unknown2DC;
-	dword __unknown2E0;
-	dword __unknown2E4;
-	dword __unknown2E8;
-	dword __unknown2EC;
-	dword __unknown2F0;
-	dword __unknown2F4;
-	dword __unknown2F8;
-	dword __unknown2FC;
-	real __unknown300;
-	dword __unknown304;
-	dword __unknown308;
-	dword __unknown30C;
-	dword __unknown310;
-	dword __unknown314;
-	dword __unknown318;
-	dword __unknown31C;
-	dword __unknown320;
-	dword __unknown324;
-	dword __unknown328;
-	dword __unknown32C;
-	dword __unknown330;
-	dword __unknown334;
-	dword __unknown338;
-	dword __unknown33C;
-	dword __unknown340;
-	real __unknown344;
-	real __unknown348;
-	dword __unknown34C;
-	dword __unknown350;
-	dword __unknown354;
-	dword __unknown358;
-	dword __unknown35C;
-	dword __unknown360;
-	dword __unknown364;
-	dword __unknown368;
-	dword __unknown36C;
-	dword __unknown370;
-	real __unknown374;
-	dword __unknown378;
-	dword __unknown37C;
-	dword __unknown380;
-	dword __unknown384;
-	dword __unknown388;
-	dword __unknown38C;
-	dword peer_properties_update_timeout;
-	dword __unknown394;
-	dword __unknown398;
-	dword __unknown39C;
-	dword local_specific_parameters_update_timeout;
-	dword __unknown3A4;
-	dword __unknown3A8;
-	dword __unknown3AC;
-	dword __unknown3B0;
-	dword __unknown3B4;
-	dword __unknown3B8;
-	dword __unknown3BC;
-	dword __unknown3C0;
-	dword lobby_coop_max_player_count;
-	dword lobby_mapeditor_max_player_count;
-	dword __unknown3CC;
-	dword machine_file_refresh_timeout;
-	dword __unknown3D4;
-	dword __unknown3D8;
-	dword __unknown3DC;
-	dword __unknown3E0;
-
-	s_simulation_configuration simulation_configuration;
-
-	real __unknownE44;
-	dword __unknownE48;
-	real __unknownE4C;
-	real __unknownE50;
-	real __unknownE54;
-	real __unknownE58;
-	real __unknownE5C;
-	dword __unknownE60;
-	dword managed_session_process_pending_timeout;
-	dword __unknownE68;
-	dword idle_peer_joining_timeout;
-	dword peer_join_timed_out;
-	dword join_queue_max_wait_time;
-	dword __unknownE78;
-	dword __unknownE7C;
-	dword idle_peer_join_abort_timeout;
-	dword __unknownE84;
-	dword idle_peer_leaving_timeout;
-	dword __unknownE8C;
-	dword __unknownE90;
-	dword __unknownE94;
-	dword __unknownE98;
-	dword __unknownE9C;
-	dword __unknownEA0;
-	dword __unknownEA4;
-	dword __unknownEA8;
-	dword __unknownEAC;
-	dword __unknownEB0;
-	dword __unknownEB4;
-	dword __unknownEB8;
-	dword __unknownEBC;
-	dword __unknownEC0;
-	dword __unknownEC4;
-
-	s_observer_configuration observer_configuration;
-	s_channel_configuration channel_configuration;
-
-	dword __unknown12F0;
-	dword __unknown12F4;
-	dword __unknown12F8;
-	dword __unknown12FC;
-	dword __unknown1300;
-	dword __unknown1304;
-	dword __unknown1308;
-	dword __unknown130C;
-	dword __unknown1310;
-	dword __unknown1314;
-	dword __unknown1318;
-	dword __unknown131C;
-	dword __unknown1320;
-	dword __unknown1324;
-	dword __unknown1328;
-	dword __unknown132C;
-	dword __unknown1330;
-	dword __unknown1334;
-	dword __unknown1338;
-	dword __unknown133C;
-	real __unknown1340;
-	dword __unknown1344;
-	dword __unknown1348;
-	dword __unknown134C;
-	dword __unknown1350;
-	dword __unknown1354;
-	dword __unknown1358;
-	byte __unknown135C;
-	dword __unknown1360;
-	dword __unknown1364;
-	real __unknown1368;
-	real __unknown136C;
-	byte __unknown1370;
-	dword __unknown1374;
-	dword __unknown1378;
-	dword __unknown137C;
-	byte __unknown1380;
-	long griefer_betrayal_timeout;
-	long griefer_ejection_timeout;
-	real maximum_griefer_betrayal_count;
-	long maximum_griefer_eviction_count;
-	dword __unknown1394;
-	dword __unknown1398;
-	dword __unknown139C;
-	dword __unknown13A0;
-	dword lobby_film_max_player_count;
-	dword __unknown13A8;
-	dword __unknown13AC;
-	dword __unknown13B0;
-	dword __unknown13B4;
-	dword __unknown13B8;
-	dword __unknown13BC;
-	dword __unknown13C0;
-	dword __unknown13C4;
-	dword __unknown13C8;
-	dword __unknown13CC;
-	dword __unknown13D0;
-	dword __unknown13D4;
-	dword __unknown13D8;
-	dword __unknown13DC;
-	dword __unknown13E0;
-	dword __unknown13E4;
-	dword __unknown13E8;
-	dword __unknown13EC;
-	dword __unknown13F0;
-	dword __unknown13F4;
-	dword __unknown13F8;
-	dword __unknown13FC;
-	dword __unknown1400;
-	dword __unknown1404;
-	dword __unknown1408;
-	dword __unknown140C;
-	dword __unknown1410;
-	dword __unknown1414;
-	dword __unknown1418;
-	dword __unknown141C;
-	dword __unknown1420;
-	dword __unknown1424;
-	dword __unknown1428;
-	dword __unknown142C;
-	dword __unknown1430;
-	dword __unknown1434;
-	dword __unknown1438;
-	dword __unknown143C;
-	dword __unknown1440;
-	dword __unknown1444;
-	dword __unknown1448;
-	dword __unknown144C;
-	dword __unknown1450;
-	dword __unknown1454;
-	dword __unknown1458;
-	dword __unknown145C;
-	dword __unknown1460;
-	dword __unknown1464;
-	dword __unknown1468;
-	dword __unknown146C;
-	dword __unknown1470;
-	dword __unknown1474;
-	dword __unknown1478;
-	dword __unknown147C;
-	dword __unknown1480;
-	dword __unknown1484;
-	dword __unknown1488;
-	dword __unknown148C;
-	dword __unknown1490;
-	dword __unknown1494;
-	dword __unknown1498;
-	dword __unknown149C;
-	dword __unknown14A0;
-	dword __unknown14A4;
-	dword __unknown14A8;
-	dword __unknown14AC;
-	dword __unknown14B0;
-	dword __unknown14B4;
-	dword __unknown14B8;
-	dword __unknown14BC;
-	dword __unknown14C0;
-	dword __unknown14C4;
-	dword __unknown14C8;
-	dword __unknown14CC;
-	dword __unknown14D0;
-	dword __unknown14D4;
-	dword __unknown14D8;
-	dword __unknown14DC;
-	dword __unknown14E0;
-	dword __unknown14E4;
-	dword __unknown14E8;
-	dword __unknown14EC;
-	dword __unknown14F0;
-	dword __unknown14F4;
-	dword __unknown14F8;
-	dword __unknown14FC;
-	dword __unknown1500;
-	dword __unknown1504;
-	dword __unknown1508;
-	dword __unknown150C;
-	dword __unknown1510;
-	dword __unknown1514;
-	dword __unknown1518;
-	dword __unknown151C;
-	dword __unknown1520;
-	dword __unknown1524;
-	dword __unknown1528;
-	dword __unknown152C;
-	dword __unknown1530;
-	dword __unknown1534;
-	dword __unknown1538;
-	dword __unknown153C;
-	dword __unknown1540;
-	dword __unknown1544;
-	dword __unknown1548;
-	dword __unknown154C;
-	dword __unknown1550;
-	dword __unknown1554;
-	dword __unknown1558;
-	dword __unknown155C;
-	dword __unknown1560;
-	dword __unknown1564;
-	dword __unknown1568;
-	dword __unknown156C;
-	dword __unknown1570;
-	dword __unknown1574;
-	dword __unknown1578;
-	dword __unknown157C;
-	dword __unknown1580;
-	dword __unknown1584;
-	dword __unknown1588;
-	dword __unknown158C;
-	byte __unknown1590;
-	bool custom_games_enabled_override;
-	byte __unknown1592;
-	byte __unknown1593;
-	dword alpha_locked_down_state;
-	dword maximum_multiplayer_split_screen;
-	byte __unknown159C;
-	dword __unknown15A0;
+	s_life_cycle_configuration life_cycle;
+	s_logic_configuration logic;
+	s_banhammer_configuration banhammer;
+	s_simulation_configuration simulation;
+	s_replication_configuration replication;
+	s_session_configuration session;
+	s_observer_configuration observer;
+	s_delivery_configuration delivery;
+	s_transport_configuration transport;
+	s_voice_configuration voice;
+	s_data_mine_configuration data_mine;
+	s_griefer_configuration griefer_config;
+	s_network_memory_configuration memory;
+	s_user_interface user_interface;
+	s_skill_level_configuration skill_level_configuration;
+	s_experience_configuration experience_configuration;
+	s_alpha_configuration alpha_configuration;
+	s_crash_handling_configuration crash_handling_configuration;
 	s_lsp_configuration lsp_configuration;
 	s_map_configuration map_configuration;
 	s_chicken_switches chicken_switches;
@@ -961,13 +979,12 @@ static_assert(sizeof(s_network_configuration) == 0x16C4);
 
 struct c_network_configuration_globals
 {
-	bool __unknown0;
-	bool __unknown1;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
+	c_http_blf_simple_downloader<s_network_configuration, 8033> downloader;
+	bool last_download_failed;
+	bool has_downloaded_network_configuration;
+	long attempt_index;
 };
-static_assert(sizeof(c_network_configuration_globals) == 0x10);
+static_assert(sizeof(c_network_configuration_globals) == 0x2610);
 
 extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;

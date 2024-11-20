@@ -4,19 +4,15 @@
 #include "cseries/cseries_events.hpp"
 #include "main/console.hpp"
 #include "memory/crc.hpp"
-#include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "networking/logic/storage/network_storage_files.hpp"
 #include "networking/online/online_url.hpp"
 #include "networking/tools/network_blf.hpp"
-
-using t_network_configuration_downloader = c_http_blf_simple_downloader<s_network_configuration>;
 
 REFERENCE_DECLARE(0x01860808, long, hopper_directory_update_index);
 
 REFERENCE_DECLARE(0x019A62B8, bool, g_network_configuration_initialized);
 REFERENCE_DECLARE(0x019A62C0, s_network_configuration, g_network_configuration);
-REFERENCE_DECLARE(0x019A7988, t_network_configuration_downloader, g_network_configuration_download_buffer);
-REFERENCE_DECLARE(0x019A9F90, c_network_configuration_globals, g_network_configuration_globals);
+REFERENCE_DECLARE(0x019A7988, c_network_configuration_globals, g_network_configuration_globals);
 
 long __cdecl network_configuration_calculate_next_retry_interval(long a1, long a2)
 {

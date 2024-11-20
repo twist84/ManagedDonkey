@@ -273,7 +273,7 @@ void __cdecl network_initialize()
 			success |=
 				g_network_message_gateway->initialize_gateway(g_network_link, g_network_message_types) &&
 				g_network_message_handler->initialize_handler(g_network_link, g_network_message_types, g_network_message_gateway) &&
-				g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer_configuration);
+				g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer);
 	
 			g_network_message_handler->register_observer(g_network_observer);
 

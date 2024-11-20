@@ -203,13 +203,12 @@ struct multiplayer_file_load
 {
 	e_hopper_load_status get_load_status();
 
-	bool __unknown0;
-	bool __unknown1;
-	byte __data2[0x2];
+	bool is_valid;
+	bool had_load_failure;
 	long request_cookie;
-	s_network_http_request_hash hash;
-	long __time1C;
-	long __time20;
+	s_network_http_request_hash configuration_hash;
+	dword time_of_last_load;
+	dword retry_interval;
 };
 static_assert(sizeof(multiplayer_file_load) == 0x24);
 

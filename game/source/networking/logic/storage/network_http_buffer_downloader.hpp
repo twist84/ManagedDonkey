@@ -16,7 +16,6 @@ enum e_download_status
 	k_download_status_count
 };
 
-#pragma pack(push, 1)
 struct c_http_buffer_downloader
 {
 	enum e_internal_status
@@ -37,7 +36,7 @@ public:
 	virtual ~c_http_buffer_downloader();
 
 	e_download_status __thiscall get_download_status();
-	e_download_status __thiscall get_data(char const** buffer, long* buffer_size);
+	e_download_status __thiscall get_data(char const** out_data, long* out_data_length);
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 	void __thiscall update();
 
@@ -53,45 +52,33 @@ public:
 
 protected:
 	c_url_string m_url;
-
-	bool m_hash_is_set;
+	bool m_use_specified_hash;
 	s_network_http_request_hash m_hash;
-	byte __pad129[3];
-
-	c_http_post_source m_post_source;
-
-	bool __unknown268;
+	c_http_post_source m_http_post_source;
+	bool m_http_post_source_set;
 	c_static_string<1024> m_extra_headers;
-	byte __pad669[3];
-
 	c_enum<e_internal_status, long, _internal_status_none, k_internal_status_count> m_internal_status;
-	dword m_request_cookie;
+	long m_request_cookie;
 	long m_cache_task_token;
-
-	char* m_buffer;
-	long m_buffer_max_size;
-	long m_buffer_size;
-
-	dword __unknown684;
-	dword __unknown688;
-	dword __unknown68C;
+	char* m_download_buffer;
+	long m_download_buffer_length;
+	long m_download_buffer_count;
+	long m_automatic_retry_mode;
+	long m_next_retry_backoff_milliseconds;
+	long m_next_retry_milliseconds;
 	long m_attempt_index;
-	dword __unknown694;
 };
-static_assert(sizeof(c_http_buffer_downloader) == 0x698);
-#pragma pack(pop)
+static_assert(sizeof(c_http_buffer_downloader) == 0x694);
 
 template<long k_buffer_size>
 struct c_http_stored_buffer_downloader :
 	public c_http_buffer_downloader
 {
-	char m_stored_buffer[k_buffer_size];
+	char m_stored_buffer[ALIGN_UP(k_buffer_size, 3)];
 };
-//static_assert(sizeof(c_http_stored_buffer_downloader<4>) == sizeof(c_http_buffer_downloader) + 4);
 
-template<typename t_blf_type>
-struct c_http_blf_simple_downloader :
-	public c_http_stored_buffer_downloader<sizeof(t_blf_type)>
+template<typename t_blf_type, long k_buffer_size = sizeof(t_blf_type)>
+struct c_http_blf_simple_downloader
 {
 public:
 	e_download_status __thiscall get_data(t_blf_type const** data, long* data_size)
@@ -100,9 +87,10 @@ public:
 	}
 
 protected:
-	long __unknown_index_or_count;
-	char const* m_chunk_buffer;
-	long m_chunk_buffer_size;
+	c_http_stored_buffer_downloader<k_buffer_size> m_downloader;
+	long m_last_attempt_index;
+	t_blf_type const* m_last_chunk_data;
+	long m_last_data_length;
 };
 
 //struct s_some_data

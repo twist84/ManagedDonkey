@@ -41,20 +41,11 @@ public:
 	void update();
 
 //protected:
-	long __time0;
-	s_online_file_manifest* m_online_file_manifest;
-	bool m_unavailable;
-	byte __data9[0x3];
-	long m_last_downloaded_time[128];
-
-	struct //c_http_blf_simple_downloader<s_online_file_manifest> m_online_file_manifest_downloader;
-	{
-		c_http_stored_buffer_downloader<15009> downloader;
-		long __unknown_index_or_count;
-		char const* m_chunk_buffer;
-		long m_chunk_buffer_size;
-	} m_online_file_manifest_downloader;
-
+	long m_next_refresh_time_milliseconds;
+	s_online_file_manifest* m_manifest;
+	bool m_manifest_download_error;
+	long m_manifest_entry_last_download_time[128];
+	c_http_blf_simple_downloader<s_online_file_manifest, 15009> m_online_file_manifest_downloader;
 	s_network_storage_manifest_untracked_entry m_untracked_entries[32];
 };
 static_assert(sizeof(c_network_storage_manifest) == 0x50D4);

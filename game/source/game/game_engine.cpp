@@ -292,7 +292,7 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 							if (c_load_boot_betrayer_screen_message* message = new c_load_boot_betrayer_screen_message(controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
 							{
 								user_interface_messaging_post(message);
-								sub_6790A0(controller_index, true);
+								game_grief_set_ui_active_for_local_user(controller_index, true);
 							}
 						}
 					}

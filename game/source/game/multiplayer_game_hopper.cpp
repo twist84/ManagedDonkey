@@ -89,13 +89,13 @@ e_hopper_load_status multiplayer_file_load::get_load_status()
 	if (force_hopper_load_status_complete)
 		return _hopper_load_complete;
 
-	if (__unknown1)
+	if (had_load_failure)
 		return _hopper_load_failed;
 
 	if (request_cookie)
 		return _hopper_load_pending;
 
-	if (__unknown0)
+	if (is_valid)
 		return _hopper_load_complete;
 
 	return _hopper_load_none;
@@ -108,22 +108,22 @@ void __cdecl multiplayer_game_hopper_load_retried_file_helper(e_multiplayer_file
 	if (!multiplayer_file->request_cookie)
 	{
 		dword time = network_time_get();
-		if (time >= dword(multiplayer_file->__time1C + multiplayer_file->__time20))
+		if (time >= dword(multiplayer_file->time_of_last_load + multiplayer_file->retry_interval))
 		{
 			c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown0);
-			c_network_http_request_description request_description(url, _http_request_type_get, &multiplayer_file->hash);
-			if (multiplayer_file->__unknown1)
+			c_network_http_request_description request_description(url, _http_request_type_get, &multiplayer_file->configuration_hash);
+			if (multiplayer_file->had_load_failure)
 			{
 				multiplayer_file->request_cookie = request_queue->start_request_into_buffer(_online_lsp_service_type_title_files, &request_description, (char*)buffer, buffer_length);
 			}
 			else if (request_queue->has_file_changed(&request_description))
 			{
-				multiplayer_file->__time20 = 0;
+				multiplayer_file->retry_interval = 0;
 				multiplayer_file->request_cookie = request_queue->start_request_into_buffer(_online_lsp_service_type_title_files, &request_description, (char*)buffer, buffer_length);
 			}
 			else
 			{
-				multiplayer_file->__time1C = time;
+				multiplayer_file->time_of_last_load = time;
 			}
 		}
 	}
@@ -519,11 +519,11 @@ void __cdecl multiplayer_game_hopper_request_game_variant(word hopper_identifier
 		c_network_http_request_queue::get(_network_http_request_queue_type_unknown0)->cancel_request(multiplayer_file.request_cookie);
 		multiplayer_file.request_cookie = 0;
 	}
-	multiplayer_file.__time1C = 0;
-	multiplayer_file.__time20 = 0;
+	multiplayer_file.time_of_last_load = 0;
+	multiplayer_file.retry_interval = 0;
 	online_url_make_matchmaking_game_variant(&url, hopper_identifier, variant_name);
 	MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_game_variant, url.get_string(), multiplayer_game_hopper_globals.game_variant_download_buffer);
-	multiplayer_file.__unknown1 = false;
+	multiplayer_file.had_load_failure = false;
 }
 
 void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash)
@@ -537,11 +537,11 @@ void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier,
 		c_network_http_request_queue::get(_network_http_request_queue_type_unknown0)->cancel_request(multiplayer_file.request_cookie);
 		multiplayer_file.request_cookie = 0;
 	}
-	multiplayer_file.__time1C = 0;
-	multiplayer_file.__time20 = 0;
+	multiplayer_file.time_of_last_load = 0;
+	multiplayer_file.retry_interval = 0;
 	online_url_make_matchmaking_map_variant(&url, hopper_identifier, variant_name);
 	MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_map_variant, url.get_string(), multiplayer_game_hopper_globals.game_variant_download_buffer);
-	multiplayer_file.__unknown1 = false;
+	multiplayer_file.had_load_failure = false;
 }
 
 // called in `c_life_cycle_state_handler_pre_game::update`
@@ -603,8 +603,8 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word
 			game_set_file.request_cookie = 0;
 		}
 
-		game_set_file.__time1C = 0;
-		game_set_file.__time20 = 0;
+		game_set_file.time_of_last_load = 0;
+		game_set_file.retry_interval = 0;
 
 		result = true;
 	}
@@ -733,7 +733,7 @@ void __cdecl multiplayer_game_hopper_update()
 		bool failed = false;
 
 		long bytes_read = 0;
-		e_network_http_request_result request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->hash, NULL);
+		e_network_http_request_result request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->configuration_hash, NULL);
 		if (request_result == _network_http_request_result_success)
 		{
 			switch (multiplayer_game_file)
@@ -753,8 +753,8 @@ void __cdecl multiplayer_game_hopper_update()
 					{
 						request_queue->cancel_request(game_set_file.request_cookie);
 						game_set_file.request_cookie = 0;
-						game_set_file.__time1C = 0;
-						game_set_file.__time20 = 0;
+						game_set_file.time_of_last_load = 0;
+						game_set_file.retry_interval = 0;
 					}
 				}
 			}
@@ -807,10 +807,10 @@ void __cdecl multiplayer_game_hopper_update()
 			if (!failed)
 			{
 				multiplayer_file->request_cookie = 0;
-				multiplayer_file->__unknown0 = true;
-				multiplayer_file->__unknown1 = false;
-				multiplayer_file->__time1C = network_time_get();
-				multiplayer_file->__time20 = g_network_configuration.config_download.__unknown4;
+				multiplayer_file->is_valid = true;
+				multiplayer_file->had_load_failure = false;
+				multiplayer_file->time_of_last_load = network_time_get();
+				multiplayer_file->retry_interval = g_network_configuration.config_download.required_file_invalidation_check_interval_msec;
 			}
 		}
 		else if (request_result == _network_http_request_result_failure)
@@ -821,9 +821,9 @@ void __cdecl multiplayer_game_hopper_update()
 		if (failed)
 		{
 			multiplayer_file->request_cookie = 0;
-			multiplayer_file->__unknown1 = true;
-			multiplayer_file->__time1C = network_time_get();
-			multiplayer_file->__time20 = network_configuration_calculate_next_retry_interval(multiplayer_file->__time20, g_network_configuration.config_download.__unknown8);
+			multiplayer_file->is_valid = true;
+			multiplayer_file->time_of_last_load = network_time_get();
+			multiplayer_file->retry_interval = network_configuration_calculate_next_retry_interval(multiplayer_file->retry_interval, g_network_configuration.config_download.required_file_download_retry_interval_msec);
 
 			generate_event(_event_message, "networking:configuration: could not retrieve multiplayer game file [%d]",
 				multiplayer_game_file);

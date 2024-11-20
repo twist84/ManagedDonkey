@@ -91,14 +91,14 @@ bool c_session_tracker::allocate_storage(long tracker_sort_method, long qos_stat
 	m_matchmaking_quality = matchmaking_quality;
 
 	m_expected_qos_data_type = qos_status_data_type;
-	m_qos_attempt_count = MIN(MAX(QOS_ATTEMPT_MIN_COUNT, g_network_configuration.logic_qos_attempt_count), QOS_ATTEMPT_MAX_COUNT);
+	m_qos_attempt_count = MIN(MAX(QOS_ATTEMPT_MIN_COUNT, g_network_configuration.logic.session_tracker.maximum_qos_tasks), QOS_ATTEMPT_MAX_COUNT);
 
 	// logic-session-array
 	m_session_storage_size = sizeof(s_network_session_tracker_session) * SESSION_STORAGE_COUNT;
 	m_sessions = (s_network_session_tracker_session*)network_heap_allocate_block(m_session_storage_size);
 
 	// logic-unsuitable-session-array
-	m_unsuitable_session_maximum_count = g_network_configuration.logic_unsuitable_session_count;
+	m_unsuitable_session_maximum_count = g_network_configuration.logic.session_tracker.unsuitable_session_cache_count;
 	m_unsuitable_session_storage_size = sizeof(s_session_tracker_unsuitable_session) * m_unsuitable_session_maximum_count;
 	m_unsuitable_sessions = (s_session_tracker_unsuitable_session*)network_heap_allocate_block(sizeof(s_session_tracker_unsuitable_session) * m_unsuitable_session_maximum_count);
 

@@ -17,20 +17,12 @@ public:
 	void __thiscall initialize_();
 
 protected:
-	long __unknown1AA0;
-	bool __unknown1AA4;
-	bool __unknown1AA5;
-	bool __unknown1AA6;
-	bool __unknown1AA7;
-
-	struct //c_http_blf_simple_downloader<s_motd_struct> m_motd_popup_downloader;
-	{
-		c_http_stored_buffer_downloader<4665> downloader;
-		long __unknown_index_or_count;
-		char const* m_chunk_buffer;
-		long m_chunk_buffer_size;
-
-	} m_motd_popup_downloader;
+	long m_last_countdown_value;
+	bool m_is_fading;
+	bool m_advanced_options_visible;
+	bool m_change_teams_visible;
+	bool m_postgame_stats_visible;
+	c_http_blf_simple_downloader<s_motd_struct, 4665> m_motd_popup_downloader;
 	bool m_motd_popup_downloaded;
 
 	long __unknown338C;

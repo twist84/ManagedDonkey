@@ -11,6 +11,6 @@ static_assert(sizeof(s_network_http_request_hash) == 0x14);
 
 struct s_rsa_signature
 {
-	qword data[32];
+	byte signature[0x100];
 };
 static_assert(sizeof(s_rsa_signature) == 0x100);

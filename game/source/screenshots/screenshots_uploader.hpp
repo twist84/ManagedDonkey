@@ -33,8 +33,10 @@ private:
 	//void update_progress_spinner();
 	//void update_screenshot_upload();
 
+public:
 	c_http_post_source m_http_post_source;
 	c_http_stored_buffer_downloader<1024> m_http_uploader;
+	long : 32; // pad for `c_http_stored_buffer_downloader` this shouldn't be needed
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 	long m_screenshots_uploader_task;
 	long m_screenshot_upload_time;
@@ -44,6 +46,15 @@ private:
 	bool m_progress_spinner_active;
 };
 static_assert(sizeof(c_screenshots_uploader) == 0xE08);
+static_assert(0x000 == OFFSETOF(c_screenshots_uploader, m_http_post_source));
+static_assert(0x13C == OFFSETOF(c_screenshots_uploader, m_http_uploader));
+static_assert(0xBD4 == OFFSETOF(c_screenshots_uploader, m_controller_index));
+static_assert(0xBD8 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_task));
+static_assert(0xBDC == OFFSETOF(c_screenshots_uploader, m_screenshot_upload_time));
+static_assert(0xBE0 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_url));
+static_assert(0xCF0 == OFFSETOF(c_screenshots_uploader, m_content_item_index));
+static_assert(0xCF4 == OFFSETOF(c_screenshots_uploader, m_screenshot_file));
+static_assert(0xE04 == OFFSETOF(c_screenshots_uploader, m_progress_spinner_active));
 
 extern c_screenshots_uploader*& g_screenshots_uploader;
 

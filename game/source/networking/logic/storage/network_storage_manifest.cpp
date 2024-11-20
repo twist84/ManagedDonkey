@@ -31,13 +31,13 @@ c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest:
 	//return INVOKE_CLASS_MEMBER(0x004A5720, c_network_storage_manifest, get_entry_state, cache_key);
 
 	// prevent big endian a manifest from exploding this call
-	if (m_online_file_manifest && !VALID_COUNT(m_online_file_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
+	if (m_manifest && !VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
 	{
-		bswap_dword_inplace(m_online_file_manifest->file_count);
-		if (!VALID_COUNT(m_online_file_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
+		bswap_dword_inplace(m_manifest->file_count);
+		if (!VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
 		{
 			ASSERT2(c_string_builder("c_network_storage_manifest::get_entry_state: invalid manifest (expected file count %d != %d)",
-				m_online_file_manifest->file_count,
+				m_manifest->file_count,
 				NUMBEROF(s_online_file_manifest::files)).get_string());
 		}
 	}
@@ -66,10 +66,10 @@ e_network_file_load_status __cdecl network_storage_manifest_get_load_status()
 
 	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
 	{
-		if (manifest->m_online_file_manifest)
+		if (manifest->m_manifest)
 			return _network_file_load_status_available;
 
-		if (manifest->m_unavailable)
+		if (manifest->m_manifest_download_error)
 			return _network_file_load_status_unavailable;
 
 		return _network_file_load_status_pending;

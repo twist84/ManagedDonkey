@@ -4,7 +4,7 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "memory/module.hpp"
 
-using t_motd_popup_data_downloader = c_http_blf_simple_downloader<s_motd_popup_data>;
+using t_motd_popup_data_downloader = c_http_blf_simple_downloader<s_motd_popup_data, 4665>;
 e_download_status __thiscall t_motd_popup_data_downloader::get_data(s_motd_popup_data const** data, long* data_size)
 {
 	static s_motd_popup_data static_data{};
