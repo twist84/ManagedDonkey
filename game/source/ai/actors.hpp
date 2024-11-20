@@ -404,8 +404,6 @@ static_assert(sizeof(actor_look_orders) == 0x34);
 struct actor_move_orders
 {
 	bool dive_into_cover;
-	bool panicked;
-	bool flaming;
 	bool move_face_exactly;
 	bool override_movement_direction;
 	bool override_throttle;
@@ -425,6 +423,13 @@ struct actor_move_orders
 	bool scripted_disallow_movement;
 	bool zig_zag;
 	bool smart_boost;
+
+	// odst?
+	bool __unknown38;
+	bool __unknown39;
+	bool __unknown3A; // actor_move_calculate_nondirectional_flying_movement
+	bool __unknown3B; // actor_move_calculate_nondirectional_flying_movement
+
 	bool walk;
 	bool allow_poses;
 	bool allow_moving_poses;
