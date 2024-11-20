@@ -128,7 +128,7 @@ extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode
 //sub_4356A0
 extern void __cdecl network_session_check_properties(c_network_session* session);
 //network_session_get_membership
-extern void __cdecl network_session_interface_update_join_a_friend();
+extern void __cdecl network_session_inteface_update_host_framerate_quality();
 extern void __cdecl network_session_interface_add_local_user(long user_index, s_player_identifier const* player_identifier);
 //network_session_interface_calculate_map_progress
 extern void __cdecl network_session_interface_clear_peer_status_flags();

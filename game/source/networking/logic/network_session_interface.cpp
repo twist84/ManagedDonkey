@@ -86,9 +86,9 @@ void __cdecl network_session_check_properties(c_network_session* session)
 //.text:00435DE0 ; e_map_id __cdecl network_session_get_last_network_map_loaded()
 //.text:00435DF0 ; bool __cdecl network_session_get_membership(c_network_session const*, long*, long*, long*, long*, long*, dword*, s_network_session_peer const**, long*, dword*, s_network_session_player const**)
 
-void __cdecl network_session_interface_update_join_a_friend()
+void __cdecl network_session_inteface_update_host_framerate_quality()
 {
-	INVOKE(0x00435F60, network_session_interface_update_join_a_friend);
+	INVOKE(0x00435F60, network_session_inteface_update_host_framerate_quality);
 }
 
 //void __cdecl network_session_interface_add_local_user(e_output_user_index user_index, s_player_identifier const* player_identifier)
