@@ -79,8 +79,13 @@ public:
 
 struct s_king_globals
 {
-	c_area_set<c_area, 10> area_set;
-	byte __data3F8[0x88];
+	c_area_set<c_area, 10> the_hills;
+	c_static_array<long, 8> team_ticks_in_hill;
+	c_static_array<long, 8> team_ticks_outside_hill;
+	long hill_timer;
+	word players_in_hill;
+	word pad;
+	c_static_array<long, 16> hill_kills;
 };
 static_assert(sizeof(s_king_globals) == 0x480);
 

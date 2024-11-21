@@ -105,14 +105,22 @@ public:
 
 struct s_infection_globals
 {
-	dword __unknown0;
-	word __unknown4;
-	byte __unknown6;
-	dword __unknown8;
-	c_area_set<c_area, 12> area_set;
-	c_static_array<long, 16> __unknown44C;
-	c_static_array<long, 16> __unknown50C;
-	byte __unknown54C;
+	struct
+	{
+		word zombie_bitvector;
+		word first_zombie_bitvector;
+		long safe_haven_timer;
+		word zombie_team_bitvector;
+		word players_in_safe_haven_bitvector;
+	} networked;
+
+	struct
+	{
+		c_area_set<c_area, 12> safe_havens;
+		c_static_array<long, 16> zombie_kills;
+		c_static_array<long, 16> human_kills;
+		bool emitted_last_man_standing_event;
+	} local;
 };
 static_assert(sizeof(s_infection_globals) == 0x550);
 

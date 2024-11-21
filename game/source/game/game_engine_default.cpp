@@ -454,12 +454,12 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return 0;
 //}
 //
-//long c_game_engine::get_score_unknown() const
+//long c_game_engine::get_score_to_win_round_early() const
 //{
 //	//return DECLFUNC(0x00749E50, long, __thiscall, c_game_engine const*)(this);
 //
 //	if (current_game_variant())
-//		return current_game_variant()->get_active_variant()->get_score_unknown();
+//		return current_game_variant()->get_active_variant()->get_score_to_win_round_early();
 //
 //	return 0;
 //}

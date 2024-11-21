@@ -35,15 +35,15 @@ HOOK_DECLARE(0x00553660, game_engine_update_round_conditions);
 
 c_game_statborg campaign_statborg{};
 
-//.text:0054D7E0 ; void __cdecl game_engine_adjust_player_results_statistic(long, bool, enum e_game_results_statistic, long)
+//.text:0054D7E0 ; void __cdecl game_engine_adjust_player_results_statistic(long, bool, e_game_results_statistic, long)
 //.text:0054D840 ; bool __cdecl game_engine_adjust_player_score(long, long)
-//.text:0054D940 ; void __cdecl game_engine_adjust_team_score_for_composition(enum e_game_team)
+//.text:0054D940 ; void __cdecl game_engine_adjust_team_score_for_composition(e_game_team)
 //.text:0054D980 ; bool __cdecl game_engine_allow_dynamic_lighting()
 //.text:0054D990 ; bool __cdecl game_engine_allow_weapon_pickup(long, long)
 //.text:0054D9C0 ; bool __cdecl game_engine_are_players_tied()
 //.text:0054DA50 ; bool __cdecl game_engine_are_teams_tied()
-//.text:0054DAA0 ; 
-//.text:0054DAE0 ; 
+//.text:0054DAA0 ; bool __cdecl game_engine_state_is_round_over_or_waiting_for_next_round() // named by us
+//.text:0054DAE0 ; real __cdecl game_engine_bomb_get_arming_theta(long)
 //.text:0054DB00 ; void __cdecl game_engine_boot_player(long)
 //.text:0054DB70 ; void __cdecl game_engine_build_allowable_team_designators()
 //.text:0054DC00 ; void __cdecl game_engine_check_for_round_winner()
@@ -53,8 +53,8 @@ c_game_statborg campaign_statborg{};
 //.text:0054E0A0 ; 
 //.text:0054E0B0 ; long __cdecl game_engine_compare_teams(long, long, bool)
 //.text:0054E210 ; real __cdecl game_engine_compute_object_function(long, long)
-//.text:0054E250 ; 
-//.text:0054E270 ; 
+//.text:0054E250 ; bool __cdecl game_engine_current_game_rules_asymmetric()
+//.text:0054E270 ; bool __cdecl game_engine_current_game_rules_symmetric()
 
 void __cdecl game_engine_dispose()
 {
@@ -66,7 +66,7 @@ void __cdecl game_engine_dispose_from_old_map()
 	INVOKE(0x0054E2A0, game_engine_dispose_from_old_map);
 }
 
-//.text:0054E2F0 ; void __cdecl game_engine_end_game(enum e_game_engine_end_condition)
+//.text:0054E2F0 ; void __cdecl game_engine_end_game(e_game_engine_end_condition)
 //.text:0054E320 ; void __cdecl game_engine_end_round_internal(bool)
 
 void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine_end_condition condition)
@@ -74,7 +74,7 @@ void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine
 	INVOKE(0x0054E390, game_engine_end_round_with_winner, team, a1, condition);
 }
 
-//.text:0054E890 ; 
+//.text:0054E890 ; long __cdecl game_engine_get_any_player_from_team(e_game_team)
 
 void __cdecl game_engine_game_ending()
 {
@@ -90,16 +90,16 @@ void __cdecl game_engine_game_starting()
 
 //.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
-//.text:0054F220 ; 
+//.text:0054F220 ; char const* __cdecl game_engine_get_game_variant_name() // named by us
 //.text:0054F250 ; game_engine_get_change_colors, modified by saber
 //.text:0054F5E0 ; long __cdecl game_engine_get_current_talker(long)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
 //.text:0054FC10 ; long __cdecl game_engine_get_finalized_player_place(long)
 //.text:0054FCC0 ; long __cdecl game_engine_get_finalized_player_score(long)
-//.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(enum e_multiplayer_team)
+//.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(e_multiplayer_team)
 //.text:0054FE70 ; long __cdecl game_engine_get_game_object_list()
-//.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(enum e_output_user_index, struct game_engine_interface_state *)
-//.text:00550410 ; void __cdecl game_engine_get_in_game_string(long, class c_static_wchar_string<256> *)
+//.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(e_output_user_index, game_engine_interface_state*)
+//.text:00550410 ; void __cdecl game_engine_get_in_game_string(long, c_static_wchar_string<256>*)
 
 void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string)
 {
@@ -110,7 +110,7 @@ void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_str
 //.text:005504E0 ; long __cdecl game_engine_get_player_assists(long)
 //.text:00550580 ; long __cdecl game_engine_get_player_deaths(long)
 //.text:00550620 ; long __cdecl game_engine_get_player_kills(long)
-//.text:005506C0 ; 
+//.text:005506C0 ; s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug_data(long)
 
 long __cdecl game_engine_get_player_place(long absolute_player_index)
 {
@@ -132,10 +132,10 @@ e_game_engine_status __cdecl game_engine_get_player_state_index(long player_inde
 	return INVOKE(0x00550830, game_engine_get_player_state_index, player_index);
 }
 
-//.text:00550A30 ; 
+//.text:00550A30 ; long __cdecl game_engine_get_player_total_wp(long) // named by us
 //.text:00550AD0 ; long __cdecl game_engine_get_round()
-//.text:00550B00 ; 
-//.text:00550B30 ; public: long __cdecl c_game_engine_miscellaneous_options::get_round_time_limit_seconds()const
+//.text:00550B00 ; long __cdecl game_engine_get_score_to_win_round_early()
+//.text:00550B30 ; public: long __cdecl c_game_engine_miscellaneous_options::get_round_time_limit_seconds() const
 //.text:00550B50 ; long __cdecl game_engine_get_score_to_win_round()
 
 c_game_statborg* __cdecl game_engine_get_statborg()
@@ -146,7 +146,7 @@ c_game_statborg* __cdecl game_engine_get_statborg()
 	TLS_DATA_GET_VALUE_REFERENCE(g_survival_mode_globals);
 
 	if (current_game_engine())
-		return &game_engine_globals->statborg;
+		return &game_engine_globals->stats;
 
 	//if (game_is_survival())
 	//	return survival_mode_get_statborg();
@@ -157,15 +157,15 @@ c_game_statborg* __cdecl game_engine_get_statborg()
 	return &campaign_statborg;
 }
 
-//.text:00550BC0 ; void __cdecl game_engine_get_team_color(enum e_game_team, union real_rgb_color *)
+//.text:00550BC0 ; void __cdecl game_engine_get_team_color(e_game_team, real_rgb_color*)
 
 long __cdecl game_engine_get_team_place(long team)
 {
 	return INVOKE(0x00550BF0, game_engine_get_team_place, team);
 }
 
-//.text:00550C20 ; long __cdecl game_engine_get_team_rounds_won(enum e_game_team)
-//.text:00550C90 ; long __cdecl game_engine_get_team_score(enum e_game_team)
+//.text:00550C20 ; long __cdecl game_engine_get_team_rounds_won(e_game_team)
+//.text:00550C90 ; long __cdecl game_engine_get_team_score(e_game_team)
 
 //
 long __cdecl game_engine_get_team_score_for_display(long team, bool final_score)
@@ -174,8 +174,8 @@ long __cdecl game_engine_get_team_score_for_display(long team, bool final_score)
 }
 
 //.text:00550D70 ; long __cdecl game_engine_get_time_left_in_ticks(bool)
-//.text:00550E10 ; void __cdecl game_engine_get_timer(long *, long *)
-//.text:00550E80 ; enum e_game_engine_type __cdecl game_engine_get_type()
+//.text:00550E10 ; void __cdecl game_engine_get_timer(long*, long*)
+//.text:00550E80 ; e_game_engine_type __cdecl game_engine_get_type()
 
 void __cdecl game_engine_get_universal_string(long a1, c_static_wchar_string<256>* formatted_string)
 {
@@ -183,7 +183,7 @@ void __cdecl game_engine_get_universal_string(long a1, c_static_wchar_string<256
 }
 
 //.text:00550EF0 ; long __cdecl game_engine_get_winning_player()
-//.text:00550F50 ; enum e_multiplayer_team __cdecl game_engine_get_winning_team()
+//.text:00550F50 ; e_multiplayer_team __cdecl game_engine_get_winning_team()
 //.text:00550F80 ; bool __cdecl game_engine_grenades_on_map_allowed()
 
 bool __cdecl game_engine_in_round()
@@ -306,13 +306,13 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 
 //.text:005519E0 ; bool __cdecl game_engine_monitoring_object(long)
 //.text:00551A10 ; void __cdecl game_engine_multiplayer_weapon_drop_internal(long, long)
-//.text:00551A90 ; struct s_multiplayer_weapon_tracker const * __cdecl game_engine_multiplayer_weapon_get(short)
-//.text:00551B00 ; struct s_multiplayer_weapon_tracker * __cdecl game_engine_multiplayer_weapon_get_internal(long)
-//.text:00551B40 ; void __cdecl game_engine_multiplayer_weapon_reset(long, union real_point3d const *)
+//.text:00551A90 ; s_multiplayer_weapon_tracker const* __cdecl game_engine_multiplayer_weapon_get(short)
+//.text:00551B00 ; s_multiplayer_weapon_tracker* __cdecl game_engine_multiplayer_weapon_get_internal(long)
+//.text:00551B40 ; void __cdecl game_engine_multiplayer_weapon_reset(long, real_point3d const*)
 //.text:00551BE0 ; void __cdecl game_engine_multiplayer_weapons_delete_all()
 //.text:00551C50 ; bool __cdecl game_engine_nearby_player_running_towards_object(long)
 //.text:00551DA0 ; long __cdecl game_engine_object_get_emblem_player(long)
-//.text:00551E40 ; 
+//.text:00551E40 ; void __cdecl game_engine_player_configuration_cleanup(long, s_player_configuration*)
 //.text:00551E50 ; bool __cdecl game_engine_player_has_infinite_ammo(long)
 //.text:00551EA0 ; bool __cdecl game_engine_player_has_shield(long)
 //.text:00551F00 ; bool __cdecl game_engine_player_is_being_respawned(long)
@@ -369,12 +369,12 @@ long __cdecl game_engine_get_post_round_ticks()
 	return game_seconds_integer_to_ticks(4);
 }
 
-//.text:005521F0 ; void __cdecl game_engine_recompute_team_score(enum e_multiplayer_team, long)
+//.text:005521F0 ; void __cdecl game_engine_recompute_team_score(e_multiplayer_team, long)
 //.text:00552230 ; void __cdecl game_engine_reset_players_for_new_round()
 //.text:00552280 ; void __cdecl game_engine_reset_round_conditions_for_new_round()
 //.text:005522B0 ; void __cdecl game_engine_reset_stats_for_round_switch()
 //.text:00552340 ; void __cdecl game_engine_respond_to_betrayal(long, long)
-//.text:005523A0 ; bool __cdecl game_engine_round_condition_test(enum e_game_engine_round_condition)
+//.text:005523A0 ; bool __cdecl game_engine_round_condition_test(e_game_engine_round_condition)
 
 long __cdecl game_engine_round_time_get()
 {
@@ -382,8 +382,8 @@ long __cdecl game_engine_round_time_get()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 
-	if ((game_time_get() - game_engine_globals->round_timer) >= 0)
-		return game_time_get() - game_engine_globals->round_timer;
+	if ((game_time_get() - game_engine_globals->round_start_time) >= 0)
+		return game_time_get() - game_engine_globals->round_start_time;
 
 	return 0;
 }
@@ -395,12 +395,12 @@ bool __cdecl game_engine_running()
 	return current_game_engine() != NULL;
 }
 
-//.text:00552420 ; void __cdecl game_engine_sandbox_get_string(long, class c_static_wchar_string<1024> *)
+//.text:00552420 ; void __cdecl game_engine_sandbox_get_string(long, c_static_wchar_string<1024>*)
 //.text:00552480 ; 
 //.text:005524D0 ; void __cdecl game_engine_set_desired_state(long)
 //.text:00552500 ; void __cdecl game_engine_set_player_navpoint_action(long, char)
 //.text:00552590 ; bool __cdecl game_engine_should_auto_pickup_weapon(long, long)
-//.text:005525C0 ; bool __cdecl game_engine_should_end_round(long *, bool *, enum e_game_engine_end_condition *)
+//.text:005525C0 ; bool __cdecl game_engine_should_end_round(long*, bool*, e_game_engine_end_condition*)
 //.text:005526F0 ; void __cdecl game_engine_spawn_monitor_detach(long)
 
 void __cdecl game_engine_update()
@@ -454,7 +454,7 @@ void __cdecl game_engine_update()
 	//		}
 	//	}
 	//
-	//	game_engine_globals->__unknownF9AA = game_engine_in_round() ? 0 : game_engine_globals->__unknownF9AA + 1;
+	//	game_engine_globals->out_of_round_timer = game_engine_in_round() ? 0 : game_engine_globals->out_of_round_timer + 1;
 	//	game_engine_events_update();
 	//}
 	//else if (game_is_survival())
@@ -514,7 +514,7 @@ void __cdecl game_engine_update_after_game()
 	//	{
 	//		if (game_engine_globals->current_state == 2)
 	//		{
-	//			if (--game_engine_globals->round_end_ticks <= 0)
+	//			if (--game_engine_globals->game_engine_state_timer <= 0)
 	//			{
 	//				if (game_engine_globals->round_index < 31)
 	//				{
@@ -532,7 +532,7 @@ void __cdecl game_engine_update_after_game()
 	//				//printf("game engine exceeded maximum rounds, bailing!");
 	//			};
 	//		}
-	//		else if (game_engine_globals_->current_state == 3 && --game_engine_globals_->round_end_ticks <= 0)
+	//		else if (game_engine_globals_->current_state == 3 && --game_engine_globals_->game_engine_state_timer <= 0)
 	//		{
 	//			game_engine_set_desired_state(1);
 	//			game_engine_update_after_game_update_state();
@@ -603,12 +603,12 @@ void __cdecl game_engine_update_round_conditions()
 
 //.text:005537F0 ; void __cdecl game_engine_update_score_and_standing()
 //.text:00553B60 ; void __cdecl game_engine_update_talkers()
-//.text:00553D20 ; void __cdecl game_engine_update_team(enum e_multiplayer_team)
+//.text:00553D20 ; void __cdecl game_engine_update_team(e_multiplayer_team)
 //.text:00553DB0 ; void __cdecl game_engine_update_time()
-//.text:00553FC0 ; bool __cdecl game_engine_validate_team_designator_for_new_map(enum e_multiplayer_team_designator)
+//.text:00553FC0 ; bool __cdecl game_engine_validate_team_designator_for_new_map(e_multiplayer_team_designator)
 //.text:00553FF0 ; bool __cdecl game_engine_vehicles_indestructible()
 //.text:00554010 ; 
-//.text:00554090 ; public: enum e_aura_setting __cdecl c_player_trait_appearance::get_aura_setting()const
+//.text:00554090 ; public: e_aura_setting __cdecl c_player_trait_appearance::get_aura_setting() const
 //.text:005540A0 ; 
 //.text:005540B0 ; 
 //.text:005540C0 ; short __cdecl get_current_game_engine_index()
@@ -616,15 +616,15 @@ void __cdecl game_engine_update_round_conditions()
 //.text:005540F0 ; 
 //.text:00554100 ; 
 //.text:00554110 ; short __cdecl get_ever_active_team_or_player_count()
-//.text:00554190 ; public: enum e_forced_change_color_setting __cdecl c_player_trait_appearance::get_forced_change_color_setting()const
+//.text:00554190 ; public: e_forced_change_color_setting __cdecl c_player_trait_appearance::get_forced_change_color_setting() const
 //.text:005541A0 ; 
-//.text:005541B0 ; char const * __cdecl get_game_engine_name(short)
+//.text:005541B0 ; char const* __cdecl get_game_engine_name(short)
 //.text:005541C0 ; 
 //.text:005541D0 ; 
 //.text:005541E0 ; 
-//.text:005541F0 ; public: enum e_infinite_ammo_setting __cdecl c_player_trait_weapons::get_infinite_ammo_setting()const
+//.text:005541F0 ; public: e_infinite_ammo_setting __cdecl c_player_trait_weapons::get_infinite_ammo_setting() const
 //.text:00554200 ; 
-//.text:00554210 ; void __cdecl get_living_or_connecting_team_count(long *, long *, long *)
+//.text:00554210 ; void __cdecl get_living_or_connecting_team_count(long*, long*, long*)
 //.text:00554330 ; 
 //.text:00554340 ; 
 //.text:00554350 ; 
@@ -636,9 +636,9 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00554650 ; 
 //.text:00554730 ; 
 //.text:00554740 ; 
-//.text:00554780 ; void __cdecl post_game_engine_globals_message(enum e_game_engine_globals_message_type, char, short)
+//.text:00554780 ; void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, char, short)
 //.text:005547F0 ; void __cdecl process_game_engine_globals_messages()
-//.text:00554930 ; void __cdecl seconds_to_unicode_time_string(long, class c_static_wchar_string<256> *)
+//.text:00554930 ; void __cdecl seconds_to_unicode_time_string(long, c_static_wchar_string<256>*)
 //.text:005549E0 ; 
 //.text:00554A00 ; 
 //.text:00554A40 ; 
@@ -712,7 +712,7 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 	}
 }
 
-//void __cdecl post_game_engine_globals_message(enum e_game_engine_globals_message_type, char, short)
+//void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, char, short)
 void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3)
 {
 	INVOKE(0x00554780, post_game_engine_globals_message, message_type, a2, a3);

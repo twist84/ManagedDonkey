@@ -218,7 +218,7 @@ void __cdecl test_main_loop_body_begin()
 			}
 		}
 
-		game_engine_globals->map_variant.print();
+		game_engine_globals->runtime_map_variant.print();
 	}
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)

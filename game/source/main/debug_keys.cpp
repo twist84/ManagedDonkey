@@ -1223,7 +1223,7 @@ void __cdecl debug_key_force_respawn(bool key_is_down)
 			if (player->respawn_forced = force_respawn)
 			{
 				player->respawn_timer = 0;
-				game_engine_globals->player_waypoints[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
+				game_engine_globals->player_navpoint_data[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
 			}
 		}
 

@@ -52,29 +52,35 @@ struct c_sandbox_engine :
 {
 };
 
-struct s_sandbox_globals
+struct s_core_quota
 {
-	dword __unknown0;
+	long object_definition_index;
 	byte maximum_count;
 	byte minimum_count;
-	bool placed_on_map;
-	word player_mode_flags;
-	c_static_array<long, 16> held_objects;
-	c_static_array<real, 16> held_object_distances;
-	c_static_array<vector3d, 16> crosshair_points;
-	c_static_array<vector3d, 16> crosshair_intersect_normals;
-	c_static_array<vector3d, 16> crosshair_redirections;
-	c_static_array<long, 16> crosshair_objects;
-	c_static_array<byte, 16> __unknown30C;
+	byte placed_on_map;
+	byte pad0;
+};
+static_assert(sizeof(s_core_quota) == 0x8);
 
-	c_static_array<long, 64> tracked_objects;
-	c_static_array<real_point3d, 64> tracked_object_positions;
-	long tracked_object_count;
-
-	byte __unknown720[8];
-	bool forge_legal_notice;
-	dword __unknown72C;
-	s_variant_multiplayer_object_properties_definition object_properties;
+struct s_sandbox_globals
+{
+	s_core_quota quota;
+	long player_role_bit_array;
+	c_static_array<long, 16> edited_object_ids;
+	c_static_array<float, 16> cursor_distance_from_camera;
+	c_static_array<real_point3d, 16> cursor_position;
+	c_static_array<vector3d, 16> cursor_normal;
+	c_static_array<vector3d, 16> cursor_vector;
+	c_static_array<long, 16> object_under_cursor;
+	c_static_array<bool, 16> rotating_object;
+	c_static_array<long, 64> tracked_edited_objects;
+	c_static_array<real_point3d, 64> tracked_edited_objects_last_soft_ceiling_position;
+	long number_of_tracked_objects;
+	long edited_map_variant_index;
+	long current_object_definition_index;
+	bool legal_accepted;
+	long last_rendered_boundary_object_index;
+	s_variant_multiplayer_object_properties_definition edited_object_properties;
 };
 static_assert(sizeof(s_sandbox_globals) == 0x748);
 

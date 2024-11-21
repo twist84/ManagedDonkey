@@ -108,14 +108,15 @@ public:
 
 struct s_juggernaut_globals
 {
-	dword __unknown0;
-	word __unknown4;
-	byte __unknown6;
-	dword __unknown8;
-	c_area_set<c_area, 12> area_set;
-	c_static_array<long, 16> __unknown4CC;
+	long juggernaut_player_index;
+	short juggernaut_delay_seconds;
+	bool juggernaut_visited_zone;
+	long juggernaut_delay_ticks;
+	c_area_set<c_area, 12> zones;
+	c_static_array<long, 16> juggernaut_kills;
+	long juggernaut_player_index_at_game_update_start;
 };
-static_assert(sizeof(s_juggernaut_globals) == 0x50C);
+static_assert(sizeof(s_juggernaut_globals) == 0x510);
 
 extern c_game_engine_juggernaut_variant*& juggernaut_variant;
 

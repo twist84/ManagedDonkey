@@ -86,15 +86,22 @@ public:
 
 struct s_oddball_globals
 {
-	c_static_array<long, 5> __unknown0;
-	c_static_array<real_point3d, 5> __unknown14;
-	c_static_array<short, 5> __unknown50;
-	c_static_array<long, 5> __unknown5C;
-	c_static_array<char, 5> __unknown70;
-	c_static_array<char, 5> __unknown75;
-	c_static_array<long, 5> __unknown7C;
+	struct
+	{
+		c_static_array<long, 5> ball_spawn_timer;
+		c_static_array<real_point3d, 5> ball_spawn_position;
+		c_static_array<short, 5> ball_reset_timer;
+		c_static_array<long, 5> ball_owner_player_index;
+		c_static_array<char, 5> ball_second_timer;
+		c_static_array<char, 5> ball_second_count;
+	} networked;
+
+	struct
+	{
+		c_static_array<long, 5> ball_last_held_time;
+	} local;
 };
-//static_assert(sizeof(s_oddball_globals) == 0x90);
+static_assert(sizeof(s_oddball_globals) == 0x90);
 
 extern c_game_engine_oddball_variant*& oddball_variant;
 

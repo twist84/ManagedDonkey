@@ -144,7 +144,7 @@ void __cdecl game_engine_respawn_override_timers(short team)
 	//	if (player->configuration.host.team_index == (long)team)
 	//	{
 	//		player->respawn_timer = 0;
-	//		game_engine_globals->player_waypoints[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
+	//		game_engine_globals->player_navpoint_data[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
 	//
 	//		// no call to `simulation_action_game_engine_player_update` in Halo Online
 	//	}

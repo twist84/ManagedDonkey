@@ -57,7 +57,7 @@ enum e_game_engine_state
 	k_game_engine_state_count
 };
 
-struct s_player_waypoint_data
+struct s_player_navpoint_data
 {
 	byte __data0[0x4];
 	real_point3d head_position;
@@ -65,7 +65,7 @@ struct s_player_waypoint_data
 	word respawn_timer12;
 	byte __data[0x8];
 };
-static_assert(sizeof(s_player_waypoint_data) == 0x1C);
+static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 
 struct s_simulation_player_netdebug_data
 {
@@ -93,26 +93,25 @@ static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 
 struct s_game_engine_globals
 {
-	dword_flags flags;
-	word_flags valid_team_mask;
-	word_flags initial_teams;
-	word_flags valid_designators;
-	word_flags valid_teams;
-	word_flags active_teams;
-	word game_simulation;
+	long flags;
+	word allowable_team_designators;
+	word initial_teams;
+	word valid_team_designators;
+	word valid_teams;
+	word active_teams;
+	word ever_active_teams;
 	c_static_array<short, 9> team_designator_to_team_index;
 	c_static_array<char, 8> team_lives_per_round;
-	short __unknown2A;
-	dword gamestate_index;
+	dword game_engine_gamestate_index;
 	dword statborg_gamestate_index;
-	c_static_array<long, 16> player_simulation_object_glue_indices;
+	c_static_array<long, 16> player_gamestate_indices;
 	byte __data74[0x4];
-	c_map_variant map_variant;
+	c_map_variant runtime_map_variant;
 	c_enum<e_game_engine_state, short, _game_engine_state_game_over, k_game_engine_state_count> current_state;
 	short round_index;
-	long round_timer;
+	long round_start_time;
 	c_flags<long, byte, 8> round_condition_flags;
-	s_game_engine_score_list score_list;
+	s_game_engine_score_list round_scoring_list;
 
 	union
 	{
@@ -131,38 +130,42 @@ struct s_game_engine_globals
 		byte globals_storage[0x1800];
 	};
 
-	word timer;
-	word __unknownF992;
+	short round_timer_in_seconds;
 	dword game_variant_round_time_limit_ticks_per_second;
-	real user_fade_to_black_amounts[4];
-	byte_flags user_fade_to_black_flags;
-	byte __dataF9A9;
-	short __unknownF9AA;
-	long shot_id;
-	c_static_array<s_dead_player_info, 64> spawn_influencers;
-	c_game_statborg statborg;
+	real fade_to_black_amount[4];
+	byte_flags fade_to_black_cache_latch;
+	short out_of_round_timer;
+	long global_shot_id;
+	c_static_array<s_dead_player_info, 64> dead_player_records;
+	c_game_statborg stats;
 
 	// are these related?
 	long __unknown102D4;
-	c_static_array<s_player_waypoint_data, 16> player_waypoints;
+	c_static_array<s_player_navpoint_data, 16> player_navpoint_data;
 
-	// are these related?
-	long __unknown10498;
-	c_static_array<s_simulation_player_netdebug_data, 16> player_netdebugs;
+	long last_netdebug_update_time;
+	c_static_array<s_simulation_player_netdebug_data, 16> player_netdebug_data;
 
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
-	dword round_end_ticks;
+	dword game_engine_state_timer;
 	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
-	bool game_finished;
+	bool game_engine_has_handled_game_end;
 	long garbage_collect_speed; // e_garbage_collect_speed
-	dword __unknown13DAC;
+	dword performance_flags;
 	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> game_engine_index;
+
 	long multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
+
 	c_area_set<c_teleporter_area, 32> teleporters;
-	long current_event_identifier;
+
+	long game_engine_event_identifier;
 	c_static_array<s_game_engine_queued_event, 64> event_queue;
-	byte __data1584C[0xC];
+
+	long game_time_at_last_respawn;
+	long respawn_count_current_tick;
+
+	byte __data15854[0x4];
 };
 static_assert(sizeof(s_game_engine_globals) == 0x15858);
 

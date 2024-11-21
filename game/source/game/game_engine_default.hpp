@@ -55,7 +55,7 @@ public:
 	//virtual void byteswap(); // MCC
 	virtual bool can_add_to_recent_list() const;
 	virtual long get_score_to_win_round() const;
-	virtual long get_score_unknown() const; // halo online specific
+	virtual long get_score_to_win_round_early() const; // halo online specific
 	virtual bool can_be_cast_to(e_game_engine_type game_engine_index, void const**) const;
 	virtual void custom_team_score_stats(long team_index, long, long) const;
 
@@ -116,18 +116,18 @@ static_assert(sizeof(c_game_engine_base_variant) == 0x1D0);
 struct s_game_engine_state_data
 {
 	word_flags initial_teams;
-	word_flags valid_designators;
+	word_flags valid_team_designators;
 	word_flags valid_teams;
-	word_flags active_teams;
+	word_flags ever_active_teams;
 	word game_simulation;
 	c_static_array<short, 9> team_designator_to_team_index;
-	c_static_array<byte, 8> team_lives_per_round;
+	c_static_array<char, 8> team_lives_per_round;
 	byte current_state;
 	bool game_finished;
-	word round_index;
-	word round_timer;
+	short round_index;
+	short round_timer;
 	byte_flags round_condition_flags;
-	byte pad2B[1];
+	byte pad2B[0x1];
 };
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
@@ -138,10 +138,7 @@ struct c_game_engine
 public:
 	virtual long get_type() const;
 	virtual long get_score_to_win_round() const;
-
-	// some new score saber added for halo online
-	virtual long get_score_unknown() const;
-
+	virtual long get_score_to_win_round_early() const; // halo online
 	virtual void recompute_team_score(e_game_team game_team, long a2, e_team_scoring_method team_scoring_method) const;
 	virtual void get_score_string(long score, c_static_wchar_string<256>* out_score_string) const;
 	virtual void get_hud_interface_state(long a1, game_engine_interface_state* hud_interface_state) const;
@@ -149,7 +146,7 @@ public:
 	virtual void dispose_from_old_map() const;
 	virtual bool initialize_for_new_round() const;
 	virtual void stats_reset_for_round_switch() const;
-	virtual bool validate_team_designator_for_new_map(e_multiplayer_team_designator team_designator) const; // not `validate_team_designator_for_new_map`
+	virtual bool validate_team_designator_for_new_map(e_multiplayer_team_designator team_designator) const;
 	virtual void player_added(long player_index) const;
 	virtual void player_activated(long player_index) const;
 	virtual void player_left(long player_index) const;
@@ -198,10 +195,7 @@ public:
 	virtual bool should_end_round(long*) const;
 	virtual long get_player_state_index(long, bool*) const;
 	virtual bool should_purge_multiplayer_item(long) const;
-
-	// function in the same place as `close_any_custom_ui` from Reach
-	virtual void close_any_ui(e_output_user_index output_user_index) const;
-
+	virtual void close_any_custom_ui(e_output_user_index output_user_index) const;
 	virtual e_simulation_entity_type get_simulation_entity_type() const;
 	virtual void promote_to_simulation_authority() const;
 	virtual void recover_state_before_promotion() const;

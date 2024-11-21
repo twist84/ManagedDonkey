@@ -91,30 +91,28 @@ public:
 
 struct s_ctf_shared_globals
 {
-	c_static_array<c_area_set<c_area, 3>, 9> area_set0;
-	c_static_array<c_area_set<c_area, 3>, 9> area_setB1C;
-	bool __unknown1638;
-	bool __unknown1639;
-	byte __data163A[0x2];
-	long defensive_team;
-	long __unknown1640;
-	byte __data1644[0x4];
+	c_static_array<c_area_set<c_area, 3>, 9> goal_areas_by_team_designator;
+	c_static_array<c_area_set<c_area, 3>, 9> spawn_areas_by_team_designator;
+	bool supress_reset_message;
+	bool object_returned_by_player;
+	long defensive_team_index;
+	long sudden_death_ticks;
+	long grace_period_ticks;
 	word_flags helper_flags;
 	word_flags flags;
 };
 static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
 
-struct s_ctf_globals
+struct s_ctf_globals : s_ctf_shared_globals
 {
-	s_ctf_shared_globals shared_globals;
-	c_static_array<dword, 9> touch_return_timers;
-	c_static_array<word, 9> flag_reset_timers;
-	c_static_array<dword, 9> __unknown1684;
+	c_static_array<long, 9> touch_return_timer;
+	c_static_array<short, 9> flag_reset_timer;
+	c_static_array<long, 9> player_emblem_for_flag;
 	c_static_array<byte_flags, 9> flag_weapon_flags;
-	c_static_array<word, 9> __unknown16B2;
-	c_static_array<word, 9> __unknown16C4;
+	c_static_array<short, 9> failure_event_timer;
+	c_static_array<short, 9> timeout_return_second_counter;
 };
-//static_assert(sizeof(s_ctf_globals) == 0x16D8);
+static_assert(sizeof(s_ctf_globals) == 0x16D8);
 
 extern c_game_engine_ctf_variant*& ctf_variant;
 

@@ -58,7 +58,7 @@ real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 	if (user_index == NONE || !simulation_in_progress())
 		return 1.0f;
 
-	return game_engine_globals->user_fade_to_black_amounts[user_index];
+	return game_engine_globals->fade_to_black_amount[user_index];
 }
 
 real __cdecl game_engine_hud_get_fade(long user_index)
@@ -109,7 +109,7 @@ void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_in
 		return;
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	if (TEST_BIT(game_engine_globals->user_fade_to_black_flags, output_user_index))
+	if (TEST_BIT(game_engine_globals->fade_to_black_cache_latch, output_user_index))
 	{
 		long ticks = 0;
 		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.__unknown0[output_user_index], g_game_engine_render_globals.__unknown0[output_user_index] > ticks)

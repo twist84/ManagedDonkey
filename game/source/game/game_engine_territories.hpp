@@ -69,19 +69,19 @@ public:
 struct s_territory_data :
 	c_area
 {
-	c_static_array<word, 8> __unknown64;
-	c_static_array<byte, 8> __unknown74;
-	long __unknown7C;
-	long __unknown80;
+	c_static_array<word, 8> team_capture_time;
+	c_static_array<byte, 8> team_capture_time_in_seconds;
+	long controlling_team_designator;
+	long state;
 };
 static_assert(sizeof(s_territory_data) == 0x84);
 
 struct s_territories_globals
 {
-	c_area_set<s_territory_data, 8> area_set;
-	long __unknown430;
-	long __unknown434;
-	long __unknown438;
+	c_area_set<s_territory_data, 8> territories;
+	long defending_team_index;
+	long sudden_death_time_left;
+	long grace_period_time_left;
 };
 static_assert(sizeof(s_territories_globals) == 0x43C);
 

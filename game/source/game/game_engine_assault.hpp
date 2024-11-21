@@ -95,17 +95,16 @@ public:
 	void dump_settings(s_file_reference* file) const;
 };
 
-struct s_assault_globals
+struct s_assault_globals : s_ctf_shared_globals
 {
-	s_ctf_shared_globals shared_globals;
-	c_static_array<dword, 9> __unknown164C;
-	c_static_array<word, 9> __unknown1670;
-	c_static_array<byte, 2> __unknown1682;
-	c_static_array<dword, 9> __unknown1684;
+	c_static_array<long, 9> arming_or_disarming_timer;
+	c_static_array<short, 9> bomb_reset_timer;
+	c_static_array<byte_flags, 2> bomb_flags;
+	c_static_array<long, 9> player_that_placed_bomb;
 	c_static_array<byte, 8> __unknown16A8;
-	c_static_array<word, 9> __unknown16B0;
+	c_static_array<short, 9> assault_timeout_return_second_counter;
 };
-//static_assert(sizeof(s_assault_globals) == 0x16C4);
+static_assert(sizeof(s_assault_globals) == 0x16C4);
 
 extern c_game_engine_assault_variant*& assault_variant;
 
