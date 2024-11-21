@@ -40,7 +40,7 @@ namespace simple_font
 {
 	struct s_simple_font_globals
 	{
-		bool __unknown0;
+		bool render_drop_shadow;
 	};
 	static_assert(sizeof(s_simple_font_globals) == 0x1);
 
@@ -51,32 +51,32 @@ namespace simple_font
 
 		bool installed;
 
-		long character_width;
-		long character_height;
-		long characters_per_line;
-		long character_first;
-		long character_last;
-		real character_scale;
+		long const char_width;
+		long const char_height;
+		long const char_pitch;
+		long const char_start;
+		long const char_end;
+		real char_scale;
 
-		long texture_width;
-		long texture_height;
-		bitmap_data* texture_bitmap;
-		c_rasterizer_texture_ref texture_ref;
-		long texture_pitch;
+		long const texture_width;
+		long const texture_height;
+		bitmap_data* bitmap;
+		c_rasterizer_texture_ref hardware_format;
+		long pitch;
 
-		long font_buffer_width;
-		long font_buffer_height;
-		char const* font_buffer;
+		long const source_width;
+		long const source_height;
+		char const* source_data;
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
 	
-	extern bool __cdecl begin_rendering(real scale, bool a2);
+	extern bool __cdecl begin_rendering(real scale, bool drop_shadow);
 	extern void __cdecl end_rendering();
 	extern long __cdecl get_height();
 	extern long __cdecl get_width();
 	extern void __cdecl install();
 	extern void __cdecl remove();
-	extern void __cdecl print(long a1, long a2, dword a3, char const* string, long string_length, bool a6);
+	extern void __cdecl print(long x, long y, dword color, char const* c, long count, bool apply_display_scalar_correction);
 
 	extern s_font_data*(&g_fonts)[2];
 	extern s_font_data& g_font_6x10;

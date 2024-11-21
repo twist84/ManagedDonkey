@@ -205,29 +205,20 @@ enum e_bitmap_format
 enum e_bitmap_flags
 {
 	// DO NOT CHANGE
-	_bitmap_flag_power_of_two_dimensions = 0,
+	_bitmap_is_power_of_two_dimensions_bit = 0,
+	_bitmap_is_compressed_bit,
+	_bitmap_flipped_axes_bit,
 
-	// DO NOT CHANGE
-	_bitmap_flag_compressed,
+	k_tag_bitmap_flags_count,
 
-	// DO NOT CHANGE
-	_bitmap_flag_swap_axes,
+	_bitmap_free_on_delete_bit = k_tag_bitmap_flags_count,
+	_bitmap_not_tiled_bit,
+	_bitmap_hardware_only_bit,
+	_bitmap_use_base_address_for_hardware_format_bit,
+	_bitmap_unknown_bit7,
+	_bitmap_hardware_format_is_tracked_externally_bit,
 
-	_bitmap_flag_bit3,
-
-	// do these exist?
-	_bitmap_flag_bit4,
-	_bitmap_flag_bit5,
-
-	// don't allocate base_address
-	_bitmap_flag_bit6,
-
-	_bitmap_flag_bit7,
-
-	// used in `simple_font::s_font_data::install`
-	_bitmap_flag_bit8,
-
-	k_bitmap_flags
+	k_bitmap_flags_count
 };
 
 // constructors in `rasterizer_textures_xenon_header` and `font_cache`
@@ -252,7 +243,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
 
-	c_flags<e_bitmap_flags, word, k_bitmap_flags> flags;
+	c_flags<e_bitmap_flags, word, k_tag_bitmap_flags_count> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
 	int16_point2d registration_point;
