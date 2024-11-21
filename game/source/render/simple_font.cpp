@@ -177,7 +177,7 @@ namespace simple_font
 		for (s_font_data* font_data : g_fonts)
 			font_data->install();
 
-		g_simple_font_globals.render_drop_shadow = true;
+		g_simple_font_globals.render_drop_shadow = false;
 	}
 
 	//.text:00A76DB0 ; 
