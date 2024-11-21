@@ -235,11 +235,11 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 
 				if (!current_game_engine() || game_engine_in_round())
 				{
-					local_game_engine_globals->__time0 = LONG_MAX;
+					local_game_engine_globals->round_or_game_over_timer = LONG_MAX;
 				}
-				else if (local_game_engine_globals->__time0 == LONG_MAX)
+				else if (local_game_engine_globals->round_or_game_over_timer == LONG_MAX)
 				{
-					local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
+					local_game_engine_globals->round_or_game_over_timer = game_time_get() + game_seconds_integer_to_ticks(1);
 				}
 
 				if (user_interface_should_show_console_scoreboard(NULL))
@@ -255,7 +255,7 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 
 						if (current_game_engine())
 						{
-							if (game_time_get() >= local_game_engine_globals->__time0)
+							if (game_time_get() >= local_game_engine_globals->round_or_game_over_timer)
 								show_scoreboard = true;
 
 							if (player->unit_index == NONE

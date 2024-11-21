@@ -171,26 +171,24 @@ static_assert(sizeof(s_game_engine_globals) == 0x15858);
 
 struct s_player_state_data
 {
-	c_enum<e_game_engine_status, long, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state_index;
-	long __unknown4;
-	long state_response_index;
+	long current_state_index;
+	long current_state_timer;
+	long current_state_response_index;
 };
 static_assert(sizeof(s_player_state_data) == 0xC);
 
 struct s_user_talker_data
 {
-	c_static_array<short, 16> __unknown0;
+	c_static_array<short, 16> talking_ticks;
 };
 static_assert(sizeof(s_user_talker_data) == 0x20);
 
 struct s_local_game_engine_globals
 {
-	long __time0;
-
-	byte __data4[0x10];
-
-	c_static_array<s_player_state_data, 4> player_states;
-	c_static_array<s_user_talker_data, 4> user_talkers;
+	long round_or_game_over_timer;
+	c_static_array<real, 4> score_offsets;
+	c_static_array<s_player_state_data, 4> user_player_state_data;
+	c_static_array<s_user_talker_data, 4> user_talker_data;
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
