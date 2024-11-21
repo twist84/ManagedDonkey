@@ -26,81 +26,42 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 
 	ASSERT(package_header);
 
-	bool valid = package_header->version == 0xC0000003;
+	bool valid = package_header->version == k_latest_font_package_header_version;
 	if (!valid)
 		generate_event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			package_header->version,
-			0xC0000003);
+			k_latest_font_package_header_version);
 
-	valid &= package_header->font_count > 1 && package_header->font_count <= NUMBEROF(package_header->fonts) && package_header->package_file_font_offset >= sizeof(s_font_package_file_header);
-	valid &= package_header->package_file_font_offset + package_header->package_file_font_size <= package_header->first_package_entry.first_character_key;
-	valid &= (package_header->first_package_entry.last_character_key > 0 && package_header->first_package_entry.last_character_key <= 0x10000)
-		&& package_header->first_package_entry.first_character_key >= package_header->package_file_font_offset + package_header->package_file_font_size;
+	valid &= package_header->font_count > 1 && package_header->font_count <= k_font_count && package_header->header_data_offset >= sizeof(s_font_package_file_header);
+	valid &= package_header->header_data_offset + package_header->header_data_size <= package_header->package_table_offset;
+	valid &= (package_header->package_table_count > 0 && package_header->package_table_count <= 65536)
+		&& package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;
 
 	for (long i = 0; valid && i < package_header->font_count; i++)
 	{
-		s_font_package_file_header::s_font const* font = &package_header->fonts[i];
+		s_font_package_font const* font = &package_header->fonts[i];
 
-		valid &= font->size >= sizeof(s_font_header);
-		valid &= font->offset >= package_header->package_file_font_offset
-			&& font->offset + font->size <= package_header->package_file_font_offset + package_header->package_file_font_size;
-		valid &= font->__unknown8 < sizeof(s_font_package_file)
-			&& font->__unknown8 + font->__unknownA <= package_header->first_package_entry.last_character_key;
+		valid &= font->header_size >= sizeof(s_font_header);
+		valid &= font->header_offset >= package_header->header_data_offset
+			&& font->header_offset + font->header_size <= package_header->header_data_offset + package_header->header_data_size;
+		valid &= font->package_table_index < sizeof(s_font_package_file)
+			&& font->package_table_index + font->package_table_count <= package_header->package_table_count;
 
 		for (long j = 0; j < i; j++)
 		{
-			valid &= package_header->fonts[j].offset + package_header->fonts[j].size <= font->offset
-				&& package_header->fonts[j].__unknown8 + package_header->fonts[j].__unknownA - 1 <= font->__unknown8;
+			valid &= package_header->fonts[j].header_offset + package_header->fonts[j].header_size <= font->header_offset
+				&& package_header->fonts[j].package_table_index + package_header->fonts[j].package_table_count - 1 <= font->package_table_index;
 		}
 	}
 
-	for (long k = 0; k < NUMBEROF(package_header->font_index_mapping); k++)
+	for (long k = 0; k < NUMBEROF(package_header->font_mapping); k++)
 	{
-		valid &= package_header->font_index_mapping[k] == NONE
-			|| package_header->font_index_mapping[k] >= 0
-			&& package_header->font_index_mapping[k] < package_header->font_count;
+		valid &= package_header->font_mapping[k] == NONE
+			|| package_header->font_mapping[k] >= 0
+			&& package_header->font_mapping[k] < package_header->font_count;
 	}
 
 	return valid;
-
-	//s_font_package_file_header_mcc const* package_header_mcc = reinterpret_cast<s_font_package_file_header_mcc const*>(package_header);
-	//
-	//bool valid = package_header_mcc->version == 0xC0000004;
-	//if (!valid)
-	//	generate_event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
-	//		package_header_mcc->version,
-	//		0xC0000004);
-	//
-	//valid &= package_header_mcc->font_count > 1 && package_header_mcc->font_count <= NUMBEROF(package_header_mcc->fonts) && package_header_mcc->package_file_font_offset >= sizeof(s_font_package_file_header_mcc);
-	//valid &= package_header_mcc->package_file_font_offset + package_header_mcc->package_file_font_size <= package_header_mcc->first_package_entry.first_character_key;
-	//valid &= (package_header_mcc->first_package_entry.last_character_key > 0 && package_header_mcc->first_package_entry.last_character_key <= 0x10000)
-	//	&& package_header_mcc->first_package_entry.first_character_key >= package_header_mcc->package_file_font_offset + package_header_mcc->package_file_font_size;
-	//
-	//for (long i = 0; valid && i < package_header_mcc->font_count; i++)
-	//{
-	//	s_font_package_file_header_mcc::s_font const* font = &package_header_mcc->fonts[i];
-	//
-	//	valid &= font->size >= sizeof(s_font_header);
-	//	valid &= font->offset >= package_header_mcc->package_file_font_offset
-	//		&& font->offset + font->size <= package_header_mcc->package_file_font_offset + package_header_mcc->package_file_font_size;
-	//	valid &= font->__unknown8 < 0x8000
-	//		&& font->__unknown8 + font->__unknownA <= package_header_mcc->first_package_entry.last_character_key;
-	//
-	//	for (long j = 0; j < i; j++)
-	//	{
-	//		valid &= package_header_mcc->fonts[j].offset + package_header_mcc->fonts[j].size <= font->offset
-	//			&& package_header_mcc->fonts[j].__unknown8 + package_header_mcc->fonts[j].__unknownA - 1 <= font->__unknown8;
-	//	}
-	//}
-	//
-	//for (long k = 0; k < NUMBEROF(package_header_mcc->font_index_mapping); k++)
-	//{
-	//	valid &= package_header_mcc->font_index_mapping[k] == NONE
-	//		|| package_header_mcc->font_index_mapping[k] >= 0
-	//		&& package_header_mcc->font_index_mapping[k] < package_header_mcc->font_count;
-	//}
-	//
-	//return valid;
 }
 
 //.text:0065BD20 ; s_font_character const* __cdecl font_package_get_character(s_font_package const* font_package, dword)
@@ -144,7 +105,7 @@ void __cdecl font_package_cache_new()
 
 	c_font_cache_scope_lock scope_lock;
 
-	g_font_package_cache.__unknown4 = 0;
+	g_font_package_cache.time = 0;
 	for (s_font_package_cache_entry& entry : g_font_package_cache.entries)
 		font_package_clear(&entry);
 	g_font_package_cache.initialized = 1;
@@ -156,11 +117,11 @@ void __cdecl font_package_clear(s_font_package_cache_entry* entry)
 {
 	//INVOKE(0x0065C590, font_package_clear, entry);
 
-	entry->load_package_index = NONE;
-	entry->__unknownC = 0;
+	entry->package_index = NONE;
+	entry->package_last_used_time = 0;
 	entry->async_task = NONE;
-	entry->read_size = 0;
-	entry->done = 0;
+	entry->async_task_bytes_read = 0;
+	entry->async_task_complete = 0;
 	entry->status = 0;
 }
 

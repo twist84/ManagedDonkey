@@ -50,7 +50,7 @@ void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state
 
 	if (loading_state->started && !loading_state->finished)
 	{
-		async_task_change_priority(loading_state->async_task, _async_priority_blocking_generic);
+		async_task_change_priority(loading_state->task_id, _async_priority_blocking_generic);
 		internal_async_yield_until_done_attributed(&loading_state->finished, false, false, (e_yield_reason)4, __FILE__, __LINE__);
 	}
 }
@@ -61,8 +61,8 @@ void __cdecl font_close_loaded_file(s_font_loading_state* loading_state)
 
 	font_block_until_load_completes(loading_state);
 
-	if (loading_state->font_file_loaded)
-		file_close(&loading_state->font_file);
+	if (loading_state->file_open)
+		file_close(&loading_state->file_reference);
 }
 
 void __cdecl font_dispose()
@@ -71,8 +71,8 @@ void __cdecl font_dispose()
 
 	if (g_font_globals.initialized)
 	{
-		font_close_loaded_file(&g_font_globals.loading_state);
-		csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
+		font_close_loaded_file(&g_font_globals.package_loading_state);
+		csmemset(&g_font_globals.package_loading_state, 0, sizeof(g_font_globals.package_loading_state));
 		g_font_globals.font_package_header = NULL;
 		font_cache_delete();
 		font_package_cache_delete();
@@ -87,10 +87,10 @@ char const* __cdecl font_get_debug_name(long font_index)
 
 	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
 	{
-		dword header_offset = g_font_globals.font_package_header->fonts[font_index].offset;
+		dword header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
 		s_font_header* header = (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
 		if (header)
-			return header->name.get_string();
+			return header->debug_name;
 	}
 
 	return nullptr;
@@ -102,7 +102,7 @@ long __cdecl font_get_font_index(long font_id)
 	//return INVOKE(0x005092C0, font_get_font_index, font_id);
 
 	if (g_font_globals.font_package_header && font_id >= 0 && font_id < 16)
-		return g_font_globals.font_package_header->font_index_mapping[font_id];
+		return g_font_globals.font_package_header->font_mapping[font_id];
 
 	return _font_index_none;
 }
@@ -117,11 +117,11 @@ s_font_header const* __cdecl font_get_header(long font_id)
 		return nullptr;
 
 	if (font_id >= 0 && font_id < 16)
-		font_index = g_font_globals.font_package_header->font_index_mapping[font_id];
+		font_index = g_font_globals.font_package_header->font_mapping[font_id];
 
 	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
 	{
-		dword header_offset = g_font_globals.font_package_header->fonts[font_index].offset;
+		long header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
 		return (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
 	}
 
@@ -134,7 +134,7 @@ s_font_header const* __cdecl font_get_loaded_header(long font_index)
 
 	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
 	{
-		dword header_offset = g_font_globals.font_package_header->fonts[font_index].offset;
+		long header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
 		return (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
 	}
 
@@ -145,7 +145,7 @@ bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
 {
 	//return INVOKE(0x00509360, font_get_package_file_handle, out_file_handle);
 
-	return g_font_globals.loading_state.font_file_loaded && file_reference_get_file_handle(&g_font_globals.loading_state.font_file, out_file_handle);
+	return g_font_globals.package_loading_state.file_open && file_reference_get_file_handle(&g_font_globals.package_loading_state.file_reference, out_file_handle);
 }
 
 s_font_package_file_header const* __cdecl font_get_package_header_internal()
@@ -205,30 +205,29 @@ void __cdecl font_initialize_emergency()
 	g_font_globals.emergency_mode = true;
 }
 
-//void font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking)
-void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking)
+void __cdecl font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool blocking)
 {
-	//INVOKE(0x00509480, font_load, loading_state, font_index, filename, load_blocking);
+	//INVOKE(0x00509480, font_load, loading_state, font_index, filename, blocking);
 
-	e_async_priority priority = load_blocking ? _async_priority_blocking_generic : _async_priority_important_non_blocking;
+	e_async_priority priority = blocking ? _async_priority_blocking_generic : _async_priority_important_non_blocking;
 
 	ASSERT(!loading_state->started);
 	ASSERT(!loading_state->finished);
 	ASSERT(!loading_state->failed);
 	
-	loading_state->filename.set(filename);
+	csstrnzcpy(loading_state->debug_filename, filename, 32);
 	loading_state->font_index = font_index;
 	
-	get_active_font_directory(&loading_state->font_file);
-	file_reference_set_name(&loading_state->font_file, filename);
+	get_active_font_directory(&loading_state->file_reference);
+	file_reference_set_name(&loading_state->file_reference, filename);
 	loading_state->started = true;
 
 	s_async_task task{};
 	task.font_loading_task.loading_state = loading_state;
 	
-	loading_state->async_task = async_task_add(priority, &task, _async_category_text, font_load_callback, &loading_state->finished);
+	loading_state->task_id = async_task_add(priority, &task, _async_category_text, font_load_callback, &loading_state->finished);
 	
-	if (load_blocking)
+	if (blocking)
 		font_block_until_load_completes(loading_state);
 }
 
@@ -237,39 +236,38 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 	//return INVOKE(0x00509550, font_load_callback, task);
 
 	s_font_loading_state* loading_state = task->font_loading_task.loading_state;
-	e_async_completion completion = _async_completion_unknown0;
+	e_async_completion completion = _async_completion_retry;
 
-	dword error = 0;
-	if (loading_state->font_file_loaded)
+	dword unused_error_code = 0;
+	if (loading_state->file_open)
 	{
 		bool loaded_font_file = false;
-		if (file_read(&loading_state->font_file, sizeof(s_font_package_file), false, &g_font_globals.font_package))
+		if (file_read(&loading_state->file_reference, sizeof(s_font_package_file), false, &g_font_globals.package_file))
 		{
-			s_font_package_file_header* package_header = &g_font_globals.font_package.header;
-			font_package_file_header_byteswap(package_header);
+			font_package_file_header_byteswap(&g_font_globals.package_file.header);
 
-			if (font_package_file_header_validate(package_header))
+			if (font_package_file_header_validate(&g_font_globals.package_file.header))
 			{
 				bool load_package_file_failed = false;
-				for (long font_index = 0; font_index < package_header->font_count && !load_package_file_failed; ++font_index)
+				for (long font_index = 0; font_index < g_font_globals.package_file.header.font_count && !load_package_file_failed; ++font_index)
 				{
-					dword offset = package_header->fonts[font_index].offset;
-					if (offset < sizeof(s_font_package_file_header) &&
-						offset + sizeof(s_font_header) > package_header->package_file_font_offset + package_header->package_file_font_size)
+					s_font_package_font& font = g_font_globals.package_file.header.fonts[font_index];
+					if (font.header_offset < (long)sizeof(s_font_package_file_header) &&
+						font.header_offset + (long)sizeof(s_font_header) > g_font_globals.package_file.header.header_data_offset + g_font_globals.package_file.header.header_data_size)
 					{
 						generate_event(_event_error, "package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
 							font_index,
-							offset,
-							package_header->package_file_font_offset,
-							g_font_globals.font_package.header.package_file_font_offset,
-							g_font_globals.font_package.header.package_file_font_offset,
-							g_font_globals.font_package.header.package_file_font_size);
+							font.header_offset,
+							font.header_size,
+							g_font_globals.package_file.header.header_data_offset,
+							g_font_globals.package_file.header.header_data_offset,
+							g_font_globals.package_file.header.header_data_size);
 
 						load_package_file_failed = true;
 					}
 					else
 					{
-						s_font_header* header = (s_font_header*)offset_pointer(package_header, package_header->fonts[font_index].offset);
+						s_font_header* header = (s_font_header*)offset_pointer(&g_font_globals.package_file, g_font_globals.package_file.header.fonts[font_index].header_offset);
 						font_header_byteswap(header);
 
 						if (font_header_validate(header))
@@ -290,15 +288,15 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 					}
 				}
 
-				s_font_package_entry* entry = (s_font_package_entry*)offset_pointer(package_header, package_header->first_package_entry.first_character_key);
-				font_package_entries_byteswap(entry, package_header->first_package_entry.last_character_key);
+				s_font_package_entry* entry = (s_font_package_entry*)offset_pointer(&g_font_globals.package_file, g_font_globals.package_file.header.package_table_offset);
+				font_package_entries_byteswap(entry, g_font_globals.package_file.header.package_table_count);
 
 				if (!load_package_file_failed)
 				{
-					g_font_globals.font_package_header = package_header;
+					g_font_globals.font_package_header = &g_font_globals.package_file.header;
 					generate_event(_event_message, "loaded package file '%s' (%d fonts)",
-						loading_state->filename.get_string(),
-						package_header->font_count);
+						loading_state->debug_filename,
+						g_font_globals.package_file.header.font_count);
 
 					loaded_font_file = true;
 				}
@@ -319,20 +317,20 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 		if (!loaded_font_file)
 		{
 			generate_event(_event_critical, "fonts: unable to load font file '%s', fonts may be unavailable",
-				loading_state->filename.get_string());
+				loading_state->debug_filename);
 
 			loading_state->failed = 1;
 		}
 
 		completion = _async_completion_done;
 	}
-	else if (file_open(&loading_state->font_file, FLAG(_file_open_flag_desired_access_read), &error))
+	else if (file_open(&loading_state->file_reference, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
 	{
-		loading_state->font_file_loaded = 1;
+		loading_state->file_open = true;
 	}
 	else
 	{
-		generate_event(_event_error, "fonts: couldn't open font file '%s'", loading_state->filename.get_string());
+		generate_event(_event_error, "fonts: couldn't open font file '%s'", loading_state->debug_filename);
 		loading_state->failed = 1;
 		completion = _async_completion_done;
 	}
@@ -346,18 +344,18 @@ void __cdecl font_loading_idle()
 {
 	//INVOKE(0x005096F0, font_loading_idle);
 
-	if (g_font_globals.loading_state.finished && g_font_globals.loading_state.failed ||
+	if (g_font_globals.package_loading_state.finished && g_font_globals.package_loading_state.failed ||
 		g_font_globals.permanently_unavailable)
 	{
-		if (g_font_globals.load_font_from_hard_drive)
+		if (g_font_globals.cached_to_hard_drive)
 		{
 			fonts_invalidate_cached_fonts();
-			g_font_globals.load_font_from_hard_drive = false;
+			g_font_globals.cached_to_hard_drive = false;
 		}
 
-		if (g_font_globals.reload_retry_count < 3)
+		if (g_font_globals.failure_retry_count < 3)
 		{
-			g_font_globals.reload_retry_count++;
+			g_font_globals.failure_retry_count++;
 			font_reload();
 		}
 		else
@@ -396,7 +394,7 @@ bool __cdecl fonts_begin_loading(bool load_blocking)
 
 	char font_package_filename[256]{};
 	get_font_master_filename(g_font_globals.language, font_package_filename, sizeof(font_package_filename));
-	font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, load_blocking);
+	font_load(&g_font_globals.package_loading_state, _font_index_none, font_package_filename, load_blocking);
 
 	return true;
 }
@@ -405,8 +403,8 @@ void __cdecl fonts_close()
 {
 	//INVOKE(0x00509A50, fonts_close);
 
-	font_close_loaded_file(&g_font_globals.loading_state);
-	csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
+	font_close_loaded_file(&g_font_globals.package_loading_state);
+	csmemset(&g_font_globals.package_loading_state, 0, sizeof(g_font_globals.package_loading_state));
 	g_font_globals.font_package_header = nullptr;
 }
 
@@ -414,7 +412,7 @@ void __cdecl fonts_copy_to_hard_drive()
 {
 	//INVOKE(0x00509A90, fonts_copy_to_hard_drive);
 
-	g_font_globals.load_font_from_hard_drive = false;
+	g_font_globals.cached_to_hard_drive = false;
 }
 
 void __cdecl fonts_invalidate_cached_fonts()
@@ -453,7 +451,7 @@ void __cdecl get_active_font_directory(s_file_reference* file)
 {
 	//INVOKE(0x00509B50, get_active_font_directory, file);
 
-	if (g_font_globals.load_font_from_hard_drive)
+	if (g_font_globals.cached_to_hard_drive)
 		get_dvd_font_directory(file);
 	else
 		get_hard_drive_font_directory(file);

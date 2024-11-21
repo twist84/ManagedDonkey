@@ -45,7 +45,7 @@ enum e_async_priority
 
 enum e_async_completion
 {
-	_async_completion_unknown0 = 0,
+	_async_completion_retry = 0,
 	_async_completion_done,
 	_async_completion_thread_exit,
 

@@ -6,26 +6,35 @@
 #include "shell/shell.hpp"
 #include "tag_files/files.hpp"
 
+enum
+{
+	k_latest_font_package_header_version = 0xC0000003,
+	
+	k_font_package_file_size = 0x8000,
+	k_font_package_entry_count = 8,
+	k_font_count = 16,
+
+	k_latest_font_header_version = 0xF0000005,
+	k_font_header_kerning_pair_index_count = 256,
+};
+
 enum e_font_index
 {
-	_font_index_none = -1
+	_font_index_none = -1,
+	_font_index_fallback = -2,
+
+	k_maximum_font_index_count = 10
 };
 
 #pragma pack(push, 1)
 struct s_font_loading_state
 {
-	c_static_string<k_tag_string_length> filename;
-
-	long font_index;
-
-	bool font_file_loaded;
-	s_file_reference font_file;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
-	long async_task;
-
+	char debug_filename[32];
+	e_font_index font_index;
+	bool file_open;
+	s_file_reference file_reference;
+	byte pad0[0x3];
+	long task_id;
 	c_synchronized_long started;
 	c_synchronized_long failed;
 	c_synchronized_long finished;
@@ -35,302 +44,121 @@ static_assert(sizeof(s_font_loading_state) == 0x148);
 
 struct s_kerning_pair
 {
-	byte __unknown0;
-	byte __unknown1;
+	byte second_character;
+	char offset;
 };
 static_assert(sizeof(s_kerning_pair) == 0x2);
 
 struct s_font_package_entry
 {
 	dword first_character_key;
-	long last_character_key;
+	dword last_character_key;
 };
 static_assert(sizeof(s_font_package_entry) == 0x8);
 
-template<long k_maximum_font_count, long k_font_package_version>
-struct t_font_package_file_header
+struct s_font_package_font
 {
-	//  ho: 0xC0000003
-	// mcc: 0xC0000004
-	dword version;
-
-	//  ho: 16
-	// mcc: 64
-	long font_count;
-
-	struct s_font // is this the actual name
-	{
-		dword offset;
-
-		// sizeof(s_font_header)
-		long size;
-
-		word __unknown8;
-		word __unknownA;
-	};
-	static_assert(sizeof(s_font) == 0xC);
-
-	s_font fonts[k_maximum_font_count];
-	long font_index_mapping[k_maximum_font_count];
-
-	dword package_file_font_offset;
-	long package_file_font_size;
-
-	s_font_package_entry first_package_entry;
+	long header_offset;
+	long header_size;
+	short package_table_index;
+	short package_table_count;
 };
+static_assert(sizeof(s_font_package_font) == 0xC);
 
-struct s_font_package_file_header :
-	public t_font_package_file_header<16, 0xC0000003>
+struct s_font_package_file_header
 {
+	long version;
+	long font_count;
+	s_font_package_font fonts[k_font_count];
+	long font_mapping[k_font_count];
+	long header_data_offset;
+	long header_data_size;
+	long package_table_offset;
+	long package_table_count;
 };
 static_assert(sizeof(s_font_package_file_header) == 0x118);
 
-struct s_font_package_file_header_mcc :
-	public t_font_package_file_header<64, 0xC0000004>
-{
-};
-static_assert(sizeof(s_font_package_file_header_mcc) == 0x418);
-
 struct s_font_character
 {
-	// 256
-	word __unknown0;
-
-	// 0x2000
-	short packed_size;
-
-	// 256
-	short height;
-
-	// 64
-	short width;
-
-	// 256
-	word __unknown8;
-
-	// 64
-	word __unknownA;
+	short character_width;
+	word packed_size;
+	short bitmap_height;
+	short bitmap_width;
+	short initial_offset;
+	short bitmap_origin_y;
 };
 static_assert(sizeof(s_font_character) == 0xC);
 
-struct s_font_character_mcc
-{
-	// 768
-	short __unknown0;
-
-	short __unknown2;
-
-	// 0xC000
-	long packed_size;
-
-	// 768
-	short height;
-
-	// 512
-	short width;
-
-	// 768
-	word __unknownA;
-
-	// 512
-	word __unknownC;
-};
-static_assert(sizeof(s_font_character_mcc) == 0x10);
-
 struct s_font_header
 {
-	// 0xF0000005
-	dword version;
-
-	c_static_string<k_tag_string_length> name;
-
-	// 64
-	word __unknown24;
-
-	// 64
-	word __unknown26;
-
-	// 64
-	word __unknown28;
-
-	// 256
-	word __unknown2A;
-
-	// sizeof(s_font_header)
+	long version;
+	char debug_name[32];
+	short ascending_height;
+	short descending_height;
+	short leading_height;
+	short leading_width;
 	long kerning_pairs_offset;
-
-	// NUMBEROF(kerning_pairs)
 	long kerning_pair_count;
-	byte kerning_pairs[256];
-
-	dword location_table_offset;
-
-	// 0x10000
+	byte character_first_kerning_pair_index[k_font_header_kerning_pair_index_count];
+	long location_table_offset;
 	long location_table_count;
-
-	// 0x10000
-	long __unknown13C;
-	dword __unknown140;
-
+	long character_count;
+	long character_data_offset;
 	long character_data_size_bytes;
-
-	// 0x402
-	long __unknown148;
-	//qword __unknown148; // mcc
-
-	// 0x2000
-	dword __unknown14C;
-
-	// sizeof(s_font_package_file)
-	dword __unknown150;
-
-	// 0x8000000
-	dword __unknown154;
-	dword __unknown158;
+	dword no_such_character_data_location;
+	long maximum_packed_pixel_size_bytes;
+	long maximum_unpacked_pixel_size_bytes;
+	long total_packed_pixel_size_bytes;
+	long total_unpacked_pixel_size_bytes;
 };
 static_assert(sizeof(s_font_header) == 0x15C);
-
-struct s_font_header_mcc
-{
-	// 0xF0000006
-	dword version;
-
-	c_static_string<k_tag_string_length> name;
-
-	// 512
-	word __unknown24;
-
-	// 512
-	word __unknown26;
-
-	// 512
-	word __unknown28;
-
-	// 768
-	word __unknown2A;
-
-	// sizeof(s_font_header)
-	long kerning_pairs_offset;
-
-	// NUMBEROF(kerning_pairs)
-	long kerning_pair_count;
-	byte kerning_pairs[256];
-
-	long location_table_offset;
-
-	// 0x10000
-	long location_table_count;
-
-	// 0x10000
-	dword __unknown13C;
-	dword __unknown140;
-
-	long character_data_size_bytes;
-
-	// 0x1802
-	qword __unknown148;
-
-	// 0xC000
-	dword __unknown14C;
-
-	// sizeof(s_font_package_file)
-	dword __unknown150;
-	dword __unknown154;
-	dword __unknown158;
-
-	// 0x8000000
-	dword __unknown15C;
-	dword __unknown160;
-};
-static_assert(sizeof(s_font_header_mcc) == 0x168);
 
 struct s_font_package_file
 {
 	s_font_package_file_header header;
-	s_font_header font_headers[16];
-	byte __data16D8[0x6928];
+	s_font_header font_headers[k_font_count];
+	byte data[0x6928];
 };
-static_assert(sizeof(s_font_package_file) == 0x8000);
-
-struct s_font_package_file_mcc
-{
-	s_font_package_file_header_mcc header;
-	s_font_header_mcc font_headers[64];
-	byte __data16D8[0x61E8];
-};
-static_assert(sizeof(s_font_package_file_mcc) == 0xC000);
+static_assert(sizeof(s_font_package_file) == k_font_package_file_size);
 
 struct s_font_globals
 {
 	bool initialized;
-	bool load_font_from_hard_drive;
+	bool cached_to_hard_drive;
 	bool emergency_mode;
 	bool permanently_unavailable;
 	c_enum<e_language, long, _language_invalid, k_language_count> language;
-	long reload_retry_count;
+	long failure_retry_count;
+	c_synchronized_long async_error;
+	s_font_loading_state package_loading_state;
+	s_font_package_file_header const* font_package_header;
 
-	long __unknownC;
-
-	s_font_loading_state loading_state;
-	s_font_package_file_header* font_package_header;
-	s_font_package_file font_package;
+	//byte header_storage[k_font_package_file_size];
+	s_font_package_file package_file;
 };
 static_assert(sizeof(s_font_globals) == 0x815C);
 
-struct s_font_globals_mcc
-{
-	bool initialized;
-	bool load_font_from_hard_drive;
-	bool emergency_mode;
-	bool permanently_unavailable;
-	c_enum<e_language, long, _language_invalid, k_language_count> language;
-	long reload_retry_count;
-	long scaled_font_file_index;
-
-	long __unknown10;
-	long __unknown14;
-
-	s_font_loading_state loading_state;
-	s_font_package_file_header_mcc* font_package_header;
-	s_font_package_file_mcc font_package;
-};
-static_assert(sizeof(s_font_globals_mcc) == 0xC168);
-
 struct s_font_package_cache_entry
 {
-	long load_package_index;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
+	long package_index;
+	long package_allocation_time;
+	long package_loaded_time;
+	long package_last_used_time;
 	long async_task;
-	c_synchronized_long read_size;
-	c_synchronized_long done;
+	c_synchronized_long async_task_bytes_read;
+	c_synchronized_long async_task_complete;
 	long status;
-
-	s_font_package_file font_package_file;
+	byte package[k_font_package_file_size];
 };
 static_assert(sizeof(s_font_package_cache_entry) == 0x8020);
-//static_assert(sizeof(s_font_package_cache_entry) == 0xC020); // mcc
 
 struct s_font_package_cache
 {
 	c_synchronized_long initialized;
-	long __unknown4;
-
-	c_static_array<s_font_package_cache_entry, 8> entries;
+	long time;
+	c_static_array<s_font_package_cache_entry, k_font_package_entry_count> entries;
 };
 static_assert(sizeof(s_font_package_cache) == 0x40108);
-
-struct s_font_package_cache_mcc
-{
-	c_synchronized_long initialized;
-	long __unknown4;
-
-	c_static_array<s_font_package_cache_entry, 8> entries;
-
-	dword __unknown60108;
-};
-static_assert(sizeof(s_font_package_cache_mcc) == 0x4010C);
 
 extern s_font_globals& g_font_globals;
 extern s_font_package_cache& g_font_package_cache;
@@ -358,7 +186,7 @@ extern void __cdecl font_idle();
 extern bool __cdecl font_in_emergency_mode();
 extern void __cdecl font_initialize();
 extern void __cdecl font_initialize_emergency();
-extern void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking);
+extern void __cdecl font_load(s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking);
 extern e_async_completion __cdecl font_load_callback(s_async_task* task);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
