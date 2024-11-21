@@ -272,7 +272,7 @@ void __cdecl player_delete(long player_index)
 }
 
 //.text:005390B0 ; void __cdecl player_died(long)
-//.text:005391D0 ; 
+//.text:005391D0 ; void __cdecl player_died_update_for_multiplayer(long)
 //.text:00539210 ; 
 //.text:00539220 ; 
 //.text:00539240 ; bool __cdecl player_evaluate_interaction(long, s_player_interaction const*, s_player_interaction*)
@@ -295,7 +295,7 @@ void __cdecl player_delete(long player_index)
 //.text:0053A7D0 ; player_get_scavenger_aura_modifier_value
 //.text:0053A940 ; adrenaline related
 //.text:0053A9A0 ; long __cdecl player_get_unit_index_even_if_dead(long)
-//.text:0053A9E0 ; bool __cdecl player_try_to_pick_up_equipment(long, s_player_interaction const*)
+//.text:0053A9E0 ; bool __cdecl player_handle_interaction_held(long, s_player_interaction const*)
 //.text:0053AD10 ; bool __cdecl player_handle_interaction_press(long, s_player_interaction const*)
 //.text:0053ADE0 ; bool __cdecl player_handle_interaction_held(long, s_player_interaction const*)
 //.text:0053AED0 ; void __cdecl player_handle_weapon_added(long, short)
@@ -313,7 +313,7 @@ long __cdecl player_index_from_unit_index(long unit_index)
 	return INVOKE(0x0053B1D0, player_index_from_unit_index, unit_index);
 }
 
-//.text:0053B200
+//.text:0053B200 ; public: __cdecl s_player_information::s_player_information()
 //.text:0053B260 ; void __cdecl player_input_enable(bool)
 //.text:0053B290 ; bool __cdecl player_input_enabled()
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
@@ -402,11 +402,11 @@ void __cdecl player_positions_initialize_for_new_structure_bsp(dword new_structu
 }
 
 //.text:0053BD90 ; void __cdecl player_prepare_action(long, s_player_action*)
-//.text:0053BFF0 ; 
+//.text:0053BFF0 ; void __cdecl player_reading_terminal_set(bool)
 //.text:0053C020 ; void __cdecl player_rejoined_game(long,  game_player_options const*, bool)
 //.text:0053C070 ; void __cdecl player_reset(long, bool, bool,  game_player_options const*)
 //.text:0053C570 ; 
-//.text:0053C630 ; 
+//.text:0053C630 ; void __cdecl player_set_configuration(long, s_player_configuration const*)
 //.text:0053C860 ; 
 
 void __cdecl player_set_facing(long player_index, vector3d const* facing)

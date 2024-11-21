@@ -10,7 +10,7 @@
 //.text:0072C510 ; public: virtual e_director_perspective __cdecl c_scripted_camera::get_perspective() const
 //.text:0072C570 ; public: virtual e_camera_mode __cdecl c_scripted_camera::get_type() const
 //.text:0072C5C0 ; void __cdecl scripted_camera_cinematic_stop()
-//.text:0072C600 ; 
+//.text:0072C600 ; void __cdecl scripted_camera_enable(bool)
 
 void __cdecl scripted_camera_game_tick()
 {
@@ -21,7 +21,6 @@ void __cdecl scripted_camera_game_tick()
 //.text:0072CAC0 ; bool __cdecl scripted_camera_get_cinematic_data(long *, long *, long *)
 //.text:0072CB20 ; 
 //.text:0072CB40 ; 
-//.text:0072CB60 ; 
 //.text:0072CB60 ; bool __cdecl scripted_camera_get_deterministic_animated_camera_matrix(real_matrix4x3*, real*)
 //.text:0072CE60 ; void __cdecl scripted_camera_get_deterministic_cinematic_camera_matrix(s_camera_frame_dynamic const*, real_matrix4x3*)
 //.text:0072CF20 ; s_cluster_reference __cdecl scripted_camera_get_deterministic_cluster_reference()

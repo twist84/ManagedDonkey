@@ -170,7 +170,7 @@ void __cdecl cinematics_game_tick()
 	return INVOKE(0x0067F080, cinematics_game_tick);
 }
 
-//.text:0067F0E0 ; 
+//.text:0067F140 ; long __cdecl cortana_tag_reference_get_scene(long)
 //.text:0067F140 ; 
 //.text:0067F160 ; 
 //.text:0067F170 ; 
@@ -181,6 +181,34 @@ void __cdecl draw_quad(short_rectangle2d* rect, dword color)
 {
 	return INVOKE(0x0067F200, draw_quad, rect, color);
 }
+
+//.text:0067F260 ; 
+//.text:0067F270 ; 
+//.text:0067F2A0 ; 
+//.text:0067F2D0 ; 
+//.text:0067F300 ; 
+//.text:0067F310 ; void __cdecl get_cinematic_bounds(short_rectangle2d*, short_rectangle2d*, short_rectangle2d*)
+//.text:0067F520 ; void __cdecl get_cinematic_bounds_screen_space(short_rectangle2d*, short_rectangle2d*, short_rectangle2d *)
+//.text:0067F570 ; s_cinematic_light_globals* __cdecl get_cinematic_light_globals()
+//.text:0067F590 ; 
+//.text:0067F5A0 ; s_cinematic_scene* __cdecl global_cinematic_scene_try_and_get()
+//.text:0067F5D0 ; void __cdecl hs_subtitle(long, real)
+//.text:0067F5F0 ; void __cdecl iterate_future_shots(long, void (__cdecl*)(s_cinematic_scene*, long, long, c_tag_resource_collector*), class c_tag_resource_collector*)
+//.text:0067F720 ; void __cdecl predict_shot_dialogue_by_frame(s_cinematic_scene*, long, long, long)
+//.text:0067F7E0 ; void __cdecl predict_shot_dialogue(s_cinematic_scene*, long, long, c_tag_resource_collector*)
+//.text:0067F800 ; 
+//.text:0067F810 ; 
+//.text:0067F830 ; 
+//.text:0067F870 ; 
+//.text:0067F8B0 ; 
+//.text:0067F8F0 ; 
+//.text:0067F950 ; 
+//.text:0067F960 ; void __cdecl subtitle_add(long, real)
+//.text:0067F9E0 ; 
+//.text:0067FA30 ; 
+//.text:0067FA60 ; void __cdecl subtitle_render()
+//.text:0067FF40 ; bool __cdecl subtitle_should_render()
+//.text:0067FFC0 ; 
 
 void cinematic_debug_camera_control_update()
 {

@@ -1,13 +1,13 @@
 #include "devices/devices.hpp"
 
-//.text:00B92160 ; 
+//.text:00B92160 ; void __cdecl simulation_action_object_update<e_simulation_device_update_flag>(long, e_simulation_device_update_flag)
 //.text:00B92190 ; 
-//.text:00B921B0 ; 
+//.text:00B921B0 ; public: __cdecl c_simulation_object_update_flags::c_simulation_object_update_flags(long, e_simulation_device_update_flag)
 //.text:00B921E0 ; 
 //.text:00B921F0 ; void __cdecl __tls_set_g_device_groups_data_allocator(void*)
 //.text:00B92220 ; 
 //.text:00B92260 ; 
-//.text:00B92280 ; 
+//.text:00B92280 ; void __cdecl clear_device_animation_control(s_device_animation_control*)
 //.text:00B922C0 ; void __cdecl create_initial_device_groups()
 //.text:00B92380 ; 
 //.text:00B923B0 ; void __cdecl device_add_control_children_to_groups(long)

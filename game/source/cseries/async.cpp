@@ -93,7 +93,7 @@ long __cdecl async_task_add_ex(e_async_priority priority, s_async_task* task, e_
 	//	element->work_callback = work_callback;
 	//	element->done = done;
 	//	element->category = category;
-	//	return async_task_add_work_list(element);
+	//	return work_list_add(element);
 	//}
 	//return NONE;
 }
@@ -320,7 +320,7 @@ bool __cdecl simple_yield_function(c_synchronized_long* done)
 	return async_test_completion_flag(done);
 }
 
-//.text:00508AA0 ; async_task_add_work_list
+//.text:00508AA0 ; work_list_add
 
 void __cdecl work_list_add_internal_assumes_locked_does_not_set_id_does_not_resume(s_async_queue_element* element)
 {

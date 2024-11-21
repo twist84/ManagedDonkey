@@ -496,13 +496,13 @@ bool c_director::in_free_camera_mode() const
 //.text:00592A60 ; bool __cdecl c_director::inhibits_facing() const
 //.text:00592A70 ; bool __cdecl c_director::inhibits_input() const
 //.text:00592A80 ; long __cdecl c_director::player_get_next_player_with_a_unit(long, long, long, long, bool, bool, bool, long*)
-//.text:00592C10 ; 
+//.text:00592C10 ; static void __cdecl c_director::player_set_desired_respawn_player(long, long)
 //.text:00592C80 ; void __cdecl c_director::player_switch_gui_button_pressed()
-//.text:00592CC0 ; 
+//.text:00592CC0 ; static bool __cdecl c_director::player_switch_gui_create(long)
 //.text:00592D80 ; void __cdecl c_director::player_switch_gui_create_or_update()
 //.text:00592D90 ; bool __cdecl c_director::player_switch_gui_destroy()
 //.text:00592DD0 ; bool __cdecl c_director::player_switch_gui_set_visible(e_output_user_index)
-//.text:00592E30 ; 
+//.text:00592E30 ; void __cdecl c_director::player_switch_gui_update()
 //.text:00592F90 ; bool __cdecl c_director::player_switch_update()
 //.text:005931CC ; 
 
