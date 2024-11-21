@@ -9,7 +9,7 @@
 #include "networking/network_time.hpp"
 #include "xbox/xnet.hpp"
 
-REFERENCE_DECLARE(0x0228E6B8, s_broadcast_search_globals, g_broadcast_search_globals);
+REFERENCE_DECLARE(0x0228E6B8, s_network_broadcast_search_globals, g_broadcast_search_globals);
 
 HOOK_DECLARE(0x004D9C40, network_broadcast_search_active);
 HOOK_DECLARE(0x004D9C70, network_broadcast_search_begin);
@@ -46,8 +46,8 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 		if (c_network_link::physical_link_available())
 		{
 			g_broadcast_search_globals.search_active = true;
-			g_broadcast_search_globals.__unknownD = false;
-			g_broadcast_search_globals.search_time = 0;
+			g_broadcast_search_globals.sessions_updated = false;
+			g_broadcast_search_globals.last_broadcast_message_sent = 0;
 			g_broadcast_search_globals.search_nonce = transport_secure_nonce_generate();
 			g_broadcast_search_globals.maximum_session_count = maximum_session_count;
 			g_broadcast_search_globals.available_sessions = session_storage;
@@ -67,7 +67,7 @@ void __cdecl network_broadcast_search_dispose()
 {
 	//INVOKE(0x004D9CF0, network_broadcast_search_dispose);
 
-	csmemset(&g_broadcast_search_globals, 0, sizeof(s_broadcast_search_globals));
+	csmemset(&g_broadcast_search_globals, 0, sizeof(s_network_broadcast_search_globals));
 }
 
 void __cdecl network_broadcast_search_end()
@@ -94,7 +94,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 		{
 			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
 
-			if (session->initialized)
+			if (session->session_valid)
 			{
 				if (transport_secure_address_compare(&session->status_data.host_address, &message->status_data.host_address))
 				{
@@ -143,13 +143,13 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 			{
 				csmemcpy(&session->status_data, &message->status_data, sizeof(s_network_session_status_data));
 
-				session->__unknown30 = true;
-				g_broadcast_search_globals.__unknownD = true;
+				session->status_data_valid = true;
+				g_broadcast_search_globals.sessions_updated = true;
 			}
 
-			session->initialized = true;
-			session->time = network_time_get();
-			session->has_time = true;
+			session->session_valid = true;
+			session->last_update_timestamp = network_time_get();
+			session->connect_established = true;
 		}
 	}
 
@@ -158,7 +158,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 	{
 		s_available_session const session = g_broadcast_search_globals.available_sessions[i];
 
-		if (session.initialized && transport_secure_identifier_compare(&session.status_data.session_id, &message->status_data.session_id))
+		if (session.session_valid && transport_secure_identifier_compare(&session.status_data.session_id, &message->status_data.session_id))
 			add_session = true;
 	}
 
@@ -185,7 +185,7 @@ void __cdecl network_broadcast_search_update()
 
 	if (g_broadcast_search_globals.search_active)
 	{
-		if (network_time_since(g_broadcast_search_globals.search_time) > k_network_broadcast_search_interval)
+		if (network_time_since(g_broadcast_search_globals.last_broadcast_message_sent) > k_network_broadcast_search_interval)
 		{
 			s_network_message_directed_search message;
 			message.protocol_version = k_network_protocol_version;
@@ -207,18 +207,18 @@ void __cdecl network_broadcast_search_update()
 				g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, broadcast_port);
 			}
 
-			g_broadcast_search_globals.search_time = network_time_get();
+			g_broadcast_search_globals.last_broadcast_message_sent = network_time_get();
 		}
 
 		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
 			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
-			if (session->initialized)
+			if (session->session_valid)
 			{
-				if (network_time_since(session->time) > 4000)
+				if (network_time_since(session->last_update_timestamp) > 4000)
 				{
 					csmemset(session, 0, sizeof(s_available_session));
-					g_broadcast_search_globals.__unknownD = true;
+					g_broadcast_search_globals.sessions_updated = true;
 				}
 			}
 		}

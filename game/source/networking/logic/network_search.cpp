@@ -125,7 +125,7 @@ bool __cdecl network_search_session_valid(s_available_session* session)
 
 	ASSERT(session);
 
-	return session->initialized && session->status_data.header.platform == 1;
+	return session->session_valid && session->status_data.header.platform == 1;
 }
 
 bool __cdecl network_search_start(long controller_index, long category, long maximum_sessions, dword_flags available_squad_search_flags, c_allocation_base* session_allocator)

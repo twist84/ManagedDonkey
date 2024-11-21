@@ -119,7 +119,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0226DAD0 ; bool g_network_banhammer_initialized
 //.data:0226DAD8 ; s_network_banhammer_globals g_network_banhammer_globals
 //.data:0228E520 ; s_network_arbitration_globals network_arbitration_globals
-//.data:0228E6B8 ; s_broadcast_search_globals g_broadcast_search_globals
+//.data:0228E6B8 ; s_network_broadcast_search_globals g_broadcast_search_globals
 //.data:0228E6E0 ; s_network_recruiting_search_globals g_recruiting_search_globals
 //.data:0229AEA8 ; s_network_search_globals g_network_search_globals
 //.data:0229AEC8 ; s_network_storage_file_globals g_network_storage_file_globals

@@ -31,8 +31,8 @@ bool __cdecl network_recruiting_search_begin(long controller_index,long squad_se
 	//	{
 	//		g_recruiting_search_globals.maximum_session_count = maximum_session_count;
 	//		g_recruiting_search_globals.search_active = true;
-	//		g_recruiting_search_globals.__unknownC7B9 = false;
-	//		g_recruiting_search_globals.available_sessions = session_storage;
+	//		g_recruiting_search_globals.sessions_updated = false;
+	//		g_recruiting_search_globals.session_storage = session_storage;
 	//		csmemset(session_storage, 0, sizeof(s_available_session) * maximum_session_count);
 	//	}
 	//}
@@ -77,14 +77,14 @@ void __cdecl network_recruiting_search_update()
 		g_recruiting_search_globals.recruiting_seeker.update();
 		for (long i = 0; i < g_recruiting_search_globals.maximum_session_count; i++)
 		{
-			s_available_session* session = g_recruiting_search_globals.available_sessions + i;
+			s_available_session* session = g_recruiting_search_globals.session_storage + i;
 
-			if (session->initialized)
+			if (session->session_valid)
 			{
-				if (network_time_since(session->time) > 10000)
+				if (network_time_since(session->last_update_timestamp) > 10000)
 				{
 					csmemset(session, 0, sizeof(s_available_session));
-					g_recruiting_search_globals.__unknownC7B9 = true;
+					g_recruiting_search_globals.sessions_updated = true;
 				}
 			}
 		}

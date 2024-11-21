@@ -6,17 +6,13 @@
 
 struct s_available_session
 {
-	bool initialized;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	dword time;
-	bool has_time;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte __dataC[0x24];
-	bool __unknown30;
+	bool session_valid;
+	dword last_update_timestamp;
+	bool connect_established;
+	bool qos_successful;
+	long qos_target_status;
+	s_transport_qos_result qos_result;
+	bool status_data_valid;
 	byte __data31[0x7];
 	s_network_session_status_data status_data;
 };

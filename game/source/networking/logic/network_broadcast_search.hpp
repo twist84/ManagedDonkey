@@ -7,36 +7,21 @@ struct c_network_link;
 struct c_network_message_gateway;
 struct s_available_session;
 
-struct s_broadcast_search_globals
+struct s_network_broadcast_search_globals
 {
 	bool initialized;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
 	c_network_link* link;
 	c_network_message_gateway* message_gateway;
-
 	bool search_active;
-
-	// new status data
-	bool __unknownD;
-	byte : 8;
-	byte : 8;
-
-	dword search_time;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
+	bool sessions_updated;
+	dword last_broadcast_message_sent;
 	qword search_nonce;
 	long maximum_session_count;
 	s_available_session* available_sessions;
 };
-static_assert(sizeof(s_broadcast_search_globals) == 0x28);
+static_assert(sizeof(s_network_broadcast_search_globals) == 0x28);
 
-extern s_broadcast_search_globals& g_broadcast_search_globals;
+extern s_network_broadcast_search_globals& g_broadcast_search_globals;
 long const k_network_broadcast_search_interval = 2000;
 
 struct transport_address;
