@@ -90,7 +90,7 @@ long __cdecl c_bitstream::read_signed_integer(char const* name, long size_in_bit
 {
 	long range = 1 << (size_in_bits - 1);
 
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
 
 	long value = read_integer(name, size_in_bits);
@@ -174,11 +174,11 @@ void __cdecl c_bitstream::angle_to_axes_internal(vector3d const* up, real forwar
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
-	ASSERT(writing());
+	ASSERT(was_writing());
 
 	write_bits_internal(stream->m_data, stream->m_bitstream_data.current_memory_bit_position);
-	__unknown98 += stream->__unknown98;
-	__unknown9C += stream->__unknown9C;
+	m_number_of_bits_rewound += stream->m_number_of_bits_rewound;
+	m_number_of_position_resets += stream->m_number_of_position_resets;
 
 	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, c_bitstream const*)(this, stream);
 }
@@ -264,11 +264,11 @@ void __cdecl c_bitstream::data_is_untrusted(bool is_untrusted)
 
 void __cdecl c_bitstream::discard_remaining_data()
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	m_bitstream_data.current_memory_bit_position = 8 * m_data_size_bytes;
-	m_bitstream_data.window = 0;
-	m_bitstream_data.window_bits_used = 0;
+	m_bitstream_data.accumulator = 0;
+	m_bitstream_data.accumulator_bit_count = 0;
 
 	//DECLFUNC(0x00557F60, void, __thiscall, c_bitstream const*)(this);
 }
@@ -303,25 +303,27 @@ void __cdecl __cdecl c_bitstream::encode_qword_to_memory(qword value, long size_
 
 bool __cdecl c_bitstream::overflowed() const
 {
+	//ASSERT(was_reading() || was_writing());
+
 	return m_bitstream_data.current_stream_bit_position > 8 * m_data_size_bytes;
 }
 
 bool __cdecl c_bitstream::error_occurred() const
 {
 	bool result = overflowed();
-	if (__unknown14)
+	if (m_data_error_detected)
 		return true;
 	return result;
 
 	//DECLFUNC(0x00558090, bool, __thiscall, c_bitstream const*)(this);
 }
 
-bool __cdecl c_bitstream::reading() const
+bool __cdecl c_bitstream::was_reading() const
 {
 	return m_state == _bitstream_state_reading || m_state == _bitstream_state_read_only_for_consistency;
 }
 
-bool __cdecl c_bitstream::writing() const
+bool __cdecl c_bitstream::was_writing() const
 {
 	return m_state == _bitstream_state_writing;
 }
@@ -335,7 +337,7 @@ void __cdecl c_bitstream::finish_consistency_check()
 
 void __cdecl c_bitstream::finish_reading()
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	if (overflowed())
 	{
@@ -349,7 +351,7 @@ void __cdecl c_bitstream::finish_reading()
 	//DECLFUNC(0x005580C0, void, __thiscall, c_bitstream*)(this);
 }
 
-void __cdecl c_bitstream::finish_writing(long* bits_remaining)
+void __cdecl c_bitstream::finish_writing(long* bits_wasted)
 {
 	if (overflowed())
 	{
@@ -358,7 +360,7 @@ void __cdecl c_bitstream::finish_writing(long* bits_remaining)
 			m_bitstream_data.current_stream_bit_position, 8 * m_data_size_bytes);
 	}
 
-	DECLFUNC(0x005580D0, void, __thiscall, c_bitstream*, long*)(this, bits_remaining);
+	DECLFUNC(0x005580D0, void, __thiscall, c_bitstream*, long*)(this, bits_wasted);
 }
 
 long __cdecl c_bitstream::get_current_stream_bit_position()
@@ -370,14 +372,14 @@ long __cdecl c_bitstream::get_current_stream_bit_position()
 
 long __cdecl c_bitstream::get_space_used_in_bits()
 {
-	return m_bitstream_data.window_bits_used + m_bitstream_data.current_stream_bit_position;
+	return m_bitstream_data.accumulator_bit_count + m_bitstream_data.current_stream_bit_position;
 }
 
 byte const* __cdecl c_bitstream::get_data(long* data_length) const
 {
 	//return DECLFUNC(0x00558250, byte const*, __thiscall, c_bitstream const*, long*)(this, data_length);
 
-	ASSERT(!writing());
+	ASSERT(!was_writing());
 	ASSERT(data_length);
 
 	*data_length = m_data_size_bytes;
@@ -386,7 +388,7 @@ byte const* __cdecl c_bitstream::get_data(long* data_length) const
 
 void __cdecl c_bitstream::push_position()
 {
-	ASSERT(reading() || writing());
+	ASSERT(was_reading() || was_writing());
 	ASSERT(m_position_stack_depth < k_bitstream_maximum_position_stack_size);
 
 	m_position_stack[m_position_stack_depth++] = m_bitstream_data;
@@ -394,7 +396,7 @@ void __cdecl c_bitstream::push_position()
 
 void __cdecl c_bitstream::pop_position(bool pop)
 {
-	ASSERT(reading() || writing());
+	ASSERT(was_reading() || was_writing());
 	ASSERT(m_position_stack_depth > 0);
 
 	DECLFUNC(0x00558310, void, __thiscall, c_bitstream*, bool)(this, pop);
@@ -407,21 +409,21 @@ qword __cdecl c_bitstream::read_accumulator_from_memory(long a1)
 
 bool __cdecl c_bitstream::read_bool(char const* name)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	return DECLFUNC(0x00558570, bool, __thiscall, c_bitstream*)(this);
 }
 
 void __cdecl c_bitstream::read_bits_internal(void* data, long size_in_bits)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream*, void*, long)(this, data, size_in_bits);
 }
 
 dword __cdecl c_bitstream::read_integer(char const* name, long size_in_bits)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
 
 	//dword value = read_value_internal(size_in_bits)
@@ -432,14 +434,14 @@ dword __cdecl c_bitstream::read_integer(char const* name, long size_in_bits)
 
 void __cdecl c_bitstream::read_identifier(char const* identifier)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream*, char const*)(this, identifier);
 }
 
 void __cdecl c_bitstream::read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(axis_encoding_size_in_bits >= 0 && axis_encoding_size_in_bits <= SIZEOF_BITS(point->n[0]));
 
 	//for (long axis = 0; axis < 3; ++axis)
@@ -453,14 +455,14 @@ void __cdecl c_bitstream::read_point3d(char const* name, int32_point3d* point, l
 
 real __cdecl c_bitstream::read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 
 	return DECLFUNC(0x00559080, real, __thiscall, c_bitstream*, char const*, real, real, long, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 qword __cdecl c_bitstream::read_qword_internal(long size_in_bits)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= SIZEOF_BITS(qword));
 
 	return DECLFUNC(0x00559160, qword, __thiscall, c_bitstream*, long)(this, size_in_bits);
@@ -468,7 +470,7 @@ qword __cdecl c_bitstream::read_qword_internal(long size_in_bits)
 
 void __cdecl c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(address);
 
 	//read_bits_internal(address, 128);
@@ -478,7 +480,7 @@ void __cdecl c_bitstream::read_secure_address(char const* name, s_transport_secu
 
 void __cdecl c_bitstream::read_string(char const* name, char* _string, long max_string_size)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(_string);
 	ASSERT(max_string_size > 0);
 
@@ -487,7 +489,7 @@ void __cdecl c_bitstream::read_string(char const* name, char* _string, long max_
 
 void __cdecl c_bitstream::read_string_utf8(char const* name, char* char_string, long max_string_size)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(char_string);
 	ASSERT(max_string_size > 0);
 
@@ -496,7 +498,7 @@ void __cdecl c_bitstream::read_string_utf8(char const* name, char* char_string, 
 
 void __cdecl c_bitstream::read_string_wchar(char const* name, wchar_t* _string, long max_string_size)
 {
-	ASSERT(reading());
+	ASSERT(was_reading());
 	ASSERT(_string);
 	ASSERT(max_string_size > 0);
 
@@ -539,9 +541,41 @@ bool __cdecl c_bitstream::would_overflow(long size_in_bits) const
 	return DECLFUNC(0x00559E90, bool, __thiscall, c_bitstream const*, long)(this, size_in_bits);
 }
 
-void __cdecl c_bitstream::write_accumulator_to_memory(qword a1, long a2)
+void __cdecl c_bitstream::write_accumulator_to_memory(qword value, long size_in_bits)
 {
-	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream*, qword, long)(this, a1, a2);
+	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream*, qword, long)(this, value, size_in_bits);
+
+	//qword accumulator = m_bitstream_data.accumulator;
+	//long shift_bits = SIZEOF_BITS(qword) - m_bitstream_data.accumulator_bit_count;
+	//m_bitstream_data.current_stream_bit_position += size_in_bits;
+	//long accumulator_bit_count = size_in_bits - shift_bits;
+	//
+	//if (accumulator_bit_count < SIZEOF_BITS(qword))
+	//	accumulator = left_shift_fast(accumulator, shift_bits) | (value >> accumulator_bit_count);
+	//
+	//byte* next_data = m_bitstream_data.next_data;
+	//byte* data_max = m_data_max;
+	//
+	//if (next_data + SIZEOF_BITS(byte) > data_max)
+	//{
+	//	if (next_data < data_max)
+	//	{
+	//		do
+	//		{
+	//			byte next_byte = HIBYTE(accumulator);
+	//			accumulator <<= SIZEOF_BITS(byte);
+	//			*m_bitstream_data.next_data++ = next_byte;
+	//		} while (m_bitstream_data.next_data < m_data_max);
+	//	}
+	//
+	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(qword);
+	//}
+	//else
+	//{
+	//	*(qword*)next_data = bswap_qword(accumulator);
+	//	m_bitstream_data.next_data += SIZEOF_BITS(byte);
+	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(qword);
+	//}
 }
 
 void __cdecl c_bitstream::write_bits_internal(void const* data, long size_in_bits)
@@ -551,7 +585,7 @@ void __cdecl c_bitstream::write_bits_internal(void const* data, long size_in_bit
 
 void __cdecl c_bitstream::write_identifier(char const* identifier)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 
 	//DECLFUNC(0x0055A100, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
 }
@@ -563,21 +597,21 @@ void __cdecl c_bitstream::write_point3d(char const* name, int32_point3d const* p
 
 void __cdecl c_bitstream::write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 
 	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream*, char const*, real*, real, real, long, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 void __cdecl c_bitstream::write_qword_internal(qword value, long size_in_bits)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 
 	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, qword, long)(this, value, size_in_bits);
 }
 
 void __cdecl c_bitstream::write_secure_address(char const* name, s_transport_secure_address const* address)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 	ASSERT(address);
 
 	//write_bits_internal(address, 128);
@@ -587,7 +621,7 @@ void __cdecl c_bitstream::write_secure_address(char const* name, s_transport_sec
 
 void __cdecl c_bitstream::write_string(char const* name, char const* _string, long max_string_size)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 	ASSERT(_string);
 	ASSERT(max_string_size > 0);
 	//ASSERT(strnlen(_string, max_string_size) < max_string_size);
@@ -597,7 +631,7 @@ void __cdecl c_bitstream::write_string(char const* name, char const* _string, lo
 
 void __cdecl c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, long max_string_size)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 	ASSERT(char_string);
 	ASSERT(max_string_size > 0);
 	//ASSERT(strnlen(char_string, max_string_size) < max_string_size);
@@ -607,7 +641,7 @@ void __cdecl c_bitstream::write_string_utf8(char const* name, utf8 const* char_s
 
 void __cdecl c_bitstream::write_string_wchar(char const* name, wchar_t const* _string, long max_string_size)
 {
-	ASSERT(writing());
+	ASSERT(was_writing());
 	ASSERT(_string);
 	ASSERT(max_string_size > 0);
 

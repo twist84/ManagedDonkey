@@ -191,7 +191,7 @@ void c_network_message_gateway::send_all_pending_messages()
 	{
 		bool result = true;
 
-		ASSERT(m_outgoing_packet.writing());
+		ASSERT(m_outgoing_packet.was_writing());
 		ASSERT(!m_outgoing_packet.would_overflow(1));
 
 		m_outgoing_packet.write_bool("has_message", false);
@@ -229,7 +229,7 @@ void c_network_message_gateway::send_all_pending_messages()
 	}
 
 	ASSERT(!m_outgoing_packet_pending);
-	ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
+	ASSERT(!m_outgoing_packet.was_reading() && !m_outgoing_packet.was_writing());
 }
 
 bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port)
@@ -264,7 +264,7 @@ bool c_network_message_gateway::send_message_directed(transport_address const* o
 				break;
 			}
 
-			ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
+			ASSERT(!m_outgoing_packet.was_reading() && !m_outgoing_packet.was_writing());
 			ASSERT(packet_size <= sizeof(m_outgoing_packet_storage));
 
 			m_outgoing_packet.set_data(m_outgoing_packet_storage, packet_size);
@@ -279,7 +279,7 @@ bool c_network_message_gateway::send_message_directed(transport_address const* o
 		}
 
 		ASSERT(m_outgoing_packet_pending);
-		ASSERT(m_outgoing_packet.writing());
+		ASSERT(m_outgoing_packet.was_writing());
 		ASSERT(!m_outgoing_packet.would_overflow(1));
 
 		m_outgoing_packet.push_position();

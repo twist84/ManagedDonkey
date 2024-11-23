@@ -15,43 +15,8 @@ enum e_bitstream_state
 	k_bitstream_state_count
 };
 
-long const k_bitstream_maximum_position_stack_size = 4;
-
 struct c_bitstream
 {
-	struct s_bitstream_data
-	{
-		long current_memory_bit_position;
-		long current_stream_bit_position;
-		qword window;
-		long window_bits_used;
-		byte* next_data;
-	};
-
-protected:
-	byte* m_data;
-	byte* m_data_max;
-
-	long m_data_size_bytes;
-	long m_data_size_alignment;
-
-	c_enum<e_bitstream_state, long, _bitstream_state_initial, k_bitstream_state_count> m_state;
-
-	// possibly part of `s_bitstream_data`
-	bool __unknown14;
-
-	s_bitstream_data m_bitstream_data;
-
-	long m_position_stack_depth;
-
-	// why is this between `m_position_stack_depth` and `m_position_stack`, is `m_position_stack_depth` actually a qword?
-	dword __unknown34;
-
-	s_bitstream_data m_position_stack[k_bitstream_maximum_position_stack_size];
-
-	dword __unknown98;
-	dword __unknown9C;
-
 public:
 	c_bitstream() :
 		m_data(0),
@@ -100,12 +65,12 @@ public:
 	bool __cdecl overflowed() const;
 	bool __cdecl error_occurred() const;
 
-	bool __cdecl reading() const;
-	bool __cdecl writing() const;
+	bool __cdecl was_reading() const;
+	bool __cdecl was_writing() const;
 
 	void __cdecl finish_consistency_check();
 	void __cdecl finish_reading();
-	void __cdecl finish_writing(long* out_bits_remaining);
+	void __cdecl finish_writing(long* bits_wasted);
 
 	long __cdecl get_current_stream_bit_position();
 	long __cdecl get_space_used_in_bits();
@@ -144,7 +109,7 @@ public:
 	void __cdecl set_data(byte* data, long data_length);
 	void __cdecl skip(long bits_to_skip);
 	bool __cdecl would_overflow(long size_in_bits) const;
-	void __cdecl write_accumulator_to_memory(qword a1, long a2);
+	void __cdecl write_accumulator_to_memory(qword value, long size_in_bits);
 	void __cdecl write_bits_internal(void const* data, long size_in_bits);
 	void __cdecl write_identifier(char const* identifier);
 	void __cdecl write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits);
@@ -163,6 +128,36 @@ public:
 		write_integer(name, value, size_in_bits);
 	}
 
+private:
+	static long const k_bitstream_maximum_position_stack_size = 4;
+
+protected:
+
+	struct s_bitstream_stack_entry
+	{
+		long current_memory_bit_position;
+		long current_stream_bit_position;
+		qword accumulator;
+		long accumulator_bit_count;
+		byte* next_data;
+	};
+
+	byte* m_data;
+	byte* m_data_max;
+	long m_data_size_bytes;
+	long m_data_size_alignment;
+	c_enum<e_bitstream_state, long, _bitstream_state_initial, k_bitstream_state_count> m_state;
+	bool m_data_error_detected;
+	s_bitstream_stack_entry m_bitstream_data;
+
+	long m_position_stack_depth;
+
+	// why is this between `m_position_stack_depth` and `m_position_stack`, is `m_position_stack_depth` actually a qword?
+	dword __unknown34; // long m_potential_bit_position?
+
+	s_bitstream_stack_entry m_position_stack[k_bitstream_maximum_position_stack_size];
+	long m_number_of_bits_rewound;
+	long m_number_of_position_resets;
 };
 static_assert(sizeof(c_bitstream) == 0xA0);
 
