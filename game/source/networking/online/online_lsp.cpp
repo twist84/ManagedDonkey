@@ -16,6 +16,8 @@ REFERENCE_DECLARE(0x0199FE88, c_online_lsp_manager, g_online_lsp_manager);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00431440, c_online_lsp_manager, acquire_server);
 
+transport_address lsp_server_address(inet_addr("127.0.0.1"), htons(8000), sizeof(dword));
+
 char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 {
 	// H3
@@ -31,26 +33,6 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 	/* prs */ "prs", // presence from reach?
 	/* ofr */ "ofr"  // offers?
 };
-
-transport_address lsp_server_address(inet_addr("127.0.0.1"), htons(8000), sizeof(dword));
-
-void online_lsp_get_info(long* ip_address, word* port)
-{
-	if (ip_address)
-		*ip_address = ntohl(lsp_server_address.ipv4_address);
-
-	if (port)
-		*port = ntohs(lsp_server_address.port);
-}
-
-void online_lsp_set_info(char const* host, char const* port)
-{
-	transport_address address{};
-	transport_address_from_host(host, address);
-
-	if (host) lsp_server_address.ipv4_address = htonl(address.ipv4_address);
-	if (port) lsp_server_address.port = htons(static_cast<word>(atol(port)));
-}
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
 
@@ -70,14 +52,14 @@ void c_online_lsp_manager::clear_activated_servers()
 {
 	//INVOKE_CLASS_MEMBER(0x00431740, c_online_lsp_manager, clear_activated_servers);
 
-	for (s_server_data& server : m_service)
+	for (long i = 0; i < NUMBEROF(m_service); i++)
 	{
-		server.currently_activated_server_index = NONE;
-		server.ip_address = 0;
-		server.port = 0;
+		m_service[i].currently_activated_server_index = NONE;
+		m_service[i].currently_activated_server_ip = 0;
+		m_service[i].currently_activated_server_port = 0;
 	}
 	
-	for (long i = 0; i < k_maximum_simultaneous_clients; i++)
+	for (long i = 0; i < NUMBEROF(m_current_clients); i++)
 		clear_client(i);
 }
 
@@ -88,7 +70,7 @@ void c_online_lsp_manager::clear_client(long client_index)
 	m_current_clients[client_index].client_state = 0;
 	m_current_clients[client_index].service_type = NONE;
 	m_current_clients[client_index].connection_token = NONE;
-	m_current_clients[client_index].description.clear();
+	m_current_clients[client_index].client_description.clear();
 }
 
 void c_online_lsp_manager::disconnect_from_server(long connection_token, bool success)
@@ -111,14 +93,14 @@ void c_online_lsp_manager::disconnect_from_server(long connection_token, bool su
 		m_best_service_indices[m_service[m_current_clients[slot_index].service_type].currently_activated_server_index]++;
 
 	clear_client(slot_index);
-	lsp_search_finish_time = system_milliseconds();
+	m_last_use_time = system_milliseconds();
 }
 
 long c_online_lsp_manager::find_empty_slot_index()
 {
 	//return INVOKE_CLASS_MEMBER(0x00431910, c_online_lsp_manager, find_empty_slot_index);
 
-	for (long slot_index = 0; slot_index < k_maximum_simultaneous_clients; slot_index++)
+	for (long slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state == _client_state_none)
 			return slot_index;
@@ -130,7 +112,7 @@ long c_online_lsp_manager::find_slot_index_from_token(long connection_token)
 {
 	//return INVOKE_CLASS_MEMBER(0x00431930, c_online_lsp_manager, find_slot_index_from_token, connection_token);
 
-	for (long slot_index = 0; slot_index < k_maximum_simultaneous_clients; slot_index++)
+	for (long slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state != _client_state_none && m_current_clients[slot_index].connection_token == connection_token)
 			return slot_index;
@@ -168,11 +150,11 @@ void c_online_lsp_manager::reset()
 
 	generate_event(_event_message, "networking:online:lsp: resetting");
 	m_lsp_server_count = false;
-	m_total_server_count = 0;
+	m_raw_server_count = 0;
 	m_best_service_indices.clear();
 	online_lsp_deactivate();
 	clear_activated_servers();
-	lsp_search_start_time = 0;
+	m_last_search_start_time = 0;
 }
 
 void c_online_lsp_manager::server_connected(long connection_token)
@@ -247,5 +229,23 @@ bool __cdecl online_lsp_service_available()
 void __cdecl online_lsp_update()
 {
 	INVOKE(0x0043C5B0, online_lsp_update);
+}
+
+void online_lsp_get_info(long* ip_address, word* port)
+{
+	if (ip_address)
+		*ip_address = ntohl(lsp_server_address.ipv4_address);
+
+	if (port)
+		*port = ntohs(lsp_server_address.port);
+}
+
+void online_lsp_set_info(char const* host, char const* port)
+{
+	transport_address address{};
+	transport_address_from_host(host, address);
+
+	if (host) lsp_server_address.ipv4_address = htonl(address.ipv4_address);
+	if (port) lsp_server_address.port = htons(static_cast<word>(atol(port)));
 }
 
