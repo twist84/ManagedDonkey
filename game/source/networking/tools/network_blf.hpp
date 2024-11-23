@@ -269,11 +269,37 @@ struct s_blf_saved_film :
 
 		s_blf_chunk_saved_film_header();
 
-		s_blf_header header;
+		struct s_saved_film_build_compatibility
+		{
+			s_saved_film_build_compatibility();
 
-		byte __dataC[0x10C];
+			c_static_string<k_tag_string_length> build_number;
+			long executable_type;
+			long network_executable_version;
+			long network_compatible_version;
+			e_language map_language;
+			long map_minor_version;
+			bool map_minor_version_is_tracked;
+			byte pad1[0x3];
+			dword pad2[2];
+			long map_signature_size;
+			byte map_signature_bytes[0x3C];
+		};
+		static_assert(sizeof(s_saved_film_build_compatibility) == 0x80);
+
+		s_blf_header header;
+		byte pad0[4];
+		s_saved_film_build_compatibility build_compatibility;
+		bool is_host_film;
+		bool contains_gamestate;
+		bool is_snippet;
+		byte pad3[0x5];
+		c_static_string<128> session_id;
 		game_options options;
-		byte __data[0xD8C];
+		long recorded_time;
+		long length_in_ticks;
+		long snippet_start_tick;
+		byte padding_to_align_for_utility_drive[0xD80];
 	};
 	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
 #pragma pack(pop)

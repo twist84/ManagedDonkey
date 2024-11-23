@@ -189,10 +189,34 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 	return false;
 }
 
+s_blf_saved_film::s_blf_chunk_saved_film_header::s_saved_film_build_compatibility::s_saved_film_build_compatibility() :
+	build_number(),
+	executable_type(),
+	network_executable_version(),
+	network_compatible_version(),
+	map_language(),
+	map_minor_version(),
+	map_minor_version_is_tracked(),
+	pad1(),
+	pad2(),
+	map_signature_size(),
+	map_signature_bytes()
+{
+}
+
 s_blf_saved_film::s_blf_chunk_saved_film_header::s_blf_chunk_saved_film_header() :
-	__dataC(),
+	pad0(),
+	build_compatibility(),
+	is_host_film(false),
+	contains_gamestate(false),
+	is_snippet(false),
+	pad3(),
+	session_id(),
 	options(),
-	__data()
+	recorded_time(),
+	length_in_ticks(),
+	snippet_start_tick(),
+	padding_to_align_for_utility_drive()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
