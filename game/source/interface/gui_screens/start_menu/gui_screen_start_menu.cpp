@@ -12,11 +12,11 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00AE05B0, c_start_menu_screen_widget, handle_controller_input_message);
 HOOK_DECLARE_CLASS(0x00AE0720, c_start_menu_screen_widget, handle_global_start_button_press);
 
-bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_controller_input_message* input_message)
+bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_controller_input_message* message)
 {
-	if (input_message->get_event_type() == _event_type_controller_component)
+	if (message->get_event_type() == _event_type_controller_component)
 	{
-		if (input_message->get_component() == _controller_component_button_b || input_message->get_component() == _controller_component_button_start)
+		if (message->get_component() == _controller_component_button_b || message->get_component() == _controller_component_button_start)
 		{
 			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
 			if (reinterpret_cast<long>(reinterpret_cast<byte*>(this) + 0x215C) != 1)
@@ -29,19 +29,19 @@ bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_co
 	}
 
 	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_start_menu_screen_widget, handle_controller_input_message, input_message);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_start_menu_screen_widget, handle_controller_input_message, message);
 	return result;
 }
 
-bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* input_message)
+bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* message)
 {
-	if (input_message->get_event_type() != _event_type_controller_component)
+	if (message->get_event_type() != _event_type_controller_component)
 		return false;
 
-	if (input_message->get_component() != _controller_component_button_start && input_message->get_component() != _controller_component_right_stick_y)
+	if (message->get_component() != _controller_component_button_start && message->get_component() != _controller_component_right_stick_y)
 		return false;
 
-	e_controller_index controller_index = input_message->get_controller();
+	e_controller_index controller_index = message->get_controller();
 	c_controller_interface const* controller = controller_get(controller_index);
 
 	if (cinematic_in_progress())

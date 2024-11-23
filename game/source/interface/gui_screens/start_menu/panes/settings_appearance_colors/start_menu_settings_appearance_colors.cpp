@@ -63,14 +63,14 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem3));
 }
 
-//bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* input_message)
+//bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* message)
 //{
-//	//return INVOKE_CLASS_MEMBER(0x00AF9A30, c_start_menu_settings_appearance_colors*, handle_controller_input_message, input_message);
+//	//return INVOKE_CLASS_MEMBER(0x00AF9A30, c_start_menu_settings_appearance_colors*, handle_controller_input_message, message);
 //
 //	bool result = false;
 //
-//	e_event_type event_type = input_message->get_event_type();
-//	e_controller_component component = input_message->get_component();
+//	e_event_type event_type = message->get_event_type();
+//	e_controller_component component = message->get_component();
 //
 //	c_gui_list_widget* focused_parent_list_widget = NULL;
 //	if (c_gui_widget* focused_widget = get_focused_widget())
@@ -185,7 +185,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //
 //	if (event_type == _event_type_controller_component)
 //	{
-//		e_controller_index controller_index = input_message->get_controller();
+//		e_controller_index controller_index = message->get_controller();
 //		switch (component)
 //		{
 //		case _controller_component_button_x:
@@ -202,8 +202,8 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //
 //	if (!result)
 //	{
-//		//result = c_start_menu_pane_screen_widget::handle_controller_input_message(input_message);
-//		result = INVOKE_CLASS_MEMBER(0x00B1F620, c_start_menu_pane_screen_widget, handle_controller_input_message, input_message);
+//		//result = c_start_menu_pane_screen_widget::handle_controller_input_message(message);
+//		result = INVOKE_CLASS_MEMBER(0x00B1F620, c_start_menu_pane_screen_widget, handle_controller_input_message, message);
 //	}
 //
 //	return result;

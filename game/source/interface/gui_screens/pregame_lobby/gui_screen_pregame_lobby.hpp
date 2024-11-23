@@ -13,7 +13,7 @@ struct c_gui_screen_pregame_lobby :
 	public c_gui_screen_widget
 {
 public:
-	bool __thiscall handle_controller_input_message_(c_controller_input_message* input_message);
+	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	void __thiscall initialize_();
 
 protected:

@@ -9,11 +9,11 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B22140, c_gui_screen_pregame_lobby, initialize_);
 
-bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_controller_input_message* input_message)
+bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_controller_input_message* message)
 {
-	if (input_message->get_event_type() == _event_type_controller_component && input_message->get_component() == _controller_component_button_x)
+	if (message->get_event_type() == _event_type_controller_component && message->get_component() == _controller_component_button_x)
 	{
-		e_controller_index controller_index = input_message->get_controller();
+		e_controller_index controller_index = message->get_controller();
 
 		// `c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen`
 		// `c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen`
@@ -22,7 +22,7 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 	}
 
 	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_screen_pregame_lobby, handle_controller_input_message_, input_message);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_screen_pregame_lobby, handle_controller_input_message_, message);
 	return result;
 }
 
