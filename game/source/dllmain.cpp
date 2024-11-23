@@ -237,7 +237,6 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:023915C0 ; s_game_engine_ranking_cache g_game_engine_ranking_cache[2]
 //.data:023916C0 ; c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1> g_resource_runtime_manager
 //.data:023916D8 ; s_main_game_globals main_game_globals
-//.data:023B6348 ; game_options g_launch_globals.options
 //.data:023DAE90 ; bool main_game_load_panic_recursion_lock
 //.data:023DAE91 ; 
 //.data:023DAE94 ; 

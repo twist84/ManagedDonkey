@@ -37,25 +37,26 @@ struct s_main_game_globals
 	char game_loaded_scenario_path[260];
 
 	bool reset_in_progress;
-	bool request_level_advance;
-	byte : 8;
-	byte : 8;
+	bool map_advance_pending;
 
 	// ODST, game_progression_levels_block: "type" and block index
 	c_enum<e_game_progression_level, long, _game_progression_level_none, k_game_progression_level_count> gp_level_advance_type;
 	long gp_level_block_index;
 
-	bool change_in_progress;
-	bool game_load_pending;
-	byte : 8;
-	byte : 8;
+	bool map_change_pending;
+	bool map_change_pending_unload;
+	dword map_change_initiate_time;
+	dword map_change_timer;
+	game_options pending_game_options;
 
-	dword game_loaded_time;
+	// missing in release builds
+	inline static bool load_core_on_game_launch = false;
+	inline static c_static_string<256> core_name = "";
+	inline static long launch_player_count = 1;
 
-	dword __unknown120;
-
-	game_options game_loaded_options;
+	game_options launch_game_options;
 };
+static_assert(sizeof(s_main_game_globals) == 0x497B8);
 
 extern s_main_game_globals& main_game_globals;
 

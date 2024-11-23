@@ -95,10 +95,10 @@ bool __cdecl sub_566CC0()
 	//if (game_options_valid() && game_is_ui_shell())
 	//	return true;
 	//
-	//if (!main_game_globals.change_in_progress || main_game_globals.game_load_pending)
+	//if (!main_game_globals.map_change_pending || main_game_globals.map_change_pending_unload)
 	//	return false;
 	//
-	//return main_game_globals.game_loaded_options.game_mode == _game_mode_mainmenu;
+	//return main_game_globals.pending_game_options.game_mode == _game_mode_mainmenu;
 }
 
 void __cdecl main_game_campaign_loaded(game_options const* options)
@@ -113,12 +113,12 @@ void __cdecl main_game_change(game_options const* options)
 	if (options)
 	{
 		assert_game_options_verify(options);
-		csmemcpy(&main_game_globals.game_loaded_options, options, sizeof(game_options));
+		csmemcpy(&main_game_globals.pending_game_options, options, sizeof(game_options));
 	}
 
-	main_game_globals.change_in_progress = true;
-	main_game_globals.game_load_pending = options == nullptr;
-	main_game_globals.game_loaded_time = system_milliseconds();
+	main_game_globals.map_change_pending = true;
+	main_game_globals.map_change_pending_unload = options == nullptr;
+	main_game_globals.map_change_initiate_time = system_milliseconds();
 
 	if (!options)
 	{
@@ -133,7 +133,7 @@ void __cdecl main_game_change_abort()
 {
 	INVOKE(0x00566EE0, main_game_change_abort);
 
-	//main_game_globals.change_in_progress = false;
+	//main_game_globals.map_change_pending = false;
 }
 
 bool __cdecl main_game_change_immediate(game_options const* options)
@@ -203,10 +203,10 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 			break;
 			}
 
-			if (g_launch_globals.core_name_set)
+			if (main_game_globals.load_core_on_game_launch)
 			{
-				main_load_core_name(g_launch_globals.core_name.get_string());
-				g_launch_globals.core_name.clear();
+				main_load_core_name(main_game_globals.core_name.get_string());
+				main_game_globals.load_core_on_game_launch = false;
 			}
 
 			result = true;
@@ -244,7 +244,7 @@ bool __cdecl main_game_change_in_progress()
 {
 	//return INVOKE(0x005670E0, main_game_change_in_progress);
 
-	return main_game_globals.change_in_progress;
+	return main_game_globals.map_change_pending;
 }
 
 // functions for `main_game_change_update`
@@ -264,7 +264,7 @@ void __cdecl main_game_change_update()
 	//main_game_editor_world_controller_update();
 
 	// #TODO: test campaign for following code path
-	if (main_game_globals.request_level_advance && !sub_60B080())
+	if (main_game_globals.map_advance_pending && !sub_60B080())
 	{
 		if (game_is_playback())
 		{
@@ -321,26 +321,26 @@ void __cdecl main_game_change_update()
 			}
 		}
 
-		main_game_globals.request_level_advance = false;
+		main_game_globals.map_advance_pending = false;
 	}
 
-	if (main_game_globals.change_in_progress)
+	if (main_game_globals.map_change_pending)
 	{
-		if (main_game_globals.game_load_pending)
+		if (main_game_globals.map_change_pending_unload)
 		{
 			if (!main_game_loaded_pregame())
 				main_game_change_immediate(NULL);
 		}
 		else
 		{
-			main_game_change_immediate(&main_game_globals.game_loaded_options);
+			main_game_change_immediate(&main_game_globals.pending_game_options);
 		}
 
 		sub_5129B0();
 
-		main_game_globals.change_in_progress = false;
-		main_game_globals.game_load_pending = false;
-		main_game_globals.__unknown120 = 0;
+		main_game_globals.map_change_pending = false;
+		main_game_globals.map_change_pending_unload = false;
+		main_game_globals.map_change_timer = 0;
 	}
 }
 
@@ -385,7 +385,7 @@ void __cdecl main_game_initialize()
 	//INVOKE(0x005674B0, main_game_initialize);
 
 	main_game_launch_initialize();
-	main_game_globals.request_level_advance = false;
+	main_game_globals.map_advance_pending = false;
 }
 
 void __cdecl main_game_internal_close_caches()
@@ -537,14 +537,14 @@ void __cdecl main_game_launch_default()
 	{
 		{
 			game_options options{};
-			if (game_options_get_launch_settings(&options, main_game_globals.change_in_progress))
+			if (game_options_get_launch_settings(&options, main_game_globals.map_change_pending))
 			{
 				game_options_validate(&options);
 				main_game_change(&options);
 			}
 		}
 
-		if (main_game_globals.change_in_progress)
+		if (main_game_globals.map_change_pending)
 		{
 			main_suppress_startup_sequence();
 		}
@@ -751,8 +751,8 @@ void __cdecl main_game_load_from_core_name(char const* core_name)
 	game_options options{};
 	if (game_state_get_game_options_from_core(core_name, &options))
 	{
-		g_launch_globals.core_name_set = true;
-		g_launch_globals.core_name.set(core_name);
+		main_game_globals.load_core_on_game_launch = true;
+		main_game_globals.core_name.set(core_name);
 
 		game_options_validate(&options);
 		main_game_change(&options);
@@ -805,7 +805,7 @@ void __cdecl main_game_progression_request_level_advance_spoke(long gp_level_ind
 
 	main_game_globals.gp_level_advance_type = _game_progression_level_spoke_and_level_is_spoke;
 	main_game_globals.gp_level_block_index = gp_level_index;
-	main_game_globals.request_level_advance = true;
+	main_game_globals.map_advance_pending = true;
 }
 
 void __cdecl main_game_progression_request_level_advance()
@@ -815,7 +815,7 @@ void __cdecl main_game_progression_request_level_advance()
 	ASSERT(game_is_campaign());
 
 	main_game_globals.gp_level_advance_type = _game_progression_level_none;
-	main_game_globals.request_level_advance = true;
+	main_game_globals.map_advance_pending = true;
 }
 
 void __cdecl main_game_progression_request_level_advance_hub(long gp_level_index)
@@ -826,7 +826,7 @@ void __cdecl main_game_progression_request_level_advance_hub(long gp_level_index
 
 	main_game_globals.gp_level_advance_type = _game_progression_level_hub_and_level_is_hub;
 	main_game_globals.gp_level_block_index = gp_level_index;
-	main_game_globals.request_level_advance = true;
+	main_game_globals.map_advance_pending = true;
 }
 
 void __cdecl main_game_progression_request_level_advance_normal(long gp_level_index)
@@ -837,7 +837,7 @@ void __cdecl main_game_progression_request_level_advance_normal(long gp_level_in
 
 	main_game_globals.gp_level_advance_type = _game_progression_level_normal;
 	main_game_globals.gp_level_block_index = gp_level_index;
-	main_game_globals.request_level_advance = true;
+	main_game_globals.map_advance_pending = true;
 }
 
 

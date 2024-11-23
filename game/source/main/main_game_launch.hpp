@@ -3,25 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
 
-struct s_main_game_launch_globals
-{
-	// main_game_load_from_core_name
-	bool core_name_set;
-
-	// main_game_change_immediate
-	// main_game_load_from_core_name
-	c_static_string<256> core_name;
-
-	// main_game_launch
-	// main_game_launch_set_coop_player_count
-	// main_game_launch_set_multiplayer_splitscreen_count
-	long player_count;
-
-	game_options& options;
-};
-
-extern s_main_game_launch_globals g_launch_globals;
-
 //extern void main_game_launch_default();
 //extern void main_game_launch_default_editor();
 extern void main_game_launch_initialize();
