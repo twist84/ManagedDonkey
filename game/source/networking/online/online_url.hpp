@@ -14,9 +14,9 @@ struct c_url_string
 {
 	enum e_cachable_type
 	{
-		_cachable_type_unknown0 = 0,
-		_cachable_type_unknown1,
-		_cachable_type_unknown2,
+		_cachable_type_no = 0,
+		_cachable_type_on_success,
+		_cachable_type_on_success_and_failure,
 	};
 
 	c_url_string(char const* url, e_cachable_type cachable);
@@ -45,15 +45,9 @@ static_assert(sizeof(c_url_string) == 0x110);
 
 struct _g_online_url // supposed to be unnamed
 {
-	char hopper_directory[64];
-	char user_override_hopper_directory[64];
-
-	// titles
-	c_static_string<4> __unknown80; // unknown
-	c_static_string<4> __unknown84; // Halo 3
-	c_static_string<4> __unknown88; // Halo 3: Mythic
-	c_static_string<4> __unknown8C; // Halo 3: ODST and Halo Online
-	c_static_string<4> __unknown90; // unknown
+	char current_hopper_directory[64];
+	char current_user_override_hopper_directory[64];
+	c_static_string<4> title_strings[5];
 };
 extern _g_online_url& g_online_url;
 
@@ -97,7 +91,7 @@ extern void __cdecl online_url_make_network_map_signatures(c_url_string* url);
 extern void __cdecl online_url_make_update_machine_network_stats(c_url_string* url);
 extern void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, qword user_id, long highest_skill);
 extern void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url);
-extern void __cdecl online_url_make_user_file(c_url_string* url, qword user_id);
+extern void __cdecl online_url_make_user_service_record(c_url_string* url, qword user_id);
 extern void __cdecl online_url_make_vidmaster_popup(c_url_string* url);
 extern void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url);
 extern void __cdecl online_url_use_hopper_directory(char const* hopper_directory);

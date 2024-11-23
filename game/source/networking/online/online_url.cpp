@@ -45,7 +45,7 @@ HOOK_DECLARE(0x00451F30, online_url_make_network_map_signatures);
 HOOK_DECLARE(0x00451F60, online_url_make_update_machine_network_stats);
 HOOK_DECLARE(0x00451FA0, online_url_make_update_user_highest_skill); // bugfix for missing title string
 HOOK_DECLARE(0x00451FE0, online_url_make_upload_saved_screenshot);
-HOOK_DECLARE(0x00452020, online_url_make_user_file);
+HOOK_DECLARE(0x00452020, online_url_make_user_service_record);
 HOOK_DECLARE(0x00452080, online_url_make_vidmaster_popup);
 HOOK_DECLARE(0x004520C0, online_url_make_vidmaster_popup_image);
 HOOK_DECLARE(0x00452100, online_url_use_hopper_directory);
@@ -64,7 +64,7 @@ c_url_string::c_url_string(char const* url, e_cachable_type cachable) :
 c_url_string::c_url_string() :
 	m_string(),
 	m_service_type(_online_lsp_service_type_title_files),
-	m_cachable(_cachable_type_unknown0),
+	m_cachable(_cachable_type_no),
 	m_untracked_cache_lifetime_seconds(dword_186080C),
 	m_request_type(_network_http_request_queue_type_unknown0)
 {
@@ -125,13 +125,13 @@ void __cdecl make_hopper_network_directory(char* hopper_directory, long hopper_d
 {
 	//INVOKE(0x00451710, make_hopper_network_directory, hopper_directory, hopper_directory_size, some_char);
 
-	if (g_online_url.hopper_directory[0])
+	if (g_online_url.current_hopper_directory[0])
 	{
-		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.hopper_directory, sizeof(g_online_url.hopper_directory));
+		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.current_hopper_directory, sizeof(g_online_url.current_hopper_directory));
 	}
-	else if (g_online_url.user_override_hopper_directory[0])
+	else if (g_online_url.current_user_override_hopper_directory[0])
 	{
-		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.user_override_hopper_directory, sizeof(g_online_url.user_override_hopper_directory));
+		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.current_user_override_hopper_directory, sizeof(g_online_url.current_user_override_hopper_directory));
 	}
 	else
 	{
@@ -150,7 +150,7 @@ char const* __cdecl online_url_get_title()// pc only?
 {
 	//INVOKE(0x00451790, online_url_get_title);
 
-	return g_online_url.__unknown8C.get_string();
+	return g_online_url.title_strings[3].get_string();
 }
 
 void __cdecl online_url_initialize()
@@ -159,11 +159,11 @@ void __cdecl online_url_initialize()
 
 	csmemset(&g_online_url, 0, sizeof(g_online_url));
 
-	g_online_url.__unknown80.print("%d", 0); // unknown
-	g_online_url.__unknown84.print("%d", 1); // Halo 3
-	g_online_url.__unknown88.print("%d", 2); // Halo 3: Mythic
-	g_online_url.__unknown8C.print("%d", 3); // Halo 3: ODST and Halo Online
-	g_online_url.__unknown90.print("%d", 4); // unknown
+	g_online_url.title_strings[0].print("%d", 0); // unknown
+	g_online_url.title_strings[1].print("%d", 1); // Halo 3
+	g_online_url.title_strings[2].print("%d", 2); // Halo 3: Mythic
+	g_online_url.title_strings[3].print("%d", 3); // Halo 3: ODST and Halo Online
+	g_online_url.title_strings[4].print("%d", 4); // unknown
 }
 
 void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, qword user_id, dword consumable_id)
@@ -174,7 +174,7 @@ void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, qword user_id
 		online_url_get_title(),
 		user_id,
 		consumable_id);
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
@@ -187,7 +187,7 @@ void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, qword user
 		online_url_get_title(),
 		user_id,
 		consumable_id);
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
@@ -204,7 +204,7 @@ void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, qw
 		game_region,
 		profile_region,
 		extras_portal_debug ? "true" : "false");
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
@@ -220,7 +220,7 @@ void __cdecl online_url_make_matchmaking_banhammer_message(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_banhammer_messages.bin", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -230,7 +230,7 @@ void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_hopper_descriptions_%03u.bin", get_current_language_suffix(false), 3);
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -240,7 +240,7 @@ void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, word ho
 
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/%s_%03u.bin", hopper_id, variant_name, 10);
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -250,7 +250,7 @@ void __cdecl online_url_make_matchmaking_gameset(c_url_string* url, word hopper_
 
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/game_set_%03u.bin", hopper_id, 6);
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -260,7 +260,7 @@ void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, word hoppe
 
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/%s/dynamic_matchmaking_histogram_%02d.jpg", hopper_id, get_current_language_suffix(false), hopper_skill);
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -270,7 +270,7 @@ void __cdecl online_url_make_matchmaking_hopper(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("matchmaking_hopper_%03u.bin", 11);
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -289,7 +289,7 @@ void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, word hop
 
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/map_variants/%s_%03u.bin", hopper_id, variant_name, 12);
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -299,7 +299,7 @@ void __cdecl online_url_make_matchmaking_nightmap(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("dynamic_matchmaking_nightmap.jpg");
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -309,7 +309,7 @@ void __cdecl online_url_make_matchmaking_statistics(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("dynamic_hopper_statistics.bin");
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -319,7 +319,7 @@ void __cdecl online_url_make_matchmaking_tips(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_tips.bin", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -349,7 +349,7 @@ void __cdecl online_url_make_message_of_the_day(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd.bin", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -359,7 +359,7 @@ void __cdecl online_url_make_message_of_the_day_image(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_image.jpg", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -369,7 +369,7 @@ void __cdecl online_url_make_message_of_the_day_popup(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_popup.bin", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -379,7 +379,7 @@ void __cdecl online_url_make_message_of_the_day_popup_image(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_popup_image.jpg", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -389,7 +389,7 @@ void __cdecl online_url_make_network_configuration(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("network_configuration_%03u.bin", 142);
-	url->m_cachable = c_url_string::_cachable_type_unknown1;
+	url->m_cachable = c_url_string::_cachable_type_on_success;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -399,7 +399,7 @@ void __cdecl online_url_make_network_manifest(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("manifest_%03u.bin", 1);
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_request_type = _network_http_request_queue_type_unknown0;
 }
 
@@ -417,7 +417,7 @@ void __cdecl online_url_make_update_machine_network_stats(c_url_string* url)
 	//INVOKE(0x00451F60, online_url_make_update_machine_network_stats, url);
 
 	url->m_string.print("/gameapi/MachineUpdateNetworkStats.ashx");
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
@@ -430,7 +430,7 @@ void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, qword 
 		online_url_get_title(), // missing from the original function
 		user_id,
 		highest_skill);
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
@@ -440,14 +440,14 @@ void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url)
 	//INVOKE(0x00451FE0, online_url_make_upload_saved_screenshot, url);
 
 	url->m_string.print("/gameapi/FilesUploadBlind.ashx");
-	url->m_cachable = c_url_string::_cachable_type_unknown0;
+	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
-void __cdecl online_url_make_user_file(c_url_string* url, qword user_id)
+void __cdecl online_url_make_user_service_record(c_url_string* url, qword user_id)
 {
-	//INVOKE(0x00452020, online_url_make_user_file, url, user_id);
+	//INVOKE(0x00452020, online_url_make_user_service_record, url, user_id);
 
 	create_user_url_base(url, user_id);
 	url->m_string.append_print("user.bin");
@@ -461,7 +461,7 @@ void __cdecl online_url_make_vidmaster_popup(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_vidmaster_popup.bin", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -471,7 +471,7 @@ void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_vidmaster_popup_image.jpg", get_current_language_suffix(false));
-	url->m_cachable = c_url_string::_cachable_type_unknown2;
+	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
 	url->m_request_type = _network_http_request_queue_type_unknown1;
 }
 
@@ -482,7 +482,7 @@ void __cdecl online_url_use_hopper_directory(char const* hopper_directory)
 	c_static_string<64> _hopper_directory = hopper_directory;
 	if (!_hopper_directory.is_empty())
 	{
-		_hopper_directory.copy_to(g_online_url.hopper_directory, sizeof(g_online_url.hopper_directory));
+		_hopper_directory.copy_to(g_online_url.current_hopper_directory, sizeof(g_online_url.current_hopper_directory));
 		dword_1860808++;
 	}
 }
@@ -494,7 +494,7 @@ void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_di
 	c_static_string<64> _hopper_directory = hopper_directory;
 	if (!_hopper_directory.is_empty())
 	{
-		_hopper_directory.copy_to(g_online_url.user_override_hopper_directory, sizeof(g_online_url.user_override_hopper_directory));
+		_hopper_directory.copy_to(g_online_url.current_user_override_hopper_directory, sizeof(g_online_url.current_user_override_hopper_directory));
 		dword_1860808++;
 	}
 }
