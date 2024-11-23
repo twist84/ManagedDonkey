@@ -19,15 +19,15 @@ union u_online_user_id
 	byte bytes[sizeof(qword)];
 };
 
-struct s_online_user
+struct s_online_user_globals
 {
 	bool initialized;
 	qword player_xuid;
 	c_static_wchar_string<16> player_name;
 };
-static_assert(sizeof(s_online_user) == 0x30);
+static_assert(sizeof(s_online_user_globals) == 0x30);
 
-extern s_online_user& g_online_user;
+extern s_online_user_globals& g_online_user;
 
 extern void __cdecl online_dispose();
 extern void __cdecl online_dump_machine_info(qword game_instance);
@@ -41,11 +41,11 @@ extern bool __cdecl online_is_connected_to_live();
 extern wchar_t const* __cdecl online_user_get_name(long controller_index);
 extern qword __cdecl online_user_get_player_identifier(long controller_index);
 extern qword __cdecl online_user_get_xuid(long controller_index);
-extern bool __cdecl sub_442B00(long controller_index);
+extern bool __cdecl online_local_user_is_free_live_gold_account(long controller_index);
 extern bool __cdecl online_local_xuid_is_online_enabled(long controller_index);
 extern bool __cdecl online_has_signed_in_user(long controller_index);
 extern bool __cdecl online_local_xuid_is_silver_or_gold_live(long controller_index);
-extern bool __cdecl sub_442B70();
+extern bool __cdecl online_local_user_is_user_created_content_allowed();
 extern void __cdecl online_process_debug_output_queue();
 extern void __cdecl online_user_set_xuid(qword xuid);
 extern void __cdecl online_set_is_connected_to_live(bool is_connected_to_live);

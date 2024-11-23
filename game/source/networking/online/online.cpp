@@ -8,7 +8,7 @@
 
 #include <winsock.h>
 
-REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
+REFERENCE_DECLARE(0x019AB728, s_online_user_globals, g_online_user);
 REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
 HOOK_DECLARE(0x004429C0, online_dispose);
@@ -23,18 +23,18 @@ HOOK_DECLARE(0x00442A90, online_is_connected_to_live);
 HOOK_DECLARE(0x00442AA0, online_user_get_name);
 HOOK_DECLARE(0x00442AE0, online_user_get_xuid);
 HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
-HOOK_DECLARE(0x00442B00, sub_442B00);
+HOOK_DECLARE(0x00442B00, online_local_user_is_free_live_gold_account);
 HOOK_DECLARE(0x00442B20, online_local_xuid_is_online_enabled);
 HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
 HOOK_DECLARE(0x00442B60, online_local_xuid_is_silver_or_gold_live);
-HOOK_DECLARE(0x00442B70, sub_442B70);
+HOOK_DECLARE(0x00442B70, online_local_user_is_user_created_content_allowed);
 HOOK_DECLARE(0x00442B80, online_process_debug_output_queue);
 HOOK_DECLARE(0x00442B90, online_user_set_xuid);
 HOOK_DECLARE(0x00442BB0, online_set_is_connected_to_live);
 HOOK_DECLARE(0x00442BC0, online_user_set_name);
 HOOK_DECLARE(0x00442BF0, online_update);
 
-s_online_user g_controller_users[4] =
+s_online_user_globals g_controller_users[4] =
 {
 	g_online_user,
 	{ .initialized = false, .player_xuid = 1, .player_name = L"user1" },
@@ -183,7 +183,7 @@ qword __cdecl online_user_get_xuid(long controller_index)
 	return g_controller_users[controller_index].player_xuid;
 }
 
-bool __cdecl sub_442B00(long controller_index)
+bool __cdecl online_local_user_is_free_live_gold_account(long controller_index)
 {
 	return g_online_is_connected_to_live && controller_index == 0;
 }
@@ -203,7 +203,7 @@ bool __cdecl online_local_xuid_is_silver_or_gold_live(long controller_index)
 	return g_online_is_connected_to_live && g_controller_users[controller_index].initialized;
 }
 
-bool __cdecl sub_442B70()
+bool __cdecl online_local_user_is_user_created_content_allowed()
 {
 	return g_online_is_connected_to_live;
 }
