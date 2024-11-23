@@ -4,21 +4,6 @@
 #include "cseries/cseries_events.hpp"
 #include "tag_files/files.hpp"
 
-void __cdecl network_storage_files_dispose()
-{
-	INVOKE(0x004E1520, network_storage_files_dispose);
-}
-
-void __cdecl network_storage_files_initialize()
-{
-	INVOKE(0x004E1530, network_storage_files_initialize);
-}
-
-void __cdecl network_storage_files_update()
-{
-	INVOKE(0x004E1540, network_storage_files_update);
-}
-
 bool __cdecl create_configuration_file(char const* filename, void const* file_contents, long file_size)
 {
 	//return INVOKE(0x004E7540, create_configuration_file, filename, file_contents, file_size);

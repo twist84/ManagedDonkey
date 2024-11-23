@@ -35,6 +35,7 @@
 #include "networking/network_configuration.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/online/online_lsp.hpp"
+#include "networking/online/online_service_record.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "physics/havok.hpp"
@@ -146,6 +147,7 @@ void __cdecl test_main_loop_body_begin()
 		g_network_configuration;
 		g_network_configuration_initialized;
 		g_online_lsp_manager;
+		g_online_service_record_manager;
 		g_online_url;
 		g_parse_text_table;
 		g_rasterizer_timing_globals;

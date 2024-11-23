@@ -45,6 +45,7 @@
 #include "networking/online/online_guide_pc.hpp"
 #include "networking/online/online_lsp.hpp"
 #include "networking/online/online_presence_pc.hpp"
+#include "networking/online/online_service_record.hpp"
 #include "networking/online/online_url.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/session/network_session.hpp"
@@ -176,7 +177,7 @@ void __cdecl network_dispose()
 		network_storage_cache_dispose();
 		network_storage_manifest_dispose();
 		network_storage_dispose();
-		network_storage_files_dispose();
+		online_service_record_manager_dispose();
 		network_http_request_queue_dispose();
 		online_files_dispose();
 		online_rich_presence_dispose();
@@ -316,7 +317,7 @@ void __cdecl network_initialize()
 				online_rich_presence_initialize();
 				online_files_initialize();
 				network_http_request_queue_initialize();
-				network_storage_files_initialize();
+				online_service_record_manager_initialize();
 	
 				//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
 				//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
@@ -487,7 +488,7 @@ void __cdecl network_update()
 			online_files_update();
 			network_http_request_cache_update();
 			network_http_request_queue_update();
-			network_storage_files_update();
+			online_service_record_manager_update();
 			c_online_lsp_manager::get()->update();
 	
 			NETWORK_EXIT_AND_UNLOCK_TIME;

@@ -284,6 +284,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
     <ClCompile Include="source\networking\online\online_files.cpp" />
     <ClCompile Include="source\networking\online\online_presence_pc.cpp" />
+    <ClCompile Include="source\networking\online\online_service_record.cpp" />
     <ClCompile Include="source\networking\online\online_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />

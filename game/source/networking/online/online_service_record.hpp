@@ -2,26 +2,96 @@
 
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
+#include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "text/unicode.hpp"
+
+enum e_campaign_progress
+{
+	_campaign_progress_complete_easy = 0,
+	_campaign_progress_complete_normal,
+	_campaign_progress_complete_hard,
+	_campaign_progress_complete_impossible,
+	_campaign_progress_none,
+	_campaign_progress_partial_easy,
+	_campaign_progress_partial_normal,
+	_campaign_progress_partial_hard,
+	_campaign_progress_partial_impossible,
+
+	k_campaign_progress_complete_count,
+
+	k_campaign_progress_complete_bits = 4
+};
+
+enum e_experience_rank
+{
+	_experience_rank_none = 0,
+	_experience_rank_recruit,
+	_experience_rank_apprentice,
+	_experience_rank_private,
+	_experience_rank_corporal,
+	_experience_rank_sergeant,
+	_experience_rank_gunnery_sergeant,
+	_experience_rank_lieutenant,
+	_experience_rank_captain,
+	_experience_rank_major,
+	_experience_rank_commander,
+	_experience_rank_colonel,
+	_experience_rank_brigadier,
+	_experience_rank_general,
+
+	k_experience_rank_count,
+
+	k_experience_rank_bits = 4
+};
+enum e_experience_grade
+{
+	_experience_grade_one = 0,
+	_experience_grade_two,
+	_experience_grade_three,
+	_experience_grade_four,
+
+	k_experience_grade_count,
+
+	k_experience_grade_bits = 2
+};
+
+struct c_online_service_record
+{
+	char const* m_buffer;
+	long m_buffer_length;
+};
+static_assert(sizeof(c_online_service_record) == 0x8);
+
+struct c_online_service_record_manager
+{
+	long m_last_download_status;
+	c_http_stored_buffer_downloader<4373> m_downloader;
+	byte __align17B0[0x8];
+	qword m_current_service_record_xuid;
+	__int64 m_current_service_record_refresh_milliseconds;
+	c_online_service_record m_current_service_record;
+};
+static_assert(sizeof(c_online_service_record_manager) == 0x17D0);
 
 struct s_service_record_identity
 {
-	c_static_wchar_string<16> player_name;
+	c_static_wchar_string<16> name;
 	s_player_appearance appearance;
 	bool extras_portal_debug;
 	byte vidmaster;
-
-	byte __data682[0x6];
-
-	long skill_level;
-	long player_total_xp;
-
-	byte __data690[0x4];
-
-	long player_rank;
-	long player_grade;
-
-	byte __data69C[0x4];
+	e_campaign_progress campaign_progress;
+	long highest_skill;
+	long experience;
+	long experience_base;
+	e_experience_rank experience_rank;
+	e_experience_grade experience_grade;
+	long games_completed;
 };
 static_assert(sizeof(s_service_record_identity) == 0x6A0);
+
+extern c_online_service_record_manager& g_online_service_record_manager;
+
+extern void __cdecl online_service_record_manager_dispose();
+extern void __cdecl online_service_record_manager_initialize();
+extern void __cdecl online_service_record_manager_update();
 
