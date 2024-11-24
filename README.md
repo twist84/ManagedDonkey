@@ -7,7 +7,8 @@
  - I wanted to write my own take on what a Halo mod should be and started going to town, putting all the information I had in my head into one place that others could use it (**Except for Faber**).
 
 ## Getting started-ish
- - Files for use with Donkey are on the [File Share](https://github.com/twist84/DonkeyFileShare).
+ - You'll need to source a build of Halo Online ms23 1.106708
+ - Grab the files from [DonkeyFileShare](https://github.com/twist84/DonkeyFileShare).
  - For Building
    - Git and Powershell, only for the last commit revision
  - For Debugging: Visual Studio 2022 Extensions
@@ -17,4 +18,8 @@
 ## How can I help?
  - Mostly just by testing Donkey out.
  - Ideas are welcome.
- - I don't want outside contributions, though, since this is my own project.
+ - No outside contributions please.
+
+## Other
+ - For anything else either join the [Anvil Station](https://discord.gg/Bp6knsfG2z) discord and join the [ᴅᴏɴᴋᴇʏ ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ](https://discord.com/channels/933259958701654016/1082719367512465430) thread or use the [discussions](https://github.com/twist84/ManagedDonkey/discussions).
+
