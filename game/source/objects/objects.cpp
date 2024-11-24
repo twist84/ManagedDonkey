@@ -1153,7 +1153,7 @@ void __cdecl object_placement_data_new(object_placement_data* data, long definit
 	data->up = *global_up3d;
 	data->ai_state_type = NONE;
 	data->scale = 1.0f;
-	data->active_change_colors.clear();
+	data->change_color_override_mask.clear();
 	data->bsp_placement_policy = 0;
 	
 	if (object_datum* owner_object = object_get(owner_object_index))
@@ -1192,7 +1192,7 @@ void __cdecl object_placement_data_new(object_placement_data* data, long definit
 
 	data->parent_object_index = NONE;
 	data->parent_marker = _string_id_invalid;
-	data->connection_marker = _string_id_invalid;
+	data->child_marker = _string_id_invalid;
 	
 	for (s_model_customization_region_permutation& permutation : data->model_customization_overrides)
 	{

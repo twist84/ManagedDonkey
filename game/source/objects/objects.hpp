@@ -310,39 +310,35 @@ struct object_placement_data
 	long model_variant_index;
 	long scenario_datum_index;
 	byte bsp_placement_policy;
-	byte __data15[0x3];
+	byte pad1[0x3];
 	dword_flags flags;
 	real_point3d position;
 	vector3d forward;
 	vector3d up;
-	vector3d linear_velocity;
 	vector3d translational_velocity;
+	vector3d angular_velocity;
 	real scale;
 	long owner_player_index;
 	long owner_object_index;
 	long owner_team_index;
 	s_damage_owner damage_owner;
-	c_flags<long, dword, 5> active_change_colors;
-	c_static_array<real_rgb_color, 5> change_colors;
+	c_flags<long, dword, 5> change_color_override_mask;
+	c_static_array<real_rgb_color, 5> change_color_overrides;
 	long model_customization_override_count;
 	c_static_array<s_model_customization_region_permutation, 16> model_customization_overrides;
-	dword_flags model_customization_flags;
-	short destroyed_constraints;
-	short loosened_constraints;
-
-	// creature_new
+	long disabled_regions;
+	word destroyed_constraints;
+	word loosened_constraints;
 	short ai_state_type;
 	short ai_state_size;
 	short ai_state_alignment_bits;
-
 	bool location_set;
 	byte __data147[0x1];
 	s_location location;
-
 	bool multiplayer_cinematic_object;
-	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
-	c_string_id parent_marker;     // scenario_object->object_data.parent_id.parent_marker
-	c_string_id connection_marker; // scenario_object->object_data.parent_id.connection_marker
+	long parent_object_index;
+	c_string_id parent_marker;
+	c_string_id child_marker;
 	s_scenario_multiplayer_object_properties multiplayer_properties;
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
@@ -351,23 +347,23 @@ static_assert(0x004 == OFFSETOF(object_placement_data, object_identifier));
 static_assert(0x00C == OFFSETOF(object_placement_data, model_variant_index));
 static_assert(0x010 == OFFSETOF(object_placement_data, scenario_datum_index));
 static_assert(0x014 == OFFSETOF(object_placement_data, bsp_placement_policy));
-static_assert(0x015 == OFFSETOF(object_placement_data, __data15));
+static_assert(0x015 == OFFSETOF(object_placement_data, pad1));
 static_assert(0x018 == OFFSETOF(object_placement_data, flags));
 static_assert(0x01C == OFFSETOF(object_placement_data, position));
 static_assert(0x028 == OFFSETOF(object_placement_data, forward));
 static_assert(0x034 == OFFSETOF(object_placement_data, up));
-static_assert(0x040 == OFFSETOF(object_placement_data, linear_velocity));
-static_assert(0x04C == OFFSETOF(object_placement_data, translational_velocity));
+static_assert(0x040 == OFFSETOF(object_placement_data, translational_velocity));
+static_assert(0x04C == OFFSETOF(object_placement_data, angular_velocity));
 static_assert(0x058 == OFFSETOF(object_placement_data, scale));
 static_assert(0x05C == OFFSETOF(object_placement_data, owner_player_index));
 static_assert(0x060 == OFFSETOF(object_placement_data, owner_object_index));
 static_assert(0x064 == OFFSETOF(object_placement_data, owner_team_index));
 static_assert(0x068 == OFFSETOF(object_placement_data, damage_owner));
-static_assert(0x074 == OFFSETOF(object_placement_data, active_change_colors));
-static_assert(0x078 == OFFSETOF(object_placement_data, change_colors));
+static_assert(0x074 == OFFSETOF(object_placement_data, change_color_override_mask));
+static_assert(0x078 == OFFSETOF(object_placement_data, change_color_overrides));
 static_assert(0x0B4 == OFFSETOF(object_placement_data, model_customization_override_count));
 static_assert(0x0B8 == OFFSETOF(object_placement_data, model_customization_overrides));
-static_assert(0x138 == OFFSETOF(object_placement_data, model_customization_flags));
+static_assert(0x138 == OFFSETOF(object_placement_data, disabled_regions));
 static_assert(0x13C == OFFSETOF(object_placement_data, destroyed_constraints));
 static_assert(0x13E == OFFSETOF(object_placement_data, loosened_constraints));
 static_assert(0x140 == OFFSETOF(object_placement_data, ai_state_type));
@@ -379,7 +375,7 @@ static_assert(0x148 == OFFSETOF(object_placement_data, location));
 static_assert(0x14A == OFFSETOF(object_placement_data, multiplayer_cinematic_object));
 static_assert(0x14C == OFFSETOF(object_placement_data, parent_object_index));
 static_assert(0x150 == OFFSETOF(object_placement_data, parent_marker));
-static_assert(0x154 == OFFSETOF(object_placement_data, connection_marker));
+static_assert(0x154 == OFFSETOF(object_placement_data, child_marker));
 static_assert(0x158 == OFFSETOF(object_placement_data, multiplayer_properties));
 
 struct object_marker
