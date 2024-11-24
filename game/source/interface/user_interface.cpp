@@ -26,7 +26,6 @@ real g_ui_time_step = 0.0f;
 
 REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
 
-HOOK_DECLARE(0x00A84C00, user_interface_scoreboard_update);
 HOOK_DECLARE(0x00A84EE0, user_interface_update);
 
 bool __cdecl get_alpha_custom_games_disabled()
@@ -157,7 +156,7 @@ bool __cdecl user_interface_requests_unlocked_framerate()
 void __cdecl user_interface_update_console_scoreboard()
 {
 	c_gui_screen_scoreboard::update_scoreboard_alpha(k_any_controller);
-	if (user_interface_should_show_console_scoreboard(0))
+	if (user_interface_should_show_console_scoreboard(NULL))
 	{
 		bool scoreboard_screen_is_above = false;
 		c_gui_screen_scoreboard* scoreboard_screen = c_gui_screen_scoreboard::get_scoreboard_screen(k_any_controller);
@@ -181,7 +180,6 @@ void __cdecl user_interface_scoreboard_update()
 {
 	//INVOKE(0x00A84C00, user_interface_scoreboard_update);
 
-	user_interface_update_console_scoreboard();
 	for (long i = 0; i < k_number_of_controllers; i++)
 	{
 		e_controller_index controller_index = static_cast<e_controller_index>(i);
@@ -236,6 +234,7 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 			saved_game_files_update();
 			user_interface_messaging_update();
 			user_interface_mouse_update();
+			user_interface_update_console_scoreboard();
 			user_interface_scoreboard_update();
 			window_manager_get()->update(milliseconds);
 			user_interface_error_manager_get()->update(milliseconds);
