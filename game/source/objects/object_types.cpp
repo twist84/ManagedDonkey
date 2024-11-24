@@ -96,10 +96,10 @@ void object_type_render_debug(long object_index)
     if (!definition)
         return;
 
-    for (long i = 0; definition->type_definitions[i]; i++)
+    for (long i = 0; definition->part_definitions[i]; i++)
     {
-        if (definition->type_definitions[i]->render_debug_proc && (!debug_objects_player_only || player_index_from_unit_index(object_index) != NONE))
-            definition->type_definitions[i]->render_debug_proc(object_index);
+        if (definition->part_definitions[i]->render_debug && (!debug_objects_player_only || player_index_from_unit_index(object_index) != NONE))
+            definition->part_definitions[i]->render_debug(object_index);
     }
 
     for (long child_object_index = object->object.first_child_object_index; child_object_index != NONE; child_object_index = object_get(child_object_index)->object.next_object_index)
