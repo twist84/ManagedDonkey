@@ -2057,13 +2057,13 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 }
 
 c_tag_resources_game_lock::c_tag_resources_game_lock() :
-	lock(tag_resources_lock_game())
+	m_resource_key(tag_resources_lock_game())
 {
 }
 
 c_tag_resources_game_lock::~c_tag_resources_game_lock()
 {
-	tag_resources_unlock_game(lock);
+	tag_resources_unlock_game(m_resource_key);
 }
 
 #define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"

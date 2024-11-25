@@ -3,7 +3,7 @@
 #include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
-void s_content_item_metadata::byteswap()
+void s_saved_game_item_metadata::byteswap()
 {
 	bswap_qword_inplace(unique_id);
 	for (long i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
@@ -21,14 +21,14 @@ void s_content_item_metadata::byteswap()
 	bswap_qword_inplace(game_id);
 }
 
-bool s_content_item_metadata::is_valid() const
+bool s_saved_game_item_metadata::is_valid() const
 {
 	return false; //content_item_metadata_valid(this);
 }
 
-void s_content_item_metadata::decode(c_bitstream* packet)
+void s_saved_game_item_metadata::decode(c_bitstream* packet)
 {
-	//INVOKE_CLASS_MEMBER(0x00523FE0, s_content_item_metadata, decode, packet);
+	//INVOKE_CLASS_MEMBER(0x00523FE0, s_saved_game_item_metadata, decode, packet);
 
 	long const k_name_size = NUMBEROF(name);
 	long const k_description_size = NUMBEROF(description);
@@ -53,9 +53,9 @@ void s_content_item_metadata::decode(c_bitstream* packet)
 	game_id = packet->read_qword("game-id", 64);
 }
 
-void s_content_item_metadata::encode(c_bitstream* packet) const
+void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 {
-	//INVOKE_CLASS_MEMBER(0x00524120, s_content_item_metadata, encode, packet);
+	//INVOKE_CLASS_MEMBER(0x00524120, s_saved_game_item_metadata, encode, packet);
 
 	ASSERT(is_valid());
 
@@ -82,7 +82,7 @@ void s_content_item_metadata::encode(c_bitstream* packet) const
 	packet->write_qword("game-id", game_id, 64);
 }
 
-void s_content_item_metadata::decode_from_mcc(c_bitstream* packet)
+void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 {
 	long const k_name_size = NUMBEROF(name);
 	long const k_description_size = NUMBEROF(description);
@@ -106,7 +106,7 @@ void s_content_item_metadata::decode_from_mcc(c_bitstream* packet)
 	game_id = packet->read_qword("game-id", 64);
 }
 
-void s_content_item_metadata::encode_to_mcc(c_bitstream* packet) const
+void s_saved_game_item_metadata::encode_to_mcc(c_bitstream* packet) const
 {
 	ASSERT(is_valid());
 

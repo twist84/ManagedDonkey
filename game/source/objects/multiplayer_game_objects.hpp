@@ -83,25 +83,25 @@ enum e_multiplayer_object_data_flags
 
 enum e_multiplayer_object_boundary_shape
 {
-	_multiplayer_object_boundary_shape_unused = 0,
-	_multiplayer_object_boundary_shape_sphere,
-	_multiplayer_object_boundary_shape_cylinder,
-	_multiplayer_object_boundary_shape_box,
+	_shape_unused = 0,
+	_shape_sphere,
+	_shape_cylinder,
+	_shape_box,
 
-	k_multiplayer_object_boundary_shape_count
+	k_multiplayer_object_boundary_count
 };
 
 enum e_multiplayer_object_spawn_timer_type
 {
-	_multiplayer_object_spawn_timer_type_starts_on_death = 0,
-	_multiplayer_object_spawn_timer_type_starts_on_disturbance,
+	_timer_starts_on_death = 0,
+	_timer_starts_on_disturbance,
 
-	k_multiplayer_object_spawn_timer_type_count
+	k_number_of_multiplayer_object_spawn_timer_types
 };
 
 struct s_multiplayer_object_boundary_geometry_data
 {
-	c_enum<e_multiplayer_object_boundary_shape, long, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
+	c_enum<e_multiplayer_object_boundary_shape, long, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
 
 	// shader used for boundary geometry
 	union { long standard_shader_index; long opaque_shader_index; };
@@ -130,11 +130,11 @@ struct s_multiplayer_object_properties_definition
 
 	// GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones
-	c_enum<e_multiplayer_object_boundary_shape, char, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
+	c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
 
 	// SPAWNING DATA
 	// These fields are used for default spawning times and remapping
-	c_enum<e_multiplayer_object_spawn_timer_type, char, _multiplayer_object_spawn_timer_type_starts_on_death, k_multiplayer_object_spawn_timer_type_count> spawn_timer_type;
+	c_enum<e_multiplayer_object_spawn_timer_type, char, _timer_starts_on_death, k_number_of_multiplayer_object_spawn_timer_types> spawn_timer_type;
 	short default_spawn_time; // seconds
 	short default_abandonment_time; // seconds
 

@@ -66,7 +66,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 
 	//m_metadata.decode(packet);
 	//m_map_variant_version = (short)packet->read_integer("map-variant-version", 8);
-	//m_map_variant_checksum = packet->read_integer("map-variant-checksum", 32);
+	//m_original_map_signature_hash = packet->read_integer("map-variant-checksum", 32);
 	//m_number_of_scenario_objects = (short)packet->read_integer("number_of_scenario_objects", 10);
 	//m_number_of_variant_objects = (short)packet->read_integer("number_of_variant_objects", 10);
 	//m_number_of_placeable_object_quotas = (short)packet->read_integer("number_of_placeable_object_quotas", 9);
@@ -75,7 +75,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//
 	//m_map_id = (long)packet->read_integer("map_id", 32);
 	//m_built_in = packet->read_bool("built_in");
-	//packet->read_bits_internal(&m_world_bounds, SIZEOF_BITS(m_world_bounds)); // world-bounds
+	//packet->read_bits_internal(&m_variant_scenario_bounds, SIZEOF_BITS(m_variant_scenario_bounds)); // world-bounds
 	//m_game_engine_subtype = (long)packet->read_integer("game_engine_subtype", 4);
 	//packet->read_bits_internal(&m_maximum_budget, SIZEOF_BITS(m_maximum_budget)); // maximum_budget
 	//packet->read_bits_internal(&m_spent_budget, SIZEOF_BITS(m_spent_budget)); // spent_budget
@@ -116,7 +116,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	if (!packet->read_bool("variant_object_position_exists"))
 	//		continue;
 	//
-	//	simulation_read_quantized_position(packet, &variant_object.position, 16, &m_world_bounds);
+	//	simulation_read_quantized_position(packet, &variant_object.position, 16, &m_variant_scenario_bounds);
 	//	packet->read_axes<14, 20>("variant-object-axes", &variant_object.forward, &variant_object.up);
 	//
 	//	s_variant_multiplayer_object_properties_definition& variant_properties = variant_object.multiplayer_game_object_properties;
@@ -132,15 +132,15 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//
 	//	switch (shape_type)
 	//	{
-	//	case _multiplayer_object_boundary_shape_sphere:
+	//	case _shape_sphere:
 	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
 	//		break;
-	//	case _multiplayer_object_boundary_shape_cylinder:
+	//	case _shape_cylinder:
 	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
 	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
 	//		variant_properties.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
 	//		break;
-	//	case _multiplayer_object_boundary_shape_box:
+	//	case _shape_box:
 	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
 	//		variant_properties.boundary_box_length = packet->read_quantized_real("variant-properties-shape-length", 0.0f, 60.0f, 16, false, false);
 	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
@@ -269,7 +269,7 @@ void c_map_variant::set_description(char const* description)
 	return INVOKE_CLASS_MEMBER(0x00586460, c_map_variant, set_description, description);
 }
 
-//.text:005864A0 ; public: void c_map_variant::set_metadata(s_content_item_metadata const*)
+//.text:005864A0 ; public: void c_map_variant::set_metadata(s_saved_game_item_metadata const*)
 
 void c_map_variant::set_name(wchar_t const* name)
 {
@@ -312,15 +312,15 @@ void s_variant_multiplayer_object_properties_definition::print(long const tab_co
 
 	PRINT_TABS; c_console::write_line("<item name = \"Symmetry Placement Flags\" value = %d>", (word)symmetry_placement_flags);
 	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Flags\" value = %d>", (byte)game_engine_flags);
-	PRINT_TABS; c_console::write_line("<item name = \"Owner Team\" value = %d>", (long)owner_team);
+	PRINT_TABS; c_console::write_line("<item name = \"Team Affiliation\" value = %d>", (long)team_affiliation);
 	PRINT_TABS; c_console::write_line("<item name = \"Shared Storage\" value = %d>", shared_storage);
-	PRINT_TABS; c_console::write_line("<item name = \"Spawn Rate\" value = %d>", spawn_rate);
-	PRINT_TABS; c_console::write_line("<item name = \"Object Type\" value = %d>", object_type);
-	PRINT_TABS; c_console::write_line("<item name = \"Boundary Shape\" value = %d>", (long)boundary_shape);
-	PRINT_TABS; c_console::write_line("<item name = \"Boundary Radius\" value = %.2f>", boundary_radius);
-	PRINT_TABS; c_console::write_line("<item name = \"Boundary Box Length\" value = %.2f>", boundary_box_length);
-	PRINT_TABS; c_console::write_line("<item name = \"Boundary +Height\" value = %.2f>", boundary_positive_height);
-	PRINT_TABS; c_console::write_line("<item name = \"Boundary -Height\" value = %.2f>", boundary_negative_height);
+	PRINT_TABS; c_console::write_line("<item name = \"Spawn Time In Seconds\" value = %d>", spawn_time_in_seconds);
+	PRINT_TABS; c_console::write_line("<item name = \"Cached Object Type\" value = %d>", cached_object_type);
+	PRINT_TABS; c_console::write_line("<item name = \"Shape\" value = %d>", (long)shape);
+	PRINT_TABS; c_console::write_line("<item name = \"Shape Data: Boundary Width Or Radius\" value = %.2f>", shape_data.boundary_width_or_radius);
+	PRINT_TABS; c_console::write_line("<item name = \"Shape Data: Boundary Box Length\" value = %.2f>", shape_data.boundary_box_length);
+	PRINT_TABS; c_console::write_line("<item name = \"Shape Data: Boundary +Height\" value = %.2f>", shape_data.boundary_positive_height);
+	PRINT_TABS; c_console::write_line("<item name = \"Shape Data: Boundary -Height\" value = %.2f>", shape_data.boundary_negative_height);
 }
 
 void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_count)
@@ -329,8 +329,8 @@ void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_co
 	csmemset(tabs, ' ', tab_count * 4);
 
 	PRINT_TABS; c_console::write_line("<item name = \"Flags\" value = %d>", (dword)flags);
-	PRINT_TABS; c_console::write_line("<item name = \"Object Datum Index\" value = 0x%08X>", object_datum_index);
-	PRINT_TABS; c_console::write_line("<item name = \"Editor Object Index\" value = %d>", editor_object_index);
+	PRINT_TABS; c_console::write_line("<item name = \"Object Index\" value = 0x%08X>", object_index);
+	PRINT_TABS; c_console::write_line("<item name = \"Helper Object Index\" value = %d>", helper_object_index);
 
 	if (variant_quota_index != NONE)
 	{
@@ -342,10 +342,10 @@ void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_co
 	PRINT_TABS; c_console::write_line("<item name = \"Position\" value = \"%.2f %.2f %.2f\">", position.x, position.y, position.z);
 	PRINT_TABS; c_console::write_line("<item name = \"Forward\" value = \"%.2f %.2f %.2f\">", forward.i, forward.j, forward.k);
 	PRINT_TABS; c_console::write_line("<item name = \"Up\" value = \"%.2f %.2f %.2f\">", up.i, up.j, up.k);
-	PRINT_TABS; c_console::write_line("<item name = \"Parent Object ID: Unique ID\" value = 0x%08X>", parent_object_identifier.m_unique_id);
-	PRINT_TABS; c_console::write_line("<item name = \"Parent Object ID: Origin BSP Index\" value = %d>", parent_object_identifier.m_origin_bsp_index);
-	PRINT_TABS; c_console::write_line("<item name = \"Parent Object ID: Type\" value = %d>", (long)parent_object_identifier.m_type);
-	PRINT_TABS; c_console::write_line("<item name = \"Parent Object ID: Source\" value = %d>", (long)parent_object_identifier.m_source);
+	PRINT_TABS; c_console::write_line("<item name = \"Spawn Attached To: Unique ID\" value = 0x%08X>", spawn_attached_to.m_unique_id);
+	PRINT_TABS; c_console::write_line("<item name = \"Spawn Attached To: Origin BSP Index\" value = %d>", spawn_attached_to.m_origin_bsp_index);
+	PRINT_TABS; c_console::write_line("<item name = \"Spawn Attached To: Type\" value = %d>", (long)spawn_attached_to.m_type);
+	PRINT_TABS; c_console::write_line("<item name = \"Spawn Attached To: Source\" value = %d>", (long)spawn_attached_to.m_source);
 
 	PRINT_TABS; c_console::write_line("<menu name = \"Multiplayer Game Object Properties\">", variant_quota_index);
 	multiplayer_game_object_properties.print(tab_count + 1);
@@ -392,20 +392,20 @@ void c_map_variant::print()
 	PRINT_TABS; c_console::write_line("<item name = \"Number Of Placeable Object Quotas\" value = %d>", m_number_of_placeable_object_quotas);
 	PRINT_TABS; c_console::write_line("<item name = \"Map ID\" value = %d>", m_map_id);
 
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: X\" value = \"%.2f %.2f\">", m_world_bounds.x.lower, m_world_bounds.x.upper);
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Y\" value = \"%.2f %.2f\">", m_world_bounds.y.lower, m_world_bounds.y.upper);
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Z\" value = \"%.2f %.2f\">", m_world_bounds.z.lower, m_world_bounds.z.upper);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: X\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.x.lower, m_variant_scenario_bounds.x.upper);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Y\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.y.lower, m_variant_scenario_bounds.y.upper);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Z\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.z.lower, m_variant_scenario_bounds.z.upper);
 
 	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Subtype\" value = %d>", m_game_engine_subtype);
 	PRINT_TABS; c_console::write_line("<item name = \"Maximum Budget\" value = %d>", m_maximum_budget);
 	PRINT_TABS; c_console::write_line("<item name = \"Spent Budget\" value = %d>", m_spent_budget);
-	PRINT_TABS; c_console::write_line("<item name = \"Helpers Enabled\" value = \"%s\">", m_helpers_enabled ? "true" : "false");
+	PRINT_TABS; c_console::write_line("<item name = \"Helpers Enabled\" value = \"%s\">", m_showing_helpers ? "true" : "false");
 	PRINT_TABS; c_console::write_line("<item name = \"Built-in\" value = \"%s\">", m_built_in ? "true" : "false");
-	PRINT_TABS; c_console::write_line("<item name = \"Map Variant Checksum\" value = 0x%08X>", m_map_variant_checksum);
+	PRINT_TABS; c_console::write_line("<item name = \"Map Variant Checksum\" value = 0x%08X>", m_original_map_signature_hash);
 
 	for (long i = 0; i < m_variant_objects.get_count(); i++)
 	{
-		if (m_variant_objects[i].object_datum_index == NONE)
+		if (m_variant_objects[i].object_index == NONE)
 			continue;
 
 		PRINT_TABS; c_console::write_line("<menu name = \"Variant Object\" index = %d>", i);
@@ -428,9 +428,9 @@ void c_map_variant::print()
 		PRINT_TABS; c_console::write_line("</menu>");
 	}
 
-	for (long i = 0; i < m_simulation_entities.get_count(); i++)
+	for (long i = 0; i < m_gamestate_indices.get_count(); i++)
 	{
-		PRINT_TABS; c_console::write_line("<item name = \"Simulation Entity Index\" index = %d value = %d>", i, m_simulation_entities[i]);
+		PRINT_TABS; c_console::write_line("<item name = \"Simulation Entity Index\" index = %d value = %d>", i, m_gamestate_indices[i]);
 	}
 	c_console::write_line("</menu>");
 }

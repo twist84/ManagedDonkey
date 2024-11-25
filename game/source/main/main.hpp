@@ -106,7 +106,7 @@ public:
 	~c_tag_resources_game_lock();
 
 protected:
-	long lock;
+	long m_resource_key;
 };
 
 struct c_interlocked_long;

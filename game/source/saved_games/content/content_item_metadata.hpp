@@ -24,7 +24,7 @@ enum e_saved_game_file_type
 };
 
 struct c_bitstream;
-struct s_content_item_metadata
+struct s_saved_game_item_metadata
 {
 	qword unique_id;
 	wchar_t name[16];
@@ -54,5 +54,5 @@ struct s_content_item_metadata
 	void decode_from_mcc(c_bitstream* packet);
 	void encode_to_mcc(c_bitstream* packet) const;
 };
-static_assert(sizeof(s_content_item_metadata) == 0xF8);
+static_assert(sizeof(s_saved_game_item_metadata) == 0xF8);
 

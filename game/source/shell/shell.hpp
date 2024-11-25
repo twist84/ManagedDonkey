@@ -424,7 +424,7 @@ enum e_life_cycle_join_result
 	_life_cycle_join_result_target_has_campaign,
 	_life_cycle_join_result_user_content_not_permitted,
 	_life_cycle_join_result_survival_in_progres,
-	_life_cycle_join_result_invalid_executable_typ,
+	_life_cycle_join_result_invalid_executable_type,
 
 	k_life_cycle_join_result_count
 };

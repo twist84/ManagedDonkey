@@ -33,12 +33,12 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 		e_multiplayer_object_boundary_shape boundary_shape = geometry_data->boundary_shape;
 		switch (boundary_shape)
 		{
-		case _multiplayer_object_boundary_shape_sphere:
+		case _shape_sphere:
 		{
 			render_debug_sphere(false, &geometry_data->boundary_matrix.position, geometry_data->boundary_width, color);
 		}
 		break;
-		case _multiplayer_object_boundary_shape_cylinder:
+		case _shape_cylinder:
 		{
 			vector3d height{};
 			real_point3d base{};
@@ -55,7 +55,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			render_debug_cylinder(false, &base, &height, geometry_data->boundary_width, color);
 		}
 		break;
-		case _multiplayer_object_boundary_shape_box:
+		case _shape_box:
 		{
 			real_rectangle3d bounds{};
 

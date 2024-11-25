@@ -8,39 +8,39 @@ struct c_map_variant;
 
 enum e_game_engine_symmetric_placement
 {
-	_game_engine_symmetric_placement_ignore = 0,
-	_game_engine_symmetric_placement_symmetric,
-	_game_engine_symmetric_placement_asymmetric,
+	_game_engine_disregard_symmetry_for_placement = 0,
+	_game_engine_symmetric_placement,
+	_game_engine_asymmetric_placement,
 
-	k_game_engine_symmetric_placement_count
+	k_number_of_game_engine_symmetric_placement_settings
 };
 
 enum e_scenario_game_engine
 {
-	_scenario_game_engine_ctf = 0,
-	_scenario_game_engine_slayer,
-	_scenario_game_engine_oddball,
-	_scenario_game_engine_king,
-	_scenario_game_engine_juggernaut,
-	_scenario_game_engine_territories,
-	_scenario_game_engine_assault,
-	_scenario_game_engine_vip,
-	_scenario_game_engine_infection,
-	_scenario_game_engine_target_training,
+	_scenario_game_engine_type_ctf = 0,
+	_scenario_game_engine_type_slayer,
+	_scenario_game_engine_type_oddball,
+	_scenario_game_engine_type_king,
+	_scenario_game_engine_type_juggernaut,
+	_scenario_game_engine_type_territories,
+	_scenario_game_engine_type_assault,
+	_scenario_game_engine_type_vip,
+	_scenario_game_engine_type_infection,
+	_scenario_game_engine_type_target_training,
 
-	k_scenario_game_engine_count
+	k_scenario_game_engine_type_count
 };
 
 enum e_multiplayer_team_designator
 {
-	_multiplayer_team_designator_defenders = 0,
-	_multiplayer_team_designator_attackers,
-	_multiplayer_team_designator_3rd_party,
-	_multiplayer_team_designator_4th_party,
-	_multiplayer_team_designator_5th_party,
-	_multiplayer_team_designator_6th_party,
-	_multiplayer_team_designator_7th_party,
-	_multiplayer_team_designator_8th_party,
+	_multiplayer_team_designator_defender = 0,
+	_multiplayer_team_designator_attacker,
+	_multiplayer_team_designator_third_party,
+	_multiplayer_team_designator_fourth_party,
+	_multiplayer_team_designator_fifth_party,
+	_multiplayer_team_designator_sixth_party,
+	_multiplayer_team_designator_seventh_party,
+	_multiplayer_team_designator_eigth_party,
 	_multiplayer_team_designator_neutral,
 
 	k_multiplayer_team_designator_count
@@ -48,39 +48,49 @@ enum e_multiplayer_team_designator
 
 enum e_teleporter_channel
 {
-	_teleporter_channel_alpha,
-	_teleporter_channel_bravo,
-	_teleporter_channel_charlie,
-	_teleporter_channel_delta,
-	_teleporter_channel_echo,
-	_teleporter_channel_foxtrot,
-	_teleporter_channel_golf,
-	_teleporter_channel_hotel,
-	_teleporter_channel_india,
-	_teleporter_channel_juliet,
-	_teleporter_channel_kilo,
-	_teleporter_channel_lima,
-	_teleporter_channel_mike,
-	_teleporter_channel_november,
-	_teleporter_channel_oscar,
-	_teleporter_channel_papa,
-	_teleporter_channel_quebec,
-	_teleporter_channel_romeo,
-	_teleporter_channel_sierra,
-	_teleporter_channel_tango,
-	_teleporter_channel_uniform,
-	_teleporter_channel_victor,
-	_teleporter_channel_whiskey,
-	_teleporter_channel_xray,
-	_teleporter_channel_yankee,
-	_teleporter_channel_zulu,
+	_channel_alpha = 0,
+	_channel_bravo,
+	_channel_charlie,
+	_channel_delta,
+	_channel_echo,
+	_channel_foxtrot,
+	_channel_golf,
+	_channel_hotel,
+	_channel_india,
+	_channel_juliet,
+	_channel_kilo,
+	_channel_lima,
+	_channel_mike,
+	_channel_november,
+	_channel_oscar,
+	_channel_papa,
+	_channel_quebec,
+	_channel_romeo,
+	_channel_sierra,
+	_channel_tango,
+	_channel_uniform,
+	_channel_victor,
+	_channel_whiskey,
+	_channel_xray,
+	_channel_yankee,
+	_channel_zulu,
 
-	k_teleporter_channel_count
+	k_teleporter_channel_count,
+	k_channel_default = _channel_alpha
 };
 
 struct s_variant_multiplayer_object_properties_definition
 {
 public:
+	struct tag_shape_data
+	{
+		real boundary_width_or_radius;
+		real boundary_box_length;
+		real boundary_positive_height;
+		real boundary_negative_height;
+	};
+	static_assert(sizeof(tag_shape_data) == 0x10);
+
 	s_variant_multiplayer_object_properties_definition() :
 		symmetry_placement_flags(),
 		game_engine_flags()
@@ -90,25 +100,26 @@ public:
 
 	void initialize_to_default()
 	{
-		symmetry_placement_flags = _game_engine_symmetric_placement_ignore;
+		symmetry_placement_flags = _game_engine_disregard_symmetry_for_placement;
 		game_engine_flags = 12;
-		owner_team = 9;
+		team_affiliation = 9;
 		shared_storage = { 0 };
-		spawn_rate = 0;
-		object_type = 0;
-		boundary_shape = _multiplayer_object_boundary_shape_unused;
-		boundary_radius = 0.0f;
-		boundary_box_length = 0.0f;
-		boundary_positive_height = 0.0f;
-		boundary_negative_height = 0.0f;
+		spawn_time_in_seconds = 0;
+		cached_object_type = 0;
+		shape = _shape_unused;
+		shape_data.boundary_width_or_radius = 0.0f;
+		shape_data.boundary_box_length = 0.0f;
+		shape_data.boundary_positive_height = 0.0f;
+		shape_data.boundary_negative_height = 0.0f;
 	}
 
 	void print(long const tab_count);
 
 //protected:
-	c_flags<e_game_engine_symmetric_placement, word, k_game_engine_symmetric_placement_count> symmetry_placement_flags;
-	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_count> game_engine_flags;
-	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defenders, k_multiplayer_team_designator_count> owner_team;
+
+	c_flags<e_game_engine_symmetric_placement, word, k_number_of_game_engine_symmetric_placement_settings> symmetry_placement_flags;
+	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_type_count> game_engine_flags;
+	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> team_affiliation;
 
 	union
 	{
@@ -120,20 +131,12 @@ public:
 	} shared_storage;
 
 	// seconds
-	char spawn_rate;
+	byte spawn_time_in_seconds;
 
-	byte object_type;
+	byte cached_object_type;
 
-	c_enum<e_multiplayer_object_boundary_shape, char, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
-
-	union
-	{
-		real boundary_radius;
-		real boundary_width;
-	};
-	real boundary_box_length;
-	real boundary_positive_height;
-	real boundary_negative_height;
+	c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count> shape;
+	tag_shape_data shape_data;
 };
 static_assert(sizeof(s_variant_multiplayer_object_properties_definition) == 0x18);
 
@@ -151,13 +154,14 @@ struct s_variant_object_datum
 public:
 	s_variant_object_datum() :
 		flags(),
-		object_datum_index(NONE),
-		editor_object_index(NONE),
+		reuse_timeout(),
+		object_index(NONE),
+		helper_object_index(NONE),
 		variant_quota_index(NONE),
 		position(),
 		forward(),
 		up(),
-		parent_object_identifier(),
+		spawn_attached_to(),
 		multiplayer_game_object_properties()
 	{
 	}
@@ -166,18 +170,14 @@ public:
 
 //protected:
 	c_flags<e_variant_object_placement_flags, word, k_variant_object_placement_flags> flags;
-	short : 16;
-
-	long object_datum_index;
-	long editor_object_index;
+	short reuse_timeout;
+	long object_index;
+	long helper_object_index;
 	long variant_quota_index;
-
-	// axis
 	real_point3d position;
 	vector3d forward;
 	vector3d up;
-
-	c_object_identifier parent_object_identifier;
+	c_object_identifier spawn_attached_to;
 	s_variant_multiplayer_object_properties_definition multiplayer_game_object_properties;
 };
 static_assert(sizeof(s_variant_object_datum) == 0x54);
@@ -190,7 +190,7 @@ public:
 		minimum_count(0),
 		maximum_count(0),
 		placed_on_map(0),
-		maximum_allowed(-1),
+		maximum_allowed(NONE),
 		price_per_item(0.0f)
 	{
 	}
@@ -228,32 +228,22 @@ public:
 	void print();
 
 //protected:
-	s_content_item_metadata m_metadata;
-
+	s_saved_game_item_metadata m_metadata;
 	short m_map_variant_version;
-
 	short m_number_of_scenario_objects;
 	short m_number_of_variant_objects;
 	short m_number_of_placeable_object_quotas;
-
 	long m_map_id;
-
-	real_rectangle3d m_world_bounds;
-
+	real_rectangle3d m_variant_scenario_bounds;
 	long m_game_engine_subtype;
-
 	real m_maximum_budget;
 	real m_spent_budget;
-
-	bool m_helpers_enabled;
+	bool m_showing_helpers;
 	bool m_built_in;
-	byte __pad12A[2];
-
-	dword m_map_variant_checksum;
-
+	dword m_original_map_signature_hash;
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
 	c_static_array<short, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;
-	c_static_array<long, 80> m_simulation_entities;
+	c_static_array<long, 80> m_gamestate_indices;
 };
 static_assert(sizeof(c_map_variant) == 0xE090);

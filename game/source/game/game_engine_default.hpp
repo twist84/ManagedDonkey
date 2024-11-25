@@ -9,7 +9,6 @@
 #pragma pack(push, 4)
 
 enum e_team_scoring_method;
-enum e_multiplayer_team_designator;
 enum e_game_team;
 enum e_multiplayer_team_designator;
 enum e_game_engine_kill_flags;
@@ -102,7 +101,7 @@ protected:
 	dword m_checksum;
 
 	char m_name[32];
-	s_content_item_metadata m_metadata;
+	s_saved_game_item_metadata m_metadata;
 	c_game_engine_miscellaneous_options m_miscellaneous_options;
 	c_game_engine_respawn_options m_respawn_options;
 	c_game_engine_social_options m_social_options;
