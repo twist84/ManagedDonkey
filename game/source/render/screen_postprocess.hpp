@@ -3,7 +3,6 @@
 #include "rasterizer/rasterizer.hpp"
 
 enum e_splitscreen_res;
-enum e_output_user_index;
 
 struct c_camera_fx_values;
 struct c_camera_fx_settings;
@@ -62,7 +61,7 @@ struct c_screen_postprocess
 		s_screen_effect_settings& screen_effect_settings,
 		e_splitscreen_res splitscreen_res,
 		s_observer_depth_of_field const* observer_dof,
-		e_output_user_index output_user_index);
+		long user_index);
 
 	static void __cdecl sub_A62710(
 		render_projection const* projection,

@@ -13,21 +13,21 @@ HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, _update);
 byte const cycle_camera_key_code_bytes[] = { _key_code_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
 
-//REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, k_debug_camera_modes, 2);
-e_camera_mode k_debug_camera_modes[] = { _camera_mode_flying, _camera_mode_following };
+//REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, debug_camera_modes, 2);
+e_camera_mode debug_camera_modes[] = { _camera_mode_flying, _camera_mode_following };
 
-void __thiscall c_debug_director::_update(real a1)
+void __thiscall c_debug_director::_update(real dt)
 {
 	if (input_key_frames_down(_key_code_backspace, _input_type_ui) == 1)
 		cycle_camera();
 
 	mouse_state* state = input_get_mouse_state(_input_type_ui);
-	if (k_debug_camera_modes[m_camera_mode_index] == _camera_mode_flying && state)
+	if (debug_camera_modes[m_current_camera_mode_index] == _camera_mode_flying && state)
 	{
 		if (state->frames_down[_mouse_button_middle_click] == 1)
 		{
-			m_biped_control_mode = !m_biped_control_mode;
-			console_printf(m_biped_control_mode ? "Biped control mode" : "Flying camera control mode");
+			m_flying_camera_biped_control = !m_flying_camera_biped_control;
+			console_printf(m_flying_camera_biped_control ? "Biped control mode" : "Flying camera control mode");
 		}
 
 		if (g_editor_director_mouse_wheel_speed_enabled && !state->frames_down[_mouse_button_middle_click])
@@ -44,20 +44,20 @@ void __thiscall c_debug_director::_update(real a1)
 			//	g_director_camera_speed_scale = int_pin(g_director_camera_speed_scale * 1.03f, 0.0009765625f, 256.0f);
 		}
 
-		if (m_biped_control_mode || !editor_input_inhibited())
+		if (m_flying_camera_biped_control || !editor_input_inhibited())
 		{
-			m_collision_disabled = false;
+			m_input_inhibited = false;
 			set_camera_mode(_camera_mode_static, 0.0f);
 		}
 		else
 		{
-			m_collision_disabled = true;
+			m_input_inhibited = true;
 			set_camera_mode(_camera_mode_flying, 0.0f);
 			static_cast<c_flying_camera*>(get_camera())->set_collision(false);
 		}
 	}
 
-	INVOKE_CLASS_MEMBER(0x00593540, c_director, update, a1);
+	INVOKE_CLASS_MEMBER(0x00593540, c_director, update, dt);
 }
 
 void c_debug_director::constructor(long user_index)
@@ -68,28 +68,28 @@ void c_debug_director::constructor(long user_index)
 
 void c_debug_director::changed_camera()
 {
-	set_camera_mode(k_debug_camera_modes[m_camera_mode_index], 0.0f);
-	console_printf("%s camera", global_camera_mode_names[k_debug_camera_modes[m_camera_mode_index]]);
+	set_camera_mode(debug_camera_modes[m_current_camera_mode_index], 0.0f);
+	console_printf("%s camera", global_camera_mode_names[debug_camera_modes[m_current_camera_mode_index]]);
 	c_camera* camera = get_camera();
 	if (camera->get_type() == _camera_mode_flying)
 	{
-		m_collision_disabled = true;
+		m_input_inhibited = true;
 		static_cast<c_flying_camera*>(get_camera())->set_collision(false);
 	}
 	else
 	{
-		m_collision_disabled = false;
+		m_input_inhibited = false;
 	}
 }
 
 void c_debug_director::cycle_camera()
 {
-	m_camera_mode_index = (m_camera_mode_index - 1) % NUMBEROF(k_debug_camera_modes);
+	m_current_camera_mode_index = (m_current_camera_mode_index - 1) % NUMBEROF(debug_camera_modes);
 	changed_camera();
 }
 
 bool c_debug_director::finished_cycle()
 {
-	return m_camera_mode_index == NUMBEROF(k_debug_camera_modes) - 1;
+	return m_current_camera_mode_index == NUMBEROF(debug_camera_modes) - 1;
 }
 

@@ -48,28 +48,9 @@ enum e_session_creation_flags
 	k_number_of_session_creation_flags
 };
 
-enum e_input_user_index
+enum
 {
-	_input_user_index0 = 0,
-	_input_user_index1,
-	_input_user_index2,
-	_input_user_index3,
-
-	k_number_of_input_users,
-
-	k_input_user_none = -1
-};
-
-enum e_output_user_index
-{
-	_output_user_index0 = 0,
-	_output_user_index1,
-	_output_user_index2,
-	_output_user_index3,
-
-	k_number_of_output_users,
-
-	k_output_user_none = -1
+	k_number_of_users = 4
 };
 
 enum e_network_game_type
@@ -423,7 +404,7 @@ enum e_life_cycle_join_result
 	_life_cycle_join_result_target_has_film_in_progress,
 	_life_cycle_join_result_target_has_campaign,
 	_life_cycle_join_result_user_content_not_permitted,
-	_life_cycle_join_result_survival_in_progres,
+	_life_cycle_join_result_survival_in_progress,
 	_life_cycle_join_result_invalid_executable_type,
 
 	k_life_cycle_join_result_count

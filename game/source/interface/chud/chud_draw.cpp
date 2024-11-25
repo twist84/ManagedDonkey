@@ -42,23 +42,23 @@ bool __cdecl chud_compute_render_data(void* draw_widget_data, void* render_data,
 	return chud_compute_render_data_result;
 }
 
-void __cdecl chud_debug_draw(e_output_user_index output_user_index)
+void __cdecl chud_debug_draw(long user_index)
 {
-	INVOKE(0x00AC7DB0, chud_debug_draw, output_user_index);
+	INVOKE(0x00AC7DB0, chud_debug_draw, user_index);
 }
 
-void __cdecl chud_debug_draw_reticle(e_output_user_index output_user_index, real a2, real_argb_color const* color)
+void __cdecl chud_debug_draw_reticle(long user_index, real a2, real_argb_color const* color)
 {
-	//INVOKE(0x00AC7F50, chud_debug_draw_reticle, output_user_index, a2, color);
+	//INVOKE(0x00AC7F50, chud_debug_draw_reticle, user_index, a2, color);
 
-	chud_debug_draw_reticle_labeled(output_user_index, a2, NULL, 0.0f, color);
+	chud_debug_draw_reticle_labeled(user_index, a2, NULL, 0.0f, color);
 }
 
-void __cdecl chud_debug_draw_reticle_labeled(e_output_user_index output_user_index, real a2, char const* label, real a4, real_argb_color const* color)
+void __cdecl chud_debug_draw_reticle_labeled(long user_index, real a2, char const* label, real a4, real_argb_color const* color)
 {
-	//INVOKE(0x00AC7F80, chud_debug_draw_reticle_labeled, output_user_index, a2, label, a4, color);
+	//INVOKE(0x00AC7F80, chud_debug_draw_reticle_labeled, user_index, a2, label, a4, color);
 
-	real magic_crosshair_offset = observer_get(output_user_index)->result.magic_crosshair_offset;
+	real magic_crosshair_offset = observer_get(user_index)->result.magic_crosshair_offset;
 	c_player_view* player_view = c_player_view::get_current();
 	render_projection const* rasterizer_projection = player_view->get_rasterizer_projection();
 
@@ -89,8 +89,8 @@ void __cdecl chud_debug_render()
 	//{
 	//	if (chud_debug_grid)
 	//	{
-	//		e_output_user_index user_index = player_mapping_first_active_output_user();
-	//		if (user_index != k_input_user_none)
+	//		long user_index = player_mapping_first_active_output_user();
+	//		if (user_index != NONE)
 	//		{
 	//			// #TODO: implement me
 	//		}
@@ -98,8 +98,8 @@ void __cdecl chud_debug_render()
 	//
 	//	if (chud_debug_crosshair)
 	//	{
-	//		e_output_user_index user_index = player_mapping_first_active_output_user();
-	//		if (user_index != k_input_user_none)
+	//		long user_index = player_mapping_first_active_output_user();
+	//		if (user_index != NONE)
 	//			chud_debug_draw(user_index);
 	//	}
 	//}
@@ -138,7 +138,7 @@ void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3)
 }
 
 //.text:00AC9560 ; 
-//.text:00AC9570 ; void __cdecl chud_draw_widget(e_output_user_index, s_chud_runtime_widget_datum*, long, long)
+//.text:00AC9570 ; void __cdecl chud_draw_widget(long, s_chud_runtime_widget_datum*, long, long)
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry*, s_anchor_basis*, bool, bool)
 //.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(dword, vector4d*)
 //.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(s_widget_geometry_properties const&, real_matrix4x3*)

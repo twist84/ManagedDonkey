@@ -24,7 +24,7 @@ void user_interface_mouse_update()
 	if (g_windows_params.game_window_handle != GetForegroundWindow())
 		return;
 
-	if (director_get(_output_user_index0)->get_camera()->get_type() == _camera_mode_flying)
+	if (director_get(0)->get_camera()->get_type() == _camera_mode_flying)
 		return;
 
 	user_interface_mouse_update_internal();

@@ -98,7 +98,7 @@ void __cdecl game_engine_game_starting()
 //.text:0054FCC0 ; long __cdecl game_engine_get_finalized_player_score(long)
 //.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(e_game_team)
 //.text:0054FE70 ; long __cdecl game_engine_get_game_object_list()
-//.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(e_output_user_index, game_engine_interface_state*)
+//.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(long, game_engine_interface_state*)
 //.text:00550410 ; void __cdecl game_engine_get_in_game_string(long, c_static_wchar_string<256>*)
 
 void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string)
@@ -222,11 +222,11 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 
 	if (game_in_progress() && !game_is_ui_shell())
 	{
-		for (e_output_user_index output_user_index = player_mapping_first_active_output_user(); output_user_index != NONE; output_user_index = player_mapping_next_active_output_user(output_user_index))
+		for (long user_index = player_mapping_first_active_output_user(); user_index != NONE; user_index = player_mapping_next_active_output_user(user_index))
 		{
-			long player_index = player_mapping_get_player_by_output_user(output_user_index);
+			long player_index = player_mapping_get_player_by_output_user(user_index);
 			player_datum* player = (player_datum*)datum_try_and_get(*player_data, player_index);
-			e_controller_index controller_index = controller_index_from_output_user_index(output_user_index);
+			e_controller_index controller_index = controller_index_from_user_index(user_index);
 			if (controller_index != k_no_controller)
 			{
 				s_game_input_state* input_state = NULL;
@@ -251,7 +251,7 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 					c_gui_screen_scoreboard* screen = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index);
 					if (!screen || !window_manager_get()->get_screen_above(screen->get_render_window(), screen))
 					{
-						bool show_scoreboard = back_pressed && (game_is_cooperative() || game_is_multiplayer()) && player_control_get_zoom_level(output_user_index) == (short)NONE;
+						bool show_scoreboard = back_pressed && (game_is_cooperative() || game_is_multiplayer()) && player_control_get_zoom_level(user_index) == (short)NONE;
 
 						if (current_game_engine())
 						{
@@ -265,8 +265,8 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 								&& game_time_get() > game_seconds_integer_to_ticks(3)
 								&& TEST_BIT(player->flags, _player_active_in_game_bit)
 								&& (!game_is_playback()
-									|| director_get(output_user_index)->get_type() != _director_mode_saved_film
-									|| !director_get(output_user_index)->in_free_camera_mode()))
+									|| director_get(user_index)->get_type() != _director_mode_saved_film
+									|| !director_get(user_index)->in_free_camera_mode()))
 							{
 								show_scoreboard = true;
 							}

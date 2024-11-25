@@ -104,7 +104,7 @@ long c_network_session_membership::get_player_index_from_peer(long peer_index)
 long c_network_session_membership::get_observer_channel_index(long peer_index) const
 {
 	ASSERT(is_peer_valid(peer_index));
-	return m_local_peers[peer_index].channel_index;
+	return m_local_peer_state[peer_index].channel_index;
 }
 
 long c_network_session_membership::get_peer_from_observer_channel(long observer_channel_index) const

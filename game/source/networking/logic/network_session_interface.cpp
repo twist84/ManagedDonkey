@@ -91,7 +91,7 @@ void __cdecl network_session_inteface_update_host_framerate_quality()
 	INVOKE(0x00435F60, network_session_inteface_update_host_framerate_quality);
 }
 
-//void __cdecl network_session_interface_add_local_user(e_output_user_index user_index, s_player_identifier const* player_identifier)
+//void __cdecl network_session_interface_add_local_user(long user_index, s_player_identifier const* player_identifier)
 void __cdecl network_session_interface_add_local_user(long user_index, s_player_identifier const* player_identifier)
 {
 	INVOKE(0x00436000, network_session_interface_add_local_user, user_index, player_identifier);
@@ -119,7 +119,7 @@ bool __cdecl network_session_interface_get_is_user_signed_in(long user_index)
 	return INVOKE(0x00436390, network_session_interface_get_is_user_signed_in, user_index);
 }
 
-//bool __cdecl network_session_interface_get_is_zombie_local_user(e_output_user_index user_index)
+//bool __cdecl network_session_interface_get_is_zombie_local_user(long user_index)
 bool __cdecl network_session_interface_get_is_zombie_local_user(long user_index)
 {
 	return INVOKE(0x004363C0, network_session_interface_get_is_zombie_local_user, user_index);
@@ -180,9 +180,9 @@ bool __cdecl network_session_interface_initialize(c_network_session_manager* ses
 
 //.text:00436790 ; 
 
-bool __cdecl network_session_interface_local_user_exists(e_output_user_index output_user_index)
+bool __cdecl network_session_interface_local_user_exists(long user_index)
 {
-	return INVOKE(0x004367B0, network_session_interface_local_user_exists, output_user_index);
+	return INVOKE(0x004367B0, network_session_interface_local_user_exists, user_index);
 
 	//return session_interface_globals.users[output_user_index].state == 1;
 }
@@ -199,7 +199,7 @@ void __cdecl network_session_interface_remove_local_user(long user_index)
 {
 	INVOKE(0x00436810, network_session_interface_remove_local_user, user_index);
 
-	//ASSERT(VALID_INDEX(user_index, k_number_of_output_users));
+	//ASSERT(VALID_INDEX(user_index, k_number_of_users));
 	//
 	//s_network_session_interface_user& user = session_interface_globals.users[user_index];
 	//generate_event(_event_message, "networking:logic:session: local user %d removed, player identifier=%s", user_index, player_identifier_get_string(&user.identifier));
@@ -214,7 +214,7 @@ void __cdecl network_session_interface_reset(long session_index)
 	//ASSERT(session_index >= 0 && session_index < k_network_maximum_sessions);
 	//
 	//session_interface_globals.session_peer_properties_update_times[session_index] = 0;
-	//for (long user_index = 0; user_index < k_number_of_output_users; user_index++)
+	//for (long user_index = 0; user_index < k_number_of_users; user_index++)
 	//{
 	//	s_network_session_interface_user& user = session_interface_globals.users[user_index];
 	//	user.__times1680[session_index] = 0;
@@ -222,13 +222,13 @@ void __cdecl network_session_interface_reset(long session_index)
 	//}
 }
 
-//void __cdecl network_session_interface_set_desired_multiplayer_team(e_output_user_index user_index, e_game_team team_index)
+//void __cdecl network_session_interface_set_desired_multiplayer_team(long user_index, e_game_team team_index)
 void __cdecl network_session_interface_set_desired_multiplayer_team(long user_index, long team_index)
 {
 	INVOKE(0x004368D0, network_session_interface_set_desired_multiplayer_team, user_index, team_index);
 }
 
-//void __cdecl network_session_interface_set_is_zombie_local_user(e_output_user_index user_index, bool is_zombie_local_user)
+//void __cdecl network_session_interface_set_is_zombie_local_user(long user_index, bool is_zombie_local_user)
 void __cdecl network_session_interface_set_is_zombie_local_user(long user_index, bool is_zombie_local_user)
 {
 	INVOKE(0x00436920, network_session_interface_set_is_zombie_local_user, user_index, is_zombie_local_user);
@@ -244,7 +244,7 @@ void __cdecl network_session_interface_set_local_name(wchar_t const* machine_nam
 	INVOKE(0x00436A30, network_session_interface_set_local_name, machine_name, session_name);
 }
 
-//void __cdecl network_session_interface_set_local_user_override_hopper_directory(e_output_user_index user_index, char const* override_hopper_directory)
+//void __cdecl network_session_interface_set_local_user_override_hopper_directory(long user_index, char const* override_hopper_directory)
 void __cdecl network_session_interface_set_local_user_override_hopper_directory(long user_index, char const* override_hopper_directory)
 {
 	INVOKE(0x00436A60, network_session_interface_set_local_user_override_hopper_directory, user_index, override_hopper_directory);
@@ -323,9 +323,9 @@ void __cdecl network_session_set_player_failure_reason(long user_index, e_networ
 //.text:004375D0 ; network_session_update_local_peer_properties
 //.text:00437860 ; network_session_update_team_indices
 
-void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index output_user_index)
+void __cdecl network_session_update_user_properties(c_network_session* session, long user_index)
 {
-	INVOKE(0x00437B30, network_session_update_user_properties, session, output_user_index);
+	INVOKE(0x00437B30, network_session_update_user_properties, session, user_index);
 }
 
 void __cdecl network_session_update_user_removal(c_network_session* session)

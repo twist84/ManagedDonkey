@@ -137,7 +137,7 @@ struct sound_datum :
 	char permutation_index;
 	short permutation_chunk_index;
 
-	c_enum<e_output_user_index, byte, _output_user_index0, k_number_of_output_users> listener_index;
+	c_enum<long, byte, 0, 4> listener_index;
 	byte __unknownB1;
 	byte __unknownB2;
 	byte __unknownB3;
@@ -369,7 +369,7 @@ sound_channel_datum* __cdecl channel_get(short index)
 //.text:00515B00 ; dword __cdecl sound_cache_sound_request(long, s_sound_permutation_chunk*)
 //.text:00515B20 ; real_decibel __cdecl sound_calculate_fade_db(long)
 //.text:00515CD0 ; 
-//.text:00515D60 ; void __cdecl sound_calculate_listener_relative_position_and_attenuation(e_output_user_index, s_sound_source const*, long, long, real*, real*, real_point3d*)
+//.text:00515D60 ; void __cdecl sound_calculate_listener_relative_position_and_attenuation(long, s_sound_source const*, long, long, real*, real*, real_point3d*)
 //.text:00515EC0 ; void __cdecl sound_channel_summary_build(sound_channel_summary*, long)
 //.text:00516060 ; 
 //.text:00516070 ; 
@@ -380,7 +380,7 @@ sound_channel_datum* __cdecl channel_get(short index)
 //.text:005161F0 ; 
 //.text:00516200 ; bool __cdecl sound_definition_audible(long, s_sound_source const*)
 //.text:00516270 ; 
-//.text:005162A0 ; bool __cdecl sound_definition_can_start_new_impulse_sound(long, s_sound_impulse_definition const*, e_output_user_index*, e_sound_impulse_new_failure_reason*)
+//.text:005162A0 ; bool __cdecl sound_definition_can_start_new_impulse_sound(long, s_sound_impulse_definition const*, long*, e_sound_impulse_new_failure_reason*)
 //.text:005164F0 ; bool __cdecl sound_definition_hardware_formats_match(long, long)
 //.text:00516500 ; 
 //.text:00516520 ; bool __cdecl sound_definition_is_playable(long, s_sound_source const*)
@@ -438,7 +438,7 @@ void __cdecl sound_idle()
 
 //.text:005172B0 ; void __cdecl sound_impulse_mark_as_cinematic_outro(long)
 //.text:005172F0 ; long __cdecl sound_impulse_new(long, long, s_sound_impulse_definition const*, e_sound_impulse_new_failure_reason*)
-//.text:00517430 ; long __cdecl sound_impulse_new_internal(long, e_output_user_index, long, s_sound_impulse_definition const*, long)
+//.text:00517430 ; long __cdecl sound_impulse_new_internal(long, long, long, s_sound_impulse_definition const*, long)
 //.text:00517950 ; 
 
 void __cdecl sound_initialize()
@@ -514,7 +514,7 @@ void __cdecl sound_render_dispatch()
 //.text:00519140 ; 
 //.text:00519180 ; void __cdecl sound_set_cinematic_skip_fade(real)
 //.text:005191B0 ; void __cdecl sound_set_playing_permutation(long, long, short, short, short)
-//.text:00519200 ; bool __cdecl sound_should_update_listener(e_output_user_index)
+//.text:00519200 ; bool __cdecl sound_should_update_listener(long)
 //.text:00519220 ; real __cdecl sound_source_calculate_distance_rolloff_factor(s_sound_source const*, long, long, real_point3d const*)
 //.text:00519290 ; 
 //.text:005192D0 ; real __cdecl sound_source_calculate_location_rolloff_factor(s_sound_source const*, long, long, real_point3d const*, vector3d const*, real*)
@@ -578,7 +578,7 @@ void __cdecl sound_update()
 //.text:0051A8B0 ; long __cdecl source_audible(s_sound_source const*, real, real*)
 //.text:0051A8E0 ; long __cdecl source_audible_internal(s_sound_source const*, real, real, real*)
 //.text:0051AA30 ; 
-//.text:0051AA70 ; double __cdecl source_distance_squared(e_output_user_index, s_sound_source const*)
+//.text:0051AA70 ; double __cdecl source_distance_squared(long, s_sound_source const*)
 //.text:0051ACC0 ; long __cdecl source_really_audible(s_sound_source const*, long, real, real*)
 //.text:0051AD00 ; void __cdecl stop_impulse_sounds_by_sound_class(long, e_sound_event_stop_reason)
 //.text:0051AF10 ; void __cdecl stop_sounds_by_sound_class(long, e_sound_event_stop_reason)
@@ -710,7 +710,7 @@ void __cdecl render_debug_sound(long sound_index)
 		render_debug_cone_outline(false, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
 	}
 
-	if (sound->listener_index == k_output_user_none || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))
+	if (sound->listener_index == NONE || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))
 		return;
 
 	long unit_index = player_mapping_get_unit_by_output_user(sound->listener_index);

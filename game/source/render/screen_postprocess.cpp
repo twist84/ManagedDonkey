@@ -115,9 +115,9 @@ void __cdecl c_screen_postprocess::postprocess_player_view(
 	s_screen_effect_settings& screen_effect_settings,
 	e_splitscreen_res splitscreen_res,
 	s_observer_depth_of_field const* observer_dof,
-	e_output_user_index output_user_index)
+	long user_index)
 {
-	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, projection, camera, screen_effect_settings, splitscreen_res, observer_dof, output_user_index);
+	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, projection, camera, screen_effect_settings, splitscreen_res, observer_dof, user_index);
 }
 
 // nullsub

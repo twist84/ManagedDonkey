@@ -84,5 +84,5 @@ extern render_lighting const* object_get_cached_render_lighting(long object_inde
 extern bool __cdecl render_object_should_be_visible(long object_index);
 extern void __cdecl render_objects_initialize();
 extern void __cdecl render_objects_initialize_for_new_map();
-extern void __cdecl render_objects_prepare_for_window(long output_user_index);
+extern void __cdecl render_objects_prepare_for_window(long user_index);
 

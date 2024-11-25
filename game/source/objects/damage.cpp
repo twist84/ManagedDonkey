@@ -195,7 +195,7 @@ void render_debug_object_damage()
 
 		if (input_key_frames_down(_key_code_spacebar, _input_type_game))
 		{
-			e_output_user_index user_index = c_player_view::get_current()->get_player_view_output_user_index();
+			long user_index = c_player_view::get_current()->get_player_view_user_index();
 			long unit_index = player_mapping_get_unit_by_output_user(user_index);
 
 			real_matrix4x3 camera{};

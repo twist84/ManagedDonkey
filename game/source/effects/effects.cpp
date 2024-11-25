@@ -108,9 +108,9 @@ bool __cdecl dangerous_effects_near_player()
 //.text:005B6240 ; e_effect_reuse_result __cdecl effect_find_reusable_instance(s_effect_creation_data const*, long*)
 //.text:005B63A0 ; 
 
-void __cdecl effect_render(long effect_index, e_output_user_index output_user_index)
+void __cdecl effect_render(long effect_index, long user_index)
 {
-	INVOKE(0x005B63E0, effect_render, effect_index, output_user_index);
+	INVOKE(0x005B63E0, effect_render, effect_index, user_index);
 }
 
 //.text:005B6740 ; event_datum const* __cdecl effect_get_event(effect_datum const*, long)
@@ -184,15 +184,15 @@ long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const*
 //.text:005B9720 ; void __cdecl effect_refresh_location(long, s_cluster_reference const*)
 //.text:005B9760 ; void __cdecl effect_refresh_locations(long)
 
-void __cdecl sub_5B9820(long effect_index, e_output_user_index output_user_index)
+void __cdecl sub_5B9820(long effect_index, long user_index)
 {
-	//INVOKE(0x005B9820, sub_5B9820, effect_index, output_user_index);
+	//INVOKE(0x005B9820, sub_5B9820, effect_index, user_index);
 
 	TLS_DATA_GET_VALUE_REFERENCE(effect_data);
 	
 	effect_datum* effect = (effect_datum*)datum_get(*effect_data, effect_index);
 	if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
-		effect_render(effect_index, output_user_index);
+		effect_render(effect_index, user_index);
 }
 
 //.text:005B9870 ; void __cdecl effect_restart_all_events(long)
@@ -277,8 +277,8 @@ void __cdecl effects_initialize_for_new_structure_bsp(dword new_structure_bsp_ma
 	INVOKE(0x005BCA80, effects_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
-//.text:005BCB70 ; void __cdecl effects_notify_first_person_weapon_user_change(e_output_user_index, long, bool)
-//.text:005BCD40 ; void __cdecl effects_notify_unit_user_change(long, e_output_user_index, bool)
+//.text:005BCB70 ; void __cdecl effects_notify_first_person_weapon_user_change(long, long, bool)
+//.text:005BCD40 ; void __cdecl effects_notify_unit_user_change(long, long, bool)
 //.text:005BCDF0 ; 
 
 void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
@@ -288,7 +288,7 @@ void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set
 
 //.text:005BCF20 ; void __cdecl effects_process_render_thread_messages()
 
-void __cdecl effects_render(e_output_user_index output_user_index, e_effect_pass pass)
+void __cdecl effects_render(long user_index, e_effect_pass pass)
 {
 	//INVOKE(0x005BCF60, effects_render, output_user_index, pass);
 
@@ -308,25 +308,25 @@ void __cdecl effects_render(e_output_user_index output_user_index, e_effect_pass
 			effect_index != NONE;
 			effect_index = data_next_index(*effect_data, effect_index))
 		{
-			sub_5B9820(effect_index, output_user_index);
+			sub_5B9820(effect_index, user_index);
 		}
 	}
 
-	c_contrail_system::submit_all(output_user_index, pass);
-	c_light_volume_system::submit_all(output_user_index, pass);
-	c_beam_system::submit_all(output_user_index, pass);
-	c_particle_system::submit_all(output_user_index, pass);
+	c_contrail_system::submit_all(user_index, pass);
+	c_light_volume_system::submit_all(user_index, pass);
+	c_beam_system::submit_all(user_index, pass);
+	c_particle_system::submit_all(user_index, pass);
 
 	if (pass == _effect_pass_first_person)
-		effects_submit_cheap_first_person_attachments(output_user_index);
+		effects_submit_cheap_first_person_attachments(user_index);
 }
 
 //.text:005BD040 ; void __cdecl effects_reset()
-//.text:005BD0D0 ; void __cdecl effects_submit_cheap_attachments(e_output_user_index, byte)
+//.text:005BD0D0 ; void __cdecl effects_submit_cheap_attachments(long, byte)
 
-void __cdecl effects_submit_cheap_first_person_attachments(e_output_user_index output_user_index)
+void __cdecl effects_submit_cheap_first_person_attachments(long user_index)
 {
-	INVOKE(0x005BD490, effects_submit_cheap_first_person_attachments, output_user_index);
+	INVOKE(0x005BD490, effects_submit_cheap_first_person_attachments, user_index);
 }
 
 void __cdecl effects_update()
@@ -518,7 +518,7 @@ void __cdecl effects_update()
 //.text:005C1F90 ; 
 //.text:005C1FA0 ; 
 //.text:005C20A0 ; 
-//.text:005C2110 ; bool __cdecl user_is_first_person(e_output_user_index)
+//.text:005C2110 ; bool __cdecl user_is_first_person(long)
 //.text:005C2140 ; 
 //.text:005C2150 ; 
 //.text:005C2160 ; 

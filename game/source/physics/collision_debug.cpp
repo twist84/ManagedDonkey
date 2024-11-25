@@ -178,7 +178,7 @@ void collision_debug_render()
 	{
 		collision_debug_ignore_object_index = NONE;
 
-		e_output_user_index user_index = c_player_view::get_current()->get_player_view_output_user_index();
+		long user_index = c_player_view::get_current()->get_player_view_user_index();
 		if (user_index != NONE && !director_get_perspective(user_index))
 			collision_debug_ignore_object_index = player_mapping_get_unit_by_output_user(user_index);
 

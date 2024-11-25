@@ -214,10 +214,10 @@ void cinematic_debug_camera_control_update()
 {
 	//TLS_DATA_GET_VALUE_REFERENCE(cinematic_new_globals);
 	//
-	//e_input_user_index input_user_index = player_mapping_first_active_input_user();
+	//long input_user_index = player_mapping_first_active_input_user();
 	//long player_index = NONE;
 	//
-	//if (input_user_index != k_input_user_none)
+	//if (input_user_index != NONE)
 	//	player_index = player_mapping_get_player_by_input_user(input_user_index);
 	//
 	//if (player_index == NONE)
@@ -283,9 +283,9 @@ void cinematic_debug_camera_control_update()
 	//	input_state->get_button(_button_action_x).latch();
 	//	if (director_in_scripted_camera())
 	//	{
-	//		e_output_user_index output_user_index = player_mapping_first_active_output_user();
+	//		long user_index = player_mapping_first_active_output_user();
 	//		director_script_camera(false);
-	//		if (output_user_index != k_output_user_none)
+	//		if (output_user_index != NONE)
 	//			director_set_mode(output_user_index, _director_mode_debug);
 	//		set_debug_force_scripted_camera_disable(true);
 	//	}

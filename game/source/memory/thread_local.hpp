@@ -681,7 +681,7 @@ struct s_thread_local_storage
 	s_first_person_orientations* first_person_weapon_orientations;
 
 	// name: "fp weapons"
-	// size: 0x14000, k_number_of_output_users * sizeof(first_person_weapon)
+	// size: 0x14000, k_number_of_users * sizeof(first_person_weapon)
 	first_person_weapon* first_person_weapons;
 
 	// name: "chud"

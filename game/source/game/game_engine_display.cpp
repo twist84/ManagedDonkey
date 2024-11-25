@@ -49,7 +49,7 @@ void __cdecl game_engine_get_team_name(long team, c_static_wchar_string<256>* te
 	INVOKE(0x006E49A0, game_engine_get_team_name, team, team_name);
 }
 
-//real __cdecl game_engine_get_user_fade_to_black_amount(e_output_user_index user_index)
+//real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 {
 	//return INVOKE(0x006E49F0, game_engine_get_user_fade_to_black_amount, user_index);
@@ -84,11 +84,11 @@ bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message
 //.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(long)
 //.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, long)
 
-void __cdecl game_engine_render(e_output_user_index output_user_index)
+void __cdecl game_engine_render(long user_index)
 {
-	//INVOKE(0x006E4E50, game_engine_render, output_user_index);
+	//INVOKE(0x006E4E50, game_engine_render, user_index);
 
-	HOOK_INVOKE(, game_engine_render, output_user_index);
+	HOOK_INVOKE(, game_engine_render, user_index);
 }
 
 //.text:006E4E90 ; void __cdecl game_engine_render_all_multiplayer_object_boundaries()
@@ -98,34 +98,34 @@ void __cdecl game_engine_render_debug(long user_index)
 	INVOKE(0x006E4FE0, game_engine_render_debug, user_index);
 }
 
-void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_index)
+void __cdecl game_engine_render_fade_to_black(long user_index)
 {
-	//INVOKE(0x006E5040, game_engine_render_fade_to_black, output_user_index);
+	//INVOKE(0x006E5040, game_engine_render_fade_to_black, user_index);
 
 	if (!g_fade_to_black_enabled)
 		return;
 
-	if (!VALID_INDEX(output_user_index, k_number_of_output_users))
+	if (!VALID_INDEX(user_index, k_number_of_users))
 		return;
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	if (TEST_BIT(game_engine_globals->fade_to_black_cache_latch, output_user_index))
+	if (TEST_BIT(game_engine_globals->fade_to_black_cache_latch, user_index))
 	{
 		long ticks = 0;
-		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.__unknown0[output_user_index], g_game_engine_render_globals.__unknown0[output_user_index] > ticks)
+		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index], g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index] > ticks)
 		{
-			post_game_engine_globals_message(0, static_cast<char>(output_user_index), 0);
+			post_game_engine_globals_message(0, static_cast<char>(user_index), 0);
 		}
 	}
 	else
 	{
-		g_game_engine_render_globals.__unknown0[output_user_index] = 0;
+		g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index] = 0;
 	}
 
 	//if (director_debug_supress_black_screen(player_mapping_first_active_output_user()))
 	//	return;
 
-	real user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(output_user_index);
+	real user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(user_index);
 	if (user_fade_to_black_amount <= 0.0f)
 		return;
 

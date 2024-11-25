@@ -33,7 +33,7 @@ void editor_flag_new_at_camera()
 {
 	if (enable_controller_flag_drop)
 	{
-		e_output_user_index user_index = player_mapping_first_active_output_user();
+		long user_index = player_mapping_first_active_output_user();
 		if (user_index != NONE)
 		{
 			s_observer_result const* result = observer_get_camera(user_index);
@@ -51,7 +51,7 @@ void editor_flag_new_at_look_at_point()
 {
 	if (enable_controller_flag_drop)
 	{
-		e_output_user_index user_index = player_mapping_first_active_output_user();
+		long user_index = player_mapping_first_active_output_user();
 		real_point3d result_point = {};
 		if (user_get_look_at_point(user_index, &result_point))
 		{

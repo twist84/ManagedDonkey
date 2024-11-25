@@ -129,7 +129,6 @@ struct s_game_engine_state_data
 };
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
-enum e_output_user_index;
 
 struct c_game_engine
 {
@@ -193,7 +192,7 @@ public:
 	virtual bool should_end_round(long*) const;
 	virtual long get_player_state_index(long, bool*) const;
 	virtual bool should_purge_multiplayer_item(long) const;
-	virtual void close_any_custom_ui(e_output_user_index output_user_index) const;
+	virtual void close_any_custom_ui(long user_index) const;
 	virtual e_simulation_entity_type get_simulation_entity_type() const;
 	virtual void promote_to_simulation_authority() const;
 	virtual void recover_state_before_promotion() const;

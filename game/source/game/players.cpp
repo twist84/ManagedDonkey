@@ -262,7 +262,7 @@ void __cdecl player_delete(long player_index)
 	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//
 	//player_set_unit_index(player_index, NONE);
-	//player_mapping_set_input_user(player_index, k_input_user_none);
+	//player_mapping_set_input_user(player_index, NONE);
 	//player_mapping_set_input_controller(player_index, k_no_controller);
 	//player_mapping_detach_output_users(player_index);
 	//players_rebuild_user_mapping(false);
@@ -430,8 +430,8 @@ void __cdecl player_set_facing(long player_index, vector3d const* facing)
 	//
 	//}
 	//
-	//e_input_user_index input_user = player_mapping_get_input_user(player_index);
-	//if (input_user != k_input_user_none)
+	//long input_user = player_mapping_get_input_user(player_index);
+	//if (input_user != NONE)
 	//	player_control_set_facing(input_user, facing);
 }
 

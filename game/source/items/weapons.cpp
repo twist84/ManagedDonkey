@@ -308,7 +308,7 @@ void weapons_debug_render()
 {
 	if (debug_weapons)
 	{
-		e_output_user_index output_user = player_mapping_first_active_output_user();
+		long output_user = player_mapping_first_active_output_user();
 		long unit_index = player_mapping_get_unit_by_output_user(output_user);
 
 		if (unit_index != NONE)

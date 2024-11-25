@@ -38,7 +38,7 @@ render_lighting const* object_get_cached_render_lighting(long object_index)
 //.text:00A44E90 ; bool __cdecl render_object_has_lightmap_shadow(long)
 //.text:00A44F20 ; void __cdecl render_object_invalidate_cached_render_state(long)
 //.text:00A44F70 ; void __cdecl render_object_invalidate_render_state(long)
-//.text:00A44FD0 ; bool __cdecl render_object_is_first_person_or_child_weapon(e_output_user_index, long)
+//.text:00A44FD0 ; bool __cdecl render_object_is_first_person_or_child_weapon(long, long)
 //.text:00A45060 ; 
 
 bool __cdecl render_object_should_be_visible(long object_index)
@@ -61,10 +61,10 @@ void __cdecl render_objects_initialize_for_new_map()
 	INVOKE(0x00A452F0, render_objects_initialize_for_new_map);
 }
 
-//void __cdecl render_objects_prepare_for_window(e_output_user_index output_user_index)
-void __cdecl render_objects_prepare_for_window(long output_user_index)
+//void __cdecl render_objects_prepare_for_window(long user_index)
+void __cdecl render_objects_prepare_for_window(long user_index)
 {
-	INVOKE(0x00A45310, render_objects_prepare_for_window, output_user_index);
+	INVOKE(0x00A45310, render_objects_prepare_for_window, user_index);
 }
 
 //.text:00A45410 ; void __cdecl render_objects_reset_render_state(long)

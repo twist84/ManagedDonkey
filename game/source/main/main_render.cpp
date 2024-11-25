@@ -57,7 +57,7 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	m_window_count(),
 	m_window_arrangement(),
 	m_next(0),
-	m_output_user_index(k_output_user_none),
+	m_output_user_index(NONE),
 	m_current_observer_result(nullptr)
 {
 	if (cinematic_in_progress()/* || player_is_reading_terminal()*/)
@@ -114,16 +114,16 @@ bool c_player_render_camera_iterator::next()
 			do
 			{
 				m_output_user_index = next_output_user(m_output_user_index);
-			} while (m_output_user_index != k_output_user_none && !player_mapping_output_user_is_active(m_output_user_index));
+			} while (m_output_user_index != NONE && !player_mapping_output_user_is_active(m_output_user_index));
 
-			if (m_output_user_index >= k_number_of_output_users)
+			if (m_output_user_index >= k_number_of_users)
 			{
-				m_output_user_index = k_output_user_none;
+				m_output_user_index = NONE;
 				result = false;
 			}
 		}
 
-		if (m_output_user_index != k_output_user_none)
+		if (m_output_user_index != NONE)
 		{
 			m_current_observer_result = observer_get_camera(m_output_user_index);
 			ASSERT(m_current_observer_result != NULL);
@@ -143,7 +143,7 @@ long c_player_render_camera_iterator::get_window_arrangement() const
 	return m_window_arrangement;
 }
 
-e_output_user_index c_player_render_camera_iterator::get_output_user_index() const
+long c_player_render_camera_iterator::get_output_user_index() const
 {
 	return m_output_user_index;
 }
@@ -281,9 +281,9 @@ void __cdecl main_render_frame_begin()
 
 #define PLAYER_VIEW_RENDER_PREPARE \
 { \
-	render_window_reset(player_view->get_player_view_output_user_index()); \
+	render_window_reset(player_view->get_player_view_user_index()); \
 	player_view->create_frame_textures(view_index); \
-	render_prepare_for_window(view_index, player_view->get_player_view_output_user_index()); \
+	render_prepare_for_window(view_index, player_view->get_player_view_user_index()); \
 	player_view->compute_visibility(); \
 	player_view->render_submit_visibility(); \
 }
@@ -325,11 +325,11 @@ void __cdecl main_render_game()
 		{
 			c_player_view* player_view = c_player_view::get_current(view_index);
 
-			e_output_user_index output_user_index = k_output_user_none;
+			long user_index = NONE;
 			s_observer_result const* observer_result = NULL;
 			if (iterator.next())
 			{
-				output_user_index = iterator.get_output_user_index();
+				user_index = iterator.get_output_user_index();
 				observer_result = iterator.get_observer_result();
 			}
 
@@ -337,7 +337,7 @@ void __cdecl main_render_game()
 				view_index,
 				window_count,
 				window_arrangement,
-				output_user_index,
+				user_index,
 				observer_result,
 				render_freeze);
 		}
@@ -479,7 +479,7 @@ void __cdecl main_render_game()
 	}
 }
 
-void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
+void __cdecl game_engine_render_window_watermarks(long user_index)
 {
 }
 
@@ -751,7 +751,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	}
 
 	if (pregame || !game_in_progress())
-		game_engine_render_window_watermarks(k_output_user_none);
+		game_engine_render_window_watermarks(NONE);
 	
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
 	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
@@ -880,9 +880,9 @@ void __cdecl main_render_view(c_player_view* player_view, long player_index)
 
 	c_player_view::set_global_player_view(player_view);
 	c_view::begin(player_view);
-	render_window_reset(player_view->get_player_view_output_user_index());
+	render_window_reset(player_view->get_player_view_user_index());
 	player_view->create_frame_textures(player_index);
-	render_prepare_for_window(player_index, player_view->get_player_view_output_user_index());
+	render_prepare_for_window(player_index, player_view->get_player_view_user_index());
 	player_view->compute_visibility();
 	player_view->render_submit_visibility();
 	player_view->render();

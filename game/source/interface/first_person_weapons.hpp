@@ -105,13 +105,12 @@ extern bool& debug_animation_fp_sprint_disable;
 
 extern bool debug_first_person_skeleton;
 
-enum e_output_user_index;
 struct render_first_person_model;
 
-extern long __cdecl first_person_weapon_build_models(e_output_user_index output_user_index, long object_index, long maximum_model_count, render_first_person_model* first_person_model);
-extern first_person_weapon* __cdecl first_person_weapon_get(e_output_user_index output_user_index);
+extern long __cdecl first_person_weapon_build_models(long user_index, long object_index, long maximum_model_count, render_first_person_model* first_person_model);
+extern first_person_weapon* __cdecl first_person_weapon_get(long user_index);
 extern first_person_weapon_data* __cdecl first_person_weapon_get_weapon_data(first_person_weapon* fp_weapon, long weapon_slot);
-extern void __cdecl first_person_weapon_perspective_changed(e_output_user_index output_user_index);
+extern void __cdecl first_person_weapon_perspective_changed(long user_index);
 extern void __cdecl first_person_weapons_update();
 extern void __cdecl first_person_weapons_update_camera_estimates();
 

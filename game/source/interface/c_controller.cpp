@@ -22,9 +22,9 @@ e_window_index __cdecl controller_get_game_render_window(e_controller_index cont
 	//return controller_game_render_windows[controller_index];
 }
 
-e_controller_index __cdecl controller_index_from_output_user_index(e_output_user_index output_user_index)
+e_controller_index __cdecl controller_index_from_user_index(long user_index)
 {
-	return INVOKE(0x00A7CF00, controller_index_from_output_user_index, output_user_index);
+	return INVOKE(0x00A7CF00, controller_index_from_user_index, user_index);
 }
 
 void __cdecl controllers_render()

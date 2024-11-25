@@ -139,14 +139,13 @@ struct s_screen_effect_shader_sample_result
 };
 static_assert(sizeof(s_screen_effect_shader_sample_result) == 0x124);
 
-enum e_output_user_index;
 
 extern void __cdecl screen_effect_dispose();
 extern void __cdecl screen_effect_dispose_from_old_map();
 extern void __cdecl screen_effect_initialize();
 extern void __cdecl screen_effect_initialize_for_new_map();
 extern long __cdecl screen_effect_new(long definition_index, long object_index, short node_index, real_point3d const* point, real_rectangle2d const* rectangle);
-extern void __cdecl screen_effect_sample(real_point3d const* point, vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, e_output_user_index output_user_index);
+extern void __cdecl screen_effect_sample(real_point3d const* point, vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, long user_index);
 extern void __cdecl screen_effect_update(real update_interval);
 
 extern void apply_global_screen_effect();

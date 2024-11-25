@@ -11,7 +11,7 @@ HOOK_DECLARE(0x00689EF0, player_training_render_screen);
 //.text:006895A0 ; 
 //.text:006895D0 ; public: bool __cdecl s_player_training_profile_data::add_training_data(s_player_training_profile_data const*)
 //.text:00689640 ; 
-//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(e_input_user_index, s_player_action const*)
+//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(long, s_player_action const*)
 //.text:006896F0 ; 
 //.text:00689720 ; public: bool __cdecl c_recent_actions::did_player_recently_perform_action(long, long)
 //.text:00689770 ; 
@@ -57,7 +57,7 @@ void __cdecl player_training_initialize_for_new_map()
 //.text:00689E50 ; void __cdecl player_training_profile_data_set_completion_count(s_player_training_profile_data*, long, long)
 //.text:00689EB0 ; 
 
-void __cdecl player_training_render_screen(e_output_user_index output_user_index)
+void __cdecl player_training_render_screen(long user_index)
 {
 	//INVOKE(0x00689EF0, player_training_render_screen, output_user_index);
 }
@@ -73,9 +73,9 @@ void __cdecl player_training_render_screen(e_output_user_index output_user_index
 //.text:0068AAD0 ; 
 //.text:0068AB20 ; 
 //.text:0068AB60 ; long __cdecl training_get_completion_count(long, long)
-//.text:0068ABD0 ; bool __cdecl training_is_completed(e_input_user_index, long)
-//.text:0068AC40 ; bool __cdecl training_is_satisfied(e_input_user_index, long)
-//.text:0068B4C0 ; bool __cdecl training_is_triggerable(e_input_user_index, long)
+//.text:0068ABD0 ; bool __cdecl training_is_completed(long, long)
+//.text:0068AC40 ; bool __cdecl training_is_satisfied(long, long)
+//.text:0068B4C0 ; bool __cdecl training_is_triggerable(long, long)
 //.text:0068C110 ; long __cdecl player_training_profile_data_get_completion_count(s_player_training_profile_data const*, long)
 //.text:0068C160 ; bool __cdecl unit_in_driving_seat(long, long, bool)
 

@@ -52,7 +52,7 @@ void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long 
 //.text:00A88A70 ; 
 //.text:00A88AB0 ; 
 //.text:00A88AF0 ; 
-//.text:00A88B30 ; void __cdecl chud_apply_distortion(e_output_user_index, long, long)
+//.text:00A88B30 ; void __cdecl chud_apply_distortion(long, long, long)
 //.text:00A88BE0 ; long __cdecl chud_compute_unit_backpack_weapon_index(long)
 //.text:00A88D00 ; 
 //.text:00A88D50 ; 
@@ -68,30 +68,30 @@ void __cdecl chud_dispose_from_old_map()
 	INVOKE(0x00A88D80, chud_dispose_from_old_map);
 }
 
-void __cdecl chud_draw_screen(e_output_user_index output_user_index)
+void __cdecl chud_draw_screen(long user_index)
 {
-	//INVOKE(0x00A88DA0, chud_draw_screen, output_user_index);
+	//INVOKE(0x00A88DA0, chud_draw_screen, user_index);
 
-	HOOK_INVOKE(, chud_draw_screen, output_user_index);
+	HOOK_INVOKE(, chud_draw_screen, user_index);
 }
 
-void __cdecl chud_draw_screen_LDR(e_output_user_index output_user_index)
+void __cdecl chud_draw_screen_LDR(long user_index)
 {
-	INVOKE(0x00A88FE0, chud_draw_screen_LDR, output_user_index);
+	INVOKE(0x00A88FE0, chud_draw_screen_LDR, user_index);
 }
 
-void __cdecl chud_draw_screen_saved_film(e_output_user_index output_user_index)
+void __cdecl chud_draw_screen_saved_film(long user_index)
 {
-	//INVOKE(0x00A89100, chud_draw_screen_saved_film, output_user_index);
+	//INVOKE(0x00A89100, chud_draw_screen_saved_film, user_index);
 
-	HOOK_INVOKE(, chud_draw_screen_saved_film, output_user_index);
+	HOOK_INVOKE(, chud_draw_screen_saved_film, user_index);
 }
 
-void __cdecl chud_draw_turbulence(e_output_user_index output_user_index)
+void __cdecl chud_draw_turbulence(long user_index)
 {
-	//INVOKE(0x00A89250, chud_draw_turbulence, output_user_index);
+	//INVOKE(0x00A89250, chud_draw_turbulence, user_index);
 
-	HOOK_INVOKE(, chud_draw_turbulence, output_user_index);
+	HOOK_INVOKE(, chud_draw_turbulence, user_index);
 }
 
 void __cdecl chud_game_tick()
@@ -99,9 +99,9 @@ void __cdecl chud_game_tick()
 	INVOKE(0x00A89420, chud_game_tick);
 }
 
-bool __cdecl chud_generate_damage_flash_texture(e_output_user_index output_user_index)
+bool __cdecl chud_generate_damage_flash_texture(long user_index)
 {
-	return INVOKE(0x00A89440, chud_generate_damage_flash_texture, output_user_index);
+	return INVOKE(0x00A89440, chud_generate_damage_flash_texture, user_index);
 }
 
 //.text:00A895C0 ; long __cdecl chud_find_active_skin_index(long)
@@ -123,7 +123,7 @@ void __cdecl chud_initialize_for_new_map()
 }
 
 //.text:00A89820 ; 
-//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(e_output_user_index)
+//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(long)
 //.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(long)
 //.text:00A898B0 ; 
 //.text:00A898F0 ; 
@@ -160,10 +160,10 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A310 ; void __cdecl chud_set_campaign_objective(wchar_t const*, real)
 //.text:00A8A3C0 ; 
 //.text:00A8A410 ; 
-//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(e_output_user_index, wchar_t const*)
+//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(long, wchar_t const*)
 //.text:00A8A500 ; 
-//.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(e_output_user_index)
-//.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(e_output_user_index)
+//.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(long)
+//.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(long)
 //.text:00A8A6D0 ; 
 //.text:00A8A730 ; 
 //.text:00A8A7A0 ; 
@@ -172,7 +172,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A860 ; 
 //.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, vector3d const*, real, short, real, real, real, real_argb_color*)
 
-//void __cdecl chud_submit_navpoint(e_output_user_index user_index, c_chud_navpoint const* navpoint)
+//void __cdecl chud_submit_navpoint(long user_index, c_chud_navpoint const* navpoint)
 void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)
 {
 	INVOKE(0x00A8A9F0, chud_submit_navpoint, user_index, navpoint);

@@ -68,7 +68,7 @@ bool __cdecl aim_assist_build_query_parameters(long unit_index, byte flags, shor
 //.text:0058DB50 ; 
 //.text:0058DB60 ; 
 //.text:0058DE40 ; bool __cdecl pin_aiming_for_player(long)
-//.text:0058DEA0 ; void __cdecl player_aim_assist(e_input_user_index, byte, vector3d const*, short, s_aim_assist_control_result*, s_aim_assist_targeting_result*)
+//.text:0058DEA0 ; void __cdecl player_aim_assist(long, byte, vector3d const*, short, s_aim_assist_control_result*, s_aim_assist_targeting_result*)
 //.text:0058E390 ; long __cdecl player_aim_assist_get_player_under_crosshair(long)
 //.text:0058E7C0 ; void __cdecl player_aim_assist_update_lead_vector(long, vector3d const*, s_aim_assist_targeting_result*)
 //.text:0058EA50 ; bool __cdecl player_aim_projectile(long, s_aim_assist_targeting_result const*, long, e_projectile_source, bool, real_point3d const*, real_point3d const*, vector3d*)

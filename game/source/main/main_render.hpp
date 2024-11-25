@@ -13,14 +13,14 @@ public:
 	bool next();
 	long get_window_count() const;
 	long get_window_arrangement() const;
-	e_output_user_index get_output_user_index() const;
+	long get_output_user_index() const;
 	s_observer_result const* get_observer_result() const;
 
 protected:
 	long m_window_count;
 	long m_window_arrangement;
 	long m_next;
-	e_output_user_index m_output_user_index;
+	long m_output_user_index;
 	s_observer_result const* m_current_observer_result;
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
@@ -70,7 +70,7 @@ extern void __cdecl main_render();
 extern void __cdecl main_render_assert_no_pending_messages();
 extern void __cdecl main_render_frame_begin();
 extern void __cdecl main_render_game();
-extern void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index);
+extern void __cdecl game_engine_render_window_watermarks(long user_index);
 extern void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index);
 extern void __cdecl game_engine_render_frame_watermarks(bool pregame);
 extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, char const* loading_status);

@@ -105,11 +105,11 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 
 bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position)
 {
-	e_output_user_index output_user_index = player_mapping_first_active_output_user();
-	if (output_user_index == k_number_of_output_users)
+	long user_index = player_mapping_first_active_output_user();
+	if (user_index == k_number_of_users)
 		return false;
 
-	s_observer_result const* result = observer_get_camera(output_user_index);
+	s_observer_result const* result = observer_get_camera(user_index);
 	ASSERT(result);
 
 	if (result->location.cluster_reference.bsp_index == 0xFF)
@@ -118,7 +118,7 @@ bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_poi
 		return false;
 	}
 
-	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(output_user_index));
+	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(user_index));
 	*position = result->position;
 
 	return true;
@@ -161,7 +161,7 @@ void __cdecl cheat_teleport_to_camera()
 
 void __cdecl cheat_active_camouflage(bool enable)
 {
-	e_input_user_index user_index = player_mapping_first_active_input_user();
+	long user_index = player_mapping_first_active_input_user();
 	long player_index = player_mapping_get_player_by_input_user(user_index);
 	cheat_active_camouflage_by_player(player_index, enable);
 }
@@ -170,8 +170,8 @@ void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	e_input_user_index user_index = player_mapping_get_input_user(player_index);
-	if (VALID_INDEX(user_index, k_number_of_input_users))
+	long user_index = player_mapping_get_input_user(player_index);
+	if (VALID_INDEX(user_index, k_number_of_users))
 	{
 		player_datum* player = (player_datum*)datum_get(*player_data, player_index);
 
@@ -622,8 +622,8 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	if (tag_index == NONE)
 		return;
 
-	e_output_user_index user_index = player_mapping_first_active_output_user();
-	if (user_index == k_number_of_output_users)
+	long user_index = player_mapping_first_active_output_user();
+	if (user_index == k_number_of_users)
 		return;
 
 	s_observer_result const* result = observer_try_and_get_camera(user_index);

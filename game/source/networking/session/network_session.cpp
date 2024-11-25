@@ -601,7 +601,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 		message.player_data = player_data;
 		message.player_voice = player_voice;
 
-		long observer_channel_index = m_session_membership.m_local_peers[m_session_membership.host_peer_index()].channel_index;
+		long observer_channel_index = m_session_membership.m_local_peer_state[m_session_membership.host_peer_index()].channel_index;
 		m_observer->observer_channel_send_message(m_session_index, observer_channel_index, false, _network_message_player_properties, sizeof(message), &message);
 	}
 

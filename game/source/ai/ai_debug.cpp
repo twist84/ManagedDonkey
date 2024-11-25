@@ -342,7 +342,7 @@ void __cdecl ai_debug_render()
 
 void ai_debug_drawstack_setup(real_point3d const* position)
 {
-	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long user_index = player_mapping_first_active_output_user();
 	s_observer_result const* camera = observer_try_and_get_camera(user_index);
 
 	global_ai_debug_drawstack_last_position = *position;

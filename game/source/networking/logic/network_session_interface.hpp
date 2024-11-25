@@ -71,7 +71,7 @@ struct s_network_session_interface_globals
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	c_static_array<s_network_session_interface_user, k_number_of_output_users> users;
+	c_static_array<s_network_session_interface_user, k_number_of_users> users;
 	qword game_instance;
 	long scenario_type;
 	c_static_string<128> scenario_path;
@@ -146,7 +146,7 @@ extern long __cdecl network_session_interface_get_local_user_state(long user_ind
 extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
 extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
-extern bool __cdecl network_session_interface_local_user_exists(e_output_user_index output_user_index);
+extern bool __cdecl network_session_interface_local_user_exists(long user_index);
 extern void __cdecl network_session_interface_notify_set_local_specific_film(s_saved_film_description const* film);
 extern void __cdecl network_session_interface_remove_local_user(long user_index);
 extern void __cdecl network_session_interface_reset(long session_index);
@@ -169,7 +169,7 @@ extern void __cdecl network_session_set_player_failure_reason(long user_index, e
 //network_session_update_local_specific_parameters
 //network_session_update_local_peer_properties
 //network_session_update_team_indices
-extern void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index output_user_index);
+extern void __cdecl network_session_update_user_properties(c_network_session* session, long user_index);
 extern void __cdecl network_session_update_user_removal(c_network_session* session);
 extern bool __cdecl network_squad_session_boot_player(long player_index, e_network_session_boot_reason reason);
 extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);

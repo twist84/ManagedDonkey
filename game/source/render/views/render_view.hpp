@@ -7,7 +7,6 @@
 #include "render/render_game_state.hpp"
 #include "render/render_patchy_fog.hpp"
 
-enum e_output_user_index;
 struct s_observer_result;
 
 // 0165DB98
@@ -129,7 +128,7 @@ public:
 	void submit_simple_light_draw_list_to_shader() const;
 	void build_simple_light_draw_list(long a1);
 	void clear_simple_light_draw_list(long a1);
-	void render(e_output_user_index output_user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
+	void render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
 
 	static long& g_gel_bitmap_index;
 	static real& g_render_light_intensity;
@@ -215,9 +214,9 @@ public:
 		x_current_player_view = view;
 	}
 
-	e_output_user_index get_player_view_output_user_index()
+	long get_player_view_user_index()
 	{
-		return m_camera_user_data.output_user_index;
+		return m_camera_user_data.user_index;
 	}
 
 protected:
@@ -245,7 +244,7 @@ public:
 	void __thiscall render_transparents();
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
-	void setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze);
+	void setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze);
 	void __thiscall setup_camera_fx_parameters(real a1);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
@@ -260,7 +259,7 @@ public:
 		long player_window_index;
 		long player_window_count;
 		long player_window_arrangement;
-		e_output_user_index output_user_index;
+		long user_index;
 		e_controller_index controller_index;
 		e_splitscreen_res m_splitscreen_res_index;
 		long m_splitscreen_resolve_surface;

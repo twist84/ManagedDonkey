@@ -904,8 +904,8 @@ void __cdecl debug_key_rotate_units(bool key_is_down)
 {
 	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
-		e_input_user_index user_index = player_mapping_first_active_input_user();
-		if (user_index != k_number_of_input_users)
+		long user_index = player_mapping_first_active_input_user();
+		if (user_index != k_number_of_users)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
@@ -926,8 +926,8 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 {
 	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
-		e_input_user_index user_index = player_mapping_first_active_input_user();
-		if (user_index != k_number_of_input_users)
+		long user_index = player_mapping_first_active_input_user();
+		if (user_index != k_number_of_users)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
@@ -948,8 +948,8 @@ void __cdecl debug_key_ninja_rope(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 	{
-		e_input_user_index user_index = player_mapping_first_active_input_user();
-		if (user_index != k_number_of_input_users)
+		long user_index = player_mapping_first_active_input_user();
+		if (user_index != k_number_of_users)
 		{
 			long unit_index = player_mapping_get_unit_by_input_user(user_index);
 			if (unit_index != NONE)

@@ -6,13 +6,7 @@
 struct c_editor_director :
 	public c_director
 {
-	long __unknown168;
-	bool m_scripted;
-	bool __unknown16D;
-
-	byte pad[0x2];
-	byte unused[0xC];
-
+public:
 	void constructor(long user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x00727EA0, c_editor_director, constructor, user_index);
@@ -22,6 +16,14 @@ struct c_editor_director :
 	static real __cdecl get_speed();
 	void set_position_and_roll(real_point3d const* position, euler_angles2d const* facing);
 	void set_scripted(bool scripted);
+	
+//protected:
+	long m_unit_focus;
+	bool m_is_scripted;
+	bool m_use_roll;
+
+	byte pad[0x2];
+	byte unused[0xC];
 };
 static_assert(sizeof(c_editor_director) == 0x160);
 

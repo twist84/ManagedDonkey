@@ -59,7 +59,7 @@ long __cdecl user_interface_local_player_count()
 
 //.text:00A81370 ; bool __cdecl user_interface_remote_squad_contains_local_peer(s_network_session_status_data const* status_data)
 //.text:00A81440 ; bool __cdecl user_interface_remote_squad_is_joinable(s_network_session_status_data const* status_data)
-//.text:00A81510 ; bool __cdecl user_interface_squad_can_new_user_join(e_output_user_index user_index)
+//.text:00A81510 ; bool __cdecl user_interface_squad_can_new_user_join(long user_index)
 
 e_controller_index user_interface_session_get_controller_index(long player_index)
 {

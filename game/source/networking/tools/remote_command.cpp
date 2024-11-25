@@ -209,7 +209,7 @@ void __cdecl remote_command_process()
 	// Update remote cameras if the game is in progress
 	if (game_in_progress())
 	{
-		for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
+		for (long user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
 			if (player_mapping_output_user_is_active(user_index))
 			{
@@ -1761,7 +1761,7 @@ callback_result_t cheat_active_camouflage_by_player_callback(void const* userdat
 	long value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
 	{
-		long player_index = player_mapping_get_player_by_input_user(static_cast<e_input_user_index>(user_index));
+		long player_index = player_mapping_get_player_by_input_user(user_index);
 		cheat_active_camouflage_by_player(player_index, static_cast<bool>(value - 1));
 	}
 
@@ -1846,9 +1846,9 @@ callback_result_t camera_set_mode_callback(void const* userdata, long token_coun
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	e_output_user_index user_index = static_cast<e_output_user_index>(atol(tokens[1]->get_string()));
+	long user_index = atol(tokens[1]->get_string());
 	e_camera_mode camera_mode = static_cast<e_camera_mode>(atol(tokens[2]->get_string()));
-	if (user_index != k_output_user_none && VALID_INDEX(camera_mode, k_number_of_output_users))
+	if (user_index != NONE && VALID_INDEX(camera_mode, 4))
 		director_set_camera_mode(user_index, camera_mode);
 
 	return result;
@@ -1951,7 +1951,7 @@ callback_result_t player_ragdoll_callback(void const* userdata, long token_count
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long user_index = player_mapping_first_active_output_user();
 	long unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (unit_index != NONE)
 		biped_scripting_ragdoll(unit_index);
@@ -1963,7 +1963,7 @@ callback_result_t player_drop_weapon_callback(void const* userdata, long token_c
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long user_index = player_mapping_first_active_output_user();
 	long player_index = player_mapping_get_player_by_output_user(user_index);
 	if (player_index != NONE)
 		player_try_to_drop_weapon(player_index, true);
@@ -1982,7 +1982,7 @@ callback_result_t player_add_weapon_callback(void const* userdata, long token_co
 	if (!VALID_INDEX(method, 8))
 		method = 1;
 
-	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long user_index = player_mapping_first_active_output_user();
 	long unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (unit_index != NONE && weapon_definition_index != NONE)
 	{

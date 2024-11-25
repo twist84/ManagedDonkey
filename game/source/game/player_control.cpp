@@ -15,48 +15,48 @@
 HOOK_DECLARE_CALL(0x005D1389, evaluate_piecewise_linear_function);
 HOOK_DECLARE_CALL(0x005D13B4, evaluate_piecewise_linear_function);
 
-e_input_user_index first_input_user()
+long first_input_user()
 {
-	return _input_user_index0;
+	return 0;
 }
 
-e_input_user_index next_input_user(e_input_user_index input_user_index)
+long next_input_user(long input_user_index)
 {
-	if (VALID_INDEX(input_user_index + 1, k_number_of_input_users))
-		return e_input_user_index(input_user_index + 1);
+	if (VALID_INDEX(input_user_index + 1, k_number_of_users))
+		return long(input_user_index + 1);
 
-	return k_input_user_none;
+	return NONE;
 }
 
-e_output_user_index first_output_user()
+long first_output_user()
 {
-	return _output_user_index0;
+	return 0;
 }
 
-e_output_user_index next_output_user(e_output_user_index output_user_index)
+long next_output_user(long user_index)
 {
-	if (VALID_INDEX(output_user_index + 1, k_number_of_output_users))
-		return e_output_user_index(output_user_index + 1);
+	if (VALID_INDEX(user_index + 1, k_number_of_users))
+		return long(user_index + 1);
 
-	return k_output_user_none;
+	return NONE;
 }
 
-//s_player_control_input_state* player_control_input_get(e_input_user_index)
-s_player_control_input_state* player_control_input_get(e_input_user_index input_user_index)
+//s_player_control_input_state* player_control_input_get(long)
+s_player_control_input_state* player_control_input_get(long input_user_index)
 {
-	//ASSERT(VALID_INDEX(input_user_index, k_number_of_input_users));
+	//ASSERT(VALID_INDEX(input_user_index, k_number_of_users));
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	return &player_control_globals->input_states[input_user_index];
 }
 
-//s_player_control_output_state* player_control_output_get(e_output_user_index)
-s_player_control_output_state* player_control_output_get(e_output_user_index output_user_index)
+//s_player_control_output_state* player_control_output_get(long)
+s_player_control_output_state* player_control_output_get(long user_index)
 {
-	//ASSERT(VALID_INDEX(output_user_index, k_number_of_output_users));
+	//ASSERT(VALID_INDEX(user_index, k_number_of_users));
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
-	return &player_control_globals->output_state[output_user_index];
+	return &player_control_globals->output_state[user_index];
 }
 
 void player_control_update_debug_render()
@@ -125,7 +125,7 @@ real __cdecl evaluate_piecewise_linear_function(short count, real* const functio
 //.text:005D00B0 ; bool __cdecl player_control_action_test_dpad_up()
 //.text:005D00C0 ; player_control_action_test_unknown1F_plus
 //.text:005D00E0 ; bool __cdecl player_control_action_test_grenade_trigger()
-//.text:005D00F0 ; void __cdecl player_control_action_test_input(e_input_user_index, s_game_input_state*, s_player_control_input*)
+//.text:005D00F0 ; void __cdecl player_control_action_test_input(long, s_game_input_state*, s_player_control_input*)
 //.text:005D05A0 ; bool __cdecl player_control_action_test_jump()
 //.text:005D05B0 ; bool __cdecl player_control_action_test_left_shoulder()
 //.text:005D05C0 ; bool __cdecl player_control_action_test_look_invert()
@@ -147,14 +147,14 @@ real __cdecl evaluate_piecewise_linear_function(short count, real* const functio
 //.text:005D07A0 ; bool __cdecl player_control_action_test_y()
 //.text:005D07B0 ; bool __cdecl player_control_action_test_zoom()
 
-//void __cdecl player_control_build_action(long, e_input_user_index, s_player_action*)
-void __cdecl player_control_build_action(long player_index, e_input_user_index input_user_index, s_player_action* action)
+//void __cdecl player_control_build_action(long, long, s_player_action*)
+void __cdecl player_control_build_action(long player_index, long input_user_index, s_player_action* action)
 {
 	INVOKE(0x005D07C0, player_control_build_action, player_index, input_user_index, action);
 }
 
 //.text:005D0860 ; bool __cdecl player_control_camera_control_is_active()
-//.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(e_input_user_index, e_controller_index, s_game_input_state const*, s_player_control_input*)
+//.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(long, e_controller_index, s_game_input_state const*, s_player_control_input*)
 //.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(s_player_action const*, s_player_control_state*)
 //.text:005D0980 ; void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*)
 
@@ -179,14 +179,14 @@ s_player_action_context const* __cdecl player_control_get_action_context(long us
 	return INVOKE(0x005D0BD0, player_control_get_action_context, user_index);
 }
 
-//.text:005D0C00 ; long __cdecl player_control_get_aiming_unit_index(e_output_user_index)
+//.text:005D0C00 ; long __cdecl player_control_get_aiming_unit_index(long)
 
-void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_index, vector3d* aiming_vector)
+void __cdecl player_control_get_aiming_vector(long user_index, vector3d* aiming_vector)
 {
-	INVOKE(0x005D0C30, player_control_get_aiming_vector, output_user_index, aiming_vector);
+	INVOKE(0x005D0C30, player_control_get_aiming_vector, user_index, aiming_vector);
 }
 
-void __cdecl player_control_get_controller_input(e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
 {
 	INVOKE(0x005D0C90, player_control_get_controller_input, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 }
@@ -232,7 +232,7 @@ bool __cdecl player_control_get_machinima_camera_use_old_controls()
 }
 
 //.text:005D2C30 ; real __cdecl player_control_get_target_autoaim_level(long)
-//.text:005D2C80 ; long __cdecl player_control_get_target_player_index(e_output_user_index)
+//.text:005D2C80 ; long __cdecl player_control_get_target_player_index(long)
 //.text:005D2CE0 ; s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(long)
 //.text:005D2D10 ; void __cdecl player_control_get_unit_camera_info(long, s_unit_camera_info*)
 
@@ -241,7 +241,7 @@ short __cdecl player_control_get_zoom_level(long user_index)
 	return INVOKE(0x005D2D50, player_control_get_zoom_level, user_index);
 }
 
-//void __cdecl player_control_suppress_rotate_weapons(enum e_input_user_index)
+//void __cdecl player_control_suppress_rotate_weapons(enum long)
 void __cdecl player_control_suppress_rotate_weapons(long user_index)
 {
 	INVOKE(0x005D4860, player_control_suppress_rotate_weapons, user_index);
@@ -259,8 +259,8 @@ void __cdecl player_control_initialize_for_new_map()
 	INVOKE(0x005D3120, player_control_initialize_for_new_map);
 }
 
-//.text:005D3290 ; void __cdecl player_control_input_set_unit_index(e_input_user_index, long)
-//.text:005D3360 ; void __cdecl player_control_lock_gaze(e_input_user_index, long, real)
+//.text:005D3290 ; void __cdecl player_control_input_set_unit_index(long, long)
+//.text:005D3360 ; void __cdecl player_control_lock_gaze(long, long, real)
 
 bool __cdecl player_control_machinima_available()
 {
@@ -269,13 +269,13 @@ bool __cdecl player_control_machinima_available()
 	return game_in_progress() && !game_is_ui_shell() && game_options_get()->game_network_type != _network_game_simulation_sync_server;
 }
 
-//.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(e_input_user_index, real, real, real, real)
-//.text:005D4350 ; s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(e_input_user_index)
-//.text:005D4380 ; void __cdecl player_control_output_set_unit_index(e_output_user_index, long)
+//.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(long, real, real, real, real)
+//.text:005D4350 ; s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(long)
+//.text:005D4380 ; void __cdecl player_control_output_set_unit_index(long, long)
 //.text:005D43E0 ; void __cdecl player_control_permanent_impulse(long, euler_angles2d const*)
 
-//void __cdecl player_control_propagate_output(e_input_user_index)
-void __cdecl player_control_propagate_output(e_input_user_index input_user_index)
+//void __cdecl player_control_propagate_output(long)
+void __cdecl player_control_propagate_output(long input_user_index)
 {
 	//INVOKE(0x005D4430, player_control_propagate_output, input_user_index);
 
@@ -283,7 +283,7 @@ void __cdecl player_control_propagate_output(e_input_user_index input_user_index
 
 	s_player_control_input_state* player_control_input = player_control_input_get(input_user_index);
 
-	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
+	for (long user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 	{
 		s_player_control_output_state* player_control_output = player_control_output_get(user_index);
 		if (player_control_output->unit_index == player_control_input->unit_index)
@@ -294,18 +294,18 @@ void __cdecl player_control_propagate_output(e_input_user_index input_user_index
 //.text:005D44E0 ; void __cdecl player_control_scale_all_input(real, real)
 //.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(long, real, real)
 //.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, qword)
-//.text:005D46C0 ; void __cdecl player_control_set_external_action(e_output_user_index, s_player_action const*)
+//.text:005D46C0 ; void __cdecl player_control_set_external_action(long, s_player_action const*)
 
-void __cdecl player_control_set_facing(e_input_user_index input_user_index, vector3d const* facing)
+void __cdecl player_control_set_facing(long input_user_index, vector3d const* facing)
 {
 	INVOKE(0x005D4700, player_control_set_facing, input_user_index, facing);
 }
 
 //.text:005D4760 ; void __cdecl player_control_state_build_action(s_player_control_state const*, s_player_action*)
 //.text:005D4820 ; void __cdecl player_control_state_clear(s_player_control_state*)
-//.text:005D4860 ; void __cdecl player_control_suppress_rotate_weapons(e_input_user_index)
-//.text:005D48A0 ; void __cdecl player_control_unlock_gaze(e_input_user_index)
-//.text:005D48E0 ; void __cdecl player_control_unzoom(e_input_user_index)
+//.text:005D4860 ; void __cdecl player_control_suppress_rotate_weapons(long)
+//.text:005D48A0 ; void __cdecl player_control_unlock_gaze(long)
+//.text:005D48E0 ; void __cdecl player_control_unzoom(long)
 //.text:005D4920 ; void __cdecl player_control_unzoom_all()
 
 void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds_elapsed)
@@ -316,9 +316,9 @@ void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds
 	//player_control_update_debug_begin();
 
 	dword player_mask = 0;
-	c_static_array<s_player_action, 4> actions{};
+	c_static_array<s_player_action, k_number_of_users> actions{};
 
-	for (e_input_user_index user_index = first_input_user(); user_index != k_input_user_none; user_index = next_input_user(user_index))
+	for (long user_index = first_input_user(); user_index != NONE; user_index = next_input_user(user_index))
 	{
 		long player_index = player_mapping_get_player_by_input_user(user_index);
 		if (player_index != NONE)
@@ -348,9 +348,9 @@ void __cdecl player_control_update_machinima()
 	if (!player_control_get_machinima_camera_enabled())
 		return;
 
-	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
+	for (long user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 	{
-		e_controller_index controller_index = controller_index_from_output_user_index(user_index);
+		e_controller_index controller_index = controller_index_from_user_index(user_index);
 		s_game_input_state* input_state = NULL;
 
 		if (VALID_CONTROLLER(controller_index))
@@ -376,13 +376,13 @@ void __cdecl player_control_update_machinima()
 	}
 }
 
-//void __cdecl player_control_update_player(long, e_input_user_index, e_controller_index, real, real)
-void __cdecl player_control_update_player(long player_index, e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed)
+//void __cdecl player_control_update_player(long, long, e_controller_index, real, real)
+void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed)
 {
 	INVOKE(0x005D4BF0, player_control_update_player, player_index, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed);
 }
 
-//.text:005D5590 ; void __cdecl player_set_pitch_internal(e_input_user_index, real, long)
+//.text:005D5590 ; void __cdecl player_set_pitch_internal(long, real, long)
 //.text:005D5670 ; bool __cdecl sub_5D5670(e_controller_index, s_player_control_input* input)
 //.text:005D56E0 ; 
 //.text:005D5720 ; 
@@ -431,9 +431,9 @@ void __cdecl player_control_update_player(long player_index, e_input_user_index 
 //.text:005D61F0 ; void __cdecl player_control_lock_cancel_button_until_pressed(long)
 //.text:005D6250 ; void __cdecl player_control_lock_y_button_until_pressed(long)
 //.text:005D62B0 ; 
-//.text:005D62C0 ; bool __cdecl user_currently_piloting_aircraft(enum e_input_user_index)
+//.text:005D62C0 ; bool __cdecl user_currently_piloting_aircraft(enum long)
 
-void __cdecl player_control_get_controller_input_for_jetpack(e_input_user_index input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+void __cdecl player_control_get_controller_input_for_jetpack(long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
 {
 	player_control_get_controller_input(input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 

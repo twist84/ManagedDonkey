@@ -69,7 +69,7 @@ void render_debug_player()
 	if (!debug_player)
 		return;
 
-	e_output_user_index user_index = c_player_view::get_current()->get_player_view_output_user_index();
+	long user_index = c_player_view::get_current()->get_player_view_user_index();
 	if (user_index != NONE)
 	{
 		long unit_index = player_mapping_get_unit_by_output_user(user_index);

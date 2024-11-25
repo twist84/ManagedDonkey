@@ -76,7 +76,7 @@
 //.text:00B9D300 ; 
 //.text:00B9D4B0 ; void __cdecl light_reconnect_to_map(long)
 //.text:00B9D6C0 ; 
-//.text:00B9D740 ; void __cdecl light_submit_lens_flares(long, e_output_user_index)
+//.text:00B9D740 ; void __cdecl light_submit_lens_flares(long, long)
 //.text:00B9D920 ; bool __cdecl light_theoretically_produces_light(long, long)
 //.text:00B9DAE0 ; bool __cdecl light_unmarked(long)
 //.text:00B9DB10 ; 

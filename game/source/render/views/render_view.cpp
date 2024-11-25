@@ -72,9 +72,9 @@ c_view* __cdecl c_view::top()
 		return g_view_stack[g_view_stack_top];
 }
 
-void c_lights_view::render(e_output_user_index output_user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
+void c_lights_view::render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
 {
-	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, output_user_index, player_index, a3, a4, a5);
+	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, user_index, player_index, a3, a4, a5);
 }
 
 render_camera const* c_view::get_render_camera() const

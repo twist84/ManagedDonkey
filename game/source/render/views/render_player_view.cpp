@@ -170,7 +170,7 @@ void __thiscall c_player_view::render_1st_pass()
 
 	c_rasterizer::set_current_splitscreen_res(m_camera_user_data.m_splitscreen_res_index);
 
-	if (!game_engine_suppress_render_scene(m_camera_user_data.output_user_index))
+	if (!game_engine_suppress_render_scene(m_camera_user_data.user_index))
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_game_states);
 
@@ -182,7 +182,7 @@ void __thiscall c_player_view::render_1st_pass()
 		c_atmosphere_fog_interface::compute_cluster_weights(cluster_reference, &rasterizer_camera->position);
 
 		{
-			real horizontal_field_of_view = observer_get_camera(m_camera_user_data.output_user_index)->horizontal_field_of_view;
+			real horizontal_field_of_view = observer_get_camera(m_camera_user_data.user_index)->horizontal_field_of_view;
 			if (horizontal_field_of_view < k_real_epsilon)
 				horizontal_field_of_view = k_real_epsilon;
 			g_particle_hack_near_fade_scale = 1.0f / horizontal_field_of_view;
@@ -198,7 +198,7 @@ void __thiscall c_player_view::render_1st_pass()
 
 		{
 			c_rasterizer_profile_scope _chud_turbulence(_rasterizer_profile_element_interface_hud, L"chud turbulence");
-			chud_draw_turbulence(m_camera_user_data.output_user_index);
+			chud_draw_turbulence(m_camera_user_data.user_index);
 		}
 
 		s_screen_effect_settings screen_effect_settings{};
@@ -208,11 +208,11 @@ void __thiscall c_player_view::render_1st_pass()
 			&rasterizer_camera->forward,
 			&screen_effect_settings,
 			&screen_effect_shader_sample_result,
-			m_camera_user_data.output_user_index);
+			m_camera_user_data.user_index);
 
 		c_player_view::setup_camera_fx_parameters(screen_effect_settings.__unknown0);
 		c_player_view::setup_cinematic_clip_planes();
-		m_lights_view.clear_simple_light_draw_list(m_camera_user_data.output_user_index);
+		m_lights_view.clear_simple_light_draw_list(m_camera_user_data.user_index);
 		m_lights_view.build_simple_light_draw_list(m_camera_user_data.player_window_index);
 
 		{
@@ -272,7 +272,7 @@ void __thiscall c_player_view::render_1st_pass()
 				IDirect3DSurface9* depth_stencil_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_depth_stencil)->m_d3d_surface;
 
 				m_lights_view.render(
-					m_camera_user_data.output_user_index,
+					m_camera_user_data.user_index,
 					m_camera_user_data.player_window_index,
 					accum_LDR_surface,
 					accum_HDR_surface,
@@ -347,7 +347,7 @@ void __thiscall c_player_view::render_1st_pass()
 
 					{
 						c_rasterizer_profile_scope _game_engine(_rasterizer_profile_element_game_engine, L"game_engine");
-						game_engine_render(m_camera_user_data.output_user_index);
+						game_engine_render(m_camera_user_data.user_index);
 					}
 
 					c_player_view::render_distortions();
@@ -369,12 +369,12 @@ void __thiscall c_player_view::render_1st_pass()
 					{
 						c_rasterizer_profile_scope _chud_draw_screen_LDR(_rasterizer_profile_element_total, L"chud_draw_screen_LDR");
 
-						if (chud_generate_damage_flash_texture(m_camera_user_data.output_user_index))
+						if (chud_generate_damage_flash_texture(m_camera_user_data.user_index))
 						{
 							c_rasterizer::setup_targets_static_lighting_alpha_blend(false, true);
 							c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
 							c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
-							chud_draw_screen_LDR(m_camera_user_data.output_user_index);
+							chud_draw_screen_LDR(m_camera_user_data.user_index);
 						}
 					}
 
@@ -423,7 +423,7 @@ void __thiscall c_player_view::render_2nd_pass()
 				&m_rasterizer_camera.forward,
 				&screen_effect_settings,
 				&screen_effect_shader_sample_result,
-				m_camera_user_data.output_user_index);
+				m_camera_user_data.user_index);
 
 			c_screen_postprocess::postprocess_player_view(
 				m_window_game_state->camera_fx_values,
@@ -432,7 +432,7 @@ void __thiscall c_player_view::render_2nd_pass()
 				screen_effect_settings,
 				m_camera_user_data.m_splitscreen_res_index,
 				&m_observer_depth_of_field,
-				_output_user_index0);
+				0);
 
 			if (render_debug_toggle_default_lightmaps_texaccum == 3)
 			{
@@ -472,7 +472,7 @@ void __thiscall c_player_view::render_3rd_pass()
 			&m_rasterizer_camera.forward,
 			&screen_effect_settings,
 			&screen_effect_shader_sample_result,
-			m_camera_user_data.output_user_index);
+			m_camera_user_data.user_index);
 
 		{
 			c_rasterizer_profile_scope _vision_mode(_rasterizer_profile_element_total, L"vision_mode");
@@ -505,7 +505,7 @@ void __thiscall c_player_view::render_3rd_pass()
 			c_rasterizer::set_viewport(m_rasterizer_camera.window_pixel_bounds, 0.0f, 1.0f);
 			c_rasterizer::set_scissor_rect(&m_rasterizer_camera.window_pixel_bounds);
 
-			chud_draw_screen(m_camera_user_data.output_user_index);
+			chud_draw_screen(m_camera_user_data.user_index);
 
 			// added by us
 			c_rasterizer::restore_last_viewport();
@@ -513,7 +513,7 @@ void __thiscall c_player_view::render_3rd_pass()
 		}
 		{
 			c_rasterizer_profile_scope _fade_to_black(_rasterizer_profile_element_total, L"fade_to_black");
-			game_engine_render_fade_to_black(m_camera_user_data.output_user_index);
+			game_engine_render_fade_to_black(m_camera_user_data.user_index);
 		}
 		{
 			c_rasterizer_profile_scope _user_interface_render(_rasterizer_profile_element_total, L"user_interface_render");
@@ -522,7 +522,7 @@ void __thiscall c_player_view::render_3rd_pass()
 			interface_get_current_window_settings(NULL, NULL, &display_pixel_bounds, NULL);
 			user_interface_render(
 				m_camera_user_data.controller_index,
-				m_camera_user_data.output_user_index,
+				m_camera_user_data.user_index,
 				m_camera_user_data.player_window_index,
 				&display_pixel_bounds,
 				c_rasterizer::sub_A48770(),
@@ -534,11 +534,11 @@ void __thiscall c_player_view::render_3rd_pass()
 		}
 		{
 			c_rasterizer_profile_scope _chud_draw_screen_saved_film(_rasterizer_profile_element_total, L"chud_draw_screen_saved_film");
-			chud_draw_screen_saved_film(m_camera_user_data.output_user_index);
+			chud_draw_screen_saved_film(m_camera_user_data.user_index);
 		}
 		{
 			c_rasterizer_profile_scope _player_training(_rasterizer_profile_element_total, L"player_training");
-			player_training_render_screen(m_camera_user_data.output_user_index);
+			player_training_render_screen(m_camera_user_data.user_index);
 		}
 		{
 			c_rasterizer_profile_scope _debug_render(_rasterizer_profile_element_total, L"debug_render");
@@ -549,17 +549,17 @@ void __thiscall c_player_view::render_3rd_pass()
 		}
 		{
 			c_rasterizer_profile_scope _player_effect_render(_rasterizer_profile_element_total, L"player_effect_render");
-			player_effect_render(m_camera_user_data.output_user_index);
+			player_effect_render(m_camera_user_data.user_index);
 		}
 	}
 }
 
 void __thiscall c_player_view::render_4th_pass()
 {
-	game_engine_render_debug(m_camera_user_data.output_user_index);
+	game_engine_render_debug(m_camera_user_data.user_index);
 
 	if (!sub_610260())
-		render_debug_window_render(m_camera_user_data.output_user_index);
+		render_debug_window_render(m_camera_user_data.user_index);
 
 	c_rasterizer::end();
 }
@@ -624,7 +624,7 @@ void __thiscall c_player_view::render_lens_flares()
 
 	{
 		c_rasterizer_profile_scope _lens_flares(_rasterizer_profile_element_transparents, L"lens flares");
-		lens_flares_render(m_camera_user_data.output_user_index);
+		lens_flares_render(m_camera_user_data.user_index);
 	}
 
 	c_rasterizer::set_using_albedo_sampler(c_rasterizer::surface_valid(c_rasterizer::_surface_albedo));
@@ -764,9 +764,9 @@ void __thiscall c_player_view::render_weather_occlusion()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_weather_occlusion);
 }
 
-void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, e_output_user_index output_user_index, s_observer_result const* result, bool render_freeze)
+void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze)
 {
-	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, output_user_index, result, render_freeze);
+	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, user_index, result, render_freeze);
 }
 
 void __thiscall c_player_view::setup_camera_fx_parameters(real a1)

@@ -100,28 +100,22 @@ struct s_network_session_shared_membership
 constexpr size_t agt = OFFSETOF(s_network_session_shared_membership, __unknown17524);
 static_assert(sizeof(s_network_session_shared_membership) == 0x17528);
 
-struct s_network_session_peer_channel
+struct s_local_session_peer
 {
 	dword_flags flags;
 	long channel_index;
 	long expected_update_number;
 };
-static_assert(sizeof(s_network_session_peer_channel) == 0xC);
-
-struct s_player_voice_settings
-{
-	dword_flags flags;
-};
-static_assert(sizeof(s_player_voice_settings) == 0x4);
+static_assert(sizeof(s_local_session_peer) == 0xC);
 
 struct s_player_add_queue_entry
 {
 	s_player_identifier player_identifier;
 	long player_index;
-	e_output_user_index output_user_index;
-	long controller_index;
-	s_player_configuration_from_client client_configuration;
-	s_player_voice_settings voice_settings;
+	long user_index;
+	e_controller_index controller_index;
+	s_player_configuration_from_client player_data_from_client;
+	dword player_voice_settings;
 };
 static_assert(sizeof(s_player_add_queue_entry) == 0x48);
 
@@ -166,7 +160,7 @@ public:
 	void increment_update()
 	{
 		++m_shared_network_membership.update_number;
-		++m_player_configuration_version;
+		++m_local_membership_update_number;
 	}
 
 	s_network_session_player* get_player(long player_index)
@@ -191,17 +185,17 @@ public:
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;
 	c_static_array<s_network_session_shared_membership, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership;
-	c_static_array<dword, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership_checksums;
+	c_static_array<dword, k_network_maximum_machines_per_session> m_baseline_checksum;
 	bool __unknown1A3D1C;
 	bool __unknown1A3D1D;
 	bool __unknown1A3D1E;
 	bool __unknown1A3D1F;
 	long m_local_peer_index;
-	long m_player_configuration_version;
-	s_network_session_peer_channel m_local_peers[k_network_maximum_machines_per_session];
+	long m_local_membership_update_number;
+	s_local_session_peer m_local_peer_state[k_network_maximum_machines_per_session];
 	s_player_add_queue_entry m_player_add_queue[4];
-	long m_player_add_queue_current_index;
-	long m_player_add_queue_count;
+	long m_add_queue_first_used_slot;
+	long m_add_queue_first_free_slot;
 };
 static_assert(sizeof(c_network_session_membership) == 0x1A3F20);
 
