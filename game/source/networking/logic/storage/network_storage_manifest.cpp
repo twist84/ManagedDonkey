@@ -67,15 +67,15 @@ e_network_file_load_status __cdecl network_storage_manifest_get_load_status()
 	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
 	{
 		if (manifest->m_manifest)
-			return _network_file_load_status_available;
+			return _network_files_load_complete;
 
 		if (manifest->m_manifest_download_error)
-			return _network_file_load_status_unavailable;
+			return _network_files_load_error;
 
-		return _network_file_load_status_pending;
+		return _network_file_load_in_progress;
 	}
 
-	return _network_file_load_status_none;
+	return _network_file_load_none;
 }
 
 void __cdecl network_storage_manifest_initialize()

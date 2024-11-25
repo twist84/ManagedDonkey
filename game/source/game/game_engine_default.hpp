@@ -8,7 +8,6 @@
 
 #pragma pack(push, 4)
 
-enum e_multiplayer_team;
 enum e_team_scoring_method;
 enum e_multiplayer_team_designator;
 enum e_game_team;

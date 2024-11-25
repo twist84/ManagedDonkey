@@ -253,7 +253,7 @@ void __cdecl carnage_report_transition_out()
 {
 	INVOKE(0x0060AFD0, carnage_report_transition_out);
 
-	//if (c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(_window_index4, STRING_ID(gui, carnage_report)))
+	//if (c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(_console_window, STRING_ID(gui, carnage_report)))
 	//	sub_AB2830(screen, 0);
 }
 

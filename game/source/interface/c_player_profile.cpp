@@ -206,7 +206,7 @@ void __thiscall c_player_profile_interface::set_primary_change_color(long primar
 {
 	INVOKE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color, primary_change_color, a2);
 
-	//if (VALID_INDEX(primary_change_color, k_number_of_player_colors))
+	//if (VALID_INDEX(primary_change_color, k_player_color_index_count))
 	//{
 	//	dirty_or(a2 && primary_change_color != get_primary_change_color());
 	//	m_primary_change_color = primary_change_color;
@@ -225,7 +225,7 @@ void __thiscall c_player_profile_interface::set_secondary_change_color(long seco
 {
 	INVOKE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color, secondary_change_color, a2);
 
-	//if (VALID_INDEX(secondary_change_color, k_number_of_player_colors))
+	//if (VALID_INDEX(secondary_change_color, k_player_color_index_count))
 	//{
 	//	dirty_or(a2 && secondary_change_color != get_primary_change_color());
 	//	m_secondary_change_color = secondary_change_color;

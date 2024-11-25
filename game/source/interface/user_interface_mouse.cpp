@@ -29,15 +29,15 @@ void user_interface_mouse_update()
 
 	user_interface_mouse_update_internal();
 
-	c_gui_screen_widget* topmost_screen = window_manager_get()->get_topmost_screen(_window_index4);
+	c_gui_screen_widget* topmost_screen = window_manager_get()->get_topmost_screen(_console_window);
 	if (!topmost_screen)
-		topmost_screen = window_manager_get()->get_topmost_screen(_window_index0);
+		topmost_screen = window_manager_get()->get_topmost_screen(_window0);
 	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index1);
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window1);
 	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index2);
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window2);
 	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window_index3);
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window3);
 
 	if (topmost_screen && topmost_screen->get_focused_widget())
 	{

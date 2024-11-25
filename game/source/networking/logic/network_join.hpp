@@ -76,7 +76,7 @@ struct s_networking_join_data
 	// network_join_leave_group_session_and_swap_if_necessary
 	bool __unknown1B0;
 
-	c_enum<e_networking_join_destination_squad, long, _join_destination_unknown0, k_join_destination_count> join_target;
+	c_enum<e_networking_join_destination_squad, long, _join_destination_target, k_join_destination_count> join_target;
 	c_enum<e_network_join_queue_mode, long, _network_join_closed_to_all_joins, k_network_join_queue_mode_count> join_queue_mode;
 	long join_queue_entry_count;
 	long join_peer_count;

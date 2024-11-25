@@ -163,7 +163,7 @@ void __cdecl user_interface_update_console_scoreboard()
 		if (scoreboard_screen)
 		{
 			c_window_manager* window_manager = window_manager_get();
-			if (window_manager->get_screen_above(_window_index4, scoreboard_screen))
+			if (window_manager->get_screen_above(_console_window, scoreboard_screen))
 				scoreboard_screen_is_above = true;
 		}
 

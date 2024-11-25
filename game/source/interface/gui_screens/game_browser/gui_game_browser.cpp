@@ -5,7 +5,7 @@
 
 void load_game_browser(e_controller_index controller, long search_flags, e_browser_type type)
 {
-	if (c_load_game_browser_screen_message* message = new c_load_game_browser_screen_message(STRING_ID(gui, game_browser), controller, _window_index4, STRING_ID(gui, top_most), search_flags, type))
+	if (c_load_game_browser_screen_message* message = new c_load_game_browser_screen_message(STRING_ID(gui, game_browser), controller, _console_window, STRING_ID(gui, top_most), search_flags, type))
 		user_interface_messaging_post(message);
 }
 

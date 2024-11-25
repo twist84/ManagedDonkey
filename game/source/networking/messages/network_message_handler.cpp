@@ -640,7 +640,7 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 
 				transport_address remote_address{};
 				channel->get_remote_address(&remote_address);
-				channel->close(_network_channel_reason_connect_reinitiate);
+				channel->close(_network_channel_reason_connect_reinitiated);
 				channel->open(&remote_address, false, channel_identifier);
 			}
 
@@ -696,7 +696,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 				channel->get_name(),
 				network_message_connect_refuse_get_reason_string(message->reason));
 
-			channel->close(_network_channel_reason_connect_refused);
+			channel->close(_network_channel_reason_connect_refuse);
 		}
 		break;
 		case _network_connect_refuse_reason_unknown_stranger:
@@ -804,7 +804,7 @@ void c_network_message_handler::handle_join_abort(transport_address const* addre
 		e_network_join_refuse_reason reason = _network_join_refuse_reason_none;
 		if (session->join_abort(address, message->join_nonce))
 		{
-			reason = _network_join_refuse_reason_aborted;
+			reason = _network_join_refuse_reason_abort_successful;
 		}
 		else
 		{

@@ -608,7 +608,7 @@ void network_test_set_game_variant_parameter(char const* parameter_name, long va
 {
 	e_game_variant_parameter parameter = k_game_variant_parameter_none;
 
-	for (long i = _game_variant_parameter_game_misc_teams; i < k_game_variant_parameter_count; i++)
+	for (long i = _game_variant_base_miscellaneous_teams; i < k_game_variant_parameter_count; i++)
 	{
 		if (csstricmp(parameter_name, game_variant_parameter_get_name(i)) != 0)
 			continue;

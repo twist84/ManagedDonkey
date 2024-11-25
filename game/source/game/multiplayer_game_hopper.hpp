@@ -19,7 +19,7 @@ struct c_hopper_configuration
 	s_network_http_request_hash game_set_hash;
 	word hopper_identifier;
 	long hopper_category;
-	c_enum<e_hopper_type, long, _hopper_type_ffa_unranked, k_hopper_type_count> hopper_type;
+	c_enum<e_hopper_type, long, _hopper_type_unranked_ffa, k_hopper_type_count> hopper_type;
 	long image_index;
 	long xlast_index;
 	byte rich_presence_id;
@@ -96,8 +96,8 @@ struct c_hopper_configuration
 
 	union
 	{
-		// hopper_type == _hopper_type_ffa_unranked 
-		// hopper_type == _hopper_type_ffa_ranked
+		// hopper_type == _hopper_type_unranked_ffa 
+		// hopper_type == _hopper_type_ranked_ffa
 		struct
 		{
 			// ffa->minimum_player_count >= 2 && ffa->minimum_player_count <= 16
@@ -107,7 +107,7 @@ struct c_hopper_configuration
 			long maximum_player_count;
 		} ffa;
 
-		// hopper_type == _hopper_type_unranked
+		// hopper_type == _hopper_type_unranked_teams
 		struct
 		{
 			// unranked_teams->team_count >= 2 && unranked_teams->team_count <= 8
@@ -123,7 +123,7 @@ struct c_hopper_configuration
 			bool allow_parties_to_split;
 		} unranked_teams;
 
-		// hopper_type == _hopper_type_ranked
+		// hopper_type == _hopper_type_ranked_teams
 		struct
 		{
 			// ranked_teams->team_count >= 2 && ranked_teams->team_count <= 8

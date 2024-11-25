@@ -131,7 +131,7 @@ void __cdecl user_interface_controller_input_event_submit(s_event_record* event_
 //.text:00A94C60 ; 
 //.text:00A94CC0 ; user_interface_controller_set_armor_loadout_index
 //.text:00A94CF0 ; void __cdecl user_interface_controller_set_bungienet_user(e_controller_index, c_flags<e_bungienet_user_flags, word, 16>)
-//.text:00A94D30 ; void __cdecl user_interface_controller_set_desired_multiplayer_team(e_controller_index, e_multiplayer_team)
+//.text:00A94D30 ; void __cdecl user_interface_controller_set_desired_multiplayer_team(e_controller_index, e_game_team)
 //.text:00A94D60 ; void __cdecl user_interface_controller_set_desires_rematch(e_controller_index, bool)
 //.text:00A94D90 ; void __cdecl user_interface_controller_set_extras_portal_debug(e_controller_index, bool)
 //.text:00A94DE0 ; void __cdecl user_interface_controller_set_griefer(e_controller_index, bool)

@@ -17,7 +17,7 @@ e_window_index __cdecl user_interface_get_window_for_controller(e_controller_ind
 	return INVOKE(0x00AB5350, user_interface_get_window_for_controller, controller_index);
 
 	//long local_user_window_count = user_interface_get_local_user_window_count();
-	//e_window_index game_render_window = _window_index4;
+	//e_window_index game_render_window = _console_window;
 	//
 	//if (!game_is_ui_shell()
 	//	&& player_mapping_output_user_active_count() > 0
@@ -25,8 +25,8 @@ e_window_index __cdecl user_interface_get_window_for_controller(e_controller_ind
 	//	&& controller_index != k_any_controller)
 	//{
 	//	game_render_window = controller_get_game_render_window(controller_index);
-	//	if (game_render_window < _window_index0 || game_render_window >= local_user_window_count)
-	//		game_render_window = _window_index4;
+	//	if (game_render_window < _window0 || game_render_window >= local_user_window_count)
+	//		game_render_window = _console_window;
 	//}
 	//
 	//return game_render_window;

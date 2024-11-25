@@ -71,7 +71,7 @@ void __cdecl swarm_delete(long swarm_index)
 //.text:014974D0 ; bool __cdecl swarm_perception_find_sense_position(long, real_point3d const*, actor_position_data*)
 //.text:014975E0 ; 
 //.text:01497710 ; bool __cdecl swarm_remove_creature(long, long, bool, bool)
-//.text:01497870 ; void __cdecl swarm_set_team(long, e_campaign_team)
+//.text:01497870 ; void __cdecl swarm_set_team(long, e_game_team)
 //.text:014978E0 ; 
 //.text:014979B0 ; void __cdecl swarm_spawner_definition_new(swarm_spawner_definition*)
 //.text:01497A30 ; void __cdecl swarm_spawner_end(short)

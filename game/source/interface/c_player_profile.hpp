@@ -172,8 +172,8 @@ struct c_player_profile_interface
 
 	struct // sizeof 0x688
 	{
-		c_enum<e_player_color_index, long, _player_color_none, k_number_of_player_colors> m_primary_change_color; // STRING_ID(gui, color_armor1)
-		c_enum<e_player_color_index, long, _player_color_none, k_number_of_player_colors> m_secondary_change_color; // STRING_ID(gui, color_armor2)
+		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> m_primary_change_color; // STRING_ID(gui, color_armor1)
+		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> m_secondary_change_color; // STRING_ID(gui, color_armor2)
 
 		long __unknown490;
 		long __unknown494;

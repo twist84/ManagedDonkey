@@ -191,7 +191,7 @@ static_assert(sizeof(s_equipment_type_super_shield) == 0x3C);
 
 struct s_equipment_type_multiplayer_powerup
 {
-	c_enum<e_multiplayer_powerup_flavor, long, _multiplayer_powerup_flavor_red, _multiplayer_powerup_flavor_yellow> flavor;
+	c_enum<e_multiplayer_powerup_flavor, long, _powerup_flavor_red, _powerup_flavor_yellow> flavor;
 };
 static_assert(sizeof(s_equipment_type_multiplayer_powerup) == 0x4);
 

@@ -39,7 +39,7 @@ void __thiscall c_gui_location_manager::change_location(long screen_name)
 
 	if (can_change_location_)
 	{
-		if (c_load_screen_message* message = new c_load_screen_message(screen_name, k_any_controller, _window_index4, STRING_ID(gui, bottom_most)))
+		if (c_load_screen_message* message = new c_load_screen_message(screen_name, k_any_controller, _console_window, STRING_ID(gui, bottom_most)))
 			user_interface_messaging_post(message);
 	}
 }

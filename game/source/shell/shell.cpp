@@ -305,7 +305,7 @@ char const* gui_network_session_advertisement_mode_get_name(long advertisement_m
 
 char const* game_variant_parameter_get_name(long parameter)
 {
-	if (parameter < _game_variant_parameter_game_misc_teams || parameter >= k_game_variant_parameter_count)
+	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_game_variant_parameter_count)
 		return "<invalid 'parameter'>";
 
 	return k_game_variant_parameter_names[parameter];
@@ -1024,7 +1024,7 @@ char const* const global_campaign_difficulty_level_names[k_number_of_campaign_di
 };
 
 // 018BE868
-char const* const global_campaign_team_names[k_number_of_campaign_teams]
+char const* const global_campaign_team_names[k_campaign_team_count]
 {
 	"default",
 	"player",
@@ -1045,7 +1045,7 @@ char const* const global_campaign_team_names[k_number_of_campaign_teams]
 };
 
 // 0189EECC
-char const* const global_multiplayer_team_names[k_number_of_multiplayer_teams]
+char const* const global_multiplayer_team_names[k_multiplayer_team_count]
 {
 	"mp_team_red",
 	"mp_team_blue",
@@ -1156,7 +1156,7 @@ char const* const global_model_state_names[k_number_of_model_states]
 };
 
 // 018ECCEC
-char const* const global_character_physics_override_names[k_number_of_character_physics_overrides]
+char const* const global_character_physics_override_names[k_total_character_physics_overrides]
 {
 	"NONE",
 	"player",

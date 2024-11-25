@@ -328,7 +328,7 @@ void c_gui_error_manager::update(dword ui_time)
 	//
 	//	c_gui_queued_error const* error_ = get_current_for_user(controller_index);
 	//
-	//	alerts[_window_index4] =
+	//	alerts[_console_window] =
 	//	{
 	//		.error = error_,
 	//		.name = !error_ || error_->get_blocking() ? STRING_ID(gui, gui_alert_toast) : STRING_ID(gui, gui_alert_nonblocking)
@@ -340,9 +340,9 @@ void c_gui_error_manager::update(dword ui_time)
 	//
 	//	alerts[window_index].error = error;
 	//
-	//	if (window_index == _window_index4)
+	//	if (window_index == _console_window)
 	//	{
-	//		alerts[_window_index4].name = !error || error->get_blocking() ? STRING_ID(gui, gui_alert_ingame_full) : STRING_ID(gui, gui_alert_nonblocking);
+	//		alerts[_console_window].name = !error || error->get_blocking() ? STRING_ID(gui, gui_alert_ingame_full) : STRING_ID(gui, gui_alert_nonblocking);
 	//	}
 	//	else
 	//	{
@@ -406,7 +406,7 @@ c_gui_queued_error const* c_gui_error_manager::get_current_for_window(e_window_i
 		if (error.is_valid())
 		{
 			e_controller_index controller_index = error.get_controller_index();
-			if (controller_index == k_any_controller && window_index == _window_index4
+			if (controller_index == k_any_controller && window_index == _console_window
 				|| controller_index != k_any_controller
 				&& user_interface_get_window_for_controller(controller_index) == window_index)
 			{

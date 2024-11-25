@@ -406,22 +406,22 @@ c_game_engine_infection_variant* c_game_variant::get_infection_variant_writeable
 
 bool c_game_variant::get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
 {
-	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, out_value);
+	return get_game_engine_setting(parameter, _integer_value, out_value);
 }
 
 bool c_game_variant::set_integer_game_engine_setting(e_game_variant_parameter parameter, long value)
 {
-	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, value);
+	return set_game_engine_setting(parameter, _integer_value, value);
 }
 
 bool c_game_variant::get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
 {
-	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, out_value);
+	return get_game_engine_setting(parameter, _string_id_value, out_value);
 }
 
 bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value)
 {
-	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, value);
+	return set_game_engine_setting(parameter, _string_id_value, value);
 }
 
 bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const

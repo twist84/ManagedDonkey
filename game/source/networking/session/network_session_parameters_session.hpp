@@ -42,9 +42,9 @@ struct s_network_session_remote_session_join_data
 	c_enum<e_join_remote_state, long, _join_remote_state_none, k_join_remote_state_count> join_state;
 	c_enum<e_join_type, long, _join_type_squad, k_join_type_count> join_from;
 	c_enum<e_join_type, long, _join_type_squad, k_join_type_count> join_to;
-	c_enum<e_networking_join_destination_squad, long, _join_destination_unknown0, k_join_destination_count> join_target;
+	c_enum<e_networking_join_destination_squad, long, _join_destination_target, k_join_destination_count> join_target;
 	qword join_nonce;
-	c_enum<e_transport_platform, long, _transport_platform_unknown0, k_transport_platform_count> platform;
+	c_enum<e_transport_platform, long, _transport_platform_xenon, k_transport_platform_count> platform;
 	s_transport_secure_identifier session_id;
 	s_transport_secure_key session_key;
 	s_transport_secure_address host_secure_address;

@@ -123,7 +123,7 @@ static_assert(sizeof(s_replicated_life_cycle_progress_post_match) == 0x8);
 
 struct s_replicated_life_cycle_matchmaking_progress
 {
-	c_enum<e_life_cycle_matchmaking_progress_type, long, _life_cycle_matchmaking_progress_type_unknown0, k_life_cycle_matchmaking_progress_type_count> progress_type;
+	c_enum<e_life_cycle_matchmaking_progress_type, long, _life_cycle_matchmaking_progress_none, k_life_cycle_matchmaking_progress_type_count> progress_type;
 
 	union
 	{

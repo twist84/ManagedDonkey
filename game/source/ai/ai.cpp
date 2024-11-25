@@ -90,7 +90,7 @@ void __cdecl ai_globals_set_ai_active(bool ai_active)
 //.text:014321A0 ; 
 //.text:014321C0 ; void __cdecl ai_globals_update()
 //.text:01432690 ; 
-//.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_campaign_team, e_campaign_team, bool, bool, bool)
+//.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team, e_game_team, bool, bool, bool)
 //.text:01432890 ; 
 
 void __cdecl ai_handle_bump(long object_index, long bump_object_index, vector3d const* linear_velocity)

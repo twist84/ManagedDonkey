@@ -88,7 +88,7 @@ long c_message::get_game_time_at_creation() const
 }
 
 c_controller_input_message::c_controller_input_message(long screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, long event_value) :
-	c_message(_ui_message_type_controller_input, screen_name, controller, window),
+	c_message(_message_type_controller_input, screen_name, controller, window),
 	m_event_type(event_type),
 	m_component(component),
 	m_event_value(event_value),
@@ -119,7 +119,7 @@ long c_controller_input_message::get_event_value() const
 }
 
 c_xenon_message::c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, long event_value) :
-	c_message(_ui_message_type_xenon, _string_id_invalid, controller, k_no_window),
+	c_message(_message_type_xenon, _string_id_invalid, controller, k_no_window),
 	m_xenon_message_type(xenon_message_type),
 	m_event_value(event_value)
 {
@@ -142,7 +142,7 @@ long c_xenon_message::get_event_value() const
 }
 
 c_load_screen_message::c_load_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position) :
-	c_message(_ui_message_type_load_screen, screen_name, controller, window),
+	c_message(_message_type_load_screen, screen_name, controller, window),
 	m_transition_type((e_screen_transition_type)1),
 	m_respond_to_controller_events(true),
 	m_focus_on_load_list_name(NONE),
@@ -252,7 +252,7 @@ bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 }
 
 c_screen_custom_message::c_screen_custom_message(long sub_type, long screen_name, e_controller_index controller, e_window_index window) :
-	c_message(_ui_message_type_screen_custom, screen_name, controller, window),
+	c_message(_message_type_screen_custom, screen_name, controller, window),
 	m_sub_type(sub_type)
 {
 }
@@ -268,7 +268,7 @@ long c_screen_custom_message::get_sub_type() const
 }
 
 c_dialog_result_message::c_dialog_result_message(long screen_name, e_controller_index controller, e_window_index window, long dialog_name, e_gui_dialog_choice dialog_result) :
-	c_message(_ui_message_type_dialog_result, screen_name, controller, window),
+	c_message(_message_type_dialog_result, screen_name, controller, window),
 	m_dialog_result(dialog_result),
 	m_dialog_name(dialog_name),
 	m_dispose_on_success_screen_index()

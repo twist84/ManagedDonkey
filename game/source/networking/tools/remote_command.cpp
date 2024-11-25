@@ -993,7 +993,7 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 		*outgoing_address = address;
 		//network_broadcast_search_update_callback = nullptr;
 	};
-	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
+	load_game_browser(k_any_controller, 0, _browse_system_link);
 
 	console_close();
 

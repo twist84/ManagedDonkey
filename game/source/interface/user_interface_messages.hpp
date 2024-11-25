@@ -206,7 +206,7 @@ public:
 
 protected:
 	dword_flags m_squad_search_flags;
-	c_enum<e_browser_type, long, _browser_type_system_link_games, k_browser_type_count> m_type;
+	c_enum<e_browser_type, long, _browse_system_link, k_number_of_game_browser_types> m_type;
 };
 static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 

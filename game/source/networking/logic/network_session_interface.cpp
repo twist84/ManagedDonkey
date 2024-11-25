@@ -222,7 +222,7 @@ void __cdecl network_session_interface_reset(long session_index)
 	//}
 }
 
-//void __cdecl network_session_interface_set_desired_multiplayer_team(e_output_user_index user_index, e_multiplayer_team team_index)
+//void __cdecl network_session_interface_set_desired_multiplayer_team(e_output_user_index user_index, e_game_team team_index)
 void __cdecl network_session_interface_set_desired_multiplayer_team(long user_index, long team_index)
 {
 	INVOKE(0x004368D0, network_session_interface_set_desired_multiplayer_team, user_index, team_index);

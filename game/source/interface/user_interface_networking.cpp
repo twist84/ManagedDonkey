@@ -234,7 +234,7 @@ void __cdecl user_interface_networking_notify_booted_from_session(e_network_sess
 
 	generate_event(_event_message, "networking:ui: notified that we have been booted from a session [type %d / reason %d]", type, boot_reason);
 
-	if (boot_reason == _network_session_boot_reason_unknown4)
+	if (boot_reason == _network_session_boot_from_ui)
 	{
 		generate_event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
 		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_session), k_any_controller, false);
@@ -245,7 +245,7 @@ void __cdecl user_interface_networking_notify_booted_from_session(e_network_sess
 		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_game), k_any_controller, false);
 	}
 
-	user_interface_leave_sessions(_user_interface_session_leave_type_leave_to_pre_game_lobby, _user_interface_session_leave_reason_booted);
+	user_interface_leave_sessions(_user_interface_session_leave_to_pre_game_lobby, _user_interface_session_leaving_booted);
 }
 
 //.text:00A7F5D0

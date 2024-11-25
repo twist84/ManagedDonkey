@@ -96,7 +96,7 @@ void __cdecl game_engine_game_starting()
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
 //.text:0054FC10 ; long __cdecl game_engine_get_finalized_player_place(long)
 //.text:0054FCC0 ; long __cdecl game_engine_get_finalized_player_score(long)
-//.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(e_multiplayer_team)
+//.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(e_game_team)
 //.text:0054FE70 ; long __cdecl game_engine_get_game_object_list()
 //.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(e_output_user_index, game_engine_interface_state*)
 //.text:00550410 ; void __cdecl game_engine_get_in_game_string(long, c_static_wchar_string<256>*)
@@ -183,7 +183,7 @@ void __cdecl game_engine_get_universal_string(long a1, c_static_wchar_string<256
 }
 
 //.text:00550EF0 ; long __cdecl game_engine_get_winning_player()
-//.text:00550F50 ; e_multiplayer_team __cdecl game_engine_get_winning_team()
+//.text:00550F50 ; e_game_team __cdecl game_engine_get_winning_team()
 //.text:00550F80 ; bool __cdecl game_engine_grenades_on_map_allowed()
 
 bool __cdecl game_engine_in_round()
@@ -369,7 +369,7 @@ long __cdecl game_engine_get_post_round_ticks()
 	return game_seconds_integer_to_ticks(4);
 }
 
-//.text:005521F0 ; void __cdecl game_engine_recompute_team_score(e_multiplayer_team, long)
+//.text:005521F0 ; void __cdecl game_engine_recompute_team_score(e_game_team, long)
 //.text:00552230 ; void __cdecl game_engine_reset_players_for_new_round()
 //.text:00552280 ; void __cdecl game_engine_reset_round_conditions_for_new_round()
 //.text:005522B0 ; void __cdecl game_engine_reset_stats_for_round_switch()
@@ -603,7 +603,7 @@ void __cdecl game_engine_update_round_conditions()
 
 //.text:005537F0 ; void __cdecl game_engine_update_score_and_standing()
 //.text:00553B60 ; void __cdecl game_engine_update_talkers()
-//.text:00553D20 ; void __cdecl game_engine_update_team(e_multiplayer_team)
+//.text:00553D20 ; void __cdecl game_engine_update_team(e_game_team)
 //.text:00553DB0 ; void __cdecl game_engine_update_time()
 //.text:00553FC0 ; bool __cdecl game_engine_validate_team_designator_for_new_map(e_multiplayer_team_designator)
 //.text:00553FF0 ; bool __cdecl game_engine_vehicles_indestructible()

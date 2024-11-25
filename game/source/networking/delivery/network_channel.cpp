@@ -27,15 +27,15 @@ char const* __cdecl c_network_channel::get_closure_reason_string(e_network_chann
 		return "no-reason-given";
 	case _network_channel_reason_link_destroyed:
 		return "link-destroyed";
-	case _network_channel_reason_link_refused_listen:
+	case _network_channel_reason_link_refused_listening:
 		return "link-refused-listen";
 	case _network_channel_reason_channel_deleted:
 		return "channel-deleted";
-	case _network_channel_reason_connect_timeout:
+	case _network_channel_reason_connect_request_timeout:
 		return "connect-timeout";
-	case _network_channel_reason_connect_refused:
+	case _network_channel_reason_connect_refuse:
 		return "connect-refused";
-	case _network_channel_reason_connect_reinitiate:
+	case _network_channel_reason_connect_reinitiated:
 		return "connect-reinitiate";
 	case _network_channel_reason_establish_timeout:
 		return "establish-timeout";
@@ -45,15 +45,15 @@ char const* __cdecl c_network_channel::get_closure_reason_string(e_network_chann
 		return "destination-unreachable";
 	case _network_channel_reason_remote_closure:
 		return "remote-closure";
-	case _network_channel_reason_connection_overflow:
+	case _network_channel_reason_connection_overflowed:
 		return "connection-overflow";
-	case _network_channel_reason_message_overflow:
+	case _network_channel_reason_message_queue_overflowed:
 		return "message-overflow";
-	case _network_channel_reason_security_lost:
+	case _network_channel_reason_observer_security_lost:
 		return "security-lost";
-	case _network_channel_reason_observer_released:
+	case _network_channel_reason_observer_owners_released:
 		return "observer-released";
-	case _network_channel_reason_observer_refused:
+	case _network_channel_reason_observer_fatal_refusal:
 		return "observer-refused";
 	case _network_channel_reason_observer_timeout:
 		return "observer-timeout";
@@ -163,7 +163,7 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 	c_console::write_line("MP/NET/CHANNEL,CTRL: c_network_channel::close: Closing channel. Reason %s.",
 		get_closure_reason_string(closure_reason));
 
-	if (connected() && closure_reason != _network_channel_reason_connect_reinitiate)
+	if (connected() && closure_reason != _network_channel_reason_connect_reinitiated)
 	{
 		s_network_message_connect_closed connect_closed =
 		{

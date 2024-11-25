@@ -720,7 +720,7 @@ short const _hs_type_enum_model_state_default = NONE;
 short const _hs_type_enum_event_default = NONE;
 
 // 0166D6C8
-short const _hs_type_enum_character_physics_override_default = _character_physics_override_none;
+short const _hs_type_enum_character_physics_override_default = _character_physics_default;
 
 // 0166D6CC
 short const _hs_type_enum_primary_skull_default = NONE;

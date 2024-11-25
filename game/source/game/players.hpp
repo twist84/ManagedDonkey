@@ -62,12 +62,12 @@ struct s_emblem_info
 	void __thiscall decode(c_bitstream* packet);
 	void __thiscall encode(c_bitstream* packet);
 
-	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> foreground_emblem;
-	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> background_emblem;
+	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> foreground_emblem;
+	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> background_emblem;
 	c_flags<e_emblem_info_flags, byte, k_emblem_info_flags> emblem_flags;
-	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_primary_color;
-	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_secondary_color;
-	c_enum<e_player_color_index, char, _player_color_none, k_number_of_player_colors> emblem_background_color;
+	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> emblem_primary_color;
+	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> emblem_secondary_color;
+	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> emblem_background_color;
 	word pad;
 
 	byte __pad8[0x648];
@@ -241,7 +241,7 @@ struct multiplayer_player_info
 
 	c_player_traits player_traits;
 
-	c_static_array<dword, k_number_of_multiplayer_powerup_flavors> powerup_pickup_time;
+	c_static_array<dword, k_multiplayer_powerup_flavor_count> powerup_pickup_time;
 
 	// used in `game_engine_spawn_influencers_add_ally_bias`
 	long dead_camera_target_player_index;

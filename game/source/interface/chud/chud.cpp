@@ -130,7 +130,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A89940 ; 
 //.text:00A89980 ; void __cdecl chud_picked_up_ammunition(long, long, short)
 //.text:00A899D0 ; 
-//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(e_campaign_team, long)
+//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(e_game_team, long)
 //.text:00A89A70 ; 
 //.text:00A89BB0 ; 
 //.text:00A89BD0 ; 

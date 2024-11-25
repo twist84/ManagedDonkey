@@ -330,7 +330,7 @@ void __cdecl test_main_loop_body_end()
 	//}
 	//if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
 	//{
-	//	load_game_browser(_controller_index0, 0, _browser_type_system_link_games);
+	//	load_game_browser(_controller_index0, 0, _browse_system_link);
 	//}
 }
 

@@ -61,7 +61,7 @@ static_assert(sizeof(s_network_message_session_disband) == 0x10);
 struct s_network_message_session_boot
 {
 	s_transport_secure_identifier session_id;
-	c_enum<e_network_session_boot_reason, long, _network_session_boot_reason_player_booted_player, k_network_session_boot_reason_count> reason;
+	c_enum<e_network_session_boot_reason, long, _network_session_boot_user_request_in_game, k_network_session_boot_reason_count> reason;
 };
 static_assert(sizeof(s_network_message_session_boot) == 0x14);
 

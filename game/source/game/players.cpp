@@ -25,7 +25,7 @@ bool debug_player_network_aiming = false;
 bool debug_objects_biped_melee_in_range = false;
 bool debug_render_players = false;
 string_id g_player_desired_mode_override = NONE;
-long g_character_physics_override = _character_physics_override_none;
+long g_character_physics_override = _character_physics_default;
 
 s_player_identifier::s_player_identifier() :
 	ipv4_address(0),
@@ -212,7 +212,7 @@ void players_debug_render()
 		//interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 		//bounds.y0 = bounds.y1 - 20;
 		//
-		//char const* character_physics_override = g_character_physics_override < k_number_of_character_physics_overrides ? global_character_physics_override_names[g_character_physics_override] : "OUT OF RANGE!";
+		//char const* character_physics_override = g_character_physics_override < k_total_character_physics_overrides ? global_character_physics_override_names[g_character_physics_override] : "OUT OF RANGE!";
 		//csnzprintf(string, sizeof(string), "Character Physics Override: %s|n", character_physics_override);
 		//
 		//draw_string.set_bounds(&bounds);

@@ -646,7 +646,7 @@ struct s_squad_definition
 {
 	c_static_string<k_tag_string_length> name;
 	dword_flags flags;
-	c_enum<e_campaign_team, short, _campaign_team_default, k_number_of_campaign_teams> team;
+	c_enum<e_game_team, short, _campaign_team_default, k_campaign_team_count> team;
 	short parent;
 	short initial_zone;
 	short initial_objective;

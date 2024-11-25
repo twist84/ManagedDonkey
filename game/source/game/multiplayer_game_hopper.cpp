@@ -994,7 +994,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 	//return INVOKE(0x00549650, multiplayer_game_is_playable, hopper_identifier, is_matchmaking, check_hopper, session_membership, out_player_error_mask);
 
 	e_session_game_start_error game_start_error = _session_game_start_error_none;
-	word player_error_mask = 0;
+	word player_mask = 0;
 
 	c_hopper_configuration* hopper = multiplayer_game_hoppers_get_hopper_configuration(hopper_identifier);
 
@@ -1004,7 +1004,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 		{
 			if (online_has_all_online_enabled_users())
 			{
-				game_start_error = _session_game_start_match_error_must_have_live_for_match;
+				game_start_error = _session_game_start_match_error_must_be_in_live_lobby_for_match;
 			}
 			else
 			{
@@ -1013,7 +1013,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 				//	player_index = session_membership->get_next_player(player_index))
 				//{
 				//	if (!session_membership->is_player_online_enabled(player_index))
-				//		player_error_mask |= FLAG(player_index);
+				//		player_mask |= FLAG(player_index);
 				//}
 
 				game_start_error = _session_game_start_match_error_must_have_online_enabled_profiles_for_match;
@@ -1039,7 +1039,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 		//{
 		//	if (!session_membership->is_player_online_enabled(player_index))
 		//	{
-		//		player_error_mask |= FLAG(player_index);
+		//		player_mask |= FLAG(player_index);
 		//		game_start_error = _session_game_start_error_account_not_online_enabled;
 		//	}
 		//}
@@ -1060,10 +1060,10 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 			{
 				long player_index = bit_vector_lowest_bit_set(peer->player_mask, 16);
 				if (player_index != NONE)
-					player_error_mask |= FLAG(player_index);
+					player_mask |= FLAG(player_index);
 			}
 
-			if (player_error_mask)
+			if (player_mask)
 				game_start_error = _session_game_start_error_maximum_multiplayer_split_screen_exceeded;
 		}
 	}
@@ -1133,7 +1133,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 	}
 
 	if (out_player_error_mask)
-		*out_player_error_mask = player_error_mask;
+		*out_player_error_mask = player_mask;
 
 	return game_start_error;
 }
