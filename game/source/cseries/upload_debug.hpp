@@ -15,16 +15,16 @@ public:
 	bool find_or_create(dword flags);
 
 protected:
-	bool m_file_open;
+	bool m_is_open;
 };
 
 struct _g_upload_debug_globals
 {
-	c_synchronized_long upload_started;
-	c_synchronized_long upload_completed;
-	c_synchronized_long upload_succeeded;
-	c_synchronized_long upload_position;
-	c_synchronized_long upload_length;
+	c_synchronized_long archive_upload_in_progress;
+	c_synchronized_long archive_upload_complete;
+	c_synchronized_long archive_upload_success;
+	c_synchronized_long current_count;
+	c_synchronized_long total_count;
 };
 
 extern bool g_suppress_upload_debug;
@@ -37,6 +37,7 @@ extern bool __cdecl upload_debug_get_output(char* output, long output_size);
 extern bool __cdecl upload_debug_create_archive();
 extern bool __cdecl upload_debug_create_fake_archive();
 
-extern void __cdecl upload_debug_update_callback(long, long);
-extern void __cdecl upload_debug_completion_callback(bool, void*);
+extern void __cdecl upload_debug_update_callback(long current_count, long total_count);
+extern void __cdecl upload_debug_completion_callback(bool success, void* discard);
+extern void __cdecl create_and_upload_zip_archive();
 
