@@ -14,9 +14,6 @@
 #include "units/vehicle_type_turret.hpp"
 #include "units/vehicle_type_vtol.hpp"
 
-// find me a home
-#define MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS 32
-
 struct render_model_definition;
 struct c_animation_channel;
 struct s_havok_vehicle_physics_instance;
@@ -77,11 +74,6 @@ protected:
 	};
 
 	c_enum<e_vehicle_type, char, _vehicle_type_human_tank, k_vehicle_type_count> m_initialization_type;
-
-	byte __data61[0x3];
-
-	byte m_suspension_unknown64[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
-	byte m_suspension_unknown84[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
 };
-static_assert(sizeof(c_vehicle_type_component) == 0xA4);
+static_assert(sizeof(c_vehicle_type_component) == 0x64);
 

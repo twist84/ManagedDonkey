@@ -7,38 +7,32 @@ struct c_vehicle_type_vtol
 public:
 
 protected:
+	enum e_lift_vector
+	{
+		_down_vector = 0,
+		_forward_vector,
+		_left_vector,
+		_turn_vector,
 
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
+		k_lift_vector_count
+	};
 
-	// STRING_ID(global, engine_power_left)
+	real m_steering;
+	real m_turn;
+	real m_target_elevation;
 	byte m_lift_effect_scale_left_history[4];
-
-	// STRING_ID(global, engine_power_right)
 	byte m_lift_effect_scale_right_history[4];
-
-	// left values
-	euler_angles2d __unknown14;
-	euler_angles2d __unknown1C;
-
-	// right values
-	euler_angles2d __unknown24;
-	euler_angles2d __unknown2C;
-
-	// left values
-	vector2d __unknown34;
-	vector2d __unknown3C;
-
-	// right values
-	vector2d __unknown44;
-	vector2d __unknown4C;
-
-	c_animation_id m_left_lift_aim_animation_id;
-	c_animation_id m_right_lift_aim_animation_id;
-
-	// STRING_ID(global, gear_position)
-	real __unknown5C;
+	euler_angles2d m_left_lift_angles;
+	euler_angles2d m_left_render_lift_angles;
+	euler_angles2d m_right_lift_angles;
+	euler_angles2d m_right_render_lift_angles;
+	vector2d m_left_lift_velocity;
+	vector2d m_left_render_lift_velocity;
+	vector2d m_right_lift_velocity;
+	vector2d m_right_render_lift_velocity;
+	c_animation_id m_lift_left_id;
+	c_animation_id m_lift_right_id;
+	real m_gear_position;
 };
 static_assert(sizeof(c_vehicle_type_vtol) == 0x60);
 

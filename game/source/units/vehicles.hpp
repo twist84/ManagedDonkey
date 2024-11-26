@@ -5,6 +5,8 @@
 #include "units/vehicle_definitions.hpp"
 #include "units/vehicle_type_component.hpp"
 
+#define MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS 32
+
 struct _vehicle_datum
 {
 	word_flags flags;
@@ -13,15 +15,12 @@ struct _vehicle_datum
 	byte upending_type;
 	byte upending_ticks;
 	byte on_ground_ticks;
-
-	byte __data7[0x5];
-
+	byte pad7[0x5];
 	word slipping_wheels_bit_vector;
-
-	byte __dataE[0x2];
-
 	real mean_antigrav_fraction;
 	c_vehicle_type_component type_component;
+	byte suspension_last_measurement[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
+	byte suspension[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
 	long last_physics_cache_update_time;
 	long squad_index;
 	long next_vehicle_index;

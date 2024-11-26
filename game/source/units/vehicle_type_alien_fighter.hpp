@@ -7,26 +7,14 @@ struct c_vehicle_type_alien_fighter
 public:
 
 protected:
-	c_animation_id m_steering_animation_id;
-
-	// STRING_ID(global, thrust)
-	// STRING_ID(global, wingtip_contrail_new)
-	real __unknown4;
-
-	// STRING_ID(global, engine_rpm)
-	real __unknown8;
-
-	real __unknownC;
-
-	// STRING_ID(global, engine_rpm)
-	real __unknown10;
-
-	real __unknown14;
-
-	byte m_trick_type; // e_vehicle_trick_type
-	byte m_trick_duration_ticks;
-
-	byte __data[0x60 - 0x1A];
+	c_animation_id m_turn_animation_id;
+	real m_thrust;
+	real m_speed;
+	real m_turn;
+	real m_slide;
+	real m_speed_anti_gravity_fraction;
+	char m_trick_type;
+	byte m_trick_tick;
 };
-static_assert(sizeof(c_vehicle_type_alien_fighter) == 0x60);
+static_assert(sizeof(c_vehicle_type_alien_fighter) == 0x1C);
 

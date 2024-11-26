@@ -718,7 +718,7 @@ void ai_debug_render_vehicle_reservations()
 				real_point3d seat_position{};
 				vehicle_get_seat_position(source.vehicle_index, source.seat_index, &seat_position);
 
-				if (vehicle->vehicle.disallowed_seats.test(source.seat_index))
+				if (BIT_VECTOR_TEST_FLAG(vehicle->vehicle.disallowed_seats, source.seat_index))
 				{
 					seat_position.z += 0.1f;
 					render_debug_sphere(true, &seat_position, 0.05f, global_real_argb_orange);

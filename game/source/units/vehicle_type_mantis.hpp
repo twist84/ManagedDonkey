@@ -7,20 +7,16 @@ struct c_vehicle_type_mantis
 public:
 
 protected:
-
-	byte __data0[0x4];
-	vector3d __unknown4;
-	byte __data10[0x8];
-	real __unknown18;
-	real __unknown1C;
-	real __unknown20;
-	real __unknown24;
-	char __unknown28;
-	char __unknown29;
-	byte __data2A[0x2];
-	long __unknown2C;
-
-	byte __data[0x60 - 0x30];
+	real m_current_leg_turn;
+	vector3d m_last_up_vector;
+	vector2d m_foot_motion;
+	real m_turn_control;
+	real m_steering;
+	real m_speed;
+	real m_slide;
+	char m_planted_leg_group;
+	char m_legs_planted_ticks;
+	long m_jump_time;
 };
-static_assert(sizeof(c_vehicle_type_mantis) == 0x60);
+static_assert(sizeof(c_vehicle_type_mantis) == 0x30);
 
