@@ -26,14 +26,13 @@ struct _vehicle_datum
 	long next_vehicle_index;
 	long spawn_point_name;
 	long bipeds_killed;
-	c_static_flags<64> const disallowed_seats;
-	long const reserved_seats[128];
+	dword disallowed_seats[2];
+	long reserved_seats[128];
 	long pathfinding_time;
 	short pathfinding_structure_index;
-	byte pathfinding__pad2DA[0x2];
 	long pathfinding_surface_index;
 	c_sector_ref pathfinding_sector;
-	long pathfinding__unknown2E4;
+	long pathfinding_instanced_geometry_index;
 	long pathfinding_object_index;
 	dword pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
@@ -50,9 +49,7 @@ struct _vehicle_datum
 	object_header_block_reference vehicle_physics_cache;
 };
 static_assert(sizeof(_vehicle_datum) == 0x340);
-static_assert(0x007 == OFFSETOF(_vehicle_datum, __data7));
-static_assert(0x00E == OFFSETOF(_vehicle_datum, __dataE));
-static_assert(0x2DA == OFFSETOF(_vehicle_datum, pathfinding__pad2DA));
+static_assert(0x7 == OFFSETOF(_vehicle_datum, pad7));
 
 struct vehicle_datum
 {
