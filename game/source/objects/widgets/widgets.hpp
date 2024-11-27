@@ -10,8 +10,9 @@
 struct widget_datum :
 	s_datum_header
 {
-	dword __unknown4;
-	dword __unknown8;
+	short type;
+	long type_datum_index;
+	long next_widget_index;
 };
 static_assert(sizeof(widget_datum) == 0xC);
 

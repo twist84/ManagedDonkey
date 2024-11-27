@@ -803,7 +803,7 @@ struct s_thread_local_storage
 	//  name: "leaf system"
 	// count: 32
 	//  size: 0x94C
-	c_smart_data_array<c_leaf_system> leaf_system_data;
+	c_smart_data_array<s_leaf_system_datum> leaf_system_data;
 
 	//  name: "antenna_datum"
 	// count: 12
