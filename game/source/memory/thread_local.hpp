@@ -571,7 +571,7 @@ struct s_thread_local_storage
 	//  name: "cached object render states"
 	// count: 384
 	//  size: 0x4D8
-	c_smart_data_array<cached_object_render_state_datum> cached_object_render_states;
+	c_smart_data_array<object_render_state> cached_object_render_states;
 
 	//  name: "c_particle_emitter_gpu"
 	// count: 1088

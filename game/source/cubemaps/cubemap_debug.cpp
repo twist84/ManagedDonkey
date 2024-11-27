@@ -33,8 +33,8 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
     if (!object_lighting)
         return;
 
-    s_structure_cluster_cubemap_info* cubemap_info0 = structure_cluster_try_and_get_cubemap_info(object_lighting->cubemap_sample.__unknown0[0].cluster_reference, object_lighting->cubemap_sample.__unknown0[0].cluster_cubemap_index);
-    s_structure_cluster_cubemap_info* cubemap_info1 = structure_cluster_try_and_get_cubemap_info(object_lighting->cubemap_sample.__unknown0[1].cluster_reference, object_lighting->cubemap_sample.__unknown0[1].cluster_cubemap_index);
+    s_structure_cluster_cubemap_info* cubemap_info0 = structure_cluster_try_and_get_cubemap_info(object_lighting->cubemap_state.m_current.cluster_reference, object_lighting->cubemap_state.m_current.cluster_cubemap_index);
+    s_structure_cluster_cubemap_info* cubemap_info1 = structure_cluster_try_and_get_cubemap_info(object_lighting->cubemap_state.m_last.cluster_reference, object_lighting->cubemap_state.m_last.cluster_cubemap_index);
 
     real_argb_color color = { 1.0f, { 1.0f, 1.0f, 0.2f } };
     if (cubemap_info0)
@@ -48,7 +48,7 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
 
     if (object_datum* object = object_get(object_index))
     {
-        color.color.green = object_lighting->cubemap_sample.m_cubemap_sample;
+        color.color.green = object_lighting->cubemap_state.m_blend_factor;
 
         if (cubemap_info0 && color.color.green > 0.0f)
             render_debug_line(false, &cubemap_info0->cubemap_position, &object->object.bounding_sphere_center, &color);

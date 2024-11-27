@@ -5,25 +5,28 @@
 #include "memory/data.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
+struct s_cubemap_sample
+{
+	s_cluster_reference cluster_reference;
+	short cluster_cubemap_index;
+	short cubemap_bitmap_index;
+};
+static_assert(sizeof(s_cubemap_sample) == 0x6);
+
 struct c_dynamic_cubemap_sample
 {
-	struct
-	{
-		s_cluster_reference cluster_reference;
-		short cluster_cubemap_index;
-		short cubemap_bitmap_index;
-	} __unknown0[2];
-
-	real m_cubemap_sample;
+	s_cubemap_sample m_current;
+	s_cubemap_sample m_last;
+	real m_blend_factor;
 };
 static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
 
 struct render_lighting
 {
-	vector3d up;
+	vector3d shadow_direction;
 	s_geometry_sample lightprobe_sample;
-	c_dynamic_cubemap_sample cubemap_sample;
-	long __unknown214;
+	c_dynamic_cubemap_sample cubemap_state;
+	long cinematic_sh_light_index;
 };
 static_assert(sizeof(render_lighting) == 0x218);
 
@@ -32,49 +35,51 @@ struct s_shader_extern_info
 	long context;
 	real(__cdecl* context_interface)(long, long, long);
 	dword cpu_memory_pool_designator;
-	dword __unknownC;
+	dword render_frame_allocated;
 	render_lighting lighting;
 	dword change_colors[5];
 	byte change_color_count;
-	byte __data23D[0x17];
-
-	// #TODO: confirm these
+	byte tron_amount;
+	byte active_camo_amount;
+	byte overshield_amount;
+	byte current_shield_damage;
+	vector4d bounding_sphere;
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
 	c_rasterizer_texture_ref emblem_clan_chest_texture;
 };
 static_assert(sizeof(s_shader_extern_info) == 0x25C);
 
-struct cached_object_render_state_datum :
+struct object_render_state :
 	s_datum_header
 {
-	byte __unknown2;
-	byte __unknown3;
-	bool __unknown4;
+	bool valid_sample_has_been_made;
+	bool valid_lighting;
+	bool reach_desired_lighting;
 	long object_index;
-	dword frame_indexC;
-	dword frame_index10;
-	real_point3d last_sample_position;
-	render_lighting last_lighting;
-	s_shader_extern_info last_render_info;
-	char last_level_of_detail;
-	char last_permutations[4][16];
+	long refresh_frame_index;
+	long render_frame_index;
+	real_point3d refresh_sample_position;
+	render_lighting desired_lighting;
+	s_shader_extern_info render_info;
+	char last_level_of_detail_rendered;
+	char last_rendered_permutation_indices[4][16];
 };
-static_assert(sizeof(cached_object_render_state_datum) == 0x4D8);
+static_assert(sizeof(object_render_state) == 0x4D8);
 
 struct render_first_person_model
 {
-	long render_model_definition_index;
+	long render_model_index;
 	long object_index;
 	dword_flags flags;
-	c_static_array<real_matrix4x3, 150> render_model_node_matrices;
+	c_static_array<real_matrix4x3, 150> node_matrices;
 };
 static_assert(sizeof(render_first_person_model) == 0x1E84);
 
 struct s_render_object_first_person_globals
 {
-	long camera_object_index;
-	long model_count;
-	c_static_array<render_first_person_model, 6> models;
+	long first_person_camera_object_index;
+	long first_person_model_count;
+	c_static_array<render_first_person_model, 6> first_person_models;
 };
 static_assert(sizeof(s_render_object_first_person_globals) == 0xB720);
 
