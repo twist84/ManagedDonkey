@@ -4,31 +4,24 @@
 
 struct c_base_channel_settings
 {
-	long m_model_animation_graph_index;
-
-	long __unknown4;
-
-	c_animation_id m_animation_id;
-	word_flags m_animation_playback_flags;
-	char m_animation_graph_location;
-
-	byte __unknownF; // pad?
+	long graph_index;
+	long impulse_name;
+	c_animation_id primary_animation_id;
+	word_flags playback_flags;
+	char graph_location;
 };
 static_assert(sizeof(c_base_channel_settings) == 0x10);
 
 struct c_channel_base
 {
-	// is this `c_base_channel_settings`
-	long m_model_animation_graph_index;
-	long __unknown4;
+	long m_graph_index;
+	long m_impulse_name;
 	c_animation_id m_animation_id;
-	word_flags m_animation_playback_flags;
-	char m_animation_graph_location;
-	byte __unknownF;
-
-	byte __unknown10;
-	byte __unknown11;
-	byte __data12[0x2];
+	word_flags m_playback_flags;
+	char m_graph_location;
+	char m_parent_slider_index;
+	byte m_parent_slider_type;
+	char m_initialized;
 };
 static_assert(sizeof(c_channel_base) == 0x14);
 

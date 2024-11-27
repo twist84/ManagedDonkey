@@ -105,13 +105,13 @@ static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 struct s_effect_message
 {
 	long m_type;
-	int m_effect_datum_index;
+	long m_effect_datum_index;
 	long m_effect_definition_index;
-	int m_event_datum_index;
+	long m_event_datum_index;
 	byte m_event_block_index;
 	byte m_priority;
 	word m_event_counter;
-	int m_flags;
+	long m_flags;
 	real_matrix4x3 matrix;
 	byte __data4C[0x10];
 };

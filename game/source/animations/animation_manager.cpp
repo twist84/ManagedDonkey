@@ -128,11 +128,11 @@ c_model_animation_graph const* c_animation_manager::get_graph() const
 
 bool c_animation_manager::valid_graph() const
 {
-    return m_model_animation_graph_definition_index != NONE;
+    return m_graph_tag_index != NONE;
 }
 
 long c_animation_manager::get_state_name() const
 {
-    return m_state_name.get_value();
+    return m_goal_settings.state;
 }
 
