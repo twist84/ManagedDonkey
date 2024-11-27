@@ -126,7 +126,7 @@ void __cdecl game_time_advance()
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
-	game_time_globals->elapsed_ticks++;
+	game_time_globals->time++;
 }
 
 void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt)
@@ -174,7 +174,7 @@ long __cdecl game_time_get()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals && game_time_globals->initialized);
-	return game_time_globals->elapsed_ticks;
+	return game_time_globals->time;
 }
 
 bool __cdecl game_time_get_paused()
@@ -190,18 +190,18 @@ bool __cdecl game_time_get_paused()
 		c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
 	
 		bool v1 = game_is_campaign() && !(game_is_playback() && !game_is_authoritative_playback());
-		result = TEST_FLAG(pause_flags, _game_time_pause_reason_debug);
-		if (TEST_FLAG(pause_flags, _game_time_pause_reason_ui) ||
-			TEST_FLAG(pause_flags, _game_time_pause_reason_unknown0))
+		result = TEST_FLAG(pause_flags, _game_time_pause_debug);
+		if (TEST_FLAG(pause_flags, _game_time_pause_ui) ||
+			TEST_FLAG(pause_flags, _game_time_pause_recursion_lock_internal))
 			result |= v1;
 	
-		if (TEST_FLAG(pause_flags, _game_time_pause_reason_controller0) ||
-			TEST_FLAG(pause_flags, _game_time_pause_reason_controller1) ||
-			TEST_FLAG(pause_flags, _game_time_pause_reason_controller2) ||
-			TEST_FLAG(pause_flags, _game_time_pause_reason_controller3))
+		if (TEST_FLAG(pause_flags, _game_time_pause_controller0_removal) ||
+			TEST_FLAG(pause_flags, _game_time_pause_controller1_removal) ||
+			TEST_FLAG(pause_flags, _game_time_pause_controller2_removal) ||
+			TEST_FLAG(pause_flags, _game_time_pause_controller3_removal))
 			result |= v1;
 	
-		if (TEST_FLAG(pause_flags, _game_time_pause_reason_xbox_guide))
+		if (TEST_FLAG(pause_flags, _game_time_pause_xbox_guide_ui))
 			result |= v1;
 	}
 	return result;
@@ -221,7 +221,7 @@ real __cdecl game_time_get_safe_in_seconds()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	if (game_time_globals && game_time_globals->initialized)
-		return game_time_globals->elapsed_ticks * game_time_globals->tick_length;
+		return game_time_globals->time * game_time_globals->tick_length;
 	return 0.0f;
 }
 
@@ -273,7 +273,7 @@ void __cdecl game_time_set(long game_time)
 	ASSERT(game_time_globals && game_time_globals->initialized);
 	ASSERT(game_is_networked() && !simulation_in_progress());
 	ASSERT(game_time >= 0);
-	game_time_globals->elapsed_ticks = game_time;
+	game_time_globals->time = game_time;
 }
 
 void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
@@ -298,10 +298,10 @@ void __cdecl game_time_set_rate_scale(real world_seconds_elapsed, real game_seco
 	game_seconds_elapsed = CLAMP(game_seconds_elapsed, 0.2f, 5.0f);
 	if (shell_seconds_elapsed > 0.0f)
 	{
-		game_time_globals->__unknown18 = 0.0f;
-		game_time_globals->shell_seconds_elapsed = shell_seconds_elapsed;
-		game_time_globals->world_seconds_elapsed = world_seconds_elapsed;
-		game_time_globals->game_seconds_elapsed = game_seconds_elapsed;
+		game_time_globals->rate_scale_timer = 0.0f;
+		game_time_globals->rate_scale_duration = shell_seconds_elapsed;
+		game_time_globals->rate_scale_initial = world_seconds_elapsed;
+		game_time_globals->rate_scale_final = game_seconds_elapsed;
 	}
 	game_time_set_rate_scale_direct(shell_seconds_elapsed > 0.0f ? world_seconds_elapsed : game_seconds_elapsed);
 }
@@ -361,7 +361,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	
 	if (debug_pause_game != debug_pause_game_active)
 	{
-		game_time_set_paused(debug_pause_game, _game_time_pause_reason_debug);
+		game_time_set_paused(debug_pause_game, _game_time_pause_debug);
 		debug_pause_game_active = debug_pause_game;
 	}
 	
@@ -377,21 +377,21 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 
 	if (game_in_progress())
 	{
-		if (game_time_globals->shell_seconds_elapsed > 0.0f)
+		if (game_time_globals->rate_scale_duration > 0.0f)
 		{
-			game_time_globals->__unknown18 += world_seconds_elapsed;
-			real unknown18 = game_time_globals->__unknown18;
-			real shell_seconds_elapsed = game_time_globals->shell_seconds_elapsed;
-			if (shell_seconds_elapsed <= unknown18)
+			game_time_globals->rate_scale_timer += world_seconds_elapsed;
+			real unknown18 = game_time_globals->rate_scale_timer;
+			real rate_scale_duration = game_time_globals->rate_scale_duration;
+			if (rate_scale_duration <= unknown18)
 			{
-				game_time_set_rate_scale_direct(game_time_globals->game_seconds_elapsed);
-				game_time_globals->shell_seconds_elapsed = 0.0f;
+				game_time_set_rate_scale_direct(game_time_globals->rate_scale_final);
+				game_time_globals->rate_scale_duration = 0.0f;
 			}
 			else
 			{
 				real rate_scale = 
-					((1.0f - (unknown18 / shell_seconds_elapsed)) * game_time_globals->world_seconds_elapsed)
-					+ ((unknown18 / shell_seconds_elapsed) * game_time_globals->game_seconds_elapsed);
+					((1.0f - (unknown18 / rate_scale_duration)) * game_time_globals->rate_scale_initial)
+					+ ((unknown18 / rate_scale_duration) * game_time_globals->rate_scale_final);
 				game_time_set_rate_scale_direct(rate_scale);
 			}
 		}
@@ -427,7 +427,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		else
 		{
 			elapsed_game_dt = game_time_get_speed() * world_seconds_elapsed;
-			real_desired_ticks = (game_time_globals->tick_rate * elapsed_game_dt) + game_time_globals->ticks_leftover;
+			real_desired_ticks = (game_time_globals->tick_rate * elapsed_game_dt) + game_time_globals->leftover_ticks;
 			game_ticks_target = (long)real_desired_ticks;
 		}
 	
@@ -495,7 +495,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		game_ticks_leftover,
 		discontinuity);
 	
-	game_time_globals->ticks_leftover = game_ticks_leftover;
+	game_time_globals->leftover_ticks = game_ticks_leftover;
 	
 	if (game_seconds_elapsed)
 		*game_seconds_elapsed = elapsed_game_dt;
@@ -511,9 +511,9 @@ void __cdecl game_time_update_paused_flags()
 	//INVOKE(0x00565510, game_time_update_paused_flags);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	if (!game_time_get_paused_for_reason(_game_time_pause_reason_unknown0))
+	if (!game_time_get_paused_for_reason(_game_time_pause_recursion_lock_internal))
 	{
-		game_time_globals->flags.set(_game_time_pause_reason_unknown0, true);
+		game_time_globals->flags.set(_game_time_pause_recursion_lock_internal, true);
 	
 		bool v1 = true;
 		if (game_is_campaign() && game_is_or_was_cooperative())
@@ -522,8 +522,8 @@ void __cdecl game_time_update_paused_flags()
 		if (bink_playback_active())
 			v1 = false;
 	
-		if (game_time_get_paused_for_reason(_game_time_pause_reason_ui) && !v1)
-			game_time_set_paused(false, _game_time_pause_reason_ui);
+		if (game_time_get_paused_for_reason(_game_time_pause_ui) && !v1)
+			game_time_set_paused(false, _game_time_pause_ui);
 	
 		for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 		{
@@ -541,15 +541,15 @@ void __cdecl game_time_update_paused_flags()
 	
 		if (user_interface_xbox_guide_is_active())
 		{
-			if (v1 && !game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
-				game_time_set_paused(true, _game_time_pause_reason_xbox_guide);
+			if (v1 && !game_time_get_paused_for_reason(_game_time_pause_xbox_guide_ui))
+				game_time_set_paused(true, _game_time_pause_xbox_guide_ui);
 		}
-		else if (game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
+		else if (game_time_get_paused_for_reason(_game_time_pause_xbox_guide_ui))
 		{
-			game_time_set_paused(false, _game_time_pause_reason_xbox_guide);
+			game_time_set_paused(false, _game_time_pause_xbox_guide_ui);
 		}
 	
-		game_time_globals->flags.set(_game_time_pause_reason_unknown0, false);
+		game_time_globals->flags.set(_game_time_pause_recursion_lock_internal, false);
 	}
 }
 
@@ -612,7 +612,7 @@ void game_time_statistics_frame(
 			}
 
 			fprintf(game_time_statistics_file, "%6d %4d %5.3f %5.3f    %5.2f %3d %3d %3d     %3d %6.3f  %s\n",
-				game_time_globals->elapsed_ticks,
+				game_time_globals->time,
 				milliseconds_elapsed,
 				world_seconds_elapsed,
 				game_seconds_elapsed,
@@ -634,9 +634,9 @@ void __cdecl game_time_statistics_stop()
 
 e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers]
 {
-	_game_time_pause_reason_controller0,
-	_game_time_pause_reason_controller1,
-	_game_time_pause_reason_controller2,
-	_game_time_pause_reason_controller3
+	_game_time_pause_controller0_removal,
+	_game_time_pause_controller1_removal,
+	_game_time_pause_controller2_removal,
+	_game_time_pause_controller3_removal
 };
 

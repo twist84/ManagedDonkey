@@ -7,32 +7,16 @@
 // only `_game_time_pause_reason_debug` works in multiplayer
 enum e_game_time_pause_reason
 {
-	// set/unset at `game_time_update` begin/end
-	_game_time_pause_reason_unknown0 = 0,
-
-	// game_time_update
-	// - debug_pause_game != debug_pause_game_active
-	_game_time_pause_reason_debug,
-
-	// halo 3: c_start_menu_game_campaign::initialize
-	// odst: c_start_menu_screen_widget::update
-	// halo reach: c_start_menu_pause_component::update_pause
-	// game_state_call_after_load_procs
-	//	- game_state_set_revert_time
-	_game_time_pause_reason_ui,
-
-	// game_time_update
-	// - controllers
-	_game_time_pause_reason_controller0,
-	_game_time_pause_reason_controller1,
-	_game_time_pause_reason_controller2,
-	_game_time_pause_reason_controller3,
-
-	// user_interface_xbox_guide_is_active
-	_game_time_pause_reason_xbox_guide,
-
-	// metagame: load postgame carnage report
-	_game_time_pause_reason_postgame,
+	_game_time_pause_recursion_lock_internal = 0,
+	_game_time_pause_debug,
+	//_game_time_pause_debug_menu,
+	_game_time_pause_ui,
+	_game_time_pause_controller0_removal,
+	_game_time_pause_controller1_removal,
+	_game_time_pause_controller2_removal,
+	_game_time_pause_controller3_removal,
+	_game_time_pause_xbox_guide_ui,
+	_game_time_pause_postgame,
 
 	k_game_time_pause_reason_count
 };
@@ -91,25 +75,17 @@ static_assert(sizeof(s_game_tick_time_samples) == 0x14);
 struct game_time_globals_definition
 {
 	bool initialized;
-
-	// halo 3: bool paused
-	byte : 8; // alignment
-
 	c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count> flags;
 	short tick_rate;
-
-	word : 16; // alignment
-
 	real tick_length;
-	long elapsed_ticks;
+	long time;
 	real speed;
-	real ticks_leftover;
-
-	real __unknown18;
-	real shell_seconds_elapsed;
-	real world_seconds_elapsed;
-	real game_seconds_elapsed;
-	dword game_ticks_elapsed;
+	real leftover_ticks;
+	real rate_scale_timer;
+	real rate_scale_duration;
+	real rate_scale_initial;
+	real rate_scale_final;
+	long game_message_tick;
 };
 static_assert(sizeof(game_time_globals_definition) == 0x2C);
 

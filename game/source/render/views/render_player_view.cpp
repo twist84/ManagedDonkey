@@ -483,7 +483,7 @@ void __thiscall c_player_view::render_3rd_pass()
 					m_camera_user_data.player_window_index,
 					this,
 					screen_effect_settings.vision_mode,
-					g_main_render_timing_data->game_seconds_elapsed,
+					g_main_render_timing_data->game_dt,
 					screen_effect_settings.vision_noise,
 					0,
 					0);
@@ -807,9 +807,9 @@ void __thiscall c_player_view::submit_occlusion_tests(bool a1, bool a2)
 void c_player_view::frame_advance()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-	effects_frame_advance(g_main_render_timing_data->game_seconds_elapsed);
-	effects_frame_advance_gpu(g_main_render_timing_data->game_seconds_elapsed);
-	c_water_renderer::frame_advance(g_main_render_timing_data->game_seconds_elapsed);
-	c_patchy_fog::frame_advance_all(g_main_render_timing_data->game_seconds_elapsed);
+	effects_frame_advance(g_main_render_timing_data->game_dt);
+	effects_frame_advance_gpu(g_main_render_timing_data->game_dt);
+	c_water_renderer::frame_advance(g_main_render_timing_data->game_dt);
+	c_patchy_fog::frame_advance_all(g_main_render_timing_data->game_dt);
 }
 
