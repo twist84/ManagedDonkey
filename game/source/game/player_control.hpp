@@ -210,40 +210,39 @@ static_assert(sizeof(s_player_control_state) == 0x6C);
 
 struct s_player_control_output_state
 {
-	dword unit_index;
+	long unit_index;
 	s_player_control_state output;
 };
 static_assert(sizeof(s_player_control_output_state) == 0x70);
 
 struct s_player_control_input_state
 {
-	dword unit_index;
-	s_player_control_state state;
-
-	bool __unknown70;
-	real __unknown74;
-	real_matrix4x3 matrix;
-	real __unknownAC;
-	real __unknownB0;
-	int object_index;
-	bool __unknownB8[4];
-	real __unknown8C;
-	real __unknown90;
-	euler_angles2d __anglesC4;
-	byte __dataCC[4];
-	bool __unknownD0;
-	byte __dataD1[5];
-	bool __unknownD6;
-	bool __unknownD7;
-	byte __unknownD8;
-	bool alert_carry;
-	byte __unknownDA;
-	byte __unknownDB;
-	real __unknownDC;
-	long __unknownE0;
-	bool gaze_locked;
-	real_point3d __positionE8;
-	angle gaze_fov; // degrees
+	s_player_control_output_state output;
+	bool use_autolevel;
+	real autolevel_time;
+	real_matrix4x3 last_local_physics_transform;
+	real camera_offset_y;
+	real camera_offset_z;
+	long last_local_physics_object_index;
+	bool magnetism_active;
+	real look_yaw_acceleration_time;
+	real look_pitch_acceleration_time;
+	real pitch_minimum;
+	real pitch_maximum;
+	bool crouching;
+	short tracking_crouch_ticks;
+	bool tracking_temporary_zoom;
+	word saved_zoom_level;
+	short tracking_temporary_zoom_ticks;
+	bool rotate_weapons_in_progress;
+	bool rotate_weapons_suppress;
+	bool switch_grenade_prev_button_was_down;
+	bool switch_grenade_next_button_was_down;
+	real scripted_set_pitch_velocity;
+	long scripted_set_pitch_ticks;
+	bool gaze_at_point;
+	real_point3d gaze_target;
+	real gaze_max_velocity;
 };
 static_assert(sizeof(s_player_control_input_state) == 0xF8);
 

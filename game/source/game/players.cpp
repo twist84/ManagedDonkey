@@ -518,9 +518,9 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:0053FF40 ; 
 //.text:0053FF70 ; long __cdecl player_try_and_get_player_index_from_absolute_player_index(long)
 
-bool __cdecl player_try_to_drop_weapon(long player_index, bool a2)
+bool __cdecl player_try_to_drop_weapon(long player_index, bool primary_weapon)
 {
-	return INVOKE(0x0053FFC0, player_try_to_drop_weapon, player_index, a2);
+	return INVOKE(0x0053FFC0, player_try_to_drop_weapon, player_index, primary_weapon);
 }
 
 //.text:00540070 ; bool __cdecl player_try_to_put_away_weapon(long, bool)

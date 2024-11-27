@@ -286,8 +286,8 @@ void __cdecl player_control_propagate_output(long input_user_index)
 	for (long user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 	{
 		s_player_control_output_state* player_control_output = player_control_output_get(user_index);
-		if (player_control_output->unit_index == player_control_input->unit_index)
-			csmemcpy(&player_control_output->output, &player_control_input->state, sizeof(s_player_control_state));
+		if (player_control_output->unit_index == player_control_input->output.unit_index)
+			csmemcpy(&player_control_output->output, &player_control_input->output.output, sizeof(s_player_control_state));
 	}
 }
 
@@ -442,7 +442,7 @@ void __cdecl player_control_get_controller_input_for_jetpack(long input_user_ind
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
-	long unit_index = player_control_globals->input_states[controller_index].unit_index;
+	long unit_index = player_control_globals->input_states[controller_index].output.unit_index;
 	biped_datum* biped = biped_get(unit_index);
 	if (!biped)
 		return;

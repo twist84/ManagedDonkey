@@ -753,7 +753,7 @@ extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern bool __cdecl player_spawn(long player_index, real_point3d const* position, real const* facing);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
-extern bool __cdecl player_try_to_drop_weapon(long player_index, bool a2);
+extern bool __cdecl player_try_to_drop_weapon(long player_index, bool primary_weapon);
 extern long __cdecl player_unit_get_representation_index(long unit_index);
 extern long __cdecl player_get_control_index_from_unit(long unit_index);
 extern void __cdecl player_update_invisibility(long player_index);

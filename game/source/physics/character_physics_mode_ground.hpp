@@ -55,9 +55,9 @@ struct s_character_physics_update_input_datum
 	bool sub_initialized;
 	s_character_physics_definition const* character_physics_definition;
 	dword_flags flags;
-	int early_mover_object_index;
-	int accepted_early_mover_object_index;
-	int havok_component_index;
+	long early_mover_object_index;
+	long accepted_early_mover_object_index;
+	long havok_component_index;
 	c_animation_manager const* animation_manager;
 	real movement_scale;
 	long havok_group;

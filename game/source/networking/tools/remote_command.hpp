@@ -161,7 +161,6 @@ COMMAND_CALLBACK_DECLARE(net_verify_packed_map_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_packed_map_variant);
 COMMAND_CALLBACK_DECLARE(net_build_network_config);
 COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
-COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
 COMMAND_CALLBACK_DECLARE(online_user_set_name);
 COMMAND_CALLBACK_DECLARE(mp_players_by_team);
@@ -299,8 +298,6 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_load_and_use_packed_map_variant, 1, "<string>", "loads the contents of a packed map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(game_export_variant_settings, 1, "<string>", "export the current game engine variant settings to the specified text file\r\nNETWORK SAFE: No"),
-
-	COMMAND_CALLBACK_REGISTER(alert_carry, 1, "<long>", "<user_index> raise/lower player weapon toggle\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<boolean>", "sets connected to live\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),

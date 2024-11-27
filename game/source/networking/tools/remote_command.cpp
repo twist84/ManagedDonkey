@@ -1267,25 +1267,6 @@ callback_result_t game_export_variant_settings_callback(void const* userdata, lo
 	return result;
 }
 
-callback_result_t alert_carry_callback(void const* userdata, long token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	long user_index = atol(tokens[1]->get_string());
-	if (!VALID_INDEX(user_index, 4))
-	{
-		result = "Invalid parameter. ";
-		result.append_print_line("%s %s", command.name, command.parameter_types);
-		result.append(command.extra_info);
-		return result;
-	}
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-	player_control_globals->input_states[user_index].alert_carry = !player_control_globals->input_states[user_index].alert_carry;
-
-	return result;
-}
-
 callback_result_t online_set_is_connected_to_live_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
