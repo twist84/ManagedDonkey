@@ -7,22 +7,22 @@
 
 enum e_vehicle_definition_flags
 {
-	_vehicle_definition_flag_no_friction_w_driver_bit = 0,
-	_vehicle_definition_flag_can_trigger_automatic_opening_doors_bit,
-	_vehicle_definition_flag_autoaim_when_teamless_bit,
-	_vehicle_definition_flag_ai_weapon_cannot_rotate_bit,
-	_vehicle_definition_flag_ai_does_not_require_driver_bit,
-	_vehicle_definition_flag_ai_driver_enable_bit,
-	_vehicle_definition_flag_ai_driver_flying_bit,
-	_vehicle_definition_flag_ai_driver_can_sidestep_bit,
-	_vehicle_definition_flag_ai_driver_hovering_bit,
-	_vehicle_definition_flag_noncombat_vehicle_bit,
-	_vehicle_definition_flag_causes_collision_damage_bit,
-	_vehicle_definition_flag_huge_vehicle_physics_group_bit,
-	_vehicle_definition_flag_enable_wheelie_popping_hack_bit,
-	_vehicle_definition_flag_ai_auto_turret_bit,
+	_vehicle_frictionless_with_driver_bit = 0,
+	_vehicle_can_trigger_automaticly_opening_doors_bit,
+	_vehicle_autoaim_when_teamless_bit,
+	_vehicle_ai_weapon_cannot_rotate_bit,
+	_vehicle_ai_does_not_require_driver_bit,
+	_vehicle_ai_driver_enable_bit,
+	_vehicle_ai_driver_flying_bit,
+	_vehicle_ai_driver_nondirectional_bit,
+	_vehicle_ai_driver_hovering_bit,
+	_vehicle_noncombat_bit,
+	_vehicle_does_not_cause_collision_damage_bit,
+	_vehicle_in_huge_vehicle_physics_group_bit,
+	_vehicle_allows_wheelie_popping_bit,
+	_vehicle_ai_auto_turret_bit,
 
-	k_vehicle_definition_flags
+	k_vehicle_definition_flags_count
 };
 
 enum e_vehicle_type
@@ -38,8 +38,13 @@ enum e_vehicle_type
 	_vehicle_type_chopper,
 	_vehicle_type_guardian,
 
-	k_vehicle_type_count
+	k_vehicle_type_count,
+
+	_vehicle_mask_ground = FLAG(_vehicle_type_human_tank) | FLAG(_vehicle_type_human_jeep) | FLAG(_vehicle_type_alien_scout) | FLAG(_vehicle_type_chopper),
+	_vehicle_mask_flying = FLAG(_vehicle_type_human_plane) | FLAG(_vehicle_type_alien_fighter) | FLAG(_vehicle_type_vtol)
 };
+static_assert(0b0000000100001011 == _vehicle_mask_ground);
+static_assert(0b0000000010010100 == _vehicle_mask_flying);
 
 struct s_vehicle_human_tank_definition;
 struct s_vehicle_human_jeep_definition;
@@ -611,25 +616,25 @@ struct _vehicle_definition
 {
 	// $$$ VEHICLE $$$
 
-	c_flags<e_vehicle_definition_flags, dword_flags, k_vehicle_definition_flags> flags;
+	c_flags<e_vehicle_definition_flags, dword_flags, k_vehicle_definition_flags_count> flags;
 
 	// physics type
 	// define one of the following blocks for the type of physics you wish this vehicle to have.
 	s_vehicle_physics_types physics_types;
 
 	// friction and antigravity points
-	s_havok_vehicle_physics_definition havok_vehicle_physics;
+	s_havok_vehicle_physics_definition physics;
 
-	c_enum<e_player_training_vehicle_type, char, _player_training_vehicle_type_none, k_player_training_vehicle_type_count> player_training_vehicle_type;
+	c_enum<e_player_training_vehicle_type, char, _player_training_vehicle_type_none, k_player_training_vehicle_type_count> training_type;
 
 	// The size determine what kind of seats in larger vehicles it may occupy (i.e. small or large cargo seats)
 	c_enum<e_vehicle_size, char, _vehicle_size_small, k_vehicle_size_count> vehicle_size;
+	short pad;
 
-	byte VQWHV[0x2]; // pad
 	real minimum_flipping_angular_velocity;
 	real maximum_flipping_angular_velocity;
 	real crouch_transition_time; // seconds
-	real HOOJYTSU;
+	real runtime_crouch_transition_velocity;
 
 	// how much do we scale the force the vehicle the applies down on the seat when he enters. 0 == no acceleration
 	real seat_enterance_acceleration_scale;
