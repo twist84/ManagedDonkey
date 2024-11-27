@@ -78,6 +78,15 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
 	{
+		if (vehicle_definition->vehicle.physics.flags.test(_havok_vehicle_physics_definition_flags_invalid))
+		{
+			real_point3d origin{};
+			object_get_origin(vehicle_index, &origin);
+			render_debug_string_at_point(&origin, "invalid vehicle!!! read your debug.txt", global_real_argb_red);
+
+			// donkey note: there is debug.txt yet ;)
+		}
+
 		s_vehicle_engine_definition* engine_definition = NULL;
 		s_vehicle_engine* const engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
@@ -94,21 +103,24 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 		}
 		ASSERT((engine == NULL) == (engine_definition == NULL));
 
-		if (engine && engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
+		if (engine && engine_definition)
 		{
-			real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
-			long v1 = static_cast<long>(fminf(fmaxf(v0, 0.0f), 20.0f));
-			long v2 = static_cast<long>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
-			long v3 = 20 - v1;
-			long v4 = 20 - v2;
+			if (engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
+			{
+				real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
+				long v1 = static_cast<long>(fminf(fmaxf(v0, 0.0f), 20.0f));
+				long v2 = static_cast<long>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
+				long v3 = 20 - v1;
+				long v4 = 20 - v2;
 
-			char string[1024]{};
-			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count - 1, v3, v1, v4);
+				char string[1024]{};
+				csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count - 1, v3, v1, v4);
 
-			real_point3d origin{};
-			object_get_origin(vehicle_index, &origin);
-			origin.z += 1.0f;
-			render_debug_string_at_point(&origin, string, v2 ? global_real_argb_red : global_real_argb_aqua);
+				real_point3d origin{};
+				object_get_origin(vehicle_index, &origin);
+				origin.z += 1.0f;
+				render_debug_string_at_point(&origin, string, v2 ? global_real_argb_red : global_real_argb_aqua);
+			}
 		}
 	}
 }
