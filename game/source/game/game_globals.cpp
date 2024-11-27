@@ -148,8 +148,8 @@ void s_game_globals_player_information::update_reference_names()
 	UPDATE_REFERENCE_NAME(coop_countdown_sound);
 	UPDATE_REFERENCE_NAME(coop_respawn_sound);
 	UPDATE_REFERENCE_NAME(coop_respawn_effect);
-	UPDATE_REFERENCE_NAME(flashlight_on);
-	UPDATE_REFERENCE_NAME(flashlight_off);
+	UPDATE_REFERENCE_NAME(unit_sounds[0]);
+	UPDATE_REFERENCE_NAME(unit_sounds[1]);
 	UPDATE_REFERENCE_NAME(default_damage_response);
 }
 

@@ -59,7 +59,7 @@ enum e_multiplayer_files
 	k_multiplayer_file_count
 };
 
-struct
+struct s_multiplayer_game_hopper_globals
 {
 	c_hopper_configuration* current_configuration;
 
@@ -79,7 +79,9 @@ struct
 	byte map_variant_download_buffer[sizeof(c_map_variant)];
 
 	byte __data35BE4[0x4];
-} multiplayer_game_hopper_globals{};
+};
+
+s_multiplayer_game_hopper_globals multiplayer_game_hopper_globals{};
 
 bool force_hopper_load_status_complete = false;
 long override_game_entry_index = NONE;

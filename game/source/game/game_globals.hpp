@@ -591,8 +591,7 @@ struct s_game_globals_player_information
 	real_bounds binoculars_zoom_range;
 	real __unknown94;
 	real __unknown98;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> flashlight_on;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> flashlight_off;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> unit_sounds[2];
 	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> default_damage_response;
 
 	void update_reference_names();
