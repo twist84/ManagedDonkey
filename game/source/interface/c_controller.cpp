@@ -44,14 +44,14 @@ c_player_profile_interface* c_controller_interface::get_player_profile_interface
 
 bool c_controller_interface::is_attached() const
 {
-	return m_state_flags.test(_controller_state_flag_attached);
+	return m_state_flags.test(_attached_bit);
 }
 
 bool c_controller_interface::in_use() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00480590, c_controller_interface, in_use);
 
-	return is_signed_in_to_machine() || m_state_flags.test(_controller_state_flag_unsigned_in_user);
+	return is_signed_in_to_machine() || m_state_flags.test(_temporary_bit);
 }
 
 bool c_controller_interface::is_signed_in_to_machine() const

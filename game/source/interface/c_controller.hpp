@@ -10,33 +10,6 @@ struct c_player_marketplace;
 struct c_controller_interface
 {
 public:
-
-	// 4066
-	// 0000 1111 1110 0010
-	enum e_controller_state_flags
-	{
-		_controller_state_flag_attached = 0,
-		_controller_state_flag_voice_device_connected,
-		_controller_state_flag_unsigned_in_user,
-		_controller_state_flag_storage_device_selection_performed,
-
-		_controller_state_flag_allow_communications,
-		_controller_state_flag_allow_communications_friends_only,
-
-		_controller_state_flag_allow_profile_viewing,
-		_controller_state_flag_allow_profile_viewing_friends_only,
-
-		_controller_state_flag_allow_user_created_content,
-		_controller_state_flag_allow_user_created_content_friends_only,
-
-		_controller_state_flag_allow_purchace_content,
-
-		_controller_state_flag_allow_presence,
-		_controller_state_flag_allow_presence_friends_only,
-
-		k_controller_state_flags
-	};
-
 	c_player_profile_interface* get_player_profile_interface();
 	bool is_attached() const;
 	bool in_use() const;
@@ -46,12 +19,40 @@ public:
 	qword const get_player_xuid() const;
 	wchar_t const* get_display_name() const;
 
-	c_flags<e_controller_state_flags, short, k_controller_state_flags> m_state_flags;
+//protected:
+	// 4066
+	// 0000 1111 1110 0010
+	enum e_controller_state_flags
+	{
+		_attached_bit = 0,
+		_has_voice_bit,
+		_temporary_bit,
+		_storage_device_selection_performed_bit,
+
+		_online_communications_allowed_everyone_bit,
+		_online_communications_allowed_friends_only_bit,
+
+		_online_profile_viewing_allowed_everyone_bit,
+		_online_profile_viewing_allowed_friends_only_bit,
+
+		_user_created_content_allowed_everyone_bit,
+		_user_created_content_allowed_friends_only_bit,
+
+		_online_content_purchase_allowed_bit,
+
+		_online_presence_allowed_everyone_bit,
+		_online_presence_allowed_friends_only_bit,
+
+		k_number_of_controller_state_flags
+	};
+
+	c_flags<e_controller_state_flags, short, k_number_of_controller_state_flags> m_state_flags;
 	short m_user_index;
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;
 	c_static_wchar_string<16> m_display_name;
-	byte __data1420[0x10];
+	qword m_hash_bits;
+	qword m_hash_bits_last_game_instance;
 	c_static_flags<k_achievement_count> m_achievements;
 	c_player_marketplace* m_marketplace;
 	byte __data143C[0x5];
