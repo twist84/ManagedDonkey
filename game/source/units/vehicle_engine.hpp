@@ -5,25 +5,17 @@
 struct s_vehicle_engine
 {
 	real cruising_to_loaded_transition;
-
-	// wheel_ground_speed = __unknown4 * engine_definition->gears[gear].gear_ratio
-	real __unknown4; // velocity?
-
-	real __unknown8;
-
+	real engine_angular_velocity;
+	real torque_from_wheels;
 	char gear;
 	char desired_gear;
-
-	// some calculation with `__unknownE` gives us `rpm_function_scale`
-	byte __unknownE;
-
+	byte shift_counter;
 	byte clutch_in_ticks;
+	byte ticks_in_gear;
+	byte ticks_above_shift_threshold;
+	byte ticks_below_shift_threshold;
 
-	byte __unknown10;
-
-	byte time_to_upshift_ticks;
-	byte time_to_downshift_ticks;
-
+	// padding?
 	byte __unknown13;
 };
 static_assert(sizeof(s_vehicle_engine) == 0x14);

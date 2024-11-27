@@ -96,7 +96,7 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 
 		if (engine && engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
 		{
-			real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->__unknown4) / engine_definition->engine_max_angular_velocity) * 20.0f;
+			real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
 			long v1 = static_cast<long>(fminf(fmaxf(v0, 0.0f), 20.0f));
 			long v2 = static_cast<long>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
 			long v3 = 20 - v1;
