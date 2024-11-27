@@ -58,8 +58,8 @@ void __cdecl chud_post_action_response(long user_index)
 		item_datum* item = item_get(action_context->interaction.object_index);
 		struct item_definition* item_definition = (struct item_definition*)tag_get(ITEM_TAG, item->definition_index);
 
-		string_id message = _string_id_empty_string;
-		string_id message_dual = _string_id_empty_string;
+		string_id message = k_string_id_empty_string;
+		string_id message_dual = k_string_id_empty_string;
 
 		if (TEST_BIT(action_context->interaction.seat_index, 0))
 			message = item_definition->item.pickup_message.get_value();
@@ -71,10 +71,10 @@ void __cdecl chud_post_action_response(long user_index)
 		else if (TEST_BIT(action_context->interaction.seat_index, 3))
 			message_dual = item_definition->item.swap_message_dual.get_value();
 
-		if (message != _string_id_empty_string)
+		if (message != k_string_id_empty_string)
 			chud_set_state_text(user_index, message, NONE, c_chud_messaging_manager::_chud_state_text_placement_right);
 
-		if (message_dual != _string_id_empty_string)
+		if (message_dual != k_string_id_empty_string)
 			chud_set_state_text(user_index, message_dual, NONE, c_chud_messaging_manager::_chud_state_text_placement_left);
 	}
 

@@ -570,7 +570,7 @@ long const _hs_type_long_integer_default = 0;
 short const _hs_type_script_default = NONE;
 
 // 0166D5FC
-long const _hs_type_string_id_default = _string_id_empty_string;
+long const _hs_type_string_id_default = k_string_id_empty_string;
 
 // 0166D600
 long const _hs_type_unit_seat_mapping_default = NONE;

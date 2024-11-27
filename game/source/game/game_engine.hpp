@@ -46,7 +46,7 @@ enum e_game_engine_end_condition
 extern char const* (&k_game_engine_end_conditions)[k_game_engine_end_condition_count];
 
 // game_engine_hud_get_state_message
-// e_global_string_id
+// e_string_id_global
 enum e_game_engine_state
 {
 	_game_engine_state_game_over = 0,

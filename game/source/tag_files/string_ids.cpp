@@ -12,33 +12,33 @@
 
 // max string characters 128, string_id_retrieve
 
-dword const k_string_namespace_count_mapping[k_string_namespace_count] =
+dword const k_string_namespace_count_mapping[k_string_id_namespace_count] =
 {
-	k_gui_string_id_count,
-	k_gui_alert_string_id_count,
-	k_gui_dialog_string_id_count,
-	k_game_start_string_id_count,
-	k_game_engine_string_id_count,
-	k_online_string_id_count,
-	k_saved_game_string_id_count,
-	k_gpu_string_id_count,
-	k_global_string_id_count
+	k_string_id_namespace_gui_count,
+	k_string_id_namespace_gui_alert_count,
+	k_string_id_namespace_gui_dialog_count,
+	k_string_id_namespace_game_start_count,
+	k_string_id_namespace_game_engine_count,
+	k_string_id_namespace_online_count,
+	k_string_id_namespace_saved_game_count,
+	k_string_id_namespace_gpu_count,
+	k_string_id_namespace_global_count
 };
 
-e_string_namespace const k_string_index_namespace_mapping[k_string_namespace_count] =
+e_string_id_namespaces const k_string_index_namespace_mapping[k_string_id_namespace_count] =
 {
-	_string_namespace_gui,
-	_string_namespace_gui_alert,
-	_string_namespace_gui_dialog,
-	_string_namespace_game_start,
-	_string_namespace_game_engine,
-	_string_namespace_online,
-	_string_namespace_saved_game,
-	_string_namespace_gpu,
-	_string_namespace_global
+	_string_id_namespace_gui,
+	_string_id_namespace_gui_alert,
+	_string_id_namespace_gui_dialog,
+	_string_id_namespace_game_start,
+	_string_id_namespace_game_engine,
+	_string_id_namespace_online,
+	_string_id_namespace_saved_game,
+	_string_id_namespace_gpu,
+	_string_id_namespace_global
 };
 
-char const* const k_string_namespace_names[k_string_namespace_count]
+char const* const k_string_namespace_names[k_string_id_namespace_count]
 {
 	"global",
 	"gui",
@@ -112,15 +112,15 @@ long __cdecl string_id_retrieve(char const* string)
 
 char const* __cdecl string_id_get_string_const(long string_id)
 {
-	long string_namespace = STRING_NAMESPACE_FROM_STRING_ID(string_id);
-	long string_index = STRING_INDEX_FROM_STRING_ID(string_id);
+	long string_namespace = STRING_ID_NAMESPACE_FROM_STRING_ID(string_id);
+	long string_index = STRING_ID_INDEX_FROM_STRING_ID(string_id);
 
-	if (string_namespace == _string_namespace_global && !IN_RANGE_INCLUSIVE(string_index, k_first_string_offset, k_last_string_offset))
+	if (string_namespace == _string_id_namespace_global && !IN_RANGE_INCLUSIVE(string_index, k_first_string_offset, k_last_string_offset))
 		return g_string_id_globals.ascii_strings[string_index];
 
-	if (VALID_INDEX(string_namespace, k_string_namespace_count))
+	if (VALID_INDEX(string_namespace, k_string_id_namespace_count))
 	{
-		if (string_namespace == _string_namespace_global)
+		if (string_namespace == _string_id_namespace_global)
 			string_index -= k_first_string_offset;
 
 		return g_string_id_globals.ascii_strings[string_index + k_string_namespace_offsets[string_namespace]];
@@ -229,9 +229,9 @@ void __cdecl string_id_dispose()
 
 s_string_id_globals g_string_id_globals{};
 
-s_string_id const g_constant_string_id_table[]
+s_constant_string_id const g_constant_string_id_table[]
 {
-	DEFINE_CONSTANT_STRING_ID2(_string_id_empty_string, ""),
+	DEFINE_CONSTANT_STRING_ID_DIRECT(k_string_id_empty_string, ""),
 #pragma region GUI
 	DEFINE_CONSTANT_STRING_ID(gui, primary_label),
 	DEFINE_CONSTANT_STRING_ID(gui, secondary_label),

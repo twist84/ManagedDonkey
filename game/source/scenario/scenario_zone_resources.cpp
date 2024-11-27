@@ -31,6 +31,6 @@ void __cdecl scenario_resources_unload_active_zone_set()
 	INVOKE(0x005FB110, scenario_resources_unload_active_zone_set);
 
 	//s_scenario_zone_state zone_state{};
-	//cache_file_tag_resources_set_zone_state(NONE, _string_id_empty_string, &zone_state);
+	//cache_file_tag_resources_set_zone_state(NONE, k_string_id_empty_string, &zone_state);
 }
 
