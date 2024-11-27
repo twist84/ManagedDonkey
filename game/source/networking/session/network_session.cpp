@@ -540,7 +540,7 @@ void update_player_data(s_player_configuration_for_player_properties* player_dat
 	s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
 	s_s3d_player_weapon_configuration_loadout& weapon_loadout = get_weapon_loadout();
 
-	player_data->host_partial.service_tag = player_profile.m_desired_service_tag;
+	player_data->host_partial.service_tag = player_profile.m_appearance.desired_service_tag;
 	player_data->host_partial.bungienet_user = weapon_loadout.bungienet_user;
 	player_data->host_partial.colors = armor_loadout.colors;
 	player_data->host_partial.armors = armor_loadout.armors;

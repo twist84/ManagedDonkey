@@ -37,7 +37,9 @@ static_assert(sizeof(s_campaign_progression_profile_data) == 0x1A0);
 
 struct s_player_training_profile_data
 {
-	byte __data0[0x20];
+	long training_blob_bitvector_low[2];
+	long training_blob_bitvector_high[2];
+	long expansion[4];
 };
 static_assert(sizeof(s_player_training_profile_data) == 0x20);
 
@@ -67,6 +69,23 @@ struct c_player_profile_insertion_point_flags
 };
 static_assert(sizeof(c_player_profile_insertion_point_flags<32, 9>) == 0x24);
 
+enum e_popup_message_title
+{
+	_popup_message_title_halo3 = 0,
+	//_popup_message_title_halo3_blue,
+
+	k_popup_message_title_count,
+};
+
+enum e_film_auto_save_type
+{
+	_film_auto_save_type_campaign = 0,
+	_film_auto_save_type_multiplayer,
+	_film_auto_save_type_editor,
+
+	k_film_auto_save_type_count
+};
+
 struct c_player_profile_interface
 {
 //private:
@@ -80,28 +99,41 @@ struct c_player_profile_interface
 	void __thiscall set_secondary_change_color(long secondary_change_color, bool a2);
 
 //protected:
-	// 0: controller_look_inverted
-	// 1: controller_flight_stick_aircraft_controls
-	// 2: controller_auto_center_look
-	// 3: controller_crouch_lock_enabled
-	// 4: female_voice_enabled
+	enum
+	{
+		_look_inverted_bit = 0,
+		_flight_stick_aircraft_controls_bit,
+		_auto_center_look_bit,
+		_crouch_lock_bit,
+		_voice_female_bit,
+
+		k_number_of_player_profile_settings_flags,
+
+		//_first_internal_player_profile_bit = k_number_of_player_profile_settings_flags,
+		//_settings_need_written_bit = _first_internal_player_profile_bit,
+		//_settings_need_retrieval_bit,
+		//_settings_need_propagated_bit,
+		//_settings_io_busy_bit,
+		//_title_specific_settings_previously_retrieved_bit,
+		//_settings_unsafe_to_save_bit,
+		//
+		//k_number_of_player_profile_flags,
+	};
 	dword_flags m_flags;
 
-	long __unknown4;
-	long __unknown8;
-
+	long m_settings_read_retry_count;
+	dword m_next_settings_read_retry_time_milliseconds;
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	bool m_achievements_report_as_obtained;
 
-	byte __data10[0x4];
-
-	struct // sizeof 0x1E4
+	struct
 	{
-		long m_button_presets;   // 0-5
-		long m_joystick_presets; // 0-3
-		long m_look_sensitivity; // 0-9
+		long button_preset;
+		long joystick_preset;
+		long look_sensitivity;
+	} m_controls;
 
-		byte __data1C[0x1D8];
-	};
+	byte __data1C[0x1D8];
 
 	byte __data1F8[0x1];
 
@@ -109,27 +141,28 @@ struct c_player_profile_interface
 
 	byte __data1FA[0x2];
 
-	long m_camera_attached_horizontal; // 0-1
-	long m_camera_panning;             // 0-1
-	long m_camera_look_sensitivity;    // 0-3
-	long m_camera_flying_movement;     // 0-3
-	long m_camera_flying_thrust;       // 0-2
-
-	struct // sizeof 0xC0
+	struct
 	{
-		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> m_campaign_difficulty;
-		short m_last_campaign_played_absolute_index;
-		short m_last_campaign_map_played_absolute_index; // 0-32 or -1
-		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> m_map_completed_at_difficulty_level[32 /* campaign_level_index */];
-		c_static_array<qword, k_campaign_game_mode_count> m_last_campaign_played_time;
-		dword_flags m_last_primary_skulls;
-		dword_flags m_last_secondary_skulls;
+		long attached_horizontal;
+		long panning;
+		long look_sensitivity;
+		long flying_movement;
+		long flying_thrust;
+	} m_camera;
 
-		short __unknown270;
-		short __unknown272;
-
-		c_static_flags<32> m_player_campaign_progress;
-		c_player_profile_insertion_point_flags<32, 9> m_player_campaign_insertion_progress;
+	struct
+	{
+		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> current_difficulty;
+		short current_campaign_absolute_index;
+		short current_map_absolute_index;
+		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
+		c_static_array<qword, k_campaign_game_mode_count> last_campaign_played_time;
+		long awarded_primary_skull_bitvector;
+		long awarded_secondary_skull_bitvector;
+		short terminals_read_level1_bitvector;
+		short terminals_read_level2_bitvector;
+		c_static_flags<32> map_flags;
+		c_player_profile_insertion_point_flags<32, 9> insertion_point_flags;
 
 		struct
 		{
@@ -156,65 +189,58 @@ struct c_player_profile_interface
 		} campaign;
 
 		byte __data2CC[0x4]; // pad?
-	};
 
-	s_campaign_progression_profile_data m_campaign_progression;
+		s_campaign_progression_profile_data m_campaign_progression;
+	} m_campaign;
 
-	short m_last_network_game_hopper_played;
-	byte __pad472[0x2];
-	long m_last_custom_multiplayer_map_played; // map id
-	long m_last_variant_played_game_engine_index; // 0-10
-	long m_last_variant_played_unknown;
-
-	long __unknown480; // 0-4
-
-	long m_player_rank_and_grade;
-
-	struct // sizeof 0x688
+	struct
 	{
-		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> m_primary_change_color; // STRING_ID(gui, color_armor1)
-		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> m_secondary_change_color; // STRING_ID(gui, color_armor2)
+		short last_hopper_identifier;
+		long last_map;
+		long last_variant_type;
+		long last_variant_checksum;
+		long spartan_program_best_milestone;
+		long spartan_program_best_rank;
+	} m_multiplayer;
+
+	struct
+	{
+		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> primary_color;
+		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> secondary_color;
 
 		long __unknown490;
 		long __unknown494;
 		long __unknown498;
 
-		long m_player_model_choice;
-		s_emblem_info m_emblem_info;
+		long player_model_choice;
+		s_emblem_info emblem;
+		byte model_area_selections[10];
+		wchar_t last_known_good_service_tag[5];
+		wchar_t desired_service_tag[5];
+		bool service_tag_was_randomly_generated;
+		bool service_tag_failed_verification;
+	} m_appearance;
 
-		// model_customization_selection
-		// k_maximum_number_of_model_customization_areas_per_character
-		// - 8: Halo 3
-		// - 4: Halo 3: ODST
-		// - 10: Halo Online?
-		byte __dataAF0[10]; // what is the count?
+	struct
+	{
+		long mute_setting;
+		long output_setting;
+		long matchmaking_setting;
+		long voice_mask;
+		long guide_voice_through_speakers;
+		bool guide_voice_muted;
+	} m_voice;
 
-		wchar_t m_service_tag[5];
-		wchar_t m_desired_service_tag[5];
-		bool m_service_tag_was_randomly_generated;
-		bool m_service_tag_failed_verification;
-	};
+	struct
+	{
+		c_static_array<long, k_popup_message_title_count> last_shown_popup_message_index;
+		char last_shown_vidmaster_popup_message_index;
+	} m_online;
 
-	long __unknownB10; // 0-1
-	long __unknownB14; // 0-1
-	long __unknownB18; // 0-1
-	long __unknownB1C;
-	long __unknownB20; // 0-2
-	bool __unknownB24;
-	byte __padB25[0x3];
+	// film_progression?
+	s_campaign_game_progression __unknownB30;
 
-	c_static_array<long, 1> m_title_index_identifiers;  // default: 0
-	char m_vidmaster_popup_message_index; // default: 0
-	byte __padB2E[0x3];
-
-	s_campaign_game_progression __unknownB30; // film_progression?
-
-	// 0: campaign
-	// 1: multiplayer
-	// 2: editor
-	c_static_array<bool, 3> m_film_auto_save;
-	byte __unknownBB3;
-
+	bool m_film_auto_save[k_film_auto_save_type_count];
 	long m_profile_region;
 	long m_gamer_zone;
 	s_player_training_profile_data m_training_data;

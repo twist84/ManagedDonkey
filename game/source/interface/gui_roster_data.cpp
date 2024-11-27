@@ -160,11 +160,11 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 
 				if (!value->length())
 				{
-					value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.m_desired_service_tag);
+					value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.m_appearance.desired_service_tag);
 				}
 				else
 				{
-					value->append(controller->m_player_profile.m_desired_service_tag);
+					value->append(controller->m_player_profile.m_appearance.desired_service_tag);
 				}
 			}
 			else

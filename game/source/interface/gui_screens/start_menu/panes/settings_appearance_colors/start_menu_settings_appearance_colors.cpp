@@ -245,7 +245,7 @@ void __thiscall c_start_menu_settings_appearance_colors::set_color_values_from_p
 		//set_color_focused_list_item(string_id_retrieve("color_armor3"), player_profile->get_tertiary_change_color());
 		
 		//s_emblem_info emblem_info = player_profile->get_emblem_info();
-		s_emblem_info emblem_info = player_profile->m_emblem_info;
+		s_emblem_info emblem_info = player_profile->m_appearance.emblem;
 		set_color_focused_list_item(STRING_ID(gui, color_emblem1), emblem_info.emblem_primary_color);
 		set_color_focused_list_item(STRING_ID(gui, color_emblem2), emblem_info.emblem_secondary_color);
 		set_color_focused_list_item(STRING_ID(gui, color_emblem3), emblem_info.emblem_background_color);
