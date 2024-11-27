@@ -555,15 +555,15 @@ void debug_effects_full()
 		if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
 		{
 			event_datum* _event = NULL;
-			for (long event_index = effect->event_index; event_index != NONE; event_index = _event->next_event_index)
+			for (long event_index = effect->event_datum_head; event_index != NONE; event_index = _event->next_event_index)
 			{
 				_event = (event_datum*)datum_get(*event_data, event_index);
 				effect_event_definition& effect_event = effect_definition->events[_event->event_block_index];
 
-				real unknown10 = _event->__unknown10;
-				real unknownC = _event->__unknownC;
-				if (unknown10 != 0.0f)
-					unknownC /= unknown10;
+				real duration = _event->duration;
+				real age = _event->time;
+				if (duration != 0.0f)
+					age /= duration;
 
 				c_static_string<256> effect_event_string;
 				effect_event_string.print("  event: %s (%s, %s, %d parts, age %f)|n",
@@ -571,7 +571,7 @@ void debug_effects_full()
 					TEST_BIT(_event->flags, 0) ? "actual" : "delay",
 					TEST_BIT(_event->flags, 1) ? "stopped" : "running",
 					effect_event.parts.count,
-					unknownC);
+					age);
 				string.append(effect_event_string.get_string());
 
 				for (long part_index = 0; part_index < effect_event.parts.count; part_index++)

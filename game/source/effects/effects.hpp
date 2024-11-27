@@ -14,6 +14,7 @@
 #include "effects/vision_mode.hpp"
 #include "memory/data.hpp"
 #include "objects/damage_owner.hpp"
+#include "objects/damage_reporting.hpp"
 
 enum e_effect_pass
 {
@@ -36,46 +37,33 @@ static_assert(sizeof(s_effect_vector) == 0x1C);
 struct effect_datum :
 	s_datum_header
 {
-	byte __data2[0x2];
-
 	dword_flags flags;
 	long definition_index;
 	long looping_sound_index;
-
-	c_string_id marker_name;
-
-	byte __unknown14;
-	byte __unknown15;
-	byte __data16[0x2];
-
-	long scale_a_function_reference;
-	long scale_b_function_reference;
+	c_string_id input_marker_name;
+	byte explicit_marker_index;
+	byte conical_distribution_index;
+	union { long scale_a_function_reference; byte scale_a_index; };
+	union { long scale_b_function_reference; byte scale_b_index; };
 	s_location location;
-
-	byte __data22[0x2];
-
-	vector3d transitional_velocity;
+	vector3d velocity;
 	long object_index;
 	s_damage_owner damage_owner;
-
-	byte __data40[0x6];
-	byte_flags __flags46;
-	byte_flags __flags47;
-
+	s_damage_reporting_info damage_reporting_info;
+	char first_person_player_user_mask;
+	char first_person_weapon_user_mask;
+	char first_person_weapon_user_index;
 	long parent_particle_index;
-	long event_index;
-	real m_effect_scale_a;
-	real m_effect_scale_b;
-
-	byte __data58[0x8];
-
-	long locations[8];
+	long event_datum_head;
+	real scale_a;
+	real scale_b;
+	real_point2d impact_size;
+	c_static_array<long, 8> location_datum_indices;
 	long lightprobe_index;
 	real death_delay;
 	dword random_seed;
-
-	long __unknown8C;
-	plane3d __plane90;
+	long breakable_surface_event_index;
+	plane3d location_constraint_plane;
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
@@ -84,23 +72,19 @@ struct event_datum :
 {
 	byte_flags flags;
 	byte event_block_index;
-	word event_counter; // `counter`?
-
-	byte __data6[0x2];
-
-	long next_event_index; // `next_index`?
-
-	real __unknownC;
-	real __unknown10;
+	word event_counter;
+	long next_event_index;
+	real time;
+	real duration;
 };
 static_assert(sizeof(event_datum) == 0x14);
 
 struct effect_location_datum :
 	s_datum_header
 {
-	word_flags flags;
-	byte __data4[0x4];
-	dword __unknown8;
+	short node_designator;
+	long intermediate_location_index;
+	long next_instance_location_index;
 	real_matrix4x3 matrix;
 };
 static_assert(sizeof(effect_location_datum) == 0x40);
@@ -121,7 +105,13 @@ static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 struct s_effect_message
 {
 	long m_type;
-	byte __data4[0x14];
+	int m_effect_datum_index;
+	long m_effect_definition_index;
+	int m_event_datum_index;
+	byte m_event_block_index;
+	byte m_priority;
+	word m_event_counter;
+	int m_flags;
 	real_matrix4x3 matrix;
 	byte __data4C[0x10];
 };
@@ -129,29 +119,24 @@ static_assert(sizeof(s_effect_message) == 0x5C);
 
 struct s_geometry_sample
 {
-	real_point3d __point0;
-
-	real lightprobe_r[16];
-	byte __data4C[0x50];
-
-	real lightprobe_g[16];
-	byte __dataDC[0x50];
-
-	real lightprobe_b[16];
-	byte __data16C[0x50];
-
-	vector3d __vector1BC;
-	vector3d up;
-	vector3d __vector1D4;
-	real_rgb_color color;
-	vector3d __vector1EC;
+	real_point3d m_sample_point;
+	real m_light_probe_r[36];
+	real m_light_probe_g[36];
+	real m_light_probe_b[36];
+	vector3d m_diffuse;
+	vector3d m_normal;
+	vector3d m_dominant_light_dir;
+	real_rgb_color m_dominant_light_intensity;
+	real m_dominant_light_contrast;
+	bool m_needs_interpolation;
+	real m_chocalate_mountain_scale;
 };
 static_assert(sizeof(s_geometry_sample) == 0x1F8);
 
 struct s_effect_lightprobe
 {
-	byte_flags flags;
-	s_geometry_sample geometry_sample;
+	byte_flags m_flags;
+	s_geometry_sample m_geometry_sample;
 };
 static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
 
