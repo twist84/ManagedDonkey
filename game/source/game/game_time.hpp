@@ -39,20 +39,20 @@ enum e_game_time_pause_reason
 
 enum e_game_tick_publishing_flags
 {
-	_game_tick_publishing_unknown_bit0 = 0,
-	_game_tick_publishing_unknown_bit1,
-	_game_tick_publishing_unknown_bit2,
-	_game_tick_publishing_unknown_bit3,
-	_game_tick_publishing_unknown_bit4,
-	_game_tick_publishing_unknown_bit5,
-	_game_tick_publishing_unknown_bit6,
-	_game_tick_publishing_unknown_bit7,
-	_game_tick_publishing_unknown_bit8,
-	_game_tick_publishing_unknown_bit9,
-	_game_tick_publishing_unknown_bit10,
-	_game_tick_publishing_unknown_bit11,
+	_game_published_new_game_tick = 0,
+	_game_published_shell_paused,
+	_game_published_game_time_unchanged,
+	_game_published_game_time_paused,
+	_game_published_game_paused,
+	_game_published_pregame,
+	_game_published_main_time_halted,
+	_game_published_game_speed_slowed,
+	_game_published_framerate_infinite,
+	_game_published_ui_request,
+	_game_published_network_playback_client,
+	_game_published_maintain_minimal_framerate,
 
-	k_game_tick_publishing_flags
+	k_game_tick_publishing_flag_count
 };
 
 struct s_game_tick_time_samples
@@ -65,26 +65,26 @@ struct s_game_tick_time_samples
 	void reset()
 	{
 		flags.clear();
-		shell_seconds_elapsed = 0.0f;
-		world_seconds_elapsed = 0.0f;
-		game_seconds_elapsed = 0.0f;
-		game_ticks_elapsed = 0;
+		shell_dt = 0.0f;
+		world_dt = 0.0f;
+		game_dt = 0.0f;
+		elapsed_game_ticks = 0;
 	}
 
 	void accum(s_game_tick_time_samples const* samples)
 	{
 		flags = samples->flags;
-		shell_seconds_elapsed += samples->shell_seconds_elapsed;
-		world_seconds_elapsed += samples->world_seconds_elapsed;
-		game_seconds_elapsed += samples->game_seconds_elapsed;
-		game_ticks_elapsed = samples->game_ticks_elapsed;
+		shell_dt += samples->shell_dt;
+		world_dt += samples->world_dt;
+		game_dt += samples->game_dt;
+		elapsed_game_ticks = samples->elapsed_game_ticks;
 	}
 
-	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flags> flags;
-	real shell_seconds_elapsed;
-	real world_seconds_elapsed;
-	real game_seconds_elapsed;
-	dword game_ticks_elapsed;
+	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flag_count> flags;
+	real shell_dt;
+	real world_dt;
+	real game_dt;
+	long elapsed_game_ticks;
 };
 static_assert(sizeof(s_game_tick_time_samples) == 0x14);
 

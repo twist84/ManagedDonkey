@@ -804,7 +804,7 @@ void __cdecl main_loop_body_main_part()
 
 			if (shell_application_is_paused())
 			{
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit1, true);
+				g_main_gamestate_timing_data->flags.set(_game_published_shell_paused, true);
 			}
 			else
 			{
@@ -854,9 +854,9 @@ void __cdecl main_loop_body_main_part()
 						else
 							world_seconds_elapsed = shell_seconds_elapsed;
 
-						g_main_gamestate_timing_data->shell_seconds_elapsed += shell_seconds_elapsed;
-						g_main_gamestate_timing_data->world_seconds_elapsed += world_seconds_elapsed;
-						g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit6, main_time_halted());
+						g_main_gamestate_timing_data->shell_dt += shell_seconds_elapsed;
+						g_main_gamestate_timing_data->world_dt += world_seconds_elapsed;
+						g_main_gamestate_timing_data->flags.set(_game_published_main_time_halted, main_time_halted());
 
 						PROFILER(update_ui) // main_loop, ui
 						{
@@ -888,13 +888,13 @@ void __cdecl main_loop_body_main_part()
 									game_update_result = game_time_update(world_seconds_elapsed, &game_seconds_elapsed, &game_ticks_elapsed);
 								}
 
-								g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit2, !game_update_result);
-								g_main_gamestate_timing_data->game_seconds_elapsed += game_seconds_elapsed;
-								g_main_gamestate_timing_data->game_ticks_elapsed += game_ticks_elapsed;
-								g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit0, g_main_gamestate_timing_data->game_ticks_elapsed);
+								g_main_gamestate_timing_data->flags.set(_game_published_game_time_unchanged, !game_update_result);
+								g_main_gamestate_timing_data->game_dt += game_seconds_elapsed;
+								g_main_gamestate_timing_data->elapsed_game_ticks += game_ticks_elapsed;
+								g_main_gamestate_timing_data->flags.set(_game_published_new_game_tick, g_main_gamestate_timing_data->elapsed_game_ticks);
 
-								//if (!g_main_gamestate_timing_data->game_ticks_elapsed)
-								//	g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit0, user_interface_is_active());
+								//if (!g_main_gamestate_timing_data->elapsed_game_ticks)
+								//	g_main_gamestate_timing_data->flags.set(_game_published_new_game_tick, user_interface_is_active());
 
 								PROFILER(main_simulation_update)
 								{
@@ -931,7 +931,7 @@ void __cdecl main_loop_body_main_part()
 								network_send();
 								rumble_clear_all_now();
 
-								g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit5, true);
+								g_main_gamestate_timing_data->flags.set(_game_published_pregame, true);
 
 								if (main_time_halted())
 									sound_idle();
@@ -973,26 +973,26 @@ void __cdecl main_loop_body_main_part()
 			}
 
 			if (game_time_get_paused())
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit3, true);
+				g_main_gamestate_timing_data->flags.set(_game_published_game_time_paused, true);
 
 			if (game_time_initialized() && fabsf(game_time_get_speed() - 1.0f) > k_real_epsilon)
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit7, true);
+				g_main_gamestate_timing_data->flags.set(_game_published_game_speed_slowed, true);
 
 			if (game_in_progress() && game_is_playback() && !game_is_authoritative_playback())
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit10, true);
+				g_main_gamestate_timing_data->flags.set(_game_published_network_playback_client, true);
 
-			if (g_main_gamestate_timing_data->world_seconds_elapsed < 0.06666667f)
+			if (g_main_gamestate_timing_data->world_dt < 0.06666667f)
 			{
 				if (user_interface_requests_unlocked_framerate())
 				{
-					g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit11, true);
+					g_main_gamestate_timing_data->flags.set(_game_published_maintain_minimal_framerate, true);
 				}
 				else if (game_in_progress() && game_is_playback())
 				{
-					if (g_main_gamestate_timing_data->world_seconds_elapsed > 0.0f && g_main_gamestate_timing_data->world_seconds_elapsed < 0.025f // 0.0083333338 in h3ek
-						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit8)
-						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit9)
-						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit0))
+					if (g_main_gamestate_timing_data->world_dt > 0.0f && g_main_gamestate_timing_data->world_dt < 0.025f // 0.0083333338 in h3ek
+						&& !g_main_gamestate_timing_data->flags.test(_game_published_framerate_infinite)
+						&& !g_main_gamestate_timing_data->flags.test(_game_published_ui_request)
+						&& !g_main_gamestate_timing_data->flags.test(_game_published_new_game_tick))
 					{
 						g_main_gamestate_timing_data->flags.clear();
 					}
@@ -1000,11 +1000,11 @@ void __cdecl main_loop_body_main_part()
 			}
 			else
 			{
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit11, true);
+				g_main_gamestate_timing_data->flags.set(_game_published_maintain_minimal_framerate, true);
 			}
 
 			if (game_is_multithreaded())
-				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit8, !main_time_is_throttled());
+				g_main_gamestate_timing_data->flags.set(_game_published_framerate_infinite, !main_time_is_throttled());
 
 			PROFILER(predict_tag_resources)
 			{
@@ -1932,7 +1932,7 @@ void __cdecl publish_waiting_gamestate()
 	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	//if (render_thread_enabled())
 	//{
-	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flags));
+	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flag_count));
 	//	{
 	//		main_time_mark_publishing_start_time();
 	//		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
