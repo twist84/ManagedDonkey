@@ -8,19 +8,23 @@
 struct s_screen_effect_datum :
 	s_datum_header
 {
-	byte __unknown2;
-
-	byte_flags flags;
+	byte position_type;
+	byte unused;
 	long definition_index;
-	real seconds_active;
-	real_point3d transformed_position;
-	long attached_object_index;
-	short node_index;
+	real time_accumulator;
+	real_point3d world_position;
 
-	byte __data1E[0x2];
+	union
+	{
+		struct
+		{
+			long object_index;
+			short node_index;
+			real_point3d node_position;
+		} attached_to_object;
+	} position;
 
-	real_point3d position;
-
+	// odst?
 	real_rectangle2d __rectangle2C;
 };
 static_assert(sizeof(s_screen_effect_datum) == 0x3C);
@@ -28,34 +32,12 @@ static_assert(sizeof(s_screen_effect_datum) == 0x3C);
 struct screen_effect_scalar_function
 {
 	// Mapping
-	mapping_function mapping;
+	c_function_definition mapping;
 };
-static_assert(sizeof(screen_effect_scalar_function) == sizeof(mapping_function));
+static_assert(sizeof(screen_effect_scalar_function) == sizeof(c_function_definition));
 
-struct s_single_screen_effect_definition
+struct s_screen_effect_settings
 {
-	c_string_id name;
-	dword_flags flags;
-
-	// DISTANCE FALLOFF
-
-	// the maximum distance this screen effect will affect
-	real maximum_distance; // world units
-	struct screen_effect_scalar_function distance_falloff;
-
-	// TIME EVOLUTION
-	// controls the lifetime and time falloff of this effect
-	// NOTE: not used for scenario global effects
-
-	real lifetime;
-	struct screen_effect_scalar_function time_falloff;
-
-	// ANGLE FALLOFF
-	// controls the falloff of this effect based on how close you are to looking directly at it
-	// NOTE: not used for scenario global effects
-
-	struct screen_effect_scalar_function angle_falloff;
-
 	// EFFECTS
 	// a selection of effects to choose from
 	// in the case of overlapping effects, the maximum will be taken
@@ -95,6 +77,34 @@ struct s_single_screen_effect_definition
 
 	// adds noise to the vision mode
 	real vision_noise; // [0-1]
+};
+static_assert(sizeof(s_screen_effect_settings) == 0x40);
+
+struct s_single_screen_effect_definition
+{
+	c_string_id name;
+	dword_flags flags;
+
+	// DISTANCE FALLOFF
+
+	// the maximum distance this screen effect will affect
+	real maximum_distance; // world units
+	screen_effect_scalar_function distance_falloff;
+
+	// TIME EVOLUTION
+	// controls the lifetime and time falloff of this effect
+	// NOTE: not used for scenario global effects
+
+	real lifetime;
+	screen_effect_scalar_function time_falloff;
+
+	// ANGLE FALLOFF
+	// controls the falloff of this effect based on how close you are to looking directly at it
+	// NOTE: not used for scenario global effects
+
+	screen_effect_scalar_function angle_falloff;
+
+	s_screen_effect_settings settings;
 
 	// applies this shader to the entire screen
 	s_tag_reference shader_effect;
@@ -106,22 +116,6 @@ struct s_area_screen_effect_definition
 	c_typed_tag_block<s_single_screen_effect_definition> screen_effects;
 };
 static_assert(sizeof(s_area_screen_effect_definition) == 0xC);
-
-struct s_screen_effect_settings
-{
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
-	real __unknown10;
-	real __unknown14;
-	real __unknown18;
-	real __unknown1C;
-	real_linear_rgb_color __unknown20;
-	real_linear_rgb_color __unknown2C;
-	real __unknown38;
-	real __unknown3C;
-};
 
 struct s_screen_effect_shader_sample_result
 {

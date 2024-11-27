@@ -210,7 +210,7 @@ void __thiscall c_player_view::render_1st_pass()
 			&screen_effect_shader_sample_result,
 			m_camera_user_data.user_index);
 
-		c_player_view::setup_camera_fx_parameters(screen_effect_settings.__unknown0);
+		c_player_view::setup_camera_fx_parameters(screen_effect_settings.exposure_boost);
 		c_player_view::setup_cinematic_clip_planes();
 		m_lights_view.clear_simple_light_draw_list(m_camera_user_data.user_index);
 		m_lights_view.build_simple_light_draw_list(m_camera_user_data.player_window_index);
@@ -477,14 +477,14 @@ void __thiscall c_player_view::render_3rd_pass()
 		{
 			c_rasterizer_profile_scope _vision_mode(_rasterizer_profile_element_total, L"vision_mode");
 
-			if (screen_effect_settings.__unknown38 > 0.0f)
+			if (screen_effect_settings.vision_mode > 0.0f)
 			{
 				vision_mode_render(
 					m_camera_user_data.player_window_index,
 					this,
-					screen_effect_settings.__unknown38,
+					screen_effect_settings.vision_mode,
 					g_main_render_timing_data->game_seconds_elapsed,
-					screen_effect_settings.__unknown3C,
+					screen_effect_settings.vision_noise,
 					0,
 					0);
 			}
