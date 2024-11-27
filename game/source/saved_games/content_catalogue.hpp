@@ -29,7 +29,7 @@ struct s_content_catalogue_globals
 	bool initialized;
 	dword : 32;
 	c_content_catalogue user_catalogues[4];
-	c_storage_device storage_devices[4];
+	c_storage_device user_storage_devices[4];
 };
 const size_t k_content_catalogue_globals_size = sizeof(s_content_catalogue_globals);
 static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
