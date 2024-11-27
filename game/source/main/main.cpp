@@ -985,7 +985,7 @@ void __cdecl main_loop_body_main_part()
 			{
 				if (user_interface_requests_unlocked_framerate())
 				{
-					g_main_gamestate_timing_data->flags.set(_game_published_maintain_minimal_framerate, true);
+					g_main_gamestate_timing_data->flags.set(_game_published_ui_request, true);
 				}
 				else if (game_in_progress() && game_is_playback())
 				{
