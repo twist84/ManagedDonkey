@@ -5,33 +5,46 @@
 #include "networking/online/online_session.hpp"
 #include "networking/transport/transport_security.hpp"
 
-enum e_session_overlapped_task_context
+enum e_online_managed_session_flags
 {
-	// XSessionCreate
-	_session_overlapped_task_context_create = 0,
+	_online_managed_session_allocated_bit = 0,
+	_online_managed_session_master_bit,
+	_online_managed_session_pending_retry_bit,
+	_online_managed_session_force_create_offline_bit,
+	_online_managed_session_created_bit,
+	_online_managed_session_creation_failed_bit,
+	_online_managed_session_host_migration_in_process_bit,
+	_online_managed_session_host_migration_session_created_bit,
+	_online_managed_session_host_migration_must_delete_session_bit,
+	_online_managed_session_host_migration_using_new_session_bit,
+	_online_managed_session_players_add_pending_bit,
+	_online_managed_session_players_add_succeeded_bit,
+	_online_managed_session_players_add_failed_bit,
+	_online_managed_session_game_started_bit,
+	_online_managed_session_game_start_failed_bit,
+	_online_managed_session_game_ended_bit,
+	_online_managed_session_game_end_failed_bit,
+	_online_managed_session_locking_flags_bit,
+	_online_managed_session_flags_locked_bit,
 
-	// XSessionDelete
-	_session_overlapped_task_context_delete,
+	k_online_managed_session_flags_count
+};
 
-	// XSessionMigrateHost
-	_session_overlapped_task_context_migrate_host,
+enum e_online_managed_session_operation_flags
+{
+	_online_managed_session_delete_bit = 0,
+	_online_managed_session_free_bit,
+	_online_managed_session_create_bit,
+	_online_managed_session_delete_host_migration_bit,
+	_online_managed_session_create_host_migration_bit,
+	_online_managed_session_recreate_players_bit,
+	_online_managed_session_players_remove_bit,
+	_online_managed_session_modify_session_bit,
+	_online_managed_session_players_add_bit,
+	_online_managed_session_game_end_bit,
+	_online_managed_session_game_start_bit,
 
-	// XSessionModify
-	_session_overlapped_task_context_modify,
-
-	// XSessionJoinRemote
-	_session_overlapped_task_context_add_players,
-
-	// XSessionLeaveRemote
-	_session_overlapped_task_context_remove_players,
-
-	// XSessionStart
-	_session_overlapped_task_context_start,
-
-	// XSessionEnd
-	_session_overlapped_task_context_end,
-
-	k_session_overlapped_task_context_count
+	k_online_managed_session_operation_flags_count
 };
 
 struct s_online_session;
@@ -52,36 +65,34 @@ struct c_managed_session_overlapped_task :
 	void __thiscall failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 	void __thiscall success_(dword return_result);
 
-	c_enum<e_session_overlapped_task_context, long, _session_overlapped_task_context_create, k_session_overlapped_task_context_count> m_context;
+	enum e_overlapped_task
+	{
+		_process_create = 0,
+		_process_delete,
+		_process_session_host_migrate,
+		_process_modify,
+		_process_add_players,
+		_process_remove_players,
+		_process_start,
+		_process_end
+	};
 
+	e_overlapped_task m_context;
 	s_online_session* m_session;
 	s_online_session* m_desired_session;
 	s_online_session* m_actual_session;
 	long m_managed_session_index;
-
-	void(__cdecl* m_callback)(long, bool, dword);
-	bool m_callback_succeeded;
-
-	byte __pad29[0x3];
-
-	dword m_callback_return_result;
-
-	word_flags m_online_session_flags;
+	void(__cdecl* m_completion_routine)(long, bool, dword);
+	bool m_result;
+	dword m_return_result;
+	word_flags m_mask;
 	bool m_is_host;
-	byte __unknown33;
 	s_transport_session_description* m_host_migration_description;
-
 	long m_player_count;
-
-	byte __pad3C[0x4];
-
 	qword m_player_xuids[16];
 	dword_flags m_private_slots[16];
 };
 static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
-static_assert(0x29 == offsetof(c_managed_session_overlapped_task, __pad29));
-static_assert(0x33 == offsetof(c_managed_session_overlapped_task, __unknown33));
-static_assert(0x3C == offsetof(c_managed_session_overlapped_task, __pad3C));
 
 struct s_online_context
 {
@@ -90,61 +101,67 @@ struct s_online_context
 };
 static_assert(sizeof(s_online_context) == 0x8);
 
-#pragma pack(push, 1)
 struct s_online_managed_session
 {
-	// e_network_session_class
 	long session_class;
-
-	// e_transport_platform
-	long platform;
-
-	dword_flags flags;
-	word_flags current_operation_flags;
-	word_flags pending_operation_flags;
-
-	c_managed_session_overlapped_task managed_session_overlapped_task;
-
-	dword time;
-
-	bool live_check;
-	bool ip_check;
-	bool conflicting_session_check;
-	bool __unknown117;
-
+	long secure_key_platform;
+	c_flags<e_online_managed_session_flags, dword, k_online_managed_session_flags_count> flags;
+	c_flags<e_online_managed_session_operation_flags, word, k_online_managed_session_operation_flags_count> current_operation_flags;
+	c_flags<e_online_managed_session_operation_flags, word, k_online_managed_session_operation_flags_count> pending_operation_flags;
+	c_managed_session_overlapped_task overlapped_task;
+	dword time_of_last_failure;
+	bool not_connected_to_live;
+	bool has_no_valid_address;
+	bool has_conflicting_session_id;
 	s_online_session desired_online_session_state;
 	s_online_session transitory_online_session_state;
 	s_online_session actual_online_session_state;
-
-	c_static_array<qword, 16> xuids;
-	c_static_array<byte, 16> xuid_flags;
-	c_static_array<byte, 16> xuid_next_flags;
+	qword xuids[16];
+	byte xuid_flags[16];
+	byte xuid_next_flags[16];
 	long session_player_operation_count;
+	bool we_are_the_new_host;
+	bool we_were_the_host;
 
-	bool is_host;
-	bool __unknown5AD;
+#pragma pack(push,1)
 	s_transport_session_description host_migration_description;
-	byte __data5DE[0x2];
+#pragma pack(pop)
 
-	c_static_array<s_online_context, 4> creation_contexts;
+	s_online_context creation_contexts[4];
 	long context_count;
-
-	byte __data604[0x4];
 };
 static_assert(sizeof(s_online_managed_session) == 0x608);
-static_assert(0x117 == offsetof(s_online_managed_session, __unknown117));
-static_assert(0x5AD == offsetof(s_online_managed_session, __unknown5AD));
-static_assert(0x5DE == offsetof(s_online_managed_session, __data5DE));
-static_assert(0x604 == offsetof(s_online_managed_session, __data604));
-#pragma pack(pop)
+static_assert(0x000 == offsetof(s_online_managed_session, session_class));
+static_assert(0x004 == offsetof(s_online_managed_session, secure_key_platform));
+static_assert(0x008 == offsetof(s_online_managed_session, flags));
+static_assert(0x00C == offsetof(s_online_managed_session, current_operation_flags));
+static_assert(0x00E == offsetof(s_online_managed_session, pending_operation_flags));
+static_assert(0x010 == offsetof(s_online_managed_session, overlapped_task));
+static_assert(0x110 == offsetof(s_online_managed_session, time_of_last_failure));
+static_assert(0x114 == offsetof(s_online_managed_session, not_connected_to_live));
+static_assert(0x115 == offsetof(s_online_managed_session, has_no_valid_address));
+static_assert(0x116 == offsetof(s_online_managed_session, has_conflicting_session_id));
+static_assert(0x118 == offsetof(s_online_managed_session, desired_online_session_state));
+static_assert(0x268 == offsetof(s_online_managed_session, transitory_online_session_state));
+static_assert(0x3B8 == offsetof(s_online_managed_session, actual_online_session_state));
+static_assert(0x508 == offsetof(s_online_managed_session, xuids));
+static_assert(0x588 == offsetof(s_online_managed_session, xuid_flags));
+static_assert(0x598 == offsetof(s_online_managed_session, xuid_next_flags));
+static_assert(0x5A8 == offsetof(s_online_managed_session, session_player_operation_count));
+static_assert(0x5AC == offsetof(s_online_managed_session, we_are_the_new_host));
+static_assert(0x5AD == offsetof(s_online_managed_session, we_were_the_host));
+static_assert(0x5AE == offsetof(s_online_managed_session, host_migration_description));
+static_assert(0x5E0 == offsetof(s_online_managed_session, creation_contexts));
+static_assert(0x600 == offsetof(s_online_managed_session, context_count));
 
 struct s_online_session_manager_globals
 {
-	word_flags current_operation_flags;
-	byte __data2[0x6];
-	c_static_array<s_online_managed_session, 8> managed_sessions;
+	c_flags<e_online_managed_session_operation_flags, word, k_online_managed_session_operation_flags_count> current_operation_flags;
+	s_online_managed_session managed_sessions[8];
 };
 static_assert(sizeof(s_online_session_manager_globals) == 0x3048);
+static_assert(0x0 == offsetof(s_online_session_manager_globals, current_operation_flags));
+static_assert(0x8 == offsetof(s_online_session_manager_globals, managed_sessions));
 
 extern s_online_session_manager_globals& online_session_manager_globals;
 

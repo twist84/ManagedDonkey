@@ -70,7 +70,7 @@ void __cdecl remote_command_dispose()
 
 void __cdecl remote_command_initialize()
 {
-	remote_command_globals.camera_send_time = network_time_get();
+	remote_command_globals.last_camera_sync_milliseconds = network_time_get();
 	remote_command_globals.reception_header_size = -1;
 	remote_command_globals.connected = false;
 	if (!remote_command_globals.listen_endpoint)
@@ -79,13 +79,13 @@ void __cdecl remote_command_initialize()
 		if (remote_command_globals.listen_endpoint)
 		{
 			transport_address listen_address{};
-			transport_register_transition_functions(nullptr, remote_command_transport_shutdown, nullptr, nullptr);
+			transport_register_transition_functions(NULL, remote_command_transport_shutdown, NULL, NULL);
 			transport_get_listen_address(&listen_address, 1030);
 			if (!transport_endpoint_bind(remote_command_globals.listen_endpoint, &listen_address) || !transport_endpoint_listen(remote_command_globals.listen_endpoint))
 			{
 				generate_event(_event_error, "remote command client couldn't listen for incoming commands");
 				transport_endpoint_delete(remote_command_globals.listen_endpoint);
-				remote_command_globals.listen_endpoint = nullptr;
+				remote_command_globals.listen_endpoint = NULL;
 			}
 		}
 		else
@@ -139,7 +139,7 @@ void __cdecl remote_command_process()
 			}
 
 			// Assign the new connection endpoint as the receive endpoint
-			ASSERT(remote_command_globals.receive_endpoint == nullptr);
+			ASSERT(remote_command_globals.receive_endpoint == NULL);
 			remote_command_globals.receive_endpoint = endpoint;
 
 			// If the new endpoint is writeable, set it as the send endpoint too
@@ -240,7 +240,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	// Ensure that the input is valid
 	ASSERT((encoded_command_size > 0) && (encoded_command_size <= MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE));
 	ASSERT(encoded_command_buffer);
-	ASSERT(((payload_size == 0) && (payload == nullptr)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != nullptr)));
+	ASSERT(((payload_size == 0) && (payload == NULL)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != NULL)));
 
 	// Check if the remote command is connected
 	if (!remote_command_connected())
@@ -262,7 +262,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	}
 
 	// Write the encoded packet to the send endpoint and check for errors
-	ASSERT(remote_command_globals.send_endpoint != nullptr);
+	ASSERT(remote_command_globals.send_endpoint != NULL);
 	short bytes_written = transport_endpoint_write(remote_command_globals.send_endpoint, encode_packet, static_cast<short>(encode_packet_size));
 	if (bytes_written <= 0)
 	{
@@ -329,18 +329,18 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 		return false;
 
 	// If less than 4 seconds have passed since the last update, store the updated camera information and return false.
-	if (network_time_since(remote_command_globals.camera_send_time) < 4000)
+	if (network_time_since(remote_command_globals.last_camera_sync_milliseconds) < 4000)
 	{
-		remote_command_globals.camera = *camera;
+		remote_command_globals.last_camera_synch_state = *camera;
 		return false;
 	}
 
 	// Send the updated camera information to the remote endpoint.
-	bool result = remote_command_send(_remote_command_camera, camera, 0, nullptr);
+	bool result = remote_command_send(_remote_command_camera, camera, 0, NULL);
 
 	// Store the current time and updated camera information.
-	remote_command_globals.camera_send_time = network_time_get();
-	remote_command_globals.camera = *camera;
+	remote_command_globals.last_camera_sync_milliseconds = network_time_get();
+	remote_command_globals.last_camera_synch_state = *camera;
 
 	return result;
 }
@@ -417,7 +417,7 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 	output.print_line("Unknown command: '%s'", tokens[0]);
 	output.append_line("For a list of command use 'help'");
 	output.append_line();
-	//output = help_callback(nullptr, 1, {});
+	//output = help_callback(NULL, 1, {});
 	transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
 }
 
@@ -932,7 +932,7 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 			transport_secure_address_get_insecure(&insecure);
 
 			static char ip_port[256]{};
-			transport_address_to_string(&insecure, nullptr, ip_port, 256, true, false);
+			transport_address_to_string(&insecure, NULL, ip_port, 256, true, false);
 			invite_string.print("add_session %s", ip_port);
 		}
 
@@ -991,7 +991,7 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void
 	{
 		*outgoing_address = address;
-		//network_broadcast_search_update_callback = nullptr;
+		//network_broadcast_search_update_callback = NULL;
 	};
 	load_game_browser(k_any_controller, 0, _browse_system_link);
 
@@ -1400,7 +1400,7 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, long
 
 	char const* preferences_filename = tokens[1]->get_string();
 
-	FILE* preferences_file = nullptr;
+	FILE* preferences_file = NULL;
 	if (fopen_s(&preferences_file, preferences_filename, "r") == 0 && preferences_file)
 	{
 		char buffer[200]{};
@@ -1437,7 +1437,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 
 	char const* customization_filename = tokens[1]->get_string();
 
-	FILE* customization_file = nullptr;
+	FILE* customization_file = NULL;
 	if (fopen_s(&customization_file, customization_filename, "r") == 0 && customization_file)
 	{
 		s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
@@ -1503,7 +1503,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 					long armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.get_count();
 					for (long armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 					{
-						char const* armor_region = nullptr;
+						char const* armor_region = NULL;
 						switch (armor_region_index)
 						{
 						case _armor_type_helmet:
@@ -1542,7 +1542,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 	}
 	else
 	{
-		FILE* customization_info_file = nullptr;
+		FILE* customization_info_file = NULL;
 		if (fopen_s(&customization_info_file, "customization_info.txt", "w") == 0 && customization_info_file)
 		{
 			fprintf_s(customization_info_file, "This file serves as a reference to what a customization file contains\n\n");
@@ -1624,7 +1624,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 			{
 				c_static_array<c_static_string<64>, 100>& armor_types = armor_regions[armor_region_index];
 
-				char const* armor_region = nullptr;
+				char const* armor_region = NULL;
 				switch (armor_region_index)
 				{
 				case _armor_type_helmet:

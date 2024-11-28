@@ -168,9 +168,9 @@ qword __cdecl network_session_interface_get_local_user_xuid(long user_index)
 
 //.text:004365C0 ; 
 
-void __cdecl network_session_interface_handle_message(long session_network_message)
+void __cdecl network_session_interface_handle_message(e_session_network_message message)
 {
-	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
+	INVOKE(0x004365D0, network_session_interface_handle_message, message);
 }
 
 bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager)

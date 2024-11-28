@@ -214,7 +214,7 @@ void __cdecl overlapped_render()
 					case _overlapped_task_state_succeeded:
 						status = "success";
 						break;
-					case _overlapped_task_state_failure:
+					case _overlapped_task_state_failed:
 						status = "failure";
 						break;
 					default:
@@ -530,7 +530,7 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 	}
 	else
 	{
-		task_state = _overlapped_task_state_failure;
+		task_state = _overlapped_task_state_failed;
 
 		if (task_slot->terminated)
 			overlapped_error = ERROR_CANCELLED;
@@ -576,14 +576,14 @@ void c_overlapped_task::task_recycled_during_completion(bool recycled_during_com
 {
 	//return INVOKE_CLASS_MEMBER(0x005A9360, c_overlapped_task, task_recycled_during_completion, recycled_during_completion);
 
-	m_task_flags.set(_overlapped_task_task_recycled_during_completion_bit, recycled_during_completion);
+	m_task_flags.set(_restarted_during_completion_bit, recycled_during_completion);
 }
 
 bool c_overlapped_task::task_was_recycled_during_completion() const
 {
 	//return INVOKE_CLASS_MEMBER(0x005A9380, c_overlapped_task, task_was_recycled_during_completion);
 
-	return m_task_flags.test(_overlapped_task_task_recycled_during_completion_bit);
+	return m_task_flags.test(_restarted_during_completion_bit);
 }
 
 char const* c_overlapped_task::get_file() const
@@ -635,7 +635,7 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 			case _overlapped_task_state_succeeded:
 				status = "success";
 				break;
-			case _overlapped_task_state_failure:
+			case _overlapped_task_state_failed:
 				status = "failure";
 				break;
 			default:

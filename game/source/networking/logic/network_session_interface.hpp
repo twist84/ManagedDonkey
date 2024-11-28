@@ -8,39 +8,71 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
-#pragma pack(push, 1)
 struct s_network_session_interface_user
 {
-	long state;
-	s_player_identifier identifier;
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> controller_index;
+	long user_state;
+	s_player_identifier player_identifier;
+	e_controller_index controller_index;
 	s_player_configuration player_data;
 	long player_update_number;
-	c_static_string<64> override_hopper_directory;
-	long player_voice_settings;
-	long session_index;
-	long team_index;
-	long __times1680[3];
-	long __times168C[3];
+	char override_hopper_directory[64];
+
+	union
+	{
+		dword player_voice_settings;
+		struct
+		{
+			word player_mute_mask;
+			word player_voice_flags;
+		};
+	};
+
+	long session_to_change_teams_on;
+	long desired_team_index;
+	dword user_update_timestamp[3];
+	dword user_remove_timestamp[3];
 };
 static_assert(sizeof(s_network_session_interface_user) == 0x1698);
+static_assert(0x0000 == OFFSETOF(s_network_session_interface_user, user_state));
+static_assert(0x0004 == OFFSETOF(s_network_session_interface_user, player_identifier));
+static_assert(0x000C == OFFSETOF(s_network_session_interface_user, controller_index));
+static_assert(0x0010 == OFFSETOF(s_network_session_interface_user, player_data));
+static_assert(0x1630 == OFFSETOF(s_network_session_interface_user, player_update_number));
+static_assert(0x1634 == OFFSETOF(s_network_session_interface_user, override_hopper_directory));
+static_assert(0x1674 == OFFSETOF(s_network_session_interface_user, player_voice_settings));
+static_assert(0x1674 == OFFSETOF(s_network_session_interface_user, player_mute_mask));
+static_assert(0x1676 == OFFSETOF(s_network_session_interface_user, player_voice_flags));
+static_assert(0x1678 == OFFSETOF(s_network_session_interface_user, session_to_change_teams_on));
+static_assert(0x167C == OFFSETOF(s_network_session_interface_user, desired_team_index));
+static_assert(0x1680 == OFFSETOF(s_network_session_interface_user, user_update_timestamp));
+static_assert(0x168C == OFFSETOF(s_network_session_interface_user, user_remove_timestamp));
 
 struct s_saved_film_description
 {
-	long film_category;
+	long category;
 	long campaign_id;
 	long map_id;
 	short campaign_insertion_point;
 	bool campaign_survival_enabled;
-	byte : 8;
 	long difficulty;
-	c_static_wchar_string<256> film_path;
-	c_static_wchar_string<128> film_name;
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> controller_index;
+	wchar_t film_path[256];
+	wchar_t film_name[128];
+	e_controller_index controller_index;
 	long length_seconds;
 };
 static_assert(sizeof(s_saved_film_description) == 0x31C);
+static_assert(0x000 == OFFSETOF(s_saved_film_description, category));
+static_assert(0x004 == OFFSETOF(s_saved_film_description, campaign_id));
+static_assert(0x008 == OFFSETOF(s_saved_film_description, map_id));
+static_assert(0x00C == OFFSETOF(s_saved_film_description, campaign_insertion_point));
+static_assert(0x00E == OFFSETOF(s_saved_film_description, campaign_survival_enabled));
+static_assert(0x010 == OFFSETOF(s_saved_film_description, difficulty));
+static_assert(0x014 == OFFSETOF(s_saved_film_description, film_path));
+static_assert(0x214 == OFFSETOF(s_saved_film_description, film_name));
+static_assert(0x314 == OFFSETOF(s_saved_film_description, controller_index));
+static_assert(0x318 == OFFSETOF(s_saved_film_description, length_seconds));
 
+#pragma pack(push, 1)
 struct s_network_session_interface_globals
 {
 	bool initialized;
@@ -144,7 +176,7 @@ extern bool __cdecl network_session_interface_get_local_user_identifier(long use
 extern bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, dword* player_voice_settings);
 extern long __cdecl network_session_interface_get_local_user_state(long user_index);
 extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
-extern void __cdecl network_session_interface_handle_message(long session_network_message);
+extern void __cdecl network_session_interface_handle_message(e_session_network_message message);
 extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
 extern bool __cdecl network_session_interface_local_user_exists(long user_index);
 extern void __cdecl network_session_interface_notify_set_local_specific_film(s_saved_film_description const* film);

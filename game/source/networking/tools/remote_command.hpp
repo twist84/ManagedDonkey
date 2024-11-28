@@ -35,12 +35,12 @@ struct s_remote_command_globals
 	char reception_header_buffer[32];
 
 	long reception_packet_total_size;
-	long reception_packet_size;
+	long reception_packet_payload_size;
 	long reception_packet_received;
-	char reception_packet[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE + MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE];
+	char reception_packet_buffer[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE + MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE];
 
-	dword camera_send_time;
-	s_observer_result camera;
+	long last_camera_sync_milliseconds;
+	s_observer_result last_camera_synch_state;
 
 	//long light_volume_index;
 	//dword light_volume_send_time;

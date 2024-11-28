@@ -117,7 +117,7 @@ void __cdecl transport_shutdown()
 {
 	if (transport_globals.winsock_initialized)
 	{
-		network_session_interface_handle_message(3);
+		network_session_interface_handle_message(_network_message_network_interface_connection_lost);
 		for (long i = 0; i < transport_globals.transition_function_count; i++)
 		{
 			transport_shutdown_function_t shutdown_function = transport_globals.shutdown_functions[i];
@@ -160,7 +160,7 @@ void __cdecl transport_startup()
 					startup_function(transport_globals.callback_datas[i]);
 			}
 
-			network_session_interface_handle_message(2);
+			network_session_interface_handle_message(_network_message_network_interface_connected);
 			generate_event(_event_message, "networking:transport: Trasport global started");
 		}
 	}

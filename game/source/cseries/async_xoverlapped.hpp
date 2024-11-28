@@ -16,7 +16,7 @@ enum e_overlapped_task_state
 	_overlapped_task_state_pending,
 	_overlapped_task_state_completing,
 	_overlapped_task_state_succeeded,
-	_overlapped_task_state_failure,
+	_overlapped_task_state_failed,
 
 	k_overlapped_task_state_count
 };
@@ -25,10 +25,10 @@ struct c_overlapped_task
 {
 	enum e_overlapped_task_flags
 	{
-		_overlapped_task_bit0 = 0,
-		_overlapped_task_task_recycled_during_completion_bit,
+		_unused_bit = 0,
+		_restarted_during_completion_bit,
 
-		k_overlapped_task_flags
+		k_number_of_overlapped_task_flags
 	};
 
 public:
@@ -57,7 +57,7 @@ public:
 	void set_line(long line);
 
 protected:
-	c_flags<e_overlapped_task_flags, word, k_overlapped_task_flags> m_task_flags;
+	c_flags<e_overlapped_task_flags, short, k_number_of_overlapped_task_flags> m_task_flags;
 	c_enum<e_overlapped_task_state, short, _overlapped_task_state_none, k_overlapped_task_state_count> m_task_state;
 	char const* m_file;
 	long m_line;

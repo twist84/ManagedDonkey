@@ -24,14 +24,14 @@ void __cdecl add_to_player_list(s_online_session_player* players, long player_co
 //.text:00480420 ; virtual void __cdecl c_managed_session_overlapped_task::complete();
 void __thiscall c_managed_session_overlapped_task::complete_()
 {
-	m_callback(m_managed_session_index, m_callback_succeeded, m_callback_return_result);
+	m_completion_routine(m_managed_session_index, m_result, m_return_result);
 }
 
 //.text:00480440 ; virtual void __cdecl c_managed_session_overlapped_task::failure(dword, dword, dword);
 void __thiscall c_managed_session_overlapped_task::failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error)
 {
-	m_callback_return_result = overlapped_extended_error;
-	m_callback_succeeded = false;
+	m_return_result = overlapped_extended_error;
+	m_result = false;
 }
 
 //.text:004804B0 ; virtual char const* __cdecl c_managed_session_overlapped_task::get_context_string() const;
@@ -187,7 +187,7 @@ char const* __cdecl managed_session_get_id_string(long index)
 	if (index == NONE)
 		return "00:00:00:00:00:00:00:00";
 	else
-		return transport_secure_identifier_get_string(&online_session_manager_globals.managed_sessions[index].actual_online_session_state.description.id);
+		return transport_secure_identifier_get_string(&online_session_manager_globals.managed_sessions[index].actual_online_session_state.session_description.id);
 }
 
 void __cdecl managed_session_get_new_host_information(long index, s_transport_session_description* session_description, e_transport_platform* platform)
@@ -374,7 +374,7 @@ void __cdecl remove_from_player_list(s_online_session_player* players, long play
 //.text:00483CB0 ; virtual void __cdecl c_managed_session_overlapped_task::success(dword)
 void __thiscall c_managed_session_overlapped_task::success_(dword return_result)
 {
-	m_callback_return_result = return_result;
-	m_callback_succeeded = true;
+	m_return_result = return_result;
+	m_result = true;
 }
 

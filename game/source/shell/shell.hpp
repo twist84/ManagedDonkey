@@ -2365,6 +2365,17 @@ enum e_network_interface_user_state
 	_network_session_interface_user_state_error_survival_in_progress,
 };
 
+enum e_session_network_message
+{
+	_network_message_network_interface_guide_opened = 0,
+	_network_message_network_interface_guide_closed,
+	_network_message_network_interface_connected,
+	_network_message_network_interface_connection_lost,
+	_network_message_connected_to_live,
+	_network_message_lost_connection_to_live,
+	_network_message_all_players_signed_out,
+};
+
 extern bool __cdecl shell_application_is_paused();
 extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
