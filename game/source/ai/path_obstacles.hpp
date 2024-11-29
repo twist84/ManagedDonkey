@@ -7,14 +7,14 @@
 
 struct disc
 {
-	word_flags flags;
+	short flags;
 	short obstacle_index;
 	long object_index;
 	real_point2d center;
 	real radius;
 
 	// debug only?
-	//real __unknown14;
+	//real z;
 };
 static_assert(sizeof(struct disc) == 0x14);
 
@@ -22,10 +22,9 @@ struct obstacles
 {
 	short obstacle_count;
 	short disc_count;
-	short __unknown4;
-	short __unknown6;
-	short __unknown8;
-	byte __dataA[2];
+	short disc_optional_count;
+	short high_threshold_disc_count;
+	short medium_threshold_disc_count;
 	disc discs[MAXIMUM_DISC_COUNT];
 };
 static_assert(sizeof(struct obstacles) == 0x140C);

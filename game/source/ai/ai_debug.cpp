@@ -157,7 +157,7 @@ void __cdecl ai_debug_render()
 		|| g_ai_render_player_battle_vector);
 	
 	//main_set_single_thread_request_flag(2, g_dialogue_debug_enabled | flag);
-	if (!actor_datum_available_to_current_thread() || !ai_globals->__unknown1)
+	if (!actor_datum_available_to_current_thread() || !ai_globals->ai_initialized_for_map)
 		return;
 	
 	short_rectangle2d bounds{};
@@ -838,7 +838,7 @@ void ai_debug_render_tracked_props_all()
 			{
 				real_point3d position{};
 				object_get_origin(actor_prop_ref->object_index, &position);
-				if (actor_prop_ref_iter.prop_ref_index == actor->target.target_prop_index)
+				if (actor_prop_ref_iter.index == actor->target.target_prop_index)
 					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_red);
 				else
 					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_yellow);

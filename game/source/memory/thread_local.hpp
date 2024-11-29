@@ -912,7 +912,7 @@ struct s_thread_local_storage
 	c_smart_data_array<swarm_datum> swarm_data;
 
 	// name: "swarm_spawner"
-	// size: 0x258
+	// size: 0x258, 5 * sizeof(s_swarm_spawner)
 	s_swarm_spawner* g_swarm_spawners;
 
 	// name: "spawner_globals"

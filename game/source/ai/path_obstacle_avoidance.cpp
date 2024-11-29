@@ -63,7 +63,7 @@ bool __cdecl path_new(
 	short projection_axis,
 	bool projection_sign,
 	bool final_step,
-	bool a12)
+	bool ignore_optional)
 {
 	return INVOKE(0x014E1EB0, path_new,
 		path,
@@ -77,7 +77,7 @@ bool __cdecl path_new(
 		projection_axis,
 		projection_sign,
 		final_step,
-		a12);
+		ignore_optional);
 }
 
 //.text:014E2070 ; void __cdecl step_failed(obstacle_path*, short, short)
@@ -136,21 +136,21 @@ void render_debug_path(obstacle_path const* path)
 	c_static_flags<64> step_flags{};
 	step_flags.clear_range(path->step_count);
 	
-	short step_index0 = path->__unknown1E;
+	short step_index0 = path->goal_step_index;
 	while (step_index0 != 0xFFFF)
 	{
 		struct step* step0 = path_get_step((obstacle_path*)path, step_index0);
 		step_flags.set(step_index0, true);
-		step_index0 = step0->__unknown2C;
+		step_index0 = step0->previous_step_index;
 	}
 	
 	for (short step_index = 0; step_index < path->step_count; step_index++)
 	{
 		struct step* step1 = path_get_step((obstacle_path*)path, step_index);
-		if (step1->__unknown2C == 0xFFFF)
+		if (step1->previous_step_index == 0xFFFF)
 			continue;
 	
-		struct step* step2 = path_get_step((obstacle_path*)path, step1->__unknown2C);
+		struct step* step2 = path_get_step((obstacle_path*)path, step1->previous_step_index);
 	
 		real v15 = 0.0f;
 		real v10 = 0.0f;
@@ -175,12 +175,12 @@ void render_debug_path(obstacle_path const* path)
 		real_point3d point0{};
 		real_point3d point1{};
 	
-		point0.x = step2->__unknown0.x;
-		point0.y = step2->__unknown0.y;
+		point0.x = step2->point.x;
+		point0.y = step2->point.y;
 		point0.z = v10;
 	
-		point1.x = step1->__unknown0.x;
-		point1.y = step1->__unknown0.y;
+		point1.x = step1->point.x;
+		point1.y = step1->point.y;
 		point1.z = v15;
 	
 		real_argb_color const* color = global_real_argb_red;
@@ -188,14 +188,14 @@ void render_debug_path(obstacle_path const* path)
 		{
 			color = global_real_argb_white;
 		}
-		else if (step1->__unknown20)
+		else if (step1->obstacle_direction_index)
 		{
 			color = global_real_argb_green;
 		}
 	
 		render_debug_line(true, &point0, &point1, color);
 	
-		c_string_builder string("%.4f", step1->heap_cost);
+		c_string_builder string("%.4f", step1->total_distance);
 		render_debug_string_at_point(&point1, string.get_string(), color);
 	}
 }

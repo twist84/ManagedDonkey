@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/actors.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
@@ -46,20 +47,83 @@ enum e_ai_atom
 
 struct cs_command
 {
-	byte atom_type; // e_ai_atom
+	char atom_type;
+	char flags;
+	short atom_modifier;
 
-	byte __data[0x2B];
+	union
+	{
+		long integer_parameter1;
+		real parameter1;
+		bool bool_param1;
+	};
+
+	union
+	{
+		long integer_parameter2;
+		real parameter2;
+		bool bool_param2;
+	};
+
+	real_point3d point1;
+	real_point3d point2;
+	long ref_index;
+	long ref_index2;
 };
 static_assert(sizeof(cs_command) == 0x2C);
 
+struct s_control_directmovement
+{
+	short facing;
+	vector3d vector;
+	real_point3d start_position;
+};
+static_assert(sizeof(s_control_directmovement) == 0x1C);
+
+struct s_control_point_destination
+{
+	c_ai_point3d point;
+	real radius;
+};
+static_assert(sizeof(s_control_point_destination) == 0x14);
+
+struct s_control_move_towards
+{
+	long object_index;
+};
+static_assert(sizeof(s_control_move_towards) == 0x4);
+
+struct s_control_jump
+{
+	short delay_ticks;
+	real target_horizontal_vel;
+	real target_vertical_vel;
+};
+static_assert(sizeof(s_control_jump) == 0xC);
+
 struct s_atom_control
 {
-	short __unknown0;
-	byte __data2[0x2];
-	short __unknown4;
-	byte __data[0x1E];
+	short atom_type;
+	short pause_timer;
+	short status;
+	short simple_control_flags;
+
+	union
+	{
+		s_control_directmovement directmovement;
+		s_control_point_destination point_destination;
+		s_control_move_towards move_towards;
+		s_control_jump jump;
+	};
 };
 static_assert(sizeof(s_atom_control) == 0x24);
+
+struct cs_target_specification
+{
+	short type;
+	long index;
+};
+static_assert(sizeof(cs_target_specification) == 0x8);
 
 struct command_script_datum :
 	s_datum_header
@@ -77,22 +141,52 @@ struct command_script_datum :
 	bool abort_on_combat_status;
 	short abort_on_combat_status_level;
 	bool abort_on_vehicle_exit;
-
-	byte __pad1D[0x1];
-
 	short role_index;
 	short priority;
-
-	byte __pad22[0x2];
-
-	cs_command const command[3];
-	s_atom_control const control[3];
+	cs_command command[3];
+	s_atom_control control[3];
 	bool shoot_at_target;
 	bool shoot_secondary_trigger;
 	bool script_initiated_posture;
 	bool script_initiated_custom_animation;
-
-	byte __data118[0x70];
+	bool walk;
+	bool crouch;
+	real crouch_speed;
+	bool look_at_target;
+	cs_target_specification look_target;
+	bool face_exactly;
+	bool face_lower_weapon;
+	bool aim_at_target;
+	bool face_at_target;
+	cs_target_specification aim_target;
+	bool vehicle_speed_valid;
+	real vehicle_speed;
+	bool turn_urgency_valid;
+	real turn_urgency;
+	bool boosting;
+	bool ignore_obstacles;
+	bool failsafe_pathfinding;
+	bool enable_targeting;
+	bool enable_looking;
+	bool enable_moving;
+	bool enable_dialogue;
+	bool suppress_activity_termination;
+	bool suppress_global_dialogue;
+	bool style_index_valid;
+	short forced_combat_status;
+	long style_index;
+	long action_animation_impulse;
+	long animation_mode;
+	bool grenade_throw_depress_trigger;
+	bool grenade_throw_started;
+	short grenade_throw_trajectory_type;
+	c_ai_point3d grenade_target;
+	bool approach_pending;
+	bool approach_within_range;
+	long approach_object_index;
+	real approach_distance_sq;
+	real approach_max_distance_sq;
+	real approach_follow_distance_sq;
 };
 static_assert(sizeof(command_script_datum) == 0x188);
 

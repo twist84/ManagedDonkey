@@ -761,8 +761,11 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ai\actor_firing_position.hpp" />
+    <ClInclude Include="source\ai\actor_moving.hpp" />
     <ClInclude Include="source\ai\actor_perception.hpp" />
     <ClInclude Include="source\ai\actor_stimulus.hpp" />
+    <ClInclude Include="source\ai\ai_actions.hpp" />
     <ClInclude Include="source\ai\ai_debug.hpp" />
     <ClInclude Include="source\ai\ai_profile.hpp" />
     <ClInclude Include="source\ai\ai_script.hpp" />

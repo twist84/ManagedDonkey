@@ -37,11 +37,11 @@ static_assert(sizeof(s_task_record) == 0x40);
 
 struct s_area_reference
 {
-	short area_type;
-	word_flags flags;
-	word_flags character_flags;
-	short zone;
-	short area;
+	short type;
+	short flags;
+	short character_flags;
+	short zone_index;
+	short area_index;
 	angle yaw;
 	//dword_flags connection_flags;
 };

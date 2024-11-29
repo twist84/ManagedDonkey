@@ -7,57 +7,44 @@
 
 struct step
 {
-	real_point3d __unknown0;
-	c_sector_ref __unknownC;
-	vector2d __unknown10;
-	real __unknown18;
+	real_point3d point;
+	c_sector_ref sector_ref;
+	vector2d direction;
+	real distance;
 	word obstacle_index;
-	word __unknown1E;
-	bool __unknown20;
+	word disc_index;
+	bool obstacle_direction_index;
 	bool turning_point;
-	word __unknown22[2];
-	byte __data26[2];
-	real heap_cost;
-	word __unknown2C; // step_index
-	short __unknown2E;
-	short __unknown30;
-	short __unknown32;
-	bool __unknown34;
-	byte __data35[3];
+	short obstructed_goal_step_indices[2];
+	real total_distance;
+	short previous_step_index;
+	short child_count;
+	short children_failed_count;
+	short blocking_obstacle_index;
+	bool failed;
 };
 static_assert(sizeof(struct step) == 0x38);
 
 struct obstacle_path
 {
 	real radius;
-
 	bool ignore_broken_surfaces;
-	byte __pad5[0x3];
-
-	struct obstacles* obstacles;
-	real_point3d goal_point;
+	struct obstacles const* obstacles;
+	real_point3d goal;
 	c_sector_ref goal_sector_ref;
-	word obstacle_index;
-	word __unknown1E; // step_index
-
-	short __unknown20;
-	byte __pad22[0x2];
-
-	real __unknown24;
+	short goal_obstacle_index;
+	short goal_step_index;
+	short best_goal_blocked_step_index;
+	real best_goal_blocked_distance;
 	short projection_axis;
 	bool projection_sign;
-	bool __unknown2B;
-
-	bool __unknown2C;
-	byte __pad2D[0x1];
-
+	bool goal_found_exactly;
+	bool ignore_optional;
 	short step_count;
 	step steps[MAXIMUM_OBSTACLE_AVOIDANCE_STEPS];
-
 	short heap_count;
 	short heap[MAXIMUM_OBSTACLE_AVOIDANCE_STEPS];
-
-	short __unknownEB2;
+	short blocking_obstacle_index;
 };
 static_assert(sizeof(struct obstacle_path) == 0xEB4);
 
@@ -91,7 +78,7 @@ extern bool __cdecl path_new(
 	short projection_axis,
 	bool projection_sign,
 	bool final_step,
-	bool a12);
+	bool ignore_optional);
 
 extern void render_debug_path(obstacle_path const* path);
 extern void render_debug_obstacle_path();

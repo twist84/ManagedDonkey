@@ -38,7 +38,7 @@ void __cdecl ai_erase(long squad_index, bool delete_immediately)
 	//INVOKE(0x01431720, ai_erase, squad_index, delete_immediately);
 
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	if (ai_globals->__unknown1)
+	if (ai_globals->ai_initialized_for_map)
 	{
 		if (squad_index == NONE)
 		{

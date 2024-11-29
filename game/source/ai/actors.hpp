@@ -1,51 +1,12 @@
 #pragma once
 
+#include "ai/actor_moving.hpp"
+#include "ai/ai_actions.hpp"
 #include "ai/joint_behavior.hpp"
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 #include "shell/shell.hpp"
-
-struct firing_position_ref
-{
-	byte __data0[0x4];
-};
-static_assert(sizeof(firing_position_ref) == 0x4);
-
-struct c_ai_point3d
-{
-	real_point3d m_point;
-	short m_reference_frame;
-	short m_structure_index;
-};
-static_assert(sizeof(c_ai_point3d) == 0x10);
-
-struct c_ai_direction
-{
-	long m_type;
-	c_ai_point3d __unknown10;
-};
-static_assert(sizeof(c_ai_direction) == 0x14);
-
-struct c_ai_action
-{
-	byte __data0[0xC];
-	c_ai_point3d __unknownC;
-	c_ai_direction __unknown1C;
-};
-static_assert(sizeof(c_ai_action) == 0x30);
-
-struct c_destination_orders
-{
-	short m_type;
-	word_flags m_flags;
-	byte __data4[0x18];
-	real __unknown1C;
-	byte __data20[0xC];
-	vector3d __unknown2C;
-	c_ai_action __unknown38;
-};
-static_assert(sizeof(c_destination_orders) == 0x68);
 
 struct actor_meta_data
 {
@@ -779,14 +740,15 @@ static_assert(0xA8C == OFFSETOF(actor_datum, commands));
 struct ai_reference_frame
 {
 	long object_index;
-	word_flags flags;
-	short __unknown6;
+	short runtime_flags;
+	short pad0;
 };
 static_assert(sizeof(ai_reference_frame) == 0x8);
 
-struct actor_iterator : c_data_iterator<actor_datum>
+struct actor_iterator
 {
-	bool __unknown10;
+	c_data_iterator<actor_datum> iterator;
+	bool active_only;
 	long index;
 };
 static_assert(sizeof(actor_iterator) == 0x18);

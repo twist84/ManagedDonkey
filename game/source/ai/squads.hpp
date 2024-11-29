@@ -84,9 +84,6 @@ struct squad_group_datum :
 	bool active;
 	bool placed;
 	bool enemy_visible;
-
-	byte __pad17[0x1];
-
 	short current_count;
 	short original_vitality;
 	short prebattle_living_count;

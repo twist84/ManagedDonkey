@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/joint_behavior.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
@@ -21,46 +22,135 @@ struct prop_ref_datum :
 	long prop_index;
 	long object_index;
 	long tracking_index;
-
-	byte __data18[0x4];
-
-	char acknowledgement;
+	real awareness;
+	char status;
 	char perception;
-
-	byte __data1E[0x1];
-
+	char visibility : 4;
+	char line_of_sight : 4;
 	byte_flags flags;
-
-	byte __data20[0x4];
-
+	short status_refresh_timer;
+	short state_refresh_timer;
 	long actor_next_prop_ref_index;
 	long actor_prev_prop_ref_index;
 	long clump_next_prop_ref_index;
 	long clump_prev_prop_ref_index;
-
 	real distance;
 	real salience;
 };
 static_assert(sizeof(prop_ref_datum) == 0x3C);
 
+struct zone_area_ref
+{
+	short zone_index;
+	short area_index;
+};
+static_assert(sizeof(zone_area_ref) == 0x4);
+
+struct prop_state
+{
+	long last_update_time;
+	real_point3d body_position;
+	real_point3d center_of_mass;
+	vector3d velocity;
+	vector3d aiming;
+	s_location body_location;
+	real_point3d head_position;
+	long vehicle_index;
+	c_sector_ref pathfinding_sector_ref;
+	c_ai_point3d pathfinding_point;
+	long death_time;
+	long posture;
+	bool dead;
+	bool noncombat;
+	bool in_combat;
+	bool fighting;
+	bool shooting;
+	bool flying;
+	bool vehicle_gunner;
+	bool dangerous_vehicle_driver;
+	bool preferred_target;
+	bool underwater;
+	bool pathfinding_data_valid;
+};
+static_assert(sizeof(prop_state) == 0x70);
+
 struct prop_datum :
 	s_datum_header
 {
-	byte __data[0xC2];
+	short type;
+	short status;
+	long object_index;
+	real importance;
+	real salience;
+	short prop_class;
+	long forced_retention_time;
+	long next_prop_index;
+	long first_prop_ref_index;
+	long actor_index;
+	short team_index;
+	bool swarm;
+	bool enemy;
+	bool ally;
+	bool player;
+	bool ignore;
+	short flags;
+	byte dialogue_ability_flags;
+	byte dialogue_completed_flags;
+	short magic_sight_ticks;
+	short comment_timer;
+	short remind_timer;
+	zone_area_ref discarded_pursuit_areas[5];
+	char current_pursuit_index;
+	char num_discarded_areas;
+	zone_area_ref pursuit_area;
+	prop_state state;
 };
 static_assert(sizeof(prop_datum) == 0xC4);
+
+struct prop_view
+{
+	short flags;
+	short prop_class;
+	short audibility;
+	short ineffability;
+	short line_of_sight;
+	short visible_ticks;
+	long last_perceived_time;
+	long last_visible_time;
+	long first_sighted_time;
+	c_ai_point3d last_visible_position;
+	vector3d actor_to_prop;
+	char quantized_facing;
+	long last_unreachable_time;
+	long unassailable_reset_time;
+	real awareness_of_me;
+	real scariness;
+	short advancing_ticks;
+	short search_stage;
+	pursuit_location pursuit_location;
+	short orphan_visibility;
+	short orphan_los;
+	short orphan_lifespan_ticks;
+	short orphan_inspection_ticks;
+	vector3d orphan_hint_vector;
+	short ticks_until_orphan;
+	long orphaned_time;
+	real_point3d last_new_position;
+};
+static_assert(sizeof(prop_view) == 0x8C);
 
 struct tracking_datum :
 	s_datum_header
 {
-	byte __data[0xFE];
+	prop_state state;
+	prop_view view;
 };
 static_assert(sizeof(tracking_datum) == 0x100);
 
 struct actor_prop_ref_iterator
 {
-	long prop_ref_index;
-	long next_prop_ref_index;
+	long index;
+	long next_index;
 };
 static_assert(sizeof(actor_prop_ref_iterator) == 0x8);
 

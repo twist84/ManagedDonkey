@@ -51,14 +51,14 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 					for (short task_area_index = 0; task_area_index < task->areas.count; task_area_index++)
 					{
 						s_area_reference& area_ref = task->areas[task_area_index];
-						if (area_ref.zone >= 0 && area_ref.zone < scenario->zones.count)
+						if (area_ref.zone_index >= 0 && area_ref.zone_index < scenario->zones.count)
 						{
-							//zone_definition* zone = zone_definition_get(area_ref.zone);
-							zone_definition& zone = scenario->zones[area_ref.zone];
+							//zone_definition* zone = zone_definition_get(area_ref.zone_index);
+							zone_definition& zone = scenario->zones[area_ref.zone_index];
 
-							if (area_ref.area >= 0 && area_ref.area < zone.areas.count)
+							if (area_ref.area_index >= 0 && area_ref.area_index < zone.areas.count)
 							{
-								area_definition& area_def = zone.areas[area_ref.area];
+								area_definition& area_def = zone.areas[area_ref.area_index];
 								add_vectors3d((vector3d*)&point, (vector3d*)&area_def.runtime_relative_mean_point, (vector3d*)&point);
 								zone_area_count++;
 							}

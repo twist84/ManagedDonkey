@@ -17,14 +17,22 @@
 
 struct ai_globals_type
 {
-	bool enable;
-	bool __unknown1; // render_enable
-	byte_flags flags;
-	byte __unknown3;
-	byte __unknown4;
-	bool fast_and_dumb;
-	byte __data6[22];
-	real unknown1C;
+	bool ai_active;
+	bool ai_initialized_for_map;
+	bool ai_has_control_data;
+	bool selected_firing_position_this_tick;
+	bool built_path_this_tick;
+	bool fast_and_dumb_ai;
+	short last_highest_pathfinding_service_timer;
+	short current_highest_pathfinding_service_timer;
+	bool pathfinding_time_given_this_frame;
+	short last_highest_perception_service_timer;
+	short current_highest_perception_service_timer;
+	bool perception_time_given_this_frame;
+	short current_objective_index;
+	long first_squadless_actor_index;
+	long highest_clump_refresh_weight;
+	real major_upgrade_error;
 	bool dialogue_enabled;
 	byte __data21[31];
 	word __unknown40;

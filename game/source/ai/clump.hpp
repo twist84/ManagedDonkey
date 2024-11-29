@@ -15,11 +15,9 @@ static_assert(sizeof(c_clump_behavior_state) == 0x8);
 struct clump_datum :
 	s_datum_header
 {
-	byte __pad2[0x2];
-
 	real_point3d position;
 	short num_members;
-	short team;
+	short team_index;
 	real nearest_player_distance;
 	real membership_radius;
 	long first_prop_index;
@@ -32,7 +30,7 @@ struct clump_datum :
 	real min_importance;
 	real max_salience;
 	short importance_threshold_freeze_ticks;
-	word_flags fought_flags;
+	short fought_flags;
 	c_clump_behavior_state behavior_state;
 	real max_clump_perception_distance;
 	long last_new_enemy_sighted_time;
@@ -42,14 +40,27 @@ struct clump_datum :
 	short death_count;
 	long dialogue_state;
 	long last_grenade_throw_time;
-
-	// padding?
-	byte __data5C[0x8];
-
-	long const behavior_check_timer[1];
+	long debug_grenade_throw_actor_index;
+	long debug_grenade_throw_request_time;
+	long behavior_check_timer[1];
 	invitation_data const invitations[10];
 };
 static_assert(sizeof(clump_datum) == 0x108);
+
+struct clump_iterator
+{
+	c_data_iterator<clump_datum> iterator;
+	long index;
+};
+static_assert(sizeof(clump_iterator) == 0x14);
+
+struct clump_prop_iterator
+{
+	clump_datum* clump;
+	long index;
+	long next_index;
+};
+static_assert(sizeof(clump_prop_iterator) == 0xC);
 
 extern char const* const group_state_names[4];
 

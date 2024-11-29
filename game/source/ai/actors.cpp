@@ -108,10 +108,10 @@ void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2)
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	
-	if (ai_globals->__unknown1)
+	if (ai_globals->ai_initialized_for_map)
 	{
-		iterator->begin(*actor_data);
-		iterator->__unknown10 = a2;
+		iterator->iterator.begin(*actor_data);
+		iterator->active_only = a2;
 	}
 }
 
@@ -122,17 +122,17 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 
 	actor_datum* actor = NULL;
-	if (ai_globals->__unknown1)
+	if (ai_globals->ai_initialized_for_map)
 	{
-		while (iterator->next())
+		while (iterator->iterator.next())
 		{
-			if (!iterator->__unknown10 || actor_is_active(iterator->m_datum))
+			if (!iterator->active_only || actor_is_active(iterator->iterator.m_datum))
 			{
-				actor = iterator->m_datum;
+				actor = iterator->iterator.m_datum;
 				break;
 			}
 		}
-		iterator->index = iterator->get_index();
+		iterator->index = iterator->iterator.get_index();
 	}
 
 	ASSERT(((iterator->index == NONE) && (actor == NULL)) || ((iterator->index != NONE) && (actor != NULL)));
