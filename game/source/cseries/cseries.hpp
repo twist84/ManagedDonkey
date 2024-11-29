@@ -235,6 +235,17 @@ public:
 
 long const k_vtable_pointer_size = sizeof(void*);
 
+struct c_robust_void_pointer
+{
+	void* m_value[3];
+};
+
+template<typename t_type>
+struct c_robust_pointer
+{
+	c_robust_void_pointer m_pointer;
+};
+
 constexpr long bit_count(long val)
 {
 	long result = 0;
