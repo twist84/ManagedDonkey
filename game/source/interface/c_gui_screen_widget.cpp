@@ -42,10 +42,10 @@ void c_gui_screen_widget::add_game_tag_parser(c_game_tag_parser* parser)
 
 	if (parser)
 	{
-		if (m_game_tag_parser_count < NUMBEROF(m_game_tag_parser))
+		if (m_game_tag_parser_count < NUMBEROF(m_game_tag_parsers))
 		{
 			user_interface_text_parser_register(parser, m_screen_index);
-			m_game_tag_parser[m_game_tag_parser_count++] = parser;
+			m_game_tag_parsers[m_game_tag_parser_count++] = parser;
 		}
 	}
 }

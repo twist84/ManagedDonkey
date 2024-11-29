@@ -249,20 +249,13 @@ public:
 
 	bool m_visible;
 	bool m_enabled;
-	bool __unknownE;
+	bool m_needs_disposal;
 	bool m_use_alternate_ambient_state;
 
-	struct s_unknown
-	{
-		c_gui_widget* __unknown0;
-		c_gui_widget* __unknown4;
-		c_gui_widget* __unknown8;
-	};
-
-	s_unknown m_parent;
-	s_unknown m_children;
-	s_unknown m_next;
-	s_unknown m_previous;
+	c_robust_pointer<c_gui_widget> m_parent;
+	c_robust_pointer<c_gui_widget> m_children;
+	c_robust_pointer<c_gui_widget> m_next;
+	c_robust_pointer<c_gui_widget> m_previous;
 
 	//c_gui_widget* m_parent;
 	//c_gui_widget* m_children;
@@ -273,8 +266,8 @@ public:
 	real __unknown44;
 	dword_flags m_flags;
 	long __unknown4C;
-	s_animation_transform m_full_animation_state;
-	long __unknownD8;
+	s_animation_transform m_animated_state;
+	long m_last_animated_milliseconds;
 };
 static_assert(sizeof(c_gui_widget) == 0xDC);
 

@@ -53,23 +53,28 @@ struct s_runtime_screen_widget_definition :
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
+struct s_depth_sorted_render_widget
+{
+	long type;
+	long render_data_offset;
+	real depth;
+	long depth_bias;
+};
+static_assert(sizeof(s_depth_sorted_render_widget) == 0x10);
+
 struct s_window_manager_screen_render_data
 {
-	struct s_render_list
+	enum
 	{
-		long type;
-		long render_data_offset;
-		real rendered_depth;
-		long render_depth_bias;
+		k_maximum_rendered_child_widgets_per_screen = 384
 	};
-	static_assert(sizeof(s_render_list) == 0x10);
 
 	char* render_data_buffer;
-	long __unknown4;
+	long render_data_buffer_length;
 	long render_data_buffer_count;
-	s_render_list render_list[384];
+	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
 	long current_count;
-	short_rectangle2d window_bounds;
+	short_rectangle2d built_for_viewport_bounds;
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
@@ -91,29 +96,42 @@ public:
 protected:
 	void add_datasource(c_gui_data* datasource);
 
+	enum
+	{
+		k_maximum_number_of_game_tag_parsers = 20,
+	};
+
+	enum e_display_group_type
+	{
+		_display_group_type_default = 0,
+		_display_group_type_button_key,
+
+		k_display_group_type_count
+	};
+
 	long __unknownDC;
 	long m_screen_index;
-	dword __timeE4;
-	long __unknownE8;
-	long __unknownEC;
-	c_gui_widget* m_focused_widget;
+	dword m_creation_time_milliseconds;
+	dword m_disposal_time_milliseconds;
+	dword m_last_focus_change_time_milliseconds;
+	c_gui_widget* m_current_focused_widget;
 	bool m_suppress_focus;
-	long m_display_groups[2][3];
+	bool m_render_in_screenshot;
+	long m_current_display_group_widgets[k_display_group_type_count];
+	long m_previous_display_group_widgets[k_display_group_type_count];
+	long m_current_display_group_indicies[k_display_group_type_count];
 	bool m_reload_next_frame;
 	bool m_responds_to_controller_events;
-	byte __unknown112;
-	byte __unknown113;
-	long m_focus_on_load_list_name;
-	long m_focus_on_load_element_handle;
-	long m_focus_on_load_column_name;
-	long m_focus_on_load_column_value;
-	s_runtime_screen_widget_definition m_core_definition;
+	long m_initial_focused_widget;
+	long m_initial_focused_widget_element_handle;
+	long m_initial_focused_widget_column_name;
+	long m_initial_focused_widget_column_value;
+	s_runtime_screen_widget_definition m_definition;
 	c_gui_data* m_datasource[32];
 	long m_datasource_count;
-	c_game_tag_parser* m_game_tag_parser[20];
+	c_game_tag_parser* m_game_tag_parsers[k_maximum_number_of_game_tag_parsers];
 	long m_game_tag_parser_count;
-	s_window_manager_screen_render_data m_screen_render_data;
+	s_window_manager_screen_render_data m_render_data;
 	bool m_running_in_codeless_mode;
-	byte __pad1A9D[0x3];
 };
 static_assert(sizeof(c_gui_screen_widget) == 0x1AA0);

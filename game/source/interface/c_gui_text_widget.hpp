@@ -32,7 +32,7 @@ struct s_text_widget_definition :
 	c_string_id value_override_list;
 	c_string_id value_identifier;
 	c_string_id text_color_preset;
-	c_enum<e_interface_font, short, _interface_font_terminal, k_interface_font_count> custom_font;
+	c_enum<e_font_id, short, _terminal_font, k_public_font_id_count> custom_font;
 	byte : 8;
 	byte : 8;
 };
@@ -44,7 +44,7 @@ struct s_runtime_text_widget_definition :
 	c_string_id value_override_list;
 	c_string_id value_identifier;
 	real_argb_color text_color_preset;
-	c_enum<e_interface_font, long, _interface_font_terminal, k_interface_font_count> custom_font;
+	c_enum<e_font_id, long, _terminal_font, k_public_font_id_count> custom_font;
 };
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 

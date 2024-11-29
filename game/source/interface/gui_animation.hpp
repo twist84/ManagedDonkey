@@ -7,30 +7,17 @@ struct s_animation_transform
 {
 	byte __data0[0x38];
 
-	real_argb_color tint_color_direct;
-
-	// gui_real_rectangle2d::offset
-	// bounding_rect_from_sequence
-	real_point3d __unknown48;
-
-	vector2d __unknown54;
-
-	// gui_real_rectangle2d::scale_about_local_point
-	// local_point
-	real_point2d __unknown5C;
-
-	real __unknown64;
-	real __unknown68;
-	real __unknown6C;
-
-	// gui_real_rectangle2d::rotate_about_local_point
-	// local_point
-	real_point2d __unknown70;
-
-	real_point2d __unknown80;
-
-	short sequence_index;
-	short frame_index;
-	c_enum<e_interface_font, long, _interface_font_terminal, k_interface_font_count> custom_font;
+	real_argb_color color;
+	real_point3d position;
+	vector2d scale;
+	real_point2d local_scale_origin;
+	real rotation_angle_radians;
+	real sine_rotation_angle;
+	real cosine_rotation_angle;
+	real_point2d local_rotation_origin;
+	real_point2d texture_uv;
+	short bitmap_sprite_sequence;
+	short bitmap_sprite_frame;
+	e_font_id font;
 };
 static_assert(sizeof(s_animation_transform) == 0x88);

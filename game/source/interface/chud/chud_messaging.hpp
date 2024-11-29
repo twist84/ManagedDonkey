@@ -14,14 +14,14 @@ struct c_chud_messaging_manager
 {
 	enum e_chud_state_text_placement
 	{
-		_chud_state_text_placement_right = 0,
-		_chud_state_text_placement_left,
-		_chud_state_text_placement_bottom,
-		_chud_state_text_placement_bottom_primary,
-		_chud_state_text_placement_unknown4,
-		_chud_state_text_placement_unknown5,
+		_chud_state_text_right = 0,
+		_chud_state_text_left,
+		_chud_state_text_bottom_state,
+		_chud_state_text_bottom_primary,
+		_chud_state_text_unknown4,
+		_chud_state_text_unknown5,
 
-		k_chud_state_text_placement_count
+		k_chud_state_placement_count
 	};
 
 	// #TODO: map this whole ass struct

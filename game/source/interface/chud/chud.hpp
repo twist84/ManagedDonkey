@@ -53,14 +53,14 @@ static_assert(sizeof(c_chud_persistent_user_data) == 0xFA40);
 
 struct s_chud_navpoint
 {
-	long object_index;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
-	dword_flags flags;
-	real __unknown14;
-	wchar_t str[6];
-	real_point3d position;
+	long navpoint_identifier;
+	long arrow_type;
+	long icon_type;
+	long color_type;
+	long flags;
+	real alpha;
+	wchar_t navpoint_text[6];
+	real_point3d position_worldspace;
 };
 static_assert(sizeof(s_chud_navpoint) == 0x30);
 

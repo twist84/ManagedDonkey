@@ -4,10 +4,10 @@
 
 struct s_cortana_globals
 {
-	long cortana_effect_definition_index;
-	long __unknown4;
-	long keyframe_index;
-	long __unknownC;
+	long cortana_effect_index;
+	long cortana_effect_start_game_tick;
+	long cortana_effect_tick;
+	long cortana_effect_length;
 };
 static_assert(sizeof(s_cortana_globals) == 0x10);
 

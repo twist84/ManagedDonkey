@@ -145,10 +145,10 @@ c_load_screen_message::c_load_screen_message(long screen_name, e_controller_inde
 	c_message(_message_type_load_screen, screen_name, controller, window),
 	m_transition_type((e_screen_transition_type)1),
 	m_respond_to_controller_events(true),
-	m_focus_on_load_list_name(NONE),
-	m_focus_on_load_element_handle(NONE),
-	m_focus_on_load_column_name(NONE),
-	m_focus_on_load_column_value(NONE),
+	m_initial_focused_widget(NONE),
+	m_initial_focused_widget_element_handle(NONE),
+	m_initial_focused_widget_column_name(NONE),
+	m_initial_focused_widget_column_value(NONE),
 	m_parent_screen_index(NONE),
 	m_layered_position(layered_position),
 	m_applies_even_to_codeless_screens(false)
@@ -173,9 +173,9 @@ void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen) con
 //saved_film_director.obj
 void c_load_screen_message::set_focus_on_load_by_name(long list_name, long column_name, long column_value)
 {
-	m_focus_on_load_list_name = list_name;
-	m_focus_on_load_column_name = column_name;
-	m_focus_on_load_column_value = column_value;
+	m_initial_focused_widget = list_name;
+	m_initial_focused_widget_column_name = column_name;
+	m_initial_focused_widget_column_value = column_value;
 }
 
 //gui_screen_start_menu.obj
@@ -187,8 +187,8 @@ void c_load_screen_message::set_transition_type(e_screen_transition_type transit
 //gui_screen_start_menu.obj
 void c_load_screen_message::set_focus_on_load(long list_name, long element_handle)
 {
-	m_focus_on_load_list_name = list_name;
-	m_focus_on_load_element_handle = element_handle;
+	m_initial_focused_widget = list_name;
+	m_initial_focused_widget_element_handle = element_handle;
 }
 
 //gui_screen_start_menu.obj
@@ -212,25 +212,25 @@ bool c_load_screen_message::get_respond_to_controller_events() const
 //user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_list_name() const
 {
-	return m_focus_on_load_list_name;
+	return m_initial_focused_widget;
 }
 
 //user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_element_handle() const
 {
-	return m_focus_on_load_element_handle;
+	return m_initial_focused_widget_element_handle;
 }
 
 //user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_column_name() const
 {
-	return m_focus_on_load_column_name;
+	return m_initial_focused_widget_column_name;
 }
 
 //user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_column_value() const
 {
-	return m_focus_on_load_column_value;
+	return m_initial_focused_widget_column_value;
 }
 
 //user_interface_window_manager.obj

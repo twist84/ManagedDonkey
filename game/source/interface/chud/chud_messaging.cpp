@@ -61,21 +61,21 @@ void __cdecl chud_post_action_response(long user_index)
 		string_id message = k_string_id_empty_string;
 		string_id message_dual = k_string_id_empty_string;
 
-		if (TEST_BIT(action_context->interaction.seat_index, 0))
+		if (TEST_BIT(action_context->interaction.enter_vehicle.seat_index, 0))
 			message = item_definition->item.pickup_message.get_value();
-		else if (TEST_BIT(action_context->interaction.seat_index, 1))
+		else if (TEST_BIT(action_context->interaction.enter_vehicle.seat_index, 1))
 			message = item_definition->item.swap_message.get_value();
 
-		if (TEST_BIT(action_context->interaction.seat_index, 2))
+		if (TEST_BIT(action_context->interaction.enter_vehicle.seat_index, 2))
 			message_dual = item_definition->item.pickup_message_dual.get_value();
-		else if (TEST_BIT(action_context->interaction.seat_index, 3))
+		else if (TEST_BIT(action_context->interaction.enter_vehicle.seat_index, 3))
 			message_dual = item_definition->item.swap_message_dual.get_value();
 
 		if (message != k_string_id_empty_string)
-			chud_set_state_text(user_index, message, NONE, c_chud_messaging_manager::_chud_state_text_placement_right);
+			chud_set_state_text(user_index, message, NONE, c_chud_messaging_manager::_chud_state_text_right);
 
 		if (message_dual != k_string_id_empty_string)
-			chud_set_state_text(user_index, message_dual, NONE, c_chud_messaging_manager::_chud_state_text_placement_left);
+			chud_set_state_text(user_index, message_dual, NONE, c_chud_messaging_manager::_chud_state_text_left);
 	}
 
 	// call the original function

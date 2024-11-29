@@ -107,10 +107,10 @@ public:
 protected:
 	e_screen_transition_type m_transition_type;
 	bool m_respond_to_controller_events;
-	long m_focus_on_load_list_name;
-	long m_focus_on_load_element_handle;
-	long m_focus_on_load_column_name;
-	long m_focus_on_load_column_value;
+	long m_initial_focused_widget;
+	long m_initial_focused_widget_element_handle;
+	long m_initial_focused_widget_column_name;
+	long m_initial_focused_widget_column_value;
 	long m_parent_screen_index;
 	long m_layered_position;
 	bool m_applies_even_to_codeless_screens;

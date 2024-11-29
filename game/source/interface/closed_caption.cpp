@@ -89,7 +89,7 @@ void __cdecl closed_caption_reset()
 {
 	INVOKE(0x00A99060, closed_caption_reset);
 
-	//g_caption_globals.font = _font_id_subtitle_font;
+	//g_caption_globals.font = _subtitle_font;
 	//g_caption_globals.justification = _text_justification_left;
 	//g_caption_globals.captions.clear();
 }

@@ -14,8 +14,8 @@
 #include "rasterizer/rasterizer.hpp"
 #include "shell/shell_windows.hpp"
 
-#define WIDGET_GET_FIRST_CHILD(WIDGET) (WIDGET)->m_children.__unknown0
-#define WIDGET_GET_NEXT_CHILD(WIDGET) (WIDGET)->m_next.__unknown0
+#define WIDGET_GET_FIRST_CHILD(WIDGET) (c_gui_widget*)(WIDGET)->m_children.m_pointer.m_value[0]
+#define WIDGET_GET_NEXT_CHILD(WIDGET) (c_gui_widget*)(WIDGET)->m_next.m_pointer.m_value[0]
 
 s_user_interface_mouse_globals user_interface_mouse_globals{};
 
@@ -155,8 +155,8 @@ void user_interface_mouse_compute_list_item_bounds(c_gui_list_item_widget* list_
 	user_interface_mouse_compute_widget_bounds(list_item_widget, bounds, [](c_gui_widget const* widget) -> bool { return widget->m_visible && widget->m_type == _gui_widget_type_bitmap; });
 
 	real_point2d anchor_position{};
-	anchor_position.x = list_item_widget->m_full_animation_state.__unknown48.x;
-	anchor_position.y = list_item_widget->m_full_animation_state.__unknown48.y;
+	anchor_position.x = list_item_widget->m_animated_state.position.x;
+	anchor_position.y = list_item_widget->m_animated_state.position.y;
 
 	bounds->x0 += anchor_position.x;
 	bounds->x1 += anchor_position.x;
