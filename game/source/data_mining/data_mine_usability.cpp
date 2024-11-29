@@ -11,8 +11,8 @@ s_persisted_usability_globals g_persisted_usability_globals;
 
 s_persisted_usability_globals::s_persisted_usability_globals() :
 	display_mission_segment(false),
-	mission_segment_buffer(),
-	user_experience_buffer()
+	mission_segment(),
+	user_experience()
 {
 }
 
@@ -37,7 +37,7 @@ void data_mine_render_mission_segment()
 		draw_string.set_color(global_real_argb_yellow);
 		draw_string.set_tab_stops(NULL, 0);
 		draw_string.set_bounds(&bounds);
-		draw_string.draw(&font_cache, g_persisted_usability_globals.mission_segment_buffer.get_string());
+		draw_string.draw(&font_cache, g_persisted_usability_globals.mission_segment.get_string());
 	}
 }
 

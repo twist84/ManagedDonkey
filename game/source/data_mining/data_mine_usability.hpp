@@ -7,8 +7,8 @@ struct s_persisted_usability_globals
 	s_persisted_usability_globals();
 
 	bool display_mission_segment;
-	c_static_string<256> mission_segment_buffer;
-	c_static_string<256> user_experience_buffer;
+	c_static_string<256> mission_segment;
+	c_static_string<256> user_experience;
 };
 static_assert(sizeof(s_persisted_usability_globals) == 0x201);
 

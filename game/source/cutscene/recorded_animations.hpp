@@ -4,9 +4,18 @@
 #include "memory/data.hpp"
 #include "units/units.hpp"
 
+struct direction_playback_controller
+{
+	short yaw;
+	short pitch;
+};
+static_assert(sizeof(direction_playback_controller) == 0x4);
+
 struct animation_playback_controller
 {
-	byte __data[0xC];
+	direction_playback_controller facing_control;
+	direction_playback_controller aiming_control;
+	direction_playback_controller looking_control;
 };
 static_assert(sizeof(animation_playback_controller) == 0xC);
 
@@ -18,9 +27,9 @@ struct animation_thread :
 	word_flags flags;
 	long relative_ticks;
 	char const* event_stream;
-	unit_control_data control;
-	animation_playback_controller playback_controller;
-	short playback_codec;
+	unit_control_data controller;
+	animation_playback_controller animation_state;
+	short version;
 };
 static_assert(sizeof(animation_thread) == 0xA4);
 

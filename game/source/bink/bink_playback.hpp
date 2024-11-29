@@ -4,8 +4,8 @@
 
 struct s_bink_shared_game_state
 {
-	dword __unknown0;
-	dword __unknown4;
+	long texture_index_to_render;
+	long last_updated_frame;
 };
 static_assert(sizeof(s_bink_shared_game_state) == 0x8);
 

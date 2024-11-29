@@ -4,26 +4,43 @@
 
 struct s_cinematic_new_globals_definition
 {
-	byte __data[0x3C];
+	byte __data0[0x2808];
 };
-static_assert(sizeof(s_cinematic_new_globals_definition) == 0x3C);
+static_assert(sizeof(s_cinematic_new_globals_definition) == 0x2808);
+
+struct s_cinematic_title_datum
+{
+	short title_index;
+	short title_timer;
+	bool forced;
+};
+static_assert(sizeof(s_cinematic_title_datum) == 0x6);
+
+struct s_subtitle
+{
+	long string;
+	real total_duration;
+	real current_duration;
+};
+static_assert(sizeof(s_subtitle) == 0xC);
 
 struct s_cinematic_globals_definition
 {
-	byte __unknown0[4];
+	real letter_box_amount;
 	bool letter_box;
 	bool cinematic_in_progress;
 	bool cinematic_skip_in_progress;
 	bool cinematic_suppress_bsp_object_creation;
-	byte __unknown8[24];
-	dword subtitle_string_id;
-	real subtitle_time_shown;
-	real subtitle_time_shown2;
-	byte __unknown2C[2];
-	bool outro_start_stop;
-	byte __unknown2F[10201];
+	s_cinematic_title_datum active_titles[4];
+	s_subtitle subtitle;
+	short letter_box_type;
+	bool cinematic_is_outro;
+	bool pad;
+	bool cinematic_fade_out_in_progress;
+	long cinematic_fade_out_start_time;
+	long cinematic_fade_out_stop_time;
 };
-static_assert(sizeof(s_cinematic_globals_definition) == 0x2808);
+static_assert(sizeof(s_cinematic_globals_definition) == 0x3C);
 
 struct s_cinematic_light_globals
 {
