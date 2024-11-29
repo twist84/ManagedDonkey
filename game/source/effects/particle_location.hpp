@@ -6,18 +6,11 @@
 struct c_particle_location :
 	s_datum_header
 {
-	byte __unknown2;
-	byte __data3[0x1];
-
-	// 0: first_person
-	// 1: bounding_sphere_initialized
-	// 2: passed_visibility_last_frame
-	// 3: failed_visibility_last_frame
-	dword_flags m_flags;
-
-	long m_first_emitter_index;
-	long m_next_emitter_index;
-	long m_next_location_index;
+	byte m_random_seed;
+	long m_flags;
+	long m_emitter_list_head;
+	long m_emitter_list_tail;
+	long m_next_sibling_index;
 	long m_parent_system_index;
 	real_matrix4x3 m_matrix;
 	real m_lod_amount;

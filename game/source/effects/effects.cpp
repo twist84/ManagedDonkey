@@ -15,7 +15,7 @@ bool g_debug_effects_full = false;
 
 bool enable_opaque_effect_render_pass = true;
 bool enable_transparents_effect_render_pass = true;
-bool enable_distortion_effect_render_pass = false;
+bool enable_distortion_effect_render_pass = true;
 bool enable_first_person_effect_render_pass = true;
 
 bool effects_render_pass_check(e_effect_pass pass)

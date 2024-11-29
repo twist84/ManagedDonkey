@@ -28,7 +28,7 @@ enum e_effect_pass
 
 struct s_effect_vector
 {
-	real_point3d point;
+	real_point3d position;
 	vector3d direction;
 	c_string_id name;
 };
@@ -112,8 +112,32 @@ struct s_effect_message
 	byte m_priority;
 	word m_event_counter;
 	long m_flags;
-	real_matrix4x3 matrix;
-	byte __data4C[0x10];
+
+	union
+	{
+		// #TODO: add the following union members
+
+		//s_create_particle_system m_create_particle_system;
+		//s_add_particle_system_location m_add_particle_system_location;
+		//s_initialize_particle_system m_initialize_particle_system;
+		//s_create_contrail_system m_create_contrail_system;
+		//s_add_contrail_system_location m_add_contrail_system_location;
+		//s_initialize_contrail_system m_initialize_contrail_system;
+		//s_create_light_volume_system m_create_light_volume_system;
+		//s_add_light_volume_system_location m_add_light_volume_system_location;
+		//s_initialize_light_volume_system m_initialize_light_volume_system;
+		//s_create_beam_system m_create_beam_system;
+		//s_add_beam_system_location m_add_beam_system_location;
+		//s_initialize_beam_system m_initialize_beam_system;
+		//s_create_decal_system m_create_decal_system;
+		//s_effect_xsynced_bit m_effect_xsynced_bit;
+		//s_location_relocated m_location_relocated;
+		//s_effect_restarted m_effect_restarted;
+		//s_event_restarted m_event_restarted;
+		//s_effect_sample_lightmap m_effect_sample_lightmap;
+
+		byte storage[0x44];
+	};
 };
 static_assert(sizeof(s_effect_message) == 0x5C);
 

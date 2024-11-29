@@ -8,13 +8,12 @@ struct c_contrail;
 struct c_contrail_profile;
 struct c_contrail_states
 {
-	c_contrail_system* m_contrail_system;
-	c_contrail_location* m_contrail_location;
-	c_contrail* m_contrail;
-	c_contrail_profile* m_contrail_profile;
-	real m_state_values[15];
-	real __unknown4C;
-	dword_flags m_flags;
+	c_contrail_system const* m_contrail_system;
+	c_contrail_location const* m_contrail_location;
+	c_contrail const* m_contrail;
+	c_contrail_profile const* m_contrail_profile;
+	real m_state_values[16];
+	dword m_valid_states;
 	dword m_used_states;
 };
 static_assert(sizeof(c_contrail_states) == 0x58);
