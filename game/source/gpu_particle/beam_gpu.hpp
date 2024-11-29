@@ -12,15 +12,15 @@ public:
 	struct s_row :
 		s_datum_header
 	{
-		word __unknown2;
-		dword __unknown4;
-		dword __unknown8;
+		word m_row;
+		long m_prev;
+		long m_next;
 	};
 	static_assert(sizeof(s_row) == 0xC);
 
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
+	long m_beam_index;
+	long m_row_head;
+	word_flags m_flags;
 };
 static_assert(sizeof(c_beam_gpu) == 0x10);
 

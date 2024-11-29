@@ -12,17 +12,19 @@ public:
 	struct s_row :
 		s_datum_header
 	{
-		byte __data[0x12];
+		long m_prev;
+		long m_next;
+		word m_row;
+		byte m_used_count;
+		real m_lifespan;
 	};
 	static_assert(sizeof(s_row) == 0x14);
 
-	byte __data2[0x2];
-	long m_particle_system_index;
-	byte __data8[0x4];
-	long m_particle_emitter_index;
-	long __unknown10;
+	long m_system_index;
+	long m_emitter_def_index;
+	long m_emitter_index;
+	long m_row_head;
 	word m_particle_count;
-	byte __data16[0x2];
 };
 static_assert(sizeof(c_particle_emitter_gpu) == 0x18);
 
