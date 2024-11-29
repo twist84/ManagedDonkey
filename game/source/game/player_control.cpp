@@ -226,7 +226,7 @@ bool __cdecl player_control_get_machinima_camera_use_old_controls()
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	if (player_control_get_machinima_camera_enabled())
-		return player_control_globals->machinima_camera_use_old_controls;
+		return player_control_globals->machinima_camera_old_controls;
 
 	return false;
 }
@@ -362,7 +362,7 @@ void __cdecl player_control_update_machinima()
 			{
 				if (input_state->get_button(_button_action_unknown37).down_frames() == 1) // dpad left
 				{
-					player_control_globals->machinima_camera_use_old_controls = !player_control_globals->machinima_camera_use_old_controls;
+					player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
 					user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
 				}
 
@@ -458,7 +458,7 @@ void __cdecl player_control_get_controller_input_for_jetpack(long input_user_ind
 			v0 = true;
 	}
 
-	SET_BIT(input->control_flags, _unit_control_jetpack_bit, v0);
+	SET_BIT(input->unit_control_flags, _unit_control_jetpack_bit, v0);
 }
 HOOK_DECLARE_CALL(0x005D4C66, player_control_get_controller_input_for_jetpack);
 

@@ -22,7 +22,7 @@
 
 #include <climits>
 
-REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_end_condition_count);
+REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_game_end_condition_count);
 
 HOOK_DECLARE(0x00550B80, game_engine_get_statborg);
 
@@ -450,7 +450,7 @@ void __cdecl game_engine_update()
 	//			TEST_MASK(game_engine_globals->game_simulation, ~game_engine_globals->valid_teams) ||
 	//			TEST_MASK(game_engine_globals->active_teams, ~game_engine_globals->game_simulation))
 	//		{
-	//			game_engine_end_round_with_winner(NONE, true, _game_engine_end_condition_game_end_invalid_team_mapping);
+	//			game_engine_end_round_with_winner(NONE, true, _game_engine_game_end_invalid_team_mapping);
 	//		}
 	//	}
 	//
@@ -483,7 +483,7 @@ void __cdecl game_engine_update_after_game()
 	//			if (game_engine_globals1->current_state == 1)
 	//			{
 	//				if (game_engine_globals1->desired_state == 1)
-	//					game_engine_end_round_with_winner(game_engine_choose_winner_index(), false, _game_engine_end_condition_game_end_external);
+	//					game_engine_end_round_with_winner(game_engine_choose_winner_index(), false, _game_engine_game_end_external);
 	//				else
 	//					game_engine_update_after_game_update_state();
 	//			}
@@ -524,7 +524,7 @@ void __cdecl game_engine_update_after_game()
 	//				}
 	//				else
 	//				{
-	//					game_engine_end_game(_game_engine_end_condition_game_end_exceeded_maximum_rounds);
+	//					game_engine_end_game(_game_engine_game_end_exceeded_maximum_rounds);
 	//				}
 	//			}
 	//			else

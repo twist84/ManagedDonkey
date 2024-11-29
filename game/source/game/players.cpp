@@ -829,22 +829,22 @@ void __cdecl players_verify()
 
 void s_emblem_info::decode(c_bitstream* packet)
 {
-	foreground_emblem = (char)packet->read_integer("foreground-emblem", 6);
-	background_emblem = (char)packet->read_integer("background-emblem", 6);
-	emblem_flags.set_unsafe((byte)packet->read_integer("emblem-flags", 3));
-	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-primary-color", 6));
-	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-secondary-color", 6));
-	emblem_primary_color.set_raw_value((char)packet->read_integer("emblem-background-color", 6));
+	foreground_emblem_index = (char)packet->read_integer("foreground-emblem", 6);
+	background_emblem_index = (char)packet->read_integer("background-emblem", 6);
+	emblem_info_flags.set_unsafe((byte)packet->read_integer("emblem-flags", 3));
+	primary_color_index.set_raw_value((char)packet->read_integer("emblem-primary-color", 6));
+	secondary_color_index.set_raw_value((char)packet->read_integer("emblem-secondary-color", 6));
+	background_color_index.set_raw_value((char)packet->read_integer("emblem-background-color", 6));
 }
 
 void s_emblem_info::encode(c_bitstream* packet)
 {
-	packet->write_integer("foreground-emblem", foreground_emblem, 6);
-	packet->write_integer("background-emblem", background_emblem, 6);
-	packet->write_integer("emblem-flags", emblem_flags.get_unsafe(), 3);
-	packet->write_integer("emblem-primary-color", emblem_primary_color, 6);
-	packet->write_integer("emblem-secondary-color", emblem_primary_color, 6);
-	packet->write_integer("emblem-background-color", emblem_primary_color, 6);
+	packet->write_integer("foreground-emblem", foreground_emblem_index, 6);
+	packet->write_integer("background-emblem", background_emblem_index, 6);
+	packet->write_integer("emblem-flags", emblem_info_flags.get_unsafe(), 3);
+	packet->write_integer("emblem-primary-color", primary_color_index, 6);
+	packet->write_integer("emblem-secondary-color", secondary_color_index, 6);
+	packet->write_integer("emblem-background-color", background_color_index, 6);
 }
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)

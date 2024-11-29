@@ -207,7 +207,7 @@ long __cdecl game_create_lock_resources(e_game_create_mode mode)
 {
 	return INVOKE(0x00530AC0, game_create_lock_resources, mode);
 
-	//return mode == _game_create_mode_lock ? tag_resources_lock_game() : 0;
+	//return mode == _game_create_from_main ? tag_resources_lock_game() : 0;
 }
 
 void __cdecl game_create_missing_objects(e_game_create_mode mode)
@@ -294,7 +294,7 @@ void __cdecl game_create_unlock_resources(e_game_create_mode mode, long& lock)
 {
 	INVOKE(0x00530C20, game_create_unlock_resources, mode, lock);
 
-	//if (mode == _game_create_mode_lock)
+	//if (mode == _game_create_from_main)
 	//	tag_resources_unlock_game(lock);
 }
 
@@ -480,7 +480,7 @@ void __cdecl game_frame(real game_seconds_elapsed)
 
 	player_effect_frame_update(game_seconds_elapsed);
 	c_render_globals::advance_frame_time(game_seconds_elapsed);
-	game_globals->update_tick_this_frame = false;
+	game_globals->game_had_an_update_tick_this_frame = false;
 }
 
 dword __cdecl game_get_active_cinematic_zone_mask()
@@ -614,7 +614,7 @@ bool __cdecl game_had_an_update_tick_this_frame()
 	//return INVOKE(0x00531410, game_had_an_update_tick_this_frame);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
-	return game_globals && game_globals->update_tick_this_frame;
+	return game_globals && game_globals->game_had_an_update_tick_this_frame;
 }
 
 bool __cdecl game_has_nonlocal_players()
@@ -1224,7 +1224,7 @@ void __cdecl game_pvs_clear_scripted_camera_pvs()
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (game_globals)
-		game_globals->scripted_camera_pvs = false;
+		game_globals->pvs_use_scripted_camera = false;
 }
 
 void __cdecl game_pvs_enable_scripted_camera_pvs()
@@ -1234,7 +1234,7 @@ void __cdecl game_pvs_enable_scripted_camera_pvs()
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (game_globals)
-		game_globals->scripted_camera_pvs = true;
+		game_globals->pvs_use_scripted_camera = true;
 }
 
 void __cdecl game_pvs_scripted_clear()
@@ -1408,7 +1408,7 @@ void __cdecl game_tick()
 		struct simulation_update update = { .flags = 0 };
 		s_simulation_update_metadata metadata = { .flags = 0 };
 
-		game_globals->update_tick_this_frame = true;
+		game_globals->game_had_an_update_tick_this_frame = true;
 		main_status(__FUNCTION__, "time %d", game_time_get());
 
 		PROFILER(build_simulation_update)
@@ -1555,13 +1555,13 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 
 		TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-		game_globals->update_tick_this_frame = game_simulation_get() == _game_simulation_synchronous_server && tick_count == 1;
+		game_globals->game_had_an_update_tick_this_frame = game_simulation_get() == _game_simulation_synchronous_server && tick_count == 1;
 
 		long actual_ticks;
 		for (actual_ticks = 0; actual_ticks < tick_count && !main_events_pending() && !simulation_aborted(); actual_ticks++)
 		{
 			game_tick();
-			game_globals->update_tick_this_frame = false;
+			game_globals->game_had_an_update_tick_this_frame = false;
 		}
 
 		if (actual_ticks < tick_count)

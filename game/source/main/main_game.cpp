@@ -922,15 +922,15 @@ bool __cdecl main_game_start(game_options const* options)
 
 	game_initialize_for_new_map(options);
 	scenario_activate_initial_designer_zones(zone_set_index);
-	game_create_objects(_game_create_mode_lock);
+	game_create_objects(_game_create_from_main);
 	game_create_players();
 
 	bool success = false;
 
 	if (scenario_activate_initial_zone_set(zone_set_index))
 	{
-		game_start(_game_create_mode_lock);
-		game_create_ai(_game_create_mode_lock);
+		game_start(_game_create_from_main);
+		game_create_ai(_game_create_from_main);
 
 		success = true;
 	}

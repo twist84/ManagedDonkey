@@ -214,7 +214,7 @@ word __cdecl multiplayer_game_hopper_get_current_hopper_identifier()
 	//return INVOKE(0x00548250, multiplayer_game_hopper_get_current_hopper_identifier);
 
 	if (multiplayer_game_hopper_globals.current_configuration)
-		return multiplayer_game_hopper_globals.current_configuration->hopper_identifier;
+		return multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier;
 
 	return NONE;
 }
@@ -250,7 +250,7 @@ word __cdecl multiplayer_game_hopper_get_hopper_identifier(long hopper_index)
 	if (hopper_index < multiplayer_game_hopper_globals.configuration.hopper_category_count)
 	{
 		//word hopper_identifier = multiplayer_game_hopper_globals.configuration.hopper_configurations[hopper_index].get_hopper_identifier();
-		word hopper_identifier = multiplayer_game_hopper_globals.configuration.hopper_configurations[hopper_index].hopper_identifier;
+		word hopper_identifier = multiplayer_game_hopper_globals.configuration.hopper_configurations[hopper_index].m_universal.hopper_identifier;
 		if (hopper_identifier != NONE)
 			return hopper_identifier;
 	}
@@ -563,7 +563,7 @@ void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader)
 
 	if (multiplayer_game_hopper_globals.current_configuration)
 	{
-		online_url_make_matchmaking_gameset(&url, multiplayer_game_hopper_globals.current_configuration->hopper_identifier);
+		online_url_make_matchmaking_gameset(&url, multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier);
 		MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_game_set, url.get_string(), multiplayer_game_hopper_globals.game_set_download_buffer);
 	}
 }
@@ -845,13 +845,13 @@ c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuratio
 	//return INVOKE(0x00549630, multiplayer_game_hoppers_get_hopper_configuration, hopper_identifier);
 
 	//if (multiplayer_game_hopper_globals.current_configuration && multiplayer_game_hopper_globals.current_configuration->get_hopper_identifier() == hopper_identifier)
-	if (multiplayer_game_hopper_globals.current_configuration && multiplayer_game_hopper_globals.current_configuration->hopper_identifier == hopper_identifier)
+	if (multiplayer_game_hopper_globals.current_configuration && multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier == hopper_identifier)
 		return multiplayer_game_hopper_globals.current_configuration;
 
 	for (long category_index = 0; category_index < multiplayer_game_hopper_globals.configuration.hopper_category_count; category_index++)
 	{
 		//if (multiplayer_game_hopper_globals.configuration.hopper_configurations[category_index].get_hopper_identifier() == hopper_identifier)
-		if (multiplayer_game_hopper_globals.configuration.hopper_configurations[category_index].hopper_identifier == hopper_identifier)
+		if (multiplayer_game_hopper_globals.configuration.hopper_configurations[category_index].m_universal.hopper_identifier == hopper_identifier)
 		{
 			return &multiplayer_game_hopper_globals.configuration.hopper_configurations[category_index];
 		}
@@ -1083,7 +1083,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 			//		game_start_error = _session_game_start_match_error_not_yet_start_time;
 			//}
 
-			if (*(qword*)&hopper->start_time > *(qword*)&current_time)
+			if (*(qword*)&hopper->m_universal.start_time > *(qword*)&current_time)
 			{
 				game_start_error = _session_game_start_match_error_not_yet_start_time;
 			}
@@ -1098,7 +1098,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 			//		game_start_error = _session_game_start_match_error_end_time_has_passed;
 			//}
 
-			if (*(qword*)&hopper->end_time < *(qword*)&current_time)
+			if (*(qword*)&hopper->m_universal.end_time < *(qword*)&current_time)
 			{
 				game_start_error = _session_game_start_match_error_end_time_has_passed;
 			}
@@ -1118,11 +1118,11 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 		//
 		//	s_network_session_peer const* peer = &session_membership->m_shared_network_membership.peers[peer_index];
 		//	long player_count = bit_vector_count_bits(peer->player_mask, 16);
-		//	if (player_count < hopper->minimum_party_size)
+		//	if (player_count < hopper->m_universal.minimum_party_size)
 		//	{
 		//		game_start_error = _session_game_start_match_error_squad_too_small;
 		//	}
-		//	else if (player_count > hopper->maximum_party_size)
+		//	else if (player_count > hopper->m_universal.maximum_party_size)
 		//	{
 		//		game_start_error = _session_game_start_match_error_squad_too_large;
 		//	}

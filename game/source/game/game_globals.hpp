@@ -20,8 +20,6 @@ struct game_globals_storage
 {
 	bool initializing;
 	bool map_active;
-	byte : 8;
-	byte : 8;
 
 	dword active_structure_bsp_mask;
 	dword active_designer_zone_mask;
@@ -51,9 +49,7 @@ struct game_globals_storage
 
 	byte : 8;
 
-	// game_frame
-	// game_had_an_update_tick_this_frame
-	bool update_tick_this_frame;
+	bool game_had_an_update_tick_this_frame;
 
 	byte : 8;
 	byte : 8;
@@ -62,9 +58,7 @@ struct game_globals_storage
 	s_game_cluster_bit_vectors cluster_pvs_local;
 	s_game_cluster_bit_vectors cluster_activation;
 
-	// game_pvs_enable_scripted_camera_pvs
-	// game_pvs_clear_scripted_camera_pvs
-	bool scripted_camera_pvs;
+	bool pvs_use_scripted_camera;
 	byte : 8;
 
 	// game_pvs_scripted_clear

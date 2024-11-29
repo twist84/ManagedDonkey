@@ -115,18 +115,18 @@ bool __cdecl game_safe_to_speak()
 	return !dangerous_projectiles_near_player(&unsafe_object_index) && !players_any_are_dead();
 }
 
-void __cdecl game_save(long game_save_type)
+void __cdecl game_save(long save_priority)
 {
 	//INVOKE(0x006823D0, game_save, game_save_type);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
-	if (game_save_type > g_game_save_globals->game_save_type)
+	if (save_priority > g_game_save_globals->save_priority)
 	{
-		g_game_save_globals->game_save_type = game_save_type;
-		g_game_save_globals->__unknown4 = 0;
-		g_game_save_globals->__unknown8 = game_time_get();
-		g_game_save_globals->__unknownC = 0;
+		g_game_save_globals->save_priority = save_priority;
+		g_game_save_globals->ticks_until_next_save_check = 0;
+		g_game_save_globals->save_start_time = game_time_get();
+		g_game_save_globals->safe_interval_count = 0;
 	}
 }
 
@@ -139,7 +139,7 @@ void __cdecl game_save_cancel()
 	if (debug_game_save)
 		console_printf("game save cancelled");
 
-	g_game_save_globals->game_save_type = _game_save_type_cancel;
+	g_game_save_globals->save_priority = _game_save_priority_none;
 }
 
 void __cdecl game_save_cinematic_skip()
@@ -149,7 +149,7 @@ void __cdecl game_save_cinematic_skip()
 	if (debug_game_save)
 		console_printf("beginning cinematic skip game save");
 
-	game_save(_game_save_type_cinematic_skip);
+	game_save(_game_save_priority_cinematic_skip);
 }
 
 void __cdecl game_save_dispose()
@@ -169,7 +169,7 @@ void __cdecl game_save_immediate()
 	if (debug_game_save)
 		console_printf("beginning immediate game save");
 
-	game_save(_game_save_type_immediate);
+	game_save(_game_save_priority_immediate);
 }
 
 void __cdecl game_save_initialize()
@@ -200,7 +200,7 @@ void __cdecl game_save_no_timeout()
 	if (debug_game_save)
 		console_printf("beginning no-timeout game save");
 
-	game_save(_game_save_type_no_timeout);
+	game_save(_game_save_priority_no_timeout);
 }
 
 void __cdecl game_save_safe()
@@ -210,7 +210,7 @@ void __cdecl game_save_safe()
 	if (debug_game_save)
 		console_printf("beginning no-timeout game save");
 
-	game_save(_game_save_type_safe);
+	game_save(_game_save_priority_safe);
 }
 
 void __cdecl game_save_update()
@@ -226,7 +226,7 @@ void __cdecl game_save_update()
 
 	if (cinematic_in_progress())
 	{
-		if (g_game_save_globals->game_save_type != _game_save_type_cinematic_skip)
+		if (g_game_save_globals->save_priority != _game_save_priority_cinematic_skip)
 			return;
 
 	LABEL_0:;
@@ -235,7 +235,7 @@ void __cdecl game_save_update()
 			if (!debug_game_save)
 			{
 			LABEL_1:;
-				g_game_save_globals->game_save_type = _game_save_type_cancel;
+				g_game_save_globals->save_priority = _game_save_priority_none;
 				return;
 			}
 
@@ -256,24 +256,24 @@ void __cdecl game_save_update()
 		if (debug_game_save)
 			console_printf("performing immediate save");
 
-		cinematic_skip = g_game_save_globals->game_save_type == _game_save_type_cinematic_skip;
+		cinematic_skip = g_game_save_globals->save_priority == _game_save_priority_cinematic_skip;
 		goto LABEL_5;
 	}
 
-	if (g_game_save_globals->game_save_type <= _game_save_type_cancel)
+	if (g_game_save_globals->save_priority <= _game_save_priority_none)
 		return;
 
-	if (g_game_save_globals->game_save_type >= _game_save_type_immediate)
+	if (g_game_save_globals->save_priority >= _game_save_priority_immediate)
 		goto LABEL_0;
 
-	if (g_game_save_globals->__unknown4 > 0)
+	if (g_game_save_globals->ticks_until_next_save_check > 0)
 	{
-		g_game_save_globals->__unknown4--;
+		g_game_save_globals->ticks_until_next_save_check--;
 
 	LABEL_3:;
-		if (g_game_save_globals->game_save_type != _game_save_type_no_timeout)
+		if (g_game_save_globals->save_priority != _game_save_priority_no_timeout)
 		{
-			if (game_ticks_to_seconds(real(game_time_get() - g_game_save_globals->__unknown8)) >= 8.0f)
+			if (game_ticks_to_seconds(real(game_time_get() - g_game_save_globals->save_start_time)) >= 8.0f)
 			{
 				if (debug_game_save)
 					console_printf("timeout trying to save");
@@ -290,17 +290,17 @@ void __cdecl game_save_update()
 		if (debug_game_save)
 			console_printf("game currently safe to save");
 
-		perform_save = ++g_game_save_globals->__unknownC >= 3;
+		perform_save = ++g_game_save_globals->safe_interval_count >= 3;
 	}
 	else
 	{
 		if (debug_game_save)
 			console_printf("game currently unsafe to save");
 
-		g_game_save_globals->__unknownC = 0;
+		g_game_save_globals->safe_interval_count = 0;
 	}
 
-	g_game_save_globals->__unknown4 = game_seconds_to_ticks_round(0.33f);
+	g_game_save_globals->ticks_until_next_save_check = game_seconds_to_ticks_round(0.33f);
 	if (!perform_save)
 		goto LABEL_3;
 
@@ -340,7 +340,7 @@ LABEL_5:;
 	if (debug_game_save)
 		console_printf("saving!");
 
-	g_game_save_globals->game_save_type = _game_save_type_cancel;
+	g_game_save_globals->save_priority = _game_save_priority_none;
 
 	if (cinematic_skip)
 	{
@@ -386,7 +386,7 @@ bool __cdecl game_saving()
 	//return INVOKE(0x00682770, game_saving);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
-	return main_save_map_pending() || g_game_save_globals->game_save_type;
+	return main_save_map_pending() || g_game_save_globals->save_priority;
 }
 
 bool __cdecl not_enough_time_since_last_save()

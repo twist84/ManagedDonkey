@@ -13,7 +13,7 @@ struct c_network_session_membership;
 struct c_game_variant;
 struct c_map_variant;
 
-struct c_hopper_configuration
+struct s_hopper_universal_configuration
 {
 	c_static_string<k_tag_string_length> hopper_name;
 	s_network_http_request_hash game_set_hash;
@@ -88,66 +88,58 @@ struct c_hopper_configuration
 	long quality_update_weight_q50;
 	long quality_update_weight_q75;
 	long quality_update_weight_q100;
-	long pre_match_voice;
-	long in_match_voice;
-	long post_match_voice;
+	long pre_match_voice_configuration;
+	long in_match_voice_configuration;
+	long post_match_voice_configuration;
 	bool restrict_open_channel;
-	byte __align23D[3];
+};
+static_assert(sizeof(s_hopper_universal_configuration) == 0x240);
 
+struct s_ffa_hopper_configuration
+{
+	long minimum_player_count;
+	long maximum_player_count;
+};
+static_assert(sizeof(s_ffa_hopper_configuration) == 0x8);
+
+struct s_ranked_teams_hopper_configuration
+{
+	long team_count;
+	long minimum_team_size;
+	long maximum_team_size;
+	long maximum_team_imbalance;
+	long big_squad_size_threshold;
+	long maximum_big_squad_imbalance;
+	bool enable_big_squad_mixed_skill_restrictions;
+};
+static_assert(sizeof(s_ranked_teams_hopper_configuration) == 0x1C);
+
+struct s_unranked_teams_hopper_configuration
+{
+	long team_count;
+	long minimum_team_size;
+	long maximum_team_size;
+	bool allow_uneven_teams;
+	bool allow_parties_to_split;
+};
+static_assert(sizeof(s_unranked_teams_hopper_configuration) == 0x10);
+
+struct s_hopper_type_configuration
+{
 	union
 	{
-		// hopper_type == _hopper_type_unranked_ffa 
-		// hopper_type == _hopper_type_ranked_ffa
-		struct
-		{
-			// ffa->minimum_player_count >= 2 && ffa->minimum_player_count <= 16
-			long minimum_player_count;
+		s_ffa_hopper_configuration ffa;
+		s_ranked_teams_hopper_configuration ranked_teams;
+		s_unranked_teams_hopper_configuration unranked_teams;
 
-			// ffa->maximum_player_count >= 2 && ffa->maximum_player_count <= 16
-			long maximum_player_count;
-		} ffa;
-
-		// hopper_type == _hopper_type_unranked_teams
-		struct
-		{
-			// unranked_teams->team_count >= 2 && unranked_teams->team_count <= 8
-			long team_count;
-
-			// unranked_teams->minimum_team_size >= 1 && unranked_teams->minimum_team_size <= 8
-			long minimum_team_size;
-
-			// unranked_teams->maximum_team_size >= 1 && unranked_teams->minimum_team_size <= 8
-			long maximum_team_size;
-
-			bool allow_uneven_teams;
-			bool allow_parties_to_split;
-		} unranked_teams;
-
-		// hopper_type == _hopper_type_ranked_teams
-		struct
-		{
-			// ranked_teams->team_count >= 2 && ranked_teams->team_count <= 8
-			long team_count;
-
-			// ranked_teams->minimum_team_size >= 1 && ranked_teams->minimum_team_size <= 8
-			long minimum_team_size;
-
-			// ranked_teams->maximum_team_size >= 1 && ranked_teams->maximum_team_size <= 8
-			long maximum_team_size;
-
-			long maximum_team_imbalance;
-
-			// ranked_teams->big_squad_size_threshold >= 1 && ranked_teams->big_squad_size_threshold <= 16
-			long big_squad_size_threshold;
-
-			// ranked_teams->maximum_big_squad_imbalance >= 0 && ranked_teams->maximum_big_squad_imbalance <= 6
-			long maximum_big_squad_imbalance;
-
-			bool enable_big_squad_mixed_skill_restrictions;
-		} ranked_teams;
-
-		byte hopper_type_storage[32];
+		byte storage[0x20];
 	};
+};
+
+struct c_hopper_configuration
+{
+	s_hopper_universal_configuration m_universal;
+	s_hopper_type_configuration m_type;
 };
 static_assert(sizeof(c_hopper_configuration) == 0x260);
 

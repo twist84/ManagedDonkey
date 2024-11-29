@@ -157,7 +157,20 @@ static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x3
 struct s_player_interaction
 {
 	short type;
-	short seat_index;
+
+	union
+	{
+		struct
+		{
+			short seat_index;
+		} enter_vehicle;
+
+		struct
+		{
+			byte_flags pick_up_flags;
+		} pick_up_weapon;
+	};
+
 	long object_index;
 };
 static_assert(sizeof(s_player_interaction) == 0x8);
@@ -165,7 +178,7 @@ static_assert(sizeof(s_player_interaction) == 0x8);
 struct s_player_action_context
 {
 	s_player_interaction interaction;
-	dword melee_target_unit;
+	long melee_target_unit_index;
 };
 static_assert(sizeof(s_player_action_context) == 0xC);
 
@@ -174,37 +187,38 @@ struct s_player_control_input
 	real_point2d throttle;
 	real primary_trigger;
 	real secondary_trigger;
-	euler_angles2d desired_angles;
-	dword_flags control_flags;
-	dword_flags __flags1C;
-	word_flags action_flags;
+	euler_angles2d facing_delta;
+	dword_flags unit_control_flags;
+	dword_flags player_control_flags;
+	word_flags player_action_flags;
 	bool controller_look_inverted;
-	real __unknown24;
-	s_aim_assist_targeting_result targeting;
+	real lookstick_pitch;
+	s_aim_assist_targeting_result aim_assist_targeting;
 };
 static_assert(sizeof(s_player_control_input) == 0x50);
 
 struct s_player_control_state
 {
 	dword control_flags;
-	dword action_flags;
+	word action_flags;
+	word pad;
 	euler_angles2d desired_angles;
 	real_point2d throttle;
 	real primary_trigger;
 	real secondary_trigger;
-	s_unit_weapon_set weapon_set;
-	word grenade_index;
-	word zoom_level;
+	s_unit_weapon_set desired_weapon_set;
+	short desired_grenade_index;
+	short desired_zoom_level;
 	s_player_action_context action_context;
-	s_aim_assist_targeting_result targeting;
-	bool map_editor_rotation_valid;
-	bool map_editor_player_locked_for_manipulation;
-	byte : 8;
-	byte : 8;
-	euler_angles2d map_editor_rotation;
-	word_flags map_editor_flags;
-	byte : 8;
-	byte : 8;
+	s_aim_assist_targeting_result aim_assist_targeting;
+
+	struct
+	{
+		bool rotation_valid;
+		bool player_locked_for_manipulation;
+		euler_angles2d map_editor_rotation;
+		word_flags map_editor_flags;
+	} map_editor_data;
 };
 static_assert(sizeof(s_player_control_state) == 0x6C);
 
@@ -292,9 +306,9 @@ struct s_player_control_globals
 	dword __unknown8A0;
 	dword __unknown8A4;
 	bool machinima_camera_enabled;
-	bool machinima_camera_use_old_controls;
+	bool machinima_camera_old_controls;
 	bool machinima_camera_debug;
-	bool __unknown8AB;
+	bool initialized;
 	byte __data8AC[0x4];
 };
 static_assert(sizeof(s_player_control_globals) == 0x8B0);

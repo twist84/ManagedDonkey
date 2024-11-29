@@ -15,35 +15,35 @@
 
 enum e_game_engine_end_condition
 {
-	_game_engine_end_condition_end_default = 0,
-	_game_engine_end_condition_game_end_scripting,
-	_game_engine_end_condition_should_end_not_enough_living,
-	_game_engine_end_condition_should_end_all_dead,
-	_game_engine_end_condition_should_end_current_engine_override,
-	_game_engine_end_condition_round_end_team_scoring,
-	_game_engine_end_condition_round_end_scoring,
-	_game_engine_end_condition_game_end_rounds,
-	_game_engine_end_condition_game_end_rounds_team_early_victory,
-	_game_engine_end_condition_game_end_rounds_early_victory,
-	_game_engine_end_condition_game_end_rounds_exceeded,
-	_game_engine_end_condition_round_end_time_ran_out,
-	_game_engine_end_condition_game_end_external,
-	_game_engine_end_condition_game_end_invalid_team_mapping,
-	_game_engine_end_condition_game_end_due_to_automation,
-	_game_engine_end_condition_game_end_exceeded_maximum_rounds,
-	_game_engine_end_condition_round_end_juggernaut_left,
-	_game_engine_end_condition_round_end_juggernaut_unknown1,
-	_game_engine_end_condition_round_end_juggernaut_unknown2,
-	_game_engine_end_condition_round_end_infection,
-	_game_engine_end_condition_round_end_ctf_sides,
-	_game_engine_end_condition_round_end_editor_reset,
-	_game_engine_end_condition_round_end_editor_change_mode,
-	_game_engine_end_condition_round_end_vip_vip_killed,
+	_game_engine_end_default = 0,
+	_game_engine_game_end_scripting,
+	_game_engine_should_end_not_enough_living,
+	_game_engine_should_end_all_dead,
+	_game_engine_should_end_current_engine_override,
+	_game_engine_round_end_team_scoring,
+	_game_engine_round_end_scoring,
+	_game_engine_game_end_rounds,
+	_game_engine_game_end_rounds_team_early_victory,
+	_game_engine_game_end_rounds_early_victory,
+	_game_engine_game_end_rounds_exceeded,
+	_game_engine_round_end_time_ran_out,
+	_game_engine_game_end_external,
+	_game_engine_game_end_invalid_team_mapping,
+	_game_engine_game_end_due_to_automation,
+	_game_engine_game_end_exceeded_maximum_rounds,
+	_game_engine_round_end_juggernaut_left,
+	_game_engine_round_end_juggernaut_unknown1,
+	_game_engine_round_end_juggernaut_unknown2,
+	_game_engine_round_end_infection,
+	_game_engine_round_end_ctf_sides,
+	_game_engine_round_end_editor_reset,
+	_game_engine_round_end_editor_change_mode,
+	_game_engine_round_end_vip_killed,
 
-	k_game_engine_end_condition_count
+	k_game_engine_game_end_condition_count
 };
 
-extern char const* (&k_game_engine_end_conditions)[k_game_engine_end_condition_count];
+extern char const* (&k_game_engine_end_conditions)[k_game_engine_game_end_condition_count];
 
 // game_engine_hud_get_state_message
 // e_string_id_global
@@ -70,24 +70,25 @@ static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 struct s_simulation_player_netdebug_data
 {
 	bool is_host;
+	byte pad1;
 
-	short host_estimated_bps;
-	short host_transmission_rate;
-	short host_transmission_bps;
+	word host_estimated_bps;
+	word host_transmission_rate;
+	word host_transmission_bps;
 
-	short client_rtt_msec;
-	short client_packet_rate;
-	short client_bandwidth_bps;
-	short client_packet_loss;
+	word client_rtt_msec;
+	word client_packet_rate;
+	word client_bandwidth_bps;
+	word client_packet_loss;
 };
 static_assert(sizeof(s_simulation_player_netdebug_data) == 0x10);
 
 struct s_multiplayer_weapon_tracker
 {
-	dword weapon_index;
-	word multiplayer_weapon_identifier;
-	dword owner_unit_index;
-	dword owner_player_index;
+	long weapon_index;
+	short multiplayer_weapon_identifier;
+	long owner_unit_index;
+	long owner_player_index;
 };
 static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 

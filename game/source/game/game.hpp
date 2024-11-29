@@ -41,10 +41,10 @@ static_assert(sizeof(s_game_system) == sizeof(void*) * 13);
 
 enum e_game_create_mode
 {
-	_game_create_mode_lock = 0,
-	_game_create_mode_no_lock,
+	_game_create_from_main = 0,
+	_game_create_inside_game_tick,
 
-	k_game_create_mode_count
+	k_number_of_game_create_mode_count
 };
 
 struct s_game_options_launch_settings

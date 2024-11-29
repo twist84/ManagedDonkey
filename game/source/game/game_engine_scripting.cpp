@@ -91,7 +91,7 @@ void __cdecl game_engine_game_won(short team)
 		return;
 	}
 
-	game_engine_end_round_with_winner(team, true, _game_engine_end_condition_game_end_scripting);
+	game_engine_end_round_with_winner(team, true, _game_engine_game_end_scripting);
 }
 
 // mp_object_belongs_to_team

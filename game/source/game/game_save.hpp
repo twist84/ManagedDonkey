@@ -2,33 +2,24 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_game_save_type
+enum
 {
-	_game_save_type_cancel = 0,
-	_game_save_type_safe,
-	_game_save_type_no_timeout,
-	_game_save_type_immediate,
-	_game_save_type_cinematic_skip,
+	_game_save_priority_none = 0,
+	_game_save_priority_safe,
+	_game_save_priority_no_timeout,
+	_game_save_priority_immediate,
+	_game_save_priority_cinematic_skip,
 
-	k_game_save_type_count
+	NUMBER_OF_GAME_SAVE_PRIORITIES
 };
 
 struct s_game_save_globals
 {
-	// e_game_save_type
-	long game_save_type;
-
-	// timeout?
-	long __unknown4;
-
-	// timeout?
-	long __unknown8;
-
-	// attempt count?
-	long __unknownC;
-
+	long save_priority;
+	long ticks_until_next_save_check;
+	long save_start_time;
+	long safe_interval_count;
 	long time_of_last_game_save;
-
 	long unsafe_object_index;
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
@@ -40,7 +31,7 @@ extern bool __cdecl game_all_quiet();
 extern bool __cdecl game_safe_to_save();
 extern bool __cdecl game_safe_to_save_internal(bool a1);
 extern bool __cdecl game_safe_to_speak();
-extern void __cdecl game_save(long game_save_type);
+extern void __cdecl game_save(long save_priority);
 extern void __cdecl game_save_cancel();
 extern void __cdecl game_save_cinematic_skip();
 extern void __cdecl game_save_dispose();
