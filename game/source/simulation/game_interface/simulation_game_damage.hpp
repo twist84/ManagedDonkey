@@ -16,7 +16,7 @@ struct s_simulation_damage_aftermath_event_data
 	real epicenter_direction;
 	real shake;
 	real shake_scale;
-	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_unknown0_bit, k_damage_aftermath_flags> flags;
+	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_body_depleted_bit, k_damage_aftermath_flags> flags;
 	real shield_damage;
 	real body_damage;
 	short body_part;

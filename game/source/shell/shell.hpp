@@ -23,19 +23,22 @@ enum e_text_vertical_justification
 
 enum e_font_id
 {
-	_font_id_terminal_font = 0,
-	_font_id_body_text_font,
-	_font_id_title_font,
-	_font_id_super_large_font,
-	_font_id_large_body_text_font,
-	_font_id_split_screen_hud_message_font,
-	_font_id_full_screen_hud_message_font,
-	_font_id_english_body_text_font,
-	_font_id_hud_number_font,
-	_font_id_subtitle_font,
-	_font_id_main_menu_font,
+	_font_id_fallback = -2,
+	_invalid_font = -1,
 
-	k_font_id_count
+	_terminal_font = 0,
+	_body_text_font,
+	_title_font,
+	_super_large_font,
+	_large_body_text_font,
+	_split_screen_hud_message_font,
+	_full_screen_hud_message_font,
+	_english_body_text_font,
+	_hud_number_font,
+	_subtitle_font,
+	_main_menu_font,
+
+	k_public_font_id_count
 };
 
 enum e_session_creation_flags
@@ -836,9 +839,7 @@ enum e_damage_reporting_type
 // find an actual name for this and also place it in the correct location
 enum e_damage_aftermath_flags
 {
-	// used in `damage_aftermath_is_important`
-	_damage_aftermath_unknown0_bit = 0,
-
+	_damage_aftermath_body_depleted_bit = 0,
 	_damage_aftermath_shield_depleted_bit,
 	_damage_aftermath_area_of_effect_bit,
 	_damage_aftermath_any_damage_dealt_bit,
@@ -847,27 +848,10 @@ enum e_damage_aftermath_flags
 	_damage_aftermath_killed_instantly_bit,
 	_damage_aftermath_primary_recipient_bit,
 	_damage_aftermath_outside_aoe_dmg_range_bit,
-	_damage_aftermath_unknown9_bit,
+	_damage_aftermath_object_destroyed_bit,
 	_damage_aftermath_emp_bit,
 
 	k_damage_aftermath_flags
-};
-
-enum e_interface_font
-{
-	_interface_font_terminal = 0,
-	_interface_font_body_text,
-	_interface_font_title,
-	_interface_font_super_large_font,
-	_interface_font_large_body_text,
-	_interface_font_split_screen_hud_message,
-	_interface_font_full_screen_hud_message,
-	_interface_font_english_body_text,
-	_interface_font_HUD_number_text,
-	_interface_font_subtitle_font,
-	_interface_font_main_menu_font,
-
-	k_interface_font_count
 };
 
 enum e_game_engine_category

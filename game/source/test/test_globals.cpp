@@ -322,7 +322,7 @@ void __cdecl test_main_loop_body_end()
 	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-		player_control_globals->machinima_camera_use_old_controls = !player_control_globals->machinima_camera_use_old_controls;
+		player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
 	}
 	//
 	//if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)

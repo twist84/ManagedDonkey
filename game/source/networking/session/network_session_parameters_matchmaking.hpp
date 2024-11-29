@@ -69,9 +69,9 @@ struct s_network_session_matchmaking_hopper
 	long repeated_opponents_experience_threshold;
 	long repeated_opponents_skill_throttle_start;
 	long repeated_opponents_skill_throttle_stop;
-	long pre_match_voice;
-	long in_match_voice;
-	long post_match_voice;
+	long pre_match_voice_configuration;
+	long in_match_voice_configuration;
+	long post_match_voice_configuration;
 	bool restrict_open_channel;
 };
 static_assert(sizeof(s_network_session_matchmaking_hopper) == 0x4C);
