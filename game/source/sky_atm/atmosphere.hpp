@@ -30,12 +30,12 @@ struct c_atmosphere_fog_interface
 public:
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose();
-	static void __cdecl dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
-	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3);
+	static void __cdecl dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
 	static void __cdecl compute_cluster_weights(s_cluster_reference cluster_reference, real_point3d const* point);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 	static void __cdecl populate_atmosphere_parameters(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters* parameters);
 	static void __cdecl sub_A397D0();
 	static void __cdecl restore_atmosphere_constants();

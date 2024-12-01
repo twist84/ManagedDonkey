@@ -23,7 +23,7 @@ HOOK_DECLARE(0x0042E110, editor_switch_zone_set);
 HOOK_DECLARE(0x0042E120, editor_update);
 HOOK_DECLARE(0x0042E130, game_in_editor);
 
-void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3)
+void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local)
 {
 }
 
@@ -35,7 +35,7 @@ void __cdecl editor_dispose_from_old_map()
 {
 }
 
-void __cdecl editor_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl editor_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
 }
 
@@ -63,7 +63,7 @@ void __cdecl editor_initialize_for_new_map()
 {
 }
 
-void __cdecl editor_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl editor_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
 }
 

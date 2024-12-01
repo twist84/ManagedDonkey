@@ -89,12 +89,12 @@ extern bool __cdecl scenario_connect_zone_set_resources(
 	bool a7);
 extern void __cdecl scenario_dispose();
 extern void __cdecl scenario_dispose_from_old_map();
-extern void __cdecl scenario_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
+extern void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 extern void __cdecl scenario_frame_update(real game_seconds_elapsed);
 extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
 extern void __cdecl scenario_initialize();
 extern void __cdecl scenario_initialize_for_new_map();
-extern void __cdecl scenario_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+extern void __cdecl scenario_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 extern void __cdecl scenario_invalidate();
 extern void __cdecl scenario_invalidate_zone_set_internal();
 extern bool __cdecl scenario_language_pack_load();

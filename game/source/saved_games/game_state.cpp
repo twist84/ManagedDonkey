@@ -204,9 +204,9 @@ void __cdecl game_state_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_se
 	INVOKE(0x0050F5F0, game_state_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
 
-void __cdecl game_state_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl game_state_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x0050F600, game_state_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x0050F600, game_state_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void const* __cdecl game_state_get_buffer_address(long* buffer_size)
@@ -287,9 +287,9 @@ void __cdecl game_state_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_
 	INVOKE(0x0050FEB0, game_state_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
 
-void __cdecl game_state_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl game_state_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x0050FED0, game_state_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x0050FED0, game_state_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 bool __cdecl game_state_is_locked()

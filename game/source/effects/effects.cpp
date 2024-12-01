@@ -28,9 +28,9 @@ bool effects_render_pass_check(e_effect_pass pass)
 	return result;
 }
 
-void __cdecl effects_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
+void __cdecl effects_prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask)
 {
-	INVOKE(0x00530200, effects_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
+	INVOKE(0x00530200, effects_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
 
 void __cdecl effects_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
@@ -239,9 +239,9 @@ void __cdecl effects_dispose_from_old_map()
 	INVOKE(0x005BBF10, effects_dispose_from_old_map);
 }
 
-void __cdecl effects_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl effects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x005BBFD0, effects_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x005BBFD0, effects_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void __cdecl effects_frame_advance(real seconds_elapsed)
@@ -272,9 +272,9 @@ void __cdecl effects_initialize_for_new_map()
 	INVOKE(0x005BC990, effects_initialize_for_new_map);
 }
 
-void __cdecl effects_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl effects_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x005BCA80, effects_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x005BCA80, effects_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:005BCB70 ; void __cdecl effects_notify_first_person_weapon_user_change(long, long, bool)

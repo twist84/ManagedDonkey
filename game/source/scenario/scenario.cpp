@@ -250,11 +250,11 @@ void __cdecl scenario_dispose_from_old_map()
 	structure_seams_dispose_from_old_map();
 }
 
-void __cdecl scenario_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	//INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	//INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
-	structure_seams_dispose_from_old_structure_bsp(old_structure_bsp_mask);
+	structure_seams_dispose_from_old_structure_bsp(deactivating_structure_bsp_mask);
 }
 
 //.text:004E9FC0 ; bool __cdecl scenario_do_not_attach_unused_designer_zone_resources()
@@ -298,15 +298,15 @@ void __cdecl scenario_initialize_for_new_map()
 	structure_seams_initialize_for_new_map();
 }
 
-void __cdecl scenario_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl scenario_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	//INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	//INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
 	// scenario structure seams is always none, is this compiled out?
 	s_structure_seams* structure_seams = global_scenario_get()->structure_seams.cast_to<s_structure_seams>();
 
 	// structure_seams is NULL
-	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, new_structure_bsp_mask);
+	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, activating_structure_bsp_mask);
 }
 
 //.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, dword)

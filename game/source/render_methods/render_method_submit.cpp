@@ -30,9 +30,9 @@ void __cdecl render_state_cache_dispose_from_old_map()
 	INVOKE(0x00A3DB00, render_state_cache_dispose_from_old_map);
 }
 
-void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x00A3DB10, render_state_cache_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00A3DB10, render_state_cache_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void __cdecl render_state_cache_initialize()
@@ -45,9 +45,9 @@ void __cdecl render_state_cache_initialize_for_new_map()
 	INVOKE(0x00A3DB30, render_state_cache_initialize_for_new_map);
 }
 
-void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00A3DB40, render_state_cache_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00A3DB40, render_state_cache_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 char const* k_render_method_extern_names[k_render_method_extern_count]

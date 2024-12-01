@@ -40,9 +40,9 @@ void __cdecl structure_seams_dispose_from_old_map()
 	//INVOKE(0x005F4940, structure_seams_dispose_from_old_map);
 }
 
-void __cdecl structure_seams_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl structure_seams_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x005F4950, structure_seams_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x005F4950, structure_seams_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void __cdecl structure_seams_initialize()

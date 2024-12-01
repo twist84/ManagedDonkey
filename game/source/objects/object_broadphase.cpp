@@ -45,9 +45,9 @@ void __cdecl object_broadphase_dispose_from_old_map()
 	INVOKE(0x00B96E50, object_broadphase_dispose_from_old_map);
 }
 
-void __cdecl object_broadphase_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl object_broadphase_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x00B96E60, object_broadphase_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00B96E60, object_broadphase_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void __cdecl object_broadphase_initialize()
@@ -60,9 +60,9 @@ void __cdecl object_broadphase_initialize_for_new_map()
 	INVOKE(0x00B96F20, object_broadphase_initialize_for_new_map);
 }
 
-void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00B96F30, object_broadphase_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00B96F30, object_broadphase_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:00B97420 ; 

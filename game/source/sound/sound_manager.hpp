@@ -124,7 +124,7 @@ extern void __cdecl sound_game_pause_handler(bool paused);
 extern void __cdecl sound_idle();
 extern void __cdecl sound_initialize();
 extern void __cdecl sound_initialize_for_new_map();
-extern void __cdecl sound_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+extern void __cdecl sound_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 extern bool __cdecl sound_is_active();
 extern bool __cdecl sound_is_fading_out(long sound_index);
 extern s_sound_listener const* __cdecl sound_manager_get_listener(long listener_index);

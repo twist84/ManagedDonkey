@@ -451,9 +451,9 @@ void __cdecl sound_initialize_for_new_map()
 	INVOKE(0x00517CF0, sound_initialize_for_new_map);
 }
 
-void __cdecl sound_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl sound_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 bool __cdecl sound_is_active()

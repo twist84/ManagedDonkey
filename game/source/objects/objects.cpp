@@ -1609,9 +1609,9 @@ void __cdecl objects_dispose_from_old_map()
 	INVOKE(0x00B35430, objects_dispose_from_old_map);
 }
 
-void __cdecl objects_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl objects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light)
@@ -1685,9 +1685,9 @@ void __cdecl objects_initialize_for_new_map()
 	INVOKE(0x00B36130, objects_initialize_for_new_map);
 }
 
-void __cdecl objects_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl objects_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00B36310, objects_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00B36310, objects_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 bool __cdecl objects_is_warthog_chaingun_light_enabled()

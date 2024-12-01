@@ -11,16 +11,16 @@ struct c_decal_system :
 	s_datum_header
 {
 public:
-	static void __cdecl prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
+	static void __cdecl prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask);
 	static void __cdecl initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
-	static void __cdecl dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
-	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3);
+	static void __cdecl dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* activating_non_bsp_zone_set);
+	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
+	static void __cdecl dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 	static void __cdecl prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	static void __cdecl submit_all();
 

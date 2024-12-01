@@ -81,9 +81,9 @@ void __cdecl havok_dispose_from_old_map()
 	INVOKE(0x005C55A0, havok_dispose_from_old_map);
 }
 
-void __cdecl havok_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl havok_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x005C55C0, havok_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x005C55C0, havok_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 //.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(dword)
@@ -111,9 +111,9 @@ void __cdecl havok_initialize_for_new_map()
 	INVOKE(0x005C5DB0, havok_initialize_for_new_map);
 }
 
-void __cdecl havok_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl havok_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x005C5E00, havok_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x005C5E00, havok_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:005C5E10 ; void __cdecl havok_initialize_for_new_structure_bsp_internal(dword)

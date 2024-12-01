@@ -210,7 +210,7 @@ extern void __cdecl observer_compute_result(long user_index, s_focus_and_distanc
 extern void __cdecl observer_compute_view_offset_matrix(long user_index, real_matrix4x3* view_offset_matrix);
 extern void __cdecl observer_dispose();
 extern void __cdecl observer_dispose_from_old_map();
-extern void __cdecl observer_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
+extern void __cdecl observer_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 extern void __cdecl observer_game_tick();
 extern s_observer* __cdecl observer_get(long user_index);
 extern s_observer_result const* observer_get_camera(long user_index);
@@ -221,7 +221,7 @@ extern void __cdecl observer_initialize();
 extern void __cdecl observer_initialize_after_load_saved_game(long flags);
 extern void __cdecl observer_initialize_before_saved_game(long flags);
 extern void __cdecl observer_initialize_for_new_map();
-extern void __cdecl observer_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+extern void __cdecl observer_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 extern void __cdecl observer_initialize_for_saved_game(long flags);
 extern void __cdecl observer_obsolete_position(long user_index);
 extern void __cdecl observer_pass_time(long user_index);

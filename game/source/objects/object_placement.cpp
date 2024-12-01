@@ -33,9 +33,9 @@ void __cdecl object_placement_dispose_from_old_map()
 	INVOKE(0x00B59D20, object_placement_dispose_from_old_map);
 }
 
-void __cdecl object_placement_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl object_placement_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x00B59D30, object_placement_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00B59D30, object_placement_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 //.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(dword, real_point3d const*, real, s_location*)
@@ -50,9 +50,9 @@ void __cdecl object_placement_initialize_for_new_map()
 	INVOKE(0x00B59EB0, object_placement_initialize_for_new_map);
 }
 
-void __cdecl object_placement_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl object_placement_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00B59FC0, object_placement_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00B59FC0, object_placement_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, s_scenario_object const*)
@@ -64,9 +64,9 @@ void __cdecl object_placement_initialize_for_new_structure_bsp(dword new_structu
 //.text:00B5A270 ; 
 //.text:00B5A2C0 ; 
 
-void __cdecl object_placement_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
+void __cdecl object_placement_prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask)
 {
-	INVOKE(0x00B5A310, object_placement_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
+	INVOKE(0x00B5A310, object_placement_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
 
 void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)

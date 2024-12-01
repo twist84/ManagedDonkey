@@ -300,10 +300,10 @@ struct c_structure_renderer
 {
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
+	static void __cdecl dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 	static void __cdecl render_albedo();
 	static void __cdecl render_decorators();
 };

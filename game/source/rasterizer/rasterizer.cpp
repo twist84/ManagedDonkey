@@ -97,7 +97,7 @@ HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 //HOOK_DECLARE_CLASS(0x00A246E0, c_rasterizer, set_vertex_shader);
 //HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
 
-HOOK_DECLARE_CLASS(0x00A24D30, c_rasterizer, sub_A24D30);
+HOOK_DECLARE_CLASS(0x00A24D30, c_rasterizer, setup_targets_albedo);
 
 HOOK_DECLARE_CLASS(0x00A1F7E0, c_rasterizer, begin);
 HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
@@ -158,9 +158,9 @@ void __cdecl c_rasterizer::dispose_from_old_map()
 	INVOKE(0x00A1F950, c_rasterizer::dispose_from_old_map);
 }
 
-void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
+void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x00A1F9A0, c_rasterizer::dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	INVOKE(0x00A1F9A0, c_rasterizer::dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
 // nullsub
@@ -304,9 +304,9 @@ void __cdecl c_rasterizer::initialize_for_new_map()
 	//rasterizer_profile_initialize_for_new_map();
 }
 
-void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
+void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
-	INVOKE(0x00A1FF40, c_rasterizer::initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	INVOKE(0x00A1FF40, c_rasterizer::initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 bool __cdecl rasterizer_initialized()
