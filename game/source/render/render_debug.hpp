@@ -90,7 +90,7 @@ extern void __cdecl render_debug_string_at_point_immediate(real_point3d const* p
 
 extern bool __cdecl render_debug_draw_immediately(real_argb_color const* color);
 extern void __cdecl render_debug_add_cache_entry(short type, ...);
-extern void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3);
+extern void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
 
 extern void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_point_count, real_argb_color const* color);
 

@@ -69,11 +69,11 @@ enum e_render_debug_type
 	k_render_debug_type_count
 };
 
-struct s_cache_entry
+struct cache_entry
 {
 	short type;
 	short layer;
-	real __unknown4;
+	real sort_key;
 
 	union
 	{
@@ -85,7 +85,7 @@ struct s_cache_entry
 			real_point2d center;
 			real radius;
 			real_argb_color color;
-			real a8;
+			real offset;
 		} circle;
 
 		struct // _render_debug_type_point
@@ -122,7 +122,7 @@ struct s_cache_entry
 		{
 			real_point3d base;
 			vector3d height;
-			real radius;
+			real width;
 			real_argb_color color;
 		} cylinder;
 
@@ -130,7 +130,7 @@ struct s_cache_entry
 		{
 			real_point3d base;
 			vector3d height;
-			real radius;
+			real width;
 			real_argb_color color;
 		} pill;
 
@@ -150,14 +150,14 @@ struct s_cache_entry
 
 		struct // _render_debug_type_string
 		{
-			long string_offset;
+			long string_index;
 			short tab_stops[16];
 			short tab_stop_count;
 		} string;
 		
 		struct // _render_debug_type_string_at_point
 		{
-			long string_offset;
+			long string_index;
 			real_point3d point;
 			real_argb_color color;
 			real scale;
@@ -177,23 +177,22 @@ struct s_render_debug_globals
 {
 	bool active;
 	bool drawing_cached_geometry;
-	bool use_simple_font;
+	bool use_simple_font_text_rendering;
 
-	real __unknown4;
+	real group_key;
 
 	long group_ids[2];
 	long group_level;
 
 	short cache_count;
-	short cache_start_index;
+	short game_tick_cache_count;
 
 	bool inside_game_tick;
-	char __data19[3];
 
-	s_cache_entry cache_entries[8192];
+	cache_entry cache[8192];
 
 	short cache_string_length;
-	short __unknown8001E;
+	short game_tick_cache_string_length;
 
 	char cache_string[MAXIMUM_CACHE_STRING_LENGTH];
 };
@@ -210,7 +209,7 @@ void __cdecl render_debug_initialize()
 	g_render_debug_globals = &_render_debug_globals;
 	csmemset(g_render_debug_globals, 0, sizeof(s_render_debug_globals));
 
-	g_render_debug_globals->use_simple_font = true;
+	g_render_debug_globals->use_simple_font_text_rendering = true;
 }
 
 s_render_debug_globals* __cdecl get_render_debug_globals()
@@ -237,7 +236,7 @@ bool __cdecl render_debug_cache_currently_drawing()
 
 void __cdecl render_debug_text_using_simple_font(bool use_simple_font)
 {
-	get_render_debug_globals()->use_simple_font = use_simple_font;
+	get_render_debug_globals()->use_simple_font_text_rendering = use_simple_font;
 }
 
 void __cdecl render_debug_notify_game_tick_end()
@@ -298,10 +297,10 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug) / 3, c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
 
-int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
+int __cdecl render_debug_cache_sort_function(void const* a, void const* b)
 {
-	s_cache_entry const* entry0 = static_cast<s_cache_entry const*>(a);
-	s_cache_entry const* entry1 = static_cast<s_cache_entry const*>(b);
+	cache_entry const* entry0 = static_cast<cache_entry const*>(a);
+	cache_entry const* entry1 = static_cast<cache_entry const*>(b);
 
 	if (entry0->layer < entry1->layer)
 		return false;
@@ -315,30 +314,30 @@ int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
 	if (type_list[entry0->type] > type_list[entry1->type])
 		return true;
 
-	if (entry0->__unknown4 < entry1->__unknown4)
+	if (entry0->sort_key < entry1->sort_key)
 		return false;
 
-	return entry0->__unknown4 > entry1->__unknown4;
+	return entry0->sort_key > entry1->sort_key;
 }
 
-void __cdecl render_debug_sort_cache_entries()
+void __cdecl render_debug_cache_sort()
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 	if (g_render_debug_globals->cache_count > 0)
 	{
-		qsort(g_render_debug_globals->cache_entries,
-			g_render_debug_globals->cache_start_index,
-			sizeof(s_cache_entry),
-			render_debug_cache_entry_sort_proc);
+		qsort(g_render_debug_globals->cache,
+			g_render_debug_globals->game_tick_cache_count,
+			sizeof(cache_entry),
+			render_debug_cache_sort_function);
 
-		qsort(g_render_debug_globals->cache_entries + g_render_debug_globals->cache_start_index,
-			g_render_debug_globals->cache_count - g_render_debug_globals->cache_start_index,
-			sizeof(s_cache_entry),
-			render_debug_cache_entry_sort_proc);
+		qsort(g_render_debug_globals->cache + g_render_debug_globals->game_tick_cache_count,
+			g_render_debug_globals->cache_count - g_render_debug_globals->game_tick_cache_count,
+			sizeof(cache_entry),
+			render_debug_cache_sort_function);
 	}
 }
 
-void __cdecl render_debug_begin(bool a1, bool a2, bool a3)
+void __cdecl render_debug_begin(bool render_game_tick_cache, bool only_render_strings, bool clear_cache)
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 	ASSERT(!g_render_debug_globals->active);
@@ -351,16 +350,16 @@ void __cdecl render_debug_begin(bool a1, bool a2, bool a3)
 	c_rasterizer::set_color_write_enable(0, 7);
 	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_mode_unknown3);
 
-	render_debug_cache_draw(a1, a2, a3);
+	render_debug_cache_draw(render_game_tick_cache, only_render_strings, clear_cache);
 }
 
-void __cdecl render_debug_end(bool a1, bool a2, bool a3)
+void __cdecl render_debug_end(bool render_game_tick_cache, bool only_render_strings, bool clear_cache)
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 	ASSERT(g_render_debug_globals->active);
 	
-	render_debug_sort_cache_entries();
-	render_debug_cache_draw(a1, a2, a3);
+	render_debug_cache_sort();
+	render_debug_cache_draw(render_game_tick_cache, only_render_strings, clear_cache);
 	g_render_debug_globals->active = false;
 }
 
@@ -410,6 +409,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_report_render_debug(user_index, true);
 		saved_film_render_debug();
 		saved_film_history_render_debug();
+		//debug_aim_assist_targets();
 		events_debug_render();
 		data_mine_render_mission_segment();
 		bandwidth_profiler_render();
@@ -1172,7 +1172,7 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 	ASSERT(string);
 	ASSERT(color);
 
-	real font_scale = get_render_debug_globals()->use_simple_font ? 1.0f : 0.6f;
+	real font_scale = get_render_debug_globals()->use_simple_font_text_rendering ? 1.0f : 0.6f;
 	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color, font_scale);
 }
 
@@ -1180,7 +1180,7 @@ void __cdecl render_debug_string_immediate(bool draw_immediately, short const* t
 {
 	if (string && *string)
 	{
-		if (/*draw_immediately || */get_render_debug_globals()->use_simple_font)
+		if (/*draw_immediately || */get_render_debug_globals()->use_simple_font_text_rendering)
 		{
 			c_simple_font_draw_string draw_string;
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
@@ -1233,7 +1233,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		bounds.x1 = SHRT_MAX;
 		bounds.y1 = SHRT_MAX;
 
-		if (g_render_debug_globals->use_simple_font)
+		if (g_render_debug_globals->use_simple_font_text_rendering)
 		{
 			c_simple_font_draw_string draw_string;
 			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
@@ -1283,9 +1283,9 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 {
 	ASSERT(g_render_debug_globals);
 
-	if (g_render_debug_globals->cache_count < NUMBEROF(g_render_debug_globals->cache_entries))
+	if (g_render_debug_globals->cache_count < NUMBEROF(g_render_debug_globals->cache))
 	{
-		s_cache_entry* entry = &g_render_debug_globals->cache_entries[g_render_debug_globals->cache_count++];
+		cache_entry* entry = &g_render_debug_globals->cache[g_render_debug_globals->cache_count++];
 
 		real alpha = 1.0f;
 
@@ -1302,7 +1302,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 			entry->circle.center = *va_arg(list, real_point2d*);
 			entry->circle.radius = (real)va_arg(list, double);
 			entry->circle.color = *va_arg(list, real_argb_color*);
-			entry->circle.a8 = (real)va_arg(list, double);
+			entry->circle.offset = (real)va_arg(list, double);
 			alpha = entry->circle.color.alpha;
 
 			real_point3d centroid{};
@@ -1349,7 +1349,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 			entry->cylinder.base = *va_arg(list, real_point3d*);
 			entry->cylinder.height = *va_arg(list, vector3d*);
-			entry->cylinder.radius = (real)va_arg(list, double);
+			entry->cylinder.width = (real)va_arg(list, double);
 			entry->cylinder.color = *va_arg(list, real_argb_color*);
 			alpha = entry->sphere.color.alpha;
 		}
@@ -1358,7 +1358,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 			entry->pill.base = *va_arg(list, real_point3d*);
 			entry->pill.height = *va_arg(list, vector3d*);
-			entry->pill.radius = (real)va_arg(list, double);
+			entry->pill.width = (real)va_arg(list, double);
 			entry->pill.color = *va_arg(list, real_argb_color*);
 			alpha = entry->pill.color.alpha;
 		}
@@ -1383,28 +1383,28 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_string:
 		{
 			char const* string = va_arg(list, char const*);
-			long string_offset = render_debug_add_cache_string(string);
-			if (string_offset != NONE)
+			long string_index = render_debug_add_cache_string(string);
+			if (string_index != NONE)
 			{
-				entry->string.string_offset = string_offset;
+				entry->string.string_index = string_index;
 				entry->string.tab_stop_count = 0;
 
 				//LABEL_46
 				entry->type = type;
 				entry->layer = 0;
-				entry->__unknown4 = 0.0f;
+				entry->sort_key = 0.0f;
 				if (g_render_debug_globals->group_level > 0)
-					entry->__unknown4 = g_render_debug_globals->__unknown4;
+					entry->sort_key = g_render_debug_globals->group_key;
 			}
 		}
 		break;
 		case _render_debug_type_string_at_point:
 		{
 			char const* string = va_arg(list, char const*);
-			long string_offset = render_debug_add_cache_string(string);
-			if (string_offset != NONE)
+			long string_index = render_debug_add_cache_string(string);
+			if (string_index != NONE)
 			{
-				entry->string_at_point.string_offset = string_offset;
+				entry->string_at_point.string_index = string_index;
 				entry->string_at_point.point = *va_arg(list, real_point3d*);
 				entry->string_at_point.color = *va_arg(list, real_argb_color*);
 				entry->string_at_point.scale = (real)va_arg(list, double);
@@ -1421,9 +1421,9 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 			//LABEL_46
 			entry->type = type;
 			entry->layer = 0;
-			entry->__unknown4 = 0.0f;
+			entry->sort_key = 0.0f;
 			if (g_render_debug_globals->group_level > 0)
-				entry->__unknown4 = g_render_debug_globals->__unknown4;
+				entry->sort_key = g_render_debug_globals->group_key;
 			return;
 		}
 		break;
@@ -1431,9 +1431,9 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 			entry->type = type;
 			entry->layer = 0;
-			entry->__unknown4 = 0.0f;
+			entry->sort_key = 0.0f;
 			if (g_render_debug_globals->group_level > 0)
-				entry->__unknown4 = g_render_debug_globals->__unknown4;
+				entry->sort_key = g_render_debug_globals->group_key;
 			return;
 		}
 		break;
@@ -1447,9 +1447,9 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 			g_render_debug_globals->cache_count--;
 
 		if (g_render_debug_globals->group_level <= 0)
-			entry->__unknown4 = 0.0f;
+			entry->sort_key = 0.0f;
 		else
-			entry->__unknown4 = g_render_debug_globals->__unknown4;
+			entry->sort_key = g_render_debug_globals->group_key;
 	}
 
 	static bool render_debug_cache_overflow = false;
@@ -1460,13 +1460,13 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 	}
 }
 
-void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
+void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_render_strings, bool clear_cache)
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 
 	short cache_start_index = 0;
-	if (!a1)
-		cache_start_index = g_render_debug_globals->cache_start_index;
+	if (!render_game_tick_cache)
+		cache_start_index = g_render_debug_globals->game_tick_cache_count;
 
 	if (g_render_debug_globals->cache_count - cache_start_index > 0)
 	{
@@ -1480,7 +1480,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 		long alpha_blend_modes[2] = { 0, 3 };
 		for (short cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
 		{
-			s_cache_entry* entry = &g_render_debug_globals->cache_entries[cache_index];
+			cache_entry* entry = &g_render_debug_globals->cache[cache_index];
 			if (VALID_INDEX(entry->layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(g_render_debug_globals->group_ids)` ?
 			{
 				c_rasterizer::set_alpha_blend_mode(static_cast<c_rasterizer::e_alpha_blend_mode>(alpha_blend_modes[entry->layer]));
@@ -1496,7 +1496,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 				type = type_list[entry->type];
 			}
 
-			if (!a2 || entry->type == _render_debug_type_string)
+			if (!only_render_strings || entry->type == _render_debug_type_string)
 			{
 				switch (entry->type)
 				{
@@ -1509,7 +1509,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 						&entry->circle.center,
 						entry->circle.radius,
 						&entry->circle.color,
-						entry->circle.a8);
+						entry->circle.offset);
 				}
 				break;
 				case _render_debug_type_point:
@@ -1551,7 +1551,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 					render_debug_cylinder(true,
 						&entry->cylinder.base,
 						&entry->cylinder.height,
-						entry->cylinder.radius,
+						entry->cylinder.width,
 						&entry->cylinder.color);
 				}
 				break;
@@ -1560,7 +1560,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 					render_debug_pill(true,
 						&entry->pill.base,
 						&entry->pill.height,
-						entry->pill.radius,
+						entry->pill.width,
 						&entry->pill.color);
 				}
 				break;
@@ -1589,7 +1589,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 				break;
 				case _render_debug_type_string:
 				{
-					char const* string = g_render_debug_globals->cache_string + entry->string_at_point.string_offset;
+					char const* string = g_render_debug_globals->cache_string + entry->string.string_index;
 					ASSERT(string != NULL);
 
 					render_debug_string_immediate(true,
@@ -1600,7 +1600,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 				break;
 				case _render_debug_type_string_at_point:
 				{
-					char const* string = g_render_debug_globals->cache_string + entry->string_at_point.string_offset;
+					char const* string = g_render_debug_globals->cache_string + entry->string_at_point.string_index;
 					ASSERT(string != NULL);
 
 					render_debug_string_at_point_immediate(
@@ -1627,10 +1627,10 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 		g_render_debug_globals->drawing_cached_geometry = false;
 	}
 
-	if (a3)
+	if (clear_cache)
 	{
-		g_render_debug_globals->cache_count = g_render_debug_globals->cache_start_index;
-		g_render_debug_globals->cache_string_length = g_render_debug_globals->__unknown8001E;
+		g_render_debug_globals->cache_count = g_render_debug_globals->game_tick_cache_count;
+		g_render_debug_globals->cache_string_length = g_render_debug_globals->game_tick_cache_string_length;
 	}
 }
 
