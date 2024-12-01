@@ -1476,11 +1476,11 @@ void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real a1, re
 	INVOKE(0x00A24B90, c_rasterizer::setup_render_target_globals_with_exposure, a1, a2, a3);
 }
 
-void __cdecl c_rasterizer::sub_A24D30(bool a1, bool a2)
+void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clear)
 {
-	//INVOKE(0x00A24D30, c_rasterizer::sub_A24D30, a1, a2);
+	//INVOKE(0x00A24D30, c_rasterizer::setup_targets_albedo, clear_stencil, is_clear);
 
-	HOOK_INVOKE_CLASS(, c_rasterizer, sub_A24D30, decltype(&c_rasterizer::sub_A24D30), a1, a2);
+	HOOK_INVOKE_CLASS(, c_rasterizer, setup_targets_albedo, decltype(&c_rasterizer::setup_targets_albedo), clear_stencil, is_clear);
 
 	//if (!c_rasterizer::g_device)
 	//	return;
@@ -1488,7 +1488,7 @@ void __cdecl c_rasterizer::sub_A24D30(bool a1, bool a2)
 	//c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
 	//c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
 	//
-	//if (a2)
+	//if (is_clear)
 	//{
 	//	c_rasterizer::set_render_target(0, c_rasterizer::_surface_depth_fp32, 0xFFFFFFFF);
 	//	c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
@@ -1501,16 +1501,16 @@ void __cdecl c_rasterizer::sub_A24D30(bool a1, bool a2)
 	//c_rasterizer::set_render_target(0, c_rasterizer::_surface_albedo, 0);
 	//c_rasterizer::set_render_target(1, c_rasterizer::_surface_normal, 0);
 	//
-	//if (!a2)
+	//if (!is_clear)
 	//	c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
 	//
 	//c_rasterizer::restore_last_viewport();
 	//c_rasterizer::restore_last_scissor_rect();
 	//
-	//if (a2)
+	//if (is_clear)
 	//{
 	//	dword flags = D3DCLEAR_ZBUFFER;
-	//	if (!a1)
+	//	if (!clear_stencil)
 	//		flags = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
 	//
 	//	c_rasterizer::clearf(flags, 0x005577CCu, 1.0f, 0);

@@ -44,11 +44,11 @@ extern bool& chud_debug_grid;
 extern bool& chud_debug_crosshair;
 
 
-extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* render_data, bool a3);
+extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);
 extern void __cdecl chud_debug_draw(long user_index);
-extern void __cdecl chud_debug_draw_reticle(long user_index, real a2, real_argb_color const* color);
-extern void __cdecl chud_debug_draw_reticle_labeled(long user_index, real a2, char const* label, real a4, real_argb_color const* color);
+extern void __cdecl chud_debug_draw_reticle(long user_index, real angle, real_argb_color const* color);
+extern void __cdecl chud_debug_draw_reticle_labeled(long user_index, real angle, char const* label, real a4, real_argb_color const* color);
 extern void __cdecl chud_debug_render();
-extern void __cdecl chud_draw_bitmap_widget(long a1, void* a2, bool a3);
-extern void __cdecl chud_draw_text_widget(long a1, void* a2, bool a3);
+extern void __cdecl chud_draw_bitmap_widget(long user_index, void* draw_widget_data, bool is_draw_turbulence);
+extern void __cdecl chud_draw_text_widget(long user_index, void* draw_widget_data, bool is_draw_turbulence);
 

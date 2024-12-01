@@ -353,7 +353,7 @@ struct c_rasterizer
 
 	static void __cdecl setup_occlusion_state();
 	static void __cdecl setup_render_target_globals_with_exposure(real, real, bool);
-	static void __cdecl sub_A24D30(bool a1, bool a2);
+	static void __cdecl setup_targets_albedo(bool clear_stencil, bool is_clear);
 	static void __cdecl setup_targets_distortion(short_rectangle2d*);
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting(real a1, real a2, bool a3, real a4, bool a5, bool a6, bool a7);
