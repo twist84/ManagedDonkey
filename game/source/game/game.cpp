@@ -1001,7 +1001,7 @@ bool __cdecl game_is_ui_shell()
 {
 	//return INVOKE(0x00531E90, game_is_ui_shell);
 
-	return game_mode_get() == _game_mode_mainmenu;
+	return game_mode_get() == _game_mode_ui_shell;
 }
 
 void __cdecl game_launch_initial_script()

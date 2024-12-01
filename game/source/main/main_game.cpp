@@ -73,7 +73,7 @@ e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game
 	//
 	//		return _map_memory_configuration_multiplayer;
 	//	}
-	//	case _game_mode_mainmenu:
+	//	case _game_mode_ui_shell:
 	//		return _map_memory_configuration_main_menu;
 	//	default:
 	//		return _map_memory_configuration_none;
@@ -98,7 +98,7 @@ bool __cdecl sub_566CC0()
 	//if (!main_game_globals.map_change_pending || main_game_globals.map_change_pending_unload)
 	//	return false;
 	//
-	//return main_game_globals.pending_game_options.game_mode == _game_mode_mainmenu;
+	//return main_game_globals.pending_game_options.game_mode == _game_mode_ui_shell;
 }
 
 void __cdecl main_game_campaign_loaded(game_options const* options)
@@ -183,7 +183,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 				main_game_campaign_loaded(options);
 			}
 			break;
-			case _game_mode_mainmenu:
+			case _game_mode_ui_shell:
 			{
 				//data_mine_upload();
 				if (!main_startup_sequence())
@@ -997,7 +997,7 @@ void __cdecl main_menu_build_game_options(game_options* options)
 	INVOKE(0x00568080, main_menu_build_game_options, options);
 
 	//game_options_new(options);
-	//options->game_mode = _game_mode_mainmenu;
+	//options->game_mode = _game_mode_ui_shell;
 	//s_level_datum level{};
 	//if (levels_try_and_get_main_menu_map(&level))
 	//	options->scenario_path.set(level.scenario_path);

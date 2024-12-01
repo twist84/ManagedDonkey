@@ -15,9 +15,9 @@ void __cdecl object_placement_create_active_zone_set_objects(e_object_placement_
 
 //.text:00B594C0 ; void __cdecl object_placement_create_active_zone_set_skies(long scenario_definition_index, long structure_bsp_index)
 
-void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool a2)
+void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool test_object_existence_before_creation)
 {
-	INVOKE(0x00B59510, object_placement_create_global_objects, game_mode, a2);
+	INVOKE(0x00B59510, object_placement_create_global_objects, game_mode, test_object_existence_before_creation);
 }
 
 //.text:00B596C0 ; bool __cdecl object_placement_data_new_from_scenario_object(e_object_type, long, s_scenario_object const*, s_tag_block*, bool, bool, struct object_placement_data*)

@@ -9,7 +9,7 @@ public:
 	bool is_tag_available(long tag_index) const;
 
 protected:
-	c_static_flags<20000> m_tag_instance_flags;
+	c_static_flags<20000> m_active_tags_flags;
 };
 static_assert(sizeof(c_scenario_resource_registry) == 0x9C4);
 

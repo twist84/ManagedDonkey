@@ -106,8 +106,8 @@ enum e_game_mode
 	_game_mode_none = 0,
 	_game_mode_campaign,
 	_game_mode_multiplayer,
-	_game_mode_mainmenu,
-	_game_mode_shared,
+	_game_mode_ui_shell,
+	_game_mode_tool,
 
 	k_game_mode_count
 };
@@ -180,7 +180,7 @@ enum e_network_game_simulation_protocol
 enum e_game_playback_type
 {
 	_game_playback_none = 0,
-	_game_playback_local,
+	_game_playback_film,
 	_game_playback_network_server,
 	_game_playback_network_client,
 

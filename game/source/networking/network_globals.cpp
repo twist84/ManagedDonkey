@@ -660,7 +660,7 @@ void network_test_reset_objects()
 	}
 
 	object_placement_create_global_objects(game_mode_get(), false);
-	object_placement_create_active_zone_set_objects(_object_placement_zone_set_create_mode_unknown0);
+	object_placement_create_active_zone_set_objects(_object_placement_zone_set_create_always);
 }
 
 void network_test_ping_directed(transport_address const* address)

@@ -45,7 +45,7 @@ void main_game_launch_multiplayer()
 
 void main_game_launch_ui_shell()
 {
-	main_game_globals.launch_game_options.game_mode = _game_mode_mainmenu;
+	main_game_globals.launch_game_options.game_mode = _game_mode_ui_shell;
 }
 
 void main_game_launch_set_active_primary_skulls(long active_primary_skulls)
