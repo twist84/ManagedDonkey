@@ -488,34 +488,34 @@ void c_vehicle_type_component::process_animation_channels(long vehicle_index, vo
 	//switch (vehicle_get_type(vehicle_index))
 	//{
 	//case _vehicle_type_human_tank:
-	//	get_type_human_tank()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_human_tank()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_human_jeep:
-	//	get_type_human_jeep()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_human_jeep()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_human_plane:
-	//	get_type_human_plane()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_human_plane()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_alien_scout:
-	//	get_type_alien_scout()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_alien_scout()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_alien_fighter:
-	//	get_type_alien_fighter()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_alien_fighter()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_turret:
-	//	get_type_turret()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_turret()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_mantis:
-	//	get_type_mantis()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_mantis()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_vtol:
-	//	get_type_vtol()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_vtol()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_chopper:
-	//	get_type_chopper()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_chopper()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//case _vehicle_type_guardian:
-	//	get_type_guardian()->process_animation_channels(vehicle_index, callback, channel, find_animations);
+	//	get_type_guardian()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 	//	break;
 	//}
 }
@@ -692,7 +692,11 @@ void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicl
 	//case _vehicle_type_guardian:
 	//	get_type_guardian()->update_physics(vehicle_index, instance);
 	//	break;
+	//default:
+	//	return;
 	//}
+	//
+	//vehicle_try_to_join_local_physics(vehicle_index, instance);
 }
 
 bool c_vehicle_type_component::vector_is_upsides_down(long vehicle_index, vector3d const* vector)

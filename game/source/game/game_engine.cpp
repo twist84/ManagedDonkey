@@ -440,7 +440,7 @@ void __cdecl game_engine_update()
 	//		game_engine_scoring_update_leaders();
 	//
 	//	game_engine_update_player_states();
-	//	sub_553210();
+	//	game_engine_update_player_netdebug_state();
 	//	game_engine_update_player_sitting_out();
 	//	game_engine_check_for_round_winner();
 	//
@@ -554,7 +554,7 @@ void __cdecl game_engine_update_global_fade_timers(real world_seconds_elapsed)
 
 //.text:00552FB0 ; void __cdecl game_engine_update_player(long)
 //.text:00553200 ; void __cdecl game_engine_update_player_movement_traits()
-//.text:00553210 ; 
+//.text:00553210 ; void __cdecl game_engine_update_player_netdebug_state()
 //.text:00553290 ; void __cdecl game_engine_update_player_no_shield(long)
 //.text:00553320 ; void __cdecl game_engine_update_player_sitting_out()
 //.text:005533A0 ; void __cdecl game_engine_update_player_states()
