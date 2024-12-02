@@ -1,25 +1,66 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/materials.hpp"
 #include "physics/havok_vehicle_physics_definitions.hpp"
 
-struct s_runtime_anti_gravity_point_definition
+struct s_vehicle_physics_point_datum
 {
-	s_anti_gravity_point_definition anti_gravity_point;
-
-	// I don't know
-	byte runtime_data[0xAC - sizeof(s_anti_gravity_point_definition)];
+	real_matrix4x3 rotation_matrix;
+	real_point3d position;
+	vector3d radius;
+	vector3d velocity;
+	vector3d force;
+	vector3d torque;
+	bool moving_surface;
+	vector3d surface_velocity;
+	long object_index;
 };
-static_assert(sizeof(s_runtime_anti_gravity_point_definition) == 0xAC);
+static_assert(sizeof(s_vehicle_physics_point_datum) == 0x84);
 
-struct s_runtime_friction_point_definition
+struct s_anti_gravity_vehicle_physics_point_datum :
+	s_vehicle_physics_point_datum
 {
-	s_friction_point_definition friction_point;
-
-	// I don't know
-	byte runtime_data[0xEC - sizeof(s_friction_point_definition)];
+	bool anti_gravitating;
+	bool valid;
+	vector3d local_offset;
+	vector3d powered_force;
+	real antigrav_fraction;
+	real antigrav_error;
+	real antigrav_height_fraction;
 };
-static_assert(sizeof(s_runtime_friction_point_definition) == 0xEC);
+static_assert(sizeof(s_anti_gravity_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x28);
+
+struct s_friction_datum
+{
+	vector3d friction;
+	vector3d parallel;
+	vector3d perpendicular;
+};
+static_assert(sizeof(s_friction_datum) == 0x24);
+
+struct s_friction_vehicle_physics_point_datum :
+	s_vehicle_physics_point_datum
+{
+	bool on_ground;
+	bool sliding;
+	bool emergency_braking;
+	bool braking;
+	real ground_depth;
+	real current_radius;
+	real normal_force_magnitude;
+	real ground_friction_velocity;
+	real ground_tire_relative_velocity;
+	vector3d normal_force;
+	vector3d ground_plane;
+	real_point3d ground_position;
+	long plane_object_index;
+	c_global_material_type ground_global_material_type;
+	bool pad;
+	bool disabled;
+	s_friction_datum ground_friction;
+};
+static_assert(sizeof(s_friction_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x68);
 
 struct s_havok_vehicle_physics_instance
 {
@@ -27,25 +68,19 @@ struct s_havok_vehicle_physics_instance
 	s_havok_vehicle_physics_definition* physics;
 	real_matrix4x3 world_matrix;
 	matrix3x3 inertia_tensor;
-	real_point3d center_of_mass;
+	real_point3d world_center_of_mass;
 	real mass;
-
-	real __unknown70;
-
+	real wheel_total_frictional_torque;
 	vector3d throttle;
-
-	real __unknown80;
-
+	real steering;
 	bool is_e_braking;
-	bool is_upsides_down;
+	bool antigravity_disabled;
+	bool cache_invalid;
+	long anti_gravity_points_on_slip_surface_count;
+	long friction_points_on_slip_surface_count;
 
-	byte __unknown86;
-	byte __unknown87;
-	long __unknown88;
-	long __unknown8C;
-
-	s_runtime_anti_gravity_point_definition anti_gravity_points[16];
-	s_runtime_friction_point_definition friction_points[16];
+	s_anti_gravity_vehicle_physics_point_datum anti_gravity_points[16];
+	s_friction_vehicle_physics_point_datum friction_points[16];
 };
 static_assert(sizeof(s_havok_vehicle_physics_instance) == 0x1A10);
 
