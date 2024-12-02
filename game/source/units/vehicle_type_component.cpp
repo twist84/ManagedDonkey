@@ -1,42 +1,52 @@
 #include "units/vehicle_type_component.hpp"
 
 #include "units/vehicles.hpp"
+#include "units/vehicle_type_alien_fighter.hpp"
+#include "units/vehicle_type_alien_scout.hpp"
+#include "units/vehicle_type_chopper.hpp"
+#include "units/vehicle_type_guardian.hpp"
+#include "units/vehicle_type_human_jeep.hpp"
+#include "units/vehicle_type_human_plane.hpp"
+#include "units/vehicle_type_human_tank.hpp"
+#include "units/vehicle_type_mantis.hpp"
+#include "units/vehicle_type_turret.hpp"
+#include "units/vehicle_type_vtol.hpp"
 
-void c_vehicle_type_component::adjust_gravity(long vehicle_index, vector3d* a2)
+void c_vehicle_type_component::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
 {
-	INVOKE_CLASS_MEMBER(0x00B8A190, c_vehicle_type_component, adjust_gravity, vehicle_index, a2);
+	INVOKE_CLASS_MEMBER(0x00B8A190, c_vehicle_type_component, adjust_gravity, vehicle_index, gravity_acceleration);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
 	//case _vehicle_type_human_tank:
-	//	get_type_human_tank()->adjust_gravity(vehicle_index, a2);
+	//	get_type_human_tank()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_human_jeep:
-	//	get_type_human_jeep()->adjust_gravity(vehicle_index, a2);
+	//	get_type_human_jeep()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_human_plane:
-	//	get_type_human_plane()->adjust_gravity(vehicle_index, a2);
+	//	get_type_human_plane()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_alien_scout:
-	//	get_type_alien_scout()->adjust_gravity(vehicle_index, a2);
+	//	get_type_alien_scout()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_alien_fighter:
-	//	get_type_alien_fighter()->adjust_gravity(vehicle_index, a2);
+	//	get_type_alien_fighter()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_turret:
-	//	get_type_turret()->adjust_gravity(vehicle_index, a2);
+	//	get_type_turret()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_mantis:
-	//	get_type_mantis()->adjust_gravity(vehicle_index, a2);
+	//	get_type_mantis()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_vtol:
-	//	get_type_vtol()->adjust_gravity(vehicle_index, a2);
+	//	get_type_vtol()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_chopper:
-	//	get_type_chopper()->adjust_gravity(vehicle_index, a2);
+	//	get_type_chopper()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//case _vehicle_type_guardian:
-	//	get_type_guardian()->adjust_gravity(vehicle_index, a2);
+	//	get_type_guardian()->adjust_gravity(vehicle_index, gravity_acceleration);
 	//	break;
 	//}
 }
@@ -242,7 +252,7 @@ c_vehicle_type_human_tank* c_vehicle_type_component::get_type_human_tank()
 	//return INVOKE_CLASS_MEMBER(0x00B8A780, c_vehicle_type_component, get_type_human_tank);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_tank);
-	return &m_type_human_tank;
+	return (c_vehicle_type_human_tank*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_human_jeep* c_vehicle_type_component::get_type_human_jeep()
@@ -250,7 +260,7 @@ c_vehicle_type_human_jeep* c_vehicle_type_component::get_type_human_jeep()
 	//return INVOKE_CLASS_MEMBER(0x00B8A790, c_vehicle_type_component, get_type_human_jeep);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_jeep);
-	return &m_type_human_jeep;
+	return (c_vehicle_type_human_jeep*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_human_plane* c_vehicle_type_component::get_type_human_plane()
@@ -258,7 +268,7 @@ c_vehicle_type_human_plane* c_vehicle_type_component::get_type_human_plane()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7A0, c_vehicle_type_component, get_type_human_plane);
 
 	ASSERT(m_initialization_type == _vehicle_type_human_plane);
-	return &m_type_human_plane;
+	return (c_vehicle_type_human_plane*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_alien_scout* c_vehicle_type_component::get_type_alien_scout()
@@ -266,7 +276,7 @@ c_vehicle_type_alien_scout* c_vehicle_type_component::get_type_alien_scout()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7B0, c_vehicle_type_component, get_type_alien_scout);
 
 	ASSERT(m_initialization_type == _vehicle_type_alien_scout);
-	return &m_type_alien_scout;
+	return (c_vehicle_type_alien_scout*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_alien_fighter* c_vehicle_type_component::get_type_alien_fighter()
@@ -274,7 +284,7 @@ c_vehicle_type_alien_fighter* c_vehicle_type_component::get_type_alien_fighter()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7C0, c_vehicle_type_component, get_type_alien_fighter);
 
 	ASSERT(m_initialization_type == _vehicle_type_alien_fighter);
-	return &m_type_alien_fighter;
+	return (c_vehicle_type_alien_fighter*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_turret* c_vehicle_type_component::get_type_turret()
@@ -282,7 +292,7 @@ c_vehicle_type_turret* c_vehicle_type_component::get_type_turret()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7D0, c_vehicle_type_component, get_type_turret);
 
 	ASSERT(m_initialization_type == _vehicle_type_turret);
-	return &m_type_turret;
+	return (c_vehicle_type_turret*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_mantis* c_vehicle_type_component::get_type_mantis()
@@ -290,7 +300,7 @@ c_vehicle_type_mantis* c_vehicle_type_component::get_type_mantis()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7E0, c_vehicle_type_component, get_type_mantis);
 
 	ASSERT(m_initialization_type == _vehicle_type_mantis);
-	return &m_type_mantis;
+	return (c_vehicle_type_mantis*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_vtol* c_vehicle_type_component::get_type_vtol()
@@ -298,7 +308,7 @@ c_vehicle_type_vtol* c_vehicle_type_component::get_type_vtol()
 	//return INVOKE_CLASS_MEMBER(0x00B8A7F0, c_vehicle_type_component, get_type_vtol);
 
 	ASSERT(m_initialization_type == _vehicle_type_vtol);
-	return &m_type_vtol;
+	return (c_vehicle_type_vtol*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_chopper* c_vehicle_type_component::get_type_chopper()
@@ -306,7 +316,7 @@ c_vehicle_type_chopper* c_vehicle_type_component::get_type_chopper()
 	//return INVOKE_CLASS_MEMBER(0x00B8A800, c_vehicle_type_component, get_type_chopper);
 
 	ASSERT(m_initialization_type == _vehicle_type_chopper);
-	return &m_type_chopper;
+	return (c_vehicle_type_chopper*)&m_vehicle_type_buffer;
 }
 
 c_vehicle_type_guardian* c_vehicle_type_component::get_type_guardian()
@@ -314,7 +324,7 @@ c_vehicle_type_guardian* c_vehicle_type_component::get_type_guardian()
 	//return INVOKE_CLASS_MEMBER(0x00B8A810, c_vehicle_type_component, get_type_guardian);
 
 	ASSERT(m_initialization_type == _vehicle_type_guardian);
-	return &m_type_guardian;
+	return (c_vehicle_type_guardian*)&m_vehicle_type_buffer;
 }
 
 void c_vehicle_type_component::handle_deleted_object(long vehicle_index, long object_index)
@@ -341,16 +351,16 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 	//	reset(vehicle_index);
 }
 
-bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real a3, real a4, real a5, long object_index)
+bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real min_range, real alt_range, real alt_time, long object_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, a3, a4, a5, object_index);
+	return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
 	//case _vehicle_type_turret:
-	//	return get_type_turret()->init_auto_turret(vehicle_index, trigger_volume, a3, a4, a5, object_index);
+	//	return get_type_turret()->init_auto_turret(vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 	//case _vehicle_type_guardian:
-	//	return get_type_guardian()->init_auto_turret(vehicle_index, trigger_volume, a3, a4, a5, object_index);
+	//	return get_type_guardian()->init_auto_turret(vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 	//}
 	//return false;
 }
@@ -471,41 +481,41 @@ bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 	//return false;
 }
 
-void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* callback_data, c_animation_channel* channel, bool a5)
+void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
-	INVOKE_CLASS_MEMBER(0x00B8ABF0, c_vehicle_type_component, process_animation_channels, vehicle_index, callback, callback_data, channel, a5);
+	INVOKE_CLASS_MEMBER(0x00B8ABF0, c_vehicle_type_component, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
 	//case _vehicle_type_human_tank:
-	//	get_type_human_tank()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_human_tank()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_human_jeep:
-	//	get_type_human_jeep()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_human_jeep()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_human_plane:
-	//	get_type_human_plane()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_human_plane()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_alien_scout:
-	//	get_type_alien_scout()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_alien_scout()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_alien_fighter:
-	//	get_type_alien_fighter()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_alien_fighter()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_turret:
-	//	get_type_turret()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_turret()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_mantis:
-	//	get_type_mantis()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_mantis()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_vtol:
-	//	get_type_vtol()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_vtol()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_chopper:
-	//	get_type_chopper()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_chopper()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//case _vehicle_type_guardian:
-	//	get_type_guardian()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	get_type_guardian()->process_animation_channels(vehicle_index, callback, channel, find_animations);
 	//	break;
 	//}
 }
