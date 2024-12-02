@@ -254,6 +254,15 @@ struct s_engine_function_definition
 };
 static_assert(sizeof(s_engine_function_definition) == 0x14);
 
+struct physics_variable_speed
+{
+	real maximum_forward_speed;
+	real maximum_reverse_speed;
+	real acceleration;
+	real deceleration;
+};
+static_assert(sizeof(physics_variable_speed) == 0x10);
+
 enum e_alien_scout_specific_type
 {
 	_alien_scout_specific_type_none = 0,
@@ -274,19 +283,11 @@ enum e_alien_scout_flags
 
 struct s_vehicle_alien_scout_definition
 {
-	s_vehicle_steering_control_definition steering_control;
-
+	s_vehicle_steering_control_definition steering;
 
 	// velocity control variables
-
-	real maximum_forward_speed;
-	real maximum_reverse_speed;
-	real speed_acceleration;
-	real speed_deceleration;
-	real maximum_left_slide;
-	real maximum_right_slide;
-	real slide_acceleration;
-	real slide_deceleration;
+	physics_variable_speed speed;
+	physics_variable_speed slide;
 
 	// specific types
 	// different types are treated differently alien scout controller
@@ -302,13 +303,14 @@ struct s_vehicle_alien_scout_definition
 	real torque_scale;
 
 	// engine object function
-	s_engine_function_definition engine_gravity_function;
+	s_engine_function_definition engine_function_definition;
 
 	// contrail object function
-	s_engine_function_definition contrail_gravity_function;
+	s_engine_function_definition contrail_function_definition;
 
 	// engine rotation function
-	real_bounds gear_rotation_speed;
+	real gear_cycle_rate_min;
+	real gear_cycle_rate_max;
 
 	s_vehicle_steering_animation_definition steering_animation;
 };
