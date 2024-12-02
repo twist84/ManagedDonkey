@@ -505,7 +505,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 
 void __cdecl hs_enumerate_ai_behavior_names(void)
 {
-	for (long i = 0; i < k_behavior_count; i++)
+	for (long i = 0; i < NUMBER_OF_BEHAVIORS; i++)
 		hs_tokens_enumerate_add_string(behavior_names[i]);
 }
 

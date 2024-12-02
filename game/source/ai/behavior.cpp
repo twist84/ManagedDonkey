@@ -47,7 +47,7 @@
 // ai/behavior/behavior_vehicle_pickup.inl
 // ai/behavior/behavior_wander.inl
 
-//REFERENCE_DECLARE_ARRAY(0x01994070, char const*, behavior_names, k_behavior_count);
+//REFERENCE_DECLARE_ARRAY(0x01994070, char const*, behavior_names, NUMBER_OF_BEHAVIORS);
 
 //.text:01466970 ; 
 //.text:01466990 ; 
@@ -685,7 +685,7 @@ short actor_behavior_index_get(actor_datum const* actor, short layer_index)
 	return NONE;
 };
 
-char const* behavior_names[k_behavior_count]
+char const* behavior_names[NUMBER_OF_BEHAVIORS]
 {
 	"------GENERAL------",
 	"root",

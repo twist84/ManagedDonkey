@@ -54,7 +54,7 @@ struct style_palette_entry
 	// Check the appropriate box to turn on/off the given behavior
 	c_flags<e_style_control_flags, dword, k_style_control_flags> style_control;
 
-	c_static_flags<k_behavior_count> behaviors;
+	c_static_flags<NUMBER_OF_BEHAVIORS> behaviors;
 
 	c_typed_tag_block<special_movement_definition> special_movement;
 	c_typed_tag_block<style_behavior_name> behavior_list;
