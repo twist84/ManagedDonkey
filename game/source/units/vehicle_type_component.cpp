@@ -65,32 +65,32 @@ bool c_vehicle_type_component::auto_control(long vehicle_index)
 	//return false;
 }
 
-bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function_name, real* function_value, bool* function_result)
+bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
 {
-	return INVOKE_CLASS_MEMBER(0x00B8A2D0, c_vehicle_type_component, compute_function_value, vehicle_index, function_name, function_value, function_result);
+	return INVOKE_CLASS_MEMBER(0x00B8A2D0, c_vehicle_type_component, compute_function_value, vehicle_index, function, magnitude, force_active);
 
 	//switch (vehicle_get_type(vehicle_index))
 	//{
 	//case _vehicle_type_human_tank:
-	//	return get_type_human_tank()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_human_tank()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_human_jeep:
-	//	return get_type_human_jeep()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_human_jeep()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_human_plane:
-	//	return get_type_human_plane()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_human_plane()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_alien_scout:
-	//	return get_type_alien_scout()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_alien_scout()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_alien_fighter:
-	//	return get_type_alien_fighter()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_alien_fighter()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_turret:
-	//	return get_type_turret()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_turret()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_mantis:
-	//	return get_type_mantis()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_mantis()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_vtol:
-	//	return get_type_vtol()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_vtol()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_chopper:
-	//	return get_type_chopper()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_chopper()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//case _vehicle_type_guardian:
-	//	return get_type_guardian()->compute_function_value(vehicle_index, function_name, function_value, function_result);
+	//	return get_type_guardian()->compute_function_value(vehicle_index, function, magnitude, force_active);
 	//}
 	//return false;
 }

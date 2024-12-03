@@ -4,9 +4,9 @@
 #include "units/vehicle_engine.hpp"
 #include "units/vehicle_utilities.hpp"
 
-struct s_havok_vehicle_physics_instance;
 struct render_model_definition;
 struct c_animation_channel;
+struct s_havok_vehicle_physics_instance;
 struct c_vehicle_type_human_tank
 {
 public:

@@ -607,7 +607,7 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00553DB0 ; void __cdecl game_engine_update_time()
 //.text:00553FC0 ; bool __cdecl game_engine_validate_team_designator_for_new_map(e_multiplayer_team_designator)
 //.text:00553FF0 ; bool __cdecl game_engine_vehicles_indestructible()
-//.text:00554010 ; 
+//.text:00554010 ; bool __cdecl game_engine_weapon_is_bomb(long)
 //.text:00554090 ; public: e_aura_setting __cdecl c_player_trait_appearance::get_aura_setting() const
 //.text:005540A0 ; 
 //.text:005540B0 ; 
@@ -629,6 +629,17 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00554340 ; 
 //.text:00554350 ; 
 //.text:00554360 ; long __cdecl get_player_index_from_object_or_parents(long)
+//.text:005543D0 ; 
+//.text:00554430 ; 
+//.text:00554440 ; 
+//.text:00554450 ; 
+//.text:00554460 ; 
+//.text:00554470 ; 
+//.text:005544A0 ; public: e_shield_multiplier_setting __cdecl c_player_trait_shield_vitality::get_shield_multiplier_setting() const
+//.text:005544B0 ; 
+//.text:005544C0 ; 
+//.text:005544D0 ; public: e_vehicle_usage_setting __cdecl c_player_trait_movement::get_vehicle_usage_setting() const
+//.text:005544E0 ; 
 //.text:00554590 ; 
 //.text:00554600 ; 
 //.text:00554620 ; 
