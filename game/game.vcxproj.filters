@@ -1722,6 +1722,9 @@
     <ClCompile Include="source\networking\online\online_service_record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\vehicle_type_human_jeep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

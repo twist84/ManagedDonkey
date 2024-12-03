@@ -752,6 +752,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\units\vehicle_definitions.cpp" />
     <ClCompile Include="source\units\vehicle_engine.cpp" />
     <ClCompile Include="source\units\vehicle_type_component.cpp" />
+    <ClCompile Include="source\units\vehicle_type_human_jeep.cpp" />
     <ClCompile Include="source\units\vehicle_type_human_tank.cpp" />
     <ClCompile Include="source\visibility\visibility_collection.cpp" />
     <ClCompile Include="source\visibility\visibility_portal_activation.cpp" />
