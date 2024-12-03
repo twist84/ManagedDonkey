@@ -58,18 +58,7 @@ struct s_vehicle_chopper_definition;
 struct s_vehicle_guardian_definition;
 struct s_vehicle_physics_types
 {
-	//c_static_array<s_tag_block, k_vehicle_type_count> type;
-
-	c_typed_tag_block<s_vehicle_human_tank_definition> type_human_tank;
-	c_typed_tag_block<s_vehicle_human_jeep_definition> type_human_jeep;
-	c_typed_tag_block<s_vehicle_human_plane_definition> type_human_plane;
-	c_typed_tag_block<s_vehicle_alien_scout_definition> type_alien_scout;
-	c_typed_tag_block<s_vehicle_alien_fighter_definition> type_alien_fighter;
-	c_typed_tag_block<s_vehicle_turret_definition> type_turret;
-	c_typed_tag_block<s_vehicle_mantis_definition> type_mantis;
-	c_typed_tag_block<s_vehicle_vtol_definition> type_vtol;
-	c_typed_tag_block<s_vehicle_chopper_definition> type_chopper;
-	c_typed_tag_block<s_vehicle_guardian_definition> type_guardian;
+	c_static_array<s_tag_block, k_vehicle_type_count> tag_blocks;
 
 	void update_reference_names();
 };
@@ -669,4 +658,18 @@ struct vehicle_definition
 	void update_reference_names();
 };
 static_assert(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
+
+extern void __cdecl vehicle_definition_fixup(long vehicle_definition_index);
+extern e_vehicle_type __cdecl vehicle_definition_get_default_type(long vehicle_definition_index);
+extern void __cdecl vehicle_definition_teardown(long vehicle_definition_index);
+extern s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_definition(long vehicle_definition_index);
+extern s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definition(long vehicle_definition_index);
+extern s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(long vehicle_definition_index);
+extern s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(long vehicle_definition_index);
+extern s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition(long vehicle_definition_index);
+extern s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definition(long vehicle_definition_index);
+extern s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition(long vehicle_definition_index);
+extern s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(long vehicle_definition_index);
+extern s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(long vehicle_definition_index);
+extern s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(long vehicle_definition_index);
 

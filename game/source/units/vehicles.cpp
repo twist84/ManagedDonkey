@@ -87,18 +87,18 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 			// donkey note: there is debug.txt yet ;)
 		}
 
-		s_vehicle_engine_definition* engine_definition = NULL;
-		s_vehicle_engine* const engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
+		s_vehicle_engine_definition const* engine_definition = NULL;
+		s_vehicle_engine const* engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:
-			engine_definition = &vehicle_definition->vehicle.physics_types.type_human_tank[0].engine;
+			engine_definition = &vehicle_get_human_tank_definition(vehicle->definition_index)->engine;
 			break;
 		case _vehicle_type_human_jeep:
-			engine_definition = &vehicle_definition->vehicle.physics_types.type_human_jeep[0].engine;
+			engine_definition = &vehicle_get_human_tank_definition(vehicle->definition_index)->engine;
 			break;
 		case _vehicle_type_chopper:
-			engine_definition = &vehicle_definition->vehicle.physics_types.type_chopper[0].engine;
+			engine_definition = &vehicle_get_chopper_definition(vehicle->definition_index)->engine;
 			break;
 		}
 		ASSERT((engine == NULL) == (engine_definition == NULL));
