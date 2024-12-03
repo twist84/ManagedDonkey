@@ -1,8 +1,10 @@
 #include "units/vehicle_type_vtol.hpp"
 
-void c_vehicle_type_vtol::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+#include "motor/vehicle_motor_program.hpp"
+
+void __cdecl c_vehicle_type_vtol::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD0C30, c_vehicle_type_vtol, adjust_gravity, vehicle_index, gravity_acceleration);
+	return INVOKE(0x00BD0C30, c_vehicle_type_vtol::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
 void __cdecl c_vehicle_type_vtol::apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, vector3d* force, vector3d* torque)
@@ -59,9 +61,9 @@ void c_vehicle_type_vtol::deplete_function_variables(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD1F60, c_vehicle_type_vtol, deplete_function_variables, vehicle_index);
 }
 
-bool c_vehicle_type_vtol::effected_by_vehicle_ceiling(long vehicle_index)
+bool __cdecl c_vehicle_type_vtol::effected_by_vehicle_ceiling(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD1F70, c_vehicle_type_vtol, effected_by_vehicle_ceiling, vehicle_index);
+	return INVOKE(0x00BD1F70, c_vehicle_type_vtol::effected_by_vehicle_ceiling, vehicle_index);
 }
 
 void c_vehicle_type_vtol::interpolate_lift_angles(long vehicle_index, euler_angles2d* angles, vector2d* velocity, euler_angles2d const* desired_angles, bool render_angles)
@@ -69,19 +71,19 @@ void c_vehicle_type_vtol::interpolate_lift_angles(long vehicle_index, euler_angl
 	INVOKE_CLASS_MEMBER(0x00BD1F80, c_vehicle_type_vtol, interpolate_lift_angles, vehicle_index, angles, velocity, desired_angles, render_angles);
 }
 
-bool c_vehicle_type_vtol::is_stopped(long vehicle_index)
+bool __cdecl c_vehicle_type_vtol::is_stopped(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD2200, c_vehicle_type_vtol, is_stopped, vehicle_index);
+	return INVOKE(0x00BD2200, c_vehicle_type_vtol::is_stopped, vehicle_index);
 }
 
-bool c_vehicle_type_vtol::kills_riders_at_terminal_velocity(long vehicle_index)
+bool __cdecl c_vehicle_type_vtol::kills_riders_at_terminal_velocity(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD2210, c_vehicle_type_vtol, kills_riders_at_terminal_velocity, vehicle_index);
+	return INVOKE(0x00BD2210, c_vehicle_type_vtol::kills_riders_at_terminal_velocity, vehicle_index);
 }
 
-bool c_vehicle_type_vtol::physics_disabled(long vehicle_index)
+bool __cdecl c_vehicle_type_vtol::physics_disabled(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD2220, c_vehicle_type_vtol, physics_disabled, vehicle_index);
+	return INVOKE(0x00BD2220, c_vehicle_type_vtol::physics_disabled, vehicle_index);
 }
 
 void c_vehicle_type_vtol::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
@@ -94,9 +96,9 @@ void c_vehicle_type_vtol::reset(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD23C0, c_vehicle_type_vtol, reset, vehicle_index);
 }
 
-bool c_vehicle_type_vtol::should_override_deactivation(long vehicle_index)
+bool __cdecl c_vehicle_type_vtol::should_override_deactivation(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD23E0, c_vehicle_type_vtol, should_override_deactivation, vehicle_index);
+	return INVOKE(0x00BD23E0, c_vehicle_type_vtol::should_override_deactivation, vehicle_index);
 }
 
 void c_vehicle_type_vtol::update_control(long vehicle_index)
@@ -119,8 +121,8 @@ void c_vehicle_type_vtol::update_rotor_damping(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD35A0, c_vehicle_type_vtol, update_rotor_damping, vehicle_index);
 }
 
-bool c_vehicle_type_vtol::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_vtol::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
 {
-	return INVOKE_CLASS_MEMBER(0x00BD3790, c_vehicle_type_vtol, vector_is_upsides_down, vehicle_index, vector);
+	return INVOKE(0x00BD3790, c_vehicle_type_vtol::vector_is_upsides_down, vehicle_index, vector);
 }
 

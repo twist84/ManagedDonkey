@@ -1,8 +1,10 @@
 #include "units/vehicle_type_alien_scout.hpp"
 
-void c_vehicle_type_alien_scout::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+#include "motor/vehicle_motor_program.hpp"
+
+void __cdecl c_vehicle_type_alien_scout::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
 {
-	INVOKE_CLASS_MEMBER(0x00BCAA90, c_vehicle_type_alien_scout, adjust_gravity, vehicle_index, gravity_acceleration);
+	INVOKE(0x00BCAA90, c_vehicle_type_alien_scout::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
 bool c_vehicle_type_alien_scout::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
@@ -18,9 +20,9 @@ void c_vehicle_type_alien_scout::compute_throttle(long vehicle_index, vector3d* 
 	INVOKE_CLASS_MEMBER(0x00BCAE30, c_vehicle_type_alien_scout, compute_throttle, vehicle_index, throttle);
 }
 
-void c_vehicle_type_alien_scout::create_effects(long vehicle_index)
+void __cdecl c_vehicle_type_alien_scout::create_effects(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCAEA0, c_vehicle_type_alien_scout, create_effects, vehicle_index);
+	return INVOKE(0x00BCAEA0, c_vehicle_type_alien_scout::create_effects, vehicle_index);
 }
 
 void c_vehicle_type_alien_scout::deplete_function_variables(long vehicle_index)
@@ -28,24 +30,24 @@ void c_vehicle_type_alien_scout::deplete_function_variables(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BCB160, c_vehicle_type_alien_scout, deplete_function_variables, vehicle_index);
 }
 
-bool c_vehicle_type_alien_scout::effected_by_vehicle_ceiling(long vehicle_index)
+bool __cdecl c_vehicle_type_alien_scout::effected_by_vehicle_ceiling(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCB190, c_vehicle_type_alien_scout, effected_by_vehicle_ceiling, vehicle_index);
+	return INVOKE(0x00BCB190, c_vehicle_type_alien_scout::effected_by_vehicle_ceiling, vehicle_index);
 }
 
-bool c_vehicle_type_alien_scout::is_stopped(long vehicle_index)
+bool __cdecl c_vehicle_type_alien_scout::is_stopped(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCB1A0, c_vehicle_type_alien_scout, is_stopped, vehicle_index);
+	return INVOKE(0x00BCB1A0, c_vehicle_type_alien_scout::is_stopped, vehicle_index);
 }
 
-bool c_vehicle_type_alien_scout::kills_riders_at_terminal_velocity(long vehicle_index)
+bool __cdecl c_vehicle_type_alien_scout::kills_riders_at_terminal_velocity(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCB1B0, c_vehicle_type_alien_scout, kills_riders_at_terminal_velocity, vehicle_index);
+	return INVOKE(0x00BCB1B0, c_vehicle_type_alien_scout::kills_riders_at_terminal_velocity, vehicle_index);
 }
 
-bool c_vehicle_type_alien_scout::physics_disabled(long vehicle_index)
+bool __cdecl c_vehicle_type_alien_scout::physics_disabled(long vehicle_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCB1C0, c_vehicle_type_alien_scout, physics_disabled, vehicle_index);
+	return INVOKE(0x00BCB1C0, c_vehicle_type_alien_scout::physics_disabled, vehicle_index);
 }
 
 void c_vehicle_type_alien_scout::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
@@ -73,9 +75,9 @@ void c_vehicle_type_alien_scout::update_physics(long vehicle_index, s_havok_vehi
 	INVOKE_CLASS_MEMBER(0x00BCB510, c_vehicle_type_alien_scout, update_physics, vehicle_index, instance);
 }
 
-bool c_vehicle_type_alien_scout::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_alien_scout::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
 {
-	return INVOKE_CLASS_MEMBER(0x00BCCC70, c_vehicle_type_alien_scout, vector_is_upsides_down, vehicle_index, vector);
+	return INVOKE(0x00BCCC70, c_vehicle_type_alien_scout::vector_is_upsides_down, vehicle_index, vector);
 }
 
 

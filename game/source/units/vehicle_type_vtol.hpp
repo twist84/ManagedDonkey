@@ -8,7 +8,7 @@ struct c_animation_channel;
 struct c_vehicle_type_vtol
 {
 public:
-	void adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	static void __cdecl adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
 
 private:
 	static void __cdecl apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, vector3d* force, vector3d* torque);
@@ -24,18 +24,18 @@ private:
 public:
 	void create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
-	bool effected_by_vehicle_ceiling(long vehicle_index);
+	static bool __cdecl effected_by_vehicle_ceiling(long vehicle_index);
 
 private:
 	void interpolate_lift_angles(long vehicle_index, euler_angles2d* angles, vector2d* velocity, euler_angles2d const* desired_angles, bool render_angles);
 
 public:
-	bool is_stopped(long vehicle_index);
-	bool kills_riders_at_terminal_velocity(long vehicle_index);
-	bool physics_disabled(long vehicle_index);
+	static bool __cdecl is_stopped(long vehicle_index);
+	static bool __cdecl kills_riders_at_terminal_velocity(long vehicle_index);
+	static bool __cdecl physics_disabled(long vehicle_index);
 	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
-	bool should_override_deactivation(long vehicle_index);
+	static bool __cdecl should_override_deactivation(long vehicle_index);
 	void update_control(long vehicle_index);
 
 private:
@@ -48,7 +48,7 @@ private:
 	void update_rotor_damping(long vehicle_index);
 
 public:
-	bool vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(long vehicle_index, vector3d const* vector);
 
 	enum e_lift_vector
 	{
