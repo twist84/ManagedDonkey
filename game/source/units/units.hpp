@@ -9,6 +9,18 @@
 
 long const k_seat_acceleration_memory_length = 6;
 
+enum
+{
+	_unit_estimate_none = 0,
+	_unit_estimate_head_standing,
+	_unit_estimate_head_crouching,
+	_unit_estimate_gun_position,
+	_unit_estimate_aiming_standing,
+	_unit_estimate_aiming_crouching,
+
+	k_unit_estimate_position_modes_count
+};
+
 enum e_unit_drop_type
 {
 	_unit_drop_type_drop = 0,
