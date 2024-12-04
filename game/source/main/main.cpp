@@ -791,7 +791,7 @@ void __cdecl main_loop_body_main_part()
 			//if (tag_files_can_load_tags())
 			//	main_loop_process_global_state_changes();
 			//else
-			//	main_events_reset(_main_reset_events_reason_xsync_in_progress);
+			//	main_events_reset(_main_reset_events_pending_xsync);
 
 			PROFILER(idle_tag_resources) // main_loop, tag_idle
 			{
@@ -1576,7 +1576,7 @@ void __cdecl main_revert_map(bool user)
 	INVOKE(0x00506BA0, main_revert_map, user);
 
 	//main_globals.map_revert = true;
-	//main_globals.map_revert_flags.set(_game_state_revert_bit_user, user);
+	//main_globals.map_revert_flags.set(_game_state_revert_user_bit, user);
 }
 
 void __cdecl main_revert_map_private()
@@ -1591,8 +1591,8 @@ void __cdecl main_revert_map_scripting()
 	////main_trace_event_internal(__FUNCTION__);
 	//main_globals.map_revert = true;
 	//main_globals.map_revert_flags.clear();
-	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting, true);
-	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting_cinematic, true);
+	//main_globals.map_revert_flags.set(_game_state_revert_by_scripting_bit, true);
+	//main_globals.map_revert_flags.set(_game_state_revert_keep_playing_cinematic_outros_bit, true);
 }
 
 //.text:00506CC0
@@ -1726,7 +1726,7 @@ void __cdecl main_skip_cinematic_private()
 
 	//main_globals.map_revert = true;
 	//main_globals.map_revert_flags.clear();
-	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting, true);
+	//main_globals.map_revert_flags.set(_game_state_revert_by_scripting_bit, true);
 }
 
 bool __cdecl main_startup_sequence()

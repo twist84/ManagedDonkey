@@ -147,7 +147,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 	main_render_assert_no_pending_messages();
 	main_game_unload_and_prepare_for_next_game(options);
 	main_render_assert_no_pending_messages();
-	main_events_reset(_main_reset_events_reason_changing_the_map);
+	main_events_reset(_main_reset_events_map_change);
 	main_render_assert_no_pending_messages();
 	main_status("map", NULL);
 

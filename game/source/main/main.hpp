@@ -4,19 +4,19 @@
 
 enum e_main_reset_events_reason
 {
-	_main_reset_events_reason_changing_the_map = 0,
-	_main_reset_events_reason_xsync_in_progress,
+	_main_reset_events_map_change = 0,
+	_main_reset_events_pending_xsync,
 
 	k_number_of_main_reset_event_reasons
 };
 
 enum e_game_state_revert_bit
 {
-	_game_state_revert_bit_user = 0,
-	_game_state_revert_bit_scripting,
-	_game_state_revert_bit_scripting_cinematic,
+	_game_state_revert_user_bit = 0,
+	_game_state_revert_by_scripting_bit,
+	_game_state_revert_keep_playing_cinematic_outros_bit,
 
-	k_game_state_revert_bits
+	k_number_of_game_state_revert_bits
 };
 
 struct s_scenario_zone_activation
@@ -60,7 +60,7 @@ struct _main_globals
 	bool map_reset_random;
 
 	bool map_revert;
-	c_flags<e_game_state_revert_bit, byte, k_game_state_revert_bits> map_revert_flags;
+	c_flags<e_game_state_revert_bit, byte, k_number_of_game_state_revert_bits> map_revert_flags;
 
 	bool save;
 	bool save_and_exit;
