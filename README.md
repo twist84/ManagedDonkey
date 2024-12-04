@@ -13,10 +13,6 @@
    - Extract this to somewhere like `G:\Games\ms23`; we will refer to this as `GameDir`.
  - Grab the files from [DonkeyFileShare](https://github.com/twist84/DonkeyFileShare).
 
-### Required Visual Studio 2022 Extensions
- - [Smart Command Line Arguments VS2022](https://marketplace.visualstudio.com/items?itemName=MBulli.SmartCommandlineArguments2022)
- - [Microsoft Child Process Debugging Power Tool 2022](https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool2022)
-
 ### Project Configuration
  - Right-click the `game` project
    - Properties -> Debugging -> Set Working Directory to the `GameDir`.
@@ -29,7 +25,7 @@
  - `Git` and `Powershell`, only for the last commit revision
 
 ### Debugging:
- - Visual Studio 2022 Extensions
+ - Required Extensions (Visual Studio 2022)
    - [Smart Command Line Arguments VS2022](https://marketplace.visualstudio.com/items?itemName=MBulli.SmartCommandlineArguments2022)
    - [Microsoft Child Process Debugging Power Tool 2022](https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool2022)
 
