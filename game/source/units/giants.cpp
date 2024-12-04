@@ -13,14 +13,14 @@ REFERENCE_DECLARE(0x0194AA33, bool, g_giant_buckle_rotation);                // 
 REFERENCE_DECLARE(0x0194AA34, real, g_giant_custom_animation_recovery_time); // referenced
 
 //.text:00BBB480 ; double __cdecl compute_score_of_buckle_angles(real, real, real_matrix4x3 const*, real_matrix4x3*)
-//.text:00BBB640 ; 
+//.text:00BBB650 ; public: c_model_animation const* __cdecl c_animation_manager::get_active_animation() const
 //.text:00BBB650 ; 
 //.text:00BBB660 ; 
 //.text:00BBB680 ; 
 //.text:00BBB6A0 ; void __cdecl giant_adjust_node_matrices(long, long, real_matrix4x3*)
 //.text:00BBBAE0 ; void __cdecl giant_animation_setup_mixing_board(c_animation_manager*)
 //.text:00BBBB20 ; real __cdecl giant_buckling_magnitude_get(long)
-//.text:00BBBBD0 ; 
+//.text:00BBBBD0 ; void __cdecl giant_clear_foot_target_flags(long)
 //.text:00BBBC20 ; void __cdecl giant_clear_foot_tracking_data(long)
 //.text:00BBBED0 ; bool __cdecl giant_compute_function_value(long, long, long, real*, bool*, bool*)
 //.text:00BBBF70 ; 
@@ -30,9 +30,9 @@ REFERENCE_DECLARE(0x0194AA34, real, g_giant_custom_animation_recovery_time); // 
 //.text:00BBC3A0 ; long __cdecl giant_get_current_buckle_state_name(long)
 //.text:00BBC400 ; bool __cdecl giant_handle_motor_update(long, bool)
 //.text:00BBC6A0 ; bool __cdecl giant_ik_foot_chain(long, real_point3d*, real, long, real, real, long, real_matrix4x3*)
-//.text:00BBCDF0 ; 
+//.text:00BBCDF0 ; void __cdecl giant_locate_auxilary_animations(long)
 //.text:00BBCE80 ; bool __cdecl giant_new(long, object_placement_data*, bool*)
-//.text:00BBCF40 ; 
+//.text:00BBCF40 ; short __cdecl giant_pathfinding_policy(long, s_scenario_giant const*)
 //.text:00BBCF80 ; void __cdecl giant_place(long, s_scenario_giant*)
 //.text:00BBD020 ; bool __cdecl giant_predict_future_foot_position(long, long, long, real_point3d*, real_point3d*, vector3d*, real_point3d*)
 //.text:00BBD080 ; void __cdecl giant_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)
