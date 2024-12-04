@@ -251,18 +251,8 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 		level->flags.set(_level_temp_bit, type_is_temp);
 
 		level->map_id = scenario->map_id;
-
-		wcsncpy_s(level->name, scenario->names[language].get_string(), NUMBEROF(level->name));
-		wcsncpy_s(level->description, scenario->descriptions[language].get_string(), NUMBEROF(level->description));
-
 		level->presence_context_id = scenario->presence_context_id;
 		level->sort_order = scenario->sort_order;
-
-		level->multiplayer_minimum_desired_players = scenario->multiplayer_minimum_desired_players;
-		level->multiplayer_maximum_desired_players = scenario->multiplayer_maximum_desired_players;
-
-		for (long engine_index = 0; engine_index < k_game_engine_type_count; engine_index++)
-			level->engine_maximum_teams[engine_index] = scenario->engine_maximum_teams[engine_index];
 
 		if (byte_swap)
 		{
@@ -274,6 +264,17 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 			bswap_dword_inplace(level->presence_context_id);
 			bswap_dword_inplace(level->sort_order);
 		}
+		else
+		{
+			wcsncpy_s(level->name, scenario->names[language].get_string(), NUMBEROF(level->name));
+			wcsncpy_s(level->description, scenario->descriptions[language].get_string(), NUMBEROF(level->description));
+		}
+
+		level->multiplayer_minimum_desired_players = scenario->multiplayer_minimum_desired_players;
+		level->multiplayer_maximum_desired_players = scenario->multiplayer_maximum_desired_players;
+
+		for (long engine_index = 0; engine_index < k_game_engine_type_count; engine_index++)
+			level->engine_maximum_teams[engine_index] = scenario->engine_maximum_teams[engine_index];
 
 		level->allows_saved_films = scenario->allows_saved_films;
 
@@ -295,18 +296,20 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 
 					for (long i = 0; i < NUMBEROF(scenario_halo3->insertions); i++)
 					{
-						wcsncpy_s(level_insertion->names[i], scenario_halo3->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
-						wcsncpy_s(level_insertion->descriptions[i], scenario_halo3->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
-
-						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
-						level_insertion->return_from_map_ids[i] = NONE;
-						level_insertion->survival_presence_context_ids[i] = NONE;
-
 						if (byte_swap)
 						{
 							unicode_byte_swap_wchar_string(level_insertion->names[i], NUMBEROF(level_insertion->names[i]), byte_swap_get_runtime_byte_order() != 1);
 							unicode_byte_swap_wchar_string(level_insertion->descriptions[i], NUMBEROF(level_insertion->descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 						}
+						else
+						{
+							wcsncpy_s(level_insertion->names[i], scenario_halo3->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
+							wcsncpy_s(level_insertion->descriptions[i], scenario_halo3->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
+						}
+
+						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
+						level_insertion->return_from_map_ids[i] = NONE;
+						level_insertion->survival_presence_context_ids[i] = NONE;
 
 						level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 
@@ -321,10 +324,6 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 
 					for (long i = 0; i < NUMBEROF(scenario_atlas->insertions); i++)
 					{
-						wcsncpy_s(level_insertion->names[i], scenario_atlas->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
-						wcsncpy_s(level_insertion->descriptions[i], scenario_atlas->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
-
-						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
 						level_insertion->return_from_map_ids[i] = scenario_insertion->return_from_map_id;
 						level_insertion->survival_presence_context_ids[i] = scenario_insertion->survival_presence_context_id;
 
@@ -336,7 +335,13 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 							bswap_dword_inplace(level_insertion->return_from_map_ids[i]);
 							bswap_dword_inplace(level_insertion->survival_presence_context_ids[i]);
 						}
+						else
+						{
+							wcsncpy_s(level_insertion->names[i], scenario_atlas->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
+							wcsncpy_s(level_insertion->descriptions[i], scenario_atlas->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
+						}
 
+						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
 						level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 
 						insertion_count++;
