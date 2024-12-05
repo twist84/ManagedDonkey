@@ -8,9 +8,9 @@
 
 bool ai_print_scripting = false;
 
-//.text:0143BD40 ; 
+//.text:0143BD40 ; bool __cdecl actor_member_of_ai_index(long, long)
 //.text:0143BDC0 ; short __cdecl ai_assign_actors_to_seats(long const*, short, unit_seat_source const*, short, bool)
-//.text:0143C800 ; cs_run_command_script?
+//.text:0143C800 ; void __cdecl ai_attach_cs(long, short)
 //.text:0143C850 ; bool __cdecl ai_cast(long, long, bool, short, long)
 //.text:0143C870 ; bool __cdecl ai_cast(long, long, bool, short, long, long)
 //.text:0143C8A0 ; bool __cdecl ai_cast(long, long, bool, short, long, long, long)
@@ -26,7 +26,7 @@ bool ai_print_scripting = false;
 //.text:0143CD60 ; void __cdecl ai_index_actor_iterator_new(long, ai_index_actor_iterator*)
 //.text:0143CE10 ; actor_datum* __cdecl ai_index_actor_iterator_next(ai_index_actor_iterator*)
 //.text:0143CEE0 ; long __cdecl ai_index_get_actor(long)
-//.text:0143CFD0 ; 
+//.text:0143CFD0 ; long __cdecl ai_index_get_vehicle(long, short)
 //.text:0143D130 ; bool __cdecl ai_index_player_nearby(long, real)
 //.text:0143D250 ; void __cdecl ai_index_squad_iterator_new(long, ai_index_squad_iterator*)
 //.text:0143D400 ; squad_datum* __cdecl ai_index_squad_iterator_next(ai_index_squad_iterator*)
@@ -41,7 +41,7 @@ bool ai_print_scripting = false;
 //.text:0143DD50 ; short __cdecl ai_play_line_on_point_set(long, long, short)
 //.text:0143DD70 ; long __cdecl ai_player_get_vehicle_squad(long)
 //.text:0143DE00 ; void __cdecl ai_queue_cs(long, short)
-//.text:0143DE50 ; 
+//.text:0143DE50 ; void __cdecl ai_release(long, long)
 //.text:0143DEA0 ; void __cdecl ai_release_all(long)
 //.text:0143DF10 ; void __cdecl ai_reserve2(long, long, bool, short)
 //.text:0143DF70 ; void __cdecl ai_reserve(long, long, short)
@@ -70,7 +70,7 @@ bool ai_print_scripting = false;
 //.text:0143E850 ; void __cdecl ai_scripting_deselect()
 //.text:0143E860 ; void __cdecl ai_scripting_disposable(long, bool)
 //.text:0143E960 ; void __cdecl ai_scripting_dont_do_avoidance(long, bool)
-//.text:0143E9B0 ; 
+//.text:0143E9B0 ; void __cdecl ai_scripting_drop_ai(char const*, char const*)
 //.text:0143E9C0 ; void __cdecl ai_scripting_engineer_explode(long)
 //.text:0143EA20 ; void __cdecl ai_scripting_erase(long)
 
@@ -112,7 +112,7 @@ void __cdecl ai_scripting_erase_all()
 //.text:0143F6A0 ; void __cdecl ai_scripting_migrate(long, long)
 //.text:0143F6D0 ; void __cdecl ai_scripting_migrate_and_speak(long, long, char const*)
 //.text:0143F720 ; void __cdecl ai_scripting_migrate_by_unit(long, long)
-//.text:0143F7C0 ; 
+//.text:0143F7C0 ; void __cdecl ai_scripting_migrate_by_unit_internal(long, long, bool, bool)
 //.text:0143F7D0 ; void __cdecl ai_scripting_migrate_infantry(long, long)
 //.text:0143F920 ; void __cdecl ai_scripting_migrate_internal(long, long, bool, bool)
 //.text:0143FAC0 ; long __cdecl ai_scripting_nearest_point(long, long)
@@ -126,7 +126,7 @@ void __cdecl ai_scripting_erase_all()
 //.text:0143FE30 ; void __cdecl ai_scripting_place_internal(long, bool)
 //.text:0143FFD0 ; void __cdecl ai_scripting_place_multiplayer_cinematic(long)
 //.text:0143FFF0 ; bool __cdecl ai_scripting_player_any_needs_vehicle()
-//.text:01440060 ; ai_scripting_player_in_vehicle?
+//.text:01440060 ; bool __cdecl ai_scripting_player_in_vehicle(long)
 //.text:01440110 ; bool __cdecl ai_scripting_player_needs_vehicle(long)
 //.text:01440160 ; void __cdecl ai_scripting_playfight(long, bool)
 //.text:01440170 ; long __cdecl ai_scripting_point_count(long)
@@ -155,7 +155,7 @@ void __cdecl ai_scripting_erase_all()
 //.text:01440F00 ; long __cdecl ai_scripting_swarm_count(long)
 //.text:01440F20 ; void __cdecl ai_scripting_teleport(long, long)
 //.text:014411F0 ; void __cdecl ai_scripting_teleport_to_spawn_point_if_outside_bsp(long)
-//.text:01441490 ; ai_scripting_translate_scenario?
+//.text:01441490 ; bool __cdecl ai_scripting_translate_scenario(real, real, real)
 //.text:014414A0 ; short __cdecl ai_scripting_vehicle_count(long)
 //.text:01441510 ; bool __cdecl ai_scripting_vitality_pinned(long)
 //.text:014415B0 ; bool __cdecl ai_scripting_wall_lean(long)
@@ -176,8 +176,23 @@ void __cdecl ai_scripting_erase_all()
 //.text:01441A90 ; bool __cdecl ai_vehicle_reserve_seat(long, long, bool)
 //.text:01441B70 ; 
 //.text:01441B90 ; 
-//.text:01441BA0 ; cs_command_script_queued?
+//.text:01441BA0 ; bool __cdecl cs_command_script_queued(long, long)
 //.text:01441C50 ; bool __cdecl cs_command_script_running(long, long)
+//.text:01441CE0 ; short __cdecl cs_number_queued(long)
+//.text:01441D60 ; bool __cdecl flock_start(long)
+//.text:01441DB0 ; bool __cdecl flock_stop(long)
+//.text:01441E00 ; 
+//.text:01441E10 ; 
+//.text:01441E20 ; 
+//.text:01441E40 ; long __cdecl object_get_ai(long)
+//.text:01441EA0 ; long __cdecl object_index_from_ai(long, e_hs_type)
+//.text:01441F90 ; long __cdecl object_list_from_ai_reference(long)
+//.text:01442040 ; bool __cdecl play_line_compare(long, long, void const*)
+//.text:014420D0 ; short __cdecl play_line_compile_actor_list(long, long*, short, short)
+//.text:01442150 ; bool __cdecl point_compare(long, long, void*)
+//.text:01442170 ; short __cdecl point_distance(cs_point const*)
+//.text:01442280 ; 
+//.text:014422B0 ; bool __cdecl squad_member_of_ai_index(long, long)
 
 bool ai_index_from_string(struct scenario* scenario, char const* ai_string, long* ai_index_reference)
 {
