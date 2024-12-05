@@ -4,14 +4,13 @@
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
 
-//.text:014355B0 ; 
 //.text:014355F0 ; 
 //.text:01435610 ; 
-//.text:01435620 ; 
+//.text:01435620 ; void __cdecl __tls_set_g_ai_players_allocator(void*)
 //.text:01435640 ; bool __cdecl actor_player_is_attacking(long, vector3d*)
 //.text:014356E0 ; void __cdecl actor_player_looking_update(long)
-//.text:014358A0 ; 
-//.text:01435B10 ; 
+//.text:014358A0 ; void __cdecl actor_player_prop_state_refresh(long, long)
+//.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(long, long, real_point3d const*, short)
 //.text:01435B80 ; void __cdecl actor_player_update(long)
 //.text:01435BA0 ; void __cdecl actor_player_update_combat_movement(long)
 //.text:01435DE0 ; void __cdecl actor_player_update_vehicle_interest(long)
@@ -43,12 +42,13 @@ bool __cdecl ai_player_state_needs_vehicle(short ai_player_index)
 }
 
 //.text:01436700 ; void __cdecl ai_player_state_update()
-//.text:01436E10 ; 
-//.text:01436E20 ; 
+//.text:01436E10 ; void __cdecl ai_players_initialize_for_new_map()
+//.text:01436E20 ; void __cdecl ai_players_reset()
 //.text:01436E90 ; 
 //.text:01436ED0 ; 
 //.text:01436F00 ; 
 //.text:01436F30 ; 
+//.text:01437140 ; 
 
 void debug_render_player_battle_vector()
 {
