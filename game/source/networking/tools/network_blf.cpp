@@ -320,7 +320,7 @@ s_blf_chunk_scenario_atlas::s_blf_chunk_scenario_atlas() :
 {
 }
 
-bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool must_byte_swap, long desired_chunk_type, short desired_version_major, long* out_chunk_size, char const** out_found_chunk_data_size, long* out_chunk_buffer_size, short* out_version_minor, bool* out_eof_found)
 {
 	bool result = false;
 
@@ -330,16 +330,16 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 		long chunk_size = 0;
 		bool eof_chunk = false;
 
-		bool read_result = network_blf_read_for_known_chunk(buffer, buffer_count, byte_swap, chunk_type, major_version, &chunk_size, &chunk_buffer, out_chunk_buffer_size, out_minor_version, &eof_chunk);
+		bool read_result = network_blf_read_for_known_chunk(buffer, buffer_count, must_byte_swap, desired_chunk_type, desired_version_major, &chunk_size, &chunk_buffer, out_chunk_buffer_size, out_version_minor, &eof_chunk);
 
 		if (out_chunk_size)
 			*out_chunk_size = chunk_size;
 
-		if (out_chunk_buffer)
-			*out_chunk_buffer = chunk_buffer;
+		if (out_found_chunk_data_size)
+			*out_found_chunk_data_size = chunk_buffer;
 
-		if (out_eof_chunk)
-			*out_eof_chunk = eof_chunk;
+		if (out_eof_found)
+			*out_eof_found = eof_chunk;
 
 		result = chunk_buffer && chunk_size > 0;
 
@@ -353,7 +353,7 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 	return result;
 }
 
-bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool must_byte_swap, long desired_chunk_type, short desired_version_major, long* out_chunk_size, char const** found_chunk_data, long* out_found_chunk_data_size, short* out_version_minor, bool* out_eof_found)
 {
 	ASSERT(out_chunk_size);
 
@@ -361,17 +361,17 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 
 	*out_chunk_size = 0;
 
-	if (out_chunk_buffer)
-		*out_chunk_buffer = 0;
+	if (found_chunk_data)
+		*found_chunk_data = 0;
 
-	if (out_chunk_buffer_size)
-		*out_chunk_buffer_size = 0;
+	if (out_found_chunk_data_size)
+		*out_found_chunk_data_size = 0;
 
-	if (out_minor_version)
-		*out_minor_version = 0;
+	if (out_version_minor)
+		*out_version_minor = 0;
 
-	if (out_eof_chunk)
-		*out_eof_chunk = 0;
+	if (out_eof_found)
+		*out_eof_found = 0;
 
 	if (buffer_count >= sizeof(s_blf_header))
 	{
@@ -382,7 +382,7 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 		short chunk_major_version = chunk->major_version;
 		short chunk_minor_version = chunk->minor_version;
 
-		if (byte_swap)
+		if (must_byte_swap)
 		{
 			bswap_dword_inplace(chunk_type);
 			bswap_dword_inplace(chunk_size);
@@ -393,22 +393,22 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 		if (chunk_size >= sizeof(s_blf_header) && chunk_size <= buffer_count && chunk_major_version >= 0 && chunk_minor_version >= 0)
 		{
 			*out_chunk_size = chunk_size;
-			if (chunk_type == type && chunk_major_version == major_version)
+			if (chunk_type == desired_chunk_type && chunk_major_version == desired_version_major)
 			{
-				if (out_minor_version)
-					*out_minor_version = chunk_minor_version;
+				if (out_version_minor)
+					*out_version_minor = chunk_minor_version;
 
-				if (out_chunk_buffer)
-					*out_chunk_buffer = buffer + sizeof(s_blf_header);
+				if (found_chunk_data)
+					*found_chunk_data = buffer + sizeof(s_blf_header);
 
-				if (out_chunk_buffer_size)
-					*out_chunk_buffer_size = chunk_size - sizeof(s_blf_header);
+				if (out_found_chunk_data_size)
+					*out_found_chunk_data_size = chunk_size - sizeof(s_blf_header);
 
 				result = true;
 
-				if (chunk_type == s_blf_chunk_end_of_file::k_chunk_type && chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_count >= sizeof(s_blf_chunk_end_of_file) && out_eof_chunk)
+				if (chunk_type == s_blf_chunk_end_of_file::k_chunk_type && chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_count >= sizeof(s_blf_chunk_end_of_file) && out_eof_found)
 				{
-					*out_eof_chunk = true;
+					*out_eof_found = true;
 					result = true;
 				}
 			}
@@ -418,9 +418,9 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 				{
 					result = true;
 
-					if (out_eof_chunk)
+					if (out_eof_found)
 					{
-						*out_eof_chunk = true;
+						*out_eof_found = true;
 						result = true;
 					}
 				}

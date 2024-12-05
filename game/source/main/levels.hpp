@@ -97,7 +97,7 @@ struct s_configuration_enumeration_task;
 
 union s_async_task;
 
-extern void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content);
 extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path);
 extern void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path);

@@ -56,9 +56,9 @@ HOOK_DECLARE(0x0054CAD0, levels_try_and_get_main_menu_map);
 HOOK_DECLARE(0x0054CB00, levels_try_and_get_multiplayer_map);
 //HOOK_DECLARE(0x0054CB20, levels_update);
 
-void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content)
 {
-	HOOK_INVOKE(, levels_add_campaign_from_configuration_file, campaign, byte_swap, maps_path, is_dlc);
+	HOOK_INVOKE(, levels_add_campaign_from_configuration_file, campaign_data, must_byte_swap, source_directory_path, dlc_content);
 }
 
 void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
