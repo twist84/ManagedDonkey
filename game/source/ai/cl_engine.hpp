@@ -193,6 +193,6 @@ static_assert(sizeof(command_script_datum) == 0x188);
 struct cs_script_data;
 struct cs_point_set;
 
-extern cs_script_data* cs_scenario_get_script_data(struct scenario* scenario);
-extern cs_point_set* cs_get_point_set(long index);
+extern cs_point_set* __cdecl cs_get_point_set(long index);
+extern cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario);
 
