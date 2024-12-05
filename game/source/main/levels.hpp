@@ -2,6 +2,7 @@
 
 #include "memory/data.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 enum
@@ -9,10 +10,18 @@ enum
 	k_max_campaign_insertion_points = 9
 };
 
+enum e_campaign_flags
+{
+	_campaign_from_dlc_bit = 0,
+	_campaign_unlockable_bit,
+
+	k_number_of_campaign_flags
+};
+
 struct s_campaign_datum :
 	s_datum_header
 {
-	word_flags flags;
+	c_flags<e_campaign_flags, word, 2> flags;
 	long campaign_id;
 	wchar_t name[64];
 	wchar_t description[128];
@@ -20,47 +29,20 @@ struct s_campaign_datum :
 };
 static_assert(sizeof(s_campaign_datum) == 0x288);
 
-enum e_level_flags
-{
-	// levels_delete: datum_delete
-	_level_bit0 = 0,
-
-	_level_bit1,
-
-	// main_game_campaign_loaded: does progress? or does not progress?
-	_level_bit2,
-	
-	_level_bit3,
-
-	_level_ui_bit,
-	_level_solo_bit,
-	_level_multi_bit,
-	_level_dlc_bit,
-	_level_test_bit,
-	_level_temp_bit,
-	_level_unknown_bit,
-
-	_level_bit11,
-	_level_bit12,
-	_level_bit13,
-
-	k_level_flags
-};
-
 struct s_level_datum :
 	s_datum_header
 {
-	c_flags<e_level_flags, word, k_level_flags> flags;
+	c_flags<e_level_flags, word, k_number_of_level_flags> flags;
 	long map_id;
 	wchar_t name[32];
 	wchar_t description[128];
-	char scenario_path[256];
+	char scenario_file[256];
 	char image_file_base[256];
 	long presence_context_id;
 	long sort_order;
-	char multiplayer_minimum_desired_players;
-	char multiplayer_maximum_desired_players;
-	char engine_maximum_teams[11];
+	char minimum_desired_players;
+	char maximum_desired_players;
+	char maximum_teams[11];
 	bool allows_saved_films;
 	bool allows_survival;
 	char playable_character;
@@ -70,11 +52,13 @@ static_assert(sizeof(s_level_datum) == 0x360);
 struct s_level_insertion_datum :
 	s_datum_header
 {
-	short insertion_count;
+	short insertion_point_count;
 	long map_id;
-	wchar_t names[k_max_campaign_insertion_points][32];
-	wchar_t descriptions[k_max_campaign_insertion_points][128];
-	byte zone_sets[k_max_campaign_insertion_points];
+	wchar_t insertion_point_names[k_max_campaign_insertion_points][32];
+	wchar_t insertion_point_descriptions[k_max_campaign_insertion_points][128];
+	byte insertion_point_initial_zone_set[k_max_campaign_insertion_points];
+
+	// odst
 	long return_from_map_ids[k_max_campaign_insertion_points];
 	long survival_presence_context_ids[k_max_campaign_insertion_points];
 	byte_flags __flagsB9C[k_max_campaign_insertion_points];
@@ -113,12 +97,12 @@ struct s_configuration_enumeration_task;
 
 union s_async_task;
 
-extern void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path);
 extern void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path);
-extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* dlc_path, bool is_dlc);
+extern void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const* scenario, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content);
 extern bool __cdecl levels_begin_dvd_enumeration();
 extern void __cdecl levels_dispose();
 extern void __cdecl levels_dispose_from_old_map();
@@ -145,8 +129,8 @@ extern void __cdecl levels_initialize_for_new_map();
 extern bool __cdecl levels_map_id_is_fake(long map_id);
 extern void __cdecl levels_open_dlc(char const* scenario_path, bool blocking);
 extern bool __cdecl levels_path_is_dlc(char const* scenario_path);
-extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
-extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content);
+extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content);
 extern void __cdecl levels_delete();
 extern bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_level_datum* level);
 extern bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertion_datum* insertion);

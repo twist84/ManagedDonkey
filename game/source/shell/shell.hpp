@@ -2,6 +2,22 @@
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
+enum e_level_flags
+{
+	_level_from_dlc_bit = 0,
+	_level_unlockable_bit,
+	_level_visible_in_ui,
+	_level_allows_saved_films,
+	_level_is_main_menu_bit,
+	_level_is_campaign_bit,
+	_level_is_multiplayer_bit,
+	_level_in_dlc_directory_bit,
+	_level_in_test_directory_bit,
+	_level_in_temp_directory_bit,
+
+	k_number_of_level_flags
+};
+
 enum e_text_justification
 {
 	_text_justification_left = 0,

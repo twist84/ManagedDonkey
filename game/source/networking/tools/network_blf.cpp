@@ -280,7 +280,7 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 	campaign_id = NONE;
 	csmemset(names, 0, sizeof(names));
 	csmemset(descriptions, 0, sizeof(descriptions));
-	map_ids.clear();
+	csmemset(map_ids, 0, sizeof(map_ids));
 	zero_array(pad);
 }
 
@@ -289,16 +289,16 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	map_id = NONE;
-	type_flags.clear();
-	csmemset(names, 0, sizeof(names));
-	csmemset(descriptions, 0, sizeof(descriptions));
-	image_file_base.clear();
-	scenario_path.clear();
+	flags.clear();
+	csmemset(name, 0, sizeof(name));
+	csmemset(description, 0, sizeof(description));
+	csmemset(image_file_base, 0, sizeof(image_file_base));
+	csmemset(scenario_file, 0, sizeof(scenario_file));
 	presence_context_id = 0;
 	sort_order = 0;
-	multiplayer_minimum_desired_players = 0;
-	multiplayer_maximum_desired_players = 0;
-	csmemset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));
+	mp_minimum_desired_players = 0;
+	mp_maximum_desired_players = 0;
+	csmemset(maximum_teams, 0, sizeof(maximum_teams));
 	allows_saved_films = false;
 	zero_array(__pad112A);
 }
@@ -311,12 +311,12 @@ s_blf_chunk_scenario_minor_version<insertion_struct, insertion_count>::s_blf_chu
 }
 
 s_blf_chunk_scenario_halo3::s_blf_chunk_scenario_halo3() :
-	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_halo3, 4>()
+	s_blf_chunk_scenario_minor_version<s_scenario_insertion_point_halo3, 4>()
 {
 }
 
 s_blf_chunk_scenario_atlas::s_blf_chunk_scenario_atlas() :
-	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_atlas, 9>()
+	s_blf_chunk_scenario_minor_version<s_scenario_insertion_point_atlas, 9>()
 {
 }
 

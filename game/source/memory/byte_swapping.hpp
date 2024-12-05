@@ -13,5 +13,16 @@
 #define bswap_dword_inplace(value) value = bswap_dword(value)
 #define bswap_qword_inplace(value) value = bswap_qword(value)
 
+enum e_byte_order
+{
+	_byte_order_little_endian = 0,
+	_byte_order_big_endian,
+	_byte_order_middle_endian,
+
+	k_number_of_byte_orders,
+
+	_byte_order_unknown = -1,
+};
+
 extern long __cdecl byte_swap_get_runtime_byte_order();
 

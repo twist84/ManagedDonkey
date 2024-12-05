@@ -17,10 +17,10 @@
 
 REFERENCE_DECLARE(0x0189E2D4, s_level_globals, g_level_globals);
 
-HOOK_DECLARE(0x0054A2A0, levels_add_campaign);
+HOOK_DECLARE(0x0054A2A0, levels_add_campaign_from_configuration_file);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
-HOOK_DECLARE(0x0054A6C0, levels_add_level);
+HOOK_DECLARE(0x0054A6C0, levels_add_level_from_configuration_file);
 HOOK_DECLARE(0x0054AD80, levels_begin_dvd_enumeration);
 //HOOK_DECLARE(0x0054ADF0, levels_dispose);
 //HOOK_DECLARE(0x0054AEA0, levels_dispose_from_old_map);
@@ -56,9 +56,9 @@ HOOK_DECLARE(0x0054CAD0, levels_try_and_get_main_menu_map);
 HOOK_DECLARE(0x0054CB00, levels_try_and_get_multiplayer_map);
 //HOOK_DECLARE(0x0054CB20, levels_update);
 
-void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
-	HOOK_INVOKE(, levels_add_campaign, campaign, byte_swap, maps_path, is_dlc);
+	HOOK_INVOKE(, levels_add_campaign_from_configuration_file, campaign, byte_swap, maps_path, is_dlc);
 }
 
 void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
@@ -85,9 +85,9 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.campaign_levels, campaign_level_index);
 
 		// 0x2C
-		level->flags.set(_level_bit2, true);
-		level->flags.set(_level_bit3, true);
-		level->flags.set(_level_solo_bit, true);
+		level->flags.set(_level_visible_in_ui, true);
+		level->flags.set(_level_allows_saved_films, true);
+		level->flags.set(_level_is_campaign_bit, true);
 
 		level->map_id = map_id;
 		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
@@ -96,10 +96,10 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 		level->presence_context_id = -1;
 		level->sort_order = -1;
 
-		level->multiplayer_minimum_desired_players = char(0xFF);
-		level->multiplayer_maximum_desired_players = char(0xFF);
+		level->minimum_desired_players = char(0xFF);
+		level->maximum_desired_players = char(0xFF);
 
-		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
+		csnzprintf(level->scenario_file, NUMBEROF(level->scenario_file), "%s%s", cache_files_map_directory(), scenario_path);
 
 		c_data_iterator<s_campaign_datum> campaign_iterator;
 		campaign_iterator.begin(*g_level_globals.campaigns);
@@ -156,9 +156,9 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.multiplayer_levels, multiplayer_level_index);
 
 		// 0x4C
-		level->flags.set(_level_bit2, true);
-		level->flags.set(_level_bit3, true);
-		level->flags.set(_level_multi_bit, true);
+		level->flags.set(_level_visible_in_ui, true);
+		level->flags.set(_level_allows_saved_films, true);
+		level->flags.set(_level_is_multiplayer_bit, true);
 
 		level->map_id = map_id;
 		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
@@ -167,22 +167,22 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 		level->presence_context_id = -1;
 		level->sort_order = 0;
 
-		level->multiplayer_minimum_desired_players = 16;
-		level->multiplayer_maximum_desired_players = 16;
+		level->minimum_desired_players = 16;
+		level->maximum_desired_players = 16;
 		
-		level->engine_maximum_teams[_game_engine_type_none]        = 0;
-		level->engine_maximum_teams[_game_engine_type_ctf]         = 2;
-		level->engine_maximum_teams[_game_engine_type_slayer]      = 8;
-		level->engine_maximum_teams[_game_engine_type_oddball]     = 8;
-		level->engine_maximum_teams[_game_engine_type_king]        = 8;
-		level->engine_maximum_teams[_game_engine_type_sandbox]     = 8;
-		level->engine_maximum_teams[_game_engine_type_vip]         = 8;
-		level->engine_maximum_teams[_game_engine_type_juggernaut]  = 8;
-		level->engine_maximum_teams[_game_engine_type_territories] = 4;
-		level->engine_maximum_teams[_game_engine_type_assault]     = 2;
-		level->engine_maximum_teams[_game_engine_type_infection]   = 8;
+		level->maximum_teams[_game_engine_type_none]        = 0;
+		level->maximum_teams[_game_engine_type_ctf]         = 2;
+		level->maximum_teams[_game_engine_type_slayer]      = 8;
+		level->maximum_teams[_game_engine_type_oddball]     = 8;
+		level->maximum_teams[_game_engine_type_king]        = 8;
+		level->maximum_teams[_game_engine_type_sandbox]     = 8;
+		level->maximum_teams[_game_engine_type_vip]         = 8;
+		level->maximum_teams[_game_engine_type_juggernaut]  = 8;
+		level->maximum_teams[_game_engine_type_territories] = 4;
+		level->maximum_teams[_game_engine_type_assault]     = 2;
+		level->maximum_teams[_game_engine_type_infection]   = 8;
 
-		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
+		csnzprintf(level->scenario_file, NUMBEROF(level->scenario_file), "%s%s", cache_files_map_directory(), scenario_path);
 	}
 }
 
@@ -191,47 +191,29 @@ void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario
 	levels_add_multiplayer_map_from_scripting(-2, scenario_path);
 }
 
-void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* dlc_path, bool is_dlc)
+void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const* level_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content)
 {
-	//HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
+	//HOOK_INVOKE(, levels_add_level_from_configuration_file, level_data, must_byte_swap, maps_path, dlc_content);
 
 	c_critical_section_scope critical_section_scope(_critical_section_levels);
 
 	e_language language = get_current_language();
 
-	s_blf_header scenario_header = scenario->header;
-	if (byte_swap)
-	{
-		bswap_dword_inplace(scenario_header.chunk_type);
-		bswap_dword_inplace(scenario_header.chunk_size);
-		bswap_word_inplace(scenario_header.major_version);
-		bswap_word_inplace(scenario_header.minor_version);
-	}
+	long level_chunk_size = must_byte_swap ? bswap_dword(level_data->header.chunk_size) : level_data->header.chunk_size;
 
-	decltype(scenario->type_flags) type_flags = scenario->type_flags;
-	if (byte_swap)
-		type_flags.set_unsafe(bswap_dword(type_flags));
-
-	bool type_is_bit0  = type_flags.test(_scenario_type_flag_bit0);
-	bool type_is_bit1  = type_flags.test(_scenario_type_flag_bit1);
-	bool type_is_bit2  = type_flags.test(_scenario_type_flag_bit2);
-	bool type_is_bit3  = type_flags.test(_scenario_type_flag_bit3);
-	bool type_is_ui    = type_flags.test(_scenario_type_flag_ui_bit);
-	bool type_is_solo  = type_flags.test(_scenario_type_flag_solo_bit);
-	bool type_is_multi = type_flags.test(_scenario_type_flag_multi_bit);
-	bool type_is_dlc   = type_flags.test(_scenario_type_flag_dlc_bit);
-	bool type_is_test  = type_flags.test(_scenario_type_flag_test_bit);
-	bool type_is_temp  = type_flags.test(_scenario_type_flag_temp_bit);
+	decltype(level_data->flags) flags = level_data->flags;
+	if (must_byte_swap)
+		flags.set_unsafe(bswap_dword(flags.get_unsafe()));
 
 	s_level_datum* level = NULL;
 
-	if (type_is_ui)
+	if (flags.test(_level_is_main_menu_bit))
 	{
 		level = &g_level_globals.mainmenu_level;
 	}
-	else if (type_is_solo || type_is_multi)
+	else if (flags.test(_level_is_campaign_bit) || flags.test(_level_is_multiplayer_bit))
 	{
-		s_data_array* levels_data = type_is_solo ? *g_level_globals.campaign_levels : *g_level_globals.multiplayer_levels;
+		s_data_array* levels_data = flags.test(_level_is_campaign_bit) ? *g_level_globals.campaign_levels : *g_level_globals.multiplayer_levels;
 		long level_index = datum_new(levels_data);
 		if (level_index != NONE)
 			level = (s_level_datum*)datum_get(levels_data, level_index);
@@ -240,45 +222,56 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 	if (level != NULL)
 	{
 		level->flags.clear();
-		level->flags.set(_level_bit0, is_dlc);
-		level->flags.set(_level_bit1, type_is_bit1);
-		level->flags.set(_level_bit2, type_is_bit2);
-		level->flags.set(_level_ui_bit, type_is_ui);
-		level->flags.set(_level_solo_bit, type_is_solo);
-		level->flags.set(_level_multi_bit, type_is_multi);
-		level->flags.set(_level_dlc_bit, type_is_dlc);
-		level->flags.set(_level_test_bit, type_is_test);
-		level->flags.set(_level_temp_bit, type_is_temp);
+		level->flags.set(_level_from_dlc_bit, dlc_content);
+		level->flags.set(_level_unlockable_bit, flags.test(_level_unlockable_bit));
+		level->flags.set(_level_visible_in_ui, flags.test(_level_visible_in_ui));
+		level->flags.set(_level_allows_saved_films, flags.test(_level_allows_saved_films));
+		level->flags.set(_level_is_main_menu_bit, flags.test(_level_is_main_menu_bit));
+		level->flags.set(_level_is_campaign_bit, flags.test(_level_is_campaign_bit));
+		level->flags.set(_level_is_multiplayer_bit, flags.test(_level_is_multiplayer_bit));
+		level->flags.set(_level_in_dlc_directory_bit, flags.test(_level_in_dlc_directory_bit));
+		level->flags.set(_level_in_test_directory_bit, flags.test(_level_in_test_directory_bit));
+		level->flags.set(_level_in_temp_directory_bit, flags.test(_level_in_temp_directory_bit));
 
-		level->map_id = scenario->map_id;
-		level->presence_context_id = scenario->presence_context_id;
-		level->sort_order = scenario->sort_order;
-
-		if (byte_swap)
+		if (must_byte_swap)
 		{
-			bswap_dword_inplace(level->map_id);
+			level->map_id = bswap_dword(level_data->map_id);
+			level->presence_context_id = bswap_dword(level_data->presence_context_id);
+			level->sort_order = bswap_dword(level_data->sort_order);
 
+			ustrnzcpy(level->name, level_data->name[language], NUMBEROF(level->name));
 			unicode_byte_swap_wchar_string(level->name, NUMBEROF(level->name), byte_swap_get_runtime_byte_order() != 1);
+
+			ustrnzcpy(level->description, level_data->description[language], NUMBEROF(level->description));
 			unicode_byte_swap_wchar_string(level->description, NUMBEROF(level->description), byte_swap_get_runtime_byte_order() != 1);
 
-			bswap_dword_inplace(level->presence_context_id);
-			bswap_dword_inplace(level->sort_order);
+			level->minimum_desired_players = level_data->mp_minimum_desired_players;
+			level->maximum_desired_players = level_data->mp_maximum_desired_players;
+
+			for (long engine_index = 0; engine_index < k_game_engine_type_count; engine_index++)
+				level->maximum_teams[engine_index] = level_data->maximum_teams[engine_index];
+
+			level->allows_saved_films = level_data->allows_saved_films;
 		}
 		else
 		{
-			wcsncpy_s(level->name, scenario->names[language].get_string(), NUMBEROF(level->name));
-			wcsncpy_s(level->description, scenario->descriptions[language].get_string(), NUMBEROF(level->description));
+			level->map_id = level_data->map_id;
+			level->presence_context_id = level_data->presence_context_id;
+			level->sort_order = level_data->sort_order;
+
+			ustrnzcpy(level->name, level_data->name[language], NUMBEROF(level->name));
+			ustrnzcpy(level->description, level_data->description[language], NUMBEROF(level->description));
+
+			level->minimum_desired_players = level_data->mp_minimum_desired_players;
+			level->maximum_desired_players = level_data->mp_maximum_desired_players;
+
+			for (long engine_index = 0; engine_index < k_game_engine_type_count; engine_index++)
+				level->maximum_teams[engine_index] = level_data->maximum_teams[engine_index];
+
+			level->allows_saved_films = level_data->allows_saved_films;
 		}
 
-		level->multiplayer_minimum_desired_players = scenario->multiplayer_minimum_desired_players;
-		level->multiplayer_maximum_desired_players = scenario->multiplayer_maximum_desired_players;
-
-		for (long engine_index = 0; engine_index < k_game_engine_type_count; engine_index++)
-			level->engine_maximum_teams[engine_index] = scenario->engine_maximum_teams[engine_index];
-
-		level->allows_saved_films = scenario->allows_saved_films;
-
-		if (type_is_solo)
+		if (flags.test(_level_is_campaign_bit))
 		{
 			long insertion_index = datum_new(*g_level_globals.campaign_insertions);
 			if (insertion_index != NONE)
@@ -287,31 +280,38 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 				csmemset(level_insertion, 0, sizeof(s_level_insertion_datum));
 
 				short insertion_count = 0;
-				switch (scenario_header.chunk_size)
+				switch (level_chunk_size)
 				{
 				case 0x4D50:
 				{
-					s_blf_chunk_scenario_halo3* scenario_halo3 = (s_blf_chunk_scenario_halo3*)scenario;
-					s_blf_chunk_scenario_insertion_halo3 const* scenario_insertion = scenario_halo3->insertions;
+					s_blf_chunk_scenario_halo3* scenario_halo3 = (s_blf_chunk_scenario_halo3*)level_data;
+					s_scenario_insertion_point_halo3 const* scenario_insertion = scenario_halo3->insertions;
 
 					for (long i = 0; i < NUMBEROF(scenario_halo3->insertions); i++)
 					{
-						if (byte_swap)
+						if (must_byte_swap)
 						{
-							unicode_byte_swap_wchar_string(level_insertion->names[i], NUMBEROF(level_insertion->names[i]), byte_swap_get_runtime_byte_order() != 1);
-							unicode_byte_swap_wchar_string(level_insertion->descriptions[i], NUMBEROF(level_insertion->descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_halo3->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							unicode_byte_swap_wchar_string(level_insertion->insertion_point_names[i], NUMBEROF(level_insertion->insertion_point_names[i]), byte_swap_get_runtime_byte_order() != 1);
+
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
+
+							level_insertion->insertion_point_initial_zone_set[i] = byte(bswap_word(scenario_insertion->zone_set));
+							level_insertion->return_from_map_ids[i] = NONE;
+							level_insertion->survival_presence_context_ids[i] = NONE;
+
+							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 						}
 						else
 						{
-							wcsncpy_s(level_insertion->names[i], scenario_halo3->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
-							wcsncpy_s(level_insertion->descriptions[i], scenario_halo3->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_halo3->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+
+							level_insertion->insertion_point_initial_zone_set[i] = byte(scenario_insertion->zone_set);
+							level_insertion->return_from_map_ids[i] = NONE;
+							level_insertion->survival_presence_context_ids[i] = NONE;
 						}
-
-						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
-						level_insertion->return_from_map_ids[i] = NONE;
-						level_insertion->survival_presence_context_ids[i] = NONE;
-
-						level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 
 						insertion_count++;
 					}
@@ -319,30 +319,34 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 				break;
 				case 0x98C0:
 				{
-					s_blf_chunk_scenario_atlas* scenario_atlas = (s_blf_chunk_scenario_atlas*)scenario;
-					s_blf_chunk_scenario_insertion_atlas const* scenario_insertion = scenario_atlas->insertions;
+					s_blf_chunk_scenario_atlas* scenario_atlas = (s_blf_chunk_scenario_atlas*)level_data;
+					s_scenario_insertion_point_atlas const* scenario_insertion = scenario_atlas->insertions;
 
 					for (long i = 0; i < NUMBEROF(scenario_atlas->insertions); i++)
 					{
-						level_insertion->return_from_map_ids[i] = scenario_insertion->return_from_map_id;
-						level_insertion->survival_presence_context_ids[i] = scenario_insertion->survival_presence_context_id;
-
-						if (byte_swap)
+						if (must_byte_swap)
 						{
-							unicode_byte_swap_wchar_string(level_insertion->names[i], NUMBEROF(level_insertion->names[i]), byte_swap_get_runtime_byte_order() != 1);
-							unicode_byte_swap_wchar_string(level_insertion->descriptions[i], NUMBEROF(level_insertion->descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_atlas->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							unicode_byte_swap_wchar_string(level_insertion->insertion_point_names[i], NUMBEROF(level_insertion->insertion_point_names[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							bswap_dword_inplace(level_insertion->return_from_map_ids[i]);
-							bswap_dword_inplace(level_insertion->survival_presence_context_ids[i]);
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_atlas->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
+
+							level_insertion->return_from_map_ids[i] = bswap_dword(scenario_insertion->return_from_map_id);
+							level_insertion->survival_presence_context_ids[i] = bswap_dword(scenario_insertion->survival_presence_context_id);
+							level_insertion->insertion_point_initial_zone_set[i] = byte(bswap_word(scenario_insertion->zone_set));
+							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 						}
 						else
 						{
-							wcsncpy_s(level_insertion->names[i], scenario_atlas->insertions[i].names[language].get_string(), NUMBEROF(level_insertion->names[i]));
-							wcsncpy_s(level_insertion->descriptions[i], scenario_atlas->insertions[i].descriptions[language].get_string(), NUMBEROF(level->description));
-						}
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_atlas->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_atlas->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 
-						level_insertion->zone_sets[i] = byte(scenario_insertion->zone_set);
-						level_insertion->__flagsB9C[i] = scenario_insertion->flags;
+							level_insertion->return_from_map_ids[i] = scenario_insertion->return_from_map_id;
+							level_insertion->survival_presence_context_ids[i] = scenario_insertion->survival_presence_context_id;
+							level_insertion->insertion_point_initial_zone_set[i] = byte(scenario_insertion->zone_set);
+							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
+						}
 
 						insertion_count++;
 					}
@@ -354,19 +358,19 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 				}
 
 				level_insertion->map_id = level->map_id;
-				level_insertion->insertion_count = insertion_count;
+				level_insertion->insertion_point_count = insertion_count;
 			}
 		}
 
-		if (is_dlc)
+		if (dlc_content)
 		{
-			csnzprintf(level->scenario_path, sizeof(level->scenario_path), "%ls\\%s", dlc_path, scenario->scenario_path.get_string());
-			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%ls\\%s", dlc_path, scenario->image_file_base.get_string());
+			csnzprintf(level->scenario_file, sizeof(level->scenario_file), "%ls\\%s", source_directory_path, level_data->scenario_file);
+			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%ls\\%s", source_directory_path, level_data->image_file_base);
 		}
 		else
 		{
-			csnzprintf(level->scenario_path, sizeof(level->scenario_path), "%s%s", cache_files_map_directory(), scenario->scenario_path.get_string());
-			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%simages\\%s", cache_files_map_directory(), scenario->image_file_base.get_string());
+			csnzprintf(level->scenario_file, sizeof(level->scenario_file), "%s%s", cache_files_map_directory(), level_data->scenario_file);
+			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%simages\\%s", cache_files_map_directory(), level_data->image_file_base);
 		}
 	}
 }
@@ -677,7 +681,7 @@ bool __cdecl levels_find_path(s_data_array* data, long map_id, char* path, long 
 		s_level_datum* level = level_iter.get_datum();
 		if (level->map_id == map_id)
 		{
-			csstrnzcpy(path, level->scenario_path, maximum_characters);
+			csstrnzcpy(path, level->scenario_file, maximum_characters);
 			return true;
 		}
 	}
@@ -697,7 +701,7 @@ char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long ma
 
 	if (map_id == 0x10231971)
 	{
-		csstrnzcpy(path, g_level_globals.mainmenu_level.scenario_path, maximum_characters);
+		csstrnzcpy(path, g_level_globals.mainmenu_level.scenario_file, maximum_characters);
 	}
 	else if (campaign_id == NONE)
 	{
@@ -729,9 +733,9 @@ void __cdecl levels_initialize()
 	data_make_valid(*g_level_globals.multiplayer_levels);
 
 	g_level_globals.mainmenu_level.flags.clear();
-	g_level_globals.mainmenu_level.flags.set(_level_ui_bit, true);
+	g_level_globals.mainmenu_level.flags.set(_level_is_main_menu_bit, true);
 	g_level_globals.mainmenu_level.map_id = 0x10231971;
-	csnzprintf(g_level_globals.mainmenu_level.scenario_path, sizeof(g_level_globals.mainmenu_level.scenario_path), "%s%s", cache_files_map_directory(), "mainmenu");
+	csnzprintf(g_level_globals.mainmenu_level.scenario_file, sizeof(g_level_globals.mainmenu_level.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
 
 	g_level_globals.initialized = true;
 	g_level_globals.controller_mask = 0;
@@ -769,30 +773,30 @@ bool __cdecl levels_path_is_dlc(char const* scenario_path)
 	return INVOKE(0x0054C360, levels_path_is_dlc, scenario_path);
 }
 
-void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content)
 {
-	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, maps_path, is_dlc);
+	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, source_directory_path, dlc_content);
 
 	static char file_buffer[sizeof(s_blf_chunk_campaign)]{};
 	s_blf_chunk_campaign const* campaign = nullptr;
-	bool byte_swap = false;
+	bool must_byte_swap = false;
 
-	levels_find_campaign_chunk(file, file_buffer, &campaign, &byte_swap);
+	levels_find_campaign_chunk(file, file_buffer, &campaign, &must_byte_swap);
 	if (campaign)
-		levels_add_campaign(campaign, byte_swap, maps_path, is_dlc);
+		levels_add_campaign_from_configuration_file(campaign, must_byte_swap, source_directory_path, dlc_content);
 }
 
-void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content)
 {
-	//HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, is_dlc);
+	//HOOK_INVOKE(, levels_process_level_configuration_file, file, source_directory_path, dlc_content);
 
 	static char file_buffer[sizeof(s_blf_chunk_scenario_atlas)]{};
 	s_blf_chunk_scenario const* level = nullptr;
-	bool byte_swap = false;
+	bool must_byte_swap = false;
 
-	levels_find_scenario_chunk(file, file_buffer, &level, &byte_swap);
+	levels_find_scenario_chunk(file, file_buffer, &level, &must_byte_swap);
 	if (level)
-		levels_add_level(level, byte_swap, maps_path, is_dlc);
+		levels_add_level_from_configuration_file(level, must_byte_swap, source_directory_path, dlc_content);
 }
 
 void __cdecl levels_delete()
@@ -806,21 +810,21 @@ void __cdecl levels_delete()
 	campaign_iter.begin(*g_level_globals.campaigns);
 	while (campaign_iter.next())
 	{
-		if (TEST_BIT(campaign_iter.get_datum()->flags, 0))
+		if (campaign_iter.get_datum()->flags.test(_campaign_from_dlc_bit))
 			datum_delete(*g_level_globals.campaigns, campaign_iter.get_index());
 	}
 
 	campaign_level_iter.begin(*g_level_globals.campaign_levels);
 	while (campaign_level_iter.next())
 	{
-		if (campaign_level_iter.get_datum()->flags.test(_level_bit0))
+		if (campaign_level_iter.get_datum()->flags.test(_level_from_dlc_bit))
 			datum_delete(*g_level_globals.campaign_levels, campaign_level_iter.get_index());
 	}
 
 	multiplayer_level_iter.begin(*g_level_globals.multiplayer_levels);
 	while (multiplayer_level_iter.next())
 	{
-		if (multiplayer_level_iter.get_datum()->flags.test(_level_bit0))
+		if (multiplayer_level_iter.get_datum()->flags.test(_level_from_dlc_bit))
 			datum_delete(*g_level_globals.multiplayer_levels, multiplayer_level_iter.get_index());
 	}
 }

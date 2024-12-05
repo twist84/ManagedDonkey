@@ -5,6 +5,7 @@
 #include "game/game_options.hpp"
 #include "memory/secure_signature.hpp"
 #include "saved_games/saved_game_files.hpp"
+#include "shell/shell.hpp"
 
 #pragma pack(push, 1)
 struct s_blf_header
@@ -342,9 +343,9 @@ public:
 
 	dword_flags type_flags;
 
-	c_static_wchar_string<64> names[k_language_count];
-	c_static_wchar_string<128> descriptions[k_language_count];
-	c_static_array<long, 64> map_ids;
+	wchar_t names[k_language_count][64];
+	wchar_t descriptions[k_language_count][128];
+	long map_ids[64];
 
 	byte pad[0x4];
 };
@@ -358,7 +359,7 @@ enum e_scenario_insertion_flags
 	_scenario_insertion_return_from_map_bit,
 };
 
-struct s_blf_chunk_scenario_insertion_halo3
+struct s_scenario_insertion_point_halo3
 {
 	bool visible;
 
@@ -368,12 +369,12 @@ struct s_blf_chunk_scenario_insertion_halo3
 
 	byte __pad4[0x4];
 
-	c_static_wchar_string<32> names[k_language_count];
-	c_static_wchar_string<128> descriptions[k_language_count];
+	wchar_t names[k_language_count][32];
+	wchar_t descriptions[k_language_count][128];
 };
-static_assert(sizeof(s_blf_chunk_scenario_insertion_halo3) == 0xF08);
+static_assert(sizeof(s_scenario_insertion_point_halo3) == 0xF08);
 
-struct s_blf_chunk_scenario_insertion_atlas
+struct s_scenario_insertion_point_atlas
 {
 	bool visible;
 
@@ -387,24 +388,10 @@ struct s_blf_chunk_scenario_insertion_atlas
 
 	byte __padC[0x4];
 
-	c_static_wchar_string<32> names[k_language_count];
-	c_static_wchar_string<128> descriptions[k_language_count];
+	wchar_t names[k_language_count][32];
+	wchar_t descriptions[k_language_count][128];
 };
-static_assert(sizeof(s_blf_chunk_scenario_insertion_atlas) == 0xF10);
-
-enum e_scenario_type_flags
-{
-	_scenario_type_flag_bit0,
-	_scenario_type_flag_bit1,
-	_scenario_type_flag_bit2,
-	_scenario_type_flag_bit3,
-	_scenario_type_flag_ui_bit,
-	_scenario_type_flag_solo_bit,
-	_scenario_type_flag_multi_bit,
-	_scenario_type_flag_dlc_bit,
-	_scenario_type_flag_test_bit,
-	_scenario_type_flag_temp_bit,
-};
+static_assert(sizeof(s_scenario_insertion_point_atlas) == 0xF10);
 
 // Despite the fact that ODST added to this chunk neither version was updated
 // Probably an oversight by Bungie?
@@ -420,21 +407,21 @@ struct s_blf_chunk_scenario
 
 	long map_id;
 
-	c_flags<e_scenario_type_flags, dword, _scenario_type_flag_temp_bit + 1> type_flags;
+	c_flags<e_level_flags, dword, k_number_of_level_flags> flags;
 
-	c_static_wchar_string<32> names[k_language_count];
-	c_static_wchar_string<128> descriptions[k_language_count];
+	wchar_t name[k_language_count][32];
+	wchar_t description[k_language_count][128];
 
-	c_static_string<k_tag_long_string_length> image_file_base;
-	c_static_string<k_tag_long_string_length> scenario_path;
+	char image_file_base[k_tag_long_string_length];
+	char scenario_file[k_tag_long_string_length];
 
 	long presence_context_id;
 	long sort_order;
 
-	char multiplayer_minimum_desired_players;
-	char multiplayer_maximum_desired_players;
+	char mp_minimum_desired_players;
+	char mp_maximum_desired_players;
 
-	char engine_maximum_teams[k_game_engine_type_count];
+	char maximum_teams[k_game_engine_type_count];
 
 	bool allows_saved_films;
 
@@ -453,18 +440,18 @@ public:
 };
 
 struct s_blf_chunk_scenario_halo3 :
-	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_halo3, 4>
+	s_blf_chunk_scenario_minor_version<s_scenario_insertion_point_halo3, 4>
 {
 	s_blf_chunk_scenario_halo3();
 };
-static_assert(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_halo3) * 4));
+static_assert(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_halo3) * 4));
 
 struct s_blf_chunk_scenario_atlas :
-	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_atlas, 9>
+	s_blf_chunk_scenario_minor_version<s_scenario_insertion_point_atlas, 9>
 {
 	s_blf_chunk_scenario_atlas();
 };
-static_assert(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_atlas) * 9));
+static_assert(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_atlas) * 9));
 
 enum e_map_image_type
 {
