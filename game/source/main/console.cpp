@@ -160,7 +160,7 @@ void __cdecl console_initialize()
 		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 		{
 			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
-			g_status_strings[i].line.set_flag(_status_line_unknown_bit2, true);
+			g_status_strings[i].line.set_flag(_status_line_left_justify_bit, true);
 		}
 
 		initialize_console = false;
@@ -1317,7 +1317,7 @@ void status_line_draw()
 			if (!status_line.is_empty())
 			{
 				dword time = system_milliseconds();
-				long time_delta = time - g_status_strings[i].__time100;
+				long time_delta = time - g_status_strings[i].time_created;
 				if (time_delta > 10000)
 				{
 					status_line.clear_text();
@@ -1348,29 +1348,29 @@ void status_line_draw()
 			if (!status_line_visible(status_line))
 				continue;
 
-			long text_justification = !status_line->test_flag(_status_line_unknown_bit2);
+			e_text_justification justification = e_text_justification(!status_line->test_flag(_status_line_left_justify_bit));
 
 			char const* string = status_line->get_string();
-			if (status_line->test_flag(_status_line_unknown_bit0) && system_milliseconds() % 500 < 250)
+			if (status_line->test_flag(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
 				string = "|n";
 
-			if (!string_cache_add_string(&string_cache, string, status_line->get_alpha(), status_line->get_color(), text_justification))
+			if (!string_cache_add(&string_cache, string, status_line->get_alpha(), status_line->get_color(), justification))
 			{
-				string_cache_flush(&string_cache, &draw_string, &font_cache);
-				string_cache_add_string(&string_cache, string, status_line->get_alpha(), status_line->get_color(), text_justification);
+				string_cache_render(&string_cache, &draw_string, &font_cache);
+				string_cache_add(&string_cache, string, status_line->get_alpha(), status_line->get_color(), justification);
 
-				if (status_line->test_flag(_status_line_unknown_bit3))
+				if (status_line->test_flag(_status_line_draw_once_bit))
 					status_line->clear_text();
 			}
 		}
 
-		string_cache_flush(&string_cache, &draw_string, &font_cache);
+		string_cache_render(&string_cache, &draw_string, &font_cache);
 	}
 }
 
 bool status_line_visible(c_status_line const* status_line)
 {
-	return !((status_line->is_in_use_valid() && !status_line->is_in_use()) || status_line->is_empty() || status_line->test_flag(_status_line_unknown_bit1));
+	return !((status_line->is_in_use_valid() && !status_line->is_in_use()) || status_line->is_empty() || status_line->test_flag(_status_line_inhibit_drawing_bit));
 }
 
 void status_line_dump()
@@ -1404,9 +1404,9 @@ void status_string_internal(char const* status, char const* message)
 	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
-		if (!status_string.line.is_empty() && status_string.string.is_equal(status))
+		if (!status_string.line.is_empty() && status_string.format_string.is_equal(status))
 		{
-			status_string.__time100 = system_milliseconds();
+			status_string.time_created = system_milliseconds();
 			status_string.line.printf("%s", message);
 			return;
 		}
@@ -1418,9 +1418,9 @@ void status_string_internal(char const* status, char const* message)
 		c_status_line& status_line = status_string.line;
 		if (status_line.is_empty())
 		{
-			status_string.__time100 = system_milliseconds();
+			status_string.time_created = system_milliseconds();
 			status_line.printf("%s", message);
-			status_string.string.set(status);
+			status_string.format_string.set(status);
 			break;
 		}
 	}
@@ -1444,54 +1444,42 @@ void status_strings(char const* status, char const* strings)
 	}
 }
 
-bool string_cache_add_string(s_string_cache* string_cache, char const* string, real alpha, real_rgb_color const& color, long text_justification)
+bool string_cache_add(s_string_cache* cache, char const* string, real alpha, real_rgb_color const& color, e_text_justification justification)
 {
-	bool should_add_string = false;
-	if (string_cache->string.is_empty())
+	if (cache->string.is_empty())
 	{
-		string_cache->color = color;
-		string_cache->alpha = alpha;
-		string_cache->text_justification = text_justification;
+		cache->color = color;
+		cache->alpha = alpha;
+		cache->text_justification = justification;
 
-		should_add_string = true;
-	}
-	else if (string_cache->alpha == alpha
-		&& string_cache->color.red == color.red
-		&& string_cache->color.green == color.green
-		&& string_cache->color.blue == color.blue
-		&& string_cache->text_justification == text_justification)
-	{
-		should_add_string = true;
+		cache->string.append(string);
+		cache->string.append("|n");
+
+		return true;
 	}
 
-	if (should_add_string)
-	{
-		string_cache->string.append(string);
-		string_cache->string.append("|n");
-	}
-
-	return should_add_string;
+	return false;
 }
 
-void string_cache_flush(s_string_cache* string_cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
+void string_cache_render(s_string_cache* cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
-	if (!string_cache->string.is_empty())
+	if (!cache->string.is_empty())
 	{
 		real_argb_color color{};
 		real_argb_color shadow_color{};
 
-		color.color = string_cache->color;
-		color.alpha = string_cache->alpha * 0.5f;
+		color.color = cache->color;
+		color.alpha = cache->alpha * 0.5f;
 
 		shadow_color.color = *global_real_rgb_black;
-		shadow_color.alpha = string_cache->alpha;
+		shadow_color.alpha = cache->alpha;
 
-		draw_string->set_justification(string_cache->text_justification);
+		draw_string->set_justification(cache->text_justification);
 		draw_string->set_color(&color);
 		draw_string->set_shadow_color(&shadow_color);
-		draw_string->draw(font_cache, string_cache->string.get_string());
+		draw_string->draw(font_cache, cache->string.get_string());
 
-		string_cache->string.clear();
+		cache->string.clear();
 	}
 }
 

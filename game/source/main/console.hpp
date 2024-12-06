@@ -28,12 +28,12 @@ static_assert(sizeof(s_console_global) == 0xC);
 
 enum e_status_line_flags
 {
-	_status_line_unknown_bit0,
-	_status_line_unknown_bit1,
-	_status_line_unknown_bit2,
-	_status_line_unknown_bit3,
+	_status_line_blink_bit,
+	_status_line_inhibit_drawing_bit,
+	_status_line_left_justify_bit,
+	_status_line_draw_once_bit,
 
-	k_status_line_flags
+	k_status_line_count
 };
 
 struct c_status_line
@@ -67,7 +67,7 @@ protected:
 	c_static_string<256> m_string;
 	real_rgb_color m_color;
 	real m_alpha;
-	c_flags<e_status_line_flags, dword, k_status_line_flags> m_flags;
+	c_flags<e_status_line_flags, dword, k_status_line_count> m_flags;
 	bool* m_in_use;
 	char const* m_identifier;
 	c_status_line* m_previous;
@@ -77,18 +77,19 @@ static_assert(sizeof(c_status_line) == 0x124);
 
 struct s_status_string
 {
-	c_static_string<256> string;
-	long __time100;
+	c_static_string<256> format_string;
+	long time_created;
 	c_status_line line;
 };
 static_assert(sizeof(s_status_string) == 0x228);
 
+enum e_text_justification;
 struct s_string_cache
 {
 	c_static_string<4096> string;
 	real alpha;
 	real_rgb_color color;
-	long text_justification;
+	e_text_justification text_justification;
 };
 static_assert(sizeof(s_string_cache) == 0x1014);
 
@@ -149,5 +150,5 @@ extern void status_printf_va(char const* format, char* list);
 extern void status_string_internal(char const* status, char const* message);
 extern void status_strings(char const* status, char const* strings);
 
-extern bool string_cache_add_string(s_string_cache* string_cache, char const* string, real alpha, real_rgb_color const& color, long text_justification);
-extern void string_cache_flush(s_string_cache* string_cache, struct c_draw_string* draw_string, c_font_cache_base* font_cache);
+extern bool string_cache_add(s_string_cache* cache, char const* string, real alpha, real_rgb_color const& color, e_text_justification justification);
+extern void string_cache_render(s_string_cache* string_cache, struct c_draw_string* draw_string, c_font_cache_base* font_cache);

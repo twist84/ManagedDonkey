@@ -8,7 +8,7 @@
 
 s_test_download_storage g_test_download_storage{};
 
-void test_download_storage_file(char const* url, char const* filename)
+void test_download_storage_file(char const* url, char const* local_filename)
 {
 	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown1);
 
@@ -23,7 +23,7 @@ void test_download_storage_file(char const* url, char const* filename)
 	}
 
 	csmemset(&g_test_download_storage.request_file, 0, sizeof(s_file_reference));
-	file_reference_create_from_path(&g_test_download_storage.request_file, filename, false);
+	file_reference_create_from_path(&g_test_download_storage.request_file, local_filename, false);
 	file_create_parent_directories_if_not_present(&g_test_download_storage.request_file);
 	if (!file_exists(&g_test_download_storage.request_file) || file_delete(&g_test_download_storage.request_file))
 	{
