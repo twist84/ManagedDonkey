@@ -1,26 +1,27 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "memory/secure_signature.hpp"
 #include "text/unicode.hpp"
 
-const long k_hash_size = 0x14;
-
-struct data_hash_definition
+struct s_string_reference
 {
-	byte hash_bytes[k_hash_size];
+	long id;
+	long offset;
 };
+static_assert(sizeof(s_string_reference) == 0x8);
 
 struct c_language_pack
 {
-	void* string_reference_pointer;
-	void* string_data_pointer;
-	long number_of_strings;
-	long string_data_size;
-	long string_reference_cache_offset;
-	long string_data_cache_offset;
-	data_hash_definition string_reference_checksum;
-	data_hash_definition string_data_checksum;
-	bool data_loaded;
+	s_string_reference* m_string_references;
+	void* m_string_data;
+	long m_num_of_strings;
+	long m_string_data_size;
+	long m_string_reference_cache_offset;
+	long m_string_data_cache_offset;
+	s_network_http_request_hash m_string_reference_checksum;
+	s_network_http_request_hash m_string_data_checksum;
+	bool m_data_loaded;
 };
 static_assert(sizeof(c_language_pack) == 0x44);
 
