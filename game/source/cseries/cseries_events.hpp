@@ -112,7 +112,7 @@ public:
 	c_event(e_event_level event_level, long event_category_index, dword event_response_suppress_flags);
 
 	bool query();
-	long generate(char const* event_name, ...);
+	long generate(char const* format, ...);
 
 protected:
 	e_event_level m_event_level;

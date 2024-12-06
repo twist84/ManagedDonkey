@@ -175,7 +175,7 @@ void __cdecl ai_scripting_erase_all()
 //.text:014419D0 ; bool __cdecl ai_vehicle_reserve(long, bool)
 //.text:01441A90 ; bool __cdecl ai_vehicle_reserve_seat(long, long, bool)
 //.text:01441B70 ; 
-//.text:01441B90 ; 
+//.text:01441B90 ; public: void __cdecl c_static_flags_no_init<20>::clear()
 //.text:01441BA0 ; bool __cdecl cs_command_script_queued(long, long)
 //.text:01441C50 ; bool __cdecl cs_command_script_running(long, long)
 //.text:01441CE0 ; short __cdecl cs_number_queued(long)
@@ -191,8 +191,9 @@ void __cdecl ai_scripting_erase_all()
 //.text:014420D0 ; short __cdecl play_line_compile_actor_list(long, long*, short, short)
 //.text:01442150 ; bool __cdecl point_compare(long, long, void*)
 //.text:01442170 ; short __cdecl point_distance(cs_point const*)
-//.text:01442280 ; 
+//.text:01442280 ; public: void __cdecl c_static_flags_no_init<20>::set(long, bool)
 //.text:014422B0 ; bool __cdecl squad_member_of_ai_index(long, long)
+//.text:01442370 ; public: bool __cdecl c_static_flags_no_init<20>::test(long) const
 
 bool ai_index_from_string(struct scenario* scenario, char const* ai_string, long* ai_index_reference)
 {

@@ -19,7 +19,7 @@ HOOK_DECLARE(0x000D858D0, network_debug_print);
 char const* const k_reports_directory_name = "reports\\";
 char const* const k_reports_directory_root_name = "\\";
 
-thread_local bool g_generating_event = false;
+thread_local bool g_recursion_lock = false;
 
 s_event_globals event_globals{};
 bool g_events_initialized = false;
@@ -377,7 +377,7 @@ void __cdecl events_debug_render()
 	interpolate_linear(global_real_argb_red->color.blue, global_real_argb_white->color.blue, interpolation_factor);
 
 	c_simple_font_draw_string draw_string;
-	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 	draw_string.set_color(&color);
 	draw_string.set_tab_stops(nullptr, 0);
 	draw_string.set_bounds(&bounds);
@@ -423,7 +423,7 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.permitted_thread_bits, get_current_thread_index());
 }
 
-long event_parse_categories(char const* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
+long event_parse_categories(char const* event_name, long max_categories, long category_name_max_length, char(*category_names)[8][64])
 {
 	char const* category_substring = event_name;
 	long category_index = 0;
@@ -438,7 +438,7 @@ long event_parse_categories(char const* event_name, long category_substring_coun
 		do
 		{
 			char temp = *category_substring;
-			if (category_name_length < maximum_characters)
+			if (category_name_length < category_name_max_length)
 			{
 				if (isalnum(temp) || temp == '-' || temp == '_')
 				{
@@ -457,7 +457,7 @@ long event_parse_categories(char const* event_name, long category_substring_coun
 			}
 			else
 			{
-				generate_event(_event_error, "network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+				generate_event(_event_error, "network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length);
 
 				failed = true;
 			}
@@ -467,15 +467,15 @@ long event_parse_categories(char const* event_name, long category_substring_coun
 		{
 			if (category_name_length)
 			{
-				if (category_index < category_substring_count)
+				if (category_index < max_categories)
 				{
-					csstrnzcpy((*category_names)[category_index], category_name, maximum_characters);
+					csstrnzcpy((*category_names)[category_index], category_name, category_name_max_length);
 					(*category_names)[category_index][category_name_length] = 0;
 					ascii_strnlwr((*category_names)[category_index++], category_name_length);
 				}
 				else
 				{
-					generate_event(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, category_substring_count);
+					generate_event(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
 
 					failed = true;
 				}
@@ -501,14 +501,14 @@ s_event_category* get_writeable_category(long category_index)
 	return &event_globals.categories[category_index];
 }
 
-long event_find_category_recursive(long category_index, bool create_category, long category_count, char(*category_names)[8][64])
+long event_find_category_recursive(long parent_category_index, bool create_category, long category_count, char(*category_names)[8][64])
 {
 	ASSERT(category_count > 0);
 	ASSERT(csstrnlen((*category_names)[0], NUMBEROF((*category_names)[0])) > 0);
 
 	char const* category_name = (*category_names)[0];
 
-	s_event_category* category = get_writeable_category(category_index);
+	s_event_category* category = get_writeable_category(parent_category_index);
 	long next_category_index = NONE;
 
 	s_event_category* temp_category = nullptr;
@@ -545,7 +545,7 @@ long event_find_category_recursive(long category_index, bool create_category, lo
 			next_category->current_debugger_break_level = category->current_debugger_break_level;
 			next_category->current_halt_level = category->current_halt_level;
 			next_category->depth = category->depth + 1;
-			next_category->parent_index = category_index;
+			next_category->parent_index = parent_category_index;
 			next_category->first_child_index = NONE;
 			next_category->sibling_index = category->first_child_index;
 			next_category->event_log_index = category->event_log_index;
@@ -579,14 +579,17 @@ long event_find_category(bool write, long a2, char(*category_names)[8][64])
 	return category_index;
 }
 
-long event_category_from_name(char const* event_name, bool write)
+long event_category_from_name(char const* event_name, bool create_category)
 {
 	ASSERT(event_name);
 
-	char category_names[8][64]{};
+	char categories[8][64]{};
 
-	long v6 = event_parse_categories(event_name, 8, 64, &category_names);
-	return event_find_category(write, v6, &category_names);
+	long v6 = event_parse_categories(event_name, 8, 64, &categories);
+	if (v6 > 0)
+		return event_find_category(create_category, v6, &categories);
+
+	return 0;
 }
 
 void event_initialize_categories()
@@ -958,21 +961,29 @@ void event_generate(e_event_level event_level, long category_index, dword_flags 
 	}
 }
 
-long c_event::generate(char const* event_name, ...)
+long c_event::generate(char const* format, ...)
 {
 	va_list list;
-	va_start(list, event_name);
+	va_start(list, format);
 
-	if (!g_generating_event && events_initialize_if_possible() && event_globals.enable_events)
+	if (g_recursion_lock)
 	{
-		g_generating_event = true;
+		//if (events_initialize_if_possible() && event_globals.enable_events)
+		//	event_generate_handle_recursive(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, list);
+	}
+	else
+	{
+		g_recursion_lock = true;
 
-		if (m_event_category_index == NONE)
-			m_event_category_index = event_category_from_name(event_name, true);
+		if (events_initialize_if_possible() && event_globals.enable_events)
+		{
+			if (m_event_category_index == NONE)
+				m_event_category_index = event_category_from_name(format, true);
 
-		event_generate(m_event_level, m_event_category_index, m_event_response_suppress_flags, event_name, list);
+			event_generate(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, list);
+		}
 
-		g_generating_event = false;
+		g_recursion_lock = false;
 	}
 
 	va_end(list);

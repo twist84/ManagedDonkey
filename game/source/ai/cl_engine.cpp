@@ -3,7 +3,6 @@
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
 
-//.text:01442370 ; 
 //.text:014423A0 ; 
 //.text:014423C0 ; 
 //.text:014423D0 ; void __cdecl __tls_set_g_command_script_allocator(void*)
@@ -37,7 +36,7 @@
 //.text:01443D70 ; short __cdecl cs_command_update(long, long, cs_command*, s_atom_control*, long)
 //.text:01443DF0 ; short __cdecl cs_control_clear(long, long, cs_command*, s_atom_control*, long)
 //.text:01443E20 ; short __cdecl cs_control_query(long, long, cs_command*, s_atom_control*, long)
-//.text:01443E30 ; 
+//.text:01443E30 ; void __cdecl cs_create_for_new_map()
 //.text:01443E40 ; void __cdecl cs_dispose()
 //.text:01443E50 ; void __cdecl cs_dispose_from_old_map()
 //.text:01443E70 ; bool __cdecl cs_get_crouch_modifier(long, real*)

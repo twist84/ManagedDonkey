@@ -5,7 +5,7 @@
 //.text:00BB3F20 ; bool __cdecl creature_compute_function_value(long, long, long, bool, real*, bool*, bool*)
 //.text:00BB3F90 ; void __cdecl creature_control(long, s_creature_control_data const*)
 //.text:00BB4000 ; void __cdecl creature_control_clear(s_creature_control_data*)
-//.text:00BB4050 ; 
+//.text:00BB4050 ; void __cdecl creature_control_verify(s_creature_control_data const*)
 //.text:00BB4060 ; void __cdecl creature_damage_aftermath_apply(long, s_damage_aftermath_result_data const*)
 //.text:00BB40B0 ; void __cdecl creature_damage_aftermath_compute(long, long, s_damage_data const*, s_damage_aftermath_result_data const*)
 //.text:00BB41B0 ; void __cdecl creature_died(long)
