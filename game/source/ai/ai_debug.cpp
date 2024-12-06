@@ -156,7 +156,7 @@ void __cdecl ai_debug_render()
 		|| g_ai_render_vehicle_interest
 		|| g_ai_render_player_battle_vector);
 	
-	//main_set_single_thread_request_flag(2, g_dialogue_debug_enabled | flag);
+	//main_set_single_thread_request_flag(_single_thread_for_actor_debug, g_dialogue_debug_enabled | flag);
 	if (!actor_datum_available_to_current_thread() || !ai_globals->ai_initialized_for_map)
 		return;
 	

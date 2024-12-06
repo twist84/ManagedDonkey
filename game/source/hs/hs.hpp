@@ -231,7 +231,7 @@ extern hs_function_definition_debug const* hs_function_get_debug(short function_
 extern hs_syntax_node* __cdecl hs_syntax_get(long datum_index);
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
-extern short __cdecl hs_find_script_by_name(char const* name, short parameter_count);
+extern short __cdecl hs_find_script_by_name(char const* name, short num_arguments);
 extern short __cdecl hs_global_get_type(short global_index);
 extern void __cdecl hs_initialize();
 extern void __cdecl hs_initialize_for_new_map();

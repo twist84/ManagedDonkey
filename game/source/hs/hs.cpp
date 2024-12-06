@@ -126,9 +126,9 @@ void __cdecl hs_dispose_from_old_map()
 	INVOKE(0x006791E0, hs_dispose_from_old_map);
 }
 
-short __cdecl hs_find_script_by_name(char const* name, short parameter_count)
+short __cdecl hs_find_script_by_name(char const* name, short num_arguments)
 {
-	//return INVOKE(0x00679220, hs_find_script_by_name, name, parameter_count);
+	//return INVOKE(0x00679220, hs_find_script_by_name, name, num_arguments);
 
 	if (global_scenario_index_get() != NONE)
 	{
@@ -136,7 +136,7 @@ short __cdecl hs_find_script_by_name(char const* name, short parameter_count)
 		for (long script_index = 0; script_index < scripts.count; script_index++)
 		{
 			hs_script& script = scripts[script_index];
-			if (script.name.is_equal(name) && parameter_count == NONE || parameter_count == script.parameters.count)
+			if (ascii_stricmp(name, script.name) != 0 && num_arguments == NONE || num_arguments == script.parameters.count)
 				return static_cast<short>(script_index);
 		}
 	}
@@ -227,7 +227,7 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count); parameter_index++)
 	{
 		hs_script_parameter& parameter = script.parameters[parameter_index];
-		if (parameter.name.is_equal(name))
+		if (ascii_stricmp(name, parameter.name) != 0)
 			return parameter_index;
 	}
 
@@ -269,7 +269,7 @@ short hs_find_global_by_name(char const* name)
 		for (short global_index = 0; global_index < static_cast<short>(globals.count); global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
-			if (global_internal.name.is_equal(name))
+			if (ascii_stricmp(name, global_internal.name) != 0)
 				return global_index & 0x7FFF;
 		}
 	}
@@ -288,7 +288,7 @@ char const* hs_global_get_name(short global_index)
 			return hs_global_external_get_debug(global_index & 0x7FFF)->name;
 	}
 
-	return global_scenario_get()->globals[global_index].name.get_string();
+	return global_scenario_get()->globals[global_index].name;
 }
 
 short enumeration_count = 0;
@@ -498,7 +498,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 		for (hs_script& script : scenario->scripts)
 		{
 			if (script.script_type == _hs_script_type_command_script)
-				hs_tokens_enumerate_add_string(script.name.get_string());
+				hs_tokens_enumerate_add_string(script.name);
 		}
 	}
 }

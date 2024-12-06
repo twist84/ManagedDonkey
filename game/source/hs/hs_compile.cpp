@@ -1036,7 +1036,7 @@ bool hs_parse_variable(long expression_index)
 	if (!valid && (!hs_compile_globals.variables_predetermined
 		|| expression->type.get() == NONE
 		|| expression->short_value == NONE
-		|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
+		|| !expression->flags.test(_hs_syntax_node_parameter_bit)))
 	{
 		expression->short_value = hs_find_global_by_name(source_offset);
 		if (expression->short_value != NONE)
@@ -1071,7 +1071,7 @@ bool hs_parse_variable(long expression_index)
 		expression->flags.set(_hs_syntax_node_variable_bit, true);
 
 		if (v9)
-			expression->flags.set(_hs_syntax_node_unknown_bit4, true);
+			expression->flags.set(_hs_syntax_node_parameter_bit, true);
 		else
 			hs_compile_add_reference(expression->long_value, _hs_reference_type_global, expression_index);
 
@@ -1081,7 +1081,7 @@ bool hs_parse_variable(long expression_index)
 	if (!hs_compile_globals.variables_predetermined)
 		return false;
 
-	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
+	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_parameter_bit))
 	{
 		hs_compile_globals.error_message = "this is not a valid variable name.";
 		hs_compile_globals.error_offset = expression->source_offset;

@@ -576,7 +576,7 @@ bool __cdecl c_rasterizer::begin_frame()
 	{
 		if (g_render_thread != get_current_thread_index())
 		{
-			main_set_single_thread_request_flag(8, true);
+			main_set_single_thread_request_flag(_single_thread_for_render_device_reset, true);
 			return 0;
 		}
 
@@ -591,7 +591,7 @@ bool __cdecl c_rasterizer::begin_frame()
 		}
 	}
 
-	main_set_single_thread_request_flag(8, false);
+	main_set_single_thread_request_flag(_single_thread_for_render_device_reset, false);
 
 	bool result = SUCCEEDED(c_rasterizer::g_device->BeginScene());
 

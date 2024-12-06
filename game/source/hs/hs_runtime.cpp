@@ -54,12 +54,12 @@ hs_debug_data_definition hs_debug_data{};
 //.text:00593BF0 ; 
 //.text:00593C00 ; 
 //.text:00593C10 ; 
-//.text:00593C20 ; 
-//.text:00593C50 ; 
-//.text:00593C80 ; 
-//.text:00593CA0 ; 
-//.text:00593CD0 ; 
-//.text:00593D00 ; 
+//.text:00593C20 ; void __cdecl __tls_set_g_hs_distributed_global_data_allocator(void*)
+//.text:00593C50 ; void __cdecl __tls_set_g_hs_global_data_allocator(void *)
+//.text:00593C80 ; void __cdecl __tls_set_g_hs_runtime_globals_allocator(void *)
+//.text:00593CA0 ; void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void *)
+//.text:00593CD0 ; void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void *)
+//.text:00593D00 ; void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void *)
 //.text:00593D30 ; 
 //.text:00593D70 ; 
 //.text:00593DB0 ; 
@@ -232,7 +232,7 @@ bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
 //.text:00597400 ; void __cdecl hs_reset_scripts()
 //.text:005974D0 ; void __cdecl hs_restore_from_saved_game(long)
 //.text:005974E0 ; void __cdecl hs_return(long, long)
-//.text:005975C0 ; 
+//.text:005975C0 ; bool __cdecl hs_running_game_scripts()
 //.text:005975D0 ; long __cdecl hs_runtime_command_script_begin(short)
 //.text:00597640 ; void __cdecl hs_runtime_delete_internal_global_datums()
 //.text:005976C0 ; void __cdecl hs_runtime_dirty()
@@ -249,7 +249,11 @@ char const* __cdecl hs_runtime_get_executing_thread_name()
 	return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
 }
 
-//.text:005978A0 ; long __cdecl hs_runtime_index_from_global_designator(long)
+long __cdecl hs_runtime_index_from_global_designator(long designator)
+{
+	return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
+}
+
 //.text:005978D0 ; void __cdecl hs_runtime_initialize()
 //.text:00597A80 ; void __cdecl hs_runtime_initialize_for_new_map()
 //.text:00597C70 ; void __cdecl hs_runtime_initialize_threads()
@@ -266,7 +270,7 @@ bool __cdecl hs_runtime_nondeterministic_threads_running()
 //.text:00597E80 ; void __cdecl hs_runtime_require_object_list_gc()
 //.text:00597EA0 ; void __cdecl hs_runtime_reset()
 //.text:00597F00 ; void __cdecl hs_runtime_reset_time(long)
-//.text:00597FC0 ; 
+//.text:00597FC0 ; bool __cdecl hs_runtime_safe_to_gc()
 
 long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
 {
@@ -285,7 +289,7 @@ long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script
 
 	long thread_index = hs_thread_new(thread_type, script_index, true);
 	if (thread_index != NONE)
-		hs_evaluate(thread_index, script.root_expression_index, 3, nullptr);
+		hs_evaluate(thread_index, script.root_expression_index, 3, NULL);
 
 	return thread_index;
 }
@@ -295,45 +299,70 @@ void __cdecl hs_runtime_update()
 	INVOKE(0x005980C0, hs_runtime_update);
 }
 
-//.text:005981D0 ; void __cdecl hs_script_evaluate(short function_index, long thread_index, bool a3)
-//.text:00598570 ; bool __cdecl hs_script_finished(char const*)
-//.text:005985C0 ; bool __cdecl hs_script_started(char const*)
-//.text:00598610 ; 
+//.text:005981D0 ; void __cdecl hs_script_evaluate(short function_index, long thread_index, bool initialize)
+//.text:00598570 ; bool __cdecl hs_script_finished(char const* script_name)
+//.text:005985C0 ; bool __cdecl hs_script_started(char const* script_name)
+//.text:00598610 ; void __cdecl hs_scripting_debug_thread(char const* thread_name, bool enable)
 //.text:00598620 ; long __cdecl hs_scripting_get_executing_thread_index()
 //.text:00598640 ; void __cdecl hs_scripting_kill_all_threads()
-//.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(long)
-//.text:00598740 ; long __cdecl hs_short_to_boolean(long _short)
-//.text:00598760 ; long __cdecl hs_short_to_long(long _short)
-//.text:00598770 ; long __cdecl hs_short_to_real(long _short)
-//.text:00598790 ; 
-//.text:005987B0 ; 
-//.text:005987D0 ; void* __cdecl hs_stack_allocate(long, long, long, hs_stack_pointer*)
-//.text:005988C0 ; hs_stack_frame* __cdecl hs_stack(hs_thread*, hs_stack_pointer)
-//.text:005988E0 ; 
-//.text:00598900 ; void __cdecl hs_stack_pop(long)
-//.text:00598940 ; bool __cdecl hs_stack_push(long)
-//.text:005989E0 ; long __cdecl hs_string_to_boolean(long _string)
-//.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(long)
-//.text:00598A30 ; long __cdecl hs_syntax_nth(long, short)
-//.text:00598A60 ; void __cdecl hs_thread_delete(long, bool)
+//.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(long thread_index)
+//.text:00598740 ; long __cdecl hs_short_to_boolean(long s)
+//.text:00598760 ; long __cdecl hs_short_to_long(long s)
+//.text:00598770 ; long __cdecl hs_short_to_real(long s)
+//.text:00598790 ; hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
+//.text:005987B0 ; hs_stack_frame const* __cdecl hs_stack(hs_thread const* thread, hs_stack_pointer )
+//.text:005987D0 ; void* __cdecl hs_stack_allocate(long thread_index, long size, long alignment_bits, hs_stack_pointer* out_reference)
+//.text:005988C0 ; long* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
+//.text:005988E0 ; long* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, long parameter_count)
+//.text:00598900 ; void __cdecl hs_stack_pop(long thread_index)
+//.text:00598940 ; bool __cdecl hs_stack_push(long thread_index)
+//.text:005989E0 ; long __cdecl hs_string_to_boolean(long n)
+//.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(long index)
+//.text:00598A30 ; long __cdecl hs_syntax_nth(long expression_index, short n)
+//.text:00598A60 ; void __cdecl hs_thread_delete(long thread_index, bool validate)
 
 char const* __cdecl hs_thread_format(long thread_index)
 {
 	return INVOKE(0x00598A90, hs_thread_format, thread_index);
 }
 
-//.text:00598B10 ; 
-//.text:00598B20 ; void __cdecl hs_thread_iterator_new(s_hs_thread_iterator*, bool, bool)
-//.text:00598B70 ; long __cdecl hs_thread_iterator_next(s_hs_thread_iterator*)
-//.text:00598BC0 ; void __cdecl hs_thread_main(long)
+bool __cdecl hs_thread_is_deterministic(long thread_index)
+{
+	return INVOKE(0x00598B10, hs_thread_is_deterministic, thread_index);
+}
+
+void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic)
+{
+	INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
+}
+
+long __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
+{
+	return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
+}
+
+void __cdecl hs_thread_main(long thread_index)
+{
+	INVOKE(0x00598BC0, hs_thread_main, thread_index);
+}
 
 long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic)
 {
 	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
 }
 
-//.text:00598F30 ; hs_stack_frame* __cdecl hs_thread_stack(hs_thread*) // could be swapped?
-//.text:00598F50 ; hs_stack_frame const* __cdecl hs_thread_stack(hs_thread const*) // could be swapped?
+hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread)
+{
+	//return INVOKE(0x00598F30, hs_thread_stack, thread);
+	return DECLFUNC(0x00598F30, hs_stack_frame*, __cdecl, hs_thread*)(thread);
+}
+
+hs_stack_frame const* __cdecl hs_thread_stack(hs_thread const* thread)
+{
+	//return INVOKE(0x00598F50, hs_thread_stack, thread);
+	return DECLFUNC(0x00598F50, hs_stack_frame const*, __cdecl, hs_thread const*)(thread);
+}
+
 //.text:00598F70 ; void __cdecl hs_thread_try_to_delete(long, bool)
 //.text:00598FC0 ; void __cdecl hs_typecasting_table_initialize()
 //.text:00599170 ; void __cdecl hs_wake(long, long)
@@ -383,77 +412,134 @@ void hs_find_dormant_script(char const* dormant_script_name, long* script_index_
 		*script_index_out = thread->script_index;
 }
 
-void render_debug_scripting()
+char const* expression_get_function_name(long thread_index, long expression_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
-	TLS_DATA_GET_VALUE_REFERENCE(hs_runtime_globals);
+	hs_syntax_node* expression = NULL;
 
-	//char buffer[10240]{};
-	//
-	//main_set_single_thread_request_flag(4, debug_scripting || debug_globals);
-	//if (debug_scripting && *hs_thread_deterministic_data)
-	//{
-	//	short tab_stops[] { 250, 300, 350 };
-	//	c_rasterizer_draw_string draw_string{};
-	//	c_font_cache_mt_safe font_cache{};
-	//	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
-	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
-	//
-	//	csnzprintf(buffer, sizeof(buffer), "script name\tLine \tsleep time\tfunction");
-	//	hs_thread_iterator_new(thread_iterator, true, true);
-	//	while (true)
-	//	{
-	//		long thread_index = hs_thread_iterator_next(thread_iterator);
-	//		if (thread_index == NONE)
-	//			break;
-	//
-	//		thread_render_debug_scripting(thread_index, buffer, sizeof(buffer));
-	//	}
-	//
-	//	draw_string.draw(&font_cache, buffer);
-	//}
-	//
-	//render_debug_scripting_globals();
+	while (true)
+	{
+		expression = hs_syntax_get(expression_index);
+
+		if (expression->flags.test(_hs_syntax_node_script_bit))
+			break;
+
+		hs_thread* thread = hs_thread_get(thread_index);
+		if (expression->function_index != hs_thread_stack(thread)->expression_index)
+			return hs_function_table_names[expression->function_index];
+
+		if (hs_thread_stack(thread)->size <= 0)
+			return "(invalid expression reference)";
+
+		if (hs_thread_stack(thread)->expression_index == NONE)
+			return "(end of script)";
+	}
+
+	if (VALID_INDEX(expression->script_index, global_scenario->scripts.count))
+		return global_scenario->scripts[expression->script_index].name;
+
+	return NULL;
 }
 
 void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_size)
 {
-	//hs_thread* thread = hs_thread_get(thread_index);
-	//
-	//ASSERT(buffer);
-	//ASSERT(buffer_size > 0);
+	hs_thread* thread = hs_thread_get(thread_index);
+	
+	ASSERT(buffer);
+	ASSERT(buffer_size > 0);
+
+	if ((((thread->sleep_until + 0x80000000) & 0x80000000) != 0 || thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM) && !TEST_BIT(thread->flags, 3))
+	{
+		csnzappendf(buffer, buffer_size, "\r\n%s\t", hs_thread_format(thread_index));
+
+		if (hs_thread_stack(thread)->expression_index == NONE)
+			csnzappendf(buffer, buffer_size, "-\t");
+		else
+			csnzappendf(buffer, buffer_size, "%i\t", hs_syntax_get(hs_thread_stack(thread)->expression_index)->line_number);
+
+		if (thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM)
+			csnzappendf(buffer, buffer_size, "ATOM\t");
+		else
+			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? thread->sleep_until - game_time_get() : 0);
+
+		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
+		{
+			char const* name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
+			
+			// null check added by us
+			if (!name)
+			{
+				// this should not be hit!
+				csnzappendf(buffer, buffer_size, "thread_index: %d, expression_index: %d", thread_index, hs_thread_stack(thread)->expression_index);
+				return;
+			}
+
+			csstrnzcat(buffer, name, buffer_size);
+		}
+	}
+}
+
+void render_debug_scripting()
+{
+	debug_scripting = true;
+	main_set_single_thread_request_flag(_single_thread_for_hs_debug, debug_scripting || debug_globals);
+
+	if (debug_scripting)
+	{
+		char buffer[10240]{};
+	
+		short tab_stops[] { 250, 300, 350 };
+		c_rasterizer_draw_string draw_string{};
+		c_font_cache_mt_safe font_cache{};
+		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
+		draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
+
+		csnzprintf(buffer, sizeof(buffer), "script name\tLine \tsleep time\tfunction");
+
+		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
+		for (long thread_index = hs_thread_iterator_next(&iterator); thread_index != NONE; thread_index = hs_thread_iterator_next(&iterator))
+			thread_render_debug_scripting(thread_index, buffer, sizeof(buffer));
+	
+		draw_string.draw(&font_cache, buffer);
+	}
+	
+	render_debug_scripting_globals();
 }
 
 void render_debug_scripting_globals()
 {
-	//TLS_DATA_GET_VALUE_REFERENCE(hs_global_data);
-	//
-	//char buffer[10240]{};
-	//
-	//if (debug_globals && *hs_global_data)
-	//{
-	//	c_rasterizer_draw_string draw_string{};
-	//	c_font_cache_mt_safe font_cache{};
-	//	short tab_stops[]{ 300 };
-	//	struct scenario* scenario = global_scenario_get();
-	//	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
-	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
-	//
-	//	csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
-	//	for (short global_index = 0; global_index < scenario->globals.count; global_index++)
-	//	{
-	//		hs_global_internal& global = scenario->globals[global_index];
-	//		csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name.get_string());
-	//		long runtime_index = hs_runtime_index_from_global_designator(global_index & 0x7FFF);
-	//		hs_global_runtime* runtime_global = datum_get_absolute(*hs_global_data, runtime_index);
-	//		char global_value[1024]{};
-	//		inspect_internal(global.type.get(), runtime_global->storage, global_value, sizeof(global_value));
-	//		csnzappendf(buffer, sizeof(buffer), "%s", global_value);
-	//	}
-	//	buffer[1024] = 0;
-	//
-	//	draw_string.draw(&font_cache, buffer);
-	//}
+	if (!debug_globals)
+		return;
+
+	TLS_DATA_GET_VALUE_REFERENCE(hs_global_data);
+	if (*hs_global_data)
+	{
+		char buffer[10240]{};
+
+		c_rasterizer_draw_string draw_string{};
+		c_font_cache_mt_safe font_cache{};
+		short tab_stops[]{ 300 };
+		struct scenario* scenario = global_scenario_get();
+		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
+		draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
+
+		csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
+		for (long global_index = 0; global_index < scenario->globals.count; global_index++)
+		{
+			hs_global_internal& global = scenario->globals[global_index];
+			csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name);
+
+			long runtime_index = hs_runtime_index_from_global_designator(global_index);
+			hs_global_runtime* runtime_global = (hs_global_runtime*)datum_get_absolute(*hs_global_data, runtime_index);
+
+			char valuebuffer[1024]{};
+			inspect_internal(global.type, runtime_global->value, valuebuffer, sizeof(valuebuffer));
+			csnzappendf(buffer, sizeof(buffer), "%s", valuebuffer);
+		}
+		buffer[1024] = 0;
+
+		draw_string.draw(&font_cache, buffer);
+	}
 }
 
 void render_debug_trigger_volumes()

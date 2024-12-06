@@ -14,7 +14,7 @@ static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 
 struct hs_script_parameter
 {
-	c_static_string<k_tag_string_length> name;
+	char name[32];
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 
 	// pad
@@ -24,7 +24,7 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 
 struct hs_global_internal
 {
-	c_static_string<k_tag_string_length> name;
+	char name[32];
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
 	// pad
@@ -36,7 +36,7 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 
 struct hs_script
 {
-	c_static_string<k_tag_string_length> name;
+	char name[32];
 	c_enum<e_hs_script_type, short, _hs_script_type_startup, k_hs_script_type_count> script_type;
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 	long root_expression_index;
@@ -65,10 +65,12 @@ enum e_hs_syntax_node_flags
 	_hs_syntax_node_primitive_bit = 0,
 	_hs_syntax_node_script_bit,
 	_hs_syntax_node_variable_bit,
-	_hs_syntax_node_unknown_bit3,
-	_hs_syntax_node_unknown_bit4,
+	_hs_syntax_node_permanent_bit,
+	_hs_syntax_node_parameter_bit,
+	_hs_syntax_node_line_number_bit,
+	_hs_syntax_node_stripped_bit,
 
-	k_hs_syntax_node_flags
+	NUMBER_OF_HS_SYNTAX_NODE_FLAGS
 };
 
 struct hs_syntax_node :
@@ -83,7 +85,7 @@ struct hs_syntax_node :
 
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
-	c_flags<e_hs_syntax_node_flags, word, k_hs_syntax_node_flags> flags;
+	c_flags<e_hs_syntax_node_flags, word, NUMBER_OF_HS_SYNTAX_NODE_FLAGS> flags;
 
 	long next_node_index;
 	long source_offset;
@@ -101,7 +103,7 @@ struct hs_syntax_node :
 	};
 
 	short line_number;
-	short HMM;
+	short pad0;
 };
 static_assert(sizeof(hs_syntax_node) == 0x18);
 

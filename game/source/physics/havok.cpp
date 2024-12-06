@@ -219,7 +219,7 @@ void havok_debug_render()
 		|| get_havok_constants()->physics_debug;
 
 	// this will freeze comment for now
-	//main_set_single_thread_request_flag(1, set_single_thread_request_flag);
+	//main_set_single_thread_request_flag(_single_thread_for_physics_debug, set_single_thread_request_flag);
 
 	if (restricted_region_locked_for_current_thread(k_game_state_update_region))
 	{

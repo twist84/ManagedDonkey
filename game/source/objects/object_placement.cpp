@@ -78,12 +78,12 @@ void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp
 //.text:00B5A4F0 ; void __cdecl object_placement_reset_from_teleport(long)
 //.text:00B5A550 ; void __cdecl object_placement_restore(long)
 //.text:00B5A560 ; void __cdecl object_placement_set_in_limbo(long, bool)
-//.text:00B5A5A0 ; 
+//.text:00B5A5A0 ; void __cdecl object_placement_synchronize_for_designer_zone_debugger(bool)
 //.text:00B5A620 ; void __cdecl object_placement_unload(long)
 //.text:00B5A640 ; long __cdecl object_type_get_scenario_placement_offset(e_object_type)
 //.text:00B5A650 ; 
 //.text:00B5A660 ; 
-//.text:00B5A6A0 ; 
+//.text:00B5A6A0 ; private: void __cdecl c_scenario_object_to_object_datum_mapping::remove_dirty_objects()
 //.text:00B5A840 ; 
 //.text:00B5A880 ; s_tag_block* __cdecl scenario_get_object_type_scenario_datums(scenario*, e_object_type, long*)
 //.text:00B5A8B0 ; s_tag_block* __cdecl scenario_get_object_type_scenario_palette(scenario*, e_object_type)

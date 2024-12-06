@@ -143,7 +143,7 @@ void __cdecl first_person_weapon_perspective_changed(long user_index)
 //.text:00A9E8F0 ; void __cdecl first_person_weapons_handle_deleted_object(long)
 //.text:00A9E9D0 ; void __cdecl first_person_weapons_initialize()
 //.text:00A9EA70 ; void __cdecl first_person_weapons_initialize_for_new_map()
-//.text:00A9EBE0 ; 
+//.text:00A9EBE0 ; void __cdecl first_person_weapons_reset_animations()
 
 void __cdecl first_person_weapons_update()
 {

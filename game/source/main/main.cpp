@@ -228,18 +228,18 @@ void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flag
 	//if (main_globals.prepare_to_switch_zone_set)
 	//{
 	//	main_globals.prepare_to_switch_zone_set = false;
-	//	main_globals.prepare_to_switch_zone_set_index = NONE;
+	//	main_globals.prepare_to_switch_to_zone_set_index = NONE;
 	//}
 	//
 	//if (main_globals.switch_zone_set)
 	//{
 	//	main_globals.switch_zone_set = false;
-	//	main_globals.switch_zone_set_index = NONE;
+	//	main_globals.switch_to_zone_set_index = NONE;
 	//}
 	//
-	//if (main_globals.non_bsp_zone_activation)
+	//if (main_globals.modify_zone_activation)
 	//{
-	//	main_globals.non_bsp_zone_activation = false;
+	//	main_globals.modify_zone_activation = false;
 	//	main_globals.scenario_zone_activation.clear();
 	//}
 }
@@ -266,8 +266,8 @@ void __cdecl main_decompress_gamestate()
 {
 	INVOKE(0x005054F0, main_decompress_gamestate);
 
-	//if (!main_globals.game_state_decompression)
-	//	main_globals.game_state_decompression = true;
+	//if (!main_globals.gamestate_decompression_pending)
+	//	main_globals.gamestate_decompression_pending = true;
 }
 
 //.text:00505510
@@ -301,26 +301,26 @@ bool __cdecl main_events_pending()
 	bool result = main_game_change_in_progress();
 	if (game_in_editor())
 	{
-		if (main_globals.reset_zone_resources || main_globals.switch_zone_set || main_globals.map_reset)
+		if (main_globals.reset_zone_resources || main_globals.switch_zone_set || main_globals.reset_map)
 			result = true;
 	}
 	else if (main_globals.skip_cinematic
-		|| main_globals.map_reset
-		|| main_globals.map_revert
+		|| main_globals.reset_map
+		|| main_globals.revert_map
 		|| main_globals.deactivate_cinematic_zone_from_tag
 		|| main_globals.activate_cinematic_zone_from_tag
-		|| main_globals.game_state_decompression
+		|| main_globals.gamestate_decompression_pending
 		|| game_state_compressor_lock_pending()
 		|| main_globals.reset_zone_resources
 		|| main_globals.prepare_to_switch_zone_set
 		|| main_globals.switch_zone_set
-		|| main_globals.save
-		|| main_globals.save_and_exit
+		|| main_globals.save_map
+		|| main_globals.save_map_and_exit
 		|| main_globals.save_core
 		|| main_globals.load_core
-		|| main_globals.user_interface_save_files
-		|| main_globals.reloading_active_zone_set
-		|| main_globals.non_bsp_zone_activation
+		|| main_globals.ui_saving_files
+		|| main_globals.reload_active_zone_set
+		|| main_globals.modify_zone_activation
 		|| cache_file_tag_resources_prefetch_update_required()
 		|| texture_cache_is_blocking()
 		|| geometry_cache_is_blocking()
@@ -343,19 +343,19 @@ void __cdecl main_events_reset(e_main_reset_events_reason reason)
 	//INVOKE(0x00505650, main_events_reset, reason);
 
 	main_event_reset_internal("skip cinematic", reason, &main_globals.skip_cinematic);
-	main_event_reset_internal("map reset", reason, &main_globals.map_reset);
-	main_event_reset_internal("map revert", reason, &main_globals.map_revert);
-	main_globals.map_revert_flags.clear();
+	main_event_reset_internal("map reset", reason, &main_globals.reset_map);
+	main_event_reset_internal("map revert", reason, &main_globals.revert_map);
+	main_globals.revert_map_flags.clear();
 	main_event_reset_internal("activate cinematic tag", reason, &main_globals.activate_cinematic_tag);
-	main_event_reset_internal("game state decompression", reason, &main_globals.game_state_decompression);
+	main_event_reset_internal("game state decompression", reason, &main_globals.gamestate_decompression_pending);
 	main_event_reset_internal("reset zone resources", reason, &main_globals.reset_zone_resources);
 	main_event_reset_internal("prepare to switch zone set", reason, &main_globals.prepare_to_switch_zone_set);
 	main_event_reset_internal("switch zone set", reason, &main_globals.switch_zone_set);
-	main_event_reset_internal("save", reason, &main_globals.save);
-	main_event_reset_internal("save and exit", reason, &main_globals.save_and_exit);
-	main_event_reset_internal("reloading active zone set", reason, &main_globals.reloading_active_zone_set);
-	main_event_reset_internal("non-bsp zone activation", reason, &main_globals.non_bsp_zone_activation);
-	main_globals.scenario_zone_activation.clear();
+	main_event_reset_internal("save", reason, &main_globals.save_map);
+	main_event_reset_internal("save and exit", reason, &main_globals.save_map_and_exit);
+	main_event_reset_internal("reloading active zone set", reason, &main_globals.reload_active_zone_set);
+	main_event_reset_internal("non-bsp zone activation", reason, &main_globals.modify_zone_activation);
+	main_globals.pending_zone_activation.clear();
 	//main_event_reset_internal("cheat drop tag", reason, &main_globals.cheat_drop_tag);
 }
 
@@ -374,7 +374,7 @@ void __cdecl main_game_gamestate_decompress_and_apply_private()
 	//{
 	//	generate_event(_event_error, "main_game: game_state_compressor failed to decompress and load gamestate.");
 	//};
-	//main_globals.game_state_decompression = false;
+	//main_globals.gamestate_decompression_pending = false;
 }
 
 bool __cdecl main_game_is_exiting()
@@ -631,7 +631,7 @@ void __cdecl main_load_core_name(char const* core_name)
 	//INVOKE(0x005059A0, main_load_core_name, core_name);
 
 	main_globals.load_core = true;
-	main_globals.core_name.set(core_name);
+	main_globals.core_file_name.set(core_name);
 	director_notify_map_reset();
 }
 
@@ -641,7 +641,7 @@ void __cdecl main_load_core_private()
 
 	if (game_in_progress())
 	{
-		game_state_load_core(main_globals.core_name.get_string());
+		game_state_load_core(main_globals.core_file_name.get_string());
 		main_globals.load_core = false;
 	}
 }
@@ -673,9 +673,9 @@ void __cdecl main_loop_body(dword* wait_for_render_thread, dword* time)
 	*time = system_milliseconds();
 
 	bool requested_single_thread = false;
-	main_globals.main_loop_time = system_milliseconds();
+	main_globals.main_loop_pregame_last_time = system_milliseconds();
 
-	main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
+	main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
 	if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
 	{
 		main_thread_process_pending_messages();
@@ -1104,8 +1104,8 @@ void __cdecl main_loop_enter()
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 
-	main_globals.suppress_startup_sequence = true;
-	main_globals.has_performed_startup_sequence = false;
+	main_globals.startup_sequence = true;
+	main_globals.startup_sequence_performed = false;
 
 	main_loading_initialize();
 	main_game_initialize();
@@ -1201,18 +1201,18 @@ void __cdecl main_loop_pregame()
 		bool bink_active = bink_playback_active();
 
 		if (!main_globals.main_loop_pregame_entered
-			&& main_globals.main_loop_time
-			&& current_time - main_globals.main_loop_time >= dword(!bink_active ? 24 : 15))
+			&& main_globals.main_loop_pregame_last_time
+			&& current_time - main_globals.main_loop_pregame_last_time >= dword(!bink_active ? 24 : 15))
 		{
 			main_globals.main_loop_pregame_entered++;
 			if (bink_active)
-				main_globals.main_loop_time = current_time;
+				main_globals.main_loop_pregame_last_time = current_time;
 
 			//main_loop_pregame_update_stack_high_water_mark();
 			main_loop_pregame_do_work();
 
 			if (!bink_active)
-				main_globals.main_loop_time = system_milliseconds();
+				main_globals.main_loop_pregame_last_time = system_milliseconds();
 			main_globals.main_loop_pregame_entered--;
 		}
 
@@ -1285,13 +1285,13 @@ void __cdecl main_loop_process_global_state_changes()
 		if (main_globals.skip_cinematic)
 			main_globals.skip_cinematic = false;
 
-		if (main_globals.map_revert)
-			main_globals.map_revert = false;
+		if (main_globals.revert_map)
+			main_globals.revert_map = false;
 
-		if (!main_globals.map_revert_flags.is_empty())
-			main_globals.map_revert_flags.clear();
+		if (!main_globals.revert_map_flags.is_empty())
+			main_globals.revert_map_flags.clear();
 
-		if (main_globals.map_reset)
+		if (main_globals.reset_map)
 			main_reset_map_private();
 
 		if (main_globals.deactivate_cinematic_zone_from_tag)
@@ -1306,11 +1306,11 @@ void __cdecl main_loop_process_global_state_changes()
 		if (main_globals.switch_zone_set)
 			main_switch_zone_set_private();
 
-		if (main_globals.save)
-			main_globals.save = false;
+		if (main_globals.save_map)
+			main_globals.save_map = false;
 
-		if (main_globals.save_and_exit)
-			main_globals.save_and_exit = false;
+		if (main_globals.save_map_and_exit)
+			main_globals.save_map_and_exit = false;
 
 		if (main_globals.save_core)
 			main_globals.save_core = false;
@@ -1318,21 +1318,21 @@ void __cdecl main_loop_process_global_state_changes()
 		if (main_globals.load_core)
 			main_globals.load_core = false;
 
-		if (main_globals.user_interface_save_files)
-			main_globals.user_interface_save_files = false;
+		if (main_globals.ui_saving_files)
+			main_globals.ui_saving_files = false;
 
-		if (main_globals.reloading_active_zone_set)
+		if (main_globals.reload_active_zone_set)
 			main_reload_active_zone_set_private();
 
-		if (main_globals.non_bsp_zone_activation)
+		if (main_globals.modify_zone_activation)
 			main_modify_zone_activation_private();
 
-		if (main_globals.game_state_decompression)
-			main_globals.game_state_decompression = false;
+		if (main_globals.gamestate_decompression_pending)
+			main_globals.gamestate_decompression_pending = false;
 	}
 	else
 	{
-		if (main_globals.run_demos)
+		if (main_globals.run_xdemos)
 			main_run_demos_private();
 
 		main_game_launch_default();
@@ -1347,10 +1347,10 @@ void __cdecl main_loop_process_global_state_changes()
 			if (main_globals.skip_cinematic)
 				main_skip_cinematic_private();
 
-			if (main_globals.map_revert)
+			if (main_globals.revert_map)
 				main_revert_map_private();
 
-			if (main_globals.map_reset)
+			if (main_globals.reset_map)
 				main_reset_map_private();
 
 			if (main_globals.deactivate_cinematic_zone_from_tag)
@@ -1359,7 +1359,7 @@ void __cdecl main_loop_process_global_state_changes()
 			if (main_globals.activate_cinematic_zone_from_tag)
 				main_activate_cinematic_tag_private();
 
-			if (main_globals.game_state_decompression)
+			if (main_globals.gamestate_decompression_pending)
 				main_game_gamestate_decompress_and_apply_private();
 
 			if (game_state_compressor_lock_pending())
@@ -1374,13 +1374,13 @@ void __cdecl main_loop_process_global_state_changes()
 			if (main_globals.switch_zone_set)
 				main_switch_zone_set_private();
 
-			if (main_globals.non_bsp_zone_activation)
+			if (main_globals.modify_zone_activation)
 				main_modify_zone_activation_private();
 
-			if (main_globals.save)
+			if (main_globals.save_map)
 				main_save_map_private();
 
-			if (main_globals.save_and_exit)
+			if (main_globals.save_map_and_exit)
 				main_save_map_and_exit_private();
 
 			if (main_globals.save_core)
@@ -1389,10 +1389,10 @@ void __cdecl main_loop_process_global_state_changes()
 			if (main_globals.load_core)
 				main_load_core_private();
 
-			if (main_globals.user_interface_save_files)
+			if (main_globals.ui_saving_files)
 				main_user_interface_save_files_private();
 
-			if (main_globals.reloading_active_zone_set)
+			if (main_globals.reload_active_zone_set)
 				main_reload_active_zone_set_private();
 
 			if (cache_file_tag_resources_prefetch_update_required())
@@ -1417,14 +1417,14 @@ bool __cdecl main_menu_has_performed_startup_sequence()
 {
 	//return INVOKE(0x005069B0, main_menu_has_performed_startup_sequence);
 
-	return main_globals.has_performed_startup_sequence;
+	return main_globals.startup_sequence_performed;
 }
 
 void __cdecl main_modify_zone_activation_private()
 {
 	INVOKE(0x005069C0, main_modify_zone_activation_private);
 
-	//main_globals.non_bsp_zone_activation = false;
+	//main_globals.modify_zone_activation = false;
 	//if (game_in_progress())
 	//	scenario_modify_active_zones(&main_globals.scenario_zone_activation);
 	//main_globals.scenario_zone_activation.clear();
@@ -1443,7 +1443,7 @@ void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
 				if (main_globals.prepare_to_switch_zone_set)
 				{
 					main_globals.prepare_to_switch_zone_set = false;
-					main_globals.prepare_to_switch_zone_set_index = 0;
+					main_globals.prepare_to_switch_to_zone_set_index = 0;
 					//chud_messaging_special_load(false);
 				}
 				else
@@ -1455,7 +1455,7 @@ void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
 			{
 				main_trace_event_internal(__FUNCTION__);
 				main_globals.prepare_to_switch_zone_set = true;
-				main_globals.prepare_to_switch_zone_set_index = zone_set_index;
+				main_globals.prepare_to_switch_to_zone_set_index = zone_set_index;
 				//chud_messaging_special_load(true);
 			}
 		}
@@ -1481,7 +1481,7 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 	//}
 	//else
 	//{
-	//	load_succeeded = scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_zone_set_index);
+	//	load_succeeded = scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_to_zone_set_index);
 	//	chud_messaging_special_load(false);
 	//}
 	//
@@ -1490,13 +1490,13 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 	//	generate_event(_event_error,
 	//		"main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
-	//		main_globals.switch_zone_set_index);
+	//		main_globals.switch_to_zone_set_index);
 	//
 	//	main_game_load_panic();
 	//}
 	//
 	//main_globals.prepare_to_switch_zone_set = false;
-	//main_globals.prepare_to_switch_zone_set_index = NONE;
+	//main_globals.prepare_to_switch_to_zone_set_index = NONE;
 }
 
 void __cdecl main_print_version()
@@ -1508,7 +1508,7 @@ void __cdecl main_reload_active_zone_set_private()
 {
 	INVOKE(0x00506AE0, main_reload_active_zone_set_private);
 
-	//main_globals.reloading_active_zone_set = false;
+	//main_globals.reload_active_zone_set = false;
 }
 
 void __cdecl main_reset_map()
@@ -1523,8 +1523,8 @@ void __cdecl main_reset_map_internal(bool random)
 {
 	INVOKE(0x00506B00, main_reset_map_internal, random);
 
-	//main_globals.map_reset = true;
-	//main_globals.map_reset_random = random;
+	//main_globals.reset_map = true;
+	//main_globals.reset_map_random_seed = random;
 }
 
 void __cdecl main_reset_map_private()
@@ -1534,9 +1534,9 @@ void __cdecl main_reset_map_private()
 	if (game_in_progress() && !game_time_get_paused())
 	{
 		main_clear_global_pending_zone_activation(NONE);
-		main_game_reset_map(main_globals.map_reset_random);
-		main_globals.map_reset = false;
-		main_globals.map_reset_random = false;
+		main_game_reset_map(main_globals.reset_map_random_seed);
+		main_globals.reset_map = false;
+		main_globals.reset_map_random_seed = false;
 	}
 }
 
@@ -1575,8 +1575,8 @@ void __cdecl main_revert_map(bool user)
 {
 	INVOKE(0x00506BA0, main_revert_map, user);
 
-	//main_globals.map_revert = true;
-	//main_globals.map_revert_flags.set(_game_state_revert_user_bit, user);
+	//main_globals.revert_map = true;
+	//main_globals.revert_map_flags.set(_game_state_revert_user_bit, user);
 }
 
 void __cdecl main_revert_map_private()
@@ -1589,10 +1589,10 @@ void __cdecl main_revert_map_scripting()
 	INVOKE(0x00506CA0, main_revert_map_scripting);
 
 	////main_trace_event_internal(__FUNCTION__);
-	//main_globals.map_revert = true;
-	//main_globals.map_revert_flags.clear();
-	//main_globals.map_revert_flags.set(_game_state_revert_by_scripting_bit, true);
-	//main_globals.map_revert_flags.set(_game_state_revert_keep_playing_cinematic_outros_bit, true);
+	//main_globals.revert_map = true;
+	//main_globals.revert_map_flags.clear();
+	//main_globals.revert_map_flags.set(_game_state_revert_by_scripting_bit, true);
+	//main_globals.revert_map_flags.set(_game_state_revert_keep_playing_cinematic_outros_bit, true);
 }
 
 //.text:00506CC0
@@ -1601,7 +1601,7 @@ void __cdecl main_run_demos_private()
 {
 	INVOKE(0x00506CD0, main_run_demos_private);
 
-	//main_globals.run_demos = false;
+	//main_globals.run_xdemos = false;
 }
 
 void __cdecl main_save_and_exit_campaign()
@@ -1618,7 +1618,7 @@ void __cdecl main_save_and_exit_campaign_immediately()
 {
 	//INVOKE(0x00506D10, main_save_and_exit_campaign_immediately);
 
-	main_globals.save_and_exit = true;
+	main_globals.save_map_and_exit = true;
 }
 
 void __cdecl main_save_core()
@@ -1633,7 +1633,7 @@ void __cdecl main_save_core_name(char const* core_name)
 	//INVOKE(0x00506D40, main_save_core_name, core_name);
 
 	main_globals.save_core = true;
-	main_globals.core_name.set(core_name);
+	main_globals.core_file_name.set(core_name);
 }
 
 void __cdecl main_save_core_private()
@@ -1642,7 +1642,7 @@ void __cdecl main_save_core_private()
 
 	if (game_in_progress())
 	{
-		game_state_save_core(main_globals.core_name.get_string());
+		game_state_save_core(main_globals.core_file_name.get_string());
 		main_globals.save_core = false;
 	}
 }
@@ -1651,7 +1651,7 @@ void __cdecl main_save_map()
 {
 	INVOKE(0x00506D80, main_save_map);
 
-	//main_globals.save = true;
+	//main_globals.save_map = true;
 	//chud_messaging_special_autosave(true);
 }
 
@@ -1664,14 +1664,14 @@ void __cdecl main_save_map_and_exit_private()
 		game_state_save_to_persistent_storage_blocking();
 		game_finish();
 	}
-	main_globals.save_and_exit = false;
+	main_globals.save_map_and_exit = false;
 }
 
 bool __cdecl main_save_map_pending()
 {
 	//return INVOKE(0x00506DB0, main_save_map_pending);
 
-	return main_globals.save;
+	return main_globals.save_map;
 }
 
 void __cdecl main_save_map_private()
@@ -1687,7 +1687,7 @@ void __cdecl main_save_map_private()
 	//	data_mine_usability_add_basic_information(&datamine);
 	//	data_mine_usability_add_all_players_status(&datamine, 4);
 	//}
-	//main_globals.save = false;
+	//main_globals.save_map = false;
 }
 
 void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask)
@@ -1697,18 +1697,18 @@ void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask)
 	//dword designer_zone_active_mask = global_designer_zone_active_mask_get();
 	//main_globals.scenario_zone_activation.activating_designer_zone_mask = designer_zone_mask & ~designer_zone_active_mask;
 	//main_globals.scenario_zone_activation.deactivating_designer_zone_mask = designer_zone_active_mask & ~designer_zone_mask;
-	//main_globals.non_bsp_zone_activation =
+	//main_globals.modify_zone_activation =
 	//	TEST_MASK(designer_zone_active_mask, ~designer_zone_mask) ||
 	//	TEST_MASK(designer_zone_mask, ~designer_zone_active_mask) ||
 	//	main_globals.scenario_zone_activation.deactivating_cinematic_zone_mask || 
 	//	main_globals.scenario_zone_activation.activating_cinematic_zone_mask;
 }
 
-void __cdecl main_set_single_thread_request_flag(long single_threaded_request_flags, bool set)
+void __cdecl main_set_single_thread_request_flag(e_single_threaded_request_flags flag, bool setting)
 {
-	//INVOKE(0x00506EB0, main_set_single_thread_request_flag, single_threaded_request_flags, set);
+	//INVOKE(0x00506EB0, main_set_single_thread_request_flag, flag, set);
 
-	g_single_thread_request_flags.set_bit(single_threaded_request_flags, set);
+	g_single_thread_request_flags.set_bit(flag, setting);
 }
 
 void __cdecl main_skip_cinematic()
@@ -1716,7 +1716,7 @@ void __cdecl main_skip_cinematic()
 	INVOKE(0x00506ED0, main_skip_cinematic);
 
 	//main_globals.switch_zone_set = false;
-	//main_globals.save = false;
+	//main_globals.save_map = false;
 	//main_globals.skip_cinematic = true;
 }
 
@@ -1724,9 +1724,9 @@ void __cdecl main_skip_cinematic_private()
 {
 	INVOKE(0x00506EF0, main_skip_cinematic_private);
 
-	//main_globals.map_revert = true;
-	//main_globals.map_revert_flags.clear();
-	//main_globals.map_revert_flags.set(_game_state_revert_by_scripting_bit, true);
+	//main_globals.revert_map = true;
+	//main_globals.revert_map_flags.clear();
+	//main_globals.revert_map_flags.set(_game_state_revert_by_scripting_bit, true);
 }
 
 bool __cdecl main_startup_sequence()
@@ -1758,7 +1758,7 @@ void __cdecl main_suppress_startup_sequence()
 {
 	INVOKE(0x005071F0, main_suppress_startup_sequence);
 
-	//main_globals.suppress_startup_sequence = false;
+	//main_globals.startup_sequence = false;
 }
 
 void __cdecl main_switch_bsp(long zone_set_index)
@@ -1789,7 +1789,7 @@ void __cdecl main_switch_zone_set(long zone_set_index)
 	if (!scenario_zone_set_is_fully_active(zone_set_index))
 	{
 		main_trace_event_internal(__FUNCTION__);
-		main_globals.switch_zone_set_index = zone_set_index;
+		main_globals.switch_to_zone_set_index = zone_set_index;
 		main_globals.switch_zone_set = true;
 		chud_messaging_special_load(true);
 		return;
@@ -1801,7 +1801,7 @@ void __cdecl main_switch_zone_set(long zone_set_index)
 		return;
 	}
 
-	main_globals.switch_zone_set_index = zone_set_index;
+	main_globals.switch_to_zone_set_index = zone_set_index;
 	main_globals.switch_zone_set = false;
 	chud_messaging_special_load(false);
 }
@@ -1813,11 +1813,11 @@ void __cdecl main_switch_zone_set_private()
 	//bool load_succeeded = false;
 	//if (game_in_editor())
 	//{
-	//	load_succeeded = editor_switch_zone_set(main_globals.switch_zone_set_index);
+	//	load_succeeded = editor_switch_zone_set(main_globals.switch_to_zone_set_index);
 	//}
 	//else
 	//{
-	//	load_succeeded = scenario_switch_zone_set(main_globals.switch_zone_set_index);
+	//	load_succeeded = scenario_switch_zone_set(main_globals.switch_to_zone_set_index);
 	//	chud_messaging_special_load(false);
 	//}
 	//
@@ -1825,12 +1825,12 @@ void __cdecl main_switch_zone_set_private()
 	//{
 	//	generate_event(_event_error, "main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
-	//		main_globals.switch_zone_set_index);
+	//		main_globals.switch_to_zone_set_index);
 	//	main_game_load_panic();
 	//}
 	//
 	//main_globals.switch_zone_set = false;
-	//main_globals.switch_zone_set_index = NONE;
+	//main_globals.switch_to_zone_set_index = NONE;
 }
 
 void __cdecl main_thread_combine_timing_data(void* address)
@@ -1886,9 +1886,9 @@ void __cdecl main_user_interface_save_files()
 {
 	INVOKE(0x00507380, main_user_interface_save_files);
 
-	//if (!main_globals.user_interface_save_files)
+	//if (!main_globals.ui_saving_files)
 	//{
-	//	main_globals.user_interface_save_files = true;
+	//	main_globals.ui_saving_files = true;
 	//	if (game_in_progress())
 	//		chud_messaging_special_saving(true);
 	//}
@@ -1898,7 +1898,7 @@ void __cdecl main_user_interface_save_files_private()
 {
 	INVOKE(0x005073B0, main_user_interface_save_files_private);
 
-	//main_globals.user_interface_save_files = false;
+	//main_globals.ui_saving_files = false;
 	//if (game_in_progress())
 	//	chud_messaging_special_saving(false);
 }

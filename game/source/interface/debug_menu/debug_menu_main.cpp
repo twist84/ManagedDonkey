@@ -225,7 +225,7 @@ void render_debug_debug_menu_game()
 
 void render_debug_debug_menu()
 {
-	main_set_single_thread_request_flag(0, debug_menu_get_active());
+	main_set_single_thread_request_flag(_single_thread_for_user_request, debug_menu_get_active());
 
 	if (restricted_region_locked_for_current_thread(1)
 		&& debug_menu_get_active()

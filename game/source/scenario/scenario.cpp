@@ -921,7 +921,7 @@ if (scenario->scripts.count)\
 	c_console::write_line("    scripts: %d", scenario->scripts.count);\
 	for (auto script : scenario->scripts)\
 	{\
-		char const* script_name = script.name.get_string();\
+		char const* script_name = script.name;\
 		if (script_name && *script_name)\
 			c_console::write_line("        name: %s", script_name);\
 		if (script.parameters.count)\
@@ -929,7 +929,7 @@ if (scenario->scripts.count)\
 			c_console::write_line("            parameters: %d", script.parameters.count);\
 			for (auto parameter : script.parameters)\
 			{\
-				char const* parameter_name = parameter.name.get_string();\
+				char const* parameter_name = parameter.name;\
 				if (parameter_name && *parameter_name)\
 					c_console::write_line("                name: %s", parameter_name);\
 			}\
@@ -945,7 +945,7 @@ if (scenario->globals.count)\
 	c_console::write_line("    globals: %d", scenario->globals.count);\
 	for (auto global : scenario->globals)\
 	{\
-		char const* name = global.name.get_string();\
+		char const* name = global.name;\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\

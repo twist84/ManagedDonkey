@@ -5,11 +5,17 @@
 void __cdecl interface_dispose()
 {
 	INVOKE(0x00AADC50, interface_dispose);
+
+	//first_person_weapons_dispose();
+	//user_interface_objectives_dispose();
 }
 
 void __cdecl interface_dispose_from_old_map()
 {
 	INVOKE(0x00AADC60, interface_dispose_from_old_map);
+
+	//first_person_weapons_dispose_from_old_map();
+	//user_interface_objectives_dispose_from_old_map();
 }
 
 //.text:00AADC70 ; void __cdecl interface_draw_bitmap_modulated_p32(bitmap_data const*, c_rasterizer_texture_ref const*, int16_point2d const*, real_rectangle2d const*, real, real, dword, short)
