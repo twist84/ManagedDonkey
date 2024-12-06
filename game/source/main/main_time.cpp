@@ -54,7 +54,7 @@ void rasterizer_render_debug_frame_deltas()
 		if (rasterizer_globals.frame_deltas[i] > 2)
 			color = global_real_argb_red;
 
-		draw_string.set_justification(1);
+		draw_string.set_justification(_text_justification_right);
 		draw_string.set_color(color);
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(&font_cache, string);

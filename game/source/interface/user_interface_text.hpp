@@ -159,6 +159,11 @@ enum e_utf32 : dword
 	_utf32_bonus_round_target_score = 0xE464
 };
 
+struct utf32
+{
+	e_utf32 character;
+};
+
 enum e_controller_index;
 struct c_font_cache_base;
 struct c_user_interface_text

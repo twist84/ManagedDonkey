@@ -390,7 +390,7 @@ void ai_debug_string(char const* string, short tab_stop_count, short const* tab_
 	if (!color)
 		color = global_real_argb_white;
 
-	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 
 	draw_string.set_color(color);
 	draw_string.set_tab_stops(tab_stops, tab_stop_count);

@@ -44,20 +44,20 @@ void __cdecl interface_initialize_for_new_map()
 	INVOKE(0x00AAE620, interface_initialize_for_new_map);
 }
 
-void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, long font_id, long text_style, long text_justification, dword a5, short interface_tag_index, short color_block_index)
+void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, e_font_id interface_font, e_text_style style, e_text_justification justification, dword flags, short color_table_index, short color_index)
 {
-	//INVOKE(0x00AAE630, interface_set_bitmap_text_draw_mode, draw_string, font_id, text_style, text_justification, a5, interface_tag_index, color_block_index);
+	//INVOKE(0x00AAE630, interface_set_bitmap_text_draw_mode, draw_string, interface_font, style, justification, flags, color_table_index, color_index);
 
 	real_argb_color color{};
-	interface_get_real_argb_color(interface_tag_index, color_block_index, &color);
+	interface_get_real_argb_color(color_table_index, color_index, &color);
 
 	real_argb_color shadow_color{};
 	shadow_color.color = *global_real_rgb_black;
 	shadow_color.alpha = color.alpha;
 
-	draw_string->set_font(font_id);
-	draw_string->set_style(text_style);
-	draw_string->set_justification(text_justification);
+	draw_string->set_font(interface_font);
+	draw_string->set_style(style);
+	draw_string->set_justification(justification);
 	draw_string->set_color(&color);
 	draw_string->set_shadow_color(&shadow_color);
 }

@@ -37,6 +37,17 @@ enum e_text_vertical_justification
 	k_text_vertical_justification_count
 };
 
+enum e_text_style
+{
+	_text_style_plain = -1,
+	_text_style_bold,
+	_text_style_italic,
+	_text_style_condense,
+	_text_style_underline,
+
+	k_text_style_count
+};
+
 enum e_font_id
 {
 	_font_id_fallback = -2,

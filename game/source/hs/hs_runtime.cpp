@@ -396,7 +396,7 @@ void render_debug_scripting()
 	//	short tab_stops[] { 250, 300, 350 };
 	//	c_rasterizer_draw_string draw_string{};
 	//	c_font_cache_mt_safe font_cache{};
-	//	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	//	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 	//
 	//	csnzprintf(buffer, sizeof(buffer), "script name\tLine \tsleep time\tfunction");
@@ -436,7 +436,7 @@ void render_debug_scripting_globals()
 	//	c_font_cache_mt_safe font_cache{};
 	//	short tab_stops[]{ 300 };
 	//	struct scenario* scenario = global_scenario_get();
-	//	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	//	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 	//
 	//	csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");

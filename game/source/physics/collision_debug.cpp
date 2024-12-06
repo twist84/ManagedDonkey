@@ -84,16 +84,16 @@ c_status_line g_collision_debug_lightmap_status_line_blue_sh{};
 void __cdecl collision_debug_initialize()
 {
 	status_lines_initialize(g_collision_debug_status_lines, &g_collision_debug_status_lines_render, NUMBEROF(g_collision_debug_status_lines));
-	status_lines_set_flags(g_collision_debug_status_lines, _status_line_unknown_bit2, true, NUMBEROF(g_collision_debug_status_lines));
+	status_lines_set_flags(g_collision_debug_status_lines, _status_line_left_justify_bit, true, NUMBEROF(g_collision_debug_status_lines));
 
 	//status_lines_initialize(&g_collision_debug_lightmap_status_line, &collision_debug_lightmaps, 1);
-	//status_lines_set_flags(&g_collision_debug_lightmap_status_line, _status_line_unknown_bit2, true, 1);
+	//status_lines_set_flags(&g_collision_debug_lightmap_status_line, _status_line_left_justify_bit, true, 1);
 	//status_lines_initialize(&g_collision_debug_lightmap_status_line_red_sh, &collision_debug_lightmaps, 1);
-	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_red_sh, _status_line_unknown_bit2, true, 1);
+	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_red_sh, _status_line_left_justify_bit, true, 1);
 	//status_lines_initialize(&g_collision_debug_lightmap_status_line_green_sh, &collision_debug_lightmaps, 1);
-	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_green_sh, _status_line_unknown_bit2, true, 1);
+	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_green_sh, _status_line_left_justify_bit, true, 1);
 	//status_lines_initialize(&g_collision_debug_lightmap_status_line_blue_sh, &collision_debug_lightmaps, 1);
-	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_blue_sh, _status_line_unknown_bit2, true, 1);
+	//status_lines_set_flags(&g_collision_debug_lightmap_status_line_blue_sh, _status_line_left_justify_bit, true, 1);
 }
 
 void __cdecl collision_debug_dispose()

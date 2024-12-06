@@ -280,9 +280,9 @@ void __cdecl director_render()
 			interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 			bounds.y0 += 80;
 
-			draw_string.set_font(4);
-			draw_string.set_style(-1);
-			draw_string.set_justification(0);
+			draw_string.set_font(_large_body_text_font);
+			draw_string.set_style(_text_style_plain);
+			draw_string.set_justification(_text_justification_left);
 			draw_string.set_bounds(&bounds);
 			draw_string.set_color(global_real_argb_white);
 			draw_string.draw(&font_cache, rasterizer_string.get_string());

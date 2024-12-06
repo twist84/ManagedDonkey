@@ -126,7 +126,7 @@ void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* cont
 		c_rasterizer_draw_string draw_string;
 		c_font_cache_mt_safe font_cache;
 
-		draw_string.set_font(-2);
+		draw_string.set_font(_font_id_fallback);
 		render_fullscreen_text_internal(context, &draw_string, &font_cache);
 	}
 }

@@ -40,7 +40,7 @@ void c_draw_string::set_shadow_color(real_argb_color const* shadow_color)
 	m_shadow_color = *shadow_color;
 }
 
-void c_draw_string::set_style(long style)
+void c_draw_string::set_style(e_text_style style)
 {
 	m_style = style;
 }
@@ -80,19 +80,19 @@ void c_draw_string::set_scale(real scale)
 	m_scale = scale;
 }
 
-void c_draw_string::set_font(long font_id)
+void c_draw_string::set_font(e_font_id font_id)
 {
 	if (font_id < 0)
-		font_id = 0;
+		font_id = _terminal_font;
 
 	if (font_id > 10)
-		font_id = 10;
+		font_id = _main_menu_font;
 
 	m_font_id = font_id;
-	m_font = font_get_header(font_id);
+	m_styled_font_header = font_get_header(font_id);
 }
 
-void c_draw_string::set_justification(long justification)
+void c_draw_string::set_justification(e_text_justification justification)
 {
 	m_justification = justification;
 }
@@ -119,7 +119,7 @@ c_draw_string::c_draw_string() :
 	__vftable(reinterpret_cast<decltype(__vftable)>(0x0165DB98)),
 	m_flags(),
 	m_font_id(),
-	m_font(),
+	m_styled_font_header(),
 	m_style(),
 	m_justification(),
 	m_drop_shadow_style(),
@@ -131,16 +131,18 @@ c_draw_string::c_draw_string() :
 	m_tab_stop_count(),
 	m_tab_stops(),
 	m_bounds(),
+	m_text_bounds(),
+	m_clip(),
 	m_cursor(),
 	m_permutation_proc(),
 	m_permutation_proc_data(),
 	m_initial_indent(),
 	m_paragraph_indent(),
-	m_parse_string_state(),
-	__unknownF8(),
-	__unknownFA(),
-	__unknownFC(),
-	__unknownFE()
+	m_saved_parse_state(),
+	m_saved_tab_stop_index(),
+	m_saved_line_count(),
+	m_saved_tab_stop_line_count(),
+	m_saved_maximum_tab_stop_line_count()
 {
 	DECLFUNC(0x00657010, void, __thiscall, c_draw_string*)(this);
 }
@@ -181,9 +183,9 @@ bool c_simple_font_draw_string::s_character_group_render_data::is_full()
 
 void c_simple_font_draw_string::s_character_group_render_data::reset()
 {
-	__unknown0 = 0;
-	__unknown4 = 0;
-	__unknown8 = 0;
+	color = 0;
+	screen_x = 0;
+	screen_y = 0;
 	count = 0;
 }
 
@@ -193,7 +195,8 @@ c_rasterizer_draw_string::c_rasterizer_draw_string() :
 	m_rotation(),
 	m_sine_rotation(),
 	m_cosine_rotation(),
-	__unknown114(),
+	m_use_shader_system(),
+	pad(),
 	m_render_data()
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x01692AF0);

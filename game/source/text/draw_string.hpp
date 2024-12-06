@@ -1,13 +1,13 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "interface/user_interface_text.hpp"
 #include "text/font_cache.hpp"
 
 enum e_font_id;
 enum e_text_style;
 enum e_text_justification;
 enum e_text_drop_shadow_style;
-enum e_utf32 : dword;
 struct s_font_header;
 struct s_font_character;
 
@@ -32,31 +32,20 @@ struct c_draw_string
 
 	struct s_parse_string_state
 	{
-		long __unknown0;
+		long string_index;
 		e_utf32 const* string;
-
-		long __unknown8;
-		long __unknownC;
-		e_utf32 __unknown10;
-		long __unknown14;
-
-		// e_font_id
-		long font_id18;
-
-		// e_font_id
-		long font_id1C;
-
-		real_argb_color color20;
-		real_argb_color color30;
-
-		// e_text_justification
-		long justification40;
-
-		// e_text_justification
-		long justification44;
-
-		// m_flags.test(_text_flag_wrap_horizontally_bit) && utf32_can_line_break(__unknown10, string[__unknown0]);
-		bool __unknown48;
+		long result;
+		long previous_result;
+		utf32 character;
+		utf32 previous_character;
+		e_font_id current_font;
+		e_font_id previous_font;
+		real_argb_color base_color;
+		real_argb_color modifier_color;
+		e_text_justification current_justification;
+		e_text_justification previous_justification;
+		bool can_line_break_before_current_character;
+		bool pad[3];
 	};
 	static_assert(sizeof(s_parse_string_state) == 0x4C);
 
@@ -108,13 +97,13 @@ public:
 	void set_color(argb_color color);
 	void set_color(real_argb_color const* color);
 	void set_shadow_color(real_argb_color const* shadow_color);
-	void set_style(long style);
+	void set_style(e_text_style style);
 	void set_tab_stops(short const* tab_stops, short count);
 	void set_wrap_horizontally(bool wrap_horizontally);
 	void text_bounds_draw_character(real a1, real a2, real a3, real a4);
 	void set_scale(real scale);
-	void set_font(long font_id);
-	void set_justification(long justification);
+	void set_font(e_font_id font_id);
+	void set_justification(e_text_justification justification);
 	bool draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial
 	void get_cursor(int16_point2d* cursor) const;
@@ -122,47 +111,31 @@ public:
 
 protected:
 	c_flags<e_text_flags, dword, k_text_flags> m_flags;
-
-	// e_font_id
-	long m_font_id;
-
-	s_font_header const* m_font;
-
-	// e_text_style
-	long m_style;
-
-	// e_text_justification
-	long m_justification;
-
-	// e_text_drop_shadow_style
-	long m_drop_shadow_style;
-
+	e_font_id m_font_id;
+	s_font_header const* m_styled_font_header;
+	e_text_style m_style;
+	e_text_justification m_justification;
+	e_text_drop_shadow_style m_drop_shadow_style;
 	real_argb_color m_color;
 	real_argb_color m_shadow_color;
-
 	real m_scale;
 	real m_display_resolution_scale_adjustment;
-
 	short m_height_adjust;
-
 	short m_tab_stop_count;
 	short m_tab_stops[16];
-
-	real_rectangle2d m_bounds[3];
+	real_rectangle2d m_bounds;
+	real_rectangle2d m_text_bounds;
+	real_rectangle2d m_clip;
 	real_point2d m_cursor;
-
 	bool(__cdecl* m_permutation_proc)(dynamic_screen_vertex*, void*);
 	void* m_permutation_proc_data;
-
 	short m_initial_indent;
 	short m_paragraph_indent;
-
-	c_draw_string::s_parse_string_state m_parse_string_state;
-
-	word __unknownF8;
-	word __unknownFA;
-	word __unknownFC;
-	word __unknownFE;
+	c_draw_string::s_parse_string_state m_saved_parse_state;
+	short m_saved_tab_stop_index;
+	short m_saved_line_count;
+	short m_saved_tab_stop_line_count;
+	short m_saved_maximum_tab_stop_line_count;
 };
 static_assert(sizeof(c_draw_string) == 0x100);
 
@@ -192,10 +165,9 @@ struct c_simple_font_draw_string :
 		void reset();
 
 	protected:
-		long __unknown0;
-		long __unknown4;
-		long __unknown8;
-
+		dword color;
+		long screen_x;
+		long screen_y;
 		long count;
 		char characters[256];
 	};
@@ -214,27 +186,23 @@ struct c_rasterizer_draw_string :
 {
 	struct s_glyph_group_render_data
 	{
-		struct s_unknown_struct
+		struct s_glyph_render_data
 		{
-			//e_utf32 utf32;
-			long utf32;
-
-			real __unknown4;
-			real __unknown8;
-			real __unknownC;
-			real __unknown10;
-			real __unknown14;
-			real __unknown18;
+			e_utf32 character;
+			real screen_left;
+			real screen_top;
+			real bitmap_xoffset;
+			real bitmap_yoffset;
+			real bitmap_width;
+			real bitmap_height;
 		};
+		static_assert(sizeof(s_glyph_render_data) == 0x1C);
 
-		// e_font_id
-		long m_font_id;
-
-		long __unknown4;
-		long __unknown8;
-
-		s_unknown_struct __unknownC[64];
-		long __unknownC_count;
+		e_font_id font_id;
+		dword color;
+		dword shadow_color;
+		s_glyph_render_data glyphs[64];
+		long count;
 	};
 	static_assert(sizeof(s_glyph_group_render_data) == 0x710);
 
@@ -246,7 +214,8 @@ protected:
 	real m_rotation;
 	real m_sine_rotation;
 	real m_cosine_rotation;
-	bool __unknown114;
+	bool m_use_shader_system;
+	bool pad[3];
 	s_glyph_group_render_data m_render_data;
 };
 static_assert(sizeof(c_rasterizer_draw_string) == sizeof(c_draw_string) + 0x728);

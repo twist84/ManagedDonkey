@@ -32,7 +32,7 @@ void data_mine_render_mission_segment()
 		bounds.x1 = SHRT_MAX;
 		bounds.y1 = SHRT_MAX;
 
-		interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 
 		draw_string.set_color(global_real_argb_yellow);
 		draw_string.set_tab_stops(NULL, 0);

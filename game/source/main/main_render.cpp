@@ -523,9 +523,9 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	short_rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
-	draw_string.set_font(1);
+	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
-	draw_string.set_justification(2);
+	draw_string.set_justification(_text_justification_center);
 	short line_height = draw_string.get_line_height();
 
 	{
@@ -541,7 +541,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 		}
 	}
 
-	draw_string.set_justification(1);
+	draw_string.set_justification(_text_justification_right);
 
 	{
 		real_rectangle2d rect{};
@@ -593,9 +593,9 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 	short_rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
-	draw_string.set_font(1);
+	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
-	draw_string.set_justification(2);
+	draw_string.set_justification(_text_justification_center);
 	short line_height = draw_string.get_line_height();
 
 	{
@@ -611,7 +611,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 		}
 	}
 
-	draw_string.set_justification(1);
+	draw_string.set_justification(_text_justification_right);
 
 	{
 		real_rectangle2d rect{};
@@ -673,9 +673,9 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 	short_rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
-	draw_string.set_font(1);
+	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
-	draw_string.set_justification(1);
+	draw_string.set_justification(_text_justification_right);
 	short line_height = draw_string.get_line_height();
 
 	{
@@ -691,7 +691,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 		}
 	}
 
-	draw_string.set_justification(0);
+	draw_string.set_justification(_text_justification_right);
 
 	{
 		real_rectangle2d rect{};
@@ -732,8 +732,8 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 			spinner_states[spinner_state_index],
 			simulation_get_starting_up_description());
 
-		draw_string.set_font(6);
-		draw_string.set_justification(2);
+		draw_string.set_font(_full_screen_hud_message_font);
+		draw_string.set_justification(_text_justification_center);
 		draw_string.set_color(global_real_argb_white);
 
 		short_rectangle2d display_title_safe_pixel_bounds{};
