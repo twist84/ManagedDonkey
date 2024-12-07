@@ -310,7 +310,7 @@ void __cdecl hs_runtime_update()
 //.text:00598760 ; long __cdecl hs_short_to_long(long s)
 //.text:00598770 ; long __cdecl hs_short_to_real(long s)
 //.text:00598790 ; hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
-//.text:005987B0 ; hs_stack_frame const* __cdecl hs_stack(hs_thread const* thread, hs_stack_pointer )
+//.text:005987B0 ; hs_stack_frame const* __cdecl hs_stack(hs_thread const* thread, hs_stack_pointer stack_pointer)
 //.text:005987D0 ; void* __cdecl hs_stack_allocate(long thread_index, long size, long alignment_bits, hs_stack_pointer* out_reference)
 //.text:005988C0 ; long* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
 //.text:005988E0 ; long* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, long parameter_count)
@@ -414,25 +414,32 @@ void hs_find_dormant_script(char const* dormant_script_name, long* script_index_
 
 char const* expression_get_function_name(long thread_index, long expression_index)
 {
-	hs_syntax_node* expression = NULL;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	hs_thread* thread = hs_thread_get(thread_index);
 
 	while (true)
 	{
-		expression = hs_syntax_get(expression_index);
-
 		if (expression->flags.test(_hs_syntax_node_script_bit))
 			break;
 
-		hs_thread* thread = hs_thread_get(thread_index);
-		if (expression->function_index != hs_thread_stack(thread)->expression_index)
+		if (expression->function_index)
+			return hs_function_table_names[expression->function_index];
+
+		if (expression_index != hs_thread_stack(thread)->expression_index)
 			return hs_function_table_names[expression->function_index];
 
 		if (hs_thread_stack(thread)->size <= 0)
 			return "(invalid expression reference)";
 
-		if (hs_thread_stack(thread)->expression_index == NONE)
+		expression_index = expression->next_node_index;
+		if (expression_index == NONE)
 			return "(end of script)";
+
+		expression = hs_syntax_get(expression_index);
 	}
+
+	if (expression->script_index == NONE)
+		return "unknown script";
 
 	if (VALID_INDEX(expression->script_index, global_scenario->scripts.count))
 		return global_scenario->scripts[expression->script_index].name;
@@ -480,8 +487,8 @@ void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_
 
 void render_debug_scripting()
 {
-	debug_scripting = true;
-	main_set_single_thread_request_flag(_single_thread_for_hs_debug, debug_scripting || debug_globals);
+	//debug_scripting = true;
+	//main_set_single_thread_request_flag(_single_thread_for_hs_debug, debug_scripting || debug_globals);
 
 	if (debug_scripting)
 	{
