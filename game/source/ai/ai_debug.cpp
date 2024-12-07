@@ -728,7 +728,7 @@ void ai_debug_render_vehicle_reservations()
 					for (short i = 0; i < 2; i++)
 					{
 						real_argb_color const* color = global_real_argb_white;
-						long actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? 1 : 4);
+						long actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? _campaign_team_player : _campaign_team_flood);
 						seat_position.z += 0.1f;
 
 						if (actor_index == NONE)
