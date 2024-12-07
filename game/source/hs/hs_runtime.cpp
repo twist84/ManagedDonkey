@@ -422,10 +422,7 @@ char const* expression_get_function_name(long thread_index, long expression_inde
 		if (expression->flags.test(_hs_syntax_node_script_bit))
 			break;
 
-		if (expression->function_index)
-			return hs_function_table_names[expression->function_index];
-
-		if (expression_index != hs_thread_stack(thread)->expression_index)
+		if (expression->script_index || expression_index != hs_thread_stack(thread)->expression_index)
 			return hs_function_table_names[expression->function_index];
 
 		if (hs_thread_stack(thread)->size <= 0)
@@ -438,13 +435,10 @@ char const* expression_get_function_name(long thread_index, long expression_inde
 		expression = hs_syntax_get(expression_index);
 	}
 
-	if (expression->script_index == NONE)
-		return "unknown script";
-
 	if (VALID_INDEX(expression->script_index, global_scenario->scripts.count))
 		return global_scenario->scripts[expression->script_index].name;
 
-	return NULL;
+	return "unknown script";
 }
 
 void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_size)
@@ -470,17 +464,7 @@ void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_
 
 		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
 		{
-			char const* name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
-			
-			// null check added by us
-			if (!name)
-			{
-				// this should not be hit!
-				csnzappendf(buffer, buffer_size, "thread_index: %d, expression_index: %d", thread_index, hs_thread_stack(thread)->expression_index);
-				return;
-			}
-
-			csstrnzcat(buffer, name, buffer_size);
+			csstrnzcat(buffer, expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index), buffer_size);
 		}
 	}
 }
