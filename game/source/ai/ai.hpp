@@ -49,7 +49,7 @@ extern bool __cdecl ai_enemies_can_see_player(long* out_unit_index);
 extern void __cdecl ai_erase(long squad_index, bool delete_immediately);
 extern bool __cdecl ai_get_active_clusters(long a1, dword* a2, long a3);
 extern void __cdecl ai_globals_set_ai_active(bool ai_active);
-extern void __cdecl ai_handle_bump(long object_index, long bump_object_index, vector3d const* linear_velocity);
+extern void __cdecl ai_handle_bump(long object_index, long bump_object_index, real_vector3d const* linear_velocity);
 extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();
 extern void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);

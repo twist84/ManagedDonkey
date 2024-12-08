@@ -20,9 +20,9 @@ s_file_reference random_seed_debug_file{};
 //.text:0051E790 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7B0 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::~t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7C0 ; void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)
-//.text:0051E7E0 ; vector3d* __cdecl _distriubuite_vector_in_cone3d(dword*, char const*, char const*, dword, vector3d const*, long, long, long, long, real, real, real, vector3d*)
-//.text:0051EAA0 ; vector3d* __cdecl _random_direction3d(dword*, char const*, char const*, dword, vector3d*)
-//.text:0051ECA0 ; vector3d* __cdecl _random_vector_in_cone3d(dword*, char const*, char const*, dword, vector3d const*, real, real, vector3d*)
+//.text:0051E7E0 ; real_vector3d* __cdecl _distriubuite_vector_in_cone3d(dword*, char const*, char const*, dword, real_vector3d const*, long, long, long, long, real, real, real, real_vector3d*)
+//.text:0051EAA0 ; real_vector3d* __cdecl _random_direction3d(dword*, char const*, char const*, dword, real_vector3d*)
+//.text:0051ECA0 ; real_vector3d* __cdecl _random_vector_in_cone3d(dword*, char const*, char const*, dword, real_vector3d const*, real, real, real_vector3d*)
 //.text:0051EE80 ; public: virtual void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::allocate(unsigned int, char const*)
 //.text:0051EEC0 ; public: virtual void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::deallocate(void*, long)
 //.text:0051EEF0 ; double __cdecl distribute_random_stratified(dword*, char const*, char const*, dword, long, long)
@@ -75,7 +75,7 @@ dword __cdecl random_direction_table_count()
 	return INVOKE(0x0051F020, random_direction_table_count);
 }
 
-bool __cdecl random_direction_table_sample(long sample_index, vector3d* out_sample)
+bool __cdecl random_direction_table_sample(long sample_index, real_vector3d* out_sample)
 {
 	return INVOKE(0x0051F030, random_direction_table_sample, sample_index, out_sample);
 }

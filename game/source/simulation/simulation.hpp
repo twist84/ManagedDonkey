@@ -46,7 +46,7 @@ struct s_simulation_camera_update
 	long camera_type;
 	long player_absolute_index;
 	real_point3d position;
-	vector3d forward;
+	real_vector3d forward;
 	bool zoomed;
 };
 static_assert(sizeof(s_simulation_camera_update) == 0x24);

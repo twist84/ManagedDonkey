@@ -15,7 +15,7 @@ struct _terminal_datum
 	real activation_value;
 	real error_value;
 	real frame_color_value;
-	vector2d scroll_velocity;
+	real_vector2d scroll_velocity;
 	real_point2d scroll_position;
 	real reading_mode;
 	bool desired_reading_mode;
@@ -28,12 +28,12 @@ struct _terminal_datum
 	short seek_transition_ticks;
 	short seek_transition_max_ticks;
 	short seek_ticks;
-	vector2d seek_desired_velocity;
-	vector2d seek_original_velocity;
+	real_vector2d seek_desired_velocity;
+	real_vector2d seek_original_velocity;
 	bool seek_transitioning_to_zero;
 	real_point2d initial_position;
-	vector2d b;
-	vector2d c;
+	real_vector2d b;
+	real_vector2d c;
 	bool can_exit;
 };
 static_assert(sizeof(_terminal_datum) == 0x78);

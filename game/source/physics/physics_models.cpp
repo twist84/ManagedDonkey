@@ -256,7 +256,7 @@ void real_rectangle3d_from_hkVector4_half_extents(real_rectangle3d* b, hkVector4
 	set_real_rectangle3d(b, -v->x, v->x, -v->y, v->y, -v->z, v->z);
 }
 
-void real_vector3d_from_hkVector4(vector3d* v, hkVector4 const* w)
+void real_vector3d_from_hkVector4(real_vector3d* v, hkVector4 const* w)
 {
 	ASSERT(v && w);
 
@@ -265,7 +265,7 @@ void real_vector3d_from_hkVector4(vector3d* v, hkVector4 const* w)
 	v->k = w->z;
 }
 
-void matrix3x3_from_hkMatrix3(matrix3x3* matrix, hkMatrix3 const* rotation)
+void matrix3x3_from_hkMatrix3(real_matrix3x3* matrix, hkMatrix3 const* rotation)
 {
 	ASSERT(matrix && rotation);
 
@@ -279,7 +279,7 @@ void matrix4x3_from_hkTransform(real_matrix4x3* matrix, hkTransform const* trans
 	ASSERT(matrix && transform);
 
 	matrix->scale = 1.0f;
-	matrix3x3_from_hkMatrix3((matrix3x3*)&matrix->forward, &transform->rotation.matrix);
+	matrix3x3_from_hkMatrix3((real_matrix3x3*)&matrix->forward, &transform->rotation.matrix);
 	real_point3d_from_hkVector4(&matrix->position, &transform->translation);
 }
 
@@ -329,7 +329,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 		matrix4x3_transform_point(matrix, &points[0], &points[0]);
 		matrix4x3_transform_point(matrix, &points[1], &points[1]);
 
-		vector3d height{};
+		real_vector3d height{};
 		if (magnitude_squared3d(vector_from_points3d(&points[0], &points[1], &height)) >= k_real_tiny_epsilon)
 			render_debug_pill(true, &points[1], &height, capsule_shape->m_radius, color);
 		else

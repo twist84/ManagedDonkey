@@ -12,9 +12,9 @@ struct s_creature_control_data
 	word_flags control_flags;
 	char turning_speed;
 	byte pad;
-	vector3d throttle;
-	vector3d forward;
-	vector3d up;
+	real_vector3d throttle;
+	real_vector3d forward;
+	real_vector3d up;
 };
 static_assert(sizeof(s_creature_control_data) == 0x30);
 
@@ -25,7 +25,7 @@ struct _creature_datum
 	long ai_state_type;
 	object_header_block_reference ai_state_storage;
 	s_creature_control_data control_data;
-	vector3d turning_velocity;
+	real_vector3d turning_velocity;
 	real bank;
 	c_character_physics_component physics;
 	char attached_damage_timer;

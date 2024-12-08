@@ -62,7 +62,7 @@ void __cdecl effects_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set c
 //.text:005B4970 ; 
 //.text:005B49B0 ; 
 //.text:005B4A00 ; 
-//.text:005B4A20 ; void __cdecl build_common_effect_vectors(real_point3d const*, vector3d const*, vector3d const*, s_effect_vector*)
+//.text:005B4A20 ; void __cdecl build_common_effect_vectors(real_point3d const*, real_vector3d const*, real_vector3d const*, s_effect_vector*)
 //.text:005B4CF0 ; void __cdecl build_gravity_effect_vectors(real_point3d const*, s_effect_vector* const)
 //.text:005B4D50 ; 
 //.text:005B4D60 ; 
@@ -93,7 +93,7 @@ bool __cdecl dangerous_effects_near_player()
 //.text:005B5AC0 ; 
 //.text:005B5B10 ; long __cdecl effect_lightprobe_create_from_effect_definition(long)
 //.text:005B5BB0 ; void __cdecl effect_creation_data_initialize(s_effect_creation_data*)
-//.text:005B5C30 ; void __cdecl effect_creation_data_initialize_from_markers(s_effect_creation_data*, c_tag_index, long, s_effect_vector const*, plane3d const*, s_location const*, e_effect_deterministic)
+//.text:005B5C30 ; void __cdecl effect_creation_data_initialize_from_markers(s_effect_creation_data*, c_tag_index, long, s_effect_vector const*, real_plane3d const*, s_location const*, e_effect_deterministic)
 //.text:005B5C80 ; void __cdecl effect_delete(long)
 //.text:005B5D10 ; void __cdecl effect_delete_first_person_locations(effect_datum*)
 //.text:005B5DF0 ; void __cdecl effect_delete_internal(long, bool)
@@ -129,7 +129,7 @@ void __cdecl effect_render(long effect_index, long user_index)
 //.text:005B6E30 ; real_matrix4x3 const* __cdecl effect_get_transformed_location(effect_datum const*, effect_location_datum const*, real_matrix4x3*)
 //.text:005B6E80 ; real_matrix4x3 const* __cdecl effect_get_transformed_location_world_or_local(effect_datum const*, effect_location_datum const*, real_matrix4x3*, bool)
 //.text:005B6F60 ; 
-//.text:005B6F90 ; vector3d const* __cdecl effect_get_velocity(long)
+//.text:005B6F90 ; real_vector3d const* __cdecl effect_get_velocity(long)
 //.text:005B6FC0 ; void __cdecl effect_handle_deleted_atmosphere(long)
 //.text:005B6FE0 ; void __cdecl effect_handle_deleted_object(long)
 //.text:005B7160 ; bool __cdecl effect_in_player_range(s_effect_creation_data const*)
@@ -144,25 +144,25 @@ void __cdecl effect_render(long effect_index, long user_index)
 //.text:005B7840 ; effect_location_datum* __cdecl effect_location_get_next_instance(effect_datum const*, long*, short)
 //.text:005B7890 ; long __cdecl effect_location_get_next_valid_index(effect_datum const*, long, short)
 //.text:005B7910 ; 
-//.text:005B7930 ; void __cdecl effect_marker_list_get_marker(object_marker*, effect_marker_list const*, short, plane3d const*)
+//.text:005B7930 ; void __cdecl effect_marker_list_get_marker(object_marker*, effect_marker_list const*, short, real_plane3d const*)
 //.text:005B7C30 ; long __cdecl effect_new_attached_from_marker_name(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, short, long, real, real, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
 //.text:005B7D70 ; void __cdecl handle_effect_reverse_message(s_effect_reverse_message const*)
-//.text:005B7E20 ; void __cdecl effect_new_attached_from_particle(c_tag_index, long, byte, byte, real_point3d const*, vector3d const*, vector3d const*, real, real, s_location const*, bool)
+//.text:005B7E20 ; void __cdecl effect_new_attached_from_particle(c_tag_index, long, byte, byte, real_point3d const*, real_vector3d const*, real_vector3d const*, real, real, s_location const*, bool)
 //.text:005B7EF0 ; long __cdecl effect_new_breakable_surface(c_tag_index, long, real, real)
 //.text:005B7FC0 ; long __cdecl effect_new_from_creation_data(s_effect_creation_data const*)
 //.text:005B8550 ; long __cdecl effect_new_from_object(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, real, real, real_rgb_color const*, effect_vector_field const*, e_effect_deterministic)
 //.text:005B86A0 ; 
 
-//long __cdecl effect_new_from_point_vector(long, real_point3d const*, vector3d const*, vector3d const*, e_match_all_markers, e_effect_deterministic, plane3d const*, s_cluster_reference*)
-long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, vector3d const* forward, vector3d const* normal, long match_all_markers, long effect_deterministic, plane3d const* plane, s_cluster_reference* cluster_reference)
+//long __cdecl effect_new_from_point_vector(long, real_point3d const*, real_vector3d const*, real_vector3d const*, e_match_all_markers, e_effect_deterministic, real_plane3d const*, s_cluster_reference*)
+long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* normal, long match_all_markers, long effect_deterministic, real_plane3d const* plane, s_cluster_reference* cluster_reference)
 {
 	return INVOKE(0x005B87F0, effect_new_from_point_vector, effect_index, position, forward, normal, match_all_markers, effect_deterministic, plane, cluster_reference);
 }
 
 //.text:005B88E0 ; long __cdecl effect_new_looping(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, long, long, long, short)
-//.text:005B89E0 ; long __cdecl effect_new_unattached_from_markers(c_tag_index, s_damage_owner const*, long, vector3d const*, long, s_effect_vector const*, plane3d const*, s_location const*, real, e_effect_deterministic)
-//.text:005B8A90 ; long __cdecl effect_new_unattached_from_markers_ex(c_tag_index, s_damage_owner const*, long, vector3d const*, long, s_effect_vector const*, plane3d const*, s_location const*, real, real, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
-//.text:005B8B50 ; long __cdecl effect_new_unattached_from_markers_lite(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, s_effect_vector const*, plane3d const*, s_location const*, e_effect_deterministic)
+//.text:005B89E0 ; long __cdecl effect_new_unattached_from_markers(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real, e_effect_deterministic)
+//.text:005B8A90 ; long __cdecl effect_new_unattached_from_markers_ex(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real, real, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
+//.text:005B8B50 ; long __cdecl effect_new_unattached_from_markers_lite(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, s_effect_vector const*, real_plane3d const*, s_location const*, e_effect_deterministic)
 //.text:005B8BD0 ; long __cdecl effect_new_weather(c_tag_index)
 //.text:005B8C80 ; bool __cdecl effect_parent_particle_valid(effect_datum const*)
 //.text:005B8CC0 ; 
@@ -170,14 +170,14 @@ long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const*
 //.text:005B8D40 ; 
 //.text:005B8DA0 ; bool __cdecl effect_ping(long, long, real, real, bool)
 //.text:005B8E20 ; 
-//.text:005B8ED0 ; bool __cdecl effect_ping_from_impact(long, real, real, real_matrix4x3 const*, vector3d const*, real_point2d const*, plane3d const*)
+//.text:005B8ED0 ; bool __cdecl effect_ping_from_impact(long, real, real, real_matrix4x3 const*, real_vector3d const*, real_point2d const*, real_plane3d const*)
 //.text:005B9100 ; 
 //.text:005B9130 ; void __cdecl effect_ping_from_ricochet(long)
 //.text:005B9170 ; void __cdecl effect_queue_message(s_effect_message const*)
 //.text:005B91F0 ; 
-//.text:005B9210 ; void __cdecl effect_random_angular_velocity(char const*, bool, effect_datum const*, vector3d*, real, real, dword, dword)
-//.text:005B92F0 ; void __cdecl effect_random_direction3d(char const*, bool, effect_datum const*, vector3d*)
-//.text:005B9340 ; void __cdecl effect_random_translational_velocity(char const*, bool, effect_datum const*, vector3d const*, vector3d*, vector3d*, real, real, real, dword, dword)
+//.text:005B9210 ; void __cdecl effect_random_angular_velocity(char const*, bool, effect_datum const*, real_vector3d*, real, real, dword, dword)
+//.text:005B92F0 ; void __cdecl effect_random_direction3d(char const*, bool, effect_datum const*, real_vector3d*)
+//.text:005B9340 ; void __cdecl effect_random_translational_velocity(char const*, bool, effect_datum const*, real_vector3d const*, real_vector3d*, real_vector3d*, real, real, real, dword, dword)
 //.text:005B9500 ; real __cdecl effect_real_random(char const*, bool, effect_datum const*)
 //.text:005B9580 ; real __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real, real)
 //.text:005B9610 ; real __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real, real, dword, dword, short)
@@ -213,7 +213,7 @@ void __cdecl sub_5B9820(long effect_index, long user_index)
 //.text:005BA490 ; void __cdecl effect_stop_looping_sounds(effect_datum*)
 //.text:005BA4C0 ; 
 //.text:005BA500 ; void __cdecl effect_update(long, real)
-//.text:005BA540 ; bool __cdecl effect_update_attached_sound(long, real_point3d*, vector3d*, s_location*, real*)
+//.text:005BA540 ; bool __cdecl effect_update_attached_sound(long, real_point3d*, real_vector3d*, s_location*, real*)
 //.text:005BA640 ; void __cdecl effect_update_beam_system(c_beam_system*, real)
 //.text:005BAAD0 ; void __cdecl effect_update_contrail_locations(effect_datum const*, c_contrail_system*, real)
 //.text:005BAD90 ; void __cdecl effect_update_contrail_system(c_contrail_system*, real)

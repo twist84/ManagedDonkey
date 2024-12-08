@@ -19,7 +19,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, _update);
 
-void __cdecl first_person_camera_for_unit_and_vector(long unit_index, vector3d const* forward, s_observer_command* result)
+void __cdecl first_person_camera_for_unit_and_vector(long unit_index, real_vector3d const* forward, s_observer_command* result)
 {
 	INVOKE(0x0065F5B0, first_person_camera_for_unit_and_vector, unit_index, forward, result);
 }
@@ -43,7 +43,7 @@ void __thiscall c_first_person_camera::_update(long user_index, real dt, s_obser
 	if (m_allow_controlled_facing && controller_index != k_no_controller && !camera_input_inhibited(controller_index))
 	{
 		s_game_input_state* input_state = NULL;
-		euler_angles2d player_look_angular_velocity{};
+		real_euler_angles2d player_look_angular_velocity{};
 
 		input_abstraction_get_input_state(controller_index, &input_state);
 		input_abstraction_get_player_look_angular_velocity(controller_index, &player_look_angular_velocity);
@@ -55,7 +55,7 @@ void __thiscall c_first_person_camera::_update(long user_index, real dt, s_obser
 
 	if (m_target_object_index != NONE)
 	{
-		vector3d forward{};
+		real_vector3d forward{};
 		if (m_allow_controlled_facing)
 		{
 			vector3d_from_euler_angles2d(&forward, &m_orientation_offset);

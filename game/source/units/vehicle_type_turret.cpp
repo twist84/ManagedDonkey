@@ -2,7 +2,7 @@
 
 #include "motor/vehicle_motor_program.hpp"
 
-void __cdecl c_vehicle_type_turret::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void __cdecl c_vehicle_type_turret::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	INVOKE(0x00BCEC00, c_vehicle_type_turret::adjust_gravity, vehicle_index, gravity_acceleration);
 }
@@ -72,7 +72,7 @@ void __cdecl c_vehicle_type_turret::update_physics(long vehicle_index, s_havok_v
 	INVOKE(0x00BCED00, c_vehicle_type_turret::update_physics, vehicle_index, physics);
 }
 
-bool __cdecl c_vehicle_type_turret::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_turret::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	return INVOKE(0x00BCED10, c_vehicle_type_turret::vector_is_upsides_down, vehicle_index, vector);
 }

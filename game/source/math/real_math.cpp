@@ -9,30 +9,30 @@ REFERENCE_DECLARE(0x0189CEDC, real_point2d const* const, global_x_axis2d);
 REFERENCE_DECLARE(0x0189CEE0, real_point2d const* const, global_y_axis2d);
 REFERENCE_DECLARE(0x0189CEE4, real_point2d const* const, global_negative_x_axis2d);
 REFERENCE_DECLARE(0x0189CEE8, real_point2d const* const, global_negative_y_axis2d);
-REFERENCE_DECLARE(0x0189CEEC, vector2d const* const, global_zero_vector2d);
-REFERENCE_DECLARE(0x0189CEF0, vector2d const* const, global_forward2d);
-REFERENCE_DECLARE(0x0189CEF4, vector2d const* const, global_left2d);
-REFERENCE_DECLARE(0x0189CEF8, vector2d const* const, global_backward2d);
-REFERENCE_DECLARE(0x0189CEFC, vector2d const* const, global_right2d);
+REFERENCE_DECLARE(0x0189CEEC, real_vector2d const* const, global_zero_vector2d);
+REFERENCE_DECLARE(0x0189CEF0, real_vector2d const* const, global_forward2d);
+REFERENCE_DECLARE(0x0189CEF4, real_vector2d const* const, global_left2d);
+REFERENCE_DECLARE(0x0189CEF8, real_vector2d const* const, global_backward2d);
+REFERENCE_DECLARE(0x0189CEFC, real_vector2d const* const, global_right2d);
 REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
-REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_x_axis3d);
-REFERENCE_DECLARE(0x0189CF08, vector3d const* const, global_y_axis3d);
-REFERENCE_DECLARE(0x0189CF0C, vector3d const* const, global_z_axis3d);
-REFERENCE_DECLARE(0x0189CF10, vector3d const* const, global_negative_x_axis3d);
-REFERENCE_DECLARE(0x0189CF14, vector3d const* const, global_negative_y_axis3d);
-REFERENCE_DECLARE(0x0189CF18, vector3d const* const, global_negative_z_axis3d);
-REFERENCE_DECLARE(0x0189CF1C, vector3d const* const, global_zero_vector3d);
-REFERENCE_DECLARE(0x0189CF20, vector3d const* const, global_forward3d);
-REFERENCE_DECLARE(0x0189CF24, vector3d const* const, global_left3d);
-REFERENCE_DECLARE(0x0189CF28, vector3d const* const, global_up3d);
-REFERENCE_DECLARE(0x0189CF2C, vector3d const* const, global_backward3d);
-REFERENCE_DECLARE(0x0189CF30, vector3d const* const, global_right3d);
-REFERENCE_DECLARE(0x0189CF34, vector3d const* const, global_down3d);
-REFERENCE_DECLARE(0x0189CF38, euler_angles2d const* const, global_zero_angles2d);
-REFERENCE_DECLARE(0x0189CF3C, euler_angles3d const* const, global_zero_angles3d);
-REFERENCE_DECLARE(0x0189CF40, vector4d const* const, global_zero_vector4d);
+REFERENCE_DECLARE(0x0189CF04, real_vector3d const* const, global_x_axis3d);
+REFERENCE_DECLARE(0x0189CF08, real_vector3d const* const, global_y_axis3d);
+REFERENCE_DECLARE(0x0189CF0C, real_vector3d const* const, global_z_axis3d);
+REFERENCE_DECLARE(0x0189CF10, real_vector3d const* const, global_negative_x_axis3d);
+REFERENCE_DECLARE(0x0189CF14, real_vector3d const* const, global_negative_y_axis3d);
+REFERENCE_DECLARE(0x0189CF18, real_vector3d const* const, global_negative_z_axis3d);
+REFERENCE_DECLARE(0x0189CF1C, real_vector3d const* const, global_zero_vector3d);
+REFERENCE_DECLARE(0x0189CF20, real_vector3d const* const, global_forward3d);
+REFERENCE_DECLARE(0x0189CF24, real_vector3d const* const, global_left3d);
+REFERENCE_DECLARE(0x0189CF28, real_vector3d const* const, global_up3d);
+REFERENCE_DECLARE(0x0189CF2C, real_vector3d const* const, global_backward3d);
+REFERENCE_DECLARE(0x0189CF30, real_vector3d const* const, global_right3d);
+REFERENCE_DECLARE(0x0189CF34, real_vector3d const* const, global_down3d);
+REFERENCE_DECLARE(0x0189CF38, real_euler_angles2d const* const, global_zero_angles2d);
+REFERENCE_DECLARE(0x0189CF3C, real_euler_angles3d const* const, global_zero_angles3d);
+REFERENCE_DECLARE(0x0189CF40, real_vector4d const* const, global_zero_vector4d);
 REFERENCE_DECLARE(0x0189CF44, real_quaternion const* const, global_identity_quaternion);
-REFERENCE_DECLARE(0x0189CF48, matrix3x3 const* const, global_identity3x3);
+REFERENCE_DECLARE(0x0189CF48, real_matrix3x3 const* const, global_identity3x3);
 REFERENCE_DECLARE(0x0189CF4C, real_matrix4x3 const* const, global_identity4x3);
 REFERENCE_DECLARE(0x0189CF50, real_matrix4x3 const* const, global_negative_identity4x3);
 REFERENCE_DECLARE(0x0189CF54, real_orientation const* const, global_identity_orientation);
@@ -41,13 +41,13 @@ REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectang
 REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectangle2d);
 REFERENCE_DECLARE(0x0189CF64, real_rectangle3d const* const, global_zero_rectangle3d);
 
-bool __cdecl valid_real_vector2d(vector2d const* vector)
+bool __cdecl valid_real_vector2d(real_vector2d const* vector)
 {
 	return valid_real(vector->i)
 		&& valid_real(vector->j);
 }
 
-bool __cdecl valid_real_vector4d(vector4d const* vector)
+bool __cdecl valid_real_vector4d(real_vector4d const* vector)
 {
 	return valid_real(vector->i)
 		&& valid_real(vector->j)
@@ -65,24 +65,24 @@ bool __cdecl valid_real_quaternion(real_quaternion const* quaternion)
 	return valid_realcmp((magnitude_squared3d(&quaternion->v) + (quaternion->w * quaternion->w)), 1.0f);
 }
 
-bool __cdecl valid_real_normal2d(vector2d const* normal)
+bool __cdecl valid_real_normal2d(real_vector2d const* normal)
 {
 	return valid_realcmp(magnitude_squared2d(normal), 1.0f);
 }
 
-bool __cdecl valid_real_plane2d(plane2d const* plane)
+bool __cdecl valid_real_plane2d(real_plane2d const* plane)
 {
 	return valid_real_normal2d(&plane->n)
 		&& valid_real(plane->d);
 }
 
-bool __cdecl valid_real_plane3d(plane3d const* plane)
+bool __cdecl valid_real_plane3d(real_plane3d const* plane)
 {
 	return valid_real_normal3d(&plane->n)
 		&& valid_real(plane->d);
 }
 
-bool __cdecl valid_real_vector3d_right_handed_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
+bool __cdecl valid_real_vector3d_right_handed_axes3(real_vector3d const* forward, real_vector3d const* left, real_vector3d const* up)
 {
 	return valid_real_vector3d_axes3(forward, left, up)
 		&& triple_product3d(forward, left, up) > 0.0f;
@@ -95,7 +95,7 @@ bool __cdecl valid_real_matrix4x3(real_matrix4x3 const* matrix)
 		&& valid_real_point3d(&matrix->position);
 }
 
-bool __cdecl valid_real_euler_angles3d(euler_angles3d const* angles)
+bool __cdecl valid_real_euler_angles3d(real_euler_angles3d const* angles)
 {
 	return valid_real(angles->yaw)
 		&& valid_real(angles->pitch)
@@ -118,7 +118,7 @@ bool __cdecl valid_real(real const& value)
 	return ((dword)value & 0x7F800000) != 0x7F800000;
 }
 
-bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles)
+bool __cdecl valid_real_euler_angles2d(real_euler_angles2d const* angles)
 {
 	//return INVOKE(0x004AB2C0, valid_real_euler_angles2d, angles);
 
@@ -128,7 +128,7 @@ bool __cdecl valid_real_euler_angles2d(euler_angles2d const* angles)
 		&& IN_RANGE_INCLUSIVE(angles->pitch, -k_quarter_circle, k_quarter_circle);
 }
 
-bool __cdecl valid_real_normal3d(vector3d const* normal)
+bool __cdecl valid_real_normal3d(real_vector3d const* normal)
 {
 	//return INVOKE(0x004AB330, valid_real_normal3d, normal);
 
@@ -152,7 +152,7 @@ bool __cdecl valid_real_point2d(real_point2d const* point)
 		&& valid_real(point->y);
 }
 
-bool __cdecl valid_real_vector3d(vector3d const* vector)
+bool __cdecl valid_real_vector3d(real_vector3d const* vector)
 {
 	//return INVOKE(0x004AB410, valid_real_vector3d, vector);
 
@@ -161,7 +161,7 @@ bool __cdecl valid_real_vector3d(vector3d const* vector)
 		&& valid_real(vector->k);
 }
 
-bool __cdecl valid_real_vector3d_axes2(vector3d const* forward, vector3d const* up)
+bool __cdecl valid_real_vector3d_axes2(real_vector3d const* forward, real_vector3d const* up)
 {
 	//return INVOKE(0x004AB450, valid_real_vector3d_axes2, forward, up);
 
@@ -179,12 +179,12 @@ bool __cdecl valid_realcmp(real a, real b)
 		&& fabs(diff) < k_test_real_epsilon;
 }
 
-real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b)
+real __cdecl angle_between_vectors3d(real_vector3d const* a, real_vector3d const* b)
 {
 	return INVOKE(0x004EEC40, angle_between_vectors3d, a, b);
 }
 
-vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up)
+real_vector3d* __cdecl generate_up_vector3d(real_vector3d const* forward, real_vector3d* up)
 {
 	return INVOKE(0x004F2310, generate_up_vector3d, forward, up);
 }
@@ -215,7 +215,7 @@ void __cdecl real_math_reset_precision()
 //.text:004FB890
 //.text:004FB920
 
-euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward)
+real_euler_angles2d* __cdecl euler_angles2d_from_vector3d(real_euler_angles2d* facing, real_vector3d const* forward)
 {
 	return INVOKE(0x004F13E0, euler_angles2d_from_vector3d, facing, forward);
 }
@@ -223,7 +223,7 @@ euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vec
 //.text:00523B20 ; 
 //.text:00523B70 ; 
 
-bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* left, vector3d const* up)
+bool __cdecl valid_real_vector3d_axes3(real_vector3d const* forward, real_vector3d const* left, real_vector3d const* up)
 {
 	//return INVOKE(0x005B3D30, valid_real_vector3d_axes3, forward, left, up);
 
@@ -235,31 +235,31 @@ bool __cdecl valid_real_vector3d_axes3(vector3d const* forward, vector3d const* 
 		&& valid_realcmp(dot_product3d(up, forward), 0.0f);
 }
 
-//.text:005B0330 ; real __cdecl matrix3x3_determinant(matrix3x3 const*)
-//.text:005B03B0 ; void __cdecl matrix3x3_from_angles(matrix3x3*, real, real, real)
+//.text:005B0330 ; real __cdecl matrix3x3_determinant(real_matrix3x3 const*)
+//.text:005B03B0 ; void __cdecl matrix3x3_from_angles(real_matrix3x3*, real, real, real)
 //.text:005B04F0 ; 
-//.text:005B0630 ; matrix3x3* __cdecl matrix3x3_from_axis_and_angle(matrix3x3*, vector3d const*, real, real)
-//.text:005B0740 ; matrix3x3* __cdecl matrix3x3_from_forward_and_up(matrix3x3*, vector3d const*, vector3d const*)
-//.text:005B07C0 ; matrix3x3* __cdecl matrix3x3_inverse(matrix3x3 const*, real, matrix3x3*)
-//.text:005B0900 ; vector3d* __cdecl matrix3x3_inverse_transform_vector(matrix3x3 const*, vector3d const*, vector3d*)
-//.text:005B09B0 ; matrix3x3* __cdecl matrix3x3_multiply(matrix3x3 const*, matrix3x3 const*, matrix3x3*)
-//.text:005B0BB0 ; bool __cdecl matrix3x3_normalize(matrix3x3*)
+//.text:005B0630 ; real_matrix3x3* __cdecl matrix3x3_from_axis_and_angle(real_matrix3x3*, real_vector3d const*, real, real)
+//.text:005B0740 ; real_matrix3x3* __cdecl matrix3x3_from_forward_and_up(real_matrix3x3*, real_vector3d const*, real_vector3d const*)
+//.text:005B07C0 ; real_matrix3x3* __cdecl matrix3x3_inverse(real_matrix3x3 const*, real, real_matrix3x3*)
+//.text:005B0900 ; real_vector3d* __cdecl matrix3x3_inverse_transform_vector(real_matrix3x3 const*, real_vector3d const*, real_vector3d*)
+//.text:005B09B0 ; real_matrix3x3* __cdecl matrix3x3_multiply(real_matrix3x3 const*, real_matrix3x3 const*, real_matrix3x3*)
+//.text:005B0BB0 ; bool __cdecl matrix3x3_normalize(real_matrix3x3*)
 
-matrix3x3* __cdecl matrix3x3_rotation_from_quaternion(matrix3x3* matrix, real_quaternion const* quaternion)
+real_matrix3x3* __cdecl matrix3x3_rotation_from_quaternion(real_matrix3x3* matrix, real_quaternion const* quaternion)
 {
 	return INVOKE(0x005B0F80, matrix3x3_rotation_from_quaternion, matrix, quaternion);
 }
 
-//.text:005B10E0 ; real_quaternion* __cdecl matrix3x3_rotation_to_quaternion(matrix3x3 const*, real_quaternion*)
-//.text:005B12E0 ; real_vector3d* __cdecl matrix3x3_transform_vector(matrix3x3 const*, vector3d const*, vector3d*)
-//.text:005B1390 ; matrix3x3* __cdecl matrix3x3_transpose(matrix3x3 const*, matrix3x3*)
+//.text:005B10E0 ; real_quaternion* __cdecl matrix3x3_rotation_to_quaternion(real_matrix3x3 const*, real_quaternion*)
+//.text:005B12E0 ; real_vector3d* __cdecl matrix3x3_transform_vector(real_matrix3x3 const*, real_vector3d const*, real_vector3d*)
+//.text:005B1390 ; real_matrix3x3* __cdecl matrix3x3_transpose(real_matrix3x3 const*, real_matrix3x3*)
 //.text:005B1410 ; void __cdecl matrix4x3_apply_orientation(real_matrix4x3 const restrict*, real_orientation const restrict*, real_matrix4x3 restrict*)
 //.text:005B1780 ; 
 //.text:005B1AF0 ; 
 //.text:005B1C70 ; 
-//.text:005B1E10 ; void __cdecl matrix4x3_from_point_and_nonaxial_forward_and_left(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
-//.text:005B1E70 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
-//.text:005B1ED0 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors_using_up(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
+//.text:005B1E10 ; void __cdecl matrix4x3_from_point_and_nonaxial_forward_and_left(real_matrix4x3*, real_point3d const*, real_vector3d const*, real_vector3d const*)
+//.text:005B1E70 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors(real_matrix4x3*, real_point3d const*, real_vector3d const*, real_vector3d const*)
+//.text:005B1ED0 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors_using_up(real_matrix4x3*, real_point3d const*, real_vector3d const*, real_vector3d const*)
 
 void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_point3d const* point, real_quaternion const* quaternion)
 {
@@ -286,7 +286,7 @@ bool __cdecl valid_polygon2d(long point_count, real_point2d const* const points)
 //.text:0078BF90 ; 
 //.text:00C35C30 ; 
 
-vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out)
+real_vector3d* __cdecl cross_product3d(real_vector3d const* a, real_vector3d const* b, real_vector3d* out)
 {
 	out->n[0] = real(a->n[1] * b->n[2]) - real(a->n[2] * b->n[1]);
 	out->n[1] = real(a->n[2] * b->n[0]) - real(a->n[0] * b->n[2]);
@@ -295,18 +295,18 @@ vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d
 	return out;
 }
 
-real __cdecl dot_product3d(vector3d const* a, vector3d const* b)
+real __cdecl dot_product3d(real_vector3d const* a, real_vector3d const* b)
 {
 	return ((a->n[0] * b->n[0]) + (a->n[1] * b->n[1])) + (a->n[2] * b->n[2]);
 }
 
-real __cdecl triple_product3d(vector3d const* a, vector3d const* b, vector3d const* c)
+real __cdecl triple_product3d(real_vector3d const* a, real_vector3d const* b, real_vector3d const* c)
 {
-	vector3d product3d;
+	real_vector3d product3d;
 	return dot_product3d(cross_product3d(a, b, &product3d), c);
 }
 
-vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out)
+real_vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, real_vector3d* out)
 {
 	out->n[0] = b->n[0] - a->n[0];
 	out->n[1] = b->n[1] - a->n[1];
@@ -315,7 +315,7 @@ vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const
 	return out;
 }
 
-real_point3d* __cdecl point_from_line3d(real_point3d const* in_point, vector3d const* in_vector, real scale, real_point3d* out_point)
+real_point3d* __cdecl point_from_line3d(real_point3d const* in_point, real_vector3d const* in_vector, real scale, real_point3d* out_point)
 {
 	*out_point = *in_point;
 	out_point->n[0] += in_vector->n[0] * scale;
@@ -325,14 +325,14 @@ real_point3d* __cdecl point_from_line3d(real_point3d const* in_point, vector3d c
 	return out_point;
 }
 
-real __cdecl magnitude_squared3d(vector3d const* a)
+real __cdecl magnitude_squared3d(real_vector3d const* a)
 {
 	return real(a->n[0] * a->n[0]) + real(a->n[1] * a->n[1]) + real(a->n[2] * a->n[2]);
 }
 
 real __cdecl distance_squared3d(real_point3d const* a, real_point3d const* b)
 {
-	vector3d temp{};
+	real_vector3d temp{};
 	return magnitude_squared3d(vector_from_points3d(a, b, &temp));
 }
 
@@ -346,7 +346,7 @@ real __cdecl square_root(real value)
 	return sqrtf(value); // sqrt
 }
 
-real __cdecl magnitude3d(vector3d const* vector)
+real __cdecl magnitude3d(real_vector3d const* vector)
 {
 	return square_root(magnitude_squared3d(vector));
 }
@@ -356,7 +356,7 @@ real __cdecl arctangent(real y, real x)
 	return atan2f(y, x); // atan2
 }
 
-vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
+real_vector3d* __cdecl perpendicular3d(real_vector3d const* vector, real_vector3d* out_vector)
 {
 	real i = fabsf(vector->i);
 	real j = fabsf(vector->j);
@@ -386,7 +386,7 @@ vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
 	return out_vector;
 }
 
-real __cdecl normalize3d(vector3d* vector)
+real __cdecl normalize3d(real_vector3d* vector)
 {
 	real magnitude = magnitude3d(vector);
 	if (fabsf(magnitude - 0.0f) < k_real_epsilon)
@@ -397,7 +397,7 @@ real __cdecl normalize3d(vector3d* vector)
 	return magnitude;
 }
 
-vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector)
+real_vector2d* __cdecl rotate_vector2d(real_vector2d const* vector, real a2, real a3, real_vector2d* out_vector)
 {
 	out_vector->i = (a3 * vector->i) - (a2 * vector->j);
 	out_vector->j = (a2 * vector->i) + (a3 * vector->j);
@@ -405,12 +405,12 @@ vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vect
 	return out_vector;
 }
 
-real __cdecl magnitude_squared2d(vector2d const* a)
+real __cdecl magnitude_squared2d(real_vector2d const* a)
 {
 	return real(a->n[0] * a->n[0]) + real(a->n[1] * a->n[1]);
 }
 
-vector3d* __cdecl negate_vector3d(vector3d const* in_vector, vector3d* out_vector)
+real_vector3d* __cdecl negate_vector3d(real_vector3d const* in_vector, real_vector3d* out_vector)
 {
 	out_vector->i = -in_vector->i;
 	out_vector->j = -in_vector->j;
@@ -419,7 +419,7 @@ vector3d* __cdecl negate_vector3d(vector3d const* in_vector, vector3d* out_vecto
 	return out_vector;
 }
 
-vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector)
+real_vector3d* __cdecl scale_vector3d(real_vector3d const* in_vector, real scale, real_vector3d* out_vector)
 {
 	out_vector->i = scale * in_vector->i;
 	out_vector->j = scale * in_vector->j;
@@ -428,7 +428,7 @@ vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d
 	return out_vector;
 }
 
-vector3d* __cdecl add_vectors3d(vector3d const* in_vector_a, vector3d const* in_vector_b, vector3d* out_vector)
+real_vector3d* __cdecl add_vectors3d(real_vector3d const* in_vector_a, real_vector3d const* in_vector_b, real_vector3d* out_vector)
 {
 	out_vector->i = in_vector_a->i + in_vector_b->i;
 	out_vector->j = in_vector_a->j + in_vector_b->j;
@@ -454,7 +454,7 @@ real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real
 	return point;
 }
 
-real_point2d* __cdecl point_from_line2d(real_point2d const* point, vector2d const* vector, real scale, real_point2d* out_point)
+real_point2d* __cdecl point_from_line2d(real_point2d const* point, real_vector2d const* vector, real scale, real_point2d* out_point)
 {
 	*out_point = *point;
 	out_point->x *= (vector->i * scale);
@@ -463,7 +463,7 @@ real_point2d* __cdecl point_from_line2d(real_point2d const* point, vector2d cons
 	return out_point;
 };
 
-vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d const* point1, vector2d* out_vector)
+real_vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d const* point1, real_vector2d* out_vector)
 {
 	out_vector->i = point1->x - point0->x;
 	out_vector->j = point1->y - point0->y;
@@ -505,7 +505,7 @@ short const global_projection3d_inverse_mappings[3][2][3] =
 	}
 };
 
-real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool projection_sign, real_point3d* out_point)
+real_point3d* __cdecl project_point2d(real_point2d const* point, real_plane3d const* plane, short projection, bool projection_sign, real_point3d* out_point)
 {
 	//return INVOKE(0x004F9830, project_point2d, point, plane, projection, projection_sign, out_point);
 
@@ -525,11 +525,11 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 }
 
 //.text:004F98F0 ; real_point2d* __cdecl project_point3d(real_point3d const*, short, bool, real_point2d*)
-//.text:004F9930 ; void __cdecl project_polygon2d(long, real_point2d const* const, plane3d const*, long, bool, real_point3d* const)
+//.text:004F9930 ; void __cdecl project_polygon2d(long, real_point2d const* const, real_plane3d const*, long, bool, real_point3d* const)
 //.text:004F9A20 ; void __cdecl project_polygon3d(long, real_point3d const* const, long, bool, real_point2d* const)
-//.text:004F9A80 ; vector2d* __cdecl project_vector3d(vector3d const *, short, bool, vector2d*)
+//.text:004F9A80 ; real_vector2d* __cdecl project_vector3d(real_vector3d const *, short, bool, real_vector2d*)
 
-real __cdecl plane3d_distance_to_point(plane3d const* plane, real_point3d const* point)
+real __cdecl plane3d_distance_to_point(real_plane3d const* plane, real_point3d const* point)
 {
 	return ((((point->x * plane->n.i) + (point->y * plane->n.j)) + (point->z * plane->n.k)) - plane->d);
 }
@@ -540,30 +540,30 @@ long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long max
 	ASSERT(maximum_vertex_count >= k_vertices_per_cube_count);
 	ASSERT(vertices);
 
-	vertices[0].x = bounds->x.lower;
-	vertices[0].y = bounds->y.lower;
-	vertices[0].z = bounds->z.lower;
-	vertices[1].x = bounds->x.upper;
-	vertices[1].y = bounds->y.lower;
-	vertices[1].z = bounds->z.lower;
-	vertices[2].x = bounds->x.lower;
-	vertices[2].y = bounds->y.upper;
-	vertices[2].z = bounds->z.lower;
-	vertices[3].x = bounds->x.upper;
-	vertices[3].y = bounds->y.upper;
-	vertices[3].z = bounds->z.lower;
-	vertices[4].x = bounds->x.lower;
-	vertices[4].y = bounds->y.lower;
-	vertices[4].z = bounds->z.upper;
-	vertices[5].x = bounds->x.upper;
-	vertices[5].y = bounds->y.lower;
-	vertices[5].z = bounds->z.upper;
-	vertices[6].x = bounds->x.lower;
-	vertices[6].y = bounds->y.upper;
-	vertices[6].z = bounds->z.upper;
-	vertices[7].x = bounds->x.upper;
-	vertices[7].y = bounds->y.upper;
-	vertices[7].z = bounds->z.upper;
+	vertices[0].x = bounds->x0;
+	vertices[0].y = bounds->y0;
+	vertices[0].z = bounds->z0;
+	vertices[1].x = bounds->x1;
+	vertices[1].y = bounds->y0;
+	vertices[1].z = bounds->z0;
+	vertices[2].x = bounds->x0;
+	vertices[2].y = bounds->y1;
+	vertices[2].z = bounds->z0;
+	vertices[3].x = bounds->x1;
+	vertices[3].y = bounds->y1;
+	vertices[3].z = bounds->z0;
+	vertices[4].x = bounds->x0;
+	vertices[4].y = bounds->y0;
+	vertices[4].z = bounds->z1;
+	vertices[5].x = bounds->x1;
+	vertices[5].y = bounds->y0;
+	vertices[5].z = bounds->z1;
+	vertices[6].x = bounds->x0;
+	vertices[6].y = bounds->y1;
+	vertices[6].z = bounds->z1;
+	vertices[7].x = bounds->x1;
+	vertices[7].y = bounds->y1;
+	vertices[7].z = bounds->z1;
 
 	return k_vertices_per_cube_count;
 }
@@ -639,22 +639,22 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 
 real_rectangle2d* __cdecl set_real_rectangle2d(real_rectangle2d* rect, real x_lower, real x_upper, real y_lower, real y_upper)
 {
-	rect->x.lower = x_lower;
-	rect->x.upper = x_upper;
-	rect->y.lower = y_lower;
-	rect->y.upper = y_upper;
+	rect->x0 = x_lower;
+	rect->x1 = x_upper;
+	rect->y0 = y_lower;
+	rect->y1 = y_upper;
 
 	return rect;
 }
 
 real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, real x_lower, real x_upper, real y_lower, real y_upper, real z_lower, real z_upper)
 {
-	rect->x.lower = x_lower;
-	rect->x.upper = x_upper;
-	rect->y.lower = y_lower;
-	rect->y.upper = y_upper;
-	rect->z.lower = z_lower;
-	rect->z.upper = z_upper;
+	rect->x0 = x_lower;
+	rect->x1 = x_upper;
+	rect->y0 = y_lower;
+	rect->y1 = y_upper;
+	rect->z0 = z_lower;
+	rect->z1 = z_upper;
 
 	return rect;
 }
@@ -668,23 +668,23 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* enclo
 {
 	//return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, enclosed_rect, point);
 
-	if (enclosed_rect->x.lower > point->x)
-		enclosed_rect->x.lower = point->x;
+	if (enclosed_rect->x0 > point->x)
+		enclosed_rect->x0 = point->x;
 
-	if (enclosed_rect->x.upper < point->x)
-		enclosed_rect->x.upper = point->x;
+	if (enclosed_rect->x1 < point->x)
+		enclosed_rect->x1 = point->x;
 
-	if (enclosed_rect->y.lower > point->y)
-		enclosed_rect->y.lower = point->y;
+	if (enclosed_rect->y0 > point->y)
+		enclosed_rect->y0 = point->y;
 
-	if (enclosed_rect->y.upper < point->y)
-		enclosed_rect->y.upper = point->y;
+	if (enclosed_rect->y1 < point->y)
+		enclosed_rect->y1 = point->y;
 
-	if (enclosed_rect->z.lower > point->z)
-		enclosed_rect->z.lower = point->z;
+	if (enclosed_rect->z0 > point->z)
+		enclosed_rect->z0 = point->z;
 
-	if (enclosed_rect->z.upper < point->z)
-		enclosed_rect->z.upper = point->z;
+	if (enclosed_rect->z1 < point->z)
+		enclosed_rect->z1 = point->z;
 
 	return enclosed_rect;
 }
@@ -705,40 +705,40 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* e
 {
 	//return INVOKE(0x004FBF30, real_rectangle3d_enclose_rectangle, enclosed_rect, rect);
 
-	real x_lower = enclosed_rect->x.lower;
-	if (x_lower > rect->x.lower)
-		x_lower = rect->x.lower;
-	enclosed_rect->x.lower = x_lower;
+	real x_lower = enclosed_rect->x0;
+	if (x_lower > rect->x0)
+		x_lower = rect->x0;
+	enclosed_rect->x0 = x_lower;
 
-	real x_upper = rect->x.upper;
-	if (enclosed_rect->x.upper > x_upper)
-		x_upper = enclosed_rect->x.upper;
-	enclosed_rect->x.upper = x_upper;
+	real x_upper = rect->x1;
+	if (enclosed_rect->x1 > x_upper)
+		x_upper = enclosed_rect->x1;
+	enclosed_rect->x1 = x_upper;
 
-	real y_lower = rect->y.lower;
-	if (enclosed_rect->y.lower <= y_lower)
-		y_lower = enclosed_rect->y.lower;
-	enclosed_rect->y.lower = y_lower;
+	real y_lower = rect->y0;
+	if (enclosed_rect->y0 <= y_lower)
+		y_lower = enclosed_rect->y0;
+	enclosed_rect->y0 = y_lower;
 
-	real y_upper = rect->y.upper;
-	if (enclosed_rect->y.upper > y_upper)
-		y_upper = enclosed_rect->y.upper;
-	enclosed_rect->y.upper = y_upper;
+	real y_upper = rect->y1;
+	if (enclosed_rect->y1 > y_upper)
+		y_upper = enclosed_rect->y1;
+	enclosed_rect->y1 = y_upper;
 
-	real z_lower = rect->z.lower;
-	if (enclosed_rect->z.lower <= z_lower)
-		z_lower = enclosed_rect->z.lower;
-	enclosed_rect->z.lower = z_lower;
+	real z_lower = rect->z0;
+	if (enclosed_rect->z0 <= z_lower)
+		z_lower = enclosed_rect->z0;
+	enclosed_rect->z0 = z_lower;
 
-	real z_upper = rect->z.upper;
-	if (enclosed_rect->z.upper > z_upper)
-		z_upper = enclosed_rect->z.upper;
-	enclosed_rect->z.upper = z_upper;
+	real z_upper = rect->z1;
+	if (enclosed_rect->z1 > z_upper)
+		z_upper = enclosed_rect->z1;
+	enclosed_rect->z1 = z_upper;
 
 	return enclosed_rect;
 }
 
-vector3d* __cdecl vector3d_from_angle(vector3d* vector, real angle)
+real_vector3d* __cdecl vector3d_from_angle(real_vector3d* vector, real angle)
 {
 	return INVOKE(0x004FF020, vector3d_from_angle, vector, angle);
 
@@ -748,7 +748,7 @@ vector3d* __cdecl vector3d_from_angle(vector3d* vector, real angle)
 	//return vector;
 }
 
-vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles)
+real_vector3d* __cdecl vector3d_from_euler_angles2d(real_vector3d* vector, real_euler_angles2d const* angles)
 {
 	return INVOKE(0x004FF060, vector3d_from_euler_angles2d, vector, angles);
 
@@ -758,7 +758,7 @@ vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d 
 	//return vector;
 }
 
-vector2d* __cdecl set_real_vector2d(vector2d* vector, real i, real j)
+real_vector2d* __cdecl set_real_vector2d(real_vector2d* vector, real i, real j)
 {
 	vector->i = i;
 	vector->j = j;
@@ -766,7 +766,7 @@ vector2d* __cdecl set_real_vector2d(vector2d* vector, real i, real j)
 	return vector;
 }
 
-vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k)
+real_vector3d* __cdecl set_real_vector3d(real_vector3d* vector, real i, real j, real k)
 {
 	vector->i = i;
 	vector->j = j;
@@ -775,7 +775,7 @@ vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k)
 	return vector;
 }
 
-vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real l)
+real_vector4d* __cdecl set_real_vector4d(real_vector4d* result, real i, real j, real k, real l)
 {
 	result->i = i;
 	result->j = j;

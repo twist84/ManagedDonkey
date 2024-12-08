@@ -107,7 +107,7 @@ struct s_user_interface_shared_globals
 
 	// Content Aspect Ratio Scaling
 	// These define the scaling that will get applied to UI content and animations when running at the specified display modes
-	vector2d authoring_aspect_conversion_scaling[2]; // 16x9, 4x3
+	real_vector2d authoring_aspect_conversion_scaling[2]; // 16x9, 4x3
 
 	// Blur Constants
 	// These control the blur kernel used when blurring overlayed UI

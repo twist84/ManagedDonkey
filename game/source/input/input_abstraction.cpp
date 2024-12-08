@@ -119,7 +119,7 @@ void __cdecl input_abstraction_get_input_state(long controller_index, s_game_inp
 	*input_state = &input_abstraction_globals.input_states[controller_index];
 }
 
-void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity)
+void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, real_euler_angles2d* angular_velocity)
 {
 	//INVOKE(0x0060C000, input_abstraction_get_player_look_angular_velocity, controller_index, angular_velocity);
 

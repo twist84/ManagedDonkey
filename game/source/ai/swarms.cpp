@@ -35,17 +35,17 @@
 //.text:01494E50 ; 
 //.text:01494E90 ; 
 //.text:01494ED0 ; void __cdecl spawner_initialize_creature(short, long)
-//.text:01494FA0 ; void __cdecl swarm_accelerate(long, vector3d const*)
-//.text:01495020 ; bool __cdecl swarm_action_execute_command_script(long, long, vector3d*, vector3d*)
+//.text:01494FA0 ; void __cdecl swarm_accelerate(long, real_vector3d const*)
+//.text:01495020 ; bool __cdecl swarm_action_execute_command_script(long, long, real_vector3d*, real_vector3d*)
 //.text:01495120 ; bool __cdecl swarm_add_creature(long, long)
 //.text:014951D0 ; long __cdecl swarm_create_creature(long, long, actor_spawn_definition const*, bool)
-//.text:01495660 ; bool __cdecl swarm_creature_aim_jump(long, vector3d*)
+//.text:01495660 ; bool __cdecl swarm_creature_aim_jump(long, real_vector3d*)
 //.text:014956C0 ; void __cdecl swarm_creature_control(long)
 //.text:014957B0 ; void __cdecl swarm_creature_handle_action_finished(long, long, long)
-//.text:01495910 ; bool __cdecl swarm_creature_infect(long, long, object_marker const*, vector3d const*)
+//.text:01495910 ; bool __cdecl swarm_creature_infect(long, long, object_marker const*, real_vector3d const*)
 //.text:01495B80 ; void __cdecl swarm_creature_iterator_new(long, swarm_creature_iterator*)
 //.text:01495BC0 ; creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator*)
-//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(long, real, real, real_point3d const*, vector3d*)
+//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(long, real, real, real_point3d const*, real_vector3d*)
 //.text:01495D20 ; void __cdecl swarm_creature_update(long, long)
 //.text:014968A0 ; void __cdecl swarm_creature_update_timers(long, long, swarm_creature_state*)
 

@@ -19,7 +19,7 @@ struct s_water_physics_test_vector_result
 	}
 
 	real_point3d __point0;
-	vector3d __vectorC;
+	real_vector3d __vectorC;
 
 	byte __data18[0x4];
 
@@ -28,9 +28,9 @@ struct s_water_physics_test_vector_result
 	long structure_bsp_index;
 	long water_instance_index;
 	c_global_material_type material_type;
-	vector3d direction;
+	real_vector3d direction;
 
-	vector3d __vector38;
+	real_vector3d __vector38;
 };
 static_assert(sizeof(s_water_physics_test_vector_result) == 0x44);
 
@@ -44,6 +44,6 @@ extern real& k_density_decay_time;
 extern real& water_physics_velocity_minimum;
 extern real& water_physics_velocity_maximum;
 
-extern bool __cdecl water_physics_test_vector(real_point3d const* point, vector3d const* vector, s_water_physics_test_vector_result* result);
-extern void __cdecl water_physics_render_debug(real_point3d const* point, vector3d const* vector);
+extern bool __cdecl water_physics_test_vector(real_point3d const* point, real_vector3d const* vector, s_water_physics_test_vector_result* result);
+extern void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d const* vector);
 

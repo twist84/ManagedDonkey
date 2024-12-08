@@ -48,8 +48,8 @@ public:
 	long get_first_edge_index() const;
 	byte_flags get_flags() const;
 	long get_material_index() const;
-	plane3d const* get_plane(plane3d* plane) const;
-	plane3d const* get_plane(bool* is_negated) const;
+	real_plane3d const* get_plane(real_plane3d* plane) const;
+	real_plane3d const* get_plane(bool* is_negated) const;
 	long get_plane_index() const;
 	bool is_plane_negated() const;
 

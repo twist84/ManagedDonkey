@@ -63,7 +63,7 @@ void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(rasterizer_vertex_deb
 
 	//if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_explicit_shader_debug2d))
 	//{
-	//	vector4d constants[1]
+	//	real_vector4d constants[1]
 	//	{
 	//		{ 1.0f, 1.0f, 1.0f, 1.0f }
 	//	};
@@ -213,26 +213,26 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 
 	triangle_fan[0].position.x = x - 1.0f;
 	triangle_fan[0].position.y = y + 1.0f;
-	triangle_fan[0].texcoord.x = bounds->x.lower;
-	triangle_fan[0].texcoord.y = bounds->y.lower;
+	triangle_fan[0].texcoord.x = bounds->x0;
+	triangle_fan[0].texcoord.y = bounds->y0;
 	triangle_fan[0].color.value = 0xFFFFFFFF;
 
 	triangle_fan[1].position.x = x + 1.0f;
 	triangle_fan[1].position.y = y + 1.0f;
-	triangle_fan[1].texcoord.y = bounds->y.lower;
-	triangle_fan[1].texcoord.x = bounds->x.upper;
+	triangle_fan[1].texcoord.y = bounds->y0;
+	triangle_fan[1].texcoord.x = bounds->x1;
 	triangle_fan[1].color.value = 0xFFFFFFFF;
 
 	triangle_fan[2].position.x = x - 1.0f;
 	triangle_fan[2].position.y = y - 1.0f;
-	triangle_fan[2].texcoord.x = bounds->x.lower;
-	triangle_fan[2].texcoord.y = bounds->y.upper;
+	triangle_fan[2].texcoord.x = bounds->x0;
+	triangle_fan[2].texcoord.y = bounds->y1;
 	triangle_fan[2].color.value = 0xFFFFFFFF;
 
 	triangle_fan[3].position.x = x + 1.0f;
 	triangle_fan[3].position.y = y - 1.0f;
-	triangle_fan[3].texcoord.x = bounds->x.upper;
-	triangle_fan[3].texcoord.y = bounds->y.upper;
+	triangle_fan[3].texcoord.x = bounds->x1;
+	triangle_fan[3].texcoord.y = bounds->y1;
 	triangle_fan[3].color.value = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_none);

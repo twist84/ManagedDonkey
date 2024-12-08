@@ -1,6 +1,6 @@
 #include "creatures/creatures.hpp"
 
-//.text:00BB3D30 ; void __cdecl creature_accelerate(long, vector3d const*)
+//.text:00BB3D30 ; void __cdecl creature_accelerate(long, real_vector3d const*)
 //.text:00BB3DD0 ; void __cdecl creature_cause_attached_damage(long)
 //.text:00BB3F20 ; bool __cdecl creature_compute_function_value(long, long, long, bool, real*, bool*, bool*)
 //.text:00BB3F90 ; void __cdecl creature_control(long, s_creature_control_data const*)
@@ -11,7 +11,7 @@
 //.text:00BB41B0 ; void __cdecl creature_died(long)
 //.text:00BB41F0 ; void __cdecl creature_affected_by_shape_phantom_this_tick(long)
 //.text:00BB4220 ; void __cdecl creature_get_center_of_mass(long, real_point3d*)
-//.text:00BB4260 ; void __cdecl creature_get_facing_vector(long, vector3d*)
+//.text:00BB4260 ; void __cdecl creature_get_facing_vector(long, real_vector3d*)
 //.text:00BB4280 ; void __cdecl creature_get_head_position(long, real_point3d*)
 //.text:00BB4300 ; bool __cdecl creature_is_busy(long)
 //.text:00BB4340 ; void __cdecl creature_kill(long)

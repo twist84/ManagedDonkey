@@ -12,7 +12,7 @@
 //.text:00B92380 ; 
 //.text:00B923B0 ; void __cdecl device_add_control_children_to_groups(long)
 //.text:00B92540 ; 
-//.text:00B92550 ; bool __cdecl device_allow_interaction(long, real_point3d const*, vector3d const*)
+//.text:00B92550 ; bool __cdecl device_allow_interaction(long, real_point3d const*, real_vector3d const*)
 //.text:00B92630 ; 
 //.text:00B92670 ; void __cdecl device_animate_overlay(long, real, real, real, real)
 //.text:00B92700 ; void __cdecl device_animate_position(long, real, real, real, real, bool)

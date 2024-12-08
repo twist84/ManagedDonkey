@@ -398,8 +398,8 @@ struct s_walker_physics_leg_block
 	c_string_id foot_marker_name;
 	byte RLTGT[0x3C]; // pad
 	c_flags<e_walker_physics_leg_flags, long, k_walker_physics_leg_flags> flags;
-	vector3d runtime_initial_origin_to_hip_offset;
-	vector3d runtime_pivot_center_to_hip_offset;
+	real_vector3d runtime_initial_origin_to_hip_offset;
+	real_vector3d runtime_pivot_center_to_hip_offset;
 	real runtime_upper_leg_length;
 	real runtime_lower_leg_length;
 	short runtime_hip_node_a_index;
@@ -410,20 +410,20 @@ struct s_walker_physics_leg_block
 	short runtime_foot_node_index;
 	short runtime_hip_node_index;
 	short runtime_knee_node_index;
-	vector3d plant_constraint_position;
+	real_vector3d plant_constraint_position;
 	byte GKX[0xC]; // pad
 };
 static_assert(sizeof(s_walker_physics_leg_block) == 0xA0);
 
 struct s_walker_physics_definition
 {
-	vector3d maximum_leg_motion;
+	real_vector3d maximum_leg_motion;
 	real maximum_turn;
 	c_typed_tag_block<s_walker_physics_leg_block> legs;
 	real leg_apex_fraction;
 	real lift_exponent;
 	real drop_exponent;
-	vector3d object_space_pivot_position;
+	real_vector3d object_space_pivot_position;
 };
 static_assert(sizeof(s_walker_physics_definition) == 0x34);
 

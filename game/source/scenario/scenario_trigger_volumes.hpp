@@ -22,8 +22,8 @@ struct scenario_trigger_volume
 	// pad
 	byte padding[2];
 
-	vector3d forward;
-	vector3d up;
+	real_vector3d forward;
+	real_vector3d up;
 	real_point3d position;
 	real_point3d extents;
 
@@ -49,14 +49,14 @@ static_assert(sizeof(scenario_trigger_volume) == 0x7C);
 struct s_real_sector_point
 {
 	real_point3d position;
-	euler_angles2d normal;
+	real_euler_angles2d normal;
 };
 static_assert(sizeof(s_real_sector_point) == 0x14);
 
 struct s_trigger_volume_triangle
 {
-	plane3d lower_plane;
-	plane3d upper_plane;
+	real_plane3d lower_plane;
+	real_plane3d upper_plane;
 	real_point2d vertex[3];
 	real_rectangle3d bounds;
 };

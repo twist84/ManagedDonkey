@@ -33,10 +33,10 @@ public:
 	}
 
 	//template<long k_angle_bits, long k_quantization_bits>
-	//void read_axes(char const* name, vector3d* forward, vector3d* up);
+	//void read_axes(char const* name, real_vector3d* forward, real_vector3d* up);
 	//
 	//template<long k_forward_angle_bits, long k_up_quantization_bits>
-	//void write_axes(char const* name, vector3d const* forward, vector3d const* up);
+	//void write_axes(char const* name, real_vector3d const* forward, real_vector3d const* up);
 
 	// functions as they appear in memory
 
@@ -48,10 +48,10 @@ public:
 	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
 	qword __cdecl read_qword(char const* name, long size_in_bits);
 	void __cdecl write_qword(char const* name, qword value, long size_in_bits);
-	static void __cdecl angle_to_axes_internal(vector3d const* up, real forward_angle, vector3d* forward);
+	static void __cdecl angle_to_axes_internal(real_vector3d const* up, real forward_angle, real_vector3d* forward);
 	void __cdecl append(c_bitstream const* stream);
-	static void __cdecl axes_compute_reference_internal(vector3d const* up, vector3d* forward_reference, vector3d* left_reference);
-	static real __cdecl axes_to_angle_internal(vector3d const* forward, vector3d const* up);
+	static void __cdecl axes_compute_reference_internal(real_vector3d const* up, real_vector3d* forward_reference, real_vector3d* left_reference);
+	static real __cdecl axes_to_angle_internal(real_vector3d const* forward, real_vector3d const* up);
 	bool __cdecl begin_consistency_check();
 	void __cdecl begin_reading();
 	void __cdecl begin_writing(long data_size_alignment);
@@ -93,8 +93,8 @@ public:
 	void __cdecl read_string(char const* name, char* _string, long max_string_size);
 	void __cdecl read_string_utf8(char const* name, char* char_string, long max_string_size);
 	void __cdecl read_string_wchar(char const* name, wchar_t* _string, long max_string_size);
-	void __cdecl read_unit_vector(char const* name, vector3d* unit_vector, long size_in_bits);
-	void __cdecl read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
+	void __cdecl read_unit_vector(char const* name, real_vector3d* unit_vector, long size_in_bits);
+	void __cdecl read_vector(char const* name, real_vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 	template<typename t_enum, long size_in_bits>
 	t_enum __cdecl read_enum(char const* name)
@@ -119,8 +119,8 @@ public:
 	void __cdecl write_string(char const* name, char const* _string, long max_string_size);
 	void __cdecl write_string_utf8(char const* name, utf8 const* _string, long max_string_size);
 	void __cdecl write_string_wchar(char const* name, wchar_t const* _string, long max_string_size);
-	void __cdecl write_unit_vector(char const* name, vector3d const* unit_vector, long size_in_bits);
-	void __cdecl write_vector(char const* name, vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
+	void __cdecl write_unit_vector(char const* name, real_vector3d const* unit_vector, long size_in_bits);
+	void __cdecl write_vector(char const* name, real_vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 	template<typename t_enum, long size_in_bits>
 	void __cdecl write_enum(char const* name, t_enum value)

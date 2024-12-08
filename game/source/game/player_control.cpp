@@ -181,7 +181,7 @@ s_player_action_context const* __cdecl player_control_get_action_context(long us
 
 //.text:005D0C00 ; long __cdecl player_control_get_aiming_unit_index(long)
 
-void __cdecl player_control_get_aiming_vector(long user_index, vector3d* aiming_vector)
+void __cdecl player_control_get_aiming_vector(long user_index, real_vector3d* aiming_vector)
 {
 	INVOKE(0x005D0C30, player_control_get_aiming_vector, user_index, aiming_vector);
 }
@@ -191,7 +191,7 @@ void __cdecl player_control_get_controller_input(long input_user_index, e_contro
 	INVOKE(0x005D0C90, player_control_get_controller_input, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 }
 
-//.text:005D29E0 ; euler_angles2d const* __cdecl player_control_get_facing_angles(long)
+//.text:005D29E0 ; real_euler_angles2d const* __cdecl player_control_get_facing_angles(long)
 //.text:005D2A10 ; real __cdecl player_control_get_field_of_view(long)
 //.text:005D2AA0 ; real __cdecl player_control_get_field_of_view_change_time(long)
 
@@ -272,7 +272,7 @@ bool __cdecl player_control_machinima_available()
 //.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(long, real, real, real, real)
 //.text:005D4350 ; s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(long)
 //.text:005D4380 ; void __cdecl player_control_output_set_unit_index(long, long)
-//.text:005D43E0 ; void __cdecl player_control_permanent_impulse(long, euler_angles2d const*)
+//.text:005D43E0 ; void __cdecl player_control_permanent_impulse(long, real_euler_angles2d const*)
 
 //void __cdecl player_control_propagate_output(long)
 void __cdecl player_control_propagate_output(long input_user_index)
@@ -296,7 +296,7 @@ void __cdecl player_control_propagate_output(long input_user_index)
 //.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, qword)
 //.text:005D46C0 ; void __cdecl player_control_set_external_action(long, s_player_action const*)
 
-void __cdecl player_control_set_facing(long input_user_index, vector3d const* facing)
+void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing)
 {
 	INVOKE(0x005D4700, player_control_set_facing, input_user_index, facing);
 }

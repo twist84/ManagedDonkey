@@ -50,7 +50,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B8AF60, c_vehicle_type_component, update_control);
 HOOK_DECLARE_CLASS_MEMBER(0x00B8B030, c_vehicle_type_component, update_physics);
 HOOK_DECLARE_CLASS_MEMBER(0x00B8B1A0, c_vehicle_type_component, vector_is_upsides_down);
 
-void c_vehicle_type_component::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void c_vehicle_type_component::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A190, c_vehicle_type_component, adjust_gravity, vehicle_index, gravity_acceleration);
 
@@ -878,7 +878,7 @@ void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicl
 	vehicle_try_to_join_local_physics(vehicle_index, instance);
 }
 
-bool c_vehicle_type_component::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool c_vehicle_type_component::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8B1A0, c_vehicle_type_component, vector_is_upsides_down, vehicle_index, vector);
 

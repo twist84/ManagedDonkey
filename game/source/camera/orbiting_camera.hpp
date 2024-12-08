@@ -12,7 +12,7 @@ public:
 	}
 
 //protected:
-	euler_angles2d m_orientation;
+	real_euler_angles2d m_orientation;
 	real m_distance;
 	real m_vertical_offset;
 	bool m_orientation_enabled;

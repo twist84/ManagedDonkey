@@ -10,7 +10,7 @@ struct c_particle :
 	{
 		real m_manual_rotation;
 		real m_animation_rate;
-		vector3d m_self_acceleration;
+		real_vector3d m_self_acceleration;
 	};
 	static_assert(sizeof(s_property_values) == 0x14);
 
@@ -24,11 +24,11 @@ struct c_particle :
 	real m_emission_time;
 	word m_random_seed[8];
 	real_point3d m_position;
-	vector3d m_velocity;
+	real_vector3d m_velocity;
 	real m_angular_velocity;
 	real m_physical_rotation;
 	real_argb_color m_initial_color;
-	vector3d m_axis;
+	real_vector3d m_axis;
 	s_property_values m_property_values;
 };
 static_assert(sizeof(c_particle) == 0x7C);

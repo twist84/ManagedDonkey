@@ -18,7 +18,7 @@ struct s_simulation_projectile_detonate_event_data
 {
 	long projectile_definition_index;
 	real_point3d position;
-	vector3d forward;
+	real_vector3d forward;
 	real damage_scale;
 	byte projectile_effect_flag;
 	bool collided_with_invalid_material;
@@ -28,7 +28,7 @@ struct s_simulation_projectile_detonate_event_data
 	byte : 8;
 	s_location location;
 
-	vector3d hit_normal;
+	real_vector3d hit_normal;
 	long player_index0; // from?
 	long player_index1; // to?
 };
@@ -39,9 +39,9 @@ struct s_simulation_projectile_impact_effect_event_data
 	long projectile_definition_index;
 	real material_effect_scale;
 	real material_effect_error;
-	vector3d impact_direction_normal;
+	real_vector3d impact_direction_normal;
 	real_point3d position;
-	vector3d collision_plane_normal;
+	real_vector3d collision_plane_normal;
 	long material_index;
 	bool from_impact;
 };

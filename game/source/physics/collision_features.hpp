@@ -40,7 +40,7 @@ struct collision_cylinder
 	byte breakable_surface_index;
 	short material_index;
 	real_point3d base;
-	vector3d height;
+	real_vector3d height;
 	real width;
 };
 static_assert(sizeof(collision_cylinder) == 0x30);
@@ -55,7 +55,7 @@ struct collision_prism
 	byte_flags flags; // e_surface_flags
 	byte breakable_surface_index;
 	short material_index;
-	plane3d plane;
+	real_plane3d plane;
 	real height;
 	short projection_axis;
 	byte projection_sign;
@@ -87,7 +87,7 @@ struct collision_plane
 	short material_index;
 	real t;
 	real_point3d point;
-	plane3d plane;
+	real_plane3d plane;
 };
 static_assert(sizeof(collision_plane) == 0x30);
 

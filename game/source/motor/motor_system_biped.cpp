@@ -13,8 +13,8 @@
 
 HOOK_DECLARE(0x00BAE400, biped_falling_damage);
 
-//.text:00BAD3B0 ; void __cdecl biped_adjust_aiming(long, euler_angles2d*, real*, real*)
-//.text:00BADC30 ; void __cdecl biped_build_axes_from_desired_facing(vector3d const*, vector3d const*, vector3d const*, vector3d*)
+//.text:00BAD3B0 ; void __cdecl biped_adjust_aiming(long, real_euler_angles2d*, real*, real*)
+//.text:00BADC30 ; void __cdecl biped_build_axes_from_desired_facing(real_vector3d const*, real_vector3d const*, real_vector3d const*, real_vector3d*)
 //.text:00BAE000 ; double __cdecl biped_calculate_crouch_delta(long)
 
 bool __cdecl biped_calculate_crouch_velocity_delta(long biped_index, real* crouch_velocity_delta)
@@ -48,7 +48,7 @@ void __cdecl biped_falling_damage(long biped_index)
 
 	if (!game_is_multiplayer() && biped->object.parent_object_index == NONE)
 	{
-		vector3d linear_velocity{};
+		real_vector3d linear_velocity{};
 		object_get_velocities(biped_index, &linear_velocity, NULL);
 
 		real k = linear_velocity.k;
@@ -56,8 +56,8 @@ void __cdecl biped_falling_damage(long biped_index)
 		if (TEST_BIT(motor_state_flags, 0) && biped_calculate_crouch_velocity_delta(biped_index, &crouch_velocity_delta))
 			k -= crouch_velocity_delta;
 
-		vector3d linear_local_space_velocity{};
-		vector3d angular_local_space_velocity{};
+		real_vector3d linear_local_space_velocity{};
+		real_vector3d angular_local_space_velocity{};
 		if (object_get_early_mover_local_space_velocity(biped_index, &linear_local_space_velocity, &angular_local_space_velocity, false, false))
 			k -= linear_local_space_velocity.k;
 
@@ -96,17 +96,17 @@ void __cdecl biped_falling_damage(long biped_index)
 	}
 }
 
-//.text:00BAE600 ; void __cdecl biped_get_control_vectors(long, bool, vector3d*, vector3d*, vector3d*)
+//.text:00BAE600 ; void __cdecl biped_get_control_vectors(long, bool, real_vector3d*, real_vector3d*, real_vector3d*)
 //.text:00BAE8D0 ; double __cdecl biped_get_player_specific_scale(long)
 //.text:00BAE9D0 ; void __cdecl biped_ground_plane_fix_transform_from_physics(long, real_matrix4x3*)
 //.text:00BAED40 ; void __cdecl biped_ground_plane_fix_transform_to_physics(long, real_matrix4x3*)
 //.text:00BAF0C0 ; void __cdecl biped_initialize_character_physics_move_input(long, s_character_physics_move_input_datum*, bool, bool, bool, bool, bool)
 //.text:00BAF280 ; void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum*, bool, bool, real, bool, bool)
-//.text:00BAF990 ; void __cdecl biped_move_calculate_controlled_by_aiming(long, vector3d const*, vector3d const*, vector3d const*, bool, vector3d*, short*)
+//.text:00BAF990 ; void __cdecl biped_move_calculate_controlled_by_aiming(long, real_vector3d const*, real_vector3d const*, real_vector3d const*, bool, real_vector3d*, short*)
 //.text:00BB01B0 ; void __cdecl biped_physics_update_crouch(long, s_character_physics_update_output_datum*, bool*)
-//.text:00BB0790 ; void __cdecl biped_set_forward_vector(long, vector3d const*)
+//.text:00BB0790 ; void __cdecl biped_set_forward_vector(long, real_vector3d const*)
 //.text:00BB08A0 ; void __cdecl biped_snap_facing_to_desired_facing(long)
-//.text:00BB08E0 ; void __cdecl biped_update_desired_facing(long, bool, short*, vector3d*, bool*)
+//.text:00BB08E0 ; void __cdecl biped_update_desired_facing(long, bool, short*, real_vector3d*, bool*)
 //.text:00BB0B90 ; void __cdecl biped_update_pathfinding_cache(long, s_character_physics_move_output_datum const*)
 //.text:00BB0D60 ; 
 //.text:00BB0D70 ; public: class c_animation_id __cdecl c_animation_manager::get_active_animation_id() const

@@ -31,9 +31,9 @@ bool debug_objects_pendulum = false;
 //.text:00B6B160 ; bool __cdecl biped_bring_ragdoll_inside_world(long, bool, real_point3d const*, real)
 //.text:00B6B260 ; bool __cdecl biped_bring_ragdoll_inside_world_recursive(long, bool, real_point3d const*, real, c_runtime_node_to_havok_component_rigid_body_index_mapping const*, dword*, long, bool)
 //.text:00B6B3A0 ; bool __cdecl biped_bring_rigid_body_to_safe_position(long, bool, real_point3d const*, real, long, long, long, bool)
-//.text:00B6B770 ; void __cdecl biped_build_2d_camera_frame(vector3d const*, vector3d const*, vector2d*, vector2d*)
+//.text:00B6B770 ; void __cdecl biped_build_2d_camera_frame(real_vector3d const*, real_vector3d const*, real_vector2d*, real_vector2d*)
 
-void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d const* old_velocity)
+void __cdecl biped_bumped_object(long biped_index, long object_index, real_vector3d const* old_velocity)
 {
 	//INVOKE(0x00B6B8F0, biped_bumped_object, biped_index, object_index, linear_velocity);
 
@@ -102,12 +102,12 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d c
 
 //.text:00B6BA60 ; long __cdecl biped_calculate_better_melee_target(long, long, long)
 //.text:00B6BDA0 ; bool __cdecl biped_calculate_invisible_crouched_z_offset(long, real*)
-//.text:00B6BE30 ; bool __cdecl biped_calculate_melee_aiming(long, vector3d*)
-//.text:00B6C1E0 ; void __cdecl biped_calculate_melee_target_parameters(long, long, vector3d const*, s_biped_melee_target_parameters*)
+//.text:00B6BE30 ; bool __cdecl biped_calculate_melee_aiming(long, real_vector3d*)
+//.text:00B6C1E0 ; void __cdecl biped_calculate_melee_target_parameters(long, long, real_vector3d const*, s_biped_melee_target_parameters*)
 //.text:00B6C840 ; real __cdecl biped_calculate_animated_jump_z_offset_per_tick()
 //.text:00B6C870 ; bool __cdecl biped_can_trade_weapon_with_player(long, long)
 //.text:00B6CAE0 ; bool __cdecl biped_compute_function_value(long, long, long, real*, bool*, bool*)
-//.text:00B6CC70 ; void __cdecl biped_compute_lean(long, real_point3d*, vector3d*, vector3d*)
+//.text:00B6CC70 ; void __cdecl biped_compute_lean(long, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00B6CE70 ; void __cdecl biped_dash(long, long, long, bool)
 //.text:00B6D010 ; long __cdecl biped_dash_time_to_target(long)
 //.text:00B6D0D0 ; void __cdecl biped_delete(long)
@@ -119,17 +119,17 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d c
 //.text:00B6D370 ; void __cdecl biped_enter_default_physics(long)
 //.text:00B6D440 ; void __cdecl biped_enter_flying_physics(long)
 //.text:00B6D480 ; void __cdecl biped_enter_ground_physics(long)
-//.text:00B6D4C0 ; void __cdecl biped_enter_posture_physics(long, real_point3d const*, vector3d const*, real_matrix4x3 const*)
+//.text:00B6D4C0 ; void __cdecl biped_enter_posture_physics(long, real_point3d const*, real_vector3d const*, real_matrix4x3 const*)
 //.text:00B6D620 ; void __cdecl biped_exit_invisible_crouched_animated_jump(long)
 //.text:00B6D780 ; void __cdecl biped_exit_seat_end(long, long)
 //.text:00B6D850 ; bool __cdecl biped_fell_to_death(long)
 //.text:00B6D890 ; void __cdecl biped_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, dword*)
-//.text:00B6DAE0 ; bool __cdecl biped_find_surface(long, long, long, real, real_point3d const*, vector3d const*, real_point3d*, vector3d*, short*, long*, long*, long*, dword*)
+//.text:00B6DAE0 ; bool __cdecl biped_find_surface(long, long, long, real, real_point3d const*, real_vector3d const*, real_point3d*, real_vector3d*, short*, long*, long*, long*, dword*)
 //.text:00B6DCB0 ; bool __cdecl biped_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real, real, bool, bool)
 //.text:00B6DD20 ; void __cdecl biped_fix_position_to_pill(long, real_point3d*, real)
 //.text:00B6E040 ; void __cdecl biped_force_ground_fitting_on(long, bool)
 
-void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* autoaim_width)
+void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width)
 {
 	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, autoaim_width);
 }
@@ -139,7 +139,7 @@ void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector
 //.text:00B6E360 ; real __cdecl biped_get_desired_camera_height(long)
 //.text:00B6E3D0 ; real __cdecl biped_get_gravity_scale(long)
 //.text:00B6E450 ; void __cdecl biped_get_melee_target_physics_pill(long, real_point3d*, real*, real*)
-//.text:00B6E510 ; bool __cdecl biped_get_movement_ground_direction(long, real_point3d*, vector3d*)
+//.text:00B6E510 ; bool __cdecl biped_get_movement_ground_direction(long, real_point3d*, real_vector3d*)
 //.text:00B6E780 ; c_character_physics_component::e_mode __cdecl biped_get_movement_type(long)
 //.text:00B6E7C0 ; real __cdecl biped_get_physics_model_node_matrix_z_offset(long)
 
@@ -151,7 +151,7 @@ void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, re
 //.text:00B6E850 ; void __cdecl biped_get_physics_pill_from_definition(long, real_point3d*, real*, real*)
 //.text:00B6E950 ; real __cdecl biped_get_physics_pill_height(long)
 
-void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity)
+void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, real_vector3d* velocity)
 {
 	INVOKE(0x00B6E9C0, biped_get_sentinel_animation_node_position_and_velocity, biped_index, position, velocity);
 }
@@ -163,12 +163,12 @@ void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_
 // 4: aiming_standing
 // 5: aiming_crouching
 // 6: count
-void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, vector3d const* a5, vector3d const* desired_facing_vector, vector3d const* desired_gun_offset, real_point3d* camera_position)
+void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, real_vector3d const* a5, real_vector3d const* desired_facing_vector, real_vector3d const* desired_gun_offset, real_point3d* camera_position)
 {
 	INVOKE(0x00B6EB80, biped_get_sight_position, biped_index, estimate_mode, offset_camera, estimated_body_position, a5, desired_facing_vector, desired_gun_offset, camera_position);
 }
 
-//.text:00B6F430 ; bool __cdecl biped_get_velocity_from_root_movement(long, vector3d*, vector3d*)
+//.text:00B6F430 ; bool __cdecl biped_get_velocity_from_root_movement(long, real_vector3d*, real_vector3d*)
 //.text:00B6F560 ; void __cdecl biped_handle_deleted_object(long, long)
 //.text:00B6F5E0 ; void __cdecl biped_handle_footfall_events(long, s_animation_event_data const*)
 //.text:00B6F750 ; void __cdecl biped_impulse_vehicle_seat(long, e_biped_seat_impulse_type)
@@ -191,7 +191,7 @@ bool __cdecl biped_in_airborne_state(long biped_index)
 //.text:00B70230 ; bool __cdecl biped_new(long, object_placement_data*, bool*)
 //.text:00B70390 ; void __cdecl biped_notify_deactivated(long)
 //.text:00B70420 ; void __cdecl biped_notify_early_mover_deleted(long)
-//.text:00B70490 ; void __cdecl biped_offset_first_person_camera(long, real_point3d*, vector3d const*, vector3d const*)
+//.text:00B70490 ; void __cdecl biped_offset_first_person_camera(long, real_point3d*, real_vector3d const*, real_vector3d const*)
 //.text:00B70720 ; void __cdecl biped_offset_following_camera_position(long, real_point3d*)
 //.text:00B707B0 ; void __cdecl biped_pill_clear_obstacle(long, long)
 //.text:00B70A90 ; void __cdecl biped_place(long, s_scenario_biped*)
@@ -210,7 +210,7 @@ void __cdecl biped_render_debug(long biped_index)
 	if (debug_objects_physics_control_node)
 	{
 		real_point3d position{};
-		vector3d velocity{};
+		real_vector3d velocity{};
 		biped_get_sentinel_animation_node_position_and_velocity(biped_index, &position, &velocity);
 
 		real_point3d point1 = position;
@@ -226,7 +226,7 @@ void __cdecl biped_render_debug(long biped_index)
 	if (debug_objects_biped_autoaim_pills)
 	{
 		real_point3d base{};
-		vector3d height{};
+		real_vector3d height{};
 		real autoaim_width = 0.0f;
 
 		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
@@ -246,7 +246,7 @@ void __cdecl biped_render_debug(long biped_index)
 		biped_datum* biped = biped_get(biped_index);
 
 		real_point3d base{};
-		vector3d height{};
+		real_vector3d height{};
 		real autoaim_width = 0.0f;
 
 		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
@@ -301,7 +301,7 @@ void __cdecl biped_render_debug(long biped_index)
 //.text:00B71030 ; void __cdecl biped_reset_interpolators(long)
 //.text:00B710B0 ; void __cdecl biped_reset_pathfinding_location(long)
 //.text:00B71130 ; void __cdecl biped_save_node_matrices(long)
-//.text:00B71210 ; void __cdecl biped_sentinel_physics_translate_origin(long, vector3d const*, bool)
+//.text:00B71210 ; void __cdecl biped_sentinel_physics_translate_origin(long, real_vector3d const*, bool)
 //.text:00B712C0 ; void __cdecl biped_set_gravity_scale(long, real)
 //.text:00B71300 ; void __cdecl biped_setup_mixing_board(c_animation_manager*)
 //.text:00B71340 ; bool __cdecl biped_should_override_deactivation(long)
@@ -442,7 +442,7 @@ void biped_update_jetpack(long biped_index)
 	if (!TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
 		return;
 
-	vector3d linear_velocity{};
+	real_vector3d linear_velocity{};
 	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_bit))
 	{
 		// freeze velocity and adjust for gravity

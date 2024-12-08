@@ -54,7 +54,7 @@ struct collision_result
 	c_collision_bsp_reference collision_bsp_reference;
 	c_global_material_type material_type;
 	byte __pad22[0x2];
-	plane3d plane;
+	real_plane3d plane;
 	long instanced_geometry_instance_index;
 	long object_index;
 	short region_index;
@@ -77,7 +77,7 @@ static_assert(sizeof(collision_result) == 0x5C);
 struct collision_bsp_test_vector_result
 {
 	real t;
-	plane3d const* plane;
+	real_plane3d const* plane;
 	long leaf_index;
 	long surface_index;
 	long plane_index;
@@ -125,13 +125,13 @@ struct collision_feature_list;
 struct collision_plane;
 
 extern bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real_point3d const* point, real radius, real height, real width, long ignore_object_index, long a7, collision_feature_list* features);
-extern short __cdecl collision_move_pill(s_collision_test_flags flags, real_point3d const* old_position, vector3d const* old_velocity, real height, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
-extern short __cdecl collision_move_point(real_point3d const* old_position, vector3d const* old_velocity, collision_feature_list const* features, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
-extern short __cdecl collision_move_sphere(s_collision_test_flags flags, real_point3d const* old_position, vector3d const* old_velocity, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
+extern short __cdecl collision_move_pill(s_collision_test_flags flags, real_point3d const* old_position, real_vector3d const* old_velocity, real height, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, real_vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
+extern short __cdecl collision_move_point(real_point3d const* old_position, real_vector3d const* old_velocity, collision_feature_list const* features, real_point3d* new_position, real_vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
+extern short __cdecl collision_move_sphere(s_collision_test_flags flags, real_point3d const* old_position, real_vector3d const* old_velocity, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, real_vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions);
 extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index);
 extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index, e_collision_result_type* collision_result_type);
 extern bool __cdecl collision_test_sphere(long structure_bsp_index, s_collision_test_flags flags, real_point3d const* center, real radius, long a5, long a6);
 extern bool __cdecl collision_test_sphere(s_collision_test_flags flags, real_point3d const* center, real radius, long a4, long a5);
-extern bool __cdecl collision_test_vector(s_collision_test_flags flags, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision);
-extern bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, long third_ignore_object_index, collision_result* collision);
+extern bool __cdecl collision_test_vector(s_collision_test_flags flags, real_point3d const* point, real_vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision);
+extern bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_point3d const* point, real_vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, long third_ignore_object_index, collision_result* collision);
 

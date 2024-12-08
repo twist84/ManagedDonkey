@@ -29,7 +29,7 @@ enum e_effect_pass
 struct s_effect_vector
 {
 	real_point3d position;
-	vector3d direction;
+	real_vector3d direction;
 	c_string_id name;
 };
 static_assert(sizeof(s_effect_vector) == 0x1C);
@@ -46,7 +46,7 @@ struct effect_datum :
 	union { long scale_a_function_reference; byte scale_a_index; };
 	union { long scale_b_function_reference; byte scale_b_index; };
 	s_location location;
-	vector3d velocity;
+	real_vector3d velocity;
 	long object_index;
 	s_damage_owner damage_owner;
 	s_damage_reporting_info damage_reporting_info;
@@ -63,7 +63,7 @@ struct effect_datum :
 	real death_delay;
 	dword random_seed;
 	long breakable_surface_event_index;
-	plane3d location_constraint_plane;
+	real_plane3d location_constraint_plane;
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
@@ -147,9 +147,9 @@ struct s_geometry_sample
 	real m_light_probe_r[36];
 	real m_light_probe_g[36];
 	real m_light_probe_b[36];
-	vector3d m_diffuse;
-	vector3d m_normal;
-	vector3d m_dominant_light_dir;
+	real_vector3d m_diffuse;
+	real_vector3d m_normal;
+	real_vector3d m_dominant_light_dir;
 	real_rgb_color m_dominant_light_intensity;
 	real m_dominant_light_contrast;
 	bool m_needs_interpolation;
@@ -173,7 +173,7 @@ extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_z
 extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
 extern bool __cdecl dangerous_effects_near_player();
 extern void __cdecl effect_render(long effect_index, long user_index);
-extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, vector3d const* forward, vector3d const* normal, long match_all_markers, long effect_deterministic, plane3d const* plane, s_cluster_reference* cluster_reference);
+extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* normal, long match_all_markers, long effect_deterministic, real_plane3d const* plane, s_cluster_reference* cluster_reference);
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();
 extern void __cdecl effects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);

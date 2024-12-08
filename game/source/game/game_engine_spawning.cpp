@@ -55,7 +55,7 @@ bool __cdecl game_engine_should_spawn_player(long player_index)
 //.text:006D1090 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_infection_safe_zone_zombie_spawn_influence_try_and_get();
 //.text:006D10F0 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_koth_hill_spawn_influence_try_and_get();
 //.text:006D1190 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_oddball_spawn_influence_try_and_get();
-//.text:006D1290 ; s_projectile_spawn_influence const* __cdecl game_engine_projectile_spawn_influence_try_and_get(long object_index, vector3d* translational_velocity);
+//.text:006D1290 ; s_projectile_spawn_influence const* __cdecl game_engine_projectile_spawn_influence_try_and_get(long object_index, real_vector3d* translational_velocity);
 //.text:006D1370 ; s_player_spawn_influence const* __cdecl game_engine_selected_ally_bias_spawn_influence_try_and_get();
 //.text:006D13D0 ; void __cdecl game_engine_spawn_influence_add_equipment_influence(player_datum const* player, s_dynamic_spawn_influencer_collection* spawn_influencer_collection);
 //.text:006D14D0 ; void __cdecl game_engine_spawn_influence_add_netgame_goal_object_influence(long player_index, player_datum const* player, s_dynamic_spawn_influencer_collection* spawn_influencer_collection);
@@ -85,7 +85,7 @@ bool __cdecl game_engine_should_spawn_player(long player_index)
 //.text:006D2840 ; void __cdecl game_engine_spawn_influencers_update();
 //.text:006D2940 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_territories_ally_spawn_influence_try_and_get();
 //.text:006D29A0 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_territories_enemy_spawn_influence_try_and_get();
-//.text:006D2A00 ; s_vehicle_spawn_influence const* __cdecl game_engine_vehicle_spawn_influence_try_and_get(long object_index, vector3d* translational_velocity, real* bounding_sphere_radius);
+//.text:006D2A00 ; s_vehicle_spawn_influence const* __cdecl game_engine_vehicle_spawn_influence_try_and_get(long object_index, real_vector3d* translational_velocity, real* bounding_sphere_radius);
 //.text:006D2B80 ; s_netgame_goal_spawn_influence const* __cdecl game_engine_vip_spawn_influence_try_and_get();
 //.text:006D2BE0 ; s_weapon_spawn_influence const* __cdecl game_engine_weapon_spawn_influence_try_and_get(long object_index);
 

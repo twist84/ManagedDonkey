@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-void __cdecl matrix4x3_rotation_from_vectors(real_matrix4x3* matrix, vector3d const* forward, vector3d const* up)
+void __cdecl matrix4x3_rotation_from_vectors(real_matrix4x3* matrix, real_vector3d const* forward, real_vector3d const* up)
 {
 	matrix->scale = 1.0f;
 	matrix->forward = *forward;
@@ -13,7 +13,7 @@ void __cdecl matrix4x3_rotation_from_vectors(real_matrix4x3* matrix, vector3d co
 	set_real_point3d(&matrix->position, 0.0f, 0.0f, 0.0f);
 }
 
-void __cdecl matrix4x3_from_point_and_vectors(real_matrix4x3* matrix, real_point3d const* point, vector3d const* forward, vector3d const* up)
+void __cdecl matrix4x3_from_point_and_vectors(real_matrix4x3* matrix, real_point3d const* point, real_vector3d const* forward, real_vector3d const* up)
 {
 	ASSERT(point);
 
@@ -21,7 +21,7 @@ void __cdecl matrix4x3_from_point_and_vectors(real_matrix4x3* matrix, real_point
 	matrix->position = *point;
 }
 
-vector3d* __cdecl matrix4x3_transform_vector(real_matrix4x3 const* matrix, vector3d const* in_vector, vector3d* out_vector)
+real_vector3d* __cdecl matrix4x3_transform_vector(real_matrix4x3 const* matrix, real_vector3d const* in_vector, real_vector3d* out_vector)
 {
 	real forward = in_vector->n[0];
 	real left = in_vector->n[1];
@@ -123,7 +123,7 @@ void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* out
 	out_matrix->position.z = ((negative_x * out_matrix->forward.k) + (negative_y * out_matrix->left.k)) + (negative_z * out_matrix->up.k);
 }
 
-vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, vector3d const* vector, vector3d* out_vector)
+real_vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, real_vector3d const* vector, real_vector3d* out_vector)
 {
 	out_vector->i = ((vector->i * matrix->forward.i) + (vector->j * matrix->left.i)) + (vector->k * matrix->up.i);
 	out_vector->j = ((vector->i * matrix->forward.j) + (vector->j * matrix->left.j)) + (vector->k * matrix->up.j);
@@ -132,10 +132,10 @@ vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, vecto
 	return out_vector;
 }
 
-plane3d* __cdecl matrix4x3_transform_plane(real_matrix4x3 const* matrix, plane3d const* plane, plane3d* out_plane)
+real_plane3d* __cdecl matrix4x3_transform_plane(real_matrix4x3 const* matrix, real_plane3d const* plane, real_plane3d* out_plane)
 {
 	matrix4x3_transform_normal(matrix, &plane->n, &out_plane->n);
-	out_plane->d = (matrix->scale * plane->d) + dot_product3d((vector3d*)&matrix->position, &out_plane->n);
+	out_plane->d = (matrix->scale * plane->d) + dot_product3d((real_vector3d*)&matrix->position, &out_plane->n);
 
 	return out_plane;
 }

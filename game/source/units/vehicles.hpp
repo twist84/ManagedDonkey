@@ -44,7 +44,7 @@ struct _vehicle_datum
 	c_animation_id acceleration_animation_id[3];
 	real driver_force_position;
 	real driver_force_scale;
-	vector3d auto_aiming_vector;
+	real_vector3d auto_aiming_vector;
 	real_point3d last_soft_ceiling_update_position;
 	object_header_block_reference vehicle_physics_cache;
 };

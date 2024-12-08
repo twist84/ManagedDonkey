@@ -57,14 +57,14 @@ void __cdecl object_early_movers_initialize_for_new_map()
 	INVOKE(0x00B98A90, object_early_movers_initialize_for_new_map);
 }
 
-//.text:00B98AD0 ; bool __cdecl object_get_early_mover_local_space_acceleration(long, real_point3d const*, vector3d*, vector3d*, bool, bool)
+//.text:00B98AD0 ; bool __cdecl object_get_early_mover_local_space_acceleration(long, real_point3d const*, real_vector3d*, real_vector3d*, bool, bool)
 
-bool __cdecl object_get_early_mover_local_space_velocity(long object_index, vector3d* linear_local_space_velocity, vector3d* angular_local_space_velocity, bool a4, bool a5)
+bool __cdecl object_get_early_mover_local_space_velocity(long object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5)
 {
 	return INVOKE(0x00B98CF0, object_get_early_mover_local_space_velocity, object_index, linear_local_space_velocity, angular_local_space_velocity, a4, a5);
 }
 
-//.text:00B98D30 ; bool __cdecl object_get_early_mover_local_space_velocity(long, real_point3d const*, vector3d*, vector3d*, bool, bool)
+//.text:00B98D30 ; bool __cdecl object_get_early_mover_local_space_velocity(long, real_point3d const*, real_vector3d*, real_vector3d*, bool, bool)
 
 void __cdecl object_get_early_movers(long const** object_early_movers, long* object_early_movers_count)
 {

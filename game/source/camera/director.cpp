@@ -256,7 +256,7 @@ void __cdecl director_render()
 			c_rasterizer_draw_string draw_string;
 			c_font_cache_mt_safe font_cache;
 
-			euler_angles2d facing{};
+			real_euler_angles2d facing{};
 			euler_angles2d_from_vector3d(&facing, &camera->forward);
 			if (facing.yaw < 0.0f)
 				facing.yaw += TWO_PI;
@@ -568,7 +568,7 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 	return result || force_update;
 }
 
-//.text:005934A0 ; void __cdecl c_camera::set_forward(vector3d const*)
+//.text:005934A0 ; void __cdecl c_camera::set_forward(real_vector3d const*)
 //.text:005934B0 ; void __cdecl c_camera::set_position(real_point3d const*)
 //.text:005934C0 ; void __cdecl c_camera::set_roll(real)
 //.text:005934D0 ; void __cdecl c_director::set_watched_player(long)
@@ -581,7 +581,7 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 
 //.text:007215C0 ; c_game_director::c_game_director(long)
 //.text:007215F0 ; c_game_director::c_game_director()
-//.text:00721610 ; e_director_perspective __cdecl director_game_camera_deterministic(long, real_point3d*, vector3d*)
+//.text:00721610 ; e_director_perspective __cdecl director_game_camera_deterministic(long, real_point3d*, real_vector3d*)
 //.text:00721660 ; bool __cdecl c_game_director::dead_camera_should_switch_to_orbiting(long, long)
 //.text:00721910 ; e_director_mode __cdecl c_game_director::get_type() const
 //.text:00721920 ; bool __cdecl c_game_director::inhibits_facing() const
@@ -680,7 +680,7 @@ void director_toggle_camera(long user_index, e_camera_mode camera_mode)
 	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
 }
 
-void __cdecl director_set_flying_camera_direct(long user_index, real_point3d const* position, vector3d const* forward, vector3d const* up)
+void __cdecl director_set_flying_camera_direct(long user_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up)
 {
 	if (user_index == NONE)
 		return;
@@ -695,10 +695,10 @@ void __cdecl director_set_flying_camera_direct(long user_index, real_point3d con
 	flying_camera->set_position(position);
 	flying_camera->set_forward(forward);
 
-	vector3d up_from_forward{};
+	real_vector3d up_from_forward{};
 	generate_up_vector3d(forward, &up_from_forward);
 	real roll = angle_between_vectors3d(up, &up_from_forward);
-	vector3d product3d;
+	real_vector3d product3d;
 	cross_product3d(up, &up_from_forward, &product3d);
 	if (dot_product3d(&product3d, forward) > 0.0f)
 		roll = -roll;
@@ -790,8 +790,8 @@ void director_load_camera_named(char const* name)
 	}
 
 	real_point3d position{};
-	vector3d forward{};
-	vector3d up{};
+	real_vector3d forward{};
+	real_vector3d up{};
 	real field_of_view;
 
 	fscanf_s(file, "%f %f %f\n", &position.x, &position.y, &position.z);

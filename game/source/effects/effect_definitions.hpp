@@ -133,7 +133,7 @@ struct effect_part_definition
 	// initial velocity along the location's forward, for decals the distance at which decal is created (defaults to 0.5)
 	real_bounds velocity_bounds; // world units per second
 
-	euler_angles2d velocity_orientation; // yaw, pitch
+	real_euler_angles2d velocity_orientation; // yaw, pitch
 
 	// initial velocity will be inside the cone defined by this angle.
 	angle velocity_cone_angle; // degrees
@@ -141,7 +141,7 @@ struct effect_part_definition
 	angle_bounds angular_velocity_bounds; // degrees per second
 	real_bounds radius_modifier_bounds;
 	real_point3d relative_offset;
-	euler_angles2d relative_orientation; // yaw, pitch
+	real_euler_angles2d relative_orientation; // yaw, pitch
 
 	// SCALE MODIFIERS
 	c_flags<e_effect_part_scaleable_values, dword, k_effect_part_scaleable_values> A_scale_value;

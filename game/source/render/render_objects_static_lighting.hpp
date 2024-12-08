@@ -23,7 +23,7 @@ static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
 
 struct render_lighting
 {
-	vector3d shadow_direction;
+	real_vector3d shadow_direction;
 	s_geometry_sample lightprobe_sample;
 	c_dynamic_cubemap_sample cubemap_state;
 	long cinematic_sh_light_index;
@@ -43,7 +43,7 @@ struct s_shader_extern_info
 	byte active_camo_amount;
 	byte overshield_amount;
 	byte current_shield_damage;
-	vector4d bounding_sphere;
+	real_vector4d bounding_sphere;
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
 	c_rasterizer_texture_ref emblem_clan_chest_texture;
 };

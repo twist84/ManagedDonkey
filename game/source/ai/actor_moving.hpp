@@ -34,7 +34,7 @@ struct c_destination_orders
 	real m_scripted_goal_throttle;
 	real m_destination_tolerance;
 	real m_raw_path_destination_tolerance;
-	vector3d m_destination_facing;
+	real_vector3d m_destination_facing;
 	c_ai_action m_destination_action;
 };
 static_assert(sizeof(c_destination_orders) == 0x68);

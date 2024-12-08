@@ -136,7 +136,7 @@ public:
 
 protected:
 	byte __data298[0xD54];
-	vector4d m_light_draw_list[40];
+	real_vector4d m_light_draw_list[40];
 	real m_light_intensity_scale;
 };
 static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
@@ -276,8 +276,8 @@ public:
 	struct
 	{
 		real_point3d position;
-		vector3d forward;
-		vector3d up;
+		real_vector3d forward;
+		real_vector3d up;
 		real game_time;
 		real_matrix4x3 view_matrix;
 		real projection_matrix[4][4];

@@ -59,7 +59,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 							if (area_ref.area_index >= 0 && area_ref.area_index < zone.areas.count)
 							{
 								area_definition& area_def = zone.areas[area_ref.area_index];
-								add_vectors3d((vector3d*)&point, (vector3d*)&area_def.runtime_relative_mean_point, (vector3d*)&point);
+								add_vectors3d((real_vector3d*)&point, (real_vector3d*)&area_def.runtime_relative_mean_point, (real_vector3d*)&point);
 								zone_area_count++;
 							}
 						}
@@ -67,7 +67,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 
 					if (zone_area_count > 0)
 					{
-						scale_vector3d((vector3d*)&point, 1.0f / zone_area_count, (vector3d*)&point);
+						scale_vector3d((real_vector3d*)&point, 1.0f / zone_area_count, (real_vector3d*)&point);
 						render_debug_line(true, position, &point, global_real_argb_yellow);
 					}
 				}

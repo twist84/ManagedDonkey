@@ -170,7 +170,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A7F0 ; 
 //.text:00A8A830 ; 
 //.text:00A8A860 ; 
-//.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, vector3d const*, real, short, real, real, real, real_argb_color*)
+//.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, real_vector3d const*, real, short, real, real, real, real_argb_color*)
 
 //void __cdecl chud_submit_navpoint(long user_index, c_chud_navpoint const* navpoint)
 void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)

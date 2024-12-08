@@ -51,8 +51,8 @@ struct prop_state
 	long last_update_time;
 	real_point3d body_position;
 	real_point3d center_of_mass;
-	vector3d velocity;
-	vector3d aiming;
+	real_vector3d velocity;
+	real_vector3d aiming;
 	s_location body_location;
 	real_point3d head_position;
 	long vehicle_index;
@@ -119,7 +119,7 @@ struct prop_view
 	long last_visible_time;
 	long first_sighted_time;
 	c_ai_point3d last_visible_position;
-	vector3d actor_to_prop;
+	real_vector3d actor_to_prop;
 	char quantized_facing;
 	long last_unreachable_time;
 	long unassailable_reset_time;
@@ -132,7 +132,7 @@ struct prop_view
 	short orphan_los;
 	short orphan_lifespan_ticks;
 	short orphan_inspection_ticks;
-	vector3d orphan_hint_vector;
+	real_vector3d orphan_hint_vector;
 	short ticks_until_orphan;
 	long orphaned_time;
 	real_point3d last_new_position;

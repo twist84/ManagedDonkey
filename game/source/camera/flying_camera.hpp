@@ -45,7 +45,7 @@ public:
 	};
 
 	real_point3d m_position;
-	euler_angles2d m_orientation;
+	real_euler_angles2d m_orientation;
 	real m_roll;
 	real m_time_boosting;
 	real m_time_moving_vertical;

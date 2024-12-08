@@ -17,8 +17,8 @@ void sector_link_render_debug(long link_index, pathfinding_data const* pf_data, 
 		sector_vertex& vertex2 = pf_data->vertices[link.index2];
 		real_point3d center{};
 
-		add_vectors3d((vector3d*)&vertex1.point, (vector3d*)&vertex2.point, (vector3d*)&center);
-		scale_vector3d((vector3d*)&center, 0.5f, (vector3d*)&center);
+		add_vectors3d((real_vector3d*)&vertex1.point, (real_vector3d*)&vertex2.point, (real_vector3d*)&center);
+		scale_vector3d((real_vector3d*)&center, 0.5f, (real_vector3d*)&center);
 
 		if (!color)
 		{

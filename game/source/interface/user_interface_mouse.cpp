@@ -48,7 +48,7 @@ void user_interface_mouse_update()
 
 void widget_bounds_from_window_bounds(real_rectangle2d const* window_bounds, real_rectangle2d* widget_bounds)
 {
-	vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
+	real_vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
 
 	real bounds_x = window_bounds->x1 - window_bounds->x0;
 	real bounds_y = window_bounds->y1 - window_bounds->y0;

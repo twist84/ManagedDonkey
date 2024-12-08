@@ -128,10 +128,10 @@ void render_debug_structure_decals()
 			ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count));
 			structure_cluster& cluster = bsp->clusters[scenario_cluster.cluster_index];
 
-			matrix3x3 matrix{};
+			real_matrix3x3 matrix{};
 			matrix3x3_rotation_from_quaternion(&matrix, &runtime_decal.rotation);
 
-			vector3d vector{};
+			real_vector3d vector{};
 			scale_vector3d(&vector, -1.0f, &matrix.up);
 
 			real_point3d* position = &runtime_decal.position;

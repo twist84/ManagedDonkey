@@ -19,7 +19,7 @@ struct s_sound_listener
 	byte __unknownA;
 	byte __unknownB;
 	real_matrix4x3 matrix;
-	vector3d velocity;
+	real_vector3d velocity;
 	tag footer_signature;
 };
 static_assert(sizeof(s_sound_listener) == 0x50);

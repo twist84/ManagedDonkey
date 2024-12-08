@@ -544,15 +544,15 @@ void render_debug_trigger_volumes()
 		real_matrix4x3 matrix{};
 		if (trigger_volume_get_matrix(&trigger_volume, &matrix))
 		{
-			vector3d extents = *(vector3d*)&trigger_volume.extents;
-			vector3d world_extent{};
+			real_vector3d extents = *(real_vector3d*)&trigger_volume.extents;
+			real_vector3d world_extent{};
 			matrix4x3_transform_vector(&matrix, &extents, &world_extent);
 
 			for (long i = 0; i < 6; i++)
 			{
 				real_point3d sides[4]{};
-				vector3d v23{};
-				vector3d v24{};
+				real_vector3d v23{};
+				real_vector3d v24{};
 
 				short v21 = short(i / 2);
 				if (i % 2)
@@ -592,7 +592,7 @@ void render_debug_trigger_volumes()
 
 			render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
 			
-			vector3d name_vector{};
+			real_vector3d name_vector{};
 			vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
 			scale_vector3d(&name_vector, 0.95f, &name_vector);
 			

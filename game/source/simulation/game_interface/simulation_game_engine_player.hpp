@@ -34,11 +34,11 @@ struct s_player_editor_request_event_data
 		long object_definition_index;
 	};
 	real_point3d player_placement_point;
-	vector3d player_placement_axes_forward;
-	vector3d player_placement_axes_up;
+	real_vector3d player_placement_axes_forward;
+	real_vector3d player_placement_axes_up;
 	real_point3d placement_point;
-	vector3d placement_axes_forward;
-	vector3d placement_axes_up;
+	real_vector3d placement_axes_forward;
+	real_vector3d placement_axes_up;
 	real throw_force;
 	long changed_gametype;
 	byte minimum_count;

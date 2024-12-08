@@ -37,7 +37,7 @@ void __cdecl c_water_renderer::dispose_from_old_map()
 	INVOKE(0x00A35BA0, dispose_from_old_map);
 }
 
-//.text:00A35C40 ; public: static void __cdecl c_water_renderer::game_interation_event_add(long, real_point3d const*, vector3d const*, vector3d const*)
+//.text:00A35C40 ; public: static void __cdecl c_water_renderer::game_interation_event_add(long, real_point3d const*, real_vector3d const*, real_vector3d const*)
 
 void __cdecl c_water_renderer::game_update()
 {

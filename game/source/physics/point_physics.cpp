@@ -20,4 +20,5 @@ void __cdecl point_physics_initialize_for_new_map()
 	INVOKE(0x00695CA0, point_physics_initialize_for_new_map);
 }
 
-//.text:00695D10 ; dword __cdecl point_physics_update(long, point_physics_definition const*, s_location*, short, real_point3d*, vector3d*, vector3d const*, vector3d*, c_global_material_type*, real, real)
+//.text:00695D10 ; dword __cdecl point_physics_update(long, point_physics_definition const*, s_location*, short, real_point3d*, real_vector3d*, real_vector3d const*, real_vector3d*, c_global_material_type*, real, real)
+

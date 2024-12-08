@@ -62,7 +62,7 @@ void __cdecl scripted_camera_initialize()
 //.text:0072DAF0 ; void __cdecl scripted_camera_set_cinematic_shot_user_input_constraints(long, short_rectangle2d const&, real)
 //.text:0072DC10 ; void __cdecl scripted_camera_set_field_of_view(real, short)
 //.text:0072DD30 ; void __cdecl scripted_camera_set_first_person(long)
-//.text:0072DD70 ; void __cdecl scripted_camera_set_internal(e_scenario_camera_type, real_point3d const*, euler_angles3d const*, real, short, long)
+//.text:0072DD70 ; void __cdecl scripted_camera_set_internal(e_scenario_camera_type, real_point3d const*, real_euler_angles3d const*, real, short, long)
 //.text:0072DFB0 ; void __cdecl scripted_camera_set_pan(short, short)
 //.text:0072E120 ; short __cdecl scripted_camera_time_in_hs_ticks()
 //.text:0072E170 ; void __cdecl scripted_camera_update(void*, s_camera_control const*, s_observer_command*)
@@ -74,7 +74,7 @@ void __cdecl scripted_camera_initialize()
 //.text:0072F1F0 ; public: virtual e_director_perspective __cdecl c_static_camera::get_perspective() const
 //.text:0072F200 ; c_static_camera::
 //.text:0072F210 ; public: virtual e_camera_mode __cdecl c_static_camera::get_type() const
-//.text:0072F220 ; public: virtual void __cdecl c_static_camera::set_forward(vector3d const*)
+//.text:0072F220 ; public: virtual void __cdecl c_static_camera::set_forward(real_vector3d const*)
 //.text:0072F240 ; public: virtual void __cdecl c_static_camera::set_position(real_point3d const*)
 //.text:0072F260 ; public: virtual void __cdecl c_static_camera::update(long, real, s_observer_command*)
 

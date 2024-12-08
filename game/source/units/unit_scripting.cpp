@@ -5,7 +5,7 @@
 //.text:00BB1C00 ; 
 //.text:00BB1C20 ; bool __cdecl unit_custom_animation_at_frame(long, long, long, bool, short)
 //.text:00BB1CB0 ; bool __cdecl unit_custom_animation_relative_at_frame(long, long, long, long, bool, short)
-//.text:00BB1D40 ; bool __cdecl unit_get_custom_animation_root_velocity(long, vector3d*)
+//.text:00BB1D40 ; bool __cdecl unit_get_custom_animation_root_velocity(long, real_vector3d*)
 //.text:00BB1E50 ; short __cdecl unit_get_custom_animation_scripting_ticks_remaining(long)
 //.text:00BB1EB0 ; double __cdecl unit_get_custom_animation_time_remaining(long)
 //.text:00BB1F00 ; bool __cdecl unit_is_playing_custom_animation(long)

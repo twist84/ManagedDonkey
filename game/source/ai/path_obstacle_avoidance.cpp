@@ -19,7 +19,7 @@ bool debug_ignore_broken_surfaces = false;
 bool debug_obstacle_final_step = false;
 obstacle_path debug_obstacle_path_path = {};
 
-//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(long, struct obstacles const*, short, bool, real_point3d const*, c_sector_ref, vector3d const*, real, real, long*, short*)
+//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(long, struct obstacles const*, short, bool, real_point3d const*, c_sector_ref, real_vector3d const*, real, real, long*, short*)
 //.text:014DF830 ; real __cdecl heap_cost(obstacle_path*, short)
 //.text:014DF860 ; void __cdecl heap_down(obstacle_path*, short)
 //.text:014DF970 ; bool __cdecl heap_insert(obstacle_path*, short)
@@ -28,7 +28,7 @@ obstacle_path debug_obstacle_path_path = {};
 //.text:014DF9E0 ; short __cdecl heap_remove(obstacle_path*)
 //.text:014DFA30 ; short __cdecl heap_right_index(short)
 //.text:014DFA40 ; void __cdecl heap_up(obstacle_path*, short)
-//.text:014DFAE0 ; vector3d* __cdecl inverse_project_vector3d(vector3d const*, short, bool, vector3d*)
+//.text:014DFAE0 ; real_vector3d* __cdecl inverse_project_vector3d(real_vector3d const*, short, bool, real_vector3d*)
 //.text:014DFB30 ; short __cdecl obstacle_from_disc(struct obstacles const*, short)
 //.text:014DFB60 ; short __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, short, bool, bool, short, real, short)
 //.text:014DFEB0 ; short __cdecl path_add_steps(obstacle_path*, short, short)

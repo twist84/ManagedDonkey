@@ -7,17 +7,17 @@
 struct s_object_early_mover
 {
 	// object_early_mover_update
-	vector3d update_linear_velocity;
-	vector3d update_angular_velocity;
+	real_vector3d update_linear_velocity;
+	real_vector3d update_angular_velocity;
 	real_point3d update_center_of_mass;
 
 	// object_early_mover_move
 	real_point3d center_of_mass_copy;
 	real_point3d center_of_mass;
-	vector3d linear_velocity_copy;
-	vector3d linear_velocity;
-	vector3d angular_velocity_copy;
-	vector3d angular_velocity;
+	real_vector3d linear_velocity_copy;
+	real_vector3d linear_velocity;
+	real_vector3d angular_velocity_copy;
+	real_vector3d angular_velocity;
 	real_matrix4x3 transform_copy;
 	real_matrix4x3 transform;
 	real_matrix4x3 inverse_transform;
@@ -68,7 +68,7 @@ extern void __cdecl object_early_movers_dispose();
 extern void __cdecl object_early_movers_dispose_from_old_map();
 extern void __cdecl object_early_movers_initialize();
 extern void __cdecl object_early_movers_initialize_for_new_map();
-extern bool __cdecl object_get_early_mover_local_space_velocity(long object_index, vector3d* linear_local_space_velocity, vector3d* angular_local_space_velocity, bool a4, bool a5);
+extern bool __cdecl object_get_early_mover_local_space_velocity(long object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5);
 extern void __cdecl object_get_early_movers(long const** object_early_movers, long* object_early_movers_count);
 extern void __cdecl object_early_mover_render_debug();
 

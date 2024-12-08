@@ -9,10 +9,10 @@ struct s_havok_vehicle_physics_instance;
 struct c_vehicle_type_mantis
 {
 public:
-	void adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	void adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 
 private:
-	void calculate_throttle(long vehicle_index, vector3d* throttle);
+	void calculate_throttle(long vehicle_index, real_vector3d* throttle);
 
 public:
 	static bool __cdecl compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
@@ -33,17 +33,17 @@ public:
 	void update_control(long vehicle_index);
 
 private:
-	void update_leg_turn_and_displacment(long vehicle_index, real* final_turn, vector3d* final_leg_displacement, vector3d* displacement_delta, bool* same_displacement);
-	void update_movement_leg_turn_and_displacment(long vehicle_index, real* final_turn, vector3d* final_leg_displacement);
+	void update_leg_turn_and_displacment(long vehicle_index, real* final_turn, real_vector3d* final_leg_displacement, real_vector3d* displacement_delta, bool* same_displacement);
+	void update_movement_leg_turn_and_displacment(long vehicle_index, real* final_turn, real_vector3d* final_leg_displacement);
 
 public:
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
 	real m_current_leg_turn;
-	vector3d m_last_up_vector;
-	vector2d m_foot_motion;
+	real_vector3d m_last_up_vector;
+	real_vector2d m_foot_motion;
 	real m_turn_control;
 	real m_steering;
 	real m_speed;

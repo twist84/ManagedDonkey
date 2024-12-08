@@ -12,9 +12,9 @@ public:
 	}
 	
 //protected:
-	euler_angles2d m_facing_offset;
+	real_euler_angles2d m_facing_offset;
 	real m_distance_scale;
-	vector3d m_acceleration_offset;
+	real_vector3d m_acceleration_offset;
 	long m_last_unit_index;
 	bool m_confined;
 	bool m_crouched;

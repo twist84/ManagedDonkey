@@ -26,7 +26,7 @@ struct s_sound_location
 {
 	real_point3d position;
 	real_quaternion orientation;
-	vector3d vector;
+	real_vector3d vector;
 	s_location location;
 	byte __data2A[0x2];
 };
@@ -517,7 +517,7 @@ void __cdecl sound_render_dispatch()
 //.text:00519200 ; bool __cdecl sound_should_update_listener(long)
 //.text:00519220 ; real __cdecl sound_source_calculate_distance_rolloff_factor(s_sound_source const*, long, long, real_point3d const*)
 //.text:00519290 ; 
-//.text:005192D0 ; real __cdecl sound_source_calculate_location_rolloff_factor(s_sound_source const*, long, long, real_point3d const*, vector3d const*, real*)
+//.text:005192D0 ; real __cdecl sound_source_calculate_location_rolloff_factor(s_sound_source const*, long, long, real_point3d const*, real_vector3d const*, real*)
 //.text:005195F0 ; 
 //.text:00519640 ; 
 //.text:005196A0 ; 
@@ -542,7 +542,7 @@ real __cdecl sound_source_get_outer_cone_angle(s_sound_source const* source, lon
 
 //.text:00519890 ; 
 //.text:005198C0 ; void __cdecl sound_source_get_transmission_envelope(s_sound_source const*, long, long, s_sound_transmission_envelope*)
-//.text:00519980 ; vector3d* __cdecl sound_source_get_up(s_sound_source const *, vector3d*)
+//.text:00519980 ; real_vector3d* __cdecl sound_source_get_up(s_sound_source const *, real_vector3d*)
 
 void __cdecl sound_source_get_world_position(s_sound_source const* source, long listener_index, real_point3d* world_position)
 {
@@ -691,23 +691,23 @@ void __cdecl render_debug_sound(long sound_index)
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_cylinder(false, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_cylinder(false, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_cylinder(false, &sound->source.location.position, (real_vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_cylinder(false, &sound->source.location.position, (real_vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	case 2:
 		quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_up3d, &volume_type_point);
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_pill(false, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_pill(false, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_pill(false, &sound->source.location.position, (real_vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_pill(false, &sound->source.location.position, (real_vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	}
 
 	if (inner_cone_angle > 0.0f && inner_cone_angle < PI || outer_cone_angle > 0.0f && outer_cone_angle < PI)
 	{
-		render_debug_cone_outline(false, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
-		render_debug_cone_outline(false, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
+		render_debug_cone_outline(false, &sound->source.location.position, (real_vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
+		render_debug_cone_outline(false, &sound->source.location.position, (real_vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
 	}
 
 	if (sound->listener_index == NONE || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))

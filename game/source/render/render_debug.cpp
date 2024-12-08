@@ -79,7 +79,7 @@ struct cache_entry
 	{
 		struct // _render_debug_type_circle
 		{
-			plane3d plane;
+			real_plane3d plane;
 			short projection_axis;
 			bool projection_sign;
 			real_point2d center;
@@ -121,7 +121,7 @@ struct cache_entry
 		struct // _render_debug_type_cylinder
 		{
 			real_point3d base;
-			vector3d height;
+			real_vector3d height;
 			real width;
 			real_argb_color color;
 		} cylinder;
@@ -129,7 +129,7 @@ struct cache_entry
 		struct // _render_debug_type_pill
 		{
 			real_point3d base;
-			vector3d height;
+			real_vector3d height;
 			real width;
 			real_argb_color color;
 		} pill;
@@ -502,7 +502,7 @@ real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_c
 
 //render_debug_spray
 
-void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real scale, real_argb_color const* color, real a8)
+void __cdecl render_debug_point2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real scale, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -533,7 +533,7 @@ void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const*
 	}
 }
 
-void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8)
+void __cdecl render_debug_line2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(p0);
@@ -552,7 +552,7 @@ void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, sh
 	render_debug_line(draw_immediately, &point0, &point1, color);
 }
 
-void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9)
+void __cdecl render_debug_vector2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real_vector2d const* vector, real scale, real_argb_color const* color, real a9)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -564,7 +564,7 @@ void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, 
 	render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, point, &point1, color, a9);
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* center, real radius, real_argb_color const* color, real a8)
+void __cdecl render_debug_circle(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* center, real radius, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(center);
@@ -593,12 +593,12 @@ void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, sh
 	}
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* center, vector3d const* normal, real radius, real_argb_color const* color)
+void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* center, real_vector3d const* normal, real radius, real_argb_color const* color)
 {
 	render_debug_polygon_regular(draw_immediately, center, CIRCLE_DIVISIONS, normal, radius, color);
 }
 
-void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, vector3d const* normal, real radius, real_argb_color const* color)
+void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, real_vector3d const* normal, real radius, real_argb_color const* color)
 {
 	ASSERT(center != NULL);
 	ASSERT(normal != NULL);
@@ -726,8 +726,8 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d con
 	real_point3d p0 = *point0;
 	real_point3d p1 = *point1;
 
-	vector3d vector0{};
-	vector3d vector1{};
+	real_vector3d vector0{};
+	real_vector3d vector1{};
 	vector_from_points3d(&camera.position, &p0, &vector0);
 	vector_from_points3d(&camera.position, &p1, &vector1);
 
@@ -756,8 +756,8 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 	real_point3d p0 = *point0;
 	real_point3d p1 = *point1;
 
-	vector3d vector0{};
-	vector3d vector1{};
+	real_vector3d vector0{};
+	real_vector3d vector1{};
 	vector_from_points3d(&camera.position, &p0, &vector0);
 	vector_from_points3d(&camera.position, &p1, &vector1);
 
@@ -775,7 +775,7 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 	render_debug_line(draw_immediately, &p0, &p1, color);
 }
 
-void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color)
+void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* point, real_vector3d const* vector, real scale, real_argb_color const* color)
 {
 	ASSERT(point);
 	ASSERT(vector);
@@ -786,7 +786,7 @@ void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* poin
 	render_debug_line(draw_immediately, point, &point1, color);
 }
 
-void __cdecl render_debug_tick(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color)
+void __cdecl render_debug_tick(bool draw_immediately, real_point3d const* point, real_vector3d const* vector, real scale, real_argb_color const* color)
 {
 	real_point3d point0{};
 	real_point3d point1{};
@@ -804,7 +804,7 @@ void __cdecl render_debug_line_offset(bool draw_immediately, real_point3d const*
 	render_debug_line(draw_immediately, &p0, &p1, color);
 }
 
-void __cdecl render_debug_vectors(bool draw_immediately, real_point3d const* point, vector3d const* forward, vector3d const* up, real radius)
+void __cdecl render_debug_vectors(bool draw_immediately, real_point3d const* point, real_vector3d const* forward, real_vector3d const* up, real radius)
 {
 	real_matrix4x3 matrix{};
 	matrix4x3_from_point_and_vectors(&matrix, point, forward, up);
@@ -825,7 +825,7 @@ void __cdecl render_debug_matrix(bool draw_immediately, real_matrix4x3 const* ma
 	render_debug_vector(draw_immediately, &matrix->position, &matrix->up, radius * matrix->scale, global_real_argb_blue);
 }
 
-void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real radius)
+void __cdecl render_debug_matrix3x3(bool draw_immediately, real_matrix3x3 const* matrix, real_point3d const* point, real radius)
 {
 	render_debug_vector(draw_immediately, point, &matrix->forward, radius, global_real_argb_red);
 	render_debug_vector(draw_immediately, point, &matrix->left, radius, global_real_argb_green);
@@ -912,7 +912,7 @@ void __cdecl render_debug_sphere(bool draw_immediately, real_point3d const* cent
 	}
 }
 
-void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* base, vector3d const* height, real radius, real_argb_color const* color)
+void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* base, real_vector3d const* height, real radius, real_argb_color const* color)
 {
 	ASSERT(base);
 	ASSERT(height);
@@ -946,7 +946,7 @@ void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* ba
 	}
 }
 
-void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, vector3d const* height, real radius, real_argb_color const* color)
+void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, real_vector3d const* height, real radius, real_argb_color const* color)
 {
 	ASSERT(base);
 	ASSERT(height);
@@ -995,10 +995,10 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d 
 	{
 		real_point3d points[4]{};
 
-		set_real_point3d(points, bounds->x.lower, bounds->y.lower, -1.0);
-		set_real_point3d(&points[1], bounds->x.upper, bounds->y.lower, -1.0);
-		set_real_point3d(&points[2], bounds->x.upper, bounds->y.upper, -1.0);
-		set_real_point3d(&points[3], bounds->x.lower, bounds->y.upper, -1.0);
+		set_real_point3d(points, bounds->x0, bounds->y0, -1.0);
+		set_real_point3d(&points[1], bounds->x1, bounds->y0, -1.0);
+		set_real_point3d(&points[2], bounds->x1, bounds->y1, -1.0);
+		set_real_point3d(&points[3], bounds->x0, bounds->y1, -1.0);
 
 		render_projection const* projection = c_player_view::get_current()->get_rasterizer_projection();
 		matrix4x3_transform_point(&projection->view_to_world, points, points);
@@ -1119,9 +1119,9 @@ void __cdecl render_debug_k_graph(real_point3d const* points, short total_point_
 	}
 }
 
-void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const* point, vector3d const* direction, real radius, real cone_angle, real_argb_color const* color)
+void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const* point, real_vector3d const* direction, real radius, real cone_angle, real_argb_color const* color)
 {
-	vector3d normalized_cone_direction = *direction;
+	real_vector3d normalized_cone_direction = *direction;
 	normalize3d(&normalized_cone_direction);
 
 	real cone_vertex_offset = sinf(cone_angle) * radius;
@@ -1130,11 +1130,11 @@ void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const
 	real_point3d vertex_on_cone{};
 	point_from_line3d(point, &normalized_cone_direction, cone_base_offset, &vertex_on_cone);
 
-	vector3d perpendicular_to_cone_direction{};
+	real_vector3d perpendicular_to_cone_direction{};
 	perpendicular3d(&normalized_cone_direction, &perpendicular_to_cone_direction);
 	normalize3d(&perpendicular_to_cone_direction);
 
-	vector3d perpendicular_cross_product{};
+	real_vector3d perpendicular_cross_product{};
 	cross_product3d(&perpendicular_to_cone_direction, &normalized_cone_direction, &perpendicular_cross_product);
 	normalize3d(&perpendicular_cross_product);
 
@@ -1208,8 +1208,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	render_camera const* camera = c_player_view::get_current()->get_rasterizer_camera();
 	render_projection const* projection = c_player_view::get_current()->get_rasterizer_projection();
 
-	vector2d aspect_ratio_scale{};
-	vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
+	real_vector2d aspect_ratio_scale{};
+	real_vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
 	aspect_ratio_scale.i = 1.0f / aspect_ratio_scaling.i;
 	aspect_ratio_scale.j = 1.0f / aspect_ratio_scaling.j;
 
@@ -1296,7 +1296,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 		case _render_debug_type_circle:
 		{
-			entry->circle.plane = *va_arg(list, plane3d*);
+			entry->circle.plane = *va_arg(list, real_plane3d*);
 			entry->circle.projection_axis = (short)va_arg(list, int);
 			entry->circle.projection_sign = (bool)va_arg(list, int);
 			entry->circle.center = *va_arg(list, real_point2d*);
@@ -1348,7 +1348,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_cylinder:
 		{
 			entry->cylinder.base = *va_arg(list, real_point3d*);
-			entry->cylinder.height = *va_arg(list, vector3d*);
+			entry->cylinder.height = *va_arg(list, real_vector3d*);
 			entry->cylinder.width = (real)va_arg(list, double);
 			entry->cylinder.color = *va_arg(list, real_argb_color*);
 			alpha = entry->sphere.color.alpha;
@@ -1357,7 +1357,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_pill:
 		{
 			entry->pill.base = *va_arg(list, real_point3d*);
-			entry->pill.height = *va_arg(list, vector3d*);
+			entry->pill.height = *va_arg(list, real_vector3d*);
 			entry->pill.width = (real)va_arg(list, double);
 			entry->pill.color = *va_arg(list, real_argb_color*);
 			alpha = entry->pill.color.alpha;
@@ -1655,7 +1655,7 @@ void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_po
 	}
 }
 
-real __cdecl build_height_matrix(real_point3d const* base, vector3d const* height, real_matrix4x3* out_matrix)
+real __cdecl build_height_matrix(real_point3d const* base, real_vector3d const* height, real_matrix4x3* out_matrix)
 {
 	out_matrix->scale = 1.0f;
 	out_matrix->up = *height;
@@ -1677,12 +1677,12 @@ void __cdecl render_debug_build_circle_points(real radius, real_point2d* points,
 	real cos_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
 	for (long i = 0; i + 1 < total_point_count; i++)
-		rotate_vector2d((vector2d*)&points[i], sin_angle, cos_angle, (vector2d*)&points[i + 1]);
+		rotate_vector2d((real_vector2d*)&points[i], sin_angle, cos_angle, (real_vector2d*)&points[i + 1]);
 
 	points[total_point_count - 1] = *points;
 }
 
-void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5)
+void __cdecl render_debug_build_pill_points(real_point3d const* base, real_vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5)
 {
 	real_matrix4x3 height_matrix{};
 	real normalized_up = build_height_matrix(base, height, &height_matrix);
@@ -1734,9 +1734,9 @@ word __cdecl _random(dword* seed, char const* string, char const* file, dword li
 
 real_point3d* __cdecl rectangle3d_center(real_rectangle3d const* rect, real_point3d* center)
 {
-	center->x = 0.5f * (rect->x.lower + rect->x.upper);
-	center->y = 0.5f * (rect->y.lower + rect->y.upper);
-	center->z = 0.5f * (rect->z.lower + rect->z.upper);
+	center->x = 0.5f * (rect->x0 + rect->x1);
+	center->y = 0.5f * (rect->y0 + rect->y1);
+	center->z = 0.5f * (rect->z0 + rect->z1);
 
 	return center;
 }
@@ -1841,8 +1841,8 @@ void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, r
 	real_point3d point0 = *p0;
 	real_point3d point1 = *p1;
 
-	vector3d vector0{};
-	vector3d vector1{};
+	real_vector3d vector0{};
+	real_vector3d vector1{};
 	vector_from_points3d(&camera.position, &point0, &vector0);
 	vector_from_points3d(&camera.position, &point1, &vector1);
 

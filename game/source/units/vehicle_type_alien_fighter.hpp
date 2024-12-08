@@ -18,7 +18,7 @@ struct c_animation_channel;
 struct c_vehicle_type_alien_fighter
 {
 public:
-	void adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	void adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 
 private:
 	bool can_select_new_trick(long vehicle_index);
@@ -29,7 +29,7 @@ public:
 private:
 	static e_vehicle_trick_type __cdecl compute_new_trick_type(long vehicle_index);
 
-	bool compute_reference_and_trick_rotation(long vehicle_index, s_havok_vehicle_physics_instance const* instance, matrix3x3* reference_rotation, matrix3x3* trick_rotation);
+	bool compute_reference_and_trick_rotation(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_matrix3x3* reference_rotation, real_matrix3x3* trick_rotation);
 	real compute_trick_t(long vehicle_index);
 
 public:
@@ -50,7 +50,7 @@ private:
 public:
 	void update_control(long vehicle_index);
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
 	c_animation_id m_turn_animation_id;

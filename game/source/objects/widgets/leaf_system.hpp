@@ -48,7 +48,7 @@ struct s_leaf_system_datum :
 	real next_emission_time_left;
 	real total_leaf_frequency;
 	bool valid_lighting_sample;
-	vector3d lighting_sample;
+	real_vector3d lighting_sample;
 };
 static_assert(sizeof(s_leaf_system_datum) == 0x94C);
 

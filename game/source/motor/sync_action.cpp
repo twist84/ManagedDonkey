@@ -7,8 +7,8 @@ REFERENCE_DECLARE(0x05287C15, bool, debug_enable_force_phonebooth_assassinate);
 //.text:00BA83A0 ; 
 //.text:00BA83B0 ; 
 //.text:00BA83C0 ; 
-//.text:00BA83D0 ; bool __cdecl action_sync_animation_setup(long, long, e_action, real_point3d const*, vector3d const*, vector3d const*, real, bool, bool)
-//.text:00BA8A20 ; bool __cdecl action_sync_animation_setup_on_participant(long, bool, e_action, c_animation_id, long, real_point3d const*, vector3d const*, vector3d const*, bool, real)
+//.text:00BA83D0 ; bool __cdecl action_sync_animation_setup(long, long, e_action, real_point3d const*, real_vector3d const*, real_vector3d const*, real, bool, bool)
+//.text:00BA8A20 ; bool __cdecl action_sync_animation_setup_on_participant(long, bool, e_action, c_animation_id, long, real_point3d const*, real_vector3d const*, real_vector3d const*, bool, real)
 //.text:00BA8C10 ; void __cdecl add_object_to_sync_action_participant_circular_list(long, long)
 //.text:00BA8C80 ; public: bool __cdecl c_animation_sync_participant_tracker::add_participant(long)
 //.text:00BA8D20 ; bool __cdecl assassination_sync_action_collides_or_falls(long, long, s_animation_sync_action const*, s_animation_sync_action_same_type_participant const*, s_animation_sync_action_same_type_participant const*, bool)
@@ -17,11 +17,11 @@ REFERENCE_DECLARE(0x05287C15, bool, debug_enable_force_phonebooth_assassinate);
 //.text:00BA96A0 ; public: bool __cdecl c_animation_sync_participant_tracker::clean_up_sync_action(void)
 //.text:00BA97B0 ; 
 //.text:00BA97C0 ; 
-//.text:00BA97D0 ; void __cdecl find_best_assassination_sync_action_in_group(long, long, long, real_point3d const*, vector3d const*, s_animation_sync_action const**, s_animation_sync_action_same_type_participant const**, s_animation_sync_action_same_type_participant const**)
+//.text:00BA97D0 ; void __cdecl find_best_assassination_sync_action_in_group(long, long, long, real_point3d const*, real_vector3d const*, s_animation_sync_action const**, s_animation_sync_action_same_type_participant const**, s_animation_sync_action_same_type_participant const**)
 //.text:00BA9BD0 ; e_sync_action_search_result __cdecl find_best_assassination_sync_action_to_run(long, long, s_animation_sync_action const**)
 //.text:00BA9D10 ; suggest_sync_action_to_actor
 //.text:00BAA140 ; 
-//.text:00BAA180 ; bool __cdecl find_two_compatible_sync_action_participants(long, long, s_animation_sync_action const*, real_point3d*, vector3d*, s_animation_sync_action_same_type_participant const**, real_point3d*, vector3d*, s_animation_sync_action_same_type_participant const**, bool*)
+//.text:00BAA180 ; bool __cdecl find_two_compatible_sync_action_participants(long, long, s_animation_sync_action const*, real_point3d*, real_vector3d*, s_animation_sync_action_same_type_participant const**, real_point3d*, real_vector3d*, s_animation_sync_action_same_type_participant const**, bool*)
 //.text:00BAA5D0 ; 
 //.text:00BAA5E0 ; 
 //.text:00BAA5F0 ; 
@@ -39,8 +39,8 @@ REFERENCE_DECLARE(0x05287C15, bool, debug_enable_force_phonebooth_assassinate);
 //.text:00BAABE0 ; 
 //.text:00BAAF60 ; 
 //.text:00BAAF90 ; 
-//.text:00BAB0B0 ; void __cdecl sync_action_compute_world_origin_and_axes(long, long, s_animation_sync_action const*, real_point3d*, vector3d*, vector3d*)
-//.text:00BAB0E0 ; void __cdecl sync_action_compute_world_origin_and_axes(long, long, s_animation_sync_action const*, real_point3d*, vector3d*, vector3d*, e_sync_action_origin_calculation_type)
+//.text:00BAB0B0 ; void __cdecl sync_action_compute_world_origin_and_axes(long, long, s_animation_sync_action const*, real_point3d*, real_vector3d*, real_vector3d*)
+//.text:00BAB0E0 ; void __cdecl sync_action_compute_world_origin_and_axes(long, long, s_animation_sync_action const*, real_point3d*, real_vector3d*, real_vector3d*, e_sync_action_origin_calculation_type)
 //.text:00BAB500 ; void __cdecl sync_action_handle_deleted_object(long)
 //.text:00BAB520 ; 
 //.text:00BAB580 ; 

@@ -157,7 +157,7 @@ void __cdecl chud_draw_text_widget(long user_index, void* draw_widget_data, bool
 //.text:00AC9560 ; void __cdecl chud_draw_training_text(long user_index)
 //.text:00AC9570 ; void __cdecl chud_draw_widget(long user_index, s_chud_runtime_widget_datum* widget, long chud_definition_index, long is_draw_turbulence)
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry* geometry, s_anchor_basis* anchor_basis, bool mirror_x, bool mirror_y)
-//.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(dword value, vector4d* result)
+//.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(dword value, real_vector4d* result)
 //.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(s_widget_geometry const* geometry, real_matrix4x3* widget_transform)
 //.text:00AC9C70 ; void __cdecl chud_get_crosshair_screen_position(long user_index, real_point2d* position)
 //.text:00AC9DD0 ; long __cdecl chud_get_current_resolution(long user_index)

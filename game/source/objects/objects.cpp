@@ -467,11 +467,11 @@ void __cdecl object_adjust_garbage_timer(long object_index, long time)
 }
 
 //.text:00B29540 ; 
-//.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(long, vector3d const*, vector3d const*)
+//.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(long, real_vector3d const*, real_vector3d const*)
 //.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
 //.text:00B29720 ; void __cdecl object_align_marker_to_matrix(long, object_marker const*, real_matrix4x3 const*)
 //.text:00B29900 ; void __cdecl object_animation_callback(s_animation_event_data const*, long)
-//.text:00B29B50 ; void __cdecl object_apply_acceleration(long, long, real_point3d const*, vector3d const*, vector3d const*)
+//.text:00B29B50 ; void __cdecl object_apply_acceleration(long, long, real_point3d const*, real_vector3d const*, real_vector3d const*)
 //.text:00B29D40 ; void __cdecl object_apply_function_overlay_node_orientations(long, render_model_definition const*, c_animation_manager const*, c_static_flags<256> const*, long, real_orientation*)
 //.text:00B29F20 ; void __cdecl object_attach_gamestate_entity(long object_index, long gamestate_entity_index)
 //.text:00B29F60 ; void __cdecl object_attach_to_marker(long, long, long, long)
@@ -524,7 +524,7 @@ void __cdecl object_clear_sync_action(long object_index)
 //.text:00B2B830 ; void __cdecl object_compute_instance_bitfield_visible(long)
 //.text:00B2B8E0 ; void __cdecl object_compute_node_matrices(long)
 //.text:00B2B970 ; void __cdecl object_compute_node_matrices_non_recursive(long)
-//.text:00B2C240 ; void __cdecl object_compute_origin_matrix(long, real_point3d const*, vector3d const*, vector3d const*, real, bool, real_matrix4x3 const*, bool, real_matrix4x3*)
+//.text:00B2C240 ; void __cdecl object_compute_origin_matrix(long, real_point3d const*, real_vector3d const*, real_vector3d const*, real, bool, real_matrix4x3 const*, bool, real_matrix4x3*)
 //.text:00B2C3D0 ; real_matrix4x3 const* __cdecl object_compute_render_time_node_matrices(long, long, byte const*, real_matrix4x3 const*)
 
 void __cdecl object_connect_lights(long object_index, bool disconnect_this_object, bool reconnect_this_object)
@@ -696,7 +696,7 @@ bool __cdecl object_get_change_color(long object_index, long change_color_index,
 	return INVOKE(0x00B2DE50, object_get_change_color, object_index, change_color_index, change_color);
 }
 
-void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, vector3d* normal)
+void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, real_vector3d* normal)
 {
 	INVOKE(0x00B2DEF0, object_get_closest_point_and_normal, object_index, origin, closest_point, normal);
 }
@@ -721,7 +721,7 @@ real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_ind
 	return INVOKE(0x00B2E450, object_get_node_matrix, object_index, node_index);
 }
 
-void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up)
+void __cdecl object_get_orientation(long object_index, real_vector3d* forward, real_vector3d* up)
 {
 	INVOKE(0x00B2E490, object_get_orientation, object_index, forward, up);
 }
@@ -749,7 +749,7 @@ long __cdecl object_get_variant_index(long object_index)
 	return INVOKE(0x00B2EB00, object_get_variant_index, object_index);
 }
 
-void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity)
+void __cdecl object_get_velocities(long object_index, real_vector3d* linear_velocity, real_vector3d* angular_velocity)
 {
 	INVOKE(0x00B2EB30, object_get_velocities, object_index, linear_velocity, angular_velocity);
 }
@@ -935,7 +935,7 @@ void __cdecl object_move(long object_index)
 	INVOKE(0x00B2FE50, object_move, object_index);
 }
 
-void __cdecl object_move_position(long object_index, real_point3d const* position, vector3d const* forward, vector3d const* up, s_location const* location)
+void __cdecl object_move_position(long object_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, s_location const* location)
 {
 	INVOKE(0x00B30050, object_move_position, object_index, position, forward, up, location);
 
@@ -1106,7 +1106,7 @@ void __cdecl object_notify_in_local_physics_object(long object_index, long local
 	INVOKE(0x00B31270, object_notify_in_local_physics_object, object_index, local_physics_object_index);
 }
 
-//.text:00B312F0 ; void __cdecl object_offset_interpolation(long, vector3d const*)
+//.text:00B312F0 ; void __cdecl object_offset_interpolation(long, real_vector3d const*)
 //.text:00B31380 ; bool __cdecl object_owns_object(long, long)
 //.text:00B313E0 ; 
 
@@ -1242,7 +1242,7 @@ bool __cdecl object_predict_low(long object_index)
 	return object_predict(object_index, true);
 }
 
-void object_prepare_axis_vectors(long object_index, vector3d* forward, vector3d* up)
+void object_prepare_axis_vectors(long object_index, real_vector3d* forward, real_vector3d* up)
 {
 	INVOKE(0x00B31950, object_prepare_axis_vectors, object_index, forward, up);
 }
@@ -1354,7 +1354,7 @@ void __cdecl object_set_damage_owner(long object_index, s_damage_owner const* da
 	INVOKE(0x00B32AD0, object_set_damage_owner, object_index, damage_owner, a3);
 }
 
-void __cdecl object_set_desired_velocities(long object_index, vector3d const* transitional_velocity, vector3d const* angular_velocity, bool a4)
+void __cdecl object_set_desired_velocities(long object_index, real_vector3d const* transitional_velocity, real_vector3d const* angular_velocity, bool a4)
 {
 	INVOKE(0x00B32B80, object_set_desired_velocities, object_index, transitional_velocity, angular_velocity, a4);
 }
@@ -1409,19 +1409,19 @@ void __cdecl object_set_object_index_for_name_index(short name_index, long objec
 	INVOKE(0x00B334F0, object_set_object_index_for_name_index, name_index, object_index);
 }
 
-void __cdecl object_set_position(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location)
+void __cdecl object_set_position(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location)
 {
 	//INVOKE(0x00B33530, object_set_position, object_index, desired_position, desired_forward, desired_up, location);
 
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, false);
 }
 
-void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool in_editor)
+void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool in_editor)
 {
 	INVOKE(0x00B33550, object_set_position_direct, object_index, desired_position, desired_forward, desired_up, location, in_editor);
 }
 
-void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest)
+void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool at_rest)
 {
 	//INVOKE(0x00B33600, object_set_position_in_editor, object_index, desired_position, desired_forward, desired_up, location, at_rest);
 	
@@ -1431,14 +1431,14 @@ void __cdecl object_set_position_in_editor(long object_index, real_point3d const
 		object_set_at_rest(object_index, false);
 }
 
-void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location)
+void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location)
 {
 	//INVOKE(0x00B33670, object_set_position_in_sandbox_editor, object_index, desired_position, desired_forward, desired_up, location);
 
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
 }
 
-bool __cdecl object_set_position_internal(long object_index, real_point3d const* position, vector3d const* forward, vector3d const* up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
+bool __cdecl object_set_position_internal(long object_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
 {
 	return INVOKE(0x00B33690, object_set_position_internal, object_index, position, forward, up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
 
@@ -1516,13 +1516,13 @@ void __cdecl object_set_requires_motion(long object_index)
 //.text:00B33F80 ; void __cdecl object_set_sync_action(long, long, long)
 //.text:00B33FC0 ; void __cdecl object_set_variant_direct(long, long)
 
-void __cdecl object_set_velocities(long object_index, vector3d const* linear_velocity, vector3d const* angular_velocity)
+void __cdecl object_set_velocities(long object_index, real_vector3d const* linear_velocity, real_vector3d const* angular_velocity)
 {
 	INVOKE(0x00B34040, object_set_velocities, object_index, linear_velocity, angular_velocity);
 }
 
-//.text:00B34130 ; void __cdecl object_set_velocities_direct(long, vector3d const*, vector3d const*)
-//.text:00B341E0 ; void __cdecl object_set_velocities_internal(long, vector3d const*, vector3d const*, bool)
+//.text:00B34130 ; void __cdecl object_set_velocities_direct(long, real_vector3d const*, real_vector3d const*)
+//.text:00B341E0 ; void __cdecl object_set_velocities_internal(long, real_vector3d const*, real_vector3d const*, bool)
 //.text:00B34280 ; 
 //.text:00B342D0 ; bool __cdecl object_should_be_active(long, s_game_cluster_bit_vectors const*)
 //.text:00B34380 ; bool __cdecl object_should_be_deleted_when_deactivated(long)
@@ -2015,7 +2015,7 @@ void object_render_debug_internal(long object_index)
 	if (debug_objects_position_velocity)
 	{
 		real_matrix4x3 matrix{};
-		vector3d linear_velocity{};
+		real_vector3d linear_velocity{};
 
 		object_get_world_matrix(object_index, &matrix);
 		object_get_velocities(object_index, &linear_velocity, NULL);
@@ -2062,7 +2062,7 @@ void object_render_debug_internal(long object_index)
 	if (debug_objects_dynamic_render_bounding_spheres && object_definition->object.dynamic_light_sphere_radius > 0.0f)
 	{
 		real_point3d point{};
-		point_from_line3d(&object->object.bounding_sphere_center, (vector3d*)&object_definition->object.dynamic_light_sphere_offset, 1.0f, &point);
+		point_from_line3d(&object->object.bounding_sphere_center, (real_vector3d*)&object_definition->object.dynamic_light_sphere_offset, 1.0f, &point);
 		render_debug_sphere(true, &point, object_definition->object.dynamic_light_sphere_radius + object->object.scale, global_real_argb_black);
 	}
 
@@ -2090,7 +2090,7 @@ void object_render_debug_internal(long object_index)
 			break;
 			case 2:
 			{
-				vector3d height{};
+				real_vector3d height{};
 				vector_from_points3d(&markers[0].node_matrix.position, &markers[1].node_matrix.position, &height);
 				render_debug_pill(true, &markers[0].node_matrix.position, &height, target.size, global_real_argb_darkgreen);
 			}

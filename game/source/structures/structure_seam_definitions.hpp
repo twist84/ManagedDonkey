@@ -75,9 +75,9 @@ static_assert(sizeof(s_structure_seam_original_geometry) == sizeof(s_tag_block))
 
 struct s_structure_seam_final_plane
 {
-	plane3d plane;
+	real_plane3d plane;
 };
-static_assert(sizeof(s_structure_seam_final_plane) == sizeof(plane3d));
+static_assert(sizeof(s_structure_seam_final_plane) == sizeof(real_plane3d));
 
 struct s_structure_seam_final_point
 {

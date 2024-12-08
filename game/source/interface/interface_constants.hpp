@@ -3,13 +3,13 @@
 #include "cseries/cseries.hpp"
 
 extern void __cdecl calculate_aspect_ratio_scaling();
-extern vector2d __cdecl interface_get_aspect_ratio_scaling();
-extern vector2d __cdecl interface_get_authoring_aspect_conversion_scaling(long authored_ui_aspect_ratio);
-extern vector2d __cdecl interface_get_authoring_to_target_dimensions_scaling();
+extern real_vector2d __cdecl interface_get_aspect_ratio_scaling();
+extern real_vector2d __cdecl interface_get_authoring_aspect_conversion_scaling(long authored_ui_aspect_ratio);
+extern real_vector2d __cdecl interface_get_authoring_to_target_dimensions_scaling();
 extern long __cdecl interface_get_closest_authored_ui_aspect_ratio();
 extern long __cdecl interface_get_closest_authoring_screen_dimensions();
 extern void __cdecl interface_get_current_display_or_window_settings(short_rectangle2d* fullscreen_render_pixel_bounds, short_rectangle2d* fullscreen_render_title_safe_pixel_bounds, short_rectangle2d* display_pixel_bounds, short_rectangle2d* display_title_safe_pixel_bounds);
 extern long __cdecl interface_get_current_display_settings(short_rectangle2d* fullscreen_render_pixel_bounds, short_rectangle2d* fullscreen_render_title_safe_pixel_bounds, short_rectangle2d* display_pixel_bounds, short_rectangle2d* display_title_safe_pixel_bounds);
 extern void __cdecl interface_get_current_window_settings(short_rectangle2d* fullscreen_render_pixel_bounds, short_rectangle2d* fullscreen_render_title_safe_pixel_bounds, short_rectangle2d* display_pixel_bounds, short_rectangle2d* display_title_safe_pixel_bounds);
-extern void __cdecl interface_scale_rectangle2d_for_xenon_scaler(short_rectangle2d* rectangle, vector2d const* vector);
+extern void __cdecl interface_scale_rectangle2d_for_xenon_scaler(short_rectangle2d* rectangle, real_vector2d const* vector);
 

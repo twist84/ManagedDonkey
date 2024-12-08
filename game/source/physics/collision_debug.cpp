@@ -69,7 +69,7 @@ bool collision_debug_repeat = false;
 real collision_debug_width = 0.0f;
 real_point3d collision_debug_point{};
 real collision_debug_height = 0.0f;
-vector3d collision_debug_vector{};
+real_vector3d collision_debug_vector{};
 //bool collision_debug_? = false;
 c_status_line g_collision_debug_status_lines[10]{};
 c_status_line g_collision_debug_lightmap_status_line{};
@@ -190,16 +190,16 @@ void collision_debug_render()
 	}
 
 	real_point3d debug_point = collision_debug_point;
-	vector3d debug_vector = collision_debug_vector;
+	real_vector3d debug_vector = collision_debug_vector;
 
-	vector3d debug_vector_scaled{};
+	real_vector3d debug_vector_scaled{};
 	scale_vector3d(&debug_vector, fabsf(collision_debug_length), &debug_vector_scaled);
 
 	if (collision_debug)
 	{
 		if (collision_debug_length <= 0.0f)
 		{
-			add_vectors3d((vector3d*)&debug_point, &debug_vector_scaled, (vector3d*)&debug_point);
+			add_vectors3d((real_vector3d*)&debug_point, &debug_vector_scaled, (real_vector3d*)&debug_point);
 
 			if (collision_debug_width > 0.0f)
 			{
@@ -449,11 +449,11 @@ void collision_debug_render()
 		else
 		{
 			real_point3d old_position = collision_debug_point;
-			vector3d old_velocity = debug_vector_scaled;
+			real_vector3d old_velocity = debug_vector_scaled;
 
 			short count = 0;
 			real_point3d new_position{};
-			vector3d new_velocity{};
+			real_vector3d new_velocity{};
 			collision_plane collisions[16]{};
 			if (collision_debug_height > 0.0f)
 			{
@@ -603,7 +603,7 @@ void collision_debug_render()
 		render_debug_point(true, &debug_point, width_absolute, features_color);
 		if (height_absolute > 0.0f)
 		{
-			vector3d up = *global_up3d;
+			real_vector3d up = *global_up3d;
 			up.i *= height_absolute;
 			up.j *= height_absolute;
 			up.k *= height_absolute;

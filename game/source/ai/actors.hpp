@@ -116,9 +116,9 @@ struct actor_position_data
 {
 	real_point3d head_position;
 	real_point3d body_position;
-	vector3d body_facing;
+	real_vector3d body_facing;
 	s_location body_location;
-	vector3d velocity;
+	real_vector3d velocity;
 };
 static_assert(sizeof(actor_position_data) == 0x34);
 
@@ -140,11 +140,11 @@ struct actor_input_data
 	bool pathfinding_location_valid;
 	c_ai_point3d pathfinding_point;
 	c_sector_ref sector_ref;
-	vector3d facing_vector;
-	vector3d aiming_vector;
-	vector3d looking_vector;
-	vector3d looking_left_vector;
-	vector3d looking_up_vector;
+	real_vector3d facing_vector;
+	real_vector3d aiming_vector;
+	real_vector3d looking_vector;
+	real_vector3d looking_left_vector;
+	real_vector3d looking_up_vector;
 	real scariness;
 	real body_vitality;
 	real shield_vitality;
@@ -255,7 +255,7 @@ struct actor_danger_zone
 	long pref_index;
 	real danger_radius;
 	real_point3d position;
-	vector3d velocity;
+	real_vector3d velocity;
 	real_point3d predict_danger_position;
 	real current_distance_from_actor;
 	real current_distance_from_center;
@@ -271,7 +271,7 @@ struct actor_stimulus_data
 	long surprise_prop_index;
 	bool stunned;
 	real stun_level;
-	vector3d stunned_vector;
+	real_vector3d stunned_vector;
 	long cover_friend_actor_index;
 	short cover_friend_behavior_index;
 	short cover_friend_dialogue_type;
@@ -369,13 +369,13 @@ struct actor_move_orders
 	bool override_movement_direction;
 	bool override_throttle;
 	long override_movement_type;
-	vector3d override_movement_direction_vector;
+	real_vector3d override_movement_direction_vector;
 	real override_throttle_value;
 	bool jump;
 	bool jump_leap;
 	bool jump_boosted;
 	bool jump_targeted;
-	vector2d jump_alignment_vector;
+	real_vector2d jump_alignment_vector;
 	real jump_target_horizontal_vel;
 	real jump_target_vertical_vel;
 	long jump_target_pref_index;
@@ -447,7 +447,7 @@ static_assert(sizeof(actor_action_data) == 0x30);
 struct c_path_destination
 {
 	c_ai_point3d m_point;
-	vector3d m_alignment;
+	real_vector3d m_alignment;
 	c_sector_ref m_sector_ref;
 	real m_target_radius;
 };
@@ -522,7 +522,7 @@ struct turn_info
 	bool rev;
 	real angle;
 	real rating;
-	vector2d expected_facing;
+	real_vector2d expected_facing;
 	real world_orientation;
 	short turn_index;
 	real current_throttle;
@@ -544,8 +544,8 @@ struct flying_turn_info
 	real last_pitch_angle;
 	real current_pitch_angle;
 	real urgency;
-	vector3d current_throttle;
-	vector3d last_throttle;
+	real_vector3d current_throttle;
+	real_vector3d last_throttle;
 };
 static_assert(sizeof(flying_turn_info) == 0x30);
 
@@ -566,9 +566,9 @@ struct actor_control_data
 	real_point3d stuck_point;
 	short stuck_ticks;
 	short isolation_count;
-	vector3d moving_towards_vector;
-	vector3d moving_forced_aim_direction;
-	plane3d persistent_movement_plane;
+	real_vector3d moving_towards_vector;
+	real_vector3d moving_forced_aim_direction;
+	real_plane3d persistent_movement_plane;
 	real persistent_movement_distance;
 	short persistent_movement_ticks;
 
@@ -577,7 +577,7 @@ struct actor_control_data
 
 	short freeze_ticks;
 	short suppress_shooting_ticks;
-	vector2d jump_alignment_vector;
+	real_vector2d jump_alignment_vector;
 	real jump_target_horizontal_vel;
 	real jump_target_vertical_vel;
 	long jump_target_pref_index;
@@ -604,9 +604,9 @@ struct actor_control_data
 	c_ai_direction idle_major_direction;
 	c_ai_direction idle_minor_direction;
 	long pose_timer;
-	vector3d desired_facing_vector;
-	vector3d desired_aiming_vector;
-	vector3d desired_looking_vector;
+	real_vector3d desired_facing_vector;
+	real_vector3d desired_aiming_vector;
+	real_vector3d desired_looking_vector;
 	short zig_zag_ticks;
 	short emotion_ticks;
 	short weapon_flags;
@@ -633,15 +633,15 @@ struct actor_control_data
 	long last_player_blocking_time;
 	c_ai_point3d current_fire_target_position;
 	real current_fire_target_range;
-	vector3d current_fire_target_aim_vector;
+	real_vector3d current_fire_target_aim_vector;
 	real current_fire_target_distance;
 	c_ai_point3d burst_initial_position;
 	real_point3d burst_origin;
-	vector3d burst_relative_position;
-	vector3d burst_adjustment;
+	real_vector3d burst_relative_position;
+	real_vector3d burst_adjustment;
 	real_point3d burst_target;
 	real burst_aim_by_vector_velocity;
-	vector3d burst_aim_vector;
+	real_vector3d burst_aim_vector;
 	real burst_error;
 	real burst_damage_modifier;
 	short grenade_request_ticks;
@@ -650,7 +650,7 @@ struct actor_control_data
 	c_ai_point3d grenade_current_target;
 	long grenade_current_prop_index;
 	long grenade_current_ignore_object_index;
-	vector3d grenade_current_aim_vector;
+	real_vector3d grenade_current_aim_vector;
 	real grenade_current_aim_speed;
 	c_ai_point3d equipment_target;
 	long last_hop_time;
@@ -663,7 +663,7 @@ static_assert(sizeof(actor_control_data) == 0x36C);
 struct actor_animation_orders
 {
 	long impulse;
-	vector2d alignment_vector;
+	real_vector2d alignment_vector;
 };
 static_assert(sizeof(actor_animation_orders) == 0xC);
 
@@ -673,12 +673,12 @@ struct actor_output_data
 	actor_animation_orders animation;
 	short aiming_speed;
 	dword control_flags;
-	vector3d throttle;
+	real_vector3d throttle;
 	real analog_primary_trigger;
 	real analog_secondary_trigger;
-	vector3d facing_vector;
-	vector3d aiming_vector;
-	vector3d looking_vector;
+	real_vector3d facing_vector;
+	real_vector3d aiming_vector;
+	real_vector3d looking_vector;
 	real_point3d gaze_position;
 };
 static_assert(sizeof(actor_output_data) == 0x5C);

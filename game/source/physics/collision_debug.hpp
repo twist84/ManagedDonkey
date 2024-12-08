@@ -48,7 +48,7 @@ extern bool collision_debug_repeat;
 extern real collision_debug_width;
 extern real_point3d collision_debug_point;
 extern real collision_debug_height;
-extern vector3d collision_debug_vector;
+extern real_vector3d collision_debug_vector;
 
 extern void __cdecl collision_debug_initialize();
 extern void __cdecl collision_debug_dispose();

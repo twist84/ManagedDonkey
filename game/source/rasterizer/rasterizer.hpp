@@ -68,9 +68,9 @@ struct rasterizer_vertex_world
 {
 	real_point3d position;
 	real_point2d texcoord;
-	vector3d normal;
-	vector3d tangent;
-	vector3d binormal;
+	real_vector3d normal;
+	real_vector3d tangent;
+	real_vector3d binormal;
 };
 static_assert(sizeof(rasterizer_vertex_world) == 0x38);
 
@@ -394,11 +394,11 @@ struct c_rasterizer
 	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, long polygon_count);
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
 
-	static void __cdecl set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data);
+	static void __cdecl set_pixel_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data);
 	static void __cdecl set_pixel_shader_constant_bool(long start_register, long bool_count, int const* constant_data);
 	static void __cdecl set_pixel_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
 	static void __cdecl set_pixel_shader_constant_single(long start_register, real constant_value);
-	static void __cdecl set_vertex_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data);
+	static void __cdecl set_vertex_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data);
 	static void __cdecl set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data);
 	static void __cdecl set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
 

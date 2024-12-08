@@ -141,7 +141,7 @@ static_assert(sizeof(s_friction_point_definition) == 0x4C);
 
 struct s_havok_vector4 // hkVector4
 {
-	vector3d sphere;
+	real_vector3d sphere;
 	real havok_w_sphere;
 };
 
@@ -179,9 +179,9 @@ struct s_vehicle_phantom_shape_definition
 	long child_shapes_size;
 	long child_shapes_capacity;
 	byte nail_in_dick[0xC]; // pad
-	vector3d aabb_half_extents;
+	real_vector3d aabb_half_extents;
 	real havok_w_aabb_half_extents;
-	vector3d aabb_center;
+	real_vector3d aabb_center;
 	real havok_w_aabb_center;
 	long multisphere_count;
 	c_flags<e_vehicle_phantom_shape_flags, dword_flags, k_vehicle_phantom_shape_flags> flags;

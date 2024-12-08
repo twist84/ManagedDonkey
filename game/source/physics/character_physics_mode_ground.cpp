@@ -14,7 +14,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00724890, c_character_physics_mode_ground_datum, upd
 //.text:00723530
 //.text:00723550 ; c_character_physics_mode_ground_datum::get_ground_material_type() const
 
-vector3d const* c_character_physics_mode_ground_datum::get_ground_plane() const
+real_vector3d const* c_character_physics_mode_ground_datum::get_ground_plane() const
 {
 	return INVOKE_CLASS_MEMBER(0x00723570, c_character_physics_mode_ground_datum, get_ground_plane);
 }
@@ -81,12 +81,12 @@ void c_character_physics_mode_ground_datum::notify_in_slip_surface_volume()
 	INVOKE_CLASS_MEMBER(0x00723E60, c_character_physics_mode_ground_datum, notify_in_slip_surface_volume);
 }
 
-void c_character_physics_mode_ground_datum::set_contact(long havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, vector3d const* ground_plane)
+void c_character_physics_mode_ground_datum::set_contact(long havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, real_vector3d const* ground_plane)
 {
 	INVOKE_CLASS_MEMBER(0x00723E70, c_character_physics_mode_ground_datum, set_contact, havok_component_index, primary_contact_point_reference, ground_plane);
 }
 
-void c_character_physics_mode_ground_datum::set_ground_plane(vector3d const* ground_plane)
+void c_character_physics_mode_ground_datum::set_ground_plane(real_vector3d const* ground_plane)
 {
 	INVOKE_CLASS_MEMBER(0x00723F00, c_character_physics_mode_ground_datum, set_ground_plane, ground_plane);
 }
@@ -101,7 +101,7 @@ void c_character_physics_mode_ground_datum::update(s_character_physics_update_ou
 //.text:00724800
 
 // fix jump canceling on forged objects
-bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_character_physics_update_input_datum const* physics_input, vector3d* linear_velocity, matrix3x3* rotation)
+bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_matrix3x3* rotation)
 {
 	//INVOKE_CLASS_MEMBER(0x00724890, c_character_physics_mode_ground_datum, update_ground_velocity, physics_input, linear_velocity, rotation);
 
@@ -125,12 +125,12 @@ bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_
 	return result;
 }
 
-void c_character_physics_mode_ground_datum::update_internal(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input, bool localize_airborne, vector3d const* localized_velocity)
+void c_character_physics_mode_ground_datum::update_internal(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input, bool localize_airborne, real_vector3d const* localized_velocity)
 {
 	INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, update_internal, physics_output, physics_input, localize_airborne, localized_velocity);
 }
 
-bool c_character_physics_mode_ground_datum::update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* physics_input, vector3d* linear_velocity, vector3d* space_acceleration, matrix3x3* rotation)
+bool c_character_physics_mode_ground_datum::update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_vector3d* space_acceleration, real_matrix3x3* rotation)
 {
 	return INVOKE_CLASS_MEMBER(0x00724BB0, c_character_physics_mode_ground_datum, update_localized_physics_space_linear_velocity, physics_input, linear_velocity, space_acceleration, rotation);
 }

@@ -40,7 +40,7 @@ struct s_scenario_object_datum
 {
 	dword_flags placement_flags;
 	real_point3d position;
-	euler_angles3d rotation;
+	real_euler_angles3d rotation;
 	real scale;
 	s_tag_block node_orientations;
 	word_flags transform_flags;

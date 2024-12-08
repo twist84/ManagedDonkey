@@ -90,9 +90,9 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	render_view_parameters parameters{};
 	render_camera_build_view_parameters(camera, frustum_bounds, &parameters, aspect_ratio);
 
-	vector3d forward{};
-	vector3d left{};
-	vector3d up{};
+	real_vector3d forward{};
+	real_vector3d left{};
+	real_vector3d up{};
 	
 	cross_product3d(&camera->forward, &camera->up, &forward);
 	cross_product3d(&forward, &camera->forward, &left);
@@ -122,7 +122,7 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	projection->__unknownB8.i *= (v2 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_width) / v2 : 1.0f);
 	projection->__unknownB8.j *= (v3 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_height) / v3 : 1.0f);
 	
-	plane3d transformed_plane{};
+	real_plane3d transformed_plane{};
 	if (v1 == 0.0f)
 	{
 		matrix4x3_transform_plane(&projection->world_to_view, &camera->mirror_plane, &transformed_plane);
@@ -265,7 +265,7 @@ void __cdecl render_camera_mirror(render_camera const* camera, render_mirror con
 	INVOKE(0x00A64CB0, render_camera_mirror, camera, mirror, result);
 }
 
-bool __cdecl render_camera_project_vector_to_screen(vector3d const* world_vector, real_point3d const* world_point, real_matrix4x3 const* matrix, vector2d const* a4, bool use_perspective, bool a6, vector2d* result)
+bool __cdecl render_camera_project_vector_to_screen(real_vector3d const* world_vector, real_point3d const* world_point, real_matrix4x3 const* matrix, real_vector2d const* a4, bool use_perspective, bool a6, real_vector2d* result)
 {
 	ASSERT(world_vector);
 	ASSERT(world_point || !use_perspective);
@@ -274,7 +274,7 @@ bool __cdecl render_camera_project_vector_to_screen(vector3d const* world_vector
 	return INVOKE(0x00A651C0, render_camera_project_vector_to_screen, world_vector, world_point, matrix, a4, use_perspective, a6, result);
 }
 
-void __cdecl render_camera_screen_to_view(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point2d const* screen_point, vector3d* view_vector)
+void __cdecl render_camera_screen_to_view(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point2d const* screen_point, real_vector3d* view_vector)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -284,7 +284,7 @@ void __cdecl render_camera_screen_to_view(render_camera const* camera, render_pr
 	INVOKE(0x00A653E0, render_camera_screen_to_view, camera, projection, window_display_bounds, screen_point, view_vector);
 }
 
-void __cdecl render_camera_screen_to_world(render_camera const* camera, render_projection const* projection, real_point2d const* screen_point, real_point3d* world_point, vector3d* world_vector)
+void __cdecl render_camera_screen_to_world(render_camera const* camera, render_projection const* projection, real_point2d const* screen_point, real_point3d* world_point, real_vector3d* world_vector)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -294,7 +294,7 @@ void __cdecl render_camera_screen_to_world(render_camera const* camera, render_p
 
 	INVOKE(0x00A654C0, render_camera_screen_to_world, camera, projection, screen_point, world_point, world_vector);
 
-	//vector3d view_vector{};
+	//real_vector3d view_vector{};
 	//render_camera_screen_to_view(camera, projection, 0, screen_point, &view_vector);
 	//*world_point = camera->position;
 	//matrix4x3_transform_vector(&projection->view_to_world, &view_vector, world_vector);

@@ -175,8 +175,8 @@ public:
 	long helper_object_index;
 	long variant_quota_index;
 	real_point3d position;
-	vector3d forward;
-	vector3d up;
+	real_vector3d forward;
+	real_vector3d up;
 	c_object_identifier spawn_attached_to;
 	s_variant_multiplayer_object_properties_definition multiplayer_game_object_properties;
 };

@@ -9,7 +9,7 @@ struct step
 {
 	real_point3d point;
 	c_sector_ref sector_ref;
-	vector2d direction;
+	real_vector2d direction;
 	real distance;
 	word obstacle_index;
 	word disc_index;

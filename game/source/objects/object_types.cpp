@@ -36,7 +36,7 @@ object_type_definition* __cdecl object_type_definition_get(e_object_type object_
 //.text:00B735A0 ; void __cdecl object_type_detach_from_parent(long)
 //.text:00B73610 ; void __cdecl object_type_detach_gamestate_entity(long)
 //.text:00B73680 ; void __cdecl object_type_dispose_from_old_structure_bsp(long)
-//.text:00B736F0 ; void __cdecl object_type_fix_transform(long, real_point3d*, vector3d*, vector3d*)
+//.text:00B736F0 ; void __cdecl object_type_fix_transform(long, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00B73770 ; void __cdecl object_type_fix_transform_from_physics(long, real_matrix4x3*)
 //.text:00B737F0 ; void __cdecl object_type_fix_transform_to_physics(long, real_matrix4x3*)
 //.text:00B73870 ; e_object_type __cdecl object_type_from_definition_index(long)

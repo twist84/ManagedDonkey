@@ -24,7 +24,7 @@ struct s_havok_vehicle_physics_instance;
 struct __declspec(align(4)) c_vehicle_type_component
 {
 public:
-	void adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	void adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 	bool auto_control(long vehicle_index);
 	bool compute_function_value(long vehicle_index, long function_name, real* function_value, bool* function_result);
 	void create_effects(long vehicle_index);
@@ -58,7 +58,7 @@ public:
 	void start_trick(long vehicle_index, e_vehicle_trick_type trick_type);
 	void update_control(long vehicle_index);
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
-	bool vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	bool vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
 	union

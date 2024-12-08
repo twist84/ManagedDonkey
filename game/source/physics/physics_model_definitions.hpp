@@ -85,7 +85,7 @@ struct s_havok_convex_translate_shape // hkConvexTranslateShape
 	void* field_pointer_skip;
 	s_havok_shape_reference havok_shape_reference_struct;
 	long child_shape_size;
-	vector3d translation;
+	real_vector3d translation;
 	real havok_w_translation;
 };
 static_assert(sizeof(s_havok_convex_translate_shape) == 0x30);
@@ -114,9 +114,9 @@ struct s_physics_model_pill
 	s_physics_model_primitive base;
 	s_havok_convex_shape capsule_shape;
 	byte algn243[0xC]; // pad
-	vector3d bottom;
+	real_vector3d bottom;
 	real havok_w_bottom;
-	vector3d top;
+	real_vector3d top;
 	real havok_w_top;
 };
 static_assert(sizeof(s_physics_model_pill) == 0x60);

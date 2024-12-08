@@ -10,7 +10,7 @@ struct s_havok_vehicle_physics_instance;
 struct c_vehicle_type_guardian
 {
 public:
-	static void __cdecl adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	static void __cdecl adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 	static bool __cdecl compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
 	static void __cdecl create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
@@ -30,7 +30,7 @@ public:
 	bool should_override_deactivation(long vehicle_index);
 	void update_control(long vehicle_index);
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
 	real m_steering;

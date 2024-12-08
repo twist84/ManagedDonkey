@@ -172,7 +172,7 @@ void players_debug_render()
 		//		if (TEST_BIT(biped->biped.flags, ??))
 		//		{
 		//			real_point3d position{};
-		//			vector3d aiming_vector{};
+		//			real_vector3d aiming_vector{};
 		//			biped_get_sight_position(player->unit_index, 0, false, NULL, NULL, NULL, NULL, &position);
 		//			unit_get_aiming_vector(player->unit_index, &aiming_vector);
 		//
@@ -240,7 +240,7 @@ void players_debug_render()
 //.text:00537F90 ; void __cdecl player_appearance_initialize(s_player_appearance*)
 //.text:00537FB0 ; bool __cdecl player_appearance_valid(s_player_appearance const*)
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
-//.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, vector3d*)
+//.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, real_vector3d*)
 //.text:005384C0 ; 
 //.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
@@ -409,7 +409,7 @@ void __cdecl player_positions_initialize_for_new_structure_bsp(dword activating_
 //.text:0053C630 ; void __cdecl player_set_configuration(long, s_player_configuration const*)
 //.text:0053C860 ; 
 
-void __cdecl player_set_facing(long player_index, vector3d const* facing)
+void __cdecl player_set_facing(long player_index, real_vector3d const* facing)
 {
 	INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
 
@@ -452,7 +452,7 @@ bool __cdecl player_spawn(long player_index, real_point3d const* position, real 
 
 //.text:0053D500
 //.text:0053D520 ; void __cdecl player_submit_actions(long, long, s_player_action*)
-//.text:0053EC70 ; bool __cdecl player_submit_assassination(long, long, long, real_point3d const*, vector3d const*, vector3d const*)
+//.text:0053EC70 ; bool __cdecl player_submit_assassination(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*)
 //.text:0053F010 ; void __cdecl player_submit_control(long, long, s_player_action const*)
 
 //void __cdecl player_suppress_action(long, enum e_player_suppress_action_type_enum)
@@ -511,7 +511,7 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 
 //.text:0053F630 ; bool __cdecl player_teleport_internal(long, long, real_point3d const*, bool, bool)
 //.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(long, long, bool)
-//.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(long, long, real_point3d const*, vector3d const*, bool)
+//.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(long, long, real_point3d const*, real_vector3d const*, bool)
 //.text:0053FED0 ; 
 //.text:0053FEF0 ; 
 //.text:0053FF20 ; 
@@ -578,7 +578,7 @@ bool __cdecl players_any_are_near_death(long* out_unit_index)
 //.text:00540DC0 ; bool __cdecl players_arm_unit_from_campaign_armaments_data(s_campaign_armaments_player const*, long)
 //.text:00540F30 ; void __cdecl players_build_persistent_player_options(game_options*)
 //.text:00541060 ; long __cdecl players_build_weapon_from_campaign_armaments_data(s_campaign_armaments_weapon const*, long, bool*)
-//.text:00541250 ; void __cdecl players_calculate_safe_position(long, real_point3d*, vector3d*)
+//.text:00541250 ; void __cdecl players_calculate_safe_position(long, real_point3d*, real_vector3d*)
 //.text:00541310 ; void __cdecl players_compute_combined_pvs(s_game_cluster_bit_vectors*, bool)
 //.text:00541400 ; void __cdecl players_coop_desire_respawn(long)
 //.text:00541480 ; void __cdecl players_coop_update_respawn(long)

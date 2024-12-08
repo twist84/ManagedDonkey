@@ -7,8 +7,8 @@ struct s_player_model_camera_state
 	byte __data0[0xC];
 	real_point3d position;
 	real __unknown18;
-	vector3d forward;
-	vector3d up;
+	real_vector3d forward;
+	real_vector3d up;
 	real field_of_view;
 	real __unknown38;
 };

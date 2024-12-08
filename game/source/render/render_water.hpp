@@ -5,8 +5,8 @@
 struct s_ripple_data
 {
 	real_point3d __point0;
-	vector3d __vectorC;
-	vector3d __vector18;
+	real_vector3d __vectorC;
+	real_vector3d __vector18;
 	long water_ripple_definition_index;
 };
 static_assert(sizeof(s_ripple_data) == 0x28);

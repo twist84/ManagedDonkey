@@ -12,7 +12,7 @@ struct s_giant_foot_data
 	real_point3d target_point;
 	real_point3d source_point;
 	real_point3d test_point;
-	vector3d test_vector;
+	real_vector3d test_vector;
 	real target_scale;
 	short target_frame_index;
 	byte_flags foot_flags;

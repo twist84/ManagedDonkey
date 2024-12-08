@@ -56,12 +56,12 @@ struct unit_control_data
 	short grenade_index;
 	short zoom_level;
 	dword_flags control_flags;
-	vector3d throttle;
+	real_vector3d throttle;
 	real primary_trigger;
 	real secondary_trigger;
-	vector3d facing_vector;
-	vector3d aiming_vector;
-	vector3d looking_vector;
+	real_vector3d facing_vector;
+	real_vector3d aiming_vector;
+	real_vector3d looking_vector;
 	real_point3d gaze_position;
 	s_aim_assist_targeting_result aim_assist_data;
 };
@@ -183,16 +183,16 @@ struct _unit_datum
 	long game_time_at_last_unit_effect;
 	dword_flags unit_control_flags;
 	long desired_mode;
-	vector3d facing_vector;
-	vector3d desired_aiming_vector;
-	vector3d aiming_vector;
-	vector3d aiming_velocity;
-	vector3d desired_looking_vector;
-	vector3d looking_vector;
-	vector3d looking_velocity;
+	real_vector3d facing_vector;
+	real_vector3d desired_aiming_vector;
+	real_vector3d aiming_vector;
+	real_vector3d aiming_velocity;
+	real_vector3d desired_looking_vector;
+	real_vector3d looking_vector;
+	real_vector3d looking_velocity;
 	real_point3d gaze_position;
-	vector3d throttle;
-	vector3d control_throttle;
+	real_vector3d throttle;
+	real_vector3d control_throttle;
 	byte control_context_identifier;
 	char aiming_speed;
 	s_damage_reporting_info special_death_damage_reporting_info;
@@ -202,7 +202,7 @@ struct _unit_datum
 	bool __unknownAA;
 	byte __padAB[0x1];
 
-	vector3d special_death_node_acceleration;
+	real_vector3d special_death_node_acceleration;
 	real primary_trigger;
 	real secondary_trigger;
 	s_aim_assist_targeting_result aim_assist_data;
@@ -249,7 +249,7 @@ struct _unit_datum
 	real integrated_light_battery;
 	real integrated_night_vision_power;
 	real open_state;
-	vector3d seat_acceleration;
+	real_vector3d seat_acceleration;
 	c_static_array<real_point3d, k_seat_acceleration_memory_length> seat_acceleration_memory;
 	short seat_acceleration_memory_index;
 	long last_seat_acceleration_reset_from_warping_time;
@@ -302,8 +302,8 @@ struct _unit_datum
 
 	long sync_action_type;
 	real_point3d sync_action_origin;
-	vector3d sync_action_forward;
-	vector3d sync_action_up;
+	real_vector3d sync_action_forward;
+	real_vector3d sync_action_up;
 	bool sync_action_critical_participant;
 	byte __pad2F9[0x3];
 
@@ -418,7 +418,7 @@ extern long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent
 extern long __cdecl unit_get_aim_assist_dash_target(long unit_index);
 extern bool __cdecl unit_get_aim_position(long unit_index, real_point3d* aim_position);
 extern long __cdecl unit_get_aiming_unit_index(long unit_index);
-extern void __cdecl unit_get_aiming_vector(long unit_index, vector3d* aiming_vector);
+extern void __cdecl unit_get_aiming_vector(long unit_index, real_vector3d* aiming_vector);
 extern short __cdecl unit_get_all_seats(long unit_index, unit_seat_source* sources, short maximum_source_count, bool a4);
 extern void __cdecl unit_get_camera_position(long unit_index, real_point3d* position);
 extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
@@ -428,7 +428,7 @@ extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapo
 extern long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index);
 extern void __cdecl unit_render_debug(long unit_index);
 extern bool __cdecl unit_try_to_drop_weapon(long unit_index, bool drop_secondary);
-extern bool __cdecl unit_unsuspecting(long unit_index, real_point3d const* attacker_position, vector3d const* attacker_direction);
+extern bool __cdecl unit_unsuspecting(long unit_index, real_point3d const* attacker_position, real_vector3d const* attacker_direction);
 extern void __cdecl unit_unzoom(long unit_index, bool a2);
 extern bool __cdecl unit_update(long unit_index);
 extern void __cdecl unit_update_active_camouflage(long unit_index);

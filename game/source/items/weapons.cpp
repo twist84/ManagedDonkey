@@ -35,7 +35,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5B4B0 ; 
 //.text:00B5B4C0 ; 
 //.text:00B5B4D0 ; double __cdecl indirect_fire_compute_arcing_fraction(long, float)
-//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(long, long, long, real_point3d const*, vector3d*, real*)
+//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(long, long, long, real_point3d const*, real_vector3d*, real*)
 //.text:00B5B770 ; bool __cdecl indirect_fire_get_aim_target_position(long, real_point3d*)
 //.text:00B5B7D0 ; 
 //.text:00B5B7E0 ; 
@@ -50,7 +50,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5BD90 ; bool __cdecl weapon_action_can_be_interrupted(long)
 //.text:00B5BDD0 ; void __cdecl weapon_age(long, real)
 //.text:00B5BEC0 ; bool __cdecl weapon_age_external(long)
-//.text:00B5BF40 ; bool __cdecl weapon_aim(long, short, real_point3d const*, real_point3d const*, real*, bool, vector3d*, real*, real*, real*, bool*)
+//.text:00B5BF40 ; bool __cdecl weapon_aim(long, short, real_point3d const*, real_point3d const*, real*, bool, real_vector3d*, real*, real*, real*, bool*)
 //.text:00B5C010 ; bool __cdecl weapon_allows_unaimed_lunge(long)
 //.text:00B5C060 ; void __cdecl weapon_apply_predicted_state(long)
 //.text:00B5C100 ; 
@@ -59,7 +59,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5C430 ; void __cdecl weapon_barrel_accuracy_penalty_jump(long)
 //.text:00B5C450 ; void __cdecl weapon_barrel_accuracy_penalty_movement(long, long)
 //.text:00B5C610 ; void __cdecl weapon_barrel_accuracy_penalty_reload(long)
-//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(long, vector3d const*, vector3d const*)
+//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(long, real_vector3d const*, real_vector3d const*)
 //.text:00B5C830 ; void __cdecl weapon_barrel_accuracy_penalty_weapon_switch(long)
 //.text:00B5C850 ; void __cdecl weapon_barrel_accuracy_penalty_zoom(long)
 //.text:00B5C870 ; bool __cdecl weapon_barrel_apply_fire_error(long, long, bool)

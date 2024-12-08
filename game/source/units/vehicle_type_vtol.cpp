@@ -2,12 +2,12 @@
 
 #include "motor/vehicle_motor_program.hpp"
 
-void __cdecl c_vehicle_type_vtol::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void __cdecl c_vehicle_type_vtol::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	return INVOKE(0x00BD0C30, c_vehicle_type_vtol::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-void __cdecl c_vehicle_type_vtol::apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, vector3d* force, vector3d* torque)
+void __cdecl c_vehicle_type_vtol::apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, real_vector3d* force, real_vector3d* torque)
 {
 	INVOKE(0x00BD0C40, c_vehicle_type_vtol::apply_thrust, vehicle_index, instance, vector, origin, marker_name, thrust, force, torque);
 }
@@ -46,7 +46,7 @@ bool c_vehicle_type_vtol::compute_function_value(long vehicle_index, long functi
 	return INVOKE_CLASS_MEMBER(0x00BD1BB0, c_vehicle_type_vtol, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
 
-void c_vehicle_type_vtol::compute_throttle(long vehicle_index, vector3d* throttle)
+void c_vehicle_type_vtol::compute_throttle(long vehicle_index, real_vector3d* throttle)
 {
 	INVOKE_CLASS_MEMBER(0x00BD1CF0, c_vehicle_type_vtol, compute_throttle, vehicle_index, throttle);
 }
@@ -66,7 +66,7 @@ bool __cdecl c_vehicle_type_vtol::effected_by_vehicle_ceiling(long vehicle_index
 	return INVOKE(0x00BD1F70, c_vehicle_type_vtol::effected_by_vehicle_ceiling, vehicle_index);
 }
 
-void c_vehicle_type_vtol::interpolate_lift_angles(long vehicle_index, euler_angles2d* angles, vector2d* velocity, euler_angles2d const* desired_angles, bool render_angles)
+void c_vehicle_type_vtol::interpolate_lift_angles(long vehicle_index, real_euler_angles2d* angles, real_vector2d* velocity, real_euler_angles2d const* desired_angles, bool render_angles)
 {
 	INVOKE_CLASS_MEMBER(0x00BD1F80, c_vehicle_type_vtol, interpolate_lift_angles, vehicle_index, angles, velocity, desired_angles, render_angles);
 }
@@ -106,7 +106,7 @@ void c_vehicle_type_vtol::update_control(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD2430, c_vehicle_type_vtol, update_control, vehicle_index);
 }
 
-void c_vehicle_type_vtol::update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, vector3d const* throttle, real desired_acceleration_k, long marker_name, vector3d* lift_vector, real_point3d* lift_origin, euler_angles2d* angles, euler_angles2d* render_angles, vector2d* velocity, vector2d* render_velocity, real* effect_scale)
+void c_vehicle_type_vtol::update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* throttle, real desired_acceleration_k, long marker_name, real_vector3d* lift_vector, real_point3d* lift_origin, real_euler_angles2d* angles, real_euler_angles2d* render_angles, real_vector2d* velocity, real_vector2d* render_velocity, real* effect_scale)
 {
 	INVOKE_CLASS_MEMBER(0x00BD24E0, c_vehicle_type_vtol, update_lift_vector, vehicle_index, instance, throttle, desired_acceleration_k, marker_name, lift_vector, lift_origin, angles, render_angles, velocity, render_velocity, effect_scale);
 }
@@ -121,7 +121,7 @@ void c_vehicle_type_vtol::update_rotor_damping(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD35A0, c_vehicle_type_vtol, update_rotor_damping, vehicle_index);
 }
 
-bool __cdecl c_vehicle_type_vtol::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_vtol::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	return INVOKE(0x00BD3790, c_vehicle_type_vtol::vector_is_upsides_down, vehicle_index, vector);
 }

@@ -44,7 +44,7 @@ struct object_type_definition
 	void(__cdecl* handle_deleted_player)(long object_index, long deleted_player_index);
 	void(__cdecl* handle_region_destroyed)(long object_index, short region_index, dword damage_region_flags);
 	bool(__cdecl* handle_parent_destroyed)(long object_index);
-	void(__cdecl* datum_fix_transform)(long object_index, real_point3d* position, vector3d* forward, vector3d* up);
+	void(__cdecl* datum_fix_transform)(long object_index, real_point3d* position, real_vector3d* forward, real_vector3d* up);
 	void(__cdecl* datum_fix_transform_to_physics)(long object_index, real_matrix4x3* world_matrix);
 	void(__cdecl* datum_fix_transform_from_physics)(long object_index, real_matrix4x3* world_matrix);
 	void(__cdecl* datum_preprocess_node_orientations)(long object_index, c_static_flags<256> const* node_mask, long node_orientation_count, real_orientation* node_orientations);

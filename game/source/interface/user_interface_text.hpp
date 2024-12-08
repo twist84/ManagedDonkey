@@ -205,7 +205,7 @@ protected:
 	long m_tab_stop_count;
 	real_point2d m_rotation_origin;
 	real m_rotation;
-	vector2d m_scroll_amount;
+	real_vector2d m_scroll_amount;
 	real m_scale;
 };
 static_assert(sizeof(c_user_interface_text) == 0x5C);

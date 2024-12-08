@@ -16,7 +16,7 @@ struct ai_player_state
 	bool crazy_vehicle_vocalized;
 	bool needs_vehicle;
 	long needs_vehicle_time;
-	vector3d battle_vector;
+	real_vector3d battle_vector;
 };
 static_assert(sizeof(ai_player_state) * 0x2C);
 static_assert(sizeof(ai_player_state) * 4 == 0xB0);

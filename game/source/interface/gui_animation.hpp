@@ -9,7 +9,7 @@ struct s_animation_transform
 
 	real_argb_color color;
 	real_point3d position;
-	vector2d scale;
+	real_vector2d scale;
 	real_point2d local_scale_origin;
 	real rotation_angle_radians;
 	real sine_rotation_angle;

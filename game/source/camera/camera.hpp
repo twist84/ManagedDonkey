@@ -29,7 +29,7 @@ struct c_camera
 	virtual long get_target() const;
 	virtual void set_target(long object_index);
 	virtual void set_position(real_point3d const* position);
-	virtual void set_forward(vector3d const* forward);
+	virtual void set_forward(real_vector3d const* forward);
 	virtual void set_roll(real roll);
 	virtual void enable_orientation(bool enabled);
 	virtual void enable_movement(bool enabled);

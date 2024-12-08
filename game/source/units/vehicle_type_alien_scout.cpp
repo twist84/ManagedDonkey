@@ -2,7 +2,7 @@
 
 #include "motor/vehicle_motor_program.hpp"
 
-void __cdecl c_vehicle_type_alien_scout::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void __cdecl c_vehicle_type_alien_scout::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	INVOKE(0x00BCAA90, c_vehicle_type_alien_scout::adjust_gravity, vehicle_index, gravity_acceleration);
 }
@@ -13,9 +13,9 @@ bool c_vehicle_type_alien_scout::compute_function_value(long vehicle_index, long
 }
 
 // this belongs in vehicle_scout_utilities.cpp
-//.text:00BCAC60 ; real __cdecl scout_compute_function_velocity(real, real, bool, s_engine_function_definition const*, vector3d const*, vector3d const*, vector3d const*, real, real, real)
+//.text:00BCAC60 ; real __cdecl scout_compute_function_velocity(real, real, bool, s_engine_function_definition const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real, real, real)
 
-void c_vehicle_type_alien_scout::compute_throttle(long vehicle_index, vector3d* throttle)
+void c_vehicle_type_alien_scout::compute_throttle(long vehicle_index, real_vector3d* throttle)
 {
 	INVOKE_CLASS_MEMBER(0x00BCAE30, c_vehicle_type_alien_scout, compute_throttle, vehicle_index, throttle);
 }
@@ -75,7 +75,7 @@ void c_vehicle_type_alien_scout::update_physics(long vehicle_index, s_havok_vehi
 	INVOKE_CLASS_MEMBER(0x00BCB510, c_vehicle_type_alien_scout, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_alien_scout::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_alien_scout::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	return INVOKE(0x00BCCC70, c_vehicle_type_alien_scout::vector_is_upsides_down, vehicle_index, vector);
 }

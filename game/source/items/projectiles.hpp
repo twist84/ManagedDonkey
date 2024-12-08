@@ -15,7 +15,7 @@ struct _projectile_datum
 	char action;
 	char consecutive_collision_counter;
 	c_global_material_type hit_global_material;
-	vector3d hit_normal;
+	real_vector3d hit_normal;
 	long ignore_object_index;
 	long secondary_ignore_object_index;
 	s_projectile_targeting_data targeting_data;
@@ -33,7 +33,7 @@ struct _projectile_datum
 	real bounce_odometer;
 	real velocity_scale;
 	real maximum_damage_distance;
-	vector3d rotation_axis;
+	real_vector3d rotation_axis;
 	real rotation_sine;
 	real rotation_cosine;
 	real damage_scale;

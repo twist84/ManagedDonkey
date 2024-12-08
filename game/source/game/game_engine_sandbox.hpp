@@ -69,8 +69,8 @@ struct s_sandbox_globals
 	c_static_array<long, 16> edited_object_ids;
 	c_static_array<float, 16> cursor_distance_from_camera;
 	c_static_array<real_point3d, 16> cursor_position;
-	c_static_array<vector3d, 16> cursor_normal;
-	c_static_array<vector3d, 16> cursor_vector;
+	c_static_array<real_vector3d, 16> cursor_normal;
+	c_static_array<real_vector3d, 16> cursor_vector;
 	c_static_array<long, 16> object_under_cursor;
 	c_static_array<bool, 16> rotating_object;
 	c_static_array<long, 64> tracked_edited_objects;

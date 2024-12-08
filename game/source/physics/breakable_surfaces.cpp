@@ -6,7 +6,7 @@
 //.text:00568770 ; 
 //.text:005687B0 ; 
 //.text:005687F0 ; 
-//.text:00568810 ; void __cdecl breakable_surface_break(long, long, long, long, long, real_point3d const*, s_location const*, vector3d const*)
+//.text:00568810 ; void __cdecl breakable_surface_break(long, long, long, long, long, real_point3d const*, s_location const*, real_vector3d const*)
 //.text:00568A00 ; 
 //.text:00568DF0 ; void __cdecl breakable_surface_break_unsupported_surfaces(long, long, long, real_point3d const*, s_location const*)
 //.text:00568FB0 ; void __cdecl breakable_surface_create_impact_decal(real_point3d const*, long, long, long)
@@ -27,7 +27,7 @@
 //.text:00569DE0 ; long __cdecl breakable_surface_get_surface_set_count(long, long)
 //.text:00569E30 ; 
 //.text:00569E40 ; void __cdecl breakable_surface_group_set_gamestate_index(long, long, long)
-//.text:00569E50 ; void __cdecl breakable_surface_particle_initialize(long, real_point3d*, vector3d*)
+//.text:00569E50 ; void __cdecl breakable_surface_particle_initialize(long, real_point3d*, real_vector3d*)
 //.text:0056A310 ; bool __cdecl breakable_surface_particle_system_bounding_sphere_origin_initialize(long, real_point3d*)
 //.text:0056A360 ; void __cdecl breakable_surface_render_cracks(long, long, long)
 //.text:0056A8E0 ; void __cdecl breakable_surface_set_crack_stencil_decal_state()

@@ -235,13 +235,13 @@ bool __cdecl simulation_query_object_placement(object_placement_data const* data
 //.text:004B5100 ; void __cdecl simulation_request_put_away_weapon(long, short)
 //.text:004B51E0 ; void __cdecl simulation_request_touch_device(long, long)
 //.text:004B51E0 ; void __cdecl simulation_request_touch_device(long, long)
-//.text:004B5240 ; void __cdecl simulation_request_unit_assassinate(long, long, long, real_point3d const*, vector3d const*, vector3d const*, s_simulation_biped_melee_damage_event_data const*)
+//.text:004B5240 ; void __cdecl simulation_request_unit_assassinate(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*, s_simulation_biped_melee_damage_event_data const*)
 //.text:004B5300 ; void __cdecl simulation_request_unit_enter_vehicle(long, long, short)
 //.text:004B5360 ; void __cdecl simulation_request_unit_exit_and_detach_vehicle(long)
 //.text:004B53F0 ; void __cdecl simulation_request_unit_exit_vehicle(long)
 //.text:004B5480 ; void __cdecl simulation_request_unit_melee_damage(long, long, long, s_unit_player_melee_damage_target const*)
 //.text:004B5630 ; void __cdecl simulation_request_unit_melee_damage_with_prebuilt_event_data(long, long, s_simulation_biped_melee_damage_event_data*)
-//.text:004B56C0 ; void __cdecl simulation_request_unit_throw_release(long, short, long, real_point3d const*, vector3d const*)
+//.text:004B56C0 ; void __cdecl simulation_request_unit_throw_release(long, short, long, real_point3d const*, real_vector3d const*)
 //.text:004B5810 ; void __cdecl simulation_request_vehicle_trick(long, long)
 
 c_simulation_object_update_flags::c_simulation_object_update_flags() :

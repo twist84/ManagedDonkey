@@ -20,7 +20,7 @@ static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 //{
 //	using k_collision_bsp_type = struct collision_bsp;
 //	using k_bsp3d_nodes_type = struct bsp3d_node;
-//	using k_planes_type = struct plane3d;
+//	using k_planes_type = struct real_plane3d;
 //	using k_leaves_type = struct collision_leaf;
 //	using k_bsp2d_references_type = struct bsp2d_reference;
 //	using k_bsp2d_nodes_type = struct bsp2d_node;
@@ -33,7 +33,7 @@ static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 //{
 //	using k_collision_bsp_type = struct large_collision_bsp;
 //	using k_bsp3d_nodes_type = struct large_bsp3d_node;
-//	using k_planes_type = struct plane3d;
+//	using k_planes_type = struct real_plane3d;
 //	using k_leaves_type = struct large_collision_leaf;
 //	using k_bsp2d_references_type = struct large_bsp2d_reference;
 //	using k_bsp2d_nodes_type = struct large_bsp2d_node;
@@ -64,7 +64,7 @@ struct collision_vertex;
 struct collision_bsp
 {
 	c_typed_tag_block<bsp3d_node> bsp3d_nodes;
-	c_typed_tag_block<plane3d> planes;
+	c_typed_tag_block<real_plane3d> planes;
 	c_typed_tag_block<collision_leaf> leaves;
 	c_typed_tag_block<bsp2d_reference> bsp2d_references;
 	c_typed_tag_block<bsp2d_node> bsp2d_nodes;
@@ -84,7 +84,7 @@ struct large_collision_vertex;
 struct large_collision_bsp
 {
 	c_typed_tag_block<large_bsp3d_node> bsp3d_nodes;
-	c_typed_tag_block<plane3d> planes;
+	c_typed_tag_block<real_plane3d> planes;
 	c_typed_tag_block<large_collision_leaf> leaves;
 	c_typed_tag_block<large_bsp2d_reference> bsp2d_references;
 	c_typed_tag_block<large_bsp2d_node> bsp2d_nodes;
@@ -167,7 +167,7 @@ static_assert(sizeof(large_bsp2d_reference) == 0x8);
 
 struct bsp2d_node
 {
-	plane2d plane;
+	real_plane2d plane;
 	short left_child;
 	short right_child;
 };
@@ -175,7 +175,7 @@ static_assert(sizeof(bsp2d_node) == 0x10);
 
 struct large_bsp2d_node
 {
-	plane2d plane;
+	real_plane2d plane;
 	long left_child;
 	long right_child;
 };

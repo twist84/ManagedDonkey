@@ -66,7 +66,7 @@ static_assert(sizeof(s_unit_camera) == 0x3C);
 
 struct unit_seat_acceleration
 {
-	vector3d acceleration_range; // world units per second squared
+	real_vector3d acceleration_range; // world units per second squared
 
 	// actions fail
 	real accel_action_scale; // [0,1+]
@@ -326,7 +326,7 @@ static_assert(sizeof(unit_definition) == sizeof(_object_definition) + sizeof(_un
 struct s_posture_definition
 {
 	c_string_id name;
-	vector3d pill_offset;
+	real_vector3d pill_offset;
 };
 static_assert(sizeof(s_posture_definition) == 0x10);
 

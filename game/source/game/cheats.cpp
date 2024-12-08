@@ -242,8 +242,8 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 			continue;
 
 		real_point3d origin{};
-		vector3d forward{};
-		vector3d up{};
+		real_vector3d forward{};
+		real_vector3d up{};
 
 		object_get_origin(player->unit_index, &origin);
 		object_get_orientation(player->unit_index, &forward, &up);
@@ -373,7 +373,7 @@ void __cdecl cheat_spawn_warthog()
 	cheat_objects(references, reference_count);
 }
 
-bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effect_index, real_point3d* position, vector3d* forward)
+bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effect_index, real_point3d* position, real_vector3d* forward)
 {
 	if (effect_index == NONE)
 	{
@@ -382,7 +382,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	}
 
 	collision_result collision;
-	vector3d scaled_forward{};
+	real_vector3d scaled_forward{};
 	scale_vector3d(forward, 1000.0f, &scaled_forward);
 
 	if (!collision_test_vector(_collision_test_structure_geometry_flags, position, &scaled_forward, NONE, NONE, &collision))
@@ -392,7 +392,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	}
 
 	real_point3d collision_position = collision.position;
-	vector3d normal = collision.plane.n;
+	real_vector3d normal = collision.plane.n;
 
 	collision_position.x -= forward->i * 0.25f;
 	collision_position.y -= forward->j * 0.25f;
@@ -403,7 +403,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	return true;
 }
 
-bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long object_definition_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long object_definition_index, long variant_name, long shader, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char const* tag_group_name = "unknown";
 
@@ -657,7 +657,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 		if (group_tag == EFFECT_TAG)
 		{
 			real_point3d focus_point = result->position;
-			vector3d forward = result->forward;
+			real_vector3d forward = result->forward;
 			cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &focus_point, &forward);
 		}
 		else if (group_tag == OBJECT_TAG)

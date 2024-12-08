@@ -24,7 +24,7 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 	return INVOKE(0x00B75510, vehicle_about_to_detonate_near_any_player, out_vehicle_index);
 }
 
-//.text:00B756E0 ; void __cdecl vehicle_adjust_gravity(long, vector3d*)
+//.text:00B756E0 ; void __cdecl vehicle_adjust_gravity(long, real_vector3d*)
 //.text:00B75770 ; bool __cdecl vehicle_auto_control(long)
 //.text:00B757B0 ; 
 //.text:00B757C0 ; bool __cdecl vehicle_calculate_aabb_phantom_bounds(long, real_rectangle3d*)

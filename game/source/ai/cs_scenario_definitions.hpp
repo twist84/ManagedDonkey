@@ -17,7 +17,7 @@ struct cs_point
 	short bsp_index;
 	short sector_index;
 
-	euler_angles2d facing_direction;
+	real_euler_angles2d facing_direction;
 };
 static_assert(sizeof(cs_point) == 0x3C);
 

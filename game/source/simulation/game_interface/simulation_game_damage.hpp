@@ -10,9 +10,9 @@ struct s_simulation_damage_aftermath_event_data
 	long __unknown4;
 	short damage_owner_player_index;
 	bool direction_valid;
-	vector3d direction;
+	real_vector3d direction;
 	bool epicenter_valid;
-	vector3d epicenter_direction_vector;
+	real_vector3d epicenter_direction_vector;
 	real epicenter_direction;
 	real shake;
 	real shake_scale;

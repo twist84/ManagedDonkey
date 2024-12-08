@@ -40,7 +40,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 		break;
 		case _shape_cylinder:
 		{
-			vector3d height{};
+			real_vector3d height{};
 			real_point3d base{};
 
 			real absolute_boundary_positive_height = fabsf(geometry_data->boundary_positive_height);
@@ -64,15 +64,15 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			real absolute_boundary_width = fabsf(geometry_data->boundary_width);
 			real absolute_boundary_box_length = fabsf(geometry_data->boundary_box_length);
 
-			bounds.x.lower = absolute_boundary_width / 2;
-			bounds.x.upper = absolute_boundary_width / -2;
+			bounds.x0 = absolute_boundary_width / 2;
+			bounds.x1 = absolute_boundary_width / -2;
 
-			bounds.y.lower = absolute_boundary_box_length / 2;
-			bounds.y.upper = absolute_boundary_box_length / -2;
+			bounds.y0 = absolute_boundary_box_length / 2;
+			bounds.y1 = absolute_boundary_box_length / -2;
 
 			real v7 = absolute_boundary_positive_height - ((absolute_boundary_negative_height + absolute_boundary_positive_height) / 2);
-			bounds.z.lower = absolute_boundary_positive_height - v7;
-			bounds.z.upper = -absolute_boundary_negative_height - v7;
+			bounds.z0 = absolute_boundary_positive_height - v7;
+			bounds.z1 = -absolute_boundary_negative_height - v7;
 
 			render_debug_box_outline_oriented(false, &bounds, &geometry_data->boundary_matrix, color);
 		}

@@ -39,7 +39,7 @@ s_physics_constants* __cdecl global_physics_constants_get()
 	//INVOKE(0x006815A0, global_physics_constants_get);
 }
 
-vector3d* __cdecl global_physics_velocity_frame_get()
+real_vector3d* __cdecl global_physics_velocity_frame_get()
 {
 	return &global_physics_constants_get()->velocity_frame;
 

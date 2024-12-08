@@ -10,12 +10,12 @@ struct s_havok_vehicle_physics_instance;
 struct c_vehicle_type_chopper
 {
 public:
-	static void __cdecl adjust_gravity(long vehicle_index, vector3d* gravity_acceleration);
+	static void __cdecl adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 	bool compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
 	static void __cdecl create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
 	static bool __cdecl effected_by_vehicle_ceiling(long vehicle_index);
-	static vector3d const* __cdecl get_debug_magic_force_vector(long vehicle_index, real_point3d* origin);
+	static real_vector3d const* __cdecl get_debug_magic_force_vector(long vehicle_index, real_point3d* origin);
 	s_vehicle_engine* const get_engine(long vehicle_index);
 	bool is_e_braking(long vehicle_index);
 	bool is_stopped(long vehicle_index);
@@ -36,13 +36,13 @@ private:
 
 public:
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(long vehicle_index, vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
 	s_vehicle_engine m_engine;
 	c_animation_id m_ground_speed_animation_id;
 	c_animation_id m_turn_animation_id;
-	vector3d m_last_relative_angular_velocity;
+	real_vector3d m_last_relative_angular_velocity;
 	real m_wheel;
 	real m_wheel_speed;
 	real m_turn;

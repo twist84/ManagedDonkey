@@ -80,7 +80,7 @@ cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario)
 //.text:01444C00 ; long __cdecl cs_stack_command_script(long, short, long)
 //.text:01444C90 ; 
 //.text:01444CC0 ; 
-//.text:01444CF0 ; bool __cdecl point_ref_get_position_and_orientation(long, real_point3d*, vector3d*, vector3d*)
+//.text:01444CF0 ; bool __cdecl point_ref_get_position_and_orientation(long, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:01444D80 ; 
 //.text:01444DC0 ; bool __cdecl valid_point_ref(long)
 //.text:01444E30 ; bool __cdecl valid_point_set(long)

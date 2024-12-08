@@ -18,7 +18,7 @@ static_assert(sizeof(s_structure_physics) == 0x40);
 
 struct s_structure_soft_ceiling_triangle
 {
-	plane3d plane;
+	real_plane3d plane;
 	real_point3d bounding_sphere_center;
 	real bounding_sphere_radius;
 	real_point3d vertex0;
@@ -52,7 +52,7 @@ struct s_structure_physics_water_instance
 {
 	short group;
 	byte PAD0[0x2];
-	vector3d direction;
+	real_vector3d direction;
 	angle angle;
 	s_tag_block water_planes;
 	c_typed_tag_block<s_structure_physics_water_instance_debug_triangle>  water_debug_triangles;

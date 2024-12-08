@@ -699,7 +699,7 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 //.text:00A3AFB0 ; void __cdecl render_texture_camera_set_fov_frame_target(real)
 //.text:00A3AFF0 ; void __cdecl render_texture_camera_set_object_marker(long, long, real)
 //.text:00A3B0F0 ; void __cdecl render_texture_camera_set_position(real, real, real)
-//.text:00A3B150 ; void __cdecl render_texture_camera_set_position_and_direction(bool, real_point3d const*, vector3d const*, vector3d const*, real)
+//.text:00A3B150 ; void __cdecl render_texture_camera_set_position_and_direction(bool, real_point3d const*, real_vector3d const*, real_vector3d const*, real)
 //.text:00A3B240 ; 
 //.text:00A3B280 ; void __cdecl render_texture_camera_set_resolution(long, long)
 //.text:00A3B2E0 ; void __cdecl render_texture_camera_set_target(real, real, real)

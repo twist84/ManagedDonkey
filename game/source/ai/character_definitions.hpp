@@ -153,13 +153,13 @@ static_assert(sizeof(character_perception_properties) == 0x1);
 struct character_look_properties
 {
 	// how far we can turn our weapon
-	euler_angles2d maximum_aiming_deviation; // degrees
+	real_euler_angles2d maximum_aiming_deviation; // degrees
 
 	// how far we can turn our head
-	euler_angles2d maximum_looking_deviation; // degrees
+	real_euler_angles2d maximum_looking_deviation; // degrees
 
-	euler_angles2d runtime_aiming_deviation_cosines;
-	euler_angles2d runtime_looking_deviation_cosines;
+	real_euler_angles2d runtime_aiming_deviation_cosines;
+	real_euler_angles2d runtime_looking_deviation_cosines;
 
 	// how far we can turn our head left away from our aiming vector when not in combat
 	angle noncombat_look_delta_left; // degrees

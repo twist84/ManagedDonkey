@@ -350,7 +350,7 @@ void ai_debug_drawstack_setup(real_point3d const* position)
 
 	if (camera)
 	{
-		vector3d vector{};
+		real_vector3d vector{};
 		vector_from_points3d(&global_ai_debug_drawstack_last_position, &camera->position, &vector);
 		global_ai_debug_drawstack_height = magnitude3d(&vector) / 40.0f;
 	}
@@ -645,15 +645,15 @@ void ai_debug_render_squads()
 			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
 			while (actor_datum* squad_actor = squad_actor_iterator_next(&squad_actor_iter))
 			{
-				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.head_position, (vector3d*)&position);
-				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.body_position, (vector3d*)&position);
+				add_vectors3d((real_vector3d*)&position, (real_vector3d*)&squad_actor->input.position.head_position, (real_vector3d*)&position);
+				add_vectors3d((real_vector3d*)&position, (real_vector3d*)&squad_actor->input.position.body_position, (real_vector3d*)&position);
 				scale += 2;
 			}
 		}
 
 		if (scale > 0)
 		{
-			scale_vector3d((vector3d*)&position, 1.0f / (real)scale, (vector3d*)&position);
+			scale_vector3d((real_vector3d*)&position, 1.0f / (real)scale, (real_vector3d*)&position);
 			ai_debug_drawstack_setup(&position);
 			render_debug_sphere(true, &position, 0.3f, global_real_argb_red);
 

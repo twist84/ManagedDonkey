@@ -28,7 +28,7 @@ static_assert(sizeof(participant_entry) == 0xC);
 struct crossfire_data
 {
 	long target_object_index;
-	vector3d target_to_initiator;
+	real_vector3d target_to_initiator;
 	long crossfire_timer;
 	long position_timer;
 	bool reached_cross_position;
@@ -83,7 +83,7 @@ struct pursuit_sync_data
 	real position_time;
 	pursuit_location pursuit_location;
 	real orphan_time;
-	vector3d orphan_vector;
+	real_vector3d orphan_vector;
 };
 static_assert(sizeof(pursuit_sync_data) == 0x3C);
 
@@ -92,7 +92,7 @@ struct joint_vehicle_flip_data
 	long vehicle_index;
 	short num_ready;
 	short num_required;
-	vector3d target_direction;
+	real_vector3d target_direction;
 	short current_position_index;
 };
 static_assert(sizeof(joint_vehicle_flip_data) == 0x18);

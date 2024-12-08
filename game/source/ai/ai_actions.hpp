@@ -19,7 +19,7 @@ struct c_ai_direction
 		long m_pref_index;
 		long m_object_index;
 		real_point3d m_point;
-		vector3d m_vector;
+		real_vector3d m_vector;
 		c_ai_point3d m_ai_point;
 	};
 };

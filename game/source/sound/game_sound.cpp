@@ -29,12 +29,12 @@ void __cdecl game_sound_dispose_from_old_structure_bsp(dword deactivating_struct
 //.text:005D8760 ; 
 //.text:005D8770 ; void __cdecl game_sound_fade_in_at_game_begin()
 //.text:005D87E0 ; s_portal_reference __cdecl game_sound_find_closest_portal(real_point3d const*, s_cluster_reference, real*)
-//.text:005D8950 ; s_portal_reference __cdecl game_sound_find_closest_portal_directed(real_point3d const*, vector3d const*, s_cluster_reference, real*)
+//.text:005D8950 ; s_portal_reference __cdecl game_sound_find_closest_portal_directed(real_point3d const*, real_vector3d const*, s_cluster_reference, real*)
 //.text:005D8B90 ; double __cdecl game_sound_get_cluster_distance(s_cluster_reference, s_cluster_reference)
 //.text:005D8BD0 ; double __cdecl game_sound_get_door_occlusion(long, long)
 //.text:005D8C50 ; 
 //.text:005D8CA0 ; 
-//.text:005D8D00 ; void __cdecl game_sound_get_object_velocity(long, vector3d*)
+//.text:005D8D00 ; void __cdecl game_sound_get_object_velocity(long, real_vector3d*)
 //.text:005D8DA0 ; 
 //.text:005D8DE0 ; 
 //.text:005D8E20 ; 

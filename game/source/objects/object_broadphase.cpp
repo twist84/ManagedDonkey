@@ -2,7 +2,7 @@
 
 //.text:00B966B0 ; 
 //.text:00B966D0 ; 
-//.text:00B966F0 ; public: __cdecl c_object_broadphase_ray_cast_callback::c_object_broadphase_ray_cast_callback(s_collision_test_flags, dword, real_point3d const*, vector3d const*, long, long, long, collision_result*, real, real)
+//.text:00B966F0 ; public: __cdecl c_object_broadphase_ray_cast_callback::c_object_broadphase_ray_cast_callback(s_collision_test_flags, dword, real_point3d const*, real_vector3d const*, long, long, long, collision_result*, real, real)
 //.text:00B96780 ; 
 //.text:00B96790 ; 
 //.text:00B967B0 ; 
@@ -66,7 +66,7 @@ void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword activating
 }
 
 //.text:00B97420 ; 
-//.text:00B97510 ; bool __cdecl object_broadphase_ray_cast(s_collision_test_flags, dword, real_point3d const*, vector3d const*, long, long, long, collision_result*)
+//.text:00B97510 ; bool __cdecl object_broadphase_ray_cast(s_collision_test_flags, dword, real_point3d const*, real_vector3d const*, long, long, long, collision_result*)
 //.text:00B97720 ; void __cdecl object_broadphase_remove_object(long)
 //.text:00B97840 ; void __cdecl __tls_set_g_object_broadphase_allocator(void*)
 //.text:00B97870 ; 

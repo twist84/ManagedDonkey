@@ -85,9 +85,9 @@ struct s_runtime_model_widget_camera_settings
 	real movement_speed;
 	real magnetism_constant;
 	s_tag_block movement_scale_fxn;
-	euler_angles2d initial_rotation; // degrees
-	euler_angles2d minimum_rotation; // degrees
-	euler_angles2d maximum_rotation; // degrees
+	real_euler_angles2d initial_rotation; // degrees
+	real_euler_angles2d minimum_rotation; // degrees
+	real_euler_angles2d maximum_rotation; // degrees
 	real rotation_speed; // degrees per tick
 	s_tag_reference model;
 	c_string_id variant;
@@ -127,8 +127,8 @@ struct c_gui_model_widget :
 	//	__rotation1C44 *= get_model()->rotation_speed;
 	//else
 	//	__rotation1C3C *= get_model()->rotation_speed;
-	euler_angles2d __rotation1C3C;
-	euler_angles2d __rotation1C44;
+	real_euler_angles2d __rotation1C3C;
+	real_euler_angles2d __rotation1C44;
 
 	// m_zoom = get_model()->initial_zoom
 	real m_zoom;

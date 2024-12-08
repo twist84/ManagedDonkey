@@ -248,7 +248,7 @@ struct multiplayer_player_info
 
 	bool map_editor_rotating;
 	real_point2d map_editor_throttle;
-	euler_angles2d map_editor_rotation;
+	real_euler_angles2d map_editor_rotation;
 
 	byte __data58[0x8];
 
@@ -395,7 +395,7 @@ struct player_datum :
 		word __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
 	};
 
-	vector3d position;
+	real_vector3d position;
 
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
@@ -500,7 +500,7 @@ struct player_datum :
 		long weak_assassination_unit_index;
 		bool is_assassination_victim;
 		real_point3d assassination_authoritative_position;
-		vector3d assassination_authoritative_forward;
+		real_vector3d assassination_authoritative_forward;
 		c_typed_opaque_data<struct s_simulation_unit_melee_damage_event_data, sizeof(_simulation_unit_melee_damage_event_data), __alignof(_simulation_unit_melee_damage_event_data) - 1> melee_damage_event_data;
 	};
 
@@ -661,7 +661,7 @@ struct s_players_global_data
 	byte __data13D[0x3];
 
 	real_point3d switching_player_position;
-	vector3d switching_player_forward;
+	real_vector3d switching_player_forward;
 
 	// player_positions_initialize_for_new_structure_bsp
 	// players_update_after_game
@@ -748,7 +748,7 @@ extern void __cdecl player_positions_dispose_from_old_structure_bsp(dword deacti
 extern void __cdecl player_positions_initialize();
 extern void __cdecl player_positions_initialize_for_new_map();
 extern void __cdecl player_positions_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
-extern void __cdecl player_set_facing(long player_index, vector3d const* facing);
+extern void __cdecl player_set_facing(long player_index, real_vector3d const* facing);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern bool __cdecl player_spawn(long player_index, real_point3d const* position, real const* facing);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);

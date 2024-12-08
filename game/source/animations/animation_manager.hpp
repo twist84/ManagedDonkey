@@ -30,7 +30,7 @@ struct c_animation_manager
 	word_flags m_internal_flags;
 	s_animation_goal_settings m_goal_settings;
 	s_animation_goal_settings m_previous_goal;
-	vector3d m_transition_delta;
+	real_vector3d m_transition_delta;
 };
 static_assert(sizeof(c_animation_manager) == 0xC0);
 

@@ -243,7 +243,7 @@ long c_collision_surface_reference::get_material_index() const
 	return material;
 }
 
-plane3d const* c_collision_surface_reference::get_plane(plane3d* plane) const
+real_plane3d const* c_collision_surface_reference::get_plane(real_plane3d* plane) const
 {
 	ASSERT(plane);
 
@@ -253,7 +253,7 @@ plane3d const* c_collision_surface_reference::get_plane(plane3d* plane) const
 	return bsp3d_get_plane_from_designator_internal(get_large_bsp(), get_large_bsp()->surfaces[m_surface_index].plane, plane);
 }
 
-plane3d const* c_collision_surface_reference::get_plane(bool* is_negated) const
+real_plane3d const* c_collision_surface_reference::get_plane(bool* is_negated) const
 {
 	//ASSERT(valid());
 

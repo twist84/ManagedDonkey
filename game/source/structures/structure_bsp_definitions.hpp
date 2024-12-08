@@ -158,7 +158,7 @@ struct structure_weather_palette_entry
 	byte SHTA[2];
 	byte FI[2];
 	byte EJMGHGBY[32];
-	vector3d wind_direction;
+	real_vector3d wind_direction;
 	real wind_magnitude;
 	byte XQLJZUE[2];
 	short runtime_wind_global_scenario_function_index;
@@ -211,8 +211,8 @@ static_assert(sizeof(structure_cluster) == 0xDC);
 
 struct structure_conveyor_surface
 {
-	vector3d u;
-	vector3d v;
+	real_vector3d u;
+	real_vector3d v;
 };
 static_assert(sizeof(structure_conveyor_surface) == 0x18);
 

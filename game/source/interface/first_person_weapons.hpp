@@ -93,8 +93,8 @@ struct first_person_weapon
 	real __unknown4FA4;
 	real __unknown4FA8;
 	real __unknown4FAC;
-	euler_angles2d __angles4FB0;
-	euler_angles2d __angles4FB8;
+	real_euler_angles2d __angles4FB0;
+	real_euler_angles2d __angles4FB8;
 	real_matrix4x3 camera_offset_matrix_estimate;
 	dword __unknown4FF4;
 	byte __data4FF8[0x8];

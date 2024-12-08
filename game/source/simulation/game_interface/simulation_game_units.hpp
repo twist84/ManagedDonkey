@@ -30,7 +30,7 @@ static_assert(sizeof(s_simulation_unit_exit_vehicle_event_data) == 0x8);
 struct s_simulation_unit_melee_damage_event_data
 {
 	real_point3d position;
-	vector3d impact_normal;
+	real_vector3d impact_normal;
 	long damage_definition_index;
 	long clang_damage_definition_index;
 	short breakable_surface_set_index;
@@ -89,9 +89,9 @@ struct s_simulation_unit_throw_release_event_data
 	};
 
 	real_point3d position;
-	vector3d aiming_vector;
+	real_vector3d aiming_vector;
 	c_aim_target_simulation_entity simulation_entity;
-	vector3d lead_vector;
+	real_vector3d lead_vector;
 };
 static_assert(sizeof(s_simulation_unit_throw_release_event_data) == 0x40);
 
@@ -99,7 +99,7 @@ struct s_simulation_unit_melee_clang_event_data
 {
 	long clang_effect_index;
 	real_point3d position;
-	vector3d forward;
+	real_vector3d forward;
 };
 static_assert(sizeof(s_simulation_unit_melee_clang_event_data) == 0x1C);
 

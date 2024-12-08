@@ -17,7 +17,7 @@ public:
 	
 //protected:
 	real m_last_horizontal_field_of_view;
-	euler_angles2d m_orientation_offset;
+	real_euler_angles2d m_orientation_offset;
 	bool m_allow_controlled_facing;
 };
 static_assert(sizeof(c_first_person_camera) == 0x20);
@@ -36,7 +36,7 @@ public:
 	bool m_last_zoomed;
 	c_first_person_camera m_first_person_camera;
 	real_point3d m_position;
-	vector3d m_forward;
+	real_vector3d m_forward;
 };
 static_assert(sizeof(c_authored_camera) == 0x4C);
 

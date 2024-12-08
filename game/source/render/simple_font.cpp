@@ -85,8 +85,8 @@ namespace simple_font
 	REFERENCE_DECLARE(0x0524B6B4, s_simple_font_globals, g_simple_font_globals);
 	REFERENCE_DECLARE(0x0524B6B8, s_font_data*, g_activeFont);
 	REFERENCE_DECLARE(0x0524B6BC, bool, __unknown8);
-	REFERENCE_DECLARE(0x0524B6C0, vector2d, __vectorC);
-	REFERENCE_DECLARE(0x0524B6C8, vector2d, __vector14);
+	REFERENCE_DECLARE(0x0524B6C0, real_vector2d, __vectorC);
+	REFERENCE_DECLARE(0x0524B6C8, real_vector2d, __vector14);
 
 	bool __cdecl begin_rendering(real scale, bool drop_shadow)
 	{

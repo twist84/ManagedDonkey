@@ -31,18 +31,18 @@ struct s_observer_command
 		struct
 		{
 			real_point3d focus_position;
-			vector3d focus_offset;
+			real_vector3d focus_offset;
 			real_point2d crosshair_location;
 			real focus_distance;
 			real field_of_view;
-			vector3d forward;
-			vector3d up;
+			real_vector3d forward;
+			real_vector3d up;
 		};
 
 		real parameters[16];
 	};
 
-	vector3d focus_velocity;
+	real_vector3d focus_velocity;
 	real_matrix4x3 focus_space;
 
 	long relative_space_identifier;
@@ -95,14 +95,14 @@ struct s_observer_result
 {
 	real_point3d position;
 	s_location location;
-	vector3d velocity;
-	vector3d rotation;
-	vector3d forward;
-	vector3d up;
+	real_vector3d velocity;
+	real_vector3d rotation;
+	real_vector3d forward;
+	real_vector3d up;
 	real horizontal_field_of_view;
 	s_observer_depth_of_field depth_of_field;
 	real aspect_ratio;
-	vector2d view_offset;
+	real_vector2d view_offset;
 	real magic_crosshair_offset;
 	real vertical_field_of_view;
 	real field_of_view_scale;
@@ -115,12 +115,12 @@ struct s_observer_derivative
 	{
 		struct
 		{
-			vector3d focus_position;
-			vector3d focus_offset;
-			vector2d view_offset;
+			real_vector3d focus_position;
+			real_vector3d focus_offset;
+			real_vector2d view_offset;
 			real focus_distance;
 			real field_of_view;
-			vector3d rotation;
+			real_vector3d rotation;
 		};
 
 		real n[13];
@@ -148,12 +148,12 @@ struct s_observer
 		struct
 		{
 			real_point3d focus_position;
-			vector3d focus_offset;
-			vector2d view_offset;
+			real_vector3d focus_offset;
+			real_vector2d view_offset;
 			real focus_distance;
 			real horizontal_field_of_view;
-			vector3d forward;
-			vector3d up;
+			real_vector3d forward;
+			real_vector3d up;
 		};
 
 		real positions[16];
@@ -194,14 +194,14 @@ struct s_collision_test_flags;
 
 extern void __cdecl observer_adopt_global_update_list();
 extern void __cdecl observer_apply_camera_effect(long user_index);
-extern void __cdecl observer_apply_rotational_displacement(vector3d const* in_vector, vector3d* out_vector1, vector3d* out_vector2);
+extern void __cdecl observer_apply_rotational_displacement(real_vector3d const* in_vector, real_vector3d* out_vector1, real_vector3d* out_vector2);
 extern void __cdecl observer_block_for_one_frame();
-extern void __cdecl observer_build_result_from_point_and_vectors(s_observer_result* out_result, real_point3d const* position, vector3d const* forward, vector3d const* up);
+extern void __cdecl observer_build_result_from_point_and_vectors(s_observer_result* out_result, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up);
 extern void __cdecl observer_clear(s_observer* observer);
 extern void __cdecl observer_clear_all();
 extern void __cdecl observer_clear_global_update_list();
 extern s_collision_test_flags __cdecl observer_collision_flags_get(long user_index);
-extern bool __cdecl sub_611B90(long user_index, real_point3d* point_a, real_point3d* point_b, vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale);
+extern bool __cdecl sub_611B90(long user_index, real_point3d* point_a, real_point3d* point_b, real_vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale);
 extern bool __cdecl sub_611C30(long user_index, real_point3d* point_a, real_point3d* point_b, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale);
 extern void __cdecl observer_command_clear(s_observer_command* command);
 extern void __cdecl observer_command_get_collision_ignore_objects(long user_index, s_observer_command const* command, long* out_first_ignore_object_index, long* out_second_ignore_object_index);
@@ -229,9 +229,9 @@ extern void __cdecl observer_perform_collision(long user_index, s_focus_and_dist
 extern void __cdecl observer_post_global_update_list();
 extern void __cdecl observer_result_clear(s_observer_result* result);
 extern void __cdecl observer_result_compute_parameters(s_observer_result* result);
-extern void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, vector3d const* forward);
+extern void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, real_vector3d const* forward);
 extern bool __cdecl observer_result_valid(long user_index);
-extern void __cdecl observer_rotational_displacement(vector3d const* forward0, vector3d const* up0, vector3d const* forward1, vector3d const* up1, vector3d* displacement);
+extern void __cdecl observer_rotational_displacement(real_vector3d const* forward0, real_vector3d const* up0, real_vector3d const* forward1, real_vector3d const* up1, real_vector3d* displacement);
 extern void __cdecl observer_set_camera(long user_index, s_observer_command* command);
 extern real __cdecl observer_suggested_field_of_view();
 extern real __cdecl observer_suggested_field_of_view_change_time();

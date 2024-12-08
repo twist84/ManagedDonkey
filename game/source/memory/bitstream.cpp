@@ -45,7 +45,7 @@ t_type right_shift_safe(t_type value, long shift_bits)
 //.text:0043B5D0 ; c_bitstream::~c_bitstream()
 
 //template<long k_forward_angle_bits, long k_up_quantization_bits>
-//void c_bitstream::read_axes(char const* name, vector3d* forward, vector3d* up)
+//void c_bitstream::read_axes(char const* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	if (read_bool("up-is-global-up3d"))
 //	{
@@ -60,9 +60,9 @@ t_type right_shift_safe(t_type value, long shift_bits)
 //}
 
 //template<long k_forward_angle_bits, long k_up_quantization_bits>
-//void c_bitstream::write_axes(char const* name, vector3d const* forward, vector3d const* up)
+//void c_bitstream::write_axes(char const* name, real_vector3d const* forward, real_vector3d const* up)
 //{
-//	vector3d dequantized_up{};
+//	real_vector3d dequantized_up{};
 //	if (fabs(up->i - global_up3d->i) > k_real_epsilon ||
 //		fabs(up->j - global_up3d->j) > k_real_epsilon ||
 //		fabs(up->k - global_up3d->k) > k_real_epsilon)
@@ -143,30 +143,30 @@ void __cdecl c_bitstream::write_qword(char const* name, qword value, long size_i
 //.text:0049ED60 ; c_bitstream::c_bitstream()
 
 //template<>
-//void __cdecl c_bitstream::read_axes<14, 20>(char const* name, vector3d* forward, vector3d* up)
+//void __cdecl c_bitstream::read_axes<14, 20>(char const* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	//004A9B30
 //}
 //
 //template<>
-//void __cdecl c_bitstream::write_axes<14, 20>(char const* name, vector3d const* forward, vector3d const* up)
+//void __cdecl c_bitstream::write_axes<14, 20>(char const* name, real_vector3d const* forward, real_vector3d const* up)
 //{
 //	//004A9BC0
 //}
 //
 //template<>
-//void __cdecl c_bitstream::read_axes<8, 19>(char const* name, vector3d* forward, vector3d* up)
+//void __cdecl c_bitstream::read_axes<8, 19>(char const* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	//004AB910
 //}
 //
 //template<>
-//void __cdecl c_bitstream::write_axes<8, 19>(char const* name, vector3d const* forward, vector3d const* up)
+//void __cdecl c_bitstream::write_axes<8, 19>(char const* name, real_vector3d const* forward, real_vector3d const* up)
 //{
 //	//004AB9A0
 //}
 
-void __cdecl c_bitstream::angle_to_axes_internal(vector3d const* up, real forward_angle, vector3d* forward)
+void __cdecl c_bitstream::angle_to_axes_internal(real_vector3d const* up, real forward_angle, real_vector3d* forward)
 {
 	INVOKE(0x00556FC0, c_bitstream::angle_to_axes_internal, up, forward_angle, forward);
 }
@@ -183,7 +183,7 @@ void __cdecl c_bitstream::append(c_bitstream const* stream)
 	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, c_bitstream const*)(this, stream);
 }
 
-void __cdecl c_bitstream::axes_compute_reference_internal(vector3d const* up, vector3d* forward_reference, vector3d* left_reference)
+void __cdecl c_bitstream::axes_compute_reference_internal(real_vector3d const* up, real_vector3d* forward_reference, real_vector3d* left_reference)
 {
 	INVOKE(0x00557150, c_bitstream::axes_compute_reference_internal, up, forward_reference, left_reference);
 
@@ -207,12 +207,12 @@ void __cdecl c_bitstream::axes_compute_reference_internal(vector3d const* up, ve
 	//assert_valid_real_vector3d_axes3(forward_reference, left_reference, up);
 }
 
-real __cdecl c_bitstream::axes_to_angle_internal(vector3d const* forward, vector3d const* up)
+real __cdecl c_bitstream::axes_to_angle_internal(real_vector3d const* forward, real_vector3d const* up)
 {
 	return INVOKE(0x005573F0, c_bitstream::axes_to_angle_internal, forward, up);
 
-	//vector3d forward_reference{};
-	//vector3d left_reference{};
+	//real_vector3d forward_reference{};
+	//real_vector3d left_reference{};
 	//axes_compute_reference_internal(up, &forward_reference, &left_reference);
 	//return arctangent(dot_product3d(&left_reference, forward), dot_product3d(&left_reference, forward));
 }
@@ -244,11 +244,11 @@ void __cdecl c_bitstream::begin_writing(long data_size_alignment)
 }
 
 //.text:005574F0 ; void __cdecl bitstream_test()
-//.text:00557770 ; public: static bool __cdecl c_bitstream::compare_axes(long, long, vector3d const*, vector3d const*, vector3d const*, vector3d const*)
+//.text:00557770 ; public: static bool __cdecl c_bitstream::compare_axes(long, long, real_vector3d const*, real_vector3d const*, real_vector3d const*, real_vector3d const*)
 //.text:00557970 ; 
 //.text:005579C0 ; public: static bool __cdecl c_bitstream::compare_quantized_reals(real, real, real, real, long, bool, bool, bool)
-//.text:00557A10 ; public: static bool __cdecl c_bitstream::compare_unit_vectors(vector3d const*, vector3d const*, long)
-//.text:00557A20 ; public: static bool __cdecl c_bitstream::compare_vectors(vector3d const*, vector3d const*, real, real, long, long)
+//.text:00557A10 ; public: static bool __cdecl c_bitstream::compare_unit_vectors(real_vector3d const*, real_vector3d const*, long)
+//.text:00557A20 ; public: static bool __cdecl c_bitstream::compare_vectors(real_vector3d const*, real_vector3d const*, real, real, long, long)
 
 void __cdecl c_bitstream::data_is_untrusted(bool is_untrusted)
 {
@@ -505,14 +505,14 @@ void __cdecl c_bitstream::read_string_wchar(char const* name, wchar_t* _string, 
 	DECLFUNC(0x00559880, void, __thiscall, c_bitstream*, char const*, wchar_t*, long)(this, name, _string, max_string_size);
 }
 
-void __cdecl c_bitstream::read_unit_vector(char const* name, vector3d* unit_vector, long size_in_bits)
+void __cdecl c_bitstream::read_unit_vector(char const* name, real_vector3d* unit_vector, long size_in_bits)
 {
-	DECLFUNC(0x00559A90, void, __thiscall, c_bitstream*, char const*, vector3d*, long)(this, name, unit_vector, size_in_bits);
+	DECLFUNC(0x00559A90, void, __thiscall, c_bitstream*, char const*, real_vector3d*, long)(this, name, unit_vector, size_in_bits);
 }
 
-void __cdecl c_bitstream::read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits)
+void __cdecl c_bitstream::read_vector(char const* name, real_vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits)
 {
-	DECLFUNC(0x00559AB0, void, __thiscall, c_bitstream*, char const*, vector3d*, real, real, long, long)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
+	DECLFUNC(0x00559AB0, void, __thiscall, c_bitstream*, char const*, real_vector3d*, real, real, long, long)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
 }
 
 void __cdecl c_bitstream::reset(long state)
@@ -648,13 +648,13 @@ void __cdecl c_bitstream::write_string_wchar(char const* name, wchar_t const* _s
 	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream*, char const*, wchar_t const*, long)(this, name, _string, max_string_size);
 }
 
-void __cdecl c_bitstream::write_unit_vector(char const* name, vector3d const* unit_vector, long size_in_bits)
+void __cdecl c_bitstream::write_unit_vector(char const* name, real_vector3d const* unit_vector, long size_in_bits)
 {
-	DECLFUNC(0x0055A750, void, __thiscall, c_bitstream*, char const*, vector3d const*, long)(this, name, unit_vector, size_in_bits);
+	DECLFUNC(0x0055A750, void, __thiscall, c_bitstream*, char const*, real_vector3d const*, long)(this, name, unit_vector, size_in_bits);
 }
 
-void __cdecl c_bitstream::write_vector(char const* name, vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits)
+void __cdecl c_bitstream::write_vector(char const* name, real_vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits)
 {
-	DECLFUNC(0x0055A7B0, void, __thiscall, c_bitstream*, char const*, vector3d const*, real, real, long, long)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
+	DECLFUNC(0x0055A7B0, void, __thiscall, c_bitstream*, char const*, real_vector3d const*, real, real, long, long)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
 }
 

@@ -27,7 +27,7 @@
 //.text:006DA8D0 ; public: void __cdecl c_animation_manager::animation_get_root_matrix(c_animation_id, real, real_matrix4x3*) const
 //.text:006DA900 ; public: void __cdecl c_animation_manager::animation_get_root_orientation(c_animation_id, real, render_model_definition const*, real_orientation*) const
 //.text:006DA930 ; public: void __cdecl c_animation_manager::animation_get_root_starting_point(c_animation_id, render_model_definition const*, real_orientation*) const
-//.text:006DA960 ; public: void __cdecl c_animation_manager::animation_get_root_velocity(c_animation_id, real, real, vector3d*) const
+//.text:006DA960 ; public: void __cdecl c_animation_manager::animation_get_root_velocity(c_animation_id, real, real, real_vector3d*) const
 //.text:006DA9A0 ; 
 //.text:006DA9B0 ; 
 //.text:006DA9E0 ; 
@@ -114,7 +114,7 @@ c_model_animation_graph const* c_animation_manager::get_graph() const
 //.text:006DC500 ; 
 //.text:006DC510 ; 
 //.text:006DC520 ; 
-//.text:006DC530 ; public: bool __cdecl c_animation_manager::get_pill_offset_data(real_point3d*, vector3d*) const
+//.text:006DC530 ; public: bool __cdecl c_animation_manager::get_pill_offset_data(real_point3d*, real_vector3d*) const
 //.text:006DC570 ; 
 //.text:006DC5E0 ; 
 //.text:006DC5F0 ; 

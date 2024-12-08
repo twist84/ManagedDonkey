@@ -13,7 +13,7 @@ public:
 	
 //protected:
 	real_point3d m_falling_camera_position;
-	euler_angles2d m_orientation;
+	real_euler_angles2d m_orientation;
 	real m_distance;
 	real m_field_of_view;
 	real m_timer;

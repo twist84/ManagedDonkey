@@ -7,17 +7,17 @@ void __cdecl calculate_aspect_ratio_scaling()
 
 //00A9F800 ; void __cdecl sub_A9F800()
 
-vector2d __cdecl interface_get_aspect_ratio_scaling()
+real_vector2d __cdecl interface_get_aspect_ratio_scaling()
 {
 	return INVOKE(0x00A9F900, interface_get_aspect_ratio_scaling);
 }
 
-vector2d __cdecl interface_get_authoring_aspect_conversion_scaling(long authored_ui_aspect_ratio)
+real_vector2d __cdecl interface_get_authoring_aspect_conversion_scaling(long authored_ui_aspect_ratio)
 {
 	return INVOKE(0x00A9F920, interface_get_authoring_aspect_conversion_scaling, authored_ui_aspect_ratio);
 }
 
-vector2d __cdecl interface_get_authoring_to_target_dimensions_scaling()
+real_vector2d __cdecl interface_get_authoring_to_target_dimensions_scaling()
 {
 	return INVOKE(0x00A9F960, interface_get_aspect_ratio_scaling);
 }
@@ -47,7 +47,7 @@ void __cdecl interface_get_current_window_settings(short_rectangle2d* fullscreen
 	INVOKE(0x00A9FAF0, interface_get_current_window_settings, fullscreen_render_pixel_bounds, fullscreen_render_title_safe_pixel_bounds, display_pixel_bounds, display_title_safe_pixel_bounds);
 }
 
-void __cdecl interface_scale_rectangle2d_for_xenon_scaler(short_rectangle2d* rectangle, vector2d const* vector)
+void __cdecl interface_scale_rectangle2d_for_xenon_scaler(short_rectangle2d* rectangle, real_vector2d const* vector)
 {
 	//INVOKE(0x00A9FE30, interface_scale_rectangle2d_for_xenon_scaler, rectangle, vector);
 

@@ -33,7 +33,7 @@ bool debug_first_person_skeleton = false;
 //.text:00A99F00 ; bool __cdecl first_person_scripting_raise_weapon_on_unit(long, long)
 //.text:00A99F60 ; void __cdecl first_person_secondary_animation_event_callback(s_animation_event_data const*, long)
 //.text:00A99F80 ; bool __cdecl first_person_setup_custom_animation_on_unit(long, long, long, bool)
-//.text:00A9A050 ; bool __cdecl first_person_weapon_adjust_light(long, long, real_point3d*, vector3d*, vector3d*)
+//.text:00A9A050 ; bool __cdecl first_person_weapon_adjust_light(long, long, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00A9A190 ; void __cdecl first_person_weapon_apply_camera_effect(long, real_matrix4x3*)
 //.text:00A9A1E0 ; bool __cdecl first_person_weapon_attach(long, long, bool)
 //.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(long, long, first_person_weapon_attachment const*, bool)

@@ -1645,7 +1645,7 @@ void __cdecl c_rasterizer::wait_for_gpu_idle()
 	//INVOKE(0x00A49130, c_rasterizer::wait_for_gpu_idle);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
+void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data)
 {
 	INVOKE(0x00A66270, c_rasterizer::set_pixel_shader_constant, start_register, vector4f_count, constant_data);
 }
@@ -1667,7 +1667,7 @@ void __cdecl c_rasterizer::set_pixel_shader_constant_single(long start_register,
 
 //.text:00A66400 ; 
 
-void __cdecl c_rasterizer::set_vertex_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
+void __cdecl c_rasterizer::set_vertex_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data)
 {
 	INVOKE(0x00A66410, c_rasterizer::set_vertex_shader_constant, start_register, vector4f_count, constant_data);
 }

@@ -7,7 +7,7 @@
 //.text:014355F0 ; 
 //.text:01435610 ; 
 //.text:01435620 ; void __cdecl __tls_set_g_ai_players_allocator(void*)
-//.text:01435640 ; bool __cdecl actor_player_is_attacking(long, vector3d*)
+//.text:01435640 ; bool __cdecl actor_player_is_attacking(long, real_vector3d*)
 //.text:014356E0 ; void __cdecl actor_player_looking_update(long)
 //.text:014358A0 ; void __cdecl actor_player_prop_state_refresh(long, long)
 //.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(long, long, real_point3d const*, short)

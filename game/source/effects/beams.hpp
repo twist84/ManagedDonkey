@@ -53,7 +53,7 @@ struct c_beam_location :
 	long m_first_beam_index;
 	long m_flags;
 	real_point3d m_origin;
-	vector3d m_direction;
+	real_vector3d m_direction;
 	real m_length_cap;
 };
 static_assert(sizeof(c_beam_location) == 0x30);

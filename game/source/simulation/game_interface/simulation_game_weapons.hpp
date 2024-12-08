@@ -31,7 +31,7 @@ struct s_simulation_weapon_fire_event_data
 	bool barrel_should_recover;
 
 	bool aiming_vector_valid;
-	vector3d aiming_vector;
+	real_vector3d aiming_vector;
 
 	long predicted_impact_target_count;
 	struct

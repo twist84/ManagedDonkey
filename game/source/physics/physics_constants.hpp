@@ -10,7 +10,7 @@ struct s_physics_constants
 	real gravity;
 	real water_density;
 	real air_density;
-	vector3d velocity_frame;
+	real_vector3d velocity_frame;
 	long character_ground_adhesion_forces_enable_time;
 	real slip_surface_maximum_k;
 };
@@ -19,7 +19,7 @@ static_assert(sizeof(s_physics_constants) == 0x20);
 extern bool __cdecl character_ground_adhesion_forces_disabled();
 extern void __cdecl disable_character_ground_adhesion_forces(real disable_time);
 extern s_physics_constants* __cdecl global_physics_constants_get();
-extern vector3d* __cdecl global_physics_velocity_frame_get();
+extern real_vector3d* __cdecl global_physics_velocity_frame_get();
 extern void __cdecl global_physics_velocity_frame_set(real i, real j, real k);
 extern real __cdecl global_slip_surface_maximum_k_get();
 extern real __cdecl global_standard_gravity_get();

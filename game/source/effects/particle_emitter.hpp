@@ -9,7 +9,7 @@ struct c_particle_emitter :
 	struct s_property_values
 	{
 		real_point3d m_translational_offset;
-		vector3d m_direction;
+		real_vector3d m_direction;
 		real m_emission_radius;
 		real m_emission_angle;
 		real m_particle_axis_angle;

@@ -5,15 +5,15 @@
 //.text:0148A490 ; bool __cdecl ai_hint_find_hoist_marker(long, long, real, object_marker*, real_point3d*)
 //.text:0148A660 ; bool __cdecl ai_hint_find_marker_point(long, long, short, real, object_marker*, real_point3d*)
 //.text:0148A6E0 ; bool __cdecl ai_hint_find_mount_marker(long, long, real, object_marker*, real_point3d*)
-//.text:0148A8A0 ; bool __cdecl ai_hint_find_pill_entry_point(long, long, long, long, long, real_point3d const*, vector3d const*, real_point3d*, c_ai_point3d*, vector3d*, c_sector_ref*)
+//.text:0148A8A0 ; bool __cdecl ai_hint_find_pill_entry_point(long, long, long, long, long, real_point3d const*, real_vector3d const*, real_point3d*, c_ai_point3d*, real_vector3d*, c_sector_ref*)
 //.text:0148A9C0 ; 
-//.text:0148AA20 ; bool __cdecl ai_hint_find_root_entry_point(long, long, long, real_point3d const*, vector3d const*, real_point3d*, c_ai_point3d*, vector3d*, c_sector_ref*)
+//.text:0148AA20 ; bool __cdecl ai_hint_find_root_entry_point(long, long, long, real_point3d const*, real_vector3d const*, real_point3d*, c_ai_point3d*, real_vector3d*, c_sector_ref*)
 //.text:0148AB50 ; bool __cdecl ai_hint_find_vault_marker(long, long, real, object_marker*, real_point3d*)
 //.text:0148AE40 ; e_action_hoist __cdecl ai_hint_get_best_hoist_height(long, real)
 //.text:0148AEF0 ; 
 //.text:0148AFC0 ; 
 //.text:0148B030 ; short __cdecl ai_hint_get_hoist_markers(long, object_marker*, short, short)
-//.text:0148B0B0 ; bool __cdecl ai_hint_get_jump_destination_normal(pathfinding_data*, hint_jump_data*, vector3d*)
+//.text:0148B0B0 ; bool __cdecl ai_hint_get_jump_destination_normal(pathfinding_data*, hint_jump_data*, real_vector3d*)
 //.text:0148B1C0 ; bool __cdecl ai_hint_get_jump_destination_rail(short, hint_jump_data*, real_point3d const*, real_point3d*, real_point3d*, c_sector_ref*, short*)
 //.text:0148B350 ; bool __cdecl ai_hint_get_jump_maneuver_point(pathfinding_data*, pathfinding_hint_data*, c_ai_point3d const*, c_sector_ref, real, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
 //.text:0148B610 ; double __cdecl ai_hint_get_jump_velocity(short)

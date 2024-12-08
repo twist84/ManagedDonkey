@@ -2,12 +2,12 @@
 
 #include "motor/vehicle_motor_program.hpp"
 
-void c_vehicle_type_mantis::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void c_vehicle_type_mantis::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCED30, c_vehicle_type_mantis, adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-void c_vehicle_type_mantis::calculate_throttle(long vehicle_index, vector3d* throttle)
+void c_vehicle_type_mantis::calculate_throttle(long vehicle_index, real_vector3d* throttle)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCEE00, c_vehicle_type_mantis, calculate_throttle, vehicle_index, throttle);
 }
@@ -72,12 +72,12 @@ void c_vehicle_type_mantis::update_control(long vehicle_index)
 	return INVOKE_CLASS_MEMBER(0x00BCF050, c_vehicle_type_mantis, update_control, vehicle_index);
 }
 
-void c_vehicle_type_mantis::update_leg_turn_and_displacment(long vehicle_index, real* final_turn, vector3d* final_leg_displacement, vector3d* displacement_delta, bool* same_displacement)
+void c_vehicle_type_mantis::update_leg_turn_and_displacment(long vehicle_index, real* final_turn, real_vector3d* final_leg_displacement, real_vector3d* displacement_delta, bool* same_displacement)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCF250, c_vehicle_type_mantis, update_leg_turn_and_displacment, vehicle_index, final_turn, final_leg_displacement, displacement_delta, same_displacement);
 }
 
-void c_vehicle_type_mantis::update_movement_leg_turn_and_displacment(long vehicle_index, real* final_turn, vector3d* final_leg_displacement)
+void c_vehicle_type_mantis::update_movement_leg_turn_and_displacment(long vehicle_index, real* final_turn, real_vector3d* final_leg_displacement)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCF630, c_vehicle_type_mantis, update_movement_leg_turn_and_displacment, vehicle_index, final_turn, final_leg_displacement);
 }
@@ -87,7 +87,7 @@ void c_vehicle_type_mantis::update_physics(long vehicle_index, s_havok_vehicle_p
 	return INVOKE_CLASS_MEMBER(0x00BCFA10, c_vehicle_type_mantis, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_mantis::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_mantis::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	return INVOKE(0x00BD0030, c_vehicle_type_mantis::vector_is_upsides_down, vehicle_index, vector);
 }

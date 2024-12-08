@@ -49,7 +49,7 @@
 //.text:00B9B0F0 ; 
 //.text:00B9B120 ; 
 //.text:00B9B2B0 ; bool __cdecl light_adjust_position_from_attachment_last_minute(light_datum*, render_camera const*)
-//.text:00B9B3D0 ; void __cdecl light_build_intermediate_geometry(real_point3d const*, real_point3d const*, vector3d const*, vector3d const*, real, long, light_geometry*)
+//.text:00B9B3D0 ; void __cdecl light_build_intermediate_geometry(real_point3d const*, real_point3d const*, real_vector3d const*, real_vector3d const*, real, long, light_geometry*)
 //.text:00B9B6F0 ; bool __cdecl light_build_render_geometry(long, light_geometry*)
 //.text:00B9B7C0 ; 
 //.text:00B9BFD0 ; 
@@ -72,7 +72,7 @@
 //.text:00B9CCA0 ; void __cdecl light_marker_end()
 //.text:00B9CCB0 ; long __cdecl light_new_attached(long, long, short, long, short)
 //.text:00B9CD80 ; 
-//.text:00B9D120 ; long __cdecl light_new_unattached(long, long, short, real_point3d const*, vector3d const*, vector3d const*, real)
+//.text:00B9D120 ; long __cdecl light_new_unattached(long, long, short, real_point3d const*, real_vector3d const*, real_vector3d const*, real)
 //.text:00B9D300 ; 
 //.text:00B9D4B0 ; void __cdecl light_reconnect_to_map(long)
 //.text:00B9D6C0 ; 

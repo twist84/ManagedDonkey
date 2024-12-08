@@ -13,7 +13,7 @@
 //.text:005FA780 ; bool __cdecl scenario_trigger_volume_test_players_all(long)
 //.text:005FA820 ; bool __cdecl scenario_trigger_volume_test_point(long, real_point3d const*)
 //.text:005FAB10 ; public: real_point3d* c_trigger_volume_query::transform_to_trigger_space(real_point3d const*, real_point3d*) const
-//.text:005FAB30 ; public: vector3d* c_trigger_volume_query::transform_to_trigger_space(vector3d const*, vector3d*) const
+//.text:005FAB30 ; public: real_vector3d* c_trigger_volume_query::transform_to_trigger_space(real_vector3d const*, real_vector3d*) const
 
 bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&faces)[k_faces_per_cube_count][4])
 {
@@ -23,12 +23,12 @@ bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, r
 	if (trigger_volume_get_matrix(volume, &matrix))
 	{
 		real_rectangle3d rectangle{};
-		rectangle.x.lower = 0.0f;
-		rectangle.x.upper = volume->extents.x;
-		rectangle.y.lower = 0.0f;
-		rectangle.y.upper = volume->extents.y;
-		rectangle.z.lower = 0.0f;
-		rectangle.z.upper = volume->extents.z;
+		rectangle.x0 = 0.0f;
+		rectangle.x1 = volume->extents.x;
+		rectangle.y0 = 0.0f;
+		rectangle.y1 = volume->extents.y;
+		rectangle.z0 = 0.0f;
+		rectangle.z1 = volume->extents.z;
 
 		rectangle3d_build_faces(&rectangle, k_faces_per_cube_count, faces);
 		for (long i = 0; i < k_faces_per_cube_count; ++i)

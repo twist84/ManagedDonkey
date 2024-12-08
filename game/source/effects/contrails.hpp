@@ -86,7 +86,7 @@ struct c_contrail_location :
 	long m_first_contrail_index;
 	dword_flags m_flags;
 	real_matrix4x3 m_matrix;
-	vector3d m_velocity;
+	real_vector3d m_velocity;
 	real_point3d m_origin;
 };
 static_assert(sizeof(c_contrail_location) == 0x60);
@@ -107,7 +107,7 @@ struct c_contrail_profile :
 	real m_lifespan;
 	word m_random_seed[4];
 	real_point3d m_position;
-	vector3d m_velocity;
+	real_vector3d m_velocity;
 	real m_cumulative_length;
 	real_argb_color m_initial_color;
 	real m_initial_alpha;

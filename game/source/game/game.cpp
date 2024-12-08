@@ -1862,36 +1862,36 @@ void __cdecl game_pvs_debug_render()
 					real_point3d point0{};
 					real_point3d point1{};
 
-					point0.x = bounds->x.lower;
-					point0.y = bounds->y.lower;
-					point0.z = bounds->z.lower;
-					point1.x = bounds->x.upper;
-					point1.y = bounds->y.upper;
-					point1.z = bounds->z.upper;
+					point0.x = bounds->x0;
+					point0.y = bounds->y0;
+					point0.z = bounds->z0;
+					point1.x = bounds->x1;
+					point1.y = bounds->y1;
+					point1.z = bounds->z1;
 					render_debug_line(true, &point0, &point1, activation_color);
 
-					point0.x = bounds->x.upper;
-					point0.y = bounds->y.lower;
-					point0.z = bounds->z.lower;
-					point1.x = bounds->x.lower;
-					point1.y = bounds->y.upper;
-					point1.z = bounds->z.upper;
+					point0.x = bounds->x1;
+					point0.y = bounds->y0;
+					point0.z = bounds->z0;
+					point1.x = bounds->x0;
+					point1.y = bounds->y1;
+					point1.z = bounds->z1;
 					render_debug_line(true, &point0, &point1, activation_color);
 
-					point0.x = bounds->x.lower;
-					point0.y = bounds->y.upper;
-					point0.z = bounds->z.lower;
-					point1.x = bounds->x.upper;
-					point1.y = bounds->y.lower;
-					point1.z = bounds->z.upper;
+					point0.x = bounds->x0;
+					point0.y = bounds->y1;
+					point0.z = bounds->z0;
+					point1.x = bounds->x1;
+					point1.y = bounds->y0;
+					point1.z = bounds->z1;
 					render_debug_line(true, &point0, &point1, activation_color);
 
-					point0.x = bounds->x.upper;
-					point0.y = bounds->y.upper;
-					point0.z = bounds->z.lower;
-					point1.x = bounds->x.lower;
-					point1.y = bounds->y.lower;
-					point1.z = bounds->z.upper;
+					point0.x = bounds->x1;
+					point0.y = bounds->y1;
+					point0.z = bounds->z0;
+					point1.x = bounds->x0;
+					point1.y = bounds->y0;
+					point1.z = bounds->z1;
 					render_debug_line(true, &point0, &point1, activation_color);
 				}
 			}

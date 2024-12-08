@@ -136,7 +136,7 @@ void __cdecl havok_initialize_for_new_structure_bsp(dword activating_structure_b
 //.text:005C6B60 ; void __cdecl havok_notify_thread_frame_finished(long)
 //.text:005C6BA0 ; void __cdecl havok_notify_thread_frame_started(long)
 //.text:005C6BF0 ; void __cdecl havok_object_activate(long)
-//.text:005C6C90 ; bool __cdecl havok_object_apply_acceleration(long, long, real_point3d const*, vector3d const*, vector3d const*, long*, vector3d*, vector3d*)
+//.text:005C6C90 ; bool __cdecl havok_object_apply_acceleration(long, long, real_point3d const*, real_vector3d const*, real_vector3d const*, long*, real_vector3d*, real_vector3d*)
 //.text:005C6F70 ; void __cdecl havok_object_deactivate(long)
 //.text:005C7000 ; void __cdecl havok_object_delete(long)
 //.text:005C7080 ; void __cdecl havok_object_delete_internal(long)
@@ -153,7 +153,7 @@ void __cdecl havok_object_set_position(long object_index, bool a2, bool a3, bool
 	INVOKE(0x005C7410, havok_object_set_position, object_index, a2, a3, a4);
 }
 
-//.text:005C74F0 ; void __cdecl havok_object_set_velocities(long, vector3d const*, vector3d const*, bool)
+//.text:005C74F0 ; void __cdecl havok_object_set_velocities(long, real_vector3d const*, real_vector3d const*, bool)
 //.text:005C77A0 ; void __cdecl havok_post_process_simulating_entities()
 
 void __cdecl havok_prepare_fpu_for_update()

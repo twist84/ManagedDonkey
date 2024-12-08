@@ -16,7 +16,7 @@ struct s_soft_ceiling_debug_cache
 	real_point3d __point20;
 	real_point3d __point2C;
 	real_point3d __point34;
-	vector3d __vector44;
+	real_vector3d __vector44;
 };
 
 c_static_stack<s_soft_ceiling_debug_cache, 64> g_soft_ceiling_debug_cache;
@@ -74,10 +74,10 @@ bool __cdecl scenario_soft_ceilings_should_render_soft_ceiling(string_id name, b
 	return result;
 }
 
-bool __cdecl scenario_soft_ceilings_triangle_plane_get(plane3d* plane, s_structure_soft_ceiling_triangle const* triangle)
+bool __cdecl scenario_soft_ceilings_triangle_plane_get(real_plane3d* plane, s_structure_soft_ceiling_triangle const* triangle)
 {
-	vector3d vector0{};
-	vector3d vector1{};
+	real_vector3d vector0{};
+	real_vector3d vector1{};
 	vector_from_points3d(&triangle->vertex0, &triangle->vertex1, &vector0);
 	vector_from_points3d(&triangle->vertex0, &triangle->vertex2, &vector1);
 	cross_product3d(&vector0, &vector1, &plane->n);
@@ -90,7 +90,7 @@ bool __cdecl scenario_soft_ceilings_triangle_plane_get(plane3d* plane, s_structu
 	return true;
 }
 
-bool __cdecl scenario_soft_ceilings_plane_get(plane3d* plane, long structure_design_index, long soft_ceiling_index, long triangle_index)
+bool __cdecl scenario_soft_ceilings_plane_get(real_plane3d* plane, long structure_design_index, long soft_ceiling_index, long triangle_index)
 {
 	s_structure_design* structure_design = global_structure_design_get(structure_design_index);
 	if (!structure_design)
@@ -152,7 +152,7 @@ void __cdecl scenario_soft_ceilings_render_debug(
 					break;
 					default:
 					{
-						plane3d plane{};
+						real_plane3d plane{};
 						if (!render_soft_ceilings || structure_design->physics.importer_version < 1 || !scenario_soft_ceilings_plane_get(&plane, structure_bsp_index, soft_ceiling_index, triangle_index))
 							break;
 

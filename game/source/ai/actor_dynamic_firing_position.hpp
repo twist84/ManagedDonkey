@@ -13,7 +13,7 @@ struct firing_position_definition
 	short area_index;
 	short cluster_index;
 	c_sector_ref sector_ref;
-	euler_angles2d normal;
+	real_euler_angles2d normal;
 	real yaw;
 };
 static_assert(sizeof(firing_position_definition) == 0x28);
@@ -26,8 +26,8 @@ struct dynamic_firing_set_datum :
 	short position_count;
 	short num_members;
 	c_ai_point3d position;
-	vector3d up;
-	vector3d forward;
+	real_vector3d up;
+	real_vector3d forward;
 	c_sector_ref sector_ref;
 	bool state_valid;
 	long last_update_time;

@@ -726,7 +726,7 @@ struct scenario_cutscene_flag
 
 	c_string_id name;
 	real_point3d position;
-	euler_angles2d facing;
+	real_euler_angles2d facing;
 	short editor_folder;
 
 	// pad
@@ -763,7 +763,7 @@ struct scenario_cutscene_camera_point
 	byte pad[0x4];
 
 	real_point3d position;
-	euler_angles3d orientation;
+	real_euler_angles3d orientation;
 };
 static_assert(sizeof(scenario_cutscene_camera_point) == 0x40);
 

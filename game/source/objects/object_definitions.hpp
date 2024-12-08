@@ -190,7 +190,7 @@ struct s_object_early_mover_obb_definition
 {
 	c_string_id node_name;
 	real_rectangle3d bounds;
-	euler_angles3d angles;
+	real_euler_angles3d angles;
 };
 static_assert(sizeof(s_object_early_mover_obb_definition) == 0x28);
 

@@ -32,7 +32,7 @@ void __cdecl observer_apply_camera_effect(long user_index)
 	INVOKE(0x00610A20, observer_apply_camera_effect, user_index);
 }
 
-void __cdecl observer_apply_rotational_displacement(vector3d const* in_vector, vector3d* out_vector1, vector3d* out_vector2)
+void __cdecl observer_apply_rotational_displacement(real_vector3d const* in_vector, real_vector3d* out_vector1, real_vector3d* out_vector2)
 {
 	INVOKE(0x00610CF0, observer_apply_rotational_displacement, in_vector, out_vector1, out_vector2);
 }
@@ -42,12 +42,12 @@ void __cdecl observer_block_for_one_frame()
 	INVOKE(0x00610E50, observer_adopt_global_update_list);
 }
 
-void __cdecl observer_build_result_from_point_and_vectors(s_observer_result* out_result, real_point3d const* position, vector3d const* forward, vector3d const* up)
+void __cdecl observer_build_result_from_point_and_vectors(s_observer_result* out_result, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up)
 {
 	INVOKE(0x00610E70, observer_build_result_from_point_and_vectors, out_result, position, forward, up);
 }
 
-//.text:00610F00 ; void __cdecl observer_check_penetration(long, real_point3d*, vector3d*, vector3d const*, real_point3d const*, real, long, long, real*, real, real)
+//.text:00610F00 ; void __cdecl observer_check_penetration(long, real_point3d*, real_vector3d*, real_vector3d const*, real_point3d const*, real, long, long, real*, real, real)
 
 void __cdecl observer_clear(s_observer* observer)
 {
@@ -69,15 +69,15 @@ s_collision_test_flags __cdecl observer_collision_flags_get(long user_index)
 	return INVOKE(0x00611620, observer_collision_flags_get, user_index);
 }
 
-//.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(long user_index, real_point3d const*, vector3d const*, real, real*, vector3d*, real_point3d*, real)
-//.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(long, real_point3d*, vector3d*, real)
+//.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(long user_index, real_point3d const*, real_vector3d const*, real, real*, real_vector3d*, real_point3d*, real)
+//.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(long, real_point3d*, real_vector3d*, real)
 
-bool __cdecl sub_611B90(long user_index, real_point3d* point_a, real_point3d* point_b, vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
+bool __cdecl sub_611B90(long user_index, real_point3d* point_a, real_point3d* point_b, real_vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
 {
 	return INVOKE(0x00611B90, sub_611B90, user_index, point_a, point_b, vector, scale, first_ignore_object_index, second_ignore_object_index, collision_scale);
 
 	//real_point3d point{};
-	//scale_vector3d(vector, scale, (vector3d*)&point);
+	//scale_vector3d(vector, scale, (real_vector3d*)&point);
 	//
 	//return sub_611C30(user_index, point_a, &point, first_ignore_object_index, second_ignore_object_index, collision_scale);
 }
@@ -347,7 +347,7 @@ void __cdecl observer_pass_time(long user_index)
 	INVOKE(0x00612B70, observer_pass_time, user_index);
 }
 
-//.text:00612C10 ; void __cdecl observer_penetration_check_volume(real_point3d*, vector3d const*, real_point3d const*, real, real)
+//.text:00612C10 ; void __cdecl observer_penetration_check_volume(real_point3d*, real_vector3d const*, real_point3d const*, real, real)
 
 void __cdecl observer_perform_collision(long user_index, s_focus_and_distance const* focus_and_distance, real world_seconds_elapsed)
 {
@@ -369,7 +369,7 @@ void __cdecl observer_result_compute_parameters(s_observer_result* result)
 	INVOKE(0x006131E0, observer_result_compute_parameters, result);
 }
 
-void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, vector3d const* forward)
+void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, real_vector3d const* forward)
 {
 	INVOKE(0x00613460, observer_result_set_position, user_index, position, distance, forward);
 }
@@ -381,7 +381,7 @@ bool __cdecl observer_result_valid(long user_index)
 	//return observer_get(user_index)->result_valid;
 }
 
-void __cdecl observer_rotational_displacement(vector3d const* forward0, vector3d const* up0, vector3d const* forward1, vector3d const* up1, vector3d* displacement)
+void __cdecl observer_rotational_displacement(real_vector3d const* forward0, real_vector3d const* up0, real_vector3d const* forward1, real_vector3d const* up1, real_vector3d* displacement)
 {
 	INVOKE(0x00613660, observer_rotational_displacement, forward0, up0, forward1, up1, displacement);
 }
@@ -408,7 +408,7 @@ real __cdecl observer_suggested_field_of_view_change_time()
 	//return 0.18f;
 }
 
-//.text:00613790 ; void __cdecl observer_test_water(real_point3d const*, vector3d*, real_point3d*, real, real)
+//.text:00613790 ; void __cdecl observer_test_water(real_point3d const*, real_vector3d*, real_point3d*, real, real)
 
 s_observer_result const* __cdecl observer_try_and_get_camera(long user_index)
 {
@@ -588,7 +588,7 @@ void __cdecl debug_render_observer()
 	real_point3d frustum_points[4]{};
 	for (long i = 0; i < NUMBEROF(frustum_points); i++)
 	{
-		vector3d frustum_edge{};
+		real_vector3d frustum_edge{};
 		render_camera_screen_to_world(&camera, &projection, &screen_points[i], &focus_position, &frustum_edge);
 		point_from_line3d(&focus_position, &frustum_edge, 1.0f, &frustum_points[i]);
 		render_debug_vector(false, &focus_position, &frustum_edge, 1.0f, global_real_argb_red);

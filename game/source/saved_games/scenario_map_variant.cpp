@@ -58,7 +58,7 @@ void c_map_variant::create_default(long map_id)
 	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
 
-//.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, vector3d const*, vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, word)
+//.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, word)
 
 bool c_map_variant::decode(c_bitstream* packet)
 {
@@ -201,7 +201,7 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:005835F0 ; 
 //.text:00583600 ; public: s_variant_object_datum const* c_map_variant::get_variant_object_datum(long) const
 //.text:00583630 ; public: void c_map_variant::get_variant_object_datum(long, s_variant_object_datum*) const
-//.text:005836C0 ; public: void c_map_variant::get_variant_object_spawn_location(long, real_point3d*, vector3d*, vector3d*)
+//.text:005836C0 ; public: void c_map_variant::get_variant_object_spawn_location(long, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00583860 ; public: s_variant_quota* c_map_variant::get_writable_object_quota_datum(long)
 //.text:00583880 ; public: void c_map_variant::handle_deleted_object(long)
 //.text:00583920 ; 
@@ -392,9 +392,9 @@ void c_map_variant::print()
 	PRINT_TABS; c_console::write_line("<item name = \"Number Of Placeable Object Quotas\" value = %d>", m_number_of_placeable_object_quotas);
 	PRINT_TABS; c_console::write_line("<item name = \"Map ID\" value = %d>", m_map_id);
 
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: X\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.x.lower, m_variant_scenario_bounds.x.upper);
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Y\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.y.lower, m_variant_scenario_bounds.y.upper);
-	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Z\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.z.lower, m_variant_scenario_bounds.z.upper);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: X\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.x0, m_variant_scenario_bounds.x1);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Y\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.y0, m_variant_scenario_bounds.y1);
+	PRINT_TABS; c_console::write_line("<item name = \"World Bounds: Z\" value = \"%.2f %.2f\">", m_variant_scenario_bounds.z0, m_variant_scenario_bounds.z1);
 
 	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Subtype\" value = %d>", m_game_engine_subtype);
 	PRINT_TABS; c_console::write_line("<item name = \"Maximum Budget\" value = %d>", m_maximum_budget);

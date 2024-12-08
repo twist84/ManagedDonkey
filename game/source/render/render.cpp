@@ -214,7 +214,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 
 	ASSERT(camera && projection);
 
-	vector4d pc_only_shader_constant{};
+	real_vector4d pc_only_shader_constant{};
 	real pc_specular{};
 	real pc_albedo_lighting{};
 
@@ -234,24 +234,24 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	set_real_vector4d(&pc_only_shader_constant, pc_albedo_lighting, pc_albedo_lighting, pc_albedo_lighting, pc_albedo_lighting);
 	c_rasterizer::set_pixel_shader_constant(96, 1, &pc_only_shader_constant);
 
-	vector4d combined_matrix[4]{};
+	real_vector4d combined_matrix[4]{};
 	combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix.matrix, (real*)combined_matrix);
 	c_rasterizer::set_vertex_shader_constant(0, 4, combined_matrix);
 
-	vector4d position{};
-	vector4d forward{};
-	vector4d up{};
+	real_vector4d position{};
+	real_vector4d forward{};
+	real_vector4d up{};
 	set_real_vector4d(&position, camera->position.x, camera->position.y, camera->position.z, 0.0f);
 	set_real_vector4d(&forward, camera->forward.i, camera->forward.j, camera->forward.k, 0.0f);
 	set_real_vector4d(&up, camera->up.i, camera->up.j, camera->up.k, 0.0f);
 	//ASSERT(valid_real(up.i) && valid_real(up.j) && valid_real(up.k));
 	//ASSERT(valid_real(forward.i) && valid_real(forward.j) && valid_real(forward.k));
 
-	vector4d left{};
-	cross_product3d((vector3d*)&up, (vector3d*)&forward, (vector3d*)&left);
+	real_vector4d left{};
+	cross_product3d((real_vector3d*)&up, (real_vector3d*)&forward, (real_vector3d*)&left);
 	//ASSERT(valid_real(left.i) && valid_real(left.j) && valid_real(left.k));
 	
-	normalize3d((vector3d*)&left);
+	normalize3d((real_vector3d*)&left);
 	left.l = 0.0f;
 	
 	c_rasterizer::set_vertex_shader_constant(4, 1, &forward);

@@ -42,12 +42,12 @@ struct _biped_datum
 	c_character_physics_component physics;
 	object_header_block_reference simulation_interpolation;
 	object_header_block_reference last_node_matrices_storage;
-	vector3d root_offset;
-	vector3d ground_fit_normal;
+	real_vector3d root_offset;
+	real_vector3d ground_fit_normal;
 	real pivot_on_foot_scale;
 	real pivot_on_foot_scale_boost;
 	real_point3d pivot_point;
-	vector2d pivot_fixup;
+	real_vector2d pivot_fixup;
 
 	real_matrix4x3 __matrix150;
 	real_matrix4x3 __matrix184;
@@ -57,7 +57,7 @@ struct _biped_datum
 	t_static_ring_buffer<real_matrix4x3, 3> root_matrix_history;
 	real landing_recovery_offset;
 	real pendulum_scale;
-	vector3d pendulum_vector;
+	real_vector3d pendulum_vector;
 	real gravity_scale;
 
 	// linked, armor related
@@ -91,11 +91,11 @@ extern bool debug_biped_throttle;
 extern bool debug_objects_unit_pathfinding_surface;
 extern bool debug_objects_pendulum;
 
-extern void __cdecl biped_bumped_object(long biped_index, long object_index, vector3d const* old_velocity);
-extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* autoaim_width);
+extern void __cdecl biped_bumped_object(long biped_index, long object_index, real_vector3d const* old_velocity);
+extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width);
 extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius);
-extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity);
-extern void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, vector3d const* a5, vector3d const* desired_facing_vector, vector3d const* desired_gun_offset, real_point3d* camera_position);
+extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, real_vector3d* velocity);
+extern void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, real_vector3d const* a5, real_vector3d const* desired_facing_vector, real_vector3d const* desired_gun_offset, real_point3d* camera_position);
 extern bool __cdecl biped_in_airborne_state(long biped_index);
 extern void __cdecl biped_scripting_ragdoll(long biped_index);
 extern void __cdecl biped_render_debug(long biped_index);

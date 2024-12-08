@@ -200,7 +200,7 @@ void render_debug_object_damage()
 
 			real_matrix4x3 camera{};
 			c_player_view::get_player_render_camera_orientation(&camera);
-			vector3d forward{};
+			real_vector3d forward{};
 			scale_vector3d(&camera.forward, 50.0f, &forward);
 
 			s_collision_test_flags flags{};

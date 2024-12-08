@@ -32,7 +32,7 @@ struct s_animation_graph_node
 	short parent_node_index;
 	c_flags<e_animation_node_model_flags, byte, k_animation_node_model_flags> model_flags;
 	c_flags<e_node_joint_flags, byte, k_node_joint_flags> node_joint_flags;
-	vector3d base_vector;
+	real_vector3d base_vector;
 	real vector_range;
 	real z_pos;
 };

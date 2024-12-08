@@ -134,7 +134,7 @@ void __cdecl render_debug_structure()
 			real_rectangle3d_enclose_rectangle(&world_bounds, &global_structure_bsp_get(0)->world_bounds);
 		}
 
-		if (world_bounds.x.upper > world_bounds.x.lower)
+		if (world_bounds.x1 > world_bounds.x0)
 			render_debug_box_outline(true, &world_bounds, global_real_argb_red);
 	}
 
@@ -169,7 +169,7 @@ void __cdecl render_debug_structure()
 						{
 							surface_reference_has_slip_bit_enabled = true;
 
-							plane3d plane{};
+							real_plane3d plane{};
 							surface_reference.get_plane(&plane);
 							if (plane.n.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
 								slip_surface_does_not_exceed_maximum_k = false;

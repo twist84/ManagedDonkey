@@ -9,7 +9,7 @@ struct s_aim_assist_targeting_result
 	long target_player;
 	real primary_autoaim_level;
 	real secondary_autoaim_level;
-	vector3d lead_vector;
+	real_vector3d lead_vector;
 	dword_flags flags;
 };
 static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);

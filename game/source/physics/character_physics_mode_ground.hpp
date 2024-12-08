@@ -16,7 +16,7 @@ struct s_character_physics_update_input_datum
 	{
 		real_point3d position;
 		real_point3d animation_position;
-		vector3d desired_velocity;
+		real_vector3d desired_velocity;
 		c_animation_id animation_id;
 	};
 
@@ -25,9 +25,9 @@ struct s_character_physics_update_input_datum
 		long last_support_havok_component_index;
 		long last_support_rigid_body_index;
 		real_matrix4x3 last_support_havok_component_matrix;
-		vector3d ground_plane;
+		real_vector3d ground_plane;
 		real stun_fraction;
-		vector3d movement_forward;
+		real_vector3d movement_forward;
 		real adhesion_velocity_scale;
 		bool effected_by_phantom_this_tick;
 		bool __unknown5D;
@@ -39,13 +39,13 @@ struct s_character_physics_update_input_datum
 		real physics_radius;
 		real target_physics_radius;
 		real_point3d target_position;
-		vector3d target_velocity;
+		real_vector3d target_velocity;
 		real target_distance;
 	};
 
 	struct s_dead
 	{
-		vector3d resting_surface_normal;
+		real_vector3d resting_surface_normal;
 		bool update_size;
 		bool in_relaxation_state;
 	};
@@ -66,17 +66,17 @@ struct s_character_physics_update_input_datum
 	s_ground ground;
 	s_dead dead;
 	s_melee melee;
-	vector3d throttle;
+	real_vector3d throttle;
 	real_point3d position;
-	vector3d forward;
-	vector3d up;
-	vector3d desired_facing_vector;
-	vector3d aiming;
-	vector3d velocity;
-	vector3d early_mover_localized_velocity;
+	real_vector3d forward;
+	real_vector3d up;
+	real_vector3d desired_facing_vector;
+	real_vector3d aiming;
+	real_vector3d velocity;
+	real_vector3d early_mover_localized_velocity;
 	real gravity;
 	real boost_power;
-	vector3d desired_movement_speed;
+	real_vector3d desired_movement_speed;
 	real acceleration_maximum;
 	real airborne_acceleration_maximum;
 	hkShape const* shape_switch_request;
@@ -90,7 +90,7 @@ struct s_character_physics_update_output_datum;
 
 struct c_character_physics_mode_ground_datum
 {
-	vector3d const* get_ground_plane() const;
+	real_vector3d const* get_ground_plane() const;
 	real get_ground_plane_contact_offset() const;
 	real get_landing_velocity() const;
 	long get_support_havok_component_index() const;
@@ -101,17 +101,17 @@ struct c_character_physics_mode_ground_datum
 	void initialize_internal(bool initialize_support_data);
 	void move(s_character_physics_move_output_datum* physics_output, s_character_physics_move_input_datum const* physics_input);
 	void notify_in_slip_surface_volume();
-	void set_contact(long havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, vector3d const* ground_plane);
-	void set_ground_plane(vector3d const* ground_plane);
+	void set_contact(long havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, real_vector3d const* ground_plane);
+	void set_ground_plane(real_vector3d const* ground_plane);
 	void update(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input);
-	void update_internal(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input, bool localize_airborne, vector3d const* localized_velocity);
-	bool update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* physics_input, vector3d* linear_velocity, vector3d* space_acceleration, matrix3x3* rotation);
+	void update_internal(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input, bool localize_airborne, real_vector3d const* localized_velocity);
+	bool update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_vector3d* space_acceleration, real_matrix3x3* rotation);
 
-	bool __thiscall update_ground_velocity(s_character_physics_update_input_datum const* physics_input, vector3d* linear_velocity, matrix3x3* rotation);
+	bool __thiscall update_ground_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_matrix3x3* rotation);
 
-	vector3d m_last_localized_physics_velocity;
+	real_vector3d m_last_localized_physics_velocity;
 	long m_last_time_animation_velocity;
-	vector3d m_last_animation_velocity;
+	real_vector3d m_last_animation_velocity;
 	long m_support_havok_component_index;
 	long m_support_havok_component_rigid_body_index;
 	real_matrix4x3 m_support_havok_component_matrix;
@@ -120,7 +120,7 @@ struct c_character_physics_mode_ground_datum
 	c_global_material_type m_ground_material_type;
 	byte m_ground_physics_update_ticks;
 	byte_flags m_flags;
-	vector3d m_ground_plane;
+	real_vector3d m_ground_plane;
 	real m_landing_velocity;
 };
 static_assert(sizeof(c_character_physics_mode_ground_datum) == 0x74);

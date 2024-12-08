@@ -11,7 +11,7 @@ struct s_damage_globals
 	struct s_damage_acceleration
 	{
 		real_point3d point;
-		vector3d acceleration;
+		real_vector3d acceleration;
 		long object_index;
 		short node_index;
 		word_flags flags;
@@ -42,9 +42,9 @@ struct s_damage_data
 
 	real_point3d origin;
 	real_point3d center;
-	vector3d attacker_direction;
+	real_vector3d attacker_direction;
 
-	vector3d __vector48;
+	real_vector3d __vector48;
 
 	real damage_amount_scale;
 	real shake_scale;
@@ -56,7 +56,7 @@ struct s_damage_data
 	bool __unknown6C;
 	bool __unknown6D;
 	byte __data6E[0x2];
-	vector3d __vector70;
+	real_vector3d __vector70;
 	long __unknown7C;
 
 	real vitality;
@@ -111,12 +111,12 @@ struct s_damage_aftermath_result_data
 	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_body_depleted_bit, k_damage_aftermath_flags> flags;
 	long damage_definition_index;
 	s_damage_owner damage_owner;
-	vector3d direction;
+	real_vector3d direction;
 	bool epicenter_valid;
 
 	byte __data25[0x3]; // padding?
 
-	vector3d epicenter_direction_vector;
+	real_vector3d epicenter_direction_vector;
 	real shake;
 	real shake_scale;
 	long body_part;

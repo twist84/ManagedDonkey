@@ -2,7 +2,7 @@
 
 #include "motor/vehicle_motor_program.hpp"
 
-void __cdecl c_vehicle_type_chopper::adjust_gravity(long vehicle_index, vector3d* gravity_acceleration)
+void __cdecl c_vehicle_type_chopper::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
 {
 	INVOKE(0x00BD37B0, c_vehicle_type_chopper::adjust_gravity, vehicle_index, gravity_acceleration);
 }
@@ -32,7 +32,7 @@ bool __cdecl c_vehicle_type_chopper::effected_by_vehicle_ceiling(long vehicle_in
 	return INVOKE(0x00BD3CB0, c_vehicle_type_chopper::effected_by_vehicle_ceiling, vehicle_index);
 }
 
-vector3d const* __cdecl c_vehicle_type_chopper::get_debug_magic_force_vector(long vehicle_index, real_point3d* origin)
+real_vector3d const* __cdecl c_vehicle_type_chopper::get_debug_magic_force_vector(long vehicle_index, real_point3d* origin)
 {
 	return INVOKE(0x00BD3CC0, c_vehicle_type_chopper::get_debug_magic_force_vector, vehicle_index, origin);
 }
@@ -97,7 +97,7 @@ void c_vehicle_type_chopper::update_physics(long vehicle_index, s_havok_vehicle_
 	INVOKE_CLASS_MEMBER(0x00BD4200, c_vehicle_type_chopper, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_chopper::vector_is_upsides_down(long vehicle_index, vector3d const* vector)
+bool __cdecl c_vehicle_type_chopper::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
 {
 	return INVOKE(0x00BD52C0, c_vehicle_type_chopper::vector_is_upsides_down, vehicle_index, vector);
 }

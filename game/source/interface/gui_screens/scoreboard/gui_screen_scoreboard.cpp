@@ -201,9 +201,9 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 				list_item_widget->get_current_bounds(&current_bounds);
 
 				if (list_item_widget->get_element_handle() != NONE)
-					y19 = (long)current_bounds.y.lower;
+					y19 = (long)current_bounds.y0;
 
-				v18 = (long)current_bounds.y.lower;
+				v18 = (long)current_bounds.y0;
 			}
 
 			if (y19 != v18)

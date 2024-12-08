@@ -13,7 +13,7 @@ struct c_light_volume_location :
 	long m_first_light_volume_index;
 	long m_flags;
 	real_point3d m_origin;
-	vector3d m_direction;
+	real_vector3d m_direction;
 };
 static_assert(sizeof(c_light_volume_location) == 0x2C);
 

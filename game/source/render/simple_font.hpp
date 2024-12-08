@@ -85,7 +85,7 @@ namespace simple_font
 	extern s_simple_font_globals& g_simple_font_globals;
 	extern s_font_data*& g_activeFont;
 	extern bool& __unknown8;     // no_aspect_ratio_scaling?
-	extern vector2d& __vectorC;  // screenspace_offset?
-	extern vector2d& __vector14; // aspect_ratio_scaling?
+	extern real_vector2d& __vectorC;  // screenspace_offset?
+	extern real_vector2d& __vector14; // aspect_ratio_scaling?
 };
 

@@ -75,7 +75,7 @@ static_assert(sizeof(cs_command) == 0x2C);
 struct s_control_directmovement
 {
 	short facing;
-	vector3d vector;
+	real_vector3d vector;
 	real_point3d start_position;
 };
 static_assert(sizeof(s_control_directmovement) == 0x1C);

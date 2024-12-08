@@ -279,7 +279,7 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 //.text:004EA2A0 ; dword __cdecl scenario_get_touched_cinematics_mask_internal()
 //.text:004EA2B0 ; 
 //.text:004EA2C0 ; 
-//.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, vector3d*, vector3d*, real_rgb_color*, real_rgb_color*)
+//.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, real_vector3d*, real_vector3d*, real_rgb_color*, real_rgb_color*)
 
 void __cdecl scenario_initialize()
 {

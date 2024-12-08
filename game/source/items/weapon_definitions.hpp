@@ -93,7 +93,7 @@ enum e_weapon_type
 
 struct melee_damage_parameters_struct
 {
-	euler_angles2d damage_pyramid_angles;
+	real_euler_angles2d damage_pyramid_angles;
 	real damage_pyramid_depth;
 	s_tag_reference first_hit_damage;
 	s_tag_reference first_hit_response;
@@ -624,8 +624,8 @@ struct _weapon_definition
 	s_tag_reference age_material_effects;
 	real external_aging_amount;
 	real campaign_external_aging_amount;
-	vector3d first_person_weapon_offset;
-	vector2d first_person_scope_size;
+	real_vector3d first_person_weapon_offset;
+	real_vector2d first_person_scope_size;
 
 	// range in degrees. 0 is straight, -90 is down, 90 is up
 	real_bounds support_third_person_camera_range; // degrees

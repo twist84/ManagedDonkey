@@ -32,7 +32,7 @@ struct c_havok_contact_point
 	long m_contact_havok_component_index;
 	long m_contact_point_object_index;
 	real_point3d m_position;
-	vector3d m_normal;
+	real_vector3d m_normal;
 	real m_distance;
 	real m_friction;
 	real m_restitution;
@@ -74,8 +74,8 @@ struct c_havok_component :
 		byte __dataC[0x4];
 
 		real_point3d m_pre_simulation_position;
-		vector3d m_pre_simulation_linear_velocity;
-		vector3d m_pre_simulation_angular_velocity;
+		real_vector3d m_pre_simulation_linear_velocity;
+		real_vector3d m_pre_simulation_angular_velocity;
 		hkRigidBody* m_rigid_body;
 
 		// FLAG(0) _plays_impact_effects_bit

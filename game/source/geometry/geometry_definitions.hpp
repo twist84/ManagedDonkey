@@ -43,7 +43,7 @@ static_assert(sizeof(s_compression_info) == 0x34);
 
 struct s_positioning
 {
-	plane3d plane;
+	real_plane3d plane;
 	real_point3d position;
 	real radius;
 	char node_indices[4];

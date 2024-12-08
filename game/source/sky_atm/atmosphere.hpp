@@ -9,10 +9,10 @@ struct s_weighted_atmosphere_parameters
 	real_point3d point;
 	real distance_bias;
 	real max_fog_thickness;
-	vector3d beta_m;
-	vector3d beta_p;
-	vector3d beta_m_theta_prefix;
-	vector3d beta_p_theta_prefix;
+	real_vector3d beta_m;
+	real_vector3d beta_p;
+	real_vector3d beta_m_theta_prefix;
+	real_vector3d beta_p_theta_prefix;
 	real sun_phase_function;
 	real sea_level;
 	real mie_height_scale;
