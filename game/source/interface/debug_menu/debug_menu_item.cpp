@@ -75,10 +75,10 @@ real_argb_color const* c_debug_menu_item::get_background_color()
 
 	static real_argb_color background_color{};
 	background_color.alpha = 1.0f;
-	for (long i = 0; i < NUMBEROF(background_color.color.n); i++)
+	for (long i = 0; i < NUMBEROF(background_color.rgb.n); i++)
 	{
 		real v6 = (v5 * 0.4f) + 0.05f;
-		background_color.color.n[i] = (debug_real_argb_tv_white->color.n[i] * v6) + (global_real_argb_black->color.n[i] * (1.0f - v6));
+		background_color.rgb.n[i] = (debug_real_argb_tv_white->rgb.n[i] * v6) + (global_real_argb_black->rgb.n[i] * (1.0f - v6));
 	}
 
 	return &background_color;

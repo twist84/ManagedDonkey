@@ -133,7 +133,7 @@ void __cdecl game_engine_render_fade_to_black(long user_index)
 	interface_get_current_display_settings(nullptr, nullptr, &display_pixel_bounds, nullptr);
 
 	real_argb_color fade_color{};
-	fade_color.color = *global_real_rgb_black;
+	fade_color.rgb = *global_real_rgb_black;
 	fade_color.alpha = user_fade_to_black_amount;
 
 	short_rectangle2d quad_bounds{};

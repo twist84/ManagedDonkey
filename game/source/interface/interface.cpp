@@ -58,7 +58,7 @@ void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, e_f
 	interface_get_real_argb_color(color_table_index, color_index, &color);
 
 	real_argb_color shadow_color{};
-	shadow_color.color = *global_real_rgb_black;
+	shadow_color.rgb = *global_real_rgb_black;
 	shadow_color.alpha = color.alpha;
 
 	draw_string->set_font(interface_font);

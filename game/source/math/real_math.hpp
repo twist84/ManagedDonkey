@@ -199,47 +199,67 @@ static_assert(sizeof(plane3d) == 0x10);
 
 union real_rgb_color
 {
+	real n[3];
+
 	struct
 	{
 		real red;
 		real green;
 		real blue;
 	};
-	real n[3];
 };
 static_assert(sizeof(real_rgb_color) == sizeof(real) * 3);
 
 union real_argb_color
 {
+	real n[4];
+
 	struct
 	{
 		real alpha;
-		real_rgb_color color;
+		real_rgb_color rgb;
 	};
-	real n[4];
+
+	struct
+	{
+		unsigned char gap0[4];
+		real red;
+		real green;
+		real blue;
+	};
 };
 static_assert(sizeof(real_argb_color) == sizeof(real) * 4);
 
 union real_hsv_color
 {
+	real n[3];
+
 	struct
 	{
 		real hue;
 		real saturation;
 		real value;
 	};
-	real n[3];
 };
 static_assert(sizeof(real_hsv_color) == sizeof(real) * 3);
 
 union real_ahsv_color
 {
+	real n[4];
+
 	struct
 	{
 		real alpha;
-		real_rgb_color color;
+		real_hsv_color hsv;
 	};
-	real n[4];
+
+	struct
+	{
+		unsigned char gap0[4];
+		real hue;
+		real saturation;
+		real value;
+	};
 };
 static_assert(sizeof(real_ahsv_color) == sizeof(real) * 4);
 

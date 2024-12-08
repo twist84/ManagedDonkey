@@ -80,7 +80,7 @@ bool valid_real_argb_color(real_argb_color const* color)
 
 	return valid_real(color->alpha)
 		&& IN_RANGE_INCLUSIVE(color->alpha, 0.0f, 1.0f)
-		&& valid_real_rgb_color(&color->color);
+		&& valid_real_rgb_color(&color->rgb);
 }
 
 bool valid_real_rgb_color(real_rgb_color const* color)

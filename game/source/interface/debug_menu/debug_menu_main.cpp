@@ -51,13 +51,21 @@ struct s_debug_menu_globals
 };
 static_assert(sizeof(s_debug_menu_globals) == 0x488);
 
-real_argb_color const* const debug_real_argb_grey       = new real_argb_color({ 1.0f, {  0.3f, 0.42f, 0.33f } });
-real_argb_color const* const debug_real_argb_white      = new real_argb_color({ 1.0f, {  0.9f, 0.9f,  0.8f  } });
-real_argb_color const* const debug_real_argb_tv_white   = new real_argb_color({ 1.0f, {  0.8f, 0.8f,  0.75f } });
-real_argb_color const* const debug_real_argb_tv_blue    = new real_argb_color({ 1.0f, {  0.2f, 0.2f,  0.45f } });
-real_argb_color const* const debug_real_argb_tv_magenta = new real_argb_color({ 1.0f, {  0.7f, 0.05f, 0.7f  } });
-real_argb_color const* const debug_real_argb_tv_orange  = new real_argb_color({ 1.0f, {  1.0f, 0.5f,  0.0f  } });
-real_argb_color const* const debug_real_argb_tv_green   = new real_argb_color({ 1.0f, { 0.05f, 0.65f, 0.05f } });
+real_argb_color const instance_debug_real_argb_grey       = { 1.0f,  0.3f, 0.42f, 0.33f };
+real_argb_color const instance_debug_real_argb_white      = { 1.0f,  0.9f, 0.9f,  0.8f  };
+real_argb_color const instance_debug_real_argb_tv_white   = { 1.0f,  0.8f, 0.8f,  0.75f };
+real_argb_color const instance_debug_real_argb_tv_blue    = { 1.0f,  0.2f, 0.2f,  0.45f };
+real_argb_color const instance_debug_real_argb_tv_magenta = { 1.0f,  0.7f, 0.05f, 0.7f  };
+real_argb_color const instance_debug_real_argb_tv_orange  = { 1.0f,  1.0f, 0.5f,  0.0f  };
+real_argb_color const instance_debug_real_argb_tv_green   = { 1.0f, 0.05f, 0.65f, 0.05f };
+
+real_argb_color const* const debug_real_argb_grey       = &instance_debug_real_argb_grey;
+real_argb_color const* const debug_real_argb_white      = &instance_debug_real_argb_white;
+real_argb_color const* const debug_real_argb_tv_white   = &instance_debug_real_argb_tv_white;
+real_argb_color const* const debug_real_argb_tv_blue    = &instance_debug_real_argb_tv_blue;
+real_argb_color const* const debug_real_argb_tv_magenta = &instance_debug_real_argb_tv_magenta;
+real_argb_color const* const debug_real_argb_tv_orange  = &instance_debug_real_argb_tv_orange;
+real_argb_color const* const debug_real_argb_tv_green   = &instance_debug_real_argb_tv_green;
 
 bool debug_menu_enabled = true;
 s_debug_menu_globals g_debug_menu_globals = {};

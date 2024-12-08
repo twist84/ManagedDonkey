@@ -47,7 +47,7 @@ void render_debug_obstacles(struct obstacles const* obstacles, real radius)
 		set_real_point3d(&point, disc->center.x, disc->center.y, 0.0f/*disc->__unknown14*/);
 		set_real_vector3d(&vector, 0.0f, 0.0f, (-2.0f * (disc->radius + radius)));
 
-		static real_argb_color const _color = { 1.0f, { 1.0f, 1.0f, 0.5f } };
+		static real_argb_color const _color = { 1.0f, 1.0f, 1.0f, 0.5f };
 		real_argb_color const* color = &_color;
 
 		if (TEST_BIT(disc->flags, 2))

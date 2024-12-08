@@ -19,40 +19,40 @@
 
 REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
 
-REFERENCE_DECLARE(0x0189CD54, real_argb_color const* const, global_real_argb_white);
-REFERENCE_DECLARE(0x0189CD58, real_argb_color const* const, global_real_argb_grey);
-REFERENCE_DECLARE(0x0189CD5C, real_argb_color const* const, global_real_argb_black);
-REFERENCE_DECLARE(0x0189CD60, real_argb_color const* const, global_real_argb_red);
-REFERENCE_DECLARE(0x0189CD64, real_argb_color const* const, global_real_argb_green);
-REFERENCE_DECLARE(0x0189CD68, real_argb_color const* const, global_real_argb_blue);
-REFERENCE_DECLARE(0x0189CD6C, real_argb_color const* const, global_real_argb_yellow);
-REFERENCE_DECLARE(0x0189CD70, real_argb_color const* const, global_real_argb_cyan);
-REFERENCE_DECLARE(0x0189CD74, real_argb_color const* const, global_real_argb_magenta);
-REFERENCE_DECLARE(0x0189CD78, real_argb_color const* const, global_real_argb_pink);
-REFERENCE_DECLARE(0x0189CD7C, real_argb_color const* const, global_real_argb_lightblue);
-REFERENCE_DECLARE(0x0189CD80, real_argb_color const* const, global_real_argb_orange);
-REFERENCE_DECLARE(0x0189CD84, real_argb_color const* const, global_real_argb_purple);
-REFERENCE_DECLARE(0x0189CD88, real_argb_color const* const, global_real_argb_aqua);
-REFERENCE_DECLARE(0x0189CD8C, real_argb_color const* const, global_real_argb_darkgreen);
-REFERENCE_DECLARE(0x0189CD90, real_argb_color const* const, global_real_argb_salmon);
-REFERENCE_DECLARE(0x0189CD94, real_argb_color const* const, global_real_argb_violet);
-REFERENCE_DECLARE(0x0189CD98, real_rgb_color const* const, global_real_rgb_white);
-REFERENCE_DECLARE(0x0189CD9C, real_rgb_color const* const, global_real_rgb_grey);
-REFERENCE_DECLARE(0x0189CDA0, real_rgb_color const* const, global_real_rgb_black);
-REFERENCE_DECLARE(0x0189CDA4, real_rgb_color const* const, global_real_rgb_red);
-REFERENCE_DECLARE(0x0189CDA8, real_rgb_color const* const, global_real_rgb_green);
-REFERENCE_DECLARE(0x0189CDAC, real_rgb_color const* const, global_real_rgb_blue);
-REFERENCE_DECLARE(0x0189CDB0, real_rgb_color const* const, global_real_rgb_yellow);
-REFERENCE_DECLARE(0x0189CDB4, real_rgb_color const* const, global_real_rgb_cyan);
-REFERENCE_DECLARE(0x0189CDB8, real_rgb_color const* const, global_real_rgb_magenta);
-REFERENCE_DECLARE(0x0189CDBC, real_rgb_color const* const, global_real_rgb_pink);
-REFERENCE_DECLARE(0x0189CDC0, real_rgb_color const* const, global_real_rgb_lightblue);
-REFERENCE_DECLARE(0x0189CDC4, real_rgb_color const* const, global_real_rgb_orange);
-REFERENCE_DECLARE(0x0189CDC8, real_rgb_color const* const, global_real_rgb_purple);
-REFERENCE_DECLARE(0x0189CDCC, real_rgb_color const* const, global_real_rgb_aqua);
-REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkgreen);
-REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
-REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
+//REFERENCE_DECLARE(0x0189CD54, real_argb_color const* const, global_real_argb_white);
+//REFERENCE_DECLARE(0x0189CD58, real_argb_color const* const, global_real_argb_grey);
+//REFERENCE_DECLARE(0x0189CD5C, real_argb_color const* const, global_real_argb_black);
+//REFERENCE_DECLARE(0x0189CD60, real_argb_color const* const, global_real_argb_red);
+//REFERENCE_DECLARE(0x0189CD64, real_argb_color const* const, global_real_argb_green);
+//REFERENCE_DECLARE(0x0189CD68, real_argb_color const* const, global_real_argb_blue);
+//REFERENCE_DECLARE(0x0189CD6C, real_argb_color const* const, global_real_argb_yellow);
+//REFERENCE_DECLARE(0x0189CD70, real_argb_color const* const, global_real_argb_cyan);
+//REFERENCE_DECLARE(0x0189CD74, real_argb_color const* const, global_real_argb_magenta);
+//REFERENCE_DECLARE(0x0189CD78, real_argb_color const* const, global_real_argb_pink);
+//REFERENCE_DECLARE(0x0189CD7C, real_argb_color const* const, global_real_argb_lightblue);
+//REFERENCE_DECLARE(0x0189CD80, real_argb_color const* const, global_real_argb_orange);
+//REFERENCE_DECLARE(0x0189CD84, real_argb_color const* const, global_real_argb_purple);
+//REFERENCE_DECLARE(0x0189CD88, real_argb_color const* const, global_real_argb_aqua);
+//REFERENCE_DECLARE(0x0189CD8C, real_argb_color const* const, global_real_argb_darkgreen);
+//REFERENCE_DECLARE(0x0189CD90, real_argb_color const* const, global_real_argb_salmon);
+//REFERENCE_DECLARE(0x0189CD94, real_argb_color const* const, global_real_argb_violet);
+//REFERENCE_DECLARE(0x0189CD98, real_rgb_color const* const, global_real_rgb_white);
+//REFERENCE_DECLARE(0x0189CD9C, real_rgb_color const* const, global_real_rgb_grey);
+//REFERENCE_DECLARE(0x0189CDA0, real_rgb_color const* const, global_real_rgb_black);
+//REFERENCE_DECLARE(0x0189CDA4, real_rgb_color const* const, global_real_rgb_red);
+//REFERENCE_DECLARE(0x0189CDA8, real_rgb_color const* const, global_real_rgb_green);
+//REFERENCE_DECLARE(0x0189CDAC, real_rgb_color const* const, global_real_rgb_blue);
+//REFERENCE_DECLARE(0x0189CDB0, real_rgb_color const* const, global_real_rgb_yellow);
+//REFERENCE_DECLARE(0x0189CDB4, real_rgb_color const* const, global_real_rgb_cyan);
+//REFERENCE_DECLARE(0x0189CDB8, real_rgb_color const* const, global_real_rgb_magenta);
+//REFERENCE_DECLARE(0x0189CDBC, real_rgb_color const* const, global_real_rgb_pink);
+//REFERENCE_DECLARE(0x0189CDC0, real_rgb_color const* const, global_real_rgb_lightblue);
+//REFERENCE_DECLARE(0x0189CDC4, real_rgb_color const* const, global_real_rgb_orange);
+//REFERENCE_DECLARE(0x0189CDC8, real_rgb_color const* const, global_real_rgb_purple);
+//REFERENCE_DECLARE(0x0189CDCC, real_rgb_color const* const, global_real_rgb_aqua);
+//REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkgreen);
+//REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
+//REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
 
 REFERENCE_DECLARE(0x0189CDDC, c_system_allocation*, g_system_allocation);
 REFERENCE_DECLARE(0x0189CDE0, c_normal_allocation*, g_normal_allocation);
@@ -447,4 +447,63 @@ c_string_builder::~c_string_builder()
 {
 
 }
+
+real_argb_color const private_real_argb_colors[17]
+{
+	{ 1.0f,  1.0f,  1.0f,  1.0f },
+	{ 1.0f,  0.5f,  0.5f,  0.5f },
+	{ 1.0f,  0.0f,  0.0f,  0.0f },
+	{ 1.0f,  1.0f,  0.0f,  0.0f },
+	{ 1.0f,  0.0f,  1.0f,  0.0f },
+	{ 1.0f,  0.0f,  0.0f,  1.0f },
+	{ 1.0f,  0.0f,  1.0f,  1.0f },
+	{ 1.0f,  1.0f,  1.0f,  0.0f },
+	{ 1.0f,  1.0f,  0.0f,  1.0f },
+	{ 1.0f,  1.0f, 0.41f,  0.7f },
+	{ 1.0f, 0.39f, 0.58f, 0.93f },
+	{ 1.0f,  1.0f,  0.5f,  0.0f },
+	{ 1.0f, 0.44f, 0.05f, 0.43f },
+	{ 1.0f,  0.5f,  1.0f, 0.83f },
+	{ 1.0f,  0.0f, 0.39f,  0.0f },
+	{ 1.0f,  1.0f, 0.63f, 0.48f },
+	{ 1.0f, 0.81f, 0.13f, 0.56f }
+};
+
+real_argb_color const* const global_real_argb_color_table = private_real_argb_colors;
+
+real_argb_color const* const global_real_argb_white = &private_real_argb_colors[0];
+real_argb_color const* const global_real_argb_grey = &private_real_argb_colors[1];
+real_argb_color const* const global_real_argb_black = &private_real_argb_colors[2];
+real_argb_color const* const global_real_argb_red = &private_real_argb_colors[3];
+real_argb_color const* const global_real_argb_green = &private_real_argb_colors[4];
+real_argb_color const* const global_real_argb_blue = &private_real_argb_colors[5];
+real_argb_color const* const global_real_argb_yellow = &private_real_argb_colors[6];
+real_argb_color const* const global_real_argb_cyan = &private_real_argb_colors[7];
+real_argb_color const* const global_real_argb_magenta = &private_real_argb_colors[8];
+real_argb_color const* const global_real_argb_pink = &private_real_argb_colors[9];
+real_argb_color const* const global_real_argb_lightblue = &private_real_argb_colors[10];
+real_argb_color const* const global_real_argb_orange = &private_real_argb_colors[11];
+real_argb_color const* const global_real_argb_purple = &private_real_argb_colors[12];
+real_argb_color const* const global_real_argb_aqua = &private_real_argb_colors[13];
+real_argb_color const* const global_real_argb_darkgreen = &private_real_argb_colors[14];
+real_argb_color const* const global_real_argb_salmon = &private_real_argb_colors[15];
+real_argb_color const* const global_real_argb_violet = &private_real_argb_colors[16];
+
+real_rgb_color const* const global_real_rgb_white = &private_real_argb_colors[0].rgb;
+real_rgb_color const* const global_real_rgb_grey = &private_real_argb_colors[1].rgb;
+real_rgb_color const* const global_real_rgb_black = &private_real_argb_colors[2].rgb;
+real_rgb_color const* const global_real_rgb_red = &private_real_argb_colors[3].rgb;
+real_rgb_color const* const global_real_rgb_green = &private_real_argb_colors[4].rgb;
+real_rgb_color const* const global_real_rgb_blue = &private_real_argb_colors[5].rgb;
+real_rgb_color const* const global_real_rgb_yellow = &private_real_argb_colors[6].rgb;
+real_rgb_color const* const global_real_rgb_cyan = &private_real_argb_colors[7].rgb;
+real_rgb_color const* const global_real_rgb_magenta = &private_real_argb_colors[8].rgb;
+real_rgb_color const* const global_real_rgb_pink = &private_real_argb_colors[9].rgb;
+real_rgb_color const* const global_real_rgb_lightblue = &private_real_argb_colors[10].rgb;
+real_rgb_color const* const global_real_rgb_orange = &private_real_argb_colors[11].rgb;
+real_rgb_color const* const global_real_rgb_purple = &private_real_argb_colors[12].rgb;
+real_rgb_color const* const global_real_rgb_aqua = &private_real_argb_colors[13].rgb;
+real_rgb_color const* const global_real_rgb_darkgreen = &private_real_argb_colors[14].rgb;
+real_rgb_color const* const global_real_rgb_salmon = &private_real_argb_colors[15].rgb;
+real_rgb_color const* const global_real_rgb_violet = &private_real_argb_colors[16].rgb;
 

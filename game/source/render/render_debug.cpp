@@ -256,10 +256,10 @@ void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p
 	color0_.alpha = 1.0f;
 	color1_.alpha = 1.0f;
 
-	for (long i = 0; i < NUMBEROF(color0_.color.n); i++)
+	for (long i = 0; i < NUMBEROF(color0_.rgb.n); i++)
 	{
-		color0_.color.n[i] = color0_.color.n[i] * color0_.color.n[i];
-		color1_.color.n[i] = color1_.color.n[i] * color1_.color.n[i];
+		color0_.rgb.n[i] = color0_.rgb.n[i] * color0_.rgb.n[i];
+		color1_.rgb.n[i] = color1_.rgb.n[i] * color1_.rgb.n[i];
 	}
 
 	c_rasterizer::draw_debug_line(*p0, *p1, real_argb_color_to_pixel32(&color0_), real_argb_color_to_pixel32(&color1_));
@@ -470,32 +470,32 @@ real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color)
 	return render_debug_unique_color(_random(get_local_random_seed_address(), 0, __FILE__, __LINE__), color);
 }
 
+real_argb_color const global_render_debug_colors[17]
+{
+	{ 1.0f, 1.0f, 0.0f, 1.0f },
+	{ 1.0f, 0.0f, 1.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.5f, 0.0f },
+	{ 1.0f, 0.0f, 1.0f, 0.5f },
+	{ 1.0f, 0.5f, 0.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.0f, 0.5f },
+	{ 1.0f, 0.5f, 1.0f, 0.0f },
+	{ 1.0f, 0.0f, 0.5f, 1.0f },
+	{ 1.0f, 0.5f, 0.0f, 0.0f },
+	{ 1.0f, 0.0f, 0.5f, 0.0f },
+	{ 1.0f, 0.0f, 0.0f, 0.5f },
+	{ 1.0f, 1.0f, 1.0f, 0.5f },
+	{ 1.0f, 1.0f, 0.5f, 1.0f },
+	{ 1.0f, 0.5f, 1.0f, 1.0f },
+	{ 1.0f, 0.5f, 0.5f, 0.0f },
+	{ 1.0f, 0.0f, 0.5f, 0.5f },
+	{ 1.0f, 0.5f, 0.0f, 0.5f },
+};
+
 real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_color* color)
 {
 	ASSERT(color);
 
-	static real_argb_color unique_colors[]
-	{
-		{ 1.0, { 1.0, 0.0, 1.0 } },
-		{ 1.0, { 0.0, 1.0, 1.0 } },
-		{ 1.0, { 1.0, 0.5, 0.0 } },
-		{ 1.0, { 0.0, 1.0, 0.5 } },
-		{ 1.0, { 0.5, 0.0, 1.0 } },
-		{ 1.0, { 1.0, 0.0, 0.5 } },
-		{ 1.0, { 0.5, 1.0, 0.0 } },
-		{ 1.0, { 0.0, 0.5, 1.0 } },
-		{ 1.0, { 0.5, 0.0, 0.0 } },
-		{ 1.0, { 0.0, 0.5, 0.0 } },
-		{ 1.0, { 0.0, 0.0, 0.5 } },
-		{ 1.0, { 1.0, 1.0, 0.5 } },
-		{ 1.0, { 1.0, 0.5, 1.0 } },
-		{ 1.0, { 0.5, 1.0, 1.0 } },
-		{ 1.0, { 0.5, 0.5, 0.0 } },
-		{ 1.0, { 0.0, 0.5, 0.5 } },
-		{ 1.0, { 0.5, 0.0, 0.5 } },
-	};
-
-	*color = unique_colors[abs(index) % NUMBEROF(unique_colors)];
+	*color = global_render_debug_colors[abs(index) % NUMBEROF(global_render_debug_colors)];
 
 	return color;
 }
@@ -1785,7 +1785,7 @@ void c_render_debug_line_drawer::flush()
 
 void c_render_debug_line_drawer::set_color(real_argb_color const* color_)
 {
-	color_degamma(&color_->color, reinterpret_cast<real_linear_rgb_color*>(&real_color.color));
+	color_degamma(&color_->rgb, reinterpret_cast<real_linear_rgb_color*>(&real_color.rgb));
 	real_color.alpha = color_->alpha;
 	color.value = real_argb_color_to_pixel32(&real_color);
 }

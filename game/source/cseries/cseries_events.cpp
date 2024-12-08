@@ -372,9 +372,9 @@ void __cdecl events_debug_render()
 	color.alpha = global_real_argb_red->alpha;
 
 	real interpolation_factor = (system_milliseconds() % 1000) / 1000.0f;
-	interpolate_linear(global_real_argb_red->color.red, global_real_argb_white->color.red, interpolation_factor);
-	interpolate_linear(global_real_argb_red->color.green, global_real_argb_white->color.green, interpolation_factor);
-	interpolate_linear(global_real_argb_red->color.blue, global_real_argb_white->color.blue, interpolation_factor);
+	interpolate_linear(global_real_argb_red->red, global_real_argb_white->red, interpolation_factor);
+	interpolate_linear(global_real_argb_red->green, global_real_argb_white->green, interpolation_factor);
+	interpolate_linear(global_real_argb_red->blue, global_real_argb_white->blue, interpolation_factor);
 
 	c_simple_font_draw_string draw_string;
 	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
@@ -608,7 +608,7 @@ void event_initialize_categories()
 	category->parent_index = NONE;
 	category->first_child_index = NONE;
 	category->sibling_index = NONE;
-	category->current_display_color = global_real_argb_white->color;
+	category->current_display_color = global_real_argb_white->rgb;
 	category->event_log_index = NONE;
 	category->log_format_func = nullptr;
 	category->event_listeners = 0;

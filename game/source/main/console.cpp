@@ -1468,10 +1468,10 @@ void string_cache_render(s_string_cache* cache, c_draw_string* draw_string, c_fo
 		real_argb_color color{};
 		real_argb_color shadow_color{};
 
-		color.color = cache->color;
+		color.rgb = cache->color;
 		color.alpha = cache->alpha * 0.5f;
 
-		shadow_color.color = *global_real_rgb_black;
+		shadow_color.rgb = *global_real_rgb_black;
 		shadow_color.alpha = cache->alpha;
 
 		draw_string->set_justification(cache->text_justification);

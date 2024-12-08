@@ -184,7 +184,7 @@ real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real alpha,
 	ASSERT(color);
 
 	color->alpha = alpha;
-	set_real_rgb_color(&color->color, red, green, blue);
+	set_real_rgb_color(&color->rgb, red, green, blue);
 
 	return color;
 }
