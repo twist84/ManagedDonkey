@@ -32,6 +32,12 @@ real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effec
 {
 	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
 
+	if (cheat.deathless_player && TEST_BIT(_object_mask_biped, object_get_type(object_index)))
+	{
+		if (object_index == player_mapping_get_unit_by_output_user(0))
+			result = 0.0f;
+	}
+
 	if (cheat.jetpack && TEST_BIT(_object_mask_biped, object_get_type(object_index)))
 	{
 		if (damage_data->damage_reporting_info.type == _damage_reporting_type_generic_collision_damage)
@@ -110,7 +116,7 @@ void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, 
 			generate_event(_event_warning, "damaging '%s' 0x%08lx with '%s'",
 				tag_name_strip_path(tag_get_name(object->definition_index)),
 				object_index,
-				tag_name_strip_path(tag_get_name(damage_data->damage_effect_definition_index)));
+				tag_name_strip_path(tag_get_name(damage_data->definition_index)));
 		}
 	}
 
@@ -176,7 +182,7 @@ void render_debug_object_damage()
 
 							csnzappendf(string, sizeof(string), "  %s %0.3f|n",
 								damage_section.name.get_string(),
-								real(1.0f - real(real(object_damage_section->__unknown2) / 255.0f)));
+								real(1.0f - real(real(object_damage_section->current_damage) / 255.0f)));
 						}
 					}
 				}

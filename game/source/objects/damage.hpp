@@ -10,7 +10,7 @@ struct s_damage_globals
 {
 	struct s_damage_acceleration
 	{
-		real_point3d point;
+		real_point3d epicenter;
 		real_vector3d acceleration;
 		long object_index;
 		short node_index;
@@ -25,83 +25,60 @@ struct s_damage_globals
 };
 static_assert(sizeof(s_damage_globals) == 0x810);
 
+struct s_projectile_material_response_definition;
 struct c_aoe_damage_batchifier;
 struct s_damage_data
 {
-	long damage_effect_definition_index;
+	long definition_index;
 	dword_flags flags;
 	s_damage_owner damage_owner;
-
-	long __unknown14;
-	long __unknown18;
-
-	long damage_unique_identifier;
+	long collision_damage_object_index;
+	long damage_creating_object_index;
+	dword melee_damage_unique_identifier;
 	s_location location;
-
-	byte __data22[2];
-
 	real_point3d origin;
-	real_point3d center;
-	real_vector3d attacker_direction;
-
-	real_vector3d __vector48;
-
-	real damage_amount_scale;
+	real_point3d epicenter;
+	real_vector3d direction;
+	real_vector3d aoe_force_direction;
+	real scale;
 	real shake_scale;
-	real damage_amount;
-	real damage_aoe_size;
-
-	real __unknown64;
-	real __unknown68;
-	bool __unknown6C;
-	bool __unknown6D;
-	byte __data6E[0x2];
-	real_vector3d __vector70;
-	long __unknown7C;
-
-	real vitality;
-	c_global_material_type material_type;
-
-	short __unknown86;
-	byte __data88[0x4];
-
+	real multiplier;
+	real area_of_effect_distance;
+	real area_of_effect_intensity;
+	real area_of_effect_unknown68;
+	bool area_of_effect_spike;
+	bool area_of_effect_emp;
+	real_vector3d area_of_effect_forward;
+	long area_of_effect_spike_object;
+	real material_effect_scale;
+	c_global_material_type global_material_type;
+	short shot_id;
+	s_projectile_material_response_definition const* material_response;
 	s_damage_reporting_info damage_reporting_info;
-	c_aoe_damage_batchifier* aoe_damage_batchifier;
-	long damage_material_index; // model_definition->materials[damage_material_index]
+	c_aoe_damage_batchifier* optional_batchifier;
+	long secret_melee_material_index;
 };
 static_assert(sizeof(s_damage_data) == 0x98);
 
+struct s_model_material;
+struct s_model_damage_info;
 struct s_damage_response_data
 {
-	byte __data0[0x4];
-
-	// some struct that either starts with `s_damage_response_data` or has it as the first member variable
-	void* __unknown4;
-
+	s_model_material const* model_material;
+	s_model_damage_info const* damage_info;
 	short body_part;
-
-	byte __dataA[0x6];
-
+	long region_index;
 	long node_index;
-
-	real __unknown14;
-	real __unknown18;
-
+	real total_damage;
+	real available_damage;
 	real shield_damage;
-
-	real __unknown20;
-
+	real section_damage;
 	real body_damage;
-
-	// passed to `object_damage_constraints_old`
-	word_flags __unknown28; // destroyed_constraints?
-	word_flags __unknown2A; // loosened_constraints?
-
-	dword_flags flags;
+	word destroyed_constraints;
+	word loosened_constraints;
+	word_flags being_damaged_flags;
 	long special_death_type;
-
-	bool __unknown34;
-	byte __data35[0x3]; // padding?
+	bool supress_damage_effects;
 };
 static_assert(sizeof(s_damage_response_data) == 0x38);
 
@@ -113,22 +90,14 @@ struct s_damage_aftermath_result_data
 	s_damage_owner damage_owner;
 	real_vector3d direction;
 	bool epicenter_valid;
-
-	byte __data25[0x3]; // padding?
-
-	real_vector3d epicenter_direction_vector;
+	real_vector3d epicenter;
 	real shake;
 	real shake_scale;
 	long body_part;
 	short node_index;
-
-	byte __data42[0x2];
-
 	real body_damage;
 	real shield_damage;
-
-	real __unknown4C;
-
+	real area_of_effect_distance;
 	long ping_type;
 	long special_death_type;
 };
@@ -136,11 +105,14 @@ static_assert(sizeof(s_damage_aftermath_result_data) == 0x58);
 
 struct object_damage_section
 {
-	short __unknown0;
-	short __unknown2;
-	byte __data4[0x8];
+	word_flags response_flags;
+	byte current_damage;
+	byte timed_response_damage_info;
+	word timed_response_index : 4;
+	word timed_response_timer : 12;
+	short damage_section_recharge_ticks;
 };
-static_assert(sizeof(object_damage_section) == 0xC);
+static_assert(sizeof(object_damage_section) == 0x8);
 
 extern bool debug_damage_radius;
 extern bool debug_damage_this_event;
@@ -148,8 +120,6 @@ extern bool debug_damage_verbose;
 extern bool debug_player_damage;
 extern bool debug_damage;
 extern long global_debug_damage_object_index;
-
-struct s_model_damage_info;
 
 extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
 extern void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration);

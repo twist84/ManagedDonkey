@@ -71,7 +71,7 @@ void __cdecl biped_falling_damage(long biped_index)
 			{
 				SET_BIT(biped->biped.flags, 5, true);
 				s_damage_data damage_data{};
-				damage_data.material_type = c_global_material_type();
+				damage_data.global_material_type = c_global_material_type();
 				damage_data_new(&damage_data, falling_damage.distance_damage.index);
 				SET_BIT(damage_data.flags, 2, true);
 				damage_data.damage_reporting_info.type = _damage_reporting_type_falling_damage;
