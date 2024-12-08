@@ -2,30 +2,27 @@
 
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
-#include "memory/ring_buffer.hpp"
 #include "physics/character_physics.hpp"
 #include "units/units.hpp"
 
 struct _biped_datum
 {
 	word_flags flags;
-
 	short pathfinding_structure_index;
-	long pathfinding_time;
+	long last_pathfinding_attempt_time;
 	long pathfinding_surface_index;
 	c_sector_ref pathfinding_sector;
-	long pathfinding__unknown10;
+	long pathfinding_instanced_geometry_index;
 	long pathfinding_object_index;
 	dword pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
-
-	byte __data28[0x18];
-
+	real_vector3d pathfinding_ground_collision_normal;
+	real_point3d pathfinding_ground_collision_point;
 	long last_falling_communication_time;
 	long bump_object_index;
 	char bump_ticks;
 	char jump_control_ticks;
-	byte stun_ticks; // char?
+	byte stun_ticks;
 	char last_known_speed_scale;
 	real lean;
 	real camera_offset_z;
@@ -36,9 +33,10 @@ struct _biped_datum
 	short current_gate_type;
 	short current_gate_index;
 	long current_gate_start_time;
-
-	byte __data6C[0x28];
-
+	real_vector3d max_analog_movement_controller;
+	real_vector3d next_analog_movement_controller;
+	long analog_movement_controller_age;
+	real_vector3d first_person_camera_offset;
 	c_character_physics_component physics;
 	object_header_block_reference simulation_interpolation;
 	object_header_block_reference last_node_matrices_storage;
@@ -48,13 +46,11 @@ struct _biped_datum
 	real pivot_on_foot_scale_boost;
 	real_point3d pivot_point;
 	real_vector2d pivot_fixup;
-
-	real_matrix4x3 __matrix150;
-	real_matrix4x3 __matrix184;
-
-	byte __data1B8[0xC];
-
-	t_static_ring_buffer<real_matrix4x3, 3> root_matrix_history;
+	real_matrix4x3 left_foot_target;
+	real_matrix4x3 right_foot_target;
+	real_point3d leap_destination;
+	real_vector3d leap_destination_normal;
+	real_matrix4x3 root_matrix_history[3];
 	real landing_recovery_offset;
 	real pendulum_scale;
 	real_vector3d pendulum_vector;
@@ -64,10 +60,8 @@ struct _biped_datum
 	long  customized_area_object_indices[10];
 	short customized_area_indices[10];
 
-	// linked
-	long __unknown2C0;
-	short __unknown2C4;
-
+	long character_definition_index;
+	short death_squad_index;
 	byte airborne_intentional_ticks;
 	char ai_combat_status;
 };
