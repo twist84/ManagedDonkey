@@ -50,19 +50,19 @@ long __cdecl first_person_weapon_build_models(long user_index, long object_index
 
 		if (weapon_data->animation_manager.valid_graph())
 		{
-			for (long node_index = 0; node_index < weapon_data->__unknown4DC; node_index++)
+			for (long node_index = 0; node_index < weapon_data->node_matrices_count; node_index++)
 			{
 				c_model_animation_graph const* graph = weapon_data->animation_manager.get_graph();
 				s_animation_graph_node* node = graph->get_node(node_index);
 
 				real_matrix4x3 node_matrix{};
-				matrix4x3_multiply(&weapon->camera_offset_matrix_estimate, &weapon_data->node_matrices[node_index], &node_matrix);
+				matrix4x3_multiply(&weapon->estimated_root_matrix, &weapon_data->node_matrices[node_index], &node_matrix);
 				render_debug_matrix(true, &node_matrix, 0.01f);
 
 				if (node->parent_node_index != NONE)
 				{
 					real_matrix4x3 parent_node_matrix{};
-					matrix4x3_multiply(&weapon->camera_offset_matrix_estimate, &weapon_data->node_matrices[node->parent_node_index], &parent_node_matrix);
+					matrix4x3_multiply(&weapon->estimated_root_matrix, &weapon_data->node_matrices[node->parent_node_index], &parent_node_matrix);
 					render_debug_line(true, &node_matrix.position, &parent_node_matrix.position, global_real_argb_white);
 				}
 			}
@@ -104,7 +104,7 @@ first_person_weapon_data* __cdecl first_person_weapon_get_weapon_data(first_pers
 {
 	//INVOKE(0x00A9BF20, first_person_weapon_get_weapon_data, fp_weapon, weapon_slot);
 
-	return &fp_weapon->weapon_slots[weapon_slot];
+	return &fp_weapon->weapon[weapon_slot];
 }
 
 //.text:00A9BF40 ; long __cdecl first_person_weapon_get_weapon_slot(long, long)
@@ -191,7 +191,7 @@ long first_person_weapon_get_pending_state_string(long unit_index, long weapon_s
 		struct first_person_weapon* first_person_weapon = first_person_weapon_get(user_index);
 		if (first_person_weapon->unit_index == unit_index)
 		{
-			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->pending_state_string;
+			return first_person_weapon_get_weapon_data(first_person_weapon, weapon_slot)->pending_state;
 		}
 	}
 

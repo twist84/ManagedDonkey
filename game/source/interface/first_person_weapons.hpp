@@ -2,6 +2,7 @@
 
 #include "animations/animation_interpolation.hpp"
 #include "animations/animation_manager.hpp"
+#include "animations/mixing_board/mixing_board_slider.hpp"
 #include "cseries/cseries.hpp"
 
 enum
@@ -9,69 +10,81 @@ enum
 	k_first_person_max_weapons = 2
 };
 
+struct s_weapon_orientations
+{
+	real_orientation node_orientations[150];
+	real_orientation original_node_orientations[150];
+};
+static_assert(sizeof(s_weapon_orientations) == 0x2580);
+
 struct s_first_person_orientations
 {
-	byte __data[0x12C00];
+	s_weapon_orientations weapon_orientations[4][2];
 };
 static_assert(sizeof(s_first_person_orientations) == 0x12C00);
 
 struct first_person_weapon_attachment
 {
 	long unit_index;
-	long __unknown4;
+	long player_character_type;
 	long weapon_index;
-	long __unknownC;
-	long weapon_render_model_definition_index;
-	long __unknown14;
-	long hands_render_model_definition_index;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
+	long weapon_class;
+	long weapon_render_model_index;
+	long weapon_animation_graph_index;
+	long hands_render_model_index;
+	long arms_render_model_index;
+	long body_render_model_index;
+	long legs_render_model_index;
 	long weapon_node_count;
 	long hands_node_count;
 };
 static_assert(sizeof(first_person_weapon_attachment) == 0x30);
 
+enum e_first_person_weapon_data_flags
+{
+	_weapon_attached_bit = 0,
+	_weapon_visible_bit,
+	_weapon_node_table_valid_bit,
+	_arm_node_table_valid_bit,
+	_first_person_camera_matrix_ready_bit
+
+	// are there more?
+};
+
 struct first_person_weapon_data
 {
-	// 0: _weapon_attached_bit
-	// 1: _weapon_visibility_bit
-
+	// e_first_person_weapon_data_flags
 	dword_flags flags;
 	first_person_weapon_attachment attachment;
 	c_animation_manager animation_manager;
-
-	byte __dataF4[0xC0];
-
-	real __unknown1B4;
-	real __unknown1B8;
-	short __unknown1BC;
-	short __unknown1BE;
-	short __unknown1C0;
-	word frames_remaining;
-
+	c_animation_channel channel1;
+	c_animation_channel channel2;
+	c_animation_channel channel3;
+	c_animation_id pitch_and_turn_id;
+	c_animation_id overlays_id;
+	c_animation_id ammunition_id;
+	real firing_push_back;
+	real firing_push_back_velocity;
+	short ticks_idle;
+	short ticks_until_pose;
+	short ticks_until_predict;
+	short ticks_until_automatic_firing_may_stop;
 	long weapon_node_remapping_table_count;
 	long hands_node_remapping_table_count;
 	long weapon_node_remapping_table[150];
 	long hands_node_remapping_table[150];
-
-	long __unknown67C[150];
-
-	short __unknown8D4;
-	short __unknown8D8;
+	long hands_matrix_remapping_table[150];
+	short weapon_root_node_index;
+	short opposite_hand_node_index;
 	long node_orientations_count;
-	long __unknown4DC;
-
+	long node_matrices_count;
 	real_matrix4x3 node_matrices[150];
 	long camera_control_node;
-	real_matrix4x3 camera_offset_matrix;
-
-	long __unknown2790;
-	string_id __string_id2794;
-
-	string_id pending_state_string;
-
-	byte __data[0x4];
+	real_matrix4x3 camera_control_offset_matrix;
+	long current_sound_index;
+	string_id current_sound_state;
+	string_id pending_state;
+	bool pending_reset_sounds;
 };
 static_assert(sizeof(first_person_weapon_data) == 0x27A0);
 
@@ -79,25 +92,20 @@ struct first_person_weapon
 {
 	dword_flags flags;
 	long unit_index;
-
 	first_person_weapon_attachment attachment;
-	first_person_weapon_data weapon_slots[k_first_person_max_weapons];
-
-	c_interpolator_control __unknown4F78;
-	byte __data4F84[0xC];
-	real __unknown4F90;
-	real __unknown4F94;
-	real __unknown4F98;
-	real __unknown4F9C;
-	real __unknown4FA0;
-	real __unknown4FA4;
-	real __unknown4FA8;
-	real __unknown4FAC;
-	real_euler_angles2d __angles4FB0;
-	real_euler_angles2d __angles4FB8;
-	real_matrix4x3 camera_offset_matrix_estimate;
-	dword __unknown4FF4;
-	byte __data4FF8[0x8];
+	first_person_weapon_data weapon[k_first_person_max_weapons];
+	c_interpolator_control overlay_interpolator;
+	c_mixing_board_slider ik_slider;
+	real_vector2d position;
+	real_vector2d position_velocity;
+	real_vector2d turning;
+	real_vector2d turning_velocity;
+	real_euler_angles2d facing_angles;
+	real_euler_angles2d facing_angles_delta;
+	real_matrix4x3 estimated_root_matrix;
+	long custom_animation_graph_index;
+	long custom_animation_name;
+	c_animation_id custom_animation_id;
 };
 static_assert(sizeof(first_person_weapon) == 0x5000);
 
