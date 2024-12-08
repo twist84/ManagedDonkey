@@ -81,8 +81,8 @@ void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d
 
 				c_render_debug_line_drawer debug_line_drawer{};
 				debug_line_drawer.set_color(global_real_argb_green);
-				render_debug_point(true, &result.__point0, 0.1f, global_real_argb_red);
-				render_debug_vector(true, &result.__point0, &result.__vectorC, 0.1f, global_real_argb_blue);
+				render_debug_point(true, &result.position, 0.1f, global_real_argb_red);
+				render_debug_vector(true, &result.position, &result.normal, 0.1f, global_real_argb_blue);
 
 				for (s_structure_physics_water_instance_debug_triangle& water_debug_triangle : water_instance.water_debug_triangles)
 				{

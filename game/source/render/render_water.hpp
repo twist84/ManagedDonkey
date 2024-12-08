@@ -2,20 +2,15 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_ripple_data
+struct s_new_interaction_event
 {
-	real_point3d __point0;
-	real_vector3d __vectorC;
-	real_vector3d __vector18;
+	real_point3d position;
+	real_vector3d object_velocity;
+	real_vector3d water_velocity;
 	long water_ripple_definition_index;
 };
-static_assert(sizeof(s_ripple_data) == 0x28);
-
-struct s_interaction_event
-{
-	c_static_array<s_ripple_data, 128> ripples;
-};
-static_assert(sizeof(s_interaction_event) == 0x1400);
+static_assert(sizeof(s_new_interaction_event) == 0x28);
+static_assert(sizeof(s_new_interaction_event) * 128 == 0x1400);
 
 struct c_water_renderer
 {

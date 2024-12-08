@@ -553,8 +553,8 @@ struct s_thread_local_storage
 	s_hud_camera_globals* g_hud_camera_globals;
 
 	// name: "interaction ripples"
-	// size: 0x1400
-	s_interaction_event* g_water_interaction_events;
+	// size: 0x1400, sizeof(s_new_interaction_event) * 128
+	s_new_interaction_event* g_water_new_interaction_events;
 
 	// name: "render texture globals"
 	// size: 0x6C

@@ -3,34 +3,40 @@
 #include "cseries/cseries.hpp"
 #include "game/materials.hpp"
 
-struct s_water_physics_test_vector_result
+struct s_water_physics_effect_parameters
 {
-	s_water_physics_test_vector_result() : 
-		__point0(),
-		__vectorC(),
-		__data18(),
-		__unknown1C(),
-		structure_bsp_index(),
-		water_instance_index(),
-		material_type(),
-		direction(),
-		__vector38()
+	s_water_physics_effect_parameters() :
+		water_velocity(),
+		water_interaction_velocity()
 	{
 	}
 
-	real_point3d __point0;
-	real_vector3d __vectorC;
+	real_vector3d water_velocity;
+	real_vector3d water_interaction_velocity;
+};
 
+struct s_water_physics_test_vector_result
+{
+	s_water_physics_test_vector_result() : 
+		position(),
+		normal(),
+		__data18(),
+		t(),
+		structure_bsp_index(),
+		water_instance_index(),
+		material_type(),
+		effect_parameters()
+	{
+	}
+
+	real_point3d position;
+	real_vector3d normal;
 	byte __data18[0x4];
-
-	real __unknown1C;
-
+	real t;
 	long structure_bsp_index;
 	long water_instance_index;
 	c_global_material_type material_type;
-	real_vector3d direction;
-
-	real_vector3d __vector38;
+	s_water_physics_effect_parameters effect_parameters;
 };
 static_assert(sizeof(s_water_physics_test_vector_result) == 0x44);
 
