@@ -18,13 +18,13 @@ struct game_options
 		DECLFUNC(0x00485420, void, __thiscall, game_options*)(this);
 	}
 
-	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> game_mode;
-	c_enum<e_game_simulation_type, char, _game_simulation_none, k_game_simulation_count> game_simulation;
-	byte game_network_type;
+	long game_mode;
+	char game_simulation;
+	char game_network_type;
 	short game_tick_rate;
 	qword game_instance;
 	dword random_seed;
-	c_enum<e_language, dword, _language_invalid, k_language_count> language;
+	e_language language;
 	long determinism_version;
 	long campaign_id;
 	long map_id;
@@ -35,13 +35,11 @@ struct game_options
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;
-	byte : 8;
-	c_enum<e_game_playback_type, short, _game_playback_none, k_game_playback_count> game_playback;
+	short game_playback;
 	bool record_saved_film;
-	byte : 8;
 	long playback_start_ticks;
 	long playback_length_in_ticks;
-	c_enum<e_campaign_difficulty_level, short, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> campaign_difficulty;
+	short campaign_difficulty;
 	short campaign_insertion_point;
 	short campaign_metagame_scoring;
 	bool campaign_metagame_enabled;
@@ -52,13 +50,13 @@ struct game_options
 	byte : 8;
 	byte : 8;
 	s_campaign_game_progression campaign_game_progression;
-	c_flags<e_primary_skulls, long, k_number_of_primary_skulls> initial_primary_skulls;
-	c_flags<e_secondary_skulls, long, k_number_of_secondary_skulls> initial_secondary_skulls;
+	long campaign_active_primary_skulls;
+	long campaign_active_secondary_skulls;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
 	byte __align2C9[7];
 	s_game_matchmaking_options matchmaking_options;
-	c_game_variant game_variant;
+	c_game_variant multiplayer_variant;
 	c_map_variant map_variant;
 	game_machine_options machine_options;
 	c_static_array<game_player_options, 16> players;

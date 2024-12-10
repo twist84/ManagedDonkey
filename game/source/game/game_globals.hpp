@@ -20,11 +20,9 @@ struct game_globals_storage
 {
 	bool initializing;
 	bool map_active;
-
 	dword active_structure_bsp_mask;
 	dword active_designer_zone_mask;
 	dword active_cinematic_zone_mask;
-
 	game_options options;
 
 	// ODST
@@ -32,44 +30,30 @@ struct game_globals_storage
 	s_campaign_game_progression active_game_progression;
 
 	bool game_in_progress;
-
 	bool game_lost;
 	bool game_revert;
-	bool prepare_for_game_progression; // false if `active_game_progression_level` is `_invalid_string_id`
-	long game_lost_wait_time;
 
+	// ODST
+	bool prepare_for_game_progression;
+
+	long game_loss_timer;
 	bool game_finished;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	long game_finished_wait_time;
-
-	c_flags<e_primary_skulls, dword, k_number_of_primary_skulls> active_primary_skulls;
-	c_flags<e_secondary_skulls, dword, k_number_of_secondary_skulls> active_secondary_skulls;
-
-	byte : 8;
-
+	long game_finished_timer;
+	long active_primary_skulls;
+	long active_secondary_skulls;
+	bool game_is_playtest;
 	bool game_had_an_update_tick_this_frame;
-
-	byte : 8;
-	byte : 8;
-
 	s_game_cluster_bit_vectors cluster_pvs;
 	s_game_cluster_bit_vectors cluster_pvs_local;
 	s_game_cluster_bit_vectors cluster_activation;
-
 	bool pvs_use_scripted_camera;
-	byte : 8;
-
-	// game_pvs_scripted_clear
-	// game_pvs_scripted_set_object
-	// game_pvs_scripted_set_camera_point
-	word scripted;
-
-	// game_pvs_scripted_set_object
-	// game_pvs_scripted_set_camera_point
-	// scenario_group, scenario_block, scenario_cutscene_camera_point_block, camera_point_index
-	long scripted_object_index; // scenario_group.scenario_block.cutscene_camera_points[camera_point_index]
+	byte unused_pad;
+	short pvs_activation_type;
+	struct
+	{
+		long object_index;
+		//s_cluster_reference cluster_reference;
+	} pvs_activation;
 
 	long game_ragdoll_count;
 

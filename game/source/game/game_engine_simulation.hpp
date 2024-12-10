@@ -22,10 +22,22 @@ enum e_multiplayer_event_type
 	k_multiplayer_event_type_count
 };
 
+struct s_territories_event_data
+{
+	short territory_index;
+};
+static_assert(sizeof(s_territories_event_data) == sizeof(short));
+
+struct s_objective_game_role_change_event_data
+{
+	long objective_game_role_index;
+};
+static_assert(sizeof(s_objective_game_role_change_event_data) == sizeof(long));
+
 struct s_game_engine_event_data
 {
-	c_enum<e_multiplayer_event_type, long, _multiplayer_event_type_general, k_multiplayer_event_type_count> event_type;
-	c_string_id type;
+	long event_type;
+	long event;
 	long identifier;
 	long audience_player_index;
 	long cause_player_index;
@@ -36,8 +48,8 @@ struct s_game_engine_event_data
 
 	union
 	{
-		short dummy;
-		short territories;
+		s_territories_event_data territories_event_data;
+		s_objective_game_role_change_event_data objective_game_role_event_data;
 	};
 };
 static_assert(sizeof(s_game_engine_event_data) == 0x28);
@@ -46,21 +58,15 @@ enum e_game_engine_queued_event_flags
 {
 	_game_engine_queued_event_valid_bit = 0,
 	_game_engine_queued_event_played_bit,
+	_game_engine_queued_event_long_delay_bit,
 
-	// game_engine_events_update
-	// bool long_delay = flags.test(_game_engine_queued_event_unknown_bit2);
-	// delay = game_seconds_to_ticks_real(long_delay ? 2.0f : 0.15f);
-	_game_engine_queued_event_unknown_bit2,
-
-	// any more?
-
-	k_game_engine_queued_event_flags
+	k_game_engine_queued_event_flags_count
 };
 
 struct s_game_engine_queued_event
 {
-	dword __time0;
-	c_flags<e_game_engine_queued_event_flags, byte, k_game_engine_queued_event_flags> flags;
+	dword received_game_time;
+	c_flags<e_game_engine_queued_event_flags, byte, k_game_engine_queued_event_flags_count> flags;
 	s_game_engine_event_data event_data;
 };
 static_assert(sizeof(s_game_engine_queued_event) == 0x30);

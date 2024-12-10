@@ -55,7 +55,7 @@ c_game_variant const* __cdecl current_game_variant()
 {
 	game_options* options = game_options_get();
 	if (options->game_mode == _game_mode_multiplayer)
-		return &options->game_variant;
+		return &options->multiplayer_variant;
 
 	return nullptr;
 }

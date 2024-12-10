@@ -598,7 +598,7 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	DECLFUNC(0x0074A200, void, __thiscall, c_game_engine const*, long)(this, player_index);
 //}
 //
-//void c_game_engine::assemble_baseline_traits_for_player(long player_index, c_player_traits* player_traits) const
+//void c_game_engine::apply_baseline_traits_for_player(long player_index, c_player_traits* player_traits) const
 //{
 //	//DECLFUNC(0x00748940, void, __thiscall, c_game_engine const*, long, c_player_traits*)(this, player_index, player_traits);
 //

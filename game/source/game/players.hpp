@@ -626,83 +626,64 @@ static_assert(0x2F04 == OFFSETOF(player_datum, spawn_count));
 static_assert(0x2F06 == OFFSETOF(player_datum, __pad2F06));
 #pragma pack(pop)
 
-#pragma pack(push, 1)
-struct s_players_global_data
+struct players_global_data
 {
 	long players_in_game_count;
-
-	bool input_disabled;
-	bool mostly_inhibited;
-
-	bool weapon_pickup_disabled;
-	bool __unknown7;
-	bool equipment_use_disabled;
-
-	byte __data9[3];
-
+	bool input_inhibited;
+	bool input_mostly_inhibited;
+	bool weapon_pickup_inhibited;
+	bool unknown7_inhibited;
+	bool equipment_use_inhibited;
 	dword machine_valid_mask;
-	c_static_array<s_machine_identifier, k_maximum_machines> machine_identifiers;
-
+	s_machine_identifier machine_identifiers[k_maximum_machines];
 	bool local_machine_exists;
-	s_machine_identifier local_machine_identifier;
-	byte __pad131[0x3];
-
+	__declspec(align(1)) s_machine_identifier local_machine_identifier;
 	long local_machine_index;
 	bool scripted_dont_allow_respawning;
-
-	byte __data139;
-
-	c_enum<e_player_respawn_failure, short, _player_respawn_failure_none, k_player_respawn_failure_count> respawn_failure;
-
-	// player_positions_initialize_for_new_structure_bsp
-	// players_update_after_game
-	bool __unknown13C;
-
-	byte __data13D[0x3];
-
+	short respawn_failure_reason;
+	bool force_player_positions_initialize;
 	real_point3d switching_player_position;
 	real_vector3d switching_player_forward;
-
-	// player_positions_initialize_for_new_structure_bsp
-	// players_update_after_game
 	long begin_zone_set_switch_trigger_volume_index;
 	long commit_zone_set_switch_trigger_volume_index;
-
-	// players_update_after_game
-	// if (player_index != -1 && ++__unknown160 > 12)
-	//    __unknown160 = 0
-	short __unknown160;
-
-	short __unknown162;
-
-	// players_update_after_game
-	long player_index;
-
-	// players_update_after_game
-	long zone_set_index;
-
-	// memset in `players_initialize_for_new_map`
-	// zone_set_trigger_volume_index
-	c_static_flags<1024> zone_set_switch_flags;
-
-	// `terminal_was_completed`
-	// - returns whether or not the given terminal was read to completion
+	short zone_set_switch_check_recursive_ticks;
+	long zone_set_switch_player_index;
+	long zone_set_switch_previous_zone_set_index;
+	dword disabled_zone_set_switch_trigger_volume_flags[32];
 	word terminal_completed_flags;
-
-	// `terminal_was_accessed`
-	// - returns whether or not the given terminal was accessed
 	word terminal_accessed_flags;
-
-	// `terminal_is_being_read`
-	// - returns whether or not a terminal is currently being read
 	bool terminal_being_read;
-
-	byte __data1F1[0x3];
-
-	byte __data1F4[0x40];
+	dword combined_pvs[8];
+	dword combined_pvs_local[8];
 };
-static_assert(sizeof(s_players_global_data) == 0x234);
-#pragma pack(pop)
+static_assert(sizeof(players_global_data) == 0x234);
+static_assert(0x000 == OFFSETOF(players_global_data, players_in_game_count));
+static_assert(0x004 == OFFSETOF(players_global_data, input_inhibited));
+static_assert(0x005 == OFFSETOF(players_global_data, input_mostly_inhibited));
+static_assert(0x006 == OFFSETOF(players_global_data, weapon_pickup_inhibited));
+static_assert(0x007 == OFFSETOF(players_global_data, unknown7_inhibited));
+static_assert(0x008 == OFFSETOF(players_global_data, equipment_use_inhibited));
+static_assert(0x00C == OFFSETOF(players_global_data, machine_valid_mask));
+static_assert(0x010 == OFFSETOF(players_global_data, machine_identifiers));
+static_assert(0x120 == OFFSETOF(players_global_data, local_machine_exists));
+//static_assert(0x121 == OFFSETOF(players_global_data, local_machine_identifier));
+static_assert(0x134 == OFFSETOF(players_global_data, local_machine_index));
+static_assert(0x138 == OFFSETOF(players_global_data, scripted_dont_allow_respawning));
+static_assert(0x13A == OFFSETOF(players_global_data, respawn_failure_reason));
+static_assert(0x13C == OFFSETOF(players_global_data, force_player_positions_initialize));
+static_assert(0x140 == OFFSETOF(players_global_data, switching_player_position));
+static_assert(0x14C == OFFSETOF(players_global_data, switching_player_forward));
+static_assert(0x158 == OFFSETOF(players_global_data, begin_zone_set_switch_trigger_volume_index));
+static_assert(0x15C == OFFSETOF(players_global_data, commit_zone_set_switch_trigger_volume_index));
+static_assert(0x160 == OFFSETOF(players_global_data, zone_set_switch_check_recursive_ticks));
+static_assert(0x164 == OFFSETOF(players_global_data, zone_set_switch_player_index));
+static_assert(0x168 == OFFSETOF(players_global_data, zone_set_switch_previous_zone_set_index));
+static_assert(0x16C == OFFSETOF(players_global_data, disabled_zone_set_switch_trigger_volume_flags));
+static_assert(0x1EC == OFFSETOF(players_global_data, terminal_completed_flags));
+static_assert(0x1EE == OFFSETOF(players_global_data, terminal_accessed_flags));
+static_assert(0x1F0 == OFFSETOF(players_global_data, terminal_being_read));
+static_assert(0x1F4 == OFFSETOF(players_global_data, combined_pvs));
+static_assert(0x214 == OFFSETOF(players_global_data, combined_pvs_local));
 
 struct c_player_in_game_iterator
 {
@@ -766,12 +747,12 @@ extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();
 extern void __cdecl players_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 extern void __cdecl players_finish_creation();
-extern long __cdecl players_get_active_and_in_game_count(bool a1);
+extern long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progress_players);
 extern void __cdecl players_handle_deleted_player_internal(long player_index);
 extern void __cdecl players_initialize();
 extern void __cdecl players_initialize_for_new_map();
 extern void __cdecl players_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
-extern void __cdecl players_rebuild_user_mapping(bool a1);
+extern void __cdecl players_rebuild_user_mapping(bool force_rebuild);
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
 extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
 extern void __cdecl players_verify();

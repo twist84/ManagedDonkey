@@ -2,9 +2,42 @@
 
 #include "cseries/cseries.hpp"
 
+struct rumble_data
+{
+	word left_frequency;
+	word right_frequency;
+};
+static_assert(sizeof(rumble_data) == 0x4);
+
+struct player_rumble_impulse
+{
+	long damage_response_index;
+	long class_index;
+	real rumble_scale;
+};
+static_assert(sizeof(player_rumble_impulse) == 0xC);
+
+struct player_rumble_datum
+{
+	player_rumble_impulse impulse[8];
+	real time_elapsed[8];
+	real left_frequency_continuous;
+	real right_frequency_continuous;
+};
+static_assert(sizeof(player_rumble_datum) == 0x88);
+
+struct scripted_rumble_datum
+{
+	real left_frequency;
+	real right_frequency;
+	real scale;
+};
+static_assert(sizeof(scripted_rumble_datum) == 0xC);
+
 struct rumble_global_data
 {
-	byte __data[0x22C];
+	player_rumble_datum player_rumble_data[4];
+	scripted_rumble_datum scripted_rumble;
 };
 static_assert(sizeof(rumble_global_data) == 0x22C);
 

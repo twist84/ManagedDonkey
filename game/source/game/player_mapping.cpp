@@ -11,6 +11,12 @@ void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 	//player_mapping_globals = (s_player_mapping_globals*)address;
 }
 
+//.text:005895C0 ; 
+//.text:005895E0 ; 
+//.text:005895F0 ; 
+//.text:00589600 ; 
+//.text:00589610 ; 
+//.text:00589620 ; void __cdecl __tls_set_g_player_mapping_globals_allocator(void*)
 //.text:00589640 ; 
 //.text:00589680 ; public: void __cdecl c_player_output_user_iterator::begin_player(long)
 //.text:005896A0 ; public: void __cdecl c_player_output_user_iterator::begin_unit(long)

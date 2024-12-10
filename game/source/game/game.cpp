@@ -127,6 +127,9 @@ real_argb_color const* const k_activation_colors[6]
 };
 long k_activation_color_override_index = 0;
 
+real const k_game_loss_time = 6.0f;
+real const k_game_finished_time = 7.0f;
+
 s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, long bsp_index, long cluster_index)
 {
 	cluster_reference->bsp_index = static_cast<char>(bsp_index);
@@ -304,7 +307,7 @@ e_campaign_difficulty_level __cdecl game_difficulty_level_get()
 {
 	//return INVOKE(0x00530C70, game_difficulty_level_get);
 
-	return game_options_get()->campaign_difficulty;
+	return (e_campaign_difficulty_level)game_options_get()->campaign_difficulty;
 }
 
 e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
@@ -436,18 +439,8 @@ void __cdecl game_finish()
 
 	if (!game_globals->game_finished)
 	{
-		// seconds_to_wait:
-		// - halo 3: 7.0f
-		// - halo reach: game_is_campaign_or_survival() ? 1.0f : 7.0f
-		// - halo online: 40.0f
-		real seconds_to_wait = game_is_campaign_or_survival() ? 1.0f : 7.0f;
-
 		game_globals->game_finished = true;
-		game_globals->game_finished_wait_time = game_seconds_to_ticks_round(seconds_to_wait);
-
-		// halo online
-		//if (!game_is_playback())
-		//	game_sound_disable_at_game_finish();
+		game_globals->game_finished_timer = game_seconds_to_ticks_round(game_is_campaign_or_survival() ? 1.0f : k_game_finished_time);
 	}
 }
 
@@ -459,8 +452,8 @@ void __cdecl game_finished_update()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	if (game_globals->game_finished && game_globals->game_finished_wait_time > 0)
-		game_globals->game_finished_wait_time--;
+	if (game_globals->game_finished && game_globals->game_finished_timer > 0)
+		game_globals->game_finished_timer--;
 }
 
 void __cdecl game_frame(real game_seconds_elapsed)
@@ -575,11 +568,10 @@ void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 	csmemcpy(&game_globals->options, options, sizeof(game_options));
 	game_globals->options.load_level_only = true;
 
-	//if (game_has_game_variant() || options->game_variant.get_game_engine_index())
-	if (game_globals->options.game_mode == _ui_game_mode_multiplayer || options->game_variant.get_game_engine_index())
+	if (game_globals->options.game_mode == _ui_game_mode_multiplayer || options->multiplayer_variant.get_game_engine_index())
 	{
-		game_globals->options.game_variant.copy_from_and_validate(&options->game_variant);
-		if (!game_engine_variant_validate(&game_globals->options.game_variant))
+		game_globals->options.multiplayer_variant.copy_from_and_validate(&options->multiplayer_variant);
+		if (!game_engine_variant_validate(&game_globals->options.multiplayer_variant))
 			generate_event(_event_warning, "variant validation failed, about to start playing a default variant");
 	}
 
@@ -593,18 +585,18 @@ void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 	game_globals->game_lost = false;
 	game_globals->game_revert = false;
 	game_globals->game_finished = false;
-	game_globals->scripted = false;
+	game_globals->pvs_activation_type = false;
 
-	game_globals->active_primary_skulls = options->initial_primary_skulls;
-	game_globals->active_secondary_skulls = options->initial_secondary_skulls;
+	game_globals->active_primary_skulls = options->campaign_active_primary_skulls;
+	game_globals->active_secondary_skulls = options->campaign_active_secondary_skulls;
 
 	ASSERT(options->game_simulation >= 0 && options->game_simulation < k_game_simulation_count);
 
 	main_status("game_instance", "%016I64X", options->game_instance);
-	main_status("game_simulation", "%s", k_game_simulation_names[options->game_simulation.get()]);
+	main_status("game_simulation", "%s", k_game_simulation_names[options->game_simulation]);
 
 	ASSERT(options->game_playback >= 0 && options->game_playback < k_game_playback_count);
-	main_status("game_playback", "%s", k_game_playback_names[options->game_playback.get()]);
+	main_status("game_playback", "%s", k_game_playback_names[options->game_playback]);
 
 	game_globals->active_game_progression = game_globals->options.campaign_game_progression;
 }
@@ -846,7 +838,7 @@ bool __cdecl game_is_distributed()
 {
 	//return INVOKE(0x00531AF0, game_is_distributed);
 
-	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
+	char game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_distributed_client &&
 		game_simulation <= _game_simulation_distributed_server)
 		return true;
@@ -873,7 +865,7 @@ bool __cdecl game_is_finished_immediate()
 
 	ASSERT(game_globals && game_globals->map_active);
 
-	return game_globals->game_finished && !game_globals->game_finished_wait_time;
+	return game_globals->game_finished && !game_globals->game_finished_timer;
 }
 
 //.text:00531B70 ; bool __cdecl game_is_in_progress_on_live()
@@ -896,7 +888,7 @@ bool __cdecl game_is_lost_immediate()
 
 	ASSERT(game_globals && game_globals->map_active);
 
-	return game_globals->game_lost && !game_globals->game_lost_wait_time;
+	return game_globals->game_lost && !game_globals->game_loss_timer;
 }
 
 bool __cdecl game_is_multiplayer()
@@ -910,7 +902,7 @@ bool __cdecl game_is_networked()
 {
 	//return INVOKE(0x00531C20, game_is_networked);
 
-	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
+	char game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
 		game_simulation <= _game_simulation_distributed_server)
 		return true;
@@ -948,7 +940,7 @@ bool __cdecl game_is_server()
 {
 	//return INVOKE(0x00531DA0, game_is_server);
 
-	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
+	char game_simulation = game_options_get()->game_simulation;
 	if (game_simulation == _game_simulation_synchronous_server ||
 		game_simulation == _game_simulation_distributed_server)
 		return true;
@@ -989,7 +981,7 @@ bool __cdecl game_is_synchronous_networking()
 {
 	//return INVOKE(0x00531E60, game_is_synchronous_networking);
 
-	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
+	char game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
 		game_simulation <= _game_simulation_synchronous_server)
 		return true;
@@ -1024,7 +1016,7 @@ void __cdecl game_loss_update()
 
 //.text:005321B0 ; void __cdecl game_lost_for_scripting(bool)
 
-void __cdecl game_lost(bool game_revert)
+void __cdecl game_lost(bool lost)
 {
 	//INVOKE(0x005321E0, game_lost, game_revert);
 
@@ -1032,34 +1024,25 @@ void __cdecl game_lost(bool game_revert)
 
 	ASSERT(game_globals && game_globals->map_active);
 
-	game_globals->game_revert = game_revert;
-	if (game_revert)
+	game_globals->game_revert = lost;
+	if (lost)
 	{
 		if (!game_globals->game_lost)
 		{
-			// seconds_to_wait:
-			// - halo 3: 5.0f
-			// - halo reach: 6.0f
-			// - halo online: 6.0f
-			real seconds_to_wait = 6.0f;
-
 			game_globals->game_lost = true;
-			game_globals->game_lost_wait_time = game_seconds_to_ticks_round(seconds_to_wait);
+			game_globals->game_loss_timer = game_seconds_to_ticks_round(k_game_loss_time);
 			game_state_prepare_for_revert();
 		}
 	}
-	else
-	{
-		if (game_globals->game_lost && !game_globals->game_revert)
-			game_globals->game_lost = false;
-	}
+	else if (game_globals->game_lost)
+		game_globals->game_lost = false;
 }
 
 e_game_mode __cdecl game_mode_get()
 {
 	//return INVOKE(0x00532260, game_mode_get);
 
-	return game_options_get()->game_mode;
+	return (e_game_mode)game_options_get()->game_mode;
 }
 
 void __cdecl game_options_clear_game_playback()
@@ -1144,7 +1127,7 @@ e_game_playback_type __cdecl game_playback_get()
 {
 	//return INVOKE(0x00532A80, game_playback_get);
 
-	return game_options_get()->game_playback;
+	return (e_game_playback_type)game_options_get()->game_playback;
 }
 
 //.text:00532AA0 ; void __cdecl game_playback_set(e_game_playback_type playback_type)
@@ -1244,7 +1227,7 @@ void __cdecl game_pvs_scripted_clear()
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (game_globals)
-		game_globals->scripted = 0;
+		game_globals->pvs_activation_type = 0;
 }
 
 s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
@@ -1256,19 +1239,22 @@ s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
 
 void __cdecl game_pvs_scripted_set_object(long object_index)
 {
-	INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
+	//INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (!game_globals)
 		return;
 
-	if (object_index != -1)
+	if (object_index == NONE)
 	{
-		game_globals->scripted = 1;
-		game_globals->scripted_object_index = object_index;
+		game_globals->pvs_activation_type = 0;
 	}
-	game_globals->scripted = 0;
+	else
+	{
+		game_globals->pvs_activation_type = 1;
+		game_globals->pvs_activation.object_index = object_index;
+	}
 }
 
 //.text:00532D90 ; void __cdecl update_controller_game_progression()
@@ -1280,7 +1266,7 @@ void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, boo
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (game_globals)
-		game_globals->active_secondary_skulls.set(secondary_skull, enable);
+		SET_BIT(game_globals->active_secondary_skulls, secondary_skull, enable);
 }
 
 //.text:00532F20 ; game_set_active_primary_skulls
@@ -1311,7 +1297,7 @@ void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enab
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
 	if (game_globals)
-		game_globals->active_primary_skulls.set(primary_skull, enable);
+		SET_BIT(game_globals->active_primary_skulls, primary_skull, enable);
 }
 
 void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
@@ -1345,7 +1331,7 @@ e_game_simulation_type __cdecl game_simulation_get()
 {
 	//return INVOKE(0x00532FD0, game_simulation_get);
 
-	return game_options_get()->game_simulation;
+	return (e_game_simulation_type)game_options_get()->game_simulation;
 }
 
 void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
@@ -1697,7 +1683,7 @@ void __cdecl game_finish_immediate()
 	if (!game_globals->game_finished)
 	{
 		game_finish();
-		game_globals->game_finished_wait_time = 0;
+		game_globals->game_finished_timer = 0;
 	}
 }
 
@@ -1789,7 +1775,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	options->record_saved_film = true;//saved_film_manager_should_record_film(options);
 	options->campaign_difficulty = launch_settings.campaign_difficulty;
 
-	build_default_game_variant(&options->game_variant, options->game_mode != _game_mode_multiplayer ? _game_engine_type_none : launch_settings.game_engine_index);
+	build_default_game_variant(&options->multiplayer_variant, options->game_mode != _game_mode_multiplayer ? _game_engine_type_none : launch_settings.game_engine_index);
 
 	options->campaign_insertion_point = launch_settings.insertion_point;
 	options->initial_zone_set_index = launch_settings.zone_set_index;

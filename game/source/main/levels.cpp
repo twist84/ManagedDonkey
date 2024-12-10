@@ -927,7 +927,7 @@ void __cdecl sub_54CBA0()
 
 void __cdecl sub_54CC00()
 {
-	INVOKE(0x0054CC00, sub_54CBA0);
+	INVOKE(0x0054CC00, sub_54CC00);
 }
 
 //.text:0054CC10 ; 

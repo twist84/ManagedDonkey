@@ -102,7 +102,7 @@ real __cdecl evaluate_piecewise_linear_function(short count, real* const functio
 //.text:005CFC10 ; 
 //.text:005CFC30 ; 
 //.text:005CFC60 ; 
-//.text:005CFC70 ; controller_get_look_invert
+//.text:005CFC70 ; bool __cdecl player0_controller_get_look_invert()
 //.text:005CFC80 ; void __cdecl player0_controller_set_look_invert(bool)
 //.text:005CFCC0 ; real __cdecl player0_get_looking_pitch()
 //.text:005CFD10 ; bool __cdecl player0_looking_down()
@@ -383,7 +383,7 @@ void __cdecl player_control_update_player(long player_index, long input_user_ind
 }
 
 //.text:005D5590 ; void __cdecl player_set_pitch_internal(long, real, long)
-//.text:005D5670 ; bool __cdecl sub_5D5670(e_controller_index, s_player_control_input* input)
+//.text:005D5670 ; bool __cdecl process_user_interface_input(e_controller_index, s_player_control_input*)
 //.text:005D56E0 ; 
 //.text:005D5720 ; 
 //.text:005D5760 ; 

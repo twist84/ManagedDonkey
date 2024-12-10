@@ -230,7 +230,7 @@ void players_debug_render()
 //.text:00537860 ; void __cdecl map_editor_process_player_control(long, s_player_action*)
 //.text:005379E0 ; void __cdecl player_action_clear(s_player_action*)
 //.text:00537A50 ; void __cdecl player_action_context_clear(s_player_action_context*)
-//.text:00537A80 ; 
+//.text:00537A80 ; bool __cdecl player_action_context_valid(s_player_action_context const*)
 //.text:00537AB0 ; bool __cdecl player_action_valid(s_player_action const*)
 //.text:00537C90 ; 
 //.text:00537D10 ; 
@@ -241,7 +241,7 @@ void players_debug_render()
 //.text:00537FB0 ; bool __cdecl player_appearance_valid(s_player_appearance const*)
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
 //.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, real_vector3d*)
-//.text:005384C0 ; 
+//.text:005384C0 ; void __cdecl player_build_facing_vector_from_throttle(long, real_vector3d const*, real_vector2d const*, real_vector3d*, real_vector3d*)
 //.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
 //.text:005386D0 ; bool __cdecl sub_5386D0(player_datum*)
@@ -317,14 +317,14 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B260 ; void __cdecl player_input_enable(bool)
 //.text:0053B290 ; bool __cdecl player_input_enabled()
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
-//.text:0053B2D0 ; 
+//.text:0053B2D0 ; void __cdecl player_interaction_clear(s_player_interaction*)
 
 bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction)
 {
 	return INVOKE(0x0053B2F0, player_interaction_exists, player_index, object_mask, interaction);
 }
 
-//.text:0053B340 ; 
+//.text:0053B340 ; bool __cdecl player_interaction_valid(s_player_interaction const*)
 //.text:0053B370 ; bool __cdecl player_is_allowed_to_attempt_assassination(long, long)
 //.text:0053B480 ; bool __cdecl player_is_immune_to_headshot(long, bool)
 
@@ -611,9 +611,9 @@ void __cdecl players_finish_creation()
 
 //.text:00541BA0 ; void __cdecl players_force_detach_from_object(long)
 
-long __cdecl players_get_active_and_in_game_count(bool a1)
+long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progress_players)
 {
-	return INVOKE(0x00541C70, players_get_active_and_in_game_count, a1);
+	return INVOKE(0x00541C70, players_get_active_and_in_game_count, include_joined_in_progress_players);
 }
 
 //.text:00541CF0 ; long __cdecl players_get_alive_count()
@@ -655,9 +655,9 @@ void __cdecl players_initialize_for_new_structure_bsp(dword activating_structure
 //.text:00542520 ; void __cdecl players_joined_in_progress_allow_spawn()
 //.text:005425A0 ; bool __cdecl players_joined_in_progress_and_waiting_to_respawn()
 
-void __cdecl players_rebuild_user_mapping(bool a1)
+void __cdecl players_rebuild_user_mapping(bool force_rebuild)
 {
-	INVOKE(0x00542620, players_rebuild_user_mapping, a1);
+	INVOKE(0x00542620, players_rebuild_user_mapping, force_rebuild);
 }
 
 //.text:005427A0 ; void __cdecl players_remap_local_machine(s_machine_identifier const*,  game_player_options const*)

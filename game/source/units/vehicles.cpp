@@ -26,7 +26,7 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 
 //.text:00B756E0 ; void __cdecl vehicle_adjust_gravity(long, real_vector3d*)
 //.text:00B75770 ; bool __cdecl vehicle_auto_control(long)
-//.text:00B757B0 ; 
+//.text:00B757B0 ; bool __cdecl vehicle_build_update(long, void*, short*, short)
 //.text:00B757C0 ; bool __cdecl vehicle_calculate_aabb_phantom_bounds(long, real_rectangle3d*)
 //.text:00B75810 ; bool __cdecl vehicle_can_be_teleported(long)
 //.text:00B75860 ; bool __cdecl vehicle_causes_collision_damage(long)
@@ -52,7 +52,7 @@ e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 //.text:00B75F70 ; void __cdecl vehicle_handle_deleted_object(long, long)
 //.text:00B75FB0 ; void __cdecl vehicle_handle_tag_change(long)
 //.text:00B75FF0 ; bool __cdecl vehicle_has_fixed_camera_yaw(long)
-//.text:00B76050 ; vehicle_has_gameplay_modifier?
+//.text:00B76050 ; bool __cdecl vehicle_has_gameplay_modifier(long, e_gameplay_modifier, long*)
 //.text:00B76100 ; void __cdecl vehicle_hover(long, bool)
 //.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(long, render_model_definition const*, c_animation_channel*, real, real, real, void*)
 //.text:00B76230 ; bool __cdecl vehicle_is_flipped(long)
@@ -65,7 +65,7 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 }
 
 //.text:00B764D0 ; bool __cdecl vehicle_new(long, object_placement_data*, bool*)
-//.text:00B765E0 ; 
+//.text:00B765E0 ; bool __cdecl vehicle_parse_update(long, void*, short*, short)
 //.text:00B765F0 ; bool __cdecl vehicle_physics_disabled(long)
 //.text:00B76630 ; void __cdecl vehicle_place(long, s_scenario_vehicle*)
 //.text:00B766F0 ; void __cdecl vehicle_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)

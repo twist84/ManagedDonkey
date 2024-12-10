@@ -25,9 +25,9 @@ void __cdecl game_allegiance_dispose_from_old_map()
     INVOKE(0x0066FFD0, game_allegiance_dispose_from_old_map);
 }
 
-//.text:0066FFE0 ; 
-//.text:00670070 ; 
-//.text:00670090 ; 
+//.text:0066FFE0 ; short __cdecl game_allegiance_get_incidents(e_game_team, e_game_team, short*)
+//.text:00670070 ; s_game_allegiance_globals const* __cdecl game_allegiance_globals_get()
+//.text:00670090 ; void __cdecl game_allegiance_globals_update(s_game_allegiance_globals const*)
 //.text:006700C0 ; bool __cdecl game_allegiance_incident(e_game_team, e_game_team, short)
 
 void __cdecl game_allegiance_initialize()
@@ -40,7 +40,7 @@ void __cdecl game_allegiance_initialize_for_new_map()
     INVOKE(0x00670290, game_allegiance_initialize_for_new_map);
 }
 
-//.text:006702F0 ; 
+//.text:006702F0 ; void __cdecl game_allegiance_notify_change(e_game_team, e_game_team)
 //.text:00670370 ; void __cdecl game_allegiance_propogate_broken(e_game_team, e_game_team, bool, bool)
 //.text:00670410 ; void __cdecl game_allegiance_provoke(e_game_team, e_game_team)
 //.text:006704B0 ; bool __cdecl game_allegiance_remove(e_game_team, e_game_team)
@@ -51,9 +51,9 @@ void __cdecl game_allegiance_update()
 }
 
 //.text:00670800 ; 
-//.text:00670930 ; 
-//.text:006709B0 ; 
-//.text:00670A50 ; 
+//.text:00670930 ; e_game_team __cdecl game_get_player_team(long)
+//.text:006709B0 ; e_game_team __cdecl game_get_unit_team(long)
+//.text:00670A50 ; bool __cdecl game_team_ally_status_changed(e_game_team, e_game_team)
 //.text:00670AE0 ; bool __cdecl game_team_is_ally(e_game_team, e_game_team)
 //.text:00670B80 ; bool __cdecl game_team_is_enemy(e_game_team, e_game_team)
 //.text:00670C10 ; bool __cdecl game_team_is_friendly(e_game_team, e_game_team)

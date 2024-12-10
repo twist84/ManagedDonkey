@@ -175,7 +175,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 
 			global_preferences_flush();
 
-			switch (e_game_mode game_mode = options->game_mode)
+			switch (options->game_mode)
 			{
 			case _game_mode_campaign:
 			{
@@ -194,8 +194,8 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 			break;
 			case _game_mode_multiplayer:
 			{
-				char const* game_engine_name = game_engine_type_get_string(options->game_variant.get_game_engine_index());
-				char const* game_variant_name = options->game_variant.get_active_variant()->get_name();
+				char const* game_engine_name = game_engine_type_get_string(options->multiplayer_variant.get_game_engine_index());
+				char const* game_variant_name = options->multiplayer_variant.get_active_variant()->get_name();
 
 				generate_event(_event_message, "lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
 				generate_event(_event_message, "lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
@@ -476,7 +476,7 @@ bool __cdecl main_game_internal_open_caches(game_options const* options)
 	geometry_cache_open();
 	texture_cache_open();
 	sound_cache_open();
-	cache_file_tag_resources_initialize_for_new_map(options->game_mode);
+	cache_file_tag_resources_initialize_for_new_map((e_game_mode)options->game_mode);
 	main_predict_reset_for_map_reload();
 
 	return result;

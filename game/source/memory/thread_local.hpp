@@ -139,7 +139,7 @@ struct s_thread_local_storage
 
 	// name: "players globals"
 	// size: 0x234
-	s_players_global_data* players_globals;
+	players_global_data* players_globals;
 
 	// name: "game engine globals"
 	// size: 0x15858

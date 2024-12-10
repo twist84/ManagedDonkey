@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "shell/shell.hpp"
 
-
 long first_controller()
 {
 	return 0;

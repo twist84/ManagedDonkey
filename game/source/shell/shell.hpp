@@ -390,12 +390,12 @@ enum e_network_join_refuse_reason
 	_network_join_refuse_reason_survival_in_progress,
 	_network_join_refuse_reason_executable_type_mismatch,
 
-	k_network_join_refuse_reason_count,
+	k_network_join_refuse_reason_count
 };
 
 enum e_network_session_boot_reason
 {
-	_network_session_boot_user_request_in_game,
+	_network_session_boot_user_request_in_game = 0,
 	_network_session_boot_join_timeout,
 	_network_session_boot_failed_to_load_map,
 	_network_session_boot_blocking_stats_write,
@@ -1816,7 +1816,9 @@ enum e_text_value_pair_parameter_type
 	_string_id_value,
 	_real_range_value,
 
-	k_number_of_text_value_pair_parameter_types
+	k_number_of_text_value_pair_parameter_types,
+
+	_parameter_type_invalid = -1
 };
 
 enum e_game_content_type
@@ -2022,7 +2024,7 @@ enum e_player_respawn_failure
 
 enum e_multiplayer_powerup_flavor
 {
-	_powerup_flavor_red,
+	_powerup_flavor_red = 0,
 	_powerup_flavor_blue,
 	_powerup_flavor_yellow,
 
@@ -2361,7 +2363,6 @@ enum e_network_interface_user_state
 	_network_session_interface_user_state_none = 0,
 	_network_session_interface_user_state_exists,
 	_network_session_interface_user_state_zombie,
-
 	_network_session_interface_user_state_error_online_permissions,
 	_network_session_interface_user_state_error_user_content_not_permitted,
 	_network_session_interface_user_state_error_generic,
@@ -2385,6 +2386,22 @@ enum e_session_network_message
 	_network_message_connected_to_live,
 	_network_message_lost_connection_to_live,
 	_network_message_all_players_signed_out,
+};
+
+enum e_game_time_holiday
+{
+	_game_time_holiday_none = 0,
+	_game_time_holiday_new_years,
+	_game_time_holiday_earth_day,
+	_game_time_cinco_de_mayo,
+	_game_time_holiday_american_independence,
+	_game_time_holiday_bungie_day,
+	_game_time_holiday_american_halloween,
+	_game_time_holiday_veterans_day,
+	_game_time_holiday_kenyan_independence,
+	_game_time_holiday_christmas,
+
+	k_game_time_holiday_count
 };
 
 extern bool __cdecl shell_application_is_paused();

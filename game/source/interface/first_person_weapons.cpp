@@ -13,10 +13,10 @@ bool debug_first_person_skeleton = false;
 
 //.text:00A99610 ; void __cdecl __tls_set_g_first_person_weapon_orientations_allocator(void*)
 //.text:00A99630 ; void __cdecl __tls_set_g_first_person_weapons_allocator(void*)
-//.text:00A99650 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::allocate
-//.text:00A99690 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::allocate
-//.text:00A996D0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::deallocate
-//.text:00A99700 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::deallocate
+//.text:00A99650 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void*)>::allocate
+//.text:00A99690 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::allocate
+//.text:00A996D0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void*)>::deallocate
+//.text:00A99700 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::deallocate
 //.text:00A99730 ; bool __cdecl first_person_claw_lower_weapon_on_unit(long, long)
 //.text:00A997A0 ; bool __cdecl first_person_claw_raise_weapon_on_unit(long, long)
 //.text:00A99800 ; bool __cdecl first_person_custom_animation_running_on_unit(long)
@@ -157,15 +157,15 @@ void __cdecl first_person_weapons_update_camera_estimates()
 	INVOKE(0x00A9EDF0, first_person_weapons_update_camera_estimates);
 }
 
-//.text:00A9EEA0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::free_memory
-//.text:00A9EED0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::free_memory
+//.text:00A9EEA0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void*)>::free_memory
+//.text:00A9EED0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::free_memory
 //.text:00A9EF00 ; 
 //.text:00A9EF10 ; 
 //.text:00A9EF20 ; void __cdecl handle_first_person_animation_event_callback(long, s_animation_event_data const*, long)
 //.text:00A9F0F0 ; void __cdecl model_remap_node_matrices_to_match_animation_graph(long, real_matrix4x3 const*, real_matrix4x3*, long, real_matrix4x3 const*, long const*)
 //.text:00A9F170 ; void __cdecl process_first_person_weapon_ik(long, render_first_person_model*, render_first_person_model const*)
-//.text:00A9F370 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void *)>::reserve_memory
-//.text:00A9F3B0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void *)>::reserve_memory
+//.text:00A9F370 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void*)>::reserve_memory
+//.text:00A9F3B0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::reserve_memory
 //.text:00A9F3F0 ; c_model_animation const* __cdecl weapon_get_deterministic_first_person_animation(long, long, long*)
 //.text:00A9F580 ; short __cdecl weapon_get_deterministic_first_person_animation_duration_ticks(long, long, short)
 //.text:00A9F6B0 ; long __cdecl weapon_get_deterministic_first_person_animation_from_message(long, short)

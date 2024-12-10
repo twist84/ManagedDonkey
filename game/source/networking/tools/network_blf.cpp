@@ -257,7 +257,7 @@ bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_
 
 		s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = (s_blf_saved_film::s_blf_chunk_saved_film_header*)chunk;
 
-		game_variant->copy_from_and_validate(&saved_film_header->options.game_variant);
+		game_variant->copy_from_and_validate(&saved_film_header->options.multiplayer_variant);
 
 		bool valid = true;
 		valid &= game_engine_variant_validate(game_variant);

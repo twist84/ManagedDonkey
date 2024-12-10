@@ -443,7 +443,7 @@ void biped_update_jetpack(long biped_index)
 		return;
 
 	real_vector3d linear_velocity{};
-	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_bit))
+	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_modifier_bit))
 	{
 		// freeze velocity and adjust for gravity
 		linear_velocity.i = 0.0f;

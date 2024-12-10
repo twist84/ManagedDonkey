@@ -98,36 +98,36 @@ enum e_unit_control_flags
 {
 	// _button_action_crouch
 	// _button_action_vehicle_dive
-	_unit_control_crouch_bit = 0,
+	_unit_control_crouch_modifier_bit = 0,
 
 	// _button_action_jump
 	// _button_action_vehicle_raise
 	_unit_control_jump_bit,
 
 	// _button_action_flashlight
-	_unit_control_bit2,
+	_unit_control_vision_mode_bit,
 
-	_unit_control_bit3,
+	_unit_control_exact_facing_bit,
 
 	// _button_action_use_consumable_1
-	_unit_control_consumable1_bit,
+	_unit_control_use_equipment_bit,
 
 	// _button_action_melee
-	_unit_control_melee_bit,
+	_unit_control_melee_attack_bit,
 
-	_unit_control_weapon_fire_bit,
+	_unit_control_melee_lunge_bit,
 
 	// _button_action_use_consumable_2
-	_unit_control_consumable2_bit,
+	_unit_control_equipment_2_bit,
 
 	// _button_action_lean_right
 	_unit_control_sprint_bit8,
 
 	// _button_action_use_consumable_3
-	_unit_control_consumable3_bit,
+	_unit_control_equipment_3_bit,
 
 	// _button_action_use_consumable_4
-	_unit_control_consumable4_bit,
+	_unit_control_equipment_4_bit,
 
 	// _button_action_vehicle_boost
 	_unit_control_sprint_bit11,
@@ -142,33 +142,33 @@ enum e_unit_control_flags
 
 	_unit_control_bit16,
 	_unit_control_bit17,
-	_unit_control_bit18,
 
-	_unit_control_bit19,
-	_unit_control_bit20,
-	_unit_control_bit21,
-
-	// _button_action_flashlight
-	_unit_control_bit22,
-
-	_unit_control_bit23,
-	_unit_control_bit24,
-	_unit_control_bit25,
-	_unit_control_bit26,
+	_unit_control_primary_weapon_primary_trigger_bit,
+	_unit_control_primary_weapon_secondary_trigger_bit,
+	_unit_control_primary_weapon_predicted_primary_trigger_bit,
+	_unit_control_primary_weapon_predicted_secondary_trigger_bit,
 
 	// _button_action_flashlight
-	_unit_control_bit27,
+	_unit_control_primary_weapon_power_toggle_bit,
+
+	_unit_control_secondary_weapon_primary_trigger_bit,
+	_unit_control_secondary_weapon_secondary_trigger_bit,
+	_unit_control_secondary_weapon_predicted_primary_trigger_bit,
+	_unit_control_secondary_weapon_predicted_secondary_trigger_bit,
+
+	// _button_action_flashlight
+	_unit_control_secondary_weapon_power_toggle_bit,
 
 	// _button_action_throw_grenade
-	_unit_control_bit28,
+	_unit_control_throw_grenade_bit,
 
-	_unit_control_bit29,
-	_unit_control_bit30,
+	_unit_control_reload_primary_bit,
+	_unit_control_reload_secondary_bit,
 
 	// _button_action_melee_fire
-	_unit_control_bit31,
+	_unit_control_tertiary_weapon_bit,
 
-	k_unit_control_flags
+	k_unit_control_flags_count
 };
 
 struct _unit_datum

@@ -175,7 +175,7 @@ extern void __cdecl game_launch_initial_script();
 //.text:00532050 ; game_level_prepare;
 extern void __cdecl game_loss_update();
 //extern void __cdecl game_lost_for_scripting(bool);
-extern void __cdecl game_lost(bool game_revert);
+extern void __cdecl game_lost(bool lost);
 extern e_game_mode __cdecl game_mode_get();
 extern void __cdecl game_options_clear_game_playback();
 extern void __cdecl game_options_game_engine_fixup();

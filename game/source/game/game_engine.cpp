@@ -50,7 +50,7 @@ c_game_statborg campaign_statborg{};
 //.text:0054DD90 ; long __cdecl game_engine_choose_winner_index()
 //.text:0054DDE0 ; void __cdecl game_engine_client_respond_to_new_state(long)
 //.text:0054DEB0 ; long __cdecl game_engine_compare_players(long, long, bool)
-//.text:0054E0A0 ; 
+//.text:0054E0A0 ; long __cdecl game_engine_compare_scores(long, long)
 //.text:0054E0B0 ; long __cdecl game_engine_compare_teams(long, long, bool)
 //.text:0054E210 ; real __cdecl game_engine_compute_object_function(long, long)
 //.text:0054E250 ; bool __cdecl game_engine_current_game_rules_asymmetric()
@@ -69,9 +69,9 @@ void __cdecl game_engine_dispose_from_old_map()
 //.text:0054E2F0 ; void __cdecl game_engine_end_game(e_game_engine_end_condition)
 //.text:0054E320 ; void __cdecl game_engine_end_round_internal(bool)
 
-void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine_end_condition condition)
+void __cdecl game_engine_end_round_with_winner(e_game_team winner_index, bool end_game_instead_of_round, e_game_engine_end_condition end_condition)
 {
-	INVOKE(0x0054E390, game_engine_end_round_with_winner, team, a1, condition);
+	INVOKE(0x0054E390, game_engine_end_round_with_winner, winner_index, end_game_instead_of_round, end_condition);
 }
 
 //.text:0054E890 ; long __cdecl game_engine_get_any_player_from_team(e_game_team)
@@ -211,7 +211,7 @@ void __cdecl game_engine_initialize_for_new_round()
 	INVOKE(0x00551590, game_engine_initialize_for_new_round);
 }
 
-//.text:00551750 ; 
+//.text:00551750 ; void __cdecl game_engine_initialize_state()
 
 void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 {
@@ -396,7 +396,7 @@ bool __cdecl game_engine_running()
 }
 
 //.text:00552420 ; void __cdecl game_engine_sandbox_get_string(long, c_static_wchar_string<1024>*)
-//.text:00552480 ; 
+//.text:00552480 ; bool __cdecl game_engine_scoring_allowed()
 //.text:005524D0 ; void __cdecl game_engine_set_desired_state(long)
 //.text:00552500 ; void __cdecl game_engine_set_player_navpoint_action(long, char)
 //.text:00552590 ; bool __cdecl game_engine_should_auto_pickup_weapon(long, long)

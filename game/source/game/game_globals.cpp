@@ -45,7 +45,7 @@ long get_map_minor_version()
 	if (global_scenario)
 		return cache_files_get_header()->minor_version_number;
 	else
-		return 0xFFFFFFFF;
+		return NONE;
 }
 
 void s_game_globals::update_static_runtime_data()
