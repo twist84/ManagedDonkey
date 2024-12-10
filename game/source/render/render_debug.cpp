@@ -1166,7 +1166,7 @@ void __cdecl render_debug_string(char const* string)
 	render_debug_add_cache_entry(_render_debug_type_string, string);
 }
 
-void __cdecl render_debug_string_at_point(real_point3d const* point, char const* string, union real_argb_color const* color)
+void __cdecl render_debug_string_at_point(real_point3d const* point, char const* string, real_argb_color const* color)
 {
 	ASSERT(point);
 	ASSERT(string);

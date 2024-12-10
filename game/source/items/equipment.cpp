@@ -10,7 +10,7 @@
 //.text:00B87EA0 ; 
 //.text:00B87EC0 ; bool __cdecl equipment_begin_activation_animation(long)
 //.text:00B87FD0 ; bool __cdecl equipment_begin_animation_state(long, long, long, dword)
-//.text:00B88040 ; void __cdecl equipment_calculate_noise_maker_blip(long, unsigned long *, long, union real_point2d *)
+//.text:00B88040 ; void __cdecl equipment_calculate_noise_maker_blip(long, dword*, long, real_point2d*)
 //.text:00B88160 ; long __cdecl equipment_calculate_noise_maker_blip_count(long)
 //.text:00B881A0 ; void __cdecl equipment_calculate_spawn_location(long, real, real, real, short, real_point3d*, real_vector3d*)
 //.text:00B882F0 ; bool __cdecl equipment_can_be_thrown(long)

@@ -313,7 +313,7 @@ struct c_rasterizer
 	static bool __cdecl reset_device();
 	static bool __cdecl begin_frame();
 	static void __cdecl begin_high_quality_blend();
-	//static void __cdecl clearf(unsigned long, union real_vector4d const*, float, unsigned long);
+	//static void __cdecl clearf(dword, real_vector4d const*, real, dword);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
 	static bool __cdecl sub_A218C0();

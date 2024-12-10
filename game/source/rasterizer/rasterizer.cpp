@@ -605,7 +605,7 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 	INVOKE(0x00A21350, c_rasterizer::begin_high_quality_blend);
 }
 
-//void __cdecl c_rasterizer::clearf(unsigned long, union real_vector4d const*, float, unsigned long)
+//void __cdecl c_rasterizer::clearf(dword, real_vector4d const*, real, dword)
 
 void __cdecl c_rasterizer::clearf(dword flags, dword color, real z, byte stencil)
 {

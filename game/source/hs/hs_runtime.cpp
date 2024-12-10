@@ -464,7 +464,9 @@ void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_
 
 		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
 		{
-			csstrnzcat(buffer, expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index), buffer_size);
+			char const* function_name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
+			if (function_name)
+				csstrnzcat(buffer, function_name, buffer_size);
 		}
 	}
 }

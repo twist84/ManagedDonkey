@@ -43,7 +43,7 @@ bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, r
 //.text:005FABF0 ; long __cdecl trigger_volume_face_index_to_axis(long)
 //.text:005FAC00 ; e_trigger_volume_side __cdecl trigger_volume_face_index_to_side(long)
 
-bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, union real_point3d* center)
+bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* center)
 {
 	return INVOKE(0x005FAC20, trigger_volume_get_center, volume, center);
 }

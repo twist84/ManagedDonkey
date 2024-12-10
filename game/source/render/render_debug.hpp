@@ -83,7 +83,7 @@ extern void __cdecl render_debug_polygon_edges(real_point3d const* points, short
 extern void __cdecl render_debug_k_graph(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const* point, real_vector3d const* direction, real radius, real cone_angle, real_argb_color const* color);
 extern void __cdecl render_debug_string(char const* string);
-extern void __cdecl render_debug_string_at_point(real_point3d const* point, char const* string, union real_argb_color const* color);
+extern void __cdecl render_debug_string_at_point(real_point3d const* point, char const* string, real_argb_color const* color);
 
 extern void __cdecl render_debug_string_immediate(bool draw_immediately, short const* tab_stops, short tab_stop_count, char const* string);
 extern void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, char const* string, real_argb_color const* color, real scale);

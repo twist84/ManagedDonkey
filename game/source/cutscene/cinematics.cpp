@@ -43,8 +43,8 @@ void __cdecl cinematic_game_pause_handler(bool paused)
 //.text:0067D0C0 ; double __cdecl cinematic_get_fade_amount()
 //.text:0067D130 ; double __cdecl cinematic_get_letterbox_coverage()
 //.text:0067D1C0 ; long __cdecl cinematic_get_scene_index(long, long)
-//.text:0067D220 ; 
-//.text:0067D230 ; 
+//.text:0067D220 ; void __cdecl cinematic_get_shot()
+//.text:0067D230 ; long __cdecl cinematic_get_shot_index()
 //.text:0067D250 ; long __cdecl cinematic_get_tag_index()
 
 bool __cdecl cinematic_in_progress()
@@ -77,7 +77,7 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(dword activating_structu
 //.text:0067D550 ; void __cdecl cinematic_new_globals_initialize()
 //.text:0067D620 ; long __cdecl cinematic_object_create(char const*, long, long, dword)
 //.text:0067D750 ; void __cdecl cinematic_object_create_cinematic_anchor(char const*, long)
-//.text:0067D820 ; 
+//.text:0067D820 ; void __cdecl cinematic_object_create_from_cinematic_scene(char const*)
 //.text:0067D950 ; void __cdecl cinematic_object_destroy(char const*)
 //.text:0067DA30 ; void __cdecl cinematic_object_destroy_internal(long)
 //.text:0067DAB0 ; long __cdecl cinematic_object_get(char const*)

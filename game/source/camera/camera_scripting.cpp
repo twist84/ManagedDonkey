@@ -17,10 +17,10 @@ void __cdecl scripted_camera_game_tick()
 	INVOKE(0x0072C630, scripted_camera_game_tick);
 }
 
-//.text:0072CAA0 ; 
-//.text:0072CAC0 ; bool __cdecl scripted_camera_get_cinematic_data(long *, long *, long *)
-//.text:0072CB20 ; 
-//.text:0072CB40 ; 
+//.text:0072CAA0 ; s_scripted_camera_animation* __cdecl scripted_camera_get_animation()
+//.text:0072CAC0 ; bool __cdecl scripted_camera_get_cinematic_data(long*, long*, long*)
+//.text:0072CB20 ; s_scripted_camera_constant_pan* __cdecl scripted_camera_get_constant_pan()
+//.text:0072CB40 ; s_scripted_camera_control_point* __cdecl scripted_camera_get_control_point()
 //.text:0072CB60 ; bool __cdecl scripted_camera_get_deterministic_animated_camera_matrix(real_matrix4x3*, real*)
 //.text:0072CE60 ; void __cdecl scripted_camera_get_deterministic_cinematic_camera_matrix(s_camera_frame_dynamic const*, real_matrix4x3*)
 //.text:0072CF20 ; s_cluster_reference __cdecl scripted_camera_get_deterministic_cluster_reference()
