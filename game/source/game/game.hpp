@@ -211,7 +211,7 @@ extern bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 extern bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull);
 extern void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable);
 extern void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls);
-extern void __cdecl game_set_difficulty(e_campaign_difficulty_level campaign_difficulty);
+extern void __cdecl game_set_difficulty(short campaign_difficulty);
 extern e_game_simulation_type __cdecl game_simulation_get();
 extern void __cdecl game_simulation_set(e_game_simulation_type game_simulation);
 extern void __cdecl game_start(e_game_create_mode mode);

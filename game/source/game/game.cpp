@@ -1314,7 +1314,7 @@ void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_
 	}
 }
 
-void __cdecl game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
+void __cdecl game_set_difficulty(short campaign_difficulty)
 {
 	//INVOKE(0x00532F80, game_set_difficulty, campaign_difficulty);
 
