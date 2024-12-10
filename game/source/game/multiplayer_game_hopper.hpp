@@ -246,14 +246,14 @@ extern long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long
 extern long __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, long buffer_size, c_map_variant const* map_variant);
 extern void __cdecl multiplayer_game_hopper_request_game_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
 extern void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
-extern bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, long bytes_read, s_game_set* game_set);
-extern void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader);
 extern bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word hopper_identifier);
+extern bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, long bytes_read, s_game_set* game_set);
 extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long bytes_read, c_game_variant* game_variant);
 extern bool __cdecl multiplayer_game_hopper_unpack_hopper_description(void const* buffer, long bytes_read, s_game_hopper_description_table* description);
 extern bool __cdecl multiplayer_game_hopper_unpack_hopper_file(void const* buffer, long bytes_read, s_hopper_configuration_table* configuration);
 extern bool __cdecl multiplayer_game_hopper_unpack_map_variant(void const* buffer, long bytes_read, c_map_variant* map_variant);
 extern void __cdecl multiplayer_game_hopper_update();
+extern void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader);
 extern c_hopper_configuration const* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
 extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_count, long valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out);

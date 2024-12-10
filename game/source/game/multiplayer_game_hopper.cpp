@@ -157,12 +157,16 @@ e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(
 
 //.text:005457F0 ; void __cdecl multiplayer_game_hopper_client_compute_repeated_play_adjustment_weight(e_controller_index, word, long, long, long, long, qword const*, long, long*, bool*)
 //.text:00545930 ; void __cdecl multiplayer_game_hopper_client_modify_repeated_play_list(e_controller_index, word, qword const*, long)
-//.text:005459D0 ; sub_5459D0
-//.text:00545A70 ; sub_545A70
+//.text:005459C0 ; long __cdecl multiplayer_game_hopper_compute_displayed_skill_level(real, real, long, long)
+//.text:005459D0 ; void __cdecl multiplayer_game_hopper_compute_experience_rank_and_grade(long, long, long, long*, e_experience_rank*, e_experience_grade*)
+//.text:00545A70 ; long __cdecl multiplayer_game_hopper_compute_experience_to_rank_up(long, long, long)
 //.text:00545B00 ; real __cdecl multiplayer_game_hopper_compute_gather_chance(long)
 //.text:00545B10 ; long __cdecl multiplayer_game_hopper_compute_match_quality(c_network_session_membership const*)
+//.text:00545B20 ; long __cdecl multiplayer_game_hopper_compute_quality_adjusted_skill_update_weight(long, long)
+//.text:00545C10 ; long __cdecl multiplayer_game_hopper_compute_skill_level(real, real, long)
 //.text:00545C20 ; long __cdecl multiplayer_game_hopper_compute_skill_match_delta(long)
-//.text:00545C30 ; sub_545C30
+//.text:00545C30 ; long __cdecl multiplayer_game_hopper_compute_skill_to_rank_up(long, long, long)
+//.text:00545CD0 ; long __cdecl multiplayer_game_hopper_compute_skill_update_weight(long, long)
 //.text:00545E80 ; bool __cdecl multiplayer_game_hopper_decode(c_bitstream*, s_hopper_configuration_table*)
 //.text:00546820 ; bool __cdecl multiplayer_game_hopper_description_decode(c_bitstream*, s_game_hopper_description_table*)
 //.text:005468A0 ; void __cdecl multiplayer_game_hopper_description_encode(c_bitstream*, s_game_hopper_description_table const*)
@@ -258,14 +262,14 @@ word __cdecl multiplayer_game_hopper_get_hopper_identifier(long hopper_index)
 	return NONE;
 }
 
-//.text:00548290 ; sub_548290
+//.text:00548290 ; utf8 const* __cdecl multiplayer_game_hopper_get_name(word)
 
 void __cdecl multiplayer_game_hopper_get_players_status(c_hopper_configuration const* hopper, c_network_session_membership const* session_membership, multiplayer_hopper_check* check)
 {
 	INVOKE(0x005482A0, multiplayer_game_hopper_get_players_status, hopper, session_membership, check);
 }
 
-//.text:005483A0 ; sub_5483A0
+//.text:005483A0 ; qword __cdecl multiplayer_game_hopper_get_required_map_mask_from_game_set()
 
 void __cdecl multiplayer_game_hopper_initialize()
 {
@@ -378,7 +382,7 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 	//return result;
 }
 
-//.text:005483D0 ; sub_5483D0
+//.text:005483D0 ; bool __cdecl multiplayer_game_hopper_is_valid(word)
 
 e_hopper_load_status __cdecl multiplayer_game_hopper_map_variant_load_status()
 {
@@ -546,28 +550,6 @@ void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier,
 	multiplayer_file.had_load_failure = false;
 }
 
-// called in `c_life_cycle_state_handler_pre_game::update`
-//   multiplayer_game_hopper_update_in_matchmaking(session_membership->is_leader());
-void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader)
-{
-	c_url_string url;
-
-	online_url_make_matchmaking_hopper(&url);
-	MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_configuration, url.get_string(), multiplayer_game_hopper_globals.configuration_download_buffer);
-
-	if (is_leader)
-	{
-		online_url_make_matchmaking_descriptions(&url);
-		MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_description, url.get_string(), multiplayer_game_hopper_globals.description_download_buffer);
-	}
-
-	if (multiplayer_game_hopper_globals.current_configuration)
-	{
-		online_url_make_matchmaking_gameset(&url, multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier);
-		MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_game_set, url.get_string(), multiplayer_game_hopper_globals.game_set_download_buffer);
-	}
-}
-
 bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word hopper_identifier)
 {
 	//return INVOKE(0x00548EB0, multiplayer_game_hopper_set_active_hopper_and_request_game_set, hopper_identifier);
@@ -616,7 +598,7 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word
 	return result;
 }
 
-//.text:00548EC0 ; sub_548EC0
+//.text:00548EC0 ; void __cdecl multiplayer_game_hopper_set_game_for_current_hopper(long)
 
 bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, long bytes_read, s_game_set* game_set)
 {
@@ -833,6 +815,28 @@ void __cdecl multiplayer_game_hopper_update()
 	}
 }
 
+// called in `c_life_cycle_state_handler_pre_game::update`
+//   multiplayer_game_hopper_update_in_matchmaking(session_membership->is_leader());
+void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader)
+{
+	c_url_string url;
+
+	online_url_make_matchmaking_hopper(&url);
+	MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_configuration, url.get_string(), multiplayer_game_hopper_globals.configuration_download_buffer);
+
+	if (is_leader)
+	{
+		online_url_make_matchmaking_descriptions(&url);
+		MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_description, url.get_string(), multiplayer_game_hopper_globals.description_download_buffer);
+	}
+
+	if (multiplayer_game_hopper_globals.current_configuration)
+	{
+		online_url_make_matchmaking_gameset(&url, multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier);
+		MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_game_set, url.get_string(), multiplayer_game_hopper_globals.game_set_download_buffer);
+	}
+}
+
 c_hopper_configuration const* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration()
 {
 	//INVOKE(0x00549620, multiplayer_game_hoppers_get_current_hopper_configuration);
@@ -990,7 +994,6 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 	return result;
 }
 
-//.text:00549650 ; enum e_session_game_start_error __cdecl multiplayer_game_is_playable(word, bool, bool, c_network_session_membership const*, word*);
 e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask)
 {
 	//return INVOKE(0x00549650, multiplayer_game_is_playable, hopper_identifier, is_matchmaking, check_hopper, session_membership, out_player_error_mask);
