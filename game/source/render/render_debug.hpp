@@ -35,6 +35,10 @@ static_assert(sizeof(c_render_debug_line_drawer) == 0x2024);
 
 extern void __cdecl render_debug_initialize();
 
+extern void __cdecl render_debug_reset_cache_to_game_tick_entires();
+extern void __cdecl render_debug_notify_game_tick_begin();
+extern void __cdecl render_debug_notify_game_tick_end();
+
 extern void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);

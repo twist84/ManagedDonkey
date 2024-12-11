@@ -239,12 +239,38 @@ void __cdecl render_debug_text_using_simple_font(bool use_simple_font)
 	get_render_debug_globals()->use_simple_font_text_rendering = use_simple_font;
 }
 
+void __cdecl render_debug_reset_cache_to_game_tick_entires()
+{
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
+
+	render_debug_globals->cache_count = render_debug_globals->game_tick_cache_count;
+	render_debug_globals->cache_string_length = render_debug_globals->game_tick_cache_string_length;
+}
+
+void __cdecl render_debug_notify_game_tick_begin()
+{
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
+
+	ASSERT(!render_debug_globals->inside_game_tick);
+	render_debug_globals->inside_game_tick = true;
+
+	render_debug_globals->cache_count = 0;
+	render_debug_globals->game_tick_cache_count = 0;
+
+	render_debug_globals->cache_string_length = 0;
+	render_debug_globals->game_tick_cache_string_length = 0;
+	render_debug_globals->cache_string[0] = 0;
+}
+
 void __cdecl render_debug_notify_game_tick_end()
 {
-	ASSERT(g_render_debug_globals->inside_game_tick);
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
-	//render_debug_process_deffered_events();
-	g_render_debug_globals->inside_game_tick = false;
+	ASSERT(render_debug_globals->inside_game_tick);
+	render_debug_globals->inside_game_tick = false;
+
+	render_debug_globals->game_tick_cache_count = render_debug_globals->cache_count;
+	render_debug_globals->game_tick_cache_string_length = render_debug_globals->cache_string_length;
 }
 
 void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1)

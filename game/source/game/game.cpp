@@ -1409,6 +1409,7 @@ void __cdecl game_tick()
 			game_state_preserve();
 		}
 
+		render_debug_notify_game_tick_begin();
 		c_rasterizer::notify_game_tick_begin();
 		c_water_renderer::game_update();
 		damage_acceleration_queue_begin();
@@ -1506,6 +1507,7 @@ void __cdecl game_tick()
 
 		simulation_destroy_update(&update);
 		main_status(__FUNCTION__, NULL);
+		render_debug_notify_game_tick_end();
 	}
 }
 
