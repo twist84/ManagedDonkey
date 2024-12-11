@@ -21,6 +21,7 @@ enum e_event_level
 enum e_category_properties_flags
 {
 	_category_properties_display_level_bit = 0,
+	_category_properties_force_display_level_bit,
 	_category_properties_log_level_bit,
 	_category_properties_remote_log_level_bit,
 	_category_properties_debugger_break_level_bit,
@@ -73,6 +74,22 @@ struct s_event_category
 };
 static_assert(sizeof(s_event_category) == 0x184);
 
+struct c_event_listener_base
+{
+	char m_categories[128];
+	long m_category_index;
+	long m_event_listener_index;
+};
+static_assert(sizeof(c_event_listener_base) == 0x88);
+
+struct c_event_listener : 
+	public c_event_listener_base
+{
+public:
+	virtual void handle_event(e_event_level, char const*) = 0;
+};
+static_assert(sizeof(c_event_listener) == sizeof(c_event_listener_base) + sizeof(void*));
+
 struct s_event_globals
 {
 	e_event_level current_display_level;
@@ -93,7 +110,7 @@ struct s_event_globals
 	long subfolder_internal_primary_event_log_index;
 	long subfolder_internal_primary_full_event_log_index;
 	long event_index;
-	c_static_array<struct c_event_listener*, 8> event_listeners;
+	c_static_array<c_event_listener*, 8> event_listeners;
 	c_static_array<s_spamming_event, 64> spamming_event_list;
 	bool enable_events;
 	bool enable_spam_suppression;
@@ -120,6 +137,19 @@ protected:
 	dword m_event_response_suppress_flags;
 };
 static_assert(sizeof(c_event) == 0xC);
+
+struct s_event_context
+{
+	char type[64];
+	char description[128];
+	bool display_to_console;
+};
+static_assert(sizeof(s_event_context) == 0xC1);
+
+inline thread_local bool g_recursion_lock = false;
+inline thread_local long g_event_context_stack_depth = 0;
+inline thread_local long g_event_context_stack_failure_depth = 0;
+inline thread_local s_event_context g_event_context_stack[32]{};
 
 extern s_event_globals event_globals;
 extern bool g_events_initialized;

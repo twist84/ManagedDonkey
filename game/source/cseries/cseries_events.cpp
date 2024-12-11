@@ -2,6 +2,7 @@
 
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer_main.hpp"
@@ -18,8 +19,6 @@ HOOK_DECLARE(0x000D858D0, network_debug_print);
 
 char const* const k_reports_directory_name = "reports\\";
 char const* const k_reports_directory_root_name = "\\";
-
-thread_local bool g_recursion_lock = false;
 
 s_event_globals event_globals{};
 bool g_events_initialized = false;
@@ -352,6 +351,12 @@ s_event_category_default_configuration const g_log_events[]
 		NULL,
 		k_event_level_none
 	},
+};
+
+struct s_event_spamming_list_add_result
+{
+	dword last_spam_time;
+	long hit_count;
 };
 
 void __cdecl events_debug_render()
@@ -707,92 +712,88 @@ bool c_event::query()
 	return event_thread_query() && event_level_query(m_event_level);
 }
 
-dword_flags event_query(e_event_level event_level, long category_index, dword_flags event_flags)
+dword event_query(e_event_level event_level, long category_index, dword event_response_suppress_flags)
 {
 	ASSERT(g_events_initialized);
 
-	dword_flags flags = 0;
+	g_event_read_write_lock.read_lock();
 
+	dword flags = 0;
 	if (event_globals.current_display_level != k_event_level_none)
 		flags = event_level >= event_globals.current_display_level;
 
 	if (event_globals.current_log_level != k_event_level_none)
 	{
 		if (event_level < event_globals.current_log_level)
-			flags &= ~FLAG(1);
+			flags &= ~FLAG(_category_properties_log_level_bit);
 		else
-			flags |= FLAG(1);
+			flags |= FLAG(_category_properties_log_level_bit);
 	}
 
 	if (event_globals.current_remote_log_level != k_event_level_none)
 	{
 		if (event_level < event_globals.current_remote_log_level)
-			flags &= ~FLAG(2);
+			flags &= ~FLAG(_category_properties_remote_log_level_bit);
 		else
-			flags |= FLAG(2);
+			flags |= FLAG(_category_properties_remote_log_level_bit);
 	}
 
-	if (category_index != -1)
+	if (category_index != NONE)
 	{
 		s_event_category* category = get_writeable_category(category_index);
-		if (category->current_display_level != -1)
+		if (category->current_display_level != NONE)
 		{
 			if (event_level < category->current_display_level)
-				flags &= ~FLAG(0);
+				flags &= ~FLAG(_category_properties_display_level_bit);
 			else
-				flags |= FLAG(0);
+				flags |= FLAG(_category_properties_display_level_bit);
 		}
 
 		if (category->current_log_level != k_event_level_none)
 		{
 			if (event_level < category->current_log_level)
-				flags &= ~FLAG(1);
+				flags &= ~FLAG(_category_properties_force_display_level_bit);
 			else
-				flags |= FLAG(1);
+				flags |= FLAG(_category_properties_force_display_level_bit);
 		}
 
 		if (category->current_remote_log_level != k_event_level_none)
 		{
 			if (event_level < category->current_remote_log_level)
-				flags &= ~FLAG(2);
+				flags &= ~FLAG(_category_properties_log_level_bit);
 			else
-				flags |= FLAG(2);
+				flags |= FLAG(_category_properties_log_level_bit);
 		}
 
 		if (category->current_debugger_break_level != k_event_level_none)
 		{
 			if (event_level < category->current_debugger_break_level)
-				flags &= ~FLAG(3);
+				flags &= ~FLAG(_category_properties_remote_log_level_bit);
 			else
-				flags |= FLAG(3);
+				flags |= FLAG(_category_properties_remote_log_level_bit);
 		}
 
 		if (category->current_halt_level != k_event_level_none)
 		{
 			if (event_level < category->current_halt_level)
-				flags &= ~FLAG(4);
+				flags &= ~FLAG(_category_properties_debugger_break_level_bit);
 			else
-				flags |= FLAG(4);
+				flags |= FLAG(_category_properties_debugger_break_level_bit);
 		}
 	}
 
-	if (!event_globals.disable_event_suppression && TEST_BIT(event_flags, 0))
-		flags &= ~FLAG(0);
+	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, 0))
+		flags &= ~FLAG(_category_properties_display_level_bit);
 
 	if (event_globals.disable_event_logging)
-		flags &= ~FLAG(1);
+		flags &= ~FLAG(_category_properties_force_display_level_bit);
 
+	g_event_read_write_lock.read_unlock();
 
 	return flags;
 }
 
-struct s_hit_result
-{
-	dword hit_time;
-	long hit_count;
-};
-
-void add_event_to_spamming_list(char const* event_text, s_hit_result* result_out)
+void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_add_result* result_out)
 {
 	ASSERT(event_text);
 	ASSERT(result_out);
@@ -807,7 +808,7 @@ void add_event_to_spamming_list(char const* event_text, s_hit_result* result_out
 		{
 			if (csmemcmp(spamming_event->spam_text, event_text, sizeof(spamming_event->spam_text)) == 0)
 			{
-				result_out->hit_time = spamming_event->last_spam_time;
+				result_out->last_spam_time = spamming_event->last_spam_time;
 				result_out->hit_count = spamming_event->hit_count++;
 				event_exists = true;
 			}
@@ -830,10 +831,14 @@ void add_event_to_spamming_list(char const* event_text, s_hit_result* result_out
 	}
 }
 
-dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long category_index, char const* event_text)
+dword event_update_spam_prevention(dword response_flags, e_event_level event_level, long category_index, char const* event_text)
 {
-	if (event_globals.enable_spam_suppression && event_level != _event_critical && TEST_BIT(flags, 0))
+	if (event_globals.enable_spam_suppression &&
+		event_level != _event_critical &&
+		TEST_BIT(response_flags, 0) &&
+		!TEST_BIT(response_flags, 0))
 	{
+		g_event_read_write_lock.write_lock();
 		s_event_category* category = get_writeable_category(category_index);
 
 		dword time = system_milliseconds();
@@ -843,119 +848,100 @@ dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long cate
 		category->possible_spam_event_count++;
 		category->last_event_time = time;
 
-		if (category->possible_spam_event_count >= 5)
+		bool a1 = category->possible_spam_event_count >= 5;
+
+		g_event_read_write_lock.write_unlock();
+
+		if (a1)
 		{
-			s_hit_result result{};
+			s_event_spamming_list_add_result result{ .hit_count = 0 };
 			add_event_to_spamming_list(event_text, &result);
 			if (result.hit_count > 1)
-				flags = 0;
+				response_flags = 0;
 		}
 	}
-	return flags;
+	return response_flags;
 }
 
-void event_generate(e_event_level event_level, long category_index, dword_flags event_flags, char const* format, va_list list)
+void event_generated_handle_console(e_event_level event_level, long category_index, char const* event_text, bool force)
+{
+	char final_text[2048]{};
+	char context_text[256]{};
+
+	if (event_globals.suppress_console_display_and_show_spinner)
+	{
+		if (!force)
+			return;
+	}
+	else if (force)
+	{
+		event_level = _event_critical;
+	}
+
+	c_console::write_line(event_text);
+}
+
+void event_generated_handle_log(e_event_level event_level, long category_index, char const* event_text)
+{
+}
+
+void event_generated_handle_datamine(e_event_level event_level, char const* format, va_list argument_list)
+{
+}
+
+void event_generated_handle_debugger_break(char const* event_text)
+{
+}
+
+void event_generated_handle_halt(char const* event_text)
+{
+}
+
+void event_generate(e_event_level event_level, long category_index, dword event_response_suppress_flags, char const* format, va_list argument_list)
 {
 	ASSERT(g_events_initialized);
 
-	dword_flags flags = 0;
-	c_static_string<2048> event_text;
-
-	//c_font_cache font_cache{};
-	g_event_read_write_lock.read_lock();
-	flags = event_query(event_level, category_index, event_flags);
-	g_event_read_write_lock.read_unlock();
+	dword flags = event_query(event_level, category_index, event_response_suppress_flags);
 
 	if (flags)
 	{
-		char event_log_string[2048]{};
+		char event_text[2048]{};
 
-		event_text.print_va(format, list);
-		c_console::write_line(event_text.get_string());
-
-		g_event_read_write_lock.write_lock();
+		cvsnzprintf(event_text, sizeof(event_text), format, argument_list);
 
 		s_event_category* category = get_writeable_category(category_index);
-		flags = sub_82894C80(flags, event_level, category_index, event_text.get_string());
+		dword undated = event_update_spam_prevention(flags, event_level, category_index, event_text);
 
-		if (TEST_BIT(flags, 0))
+		if (undated)
 		{
-			//char buffer0[2048]{};
-			//char event_context1[256]{};
-			//char buffer2[2048]{};
-			//
-			//cvsnzprintf(buffer0, sizeof(buffer0), format, list);
-			//
-			//if (event_context_get(0, event_context1, sizeof(event_context1)))
-			//	csnzprintf(buffer2, sizeof(buffer2), "%s (%s) %s", k_event_level_severity_strings[event_level], event_context1, buffer0);
-			//else
-			//	csnzprintf(buffer2, sizeof(buffer2), "%s %s", k_event_level_severity_strings[event_level], buffer0);
-			//
-			//write_to_console(category_index, event_level, buffer2);
+			if (TEST_BIT(undated, _category_properties_display_level_bit) || TEST_BIT(undated, _category_properties_force_display_level_bit))
+				event_generated_handle_console(event_level, category_index, event_text, TEST_BIT(undated, _category_properties_force_display_level_bit));
+
+			if (TEST_BIT(undated, _category_properties_log_level_bit))
+				event_generated_handle_log(event_level, category_index, event_text);
+
+			if (TEST_BIT(undated, _category_properties_remote_log_level_bit))
+				event_generated_handle_datamine(event_level, format, argument_list);
+
+			if (TEST_BIT(undated, _category_properties_debugger_break_level_bit))
+				event_generated_handle_debugger_break(event_text);
+
+			if (TEST_BIT(undated, _category_properties_halt_level_bit))
+				event_generated_handle_halt(event_text);
 		}
 
-		if (TEST_BIT(flags, 1))
-		{
-			long event_log_indices[6]{};
-			long event_log_count = 0;
-
-			if (category->event_log_index != NONE)
-			{
-				if (category->log_format_func)
-				{
-					char buffer[512]{};
-					category->log_format_func(buffer, sizeof(buffer));
-					//format_event_for_log(event_log_string, sizeof(event_log_string), event_level, ...)
-					//write_to_event_log(&category->event_log_index, 1, event_log_string);
-				}
-				else
-				{
-					event_log_indices[event_log_count++] = category->event_log_index;
-				}
-			}
-
-			if (event_level >= event_globals.current_log_level)
-			{
-				event_log_indices[event_log_count++] = event_globals.external_primary_event_log_index;
-				event_log_indices[event_log_count++] = event_globals.internal_primary_event_log_index;
-				event_log_indices[event_log_count++] = event_globals.subfolder_internal_primary_event_log_index;
-				event_log_indices[event_log_count++] = event_globals.subfolder_internal_primary_full_event_log_index;
-			}
-			event_log_indices[event_log_count++] = event_globals.internal_primary_full_event_log_index;
-
-			ASSERT(event_log_count <= NUMBEROF(event_log_indices));
-			//format_event_for_log(event_log_string, sizeof(event_log_string), event_level, list)
-			//write_to_event_log(&category->event_log_index, 1, event_log_string);
-		}
-
-		if (TEST_BIT(flags, 2))
-		{
-			//event_context_get(2u, (int)v38, 2048);
-			//event_write_to_datamine(a1, v38, format, list);
-		}
-
-		if (TEST_BIT(flags, 3) /*&& !byte_841DD295*/)
-		{
-			//cvsnzprintf(v39, 2048, format, list);
-			//csnzprintf(v38, 2048, "critical event encountered: %s", v39);
-		}
-
-		if (TEST_BIT(flags, 4) /*&& !byte_841DD294*/)
-		{
-			//cvsnzprintf(v39, 2048, format, list);
-			//csnzprintf(v38, 2048, "critical event encountered: %s", v39);
-		}
-
+		//g_event_read_write_lock.read_lock();
 		//for (long event_listener_index = 0; event_globals.event_listeners.get_count(); event_listener_index++)
 		//{
 		//	if (TEST_BIT(category->event_listeners, event_listener_index))
 		//	{
 		//		ASSERT(event_globals.event_listeners[event_listener_index]);
-		//		struct c_event_listener* event_listener = event_globals.event_listeners[event_listener_index];
-		//		event_listener->log(event_level, event_string.get_string());
+		//		event_globals.event_listeners[event_listener_index]->handle_event(event_level, event_text);
 		//	}
 		//}
+		//g_event_read_write_lock.read_unlock();
 
+		g_event_read_write_lock.write_lock();
 		event_globals.event_index++;
 		g_event_read_write_lock.write_unlock();
 	}
@@ -974,6 +960,7 @@ long c_event::generate(char const* format, ...)
 	else
 	{
 		g_recursion_lock = true;
+		main_loop_pregame_disable(true);
 
 		if (events_initialize_if_possible() && event_globals.enable_events)
 		{
@@ -983,6 +970,7 @@ long c_event::generate(char const* format, ...)
 			event_generate(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, list);
 		}
 
+		main_loop_pregame_disable(false);
 		g_recursion_lock = false;
 	}
 

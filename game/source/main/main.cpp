@@ -2205,8 +2205,6 @@ struct c_event_context_string_builder
 	c_static_string<128> m_event_context_string;
 };
 
-long g_event_context_stack_depth = 0;
-
 struct c_event_context
 {
 	c_event_context(char const* type, bool a2, char const* description)
