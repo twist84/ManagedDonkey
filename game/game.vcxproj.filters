@@ -4004,6 +4004,9 @@
     <ClInclude Include="source\animations\mixing_board\mixing_board_slider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\animations\animation_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
