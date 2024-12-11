@@ -93,7 +93,7 @@ void __cdecl c_virtual_keyboard_task::set_controller_index(e_controller_index co
 void __cdecl c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
 {
 	if (default_text)
-		wcscpy_s(m_default_text, default_text);
+		ustrnzcpy(m_default_text, default_text, 256);
 	else
 		m_default_text[0] = 0;
 }
@@ -101,7 +101,7 @@ void __cdecl c_virtual_keyboard_task::set_default_text(wchar_t const* default_te
 void __cdecl c_virtual_keyboard_task::set_description_text(wchar_t const* description_text)
 {
 	if (description_text)
-		wcscpy_s(m_description_text, description_text);
+		ustrnzcpy(m_description_text, description_text, 64);
 	else
 		m_description_text[0] = 0;
 }
@@ -109,7 +109,7 @@ void __cdecl c_virtual_keyboard_task::set_description_text(wchar_t const* descri
 void __cdecl c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
 {
 	if (title_text)
-		wcscpy_s(m_title_text, title_text);
+		ustrnzcpy(m_title_text, title_text, 64);
 	else
 		m_title_text[0] = 0;
 }
@@ -252,8 +252,8 @@ void __thiscall c_virtual_keyboard_task::_success(dword return_result)
 
 	//c_overlapped_task::success(return_result);
 
-	if (!wcsncmp(m_result_text, L".fortune", 9))
-		wcsncpy_s(m_result_text, L"My modem is on file", 256);
+	if (!ustrncmp(m_result_text, L".fortune", 9))
+		ustrnzcpy(m_result_text, L"My modem is on file", 256);
 
 	wchar_string_sanitize_for_game(m_result_text, 256);
 }
