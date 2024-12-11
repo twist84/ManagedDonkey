@@ -326,6 +326,30 @@ struct c_typed_tag_data :
 	}
 };
 
+struct s_cache_file_tag_resource_data;
+struct s_tag_resource
+{
+	union
+	{
+		dword resource_handle;
+		s_cache_file_tag_resource_data* resource_data;
+	};
+
+	dword definition_address;
+};
+static_assert(sizeof(s_tag_resource) == 0x8);
+
+template<typename t_resource_type, dword ...t_extra>
+struct c_typed_tag_resource :
+	s_tag_resource
+{
+	t_resource_type* get()
+	{
+		return reinterpret_cast<t_resource_type*>(resource_handle);
+	}
+};
+static_assert(sizeof(s_tag_resource) == sizeof(s_tag_resource));
+
 struct s_cache_file_tag_group
 {
 	tag group_tags[3];
