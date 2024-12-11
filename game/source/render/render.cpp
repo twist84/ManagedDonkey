@@ -136,9 +136,9 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 	//INVOKE(0x00A29860, render_fullscreen_text_internal, context, draw_string, font_cache);
 
 	real_argb_color color = *global_real_argb_white;
-	if (context->color)
+	if (context->text_color)
 	{
-		color.rgb = *context->color;
+		color.rgb = *context->text_color;
 	}
 	
 	if (context->shadow_color)
@@ -151,13 +151,13 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 	}
 	
 	draw_string->set_color(&color);
-	draw_string->set_scale(context->scale);
+	draw_string->set_scale(context->font_scale);
 	draw_string->draw(font_cache, version_get_full_string());
 	
-	if (context->text)
+	if (context->string)
 	{
 		draw_string->draw_more(font_cache, "\r\n");
-		draw_string->draw_more(font_cache, context->text);
+		draw_string->draw_more(font_cache, context->string);
 	}
 }
 

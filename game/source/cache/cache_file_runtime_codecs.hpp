@@ -5,9 +5,9 @@
 struct c_cache_file_decompressor
 {
 public:
-	virtual bool begin(c_basic_buffer<void> a1) = 0;
-	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2) = 0;
-	virtual bool finish(c_basic_buffer<void>* a1) = 0;
+	virtual bool begin(c_basic_buffer<void> output_buffer) = 0;
+	virtual bool decompress_buffer(c_basic_buffer<void> input_buffer, c_basic_buffer<void>* out_decompressed_buffer) = 0;
+	virtual bool finish(c_basic_buffer<void>* out_decompressed_buffer) = 0;
 };
 static_assert(sizeof(c_cache_file_decompressor) == 0x4);
 

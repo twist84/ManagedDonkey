@@ -229,7 +229,7 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 				loading_text.print("loading %s", spinner_states[spinner_state_index]);
 
 				c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-				main_render_pregame(_main_pregame_frame_progress_report, loading_text.get_string());
+				main_render_pregame(_main_pregame_frame_loading_debug, loading_text.get_string());
 				c_rasterizer::end_frame();
 			}
 		}
@@ -251,9 +251,9 @@ void __cdecl free_list_add(s_async_queue_element* element)
 	internal_mutex_release(_synchronization_mutex_async_free);
 }
 
-s_async_queue_element* __cdecl free_list_get_and_remove(bool a1)
+s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_is_full)
 {
-	//return INVOKE(0x00508980, free_list_get_and_remove, a1);
+	//return INVOKE(0x00508980, free_list_get_and_remove, block_if_task_list_is_full);
 
 	bool stalled = false;
 	s_async_queue_element* free_list = NULL;
@@ -275,7 +275,7 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool a1)
 
 		if (!free_list)
 		{
-			if (!a1)
+			if (!block_if_task_list_is_full)
 				break;
 
 			if (!stalled)
@@ -292,25 +292,25 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool a1)
 	return free_list;
 }
 
-void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line)
+void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, long line)
 {
-	//INVOKE(0x00508A20, internal_async_yield_until_done, done, idle, spinner, file, line);
+	//INVOKE(0x00508A20, internal_async_yield_until_done, done, idle, show_debug_progress, file, line);
 
-	async_yield_until_done_function(done, simple_yield_function, idle, false, spinner, (e_yield_reason)0);
+	async_yield_until_done_function(done, simple_yield_function, idle_sound, false, show_debug_progress, _yield_for_unknown);
 }
 
-void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle, bool spinner, e_yield_reason yield_reason, char const* file, long line)
+void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, char const* file, long line)
 {
-	//INVOKE(0x00508A40, internal_async_yield_until_done_attributed, done, idle, spinner, yield_reason, file, line);
+	//INVOKE(0x00508A40, internal_async_yield_until_done_attributed, done, idle, show_debug_progress, yield_reason, file, line);
 
-	async_yield_until_done_function(done, simple_yield_function, idle, false, spinner, yield_reason);
+	async_yield_until_done_function(done, simple_yield_function, idle_sound, false, show_debug_progress, yield_reason);
 }
 
-void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line)
+void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, long line)
 {
-	//INVOKE(0x00508A60, internal_async_yield_until_done_with_networking, done, idle, spinner, file, line);
+	//INVOKE(0x00508A60, internal_async_yield_until_done_with_networking, done, idle_sound, show_debug_progress, file, line);
 
-	async_yield_until_done_function(done, simple_yield_function, idle, true, spinner, (e_yield_reason)0);
+	async_yield_until_done_function(done, simple_yield_function, idle_sound, true, show_debug_progress, _yield_for_unknown);
 }
 
 bool __cdecl simple_yield_function(c_synchronized_long* done)

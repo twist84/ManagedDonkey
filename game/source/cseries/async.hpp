@@ -54,7 +54,11 @@ enum e_async_completion
 
 enum e_yield_reason
 {
-
+	_yield_for_unknown = 0,
+	_yield_for_sound_cache,
+	_yield_for_texture_cache,
+	_yield_for_geometry_cache,
+	_yield_for_font_cache
 };
 
 struct s_create_file_task
@@ -284,10 +288,10 @@ extern bool __cdecl async_usable();
 extern bool __cdecl async_work_function();
 extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
 extern void __cdecl free_list_add(s_async_queue_element* element);
-extern s_async_queue_element* __cdecl free_list_get_and_remove(bool a1);
-extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
-extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle, bool spinner, e_yield_reason yield_reason, char const* file, long line);
-extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
+extern s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_is_full);
+extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, long line);
+extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, char const* file, long line);
+extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, long line);
 extern bool __cdecl simple_yield_function(c_synchronized_long* done);
 extern s_async_queue_element* __cdecl sub_508BD0();
 extern void __cdecl sub_508C00(s_async_queue_element* element);

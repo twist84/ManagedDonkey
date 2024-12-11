@@ -169,16 +169,16 @@ void __cdecl physical_memory_initialize()
 	}
 }
 
-void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b)
+void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> old_free_region, c_basic_buffer<void> new_free_region)
 {
-	INVOKE(0x0051D770, physical_memory_adjust_resize_region, resize_region_a, resize_region_b);
+	INVOKE(0x0051D770, physical_memory_adjust_resize_region, old_free_region, new_free_region);
 
-	//physical_memory_adjust_resize_region(resize_region_a, resize_region_b);
+	//physical_memory_adjust_resize_region(old_free_region, new_free_region);
 }
 
-void __cdecl physical_memory_query_bounds(dword a1, dword a2, dword* a3, dword* a4)
+void __cdecl physical_memory_query_bounds(dword physical_memory_base_address, dword physical_memory_query_address, dword* out_physical_memory_start, dword* out_physical_memory_end)
 {
-	INVOKE(0x0051D7A0, physical_memory_query_bounds, a1, a2, a3, a4);
+	INVOKE(0x0051D7A0, physical_memory_query_bounds, physical_memory_base_address, physical_memory_query_address, out_physical_memory_start, out_physical_memory_end);
 }
 
 //.text:0051D8A0

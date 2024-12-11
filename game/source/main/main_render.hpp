@@ -29,11 +29,11 @@ enum e_main_pregame_frame
 {
 	_main_pregame_frame_none = 0,
 	_main_pregame_frame_normal,
-	_main_pregame_frame_progress_report,
-	_main_pregame_frame_status_message,
-	_main_pregame_frame_minidump_upload_waiting,
-	_main_pregame_frame_minidump_upload_completed_successfully,
-	_main_pregame_frame_unknown6,
+	_main_pregame_frame_loading_debug,
+	_main_pregame_frame_cache_loading,
+	_main_pregame_frame_crash_uploading,
+	_main_pregame_frame_crash_done,
+	_main_pregame_frame_upload,
 	_main_pregame_frame_notify_out_of_sync,
 	_main_pregame_frame_loading_screen,
 
@@ -49,10 +49,10 @@ struct s_render_fullscreen_text_context_colors
 
 struct s_render_fullscreen_text_context
 {
-	char const* text;
-	real_rgb_color* color;
+	char const* string;
+	real_rgb_color* text_color;
 	real_rgb_color* shadow_color;
-	real scale;
+	real font_scale;
 };
 static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
 
@@ -73,7 +73,7 @@ extern void __cdecl main_render_game();
 extern void __cdecl game_engine_render_window_watermarks(long user_index);
 extern void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index);
 extern void __cdecl game_engine_render_frame_watermarks(bool pregame);
-extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, char const* loading_status);
+extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, char const* pregame_frame_text);
 extern void __cdecl main_render_pregame_loading_screen();
 extern void __cdecl sub_604A20();
 extern void __cdecl main_render_process_messages();

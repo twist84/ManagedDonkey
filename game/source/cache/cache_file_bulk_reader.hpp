@@ -7,14 +7,14 @@
 struct c_asynchronous_io_arena
 {
 public:
-	void close_file(long a1);
-	void close_file(s_indirect_file* indirect_file);
+	void close_file(long file_index);
+	void close_file(s_indirect_file* indirect_file_handle);
 
 	struct s_async_io_file
 	{
 		s_file_handle file;
-		long outstanding_io_count;
-		dword __unknown8;
+		dword outstanding_io_count;
+		dword io_offset;
 	};
 
 	s_file_handle m_io_completion_port;

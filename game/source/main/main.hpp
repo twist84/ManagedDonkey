@@ -241,7 +241,7 @@ extern void __cdecl main_thread_unlock_rasterizer_and_resources();
 extern bool __cdecl main_time_halted();
 extern void __cdecl main_user_interface_save_files();
 extern void __cdecl main_user_interface_save_files_private();
-extern void __cdecl process_published_game_state(bool a1);
+extern void __cdecl process_published_game_state(bool render);
 extern void __cdecl publish_waiting_gamestate();
 extern bool __cdecl render_thread_enabled();
 extern long __cdecl render_thread_get_mode();

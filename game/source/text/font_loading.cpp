@@ -51,7 +51,7 @@ void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state
 	if (loading_state->started && !loading_state->finished)
 	{
 		async_task_change_priority(loading_state->task_id, _async_priority_blocking_generic);
-		internal_async_yield_until_done_attributed(&loading_state->finished, false, false, (e_yield_reason)4, __FILE__, __LINE__);
+		internal_async_yield_until_done_attributed(&loading_state->finished, false, false, _yield_for_font_cache, __FILE__, __LINE__);
 	}
 }
 

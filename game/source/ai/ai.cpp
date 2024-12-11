@@ -28,9 +28,9 @@ void __cdecl ai_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_
 
 //.text:01431670 ; bool __cdecl ai_enemies_attacking_players(long*, dword*)
 
-bool __cdecl ai_enemies_can_see_player(long* out_unit_index)
+bool __cdecl ai_enemies_can_see_player(long* object_index)
 {
-	return INVOKE(0x014316D0, ai_enemies_can_see_player, out_unit_index);
+	return INVOKE(0x014316D0, ai_enemies_can_see_player, object_index);
 }
 
 void __cdecl ai_erase(long squad_index, bool delete_immediately)
@@ -63,9 +63,9 @@ void __cdecl ai_erase(long squad_index, bool delete_immediately)
 //.text:01431BC0 ; void __cdecl ai_flush_spatial_effects()
 //.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(long, long, line_of_fire_pill*)
 
-bool __cdecl ai_get_active_clusters(long a1, dword* a2, long a3)
+bool __cdecl ai_get_active_clusters(long structure_bsp_index, dword* activation_bitvector, long cluster_count)
 {
-	return INVOKE(0x01431C90, ai_get_active_clusters, a1, a2, a3);
+	return INVOKE(0x01431C90, ai_get_active_clusters, structure_bsp_index, activation_bitvector, cluster_count);
 }
 
 //.text:01431D50 ; void __cdecl ai_get_center_of_mass(long, real_point3d*)
@@ -81,9 +81,9 @@ bool __cdecl ai_get_active_clusters(long a1, dword* a2, long a3)
 //.text:01432120 ; void __cdecl ai_globals_player_dialogue_enable(bool)
 //.text:01432140 ; bool __cdecl ai_globals_player_dialogue_enabled()
 
-void __cdecl ai_globals_set_ai_active(bool ai_active)
+void __cdecl ai_globals_set_ai_active(bool enable)
 {
-	INVOKE(0x01432160, ai_globals_set_ai_active, ai_active);
+	INVOKE(0x01432160, ai_globals_set_ai_active, enable);
 }
 
 //.text:01432180 ; void __cdecl ai_globals_set_fast_and_dumb(bool)
@@ -93,9 +93,9 @@ void __cdecl ai_globals_set_ai_active(bool ai_active)
 //.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team, e_game_team, bool, bool, bool)
 //.text:01432890 ; void __cdecl ai_handle_areas_delete(short, dword const*)
 
-void __cdecl ai_handle_bump(long object_index, long bump_object_index, real_vector3d const* linear_velocity)
+void __cdecl ai_handle_bump(long biped_index, long object_index, real_vector3d const* old_velocity)
 {
-	INVOKE(0x014328E0, ai_handle_bump, object_index, bump_object_index, linear_velocity);
+	INVOKE(0x014328E0, ai_handle_bump, biped_index, object_index, old_velocity);
 }
 
 //.text:01432980 ; void __cdecl ai_handle_cs_data_point_move(short, short)

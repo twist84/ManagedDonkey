@@ -55,11 +55,11 @@ hs_debug_data_definition hs_debug_data{};
 //.text:00593C00 ; 
 //.text:00593C10 ; 
 //.text:00593C20 ; void __cdecl __tls_set_g_hs_distributed_global_data_allocator(void*)
-//.text:00593C50 ; void __cdecl __tls_set_g_hs_global_data_allocator(void *)
-//.text:00593C80 ; void __cdecl __tls_set_g_hs_runtime_globals_allocator(void *)
-//.text:00593CA0 ; void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void *)
-//.text:00593CD0 ; void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void *)
-//.text:00593D00 ; void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void *)
+//.text:00593C50 ; void __cdecl __tls_set_g_hs_global_data_allocator(void*)
+//.text:00593C80 ; void __cdecl __tls_set_g_hs_runtime_globals_allocator(void*)
+//.text:00593CA0 ; void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void*)
+//.text:00593CD0 ; void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void*)
+//.text:00593D00 ; void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void*)
 //.text:00593D30 ; 
 //.text:00593D70 ; 
 //.text:00593DB0 ; 

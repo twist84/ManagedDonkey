@@ -198,15 +198,15 @@ static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 struct c_cache_file_copy_fake_decompressor :
 	public c_cache_file_decompressor
 {
-	virtual bool begin(c_basic_buffer<void> a1)
+	virtual bool begin(c_basic_buffer<void> output_buffer)
 	{
 		throw;
 	}
-	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	virtual bool decompress_buffer(c_basic_buffer<void> input_buffer, c_basic_buffer<void>* out_decompressed_buffer)
 	{
 		throw;
 	}
-	virtual bool finish(c_basic_buffer<void>* a1)
+	virtual bool finish(c_basic_buffer<void>* out_decompressed_buffer)
 	{
 		throw;
 	}

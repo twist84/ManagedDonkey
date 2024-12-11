@@ -758,9 +758,9 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	game_engine_render_frame_watermarks_for_controller(_controller_index0);
 }
 
-void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* text)
+void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* pregame_frame_text)
 {
-	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, text);
+	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, pregame_frame_text);
 
 	if (!sub_42E5D0())
 	{
@@ -775,15 +775,15 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 
 		s_render_fullscreen_text_context context;
 
-		context.text = text;
-		context.color = &pregame_frame_colors[pregame_frame_type].text_color;
+		context.string = pregame_frame_text;
+		context.text_color = &pregame_frame_colors[pregame_frame_type].text_color;
 		context.shadow_color = &pregame_frame_colors[pregame_frame_type].text_shadow_color;
-		context.scale = pregame_frame_scales[pregame_frame_type];
+		context.font_scale = pregame_frame_scales[pregame_frame_type];
 
 		if (pregame_frame_type == _main_pregame_frame_normal && !main_game_change_in_progress() && main_halted_with_errors())
-			context.text = events_get();
+			context.string = events_get();
 
-		bool simple_font = pregame_frame_type == _main_pregame_frame_minidump_upload_waiting || pregame_frame_type == _main_pregame_frame_minidump_upload_completed_successfully;
+		bool simple_font = pregame_frame_type == _main_pregame_frame_crash_uploading || pregame_frame_type == _main_pregame_frame_crash_done;
 		render_fullscreen_text(&context, simple_font);
 		overlapped_render();
 		controllers_render();
@@ -805,7 +805,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 			bink_playback_render();
 		}
 
-		if (pregame_frame_type == _main_pregame_frame_normal || pregame_frame_type == _main_pregame_frame_progress_report)
+		if (pregame_frame_type == _main_pregame_frame_normal || pregame_frame_type == _main_pregame_frame_loading_debug)
 			game_engine_render_frame_watermarks(true);
 
 		c_view::end();

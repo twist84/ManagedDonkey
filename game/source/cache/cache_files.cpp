@@ -651,9 +651,9 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	return true;
 }
 
-dword __cdecl compute_realtime_checksum(char* a1, int a2)
+dword __cdecl compute_realtime_checksum(char* buffer, int len)
 {
-	return INVOKE(0x00502300, compute_realtime_checksum, a1, a2);
+	return INVOKE(0x00502300, compute_realtime_checksum, buffer, len);
 }
 
 //.text:00502360 ; 

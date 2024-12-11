@@ -360,7 +360,7 @@ extern long __cdecl cache_files_get_total_tags_size();
 extern char const* __cdecl cache_files_map_directory();
 extern s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt();
 extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
-extern dword __cdecl compute_realtime_checksum(char* a1, int a2);
+extern dword __cdecl compute_realtime_checksum(char* buffer, int len);
 extern void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resource_offsets);
 extern bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer);
 extern void __cdecl cache_file_tags_unload();

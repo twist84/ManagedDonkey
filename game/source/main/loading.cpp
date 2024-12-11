@@ -276,7 +276,7 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 		if (loading_status)
 			loading_status->append_print(L"|n|n%S", events_get());
 
-		return _main_pregame_frame_progress_report;
+		return _main_pregame_frame_loading_debug;
 	}
 
 	if (loading_globals.basic_progress_enabled)
@@ -294,7 +294,7 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 				loading_status->append_print(L"|n%S", loading_globals.insertion_point);
 		}
 	
-		return _main_pregame_frame_status_message;
+		return _main_pregame_frame_cache_loading;
 	}
 
 	return _main_pregame_frame_none;

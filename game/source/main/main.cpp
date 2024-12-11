@@ -42,6 +42,7 @@
 #include "physics/collision_usage.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/render_debug.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "shell/shell_windows.hpp"
 #include "simulation/simulation.hpp"
@@ -523,12 +524,12 @@ void __cdecl main_halt_and_catch_fire()
 			//	}
 			//}
 
-			e_main_pregame_frame pregame_frame_type = _main_pregame_frame_minidump_upload_waiting;
+			e_main_pregame_frame pregame_frame_type = _main_pregame_frame_crash_uploading;
 			if (upload_to_server)
 			{
 				if (upload_debug_completed && upload_debug_success)
 				{
-					pregame_frame_type = _main_pregame_frame_minidump_upload_completed_successfully;
+					pregame_frame_type = _main_pregame_frame_crash_done;
 				}
 				else if (!upload_debug_completed)
 				{
@@ -761,6 +762,7 @@ void __cdecl main_loop_body_main_part()
 
 		PROFILER(main, main_loop)
 		{
+			render_debug_reset_cache_to_game_tick_entires();
 			collision_log_begin_frame();
 
 			PROFILER(input_update) // main_loop, input
@@ -1247,7 +1249,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		{
 			main_render_pregame_loading_screen();
 		}
-		else if (pregame_frame_type == _main_pregame_frame_status_message)
+		else if (pregame_frame_type == _main_pregame_frame_cache_loading)
 		{
 			main_render_status_message(status_message.get_string());
 		}
@@ -1259,7 +1261,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 
 			main_render_pregame(pregame_frame_type, status_message_ascii.get_string());
 
-			if (pregame_frame_type == _main_pregame_frame_progress_report)
+			if (pregame_frame_type == _main_pregame_frame_loading_debug)
 			{
 				c_rasterizer::end_frame();
 				return;
@@ -1903,9 +1905,9 @@ void __cdecl main_user_interface_save_files_private()
 	//	chud_messaging_special_saving(false);
 }
 
-void __cdecl process_published_game_state(bool a1)
+void __cdecl process_published_game_state(bool render)
 {
-	//INVOKE(0x00507450, process_published_game_state, a1);
+	//INVOKE(0x00507450, process_published_game_staterender);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
@@ -1914,7 +1916,7 @@ void __cdecl process_published_game_state(bool a1)
 	{
 		g_main_render_timing_data->accum(g_main_gamestate_timing_data);
 
-		if (a1 && c_rasterizer::rasterizer_thread_owns_device())
+		if (render && c_rasterizer::rasterizer_thread_owns_device())
 		{
 			main_render();
 		}
