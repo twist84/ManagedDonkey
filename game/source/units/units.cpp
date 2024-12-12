@@ -12,6 +12,8 @@
 #include "units/unit_dialogue.hpp"
 #include "units/vehicles.hpp"
 
+#include <math.h>
+
 HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
 HOOK_DECLARE(0x00B47080, unit_render_debug);
 HOOK_DECLARE(0x00B49F10, unit_update);
@@ -424,7 +426,37 @@ void __cdecl unit_render_debug(long unit_index)
 
 	if (debug_objects_unit_acceleration)
 	{
+		real_matrix4x3 origin{};
+		unit_seat_acceleration acceleration_data{};
 
+		if (unit_get_acceleration_origin_and_data(unit_index, &origin, &acceleration_data))
+		{
+			object_marker markers[1]{};
+			c_static_string<512> acceleration_string;
+
+			object_get_markers_by_string_id(unit_index, STRING_ID(global, head), markers, NUMBEROF(markers));
+			real_point3d point = markers[0].matrix.origin;
+
+			real absolute_i = fabsf(unit->unit.seat_acceleration.i);
+			real absolute_j = fabsf(unit->unit.seat_acceleration.j);
+			real absolute_k = fabsf(unit->unit.seat_acceleration.k);
+			real acceleration_scale = fmaxf(absolute_i, absolute_j);
+			if (acceleration_scale <= absolute_k)
+				acceleration_scale = absolute_k;
+
+			real_argb_color const* acceleration_color = global_real_argb_blue;
+			if (acceleration_data.action_limit != 0.0f && acceleration_scale >= acceleration_data.action_limit)
+				acceleration_color = global_real_argb_yellow;
+			if (acceleration_data.attachment_limit != 0.0f && acceleration_scale >= acceleration_data.attachment_limit)
+				acceleration_color = global_real_argb_red;
+
+			acceleration_string.print("accel= i:%.02f  j:%.02f  k:%.02f \r\nscale= %.02f\r\n",
+				unit->unit.seat_acceleration.i,
+				unit->unit.seat_acceleration.j,
+				unit->unit.seat_acceleration.k,
+				acceleration_scale),
+			render_debug_string_at_point(&point, acceleration_string.get_string(), acceleration_color);
+		}
 	}
 
 	if (debug_objects_unit_camera)
