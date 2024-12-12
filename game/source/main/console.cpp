@@ -1193,18 +1193,18 @@ void c_status_line::initialize_simple(bool* in_use, char const* identifier, long
 	m_alpha = 1.0f;
 }
 
-void status_lines_initialize(c_status_line* status_lines, bool* in_use, long count)
+void status_lines_initialize(c_status_line* status_lines, bool* flag, long count)
 {
-	status_lines_initialize_simple(status_lines, in_use, NULL, count);
+	status_lines_initialize_simple(status_lines, flag, NULL, count);
 }
 
-void status_lines_initialize_simple(c_status_line* status_lines, bool* in_use, char const* identifier, long count)
+void status_lines_initialize_simple(c_status_line* status_lines, bool* flag, char const* identifier, long count)
 {
 	csmemset(status_lines, 0, sizeof(c_status_line) * count);
 
 	for (long i = 0; i < count; i++)
 	{
-		status_lines[i].initialize_simple(in_use, identifier, count);
+		status_lines[i].initialize_simple(flag, identifier, count);
 		status_line_add_single(&status_lines[i]);
 	}
 }

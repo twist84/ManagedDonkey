@@ -124,8 +124,8 @@ extern void __cdecl console_update(real shell_seconds_elapsed);
 extern void __cdecl console_execute_initial_commands();
 extern bool __cdecl console_process_command(char const* command, bool a2);
 
-extern void status_lines_initialize(c_status_line* status_lines, bool* in_use, long count);
-extern void status_lines_initialize_simple(c_status_line* status_lines, bool* in_use, char const* identifier, long count);
+extern void status_lines_initialize(c_status_line* status_lines, bool* flag, long count);
+extern void status_lines_initialize_simple(c_status_line* status_lines, bool* flag, char const* identifier, long count);
 extern void status_lines_dispose(c_status_line* status_lines, long count);
 extern void status_lines_clear_text(c_status_line* status_lines, long count);
 extern void status_lines_set_flags(c_status_line* status_lines, e_status_line_flags flag, bool enable, long count);

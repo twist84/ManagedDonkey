@@ -33,10 +33,12 @@ void __cdecl terminal_printf(real_argb_color const* color, char const* format, .
 			message_color = *color;
 
 		terminal_new_line(message, &message_color, csstrstr(message, "|t") != 0);
+
+		//if (terminal_globals.console_output)
+		//	c_console::write_line(message);
+
 		//telnet_console_print(message);
 	}
-
-	//c_console::write_line(message);
 }
 
 void __cdecl terminal_initialize()

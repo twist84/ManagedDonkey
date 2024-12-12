@@ -12,7 +12,7 @@ struct c_simulation_watcher :
 	public c_network_channel_owner
 {
 public:
-	void describe_status(char* buffer, long buffer_size) const;
+	void describe_status(char* buffer, long buffer_length) const;
 	bool need_to_generate_updates() const;
 
 protected:

@@ -2189,54 +2189,53 @@ void __cdecl main_cheat_drop_tag_private()
 
 struct c_event_context_string_builder
 {
-	c_event_context_string_builder(char const* format, ...)
-	{
-		va_list list;
-		va_start(list, format);
-		m_event_context_string.print_va(format, list);
-		va_end(list);
-	}
-
-	operator char const* () const
-	{
-		return m_event_context_string.get_string();
-	}
-
-	c_static_string<128> m_event_context_string;
+	//c_event_context_string_builder(char const* description, ...) :
+	//	m_string()
+	//{
+	//	va_list arglist;
+	//	va_start(arglist, description);
+	//	cvsnzprintf(m_string, sizeof(m_string), description, arglist);
+	//	va_end(arglist);
+	//}
+	//
+	//operator char const* () const
+	//{
+	//	return m_string;
+	//}
+	//
+	//char m_string[128];
 };
 
 struct c_event_context
 {
-	c_event_context(char const* type, bool a2, char const* description)
+	c_event_context(char const* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
 	{
-		//ASSERT(type);
-		//ASSERT(description);
-		//
-		//if (VALID_INDEX(g_event_context_stack_depth, 32))
-		//{
-		//	g_event_context_stack_depth++;
-		//}
-		//else
-		//{
-		//	ASSERT2("exceeded the maximum event context depth!");
-		//}
+		//event_context_push(type, display_to_console, event_context_string_builder);
 	}
 
 	~c_event_context()
 	{
-		//ASSERT(g_event_context_stack_depth > 0);
-		//g_event_context_stack_depth--;
+		//if (g_event_context_stack_failure_depth > 0)
+		//{
+		//	g_event_context_stack_failure_depth--;
+		//}
+		//else
+		//{
+		//	ASSERT(g_event_context_stack_depth > 0);
+		//	if (g_event_context_stack_depth > 0)
+		//		g_event_context_stack_depth--;
+		//}
 	}
 };
 
 bool debug_trace_main_events = false;
 
-void __cdecl main_trace_event_internal(char const* context)
+void __cdecl main_trace_event_internal(char const* function_name)
 {
-	if (debug_trace_main_events)
-	{
-		c_event_context event_context("", false, c_event_context_string_builder("%s", context));
-		stack_walk(1);
-	}
+	//if (debug_trace_main_events)
+	//{
+	//	c_event_context local_event_context("", false, new c_event_context_string_builder("%s", function_name));
+	//	stack_walk(1);
+	//}
 }
 
