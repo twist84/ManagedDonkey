@@ -414,6 +414,7 @@ extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short p
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
 extern void __cdecl unit_control(long unit_index, unit_control_data const* control_data);
 extern void __cdecl unit_debug_ninja_rope(long unit_index);
+extern bool __cdecl unit_get_acceleration_origin_and_data(long unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);
 extern long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index);
 extern long __cdecl unit_get_aim_assist_dash_target(long unit_index);
 extern bool __cdecl unit_get_aim_position(long unit_index, real_point3d* aim_position);

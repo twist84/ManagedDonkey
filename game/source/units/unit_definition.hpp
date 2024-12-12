@@ -66,13 +66,13 @@ static_assert(sizeof(s_unit_camera) == 0x3C);
 
 struct unit_seat_acceleration
 {
-	real_vector3d acceleration_range; // world units per second squared
+	real_vector3d scale; // world units per second squared
 
 	// actions fail
-	real accel_action_scale; // [0,1+]
+	real action_limit; // [0,1+]
 
 	// detach unit
-	real accel_attach_scale; // [0,1+]
+	real attachment_limit; // [0,1+]
 };
 static_assert(sizeof(unit_seat_acceleration) == 0x14);
 

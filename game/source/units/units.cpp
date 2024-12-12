@@ -211,7 +211,11 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 //.text:00B428E0 ; bool __cdecl unit_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real, real, bool)
 //.text:00B42BA0 ; void __cdecl unit_force_detach_from_parent_object(long)
 //.text:00B42C50 ; void __cdecl unit_force_drop_weapon(long, long, bool, bool)
-//.text:00B42D20 ; bool __cdecl unit_get_acceleration_origin_and_data(long, real_matrix4x3*, unit_seat_acceleration*)
+
+bool __cdecl unit_get_acceleration_origin_and_data(long unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data)
+{
+	return INVOKE(0x00B42D20, unit_get_acceleration_origin_and_data, unit_index, origin, acceleration_data);
+}
 
 long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index)
 {
