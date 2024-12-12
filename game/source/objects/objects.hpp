@@ -380,10 +380,10 @@ static_assert(0x158 == OFFSETOF(object_placement_data, multiplayer_properties));
 
 struct object_marker
 {
-	word __unknown0;
-	real_matrix4x3 identity;
+	short node_index;
 	real_matrix4x3 node_matrix;
-	real __unknown6C;
+	real_matrix4x3 matrix;
+	real radius;
 };
 static_assert(sizeof(object_marker) == 0x70);
 
@@ -405,38 +405,24 @@ static_assert(sizeof(s_object_render_data) == 0x2000);
 
 struct s_object_globals
 {
-	bool initial_placement;
-	bool object_marker_initialized;
+	bool connected_to_structure_bsp;
 	bool force_garbage_collection;
+	bool garbage_collection_unsafe;
 	bool garbage_collection_cannot_run;
 	short active_garbage_object_count;
 	short active_garbage_player_bodies;
 	long first_garbage_object_index;
-
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-
+	long last_garbage_warn_time;
+	long last_garbage_fail_time;
+	long last_loud_noise_time;
+	long object_identifier_salt;
 	long object_update_absolute_index;
 	render_lighting cinematic_lighting;
-	real object_function_values[4];
-
-	byte __unknown248;
-	byte __unknown249;
-
-	// objects_is_warthog_chaingun_light_enabled
-	// - !warthog_chaingun_light_disabled
-	// objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light)
-	// - warthog_chaingun_light_disabled = !enable_warthog_chaingun_light
-	bool warthog_chaingun_light_disabled; // #TODO: find the actual name/think of a better name
-
-	byte __unknown24B;
-
-	// not the actual name
-	c_static_array<long, k_object_type_count> object_type_scenario_datums_counts;
-
-	// #TODO: find out if this count has a name
+	real scripted_object_functions[4];
+	bool custom_animations_hold_on_last_frame;
+	bool custom_animations_prevent_lipsync_head_movement;
+	bool warthog_chaingun_light_disabled;
+	c_static_array<long, k_object_type_count> scenario_object_to_object_index_type_start_index;
 	c_static_array<long, 6368> scenario_object_to_object_index;
 };
 static_assert(sizeof(s_object_globals) == 0x6608);

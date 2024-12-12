@@ -288,7 +288,7 @@ void c_object_identifier::create_dynamic(e_object_type type)
 	m_type = type;
 	m_source = _object_source_dynamic;
 	m_origin_bsp_index = NONE;
-	m_unique_id = ++object_globals->__unknown18;
+	m_unique_id = ++object_globals->object_identifier_salt;
 }
 
 void c_object_identifier::create_from_parent(e_object_type type)
@@ -300,7 +300,7 @@ void c_object_identifier::create_from_parent(e_object_type type)
 	m_type = type;
 	m_source = _object_source_parent;
 	m_origin_bsp_index = NONE;
-	m_unique_id = ++object_globals->__unknown18;
+	m_unique_id = ++object_globals->object_identifier_salt;
 }
 
 void c_object_identifier::create_from_scenario(e_object_type type, long unique_id)
@@ -2080,19 +2080,19 @@ void object_render_debug_internal(long object_index)
 			{
 			case 1:
 			{
-				render_debug_vector(true, &markers[0].node_matrix.position, &markers[0].node_matrix.forward, target.size, global_real_argb_darkgreen);
+				render_debug_vector(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, global_real_argb_darkgreen);
 
 				if (target.cone_angle <= 3.1414928f)
-					render_debug_cone_outline(true, &markers[0].node_matrix.position, &markers[0].node_matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
+					render_debug_cone_outline(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
 				else
-					render_debug_sphere(true, &markers[0].node_matrix.position, target.size, global_real_argb_darkgreen);
+					render_debug_sphere(true, &markers[0].matrix.position, target.size, global_real_argb_darkgreen);
 			}
 			break;
 			case 2:
 			{
 				real_vector3d height{};
-				vector_from_points3d(&markers[0].node_matrix.position, &markers[1].node_matrix.position, &height);
-				render_debug_pill(true, &markers[0].node_matrix.position, &height, target.size, global_real_argb_darkgreen);
+				vector_from_points3d(&markers[0].matrix.position, &markers[1].matrix.position, &height);
+				render_debug_pill(true, &markers[0].matrix.position, &height, target.size, global_real_argb_darkgreen);
 			}
 			break;
 			}
