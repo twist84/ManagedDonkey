@@ -20,6 +20,8 @@ bool debug_objects_unit_vectors = false;
 bool debug_objects_unit_seats = false;
 bool debug_objects_unit_mouth_apeture = false;
 bool debug_objects_unit_firing = false;
+bool debug_objects_unit_melee = false;
+long debug_unit_melee_unit_index = NONE;
 bool debug_objects_unit_acceleration = false;
 bool debug_objects_unit_camera = false;
 
@@ -104,7 +106,7 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 //.text:00B39820 ; bool __cdecl unit_adjust_first_person_camera(long, real_vector3d*)
 //.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(long, real_point3d*, real_vector3d*, real_vector3d*, real_point3d const*, real_point3d const*, bool, bool, bool, e_aiming_vector)
 //.text:00B39E40 ; 
-//.text:00B39EC0 ; 
+//.text:00B39EC0 ; voic __cdecl unit_apply_predicted_weapon_state(long, long)
 //.text:00B39F60 ; void __cdecl unit_build_unit_interface_state(long, unit_interface_state*)
 //.text:00B3A040 ; bool __cdecl unit_calculate_is_in_illegal_position(long)
 //.text:00B3A170 ; bool __cdecl unit_can_access_object(long, long)
@@ -266,9 +268,9 @@ void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
 //.text:00B43D50 ; long __cdecl unit_get_current_or_last_weak_player_index(long)
 //.text:00B43D90 ; unit_seat* __cdecl unit_get_current_seat(long)
 //.text:00B43E20 ; short __cdecl unit_get_driver_seat(long)
-//.text:00B43EA0 ; 
-//.text:00B43F50 ; 
-//.text:00B43FF0 ; 
+//.text:00B43EA0 ; unit_get_equipment_?
+//.text:00B43F50 ; unit_get_equipment_?
+//.text:00B43FF0 ; unit_get_equipment_?
 //.text:00B44060 ; void __cdecl unit_get_facing_vector(long, real_vector3d*)
 
 real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level)
@@ -284,8 +286,8 @@ void __cdecl unit_get_head_position(long unit_index, real_point3d* position)
 	INVOKE(0x00B441B0, unit_get_head_position, unit_index, position);
 }
 
-//.text:00B441F0 ; 
-//.text:00B44250 ; 
+//.text:00B441F0 ; unit_get_hologram_?
+//.text:00B44250 ; unit_get_hologram_?
 //.text:00B442D0 ; bool __cdecl unit_get_hologram_target_point(long, real_point3d*)
 //.text:00B44340 ; long __cdecl unit_get_last_associated_weak_player_index_for_appearance(long)
 //.text:00B443B0 ; void __cdecl unit_get_looking_vector(long, real_vector3d*)
@@ -295,8 +297,8 @@ void __cdecl unit_get_head_position(long unit_index, real_point3d* position)
 //.text:00B444F0 ; long __cdecl unit_get_time_to_end_of_assasination(long)
 //.text:00B445B0 ; long __cdecl unit_get_ultimate_motion_control_unit_index(long)
 //.text:00B44600 ; long __cdecl unit_get_ultimate_weapon_control_unit_index(long)
-//.text:00B44650 ; 
-//.text:00B44680 ; 
+//.text:00B44650 ; long __cdecl unit_get_weapon(unit_datum const*, short)
+//.text:00B44680 ; real __cdecl unit_get_weapon_dual_error_theta(long, long)
 
 short __cdecl unit_get_zoom_level(long unit_index)
 {
@@ -304,7 +306,7 @@ short __cdecl unit_get_zoom_level(long unit_index)
 }
 
 //.text:00B447B0 ; real __cdecl unit_get_zoom_magnification(long, short)
-//.text:00B448C0 ; 
+//.text:00B448C0 ; bool __cdecl unit_gunned_by_ai(long)
 //.text:00B44910 ; void __cdecl unit_handle_deleted_object(long, long)
 //.text:00B44B60 ; void __cdecl unit_handle_deleted_player(long, long)
 //.text:00B44BA0 ; 
@@ -320,7 +322,7 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 	return INVOKE(0x00B450F0, unit_has_weapon_definition_index, unit_index, weapon_definition_index);
 }
 
-//.text:00B45150 ; 
+//.text:00B45150 ; bool __cdecl unit_has_weapon_with_flag(long, e_weapon_flags)
 //.text:00B451C0 ; bool __cdecl unit_in_third_person_seat(long)
 //.text:00B45260 ; void __cdecl unit_inventory_cycle_weapon_set_identifier(long)
 //.text:00B452F0 ; void __cdecl unit_inventory_drop_weapon(long, short, e_unit_drop_type, bool)
@@ -351,7 +353,6 @@ long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index)
 //.text:00B45AB0 ; bool __cdecl unit_is_unarmed(long)
 //.text:00B45B40 ; unit_kill_hologram?
 //.text:00B45B70 ; void __cdecl unit_kill_no_statistics(long)
-//.text:00B45C00 ; unit_melee_effects
 //.text:00B45C00 ; void __cdecl unit_melee_effects(long, long, long, e_sweetener_size, c_global_material_type, real_vector3d const*, real_point3d const*, real_vector3d const*, bool)
 //.text:00B45EE0 ; bool __cdecl unit_new(long, object_placement_data*, bool*)
 //.text:00B464E0 ; void __cdecl unit_notify_of_tracking_or_locking(long, long, short)
@@ -416,6 +417,11 @@ void __cdecl unit_render_debug(long unit_index)
 
 	}
 
+	if (debug_objects_unit_melee && debug_unit_melee_unit_index == unit_index)
+	{
+
+	}
+
 	if (debug_objects_unit_acceleration)
 	{
 
@@ -430,13 +436,13 @@ void __cdecl unit_render_debug(long unit_index)
 }
 
 //.text:00B470A0 ; void __cdecl unit_reset_seat_acceleration_data(long)
-//.text:00B470F0 ; unit_resolve_melee_attack
+//.text:00B470F0 ; void __cdecl unit_resolve_melee_attack(long, long, long, s_damage_owner const*, s_unit_player_melee_damage_target const*, bool, bool)
 //.text:00B474C0 ; void __cdecl unit_respond_to_emp(long, bool)
 //.text:00B47630 ; short __cdecl unit_rotate_zoom_level(long, short)
 //.text:00B47770 ; void __cdecl unit_running_blind(long, real_vector3d*)
-//.text:00B47A20 ; 
-//.text:00B47AD0 ; 
-//.text:00B47F80 ; 
+//.text:00B47A20 ; void __cdecl unit_seat_acceleration_clear(long, real_vector3d const*)
+//.text:00B47AD0 ; void __cdecl unit_seat_acceleration_update(long)
+//.text:00B47F80 ; bool __cdecl unit_seat_allow_noncombatants(long, short)
 //.text:00B47FF0 ; bool __cdecl unit_seat_filled(long, short)
 //.text:00B48010 ; long __cdecl unit_seat_get_occupant(long, short)
 //.text:00B48080 ; bool __cdecl unit_seat_is_being_boarded(long, short)
@@ -474,7 +480,7 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B49170 ; void __cdecl unit_swap_weapons_end(long unit_index)
 //.text:00B49190 ; void __cdecl unit_take_item(long, long)
 //.text:00B491B0 ; bool __cdecl unit_test_pickup_with_mode(long, unit_weapon_pickup_result const*, e_weapon_addition_method, short*)
-//.text:00B492A0 ; 
+//.text:00B492A0 ; bool __cdecl unit_test_seat_entrance_markers(long, long, short)
 //.text:00B49580 ; void __cdecl unit_toss_item(long unit_index, long item_index, long marker_name, real a4, bool a5)
 //.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(long unit_index)
 //.text:00B49990 ; bool __cdecl unit_player_plant_plasma_on_death(long unit_index, long player_index)
