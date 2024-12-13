@@ -266,6 +266,42 @@ bool __cdecl player_consider_device_interaction(long player_index, long device_i
 	return INVOKE(0x005388D0, player_consider_device_interaction, player_index, device_index, result);
 }
 
+bool __cdecl player_consider_equipment_interaction(long player_index, long equipment_index, s_player_action_context* result)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+
+	player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+	unit_datum* unit = unit_get(player->unit_index);
+	equipment_datum* equipment = equipment_get(equipment_index);
+
+	if (equipment->item.inventory_state || equipment->item.ignore_object_index == player->unit_index)
+		return false;
+
+	if (!point_in_sphere(&equipment->object.bounding_sphere_center, &unit->object.bounding_sphere_center, unit->object.bounding_sphere_radius + 0.4f))
+		return false;
+
+	if (unit_get_current_equipment(player->unit_index, 0) == NONE || !unit_can_pickup_equipment(player->unit_index, equipment_index))
+		return false;
+
+	long active_primary_weapon = unit_get_active_primary_weapon(player->unit_index, NULL);
+	if (active_primary_weapon != NONE && weapon_is_support_weapon(active_primary_weapon))
+		return false;
+
+	s_player_interaction old_interaction = result->interaction;
+	s_player_interaction interaction{};
+	interaction.type = 2;// _player_interaction_pick_up_equipment;
+	interaction.object_index = equipment_index;
+
+	bool interaction_considered = player_evaluate_interaction(player_index, &interaction, &result->interaction);
+	if (interaction_considered && !unit_can_access_object(player->unit_index, equipment_index))
+	{
+		result->interaction = old_interaction;
+		interaction_considered = false;
+	}
+
+	return interaction_considered;
+}
+
 bool __cdecl player_consider_unit_interaction(long player_index, long unit_index, s_player_action_context* result)
 {
 	return INVOKE(0x005389E0, player_consider_unit_interaction, player_index, unit_index, result);
@@ -373,6 +409,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 				player_consider_weapon_interaction(player_index, object_indices[index], out_action_context);
 				break;
 			case _object_type_equipment:
+				player_consider_equipment_interaction(player_index, object_indices[index], out_action_context);
 				break;
 			case _object_type_arg_device:
 			case _object_type_terminal:

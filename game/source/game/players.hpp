@@ -721,6 +721,7 @@ extern void players_debug_render();
 extern void __cdecl player_action_context_clear(s_player_action_context* action_context);
 extern bool __cdecl player_consider_biped_interaction(long player_index, long biped_index, s_player_action_context* result);
 extern bool __cdecl player_consider_device_interaction(long player_index, long device_index, s_player_action_context* result);
+extern bool __cdecl player_consider_equipment_interaction(long player_index, long equipment_index, s_player_action_context* result);
 extern bool __cdecl player_consider_unit_interaction(long player_index, long unit_index, s_player_action_context* result);
 extern bool __cdecl player_consider_vehicle_interaction(long player_index, long vehicle_index, s_player_action_context* result);
 extern bool __cdecl player_consider_weapon_interaction(long player_index, long weapon_index, s_player_action_context* result);
