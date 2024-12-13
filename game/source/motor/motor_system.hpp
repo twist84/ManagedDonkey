@@ -29,11 +29,13 @@ static_assert(sizeof(c_motor_task) == 0x1C);
 
 struct c_motor_request
 {
+public:
 	c_motor_request();
 	void setup_force_airborne(e_action action);
 
-	byte __unknown0;
-	byte __unknown1;
+//protected:
+	bool m_initialized;
+	bool m_force;
 	long m_task;
 	c_enum<e_action, long, _action_none, k_action_count> m_action;
 

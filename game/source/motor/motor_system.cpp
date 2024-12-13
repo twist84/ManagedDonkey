@@ -10,8 +10,8 @@ bool c_motor_task::conflicts(short a1) const
 	return INVOKE_CLASS_MEMBER(0x00B744E0, c_motor_task, conflicts, a1);
 }
 
-//.text:00B74500 ; 
-//.text:00B74510 ; 
+//.text:00B74500 ; public: void __cdecl c_motor_task::interrupt()
+//.text:00B74510 ; public: bool __cdecl c_motor_task::interrupted() const
 //.text:00B74520 ; void __cdecl motor_system_animation_event(long, c_motor_task*, long)
 //.text:00B74590 ; void __cdecl motor_system_event(long, c_motor_task*, e_motor_event)
 //.text:00B745E0 ; bool __cdecl motor_system_finished(long, c_motor_task*, c_animation_channel*)
@@ -55,8 +55,8 @@ bool c_motor_task::valid() const
 }
 
 c_motor_request::c_motor_request() :
-	__unknown0(0),
-	__unknown1(0),
+	m_initialized(false),
+	m_force(false),
 	m_task(),
 	m_action(),
 	m_storage()
@@ -68,6 +68,6 @@ void c_motor_request::setup_force_airborne(e_action action)
 	m_task = 7;
 	m_action = action;
 
-	__unknown0 = 1;
+	m_initialized = true;
 }
 
