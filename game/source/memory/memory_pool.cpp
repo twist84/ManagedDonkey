@@ -2,17 +2,17 @@
 
 struct s_memory_pool_block_header
 {
-	long __unknown0;
-	long __unknown4;
-	const char* __unknown8;
-	long __unknownC;
+	dword header_signature;
+	const char* file;
+	long line;
+	long timestamp;
 };
 static_assert(sizeof(s_memory_pool_block_header) == 0x10);
 
 struct s_memory_pool_block
 {
-	dword size;
-	byte __data4[0x4];
+	long size;
+	long reference_value;
 	long next_block_handle;
 	long previous_block_handle;
 };
@@ -26,9 +26,9 @@ dword memory_pool_handle_from_address(s_memory_pool const* pool, void const* poi
 	return pointer_distance(pool, pointer);
 }
 
-long __cdecl sub_969DB0(long a1)
+long __cdecl memory_pool_block_handle_from_payload_handle(long payload_handle)
 {
-	return INVOKE(0x00969DB0, sub_969DB0, a1);
+	return INVOKE(0x00969DB0, memory_pool_block_handle_from_payload_handle, payload_handle);
 }
 
 void* __cdecl memory_pool_get_address(s_memory_pool const* memory_pool, long payload_handle)
@@ -50,7 +50,7 @@ s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool const* pool, lo
 	ASSERT(payload_handle);
 
 	//memory_pool_verify(pool);
-	s_memory_pool_block* block = memory_pool_get_block(pool, sub_969DB0(payload_handle));
+	s_memory_pool_block* block = memory_pool_get_block(pool, memory_pool_block_handle_from_payload_handle(payload_handle));
 	//ASSERT(memory_pool_block_valid(pool, block));
 
 	//s_memory_pool_block* other_block = NULL;

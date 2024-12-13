@@ -46,6 +46,15 @@ void __cdecl data_connect(s_data_array* data, long count, void* datums)
 	//ASSERT(data->in_use_bit_vector);
 }
 
+void __cdecl data_copy(s_data_array const* src, s_data_array* dst)
+{
+	INVOKE(0x0055ABE0, data_copy, src, dst);
+
+	//ASSERT(src->size == dst->size);
+	//ASSERT(src->maximum_count == dst->maximum_count);
+	//ASSERT(data->valid);
+}
+
 void __cdecl data_delete_all(s_data_array* data)
 {
 	INVOKE(0x0055ABF0, data_delete_all, data);

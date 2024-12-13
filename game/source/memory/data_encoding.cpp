@@ -17,26 +17,23 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* data,
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 
 	long size = 0;
-	if ((code + 8) <= 9)
+	switch (code)
 	{
-		switch (code)
-		{
-		case _8byte:
-			size = 8 * count;
-			break;
-		case _4byte:
-			size = 4 * count;
-			break;
-		case _2byte:
-			size = 2 * count;
-			break;
-		case _1byte:
-			size = count;
-			break;
-		default:
-			throw; // halt()
-			break;
-		}
+	case _8byte:
+		size = 8 * count;
+		break;
+	case _4byte:
+		size = 4 * count;
+		break;
+	case _2byte:
+		size = 2 * count;
+		break;
+	case _1byte:
+		size = count;
+		break;
+	default:
+		throw; // halt()
+		break;
 	}
 
 	if (state->offset + size > state->buffer_size || state->overflow_flag)
@@ -51,9 +48,9 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* data,
 		else
 			csmemset(memory, 0, size);
 
-		// #TODO: add and implement byte-swap function
+		// #TODO: add `byte_swap_memory`
 		//if (code != _1byte)
-		//	_data_encode_memory((unsigned int*)memory, count, code);
+		//	byte_swap_memory((unsigned int*)memory, count, code);
 
 		state->offset += size;
 	}

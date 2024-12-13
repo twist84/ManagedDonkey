@@ -111,6 +111,7 @@ static_assert(sizeof(s_data_array) == 0x54);
 extern void data_verify(s_data_array const* data);
 extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
+extern void __cdecl data_copy(s_data_array const* src, s_data_array* dst);
 extern void __cdecl data_delete_all(s_data_array* data);
 extern void __cdecl data_disconnect(s_data_array* data);
 extern void __cdecl data_dispose(s_data_array* data);

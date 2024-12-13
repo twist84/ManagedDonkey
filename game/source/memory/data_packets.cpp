@@ -4,7 +4,7 @@
 #include "memory/data_encoding.hpp"
 #include "memory/data_packet_groups.hpp"
 
-void __cdecl _data_packet_verify(data_packet_definition* packet_definition, short*, struct data_packet_field*, short*)
+void __cdecl _data_packet_verify(data_packet_definition* packet_definition, short* byte_count_reference, struct data_packet_field* first_field, short* field_count_reference)
 {
 	// #TODO: implement me!
 }
@@ -34,7 +34,7 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 	}
 }
 
-void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data_encoding_state* state, short version, void* data, short* a5, data_packet_field* fields, short* a6)
+void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data_encoding_state* encode_state, short version, void* original_buffer, short* byte_count_reference, data_packet_field* first_field, short* field_count_reference)
 {
 	// #TODO: implement me!
 }

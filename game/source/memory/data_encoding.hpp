@@ -1,14 +1,16 @@
 #pragma once
 
-#define _1byte  1
-#define _2byte -2
-#define _4byte -4
-#define _8byte -8
-#define _begin_bs_array -100
-#define _end_bs_array -101
-#define _extern_bs_definition -102
-
-#define BYTE_SWAP_DEFINITION_SIGNATURE 'bysw'
+enum e_byte_swap_code_constant
+{
+	_1byte = 1,
+	_2byte = -2,
+	_4byte = -4,
+	_8byte = -8,
+	_begin_bs_array = -100,
+	_end_bs_array = -101,
+	_extern_bs_definition = -102,
+	BYTE_SWAP_DEFINITION_SIGNATURE = 'bysw',
+};
 
 struct data_encoding_state
 {
