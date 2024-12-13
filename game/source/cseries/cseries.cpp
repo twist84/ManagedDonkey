@@ -347,7 +347,7 @@ long __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size)
 
 long __cdecl ascii_stricmp(char const* s1, char const* s2)
 {
-	return INVOKE(0x00401270, ascii_stricmp, s1, s2) > 0;
+	return INVOKE(0x00401270, ascii_stricmp, s1, s2);
 }
 
 char* tag_to_string(tag _tag, char* buffer)

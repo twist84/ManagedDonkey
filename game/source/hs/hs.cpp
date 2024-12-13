@@ -136,7 +136,7 @@ short __cdecl hs_find_script_by_name(char const* name, short num_arguments)
 		for (long script_index = 0; script_index < scripts.count; script_index++)
 		{
 			hs_script& script = scripts[script_index];
-			if (ascii_stricmp(name, script.name) != 0 && num_arguments == NONE || num_arguments == script.parameters.count)
+			if (ascii_stricmp(name, script.name) == 0 && num_arguments == NONE || num_arguments == script.parameters.count)
 				return static_cast<short>(script_index);
 		}
 	}
@@ -227,7 +227,7 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count); parameter_index++)
 	{
 		hs_script_parameter& parameter = script.parameters[parameter_index];
-		if (ascii_stricmp(name, parameter.name) != 0)
+		if (ascii_stricmp(name, parameter.name) == 0)
 			return parameter_index;
 	}
 
@@ -269,7 +269,7 @@ short hs_find_global_by_name(char const* name)
 		for (short global_index = 0; global_index < static_cast<short>(globals.count); global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
-			if (ascii_stricmp(name, global_internal.name) != 0)
+			if (ascii_stricmp(name, global_internal.name) == 0)
 				return global_index & 0x7FFF;
 		}
 	}
