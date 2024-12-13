@@ -790,3 +790,8 @@ bool point_intersects_rectangle2d(real_point2d const* point, real_rectangle2d co
 	return point->x >= rect->x0 && rect->x1 >= point->x && point->y >= rect->y0 && rect->y1 >= point->y;
 }
 
+bool point_in_sphere(real_point3d const* point, real_point3d const* center, real radius)
+{
+	return radius * radius > distance_squared3d(point, center);
+}
+

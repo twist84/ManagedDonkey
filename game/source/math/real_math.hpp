@@ -508,4 +508,5 @@ extern real_vector3d* __cdecl set_real_vector3d(real_vector3d* vector, real i, r
 extern real_vector4d* __cdecl set_real_vector4d(real_vector4d* result, real i, real j, real k, real l);
 
 extern bool point_intersects_rectangle2d(real_point2d const* point, real_rectangle2d const* rect);
+extern bool point_in_sphere(real_point3d const* point, real_point3d const* center, real radius);
 
