@@ -111,9 +111,19 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 //.text:00B39EC0 ; voic __cdecl unit_apply_predicted_weapon_state(long, long)
 //.text:00B39F60 ; void __cdecl unit_build_unit_interface_state(long, unit_interface_state*)
 //.text:00B3A040 ; bool __cdecl unit_calculate_is_in_illegal_position(long)
-//.text:00B3A170 ; bool __cdecl unit_can_access_object(long, long)
+
+bool __cdecl unit_can_access_object(long unit_index, long object_index)
+{
+	return INVOKE(0x00B3A170, unit_can_access_object, unit_index, object_index);
+}
+
 //.text:00B3A660 ; bool __cdecl unit_can_enter_seat(long, long, short, long*, bool*, bool*)
-//.text:00B3AAA0 ; bool __cdecl unit_can_pickup_equipment(long, long)
+
+bool __cdecl unit_can_pickup_equipment(long unit_index, long equipment_index)
+{
+	return INVOKE(0x00B3AAA0, unit_can_pickup_equipment, unit_index, equipment_index);
+}
+
 //.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(long, long, e_weapon_addition_method, unit_weapon_pickup_result*)
 //.text:00B3B190 ; bool __cdecl unit_can_see_point(long, real_point3d const*, real)
 //.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(long, long, short, real_point3d const*, real_vector3d const*)
@@ -264,7 +274,12 @@ void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
 }
 
 //.text:00B43BB0 ; long __cdecl unit_get_current_backpack_weapon(long)
-//.text:00B43C20 ; long __cdecl unit_get_current_equipment(long, long)
+
+long __cdecl unit_get_current_equipment(long unit_index, long equipment_slot_index)
+{
+	return INVOKE(0x00B43C20, unit_get_current_equipment, unit_index, equipment_slot_index);
+}
+
 //.text:00B43C70 ; 
 //.text:00B43D20 ; short __cdecl unit_get_current_grenade_type(long)
 //.text:00B43D50 ; long __cdecl unit_get_current_or_last_weak_player_index(long)

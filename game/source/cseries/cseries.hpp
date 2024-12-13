@@ -1531,6 +1531,24 @@ public:
 };
 static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
+struct c_word_quantized_position
+{
+	word m_position[3];
+};
+static_assert(sizeof(c_word_quantized_position) == 0x6);
+
+struct c_dword_unit_vector
+{
+	dword m_vector;
+};
+static_assert(sizeof(c_dword_unit_vector) == 0x4);
+
+struct c_short_quaternion
+{
+	short m_quaternion[4];
+};
+static_assert(sizeof(c_short_quaternion) == 0x8);
+
 extern __int64 make_int64(long low, long high);
 
 // IDA

@@ -169,7 +169,7 @@ struct s_player_interaction
 		{
 			byte_flags pick_up_flags;
 		} pick_up_weapon;
-	};
+	} data;
 
 	long object_index;
 };

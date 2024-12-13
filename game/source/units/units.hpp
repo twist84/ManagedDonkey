@@ -412,6 +412,8 @@ extern bool __cdecl unit_add_grenade_to_inventory(long unit_index, long object_i
 extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_type, short grenade_count);
 extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new);
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
+extern bool __cdecl unit_can_access_object(long unit_index, long object_index);
+extern bool __cdecl unit_can_pickup_equipment(long unit_index, long equipment_index);
 extern void __cdecl unit_control(long unit_index, unit_control_data const* control_data);
 extern void __cdecl unit_debug_ninja_rope(long unit_index);
 extern bool __cdecl unit_get_acceleration_origin_and_data(long unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);
@@ -422,6 +424,7 @@ extern long __cdecl unit_get_aiming_unit_index(long unit_index);
 extern void __cdecl unit_get_aiming_vector(long unit_index, real_vector3d* aiming_vector);
 extern short __cdecl unit_get_all_seats(long unit_index, unit_seat_source* sources, short maximum_source_count, bool a4);
 extern void __cdecl unit_get_camera_position(long unit_index, real_point3d* position);
+extern long __cdecl unit_get_current_equipment(long unit_index, long equipment_slot_index);
 extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
 extern void __cdecl unit_get_head_position(long unit_index, real_point3d* position);
 extern short __cdecl unit_get_zoom_level(long unit_index);
