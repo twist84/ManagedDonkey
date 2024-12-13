@@ -6,6 +6,8 @@
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/interface_constants.hpp"
+#include "items/equipment.hpp"
+#include "items/weapons.hpp"
 #include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -17,6 +19,7 @@
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
+HOOK_DECLARE(0x00539B20, player_find_action_context);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 HOOK_DECLARE_CLASS_MEMBER(0x00B26390, s_emblem_info, decode);
 HOOK_DECLARE_CLASS_MEMBER(0x00B267B0, s_emblem_info, encode);
@@ -229,7 +232,12 @@ void players_debug_render()
 //.text:005375B0 ; long __cdecl find_best_starting_location_index(long, bool, bool)
 //.text:00537860 ; void __cdecl map_editor_process_player_control(long, s_player_action*)
 //.text:005379E0 ; void __cdecl player_action_clear(s_player_action*)
-//.text:00537A50 ; void __cdecl player_action_context_clear(s_player_action_context*)
+
+void __cdecl player_action_context_clear(s_player_action_context* action_context)
+{
+	INVOKE(0x00537A50, player_action_context_clear, action_context);
+}
+
 //.text:00537A80 ; bool __cdecl player_action_context_valid(s_player_action_context const*)
 //.text:00537AB0 ; bool __cdecl player_action_valid(s_player_action const*)
 //.text:00537C90 ; 
@@ -247,11 +255,32 @@ void players_debug_render()
 //.text:005386D0 ; bool __cdecl sub_5386D0(player_datum*)
 //.text:00538730 ; void __cdecl player_clear_assassination_state(long)
 //.text:005387A0 ; void __cdecl player_configuration_initialize(s_player_configuration*)
-//.text:005387F0 ; bool __cdecl player_consider_biped_interaction(long, long, s_player_interaction*)
-//.text:005388D0 ; bool __cdecl player_consider_device_interaction(long, long, s_player_interaction*)
-//.text:005389E0 ; bool __cdecl player_consider_unit_seat_interaction(long, long, s_player_interaction*)
-//.text:00538B10 ; bool __cdecl player_consider_vehicle_interaction(long, long, s_player_interaction*)
-//.text:00538D00 ; bool __cdecl player_consider_weapon_interaction(long, long, s_player_interaction*)
+
+bool __cdecl player_consider_biped_interaction(long player_index, long biped_index, s_player_action_context* result)
+{
+	return INVOKE(0x005387F0, player_consider_biped_interaction, player_index, biped_index, result);
+}
+
+bool __cdecl player_consider_device_interaction(long player_index, long device_index, s_player_action_context* result)
+{
+	return INVOKE(0x005388D0, player_consider_device_interaction, player_index, device_index, result);
+}
+
+bool __cdecl player_consider_unit_interaction(long player_index, long unit_index, s_player_action_context* result)
+{
+	return INVOKE(0x005389E0, player_consider_unit_interaction, player_index, unit_index, result);
+}
+
+bool __cdecl player_consider_vehicle_interaction(long player_index, long vehicle_index, s_player_action_context* result)
+{
+	return INVOKE(0x00538B10, player_consider_vehicle_interaction, player_index, vehicle_index, result);
+}
+
+bool __cdecl player_consider_weapon_interaction(long player_index, long weapon_index, s_player_action_context* result)
+{
+	return INVOKE(0x00538D00, player_consider_weapon_interaction, player_index, weapon_index, result);
+}
+
 //.text:00538ED0 ; void __cdecl player_copy_object_appearance(long, long)
 //.text:00538FD0 ; void __cdecl sub_538FD0(long, long)
 
@@ -275,12 +304,105 @@ void __cdecl player_delete(long player_index)
 //.text:005391D0 ; void __cdecl player_died_update_for_multiplayer(long)
 //.text:00539210 ; 
 //.text:00539220 ; 
-//.text:00539240 ; bool __cdecl player_evaluate_interaction(long, s_player_interaction const*, s_player_interaction*)
+
+bool __cdecl player_evaluate_interaction(long player_index, s_player_interaction const* interaction, s_player_interaction* current_interaction)
+{
+	return INVOKE(0x00539240, player_evaluate_interaction, player_index, interaction, current_interaction);
+}
+
 //.text:005392F0 ; real __cdecl player_evaluate_interaction_compute_weight(long, long)
 //.text:005394A0 ; void __cdecl player_examine_nearby_item(long, long)
 //.text:00539900 ; void __cdecl player_examine_nearby_objects(long)
 //.text:00539A30 ; bool __cdecl player_fancy_assassinate_object(long, long)
-//.text:00539B20 ; void __cdecl player_find_action_context(long, s_player_action_context*)
+
+void __cdecl player_find_action_context(long player_index, s_player_action_context* out_action_context)
+{
+	//INVOKE(0x00539B20, player_find_action_context, player_index, out_action_context);
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+
+	player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+
+	player_action_context_clear(out_action_context);
+
+	if (player->unit_index == NONE)
+		return;
+
+	unit_datum* unit = unit_get(player->unit_index);
+	if (unit->object.parent_object_index != NONE && !TEST_BIT(player->flags, _player_unknown_bit14))
+		return;
+
+	s_location location{};
+	object_get_location(player->unit_index, &location);
+
+	real search_radius = (unit->object.bounding_sphere_radius + 0.4f) + 0.1f;
+
+	long object_indices[64]{};
+	long object_count = objects_in_sphere(
+		0,
+		0x2BBF,
+		&location,
+		&unit->object.bounding_sphere_center,
+		search_radius,
+		object_indices,
+		NUMBEROF(object_indices));
+
+	long index = 0;
+	for (long index = 0; index < object_count; index++)
+	{
+		object_datum* object = object_get(object_indices[index]);
+		e_object_type object_type = object->object.object_identifier.get_type();
+
+		if (TEST_BIT(0x1440, object_type))
+			continue;
+
+		bool search_children = false;
+
+		if (!TEST_BIT(0x304, object_type) || point_in_sphere(&object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + object->object.bounding_sphere_radius))
+		{
+			switch (object_type)
+			{
+			case _object_type_biped:
+				player_consider_biped_interaction(player_index, object_indices[index], out_action_context);
+				break;
+			case _object_type_vehicle:
+				player_consider_vehicle_interaction(player_index, object_indices[index], out_action_context);
+				search_children = true;
+				break;
+			case _object_type_weapon:
+				player_consider_weapon_interaction(player_index, object_indices[index], out_action_context);
+				break;
+			case _object_type_equipment:
+				break;
+			case _object_type_arg_device:
+			case _object_type_terminal:
+			case _object_type_control:
+				player_consider_device_interaction(player_index, object_indices[index], out_action_context);
+				break;
+			default:
+				search_children = true;
+				break;
+			}
+
+			if (search_children)
+			{
+				object_datum* child_object = NULL;
+
+				for (long child_object_index = object->object.first_child_object_index;
+					child_object_index != NONE && object_count < NUMBEROF(object_indices);
+					child_object_index = child_object->object.next_object_index)
+				{
+					child_object = object_get(child_object_index);
+					object_indices[object_count++] = child_object_index;
+				}
+			}
+
+			if (TEST_MASK(_object_mask_unit, object_type))
+				player_consider_unit_interaction(player_index, object_indices[index], out_action_context);
+		}
+	}
+}
+
 //.text:00539E30 ; bool __cdecl player_find_best_spawn_location(long, real_point3d*, real*, real*, bool, bool)
 //.text:00539F70 ; void __cdecl player_find_player_character_unit_and_variant_info(long, long*, long*)
 //.text:0053A010 ; bool __cdecl player_find_zone_set_switches(long, long*)

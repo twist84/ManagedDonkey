@@ -712,12 +712,21 @@ protected:
 };
 
 struct s_player_interaction;
+struct s_player_action_context;
 
 extern string_id g_player_desired_mode_override;
 extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
+extern void __cdecl player_action_context_clear(s_player_action_context* action_context);
+extern bool __cdecl player_consider_biped_interaction(long player_index, long biped_index, s_player_action_context* result);
+extern bool __cdecl player_consider_device_interaction(long player_index, long device_index, s_player_action_context* result);
+extern bool __cdecl player_consider_unit_interaction(long player_index, long unit_index, s_player_action_context* result);
+extern bool __cdecl player_consider_vehicle_interaction(long player_index, long vehicle_index, s_player_action_context* result);
+extern bool __cdecl player_consider_weapon_interaction(long player_index, long weapon_index, s_player_action_context* result);
 extern void __cdecl player_delete(long player_index);
+extern bool __cdecl player_evaluate_interaction(long player_index, s_player_interaction const* interaction, s_player_interaction* current_interaction);
+extern void __cdecl player_find_action_context(long player_index, s_player_action_context* out_action_context);
 extern long __cdecl player_index_from_unit_index(long unit_index);
 extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
 extern bool __cdecl player_is_local(long player_index);
