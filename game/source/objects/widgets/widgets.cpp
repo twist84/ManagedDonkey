@@ -18,10 +18,10 @@
 //.text:00B9F480 ; long __cdecl object_get_first_widget(long)
 //.text:00B9F4B0 ; 
 //.text:00B9F4F0 ; public: void __cdecl c_short_quaternion::set_real_matrix4x3(real_matrix4x3 const*)
-//.text:00B9F570 ; 
+//.text:00B9F570 ; public: void __cdecl c_word_quantized_position::set_real_point3d(real_rectangle3d const*, real_point3d const*)
 //.text:00B9F670 ; public: void __cdecl c_short_quaternion::set_real_quaternion(real_quaternion*)
 //.text:00B9F6E0 ; public: void __cdecl c_dword_unit_vector::set_real_vector3d(real_vector3d const*)
-//.text:00B9F700 ; 
+//.text:00B9F700 ; short __cdecl tag_group_to_widget_type(dword)
 //.text:00B9F730 ; void __cdecl widget_delete_type_datum(long, long, bool)
 //.text:00B9F830 ; long __cdecl widget_get_next_widget(long)
 //.text:00B9F860 ; void __cdecl widget_get_type_data(long, long*, long*)
