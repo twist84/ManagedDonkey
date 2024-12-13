@@ -63,30 +63,13 @@ char const* __cdecl object_type_get_name(e_object_type object_type)
 //.text:00B73E40 ; void __cdecl object_type_postprocess_node_matrices(long, long, real_matrix4x3*)
 //.text:00B73ED0 ; void __cdecl object_type_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)
 //.text:00B73F60 ; void __cdecl object_type_preprocess_root_node_matrix(long, real_matrix4x3*)
-//.text:00B73FE0 ; 
-//.text:00B73FF0 ; void __cdecl object_type_reset(long)
-//.text:00B74070 ; 
-//.text:00B74080 ; void __cdecl object_type_unplace(long)
-//.text:00B740F0 ; bool __cdecl object_type_update(long)
-//.text:00B741C0 ; void __cdecl object_types_dispose()
-//.text:00B741F0 ; void __cdecl object_types_dispose_from_old_map()
-//.text:00B74220 ; short __cdecl object_types_get_maximum_datum_size()
-//.text:00B742B0 ; void __cdecl object_types_initialize()
-//.text:00B74480 ; void __cdecl object_types_initialize_for_new_map()
 
-void render_debug_objects()
+void __cdecl object_type_render_debug(long object_index)
 {
-    if (!debug_objects)
+    //INVOKE(0x00B73FE0, object_type_render_debug, object_index);
+
+    if (!should_render_debug_object(object_index))
         return;
-
-    render_visible_objects_iterate(object_type_render_debug);
-    render_invisible_objects_iterate(object_type_render_debug);
-}
-
-void object_type_render_debug(long object_index)
-{
-	if (!should_render_debug_object(object_index))
-		return;
 
     object_datum* object = object_get(object_index);
     if (!object)
@@ -104,6 +87,26 @@ void object_type_render_debug(long object_index)
 
     for (long child_object_index = object->object.first_child_object_index; child_object_index != NONE; child_object_index = object_get(child_object_index)->object.next_object_index)
         object_type_render_debug(child_object_index);
+}
+
+
+//.text:00B73FF0 ; void __cdecl object_type_reset(long)
+//.text:00B74070 ; e_object_type __cdecl object_type_search_from_name(char const*)
+//.text:00B74080 ; void __cdecl object_type_unplace(long)
+//.text:00B740F0 ; bool __cdecl object_type_update(long)
+//.text:00B741C0 ; void __cdecl object_types_dispose()
+//.text:00B741F0 ; void __cdecl object_types_dispose_from_old_map()
+//.text:00B74220 ; short __cdecl object_types_get_maximum_datum_size()
+//.text:00B742B0 ; void __cdecl object_types_initialize()
+//.text:00B74480 ; void __cdecl object_types_initialize_for_new_map()
+
+void render_debug_objects()
+{
+    if (!debug_objects)
+        return;
+
+    render_visible_objects_iterate(object_type_render_debug);
+    render_invisible_objects_iterate(object_type_render_debug);
 }
 
 bool should_render_debug_object(long object_index)

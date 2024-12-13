@@ -198,8 +198,8 @@ void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center,
 //.text:00B27540 ; 
 //.text:00B27580 ; 
 //.text:00B275D0 ; 
-//.text:00B27630 ; 
-//.text:00B276D0 ; 
+//.text:00B27630 ; real __cdecl attachment_get_primary_scale(long, long)
+//.text:00B276D0 ; real __cdecl attachment_get_secondary_scale(long, long)
 //.text:00B27770 ; void __cdecl attachments_delete(long)
 //.text:00B27820 ; void __cdecl attachments_model_state_changed(long)
 //.text:00B278A0 ; void __cdecl attachments_new(long)
@@ -247,7 +247,7 @@ long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index,
 	return INVOKE(0x00B27EE0, cluster_get_first_collideable_object_and_payload, datum_index, cluster_reference, payload);
 }
 
-//.text:00B27F10 ; 
+//.text:00B27F10 ; long __cdecl cluster_get_first_noncollideable_object(long*, s_cluster_reference)
 
 long __cdecl cluster_get_first_noncollideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
 {
@@ -264,7 +264,7 @@ long __cdecl cluster_get_next_collideable_object_and_payload(long* datum_index, 
 	return INVOKE(0x00B27FA0, cluster_get_next_collideable_object_and_payload, datum_index, payload);
 }
 
-//.text:00B27FD0 
+//.text:00B27FD0 ; long __cdecl cluster_get_next_noncollideable_object(long*)
 
 long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload)
 {
@@ -428,7 +428,7 @@ long c_object_identifier::get_unique_id_direct() const
 //.text:00B28ED0 ; void __cdecl handle_object_render_message(s_object_render_thread_message*, long)
 //.text:00B28F50 ; 
 //.text:00B28F70 ; 
-//.text:00B28F90 ; 
+//.text:00B28F90 ; void __cdecl hs_object_definition_predict_all(long)
 //.text:00B28FA0 ; void __cdecl hs_object_definition_predict_low(long)
 //.text:00B28FB0 ; void __cdecl internal_object_compute_animated_node_orientations(long, real, render_model_definition const*, c_animation_manager*, c_static_flags<256> const*, long, real_orientation*, bool)
 //.text:00B29080 ; short __cdecl internal_object_get_markers_by_string_id(long, long, object_marker*, short, bool)
@@ -459,14 +459,14 @@ void __cdecl object_activate(long object_index)
 	INVOKE(0x00B29440, object_activate, object_index);
 }
 
-//.text:00B294C0 ; 
+//.text:00B294C0 ; void __cdecl object_add_to_list(long*, long)
 
 void __cdecl object_adjust_garbage_timer(long object_index, long time)
 {
 	INVOKE(0x00B29500, object_adjust_garbage_timer, object_index, time);
 }
 
-//.text:00B29540 ; 
+//.text:00B29540 ; void __cdecl object_adjust_node_matrices(long, long, real_matrix4x3*)
 //.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(long, real_vector3d const*, real_vector3d const*)
 //.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
 //.text:00B29720 ; void __cdecl object_align_marker_to_matrix(long, object_marker const*, real_matrix4x3 const*)
@@ -478,7 +478,7 @@ void __cdecl object_adjust_garbage_timer(long object_index, long time)
 //.text:00B29FD0 ; void __cdecl object_attach_to_marker_immediate(long, long, long, long)
 //.text:00B2A250 ; void __cdecl object_attach_to_node(long, long, short)
 //.text:00B2A2B0 ; void __cdecl object_attach_to_node_immediate(long, long, short)
-//.text:00B2A700 ; 
+//.text:00B2A700 ; real __cdecl object_bouding_sphere_within_tolerance(real_point3d const*, real, real_point3d const*, real, real)
 
 bool __cdecl object_can_be_melee_instant_killed(long object_index)
 {
@@ -559,7 +559,7 @@ bool __cdecl object_custom_animations_hold_on_last_frame()
 	return INVOKE(0x00B2CBA0, object_custom_animations_hold_on_last_frame);
 }
 
-//.text:00B2CBC0 ; 
+//.text:00B2CBC0 ; bool __cdecl object_custom_animations_prevent_lipsync_head_movement()
 
 //void __cdecl object_deactivate(long object_index)
 //{
@@ -573,8 +573,8 @@ bool __cdecl object_custom_animations_hold_on_last_frame()
 //	INVOKE(0x00B2CC00, object_deactivate, object_index, a2);
 //}
 
-//.text:00B2CCE0 ; 
-//.text:00B2CCF0 ; 
+//.text:00B2CCE0 ; bool __cdecl object_definition_predict(long, bool)
+//.text:00B2CCF0 ; bool __cdecl object_definition_predict_all(long)
 
 bool __cdecl object_definition_predict_low(long object_definition_index)
 {
@@ -710,6 +710,17 @@ bool __cdecl object_get_function_value(long object_index, long function_name, lo
 {
 	return INVOKE(0x00B2E030, object_get_function_value, object_index, function_name, object_definition_index, out_function_magnitude);
 }
+
+//.text:00B2E1A0 ; real __cdecl object_get_function_value_simple(long, long, long)
+//.text:00B2E1E0 ; short __cdecl object_get_local_markers_by_string_id(long, long, object_marker*, short)
+//.text:00B2E200 ; bool __cdecl object_get_localized_velocities(long, real_vector3d*, real_vector3d*, real_vector3d*, real_vector3d*)
+
+s_location* __cdecl object_get_location(long object_index, s_location* location)
+{
+	return INVOKE(0x00B2E2F0, object_get_location, object_index, location);
+}
+
+//.text:00B2E330 ; long __cdecl object_get_marker_object(long)
 
 short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count)
 {
@@ -860,12 +871,12 @@ e_object_type c_object_identifier::get_type() const
 
 long c_object_iterator_base::get_index()
 {
-	return m_index;
+	return m_iterator.index;
 }
 
-void c_object_iterator_base::object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index)
+void c_object_iterator_base::object_iterator_begin_internal(dword_flags type_flags, dword header_flags, dword iteration_match_flags, long next_absolute_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00B2F4B0, c_object_iterator_base, object_iterator_begin_internal, type_flags, header_mask, match_flags, object_index);
+	return INVOKE_CLASS_MEMBER(0x00B2F4B0, c_object_iterator_base, object_iterator_begin_internal, type_flags, header_flags, iteration_match_flags, next_absolute_index);
 }
 
 bool c_object_iterator_base::object_iterator_next_internal()
@@ -880,7 +891,7 @@ bool c_object_iterator_base::object_iterator_next_with_match_flags_internal()
 
 object_datum* c_object_iterator_base::get_datum_internal()
 {
-	return m_datum;
+	return m_object;
 }
 
 long __cdecl object_list_children_by_definition(long object_index, long definition_index)
@@ -1108,7 +1119,7 @@ void __cdecl object_notify_in_local_physics_object(long object_index, long local
 
 //.text:00B312F0 ; void __cdecl object_offset_interpolation(long, real_vector3d const*)
 //.text:00B31380 ; bool __cdecl object_owns_object(long, long)
-//.text:00B313E0 ; 
+//.text:00B313E0 ; void __cdecl object_physics_dynamic_force(long, bool)
 
 void __cdecl object_place(long object_index, s_scenario_object const* scenario_object)
 {
@@ -1289,7 +1300,7 @@ void __cdecl object_render_debug(long object_index)
 	object_render_debug_internal(object_index);
 }
 
-//.text:00B32140 ; 
+//.text:00B32140 ; bool __cdecl object_report_creation_failure(long, char const*)
 
 void __cdecl object_reset(long object_index)
 {
@@ -1311,8 +1322,8 @@ void __cdecl object_resurrect(long object_index)
 	INVOKE(0x00B32400, object_resurrect, object_index);
 }
 
-//.text:00B324A0 ; object_reverse_compute_node_orientations_from_matrices, 2 args
-//.text:00B32540 ; object_reverse_compute_node_orientations_from_matrices, 5 args
+//.text:00B324A0 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(long, c_static_flags<256> const*)
+//.text:00B32540 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(long, c_static_flags<256> const*, render_model_definition const*, long, real_orientation*)
 
 void __cdecl object_set_always_active(long object_index, bool always_active)
 {
@@ -1498,7 +1509,7 @@ bool __cdecl object_set_position_internal(long object_index, real_point3d const*
 }
 
 //.text:00B33830 ; void __cdecl object_set_region_permutation_direct(long, long, long, bool)
-//.text:00B33960 ; 
+//.text:00B33960 ; void __cdecl object_set_region_state(long, long, byte const*)
 //.text:00B339E0 ; 
 
 void __cdecl object_set_requires_motion(long object_index)
@@ -1512,7 +1523,7 @@ void __cdecl object_set_requires_motion(long object_index)
 //.text:00B33E20 ; void __cdecl object_set_scenario_permutation(long, s_scenario_object_permutation*)
 //.text:00B33E30 ; void __cdecl object_set_shadowless(long, bool)
 //.text:00B33E90 ; void __cdecl object_set_shield_stun(long, long)
-//.text:00B33EE0 ; 
+//.text:00B33EE0 ; void __cdecl object_set_shield_vitality(long, real, bool, short, bool)
 //.text:00B33F80 ; void __cdecl object_set_sync_action(long, long, long)
 //.text:00B33FC0 ; void __cdecl object_set_variant_direct(long, long)
 
@@ -1523,7 +1534,7 @@ void __cdecl object_set_velocities(long object_index, real_vector3d const* linea
 
 //.text:00B34130 ; void __cdecl object_set_velocities_direct(long, real_vector3d const*, real_vector3d const*)
 //.text:00B341E0 ; void __cdecl object_set_velocities_internal(long, real_vector3d const*, real_vector3d const*, bool)
-//.text:00B34280 ; 
+//.text:00B34280 ; void __cdecl object_set_vision_mode_render_default(long, bool)
 //.text:00B342D0 ; bool __cdecl object_should_be_active(long, s_game_cluster_bit_vectors const*)
 //.text:00B34380 ; bool __cdecl object_should_be_deleted_when_deactivated(long)
 //.text:00B343D0 ; bool __cdecl object_start_interpolation(long, real)
@@ -1560,7 +1571,7 @@ void __cdecl object_update_collision_culling(long object_index)
 	INVOKE(0x00B347F0, object_update_collision_culling, object_index);
 }
 
-//.text:00B34870 ; 
+//.text:00B34870 ; object_update_collision_?
 
 void __cdecl object_update_visibility_culling(long object_index)
 {
@@ -1668,7 +1679,11 @@ void __cdecl objects_handle_deleted_player(long object_index)
 }
 
 //.text:00B35990 ; long __cdecl objects_in_clusters_by_indices(dword, bool, c_flags<e_object_collision_cull_flag, word, 13>, long, s_cluster_reference const*, long, long*)
-//.text:00B35B60 ; long __cdecl objects_in_sphere(dword, dword, s_location const*, real_point3d const*, real, long*, long)
+
+long __cdecl objects_in_sphere(dword class_flags, dword type_flags, s_location const* location, real_point3d const* center, real radius, long* object_indices, long maximum_count)
+{
+	return INVOKE(0x00B35B60, objects_in_sphere, class_flags, type_flags, location, center, radius, object_indices, maximum_count);
+}
 
 void __cdecl objects_information_get(objects_information* objects_information_out)
 {

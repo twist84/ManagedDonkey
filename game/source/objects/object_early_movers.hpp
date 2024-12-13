@@ -56,8 +56,8 @@ static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
 
 struct s_object_early_mover_obb
 {
-	real_rectangle3d bounds;
-	real_matrix4x3 matrix;
+	real_rectangle3d aabb;
+	real_matrix4x3 transform;
 };
 static_assert(sizeof(s_object_early_mover_obb) == 0x4C);
 

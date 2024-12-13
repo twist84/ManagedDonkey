@@ -79,24 +79,24 @@
 //.text:00B9D740 ; void __cdecl light_submit_lens_flares(long, long)
 //.text:00B9D920 ; bool __cdecl light_theoretically_produces_light(long, long)
 //.text:00B9DAE0 ; bool __cdecl light_unmarked(long)
-//.text:00B9DB10 ; 
-//.text:00B9DEC0 ; 
+//.text:00B9DB10 ; void __cdecl light_update_bounding_sphere(long)
+//.text:00B9DEC0 ; bool __cdecl light_update_from_scenario(long)
 //.text:00B9DF80 ; void __cdecl light_update_state(long)
-//.text:00B9E370 ; 
+//.text:00B9E370 ; void __cdecl lights_add_structure_bsp_marker_lights(long)
 //.text:00B9E450 ; void __cdecl lights_delete_all()
-//.text:00B9E4C0 ; 
-//.text:00B9E4E0 ; 
-//.text:00B9E510 ; 
-//.text:00B9E5D0 ; 
-//.text:00B9E650 ; 
-//.text:00B9E670 ; 
-//.text:00B9E690 ; 
+//.text:00B9E4C0 ; void __cdecl lights_dispose()
+//.text:00B9E4E0 ; void __cdecl lights_dispose_from_old_map()
+//.text:00B9E510 ; void __cdecl lights_dispose_from_old_structure_bsp(dword)
+//.text:00B9E5D0 ; void __cdecl lights_dispose_structure_bsp_marker_lights(long)
+//.text:00B9E650 ; bool __cdecl lights_enable(bool)
+//.text:00B9E670 ; s_data_array* __cdecl lights_get_data_array()
+//.text:00B9E690 ; bool __cdecl light_is_static_light(long)
 //.text:00B9E740 ; void __cdecl lights_handle_deleted_object(long)
 //.text:00B9E7D0 ; void __cdecl lights_initialize()
 //.text:00B9E8C0 ; void __cdecl lights_initialize_for_new_map()
 //.text:00B9E920 ; void __cdecl lights_initialize_for_new_structure_bsp(dword)
-//.text:00B9E9B0 ; 
-//.text:00B9E9D0 ; 
+//.text:00B9E9B0 ; long __cdecl lights_iterate_first_index()
+//.text:00B9E9D0 ; long __cdecl lights_iterate_next_index(long)
 //.text:00B9EA00 ; void __cdecl lights_place(long)
 
 void __cdecl lights_prepare_for_window(long player_window_index)
@@ -118,7 +118,7 @@ void __cdecl lights_update()
 //.text:00B9EE10 ; 
 //.text:00B9EE50 ; 
 //.text:00B9EE90 ; 
-//.text:00B9EED0 ; 
+//.text:00B9EED0 ; long __cdecl scenario_light_place(long, bool)
 //.text:00B9EF30 ; 
 //.text:00B9EF60 ; 
 //.text:00B9EFA0 ; 

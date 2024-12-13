@@ -13,7 +13,7 @@
 //.text:00B97D90 ; 
 //.text:00B97DC0 ; 
 //.text:00B97E00 ; void __cdecl object_early_mover_delete(long)
-//.text:00B97F90 ; 
+//.text:00B97F90 ; void __cdecl object_early_mover_delete_early_mover_childern(long)
 //.text:00B98010 ; bool __cdecl object_early_mover_get_node_and_rigid_body_index(long, long*, long*)
 
 bool __cdecl object_early_mover_get_obb(long object_index_array_index, s_object_early_mover_obb* obb)
@@ -30,7 +30,7 @@ void __cdecl object_early_mover_notify_local_objects(long early_mover_object_ind
 	INVOKE(0x00B98600, object_early_mover_notify_local_objects, early_mover_object_index);
 }
 
-//.text:00B98800 ; 
+//.text:00B98800 ; bool __cdecl object_early_mover_obb_test_point(s_object_early_mover_obb const*, real_point3d const*)
 
 void __cdecl object_early_mover_update(long object_index, long early_mover_array_index)
 {
@@ -91,7 +91,7 @@ void __cdecl object_get_early_movers(long const** object_early_movers, long* obj
 //.text:00B993C0 ; void __cdecl object_in_early_mover_physics_update(long)
 //.text:00B995B0 ; bool __cdecl object_in_early_mover_transform_get(long, real_matrix4x3*)
 //.text:00B99610 ; bool __cdecl object_is_valid_early_mover(long, bool)
-//.text:00B996A0 ; 
+//.text:00B996A0 ; bool __cdecl object_move_in_early_mover_local_space(long, real_vector3d*, real_vector3d*, bool)
 //.text:00B99B90 ; 
 
 void __cdecl object_early_mover_render_debug()
@@ -107,7 +107,7 @@ void __cdecl object_early_mover_render_debug()
 	{
 		s_object_early_mover_obb obb{};
 		if (object_early_mover_get_obb(i, &obb))
-			render_debug_box_outline_oriented(true, &obb.bounds, &obb.matrix, global_real_argb_blue);
+			render_debug_box_outline_oriented(true, &obb.aabb, &obb.transform, global_real_argb_blue);
 	}
 }
 

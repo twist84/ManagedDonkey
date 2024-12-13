@@ -226,7 +226,6 @@ struct object_datum
 };
 static_assert(sizeof(object_datum) == sizeof(long) + sizeof(_object_datum));
 
-// Same as Halo 3
 enum e_object_header_flags
 {
 	_object_header_active_bit = 0,
@@ -238,15 +237,15 @@ enum e_object_header_flags
 	_object_header_connected_to_map_bit,
 	_object_header_child_bit,
 
-	k_object_header_flags
+	k_object_header_flags_count
 };
 
 struct object_header_datum :
 	s_datum_header
 {
-	c_flags<e_object_header_flags, byte, k_object_header_flags> flags;
+	c_flags<e_object_header_flags, byte, k_object_header_flags_count> flags;
 	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
-	short cluster_index;
+	s_cluster_reference cluster_reference;
 	short data_size;
 	long datum_handle;
 	object_datum* datum;
@@ -259,20 +258,27 @@ public:
 	long get_index();
 
 protected:
-	void object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index);
+	void object_iterator_begin_internal(dword_flags type_flags, dword header_flags, dword iteration_match_flags, long next_absolute_index);
 	bool object_iterator_next_internal();
 	bool object_iterator_next_with_match_flags_internal();
 	object_datum* get_datum_internal();
 
 private:
-	object_datum* m_datum;
-	c_flags<e_object_type, dword_flags, k_object_type_count> m_type_flags;
-	dword m_header_mask;
-	dword m_match_flags;
-	long m_object_index;
-	long m_index;
-	dword m_signature; // 0x86868686 is initialized
+	struct s_object_iterator
+	{
+		c_flags<e_object_type, dword_flags, k_object_type_count> type_flags;
+		dword header_mask;
+		dword iteration_match_flags;
+		long object_index;
+		long index;
+		dword signature; // 0x86868686 is initialized
+	};
+	static_assert(sizeof(s_object_iterator) == 0x18);
+
+	object_datum* m_object;
+	s_object_iterator m_iterator;
 };
+static_assert(sizeof(c_object_iterator_base) == 0x1C);
 
 template<typename t_object_type>
 struct c_object_iterator :
@@ -546,6 +552,7 @@ extern bool __cdecl object_get_change_color(long object_index, long change_color
 extern void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, real_vector3d* normal);
 extern void __cdecl object_get_damage_owner(long object_index, s_damage_owner* owner);
 extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude);
+extern s_location* __cdecl object_get_location(long object_index, s_location* location);
 extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
 extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);
 extern void __cdecl object_get_orientation(long object_index, real_vector3d* forward, real_vector3d* up);
@@ -663,6 +670,7 @@ extern long __cdecl objects_get_free_object_header_count();
 extern long __cdecl objects_get_next_garbage_object(long object_index);
 extern void __cdecl objects_handle_deleted_object(long object_index);
 extern void __cdecl objects_handle_deleted_player(long object_index);
+extern long __cdecl objects_in_sphere(dword class_flags, dword type_flags, s_location const* location, real_point3d const* center, real radius, long* object_indices, long maximum_count);
 extern void __cdecl objects_information_get(objects_information* objects_information_out);
 extern void __cdecl objects_initialize();
 extern void __cdecl objects_initialize_for_new_map();

@@ -30,6 +30,7 @@
 //.text:00BB9820 ; 
 //.text:00BB9830 ; void __cdecl move_recycling_object_between_groups(long, long, long, long)
 //.text:00BB98F0 ; 
+//.text:00BB9910 ; void __cdecl object_recycling_clear_history()
 //.text:00BB9920 ; void __cdecl object_recycling_group_remove_object(long)
 //.text:00BB99B0 ; void __cdecl object_recycling_reset_volume_list()
 //.text:00BB9A40 ; void __cdecl object_recycling_switch_lists(long, long*, long*)
@@ -39,7 +40,7 @@
 //.text:00BB9BF0 ; void __cdecl objects_recycling_group_process(s_recycling_workspace*, long)
 //.text:00BBA020 ; void __cdecl objects_recycling_initialize()
 //.text:00BBA0B0 ; void __cdecl objects_recycling_initialize_for_new_map()
-//.text:00BBA0F0 ; 
+//.text:00BBA0F0 ; void __cdecl objects_recycling_render(s_recycling_workspace*)
 //.text:00BBA100 ; void __cdecl objects_recycling_update(e_recycling_methods)
 //.text:00BBA330 ; void __cdecl objects_recycling_update_membership(s_recycling_workspace*)
 //.text:00BBA860 ; void __cdecl prepare_recycling_group_list(s_recycling_workspace*)
