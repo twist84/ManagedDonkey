@@ -212,7 +212,12 @@ bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 //.text:00B64050 ; bool __cdecl weapon_is_dual_wielded(long)
 //.text:00B64140 ; bool __cdecl weapon_is_melee_only(long)
 //.text:00B64190 ; bool __cdecl weapon_is_ready_for_use(long)
-//.text:00B641D0 ; bool __cdecl weapon_is_support_weapon(long)
+
+bool __cdecl weapon_is_support_weapon(long weapon_index)
+{
+	return INVOKE(0x00B641D0, weapon_is_support_weapon, weapon_index);
+}
+
 //.text:00B64220 ; bool __cdecl weapon_is_support_weapon_or_must_be_readied(long)
 //.text:00B64280 ; bool __cdecl weapon_is_tracking(long)
 //.text:00B64300 ; bool __cdecl weapon_is_zoomable(long)

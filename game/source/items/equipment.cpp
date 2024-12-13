@@ -45,3 +45,8 @@
 //.text:00B89F80 ; void __cdecl sub_B89F80(long)
 //.text:00B8A040 ; bool __cdecl sub_B8A040(long, long)
 
+equipment_datum* equipment_get(long equipment_index)
+{
+	return (equipment_datum*)object_get_and_verify_type(equipment_index, _object_mask_equipment);
+}
+

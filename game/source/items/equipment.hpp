@@ -42,3 +42,5 @@ struct equipment_datum
 };
 static_assert(sizeof(equipment_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
 
+extern equipment_datum* equipment_get(long equipment_index);
+
