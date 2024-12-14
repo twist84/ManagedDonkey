@@ -286,7 +286,18 @@ static_assert(sizeof(multiplayer_player_info) == 0x94);
 struct s_simulation_unit_melee_damage_event_data;
 struct _simulation_unit_melee_damage_event_data
 {
-	byte __data[0x3C];
+	real_point3d impact_point;
+	real_vector3d impact_normal;
+	long damage_definition_index;
+	long clang_damage_definition_index;
+	short breakable_surface_set_index;
+	short breakable_surface_index;
+	long instanced_geometry_instance_index;
+	long surface_index;
+	long global_material_index;
+	long object_material_index;
+	real scale;
+	s_damage_reporting_info damage_reporting_info;
 };
 
 struct s_player_shot_info
