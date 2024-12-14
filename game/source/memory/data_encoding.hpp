@@ -1,16 +1,6 @@
 #pragma once
 
-enum e_byte_swap_code_constant
-{
-	_1byte = 1,
-	_2byte = -2,
-	_4byte = -4,
-	_8byte = -8,
-	_begin_bs_array = -100,
-	_end_bs_array = -101,
-	_extern_bs_definition = -102,
-	BYTE_SWAP_DEFINITION_SIGNATURE = 'bysw',
-};
+#include "memory/byte_swapping.hpp"
 
 struct data_encoding_state
 {
