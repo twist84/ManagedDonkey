@@ -7,20 +7,20 @@ void* data_decode_array(data_encoding_state* state, long element_count_size, lon
 	ASSERT(maximum_element_count > 0);
 	ASSERT(bs_definition);
 
-	long element_count = 0;
+	short element_count = 0;
 	switch (element_count_size)
 	{
 	case _8byte:
-		element_count = data_decode_int64(state);
+		element_count = (short)data_decode_int64(state);
 		break;
 	case _4byte:
-		element_count = data_decode_long(state);
+		element_count = (short)data_decode_long(state);
 		break;
 	case _2byte:
-		element_count = data_decode_short(state);
+		element_count = (short)data_decode_short(state);
 		break;
 	case _1byte:
-		element_count = data_decode_byte(state);
+		element_count = (short)data_decode_byte(state);
 		break;
 	default:
 		throw; // halt()
@@ -39,7 +39,7 @@ byte data_decode_byte(data_encoding_state* state)
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + sizeof(byte) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(byte) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
@@ -59,7 +59,7 @@ qword data_decode_int64(data_encoding_state* state)
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + sizeof(qword) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(qword) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
@@ -80,7 +80,7 @@ dword data_decode_long(data_encoding_state* state)
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + sizeof(dword) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(dword) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
@@ -153,7 +153,7 @@ word data_decode_short(data_encoding_state* state)
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + sizeof(word) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(word) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
@@ -264,7 +264,7 @@ void data_encode_new(data_encoding_state* state, void* buffer, long buffer_size)
 
 byte data_encode_string(data_encoding_state* state, char* source_string, short maximum_string_length)
 {
-	dword string_length = csstrnlen(source_string, maximum_string_length);
+	long string_length = (long)csstrnlen(source_string, maximum_string_length);
 	ASSERT(state->offset + string_length + 1 <= state->buffer_size);
 
 	if (state->offset + string_length + 1 <= state->buffer_size || state->overflow_flag)
