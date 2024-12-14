@@ -220,68 +220,54 @@ struct s_tracking_object
 };
 static_assert(sizeof(s_tracking_object) == 0xC);
 
+struct s_king_player_info
+{
+	short ticks_on_hill;
+	short ticks_outside_hill;
+	short ticks_on_hill_contested;
+	short pad;
+};
+static_assert(sizeof(s_king_player_info) == 0x8);
+
+struct s_juggernaut_player_info
+{
+	long juggernaut_index;
+};
+static_assert(sizeof(s_juggernaut_player_info) == 0x4);
+
 struct multiplayer_player_info
 {
-	long target_player_index;
-	short __unknown4;
-	char __unknown6;
-	char __unknown7;
-	char __unknown8;
-	char __unknown9;
-	char __unknownA;
-	char __unknownB;
-	short __unknownC;
-	short lives_remaining;
-
-	// used in `game_engine_respond_to_betrayal`, `game_engine_player_is_dead_and_betrayed_by_griefer`
-	long griefer_player_index;
-
-	// used in `game_engine_player_killed`, `game_engine_add_starting_equipment`
-	dword last_killed_round_time; // = `game_engine_round_time_get`
-
+	long player_display_index;
+	short teleporter_index;
+	char in_vehicle_timer;
+	char without_unit_timer;
+	char with_unit_timer;
+	bool was_crouched;
+	bool is_crouched;
+	byte pad;
+	short player_display_count;
+	short remaining_lives;
+	long last_betrayer_player_index;
+	long time_of_death;
 	c_player_traits player_traits;
-
-	c_static_array<dword, k_multiplayer_powerup_flavor_count> powerup_pickup_time;
-
-	// used in `game_engine_spawn_influencers_add_ally_bias`
+	long powerup_pickup_time[k_multiplayer_powerup_flavor_count];
 	long dead_camera_target_player_index;
 
-	bool map_editor_rotating;
-	real_point2d map_editor_throttle;
-	real_euler_angles2d map_editor_rotation;
-
-	byte __data58[0x8];
-
-	// -------- nemesis_mechanics ---------
-
-	// used in `game_engine_player_killed`, struct?
-	union // gameplay_modifier: `enable_nemesis_mechanics`
+	struct
 	{
-		// if `++counts == multiplayer_globals:runtime:multiplayer_constants:__unknown1DC` award medal
+		bool player_locked_for_manipulation;
+		bool pad[3];
+		real_vector2d roll_distance_amount;
+		real_vector2d yaw_pitch_angles;
+	} map_editor_data;
 
-		c_static_array<short, 16 /* player_index */> nemesis_mechanics_nemesis_counts; // killing_player, nemesis medal
-		c_static_array<short, 16 /* player_index */> nemesis_mechanics_avenger_counts; // dead_player, avenger medal
+	union
+	{
+		s_king_player_info king_player_info;
+		s_juggernaut_player_info juggernaut_player_info;
 	};
-
-	// -------- nemesis_mechanics ---------
-
-	// ------- revenge_shield_boost -------
-
-	// used in `game_engine_add_starting_equipment`, struct?
-	// gameplay_modifier: `revenge_shield_boost` values
-	bool revenge_shield_boost_unknown80;
-	short revenge_shield_boost_unknown82; // `object->__unknown100 *= (revenge_shield_boost_modifier_value * player->revenge_shield_boost_unknown2E16) + 1.0f`
-
-	// used in `c_simulation_hit_marker_event_definition::apply_game_event`
-	long revenge_shield_boost_unknown84; // = game_time_get();
-	long revenge_shield_boost_player_index; // == `player_index`
-	s_damage_reporting_info revenge_shield_boost_damage;
-	bool revenge_shield_boost_unknown90;
-
-	// pad?
-	byte __data91[3];
 };
-static_assert(sizeof(multiplayer_player_info) == 0x94);
+static_assert(sizeof(multiplayer_player_info) == 0x60);
 
 struct s_simulation_unit_melee_damage_event_data;
 struct _simulation_unit_melee_damage_event_data
@@ -493,6 +479,35 @@ struct player_datum :
 	// `players_reset`
 	multiplayer_player_info multiplayer;
 
+	// -------- nemesis_mechanics ---------
+
+	// used in `game_engine_player_killed`, struct?
+	union // gameplay_modifier: `enable_nemesis_mechanics`
+	{
+		// if `++counts == multiplayer_globals:runtime:multiplayer_constants:__unknown1DC` award medal
+
+		c_static_array<short, 16 /* player_index */> nemesis_mechanics_nemesis_counts; // killing_player, nemesis medal
+		c_static_array<short, 16 /* player_index */> nemesis_mechanics_avenger_counts; // dead_player, avenger medal
+	};
+
+	// -------- nemesis_mechanics ---------
+
+	// ------- revenge_shield_boost -------
+
+	// used in `game_engine_add_starting_equipment`, struct?
+	// gameplay_modifier: `revenge_shield_boost` values
+	bool revenge_shield_boost_unknown2E14;
+	short revenge_shield_boost_unknown2E16; // `object->__unknown100 *= (revenge_shield_boost_modifier_value * player->revenge_shield_boost_unknown2E16) + 1.0f`
+
+	// used in `c_simulation_hit_marker_event_definition::apply_game_event`
+	long revenge_shield_boost_unknown2E18; // = game_time_get();
+	long revenge_shield_boost_player_index; // == `player_index`
+	s_damage_reporting_info revenge_shield_boost_damage;
+	bool revenge_shield_boost_unknown2E24;
+
+	// pad?
+	byte __data2E25[3];
+
 	byte __data2E28[0x2];
 
 	// used in `player_died`, struct?
@@ -599,33 +614,35 @@ static_assert(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
 static_assert(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
 static_assert(0x2D90 == OFFSETOF(player_datum, grenade_scavenger_modifier_used));
 static_assert(0x2D91 == OFFSETOF(player_datum, __data2D91));
-static_assert(0x2D94 == OFFSETOF(player_datum, multiplayer.target_player_index));
-static_assert(0x2D98 == OFFSETOF(player_datum, multiplayer.__unknown4));
-static_assert(0x2D9A == OFFSETOF(player_datum, multiplayer.__unknown6));
-static_assert(0x2D9B == OFFSETOF(player_datum, multiplayer.__unknown7));
-static_assert(0x2D9C == OFFSETOF(player_datum, multiplayer.__unknown8));
-static_assert(0x2D9D == OFFSETOF(player_datum, multiplayer.__unknown9));
-static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.__unknownA));
-static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.__unknownB));
-static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.__unknownC));
-static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives_remaining));
-static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.griefer_player_index));
+static_assert(0x2D94 == OFFSETOF(player_datum, multiplayer.player_display_index));
+static_assert(0x2D98 == OFFSETOF(player_datum, multiplayer.teleporter_index));
+static_assert(0x2D9A == OFFSETOF(player_datum, multiplayer.in_vehicle_timer));
+static_assert(0x2D9B == OFFSETOF(player_datum, multiplayer.without_unit_timer));
+static_assert(0x2D9C == OFFSETOF(player_datum, multiplayer.with_unit_timer));
+static_assert(0x2D9D == OFFSETOF(player_datum, multiplayer.was_crouched));
+static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.is_crouched));
+static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.pad));
+static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.player_display_count));
+static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.remaining_lives));
+static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.last_betrayer_player_index));
 static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
 static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.dead_camera_target_player_index));
-static_assert(0x2DD8 == OFFSETOF(player_datum, multiplayer.map_editor_rotating));
-static_assert(0x2DDC == OFFSETOF(player_datum, multiplayer.map_editor_throttle));
-static_assert(0x2DE4 == OFFSETOF(player_datum, multiplayer.map_editor_rotation));
-static_assert(0x2DEC == OFFSETOF(player_datum, multiplayer.__data58));
-static_assert(0x2DF4 == OFFSETOF(player_datum, multiplayer.nemesis_mechanics_nemesis_counts));
-static_assert(0x2DF4 == OFFSETOF(player_datum, multiplayer.nemesis_mechanics_avenger_counts));
-static_assert(0x2E14 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown80));
-static_assert(0x2E16 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown82));
-static_assert(0x2E18 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown84));
-static_assert(0x2E1C == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_player_index));
-static_assert(0x2E20 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_damage));
-static_assert(0x2E24 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown90));
-static_assert(0x2E25 == OFFSETOF(player_datum, multiplayer.__data91));
+static_assert(0x2DD8 == OFFSETOF(player_datum, multiplayer.map_editor_data.player_locked_for_manipulation));
+static_assert(0x2DD9 == OFFSETOF(player_datum, multiplayer.map_editor_data.pad));
+static_assert(0x2DDC == OFFSETOF(player_datum, multiplayer.map_editor_data.roll_distance_amount));
+static_assert(0x2DE4 == OFFSETOF(player_datum, multiplayer.map_editor_data.yaw_pitch_angles));
+static_assert(0x2DEC == OFFSETOF(player_datum, multiplayer.king_player_info));
+static_assert(0x2DEC == OFFSETOF(player_datum, multiplayer.juggernaut_player_info));
+static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_nemesis_counts));
+static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_avenger_counts));
+static_assert(0x2E14 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E14));
+static_assert(0x2E16 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E16));
+static_assert(0x2E18 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E18));
+static_assert(0x2E1C == OFFSETOF(player_datum, revenge_shield_boost_player_index));
+static_assert(0x2E20 == OFFSETOF(player_datum, revenge_shield_boost_damage));
+static_assert(0x2E24 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E24));
+static_assert(0x2E25 == OFFSETOF(player_datum, __data2E25));
 static_assert(0x2E28 == OFFSETOF(player_datum, __data2E28));
 static_assert(0x2E2A == OFFSETOF(player_datum, __data2E2A));
 static_assert(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
