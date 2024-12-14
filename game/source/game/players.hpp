@@ -302,9 +302,10 @@ struct _simulation_unit_melee_damage_event_data
 
 struct s_player_shot_info
 {
-	word __unknown0;
+	short shot_id;
 	s_damage_reporting_info damage_reporting_info;
-	char __data6[0x6];
+	word pad;
+	long game_time;
 };
 static_assert(sizeof(s_player_shot_info) == 0xC);
 
