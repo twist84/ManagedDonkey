@@ -485,6 +485,7 @@ extern bool debug_objects_mass;
 extern bool debug_objects_pathfinding;
 extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
+extern bool debug_objects_skeletons;
 
 struct s_scenario_object;
 struct s_game_cluster_bit_vectors;

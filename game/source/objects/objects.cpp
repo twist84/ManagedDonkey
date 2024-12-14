@@ -47,6 +47,7 @@ bool debug_objects_mass = false;
 bool debug_objects_pathfinding = false;
 bool debug_objects_node_bounds = false;
 bool debug_objects_animation = false;
+bool debug_objects_skeletons = false;
 
 bool point_in_bounds(real_point3d const* point, real bounds)
 {
@@ -2168,6 +2169,11 @@ void object_render_debug_internal(long object_index)
 	}
 
 	if (debug_objects_animation)
+	{
+
+	}
+
+	if (debug_objects_skeletons)
 	{
 
 	}
