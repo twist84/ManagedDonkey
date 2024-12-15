@@ -18,9 +18,9 @@ struct c_xor_cache_file_decompressor :
 		throw;
 	}
 
-	c_basic_buffer<void> __buffer0;
-	c_basic_buffer<void> __buffer8;
-	byte __unknownC; // xor value, *i++ ^= __unknownC
+	c_basic_buffer<void> m_output_buffer;
+	c_basic_buffer<void> m_buffer_left;
+	char const m_xor_value;
 };
 static_assert(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x14);
 

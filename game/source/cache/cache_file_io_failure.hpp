@@ -29,11 +29,11 @@ public:
 	bool unknown_failure() const;
 
 protected:
-	bool __unknown4;
+	bool m_any_progress;
 	bool m_fail_boat;
 	bool m_disk_failure;
 	bool m_checksum_failure;
-	bool m_check_success;
+	bool m_checked_failure;
 
 	static bool m_halt_and_display_error;
 };

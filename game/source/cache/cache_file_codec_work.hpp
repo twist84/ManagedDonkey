@@ -33,14 +33,14 @@ enum e_async_priority;
 long __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,
-	dword a3,
-	dword processed_compressed_size,
-	dword* hash,
-	c_basic_buffer<void> a6,
+	dword offset,
+	dword size,
+	dword const* verify_decompression_hash,
+	c_basic_buffer<void> decompression_scratch_buffer,
 	c_cache_file_decompressor* decompressor,
-	c_basic_buffer<void> a10,
+	c_basic_buffer<void> uncompressed_output_buffer,
 	bool* out_decompression_success,
 	c_synchronized_long* in_abort_signal,
-	c_synchronized_long* a13,
-	c_synchronized_long* done);
+	c_synchronized_long* out_bytes_read,
+	c_synchronized_long* out_done);
 

@@ -9,11 +9,11 @@ c_io_result::c_io_result()
 
 c_simple_io_result::c_simple_io_result() :
 	c_io_result(),
-	__unknown4(false),
+	m_any_progress(false),
 	m_fail_boat(false),
 	m_disk_failure(false),
 	m_checksum_failure(false),
-	m_check_success(false)
+	m_checked_failure(false)
 {
 	//DECLFUNC(0x005FB380, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
 }
@@ -29,7 +29,7 @@ bool c_simple_io_result::check_success()
 {
 	//return INVOKE_CLASS_MEMBER(0x005FB3B0, c_simple_io_result, check_success);
 
-	m_check_success = true;
+	m_checked_failure = true;
 	return !m_disk_failure && !m_fail_boat && !m_checksum_failure;
 }
 
