@@ -509,14 +509,14 @@ bool __cdecl cache_file_get_indirect_file_handle_from_index(e_map_file_index map
 }
 
 //.text:005AA1D0 ; bool __cdecl cache_file_get_indirect_file_handle_from_path(char const*, s_indirect_file**)
-//.text:005AA240 ; 
+//.text:005AA240 ; cache_file_get_?
 
 bool __cdecl cache_file_get_master_async_file_handle(s_file_handle* out_handle)
 {
 	return INVOKE(0x005AA260, cache_file_get_master_async_file_handle, out_handle);
 }
 
-//.text:005AA290 ; bool __cdecl cache_file_get_io_identifier_canonical_path(c_static_string<256>*)
+//.text:005AA290 ; bool __cdecl cache_file_get_master_canonical_path(c_static_string<256>*)
 
 bool __cdecl cache_file_get_master_indirect_file_handle(s_indirect_file* out_handle)
 {
@@ -533,7 +533,7 @@ bool __cdecl cache_file_get_master_resource_section_offset(dword* out_offset)
 	return INVOKE(0x005AA330, cache_file_get_master_resource_section_offset, out_offset);
 }
 
-//.text:005AA360 ; 
+//.text:005AA360 ; dword __cdecl cache_file_get_maximum_size(e_scenario_type)
 
 bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle)
 {
@@ -541,11 +541,11 @@ bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_index m
 }
 
 //.text:005AA420 ; bool __cdecl cache_file_get_overlapped_file_handle_from_path(char const*, s_file_handle*)
-//.text:005AA490 ; 
-//.text:005AA510 ; 
+//.text:005AA490 ; bool __cdecl cache_file_get_path_from_dvd_path(char const*, char*, long)
+//.text:005AA510 ; bool __cdecl cache_file_get_path_from_file_identifier(long, char*, long)
 //.text:005AA560 ; bool __cdecl cache_file_get_resource_section_offset_from_path(char const*, dword*)
 //.text:005AA5D0 ; void __cdecl cache_file_header_get_file_progress_sizes(s_cache_file_header const*, long, dword*, dword*, dword*)
-//.text:005AA630 ; 
+//.text:005AA630 ; cache_file_is_?
 //.text:005AA660 ; bool __cdecl cache_file_is_ready(char const*)
 //.text:005AA690 ; void __cdecl cache_file_lock_for_io(char const*, long*)
 
@@ -594,16 +594,16 @@ bool __cdecl cache_file_open(char const* scenario_path, void* header)
 	return true;
 }
 
-long __cdecl cache_file_read_ex(long cache_file_section, long section_offset, long buffer_size, void* buffer, c_synchronized_long* size, c_synchronized_long* done, e_async_category category, e_async_priority priority)
+long __cdecl cache_file_read_ex(long section, long offset, long size, void* buffer, c_synchronized_long* bytes_read, c_synchronized_long* completion_flag_reference, e_async_category category, e_async_priority priority)
 {
-	//return INVOKE(0x005AA870, cache_file_read_ex, cache_file_section, section_offset, buffer_size, buffer, size, done, category, priority);
+	//return INVOKE(0x005AA870, cache_file_read_ex, section, offset, size, buffer, bytes_read, completion_flag_reference, category, priority);
 
-	long section_base_offset = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].header.section_offsets[cache_file_section];
+	long section_base_offset = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].header.section_offsets[section];
 	if (section_base_offset == NONE)
 		return -1;
 
 	s_file_handle section_handle = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].file_handle;
-	return async_read_position(section_handle, buffer, buffer_size, section_base_offset + section_offset, category, priority, size, done);
+	return async_read_position(section_handle, buffer, size, section_base_offset + offset, category, priority, bytes_read, completion_flag_reference);
 }
 
 long __cdecl cache_file_round_up_read_size(long size)
@@ -621,11 +621,11 @@ s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_s
 	return INVOKE(0x005AA8E0, cache_file_try_to_get_master_shared_resource_usage);
 }
 
-//.text:005AA910 ; s_cache_file_shared_resource_usage const* __cdecl cache_file_get_shared_resource_usage_from_path(char const* scenario_path)
+//.text:005AA910 ; s_cache_file_shared_resource_usage const* __cdecl cache_file_get_shared_resource_usage_from_path(char const*)
 //.text:005AA970 ; void __cdecl cache_file_unlock_for_io(long)
 //.text:005AA980 ; void __cdecl cache_files_clear_map_of_type(long)
 //.text:005AAA40 ; void __cdecl cache_files_clear_map_single(long)
-//.text:005AAAC0 ; bool __cdecl cache_files_copy_describe(c_static_string<256>* scenario_path, real* copy_progress)
+//.text:005AAAC0 ; bool __cdecl cache_files_copy_describe(c_static_string<256>*, real*)
 
 void __cdecl cache_files_copy_do_work()
 {
@@ -640,7 +640,7 @@ void __cdecl cache_files_copy_halt()
 	//if (copy_state && copy_state < _cache_copy_state_halt)
 	//{
 	//	cache_file_copy_globals.copy_task_abort_signal = 1;
-	//	cache_file_copy_globals.__unknown33B4 = 2;
+	//	cache_file_copy_globals.finish_reason = 2;
 	//	cache_file_copy_globals.copy_state = _cache_copy_state_halt;
 	//}
 }
@@ -781,7 +781,7 @@ void __cdecl cache_files_initialize()
 
 	cache_file_table_of_contents.open_map_file_index = k_no_cached_map_file_index;
 	cache_file_table_of_contents.locked_map_file_index = k_no_cached_map_file_index;
-	cache_file_table_of_contents.__unknown30668 = NONE;
+	cache_file_table_of_contents.pending_map_file_index = k_no_cached_map_file_index;
 
 	cache_file_copy_globals.copy_task_is_done = 1;
 	cache_file_copy_globals.copy_task_id = NONE;

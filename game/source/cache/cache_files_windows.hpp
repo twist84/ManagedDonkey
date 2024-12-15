@@ -22,6 +22,11 @@ enum e_map_file_index
 	k_no_cached_map_file_index = -1,
 };
 
+enum e_cache_file_load_action
+{
+
+};
+
 static inline e_map_file_index operator-(e_map_file_index& value, int increment)
 {
 	return e_map_file_index((int)value - increment);
@@ -92,14 +97,9 @@ struct s_cache_file_table_of_contents
 	c_static_array<s_cached_map_file, k_total_tracked_cached_map_files_count> map_files;
 	e_map_file_index open_map_file_index;
 	e_map_file_index locked_map_file_index;
-
-	long __unknown30668; // best_map_file_index
-	long load_action; // e_cache_file_load_action
-
-	// it seems the cache file system still tries to load the shared and campaign map files
-	// failed_maps[0].path == "maps\shared.map"
-	// failed_maps[1].path == "maps\campaign.map"
-	c_static_array<s_failed_map, 8> failed_maps;
+	e_map_file_index pending_map_file_index;
+	e_cache_file_load_action pending_action;
+	s_failed_map failed_maps[8];
 };
 static_assert(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
 
@@ -136,7 +136,7 @@ enum e_cache_copy_state
 struct s_cache_file_load_action
 {
 	c_static_string<k_tag_long_string_length> map_name;
-	long action; // e_cache_file_load_action
+	e_cache_file_load_action action;
 };
 static_assert(sizeof(s_cache_file_load_action) == 0x104);
 
