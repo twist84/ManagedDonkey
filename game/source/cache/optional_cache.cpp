@@ -2,17 +2,17 @@
 
 REFERENCE_DECLARE(0x024464D0, s_optional_cache_globals, g_optional_cache_globals);
 
-void __cdecl _optional_cache_free(e_optional_cache_user user, void* buffer)
+void __cdecl _optional_cache_free(e_optional_cache_user user, void* pointer)
 {
-	INVOKE(0x00603DF0, _optional_cache_free, user, buffer);
+	INVOKE(0x00603DF0, _optional_cache_free, user, pointer);
 }
 
-void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority user_priority, long size, c_optional_cache_user_callback* callback)
+void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, long size, c_optional_cache_user_callback* callback)
 {
-	return INVOKE(0x00603E30, _optional_cache_try_to_allocate, user, user_priority, size, callback);
+	return INVOKE(0x00603E30, _optional_cache_try_to_allocate, user, priority, size, callback);
 }
 
-//.text:00603E90
+//.text:00603E90 ; c_static_array<s_optional_cache_user,6>::get_count
 
 void __cdecl optional_cache_clear_in_game_backend(c_optional_cache_backend* backend)
 {
@@ -54,9 +54,9 @@ void __cdecl optional_cache_register_user(e_optional_cache_user user, c_optional
 	INVOKE(0x00603FE0, optional_cache_register_user, user, callback);
 }
 
-void __cdecl optional_cache_set_in_game_backend(c_optional_cache_backend* backend)
+void __cdecl optional_cache_set_in_game_backend(c_optional_cache_backend* game_backend)
 {
-	INVOKE(0x00604000, optional_cache_set_in_game_backend, backend);
+	INVOKE(0x00604000, optional_cache_set_in_game_backend, game_backend);
 }
 
 void __cdecl optional_cache_terminate_allocations()

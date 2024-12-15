@@ -52,15 +52,15 @@ struct s_optional_cache_globals
 	c_optional_cache_backend* main_menu_cache_backend;
 	c_optional_cache_backend* game_cache_backend;
 	c_optional_cache_backend* active_cache_backend;
-	c_static_array<s_optional_cache_user, k_number_of_optional_cache_users> users;
+	c_static_array<s_optional_cache_user, k_number_of_optional_cache_users> cache_users;
 	c_static_flags<k_number_of_optional_cache_users> active_cache_users;
 };
 static_assert(sizeof(s_optional_cache_globals) == 0x40);
 
 extern s_optional_cache_globals& g_optional_cache_globals;
 
-extern void __cdecl _optional_cache_free(e_optional_cache_user user, void* buffer);
-extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority user_priority, long size, c_optional_cache_user_callback* callback);
+extern void __cdecl _optional_cache_free(e_optional_cache_user user, void* pointer);
+extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, long size, c_optional_cache_user_callback* callback);
 extern void __cdecl optional_cache_clear_in_game_backend(c_optional_cache_backend* backend);
 extern void __cdecl optional_cache_dispose();
 extern s_optional_cache_user* __cdecl optional_cache_get_user(e_optional_cache_user user);
@@ -69,7 +69,7 @@ extern void __cdecl optional_cache_main_loop_idle();
 extern void __cdecl optional_cache_memory_dispose();
 extern void __cdecl optional_cache_memory_initialize(e_map_memory_configuration memory_configuration);
 extern void __cdecl optional_cache_register_user(e_optional_cache_user user, c_optional_cache_user_callback* callback);
-extern void __cdecl optional_cache_set_in_game_backend(c_optional_cache_backend* backend);
+extern void __cdecl optional_cache_set_in_game_backend(c_optional_cache_backend* game_backend);
 extern void __cdecl optional_cache_terminate_allocations();
 extern void __cdecl optional_cache_unregister_user(e_optional_cache_user user, c_optional_cache_user_callback* callback);
 extern void __cdecl optional_cache_users_get_memory_configuration(e_map_memory_configuration memory_configuration, c_static_array<s_optional_cache_user_memory_configuration, k_number_of_optional_cache_users>* out_memory_configurations);
