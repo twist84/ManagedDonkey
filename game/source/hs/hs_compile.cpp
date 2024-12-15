@@ -1288,13 +1288,11 @@ bool hs_parse(long expression_index, short expected_type)
 		return true;
 
 	expression->type = expected_type;
-	if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
-	{
-		expression->constant_type = expected_type;
-		return hs_parse_primitive(expression_index);
-	}
+	if (!hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+		return hs_parse_nonprimitive(expression_index);
 
-	return hs_parse_nonprimitive(expression_index);
+	expression->constant_type = expected_type;
+	return hs_parse_primitive(expression_index);
 }
 
 bool hs_macro_function_parse(short function_index, long expression_index)
@@ -1655,7 +1653,7 @@ long hs_tokenize(hs_tokenizer* state)
 	//	return NONE;
 	//}
 	//
-	//hs_syntax_node* expression = (hs_syntax_node*)datum_get(g_hs_syntax_data, expression_index);
+	//hs_syntax_node* expression = hs_syntax_get(expression_index);
 	//expression->type.set_raw_value(0);
 	//expression->flags.clear();
 	//expression->script_index = NONE;
@@ -1664,13 +1662,10 @@ long hs_tokenize(hs_tokenizer* state)
 	//expression->next_node_index = NONE;
 	//expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
 	//
-	//{
-	//	hs_syntax_node* _expression = (hs_syntax_node*)datum_get(g_hs_syntax_data, expression_index);
-	//	if (_expression->flags.test(_hs_syntax_node_primitive_bit))
-	//		hs_tokenize_primitive(state, expression_index);
-	//	else
-	//		hs_tokenize_nonprimitive(state, expression_index);
-	//}
+	//if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	//	hs_tokenize_primitive(state, expression_index);
+	//else
+	//	hs_tokenize_nonprimitive(state, expression_index);
 	//
 	//long source_offset = expression->source_offset;
 	//if (source_offset != NONE && state->source_file_data)
@@ -1681,6 +1676,56 @@ long hs_tokenize(hs_tokenizer* state)
 	//}
 	//
 	//return expression_index;
+}
+
+void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
+{
+	//hs_syntax_node* expression = hs_syntax_get(expression_index);
+	//long* next_node_index = &expression->long_value;
+	//
+	//expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
+	//if (!hs_compile_globals.error_message)
+	//{
+	//	while (true)
+	//	{
+	//		char* cursor = state->cursor;
+	//		skip_whitespace(&state->cursor);
+	//		if (state->cursor != cursor)
+	//			*cursor = 0;
+	//
+	//		char char_ = *state->cursor;
+	//		if (!char_)
+	//			break;
+	//
+	//		if (char_ == ')')
+	//		{
+	//			*state->cursor++ = 0;
+	//			goto LABEL_20;
+	//		}
+	//
+	//		*next_node_index = hs_tokenize(state);
+	//		if (*next_node_index != NONE)
+	//			*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
+	//
+	//		if (hs_compile_globals.error_message)
+	//			goto LABEL_20;
+	//	}
+	//
+	//	hs_compile_globals.error_message = "this left parenthesis is unmatched.";
+	//	hs_compile_globals.error_offset = expression->source_offset;
+	//}
+	//
+	//LABEL_20:;
+	//if (next_node_index == &expression->long_value && !hs_compile_globals.error_message)
+	//{
+	//	hs_compile_globals.error_message = "this expression is empty.";
+	//	hs_compile_globals.error_offset = expression->source_offset;
+	//}
+}
+
+void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
+{
+	//hs_syntax_node* expression = hs_syntax_get(expression_index);
 }
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
@@ -1874,7 +1919,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 	//	hs_compile_initialize(false);
 	//
 	//	hs_syntax_node temporary_syntax_data[128]{};
-	//	if (TEST_BIT(g_hs_syntax_data->flags, 1))
+	//	if (TEST_BIT(g_hs_syntax_data->flags, _hs_syntax_node_script_bit))
 	//	{
 	//		csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
 	//		data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
@@ -1892,6 +1937,9 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 	//		result = true;
 	//		hs_runtime_evaluate(expression_index, interactive, false);
 	//	}
+	//
+	//	if (g_hs_syntax_data->data == temporary_syntax_data)
+	//		data_disconnect(g_hs_syntax_data);
 	//
 	//	hs_compile_dispose();
 	//}
