@@ -14,47 +14,35 @@ struct s_tag_resource_control_datum :
 static_assert(sizeof(s_tag_resource_control_datum) == 0xC);
 
 struct c_tag_resource_page_table_control_interface;
+struct c_tag_resource_runtime_listener;
 struct c_cache_file_combined_tag_resource_datum_handler;
 struct c_tag_resource_control_datum;
 struct c_tag_resource_cache_controller
 {
-	c_allocation_base* m_allocator;
-	void* m_allocation; // "tag resource cache controller"
-
-	// "tag resource cache control state"
+	c_allocation_base* m_tracking_data_allocator;
+	void* m_tracking_allocation_base;
 	c_smart_data_array<s_tag_resource_control_datum> m_resource_control_data;
-
-	c_wrapped_flags __flagsC;
-	c_wrapped_flags __flags14;
-
-	// prepare_resource_for_page_read_success
+	c_wrapped_flags m_optional_resources;
+	c_wrapped_flags m_usable_resources;
+	c_wrapped_flags m_potentially_active_resources;
+	c_wrapped_flags m_pages_ready_resources;
+	c_wrapped_flags m_pending_resources;
+	c_wrapped_flags m_last_published_deferred_resources;
 	c_wrapped_flags m_demanded_deferred_resources;
-
-	c_wrapped_flags __flags24;
-	c_wrapped_flags __flags2C;
-	c_wrapped_flags __flags34;
-	c_wrapped_flags __flags3C;
-
-	c_tag_resource_page_table_control_interface* m_controller_interface;
-
-	void* __unknown48;
-
+	c_tag_resource_page_table_control_interface* m_resource_page_table;
+	c_tag_resource_runtime_listener* m_resource_listener;
 	c_cache_file_combined_tag_resource_datum_handler* m_resource_datum_handler;
-	c_tag_resource_control_datum* m_resource_control_datum;
+	c_tag_resource_control_datum* m_control_datum_info;
+	dword m_usage_frame_index;
+	long m_update_since_demand_frame_counter;
 
-	byte __data54[0x4];
+	//bool m_any_deferred_demands_pending;
+	//bool m_optional_caching_enabled;
+	bool __unknown5C;
 
-	// update_active_resources, __unknown58++
-	long __unknown58;
-
-	byte __unknown5C;
-
-	// refresh_deferred_resources
 	bool m_prediction_can_occur;
-
 	bool m_can_load_all_desired_resources;
-
-	byte __unknown5F;
+	bool m_throttle_demand_to_io;
 };
 static_assert(sizeof(c_tag_resource_cache_controller) == 0x60);
 
