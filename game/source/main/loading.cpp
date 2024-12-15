@@ -187,16 +187,16 @@ void __cdecl main_loading_dispose()
 	//progress_set_default_callbacks(NULL);
 }
 
-void __cdecl main_loading_enable_spinner(bool enable_spinner)
+void __cdecl main_loading_enable_spinner(bool enable)
 {
-	INVOKE(0x0052F4F0, main_loading_enable_spinner, enable_spinner);
+	INVOKE(0x0052F4F0, main_loading_enable_spinner, enable);
 
-	//loading_globals.spinner_enabled = enable_spinner;
+	//loading_globals.spinner_enabled = enable;
 }
 
-bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_action)
+bool __cdecl main_loading_get_action(struct s_main_loading_action* out_action)
 {
-	return INVOKE(0x0052F500, main_loading_get_action, out_loading_action);
+	return INVOKE(0x0052F500, main_loading_get_action, out_action);
 }
 
 //enum e_gui_game_mode __cdecl main_loading_get_gui_game_mode(void)
@@ -214,9 +214,9 @@ long __cdecl main_loading_get_gui_game_mode()
 	//return _ui_game_mode_none;
 }
 
-e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
+e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_progress_string)
 {
-	//return INVOKE(0x0052F930, main_loading_get_loading_status, loading_status);
+	//return INVOKE(0x0052F930, main_loading_get_loading_status, loading_progress_string);
 
 	if (bink_playback_active())
 		return _main_pregame_frame_normal;
@@ -246,35 +246,35 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 		if (game_in_progress() && !loading_globals.tag_sync_in_progress && !loading_globals.tag_load_in_progress)
 			return _main_pregame_frame_none;
 
-		if (loading_status)
-			loading_status->append_print(L"%s|n", spinner_states[spinner_state_index]);
+		if (loading_progress_string)
+			loading_progress_string->append_print(L"%s|n", spinner_states[spinner_state_index]);
 
 		if (string_is_not_empty(loading_globals.scenario_path))
 		{
-			if (loading_status)
+			if (loading_progress_string)
 			{
 				//if (loading_globals.zone_set_index == NONE)
-					loading_status->append_print(L"loading scenario %S...", loading_globals.scenario_path);
+				loading_progress_string->append_print(L"loading scenario %S...", loading_globals.scenario_path);
 				//else
-				//	loading_status->append_print(L"loading ZONE SET #%d %S...", loading_globals.zone_set_index, loading_globals.scenario_path);
+				//	loading_progress_string->append_print(L"loading ZONE SET #%d %S...", loading_globals.zone_set_index, loading_globals.scenario_path);
 
-				loading_status->append_print(L"|n");
+				loading_progress_string->append_print(L"|n");
 			}
 		}
 
 		if (loading_globals.loading_in_progress && !loading_globals.loading_progress.is_empty())
 		{
-			if (loading_status)
-				loading_status->append_print(L"%S", loading_globals.loading_progress.get_string());
+			if (loading_progress_string)
+				loading_progress_string->append_print(L"%S", loading_globals.loading_progress.get_string());
 		}
 		else
 		{
-			if (loading_status)
-				loading_status->append_print(L"|n");
+			if (loading_progress_string)
+				loading_progress_string->append_print(L"|n");
 		}
 
-		if (loading_status)
-			loading_status->append_print(L"|n|n%S", events_get());
+		if (loading_progress_string)
+			loading_progress_string->append_print(L"|n|n%S", events_get());
 
 		return _main_pregame_frame_loading_debug;
 	}
@@ -285,13 +285,13 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
 			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
 	
-		if (loading_status)
-			loading_status->append_print(L"basic loading progress: %%%d|n", loading_progress);
+		if (loading_progress_string)
+			loading_progress_string->append_print(L"basic loading progress: %%%d|n", loading_progress);
 	
 		if (loading_globals.insertion_point)
 		{
-			if (loading_status)
-				loading_status->append_print(L"|n%S", loading_globals.insertion_point);
+			if (loading_progress_string)
+				loading_progress_string->append_print(L"|n%S", loading_globals.insertion_point);
 		}
 	
 		return _main_pregame_frame_cache_loading;

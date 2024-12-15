@@ -73,8 +73,8 @@ extern long __cdecl main_load_map_status_with_insertion_point(short insertion_po
 extern bool __cdecl main_load_map_with_insertion_point(short insertion_point, char const* scenario_path, long map_load_type);
 extern bool __cdecl main_load_next_map_loading();
 extern void __cdecl main_loading_dispose();
-extern void __cdecl main_loading_enable_spinner(bool enable_spinner);
-extern bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_action);
+extern void __cdecl main_loading_enable_spinner(bool enable);
+extern bool __cdecl main_loading_get_action(s_main_loading_action* out_action);
 extern long __cdecl main_loading_get_gui_game_mode();
 extern e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message);
 extern void __cdecl main_loading_idle();
