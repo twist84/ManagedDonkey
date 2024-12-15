@@ -1438,32 +1438,29 @@ void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
 
 	if (struct scenario* scenario = global_scenario_try_and_get())
 	{
-		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+		if (!VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
 		{
-			if (zone_set_index == scenario_zone_set_index_get())
+			console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+		}
+		else if (zone_set_index == scenario_zone_set_index_get())
+		{
+			if (main_globals.prepare_to_switch_zone_set)
 			{
-				if (main_globals.prepare_to_switch_zone_set)
-				{
-					main_globals.prepare_to_switch_zone_set = false;
-					main_globals.prepare_to_switch_to_zone_set_index = 0;
-					//chud_messaging_special_load(false);
-				}
-				else
-				{
-					console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
-				}
+				main_globals.prepare_to_switch_zone_set = false;
+				main_globals.prepare_to_switch_to_zone_set_index = 0;
+				//chud_messaging_special_load(false);
 			}
 			else
 			{
-				main_trace_event_internal(__FUNCTION__);
-				main_globals.prepare_to_switch_zone_set = true;
-				main_globals.prepare_to_switch_to_zone_set_index = zone_set_index;
-				//chud_messaging_special_load(true);
+				console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
 			}
 		}
 		else
 		{
-			console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+			main_trace_event_internal(__FUNCTION__);
+			main_globals.prepare_to_switch_zone_set = true;
+			main_globals.prepare_to_switch_to_zone_set_index = zone_set_index;
+			//chud_messaging_special_load(true);
 		}
 	}
 	else
@@ -1476,18 +1473,7 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 {
 	INVOKE(0x00506A70, main_prepare_to_switch_zone_set_private);
 
-	//bool load_succeeded = false;
-	//if (game_in_editor())
-	//{
-	//	load_succeeded = true;
-	//}
-	//else
-	//{
-	//	load_succeeded = scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_to_zone_set_index);
-	//	chud_messaging_special_load(false);
-	//}
-	//
-	//if (!load_succeeded)
+	//if (!game_in_editor() && !scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_to_zone_set_index))
 	//{
 	//	generate_event(_event_error,
 	//		"main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
@@ -1504,6 +1490,11 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 void __cdecl main_print_version()
 {
 	INVOKE(0x00506AB0, main_print_version);
+
+	//console_printf(shell_get_version());
+	//console_printf("minor version %d cache file language %s",
+	//	get_map_minor_version(),
+	//	get_language_display_name(get_map_language()));
 }
 
 void __cdecl main_reload_active_zone_set_private()

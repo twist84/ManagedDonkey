@@ -198,7 +198,7 @@ extern void __cdecl main_prepare_to_switch_zone_set_private();
 extern void __cdecl main_print_version();
 extern void __cdecl main_reload_active_zone_set_private();
 extern void __cdecl main_reset_map();
-extern void __cdecl main_reset_map_internal(bool random);
+extern void __cdecl main_reset_map_internal(bool use_new_random_seed);
 extern void __cdecl main_reset_map_private();
 extern void __cdecl main_reset_map_random();
 extern void __cdecl main_reset_zone_resources();
