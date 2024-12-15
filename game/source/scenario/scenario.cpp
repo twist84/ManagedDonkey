@@ -437,22 +437,22 @@ bool __cdecl scenario_load_resources_blocking(bool pending)
 //.text:004EAAD0 ; 
 //.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(s_scenario_zone_activation const*)
 
-bool __cdecl scenario_modify_zone_activation_internal(long zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword touched_structure_bsp_mask, s_scenario_zone_change const* zone_change, dword touched_cinematic_zone_mask, bool a7)
+bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, dword new_touched_cinematics_mask, bool unload_old_bsps)
 {
-	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, touched_structure_bsp_mask, zone_change, touched_cinematic_zone_mask, a7);
+	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
 }
 
-bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
+bool __cdecl scenario_preload_initial_zone_set(short initial_zone_set_index)
 {
-	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
+	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, initial_zone_set_index);
 
 	struct scenario* scenario = global_scenario_get();
-	if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
+	if (VALID_INDEX(initial_zone_set_index, scenario->zone_sets.count))
 	{
 		s_scenario_zone_state zone_state{};
 		scenario_get_global_zone_state(&zone_state);
 
-		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
+		s_scenario_zone_set& zone_set = scenario->zone_sets[initial_zone_set_index];
 		zone_state.pending_bsp_zone_mask |= zone_set.bsp_zone_flags;
 		zone_state.pending_cinematic_zone_mask |= zone_set.cinematic_zones;
 		zone_state.pending_designer_zone_mask |= zone_set.required_designer_zones;
@@ -464,22 +464,22 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 	return true;
 }
 
-//.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(s_scenario_game_state const*)
+//.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(s_scenario_game_state const* pending_game_state)
 
-void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
+void __cdecl scenario_prepare_for_map_reset(short initial_zone_set_index)
 {
-	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, zone_set_index);
+	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, initial_zone_set_index);
 
 	s_scenario_zone_change zone_change;
 	zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
 	zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
-	zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(zone_set_index);
+	zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(initial_zone_set_index);
 	zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
 	
 	if (!scenario_modify_zone_activation_internal(
-		zone_set_index,
+		initial_zone_set_index,
 		game_get_active_structure_bsp_mask(),
-		scenario_zone_set_bsp_active_mask_get(zone_set_index),
+		scenario_zone_set_bsp_active_mask_get(initial_zone_set_index),
 		0,
 		&zone_change,
 		0,
@@ -489,9 +489,18 @@ void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
 	}
 }
 
-//.text:004EB420 ; bool __cdecl scenario_prepare_to_switch_zone_set(long)
+bool __cdecl scenario_prepare_to_switch_zone_set(long new_zone_set_index)
+{
+	return INVOKE(0x004EB420, scenario_prepare_to_switch_zone_set, new_zone_set_index);
+}
+
 //.text:004EB4B0 ; bool __cdecl scenario_prepare_zone_set_for_cache_builder(long)
-//.text:004EB4D0 ; void __cdecl scenario_reset_zone_resources_from_main()
+
+void __cdecl scenario_reset_zone_resources_from_main()
+{
+	INVOKE(0x004EB4D0, scenario_reset_zone_resources_from_main);
+}
+
 //.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(long, short, s_tag_reference*)
 //.text:004EB4F0 ; short __cdecl scenario_structure_index_from_point(real_point3d const*)
 //.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(dword)
