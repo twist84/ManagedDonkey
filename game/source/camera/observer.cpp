@@ -231,7 +231,7 @@ void __cdecl observer_game_tick()
 		if (!game_is_multiplayer())
 		{
 			main_render_start_blocking_frame();
-			geometry_cache_block_for_one_frame(_geometry_block_type_unknown1);
+			geometry_cache_block_for_one_frame(_geometry_block_type_bsp_geometry);
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown1);
 		}
 
@@ -243,7 +243,7 @@ void __cdecl observer_game_tick()
 		if (!game_is_multiplayer())
 		{
 			main_render_start_blocking_frame();
-			geometry_cache_block_for_one_frame(_geometry_block_type_unknown0);
+			geometry_cache_block_for_one_frame(_geometry_block_type_all);
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown0);
 		}
 
