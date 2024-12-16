@@ -87,7 +87,7 @@ char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
 bool debug_console_pauses_game = true;
 bool debug_no_drawing = false;
 
-bool cheat_drop_tag = false;
+bool drop_cheat_tag = false;
 long cheat_drop_tag_index = 0;
 long cheat_drop_variant_name = 0;
 s_model_customization_region_permutation cheat_drop_permutations[16]{};
@@ -357,7 +357,7 @@ void __cdecl main_events_reset(e_main_reset_events_reason reason)
 	main_event_reset_internal("reloading active zone set", reason, &main_globals.reload_active_zone_set);
 	main_event_reset_internal("non-bsp zone activation", reason, &main_globals.modify_zone_activation);
 	main_globals.pending_zone_activation.clear();
-	//main_event_reset_internal("cheat drop tag", reason, &main_globals.cheat_drop_tag);
+	//main_event_reset_internal("cheat drop tag", reason, &main_globals.drop_cheat_tag);
 }
 
 void __cdecl main_exit_game()
@@ -832,7 +832,7 @@ void __cdecl main_loop_body_main_part()
 					{
 						c_tag_resources_game_lock game_lock{};
 
-						if (cheat_drop_tag) // main_globals.cheat_drop_tag
+						if (drop_cheat_tag) // main_globals.drop_cheat_tag
 							main_cheat_drop_tag_private();
 
 						real seconds_elapsed = shell_seconds_elapsed;
@@ -2149,7 +2149,7 @@ void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_cust
 
 	cheat_drop_tag_index = tag_index;
 	cheat_drop_variant_name = variant_name;
-	cheat_drop_tag = true;
+	drop_cheat_tag = true;
 	cheat_drop_permutation_count = 0;
 
 	if (permutations)
@@ -2165,7 +2165,7 @@ void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_cust
 
 void __cdecl main_cheat_drop_tag_private()
 {
-	cheat_drop_tag = false;
+	drop_cheat_tag = false;
 
 	cheat_drop_tag_in_main_event_loop(
 		cheat_drop_tag_index,

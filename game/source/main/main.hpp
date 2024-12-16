@@ -70,7 +70,7 @@ struct _main_globals
 	bool ui_saving_files;
 	bool modify_zone_activation;
 
-	//bool cheat_drop_tag;
+	//bool drop_cheat_tag;
 	byte __pad52[0x1]; // is this the above?
 
 	bool gamestate_decompression_pending;

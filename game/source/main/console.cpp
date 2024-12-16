@@ -648,10 +648,8 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_reflexive_damage_effects, cheat.reflexive_damage_effects),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_medusa, cheat.medusa),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_omnipotent, cheat.omnipotent),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_controller, cheat.controller),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_controller, cheat.controller_enabled),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_chevy, cheat.chevy),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_porcupine, cheat.porcupine),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
 
 	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_toggle_default_lightmaps_texaccum),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_static_lighting),
