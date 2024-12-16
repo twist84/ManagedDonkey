@@ -2,10 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-
 struct s_network_http_request_hash
 {
-	dword data[5];
+	byte hash[0x14];
 };
 static_assert(sizeof(s_network_http_request_hash) == 0x14);
 
