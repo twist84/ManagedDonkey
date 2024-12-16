@@ -782,6 +782,25 @@ struct c_typed_opaque_data
 	//t_type* m_live_object;
 };
 
+template<typename t_type, long k_maximum_mapped, long k_a_hash_scalar, long k_b_hash_scalar, long k_c_hash_scalar>
+struct c_simple_hash_table
+{
+	struct s_data
+	{
+		t_type entry;
+		long key_a;
+		long key_b;
+		long key_c;
+	};
+	static_assert(sizeof(s_data) == sizeof(t_type) + (sizeof(long) * 3));
+
+	long m_total_count;
+	c_static_array<s_data, k_maximum_mapped> data;
+	c_static_array<short, k_maximum_mapped> m_hash_entry_count;
+	c_static_array<short, k_maximum_mapped> m_original_hash_entry;
+};
+static_assert(sizeof(c_simple_hash_table<long, 8192, 3307, 3, 337>) == 0x28004);
+
 template<typename t_type>
 struct c_reference_count
 {
