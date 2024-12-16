@@ -2,45 +2,26 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_tag_index_hash_table
-{
-	// c_simple_hash_table<long, 8192, 3307, 3, 337>
-	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
-	long m_total_count;
-
-	struct
-	{
-		long __unknown0;
-		long __unknown4;
-		long __unknown8;
-		long __unknownC;
-	} __unknown4[8192];
-
-	short __unknown20004[8192];
-	short __unknown24004[8192];
-};
-static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
-
 struct s_tag_resource_prediction_quantum
 {
-	dword internal_resource_handle;
+	long internal_resource_handle;
 };
 static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
 
 struct s_tag_resource_prediction_atom
 {
-	word identifier;
+	short identifier;
 	word predicted_resource_count;
-	dword first_prediction_index;
+	long first_prediction_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
 
 struct s_tag_resource_prediction_molecule
 {
 	word predicted_atom_count;
-	word first_predicted_atom_index;
+	short first_predicted_atom_index;
 	word predicted_resource_count;
-	word first_predicted_resource_index;
+	short first_predicted_resource_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
 
@@ -61,57 +42,69 @@ struct c_tag_resource_cache_prediction_table
 };
 static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
 
-struct c_tag_resource_cache_precompiled_predictor
+struct c_tag_resource_prediction_table_base
 {
-	// c_simple_hash_table<long, 8192, 3307, 3, 337>
-	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
-	struct
+	enum
 	{
-		long m_total_count;
+		k_maximum_mapped_molecules = 8192,
+		k_a_hash_scalar = 3307,
+		k_b_hash_scalar = 3,
+		k_c_hash_scalar = 337,
+	};
+};
 
-		struct
-		{
-			long __unknown0;
-			long __unknown4;
-			long __unknown8;
-			long __unknownC;
-		} __unknown4[8192];
-
-		short __unknown20004[8192];
-		short __unknown24004[8192];
-
-	} m_molecule_index_table;
-
-	c_tag_resource_cache_prediction_table m_prediction_table;
+struct c_tag_resource_cache_precompiled_predictor :
+	public c_tag_resource_prediction_table_base
+{
+	c_simple_hash_table<long, k_maximum_mapped_molecules, k_a_hash_scalar, k_b_hash_scalar, k_c_hash_scalar> m_molecule_index_table;
+	c_tag_resource_cache_prediction_table m_precomputed_prediction_table;
 };
 static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
 
-struct c_tag_resource_cache_dynamic_predictor
+struct c_tag_index_hash_table
 {
-	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
+	c_simple_hash_table<long, 8192, 3307, 3, 337> m_hash_table;
+};
+static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
+
+// #TODO: find an actual home
+template<typename t_salt_type>
+struct c_negative_salt_generator
+{
+	t_salt_type m_salt;
+};
+static_assert(sizeof(c_negative_salt_generator<short>) == sizeof(short));
+
+struct c_tag_resource_prediction_atom_generator;
+struct c_tag_resource_cache_dynamic_predictor :
+	public c_tag_resource_cache_precompiled_predictor
+{
+	enum
+	{
+		k_maximum_prediction_atoms = 63488,
+		k_maximum_prediction_quanta = 16384,
+		k_maximum_prediction_molecule_atoms = 63488,
+	};
+
 	c_tag_index_hash_table m_index_hash_table;
+	c_tag_resource_prediction_atom_generator* m_tag_atom_generator;
+	c_negative_salt_generator<short> m_prediction_atom_salt_generator;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_quantum, k_maximum_prediction_quanta> m_prediction_quanta;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_atom, k_maximum_prediction_atoms> m_prediction_atoms;
+	c_static_sized_dynamic_array<long, k_maximum_prediction_molecule_atoms> m_prediction_molecule_atoms;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule, k_maximum_mapped_molecules> m_prediction_molecules;
 
-	// struct?
-	void* __unknown50028; // vftable
-	word __unknown5002C;
-	word __unknown5002E;
+	bool m_ever_ran_out_of_quanta;
+	bool m_ever_ran_out_of_atoms;
+	bool m_ever_ran_out_of_molecule_atoms;
+	bool m_ever_ran_out_of_molecules;
 
-	c_static_sized_dynamic_array<s_tag_resource_prediction_quantum, 16384> m_prediction_quanta;
-	c_static_sized_dynamic_array<s_tag_resource_prediction_atom, 63488> m_prediction_atoms;
-	c_static_sized_dynamic_array<long, 63488> m_prediction_molecule_atoms;
-	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule, 8192> m_prediction_molecules;
+	bool m_ran_out_of_quanta;
+	bool m_ran_out_of_atoms;
+	bool m_ran_out_of_molecule_atoms;
+	bool m_ran_out_of_molecules;
 
-	bool m_prediction_quanta_bool0;
-	bool m_prediction_atoms_bool0;
-	bool m_prediction_molecule_atoms_bool0;
-	bool m_prediction_molecules_bool0;
-
-	bool m_prediction_quanta_bool1;
-	bool m_prediction_atoms_bool1;
-	bool m_prediction_molecule_atoms_bool1;
-	bool m_prediction_molecules_bool1;
-
-	dword m_idle_time;
+	dword m_last_reset_time;
 };
 static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
 
