@@ -511,7 +511,7 @@ void __cdecl main_game_internal_pregame_load()
 
 	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_none);
 
-	physical_memory_stage_push(_memory_stage_map_type_configuration);
+	physical_memory_stage_push(_memory_stage_map_configuration);
 	physical_memory_stage_push(_memory_stage_level_initialize);
 	texture_cache_open_pregame();
 	main_game_globals.game_loaded_status = _game_loaded_status_pregame;
@@ -525,7 +525,7 @@ void __cdecl main_game_internal_pregame_unload()
 
 	texture_cache_close_pregame();
 	physical_memory_stage_pop(_memory_stage_level_initialize);
-	physical_memory_stage_pop(_memory_stage_map_type_configuration);
+	physical_memory_stage_pop(_memory_stage_map_configuration);
 	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
