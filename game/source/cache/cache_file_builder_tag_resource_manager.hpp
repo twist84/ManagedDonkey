@@ -67,13 +67,13 @@ struct s_render_texture_format
 	short width;
 	short height;
 	char depth;
-	char total_mipmap_count;
+	char mipmap_count_including_highest;
 	char bitmap_type;
 	char is_high_res_bitmap;
-	long xenon_d3d_format;
+	dword xenon_d3d_format;
 	char bm_format;
 	char bm_curve;
-	short bm_flags;
+	word_flags bm_flags;
 };
 static_assert(sizeof(s_render_texture_format) == 0x10);
 
@@ -152,11 +152,11 @@ static_assert(sizeof(s_cache_file_tag_resource_data) == 0x6C);
 
 struct s_cache_file_tag_parentage
 {
-	s_tag_reference tag;
+	s_tag_reference child_tag;
 	word_flags flags;
 	short resource_owner_index;
-	c_typed_tag_block<long> parents;  // s_cache_file_tag_parentage block indices
-	c_typed_tag_block<long> children; // s_cache_file_tag_parentage block indices
+	c_typed_tag_block<long> parent_indices; // s_cache_file_tag_parentage block indices
+	c_typed_tag_block<long> child_indices;  // s_cache_file_tag_parentage block indices
 };
 static_assert(sizeof(s_cache_file_tag_parentage) == 0x2C);
 
@@ -167,13 +167,15 @@ struct s_tag_resource_prediction_molecule_key;
 
 struct s_tag_resource_cache_prediction_table
 {
-	c_typed_tag_block<s_tag_resource_prediction_quantum> prediction_quanta;
-	c_typed_tag_block<s_tag_resource_prediction_atom> prediction_atoms;
-	c_typed_tag_block<long> prediction_molecule_atoms;
-	c_typed_tag_block<s_tag_resource_prediction_molecule> prediction_molecules;
-	c_typed_tag_block<s_tag_resource_prediction_molecule_key> prediction_molecule_keys;
+	c_typed_tag_block<s_tag_resource_prediction_quantum> quanta;
+	c_typed_tag_block<s_tag_resource_prediction_atom> atoms;
+	c_typed_tag_block<long> molecule_atoms;
+	c_typed_tag_block<s_tag_resource_prediction_molecule> molecules;
+	c_typed_tag_block<s_tag_resource_prediction_molecule_key> molecule_keys;
 };
 static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
+
+struct s_cache_file_zone_manifest;
 
 struct s_cache_file_resource_gestalt
 {
@@ -181,18 +183,18 @@ struct s_cache_file_resource_gestalt
 	dword resources_size;
 	dword resources_available;
 
-	s_tag_block designer_zone_manifests;
-	s_tag_block global_zone_manifest;
-	s_tag_block unattached_designer_zone_manifest;
-	s_tag_block dvd_forbidden_zone_manifest;
-	s_tag_block dvd_always_streaming_zone_manifest;
-	s_tag_block default_bsp_zone_manifests;
-	s_tag_block static_bsp_zone_manifests;
-	s_tag_block dynamic_bsp_zone_manifests;
-	s_tag_block cinematic_zone_manifests;
-	s_tag_block zone_only_zone_set_manifests;
-	s_tag_block expected_zone_set_manifests;
-	s_tag_block fully_populated_zone_set_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> designer_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> global_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> unattached_designer_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> dvd_forbidden_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> dvd_always_streaming_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> default_bsp_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> static_bsp_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> dynamic_bsp_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> cinematic_zone_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> zones_only_zone_set_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> expected_zone_set_manifests;
+	c_typed_tag_block<s_cache_file_zone_manifest> fully_populated_zone_set_manifests;
 	s_tag_block __unknownA4;
 	s_tag_block __unknownB0;
 	dword __unknownBC;
