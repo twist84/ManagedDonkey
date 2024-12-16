@@ -4,9 +4,9 @@
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0238EC50, s_physical_memory_globals, physical_memory_globals);
-REFERENCE_DECLARE(0x0238ED04, void*, physical_memory_cache_base_address);
-REFERENCE_DECLARE(0x0238ED08, void*, physical_memory_base_address);
-REFERENCE_DECLARE(0x0238ED0C, void*, physical_memory_data_base_address);
+REFERENCE_DECLARE(0x0238ED04, void*, resources_buffer);
+REFERENCE_DECLARE(0x0238ED08, void*, k_physical_memory_base_virtual_address);
+REFERENCE_DECLARE(0x0238ED0C, void*, k_virtual_to_physical_base_offset);
 
 HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
 
@@ -33,7 +33,7 @@ void recalculate_cache_size_increase(long cache_size_increase_mb)
 	g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
 }
 
-char const* const k_physical_memory_stage_names[]
+char const* const k_physical_memory_stage_names[k_memory_stage_count]
 {
 	"initial",
 	"game_initialize",
@@ -44,7 +44,7 @@ char const* const k_physical_memory_stage_names[]
 	"resize_locked",
 	"in_level"
 };
-static_assert(NUMBEROF(k_physical_memory_stage_names) == _memory_stage_in_level + 1);
+static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
 void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, dword flags)
 {
@@ -105,7 +105,7 @@ void __cdecl physical_memory_dispose()
 	INVOKE(0x0051D590, physical_memory_dispose);
 
 	//csmemset(&physical_memory_globals, 0, sizeof(physical_memory_globals));
-	//VirtualFree(physical_memory_base_address, 0, 0x8000);
+	//VirtualFree(k_physical_memory_base_virtual_address, 0, 0x8000);
 }
 
 void __cdecl physical_memory_free(void* memory) // nullsub
@@ -148,24 +148,24 @@ void __cdecl physical_memory_initialize()
 	recalculate_data_size_increase(g_physical_memory_data_size_increase_mb);
 	recalculate_cache_size_increase(g_physical_memory_cache_size_increase_mb);
 
-	physical_memory_base_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, NULL);
-	physical_memory_data_base_address = physical_memory_base_address;
-	physical_memory_cache_base_address = (byte*)physical_memory_base_address + g_physical_memory_data_size_new;
+	k_physical_memory_base_virtual_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, NULL);
+	k_virtual_to_physical_base_offset = k_physical_memory_base_virtual_address;
+	resources_buffer = (byte*)k_physical_memory_base_virtual_address + g_physical_memory_data_size_new;
 
 	csmemset(&physical_memory_globals, 0, sizeof(physical_memory_globals));
 
 	physical_memory_globals.current_stage = _memory_stage_initial;
-	physical_memory_globals.allocation_base_address = physical_memory_data_base_address;
-	physical_memory_globals.allocation_end_address = physical_memory_cache_base_address;
-	physical_memory_globals.no_mans_land = 1;
+	physical_memory_globals.minimum_address = (dword)k_virtual_to_physical_base_offset;
+	physical_memory_globals.maximum_address = (dword)resources_buffer;
+	physical_memory_globals.no_mans_land = (char*)1;
 
 	if (s_physical_memory_stage* current_stage = physical_memory_get_current_stage())
 	{
-		current_stage->low_address = physical_memory_globals.allocation_base_address;
-		current_stage->high_address = physical_memory_globals.allocation_end_address;
+		current_stage->low_address = physical_memory_globals.minimum_address;
+		current_stage->high_address = physical_memory_globals.maximum_address;
 		current_stage->next_available_zero_allocation = physical_memory_globals.no_mans_land;
-		current_stage->__unknownC = 0;
-		current_stage->__unknown10 = 0;
+		current_stage->allocation_count = 0;
+		current_stage->fixed_address_allocation_count = 0;
 	}
 }
 
@@ -221,7 +221,7 @@ c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock()
 	static c_basic_buffer<void> resize_region{};
 
 	physical_memory_stage_push(_memory_stage_resize_locked);
-	resize_region.set_buffer(physical_memory_cache_base_address, g_physical_memory_cache_size_new);
+	resize_region.set_buffer(k_physical_memory_base_virtual_address, g_physical_memory_cache_size_new);
 
 	return resize_region;
 }

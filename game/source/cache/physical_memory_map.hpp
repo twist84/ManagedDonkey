@@ -30,19 +30,21 @@ enum memory_stage
 	_memory_stage_game_initialize,
 	_memory_stage_resize_initialize,
 	_memory_stage_resize_available,
-	_memory_stage_map_type_configuration,
+	_memory_stage_map_configuration,
 	_memory_stage_level_initialize,
 	_memory_stage_resize_locked,
-	_memory_stage_in_level
+	_memory_stage_in_level,
+
+	k_memory_stage_count
 };
 
 struct s_physical_memory_stage
 {
-	void* low_address;
-	void* high_address;
-	dword next_available_zero_allocation;
-	dword __unknownC;
-	dword __unknown10;
+	dword low_address;
+	dword high_address;
+	char* next_available_zero_allocation;
+	dword allocation_count;
+	dword fixed_address_allocation_count;
 };
 static_assert(sizeof(s_physical_memory_stage) == 0x14);
 
@@ -59,10 +61,10 @@ struct s_physical_memory_globals
 {
 	c_physical_memory_contiguous_region_listener* resize_region_listener;
 	long current_stage;
-	void* allocation_base_address;
-	void* allocation_end_address;
-	dword no_mans_land;
-	c_static_array<s_physical_memory_stage, _memory_stage_in_level + 1> memory_stages;
+	dword minimum_address;
+	dword maximum_address;
+	char* no_mans_land;
+	c_static_array<s_physical_memory_stage, k_memory_stage_count> memory_stages;
 };
 static_assert(sizeof(s_physical_memory_globals) == 0xB4);
 
