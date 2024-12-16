@@ -76,6 +76,14 @@ struct s_data_array
 };
 static_assert(sizeof(s_data_array) == 0x54);
 
+struct s_data_iterator
+{
+	s_data_array* data;
+	long index;
+	long absolute_index;
+};
+static_assert(sizeof(s_data_iterator) == 0xC);
+
 template <typename t_datum_type>
 struct c_smart_data_array
 {
@@ -167,57 +175,6 @@ struct c_wrapped_data_array
 };
 static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
 
-struct s_data_iterator
-{
-	s_data_array* data;
-	long index;
-	long absolute_index;
-};
-static_assert(sizeof(s_data_iterator) == 0xC);
-
-template<typename t_datum_type>
-struct c_data_iterator
-{
-	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
-
-public:
-	c_data_iterator();
-	void begin(s_data_array* data);
-	void begin(s_data_array const* data);
-	short get_absolute_index() const;
-	long get_index() const;
-	t_datum_type* get_datum() const;
-	bool next();
-
-//protected:
-	t_datum_type* m_datum;
-	s_data_iterator iterator;
-};
-static_assert(sizeof(c_data_iterator<void>) == 0x10);
-
-template<typename t_datum_type>
-struct c_data_iterator_with_byte_flags
-{
-	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
-
-public:
-	c_data_iterator_with_byte_flags();
-	void begin(s_data_array* data, long flag_offset, byte flag_mask, byte flag_value);
-	void begin(s_data_array const* data, long flag_offset, byte flag_mask, byte flag_value);
-	short get_absolute_index() const;
-	long get_index() const;
-	t_datum_type* get_datum() const;
-	bool next();
-
-//protected:
-	t_datum_type* m_datum;
-	long m_flag_offset;
-	byte m_flag_mask;
-	byte m_flag_value;
-	s_data_iterator iterator;
-};
-static_assert(sizeof(c_data_iterator_with_byte_flags<void>) == 0x18);
-
 extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
 extern void __cdecl data_copy(s_data_array const* src, s_data_array* dst);
@@ -259,4 +216,114 @@ extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
 extern void* __cdecl datum_get_absolute(s_data_array* data, long index);
 extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);
+
+template<typename t_datum_type>
+struct c_data_iterator
+{
+	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
+
+public:
+	c_data_iterator() :
+		m_datum(),
+		iterator()
+	{
+	}
+
+	void begin(s_data_array* data)
+	{
+		data_iterator_begin(&iterator, data);
+	}
+
+	void begin(s_data_array const* data)
+	{
+		data_iterator_begin(&iterator, data);
+	}
+
+	short get_absolute_index() const
+	{
+		return DATUM_INDEX_TO_ABSOLUTE_INDEX(iterator.absolute_index);
+	}
+
+	long get_index() const
+	{
+		return iterator.index;
+	}
+
+	t_datum_type* get_datum() const
+	{
+		return m_datum;
+	}
+
+	bool next()
+	{
+		m_datum = (t_datum_type*)data_iterator_next(&iterator);
+		return m_datum != nullptr;
+	}
+
+//protected:
+	t_datum_type* m_datum;
+	s_data_iterator iterator;
+};
+static_assert(sizeof(c_data_iterator<void>) == 0x10);
+
+template<typename t_datum_type>
+struct c_data_iterator_with_byte_flags
+{
+	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
+
+public:
+	c_data_iterator_with_byte_flags() :
+		m_datum(),
+		m_flag_offset(),
+		m_flag_mask(),
+		m_flag_value(),
+		iterator()
+	{
+	}
+
+	void begin(s_data_array* data, long flag_offset, byte flag_mask, byte flag_value)
+	{
+		iterator.m_flag_offset = flag_offset;
+		iterator.m_flag_mask = flag_mask;
+		iterator.m_flag_value = flag_value;
+		data_iterator_begin(&iterator, data);
+	}
+
+	void begin(s_data_array const* data, long flag_offset, byte flag_mask, byte flag_value)
+	{
+		iterator.m_flag_offset = flag_offset;
+		iterator.m_flag_mask = flag_mask;
+		iterator.m_flag_value = flag_value;
+		data_iterator_begin(&iterator, data);
+	}
+
+	short get_absolute_index() const
+	{
+		return DATUM_INDEX_TO_ABSOLUTE_INDEX(iterator.absolute_index);
+	}
+
+	long get_index() const
+	{
+		return iterator.index;
+	}
+
+	t_datum_type* get_datum() const
+	{
+		return m_datum;
+	}
+
+	bool next()
+	{
+		m_datum = (t_datum_type*)data_iterator_next(&iterator);
+		return m_datum != nullptr;
+	}
+
+//protected:
+	t_datum_type* m_datum;
+	long m_flag_offset;
+	byte m_flag_mask;
+	byte m_flag_value;
+	s_data_iterator iterator;
+};
+static_assert(sizeof(c_data_iterator_with_byte_flags<void>) == 0x18);
 
