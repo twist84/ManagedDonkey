@@ -16,15 +16,15 @@ enum e_cache_file_tag_resource_location_flags
 	_cache_file_tag_resource_location_flags_unused,
 	_cache_file_tag_resource_location_flags_only_full_valid_checksum,
 
-	k_cache_file_tag_resource_location_flags
-};
+	k_cache_file_tag_resource_location_flags,
 
-byte const k_cache_file_tag_resource_location_mask
+	k_cache_file_tag_resource_location_mask
 	= FLAG(_cache_file_tag_resource_location_flags_resources)
 	| FLAG(_cache_file_tag_resource_location_flags_textures)
 	| FLAG(_cache_file_tag_resource_location_flags_textures_b)
 	| FLAG(_cache_file_tag_resource_location_flags_audio)
-	| FLAG(_cache_file_tag_resource_location_flags_video);
+	| FLAG(_cache_file_tag_resource_location_flags_video)
+};
 
 enum e_cache_file_compression_codec
 {
