@@ -12,19 +12,19 @@ HOOK_DECLARE(0x00508F80, security_rsa_compute_and_verify_signature);
 
 bool const override_scenario_load_security_rsa_compute_and_verify_signature = true;
 
-long __cdecl hash_compare_function(void const* a, void const* b, void const* find)
+long __cdecl hash_compare_function(void const* in_a, void const* in_b, void const* compare_data)
 {
-	return INVOKE(0x00508C90, hash_compare_function, a, b, find);
+	return INVOKE(0x00508C90, hash_compare_function, in_a, in_b, compare_data);
 }
 
-long __cdecl rsa_signature_compare_function(void const* a, void const* b, void const* find)
+long __cdecl rsa_signature_compare_function(void const* in_a, void const* in_b, void const* compare_data)
 {
-	return INVOKE(0x00508CE0, hash_compare_function, a, b, find);
+	return INVOKE(0x00508CE0, hash_compare_function, in_a, in_b, compare_data);
 }
 
-bool __cdecl security_calculate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash* hash)
+bool __cdecl security_calculate_hash(void const* buffer, dword buffer_size, bool use_secret_hash_salt, s_network_http_request_hash* hash)
 {
-	bool result = INVOKE(0x00508D30, security_calculate_hash, buffer, buffer_size, calculate, hash);
+	bool result = INVOKE(0x00508D30, security_calculate_hash, buffer, buffer_size, use_secret_hash_salt, hash);
 
 	return result;
 }
@@ -73,9 +73,9 @@ bool __cdecl security_hash_manifest_find_hash(s_network_http_request_hash const*
 	return INVOKE(0x00508E00, security_hash_manifest_find_hash, hash, manifest, manifest_size);
 }
 
-bool __cdecl security_incremental_hash_begin(void* working_memory, long working_memory_size, bool calculate /*, void* salt_memory, long salt_memory_size*/)
+bool __cdecl security_incremental_hash_begin(void* working_memory, long working_memory_size, bool use_secret_hash_salt)
 {
-	return INVOKE(0x00508E50, security_incremental_hash_begin, working_memory, working_memory_size, calculate);
+	return INVOKE(0x00508E50, security_incremental_hash_begin, working_memory, working_memory_size, use_secret_hash_salt);
 }
 
 void __cdecl security_incremental_hash_finish(void* working_memory, long working_memory_size, s_network_http_request_hash* hash)
@@ -83,9 +83,9 @@ void __cdecl security_incremental_hash_finish(void* working_memory, long working
 	INVOKE(0x00508E80, security_incremental_hash_finish, working_memory, working_memory_size, hash);
 }
 
-void __cdecl security_incremental_hash_update(void* working_memory, long working_memory_size, void const* input, dword input_size)
+void __cdecl security_incremental_hash_update(void* working_memory, long working_memory_size, void const* buffer, dword buffer_size)
 {
-	INVOKE(0x00508EA0, security_incremental_hash_update, working_memory, working_memory_size, input, input_size);
+	INVOKE(0x00508EA0, security_incremental_hash_update, working_memory, working_memory_size, buffer, buffer_size);
 }
 
 void __cdecl security_initialize()
@@ -124,9 +124,9 @@ bool __cdecl security_rsa_manifest_find_signature(s_rsa_signature const* rsa_sig
 	return INVOKE(0x00508FE0, security_rsa_manifest_find_signature, rsa_signature, manifest, manifest_size);
 }
 
-bool __cdecl security_validate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash const* hash, s_network_http_request_hash* out_hash)
+bool __cdecl security_validate_hash(void const* buffer, dword buffer_size, bool use_secret_hash_salt, s_network_http_request_hash const* hash, s_network_http_request_hash* out_actual_hash)
 {
-	bool result = INVOKE(0x00509020, security_validate_hash, buffer, buffer_size, calculate, hash, out_hash);
+	bool result = INVOKE(0x00509020, security_validate_hash, buffer, buffer_size, use_secret_hash_salt, hash, out_actual_hash);
 
 	return result;
 }
