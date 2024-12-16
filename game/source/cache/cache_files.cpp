@@ -685,7 +685,7 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	//long reports_buffer_size = cache_file_round_up_read_size(header->reports.size);
 	//void* reports_buffer = _physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, reports_buffer_size, 0);
 	//
-	//cache_file_blocking_read(_cache_file_section_debug, header->reports.offset, reports_buffer_size, reports_buffer);
+	//cache_file_blocking_read(_cache_file_debug_section, header->reports.offset, reports_buffer_size, reports_buffer);
 	//
 	//reports->elements = static_cast<s_cache_file_report*>(reports_buffer);
 	//reports->count = GET_REPORT_COUNT_FROM_SIZE(header->reports.size);
@@ -962,10 +962,10 @@ bool __cdecl cache_file_debug_tag_names_load()
 	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
 	if (debug_tag_name_count)
 	{
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_data_offset, cache_file_round_up_read_size(debug_tag_name_data_size), buffer))
+		if (!cache_file_blocking_read(_cache_file_debug_section, debug_tag_name_data_offset, cache_file_round_up_read_size(debug_tag_name_data_size), buffer))
 			return false;
 
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_index_offset, cache_file_round_up_read_size(debug_tag_name_count * sizeof(long)), offsets))
+		if (!cache_file_blocking_read(_cache_file_debug_section, debug_tag_name_index_offset, cache_file_round_up_read_size(debug_tag_name_count * sizeof(long)), offsets))
 			return false;
 	}
 	else
@@ -1058,7 +1058,7 @@ bool __cdecl cache_file_tags_load_allocate()
 		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
 		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
 
-		result = cache_file_blocking_read(_cache_file_section_tag, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
+		result = cache_file_blocking_read(_cache_file_tag_section, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
 	}
 	else
 	{
@@ -1116,7 +1116,7 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 		return result;
 	}
 
-	return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);
+	return cache_file_blocking_read(_cache_file_tag_section, offset, size, buffer);
 }
 
 //#define EXPERIMENTAL_TAG_CACHE_ALLOCATION

@@ -23,10 +23,10 @@ enum e_cache_file_shared_file_type
 
 enum e_cache_file_section
 {
-	_cache_file_section_debug = 0,
-	_cache_file_section_resource,
-	_cache_file_section_tag,
-	_cache_file_section_localization,
+	_cache_file_debug_section = 0,
+	_cache_file_resource_section,
+	_cache_file_tag_section,
+	_cache_file_language_pack_section,
 
 	k_number_of_cache_file_sections
 };

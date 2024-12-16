@@ -31,16 +31,18 @@ enum e_object_type
 
 enum e_object_source
 {
-	_object_source_structure = 0,
+	_object_source_structure_object = 0,
 	_object_source_editor,
 	_object_source_dynamic,
 	_object_source_legacy,
 	_object_source_sky,
 	_object_source_parent,
 
-	k_object_source_count,
+	k_number_of_object_sources,
 
-	k_object_source_none = -1
+	_object_source_none = -1,
+
+	k_object_source_scenario_mask = MASK(_object_source_dynamic)
 };
 
 enum e_object_definition_flags
@@ -457,7 +459,7 @@ struct c_object_identifier
 	short m_origin_bsp_index;
 
 	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
-	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
+	c_enum<e_object_source, char, _object_source_structure_object, k_number_of_object_sources> m_source;
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
 

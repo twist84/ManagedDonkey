@@ -218,7 +218,7 @@ void c_object_identifier::clear()
 	//INVOKE_CLASS_MEMBER(0x00B27CB0, c_object_identifier, clear);
 
 	m_type = k_object_type_none;
-	m_source = k_object_source_none;
+	m_source = _object_source_none;
 	m_origin_bsp_index = NONE;
 	m_unique_id = NONE;
 }
@@ -230,7 +230,7 @@ void c_object_identifier::clear_for_deletion()
 {
 	//INVOKE_CLASS_MEMBER(0x00B27D20, c_object_identifier, clear_for_deletion);
 
-	m_source = k_object_source_none;
+	m_source = _object_source_none;
 	m_origin_bsp_index = NONE;
 	m_unique_id = NONE;
 }
@@ -330,7 +330,7 @@ void c_object_identifier::create_from_structure(e_object_type type, short origin
 
 	m_type = type;
 	m_origin_bsp_index = origin_bsp_index;
-	m_source = _object_source_structure;
+	m_source = _object_source_structure_object;
 	m_unique_id = unique_id;
 }
 
@@ -1030,7 +1030,7 @@ long __cdecl object_new(object_placement_data* data)
 	//
 	//object->object.object_identifier = data->object_identifier;
 	//long scenario_datum_index = data->scenario_datum_index;
-	//if (data->object_identifier.m_source == k_object_source_none)
+	//if (data->object_identifier.m_source == _object_source_none)
 	//{
 	//	object->object.object_identifier.create_dynamic(object_definition->object.type);
 	//	scenario_datum_index = NONE;
