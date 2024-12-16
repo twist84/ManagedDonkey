@@ -350,7 +350,7 @@ LABEL_5:;
 	else
 	{
 		c_data_iterator<player_datum> player_iterator;
-		player_iterator.begin(*player_data);
+		player_iterator.begin(player_data);
 		while (player_iterator.next())
 		{
 			long unit_index = player_iterator.get_datum()->unit_index;

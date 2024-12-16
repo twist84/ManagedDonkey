@@ -32,7 +32,7 @@ bool __cdecl object_index_valid_for_try_and_get(long object_index)
 	//INVOKE(0x0068C630, object_index_valid_for_try_and_get, object_index);
 
 	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	return object_index != NONE && *object_header_data && DATUM_INDEX_TO_ABSOLUTE_INDEX(object_index) != object_index;
+	return object_index != NONE && object_header_data && DATUM_INDEX_TO_ABSOLUTE_INDEX(object_index) != object_index;
 }
 
 s_watch_object_results& __cdecl watch_object(long object_index)

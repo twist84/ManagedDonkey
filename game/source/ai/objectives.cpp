@@ -27,7 +27,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(squad_data);
 
-	squad_datum* squad = (squad_datum*)datum_get_absolute(*squad_data, DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_index));
+	squad_datum* squad = (squad_datum*)datum_get_absolute(squad_data, DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_index));
 	if (squad->objective_index != NONE)
 	{
 		s_objective& objective = global_scenario_get()->ai_objectives[squad->objective_index];

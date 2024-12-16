@@ -79,10 +79,10 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 	// called but never used, comment out for now
 	//levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, &campaign_level);
 
-	long campaign_level_index = datum_new(*g_level_globals.campaign_levels);
+	long campaign_level_index = datum_new(g_level_globals.campaign_levels);
 	if (campaign_level_index != NONE)
 	{
-		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.campaign_levels, campaign_level_index);
+		s_level_datum* level = (s_level_datum*)datum_try_and_get(g_level_globals.campaign_levels, campaign_level_index);
 
 		// 0x2C
 		level->flags.set(_level_visible_in_ui, true);
@@ -102,7 +102,7 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 		csnzprintf(level->scenario_file, NUMBEROF(level->scenario_file), "%s%s", cache_files_map_directory(), scenario_path);
 
 		c_data_iterator<s_campaign_datum> campaign_iterator;
-		campaign_iterator.begin(*g_level_globals.campaigns);
+		campaign_iterator.begin(g_level_globals.campaigns);
 		if (campaign_iterator.next())
 		{
 			s_campaign_datum* campaign = campaign_iterator.get_datum();
@@ -150,10 +150,10 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 	// called but never used, comment out for now
 	//levels_try_and_get_by_map_id(g_level_globals.multiplayer_levels, map_id, &multiplayer_level);
 
-	long multiplayer_level_index = datum_new(*g_level_globals.multiplayer_levels);
+	long multiplayer_level_index = datum_new(g_level_globals.multiplayer_levels);
 	if (multiplayer_level_index != NONE)
 	{
-		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.multiplayer_levels, multiplayer_level_index);
+		s_level_datum* level = (s_level_datum*)datum_try_and_get(g_level_globals.multiplayer_levels, multiplayer_level_index);
 
 		// 0x4C
 		level->flags.set(_level_visible_in_ui, true);
@@ -213,7 +213,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 	}
 	else if (flags.test(_level_is_campaign_bit) || flags.test(_level_is_multiplayer_bit))
 	{
-		s_data_array* levels_data = flags.test(_level_is_campaign_bit) ? *g_level_globals.campaign_levels : *g_level_globals.multiplayer_levels;
+		s_data_array* levels_data = flags.test(_level_is_campaign_bit) ? g_level_globals.campaign_levels : g_level_globals.multiplayer_levels;
 		long level_index = datum_new(levels_data);
 		if (level_index != NONE)
 			level = (s_level_datum*)datum_get(levels_data, level_index);
@@ -273,10 +273,10 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 		if (flags.test(_level_is_campaign_bit))
 		{
-			long insertion_index = datum_new(*g_level_globals.campaign_insertions);
+			long insertion_index = datum_new(g_level_globals.campaign_insertions);
 			if (insertion_index != NONE)
 			{
-				s_level_insertion_datum* level_insertion = (s_level_insertion_datum*)datum_get(*g_level_globals.campaign_insertions, insertion_index);
+				s_level_insertion_datum* level_insertion = (s_level_insertion_datum*)datum_get(g_level_globals.campaign_insertions, insertion_index);
 				csmemset(level_insertion, 0, sizeof(s_level_insertion_datum));
 
 				short insertion_count = 0;
@@ -407,22 +407,22 @@ void __cdecl levels_dispose()
 
 	g_level_globals.initialized = false;
 
-	data_make_invalid(*g_level_globals.campaigns);
-	data_make_invalid(*g_level_globals.campaign_levels);
-	data_make_invalid(*g_level_globals.campaign_insertions);
-	data_make_invalid(*g_level_globals.multiplayer_levels);
+	data_make_invalid(g_level_globals.campaigns);
+	data_make_invalid(g_level_globals.campaign_levels);
+	data_make_invalid(g_level_globals.campaign_insertions);
+	data_make_invalid(g_level_globals.multiplayer_levels);
 
-	if (*g_level_globals.campaigns)
-		data_dispose(*g_level_globals.campaigns);
+	if (g_level_globals.campaigns)
+		data_dispose(g_level_globals.campaigns);
 
-	if (*g_level_globals.campaign_levels)
-		data_dispose(*g_level_globals.campaign_levels);
+	if (g_level_globals.campaign_levels)
+		data_dispose(g_level_globals.campaign_levels);
 
-	if (*g_level_globals.campaign_insertions)
-		data_dispose(*g_level_globals.campaign_insertions);
+	if (g_level_globals.campaign_insertions)
+		data_dispose(g_level_globals.campaign_insertions);
 
-	if (*g_level_globals.multiplayer_levels)
-		data_dispose(*g_level_globals.multiplayer_levels);
+	if (g_level_globals.multiplayer_levels)
+		data_dispose(g_level_globals.multiplayer_levels);
 }
 
 void __cdecl levels_dispose_from_old_map()
@@ -576,7 +576,7 @@ long __cdecl levels_get_default_multiplayer_map_id()
 		c_critical_section_scope critical_section_scope(_critical_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
-		level_iter.begin(*g_level_globals.multiplayer_levels);
+		level_iter.begin(g_level_globals.multiplayer_levels);
 		while (level_iter.next())
 		{
 			s_level_datum* level = level_iter.get_datum();
@@ -610,7 +610,7 @@ long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_n
 		c_critical_section_scope critical_section_scope(_critical_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
-		level_iter.begin(*g_level_globals.multiplayer_levels);
+		level_iter.begin(g_level_globals.multiplayer_levels);
 		while (level_iter.next())
 		{
 			s_level_datum* level = level_iter.get_datum();
@@ -640,7 +640,7 @@ void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_coun
 		ASSERT(maximum_count > 0);
 		csmemset(out_map_ids, NONE, sizeof(long) * maximum_count);
 
-		level_iter.begin(*g_level_globals.multiplayer_levels);
+		level_iter.begin(g_level_globals.multiplayer_levels);
 		while (level_iter.next() && count < maximum_count)
 		{
 			long map_id = level_iter.get_datum()->map_id;
@@ -705,11 +705,11 @@ char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long ma
 	}
 	else if (campaign_id == NONE)
 	{
-		levels_find_path(*g_level_globals.multiplayer_levels, map_id, path, maximum_characters);
+		levels_find_path(g_level_globals.multiplayer_levels, map_id, path, maximum_characters);
 	}
 	else
 	{
-		levels_find_path(*g_level_globals.campaign_levels, map_id, path, maximum_characters);
+		levels_find_path(g_level_globals.campaign_levels, map_id, path, maximum_characters);
 	}
 
 	return path;
@@ -727,10 +727,10 @@ void __cdecl levels_initialize()
 	g_level_globals.campaign_insertions = data_new("campaign insertions", 32, sizeof(s_level_insertion_datum), 0, g_runtime_state_allocation);
 	g_level_globals.multiplayer_levels = data_new("multiplayer levels", 50, sizeof(s_level_datum), 0, g_runtime_state_allocation);
 
-	data_make_valid(*g_level_globals.campaigns);
-	data_make_valid(*g_level_globals.campaign_levels);
-	data_make_valid(*g_level_globals.campaign_insertions);
-	data_make_valid(*g_level_globals.multiplayer_levels);
+	data_make_valid(g_level_globals.campaigns);
+	data_make_valid(g_level_globals.campaign_levels);
+	data_make_valid(g_level_globals.campaign_insertions);
+	data_make_valid(g_level_globals.multiplayer_levels);
 
 	g_level_globals.mainmenu_level.flags.clear();
 	g_level_globals.mainmenu_level.flags.set(_level_is_main_menu_bit, true);
@@ -807,25 +807,25 @@ void __cdecl levels_delete()
 	c_data_iterator<s_level_datum> campaign_level_iter{};
 	c_data_iterator<s_level_datum> multiplayer_level_iter{};
 
-	campaign_iter.begin(*g_level_globals.campaigns);
+	campaign_iter.begin(g_level_globals.campaigns);
 	while (campaign_iter.next())
 	{
 		if (campaign_iter.get_datum()->flags.test(_campaign_from_dlc_bit))
-			datum_delete(*g_level_globals.campaigns, campaign_iter.get_index());
+			datum_delete(g_level_globals.campaigns, campaign_iter.get_index());
 	}
 
-	campaign_level_iter.begin(*g_level_globals.campaign_levels);
+	campaign_level_iter.begin(g_level_globals.campaign_levels);
 	while (campaign_level_iter.next())
 	{
 		if (campaign_level_iter.get_datum()->flags.test(_level_from_dlc_bit))
-			datum_delete(*g_level_globals.campaign_levels, campaign_level_iter.get_index());
+			datum_delete(g_level_globals.campaign_levels, campaign_level_iter.get_index());
 	}
 
-	multiplayer_level_iter.begin(*g_level_globals.multiplayer_levels);
+	multiplayer_level_iter.begin(g_level_globals.multiplayer_levels);
 	while (multiplayer_level_iter.next())
 	{
 		if (multiplayer_level_iter.get_datum()->flags.test(_level_from_dlc_bit))
-			datum_delete(*g_level_globals.multiplayer_levels, multiplayer_level_iter.get_index());
+			datum_delete(g_level_globals.multiplayer_levels, multiplayer_level_iter.get_index());
 	}
 }
 
@@ -865,7 +865,7 @@ bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertio
 		c_critical_section_scope critical_section_scope(_critical_section_levels);
 		c_data_iterator<s_level_insertion_datum> insertion_iter{};
 
-		insertion_iter.begin(*g_level_globals.campaign_insertions);
+		insertion_iter.begin(g_level_globals.campaign_insertions);
 		while (insertion_iter.next())
 		{
 			if (insertion_iter.get_datum()->map_id == map_id)
@@ -886,7 +886,7 @@ bool __cdecl levels_try_and_get_campaign_map(long map_id, s_level_datum* level)
 
 	ASSERT(level != NULL);
 
-	return levels_try_and_get_by_map_id(*g_level_globals.campaign_levels, map_id, level);
+	return levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, level);
 }
 
 //bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
@@ -909,7 +909,7 @@ bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* leve
 
 	ASSERT(level != NULL);
 
-	return levels_try_and_get_by_map_id(*g_level_globals.multiplayer_levels, map_id, level);
+	return levels_try_and_get_by_map_id(g_level_globals.multiplayer_levels, map_id, level);
 }
 
 void __cdecl levels_update()

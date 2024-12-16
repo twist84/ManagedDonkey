@@ -857,7 +857,7 @@ void ai_debug_render_targets_all()
 	{
 		if (actor->target.target_prop_index != NONE)
 		{
-			prop_ref_datum* prop_ref = (prop_ref_datum*)datum_get(*prop_ref_data, actor->target.target_prop_index);
+			prop_ref_datum* prop_ref = (prop_ref_datum*)datum_get(prop_ref_data, actor->target.target_prop_index);
 
 			real_point3d origin{};
 			object_get_origin(prop_ref->get_object_index(), &origin);
@@ -891,7 +891,7 @@ void ai_debug_render_dynamic_firing_positions()
 	TLS_DATA_GET_VALUE_REFERENCE(dynamic_firing_set_data);
 
 	c_data_iterator<dynamic_firing_set_datum> dynamic_firing_set_iter;
-	dynamic_firing_set_iter.begin(*dynamic_firing_set_data);
+	dynamic_firing_set_iter.begin(dynamic_firing_set_data);
 	while (dynamic_firing_set_iter.next())
 	{
 		real_point3d position{};
@@ -929,7 +929,7 @@ void ai_debug_render_dynamic_firing_positions()
 	{
 		if (actor->firing_positions.dynamic_firing_set_index != NONE)
 		{
-			dynamic_firing_set_datum* dynamic_firing_set = (dynamic_firing_set_datum*)datum_get(*dynamic_firing_set_data, actor->firing_positions.dynamic_firing_set_index);
+			dynamic_firing_set_datum* dynamic_firing_set = (dynamic_firing_set_datum*)datum_get(dynamic_firing_set_data, actor->firing_positions.dynamic_firing_set_index);
 
 			real_point3d ai_point_position{};
 			ai_point_get_position(&dynamic_firing_set->position, &ai_point_position);

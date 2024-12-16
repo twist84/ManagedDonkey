@@ -20,12 +20,12 @@ c_lruv_block_long::operator long() const
 
 s_lruv_cache_block const* lruv_cache_block_get(s_lruv_cache const* cache, long block_index)
 {
-	return &cache->blocks[block_index];
+	return (s_lruv_cache_block const*)datum_get(cache->blocks, block_index);
 }
 
 s_lruv_cache_block* lruv_cache_block_get_mutable(s_lruv_cache* cache, long block_index)
 {
-	return &cache->blocks[block_index];
+	return (s_lruv_cache_block*)datum_get(cache->blocks, block_index);
 }
 
 void lruv_cache_verify(s_lruv_cache* cache, bool a2)
@@ -33,7 +33,7 @@ void lruv_cache_verify(s_lruv_cache* cache, bool a2)
 	//ASSERT(cache);
 	//ASSERT(cache->signature == LRUV_CACHE_SIGNATURE);
 	//
-	//data_verify(*cache->blocks);
+	//data_verify(cache->blocks);
 	//
 	//if (a2 && !cache->flags.test(_lruv_cache_disable_lock_bit))
 	//{
@@ -117,7 +117,7 @@ void __cdecl lruv_block_detach_and_delete(s_lruv_cache* cache, long block_index)
 		cache->last_block_index = block->previous_block_index;
 	}
 
-	datum_delete(*cache->blocks, block_index);
+	datum_delete(cache->blocks, block_index);
 	lruv_cache_verify(cache, true);
 }
 
@@ -274,11 +274,11 @@ long __cdecl lruv_block_new_in_hole(s_lruv_cache* cache, long force_datum_index,
 	//long block_index = NONE;
 	//if (force_datum_index != NONE)
 	//{
-	//	block_index = datum_new_at_index(*cache->blocks, force_datum_index);
+	//	block_index = datum_new_at_index(cache->blocks, force_datum_index);
 	//}
 	//else
 	//{
-	//	block_index = datum_new(*cache->blocks);
+	//	block_index = datum_new(cache->blocks);
 	//}
 	//lruv_block_initialize(cache, hole, page_count, block_index);
 }
@@ -431,7 +431,7 @@ long __cdecl lruv_compute_fragmentation_threshold(s_lruv_cache const* cache)
 {
 	return INVOKE(0x00967470, lruv_compute_fragmentation_threshold, cache);
 
-	//if (cache->maximum_page_count && *cache->blocks)
+	//if (cache->maximum_page_count && cache->blocks)
 	//{
 	//	long maximum_blocks = cache->blocks->maximum_count;
 	//	ASSERT(maximum_blocks > 0);
@@ -448,7 +448,7 @@ void __cdecl lruv_connect(s_lruv_cache* cache, s_data_array* blocks, long maximu
 
 	//ASSERT(cache);
 	//ASSERT(blocks);
-	//ASSERT(*cache->blocks == NULL);
+	//ASSERT(cache->blocks == NULL);
 	//
 	//cache->maximum_page_count = maximum_page_count;
 	//cache->blocks = blocks;
@@ -460,7 +460,7 @@ void __cdecl lruv_delete(s_lruv_cache* cache)
 {
 	INVOKE(0x00967510, lruv_delete, cache);
 
-	//data_dispose(*cache->blocks);
+	//data_dispose(cache->blocks);
 	//cache->allocation->deallocate(cache);
 }
 
@@ -470,7 +470,7 @@ void __cdecl lruv_flush(s_lruv_cache* cache)
 
 	//lruv_cache_verify(cache, true);
 	//c_data_iterator<s_lruv_cache_block const> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	lruv_block_delete(cache, block_iterator.get_index());
@@ -498,7 +498,7 @@ long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache)
 	//long largest_slot_in_pages = 0;
 	//
 	//c_data_iterator<s_lruv_cache_block const> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//if (block_iterator.next())
 	//{
 	//	while (block_iterator.next())
@@ -544,7 +544,7 @@ long __cdecl lruv_get_locked_pages(s_lruv_cache* cache, long a2)
 	//long locked_pages = 0;
 	//
 	//c_data_iterator<s_lruv_cache_block const> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block const* block = block_iterator.get_datum();
@@ -633,7 +633,7 @@ void __cdecl lruv_iterator_begin(s_lruv_cache const* cache, s_data_iterator* ite
 {
 	INVOKE(0x009678A0, lruv_iterator_begin, cache, iterator);
 
-	//data_iterator_begin(iterator, *cache->blocks);
+	//data_iterator_begin(iterator, cache->blocks);
 }
 
 void* __cdecl lruv_iterator_next(s_lruv_cache const* cache, s_data_iterator* iterator)
@@ -682,7 +682,7 @@ void __cdecl lruv_resize(s_lruv_cache* cache, long new_page_count)
 	//lruv_cache_verify(cache, true);
 	//
 	//c_data_iterator<s_lruv_cache_block> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block* block = block_iterator.get_datum();
@@ -706,7 +706,7 @@ void __cdecl lruv_resize_non_destructive(s_lruv_cache* cache, long new_page_coun
 	//lruv_cache_verify(cache, true);
 	//
 	//c_data_iterator<s_lruv_cache_block> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block* block = block_iterator.get_datum();
@@ -752,7 +752,7 @@ void __cdecl lruv_setup(s_lruv_cache* cache, char const* name, long page_size_bi
 	//cache->locked_block_proc = locked_block_proc;
 	//cache->usage_block_proc = usage_block_proc;
 	//cache->page_size_bits = page_size_bits;
-	//cache->maximum_page_count = 0;g
+	//cache->maximum_page_count = 0;
 	//cache->fragmentation_threshold = NONE;
 	//cache->blocks = NULL;
 	//cache->signature = LRUV_CACHE_SIGNATURE;
@@ -770,7 +770,7 @@ bool __cdecl lruv_verify_slave_data_array(s_lruv_cache const* cache, s_data_arra
 	//byte valid = 1;
 	//
 	//c_data_iterator<s_lruv_cache_block> block_iterator;
-	//block_iterator.begin(*cache->blocks);
+	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next() && valid)
 	//{
 	//	valid &= datum_try_and_get(data, block_iterator.get_index()) != NULL;
@@ -780,7 +780,7 @@ bool __cdecl lruv_verify_slave_data_array(s_lruv_cache const* cache, s_data_arra
 	//iterator.begin(data);
 	//while (iterator.next() && valid)
 	//{
-	//	valid &= datum_try_and_get(*cache->blocks, iterator.get_index()) != NULL;
+	//	valid &= datum_try_and_get(cache->blocks, iterator.get_index()) != NULL;
 	//}
 	//
 	//return valid;
@@ -794,7 +794,7 @@ void __cdecl lruv_wrap_frame_index(s_lruv_cache* cache)
 	//cache->frame_index = k_post_wrap_frame_index + 1;
 	//
 	//c_data_iterator<s_lruv_cache_block> iterator;
-	//iterator.begin(*cache->blocks);
+	//iterator.begin(cache->blocks);
 	//while (iterator.next())
 	//{
 	//	dword block_age = k_lruv_max_frame_index - iterator.get_datum()->last_used_frame_index;

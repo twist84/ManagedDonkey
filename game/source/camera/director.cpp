@@ -855,7 +855,7 @@ void survival_mode_update_flying_camera(long user_index)
 		if (player_index != NONE && game_is_survival())
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
-			player_datum* player = &player_data[player_index];
+			player_datum* player = (player_datum*)datum_get(player_data, player_index);
 
 			c_director* director = director_get(user_index);
 			e_director_mode director_mode = director->get_type();

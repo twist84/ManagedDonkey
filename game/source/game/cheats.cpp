@@ -173,7 +173,7 @@ void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
 	long user_index = player_mapping_get_input_user(player_index);
 	if (VALID_INDEX(user_index, k_number_of_users))
 	{
-		player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+		player_datum* player = (player_datum*)datum_get(player_data, player_index);
 
 		if (player->unit_index != NONE)
 		{
@@ -196,7 +196,7 @@ long __cdecl cheat_player_index()
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	c_data_iterator<player_datum> player_iterator;
-	player_iterator.begin(*player_data);
+	player_iterator.begin(player_data);
 	while (player_iterator.next())
 	{
 		if (player_iterator.get_datum()->unit_index != NONE)
@@ -231,7 +231,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 	}
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+	player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 	if (!player)
 		return;
 

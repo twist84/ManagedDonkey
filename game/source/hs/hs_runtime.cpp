@@ -391,7 +391,7 @@ hs_thread* hs_thread_get(long thread_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
 
-	hs_thread* result = static_cast<hs_thread*>(datum_try_and_get(*hs_thread_deterministic_data, thread_index));
+	hs_thread* result = static_cast<hs_thread*>(datum_try_and_get(hs_thread_deterministic_data, thread_index));
 	return result;
 }
 
@@ -505,7 +505,7 @@ void render_debug_scripting_globals()
 		return;
 
 	TLS_DATA_GET_VALUE_REFERENCE(hs_global_data);
-	if (*hs_global_data)
+	if (hs_global_data)
 	{
 		char buffer[10240]{};
 
@@ -523,7 +523,7 @@ void render_debug_scripting_globals()
 			csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name);
 
 			long runtime_index = hs_runtime_index_from_global_designator(global_index);
-			hs_global_runtime* runtime_global = (hs_global_runtime*)datum_get_absolute(*hs_global_data, runtime_index);
+			hs_global_runtime* runtime_global = (hs_global_runtime*)datum_get_absolute(hs_global_data, runtime_index);
 
 			char valuebuffer[1024]{};
 			inspect_internal(global.type, runtime_global->value, valuebuffer, sizeof(valuebuffer));

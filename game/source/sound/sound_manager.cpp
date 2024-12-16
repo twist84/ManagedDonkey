@@ -616,7 +616,7 @@ void __cdecl render_debug_sound(long sound_index)
 	if (!debug_sound)
 		return;
 
-	sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(*g_sound_data, sound_index));
+	sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(g_sound_data, sound_index));
 	if (!sound)
 		return;
 
@@ -819,26 +819,26 @@ void __cdecl sound_debug_render()
 	if (debug_sound)
 	{
 		c_data_iterator<sound_datum> sound_iterator;
-		sound_iterator.begin(*g_sound_data);
+		sound_iterator.begin(g_sound_data);
 		do
 		{
 			render_debug_sound(sound_iterator.get_index());
 		} while (sound_iterator.next());
 
 		long sound_datums = NONE;
-		if (*g_sound_data)
+		if (g_sound_data)
 			sound_datums = g_sound_data->actual_count;
 
 		long looping_sound_datums = NONE;
-		if (*g_looping_sound_data)
+		if (g_looping_sound_data)
 			looping_sound_datums = g_looping_sound_data->actual_count;
 
 		long playback_controllers = NONE;
-		if (*g_sound_playback_controller_data)
+		if (g_sound_playback_controller_data)
 			playback_controllers = g_sound_playback_controller_data->actual_count;
 
 		long sound_effects = NONE;
-		if (*g_sound_effect_data)
+		if (g_sound_effect_data)
 			sound_effects = g_sound_effect_data->actual_count;
 
 		long voices = NONE;
@@ -891,7 +891,7 @@ void __cdecl sound_debug_render()
 			if (channel->sound_index == NONE)
 				continue;
 	
-			sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(*g_sound_data, channel->sound_index));
+			sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(g_sound_data, channel->sound_index));
 			if (!sound)
 				continue;
 

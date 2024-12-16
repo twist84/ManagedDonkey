@@ -488,37 +488,37 @@ void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* al
 // does this actually take in `game_mode` or is IDA being IDA again
 void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_game_mode game_mode)
 {
-	data_make_valid(*m_shared_file_handles.m_data_array);
+	data_make_valid(m_shared_file_handles);
 	m_shared_file_datum_indices[6] = 6;
 	for (long& header_file_location_handle : m_shared_file_datum_indices)
 		header_file_location_handle = NONE;
 
-	long header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_data_array, _map_file_index_shared_ui);
-	s_cache_file_tag_resource_runtime_shared_file& runtime_shared_file = m_shared_file_handles.m_data_array[header_file_location_handle];
+	long header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
+	s_cache_file_tag_resource_runtime_shared_file* runtime_shared_file = (s_cache_file_tag_resource_runtime_shared_file*)datum_get(m_shared_file_handles, header_file_location_handle);
 
-	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file.indirect_file))
-		cache_file_get_master_resource_section_offset(&runtime_shared_file.resource_section_offset);
+	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file->indirect_file))
+		cache_file_get_master_resource_section_offset(&runtime_shared_file->resource_section_offset);
 
-	cache_file_get_master_async_file_handle(&runtime_shared_file.async_file_handle);
-	cache_file_get_master_overlapped_file_handle(&runtime_shared_file.overlapped_handle);
+	cache_file_get_master_async_file_handle(&runtime_shared_file->async_file_handle);
+	cache_file_get_master_overlapped_file_handle(&runtime_shared_file->overlapped_handle);
 
-	runtime_shared_file.shared_resource_usage = cache_file_try_to_get_master_shared_resource_usage();
+	runtime_shared_file->shared_resource_usage = cache_file_try_to_get_master_shared_resource_usage();
 	m_shared_file_datum_indices[_map_file_index_shared_ui] = header_file_location_handle;
 
 	if (m_resource_gestalt->resources_available)
 	{
 		for (e_map_file_index map_file_index = _map_file_index_shared_resources; map_file_index < k_cached_map_file_shared_count; map_file_index++)
 		{
-			long next_header_file_location_handle = datum_new_at_absolute_index(*m_shared_file_handles.m_data_array, map_file_index);
-			s_cache_file_tag_resource_runtime_shared_file& next_header_file_location = m_shared_file_handles.m_data_array[next_header_file_location_handle];
+			long next_header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, map_file_index);
+			s_cache_file_tag_resource_runtime_shared_file* next_header_file_location = (s_cache_file_tag_resource_runtime_shared_file*)datum_get(m_shared_file_handles, next_header_file_location_handle);
 
 			if (cached_map_file_is_shared(map_file_index - 1))
 			{
-				if (cache_file_get_indirect_file_handle_from_index(map_file_index, &next_header_file_location.indirect_file))
-					next_header_file_location.resource_section_offset = 0;
+				if (cache_file_get_indirect_file_handle_from_index(map_file_index, &next_header_file_location->indirect_file))
+					next_header_file_location->resource_section_offset = 0;
 
-				cache_file_get_async_file_handle_from_index(map_file_index, &next_header_file_location.async_file_handle);
-				cache_file_get_overlapped_file_handle_from_index(map_file_index, &next_header_file_location.overlapped_handle);
+				cache_file_get_async_file_handle_from_index(map_file_index, &next_header_file_location->async_file_handle);
+				cache_file_get_overlapped_file_handle_from_index(map_file_index, &next_header_file_location->overlapped_handle);
 			}
 
 			m_shared_file_datum_indices[map_file_index] = next_header_file_location_handle;

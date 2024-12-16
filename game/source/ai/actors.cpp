@@ -125,7 +125,7 @@ void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2)
 	
 	if (ai_globals->ai_initialized_for_map)
 	{
-		iterator->iterator.begin(*actor_data);
+		iterator->iterator.begin(actor_data);
 		iterator->active_only = a2;
 	}
 }
@@ -237,13 +237,13 @@ actor_datum* actor_get(long actor_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 
-	return (actor_datum*)datum_get(*actor_data, actor_index);
+	return (actor_datum*)datum_get(actor_data, actor_index);
 }
 
 bool actor_datum_available_to_current_thread()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	return *actor_data != NULL;
+	return actor_data != NULL;
 }
 
 bool actor_is_active(actor_datum const* actor)

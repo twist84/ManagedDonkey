@@ -910,7 +910,7 @@ void __cdecl debug_key_rotate_units(bool key_is_down)
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_mapping_get_player_by_input_user(user_index);
-			player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+			player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 			long unit_index = player->unit_index;
 			if (unit_index != NONE)
 			{
@@ -932,7 +932,7 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_mapping_get_player_by_input_user(user_index);
-			player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+			player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 			long unit_index = player->unit_index;
 			if (unit_index != NONE)
 			{

@@ -54,14 +54,14 @@ s_player_identifier::s_player_identifier(transport_address const* address) :
 void c_player_in_game_iterator::begin()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	m_iterator.begin(*player_data);
+	m_iterator.begin(player_data);
 }
 
 bool c_player_in_game_iterator::next()
 {
-	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.iterator);
 		m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, _player_left_game_bit);
-		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
+		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.iterator))
 	{
 	}
 
@@ -75,7 +75,7 @@ player_datum* c_player_in_game_iterator::get_datum()
 
 long c_player_in_game_iterator::get_index() const
 {
-	return m_iterator.m_iterator.index;
+	return m_iterator.iterator.index;
 }
 
 short c_player_in_game_iterator::get_absolute_index() const
@@ -86,14 +86,14 @@ short c_player_in_game_iterator::get_absolute_index() const
 void c_player_with_unit_iterator::begin()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	m_iterator.begin(*player_data);
+	m_iterator.begin(player_data);
 }
 
 bool c_player_with_unit_iterator::next()
 {
-	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.iterator);
 		m_iterator.m_datum && m_iterator.m_datum->unit_index == NONE;
-		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
+		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.iterator))
 	{
 	}
 
@@ -107,7 +107,7 @@ player_datum* c_player_with_unit_iterator::get_datum()
 
 long c_player_with_unit_iterator::get_index() const
 {
-	return m_iterator.m_iterator.index;
+	return m_iterator.iterator.index;
 }
 
 short c_player_with_unit_iterator::get_absolute_index() const
@@ -270,7 +270,7 @@ bool __cdecl player_consider_equipment_interaction(long player_index, long equip
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+	player_datum* player = (player_datum*)datum_get(player_data, player_index);
 	unit_datum* unit = unit_get(player->unit_index);
 	equipment_datum* equipment = equipment_get(equipment_index);
 
@@ -357,7 +357,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+	player_datum* player = (player_datum*)datum_get(player_data, player_index);
 
 	player_action_context_clear(out_action_context);
 
@@ -620,7 +620,7 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 	//INVOKE(0x0053F220, player_suppress_action, player_index, player_suppress_action_type);
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+	player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 
 	long input_user = player_mapping_get_input_user(player_index);
 	switch (player_suppress_action_type)
@@ -946,7 +946,7 @@ void verify_coop_respawn_effect()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	c_data_iterator<player_datum> player_iterator;
-	player_iterator.begin(*player_data);
+	player_iterator.begin(player_data);
 	while (player_iterator.next())
 	{
 		player_datum* player = player_iterator.get_datum();

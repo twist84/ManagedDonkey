@@ -157,7 +157,7 @@ bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long s
 	c_gui_custom_bitmap_storage_manager::s_bitmap_storage_handle_datum* storage_item = NULL;
 	{
 		c_critical_section_scope section_scope(_critical_section_ui_custom_bitmaps);
-		if (storage_item = (decltype(storage_item))datum_try_and_get(*m_bitmap_storage_items, storage_item_index))
+		if (storage_item = (decltype(storage_item))datum_try_and_get(m_bitmap_storage_items, storage_item_index))
 			storage_item->__unknown8 = 1;
 	}
 
