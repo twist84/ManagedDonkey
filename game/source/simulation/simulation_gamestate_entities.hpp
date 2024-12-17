@@ -6,10 +6,9 @@
 struct s_simulation_gamestate_entity :
 	s_datum_header
 {
-	word __unknown2;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
+	long simulation_entity_index;
+	long object_index;
+	bool marked_for_deletion;
 };
 static_assert(sizeof(s_simulation_gamestate_entity) == 0x10);
 
