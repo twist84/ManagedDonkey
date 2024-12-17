@@ -111,7 +111,7 @@ struct s_thread_local_storage
 	// size: 0x40
 	s_main_time_globals* g_main_time_globals;
 
-	// size: 0x84030
+	// size: 0x84018
 	// This is interacted with in the same manner as `g_font_cache_globals`,
 	// using `c_global_preferences_scope_lock`
 	s_global_preferences_internals_type* g_global_preferences;

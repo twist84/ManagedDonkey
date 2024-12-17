@@ -333,20 +333,16 @@ static_assert(sizeof(s_global_preferences) == 0x42000);
 
 struct s_global_preferences_internals_type
 {
-	bool initialized; // locked?
+	bool initialized;
 	bool dirty;
-	s_file_handle handle;
-	s_global_preferences preferences0;
-	s_global_preferences preferences1;
-	long __unknown84008;
+	s_file_handle file;
+	s_global_preferences current;
+	s_global_preferences writing;
+	long task;
 	c_synchronized_long ready_to_write;
-	bool __unknown84010;
-	bool __unknown84011;
-	bool __unknown84012;
-	bool __unknown84013;
-	byte __data84018[0x1C];
+	bool need_utility_drive_flush;
 };
-static_assert(sizeof(s_global_preferences_internals_type) == 0x84030);
+static_assert(sizeof(s_global_preferences_internals_type) == 0x84018);
 
 extern s_global_preferences_internals_type& g_global_preferences_internal;
 
