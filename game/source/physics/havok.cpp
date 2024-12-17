@@ -212,11 +212,11 @@ void havok_debug_render()
 			|| debug_objects_constraints
 			|| debug_objects_vehicle_physics
 			|| debug_objects_mass)
-		|| get_havok_constants()->display_stats
-		|| get_havok_constants()->impacts_debug
-		|| get_havok_constants()->proxies_debug
-		|| get_havok_constants()->collision_damage_debug
-		|| get_havok_constants()->physics_debug;
+		|| get_havok_constants()->havok_display_stats
+		|| get_havok_constants()->havok_render_impacts
+		|| get_havok_constants()->havok_render_proxies
+		|| get_havok_constants()->havok_render_collision_damage
+		|| get_havok_constants()->havok_render_shape_properties;
 
 	// this will freeze comment for now
 	//main_set_single_thread_request_flag(_single_thread_for_physics_debug, set_single_thread_request_flag);
@@ -225,19 +225,19 @@ void havok_debug_render()
 	{
 		havok_prepare_fpu_for_update();
 
-		if (get_havok_constants()->display_stats)
+		if (get_havok_constants()->havok_display_stats)
 			havok_display_stats(false);
 
-		//if (get_havok_constants()->impacts_debug)
+		//if (get_havok_constants()->havok_render_impacts)
 		//    impacts_render_debug(); // #TODO: implement
 		//
-		//if (get_havok_constants()->proxies_debug)
+		//if (get_havok_constants()->havok_render_proxies)
 		//    havok_proxies_render_debug(); // #TODO: implement
 		//
-		//if (get_havok_constants()->collision_damage_debug)
+		//if (get_havok_constants()->havok_render_collision_damage)
 		//    havok_collision_damage_render_debug(); // #TODO: implement
 		//
-		//if (get_havok_constants()->physics_debug)
+		//if (get_havok_constants()->havok_render_shape_properties)
 		//{
 		//    // #TODO: implement
 		//}
