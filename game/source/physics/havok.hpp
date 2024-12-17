@@ -7,6 +7,13 @@
 struct hkRigidBody;
 struct hkMemory;
 
+template<typename T>
+struct hkPadSpu
+{
+	T m_storage;
+};
+static_assert(sizeof(hkPadSpu<char*>) == sizeof(char*));
+
 struct hkThreadMemory
 {
 	virtual void* alignedAllocate(int, int, enum HK_MEMORY_CLASS);
@@ -49,17 +56,17 @@ static_assert(sizeof(hkThreadMemory) == 0x330);
 
 struct hkBool
 {
-	int m_value;
+	char m_bool;
 };
-static_assert(sizeof(hkBool) == 0x4);
+static_assert(sizeof(hkBool) == sizeof(char));
 
 struct hkMonitorStream
 {
-	char* __unknown0;
-	char* __unknown4;
-	char* __unknown8;
-	char* __unknownC;
-	hkBool __unknown10;
+	hkPadSpu<char*> m_start;
+	hkPadSpu<char*> m_end;
+	hkPadSpu<char*> m_capacity;
+	hkPadSpu<char*> m_capacityMinus16;
+	hkBool m_isBufferAllocatedOnTheHeap;
 };
 static_assert(sizeof(hkMonitorStream) == 0x14);
 
@@ -105,27 +112,27 @@ static_assert(sizeof(s_havok_constants) == 0x38);
 
 struct s_havok_globals
 {
-	c_static_array<hkRigidBody*, 16> __unknown0;
-	long last_find_inital_contact_points_player_absolute_index;
+	c_static_array<hkRigidBody*, 16> environment_bodies;
+	long gamestate_disconnection_level;
 	long rigid_bodies_connected_to_world_count;
-	long collision_damage_is_disable_time;
+	long last_time_object_rigid_bodies_added_to_world;
 	long can_modify_state;
 	bool rigid_bodies_active;
 	bool environment_active;
-	bool resetting_havok_state;
+	bool disable_rebuilding_environment_mopp;
 	bool garbage_collection_locked;
 	bool inside_simulation_step;
 	bool broadphase_attachment_disabled;
-
-	hkThreadMemory thread_memory;
-	hkThreadMemory render_thread_memory;
-	hkMonitorStream render_thread_monitor_stream;
-	char __pad6CC[4];
-	byte render_thread_memory_stack_area[65536];
-	c_static_array<hkMonitorStream, 1> thread_monitor_stream_buffer;
+	__declspec(align(8)) long thread_memory_buffer[204];
+	long render_thread_memory_buffer[204];
+	long render_monitor_stream_buffer[5];
+	__declspec(align(8)) long render_thread_memory_stack[16384];
+	long thread_monitor_stream_buffer[1][5];
 	long thread_monitor_stream_buffer_count;
+	__declspec(align(8)) long collision_dispatcher_buffer[1860];
+	bool collision_dispatcher_buffer_initialized;
 };
-static_assert(sizeof(s_havok_globals) == 0x106E8);
+static_assert(sizeof(s_havok_globals) == 0x12400);
 
 extern s_havok_constants& g_havok_constants;
 extern s_havok_globals& g_havok_globals;
