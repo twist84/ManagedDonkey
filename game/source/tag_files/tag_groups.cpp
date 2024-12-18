@@ -63,7 +63,7 @@ tag group_name_to_group_tag(char const* group_name)
 	{
 		s_cache_file_tag_group const* group = &global_tag_groups[i];
 		if (csstricmp(group_name, group->name.get_string()) == 0)
-			return group->group_tags[0];
+			return group->group_tag;
 	}
 
 	return NONE;

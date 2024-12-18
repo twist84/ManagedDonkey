@@ -88,7 +88,7 @@ struct s_cache_file_tag_group_bsearch
 public:
 	static long __cdecl compare(tag group_tag, s_cache_file_tag_group const* group)
 	{
-		return group_tag - group->group_tags[0];
+		return group_tag - group->group_tag;
 	}
 
 	static long __cdecl search(tag group_tag, s_cache_file_tag_group const* group, long count)
@@ -127,7 +127,7 @@ private:
 		s_cache_file_tag_group const* group_a = static_cast<s_cache_file_tag_group const*>(a);
 		s_cache_file_tag_group const* group_b = static_cast<s_cache_file_tag_group const*>(b);
 
-		return group_a->group_tags[0] - group_b->group_tags[0];
+		return group_a->group_tag - group_b->group_tag;
 	}
 
 	static bool __cdecl sort()
