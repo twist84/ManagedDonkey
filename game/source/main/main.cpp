@@ -112,20 +112,20 @@ void main_loop_resume()
 		main_loop_suspended = false;
 }
 
-void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* address)
+void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address)
 {
-	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, address);
+	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, new_address);
 
 	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-	//g_main_gamestate_timing_data = (s_game_tick_time_samples*)address;
+	//g_main_gamestate_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
-void __cdecl __tls_set_g_main_render_timing_data_allocator(void* address)
+void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address)
 {
-	INVOKE(0x00504D00, __tls_set_g_main_render_timing_data_allocator, address);
+	INVOKE(0x00504D00, __tls_set_g_main_render_timing_data_allocator, new_address);
 
 	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-	//g_main_render_timing_data = (s_game_tick_time_samples*)address;
+	//g_main_render_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
@@ -241,7 +241,7 @@ void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flag
 	//if (main_globals.modify_zone_activation)
 	//{
 	//	main_globals.modify_zone_activation = false;
-	//	main_globals.scenario_zone_activation.clear();
+	//	main_globals.pending_zone_activation.clear();
 	//}
 }
 
@@ -1428,8 +1428,8 @@ void __cdecl main_modify_zone_activation_private()
 
 	//main_globals.modify_zone_activation = false;
 	//if (game_in_progress())
-	//	scenario_modify_active_zones(&main_globals.scenario_zone_activation);
-	//main_globals.scenario_zone_activation.clear();
+	//	scenario_modify_active_zones(&main_globals.pending_zone_activation);
+	//main_globals.pending_zone_activation.clear();
 }
 
 void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
@@ -1688,13 +1688,13 @@ void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask)
 	INVOKE(0x00506E50, main_set_active_designer_zone_mask, designer_zone_mask);
 
 	//dword designer_zone_active_mask = global_designer_zone_active_mask_get();
-	//main_globals.scenario_zone_activation.activating_designer_zone_mask = designer_zone_mask & ~designer_zone_active_mask;
-	//main_globals.scenario_zone_activation.deactivating_designer_zone_mask = designer_zone_active_mask & ~designer_zone_mask;
+	//main_globals.pending_zone_activation.activating_designer_zone_mask = designer_zone_mask & ~designer_zone_active_mask;
+	//main_globals.pending_zone_activation.deactivating_designer_zone_mask = designer_zone_active_mask & ~designer_zone_mask;
 	//main_globals.modify_zone_activation =
 	//	TEST_MASK(designer_zone_active_mask, ~designer_zone_mask) ||
 	//	TEST_MASK(designer_zone_mask, ~designer_zone_active_mask) ||
-	//	main_globals.scenario_zone_activation.deactivating_cinematic_zone_mask || 
-	//	main_globals.scenario_zone_activation.activating_cinematic_zone_mask;
+	//	main_globals.pending_zone_activation.deactivating_cinematic_zone_mask || 
+	//	main_globals.pending_zone_activation.activating_cinematic_zone_mask;
 }
 
 void __cdecl main_set_single_thread_request_flag(e_single_threaded_request_flags flag, bool setting)
