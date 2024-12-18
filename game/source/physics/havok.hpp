@@ -4,6 +4,7 @@
 
 // Havok Types
 
+enum HK_MEMORY_CLASS;
 struct hkRigidBody;
 struct hkMemory;
 
@@ -16,41 +17,47 @@ static_assert(sizeof(hkPadSpu<char*>) == sizeof(char*));
 
 struct hkThreadMemory
 {
-	virtual void* alignedAllocate(int, int, enum HK_MEMORY_CLASS);
-	virtual void alignedDeallocate(void*);
-	virtual void setStackArea(void*, int);
+	virtual void* alignedAllocate(int alignment, int nbytes, HK_MEMORY_CLASS cl);
+	virtual void alignedDeallocate(void* p);
+	virtual void setStackArea(void* buf, int nbytes);
 	virtual void releaseCachedMemory(void);
 	virtual void destructor(unsigned int);
-	virtual void* onStackOverflow(int);
-	virtual void onStackUnderflow(void*);
+	virtual void* onStackOverflow(int nbytesin);
+	virtual void onStackUnderflow(void* ptr);
 
 	struct Stack
 	{
-		int __unknown0;
-		int __unknown4;
-		int __unknown8;
-		int __unknownC;
+		char* m_current;
+		Stack* m_prev;
+		char* m_base;
+		char* m_end;
 	};
 	static_assert(sizeof(Stack) == 0x10);
 
 	struct FreeList
 	{
-		void* __unknown0;
-		int __unknown4;
+		struct FreeElem
+		{
+			FreeElem* m_next;
+		};
+		static_assert(sizeof(FreeElem) == 0x4);
+
+		FreeElem* m_head;
+		int m_numElem;
 	};
 	static_assert(sizeof(FreeList) == 0x8);
 
 	byte __data4[0xC];
-	hkMemory* m_memoryAllocator;
+	hkMemory* m_memory;
 	int m_referenceCount;
 	byte __data18[0x8];
 	Stack m_stack;
-	byte __data30[0x4];
-	int __unknown34;
-	FreeList m_freeList[17];
-	int __unknownC0[17];
-	char __unknown104[512 + 1];
-	int __data[10];
+	int m_stackSize;
+	int m_maxNumElemsOnFreeList;
+	FreeList m_free_list[17];
+	int m_row_to_size_lut[17];
+	char m_small_size_to_row_lut[512 + 1];
+	int m_large_size_to_row_lut[10];
 };
 static_assert(sizeof(hkThreadMemory) == 0x330);
 
