@@ -1,17 +1,17 @@
 #include "memory/read_write_lock.hpp"
 
 c_read_write_lock::c_read_write_lock() :
-	m_critcal_section_index(NONE),
-	m_semaphore_index(NONE),
-	m_signal_count(NONE)
+	m_write_lock(k_invalid_critical_section),
+	m_read_lock(k_invalid_semaphore),
+	m_max_readers(NONE)
 {
 }
 
 c_read_write_lock::~c_read_write_lock()
 {
-	m_critcal_section_index = NONE;
-	m_semaphore_index = NONE;
-	m_signal_count = NONE;
+	m_write_lock = k_invalid_critical_section;
+	m_read_lock = k_invalid_semaphore;
+	m_max_readers = NONE;
 }
 
 void c_read_write_lock::read_lock()

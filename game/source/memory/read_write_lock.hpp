@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "multithreading/synchronization.hpp"
 
 struct c_read_write_lock
 {
@@ -15,9 +16,9 @@ public:
 	void write_unlock();
 
 protected:
-	long m_critcal_section_index;
-	long m_semaphore_index;
-	long m_signal_count;
+	e_critical_sections m_write_lock;
+	e_synchronization_semaphore m_read_lock;
+	long m_max_readers;
 };
 static_assert(sizeof(c_read_write_lock) == 0xC);
 
