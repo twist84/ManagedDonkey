@@ -30,6 +30,9 @@
 //HOOK_DECLARE(0x005301E0, cheats_initialize_for_new_map);
 //HOOK_DECLARE(0x005301F0, cheats_dispose_from_old_map);
 
+cheat_globals cheat = {};
+char cheat_strings[k_controller_button_count][200] = {};
+
 void __cdecl cheat_active_camouflage(bool enable)
 {
 	long user_index = player_mapping_first_active_input_user();

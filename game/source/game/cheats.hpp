@@ -21,8 +21,8 @@ struct cheat_globals
 };
 static_assert(sizeof(cheat_globals) == 0xC);
 
-inline static cheat_globals cheat = {};
-inline static char cheat_strings[k_controller_button_count][200] = {};
+extern cheat_globals cheat;
+extern char cheat_strings[k_controller_button_count][200];
 
 struct s_game_input_state;
 struct s_tag_reference;
