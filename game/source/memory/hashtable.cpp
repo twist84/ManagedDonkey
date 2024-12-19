@@ -52,12 +52,12 @@ bool __cdecl hash_table_add(s_hash_table* table, void const* key, void const* us
 	return INVOKE(0x00967F40, hash_table_add, table, key, user_data);
 }
 
-long __cdecl sub_967FA0(unsigned int user_data_size, long bucket_count, long maximum_elements)
+dword __cdecl hash_table_allocation_size(dword user_data_size, long number_of_buckets, long maximum_elements)
 {
-	return INVOKE(0x00967FA0, sub_967FA0, user_data_size, bucket_count, maximum_elements);
+	return INVOKE(0x00967FA0, hash_table_allocation_size, user_data_size, number_of_buckets, maximum_elements);
 
 	// calculate_allocation_size?
-	// maximum_elements * (user_data_size + 0xC) + sizeof(void*) * (bucket_count + 0x10);
+	// maximum_elements * (user_data_size + 0xC) + sizeof(void*) * (number_of_buckets + 0x10);
 }
 
 void __cdecl hash_table_dispose(s_hash_table* table)
@@ -81,7 +81,7 @@ s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, void 
 	return INVOKE(0x00968020, hash_table_find_internal, table, key);
 }
 
-s_hash_table* __cdecl hash_table_new(char const* name, unsigned int user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
+s_hash_table* __cdecl hash_table_new(char const* name, dword user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
 {
 	return INVOKE(0x00968070, hash_table_new, name, user_data_size, bucket_count, maximum_elements, hash_function, compare_function, allocation);
 }
@@ -91,12 +91,12 @@ void __cdecl hash_table_rebase(s_hash_table* table)
 	return INVOKE(0x009680E0, hash_table_rebase, table);
 }
 
-void __cdecl sub_968190(s_hash_table* table, long a2, dword* a3)
+void __cdecl hash_table_rebase_pointer(s_hash_table* table, s_hash_table_bucket* new_free_list_elements, s_hash_table_bucket** pointer)
 {
-	return INVOKE(0x00968190, sub_968190, table, a2, a3);
+	return INVOKE(0x00968190, hash_table_rebase_pointer, table, new_free_list_elements, pointer);
 
-	//if (*a3)
-	//	*a3 = a2 + (table->user_data_size + sizeof(s_hash_table_bucket)) * ((*a3 - reinterpret_cast<dword>(table->base_address)) / (table->user_data_size + sizeof(s_hash_table_bucket)));
+	//if (*pointer)
+	//	*pointer = (new_free_list_elements + (table->user_data_size + sizeof(s_hash_table_bucket)) * ((*pointer - table->free_list_elements) / (table->user_data_size + sizeof(s_hash_table_bucket))));
 }
 
 bool __cdecl hash_table_remove(s_hash_table* table, void const* key)
@@ -118,8 +118,8 @@ void __cdecl hash_table_reset(s_hash_table* table)
 	//	s_hash_table_bucket* next_element_to_add = static_cast<s_hash_table_bucket*>(offset_pointer(next_element_offset, element_index * element_size));
 	//	//ASSERT(hash_table_valid_bucket_pointer(table, next_element_to_add))
 	//
-	//	next_element_to_add->next = static_cast<s_hash_table_bucket*>(table->base_address);
-	//	table->base_address = next_element_to_add;
+	//	next_element_to_add->next = table->free_list_elements;
+	//	table->free_list_elements = next_element_to_add;
 	//}
 	//
 	//hash_table_verify(table);
@@ -164,7 +164,7 @@ void __cdecl hash_table_verify(s_hash_table* table)
 	//	}
 	//}
 	//
-	//for (s_hash_table_bucket* current_bucket = static_cast<s_hash_table_bucket*>(table->base_address); current_bucket; current_bucket = current_bucket->next)
+	//for (s_hash_table_bucket* current_bucket = table->free_list_elements; current_bucket; current_bucket = current_bucket->next)
 	//{
 	//	//ASSERT(hash_table_valid_bucket_pointer(table, current_bucket));
 	//}

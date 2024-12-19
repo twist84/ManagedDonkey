@@ -29,6 +29,11 @@ struct s_hash_table_bucket
 	void const* key;
 	dword hash;
 	s_hash_table_bucket* next;
+
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	byte user_data[];
+#pragma warning(pop)
 };
 static_assert(sizeof(s_hash_table_bucket) == 0xC);
 
@@ -39,13 +44,13 @@ static_assert(sizeof(s_hash_table_bucket) == 0xC);
 struct s_hash_table
 {
 	c_static_string<32> name;
-	long bucket_count;
+	long number_of_buckets;
 	long maximum_elements;
-	unsigned int user_data_size;
+	dword user_data_size;
 	hash_table_hash_function_t* hash_function;
 	hash_table_compare_function_t* compare_function;
 	c_allocation_base* allocation;
-	void* base_address;
+	s_hash_table_bucket* free_list_elements;
 	s_hash_table_bucket* free_list;
 
 #pragma warning(push)
@@ -56,13 +61,13 @@ struct s_hash_table
 static_assert(sizeof(s_hash_table) == 0x40);
 
 extern bool __cdecl hash_table_add(s_hash_table* table, void const* key, void const* user_data);
-extern long __cdecl sub_967FA0(unsigned int user_data_size, long bucket_count, long maximum_elements);
+extern dword __cdecl hash_table_allocation_size(dword user_data_size, long number_of_buckets, long maximum_elements);
 extern void __cdecl hash_table_dispose(s_hash_table* table);
 extern void const* __cdecl hash_table_find(s_hash_table* table, void const* key, void* user_data);
 extern s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, void const* key);
-extern s_hash_table* __cdecl hash_table_new(char const* name, unsigned int user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation);
+extern s_hash_table* __cdecl hash_table_new(char const* name, dword user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation);
 extern void __cdecl hash_table_rebase(s_hash_table* table);
-extern void __cdecl sub_968190(s_hash_table* table, long a2, dword* a3);
+extern void __cdecl hash_table_rebase_pointer(s_hash_table* table, s_hash_table_bucket* new_free_list_elements, s_hash_table_bucket** pointer);
 extern bool __cdecl hash_table_remove(s_hash_table* table, void const* key);
 extern void __cdecl hash_table_reset(s_hash_table* table);
 extern bool __cdecl hash_table_set_data(s_hash_table* table, void const* key, void const* user_data);
