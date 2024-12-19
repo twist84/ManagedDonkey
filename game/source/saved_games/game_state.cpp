@@ -362,7 +362,7 @@ void __cdecl game_state_reset_mapping(long a1)
 {
 	//INVOKE(0x00510330, game_state_reset_mapping, a1);
 
-	game_state_set_buffer_protection(game_state_globals.base_address, k_game_state_with_mirrors_size, game_state_globals.guard_page_size);
+	game_state_set_buffer_protection(game_state_globals.base_address, k_game_state_file_size, game_state_globals.guard_page_size);
 }
 
 //.text:00510350
@@ -397,7 +397,7 @@ void __cdecl game_state_save_core(char const* core_name)
 
 	game_state_call_before_save_procs(game_state_proc_flags);
 
-	bool success = game_state_write_core(core_name, game_state_globals.base_address, k_game_state_size);
+	bool success = game_state_write_core(core_name, game_state_globals.base_address, k_game_state_allocation_size);
 	console_printf(success ? "saved '%s'" : "error writing '%s'", core_name);
 
 	game_state_call_after_save_procs(game_state_proc_flags);
@@ -510,7 +510,7 @@ void __cdecl game_state_shell_initialize()
 	game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
 	ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
 
-	dword available_memory = k_game_state_with_mirrors_size;
+	dword available_memory = k_game_state_file_size;
 	byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
 
 	initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, k_crit_section_header_subsection);
@@ -541,7 +541,7 @@ void __cdecl game_state_shell_initialize()
 	if (file_create(&game_state_allocation_record_file) && file_open(&game_state_allocation_record_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		file_printf(&game_state_allocation_record_file, "game state allocations from: %s\r\n", version_get_full_string());
-		file_printf(&game_state_allocation_record_file, "memory total, %u\r\n", k_game_state_with_mirrors_size);
+		file_printf(&game_state_allocation_record_file, "memory total, %u\r\n", k_game_state_file_size);
 		file_printf(&game_state_allocation_record_file, "memory available, %u\r\n", available_memory);
 		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", "name", "type");
 
