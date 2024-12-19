@@ -289,14 +289,14 @@ void __cdecl release_locks_safe_for_crash_release()
 	//if (g_synch_globals.initialized)
 	//{
 	//	long thread_index = get_current_thread_index();
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_event_logs);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_data_mine);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_ui_widgets);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_font_cache);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_ui_custom_bitmaps);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_saved_game);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_levels);
-	//	release_critical_section_owned_by_thread(thread_index, _critical_section_autosave_queue);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_event_logs);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_data_mine);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_ui_widgets_lock);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_font_cache);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_ui_custom_bitmaps_lock);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_saved_game);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_levels);
+	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_autosave_queue);
 	//}
 }
 

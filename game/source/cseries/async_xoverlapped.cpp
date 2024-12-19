@@ -90,13 +90,13 @@ static s_overlapped_globals g_overlapped_globals{};
 c_async_xoverlapped_scope_lock::c_async_xoverlapped_scope_lock()
 {
 	if (game_is_multithreaded())
-		internal_critical_section_enter(_critical_section_xoverlapped_memory);
+		internal_critical_section_enter(k_crit_section_async_xoverlapped_memory);
 }
 
 c_async_xoverlapped_scope_lock::~c_async_xoverlapped_scope_lock()
 {
 	if (game_is_multithreaded())
-		internal_critical_section_leave(_critical_section_xoverlapped_memory);
+		internal_critical_section_leave(k_crit_section_async_xoverlapped_memory);
 }
 
 bool c_overlapped_task::busy() const

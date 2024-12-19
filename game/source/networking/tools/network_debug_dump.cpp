@@ -241,10 +241,10 @@ dword __cdecl netdebug_thread_function(void* thread_parameter)
 		}
 		else
 		{
-			c_critical_section_scope section_scope(_critical_section_network_debug);
+			c_critical_section_scope section_scope(k_crit_section_network_debug);
 			netdebug_get_next_task();
 		}
-		internal_event_wait_timeout(_synchronization_event_network_debug, 1000);
+		internal_event_wait_timeout(k_event_render_network_debug_exit, 1000);
 	}
 	g_net_debug_thread_has_exited = true;
 	return 0;
@@ -260,7 +260,7 @@ void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl
 
 	if (g_netdebug_globals.initialized)
 	{
-		c_critical_section_scope section_scope(_critical_section_network_debug);
+		c_critical_section_scope section_scope(k_crit_section_network_debug);
 
 		s_netdebug_upload_task task{};
 		task.active = true;

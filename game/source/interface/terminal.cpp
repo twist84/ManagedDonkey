@@ -79,7 +79,7 @@ void __cdecl terminal_clear()
 		return;
 
 	c_font_cache_mt_safe font_cache;
-	c_critical_section_scope critical_section_scope(_critical_section_terminal);
+	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 	terminal_globals.newest_output_line_index = NONE;
 	terminal_globals.oldest_output_line_index = NONE;
@@ -147,7 +147,7 @@ void __cdecl terminal_update_output(real shell_seconds_elapsed)
 	if (!terminal_globals.suppress_output && shell_seconds_elapsed < 0.5f)
 	{
 		c_font_cache_mt_safe font_cache;
-		c_critical_section_scope critical_section_scope(_critical_section_terminal);
+		c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 		long line_count = NONE;
 		for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE; line_index = line_count)
@@ -167,7 +167,7 @@ bool __cdecl terminal_update(real shell_seconds_elapsed)
 	bool result = false;
 	if (terminal_globals.initialized)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_terminal);
+		c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 		result = terminal_update_input(shell_seconds_elapsed);
 		if (!console_is_active())
@@ -179,7 +179,7 @@ bool __cdecl terminal_update(real shell_seconds_elapsed)
 
 void __cdecl terminal_remove_line(long line_index)
 {
-	c_critical_section_scope critical_section_scope(_critical_section_terminal);
+	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 	output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line_index));
 
@@ -209,7 +209,7 @@ void __cdecl terminal_remove_line(long line_index)
 long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop)
 {
 	c_font_cache_mt_safe font_cache;
-	c_critical_section_scope critical_section_scope(_critical_section_terminal);
+	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 	if (data_is_full(terminal_globals.output_lines))
 		terminal_remove_line(terminal_globals.oldest_output_line_index);
@@ -258,7 +258,7 @@ bool __cdecl terminal_gets_active()
 
 bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 {
-	c_critical_section_scope critical_section_scope(_critical_section_terminal);
+	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 	ASSERT(state);
 
@@ -279,7 +279,7 @@ bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 
 void __cdecl terminal_gets_end(terminal_gets_state* state)
 {
-	c_critical_section_scope critical_section_scope(_critical_section_terminal);
+	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
 	if (state == terminal_globals.input_state)
 		terminal_globals.input_state = nullptr;
@@ -289,7 +289,7 @@ void __cdecl terminal_draw()
 {
 	if (terminal_globals.initialized)
 	{
-		//c_critical_section_scope critical_section_scope(_critical_section_terminal);
+		//c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 		c_rasterizer_draw_string draw_string;
 		c_font_cache_mt_safe font_cache;
 

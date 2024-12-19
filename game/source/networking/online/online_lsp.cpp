@@ -79,7 +79,7 @@ void c_online_lsp_manager::disconnect_from_server(long connection_token, bool su
 
 	ASSERT(connection_token != NONE);
 
-	c_critical_section_scope section_scope(_critical_section_lsp_manager);
+	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
 	long slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index == NONE)
 		return;
@@ -135,7 +135,7 @@ void c_online_lsp_manager::go_into_crash_mode()
 {
 	//INVOKE_CLASS_MEMBER(0x00431C40, c_online_lsp_manager, go_into_crash_mode);
 
-	c_critical_section_scope section_scope(_critical_section_lsp_manager);
+	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
 	generate_event(_event_message, "networking:online:lsp: entering crash mode");
 	reset();
 	m_crash_mode = true;
@@ -163,7 +163,7 @@ void c_online_lsp_manager::server_connected(long connection_token)
 
 	ASSERT(connection_token != NONE);
 
-	c_critical_section_scope section_scope(_critical_section_lsp_manager);
+	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
 	long slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index != NONE && m_current_clients[slot_index].client_state == _client_state_connecting)
 	{

@@ -7,195 +7,197 @@
 enum e_critical_sections
 {
 	// CS:Event Logs
-	_critical_section_event_logs = 0,
+	k_crit_section_event_logs = 0,
 
 	// CS:Data Mine
-	_critical_section_data_mine,
+	k_crit_section_data_mine,
 
 	// CS:D3D_Device
-	_critical_section_d3d_device,
+	k_crit_section_rasterizer_device,
 
 	// CS:Terminal
-	_critical_section_terminal,
+	k_crit_section_terminal,
 
 	// CS:Network Debug
-	_critical_section_network_debug,
+	k_crit_section_network_debug,
 
 	// CS:Render Toggle
-	_critical_section_render_toggle,
+	k_crit_section_render_thread_toggle_lock,
 
 	// CS:Event RW Lock
-	_critical_section_event_read_write_lock,
+	k_crit_section_event_rw_lock,
 
 	// CS:Header Region
-	_critical_section_header_region,
+	k_crit_section_header_region,
 
 	// CS:Header Section
-	_critical_section_header_section,
+	k_crit_section_header_subsection,
 
 	// CS:Update Region
-	_critical_section_update_region,
+	k_crit_section_update_region,
 
 	// CS:Update Section
-	_critical_section_update_section,
+	k_crit_section_update_subsection,
 
 	// CS:Render Region
-	_critical_section_render_region,
+	k_crit_section_render_region,
 
 	// CS:Render Section
-	_critical_section_render_section,
+	k_crit_section_render_subsection,
 
 	// CS:Shared Region
-	_critical_section_shared_region,
+	k_crit_section_shared_region,
 
 	// CS:Shared Section
-	_critical_section_shared_section,
+	k_crit_section_shared_subsection,
 
 	// CS:Shared Mirror0
-	_critical_section_shared_mirror0,
+	k_crit_section_shared_subsection_mirror0,
 
 	// CS:Shared Mirror1
-	_critical_section_shared_mirror1,
+	k_crit_section_shared_subsection_mirror1,
 
 	// CS:Shared Mirror2
-	_critical_section_shared_mirror2,
+	k_crit_section_shared_subsection_mirror2,
 
 	// CS:UI widgets
-	_critical_section_ui_widgets,
+	k_crit_section_ui_widgets_lock,
 
 	// CS:UI memory
-	_critical_section_ui_memory,
+	k_crit_section_ui_memory_lock,
 
 	// CS:UI custom bitmaps
-	_critical_section_ui_custom_bitmaps,
+	k_crit_section_ui_custom_bitmaps_lock,
 
 	// CS:Saved Game
-	_critical_section_saved_game,
+	k_crit_section_saved_game,
 
 	// CS:Levels
-	_critical_section_levels,
+	k_crit_section_levels,
 
 	// CS:Autosave Queue
-	_critical_section_autosave_queue,
+	k_crit_section_autosave_queue,
 
 	// CS:XOverlapped
-	_critical_section_xoverlapped,
+	k_crit_section_async_xoverlapped,
 
 	// CS:XOverlapped Memory
-	_critical_section_xoverlapped_memory,
+	k_crit_section_async_xoverlapped_memory,
 
 	// CS:Game Engine
-	_critical_section_game_engine,
+	k_crit_section_game_engine,
 
 	// CS:Http Request Queue
-	_critical_section_http_request_queue,
+	k_crit_section_http_request_queue,
 
 	// CS:LSP Manager
-	_critical_section_lsp_manager,
+	k_crit_section_lsp_manager,
 
 	// CS:Online files
-	_critical_section_online_files,
+	k_crit_section_online_files,
 
 	// CS:Telnet console
-	_critical_section_telnet_console,
+	k_crit_section_telnet_console,
 
 	// CS:G-Render Region
-	_critical_section_g_render_region,
+	k_crit_section_global_render_region,
 
 	// CS:G-Render Section
-	_critical_section_g_render_section,
+	k_crit_section_global_render_subsection,
 
 	// CS:Bink Prediction
-	_critical_section_bink_prediction,
+	k_crit_section_bink_prediction,
 
 	// CS:Bink Texture 0
-	_critical_section_bink_texture0,
+	k_crit_section_bink_texture0,
 
 	// CS:Bink Texture 1
-	_critical_section_bink_texture1,
+	k_crit_section_bink_texture1,
 
 	// CS:Bink Memory
-	_critical_section_bink_memory,
+	k_crit_section_bink_memory,
 
 	// CS:Font Cache
-	_critical_section_font_cache,
+	k_crit_section_font_cache,
 
 	// CS:Sound Cache
-	_critical_section_sound_cache,
+	k_crit_section_sound_cache,
 
 	// CS:Tag Cache
-	_critical_section_tag_cache,
+	k_crit_section_tag_cache,
 
 	// CS:Partition Cache
-	_critical_section_partition_cache,
+	k_crit_section_partition_cache,
 
 	// CS:Disk Cache
-	_critical_section_disk_cache,
+	k_crit_section_disk_cache,
 
 	// CS:Test Cache
-	_critical_section_test_cache,
+	k_crit_section_test_cache,
 
 	// CS:Prof Display
-	_critical_section_prof_display,
+	k_crit_section_profiler_display,
 
 	// CS:Prof Session
-	_critical_section_prof_session,
+	k_crit_section_profiler_datamine_update,
 
 	// CS:Resource RW Lock
-	_critical_section_resource_read_write_lock,
+	k_crit_section_resource_threading_access_rw_lock,
 
 	// CS:Simple Resource Access RW Lock
-	_critical_section_simple_resource_access_read_write_lock,
+	k_crit_section_simple_resource_cache_access_rw_lock,
 
 	// CS:Resource Publish
-	_critical_section_resource_publish,
+	k_crit_section_resource_cache_publish,
 
 	// CS:Remote Console
-	_critical_section_remote_console,
+	k_crit_section_remote_console_commands,
 
 	// CS:Observer Updates
-	_critical_section_observer_updates,
+	k_crit_section_observer_updates,
 
 	// CS:Web Cache
-	_critical_section_web_cache,
+	k_crit_section_web_cache,
 
 	// CS:Prof-Gather
-	_critical_section_prof_gather,
+	k_crit_section_performance_data_gathering,
 
 	// CS:Prof-Register
-	_critical_section_prof_register,
+	k_crit_section_performance_data_registration,
 
 	// CS:Optional Cache
-	_critical_section_optional_cache,
+	k_crit_section_optional_cache,
 
 	// CS:Net Block Detection
-	_critical_section_network_block_detection,
+	k_crit_section_network_block_detection,
 
 	// CS:Net Statistics
-	_critical_section_network_statistics,
+	k_crit_section_network_statistics,
 
 	// CS:DSP-Radio
-	_critical_section_dsp_dadio,
+	k_crit_section_dsp_radio_effect,
 
 	// CS:Global Prefs
-	_critical_section_global_preferences,
+	k_crit_section_global_preferences,
 
 	// CS:Texture Render
-	_critical_section_texture_render,
+	k_crit_section_texture_render,
 
-	k_total_critical_sections
+	k_total_critical_sections,
+
+	k_invalid_critical_section = NONE
 };
 
 enum e_synchronization_mutexes
 {
 	// MTX:AsyncFree
-	_synchronization_mutex_async_free = 0,
+	k_mutex_async_free_list = 0,
 
 	// MTX:AsyncWork
-	_synchronization_mutex_async_work,
+	k_mutex_async_work_list,
 
 	// MTX:DataMine
-	_synchronization_mutex_data_mine,
+	k_mutex_data_mining,
 
 	k_total_synchronization_mutexes
 };
@@ -203,40 +205,40 @@ enum e_synchronization_mutexes
 enum e_synchronization_events
 {
 	// EV:CSeriesEvent
-	_synchronization_event_cseries_event = 0,
+	k_event_cseries_event_log = 0,
 
 	// EV:UploadDebug
-	_synchronization_event_upload_debug,
+	k_event_upload_debug,
 
 	// EV:NetworkDebug
-	_synchronization_event_network_debug,
+	k_event_render_network_debug_exit,
 
 	// EV:VBlankUpdate
-	_synchronization_event_vblank_update,
+	k_event_main_time_update_vblank,
 
 	// EV:VBlankThrottle
-	_synchronization_event_vblank_throttle,
+	k_event_main_time_throttle_vblank,
 
 	// EV:SoundRenderDeferredStart
-	_synchronization_event_sound_render_deferred_start,
+	k_event_sound_render_deferred_start,
 
 	// EV:SoundRenderDeferredComplete
-	_synchronization_event_sound_render_deferred_complete,
+	k_event_sound_render_deferred_complete,
 
 	// EV:UpdateThreadComplete
-	_synchronization_event_update_thread_complete,
+	k_event_update_thread_complete,
 
 	// EV:UpdateThreadBegin
-	_synchronization_event_update_thread_begin,
+	k_event_update_thread_begin,
 
 	// EV:UpdateThreadEnd
-	_synchronization_event_update_thread_end,
+	k_event_update_thread_end,
 
 	// EV:BinkFree
-	_synchronization_event_bink_free,
+	k_event_bink_free,
 
 	// EV:MirrorsChanged
-	_synchronization_event_mirrors_changed,
+	k_event_mirrors_changed,
 
 	k_total_synchronization_events
 };
@@ -244,21 +246,23 @@ enum e_synchronization_events
 enum e_synchronization_semaphore
 {
 	// S4:AsyncWork
-	_synchronization_semaphore_async_work = 0,
+	k_semaphore_async_work = 0,
 
 	// S4:EventRW
-	_synchronization_semaphore_event_read_write,
+	k_semaphore_event_rw_lock,
 
 	// S4:ResourceRW
-	_synchronization_semaphore_resource_read_write,
+	k_semaphore_resource_threading_access_rw_lock,
 
 	// S4:SRPublishRW
-	_synchronization_semaphore_simple_resource_publish_read_write,
+	k_semaphore_simple_resource_cache_publish_rw_lock,
 
 	// S4:Bink Memory
-	_synchronization_semaphore_bink_memory,
+	k_semaphore_bink_memory,
 
-	k_total_synchronization_semaphores
+	k_total_synchronization_semaphores,
+
+	k_invalid_semaphore = NONE
 };
 
 struct s_list_entry // LIST_ENTRY

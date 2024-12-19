@@ -168,9 +168,9 @@ void __cdecl render_initialize()
 	render_debug_initialize();
 
 	//g_restricted_render_memory = VirtualAlloc(0, 0xA0000, MEM_COMMIT, PAGE_READWRITE);
-	//g_restricted_render_memory_section.initialize(g_restricted_render_memory, 0xA0000, _critical_section_g_render_section);
+	//g_restricted_render_memory_section.initialize(g_restricted_render_memory, 0xA0000, k_crit_section_global_render_subsection);
 	//
-	//restricted_region_create(k_global_render_data_region, &g_restricted_render_memory_section, _critical_section_g_render_region, 0);
+	//restricted_region_create(k_global_render_data_region, &g_restricted_render_memory_section, k_crit_section_global_render_region, 0);
 	//restricted_region_lock_primary(k_global_render_data_region);
 	//
 	//c_render_globals::set_frame_index(0);

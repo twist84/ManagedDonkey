@@ -156,7 +156,7 @@ bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long s
 {
 	c_gui_custom_bitmap_storage_manager::s_bitmap_storage_handle_datum* storage_item = NULL;
 	{
-		c_critical_section_scope section_scope(_critical_section_ui_custom_bitmaps);
+		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		if (storage_item = (decltype(storage_item))datum_try_and_get(m_bitmap_storage_items, storage_item_index))
 			storage_item->__unknown8 = 1;
 	}
@@ -167,7 +167,7 @@ bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long s
 	bool result = storage_item->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, a5);
 
 	{
-		c_critical_section_scope section_scope(_critical_section_ui_custom_bitmaps);
+		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		storage_item->__unknown8 = result ? 2 : 0;
 	}
 

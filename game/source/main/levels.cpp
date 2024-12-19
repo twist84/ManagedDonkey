@@ -74,7 +74,7 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 			main_loop_pregame();
 	}
 
-	c_critical_section_scope critical_section_scope(_critical_section_levels);
+	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
 	// called but never used, comment out for now
 	//levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, &campaign_level);
@@ -145,7 +145,7 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 			main_loop_pregame();
 	}
 
-	c_critical_section_scope critical_section_scope(_critical_section_levels);
+	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
 	// called but never used, comment out for now
 	//levels_try_and_get_by_map_id(g_level_globals.multiplayer_levels, map_id, &multiplayer_level);
@@ -195,7 +195,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 {
 	//HOOK_INVOKE(, levels_add_level_from_configuration_file, level_data, must_byte_swap, maps_path, dlc_content);
 
-	c_critical_section_scope critical_section_scope(_critical_section_levels);
+	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
 	e_language language = get_current_language();
 
@@ -573,7 +573,7 @@ long __cdecl levels_get_default_multiplayer_map_id()
 
 	if (g_level_globals.initialized)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_levels);
+		c_critical_section_scope critical_section_scope(k_crit_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
 		level_iter.begin(g_level_globals.multiplayer_levels);
@@ -607,7 +607,7 @@ long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_n
 
 	if (g_level_globals.initialized)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_levels);
+		c_critical_section_scope critical_section_scope(k_crit_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
 		level_iter.begin(g_level_globals.multiplayer_levels);
@@ -633,7 +633,7 @@ void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_coun
 	long count = 0;
 	if (g_level_globals.initialized)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_levels);
+		c_critical_section_scope critical_section_scope(k_crit_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
 		long maximum_count = *in_out_count;
@@ -697,7 +697,7 @@ char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long ma
 	ASSERT(path != NULL);
 	ASSERT(maximum_characters > 0);
 
-	c_critical_section_scope critical_section_scope(_critical_section_levels);
+	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
 	if (map_id == 0x10231971)
 	{
@@ -836,7 +836,7 @@ bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_lev
 
 	if (g_level_globals.initialized && map_id != NONE)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_levels);
+		c_critical_section_scope critical_section_scope(k_crit_section_levels);
 		c_data_iterator<s_level_datum> level_iter{};
 
 		level_iter.begin(data);
@@ -862,7 +862,7 @@ bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertio
 
 	if (g_level_globals.initialized && map_id != NONE)
 	{
-		c_critical_section_scope critical_section_scope(_critical_section_levels);
+		c_critical_section_scope critical_section_scope(k_crit_section_levels);
 		c_data_iterator<s_level_insertion_datum> insertion_iter{};
 
 		insertion_iter.begin(g_level_globals.campaign_insertions);
@@ -896,7 +896,7 @@ bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 
 	ASSERT(level != NULL);
 
-	c_critical_section_scope critical_section_scope(_critical_section_levels);
+	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 	*level = g_level_globals.mainmenu_level;
 
 	return true;

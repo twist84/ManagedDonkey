@@ -103,7 +103,7 @@ bool __cdecl async_task_change_priority(long task_id, e_async_priority priority)
 	return INVOKE(0x005086D0, async_task_change_priority, task_id, priority);
 
 	//bool result = false;
-	//internal_mutex_take(_synchronization_mutex_async_work); // mutex_async_work_take
+	//internal_mutex_take(k_mutex_async_work_list); // mutex_async_work_take
 	//if (task_id < NUMBEROF(async_globals.task_list))
 	//{
 	//	s_async_queue_element* element = &async_globals.task_list[task_id];
@@ -115,7 +115,7 @@ bool __cdecl async_task_change_priority(long task_id, e_async_priority priority)
 	//		result = true;
 	//	}
 	//}
-	//internal_mutex_release(_synchronization_mutex_async_work); // mutex_async_work_release
+	//internal_mutex_release(k_mutex_async_work_list); // mutex_async_work_release
 	//return result;
 }
 
@@ -151,7 +151,7 @@ bool __cdecl async_work_function()
 
 		current_thread_update_test_functions();
 
-		internal_semaphore_take(_synchronization_semaphore_async_work);
+		internal_semaphore_take(k_semaphore_async_work);
 
 		async_globals.temp_list = sub_508BD0();
 
@@ -177,8 +177,8 @@ bool __cdecl async_work_function()
 			}
 			else
 			{
-				//g_statistics.__unknown1C_work_list = internal_semaphore_release(_synchronization_semaphore_async_work);
-				internal_semaphore_release(_synchronization_semaphore_async_work);
+				//g_statistics.__unknown1C_work_list = internal_semaphore_release(k_semaphore_async_work);
+				internal_semaphore_release(k_semaphore_async_work);
 				sleep(0);
 			}
 		}
@@ -241,14 +241,14 @@ void __cdecl free_list_add(s_async_queue_element* element)
 	//INVOKE(0x00508950, free_list_add, element);
 
 	// mutex_async_free_take
-	internal_mutex_take(_synchronization_mutex_async_free);
+	internal_mutex_take(k_mutex_async_free_list);
 
 	element->next = async_globals.free_list;
 	async_globals.free_list = element;
 	ASSERT(async_globals.free_list->next != async_globals.free_list);
 
 	// mutex_async_free_release
-	internal_mutex_release(_synchronization_mutex_async_free);
+	internal_mutex_release(k_mutex_async_free_list);
 }
 
 s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_is_full)
@@ -260,7 +260,7 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_
 	while (!free_list)
 	{
 		// mutex_async_free_take
-		internal_mutex_take(_synchronization_mutex_async_free);
+		internal_mutex_take(k_mutex_async_free_list);
 
 		if (async_globals.free_list)
 		{
@@ -271,7 +271,7 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_
 		}
 
 		// mutex_async_free_release
-		internal_mutex_release(_synchronization_mutex_async_free);
+		internal_mutex_release(k_mutex_async_free_list);
 
 		if (!free_list)
 		{
@@ -331,9 +331,9 @@ s_async_queue_element* __cdecl sub_508BD0()
 {
 	//return INVOKE(0x00508BD0, sub_508BD0);
 
-	internal_mutex_take(_synchronization_mutex_async_work);
+	internal_mutex_take(k_mutex_async_work_list);
 	s_async_queue_element* work_list = async_globals.work_list;
-	internal_mutex_release(_synchronization_mutex_async_work);
+	internal_mutex_release(k_mutex_async_work_list);
 	return work_list;
 }
 
@@ -341,10 +341,10 @@ void __cdecl sub_508C00(s_async_queue_element* element)
 {
 	//INVOKE(0x00508C00, sub_508C00, element);
 
-	internal_mutex_take(_synchronization_mutex_async_work);
+	internal_mutex_take(k_mutex_async_work_list);
 	work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(element);
 	element->task_id = NONE;
-	internal_mutex_release(_synchronization_mutex_async_work);
+	internal_mutex_release(k_mutex_async_work_list);
 }
 
 void __cdecl work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(s_async_queue_element* element)

@@ -12,13 +12,13 @@ HOOK_DECLARE(0x00AB4E50, user_interface_free);
 c_ui_memory_scope_lock::c_ui_memory_scope_lock()
 {
 	if (game_is_multithreaded())
-		internal_critical_section_enter(_critical_section_ui_memory);
+		internal_critical_section_enter(k_crit_section_ui_memory_lock);
 }
 
 c_ui_memory_scope_lock::~c_ui_memory_scope_lock()
 {
 	if (game_is_multithreaded())
-		internal_critical_section_leave(_critical_section_ui_memory);
+		internal_critical_section_leave(k_crit_section_ui_memory_lock);
 }
 
 void __cdecl user_interface_free(void const* ptr)
