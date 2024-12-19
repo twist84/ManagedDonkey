@@ -221,7 +221,7 @@ c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock()
 	static c_basic_buffer<void> resize_region{};
 
 	physical_memory_stage_push(_memory_stage_resize_locked);
-	resize_region.set_buffer(k_physical_memory_base_virtual_address, g_physical_memory_cache_size_new);
+	resize_region.set_buffer(resources_buffer, g_physical_memory_cache_size_new);
 
 	return resize_region;
 }

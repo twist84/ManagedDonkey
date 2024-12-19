@@ -195,9 +195,9 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0238E888 ; s_exception_information g_exception_information
 //.data:0238EB80 ; s_thread_system_globals g_thread_globals
 //.data:0238EC50 ; s_physical_memory_globals physical_memory_globals
-//.data:0238ED04 ; void* physical_memory_cache_base_address
-//.data:0238ED08 ; void* physical_memory_base_address
-//.data:0238ED0C ; void* physical_memory_data_base_address
+//.data:0238ED04 ; void* resources_buffer
+//.data:0238ED08 ; void* k_physical_memory_base_virtual_address
+//.data:0238ED0C ; void* k_virtual_to_physical_base_offset
 //.data:0238ED14 ; dword g_local_random_seed
 //.data:0238ED18 ; 
 //.data:0238ED1C ; 
