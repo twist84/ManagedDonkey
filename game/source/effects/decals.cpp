@@ -76,7 +76,7 @@ void __thiscall c_decal::render(long pass)
 	char const* tag_name_ = "#TODO: tag_name";
 	//TLS_DATA_GET_VALUE_REFERENCE(g_decal_system_data_array);
 	//REFERENCE_DECLARE(offset_pointer(this, 0x8), long, decal_system_index);
-	//void* decal_system = datum_get(*g_decal_system_data_array, decal_system_index);
+	//void* decal_system = datum_get(g_decal_system_data_array, decal_system_index);
 	//REFERENCE_DECLARE(offset_pointer(decal_system, 0x4), long, tag_index);
 	//tag_name_ = tag_name_strip_path(tag_get_name(tag_index));
 	c_rasterizer_profile_scope _decal(_rasterizer_profile_element_effects, tag_name.print(L"%hs", tag_name_));

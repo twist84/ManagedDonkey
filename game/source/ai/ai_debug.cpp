@@ -410,7 +410,7 @@ void render_command_scripts_helper(actor_datum* actor, long command_script_index
 
 	//TLS_DATA_GET_VALUE_REFERENCE(command_script_data);
 	//
-	//command_script_datum* command_script = (command_script_datum*)datum_get(*command_script_data, command_script_index);
+	//command_script_datum* command_script = (command_script_datum*)datum_get(command_script_data, command_script_index);
 	//
 	//if (command_script->next_cs != NONE)
 	//	render_command_scripts_helper(actor, command_script->next_cs);

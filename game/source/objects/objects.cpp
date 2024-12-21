@@ -1785,7 +1785,7 @@ void __cdecl objects_update()
 	//		for (long object_early_mover_index = 0; object_early_mover_index < object_early_movers_count; object_early_mover_index++)
 	//		{
 	//			long object_index = object_early_movers[object_early_mover_index];
-	//			object_header_datum* object_header = (object_header_datum*)datum_get(*object_header_data, object_index);
+	//			object_header_datum* object_header = object_header_get(object_index);
 	//
 	//			if (object_header->flags.test(_object_header_active_bit) &&
 	//				object_header->flags.test(_object_header_awake_bit) &&

@@ -1705,7 +1705,7 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 	//
 	//		*next_node_index = hs_tokenize(state);
 	//		if (*next_node_index != NONE)
-	//			*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
+	//			*next_node_index = hs_syntax_get(next_node_index)->next_node_index;
 	//
 	//		if (hs_compile_globals.error_message)
 	//			goto LABEL_20;

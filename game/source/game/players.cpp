@@ -574,7 +574,7 @@ void __cdecl player_set_facing(long player_index, real_vector3d const* facing)
 
 	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//
-	//player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+	//player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 	//if (game_is_authoritative())
 	//{
 	//	if (player->unit_index != NONE)
