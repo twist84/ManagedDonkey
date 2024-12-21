@@ -2,6 +2,7 @@
 
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
@@ -428,7 +429,7 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.permitted_thread_bits, get_current_thread_index());
 }
 
-long event_parse_categories(char const* event_name, long max_categories, long category_name_max_length, char(*category_names)[8][64])
+long event_parse_categories(char const* event_name, long max_categories, long category_name_max_length, char(*category_names)[64])
 {
 	char const* category_substring = event_name;
 	long category_index = 0;
@@ -462,7 +463,7 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 			}
 			else
 			{
-				generate_event(_event_error, "network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length);
+				ASSERT2(c_string_builder("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length).get_string());
 
 				failed = true;
 			}
@@ -474,9 +475,9 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 			{
 				if (category_index < max_categories)
 				{
-					csstrnzcpy((*category_names)[category_index], category_name, category_name_max_length);
-					(*category_names)[category_index][category_name_length] = 0;
-					ascii_strnlwr((*category_names)[category_index++], category_name_length);
+					csstrnzcpy(category_names[category_index], category_name, category_name_max_length);
+					category_names[category_index][category_name_length] = 0;
+					ascii_strnlwr(category_names[category_index++], category_name_length);
 				}
 				else
 				{
@@ -492,8 +493,8 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 		}
 	} while (!succeeded && !failed);
 
-	if (failed) // #TODO: asserts with string builder
-		c_console::write_line("failed to parse network event '%s'", event_name);
+	if (failed)
+		ASSERT2(c_string_builder("failed to parse network event '%s'", event_name).get_string());
 
 	if (category_index > category_count)
 		category_index = category_count;
@@ -501,87 +502,97 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 	return category_index;
 }
 
-s_event_category* get_writeable_category(long category_index)
+s_event_category* event_category_get(long category_index)
 {
 	return &event_globals.categories[category_index];
 }
 
-long event_find_category_recursive(long parent_category_index, bool create_category, long category_count, char(*category_names)[8][64])
+long event_find_category_recursive(long parent_category_index, bool create_category, long category_count, char(*category_names)[64])
 {
-	ASSERT(category_count > 0);
-	ASSERT(csstrnlen((*category_names)[0], NUMBEROF((*category_names)[0])) > 0);
-
-	char const* category_name = (*category_names)[0];
-
-	s_event_category* category = get_writeable_category(parent_category_index);
-	long next_category_index = NONE;
-
-	s_event_category* temp_category = nullptr;
-	for (long i = category->first_child_index; i != NONE; i = temp_category->sibling_index)
+	while (true)
 	{
-		temp_category = get_writeable_category(i);
+		char const* category_name = category_names[0];
+		long category_index = parent_category_index;
 
-		if (temp_category->name.is_equal(category_name))
+		ASSERT(category_count > 0);
+		ASSERT(csstrnlen(category_names[0], NUMBEROF(category_names[0])) > 0);
+
+		long next_category_index = NONE;
+		g_event_read_write_lock.read_lock();
+		
+		ASSERT(category_index != NONE);
+
+		s_event_category* temp_category = nullptr;
+		for (next_category_index = event_category_get(category_index)->first_child_index;
+			next_category_index != NONE;
+			next_category_index = temp_category->sibling_index)
 		{
-			next_category_index = i;
-			break;
+			temp_category = event_category_get(next_category_index);
+			if (csstrnicmp(temp_category->name, category_name, sizeof(temp_category->name)) == 0)
+				break;
 		}
-	}
 
-	if (next_category_index == NONE && create_category)
-	{
-		next_category_index = NONE;
-		if (event_globals.category_count < event_globals.categories.get_count())
-			next_category_index = event_globals.category_count++;
+		g_event_read_write_lock.read_unlock();
 
 		if (next_category_index == NONE)
 		{
-			generate_event(_event_error, "event_find_category_recursive: ran out of categories creating '%s'", (*category_names)[0]);
+			if (!create_category)
+				return next_category_index;
+
+			g_event_read_write_lock.write_lock();
+
+			s_event_category* _RDI = NULL;
+			long category_index_ = event_globals.category_count;
+			if (event_globals.category_count < 1024
+				&& (next_category_index = event_globals.category_count++,
+					(_RDI = event_category_get(category_index_)) != NULL))
+			{
+				s_event_category* _RBX = event_category_get(parent_category_index);
+
+				csstrnzcpy(_RDI->name, category_name, sizeof(_RDI->name));
+				csstrnzcpy(_RDI->log_name, _RBX->log_name, sizeof(_RDI->log_name));
+				_RDI->current_display_level = _RBX->current_display_level;
+				_RDI->current_display_color = _RBX->current_display_color;
+				_RDI->current_log_level = _RBX->current_log_level;
+				_RDI->current_remote_log_level = _RBX->current_remote_log_level;
+				_RDI->current_debugger_break_level = _RBX->current_debugger_break_level;
+				_RDI->current_halt_level = _RBX->current_halt_level;
+				_RDI->current_force_display_level = _RBX->current_force_display_level;
+				_RDI->first_child_index = NONE;
+				_RDI->depth++;
+				_RDI->parent_index = parent_category_index;
+				_RDI->sibling_index = _RBX->first_child_index;
+				_RDI->event_log_index = _RBX->event_log_index;
+				_RDI->log_format_func = _RBX->log_format_func;
+				_RDI->event_listeners = _RBX->event_listeners;
+				_RBX->first_child_index = next_category_index;
+			}
+			else
+			{
+				console_printf("event_find_category_recursive: ran out of categories creating '%s'", category_name);
+			}
+
+			g_event_read_write_lock.write_unlock();
+
+			if (next_category_index == NONE)
+				return next_category_index;
 		}
-		else
-		{
-			s_event_category* next_category = get_writeable_category(next_category_index);
-			category->name.set(category_name);
-			category->log_name.set(category->log_name.get_string());
-			next_category->current_display_level = category->current_display_level;
-			next_category->current_display_color = category->current_display_color;
-			next_category->current_log_level = category->current_log_level;
-			next_category->current_remote_log_level = category->current_remote_log_level;
-			next_category->current_debugger_break_level = category->current_debugger_break_level;
-			next_category->current_halt_level = category->current_halt_level;
-			next_category->depth = category->depth + 1;
-			next_category->parent_index = parent_category_index;
-			next_category->first_child_index = NONE;
-			next_category->sibling_index = category->first_child_index;
-			next_category->event_log_index = category->event_log_index;
-			next_category->log_format_func = category->log_format_func;
-			next_category->event_listeners = category->event_listeners;
-			category->first_child_index = next_category_index;
-		}
+
+		if (category_count <= 1)
+			return next_category_index;
+
+		category_names++;
+		category_count--;
+		parent_category_index = next_category_index;
 	}
-
-	if (next_category_index != NONE && category_count > 1)
-		next_category_index = event_find_category_recursive(next_category_index, create_category, category_count - 1, category_names + 1);
-
-	return next_category_index;
 }
 
-long event_find_category(bool write, long a2, char(*category_names)[8][64])
+long event_find_category(bool create_category, long category_count, char(*category_names)[64])
 {
-	if (a2 <= 0)
-		return 0;
+	if (category_count > 0)
+		return event_find_category_recursive(0, create_category, category_count, category_names);
 
-	g_event_read_write_lock.read_lock();
-	long category_index = event_find_category_recursive(0, false, a2, category_names);
-	g_event_read_write_lock.read_unlock();
-	if (category_index == NONE && write)
-	{
-		g_event_read_write_lock.write_lock();
-		category_index = event_find_category_recursive(0, true, a2, category_names);
-		g_event_read_write_lock.write_unlock();
-	}
-
-	return category_index;
+	return 0;
 }
 
 long event_category_from_name(char const* event_name, bool create_category)
@@ -590,9 +601,9 @@ long event_category_from_name(char const* event_name, bool create_category)
 
 	char categories[8][64]{};
 
-	long v6 = event_parse_categories(event_name, 8, 64, &categories);
-	if (v6 > 0)
-		return event_find_category(create_category, v6, &categories);
+	long category_count = event_parse_categories(event_name, 8, 64, categories);
+	if (category_count > 0)
+		return event_find_category(create_category, category_count, categories);
 
 	return 0;
 }
@@ -601,9 +612,9 @@ void event_initialize_categories()
 {
 	ASSERT(event_globals.category_count == 0);
 
-	s_event_category* category = get_writeable_category(0);
-	category->name.set("");
-	category->log_name.set("");
+	s_event_category* category = event_category_get(0);
+	csstrnzcpy(category->name, "", sizeof(category->name));
+	csstrnzcpy(category->log_name, "", sizeof(category->log_name));
 	category->current_display_level = k_event_level_none;
 	category->current_log_level = k_event_level_none;
 	category->current_remote_log_level = k_event_level_none;
@@ -623,18 +634,19 @@ void event_initialize_categories()
 	{
 		s_event_category_default_configuration const* log_event = &g_log_events[i];
 		long category_index = event_category_from_name(log_event->name, true);
-		s_event_category* next_category = get_writeable_category(category_index);
+		s_event_category* next_category = event_category_get(category_index);
 		next_category->current_display_level = log_event->initial_display_level;
 		next_category->current_display_color = log_event->initial_display_color;
 		if (log_event->log_name)
 		{
-			next_category->log_name.set(log_event->log_name);
+			csstrnzcpy(next_category->log_name, log_event->log_name, sizeof(next_category->log_name));
 			next_category->event_log_index = NONE;// event_log_new(event_->log_name, FLAG(3), true);
 		}
 		next_category->current_log_level = log_event->initial_log_level;
 		next_category->current_remote_log_level = log_event->initial_remote_log_level;
 		next_category->current_debugger_break_level = k_event_level_none;
 		next_category->current_halt_level = k_event_level_none;
+		next_category->current_force_display_level = k_event_level_none;
 		next_category->log_format_func = log_event->log_format_func;
 	}
 }
@@ -723,63 +735,28 @@ dword event_query(e_event_level event_level, long category_index, dword event_re
 		flags = event_level >= event_globals.current_display_level;
 
 	if (event_globals.current_log_level != k_event_level_none)
-	{
-		if (event_level < event_globals.current_log_level)
-			flags &= ~FLAG(_category_properties_log_level_bit);
-		else
-			flags |= FLAG(_category_properties_log_level_bit);
-	}
+		SET_BIT(flags, _category_properties_log_level_bit, event_level >= event_globals.current_log_level);
 
 	if (event_globals.current_remote_log_level != k_event_level_none)
-	{
-		if (event_level < event_globals.current_remote_log_level)
-			flags &= ~FLAG(_category_properties_remote_log_level_bit);
-		else
-			flags |= FLAG(_category_properties_remote_log_level_bit);
-	}
+		SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= event_globals.current_remote_log_level);
 
 	if (category_index != NONE)
 	{
-		s_event_category* category = get_writeable_category(category_index);
-		if (category->current_display_level != NONE)
-		{
-			if (event_level < category->current_display_level)
-				flags &= ~FLAG(_category_properties_display_level_bit);
-			else
-				flags |= FLAG(_category_properties_display_level_bit);
-		}
+		s_event_category* category = event_category_get(category_index);
+		if (category->current_display_level != k_event_level_none)
+			SET_BIT(flags, _category_properties_display_level_bit, event_level >= category->current_display_level);
 
 		if (category->current_log_level != k_event_level_none)
-		{
-			if (event_level < category->current_log_level)
-				flags &= ~FLAG(_category_properties_force_display_level_bit);
-			else
-				flags |= FLAG(_category_properties_force_display_level_bit);
-		}
+			SET_BIT(flags, _category_properties_force_display_level_bit, event_level >= category->current_log_level);
 
 		if (category->current_remote_log_level != k_event_level_none)
-		{
-			if (event_level < category->current_remote_log_level)
-				flags &= ~FLAG(_category_properties_log_level_bit);
-			else
-				flags |= FLAG(_category_properties_log_level_bit);
-		}
+			SET_BIT(flags, _category_properties_log_level_bit, event_level >= category->current_remote_log_level);
 
 		if (category->current_debugger_break_level != k_event_level_none)
-		{
-			if (event_level < category->current_debugger_break_level)
-				flags &= ~FLAG(_category_properties_remote_log_level_bit);
-			else
-				flags |= FLAG(_category_properties_remote_log_level_bit);
-		}
+			SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= category->current_debugger_break_level);
 
 		if (category->current_halt_level != k_event_level_none)
-		{
-			if (event_level < category->current_halt_level)
-				flags &= ~FLAG(_category_properties_debugger_break_level_bit);
-			else
-				flags |= FLAG(_category_properties_debugger_break_level_bit);
-		}
+			SET_BIT(flags, _category_properties_debugger_break_level_bit, event_level >= category->current_halt_level);
 	}
 
 	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, 0))
@@ -839,7 +816,7 @@ dword event_update_spam_prevention(dword response_flags, e_event_level event_lev
 		!TEST_BIT(response_flags, 0))
 	{
 		g_event_read_write_lock.write_lock();
-		s_event_category* category = get_writeable_category(category_index);
+		s_event_category* category = event_category_get(category_index);
 
 		dword time = system_milliseconds();
 		if (time > category->last_event_time + 10000)
@@ -901,18 +878,15 @@ void event_generate(e_event_level event_level, long category_index, dword event_
 {
 	ASSERT(g_events_initialized);
 
-	dword flags = event_query(event_level, category_index, event_response_suppress_flags);
-
-	if (flags)
+	if (dword flags = event_query(event_level, category_index, event_response_suppress_flags))
 	{
 		char event_text[2048]{};
 
 		cvsnzprintf(event_text, sizeof(event_text), format, argument_list);
 
-		s_event_category* category = get_writeable_category(category_index);
-		dword undated = event_update_spam_prevention(flags, event_level, category_index, event_text);
+		s_event_category* category = event_category_get(category_index);
 
-		if (undated)
+		if (dword undated = event_update_spam_prevention(flags, event_level, category_index, event_text))
 		{
 			if (TEST_BIT(undated, _category_properties_display_level_bit) || TEST_BIT(undated, _category_properties_force_display_level_bit))
 				event_generated_handle_console(event_level, category_index, event_text, TEST_BIT(undated, _category_properties_force_display_level_bit));

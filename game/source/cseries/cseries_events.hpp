@@ -55,24 +55,25 @@ static_assert(sizeof(s_event_category_default_configuration) == 0x24);
 struct s_event_category
 {
 	short depth;
-	c_static_string<64> name;
+	char name[64];
 	long event_log_index;
 	e_event_level current_display_level;
 	real_rgb_color current_display_color;
 	dword last_event_time;
 	long possible_spam_event_count;
 	e_event_level current_log_level;
-	c_static_string<k_tag_long_string_length> log_name;
+	char log_name[256];
 	void(__cdecl* log_format_func)(char*, long);
 	e_event_level current_remote_log_level;
 	e_event_level current_debugger_break_level;
 	e_event_level current_halt_level;
+	e_event_level current_force_display_level;
 	dword event_listeners;
 	long parent_index;
 	long first_child_index;
 	long sibling_index;
 };
-static_assert(sizeof(s_event_category) == 0x184);
+static_assert(sizeof(s_event_category) == 0x188);
 
 struct c_event_listener_base
 {
@@ -121,7 +122,7 @@ struct s_event_globals
 	bool suppress_console_display_and_show_spinner;
 	long permitted_thread_bits;
 };
-static_assert(sizeof(s_event_globals) == 0x81B6C);
+static_assert(sizeof(s_event_globals) == 0x82B6C);
 
 struct c_event
 {
