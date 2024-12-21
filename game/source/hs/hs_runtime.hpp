@@ -65,6 +65,20 @@ enum : long
 	HS_SLEEP_COMMAND_SCRIPT_ATOM = -3
 };
 
+enum
+{
+	_hs_thread_in_function_call_bit = 0,
+	_hs_thread_latent_sleep_bit,
+	_hs_thread_display_expression_bit,
+	_hs_thread_hide_display_bit,
+	_hs_thread_verbose_bit,
+	_hs_thread_woken_bit,
+	_hs_thread_terminate_bit,
+	_hs_thread_abort_bit,
+
+	NUMBER_OF_HS_THREAD_FLAGS
+};
+
 struct hs_thread :
 	s_datum_header
 {

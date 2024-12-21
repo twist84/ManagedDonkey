@@ -21,7 +21,7 @@ REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);
 
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
-//HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
+HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 
 t_value_type<bool> const g_cinematic_debug_mode = { .value = true };
 DATA_PATCH_DECLARE(0x024B0A3E, g_cinematic_debug_mode, g_cinematic_debug_mode.bytes);
@@ -176,38 +176,37 @@ long __cdecl hs_find_thread_by_name(char const* script_name)
 
 long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool initialize)
 {
-	return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, initialize);
+	//return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, initialize);
 
-	//hs_function_definition const* function = hs_function_get(function_index);
-	//char const* function_name = hs_function_table_names[function_index];
-	//
-	//long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
-	//if (parameters)
-	//{
-	//	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
-	//	hs_thread* thread = (hs_thread*)datum_get(*hs_thread_deterministic_data, thread_index);
-	//	if (/*hs_verbose || */TEST_BIT(thread->stack_frame.__flagsD, 4))
-	//	{
-	//		static c_static_string<10240> string;
-	//		string.print("%s: %s ", hs_thread_format(thread_index), function_name);
-	//		if (parameters)
-	//		{
-	//			for (long parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
-	//			{
-	//				static char parameter[100]{};
-	//				inspect_internal(function->formal_parameters[parameter_index], parameters[parameter_index], parameter, sizeof(parameter));
-	//				string.append_print("%s ", parameter);
-	//			}
-	//		}
-	//
-	//		long expression_index = *((dword*)thread->stack_data + 1);
-	//		if (expression_index != NONE)
-	//			string.append_print("   (line #%i)", hs_syntax_get(expression_index)->line_number);
-	//
-	//		generate_event(_event_warning, "hs: %s", string.get_string());
-	//	}
-	//}
-	//return parameters;
+	hs_function_definition const* function = hs_function_get(function_index);
+	char const* function_name = hs_function_table_names[function_index];
+	
+	long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
+	if (parameters)
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+		{
+			char buffer[10240];
+			csnzprintf(buffer, sizeof(buffer), "%s: %s ", hs_thread_format(thread_index), function_name);
+			if (parameters)
+			{
+				for (long parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
+				{
+					char valuebuffer[100]{};
+					inspect_internal(function->formal_parameters[parameter_index], parameters[parameter_index], valuebuffer, sizeof(valuebuffer));
+					csnzappendf(buffer, sizeof(buffer), "%s ", valuebuffer);
+				}
+			}
+	
+			long expression_index = hs_thread_stack(thread)->expression_index;
+			if (expression_index != NONE)
+				csnzappendf(buffer, sizeof(buffer), "   (line #%i)", hs_syntax_get(expression_index)->line_number);
+	
+			generate_event(_event_warning, "hs: %s", buffer);
+		}
+	}
+	return parameters;
 }
 
 //.text:00597320 ; long __cdecl hs_object_index_from_name_index(long, short)
