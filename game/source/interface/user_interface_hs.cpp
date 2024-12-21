@@ -10,7 +10,7 @@ long start_script(hs_script const* script, long index)
 	ASSERT(script);
 	ASSERT(index != NONE);
 
-	long thread_index = hs_runtime_script_begin(static_cast<short>(index), script->script_type, _hs_thread_type_script);
+	long thread_index = hs_runtime_script_begin(static_cast<short>(index & 0xFFFF), script->script_type, _hs_thread_type_script);
 	if (thread_index == NONE)
 	{
 		generate_event(_event_error, "ui:hs: failed to start script %s", script->name);
@@ -33,9 +33,11 @@ long user_interface_start_hs_script_by_name(char const* name)
 	hs_script const* script = nullptr;
 	for (script_index = 0; script_index < scenario->scripts.count; script_index++)
 	{
-		script = &scenario->scripts[script_index];
-		if (ascii_stricmp(name, script->name) == 0)
+		if (ascii_stricmp(name, scenario->scripts[script_index].name) == 0)
+		{
+			script = &scenario->scripts[script_index];
 			break;
+		}
 	}
 
 	if (script)
