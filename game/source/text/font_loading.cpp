@@ -255,7 +255,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 					if (font.header_offset < (long)sizeof(s_font_package_file_header) &&
 						font.header_offset + (long)sizeof(s_font_header) > g_font_globals.package_file.header.header_data_offset + g_font_globals.package_file.header.header_data_size)
 					{
-						generate_event(_event_error, "package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
+						GENERATE_EVENT(_event_error, "package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
 							font_index,
 							font.header_offset,
 							font.header_size,
@@ -280,7 +280,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 						}
 						else
 						{
-							generate_event(_event_error, "package file font #%d header failed to validate",
+							GENERATE_EVENT(_event_error, "package file font #%d header failed to validate",
 								font_index);
 
 							load_package_file_failed = true;
@@ -294,7 +294,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 				if (!load_package_file_failed)
 				{
 					g_font_globals.font_package_header = &g_font_globals.package_file.header;
-					generate_event(_event_message, "loaded package file '%s' (%d fonts)",
+					GENERATE_EVENT(_event_message, "loaded package file '%s' (%d fonts)",
 						loading_state->debug_filename,
 						g_font_globals.package_file.header.font_count);
 
@@ -303,20 +303,20 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 			}
 			else
 			{
-				generate_event(_event_error, "package header failed to validate");
+				GENERATE_EVENT(_event_error, "package header failed to validate");
 			}
 
 			loaded_font_file = true;
 		}
 		else
 		{
-			generate_event(_event_error, "fonts: couldn't read package file header (%d bytes)",
+			GENERATE_EVENT(_event_error, "fonts: couldn't read package file header (%d bytes)",
 				sizeof(s_font_package_file));
 		}
 
 		if (!loaded_font_file)
 		{
-			generate_event(_event_critical, "fonts: unable to load font file '%s', fonts may be unavailable",
+			GENERATE_EVENT(_event_critical, "fonts: unable to load font file '%s', fonts may be unavailable",
 				loading_state->debug_filename);
 
 			loading_state->failed = 1;
@@ -330,7 +330,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 	}
 	else
 	{
-		generate_event(_event_error, "fonts: couldn't open font file '%s'", loading_state->debug_filename);
+		GENERATE_EVENT(_event_error, "fonts: couldn't open font file '%s'", loading_state->debug_filename);
 		loading_state->failed = 1;
 		completion = _async_completion_done;
 	}

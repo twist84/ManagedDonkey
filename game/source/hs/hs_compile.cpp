@@ -1902,7 +1902,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 
 	bool result = false;
 
-	//generate_event(event_level, "hs:evaluate: %s: %s", source, expression);
+	//GENERATE_EVENT(event_level, "hs:evaluate: %s: %s", source, expression);
 	//
 	////random_seed_allow_use();
 	//

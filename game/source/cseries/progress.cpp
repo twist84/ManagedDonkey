@@ -33,7 +33,7 @@ void __cdecl progress_done()
 	//
 	//	progress_globals.__unknown28 = false;
 	//}
-	//generate_event(_event_message, "progress: %s, total time: %.2f seconds",
+	//GENERATE_EVENT(_event_message, "progress: %s, total time: %.2f seconds",
 	//	progress_globals.description, ((system_milliseconds() - progress_globals.start_time) / 1000.0f));
 }
 

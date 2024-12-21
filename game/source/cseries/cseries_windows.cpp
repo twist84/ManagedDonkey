@@ -84,7 +84,7 @@ void __cdecl system_set_dll_directory()
 	csstrnzcat(dll_directory, ".\\bin", 1024);
 	SetDllDirectoryA(dll_directory);
 
-	//generate_event(_event_message, "system: dll directory={ %s }", dll_directory);
+	//GENERATE_EVENT(_event_message, "system: dll directory={ %s }", dll_directory);
 	printf("system: dll directory={ %s }\n", dll_directory);
 }
 

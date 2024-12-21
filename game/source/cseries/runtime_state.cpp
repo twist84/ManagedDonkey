@@ -86,7 +86,7 @@ void* __cdecl runtime_state_malloc_aligned(char const* name, char const* type, l
 	ASSERT(g_runtime_state_globals.allocated_size + true_size <= k_runtime_state_size);
 	g_runtime_state_globals.allocated_size += true_size;
 
-	generate_event(_event_message, "system:runtime_state: runtime_state_malloc %s: %d (total: %d)", name, true_size, g_runtime_state_globals.allocated_size);
+	GENERATE_EVENT(_event_message, "system:runtime_state: runtime_state_malloc %s: %d (total: %d)", name, true_size, g_runtime_state_globals.allocated_size);
 
 	g_runtime_state_globals.size_checksum = crc_checksum_buffer(g_runtime_state_globals.size_checksum, (byte*)&true_size, sizeof(true_size));
 

@@ -484,7 +484,7 @@ long __cdecl render_debug_add_cache_string(char const* string)
 	static bool render_debug_cache_string_overflow = false;
 	if (!render_debug_cache_string_overflow)
 	{
-		generate_event(_event_warning, "render debug cache string overflow");
+		GENERATE_EVENT(_event_warning, "render debug cache string overflow");
 		render_debug_cache_string_overflow = true;
 	}
 
@@ -1481,7 +1481,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 	static bool render_debug_cache_overflow = false;
 	if (!render_debug_cache_overflow)
 	{
-		generate_event(_event_warning, "render debug cache overflow.");
+		GENERATE_EVENT(_event_warning, "render debug cache overflow.");
 		render_debug_cache_overflow = true;
 	}
 }
@@ -1513,7 +1513,7 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 			}
 			else
 			{
-				generate_event(_event_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
+				GENERATE_EVENT(_event_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
 			}
 
 			if (type_list[entry->type] != type)
@@ -1803,7 +1803,7 @@ void c_render_debug_line_drawer::flush()
 	}
 	else
 	{
-		generate_event(_event_error, "can't use debug_line_drawer w/o immediate debug drawing");
+		GENERATE_EVENT(_event_error, "can't use debug_line_drawer w/o immediate debug drawing");
 	}
 
 	vertex_count = 0;

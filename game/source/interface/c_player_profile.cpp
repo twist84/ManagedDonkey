@@ -213,7 +213,7 @@ void __thiscall c_player_profile_interface::set_primary_change_color(long primar
 	//}
 	//else
 	//{
-	//	generate_event(_event_error, "ui:profile: invalid primary color index (#%ld)", primary_change_color);
+	//	GENERATE_EVENT(_event_error, "ui:profile: invalid primary color index (#%ld)", primary_change_color);
 	//}
 }
 
@@ -232,7 +232,7 @@ void __thiscall c_player_profile_interface::set_secondary_change_color(long seco
 	//}
 	//else
 	//{
-	//	generate_event(_event_error, "ui:profile: invalid primary color index (#%ld)", secondary_change_color);
+	//	GENERATE_EVENT(_event_error, "ui:profile: invalid primary color index (#%ld)", secondary_change_color);
 	//}
 }
 

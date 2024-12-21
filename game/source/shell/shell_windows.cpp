@@ -420,21 +420,21 @@ void __cdecl sub_42EA80()
 	DWORD path_size = GetEnvironmentVariableA("path", path, sizeof(path));
 	if (path_size > 0 && path_size < sizeof(path))
 	{
-		//generate_event(_event_message, "system: path={ %s }", path);
+		//GENERATE_EVENT(_event_message, "system: path={ %s }", path);
 		printf("system: path={ %s }", path); printf("\n");
 	}
 	
 	CHAR current_directory[MAX_PATH]{};
 	if (GetCurrentDirectoryA(MAX_PATH, current_directory))
 	{
-		//generate_event(_event_message, "system: current directory={ %s }", current_directory);
+		//GENERATE_EVENT(_event_message, "system: current directory={ %s }", current_directory);
 		printf("system: current directory={ %s }", current_directory); printf("\n");
 	}
 
 	ULONG HeapInformation;
 	if (HeapQueryInformation(GetProcessHeap(), HeapCompatibilityInformation, &HeapInformation, sizeof(HeapInformation), NULL))
 	{
-		//generate_event(_event_message, "HeapCompatibilityInformation == %d!", HeapInformation);
+		//GENERATE_EVENT(_event_message, "HeapCompatibilityInformation == %d!", HeapInformation);
 		printf("HeapCompatibilityInformation == %d!", HeapInformation); printf("\n");
 	}
 }

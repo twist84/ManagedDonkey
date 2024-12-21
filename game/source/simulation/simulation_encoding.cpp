@@ -216,7 +216,7 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//
 	//	if (pre_queues_encoded_size > 0x1800)
 	//	{
-	//		generate_event(_event_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]",
+	//		GENERATE_EVENT(_event_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]",
 	//			pre_queues_encoded_size,
 	//			0x1800);
 	//	}

@@ -98,7 +98,7 @@ bool c_simulation_hs_script_wake_event_definition::apply_game_event(long entity_
 
 	if (definition->script_index == NONE)
 	{
-		generate_event(_event_warning, "networking:simulation:hs: invalid script index in hs wake event");
+		GENERATE_EVENT(_event_warning, "networking:simulation:hs: invalid script index in hs wake event");
 		return true;
 	}
 
@@ -106,7 +106,7 @@ bool c_simulation_hs_script_wake_event_definition::apply_game_event(long entity_
 	hs_find_dormant_script(definition->script_name, &script_index);
 	if (script_index != definition->script_index)
 	{
-		generate_event(_event_warning, "networking:simulation:hs: script index mismatch in hs wake event [0x%08X != 0x%08X]", script_index, definition->script_index);
+		GENERATE_EVENT(_event_warning, "networking:simulation:hs: script index mismatch in hs wake event [0x%08X != 0x%08X]", script_index, definition->script_index);
 	}
 
 	hs_wake_by_name(definition->script_name);

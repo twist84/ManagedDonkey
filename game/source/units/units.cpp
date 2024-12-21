@@ -670,7 +670,7 @@ void __cdecl unit_update_illumination(long unit_index)
 			long current_time = game_time_get();
 			if (game_ticks_to_seconds(real(current_time - debug_unit_illumination_time)) >= 1.0f)
 			{
-				generate_event(_event_warning, "player illumination: self %.2f ambient %.2f",
+				GENERATE_EVENT(_event_warning, "player illumination: self %.2f ambient %.2f",
 					unit->unit.self_illumination,
 					unit->unit.ambient_illumination);
 

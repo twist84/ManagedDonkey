@@ -34,7 +34,7 @@ bool c_network_link::adjust_packet_size(bool game_data, long voice_data_length, 
 
 		if (payload_length < 0)
 		{
-			generate_event(_event_warning, "networking:link: requested in-channel VDP packet (%d bytes voice, %d bytes data) exceeds maximum payload (%d bytes), impossible to send", voice_data_length, *game_data_length, maximum_payload);
+			GENERATE_EVENT(_event_warning, "networking:link: requested in-channel VDP packet (%d bytes voice, %d bytes data) exceeds maximum payload (%d bytes), impossible to send", voice_data_length, *game_data_length, maximum_payload);
 			return false;
 		}
 		else
@@ -67,7 +67,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//transport_endpoint* endpoint = transport_endpoint_create(type);
 	//if (!endpoint)
 	//{
-	//	generate_event(_event_error, "networking:link: create_endpoint[%d] - unable to create endpoint!", type);
+	//	GENERATE_EVENT(_event_error, "networking:link: create_endpoint[%d] - unable to create endpoint!", type);
 	//	return false;
 	//}
 	//
@@ -76,7 +76,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//
 	//if (!transport_endpoint_bind(endpoint, &address) || !transport_endpoint_set_blocking(endpoint, false) || (set_broadcast_option && !transport_endpoint_set_option_value(endpoint, _transport_endpoint_option_broadcast, true)))
 	//{
-	//	generate_event(_event_error, "networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
+	//	GENERATE_EVENT(_event_error, "networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
 	//	transport_endpoint_delete(endpoint);
 	//	return false;
 	//}
@@ -171,7 +171,7 @@ bool c_network_link::initialize_link()
 	//ASSERT(transport_get_packet_overhead(_transport_type_udp) + k_network_link_maximum_game_data_size <= k_network_link_maximum_encoded_packet_size);
 	//ASSERT(transport_get_packet_overhead(_transport_type_vdp) + k_network_link_maximum_game_data_size + k_network_link_maximum_voice_data_size <= k_network_link_maximum_encoded_packet_size);
 	//if (result && transport_available() && !create_endpoints())
-	//	generate_event(_event_error, "networking:link: initialize() failed to create packet endpoints!");
+	//	GENERATE_EVENT(_event_error, "networking:link: initialize() failed to create packet endpoints!");
 	//if (result)
 	//	m_initialized = true;
 	//else

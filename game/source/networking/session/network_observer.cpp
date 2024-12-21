@@ -105,7 +105,7 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_up
         m_prioritize_upload_bandwidth = prioritize_upload_bandwidth;
         __unknown23F00 = true;
         __unknown23F01 = true;
-        generate_event(_event_message, "networking:observer:stream: rebalance stream for upload bandwidth prioritzation=%d", prioritize_upload_bandwidth);
+        GENERATE_EVENT(_event_message, "networking:observer:stream: rebalance stream for upload bandwidth prioritzation=%d", prioritize_upload_bandwidth);
     }
 }
 

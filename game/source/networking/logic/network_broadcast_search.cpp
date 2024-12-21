@@ -56,7 +56,7 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 		}
 		else
 		{
-			generate_event(_event_error, "networking:logic:broadcast-search: no physical link available");
+			GENERATE_EVENT(_event_error, "networking:logic:broadcast-search: no physical link available");
 		}
 	}
 
@@ -130,7 +130,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 		if (v5 == -1)
 		{
-			generate_event(_event_error, "networking:logic:broadcast-search: too many games on the network, can't store reply");
+			GENERATE_EVENT(_event_error, "networking:logic:broadcast-search: too many games on the network, can't store reply");
 		}
 		else
 		{

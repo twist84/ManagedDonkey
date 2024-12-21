@@ -383,7 +383,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 
 void debug_menu_display_error(char const* error_text, bool error)
 {
-	generate_event(error == false ? _event_warning : _event_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
+	GENERATE_EVENT(error == false ? _event_warning : _event_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
 }
 
 char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_length)

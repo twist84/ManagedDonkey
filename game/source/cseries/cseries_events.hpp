@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
-#include "multithreading/synchronized_value.hpp"
 
 enum e_event_level
 {
@@ -168,38 +167,30 @@ extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* 
 extern void __cdecl events_debug_render();
 extern char const* __cdecl events_get();
 extern void __cdecl events_initialize();
-extern long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand);
+extern long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand);
 extern void __cdecl network_debug_print(char const* format, ...);
 
-// I don't like this :(
-template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
-void generate_event(e_event_level event_level, char const* event_name, parameters_t... parameters)
-{
-	c_interlocked_long event_category = NONE;
-	c_event _event(event_level, event_category, 0);
-	if (_event.query())
-	{
-		//long category_index = _event.generate(event_name, parameters...);
-		//if (event_category == NONE)
-		//	event_interlocked_compare_exchange(event_category, category_index, NONE);
+#define USE_CONSOLE_FOR_EVENTS
 
-		c_console::write_line(event_name, parameters...);
-	}
+#ifdef USE_CONSOLE_FOR_EVENTS
+#define GENERATE_EVENT(EVENT_LEVEL, EVENT_NAME, ...) { c_console::write_line(EVENT_NAME, __VA_ARGS__); }
+#else
+#define GENERATE_EVENT(EVENT_LEVEL, EVENT_NAME, ...) \
+{ \
+	static long volatile x_event_category_index = NONE; \
+	c_event local_event(EVENT_LEVEL, x_event_category_index, 0); \
+	if (local_event.query()) \
+	{ \
+		if (x_event_category_index == NONE) \
+			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(EVENT_NAME, __VA_ARGS__), NONE); \
+	} \
 }
+#endif
 
-// I like this a little more than the one above :(
-//template<typename char_t, typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
-//void generate_event(e_event_level event_level, char_t const* event_name, parameters_t... parameters)
-//{
-//	c_interlocked_long event_category = NONE;
-//	c_event _event(event_level, event_category, 0);
-//	if (_event.query())
-//	{
-//		long category_index = _event.generate(event_name, parameters...);
-//		if (event_category == NONE)
-//			event_interlocked_compare_exchange(event_category, category_index, NONE);
-//
-//		c_console::write_line(event_name, parameters...);
-//	}
-//}
+#define EVENT_VERBOSE(EVENT_NAME, ...)  GENERATE_EVENT(_event_verbose,  EVENT_NAME, __VA_ARGS__)
+#define EVENT_STATUS(EVENT_NAME, ...)   GENERATE_EVENT(_event_status,   EVENT_NAME, __VA_ARGS__)
+#define EVENT_MESSAGE(EVENT_NAME, ...)  GENERATE_EVENT(_event_message,  EVENT_NAME, __VA_ARGS__)
+#define EVENT_WARNING(EVENT_NAME, ...)  GENERATE_EVENT(_event_warning,  EVENT_NAME, __VA_ARGS__)
+#define EVENT_ERROR(EVENT_NAME, ...)    GENERATE_EVENT(_event_error,    EVENT_NAME, __VA_ARGS__)
+#define EVENT_CRITICAL(EVENT_NAME, ...) GENERATE_EVENT(_event_critical, EVENT_NAME, __VA_ARGS__)
 

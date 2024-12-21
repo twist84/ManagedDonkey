@@ -190,7 +190,7 @@ void c_gui_error_manager::clear_error_with_custom_message(long error_name, e_con
 		}
 	}
 
-	generate_event(_event_message, "ui:errors: %s error '%s' controller #%d",
+	GENERATE_EVENT(_event_message, "ui:errors: %s error '%s' controller #%d",
 		cleared ? "cleared" : "tried to clear nonexistent",
 		string_id_get_string_const(error_name),
 		controller_index);
@@ -285,7 +285,7 @@ void c_gui_error_manager::post_toast_with_custom_message(long error_name, wchar_
 	post_error_with_custom_message(error_name, custom_title, custom_message, k_any_controller, false, false);
 
 	if (game_options_valid() && !game_is_ui_shell())
-		generate_event(_event_message, "ui:errors: posted a toast while ingame - shouldn't be doing that");
+		GENERATE_EVENT(_event_message, "ui:errors: posted a toast while ingame - shouldn't be doing that");
 }
 
 void c_gui_error_manager::resolve_error(long error_name, e_controller_index controller_index)
@@ -453,7 +453,7 @@ void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_
 
 	if (!can_add_new_error)
 	{
-		generate_event(_event_warning, "ui:errors: unable to add new error!  too much shit has already hit the fan.");
+		GENERATE_EVENT(_event_warning, "ui:errors: unable to add new error!  too much shit has already hit the fan.");
 		return;
 	}
 
@@ -472,7 +472,7 @@ void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_
 
 						found_alert_description = true;
 
-						generate_event(_event_message, "automation:errors: new error '%s' posted", string_id_get_string_const(error_name));
+						GENERATE_EVENT(_event_message, "automation:errors: new error '%s' posted", string_id_get_string_const(error_name));
 						//telnet_console_printf("automation:errors: new error '%s' posted", string_id_get_string_const(error_name));
 						break;
 					}
@@ -480,7 +480,7 @@ void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_
 
 				if (!found_alert_description)
 				{
-					generate_event(_event_warning,
+					GENERATE_EVENT(_event_warning,
 						"ui:errors: error was unable to be added because we couldn't find the alert description '%s' in ui globals",
 						string_id_get_string_const(error_name));
 				}

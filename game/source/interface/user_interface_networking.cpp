@@ -47,7 +47,7 @@ void __cdecl user_interface_networking_clear_last_game_started()
 {
 	//INVOKE(0x00A7EC50, user_interface_networking_clear_last_game_started);
 
-	generate_event(_event_message, "networking:ui: clearning last game started flag");
+	GENERATE_EVENT(_event_message, "networking:ui: clearning last game started flag");
 
 	user_interface_networking_globals.start_game_last_started = false;
 }
@@ -232,16 +232,16 @@ void __cdecl user_interface_networking_notify_booted_from_session(e_network_sess
 {
 	INVOKE(0x00A7F580, user_interface_networking_notify_booted_from_session, type, boot_reason);
 
-	generate_event(_event_message, "networking:ui: notified that we have been booted from a session [type %d / reason %d]", type, boot_reason);
+	GENERATE_EVENT(_event_message, "networking:ui: notified that we have been booted from a session [type %d / reason %d]", type, boot_reason);
 
 	if (boot_reason == _network_session_boot_from_ui)
 	{
-		generate_event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
+		GENERATE_EVENT(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
 		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_session), k_any_controller, false);
 	}
 	else
 	{
-		generate_event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (in-game)");
+		GENERATE_EVENT(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (in-game)");
 		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_game), k_any_controller, false);
 	}
 
@@ -317,13 +317,13 @@ bool __cdecl user_interface_reset_networking_to_pregame()
 
 	if (!network_squad_session_local_peer_is_leader())
 	{
-		generate_event(_event_error, "ui:networking:user_interface_reset_networking_to_pregame: we are not the leader of a custom game");
+		GENERATE_EVENT(_event_error, "ui:networking:user_interface_reset_networking_to_pregame: we are not the leader of a custom game");
 		return false;
 	}
 
 	if (!network_life_cycle_set_pre_game_state())
 	{
-		generate_event(_event_error, "ui:networking:user_interface_reset_networking_to_pregame: failed to return networking to pregame mode");
+		GENERATE_EVENT(_event_error, "ui:networking:user_interface_reset_networking_to_pregame: failed to return networking to pregame mode");
 		return false;
 	}
 

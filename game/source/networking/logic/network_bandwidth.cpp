@@ -89,7 +89,7 @@ void __cdecl network_bandwidth_tracking_begin()
 
 	//if (network_bandwidth_globals.initialized)
 	//{
-	//	generate_event(_event_message, "networking:logic:bandwidth: begin bandwidth tracking");
+	//	GENERATE_EVENT(_event_message, "networking:logic:bandwidth: begin bandwidth tracking");
 	//	network_bandwidth_globals.observer->reset_bandwidth();
 	//	network_bandwidth_globals.tracking = true;
 	//	network_bandwidth_globals.tracking_start_time = (long)network_time_get();

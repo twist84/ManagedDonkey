@@ -481,7 +481,7 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 				}
 				else
 				{
-					generate_event(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
+					GENERATE_EVENT(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
 
 					failed = true;
 				}
@@ -704,12 +704,12 @@ void __cdecl events_initialize()
 	events_initialize_if_possible();
 
 	ASSERT(g_events_initialized);
-	generate_event(_event_message, "lifecycle: events initalize");
+	GENERATE_EVENT(_event_message, "lifecycle: events initalize");
 }
 
-long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand)
+long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand)
 {
-	return value.set_if_equal(ExChange, Comperand);
+	return (long)_InterlockedCompareExchange(destination, exchange, comperand);
 }
 
 c_event::c_event(e_event_level event_level, long event_category_index, dword event_response_suppress_flags) :
@@ -904,16 +904,16 @@ void event_generate(e_event_level event_level, long category_index, dword event_
 				event_generated_handle_halt(event_text);
 		}
 
-		//g_event_read_write_lock.read_lock();
-		//for (long event_listener_index = 0; event_globals.event_listeners.get_count(); event_listener_index++)
-		//{
-		//	if (TEST_BIT(category->event_listeners, event_listener_index))
-		//	{
-		//		ASSERT(event_globals.event_listeners[event_listener_index]);
-		//		event_globals.event_listeners[event_listener_index]->handle_event(event_level, event_text);
-		//	}
-		//}
-		//g_event_read_write_lock.read_unlock();
+		g_event_read_write_lock.read_lock();
+		for (long event_listener_index = 0; event_listener_index < event_globals.event_listeners.get_count(); event_listener_index++)
+		{
+			if (TEST_BIT(category->event_listeners, event_listener_index))
+			{
+				ASSERT(event_globals.event_listeners[event_listener_index]);
+				event_globals.event_listeners[event_listener_index]->handle_event(event_level, event_text);
+			}
+		}
+		g_event_read_write_lock.read_unlock();
 
 		g_event_read_write_lock.write_lock();
 		event_globals.event_index++;

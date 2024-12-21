@@ -202,7 +202,7 @@ void __cdecl network_session_interface_remove_local_user(long user_index)
 	//ASSERT(VALID_INDEX(user_index, k_number_of_users));
 	//
 	//s_network_session_interface_user& user = session_interface_globals.users[user_index];
-	//generate_event(_event_message, "networking:logic:session: local user %d removed, player identifier=%s", user_index, player_identifier_get_string(&user.identifier));
+	//GENERATE_EVENT(_event_message, "networking:logic:session: local user %d removed, player identifier=%s", user_index, player_identifier_get_string(&user.identifier));
 	//csmemset(&user, 0, sizeof(s_network_session_interface_user));
 	//user.team_index = NONE;
 }

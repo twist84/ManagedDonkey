@@ -952,7 +952,7 @@ void __cdecl c_rasterizer::initialize_window()
 				sizeof(error_message_buffer),
 				NULL);
 
-			generate_event(_event_warning, "%s", error_message_buffer);
+			GENERATE_EVENT(_event_warning, "%s", error_message_buffer);
 		}
 	}
 
@@ -1031,7 +1031,7 @@ void __cdecl c_rasterizer::initialize_window()
 			sizeof(error_message_buffer),
 			NULL);
 
-		generate_event(_event_warning, "%s", error_message_buffer);
+		GENERATE_EVENT(_event_warning, "%s", error_message_buffer);
 	}
 
 	LPSTR error_message = NULL;
@@ -1046,7 +1046,7 @@ void __cdecl c_rasterizer::initialize_window()
 	MessageBoxA(NULL, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
 	LocalFree(error_message);
 
-	generate_event(_event_error, "failed to create a window");
+	GENERATE_EVENT(_event_error, "failed to create a window");
 }
 
 c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_allocation a1)

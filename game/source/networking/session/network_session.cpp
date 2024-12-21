@@ -280,20 +280,20 @@ bool c_network_session::handle_leave_internal(long peer_index)
 	//	//}
 	//	//else
 	//	//{
-	//	//	generate_event(_event_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
+	//	//	GENERATE_EVENT(_event_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
 	//	//		managed_session_get_id_string(m_managed_session_index),
 	//	//		get_peer_description(peer_index),
 	//	//		get_state_string());
 	//	//}
 	//
-	//	generate_event(_event_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
+	//	GENERATE_EVENT(_event_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		get_peer_description(peer_index),
 	//		get_state_string());
 	//}
 	//else
 	//{
-	//	generate_event(_event_message, "networking:session:membership: %s leave-request accepted for peer [%s]",
+	//	GENERATE_EVENT(_event_message, "networking:session:membership: %s leave-request accepted for peer [%s]",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		get_peer_description(peer_index));
 	//
@@ -328,7 +328,7 @@ bool c_network_session::host_assume_leadership()
 	//	{
 	//		if (m_session_membership.leader_peer_index() != m_session_membership.local_peer_index())
 	//		{
-	//			generate_event(_event_status, "networking:session:membership: [%s] assuming leadership ([#%d] -> [#%d])",
+	//			GENERATE_EVENT(_event_status, "networking:session:membership: [%s] assuming leadership ([#%d] -> [#%d])",
 	//				managed_session_get_id_string(m_managed_session_index),
 	//				m_session_membership.leader_peer_index(),
 	//				m_session_membership.local_peer_index());
@@ -338,13 +338,13 @@ bool c_network_session::host_assume_leadership()
 	//	}
 	//	else
 	//	{
-	//		generate_event(_event_error, "networking:session:membership: [%s] failed assuming leadership, not host of session",
+	//		GENERATE_EVENT(_event_error, "networking:session:membership: [%s] failed assuming leadership, not host of session",
 	//			managed_session_get_id_string(m_managed_session_index));
 	//	}
 	//}
 	//else
 	//{
-	//	generate_event(_event_error, "networking:session:membership: [%s] failed assuming leadership, session not established",
+	//	GENERATE_EVENT(_event_error, "networking:session:membership: [%s] failed assuming leadership, session not established",
 	//		managed_session_get_id_string(m_managed_session_index));
 	//}
 	//
@@ -357,14 +357,14 @@ bool c_network_session::host_boot_machine(long peer_index, e_network_session_boo
 
 	//if (is_host())
 	//{
-	//	generate_event(_event_message, "networking:session:membership: [%s] booting machine [#%d] locally [reason %d]",
+	//	GENERATE_EVENT(_event_message, "networking:session:membership: [%s] booting machine [#%d] locally [reason %d]",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		peer_index,
 	//		boot_reason);
 	//
 	//	if (m_session_membership.local_peer_index() == peer_index)
 	//	{
-	//		generate_event(_event_message, "networking:session:membership: we are the host and are being booted, leaving...");
+	//		GENERATE_EVENT(_event_message, "networking:session:membership: we are the host and are being booted, leaving...");
 	//
 	//		user_interface_networking_notify_booted_from_session(session_type(), boot_reason);
 	//		disband_and_reestablish_as_host(session_type() == _network_session_type_group);
@@ -388,14 +388,14 @@ void c_network_session::host_connection_refused(transport_address const* address
 	//{
 	//	if (refuse_reason == _network_join_refuse_reason_holding_in_queue && this->m_local_state == _network_session_state_peer_joining)
 	//	{
-	//		generate_event(_event_message, "networking:session:join: [%s] received join-queue ping from host, waiting",
+	//		GENERATE_EVENT(_event_message, "networking:session:join: [%s] received join-queue ping from host, waiting",
 	//			managed_session_get_id_string(m_managed_session_index));
 	//
 	//		peer_joining.__unknown34C = network_time_get();
 	//	}
 	//	else
 	//	{
-	//		generate_event(_event_message, "networking:session:join: [%s] host connection refused, aborting join",
+	//		GENERATE_EVENT(_event_message, "networking:session:join: [%s] host connection refused, aborting join",
 	//			managed_session_get_id_string(m_managed_session_index));
 	//
 	//		m_join_refuse_reason = refuse_reason;
@@ -423,7 +423,7 @@ bool c_network_session::host_set_player_current_properties(long player_index, st
 	//{
 	//	if (m_session_membership.is_player_valid(player_index))
 	//	{
-	//		generate_event(_event_status, "networking:session:membership: [%s] local host updating current player properties for player [#%d]",
+	//		GENERATE_EVENT(_event_status, "networking:session:membership: [%s] local host updating current player properties for player [#%d]",
 	//			managed_session_get_id_string(m_managed_session_index),
 	//			player_index);
 	//
@@ -431,7 +431,7 @@ bool c_network_session::host_set_player_current_properties(long player_index, st
 	//	}
 	//	else
 	//	{
-	//		generate_event(_event_status, "networking:session:membership: [%s] local host updating player properties for invalid player [#%d]",
+	//		GENERATE_EVENT(_event_status, "networking:session:membership: [%s] local host updating player properties for invalid player [#%d]",
 	//			managed_session_get_id_string(m_managed_session_index),
 	//			player_index);
 	//	}
@@ -567,7 +567,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 		long player_index = m_session_membership.get_player_index_from_peer(m_session_membership.local_peer_index());
 		if (player_index == NONE)
 		{
-			generate_event(_event_error, "networking:session:membership: [%s] local host requested player-properties does not exist",
+			GENERATE_EVENT(_event_error, "networking:session:membership: [%s] local host requested player-properties does not exist",
 				managed_session_get_id_string(m_managed_session_index));
 
 			return false;
@@ -575,7 +575,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 
 		s_network_session_player* player = get_player(player_index);
 
-		generate_event(_event_status, "networking:session:membership: [%s] local host applying player-properties for player [#%d]",
+		GENERATE_EVENT(_event_status, "networking:session:membership: [%s] local host applying player-properties for player [#%d]",
 			managed_session_get_id_string(m_managed_session_index),
 			player_index);
 
@@ -589,7 +589,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 	}
 	else
 	{
-		generate_event(_event_status, "networking:session:membership: [%s] sending player-properties request",
+		GENERATE_EVENT(_event_status, "networking:session:membership: [%s] sending player-properties request",
 			managed_session_get_id_string(m_managed_session_index));
 
 		s_network_message_player_properties message{};
@@ -692,7 +692,7 @@ bool c_network_session::handle_parameters_update(s_network_message_parameters_up
 	//
 	//if (is_host())
 	//{
-	//	generate_event(_event_error, "networking:session:parameters: [%s] parameters-update received and we are the host",
+	//	GENERATE_EVENT(_event_error, "networking:session:parameters: [%s] parameters-update received and we are the host",
 	//		managed_session_get_id_string(m_managed_session_index));
 	//
 	//	return false;
@@ -703,7 +703,7 @@ bool c_network_session::handle_parameters_update(s_network_message_parameters_up
 	//	if (m_session_parameters.handle_update(message))
 	//		return true;
 	//
-	//	generate_event(_event_error, "networking:session:parameters: [%s] failed to handle parameters-update, we must disconnect [%s]",
+	//	GENERATE_EVENT(_event_error, "networking:session:parameters: [%s] failed to handle parameters-update, we must disconnect [%s]",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		get_state_string());
 	//
@@ -713,14 +713,14 @@ bool c_network_session::handle_parameters_update(s_network_message_parameters_up
 	//
 	//if (leaving_session())
 	//{
-	//	generate_event(_event_message, "networking:session:parameters: [%s] parameters-update received but we're leaving [%s], ignoring the update",
+	//	GENERATE_EVENT(_event_message, "networking:session:parameters: [%s] parameters-update received but we're leaving [%s], ignoring the update",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		get_state_string());
 	//
 	//	return false;
 	//}
 	//
-	//generate_event(_event_message, "networking:session:parameters: [%s] parameters-update received and we are in a bad state to handle the update [%s]",
+	//GENERATE_EVENT(_event_message, "networking:session:parameters: [%s] parameters-update received and we are in a bad state to handle the update [%s]",
 	//	managed_session_get_id_string(m_managed_session_index),
 	//	get_state_string());
 	//
@@ -757,13 +757,13 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 		long peer_index = m_session_membership.get_peer_from_observer_channel(observer_channel_index);
 		if (peer_index == NONE || peer_index == m_session_membership.local_peer_index())
 		{
-			generate_event(_event_message, "networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
+			GENERATE_EVENT(_event_message, "networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
 				managed_session_get_id_string(m_managed_session_index),
 				peer_index);
 		}
 		//else if (message->user_index < 0 || message->user_index >= 4)
 		//{
-		//	generate_event(_event_error, "networking:session:membership: [%s] player-properties received for invalid user_index [#%d]",
+		//	GENERATE_EVENT(_event_error, "networking:session:membership: [%s] player-properties received for invalid user_index [#%d]",
 		//		managed_session_get_id_string(m_managed_session_index),
 		//		message->user_index);
 		//}
@@ -772,7 +772,7 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 			long player_index = m_session_membership.get_player_index_from_peer(peer_index);
 			if (player_index == NONE)
 			{
-				generate_event(_event_warning, "networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
+				GENERATE_EVENT(_event_warning, "networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
 					managed_session_get_id_string(m_managed_session_index),
 					peer_index);
 			}
@@ -784,7 +784,7 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 					&message->player_data,
 					message->player_voice);
 
-				generate_event(_event_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
+				GENERATE_EVENT(_event_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
 					managed_session_get_id_string(m_managed_session_index),
 					peer_index,
 					peer_index);
@@ -795,7 +795,7 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 	}
 	else
 	{
-		generate_event(_event_warning, "networking:session:membership: [%s] player-properties received but not host, can't update players",
+		GENERATE_EVENT(_event_warning, "networking:session:membership: [%s] player-properties received but not host, can't update players",
 			managed_session_get_id_string(m_managed_session_index));
 	}
 
