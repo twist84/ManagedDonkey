@@ -29,39 +29,27 @@ enum e_transport_endpoint_option
 	_transport_endpoint_option_send_buffer_size,
 
 	// SO_RCVBUF
-	_transport_endpoint_option_receive_buffer_size,
+	_transport_endpoint_option_recv_buffer_size,
 
 	// 0x4001
-	_transport_endpoint_option_unknown5,
+	_transport_endpoint_option_alpha,
 
 	k_transport_endpoint_option_count
 };
 
-enum e_transport_endpoint_flags
+enum e_transport_endpoint_connected_flag
 {
 	_transport_endpoint_connected_bit = 0,
-
 	_transport_endpoint_listening_bit,
-
-	_transport_endpoint_unknown2_bit,
-
-	// = TEST_BIT(flags, _transport_endpoint_unknown2_bit)
-	_transport_endpoint_readable_bit, 
-
+	_transport_endpoint_readable_bit,
+	_transport_endpoint_in_set_bit, 
 	_transport_endpoint_blocking_bit,
+	_transport_endpoint_clientside_bit,
+	_transport_endpoint_alpha_bit,
 
-	_transport_endpoint_unknown5_bit,
+	k_number_of_transport_endpoint_flags,
 
-
-	// reach?
-
-	_transport_endpoint_unknown6_bit,
-
-	_transport_endpoint_unknown7_bit,
-
-	_transport_endpoint_pending_deletion_bit,
-
-	_transport_endpoint_unknown9_bit
+	k_maximum_outstanding_connect_requests = 16
 };
 
 struct transport_endpoint

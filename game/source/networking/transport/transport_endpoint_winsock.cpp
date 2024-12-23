@@ -41,9 +41,9 @@ long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
         return SO_BROADCAST;
     case _transport_endpoint_option_send_buffer_size:
         return SO_SNDBUF;
-    case _transport_endpoint_option_receive_buffer_size:
+    case _transport_endpoint_option_recv_buffer_size:
         return SO_RCVBUF;
-    case _transport_endpoint_option_unknown5:
+    case _transport_endpoint_option_alpha:
         return 0x4001;
     default:
         WARNING_EVENT("networking:transport:endpoint: option %d unknown", option);
@@ -126,7 +126,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
             else
             {
                 endpoint->flags |= FLAG(_transport_endpoint_connected_bit);
-                endpoint->flags |= FLAG(_transport_endpoint_unknown5_bit);
+                endpoint->flags |= FLAG(_transport_endpoint_clientside_bit);
                 return true;
             }
         }
@@ -205,7 +205,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
         else
         {
             endpoint->flags |= FLAG(_transport_endpoint_connected_bit);
-            endpoint->flags |= FLAG(_transport_endpoint_unknown5_bit);
+            endpoint->flags |= FLAG(_transport_endpoint_clientside_bit);
             return true;
         }
     }
@@ -347,8 +347,8 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
         else
         {
             endpoint->flags &= ~FLAG(_transport_endpoint_connected_bit);
-            endpoint->flags &= ~FLAG(_transport_endpoint_unknown2_bit);
-            endpoint->flags &= ~FLAG(_transport_endpoint_unknown5_bit);
+            endpoint->flags &= ~FLAG(_transport_endpoint_readable_bit);
+            endpoint->flags &= ~FLAG(_transport_endpoint_clientside_bit);
         }
     }
 
@@ -384,7 +384,7 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
         return false;
 
     if (TEST_BIT(endpoint->flags, _transport_endpoint_readable_bit))
-        return TEST_BIT(endpoint->flags, _transport_endpoint_unknown2_bit);
+        return TEST_BIT(endpoint->flags, _transport_endpoint_in_set_bit);
 
 
     timeval timeout;
