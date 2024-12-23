@@ -23,6 +23,8 @@
 #include "networking/session/network_session_membership.hpp"
 #include "networking/tools/network_blf.hpp"
 
+#include <string>
+
 HOOK_DECLARE(0x00545700, multiplayer_game_hopper_catalog_load_status);
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);
 HOOK_DECLARE(0x005469E0, multiplayer_game_hopper_dispose);

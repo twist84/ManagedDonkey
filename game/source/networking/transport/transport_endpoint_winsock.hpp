@@ -2,8 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-#include <winsock.h>
-
 enum e_transport_type
 {
 	_transport_type_udp = 0,
@@ -54,12 +52,11 @@ enum e_transport_endpoint_connected_flag
 
 struct transport_endpoint
 {
-	SOCKET socket;
-	c_enum<e_transport_type, long, _transport_type_udp, k_transport_type_count> type;
-
-	// e_transport_endpoint_flags
-	dword_flags flags;
+	dword socket;
+	e_transport_type type;
+	long flags;
 };
+static_assert(sizeof(transport_endpoint) == 0xC);
 
 struct transport_address;
 

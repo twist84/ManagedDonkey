@@ -5,6 +5,8 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_set_winsock.hpp"
 
+#include <winsock.h>
+
 HOOK_DECLARE(0x0043F980, get_platform_socket_option);
 HOOK_DECLARE(0x0043FA30, transport_endpoint_accept);
 HOOK_DECLARE(0x0043FAC0, transport_endpoint_async_connect);

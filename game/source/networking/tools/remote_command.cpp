@@ -48,6 +48,8 @@
 #include "units/bipeds.hpp"
 #include "xbox/xnet.hpp"
 
+#include <string>
+
 //HOOK_DECLARE(0x014E2A60, remote_command_dispose);
 //HOOK_DECLARE(0x014E2A70, remote_command_initialize);
 
@@ -225,7 +227,7 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	ASSERT(buffer);
 	ASSERT(buffer_length > 0);
 
-	if (strcmp(buffer, "disconnect") == 0)
+	if (csstrcmp(buffer, "disconnect") == 0)
 	{
 		return false;
 	}
@@ -556,7 +558,7 @@ callback_result_t breakpoint_callback(void const* userdata, long token_count, to
 	char const* message = tokens[1]->get_string();
 	c_console::write_line(message);
 
-	if (!IsDebuggerPresent())
+	if (!is_debugger_present())
 		return __FUNCTION__ ": failed, no debugger present";
 
 	__asm { int 3 };

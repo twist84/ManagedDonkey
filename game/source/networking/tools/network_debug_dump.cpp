@@ -93,7 +93,7 @@ void __cdecl netdebug_get_next_task()
 			{
 				csmemcpy(&g_netdebug_globals.current_task, &task, sizeof(s_netdebug_upload_task));
 				g_netdebug_globals.task_fails = 0;
-				memset(&task, 0, sizeof(s_netdebug_upload_task));
+				csmemset(&task, 0, sizeof(s_netdebug_upload_task));
 				task.active = false;
 				break;
 			}

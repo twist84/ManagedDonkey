@@ -4,6 +4,8 @@
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 
+#include <winsock.h>
+
 HOOK_DECLARE_CLASS_MEMBER(0x00433760, c_http_client, receive_data);
 
 real g_http_client_test_failure_ratio = 0.0f;

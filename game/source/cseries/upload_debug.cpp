@@ -5,6 +5,8 @@
 #include "networking/tools/network_debug_dump.hpp"
 #include "cseries_events.hpp"
 
+#include <winsock.h>
+
 bool g_suppress_upload_debug = false;
 _g_upload_debug_globals g_upload_debug_globals{};
 
