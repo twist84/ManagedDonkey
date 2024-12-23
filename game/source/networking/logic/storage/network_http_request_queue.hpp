@@ -51,7 +51,6 @@ enum e_client_usage_type
 	_client_usage_type_fill_buffer
 };
 
-#pragma pack(push, 1)
 struct c_network_http_request_description
 {
 	c_network_http_request_description(char const* url, e_http_request_type request_type);
@@ -60,16 +59,18 @@ struct c_network_http_request_description
 
 	c_static_string<256> m_url;
 	long m_request_type;
-
-	bool __unknown104;
-
+	bool m_has_file_hash;
 	s_network_http_request_hash m_file_hash;
 	c_static_string<1024> m_headers;
-	byte __pad519[0x3];
 	c_http_post_source m_post_source;
 };
 static_assert(sizeof(c_network_http_request_description) == 0x658);
-#pragma pack(pop)
+static_assert(0x000 == OFFSETOF(c_network_http_request_description, m_url));
+static_assert(0x100 == OFFSETOF(c_network_http_request_description, m_request_type));
+static_assert(0x104 == OFFSETOF(c_network_http_request_description, m_has_file_hash));
+static_assert(0x105 == OFFSETOF(c_network_http_request_description, m_file_hash));
+static_assert(0x119 == OFFSETOF(c_network_http_request_description, m_headers));
+static_assert(0x51C == OFFSETOF(c_network_http_request_description, m_post_source));
 
 struct c_network_http_request_queue;
 struct c_network_http_request_item
