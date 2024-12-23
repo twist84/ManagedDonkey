@@ -10,7 +10,7 @@ s_test_download_storage g_test_download_storage{};
 
 void test_download_storage_file(char const* url, char const* local_filename)
 {
-	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown1);
+	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_optional);
 
 	if (g_test_download_storage.request_cookie)
 	{
@@ -48,7 +48,7 @@ void test_download_storage_file_update()
 
 	if (g_test_download_storage.request_cookie)
 	{
-		c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown1);
+		c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_optional);
 
 		long bytes_read = 0;
 		e_network_http_request_result request_result = request_queue->read_bytes(g_test_download_storage.request_cookie, buffer, sizeof(buffer), &bytes_read, NULL);

@@ -56,7 +56,7 @@ c_url_string::c_url_string(char const* url, e_cachable_type cachable) :
 	m_service_type(_online_lsp_service_type_title_files),
 	m_cachable(cachable),
 	m_untracked_cache_lifetime_seconds(dword_186080C),
-	m_request_type(_network_http_request_queue_type_unknown0)
+	m_request_type(_network_http_request_queue_type_required)
 {
 	//DECLFUNC(0x00451460, void, __thiscall, c_url_string*, char const*, e_cachable_type)(this, url, cachable);
 }
@@ -66,7 +66,7 @@ c_url_string::c_url_string() :
 	m_service_type(_online_lsp_service_type_title_files),
 	m_cachable(_cachable_type_no),
 	m_untracked_cache_lifetime_seconds(dword_186080C),
-	m_request_type(_network_http_request_queue_type_unknown0)
+	m_request_type(_network_http_request_queue_type_required)
 {
 	//DECLFUNC(0x004514B0, void, __thiscall, c_url_string*)(this);
 }
@@ -176,7 +176,7 @@ void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, qword user_id
 		consumable_id);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, qword user_id, dword consumable_id)
@@ -189,7 +189,7 @@ void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, qword user
 		consumable_id);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 //void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, qword user_id, e_game_region game_region, e_profile_region profile_region, bool extras_portal_debug)
@@ -206,7 +206,7 @@ void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, qw
 		extras_portal_debug ? "true" : "false");
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_cache_key(c_url_string const* url, s_network_storage_cache_key* cache_key)
@@ -221,7 +221,7 @@ void __cdecl online_url_make_matchmaking_banhammer_message(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_banhammer_messages.bin", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url)
@@ -231,7 +231,7 @@ void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_hopper_descriptions_%03u.bin", get_current_language_suffix(false), 3);
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, word hopper_id, char const* variant_name)
@@ -241,7 +241,7 @@ void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, word ho
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/%s_%03u.bin", hopper_id, variant_name, 10);
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_gameset(c_url_string* url, word hopper_id)
@@ -251,7 +251,7 @@ void __cdecl online_url_make_matchmaking_gameset(c_url_string* url, word hopper_
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/game_set_%03u.bin", hopper_id, 6);
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, word hopper_id, long hopper_skill)
@@ -261,7 +261,7 @@ void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, word hoppe
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/%s/dynamic_matchmaking_histogram_%02d.jpg", hopper_id, get_current_language_suffix(false), hopper_skill);
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_matchmaking_hopper(c_url_string* url)
@@ -271,7 +271,7 @@ void __cdecl online_url_make_matchmaking_hopper(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("matchmaking_hopper_%03u.bin", 11);
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_machine(c_url_string* url, qword machine_id)
@@ -280,7 +280,7 @@ void __cdecl online_url_make_matchmaking_machine(c_url_string* url, qword machin
 
 	create_machine_url_base(url, machine_id);
 	url->m_string.append_print("machine.bin");
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, word hopper_id, char const* variant_name)
@@ -290,7 +290,7 @@ void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, word hop
 	create_title_url_base(url);
 	url->m_string.append_print("%05u/map_variants/%s_%03u.bin", hopper_id, variant_name, 12);
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_nightmap(c_url_string* url)
@@ -300,7 +300,7 @@ void __cdecl online_url_make_matchmaking_nightmap(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("dynamic_matchmaking_nightmap.jpg");
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_matchmaking_statistics(c_url_string* url)
@@ -310,7 +310,7 @@ void __cdecl online_url_make_matchmaking_statistics(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("dynamic_hopper_statistics.bin");
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_matchmaking_tips(c_url_string* url)
@@ -320,7 +320,7 @@ void __cdecl online_url_make_matchmaking_tips(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/matchmaking_tips.bin", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_matchmaking_user(c_url_string* url, qword user_id)
@@ -330,7 +330,7 @@ void __cdecl online_url_make_matchmaking_user(c_url_string* url, qword user_id)
 	create_user_url_base(url, user_id);
 	url->m_string.append_print("user.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, qword user_id)
@@ -340,7 +340,7 @@ void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, 
 	create_user_url_base(url, user_id);
 	url->m_string.append_print("recent_players.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_message_of_the_day(c_url_string* url)
@@ -350,7 +350,7 @@ void __cdecl online_url_make_message_of_the_day(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd.bin", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_message_of_the_day_image(c_url_string* url)
@@ -360,7 +360,7 @@ void __cdecl online_url_make_message_of_the_day_image(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_image.jpg", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_message_of_the_day_popup(c_url_string* url)
@@ -370,7 +370,7 @@ void __cdecl online_url_make_message_of_the_day_popup(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_popup.bin", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_message_of_the_day_popup_image(c_url_string* url)
@@ -380,7 +380,7 @@ void __cdecl online_url_make_message_of_the_day_popup_image(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_motd_popup_image.jpg", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_network_configuration(c_url_string* url)
@@ -390,7 +390,7 @@ void __cdecl online_url_make_network_configuration(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("network_configuration_%03u.bin", 142);
 	url->m_cachable = c_url_string::_cachable_type_on_success;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_network_manifest(c_url_string* url)
@@ -400,7 +400,7 @@ void __cdecl online_url_make_network_manifest(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("manifest_%03u.bin", 1);
 	url->m_cachable = c_url_string::_cachable_type_no;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_network_map_signatures(c_url_string* url)
@@ -409,7 +409,7 @@ void __cdecl online_url_make_network_map_signatures(c_url_string* url)
 
 	create_title_url_base(url);
 	url->m_string.append_print("rsa_manifest.bin");
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_update_machine_network_stats(c_url_string* url)
@@ -419,7 +419,7 @@ void __cdecl online_url_make_update_machine_network_stats(c_url_string* url)
 	url->m_string.print("/gameapi/MachineUpdateNetworkStats.ashx");
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, qword user_id, long highest_skill)
@@ -432,7 +432,7 @@ void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, qword 
 		highest_skill);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url)
@@ -442,7 +442,7 @@ void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url)
 	url->m_string.print("/gameapi/FilesUploadBlind.ashx");
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_user_service_record(c_url_string* url, qword user_id)
@@ -452,7 +452,7 @@ void __cdecl online_url_make_user_service_record(c_url_string* url, qword user_i
 	create_user_url_base(url, user_id);
 	url->m_string.append_print("user.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
-	url->m_request_type = _network_http_request_queue_type_unknown0;
+	url->m_request_type = _network_http_request_queue_type_required;
 }
 
 void __cdecl online_url_make_vidmaster_popup(c_url_string* url)
@@ -462,7 +462,7 @@ void __cdecl online_url_make_vidmaster_popup(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_vidmaster_popup.bin", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url)
@@ -472,7 +472,7 @@ void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url)
 	create_title_url_base(url);
 	url->m_string.append_print("%s/black_vidmaster_popup_image.jpg", get_current_language_suffix(false));
 	url->m_cachable = c_url_string::_cachable_type_on_success_and_failure;
-	url->m_request_type = _network_http_request_queue_type_unknown1;
+	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
 void __cdecl online_url_use_hopper_directory(char const* hopper_directory)

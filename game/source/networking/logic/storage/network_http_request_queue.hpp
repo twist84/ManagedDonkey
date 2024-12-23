@@ -10,10 +10,10 @@ enum e_online_lsp_service_type;
 enum e_network_http_request_queue_type
 {
 	// REQ LSP
-	_network_http_request_queue_type_unknown0 = 0,
+	_network_http_request_queue_type_required = 0,
 
 	// OPT LSP
-	_network_http_request_queue_type_unknown1,
+	_network_http_request_queue_type_optional,
 
 	k_network_http_request_queue_type_count
 };
@@ -30,28 +30,25 @@ enum e_network_http_request_result
 
 enum e_network_http_request_queue_failure_reason
 {
-
+	_network_http_request_queue_failure_reason_unknown = 0,
+	_network_http_request_queue_failure_reason_file_not_found,
+	_network_http_request_queue_failure_reason_bad_request,
+	_network_http_request_queue_failure_reason_internal_server_error
 };
 
 enum e_http_request_type
 {
-	// GET?
+	// GET
 	_http_request_type_get = 0,
 
-	// POST?
-	_http_request_type_post,
-
-	// are there any others supported?
-
-	k_http_request_type_count
+	// POST
+	_http_request_type_post
 };
 
 enum e_client_usage_type
 {
 	_client_usage_type_stream = 0,
-	_client_usage_type_fill_buffer,
-
-	k_client_usage_type_count
+	_client_usage_type_fill_buffer
 };
 
 #pragma pack(push, 1)

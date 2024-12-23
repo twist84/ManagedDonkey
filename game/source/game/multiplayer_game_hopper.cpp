@@ -112,7 +112,7 @@ void __cdecl multiplayer_game_hopper_load_retried_file_helper(e_multiplayer_file
 		dword time = network_time_get();
 		if (time >= dword(multiplayer_file->time_of_last_load + multiplayer_file->retry_interval))
 		{
-			c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown0);
+			c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_required);
 			c_network_http_request_description request_description(url, _http_request_type_get, &multiplayer_file->configuration_hash);
 			if (multiplayer_file->had_load_failure)
 			{
@@ -522,7 +522,7 @@ void __cdecl multiplayer_game_hopper_request_game_variant(word hopper_identifier
 	multiplayer_file_load& multiplayer_file = multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_game_variant];
 	if (multiplayer_file.request_cookie)
 	{
-		c_network_http_request_queue::get(_network_http_request_queue_type_unknown0)->cancel_request(multiplayer_file.request_cookie);
+		c_network_http_request_queue::get(_network_http_request_queue_type_required)->cancel_request(multiplayer_file.request_cookie);
 		multiplayer_file.request_cookie = 0;
 	}
 	multiplayer_file.time_of_last_load = 0;
@@ -540,7 +540,7 @@ void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier,
 	multiplayer_file_load& multiplayer_file = multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_map_variant];
 	if (multiplayer_file.request_cookie)
 	{
-		c_network_http_request_queue::get(_network_http_request_queue_type_unknown0)->cancel_request(multiplayer_file.request_cookie);
+		c_network_http_request_queue::get(_network_http_request_queue_type_required)->cancel_request(multiplayer_file.request_cookie);
 		multiplayer_file.request_cookie = 0;
 	}
 	multiplayer_file.time_of_last_load = 0;
@@ -578,7 +578,7 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word
 	}
 	else
 	{
-		c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown0);
+		c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_required);
 
 		multiplayer_file_load& game_set_file = multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_game_set];
 		if (game_set_file.request_cookie)
@@ -707,7 +707,7 @@ void __cdecl multiplayer_game_hopper_update()
 {
 	//INVOKE(0x00549610, multiplayer_game_hopper_update);
 
-	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_unknown0);
+	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_required);
 	for (long multiplayer_game_file = 0; multiplayer_game_file < k_multiplayer_file_count; multiplayer_game_file++)
 	{
 		multiplayer_file_load* multiplayer_file = &multiplayer_game_hopper_globals.multiplayer_files[multiplayer_game_file];
