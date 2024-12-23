@@ -395,10 +395,10 @@ void __thiscall c_player_view::render_1st_pass()
 			{
 				c_rasterizer_profile_scope _postprocess_copy(_rasterizer_profile_element_total, L"postprocess copy");
 				c_screen_postprocess::copy(
-					c_rasterizer_globals::_explicit_shader_copy_surface,
+					c_rasterizer_globals::_shader_copy_scaled,
 					c_rasterizer::_surface_accum_LDR,
 					c_rasterizer::_surface_albedo,
-					c_rasterizer::_sampler_filter_mode_unknown1,
+					c_rasterizer::_sampler_filter_mode_point,
 					c_rasterizer::_sampler_address_clamp,
 					1.0f,
 					1.0f,
@@ -438,10 +438,10 @@ void __thiscall c_player_view::render_2nd_pass()
 			{
 				c_screen_postprocess::setup_rasterizer_for_postprocess(false);
 				c_screen_postprocess::copy(
-					c_rasterizer_globals::_explicit_shader_copy_surface,
+					c_rasterizer_globals::_shader_copy_scaled,
 					c_rasterizer::_surface_accum_LDR,
 					c_rasterizer::_surface_disable,
-					c_rasterizer::_sampler_filter_mode_unknown1,
+					c_rasterizer::_sampler_filter_mode_point,
 					c_rasterizer::_sampler_address_clamp,
 					1.0f,
 					1.0f,

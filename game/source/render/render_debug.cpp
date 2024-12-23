@@ -372,9 +372,9 @@ void __cdecl render_debug_begin(bool render_game_tick_cache, bool only_render_st
 
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_unknown7);
 	c_rasterizer::set_sampler_filter_mode(0, (c_rasterizer::e_sampler_filter_mode)0);
-	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_clockwise);
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 	c_rasterizer::set_color_write_enable(0, 7);
-	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_mode_unknown3);
+	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_alpha_blend);
 
 	render_debug_cache_draw(render_game_tick_cache, only_render_strings, clear_cache);
 }
