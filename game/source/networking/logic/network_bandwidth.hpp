@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_network_statistics
+struct s_network_bandwidth_persistent_data
 {
 	long qos_sample_count;
 	long qos_samples[8];
@@ -11,22 +11,22 @@ struct s_network_statistics
 	long bandwidth_measurement_successful_bps[8];
 	long bandwidth_measurement_unsafe_bps[8];
 
-	// bandwidth dispute?
-	long __unknown68;
+	long bandwidth_dispute_count;
 };
-static_assert(sizeof(s_network_statistics) == 0x6C);
+static_assert(sizeof(s_network_bandwidth_persistent_data) == 0x6C);
+
+struct s_network_quality_session_statistics
+{
+	qword client_badness_history[2];
+	qword host_badness_history[2];
+};
+static_assert(sizeof(s_network_quality_session_statistics) == 0x20);
 
 struct s_network_quality_statistics
 {
-	byte squad_client_badness_history[16];
-	byte squad_host_badness_history[16];
-	byte group_client_badness_history[16];
-	byte group_host_badness_history[16];
-	byte connection_badness_history[16];
-
-	s_network_statistics network_statistics;
-
-	byte __data[0x4];
+	s_network_quality_session_statistics session[2];
+	qword connectivity_history[2];
+	s_network_bandwidth_persistent_data bandwidth_data;
 };
 static_assert(sizeof(s_network_quality_statistics) == 0xC0);
 
@@ -37,14 +37,14 @@ struct s_network_bandwidth_globals
 	bool initialized;
 	c_network_observer* observer;
 	s_bandwidth_configuration* configuration;
-	s_network_statistics* data;
-	bool online_network_environment;
-	bool tracking;
-	bool congested;
-	long tracking_start_time;
-	bool estimated_bandwidth_bps_available;
-	long estimated_bandwidth_bps;
-	long estimated_host_capacity_machines;
+	s_network_bandwidth_persistent_data* data;
+	bool online_environment;
+	bool tracking_bandwidth;
+	bool in_game;
+	dword tracking_start_timestamp;
+	bool estimate_based_on_measurement;
+	long estimated_bps;
+	long estimated_max_machine_count;
 };
 static_assert(sizeof(s_network_bandwidth_globals) == 0x24);
 

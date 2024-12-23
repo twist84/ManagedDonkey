@@ -34,47 +34,46 @@ struct s_matchmaking_session_search
 };
 static_assert(sizeof(s_matchmaking_session_search) == 0x340);
 
-struct s_matchmaking_quality_data
+struct __declspec(align(8)) s_matchmaking_quality_data
 {
-	bool m_aborted;
-	bool __unknown1_assemble;
-	bool m_left_assemble;
-	bool m_left_arbitration;
-	bool m_not_enough_hosts;
-	bool m_left_host_selection;
-	bool m_left_prepare_map;
-	bool m_vetoed;
-	byte __unknown8_arbitration;
-	byte __unknown9_arbitration;
-	byte __unknownA_start;
-	byte __unknownB_start;
-	byte __unknownC_start;
-	byte __padD[3];
-	s_game_hopper_picked_game m_picked_game;
-	dword m_ping;
-	dword m_search_time;
-	dword m_gather_time;
-	dword m_arbitration_time;
-	dword m_host_selection_time;
-	dword m_prepare_map_time;
-	dword m_in_match_time;
-	byte __data98[0x20];
-	long m_qos_sample_count;
-	c_static_array<s_matchmaking_quality_qos_sample, 400> m_qos_samples;
-	long m_session_search_count;
-	c_static_array<s_matchmaking_session_search, 16> m_session_search_data;
-	bool m_has_live_service_qos;
-	s_transport_qos_result m_live_service_qos;
-	bool m_has_nat_type;
-	long m_nat_type;
-	bool __unknown98EC_prepare_map;
+	bool aborted;
+	bool assemble_timed_out;
+	bool left_assemble;
+	bool left_arbitration;
+	bool not_enough_hosts;
+	bool left_host_selection;
+	bool left_prepare_map;
+	bool vetoed;
+	bool hit_arbitration_waiting_for_establishment_and_connectivity_give_up_time;
+	bool hit_arbitration_waiting_for_completion_give_up_time;
+	bool searching;
+	bool gathering;
+	bool gathering_by_force;
+	s_game_hopper_picked_game vetoed_or_played_game;
+	long ping_msec;
+	dword search_time;
+	dword gather_time;
+	dword arbitration_time;
+	dword host_selection_time;
+	dword prepare_map_time;
+	dword in_match_time;
+	byte local_address[32];
+	long qos_sample_count;
+	s_matchmaking_quality_qos_sample qos_samples[400];
+	long session_search_count;
+	s_matchmaking_session_search session_searches[16];
+	bool live_service_qos_result_valid;
+	s_transport_qos_result live_service_qos_result;
+	bool nat_type_valid;
+	long nat_type;
+	bool primary_map_load_failure;
+	bool secondary_map_load_failure;
 };
 static_assert(sizeof(s_matchmaking_quality_data) == 0x98F0);
 
 struct c_matchmaking_quality
 {
 	bool m_needs_submission_to_webstats;
-	dword __unknown4;
 	s_matchmaking_quality_data m_data;
 };
 static_assert(sizeof(c_matchmaking_quality) == 0x98F8);
