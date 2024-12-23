@@ -65,7 +65,7 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 	// missing in Halo Online
 	if (display_as_event)
 	{
-		GENERATE_EVENT(_event_warning, "%s", string.get_string());
+		WARNING_EVENT("%s", string.get_string());
 	}
 	else
 		terminal_printf(NULL, "%s", string.get_string());

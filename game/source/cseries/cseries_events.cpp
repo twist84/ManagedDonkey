@@ -481,7 +481,7 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 				}
 				else
 				{
-					GENERATE_EVENT(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
+					ERROR_EVENT("network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
 
 					failed = true;
 				}
@@ -704,7 +704,7 @@ void __cdecl events_initialize()
 	events_initialize_if_possible();
 
 	ASSERT(g_events_initialized);
-	GENERATE_EVENT(_event_message, "lifecycle: events initalize");
+	MESSAGE_EVENT("lifecycle: events initalize");
 }
 
 long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand)

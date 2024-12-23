@@ -28,7 +28,7 @@ bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_q
 	if (decoded_event_data->event_type > k_simulation_event_type_count)
 #endif
 	{
-		GENERATE_EVENT(_event_error, "networking:simulation:queue:events: failed to decode event (bad event type %d)",
+		ERROR_EVENT("networking:simulation:queue:events: failed to decode event (bad event type %d)",
 			decoded_event_data->event_type);
 
 		return false;
@@ -36,7 +36,7 @@ bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_q
 
 	if (decoded_event_data->reference_count > k_max_decoded_event_data_reference_count)
 	{
-		GENERATE_EVENT(_event_error, "networking:simulation:queue:events: crazy reference count during decode %d",
+		ERROR_EVENT("networking:simulation:queue:events: crazy reference count during decode %d",
 			decoded_event_data->reference_count);
 
 		return false;
@@ -55,7 +55,7 @@ bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_q
 
 	if (decoded_event_data->payload_size > k_max_decoded_event_data_payload_size)
 	{
-		GENERATE_EVENT(_event_error, "networking:simulation:queue:events: invalid event payload size %d",
+		ERROR_EVENT("networking:simulation:queue:events: invalid event payload size %d",
 			decoded_event_data->payload_size);
 
 		return false;
@@ -63,7 +63,7 @@ bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_q
 
 	if (decoded_event_data->payload_size > 0 && !event_definition->event_payload_decode(decoded_event_data->payload_size, decoded_event_data->payload, &packet, false))
 	{
-		GENERATE_EVENT(_event_warning, "networking:simulation:queue:events: failed to decode event payload type %d",
+		WARNING_EVENT("networking:simulation:queue:events: failed to decode event payload type %d",
 			decoded_event_data->event_type);
 	}
 

@@ -79,7 +79,7 @@ void __cdecl ai_scripting_erase_all()
 	//INVOKE(0x0143EBC0, ai_scripting_erase_all);
 
 	if (ai_print_scripting)
-		GENERATE_EVENT(_event_warning, "ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
+		WARNING_EVENT("ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
 
 	ai_erase(NONE, false);
 }

@@ -713,13 +713,13 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			}
 			else
 			{
-				GENERATE_EVENT(_event_error, "game_engine: failed to create file to write variant settings!");
+				ERROR_EVENT("game_engine: failed to create file to write variant settings!");
 			}
 		}
 	}
 	else
 	{
-		GENERATE_EVENT(_event_error, "game_engine: this game cannot export game engine variant settings!");
+		ERROR_EVENT("game_engine: this game cannot export game engine variant settings!");
 	}
 }
 

@@ -46,7 +46,7 @@ long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
     case _transport_endpoint_option_unknown5:
         return 0x4001;
     default:
-        GENERATE_EVENT(_event_warning, "networking:transport:endpoint: option %d unknown", option);
+        WARNING_EVENT("networking:transport:endpoint: option %d unknown", option);
         break;
     }
 
@@ -260,7 +260,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
         }
         else
         {
-            GENERATE_EVENT(_event_error, "networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
+            ERROR_EVENT("networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
         }
     }
     endpoint->socket = INVALID_SOCKET;

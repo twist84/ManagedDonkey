@@ -79,7 +79,7 @@ bool __cdecl game_state_read_from_file_storage(long storage_index, long game_sta
 
 			//bool signature_check_result = game_state_security_verify_signature_insecure(NULL) && file_result;
 			//if (!signature_check_result)
-			//	GENERATE_EVENT(_event_critical, "game_state: pc game state read from file failed signature check");
+			//	CRITICAL_EVENT("game_state: pc game state read from file failed signature check");
 
 			game_state_buffer_handle_read();
 			game_state_call_after_load_procs(game_state_proc_flags);
@@ -90,7 +90,7 @@ bool __cdecl game_state_read_from_file_storage(long storage_index, long game_sta
 	}
 	else
 	{
-		GENERATE_EVENT(_event_error, "game_state: can't load game state on PC if it's not allocated or not at a fixed address");
+		ERROR_EVENT("game_state: can't load game state on PC if it's not allocated or not at a fixed address");
 	}
 
 	return false;
@@ -165,7 +165,7 @@ void __cdecl game_state_write_to_file_storage(long storage_index)
 	}
 	else
 	{
-		GENERATE_EVENT(_event_error, "can't save game state on PC if it's not allocated or not at a fixed address");
+		ERROR_EVENT("can't save game state on PC if it's not allocated or not at a fixed address");
 	}
 
 	pc_game_state_globals.storage_is_valid = false;

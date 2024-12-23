@@ -181,7 +181,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//				{
 	//					if (update->verify_random != get_random_seed())
 	//					{
-	//						GENERATE_EVENT(_event_error, "networking:simulation:global: OUT OF SYNC, random seed differs, update [#%d] time [%d] seed [0x%08X] (local seed [0x%08X])",
+	//						ERROR_EVENT("networking:simulation:global: OUT OF SYNC, random seed differs, update [#%d] time [%d] seed [0x%08X] (local seed [0x%08X])",
 	//							update->update_number,
 	//							update->verify_game_time,
 	//							update->verify_random,
@@ -192,7 +192,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//				}
 	//				else
 	//				{
-	//					GENERATE_EVENT(_event_error, "networking:simulation:global: OUT OF SYNC, update time differs, update [#%d] time [%d] != local time %d",
+	//					ERROR_EVENT("networking:simulation:global: OUT OF SYNC, update time differs, update [#%d] time [%d] != local time %d",
 	//						update->update_number,
 	//						update->verify_game_time,
 	//						simulation_globals.world->get_time());
@@ -202,7 +202,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//			}
 	//			else
 	//			{
-	//				GENERATE_EVENT(_event_error, "networking:simulation:global: OUT OF SYNC, update number differs, update [#%d] != next [#%d]",
+	//				ERROR_EVENT("networking:simulation:global: OUT OF SYNC, update number differs, update [#%d] != next [#%d]",
 	//					update->update_number,
 	//					simulation_globals.world->get_next_update_number());
 	//

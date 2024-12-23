@@ -206,7 +206,7 @@ void __cdecl player_mapping_reset()
 
 	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
 	//
-	//GENERATE_EVENT(_event_message, "player_mapping: reset");
+	//MESSAGE_EVENT("player_mapping: reset");
 	//
 	//player_mapping_globals->active_input_user_count = 0;
 	//player_mapping_globals->active_input_controller_count = 0;

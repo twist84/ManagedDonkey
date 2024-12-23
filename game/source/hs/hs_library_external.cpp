@@ -56,12 +56,12 @@ void __cdecl hs_debug_variable(char const* s, bool debug)
 	}
 	
 	if (variable_not_enclosed)
-		GENERATE_EVENT(_event_error, "ai: please enclose the variable to be watched in single quotes");
+		ERROR_EVENT("ai: please enclose the variable to be watched in single quotes");
 }
 
 void __cdecl hs_log_print(char const* s)
 {
-	GENERATE_EVENT(_event_warning, "hs: %s", s);
+	WARNING_EVENT("hs: %s", s);
 }
 
 void __cdecl hs_print(char const* s)

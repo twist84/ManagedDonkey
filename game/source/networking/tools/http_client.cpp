@@ -91,7 +91,7 @@ bool c_http_client::do_work(
 		}
 		else
 		{
-			GENERATE_EVENT(_event_status, "networking:http_client: do_work called when http client was stopped");
+			STATUS_EVENT("networking:http_client: do_work called when http client was stopped");
 		}
 	}
 	break;
@@ -113,11 +113,11 @@ bool c_http_client::do_work(
 		char const* stream_url = m_http_stream->get_url();
 		if (*upload_complete)
 		{
-			GENERATE_EVENT(_event_message, "networking:http_client: request completed successfully to '%s'", stream_url);
+			MESSAGE_EVENT("networking:http_client: request completed successfully to '%s'", stream_url);
 		}
 		else
 		{
-			GENERATE_EVENT(_event_message, "networking:http_client: request failed to '%s'", stream_url);
+			MESSAGE_EVENT("networking:http_client: request failed to '%s'", stream_url);
 		}
 	}
 
@@ -274,13 +274,13 @@ bool __thiscall c_http_client::receive_data(
 			}
 			else if (bytes_read)
 			{
-				GENERATE_EVENT(_event_message, "networking:http_client: transport_endpoint_read() failed to %s with error code %d.",
+				MESSAGE_EVENT("networking:http_client: transport_endpoint_read() failed to %s with error code %d.",
 					m_ip_address_string.get_string(),
 					bytes_read);
 			}
 			else
 			{
-				GENERATE_EVENT(_event_message, "networking:http_client: transport_endpoint_read() because %s closed the socket.",
+				MESSAGE_EVENT("networking:http_client: transport_endpoint_read() because %s closed the socket.",
 					m_ip_address_string.get_string());
 			}
 		}
@@ -355,7 +355,7 @@ bool __thiscall c_http_client::receive_data(
 			}
 			else
 			{
-				GENERATE_EVENT(_event_error, "networking:http_client: The response header from '%s' is too big to fit in the buffer.  This is probably a misconfiguration on the server.",
+				ERROR_EVENT("networking:http_client: The response header from '%s' is too big to fit in the buffer.  This is probably a misconfiguration on the server.",
 					m_ip_address_string.get_string());
 			}
 		}
@@ -433,11 +433,11 @@ bool c_http_client::send_data()
 
 				if (bytes_written)
 				{
-					GENERATE_EVENT(_event_warning, "networking:http_client: transport_endpoint_write() failed with error code %d in async_upload_block()", bytes_written);
+					WARNING_EVENT("networking:http_client: transport_endpoint_write() failed with error code %d in async_upload_block()", bytes_written);
 				}
 				else
 				{
-					GENERATE_EVENT(_event_message, "networking:http_client: transport_endpoint_write() failed because the endpoint was closed");
+					MESSAGE_EVENT("networking:http_client: transport_endpoint_write() failed because the endpoint was closed");
 				}
 			}
 			else
@@ -463,7 +463,7 @@ bool c_http_client::send_data()
 		}
 		else
 		{
-			GENERATE_EVENT(_event_warning, "networking:http_client: m_upload_stream::read failed from %s", m_ip_address_string);
+			WARNING_EVENT("networking:http_client: m_upload_stream::read failed from %s", m_ip_address_string);
 		}
 	}
 
@@ -499,7 +499,7 @@ bool c_http_client::start(c_http_stream* stream, long ip_address, word port, cha
 
 		if (start_connect())
 		{
-			GENERATE_EVENT(_event_message, "networking:http_client: request started to '%s'", url);
+			MESSAGE_EVENT("networking:http_client: request started to '%s'", url);
 			m_http_stream->set_url(url);
 
 			return true;
@@ -527,7 +527,7 @@ bool c_http_client::start_connect()
 	}
 
 	transport_endpoint_disconnect(m_endpoint_ptr);
-	GENERATE_EVENT(_event_message, "networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string);
+	MESSAGE_EVENT("networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string);
 
 	return false;
 }

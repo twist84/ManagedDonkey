@@ -28,7 +28,7 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 
 	bool valid = package_header->version == k_latest_font_package_header_version;
 	if (!valid)
-		GENERATE_EVENT(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
+		ERROR_EVENT("fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			package_header->version,
 			k_latest_font_package_header_version);
 

@@ -116,13 +116,13 @@ void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* na
 	ASSERT(strlen(name) <= LONG_MAX);
 
 	if (reference->index != NONE)
-		GENERATE_EVENT(_event_message, "tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+		MESSAGE_EVENT("tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 
 	reference->group_tag = group_tag;
 	reference->index = tag_name_get_index(group_tag, name);
 
 	if (reference->index != NONE)
-		GENERATE_EVENT(_event_message, "tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+		MESSAGE_EVENT("tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 }
 
 void tag_block_set_elements(s_tag_block* block, void* elements)

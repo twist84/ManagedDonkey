@@ -69,14 +69,14 @@ bool c_simulation_view::handle_distributed_game_results(long message_establishme
 	//
 	//if (message_establishment_identifier >= m_view_establishment_identifier)
 	//{
-	//	GENERATE_EVENT(_event_warning, "networking:simulation:view: failing to handle incremental game results (message establishment identifier [%d] > current [%d])",
+	//	WARNING_EVENT("networking:simulation:view: failing to handle incremental game results (message establishment identifier [%d] > current [%d])",
 	//		message_establishment_identifier,
 	//		m_view_establishment_identifier);
 	//	return false;
 	//}
 	//
 	//
-	//GENERATE_EVENT(_event_message, "networking:simulation:view: ignoring incremental game results (message establishment identifier %d < current %d)",
+	//MESSAGE_EVENT("networking:simulation:view: ignoring incremental game results (message establishment identifier %d < current %d)",
 	//	message_establishment_identifier,
 	//	m_view_establishment_identifier);
 	//return true;

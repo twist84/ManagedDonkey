@@ -1209,7 +1209,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	long tag_index = NONE;
 	bool success = false;
 
-	GENERATE_EVENT(_event_message, "cache: scenario load tags, name=%s", scenario_path);
+	MESSAGE_EVENT("cache: scenario load tags, name=%s", scenario_path);
 
 	cache_file_invalidate_signature();
 
@@ -1262,7 +1262,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		success = g_cache_file_globals.tag_cache_base_address != NULL;
 		if (!success)
 		{
-			GENERATE_EVENT(_event_critical, "failed to allocate the physical memory for the tags");
+			CRITICAL_EVENT("failed to allocate the physical memory for the tags");
 		}
 
 		if (success)
@@ -1270,7 +1270,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		if (!success)
 		{
-			GENERATE_EVENT(_event_critical, "failed to load debug tag names");
+			CRITICAL_EVENT("failed to load debug tag names");
 		}
 
 		if (bool cache_file_global_tags_loaded = cache_file_tags_load_recursive(0))
@@ -1289,7 +1289,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		if (!success)
 		{
 			global_preferences_invalidate_maps();
-			GENERATE_EVENT(_event_critical, "failed to read the tag data section");
+			CRITICAL_EVENT("failed to read the tag data section");
 		}
 
 		// #TODO: security stuff
@@ -1348,7 +1348,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			//success = string_id_load_strings(&g_cache_file_globals.header);
 			if (!success)
 			{
-				GENERATE_EVENT(_event_error, "networking:failed to load the string ids [%s]", scenario_path);
+				ERROR_EVENT("networking:failed to load the string ids [%s]", scenario_path);
 			}
 		}
 
@@ -1373,7 +1373,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 	if (!success)
 	{
-		GENERATE_EVENT(_event_critical, "failed to load tags for cache file");
+		CRITICAL_EVENT("failed to load tags for cache file");
 		cache_file_tags_unload();
 		cache_file_close();
 		ASSERT(tag_index == NONE);
@@ -1396,7 +1396,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		success = true;
 	}
 
-	GENERATE_EVENT(_event_message, "cache: scenario load tags, success=%s", success ? "true" : "false");
+	MESSAGE_EVENT("cache: scenario load tags, success=%s", success ? "true" : "false");
 
 	return success;
 }

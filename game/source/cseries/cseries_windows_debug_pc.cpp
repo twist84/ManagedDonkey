@@ -243,20 +243,20 @@ long __cdecl exceptions_update()
 	//event_logs_flush();
 	release_locks_safe_for_crash_release();
 
-	GENERATE_EVENT(_event_message, "crash: ");
-	GENERATE_EVENT(_event_message, "crash: FATAL ERROR ENCOUNTERED");
-	GENERATE_EVENT(_event_message, "crash: ");
-	GENERATE_EVENT(_event_message, "crash: ");
+	MESSAGE_EVENT("crash: ");
+	MESSAGE_EVENT("crash: FATAL ERROR ENCOUNTERED");
+	MESSAGE_EVENT("crash: ");
+	MESSAGE_EVENT("crash: ");
 
 	dword exception_address = (dword)g_exception_information.exception_address;
 	char const* symbol_name = symbol_name_from_address(exception_address, nullptr);
-	GENERATE_EVENT(_event_message, "crash: %s",
+	MESSAGE_EVENT("crash: %s",
 		version_get_full_string());
 
 	crash_info.print("version:\r\n%s\r\n",
 		version_get_full_string());
 
-	GENERATE_EVENT(_event_message, "crash:   thread information: thread_name: %s thread_id: %08lx",
+	MESSAGE_EVENT("crash:   thread information: thread_name: %s thread_id: %08lx",
 		thread_name,
 		thread_id);
 	crash_info.append_print("thread information:\r\n thread_name: %s, thread_id: %08lx\r\n",
@@ -270,7 +270,7 @@ long __cdecl exceptions_update()
 		long line = g_exception_information.thread_assert_arguments.line;
 		bool assertion_failed = g_exception_information.thread_assert_arguments.assertion_failed;
 
-		GENERATE_EVENT(_event_message, "crash: %s at %s,#%d",
+		MESSAGE_EVENT("crash: %s at %s,#%d",
 			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
@@ -282,7 +282,7 @@ long __cdecl exceptions_update()
 
 		if (exception_string)
 		{
-			GENERATE_EVENT(_event_message, "crash:   %s",
+			MESSAGE_EVENT("crash:   %s",
 				exception_string);
 			crash_info.append_print("halt information:\r\n  %s\r\n",
 				exception_string);
@@ -292,10 +292,10 @@ long __cdecl exceptions_update()
 	{
 		if (exception_code_string)
 		{
-			GENERATE_EVENT(_event_message, "crash: ### RUNTIME ERROR: %s at %08lX",
+			MESSAGE_EVENT("crash: ### RUNTIME ERROR: %s at %08lX",
 				exception_code_string,
 				exception_address);
-			GENERATE_EVENT(_event_message, "crash:   (%s)",
+			MESSAGE_EVENT("crash:   (%s)",
 				symbol_name);
 
 			crash_info.append_print("halt:\r\n### RUNTIME ERROR: %s at %08lX\r\n",
@@ -306,10 +306,10 @@ long __cdecl exceptions_update()
 		}
 		else
 		{
-			GENERATE_EVENT(_event_message, "crash: ### RUNTIME ERROR: UNKNOWN EXCEPTION %08lX at %08lX",
+			MESSAGE_EVENT("crash: ### RUNTIME ERROR: UNKNOWN EXCEPTION %08lX at %08lX",
 				exception_code_string,
 				exception_address);
-			GENERATE_EVENT(_event_message, "crash:   (%s)",
+			MESSAGE_EVENT("crash:   (%s)",
 				symbol_name);
 
 			crash_info.append_print("halt:\r\n### RUNTIME ERROR: UNKNOWN EXCEPTION %08lX at %08lX\r\n",
@@ -323,7 +323,7 @@ long __cdecl exceptions_update()
 		{
 			if (g_exception_information.number_parameters >= 2)
 			{
-				GENERATE_EVENT(_event_message, "crash:   tried to %s address %08lx",
+				MESSAGE_EVENT("crash:   tried to %s address %08lx",
 					g_exception_information.exception_type_info.exception_string ? "write" : "read",
 					g_exception_information.exception_type_info.exception_parameters[0]);
 
@@ -334,7 +334,7 @@ long __cdecl exceptions_update()
 		}
 		else if (code == 0xC06D007E && g_exception_information.number_parameters) // VCPPEXCEPTION_MODULE_NOT_FOUND
 		{
-			GENERATE_EVENT(_event_message, "crash:   tried to load %s",
+			MESSAGE_EVENT("crash:   tried to load %s",
 				*((char const**)g_exception_information.exception_type_info.exception_string + 3));
 			crash_info.append_print("  tried to load %s\r\n",
 				*((char const**)g_exception_information.exception_type_info.exception_string + 3));

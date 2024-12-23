@@ -100,7 +100,7 @@ void c_game_engine_territories_variant::set_respawn_on_capture(e_territories_res
 {
 	if (!VALID_INDEX(respawn_on_capture, k_territories_respawn_on_capture_settings))
 	{
-		GENERATE_EVENT(_event_warning, "game_engine:territories: invalid respawn_on_capture setting '%d' outside range '[0, %d)'!", respawn_on_capture, k_territories_respawn_on_capture_settings);
+		WARNING_EVENT("game_engine:territories: invalid respawn_on_capture setting '%d' outside range '[0, %d)'!", respawn_on_capture, k_territories_respawn_on_capture_settings);
 
 		m_respawn_on_capture = k_territories_respawn_on_capture_settings_default;
 	}
@@ -119,7 +119,7 @@ void c_game_engine_territories_variant::set_capture_time(short capture_time)
 {
 	if (!VALID_INDEX(capture_time, k_territories_capture_time_settings))
 	{
-		GENERATE_EVENT(_event_warning, "game_engine:territories: invalid capture_time setting '%d' outside range '[%d, %d]'!", capture_time, _territories_capture_time_settings_instant, _territories_capture_time_settings_2_minutes);
+		WARNING_EVENT("game_engine:territories: invalid capture_time setting '%d' outside range '[%d, %d]'!", capture_time, _territories_capture_time_settings_instant, _territories_capture_time_settings_2_minutes);
 
 		m_capture_time = k_territories_capture_time_settings_default;
 	}
@@ -143,7 +143,7 @@ void c_game_engine_territories_variant::set_sudden_death_time(short sudden_death
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_territories_sudden_death_settings))
 	{
-		GENERATE_EVENT(_event_warning, "game_engine:territories: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _territories_sudden_death_settings_indefinite, _territories_sudden_death_settings_5_minutes);
+		WARNING_EVENT("game_engine:territories: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _territories_sudden_death_settings_indefinite, _territories_sudden_death_settings_5_minutes);
 
 		m_sudden_death_time = k_territories_sudden_death_settings_default;
 	}

@@ -60,12 +60,12 @@ void __cdecl transport_global_update()
 			transport_globals.is_started = available;
 			if (available)
 			{
-				GENERATE_EVENT(_event_message, "networking:transport: network interface connection restored, resetting networking");
+				MESSAGE_EVENT("networking:transport: network interface connection restored, resetting networking");
 				transport_startup();
 			}
 			else
 			{
-				GENERATE_EVENT(_event_error, "networking:transport: network interface connection lost");
+				ERROR_EVENT("networking:transport: network interface connection lost");
 				transport_shutdown();
 			}
 		}
@@ -143,11 +143,11 @@ void __cdecl transport_startup()
 		int wsa_startup_result = WSAStartup(2u, &wsa_data);
 		if (wsa_startup_result)
 		{
-			GENERATE_EVENT(_event_error, "networking:transport: WSAStartup() failed; error= %s", online_error_get_string(wsa_startup_result));
+			ERROR_EVENT("networking:transport: WSAStartup() failed; error= %s", online_error_get_string(wsa_startup_result));
 		}
 		else
 		{
-			GENERATE_EVENT(_event_message, "networking:transport: Winsock initialized");
+			MESSAGE_EVENT("networking:transport: Winsock initialized");
 
 			transport_globals.winsock_initialized = true;
 			transport_security_startup();
@@ -161,7 +161,7 @@ void __cdecl transport_startup()
 			}
 
 			network_session_interface_handle_message(_network_message_network_interface_connected);
-			GENERATE_EVENT(_event_message, "networking:transport: Trasport global started");
+			MESSAGE_EVENT("networking:transport: Trasport global started");
 		}
 	}
 }

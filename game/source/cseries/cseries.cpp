@@ -76,16 +76,16 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 
 	if (assertion_failed && !is_debugger_present())
 	{
-		GENERATE_EVENT(_event_critical, "");
+		CRITICAL_EVENT("");
 		stack_walk(1);
 		editor_save_progress();
 	}
 
-	GENERATE_EVENT(_event_critical, "");
+	CRITICAL_EVENT("");
 
 	if (is_debugger_present())
 	{
-		GENERATE_EVENT(_event_critical, "%s(%d): %s: %s",
+		CRITICAL_EVENT("%s(%d): %s: %s",
 			file,
 			line,
 			assertion_failed ? "ASSERT" : "WARNING",
@@ -98,12 +98,12 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 	}
 	else
 	{
-		GENERATE_EVENT(_event_critical, "%s",
+		CRITICAL_EVENT("%s",
 			version_get_full_string());
 		crash_info.print("version:\r\n%s\r\n",
 			version_get_full_string());
 
-		GENERATE_EVENT(_event_critical, "%s at %s,#%d",
+		CRITICAL_EVENT("%s at %s,#%d",
 			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
@@ -114,7 +114,7 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 
 		if (statement)
 		{
-			GENERATE_EVENT(_event_critical, "  %s", statement);
+			CRITICAL_EVENT("  %s", statement);
 			crash_info.append_print("halt information:\r\n  %s\r\n", statement);
 		}
 	}

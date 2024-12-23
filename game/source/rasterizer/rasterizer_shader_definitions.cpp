@@ -42,7 +42,7 @@ c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compi
 {
 	if (entry_point >= entry_points.count)
 	{
-		GENERATE_EVENT(_event_error, "rasterizer: vertex shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
+		ERROR_EVENT("rasterizer: vertex shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
 		return NULL;
 	}
 
@@ -79,7 +79,7 @@ c_rasterizer_compiled_pixel_shader const* c_rasterizer_pixel_shader::get_compile
 {
 	if (entry_point >= entry_points.count)
 	{
-		GENERATE_EVENT(_event_error, ": pixel shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
+		ERROR_EVENT(": pixel shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
 		return NULL;
 	}
 

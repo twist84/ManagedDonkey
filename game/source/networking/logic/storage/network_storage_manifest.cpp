@@ -18,7 +18,7 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 	security_get_working_memory(_secure_memory_region_network_storage_manifest, &working_memory, &working_memory_size);
 
 	if (!working_memory || working_memory_size < sizeof(c_network_storage_manifest))
-		GENERATE_EVENT(_event_critical, "c_network_storage_manifest: couldn't get secure working memory");
+		CRITICAL_EVENT("c_network_storage_manifest: couldn't get secure working memory");
 
 	return (c_network_storage_manifest*)working_memory;
 }

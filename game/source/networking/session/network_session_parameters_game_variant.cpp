@@ -6,7 +6,7 @@ c_game_variant const* c_network_session_parameter_game_variant::get() const
 {
 	if (!get_allowed())
 	{
-		GENERATE_EVENT(_event_warning, "networking:session_parameters:chunked:game_variant: [%s] can't get variant, unavailable", get_session_description());
+		WARNING_EVENT("networking:session_parameters:chunked:game_variant: [%s] can't get variant, unavailable", get_session_description());
 		return nullptr;
 	}
 
@@ -20,7 +20,7 @@ bool c_network_session_parameter_game_variant::request_change(c_game_variant con
 
 	if (!change_request_allowed())
 	{
-		GENERATE_EVENT(_event_warning, "networking:session_parameters:chunked:game_variant: [%s] failed to request change, access denied [%s]", get_session_description(), get_change_request_denied_reason());
+		WARNING_EVENT("networking:session_parameters:chunked:game_variant: [%s] failed to request change, access denied [%s]", get_session_description(), get_change_request_denied_reason());
 		return false;
 	}
 

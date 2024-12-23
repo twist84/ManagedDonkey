@@ -17,7 +17,7 @@ void main_game_launch(char const* map_name)
 	{
 		if (main_game_globals.launch_game_options.game_mode == _game_mode_campaign && csstrstr(map_name, "levels\\multi\\"))
 		{
-			GENERATE_EVENT(_event_warning, "switching you from a campaign game to multiplayer, b/c it looks like you are trying to load a multiplayer map!");
+			WARNING_EVENT("switching you from a campaign game to multiplayer, b/c it looks like you are trying to load a multiplayer map!");
 
 			char const* string = game_engine_type_get_string(_game_engine_type_slayer);
 			main_game_launch_set_multiplayer_engine(string);
@@ -25,7 +25,7 @@ void main_game_launch(char const* map_name)
 
 		if (main_game_globals.launch_game_options.game_mode == _game_mode_multiplayer && csstrstr(map_name, "levels\\solo\\"))
 		{
-			GENERATE_EVENT(_event_warning, "switching you from a multiplayer game to campaign, b/c it looks like you are trying to load a campaign map!");
+			WARNING_EVENT("switching you from a multiplayer game to campaign, b/c it looks like you are trying to load a campaign map!");
 
 			main_game_globals.launch_game_options.game_mode = _game_mode_campaign;
 		}
@@ -40,7 +40,7 @@ void main_game_launch(char const* map_name)
 	}
 	else if (main_game_globals.launch_game_options.game_mode != _game_mode_multiplayer)
 	{
-		GENERATE_EVENT(_event_warning, "main_game_launch: unknown game mode %d!", main_game_globals.launch_game_options.game_mode);
+		WARNING_EVENT("main_game_launch: unknown game mode %d!", main_game_globals.launch_game_options.game_mode);
 		return;
 	}
 
@@ -104,7 +104,7 @@ void main_game_launch_set_coop_player_count(long coop_player_count)
 {
 	if (!IN_RANGE_INCLUSIVE(coop_player_count, 1, 4))
 	{
-		GENERATE_EVENT(_event_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
+		WARNING_EVENT("main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
 	}
 	else
 	{
@@ -150,14 +150,14 @@ void main_game_launch_set_multiplayer_engine(char const* engine_name)
 		return;
 	}
 
-	GENERATE_EVENT(_event_error, "launch: failed to find multiplayer game engine '%s'", engine_name);
+	ERROR_EVENT("launch: failed to find multiplayer game engine '%s'", engine_name);
 }
 
 void main_game_launch_set_multiplayer_splitscreen_count(long splitscreen_count)
 {
 	if (!IN_RANGE_INCLUSIVE(splitscreen_count, 1, 4))
 	{
-		GENERATE_EVENT(_event_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)",
+		WARNING_EVENT("main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)",
 			splitscreen_count,
 			4);
 	}
@@ -181,7 +181,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long splitscreen_count)
 //	}
 //	else
 //	{
-//		GENERATE_EVENT(_event_error, "launch: failed to find multiplayer variant '%s'", variant_name);
+//		ERROR_EVENT("launch: failed to find multiplayer variant '%s'", variant_name);
 //	}
 //}
 

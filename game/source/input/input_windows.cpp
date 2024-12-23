@@ -194,7 +194,7 @@ void __cdecl sub_511760(int error, char const* format, ...)
 		//DIERR_ERROR_CASE(DIERR_GENERIC);
 		//#undef DIERR_ERROR_CASE
 		//}
-		//GENERATE_EVENT(_event_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+		//WARNING_EVENT("DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
 
 		c_console::write_line("RawInput: '%s' returned (%s#%d)", error_message, error_string, error);
 	}

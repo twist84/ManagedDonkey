@@ -306,14 +306,14 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 				}
 				else
 				{
-					GENERATE_EVENT(_event_warning, "xoverlapped: task context string '%s' not added to error-code-injection table, maximum tasks already being tracked!",
+					WARNING_EVENT("xoverlapped: task context string '%s' not added to error-code-injection table, maximum tasks already being tracked!",
 						task->get_context_string());
 				}
 			}
 		}
 		else
 		{
-			GENERATE_EVENT(_event_warning, "xoverlapped: task context string '%s' is too long to fit into error-code-injection table (maximum %ld characters)",
+			WARNING_EVENT("xoverlapped: task context string '%s' is too long to fit into error-code-injection table (maximum %ld characters)",
 				task->get_context_string(),
 				64);
 		}
@@ -322,7 +322,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 	}
 	else
 	{
-		GENERATE_EVENT(_event_status, "xoverlapped: overlapped_task_start() failed: maximum tasks already active!");
+		STATUS_EVENT("xoverlapped: overlapped_task_start() failed: maximum tasks already active!");
 	}
 
 	return result;
@@ -508,7 +508,7 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 		{
 			if (g_overlapped_globals.inject_error_context.is_equal(task_slot->task->get_context_string()))
 			{
-				GENERATE_EVENT(_event_warning, "xoverlapped: injecting error for task %s",
+				WARNING_EVENT("xoverlapped: injecting error for task %s",
 					g_overlapped_globals.inject_error_context.get_string());
 		
 				succeeded = false;
@@ -524,7 +524,7 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 		task_state = _overlapped_task_state_succeeded;
 		task_slot->task->success(return_result);
 
-		GENERATE_EVENT(_event_status, "xoverlapped: task '%s' succeeded. return result= %s",
+		STATUS_EVENT("xoverlapped: task '%s' succeeded. return result= %s",
 			task_slot->task->get_context_string(),
 			online_error_get_string(return_result).get_string());
 	}
@@ -540,14 +540,14 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 			overlapped_error == ERROR_CANCELLED ||
 			overlapped_error == ERROR_FUNCTION_FAILED && overlapped_extended_error == ERROR_CANCELLED)
 		{
-			GENERATE_EVENT(_event_message, "xoverlapped: task '%s' was cancelled.",
+			MESSAGE_EVENT("xoverlapped: task '%s' was cancelled.",
 				task_slot->task->get_context_string());
 		}
 		else
 		{
 			if (csstrcmp("XStringVerify", task_slot->task->get_context_string()) != 0)
 			{
-				GENERATE_EVENT(_event_warning, "xoverlapped: task '%s' failed. calling result= %s, error= %s, extended error= %s, file= '%s', line= '%ld'",
+				WARNING_EVENT("xoverlapped: task '%s' failed. calling result= %s, error= %s, extended error= %s, file= '%s', line= '%ld'",
 					task_slot->task->get_context_string(),
 					online_error_get_string(calling_result).get_string(),
 					online_error_get_string(overlapped_error).get_string(),
@@ -660,12 +660,12 @@ void overlapped_task_display_task_descriptions()
 {
 	c_async_xoverlapped_scope_lock scope_lock;
 
-	GENERATE_EVENT(_event_warning, "xoverlapped: dumping task descriptions [count %d]",
+	WARNING_EVENT("xoverlapped: dumping task descriptions [count %d]",
 		g_overlapped_globals.description_count);
 
 	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 	{
-		GENERATE_EVENT(_event_warning, "xoverlapped: %s",
+		WARNING_EVENT("xoverlapped: %s",
 			g_overlapped_globals.descriptions[description_index].get_string());
 	}
 }
@@ -686,7 +686,7 @@ void overlapped_task_inject_error(char const* context, bool inject_error)
 
 	if (context_matches_description)
 	{
-		GENERATE_EVENT(_event_warning, "xoverlapped: setting error injection for %s to %s",
+		WARNING_EVENT("xoverlapped: setting error injection for %s to %s",
 			context,
 			inject_error ? "TRUE" : "FALSE");
 
@@ -695,7 +695,7 @@ void overlapped_task_inject_error(char const* context, bool inject_error)
 	}
 	else
 	{
-		GENERATE_EVENT(_event_warning, "xoverlapped: failed to find setting error injection for %s to %s",
+		WARNING_EVENT("xoverlapped: failed to find setting error injection for %s to %s",
 			context,
 			inject_error ? "TRUE" : "FALSE");
 	}
@@ -717,7 +717,7 @@ void overlapped_task_pause(char const* context, bool pause)
 
 	if (context_matches_description)
 	{
-		GENERATE_EVENT(_event_warning, "xoverlapped: setting pause for %s to %s",
+		WARNING_EVENT("xoverlapped: setting pause for %s to %s",
 			context,
 			pause ? "TRUE" : "FALSE");
 
@@ -726,7 +726,7 @@ void overlapped_task_pause(char const* context, bool pause)
 	}
 	else
 	{
-		GENERATE_EVENT(_event_warning, "xoverlapped: failed to find setting pause for %s to %s",
+		WARNING_EVENT("xoverlapped: failed to find setting pause for %s to %s",
 			context,
 			pause ? "TRUE" : "FALSE");
 	}

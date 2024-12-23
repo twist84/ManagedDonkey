@@ -129,7 +129,7 @@ void stack_walk_print(s_file_reference* file, _CONTEXT* context, long levels_dum
 		}
 		else
 		{
-			GENERATE_EVENT(_event_message, "crash: %08lX %s", routine_address - 5 /* take off size of call instruction */, symbol_name);
+			MESSAGE_EVENT("crash: %08lX %s", routine_address - 5 /* take off size of call instruction */, symbol_name);
 		}
 	}
 }
