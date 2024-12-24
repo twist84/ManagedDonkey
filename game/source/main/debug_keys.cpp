@@ -783,17 +783,17 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 	{
 	case 0:
 	{
-		c_console::write_line("debug: evaluate debug_key '%s' executed with key_down=%s", key->name, key_down ? "true" : "false");
+		STATUS_EVENT("debug: evaluate debug_key '%s' executed with key_down=%s", key->name, key_down ? "true" : "false");
 	}
 	break;
 	case 1:
 	{
-		c_console::write_line("debug: evaluate debug_key '%s' DID NOT execute with key_down=%s. allow_out_of_game=%d allow_in_editor=%d toggle_variable=%d", key->name, key_down ? "true" : "false", key->allow_out_of_game, key->allow_in_editor, key->toggle_variable);
+		WARNING_EVENT("debug: evaluate debug_key '%s' DID NOT execute with key_down=%s. allow_out_of_game=%d allow_in_editor=%d toggle_variable=%d", key->name, key_down ? "true" : "false", key->allow_out_of_game, key->allow_in_editor, key->toggle_variable);
 	}
 	break;
 	case 2:
 	{
-		c_console::write_line("debug: evaluate debug_key '%s' was NOT found", key->name);
+		ERROR_EVENT("debug: evaluate debug_key '%s' was NOT found", key->name);
 	}
 	break;
 	}

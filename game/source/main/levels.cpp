@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cseries/async.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cseries/runtime_state.hpp"
 #include "interface/user_interface.hpp"
 #include "main/main.hpp"
@@ -954,14 +955,14 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 
 	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("levels: failed to open campaign info file");
+		WARNING_EVENT("levels: failed to open campaign info file");
 		file_close(file);
 		goto function_end;
 	}
 
 	if (!file_get_size(file, &file_size))
 	{
-		c_console::write_line("levels: failed to get file size of campaign info file");
+		WARNING_EVENT("levels: failed to get file size of campaign info file");
 		goto function_finish;
 	}
 
@@ -971,25 +972,25 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 	// - 0x1C19, Halo 4
 	if (file_size > 0x18AC)
 	{
-		c_console::write_line("levels: unexpected file size for campaign info file");
+		WARNING_EVENT("levels: unexpected file size for campaign info file");
 		goto function_finish;
 	}
 
 	if (!file_read(file, file_size, 0, file_buffer))
 	{
-		c_console::write_line("levels: failed to read campaign info file");
+		WARNING_EVENT("levels: failed to read campaign info file");
 		goto function_finish;
 	}
 
 	if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
 	{
-		c_console::write_line("levels: failed to verify blf start of file for campaign info file");
+		WARNING_EVENT("levels: failed to verify blf start of file for campaign info file");
 		goto function_finish;
 	}
 
 	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 	{
-		c_console::write_line("levels: failed to find blf campaign chunk");
+		WARNING_EVENT("levels: failed to find blf campaign chunk");
 		goto function_finish;
 	}
 
@@ -1009,7 +1010,7 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 					goto function_finish;
 			}
 
-			c_console::write_line("levels: failed to verify blf end of file chunk");
+			WARNING_EVENT("levels: failed to verify blf end of file chunk");
 		}
 	}
 
@@ -1025,7 +1026,7 @@ function_end:
 	if (!file_added)
 	{
 		// #TODO: file_reference_get_name
-		c_console::write_line("levels: failed to add campaign file '%s'", file->path);
+		WARNING_EVENT("levels: failed to add campaign file '%s'", file->path.get_string());
 	}
 }
 
@@ -1045,14 +1046,14 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 
 	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("levels: failed to open level info file");
+		WARNING_EVENT("levels: failed to open level info file");
 		file_close(file);
 		goto function_end;
 	}
 
 	if (!file_get_size(file, &file_size))
 	{
-		c_console::write_line("levels: failed to get file size of level info file");
+		WARNING_EVENT("levels: failed to get file size of level info file");
 		goto function_finish;
 	}
 
@@ -1063,25 +1064,25 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	// - 0x11F19, Halo 4
 	if (file_size > 0xCDD9)
 	{
-		c_console::write_line("levels: unexpected file size for level info file");
+		WARNING_EVENT("levels: unexpected file size for level info file");
 		goto function_finish;
 	}
 
 	if (!file_read(file, file_size, false, file_buffer))
 	{
-		c_console::write_line("levels: failed to read level info file");
+		WARNING_EVENT("levels: failed to read level info file");
 		goto function_finish;
 	}
 
 	if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
 	{
-		c_console::write_line("levels: failed to verify blf start of file");
+		WARNING_EVENT("levels: failed to verify blf start of file");
 		goto function_finish;
 	}
 
 	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 	{
-		c_console::write_line("levels: failed to find blf scenario chunk");
+		WARNING_EVENT("levels: failed to find blf scenario chunk");
 		goto function_finish;
 	}
 
@@ -1105,7 +1106,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 					goto function_finish;
 			}
 
-			c_console::write_line("levels: failed to verify blf end of file chunk");
+			WARNING_EVENT("levels: failed to verify blf end of file chunk");
 		}
 	}
 
@@ -1123,7 +1124,7 @@ function_end:
 		dword_flags flags = FLAG(0) | FLAG(2) | FLAG(3);
 		char filename[256]{};
 		file_reference_get_name(file, flags, filename, NUMBEROF(filename));
-		c_console::write_line("levels: failed to add level file '%s'", file->path.get_string());
+		WARNING_EVENT("levels: failed to add level file '%s'", file->path.get_string());
 	}
 }
 

@@ -1210,21 +1210,21 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 	s_file_reference info;
 	if (!file_reference_create_from_path(&info, filename, 0))
 	{
-		c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to create file reference for file '%s'", filename);
 		return;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to open file '%s'", filename);
 		return;
 	}
 
 	dword size = 0;
 	if (!file_get_size(&info, &size))
 	{
-		c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to determine file size for file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1234,14 +1234,14 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 
 	if (size > sizeof(buffer))
 	{
-		c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
+		WARNING_EVENT("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
 		file_close(&info);
 		return;
 	}
 
 	if (!file_read(&info, size, false, buffer))
 	{
-		c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to read from file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1251,13 +1251,13 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 
 	if (!game_engine_variant_is_valid(game_variant))
 	{
-		c_console::write_line("networking:configuration: game variant in file '%s' is invalid", filename);
+		WARNING_EVENT("networking:configuration: game variant in file '%s' is invalid", filename);
 
 		file_close(&info);
 		return;
 	}
 
-	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	STATUS_EVENT("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
 	if (!load_and_use)
 	{
@@ -1267,7 +1267,7 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 
 	if (!network_squad_session_set_game_variant(game_variant))
 	{
-		c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session game variant traits, probably not in a session");
 
 		file_close(&info);
 		return;
@@ -1281,21 +1281,21 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 	s_file_reference info;
 	if (!file_reference_create_from_path(&info, filename, 0))
 	{
-		c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to create file reference for file '%s'", filename);
 		return;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to open file '%s'", filename);
 		return;
 	}
 
 	dword size = 0;
 	if (!file_get_size(&info, &size))
 	{
-		c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to determine file size for file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1305,14 +1305,14 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 
 	if (size > sizeof(buffer))
 	{
-		c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
+		WARNING_EVENT("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
 		file_close(&info);
 		return;
 	}
 
 	if (!file_read(&info, size, false, buffer))
 	{
-		c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to read from file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1320,7 +1320,7 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 	c_game_variant* game_variant = new c_game_variant();
 	if (!multiplayer_game_hopper_unpack_game_variant(buffer, size, game_variant))
 	{
-		c_console::write_line("networking:configuration: failed to unpack game variant in file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to unpack game variant in file '%s'", filename);
 
 		delete game_variant;
 		file_close(&info);
@@ -1329,14 +1329,14 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 
 	if (!game_engine_variant_is_valid(game_variant))
 	{
-		c_console::write_line("networking:configuration: game variant in file '%s' is invalid", filename);
+		WARNING_EVENT("networking:configuration: game variant in file '%s' is invalid", filename);
 
 		delete game_variant;
 		file_close(&info);
 		return;
 	}
 
-	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	STATUS_EVENT("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
 	if (!load_and_use)
 	{
@@ -1347,7 +1347,7 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 
 	if (!network_squad_session_set_game_variant(game_variant))
 	{
-		c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session game variant traits, probably not in a session");
 
 		file_close(&info);
 		delete game_variant;
@@ -1363,21 +1363,21 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 	s_file_reference info;
 	if (!file_reference_create_from_path(&info, filename, 0))
 	{
-		c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to create file reference for file '%s'", filename);
 		return;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to open file '%s'", filename);
 		return;
 	}
 
 	dword size = 0;
 	if (!file_get_size(&info, &size))
 	{
-		c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to determine file size for file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1387,14 +1387,14 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (size > 0xF000)
 	{
-		c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
+		WARNING_EVENT("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
 		file_close(&info);
 		return;
 	}
 
 	if (!file_read(&info, size, false, buffer))
 	{
-		c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to read from file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1404,14 +1404,14 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (!map_variant->validate())
 	{
-		c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
+		WARNING_EVENT("networking:configuration: map variant in file '%s' is invalid", filename);
 
 		delete[] buffer;
 		file_close(&info);
 		return;
 	}
 
-	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	STATUS_EVENT("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
 	//map_variant->print();
 
@@ -1426,7 +1426,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 	levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
 	if (!scenario_path[0])
 	{
-		c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
+		WARNING_EVENT("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
 
 		delete[] buffer;
 		file_close(&info);
@@ -1435,7 +1435,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
 	{
-		c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session map, probably not in a session");
 
 		delete[] buffer;
 		file_close(&info);
@@ -1479,7 +1479,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (!network_squad_session_set_map_variant(map_variant))
 	{
-		c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session map variant traits, probably not in a session");
 
 		delete[] buffer;
 		file_close(&info);
@@ -1495,21 +1495,21 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 	s_file_reference info;
 	if (!file_reference_create_from_path(&info, filename, 0))
 	{
-		c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to create file reference for file '%s'", filename);
 		return;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to open file '%s'", filename);
 		return;
 	}
 
 	dword size = 0;
 	if (!file_get_size(&info, &size))
 	{
-		c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to determine file size for file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1519,14 +1519,14 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	if (size > sizeof(s_blffile_map_variant))
 	{
-		c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(s_blffile_map_variant));
+		WARNING_EVENT("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(s_blffile_map_variant));
 		file_close(&info);
 		return;
 	}
 
 	if (!file_read(&info, size, false, buffer))
 	{
-		c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to read from file '%s'", filename);
 		file_close(&info);
 		return;
 	}
@@ -1534,7 +1534,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 	c_map_variant* map_variant = new c_map_variant();
 	if (!multiplayer_game_hopper_unpack_map_variant(buffer, size, map_variant))
 	{
-		c_console::write_line("networking:configuration: failed to unpack map variant in file '%s'", filename);
+		WARNING_EVENT("networking:configuration: failed to unpack map variant in file '%s'", filename);
 
 		delete map_variant;
 		delete[] buffer;
@@ -1544,7 +1544,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	if (!map_variant->validate())
 	{
-		c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
+		WARNING_EVENT("networking:configuration: map variant in file '%s' is invalid", filename);
 
 		delete map_variant;
 		delete[] buffer;
@@ -1552,7 +1552,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 		return;
 	}
 
-	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	STATUS_EVENT("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
 	//map_variant->print();
 
@@ -1568,7 +1568,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 	levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
 	if (!scenario_path[0])
 	{
-		c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
+		WARNING_EVENT("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
 
 		delete map_variant;
 		delete[] buffer;
@@ -1578,7 +1578,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
 	{
-		c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session map, probably not in a session");
 
 		delete map_variant;
 		delete[] buffer;
@@ -1620,7 +1620,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	if (!network_squad_session_set_map_variant(map_variant))
 	{
-		c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
+		WARNING_EVENT("networking:configuration: failed to set session map variant traits, probably not in a session");
 
 		delete map_variant;
 		delete[] buffer;

@@ -974,7 +974,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 		file_reference_create_from_path(&tag_list_file, k_cache_tag_list_file, false);
 		if (!file_exists(&tag_list_file))
 		{
-			c_console::write_line("cache: load tag names, '%s' file doesn't exist", k_cache_tag_list_file);
+			WARNING_EVENT("cache: load tag names, '%s' file doesn't exist", k_cache_tag_list_file);
 			return true;
 		}
 
@@ -982,7 +982,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 		file_get_size(&tag_list_file, &tag_list_size);
 		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
 		{
-			c_console::write_line("cache: load tag names, '%s' file read failed", k_cache_tag_list_file);
+			ERROR_EVENT("cache: load tag names, '%s' file read failed", k_cache_tag_list_file);
 			return false;
 		}
 
