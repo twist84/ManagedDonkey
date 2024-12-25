@@ -90,6 +90,8 @@ extern bool __cdecl scenario_connect_zone_set_resources(
 	dword new_cinematic_zone_mask,
 	dword new_touched_cinematic_zone_mask,
 	bool unload_old_bsps);
+extern void __cdecl scenario_disconnect_from_old_zone_set(dword loaded_structure_bsp_mask, dword new_structure_bsp_mask);
+extern bool __cdecl scenario_disconnect_game_from_old_bsps(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
 extern void __cdecl scenario_dispose();
 extern void __cdecl scenario_dispose_from_old_map();
 extern void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);

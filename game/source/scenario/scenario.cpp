@@ -245,8 +245,34 @@ bool __cdecl scenario_connect_zone_set_resources(
 //.text:004E9D90 ; 
 //.text:004E9DA0 ; void __cdecl scenario_deactivate_all_zones_for_cache_builder()
 //.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
-//.text:004E9F00 ; void __cdecl scenario_disconnect_from_old_zone_set(dword, dword)
-//.text:004E9F10 ; bool __cdecl scenario_disconnect_game_from_old_bsps(dword, dword)
+
+void __cdecl scenario_disconnect_from_old_zone_set(dword loaded_structure_bsp_mask, dword new_structure_bsp_mask)
+{
+	INVOKE(0x004E9F00, scenario_disconnect_from_old_zone_set, loaded_structure_bsp_mask, new_structure_bsp_mask);
+
+	//scenario_resources_unload_active_zone_set();
+}
+
+bool __cdecl scenario_disconnect_game_from_old_bsps(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
+{
+	return INVOKE(0x004E9F10, scenario_disconnect_game_from_old_bsps, old_structure_bsp_mask, new_structure_bsp_mask);
+
+	//bool result = false;
+	//if (old_structure_bsp_mask != new_structure_bsp_mask)
+	//{
+	//	c_tag_resources_game_lock game_lock{};
+	//
+	//	game_prepare_to_switch_structure_bsp(old_structure_bsp_mask, new_structure_bsp_mask);
+	//	if (old_structure_bsp_mask)
+	//	{
+	//		game_dispose_from_old_structure_bsp(old_structure_bsp_mask & ~new_structure_bsp_mask);
+	//		result = true;
+	//	}
+	//
+	//	ASSERT(game_get_active_structure_bsp_mask() == 0);
+	//}
+	//return result;
+}
 
 void __cdecl scenario_dispose()
 {
