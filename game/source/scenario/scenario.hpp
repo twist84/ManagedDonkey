@@ -83,13 +83,13 @@ extern bool __cdecl scenario_activate_initial_zone_set(long zone_set_index);
 extern s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point);
 extern bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dword new_structure_bsp_mask);
 extern bool __cdecl scenario_connect_zone_set_resources(
-	long zone_set_index,
-	dword active_structure_bsp_mask,
-	dword touched_structure_bsp_mask,
-	dword active_designer_zone_mask,
-	dword active_cinematic_zone_mask,
-	dword touched_cinematic_zone_mask,
-	bool a7);
+	long new_zone_set_index,
+	dword new_active_bsp_mask,
+	dword new_touched_bsp_mask,
+	dword new_designer_zone_mask,
+	dword new_cinematic_zone_mask,
+	dword new_touched_cinematic_zone_mask,
+	bool unload_old_bsps);
 extern void __cdecl scenario_dispose();
 extern void __cdecl scenario_dispose_from_old_map();
 extern void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);

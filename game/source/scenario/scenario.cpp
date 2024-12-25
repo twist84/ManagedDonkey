@@ -198,34 +198,34 @@ bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dw
 }
 
 bool __cdecl scenario_connect_zone_set_resources(
-	long zone_set_index,
-	dword active_structure_bsp_mask,
-	dword touched_structure_bsp_mask,
-	dword active_designer_zone_mask,
-	dword active_cinematic_zone_mask,
-	dword touched_cinematic_zone_mask,
-	bool a7
+	long new_zone_set_index,
+	dword new_active_bsp_mask,
+	dword new_touched_bsp_mask,
+	dword new_designer_zone_mask,
+	dword new_cinematic_zone_mask,
+	dword new_touched_cinematic_zone_mask,
+	bool unload_old_bsps
 )
 {
 	//return INVOKE(0x004E9CB0, scenario_connect_zone_set_resources,
-	//	zone_set_index,
-	//	active_structure_bsp_mask,
-	//	touched_structure_bsp_mask,
-	//	active_designer_zone_mask,
-	//	active_cinematic_zone_mask,
-	//	touched_cinematic_zone_mask,
-	//	a7);
+	//	new_zone_set_index,
+	//	new_active_bsp_mask,
+	//	new_touched_bsp_mask,
+	//	new_designer_zone_mask,
+	//	new_cinematic_zone_mask,
+	//	new_touched_cinematic_zone_mask,
+	//	unload_old_bsps);
 
 	bool result = true;
 
-	scenario_zone_set_debug_status("switching to", zone_set_index);
+	scenario_zone_set_debug_status("switching to", new_zone_set_index);
 
-	global_zone_set_index = zone_set_index;
-	g_active_structure_bsp_mask = active_structure_bsp_mask;
-	g_touched_structure_bsp_mask = touched_structure_bsp_mask;
-	g_active_designer_zone_mask = active_designer_zone_mask;
-	g_active_cinematic_zone_mask = active_cinematic_zone_mask;
-	g_touched_cinematic_zone_mask = touched_cinematic_zone_mask;
+	global_zone_set_index = new_zone_set_index;
+	g_active_structure_bsp_mask = new_active_bsp_mask;
+	g_touched_structure_bsp_mask = new_touched_bsp_mask;
+	g_active_designer_zone_mask = new_designer_zone_mask;
+	g_active_cinematic_zone_mask = new_cinematic_zone_mask;
+	g_touched_cinematic_zone_mask = new_touched_cinematic_zone_mask;
 
 	s_scenario_zone_state global_zone_state{};
 	scenario_get_global_zone_state(&global_zone_state);
@@ -237,7 +237,7 @@ bool __cdecl scenario_connect_zone_set_resources(
 		scenario_invalidate_zone_set_internal();
 	}
 
-	scenario_zone_set_debug_status("switched to", zone_set_index);
+	scenario_zone_set_debug_status("switched to", new_zone_set_index);
 
 	return result;
 }
