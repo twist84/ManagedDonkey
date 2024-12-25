@@ -8,14 +8,14 @@ struct c_matchmaking_seeker
 {
 	byte_flags m_flags;
 	byte __pad1[0x3];
-	int m_current_session_search_index;
-	int m_search_stage;
-	int m_search_stage_round;
-	int m_total_sessions_found;
-	int m_total_session_search_failures;
-	int m_total_session_searches;
-	int m_current_sessions_contacted_count;
-	int m_total_session_contacted_count;
+	long m_current_session_search_index;
+	long m_search_stage;
+	long m_search_stage_round;
+	long m_total_sessions_found;
+	long m_total_session_search_failures;
+	long m_total_session_searches;
+	long m_current_sessions_contacted_count;
+	long m_total_session_contacted_count;
 	dword m_search_start_time;
 	dword m_current_search_completed_time;
 	byte __data28[0x4];

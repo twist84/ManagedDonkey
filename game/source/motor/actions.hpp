@@ -212,7 +212,7 @@ static_assert(sizeof(action_request_vehicle_board) == 0x44);
 
 struct action_request_vehicle_enter
 {
-	int vehicle_index;
+	long vehicle_index;
 	short seat_index;
 	bool immediate;
 	bool force_entry;
