@@ -183,7 +183,19 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 }
 
 //.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(s_cluster_reference const*)
-//.text:004E9C40 ; bool __cdecl scenario_connect_game_to_new_bsps(dword, dword)
+
+bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dword new_structure_bsp_mask)
+{
+	return INVOKE(0x004E9C40, scenario_connect_game_to_new_bsps, game_structure_bsp_mask, new_structure_bsp_mask);
+
+	//if (!new_structure_bsp_mask || game_structure_bsp_mask == new_structure_bsp_mask)
+	//	return false;
+	//
+	//c_tag_resources_game_lock game_lock{};
+	//game_initialize_for_new_structure_bsp(new_structure_bsp_mask & ~game_structure_bsp_mask);
+	//
+	//return true;
+}
 
 bool __cdecl scenario_connect_zone_set_resources(
 	long zone_set_index,
