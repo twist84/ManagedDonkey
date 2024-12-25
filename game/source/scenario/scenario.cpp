@@ -566,21 +566,51 @@ bool __cdecl scenario_switch_zone_set(long zone_set_index)
 	return scenario_switch_zone_set_internal(zone_set_index, true);
 }
 
-bool __cdecl scenario_switch_zone_set_internal(long zone_set_index, bool a2)
+bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unload_old_bsps)
 {
-	return INVOKE(0x004EB640, scenario_switch_zone_set_internal, zone_set_index, a2);
+	return INVOKE(0x004EB640, scenario_switch_zone_set_internal, new_zone_set_index, unload_old_bsps);
 
-	//bool success = false;
+	//dword new_structure_bsp_mask = scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
+	//dword active_structure_bsp_mask = game_get_active_structure_bsp_mask();
+	//dword touched_structure_bsp_mask = g_touched_structure_bsp_mask;
+	//dword game_structure_bsp_mask = active_structure_bsp_mask;
+	//dword new_touched_bsp_mask = touched_structure_bsp_mask | scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
+	//dword active_designer_zone_mask = game_get_active_designer_zone_mask();
 	//
-	//dword new_structure_bsp_mask = 0;
-	//if (zone_set_index != NONE)
-	//	new_structure_bsp_mask = global_scenario_get()->zone_sets[zone_set_index].bsp_zone_flags;
+	////dword new_designer_zone_mask = (active_designer_zone_mask | scenario_zone_set_designer_zone_required_mask_get(new_zone_set_index)) & ~scenario_zone_set_designer_zone_forbidden_mask_get(new_zone_set_index);
+	//dword new_designer_zone_mask = scenario_zone_set_compute_new_designer_zone_mask(
+	//	active_designer_zone_mask,
+	//	scenario_zone_set_designer_zone_required_mask_get(new_zone_set_index),
+	//	scenario_zone_set_designer_zone_forbidden_mask_get(new_zone_set_index));
 	//
-	//dword game_structure_bsp_mask = game_get_active_structure_bsp_mask();
+	//dword active_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	//dword new_touched_cinematics_mask = g_touched_structure_bsp_mask;
 	//
-	// #TODO: implement me
+	//ASSERT(game_structure_bsp_mask == 0 || VALID_INDEX(highest_bit_set(game_structure_bsp_mask), global_scenario->structure_bsp_references.count));
+	//ASSERT(global_structure_bsp_active_mask_get() == 0 || VALID_INDEX(highest_bit_set(global_structure_bsp_active_mask_get()), global_scenario->structure_bsp_references.count));
 	//
-	//return success;
+	//s_scenario_zone_change zone_change{};
+	//zone_change.original_designer_zone_mask = active_designer_zone_mask;
+	//zone_change.original_cinematic_zone_mask = active_cinematic_zone_mask;
+	//zone_change.new_designer_zone_mask = new_designer_zone_mask;
+	//zone_change.new_cinematic_zone_mask = active_cinematic_zone_mask;
+	//
+	//bool succeeded = scenario_modify_zone_activation_internal(
+	//	new_zone_set_index,
+	//	game_structure_bsp_mask,
+	//	new_structure_bsp_mask,
+	//	new_touched_bsp_mask,
+	//	&zone_change,
+	//	new_touched_cinematics_mask,
+	//	unload_old_bsps);
+	//
+	//if (!succeeded)
+	//{
+	//	ASSERT(scenario_zone_set_index_get() == NONE);
+	//	ASSERT(global_structure_bsp_active_mask_get() == 0);
+	//}
+	//
+	//return succeeded;
 }
 
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)

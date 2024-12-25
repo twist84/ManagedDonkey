@@ -113,7 +113,7 @@ extern bool __cdecl scenario_prepare_to_switch_zone_set(long new_zone_set_index)
 extern void __cdecl scenario_reset_zone_resources_from_main();
 extern void __cdecl scenario_switch_to_null_zone_set();
 extern bool __cdecl scenario_switch_zone_set(long zone_set_index);
-extern bool __cdecl scenario_switch_zone_set_internal(long zone_set_index, bool a2);
+extern bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unload_old_bsps);
 extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
 extern void __cdecl scenario_tags_teardown();
 extern bool __cdecl scenario_test_pvs(s_cluster_reference a1, s_cluster_reference a2);
