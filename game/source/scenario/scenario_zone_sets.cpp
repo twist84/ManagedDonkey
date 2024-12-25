@@ -17,7 +17,10 @@ dword __cdecl scenario_zone_set_cinematic_zone_required_mask_get(long zone_set_i
 	return INVOKE(0x005FB1A0, scenario_zone_set_cinematic_zone_required_mask_get, zone_set_index);
 }
 
-//.text:005FB1C0 ; dword __cdecl scenario_zone_set_compute_new_designer_zone_mask(dword, dword, dword)
+dword __cdecl scenario_zone_set_compute_new_designer_zone_mask(dword a1, dword a2, dword a3)
+{
+	return INVOKE(0x005FB1C0, scenario_zone_set_compute_new_designer_zone_mask, a1, a2, a3);
+}
 
 dword __cdecl scenario_zone_set_designer_zone_forbidden_mask_get(long zone_set_index)
 {
