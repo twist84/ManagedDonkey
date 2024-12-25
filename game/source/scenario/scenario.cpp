@@ -632,13 +632,13 @@ void __cdecl scenario_tags_teardown()
 	INVOKE(0x004EB880, scenario_tags_teardown);
 }
 
-bool __cdecl scenario_test_pvs(s_cluster_reference a1, s_cluster_reference a2)
+bool __cdecl scenario_test_pvs(s_cluster_reference cluster_reference0, s_cluster_reference cluster_reference1)
 {
-	return INVOKE(0x004EB910, scenario_test_pvs, a1, a2);
+	return INVOKE(0x004EB910, scenario_test_pvs, cluster_reference0, cluster_reference1);
 
 	//s_scenario_pvs_row pvs_row{};
-	//scenario_zone_set_pvs_get_row(global_scenario_index_get(), &pvs_row, scenario_zone_set_index_get(), a1, false);
-	//return scenario_zone_set_pvs_row_test(global_scenario_index_get(), &pvs_row, a2);
+	//scenario_zone_set_pvs_get_row(global_scenario_index_get(), &pvs_row, scenario_zone_set_index_get(), cluster_reference0, false);
+	//return scenario_zone_set_pvs_row_test(global_scenario_index_get(), &pvs_row, cluster_reference1);
 }
 
 void __cdecl scenario_unload()
