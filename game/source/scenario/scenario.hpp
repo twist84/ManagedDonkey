@@ -37,18 +37,20 @@ static_assert(sizeof(s_game_non_bsp_zone_set) == 0x8);
 
 struct s_scenario_zone_change
 {
-	dword get_deactivating_designer_zone_mask() const;
-	dword get_deactivating_cinematic_zone_mask() const;
-	dword pre_switch_designer_zone_mask() const;
-	dword pre_switch_cinematic_zone_mask() const;
-	dword get_activating_designer_zone_mask() const;
-	dword get_activating_cinematic_zone_mask() const;
-	bool any_designer_zone_changes() const;
 	bool any_cinematic_zone_changes() const;
+	bool any_designer_zone_changes() const;
 	bool any_zone_changes() const;
+	dword get_activating_cinematic_zone_mask() const;
+	dword get_activating_designer_zone_mask() const;
+	dword get_deactivating_cinematic_zone_mask() const;
+	dword get_deactivating_designer_zone_mask() const;
+	dword pre_switch_cinematic_zone_mask() const;
+	dword pre_switch_designer_zone_mask() const;
 
-	s_game_non_bsp_zone_set active_non_bsp_zone_set;
-	s_game_non_bsp_zone_set pending_non_bsp_zone_set;
+	dword original_designer_zone_mask;
+	dword original_cinematic_zone_mask;
+	dword new_designer_zone_mask;
+	dword new_cinematic_zone_mask;
 };
 static_assert(sizeof(s_scenario_zone_change) == 0x10);
 

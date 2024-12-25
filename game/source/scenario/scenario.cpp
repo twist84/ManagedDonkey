@@ -40,49 +40,49 @@ HOOK_DECLARE(0x004EB950, scenario_unload);
 
 c_stop_watch scenario_load_resources_blocking_watch(true);
 
-dword s_scenario_zone_change::get_deactivating_designer_zone_mask() const
+bool s_scenario_zone_change::any_cinematic_zone_changes() const
 {
-	return active_non_bsp_zone_set.designer_zone_mask & ~pending_non_bsp_zone_set.designer_zone_mask;
-}
-
-dword s_scenario_zone_change::get_deactivating_cinematic_zone_mask() const
-{
-	return active_non_bsp_zone_set.cinematic_zone_mask & ~pending_non_bsp_zone_set.cinematic_zone_mask;
-}
-
-dword s_scenario_zone_change::pre_switch_designer_zone_mask() const
-{
-	return pending_non_bsp_zone_set.designer_zone_mask & active_non_bsp_zone_set.designer_zone_mask;
-}
-
-dword s_scenario_zone_change::pre_switch_cinematic_zone_mask() const
-{
-	return pending_non_bsp_zone_set.cinematic_zone_mask & active_non_bsp_zone_set.cinematic_zone_mask;
-}
-
-dword s_scenario_zone_change::get_activating_designer_zone_mask() const
-{
-	return pending_non_bsp_zone_set.designer_zone_mask & ~active_non_bsp_zone_set.designer_zone_mask;
-}
-
-dword s_scenario_zone_change::get_activating_cinematic_zone_mask() const
-{
-	return pending_non_bsp_zone_set.cinematic_zone_mask & ~active_non_bsp_zone_set.cinematic_zone_mask;
+	return original_cinematic_zone_mask != new_cinematic_zone_mask;
 }
 
 bool s_scenario_zone_change::any_designer_zone_changes() const
 {
-	return active_non_bsp_zone_set.designer_zone_mask != pending_non_bsp_zone_set.designer_zone_mask;
-}
-
-bool s_scenario_zone_change::any_cinematic_zone_changes() const
-{
-	return active_non_bsp_zone_set.cinematic_zone_mask != pending_non_bsp_zone_set.cinematic_zone_mask;
+	return original_designer_zone_mask != new_designer_zone_mask;
 }
 
 bool s_scenario_zone_change::any_zone_changes() const
 {
 	return any_cinematic_zone_changes() || any_designer_zone_changes();
+}
+
+dword s_scenario_zone_change::get_activating_cinematic_zone_mask() const
+{
+	return new_cinematic_zone_mask & ~original_cinematic_zone_mask;
+}
+
+dword s_scenario_zone_change::get_activating_designer_zone_mask() const
+{
+	return original_designer_zone_mask & ~new_designer_zone_mask;
+}
+
+dword s_scenario_zone_change::get_deactivating_cinematic_zone_mask() const
+{
+	return original_cinematic_zone_mask & ~new_cinematic_zone_mask;
+}
+
+dword s_scenario_zone_change::get_deactivating_designer_zone_mask() const
+{
+	return original_designer_zone_mask & ~new_designer_zone_mask;
+}
+
+dword s_scenario_zone_change::pre_switch_cinematic_zone_mask() const
+{
+	return original_cinematic_zone_mask & new_cinematic_zone_mask;
+}
+
+dword s_scenario_zone_change::pre_switch_designer_zone_mask() const
+{
+	return original_designer_zone_mask & new_designer_zone_mask;
 }
 
 dword __cdecl global_cinematic_zone_active_mask_get()
@@ -471,10 +471,10 @@ void __cdecl scenario_prepare_for_map_reset(short initial_zone_set_index)
 	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, initial_zone_set_index);
 
 	s_scenario_zone_change zone_change;
-	zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
-	zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
-	zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(initial_zone_set_index);
-	zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
+	zone_change.original_designer_zone_mask = game_get_active_designer_zone_mask();
+	zone_change.original_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	zone_change.new_designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(initial_zone_set_index);
+	zone_change.new_cinematic_zone_mask = 0;
 	
 	if (!scenario_modify_zone_activation_internal(
 		initial_zone_set_index,
@@ -512,10 +512,11 @@ void __cdecl scenario_switch_to_null_zone_set()
 	scenario_resources_prepare_for_next_map();
 
 	s_scenario_zone_change zone_change{};
-	zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
-	zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
-	zone_change.pending_non_bsp_zone_set.designer_zone_mask = 0;
-	zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
+	zone_change.original_designer_zone_mask = game_get_active_designer_zone_mask();
+	zone_change.original_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	zone_change.new_designer_zone_mask = 0;
+	zone_change.new_cinematic_zone_mask = 0;
+
 	scenario_modify_zone_activation_internal(NONE, game_get_active_structure_bsp_mask(), 0, 0, &zone_change, false, true);
 	scenario_resources_unload_active_zone_set();
 }
