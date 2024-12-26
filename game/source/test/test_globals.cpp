@@ -76,12 +76,7 @@ struct s_location_message
 
 static s_location_message location_messages[] =
 {
-	{
-		.map_id = 340,
-		.radius = 2.0f,
-		.position = { 81.6f, -72.4f, 7.2f },
-		.message = L"a player took the lake base center man cannon"
-	}
+	{ 340, 2.0f, { 81.6f, -72.4f, 7.2f }, L"a player took the lake base center man cannon" }
 };
 
 void show_location_messages()
