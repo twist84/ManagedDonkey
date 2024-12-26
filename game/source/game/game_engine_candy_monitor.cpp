@@ -1,5 +1,8 @@
 #include "game/game_engine_candy_monitor.hpp"
 
+#include "items/items.hpp"
+#include "memory/thread_local.hpp"
+
 //.text:0058F660 ; 
 //.text:0058F680 ; 
 //.text:0058F690 ; 
@@ -12,19 +15,37 @@
 //.text:0058F840 ; 
 //.text:0058F850 ; 
 
-bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* position, real nearby_radius, real looking_at_radius)
+bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real sphere_radius, real distance)
 {
-	return INVOKE(0x0058F860, game_engine_any_player_nearby_and_looking_at_sphere, position, nearby_radius, looking_at_radius);
+	return INVOKE(0x0058F860, game_engine_any_player_nearby_and_looking_at_sphere, sphere_center, sphere_radius, distance);
 }
 
 void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority()
 {
 	INVOKE(0x0058F950, game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+	//game_engine_globals->candy_monitor_manager.initialize_for_new_map();
 }
 
 bool __cdecl game_engine_object_being_used(long object_index)
 {
 	return INVOKE(0x0058F970, game_engine_object_being_used, object_index);
+
+	//if (object_index != NONE)
+	//{
+	//	object_header_datum const* object_header = object_header_get(object_index);
+	//	if (object_header->datum->object.parent_object_index != NONE)
+	//		return true;
+	//
+	//	if (object_header->object_type == _object_type_vehicle)
+	//		return game_engine_vehicle_has_passengers(object_index);
+	//
+	//	if (object_header->object_type == _object_type_weapon || object_header->object_type == _object_type_equipment)
+	//		return object_is_hidden(object_index);
+	//}
+	//
+	//return false;
 }
 
 bool __cdecl game_engine_object_has_been_abandoned(long object_index)
@@ -45,6 +66,11 @@ bool __cdecl game_engine_object_can_be_damaged(long object_index)
 bool __cdecl game_engine_object_is_item_in_inventory(long object_index)
 {
 	return INVOKE(0x0058FCE0, game_engine_object_is_item_in_inventory, object_index);
+
+	//if (object_index != NONE)
+	//	return item_get(object_index)->item.inventory_state != 0;
+	//
+	//return false;
 }
 
 bool __cdecl game_engine_object_is_useless_weapon(long object_index)
@@ -52,14 +78,14 @@ bool __cdecl game_engine_object_is_useless_weapon(long object_index)
 	return INVOKE(0x0058FD40, game_engine_object_is_useless_weapon, object_index);
 }
 
-bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, real_point3d const* position, real radius)
+bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, real_point3d const* sphere_center, real sphere_radius)
 {
-	return INVOKE(0x0058FDB0, game_engine_player_is_looking_at_sphere, player_index, position, radius);
+	return INVOKE(0x0058FDB0, game_engine_player_is_looking_at_sphere, player_index, sphere_center, sphere_radius);
 }
 
-bool __cdecl game_engine_player_is_nearby(real_point3d const* position, real radius)
+bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real radius)
 {
-	return INVOKE(0x0058FEE0, game_engine_player_is_nearby, position, radius);
+	return INVOKE(0x0058FEE0, game_engine_player_is_nearby, point, radius);
 }
 
 void __cdecl game_engine_register_object(long object_index)
@@ -131,9 +157,9 @@ long __cdecl scenario_object_get_abandonment_time_seconds(long object_index)
 //.text:00590B40 ; 
 //.text:00590C30 ; 
 
-bool __cdecl scenario_object_is_significant(e_object_type object_type, long placement_index)
+bool __cdecl scenario_object_is_significant(e_object_type object_type, long scenario_datum_index)
 {
-	return INVOKE(0x00590C60, scenario_object_is_significant, object_type, placement_index);
+	return INVOKE(0x00590C60, scenario_object_is_significant, object_type, scenario_datum_index);
 }
 
 //.text:00590CA0 ; 
