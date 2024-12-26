@@ -159,7 +159,7 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 	//					if (restricted_region_lock_mirror(k_game_state_shared_region))
 	//					{
 	//						{
-	//							c_tag_resources_game_lock game_lock{};
+	//							LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 	//							process_published_game_state(false);
 	//						}
 	//
@@ -830,7 +830,7 @@ void __cdecl main_loop_body_main_part()
 
 					PROFILER(update_console_terminal_and_debug_menu) // main_loop, con
 					{
-						c_tag_resources_game_lock game_lock{};
+						LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 
 						if (drop_cheat_tag) // main_globals.drop_cheat_tag
 							main_cheat_drop_tag_private();
@@ -849,7 +849,7 @@ void __cdecl main_loop_body_main_part()
 					}
 
 					{
-						c_tag_resources_game_lock game_lock{};
+						LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 
 						if (main_time_halted())
 							world_seconds_elapsed = 0.0f;

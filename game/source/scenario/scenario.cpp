@@ -191,7 +191,7 @@ bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dw
 	//if (!new_structure_bsp_mask || game_structure_bsp_mask == new_structure_bsp_mask)
 	//	return false;
 	//
-	//c_tag_resources_game_lock game_lock{};
+	//LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 	//game_initialize_for_new_structure_bsp(new_structure_bsp_mask & ~game_structure_bsp_mask);
 	//
 	//return true;
@@ -216,8 +216,6 @@ bool __cdecl scenario_connect_zone_set_resources(
 	//	new_touched_cinematic_zone_mask,
 	//	unload_old_bsps);
 
-	bool result = true;
-
 	scenario_zone_set_debug_status("switching to", new_zone_set_index);
 
 	global_zone_set_index = new_zone_set_index;
@@ -230,6 +228,8 @@ bool __cdecl scenario_connect_zone_set_resources(
 	s_scenario_zone_state global_zone_state{};
 	scenario_get_global_zone_state(&global_zone_state);
 	cache_file_tag_resources_set_zone_state(global_scenario_index_get(), scenario_zone_set_name_get(), &global_zone_state);
+
+	bool result = true;
 
 	if (!scenario_load_resources_blocking(game_is_multithreaded()))
 	{
@@ -260,7 +260,7 @@ bool __cdecl scenario_disconnect_game_from_old_bsps(dword old_structure_bsp_mask
 	//bool result = false;
 	//if (old_structure_bsp_mask != new_structure_bsp_mask)
 	//{
-	//	c_tag_resources_game_lock game_lock{};
+	//	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 	//
 	//	game_prepare_to_switch_structure_bsp(old_structure_bsp_mask, new_structure_bsp_mask);
 	//	if (old_structure_bsp_mask)

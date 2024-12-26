@@ -889,7 +889,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	scenario_prepare_for_map_reset(zone_set_index);
 
 	{
-		c_tag_resources_game_lock game_lock{};
+		LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 		game_dispose_from_old_structure_bsp(global_structure_bsp_active_mask_get());
 	}
 

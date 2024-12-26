@@ -1969,7 +1969,7 @@ callback_result_t player_add_weapon_callback(void const* userdata, long token_co
 	long unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (unit_index != NONE && weapon_definition_index != NONE)
 	{
-		c_tag_resources_game_lock game_lock{};
+		LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 		game_engine_add_starting_weapon_to_player(unit_index, weapon_definition_index, method);
 	}
 

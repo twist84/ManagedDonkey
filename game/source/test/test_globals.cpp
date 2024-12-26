@@ -255,7 +255,7 @@ void __cdecl test_main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 
 		//{
-		//	c_tag_resources_game_lock game_lock{};
+		//	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 		//
 		//	//console_process_command("player_ragdoll", true);
 		//	//console_process_command("player_drop_weapon", true);

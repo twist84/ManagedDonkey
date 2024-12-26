@@ -108,6 +108,7 @@ public:
 protected:
 	long m_resource_key;
 };
+#define LOCAL_TAG_RESOURCE_SCOPE_LOCK c_tag_resources_game_lock __local_tag_resource_scope_lock{}
 
 enum e_single_threaded_request_flags
 {
