@@ -121,6 +121,7 @@ public:
 	void __cdecl write_string_wchar(char const* name, wchar_t const* _string, long max_string_size);
 	void __cdecl write_unit_vector(char const* name, real_vector3d const* unit_vector, long size_in_bits);
 	void __cdecl write_vector(char const* name, real_vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
+	bool __cdecl writing() const;
 
 	template<typename t_enum, long size_in_bits>
 	void __cdecl write_enum(char const* name, t_enum value)

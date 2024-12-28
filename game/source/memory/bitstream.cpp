@@ -3,6 +3,8 @@
 #include "math/unit_vector_quantization.hpp"
 #include "memory/byte_swapping.hpp"
 
+#define HIBYTE(x) ((byte)((x) >> 8 * (sizeof(x) - 1)))
+
 // ===================== halo 4 begin =====================
 
 template<typename t_type>
@@ -320,12 +322,12 @@ bool __cdecl c_bitstream::error_occurred() const
 
 bool __cdecl c_bitstream::was_reading() const
 {
-	return m_state == _bitstream_state_reading || m_state == _bitstream_state_read_only_for_consistency;
+	return m_state <= _bitstream_state_read_finished;
 }
 
 bool __cdecl c_bitstream::was_writing() const
 {
-	return m_state == _bitstream_state_writing;
+	return m_state <= _bitstream_state_write_finished;
 }
 
 void __cdecl c_bitstream::finish_consistency_check()
@@ -656,5 +658,10 @@ void __cdecl c_bitstream::write_unit_vector(char const* name, real_vector3d cons
 void __cdecl c_bitstream::write_vector(char const* name, real_vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits)
 {
 	DECLFUNC(0x0055A7B0, void, __thiscall, c_bitstream*, char const*, real_vector3d const*, real, real, long, long)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
+}
+
+bool __cdecl c_bitstream::writing() const
+{
+	return DECLFUNC(0x0055A9D0, bool, __thiscall, c_bitstream const*)(this);
 }
 
