@@ -261,7 +261,32 @@ void c_bitstream::data_is_untrusted(bool is_untrusted)
 	DECLFUNC(0x00557D60, void, __thiscall, c_bitstream*, bool)(this, is_untrusted);
 }
 
-//.text:00557D70 ; 
+qword c_bitstream::decode_qword_from_memory()
+{
+	return DECLFUNC(0x00557D70, qword, __thiscall, c_bitstream*)(this);
+	//return INVOKE_CLASS_MEMBER(0x00557D70, c_bitstream, decode_qword_from_memory);
+
+	//byte* next_data = m_bitstream_data.next_data;
+	//byte* data_max = m_data_max;
+	//qword value = 0;
+	//byte* v4 = next_data + 8;
+	//long size_in_bits = 0;
+	//if (next_data + CHAR_BITS > data_max)
+	//{
+	//	// #TODO: implement this
+	//}
+	//else
+	//{
+	//	m_bitstream_data.next_data = v4;
+	//	size_in_bits = SIZEOF_BITS(qword);
+	//	value = *reinterpret_cast<qword*>(m_bitstream_data.next_data);
+	//}
+	//
+	//ASSERT(m_bitstream_data.next_data <= m_data_max);
+	//m_bitstream_data.current_memory_bit_position += size_in_bits;
+	//return value;
+}
+
 //.text:00557EB0 ; 
 
 void c_bitstream::discard_remaining_data()
@@ -278,6 +303,7 @@ void c_bitstream::discard_remaining_data()
 void c_bitstream::encode_qword_to_memory(qword value, long size_in_bits)
 {
 	DECLFUNC(0x00557F80, void, __thiscall, c_bitstream const*, qword, long)(this, value, size_in_bits);
+	//INVOKE_CLASS_MEMBER(0x00557F80, c_bitstream, encode_qword_to_memory, value, size_in_bits);
 
 	//qword temp_value = bswap_qword(value);
 	//if (m_bitstream_data.next_data + CHAR_BITS > m_data_max)

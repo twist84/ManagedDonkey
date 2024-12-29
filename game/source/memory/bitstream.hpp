@@ -56,6 +56,11 @@ public:
 	void begin_reading();
 	void begin_writing(long data_size_alignment);
 	void data_is_untrusted(bool is_untrusted);
+
+private:
+	qword decode_qword_from_memory();
+
+public:
 	void discard_remaining_data();
 
 private:
