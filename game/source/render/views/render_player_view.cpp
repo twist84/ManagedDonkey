@@ -660,7 +660,34 @@ void __thiscall c_player_view::render_static_lighting()
 }
 
 //.text:00A3AAA0 ; public: virtual void __cdecl c_player_view::render_submit_visibility()
-//.text:00A3AB20 ; 
+
+void __cdecl render_texture_camera_align_to_attached_object()
+{
+	INVOKE(0x00A3AB00, render_texture_camera_align_to_attached_object);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_attached_object_orient;
+}
+
+void __cdecl render_texture_camera_attach_to_object(long object_index, long marker_id)
+{
+	INVOKE(0x00A3AB20, render_texture_camera_attach_to_object, object_index, marker_id);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//if (object_try_and_get_and_verify_type(object_index, NONE))
+	//{
+	//	g_render_texture_camera_globals->position_type = _texture_camera_type_marker_id;
+	//	g_render_texture_camera_globals->position.object_index = object_index;
+	//	g_render_texture_camera_globals->position.marker_id = marker_id;
+	//	g_render_texture_camera_globals->position_offset.i = 0.0;
+	//	g_render_texture_camera_globals->position_offset.j = 0.0;
+	//	g_render_texture_camera_globals->position_offset.k = 0.0;
+	//}
+	//else
+	//{
+	//	WARNING_EVENT("texture camera can't find object to attach to");
+	//}
+}
 
 void __cdecl render_texture_camera_dispose()
 {
@@ -672,38 +699,281 @@ void __cdecl render_texture_camera_dispose_from_old_map()
 	INVOKE(0x00A3ABA0, render_texture_camera_dispose_from_old_map);
 }
 
-//.text:00A3ABB0 ; void __cdecl render_texture_camera_enable_dynamic_lights(bool)
-//.text:00A3ABD0 ; double __cdecl render_texture_camera_get_aspect_ratio()
-//.text:00A3ABF0 ; 
-//.text:00A3AC10 ; 
-//.text:00A3AC30 ; 
-//.text:00A3AC70 ; 
-//.text:00A3ACB0 ; 
+void __cdecl render_texture_camera_enable_dynamic_lights(bool enable)
+{
+	INVOKE(0x00A3ABB0, render_texture_camera_enable_dynamic_lights, enable);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->dynamic_lights = enable;
+}
+
+real __cdecl render_texture_camera_get_aspect_ratio()
+{
+	return INVOKE(0x00A3ABD0, render_texture_camera_get_aspect_ratio);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//return g_render_texture_camera_globals->aspect_ratio;
+}
+
+long __cdecl render_texture_camera_get_height()
+{
+	return INVOKE(0x00A3ABF0, render_texture_camera_get_height);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//return g_render_texture_camera_globals->height;
+}
+
+long __cdecl render_texture_camera_get_render_mode()
+{
+	return INVOKE(0x00A3AC10, render_texture_camera_get_render_mode);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//return g_render_texture_camera_globals->render_mode;
+}
+
+long __cdecl render_texture_camera_get_sub_A3AC30()
+{
+	return INVOKE(0x00A3AC30, render_texture_camera_get_sub_A3AC30);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//if (!object_try_and_get_and_verify_type(g_render_texture_camera_globals->__unknown40_object_index, NONE))
+	//	g_render_texture_camera_globals->__unknown40_object_index = NONE;
+	//
+	//return g_render_texture_camera_globals->__unknown40_object_index;
+}
+
+long __cdecl render_texture_camera_get_target_object_index()
+{
+	return INVOKE(0x00A3AC70, render_texture_camera_get_target_object_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//if (g_render_texture_camera_globals->target_type == _texture_camera_type_position)
+	//	return NONE;
+	//
+	//long object_index = g_render_texture_camera_globals->target.object_index;
+	//if (!object_try_and_get_and_verify_type(object_index, NONE))
+	//	return NONE;
+	//
+	//return object_index;
+}
+
+long __cdecl render_texture_camera_get_width()
+{
+	return INVOKE(0x00A3ACB0, render_texture_camera_get_width);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//return g_render_texture_camera_globals->width;
+}
 
 void __cdecl render_texture_camera_initialize()
 {
 	INVOKE(0x00A3ACD0, render_texture_camera_initialize);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals = (s_render_texture_camera_globals*)g_render_texture_camera_globals_allocator.allocate(
+	//	sizeof(s_render_texture_camera_globals),
+	//	"render texture globals");
 }
 
 void __cdecl render_texture_camera_initialize_for_new_map()
 {
 	INVOKE(0x00A3AD30, render_texture_camera_initialize_for_new_map);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//csmemset(g_render_texture_camera_globals, 0, sizeof(s_render_texture_camera_globals));
+	//g_render_texture_camera_globals->active = false;
+	//g_render_texture_camera_globals->dynamic_lights = false;
+	//g_render_texture_camera_globals->render_mode = _texture_camera_render_default;
+	//g_render_texture_camera_globals->position_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->target_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_target_auto;
+	//g_render_texture_camera_globals->projection_type = _texture_camera_projection_projective;
+	//g_render_texture_camera_globals->fov_type = _texture_camera_fov_frame_target;
+	//g_render_texture_camera_globals->__unknown40_object_index = NONE;
+	//g_render_texture_camera_globals->position.position.x = 0.0f;
+	//g_render_texture_camera_globals->position.position.y = 0.0f;
+	//g_render_texture_camera_globals->position.position.z = 0.0f;
+	//g_render_texture_camera_globals->position_offset.i = 0.0f;
+	//g_render_texture_camera_globals->position_offset.j = 0.0f;
+	//g_render_texture_camera_globals->position_offset.k = 0.0f;
+	//g_render_texture_camera_globals->target.position.x = 1.0f;
+	//g_render_texture_camera_globals->target.position.y = 0.0f;
+	//g_render_texture_camera_globals->target.position.z = 0.0f;
+	//g_render_texture_camera_globals->fov.target_scale = 1.0f;
+	//g_render_texture_camera_globals->aspect_ratio = 1.7777778f;
+	//g_render_texture_camera_globals->width = 384;
+	//g_render_texture_camera_globals->height = 384;
 }
 
-//.text:00A3AE50 ; void __cdecl render_texture_camera_off()
-//.text:00A3AE70 ; void __cdecl render_texture_camera_on()
-//.text:00A3AE90 ; void __cdecl render_texture_camera_position_world_offset(real, real, real)
-//.text:00A3AEE0 ; void __cdecl render_texture_camera_render_mode(long)
-//.text:00A3AF20 ; void __cdecl render_texture_camera_set_aspect_ratio(real)
-//.text:00A3AF50 ; void __cdecl render_texture_camera_set_fov(real)
-//.text:00A3AFB0 ; void __cdecl render_texture_camera_set_fov_frame_target(real)
-//.text:00A3AFF0 ; void __cdecl render_texture_camera_set_object_marker(long, long, real)
-//.text:00A3B0F0 ; void __cdecl render_texture_camera_set_position(real, real, real)
-//.text:00A3B150 ; void __cdecl render_texture_camera_set_position_and_direction(bool, real_point3d const*, real_vector3d const*, real_vector3d const*, real)
-//.text:00A3B240 ; 
-//.text:00A3B280 ; void __cdecl render_texture_camera_set_resolution(long, long)
-//.text:00A3B2E0 ; void __cdecl render_texture_camera_set_target(real, real, real)
-//.text:00A3B330 ; void __cdecl render_texture_camera_target_object(long, long)
+void __cdecl render_texture_camera_off()
+{
+	INVOKE(0x00A3AE50, render_texture_camera_off);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->active = false;
+}
+
+void __cdecl render_texture_camera_on()
+{
+	INVOKE(0x00A3AE70, render_texture_camera_on);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->active = true;
+}
+
+void __cdecl render_texture_camera_position_world_offset(real offset_x, real offset_y, real offset_z)
+{
+	INVOKE(0x00A3AE90, render_texture_camera_position_world_offset, offset_x, offset_y, offset_z);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->position_offset.i = offset_x;
+	//g_render_texture_camera_globals->position_offset.j = offset_x;
+	//g_render_texture_camera_globals->position_offset.k = offset_y;
+}
+
+void __cdecl render_texture_camera_render_mode(long mode)
+{
+	INVOKE(0x00A3AEE0, render_texture_camera_render_mode, mode);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->render_mode = (e_texture_camera_render_mode)MAX(_texture_camera_render_default, MIN(mode, _texture_camera_render_target_only));
+}
+
+void __cdecl render_texture_camera_set_aspect_ratio(real aspect_ratio)
+{
+	INVOKE(0x00A3AF20, render_texture_camera_set_aspect_ratio, aspect_ratio);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->aspect_ratio = aspect_ratio;
+}
+
+void __cdecl render_texture_camera_set_fov(real vertical_field_of_view_degrees)
+{
+	INVOKE(0x00A3AF50, render_texture_camera_set_fov, vertical_field_of_view_degrees);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->fov_type = _texture_camera_fov_fixed;
+	//g_render_texture_camera_globals->fov.vertical_fov_radians = CLAMP(vertical_field_of_view_degrees, 1.0f, 180.0f) * DEG;
+}
+
+void __cdecl render_texture_camera_set_fov_frame_target(real target_zoom)
+{
+	INVOKE(0x00A3AFB0, render_texture_camera_set_fov_frame_target, target_zoom);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->fov_type = _texture_camera_fov_frame_target;
+	//g_render_texture_camera_globals->fov.target_scale = target_zoom;
+}
+
+void __cdecl render_texture_camera_set_object_marker(long object_index, long marker_id, real vertical_field_of_view_degrees)
+{
+	INVOKE(0x00A3AFF0, render_texture_camera_set_object_marker, object_index, marker_id, vertical_field_of_view_degrees);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//object_marker marker[1]{};
+	//if (object_index != NONE
+	//	&& object_try_and_get_and_verify_type(object_index, NONE)
+	//	&& object_get_markers_by_string_id(object_index, marker_id, marker, NUMBEROF(marker) & 0xFFFF))
+	//{
+	//	g_render_texture_camera_globals->active = true;
+	//	g_render_texture_camera_globals->position_type = _texture_camera_type_marker_id;
+	//	g_render_texture_camera_globals->target_type = _texture_camera_type_position;
+	//	g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_position_marker;
+	//	g_render_texture_camera_globals->projection_type = _texture_camera_projection_projective;
+	//	g_render_texture_camera_globals->position.object_index = object_index;
+	//	g_render_texture_camera_globals->position.marker_id = marker_id;
+	//	g_render_texture_camera_globals->position_offset.i = 0.0f;
+	//	g_render_texture_camera_globals->position_offset.j = 0.0f;
+	//	g_render_texture_camera_globals->position_offset.k = 0.0f;
+	//	render_texture_camera_set_fov(vertical_field_of_view_degrees);
+	//}
+	//else
+	//{
+	//	g_render_texture_camera_globals->active = false;
+	//
+	//	if (object_index != NONE)
+	//		ERROR_EVENT("### WARNING texture camera can't attach to object! detaching ...");
+	//}
+}
+
+void __cdecl render_texture_camera_set_position(real position_x, real position_y, real position_z)
+{
+	INVOKE(0x00A3B0F0, render_texture_camera_set_position, position_x, position_y, position_z);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->position_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->position.position.x = position_x;
+	//g_render_texture_camera_globals->position.position.y = position_y;
+	//g_render_texture_camera_globals->position.position.z = position_z;
+	//g_render_texture_camera_globals->position_offset.i = 0.0f;
+	//g_render_texture_camera_globals->position_offset.j = 0.0f;
+	//g_render_texture_camera_globals->position_offset.k = 0.0f;
+}
+
+void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, real vertical_field_of_view_degrees)
+{
+	INVOKE(0x00A3B150, render_texture_camera_set_position_and_direction, enabled, position, forward, up, vertical_field_of_view_degrees);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->position_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->target_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_explicit;
+	//g_render_texture_camera_globals->projection_type = _texture_camera_projection_projective;
+	//g_render_texture_camera_globals->position.position = *position;
+	//g_render_texture_camera_globals->position_offset.i = 0.0f;
+	//g_render_texture_camera_globals->position_offset.j = 0.0f;
+	//g_render_texture_camera_globals->position_offset.k = 0.0f;
+	//g_render_texture_camera_globals->orientation.forward = *forward;
+	//g_render_texture_camera_globals->orientation.up = *up;
+	//render_texture_camera_set_fov(vertical_field_of_view_degrees);
+}
+
+//.text:00A3B240 ; render_texture_camera_set_?
+void __cdecl render_texture_camera_set_sub_A3B240(long object_index)
+{
+	INVOKE(0x00A3B240, render_texture_camera_set_sub_A3B240, object_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//if (object_try_and_get_and_verify_type(object_index, NONE))
+	//	g_render_texture_camera_globals->__unknown40_object_index = object_index;
+}
+
+void __cdecl render_texture_camera_set_resolution(long width, long height)
+{
+	INVOKE(0x00A3B280, render_texture_camera_set_resolution, width, height);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->width = MAX(1, MIN(width, 512));
+	//g_render_texture_camera_globals->height = MAX(1, MIN(height, 288));
+}
+
+void __cdecl render_texture_camera_set_target(real position_x, real position_y, real position_z)
+{
+	INVOKE(0x00A3B2E0, render_texture_camera_set_target, position_x, position_y, position_z);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//g_render_texture_camera_globals->target_type = _texture_camera_type_position;
+	//g_render_texture_camera_globals->target.position.x = position_x;
+	//g_render_texture_camera_globals->target.position.y = position_y;
+	//g_render_texture_camera_globals->target.position.z = position_z;
+}
+
+void __cdecl render_texture_camera_target_object(long object_index, long marker_id)
+{
+	INVOKE(0x00A3B330, render_texture_camera_target_object, object_index, marker_id);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
+	//if (object_try_and_get_and_verify_type(object_index, NONE))
+	//{
+	//	g_render_texture_camera_globals->target_type = _texture_camera_type_marker_id;
+	//	g_render_texture_camera_globals->target.object_index = object_index;
+	//	g_render_texture_camera_globals->target.marker_id = marker_id;
+	//}
+	//else
+	//{
+	//	WARNING_EVENT("texture camera can't find object to target");
+	//}
+}
 
 void __thiscall c_player_view::render_transparents()
 {
