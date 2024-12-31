@@ -348,12 +348,12 @@ bool c_bitstream::error_occurred() const
 
 bool c_bitstream::was_reading() const
 {
-	return m_state <= _bitstream_state_read_finished;
+	return IN_RANGE_INCLUSIVE(m_state, _bitstream_state_reading, _bitstream_state_read_finished);
 }
 
 bool c_bitstream::was_writing() const
 {
-	return m_state <= _bitstream_state_write_finished;
+	return IN_RANGE_INCLUSIVE(m_state, _bitstream_state_writing, _bitstream_state_write_finished);
 }
 
 void c_bitstream::finish_consistency_check()
