@@ -451,27 +451,6 @@ long __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
 	return tag_loaded(group_tag, tag_name);
 }
 
-bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position)
-{
-	long user_index = player_mapping_first_active_output_user();
-	if (user_index == k_number_of_users)
-		return false;
-
-	s_observer_result const* result = observer_get_camera(user_index);
-	ASSERT(result);
-
-	if (result->location.cluster_reference.bsp_index == 0xFF)
-	{
-		terminal_printf(global_real_argb_orange, "Camera is outside BSP... cannot initiate teleportation...");
-		return false;
-	}
-
-	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(user_index));
-	*position = result->position;
-
-	return true;
-}
-
 void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 {
 	long player_index = cheat_player_index();
@@ -570,36 +549,30 @@ void __cdecl cheat_spawn_warthog()
 
 void __cdecl cheat_teleport_to_camera()
 {
-	long unit_index = NONE;
-	real_point3d position{};
-	if (cheat_get_teleport_to_camera_information(&unit_index, &position))
+	long active_output_user = player_mapping_first_active_output_user();
+	if (active_output_user != NONE)
 	{
-		if (game_is_authoritative())
+		s_observer_result const* camera = observer_get_camera(active_output_user);
+		if (camera->location.cluster_reference.bsp_index == NONE)
 		{
-			//simulation_action_unit_debug_teleport(unit_index, &position);
-			if (game_is_authoritative() && !game_is_playback())
-			{
-				if (game_is_distributed())
-				{
-					if (unit_index == NONE)
-					{
-						WARNING_EVENT("networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
-					}
-					else
-					{
-						//simulation_event_generate_for_simulation_queue
-					}
-				}
-				else
-				{
-					object_debug_teleport(unit_index, &position);
-				}
-			}
-
-			return;
+			terminal_printf(global_real_argb_orange, "Camera is outside BSP... cannot initiate teleportation...");
 		}
+		else
+		{
+			long unit_by_output_user = player_mapping_get_unit_by_output_user(active_output_user);
+			if (unit_by_output_user != NONE)
+			{
+				long ultimate_parent = object_get_ultimate_parent(unit_by_output_user);
+				object_datum* object = object_get(ultimate_parent);
 
-		//simulation_request_unit_debug_teleport(unit_index, &position);
+				WARNING_EVENT("networking:cheats: calling cheat_teleport_to_camera()");
+
+				if (object->object.flags.test(_object_in_limbo_bit))
+					object_set_in_limbo(ultimate_parent, false);
+
+				object_set_position(ultimate_parent, &camera->position, NULL, NULL, NULL);
+			}
+		}
 	}
 }
 

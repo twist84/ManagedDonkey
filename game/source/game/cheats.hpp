@@ -45,7 +45,6 @@ extern void __cdecl cheat_drop_tag_safe_hs(long tag_index);
 extern void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, long* out_droppable_tag_type_count);
 extern long __cdecl cheat_get_region_and_permutation_array_from_string(char const* permutation_info, s_model_customization_region_permutation* permutations, long maximum_permutations);
 extern long __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name);
-extern bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position);
 extern void __cdecl cheat_objects(s_tag_reference* references, short reference_count);
 extern long __cdecl cheat_player_index();
 extern void __cdecl cheat_spawn_warthog();
