@@ -23,18 +23,18 @@
 //.text:00616020 ; 
 //.text:00616060 ; public: virtual void* __cdecl c_bink_allocation::allocate(unsigned int, char const *)
 //.text:00616070 ; void* __cdecl bink_alloc(unsigned int)
-//.text:006161B0 ; 
+//.text:006161B0 ; void __cdecl bink_close(s_bink_runtime*)
 //.text:00616220 ; 
-//.text:00616240 ; 
-//.text:00616250 ; 
+//.text:00616240 ; void __cdecl bink_destroy_rasterizer()
+//.text:00616250 ; void __cdecl bink_display_frame(short_rectangle2d const*)
 //.text:00616420 ; void __cdecl bink_draw_frame()
 //.text:006165A0 ; 
 //.text:006166A0 ; 
 //.text:006166E0 ; void __cdecl bink_free(void*)
 //.text:00616780 ; real __cdecl bink_get_fade_amount()
-//.text:00616800 ; 
-//.text:00616830 ; 
-//.text:00616870 ; 
+//.text:00616800 ; long __cdecl bink_get_last_updated_frame()
+//.text:00616830 ; void __cdecl bink_get_memory_available(char const*, bool)
+//.text:00616870 ; long __cdecl bink_get_next_decompression_frame(s_bink_video_frame const*)
 //.text:00616890 ; long __cdecl bink_get_texture_index_to_render()
 
 void __cdecl bink_notify_load_masking_complete()
@@ -49,7 +49,10 @@ bool __cdecl bink_playback_active()
 	return INVOKE(0x00616910, bink_playback_active);
 }
 
-//.text:00616930 ; 
+bool __cdecl bink_playback_active_fullscreen()
+{
+	return INVOKE(0x00616930, bink_playback_active_fullscreen);
+}
 
 void __cdecl bink_playback_check_for_terminate_no_lock()
 {
@@ -186,20 +189,21 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:006176B0 ; void __cdecl bink_playback_wait_for_stop()
 //.text:006176D0 ; 
 //.text:00617720 ; bink_prediction_async_callback
-//.text:00617760 ; 
-//.text:006177B0 ; 
+//.text:00617760 ; bool __cdecl bink_prediction_in_progress_for_movie(char const*, long)
+//.text:006177B0 ; bool __cdecl bink_prediction_in_progress_or_queued()
+//.text:006177C0 ; bool __cdecl bink_prediction_queued_and_not_active()
 //.text:006177D0 ; void __cdecl bink_prediction_update()
 //.text:00617880 ; bool __cdecl bink_query_analog_keyboard_keys() // bink_query_analog_controller_buttons
-//.text:006178D0 ; 
-//.text:00617900 ; 
+//.text:006178D0 ; void __cdecl bink_release_textures(long)
+//.text:00617900 ; void __cdecl bink_set_fade(real)
 //.text:00617940 ; void __cdecl bink_set_volume(real)
 //.text:006179B0 ; void __cdecl bink_setup_rasterizer(long)
 //.text:00617B60 ; 
-//.text:00617BC0 ; 
-//.text:00617C10 ; 
-//.text:00617C20 ; 
-//.text:00617C30 ; 
-//.text:00617C40 ; 
+//.text:00617BC0 ; bool __cdecl bink_thread_get_prediction_message(s_bink_runtime*, s_bink_prediction_message*)
+//.text:00617C10 ; bool __cdecl bink_thread_should_predict(s_bink_runtime const*)
+//.text:00617C20 ; bool __cdecl bink_thread_should_start(s_bink_runtime const*)
+//.text:00617C30 ; bool __cdecl bink_thread_should_stop_playback(s_bink_runtime const*)
+//.text:00617C40 ; void __cdecl bink_try_to_decompress_frame(s_bink_runtime*, bool)
 //.text:00617D40 ; 
 //.text:00617DE0 ; 
 //.text:00617E70 ; 
@@ -209,7 +213,7 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:00617F60 ; 
 //.text:00617FC0 ; 
 //.text:00618010 ; 
-//.text:00618180 ; 
+//.text:00618180 ; bool __cdecl is_all_bink_memory_free()
 //.text:006181B0 ; void __cdecl play_bink_movie(char const*)
 //.text:00618260 ; void __cdecl play_bink_movie_from_tag(long)
 //.text:006182F0 ; void __cdecl play_credits_movie_skippable_to_main_menu()

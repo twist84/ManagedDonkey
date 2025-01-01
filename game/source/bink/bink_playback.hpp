@@ -15,6 +15,7 @@ struct c_scenario_resource_registry;
 
 extern void __cdecl bink_notify_load_masking_complete();
 extern bool __cdecl bink_playback_active();
+extern bool __cdecl bink_playback_active_fullscreen();
 extern void __cdecl bink_playback_check_for_terminate_no_lock();
 extern void __cdecl bink_playback_dispose();
 extern void __cdecl bink_playback_dispose_from_old_map();
