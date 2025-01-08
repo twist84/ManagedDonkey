@@ -1198,9 +1198,10 @@ bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pix
 	//return true;
 }
 
-void __cdecl c_rasterizer::set_aliased_surface_as_texture(long sampler_index, e_surface surface)
+// its possible this name is incorrect but also more accurate than the previous name `c_rasterizer::set_aliased_surface_as_texture`
+void __cdecl c_rasterizer::set_sampler_texture_direct(long sampler_index, e_surface surface)
 {
-	INVOKE(0x00A23530, c_rasterizer::set_aliased_surface_as_texture, sampler_index, surface);
+	INVOKE(0x00A23530, c_rasterizer::set_sampler_texture_direct, sampler_index, surface);
 }
 
 void __cdecl c_rasterizer::set_sampler_address_mode(long sampler_index, e_sampler_address_mode sampler_address_mode)
@@ -1471,9 +1472,14 @@ void __cdecl c_rasterizer::setup_occlusion_state()
 	//}
 }
 
-void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real a1, real a2, bool a3)
+void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend)
 {
-	INVOKE(0x00A24B90, c_rasterizer::setup_render_target_globals_with_exposure, a1, a2, a3);
+	INVOKE(0x00A24B90, c_rasterizer::setup_render_target_globals_with_exposure, view_exposure, illum_scale, HDR_target_stops, alpha_blend);
+}
+
+void __cdecl c_rasterizer::setup_render_target_globals_with_exposure_for_texture_camera_only(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend)
+{
+	INVOKE(0x00A24C60, c_rasterizer::setup_render_target_globals_with_exposure_for_texture_camera_only, view_exposure, illum_scale, HDR_target_stops, alpha_blend);
 }
 
 void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clear)
@@ -1520,9 +1526,9 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//}
 }
 
-void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* bounds)
+void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* pixel_bounds, bool depth_test)
 {
-	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, bounds);
+	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
 
 	//set_depth_stencil_surface(_surface_depth_stencil);
 	//set_render_target(0, _surface_distortion, 0xFFFFFFFF);
@@ -1530,8 +1536,8 @@ void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* bounds)
 	//set_render_target(2, _surface_none, 0xFFFFFFFF);
 	//set_render_target(3, _surface_none, 0xFFFFFFFF);
 	//clearf(1, 0x808000, 0.0f, 0);
-	//set_viewport(bounds, 0.0f, 1.0f);
-	//set_scissor_rect(bounds);
+	//set_viewport(pixel_bounds, 0.0f, 1.0f);
+	//set_scissor_rect(pixel_bounds);
 }
 
 void __cdecl c_rasterizer::setup_targets_simple()
@@ -1548,14 +1554,14 @@ void __cdecl c_rasterizer::setup_targets_simple()
 	//}
 }
 
-void __cdecl c_rasterizer::setup_targets_static_lighting(real a1, real a2, bool a3, real a4, bool a5, bool a6, bool a7)
+void __cdecl c_rasterizer::setup_targets_static_lighting(real view_exposure, real illum_scale, bool render_to_HDR_target, real HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7)
 {
-	INVOKE(0x00A252C0, c_rasterizer::setup_targets_static_lighting, a1, a2, a3, a4, a5, a6, a7);
+	INVOKE(0x00A252C0, c_rasterizer::setup_targets_static_lighting, view_exposure, illum_scale, render_to_HDR_target, HDR_target_stops, clear, copy_albedo_pc, a7);
 }
 
-void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool a1, bool a2)
+void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend)
 {
-	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, a1, a2);
+	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, render_to_HDR_target, alpha_blend);
 }
 
 void __cdecl c_rasterizer::draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count)
@@ -1589,12 +1595,12 @@ void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res splitsc
 	//c_rasterizer::set_depth_stencil_surface(c_rasterizer::g_depth_stencil_surface);
 }
 
-c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long render_target_index)
+c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long surface_index)
 {
-	return INVOKE(0x00A48720, c_rasterizer::get_render_target, render_target_index);
+	return INVOKE(0x00A48720, c_rasterizer::get_render_target, surface_index);
 }
 
-//.text:00A48730 ; public: static real __cdecl c_rasterizer::get_render_target_alpha_multiplier(long a1)
+//.text:00A48730 ; public: static real __cdecl c_rasterizer::get_render_target_alpha_multiplier(long surface_index)
 
 c_rasterizer::e_surface c_rasterizer::sub_A48770()
 {
@@ -1609,35 +1615,35 @@ void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, sh
 	//INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2, a3, a4, a5);
 }
 
-void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
+void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface depth_stencil)
 {
-	INVOKE(0x00A48CB0, c_rasterizer::set_depth_stencil_surface, surface);
+	INVOKE(0x00A48CB0, c_rasterizer::set_depth_stencil_surface, depth_stencil);
 }
 
-void __cdecl c_rasterizer::set_render_target(long render_target_index, e_surface surface, long render_state)
+void __cdecl c_rasterizer::set_render_target(long surface_index, e_surface surface, long force_is_srgb)
 {
-	INVOKE(0x00A48E40, c_rasterizer::set_render_target, render_target_index, surface, render_state);
+	INVOKE(0x00A48E40, c_rasterizer::set_render_target, surface_index, surface, force_is_srgb);
 }
 
-void __cdecl c_rasterizer::set_using_albedo_sampler(bool using_albedo_sampler)
+void __cdecl c_rasterizer::set_using_albedo_sampler(bool value)
 {
-	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, using_albedo_sampler);
+	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, value);
 }
 
-void __cdecl c_rasterizer::set_viewport(short_rectangle2d const& viewport, real min_z, real max_z)
+void __cdecl c_rasterizer::set_viewport(short_rectangle2d const& viewport_bounds, real minz, real maxz)
 {
-	//INVOKE(0x00A49010, c_rasterizer::set_viewport, viewport, z_min, z_max);
+	//INVOKE(0x00A49010, c_rasterizer::set_viewport, viewport_bounds, minz, maxz);
 
-	D3DVIEWPORT9 d3d_viewport
+	D3DVIEWPORT9 viewport
 	{
-		.X = (DWORD)viewport.x0,
-		.Y = (DWORD)viewport.y0,
-		.Width = DWORD(viewport.x1 - viewport.x0),
-		.Height = DWORD(viewport.y1 - viewport.y0),
-		.MinZ = min_z,
-		.MaxZ = max_z
+		.X = (DWORD)viewport_bounds.x0,
+		.Y = (DWORD)viewport_bounds.y0,
+		.Width = DWORD(viewport_bounds.x1 - viewport_bounds.x0),
+		.Height = DWORD(viewport_bounds.y1 - viewport_bounds.y0),
+		.MinZ = minz,
+		.MaxZ = maxz
 	};
-	c_rasterizer::g_device->SetViewport(&d3d_viewport);
+	c_rasterizer::g_device->SetViewport(&viewport);
 }
 
 void __cdecl c_rasterizer::wait_for_gpu_idle()
@@ -1645,44 +1651,47 @@ void __cdecl c_rasterizer::wait_for_gpu_idle()
 	//INVOKE(0x00A49130, c_rasterizer::wait_for_gpu_idle);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data)
+void __cdecl c_rasterizer::set_pixel_shader_constant(long constant_index, long count, real_vector4d const* constants)
 {
-	INVOKE(0x00A66270, c_rasterizer::set_pixel_shader_constant, start_register, vector4f_count, constant_data);
+	INVOKE(0x00A66270, c_rasterizer::set_pixel_shader_constant, constant_index, count, constants);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
+void __cdecl c_rasterizer::set_pixel_shader_constant_bool(long constant_index, long count, int const* constants)
 {
-	INVOKE(0x00A66370, c_rasterizer::set_pixel_shader_constant_bool, start_register, bool_count, constant_data);
+	INVOKE(0x00A66370, c_rasterizer::set_pixel_shader_constant_bool, constant_index, count, constants);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
+void __cdecl c_rasterizer::set_pixel_shader_constant_int(long constant_index, long vector_count, int const* constants)
 {
-	INVOKE(0x00A663A0, c_rasterizer::set_pixel_shader_constant_int, start_register, vector4i_count, constant_data);
+	INVOKE(0x00A663A0, c_rasterizer::set_pixel_shader_constant_int, constant_index, vector_count, constants);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant_single(long start_register, real constant_value)
+void __cdecl c_rasterizer::set_pixel_shader_constant_single(long constant_index, real value)
 {
-	INVOKE(0x00A663C0, c_rasterizer::set_pixel_shader_constant_single, start_register, constant_value);
+	INVOKE(0x00A663C0, c_rasterizer::set_pixel_shader_constant_single, constant_index, value);
 }
 
 //.text:00A66400 ; 
 
-void __cdecl c_rasterizer::set_vertex_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data)
+void __cdecl c_rasterizer::set_vertex_shader_constant(long constant_index, long vector_count, real_vector4d const* constants)
 {
-	INVOKE(0x00A66410, c_rasterizer::set_vertex_shader_constant, start_register, vector4f_count, constant_data);
+	INVOKE(0x00A66410, c_rasterizer::set_vertex_shader_constant, constant_index, vector_count, constants);
 }
 
-void __cdecl c_rasterizer::set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
+void __cdecl c_rasterizer::set_vertex_shader_constant_bool(long constant_index, long count, int const* constants)
 {
-	INVOKE(0x00A66370, c_rasterizer::set_vertex_shader_constant_bool, start_register, bool_count, constant_data);
+	INVOKE(0x00A66620, c_rasterizer::set_vertex_shader_constant_bool, constant_index, count, constants);
 }
 
 void __cdecl c_rasterizer::set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
 {
-	INVOKE(0x00A663A0, c_rasterizer::set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
+	INVOKE(0x00A66640, c_rasterizer::set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
 }
 
-//.text:00A66660 ; 
+void __cdecl c_rasterizer::set_vertex_shader_constant_owned(long constant_index, long count, real_vector4d const* constants)
+{
+	INVOKE(0x00A66660, c_rasterizer::set_vertex_shader_constant_owned, constant_index, count, constants);
+}
 
 HBITMAP create_bitmap_handle(HWND window_handle)
 {

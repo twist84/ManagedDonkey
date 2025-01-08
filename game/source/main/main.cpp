@@ -80,6 +80,12 @@ HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
 HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
+char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
+{
+	"changing the map",
+	"xsync in progress"
+};
+
 bool g_fake_minidump_creation = true;
 bool g_suppress_keyboard_for_minidump = false;
 char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
@@ -332,12 +338,6 @@ bool __cdecl main_events_pending()
 
 	return result;
 }
-
-char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
-{
-	"changing the map",
-	"xsync in progress"
-};
 
 void __cdecl main_events_reset(e_main_reset_events_reason reason)
 {

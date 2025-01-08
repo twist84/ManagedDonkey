@@ -359,7 +359,7 @@ struct c_rasterizer
 	static void __cdecl set_fill_mode(e_fill_mode);
 	static void __cdecl set_indices(IDirect3DIndexBuffer9*);
 	static bool __cdecl set_pixel_shader(c_rasterizer_pixel_shader const*, e_entry_point);
-	static void __cdecl set_aliased_surface_as_texture(long, e_surface);
+	static void __cdecl set_sampler_texture_direct(long, e_surface);
 	static void __cdecl set_sampler_address_mode(long, e_sampler_address_mode);
 	static void __cdecl set_sampler_filter_mode(long, e_sampler_filter_mode);
 	static void __cdecl set_sampler_texture(long, c_rasterizer_texture_ref);
@@ -373,12 +373,13 @@ struct c_rasterizer
 	static bool __cdecl get_is_using_floating_point_depth_buffer();
 
 	static void __cdecl setup_occlusion_state();
-	static void __cdecl setup_render_target_globals_with_exposure(real, real, bool);
+	static void __cdecl setup_render_target_globals_with_exposure(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
+	static void __cdecl setup_render_target_globals_with_exposure_for_texture_camera_only(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_targets_albedo(bool clear_stencil, bool is_clear);
-	static void __cdecl setup_targets_distortion(short_rectangle2d*);
+	static void __cdecl setup_targets_distortion(short_rectangle2d* pixel_bounds, bool depth_test);
 	static void __cdecl setup_targets_simple();
-	static void __cdecl setup_targets_static_lighting(real a1, real a2, bool a3, real a4, bool a5, bool a6, bool a7);
-	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
+	static void __cdecl setup_targets_static_lighting(real view_exposure, real illum_scale, bool render_to_HDR_target, real HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
+	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
 
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count);
 	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
@@ -387,14 +388,14 @@ struct c_rasterizer
 
 	static void __cdecl set_current_splitscreen_res(e_splitscreen_res splitscreen_res);
 
-	static e_surface __cdecl get_render_target(long render_target_index);
+	static e_surface __cdecl get_render_target(long surface_index);
 
 	static e_surface sub_A48770();
 
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5);
-	static void __cdecl set_depth_stencil_surface(e_surface surface);
-	static void __cdecl set_render_target(long render_target_index, e_surface surface, long render_state);
-	static void __cdecl set_using_albedo_sampler(bool using_albedo_sampler);
+	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
+	static void __cdecl set_render_target(long surface_index, e_surface surface, long force_is_srgb);
+	static void __cdecl set_using_albedo_sampler(bool value);
 	static void __cdecl set_viewport(short_rectangle2d const& viewport, real min_z, real max_z);
 	static void __cdecl wait_for_gpu_idle();
 
@@ -415,13 +416,14 @@ struct c_rasterizer
 	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, long polygon_count);
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
 
-	static void __cdecl set_pixel_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data);
-	static void __cdecl set_pixel_shader_constant_bool(long start_register, long bool_count, int const* constant_data);
-	static void __cdecl set_pixel_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
-	static void __cdecl set_pixel_shader_constant_single(long start_register, real constant_value);
-	static void __cdecl set_vertex_shader_constant(long start_register, long vector4f_count, real_vector4d const* constant_data);
-	static void __cdecl set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data);
+	static void __cdecl set_pixel_shader_constant(long constant_index, long count, real_vector4d const* constants);
+	static void __cdecl set_pixel_shader_constant_bool(long constant_index, long count, int const* constants);
+	static void __cdecl set_pixel_shader_constant_int(long constant_index, long vector_count, int const* constants);
+	static void __cdecl set_pixel_shader_constant_single(long constant_index, real value);
+	static void __cdecl set_vertex_shader_constant(long constant_index, long vector_count, real_vector4d const* constants);
+	static void __cdecl set_vertex_shader_constant_bool(long constant_index, long count, int const* constants);
 	static void __cdecl set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
+	static void __cdecl set_vertex_shader_constant_owned(long constant_index, long count, real_vector4d const* constants);
 
 	static bool& g_d3d_device_is_lost;
 	static bool& g_d3d_device_reset;

@@ -372,7 +372,7 @@ void __thiscall c_player_view::render_1st_pass()
 						if (chud_generate_damage_flash_texture(m_camera_user_data.user_index))
 						{
 							c_rasterizer::setup_targets_static_lighting_alpha_blend(false, true);
-							c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
+							c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f, true);
 							c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
 							chud_draw_screen_LDR(m_camera_user_data.user_index);
 						}
@@ -463,7 +463,7 @@ void __thiscall c_player_view::render_3rd_pass()
 
 		c_rasterizer::restore_last_viewport();
 		c_rasterizer::restore_last_scissor_rect();
-		c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f);
+		c_rasterizer::setup_render_target_globals_with_exposure(1.0f, 1.0f, 1.0f, true);
 
 		s_screen_effect_settings screen_effect_settings{};
 		s_screen_effect_shader_sample_result screen_effect_shader_sample_result{};
