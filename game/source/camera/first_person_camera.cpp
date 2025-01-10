@@ -82,7 +82,7 @@ void __thiscall c_first_person_camera::_update(long user_index, real dt, s_obser
 		//c_first_person_view::m_fov_scale = 1.700000047683716f - camera_fov * 0.01f;
 	
 		result->field_of_view = unit_get_field_of_view(m_target_object_index, camera_fov * DEG, unit_get_zoom_level(m_target_object_index));
-		result->field_of_view *= cortana_effect_get_fov_scale(); // cortana effect
+		result->field_of_view *= cortana_effect_get_fov_scale();
 		result->field_of_view *= sub_A8E700(); // chud
 		result->field_of_view = fminf(fmaxf(result->field_of_view, k_horizontal_field_of_view_min), k_horizontal_field_of_view_max);
 	

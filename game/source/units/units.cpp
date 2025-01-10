@@ -236,7 +236,7 @@ long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_i
 	return INVOKE(0x00B42EF0, unit_get_active_primary_weapon, unit_index, parent_unit_index);
 }
 
-//.text:00B42FD0 ; unit_get_max_grenades_modifier_value?
+//.text:00B42FD0 ; unit_get_additional_grenade_count?
 
 long __cdecl unit_get_aim_assist_dash_target(long unit_index)
 {
@@ -358,7 +358,7 @@ long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index)
 //.text:00B456F0 ; bool __cdecl unit_is_dead_or_dying(long)
 //.text:00B45750 ; bool __cdecl unit_is_dual_wielding(long)
 //.text:00B457A0 ; bool __cdecl unit_is_dying(long)
-//.text:00B457C0 ; 
+//.text:00B457C0 ; bool __cdecl unit_is_fancy_assassinating(long)
 //.text:00B457E0 ; bool __cdecl unit_is_flying_through_air(long)
 //.text:00B45830 ; bool __cdecl unit_is_hard_pinging(long)
 //.text:00B45860 ; bool __cdecl unit_is_in_entering_state(long)
@@ -368,12 +368,12 @@ long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index)
 //.text:00B45A40 ; bool __cdecl unit_is_soft_pinging(long)
 //.text:00B45A50 ; bool __cdecl unit_is_sprinting(long)
 //.text:00B45AB0 ; bool __cdecl unit_is_unarmed(long)
-//.text:00B45B40 ; unit_kill_hologram?
+//.text:00B45B40 ; void __cdecl unit_kill_hologram(long)
 //.text:00B45B70 ; void __cdecl unit_kill_no_statistics(long)
 //.text:00B45C00 ; void __cdecl unit_melee_effects(long, long, long, e_sweetener_size, c_global_material_type, real_vector3d const*, real_point3d const*, real_vector3d const*, bool)
 //.text:00B45EE0 ; bool __cdecl unit_new(long, object_placement_data*, bool*)
 //.text:00B464E0 ; void __cdecl unit_notify_of_tracking_or_locking(long, long, short)
-//.text:00B465A0 ; unit_override_damage_info_material_type
+//.text:00B465A0 ; c_global_material_type __cdecl unit_override_damage_info_material_type(long, c_global_material_type) // possibly needs c_global_material_type* as first argument for result
 //.text:00B46620 ; void __cdecl unit_passenger_iterator_new(long, unit_passenger_iterator*)
 //.text:00B46670 ; unit_datum* __cdecl unit_passenger_iterator_next(unit_passenger_iterator*)
 //.text:00B466F0 ; void __cdecl unit_pathfinding_attach(long, c_sector_ref)

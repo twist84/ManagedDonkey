@@ -129,6 +129,11 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, real_vecto
 //.text:00B6DD20 ; void __cdecl biped_fix_position_to_pill(long, real_point3d*, real)
 //.text:00B6E040 ; void __cdecl biped_force_ground_fitting_on(long, bool)
 
+biped_datum* __cdecl biped_get(long biped_index)
+{
+	return (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+}
+
 void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width)
 {
 	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, autoaim_width);
@@ -357,6 +362,60 @@ void __cdecl biped_update_camera(long biped_index)
 
 //.text:00B71AD0 ; 
 
+void __cdecl biped_update_jetpack(long biped_index)
+{
+	if (!cheat.jetpack)
+		return;
+
+	biped_datum* biped = biped_get(biped_index);
+	if (!biped || biped->unit.player_index == NONE)
+		return;
+
+	if (!biped_in_airborne_state(biped_index))
+		return;
+
+	if (!TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
+		return;
+
+	real_vector3d linear_velocity{};
+	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_modifier_bit))
+	{
+		// freeze velocity and adjust for gravity
+		linear_velocity.i = 0.0f;
+		linear_velocity.j = 0.0f;
+		linear_velocity.k = global_gravity_get() * game_tick_length();
+	}
+	else
+	{
+		object_get_velocities(biped_index, &linear_velocity, NULL);
+
+		real velocity_dot = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
+		if (velocity_dot < 0.0f)
+			velocity_dot = 0.0f;
+
+		real clamped_velocity_dot = fminf(1.0f, fmaxf(velocity_dot * 0.0625f, 0.0f));
+		if (clamped_velocity_dot >= 1.0f)
+			clamped_velocity_dot = 1.0f;
+
+		real negative_velocity_dot = -velocity_dot;
+		linear_velocity.i -= (0.2f * (linear_velocity.i + (negative_velocity_dot * biped->unit.aiming_vector.i)));
+		linear_velocity.j -= (0.2f * (linear_velocity.j + (negative_velocity_dot * biped->unit.aiming_vector.j)));
+		linear_velocity.k -= (0.2f * (linear_velocity.k + (negative_velocity_dot * biped->unit.aiming_vector.k)));
+
+		real v11 = game_tick_length() * (9.0f + ((9.0f * clamped_velocity_dot) - (18.0f * (clamped_velocity_dot * clamped_velocity_dot))));
+		linear_velocity.i += v11 * biped->unit.aiming_vector.i;
+		linear_velocity.j += v11 * biped->unit.aiming_vector.j;
+		linear_velocity.k += v11 * biped->unit.aiming_vector.k;
+
+		c_motor_request motor_request{};
+		motor_request.setup_force_airborne(_action_none);
+		motor_system_submit(biped_index, &motor_request);
+
+		linear_velocity.k += global_gravity_get() * game_tick_length();
+	}
+	object_set_velocities(biped_index, &linear_velocity, NULL);
+}
+
 void __cdecl biped_update_keyframed_rigid_bodies(long biped_index)
 {
 	INVOKE(0x00B71AE0, biped_update_keyframed_rigid_bodies, biped_index);
@@ -421,63 +480,4 @@ bool __cdecl biped_update_without_parent(long biped_index)
 //.text:00B73130 ; 
 //.text:00B73150 ; 
 //.text:00B73180 ; 
-
-biped_datum* biped_get(long biped_index)
-{
-	return (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
-}
-
-void biped_update_jetpack(long biped_index)
-{
-	if (!cheat.jetpack)
-		return;
-
-	biped_datum* biped = biped_get(biped_index);
-	if (!biped || biped->unit.player_index == NONE)
-		return;
-
-	if (!biped_in_airborne_state(biped_index))
-		return;
-
-	if (!TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
-		return;
-
-	real_vector3d linear_velocity{};
-	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_modifier_bit))
-	{
-		// freeze velocity and adjust for gravity
-		linear_velocity.i = 0.0f;
-		linear_velocity.j = 0.0f;
-		linear_velocity.k = global_gravity_get() * game_tick_length();
-	}
-	else
-	{
-		object_get_velocities(biped_index, &linear_velocity, NULL);
-
-		real velocity_dot = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
-		if (velocity_dot < 0.0f)
-			velocity_dot = 0.0f;
-
-		real clamped_velocity_dot = fminf(1.0f, fmaxf(velocity_dot * 0.0625f, 0.0f));
-		if (clamped_velocity_dot >= 1.0f)
-			clamped_velocity_dot = 1.0f;
-
-		real negative_velocity_dot = -velocity_dot;
-		linear_velocity.i -= (0.2f * (linear_velocity.i + (negative_velocity_dot * biped->unit.aiming_vector.i)));
-		linear_velocity.j -= (0.2f * (linear_velocity.j + (negative_velocity_dot * biped->unit.aiming_vector.j)));
-		linear_velocity.k -= (0.2f * (linear_velocity.k + (negative_velocity_dot * biped->unit.aiming_vector.k)));
-
-		real v11 = game_tick_length() * (9.0f + ((9.0f * clamped_velocity_dot) - (18.0f * (clamped_velocity_dot * clamped_velocity_dot))));
-		linear_velocity.i += v11 * biped->unit.aiming_vector.i;
-		linear_velocity.j += v11 * biped->unit.aiming_vector.j;
-		linear_velocity.k += v11 * biped->unit.aiming_vector.k;
-
-		c_motor_request motor_request{};
-		motor_request.setup_force_airborne(_action_none);
-		motor_system_submit(biped_index, &motor_request);
-
-		linear_velocity.k += global_gravity_get() * game_tick_length();
-	}
-	object_set_velocities(biped_index, &linear_velocity, NULL);
-}
 
