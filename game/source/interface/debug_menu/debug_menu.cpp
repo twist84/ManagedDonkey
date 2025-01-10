@@ -63,10 +63,10 @@ void c_debug_menu::update()
 		}
 		else
 		{
-			m_up_time = 0;
-			m_down_time = 0;
-			m_left_time = 0;
-			m_right_time = 0;
+			m_last_up = 0;
+			m_last_down = 0;
+			m_last_left = 0;
+			m_last_right = 0;
 		}
 	}
 
@@ -241,14 +241,14 @@ void c_debug_menu::notify_up()
 	if (!is_active_menu())
 		return;
 
-	if (debug_menu_get_time() - m_up_time < get_menu_rate())
+	if (debug_menu_get_time() - m_last_up < get_menu_rate())
 		return;
 
 	if (!get_num_items())
 		return;
 
 	short selection = get_selection();
-	m_up_time = debug_menu_get_time();
+	m_last_up = debug_menu_get_time();
 	
 	c_debug_menu_item* item = NULL;
 	do
@@ -270,14 +270,14 @@ void c_debug_menu::notify_down()
 	if (!is_active_menu())
 		return;
 
-	if (debug_menu_get_time() - m_down_time < get_menu_rate())
+	if (debug_menu_get_time() - m_last_down < get_menu_rate())
 		return;
 
 	if (!get_num_items())
 		return;
 
 	short selection = get_selection();
-	m_down_time = debug_menu_get_time();
+	m_last_down = debug_menu_get_time();
 	
 	c_debug_menu_item* item = NULL;
 	do
@@ -333,31 +333,31 @@ short c_debug_menu::get_max_active_captions()
 
 void c_debug_menu::render_background(c_font_cache_base* font_cache, point2d const& point)
 {
-	real unused = get_enabled() ? 0.7f : 0.1f;
 	real item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
 
-	short a1 = short((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
-	short a2 = point.y;
-	short a3 = short((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
-	short a4 = short((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
+	short x0 = short((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
+	short y0 = point.y;
+	short x1 = short((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
+	short y1 = short((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
+	real alpha = get_enabled() ? 0.7f : 0.1f;
 
-	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_tv_blue);
+	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_tv_blue);
 }
 
 void c_debug_menu::render_title(c_font_cache_base* font_cache, point2d const& point)
 {
-	real unused = get_enabled() ? 0.7f : 0.1f;
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 
-	short a1 = point.x;
-	short a2 = short(point.y + debug_menu_get_item_indent_y());
-	short a3 = short(point.x + debug_menu_get_item_width());
-	short a4 = short((point.y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+	short x0 = point.x;
+	short y0 = short(point.y + debug_menu_get_item_indent_y());
+	short x1 = short(point.x + debug_menu_get_item_width());
+	short y1 = short((point.y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+	real alpha = get_enabled() ? 0.7f : 0.1f;
 
-	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 
 	set_rectangle2d(&bounds, point.x, point.y, short(point.x + debug_menu_get_item_width()), bounds.y1);
 	draw_string.set_bounds(&bounds);
@@ -373,14 +373,13 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, point2d const& 
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 	if (*get_caption())
 	{
-		real unused = get_enabled() ? 0.7f : 0.1f;
+		short x0 = point.x;
+		short y0 = short(point.y + debug_menu_get_item_indent_y());
+		short x1 = short(point.x + debug_menu_get_item_width());
+		short y1 = short(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+		real alpha = get_enabled() ? 0.7f : 0.1f;
 
-		short a1 = point.x;
-		short a2 = short(point.y + debug_menu_get_item_indent_y());
-		short a3 = short(point.x + debug_menu_get_item_width());
-		short a4 = short(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
-
-		debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+		debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 	}
 
 	set_rectangle2d(&bounds, point.x, short((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()), short(point.x + debug_menu_get_item_width()), bounds.y1);
@@ -401,14 +400,13 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d 
 	{
 		if (*debug_menu_get_caption(caption_index))
 		{
-			real unused = get_enabled() ? 0.7f : 0.1f;
+			short x0 = point.x;
+			short y0 = short(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
+			short x1 = short(point.x + debug_menu_get_item_width());
+			short y1 = short(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+			real alpha = get_enabled() ? 0.7f : 0.1f;
 
-			short a1 = point.x;
-			short a2 = short(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
-			short a3 = short(point.x + debug_menu_get_item_width());
-			short a4 = short(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
-
-			debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+			debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 		}
 
 		if (bounds.x1 - bounds.x0 > 0 && bounds.y1 - bounds.y0 > 0)
@@ -432,13 +430,13 @@ void c_debug_menu::render_items(c_font_cache_base* font_cache, point2d const& po
 		c_debug_menu_item* item = get_item(item_index);
 		if (item->get_active())
 		{
-			real unused = get_enabled() ? 0.7f : 0.1f;
+			short x0 = point.x;
+			short y0 = short(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
+			short x1 = short(point.x + debug_menu_get_item_width());
+			short y1 = short((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
+			real alpha = get_enabled() ? 0.7f : 0.1f;
 
-			short a1 = point.x;
-			short a2 = short(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
-			short a3 = short(point.x + debug_menu_get_item_width());
-			short a4 = short((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
-			debug_menu_draw_rect(a1, a2, a3, a4, unused, item->get_background_color());
+			debug_menu_draw_rect(x0, y0, x1, y1, alpha, item->get_background_color());
 		}
 
 		point2d item_point{};
@@ -451,13 +449,13 @@ void c_debug_menu::try_left()
 {
 	ASSERT(get_selection() >= 0);
 
-	if (debug_menu_get_time() - m_left_time < get_menu_rate())
+	if (debug_menu_get_time() - m_last_left < get_menu_rate())
 		return;
 
 	if (!get_num_items())
 		return;
 
-	m_left_time = debug_menu_get_time();
+	m_last_left = debug_menu_get_time();
 	notify_left();
 
 	if (get_selection() >= get_num_items())
@@ -470,13 +468,13 @@ void c_debug_menu::try_right()
 {
 	ASSERT(get_selection() >= 0);
 
-	if (debug_menu_get_time() - m_right_time < get_menu_rate())
+	if (debug_menu_get_time() - m_last_right < get_menu_rate())
 		return;
 
 	if (!get_num_items())
 		return;
 
-	m_right_time = debug_menu_get_time();
+	m_last_right = debug_menu_get_time();
 	notify_right();
 
 	if (get_selection() >= get_num_items())
@@ -488,7 +486,7 @@ void c_debug_menu::try_right()
 c_debug_menu::c_debug_menu(c_debug_menu* parent, char const* name) :
 	m_name(NULL),
 	m_caption(NULL),
-	m_parent(parent)
+	m_parent_ref(parent)
 {
 	set_name(name ? name : "Menu???");
 	set_num_items(0);
@@ -578,7 +576,7 @@ void c_debug_menu::set_caption(char const* caption)
 
 c_debug_menu* c_debug_menu::get_parent()
 {
-	return m_parent;
+	return m_parent_ref;
 }
 
 bool c_debug_menu::get_enabled()

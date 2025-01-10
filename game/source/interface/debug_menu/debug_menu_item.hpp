@@ -10,7 +10,7 @@ class c_debug_menu_item
 public:
 	virtual ~c_debug_menu_item();
 	virtual void update();
-	virtual void render(c_font_cache_base* font_cache, point2d const& point);
+	virtual void render(c_font_cache_base* font_cache, point2d const& position);
 	virtual void notify_selected();
 	virtual void open();
 	virtual void notify_left();
@@ -39,9 +39,10 @@ public:
 
 protected:
 	char* m_name;
-	c_debug_menu* m_menu;
-	c_debug_menu* m_child;
+	c_debug_menu* m_menu_ref;
+	c_debug_menu* m_child_ref;
 	bool m_active;
+	//bool m_numbered;
 	long m_data;
 };
 

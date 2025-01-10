@@ -41,13 +41,18 @@ public:
 
 struct s_debug_menu_globals
 {
-	c_debug_menu* root_menu;
-	c_debug_menu* active_menu;
-	char captions[DEBUG_MENU_NUM_GLOBAL_CAPTIONS][128];
-	bool render;
-	gamepad_state current_gamepad_state;
-	gamepad_state last_gamepad_state;
-	dword open_time;
+	enum
+	{
+		k_str_length = 127
+	};
+
+	c_debug_menu* m_main_menu;
+	c_debug_menu* m_active_menu;
+	char m_caption[DEBUG_MENU_NUM_GLOBAL_CAPTIONS][k_str_length + 1];
+	bool m_do_render;
+	gamepad_state m_current_gamepad;
+	gamepad_state m_last_gamepad;
+	long open_menu_time;
 };
 static_assert(sizeof(s_debug_menu_globals) == 0x488);
 
@@ -74,26 +79,26 @@ bool g_debug_menu_rebuild_request = false;
 
 c_static_stack<long, 262144> g_debug_menu_stack;
 
-void debug_menu_draw_rect(short a1, short a2, short a3, short a4, real a5, real_argb_color const* color)
+void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real alpha, real_argb_color const* color)
 {
 	point2d points[4]{};
 
-	set_point2d(&points[0], a1, a4);
-	set_point2d(&points[1], a3, a4);
-	set_point2d(&points[2], a3, a2);
-	set_point2d(&points[3], a1, a2);
+	set_point2d(&points[0], x0, y1);
+	set_point2d(&points[1], x1, y1);
+	set_point2d(&points[2], x1, y0);
+	set_point2d(&points[3], x0, y0);
 
 	rasterizer_quad_screenspace(points, real_argb_color_to_pixel32(color), nullptr, 0, false);
 }
 
 bool debug_menu_get_active()
 {
-	return g_debug_menu_globals.active_menu != NULL;
+	return g_debug_menu_globals.m_active_menu != NULL;
 }
 
 c_debug_menu* debug_menu_get_root()
 {
-	return g_debug_menu_globals.root_menu;
+	return g_debug_menu_globals.m_main_menu;
 }
 
 void debug_menu_initialize()
@@ -106,14 +111,14 @@ void debug_menu_dispose()
 
 void debug_menu_initialize_for_new_map()
 {
-	g_debug_menu_globals.render = false;
-	g_debug_menu_globals.root_menu = NULL;
-	g_debug_menu_globals.active_menu = NULL;
+	g_debug_menu_globals.m_do_render = false;
+	g_debug_menu_globals.m_main_menu = NULL;
+	g_debug_menu_globals.m_active_menu = NULL;
 
-	g_debug_menu_globals.root_menu = new c_main_menu();
+	g_debug_menu_globals.m_main_menu = new c_main_menu();
 
-	csmemset(&g_debug_menu_globals.last_gamepad_state, 0, sizeof(g_debug_menu_globals.last_gamepad_state));
-	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
+	csmemset(&g_debug_menu_globals.m_last_gamepad, 0, sizeof(g_debug_menu_globals.m_last_gamepad));
+	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));
 
 	debug_menu_parse(debug_menu_get_root(), "debug_menu_init.txt");
 	debug_menu_parse(debug_menu_get_root(), "debug_menu_user_init.txt");
@@ -121,12 +126,12 @@ void debug_menu_initialize_for_new_map()
 
 void debug_menu_dispose_from_old_map()
 {
-	if (g_debug_menu_globals.root_menu)
+	if (g_debug_menu_globals.m_main_menu)
 	{
 		g_debug_menu_stack.resize(0);
-		g_debug_menu_globals.root_menu = NULL;
+		g_debug_menu_globals.m_main_menu = NULL;
 	}
-	g_debug_menu_globals.active_menu = NULL;
+	g_debug_menu_globals.m_active_menu = NULL;
 
 	if (g_user_interface_controller_globals.event_manager_suppress)
 		g_user_interface_controller_globals.event_manager_suppress = false;
@@ -134,19 +139,19 @@ void debug_menu_dispose_from_old_map()
 
 void debug_menu_update_current_gamepad_state()
 {
-	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
+	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));
 	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
 		if (controller_index != k_no_controller)
 		{
 			if (gamepad_state const* state = input_get_gamepad_state(static_cast<short>(controller_index)))
-				xor_buffers(&g_debug_menu_globals.current_gamepad_state, state, sizeof(gamepad_state));
+				xor_buffers(&g_debug_menu_globals.m_current_gamepad, state, sizeof(gamepad_state));
 		}
 	}
 
-	csmemset(&g_debug_menu_globals.current_gamepad_state.thumb_left, 0, 8);
-	csmemset(&g_debug_menu_globals.current_gamepad_state.trigger_msec_down, 0, 2);
-	csmemset(&g_debug_menu_globals.current_gamepad_state.max_trigger_msec_down, 0, 2);
+	csmemset(&g_debug_menu_globals.m_current_gamepad.thumb_left, 0, 8);
+	csmemset(&g_debug_menu_globals.m_current_gamepad.trigger_msec_down, 0, 2);
+	csmemset(&g_debug_menu_globals.m_current_gamepad.max_trigger_msec_down, 0, 2);
 }
 
 void debug_menu_update()
@@ -156,7 +161,7 @@ void debug_menu_update()
 	gamepad_state const& state = debug_menu_get_gamepad_state();
 	if (state.button_frames_down[_controller_button_left_stick])
 	{
-		g_debug_menu_globals.render = false;
+		g_debug_menu_globals.m_do_render = false;
 	}
 	else
 	{
@@ -201,10 +206,10 @@ void debug_menu_update()
 			debug_menu_get_active_menu()->update();
 		}
 
-		g_debug_menu_globals.render = true;
+		g_debug_menu_globals.m_do_render = true;
 	}
 
-	g_debug_menu_globals.last_gamepad_state = g_debug_menu_globals.current_gamepad_state;
+	g_debug_menu_globals.m_last_gamepad = g_debug_menu_globals.m_current_gamepad;
 }
 
 void debug_menu_open()
@@ -212,14 +217,14 @@ void debug_menu_open()
 	if (debug_menu_get_root() && !debug_menu_get_active())
 	{
 		debug_menu_set_active_menu(debug_menu_get_root(), false);
-		g_debug_menu_globals.open_time = system_milliseconds();
+		g_debug_menu_globals.open_menu_time = system_milliseconds();
 	}
 }
 
 void debug_menu_close()
 {
 	if (debug_menu_get_root() && debug_menu_get_active() &&
-		system_milliseconds() - g_debug_menu_globals.open_time > 100)
+		system_milliseconds() - g_debug_menu_globals.open_menu_time > 100)
 	{
 		debug_menu_set_active_menu(NULL, false);
 	}
@@ -237,24 +242,24 @@ void render_debug_debug_menu()
 
 	if (restricted_region_locked_for_current_thread(1)
 		&& debug_menu_get_active()
-		&& g_debug_menu_globals.render)
+		&& g_debug_menu_globals.m_do_render)
 	{
 		c_font_cache_mt_safe font_cache{};
 
-		point2d point{};
-		set_point2d(&point, 180, 60);
-		debug_menu_get_active_menu()->render(&font_cache, point);
+		point2d position{};
+		set_point2d(&position, 180, 60);
+		debug_menu_get_active_menu()->render(&font_cache, position);
 	}
 }
 
 gamepad_state const& debug_menu_get_gamepad_state()
 {
-	return g_debug_menu_globals.current_gamepad_state;
+	return g_debug_menu_globals.m_current_gamepad;
 }
 
 gamepad_state const& debug_menu_get_last_gamepad_state()
 {
-	return g_debug_menu_globals.last_gamepad_state;
+	return g_debug_menu_globals.m_last_gamepad;
 }
 
 real debug_menu_get_item_margin()
@@ -289,33 +294,37 @@ real debug_menu_get_item_indent_y()
 
 c_debug_menu* debug_menu_get_active_menu()
 {
-	return g_debug_menu_globals.active_menu;
+	return g_debug_menu_globals.m_active_menu;
 }
 
-void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
+void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open)
 {
-	c_debug_menu* active_menu = g_debug_menu_globals.active_menu;
+	c_debug_menu* current_active_menu = g_debug_menu_globals.m_active_menu;
 
-	bool v4 = g_debug_menu_globals.active_menu
-		&& menu
-		&& g_debug_menu_globals.active_menu->get_parent()
-		&& g_debug_menu_globals.active_menu->get_parent() == menu;
-
-	g_debug_menu_globals.active_menu = menu;
-
-	if (menu)
+	bool menu_is_parent = 0;
+	if (g_debug_menu_globals.m_active_menu && active_menu)
 	{
-		if (!v4 && !active)
+		if (c_debug_menu* parent = g_debug_menu_globals.m_active_menu->get_parent())
 		{
-			menu->open();
-			menu = g_debug_menu_globals.active_menu;
+			if (parent == active_menu)
+				menu_is_parent = true;
+		}
+	}
+	g_debug_menu_globals.m_active_menu = active_menu;
+
+	if (active_menu)
+	{
+		if (!menu_is_parent && !dont_open)
+		{
+			active_menu->open();
+			active_menu = g_debug_menu_globals.m_active_menu;
 			g_user_interface_controller_globals.event_manager_suppress = true;
 		}
-		menu->notify_activated();
+		active_menu->notify_activated();
 	}
-	else if (active_menu)
+	else if (current_active_menu)
 	{
-		active_menu->notify_closed();
+		current_active_menu->notify_closed();
 		g_user_interface_controller_globals.event_manager_suppress = false;
 	}
 
@@ -327,14 +336,14 @@ void debug_menu_set_caption(short caption_index, char const* caption)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
-	csstrnzcpy(g_debug_menu_globals.captions[caption_index], caption, sizeof(*g_debug_menu_globals.captions));
+	csstrnzcpy(g_debug_menu_globals.m_caption[caption_index], caption, sizeof(*g_debug_menu_globals.m_caption));
 }
 
 char const* debug_menu_get_caption(short caption_index)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
-	return g_debug_menu_globals.captions[caption_index];
+	return g_debug_menu_globals.m_caption[caption_index];
 }
 
 long debug_menu_get_time()
@@ -351,9 +360,9 @@ void* debug_menu_malloc(long size)
 	return result;
 }
 
-void xor_buffers(void* destination, void const* source, long buffer_size)
+void xor_buffers(void* dest, void const* source, long count)
 {
-	for (long i = 0; i < buffer_size; i++)
-		((byte*)destination)[i] ^= ((byte const*)source)[i];
+	for (long i = 0; i < count; i++)
+		((byte*)dest)[i] ^= ((byte const*)source)[i];
 }
 

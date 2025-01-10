@@ -49,6 +49,6 @@ private:
 	void update_caption();
 
 protected:
-	char m_some_string[128];
+	char m_caption[128];
 };
 

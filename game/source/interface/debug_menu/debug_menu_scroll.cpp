@@ -45,14 +45,14 @@ void c_debug_menu_scroll::update()
 	}
 }
 
-void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& position)
 {
-	render_background(font_cache, point);
-	render_title(font_cache, point);
-	render_caption(font_cache, point);
-	render_global_caption(font_cache, point);
+	render_background(font_cache, position);
+	render_title(font_cache, position);
+	render_caption(font_cache, position);
+	render_global_caption(font_cache, position);
 	if (get_num_visible() > 0)
-		render_items(font_cache, point, get_first(), get_first() + get_num_visible() - 1);
+		render_items(font_cache, position, get_first(), get_first() + get_num_visible() - 1);
 
 	c_rasterizer_draw_string draw_string{};
 
@@ -62,7 +62,7 @@ void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& p
 	draw_string.set_color(debug_real_argb_tv_magenta);
 	if (get_first() > 0)
 	{
-		set_rectangle2d(&bounds, point.x, point.y + get_title_height(), bounds.x1, bounds.y1);
+		set_rectangle2d(&bounds, position.x, position.y + get_title_height(), bounds.x1, bounds.y1);
 
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(font_cache, "^");
@@ -74,7 +74,7 @@ void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& p
 
 	if (get_num_items() - get_first() > get_num_visible())
 	{
-		set_rectangle2d(&bounds, point.x, (point.y + get_title_height()) + (get_num_visible() - 2) * get_item_height(), bounds.x1, bounds.y1);
+		set_rectangle2d(&bounds, position.x, (position.y + get_title_height()) + (get_num_visible() - 2) * get_item_height(), bounds.x1, bounds.y1);
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(font_cache, "|");
 
@@ -163,10 +163,10 @@ void c_debug_menu_zone_sets::notify_down()
 	update_caption();
 }
 
-c_debug_menu_zone_sets::c_debug_menu_zone_sets(c_debug_menu* parent, short num_visible, char const* name) :
-	c_debug_menu_scroll(parent, num_visible, name)
+c_debug_menu_zone_sets::c_debug_menu_zone_sets(c_debug_menu* parent, short num_visible, char const* name_ptr) :
+	c_debug_menu_scroll(parent, num_visible, name_ptr)
 {
-	csstrnzcpy(m_some_string, "", sizeof(m_some_string));
+	csstrnzcpy(m_caption, "", sizeof(m_caption));
 
 	for (s_scenario_zone_set& zone_set : global_scenario_get()->zone_sets)
 		add_item(new c_debug_menu_item_numbered(this, zone_set.name.get_string(), NULL));

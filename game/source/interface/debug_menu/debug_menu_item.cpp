@@ -10,16 +10,16 @@
 
 c_debug_menu_item::~c_debug_menu_item()
 {
-	if (m_child)
-		m_child->~c_debug_menu();
-	m_child = NULL;
+	if (m_child_ref)
+		m_child_ref->~c_debug_menu();
+	m_child_ref = NULL;
 }
 
 void c_debug_menu_item::update()
 {
 }
 
-void c_debug_menu_item::render(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu_item::render(c_font_cache_base* font_cache, point2d const& position)
 {
 	real_argb_color const* color = global_real_argb_black;
 	if (get_active() && get_menu()->get_enabled())
@@ -28,8 +28,8 @@ void c_debug_menu_item::render(c_font_cache_base* font_cache, point2d const& poi
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
-	set_rectangle2d(&bounds, point.x, point.y, bounds.x1, bounds.y1);
+	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	set_rectangle2d(&bounds, position.x, position.y, bounds.x1, bounds.y1);
 
 	draw_string.set_bounds(&bounds);
 	draw_string.set_color(color);
@@ -86,8 +86,8 @@ real_argb_color const* c_debug_menu_item::get_background_color()
 
 c_debug_menu_item::c_debug_menu_item(c_debug_menu* menu, char const* name, c_debug_menu* child, bool active) :
 	m_name(),
-	m_menu(menu),
-	m_child(child)
+	m_menu_ref(menu),
+	m_child_ref(child)
 {
 	set_name(name ? name : "Item???");
 	set_active(active);
@@ -110,12 +110,12 @@ void c_debug_menu_item::set_name(char const* name)
 
 c_debug_menu* c_debug_menu_item::get_menu()
 {
-	return m_menu;
+	return m_menu_ref;
 }
 
 c_debug_menu* c_debug_menu_item::get_child()
 {
-    return m_child;
+    return m_child_ref;
 }
 
 bool c_debug_menu_item::get_active()

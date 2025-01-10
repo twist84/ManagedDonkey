@@ -82,14 +82,14 @@ public:
 protected:
 	short m_num_items;
 	short m_selection;
-	long m_up_time;
-	long m_down_time;
-	long m_left_time;
-	long m_right_time;
-	c_debug_menu_item* m_items[64];
+	long m_last_up;
+	long m_last_down;
+	long m_last_left;
+	long m_last_right;
+	c_debug_menu_item* m_items[k_max_items];
 	char* m_name;
 	char* m_caption;
-	c_debug_menu* m_parent;
+	c_debug_menu* m_parent_ref;
 	bool m_enabled;
 };
 
