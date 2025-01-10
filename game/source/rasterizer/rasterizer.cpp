@@ -54,8 +54,8 @@ REFERENCE_DECLARE(0x050DAE2C, IDirect3DIndexBuffer9*, c_rasterizer::g_current_in
 REFERENCE_DECLARE_ARRAY(0x050DAE30, c_rasterizer::s_stream_source, c_rasterizer::x_last_stream_source, 16);
 REFERENCE_DECLARE(0x050DB1EC, c_rasterizer::e_surface, c_rasterizer::g_depth_stencil_surface);
 REFERENCE_DECLARE_ARRAY(0x050DB1F0, c_rasterizer::e_surface, c_rasterizer::g_color_surfaces, 4);
-REFERENCE_DECLARE(0x050DD998, short_rectangle2d, c_rasterizer::g_last_viewport);
-REFERENCE_DECLARE(0x050DD9A0, short_rectangle2d, c_rasterizer::g_last_scissor_rect);
+REFERENCE_DECLARE(0x050DD998, rectangle2d, c_rasterizer::g_last_viewport);
+REFERENCE_DECLARE(0x050DD9A0, rectangle2d, c_rasterizer::g_last_scissor_rect);
 REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
 REFERENCE_DECLARE(0x050DD9C0, dword, c_rasterizer::g_max_ps_gprs);
 REFERENCE_DECLARE(0x050DD9C4, long, c_rasterizer::g_adapter);
@@ -65,7 +65,7 @@ REFERENCE_DECLARE(0x0191C920, bool, render_debug_toggle_default_static_lighting)
 REFERENCE_DECLARE(0x0191C921, bool, render_debug_toggle_default_dynamic_lighting);
 REFERENCE_DECLARE(0x0191C922, bool, render_debug_toggle_default_sfx);
 
-void(__cdecl* rasterizer_get_display_pixel_bounds)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+void(__cdecl* rasterizer_get_display_pixel_bounds)(rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 
 HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
 //HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds); // ui
@@ -123,7 +123,7 @@ void rasterizer_reset_device()
 	sub_79BA30(width, height);
 }
 
-void __cdecl c_rasterizer::begin(short_rectangle2d viewport, short_rectangle2d scissor_rect)
+void __cdecl c_rasterizer::begin(rectangle2d viewport, rectangle2d scissor_rect)
 {
 	//INVOKE(0x00A1F7E0, c_rasterizer::begin, viewport, scissor_rect);
 
@@ -169,7 +169,7 @@ void __cdecl c_rasterizer::end()
 	//INVOKE(0x00A1F9B0, c_rasterizer::end);
 }
 
-bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
+bool __cdecl c_rasterizer::end_albedo(rectangle2d const* bounds)
 {
 	//INVOKE(0x00A1F9C0, c_rasterizer::end_albedo, bounds);
 
@@ -239,7 +239,7 @@ real __cdecl c_rasterizer::get_aspect_ratio()
 	return (real)render_globals.resolution_width / (real)render_globals.resolution_height;
 }
 
-void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds)
+void __cdecl c_rasterizer::get_display_pixel_bounds(rectangle2d* display_pixel_bounds)
 {
 	//HOOK_INVOKE_CLASS(, c_rasterizer, get_display_pixel_bounds, decltype(&get_display_pixel_bounds), display_pixel_bounds);
 
@@ -272,17 +272,17 @@ void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_p
 	display_pixel_bounds->y1 = height;
 }
 
-void __cdecl c_rasterizer::get_display_title_safe_pixel_bounds(short_rectangle2d* resolution)
+void __cdecl c_rasterizer::get_display_title_safe_pixel_bounds(rectangle2d* resolution)
 {
 	INVOKE(0x00A1FB10, c_rasterizer::get_display_title_safe_pixel_bounds, resolution);
 }
 
-void __cdecl c_rasterizer::get_fullscreen_render_pixel_bounds(short_rectangle2d* resolution)
+void __cdecl c_rasterizer::get_fullscreen_render_pixel_bounds(rectangle2d* resolution)
 {
 	INVOKE(0x00A1FB80, c_rasterizer::get_fullscreen_render_pixel_bounds, resolution);
 }
 
-void __cdecl c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(short_rectangle2d* resolution)
+void __cdecl c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(rectangle2d* resolution)
 {
 	INVOKE(0x00A1FBB0, c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds, resolution);
 }
@@ -1219,7 +1219,7 @@ void __cdecl c_rasterizer::set_sampler_texture(long sampler_index, c_rasterizer_
 	INVOKE(0x00A23810, c_rasterizer::set_sampler_texture, sampler_index, sampler_texture);
 };
 
-void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rect)
+void __cdecl c_rasterizer::set_scissor_rect(rectangle2d const* scissor_rect)
 {
 	//INVOKE(0x00A239B0, c_rasterizer::set_scissor_rect, scissor_rect);
 
@@ -1526,7 +1526,7 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//}
 }
 
-void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* pixel_bounds, bool depth_test)
+void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test)
 {
 	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
 
@@ -1610,7 +1610,7 @@ c_rasterizer::e_surface c_rasterizer::sub_A48770()
 }
 
 // nullsub
-void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5)
+void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5)
 {
 	//INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2, a3, a4, a5);
 }
@@ -1630,7 +1630,7 @@ void __cdecl c_rasterizer::set_using_albedo_sampler(bool value)
 	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, value);
 }
 
-void __cdecl c_rasterizer::set_viewport(short_rectangle2d const& viewport_bounds, real minz, real maxz)
+void __cdecl c_rasterizer::set_viewport(rectangle2d const& viewport_bounds, real minz, real maxz)
 {
 	//INVOKE(0x00A49010, c_rasterizer::set_viewport, viewport_bounds, minz, maxz);
 

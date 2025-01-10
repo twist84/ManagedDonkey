@@ -50,7 +50,7 @@ struct s_core_widget_definition
 
 	// bounds 720p & bounds 16x9 (1152x640)
 	// bounds 480i & bounds 4x3 (640x480)
-	short_rectangle2d ui_bounds[2];
+	rectangle2d ui_bounds[2];
 
 	c_typed_tag_reference<GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG, INVALID_TAG> animation_collection;
 };

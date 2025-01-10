@@ -518,7 +518,7 @@ void __thiscall c_player_view::render_3rd_pass()
 		{
 			c_rasterizer_profile_scope _user_interface_render(_rasterizer_profile_element_total, L"user_interface_render");
 
-			short_rectangle2d display_pixel_bounds{};
+			rectangle2d display_pixel_bounds{};
 			interface_get_current_window_settings(NULL, NULL, &display_pixel_bounds, NULL);
 			user_interface_render(
 				m_camera_user_data.controller_index,

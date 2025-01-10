@@ -160,7 +160,7 @@ void __cdecl ai_debug_render()
 	if (!actor_datum_available_to_current_thread() || !ai_globals->ai_initialized_for_map)
 		return;
 	
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 	global_ai_debug_string_position = bounds.y1 - 20;
 	//dword_143C86DD8 = (dword_143C86DD8 + 1) % 1000;
@@ -381,7 +381,7 @@ void ai_debug_string(char const* string, short tab_stop_count, short const* tab_
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	bounds.x0 = 0;
 	bounds.y0 = global_ai_debug_string_position;
 	bounds.x1 = SHRT_MAX;
@@ -397,7 +397,7 @@ void ai_debug_string(char const* string, short tab_stop_count, short const* tab_
 	draw_string.set_bounds(&bounds);
 	draw_string.draw(&font_cache, string);
 
-	int16_point2d cursor{};
+	point2d cursor{};
 	draw_string.get_cursor(&cursor);
 	global_ai_debug_string_position -= cursor.y - bounds.y0;
 }

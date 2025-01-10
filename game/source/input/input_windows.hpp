@@ -405,8 +405,8 @@ struct gamepad_state
 	c_static_array<byte, k_controller_button_count> button_frames_down;
 	c_static_array<word, k_controller_button_count> button_msec_down;
 
-	int16_point2d thumb_left;
-	int16_point2d thumb_right;
+	point2d thumb_left;
+	point2d thumb_right;
 };
 static_assert(sizeof(gamepad_state) == 0x3C);
 

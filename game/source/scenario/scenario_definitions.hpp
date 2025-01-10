@@ -770,7 +770,7 @@ static_assert(sizeof(scenario_cutscene_camera_point) == 0x40);
 struct s_scenario_cutscene_title
 {
 	c_string_id name;
-	short_rectangle2d text_bounds; // on screen
+	rectangle2d text_bounds; // on screen
 	c_enum<e_text_justification, short, _text_justification_left, k_text_justification_count> justification;
 	c_enum<e_text_vertical_justification, short, _text_vertical_justification_default, k_text_vertical_justification_count> vertical_justification;
 	c_enum<e_font_id, short, _terminal_font, k_public_font_id_count> font;

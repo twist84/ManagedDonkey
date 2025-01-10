@@ -22,8 +22,8 @@ void data_mine_render_mission_segment()
 	{
 		c_rasterizer_draw_string draw_string{};
 		c_font_cache_mt_safe font_cache{};
-		short_rectangle2d display_title_safe_pixel_bounds{};
-		short_rectangle2d bounds{};
+		rectangle2d display_title_safe_pixel_bounds{};
+		rectangle2d bounds{};
 
 		interface_get_current_display_settings(NULL, NULL, NULL, &display_title_safe_pixel_bounds);
 

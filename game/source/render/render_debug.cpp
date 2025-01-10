@@ -1239,7 +1239,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	aspect_ratio_scale.i = 1.0f / aspect_ratio_scaling.i;
 	aspect_ratio_scale.j = 1.0f / aspect_ratio_scaling.j;
 
-	short_rectangle2d window_display_bounds = camera->window_pixel_bounds;
+	rectangle2d window_display_bounds = camera->window_pixel_bounds;
 	interface_scale_rectangle2d_for_xenon_scaler(&window_display_bounds, &aspect_ratio_scale);
 
 	real_point2d screen_point{};
@@ -1253,7 +1253,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 			text_scale = scale / (square_root(((v9 * v9) + ((point->x - camera->position.x) * (point->x - camera->position.x))) + (v10 * v10)) + scale);
 		}
 
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		bounds.x0 = static_cast<short>(screen_point.x - window_display_bounds.x0);
 		bounds.y0 = static_cast<short>(screen_point.y - window_display_bounds.y0);
 		bounds.x1 = SHRT_MAX;
@@ -1769,7 +1769,7 @@ real_point3d* __cdecl rectangle3d_center(real_rectangle3d const* rect, real_poin
 
 c_render_debug_line_drawer::c_render_debug_line_drawer()
 {
-	short_rectangle2d fullscreen_render_pixel_bounds{};
+	rectangle2d fullscreen_render_pixel_bounds{};
 	c_rasterizer::get_fullscreen_render_pixel_bounds(&fullscreen_render_pixel_bounds);
 
 	vertex_scale_x = 1.0f / (fullscreen_render_pixel_bounds.x1 - fullscreen_render_pixel_bounds.x0);

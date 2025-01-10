@@ -193,10 +193,10 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 			out_debug_gamepad_data = &g_debug_gamepad_data[gamepad_index];
 
 		ASSERT(out_debug_gamepad_data);
-		out_debug_gamepad_data->thumb_left.x = state.Gamepad.sThumbLX;
-		out_debug_gamepad_data->thumb_left.y = state.Gamepad.sThumbLY;
-		out_debug_gamepad_data->thumb_right.x = state.Gamepad.sThumbRX;
-		out_debug_gamepad_data->thumb_right.y = state.Gamepad.sThumbRY;
+		out_debug_gamepad_data->sticks[0].x = state.Gamepad.sThumbLX;
+		out_debug_gamepad_data->sticks[0].y = state.Gamepad.sThumbLY;
+		out_debug_gamepad_data->sticks[1].x = state.Gamepad.sThumbRX;
+		out_debug_gamepad_data->sticks[1].y = state.Gamepad.sThumbRY;
 
 		input_xinput_update_thumbstick(true, &gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
 		input_xinput_update_thumbstick(false, &gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
@@ -224,7 +224,7 @@ void __cdecl input_xinput_update_rumble_state(dword user_index, rumble_state con
 	}
 }
 
-void __cdecl input_xinput_update_thumbstick(bool left_thumb, int16_point2d* thumbstick, short thumb_x, short thumb_y)
+void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick, short thumb_x, short thumb_y)
 {
 	//INVOKE(0x0065F280, input_xinput_update_thumbstick, left_thumb, thumbstick, thumb_x, thumb_y);
 

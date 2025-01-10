@@ -64,7 +64,7 @@ bool __cdecl render_camera_build_clipped_frustum_bounds(render_camera const* cam
 	//return !result;
 }
 
-void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, short_rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4)
+void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -204,7 +204,7 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 
 	if (aspect_ratio == 0.0f)
 	{
-		short_rectangle2d display_pixel_bounds{};
+		rectangle2d display_pixel_bounds{};
 		c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
 
 		real pixel_bounds_aspect_ratio = real((display_pixel_bounds.x1 - display_pixel_bounds.x0) / real(display_pixel_bounds.y1 - display_pixel_bounds.y0));
@@ -227,7 +227,7 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 		}
 		else
 		{
-			short_rectangle2d display_pixel_bounds{};
+			rectangle2d display_pixel_bounds{};
 			c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
 
 			parameters->frustum_bounds.y0 *= real(parameters->hight / (real)display_pixel_bounds.y1);
@@ -274,7 +274,7 @@ bool __cdecl render_camera_project_vector_to_screen(real_vector3d const* world_v
 	return INVOKE(0x00A651C0, render_camera_project_vector_to_screen, world_vector, world_point, matrix, a4, use_perspective, a6, result);
 }
 
-void __cdecl render_camera_screen_to_view(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point2d const* screen_point, real_vector3d* view_vector)
+void __cdecl render_camera_screen_to_view(render_camera const* camera, render_projection const* projection, rectangle2d const* window_display_bounds, real_point2d const* screen_point, real_vector3d* view_vector)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -301,7 +301,7 @@ void __cdecl render_camera_screen_to_world(render_camera const* camera, render_p
 	//normalize3d(world_vector);
 }
 
-bool __cdecl render_camera_view_to_screen(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* view_point, real_point2d* screen_point)
+bool __cdecl render_camera_view_to_screen(render_camera const* camera, render_projection const* projection, rectangle2d const* window_display_bounds, real_point3d const* view_point, real_point2d* screen_point)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -335,7 +335,7 @@ bool __cdecl render_camera_world_to_screen(render_camera const* camera, render_p
 	//return render_camera_view_to_screen(camera, projection, nullptr, &point, screen_point);
 }
 
-bool __cdecl render_camera_world_to_window(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point)
+bool __cdecl render_camera_world_to_window(render_camera const* camera, render_projection const* projection, rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point)
 {
 	ASSERT(camera);
 	ASSERT(projection);
@@ -380,7 +380,7 @@ void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera)
 	INVOKE(0x00A65F40, render_view_compute_fullscreen_bounds, camera);
 }
 
-void __cdecl render_view_compute_window_bounds(long player_index, long player_count, short_rectangle2d* bounds, short_rectangle2d* safe_bounds)
+void __cdecl render_view_compute_window_bounds(long player_index, long player_count, rectangle2d* bounds, rectangle2d* safe_bounds)
 {
 	INVOKE(0x00A65F90, render_view_compute_window_bounds, player_index, player_count, bounds, safe_bounds);
 }

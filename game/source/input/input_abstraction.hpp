@@ -83,7 +83,7 @@ struct s_game_input_state
 
 
 	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
-	int16_point2d abstract_sticks[2];
+	point2d abstract_sticks[2];
 
 	real forward_movement;
 	real strafe;

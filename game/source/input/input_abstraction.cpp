@@ -57,7 +57,7 @@ short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
 {
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
-	int16_point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
+	point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
 	short joystick_preset = input_abstraction_globals.preferences[controller_index].keyboard_preferences.joystick_preset;
 
 	return abstract_sticks[(joystick_preset == 1 || joystick_preset == 3) ? 0 : 1].y;

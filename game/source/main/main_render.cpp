@@ -520,7 +520,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	c_font_cache_mt_safe font_cache{};
 	c_rasterizer_draw_string draw_string{};
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
 	draw_string.set_font(_body_text_font);
@@ -590,7 +590,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 	c_font_cache_mt_safe font_cache{};
 	c_rasterizer_draw_string draw_string{};
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
 	draw_string.set_font(_body_text_font);
@@ -670,7 +670,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 	c_font_cache_mt_safe font_cache{};
 	c_rasterizer_draw_string draw_string{};
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
 	draw_string.set_font(_body_text_font);
@@ -736,7 +736,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		draw_string.set_justification(_text_justification_center);
 		draw_string.set_color(global_real_argb_white);
 
-		short_rectangle2d display_title_safe_pixel_bounds{};
+		rectangle2d display_title_safe_pixel_bounds{};
 		interface_get_current_display_or_window_settings(NULL, NULL, NULL, &display_title_safe_pixel_bounds);
 		real_rectangle2d bounds{};
 		set_real_rectangle2d(&bounds,

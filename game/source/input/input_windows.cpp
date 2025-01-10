@@ -730,10 +730,10 @@ void input_get_raw_data_string(char* buffer, short size)
 	//		{
 	//			csnzappendf(buffer, size, "gamepad %d|t(%d, %d)|t(%d, %d)|n",
 	//				gamepad_index,
-	//				g_debug_gamepad_data[gamepad_index].thumb_left.x,
-	//				g_debug_gamepad_data[gamepad_index].thumb_left.y,
-	//				g_debug_gamepad_data[gamepad_index].thumb_right.x,
-	//				g_debug_gamepad_data[gamepad_index].thumb_right.y);
+	//				g_debug_gamepad_data[gamepad_index].sticks[0].x,
+	//				g_debug_gamepad_data[gamepad_index].sticks[0].y,
+	//				g_debug_gamepad_data[gamepad_index].sticks[1].x,
+	//				g_debug_gamepad_data[gamepad_index].sticks[1].y);
 	//		}
 	//	}
 	//}

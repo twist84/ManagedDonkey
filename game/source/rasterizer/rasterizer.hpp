@@ -308,17 +308,17 @@ struct c_rasterizer
 	};
 	static_assert(sizeof(s_stream_source) == 0xC);
 
-	static void __cdecl begin(short_rectangle2d viewport, short_rectangle2d scissor_rect);
+	static void __cdecl begin(rectangle2d viewport, rectangle2d scissor_rect);
 	static bool __cdecl cleanup_before_device_reset();
 	static void __cdecl cleanup_d3d_states(bool wait_for_gpu_idle_);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
 	static real __cdecl get_aspect_ratio();
-	static void __cdecl get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds);
-	static void __cdecl get_display_title_safe_pixel_bounds(short_rectangle2d* resolution);
-	static void __cdecl get_fullscreen_render_pixel_bounds(short_rectangle2d* resolution);
-	static void __cdecl get_fullscreen_render_title_safe_pixel_bounds(short_rectangle2d* resolution);
+	static void __cdecl get_display_pixel_bounds(rectangle2d* display_pixel_bounds);
+	static void __cdecl get_display_title_safe_pixel_bounds(rectangle2d* resolution);
+	static void __cdecl get_fullscreen_render_pixel_bounds(rectangle2d* resolution);
+	static void __cdecl get_fullscreen_render_title_safe_pixel_bounds(rectangle2d* resolution);
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
@@ -363,7 +363,7 @@ struct c_rasterizer
 	static void __cdecl set_sampler_address_mode(long, e_sampler_address_mode);
 	static void __cdecl set_sampler_filter_mode(long, e_sampler_filter_mode);
 	static void __cdecl set_sampler_texture(long, c_rasterizer_texture_ref);
-	static void __cdecl set_scissor_rect(short_rectangle2d const*);
+	static void __cdecl set_scissor_rect(rectangle2d const*);
 	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode);
 	static void __cdecl set_stencil_mode(e_stencil_mode);
 	static void __cdecl set_stencil_mode_with_value(e_stencil_mode, byte);
@@ -376,7 +376,7 @@ struct c_rasterizer
 	static void __cdecl setup_render_target_globals_with_exposure(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_render_target_globals_with_exposure_for_texture_camera_only(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_targets_albedo(bool clear_stencil, bool is_clear);
-	static void __cdecl setup_targets_distortion(short_rectangle2d* pixel_bounds, bool depth_test);
+	static void __cdecl setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test);
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting(real view_exposure, real illum_scale, bool render_to_HDR_target, real HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
@@ -392,18 +392,18 @@ struct c_rasterizer
 
 	static e_surface sub_A48770();
 
-	static void __cdecl resolve_entire_surface(e_surface surface, long a2, short_rectangle2d* a3, short a4, short a5);
+	static void __cdecl resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
 	static void __cdecl set_render_target(long surface_index, e_surface surface, long force_is_srgb);
 	static void __cdecl set_using_albedo_sampler(bool value);
-	static void __cdecl set_viewport(short_rectangle2d const& viewport, real min_z, real max_z);
+	static void __cdecl set_viewport(rectangle2d const& viewport, real min_z, real max_z);
 	static void __cdecl wait_for_gpu_idle();
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
-	static void __cdecl draw_debug_linestrip2d(int16_point2d const* points, long point_count, dword color);
+	static void __cdecl draw_debug_linestrip2d(point2d const* points, long point_count, dword color);
 	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* polygon, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
@@ -460,8 +460,8 @@ struct c_rasterizer
 	static e_surface& g_depth_stencil_surface;
 	static e_surface(&g_color_surfaces)[4];
 
-	static short_rectangle2d& g_last_viewport;
-	static short_rectangle2d& g_last_scissor_rect;
+	static rectangle2d& g_last_viewport;
+	static rectangle2d& g_last_scissor_rect;
 
 	static dword& g_max_vs_gprs;
 	static dword& g_max_ps_gprs;
@@ -470,7 +470,7 @@ struct c_rasterizer
 	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
 	static void __cdecl sub_A21440();
 	static void __cdecl end();
-	static bool __cdecl end_albedo(short_rectangle2d const* bounds);
+	static bool __cdecl end_albedo(rectangle2d const* bounds);
 };
 
 struct s_global_bitmaps;
@@ -834,7 +834,7 @@ extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
-extern void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
+extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);

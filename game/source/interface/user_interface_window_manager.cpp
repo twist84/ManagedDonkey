@@ -106,7 +106,7 @@ bool c_window_manager::named_screen_defined_in_code(long screen_name)
 //.text:00AAC650 ; 
 //.text:00AAC6C0 ; 
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(dword)
-//.text:00AAC910 ; public: void c_window_manager::render(e_window_index, long, short_rectangle2d const*, bool)
+//.text:00AAC910 ; public: void c_window_manager::render(e_window_index, long, rectangle2d const*, bool)
 //.text:00AACB10 ; 
 //.text:00AACBD0 ; public: void c_window_manager::reset_screens()
 //.text:00AACE40 ; 

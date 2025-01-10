@@ -276,7 +276,7 @@ void __cdecl director_render()
 				control_mode
 			);
 
-			short_rectangle2d bounds{};
+			rectangle2d bounds{};
 			interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 			bounds.y0 += 80;
 

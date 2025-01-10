@@ -62,9 +62,9 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 //.text:00ABCE90 ; public: __cdecl c_user_interface_text::c_user_interface_text()
 //.text:00ABCF40 ; public: virtual __cdecl c_user_interface_text::~c_user_interface_text()
 //.text:00ABCF70 ; public: virtual void* __cdecl c_user_interface_text::`scalar deleting destructor'(unsigned int)
-//.text:00ABCFA0 ; protected: bool __cdecl c_user_interface_text::compute_bounds_internal(c_font_cache_base*, long, short_rectangle2d const*, real, short_rectangle2d const*, short, short_rectangle2d*, short_rectangle2d*)
-//.text:00ABD170 ; public: void __cdecl c_user_interface_text::compute_caret_bounds(c_font_cache_base*, long, short_rectangle2d const*, real, short_rectangle2d const*, short, short_rectangle2d*)
-//.text:00ABD1B0 ; public: bool __cdecl c_user_interface_text::compute_text_bounds(c_font_cache_base*, long, short_rectangle2d const*, real, short_rectangle2d const*, short_rectangle2d*)
+//.text:00ABCFA0 ; protected: bool __cdecl c_user_interface_text::compute_bounds_internal(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, short, rectangle2d*, rectangle2d*)
+//.text:00ABD170 ; public: void __cdecl c_user_interface_text::compute_caret_bounds(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, short, rectangle2d*)
+//.text:00ABD1B0 ; public: bool __cdecl c_user_interface_text::compute_text_bounds(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, rectangle2d*)
 //.text:00ABD200 ; 
 //.text:00ABD210 ; public: bool __cdecl c_user_interface_text::get_align_vertically() const
 //.text:00ABD220 ; public: real_argb_color __cdecl c_user_interface_text::get_argb_color() const
@@ -82,8 +82,8 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 //.text:00ABD490 ; public: bool __cdecl c_user_interface_text::get_wrap_horizontally() const
 //.text:00ABD4A0 ; public: void __cdecl c_user_interface_text::initialize(wchar_t const*, short, e_font_id, real_rgb_color const*, long, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
-//.text:00ABD530 ; public: static void __cdecl c_user_interface_text::render(s_user_interface_text_render_data*, short_rectangle2d*)
-//.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(long, real_rectangle2d const*, real_rectangle2d const*, real, real, short_rectangle2d const*)
+//.text:00ABD530 ; public: static void __cdecl c_user_interface_text::render(s_user_interface_text_render_data*, rectangle2d*)
+//.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(long, real_rectangle2d const*, real_rectangle2d const*, real, real, rectangle2d const*)
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
 {

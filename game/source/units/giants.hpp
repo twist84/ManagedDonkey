@@ -22,7 +22,7 @@ static_assert(sizeof(s_giant_foot_data) == 0x3C);
 
 struct s_buckling_workspace
 {
-	int16_point2d size;
+	point2d size;
 	real_point3d points[1024];
 	real_matrix4x3 bottom_center;
 	real_point3d maxima;

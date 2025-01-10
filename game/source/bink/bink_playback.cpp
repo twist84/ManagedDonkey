@@ -26,7 +26,7 @@
 //.text:006161B0 ; void __cdecl bink_close(s_bink_runtime*)
 //.text:00616220 ; 
 //.text:00616240 ; void __cdecl bink_destroy_rasterizer()
-//.text:00616250 ; void __cdecl bink_display_frame(short_rectangle2d const*)
+//.text:00616250 ; void __cdecl bink_display_frame(rectangle2d const*)
 //.text:00616420 ; void __cdecl bink_draw_frame()
 //.text:006165A0 ; 
 //.text:006166A0 ; 

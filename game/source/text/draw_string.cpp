@@ -13,9 +13,9 @@ void c_draw_string::set_bounds(real_rectangle2d const* bounds)
 	DECLFUNC(0x00658BC0, void, __thiscall, c_draw_string*, real_rectangle2d const*)(this, bounds);
 }
 
-void c_draw_string::set_bounds(short_rectangle2d const* bounds)
+void c_draw_string::set_bounds(rectangle2d const* bounds)
 {
-	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);
+	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, rectangle2d const*)(this, bounds);
 }
 
 void c_draw_string::set_color(dword color)
@@ -102,7 +102,7 @@ bool c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
 	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string, draw_more, font_cache, s);
 }
 
-void c_draw_string::get_cursor(int16_point2d* cursor) const
+void c_draw_string::get_cursor(point2d* cursor) const
 {
 	return INVOKE_CLASS_MEMBER(0x006583E0, c_draw_string, get_cursor, cursor);
 }

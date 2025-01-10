@@ -36,7 +36,7 @@ void rasterizer_render_debug_frame_deltas()
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	c_rasterizer::get_fullscreen_render_pixel_bounds(&bounds);
 
 	bounds.x0 = short(bounds.x1 - (50.0f * draw_string_get_glyph_scaling_for_display_settings()));

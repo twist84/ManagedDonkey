@@ -169,7 +169,7 @@ struct c_first_person_view :
 	public c_view
 {
 public:
-	void __thiscall override_projection(bool first_person_squish);
+	void __thiscall override_projection(bool squish_close_to_camera);
 
 //protected:
 
@@ -289,7 +289,7 @@ public:
 	c_lightmap_shadows_view m_lightmap_shadows_view;
 	c_reflection_view m_reflection_view;
 	c_occlusion_view m_occlusion_view;
-	short_rectangle2d m_final_surface_window_rect;
+	rectangle2d m_final_surface_window_rect;
 	s_camera_user_data m_camera_user_data;
 	bool m_stall_cpu_to_wait_for_gpu;
 };

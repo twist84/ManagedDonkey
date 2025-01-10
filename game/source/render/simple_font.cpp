@@ -54,7 +54,7 @@ bool c_simple_font_screen_display::open_session(real scale)
 
 	if (m_rendering = simple_font::begin_rendering(scale, true))
 	{
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&bounds);
 		m_x = bounds.x0;
 		m_y = bounds.y0;
@@ -160,7 +160,7 @@ namespace simple_font
 					}
 				}
 
-				short_rectangle2d rect{};
+				rectangle2d rect{};
 				rect.x1 = (short)source_width;
 				rect.y1 = (short)source_height;
 				rasterizer_bitmap_2d_changed_rect(bitmap, hardware_format, &rect, true);

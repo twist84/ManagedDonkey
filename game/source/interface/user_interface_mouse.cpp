@@ -347,7 +347,7 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 
 			if (short hscroll_ammount = user_interface_mouse_globals.mouse_hwheel_delta / -input_globals.mouse_wheel_delta)
 			{
-				int16_point2d point = { .x = hscroll_ammount > 0 ? 0x7FFF : -0x7FFF };
+				point2d point = { .x = hscroll_ammount > 0 ? 0x7FFF : -0x7FFF };
 				event_manager_tab(0, user_interface_mouse_globals.controller_index, &point, user_interface_milliseconds(), _controller_component_any_stick);
 			}
 		}

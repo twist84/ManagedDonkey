@@ -196,7 +196,7 @@ void players_debug_render()
 	{
 		c_rasterizer_draw_string draw_string;
 
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 		bounds.y0 = bounds.y1 - 40;
 
@@ -211,7 +211,7 @@ void players_debug_render()
 	{
 		//c_rasterizer_draw_string draw_string;
 		//
-		//short_rectangle2d bounds{};
+		//rectangle2d bounds{};
 		//interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 		//bounds.y0 = bounds.y1 - 20;
 		//

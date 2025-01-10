@@ -246,7 +246,7 @@ struct bitmap_data
 	c_flags<e_bitmap_flags, word, k_tag_bitmap_flags_count> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
-	int16_point2d registration_point;
+	point2d registration_point;
 
 	// DO NOT CHANGE
 	char mipmap_count_excluding_highest;

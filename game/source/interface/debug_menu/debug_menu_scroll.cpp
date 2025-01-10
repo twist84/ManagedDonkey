@@ -45,7 +45,7 @@ void c_debug_menu_scroll::update()
 	}
 }
 
-void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d const& point)
+void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& point)
 {
 	render_background(font_cache, point);
 	render_title(font_cache, point);
@@ -56,7 +56,7 @@ void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d co
 
 	c_rasterizer_draw_string draw_string{};
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 
 	draw_string.set_color(debug_real_argb_tv_magenta);

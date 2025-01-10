@@ -19,7 +19,7 @@ void c_debug_menu_item::update()
 {
 }
 
-void c_debug_menu_item::render(c_font_cache_base* font_cache, int16_point2d const& point)
+void c_debug_menu_item::render(c_font_cache_base* font_cache, point2d const& point)
 {
 	real_argb_color const* color = global_real_argb_black;
 	if (get_active() && get_menu()->get_enabled())
@@ -27,7 +27,7 @@ void c_debug_menu_item::render(c_font_cache_base* font_cache, int16_point2d cons
 
 	c_rasterizer_draw_string draw_string{};
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 	set_rectangle2d(&bounds, point.x, point.y, bounds.x1, bounds.y1);
 

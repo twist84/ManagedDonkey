@@ -8,7 +8,7 @@ class c_debug_menu_scroll :
 public:
 	virtual ~c_debug_menu_scroll();
 	virtual void update() override;
-	virtual void render(c_font_cache_base* font_cache, int16_point2d const& point) override;
+	virtual void render(c_font_cache_base* font_cache, point2d const& point) override;
 	virtual void open() override;
 
 protected:

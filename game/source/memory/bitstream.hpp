@@ -91,7 +91,7 @@ public:
 	void read_bits_internal(void* data, long size_in_bits);
 	dword read_integer(char const* name, long size_in_bits);
 	void read_identifier(char const* identifier);
-	void read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits);
+	void read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits);
 	real read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	qword read_qword_internal(long size_in_bits);
 	void read_secure_address(char const* name, s_transport_secure_address* address);
@@ -117,7 +117,7 @@ public:
 	void write_accumulator_to_memory(qword value, long size_in_bits);
 	void write_bits_internal(void const* data, long size_in_bits);
 	void write_identifier(char const* identifier);
-	void write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits);
+	void write_point3d(char const* name, long_point3d const* point, long axis_encoding_size_in_bits);
 	void write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void write_qword_internal(qword value, long size_in_bits);
 	void write_secure_address(char const* name, s_transport_secure_address const* address);

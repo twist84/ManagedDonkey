@@ -13,7 +13,7 @@ void editor_render_scene(long a1)
     // #TODO: implement
 }
 
-void editor_render_ui(e_window_index window_index, short_rectangle2d const* bounds)
+void editor_render_ui(e_window_index window_index, rectangle2d const* bounds)
 {
     // #TODO: implement
 }

@@ -17,7 +17,7 @@ struct s_chud_draw_globals
 	real_rectangle2d rendered_window_bounds;
 	real_rectangle2d rendered_window_safe_bounds;
 
-	short_rectangle2d adjusted_camera_window_title_safe_pixel_bounds;
+	rectangle2d adjusted_camera_window_title_safe_pixel_bounds;
 
 	real virtual_width;
 	real virtual_height;

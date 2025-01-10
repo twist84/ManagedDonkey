@@ -74,7 +74,7 @@ struct s_window_manager_screen_render_data
 	long render_data_buffer_count;
 	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
 	long current_count;
-	short_rectangle2d built_for_viewport_bounds;
+	rectangle2d built_for_viewport_bounds;
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 

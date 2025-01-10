@@ -56,5 +56,5 @@ static_assert(sizeof(s_hardware_character_cache_globals) == 0x2C28);
 
 extern s_hardware_character_cache_globals& hardware_character_cache_globals;
 
-extern void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref texture_ref, short_rectangle2d const* dirty_rect, bool a4);
+extern void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref texture_ref, rectangle2d const* dirty_rect, bool a4);
 

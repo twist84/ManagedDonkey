@@ -24,7 +24,7 @@ void __cdecl render_report_render_debug(long user_index, bool draw_environment_e
 
 	if (render_debug_safe_frame_bounds)
 	{
-		short_rectangle2d resolution{};
+		rectangle2d resolution{};
 		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&resolution);
 
 		real_point2d safe_frame_bounds[4]{};

@@ -300,7 +300,7 @@ void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unpro
 
 	// this is more or less what Halo 3 MCC is doing
 
-	short_rectangle2d display_pixel_bounds;
+	rectangle2d display_pixel_bounds;
 	interface_get_current_display_settings(nullptr, nullptr, &display_pixel_bounds, nullptr);
 
 	real width_scale_factor = (display_pixel_bounds.x1 - display_pixel_bounds.x0) / 1152.0f;

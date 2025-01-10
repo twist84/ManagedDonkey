@@ -295,11 +295,11 @@ void __cdecl terminal_draw()
 
 		short line_height = draw_string.get_line_height();
 
-		short_rectangle2d pixel_bounds[4]{};
+		rectangle2d pixel_bounds[4]{};
 		interface_get_current_display_settings(&pixel_bounds[0], &pixel_bounds[1], &pixel_bounds[2], &pixel_bounds[3]);
-		short_rectangle2d* pixel_bounds_ = &pixel_bounds[3];
+		rectangle2d* pixel_bounds_ = &pixel_bounds[3];
 
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		if (terminal_gets_active())
 		{
 			c_static_string<288> buffer;

@@ -67,7 +67,7 @@ extern void __cdecl cinematic_render(bool a1, bool a2);
 extern void __cdecl cinematic_start_user_skip_fade_out();
 extern void __cdecl cinematic_update();
 extern void __cdecl cinematics_game_tick();
-extern void __cdecl draw_quad(short_rectangle2d* rect, dword color);
+extern void __cdecl draw_quad(rectangle2d* rect, dword color);
 
 extern void cinematic_debug_camera_control_update();
 

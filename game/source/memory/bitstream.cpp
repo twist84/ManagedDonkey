@@ -467,7 +467,7 @@ void c_bitstream::read_identifier(char const* identifier)
 	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream*, char const*)(this, identifier);
 }
 
-void c_bitstream::read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits)
+void c_bitstream::read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits)
 {
 	ASSERT(was_reading());
 	ASSERT(axis_encoding_size_in_bits >= 0 && axis_encoding_size_in_bits <= SIZEOF_BITS(point->n[0]));
@@ -478,7 +478,7 @@ void c_bitstream::read_point3d(char const* name, int32_point3d* point, long axis
 	//	ASSERT(point->n[axis] < (1 << axis_encoding_size_in_bits));
 	//}
 
-	DECLFUNC(0x00558C50, void, __thiscall, c_bitstream*, char const*, int32_point3d*, long)(this, name, point, axis_encoding_size_in_bits);
+	DECLFUNC(0x00558C50, void, __thiscall, c_bitstream*, char const*, long_point3d*, long)(this, name, point, axis_encoding_size_in_bits);
 }
 
 real c_bitstream::read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
@@ -618,9 +618,9 @@ void c_bitstream::write_identifier(char const* identifier)
 	//DECLFUNC(0x0055A100, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
 }
 
-void c_bitstream::write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits)
+void c_bitstream::write_point3d(char const* name, long_point3d const* point, long axis_encoding_size_in_bits)
 {
-	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream*, char const*, int32_point3d const*, long)(this, name, point, axis_encoding_size_in_bits);
+	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream*, char const*, long_point3d const*, long)(this, name, point, axis_encoding_size_in_bits);
 }
 
 void c_bitstream::write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)

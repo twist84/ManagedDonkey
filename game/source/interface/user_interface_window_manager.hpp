@@ -20,7 +20,7 @@ struct c_window_manager
 	dword __time4;
 	c_gui_screen_widget* m_screen_array[5][10];
 	c_synchronized_long m_current_channel_count[5];
-	short_rectangle2d m_window_bounds[5];
+	rectangle2d m_window_bounds[5];
 	long __unknown10C[4];
 	long __unknown11C;
 	long __unknown120;

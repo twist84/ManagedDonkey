@@ -91,7 +91,7 @@ void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_linestrip2d(int16_point2d const* points, long point_count, dword color)
+void __cdecl c_rasterizer::draw_debug_linestrip2d(point2d const* points, long point_count, dword color)
 {
 	INVOKE(0x00A45970, draw_debug_linestrip2d, points, point_count, color);
 }
@@ -328,7 +328,7 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5)
+void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5)
 {
 	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, a5);
 }

@@ -92,7 +92,7 @@ public:
 	
 	void set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b);
 	void set_bounds(real_rectangle2d const* bounds);
-	void set_bounds(short_rectangle2d const* bounds);
+	void set_bounds(rectangle2d const* bounds);
 	void set_color(dword color);
 	void set_color(argb_color color);
 	void set_color(real_argb_color const* color);
@@ -106,7 +106,7 @@ public:
 	void set_justification(e_text_justification justification);
 	bool draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial
-	void get_cursor(int16_point2d* cursor) const;
+	void get_cursor(point2d* cursor) const;
 	short get_line_height() const;
 
 protected:

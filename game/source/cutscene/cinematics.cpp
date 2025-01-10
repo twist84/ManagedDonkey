@@ -37,7 +37,7 @@ void __cdecl cinematic_game_pause_handler(bool paused)
 //.text:0067CF10 ; e_cinematic_channel_type __cdecl cinematic_get_channel_type()
 //.text:0067CF60 ; s_cinematic_clip_global const* __cdecl cinematic_get_clip_planes(long*)
 //.text:0067CF90 ; cinematic_get_debug_mode
-//.text:0067CFA0 ; void __cdecl cinematic_get_default_chapter_title_bounds(short_rectangle2d*)
+//.text:0067CFA0 ; void __cdecl cinematic_get_default_chapter_title_bounds(rectangle2d*)
 //.text:0067CFE0 ; short __cdecl cinematic_get_descriptor()
 //.text:0067D0A0 ; long __cdecl cinematic_get_early_exit()
 //.text:0067D0C0 ; double __cdecl cinematic_get_fade_amount()
@@ -176,7 +176,7 @@ void __cdecl cinematics_game_tick()
 //.text:0067F1A0 ; 
 //.text:0067F1D0 ; 
 
-void __cdecl draw_quad(short_rectangle2d* rect, dword color)
+void __cdecl draw_quad(rectangle2d* rect, dword color)
 {
 	return INVOKE(0x0067F200, draw_quad, rect, color);
 }
@@ -186,8 +186,8 @@ void __cdecl draw_quad(short_rectangle2d* rect, dword color)
 //.text:0067F2A0 ; 
 //.text:0067F2D0 ; 
 //.text:0067F300 ; 
-//.text:0067F310 ; void __cdecl get_cinematic_bounds(short_rectangle2d*, short_rectangle2d*, short_rectangle2d*)
-//.text:0067F520 ; void __cdecl get_cinematic_bounds_screen_space(short_rectangle2d*, short_rectangle2d*, short_rectangle2d *)
+//.text:0067F310 ; void __cdecl get_cinematic_bounds(rectangle2d*, rectangle2d*, rectangle2d*)
+//.text:0067F520 ; void __cdecl get_cinematic_bounds_screen_space(rectangle2d*, rectangle2d*, rectangle2d *)
 //.text:0067F570 ; s_cinematic_light_globals* __cdecl get_cinematic_light_globals()
 //.text:0067F590 ; 
 //.text:0067F5A0 ; s_cinematic_scene* __cdecl global_cinematic_scene_try_and_get()

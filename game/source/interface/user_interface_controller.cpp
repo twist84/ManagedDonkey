@@ -11,7 +11,7 @@ HOOK_DECLARE(0x00A935C0, event_manager_button_pressed);
 HOOK_DECLARE(0x00A94B40, user_interface_controller_input_event_submit);
 
 //.text:00A934C0 ; bool __cdecl dpad_button_tabbed(bool, byte, word)
-//.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, int16_point2d const*, e_controller_component)
+//.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, point2d const*, e_controller_component)
 
 void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button)
 {
@@ -70,18 +70,18 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, c
 	user_interface_controller_input_event_submit(&event_record);
 }
 
-void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, int16_point2d const* a3, dword a4, e_controller_component controller_component)
+void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* a3, dword a4, e_controller_component controller_component)
 {
 }
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab_fix_for_double_press);
 
-void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, int16_point2d const* a3, dword a4, e_controller_component controller_component)
+void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* a3, dword a4, e_controller_component controller_component)
 {
 	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, a3, a4, controller_component);
 }
 
 //.text:00A93A50 ; void __cdecl event_manager_update(dword)
-//.text:00A94290 ; void __cdecl send_stick_magnitude_events(e_controller_index, int16_point2d, e_gamepad_stick)
+//.text:00A94290 ; void __cdecl send_stick_magnitude_events(e_controller_index, point2d, e_gamepad_stick)
 //.text:00A94330 ; 
 //.text:00A94340 ; 
 //.text:00A94350 ; void __cdecl user_interface_controller_detached(e_controller_index)

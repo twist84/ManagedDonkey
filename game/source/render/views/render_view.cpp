@@ -150,7 +150,7 @@ void c_world_view::get_starting_cluster(s_cluster_reference* starting_cluster)
 	INVOKE_CLASS_MEMBER(0x00A28B50, c_world_view, get_starting_cluster, starting_cluster);
 }
 
-void __thiscall c_first_person_view::override_projection(bool first_person_squish)
+void __thiscall c_first_person_view::override_projection(bool squish_close_to_camera)
 {
 	//INVOKE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection, first_person_squish);
 
@@ -159,7 +159,7 @@ void __thiscall c_first_person_view::override_projection(bool first_person_squis
 
 	*rasterizer_camera_modifiable = *m_camera;
 
-	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->horizontal_field_of_view, _real_epsilon);
+	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->field_of_view_scale, _real_epsilon);
 	rasterizer_camera_modifiable->vertical_field_of_view *= m_fov_scale;
 
 	long width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
@@ -167,9 +167,9 @@ void __thiscall c_first_person_view::override_projection(bool first_person_squis
 	real aspect_ratio = (real)width / (real)height;
 
 	// cortana effect fov?
-	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(sub_ABEA20(), _real_epsilon);
+	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(cortana_effect_get_fov_scale(), _real_epsilon);
 
-	if (first_person_squish)
+	if (squish_close_to_camera)
 	{
 		rasterizer_camera_modifiable->z_far *= m_z_far_scale;
 		rasterizer_camera_modifiable->z_near *= aspect_ratio > 1.8f ? 2.4f : 3.2f;
@@ -196,10 +196,10 @@ void __cdecl render_debug_frame_render()
 	{
 		c_rasterizer_profile_scope _frame_debug(_rasterizer_profile_element_debug, L"frame_debug");
 
-		short_rectangle2d screen_pixel_bounds{};
+		rectangle2d screen_pixel_bounds{};
 		c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
 
-		short_rectangle2d screen_safe_pixel_bounds{};
+		rectangle2d screen_safe_pixel_bounds{};
 		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&screen_safe_pixel_bounds);
 
 		render_debug_begin(true, true, true);

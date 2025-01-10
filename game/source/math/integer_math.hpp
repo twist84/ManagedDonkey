@@ -33,7 +33,7 @@ union int64_bounds
 };
 static_assert(sizeof(int64_bounds) == 0x10);
 
-union int16_point2d
+union point2d
 {
 	struct
 	{
@@ -42,9 +42,9 @@ union int16_point2d
 	};
 	short n[2];
 };
-static_assert(sizeof(int16_point2d) == 0x4);
+static_assert(sizeof(point2d) == 0x4);
 
-union int16_point3d
+union point3d
 {
 	struct
 	{
@@ -54,9 +54,9 @@ union int16_point3d
 	};
 	short n[3];
 };
-static_assert(sizeof(int16_point3d) == 0x6);
+static_assert(sizeof(point3d) == 0x6);
 
-union point2d
+union long_point2d
 {
 	struct
 	{
@@ -65,9 +65,9 @@ union point2d
 	};
 	long n[2];
 };
-static_assert(sizeof(point2d) == 0x8);
+static_assert(sizeof(long_point2d) == 0x8);
 
-union int32_point3d
+union long_point3d
 {
 	struct
 	{
@@ -77,9 +77,9 @@ union int32_point3d
 	};
 	long n[3];
 };
-static_assert(sizeof(int32_point3d) == 0xC);
+static_assert(sizeof(long_point3d) == 0xC);
 
-union short_rectangle2d
+union rectangle2d
 {
 	struct
 	{
@@ -90,9 +90,9 @@ union short_rectangle2d
 	};
 	short n[4];
 };
-static_assert(sizeof(short_rectangle2d) == 0x8);
+static_assert(sizeof(rectangle2d) == 0x8);
 
-union rectangle2d
+union long_rectangle2d
 {
 	struct
 	{
@@ -103,7 +103,7 @@ union rectangle2d
 	};
 	long n[4];
 };
-static_assert(sizeof(rectangle2d) == 0x10);
+static_assert(sizeof(long_rectangle2d) == 0x10);
 
 union rgb_color
 {
@@ -142,8 +142,8 @@ extern void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned 
 
 extern long highest_bit_set(unsigned long mask);
 extern long lowest_bit_set(unsigned long mask);
-extern short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short y0, short x0, short y1, short x1);
-extern int16_point2d* set_point2d(int16_point2d* point, short x, short y);
+extern rectangle2d* set_rectangle2d(rectangle2d* rect, short y0, short x0, short y1, short x1);
+extern point2d* set_point2d(point2d* point, short x, short y);
 
 template<typename t_type>
 t_type int_min(t_type const& val0, t_type const& val1)

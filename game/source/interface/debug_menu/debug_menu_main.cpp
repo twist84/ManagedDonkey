@@ -76,7 +76,7 @@ c_static_stack<long, 262144> g_debug_menu_stack;
 
 void debug_menu_draw_rect(short a1, short a2, short a3, short a4, real a5, real_argb_color const* color)
 {
-	int16_point2d points[4]{};
+	point2d points[4]{};
 
 	set_point2d(&points[0], a1, a4);
 	set_point2d(&points[1], a3, a4);
@@ -241,7 +241,7 @@ void render_debug_debug_menu()
 	{
 		c_font_cache_mt_safe font_cache{};
 
-		int16_point2d point{};
+		point2d point{};
 		set_point2d(&point, 180, 60);
 		debug_menu_get_active_menu()->render(&font_cache, point);
 	}

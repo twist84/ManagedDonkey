@@ -129,14 +129,14 @@ void __cdecl game_engine_render_fade_to_black(long user_index)
 	if (user_fade_to_black_amount <= 0.0f)
 		return;
 
-	short_rectangle2d display_pixel_bounds{};
+	rectangle2d display_pixel_bounds{};
 	interface_get_current_display_settings(nullptr, nullptr, &display_pixel_bounds, nullptr);
 
 	real_argb_color fade_color{};
 	fade_color.rgb = *global_real_rgb_black;
 	fade_color.alpha = user_fade_to_black_amount;
 
-	short_rectangle2d quad_bounds{};
+	rectangle2d quad_bounds{};
 	set_rectangle2d(&quad_bounds, 0, 0, display_pixel_bounds.x1 - display_pixel_bounds.x0, display_pixel_bounds.y1 - display_pixel_bounds.y0);
 	draw_quad(&quad_bounds, real_argb_color_to_pixel32(&fade_color));
 }

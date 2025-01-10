@@ -143,7 +143,7 @@ void render_debug_object_damage()
 
 	if (debug_damage)
 	{
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 		bounds.x0 += short(real(bounds.x1 - bounds.x0) * 0.7f);
 		bounds.y0 += short(real(bounds.y1 - bounds.y0) * 0.1f);

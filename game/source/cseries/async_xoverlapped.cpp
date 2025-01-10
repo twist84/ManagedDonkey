@@ -177,7 +177,7 @@ void __cdecl overlapped_render()
 	{
 		c_simple_font_draw_string draw_string;
 
-		short_rectangle2d bounds{};
+		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 		bounds.x0 += (bounds.x1 - bounds.x0) >> 1;
 		draw_string.set_bounds(&bounds);

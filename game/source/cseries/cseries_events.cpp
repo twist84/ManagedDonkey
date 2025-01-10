@@ -365,10 +365,10 @@ void __cdecl events_debug_render()
 	if (!g_events_debug_render_enable)
 		return;
 
-	short_rectangle2d display_title_safe_pixel_bounds{};
+	rectangle2d display_title_safe_pixel_bounds{};
 	interface_get_current_display_settings(nullptr, nullptr, nullptr, &display_title_safe_pixel_bounds);
 
-	short_rectangle2d bounds{};
+	rectangle2d bounds{};
 	bounds.x0 = display_title_safe_pixel_bounds.x0;
 	bounds.y0 = display_title_safe_pixel_bounds.y0 + 70;
 	bounds.x1 = SHRT_MAX;

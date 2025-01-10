@@ -41,7 +41,7 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
 	__unknown268 = 0;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_data, short_rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
 	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(get_core_definition()))
 	{
@@ -69,7 +69,7 @@ void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_d
 		set_visible(true);
 	}
 
-	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, short_rectangle2d*, e_controller_index, bool, bool, bool)
+	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, rectangle2d*, e_controller_index, bool, bool, bool)
 		(this, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
 }
 

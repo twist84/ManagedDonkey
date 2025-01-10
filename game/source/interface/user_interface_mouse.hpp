@@ -10,7 +10,7 @@ struct s_user_interface_mouse_globals
 	real_rectangle2d window_bounds;
 	real_point2d window_cursor_position;
 	real_point2d last_window_cursor_position;
-	point2d update_cursor_position;
+	long_point2d update_cursor_position;
 	byte mouse_move_ticks;
 	byte left_button_frames_down;
 	byte right_button_frames_down;
