@@ -9,7 +9,6 @@
 #include "camera/observer.hpp"
 #include "camera/orbiting_camera.hpp"
 #include "camera/static_camera.hpp"
-#include "memory/data.hpp"
 
 enum e_director_mode
 {

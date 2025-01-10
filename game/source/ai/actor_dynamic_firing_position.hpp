@@ -3,7 +3,6 @@
 #include "ai/actors.hpp"
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct firing_position_definition
 {

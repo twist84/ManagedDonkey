@@ -1,7 +1,6 @@
 #include "objects/watch_window.hpp"
 
 #include "cache/cache_files.hpp"
-#include "memory/data.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/object_types.hpp"

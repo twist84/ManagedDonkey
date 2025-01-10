@@ -144,6 +144,12 @@ static_assert(sizeof(real) == 0x4);
 
 typedef char utf8;
 
+struct s_datum_header
+{
+	short identifier;
+};
+static_assert(sizeof(s_datum_header) == 0x2);
+
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 
 const long CHAR_BYTES = sizeof(char);

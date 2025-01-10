@@ -72,17 +72,13 @@ struct s_level_globals
 	c_smart_data_array<s_level_insertion_datum> campaign_insertions;
 	c_smart_data_array<s_level_datum> multiplayer_levels;
 	s_level_datum mainmenu_level;
-
 	long enumeration_task;
 	s_find_file_data enumeration_task_data;
 	c_synchronized_long enumeration_result;
-	bool __unknownA14;
-	bool __unknownA15;
-
+	bool need_to_enumerate_dvd;
+	bool need_to_enumerate_dlc;
 	bool initialized;
-	byte controller_mask;
-
-	// checksum = fast_checksum(header.hash, sizeof(s_network_http_request_hash), fast_checksum_new());
+	byte preorder_unlock_controller_mask;
 	dword checksum;
 };
 static_assert(sizeof(s_level_globals) == 0xA1C);

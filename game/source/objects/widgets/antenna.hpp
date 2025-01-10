@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct antenna_vertex_datum
 {

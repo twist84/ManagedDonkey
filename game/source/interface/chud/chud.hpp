@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/chud/chud_globals_definitions.hpp"
-#include "memory/data.hpp"
 
 struct chud_widget_datum :
 	s_datum_header

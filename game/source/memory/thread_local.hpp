@@ -725,7 +725,7 @@ struct s_thread_local_storage
 
 	// name: "OBJ: Render Data"
 	// type: "Render"
-	// size: 0x2000
+	// size: 0x2000, sizeof(s_object_render_data) * 2048
 	s_object_render_data* g_object_render_data;
 
 	// name: "damage globals"

@@ -4,7 +4,6 @@
 #include "ai/ai_actions.hpp"
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct invitation_data
 {

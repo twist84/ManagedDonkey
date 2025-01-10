@@ -9,6 +9,7 @@
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+#include "memory/data.hpp"
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"

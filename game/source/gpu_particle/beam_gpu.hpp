@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct c_beam_gpu :
 	s_datum_header

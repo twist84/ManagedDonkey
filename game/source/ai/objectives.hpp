@@ -2,7 +2,6 @@
 
 #include "ai/clump.hpp"
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 #include "tag_files/tag_groups.hpp"
 
 struct s_objective_datum :

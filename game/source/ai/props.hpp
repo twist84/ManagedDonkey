@@ -2,7 +2,6 @@
 
 #include "ai/joint_behavior.hpp"
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct prop_ref_datum :
 	s_datum_header

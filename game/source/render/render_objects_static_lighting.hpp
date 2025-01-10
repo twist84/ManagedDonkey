@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "effects/effects.hpp"
-#include "memory/data.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
 struct s_cubemap_sample

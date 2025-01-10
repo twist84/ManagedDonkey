@@ -49,10 +49,7 @@ struct s_network_message_synchronous_gamestate
 	dword chunk_offset_next_update_compressed_checksum;
 	long chunk_size;
 	dword decompressed_checksum;
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte chunk_data[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte chunk_data[];
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 

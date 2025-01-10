@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 #define HS_TYPE_IS_TAG_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_effect && (_hs_type) <= _hs_type_bink_definition)
 #define HS_TYPE_IS_ENUM(_hs_type) ((_hs_type) >= _hs_type_game_difficulty && (_hs_type) <= _hs_type_secondary_skull)
@@ -146,6 +145,7 @@ struct hs_function_definition_debug;
 struct hs_global_external;
 struct hs_global_external_debug;
 struct s_tag_block;
+struct s_data_array;
 
 extern bool const _hs_type_boolean_default;
 extern real const _hs_type_real_default;

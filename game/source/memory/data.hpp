@@ -21,12 +21,6 @@ enum
 #define BUILD_DATUM_INDEX(IDENTIFIER, ABSOLUTE_INDEX) ((IDENTIFIER << 16) | ABSOLUTE_INDEX)
 #define DATA_ARRAY_GET_DATA(DATA) ((DATA)->data)
 
-struct s_datum_header
-{
-	short identifier;
-};
-static_assert(sizeof(s_datum_header) == 0x2);
-
 enum
 {
 	_data_array_can_disconnect_bit = 0,

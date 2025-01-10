@@ -15,14 +15,11 @@ struct hs_function_definition
 	char const* parameters;
 
 	short formal_parameter_count;
-#pragma warning(push)
-#pragma warning(disable : 4200)
 	union
 	{
-		c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> formal_parameters_[];
-		short formal_parameters[];
+		__pragma(warning(disable : 4200)) c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> formal_parameters_[];
+		__pragma(warning(disable : 4200)) short formal_parameters[];
 	};
-#pragma warning(pop)
 };
 static_assert(sizeof(hs_function_definition) == 0x10);
 
@@ -39,14 +36,11 @@ struct hs_function_definition_debug
 	char const* parameters;
 
 	short formal_parameter_count;
-#pragma warning(push)
-#pragma warning(disable : 4200)
 	union
 	{
-		c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> formal_parameters_[];
-		short formal_parameters[];
+		__pragma(warning(disable : 4200)) c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> formal_parameters_[];
+		__pragma(warning(disable : 4200)) short formal_parameters[];
 	};
-#pragma warning(pop)
 };
 static_assert(sizeof(hs_function_definition_debug) == 0x20);
 

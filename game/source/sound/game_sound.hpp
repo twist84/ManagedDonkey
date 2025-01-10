@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
 struct game_looping_sound_datum :
 	s_datum_header

@@ -29,11 +29,7 @@ struct s_hash_table_bucket
 	void const* key;
 	dword hash;
 	s_hash_table_bucket* next;
-
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte user_data[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte user_data[];
 };
 static_assert(sizeof(s_hash_table_bucket) == 0xC);
 
@@ -52,11 +48,7 @@ struct s_hash_table
 	c_allocation_base* allocation;
 	s_hash_table_bucket* free_list_elements;
 	s_hash_table_bucket* free_list;
-
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	s_hash_table_bucket* data[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) s_hash_table_bucket* data[];
 };
 static_assert(sizeof(s_hash_table) == 0x40);
 

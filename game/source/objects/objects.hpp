@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 #include "objects/damage.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/lights.hpp"
@@ -405,9 +404,9 @@ static_assert(sizeof(s_object_cluster_payload) == 0x14);
 
 struct s_object_render_data
 {
-	byte __data[0x2000];
+	long cached_render_state_index;
 };
-static_assert(sizeof(s_object_render_data) == 0x2000);
+static_assert(sizeof(s_object_render_data) == sizeof(long));
 
 struct s_object_globals
 {
@@ -443,16 +442,18 @@ static_assert(sizeof(s_object_render_thread_message) == 0x8);
 
 struct objects_information
 {
-	short __unknown0;
-	short __unknown2;
-	short __unknown4;
-	short __unknown6;
-	real __unknown8;
-	real __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
+	short object_count;
+	short free_object_count;
+	short active_object_count;
+	short active_garbage_count;
+	real used_memory;
+	real contiguous_free_memory;
+
+	// unsure of these names
+	long collideable_object_actual_count;
+	long collideable_object_maximum_count;
+	long noncollideable_object_actual_count;
+	long noncollideable_object_maximum_count;
 };
 static_assert(sizeof(objects_information) == 0x20);
 

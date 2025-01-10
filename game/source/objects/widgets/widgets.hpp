@@ -5,7 +5,6 @@
 #include "objects/widgets/cloth.hpp"
 #include "objects/widgets/leaf_system.hpp"
 #include "objects/widgets/muffins.hpp"
-#include "memory/data.hpp"
 
 struct widget_datum :
 	s_datum_header

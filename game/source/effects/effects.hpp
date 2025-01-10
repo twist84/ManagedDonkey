@@ -12,7 +12,6 @@
 #include "effects/player_effects.hpp"
 #include "effects/screen_effect.hpp"
 #include "effects/vision_mode.hpp"
-#include "memory/data.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
 

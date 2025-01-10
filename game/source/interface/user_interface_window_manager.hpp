@@ -16,15 +16,29 @@ struct s_event_record;
 enum e_window_index;
 struct c_window_manager
 {
+	enum
+	{
+		k_maximum_number_of_channels_per_render_window = 10
+	};
+
+	struct s_screen_handle_datum :
+		s_datum_header
+	{
+		c_gui_screen_widget* screen;
+	};
+
 	s_data_array* m_active_screens;
-	dword __time4;
-	c_gui_screen_widget* m_screen_array[5][10];
+	dword m_last_milliseconds;
+	c_gui_screen_widget* m_screen_array[5][k_maximum_number_of_channels_per_render_window];
 	c_synchronized_long m_current_channel_count[5];
-	rectangle2d m_window_bounds[5];
-	long __unknown10C[4];
-	long __unknown11C;
-	long __unknown120;
-	long __unknown124;
+	rectangle2d m_last_known_viewport_bounds[5];
+	long m_had_ui_frames_ago[4];
+	long m_hs_thread_index;
+	real m_fade_amount;
+	bool m_fade_in;
+	bool m_fade_out_and_quit_campaign;
+	bool __unknown126;
+	byte __unknown127;
 
 	c_gui_screen_widget* allocate_codeless_screen(long screen_name);
 	c_gui_screen_widget* allocate_named_screen(long screen_name);

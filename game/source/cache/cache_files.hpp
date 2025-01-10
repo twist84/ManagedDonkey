@@ -45,10 +45,7 @@ const long k_cache_file_version = 18;
 #pragma pack(push, 4)
 union s_cache_file_header
 {
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte base[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte base[];
 
 	struct
 	{
@@ -147,10 +144,7 @@ static_assert(sizeof(cache_address) == 0x4);
 
 union cache_file_tag_instance
 {
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte base[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte base[];
 
 	struct
 	{
@@ -166,11 +160,7 @@ union cache_file_tag_instance
 
 		s_cache_file_tag_group tag_group;
 
-#pragma warning(push)
-#pragma warning(disable : 4200)
-		dword dependencies[];
-#pragma warning(pop)
-
+		__pragma(warning(disable : 4200)) dword dependencies[];
 	};
 
 	char const* get_name()
@@ -232,10 +222,7 @@ static_assert(sizeof(s_cache_file_reports) == 0x8);
 
 union s_cache_file_section_header
 {
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte base[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte base[];
 
 	struct
 	{

@@ -66,7 +66,7 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 {
 	//HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
 
-	if (g_level_globals.__unknownA14)
+	if (g_level_globals.need_to_enumerate_dvd)
 	{
 		if (!levels_enumeration_in_progress())
 			levels_begin_dvd_enumeration();
@@ -137,7 +137,7 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 
 void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path)
 {
-	if (g_level_globals.__unknownA14)
+	if (g_level_globals.need_to_enumerate_dvd)
 	{
 		if (!levels_enumeration_in_progress())
 			levels_begin_dvd_enumeration();
@@ -391,7 +391,7 @@ bool __cdecl levels_begin_dvd_enumeration()
 
 		if (g_level_globals.enumeration_task != NONE)
 		{
-			g_level_globals.__unknownA14 = false;
+			g_level_globals.need_to_enumerate_dvd = false;
 			return true;
 		}
 	}
@@ -739,8 +739,8 @@ void __cdecl levels_initialize()
 	csnzprintf(g_level_globals.mainmenu_level.scenario_file, sizeof(g_level_globals.mainmenu_level.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
 
 	g_level_globals.initialized = true;
-	g_level_globals.controller_mask = 0;
-	g_level_globals.__unknownA14 = true;
+	g_level_globals.preorder_unlock_controller_mask = 0;
+	g_level_globals.need_to_enumerate_dvd = true;
 	g_level_globals.checksum = NONE;
 
 	levels_begin_dvd_enumeration();

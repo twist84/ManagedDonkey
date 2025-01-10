@@ -472,11 +472,7 @@ public:
 
 	byte type;
 	long buffer_size;
-
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	char buffer[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) char buffer[];
 };
 static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + 0x8);
 

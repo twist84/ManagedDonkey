@@ -1,8 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
+struct s_data_array;
 struct c_tag_resource_inverse_page_table
 {
 	struct s_page_resource_reference_range :

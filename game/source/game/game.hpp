@@ -10,7 +10,6 @@
 #include "game/player_mapping.hpp"
 #include "game/players.hpp"
 #include "game/survival_mode.hpp"
-#include "memory/data.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "saved_games/game_state.hpp"
 #include "shell/shell.hpp"

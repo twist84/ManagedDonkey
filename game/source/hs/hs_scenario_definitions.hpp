@@ -1,7 +1,6 @@
 #pragma once
 
 #include "hs/hs.hpp"
-#include "memory/data.hpp"
 #include "tag_files/tag_groups.hpp"
 
 struct hs_tag_reference
@@ -54,10 +53,7 @@ enum hs_source_file_flags
 
 struct hs_string_data_definition
 {
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte data[];
-#pragma warning(pop)
+	__pragma(warning(disable : 4200)) byte data[];
 };
 
 enum e_hs_syntax_node_flags

@@ -10,7 +10,6 @@
 #include "game/materials.hpp"
 #include "game/materials_definitions.hpp"
 #include "math/function_definitions.hpp"
-#include "memory/data.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "sound/sound_definitions.hpp"
 #include "tag_files/tag_groups.hpp"

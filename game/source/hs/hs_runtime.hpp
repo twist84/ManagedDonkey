@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
-#include "memory/data.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 
 enum e_hs_thread_type
