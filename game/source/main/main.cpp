@@ -665,43 +665,6 @@ void __cdecl main_loop_dispose_restricted_regions()
 	}
 }
 
-//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread, __int64* vblank_index) // debug?
-void __cdecl main_loop_body(dword* wait_for_render_thread, dword* time)
-{
-	dword time_delta = system_milliseconds() - *time;
-	if (!disable_main_loop_throttle && time_delta < 7)
-		sleep(7 - time_delta);
-	*time = system_milliseconds();
-
-	bool requested_single_thread = false;
-	main_globals.main_loop_pregame_last_time = system_milliseconds();
-
-	main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
-	if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
-	{
-		main_thread_process_pending_messages();
-		main_loop_body_multi_threaded();
-	}
-	else
-	{
-		requested_single_thread = true;
-		main_thread_process_pending_messages();
-		main_loop_body_single_threaded();
-	}
-
-	g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
-	if (game_is_multithreaded())
-	{
-		if (!g_single_thread_request_flags.peek() != requested_single_thread)
-		{
-			if (requested_single_thread)
-				unlock_resources_and_resume_render_thread(*wait_for_render_thread);
-			else
-				*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-		}
-	}
-}
-
 void __cdecl main_loop()
 {
 	//INVOKE(0x005059E0, main_loop);
@@ -724,14 +687,45 @@ void __cdecl main_loop()
 		}
 		else
 		{
-			main_loop_body(&wait_for_render_thread, &time);
+			dword time_delta = system_milliseconds() - time;
+			if (!disable_main_loop_throttle && time_delta < 7)
+				sleep(7 - time_delta);
+			time = system_milliseconds();
+
+			bool requested_single_thread = false;
+			main_globals.main_loop_pregame_last_time = system_milliseconds();
+
+			main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
+			if (game_is_multithreaded() && (render_thread_get_mode() == _render_thread_mode_enabled || render_thread_get_mode() == _render_thread_mode_loading_screen))
+			{
+				main_thread_process_pending_messages();
+				main_loop_body_multi_threaded();
+			}
+			else
+			{
+				requested_single_thread = true;
+				main_thread_process_pending_messages();
+				main_loop_body_single_threaded();
+			}
+
+			g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
+			if (game_is_multithreaded())
+			{
+				if ((g_single_thread_request_flags.peek() != 0) != requested_single_thread)
+				{
+					if (requested_single_thread)
+						unlock_resources_and_resume_render_thread(wait_for_render_thread);
+					else
+						wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+				}
+			}
 		}
 	}
 
 	main_loop_exit();
 }
 
-// functions for `main_loop_body_main_part`
+// functions for `main_loop_body`
 void __cdecl sub_5077E0()
 {
 	INVOKE(0x005077E0, sub_5077E0);
@@ -749,15 +743,15 @@ void __cdecl sub_641A60(real shell_seconds_elapsed)
 	INVOKE(0x00641A60, sub_641A60, shell_seconds_elapsed);
 }
 
-void __cdecl main_loop_body_main_part()
+void __cdecl main_loop_body()
 {
-	//INVOKE(0x00505C10, main_loop_body_main_part);
+	//INVOKE(0x00505C10, main_loop_body);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 
-	PROFILER(main_loop_body_main_part)
+	PROFILER(main_loop_body)
 	{
-		// we no longer hook calls from `main_loop_body_main_part` for this
+		// we no longer hook calls from `main_loop_body` for this
 		test_main_loop_body_begin();
 
 		PROFILER(main, main_loop)
@@ -1017,7 +1011,7 @@ void __cdecl main_loop_body_main_part()
 		exceptions_update();
 		collision_log_end_frame();
 
-		// we no longer hook calls from `main_loop_body_main_part` for this
+		// we no longer hook calls from `main_loop_body` for this
 		test_main_loop_body_end();
 	}
 }
@@ -1027,7 +1021,7 @@ void __cdecl main_loop_body_multi_threaded()
 	//INVOKE(0x00506070, main_loop_body_multi_threaded);
 
 	publish_waiting_gamestate();
-	main_loop_body_main_part();
+	main_loop_body();
 	publish_waiting_gamestate();
 }
 
@@ -1054,7 +1048,7 @@ void __cdecl main_loop_body_single_threaded()
 
 	PROFILER(single_thread_update)
 	{
-		main_loop_body_main_part();
+		main_loop_body();
 	}
 
 	if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())

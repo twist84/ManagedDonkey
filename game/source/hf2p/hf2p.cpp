@@ -152,7 +152,7 @@ void __cdecl sub_7B7940()
 
 void __cdecl hf2p_game_update()
 {
-	// this function runs in `main_loop_body_main_part`
+	// this function runs in `main_loop_body`
 
 	sub_7B7940();
 
