@@ -145,9 +145,9 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 	//
 	//PROFILER(internal_halt_render_thread)
 	//{
-	//	if (render_thread_get_mode() != 2 && thread_system_initialized() && restricted_region_valid(k_game_state_render_region) && get_current_thread_index() != k_thread_render)
+	//	if (render_thread_get_mode() != _render_thread_mode_loading_screen && thread_system_initialized() && restricted_region_valid(k_game_state_render_region) && get_current_thread_index() != k_thread_render)
 	//	{
-	//		result = render_thread_set_mode(1, 0) ? FLAG(1) : 0;
+	//		result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
 	//
 	//		if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
 	//		{
@@ -1143,7 +1143,7 @@ void __cdecl main_loop_exit()
 
 	REFERENCE_DECLARE(0x02446530, bool, d3d_resource_allocator_dont_release);
 
-	render_thread_set_mode(1, 0);
+	render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled);
 	main_loop_dispose_restricted_regions();
 
 	if (game_is_multithreaded())
@@ -1173,7 +1173,7 @@ void __cdecl main_loop_pregame_do_work()
 		network_idle();
 		//hf2p_idle();
 
-		if (!render_thread_get_mode())
+		if (render_thread_get_mode() == _render_thread_mode_disabled)
 			main_loop_pregame_show_progress_screen();
 
 		//if (render_debug_initialized())
@@ -1935,26 +1935,22 @@ bool __cdecl render_thread_enabled()
 {
 	//return INVOKE(0x00507550, render_thread_enabled);
 
-	if (game_is_multithreaded())
-		return g_render_thread_enabled.peek();
-
-	return false;
+	return render_thread_get_mode() != _render_thread_mode_disabled;
 }
 
-long __cdecl render_thread_get_mode()
+e_render_thread_mode __cdecl render_thread_get_mode()
 {
 	if (game_is_multithreaded())
-		return g_render_thread_enabled.peek();
+		return (e_render_thread_mode)g_render_thread_enabled.peek();
 
-	return 0;
+	return _render_thread_mode_disabled;
 }
 
-//bool __cdecl render_thread_set_mode(e_render_thread_mode mode_a, e_render_thread_mode mode_b)
-bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange)
+bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting)
 {
-	//return INVOKE(0x005076D0, render_thread_set_mode, mode_compare, mode_exchange);
+	//return INVOKE(0x005076D0, render_thread_set_mode, old_setting, setting);
 
-	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(mode_exchange, mode_compare) == mode_compare;
+	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(setting, old_setting) == old_setting;
 }
 
 void __cdecl unlock_resources_and_resume_render_thread(dword flags)
@@ -1971,7 +1967,7 @@ void __cdecl unlock_resources_and_resume_render_thread(dword flags)
 	//	}
 	//
 	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
-	//		g_render_thread_enabled.set_if_equal(true, false);
+	//		g_render_thread_enabled.set_if_equal(_render_thread_mode_enabled, _render_thread_mode_disabled);
 	//}
 }
 

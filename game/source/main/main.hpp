@@ -123,6 +123,15 @@ enum e_single_threaded_request_flags
 	_single_thread_for_render_device_reset
 };
 
+enum e_render_thread_mode
+{
+	_render_thread_mode_disabled = 0,
+	_render_thread_mode_enabled,
+	_render_thread_mode_loading_screen,
+
+	k_render_thread_mode_count
+};
+
 struct c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
 extern bool& g_render_thread_user_setting;
@@ -244,8 +253,8 @@ extern void __cdecl main_user_interface_save_files_private();
 extern void __cdecl process_published_game_state(bool render);
 extern void __cdecl publish_waiting_gamestate();
 extern bool __cdecl render_thread_enabled();
-extern long __cdecl render_thread_get_mode();
-extern bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange);
+extern e_render_thread_mode __cdecl render_thread_get_mode();
+extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
 extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
 extern void __cdecl main_crash(char const* type);
