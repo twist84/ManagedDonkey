@@ -711,7 +711,7 @@ void __cdecl main_loop()
 			g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
 			if (game_is_multithreaded())
 			{
-				if ((g_single_thread_request_flags.peek() != 0) != requested_single_thread)
+				if ((g_single_thread_request_flags.peek() == 0) != requested_single_thread)
 				{
 					if (requested_single_thread)
 						unlock_resources_and_resume_render_thread(wait_for_render_thread);

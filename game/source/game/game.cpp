@@ -981,12 +981,8 @@ bool __cdecl game_is_synchronous_networking()
 {
 	//return INVOKE(0x00531E60, game_is_synchronous_networking);
 
-	char game_simulation = game_options_get()->game_simulation;
-	if (game_simulation >= _game_simulation_synchronous_client &&
-		game_simulation <= _game_simulation_synchronous_server)
-		return true;
-
-	return false;
+	return IN_RANGE_INCLUSIVE(game_options_get()->game_simulation,
+		_game_simulation_synchronous_client, _game_simulation_synchronous_server);
 }
 
 bool __cdecl game_is_ui_shell()
@@ -1113,7 +1109,10 @@ bool __cdecl game_options_valid()
 
 void __cdecl game_options_validate(game_options* options)
 {
-	INVOKE(0x00532680, game_options_validate, options);
+	//INVOKE(0x00532680, game_options_validate, options);
+
+	game_engine_variant_validate(&options->multiplayer_variant);
+	options->map_variant.validate();
 }
 
 //.text:005326B0 ; void __cdecl game_options_validate_for_saved_game(long)
@@ -1121,6 +1120,35 @@ void __cdecl game_options_validate(game_options* options)
 bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
 	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
+
+	//if (options->game_mode < _game_mode_none || options->game_mode >= k_game_mode_count)
+	//	return false;
+	//
+	//if (options->game_simulation < _game_simulation_none || options->game_simulation >= k_game_simulation_count)
+	//	return false;
+	//
+	//if (options->game_tick_rate <= 0 && options->game_tick_rate > 300)
+	//	return false;
+	//
+	//if (options->scenario_path.is_empty())
+	//	return false;
+	//
+	//if (options->initial_zone_set_index < 0 || options->initial_zone_set_index >= 48)
+	//	return false;
+	//
+	//if (options->record_saved_film && (options->game_playback < _game_playback_none || options->game_playback >= k_game_playback_count))
+	//	return false;
+	//
+	//if (options->map_variant.m_map_id != NONE && options->map_id != options->map_variant.m_map_id)
+	//	return false;
+	//
+	//if (options->campaign_metagame_scoring < 0 || options->campaign_metagame_scoring >= 3)
+	//	return false;
+	//
+	//if (options->campaign_insertion_point < 0 || options->campaign_insertion_point >= 9)
+	//	return false;
+	//
+	//// #TODO: more checks
 }
 
 e_game_playback_type __cdecl game_playback_get()

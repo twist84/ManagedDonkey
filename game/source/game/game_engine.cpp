@@ -90,8 +90,8 @@ void __cdecl game_engine_game_starting()
 
 //.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
-//.text:0054F220 ; char const* __cdecl game_engine_get_game_variant_name() // named by us
-//.text:0054F250 ; game_engine_get_change_colors, modified by saber
+//.text:0054F220 ; char const* __cdecl game_engine_get_current_variant_name() // named by us
+//.text:0054F250 ; real __cdecl game_engine_get_change_colors(long, dword, e_game_team, real_rgb_color*, bool*), modified by saber
 //.text:0054F5E0 ; long __cdecl game_engine_get_current_talker(long)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
 //.text:0054FC10 ; long __cdecl game_engine_get_finalized_player_place(long)
