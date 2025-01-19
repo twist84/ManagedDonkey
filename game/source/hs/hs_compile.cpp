@@ -24,6 +24,24 @@
 
 // #TODO: completely reorganize this file
 
+enum
+{
+	_skip_whitespace_state_no_comment = 0,
+	_skip_whitespace_state_comment,
+	_skip_whitespace_state_block_comment,
+	_skip_whitespace_state_done,
+
+	NUMBER_OF_SKIP_WHITESPACE_STATES
+};
+
+const char whitespace_characters[] = { ' ', '\t' };
+const char eol_characters[] = { '\n', '\r' };
+
+void skip_whitespace(char** c)
+{
+	// #TODO: implement me
+}
+
 bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type byteswap_type)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
@@ -1680,6 +1698,8 @@ long hs_tokenize(hs_tokenizer* state)
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 {
+	// #TODO: implement me
+
 	//hs_syntax_node* expression = hs_syntax_get(expression_index);
 	//long* next_node_index = &expression->long_value;
 	//
@@ -1705,7 +1725,7 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 	//
 	//		*next_node_index = hs_tokenize(state);
 	//		if (*next_node_index != NONE)
-	//			*next_node_index = hs_syntax_get(next_node_index)->next_node_index;
+	//			*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
 	//
 	//		if (hs_compile_globals.error_message)
 	//			goto LABEL_20;
@@ -1725,7 +1745,7 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 
 void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 {
-	//hs_syntax_node* expression = hs_syntax_get(expression_index);
+	// #TODO: implement me
 }
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
@@ -1737,13 +1757,6 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_s
 	//_tokenizer.source_file_size = source_file_size;
 	//if (_tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
 	//{
-	//
-	//	if (!_tokenizer.cursor)
-	//	{
-	//		*error_message_pointer = "couldn't allocate memory for compiled source.";
-	//		return;
-	//	}
-	//
 	//	hs_compile_globals.error_message = NULL;
 	//	*error_message_pointer = NULL;
 	//	hs_compile_globals.error_offset = NONE;
