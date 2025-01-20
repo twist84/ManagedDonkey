@@ -1916,7 +1916,7 @@ void __cdecl publish_waiting_gamestate()
 	INVOKE(0x005074D0, publish_waiting_gamestate);
 
 	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-	//if (render_thread_enabled())
+	//if (render_thread_get_mode() == _render_thread_mode_disabled)
 	//{
 	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flag_count));
 	//	{
@@ -1931,20 +1931,19 @@ void __cdecl publish_waiting_gamestate()
 	//}
 }
 
-bool __cdecl render_thread_enabled()
-{
-	//return INVOKE(0x00507550, render_thread_enabled);
-
-	return render_thread_get_mode() != _render_thread_mode_disabled;
-}
-
 e_render_thread_mode __cdecl render_thread_get_mode()
 {
+	//return INVOKE(0x00507550, render_thread_get_mode);
+
 	if (game_is_multithreaded())
 		return (e_render_thread_mode)g_render_thread_enabled.peek();
 
 	return _render_thread_mode_disabled;
 }
+
+//.text:00507570 ; bool __cdecl render_thread_is_halted_waiting_for_lock()
+//.text:00507590 ; void __cdecl render_thread_lock_rasterizer_and_resources()
+//.text:005075A0 ; dword __cdecl render_thread_loop(void*)
 
 bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting)
 {
@@ -1952,6 +1951,8 @@ bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_t
 
 	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(setting, old_setting) == old_setting;
 }
+
+//.text:00507700 ; void __cdecl render_thread_unlock_rasterizer_and_resources()
 
 void __cdecl unlock_resources_and_resume_render_thread(dword flags)
 {

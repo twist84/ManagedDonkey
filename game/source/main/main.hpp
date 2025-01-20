@@ -252,7 +252,6 @@ extern void __cdecl main_user_interface_save_files();
 extern void __cdecl main_user_interface_save_files_private();
 extern void __cdecl process_published_game_state(bool render);
 extern void __cdecl publish_waiting_gamestate();
-extern bool __cdecl render_thread_enabled();
 extern e_render_thread_mode __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
 extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
