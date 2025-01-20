@@ -106,7 +106,7 @@ void __cdecl build_exception_information(_EXCEPTION_POINTERS* exception_pointers
 				exception_information->number_parameters = min((sizeof(s_exception_type_info) / sizeof(ULONG_PTR)), exception_pointers->ExceptionRecord->NumberParameters);
 				csmemcpy(&exception_information->exception_type_info, exception_pointers->ExceptionRecord->ExceptionInformation, (exception_information->number_parameters * sizeof(ULONG_PTR)));
 			}
-			exception_information->exception_occurred = 1;
+			exception_information->exception_occurred = true;
 		}
 	}
 }
@@ -118,7 +118,7 @@ void __cdecl cache_exception_information(_EXCEPTION_POINTERS* exception_pointers
 	if (!g_exception_caching_in_progress.set(1) && !has_cached_exception())
 	{
 		build_exception_information(exception_pointers, &g_exception_information);
-		g_exception_information.exception_occurred = 1;
+		g_exception_information.exception_occurred = true;
 		g_exception_time = system_milliseconds();
 	}
 }
@@ -217,7 +217,7 @@ long __cdecl exceptions_update()
 	char const* exception_code_string = exception_code_get_string(g_exception_information.exception_code);
 	if (!g_catch_exceptions)
 	{
-		g_exception_information.exception_occurred = 0;
+		g_exception_information.exception_occurred = false;
 		main_loop_pregame_disable(false);
 		return 0;
 	}
@@ -230,7 +230,7 @@ long __cdecl exceptions_update()
 			release_locks_safe_for_crash_release();
 		}
 
-		g_exception_information.exception_occurred = 0;
+		g_exception_information.exception_occurred = false;
 		main_loop_pregame_disable(false);
 		return -1;
 	}
@@ -357,7 +357,7 @@ long __cdecl exceptions_update()
 
 	long result = !is_debugger_present() ? 1 : -1;
 
-	g_exception_information.exception_occurred = 0;
+	g_exception_information.exception_occurred = false;
 	main_loop_pregame_disable(false);
 
 	return result;

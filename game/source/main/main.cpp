@@ -672,7 +672,7 @@ void __cdecl main_loop()
 	if (game_is_multithreaded())
 	{
 		g_render_thread_user_setting = true;
-		g_render_thread_enabled.set(true);
+		g_render_thread_enabled = true;
 	}
 
 	main_loop_enter();

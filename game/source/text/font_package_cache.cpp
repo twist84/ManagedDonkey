@@ -85,7 +85,7 @@ void __cdecl font_package_cache_delete()
 	if (g_font_package_cache.initialized)
 	{
 		font_package_cache_flush();
-		g_font_package_cache.initialized = 0;
+		g_font_package_cache.initialized = false;
 	}
 }
 
@@ -108,7 +108,7 @@ void __cdecl font_package_cache_new()
 	g_font_package_cache.time = 0;
 	for (s_font_package_cache_entry& entry : g_font_package_cache.entries)
 		font_package_clear(&entry);
-	g_font_package_cache.initialized = 1;
+	g_font_package_cache.initialized = true;
 }
 
 //.text:0065C580 ; 
@@ -118,10 +118,10 @@ void __cdecl font_package_clear(s_font_package_cache_entry* entry)
 	//INVOKE(0x0065C590, font_package_clear, entry);
 
 	entry->package_index = NONE;
-	entry->package_last_used_time = 0;
+	entry->package_last_used_time = 0l;
 	entry->async_task = NONE;
-	entry->async_task_bytes_read = 0;
-	entry->async_task_complete = 0;
+	entry->async_task_bytes_read = 0l;
+	entry->async_task_complete = false;
 	entry->status = 0;
 }
 

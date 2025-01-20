@@ -4,7 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/files_windows.hpp"
 
-struct c_synchronized_long;
+class c_synchronized_long;
 extern long __cdecl async_close_file(
 	s_file_handle file_handle,
 	e_async_category category,

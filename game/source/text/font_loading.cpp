@@ -319,7 +319,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 			CRITICAL_EVENT("fonts: unable to load font file '%s', fonts may be unavailable",
 				loading_state->debug_filename);
 
-			loading_state->failed = 1;
+			loading_state->failed = true;
 		}
 
 		completion = _async_completion_done;
@@ -331,7 +331,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 	else
 	{
 		ERROR_EVENT("fonts: couldn't open font file '%s'", loading_state->debug_filename);
-		loading_state->failed = 1;
+		loading_state->failed = true;
 		completion = _async_completion_done;
 	}
 

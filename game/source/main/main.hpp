@@ -132,7 +132,7 @@ enum e_render_thread_mode
 	k_render_thread_mode_count
 };
 
-struct c_interlocked_long;
+class c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
 extern bool& g_render_thread_user_setting;
 extern bool& disable_main_loop_throttle;

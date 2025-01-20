@@ -56,9 +56,9 @@ bool c_file_reference::find_or_create(dword flags)
 
 bool __cdecl upload_debug_start()
 {
-	g_upload_debug_globals.archive_upload_complete = FALSE;
-	g_upload_debug_globals.archive_upload_in_progress = FALSE;
-	g_upload_debug_globals.archive_upload_success = FALSE;
+	g_upload_debug_globals.archive_upload_complete = false;
+	g_upload_debug_globals.archive_upload_in_progress = false;
+	g_upload_debug_globals.archive_upload_success = false;
 
 	if (!g_suppress_upload_debug)
 	{
@@ -145,8 +145,8 @@ void __cdecl upload_debug_update_callback(long current_count, long total_count)
 
 void __cdecl upload_debug_completion_callback(bool success, void* discard)
 {
-	g_upload_debug_globals.archive_upload_in_progress = FALSE;
-	g_upload_debug_globals.archive_upload_complete = TRUE;
+	g_upload_debug_globals.archive_upload_in_progress = false;
+	g_upload_debug_globals.archive_upload_complete = true;
 	g_upload_debug_globals.archive_upload_success = success;
 
 	progress_done();
@@ -175,7 +175,7 @@ void __cdecl create_and_upload_zip_archive()
 		file_get_size(&file, &size);
 		ASSERT(size > 0);
 
-		g_upload_debug_globals.archive_upload_in_progress = TRUE;
+		g_upload_debug_globals.archive_upload_in_progress = true;
 		g_upload_debug_globals.current_count.set(0);
 		g_upload_debug_globals.total_count.set(100);
 

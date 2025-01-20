@@ -40,12 +40,12 @@ struct s_async_buffer
 	s_async_buffer();
 
 	void* data;
-	long data_allocation_size;
-	bool use_external_storage;
-	long __unknownC;
+	long allocated_size;
+	bool external_buffer;
+	long data_offset;
 	long data_size;
-	c_synchronized_long __unknown14;
-	long __unknown18;
+	c_synchronized_long async_bytes;
+	long async_expected_bytes;
 	c_synchronized_long async_ready;
 };
 static_assert(sizeof(s_async_buffer) == 0x20);

@@ -783,7 +783,7 @@ void __cdecl cache_files_initialize()
 	cache_file_table_of_contents.locked_map_file_index = k_no_cached_map_file_index;
 	cache_file_table_of_contents.pending_map_file_index = k_no_cached_map_file_index;
 
-	cache_file_copy_globals.copy_task_is_done = 1;
+	cache_file_copy_globals.copy_task_is_done = 1l;
 	cache_file_copy_globals.copy_task_id = NONE;
 	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
 

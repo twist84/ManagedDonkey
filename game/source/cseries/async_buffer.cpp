@@ -20,10 +20,16 @@ c_async_buffer_set_base::c_async_buffer_set_base(long buffer_count) :
 }
 
 //.text:005AC910 ; s_async_buffer::s_async_buffer
-s_async_buffer::s_async_buffer()
+s_async_buffer::s_async_buffer() :
+	data(nullptr),
+	allocated_size(0),
+	external_buffer(false),
+	data_offset(0),
+	data_size(0),
+	async_bytes(0),
+	async_expected_bytes(0),
+	async_ready(0)
 {
-	__unknown14 = 0;
-	async_ready = 0;
 }
 
 //.text:005AC9C0 ; c_static_array<s_async_buffer,3>::operator[]
