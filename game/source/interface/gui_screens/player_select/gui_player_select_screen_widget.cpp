@@ -19,9 +19,9 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B08A10, c_gui_player_select_screen_widget, initial
 bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
-		c_static_wchar_string<256> string = this_->m_player_data.host.name.get_string();
+		c_static_wchar_string<256> string = this_->m_target_player_configuration.host.name.get_string();
 		string.copy_to(buffer, MAX(buffer_length, 256));
 
 		return true;
@@ -44,7 +44,7 @@ bool __cdecl user_interface_get_player_grade_string(long rank, long grade, bool 
 bool __cdecl parse_player_rank(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<1024> string;
 		user_interface_get_player_rank_string(13, 3, &string);
@@ -58,7 +58,7 @@ bool __cdecl parse_player_rank(void* this_ptr, wchar_t* buffer, long buffer_leng
 bool __cdecl parse_player_grade(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<1024> string;
 		user_interface_get_player_grade_string(13, 3, false, true, &string);
@@ -72,7 +72,7 @@ bool __cdecl parse_player_grade(void* this_ptr, wchar_t* buffer, long buffer_len
 bool __cdecl parse_xp_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<256> string;
 		string.print(L"%d", 69420);
@@ -86,7 +86,7 @@ bool __cdecl parse_xp_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 bool __cdecl parse_skill_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<256> string;
 		string.print(L"%d", 69420);
@@ -100,7 +100,7 @@ bool __cdecl parse_skill_value(void* this_ptr, wchar_t* buffer, long buffer_leng
 bool __cdecl parse_ranked_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<256> string;
 		string.print(L"%d", 69420);
@@ -114,7 +114,7 @@ bool __cdecl parse_ranked_value(void* this_ptr, wchar_t* buffer, long buffer_len
 bool __cdecl parse_social_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<256> string;
 		string.print(L"%d", 69420);
@@ -128,7 +128,7 @@ bool __cdecl parse_social_value(void* this_ptr, wchar_t* buffer, long buffer_len
 bool __cdecl parse_custom_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
-	if (this_ && this_->__unknown30D0 && this_ptr != (void*)-0x1AB0)
+	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
 		c_static_wchar_string<256> string;
 		string.print(L"%d", 69420);
