@@ -293,7 +293,11 @@ extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, b
 extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, char const* file, long line);
 extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, long line);
 extern bool __cdecl simple_yield_function(c_synchronized_long* done);
-extern s_async_queue_element* __cdecl sub_508BD0();
-extern void __cdecl sub_508C00(s_async_queue_element* element);
+extern long __cdecl work_list_add(s_async_queue_element* element);
+extern void __cdecl work_list_add_internal_assumes_locked_does_not_set_id_does_not_resume(s_async_queue_element* element);
+extern s_async_queue_element* __cdecl work_list_get();
+extern void __cdecl work_list_lock_internal();
+extern void __cdecl work_list_remove(s_async_queue_element* element);
 extern void __cdecl work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(s_async_queue_element* element);
+extern void __cdecl work_list_unlock();
 
