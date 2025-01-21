@@ -37,11 +37,12 @@ public:
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 	static void __cdecl populate_atmosphere_parameters(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters* parameters);
-	static void __cdecl sub_A397D0();
+	static void __cdecl invalidate_atmosphere_constants();
 	static void __cdecl restore_atmosphere_constants();
 	static void __cdecl set_default_atmosphere_constants(s_weighted_atmosphere_parameters* parameters);
 
-	static long& long_18BE9DC;
+	static long& m_last_custom_index;
+	static bool& m_use_local_pvs;
 	static s_weighted_atmosphere_parameters& m_default_parameters;
 
 	byte __data[0x14];

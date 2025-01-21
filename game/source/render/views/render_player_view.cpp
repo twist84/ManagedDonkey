@@ -216,7 +216,7 @@ void __thiscall c_player_view::render_1st_pass()
 		m_lights_view.build_simple_light_draw_list(m_camera_user_data.player_window_index);
 
 		{
-			c_atmosphere_fog_interface::sub_A397D0();
+			c_atmosphere_fog_interface::invalidate_atmosphere_constants();
 
 			s_weighted_atmosphere_parameters weighted_atmosphere_parameters{};
 			c_atmosphere_fog_interface::populate_atmosphere_parameters(cluster_reference, &weighted_atmosphere_parameters);

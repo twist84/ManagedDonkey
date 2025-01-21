@@ -1,6 +1,7 @@
 #include "sky_atm/atmosphere.hpp"
 
-REFERENCE_DECLARE(0x018BE9DC, long, c_atmosphere_fog_interface::long_18BE9DC);
+REFERENCE_DECLARE(0x018BE9DC, long, c_atmosphere_fog_interface::m_last_custom_index);
+REFERENCE_DECLARE(0x018BE9E0, bool, c_atmosphere_fog_interface::m_use_local_pvs);
 REFERENCE_DECLARE(0x02497E08, s_weighted_atmosphere_parameters, c_atmosphere_fog_interface::m_default_parameters);
 
 void __cdecl c_atmosphere_fog_interface::dispose_from_old_map()
@@ -48,9 +49,9 @@ void __cdecl c_atmosphere_fog_interface::populate_atmosphere_parameters(s_cluste
 	INVOKE(0x006739A0, c_atmosphere_fog_interface::populate_atmosphere_parameters, cluster_reference, parameters);
 }
 
-void __cdecl c_atmosphere_fog_interface::sub_A397D0()
+void __cdecl c_atmosphere_fog_interface::invalidate_atmosphere_constants()
 {
-	INVOKE(0x00A397D0, sub_A397D0);
+	INVOKE(0x00A397D0, invalidate_atmosphere_constants);
 }
 
 void __cdecl c_atmosphere_fog_interface::restore_atmosphere_constants()
