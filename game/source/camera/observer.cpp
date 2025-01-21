@@ -72,28 +72,28 @@ s_collision_test_flags __cdecl observer_collision_flags_get(long user_index)
 //.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(long user_index, real_point3d const*, real_vector3d const*, real, real*, real_vector3d*, real_point3d*, real)
 //.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(long, real_point3d*, real_vector3d*, real)
 
-bool __cdecl sub_611B90(long user_index, real_point3d* point_a, real_point3d* point_b, real_vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
+bool __cdecl observer_collision_test_differential(long user_index, real_point3d* focus_position, real_point3d* camera_point, real_vector3d* differential_basis, real differential, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media)
 {
-	return INVOKE(0x00611B90, sub_611B90, user_index, point_a, point_b, vector, scale, first_ignore_object_index, second_ignore_object_index, collision_scale);
+	return INVOKE(0x00611B90, observer_collision_test_differential, user_index, focus_position, camera_point, differential_basis, differential, primary_ignore_object_index, secondary_ignore_object_index, t, ignore_media);
 
 	//real_point3d point{};
 	//scale_vector3d(vector, scale, (real_vector3d*)&point);
 	//
-	//return sub_611C30(user_index, point_a, &point, first_ignore_object_index, second_ignore_object_index, collision_scale);
+	//return observer_collision_test_differential(user_index, focus_position, &point, primary_ignore_object_index, secondary_ignore_object_index, t);
 }
 
-bool __cdecl sub_611C30(long user_index, real_point3d* point_a, real_point3d* point_b, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
+bool __cdecl observer_collision_test_with_t(long user_index, real_point3d* p0, real_point3d* p1, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media)
 {
-	return INVOKE(0x00611C30, sub_611C30, user_index, point_a, point_b, first_ignore_object_index, second_ignore_object_index, collision_scale);
+	return INVOKE(0x00611C30, observer_collision_test_with_t, user_index, p0, p1, primary_ignore_object_index, secondary_ignore_object_index, t, ignore_media);
 
 	//collision_result collision{};
-	//if (collision_test_line(observer_collision_flags_get(user_index), point_a, point_b, first_ignore_object_index, second_ignore_object_index, &collision))
+	//if (!collision_test_line(observer_collision_flags_get(user_index), p0, p1, primary_ignore_object_index, secondary_ignore_object_index, &collision))
 	//{
-	//	*collision_scale = collision.t;
-	//	return true;
+	//	return false;
 	//}
 	//
-	//return false;
+	//*t = collision.t;
+	//return true;
 }
 
 void __cdecl observer_command_clear(s_observer_command* command)
@@ -117,20 +117,20 @@ void __cdecl observer_command_get_collision_ignore_objects(long user_index, s_ob
 	//
 	//if (TEST_BIT(command->flags, 6))
 	//{
-	//	*out_first_ignore_object_index = observer->__unknown100;
-	//	*out_second_ignore_object_index = observer->__unknown104;
+	//	*out_first_ignore_object_index = observer->collision_ignore_object_a;
+	//	*out_second_ignore_object_index = observer->collision_ignore_object_b;
 	//}
 	//
 	//if (TEST_BIT(command->flags, 5))
 	//{
-	//	observer->__unknown100 = NONE;
-	//	observer->__unknown104 = NONE;
+	//	observer->collision_ignore_object_a = NONE;
+	//	observer->collision_ignore_object_b = NONE;
 	//
 	//	if (command->number_of_parents_objects > 0)
-	//		*out_first_ignore_object_index = observer->__unknown100 = command->parent_objects[0];
+	//		*out_first_ignore_object_index = observer->collision_ignore_object_a = command->parent_objects[0];
 	//
 	//	if (command->number_of_parents_objects > 1)
-	//		*out_first_ignore_object_index = observer->__unknown104 = command->parent_objects[1];
+	//		*out_first_ignore_object_index = observer->collision_ignore_object_b = command->parent_objects[1];
 	//}
 }
 
