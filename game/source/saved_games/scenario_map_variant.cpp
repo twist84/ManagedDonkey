@@ -221,9 +221,9 @@ bool c_map_variant::is_valid() const
 	return INVOKE_CLASS_MEMBER(0x005841D0, c_map_variant, is_valid);
 }
 
-bool c_map_variant::sub_5842F0(c_map_variant* map_variant)
+bool c_map_variant::lossily_compare_to(c_map_variant* map_variant)
 {
-	return INVOKE_CLASS_MEMBER(0x005842F0, c_map_variant, sub_5842F0, map_variant);
+	return INVOKE_CLASS_MEMBER(0x005842F0, c_map_variant, lossily_compare_to, map_variant);
 }
 
 //.text:005845C0 ; 

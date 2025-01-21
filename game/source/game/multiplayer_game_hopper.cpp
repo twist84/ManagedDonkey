@@ -489,7 +489,7 @@ long __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, long buffer_
 	//
 	//	csmemcpy(&map_variant_copy, map_variant, sizeof(c_map_variant));
 	//	bool success = multiplayer_game_hopper_unpack_map_variant(start, current - start, &test_map_variant);
-	//	if (!map_variant_copy.sub_5842F0(&test_map_variant))
+	//	if (!map_variant_copy.lossily_compare_to(&test_map_variant))
 	//		ASSERT(success);
 	//
 	//	byte* map_variant_copy_start = (byte*)&map_variant_copy;

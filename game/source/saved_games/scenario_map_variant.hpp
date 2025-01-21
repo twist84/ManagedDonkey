@@ -218,7 +218,7 @@ public:
 	bool decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
 	bool is_valid() const;
-	bool sub_5842F0(c_map_variant* map_variant);
+	bool lossily_compare_to(c_map_variant* map_variant);
 	bool read_from(c_map_variant const* source);
 	void set_description(char const* description);
 	void set_name(wchar_t const* name);
