@@ -11,6 +11,7 @@ struct render_camera;
 struct s_screen_effect_settings;
 struct s_observer_depth_of_field;
 struct s_oriented_bounding_box;
+struct s_lightshafts;
 
 struct c_screen_postprocess
 {
@@ -18,16 +19,16 @@ struct c_screen_postprocess
 
 	static void __cdecl blit(
 		long explicit_shader_index,
-		c_rasterizer::e_surface surface_a,
-		c_rasterizer::e_surface surface_b,
-		c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
-		c_rasterizer::e_sampler_address_mode sampler_address_mode,
-		real a6,
-		real a7,
-		real a8,
-		real a9,
-		real_rectangle2d* a10,
-		real_rectangle2d* a11);
+		c_rasterizer::e_surface source_surface,
+		c_rasterizer::e_surface dest_surface,
+		c_rasterizer::e_sampler_filter_mode filter_mode,
+		c_rasterizer::e_sampler_address_mode address_mode,
+		real scale_r,
+		real scale_g,
+		real scale_b,
+		real scale_a,
+		real_rectangle2d* source_texture_rect,
+		real_rectangle2d* dest_texture_rect);
 
 	static c_rasterizer::e_surface __cdecl blur_display();
 
@@ -43,7 +44,7 @@ struct c_screen_postprocess
 		real a9,
 		real_rectangle2d* bounds);
 
-	static void __cdecl render_ssao(
+	static void __cdecl render_ssao_old(
 		render_projection const* projection,
 		render_camera const* camera,
 		c_rasterizer::e_surface surface_a,
@@ -72,7 +73,14 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c);
 
-	static void __cdecl render_ssr(
+	static void __cdecl render_lightshafts(
+		s_lightshafts* lightshafts,
+		render_projection* projection,
+		render_camera* camera,
+		c_rasterizer::e_surface surface_a,
+		c_rasterizer::e_surface surface_b);
+
+	static void __cdecl postprocess_ssr(
 		render_projection const* projection,
 		render_camera const* camera,
 		c_rasterizer::e_surface surface_a,
@@ -100,13 +108,6 @@ struct c_screen_postprocess
 	static c_screen_postprocess::s_settings const* const& x_settings;
 
 };
-
-struct s_lightshafts;
-
-extern void __cdecl sub_A62720(s_lightshafts* lightshafts,
-	render_projection* projection, render_camera* camera,
-	c_rasterizer::e_surface surface_a,
-	c_rasterizer::e_surface surface_b);
 
 extern void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings,
 	render_projection* projection,

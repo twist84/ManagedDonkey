@@ -12,18 +12,11 @@ REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
 decltype(c_screen_postprocess::postprocess_player_view)* screen_postprocess_postprocess_player_view = c_screen_postprocess::postprocess_player_view;
 HOOK_DECLARE_CALL(0x00A39F4E, screen_postprocess_postprocess_player_view);
 HOOK_DECLARE_CALL(0x00A3A171, sub_A62D70);
-HOOK_DECLARE_CALL(0x00A61BBD, sub_A62720);
 
 HOOK_DECLARE_CLASS(0x00A60460, c_screen_postprocess, copy);
 HOOK_DECLARE_CLASS(0x00A601E0, c_screen_postprocess, blit);
 HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
-
-void __cdecl sub_A62720(s_lightshafts* lightshafts, render_projection* projection, render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
-{
-	c_rasterizer_profile_scope _lightshafts(_rasterizer_profile_element_total, L"lightshafts");
-
-	INVOKE(0x00A62720, sub_A62720, lightshafts, projection, camera, surface_a, surface_b);
-}
+HOOK_DECLARE_CLASS(0x00A61BBD, c_screen_postprocess, render_lightshafts);
 
 void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
 {
@@ -49,22 +42,22 @@ void __cdecl c_screen_postprocess::accept_edited_settings()
 
 void __cdecl c_screen_postprocess::blit(
 	long explicit_shader_index,
-	c_rasterizer::e_surface surface_a,
-	c_rasterizer::e_surface surface_b,
-	c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
-	c_rasterizer::e_sampler_address_mode sampler_address_mode,
-	real a6,
-	real a7,
-	real a8,
-	real a9,
-	real_rectangle2d* a10,
-	real_rectangle2d* a11)
+	c_rasterizer::e_surface source_surface,
+	c_rasterizer::e_surface dest_surface,
+	c_rasterizer::e_sampler_filter_mode filter_mode,
+	c_rasterizer::e_sampler_address_mode address_mode,
+	real scale_r,
+	real scale_g,
+	real scale_b,
+	real scale_a,
+	real_rectangle2d* source_texture_rect,
+	real_rectangle2d* dest_texture_rect)
 {
-	//INVOKE(0x00A601E0, c_screen_postprocess::blit, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
+	//INVOKE(0x00A601E0, c_screen_postprocess::blit, explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, source_texture_rect, dest_texture_rect);
 
 	c_rasterizer_profile_scope _blit(_rasterizer_profile_element_total, L"blit");
 
-	HOOK_INVOKE_CLASS(, c_screen_postprocess, blit, decltype(&c_screen_postprocess::blit), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, a10, a11);
+	HOOK_INVOKE_CLASS(, c_screen_postprocess, blit, decltype(&c_screen_postprocess::blit), explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, source_texture_rect, dest_texture_rect);
 }
 
 c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
@@ -74,29 +67,29 @@ c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
 
 void __cdecl c_screen_postprocess::copy(
 	long explicit_shader_index,
-	c_rasterizer::e_surface surface_a,
-	c_rasterizer::e_surface surface_b,
-	c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
-	c_rasterizer::e_sampler_address_mode sampler_address_mode,
-	real a6,
-	real a7,
-	real a8,
-	real a9,
-	real_rectangle2d* bounds)
+	c_rasterizer::e_surface source_surface,
+	c_rasterizer::e_surface dest_surface,
+	c_rasterizer::e_sampler_filter_mode filter_mode,
+	c_rasterizer::e_sampler_address_mode address_mode,
+	real scale_r,
+	real scale_g,
+	real scale_b,
+	real scale_a,
+	real_rectangle2d* dest_texture_rect)
 {
-	//INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
+	//INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, );
 
 	c_rasterizer_profile_scope _copy(_rasterizer_profile_element_total, L"copy");
 
-	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, surface_a, surface_b, sampler_filter_mode, sampler_address_mode, a6, a7, a8, a9, bounds);
+	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, dest_texture_rect);
 }
 
 //.text:00A605B0 ; 
 
 // nullsub
-void __cdecl c_screen_postprocess::render_ssao(render_projection const* projection, render_camera const* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
+void __cdecl c_screen_postprocess::render_ssao_old(render_projection const* projection, render_camera const* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
 {
-	//INVOKE(0x00A60AF0, c_screen_postprocess::render_ssao, projection, camera, surface_a, surface_b, surface_c);
+	//INVOKE(0x00A60AF0, c_screen_postprocess::render_ssao_old, projection, camera, surface_a, surface_b, surface_c);
 }
 
 void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
@@ -120,20 +113,7 @@ void __cdecl c_screen_postprocess::postprocess_player_view(
 	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, projection, camera, screen_effect_settings, splitscreen_res, observer_dof, user_index);
 }
 
-// nullsub
-void __cdecl c_screen_postprocess::sub_A62710(
-	render_projection const* projection,
-	render_camera const* camera,
-	real_matrix4x3 const* matrix,
-	real const(*projection_matrix)[4],
-	c_rasterizer::e_surface surface_a,
-	c_rasterizer::e_surface surface_b,
-	c_rasterizer::e_surface surface_c)
-{
-	//INVOKE(0x00A62710, c_screen_postprocess::sub_A62710, projection, camera, matrix, bounding_box, surface_a, surface_b, surface_c);
-}
-
-void __cdecl c_screen_postprocess::render_ssr(
+void __cdecl c_screen_postprocess::postprocess_ssr(
 	render_projection const* projection,
 	render_camera const* camera,
 	c_rasterizer::e_surface surface_a,
@@ -149,7 +129,7 @@ void __cdecl c_screen_postprocess::render_ssr(
 	c_rasterizer::e_surface surface_k,
 	c_rasterizer::e_surface surface_l)
 {
-	INVOKE(0x00A61CD0, c_screen_postprocess::render_ssr,
+	INVOKE(0x00A61CD0, c_screen_postprocess::postprocess_ssr,
 		projection,
 		camera,
 		surface_a,
@@ -164,6 +144,26 @@ void __cdecl c_screen_postprocess::render_ssr(
 		surface_j,
 		surface_k,
 		surface_l);
+}
+
+// nullsub
+void __cdecl c_screen_postprocess::sub_A62710(
+	render_projection const* projection,
+	render_camera const* camera,
+	real_matrix4x3 const* matrix,
+	real const(*projection_matrix)[4],
+	c_rasterizer::e_surface surface_a,
+	c_rasterizer::e_surface surface_b,
+	c_rasterizer::e_surface surface_c)
+{
+	//INVOKE(0x00A62710, c_screen_postprocess::sub_A62710, projection, camera, matrix, bounding_box, surface_a, surface_b, surface_c);
+}
+
+void __cdecl c_screen_postprocess::render_lightshafts(s_lightshafts* lightshafts, render_projection* projection, render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
+{
+	c_rasterizer_profile_scope _lightshafts(_rasterizer_profile_element_total, L"lightshafts");
+
+	INVOKE(0x00A62720, c_screen_postprocess::render_lightshafts, lightshafts, projection, camera, surface_a, surface_b);
 }
 
 void __cdecl c_screen_postprocess::setup_rasterizer_for_postprocess(bool a1)

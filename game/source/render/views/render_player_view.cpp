@@ -298,7 +298,7 @@ void __thiscall c_player_view::render_1st_pass()
 					if (c_rasterizer::get_is_tiling_enabled())
 						c_tron_effect::resolve_and_process_z_camera(m_camera_user_data.player_window_index, &rasterizer_camera->window_pixel_bounds, false);
 
-					c_screen_postprocess::render_ssao(
+					c_screen_postprocess::render_ssao_old(
 						&m_rasterizer_projection,
 						&m_rasterizer_camera,
 						c_rasterizer::_surface_accum_LDR,
@@ -306,7 +306,7 @@ void __thiscall c_player_view::render_1st_pass()
 						c_rasterizer::_surface_color_half_fp16_0);
 					
 					if (screenshot_allow_postprocess())
-						c_screen_postprocess::render_ssr(
+						c_screen_postprocess::postprocess_ssr(
 							&m_rasterizer_projection,
 							&m_rasterizer_camera,
 							c_rasterizer::_surface_accum_LDR,
