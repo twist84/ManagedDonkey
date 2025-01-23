@@ -270,38 +270,42 @@ constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 
 #if defined(_DEBUG)
 
-#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__)
+#define ASSERT(STATEMENT, ...) do { if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__); } while (false)
 #define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
-if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
-{                                                                                              \
-    display_assert(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION);                              \
-    if (!is_debugger_present() && g_catch_exceptions)                                          \
-        system_abort();                                                                        \
-    else                                                                                       \
-        system_exit();                                                                         \
-}
+do { \
+	if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+	{ \
+	    display_assert(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION); \
+	    if (!is_debugger_present() && g_catch_exceptions) \
+	        system_abort(); \
+	    else \
+	        system_exit(); \
+	} \
+} while (false)
 
 #define ASSERT2(STATEMENT) ASSERT_EXCEPTION2(STATEMENT, true)
 #define ASSERT_EXCEPTION2(STATEMENT, IS_EXCEPTION, ...) \
-if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
-{                                                                                              \
-    display_assert(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION);                              \
-    if (!is_debugger_present() && g_catch_exceptions)                                          \
-        system_abort();                                                                        \
-    else                                                                                       \
-        system_exit();                                                                         \
-}
+do { \
+	if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+	{ \
+	    display_assert(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION); \
+	    if (!is_debugger_present() && g_catch_exceptions) \
+	        system_abort(); \
+	    else \
+	        system_exit(); \
+	} \
+} while (false)
 
 #else
 
-#define ASSERT(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT_EXCEPTION(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT(STATEMENT, ...) do { } while (false)
+#define ASSERT_EXCEPTION(STATEMENT, ...) do { } while (false)
 
-#define ASSERT2(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT_EXCEPTION2(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT2(STATEMENT, ...) do { } while (false)
+#define ASSERT_EXCEPTION2(STATEMENT, ...) do { } while (false)
 
-#define ASSERT3(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT_EXCEPTION3(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT3(STATEMENT, ...) do { } while (false)
+#define ASSERT_EXCEPTION3(STATEMENT, ...) do { } while (false)
 
 #endif // _DEBUG
 

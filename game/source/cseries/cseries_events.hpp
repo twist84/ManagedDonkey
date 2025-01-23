@@ -172,12 +172,15 @@ extern void __cdecl network_debug_print(char const* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS
 
+// $TODO: decide if we want to wrap this macro in a debug check
+//#if defined(_DEBUG)
+
 #ifdef USE_CONSOLE_FOR_EVENTS
-#define event(severity, ...) { c_console::write_line(__VA_ARGS__); }
-#define event_no_console(severity, ...) {  }
+#define event(severity, ...) do { c_console::write_line(__VA_ARGS__); } while (false)
+#define event_no_console(severity, ...) do { /* $TODO: implement me */ } while (false)
 #else
 #define event(severity, ...) \
-{ \
+do { \
 	static long volatile x_event_category_index = NONE; \
 	c_event local_event(severity, x_event_category_index, 0); \
 	if (local_event.query()) \
@@ -185,7 +188,12 @@ extern void __cdecl network_debug_print(char const* format, ...);
 		if (x_event_category_index == NONE) \
 			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(__VA_ARGS__), NONE); \
 	} \
-}
-#define event_no_console(severity, ...) { /* $TODO: implement me */ }
+} while (false)
+#define event_no_console(severity, ...) do { /* $TODO: implement me */ } while (false)
 #endif
+
+//#else
+//#define event(severity, ...) do { } while (false)
+//#define event_no_console(severity, ...) do { } while (false)
+//#endif
 
