@@ -7,7 +7,7 @@
 
 bool net_skip_countdown = false;
 
-// #TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
+// $TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
 __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown()
 {
 	// original instructions
@@ -44,7 +44,7 @@ __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown()
 }
 HOOK_DECLARE(0x0048F66A, life_cycle_state_handler_pre_game_host_update_countdown);
 
-// #TODO: rewrite `c_life_cycle_state_handler_pre_game::update` 
+// $TODO: rewrite `c_life_cycle_state_handler_pre_game::update` 
 __declspec(naked) void life_cycle_state_handler_pre_game_update()
 {
 	ASM_ADDR(0x00490604, addr_490604);

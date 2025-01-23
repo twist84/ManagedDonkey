@@ -125,7 +125,7 @@ bool __cdecl user_interface_squad_delegate_leadership(long player_index)
 
 	// skip doing any sort leadership delegating, it will just make no one the leader
 	// thus making it impossible to do anything with the current lobby
-	// #TODO: fix any underlying issues causing the above behaviour
+	// $TODO: fix any underlying issues causing the above behaviour
 	return false;
 }
 HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);

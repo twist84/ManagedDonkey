@@ -1148,7 +1148,7 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 	//if (options->campaign_insertion_point < 0 || options->campaign_insertion_point >= 9)
 	//	return false;
 	//
-	//// #TODO: more checks
+	//// $TODO: more checks
 }
 
 e_game_playback_type __cdecl game_playback_get()

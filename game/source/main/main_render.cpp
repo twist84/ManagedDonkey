@@ -461,7 +461,7 @@ void __cdecl main_render_game()
 					c_view::end();
 				}
 
-				// #TODO: implement these?
+				// $TODO: implement these?
 				// `screenshot_post_render` is a nullsub, so skip `screenshot_render` logic
 				//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->camera_fx_values, iterator.m_window_count))
 				//	screenshot_post_render();

@@ -171,7 +171,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr // #TODO
+		.variable = nullptr // $TODO
 	},
 	{
 		.name = "Profile Summary Off",
@@ -301,7 +301,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = true,
 	//	.allow_in_editor = true,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO: `bool render_debug_show_4x3_bounds`
+	//	.variable = nullptr // $TODO: `bool render_debug_show_4x3_bounds`
 	//},
 	{
 		.name = "exit game",
@@ -341,7 +341,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO: `cheat.deathless_player`
+	//	.variable = nullptr // $TODO: `cheat.deathless_player`
 	//},
 	//{
 	//	.name = "infinite ammo",
@@ -351,7 +351,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO: `cheat.infinite_ammo`
+	//	.variable = nullptr // $TODO: `cheat.infinite_ammo`
 	//},
 	{
 		.name = "display framerate",
@@ -371,7 +371,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO: `bool render_debug_infinite_framerate`
+	//	.variable = nullptr // $TODO: `bool render_debug_infinite_framerate`
 	//},
 	//{
 	//	.name = "render model vertex",
@@ -381,7 +381,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO: `bool debug_render_model_vertex_counts`
+	//	.variable = nullptr // $TODO: `bool debug_render_model_vertex_counts`
 	//},
 	//{
 	//	.name = "render model names",
@@ -391,7 +391,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = false,
-	//	.variable = nullptr // #TODO: `bool debug_render_model_names`
+	//	.variable = nullptr // $TODO: `bool debug_render_model_names`
 	//},
 	{
 		.name = "save camera",
@@ -431,7 +431,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "texture cache debug mip",
@@ -441,7 +441,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "texture cache status",
@@ -451,7 +451,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "texture cache graph",
@@ -461,7 +461,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "texture cache list",
@@ -471,7 +471,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "geometry cache status",
@@ -481,7 +481,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "geometry cache graph",
@@ -491,7 +491,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	//{
 	//	.name = "geometry cache list",
@@ -501,7 +501,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO
+	//	.variable = nullptr // $TODO
 	//},
 	{
 		.name = "toggle pause",
@@ -824,7 +824,7 @@ void __cdecl debug_keys_update()
 			debug_key_update(key_index, key++, modifier_down, 0);
 	}
 
-	// #TODO: add implementation for `g_debug_button_list`
+	// $TODO: add implementation for `g_debug_button_list`
 
 	//for (s_debug_button& button : g_debug_button_list)
 	//{

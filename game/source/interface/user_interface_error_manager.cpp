@@ -354,7 +354,7 @@ void c_gui_error_manager::update(dword ui_time)
 	//{
 	//	c_gui_queued_error const* error = alerts[window_index].error;
 	//
-	//	// #TODO: implement this loop
+	//	// $TODO: implement this loop
 	//}
 	//
 	//m_display_mode = display_mode;

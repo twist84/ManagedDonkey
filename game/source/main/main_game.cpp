@@ -87,7 +87,7 @@ e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game
 
 bool __cdecl sub_566CC0()
 {
-	// #TODO: find name
+	// $TODO: find name
 	// used in `c_tag_resource_cache_controller::mark_necessary_resources`
 
 	return INVOKE(0x00566CC0, sub_566CC0);
@@ -263,7 +263,7 @@ void __cdecl main_game_change_update()
 
 	//main_game_editor_world_controller_update();
 
-	// #TODO: test campaign for following code path
+	// $TODO: test campaign for following code path
 	if (main_game_globals.map_advance_pending && !sub_60B080())
 	{
 		if (game_is_playback())

@@ -4,7 +4,7 @@
 
 struct s_object_scripting_state
 {
-	struct s_variable // #TODO: find the actual name
+	struct s_variable // $TODO: find the actual name
 	{
 		c_string_id name;
 		real __unknown4;

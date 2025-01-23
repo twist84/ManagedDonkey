@@ -102,7 +102,7 @@ static_assert(sizeof(collision_model_test_vector_result) == 0x42C);
 
 struct collision_bsp_test_sphere_result
 {
-	// #TODO: confirm this
+	// $TODO: confirm this
 
 	long surface_count;
 	long surface_indices[255];

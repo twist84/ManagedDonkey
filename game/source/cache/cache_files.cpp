@@ -1292,7 +1292,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			event(_event_critical, "failed to read the tag data section");
 		}
 
-		// #TODO: security stuff
+		// $TODO: security stuff
 		//	calculate hash
 		//	calculate hash signature
 		//	compare hash signatures
@@ -1646,7 +1646,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 	file_close(&file);
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1681,7 +1681,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1800,7 +1800,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1831,7 +1831,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1862,7 +1862,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_chud_globals_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1895,7 +1895,7 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_vision_mode_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1926,7 +1926,7 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_object_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1957,7 +1957,7 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_unit_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1988,7 +1988,7 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_biped_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2027,7 +2027,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_vehicle_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2058,7 +2058,7 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_item_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2089,7 +2089,7 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_equipment_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2120,7 +2120,7 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_weapon_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2151,7 +2151,7 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void apply_projectile_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2182,7 +2182,7 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 	}
 }
 
-// #TODO: create some sort of tag modification manager
+// $TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	if (instance == nullptr)

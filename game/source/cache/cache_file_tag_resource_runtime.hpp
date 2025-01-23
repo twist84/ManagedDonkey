@@ -372,7 +372,7 @@ public:
 	bool m_cache_streaming_data;
 	bool m_cache_pages_for_next_map;
 
-	// #TODO: map this
+	// $TODO: map this
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);

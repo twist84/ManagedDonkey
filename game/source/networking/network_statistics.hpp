@@ -9,7 +9,7 @@ private:
 
 public:
 
-	struct s_interval // #TODO: find a better name?
+	struct s_interval // $TODO: find a better name?
 	{
 		// names based on `m_stored_total` asserts
 		// the struct for `m_intervals` could be different?
@@ -29,7 +29,7 @@ public:
 	long m_interval_duration_msec;
 	real m_period_duration;
 	long m_next_interval_index;
-	s_interval m_intervals[k_network_statistics_interval_count]; // #TODO: find a better name?
+	s_interval m_intervals[k_network_statistics_interval_count]; // $TODO: find a better name?
 	s_interval m_stored_total;
 };
 static_assert(sizeof(c_network_time_statistics) == 0xD8);
@@ -41,7 +41,7 @@ private:
 
 public:
 
-	struct s_window_entry // #TODO: find a better name?
+	struct s_window_entry // $TODO: find a better name?
 	{
 		// m_window_entries[this->m_window_next_entry].add_time = network_time_get();
 		long add_time;

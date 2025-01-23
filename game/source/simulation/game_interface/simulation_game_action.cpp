@@ -258,7 +258,7 @@ void simulation_action_object_update(long object_index, t_flag_enum flag)
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_unit_update_flag flag) :
 	c_flags<long, qword, 64>()
 {
-	// #TODO: find the offset for this function
+	// $TODO: find the offset for this function
 	
 	set_flag(object_index, flag);
 }
@@ -266,7 +266,7 @@ c_simulation_object_update_flags::c_simulation_object_update_flags(long object_i
 template<>
 void __cdecl simulation_action_object_update<e_simulation_unit_update_flag>(long unit_index, e_simulation_unit_update_flag flag)
 {
-	// #TODO: find the unit_indexfor this function
+	// $TODO: find the unit_indexfor this function
 
 	c_simulation_object_update_flags flags(unit_index, flag);
 	simulation_action_object_update_internal(unit_index, flags);

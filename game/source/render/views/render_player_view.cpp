@@ -96,7 +96,7 @@ void __thiscall c_player_view::queue_patchy_fog()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 }
 
-// #TODO: move this
+// $TODO: move this
 struct s_surface_group_description
 {
 	dword_flags flags;
@@ -120,7 +120,7 @@ struct s_surface_group_description
 	dword index_unknown_of_size_54;
 };
 
-// #TODO: move this
+// $TODO: move this
 struct c_render_surface_group
 {
 	s_surface_group_description description;
@@ -128,7 +128,7 @@ struct c_render_surface_group
 	c_render_surface* m_default_surface;
 };
 
-// #TODO: move this
+// $TODO: move this
 struct c_render_surfaces_interface
 {
 	static c_render_surface* get_render_surface_default(c_rasterizer::e_surface surface)
@@ -139,16 +139,16 @@ struct c_render_surfaces_interface
 	static c_render_surface_group(&m_render_surface_groups)[60];
 };
 
-// #TODO: move this
+// $TODO: move this
 REFERENCE_DECLARE_ARRAY(0x0510D8D0, c_render_surface_group, c_render_surfaces_interface::m_render_surface_groups, 60);
 
-// #TODO: move this
+// $TODO: move this
 void __cdecl sub_14E56A0(long player_index, c_player_view* player_view)
 {
 	INVOKE(0x014E56A0, sub_14E56A0, player_index, player_view);
 }
 
-// #TODO: move this
+// $TODO: move this
 void __cdecl vision_mode_render(long player_index, c_player_view const* player_view, real a3, real a4, real a5, long a6, long a7)
 {
 	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);

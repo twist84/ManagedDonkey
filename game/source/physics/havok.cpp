@@ -231,17 +231,17 @@ void havok_debug_render()
 			havok_display_stats(false);
 
 		//if (get_havok_constants()->havok_render_impacts)
-		//    impacts_render_debug(); // #TODO: implement
+		//    impacts_render_debug(); // $TODO: implement
 		//
 		//if (get_havok_constants()->havok_render_proxies)
-		//    havok_proxies_render_debug(); // #TODO: implement
+		//    havok_proxies_render_debug(); // $TODO: implement
 		//
 		//if (get_havok_constants()->havok_render_collision_damage)
-		//    havok_collision_damage_render_debug(); // #TODO: implement
+		//    havok_collision_damage_render_debug(); // $TODO: implement
 		//
 		//if (get_havok_constants()->havok_render_shape_properties)
 		//{
-		//    // #TODO: implement
+		//    // $TODO: implement
 		//}
 
 		havok_restore_fpu_from_update();

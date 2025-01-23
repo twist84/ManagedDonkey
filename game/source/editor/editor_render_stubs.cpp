@@ -5,16 +5,16 @@
 
 void editor_render_debug()
 {
-    // #TODO: implement
+    // $TODO: implement
 }
 
 void editor_render_scene(long a1)
 {
-    // #TODO: implement
+    // $TODO: implement
 }
 
 void editor_render_ui(e_window_index window_index, rectangle2d const* bounds)
 {
-    // #TODO: implement
+    // $TODO: implement
 }
 

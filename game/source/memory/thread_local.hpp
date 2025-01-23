@@ -976,7 +976,7 @@ static_assert(sizeof(s_thread_local_storage) == 0x584);
 
 extern s_thread_local_storage* get_tls();
 
-// #TODO: move all `t_restricted_allocation_manager` declarations to the correct files
+// $TODO: move all `t_restricted_allocation_manager` declarations to the correct files
 
 extern t_restricted_allocation_manager<k_game_state_update_region>& g_simulation_gamestate_entity_data_allocator;
 extern t_restricted_allocation_manager<k_game_state_shared_region>& g_main_gamestate_timing_data_allocator;

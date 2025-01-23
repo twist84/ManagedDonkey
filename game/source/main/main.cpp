@@ -462,7 +462,7 @@ void __cdecl main_halt_and_catch_fire()
 		user_interface_networking_set_ui_upload_quota(NONE);
 		console_close();
 
-		if (false /* #TODO: add variable */)
+		if (false /* $TODO: add variable */)
 			main_crash_just_upload_dammit();
 
 		c_static_string<256> reason;

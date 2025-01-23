@@ -33,7 +33,7 @@ struct c_network_storage_manifest
 public:
 	enum e_entry_state
 	{
-		// #TODO: map me
+		// $TODO: map me
 	};
 
 	static c_network_storage_manifest* __cdecl get();

@@ -9,7 +9,7 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, _get_integer_value);
 HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value);
 
-// #TODO: reimplement `c_gui_active_roster_data::update`
+// $TODO: reimplement `c_gui_active_roster_data::update`
 
 bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long value_name, long* value)
 {
@@ -72,7 +72,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 	{
 		*value = (element_handle % 4) + 1;
 
-		// #TODO: pull this from an api?
+		// $TODO: pull this from an api?
 		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			*value = 42;
 
@@ -84,7 +84,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 	{
 		*value = (element_handle % 4) + 1;
 
-		// #TODO: pull this from an api?
+		// $TODO: pull this from an api?
 		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			*value = 50;
 

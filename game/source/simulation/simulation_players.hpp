@@ -4,7 +4,7 @@
 #include "game/player_control.hpp"
 #include "game/players.hpp"
 
-// #TODO: find a home
+// $TODO: find a home
 enum
 {
 	k_maximum_players = 16

@@ -404,9 +404,9 @@ void ai_debug_string(char const* string, short tab_stop_count, short const* tab_
 
 void render_command_scripts_helper(actor_datum* actor, long command_script_index)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
-	// #TODO: `hs_thread_get`, `cs_atom_string`
+	// $TODO: `hs_thread_get`, `cs_atom_string`
 
 	//TLS_DATA_GET_VALUE_REFERENCE(command_script_data);
 	//

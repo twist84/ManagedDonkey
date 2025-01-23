@@ -66,7 +66,7 @@ struct c_trigger_volume_query
 {
 	scenario_trigger_volume* m_trigger_volume;
 
-	// #TODO: confirm names
+	// $TODO: confirm names
 	real_matrix4x3 m_matrix;
 	bool m_has_matrix;
 };

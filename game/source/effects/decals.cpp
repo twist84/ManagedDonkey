@@ -73,7 +73,7 @@ void __thiscall c_decal::render(long pass)
 	//INVOKE_CLASS_MEMBER(0x00694430, c_decal, render, pass);
 
 	static c_static_wchar_string<128> tag_name;
-	char const* tag_name_ = "#TODO: tag_name";
+	char const* tag_name_ = "$TODO: tag_name";
 	//TLS_DATA_GET_VALUE_REFERENCE(g_decal_system_data_array);
 	//REFERENCE_DECLARE(offset_pointer(this, 0x8), long, decal_system_index);
 	//void* decal_system = datum_get(g_decal_system_data_array, decal_system_index);

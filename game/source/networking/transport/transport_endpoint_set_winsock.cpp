@@ -4,7 +4,7 @@
 
 char const* winsock_error_to_string_no_default(int error)
 {
-    // #TODO: implement
+    // $TODO: implement
     return nullptr;
 }
 

@@ -216,7 +216,7 @@ dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controlle
 	if (!controller->is_signed_in_to_machine())
 		return E_FAIL;
 
-	// #TODO: properly implement `XShowKeyboardUI`
+	// $TODO: properly implement `XShowKeyboardUI`
 	return ERROR_SUCCESS;
 
 	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);

@@ -42,7 +42,7 @@ struct c_user_interface_text_parse_manager
 
 	long m_tag_parser_count;
 
-	// #TODO: find the proper name of this struct
+	// $TODO: find the proper name of this struct
 	struct s_text_parser
 	{
 		c_game_tag_parser* parser;

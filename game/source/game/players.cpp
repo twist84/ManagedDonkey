@@ -153,7 +153,7 @@ void players_debug_render()
 		//	player_datum* player = player_iterator.get_datum();
 		//	if (player->unit_index != NONE)
 		//	{
-		//		// #TODO: implement this
+		//		// $TODO: implement this
 		//	}
 		//}
 	}
@@ -171,7 +171,7 @@ void players_debug_render()
 		//	{
 		//		biped_datum* biped = biped_get(player->unit_index);
 		// 
-		//		// #TODO: find the bit index
+		//		// $TODO: find the bit index
 		//		if (TEST_BIT(biped->biped.flags, ??))
 		//		{
 		//			real_point3d position{};
@@ -1014,13 +1014,13 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 }
 
 // this function gets called in `player_spawn` -> `game_engine_add_starting_equipment`
-// #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
+// $TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
 s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
 {
 	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon.loadouts[player->weapon_loadout_index];
 
 	// allow player traits override
-	// #TODO: pull these from tags
+	// $TODO: pull these from tags
 	loadout.primary_weapon_index = 0xFF;
 	loadout.secondary_weapon_index = 0xFF;
 

@@ -108,7 +108,7 @@ void __cdecl chud_debug_render()
 	//		long user_index = player_mapping_first_active_output_user();
 	//		if (user_index != NONE)
 	//		{
-	//			// #TODO: implement me
+	//			// $TODO: implement me
 	//		}
 	//	}
 	//

@@ -379,7 +379,7 @@ struct player_datum :
 	bool sprinting;
 	bool crouching;
 	bool shooting_left;
-	bool shooting_right; // #TODO: confirmed this by checking it in ED??
+	bool shooting_right; // $TODO: confirmed this by checking it in ED??
 	byte __unknown5B;
 	word magnification_level; // zoom
 

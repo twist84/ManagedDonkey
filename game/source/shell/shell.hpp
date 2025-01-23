@@ -178,7 +178,7 @@ enum e_secondary_skulls
 	k_number_of_secondary_skulls
 };
 
-// #TODO: find a home
+// $TODO: find a home
 enum e_game_simulation_type
 {
 	_game_simulation_none = 0,
@@ -203,7 +203,7 @@ enum e_network_game_simulation_protocol
 	k_network_game_simulation_count
 };
 
-// #TODO: find a home
+// $TODO: find a home
 enum e_game_playback_type
 {
 	_game_playback_none = 0,

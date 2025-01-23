@@ -413,7 +413,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 	break;
 	case HK_SHAPE_USER0:
 	{
-		// #TODO: implement me
+		// $TODO: implement me
 	}
 	break;
 	default:

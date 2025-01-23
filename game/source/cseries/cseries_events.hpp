@@ -186,6 +186,6 @@ extern void __cdecl network_debug_print(char const* format, ...);
 			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(__VA_ARGS__), NONE); \
 	} \
 }
-#define event_no_console(severity, ...) { /* #TODO: implement me */ }
+#define event_no_console(severity, ...) { /* $TODO: implement me */ }
 #endif
 

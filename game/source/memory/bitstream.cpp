@@ -273,7 +273,7 @@ qword c_bitstream::decode_qword_from_memory()
 	//long size_in_bits = 0;
 	//if (next_data + CHAR_BITS > data_max)
 	//{
-	//	// #TODO: implement this
+	//	// $TODO: implement this
 	//}
 	//else
 	//{

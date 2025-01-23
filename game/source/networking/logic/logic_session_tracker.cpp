@@ -288,7 +288,7 @@ bool c_session_tracker::mark_session_undesireable(s_transport_session_descriptio
 	{
 		ASSERT(VALID_INDEX(tracked_session_index, m_session_count));
 
-		// #TODO: add back `mark_tracked_session_undesireable`
+		// $TODO: add back `mark_tracked_session_undesireable`
 		return true;
 	}
 
@@ -308,7 +308,7 @@ bool c_session_tracker::mark_session_unsuitable(s_transport_session_description 
 	{
 		ASSERT(VALID_INDEX(tracked_session_index, m_session_count));
 
-		// #TODO: add back `mark_tracked_session_unsuitable`
+		// $TODO: add back `mark_tracked_session_unsuitable`
 		return true;
 	}
 

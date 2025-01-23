@@ -31,7 +31,7 @@ void __thiscall c_managed_session_overlapped_task::process_add_players(long mana
 	m_result = false;
 	m_return_result = 0;
 
-	// #TODO: implement `filter_local_users`
+	// $TODO: implement `filter_local_users`
 	//filter_local_users(player_count, a4, a5, a6);
 
 	if (!m_player_count)
@@ -132,7 +132,7 @@ void __thiscall c_managed_session_overlapped_task::process_remove_players(long m
 	m_result = false;
 	m_return_result = 0;
 
-	// #TODO: implement `filter_local_users`
+	// $TODO: implement `filter_local_users`
 	//filter_local_users(player_count, a5, a6, NULL);
 
 	if (!m_player_count)

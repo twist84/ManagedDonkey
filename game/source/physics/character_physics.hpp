@@ -30,5 +30,5 @@ protected:
 	long m_object_index;
 	byte __data8[0x78];
 };
-static_assert(sizeof(c_character_physics_component) == 0x80); // #TODO: find the exact size
+static_assert(sizeof(c_character_physics_component) == 0x80); // $TODO: find the exact size
 

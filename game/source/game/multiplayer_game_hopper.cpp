@@ -1135,7 +1135,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 
 		//while (game_start_error == _session_game_start_error_none && hopper)
 		//{
-		//	// #TODO: hopper checks
+		//	// $TODO: hopper checks
 		//}
 	}
 

@@ -205,7 +205,7 @@ bool c_game_variant::is_equal_to(c_game_variant const* other) const
 {
 	return INVOKE_CLASS_MEMBER(0x0057A4C0, c_game_variant, is_equal_to, other);
 
-	// #TODO
+	// $TODO
 	//ASSERT(other != NULL);
 	//
 	//if (get_game_engine_index() != other->get_game_engine_index())

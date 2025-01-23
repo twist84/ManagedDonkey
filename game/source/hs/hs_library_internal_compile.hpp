@@ -110,7 +110,7 @@ bool hs_parse_if(short function_index, long expression_index)
 
 bool hs_parse_cond(short function_index, long expression_index)
 {
-	// #TODO: implement
+	// $TODO: implement
 
 	return false;
 }

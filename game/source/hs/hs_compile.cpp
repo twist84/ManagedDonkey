@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// #TODO: completely reorganize this file
+// $TODO: completely reorganize this file
 
 enum
 {
@@ -39,7 +39,7 @@ const char eol_characters[] = { '\n', '\r' };
 
 void skip_whitespace(char** c)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 }
 
 bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type byteswap_type)
@@ -1614,7 +1614,7 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 
 char* hs_compile_add_source(long source_size, char const* source_data)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	return NULL;
 
@@ -1656,7 +1656,7 @@ struct hs_tokenizer
 
 long hs_tokenize(hs_tokenizer* state)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	return NONE;
 
@@ -1698,7 +1698,7 @@ long hs_tokenize(hs_tokenizer* state)
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	//hs_syntax_node* expression = hs_syntax_get(expression_index);
 	//long* next_node_index = &expression->long_value;
@@ -1745,12 +1745,12 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 
 void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 }
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	//hs_tokenizer _tokenizer{};
 	//_tokenizer.source_file_data = source_file_data;
@@ -1787,7 +1787,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_s
 
 bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	return false;
 }
@@ -1887,7 +1887,7 @@ void hs_compile_dispose()
 
 long hs_compile_expression(long source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	//if (source_size < 4096)
 	//{
@@ -1899,19 +1899,19 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 
 void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, long out_expression_length)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 }
 
 bool hs_runtime_safe_to_gc()
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	return false;
 }
 
 bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 
 	bool result = false;
 
@@ -1970,6 +1970,6 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 
 void hs_compile_source_error(char const* file_name, char const* error_message, char const* error_source, char const* source)
 {
-	// #TODO: implement me
+	// $TODO: implement me
 }
 

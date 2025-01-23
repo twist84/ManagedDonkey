@@ -28,7 +28,7 @@ char const* const g_stimulus_names[k_stimulus_count]
 	"flood disperse"
 };
 
-// #TODO: `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
+// $TODO: `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
 
 void stimuli_debug()
 {
