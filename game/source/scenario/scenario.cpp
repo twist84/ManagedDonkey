@@ -160,7 +160,7 @@ bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
 
 	if (!scenario_switch_zone_set_internal(zone_set_index, true))
 	{
-		CRITICAL_EVENT("unable to load initial structure bsp (maybe scenario has none?)");
+		event(_event_critical, "unable to load initial structure bsp (maybe scenario has none?)");
 		return false;
 	}
 
@@ -523,7 +523,7 @@ void __cdecl scenario_prepare_for_map_reset(short initial_zone_set_index)
 		0,
 		true))
 	{
-		CRITICAL_EVENT("failed to reset to initial zone, things are about to go BOOM!");
+		event(_event_critical, "failed to reset to initial zone, things are about to go BOOM!");
 	}
 }
 

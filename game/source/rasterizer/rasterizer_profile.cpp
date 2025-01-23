@@ -262,7 +262,7 @@ long c_rasterizer_profile_globals::get_last_frame_reference()
 
 	if (!last_frame_valid)
 	{
-		WARNING_EVENT("couldn't find valid last frame index for gpu profile");
+		event(_event_warning, "couldn't find valid last frame index for gpu profile");
 	}
 
 	return last_frame_reference;

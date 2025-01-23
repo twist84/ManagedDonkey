@@ -46,19 +46,19 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_cont
 
 	if (cinematic_in_progress())
 	{
-		STATUS_EVENT("ui:start_menu: Can't show start menu -- cinematic in progress.");
+		event(_event_status, "ui:start_menu: Can't show start menu -- cinematic in progress.");
 		return false;
 	}
 	
 	if (simulation_starting_up())
 	{
-		STATUS_EVENT("ui:start_menu: Can't show start menu -- simulation starting up.");
+		event(_event_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
 		return false;
 	}
 
 	if (!controller->in_use() || controller->get_user_index() == NONE)
 	{
-		ERROR_EVENT("ui:start_menu: controller not in use.");
+		event(_event_error, "ui:start_menu: controller not in use.");
 		return false;
 	}
 

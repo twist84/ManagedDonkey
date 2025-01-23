@@ -13,11 +13,11 @@ long start_script(hs_script const* script, long index)
 	long thread_index = hs_runtime_script_begin(static_cast<short>(index & 0xFFFF), script->script_type, _hs_thread_type_script);
 	if (thread_index == NONE)
 	{
-		ERROR_EVENT("ui:hs: failed to start script %s", script->name);
+		event(_event_error, "ui:hs: failed to start script %s", script->name);
 	}
 	else
 	{
-		MESSAGE_EVENT("ui:hs: started script %s (thread 0x%08X)", script->name, thread_index);
+		event(_event_message, "ui:hs: started script %s (thread 0x%08X)", script->name, thread_index);
 	}
 
 	return thread_index;
@@ -43,7 +43,7 @@ long user_interface_start_hs_script_by_name(char const* name)
 	if (script)
 		return start_script(script, script_index);
 
-	WARNING_EVENT("ui:hs: no such script \"%s\"", name);
+	event(_event_warning, "ui:hs: no such script \"%s\"", name);
 	return NONE;
 }
 

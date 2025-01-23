@@ -521,7 +521,7 @@ void c_game_engine_social_options::set_team_changing_setting(long team_changing)
 {
 	if (!VALID_INDEX(team_changing, 2))
 	{
-		WARNING_EVENT("game_engine:social_option:team_changing: invalid team changing setting '%d'!", team_changing);
+		event(_event_warning, "game_engine:social_option:team_changing: invalid team changing setting '%d'!", team_changing);
 	}
 	else
 	{
@@ -657,7 +657,7 @@ void c_game_engine_map_override_options::set_weapon_set_absolute_index(short wea
 	}
 	else
 	{
-		WARNING_EVENT("game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
+		event(_event_warning, "game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
 		m_weapon_set_absolute_index = short(0xFFFF);
 	}
 }
@@ -675,7 +675,7 @@ void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short ve
 	}
 	else
 	{
-		WARNING_EVENT("game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
+		event(_event_warning, "game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
 
 		//ms23: `m_weapon_set_absolute_index`
 		m_vehicle_set_absolute_index = short(0xFFFF);

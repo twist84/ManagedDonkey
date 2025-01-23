@@ -113,7 +113,7 @@ void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, 
 		if (debug_damage_verbose)
 		{
 			object_datum* object = object_get(object_index);
-			WARNING_EVENT("damaging '%s' 0x%08lx with '%s'",
+			event(_event_warning, "damaging '%s' 0x%08lx with '%s'",
 				tag_name_strip_path(tag_get_name(object->definition_index)),
 				object_index,
 				tag_name_strip_path(tag_get_name(damage_data->definition_index)));

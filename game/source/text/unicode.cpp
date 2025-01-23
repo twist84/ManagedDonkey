@@ -17,7 +17,7 @@
 //		long source_string_size = 0;
 //		while (string[source_string_size++]);
 //		if (copy_buffer_size < source_string_size)
-//			WARNING_EVENT("insufficient copy buffer for WCHAR string (%ld<=%ld) '%S'",
+//			event(_event_warning, "insufficient copy buffer for WCHAR string (%ld<=%ld) '%S'",
 //				copy_buffer_size,
 //				source_string_size,
 //				string);

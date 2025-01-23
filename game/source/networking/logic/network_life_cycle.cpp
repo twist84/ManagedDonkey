@@ -54,7 +54,7 @@ void __cdecl network_life_cycle_end()
 {
 	//INVOKE(0x00454B40, network_life_cycle_end);
 
-	MESSAGE_EVENT("networking:lifecycle: calling life cycle end");
+	event(_event_message, "networking:lifecycle: calling life cycle end");
 	
 	network_life_cycle_disconnect_sessions();
 	life_cycle_globals.manager.terminate();

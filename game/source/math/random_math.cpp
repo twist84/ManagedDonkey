@@ -206,7 +206,7 @@ void random_seed_debug_log_begin(game_options const* options)
 		}
 
 		if (!random_seed_debug_file_open)
-			ERROR_EVENT("couldn't create random seed debug file %s", rand_filename);
+			event(_event_error, "couldn't create random seed debug file %s", rand_filename);
 
 		if (random_seed_debug_file_open)
 			file_printf(&random_seed_debug_file, "code reference function: %s at address: %x\n", "random_math_initialize", random_math_initialize);

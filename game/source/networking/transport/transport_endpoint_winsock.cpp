@@ -48,7 +48,7 @@ long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
     case _transport_endpoint_option_alpha:
         return 0x4001;
     default:
-        WARNING_EVENT("networking:transport:endpoint: option %d unknown", option);
+        event(_event_warning, "networking:transport:endpoint: option %d unknown", option);
         break;
     }
 
@@ -262,7 +262,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
         }
         else
         {
-            ERROR_EVENT("networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
+            event(_event_error, "networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
         }
     }
     endpoint->socket = INVALID_SOCKET;
@@ -338,7 +338,7 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
             }
             else
             {
-                //GENERATE_EVENT(error_level(error), "transport:read: recv() failed w/ unknown error '%s'", winsock_error_to_string(error));
+                //event(error_level(error), "transport:read: recv() failed w/ unknown error '%s'", winsock_error_to_string(error));
                 bytes_read = short(0xFFFD);
             }
         }

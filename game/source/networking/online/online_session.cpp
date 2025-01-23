@@ -194,7 +194,7 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 		//	result = E_FAIL;
 		//}
 		//
-		//MESSAGE_EVENT("networking:managed_session: created XSession handle %08X",
+		//event(_event_message, "networking:managed_session: created XSession handle %08X",
 		//	m_session->handle);
 	}
 	break;
@@ -209,7 +209,7 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 		//XSESSION_LOCAL_DETAILS SessionDetails{};
 		//if (XSessionGetDetails(m_session->handle, &cbResultsBuffer, &SessionDetails, NULL))
 		//{
-		//	WARNING_EVENT("networking:managed_session: attempting to delete XSession handle %08X, but GetDetails() failed, so we are assuming the session is toast!",
+		//	event(_event_warning, "networking:managed_session: attempting to delete XSession handle %08X, but GetDetails() failed, so we are assuming the session is toast!",
 		//		m_session->handle);
 		//	result = E_FAIL;
 		//}
@@ -239,7 +239,7 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 		//DWORD dwMaxPrivateSlots;
 		//DWORD dwFlags = calculate_slot_counts(m_desired_session, m_actual_session, &dwMaxPublicSlots, &dwMaxPrivateSlots);
 		//
-		//MESSAGE_EVENT("networking:managed_session:process_modify: flags=%X, private=%d, public=%d",
+		//event(_event_message, "networking:managed_session:process_modify: flags=%X, private=%d, public=%d",
 		//	dwFlags,
 		//	dwMaxPublicSlots,
 		//	dwMaxPrivateSlots);

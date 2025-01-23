@@ -908,7 +908,7 @@ void __cdecl cached_map_files_open_all(bool* success)
 {
 	//INVOKE(0x005ABF00, cached_map_files_open_all, success);
 
-	MESSAGE_EVENT("cache: open all cache map files");
+	event(_event_message, "cache: open all cache map files");
 
 	if (g_cache_files_are_absolute)
 	{
@@ -947,7 +947,7 @@ void __cdecl cached_map_files_open_all(bool* success)
 		*success = false;
 	}
 
-	MESSAGE_EVENT("cache: open all cache map files complete");
+	event(_event_message, "cache: open all cache map files complete");
 }
 
 void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path)

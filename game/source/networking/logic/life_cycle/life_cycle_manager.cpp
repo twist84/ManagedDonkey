@@ -46,11 +46,11 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 {
 	//INVOKE_CLASS_MEMBER(0x0048DDD0, c_life_cycle_state_manager, request_leave_sessions, disconnect);
 
-	MESSAGE_EVENT("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
+	event(_event_message, "networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
 
 	if (m_current_state == _life_cycle_state_leaving)
 	{
-		MESSAGE_EVENT("networking:logic:life-cycle: we are already leaving, no need to try again");
+		event(_event_message, "networking:logic:life-cycle: we are already leaving, no need to try again");
 	}
 	else
 		request_state_change(_life_cycle_state_leaving, sizeof(bool), &disconnect);

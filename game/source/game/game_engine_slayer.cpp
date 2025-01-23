@@ -127,7 +127,7 @@ void c_game_engine_slayer_variant::set_score_to_win(short score_to_win)
 {
 	if (!VALID_INDEX(score_to_win + 1, 501))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, -1, 520);
+		event(_event_warning, "game_engine:slayer: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, -1, 520);
 
 		m_score_to_win = 25;
 	}
@@ -146,7 +146,7 @@ void c_game_engine_slayer_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 1;
 	}
@@ -165,7 +165,7 @@ void c_game_engine_slayer_variant::set_assist_points(char assist_points)
 {
 	if (!VALID_INDEX(assist_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid assist_points setting '%d' outside range '[%d, %d]'!", assist_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid assist_points setting '%d' outside range '[%d, %d]'!", assist_points, -10, 10);
 
 		m_assist_points = 0;
 	}
@@ -184,7 +184,7 @@ void c_game_engine_slayer_variant::set_death_points(char death_points)
 {
 	if (!VALID_INDEX(death_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid death_points setting '%d' outside range '[%d, %d]'!", death_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid death_points setting '%d' outside range '[%d, %d]'!", death_points, -10, 10);
 
 		m_death_points = 0;
 	}
@@ -203,7 +203,7 @@ void c_game_engine_slayer_variant::set_suicide_points(char suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
 
 		m_suicide_points = -1;
 	}
@@ -222,7 +222,7 @@ void c_game_engine_slayer_variant::set_betrayal_points(char betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
 
 		m_betrayal_points = -1;
 	}
@@ -241,7 +241,7 @@ void c_game_engine_slayer_variant::set_leader_killed_points(char leader_killed_p
 {
 	if (!VALID_INDEX(leader_killed_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid leader_killed_points setting '%d' outside range '[%d, %d]'!", leader_killed_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid leader_killed_points setting '%d' outside range '[%d, %d]'!", leader_killed_points, -10, 10);
 
 		m_leader_killed_points = 0;
 	}
@@ -260,7 +260,7 @@ void c_game_engine_slayer_variant::set_elimination_points(char elimination_point
 {
 	if (!VALID_INDEX(elimination_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid elimination_points setting '%d' outside range '[%d, %d]'!", elimination_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid elimination_points setting '%d' outside range '[%d, %d]'!", elimination_points, -10, 10);
 
 		m_elimination_points = 0;
 	}
@@ -279,7 +279,7 @@ void c_game_engine_slayer_variant::set_assassination_points(char assassination_p
 {
 	if (!VALID_INDEX(assassination_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid assassination_points setting '%d' outside range '[%d, %d]'!", assassination_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid assassination_points setting '%d' outside range '[%d, %d]'!", assassination_points, -10, 10);
 
 		m_assassination_points = 0;
 	}
@@ -298,7 +298,7 @@ void c_game_engine_slayer_variant::set_headshot_points(char headshot_points)
 {
 	if (!VALID_INDEX(headshot_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid headshot_points setting '%d' outside range '[%d, %d]'!", headshot_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid headshot_points setting '%d' outside range '[%d, %d]'!", headshot_points, -10, 10);
 
 		m_headshot_points = 0;
 	}
@@ -317,7 +317,7 @@ void c_game_engine_slayer_variant::set_melee_points(char melee_points)
 {
 	if (!VALID_INDEX(melee_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid melee_points setting '%d' outside range '[%d, %d]'!", melee_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid melee_points setting '%d' outside range '[%d, %d]'!", melee_points, -10, 10);
 
 		m_melee_points = 0;
 	}
@@ -336,7 +336,7 @@ void c_game_engine_slayer_variant::set_sticky_points(char sticky_points)
 {
 	if (!VALID_INDEX(sticky_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid sticky_points setting '%d' outside range '[%d, %d]'!", sticky_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid sticky_points setting '%d' outside range '[%d, %d]'!", sticky_points, -10, 10);
 
 		m_sticky_points = 0;
 	}
@@ -355,7 +355,7 @@ void c_game_engine_slayer_variant::set_splatter_points(char splatter_points)
 {
 	if (!VALID_INDEX(splatter_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid splatter_points setting '%d' outside range '[%d, %d]'!", splatter_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid splatter_points setting '%d' outside range '[%d, %d]'!", splatter_points, -10, 10);
 
 		m_splatter_points = 0;
 	}
@@ -374,7 +374,7 @@ void c_game_engine_slayer_variant::set_killing_spree_points(char killing_spree_p
 {
 	if (!VALID_INDEX(killing_spree_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:slayer: invalid killing_spree_points setting '%d' outside range '[%d, %d]'!", killing_spree_points, -10, 10);
+		event(_event_warning, "game_engine:slayer: invalid killing_spree_points setting '%d' outside range '[%d, %d]'!", killing_spree_points, -10, 10);
 
 		m_killing_spree_points = 0;
 	}

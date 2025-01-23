@@ -61,21 +61,21 @@ void test_download_storage_file_update()
 		{
 		case 1:
 		{
-			MESSAGE_EVENT("test:download_storage_file: http request completed successfully.");
+			event(_event_message, "test:download_storage_file: http request completed successfully.");
 			g_test_download_storage.request_cookie = 0;
 			v2 = false;
 		}
 		break;
 		case 2:
 		{
-			MESSAGE_EVENT("test:download_storage_file: http request failed, cancelling.");
+			event(_event_message, "test:download_storage_file: http request failed, cancelling.");
 			g_test_download_storage.request_cookie = 0;
 			v2 = false;
 		}
 		break;
 		case 3:
 		{
-			MESSAGE_EVENT("test:download_storage_file: http request failed, retrying.");
+			event(_event_message, "test:download_storage_file: http request failed, retrying.");
 			g_test_download_storage.request_cookie = 0;
 			v2 = false;
 		}

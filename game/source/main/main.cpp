@@ -284,7 +284,7 @@ void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_rea
 
 	if (*variable == true)
 	{
-		WARNING_EVENT("main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
 		*variable = false;
 	}
 }
@@ -296,7 +296,7 @@ void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_rea
 
 	if (*variable == true)
 	{
-		WARNING_EVENT("main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
 		*variable = false;
 	}
 }
@@ -422,13 +422,13 @@ void __cdecl main_halt_and_catch_fire()
 	{
 		if (recursion_lock_triggered_while_exiting)
 		{
-			WARNING_EVENT("crash: recursion lock triggered!");
+			event(_event_warning, "crash: recursion lock triggered!");
 			exit(NONE);
 		}
 		else
 		{
 			recursion_lock_triggered_while_exiting = true;
-			CRITICAL_EVENT("crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
+			event(_event_critical, "crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
 			while (!is_debugger_present());
 			abort();
 		}
@@ -447,7 +447,7 @@ void __cdecl main_halt_and_catch_fire()
 
 		recursion_lock_triggered = true;
 
-		WARNING_EVENT("lifecycle: CRASH");
+		event(_event_warning, "lifecycle: CRASH");
 		main_status("system_milliseconds", "time %d", system_milliseconds());
 		main_status_dump(NULL);
 
@@ -1469,7 +1469,7 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 
 	//if (!game_in_editor() && !scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_to_zone_set_index))
 	//{
-	//	ERROR_EVENT("main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
+	//	event(_event_error, "main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
 	//		main_globals.switch_to_zone_set_index);
 	//
@@ -1751,7 +1751,7 @@ void __cdecl main_switch_bsp(long zone_set_index)
 {
 	INVOKE(0x00507200, main_switch_bsp, zone_set_index);
 
-	//ERROR_EVENT("switch bsp is a deprecated function. Use switch zone set instead.");
+	//event(_event_error, "switch bsp is a deprecated function. Use switch zone set instead.");
 	//main_switch_zone_set(zone_set_index);
 }
 
@@ -1809,7 +1809,7 @@ void __cdecl main_switch_zone_set_private()
 	//
 	//if (!load_succeeded)
 	//{
-	//	ERROR_EVENT("main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
+	//	event(_event_error, "main_switch_structure_bsp() failed for '%s' bsp %d, must abort game",
 	//		game_options_get()->scenario_path.get_string(),
 	//		main_globals.switch_to_zone_set_index);
 	//	main_game_load_panic();

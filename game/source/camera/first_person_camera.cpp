@@ -31,7 +31,7 @@ void __thiscall c_first_person_camera::_update(long user_index, real dt, s_obser
 	long unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (m_target_object_index != unit_index)
 	{
-		ERROR_EVENT("camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",
+		event(_event_error, "camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",
 			user_index,
 			m_target_object_index,
 			unit_index);

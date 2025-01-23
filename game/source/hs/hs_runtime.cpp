@@ -203,7 +203,7 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 			if (expression_index != NONE)
 				csnzappendf(buffer, sizeof(buffer), "   (line #%i)", hs_syntax_get(expression_index)->line_number);
 	
-			WARNING_EVENT("hs: %s", buffer);
+			event(_event_warning, "hs: %s", buffer);
 		}
 	}
 	return parameters;

@@ -170,27 +170,22 @@ extern void __cdecl events_initialize();
 extern long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand);
 extern void __cdecl network_debug_print(char const* format, ...);
 
-#define USE_CONSOLE_FOR_EVENTS
+//#define USE_CONSOLE_FOR_EVENTS
 
 #ifdef USE_CONSOLE_FOR_EVENTS
-#define GENERATE_EVENT(EVENT_LEVEL, ...) { c_console::write_line(__VA_ARGS__); }
+#define event(severity, ...) { c_console::write_line(__VA_ARGS__); }
+#define event_no_console(severity, ...) {  }
 #else
-#define GENERATE_EVENT(EVENT_LEVEL, ...) \
+#define event(severity, ...) \
 { \
 	static long volatile x_event_category_index = NONE; \
-	c_event local_event(EVENT_LEVEL, x_event_category_index, 0); \
+	c_event local_event(severity, x_event_category_index, 0); \
 	if (local_event.query()) \
 	{ \
 		if (x_event_category_index == NONE) \
 			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(__VA_ARGS__), NONE); \
 	} \
 }
+#define event_no_console(severity, ...) { /* #TODO: implement me */ }
 #endif
-
-#define VERBOSE_EVENT(...)  GENERATE_EVENT(_event_verbose,  __VA_ARGS__)
-#define STATUS_EVENT(...)   GENERATE_EVENT(_event_status,   __VA_ARGS__)
-#define MESSAGE_EVENT(...)  GENERATE_EVENT(_event_message,  __VA_ARGS__)
-#define WARNING_EVENT(...)  GENERATE_EVENT(_event_warning,  __VA_ARGS__)
-#define ERROR_EVENT(...)    GENERATE_EVENT(_event_error,    __VA_ARGS__)
-#define CRITICAL_EVENT(...) GENERATE_EVENT(_event_critical, __VA_ARGS__)
 

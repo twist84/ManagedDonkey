@@ -54,14 +54,14 @@ void c_network_message_handler::handle_boot_machine(c_network_channel* channel, 
 	{
 		if (!session->handle_boot_machine(channel, message))
 		{
-			WARNING_EVENT("networking:messages:boot-machine: session failed to handle boot-machine (%s) from '%s'",
+			event(_event_warning, "networking:messages:boot-machine: session failed to handle boot-machine (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:boot-machine: channel '%s' ignoring boot-machine (%s) (not host)",
+		event(_event_warning, "networking:messages:boot-machine: channel '%s' ignoring boot-machine (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -82,7 +82,7 @@ void c_network_message_handler::handle_broadcast_reply(transport_address const* 
 	}
 	else
 	{
-		ERROR_EVENT("networking:messages:broadcast-reply: received message with incorrect protocol version [%d!=%d]",
+		event(_event_error, "networking:messages:broadcast-reply: received message with incorrect protocol version [%d!=%d]",
 			message->protocol_version,
 			k_network_protocol_version);
 	}
@@ -94,7 +94,7 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 
 	if (message->protocol_version != k_network_protocol_version)
 	{
-		ERROR_EVENT("networking:messages:broadcast-search: received message with incorrect protocol version [%d!=%d]",
+		event(_event_error, "networking:messages:broadcast-search: received message with incorrect protocol version [%d!=%d]",
 			message->protocol_version,
 			k_network_protocol_version);
 		return;
@@ -111,14 +111,14 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 	s_network_session_status_data game_status{};
 	if (!network_squad_session_build_status(&game_status))
 	{
-		WARNING_EVENT("networking:messages:broadcast-search: unable to reply, cannot build local game status");
+		event(_event_warning, "networking:messages:broadcast-search: unable to reply, cannot build local game status");
 		return;
 	}
 
 	s_transport_secure_address secure_local_address{};
 	if (!transport_secure_address_get(&secure_local_address))
 	{
-		WARNING_EVENT("networking:messages:broadcast-search: unable to reply, cannot get a secure local address to return");
+		event(_event_warning, "networking:messages:broadcast-search: unable to reply, cannot get a secure local address to return");
 		return;
 	}
 
@@ -161,7 +161,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+			event(_event_warning, "networking:messages:handler: %d/%s received over CLOSED channel '%s'",
 				_network_message_leave_session,
 				m_message_types->get_message_type_name(_network_message_leave_session),
 				channel->get_name());
@@ -179,7 +179,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+			event(_event_warning, "networking:messages:handler: %d/%s received over CLOSED channel '%s'",
 				_network_message_session_disband,
 				m_message_types->get_message_type_name(_network_message_session_disband),
 				channel->get_name());
@@ -197,7 +197,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+			event(_event_warning, "networking:messages:handler: %d/%s received over CLOSED channel '%s'",
 				_network_message_session_boot,
 				m_message_types->get_message_type_name(_network_message_session_boot),
 				channel->get_name());
@@ -214,7 +214,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_host_decline,
 				m_message_types->get_message_type_name(_network_message_host_decline),
 				channel->get_name());
@@ -231,7 +231,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_peer_establish,
 				m_message_types->get_message_type_name(_network_message_peer_establish),
 				channel->get_name());
@@ -248,7 +248,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_membership_update,
 				m_message_types->get_message_type_name(_network_message_membership_update),
 				channel->get_name());
@@ -265,7 +265,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_peer_properties,
 				m_message_types->get_message_type_name(_network_message_peer_properties),
 				channel->get_name());
@@ -282,7 +282,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_delegate_leadership,
 				m_message_types->get_message_type_name(_network_message_delegate_leadership),
 				channel->get_name());
@@ -299,7 +299,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_boot_machine,
 				m_message_types->get_message_type_name(_network_message_boot_machine),
 				channel->get_name());
@@ -316,7 +316,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_player_add,
 				m_message_types->get_message_type_name(_network_message_player_add),
 				channel->get_name());
@@ -333,7 +333,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_player_refuse,
 				m_message_types->get_message_type_name(_network_message_player_refuse),
 				channel->get_name());
@@ -350,7 +350,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_player_remove,
 				m_message_types->get_message_type_name(_network_message_player_remove),
 				channel->get_name());
@@ -367,7 +367,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_player_properties,
 				m_message_types->get_message_type_name(_network_message_player_properties),
 				channel->get_name());
@@ -384,7 +384,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_parameters_update,
 				m_message_types->get_message_type_name(_network_message_parameters_update),
 				channel->get_name());
@@ -401,7 +401,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_parameters_request,
 				m_message_types->get_message_type_name(_network_message_parameters_request),
 				channel->get_name());
@@ -418,7 +418,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_view_establishment,
 				m_message_types->get_message_type_name(_network_message_view_establishment),
 				channel->get_name());
@@ -435,7 +435,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_player_acknowledge,
 				m_message_types->get_message_type_name(_network_message_player_acknowledge),
 				channel->get_name());
@@ -452,7 +452,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_synchronous_update,
 				m_message_types->get_message_type_name(_network_message_synchronous_update),
 				channel->get_name());
@@ -469,7 +469,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_synchronous_playback_control,
 				m_message_types->get_message_type_name(_network_message_synchronous_playback_control),
 				channel->get_name());
@@ -486,7 +486,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_synchronous_actions,
 				m_message_types->get_message_type_name(_network_message_synchronous_actions),
 				channel->get_name());
@@ -503,7 +503,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_synchronous_acknowledge,
 				m_message_types->get_message_type_name(_network_message_synchronous_acknowledge),
 				channel->get_name());
@@ -520,7 +520,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_distributed_game_results,
 				m_message_types->get_message_type_name(_network_message_distributed_game_results),
 				channel->get_name());
@@ -537,7 +537,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_distributed_game_results,
 				m_message_types->get_message_type_name(_network_message_distributed_game_results),
 				channel->get_name());
@@ -569,7 +569,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+			event(_event_message, "networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
 				_network_message_distributed_game_results,
 				m_message_types->get_message_type_name(_network_message_distributed_game_results),
 				channel->get_name());
@@ -578,7 +578,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 	break;
 	default:
 	{
-		WARNING_EVENT("networking:messages:handler: type %d/%s not allowed over channel '%s', discarding",
+		event(_event_warning, "networking:messages:handler: type %d/%s not allowed over channel '%s', discarding",
 			message_type,
 			m_message_types->get_message_type_name(message_type),
 			channel->get_name());
@@ -593,12 +593,12 @@ void c_network_message_handler::handle_connect_closed(c_network_channel* channel
 
 	if (channel->closed())
 	{
-		MESSAGE_EVENT("networking:channel:connect: '%s' ignoring remote closure (already closed)",
+		event(_event_message, "networking:channel:connect: '%s' ignoring remote closure (already closed)",
 			channel->get_name());
 	}
 	else if (channel->get_identifier() == message->remote_identifier)
 	{
-		MESSAGE_EVENT("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
+		event(_event_message, "networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
 			channel->get_name(),
 			message->reason,
 			channel->get_closure_reason_string(message->reason));
@@ -607,7 +607,7 @@ void c_network_message_handler::handle_connect_closed(c_network_channel* channel
 	}
 	else
 	{
-		MESSAGE_EVENT("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
+		event(_event_message, "networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
 			channel->get_name(),
 			message->remote_identifier,
 			channel->get_identifier());
@@ -620,7 +620,7 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 
 	if (channel->closed())
 	{
-		MESSAGE_EVENT("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
+		event(_event_message, "networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
 			channel->get_name(),
 			message->remote_identifier);
 	}
@@ -630,7 +630,7 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 		{
 			if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
 			{
-				WARNING_EVENT("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+				event(_event_warning, "networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
 					channel->get_name(),
 					message->remote_identifier,
 					channel->get_remote_identifier());
@@ -647,14 +647,14 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 
 			if (channel->closed())
 			{
-				MESSAGE_EVENT("networking:channel:connect: received establishment from '%s'/%d for local %d but the channel closed before we could establish",
+				event(_event_message, "networking:channel:connect: received establishment from '%s'/%d for local %d but the channel closed before we could establish",
 					channel->get_name(),
 					message->remote_identifier,
 					channel->get_identifier());
 			}
 			else
 			{
-				MESSAGE_EVENT("networking:channel:connect: received establishment from '%s'/%d for local %d",
+				event(_event_message, "networking:channel:connect: received establishment from '%s'/%d for local %d",
 					channel->get_name(),
 					message->remote_identifier,
 					channel->get_identifier());
@@ -664,7 +664,7 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 		}
 		else
 		{
-			MESSAGE_EVENT("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
+			event(_event_message, "networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
 				channel->get_name(),
 				message->remote_identifier,
 				message->identifier,
@@ -679,7 +679,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 
 	if (channel->closed() || channel->connected())
 	{
-		MESSAGE_EVENT("networking:channel:connect: '%s' ignoring connect refusal (%s)",
+		event(_event_message, "networking:channel:connect: '%s' ignoring connect refusal (%s)",
 			channel->get_name(),
 			channel->closed() ? "already closed" : "currently connected");
 	}
@@ -693,7 +693,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 		case _network_connect_refuse_reason_too_many_channels:
 		case _network_connect_refuse_reason_session_failed_to_add:
 		{
-			MESSAGE_EVENT("networking:channel:connect: '%s' connection refusal was fatal (%s)",
+			event(_event_message, "networking:channel:connect: '%s' connection refusal was fatal (%s)",
 				channel->get_name(),
 				network_message_connect_refuse_get_reason_string(message->reason));
 
@@ -704,7 +704,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 		case _network_connect_refuse_reason_security_failed:
 		case _network_connect_refuse_reason_invalid_topology:
 		{
-			MESSAGE_EVENT("networking:channel:connect: '%s' connection temporarily refused (%s)",
+			event(_event_message, "networking:channel:connect: '%s' connection temporarily refused (%s)",
 				channel->get_name(),
 				network_message_connect_refuse_get_reason_string(message->reason));
 		}
@@ -718,7 +718,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 	}
 	else
 	{
-		MESSAGE_EVENT("networking:channel:connect: '%s' ignoring connect refusal (refused identifier %d != identifier %d)",
+		event(_event_message, "networking:channel:connect: '%s' ignoring connect refusal (refused identifier %d != identifier %d)",
 			channel->get_name(),
 			message->remote_identifier,
 			channel->get_identifier());
@@ -741,14 +741,14 @@ void c_network_message_handler::handle_delegate_leadership(c_network_channel* ch
 	{
 		if (!session->handle_delegate_leadership(channel, message))
 		{
-			WARNING_EVENT("networking:messages:delegate-leadership: session failed to handle delegate-leadership (%s) from '%s'",
+			event(_event_warning, "networking:messages:delegate-leadership: session failed to handle delegate-leadership (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:delegate-leadership: channel '%s' ignoring delegate-leadership (%s) (not host)",
+		event(_event_warning, "networking:messages:delegate-leadership: channel '%s' ignoring delegate-leadership (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -763,13 +763,13 @@ void c_network_message_handler::handle_distributed_game_results(c_network_channe
 	{
 		if (!remote_view->handle_distributed_game_results(message->establishment_identifier, message->update_number, &message->update))
 		{
-			WARNING_EVENT("networking:messages:game-results-update: failed to handle game results update over channel '%s'",
+			event(_event_warning, "networking:messages:game-results-update: failed to handle game results update over channel '%s'",
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:game-results-update: received game-results-update over channel '%s' when not viewing remote authority",
+		event(_event_warning, "networking:messages:game-results-update: received game-results-update over channel '%s' when not viewing remote authority",
 			channel->get_name());
 	}
 }
@@ -783,13 +783,13 @@ void c_network_message_handler::handle_host_decline(c_network_channel* channel, 
 	{
 		if (!session->handle_host_decline(channel, message))
 		{
-			WARNING_EVENT("networking:messages:host-decline: session failed to handle host-decline (%s)",
+			event(_event_warning, "networking:messages:host-decline: session failed to handle host-decline (%s)",
 				transport_secure_identifier_get_string(&message->session_id));
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:host-decline: channel '%s' ignoring host-decline (%s) (can not find session)",
+		event(_event_warning, "networking:messages:host-decline: channel '%s' ignoring host-decline (%s) (can not find session)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -809,12 +809,12 @@ void c_network_message_handler::handle_join_abort(transport_address const* addre
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:join-abort: ignoring unknown abort from '%s'",
+			event(_event_warning, "networking:messages:join-abort: ignoring unknown abort from '%s'",
 				transport_address_get_string(address));
 			reason = _network_join_refuse_reason_abort_ignored;
 		}
 
-		MESSAGE_EVENT("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
+		event(_event_message, "networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
 			network_message_join_refuse_get_reason_string(reason),
 			transport_address_get_string(address));
 
@@ -827,7 +827,7 @@ void c_network_message_handler::handle_join_abort(transport_address const* addre
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:join-abort: no session, ignoring join abort from '%s'",
+		event(_event_warning, "networking:messages:join-abort: no session, ignoring join abort from '%s'",
 			transport_address_get_string(address));
 	}
 }
@@ -839,7 +839,7 @@ void c_network_message_handler::handle_join_refuse(transport_address const* addr
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session && session->waiting_for_host_connection(address))
 	{
-		MESSAGE_EVENT("networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'",
+		event(_event_message, "networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'",
 			transport_secure_identifier_get_string(&message->session_id),
 			message->reason,
 			network_message_join_refuse_get_reason_string(message->reason),
@@ -849,7 +849,7 @@ void c_network_message_handler::handle_join_refuse(transport_address const* addr
 	}
 	else if (session && session->join_abort_in_progress(address))
 	{
-		MESSAGE_EVENT("networking:messages:join-refuse: join-abort received join refusal (%s) type %d/%s from '%s'",
+		event(_event_message, "networking:messages:join-refuse: join-abort received join refusal (%s) type %d/%s from '%s'",
 			transport_secure_identifier_get_string(&message->session_id),
 			message->reason,
 			network_message_join_refuse_get_reason_string(message->reason),
@@ -859,7 +859,7 @@ void c_network_message_handler::handle_join_refuse(transport_address const* addr
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:join-refuse: can't handle join refusal (%s) type %d/%s from '%s'",
+		event(_event_warning, "networking:messages:join-refuse: can't handle join refusal (%s) type %d/%s from '%s'",
 			transport_secure_identifier_get_string(&message->session_id),
 			message->reason,
 			network_message_join_refuse_get_reason_string(message->reason),
@@ -876,16 +876,16 @@ void c_network_message_handler::handle_join_request(transport_address const* add
 		c_network_session* session = m_session_manager->get_session(&message->session_id);
 		if (session && session->is_host() && !session->handle_join_request(address, message))
 		{
-			WARNING_EVENT("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
+			event(_event_warning, "networking:messages:join-request: can't handle join-request for '%s' from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				transport_address_get_string(address));
 
-			ERROR_EVENT("networking:messages:join-request: failed to handle incomming join request");
+			event(_event_error, "networking:messages:join-request: failed to handle incomming join request");
 		}
 	}
 	else
 	{
-		ERROR_EVENT("networking:messages:join-request: received message with incorrect protocol version [%d!=%d]",
+		event(_event_error, "networking:messages:join-request: received message with incorrect protocol version [%d!=%d]",
 			message->protocol,
 			k_network_protocol_version);
 	}
@@ -903,7 +903,7 @@ void c_network_message_handler::handle_leave_acknowledge(transport_address const
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:leave-acknowledge: ignoring leave-session acknowledement (%s) from '%s' as we are not leaving (state=%s)",
+		event(_event_warning, "networking:messages:leave-acknowledge: ignoring leave-session acknowledement (%s) from '%s' as we are not leaving (state=%s)",
 			transport_secure_identifier_get_string(&message->session_id),
 			transport_address_get_string(address),
 			session ? session->get_state_string() : "no-session");
@@ -921,20 +921,20 @@ void c_network_message_handler::handle_leave_session(transport_address const* ad
 		{
 			if (!session->handle_leave_request(address))
 			{
-				WARNING_EVENT("networking:messages:leave-session: can't handle leave-session request (%s) from '%s'",
+				event(_event_warning, "networking:messages:leave-session: can't handle leave-session request (%s) from '%s'",
 					transport_secure_identifier_get_string(&message->session_id),
 					transport_address_get_string(address));
 			}
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:leave-session: ignoring leave-session from '%s' (not hosting)",
+			event(_event_warning, "networking:messages:leave-session: ignoring leave-session from '%s' (not hosting)",
 				transport_address_get_string(address));
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:leave-session: ignoring leave-session from '%s' (session not found)",
+		event(_event_warning, "networking:messages:leave-session: ignoring leave-session from '%s' (session not found)",
 			transport_address_get_string(address));
 	}
 }
@@ -948,7 +948,7 @@ void c_network_message_handler::handle_membership_update(c_network_channel* chan
 	{
 		if (!session->handle_membership_update(message))
 		{
-			WARNING_EVENT("networking:messages:membership-update: failed to handle authoritative membership-update (%s update %d) from '%s'",
+			event(_event_warning, "networking:messages:membership-update: failed to handle authoritative membership-update (%s update %d) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				message->update_number,
 				channel->get_name());
@@ -956,7 +956,7 @@ void c_network_message_handler::handle_membership_update(c_network_channel* chan
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:membership-update: channel '%s' ignoring membership-update (channel is not authoritative)",
+		event(_event_warning, "networking:messages:membership-update: channel '%s' ignoring membership-update (channel is not authoritative)",
 			channel->get_name());
 	}
 }
@@ -967,7 +967,7 @@ void c_network_message_handler::handle_out_of_band_message(transport_address con
 
 	ASSERT(m_initialized);
 
-	VERBOSE_EVENT("networking:messages:handler: %d/%s received out-of-band from '%s'",
+	event(_event_verbose, "networking:messages:handler: %d/%s received out-of-band from '%s'",
 		message_type,
 		m_message_types->get_message_type_name(message_type),
 		transport_address_get_string(address));
@@ -1098,7 +1098,7 @@ void c_network_message_handler::handle_out_of_band_message(transport_address con
 	break;
 	default:
 	{
-		WARNING_EVENT("networking:messages:handler: %d/%s from '%s' cannot be handled out-of-band, discarding",
+		event(_event_warning, "networking:messages:handler: %d/%s from '%s' cannot be handled out-of-band, discarding",
 			message_type,
 			m_message_types->get_message_type_name(message_type),
 			transport_address_get_string(address));
@@ -1116,14 +1116,14 @@ void c_network_message_handler::handle_parameters_request(c_network_channel* cha
 	{
 		if (!session->handle_parameters_request(channel, message))
 		{
-			WARNING_EVENT("networking:messages:parameters-request-new: session failed to handle parameters-request (%s) from '%s'",
+			event(_event_warning, "networking:messages:parameters-request-new: session failed to handle parameters-request (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:parameters-request-new: channel '%s' ignoring parameters-request (we are not the host)",
+		event(_event_warning, "networking:messages:parameters-request-new: channel '%s' ignoring parameters-request (we are not the host)",
 			channel->get_name());
 	}
 }
@@ -1137,14 +1137,14 @@ void c_network_message_handler::handle_parameters_update(c_network_channel* chan
 	{
 		if (!session->handle_parameters_update(message))
 		{
-			WARNING_EVENT("networking:messages:parameters-update-new: session failed to handle authoritative parameters-update (%s) from '%s'",
+			event(_event_warning, "networking:messages:parameters-update-new: session failed to handle authoritative parameters-update (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:parameters-update-new: channel '%s' ignoring parameters-update (channel is not authoritative)",
+		event(_event_warning, "networking:messages:parameters-update-new: channel '%s' ignoring parameters-update (channel is not authoritative)",
 			channel->get_name());
 	}
 }
@@ -1162,13 +1162,13 @@ void c_network_message_handler::handle_peer_connect(transport_address const* add
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:peer-connect: no session, ignoring peer connect from '%s'",
+			event(_event_warning, "networking:messages:peer-connect: no session, ignoring peer connect from '%s'",
 				transport_address_get_string(address));
 		}
 	}
 	else
 	{
-		ERROR_EVENT("networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
+		event(_event_error, "networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
 			message->protocol,
 			k_network_protocol_version);
 	}
@@ -1181,7 +1181,7 @@ void c_network_message_handler::handle_peer_establish(c_network_channel* channel
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (!session || !session->handle_peer_establish(channel, message))
 	{
-		WARNING_EVENT("networking:messages:peer-establish: channel '%s' failed to handle peer-establish (%s)",
+		event(_event_warning, "networking:messages:peer-establish: channel '%s' failed to handle peer-establish (%s)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 
@@ -1203,14 +1203,14 @@ void c_network_message_handler::handle_peer_properties(c_network_channel* channe
 	{
 		if (!session->handle_peer_properties(channel, message))
 		{
-			WARNING_EVENT("networking:messages:peer-properties: session failed to handle peer-properties (%s) from '%s'",
+			event(_event_warning, "networking:messages:peer-properties: session failed to handle peer-properties (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:peer-properties: channel '%s' ignoring peer-properties (%s) (not host)",
+		event(_event_warning, "networking:messages:peer-properties: channel '%s' ignoring peer-properties (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1220,7 +1220,7 @@ void c_network_message_handler::handle_ping(transport_address const* address, s_
 {
 	//INVOKE_CLASS_MEMBER(0x0049D720, c_network_message_handler, handle_ping, address, message);
 
-	MESSAGE_EVENT("networking:test:ping: ping #%d received from '%s' at local %dms",
+	event(_event_message, "networking:test:ping: ping #%d received from '%s' at local %dms",
 		message->id,
 		transport_address_get_string(address),
 		network_time_get_exact());
@@ -1243,7 +1243,7 @@ void c_network_message_handler::handle_player_acknowledge(c_network_channel* cha
 	{
 		if (!remote_view->handle_player_acknowledge(message->player_valid_mask, message->player_in_game_mask, message->player_identifiers))
 		{
-			WARNING_EVENT("networking:messages:player-acknowledge: failed to handle (players 0x%04X 0x%04X) over channel '%s'",
+			event(_event_warning, "networking:messages:player-acknowledge: failed to handle (players 0x%04X 0x%04X) over channel '%s'",
 				message->player_valid_mask,
 				message->player_in_game_mask,
 				channel->get_name());
@@ -1251,7 +1251,7 @@ void c_network_message_handler::handle_player_acknowledge(c_network_channel* cha
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:player-acknowledge: received (players 0x%04X 0x%04X) over channel '%s' with no simulation client view",
+		event(_event_warning, "networking:messages:player-acknowledge: received (players 0x%04X 0x%04X) over channel '%s' with no simulation client view",
 			message->player_valid_mask,
 			message->player_in_game_mask,
 			channel->get_name());
@@ -1267,14 +1267,14 @@ void c_network_message_handler::handle_player_add(c_network_channel* channel, s_
 	{
 		if (!session->handle_player_add(channel, message))
 		{
-			WARNING_EVENT("networking:messages:player-add: session failed to handle player-add (%s) from '%s'",
+			event(_event_warning, "networking:messages:player-add: session failed to handle player-add (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:player-add: channel '%s' ignoring player-add (%s) (not host)",
+		event(_event_warning, "networking:messages:player-add: channel '%s' ignoring player-add (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1289,14 +1289,14 @@ void c_network_message_handler::handle_player_properties(c_network_channel* chan
 	{
 		if (!session->handle_player_properties(channel, message))
 		{
-			WARNING_EVENT("networking:messages:player-properties: session failed to handle player-properties (%s) from '%s'",
+			event(_event_warning, "networking:messages:player-properties: session failed to handle player-properties (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:player-properties: channel '%s' ignoring player-properties (%s) (not host)",
+		event(_event_warning, "networking:messages:player-properties: channel '%s' ignoring player-properties (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1311,14 +1311,14 @@ void c_network_message_handler::handle_player_refuse(c_network_channel* channel,
 	{
 		if (!session->handle_player_refuse(channel, message))
 		{
-			WARNING_EVENT("networking:messages:player-refuse: session failed to handle player-refuse (%s) from '%s'",
+			event(_event_warning, "networking:messages:player-refuse: session failed to handle player-refuse (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:player-refuse: channel '%s' ignoring player-refuse (%s) (channel not authoritative)",
+		event(_event_warning, "networking:messages:player-refuse: channel '%s' ignoring player-refuse (%s) (channel not authoritative)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1333,14 +1333,14 @@ void c_network_message_handler::handle_player_remove(c_network_channel* channel,
 	{
 		if (!session->handle_player_remove(channel, message))
 		{
-			WARNING_EVENT("networking:messages:player-remove: session failed to handle player-remove (%s) from '%s'",
+			event(_event_warning, "networking:messages:player-remove: session failed to handle player-remove (%s) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:player-remove: channel '%s' ignoring player-remove (%s) (not host)",
+		event(_event_warning, "networking:messages:player-remove: channel '%s' ignoring player-remove (%s) (not host)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1350,7 +1350,7 @@ void c_network_message_handler::handle_pong(transport_address const* address, s_
 {
 	//INVOKE_CLASS_MEMBER(0x0049D9B0, c_network_message_handler, handle_pong, address, message);
 
-	MESSAGE_EVENT("networking:test:ping: ping #%d returned from '%s' at local %dms (latency %dms)",
+	event(_event_message, "networking:test:ping: ping #%d returned from '%s' at local %dms (latency %dms)",
 		message->id,
 		transport_address_get_string(address),
 		network_time_get_exact(),
@@ -1366,14 +1366,14 @@ void c_network_message_handler::handle_session_boot(transport_address const* add
 	{
 		if (!session->handle_session_boot(address, message))
 		{
-			WARNING_EVENT("networking:messages:session-boot: session (%s) failed to handle session-boot from '%s'",
+			event(_event_warning, "networking:messages:session-boot: session (%s) failed to handle session-boot from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				transport_address_get_string(address));
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:session-boot: ignoring session-boot from '%s' (no %s session)",
+		event(_event_warning, "networking:messages:session-boot: ignoring session-boot from '%s' (no %s session)",
 			transport_address_get_string(address),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1388,14 +1388,14 @@ void c_network_message_handler::handle_session_disband(transport_address const* 
 	{
 		if (!session->handle_session_disband(address, message))
 		{
-			WARNING_EVENT("networking:messages:session-disband: session (%s) failed to handle session-disband from '%s'",
+			event(_event_warning, "networking:messages:session-disband: session (%s) failed to handle session-disband from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				transport_address_get_string(address));
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:session-disband: ignoring message from '%s' (no %s session)",
+		event(_event_warning, "networking:messages:session-disband: ignoring message from '%s' (no %s session)",
 			transport_address_get_string(address),
 			transport_secure_identifier_get_string(&message->session_id));
 	}
@@ -1412,7 +1412,7 @@ void c_network_message_handler::handle_synchronous_acknowledge(c_network_channel
 		{
 			if (!remote_view->handle_synchronous_acknowledge(message->current_update_number))
 			{
-				WARNING_EVENT("networking:messages:synchronous-acknowledge: failed to handle ack of #%d over channel '%s' with view mode %d/%d",
+				event(_event_warning, "networking:messages:synchronous-acknowledge: failed to handle ack of #%d over channel '%s' with view mode %d/%d",
 					message->current_update_number,
 					channel->get_name(),
 					remote_view->get_view_establishment_mode(),
@@ -1421,7 +1421,7 @@ void c_network_message_handler::handle_synchronous_acknowledge(c_network_channel
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous-acknowledge: view not a client for ack of #%d over channel '%s' with view of type #%d",
+			event(_event_warning, "networking:messages:synchronous-acknowledge: view not a client for ack of #%d over channel '%s' with view of type #%d",
 				message->current_update_number,
 				channel->get_name(),
 				remote_view->view_type());
@@ -1429,7 +1429,7 @@ void c_network_message_handler::handle_synchronous_acknowledge(c_network_channel
 	}
 	else
 	{
-		MESSAGE_EVENT("networking:messages:synchronous-acknowledge: no view for ack of #%d over channel '%s'",
+		event(_event_message, "networking:messages:synchronous-acknowledge: no view for ack of #%d over channel '%s'",
 			message->current_update_number,
 			channel->get_name());
 	}
@@ -1446,7 +1446,7 @@ void c_network_message_handler::handle_synchronous_actions(c_network_channel* ch
 		{
 			if (!remote_view->handle_synchronous_actions(message->action_number, message->current_action_number, message->user_flags, message->actions))
 			{
-				WARNING_EVENT("networking:messages:synchronous-actions: failed to handle #%d over channel '%s' with view mode %d/%d",
+				event(_event_warning, "networking:messages:synchronous-actions: failed to handle #%d over channel '%s' with view mode %d/%d",
 					message->action_number,
 					channel->get_name(),
 					remote_view->get_view_establishment_mode(),
@@ -1455,7 +1455,7 @@ void c_network_message_handler::handle_synchronous_actions(c_network_channel* ch
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous-actions: view not a client for #%d over channel '%s' with view of type #%d",
+			event(_event_warning, "networking:messages:synchronous-actions: view not a client for #%d over channel '%s' with view of type #%d",
 				message->action_number,
 				channel->get_name(),
 				remote_view->view_type());
@@ -1463,7 +1463,7 @@ void c_network_message_handler::handle_synchronous_actions(c_network_channel* ch
 	}
 	else
 	{
-		MESSAGE_EVENT("networking:messages:synchronous-actions: no view for #%d over channel '%s'",
+		event(_event_message, "networking:messages:synchronous-actions: no view for #%d over channel '%s'",
 			message->action_number,
 			channel->get_name());
 	}
@@ -1478,12 +1478,12 @@ void c_network_message_handler::handle_synchronous_client_ready(c_network_channe
 	{
 		if (remote_view->synchronous_catchup_in_progress())
 		{
-			MESSAGE_EVENT("networking:messages:synchronous_client_ready: view %s reporting that he is ready to go active",
+			event(_event_message, "networking:messages:synchronous_client_ready: view %s reporting that he is ready to go active",
 				remote_view->get_view_description());
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous_client_ready: view %s received catchup finished notification for client that we don't have performing catchup at this time. This is bad.",
+			event(_event_warning, "networking:messages:synchronous_client_ready: view %s received catchup finished notification for client that we don't have performing catchup at this time. This is bad.",
 				remote_view->get_view_description());
 		}
 	}
@@ -1502,7 +1502,7 @@ void c_network_message_handler::handle_synchronous_gamestate(c_network_channel* 
 			{
 				if (!remote_view->handle_synchronous_gamestate(message, chunk_data))
 				{
-					WARNING_EVENT("networking:messages:synchronous-gamestate: failed to handle (%d@%d) over channel '%s' with view mode %d/%d",
+					event(_event_warning, "networking:messages:synchronous-gamestate: failed to handle (%d@%d) over channel '%s' with view mode %d/%d",
 						message->chunk_size,
 						message->chunk_offset_next_update_compressed_checksum,
 						channel->get_name(),
@@ -1512,20 +1512,20 @@ void c_network_message_handler::handle_synchronous_gamestate(c_network_channel* 
 			}
 			else
 			{
-				WARNING_EVENT("networking:messages:synchronous-gamestate: view not a client over channel '%s' with view of type #%d",
+				event(_event_warning, "networking:messages:synchronous-gamestate: view not a client over channel '%s' with view of type #%d",
 					channel->get_name(),
 					remote_view->view_type());
 			}
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous-gamestate: no simulation view on channel '%s'",
+			event(_event_warning, "networking:messages:synchronous-gamestate: no simulation view on channel '%s'",
 				channel->get_name());
 		}
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:synchronous-gamestate: had corrupt sizes #%d!=#%d over channel '%s'",
+		event(_event_warning, "networking:messages:synchronous-gamestate: had corrupt sizes #%d!=#%d over channel '%s'",
 			chunk_size,
 			message->chunk_size,
 			channel->get_name());
@@ -1543,7 +1543,7 @@ void c_network_message_handler::handle_synchronous_playback_control(c_network_ch
 		{
 			if (!remote_view->handle_synchronous_playback_control(message->type, message->identifier, message->update_number))
 			{
-				WARNING_EVENT("networking:messages:synchronous-playback-control: failed to handle playback-control type #%d identifier #%d update #%d over channel '%s' with view mode %d/%d",
+				event(_event_warning, "networking:messages:synchronous-playback-control: failed to handle playback-control type #%d identifier #%d update #%d over channel '%s' with view mode %d/%d",
 					message->type,
 					message->identifier,
 					message->update_number,
@@ -1554,7 +1554,7 @@ void c_network_message_handler::handle_synchronous_playback_control(c_network_ch
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous-playback-control: view not authority for playback-control type #%d identifier #%d update #%d over channel '%s' with view of type #%d",
+			event(_event_warning, "networking:messages:synchronous-playback-control: view not authority for playback-control type #%d identifier #%d update #%d over channel '%s' with view of type #%d",
 				message->type,
 				message->identifier,
 				message->update_number,
@@ -1564,7 +1564,7 @@ void c_network_message_handler::handle_synchronous_playback_control(c_network_ch
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:synchronous-playback-control: no simulation view for playback-control type #%d identifier #%d update #%d over channel '%s'",
+		event(_event_warning, "networking:messages:synchronous-playback-control: no simulation view for playback-control type #%d identifier #%d update #%d over channel '%s'",
 			message->type,
 			message->identifier,
 			message->update_number,
@@ -1583,7 +1583,7 @@ void c_network_message_handler::handle_synchronous_update(c_network_channel* cha
 		{
 			if (remote_view->handle_synchronous_update(&message->update))
 			{
-				WARNING_EVENT("networking:messages:synchronous-update: failed to handle #%d over channel '%s' with view mode %d/%d",
+				event(_event_warning, "networking:messages:synchronous-update: failed to handle #%d over channel '%s' with view mode %d/%d",
 					message->update.update_number,
 					channel->get_name(),
 					remote_view->get_view_establishment_mode(),
@@ -1592,7 +1592,7 @@ void c_network_message_handler::handle_synchronous_update(c_network_channel* cha
 		}
 		else
 		{
-			WARNING_EVENT("networking:messages:synchronous-update: view not authority for #%d over channel '%s' with view of type #%d",
+			event(_event_warning, "networking:messages:synchronous-update: view not authority for #%d over channel '%s' with view of type #%d",
 				message->update.update_number,
 				channel->get_name(),
 				remote_view->view_type());
@@ -1600,7 +1600,7 @@ void c_network_message_handler::handle_synchronous_update(c_network_channel* cha
 	}
 	else
 	{
-		MESSAGE_EVENT("networking:messages:synchronous-update: no simulation view for #%d over channel '%s'",
+		event(_event_message, "networking:messages:synchronous-update: no simulation view for #%d over channel '%s'",
 			message->update.update_number,
 			channel->get_name());
 	}
@@ -1615,7 +1615,7 @@ void c_network_message_handler::handle_time_synchronize(transport_address const*
 	{
 		if (!session->handle_time_synchronize(address, message))
 		{
-			WARNING_EVENT("networking:messages:time-synchronize: session failed to handle time-synchronize (%s %d) from '%s'",
+			event(_event_warning, "networking:messages:time-synchronize: session failed to handle time-synchronize (%s %d) from '%s'",
 				transport_secure_identifier_get_string(&message->session_id),
 				message->synchronization_stage,
 				transport_address_get_string(address));
@@ -1623,7 +1623,7 @@ void c_network_message_handler::handle_time_synchronize(transport_address const*
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:time-synchronize: session doesn't exist to handle time-synchronize (%s %d) from '%s'",
+		event(_event_warning, "networking:messages:time-synchronize: session doesn't exist to handle time-synchronize (%s %d) from '%s'",
 			transport_secure_identifier_get_string(&message->session_id),
 			message->synchronization_stage,
 			transport_address_get_string(address));
@@ -1643,7 +1643,7 @@ void c_network_message_handler::handle_view_establishment(c_network_channel* cha
 			message->signature_exists ? message->signature_size : NONE,
 			message->signature_exists ? message->signature_data : NULL))
 		{
-			WARNING_EVENT("networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
+			event(_event_warning, "networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
 				message->establishment_mode,
 				message->establishment_identifier,
 				channel->get_name());
@@ -1651,14 +1651,14 @@ void c_network_message_handler::handle_view_establishment(c_network_channel* cha
 	}
 	else if (message->establishment_identifier == NONE)
 	{
-		MESSAGE_EVENT("networking:messages:view-establishment: discarding non-established view-establishment (%d/%d) over channel '%s' with no simulation view",
+		event(_event_message, "networking:messages:view-establishment: discarding non-established view-establishment (%d/%d) over channel '%s' with no simulation view",
 			message->establishment_mode,
 			NONE,
 			channel->get_name());
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:view-establishment: discarding ESTABLISHED view-establishment (%d/%d) over channel '%s' with no simulation view",
+		event(_event_warning, "networking:messages:view-establishment: discarding ESTABLISHED view-establishment (%d/%d) over channel '%s' with no simulation view",
 			message->establishment_mode,
 			message->establishment_identifier,
 			channel->get_name());
@@ -1717,7 +1717,7 @@ void c_network_message_handler::handle_directed_search(transport_address const* 
 	s_network_session_status_data game_status{};
 	if (!network_squad_session_build_status(&game_status))
 	{
-		WARNING_EVENT("networking:messages:directed-search: unable to reply, cannot build local game status");
+		event(_event_warning, "networking:messages:directed-search: unable to reply, cannot build local game status");
 		return;
 	}
 
@@ -1740,12 +1740,12 @@ void c_network_message_handler::handle_text_chat(c_network_channel* channel, s_n
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session)
 	{
-		WARNING_EVENT("networking:messages:text chat: received text chat message for valid session");
+		event(_event_warning, "networking:messages:text chat: received text chat message for valid session");
 		//session->handle_text_chat(channel, message);
 	}
 	else
 	{
-		WARNING_EVENT("networking:messages:text chat: received text chat message for invalid session");
+		event(_event_warning, "networking:messages:text chat: received text chat message for invalid session");
 	}
 }
 

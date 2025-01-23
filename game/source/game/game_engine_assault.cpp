@@ -128,7 +128,7 @@ void c_game_engine_assault_variant::set_respawn(e_assault_respawn_settings respa
 {
 	if (!VALID_INDEX(respawn, k_assault_respawn_settings))
 	{
-		WARNING_EVENT("game_engine:assault: invalid respawn setting '%d' outside range '[0, %d)'!", respawn, k_assault_respawn_settings);
+		event(_event_warning, "game_engine:assault: invalid respawn setting '%d' outside range '[0, %d)'!", respawn, k_assault_respawn_settings);
 
 		m_respawn = k_assault_respawn_settings_default;
 	}
@@ -147,7 +147,7 @@ void c_game_engine_assault_variant::set_game_type(e_assault_game_type_settings g
 {
 	if (!VALID_INDEX(game_type, k_assault_game_type_settings))
 	{
-		WARNING_EVENT("game_engine:assault: invalid game_type setting '%d' outside range '[0, %d)'!", game_type, k_assault_game_type_settings);
+		event(_event_warning, "game_engine:assault: invalid game_type setting '%d' outside range '[0, %d)'!", game_type, k_assault_game_type_settings);
 
 		m_game_type = k_assault_game_type_settings_default;
 	}
@@ -166,7 +166,7 @@ void c_game_engine_assault_variant::set_enemy_bomb_waypoint(e_assault_enemy_bomb
 {
 	if (!VALID_INDEX(enemy_bomb_waypoint, k_assault_enemy_bomb_waypoint_settings))
 	{
-		WARNING_EVENT("game_engine:assault: invalid enemy_bomb_waypoint setting '%d' outside range '[0, %d)'!", enemy_bomb_waypoint, k_assault_enemy_bomb_waypoint_settings);
+		event(_event_warning, "game_engine:assault: invalid enemy_bomb_waypoint setting '%d' outside range '[0, %d)'!", enemy_bomb_waypoint, k_assault_enemy_bomb_waypoint_settings);
 
 		m_enemy_bomb_waypoint = k_assault_enemy_bomb_waypoint_settings_default;
 	}
@@ -185,7 +185,7 @@ void c_game_engine_assault_variant::set_score_to_win(short score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 50))
 	{
-		WARNING_EVENT("game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, 0, 50);
+		event(_event_warning, "game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, 0, 50);
 
 		m_score_to_win = 3;
 	}
@@ -204,7 +204,7 @@ void c_game_engine_assault_variant::set_sudden_death_time(short sudden_death_tim
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_assault_variant_sudden_death_time))
 	{
-		WARNING_EVENT("game_engine:assault: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _assault_variant_sudden_death_time_infinite, _assault_variant_sudden_death_time_5_minute);
+		event(_event_warning, "game_engine:assault: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _assault_variant_sudden_death_time_infinite, _assault_variant_sudden_death_time_5_minute);
 
 		m_sudden_death_time = k_assault_variant_sudden_death_time_default;
 	}
@@ -223,7 +223,7 @@ void c_game_engine_assault_variant::set_bomb_reset_time(short bomb_reset_time)
 {
 	if (!VALID_INDEX(bomb_reset_time, 90))
 	{
-		WARNING_EVENT("game_engine:assault: invalid bomb_reset_time setting '%d' outside range '[%d, %d]'!", bomb_reset_time, 0, 90);
+		event(_event_warning, "game_engine:assault: invalid bomb_reset_time setting '%d' outside range '[%d, %d]'!", bomb_reset_time, 0, 90);
 
 		m_bomb_reset_time = 30;
 	}
@@ -242,7 +242,7 @@ void c_game_engine_assault_variant::set_bomb_arming_time(short bomb_arming_time)
 {
 	if (!VALID_INDEX(bomb_arming_time, 90))
 	{
-		WARNING_EVENT("game_engine:assault: invalid bomb_arming_time setting '%d' outside range '[%d, %d]'!", bomb_arming_time, 0, 90);
+		event(_event_warning, "game_engine:assault: invalid bomb_arming_time setting '%d' outside range '[%d, %d]'!", bomb_arming_time, 0, 90);
 
 		m_bomb_arming_time = 35;
 	}
@@ -261,7 +261,7 @@ void c_game_engine_assault_variant::set_bomb_disarming_time(short bomb_disarming
 {
 	if (!VALID_INDEX(bomb_disarming_time, 90))
 	{
-		WARNING_EVENT("game_engine:assault: invalid bomb_disarming_time setting '%d' outside range '[%d, %d]'!", bomb_disarming_time, 0, 90);
+		event(_event_warning, "game_engine:assault: invalid bomb_disarming_time setting '%d' outside range '[%d, %d]'!", bomb_disarming_time, 0, 90);
 
 		m_bomb_disarming_time = 35;
 	}
@@ -280,7 +280,7 @@ void c_game_engine_assault_variant::set_bomb_fuse_time(short bomb_fuse_time)
 {
 	if (!VALID_INDEX(bomb_fuse_time, 90))
 	{
-		WARNING_EVENT("game_engine:assault: invalid bomb_fuse_time setting '%d' outside range '[%d, %d]'!", bomb_fuse_time, 0, 90);
+		event(_event_warning, "game_engine:assault: invalid bomb_fuse_time setting '%d' outside range '[%d, %d]'!", bomb_fuse_time, 0, 90);
 
 		m_bomb_fuse_time = 35;
 	}

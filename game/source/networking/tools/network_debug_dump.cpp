@@ -185,7 +185,7 @@ bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task)
 		}
 		else
 		{
-			WARNING_EVENT("netdebug_process_file_upload: upload failed.");
+			event(_event_warning, "netdebug_process_file_upload: upload failed.");
 			file_close(&task->file);
 		}
 	}
@@ -193,7 +193,7 @@ bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task)
 	{
 		char filename[256];
 		file_reference_get_filename(&task->file, filename);
-		WARNING_EVENT("netdebug_process_file_upload() failed to open file '%s' for uploading", filename);
+		event(_event_warning, "netdebug_process_file_upload() failed to open file '%s' for uploading", filename);
 	}
 
 	return false;
@@ -210,7 +210,7 @@ void __cdecl netdebug_process_next_task()
 	}
 	else if (++g_netdebug_globals.task_fails >= 3)
 	{
-		WARNING_EVENT("netdebug fail threshold exceeded, removing task from queue");
+		event(_event_warning, "netdebug fail threshold exceeded, removing task from queue");
 		remove_current_task(false);
 	}
 }
@@ -281,7 +281,7 @@ void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl
 		}
 		else
 		{
-			WARNING_EVENT("netdebug_upload_file() failed to queue task");
+			event(_event_warning, "netdebug_upload_file() failed to queue task");
 		}
 	}
 
@@ -369,7 +369,7 @@ bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, lo
 	
 			if (!result)
 			{
-				WARNING_EVENT("networking:network_debug_dump: Upload failed in progress to 0x%08x.", ip_address);
+				event(_event_warning, "networking:network_debug_dump: Upload failed in progress to 0x%08x.", ip_address);
 				c_online_lsp_manager::get()->disconnect_from_server(connection_token, false);
 				connection_token = NONE;
 			}

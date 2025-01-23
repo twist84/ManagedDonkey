@@ -507,7 +507,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	if (!command[0] || command[0] == ';')
 		return false;
 
-	MESSAGE_EVENT("console_command: %s", command);
+	event(_event_message, "console_command: %s", command);
 
 	short command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
 	console_globals.newest_previous_command_index = command_index;
@@ -1376,7 +1376,7 @@ void status_line_dump()
 	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
 	{
 		if (status_line_visible(status_line))
-			MESSAGE_EVENT("status_lines: %s", status_line->get_string());
+			event(_event_message, "status_lines: %s", status_line->get_string());
 	}
 }
 

@@ -16,27 +16,27 @@ bool __cdecl create_configuration_file(char const* filename, void const* file_co
 
 	if (!file_create_parent_directories_if_not_present(&info))
 	{
-		WARNING_EVENT("create_configuration_file: unable to create parent directories: %s", filename);
+		event(_event_warning, "create_configuration_file: unable to create parent directories: %s", filename);
 		return false;
 	}
 
 	if (!file_create(&info))
 	{
-		WARNING_EVENT("create_configuration_file: unable to create file: %s", filename);
+		event(_event_warning, "create_configuration_file: unable to create file: %s", filename);
 		return false;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
 	{
-		WARNING_EVENT("create_configuration_file: unable to open file: %s", filename);
+		event(_event_warning, "create_configuration_file: unable to open file: %s", filename);
 		return false;
 	}
 
 	bool result = file_write(&info, file_size, file_contents);
 	if (!file_close(&info))
 	{
-		WARNING_EVENT("create_configuration_file: unable to close file: %s", filename);
+		event(_event_warning, "create_configuration_file: unable to close file: %s", filename);
 	}
 
 	return result;

@@ -685,7 +685,7 @@ void __cdecl render_texture_camera_attach_to_object(long object_index, long mark
 	//}
 	//else
 	//{
-	//	WARNING_EVENT("texture camera can't find object to attach to");
+	//	event(_event_warning, "texture camera can't find object to attach to");
 	//}
 }
 
@@ -892,7 +892,7 @@ void __cdecl render_texture_camera_set_object_marker(long object_index, long mar
 	//	g_render_texture_camera_globals->active = false;
 	//
 	//	if (object_index != NONE)
-	//		ERROR_EVENT("### WARNING texture camera can't attach to object! detaching ...");
+	//		event(_event_error, "### WARNING texture camera can't attach to object! detaching ...");
 	//}
 }
 
@@ -971,7 +971,7 @@ void __cdecl render_texture_camera_target_object(long object_index, long marker_
 	//}
 	//else
 	//{
-	//	WARNING_EVENT("texture camera can't find object to target");
+	//	event(_event_warning, "texture camera can't find object to target");
 	//}
 }
 

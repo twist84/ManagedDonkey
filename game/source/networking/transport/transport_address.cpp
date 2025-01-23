@@ -160,7 +160,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 		{
 			result = address->ipv4_address != 0;
 			if (!result)
-				WARNING_EVENT("networking:transport:transport_address_valid: the IPV4 address is NOT valid");
+				event(_event_warning, "networking:transport:transport_address_valid: the IPV4 address is NOT valid");
 		}
 		break;
 		case 16:
@@ -174,7 +174,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 				}
 			}
 			if (!result)
-				WARNING_EVENT("networking:transport:transport_address_valid: the IPV6 address is NOT valid");
+				event(_event_warning, "networking:transport:transport_address_valid: the IPV6 address is NOT valid");
 		}
 		break;
 		}

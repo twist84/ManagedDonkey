@@ -65,7 +65,7 @@ bool c_session_tracker::add_session(char const* name, s_transport_session_descri
 	}
 	else
 	{
-		WARNING_EVENT("networking:logic:session_tracker: can't track session, session limit reached [%d]", SESSION_STORAGE_COUNT);
+		event(_event_warning, "networking:logic:session_tracker: can't track session, session limit reached [%d]", SESSION_STORAGE_COUNT);
 	}
 
 	return false;
@@ -111,7 +111,7 @@ bool c_session_tracker::allocate_storage(long tracker_sort_method, long qos_stat
 	release_storage();
 
 	char network_heap_description[1024]{};
-	ERROR_EVENT("networking:logic:session_tracker: unable to allocate storage of sizes [%d/%d/%d] for session arrays [%s]",
+	event(_event_error, "networking:logic:session_tracker: unable to allocate storage of sizes [%d/%d/%d] for session arrays [%s]",
 		m_session_storage_size,
 		m_session_storage_size,
 		m_unsuitable_session_storage_size,
@@ -132,7 +132,7 @@ void c_session_tracker::clear()
 	//INVOKE_CLASS_MEMBER(0x004E27E0, c_session_tracker, clear);
 
 	ASSERT(m_flags.test(_session_tracker_initialized_bit));
-	MESSAGE_EVENT("networking:logic:session_tracker: clearing tracked sessions");
+	event(_event_message, "networking:logic:session_tracker: clearing tracked sessions");
 
 	for (long qos_attemp_index = 0; qos_attemp_index < m_qos_attempts.get_count(); qos_attemp_index++)
 		release_qos_attempt(qos_attemp_index);
@@ -156,7 +156,7 @@ void c_session_tracker::clear_unsuitable_sessions()
 {
 	//INVOKE_CLASS_MEMBER(0x004E2880, c_session_tracker, clear_unsuitable_sessions);
 
-	MESSAGE_EVENT("networking:logic:session_tracker: clearing unsuitable sessions");
+	event(_event_message, "networking:logic:session_tracker: clearing unsuitable sessions");
 
 	m_unsuitable_session_count = 0;
 	csmemset(m_unsuitable_sessions, 0, m_unsuitable_session_storage_size);
@@ -292,7 +292,7 @@ bool c_session_tracker::mark_session_undesireable(s_transport_session_descriptio
 		return true;
 	}
 
-	ERROR_EVENT("networking:logic:session_tracker: not tracking session, can't mark as undesireable");
+	event(_event_error, "networking:logic:session_tracker: not tracking session, can't mark as undesireable");
 	return false;
 }
 
@@ -312,7 +312,7 @@ bool c_session_tracker::mark_session_unsuitable(s_transport_session_description 
 		return true;
 	}
 
-	ERROR_EVENT("networking:logic:session_tracker: not tracking session, can't mark as unsuitable");
+	event(_event_error, "networking:logic:session_tracker: not tracking session, can't mark as unsuitable");
 	return false;
 }
 

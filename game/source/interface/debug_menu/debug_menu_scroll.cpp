@@ -141,7 +141,7 @@ void c_debug_menu_zone_sets::notify_selected(short selected_value)
 	}
 	else
 	{
-		CRITICAL_EVENT("this should be a valid zone set index WTF???");
+		event(_event_critical, "this should be a valid zone set index WTF???");
 	}
 }
 

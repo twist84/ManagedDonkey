@@ -51,7 +51,7 @@ bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buf
 	//
 	//	if (!buffer->data)
 	//	{
-	//		CRITICAL_EVENT("### async_double_bufffer: failed to allocate %d bytes for buffer %d", buffer_size, buffer_index);
+	//		event(_event_critical, "### async_double_bufffer: failed to allocate %d bytes for buffer %d", buffer_size, buffer_index);
 	//		failed_to_allocate_storage = true;
 	//		break;
 	//	}
@@ -125,7 +125,7 @@ bool c_async_buffer_set::close_file()
 	//	c_synchronized_long done = 0;
 	//	if (async_close_file(m_async_file_handle, _async_category_none, _async_priority_blocking_generic, &done) == NONE)
 	//	{
-	//		WARNING_EVENT("async:double_buffer: failed to close file");
+	//		event(_event_warning, "async:double_buffer: failed to close file");
 	//	}
 	//	else
 	//	{
@@ -173,7 +173,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//			}
 	//			else
 	//			{
-	//				WARNING_EVENT("async:double_buffer: fatal error encountered during write (expected byte count 0x%8X != 0x%8X)", buffer->__unknown18, buffer->__unknown14);
+	//				event(_event_warning, "async:double_buffer: fatal error encountered during write (expected byte count 0x%8X != 0x%8X)", buffer->__unknown18, buffer->__unknown14);
 	//				m_fatal_error_occurred = true;
 	//			}
 	//		}

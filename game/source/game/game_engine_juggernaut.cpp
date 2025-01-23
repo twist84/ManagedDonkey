@@ -163,7 +163,7 @@ void c_game_engine_juggernaut_variant::set_score_to_win_round(short score_to_win
 {
 	if (!VALID_INDEX(score_to_win_round, 500))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid score_to_win_round setting '%d' outside range '[%d, %d]'!", score_to_win_round, 0, 500);
+		event(_event_warning, "game_engine:juggernaut: invalid score_to_win_round setting '%d' outside range '[%d, %d]'!", score_to_win_round, 0, 500);
 
 		m_score_to_win_round = 15;
 	}
@@ -182,7 +182,7 @@ void c_game_engine_juggernaut_variant::set_initial_juggernaut(e_juggernaut_initi
 {
 	if (!VALID_INDEX(initial_juggernaut, k_juggernaut_initial_juggernaut_settings))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid initial_juggernaut setting '%d' outside range '[0, %d)'!", initial_juggernaut, k_juggernaut_next_juggernaut_settings);
+		event(_event_warning, "game_engine:juggernaut: invalid initial_juggernaut setting '%d' outside range '[0, %d)'!", initial_juggernaut, k_juggernaut_next_juggernaut_settings);
 
 		m_initial_juggernaut = k_juggernaut_initial_juggernaut_settings_default;
 	}
@@ -201,7 +201,7 @@ void c_game_engine_juggernaut_variant::set_next_juggernaut(e_juggernaut_next_jug
 {
 	if (!VALID_INDEX(next_juggernaut, k_juggernaut_next_juggernaut_settings))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid next_juggernaut setting '%d' outside range '[0, %d)'!", next_juggernaut, k_juggernaut_next_juggernaut_settings);
+		event(_event_warning, "game_engine:juggernaut: invalid next_juggernaut setting '%d' outside range '[0, %d)'!", next_juggernaut, k_juggernaut_next_juggernaut_settings);
 
 		m_zone_movement = k_juggernaut_next_juggernaut_settings_default;
 	}
@@ -228,7 +228,7 @@ void c_game_engine_juggernaut_variant::set_zone_movement(e_juggernaut_zone_movem
 {
 	if (!VALID_INDEX(zone_movement, k_number_of_juggernaut_zone_movement_settings))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid zone_movement setting '%d' outside range '[0, %d)'!", zone_movement, k_number_of_juggernaut_zone_movement_settings);
+		event(_event_warning, "game_engine:juggernaut: invalid zone_movement setting '%d' outside range '[0, %d)'!", zone_movement, k_number_of_juggernaut_zone_movement_settings);
 
 		m_zone_movement = k_juggernaut_zone_movement_settings_default;
 	}
@@ -247,7 +247,7 @@ void c_game_engine_juggernaut_variant::set_zone_order(e_juggernaut_zone_order_se
 {
 	if (!VALID_INDEX(zone_order, k_juggernaut_zone_order_settings))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid zone_order setting '%d' outside range '[0, %d)'!", zone_order, k_juggernaut_zone_order_settings);
+		event(_event_warning, "game_engine:juggernaut: invalid zone_order setting '%d' outside range '[0, %d)'!", zone_order, k_juggernaut_zone_order_settings);
 
 		m_zone_order = k_juggernaut_zone_order_settings_default;
 	}
@@ -266,7 +266,7 @@ void c_game_engine_juggernaut_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 0;
 	}
@@ -285,7 +285,7 @@ void c_game_engine_juggernaut_variant::set_juggernaut_kill_points(char juggernau
 {
 	if (!VALID_INDEX(juggernaut_kill_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid juggernaut_kill_points setting '%d' outside range '[%d, %d]'!", juggernaut_kill_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid juggernaut_kill_points setting '%d' outside range '[%d, %d]'!", juggernaut_kill_points, -10, 10);
 
 		m_juggernaut_kill_points = 1;
 	}
@@ -304,7 +304,7 @@ void c_game_engine_juggernaut_variant::set_kill_as_juggernaut_points(char kill_a
 {
 	if (!VALID_INDEX(kill_as_juggernaut_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid kill_as_juggernaut_points setting '%d' outside range '[%d, %d]'!", kill_as_juggernaut_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid kill_as_juggernaut_points setting '%d' outside range '[%d, %d]'!", kill_as_juggernaut_points, -10, 10);
 
 		m_kill_as_juggernaut_points = 1;
 	}
@@ -323,7 +323,7 @@ void c_game_engine_juggernaut_variant::set_destination_arrival_points(char desti
 {
 	if (!VALID_INDEX(destination_arrival_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", destination_arrival_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", destination_arrival_points, -10, 10);
 
 		m_destination_arrival_points = 1;
 	}
@@ -342,7 +342,7 @@ void c_game_engine_juggernaut_variant::set_suicide_points(char suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
 
 		m_suicide_points = 1;
 	}
@@ -361,7 +361,7 @@ void c_game_engine_juggernaut_variant::set_betrayal_points(char betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
 
 		m_betrayal_points = 1;
 	}
@@ -380,7 +380,7 @@ void c_game_engine_juggernaut_variant::set_juggernaut_delay(byte juggernaut_dela
 {
 	if (!VALID_INDEX(juggernaut_delay, 10))
 	{
-		WARNING_EVENT("game_engine:juggernaut: invalid juggernaut_delay setting '%d' outside range '[%d, %d]'!", juggernaut_delay, 0, 10);
+		event(_event_warning, "game_engine:juggernaut: invalid juggernaut_delay setting '%d' outside range '[%d, %d]'!", juggernaut_delay, 0, 10);
 
 		m_juggernaut_delay = 0;
 	}

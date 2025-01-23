@@ -85,14 +85,14 @@ void __cdecl remote_command_initialize()
 			transport_get_listen_address(&listen_address, 1030);
 			if (!transport_endpoint_bind(remote_command_globals.listen_endpoint, &listen_address) || !transport_endpoint_listen(remote_command_globals.listen_endpoint))
 			{
-				ERROR_EVENT("remote command client couldn't listen for incoming commands");
+				event(_event_error, "remote command client couldn't listen for incoming commands");
 				transport_endpoint_delete(remote_command_globals.listen_endpoint);
 				remote_command_globals.listen_endpoint = NULL;
 			}
 		}
 		else
 		{
-			ERROR_EVENT("remote command client couldn't create_transport_endpoint() for incoming commands");
+			event(_event_error, "remote command client couldn't create_transport_endpoint() for incoming commands");
 		}
 	}
 }
@@ -136,7 +136,7 @@ void __cdecl remote_command_process()
 			// If we're already connected to a remote host, disconnect from it first
 			if (remote_command_globals.receive_endpoint)
 			{
-				WARNING_EVENT("### remote connection attempt causing us to drop existing connection to a host");
+				event(_event_warning, "### remote connection attempt causing us to drop existing connection to a host");
 				remote_command_disconnect();
 			}
 
@@ -150,14 +150,14 @@ void __cdecl remote_command_process()
 				remote_command_globals.send_endpoint = remote_command_globals.receive_endpoint;
 			}
 
-			WARNING_EVENT("received a connection from a remote host!");
+			event(_event_warning, "received a connection from a remote host!");
 		}
 	}
 
 	// Check if we've lost connection to the remote host
 	if (remote_command_globals.send_endpoint && (!transport_endpoint_connected(remote_command_globals.send_endpoint) || !transport_endpoint_writeable(remote_command_globals.send_endpoint)))
 	{
-		WARNING_EVENT("### lost connection to remote xbox");
+		event(_event_warning, "### lost connection to remote xbox");
 		remote_command_disconnect();
 	}
 
@@ -190,10 +190,10 @@ void __cdecl remote_command_process()
 			// Process the received data
 			if (!remote_command_process_received_chunk(buffer, buffer_length))
 			{
-				ERROR_EVENT("remote command client couldn't process received command");
+				event(_event_error, "remote command client couldn't process received command");
 
 				// Disconnect if there's an error
-				WARNING_EVENT("### lost connection to remote host");
+				event(_event_warning, "### lost connection to remote host");
 				remote_command_disconnect();
 				continue_processing = false;
 				break;
@@ -269,7 +269,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	if (bytes_written <= 0)
 	{
 		// If there was an error, disconnect the remote command
-		WARNING_EVENT("### lost connection to remote xbox");
+		event(_event_warning, "### lost connection to remote xbox");
 		remote_command_disconnect();
 	}
 
@@ -318,7 +318,7 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 			return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
 		}
 
-		ERROR_EVENT("remote command couldn't encode packet type %d (%s)", command_type, remote_command_packets_group.packets[command_type].definition->name);
+		event(_event_error, "remote command couldn't encode packet type %d (%s)", command_type, remote_command_packets_group.packets[command_type].definition->name);
 	}
 
 	return false;

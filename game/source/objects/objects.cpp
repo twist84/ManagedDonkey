@@ -1909,7 +1909,7 @@ void object_debug_teleport(long object_index, real_point3d const* position)
 	}
 	else
 	{
-		WARNING_EVENT("Failed to get a valid object in %s.", __FUNCTION__);
+		event(_event_warning, "Failed to get a valid object in %s.", __FUNCTION__);
 	}
 }
 
