@@ -113,7 +113,7 @@ dword c_network_channel::get_remote_identifier() const
 
 dword c_network_channel::get_identifier() const
 {
-	return m_local_channel_identifier;
+	return m_channel_identifier;
 }
 
 c_network_message_queue const* c_network_channel::network_message_queue_get() const
@@ -153,7 +153,7 @@ bool c_network_channel::connected() const
 
 void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 {
-	INVOKE_CLASS_MEMBER(0x0045FA30, c_network_channel, close, closure_reason);
+	//INVOKE_CLASS_MEMBER(0x0045FA30, c_network_channel, close, closure_reason);
 
 	ASSERT(closure_reason > _network_channel_reason_none && closure_reason < k_network_channel_reason_count);
 	ASSERT(allocated());
@@ -168,7 +168,7 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 		s_network_message_connect_closed connect_closed =
 		{
 			.remote_identifier = m_remote_channel_identifier,
-			.identifier = m_local_channel_identifier,
+			.identifier = m_channel_identifier,
 			.reason = closure_reason
 		};
 
@@ -182,8 +182,8 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 
 	m_channel_state = _network_channel_state_closed;
 	m_channel_closure_reason = closure_reason;
-	m_local_address = m_remote_address;
-	m_local_channel_identifier = NONE;
+	m_channel_closure_address = m_remote_address;
+	m_channel_identifier = NONE;
 	m_remote_channel_identifier = NONE;
 }
 

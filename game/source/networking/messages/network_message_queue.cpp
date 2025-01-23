@@ -10,6 +10,6 @@ void c_network_message_queue::send_message(e_network_message_type message_type, 
 
 bool c_network_message_queue::has_channel_been_used() const
 {
-	return m_has_channel_been_used;
+	return m_second_fragment_sent;
 }
 

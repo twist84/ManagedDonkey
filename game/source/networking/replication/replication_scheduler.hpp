@@ -21,16 +21,18 @@ private:
 	virtual void __cdecl notify_packet_acknowledged(long, bool);
 	virtual void __cdecl notify_packet_retired(long, bool, bool);
 };
+static_assert(sizeof(c_replication_scheduler_client) == sizeof(void*));
 
 struct c_replication_telemetry_provider;
 struct c_replication_scheduler :
 	public c_network_channel_client
 {
+	bool m_initialized;
 	long m_view_index;
 	c_replication_scheduler_client* m_clients[3];
 	long m_client_terminator_bits[3];
 	long m_space_required_bits;
 	c_replication_telemetry_provider* m_telemetry_provider;
 };
-static_assert(sizeof(c_replication_scheduler) == sizeof(c_network_channel_client) + 0x24);
+static_assert(sizeof(c_replication_scheduler) == sizeof(c_network_channel_client) + 0x28);
 
