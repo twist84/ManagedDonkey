@@ -26,48 +26,126 @@ struct s_network_message_connect_request;
 enum e_network_message_type;
 struct c_network_observer
 {
+	struct s_stream_parameters
+	{
+		bool active;
+		bool is_load_bearing;
+		bool is_simulation;
+		bool is_simulation_authority;
+		bool is_simulation_client;
+		bool is_synchronous;
+		bool is_synchronous_joining;
+		bool saturate_stream;
+		long current_bandwidth_bps;
+		real current_packet_rate;
+		bool current_packet_rate_limiting;
+		bool period_bandwidth_restricted;
+		long period_transmission_bytes;
+		long period_throughput_bytes;
+		long period_minimum_average_rtt_msec;
+		long period_maximum_average_rtt_msec;
+		long period_minimum_lost_packet_rate;
+		long period_maximum_lost_packet_rate;
+		long period_start_average_rtt_msec;
+		long mini_period_initial_rtt_msec;
+		long mini_period_initial_lost_packet_rate;
+		long mini_period_delivered_packet_count;
+		long mini_period_lost_packet_count;
+		long mini_period_maximum_average_rtt;
+		long mini_period_maximum_average_rtt_fast_deviation;
+		long mini_period_last_maximum_average_rtt;
+		long mini_period_bits_transmitted_game;
+		long mini_period_bits_transmitted_fill;
+		long mini_period_bits_transmitted_voice;
+		long packet_data_game_ratio;
+		long packet_data_fill_ratio;
+		long packet_data_voice_ratio;
+		long average_lost_packet_rate_unshifted;
+		long average_lost_packet_rate;
+		long average_lost_packet_rate_deviation;
+		bool recent_period_bandwidth_restricted;
+		long recent_period_transmission_bps;
+		long recent_period_throughput_bps;
+		long probe_maximum_rtt_msec;
+		long related_probe_maximum_rtt_msec;
+		long congest_at_rtt_msec;
+		long congest_at_lost_packet_rate;
+		bool congest_at_rtt_locked;
+		long last_known_good_lost_packet_rate;
+		long last_known_good_lost_packet_rate_deviation;
+		long last_known_good_lost_packet_rate_bandwidth_bps;
+		bool has_completed_initial_probe;
+		bool has_set_initial_bandwidth;
+		long overprobe_bps;
+		long allocated_bandwidth_bps;
+		long maximum_bandwidth_bps;
+		long maximum_bandwidth_find_duplicate_count;
+		dword time_to_grow_bandwidth_base;
+		long time_to_grow_bandwidth_delta;
+		long packet_loss_spike_count;
+		long upstream_bandwidth_failures;
+		long downstream_bandwidth_failures;
+		long latency_failures;
+		long packet_loss_failures;
+		long packet_loss_spike_failures;
+		long consecutive_probe_failures;
+		long consecutive_probe_successes;
+		long consecutive_congested_bandwidth_throttles;
+		long probe_previous_bandwidth;
+		bool stream_requires_more_bandwidth;
+	};
+	static_assert(sizeof(s_stream_parameters) == 0xE4);
+
 	struct s_channel_observer
 	{
 		c_network_channel channel;
 		long state;
-
-		dword __unknownA78;
-
+		dword state_entry_timestamp;
 		byte_flags flags;
 		byte_flags owner_flags;
-
-		word __unknownA7E;
-
+		short connection_attempts;
 		dword owner_connection_identifier;
-		s_transport_secure_address secure_address;
-		dword_flags __unknownA94_flags;
-		dword __unknownA94_flags_bit;
+		s_transport_secure_address remote_secure_address;
+		dword secure_connection_discarded_owner_mask;
+		long secure_connection_owner;
 		transport_address secure_connection_address;
-		s_transport_secure_identifier secure_connection_identifier;
-		byte __dataAC0[0x8];
-
-		bool observer_is_bad_client;
-		byte __dataAC9[0x3];
-
-		dword estimated_upstream_bandwidth_bps;
-		dword estimated_downstream_bandwidth_bps;
-		dword qos_attempt_index;
-		s_transport_qos_result qos_attempt_result;
-
-		long __timeAF8;
-		long __timeAFC;
-		long __timeB00;
-		byte __dataB04[0x4];
-
-		c_static_array<c_network_time_statistics, 3> time_statistics;
-		c_static_array<c_network_window_statistics, 2> window_statistics;
-
-		byte __dataFB0[0x14];
-
+		dword last_acknowledgement_timestamp;
+		long average_rtt_msec;
+		long average_rtt_fast_deviation_msec;
+		long average_rtt_deviation_msec;
+		long average_rtt_interval_msec;
+		long current_timeout_msec;
+		bool is_bad_client;
+		long remote_machine_upstream_bandwidth_bps;
+		long remote_machine_downstream_bandwidth_bps;
+		long qos_attempt_index;
+		s_transport_qos_result qos_result;
+		dword last_inactive_timestamp;
+		dword undesired_connection_timestamp;
+		dword undesired_connection_empty_timestamp;
+		c_network_time_statistics received_bytes_statistics;
+		c_network_time_statistics transmitted_bytes_statistics;
+		c_network_time_statistics acknowledged_bytes_statistics;
+		c_network_window_statistics packet_loss_statistics;
+		c_network_window_statistics packet_warning_statistics;
+		long bandwidth_monitor_interval_count;
+		long bandwidth_monitor_period_count;
+		long bandwidth_monitor_throughput_minimum_bps;
+		long bandwidth_monitor_throughput_maximum_bps;
+		long bandwidth_monitor_previous_maximum_bps;
 		long bandwidth_event_counters[5];
-
-		dword __timeFD8;
-		byte __data[0xFC];
+		dword last_packet_slot_timestamp;
+		c_network_observer::s_stream_parameters stream;
+		bool badness_reported_connectivity;
+		bool badness_reported_squad_host;
+		bool badness_reported_squad_client;
+		bool badness_reported_group_host;
+		bool badness_reported_group_client;
+		bool badness_was_ever_game_squad_host;
+		bool badness_was_ever_game_squad_client;
+		bool badness_was_ever_game_group_host;
+		bool badness_was_ever_game_group_client;
+		qword message_backlog_mask;
 	};
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
@@ -77,8 +155,8 @@ struct c_network_observer
 	bool initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration);
 	void monitor();
 	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
-	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);
-	void observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth);
+	void observer_channel_send_message(long owner_type, long observer_channel_index, bool out_of_band, e_network_message_type message_type, long message_size, void const* message_payload);
+	void observer_prioritize_upload_bandwidth(bool prioritize);
 	void set_online_network_environment(bool online_network_environment);
 
 	c_network_link* m_link;
@@ -89,67 +167,98 @@ struct c_network_observer
 	s_channel_observer_owner m_owners[4];
 	c_network_session* m_session;
 	s_channel_observer m_channel_observers[k_network_maximum_observers];
-
-	// All data beyond this point is related to bandwidth
-
 	bool m_quality_statistics_are_set;
-	long __unknown23CEC;
 	s_network_quality_statistics m_quality_statistics;
-
-	// some enum type used in a switch within `c_network_observer::stream_update`
-	// c_network_observer::is_bandwidth_stable: `__unknown23D80 == 0`
-	long __unknown23D80;
-
-	long __unknown23DB4;
+	long m_expansion_state;
+	long m_probe_state;
 	bool m_prioritize_upload_bandwidth;
 	bool m_online_network_environment;
-	bool __unknown23DBA;
-	bool __unknown23DBB;
-	long __unknown23DBC;
-	long __unknown23DC0;
-	long __unknown23DC4;
-	long __time23DC8;
-
-	// bool? enum?
-	// 0: UNSATISFIED
-	// 1: SATIATED 
-	byte __unknown23DD0_index;
-	byte __data23DCD[0x3];
-	long __unknown23DD0[2];
-
-	long __unknown23DD8;
-	long __unknown23DDC;
-	long __unknown23DE0;
-	long __time23DE4;
-	long __time23DE8;
-	long __time23DEC;
-	long __time23DF0;
-	long __time23DF4;
-	long __unknown23DF8;
-	long __unknown23DFC;
-	long __unknown23E00;
-	byte __data23E04[0x4];
-	c_network_time_statistics time_statistics;
-	long __unknown23EE0;
-	long __unknown23EE4;
-	long __unknown23EE8;
-	long __unknown23EEC;
-	long __unknown23EF0;
-	long __unknown23EF4;
-	long __time23EF8;
-	long __time23EFC;
-	bool __unknown23F00;
-	bool __unknown23F01;
-	bool __unknown23F02;
-	byte __unknown23F03; // bool?
-	bool __unknown23F04;
-	byte __data23F05[0xB];
-	long __time23F10;
-	bool __unknown23F14;
-	byte __data23F15[0x3];
-	long __unknown23F18;
-	byte __data23F1C[0x4];
+	bool m_bandwidth_estimate_reliable;
+	bool m_allow_bandwidth_estimate_override;
+	long m_bandwidth_estimated_bps;
+	long m_bandwidth_maximum_throughput_bps;
+	long m_bandwidth_congestion_bps;
+	dword m_bandwidth_satiation_timestamp;
+	bool m_bandwidth_satiation_setting;
+	long m_bandwidth_satiation_count[2];
+	long m_maximum_upstream_bandwidth_bps;
+	bool m_has_simulation_stream;
+	dword m_recently_probed_streams;
+	dword m_time_of_expansion;
+	dword m_time_of_probe;
+	dword m_time_of_probe_delay;
+	dword m_time_of_end_of_last_probe;
+	long m_time_to_delay_next_probe;
+	long m_bandwidth_known_good_kbps;
+	long m_bandwidth_known_bad_kbps;
+	long m_bandwidth_target_kbps;
+	c_network_time_statistics m_bandwidth_statistics;
+	long m_allocated_observer_count;
+	long m_allocated_bandwidth_bps;
+	real m_allocated_rate_authority;
+	real m_allocated_rate_client;
+	long m_allocated_upstream_bandwidth;
+	long m_allocated_upload_bandwidth;
+	dword m_stream_period_start_timestamp;
+	dword m_stream_mini_period_start_timestamp;
+	bool m_stream_needs_rebalancing;
+	bool m_stream_abort_growth;
+	bool m_stream_period_restart_flag;
+	bool m_stream_period_restart_abort_expansion_flag;
+	bool m_stream_period_restart_record_congestion_flag;
+	long m_stream_period_growth_initiated_count;
+	long m_stream_period_growth_maximum_count;
+	dword m_stream_reset_timestamp;
+	bool m_stream_all_streams_are_stable;
+	dword m_streams_that_are_still_growing;
 };
 static_assert(sizeof(c_network_observer) == 0x23F20);
-static_assert(0x14 == OFFSETOF(c_network_observer, m_owners));
+static_assert(0x00014 == OFFSETOF(c_network_observer, m_owners));
+static_assert(0x00034 == OFFSETOF(c_network_observer, m_session));
+static_assert(0x00038 == OFFSETOF(c_network_observer, m_channel_observers));
+static_assert(0x23CE8 == OFFSETOF(c_network_observer, m_quality_statistics_are_set));
+static_assert(0x23CF0 == OFFSETOF(c_network_observer, m_quality_statistics));
+static_assert(0x23DB0 == OFFSETOF(c_network_observer, m_expansion_state));
+static_assert(0x23DB4 == OFFSETOF(c_network_observer, m_probe_state));
+static_assert(0x23DB8 == OFFSETOF(c_network_observer, m_prioritize_upload_bandwidth));
+static_assert(0x23DB9 == OFFSETOF(c_network_observer, m_online_network_environment));
+static_assert(0x23DBA == OFFSETOF(c_network_observer, m_bandwidth_estimate_reliable));
+static_assert(0x23DBB == OFFSETOF(c_network_observer, m_allow_bandwidth_estimate_override));
+static_assert(0x23DBC == OFFSETOF(c_network_observer, m_bandwidth_estimated_bps));
+static_assert(0x23DC0 == OFFSETOF(c_network_observer, m_bandwidth_maximum_throughput_bps));
+static_assert(0x23DC4 == OFFSETOF(c_network_observer, m_bandwidth_congestion_bps));
+static_assert(0x23DC8 == OFFSETOF(c_network_observer, m_bandwidth_satiation_timestamp));
+static_assert(0x23DCC == OFFSETOF(c_network_observer, m_bandwidth_satiation_setting));
+static_assert(0x23DD0 == OFFSETOF(c_network_observer, m_bandwidth_satiation_count));
+static_assert(0x23DD8 == OFFSETOF(c_network_observer, m_maximum_upstream_bandwidth_bps));
+static_assert(0x23DDC == OFFSETOF(c_network_observer, m_has_simulation_stream));
+static_assert(0x23DE0 == OFFSETOF(c_network_observer, m_recently_probed_streams));
+static_assert(0x23DE4 == OFFSETOF(c_network_observer, m_time_of_expansion));
+static_assert(0x23DE8 == OFFSETOF(c_network_observer, m_time_of_probe));
+static_assert(0x23DEC == OFFSETOF(c_network_observer, m_time_of_probe_delay));
+static_assert(0x23DF0 == OFFSETOF(c_network_observer, m_time_of_end_of_last_probe));
+static_assert(0x23DF4 == OFFSETOF(c_network_observer, m_time_to_delay_next_probe));
+static_assert(0x23DF8 == OFFSETOF(c_network_observer, m_bandwidth_known_good_kbps));
+static_assert(0x23DFC == OFFSETOF(c_network_observer, m_bandwidth_known_bad_kbps));
+static_assert(0x23E00 == OFFSETOF(c_network_observer, m_bandwidth_target_kbps));
+static_assert(0x23E08 == OFFSETOF(c_network_observer, m_bandwidth_statistics));
+static_assert(0x23EE0 == OFFSETOF(c_network_observer, m_allocated_observer_count));
+static_assert(0x23EE4 == OFFSETOF(c_network_observer, m_allocated_bandwidth_bps));
+static_assert(0x23EE8 == OFFSETOF(c_network_observer, m_allocated_rate_authority));
+static_assert(0x23EEC == OFFSETOF(c_network_observer, m_allocated_rate_client));
+static_assert(0x23EF0 == OFFSETOF(c_network_observer, m_allocated_upstream_bandwidth));
+static_assert(0x23EF4 == OFFSETOF(c_network_observer, m_allocated_upload_bandwidth));
+static_assert(0x23EF8 == OFFSETOF(c_network_observer, m_stream_period_start_timestamp));
+static_assert(0x23EFC == OFFSETOF(c_network_observer, m_stream_mini_period_start_timestamp));
+static_assert(0x23F00 == OFFSETOF(c_network_observer, m_stream_needs_rebalancing));
+static_assert(0x23F01 == OFFSETOF(c_network_observer, m_stream_abort_growth));
+static_assert(0x23F02 == OFFSETOF(c_network_observer, m_stream_period_restart_flag));
+static_assert(0x23F03 == OFFSETOF(c_network_observer, m_stream_period_restart_abort_expansion_flag));
+static_assert(0x23F04 == OFFSETOF(c_network_observer, m_stream_period_restart_record_congestion_flag));
+static_assert(0x23F08 == OFFSETOF(c_network_observer, m_stream_period_growth_initiated_count));
+static_assert(0x23F0C == OFFSETOF(c_network_observer, m_stream_period_growth_maximum_count));
+static_assert(0x23F10 == OFFSETOF(c_network_observer, m_stream_reset_timestamp));
+static_assert(0x23F14 == OFFSETOF(c_network_observer, m_stream_all_streams_are_stable));
+static_assert(0x23F18 == OFFSETOF(c_network_observer, m_streams_that_are_still_growing));
+
 
