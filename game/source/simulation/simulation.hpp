@@ -4,6 +4,7 @@
 #include "game/player_control.hpp"
 #include "game/players.hpp"
 #include "replication/replication_encoding.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation_queue.hpp"
 #include "simulation/simulation_view.hpp"
 #include "units/units.hpp"
@@ -16,22 +17,6 @@ public:
 
 protected:
 	dword m_flags;
-};
-
-enum e_simulation_abort_reason
-{
-	_simulation_abort_reason_exiting_in_game = 0,
-	_simulation_abort_reason_exiting_in_match,
-	_simulation_abort_reason_failed_to_find_next_map,
-	_simulation_abort_reason_playing_film,
-	_simulation_abort_reason_reset_failed,
-	_simulation_abort_reason_fatal_error,
-	_simulation_abort_reason_lost_connection,
-	_simulation_abort_reason_out_of_sync,
-	_simulation_abort_reason_film_ended,
-	_simulation_abort_reason_film_playback_error,
-
-	k_simulation_abort_reason_count
 };
 
 struct simulation_machine_update
@@ -122,28 +107,31 @@ enum e_update_queue_node
 	k_update_queue_node_invalid = -1
 };
 
-struct s_simulation_update_playback_event
+enum e_simulation_playback_event
 {
-	byte __data0[0x4];
-	long event_playback_event; // e_simulation_playback_event
-	dword event_identifier;
-	long event_update_number;
-};
-static_assert(sizeof(s_simulation_update_playback_event) == 0x10);
+	_simulation_playback_event_revert = 0,
 
-// unknown struct name using `s_simulation_update_node` for now
-struct s_simulation_update_node
+	k_simulation_playback_event_count
+};
+
+struct s_simulation_queued_update
 {
-	c_enum<e_update_queue_node, long, _update_queue_node_update, k_update_queue_node_count> node_type;
+	e_update_queue_node node_type;
+	struct
+	{
+		struct simulation_update update;
+		s_simulation_update_metadata metadata;
+	} update;
 
-	byte __data0[0x4];
-
-	struct simulation_update update;
-	s_simulation_update_metadata metadata;
-	s_simulation_update_playback_event playback_event;
-	s_simulation_update_node* next;
+	struct
+	{
+		e_simulation_playback_event event_type;
+		long event_data;
+		long event_update_number;
+	} playback_event;
+	s_simulation_queued_update* next_node;
 };
-static_assert(sizeof(s_simulation_update_node) == 0x1680);
+static_assert(sizeof(s_simulation_queued_update) == 0x1680);
 
 struct c_simulation_world;
 struct c_simulation_watcher;
@@ -151,45 +139,27 @@ struct c_simulation_type_collection;
 struct s_simulation_globals
 {
 	bool initialized;
-	bool fatal_error;
-	bool saved_film_revert;
-	bool aborted;
-
-	dword network_time_since_abort;
-
-	c_enum<e_simulation_abort_reason, long, _simulation_abort_reason_exiting_in_game, k_simulation_abort_reason_count> abort_reason;
-
-	bool reset;
-	bool reset_in_progress;
-
-	byte __unknownE;
-
-	bool prepare_to_load_saved_game;
+	bool simulation_fatal_error;
+	bool simulation_deferred;
+	bool simulation_aborted;
+	dword simulation_aborted_timestamp;
+	e_simulation_abort_reason simulation_aborted_reason;
+	bool simulation_in_initial_state;
+	bool simulation_reset_in_progress;
+	bool simulation_in_online_networked_session;
+	bool gamestate_load_in_progress;
 	bool recording_film;
 	bool must_close_saved_film;
 	bool performed_main_save_and_exit_campaign_immediately_this_map;
-
-	byte __unknown13;
-
 	c_simulation_world* world;
 	c_simulation_watcher* watcher;
 	c_simulation_type_collection* type_collection;
-
-	dword __unknown20;
-
-	c_static_string<256> status;
-
-	bool paused;
-
-	byte __unknown125;
-	byte __unknown126;
-	byte __unknown127;
-
-	// used in `simulation_update_write_to_buffer`
-	struct simulation_update update;
-	dword_flags update_flags;
+	s_data_array* view_data_array;
+	char status_buffer[256];
+	bool simulation_paused;
+	bool handled_determinism_failure;
 };
-static_assert(sizeof(s_simulation_globals) == 0x1784);
+static_assert(sizeof(s_simulation_globals) == 0x128);
 
 extern s_simulation_globals& simulation_globals;
 

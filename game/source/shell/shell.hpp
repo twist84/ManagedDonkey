@@ -203,6 +203,53 @@ enum e_network_game_simulation_protocol
 	k_network_game_simulation_count
 };
 
+enum e_simulation_abort_reason
+{
+	_simulation_abort_reason_exiting_in_game = 0,
+	_simulation_abort_reason_exiting_in_match,
+	_simulation_abort_reason_failed_to_find_next_map,
+	_simulation_abort_reason_playing_film,
+	_simulation_abort_reason_reset_failed,
+	_simulation_abort_reason_fatal_error,
+	_simulation_abort_reason_lost_connection,
+	_simulation_abort_reason_out_of_sync,
+	_simulation_abort_reason_film_ended,
+	_simulation_abort_reason_film_playback_error,
+
+	k_simulation_abort_reason_count
+};
+
+enum e_simulation_view_reason
+{
+	_simulation_view_reason_none = 0,
+	_simulation_view_reason_disconnected,
+	_simulation_view_reason_out_of_sync,
+	_simulation_view_reason_failed_to_join,
+	_simulation_view_reason_blocking,
+	_simulation_view_reason_catchup_fail,
+	_simulation_view_reason_ended,
+	_simulation_view_reason_mode_error,
+	_simulation_view_reason_player_error,
+	_simulation_view_reason_replication_entity,
+	_simulation_view_reason_replication_event,
+	_simulation_view_reason_replication_game_results,
+	_simulation_view_reason_no_longer_authority,
+	_simulation_view_reason_signature_invalid,
+
+	k_simulation_view_reason_count
+};
+
+enum e_simulation_view_type
+{
+	_simulation_view_type_none = 0,
+	_simulation_view_type_synchronous_to_remote_authority,
+	_simulation_view_type_synchronous_to_remote_client,
+	_simulation_view_type_distributed_to_remote_authority,
+	_simulation_view_type_distributed_to_remote_client,
+
+	k_simulation_view_type_count
+};
+
 // $TODO: find a home
 enum e_game_playback_type
 {

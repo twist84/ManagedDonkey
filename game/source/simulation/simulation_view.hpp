@@ -1,43 +1,15 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_results.hpp"
 #include "game/players.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/replication/replication_control_view.hpp"
 #include "networking/replication/replication_entity_manager_view.hpp"
 #include "networking/replication/replication_event_manager_view.hpp"
 #include "networking/replication/replication_scheduler.hpp"
-
-enum e_simulation_view_reason
-{
-	_simulation_view_reason_none = 0,
-	_simulation_view_reason_disconnected,
-	_simulation_view_reason_out_of_sync,
-	_simulation_view_reason_failed_to_join,
-	_simulation_view_reason_blocking,
-	_simulation_view_reason_catchup_fail,
-	_simulation_view_reason_ended,
-	_simulation_view_reason_mode_error,
-	_simulation_view_reason_player_error,
-	_simulation_view_reason_replication_entity,
-	_simulation_view_reason_replication_event,
-	_simulation_view_reason_replication_game_results,
-	_simulation_view_reason_no_longer_authority,
-	_simulation_view_reason_signature_invalid,
-
-	k_simulation_view_reason_count
-};
-
-enum e_simulation_view_type
-{
-	_simulation_view_type_none = 0,
-	_simulation_view_type_synchronous_to_remote_authority,
-	_simulation_view_type_synchronous_to_remote_client,
-	_simulation_view_type_distributed_to_remote_authority,
-	_simulation_view_type_distributed_to_remote_client,
-
-	k_simulation_view_type_count
-};
+#include "simulation/simulation_view_telemetry.hpp"
+#include "shell/shell.hpp"
 
 /*
 	built from `c_simulation_view::get_statistics`
@@ -63,24 +35,63 @@ struct s_simulation_view_statistics
 };
 static_assert(sizeof(s_simulation_view_statistics) == 0x24);
 
-struct c_simulation_distributed_view
+struct c_simulation_distributed_view :
+	s_datum_header
 {
-	byte __data0[0x4];
-	c_replication_scheduler m_scheduler;
-	c_replication_entity_manager_view m_entity_manager_view;
-	c_replication_event_manager_view m_event_manager_view;
+	c_replication_scheduler m_replication_scheduler;
+	c_replication_entity_manager_view m_entity_view;
+	c_replication_event_manager_view m_event_view;
 	c_replication_control_view m_control_view;
+	c_simulation_view_telemetry_provider m_telemetry_provider;
+	c_game_results_replicator m_game_results_replicator;
 };
 static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
 
 enum e_simulation_view_establishment_mode;
 enum e_network_synchronous_playback_control;
 struct s_player_action;
-struct s_network_message_synchronous_gamestate;
+
+enum e_simulation_view_synchronous_catchup_stage
+{
+	_synchronous_catchup_not_in_progress = 0,
+	_synchronous_catchup_intiate,
+	_synchronous_catchup_preparing_for_gamestate,
+	_synchronous_catchup_in_progress,
+	_synchronous_catchup_finish,
+	_synchronous_catchup_client_decompressing_gamestate,
+
+	k_synchronous_catchup_stage_count
+};
+
+enum e_synchronous_gamestate_message_type
+{
+	_synchronous_gamestate_message_initiate_join = 0,
+	_synchronous_gamestate_message_gamestate_chunk,
+	_synchronous_gamestate_message_checksums,
+
+	k_number_of_synchronous_gamestate_message_types
+};
+
+struct s_network_message_synchronous_gamestate
+{
+	c_enum<e_synchronous_gamestate_message_type, byte, _synchronous_gamestate_message_initiate_join, k_number_of_synchronous_gamestate_message_types> message_type;
+
+	union
+	{
+		long chunk_offset;
+		long next_update_number;
+		dword compressed_checksum;
+	};
+
+	long chunk_size;
+	dword decompressed_checksum;
+};
+static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
 struct c_simulation_world;
 struct c_network_observer;
-struct c_simulation_view
+struct c_simulation_view :
+	s_datum_header
 {
 	e_simulation_view_type view_type() const;
 	char const* get_view_description() const;
@@ -103,8 +114,7 @@ struct c_simulation_view
 	void synchronous_catchup_terminate();
 	long synchronous_client_get_acknowledged_update_number();
 
-	byte __data0[0x4];
-	c_enum<e_simulation_view_type, long, _simulation_view_type_none, k_simulation_view_type_count> m_view_type;
+	e_simulation_view_type m_view_type;
 	long m_view_datum_index;
 	c_simulation_distributed_view* m_distributed_view;
 	c_simulation_world* m_world;
@@ -114,50 +124,25 @@ struct c_simulation_view
 	c_network_observer* m_observer;
 	long m_observer_channel_index;
 	long m_view_death_reason;
-
-	// enum
-	// 0: _simulation_view_establishment_mode_none
-	// 4: _simulation_view_establishment_mode_joining
 	long m_view_establishment_mode;
-
 	dword m_view_establishment_identifier;
-
-	long m_valid_view_establishment_mode;
-	dword m_valid_view_establishment_identifier;
-
+	long m_remote_establishment_mode;
+	dword m_remote_establishment_identifier;
 	c_network_channel* m_channel;
 	dword m_channel_connection_identifier;
-	c_network_channel_simulation_interface m_simulation_interface;
+	c_network_channel_simulation_interface m_channel_interface;
 	bool m_simulation_active;
-	dword_flags m_acknowledged_player_mask;
-
-	// if (m_view_type == _simulation_view_type_synchronous_to_remote_client)
-	//     m_action_number = -1;
-	//     m_update_number = -1;
-	long m_action_number;
-	long m_update_number;
-
-	// synchronous catchup data
-
-	dword m_synchronous_catchup_attempt_count;
-	dword m_synchronous_catchup_update_number;
-	dword m_synchronous_catchup_finish_time;
-	dword m_synchronous_catchup_unknownA0;
-	dword m_synchronous_catchup_progress;
-
-	// enum
-	// 0: _synchronous_catchup_not_in_progress
-	// 
-	// synchronous_catchup_send_data
-	// 1 -> 3 -> 4 -> 5
-	long m_synchronous_catchup_stage;
-
-	// s_network_message_synchronous_gamestate?
-	byte __dataAC[0x10];
-
-	// if (m_view_type == _simulation_view_type_synchronous_to_remote_authority)
-	//     __unknownBC = 0;
-	dword __unknownBC;
+	dword m_simulation_player_acknowledged_mask;
+	long m_synchronous_received_action_number;
+	long m_synchronous_acknowledged_update_number;
+	long m_synchronous_catchup_attempt_count;
+	long m_synchronous_catchup_start_update;
+	long m_synchronous_catchup_time_of_last_activity;
+	long m_synchronous_catchup_finish_time;
+	long m_synchronous_catchup_buffer_offset;
+	e_simulation_view_synchronous_catchup_stage m_synchronous_catchup_stage;
+	s_network_message_synchronous_gamestate m_checksum_message;
+	long m_synchronous_next_action_number;
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);
 

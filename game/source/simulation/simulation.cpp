@@ -40,7 +40,7 @@ bool __cdecl simulation_aborted()
 {
 	//return INVOKE(0x00440DD0, simulation_aborted);
 
-	return simulation_globals.initialized && simulation_globals.aborted;
+	return simulation_globals.initialized && simulation_globals.simulation_aborted;
 }
 
 void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, s_machine_identifier const* remote_machine_identifier, long remote_machine_index, char const* remote_machine_name)
@@ -153,7 +153,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//		ASSERT(simulation_globals.initialized);
 	//		ASSERT(simulation_globals.world);
 	//
-	//		if (simulation_globals.aborted)
+	//		if (simulation_globals.simulation_aborted)
 	//			ASSERT2("simulation aborted inside game update!");
 	//
 	//		ASSERT(simulation_globals.world->exists());
@@ -285,7 +285,7 @@ void __cdecl simulation_dispose_from_old_map()
 	//	game_results_dispose_from_old_map();
 	//	simulation_gamestate_entities_dispose_from_old_map();
 	//	simulation_globals.recording_film = false;
-	//	simulation_globals.reset_in_progress = false;
+	//	simulation_globals.simulation_reset_in_progress = false;
 	//}
 }
 
@@ -372,7 +372,7 @@ char const* simulation_get_starting_up_description()
 {
 	//return INVOKE(0x004417F0, simulation_get_starting_up_description);
 
-	return simulation_starting_up() ? simulation_globals.status.get_string() : "";
+	return simulation_starting_up() ? simulation_globals.status_buffer : "";
 }
 
 //enum e_simulation_status __cdecl simulation_get_status(void)
@@ -426,7 +426,7 @@ void __cdecl simulation_initialize()
 		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
 		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
 	
-		simulation_globals.reset_in_progress = false;
+		simulation_globals.simulation_reset_in_progress = false;
 		simulation_globals.recording_film = false;
 		simulation_globals.initialized = true;
 	}
@@ -595,7 +595,7 @@ bool __cdecl simulation_starting_up()
 	{
 		ASSERT(simulation_globals.world);
 
-		if (!simulation_globals.aborted && simulation_globals.world->exists())
+		if (!simulation_globals.simulation_aborted && simulation_globals.world->exists())
 			return !simulation_globals.world->is_active();
 	}
 	return false;
