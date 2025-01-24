@@ -47,7 +47,7 @@ static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
 struct c_simulation_watcher;
 struct c_simulation_view;
-struct s_simulation_update_node;
+struct s_simulation_queued_update;
 struct c_simulation_world
 {
 	bool exists() const;
@@ -150,8 +150,8 @@ struct c_simulation_world
 	long m_update_queue_latest_entry_received_update_number;
 	long m_update_queue_length;
 	long m_update_queue_number_of_updates;
-	s_simulation_update_node* m_update_queue_head;
-	s_simulation_update_node* m_update_queue_tail;
+	s_simulation_queued_update* m_update_queue_head;
+	s_simulation_queued_update* m_update_queue_tail;
 	c_simulation_queue m_bookkeeping_simulation_queue;
 	c_simulation_queue m_game_simulation_queue;
 };
