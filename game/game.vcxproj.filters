@@ -4007,6 +4007,9 @@
     <ClInclude Include="source\animations\animation_data.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\simulation\simulation_view_telemetry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

@@ -1443,6 +1443,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\simulation\simulation_queue_events.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
     <ClInclude Include="source\simulation\simulation_view.hpp" />
+    <ClInclude Include="source\simulation\simulation_view_telemetry.hpp" />
     <ClInclude Include="source\simulation\simulation_watcher.hpp" />
     <ClInclude Include="source\simulation\simulation_world.hpp" />
     <ClInclude Include="source\sky_atm\atmosphere.hpp" />
