@@ -260,43 +260,32 @@ struct s_player_control_input_state
 };
 static_assert(sizeof(s_player_control_input_state) == 0xF8);
 
-#pragma pack(push, 4)
 struct s_player_action
 {
 	dword control_context;
 	byte control_context_identifier;
-	byte : 8;
-	byte : 8;
-	byte : 8;
 	dword_flags control_flags;
 	real_euler_angles2d angles;
 	real_point2d throttle;
-	bool map_editor_rotation_valid;
-	bool map_editor_player_locked_for_manipulation;
-	byte : 8;
-	byte : 8;
-	real_euler_angles2d map_editor_rotation;
-	word_flags map_editor_flags;
-	byte : 8;
-	byte : 8;
+	struct
+	{
+		bool rotation_valid;
+		bool player_locked_for_manipulation;
+		real_euler_angles2d rotation_yaw_pitch;
+		word_flags flags;
+	};
 	real trigger;
 	real secondary_trigger;
 	word_flags action_flags;
 	s_unit_weapon_set weapon_set;
 	word grenade_index;
 	word zoom_level;
-	byte : 8;
-	byte : 8;
 	s_player_action_context action_context;
 	s_aim_assist_targeting_result targeting;
 	bool velocity_exceeds_motion_tracker_threshold;
-	byte : 8;
-	byte : 8;
-	byte : 8;
 	qword action_test_flags;
 };
 static_assert(sizeof(s_player_action) == 0x80);
-#pragma pack(pop)
 
 struct s_player_control_globals
 {
@@ -309,7 +298,6 @@ struct s_player_control_globals
 	bool machinima_camera_old_controls;
 	bool machinima_camera_debug;
 	bool initialized;
-	byte __data8AC[0x4];
 };
 static_assert(sizeof(s_player_control_globals) == 0x8B0);
 

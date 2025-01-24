@@ -8,14 +8,10 @@
 long const k_network_link_maximum_game_data_size = 0x5BE;
 long const k_network_link_maximum_voice_data_size = 0x200;
 
-enum e_network_packet_mode
+enum
 {
-	_network_packet_mode_none = -1,
-	_network_packet_mode_channel,
-	_network_packet_mode_out_of_band,
-	_network_packet_mode_voice,
-
-	k_network_packet_mode_count
+	_network_packet_mode_channel = 0,
+	_network_packet_mode_out_of_band
 };
 
 struct c_network_out_of_band_consumer;
@@ -23,20 +19,16 @@ struct c_network_channel;
 struct c_bitstream;
 struct c_network_link
 {
+public:
 	struct s_link_packet
 	{
-		c_enum<e_network_packet_mode, long, _network_packet_mode_none, k_network_packet_mode_count> mode;
-
-		bool __unknown4;
-		byte __pad5[0x3];
-
+		long packet_mode;
+		bool simulate_packet;
 		transport_address address;
-
 		long game_data_length;
-		byte game_data[k_network_link_maximum_game_data_size];
-
+		byte game_data_buffer[k_network_link_maximum_game_data_size];
 		long voice_data_length;
-		byte voice_data[k_network_link_maximum_voice_data_size];
+		byte voice_data_buffer[k_network_link_maximum_voice_data_size];
 	};
 	static_assert(sizeof(s_link_packet) == 0x7E4);
 
@@ -65,13 +57,25 @@ struct c_network_link
 	void send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire);
 	void send_packet_internal(s_link_packet const* packet);
 
+//private:
 	bool m_initialized;
-	long __unknown4;
-	long __unknown8;
+	dword m_next_channel_identifier;
+	long m_next_first_channel_index;
 	transport_endpoint* m_endpoint;
-	c_network_out_of_band_consumer* m_out_of_band;
-	long __unknown14;
-	c_network_time_statistics m_time_statistics[4];
+	c_network_out_of_band_consumer* m_out_of_band_consumer;
+	c_network_time_statistics m_packets_transmitted;
+	c_network_time_statistics m_packets_received;
+	c_network_time_statistics m_upstream_bandwidth;
+	c_network_time_statistics m_downstream_bandwidth;
 };
 static_assert(sizeof(c_network_link) == 0x378);
+static_assert(0x000 == OFFSETOF(c_network_link, m_initialized));
+static_assert(0x004 == OFFSETOF(c_network_link, m_next_channel_identifier));
+static_assert(0x008 == OFFSETOF(c_network_link, m_next_first_channel_index));
+static_assert(0x00C == OFFSETOF(c_network_link, m_endpoint));
+static_assert(0x010 == OFFSETOF(c_network_link, m_out_of_band_consumer));
+static_assert(0x018 == OFFSETOF(c_network_link, m_packets_transmitted));
+static_assert(0x0F0 == OFFSETOF(c_network_link, m_packets_received));
+static_assert(0x1C8 == OFFSETOF(c_network_link, m_upstream_bandwidth));
+static_assert(0x2A0 == OFFSETOF(c_network_link, m_downstream_bandwidth));
 

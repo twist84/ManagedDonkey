@@ -3,25 +3,34 @@
 #include "cseries/cseries.hpp"
 #include "simulation/simulation.hpp"
 
+enum
+{
+	_network_message_type_variable_length_bit = 0,
+	_network_message_type_message_without_body_bit,
+
+	k_network_message_type_flags_count
+};
+
 struct s_network_message_synchronous_update
 {
 	struct simulation_update update;
 	s_simulation_update_metadata metadata;
-	byte __data[0x4];
 };
 static_assert(sizeof(s_network_message_synchronous_update) == 0x1668);
+static_assert(0x0000 == OFFSETOF(s_network_message_synchronous_update, update));
+static_assert(0x1658 == OFFSETOF(s_network_message_synchronous_update, metadata));
 
 enum e_network_synchronous_playback_control
 {
-	_network_synchronous_playback_control_unknown0 = 0, // probably none?
-	_network_synchronous_playback_control_unknown1,
+	_network_synchronous_playback_control_revert = 0,
+	_network_synchronous_playback_control_end_playback,
 
 	k_network_synchronous_playback_control_count
 };
 
 struct s_network_message_synchronous_playback_control
 {
-	c_enum<e_network_synchronous_playback_control, long, _network_synchronous_playback_control_unknown0, k_network_synchronous_playback_control_count> type;
+	e_network_synchronous_playback_control type;
 	long identifier;
 	long update_number;
 };
@@ -30,10 +39,9 @@ static_assert(sizeof(s_network_message_synchronous_playback_control) == 0xC);
 struct s_network_message_synchronous_actions
 {
 	long action_number;
-	long current_action_number;
-	dword user_flags;
-	long : 32;
-	s_player_action actions[4];
+	long current_update_number;
+	dword valid_user_mask;
+	s_player_action user_actions[4];
 };
 static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
 
@@ -42,16 +50,6 @@ struct s_network_message_synchronous_acknowledge
 	long current_update_number;
 };
 static_assert(sizeof(s_network_message_synchronous_acknowledge) == 0x4);
-
-struct s_network_message_synchronous_gamestate
-{
-	byte message_type;
-	dword chunk_offset_next_update_compressed_checksum;
-	long chunk_size;
-	dword decompressed_checksum;
-	__pragma(warning(disable : 4200)) byte chunk_data[];
-};
-static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
 struct c_bitstream;
 

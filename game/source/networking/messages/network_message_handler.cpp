@@ -1444,7 +1444,7 @@ void c_network_message_handler::handle_synchronous_actions(c_network_channel* ch
 	{
 		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
 		{
-			if (!remote_view->handle_synchronous_actions(message->action_number, message->current_action_number, message->user_flags, message->actions))
+			if (!remote_view->handle_synchronous_actions(message->action_number, message->current_update_number, message->valid_user_mask, message->user_actions))
 			{
 				event(_event_warning, "networking:messages:synchronous-actions: failed to handle #%d over channel '%s' with view mode %d/%d",
 					message->action_number,
@@ -1504,7 +1504,7 @@ void c_network_message_handler::handle_synchronous_gamestate(c_network_channel* 
 				{
 					event(_event_warning, "networking:messages:synchronous-gamestate: failed to handle (%d@%d) over channel '%s' with view mode %d/%d",
 						message->chunk_size,
-						message->chunk_offset_next_update_compressed_checksum,
+						message->chunk_offset,
 						channel->get_name(),
 						remote_view->get_view_establishment_mode(),
 						remote_view->get_view_establishment_identifier());

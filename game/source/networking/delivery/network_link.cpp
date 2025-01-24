@@ -52,7 +52,7 @@ bool c_network_link::adjust_packet_size(bool game_data, long voice_data_length, 
 
 void c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_band)
 {
-	m_out_of_band = out_of_band;
+	m_out_of_band_consumer = out_of_band;
 }
 
 long c_network_link::compute_size_on_wire(s_link_packet const* packet) const
@@ -163,10 +163,10 @@ bool c_network_link::initialize_link()
 {
 	return INVOKE_CLASS_MEMBER(0x0043BAB0, c_network_link, initialize_link);
 
-	//m_time_statistics[0].initialize(2000);
-	//m_time_statistics[1].initialize(2000);
-	//m_time_statistics[2].initialize(2000);
-	//m_time_statistics[0].initialize(2000);
+	//m_packets_transmitted.initialize(2000);
+	//m_packets_received.initialize(2000);
+	//m_upstream_bandwidth.initialize(2000);
+	//m_downstream_bandwidth.initialize(2000);
 	//bool result = m_simulation_queues[0].initialize_queue() && m_simulation_queues[1].initialize_queue();
 	//ASSERT(transport_get_packet_overhead(_transport_type_udp) + k_network_link_maximum_game_data_size <= k_network_link_maximum_encoded_packet_size);
 	//ASSERT(transport_get_packet_overhead(_transport_type_vdp) + k_network_link_maximum_game_data_size + k_network_link_maximum_voice_data_size <= k_network_link_maximum_encoded_packet_size);
@@ -184,8 +184,8 @@ void __cdecl c_network_link::initialize_packet(s_link_packet* packet)
 	INVOKE(0x0043BB20, initialize_packet, packet);
 
 	//ASSERT(packet);
-	//packet->mode = _network_packet_mode_none;
-	//packet->__unknown4 = false;
+	//packet->packet_mode = NONE;
+	//packet->simulate_packet = false;
 	//packet->address = {};
 	//packet->game_data_length = 0;
 	//packet->voice_data_length = 0;
