@@ -157,7 +157,7 @@ struct s_cache_file_copy_globals
 	dword total_copy_bytes_transferred;
 	bool nuke_cache_file_success;
 	bool validify_cache_file_success;
-	volatile dword source_file_size;
+	dword volatile source_file_size;
 	long copy_task_id;
 	e_cache_copy_state last_copy_state;
 	e_cache_copy_state copy_state;

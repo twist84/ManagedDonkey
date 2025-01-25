@@ -146,22 +146,23 @@ static_assert(sizeof(s_delete_file_task) == 0x108);
 
 struct s_enumerate_files_task
 {
-	char directory[260];
+	bool find_files_start_called;
+	char directory[256];
 	s_find_file_data* find_file_data;
-	dword find_file_flags;
+	dword find_files_flags;
 	long maximum_count;
-	s_file_reference* references;
-	long* reference_count;
+	s_file_reference* out_references;
+	long* out_reference_count;
 	c_synchronized_long* success;
 };
 static_assert(sizeof(s_enumerate_files_task) == 0x11C);
 
 struct s_read_entire_file_task
 {
-	wchar_t file_path[256];
+	wchar_t path[256];
 	void* buffer;
 	dword buffer_size;
-	dword volatile* size;
+	dword volatile* file_size_result;
 	c_synchronized_long* success;
 	s_file_handle file_handle;
 	dword file_size;
@@ -170,10 +171,10 @@ static_assert(sizeof(s_read_entire_file_task) == 0x218);
 
 struct s_write_buffer_to_file_task
 {
-	wchar_t file_path[256];
+	wchar_t path[256];
 	void const* buffer;
-	dword size;
-	long __unknown208;
+	dword buffer_size;
+	long dst_on_utility_drive;
 	c_synchronized_long* success;
 	s_file_handle file_handle;
 };
@@ -207,19 +208,19 @@ static_assert(sizeof(s_font_loading_task) == 0x4);
 
 struct s_configuration_enumeration_task
 {
-	long enumeration_index;
-	s_find_file_data* find_file_data;
+	long stage;
+	s_find_file_data* enumeration_data;
 };
 static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
 
 union s_async_task;
-struct s_simple_callback_task
+struct s_async_simple_callback_task
 {
 	e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size);
 	byte callback_data[0x11C - sizeof(short)];
 	c_enum<long, short, 0, 0x120> callback_data_size;
 };
-static_assert(sizeof(s_simple_callback_task) == 0x120);
+static_assert(sizeof(s_async_simple_callback_task) == 0x120);
 
 union s_async_task
 {
@@ -237,7 +238,7 @@ union s_async_task
 	s_file_raw_handle_based_task file_raw_handle_based_task;
 	s_font_loading_task font_loading_task;
 	s_configuration_enumeration_task configuration_enumeration_task;
-	s_simple_callback_task simple_callback_task;
+	s_async_simple_callback_task simple_callback_task;
 
 	byte storage[k_maximum_async_task_data_size];
 };
