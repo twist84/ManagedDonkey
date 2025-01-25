@@ -4,7 +4,7 @@
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
 
-REFERENCE_DECLARE(0x02446088, progress_globals_definition, progress_globals);
+REFERENCE_DECLARE(0x02446088, s_progress_globals, progress_globals);
 
 void __cdecl progress_disable_callbacks(bool disable_callbacks)
 {
@@ -17,7 +17,7 @@ void __cdecl progress_done()
 {
 	INVOKE(0x005F0820, progress_done);
 
-	//if (progress_globals.__unknown28)
+	//if (progress_globals.currently_valid)
 	//{
 	//	if (!progress_globals.disable_callbacks)
 	//	{
@@ -31,7 +31,7 @@ void __cdecl progress_done()
 	//		}
 	//	}
 	//
-	//	progress_globals.__unknown28 = false;
+	//	progress_globals.currently_valid = false;
 	//}
 	//event(_event_message, "progress: %s, total time: %.2f seconds",
 	//	progress_globals.description, ((system_milliseconds() - progress_globals.start_time) / 1000.0f));
@@ -42,11 +42,11 @@ void __cdecl progress_new(char const* description)
 	INVOKE(0x005F0880, progress_new, description);
 
 	//progress_done();
-	//progress_globals.__unknown28 = true;
+	//progress_globals.currently_valid = true;
 	//progress_globals.start_time = system_milliseconds();
 	//csstrnzcpy(progress_globals.description, description, sizeof(progress_globals.description));
-	//progress_globals.update_progress = -1;
-	//progress_globals.update_time = 0;
+	//progress_globals.last_progress = -1;
+	//progress_globals.last_milliseconds = 0;
 	//if (!progress_globals.disable_callbacks)
 	//{
 	//	if (progress_globals.custom_callbacks.progress_new_proc)
@@ -100,32 +100,32 @@ void __cdecl progress_set_default_callbacks(progress_callbacks const* callbacks)
 	//}
 }
 
-long __cdecl progress_update(long index, long count)
+long __cdecl progress_update(long current_amount, long total_amount)
 {
-	return INVOKE(0x005F0990, progress_update, index, count);
+	return INVOKE(0x005F0990, progress_update, current_amount, total_amount);
 
-	//return progress_update_with_description(index, count, NULL);
+	//return progress_update_with_description(current_amount, total_amount, NULL);
 }
 
-long __cdecl progress_update_with_description(long index, long count, char const* description)
+long __cdecl progress_update_with_description(long current_amount, long total_amount, char const* optional_description)
 {
-	return INVOKE(0x005F09B0, progress_update_with_description, index, count, description);
+	return INVOKE(0x005F09B0, progress_update_with_description, current_amount, total_amount, optional_description);
 
 	//dword time = system_milliseconds();
-	//long progress = 100 * MIN(MAX(index, 0), count) / MAX(count, 1);
-	//if (progress_globals.__unknown28 && (shell_tool_type() != _shell_tool_command_line || progress >= progress_globals.update_progress + 20 || time - progress_globals.update_time > 500))
+	//long progress = 100 * MIN(MAX(current_amount, 0), total_amount) / MAX(total_amount, 1);
+	//if (progress_globals.currently_valid && (shell_tool_type() != _shell_tool_command_line || progress >= progress_globals.last_progress + 20 || time - progress_globals.last_milliseconds > 500))
 	//{
-	//	progress_globals.update_progress = progress;
-	//	progress_globals.update_time = time;
+	//	progress_globals.last_progress = progress;
+	//	progress_globals.last_milliseconds = time;
 	//	if (!progress_globals.disable_callbacks)
 	//	{
 	//		if (progress_globals.custom_callbacks.progress_update_proc)
 	//		{
-	//			progress_globals.custom_callbacks.progress_update_proc(progress_globals.description, description, progress, progress_globals.custom_callbacks.progress_data);
+	//			progress_globals.custom_callbacks.progress_update_proc(progress_globals.description, optional_description, progress, progress_globals.custom_callbacks.progress_data);
 	//		}
 	//		else if (progress_globals.default_callbacks.progress_update_proc)
 	//		{
-	//			progress_globals.default_callbacks.progress_update_proc(progress_globals.description, description, progress, progress_globals.default_callbacks.progress_data);
+	//			progress_globals.default_callbacks.progress_update_proc(progress_globals.description, optional_description, progress, progress_globals.default_callbacks.progress_data);
 	//		}
 	//	}
 	//}
