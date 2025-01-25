@@ -150,8 +150,8 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 	c_simple_font_screen_display screen_display{};
 	if (screen_display.open_session(1.25f))
 	{
-		long text_x_offset = (200 - screen_display.m_x) / screen_display.m_column_width;
-		long text_y_offset = (525 - screen_display.m_y) / screen_display.m_row_height;
+		long text_x_offset = (200 - screen_display.m_base_x) / screen_display.m_char_width;
+		long text_y_offset = (525 - screen_display.m_base_y) / screen_display.m_char_height;
 
 		char const* weapon_state_string = NULL;
 
