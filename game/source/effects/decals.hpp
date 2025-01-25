@@ -47,7 +47,22 @@ public:
 	void __thiscall render(long pass);
 	static void __cdecl render_all(long pass);
 
-	byte __data[0x12E];
+	long m_definition_block_index;
+	long m_parent_system_index;
+	long m_next_sibling_index;
+	long m_vertex_allocation_index;
+	long m_index_allocation_index;
+	byte __data18[0xC];
+	word m_vertex_count;
+	word m_index_count;
+	long m_flags;
+	real m_age;
+	real m_lifespan;
+	real m_decay_period;
+	real_vector2d m_texture_scale;
+	real_point2d m_sprite_corner;
+	real_vector2d m_sprite_size;
+	rasterizer_vertex_world m_floating_vertices[4];
 };
 static_assert(sizeof(c_decal) == 0x130);
 
