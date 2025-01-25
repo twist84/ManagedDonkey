@@ -1,6 +1,7 @@
 #include "units/units.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/players.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"

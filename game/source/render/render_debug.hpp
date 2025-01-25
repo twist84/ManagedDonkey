@@ -1,12 +1,25 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "rasterizer/rasterizer.hpp"
 
 #define CIRCLE_DIVISIONS 16
 
 struct c_render_debug_line_drawer
 {
+public:
+	enum
+	{
+		_line_type_none = 0,
+		_line_type_2d,
+		_line_type_3d
+	};
+
+	struct s_internal_vertex
+	{
+		real_point3d position;
+		dword color;
+	};
+
 private:
 	static long const k_internal_queue_size = 512;
 
@@ -23,13 +36,13 @@ public:
 	void add_line_3d_unclipped(real_point3d const* p0, real_point3d const* p1);
 
 protected:
-	long type;
-	real_argb_color real_color;
-	argb_color color;
-	rasterizer_vertex_debug vertices[k_internal_queue_size];
-	long vertex_count;
-	real vertex_scale_x;
-	real vertex_scale_y;
+	long m_line_type;
+	real_argb_color m_color_argb;
+	dword m_color;
+	s_internal_vertex m_internal_queue[k_internal_queue_size];
+	long m_internal_queue_vertex_count;
+	real m_oo_screen_width;
+	real m_oo_screen_height;
 };
 static_assert(sizeof(c_render_debug_line_drawer) == 0x2024);
 

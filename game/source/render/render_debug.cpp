@@ -311,14 +311,14 @@ void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const*
 void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color)
 {
 	rasterizer_vertex_debug vertex_debug[3]{};
-	vertex_debug[0].point = *point0;
-	vertex_debug[1].point = *point1;
-	vertex_debug[2].point = *point2;
+	vertex_debug[0].position = *point0;
+	vertex_debug[1].position = *point1;
+	vertex_debug[2].position = *point2;
 
 	dword _color = real_argb_color_to_pixel32(color);
-	vertex_debug[0].color.value = _color;
-	vertex_debug[1].color.value = _color;
-	vertex_debug[2].color.value = _color;
+	vertex_debug[0].color = _color;
+	vertex_debug[1].color = _color;
+	vertex_debug[2].color = _color;
 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug) / 3, c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
@@ -1772,10 +1772,10 @@ c_render_debug_line_drawer::c_render_debug_line_drawer()
 	rectangle2d fullscreen_render_pixel_bounds{};
 	c_rasterizer::get_fullscreen_render_pixel_bounds(&fullscreen_render_pixel_bounds);
 
-	vertex_scale_x = 1.0f / (fullscreen_render_pixel_bounds.x1 - fullscreen_render_pixel_bounds.x0);
-	vertex_scale_y = 1.0f / (fullscreen_render_pixel_bounds.y1 - fullscreen_render_pixel_bounds.y0);
-	vertex_count = 0;
-	type = 0;
+	m_oo_screen_width = 1.0f / (fullscreen_render_pixel_bounds.x1 - fullscreen_render_pixel_bounds.x0);
+	m_oo_screen_height = 1.0f / (fullscreen_render_pixel_bounds.y1 - fullscreen_render_pixel_bounds.y0);
+	m_internal_queue_vertex_count = 0;
+	m_line_type = _line_type_none;
 	set_color(global_real_argb_white);
 }
 
@@ -1786,17 +1786,17 @@ c_render_debug_line_drawer::~c_render_debug_line_drawer()
 
 void c_render_debug_line_drawer::flush()
 {
-	if (render_debug_draw_immediately(&real_color))
+	if (render_debug_draw_immediately(&m_color_argb))
 	{
-		if (vertex_count > 0)
+		if (m_internal_queue_vertex_count > 0)
 		{
-			switch (type)
+			switch (m_line_type)
 			{
-			case 1:
-				c_rasterizer::draw_debug_line_list2d_explicit(vertices, vertex_count / 2);
+			case _line_type_2d:
+				c_rasterizer::draw_debug_line_list2d_explicit((rasterizer_vertex_debug*)m_internal_queue, m_internal_queue_vertex_count / 2);
 				break;
-			case 2:
-				c_rasterizer::draw_debug_line_list_explicit(vertices, vertex_count / 2);
+			case _line_type_3d:
+				c_rasterizer::draw_debug_line_list_explicit((rasterizer_vertex_debug*)m_internal_queue, m_internal_queue_vertex_count / 2);
 				break;
 			}
 		}
@@ -1806,54 +1806,54 @@ void c_render_debug_line_drawer::flush()
 		event(_event_error, "can't use debug_line_drawer w/o immediate debug drawing");
 	}
 
-	vertex_count = 0;
+	m_internal_queue_vertex_count = 0;
 }
 
 void c_render_debug_line_drawer::set_color(real_argb_color const* color_)
 {
-	color_degamma(&color_->rgb, reinterpret_cast<real_linear_rgb_color*>(&real_color.rgb));
-	real_color.alpha = color_->alpha;
-	color.value = real_argb_color_to_pixel32(&real_color);
+	color_degamma(&color_->rgb, reinterpret_cast<real_linear_rgb_color*>(&m_color_argb.rgb));
+	m_color_argb.alpha = color_->alpha;
+	m_color = real_argb_color_to_pixel32(&m_color_argb);
 }
 
 void c_render_debug_line_drawer::add_line_2d(real_point2d const* p0, real_point2d const* p1)
 {
-	if (type != 1 || vertex_count + 2 >= 512)
+	if (m_line_type != _line_type_2d || m_internal_queue_vertex_count + 2 >= 512)
 	{
 		flush();
-		type = 1;
+		m_line_type = _line_type_2d;
 	}
 
-	rasterizer_vertex_debug* vertex = vertices + vertex_count;
-	vertex_count += 2;
+	s_internal_vertex* vertex = m_internal_queue + m_internal_queue_vertex_count;
+	m_internal_queue_vertex_count += 2;
 
-	vertex[0].point.x = ((p0->x * vertex_scale_x) * 2.0f) - 1.0f;
-	vertex[0].point.y = -(((p0->y * vertex_scale_y) * 2.0f) - 1.0f);
-	vertex[0].point.z = 0.0f;
-	vertex[0].color = color;
+	vertex[0].position.x = ((p0->x * m_oo_screen_width) * 2.0f) - 1.0f;
+	vertex[0].position.y = -(((p0->y * m_oo_screen_height) * 2.0f) - 1.0f);
+	vertex[0].position.z = 0.0f;
+	vertex[0].color = m_color;
 
-	vertex[1].point.x = ((p1->x * vertex_scale_x) * 2.0f) - 1.0f;
-	vertex[1].point.y = -(((p1->y * vertex_scale_y) * 2.0f) - 1.0f);
-	vertex[1].point.z = 0.0f;
-	vertex[1].color = color;
+	vertex[1].position.x = ((p1->x * m_oo_screen_width) * 2.0f) - 1.0f;
+	vertex[1].position.y = -(((p1->y * m_oo_screen_height) * 2.0f) - 1.0f);
+	vertex[1].position.z = 0.0f;
+	vertex[1].color = m_color;
 }
 
 void c_render_debug_line_drawer::add_line_3d(real_point3d const* p0, real_point3d const* p1)
 {
-	if (type != 2 || vertex_count + 2 >= 512)
+	if (m_line_type != _line_type_3d || m_internal_queue_vertex_count + 2 >= 512)
 	{
 		flush();
-		type = 2;
+		m_line_type = _line_type_3d;
 	}
 
-	rasterizer_vertex_debug* vertex = vertices + vertex_count;
-	vertex_count += 2;
+	s_internal_vertex* vertex = m_internal_queue + m_internal_queue_vertex_count;
+	m_internal_queue_vertex_count += 2;
 
-	vertex[0].point = *p0;
-	vertex[0].color = color;
+	vertex[0].position = *p0;
+	vertex[0].color = m_color;
 
-	vertex[1].point = *p1;
-	vertex[1].color = color;
+	vertex[1].position = *p1;
+	vertex[1].color = m_color;
 }
 
 void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, real_point3d const* p1)

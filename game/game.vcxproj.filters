@@ -4010,6 +4010,9 @@
     <ClInclude Include="source\simulation\simulation_view_telemetry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_vertex_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

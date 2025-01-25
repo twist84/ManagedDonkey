@@ -4,6 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "rasterizer/rasterizer_shader_definitions.hpp"
 #include "rasterizer/rasterizer_text.hpp"
+#include "rasterizer/rasterizer_vertex_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum _D3DRENDERSTATETYPE;
@@ -40,39 +41,6 @@ struct c_rasterizer_index_buffer
 	//	D3DPT_FORCE_DWORD
 	//};
 };
-
-struct rasterizer_vertex_debug
-{
-	real_point3d point;
-	argb_color color;
-};
-static_assert(sizeof(rasterizer_vertex_debug) == 0x10);
-
-struct rasterizer_vertex_screen
-{
-	real_point2d position;
-	real_point2d texcoord;
-	argb_color color;
-};
-static_assert(sizeof(rasterizer_vertex_screen) == 0x14);
-
-struct rasterizer_vertex_transparent
-{
-	real_point3d position;
-	real_point2d texcoord;
-	dword color;
-};
-static_assert(sizeof(rasterizer_vertex_transparent) == 0x18);
-
-struct rasterizer_vertex_world
-{
-	real_point3d position;
-	real_point2d texcoord;
-	real_vector3d normal;
-	real_vector3d tangent;
-	real_vector3d binormal;
-};
-static_assert(sizeof(rasterizer_vertex_world) == 0x38);
 
 struct s_rasterizer_render_globals
 {

@@ -1181,6 +1181,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_stipple.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_vertex_definitions.hpp" />
     <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
     <ClInclude Include="source\render\render_sky.hpp" />

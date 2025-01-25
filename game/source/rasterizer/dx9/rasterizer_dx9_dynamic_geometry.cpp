@@ -42,10 +42,10 @@ void __cdecl c_rasterizer::draw_debug_line(real_point3d const& p0, real_point3d 
 	//INVOKE(0x00A45830, draw_debug_line, p0, p1, color0, color1);
 
 	rasterizer_vertex_debug point_list[2]{};
-	point_list[0].point = p0;
-	point_list[0].color.value = color0;
-	point_list[1].point = p1;
-	point_list[1].color.value = color1;
+	point_list[0].position = p0;
+	point_list[0].color = color0;
+	point_list[1].position = p1;
+	point_list[1].color = color1;
 
 	if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_shader_debug))
 	{
@@ -138,27 +138,27 @@ void __cdecl c_rasterizer::draw_fullscreen_quad(int width, int height)
 
 	triangle_fan[0].position.x = x - 1.0f;
 	triangle_fan[0].position.y = y + 1.0f;
-	triangle_fan[0].texcoord.x = 0.0f;
-	triangle_fan[0].texcoord.y = 0.0f;
-	triangle_fan[0].color.value = 0xFFFFFFFF;
+	triangle_fan[0].texcoord.i = 0.0f;
+	triangle_fan[0].texcoord.j = 0.0f;
+	triangle_fan[0].color = 0xFFFFFFFF;
 
 	triangle_fan[1].position.x = x + 1.0f;
 	triangle_fan[1].position.y = y + 1.0f;
-	triangle_fan[1].texcoord.x = 1.0f;
-	triangle_fan[1].texcoord.y = 0.0f;
-	triangle_fan[1].color.value = 0xFFFFFFFF;
+	triangle_fan[1].texcoord.i = 1.0f;
+	triangle_fan[1].texcoord.j = 0.0f;
+	triangle_fan[1].color = 0xFFFFFFFF;
 
 	triangle_fan[2].position.x = x - 1.0f;
 	triangle_fan[2].position.y = y - 1.0f;
-	triangle_fan[2].texcoord.x = 0.0f;
-	triangle_fan[2].texcoord.y = 1.0f;
-	triangle_fan[2].color.value = 0xFFFFFFFF;
+	triangle_fan[2].texcoord.i = 0.0f;
+	triangle_fan[2].texcoord.j = 1.0f;
+	triangle_fan[2].color = 0xFFFFFFFF;
 
 	triangle_fan[3].position.x = x + 1.0f;
 	triangle_fan[3].position.y = y - 1.0f;
-	triangle_fan[3].texcoord.x = 1.0f;
-	triangle_fan[3].texcoord.y = 1.0f;
-	triangle_fan[3].color.value = 0xFFFFFFFF;
+	triangle_fan[3].texcoord.i = 1.0f;
+	triangle_fan[3].texcoord.j = 1.0f;
+	triangle_fan[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_none);
 	set_indices(NULL);
@@ -174,27 +174,27 @@ void __cdecl draw_tesselated_quad()
 
 	triangle_fan[0].position.x = -1.0f;
 	triangle_fan[0].position.y = 0.0f;
-	triangle_fan[0].texcoord.x = 1.0f;
-	triangle_fan[0].texcoord.y = 0.0f;
-	triangle_fan[0].color.value = 0xFFFFFFFF;
+	triangle_fan[0].texcoord.i = 1.0f;
+	triangle_fan[0].texcoord.j = 0.0f;
+	triangle_fan[0].color = 0xFFFFFFFF;
 
 	triangle_fan[1].position.x = 1.0f;
 	triangle_fan[1].position.y = 1.0f;
-	triangle_fan[1].texcoord.x = 1.0f;
-	triangle_fan[1].texcoord.y = 0.0f;
-	triangle_fan[1].color.value = 0xFFFFFFFF;
+	triangle_fan[1].texcoord.i = 1.0f;
+	triangle_fan[1].texcoord.j = 0.0f;
+	triangle_fan[1].color = 0xFFFFFFFF;
 
 	triangle_fan[2].position.x = -1.0f;
 	triangle_fan[2].position.y = -1.0f;
-	triangle_fan[2].texcoord.x = 0.0f;
-	triangle_fan[2].texcoord.y = 1.0f;
-	triangle_fan[2].color.value = 0xFFFFFFFF;
+	triangle_fan[2].texcoord.i = 0.0f;
+	triangle_fan[2].texcoord.j = 1.0f;
+	triangle_fan[2].color = 0xFFFFFFFF;
 
 	triangle_fan[3].position.x = 1.0f;
 	triangle_fan[3].position.y = -1.0f;
-	triangle_fan[3].texcoord.x = 1.0f;
-	triangle_fan[3].texcoord.y = 1.0f;
-	triangle_fan[3].color.value = 0xFFFFFFFF;
+	triangle_fan[3].texcoord.i = 1.0f;
+	triangle_fan[3].texcoord.j = 1.0f;
+	triangle_fan[3].color = 0xFFFFFFFF;
 
 	c_rasterizer::set_cull_mode(c_rasterizer::e_cull_mode::_cull_mode_none);
 	c_rasterizer::set_indices(NULL);
@@ -213,27 +213,27 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 
 	triangle_fan[0].position.x = x - 1.0f;
 	triangle_fan[0].position.y = y + 1.0f;
-	triangle_fan[0].texcoord.x = bounds->x0;
-	triangle_fan[0].texcoord.y = bounds->y0;
-	triangle_fan[0].color.value = 0xFFFFFFFF;
+	triangle_fan[0].texcoord.i = bounds->x0;
+	triangle_fan[0].texcoord.j = bounds->y0;
+	triangle_fan[0].color = 0xFFFFFFFF;
 
 	triangle_fan[1].position.x = x + 1.0f;
 	triangle_fan[1].position.y = y + 1.0f;
-	triangle_fan[1].texcoord.y = bounds->y0;
-	triangle_fan[1].texcoord.x = bounds->x1;
-	triangle_fan[1].color.value = 0xFFFFFFFF;
+	triangle_fan[1].texcoord.j = bounds->y0;
+	triangle_fan[1].texcoord.i = bounds->x1;
+	triangle_fan[1].color = 0xFFFFFFFF;
 
 	triangle_fan[2].position.x = x - 1.0f;
 	triangle_fan[2].position.y = y - 1.0f;
-	triangle_fan[2].texcoord.x = bounds->x0;
-	triangle_fan[2].texcoord.y = bounds->y1;
-	triangle_fan[2].color.value = 0xFFFFFFFF;
+	triangle_fan[2].texcoord.i = bounds->x0;
+	triangle_fan[2].texcoord.j = bounds->y1;
+	triangle_fan[2].color = 0xFFFFFFFF;
 
 	triangle_fan[3].position.x = x + 1.0f;
 	triangle_fan[3].position.y = y - 1.0f;
-	triangle_fan[3].texcoord.x = bounds->x1;
-	triangle_fan[3].texcoord.y = bounds->y1;
-	triangle_fan[3].color.value = 0xFFFFFFFF;
+	triangle_fan[3].texcoord.i = bounds->x1;
+	triangle_fan[3].texcoord.j = bounds->y1;
+	triangle_fan[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_none);
 	set_indices(NULL);
@@ -252,27 +252,27 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(real a1, real a2, real a3, 
 
 	triangle_fan[0].position.x = a1;
 	triangle_fan[0].position.y = a2;
-	triangle_fan[0].texcoord.x = 0.0f;
-	triangle_fan[0].texcoord.y = 1.0f;
-	triangle_fan[0].color.value = 0xFFFFFFFF;
+	triangle_fan[0].texcoord.i = 0.0f;
+	triangle_fan[0].texcoord.j = 1.0f;
+	triangle_fan[0].color = 0xFFFFFFFF;
 
 	triangle_fan[1].position.x = a3;
 	triangle_fan[1].position.y = a2;
-	triangle_fan[1].texcoord.x = 1.0f;
-	triangle_fan[1].texcoord.y = 1.0f;
-	triangle_fan[1].color.value = 0xFFFFFFFF;
+	triangle_fan[1].texcoord.i = 1.0f;
+	triangle_fan[1].texcoord.j = 1.0f;
+	triangle_fan[1].color = 0xFFFFFFFF;
 
 	triangle_fan[2].position.x = a1;
 	triangle_fan[2].position.y = a4;
-	triangle_fan[2].texcoord.x = 0.0f;
-	triangle_fan[2].texcoord.y = 0.0f;
-	triangle_fan[2].color.value = 0xFFFFFFFF;
+	triangle_fan[2].texcoord.i = 0.0f;
+	triangle_fan[2].texcoord.j = 0.0f;
+	triangle_fan[2].color = 0xFFFFFFFF;
 
 	triangle_fan[3].position.x = a3;
 	triangle_fan[3].position.y = a4;
-	triangle_fan[3].texcoord.x = 1.0f;
-	triangle_fan[3].texcoord.y = 0.0f;
-	triangle_fan[3].color.value = 0xFFFFFFFF;
+	triangle_fan[3].texcoord.i = 1.0f;
+	triangle_fan[3].texcoord.j = 0.0f;
+	triangle_fan[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_none);
 	set_indices(NULL);
