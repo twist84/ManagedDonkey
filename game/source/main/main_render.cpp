@@ -163,7 +163,7 @@ void __cdecl main_render()
 	//INVOKE(0x006042C0, main_render);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-	REFERENCE_DECLARE(0x02446778, long, dword_2446778);
+	REFERENCE_DECLARE(0x02446778, long, frames_of_consecutive_delay);
 	
 	PROFILER(main_render)
 	{
@@ -174,16 +174,16 @@ void __cdecl main_render()
 			rasterizer_lag_timing_mark_render_start();
 			main_render_process_messages();
 	
-			if (dword_2446778 > 50)
+			if (frames_of_consecutive_delay > 50)
 			{
 				should_draw = false;
-				dword_2446778 = 0;
+				frames_of_consecutive_delay = 0;
 			}
 	
 			if (rasterizer_lag_timing_get_gamestate_delay() > 10)
-				dword_2446778++;
+				frames_of_consecutive_delay++;
 			else
-				dword_2446778 = 0;
+				frames_of_consecutive_delay = 0;
 	
 			if (should_draw)
 			{
