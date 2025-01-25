@@ -9,8 +9,8 @@ enum e_optional_cache_user
 
 struct s_optional_cache_user_memory_configuration
 {
-	long __unknown0;
-	long __unknown4;
+	long maximum_priority;
+	dword maximum_size;
 };
 static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
 

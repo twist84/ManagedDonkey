@@ -79,7 +79,7 @@ struct s_cached_map_file
 	dword __unknown4;
 
 	s_cache_file_header header;
-	s_indirect_file indirect_file;
+	s_indirect_file bulk_read_handle;
 	s_file_handle overlapped_handle;
 };
 static_assert(sizeof(s_cached_map_file) == 0x33A0);
@@ -115,7 +115,7 @@ enum e_cache_copy_state
 	_cache_copy_state_verify_get_dvd_file_size,
 	_cache_copy_state_find_free_map_and_clear_header,
 	_cache_copy_state_verify_find_free_map_and_clear_header,
-	_cache_copy_state_flush_cleared_header,
+	_cache_copy_state_flush_clear_header,
 	_cache_copy_state_start_copying_map_data,
 	_cache_copy_state_copy_map_data,
 	_cache_copy_state_verify_copy_map_data,
@@ -133,65 +133,48 @@ enum e_cache_copy_state
 	k_number_of_cache_copy_states
 };
 
-struct s_cache_file_load_action
+enum e_cache_copy_finish_reason
+{
+	_cache_copy_finish_reason_invalid = 0,
+	_cache_copy_finish_reason_copied,
+	_cache_copy_finish_reason_canceled,
+	_cache_copy_finish_reason_failed
+};
+
+struct s_cache_copy_request
 {
 	c_static_string<k_tag_long_string_length> map_name;
 	e_cache_file_load_action action;
 };
-static_assert(sizeof(s_cache_file_load_action) == 0x104);
+static_assert(sizeof(s_cache_copy_request) == 0x104);
 
 struct s_cache_file_copy_globals
 {
-	s_cache_file_header header;
-
-	c_synchronized_long copy_size;
-	dword copy_time;
-
-	// some size
-	dword __unknown3398;
-
+	s_cache_file_header copy_file_header;
+	c_synchronized_long copy_bytes_transferred;
+	dword copy_start_time_ms;
+	dword intended_copy_bytes_transferred;
 	dword total_copy_bytes_transferred;
-
-	bool async_write_position_succeeded;
-	bool async_validify_file_succeeded;
-
-	dword source_file_size;
-
+	bool nuke_cache_file_success;
+	bool validify_cache_file_success;
+	volatile dword source_file_size;
 	long copy_task_id;
-
-	c_enum<e_cache_copy_state, long, _cache_copy_state_idle, k_number_of_cache_copy_states> valid_copy_state;
-	c_enum<e_cache_copy_state, long, _cache_copy_state_idle, k_number_of_cache_copy_states> copy_state;
-
-	// 0: _cache_copy_state_idle
-	// 1: _cache_copy_state_mark_file_as_loaded
-	// 2: _cache_copy_state_halt
-	// 3: also _cache_copy_state_halt?
-	long __unknown33B4;
-
+	e_cache_copy_state last_copy_state;
+	e_cache_copy_state copy_state;
+	e_cache_copy_finish_reason finish_reason;
 	c_synchronized_long copy_task_is_done;
-
-	e_map_file_index map_file_index;
+	e_map_file_index copying_to_map_file_index;
 	s_file_handle source_file_handle;
-
-	// cache_files_copy_pause
-	// cache_files_copy_resume
 	c_reference_count<long> reference_count;
-
-	c_synchronized_long copy_task_abort_signal;
-	bool copy_task_decompression_success;
-
-	c_basic_buffer<void> buffer;
-
-	bool copy_paused;
-
-	c_static_string<k_tag_long_string_length> source_file;
-
-	byte __pad34D9[3];
-
-	s_cache_file_load_action current_load_action;
-	s_cache_file_load_action pending_load_action;
-
-	dword checksum;
+	c_synchronized_long copy_abort_signal;
+	bool copy_finished_success;
+	void* buffer;
+	long buffer_size;
+	bool release_buffer;
+	char copying_map_file_path[k_tag_long_string_length];
+	s_cache_copy_request current_request;
+	s_cache_copy_request pending_request;
+	dword running_realtime_checksum;
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
@@ -214,17 +197,15 @@ struct c_cache_file_copy_fake_decompressor :
 	void setup(s_file_handle file_handle, dword offset, dword checksum, c_basic_buffer<void> buffer);
 	void teardown();
 
-	s_file_handle m_file_handle;
-	c_synchronized_long m_file_offset;
-	c_synchronized_long m_done;
-	dword m_checksum;
-	bool __unknown14;
+	s_file_handle m_output_file;
+	c_synchronized_long m_copy_bytes_progress;
+	c_synchronized_long m_copy_in_progress;
+	dword m_running_checksum;
+	bool m_running_success;
 	bool m_overall_copy_in_progress;
-	byte __unknown16;
-	byte __unknown17;
 	s_simple_read_file_ex_overlapped_result m_overlapped_result;
 	byte m_overlapped[0x14]; // OVERLAPPED
-	c_basic_buffer<void> m_buffer;
+	c_basic_buffer<void> m_copy_buffer;
 };
 static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
 

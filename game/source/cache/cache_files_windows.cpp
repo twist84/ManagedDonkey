@@ -79,388 +79,393 @@ bool __cdecl cache_file_copy_do_action()
 {
 	return INVOKE(0x005A97C0, cache_file_copy_do_action);
 
-	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
-	//e_async_priority priority = k_action_to_async_priority[cache_file_copy_globals.current_load_action.action];
-	//
-	//bool valid = true;
-	//switch (copy_state)
-	//{
-	//case _cache_copy_state_idle:
-	//{
-	//	if (!cache_file_copy_globals.pending_load_action.map_name.is_empty() &&
-	//		!cache_files_has_map_terminal_failure(cache_file_copy_globals.pending_load_action.map_name.get_string()) &&
-	//		cache_files_get_file_status(cache_file_copy_globals.pending_load_action.map_name.get_string()) != 3)
-	//	{
-	//		canonicalize_map_path(cache_file_copy_globals.pending_load_action.map_name.get_string(), &cache_file_copy_globals.source_file);
-	//		cache_file_copy_globals.current_load_action = cache_file_copy_globals.pending_load_action;
-	//		copy_state = e_cache_copy_state(_cache_copy_state_create_source_file - levels_path_is_dlc(cache_file_copy_globals.source_file.get_string()));
-	//	}
-	//
-	//	csmemset(&cache_file_copy_globals.pending_load_action, 0, sizeof(s_cache_file_load_action));
-	//	cache_file_copy_globals.__unknown33B4 = 0;
-	//}
-	//break;
-	//case _cache_copy_state_mount_dlc:
-	//{
-	//	levels_open_dlc(cache_file_copy_globals.source_file.get_string(), 1);
-	//	copy_state = _cache_copy_state_create_source_file;
-	//}
-	//break;
-	//case _cache_copy_state_create_source_file:
-	//{
-	//	wchar_t source_file[256]{};
-	//	ascii_string_to_wchar_string(cache_file_copy_globals.source_file.get_string(), source_file, NUMBEROF(source_file), NULL);
-	//
-	//	cache_file_copy_globals.copy_task_id = async_create_file(
-	//		source_file,
-	//		FLAG(0),
-	//		0,
-	//		FLAG(3),
-	//		_async_category_background_copy,
-	//		priority,
-	//		&cache_file_copy_globals.source_file_handle,
-	//		&cache_file_copy_globals.copy_task_is_done);
-	//	copy_state = _cache_copy_state_verify_create_source_file;
-	//}
-	//break;
-	//case _cache_copy_state_verify_create_source_file:
-	//{
-	//	valid = file_handle_is_valid(cache_file_copy_globals.source_file_handle);
-	//	copy_state = _cache_copy_state_read_dvd_header;
-	//}
-	//break;
-	//case _cache_copy_state_read_dvd_header:
-	//{
-	//	csmemset(&cache_file_copy_globals.header, 0, sizeof(s_cache_file_header));
-	//	cache_file_copy_globals.copy_task_id = async_read_position_overlapped_ex(
-	//		cache_file_copy_globals.source_file_handle,
-	//		&cache_file_copy_globals,
-	//		sizeof(s_cache_file_header),
-	//		0,
-	//		_async_category_background_copy,
-	//		priority,
-	//		&cache_file_copy_globals.copy_size,
-	//		&cache_file_copy_globals.copy_task_is_done,
-	//		false);
-	//	copy_state = e_cache_copy_state((cache_file_copy_globals.copy_task_id != NONE) + _cache_copy_state_read_dvd_header);
-	//}
-	//break;
-	//case _cache_copy_state_verify_read_dvd_header:
-	//{
-	//	get_current_file_time(&cache_file_copy_globals.header.modification_date);
-	//	cache_file_copy_globals.header.source_file = cache_file_copy_globals.source_file;
-	//	if (cache_file_copy_globals.copy_size.peek() == sizeof(s_cache_file_header) &&
-	//		cache_file_header_verify(&cache_file_copy_globals.header, cache_file_copy_globals.source_file.get_string(), false))
-	//	{
-	//		dword shared_files_flags = 0;
-	//		valid = cached_map_file_dependencies_loaded(&cache_file_copy_globals.header, &shared_files_flags);
-	//	}
-	//	else
-	//	{
-	//		valid = false;
-	//	}
-	//
-	//	copy_state = _cache_copy_state_get_dvd_file_size;
-	//}
-	//break;
-	//case _cache_copy_state_get_dvd_file_size:
-	//{
-	//	cache_file_copy_globals.copy_task_id = async_get_file_size(
-	//		cache_file_copy_globals.source_file_handle,
-	//		&cache_file_copy_globals.source_file_size,
-	//		_async_category_background_copy,
-	//		priority,
-	//		&cache_file_copy_globals.copy_task_is_done);
-	//
-	//	copy_state = _cache_copy_state_verify_get_dvd_file_size;
-	//}
-	//break;
-	//case _cache_copy_state_verify_get_dvd_file_size:
-	//{
-	//	if (cache_file_copy_globals.source_file_size != NONE && cache_file_copy_globals.source_file_size >= sizeof(s_cache_file_header))
-	//	{
-	//		valid = true;
-	//	}
-	//	else
-	//	{
-	//		valid = false;
-	//	}
-	//
-	//	cache_file_copy_globals.checksum = 0;
-	//	copy_state = _cache_copy_state_find_free_map_and_clear_header;
-	//}
-	//break;
-	//case _cache_copy_state_find_free_map_and_clear_header:
-	//{
-	//	e_map_file_index map_file_index = cached_map_files_find_free_utility_drive_map(cache_file_copy_globals.header.size, 5);
-	//	if (map_file_index != k_no_cached_map_file_index)
-	//	{
-	//		cache_file_copy_globals.map_file_index = map_file_index;
-	//		cache_file_copy_globals.async_write_position_succeeded = false;
-	//		cache_map_file_nuke(
-	//			map_file_index,
-	//			_async_category_background_copy,
-	//			priority,
-	//			&cache_file_copy_globals.async_write_position_succeeded,
-	//			&cache_file_copy_globals.copy_task_is_done);
-	//		copy_state = _cache_copy_state_verify_find_free_map_and_clear_header;
-	//	}
-	//}
-	//break;
-	//case _cache_copy_state_verify_find_free_map_and_clear_header:
-	//{
-	//	valid = cache_file_copy_globals.copy_size.peek() == sizeof(s_cache_file_header);
-	//	copy_state = _cache_copy_state_flush_cleared_header;
-	//}
-	//break;
-	//case _cache_copy_state_flush_cleared_header:
-	//{
-	//	cache_file_copy_globals.copy_task_id = async_flush_file(
-	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//		_async_category_background_copy,
-	//		priority,
-	//		&cache_file_copy_globals.copy_task_is_done);
-	//
-	//	copy_state = _cache_copy_state_prepare_copy_thread;
-	//}
-	//break;
-	//case _cache_copy_state_start_copying_map_data:
-	//{
-	//	cache_file_copy_globals.copy_size = 0;
-	//	cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
-	//	cache_file_copy_globals.copy_time = system_milliseconds();
-	//	copy_state = _cache_copy_state_copy_map_data;
-	//}
-	//break;
-	//case _cache_copy_state_copy_map_data:
-	//{
-	//	cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_load_action.action]);
-	//	if (cache_file_copy_globals.buffer.begin())
-	//	{
-	//		dword buffer_size = cache_file_copy_globals.buffer.m_size;
-	//		if (buffer_size > cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred)
-	//			buffer_size = cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred;
-	//
-	//		cache_file_copy_globals.__unknown3398 = buffer_size;
-	//
-	//		cache_file_copy_globals.copy_task_id = async_copy_position(
-	//			cache_file_copy_globals.source_file_handle,
-	//			cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//			cache_file_copy_globals.buffer.begin(),
-	//			buffer_size,
-	//			cache_file_copy_globals.total_copy_bytes_transferred,
-	//			cache_file_copy_globals.total_copy_bytes_transferred,
-	//			_async_category_background_copy,
-	//			priority,
-	//			true,
-	//			&cache_file_copy_globals.copy_size,
-	//			&cache_file_copy_globals.copy_task_is_done);
-	//
-	//		copy_state = _cache_copy_state_verify_copy_map_data;
-	//	}
-	//	else
-	//	{
-	//		copy_state = _cache_copy_state_copy_map_data;
-	//	}
-	//}
-	//break;
-	//case _cache_copy_state_verify_copy_map_data:
-	//{
-	//	valid = cache_file_copy_globals.__unknown3398 == cache_file_copy_globals.copy_size.peek();
-	//	cache_file_copy_globals.checksum ^= compute_realtime_checksum((char*)cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.copy_size.peek());
-	//	if (valid)
-	//	{
-	//		cache_file_copy_globals.total_copy_bytes_transferred += cache_file_copy_globals.copy_size.peek();
-	//		if (cache_file_copy_globals.total_copy_bytes_transferred < cache_file_copy_globals.source_file_size)
-	//		{
-	//			copy_state = _cache_copy_state_copy_map_data;
-	//		}
-	//		else
-	//		{
-	//			valid = true;
-	//			copy_state = _cache_copy_state_flush_after_copy;
-	//		}
-	//	}
-	//}
-	//break;
-	//case _cache_copy_state_prepare_copy_thread:
-	//{
-	//	cache_file_copy_globals.copy_size = 0;
-	//	cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
-	//	cache_file_copy_globals.copy_time = system_milliseconds();
-	//
-	//	copy_state = _cache_copy_state_kick_off_copy_thread;
-	//}
-	//break;
-	//case _cache_copy_state_kick_off_copy_thread:
-	//{
-	//	if (!cache_file_copy_globals.reference_count.m_reference_count)
-	//		cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_load_action.action]);
-	//	
-	//	if (cache_file_copy_globals.buffer.begin())
-	//	{
-	//		cache_file_copy_globals.copy_task_abort_signal = 0;
-	//		{
-	//			c_basic_buffer<void> buffer;
-	//			buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
-	//			g_copy_decompressor.setup(
-	//				cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//				cache_file_copy_globals.total_copy_bytes_transferred,
-	//				cache_file_copy_globals.checksum,
-	//				buffer);
-	//		}
-	//	
-	//		{
-	//			c_basic_buffer<void> buffer;
-	//			buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
-	//			cache_file_copy_globals.copy_task_id = async_decompress_file_section(
-	//				priority,
-	//				cache_file_copy_globals.source_file_handle,
-	//				cache_file_copy_globals.total_copy_bytes_transferred,
-	//				cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred,
-	//				0,
-	//				buffer,
-	//				&g_copy_decompressor,
-	//				{},
-	//				&cache_file_copy_globals.copy_task_decompression_success,
-	//				&cache_file_copy_globals.copy_task_abort_signal,
-	//				0,
-	//				&cache_file_copy_globals.copy_task_is_done);
-	//		}
-	//	
-	//		copy_state = _cache_copy_state_finish_copy_from_thread;
-	//	}
-	//	else
-	//	{
-	//		copy_state = _cache_copy_state_kick_off_copy_thread;
-	//	}
-	//}
-	//break;
-	//case _cache_copy_state_finish_copy_from_thread:
-	//{
-	//	g_copy_decompressor.teardown();
-	//	cache_file_copy_globals.total_copy_bytes_transferred = g_copy_decompressor.m_file_offset;
-	//	cache_file_copy_globals.checksum = g_copy_decompressor.m_checksum;
-	//	if ((dword)g_copy_decompressor.m_file_offset < cache_file_copy_globals.source_file_size)
-	//	{
-	//		valid = cache_file_copy_globals.copy_task_abort_signal.peek() != 0;
-	//		copy_state = _cache_copy_state_kick_off_copy_thread;
-	//	}
-	//	else
-	//	{
-	//		valid = true;
-	//		copy_state = _cache_copy_state_flush_after_copy;
-	//	}
-	//}
-	//break;
-	//case _cache_copy_state_flush_after_copy:
-	//{
-	//	cache_file_copy_globals.copy_task_id = async_flush_file(
-	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//		_async_category_background_copy,
-	//		priority,
-	//		&cache_file_copy_globals.copy_task_is_done);
-	//
-	//	copy_state = _cache_copy_state_write_header;
-	//}
-	//break;
-	//case _cache_copy_state_write_header:
-	//{
-	//	get_current_file_time(&cache_file_copy_globals.header.modification_date);
-	//	cache_file_copy_globals.async_validify_file_succeeded = false;
-	//	cache_file_copy_globals.copy_task_id = async_validify_file(
-	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//		&cache_file_copy_globals.header,
-	//		sizeof(s_cache_file_header),
-	//		cached_map_file_get_size(cache_file_copy_globals.map_file_index),
-	//		_async_category_background_copy,
-	//		priority,
-	//		true,
-	//		&cache_file_copy_globals.async_validify_file_succeeded,
-	//		&cache_file_copy_globals.copy_task_is_done);
-	//	
-	//	copy_state = _cache_copy_state_verify_write_header;
-	//}
-	//break;
-	//case _cache_copy_state_verify_write_header:
-	//{
-	//	valid = cache_file_copy_globals.async_validify_file_succeeded;
-	//	copy_state = _cache_copy_state_mark_file_as_loaded;
-	//}
-	//break;
-	//case _cache_copy_state_mark_file_as_loaded:
-	//{
-	//	cache_file_copy_globals.__unknown33B4 = 1;
-	//	copy_state = _cache_copy_state_halt;
-	//}
-	//break;
-	//case _cache_copy_state_halt:
-	//{
-	//	copy_state = _cache_copy_state_close_source_file;
-	//}
-	//break;
-	//case _cache_copy_state_close_source_file:
-	//{
-	//	if (file_handle_is_valid(cache_file_copy_globals.source_file_handle))
-	//	{
-	//		cache_file_copy_globals.copy_task_id = async_close_file_no_stfs_flush(
-	//			cache_file_copy_globals.source_file_handle,
-	//			_async_category_none,
-	//			_async_priority_blocking_generic,
-	//			&cache_file_copy_globals.copy_task_is_done);
-	//	}
-	//
-	//	copy_state = _cache_copy_state_finish;
-	//}
-	//break;
-	//case _cache_copy_state_finish:
-	//{
-	//	s_cache_file_load_action action = cache_file_copy_globals.current_load_action;
-	//
-	//	if (cache_file_copy_globals.__unknown33B4 == 1)
-	//	{
-	//		cached_map_file_get(cache_file_copy_globals.map_file_index)->header = cache_file_copy_globals.header;
-	//		csmemset(&cache_file_copy_globals.header, 0, sizeof(sizeof(s_cache_file_header)));
-	//		if (s_failed_map* failed_map = find_failed_map(action.map_name.get_string()))
-	//			csmemset(failed_map, 0, sizeof(s_failed_map));
-	//	}
-	//	else if (cache_file_copy_globals.__unknown33B4 == 3 && !cache_files_has_map_terminal_failure(action.map_name.get_string()))
-	//	{
-	//		cache_files_copy_map(action.map_name.get_string(), action.action);
-	//	}
-	//
-	//	cache_file_copy_release_buffer();
-	//	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
-	//	csmemset(&cache_file_copy_globals.header, 0, sizeof(sizeof(s_cache_file_header)));
-	//	csmemset(&cache_file_copy_globals.current_load_action, 0, sizeof(s_cache_file_load_action));
-	//	cache_file_copy_globals.source_file.clear();
-	//	invalidate_file_handle(&cache_file_copy_globals.source_file_handle);
-	//
-	//	copy_state = _cache_copy_state_idle;
-	//}
-	//break;
-	//}
-	//
-	//if (cache_file_copy_globals.copy_paused)
-	//{
-	//	cache_file_copy_release_buffer();
-	//	cache_file_copy_globals.copy_paused = false;
-	//}
-	//
-	//if (valid)
-	//{
-	//	cache_file_copy_globals.valid_copy_state = cache_file_copy_globals.copy_state;
-	//	cache_file_copy_globals.copy_state = copy_state;
-	//}
-	//else
-	//{
-	//	cache_file_copy_release_buffer();
-	//	cache_file_map_has_failed(cache_file_copy_globals.source_file.get_string());
-	//	cache_file_copy_globals.copy_state = _cache_copy_state_halt;
-	//	cache_file_copy_globals.__unknown33B4 = 3;
-	//}
-	//
-	//return valid;
+	/*
+	e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
+	e_async_priority priority = k_action_to_async_priority[cache_file_copy_globals.current_request.action];
+	
+	bool valid = true;
+	switch (copy_state)
+	{
+	case _cache_copy_state_idle:
+	{
+		if (!cache_file_copy_globals.pending_request.map_name.is_empty() &&
+			!cache_files_has_map_terminal_failure(cache_file_copy_globals.pending_request.map_name.get_string()) &&
+			cache_files_get_file_status(cache_file_copy_globals.pending_request.map_name.get_string()) != 3)
+		{
+			c_static_string<k_tag_long_string_length> copying_map_file_path{};
+			canonicalize_map_path(cache_file_copy_globals.pending_request.map_name.get_string(), &copying_map_file_path);
+			copying_map_file_path.copy_to(cache_file_copy_globals.copying_map_file_path, k_tag_long_string_length);
+
+			cache_file_copy_globals.current_request = cache_file_copy_globals.pending_request;
+			copy_state = e_cache_copy_state(_cache_copy_state_create_source_file - levels_path_is_dlc(cache_file_copy_globals.copying_map_file_path));
+		}
+	
+		csmemset(&cache_file_copy_globals.pending_request, 0, sizeof(s_cache_copy_request));
+		cache_file_copy_globals.finish_reason = _cache_copy_finish_reason_invalid;
+	}
+	break;
+	case _cache_copy_state_mount_dlc:
+	{
+		levels_open_dlc(cache_file_copy_globals.copying_map_file_path, true);
+		copy_state = _cache_copy_state_create_source_file;
+	}
+	break;
+	case _cache_copy_state_create_source_file:
+	{
+		wchar_t source_file[256]{};
+		ascii_string_to_wchar_string(cache_file_copy_globals.copying_map_file_path, source_file, NUMBEROF(source_file), NULL);
+	
+		cache_file_copy_globals.copy_task_id = async_create_file(
+			source_file,
+			FLAG(0),
+			0,
+			FLAG(3),
+			_async_category_background_copy,
+			priority,
+			&cache_file_copy_globals.source_file_handle,
+			&cache_file_copy_globals.copy_task_is_done);
+		copy_state = _cache_copy_state_verify_create_source_file;
+	}
+	break;
+	case _cache_copy_state_verify_create_source_file:
+	{
+		valid = file_handle_is_valid(cache_file_copy_globals.source_file_handle);
+		copy_state = _cache_copy_state_read_dvd_header;
+	}
+	break;
+	case _cache_copy_state_read_dvd_header:
+	{
+		csmemset(&cache_file_copy_globals.copy_file_header, 0, sizeof(s_cache_file_header));
+		cache_file_copy_globals.copy_task_id = async_read_position_overlapped_ex(
+			cache_file_copy_globals.source_file_handle,
+			&cache_file_copy_globals,
+			sizeof(s_cache_file_header),
+			0,
+			_async_category_background_copy,
+			priority,
+			&cache_file_copy_globals.copy_bytes_transferred,
+			&cache_file_copy_globals.copy_task_is_done,
+			false);
+		copy_state = e_cache_copy_state((cache_file_copy_globals.copy_task_id != NONE) + _cache_copy_state_read_dvd_header);
+	}
+	break;
+	case _cache_copy_state_verify_read_dvd_header:
+	{
+		get_current_file_time(&cache_file_copy_globals.copy_file_header.slot_modification_date);
+		cache_file_copy_globals.copy_file_header.path = cache_file_copy_globals.copying_map_file_path;
+		if (cache_file_copy_globals.copy_bytes_transferred.peek() == sizeof(s_cache_file_header) &&
+			cache_file_header_verify(&cache_file_copy_globals.copy_file_header, cache_file_copy_globals.copying_map_file_path, false))
+		{
+			dword shared_files_flags = 0;
+			valid = cached_map_file_dependencies_loaded(&cache_file_copy_globals.copy_file_header, &shared_files_flags);
+		}
+		else
+		{
+			valid = false;
+		}
+	
+		copy_state = _cache_copy_state_get_dvd_file_size;
+	}
+	break;
+	case _cache_copy_state_get_dvd_file_size:
+	{
+		cache_file_copy_globals.copy_task_id = async_get_file_size(
+			cache_file_copy_globals.source_file_handle,
+			&cache_file_copy_globals.source_file_size,
+			_async_category_background_copy,
+			priority,
+			&cache_file_copy_globals.copy_task_is_done);
+	
+		copy_state = _cache_copy_state_verify_get_dvd_file_size;
+	}
+	break;
+	case _cache_copy_state_verify_get_dvd_file_size:
+	{
+		if (cache_file_copy_globals.source_file_size != NONE && cache_file_copy_globals.source_file_size >= sizeof(s_cache_file_header))
+		{
+			valid = true;
+		}
+		else
+		{
+			valid = false;
+		}
+	
+		cache_file_copy_globals.running_realtime_checksum = 0;
+		copy_state = _cache_copy_state_find_free_map_and_clear_header;
+	}
+	break;
+	case _cache_copy_state_find_free_map_and_clear_header:
+	{
+		e_map_file_index map_file_index = cached_map_files_find_free_utility_drive_map(cache_file_copy_globals.copy_file_header.file_size, 5);
+		if (map_file_index != k_no_cached_map_file_index)
+		{
+			cache_file_copy_globals.copying_to_map_file_index = map_file_index;
+			cache_file_copy_globals.nuke_cache_file_success = false;
+			cache_map_file_nuke(
+				map_file_index,
+				_async_category_background_copy,
+				priority,
+				&cache_file_copy_globals.nuke_cache_file_success,
+				&cache_file_copy_globals.copy_task_is_done);
+			copy_state = _cache_copy_state_verify_find_free_map_and_clear_header;
+		}
+	}
+	break;
+	case _cache_copy_state_verify_find_free_map_and_clear_header:
+	{
+		valid = cache_file_copy_globals.copy_bytes_transferred.peek() == sizeof(s_cache_file_header);
+		copy_state = _cache_copy_state_flush_clear_header;
+	}
+	break;
+	case _cache_copy_state_flush_clear_header:
+	{
+		cache_file_copy_globals.copy_task_id = async_flush_file(
+			cached_map_file_get_handle(cache_file_copy_globals.copying_to_map_file_index),
+			_async_category_background_copy,
+			priority,
+			&cache_file_copy_globals.copy_task_is_done);
+	
+		copy_state = _cache_copy_state_prepare_copy_thread;
+	}
+	break;
+	case _cache_copy_state_start_copying_map_data:
+	{
+		cache_file_copy_globals.copy_bytes_transferred = 0L;
+		cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
+		cache_file_copy_globals.copy_start_time_ms = system_milliseconds();
+		copy_state = _cache_copy_state_copy_map_data;
+	}
+	break;
+	case _cache_copy_state_copy_map_data:
+	{
+		cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_request.action]);
+		if (cache_file_copy_globals.buffer)
+		{
+			dword buffer_size = cache_file_copy_globals.buffer_size;
+			if (buffer_size > cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred)
+				buffer_size = cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred;
+	
+			cache_file_copy_globals.intended_copy_bytes_transferred = buffer_size;
+	
+			cache_file_copy_globals.copy_task_id = async_copy_position(
+				cache_file_copy_globals.source_file_handle,
+				cached_map_file_get_handle(cache_file_copy_globals.copying_to_map_file_index),
+				cache_file_copy_globals.buffer,
+				buffer_size,
+				cache_file_copy_globals.total_copy_bytes_transferred,
+				cache_file_copy_globals.total_copy_bytes_transferred,
+				_async_category_background_copy,
+				priority,
+				true,
+				&cache_file_copy_globals.copy_bytes_transferred,
+				&cache_file_copy_globals.copy_task_is_done);
+	
+			copy_state = _cache_copy_state_verify_copy_map_data;
+		}
+		else
+		{
+			copy_state = _cache_copy_state_copy_map_data;
+		}
+	}
+	break;
+	case _cache_copy_state_verify_copy_map_data:
+	{
+		valid = cache_file_copy_globals.intended_copy_bytes_transferred == cache_file_copy_globals.copy_bytes_transferred.peek();
+		cache_file_copy_globals.running_realtime_checksum ^= compute_realtime_checksum((char*)cache_file_copy_globals.buffer, cache_file_copy_globals.copy_bytes_transferred.peek());
+		if (valid)
+		{
+			cache_file_copy_globals.total_copy_bytes_transferred += cache_file_copy_globals.copy_bytes_transferred.peek();
+			if (cache_file_copy_globals.total_copy_bytes_transferred < cache_file_copy_globals.source_file_size)
+			{
+				copy_state = _cache_copy_state_copy_map_data;
+			}
+			else
+			{
+				valid = true;
+				copy_state = _cache_copy_state_flush_after_copy;
+			}
+		}
+	}
+	break;
+	case _cache_copy_state_prepare_copy_thread:
+	{
+		cache_file_copy_globals.copy_bytes_transferred = 0L;
+		cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
+		cache_file_copy_globals.copy_start_time_ms = system_milliseconds();
+	
+		copy_state = _cache_copy_state_kick_off_copy_thread;
+	}
+	break;
+	case _cache_copy_state_kick_off_copy_thread:
+	{
+		if (!cache_file_copy_globals.reference_count.m_reference_count)
+			cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_request.action]);
+		
+		if (cache_file_copy_globals.buffer)
+		{
+			cache_file_copy_globals.copy_abort_signal = false;
+			{
+				c_basic_buffer<void> buffer;
+				buffer.set_buffer(cache_file_copy_globals.buffer, cache_file_copy_globals.buffer_size / 2);
+				g_copy_decompressor.setup(
+					cached_map_file_get_handle(cache_file_copy_globals.copying_to_map_file_index),
+					cache_file_copy_globals.total_copy_bytes_transferred,
+					cache_file_copy_globals.running_realtime_checksum,
+					buffer);
+			}
+		
+			{
+				c_basic_buffer<void> buffer;
+				buffer.set_buffer(cache_file_copy_globals.buffer, cache_file_copy_globals.buffer_size / 2);
+				cache_file_copy_globals.copy_task_id = async_decompress_file_section(
+					priority,
+					cache_file_copy_globals.source_file_handle,
+					cache_file_copy_globals.total_copy_bytes_transferred,
+					cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred,
+					0,
+					buffer,
+					&g_copy_decompressor,
+					{},
+					&cache_file_copy_globals.copy_finished_success,
+					&cache_file_copy_globals.copy_abort_signal,
+					0,
+					&cache_file_copy_globals.copy_task_is_done);
+			}
+		
+			copy_state = _cache_copy_state_finish_copy_from_thread;
+		}
+		else
+		{
+			copy_state = _cache_copy_state_kick_off_copy_thread;
+		}
+	}
+	break;
+	case _cache_copy_state_finish_copy_from_thread:
+	{
+		g_copy_decompressor.teardown();
+		cache_file_copy_globals.total_copy_bytes_transferred = g_copy_decompressor.m_file_offset;
+		cache_file_copy_globals.running_realtime_checksum = g_copy_decompressor.m_checksum;
+		if ((dword)g_copy_decompressor.m_file_offset < cache_file_copy_globals.source_file_size)
+		{
+			valid = cache_file_copy_globals.copy_abort_signal.peek() != 0;
+			copy_state = _cache_copy_state_kick_off_copy_thread;
+		}
+		else
+		{
+			valid = true;
+			copy_state = _cache_copy_state_flush_after_copy;
+		}
+	}
+	break;
+	case _cache_copy_state_flush_after_copy:
+	{
+		cache_file_copy_globals.copy_task_id = async_flush_file(
+			cached_map_file_get_handle(cache_file_copy_globals.copying_to_map_file_index),
+			_async_category_background_copy,
+			priority,
+			&cache_file_copy_globals.copy_task_is_done);
+	
+		copy_state = _cache_copy_state_write_header;
+	}
+	break;
+	case _cache_copy_state_write_header:
+	{
+		get_current_file_time(&cache_file_copy_globals.copy_file_header.slot_modification_date);
+		cache_file_copy_globals.validify_cache_file_success = false;
+		cache_file_copy_globals.copy_task_id = async_validify_file(
+			cached_map_file_get_handle(cache_file_copy_globals.copying_to_map_file_index),
+			&cache_file_copy_globals.copy_file_header,
+			sizeof(s_cache_file_header),
+			cached_map_file_get_size(cache_file_copy_globals.copying_to_map_file_index),
+			_async_category_background_copy,
+			priority,
+			true,
+			&cache_file_copy_globals.validify_cache_file_success,
+			&cache_file_copy_globals.copy_task_is_done);
+		
+		copy_state = _cache_copy_state_verify_write_header;
+	}
+	break;
+	case _cache_copy_state_verify_write_header:
+	{
+		valid = cache_file_copy_globals.validify_cache_file_success;
+		copy_state = _cache_copy_state_mark_file_as_loaded;
+	}
+	break;
+	case _cache_copy_state_mark_file_as_loaded:
+	{
+		cache_file_copy_globals.finish_reason = _cache_copy_finish_reason_copied;
+		copy_state = _cache_copy_state_halt;
+	}
+	break;
+	case _cache_copy_state_halt:
+	{
+		copy_state = _cache_copy_state_close_source_file;
+	}
+	break;
+	case _cache_copy_state_close_source_file:
+	{
+		if (file_handle_is_valid(cache_file_copy_globals.source_file_handle))
+		{
+			cache_file_copy_globals.copy_task_id = async_close_file_no_stfs_flush(
+				cache_file_copy_globals.source_file_handle,
+				_async_category_none,
+				_async_priority_blocking_generic,
+				&cache_file_copy_globals.copy_task_is_done);
+		}
+	
+		copy_state = _cache_copy_state_finish;
+	}
+	break;
+	case _cache_copy_state_finish:
+	{
+		s_cache_copy_request action = cache_file_copy_globals.current_request;
+	
+		if (cache_file_copy_globals.finish_reason == _cache_copy_finish_reason_copied)
+		{
+			cached_map_file_get(cache_file_copy_globals.copying_to_map_file_index)->header = cache_file_copy_globals.copy_file_header;
+			csmemset(&cache_file_copy_globals.copy_file_header, 0, sizeof(sizeof(s_cache_file_header)));
+			if (s_failed_map* failed_map = find_failed_map(action.map_name.get_string()))
+				csmemset(failed_map, 0, sizeof(s_failed_map));
+		}
+		else if (cache_file_copy_globals.finish_reason == _cache_copy_finish_reason_failed && !cache_files_has_map_terminal_failure(action.map_name.get_string()))
+		{
+			cache_files_copy_map(action.map_name.get_string(), action.action);
+		}
+	
+		cache_file_copy_release_buffer();
+		cache_file_copy_globals.copying_to_map_file_index = k_no_cached_map_file_index;
+		csmemset(&cache_file_copy_globals.copy_file_header, 0, sizeof(sizeof(s_cache_file_header)));
+		csmemset(&cache_file_copy_globals.current_request, 0, sizeof(s_cache_copy_request));
+		cache_file_copy_globals.copying_map_file_path[0] = 0;
+		invalidate_file_handle(&cache_file_copy_globals.source_file_handle);
+	
+		copy_state = _cache_copy_state_idle;
+	}
+	break;
+	}
+	
+	if (cache_file_copy_globals.release_buffer)
+	{
+		cache_file_copy_release_buffer();
+		cache_file_copy_globals.release_buffer = false;
+	}
+	
+	if (valid)
+	{
+		cache_file_copy_globals.last_copy_state = cache_file_copy_globals.copy_state;
+		cache_file_copy_globals.copy_state = copy_state;
+	}
+	else
+	{
+		cache_file_copy_release_buffer();
+		cache_file_map_has_failed(cache_file_copy_globals.copying_map_file_path);
+		cache_file_copy_globals.copy_state = _cache_copy_state_halt;
+		cache_file_copy_globals.finish_reason = _cache_copy_finish_reason_failed;
+	}
+	
+	return valid;
+	*/
 }
 
 void __cdecl cache_file_copy_release_buffer()
@@ -574,7 +579,7 @@ bool __cdecl cache_file_open(char const* scenario_path, void* header)
 
 	e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
 	if (levels_path_is_dlc(scenario_path))
-		levels_open_dlc(scenario_path, 1);
+		levels_open_dlc(scenario_path, true);
 
 	if (g_cache_files_are_absolute)
 	{
@@ -639,8 +644,8 @@ void __cdecl cache_files_copy_halt()
 	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
 	//if (copy_state && copy_state < _cache_copy_state_halt)
 	//{
-	//	cache_file_copy_globals.copy_task_abort_signal = 1;
-	//	cache_file_copy_globals.finish_reason = 2;
+	//	cache_file_copy_globals.copy_abort_signal = true;
+	//	cache_file_copy_globals.finish_reason = _cache_copy_finish_reason_canceled;
 	//	cache_file_copy_globals.copy_state = _cache_copy_state_halt;
 	//}
 }
@@ -683,9 +688,9 @@ void __cdecl cache_files_copy_pause()
 {
 	INVOKE(0x005AAEA0, cache_files_copy_pause);
 
-	//cache_file_copy_globals.copy_task_abort_signal = 1;
+	//cache_file_copy_globals.copy_abort_signal = true;
 	//cache_file_copy_globals.reference_count++;
-	//cache_file_copy_globals.copy_paused = true;
+	//cache_file_copy_globals.release_buffer = true;
 }
 
 void __cdecl cache_files_copy_resume()
@@ -785,7 +790,7 @@ void __cdecl cache_files_initialize()
 
 	cache_file_copy_globals.copy_task_is_done = true;
 	cache_file_copy_globals.copy_task_id = NONE;
-	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
+	cache_file_copy_globals.copying_to_map_file_index = k_no_cached_map_file_index;
 
 	cache_files_delete_if_language_has_changed();
 	cache_files_delete_if_build_number_has_changed();
@@ -835,7 +840,7 @@ void __cdecl cached_map_file_close(e_map_file_index map_file_index)
 		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
 		invalidate_file_handle(&map_file->file_handle);
 
-		g_cache_file_io_arena.close_file(&map_file->indirect_file);
+		g_cache_file_io_arena.close_file(&map_file->bulk_read_handle);
 
 		async_close_file(map_file->overlapped_handle, _async_category_none, _async_priority_blocking_generic, &done);
 		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);

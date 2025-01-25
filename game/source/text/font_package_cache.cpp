@@ -118,9 +118,9 @@ void __cdecl font_package_clear(s_font_package_cache_entry* entry)
 	//INVOKE(0x0065C590, font_package_clear, entry);
 
 	entry->package_index = NONE;
-	entry->package_last_used_time = 0l;
+	entry->package_last_used_time = 0L;
 	entry->async_task = NONE;
-	entry->async_task_bytes_read = 0l;
+	entry->async_task_bytes_read = 0L;
 	entry->async_task_complete = false;
 	entry->status = 0;
 }
