@@ -743,20 +743,10 @@ enum e_scenario_camera_flags
 	k_scenario_camera_flags
 };
 
-enum e_scenario_camera_type
-{
-	_scenario_camera_type_normal = 0,
-	_scenario_camera_type_ignore_target_orientation,
-	_scenario_camera_type_dolly,
-	_scenario_camera_type_ignore_target_updates,
-
-	k_scenario_camera_type_count
-};
-
 struct scenario_cutscene_camera_point
 {
 	c_flags<e_scenario_camera_flags, word, k_scenario_camera_flags> flags;
-	c_enum<e_scenario_camera_type, short, _scenario_camera_type_normal, k_scenario_camera_type_count> type;
+	c_enum<e_scenario_camera_type, short, _scenario_camera_type_default, k_number_of_scenario_camera_types> type;
 	c_static_string<k_tag_string_length> name;
 
 	// pad

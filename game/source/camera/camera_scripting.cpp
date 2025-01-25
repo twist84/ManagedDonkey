@@ -27,7 +27,7 @@ void __cdecl scripted_camera_game_tick()
 //.text:0072D010 ; real __cdecl scripted_camera_get_field_of_view()
 //.text:0072D090 ; long __cdecl scripted_camera_get_first_person_camera_object()
 //.text:0072D0E0 ; void __cdecl scripted_camera_get_relative_object_space(long, real_matrix4x3*)
-//.text:0072D130 ; 
+//.text:0072D130 ; void __cdecl scripted_camera_handle_tag_reload()
 
 void __cdecl scripted_camera_initialize()
 {
@@ -45,9 +45,9 @@ void __cdecl scripted_camera_initialize()
 //.text:0072D540 ; void __cdecl scripted_camera_predict_resources_at_frame(long, long, long, short, long)
 //.text:0072D550 ; void __cdecl scripted_camera_predict_resources_at_point(short)
 
-// Halo Online specific for pre-match camera
-//.text:0072D560 ; void __cdecl scripted_camera_set_multiplayer_director()
-//.text:0072D580 ; bool __cdecl scripted_camera_set_prematch_camera()
+// Halo Online specific
+//.text:0072D560 ; void __cdecl scripted_camera_prematch_set_camera_director()
+//.text:0072D580 ; bool __cdecl scripted_camera_prematch_set_camera_point()
 
 //.text:0072D610 ; void __cdecl scripted_camera_set(short, short, long)
 //.text:0072D660 ; void __cdecl scripted_camera_set_absolute(short, short)

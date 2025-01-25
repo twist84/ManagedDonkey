@@ -1,45 +1,50 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 enum e_camera_script_mode
 {
-	// scripted_camera_initialize_for_new_map
 	_camera_script_mode_none = 0,
-
-	// scripted_camera_initialize_for_control_point
 	_camera_script_mode_point,
-
-	// scripted_camera_initialize_for_constant_pan
 	_camera_script_mode_point_pan,
-
-	// scripted_camera_initialize_for_animation
 	_camera_script_mode_animation,
-
-	// scripted_camera_initialize_for_first_person_camera
 	_camera_script_mode_first_person,
-
-	// scripted_camera_initialize_for_cinematic_camera
 	_camera_script_mode_cinematic,
 
 	k_camera_script_mode_count
 };
 
+struct s_cinematic_field_of_view
+{
+	real time_elapsed;
+	real time_total;
+	real start;
+	real end;
+};
+static_assert(sizeof(s_cinematic_field_of_view) == 0x10);
+
 struct s_scripted_camera_globals
 {
-	byte __unknown0;
-	byte __unknown1;
-
+	bool enabled;
+	bool first_update;
 	c_enum<e_camera_script_mode, short, _camera_script_mode_none, k_camera_script_mode_count> mode;
+	s_cinematic_field_of_view fov;
+	long game_tick_timer;
+	real_point3d point;
+	real_vector3d forward;
+	real_vector3d up;
+	long relative_object_index;
 
-	real camera_frame_start_time;
-	real camera_frame_end_time;
-	real camera_field_of_view;
-	angle camera_angle; // in radians
-	long camera_ticks;
+	union
+	{
+		byte storage[0xB0];
 
-	// union of camera data then other data
-	byte __data18[0xD8];
+		//s_scripted_camera_control_point internal_control_point;
+		//s_scripted_camera_constant_pan internal_contant_pan;
+		//s_scripted_camera_animation internal_animation;
+		//s_scripted_camera_cinematic internal_cinematic;
+	};
 };
 static_assert(sizeof(s_scripted_camera_globals) == 0xF0);
 

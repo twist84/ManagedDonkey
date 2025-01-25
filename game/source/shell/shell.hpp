@@ -2,6 +2,17 @@
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
+enum e_scenario_camera_type
+{
+	_scenario_camera_type_target_relative = 0,
+	_scenario_camera_type_ignore_target_orientation,
+	_scenario_camera_type_dolly,
+	_scenario_camera_type_ignore_target_updates,
+
+	k_number_of_scenario_camera_types,
+	_scenario_camera_type_default = _scenario_camera_type_target_relative
+};
+
 enum e_level_flags
 {
 	_level_from_dlc_bit = 0,
