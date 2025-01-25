@@ -1,23 +1,5 @@
 #include "memory/memory_pool.hpp"
 
-struct s_memory_pool_block_header
-{
-	dword header_signature;
-	const char* file;
-	long line;
-	long timestamp;
-};
-static_assert(sizeof(s_memory_pool_block_header) == 0x10);
-
-struct s_memory_pool_block
-{
-	long size;
-	long reference_value;
-	long next_block_handle;
-	long previous_block_handle;
-};
-static_assert(sizeof(s_memory_pool_block) == 0x10);
-
 dword memory_pool_handle_from_address(s_memory_pool const* pool, void const* pointer)
 {
 	ASSERT(pool);

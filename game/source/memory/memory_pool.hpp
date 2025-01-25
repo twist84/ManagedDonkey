@@ -2,27 +2,42 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_memory_pool_block_header
+{
+	dword header_signature;
+	char const* file;
+	long line;
+	long timestamp;
+};
+static_assert(sizeof(s_memory_pool_block_header) == 0x10);
+
+struct s_memory_pool_block
+{
+	long size;
+	long reference_value;
+	long next_block_handle;
+	long previous_block_handle;
+};
+static_assert(sizeof(s_memory_pool_block) == 0x10);
+
 struct c_allocation_base;
 struct s_memory_pool
 {
-	tag signature;
-	char name[32];
-	c_allocation_base* allocator;
+	dword signature;
+	c_static_string<32> name;
+	c_allocation_base* allocation;
 	long size;
 	long free_size;
-	dword offset_to_data;
-	dword first_block_handle;
-	dword last_block_handle;
-	bool reference_tracking;
-	bool allocation_from_anywhere_in_pool;
-	bool verification_enabled;
-	bool __unknown3F_bool;
-	long reference_tracking_index;
-
-	// block?
-	byte __data[0x10];
+	long base_handle;
+	long first_block_handle;
+	long last_block_handle;
+	bool doesnt_track_references;
+	bool can_allocate_from_anywhere_in_the_pool;
+	bool verification_disabled;
+	bool debug;
+	long reference_tracking_callback_index;
 };
-static_assert(sizeof(s_memory_pool) == 0x44 + 0x10);
+static_assert(sizeof(s_memory_pool) == 0x44);
 
 extern dword memory_pool_handle_from_address(s_memory_pool const* memory_pool, void const* pointer);
 extern void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, dword payload_handle);
