@@ -150,6 +150,28 @@ struct s_datum_header
 };
 static_assert(sizeof(s_datum_header) == 0x2);
 
+class c_tag_index
+{
+public:
+	c_tag_index(long index) :
+		m_index(index)
+	{
+	}
+
+	c_tag_index() :
+		m_index()
+	{
+	}
+
+	operator long() const
+	{
+		return m_index;
+	}
+
+public:
+	long m_index;
+};
+
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 
 const long CHAR_BYTES = sizeof(char);

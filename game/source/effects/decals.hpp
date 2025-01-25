@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "multithreading/message_queue.hpp"
+#include "rasterizer/rasterizer_vertex_definitions.hpp"
 
 struct s_game_non_bsp_zone_set;
 struct s_game_cluster_bit_vectors;
@@ -23,28 +24,15 @@ public:
 	static void __cdecl prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	static void __cdecl submit_all();
 
-	long tag_index;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
-	long __unknown28;
-	long __unknown2C;
-	long __unknown30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
-	long __unknown44;
-	long __unknown48;
-	long __unknown4C;
-	byte __unknown50[0x308];
+//private:
+	c_tag_index m_definition_index;
+	long m_first_decal_index;
+	long m_flags;
+	s_cluster_reference m_cluster_refs[4];
+	real_matrix4x3 m_projection;
+	real m_rotation;
 };
-static_assert(sizeof(c_decal_system) == 0x358);
+static_assert(sizeof(c_decal_system) == 0x50);
 
 struct s_decal_counts
 {
