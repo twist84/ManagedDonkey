@@ -113,14 +113,14 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	//if (!valid_real_matrix4x3(&projection->world_to_view))
 	//if (!valid_real_matrix4x3(&projection->view_to_world))
 	
-	projection->__unknownB8.i = real(parameters.width * parameters.__unknown28) / 2;
-	projection->__unknownB8.j = real(parameters.hight * parameters.__unknown2C) / 2;
+	projection->world_to_screen_size.i = real(parameters.viewport_size.i * parameters.projection_coefficients.i) / 2;
+	projection->world_to_screen_size.j = real(parameters.viewport_size.j * parameters.projection_coefficients.j) / 2;
 	projection->projection_bounds = parameters.projection_bounds;
 
 	real v2 = real(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
 	real v3 = real(camera->display_pixel_bounds.y1 - camera->display_pixel_bounds.y0);
-	projection->__unknownB8.i *= (v2 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_width) / v2 : 1.0f);
-	projection->__unknownB8.j *= (v3 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_height) / v3 : 1.0f);
+	projection->world_to_screen_size.i *= (v2 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_width) / v2 : 1.0f);
+	projection->world_to_screen_size.j *= (v3 > _real_epsilon ? real(c_rasterizer::render_globals.resolution_height) / v3 : 1.0f);
 	
 	real_plane3d transformed_plane{};
 	if (v1 == 0.0f)
@@ -152,16 +152,16 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 		transformed_plane.d = -transformed_plane.d;
 	}
 	
-	csmemset(projection->projection_matrix.matrix, 0, sizeof(s_oriented_bounding_box));
-	projection->projection_matrix.matrix[0][0] = parameters.__unknown28;
-	projection->projection_matrix.matrix[0][2] = -transformed_plane.n.i;
-	projection->projection_matrix.matrix[1][1] = parameters.__unknown2C;
-	projection->projection_matrix.matrix[1][2] = -transformed_plane.n.j;
-	projection->projection_matrix.matrix[2][0] = -parameters.__unknown20;
-	projection->projection_matrix.matrix[2][1] = -parameters.__unknown24;
-	projection->projection_matrix.matrix[2][2] = -transformed_plane.n.k;
-	projection->projection_matrix.matrix[2][3] = -1.0f;
-	projection->projection_matrix.matrix[3][2] = transformed_plane.d;
+	csmemset(projection->projection_matrix, 0, sizeof(s_oriented_bounding_box));
+	projection->projection_matrix[0][0] = parameters.projection_coefficients.i;
+	projection->projection_matrix[0][2] = -transformed_plane.n.i;
+	projection->projection_matrix[1][1] = parameters.projection_coefficients.j;
+	projection->projection_matrix[1][2] = -transformed_plane.n.j;
+	projection->projection_matrix[2][0] = -parameters.projection_offset.i;
+	projection->projection_matrix[2][1] = -parameters.projection_offset.j;
+	projection->projection_matrix[2][2] = -transformed_plane.n.k;
+	projection->projection_matrix[2][3] = -1.0f;
+	projection->projection_matrix[3][2] = transformed_plane.d;
 }
 
 void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real aspect_ratio)
@@ -176,8 +176,8 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 	ASSERT(camera->render_pixel_bounds.x0 < camera->render_pixel_bounds.x1);
 	ASSERT(camera->render_pixel_bounds.y0 < camera->render_pixel_bounds.y1);
 
-	parameters->width = real((real)camera->window_pixel_bounds.x1 - (real)camera->window_pixel_bounds.x0) * real((real)camera->display_pixel_bounds.x1 / (real)camera->render_pixel_bounds.x1);
-	parameters->hight = real((real)camera->window_pixel_bounds.y1 - (real)camera->window_pixel_bounds.y0) * real((real)camera->display_pixel_bounds.y1 / (real)camera->render_pixel_bounds.y1);
+	parameters->viewport_size.i = real((real)camera->window_pixel_bounds.x1 - (real)camera->window_pixel_bounds.x0) * real((real)camera->display_pixel_bounds.x1 / (real)camera->render_pixel_bounds.x1);
+	parameters->viewport_size.j = real((real)camera->window_pixel_bounds.y1 - (real)camera->window_pixel_bounds.y0) * real((real)camera->display_pixel_bounds.y1 / (real)camera->render_pixel_bounds.y1);
 
 	if (frustum_bounds)
 	{
@@ -194,13 +194,13 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 		parameters->frustum_bounds.x1 =  1.0f;
 	}
 
-	parameters->__unknown18 = real(parameters->frustum_bounds.x1 - parameters->frustum_bounds.x0) / 2;
-	parameters->__unknown1C = real(parameters->frustum_bounds.y1 - parameters->frustum_bounds.y0) / 2;
-	parameters->__unknown20 = real(-real(parameters->frustum_bounds.x1 + parameters->frustum_bounds.x0) / 2) / parameters->__unknown18;
-	parameters->__unknown24 = real(-real(parameters->frustum_bounds.y1 + parameters->frustum_bounds.y0) / 2) / parameters->__unknown1C;
+	parameters->projection_scale.i = real(parameters->frustum_bounds.x1 - parameters->frustum_bounds.x0) / 2;
+	parameters->projection_scale.j = real(parameters->frustum_bounds.y1 - parameters->frustum_bounds.y0) / 2;
+	parameters->projection_offset.i = real(-real(parameters->frustum_bounds.x1 + parameters->frustum_bounds.x0) / 2) / parameters->projection_scale.i;
+	parameters->projection_offset.j = real(-real(parameters->frustum_bounds.y1 + parameters->frustum_bounds.y0) / 2) / parameters->projection_scale.j;
 
 	real vertical_field_of_view_tangent = tanf(camera->vertical_field_of_view / 2);
-	real aspect_ratio_ = (real)parameters->width / (real)parameters->hight;
+	real aspect_ratio_ = (real)parameters->viewport_size.i / (real)parameters->viewport_size.j;
 
 	if (aspect_ratio == 0.0f)
 	{
@@ -230,18 +230,18 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 			rectangle2d display_pixel_bounds{};
 			c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
 
-			parameters->frustum_bounds.y0 *= real(parameters->hight / (real)display_pixel_bounds.y1);
-			parameters->frustum_bounds.y1 *= real(parameters->hight / (real)display_pixel_bounds.y1);
+			parameters->frustum_bounds.y0 *= real(parameters->viewport_size.j / (real)display_pixel_bounds.y1);
+			parameters->frustum_bounds.y1 *= real(parameters->viewport_size.j / (real)display_pixel_bounds.y1);
 		}
 	}
 
-	parameters->__unknown28 = 1.0f / ((aspect_ratio_ * parameters->__unknown18) * vertical_field_of_view_tangent);
-	parameters->__unknown2C = 1.0f / (parameters->__unknown1C * vertical_field_of_view_tangent);
+	parameters->projection_coefficients.i = 1.0f / ((aspect_ratio_ * parameters->projection_scale.i) * vertical_field_of_view_tangent);
+	parameters->projection_coefficients.j = 1.0f / (parameters->projection_scale.j * vertical_field_of_view_tangent);
 
-	parameters->projection_bounds.x0 = -real(parameters->__unknown20 + 1.0f) / parameters->__unknown28;
-	parameters->projection_bounds.x1 = -real(parameters->__unknown20 - 1.0f) / parameters->__unknown28;
-	parameters->projection_bounds.y0 = -real(parameters->__unknown24 + 1.0f) / parameters->__unknown2C;
-	parameters->projection_bounds.y1 = -real(parameters->__unknown24 - 1.0f) / parameters->__unknown2C;
+	parameters->projection_bounds.x0 = -real(parameters->projection_offset.i + 1.0f) / parameters->projection_coefficients.i;
+	parameters->projection_bounds.x1 = -real(parameters->projection_offset.i - 1.0f) / parameters->projection_coefficients.i;
+	parameters->projection_bounds.y0 = -real(parameters->projection_offset.j + 1.0f) / parameters->projection_coefficients.j;
+	parameters->projection_bounds.y1 = -real(parameters->projection_offset.j - 1.0f) / parameters->projection_coefficients.j;
 
 	ASSERT(parameters->projection_bounds.x0 < parameters->projection_bounds.x1);
 	ASSERT(parameters->projection_bounds.y0 < parameters->projection_bounds.y1);
@@ -362,7 +362,7 @@ real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const
 	if (v0 <= 0.1f)
 		v0 = 0.1f;
 
-	real v1 = projection->__unknownB8.j;
+	real v1 = projection->world_to_screen_size.j;
 	if (cinematic_in_progress() && !rasterizer_get_is_widescreen())
 		v1 *= real(4 / 3);
 

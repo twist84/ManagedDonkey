@@ -28,31 +28,28 @@ static_assert(sizeof(render_camera) == 0x88);
 
 struct s_oriented_bounding_box
 {
-	real matrix[4][4];
+	real_matrix4x3 m_transform;
+	real_vector3d m_extents;
 };
-static_assert(sizeof(s_oriented_bounding_box) == sizeof(real) * 4 * 4);
+static_assert(sizeof(s_oriented_bounding_box) == 0x40);
 
 struct render_projection
 {
 	real_matrix4x3 world_to_view;
 	real_matrix4x3 view_to_world;
 	real_rectangle2d projection_bounds;
-	s_oriented_bounding_box projection_matrix;
-	real_vector2d __unknownB8;
+	real projection_matrix[4][4];
+	real_vector2d world_to_screen_size;
 };
 static_assert(sizeof(render_projection) == 0xC0);
 
 struct render_view_parameters
 {
 	real_rectangle2d frustum_bounds;
-	real width;
-	real hight;
-	real __unknown18;
-	real __unknown1C;
-	real __unknown20;
-	real __unknown24;
-	real __unknown28;
-	real __unknown2C;
+	real_vector2d viewport_size;
+	real_vector2d projection_scale;
+	real_vector2d projection_offset;
+	real_vector2d projection_coefficients;
 	real_rectangle2d projection_bounds;
 };
 static_assert(sizeof(render_view_parameters) == 0x40);

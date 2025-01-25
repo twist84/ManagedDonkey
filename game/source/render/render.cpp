@@ -235,7 +235,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	c_rasterizer::set_pixel_shader_constant(96, 1, &pc_only_shader_constant);
 
 	real_vector4d combined_matrix[4]{};
-	combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix.matrix, (real*)combined_matrix);
+	combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix, (real*)combined_matrix);
 	c_rasterizer::set_vertex_shader_constant(0, 4, combined_matrix);
 
 	real_vector4d position{};
