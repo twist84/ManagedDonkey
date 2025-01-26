@@ -36,9 +36,12 @@ static_assert(sizeof(c_decal_system) == 0x50);
 
 struct s_decal_counts
 {
-	byte __data[0x20];
+	dword m_decal_system_count;
+	dword m_decal_count;
+	dword m_vertex_count;
+	dword m_index_count;
 };
-static_assert(sizeof(s_decal_counts) == 0x20);
+static_assert(sizeof(s_decal_counts) == 0x10);
 
 struct c_decal :
 	s_datum_header

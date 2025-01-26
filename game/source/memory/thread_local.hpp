@@ -400,7 +400,7 @@ struct s_thread_local_storage
 	c_smart_data_array<c_decal_system> g_decal_system_data_array;
 
 	// name: "decal counts"
-	// size: 0x20
+	// size: 0x20, sizeof(s_decal_counts) * 2
 	s_decal_counts* decal_counts;
 
 	//  name: "decal"
