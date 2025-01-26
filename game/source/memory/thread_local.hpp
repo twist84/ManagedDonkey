@@ -411,7 +411,7 @@ struct s_thread_local_storage
 
 	// name: "decal messaging queue"
 	// size: 0x824
-	c_decal_message_queue* g_decal_message_queue;
+	s_decal_message_queue* g_decal_message_queue;
 
 	// name: "impact globals"
 	// size: 0x8C

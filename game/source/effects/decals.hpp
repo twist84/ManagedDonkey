@@ -66,16 +66,30 @@ public:
 };
 static_assert(sizeof(c_decal) == 0x130);
 
-union c_decal_message_union
+struct s_decal_message
 {
-	byte __data[0x8];
+	enum
+	{
+		k_max_per_frame = 256
+	};
+
+	enum e_type
+	{
+		_type_add_cluster_to_pvs = 0,
+		_type_remove_cluster_from_pvs,
+
+		k_max_type
+	};
+
+	e_type m_type;
+	s_cluster_reference m_cluster_ref;
 };
 
-struct c_decal_message_queue
+struct s_decal_message_queue :
+	t_message_queue<s_decal_message, s_decal_message::k_max_per_frame>
 {
-	t_message_queue<c_decal_message_union, 256> m_queue;
 };
-static_assert(sizeof(c_decal_message_queue) == 0x824);
+static_assert(sizeof(s_decal_message_queue) == 0x824);
 
 extern void __cdecl sub_6948C0(long a1);
 
