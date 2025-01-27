@@ -1,0 +1,194 @@
+#pragma once
+
+#include "cseries/cseries.hpp"
+#include "objects/object_definitions.hpp"
+#include "tag_files/tag_groups.hpp"
+
+enum // flags
+{
+	_device_position_loops_bit = 0,
+	_device_unused,
+	_device_allow_interpolation,
+
+	NUMBER_OF_DEVICE_DEFINITION_FLAGS
+};
+
+enum // lightmap_flags
+{
+	_device_dont_use_in_lightmap_bit = 0,
+	_device_dont_use_in_lightprobe,
+
+	NUMBER_OF_DEVICE_DEFINITION_LIGHTMAP_FLAGS
+};
+
+struct _device_definition
+{
+	// $$$ DEVICE $$$
+
+	dword_flags flags;
+	real power_transition_time; // seconds
+	real power_acceleration_time; // seconds
+	real powered_position_transition_time; // seconds
+	real powered_position_acceleration_time; // seconds
+	real depowered_position_transition_time; // seconds
+	real depowered_position_acceleration_time; // seconds
+	word_flags lightmap_flags;
+	word pad;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_start_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> negative_start_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_stop_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> negative_stop_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> depowered_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> repowered_effect;
+	real delay_time; // seconds
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> delay_effect;
+	real automatic_activation_radius; // world units
+};
+static_assert(sizeof(_device_definition) == 0x98);
+
+struct device_definition
+{
+	static tag const k_group_tag = DEVICE_TAG;
+
+	_object_definition object;
+	_device_definition device;
+};
+static_assert(sizeof(device_definition) == sizeof(_object_definition) + sizeof(_device_definition));
+
+enum // type
+{
+	_control_trigger_player = 0,
+	_control_trigger_destruction,
+
+	NUMBER_OF_CONTROL_TRIGGERS
+};
+
+enum // trigger
+{
+	_control_toggle_switch = 0,
+	_control_on_button,
+	_control_off_button,
+	_control_call_button,
+
+	NUMBER_OF_CONTROL_TYPES
+};
+
+struct _control_definition
+{
+	// $$$ CONTROL $$$
+
+	short type;
+	short trigger;
+	real call_value; // [0,1]
+	string_id action_string;
+
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> on_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> off_effect;
+	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> deny_effect;
+};
+static_assert(sizeof(_control_definition) == 0x3C);
+
+struct control_definition
+{
+	static tag const k_group_tag = DEVICE_CONTROL_TAG;
+
+	_object_definition object;
+	_device_definition device;
+	_control_definition control;
+};
+static_assert(sizeof(control_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_control_definition));
+
+enum // type
+{
+	_machine_door = 0,
+	_machine_platform,
+	_machine_gear,
+
+	NUMBER_OF_MACHINE_TYPES
+};
+
+enum // flags
+{
+	_machine_is_pathfinding_obstacle_bit = 0,
+	_machine_is_not_pathfinding_obstacle_when_open_bit,
+
+	// lighting based on what's around, rather than what's below
+	_machine_is_elevator_bit,
+
+	// machines of type "door" and all other machines with this flag checked can block a door portal
+	_machine_is_door_portal_blocker_bit,
+
+	_machine_is_pathfinding_stationary_bit,
+	_machine_using_default_occlusion_bounds_bit,
+
+	NUMBER_OF_MACHINE_FLAGS
+};
+
+struct _machine_definition
+{
+	short type;
+	word_flags flags;
+	real door_open_time; // seconds
+
+	// maps position [0,1] to occlusion
+	real door_occlusion_lower_bound;
+	real door_occlusion_upper_bound;
+
+	short collision_response;
+	short elevator_node_index;
+	short pathfinding_policy;
+	short pad0;
+};
+static_assert(sizeof(_machine_definition) == 0x18);
+
+struct machine_definition
+{
+	_object_definition object;
+	_device_definition device;
+	_machine_definition machine;
+};
+static_assert(sizeof(machine_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_machine_definition));
+
+struct terminal_difficulty_setting
+{
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> dummy_strings;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> story_strings;
+	short dummy_content_flags;
+	short story_content_flags;
+	short dummy_image_frame_index;
+	short story_image_frame_index;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> error_strings;
+};
+static_assert(sizeof(terminal_difficulty_setting) == 0x38);
+
+struct _terminal_definition
+{
+	// $$$ TERMINAL $$$
+
+	dword_flags flags;
+	long action_string;
+	short terminal_number;
+	short pad0;
+
+	// set the exposure to the this when viewing terminal
+	real exposure_value;
+
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> activation_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> deactivation_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> translation_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> untranslation_sound;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> error_sound;
+	terminal_difficulty_setting settings[4];
+};
+static_assert(sizeof(_terminal_definition) == 0x140);
+
+struct terminal_definition
+{
+	static tag const k_group_tag = DEVICE_TERMINAL_TAG;
+
+	_object_definition object;
+	_device_definition device;
+	_terminal_definition terminal;
+};
+static_assert(sizeof(terminal_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_terminal_definition));
+
