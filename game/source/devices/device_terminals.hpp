@@ -4,12 +4,47 @@
 #include "devices/devices.hpp"
 #include "objects/objects.hpp"
 
+enum e_terminal_flags
+{
+	_terminal_start_bit = 0,
+	_terminal_start_scripted_scroll_bit,
+	_terminal_scripted_scroll_bit,
+	_terminal_disallow_error_bit,
+
+	k_terminal_flags_count
+};
+
+enum e_terminal_state
+{
+	_terminal_state_default = 0,
+	_terminal_state_fly_in,
+	_terminal_state_ui,
+
+	k_terminal_state_count
+};
+
+enum e_terminal_screen_state
+{
+	_terminal_screen_inactive = 0,
+	_terminal_screen_intro,
+	_terminal_screen_dummy,
+	_terminal_screen_error,
+	_terminal_screen_seek,
+	_terminal_screen_story,
+
+	k_terminal_screen_state_count
+};
+
+using c_terminal_flags = c_flags<e_terminal_flags, short, k_terminal_flags_count>;
+using c_terminal_state = c_enum<e_terminal_state, short, _terminal_state_default, k_terminal_state_count>;
+using c_terminal_screen_state = c_enum<e_terminal_screen_state, short, _terminal_screen_inactive, k_terminal_screen_state_count>;
+
 struct _terminal_datum
 {
-	word_flags flags;
-	short state;
+	c_terminal_flags flags;
+	c_terminal_state state;
 	short start_timer;
-	short screen_state;
+	c_terminal_screen_state screen_state;
 	short screen_state_timer;
 	long reader_unit_index;
 	real activation_value;
