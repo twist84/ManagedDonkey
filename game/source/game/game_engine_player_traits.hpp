@@ -471,6 +471,11 @@ constexpr real k_motion_tracker_range_values[k_motion_tracker_range_settings - _
 	150.0f
 };
 
+typedef c_enum<e_damage_resistance_percentage_setting, byte, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> c_damage_resistance_percentage_setting;
+typedef c_enum<e_shield_recharge_rate_percentage_setting, byte, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> c_shield_recharge_rate_percentage_setting;
+typedef c_enum<e_vampirism_percentage_setting, byte, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> c_vampirism_percentage_setting;
+typedef c_enum<e_headshot_immunity_setting, byte, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> c_headshot_immunity_setting;
+typedef c_enum<e_shield_multiplier_setting, byte, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> c_shield_multiplier_setting;
 struct c_player_trait_shield_vitality
 {
 public:
@@ -506,17 +511,22 @@ public:
 	real get_maximum_shield_vitality();
 
 protected:
-	c_enum<e_damage_resistance_percentage_setting, char, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> m_damage_resistance_percentage_setting;
-	c_enum<e_shield_recharge_rate_percentage_setting, char, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> m_shield_recharge_rate_percentage_setting;
-	c_enum<e_vampirism_percentage_setting, char, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> m_vampirism_percentage_setting;
-	c_enum<e_headshot_immunity_setting, char, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> m_headshot_immunity_setting;
-	c_enum<e_shield_multiplier_setting, char, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> m_shield_multiplier_setting;
+	c_damage_resistance_percentage_setting m_damage_resistance_percentage_setting;
+	c_shield_recharge_rate_percentage_setting m_shield_recharge_rate_percentage_setting;
+	c_vampirism_percentage_setting m_vampirism_percentage_setting;
+	c_headshot_immunity_setting m_headshot_immunity_setting;
+	c_shield_multiplier_setting m_shield_multiplier_setting;
 
 	// elephant
 	byte pad[3];
 };
 static_assert(sizeof(c_player_trait_shield_vitality) == 0x8);
 
+typedef c_enum<e_grenade_count_setting, short, _grenade_count_setting_unchanged, k_grenade_count_settings> c_grenade_count_setting;
+typedef c_enum<e_damage_modifier_percentage_setting, byte, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> c_damage_modifier_percentage_setting;
+typedef c_enum<e_recharging_grenades_setting, byte, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> c_recharging_grenades_setting;
+typedef c_enum<e_infinite_ammo_setting, byte, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> c_infinite_ammo_setting;
+typedef c_enum<e_weapon_pickup_setting, byte, _weapon_pickup_setting_unchanged, k_weapon_pickup_settings> c_weapon_pickup_setting;
 struct c_player_trait_weapons
 {
 public:
@@ -562,16 +572,19 @@ public:
 	void set_weapon_pickup_allowed(bool weapon_pickup_allowed, bool force);
 
 protected:
-	c_enum<e_grenade_count_setting, word, _grenade_count_setting_unchanged, k_grenade_count_settings> m_initial_grenade_count_setting;
+	c_grenade_count_setting m_initial_grenade_count_setting;
 	char m_initial_primary_weapon_absolute_index;
 	char m_initial_secondary_weapon_absolute_index;
-	c_enum<e_damage_modifier_percentage_setting, char, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> m_damage_modifier_percentage_setting;
-	c_enum<e_recharging_grenades_setting, char, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> m_recharging_grenades_setting;
-	c_enum<e_infinite_ammo_setting, char, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> m_infinite_ammo_setting;
-	c_enum<e_weapon_pickup_setting, char, _weapon_pickup_setting_unchanged, k_weapon_pickup_settings> m_weapon_pickup_setting;
+	c_damage_modifier_percentage_setting m_damage_modifier_percentage_setting;
+	c_recharging_grenades_setting m_recharging_grenades_setting;
+	c_infinite_ammo_setting m_infinite_ammo_setting;
+	c_weapon_pickup_setting m_weapon_pickup_setting;
 };
 static_assert(sizeof(c_player_trait_weapons) == 0x8);
 
+typedef c_enum<e_player_speed_setting, byte, _player_speed_setting_unchanged, k_player_speed_settings> c_player_speed_setting;
+typedef c_enum<e_player_gravity_setting, byte, _player_gravity_setting_unchanged, k_player_gravity_settings> c_player_gravity_setting;
+typedef c_enum<e_vehicle_usage_setting, byte, _vehicle_usage_setting_unchanged, k_vehicle_usage_settings> c_vehicle_usage_setting;
 struct c_player_trait_movement
 {
 public:
@@ -594,9 +607,9 @@ public:
 	void set_vehicle_usage_setting(e_vehicle_usage_setting vehicle_usage_setting, bool force);
 
 protected:
-	c_enum<e_player_speed_setting, char, _player_speed_setting_unchanged, k_player_speed_settings> m_speed_setting;
-	c_enum<e_player_gravity_setting, char, _player_gravity_setting_unchanged, k_player_gravity_settings> m_gravity_setting;
-	c_enum<e_vehicle_usage_setting, char, _vehicle_usage_setting_unchanged, k_vehicle_usage_settings> m_vehicle_usage_setting;
+	c_player_speed_setting m_speed_setting;
+	c_player_gravity_setting m_gravity_setting;
+	c_vehicle_usage_setting m_vehicle_usage_setting;
 
 	// shark
 	byte pad;
@@ -604,6 +617,10 @@ protected:
 static_assert(sizeof(c_player_trait_movement) == 0x4);
 
 // Traits that affect the player's appearance
+typedef c_enum<e_active_camo_setting, byte, _active_camo_setting_unchanged, k_active_camo_settings> c_active_camo_setting;
+typedef c_enum<e_waypoint_setting, byte, _waypoint_setting_unchanged, k_waypoint_settings> c_waypoint_setting;
+typedef c_enum<e_aura_setting, byte, _aura_setting_unchanged, k_aura_settings> c_aura_setting;
+typedef c_enum<e_forced_change_color_setting, byte, _forced_change_color_setting_unchanged, k_forced_change_color_settings> c_forced_change_color_setting;
 struct c_player_trait_appearance
 {
 public:
@@ -625,14 +642,16 @@ public:
 	void set_forced_change_color_setting(e_forced_change_color_setting forced_change_color_setting, bool force);
 
 protected:
-	c_enum<e_active_camo_setting, char, _active_camo_setting_unchanged, k_active_camo_settings> m_active_camo_setting;
-	c_enum<e_waypoint_setting, char, _waypoint_setting_unchanged, k_waypoint_settings> m_waypoint_setting;
-	c_enum<e_aura_setting, char, _aura_setting_unchanged, k_aura_settings> m_aura_setting;
-	c_enum<e_forced_change_color_setting, char, _forced_change_color_setting_unchanged, k_forced_change_color_settings> m_forced_change_color_setting;
+	c_active_camo_setting m_active_camo_setting;
+	c_waypoint_setting m_waypoint_setting;
+	c_aura_setting m_aura_setting;
+	c_forced_change_color_setting m_forced_change_color_setting;
 };
 static_assert(sizeof(c_player_trait_appearance) == 0x4);
 
 // Traits that affect the HUD motion sensor behavior
+typedef c_enum<e_motion_tracker_setting, word, _motion_tracker_setting_unchanged, k_motion_tracker_settings> c_motion_tracker_setting;
+typedef c_enum<e_motion_tracker_range_setting, word, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> c_motion_tracker_range_setting;
 struct c_player_trait_sensors
 {
 public:
@@ -650,8 +669,8 @@ public:
 	real get_motion_tracker_range_meters() const;
 
 protected:
-	c_enum<e_motion_tracker_setting, short, _motion_tracker_setting_unchanged, k_motion_tracker_settings> m_motion_tracker_setting;
-	c_enum<e_motion_tracker_range_setting, short, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> m_motion_tracker_range_setting;
+	c_motion_tracker_setting m_motion_tracker_setting;
+	c_motion_tracker_range_setting m_motion_tracker_range_setting;
 };
 static_assert(sizeof(c_player_trait_sensors) == 0x4);
 
