@@ -62,10 +62,9 @@ struct vehicle_datum
 static_assert(sizeof(vehicle_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
 
 extern bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index);
+vehicle_datum* __cdecl vehicle_get(long vehicle_index);
 extern void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position);
 extern e_vehicle_type __cdecl vehicle_get_type(long vehicle_index);
 extern bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index);
 extern void __cdecl vehicle_render_debug(long vehicle_index);
-
-vehicle_datum* vehicle_get(long vehicle_index);
 

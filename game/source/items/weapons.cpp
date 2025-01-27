@@ -447,7 +447,8 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 
 weapon_datum* __cdecl weapon_get(long weapon_index)
 {
-	return (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	weapon_datum* result = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
+	return result;
 }
 
 //.text:00B62A50 ; long __cdecl weapon_get_active_barrel_index(long)

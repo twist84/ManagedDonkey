@@ -227,6 +227,12 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 //.text:00B42BA0 ; void __cdecl unit_force_detach_from_parent_object(long)
 //.text:00B42C50 ; void __cdecl unit_force_drop_weapon(long, long, bool, bool)
 
+unit_datum* __cdecl unit_get(long unit_index)
+{
+	unit_datum* result = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	return result;
+}
+
 bool __cdecl unit_get_acceleration_origin_and_data(long unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data)
 {
 	return INVOKE(0x00B42D20, unit_get_acceleration_origin_and_data, unit_index, origin, acceleration_data);
@@ -862,10 +868,5 @@ LABEL_12:
 			return next_unit_index;
 	}
 	return unit_iterator.get_index();
-}
-
-unit_datum* unit_get(long unit_index)
-{
-	return (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
 }
 

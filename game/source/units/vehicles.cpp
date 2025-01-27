@@ -35,6 +35,13 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 //.text:00B75AD0 ; void __cdecl vehicle_deplete_function_variables(long)
 //.text:00B75B10 ; void __cdecl vehicle_enable_ghost_effects(bool)
 //.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, dword*)
+
+vehicle_datum* __cdecl vehicle_get(long vehicle_index)
+{
+	vehicle_datum* result = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
+	return result;
+}
+
 //.text:00B75D90 ; bool __cdecl vehicle_get_auto_turret_damage_owner(long, s_damage_owner*)
 //.text:00B75DD0 ; short __cdecl vehicle_get_driver_seat(long, long*)
 
@@ -137,9 +144,4 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 //.text:00B770B0 ; void __cdecl vehicles_dispose_from_old_map()
 //.text:00B770C0 ; void __cdecl vehicles_initialize()
 //.text:00B770D0 ; void __cdecl vehicles_initialize_for_new_map()
-
-vehicle_datum* vehicle_get(long vehicle_index)
-{
-	return (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
-}
 

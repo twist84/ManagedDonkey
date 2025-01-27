@@ -19,6 +19,13 @@
 //.text:00B887B0 ; void __cdecl equipment_definition_handle_pickup(long, long)
 //.text:00B88860 ; bool __cdecl equipment_desires_3rd_person_camera(long)
 //.text:00B888E0 ; void __cdecl sub_B888E0(long)
+
+equipment_datum* __cdecl equipment_get(long equipment_index)
+{
+	equipment_datum* result = (equipment_datum*)object_get_and_verify_type(equipment_index, _object_mask_equipment);
+	return result;
+}
+
 //.text:00B889F0 ; double __cdecl sub_B889F0(long)
 //.text:00B88B10 ; double __cdecl equipment_get_invincible_fraction(long)
 //.text:00B88B70 ; bool __cdecl sub_B88B70(long, real*)
@@ -44,9 +51,4 @@
 //.text:00B89F60 ; 
 //.text:00B89F80 ; void __cdecl sub_B89F80(long)
 //.text:00B8A040 ; bool __cdecl sub_B8A040(long, long)
-
-equipment_datum* equipment_get(long equipment_index)
-{
-	return (equipment_datum*)object_get_and_verify_type(equipment_index, _object_mask_equipment);
-}
 

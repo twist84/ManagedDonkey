@@ -131,7 +131,8 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, real_vecto
 
 biped_datum* __cdecl biped_get(long biped_index)
 {
-	return (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	biped_datum* result = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
+	return result;
 }
 
 void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width)
