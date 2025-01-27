@@ -4,6 +4,20 @@
 #include "devices/devices.hpp"
 #include "objects/objects.hpp"
 
+enum // flags
+{
+	_machine_does_not_operate_automatically_bit = 0,
+	_machine_does_not_close_automatically_bit,
+	_machine_one_sided_bit,
+	_machine_one_sided_for_player_bit,
+	_machine_never_appears_locked_bit,
+	_machine_opened_by_melee_attack_bit,
+	_machine_in_motion_bit,
+	_machine_ignores_player_bit,
+
+	NUMBER_OF_MACHINE_DATUM_FLAGS
+};
+
 struct _machine_datum
 {
 	dword_flags flags;
