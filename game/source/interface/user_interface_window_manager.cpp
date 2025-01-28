@@ -31,7 +31,7 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 //.text:00AAAE80 ; public: void c_window_manager::dispose_screen(c_gui_screen_widget*)
 //.text:00AAB090 ; 
 //.text:00AAB0A0 ; public: c_gui_screen_widget* c_window_manager::get_bottommost_screen(e_window_index)
-//.text:00AAB0D0 ; 
+//.text:00AAB0D0 ; c_gui_widget::get_children
 //.text:00AAB100 ; 
 //.text:00AAB110 ; 
 //.text:00AAB120 ; public: bool c_window_manager::get_fading() const
@@ -107,10 +107,9 @@ bool c_window_manager::named_screen_defined_in_code(long screen_name)
 //.text:00AAC6C0 ; 
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(dword)
 //.text:00AAC910 ; public: void c_window_manager::render(e_window_index, long, rectangle2d const*, bool)
-//.text:00AACB10 ; 
+//.text:00AACB10 ; public: void c_window_manager::render_fade()
 //.text:00AACBD0 ; public: void c_window_manager::reset_screens()
-//.text:00AACE40 ; 
-//.text:00AACE40 ; c_window_manager::run_screen_hs_script_by_index?
+//.text:00AACE40 ; public: void c_window_manager::run_screen_hs_script(long)
 //.text:00AACEA0 ; 
 //.text:00AACEC0 ; 
 //.text:00AACEF0 ; 
@@ -131,8 +130,8 @@ void c_window_manager::update(dword milliseconds)
 
 //.text:00AAD540 ; public: void c_window_manager::update_fade(dword)
 //.text:00AAD670 ; 
-//.text:00AAD730 ; 
-//.text:00AAD8B0 ; 
+//.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, long)
+//.text:00AAD8B0 ; void __cdecl window_manager_build_render_data_for_screen(rectangle2d const*, c_gui_screen_widget*, s_window_manager_screen_render_data*)
 
 c_window_manager* __cdecl window_manager_get()
 {
@@ -148,14 +147,14 @@ void __cdecl window_manager_load_screen_hs(long screen_name)
 	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen_name);
 }
 
-//.text:00AADA20 ; 
+//.text:00AADA20 ; void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data*, long, rectangle2d*, bool)
 
 void __cdecl window_manager_reset_screens()
 {
 	INVOKE(0x00AADAC0, window_manager_reset_screens);
 }
 
-//.text:00AADAE0 ; 
-//.text:00AADB10 ; 
+//.text:00AADAE0 ; bool __cdecl window_manager_screen_is_alert_or_dialog(c_gui_screen_widget const*)
+//.text:00AADB10 ; void __cdecl window_manager_storage_devices_changed()
 
 
