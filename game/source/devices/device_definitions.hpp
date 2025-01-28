@@ -166,7 +166,7 @@ struct _terminal_definition
 	// $$$ TERMINAL $$$
 
 	dword_flags flags;
-	long action_string;
+	string_id action_string;
 	short terminal_number;
 	short pad0;
 
@@ -191,4 +191,22 @@ struct terminal_definition
 	_terminal_definition terminal;
 };
 static_assert(sizeof(terminal_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_terminal_definition));
+
+struct _arg_device_definition
+{
+	// $$$ ARG DEVICE $$$
+
+	string_id action_string;
+};
+static_assert(sizeof(_arg_device_definition) == 0x4);
+
+struct arg_device_definition
+{
+	static tag const k_group_tag = DEVICE_ARG_DEVICE_TAG;
+
+	_object_definition object;
+	_device_definition device;
+	_arg_device_definition arg_device;
+};
+static_assert(sizeof(arg_device_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_arg_device_definition));
 
