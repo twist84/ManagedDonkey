@@ -55,12 +55,26 @@ static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_cor
 
 struct s_depth_sorted_render_widget
 {
-	long type;
+	e_gui_widget_type type;
 	long render_data_offset;
 	real depth;
 	long depth_bias;
 };
 static_assert(sizeof(s_depth_sorted_render_widget) == 0x10);
+
+struct s_window_manager_static_render_data
+{
+	enum
+	{
+		k_maximum_rendered_child_widgets_per_screen = 384
+	};
+
+	char render_data_buffer[0x14000];
+	long render_data_buffer_count;
+	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
+	long current_count;
+};
+static_assert(sizeof(s_window_manager_static_render_data) == 0x15808);
 
 struct s_window_manager_screen_render_data
 {
