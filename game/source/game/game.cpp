@@ -262,8 +262,8 @@ void __cdecl game_create_players()
 	//	game_options* options = game_options_get();
 	//	ASSERT(!simulation_reset_in_progress());
 	//
-	//	players_set_machines(options->machine_options.valid_machine_mask, options->machine_options.machines);
-	//	players_set_local_machine(options->machine_options.local_machine_exists ? &options->machine_options.local_machine : NULL);
+	//	players_set_machines(options->machines.valid_machine_mask, options->machines.machines);
+	//	players_set_local_machine(options->machines.local_machine_exists ? &options->machines.local_machine : NULL);
 	//	for (long i = 0; i < 16; i++)
 	//	{
 	//		if (options->players[i].player_valid)
@@ -1123,34 +1123,192 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 {
 	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
 
-	//if (options->game_mode < _game_mode_none || options->game_mode >= k_game_mode_count)
-	//	return false;
+	//ASSERT(options);
+	//ASSERT(error_string);
 	//
-	//if (options->game_simulation < _game_simulation_none || options->game_simulation >= k_game_simulation_count)
+	//if (!VALID_INDEX(options->game_mode, k_game_mode_count))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"game_mode %d outside valid range [0, %d)",
+	//		options->game_mode,
+	//		k_game_mode_count);
 	//	return false;
+	//}
 	//
-	//if (options->game_tick_rate <= 0 && options->game_tick_rate > 300)
+	//if (!VALID_INDEX(options->game_simulation, k_game_simulation_count))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"game_simulation %d outside valid range [0, %d)",
+	//		options->game_simulation,
+	//		k_game_simulation_count);
 	//	return false;
+	//}
 	//
-	//if (options->scenario_path.is_empty())
+	//if (!VALID_INDEX(options->game_tick_rate, 300))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"game_tick_rate %d outside valid range [0, %d)",
+	//		options->game_tick_rate,
+	//		300);
 	//	return false;
+	//}
 	//
-	//if (options->initial_zone_set_index < 0 || options->initial_zone_set_index >= 48)
+	//if (!options->scenario_path.length())
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"scenario_path is empty");
 	//	return false;
+	//}
 	//
-	//if (options->record_saved_film && (options->game_playback < _game_playback_none || options->game_playback >= k_game_playback_count))
+	//if (!VALID_INDEX(options->initial_zone_set_index, k_maximum_scenario_zone_set_count))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"initial_zone_set_index %d outside valid range [0, %d)",
+	//		options->initial_zone_set_index,
+	//		k_maximum_scenario_zone_set_count);
 	//	return false;
+	//}
+	//
+	//if (!VALID_INDEX(options->game_playback, k_game_playback_count))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"game_playback %d outside valid range [0, %d)",
+	//		options->game_playback,
+	//		k_game_playback_count);
+	//	return false;
+	//}
+	//
+	//if (options->record_saved_film && options->game_playback)
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"cannot simultaneously record and play back a saved film");
+	//	return false;
+	//}
 	//
 	//if (options->map_variant.m_map_id != NONE && options->map_id != options->map_variant.m_map_id)
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"map_id 0x%08X does not match map variant map_id 0x%08X",
+	//		options->map_id,
+	//		options->map_variant.m_map_id);
 	//	return false;
+	//}
 	//
-	//if (options->campaign_metagame_scoring < 0 || options->campaign_metagame_scoring >= 3)
+	//if (!VALID_INDEX(options->campaign_metagame_scoring, 3))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"metagame scoring option %i is invalid",
+	//		options->campaign_metagame_scoring);
 	//	return false;
+	//}
 	//
-	//if (options->campaign_insertion_point < 0 || options->campaign_insertion_point >= 9)
+	//if (!VALID_INDEX(options->campaign_insertion_point, 9))
+	//{
+	//	csnzprintf(error_string, error_string_length,
+	//		"game_playback %d outside valid range [0, %d)",
+	//		options->campaign_insertion_point);
 	//	return false;
+	//}
 	//
-	//// $TODO: more checks
+	//long player_count = 0;
+	//// $TODO: `options->machines` checks
+	//// $TODO: `options->players` checks
+	//
+	//// $TODO: confirm `options->game_mode` checks
+	//switch (options->game_mode)
+	//{
+	//case _game_mode_campaign:
+	//{
+	//	if (game_in_editor())
+	//	{
+	//		if (player_count == 0)
+	//		{
+	//			csnzprintf(error_string, error_string_length,
+	//				"must have at least one player to play in the editor");
+	//			return false;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (VALID_INDEX(options->campaign_difficulty, k_number_of_campaign_difficulty_levels))
+	//		{
+	//			csnzprintf(
+	//				error_string,
+	//				error_string_length,
+	//				"campaign_difficulty %d outside valid range [0, %d)",
+	//				options->campaign_difficulty,
+	//				k_number_of_campaign_difficulty_levels);
+	//			return false;
+	//		}
+	//		if (VALID_COUNT(player_count, k_maximum_campaign_players))
+	//		{
+	//			csnzprintf(
+	//				error_string,
+	//				error_string_length,
+	//				"campaign_difficulty %d outside valid range [0, %d)",
+	//				options->campaign_difficulty,
+	//				k_number_of_campaign_difficulty_levels);
+	//			return false;
+	//		}
+	//		if (!options->machines.local_machine_exists)
+	//		{
+	//			csnzprintf(error_string, error_string_length,
+	//				"local machine must exist in a campaign game");
+	//			return false;
+	//		}
+	//	}
+	//}
+	//break;
+	//case _game_mode_multiplayer:
+	//{
+	//	if (VALID_COUNT(player_count, k_maximum_multiplayer_players))
+	//	{
+	//		csnzprintf(
+	//			error_string,
+	//			error_string_length,
+	//			"player_count %d outside valid range [1, %d]",
+	//			player_count,
+	//			k_maximum_multiplayer_players);
+	//		return false;
+	//	}
+	//	if (!options->machines.local_machine_exists)
+	//	{
+	//		csnzprintf(error_string, error_string_length,
+	//			"local machine must exist in a multiplayer game");
+	//		return false;
+	//	}
+	//}
+	//break;
+	//case _game_mode_ui_shell:
+	//{
+	//	if (player_count == 0)
+	//	{
+	//		csnzprintf(error_string, error_string_length,
+	//			"must have at least one player to run the UI shell");
+	//		return false;
+	//	}
+	//	if (!options->machines.local_machine_exists)
+	//	{
+	//		csnzprintf(error_string, error_string_length,
+	//			"local machine must exist in the UI shell");
+	//		return false;
+	//	}
+	//}
+	//break;
+	//default:
+	//{
+	//	if (options->game_mode != _game_mode_tool)
+	//	{
+	//		csnzprintf(error_string, error_string_length,
+	//			"game_mode %d is unknown",
+	//			options->game_mode);
+	//		return false;
+	//	}
+	//}
+	//break;
+	//}
+	//
+	//return true;
 }
 
 e_game_playback_type __cdecl game_playback_get()

@@ -54,12 +54,12 @@ struct game_options
 	long campaign_active_secondary_skulls;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
-	byte __align2C9[7];
+	byte pad1[7];
 	s_game_matchmaking_options matchmaking_options;
 	c_game_variant multiplayer_variant;
 	c_map_variant map_variant;
-	game_machine_options machine_options;
-	c_static_array<game_player_options, 16> players;
+	game_machine_options machines;
+	game_player_options players[16];
 };
 static_assert(sizeof(game_options) == 0x24B48);
 #pragma warning(pop)

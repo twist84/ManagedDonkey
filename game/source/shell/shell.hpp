@@ -2,6 +2,13 @@
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
+enum
+{
+	k_maximum_scenario_zone_set_count = 48,
+	k_maximum_campaign_players = 4,
+	k_maximum_multiplayer_players = 16,
+};
+
 enum e_scenario_camera_type
 {
 	_scenario_camera_type_target_relative = 0,
