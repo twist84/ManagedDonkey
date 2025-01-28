@@ -154,10 +154,10 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 
 bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
 {
-	c_gui_custom_bitmap_storage_manager::s_bitmap_storage_handle_datum* storage_item = NULL;
+	s_bitmap_storage_handle_datum* storage_item = NULL;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		if (storage_item = (decltype(storage_item))datum_try_and_get(m_bitmap_storage_items, storage_item_index))
+		if (storage_item = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, storage_item_index))
 			storage_item->__unknown8 = 1;
 	}
 

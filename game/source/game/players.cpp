@@ -270,7 +270,7 @@ bool __cdecl player_consider_equipment_interaction(long player_index, long equip
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	player_datum* player = (player_datum*)datum_get(player_data, player_index);
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 	unit_datum* unit = unit_get(player->unit_index);
 	equipment_datum* equipment = equipment_get(equipment_index);
 
@@ -357,7 +357,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	player_datum* player = (player_datum*)datum_get(player_data, player_index);
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 
 	player_action_context_clear(out_action_context);
 
@@ -574,7 +574,7 @@ void __cdecl player_set_facing(long player_index, real_vector3d const* facing)
 
 	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//
-	//player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
+	//player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 	//if (game_is_authoritative())
 	//{
 	//	if (player->unit_index != NONE)
@@ -620,7 +620,7 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 	//INVOKE(0x0053F220, player_suppress_action, player_index, player_suppress_action_type);
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
+	player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 
 	long input_user = player_mapping_get_input_user(player_index);
 	switch (player_suppress_action_type)

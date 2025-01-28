@@ -60,7 +60,7 @@ void debug_render_player_battle_vector()
 		ai_player_state& ai_player = g_ai_players[ai_player_index];
 		if (ai_player.player_index != NONE)
 		{
-			player_datum* player = (player_datum*)datum_get(player_data, ai_player.player_index);
+			player_datum* player = DATUM_GET(player_data, player_datum, ai_player.player_index);
 			if (player->unit_index != NONE)
 			{
 				real_point3d unit_head_position{};
@@ -87,7 +87,7 @@ void debug_render_player_needs_vehicle()
 		ai_player_state& ai_player = g_ai_players[ai_player_index];
 		if (ai_player.player_index != NONE)
 		{
-			player_datum* player = (player_datum*)datum_get(player_data, ai_player.player_index);
+			player_datum* player = DATUM_GET(player_data, player_datum, ai_player.player_index);
 			if (player->unit_index != NONE)
 			{
 				real_point3d unit_head_position{};

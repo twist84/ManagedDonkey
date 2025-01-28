@@ -152,7 +152,7 @@ void __cdecl terminal_update_output(real shell_seconds_elapsed)
 		long line_count = NONE;
 		for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE; line_index = line_count)
 		{
-			output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line_index));
+			output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line_index);
 			line_count = line->line_count;
 
 			line->timer += shell_seconds_elapsed;
@@ -181,7 +181,7 @@ void __cdecl terminal_remove_line(long line_index)
 {
 	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
-	output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line_index));
+	output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line_index);
 
 	if (line->line_count == NONE)
 	{
@@ -189,7 +189,7 @@ void __cdecl terminal_remove_line(long line_index)
 	}
 	else
 	{
-		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line->line_count));
+		output_line_datum* temp = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line->line_count);
 		temp->line_index = line->line_index;
 	}
 
@@ -199,7 +199,7 @@ void __cdecl terminal_remove_line(long line_index)
 	}
 	else
 	{
-		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line->line_index));
+		output_line_datum* temp = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line->line_index);
 		temp->line_count = line->line_count;
 	}
 
@@ -217,7 +217,7 @@ long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color,
 	long new_line_index = datum_new(terminal_globals.output_lines);
 	ASSERT(new_line_index != NONE);
 
-	output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, new_line_index));
+	output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, new_line_index);
 
 	line->line_index = NONE;
 	line->line_count = terminal_globals.newest_output_line_index;
@@ -230,7 +230,7 @@ long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color,
 
 	if (line->line_count != NONE)
 	{
-		output_line_datum* temp = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line->line_count));
+		output_line_datum* temp = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line->line_count);
 		temp->line_index = new_line_index;
 	}
 	else
@@ -334,7 +334,7 @@ void __cdecl terminal_draw()
 				if (line_offset - line_height <= 0)
 					break;
 
-				output_line_datum* line = static_cast<output_line_datum*>(datum_try_and_get(terminal_globals.output_lines, line_index));
+				output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line_index);
 				line_count = line->line_count;
 
 				real alpha_scale = fmaxf(4.0f - line->timer, 0.0f);

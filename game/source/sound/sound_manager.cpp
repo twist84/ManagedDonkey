@@ -616,7 +616,7 @@ void __cdecl render_debug_sound(long sound_index)
 	if (!debug_sound)
 		return;
 
-	sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(g_sound_data, sound_index));
+	sound_datum* sound = DATUM_TRY_AND_GET(g_sound_data, sound_datum, sound_index);
 	if (!sound)
 		return;
 
@@ -891,7 +891,7 @@ void __cdecl sound_debug_render()
 			if (channel->sound_index == NONE)
 				continue;
 	
-			sound_datum* sound = static_cast<sound_datum*>(datum_try_and_get(g_sound_data, channel->sound_index));
+			sound_datum* sound = DATUM_TRY_AND_GET(g_sound_data, sound_datum, channel->sound_index);
 			if (!sound)
 				continue;
 

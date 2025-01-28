@@ -225,7 +225,7 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 		for (long user_index = player_mapping_first_active_output_user(); user_index != NONE; user_index = player_mapping_next_active_output_user(user_index))
 		{
 			long player_index = player_mapping_get_player_by_output_user(user_index);
-			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			e_controller_index controller_index = controller_index_from_user_index(user_index);
 			if (controller_index != k_no_controller)
 			{
@@ -286,7 +286,7 @@ void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 					{
 						if (game_grief_can_eject(player_index) && !game_grief_get_ui_active_for_local_user(controller_index))
 						{
-							player_datum* griefer = (player_datum*)datum_try_and_get(player_data, griefer_player_index);
+							player_datum* griefer = DATUM_TRY_AND_GET(player_data, player_datum, griefer_player_index);
 							e_window_index window_index = user_interface_get_window_for_controller(controller_index);
 				
 							if (c_load_boot_betrayer_screen_message* message = new c_load_boot_betrayer_screen_message(controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))

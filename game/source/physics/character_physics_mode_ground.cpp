@@ -112,7 +112,7 @@ bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_
 	if (support_havok_component_index == NONE)
 		return result;
 
-	c_havok_component* havok_component = (c_havok_component*)datum_try_and_get(g_havok_component_data, support_havok_component_index);
+	c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, support_havok_component_index);
 	if (!havok_component)
 		return result;
 

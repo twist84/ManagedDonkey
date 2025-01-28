@@ -190,7 +190,7 @@ void __cdecl sub_5B9820(long effect_index, long user_index)
 
 	TLS_DATA_GET_VALUE_REFERENCE(effect_data);
 	
-	effect_datum* effect = (effect_datum*)datum_get(effect_data, effect_index);
+	effect_datum* effect = DATUM_GET(effect_data, effect_datum, effect_index);
 	if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
 		effect_render(effect_index, user_index);
 }
@@ -541,7 +541,7 @@ void debug_effects_full()
 
 	for (long effect_index = data_next_index(effect_data, NONE); effect_index != NONE; effect_index = data_next_index(effect_data, effect_index))
 	{
-		effect_datum* effect = (effect_datum*)datum_get(effect_data, effect_index);
+		effect_datum* effect = DATUM_GET(effect_data, effect_datum, effect_index);
 		struct effect_definition* effect_definition = (struct effect_definition*)tag_get(EFFECT_TAG, effect->definition_index);
 
 		c_static_string<256> effect_string;
@@ -557,7 +557,7 @@ void debug_effects_full()
 			event_datum* _event = NULL;
 			for (long event_index = effect->event_datum_head; event_index != NONE; event_index = _event->next_event_index)
 			{
-				_event = (event_datum*)datum_get(event_data, event_index);
+				_event = DATUM_GET(event_data, event_datum, event_index);
 				effect_event_definition& effect_event = effect_definition->events[_event->event_block_index];
 
 				real duration = _event->duration;

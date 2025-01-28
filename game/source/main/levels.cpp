@@ -83,7 +83,7 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 	long campaign_level_index = datum_new(g_level_globals.campaign_levels);
 	if (campaign_level_index != NONE)
 	{
-		s_level_datum* level = (s_level_datum*)datum_try_and_get(g_level_globals.campaign_levels, campaign_level_index);
+		s_level_datum* level = DATUM_TRY_AND_GET(g_level_globals.campaign_levels, s_level_datum, campaign_level_index);
 
 		// 0x2C
 		level->flags.set(_level_visible_in_ui, true);
@@ -154,7 +154,7 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 	long multiplayer_level_index = datum_new(g_level_globals.multiplayer_levels);
 	if (multiplayer_level_index != NONE)
 	{
-		s_level_datum* level = (s_level_datum*)datum_try_and_get(g_level_globals.multiplayer_levels, multiplayer_level_index);
+		s_level_datum* level = DATUM_TRY_AND_GET(g_level_globals.multiplayer_levels, s_level_datum, multiplayer_level_index);
 
 		// 0x4C
 		level->flags.set(_level_visible_in_ui, true);
@@ -217,7 +217,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 		s_data_array* levels_data = flags.test(_level_is_campaign_bit) ? g_level_globals.campaign_levels : g_level_globals.multiplayer_levels;
 		long level_index = datum_new(levels_data);
 		if (level_index != NONE)
-			level = (s_level_datum*)datum_get(levels_data, level_index);
+			level = DATUM_GET(levels_data, s_level_datum, level_index);
 	}
 
 	if (level != NULL)
@@ -277,7 +277,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 			long insertion_index = datum_new(g_level_globals.campaign_insertions);
 			if (insertion_index != NONE)
 			{
-				s_level_insertion_datum* level_insertion = (s_level_insertion_datum*)datum_get(g_level_globals.campaign_insertions, insertion_index);
+				s_level_insertion_datum* level_insertion = DATUM_GET(g_level_globals.campaign_insertions, s_level_insertion_datum, insertion_index);
 				csmemset(level_insertion, 0, sizeof(s_level_insertion_datum));
 
 				short insertion_count = 0;

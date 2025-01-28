@@ -91,13 +91,15 @@ void* __cdecl object_header_block_get_with_count(long object_index, object_heade
 object_header_datum const* __cdecl object_header_get(long object_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	return static_cast<object_header_datum*>(datum_try_and_get(object_header_data, object_index));
+	object_header_datum const* result = DATUM_TRY_AND_GET(object_header_data, object_header_datum const, object_index);
+	return result;
 }
 
 object_header_datum* __cdecl object_header_get_mutable(long object_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	return static_cast<object_header_datum*>(datum_try_and_get(object_header_data, object_index));
+	object_header_datum* result = DATUM_TRY_AND_GET(object_header_data, object_header_datum, object_index);
+	return result;
 }
 
 object_datum* __cdecl object_get(long object_index)

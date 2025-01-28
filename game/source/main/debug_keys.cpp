@@ -910,7 +910,7 @@ void __cdecl debug_key_rotate_units(bool key_is_down)
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_mapping_get_player_by_input_user(active_input_user);
-			player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
+			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			long closest_unit = units_debug_get_closest_unit(player->unit_index);
 			if (closest_unit != NONE)
 				player_set_unit_index(player_index, closest_unit);
@@ -928,7 +928,7 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_mapping_get_player_by_input_user(active_input_user);
-			player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
+			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			long unit_index = player->unit_index;
 			if (unit_index != NONE)
 			{

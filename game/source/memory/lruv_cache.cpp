@@ -20,12 +20,12 @@ c_lruv_block_long::operator long() const
 
 s_lruv_cache_block const* lruv_cache_block_get(s_lruv_cache const* cache, long block_index)
 {
-	return (s_lruv_cache_block const*)datum_get(cache->blocks, block_index);
+	return DATUM_GET(cache->blocks, s_lruv_cache_block const, block_index);
 }
 
 s_lruv_cache_block* lruv_cache_block_get_mutable(s_lruv_cache* cache, long block_index)
 {
-	return (s_lruv_cache_block*)datum_get(cache->blocks, block_index);
+	return DATUM_GET(cache->blocks, s_lruv_cache_block, block_index);
 }
 
 void lruv_cache_verify(s_lruv_cache* cache, bool a2)

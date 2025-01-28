@@ -19,7 +19,7 @@ void debug_render_vehicle_interest()
 			ai_player_state& ai_player = g_ai_players[actor->player.player_index_interested];
 			if (ai_player.player_index != NONE)
 			{
-				player_datum* player = (player_datum*)datum_get(player_data, ai_player.player_index);
+				player_datum* player = DATUM_GET(player_data, player_datum, ai_player.player_index);
 				if (player->unit_index != NONE)
 				{
 					unit_datum* unit = unit_get(player->unit_index);

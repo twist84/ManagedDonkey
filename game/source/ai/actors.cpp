@@ -237,7 +237,7 @@ actor_datum* actor_get(long actor_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 
-	return (actor_datum*)datum_get(actor_data, actor_index);
+	return DATUM_GET(actor_data, actor_datum, actor_index);
 }
 
 bool actor_datum_available_to_current_thread()
