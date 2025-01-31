@@ -671,10 +671,10 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:0053F630 ; bool __cdecl player_teleport_internal(long, long, real_point3d const*, bool, bool)
 //.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(long, long, bool)
 //.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(long, long, real_point3d const*, real_vector3d const*, bool)
-//.text:0053FED0 ; 
-//.text:0053FEF0 ; 
-//.text:0053FF20 ; 
-//.text:0053FF40 ; 
+//.text:0053FED0 ; short __cdecl player_terminals_accessed_bitvector_get()
+//.text:0053FEF0 ; void __cdecl player_terminals_accessed_bitvector_set(short)
+//.text:0053FF20 ; short __cdecl player_terminals_read_bitvector_get()
+//.text:0053FF40 ; void __cdecl player_terminals_read_bitvector_set(short)
 //.text:0053FF70 ; long __cdecl player_try_and_get_player_index_from_absolute_player_index(long)
 
 bool __cdecl player_try_to_drop_weapon(long player_index, bool primary_weapon)
@@ -711,8 +711,8 @@ void __cdecl player_update_invisibility(long player_index)
 //.text:00540A70 ; 
 //.text:00540A80 ; void __cdecl player_validate_configuration(long, s_player_configuration*)
 //.text:00540AE0 ; bool __cdecl player_waiting_to_respawn_compare(long, long, void const *)
-//.text:00540B30 ; 
-//.text:00540B50 ; 
+//.text:00540B30 ; void __cdecl player_weapon_pickup_inhibit(bool)
+//.text:00540B50 ; long __cdecl players_active_zone_set_switch_trigger_get(void)
 
 bool __cdecl players_all_are_dead()
 {
@@ -777,8 +777,8 @@ long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progres
 
 //.text:00541CF0 ; long __cdecl players_get_alive_count()
 //.text:00541D60 ; s_campaign_armaments_player const* __cdecl players_get_campaign_armaments_player_from_player_index(long)
-//.text:00541DF0 ; 
-//.text:00541E10 ; 
+//.text:00541DF0 ; dword const* __cdecl players_get_combined_pvs()
+//.text:00541E10 ; dword const* __cdecl players_get_combined_pvs_local()
 //.text:00541E30 ; bool __cdecl players_get_local_machine(s_machine_identifier*)
 //.text:00541E90 ; long __cdecl players_get_local_machine_index()
 //.text:00541EB0 ; s_machine_identifier const* __cdecl players_get_machine_identifier(long)
@@ -787,7 +787,7 @@ long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progres
 //.text:00541FA0 ; short __cdecl players_get_respawn_failure()
 //.text:00541FC0 ; void __cdecl players_get_sorted_lifeless_waiting_to_respawn_list(long, long*, long, long*)
 //.text:00542070 ; long __cdecl players_get_total_players_in_game()
-//.text:00542090 ; 
+//.text:00542090 ; bool __cdecl players_globals_exists()
 //.text:005420B0 ; void __cdecl players_handle_deleted_object(long)
 
 void __cdecl players_handle_deleted_player_internal(long player_index)
