@@ -609,7 +609,7 @@ bool __cdecl player_spawn(long player_index, real_point3d const* position, real 
 	return INVOKE(0x0053CE60, player_spawn, player_index, position, facing);
 }
 
-//.text:0053D500
+//.text:0053D500 ; void __cdecl player_sprint_inhibit(bool)
 //.text:0053D520 ; void __cdecl player_submit_actions(long, long, s_player_action*)
 //.text:0053EC70 ; bool __cdecl player_submit_assassination(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*)
 //.text:0053F010 ; void __cdecl player_submit_control(long, long, s_player_action const*)

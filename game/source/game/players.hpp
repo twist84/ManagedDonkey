@@ -661,7 +661,7 @@ struct players_global_data
 	bool input_inhibited;
 	bool input_mostly_inhibited;
 	bool weapon_pickup_inhibited;
-	bool unknown7_inhibited;
+	bool sprint_inhibited;
 	bool equipment_use_inhibited;
 	dword machine_valid_mask;
 	s_machine_identifier machine_identifiers[k_maximum_machines];
@@ -690,7 +690,7 @@ static_assert(0x000 == OFFSETOF(players_global_data, players_in_game_count));
 static_assert(0x004 == OFFSETOF(players_global_data, input_inhibited));
 static_assert(0x005 == OFFSETOF(players_global_data, input_mostly_inhibited));
 static_assert(0x006 == OFFSETOF(players_global_data, weapon_pickup_inhibited));
-static_assert(0x007 == OFFSETOF(players_global_data, unknown7_inhibited));
+static_assert(0x007 == OFFSETOF(players_global_data, sprint_inhibited));
 static_assert(0x008 == OFFSETOF(players_global_data, equipment_use_inhibited));
 static_assert(0x00C == OFFSETOF(players_global_data, machine_valid_mask));
 static_assert(0x010 == OFFSETOF(players_global_data, machine_identifiers));

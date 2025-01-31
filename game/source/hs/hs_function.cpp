@@ -2333,7 +2333,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"player_disable_weapon_pickup",
 
 	// 751
-	"player_disable_unknown2EF",
+	"player_disable_sprint",
 
 	// 752
 	"player_disable_equipment_use",

@@ -241,6 +241,9 @@ void __cdecl test_main_loop_body_begin()
 		//bool is_valid = false;
 		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
 		//	event(_event_warning, "ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
+
+		TLS_DATA_GET_VALUE_REFERENCE(players_globals);
+		players_globals->sprint_inhibited = !players_globals->sprint_inhibited;
 #else
 		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL
