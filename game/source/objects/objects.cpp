@@ -1000,12 +1000,12 @@ long __cdecl object_new(object_placement_data* data)
 	//if ((data->definition_index != NONE && object_definition_can_be_placed(data->definition_index, data->model_variant_index)) || data->definition_index == NONE)
 	//	return NONE;
 	//
-	//struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, data->definition_index);
+	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, data->definition_index);
 	//object_type_definition* type_definition = object_type_definition_get(object_definition->object.type);
 	//
 	//s_model_definition* model_definition = NULL;
 	//if (object_definition->object.model.index != NONE)
-	//	model_definition = (s_model_definition*)tag_get(MODEL_TAG, object_definition->object.model.index);
+	//	model_definition = TAG_GET(MODEL_TAG, s_model_definition, object_definition->object.model.index);
 	//
 	//if (object_should_have_havok_component(NONE, data->definition_index))
 	//	havok_memory_garbage_collect();
@@ -1131,7 +1131,7 @@ void __cdecl object_place(long object_index, s_scenario_object const* scenario_o
 	INVOKE(0x00B31470, object_place, object_index, scenario_object);
 
 	//object_datum* object = object_get(object_index);
-	//struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 	//if (object_definition->object.ai_properties.count > 0)
 	//{
 	//	bool non_flight_blocking = object_definition->object.ai_properties[0].ai_flags.test(_ai_properties_non_flight_blocking_bit);
@@ -1951,7 +1951,7 @@ void object_get_debug_name(long object_index, bool full_name, c_static_string<25
 	}
 	else
 	{
-		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 
 		s_model_definition* model_definition = NULL;
 		if (object_definition->object.model.index != NONE)
@@ -1973,7 +1973,7 @@ void object_render_debug_internal(long object_index)
 	object_header_datum const* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
 
-	struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 
 	c_static_string<4096> string;
 

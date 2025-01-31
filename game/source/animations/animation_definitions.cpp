@@ -6,7 +6,9 @@ c_model_animation_graph const* __cdecl c_model_animation_graph::get(long definit
 {
 	//return INVOKE(0x00784BD0, c_model_animation_graph::get, definition_index);
 
-	return (c_model_animation_graph*)tag_get(MODEL_ANIMATION_GRAPH_TAG, definition_index);
+	c_model_animation_graph const* result = TAG_GET(MODEL_ANIMATION_GRAPH_TAG, c_model_animation_graph const, definition_index);
+
+	return result;
 }
 
 //.text:00784BF0 ; public: s_additional_node_data const* __cdecl c_model_animation_graph::get_additional_node_data(long) const

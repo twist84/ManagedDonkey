@@ -21,7 +21,7 @@ s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_defi
 {
 	//return INVOKE(0x00B955B0, vehicle_get_alien_fighter_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_alien_fighter_definition const* alien_fighter_definition = (s_vehicle_alien_fighter_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_alien_fighter].address;
 	return alien_fighter_definition;
 }
@@ -30,7 +30,7 @@ s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definiti
 {
 	//return INVOKE(0x00B955D0, vehicle_get_alien_scout_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_alien_scout_definition const* alien_scout_definition = (s_vehicle_alien_scout_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_alien_scout].address;
 	return alien_scout_definition;
 }
@@ -39,7 +39,7 @@ s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(long 
 {
 	//return INVOKE(0x00B955F0, vehicle_get_chopper_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_chopper_definition const* chopper_definition = (s_vehicle_chopper_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_chopper].address;
 	return chopper_definition;
 }
@@ -48,7 +48,7 @@ s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(lon
 {
 	//return INVOKE(0x00B95610, vehicle_get_guardian_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_guardian_definition const* guardian_definition = (s_vehicle_guardian_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_guardian].address;
 	return guardian_definition;
 }
@@ -57,7 +57,7 @@ s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition
 {
 	//return INVOKE(0x00B95630, vehicle_get_human_jeep_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_human_jeep_definition const* human_jeep_definition = (s_vehicle_human_jeep_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_human_jeep].address;
 	return human_jeep_definition;
 }
@@ -66,7 +66,7 @@ s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definiti
 {
 	//return INVOKE(0x00B95650, vehicle_get_human_plane_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_human_plane_definition const* human_plane_definition = (s_vehicle_human_plane_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_human_plane].address;
 	return human_plane_definition;
 }
@@ -75,7 +75,7 @@ s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition
 {
 	//return INVOKE(0x00B95670, vehicle_get_human_tank_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_human_tank_definition const* human_tank_definition = (s_vehicle_human_tank_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_human_tank].address;
 	return human_tank_definition;
 }
@@ -84,7 +84,7 @@ s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(long ve
 {
 	//return INVOKE(0x00B95690, vehicle_get_mantis_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_mantis_definition const* mantis_definition = (s_vehicle_mantis_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_mantis].address;
 	return mantis_definition;
 }
@@ -93,7 +93,7 @@ s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(long ve
 {
 	//return INVOKE(0x00B956B0, vehicle_get_turret_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_turret_definition const* turret_definition = (s_vehicle_turret_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_turret].address;
 	return turret_definition;
 }
@@ -102,7 +102,7 @@ s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(long vehicl
 {
 	//return INVOKE(0x00B956D0, vehicle_get_vtol_definition, vehicle_definition_index);
 
-	struct vehicle_definition const* vehicle_definition = (struct vehicle_definition const*)tag_get(VEHICLE_TAG, vehicle_definition_index);
+	struct vehicle_definition const* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition const, vehicle_definition_index);
 	s_vehicle_vtol_definition const* vtol_definition = (s_vehicle_vtol_definition const*)vehicle_definition->vehicle.physics_types.tag_blocks[_vehicle_type_vtol].address;
 	return vtol_definition;
 }

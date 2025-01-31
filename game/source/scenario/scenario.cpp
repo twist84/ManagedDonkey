@@ -698,7 +698,8 @@ struct scenario* global_scenario_get()
 	return global_scenario;
 
 	// halo online
-	//return static_cast<struct scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
+	//struct scenario* result = TAG_GET(SCENARIO_TAG, struct scenario, global_scenario_index);
+	//return result;
 }
 
 struct scenario* global_scenario_try_and_get()
@@ -756,7 +757,8 @@ void scenario_zone_set_debug_status(char const* status, long zone_set_index)
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
 {
-	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<struct scenario*>(tag_get(SCENARIO_TAG, scenario_index))->structure_bsp_references[structure_bsp_index];
+	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
+	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
 
 	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
 	if (structure_bsp_name)

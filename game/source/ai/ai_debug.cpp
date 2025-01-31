@@ -578,7 +578,7 @@ void ai_render_object_properties()
 	while (object_iterator.next())
 	{
 		object_datum* object = object_iterator.get_datum();
-		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 
 		if (object_definition->object.ai_properties.count)
 		{
@@ -878,7 +878,7 @@ void render_dialogue_variants()
 			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->unit.seat_storage);
 			if (seat_storage->dialogue_definition_index != NONE)
 			{
-				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
+				s_dialogue_definition* dialogue_definition = TAG_GET(DIALOGUE_TAG, s_dialogue_definition, seat_storage->dialogue_definition_index);
 				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
 				render_debug_string_at_point(&actor->input.position.head_position, mission_dialogue_designator_name, global_real_argb_white);
 			}

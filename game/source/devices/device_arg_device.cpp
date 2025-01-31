@@ -12,7 +12,7 @@ long __cdecl device_arg_device_get_action_string(long arg_device_index)
 	return INVOKE(0x00BB81E0, device_arg_device_get_action_string, arg_device_index);
 
 	//arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
-	//struct arg_device_definition* arg_device_definition = (struct arg_device_definition*)tag_get(DEVICE_ARG_DEVICE_TAG, arg_device->definition_index);
+	//struct arg_device_definition* arg_device_definition = TAG_GET(DEVICE_ARG_DEVICE_TAG, struct arg_device_definition, arg_device->definition_index);
 	//return arg_device_definition->arg_device.action_string;
 }
 

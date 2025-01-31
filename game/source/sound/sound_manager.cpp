@@ -642,7 +642,7 @@ void __cdecl render_debug_sound(long sound_index)
 		hardware_voice_index = channel->hardware_voice_index;
 	}
 
-	void* sound_definition = tag_get(SOUND_TAG, sound->definition_index);
+	void* sound_definition = TAG_GET(SOUND_TAG, void, sound->definition_index);
 
 	char const* tag_name = tag_get_name(sound->definition_index);
 

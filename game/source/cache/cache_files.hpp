@@ -9,6 +9,8 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
+#define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get(GROUP, INDEX))
+
 enum e_cache_file_shared_file_type
 {
 	_cache_file_shared_file_type_ui = 0,

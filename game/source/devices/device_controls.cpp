@@ -8,7 +8,7 @@ void __cdecl control_destroyed(long control_index)
 	INVOKE(0x00BBFB20, control_destroyed, control_index);
 
 	//control_datum* control = control_get_datum(control_index);
-	//struct control_definition* control_definition = (struct control_definition*)tag_get(DEVICE_CONTROL_TAG, control->definition_index);
+	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
 	//if (control_definition->control.trigger == _control_trigger_destruction)
 	//{
 	//	control_toggle(control_index);
@@ -26,7 +26,7 @@ long __cdecl control_get_action_string(long control_index)
 	return INVOKE(0x00BBFB70, control_get_action_string, control_index);
 
 	//control_datum* control = control_get_datum(control_index);
-	//struct control_definition* control_definition = (struct control_definition*)tag_get(DEVICE_CONTROL_TAG, control->definition_index);
+	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
 	//return control_definition->control.action_string;
 }
 
@@ -49,7 +49,7 @@ void __cdecl control_toggle(long control_index)
 	INVOKE(0x00BBFC30, control_toggle, control_index);
 
 	//control_datum* control = control_get_datum(control_index);
-	//struct control_definition* control_definition = (struct control_definition*)tag_get(DEVICE_CONTROL_TAG, control->definition_index);
+	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index)
 	//long position_group_index = control->device.position_group_index;
 	//// $TODO: implement me
 }
@@ -59,7 +59,7 @@ void __cdecl control_touched(long control_index, long unit_index)
 	INVOKE(0x00BBFD50, control_touched, control_index, unit_index);
 
 	//control_datum* control = control_get_datum(control_index);
-	//struct control_definition* control_definition = (struct control_definition*)tag_get(DEVICE_CONTROL_TAG, control->definition_index);
+	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
 	//if (control_definition->control.trigger == _control_trigger_player)
 	//{
 	//	control_toggle(control_index);

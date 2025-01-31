@@ -104,7 +104,7 @@ void __cdecl cheat_all_powerups()
 			if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 				break;
 
-			struct equipment_definition* equipment_definition = (struct equipment_definition*)tag_get(iterator.group_tag, tag_index);
+			struct equipment_definition* equipment_definition = TAG_GET(iterator.group_tag, struct equipment_definition, tag_index);
 			if (equipment_definition->equipment.spawner.count)
 				tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 		}
@@ -125,7 +125,7 @@ void __cdecl cheat_all_vehicles()
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(iterator.group_tag, tag_index);
+		struct vehicle_definition* vehicle_definition = TAG_GET(iterator.group_tag, struct vehicle_definition, tag_index);
 		if (vehicle_definition->unit.powered_seats.count > 0)
 			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
@@ -201,7 +201,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	object_placement_data data{};
 	object_placement_data_new(&data, object_definition_index, NONE, NULL);
 
-	struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object_definition_index);
+	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object_definition_index);
 	real bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
@@ -464,7 +464,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		if (reference.index == NONE)
 			continue;
 
-		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, reference.index);
+		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, reference.index);
 		if (!object_definition)
 			continue;
 
