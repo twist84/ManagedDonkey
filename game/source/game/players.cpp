@@ -692,9 +692,9 @@ long __cdecl player_unit_get_representation_index(long unit_index)
 }
 
 // not the correct name
-long __cdecl player_get_control_index_from_unit(long unit_index)
+long __cdecl player_unit_get_control_index(long unit_index)
 {
-	return INVOKE(0x00540440, player_get_control_index_from_unit, unit_index);
+	return INVOKE(0x00540440, player_unit_get_control_index, unit_index);
 }
 
 //.text:00540490 ; bool __cdecl player_unit_should_teleport_to_unit(long, long, long)
@@ -953,7 +953,7 @@ void verify_coop_respawn_effect()
 		if (!TEST_BIT(player->flags, _player_play_coop_spawn_effect_bit))
 			continue;
 
-		long control_index = player_get_control_index_from_unit(player->unit_index);
+		long control_index = player_unit_get_control_index(player->unit_index);
 		if (VALID_INDEX(control_index, global_game_globals->player_information.count))
 			continue;
 
