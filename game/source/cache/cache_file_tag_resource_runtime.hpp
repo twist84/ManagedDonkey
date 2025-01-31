@@ -15,6 +15,9 @@
 #include "tag_files/tag_resource_cache_stoler.hpp"
 #include "tag_files/tag_resource_threading.hpp"
 
+#define TAG_RESOURCE_GET(TYPE, RESOURCE) ((TYPE*)tag_resource_get(RESOURCE))
+#define TAG_RESOURCE_TRY_TO_GET(TYPE, RESOURCE) ((TYPE*)tag_resource_try_to_get(RESOURCE))
+
 struct s_cache_file_insertion_point_resource_usage
 {
 	byte __data[0xB4];
@@ -444,6 +447,7 @@ extern void __cdecl cache_file_tag_resources_stop_map_prefetch();
 
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
+extern void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource);
 extern long __cdecl tag_resources_lock_game();
 extern void __cdecl tag_resources_lock_render();
 extern bool __cdecl tag_resources_locked_for_current_thread_UGLY();

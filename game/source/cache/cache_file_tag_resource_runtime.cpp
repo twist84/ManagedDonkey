@@ -388,6 +388,17 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
 }
 
+//.text:00563E50 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(long)
+//.text:00563E80 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(s_tag_resource const*)
+//.text:00563EB0 ; bool __cdecl tag_resource_stream_async(s_tag_resource const*, bool, dword, dword, c_basic_buffer<void>, s_async_thread_marker*)
+//.text:00563EE0 ; bool __cdecl tag_resource_test_access_state(s_tag_resource const*, e_tag_resource_access_state_bit)
+
+void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource)
+{
+	void* result = INVOKE(0x00563F30, tag_resource_try_to_get, resource);
+	return result;
+}
+
 long __cdecl tag_resources_lock_game()
 {
 	//return INVOKE(0x00563F80, tag_resources_lock_game);
