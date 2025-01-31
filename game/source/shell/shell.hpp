@@ -9,6 +9,79 @@ enum
 	k_maximum_multiplayer_players = 16,
 };
 
+enum e_simulation_world_type
+{
+	_simulation_world_type_none = 0,
+	_simulation_world_type_local,
+	_simulation_world_type_local_playback,
+	_simulation_world_type_synchronous_game_server,
+	_simulation_world_type_synchronous_game_client,
+	_simulation_world_type_synchronous_film_server,
+	_simulation_world_type_synchronous_film_client,
+	_simulation_world_type_distributed_server,
+	_simulation_world_type_distributed_client,
+
+	k_simulation_world_type_count
+};
+
+enum e_simulation_world_state
+{
+	_simulation_world_state_none = 0,
+	_simulation_world_state_dead,
+	_simulation_world_state_disconnected,
+	_simulation_world_state_joining,
+	_simulation_world_state_active,
+	_simulation_world_state_handoff,
+	_simulation_world_state_leaving,
+
+	k_simulation_world_state_count
+};
+
+enum e_update_queue_state
+{
+	_update_queue_state_normal = 0,
+	_update_queue_state_peaking,
+	_update_queue_state_throttling,
+	_update_queue_state_cooling,
+
+	k_update_queue_state_count
+};
+
+enum e_simulation_update_flags
+{
+	_simulation_update_simulation_in_progress_bit = 0,
+	_simulation_update_flush_gamestate_bit,
+	_simulation_update_gamestate_flushed_outside_game_tick_bit,
+	_simulation_update_game_simulation_queue_requires_application_bit,
+
+	k_simulation_update_flags_count
+};
+
+enum e_simulation_update_metadata_flags
+{
+	_simulation_update_from_local_simulation_bit = 0,
+	_simulation_update_from_synchronous_update_bit,
+	_simulation_update_from_saved_film_bit,
+
+	k_simulation_update_metadata_flags_count
+};
+
+enum e_update_queue_node
+{
+	_update_queue_node_update = 0,
+	_update_queue_node_playback_event,
+
+	k_update_queue_node_count,
+	k_update_queue_node_invalid = -1
+};
+
+enum e_simulation_playback_event
+{
+	_simulation_playback_event_revert = 0,
+
+	k_simulation_playback_event_count
+};
+
 enum e_scenario_camera_type
 {
 	_scenario_camera_type_target_relative = 0,

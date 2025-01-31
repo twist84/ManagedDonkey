@@ -47,14 +47,14 @@ struct s_player_collection_player
 {
 	s_player_identifier identifier;
 	bool left_game;
-	dword left_game_time;
+	long left_game_time;
 	s_machine_identifier machine_identifier;
 
 	// Removed from Halo Online, these still exist in `simulation_player_update`
 	//long user_index;
 	//long controller_index;
 
-	s_player_configuration configuration;
+	s_player_configuration configuration_data;
 };
 static_assert(sizeof(s_player_collection_player) == 0x1640);
 
@@ -77,9 +77,8 @@ struct c_simulation_player
 	c_simulation_world* m_world;
 	bool m_pending_deletion;
 	bool m_active;
-	byte __data2A[0x2];
-	long __unknown2C;
-	s_player_action m_action;
+	long m_current_action_time;
+	s_player_action m_current_action;
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
 

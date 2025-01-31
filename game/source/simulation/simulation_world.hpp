@@ -4,38 +4,11 @@
 #include "game/players.hpp"
 #include "networking/replication/replication_entity_manager.hpp"
 #include "networking/replication/replication_event_manager.hpp"
-#include "simulation/simulation_entity_database.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation_actors.hpp"
+#include "simulation/simulation_entity_database.hpp"
 #include "simulation/simulation_players.hpp"
 #include "simulation/simulation_queue.hpp"
-
-enum e_simulation_world_type
-{
-	_simulation_world_type_none = 0,
-	_simulation_world_type_local,
-	_simulation_world_type_local_playback,
-	_simulation_world_type_synchronous_game_server,
-	_simulation_world_type_synchronous_game_client,
-	_simulation_world_type_synchronous_film_server,
-	_simulation_world_type_synchronous_film_client,
-	_simulation_world_type_distributed_server,
-	_simulation_world_type_distributed_client,
-
-	k_simulation_world_type_count
-};
-
-enum e_simulation_world_state
-{
-	_simulation_world_state_none = 0,
-	_simulation_world_state_dead,
-	_simulation_world_state_disconnected,
-	_simulation_world_state_joining,
-	_simulation_world_state_active,
-	_simulation_world_state_handoff,
-	_simulation_world_state_leaving,
-
-	k_simulation_world_state_count
-};
 
 struct c_simulation_distributed_world
 {
@@ -50,6 +23,7 @@ struct c_simulation_view;
 struct s_simulation_queued_update;
 struct c_simulation_world
 {
+public:
 	bool exists() const;
 	bool is_active();
 	bool is_authority() const;
@@ -74,79 +48,74 @@ struct c_simulation_world
 		long* join_client_total_count,
 		long* join_time_to_failure) const;
 
+public:
+	struct s_world_state_data_disconnected
+	{
+		dword disconnected_timestamp;
+	};
+	static_assert(sizeof(s_world_state_data_disconnected) == 0x4);
+
+	struct s_world_state_data_joining
+	{
+		dword join_start_timestamp;
+		dword join_client_machine_mask;
+	};
+	static_assert(sizeof(s_world_state_data_joining) == 0x8);
+
+	struct s_world_state_data_active
+	{
+		dword active_client_machine_mask;
+	};
+	static_assert(sizeof(s_world_state_data_active) == 0x4);
+
+	struct s_world_state_data
+	{
+		union
+		{
+			s_world_state_data_disconnected disconnected;
+			s_world_state_data_joining joining;
+			s_world_state_data_active active;
+		};
+	};
+	static_assert(sizeof(s_world_state_data) == 0x8);
+
+//protected:
 	c_simulation_watcher* m_watcher;
 	c_simulation_distributed_world* m_distributed_world;
-	c_enum<e_simulation_world_type, long, _simulation_world_type_none, k_simulation_world_type_count> m_world_type;
-
-	union
-	{
+	e_simulation_world_type m_world_type;
+	bool m_local_machine_identifier_valid;
 #pragma pack(push, 1)
-		struct
-		{
-			bool m_local_machine_identifier_valid;
-			s_machine_identifier m_local_machine_identifier;
-			byte __align1D[0x3];
-		} s;
+	s_machine_identifier m_local_machine_identifier;
 #pragma pack(pop)
-
-		byte data[sizeof(s)];
-	};
-
 	long m_local_machine_index;
-	c_enum<e_simulation_world_state, long, _simulation_world_state_none, k_simulation_world_state_count> m_world_state;
-
-	dword m_last_time_disconnected;
-
-	long __unknown2C;
-
+	e_simulation_world_state m_world_state;
+	s_world_state_data m_world_state_data;
 	bool m_time_running;
 	bool m_time_immediate_update;
-	byte __unknown32; // pad?
-	byte __unknown33; // pad?
-
 	long m_next_update_number;
-	long m_current_update_number;
-
-	bool m_synchronous_out_of_sync;
-	bool m_synchronous_determinism_failure;
-	byte __unknown3E; // pad?
-
-	// c_simulation_world::notify_gamestate_flush
-	bool m_notify_gamestate_flushed;
-
-	// c_simulation_world::notify_gamestate_flush_outside_game_tick
-	bool m_notify_gamestate_flushed_outside_game_tick;
-
-	// c_simulation_world::update_joining_view
-	bool __unknown41;
-
-	// c_simulation_world::attach_to_map
+	long m_acknowledged_update_number;
+	bool m_out_of_sync;
+	bool m_out_of_sync_determinism_failure;
+	bool m_world_clean;
+	bool m_gamestate_flushed;
+	bool m_gamestate_flushed_outside_game_tick;
+	bool m_gamestate_modified_initial_state;
 	bool m_attached_to_map;
-
-	// c_simulation_world::skip_next_gamestate_flush
-	bool m_skipped_next_gamestate_flush;
-
-	long m_join_attempt_count;
-	dword m_last_time_active;
-	long m_view_establishment_identifier;
-
-	long __unknown50;
-
-	long __unknown54;
-	long __unknown58;
-	long __unknown5C;
-
+	bool m_gamestate_flush_client_skip;
+	long m_unsuccessful_join_attempts;
+	dword m_last_active_timestamp;
+	long m_next_view_establishment_identifier;
+	long m_joining_total_wait_msec;
+	long m_maximum_queued_updates;
+	e_update_queue_state m_update_queue_state;
+	dword m_update_queue_state_time;
 	long m_view_count;
-	c_static_array<c_simulation_view*, 16> m_views;
-
-	long __unknownA4;
-
-	c_static_array<c_simulation_player, 16> m_players;
-	c_static_array<c_simulation_actor, 16> m_actors;
-
-	long m_next_update_dequeue;
+	c_simulation_view* m_views[16];
+	c_simulation_player m_players[16];
+	c_simulation_actor m_actors[16];
+	dword m_synchronous_catchup_initiation_failure_timestamp;
 	long m_update_queue_next_update_number_to_dequeue;
-	long m_update_queue_latest_entry_received_type;
+	e_update_queue_node m_update_queue_latest_entry_received_type;
 	long m_update_queue_latest_entry_received_update_number;
 	long m_update_queue_length;
 	long m_update_queue_number_of_updates;
@@ -156,4 +125,45 @@ struct c_simulation_world
 	c_simulation_queue m_game_simulation_queue;
 };
 static_assert(sizeof(c_simulation_world) == 0x1540);
+static_assert(0x0000 == OFFSETOF(c_simulation_world, m_watcher));
+static_assert(0x0004 == OFFSETOF(c_simulation_world, m_distributed_world));
+static_assert(0x0008 == OFFSETOF(c_simulation_world, m_world_type));
+static_assert(0x000C == OFFSETOF(c_simulation_world, m_local_machine_identifier_valid));
+static_assert(0x000D == OFFSETOF(c_simulation_world, m_local_machine_identifier));
+static_assert(0x0020 == OFFSETOF(c_simulation_world, m_local_machine_index));
+static_assert(0x0024 == OFFSETOF(c_simulation_world, m_world_state));
+static_assert(0x0028 == OFFSETOF(c_simulation_world, m_world_state_data));
+static_assert(0x0030 == OFFSETOF(c_simulation_world, m_time_running));
+static_assert(0x0031 == OFFSETOF(c_simulation_world, m_time_immediate_update));
+static_assert(0x0034 == OFFSETOF(c_simulation_world, m_next_update_number));
+static_assert(0x0038 == OFFSETOF(c_simulation_world, m_acknowledged_update_number));
+static_assert(0x003C == OFFSETOF(c_simulation_world, m_out_of_sync));
+static_assert(0x003D == OFFSETOF(c_simulation_world, m_out_of_sync_determinism_failure));
+static_assert(0x003E == OFFSETOF(c_simulation_world, m_world_clean));
+static_assert(0x003F == OFFSETOF(c_simulation_world, m_gamestate_flushed));
+static_assert(0x0040 == OFFSETOF(c_simulation_world, m_gamestate_flushed_outside_game_tick));
+static_assert(0x0041 == OFFSETOF(c_simulation_world, m_gamestate_modified_initial_state));
+static_assert(0x0042 == OFFSETOF(c_simulation_world, m_attached_to_map));
+static_assert(0x0043 == OFFSETOF(c_simulation_world, m_gamestate_flush_client_skip));
+static_assert(0x0044 == OFFSETOF(c_simulation_world, m_unsuccessful_join_attempts));
+static_assert(0x0048 == OFFSETOF(c_simulation_world, m_last_active_timestamp));
+static_assert(0x004C == OFFSETOF(c_simulation_world, m_next_view_establishment_identifier));
+static_assert(0x0050 == OFFSETOF(c_simulation_world, m_joining_total_wait_msec));
+static_assert(0x0054 == OFFSETOF(c_simulation_world, m_maximum_queued_updates));
+static_assert(0x0058 == OFFSETOF(c_simulation_world, m_update_queue_state));
+static_assert(0x005C == OFFSETOF(c_simulation_world, m_update_queue_state_time));
+static_assert(0x0060 == OFFSETOF(c_simulation_world, m_view_count));
+static_assert(0x0064 == OFFSETOF(c_simulation_world, m_views));
+static_assert(0x00A8 == OFFSETOF(c_simulation_world, m_players));
+static_assert(0x0BA8 == OFFSETOF(c_simulation_world, m_actors));
+static_assert(0x14E8 == OFFSETOF(c_simulation_world, m_synchronous_catchup_initiation_failure_timestamp));
+static_assert(0x14EC == OFFSETOF(c_simulation_world, m_update_queue_next_update_number_to_dequeue));
+static_assert(0x14F0 == OFFSETOF(c_simulation_world, m_update_queue_latest_entry_received_type));
+static_assert(0x14F4 == OFFSETOF(c_simulation_world, m_update_queue_latest_entry_received_update_number));
+static_assert(0x14F8 == OFFSETOF(c_simulation_world, m_update_queue_length));
+static_assert(0x14FC == OFFSETOF(c_simulation_world, m_update_queue_number_of_updates));
+static_assert(0x1500 == OFFSETOF(c_simulation_world, m_update_queue_head));
+static_assert(0x1504 == OFFSETOF(c_simulation_world, m_update_queue_tail));
+static_assert(0x1508 == OFFSETOF(c_simulation_world, m_bookkeeping_simulation_queue));
+static_assert(0x1524 == OFFSETOF(c_simulation_world, m_game_simulation_queue));
 

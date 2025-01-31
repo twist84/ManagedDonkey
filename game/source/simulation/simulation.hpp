@@ -36,25 +36,6 @@ struct s_simulation_camera_update
 };
 static_assert(sizeof(s_simulation_camera_update) == 0x24);
 
-enum e_simulation_update_flags
-{
-	_simulation_update_simulation_in_progress_bit = 0,
-	_simulation_update_flush_gamestate_bit,
-	_simulation_update_gamestate_flushed_outside_game_tick_bit,
-	_simulation_update_game_simulation_queue_requires_application_bit,
-
-	k_simulation_update_flags_count
-};
-
-enum e_simulation_update_metadata_flags
-{
-	_simulation_update_from_local_simulation_bit = 0,
-	_simulation_update_from_synchronous_update_bit,
-	_simulation_update_from_saved_film_bit,
-
-	k_simulation_update_metadata_flags_count
-};
-
 struct simulation_update
 {
 	long update_number;
@@ -97,22 +78,6 @@ struct s_simulation_update_metadata
 	long saved_film_tick;
 };
 static_assert(sizeof(s_simulation_update_metadata) == 0xC);
-
-enum e_update_queue_node
-{
-	_update_queue_node_update = 0,
-	_update_queue_node_playback_event,
-
-	k_update_queue_node_count,
-	k_update_queue_node_invalid = -1
-};
-
-enum e_simulation_playback_event
-{
-	_simulation_playback_event_revert = 0,
-
-	k_simulation_playback_event_count
-};
 
 struct s_simulation_queued_update
 {
