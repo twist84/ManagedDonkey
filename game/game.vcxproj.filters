@@ -1758,6 +1758,9 @@
     <ClCompile Include="source\devices\device_arg_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\bink\bink_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4020,6 +4023,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\devices\device_arg_device.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bink\bink_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
