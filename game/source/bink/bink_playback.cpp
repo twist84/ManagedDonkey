@@ -214,7 +214,12 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:00617FC0 ; 
 //.text:00618010 ; 
 //.text:00618180 ; bool __cdecl is_all_bink_memory_free()
-//.text:006181B0 ; void __cdecl play_bink_movie(char const*)
+
+void __cdecl play_bink_movie(char const* name)
+{
+	INVOKE(0x006181B0, play_bink_movie, name);
+}
+
 //.text:00618260 ; void __cdecl play_bink_movie_from_tag(long)
 //.text:006182F0 ; void __cdecl play_credits_movie_skippable_to_main_menu()
 //.text:00618360 ; void __cdecl play_credits_movie_unskippable()

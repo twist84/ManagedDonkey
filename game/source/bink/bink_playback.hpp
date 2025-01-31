@@ -39,4 +39,5 @@ extern void __cdecl bink_playback_stop_due_to_input_device_change();
 extern bool __cdecl bink_playback_ui_rendering_inhibited();
 extern void __cdecl bink_playback_update();
 extern bool __cdecl bink_playback_using_io_during_map_load_masking();
+extern void __cdecl play_bink_movie(char const* name);
 
