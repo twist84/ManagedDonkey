@@ -82,7 +82,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	// <number> <number>
 
 	// 11
-	"unknown00B",
+	"%", // modulo
 	// <number> <number>
 
 	// 12
@@ -644,13 +644,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"texture_camera_render_mode",
 
 	// 188
-	"texture_camera_set_fov",
+	"unknownBC",
 
 	// 189
-	"texture_camera_set_fov_frame_target",
+	"texture_camera_set_fov",
 
 	// 190
-	"unknown0BE",
+	"texture_camera_set_fov_frame_target",
 
 	// 191
 	"texture_camera_enable_dynamic_lights",
@@ -4316,7 +4316,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"determinism_debug_manager_set_consumer_sample_level",
 
 	// 1412
-	"determinism_debug_manager_enable_log_file_comparision_on_oos",
+	"unknown584",
 
 	// 1413
 	"saved_film_play",
@@ -4448,13 +4448,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"net_game_set_player_standing",
 
 	// 1456
-	"unknown5B0",
+	"net_get_game_id",
 
 	// 1457
-	"unknown5B1",
+	"net_test_matchmaking_hopper_list",
 
 	// 1458
-	"unknown5B2",
+	"net_test_matchmaking_hopper_game_list",
 
 	// 1459
 	"net_test_matchmaking_hopper_set_game",
@@ -5063,10 +5063,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown67C",
 
 	// 1661
-	"ui_get_player_model_id",
+	"saber_ui_get_player_model_id",
 
 	// 1662
-	"ui_get_music_id",
+	"saber_ui_get_music_id",
 
 	// 1663
 	"unknown67F",
@@ -5105,25 +5105,25 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown68A",
 
 	// 1675
-	"high_quality_postprocessing_enable",
+	"reflections_enable",
 
 	// 1676
-	"unknown68C",
+	"reflection_blur_enable",
 
 	// 1677
-	"unknown68D",
+	"reflection_multisampling_enabled",
 
 	// 1678
-	"unknown68E",
+	"reflection_multisample_passes",
 
 	// 1679
-	"unknown68F",
+	"reflection_fxaa_enable",
 
 	// 1680
-	"debug_clear_z_color_stencil",
+	"reflection_debug_enable",
 
 	// 1681
-	"unknown691",
+	"reflection_color_bilinear_filter_enable",
 
 	// 1682
 	"end_match_wait_time_increment",
@@ -5132,13 +5132,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown693",
 
 	// 1684
-	"background_set",
+	"background_bitmap_set",
 
 	// 1685
 	"local_player_earn_wp_event",
 
 	// 1686
-	"unknown696",
+	"global_screen_effect_enable",
 
 	// 1687
 	"unknown697",
@@ -5147,10 +5147,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown698",
 
 	// 1689
-	"mouse_inversion_get",
+	"saber_mouse_inversion_get",
 
 	// 1690
-	"mouse_inversion_set",
+	"saber_mouse_inversion_set",
 
 	// 1691
 	"unknown69B",
