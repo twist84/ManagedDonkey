@@ -34,6 +34,7 @@ bool debug_objects_functions = false;
 bool debug_objects_position_velocity = false;
 bool debug_objects_origin = false;
 bool debug_objects_root_node = false;
+bool debug_objects_root_node_print = false;
 bool debug_objects_bounding_spheres = false;
 bool debug_objects_attached_bounding_spheres = false;
 bool debug_objects_dynamic_render_bounding_spheres = false;
@@ -2063,6 +2064,14 @@ void object_render_debug_internal(long object_index)
 	{
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
 		render_debug_matrix(true, root_node_matrix, object->object.bounding_sphere_radius);
+	}
+
+	if (debug_objects_root_node_print)
+	{
+		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
+
+		string.append_print("Position: %.2f,%.2f,%.2f\r", root_node_matrix->position.x, root_node_matrix->position.y, root_node_matrix->position.z);
+		string.append_print("Forward: %.2f,%.2f,%.2f\r", root_node_matrix->forward.i, root_node_matrix->forward.j, root_node_matrix->forward.k);
 	}
 
 	if (debug_objects_bounding_spheres)

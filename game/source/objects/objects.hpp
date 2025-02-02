@@ -471,6 +471,7 @@ extern bool debug_objects_functions;
 extern bool debug_objects_position_velocity;
 extern bool debug_objects_origin;
 extern bool debug_objects_root_node;
+extern bool debug_objects_root_node_print;
 extern bool debug_objects_bounding_spheres;
 extern bool debug_objects_attached_bounding_spheres;
 extern bool debug_objects_dynamic_render_bounding_spheres;
