@@ -1,6 +1,7 @@
 #include "objects/objects.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cache/restricted_memory_regions.hpp"
 #include "cseries/cseries_events.hpp"
 #include "items/items.hpp"
 #include "memory/module.hpp"
@@ -2086,35 +2087,38 @@ void object_render_debug_internal(long object_index)
 		render_debug_sphere(true, &point, object_definition->object.dynamic_light_sphere_radius + object->object.scale, global_real_argb_black);
 	}
 
-	s_model_definition* model_definition = NULL;
-	if (object_definition->object.model.index != NONE)
-		model_definition = object_definition->object.model.cast_to<s_model_definition>();
-
-	if (debug_objects_model_targets && model_definition)
+	if (debug_objects_model_targets)
 	{
-		for (s_model_target& target : model_definition->targets)
-		{
-			object_marker markers[2]{};
-			short marker_count = object_get_markers_by_string_id(object_index, target.marker_name.get_value(), markers, NUMBEROF(markers));
-			switch (marker_count)
-			{
-			case 1:
-			{
-				render_debug_vector(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, global_real_argb_darkgreen);
+		s_model_definition* model_definition = NULL;
+		if (object_definition->object.model.index != NONE)
+			model_definition = object_definition->object.model.cast_to<s_model_definition>();
 
-				if (target.cone_angle <= 3.1414928f)
-					render_debug_cone_outline(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
-				else
-					render_debug_sphere(true, &markers[0].matrix.position, target.size, global_real_argb_darkgreen);
-			}
-			break;
-			case 2:
+		if (model_definition)
+		{
+			for (s_model_target& target : model_definition->targets)
 			{
-				real_vector3d height{};
-				vector_from_points3d(&markers[0].matrix.position, &markers[1].matrix.position, &height);
-				render_debug_pill(true, &markers[0].matrix.position, &height, target.size, global_real_argb_darkgreen);
-			}
-			break;
+				object_marker markers[2]{};
+				short marker_count = object_get_markers_by_string_id(object_index, target.marker_name.get_value(), markers, NUMBEROF(markers));
+				switch (marker_count)
+				{
+				case 1:
+				{
+					render_debug_vector(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, global_real_argb_darkgreen);
+
+					if (target.cone_angle <= 3.1414928f)
+						render_debug_cone_outline(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
+					else
+						render_debug_sphere(true, &markers[0].matrix.position, target.size, global_real_argb_darkgreen);
+				}
+				break;
+				case 2:
+				{
+					real_vector3d height{};
+					vector_from_points3d(&markers[0].matrix.position, &markers[1].matrix.position, &height);
+					render_debug_pill(true, &markers[0].matrix.position, &height, target.size, global_real_argb_darkgreen);
+				}
+				break;
+				}
 			}
 		}
 	}
@@ -2141,20 +2145,21 @@ void object_render_debug_internal(long object_index)
 	//
 	//}
 
-	if (object->object.havok_component_index == NONE)
-	{
-		//if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
-		//	render_debug_physics_model(&instance, global_real_argb_black);
-	}
-	else
-	{
-		//debug_objects_water_physics
-		//debug_objects_physics_models
-		//debug_objects_contact_points
-		//debug_objects_constraints
-		//debug_objects_vehicle_physics
-		//debug_objects_mass
-	}
+	//if (object->object.havok_component_index == NONE)
+	//{
+	//	//s_physics_model_instance instance{};
+	//	//if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
+	//	//	render_debug_physics_model(&instance, global_real_argb_black);
+	//}
+	//else if (restricted_region_locked_for_current_thread(k_thread_main))
+	//{
+	//	//debug_objects_water_physics
+	//	//debug_objects_physics_models
+	//	//debug_objects_contact_points
+	//	//debug_objects_constraints
+	//	//debug_objects_vehicle_physics
+	//	//debug_objects_mass
+	//}
 
 	if (debug_objects_pathfinding)
 	{
