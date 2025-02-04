@@ -115,4 +115,8 @@ extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, lon
 extern actor_datum* __cdecl squad_actor_iterator_next(squad_actor_iterator* iterator);
 extern void __cdecl squad_iterator_new(squad_iterator* iterator);
 extern squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator);
+extern void __cdecl squads_dispose();
+extern void __cdecl squads_dispose_from_old_map();
+extern void __cdecl squads_initialize();
+extern void __cdecl squads_initialize_for_new_map();
 

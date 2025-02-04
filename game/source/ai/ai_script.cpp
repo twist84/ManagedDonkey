@@ -45,10 +45,27 @@ bool ai_print_scripting = false;
 //.text:0143DEA0 ; void __cdecl ai_release_all(long)
 //.text:0143DF10 ; void __cdecl ai_reserve2(long, long, bool, short)
 //.text:0143DF70 ; void __cdecl ai_reserve(long, long, short)
-//.text:0143DF90 ; void __cdecl ai_script_dispose()
-//.text:0143DFA0 ; void __cdecl ai_script_dispose_from_old_map()
-//.text:0143DFB0 ; void __cdecl ai_script_initialize()
-//.text:0143DFC0 ; void __cdecl ai_script_initialize_for_new_map()
+
+void __cdecl ai_script_dispose()
+{
+	INVOKE(0x0143DF90, ai_script_dispose);
+}
+
+void __cdecl ai_script_dispose_from_old_map()
+{
+	INVOKE(0x0143DFA0, ai_script_dispose_from_old_map);
+}
+
+void __cdecl ai_script_initialize()
+{
+	INVOKE(0x0143DFB0, ai_script_initialize);
+}
+
+void __cdecl ai_script_initialize_for_new_map()
+{
+	INVOKE(0x0143DFC0, ai_script_initialize_for_new_map);
+}
+
 //.text:0143DFD0 ; bool __cdecl ai_script_process_fragment(s_file_reference*, char*, char*)
 //.text:0143E030 ; void __cdecl ai_scripting_abort_activity(long)
 //.text:0143E070 ; long __cdecl ai_scripting_ai_index_from_spawn_formation(long, long)

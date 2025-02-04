@@ -95,6 +95,40 @@ squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator)
 //.text:01492F30 ; bool __cdecl squad_test_activation_cluster_bit_vector(long, s_game_cluster_bit_vectors const*)
 //.text:01492FB0 ; 
 //.text:01493010 ; void __cdecl squad_update_disengaged_status(long)
-//.text:014930F0 ; squad_update_highest_rank
-//.text:01493180 ; squad_update_status
+//.text:014930F0 ; void __cdecl squad_update_highest_rank(short)
+//.text:01493180 ; void __cdecl squad_update_status(long)
+//.text:01493520 ; bool __cdecl squad_update_style(long, short)
+//.text:014936C0 ; bool __cdecl squad_using_fronts(squad_datum const*)
+//.text:01493750 ; void __cdecl squad_vehicle_change_squad(long, long)
+//.text:01493810 ; bool __cdecl squad_verify_script_references(long, bool)
+//.text:01493820 ; void __cdecl squadless_attach_actor(long)
+//.text:01493880 ; void __cdecl squadless_detach_actor(long)
+//.text:014938F0 ; void __cdecl squads_build_hierarchy()
+//.text:01493B40 ; void __cdecl squads_create_for_new_map()
+
+void __cdecl squads_dispose()
+{
+	INVOKE(0x01493BE0, squads_dispose);
+}
+
+void __cdecl squads_dispose_from_old_map()
+{
+	INVOKE(0x01493BF0, squads_dispose_from_old_map);
+}
+
+//.text:01493C20 ; void __cdecl squads_handle_deleted_unit(long)
+
+void __cdecl squads_initialize()
+{
+	INVOKE(0x01493CB0, squads_initialize);
+}
+
+void __cdecl squads_initialize_for_new_map()
+{
+	INVOKE(0x01493D50, squads_initialize_for_new_map);
+}
+
+//.text:01493E60 ; void __cdecl squads_test_activation()
+//.text:014941B0 ; void __cdecl squads_update()
+//.text:014942B0 ; void __cdecl squads_update_dirty_status()
 

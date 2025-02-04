@@ -140,3 +140,11 @@ struct joint_state_datum :
 };
 static_assert(sizeof(joint_state_datum) == 0xCC);
 
+extern void __cdecl joint_behavior_create_for_new_map();
+extern void __cdecl joint_behavior_dispose();
+extern void __cdecl joint_behavior_dispose_from_old_map();
+extern bool __cdecl joint_behavior_get_participant_limits(short behavior_index, short* min_participants_ref, short* max_participants_ref);
+extern void __cdecl joint_behavior_initialize();
+extern void __cdecl joint_behavior_initialize_for_new_map();
+extern void __cdecl joint_behaviors_update();
+

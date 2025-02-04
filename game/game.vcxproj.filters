@@ -1761,6 +1761,12 @@
     <ClCompile Include="source\bink\bink_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\joint_behavior.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ai\path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4026,6 +4032,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\bink\bink_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\path.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

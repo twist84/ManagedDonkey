@@ -64,3 +64,8 @@ static_assert(sizeof(clump_prop_iterator) == 0xC);
 
 extern char const* const group_state_names[4];
 
+extern void __cdecl clumps_dispose();
+extern void __cdecl clumps_dispose_from_old_map();
+extern void __cdecl clumps_initialize();
+extern void __cdecl clumps_initialize_for_new_map();
+

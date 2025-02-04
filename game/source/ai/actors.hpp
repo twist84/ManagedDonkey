@@ -753,12 +753,18 @@ struct actor_iterator
 };
 static_assert(sizeof(actor_iterator) == 0x18);
 
+extern bool __cdecl actor_datum_available_to_current_thread();
 extern void __cdecl actor_delete(long actor_index, bool a2);
 extern void __cdecl actor_erase(long actor_index, bool delete_immediately);
+extern actor_datum* __cdecl actor_get(long actor_index);
+extern bool __cdecl actor_is_active(actor_datum const* actor);
+extern bool __cdecl actor_is_blind(long actor_index);
+extern bool __cdecl actor_is_deaf(long actor_index);
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
+extern void __cdecl actors_dispose();
+extern void __cdecl actors_dispose_from_old_map();
+extern void __cdecl actors_initialize();
+extern void __cdecl actors_initialize_for_new_map();
 
-extern actor_datum* actor_get(long actor_index);
-extern bool actor_datum_available_to_current_thread();
-extern bool actor_is_active(actor_datum const* actor);
 

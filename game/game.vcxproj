@@ -199,7 +199,9 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\ai_reference_frame.cpp" />
     <ClCompile Include="source\ai\ai_vehicles.cpp" />
     <ClCompile Include="source\ai\clump.cpp" />
+    <ClCompile Include="source\ai\joint_behavior.cpp" />
     <ClCompile Include="source\ai\objectives.cpp" />
+    <ClCompile Include="source\ai\path.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
     <ClCompile Include="source\ai\path_smoothing.cpp" />
     <ClCompile Include="source\ai\props.cpp" />
@@ -785,6 +787,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\ai\ai_vehicles.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
     <ClInclude Include="source\ai\character_definitions.hpp" />
+    <ClInclude Include="source\ai\path.hpp" />
     <ClInclude Include="source\ai\path_obstacles.hpp" />
     <ClInclude Include="source\ai\path_obstacle_avoidance.hpp" />
     <ClInclude Include="source\ai\path_smoothing.hpp" />
