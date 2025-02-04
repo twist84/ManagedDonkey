@@ -3,6 +3,7 @@
 #include "ai/actors.hpp"
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
+#include "memory/data.hpp"
 
 struct firing_position_definition
 {
@@ -35,4 +36,15 @@ struct dynamic_firing_set_datum :
 	short firing_position_types[32];
 };
 static_assert(sizeof(dynamic_firing_set_datum) == 0x584);
+
+struct dynamic_firing_set_iterator
+{
+	c_data_iterator<dynamic_firing_set_datum> iterator;
+	long index;
+};
+static_assert(sizeof(dynamic_firing_set_iterator) == 0x14);
+
+extern void __cdecl dynamic_firing_sets_dispose_from_old_map();
+extern void __cdecl dynamic_firing_sets_initialize();
+extern void __cdecl dynamic_firing_sets_initialize_for_new_map();
 

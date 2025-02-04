@@ -192,6 +192,11 @@ static_assert(sizeof(command_script_datum) == 0x188);
 struct cs_script_data;
 struct cs_point_set;
 
+extern void __cdecl cs_dispose();
+extern void __cdecl cs_dispose_from_old_map();
 extern cs_point_set* __cdecl cs_get_point_set(long index);
+extern void __cdecl cs_initialize();
+extern void __cdecl cs_initialize_for_new_map();
+extern void __cdecl cs_initialize_for_new_structure_bsp(long activating_structure_bsp_mask);
 extern cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario);
 

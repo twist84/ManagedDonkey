@@ -21,7 +21,11 @@ struct ai_player_state
 static_assert(sizeof(ai_player_state) * 0x2C);
 static_assert(sizeof(ai_player_state) * 4 == 0xB0);
 
+extern void __cdecl ai_player_initialize();
 extern bool __cdecl ai_player_state_needs_vehicle(short ai_player_index);
+extern void __cdecl ai_player_state_update();
+extern void __cdecl ai_players_initialize_for_new_map();
+extern void __cdecl ai_players_reset();
 
 extern void debug_render_player_battle_vector();
 extern void debug_render_player_needs_vehicle();

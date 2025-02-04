@@ -50,4 +50,9 @@ struct s_spawner_globals
 static_assert(sizeof(s_spawner_globals) == 0x2);
 
 extern void __cdecl swarm_delete(long swarm_index);
+extern void __cdecl swarm_spawners_update();
+extern void __cdecl swarm_update(long actor_index);
+extern void __cdecl swarms_dispose_from_old_map();
+extern void __cdecl swarms_initialize();
+extern void __cdecl swarms_initialize_for_new_map();
 

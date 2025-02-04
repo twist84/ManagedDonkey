@@ -29,7 +29,7 @@ struct s_scenario_zone_activation
 		activating_cinematic_zone_mask = 0;
 	}
 
-	bool is_empty() const // .text:00505170
+	bool is_empty() const //.text:00505170
 	{
 		return !deactivating_designer_zone_mask
 			&& !activating_designer_zone_mask

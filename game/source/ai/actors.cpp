@@ -27,7 +27,14 @@
 //.text:01428E80 ; bool __cdecl actor_create_kamikaze_grenades(long)
 //.text:01428EE0 ; void __cdecl actor_customize_unit(long, long, long, long, short, long)
 //.text:014291D0 ; void __cdecl actor_customize_weapon(long, long)
-//.text:01429350 ; bool __cdecl actor_datum_available_to_current_thread()
+
+bool __cdecl actor_datum_available_to_current_thread()
+{
+	//return INVOKE(0x01429350, actor_datum_available_to_current_thread);
+
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+	return actor_data != NULL;
+}
 
 void __cdecl actor_delete(long actor_index, bool a2)
 {
@@ -72,8 +79,16 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 //.text:0142A370 ; void __cdecl actor_freeze(long)
 //.text:0142A420 ; void __cdecl actor_freeze_unit(long, long)
 //.text:0142A480 ; bool __cdecl actor_general_update(long)
+
+actor_datum* __cdecl actor_get(long actor_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+
+	return DATUM_GET(actor_data, actor_datum, actor_index);
+}
+
 //.text:0142A630 ; bool __cdecl actor_get_active_camo_state(long)
-//.text:0142A680 ; 
+//.text:0142A680 ; long __cdecl actor_get_backpack_weapon(long)
 //.text:0142A6C0 ; bool __cdecl actor_get_crouch_velocity(long, real*)
 //.text:0142A710 ; short __cdecl actor_get_desired_area_type(long)
 //.text:0142A770 ; short __cdecl actor_get_enemies_in_sphere(long, real_point3d*, real, long*, short)
@@ -105,9 +120,38 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 //.text:0142BD10 ; void __cdecl actor_initiate_combat(long)
 //.text:0142BD90 ; void __cdecl actor_input_sample_position(long, long, actor_position_data*)
 //.text:0142BE50 ; void __cdecl actor_input_update(long)
-//.text:0142C690 ; bool __cdecl actor_is_active(actor_datum const*)
-//.text:0142C6A0 ; bool __cdecl actor_is_blind(long)
-//.text:0142C700 ; bool __cdecl actor_is_deaf(long)
+
+bool __cdecl actor_is_active(actor_datum const* actor)
+{
+	//return INVOKE(0x0142C690, actor_is_active, actor);
+
+	return actor->meta.active;
+}
+
+bool __cdecl actor_is_blind(long actor_index)
+{
+	return INVOKE(0x0142C6A0, actor_is_blind, actor_index);
+
+	//actor_datum const* actor = actor_get(actor_index);
+	//if (actor->state.blind || !actor->meta.active || actor->state.mode == 1)
+	//	return true;
+	//
+	//long squad_index = actor->meta.squad_index;
+	//return squad_index != NONE && squad_is_blind(squad_index);
+}
+
+bool __cdecl actor_is_deaf(long actor_index)
+{
+	return INVOKE(0x0142C700, actor_is_deaf, actor_index);
+
+	//actor_datum const* actor = actor_get(actor_index);
+	//if (actor->state.deaf || !actor->meta.active)
+	//	return true;
+	//
+	//long squad_index = actor->meta.squad_index;
+	//return squad_index != NONE && squad_is_deaf(squad_index);
+}
+
 //.text:0142C750 ; bool __cdecl actor_is_fighting(long)
 //.text:0142C770 ; bool __cdecl actor_is_giant(long)
 //.text:0142C7A0 ; bool __cdecl actor_is_giant(actor_datum*)
@@ -194,26 +238,55 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 //.text:0142F6E0 ; bool __cdecl actor_uses_gravemind(long)
 //.text:0142F6F0 ; bool __cdecl actor_vehicle_charge_allowed(long)
 //.text:0142F860 ; void __cdecl actor_vehicle_update(long)
-//.text:0142FD10 ; void __cdecl actors_dispose()
-//.text:0142FD30 ; void __cdecl actors_dispose_from_old_map()
-//.text:0142FD50 ; void __cdecl actors_freeze()
-//.text:0142FDC0 ; void __cdecl actors_initialize()
-//.text:0142FE80 ; void __cdecl actors_initialize_for_new_map()
-//.text:0142FEC0 ; void __cdecl actors_move_randomly()
-//.text:0142FF30 ; void __cdecl actors_update()
+
+void __cdecl actors_dispose()
+{
+	INVOKE(0x0142FD10, actors_dispose);
+}
+
+void __cdecl actors_dispose_from_old_map()
+{
+	INVOKE(0x0142FD30, actors_dispose_from_old_map);
+}
+
+void __cdecl actors_freeze()
+{
+	INVOKE(0x0142FD50, actors_freeze);
+}
+
+void __cdecl actors_initialize()
+{
+	INVOKE(0x0142FDC0, actors_initialize);
+}
+
+void __cdecl actors_initialize_for_new_map()
+{
+	INVOKE(0x0142FE80, actors_initialize_for_new_map);
+}
+
+void __cdecl actors_move_randomly()
+{
+	INVOKE(0x0142FEC0, actors_move_randomly);
+}
+
+void __cdecl actors_update()
+{
+	INVOKE(0x0142FF30, actors_update);
+}
+
 //.text:014302E0 ; bool __cdecl ai_area_type_allowed(short, area_definition const*)
 //.text:01430340 ; 
-//.text:01430350 ; 
-//.text:01430390 ; 
-//.text:014303D0 ; 
+//.text:01430350 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_actor_data_allocator(void*)>::allocate
+//.text:01430390 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_ai_reference_frame_data_allocator(void*)>::allocate
+//.text:014303D0 ; t_restricted_allocation_manager<1,0,0,&void actor_firing_position_hash_set_address(void*)>::allocate
 //.text:01430410 ; 
 //.text:01430430 ; 
 //.text:01430450 ; 
 //.text:01430460 ; 
 //.text:01430470 ; 
-//.text:01430480 ; 
-//.text:014304B0 ; 
-//.text:014304E0 ; 
+//.text:01430480 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_actor_data_allocator(void*)>::deallocate
+//.text:014304B0 ; t_restricted_allocation_manager<1,0,0,&void __cdecl __tls_set_g_ai_reference_frame_data_allocator(void*)>::deallocate
+//.text:014304E0 ; t_restricted_allocation_manager<1,0,0,&void __cdecl actor_firing_position_hash_set_address(void*)>::deallocate
 //.text:01430510 ; 
 //.text:01430520 ; 
 //.text:01430550 ; 
@@ -223,8 +296,8 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 //.text:014305D0 ; 
 //.text:014305F0 ; 
 //.text:01430610 ; 
-//.text:01430620 ; 
-//.text:01430660 ; 
+//.text:01430620 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_actor_data_allocator(void*)>::reserve_memory
+//.text:01430660 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_ai_reference_frame_data_allocator(void*)>::reserve_memory
 //.text:014306A0 ; 
 //.text:014306E0 ; long __cdecl actor_create(long, long, long, bool)
 //.text:01430840 ; 
@@ -232,22 +305,4 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 //.text:01430880 ; 
 //.text:01430890 ; 
 //.text:014308B0 ; 
-
-actor_datum* actor_get(long actor_index)
-{
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-
-	return DATUM_GET(actor_data, actor_datum, actor_index);
-}
-
-bool actor_datum_available_to_current_thread()
-{
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	return actor_data != NULL;
-}
-
-bool actor_is_active(actor_datum const* actor)
-{
-	return actor->meta.active;
-}
 

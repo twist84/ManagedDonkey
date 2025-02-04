@@ -15,6 +15,10 @@ struct vocalization_timers
 };
 static_assert(sizeof(vocalization_timers) == 0xFB8);
 
+extern void __cdecl ai_dialogue_dispose_from_old_map();
+extern void __cdecl ai_dialogue_initialize();
+extern void __cdecl ai_dialogue_initialize_for_new_map();
+extern void __cdecl ai_dialogue_update();
 extern double __cdecl dialogue_player_weighting(long unit_index);
 extern short __cdecl dialogue_team_get(short team);
 

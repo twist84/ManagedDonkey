@@ -32,10 +32,10 @@ void __cdecl network_webstats_update()
 	INVOKE(0x004E4320, network_webstats_update);
 }
 
-// .text:004E4350  ; bool __cdecl start_lsp_upload()
-// .text:004E43D0  ; bool __cdecl update_lsp()
-// .text:004E4450  ; void __cdecl upload_complete()
-// .text:004E4490  ; void __cdecl upload_failed(bool)
-// .text:004E45E0  ; bool __cdecl upload_step_is_taking_too_long()
-// .text:004E4600  ; void __cdecl upload_success()
+//.text:004E4350 ; bool __cdecl start_lsp_upload()
+//.text:004E43D0 ; bool __cdecl update_lsp()
+//.text:004E4450 ; void __cdecl upload_complete()
+//.text:004E4490 ; void __cdecl upload_failed(bool)
+//.text:004E45E0 ; bool __cdecl upload_step_is_taking_too_long()
+//.text:004E4600 ; void __cdecl upload_success()
 

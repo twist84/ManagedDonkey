@@ -952,7 +952,7 @@ struct s_thread_local_storage
 	//  name: "squad_patrol"
 	// count: 16
 	//  size: 0x6C4
-	c_smart_data_array<squad_patrol_datum> squad_patrol_data;
+	c_smart_data_array<s_squad_patrol_datum> squad_patrol_data;
 
 	//  name: "flocks"
 	// count: 10

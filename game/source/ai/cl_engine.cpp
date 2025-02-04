@@ -37,8 +37,17 @@
 //.text:01443DF0 ; short __cdecl cs_control_clear(long, long, cs_command*, s_atom_control*, long)
 //.text:01443E20 ; short __cdecl cs_control_query(long, long, cs_command*, s_atom_control*, long)
 //.text:01443E30 ; void __cdecl cs_create_for_new_map()
-//.text:01443E40 ; void __cdecl cs_dispose()
-//.text:01443E50 ; void __cdecl cs_dispose_from_old_map()
+
+void __cdecl cs_dispose()
+{
+	INVOKE(0x01443E40, cs_dispose);
+}
+
+void __cdecl cs_dispose_from_old_map()
+{
+	INVOKE(0x01443E50, cs_dispose_from_old_map);
+}
+
 //.text:01443E70 ; bool __cdecl cs_get_crouch_modifier(long, real*)
 
 cs_point_set* __cdecl cs_get_point_set(long index)
@@ -53,10 +62,24 @@ cs_point_set* __cdecl cs_get_point_set(long index)
 //.text:01444060 ; void __cdecl cs_handle_thread_delete(long)
 //.text:014440D0 ; short __cdecl cs_helper(long, short, short(__cdecl*)(long, long, cs_command*, s_atom_control*, long), long)
 //.text:01444280 ; long __cdecl cs_index_from_thread(long, long, bool)
-//.text:01444330 ; void __cdecl cs_initialize()
+
+void __cdecl cs_initialize()
+{
+	INVOKE(0x01444330, cs_initialize);
+}
+
 //.text:01444370 ; cs_command* __cdecl cs_initialize_command(long, short, bool)
-//.text:01444400 ; void __cdecl cs_initialize_for_new_map()
-//.text:01444420 ; void __cdecl cs_initialize_for_new_structure_bsp(long)
+
+void __cdecl cs_initialize_for_new_map()
+{
+	INVOKE(0x01444400, cs_initialize_for_new_map);
+}
+
+void __cdecl cs_initialize_for_new_structure_bsp(long activating_structure_bsp_mask)
+{
+	INVOKE(0x01444420, cs_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
+}
+
 //.text:01444430 ; long __cdecl cs_queue_command_script(long, short)
 //.text:01444450 ; long __cdecl cs_queue_command_script(long, short, long)
 //.text:014444E0 ; bool __cdecl cs_release(long, long)

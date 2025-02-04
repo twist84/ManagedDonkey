@@ -17,7 +17,12 @@
 //.text:014363C0 ; 
 //.text:01436420 ; 
 //.text:01436480 ; short __cdecl ai_player_index_get(long)
-//.text:014364C0 ; void __cdecl ai_player_initialize()
+
+void __cdecl ai_player_initialize()
+{
+	INVOKE(0x014364C0, ai_player_initialize);
+}
+
 //.text:01436520 ; void __cdecl ai_player_state_create(long)
 //.text:01436590 ; void __cdecl ai_player_state_delete(long)
 //.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(long)
@@ -41,9 +46,21 @@ bool __cdecl ai_player_state_needs_vehicle(short ai_player_index)
 	return false;
 }
 
-//.text:01436700 ; void __cdecl ai_player_state_update()
-//.text:01436E10 ; void __cdecl ai_players_initialize_for_new_map()
-//.text:01436E20 ; void __cdecl ai_players_reset()
+void __cdecl ai_player_state_update()
+{
+	INVOKE(0x01436700, ai_player_state_update);
+}
+
+void __cdecl ai_players_initialize_for_new_map()
+{
+	INVOKE(0x01436E10, ai_players_initialize_for_new_map);
+}
+
+void __cdecl ai_players_reset()
+{
+	INVOKE(0x01436E20, ai_players_reset);
+}
+
 //.text:01436E90 ; 
 //.text:01436ED0 ; 
 //.text:01436F00 ; 

@@ -525,7 +525,12 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147FE20 ; short __cdecl behavior_wander_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147FEC0 ; short __cdecl behavior_wander_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147FF10 ; bool __cdecl behavior_wander_perform(long, c_behavior_state*)
-//.text:01480210 ; void __cdecl behaviors_initialize()
+
+void __cdecl behaviors_initialize()
+{
+	INVOKE(0x01480210, behaviors_initialize);
+}
+
 //.text:01480340 ; short __cdecl berserk_get_impulse(long, c_behavior_state*)
 //.text:01480360 ; short __cdecl berserk_wander_get_impulse(long, c_behavior_state*)
 //.text:014803C0 ; bool __cdecl board_activate_helper(long, c_vehicle_board_data*)

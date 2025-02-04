@@ -255,6 +255,10 @@ struct s_objective
 static_assert(sizeof(s_objective) == 0x24);
 
 extern s_task_record* __cdecl objective_get_task_record(short objective_index, short task_index);
+extern void __cdecl objectives_initialize();
+extern void __cdecl objectives_initialize_for_new_map();
+extern void __cdecl objectives_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl objectives_update();
 
 extern void ai_debug_render_objectives(long squad_index, real_point3d const* position);
 

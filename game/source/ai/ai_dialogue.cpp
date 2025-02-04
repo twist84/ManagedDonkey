@@ -18,7 +18,12 @@
 //.text:01437640 ; bool __cdecl actor_scream(long, short)
 //.text:01437690 ; bool __cdecl actor_should_play_dialogue_animation(long)
 //.text:014376F0 ; bool __cdecl actor_vocalize(long, short, short)
-//.text:01437740 ; void __cdecl ai_dialogue_dispose_from_old_map()
+
+void __cdecl ai_dialogue_dispose_from_old_map()
+{
+	INVOKE(0x01437740, ai_dialogue_dispose_from_old_map);
+}
+
 //.text:01437760 ; short __cdecl ai_dialogue_event(c_dialogue_option*, short)
 //.text:01437810 ; bool __cdecl ai_dialogue_event(c_dialogue_event*)
 //.text:01437870 ; void __cdecl ai_dialogue_event_aggregate_options(c_dialogue_event*, c_dialogue_option*, short*, short)
@@ -28,12 +33,26 @@
 //.text:014380B0 ; short __cdecl ai_dialogue_get_involuntary_vocalization_index(short)
 //.text:01438120 ; ai_dialogue_definitions* __cdecl ai_dialogue_globals_get()
 //.text:01438170 ; void __cdecl ai_dialogue_handle_ai_reset()
-//.text:01438200 ; void __cdecl ai_dialogue_initialize()
-//.text:01438270 ; void __cdecl ai_dialogue_initialize_for_new_map()
+
+void __cdecl ai_dialogue_initialize()
+{
+	INVOKE(0x01438200, ai_dialogue_initialize);
+}
+
+void __cdecl ai_dialogue_initialize_for_new_map()
+{
+	INVOKE(0x01438270, ai_dialogue_initialize_for_new_map);
+}
+
 //.text:014382D0 ; void __cdecl ai_dialogue_notify(long, short, short, long, ai_information_packet*)
 //.text:014385C0 ; void __cdecl ai_dialogue_started(long, unit_speech_item*)
 //.text:014389D0 ; bool __cdecl ai_dialogue_test(c_dialogue_event*)
-//.text:01438AB0 ; void __cdecl ai_dialogue_update()
+
+void __cdecl ai_dialogue_update()
+{
+	INVOKE(0x01438AB0, ai_dialogue_update);
+}
+
 //.text:01438AC0 ; 
 //.text:01438B00 ; 
 //.text:01438B40 ; 

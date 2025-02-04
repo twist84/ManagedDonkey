@@ -95,24 +95,30 @@ static_assert(sizeof(squad_group_datum) == 0x24);
 struct squad_actor_iterator
 {
 	long squad_index;
-	long actor_index;
-	long next_actor_index;
-	bool __unknownC;
+	long index;
+	long next_index;
+	bool active_only;
 };
 static_assert(sizeof(squad_actor_iterator) == 0x10);
 
 struct squad_iterator
 {
-	squad_datum* datum;
-	s_data_iterator iterator;
+	c_data_iterator<squad_datum> iterator;
 	long squad_index;
 };
 static_assert(sizeof(squad_iterator) == 0x14);
 
 struct actor_datum;
 
-extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, long squad_index, bool a3);
+extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, long squad_index, bool active_only);
 extern actor_datum* __cdecl squad_actor_iterator_next(squad_actor_iterator* iterator);
+extern void __cdecl squad_deactivate(long squad_index);
 extern void __cdecl squad_iterator_new(squad_iterator* iterator);
 extern squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator);
+extern void __cdecl squads_dispose();
+extern void __cdecl squads_dispose_from_old_map();
+extern void __cdecl squads_initialize();
+extern void __cdecl squads_initialize_for_new_map();
+extern void __cdecl squads_update();
+extern void __cdecl squads_update_dirty_status();
 

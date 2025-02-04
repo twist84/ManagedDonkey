@@ -153,6 +153,10 @@ struct actor_prop_ref_iterator
 };
 static_assert(sizeof(actor_prop_ref_iterator) == 0x8);
 
-void __cdecl actor_prop_ref_iterator_new(actor_prop_ref_iterator* iterator, long actor_index);
-prop_ref_datum* __cdecl actor_prop_ref_iterator_next(actor_prop_ref_iterator* iterator);
+extern void __cdecl props_dispose();
+extern void __cdecl props_dispose_from_old_map();
+extern void __cdecl props_initialize();
+extern void __cdecl props_initialize_for_new_map();
+extern void __cdecl actor_prop_ref_iterator_new(actor_prop_ref_iterator* iterator, long actor_index);
+extern prop_ref_datum* __cdecl actor_prop_ref_iterator_next(actor_prop_ref_iterator* iterator);
 
