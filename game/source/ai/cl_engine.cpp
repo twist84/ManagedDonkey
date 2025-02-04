@@ -62,7 +62,12 @@ cs_point_set* __cdecl cs_get_point_set(long index)
 //.text:01444060 ; void __cdecl cs_handle_thread_delete(long)
 //.text:014440D0 ; short __cdecl cs_helper(long, short, short(__cdecl*)(long, long, cs_command*, s_atom_control*, long), long)
 //.text:01444280 ; long __cdecl cs_index_from_thread(long, long, bool)
-//.text:01444330 ; void __cdecl cs_initialize()
+
+void __cdecl cs_initialize()
+{
+	INVOKE(0x01444330, cs_initialize);
+}
+
 //.text:01444370 ; cs_command* __cdecl cs_initialize_command(long, short, bool)
 
 void __cdecl cs_initialize_for_new_map()

@@ -85,8 +85,24 @@ void __cdecl swarm_delete(long swarm_index)
 //.text:01498110 ; void __cdecl swarm_spawners_handle_deleted_object(long)
 //.text:01498180 ; void __cdecl swarm_spawners_update()
 //.text:01498290 ; bool __cdecl swarm_target_get_info(short, long, long*, real_point3d*, real_point3d*)
-//.text:014983D0 ; void __cdecl swarm_update(long)
-//.text:01498580 ; void __cdecl swarms_dispose_from_old_map()
-//.text:01498610 ; void __cdecl swarms_initialize()
-//.text:014986C0 ; void __cdecl swarms_initialize_for_new_map()
+
+void __cdecl swarm_update(long actor_index)
+{
+	INVOKE(0x014983D0, swarm_update, actor_index);
+}
+
+void __cdecl swarms_dispose_from_old_map()
+{
+	INVOKE(0x01498580, swarms_dispose_from_old_map);
+}
+
+void __cdecl swarms_initialize()
+{
+	INVOKE(0x01498610, swarms_initialize);
+}
+
+void __cdecl swarms_initialize_for_new_map()
+{
+	INVOKE(0x014986C0, swarms_initialize_for_new_map);
+}
 

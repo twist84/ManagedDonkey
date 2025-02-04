@@ -199,6 +199,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\ai_reference_frame.cpp" />
     <ClCompile Include="source\ai\ai_vehicles.cpp" />
     <ClCompile Include="source\ai\clump.cpp" />
+    <ClCompile Include="source\ai\formations.cpp" />
     <ClCompile Include="source\ai\joint_behavior.cpp" />
     <ClCompile Include="source\ai\objectives.cpp" />
     <ClCompile Include="source\ai\path.cpp" />
@@ -207,6 +208,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\props.cpp" />
     <ClCompile Include="source\ai\sector.cpp" />
     <ClCompile Include="source\ai\squads.cpp" />
+    <ClCompile Include="source\ai\squad_patrol.cpp" />
     <ClCompile Include="source\ai\swarms.cpp" />
     <ClCompile Include="source\animations\animation_definitions.cpp" />
     <ClCompile Include="source\animations\animation_manager.cpp" />

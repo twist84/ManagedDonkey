@@ -129,17 +129,17 @@ void __cdecl ai_erase(long squad_index, bool delete_immediately)
 	{
 		if (squad_index == NONE)
 		{
-			actor_iterator actor_iter{};
-			actor_iterator_new(&actor_iter, false);
-			while (actor_iterator_next(&actor_iter))
-				actor_erase(actor_iter.index, delete_immediately);
+			actor_iterator iterator{};
+			actor_iterator_new(&iterator, false);
+			while (actor_iterator_next(&iterator))
+				actor_erase(iterator.index, delete_immediately);
 		}
 		else
 		{
-			squad_actor_iterator squad_actor_iter{};
-			squad_actor_iterator_new(&squad_actor_iter, squad_index, false);
-			while (squad_actor_iterator_next(&squad_actor_iter))
-				actor_erase(squad_actor_iter.actor_index, delete_immediately);
+			squad_actor_iterator iterator{};
+			squad_actor_iterator_new(&iterator, squad_index, false);
+			while (squad_actor_iterator_next(&iterator))
+				actor_erase(iterator.index, delete_immediately);
 		}
 	}
 }
@@ -174,7 +174,7 @@ void __cdecl ai_globals_set_ai_active(bool enable)
 }
 
 //.text:01432180 ; void __cdecl ai_globals_set_fast_and_dumb(bool)
-//.text:014321A0 ; 
+//.text:014321A0 ; s_ai_globals_data* __cdecl ai_globals_try_and_get_data(s_ai_globals_definition const*)
 //.text:014321C0 ; void __cdecl ai_globals_update()
 //.text:01432690 ; void __cdecl ai_handle_ai_point_move(real_point3d const*, c_ai_point3d*)
 //.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team, e_game_team, bool, bool, bool)
@@ -221,6 +221,30 @@ void __cdecl ai_handle_bump(long biped_index, long object_index, real_vector3d c
 void __cdecl ai_initialize()
 {
 	INVOKE(0x01433EA0, ai_initialize);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	//ai_globals = (ai_globals_type*)g_ai_globals_allocator.allocate(sizeof(ai_globals_type), "ai globals");
+	//csmemset(ai_globals, 0, sizeof(ai_globals_type));
+	//ai_player_initialize();
+	//paths_initialize();
+	//actors_initialize();
+	//swarms_initialize();
+	//props_initialize();
+	//squads_initialize();
+	//objectives_initialize();
+	//clumps_initialize();
+	//joint_behavior_initialize();
+	//event_handling_initialize();
+	//dynamic_firing_sets_initialize();
+	//squad_patrol_initialize();
+	//formations_initialize();
+	//cs_initialize();
+	//activities_initialize();
+	//ai_script_initialize();
+	//ai_dialogue_initialize();
+	//actor_move_initialize();
+	//behaviors_initialize();
+	//flocks_initialize();
 }
 
 void __cdecl ai_initialize_for_new_map()
@@ -252,7 +276,7 @@ void __cdecl ai_update()
 }
 
 //.text:01435290 ; void __cdecl ai_update_team_status()
-//.text:014353A0 ; 
+//.text:014353A0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_ai_globals_allocator(void*)>::allocate
 //.text:014353E0 ; 
 //.text:01435400 ; 
 //.text:01435420 ; 

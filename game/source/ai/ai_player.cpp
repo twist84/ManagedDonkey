@@ -17,7 +17,12 @@
 //.text:014363C0 ; 
 //.text:01436420 ; 
 //.text:01436480 ; short __cdecl ai_player_index_get(long)
-//.text:014364C0 ; void __cdecl ai_player_initialize()
+
+void __cdecl ai_player_initialize()
+{
+	INVOKE(0x014364C0, ai_player_initialize);
+}
+
 //.text:01436520 ; void __cdecl ai_player_state_create(long)
 //.text:01436590 ; void __cdecl ai_player_state_delete(long)
 //.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(long)

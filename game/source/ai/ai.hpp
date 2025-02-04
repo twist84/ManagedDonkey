@@ -6,6 +6,7 @@
 #include "ai/ai_flocks.hpp"
 #include "ai/ai_player.hpp"
 #include "ai/ai_script.hpp"
+#include "ai/behavior.hpp"
 #include "ai/clump.hpp"
 #include "ai/formations.hpp"
 #include "ai/joint_behavior.hpp"
