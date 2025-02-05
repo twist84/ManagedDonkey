@@ -261,6 +261,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\c_player_profile.cpp" />
+    <ClCompile Include="source\interface\debug_menu\debug_menu_item_type.cpp" />
+    <ClCompile Include="source\interface\debug_menu\debug_menu_zone_sets.cpp" />
     <ClCompile Include="source\interface\gui_pregame_setup_manager.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp" />
@@ -855,6 +857,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\chud\chud_draw.hpp" />
     <ClInclude Include="source\interface\chud\chud_globals_definitions.hpp" />
     <ClInclude Include="source\interface\chud\cortana_effect.hpp" />
+    <ClInclude Include="source\interface\debug_menu\debug_menu_item_type.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
     <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />
@@ -925,6 +928,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\debug_menu\debug_menu_main.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_parse.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_scroll.hpp" />
+    <ClInclude Include="source\interface\debug_menu\debug_menu_zone_sets.hpp" />
     <ClInclude Include="source\interface\gui_pregame_setup_manager.hpp" />
     <ClInclude Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />

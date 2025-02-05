@@ -5,9 +5,10 @@
 #include "interface/debug_menu/debug_menu_item.hpp"
 #include "interface/debug_menu/debug_menu_item_hs_command.hpp"
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
+#include "interface/debug_menu/debug_menu_item_type.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/debug_menu/debug_menu_scroll.hpp"
-#include "hs/hs_scenario_definitions.hpp"
+#include "interface/debug_menu/debug_menu_zone_sets.hpp"
 #include "main/console.hpp"
 
 #include <climits>
@@ -97,6 +98,20 @@ char const* const g_token_names[k_token_count]
 	"inc",
 	"menu",
 	"zone_set_menu",
+
+	// Halo 3: ODST
+	//"create_zone_set_menu",
+	//"error_geometry_settings_menu",
+
+	// Halo: Reach
+	//"saved_film_marker_goto_menu",
+	//"scenario_loader",
+	//"object_dropper",
+
+	// Halo 4
+	//"effects_browser",
+	//"cinematics_menu",
+
 	"item",
 	"caption",
 	"name",

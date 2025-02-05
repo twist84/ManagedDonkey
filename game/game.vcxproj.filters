@@ -1791,6 +1791,12 @@
     <ClCompile Include="source\ai\activities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\debug_menu\debug_menu_zone_sets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\debug_menu\debug_menu_item_type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4071,6 +4077,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\activities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\debug_menu\debug_menu_zone_sets.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\debug_menu\debug_menu_item_type.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

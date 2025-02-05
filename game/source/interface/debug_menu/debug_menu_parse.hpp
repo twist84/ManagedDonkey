@@ -49,8 +49,8 @@ enum e_tokens
 	//_token_object_dropper,
 
 	// Halo 4
-	//_token_effects_browser
-	//_token_cinematics_menu
+	//_token_effects_browser,
+	//_token_cinematics_menu,
 
 	_token_item,
 
