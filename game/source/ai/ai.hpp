@@ -7,6 +7,7 @@
 #include "ai/ai_dialogue.hpp"
 #include "ai/ai_flocks.hpp"
 #include "ai/ai_player.hpp"
+#include "ai/ai_profile.hpp"
 #include "ai/ai_script.hpp"
 #include "ai/behavior.hpp"
 #include "ai/clump.hpp"
@@ -123,6 +124,8 @@ extern bool __cdecl ai_enemies_attacking_players(long* attacking_object_index, d
 extern bool __cdecl ai_enemies_can_see_player(long* object_index);
 extern void __cdecl ai_erase(long squad_index, bool delete_immediately);
 extern bool __cdecl ai_get_active_clusters(long structure_bsp_index, dword* activation_bitvector, long cluster_count);
+extern void __cdecl ai_globals_initialize();
+extern void __cdecl ai_globals_initialize_for_new_map();
 extern void __cdecl ai_globals_set_ai_active(bool enable);
 extern void __cdecl ai_globals_update();
 extern void __cdecl ai_handle_bump(long biped_index, long object_index, real_vector3d const* old_velocity);
@@ -130,4 +133,5 @@ extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();
 extern void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
 extern void __cdecl ai_update();
+extern void __cdecl ai_verify_tags();
 

@@ -1,5 +1,6 @@
 #include "ai/ai.hpp"
 
+#include "ai/ai_reference_frame.hpp"
 #include "memory/thread_local.hpp"
 
 //.text:014308D0 ; void __cdecl __tls_set_g_ai_globals_allocator(void*)
@@ -18,79 +19,82 @@ long __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_
 
 void __cdecl ai_dispose()
 {
-	INVOKE(0x014314D0, ai_dispose);
+	//INVOKE(0x014314D0, ai_dispose);
 
-	//ai_script_dispose();
-	//squads_dispose();
-	//clumps_dispose();
-	//joint_behavior_dispose();
-	//cs_dispose();
-	//props_dispose();
-	//actors_dispose();
-	//paths_dispose();
+	ai_script_dispose();
+	squads_dispose();
+	clumps_dispose();
+	joint_behavior_dispose();
+	cs_dispose();
+	props_dispose();
+	actors_dispose();
+	paths_dispose();
+	ai_profile_dispose();
 }
 
 void __cdecl ai_dispose_from_old_map()
 {
-	INVOKE(0x01431500, ai_dispose_from_old_map);
+	//INVOKE(0x01431500, ai_dispose_from_old_map);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	//if (ai_globals->ai_initialized_for_map)
-	//{
-	//	ai_script_dispose_from_old_map();
-	//	squads_dispose_from_old_map();
-	//	clumps_dispose_from_old_map();
-	//	joint_behavior_dispose_from_old_map();
-	//	cs_dispose_from_old_map();
-	//	dynamic_firing_sets_dispose_from_old_map();
-	//	squad_patrol_dispose_from_old_map();
-	//	formations_dispose_from_old_map();
-	//	props_dispose_from_old_map();
-	//	actors_dispose_from_old_map();
-	//	swarms_dispose_from_old_map();
-	//	paths_dispose_from_old_map();
-	//	ai_dialogue_dispose_from_old_map();
-	//	flocks_dispose_from_old_map();
-	//	ai_globals->ai_initialized_for_map = false;
-	//}
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	if (ai_globals->ai_initialized_for_map)
+	{
+		ai_script_dispose_from_old_map();
+		squads_dispose_from_old_map();
+		clumps_dispose_from_old_map();
+		joint_behavior_dispose_from_old_map();
+		cs_dispose_from_old_map();
+		dynamic_firing_sets_dispose_from_old_map();
+		squad_patrol_dispose_from_old_map();
+		formations_dispose_from_old_map();
+		props_dispose_from_old_map();
+		actors_dispose_from_old_map();
+		swarms_dispose_from_old_map();
+		paths_dispose_from_old_map();
+		ai_profile_dispose_from_old_map();
+		ai_dialogue_dispose_from_old_map();
+		flocks_dispose_from_old_map();
+		ai_globals->ai_initialized_for_map = false;
+	}
 }
 
 void __cdecl ai_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
 {
-	INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
+	//INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	//if (ai_globals->ai_initialized_for_map)
-	//{
-	//	flocks_dispose_from_old_structure_bsp();
-	//
-	//	actor_iterator actor_iter{};
-	//	actor_iterator_new(&actor_iter, false);
-	//	for (actor_datum* actor = actor_iterator_next(&actor_iter); actor; actor = actor_iterator_next(&actor_iter))
-	//	{
-	//		char bsp_index = actor->input.position.body_location.cluster_reference.bsp_index;
-	//		if (bsp_index != NONE && TEST_BIT(deactivating_structure_bsp_mask, bsp_index))
-	//		{
-	//			actor_set_active(actor_iter.index, true);
-	//			actor->input.position.body_location = (s_location)-1;
-	//		}
-	//	}
-	//
-	//	squad_iterator squad_iter{};
-	//	squad_iterator_new(&squad_iter);
-	//	for (squad_datum* squad = squad_iterator_next(&squad_iter); squad; squad = squad_iterator_next(&squad_iter))
-	//	{
-	//		if (SLOBYTE(squad->flags) < 0)
-	//		{
-	//			squad_actor_iterator squad_actor_iter{};
-	//			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
-	//			if (!squad_actor_iterator_next(&squad_actor_iter))
-	//			{
-	//				squad_deactivate(squad_iter.squad_index);
-	//			}
-	//		}
-	//	}
-	//}
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	if (ai_globals->ai_initialized_for_map)
+	{
+		flocks_dispose_from_old_structure_bsp();
+	
+		actor_iterator actor_iter{};
+		actor_iterator_new(&actor_iter, false);
+		for (actor_datum* actor = actor_iterator_next(&actor_iter); actor; actor = actor_iterator_next(&actor_iter))
+		{
+			char bsp_index = actor->input.position.body_location.cluster_reference.bsp_index;
+			if (bsp_index != NONE && TEST_BIT(deactivating_structure_bsp_mask, bsp_index))
+			{
+				actor_set_active(actor_iter.index, true);
+				actor->input.position.body_location.cluster_reference.bsp_index = NONE;
+				actor->input.position.body_location.cluster_reference.cluster_index = NONE;
+			}
+		}
+	
+		squad_iterator squad_iter{};
+		squad_iterator_new(&squad_iter);
+		for (squad_datum* squad = squad_iterator_next(&squad_iter); squad; squad = squad_iterator_next(&squad_iter))
+		{
+			if ((signed char)(squad->flags & 0xFF) < 0)
+			{
+				squad_actor_iterator squad_actor_iter{};
+				squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
+				if (!squad_actor_iterator_next(&squad_actor_iter))
+				{
+					squad_deactivate(squad_iter.squad_index);
+				}
+			}
+		}
+	}
 }
 
 bool __cdecl ai_enemies_attacking_players(long* attacking_object_index, dword* player_mask_out)
@@ -147,7 +151,17 @@ void __cdecl ai_erase(long squad_index, bool delete_immediately)
 //.text:014317D0 ; void __cdecl ai_find_inactive_squads(long, byte*, long)
 //.text:014318F0 ; void __cdecl ai_find_line_of_fire_friend_pills(long, long, line_of_fire_pill*)
 //.text:01431B50 ; bool __cdecl ai_find_location(real_point3d const*, s_location*)
-//.text:01431BC0 ; void __cdecl ai_flush_spatial_effects()
+
+void __cdecl ai_flush_spatial_effects()
+{
+	//INVOKE(0x01431BC0, ai_flush_spatial_effects);
+
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	ai_globals->spatial_effects_last_index = 0;
+	ai_globals->spatial_effects_first_index = 0;
+	csmemset(ai_globals->spatial_effects, 0, sizeof(ai_globals->spatial_effects));
+}
+
 //.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(long, long, line_of_fire_pill*)
 
 bool __cdecl ai_get_active_clusters(long structure_bsp_index, dword* activation_bitvector, long cluster_count)
@@ -163,8 +177,17 @@ bool __cdecl ai_get_active_clusters(long structure_bsp_index, dword* activation_
 //.text:01431EC0 ; bool __cdecl ai_globals_get_ai_active()
 //.text:01431EE0 ; void __cdecl ai_globals_grenades_enabled(bool)
 //.text:01431F10 ; void __cdecl ai_globals_infection_suppress(long)
-//.text:01431F60 ; void __cdecl ai_globals_initialize()
-//.text:01431F90 ; void __cdecl ai_globals_initialize_for_new_map()
+
+void __cdecl ai_globals_initialize()
+{
+	INVOKE(0x01431F60, ai_globals_initialize);
+}
+
+void __cdecl ai_globals_initialize_for_new_map()
+{
+	INVOKE(0x01431F90, ai_globals_initialize_for_new_map);
+}
+
 //.text:01432120 ; void __cdecl ai_globals_player_dialogue_enable(bool)
 //.text:01432140 ; bool __cdecl ai_globals_player_dialogue_enabled()
 
@@ -225,41 +248,89 @@ void __cdecl ai_handle_bump(long biped_index, long object_index, real_vector3d c
 
 void __cdecl ai_initialize()
 {
-	INVOKE(0x01433EA0, ai_initialize);
+	//INVOKE(0x01433EA0, ai_initialize);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	//ai_globals = (ai_globals_type*)g_ai_globals_allocator.allocate(sizeof(ai_globals_type), "ai globals");
-	//csmemset(ai_globals, 0, sizeof(ai_globals_type));
-	//ai_player_initialize();
-	//paths_initialize();
-	//actors_initialize();
-	//swarms_initialize();
-	//props_initialize();
-	//squads_initialize();
-	//objectives_initialize();
-	//clumps_initialize();
-	//joint_behavior_initialize();
-	//event_handling_initialize();
-	//dynamic_firing_sets_initialize();
-	//squad_patrol_initialize();
-	//formations_initialize();
-	//cs_initialize();
-	//activities_initialize();
-	//ai_script_initialize();
-	//ai_dialogue_initialize();
-	//actor_move_initialize();
-	//behaviors_initialize();
-	//flocks_initialize();
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	ai_globals = (ai_globals_type*)g_ai_globals_allocator.allocate(sizeof(ai_globals_type), "ai globals");
+
+	ai_globals_initialize();
+	ai_player_initialize();
+	ai_profile_initialize();
+	paths_initialize();
+	actors_initialize();
+	swarms_initialize();
+	props_initialize();
+	squads_initialize();
+	objectives_initialize();
+	clumps_initialize();
+	joint_behavior_initialize();
+	event_handling_initialize();
+	dynamic_firing_sets_initialize();
+	squad_patrol_initialize();
+	formations_initialize();
+	cs_initialize();
+	activities_initialize();
+	ai_script_initialize();
+	ai_dialogue_initialize();
+	actor_move_initialize();
+	behaviors_initialize();
+	flocks_initialize();
 }
 
 void __cdecl ai_initialize_for_new_map()
 {
-	INVOKE(0x01433F70, ai_initialize_for_new_map);
+	//INVOKE(0x01433F70, ai_initialize_for_new_map);
+
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	ai_globals_initialize_for_new_map();
+	ai_players_initialize_for_new_map();
+	ai_profile_initialize_for_new_map();
+	paths_initialize_for_new_map();
+	actors_initialize_for_new_map();
+	swarms_initialize_for_new_map();
+	props_initialize_for_new_map();
+	squads_initialize_for_new_map();
+	objectives_initialize_for_new_map();
+	clumps_initialize_for_new_map();
+	joint_behavior_initialize_for_new_map();
+	dynamic_firing_sets_initialize_for_new_map();
+	cs_initialize_for_new_map();
+	ai_script_initialize_for_new_map();
+	ai_dialogue_initialize_for_new_map();
+	flocks_initialize_for_new_map();
+	ai_flush_spatial_effects();
+	ai_globals->ai_initialized_for_map = true;
+	ai_verify_tags();
 }
 
 void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
 {
 	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	//if (ai_globals->ai_initialized_for_map)
+	//{
+	//	actor_iterator iterator{};
+	//	actor_iterator_new(&iterator, false);
+	//	for (actor_datum* actor = actor_iterator_next(&iterator); actor; actor = actor_iterator_next(&iterator))
+	//	{
+	//		if (actor_switch_bsp(iterator.index))
+	//		{
+	//			long squad_index = actor->meta.squad_index;
+	//			if (squad_index != NONE && (signed char)(squad_get(squad_index)->flags & 0xFF) < 0)
+	//			{
+	//				actor_set_active(iterator.index, true);
+	//			}
+	//		}
+	//	}
+	//	ai_refresh_reference_frames();
+	//	objectives_initialize_for_new_structure_bsp(activating_structure_bsp_mask);
+	//
+	//	// $TODO: stucture bsp pathfinding data validation loop
+	//
+	//	flocks_initialize_for_new_structure_bsp(activating_structure_bsp_mask);
+	//	cs_initialize_for_new_structure_bsp((long)activating_structure_bsp_mask);
+	//}
 }
 
 //.text:01434150 ; void __cdecl ai_initialize_for_saved_game(long)
@@ -277,46 +348,52 @@ void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_
 
 void __cdecl ai_update()
 {
-	INVOKE(0x014351F0, ai_update);
+	//INVOKE(0x014351F0, ai_update);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	//if (ai_globals->ai_initialized_for_map /*&& !ai_profile.disable_ai*/ && !game_is_predicted())
-	//{
-	//	/*ai_profile_update();
-	//	if (ai_profile.move_randomly)
-	//	{
-	//		actors_move_randomly();
-	//		ai_globals->ai_has_control_data = true;
-	//	}
-	//	else */if (ai_globals->ai_active)
-	//	{
-	//		ai_player_state_update();
-	//		ai_globals_update();
-	//		formations_update();
-	//		squad_patrol_update();
-	//		squads_update();
-	//		objectives_update();
-	//		clumps_update();
-	//		joint_behaviors_update();
-	//		swarm_spawners_update();
-	//		actors_update();
-	//		ai_dialogue_update();
-	//		flocks_update();
-	//		ai_globals->ai_has_control_data = true;
-	//	}
-	//	else if (ai_globals->ai_has_control_data)
-	//	{
-	//		actors_freeze();
-	//		ai_globals->ai_has_control_data = false;
-	//	}
-	//}
-	//else if (game_is_predicted())
-	//{
-	//	flocks_update();
-	//}
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	if (ai_globals->ai_initialized_for_map && !ai_profile.disable_ai && !game_is_predicted())
+	{
+		ai_profile_update();
+		if (ai_profile.move_randomly)
+		{
+			actors_move_randomly();
+			ai_globals->ai_has_control_data = true;
+		}
+		else if (ai_globals->ai_active)
+		{
+			ai_player_state_update();
+			ai_globals_update();
+			formations_update();
+			squad_patrol_update();
+			squads_update();
+			objectives_update();
+			clumps_update();
+			joint_behaviors_update();
+			swarm_spawners_update();
+			actors_update();
+			ai_dialogue_update();
+			flocks_update();
+			ai_globals->ai_has_control_data = true;
+		}
+		else if (ai_globals->ai_has_control_data)
+		{
+			actors_freeze();
+			ai_globals->ai_has_control_data = false;
+		}
+	}
+	else if (game_is_predicted())
+	{
+		flocks_update();
+	}
 }
 
 //.text:01435290 ; void __cdecl ai_update_team_status()
+
+void __cdecl ai_verify_tags()
+{
+	// $TODO: implement me?
+}
+
 //.text:014353A0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_ai_globals_allocator(void*)>::allocate
 //.text:014353E0 ; 
 //.text:01435400 ; 
