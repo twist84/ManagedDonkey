@@ -5000,13 +5000,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"chud_show_navpoint",
 
 	// 1640
-	"unknown668",
+	"run_like_package",
 
 	// 1641
-	"unknown669",
+	"clear_map_slot",
 
 	// 1642
-	"unknown66A",
+	"clear_map_type",
 
 	// 1643
 	"unit_confirm_message",
