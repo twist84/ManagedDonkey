@@ -1,6 +1,7 @@
 #include "ai/squads.hpp"
 
 #include "ai/actors.hpp"
+#include "memory/thread_local.hpp"
 
 //.text:0148F000 ; 
 //.text:0148F0A0 ; 
@@ -43,6 +44,14 @@ void __cdecl squad_deactivate(long squad_index)
 //.text:01490980 ; void __cdecl squad_detach_actor(long, bool)
 //.text:01490AF0 ; bool __cdecl squad_force_activate(long)
 //.text:01490B40 ; void __cdecl squad_force_deactivate(long)
+
+squad_datum* __cdecl squad_get(long squad_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(squad_data);
+	squad_datum* squad = DATUM_GET(squad_data, squad_datum, squad_index);
+	return squad;
+}
+
 //.text:01490B80 ; long __cdecl squad_get_by_name(char const*)
 //.text:01490BA0 ; long __cdecl squad_get_by_name(struct scenario*, char const*)
 //.text:01490C10 ; 

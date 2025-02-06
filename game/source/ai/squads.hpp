@@ -113,6 +113,7 @@ struct actor_datum;
 extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, long squad_index, bool active_only);
 extern actor_datum* __cdecl squad_actor_iterator_next(squad_actor_iterator* iterator);
 extern void __cdecl squad_deactivate(long squad_index);
+extern squad_datum* __cdecl squad_get(long squad_index);
 extern void __cdecl squad_iterator_new(squad_iterator* iterator);
 extern squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator);
 extern void __cdecl squads_dispose();
