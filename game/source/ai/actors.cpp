@@ -232,7 +232,12 @@ bool __cdecl actor_set_active(long actor_index, bool active)
 //.text:0142ED80 ; bool __cdecl actor_spawn_unit_character(long, long)
 //.text:0142EDC0 ; void __cdecl actor_suppress_combat(long)
 //.text:0142EDF0 ; void __cdecl actor_suppress_combat_update(long)
-//.text:0142EED0 ; bool __cdecl actor_switch_bsp(long)
+
+bool __cdecl actor_switch_bsp(long actor_index)
+{
+	return INVOKE(0x0142EED0, actor_switch_bsp, actor_index);
+}
+
 //.text:0142EFC0 ; long __cdecl actor_target_unit_index(long)
 //.text:0142F010 ; bool __cdecl actor_test_activation_cluster_bit_vector(long, s_game_cluster_bit_vectors const*)
 //.text:0142F150 ; void __cdecl actor_unit_control(long)

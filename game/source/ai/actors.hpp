@@ -758,6 +758,7 @@ extern bool __cdecl actor_is_deaf(long actor_index);
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool active_only);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
 extern bool __cdecl actor_set_active(long actor_index, bool active);
+extern bool __cdecl actor_switch_bsp(long actor_index);
 extern void __cdecl actors_dispose();
 extern void __cdecl actors_dispose_from_old_map();
 extern void __cdecl actors_freeze();
