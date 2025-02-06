@@ -12,7 +12,12 @@
 //.text:00BB41F0 ; void __cdecl creature_affected_by_shape_phantom_this_tick(long)
 //.text:00BB4220 ; void __cdecl creature_get_center_of_mass(long, real_point3d*)
 //.text:00BB4260 ; void __cdecl creature_get_facing_vector(long, real_vector3d*)
-//.text:00BB4280 ; void __cdecl creature_get_head_position(long, real_point3d*)
+
+void __cdecl creature_get_head_position(long creature_index, real_point3d* head_position)
+{
+	INVOKE(0x00BB4280, creature_get_head_position, creature_index, head_position);
+}
+
 //.text:00BB4300 ; bool __cdecl creature_is_busy(long)
 //.text:00BB4340 ; void __cdecl creature_kill(long)
 //.text:00BB4380 ; void __cdecl creature_move(long)

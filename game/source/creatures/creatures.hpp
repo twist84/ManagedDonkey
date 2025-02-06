@@ -44,3 +44,5 @@ struct creature_datum
 };
 static_assert(sizeof(creature_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_creature_datum));
 
+extern void __cdecl creature_get_head_position(long creature_index, real_point3d* head_position);
+
