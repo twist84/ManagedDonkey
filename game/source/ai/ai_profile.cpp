@@ -165,17 +165,17 @@ void ai_profile_draw_string(char const* string, short tab_count, short const* ta
 void ai_profile_initialize()
 {
 	csmemset(&ai_profile, 0, sizeof(ai_profile));
-
-	ai_profile.disable_ai = false;
-	ai_profile.move_randomly = false;
 	ai_profile.show = true;
-	ai_profile.show_stats = true;
-	ai_profile.show_actors = true;
-	ai_profile.show_swarms = true;
-	ai_profile.show_paths = true;
-	ai_profile.show_line_of_sight = true;
-	ai_profile.show_prop_types = true;
-	ai_profile.show_sound_distance = true;
+
+	//ai_profile.disable_ai = true;
+	//ai_profile.move_randomly = true;
+	//ai_profile.show_stats = true;
+	//ai_profile.show_actors = true;
+	//ai_profile.show_swarms = true;
+	//ai_profile.show_paths = true;
+	//ai_profile.show_line_of_sight = true;
+	//ai_profile.show_prop_types = true;
+	//ai_profile.show_sound_distance = true;
 }
 
 void ai_profile_initialize_for_new_map()
