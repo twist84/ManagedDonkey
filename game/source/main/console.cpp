@@ -755,6 +755,17 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_abstraction),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_mouse_state),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_profile_disable, ai_profile.disable_ai),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_profile_random, ai_profile.move_randomly),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show, ai_profile.show),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_stats, ai_profile.show_stats),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_actors, ai_profile.show_actors),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_swarms, ai_profile.show_swarms),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_paths, ai_profile.show_paths),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_line_of_sight, ai_profile.show_line_of_sight),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_prop_types, ai_profile.show_prop_types),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_sound_distance, ai_profile.show_sound_distance),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render, g_ai_render),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_player_weights, g_ai_render_dialogue_player_weights),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_behavior_stack_all, g_ai_render_behavior_stack_all),
