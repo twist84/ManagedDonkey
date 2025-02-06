@@ -15,7 +15,11 @@ long __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_
 //.text:014312F0 ; double __cdecl ai_chance_this_tick(real)
 //.text:01431360 ; void __cdecl ai_create_mounted_weapons_for_unit(long)
 //.text:014313B0 ; double __cdecl ai_danger_level(short)
-//.text:014314C0 ; void __cdecl ai_debug_update(void)
+
+void __cdecl ai_debug_update()
+{
+	//INVOKE(0x014314C0, ai_debug_update);
+}
 
 void __cdecl ai_dispose()
 {
@@ -341,9 +345,19 @@ void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_
 //.text:014343B0 ; void* __cdecl ai_scratch_allocate(unsigned int)
 //.text:01434450 ; void __cdecl ai_scratch_free(void*)
 //.text:014344B0 ; bool __cdecl ai_test_ballistic_line_of_fire(long, real_point3d const*, real, real_vector3d const*, real, long, bool)
-//.text:014346F0 ; bool __cdecl ai_test_line_of_fire(long, long, real_point3d const*, real_vector3d const*, long*)
+
+bool __cdecl ai_test_line_of_fire(long actor_index, long ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, long* prop_index_reference)
+{
+	return INVOKE(0x014346F0, ai_test_line_of_fire, actor_index, ignore_unit_index, origin, vector, prop_index_reference);
+}
+
 //.text:014347D0 ; bool __cdecl ai_test_line_of_fire_geometry(long, long, real_point3d const*, real_point3d const*)
-//.text:01434AD0 ; short __cdecl ai_test_line_of_sight(real_point3d const*, s_cluster_reference, real_point3d const*, s_cluster_reference, short, bool, long, long, bool, bool, long*, bool*)
+
+short __cdecl ai_test_line_of_sight(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, short mode, bool test_line_of_fire, long ignore_object_index, long ignore_object_index2, bool ignore_vehicles, bool allow_early_out, long* blocking_object_index_ref, bool* two_sided_obstruction_ref)
+{
+	return INVOKE(0x01434AD0, ai_test_line_of_sight, p0, p0_cluster_ref, p1, p1_cluster_ref, mode, test_line_of_fire, ignore_object_index, ignore_object_index2, ignore_vehicles, allow_early_out, blocking_object_index_ref, two_sided_obstruction_ref);
+}
+
 //.text:014350F0 ; bool __cdecl ai_try_vehicle_eviction(long, long, bool)
 
 void __cdecl ai_update()
@@ -353,6 +367,7 @@ void __cdecl ai_update()
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map && !ai_profile.disable_ai && !game_is_predicted())
 	{
+		ai_debug_update();
 		ai_profile_update();
 		if (ai_profile.move_randomly)
 		{

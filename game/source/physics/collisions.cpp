@@ -45,7 +45,12 @@ short __cdecl collision_move_sphere(s_collision_test_flags flags, real_point3d c
 //.text:006D5B70 ; real_vector3d const* __cdecl collision_structure_ground_plane_calculate(real_point3d const*, real_vector3d const*, real, real_vector3d*)
 //.text:006D5F60 ; 
 //.text:006D6560 ; long __cdecl collision_structure_ground_plane_process_surfaces(collision_bsp_test_sphere_result const*, real_matrix4x3 const*, c_collision_bsp_reference, real_point3d const*, real_vector3d const*, long, long, real_plane3d*)
-//.text:006D6780 ; bool __cdecl collision_test_line(s_collision_test_flags, real_point3d const*, real_point3d const*, long, long, collision_result*)
+
+bool __cdecl collision_test_line(s_collision_test_flags flags, real_point3d const* point0, real_point3d const* point1, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision)
+{
+	return INVOKE(0x006D6780, collision_test_line, flags, point0, point1, first_ignore_object_index, second_ignore_object_index, collision);
+}
+
 //.text:006D67E0 ; bool __cdecl collision_test_line(s_collision_test_flags, bool, real_point3d const*, real_point3d const*, long, long, long, collision_result*)
 //.text:006D6840 ; bool __cdecl collision_test_line_exit(collision_result const*, real_point3d const*, real_point3d const*, collision_result*)
 //.text:006D6890 ; bool __cdecl collision_test_pill(s_collision_test_flags, real_point3d const*, real_vector3d const*, real, long, long, collision_result*)

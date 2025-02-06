@@ -83,7 +83,11 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 //.text:0142A300 ; void __cdecl actor_force_combat_status(long, short)
 //.text:0142A370 ; void __cdecl actor_freeze(long)
 //.text:0142A420 ; void __cdecl actor_freeze_unit(long, long)
-//.text:0142A480 ; bool __cdecl actor_general_update(long)
+
+bool __cdecl actor_general_update(long actor_index)
+{
+	return INVOKE(0x0142A480, actor_general_update, actor_index);
+}
 
 actor_datum* __cdecl actor_get(long actor_index)
 {

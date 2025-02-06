@@ -23,7 +23,12 @@
 //.text:014BE080 ; void __cdecl path_state_destination(path_state*, c_ai_point3d const*, c_sector_ref, real)
 //.text:014BE0F0 ; void __cdecl path_state_destination(path_state*, c_path_destination*)
 //.text:014BE140 ; bool __cdecl path_state_estimated_distance(path_state*, c_ai_point3d const*, c_sector_ref, real*, real*, real_vector3d*)
-//.text:014BE6D0 ; bool __cdecl path_state_find(path_state*)
+
+bool __cdecl path_state_find(path_state* state)
+{
+	return INVOKE(0x014BE6D0, path_state_find, state);
+}
+
 //.text:014BE780 ; void __cdecl path_state_new(path_input const*, path_state*, path_error_info const*, path_debug_storage*, special_movement const*, s_hint_penalty_cache const*)
 //.text:014BE8F0 ; void __cdecl path_state_reset(path_state*)
 //.text:014BE950 ; bool __cdecl path_state_traverse(path_state*)

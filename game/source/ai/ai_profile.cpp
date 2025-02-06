@@ -4,7 +4,9 @@
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "physics/collisions.hpp"
 #include "render/render_debug.hpp"
 #include "text/draw_string.hpp"
 #include "units/bipeds.hpp"
@@ -220,6 +222,7 @@ void ai_profile_render_spray()
 	if (ai_profile.render_spray_mode > _ai_profile_render_spray_none && camera && ai_globals->ai_initialized_for_map)
 	{
 		//main_set_single_thread_request_flag(_single_thread_for_ai_profile, true);
+
 		if (actor_datum_available_to_current_thread())
 		{
 			real_point3d from_point{};
@@ -390,4 +393,79 @@ long count_actors(bool active_only)
 
 	return actor_count;
 }
+
+// hooks for ai meters
+// this is the **ONLY** I'm allowing hooks at the bottom of a file
+
+bool __cdecl actor_general_update_for_ai_meters(long actor_index)
+{
+	ai_profile.meters[_ai_meter_actor_active].current_count;
+	actor_datum* actor = actor_get(actor_index);
+	if (actor && actor->meta.swarm)
+		ai_profile.meters[_ai_meter_unit_active].current_count++;
+
+	return actor_general_update(actor_index);
+}
+HOOK_DECLARE_CALL(0x0142E08E, actor_general_update_for_ai_meters);
+HOOK_DECLARE_CALL(0x01430180, actor_general_update_for_ai_meters);
+
+bool __cdecl ai_test_line_of_fire_for_ai_meters(long actor_index, long ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, long* prop_index_reference)
+{
+	ai_profile.meters[_ai_meter_line_of_fire].current_count++;
+	return ai_test_line_of_fire(actor_index, ignore_unit_index, origin, vector, prop_index_reference);
+}
+HOOK_DECLARE_CALL(0x01463025, ai_test_line_of_fire_for_ai_meters);
+
+short __cdecl ai_test_line_of_sight_for_ai_meters(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, short mode, bool test_line_of_fire, long ignore_object_index, long ignore_object_index2, bool ignore_vehicles, bool allow_early_out, long* blocking_object_index_ref, bool* two_sided_obstruction_ref)
+{
+	ai_profile.ai_profile_info.line_of_sight++;
+	ai_profile.meters[_ai_meter_line_of_sight].current_count++;
+	return ai_test_line_of_sight(p0, p0_cluster_ref, p1, p1_cluster_ref, mode, test_line_of_fire, ignore_object_index, ignore_object_index2, ignore_vehicles, allow_early_out, blocking_object_index_ref, two_sided_obstruction_ref);
+}
+HOOK_DECLARE_CALL(0x01462400, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x01466E9C, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x014673FC, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x0146F5F2, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x01483ABF, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x014A358F, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x014A3889, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x014B941F, ai_test_line_of_sight_for_ai_meters);
+HOOK_DECLARE_CALL(0x014B9584, ai_test_line_of_sight_for_ai_meters);
+
+bool __cdecl collision_test_line_for_ai_meters(s_collision_test_flags flags, real_point3d const* point0, real_point3d const* point1, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision)
+{
+	ai_profile.meters[_ai_meter_collision_vector].current_count++;
+	return collision_test_line(flags, point0, point1, first_ignore_object_index, second_ignore_object_index, collision);
+}
+HOOK_DECLARE_CALL(0x01434BB7, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434C30, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434E4F, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434E76, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434EA0, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434F8D, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434FAE, collision_test_line_for_ai_meters);
+HOOK_DECLARE_CALL(0x01434FCF, collision_test_line_for_ai_meters);
+
+bool __cdecl collision_test_vector_for_ai_meters(s_collision_test_flags flags, real_point3d const* point, real_vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision)
+{
+	ai_profile.meters[_ai_meter_collision_vector].current_count++;
+	return collision_test_vector(flags, point, vector, first_ignore_object_index, second_ignore_object_index, collision);
+}
+HOOK_DECLARE_CALL(0x014B0F19, collision_test_vector_for_ai_meters);
+HOOK_DECLARE_CALL(0x014B1FC1, collision_test_vector_for_ai_meters);
+
+bool __cdecl path_state_find_for_ai_meters(path_state* state)
+{
+	REFERENCE_DECLARE(offset_pointer(state, 0x168), bool, destination_valid);
+	ai_profile.meters[destination_valid ? _ai_meter_path_find : _ai_meter_path_flood].current_count++;
+	return path_state_find(state);
+}
+HOOK_DECLARE_CALL(0x0145D882, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x0146D828, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x0146E00D, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x01479368, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x0148923B, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x014A0F4A, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x014A1530, path_state_find_for_ai_meters);
+HOOK_DECLARE_CALL(0x014A19B7, path_state_find_for_ai_meters);
 

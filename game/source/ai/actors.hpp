@@ -751,6 +751,7 @@ extern real_argb_color const* __cdecl actor_activation_debug_color(long actor_in
 extern bool __cdecl actor_datum_available_to_current_thread();
 extern void __cdecl actor_delete(long actor_index, bool died);
 extern void __cdecl actor_erase(long actor_index, bool delete_immediately);
+extern bool __cdecl actor_general_update(long actor_index);
 extern actor_datum* __cdecl actor_get(long actor_index);
 extern bool __cdecl actor_is_active(actor_datum const* actor);
 extern bool __cdecl actor_is_blind(long actor_index);
