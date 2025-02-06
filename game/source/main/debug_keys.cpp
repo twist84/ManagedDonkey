@@ -890,7 +890,7 @@ void __cdecl debug_key_render_spray(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 	{
-		console_warning("Unimplemented: " __FUNCTION__);
+		ai_profile_change_render_spray();
 	}
 }
 
