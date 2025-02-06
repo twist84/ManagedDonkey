@@ -1,5 +1,7 @@
 #include "ai/swarms.hpp"
 
+#include "memory/thread_local.hpp"
+
 //.text:01494390 ; 
 //.text:014943B0 ; 
 //.text:014943D0 ; 
@@ -43,8 +45,17 @@
 //.text:014956C0 ; void __cdecl swarm_creature_control(long)
 //.text:014957B0 ; void __cdecl swarm_creature_handle_action_finished(long, long, long)
 //.text:01495910 ; bool __cdecl swarm_creature_infect(long, long, object_marker const*, real_vector3d const*)
-//.text:01495B80 ; void __cdecl swarm_creature_iterator_new(long, swarm_creature_iterator*)
-//.text:01495BC0 ; creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator*)
+
+void __cdecl swarm_creature_iterator_new(long swarm_index, swarm_creature_iterator* iterator)
+{
+	INVOKE(0x01495B80, swarm_creature_iterator_new, swarm_index, iterator);
+}
+
+creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator* iterator)
+{
+	return INVOKE(0x01495BC0, swarm_creature_iterator_next, iterator);
+}
+
 //.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(long, real, real, real_point3d const*, real_vector3d*)
 //.text:01495D20 ; void __cdecl swarm_creature_update(long, long)
 //.text:014968A0 ; void __cdecl swarm_creature_update_timers(long, long, swarm_creature_state*)
@@ -58,6 +69,14 @@ void __cdecl swarm_delete(long swarm_index)
 //.text:01496A20 ; void __cdecl swarm_flush_structure_indices(long)
 //.text:01496A90 ; void __cdecl swarm_freeze(long)
 //.text:01496B30 ; 
+
+swarm_datum* __cdecl swarm_get(long swarm_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(swarm_data);
+	swarm_datum* swarm = DATUM_GET(swarm_data, swarm_datum, swarm_index);
+	return swarm;
+}
+
 //.text:01496B70 ; void __cdecl swarm_handle_creature_death(long, long, short)
 //.text:01496C50 ; void __cdecl swarm_handle_delete_object(long)
 //.text:01496CF0 ; void __cdecl swarm_input_update(long)

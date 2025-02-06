@@ -49,7 +49,18 @@ struct s_spawner_globals
 };
 static_assert(sizeof(s_spawner_globals) == 0x2);
 
+struct creature_datum;
+struct swarm_creature_iterator
+{
+	long next_creature_index;
+	long creature_index;
+};
+static_assert(sizeof(swarm_creature_iterator) == 0x8);
+
+extern void __cdecl swarm_creature_iterator_new(long swarm_index, swarm_creature_iterator* iterator);
+extern creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator* iterator);
 extern void __cdecl swarm_delete(long swarm_index);
+extern swarm_datum* __cdecl swarm_get(long swarm_index);
 extern void __cdecl swarm_spawners_update();
 extern void __cdecl swarm_update(long actor_index);
 extern void __cdecl swarms_dispose_from_old_map();
