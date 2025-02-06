@@ -295,7 +295,7 @@ struct c_object_iterator :
 
 	t_object_type* get_datum()
 	{
-		return static_cast<t_object_type*>(get_datum_internal());
+		return reinterpret_cast<t_object_type*>(get_datum_internal());
 	}
 };
 
