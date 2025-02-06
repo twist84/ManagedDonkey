@@ -26,8 +26,6 @@ if (!(STATEMENT)) \
 	continue; \
 } else 
 
-#define CHAR_CASE(CHAR) CHAR + 51
-
 #define TOKEN_CASE_PROPERTY(PROPERTY) \
 case _token_##PROPERTY: \
 { \
@@ -492,17 +490,17 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 				}
 				else
 				{
-					switch (CHAR_CASE(file_char))
+					switch (file_char)
 					{
-					case 0:
-					case CHAR_CASE('\t'):
-					case CHAR_CASE(' '):
+					case _symbol_random_whitespace:
+					case _symbol_tab:
+					case _symbol_white_space:
 					{
 						advance_distance = 1;
 						advance_process_type = _advance_type_process_distance;
 					}
 					break;
-					case CHAR_CASE('"'):
+					case _symbol_quote:
 					{
 						long state = *parse_stack.get_top();
 						if (state == _parse_state_reading_property_found_eqauls)
@@ -522,8 +520,8 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						advance_process_type = _advance_type_process_distance;
 					}
 					break;
-					case CHAR_CASE('-'):
-					case CHAR_CASE('.'):
+					case _symbol_minus:
+					case _symbol_period:
 					{
 						PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
 						{
@@ -537,7 +535,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						advance_process_type = _advance_type_process_distance;
 					}
 					break;
-					case CHAR_CASE('/'):
+					case _symbol_back_slash:
 					{
 						advance_distance = 1;
 						advance_process_type = _advance_type_process_distance;
@@ -548,7 +546,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						}
 					}
 					break;
-					case CHAR_CASE('<'):
+					case _symbol_less_than:
 					{
 						advance_distance = 1;
 						advance_process_type = _advance_type_process_distance;
@@ -560,7 +558,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						}
 					}
 					break;
-					case CHAR_CASE('='):
+					case _symbol_equals:
 					{
 						advance_distance = 1;
 						advance_process_type = _advance_type_process_distance;
@@ -574,7 +572,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						}
 					}
 					break;
-					case CHAR_CASE('>'):
+					case _symbol_greater_than:
 					{
 						advance_distance = 1;
 						advance_process_type = _advance_type_process_distance;
@@ -619,7 +617,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 						}
 					}
 					break;
-					case CHAR_CASE('\\'):
+					case _symbol_forward_slash:
 					{
 						PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_string, "can not use escape sequences outside of string declaration");
 					}
@@ -719,8 +717,6 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 #undef TOKEN_CASE_TYPE
 #undef TOKEN_CASE_PROPERTY_OWNER
 #undef TOKEN_CASE_PROPERTY
-
-#undef CHAR_CASE
 
 #undef PARSER_ASSERT_WITH_MESSAGE
 #undef PARSER_ASSERT

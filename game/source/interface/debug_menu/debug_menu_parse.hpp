@@ -28,6 +28,22 @@ enum e_advance_type
 	k_advance_type_count
 };
 
+enum e_symbols
+{
+	_symbol_none = 0x0,
+	_symbol_less_than = 0x3C,
+	_symbol_greater_than = 0x3E,
+	_symbol_back_slash = 0x2F,
+	_symbol_forward_slash = 0x5C,
+	_symbol_white_space = 0x20,
+	_symbol_equals = 0x3D,
+	_symbol_quote = 0x22,
+	_symbol_tab = 0x9,
+	_symbol_random_whitespace = 0xFFFFFFCD,
+	_symbol_period = 0x2E,
+	_symbol_minus = 0x2D,
+};
+
 enum e_tokens
 {
 	_token_none = 0,
