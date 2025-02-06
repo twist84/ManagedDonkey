@@ -9,7 +9,12 @@
 //.text:014283F0 ; 
 //.text:01428400 ; 
 //.text:01428410 ; 
-//.text:01428470 ; real_argb_color const* __cdecl actor_activation_debug_color(long)
+
+real_argb_color const* __cdecl actor_activation_debug_color(long actor_index)
+{
+	return INVOKE(0x01428470, actor_activation_debug_color, actor_index);
+}
+
 //.text:014284B0 ; void __cdecl actor_attach_unit(long, long)
 //.text:01428590 ; bool __cdecl actor_attacking_target(long, real_vector3d*)
 //.text:01428640 ; void __cdecl actor_berserk_update(long)
@@ -36,9 +41,9 @@ bool __cdecl actor_datum_available_to_current_thread()
 	return actor_data != NULL;
 }
 
-void __cdecl actor_delete(long actor_index, bool a2)
+void __cdecl actor_delete(long actor_index, bool died)
 {
-	INVOKE(0x01429370, actor_delete, actor_index, a2);
+	INVOKE(0x01429370, actor_delete, actor_index, died);
 }
 
 //.text:014296F0 ; real __cdecl actor_destination_tolerance(long)
@@ -83,8 +88,8 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 actor_datum* __cdecl actor_get(long actor_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-
-	return DATUM_GET(actor_data, actor_datum, actor_index);
+	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
+	return actor;
 }
 
 //.text:0142A630 ; bool __cdecl actor_get_active_camo_state(long)
@@ -160,9 +165,9 @@ bool __cdecl actor_is_deaf(long actor_index)
 //.text:0142C890 ; bool __cdecl actor_is_noncombat(long)
 //.text:0142C8D0 ; bool __cdecl actor_is_unsuspecting(long)
 
-void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2)
+void __cdecl actor_iterator_new(actor_iterator* iterator, bool active_only)
 {
-	//INVOKE(0x0142C950, actor_iterator_new, iterator, a2);
+	//INVOKE(0x0142C950, actor_iterator_new, iterator, active_only);
 
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
@@ -170,7 +175,7 @@ void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2)
 	if (ai_globals->ai_initialized_for_map)
 	{
 		iterator->iterator.begin(actor_data);
-		iterator->active_only = a2;
+		iterator->active_only = active_only;
 	}
 }
 
@@ -211,9 +216,14 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 //.text:0142E1A0 ; bool __cdecl actor_runtime_within_structure_bsp(long)
 //.text:0142E280 ; long __cdecl actor_select_character_variant(long)
 //.text:0142E410 ; void __cdecl actor_select_character_voice(long, long)
-//.text:0142E6E0 ; bool __cdecl actor_set_active(long, bool)
-//.text:0142E7F0 ; bool __cdecl actor_set_active_camo(long, bool)
-//.text:0142E810 ; bool __cdecl actor_set_active_camo(long, bool, real)
+
+bool __cdecl actor_set_active(long actor_index, bool active)
+{
+	return INVOKE(0x0142E6E0, actor_set_active, actor_index, active);
+}
+
+//.text:0142E7F0 ; bool __cdecl actor_set_active_camo(long actor_index, bool active)
+//.text:0142E810 ; bool __cdecl actor_set_active_camo(long actor_index, bool active, real transition_time)
 //.text:0142E8B0 ; bool __cdecl actor_set_bring_forward(long, bool, real, real)
 //.text:0142E9C0 ; void __cdecl actor_set_covered(long, bool)
 //.text:0142EA10 ; void __cdecl actor_set_mission_critical(long, long)
