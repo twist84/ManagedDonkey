@@ -799,12 +799,14 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resou
 //.text:00502760 ; bool __cdecl scenario_structure_bsp_load(long, short, s_tag_reference*)
 //.text:00502770 ; void __cdecl scenario_structure_bsp_unload(long, short, scenario_structure_bsp_reference*)
 
+//#define EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE
+
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
 
 	if (g_cache_file_globals.tag_cache_size <= g_cache_file_globals.tag_loaded_size)
-		ASSERT2("tag cache insufficient memory allocation size, either decrease the size of the loaded tags for this scenario or try enabling the 'EXPERIMENTAL_TAG_CACHE_ALLOCATION' define if this persists");
+		ASSERT2("tag cache insufficient memory allocation size, either decrease the size of the loaded tags for this scenario or try enabling the 'EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE' define if this persists");
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
@@ -1119,15 +1121,13 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 	return cache_file_blocking_read(_cache_file_tag_section, offset, size, buffer);
 }
 
-//#define EXPERIMENTAL_TAG_CACHE_ALLOCATION
-
 void __cdecl cache_file_tags_unload()
 {
 	//INVOKE(0x00502CE0, cache_file_tags_unload);
 
 	if (g_cache_file_globals.tag_cache_base_address)
 	{
-#if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
+#if defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
 		physical_memory_system_free(g_cache_file_globals.tag_cache_base_address);
 #else
 		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
@@ -1248,7 +1248,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		g_cache_file_globals.tag_loaded_count = 0;
 
-#if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
+#if defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
 		//g_cache_file_globals.tag_cache_size = g_cache_file_globals.header.total_tags_size;
 		g_cache_file_globals.tag_cache_size = 0x6400000; // 100 * 1024 * 1024 or 100MiB
 		g_cache_file_globals.tag_cache_base_address = (byte*)physical_memory_system_malloc(g_cache_file_globals.tag_cache_size, NULL);
