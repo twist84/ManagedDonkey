@@ -1,5 +1,16 @@
 #include "scenario/scenario_definitions.hpp"
 
+long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(struct scenario const* scenario, string_id name)
+{
+	for (long cinematic_lighting_palette_entry = 0; cinematic_lighting_palette_entry < scenario->cinematic_lighting_palette.count; cinematic_lighting_palette_entry++)
+	{
+		if (scenario->cinematic_lighting_palette[cinematic_lighting_palette_entry].name.get_value() == name)
+			return cinematic_lighting_palette_entry;
+	}
+
+	return NONE;
+}
+
 void scenario::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(structure_seams);
@@ -75,16 +86,5 @@ void scenario_starting_profile::update_reference_names()
 void s_background_bitmap_reference_definition::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(background_bitmap_group_reference);
-}
-
-long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(struct scenario const* scenario, string_id name)
-{
-	for (long cinematic_lighting_palette_entry = 0; cinematic_lighting_palette_entry < scenario->cinematic_lighting_palette.count; cinematic_lighting_palette_entry++)
-	{
-		if (scenario->cinematic_lighting_palette[cinematic_lighting_palette_entry].name.get_value() == name)
-			return cinematic_lighting_palette_entry;
-	}
-
-	return NONE;
 }
 
