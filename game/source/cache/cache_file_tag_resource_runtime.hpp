@@ -433,7 +433,7 @@ struct s_scenario_game_state;
 
 extern void __cdecl cache_file_tag_resources_dispose();
 extern void __cdecl cache_file_tag_resources_dispose_from_old_map();
-extern void __cdecl cache_file_tag_resources_get_active_tag_set(dword a1, dword a2, dword a3, dword a4, c_scenario_resource_registry* pending_zone_registry);
+extern void __cdecl cache_file_tag_resources_get_active_tag_set(dword active_bsp_zone_mask, dword touched_bsp_zone_mask, dword active_designer_zone_mask, dword active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags);
 extern void __cdecl cache_file_tag_resources_initialize();
 extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode);
 extern void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result* io_result);

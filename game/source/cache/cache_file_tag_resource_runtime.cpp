@@ -211,11 +211,11 @@ void __cdecl cache_file_tag_resources_dispose_from_old_map()
 	//g_resource_runtime_manager.get()->dispose_from_old_map();
 }
 
-void __cdecl cache_file_tag_resources_get_active_tag_set(dword a1, dword a2, dword a3, dword a4, c_scenario_resource_registry* pending_zone_registry)
+void __cdecl cache_file_tag_resources_get_active_tag_set(dword active_bsp_zone_mask, dword touched_bsp_zone_mask, dword active_designer_zone_mask, dword active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags)
 {
-	INVOKE(0x0055F6C0, cache_file_tag_resources_get_active_tag_set, a1, a2, a3, a4, pending_zone_registry);
+	INVOKE(0x0055F6C0, cache_file_tag_resources_get_active_tag_set, active_bsp_zone_mask, touched_bsp_zone_mask, active_designer_zone_mask, active_cinematic_zone_mask, out_active_tags_flags);
 
-	//g_resource_runtime_manager.get()->mark_available_tags(a1, a2, a3, pending_zone_registry->get_tag_instance_flags());
+	//g_resource_runtime_manager.get()->mark_available_tags(active_bsp_zone_mask, touched_bsp_zone_mask, active_designer_zone_mask, active_cinematic_zone_mask, out_active_tags_flags->get_tag_instance_flags());
 }
 
 //.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, dword*)
