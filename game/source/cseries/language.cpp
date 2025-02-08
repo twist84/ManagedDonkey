@@ -1,12 +1,13 @@
 #include "cseries/language.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "main/main_game.hpp"
 #include "text/font_loading.hpp"
 
 #include <windows.h>
 
-REFERENCE_DECLARE(0x0189DEE4, dword, g_game_language);
+REFERENCE_DECLARE(0x0189DEE4, e_language, g_current_language);
 
 char const* k_language_names[k_language_count]
 {
@@ -100,24 +101,31 @@ e_language get_current_language()
 {
 	return INVOKE(0x0052FC40, get_current_language);
 
-	if (g_game_language != _language_invalid)
-		g_game_language = get_e_language_from_windows_language(GetSystemDefaultUILanguage());
-
-	return static_cast<e_language>(g_game_language);
+	if (g_current_language == _language_invalid)
+	{
+		g_current_language = get_e_language_from_windows_language(GetSystemDefaultUILanguage());
+		if (g_current_language == _language_invalid)
+		{
+			event(_event_warning, "Failed to find language, defaulting to english.");
+			g_current_language = _language_english;
+		}
+	}
+	
+	return g_current_language;
 }
 
-char const* __cdecl get_current_language_suffix(bool a1)
+char const* __cdecl get_current_language_suffix(bool english_is_empty)
 {
-	//return INVOKE(0x0052FD20, get_current_language_suffix, a1);
+	//return INVOKE(0x0052FD20, get_current_language_suffix, english_is_empty);
 
-	return get_language_suffix(get_current_language(), a1);
+	return get_language_suffix(get_current_language(), english_is_empty);
 }
 
 char const* get_language_display_name(e_language language)
 {
 	//return INVOKE(0x0052FDC0, get_language_display_name, language);
 
-	if (language > _language_invalid && language < k_language_count)
+	if (IN_RANGE(language, _language_invalid, k_language_count))
 		return k_language_names[language];
 
 	return "";
@@ -127,19 +135,18 @@ e_language get_language_from_display_name_slow(char const* display_name)
 {
 	//return INVOKE(0x0052FE60, get_language_from_display_name_slow, display_name);
 
-	dword language = _language_english;
+	e_language language = k_language_default;
 
 	while (true)
 	{
-		char const* temp = get_language_display_name(static_cast<e_language>(language));
-		if (!csstricmp(display_name, temp))
+		if (csstricmp(display_name, get_language_display_name(language)) == 0)
 			break;
 
-		if (language++ > k_language_count)
+		if (++language >= k_language_count)
 			return _language_invalid;
 	}
 
-	return static_cast<e_language>(language);
+	return language;
 }
 
 char const* __cdecl get_language_iso_639_1_name(e_language language)
@@ -152,29 +159,77 @@ char const* __cdecl get_language_iso_639_1_name(e_language language)
 	return "";
 }
 
-char const* __cdecl get_language_suffix(e_language language, bool a2)
+char const* __cdecl get_language_suffix(e_language language, bool english_is_empty)
 {
-	//return INVOKE(0x0052FFD0, get_language_suffix, language, a2);
+	//return INVOKE(0x0052FFD0, get_language_suffix, language, english_is_empty);
 
+	char const* result = "";
 	switch (language)
 	{
 	case _language_english:
-		return a2 ? "" : k_language_suffix_names[language];
+	{
+		if (!english_is_empty)
+			result = "en";
+	}
+	break;
 	case _language_japanese:
+	{
+		result = "jpn";
+	}
+	break;
 	case _language_german:
+	{
+		result = "de";
+	}
+	break;
 	case _language_french:
+	{
+		result = "fr";
+	}
+	break;
 	case _language_spanish:
+	{
+		result = "sp";
+	}
+	break;
 	case _language_mexican_spanish:
+	{
+		result = "mx";
+	}
+	break;
 	case _language_italian:
+	{
+		result = "it";
+	}
+	break;
 	case _language_korean:
+	{
+		result = "kor";
+	}
+	break;
 	case _language_chinese_traditional:
+	{
+		result = "cht";
+	}
+	break;
 	case _language_chinese_simplified:
+	{
+		result = "chs";
+	}
+	break;
 	case _language_portuguese:
+	{
+		result = "pt";
+	}
+	break;
 	case _language_russian:
-		return k_language_suffix_names[language];
+	{
+		result = "ru";
+	}
+	break;
 	}
 
-	return "";
+	return result;
 }
 
 void __cdecl get_localized_data_directory_name(e_language language, char* buffer, long count)
@@ -198,9 +253,9 @@ void __cdecl set_current_language(e_language language)
 {
 	//INVOKE(0x00530100, set_current_language, language);
 
-	if (language != g_game_language)
+	if (language != g_current_language)
 	{
-		g_game_language = language;
+		g_current_language = language;
 		font_reload();
 		window_manager_reset_screens();
 		main_game_notify_language_change(language);
