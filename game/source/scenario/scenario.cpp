@@ -33,7 +33,7 @@ REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
 REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
 REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
-REFERENCE_DECLARE(0x022AAED1, bool, byte_22AAED1);
+REFERENCE_DECLARE(0x022AAED1, bool, scenario_load_resources_blocking_in_progress);
 
 HOOK_DECLARE(0x004E9CB0, scenario_connect_zone_set_resources);
 HOOK_DECLARE(0x004EB950, scenario_unload);
@@ -92,7 +92,7 @@ dword __cdecl global_cinematic_zone_active_mask_get()
 	//return g_active_cinematic_zone_mask;
 }
 
-//.text:004E9580 ; 
+//.text:004E9580 ; bool __cdecl global_cinematic_zone_is_active(long)
 //.text:004E95B0 ; c_collision_bsp_reference __cdecl global_collision_bsp_get(long)
 
 dword __cdecl global_designer_zone_active_mask_get()
@@ -104,6 +104,37 @@ dword __cdecl global_designer_zone_active_mask_get()
 
 //.text:004E95F0 ; 
 //.text:004E9640 ; 
+
+long __cdecl global_scenario_index_get()
+{
+	return global_scenario_index;
+}
+
+struct scenario* __cdecl global_scenario_get()
+{
+	// halo 3
+	ASSERT(global_scenario);
+	return global_scenario;
+
+	// halo online
+	//struct scenario* result = TAG_GET(SCENARIO_TAG, struct scenario, global_scenario_index);
+	//return result;
+}
+
+struct scenario* __cdecl global_scenario_try_and_get()
+{
+	if (global_scenario)
+		return global_scenario_get();
+
+	return NULL;
+}
+
+dword __cdecl global_structure_bsp_active_mask_get()
+{
+	return g_active_structure_bsp_mask;
+}
+
+//.text:004E9640 ; structure_instanced_geometry_definition* __cdecl global_instance_geometry_definition_get(long, long)
 
 long __cdecl global_structure_bsp_first_active_index_get()
 {
@@ -125,14 +156,14 @@ long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index
 	return INVOKE(0x004E9730, global_structure_bsp_next_active_index_get, structure_bsp_index);
 }
 
-//.text:004E97A0 ; scenario_structure_bsp_get?
+//.text:004E97A0 ; structure_bsp* __cdecl global_structure_bsp_try_and_get(long)
 
 s_structure_design* global_structure_design_get(long structure_bsp_index)
 {
 	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
 }
 
-//.text:004E9800 ; 
+//.text:004E9800 ; s_structure_seams const* __cdecl global_structure_seams_get()
 //.text:004E9810 ; 
 //.text:004E9820 ; lowest_bit_set?
 //.text:004E9850 ; 
@@ -242,7 +273,7 @@ bool __cdecl scenario_connect_zone_set_resources(
 	return result;
 }
 
-//.text:004E9D90 ; 
+//.text:004E9D90 ; bool __cdecl scenario_couple_structure_objects_to_structure()
 //.text:004E9DA0 ; void __cdecl scenario_deactivate_all_zones_for_cache_builder()
 //.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
 
@@ -307,16 +338,133 @@ void __cdecl scenario_frame_update(real game_seconds_elapsed)
 //.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(s_scenario_game_state const*)
 //.text:004EA1A0 ; bool __cdecl scenario_game_states_match(s_scenario_game_state const*, s_scenario_game_state const*)
 
+char const* __cdecl scenario_get_cinematic_zone_string_from_mask(dword cinematic_zone_mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
+{
+	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
+
+	struct scenario* scenario = global_scenario_get();
+
+	bool first_cinematic = true;
+	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
+	{
+		if (TEST_BIT(cinematic_zone_mask, cinematic_zone_index))
+		{
+			if (char const* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
+			{
+				if (!first_cinematic)
+					csstrnzcat(cinematic_zone_string, ", ", cinematic_zone_string_size);
+				csstrnzcat(cinematic_zone_string, cinematic_zone_name, cinematic_zone_string_size);
+				first_cinematic = false;
+			}
+		}
+	}
+
+	return cinematic_zone_string;
+}
+
+long __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
+{
+	string_id retrieved_string_id = string_id_retrieve(name);
+	if (retrieved_string_id != NONE)
+	{
+		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
+		{
+			s_scenario_designer_zone& designer_zone = scenario->designer_zones[designer_zone_index];
+			if (designer_zone.name.get_value() == retrieved_string_id)
+				return designer_zone_index;
+		}
+	}
+
+	return NONE;
+}
+
+char const* __cdecl scenario_get_designer_zone_string_from_mask(dword designer_zone_mask, char* designer_zone_string, dword designer_zone_string_size)
+{
+	csnzprintf(designer_zone_string, designer_zone_string_size, "");
+
+	struct scenario* scenario = global_scenario_get();
+
+	bool first_designer_zone = true;
+	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
+	{
+		if (TEST_BIT(designer_zone_mask, designer_zone_index))
+		{
+			if (char const* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
+			{
+				if (!first_designer_zone)
+					csstrnzcat(designer_zone_string, ", ", designer_zone_string_size);
+				csstrnzcat(designer_zone_string, designer_zone_name, designer_zone_string_size);
+				first_designer_zone = false;
+			}
+		}
+	}
+
+	return designer_zone_string;
+}
+
+s_game_globals* __cdecl scenario_get_game_globals()
+{
+	ASSERT(global_game_globals);
+	return global_game_globals;
+}
+
 void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
 {
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
 }
 
+char const* __cdecl scenario_get_structure_bsp_name(long structure_bsp_index)
+{
+	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
+}
+
+char const* __cdecl scenario_get_structure_bsp_string_from_mask(dword structure_bsp_mask, char* structure_bsp_string, dword structure_bsp_string_size)
+{
+	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
+
+	struct scenario* scenario = global_scenario_get();
+
+	bool first_structure_bsp = true;
+	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
+	{
+		if (TEST_BIT(structure_bsp_mask, structure_bsp_index))
+		{
+			if (char const* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
+			{
+				if (!first_structure_bsp)
+					csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
+				csstrnzcat(structure_bsp_string, structure_bsp_name, structure_bsp_string_size);
+				first_structure_bsp = false;
+			}
+		}
+	}
+
+	return structure_bsp_string;
+}
+
 //.text:004EA280 ; 
 //.text:004EA290 ; dword __cdecl scenario_get_touched_bsp_mask_internal()
 //.text:004EA2A0 ; dword __cdecl scenario_get_touched_cinematics_mask_internal()
-//.text:004EA2B0 ; 
-//.text:004EA2C0 ; 
+
+long __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
+{
+	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
+	{
+		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
+
+		char const* zone_set_name = zone_set.name.get_string();
+		if (strip_path)
+			zone_set_name = tag_name_strip_path(zone_set_name);
+
+		if (csstrcmp(zone_set_name, name) == 0)
+			return zone_set_index;
+	}
+
+	return NONE;
+}
+
+//.text:004EA2B0 ; void __cdecl scenario_handle_tag_resource_lock(long)
+//.text:004EA2C0 ; void __cdecl scenario_handle_tag_resource_unlock(long)
 //.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, real_vector3d*, real_vector3d*, real_rgb_color*, real_rgb_color*)
 
 void __cdecl scenario_initialize()
@@ -428,39 +576,38 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 // ~~we add back the if statement for pending or required~~
 // ~~if we ever crash from this decision replace the if statment~~
 // ~~with just a call to `cache_file_tag_resources_load_pending_resources_blocking`~~
-bool __cdecl scenario_load_resources_blocking(bool pending)
+bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingness)
 {
-	//return INVOKE(0x004EA730, scenario_load_resources_blocking, pending);
+	//return INVOKE(0x004EA730, scenario_load_resources_blocking, include_pending_in_blockingness);
+
+	scenario_load_resources_blocking_in_progress = true;
 
 	scenario_load_resources_blocking_watch.start();
-
-	// some kind of recursion lock that is never checked in release?
-	byte_22AAED1 = true;
 	
 	bool succeeded = false;
 	long failure_count = 0;
 	while (!succeeded && failure_count < 3)
 	{
 		c_simple_io_result io_result;
-		//if (pending)
+		if (true || include_pending_in_blockingness)
 			cache_file_tag_resources_load_pending_resources_blocking(&io_result);
-		//else
-		//	cache_file_tag_resources_load_required_resources_blocking(&io_result);
+		else
+			cache_file_tag_resources_load_required_resources_blocking(&io_result);
 	
 		if (io_result.check_success())
 		{
 			succeeded = true;
 		}
-		else if (++failure_count >= 3)
+		else if (++failure_count > 3)
 		{
 			io_result.handle_failure();
 		}
 	}
 	
-	byte_22AAED1 = false;
-
 	if (__int64 blocking_cycles = scenario_load_resources_blocking_watch.stop())
 		status_printf("scenario_load_resources_blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
+
+	scenario_load_resources_blocking_in_progress = false;
 	
 	return succeeded;
 }
@@ -478,6 +625,18 @@ bool __cdecl scenario_load_resources_blocking(bool pending)
 bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, dword new_touched_cinematics_mask, bool unload_old_bsps)
 {
 	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
+}
+
+short __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
+{
+	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count); object_name_index++)
+	{
+		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
+		if (object_name.name.is_equal(name))
+			return object_name_index;
+	}
+
+	return NONE;
 }
 
 bool __cdecl scenario_preload_initial_zone_set(short initial_zone_set_index)
@@ -613,6 +772,20 @@ bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unl
 	//return succeeded;
 }
 
+char const* __cdecl scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
+{
+	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
+	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
+
+	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
+	if (structure_bsp_name)
+	{
+		for (char const* i = csstrstr(structure_bsp_name, "\\"); i; i = csstrstr(i + 1, "\\"))
+			structure_bsp_name = i + 1;
+	}
+	return structure_bsp_name;
+}
+
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
@@ -641,6 +814,14 @@ bool __cdecl scenario_test_pvs(s_cluster_reference cluster_reference0, s_cluster
 	//return scenario_zone_set_pvs_row_test(global_scenario_index_get(), &pvs_row, cluster_reference1);
 }
 
+s_game_globals* __cdecl scenario_try_and_get_game_globals()
+{
+	if (global_game_globals)
+		return scenario_get_game_globals();
+
+	return NULL;
+}
+
 void __cdecl scenario_unload()
 {
 	//INVOKE(0x004EB950, scenario_unload);
@@ -654,6 +835,32 @@ void __cdecl scenario_unload()
 //.text:004EB9A0 ; void __cdecl scenario_unload_old_bsps(dword, dword, bool)
 //.text:004EBA00 ; bool __cdecl scenario_use_designer_zones()
 //.text:004EBA10 ; 
+
+void __cdecl scenario_zone_set_debug_status(char const* status, long zone_set_index)
+{
+	ASSERT(status);
+
+	c_static_string<1024> status_string;
+
+	if (zone_set_index != NONE)
+	{
+		struct scenario* scenario = global_scenario_try_and_get();
+		if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
+		{
+			status_string.print(scenario->zone_sets[zone_set_index].name.get_string());
+		}
+		else
+		{
+			status_string.print("<invalid>");
+		}
+	}
+	else
+	{
+		status_string.print("<none>");
+	}
+
+	main_status("zone_set", "%s #%d ('%s')", status, zone_set_index, status_string.get_string());
+}
 
 long __cdecl scenario_zone_set_index_get()
 {
@@ -685,211 +892,6 @@ structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* s
 //.text:00766380 ; long __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(scenario const*, long, long, long)
 //.text:00766430 ; 
 //.text:00766470 ; 
-
-long global_scenario_index_get()
-{
-	return global_scenario_index;
-}
-
-struct scenario* global_scenario_get()
-{
-	// halo 3
-	ASSERT(global_scenario);
-	return global_scenario;
-
-	// halo online
-	//struct scenario* result = TAG_GET(SCENARIO_TAG, struct scenario, global_scenario_index);
-	//return result;
-}
-
-struct scenario* global_scenario_try_and_get()
-{
-	if (global_scenario)
-		return global_scenario_get();
-
-	return NULL;
-}
-
-s_game_globals* scenario_get_game_globals()
-{
-	ASSERT(global_game_globals);
-	return global_game_globals;
-}
-
-s_game_globals* scenario_try_and_get_game_globals()
-{
-	if (global_game_globals)
-		return scenario_get_game_globals();
-
-	return NULL;
-}
-
-dword global_structure_bsp_active_mask_get()
-{
-	return g_active_structure_bsp_mask;
-}
-
-void scenario_zone_set_debug_status(char const* status, long zone_set_index)
-{
-	ASSERT(status);
-
-	c_static_string<1024> status_string;
-
-	if (zone_set_index != NONE)
-	{
-		struct scenario* scenario = global_scenario_try_and_get();
-		if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
-		{
-			status_string.print(scenario->zone_sets[zone_set_index].name.get_string());
-		}
-		else
-		{
-			status_string.print("<invalid>");
-		}
-	}
-	else
-	{
-		status_string.print("<none>");
-	}
-
-	main_status("zone_set", "%s #%d ('%s')", status, zone_set_index, status_string.get_string());
-}
-
-char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
-{
-	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
-	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
-
-	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
-	if (structure_bsp_name)
-	{
-		for (char const* i = csstrstr(structure_bsp_name, "\\"); i; i = csstrstr(i + 1, "\\"))
-			structure_bsp_name = i + 1;
-	}
-	return structure_bsp_name;
-}
-
-char const* scenario_get_structure_bsp_name(long structure_bsp_index)
-{
-	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
-}
-
-char const* scenario_get_structure_bsp_string_from_mask(dword structure_bsp_mask, char* structure_bsp_string, dword structure_bsp_string_size)
-{
-	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
-
-	struct scenario* scenario = global_scenario_get();
-
-	bool first_structure_bsp = true;
-	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
-	{
-		if (TEST_BIT(structure_bsp_mask, structure_bsp_index))
-		{
-			if (char const* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
-			{
-				if (!first_structure_bsp)
-					csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
-				csstrnzcat(structure_bsp_string, structure_bsp_name, structure_bsp_string_size);
-				first_structure_bsp = false;
-			}
-		}
-	}
-
-	return structure_bsp_string;
-}
-
-char const* scenario_get_designer_zone_string_from_mask(dword designer_zone_mask, char* designer_zone_string, dword designer_zone_string_size)
-{
-	csnzprintf(designer_zone_string, designer_zone_string_size, "");
-
-	struct scenario* scenario = global_scenario_get();
-
-	bool first_designer_zone = true;
-	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
-	{
-		if (TEST_BIT(designer_zone_mask, designer_zone_index))
-		{
-			if (char const* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
-			{
-				if (!first_designer_zone)
-					csstrnzcat(designer_zone_string, ", ", designer_zone_string_size);
-				csstrnzcat(designer_zone_string, designer_zone_name, designer_zone_string_size);
-				first_designer_zone = false;
-			}
-		}
-	}
-
-	return designer_zone_string;
-}
-
-char const* scenario_get_cinematic_zone_string_from_mask(dword cinematic_zone_mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
-{
-	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
-
-	struct scenario* scenario = global_scenario_get();
-
-	bool first_cinematic = true;
-	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
-	{
-		if (TEST_BIT(cinematic_zone_mask, cinematic_zone_index))
-		{
-			if (char const* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
-			{
-				if (!first_cinematic)
-					csstrnzcat(cinematic_zone_string, ", ", cinematic_zone_string_size);
-				csstrnzcat(cinematic_zone_string, cinematic_zone_name, cinematic_zone_string_size);
-				first_cinematic = false;
-			}
-		}
-	}
-
-	return cinematic_zone_string;
-}
-
-short scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
-{
-	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count); object_name_index++)
-	{
-		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
-		if (object_name.name.is_equal(name))
-			return object_name_index;
-	}
-
-	return NONE;
-}
-
-long scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
-{
-	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
-	{
-		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
-
-		char const* zone_set_name = zone_set.name.get_string();
-		if (strip_path)
-			zone_set_name = tag_name_strip_path(zone_set_name);
-
-		if (csstrcmp(zone_set_name, name) == 0)
-			return zone_set_index;
-	}
-
-	return NONE;
-}
-
-long scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
-{
-	string_id retrieved_string_id = string_id_retrieve(name);
-	if (retrieved_string_id != NONE)
-	{
-		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
-		{
-			s_scenario_designer_zone& designer_zone = scenario->designer_zones[designer_zone_index];
-			if (designer_zone.name.get_value() == retrieved_string_id)
-				return designer_zone_index;
-		}
-	}
-
-	return NONE;
-}
 
 #define SCENARIO_PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count)\
