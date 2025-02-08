@@ -1,46 +1,156 @@
 #include "render/depth_of_field.hpp"
 
+#include "memory/thread_local.hpp"
+
+#include <cmath>
+
 //.text:00A3EA20 ; void __cdecl __tls_set_g_depth_of_field_game_globals_allocator(void*)
 //.text:00A3EA40 ; 
 //.text:00A3EA80 ; 
 
 void __cdecl s_depth_of_field::dispose()
 {
-	INVOKE(0x00A3EAB0, dispose);
+	//INVOKE(0x00A3EAB0, s_depth_of_field::dispose);
 }
 
 void __cdecl s_depth_of_field::dispose_from_old_map()
 {
-	INVOKE(0x00A3EAC0, dispose_from_old_map);
+	//INVOKE(0x00A3EAC0, s_depth_of_field::dispose_from_old_map);
 }
 
 //.text:00A3EAD0 ; 
-//.text:00A3EB00 ; public: static s_depth_of_field* __cdecl s_depth_of_field::get()
-//.text:00A3EB20 ; public: bool __cdecl s_depth_of_field::get_current_depth_of_field_parameters(s_observer_depth_of_field const*, real*, real*, real*, real*)
-//.text:00A3EC30 ; public: static real __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_of_field const*)
-//.text:00A3ECB0 ; public: static bool __cdecl s_depth_of_field::get_enabled()
+
+s_depth_of_field* __cdecl s_depth_of_field::get()
+{
+	//return INVOKE(0x00A3EB00, s_depth_of_field::get);
+
+	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	return depth_of_field_game_globals;
+}
+
+bool s_depth_of_field::get_current_depth_of_field_parameters(s_observer_depth_of_field const* observer_depth_of_field, real* focus_distance, real* aperture, real* focus_half_width, real* depth_of_field_blur)
+{
+	return INVOKE_CLASS_MEMBER(0x00A3EB20, s_depth_of_field, get_current_depth_of_field_parameters, observer_depth_of_field, focus_distance, aperture, focus_half_width, depth_of_field_blur);
+}
+
+real __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_of_field const* observer_depth_of_field)
+{
+	return INVOKE(0x00A3EC30, s_depth_of_field::get_depth_of_field_blur_sigma, observer_depth_of_field);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	//real actual_blur = depth_of_field_game_globals->actual_blur;
+	//if (observer_depth_of_field && TEST_BIT(observer_depth_of_field->flags, s_observer_depth_of_field::_active_bit))
+	//{
+	//	actual_blur = observer_depth_of_field->blur_amount;
+	//	actual_blur *= 10.124f;
+	//}
+	//actual_blur *= actual_blur - 2.5f;
+	//return actual_blur;
+}
+
+bool __cdecl s_depth_of_field::get_enabled()
+{
+	//return INVOKE(0x00A3ECB0, s_depth_of_field::get_enabled);
+
+	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	return depth_of_field_game_globals->enabled;
+}
 
 void __cdecl s_depth_of_field::initialize()
 {
-	INVOKE(0x00A3ECD0, initialize);
+	//INVOKE(0x00A3ECD0, s_depth_of_field::initialize);
+
+	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	depth_of_field_game_globals = (s_depth_of_field*)g_depth_of_field_game_globals_allocator.allocate(sizeof(s_depth_of_field), "DOF globals");
+	depth_of_field_game_globals->set_default_values();
 }
 
 void __cdecl s_depth_of_field::initialize_for_new_map()
 {
-	INVOKE(0x00A3ED30, initialize_for_new_map);
+	//INVOKE(0x00A3ED30, s_depth_of_field::initialize_for_new_map);
+
+	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	depth_of_field_game_globals->enabled = false;
 }
 
-//.text:00A3ED50 ; void __cdecl render_animate_depth_of_field(real, real, real, real)
-//.text:00A3EE30 ; void __cdecl render_animate_depth_of_field_blur(real, real)
-//.text:00A3EEB0 ; void __cdecl render_enable_depth_of_field(bool)
-//.text:00A3EEE0 ; void __cdecl render_set_depth_of_field(real)
+void __cdecl render_animate_depth_of_field(real near_distance, real far_distance, real depth, real ticks)
+{
+	INVOKE(0x00A3ED50, render_animate_depth_of_field, near_distance, far_distance, depth, ticks);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	//depth_of_field_game_globals->enabled = true;
+	//depth_of_field_game_globals->animate = true;
+	//depth_of_field_game_globals->focus_distance_near = near_distance;
+	//depth_of_field_game_globals->focus_distance_far = far_distance;
+	//depth_of_field_game_globals->aperture = 1.0f / (depth > 0.001f ? depth : 0.001f);
+	//depth_of_field_game_globals->animation_start_time = game_time_get();
+	//depth_of_field_game_globals->animation_end_time = depth_of_field_game_globals->animation_start_time + (long)ceil(ticks);
+	//depth_of_field_game_globals->animation_last_alpha = 0.0f;
+}
+
+void __cdecl render_animate_depth_of_field_blur(real blur, real ticks)
+{
+	INVOKE(0x00A3EE30, render_animate_depth_of_field_blur, blur, ticks);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	//depth_of_field_game_globals->blur_start = depth_of_field_game_globals->actual_blur;
+	//depth_of_field_game_globals->blur_target = blur;
+	//depth_of_field_game_globals->blur_start_time = game_time_get();
+	//depth_of_field_game_globals->blur_end_time = depth_of_field_game_globals->blur_start_time + (long)ceil(ticks);
+}
+
+void __cdecl render_enable_depth_of_field(bool enable)
+{
+	INVOKE(0x00A3EEB0, render_enable_depth_of_field, enable);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	//depth_of_field_game_globals->enabled = enable;
+	//depth_of_field_game_globals->animate = false;
+}
+
+void __cdecl render_set_depth_of_field(real depth)
+{
+	INVOKE(0x00A3EEE0, render_set_depth_of_field, depth);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	//depth_of_field_game_globals->aperture = 1.0f / (depth > 0.001f ? depth : 0.001f);
+}
+
 //.text:00A3EF30 ; 
-//.text:00A3EF70 ; public: void __cdecl s_depth_of_field::set_default_values()
+
+void s_depth_of_field::set_default_values()
+{
+	INVOKE_CLASS_MEMBER(0x00A3EF70, s_depth_of_field, set_default_values);
+
+	//enabled = false;
+	//animate = false;
+	//speed = 0.95f;
+	//focus_distance_near = 2.0f;
+	//focus_distance_far = 2.0f;
+	//aperture = 0.7f;
+	//blur_start = 10.124f;
+	//blur_target = 10.124f;
+	//blur_start_time = 0;
+	//blur_end_time = 0;
+	//animation_start_time = 0;
+	//animation_end_time = 0;
+	//animation_last_alpha = 0.0f;
+	//actual_blur = 0.0f;
+	//actual_focus_distance_near = -5.0f;
+	//actual_focus_distance_far = -5.0f;
+	//actual_aperture = 8.0f;
+}
 
 void __cdecl s_depth_of_field::update()
 {
-	INVOKE(0x00A3EFE0, s_depth_of_field::update);
+	//INVOKE(0x00A3EFE0, s_depth_of_field::update);
+
+	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
+	depth_of_field_game_globals->update_internal();
 }
 
-//.text:00A3F000 ; private: void __cdecl s_depth_of_field::update_internal()
+void s_depth_of_field::update_internal()
+{
+	INVOKE_CLASS_MEMBER(0x00A3F000, s_depth_of_field, update_internal);
+}
 

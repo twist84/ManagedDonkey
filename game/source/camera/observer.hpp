@@ -13,6 +13,12 @@ static_assert(sizeof(s_focus_and_distance) == 0x10);
 
 struct s_observer_depth_of_field
 {
+	enum
+	{
+		_active_bit = 0,
+		k_flags_count
+	};
+
 	long flags;
 	real near_focal_plane_distance;
 	real far_focal_plane_distance;
