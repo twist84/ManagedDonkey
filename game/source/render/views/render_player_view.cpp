@@ -284,7 +284,7 @@ void __thiscall c_player_view::render_1st_pass()
 				c_rasterizer::setup_targets_static_lighting(
 					m_render_exposure,
 					m_illum_render_scale,
-					c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(),
+					c_screen_postprocess::x_settings->m_postprocess || screenshot_in_progress(),
 					c_camera_fx_values::g_HDR_target_stops,
 					false,
 					false,
@@ -325,7 +325,7 @@ void __thiscall c_player_view::render_1st_pass()
 					c_rasterizer::setup_targets_static_lighting(
 						m_render_exposure,
 						m_illum_render_scale,
-						c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(),
+						c_screen_postprocess::x_settings->m_postprocess || screenshot_in_progress(),
 						c_camera_fx_values::g_HDR_target_stops,
 						false,
 						false,
@@ -354,13 +354,13 @@ void __thiscall c_player_view::render_1st_pass()
 
 					if (!render_debug_depth_render)
 					{
-						c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), true);
+						c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->m_postprocess || screenshot_in_progress(), true);
 						c_player_view::render_first_person(true);
 					}
 
 					{
 						c_rasterizer_profile_scope _setup_targets_static_lighting_alpha_blend(_rasterizer_profile_element_total, L"setup_targets_static_lighting_alpha_blend");
-						c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), false);
+						c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->m_postprocess || screenshot_in_progress(), false);
 					}
 
 					c_player_view::render_lens_flares();
@@ -988,7 +988,7 @@ void __thiscall c_player_view::render_transparents()
 	{
 		c_rasterizer_profile_scope _transparents(_rasterizer_profile_element_transparents, L"transparents");
 
-		c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->__unknown0 || screenshot_in_progress(), true);
+		c_rasterizer::setup_targets_static_lighting_alpha_blend(c_screen_postprocess::x_settings->m_postprocess || screenshot_in_progress(), true);
 		c_transparency_renderer::set_active_camo_bounds(&m_rasterizer_camera.window_pixel_bounds, &m_rasterizer_camera.render_pixel_bounds);
 		c_rasterizer::set_using_albedo_sampler(false);
 

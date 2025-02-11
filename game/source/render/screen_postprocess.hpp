@@ -15,6 +15,26 @@ struct s_lightshafts;
 
 struct c_screen_postprocess
 {
+	struct s_settings
+	{
+		bool m_postprocess;
+		long m_display_alpha;
+		long m_accum;
+		long m_bloom_source;
+		long m_accum_filter;
+		long m_bloom;
+		long m_bling;
+		bool m_persist;
+		long m_downsample;
+		real m_postprocess_exposure;
+		bool m_allow_debug_display;
+		bool m_tone_curve;
+		real m_tone_curve_white_point;
+		bool m_auto_exposure_lock;
+		long m_debug_mode;
+	};
+	static_assert(sizeof(s_settings) == 0x38);
+
 	static void __cdecl accept_edited_settings();
 
 	static void __cdecl blit(
@@ -34,15 +54,15 @@ struct c_screen_postprocess
 
 	static void __cdecl copy(
 		long explicit_shader_index,
-		c_rasterizer::e_surface surface_a,
-		c_rasterizer::e_surface surface_b,
+		c_rasterizer::e_surface source_surface,
+		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
 		c_rasterizer::e_sampler_address_mode sampler_address_mode,
-		real a6,
-		real a7,
-		real a8,
-		real a9,
-		real_rectangle2d* bounds);
+		real scale_r,
+		real scale_g,
+		real scale_b,
+		real scale_a,
+		real_rectangle2d* dest_texture_rect);
 
 	static void __cdecl render_ssao_old(
 		render_projection const* projection,
@@ -98,15 +118,7 @@ struct c_screen_postprocess
 
 	static void __cdecl setup_rasterizer_for_postprocess(bool a1);
 
-	struct s_settings
-	{
-		bool __unknown0;
-		byte __data1[0x37];
-	};
-	static_assert(sizeof(s_settings) == 0x38);
-
 	static c_screen_postprocess::s_settings const* const& x_settings;
-
 };
 
 extern void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings,
