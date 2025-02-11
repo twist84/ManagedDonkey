@@ -2,6 +2,17 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_soft_ceiling_debug_cache
+{
+	long time_stamp;
+	real search_radius;
+	real_point3d triangle[3];
+	real_point3d position;
+	real_point3d contact_position;
+	real_vector3d normal;
+};
+static_assert(sizeof(s_soft_ceiling_debug_cache) == 0x50);
+
 struct s_scenario_soft_ceilings_globals
 {
 	c_static_flags<128> flags;

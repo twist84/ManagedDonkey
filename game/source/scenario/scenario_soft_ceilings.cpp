@@ -7,18 +7,6 @@
 
 bool soft_ceilings_disable = false;
 
-struct s_soft_ceiling_debug_cache
-{
-	long __time0;
-	real radius;
-	real_point3d __point8;
-	real_point3d __point14;
-	real_point3d __point20;
-	real_point3d __point2C;
-	real_point3d __point34;
-	real_vector3d __vector44;
-};
-
 c_static_stack<s_soft_ceiling_debug_cache, 64> g_soft_ceiling_debug_cache;
 
 bool __cdecl scenario_soft_ceiling_is_active(string_id name)
