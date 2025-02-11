@@ -13,10 +13,15 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value);
 
 bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long value_name, long* value)
 {
-	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_integer_value, element_handle, value_name, value);
+	//bool result = false;
+	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_integer_value, element_handle, value_name, value);
 
-	s_player_configuration* player_data = user_interface_session_get_player_data(m_players[element_handle].session_player_index);
+	if (!VALID_INDEX(element_handle, m_player_count))
+		return false;
+
+	s_player_row* player_row = &m_players[element_handle];
+	s_player_configuration* player_data = user_interface_session_get_player_data(player_row->session_player_index);
+
 	switch (value_name)
 	{
 	case STRING_ID(gui, base_color):
@@ -25,47 +30,43 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		if (player_data)
 			*value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[_color_type_primary].value;
 
-		if (!result)
-			return true;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, player_index):
 	{
-		if (!result)
-			return true;
+		*value = player_row->session_player_index;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, player_row_type):
 	{
-		// simulate added controllers
-		if (element_handle >= 1 && element_handle < 4)
-		{
-			*value = c_gui_roster_data::_player_row_type_player;
-			//*value = c_gui_roster_data::_player_row_type_player_found;
-			//*value = c_gui_roster_data::_player_row_type_looking_for_player;
-			//*value = c_gui_roster_data::_player_row_type_press_a_to_join;
-		}
-
-		if (!result)
-			return true;
+		*value = player_row->player_row_type;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, controller_index):
 	{
-		if (!result)
-			return true;
+		*value = player_row->local_controller_index;
+		return true;
 	}
 	break;
+	//case STRING_ID(gui, matchmaking):
+	//{
+	//	*value = player_row->in_matchmaking;
+	//	return true;
+	//}
+	//break;
 	case STRING_ID(gui, voice_output):
 	{
-		if (!result)
-			return true;
+		*value = player_row->voice_state;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, special_status):
 	{
-		if (!result)
-			return true;
+		*value = player_row->special_status;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, experience):
@@ -76,8 +77,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			*value = 42;
 
-		if (!result)
-			return true;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, skill_level):
@@ -88,8 +88,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			*value = 50;
 
-		if (!result)
-			return true;
+		return true;
 	}
 	break;
 	case STRING_ID(gui, bungienet_user):
@@ -100,13 +99,12 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		if (player_data)
 			*value = player_data->host.weapon.loadouts[0].bungienet_user;
 
-		if (!result)
-			return true;
+		return true;
 	}
 	break;
 	}
 
-	return result;
+	return false;
 }
 
 bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long value_name, c_static_wchar_string<1024>* value)
