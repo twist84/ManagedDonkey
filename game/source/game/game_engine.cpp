@@ -94,9 +94,19 @@ void __cdecl game_engine_game_starting()
 //.text:0054F250 ; real __cdecl game_engine_get_change_colors(long, dword, e_game_team, real_rgb_color*, bool*), modified by saber
 //.text:0054F5E0 ; long __cdecl game_engine_get_current_talker(long)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
-//.text:0054FC10 ; long __cdecl game_engine_get_finalized_player_place(long)
+
+long __cdecl game_engine_get_finalized_player_place(long player_index)
+{
+	return INVOKE(0x0054FC10, game_engine_get_finalized_player_place, player_index);
+}
+
 //.text:0054FCC0 ; long __cdecl game_engine_get_finalized_player_score(long)
-//.text:0054FDC0 ; long __cdecl game_engine_get_finalized_team_place(e_game_team)
+
+long __cdecl game_engine_get_finalized_team_place(e_game_team team_index)
+{
+	return INVOKE(0x0054FDC0, game_engine_get_finalized_team_place, team_index);
+}
+
 //.text:0054FE70 ; long __cdecl game_engine_get_game_object_list()
 //.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(long, game_engine_interface_state*)
 //.text:00550410 ; void __cdecl game_engine_get_in_game_string(long, c_static_wchar_string<256>*)
@@ -110,7 +120,15 @@ void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_str
 //.text:005504E0 ; long __cdecl game_engine_get_player_assists(long)
 //.text:00550580 ; long __cdecl game_engine_get_player_deaths(long)
 //.text:00550620 ; long __cdecl game_engine_get_player_kills(long)
-//.text:005506C0 ; s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug_data(long)
+
+s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug_data(long player_index)
+{
+	return INVOKE(0x005506C0, game_engine_get_player_netdebug_data, player_index);
+
+	//ASSERT(VALID_INDEX(player_index, k_maximum_players));
+	//TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+	//return &game_engine_globals->player_netdebug_data[player_index];
+}
 
 long __cdecl game_engine_get_player_place(long absolute_player_index)
 {

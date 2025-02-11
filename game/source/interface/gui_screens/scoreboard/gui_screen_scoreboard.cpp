@@ -12,6 +12,7 @@
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_mapping.hpp"
 #include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
@@ -218,105 +219,125 @@ void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index
 }
 
 bool __cdecl c_gui_scoreboard_data::add_player_internal(
-	e_player_row_type row_type,
-	long player_index,
-	long network_player_index,
+	e_player_row_type player_row_type,
+	long game_player_index,
+	long session_player_index,
 	s_player_appearance const* appearance,
 	wchar_t const* player_name,
 	wchar_t const* service_tag,
-	long base_color,
-	long multiplayer_team,
-	bool team_game,
+	long base_color_index,
+	long team_index,
+	bool show_team,
 	e_controller_index controller_index,
-	long voice_talking_state,
+	e_voice_talking_state voice_state,
 	long connectivity_rating,
 	wchar_t const* place,
 	wchar_t const* score,
 	wchar_t const* round_score,
-	bool dead,
+	bool is_dead,
 	bool left_game
 )
 {
-	bool result = m_player_row_count < 25;
-	if (result)
-	{
-		m_player_rows[m_player_row_count].player_row_type = row_type;
-		m_player_rows[m_player_row_count].player_index = player_index;
-		m_player_rows[m_player_row_count].network_player_index = network_player_index;
-		csmemcpy(&m_player_rows[m_player_row_count].player_appearance, appearance, sizeof(s_player_appearance));
-		m_player_rows[m_player_row_count].player_name.set(player_name);
-		m_player_rows[m_player_row_count].service_tag.set(service_tag);
-		m_player_rows[m_player_row_count].base_color = base_color;
-		m_player_rows[m_player_row_count].multiplayer_team = multiplayer_team;
-		m_player_rows[m_player_row_count].team_game = team_game;
-		m_player_rows[m_player_row_count].controller_index = controller_index;
-		m_player_rows[m_player_row_count].voice_talking_state = voice_talking_state;
-		m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
-		m_player_rows[m_player_row_count].place.set(place);
-		m_player_rows[m_player_row_count].score.set(score);
-		m_player_rows[m_player_row_count].round_score.set(round_score);
-		m_player_rows[m_player_row_count].dead = dead;
-		m_player_rows[m_player_row_count].left_game = left_game;
+	//return INVOKE_CLASS_MEMBER(0x00B24940, c_gui_scoreboard_data, add_player_internal,
+	//	player_row_type,
+	//	game_player_index,
+	//	session_player_index,
+	//	appearance,
+	//	player_name,
+	//	service_tag,
+	//	base_color_index,
+	//	team_index,
+	//	show_team,
+	//	controller_index,
+	//	voice_state,
+	//	connectivity_rating,
+	//	place,
+	//	score,
+	//	round_score,
+	//	is_dead,
+	//	left_game);
 
+	if (m_player_row_count < 25)
+	{
+		m_player_rows[m_player_row_count].player_row_type = player_row_type;
+		m_player_rows[m_player_row_count].game_player_index = game_player_index;
+		m_player_rows[m_player_row_count].session_player_index = session_player_index;
+		csmemcpy(&m_player_rows[m_player_row_count].player_appearance, appearance, sizeof(s_player_appearance));
+		m_player_rows[m_player_row_count].player_name = player_name;
+		m_player_rows[m_player_row_count].service_tag = service_tag;
+		m_player_rows[m_player_row_count].base_color_index = base_color_index;
+		m_player_rows[m_player_row_count].team_index = team_index;
+		m_player_rows[m_player_row_count].show_team = show_team;
+		m_player_rows[m_player_row_count].local_controller_index = controller_index;
+		m_player_rows[m_player_row_count].voice_state = voice_state;
+		m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
+		m_player_rows[m_player_row_count].place = place;
+		m_player_rows[m_player_row_count].score = score;
+		m_player_rows[m_player_row_count].round_score = round_score;
+		m_player_rows[m_player_row_count].is_dead = is_dead;
+		m_player_rows[m_player_row_count].left_game = left_game;
 		m_player_row_count++;
+
+		return true;
 	}
 
-	return result;
+	return false;
 }
 
-void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool include_score)
+void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool use_session, bool include_score)
 {
-	static c_static_wchar_string<256> place;
-	static c_static_wchar_string<256> score;
-	static c_static_wchar_string<256> round_score;
+	static c_static_wchar_string<256> place_string;
+	static c_static_wchar_string<256> score_string;
+	static c_static_wchar_string<256> round_score_string;
 
-	place.set(L" ");
-	score.set(L" ");
-	round_score.set(L" ");
+	place_string.set(L" ");
+	score_string.set(L" ");
+	round_score_string.set(L" ");
 
 	m_player_row_count = 0;
 	m_player_rows.clear();
 
-	bool team_game = game_engine_has_teams();
-	bool include_team_score = include_score && team_game;
-	long team_round_score = 0;
+	bool include_team_score = include_score && game_engine_has_teams();
+	long round_score = 0;
 	dword_flags team_flags = 0;
 
-	if (a1)
+	if (use_session)
 	{
-		for (long session_player_index = 0; session_player_index < 16; ++session_player_index)
-		{
-			if (user_interface_squad_is_player_valid(session_player_index))
-			{
-				s_player_configuration* player_data = user_interface_session_get_player_data(session_player_index);
-				if (player_data->host.team_index != NONE)
-				{
-					long player_rating = NONE;
-					e_controller_index controller_index = k_no_controller;
-					if (user_interface_session_is_local_player(session_player_index))
-						controller_index = user_interface_session_get_controller_index(session_player_index);
+		ASSERT(!include_score);
 
-					long base_color = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
-					long voice_for_player = 0;
+		for (long player_index = 0; player_index < k_maximum_players; player_index++)
+		{
+			if (user_interface_squad_is_player_valid(player_index))
+			{
+				s_player_configuration* player_data = user_interface_session_get_player_data(player_index);
+				if (player_data->host.team_index != _game_team_none)
+				{
+					long player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
+
+					e_controller_index local_controller_index = k_no_controller;
+					if (user_interface_session_is_local_player(player_index))
+						local_controller_index = user_interface_session_get_controller_index(player_index);
+
+					long base_color_index = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
 
 					add_player_internal(
-						/* row_type             */ _player_row_type_player,
-						/* player_index         */ NONE,
-						/* network_player_index */ session_player_index,
-						/* appearance           */ &player_data->host.appearance,
-						/* player_name          */ player_data->host.name.get_string(),
-						/* service_tag          */ player_data->host.appearance.service_tag.get_string(),
-						/* base_color           */ base_color,
-						/* multiplayer_team     */ NONE,
-						/* team_game            */ false,
-						/* controller_index     */ controller_index,
-						/* voice_talking_state  */ voice_for_player,
-						/* connectivity_rating  */ player_rating,
-						/* place                */ place.get_string(),
-						/* score                */ score.get_string(),
-						/* round_score          */ round_score.get_string(),
-						/* dead                 */ false,
-						/* left_game            */ false
+						/* player_row_type        */ _player_row_type_player,
+						/* game_player_index      */ NONE,
+						/* session_player_index   */ player_index,
+						/* appearance             */ &player_data->host.appearance,
+						/* player_name            */ player_data->host.name.get_string(),
+						/* service_tag            */ player_data->host.appearance.service_tag.get_string(),
+						/* base_color_index       */ base_color_index,
+						/* team_index             */ _game_team_none,
+						/* show_team              */ false,
+						/* local_controller_index */ local_controller_index,
+						/* voice_state            */ _voice_state_none,
+						/* connectivity_rating    */ player_netdebug_filled_bar_count,
+						/* place                  */ place_string.get_string(),
+						/* score                  */ score_string.get_string(),
+						/* round_score            */ round_score_string.get_string(),
+						/* is_dead                */ false,
+						/* left_game              */ false
 					);
 				}
 			}
@@ -331,85 +352,88 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 			player_datum* player = player_iterator.get_datum();
 			long player_iterator_index = player_iterator.get_index();
 
-			long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
-			if (player->configuration.host.team_index != NONE)
+			long player_index = user_interface_squad_get_player_index(&player->player_identifier);
+			if (player->configuration.host.team_index != _game_team_none)
 			{
-				bool dead = !TEST_BIT(player->flags, _player_initial_spawn_bit) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+				bool is_dead = !TEST_BIT(player->flags, _player_initial_spawn_bit)
+					&& player->unit_index == NONE
+					&& game_in_progress()
+					&& !game_is_finished()
+					&& !simulation_starting_up()
+					&& game_engine_in_round();
 
 				if (include_score)
 				{
-					long finalized_place = game_engine_get_player_place(player_iterator_index);
+					long finalized_place = game_engine_get_finalized_player_place(player_iterator_index);
 					if (include_team_score)
-						finalized_place = game_engine_get_team_place(player->configuration.host.team_index);
+						finalized_place = game_engine_get_finalized_team_place(player->configuration.host.team_index);
 
-					game_engine_get_place_string(finalized_place, &place);
+					game_engine_get_place_string(finalized_place, &place_string);
 					long player_score = game_engine_get_player_score_for_display(player_iterator_index, true);
-					game_engine_get_score_string(player_score, &score);
+					game_engine_get_score_string(player_score, &score_string);
 					long player_round_score = game_engine_get_player_score_for_display(player_iterator_index, false);
-					game_engine_get_score_string(player_round_score, &round_score);
+					game_engine_get_score_string(player_round_score, &round_score_string);
 				}
 
 				if (include_team_score)
 					team_flags |= FLAG(player->configuration.host.team_index);
 
-				if (network_player_index != NONE)
+				if (player_index == NONE)
 				{
-					long player_rating = NONE;
+					long base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
+					long player_index = player_iterator_index;
+					round_score = 0;
 
-					e_controller_index controller_index = k_no_controller;
-					if (user_interface_session_is_local_player(network_player_index))
-						controller_index = user_interface_session_get_controller_index(network_player_index);
-
-					long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
-					long voice_for_player = 0;
-
-					add_player_internal(
-						/* row_type             */ _player_row_type_player,
-						/* player_index         */ NONE,
-						/* network_player_index */ network_player_index,
-						/* appearance           */ &player->configuration.host.appearance,
-						/* player_name          */ player->configuration.host.name.get_string(),
-						/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
-						/* base_color           */ base_color,
-						/* multiplayer_team     */ player->configuration.host.team_index,
-						/* team_game            */ team_game,
-						/* controller_index     */ controller_index,
-						/* voice_talking_state  */ voice_for_player,
-						/* connectivity_rating  */ player_rating,
-						/* place                */ place.get_string(),
-						/* score                */ score.get_string(),
-						/* round_score          */ round_score.get_string(),
-						/* dead                 */ dead,
-						/* left_game            */ false
+					c_gui_scoreboard_data::add_player_internal(
+						/* player_row_type        */ _player_row_type_player,
+						/* game_player_index      */ player_index,
+						/* session_player_index   */ NONE,
+						/* appearance             */ &player->configuration.host.appearance,
+						/* player_name            */ player->configuration.host.name.get_string(),
+						/* service_tag            */ player->configuration.host.appearance.service_tag.get_string(),
+						/* base_color_index       */ base_color_index,
+						/* team_index             */ player->configuration.host.team_index,
+						/* show_team              */ game_engine_has_teams(),
+						/* local_controller_index */ k_no_controller,
+						/* voice_state            */ _voice_state_none,
+						/* connectivity_rating    */ NONE,
+						/* place                  */ place_string.get_string(),
+						/* score                  */ score_string.get_string(),
+						/* round_score            */ round_score_string.get_string(),
+						/* is_dead                */ is_dead,
+						/* left_game              */ TEST_BIT(player->flags, _player_left_game_bit)
 					);
-					team_round_score = 0;
 				}
 				else
 				{
-					long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
-					long player_index = player_iterator_index;
-					bool left_game = TEST_BIT(player->flags, _player_left_game_bit);
-					team_round_score = 0;
+					long player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
 
-					c_gui_scoreboard_data::add_player_internal(
-						/* row_type             */ _player_row_type_player,
-						/* player_index         */ player_index,
-						/* network_player_index */ NONE,
-						/* appearance           */ &player->configuration.host.appearance,
-						/* player_name          */ player->configuration.host.name.get_string(),
-						/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
-						/* base_color           */ base_color,
-						/* multiplayer_team     */ player->configuration.host.team_index,
-						/* team_game            */ team_game,
-						/* controller_index     */ k_no_controller,
-						/* voice_talking_state  */ 0,
-						/* connectivity_rating  */ NONE,
-						/* place                */ place.get_string(),
-						/* score                */ score.get_string(),
-						/* round_score          */ round_score.get_string(),
-						/* dead                 */ dead,
-						/* left_game            */ left_game
+					e_controller_index controller_index = k_no_controller;
+					if (user_interface_session_is_local_player(player_index))
+						controller_index = user_interface_session_get_controller_index(player_index);
+
+					long base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
+
+					add_player_internal(
+						/* player_row_type        */ _player_row_type_player,
+						/* game_player_index      */ NONE,
+						/* session_player_index   */ player_index,
+						/* appearance             */ &player->configuration.host.appearance,
+						/* player_name            */ player->configuration.host.name.get_string(),
+						/* service_tag            */ player->configuration.host.appearance.service_tag.get_string(),
+						/* base_color_index       */ base_color_index,
+						/* team_index             */ player->configuration.host.team_index,
+						/* show_team              */ game_engine_has_teams(),
+						/* local_controller_index */ controller_index,
+						/* voice_state            */ _voice_state_none,
+						/* connectivity_rating    */ player_netdebug_filled_bar_count,
+						/* place                  */ place_string.get_string(),
+						/* score                  */ score_string.get_string(),
+						/* round_score            */ round_score_string.get_string(),
+						/* is_dead                */ is_dead,
+						/* left_game              */ false
 					);
+					round_score = 0;
 				}
 			}
 		}
@@ -422,7 +446,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 			team_name.clear();
 
-			for (long team_index = 0; team_index < 8; team_index++)
+			for (long team_index = 0; team_index < k_multiplayer_team_count; team_index++)
 			{
 				if (game_engine_is_team_ever_active(team_index) || TEST_BIT(team_flags, team_index))
 				{
@@ -435,40 +459,60 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 						{
 							team_place = game_engine_get_team_place(team_index);
 							team_score = game_engine_get_team_score_for_display(team_index, true);
-							team_round_score = game_engine_get_team_score_for_display(team_index, false);
+							round_score = game_engine_get_team_score_for_display(team_index, false);
 						}
 
-						game_engine_get_place_string(team_place, &place);
-						game_engine_get_score_string(team_score, &score);
-						game_engine_get_score_string(team_round_score, &round_score);
+						game_engine_get_place_string(team_place, &place_string);
+						game_engine_get_score_string(team_score, &score_string);
+						game_engine_get_score_string(round_score, &round_score_string);
 					}
 					game_engine_get_team_name(team_index, &team_name);
 
 					add_player_internal(
-						/* row_type             */ _player_row_type_team_bar,
-						/* player_index         */ NONE,
-						/* network_player_index */ NONE,
-						/* appearance           */ &player_appearance,
-						/* player_name          */ team_name.get_string(),
-						/* service_tag          */ L" ",
-						/* base_color           */ NONE,
-						/* multiplayer_team     */ team_index,
-						/* team_game            */ true,
-						/* controller_index     */ k_no_controller,
-						/* voice_talking_state  */ 0,
-						/* connectivity_rating  */ NONE,
-						/* place                */ place.get_string(),
-						/* score                */ score.get_string(),
-						/* round_score          */ round_score.get_string(),
-						/* dead                 */ false,
-						/* left                 */ false
+						/* player_row_type        */ _player_row_type_team_bar,
+						/* game_player_index      */ NONE,
+						/* session_player_index   */ NONE,
+						/* appearance             */ &player_appearance,
+						/* player_name            */ team_name.get_string(),
+						/* service_tag            */ L" ",
+						/* base_color_index       */ NONE,
+						/* team_index             */ team_index,
+						/* show_team              */ true,
+						/* local_controller_index */ k_no_controller,
+						/* voice_state            */ _voice_state_none,
+						/* connectivity_rating    */ NONE,
+						/* place                  */ place_string.get_string(),
+						/* score                  */ score_string.get_string(),
+						/* round_score            */ round_score_string.get_string(),
+						/* is_dead                */ false,
+						/* left_game              */ false
 					);
 				}
+
+				rotate_left(team_flags, 1);
 			}
 		}
 	}
 
-	int(__cdecl * scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
+	scoreboard_sort_proc_t* scoreboard_sort_proc = use_session ? scoreboard_sort_proc_for_session : scoreboard_sort_proc_for_multiplayer;
 	qsort(m_player_rows.get_elements(), m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
 }
+
+int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer(void const* a, void const* b)
+{
+	return INVOKE(0x00AB38A0, c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer, a, b);
+}
+
+int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_session(void const* a, void const* b)
+{
+	return INVOKE(0x00AB3A00, c_gui_scoreboard_data::scoreboard_sort_proc_for_session, a, b);
+}
+
+//.text:00AB3A20 ; private: bool c_gui_screen_scoreboard::select_player_in_scoreboard(e_controller_index, s_player_identifier const*)
+//.text:00AB3B30 ; public: void c_gui_screen_scoreboard::set_is_interactive(bool)
+//.text:00AB3B80 ; 
+//.text:00AB3B90 ; 
+//.text:00AB3B40 ; 
+//.text:00AB3BA0 ; private: bool __cdecl c_gui_screen_scoreboard::should_show_round_score(e_controller_index, c_gui_screen_scoreboard::e_scoreboard_mode) const
+//.text:00AB3C30 ; public: static bool __cdecl c_gui_screen_scoreboard::should_show_score(c_gui_screen_scoreboard::e_scoreboard_mode)
 

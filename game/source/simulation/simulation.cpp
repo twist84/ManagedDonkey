@@ -361,7 +361,17 @@ dword __cdecl simulation_get_network_time_since_abort()
 	return INVOKE(0x00441740, simulation_get_network_time_since_abort);
 }
 
-// 00441780
+long __cdecl simulation_get_player_netdebug_filled_bar_count(long player_index)
+{
+	//return INVOKE(0x00441780, simulation_get_player_netdebug_filled_bar_count, player_index);
+
+	long temp_result = NONE;
+	s_simulation_player_netdebug_data const* netdebug_data = game_engine_get_player_netdebug_data(player_index);
+	if (simulation_format_player_netdebug_data(player_index, netdebug_data, &temp_result))
+		return temp_result;
+	
+	return NONE;
+}
 
 c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_channel* channel)
 {

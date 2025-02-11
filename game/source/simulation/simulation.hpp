@@ -158,6 +158,7 @@ extern bool __cdecl simulation_get_machine_bandwidth_events(s_machine_identifier
 extern bool __cdecl simulation_get_machine_connectivity(s_machine_identifier const* machine);
 extern bool __cdecl simulation_get_machine_is_host(s_machine_identifier const* machine);
 extern dword __cdecl simulation_get_network_time_since_abort();
+extern long __cdecl simulation_get_player_netdebug_filled_bar_count(long player_index);
 extern c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_channel* channel);
 extern char const* simulation_get_starting_up_description();
 extern long __cdecl simulation_get_status();

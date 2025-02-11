@@ -8,11 +8,6 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
-enum
-{
-	k_maximum_machines = 17
-};
-
 struct s_machine_identifier
 {
 	long parts[4];
@@ -164,8 +159,8 @@ struct s_player_configuration_from_host
 {
 	s_player_identifier player_identifier;
 	c_static_wchar_string<16> name;
-	long team_index; // renamed to `multiplayer_team` some time after ODST
-	long user_selected_team_index;
+	e_game_team team_index;
+	e_game_team assigned_team_index;
 	s_player_appearance appearance;
 	s_s3d_player_configuration_armor armor;
 	s_s3d_player_configuration_weapon weapon;

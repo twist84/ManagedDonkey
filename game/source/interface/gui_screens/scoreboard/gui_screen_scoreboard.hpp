@@ -61,64 +61,73 @@ struct c_gui_scoreboard_data :
 
 	enum e_voice_talking_state
 	{
+		_voice_state_none = 0,
+		_voice_state_has_voice,
+		_voice_state_talking,
+		_voice_state_away_in_private_chat,
+		_voice_state_muted,
 	};
 
 	struct s_player_row
 	{
-		c_enum<e_player_row_type, long, _player_row_type_player, k_player_row_type_count> player_row_type;
+		e_player_row_type player_row_type;
 
-		long player_index;
-		long network_player_index;
+		long game_player_index;
+		long session_player_index;
 
 		s_player_appearance player_appearance;
 		c_static_wchar_string<48> player_name;
 		c_static_wchar_string<48> service_tag;
 
-		// `base_color` -> `color_list_index`
+		// `base_color_index` -> `color_list_index`
 		// tint_color = user_interface_shared_tag_globals->tint_colors
 		// color_list = tint_color->text_player[color_list_index]
 		// color_list = tint_color->text_team[color_list_index]
 		// color_list = tint_color->bitmap_player[color_list_index]
 		// color_list = tint_color->bitmap_team[color_list_index]
 		// color = color_list.color
-		long base_color;
+		long base_color_index;
 
-		long multiplayer_team;
-		bool team_game;
+		long team_index;
+		bool show_team;
 
-		e_controller_index controller_index;
-		long voice_talking_state;
+		e_controller_index local_controller_index;
+		e_voice_talking_state voice_state;
 		long connectivity_rating;
 
 		c_static_wchar_string<48> place;
 		c_static_wchar_string<48> score;
 		c_static_wchar_string<48> round_score;
 
-		bool dead;
+		bool is_dead;
 		bool left_game;
 	};
 	static_assert(sizeof(s_player_row) == 0x868);
 
+	using scoreboard_sort_proc_t = int __cdecl(void const*, void const*);
+
 	bool __cdecl add_player_internal(
-		e_player_row_type row_type,
-		long player_index,
-		long network_player_index,
+		e_player_row_type player_row_type,
+		long game_player_index,
+		long session_player_index,
 		s_player_appearance const* appearance,
 		wchar_t const* player_name,
 		wchar_t const* service_tag,
-		long base_color,
-		long multiplayer_team,
-		bool team_game,
+		long base_color_index,
+		long team_index,
+		bool show_team,
 		e_controller_index controller_index,
-		long voice_talking_state,
+		e_voice_talking_state voice_state,
 		long connectivity_rating,
 		wchar_t const* place,
 		wchar_t const* score,
 		wchar_t const* round_score,
-		bool dead,
+		bool is_dead,
 		bool left_game);
 
-	void __thiscall _update_for_scoreboard_mode(bool a1, bool a2);
+	void __thiscall _update_for_scoreboard_mode(bool use_session, bool include_score);
+	static int __cdecl scoreboard_sort_proc_for_multiplayer(void const* a, void const* b);
+	static int __cdecl scoreboard_sort_proc_for_session(void const* a, void const* b);
 
 //protected:
 	long m_current_scoreboard_mode;

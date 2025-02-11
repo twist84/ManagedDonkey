@@ -10,6 +10,7 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
 #include "shell/shell.hpp"
+#include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x05253D88, s_user_interface_networking_globals, user_interface_networking_globals);
 
@@ -337,7 +338,9 @@ void __cdecl user_interface_sanitize_game_setup_preferences_for_remote_squad_joi
 
 long __cdecl user_interface_session_get_player_netdebug_filled_bar_count(long player_index)
 {
-	return INVOKE(0x00A7FFA0, user_interface_session_get_player_netdebug_filled_bar_count, player_index);
+	//return INVOKE(0x00A7FFA0, user_interface_session_get_player_netdebug_filled_bar_count, player_index);
+
+	return simulation_get_player_netdebug_filled_bar_count(player_index);
 }
 
 void __cdecl user_interface_set_desired_multiplayer_mode(e_desired_multiplayer_mode desired_multiplayer_mode)

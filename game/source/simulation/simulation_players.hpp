@@ -3,12 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "game/player_control.hpp"
 #include "game/players.hpp"
-
-// $TODO: find a home
-enum
-{
-	k_maximum_players = 16
-};
+#include "shell/shell.hpp"
 
 enum e_simulation_player_update_type
 {

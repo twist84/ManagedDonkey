@@ -5,8 +5,38 @@
 enum
 {
 	k_maximum_scenario_zone_set_count = 48,
-	k_maximum_campaign_players = 4,
+};
+
+enum
+{
+	_campaign_player0 = 0,
+	_campaign_player1,
+	_campaign_player2,
+	_campaign_player3,
+
+	k_maximum_campaign_players,
+
+
 	k_maximum_multiplayer_players = 16,
+
+	k_maximum_game_tick_rate = 60,
+	k_game_tick_rate_bits = 6,
+
+	k_maximum_players = 16,
+	k_maximum_player_index = 15,
+
+	k_player_index_bits = 4,
+	k_player_count_bits = 5,
+
+	k_maximum_machines = 17,
+	k_machine_count_bits = 5,
+	k_maximum_machine_index = 15,
+	k_machine_index_bits = 4,
+
+	k_maximum_rounds = 32,
+	k_round_count_bits = 6,
+	k_maximum_round_index = 31,
+	k_round_index_bits = 5,
 };
 
 enum e_simulation_world_type
@@ -2218,7 +2248,8 @@ enum e_game_team
 
 	k_campaign_team_count,
 
-	_multiplayer_team_red = 0,
+	_multiplayer_team_first = 0,
+	_multiplayer_team_red = _multiplayer_team_first,
 	_multiplayer_team_blue,
 	_multiplayer_team_green,
 	_multiplayer_team_yellow,
