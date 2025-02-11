@@ -396,7 +396,6 @@ long count_actors(bool active_only)
 }
 
 // hooks for ai meters
-// this is the **ONLY** I'm allowing hooks at the bottom of a file
 
 bool __cdecl actor_general_update_for_ai_meters(long actor_index)
 {

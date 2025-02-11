@@ -10,7 +10,7 @@ struct s_structure_seams
 	static tag const k_group_tag = STRUCTURE_SEAMS_TAG;
 
 	// This tag defines the geometry between seam connected structures bsp.
-	long version;
+	long import_version;
 
 	c_typed_tag_block<error_report_category> errors;
 	c_typed_tag_block<s_structure_seam> seams;

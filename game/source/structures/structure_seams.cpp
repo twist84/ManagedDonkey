@@ -21,14 +21,14 @@
 //.text:005F3F80 ; 
 //.text:005F3F90 ; 
 //.text:005F3FA0 ; 
-//.text:005F3FE0 ; 
-//.text:005F4000 ; 
+//.text:005F3FE0 ; c_static_flags<64> const* __cdecl structure_seams_active_seams_mask_get()
+//.text:005F4000 ; c_static_flags<64> __cdecl structure_seams_calculate_active_seams_mask()
 //.text:005F4080 ; void __cdecl structure_seams_connect(long, long)
 //.text:005F4350 ; bool __cdecl structure_seams_connected_cluster_references_get(long, s_cluster_reference, bool, c_static_stack<s_cluster_reference, 32>*)
-//.text:005F45B0 ; 
+//.text:005F45B0 ; bool __cdecl structure_seams_connected_edge_get(long, long, long*, long*)
 //.text:005F46C0 ; long __cdecl structure_seams_connected_structure_bsp_get(long, long)
-//.text:005F4720 ; 
-//.text:005F4760 ; 
+//.text:005F4720 ; void __cdecl structure_seams_connected_structure_bsp_indices_get(long, long, long*, long*)
+//.text:005F4760 ; void __cdecl structure_seams_disconnect(long, long)
 
 void __cdecl structure_seams_dispose()
 {
