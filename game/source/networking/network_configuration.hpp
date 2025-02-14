@@ -990,15 +990,17 @@ extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;
 extern c_network_configuration_globals& g_network_configuration_globals;
 
-extern long __cdecl network_configuration_calculate_next_retry_interval(long a1, long a2);
+extern long __cdecl network_configuration_calculate_next_retry_interval(long current_interval, long original_interval);
+extern long __cdecl network_configuration_client_badness_rating_threshold();
 extern bool __cdecl network_configuration_custom_games_enabled();
 extern bool __cdecl network_configuration_disable_bad_bandwidth_anticheating();
 extern bool __cdecl network_configuration_disable_bad_client_anticheating();
 extern bool __cdecl network_configuration_disable_bad_connectivity_anticheating();
 extern void __cdecl network_configuration_dispose();
 extern long __cdecl network_configuration_get_map_index_from_map_id(long map_id);
+extern long __cdecl network_configuration_get_minidump_generation_type();
 extern long __cdecl network_configuration_get_state();
-extern void __cdecl network_configuration_initialize(bool a1);
+extern void __cdecl network_configuration_initialize(bool building_for_network_file_output);
 extern void __cdecl network_configuration_initialize_observer_constants();
 extern void __cdecl network_configuration_initialize_private();
 extern void __cdecl network_configuration_initialize_simulation_constants();
@@ -1006,6 +1008,7 @@ extern void __cdecl network_configuration_initialize_simulation_entity_constants
 extern void __cdecl network_configuration_initialize_simulation_entity_creation_constants();
 extern void __cdecl network_configuration_initialize_simulation_entity_update_constants();
 extern void __cdecl network_configuration_initialize_simulation_event_constants();
+extern bool __cdecl network_configuration_is_crash_ui_enabled();
 extern long __cdecl network_configuration_maximum_multiplayer_split_screen();
 extern void __cdecl network_configuration_update();
 

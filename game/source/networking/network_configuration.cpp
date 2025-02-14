@@ -14,12 +14,15 @@ REFERENCE_DECLARE(0x019A62B8, bool, g_network_configuration_initialized);
 REFERENCE_DECLARE(0x019A62C0, s_network_configuration, g_network_configuration);
 REFERENCE_DECLARE(0x019A7988, c_network_configuration_globals, g_network_configuration_globals);
 
-long __cdecl network_configuration_calculate_next_retry_interval(long a1, long a2)
+long __cdecl network_configuration_calculate_next_retry_interval(long current_interval, long original_interval)
 {
-	return INVOKE(0x0043C820, network_configuration_calculate_next_retry_interval, a1, a2);
+	return INVOKE(0x0043C820, network_configuration_calculate_next_retry_interval, current_interval, original_interval);
 }
 
-//.text:0043C890 ; 
+long __cdecl network_configuration_client_badness_rating_threshold()
+{
+	return INVOKE(0x0043C890, network_configuration_client_badness_rating_threshold);
+}
 
 bool __cdecl network_configuration_custom_games_enabled()
 {
@@ -49,13 +52,17 @@ void __cdecl network_configuration_dispose()
 	//csmemset(&g_network_configuration, 0, sizeof(g_network_configuration));
 }
 
-//long __cdecl network_configuration_get_map_index_from_map_id(e_map_id)
+//long __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id)
 long __cdecl network_configuration_get_map_index_from_map_id(long map_id)
 {
 	return INVOKE(0x0043C900, network_configuration_get_map_index_from_map_id, map_id);
 }
 
-//.text:0043C930 ; 
+//enum e_minidump_generation __cdecl network_configuration_get_minidump_generation_type()
+long __cdecl network_configuration_get_minidump_generation_type()
+{
+	return INVOKE(0x0043C930, network_configuration_get_minidump_generation_type);
+}
 
 //e_network_configuration_state __cdecl network_configuration_get_state()
 long __cdecl network_configuration_get_state()
@@ -63,12 +70,12 @@ long __cdecl network_configuration_get_state()
 	return INVOKE(0x0043C940, network_configuration_get_state);
 }
 
-void __cdecl network_configuration_initialize(bool a1)
+void __cdecl network_configuration_initialize(bool building_for_network_file_output)
 {
-	INVOKE(0x0043C960, network_configuration_initialize, a1);
+	INVOKE(0x0043C960, network_configuration_initialize, building_for_network_file_output);
 
 	//network_configuration_initialize_private();
-	//g_network_configuration_download_buffer.__unknown684 = a1 ? 0 : 2;
+	//g_network_configuration_download_buffer.__unknown684 = building_for_network_file_output ? 0 : 2;
 	//g_network_configuration_initialized = true;
 }
 
@@ -107,7 +114,10 @@ void __cdecl network_configuration_initialize_simulation_event_constants()
 	INVOKE(0x0043F040, network_configuration_initialize_simulation_event_constants);
 }
 
-//.text:0043F4D0 ; 
+bool __cdecl network_configuration_is_crash_ui_enabled()
+{
+	return INVOKE(0x0043F4D0, network_configuration_is_crash_ui_enabled);
+}
 
 long __cdecl network_configuration_maximum_multiplayer_split_screen()
 {
