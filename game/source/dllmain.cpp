@@ -161,8 +161,8 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:022B46C8 ; c_interlocked_long g_render_thread_enabled
 //.data:022B471C ; c_interlocked_long g_single_thread_request_flags
 //.data:022B4738 ; _main_globals main_globals
-//.data:022B47F0 ; bool recursion_lock_triggered
-//.data:022B47F1 ; bool recursion_lock_triggered_while_exiting
+//.data:022B47F0 ; bool x_recursion_lock
+//.data:022B47F1 ; bool x_fatal_recursion_lock
 //.data:022B47F8 ; real last_framerate_time
 //.data:022B47FC ; bool display_framerate
 //.data:022B4800 ; 

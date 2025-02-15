@@ -64,8 +64,8 @@ REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B471C, c_interlocked_long, g_single_thread_request_flags);
 REFERENCE_DECLARE(0x022B4738, _main_globals, main_globals);
 
-REFERENCE_DECLARE(0x022B47F0, bool, recursion_lock_triggered);
-REFERENCE_DECLARE(0x022B47F1, bool, recursion_lock_triggered_while_exiting);
+//REFERENCE_DECLARE(0x022B47F0, bool, x_recursion_lock);
+//REFERENCE_DECLARE(0x022B47F1, bool, x_fatal_recursion_lock);
 
 REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
 REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
@@ -189,9 +189,9 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 	//}
 }
 
-dword __cdecl audio_thread_loop(void* thread_parameter)
+dword __cdecl audio_thread_loop(void* blah)
 {
-	return INVOKE(0x00504F80, audio_thread_loop, thread_parameter);
+	return INVOKE(0x00504F80, audio_thread_loop, blah);
 
 	//if (game_is_multithreaded())
 	//{
@@ -281,26 +281,26 @@ void __cdecl main_decompress_gamestate()
 }
 
 //.text:00505510
-void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable)
+void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool* event_flag)
 {
 	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
 
-	if (*variable == true)
+	if (*event_flag == true)
 	{
-		event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
-		*variable = false;
+		event(_event_warning, "main:events: ignoring %s due to %s", description, k_main_event_reason_description[reason]);
+		*event_flag = false;
 	}
 }
 
 //.text:00505520
-void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool volatile* variable)
+void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool volatile* event_flag)
 {
 	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
 
-	if (*variable == true)
+	if (*event_flag == true)
 	{
-		event(_event_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
-		*variable = false;
+		event(_event_warning, "main:events: ignoring %s due to %s", description, k_main_event_reason_description[reason]);
+		*event_flag = false;
 	}
 }
 
@@ -376,7 +376,7 @@ void __cdecl main_game_gamestate_decompress_and_apply_private()
 
 	//if (!game_state_get_compressor()->game_state_decompress_buffer(true, true, false))
 	//{
-	//	EVENT_ERROR("main_game: game_state_compressor failed to decompress and load gamestate.");
+	//	event(_event_error, "main_game: game_state_compressor failed to decompress and load gamestate.");
 	//}
 	//main_globals.gamestate_decompression_pending = false;
 }
@@ -419,172 +419,184 @@ void __cdecl main_halt_and_catch_fire()
 	//INVOKE(0x00505710, main_halt_and_catch_fire);
 
 	static c_static_string<24576> text{};
+	static bool x_recursion_lock = false;
+	static bool x_fatal_recursion_lock = false;
+	static bool x_just_upload_dammit = false;
 
 	main_loop_pregame_halt_and_catch_fire_push();
-	if (recursion_lock_triggered)
+	if (x_recursion_lock)
 	{
-		if (recursion_lock_triggered_while_exiting)
+		if (!x_fatal_recursion_lock)
 		{
+			x_fatal_recursion_lock = true;
 			event(_event_warning, "crash: recursion lock triggered!");
 			exit(NONE);
 		}
-		else
+
+		event(_event_critical, "crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
+		while (!is_debugger_present());
+		abort();
+	}
+
+	main_loop_pregame_halt_and_catch_fire_push();
+	release_locks_safe_for_crash_release();
+	//crash_report_folder_create_if_not_present();
+	//bool crash_ui_enable = network_configuration_is_crash_ui_enabled() || minidump_force_regular_minidump_with_ui;
+
+	dword lock_time = system_milliseconds();
+
+	bool upload_debug_started = false;
+	bool upload_debug_completed = false;
+	bool upload_debug_success = false;
+	bool create_fake_minidump = false;
+
+	x_recursion_lock = true;
+
+	event(_event_warning, "lifecycle: CRASH");
+	main_status("system_milliseconds", "time %d", system_milliseconds());
+	main_status_dump(NULL);
+
+	font_initialize_emergency();
+	online_process_debug_output_queue();
+	transport_initialize();
+	input_clear_all_rumblers();
+	progress_set_default_callbacks(NULL);
+	//saved_film_manager_close();
+	c_online_lsp_manager::get()->go_into_crash_mode();
+	network_webstats_force_reset();
+	user_interface_networking_set_ui_upload_quota(NONE);
+	console_close();
+
+	if (x_just_upload_dammit)
+		main_crash_just_upload_dammit();
+
+	c_static_string<256> reason;
+	bool upload_to_server = game_state_debug_server_file_uploading_enabled(&reason);
+	if (upload_to_server)
+	{
+		//c_datamine datamine(1, "crash", 0);
+		//datamine.commit();
+		//data_mine_upload();
+		upload_debug_started = upload_debug_start();
+		create_fake_minidump = false;
+		if (g_fake_minidump_creation)
 		{
-			recursion_lock_triggered_while_exiting = true;
-			event(_event_critical, "crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
-			while (!is_debugger_present());
-			abort();
+			create_fake_minidump = true;
+		}
+		else if (!g_suppress_upload_debug && !g_suppress_keyboard_for_minidump)
+		{
+			//create_fake_minidump = online_guide_show_virtual_keyboard_ui(...) == 997;
 		}
 	}
-	else
+
+	while (!is_debugger_present())
 	{
-		main_loop_pregame_halt_and_catch_fire_push();
-		release_locks_safe_for_crash_release();
+		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 
-		dword lock_time = system_milliseconds();
+		dword this_loop_time = system_milliseconds();
+		dword time_delta = this_loop_time - lock_time;
+		real shell_seconds_elapsed = time_delta / 1000.0f;
+		lock_time = this_loop_time;
 
-		bool upload_debug_started = false;
-		bool upload_debug_completed = false;
-		bool upload_debug_success = false;
-		bool create_fake_minidump = false;
-
-		recursion_lock_triggered = true;
-
-		event(_event_warning, "lifecycle: CRASH");
-		main_status("system_milliseconds", "time %d", system_milliseconds());
-		main_status_dump(NULL);
-
-		font_initialize_emergency();
-		online_process_debug_output_queue();
-		transport_initialize();
-		input_clear_all_rumblers();
-		progress_set_default_callbacks(NULL);
-		//saved_film_close();
-		c_online_lsp_manager::get()->go_into_crash_mode();
-		network_webstats_force_reset();
-		user_interface_networking_set_ui_upload_quota(NONE);
-		console_close();
-
-		if (false /* $TODO: add variable */)
-			main_crash_just_upload_dammit();
-
-		c_static_string<256> reason;
-		bool upload_to_server = game_state_debug_server_file_uploading_enabled(&reason);
-		if (upload_to_server)
+		//if (crash_ui_enable)
 		{
-			//c_datamine datamine(1, "crash", 0);
-			//datamine.commit();
-			//data_mine_upload();
-			upload_debug_started = upload_debug_start();
-			create_fake_minidump = false;
-			if (g_fake_minidump_creation)
-			{
-				create_fake_minidump = true;
-			}
-			else if (!g_suppress_upload_debug && !g_suppress_keyboard_for_minidump)
-			{
-				//create_fake_minidump = online_guide_show_virtual_keyboard_ui(...) == 997;
-			}
-		}
-
-		while (!is_debugger_present())
-		{
-			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-
-			dword this_loop_time = system_milliseconds();
-			dword time_delta = this_loop_time - lock_time;
-			real shell_seconds_elapsed = time_delta / 1000.0f;
-			lock_time = this_loop_time;
-
 			c_rasterizer::begin_frame();
 			c_rasterizer::setup_targets_simple();
+		}
 
-			text.set(events_get());
+		text.set(events_get());
 
-			char upload_debug_output[1024]{};
-			if (upload_debug_started && upload_debug_get_output(upload_debug_output, 1024))
-				text.append(upload_debug_output);
+		char upload_debug_output[1024]{};
+		if (upload_debug_started && upload_debug_get_output(upload_debug_output, 1024))
+			text.append(upload_debug_output);
 
-			//if (create_fake_minidump)
-			//{
-			//	if (g_fake_minidump_creation)
-			//	{
-			//		create_fake_minidump = false;
-			//		c_static_string<256> description = "crash fast";
-			//		crash_user_input_upload_now(description.get_string(), description.length() + 1);
-			//	}
-			//	else if()
-			//	{
-			//		create_fake_minidump = false;
-			//		if (!)
-			//		{
-			//			long description_length = 0;
-			//			char description[256]{};
-			//			wchar_string_to_ascii_string(description_wide, description, 256, &description_length);
-			//			if (description_length > 1)
-			//				crash_user_input_upload_now(description, description_length);
-			//		}
-			//	}
-			//}
+		//if (create_fake_minidump)
+		//{
+		//	if (g_fake_minidump_creation)
+		//	{
+		//		create_fake_minidump = false;
+		//		c_static_string<256> description = "crash fast";
+		//		crash_user_input_upload_now(description.get_string(), description.length() + 1);
+		//	}
+		//	else if()
+		//	{
+		//		create_fake_minidump = false;
+		//		if (!)
+		//		{
+		//			long description_length = 0;
+		//			char description[256]{};
+		//			wchar_string_to_ascii_string(description_wide, description, 256, &description_length);
+		//			if (description_length > 1)
+		//				crash_user_input_upload_now(description, description_length);
+		//		}
+		//	}
+		//}
 
-			e_main_pregame_frame pregame_frame_type = _main_pregame_frame_crash_uploading;
-			if (upload_to_server)
+		e_main_pregame_frame pregame_frame_type = _main_pregame_frame_crash_uploading;
+		if (upload_to_server)
+		{
+			if (upload_debug_completed && upload_debug_success)
 			{
-				if (upload_debug_completed && upload_debug_success)
+				pregame_frame_type = _main_pregame_frame_crash_done;
+			}
+			else if (!upload_debug_completed)
+			{
+				if (upload_debug_started)
 				{
-					pregame_frame_type = _main_pregame_frame_crash_done;
+					if ((system_seconds() & 1) != 0)
+						text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE\r\nWE NEED THE CRASH LOGS!1!!");
+					else
+						text.append("\r\n\r\nEACH TIME YOU REBOOT A CRASH\r\n  A BABY KITTEN DIES!1!!");
 				}
-				else if (!upload_debug_completed)
-				{
-					if (upload_debug_started)
-					{
-						if ((system_seconds() & 1) != 0)
-							text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE\r\nWE NEED THE CRASH LOGS!1!!");
-						else
-							text.append("\r\n\r\nEACH TIME YOU REBOOT A CRASH\r\n  A BABY KITTEN DIES!1!!");
-					}
-				}
-				else if ((system_seconds() & 1) != 0)
-				{
-					text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE!!!\r\nUPLOAD FAILED TO START!!!");
-				}
-				else
-				{
-					text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE!!!\r\nGET A TESTER!!!");
-				}
+			}
+			else if ((system_seconds() & 1) != 0)
+			{
+				text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE!!!\r\nUPLOAD FAILED TO START!!!");
 			}
 			else
 			{
-				reason.copy_to(text.get_buffer(), text.element_count);
-				upload_debug_completed = true;
-				upload_debug_success = true;
+				text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE!!!\r\nGET A TESTER!!!");
 			}
+		}
+		else
+		{
+			reason.copy_to(text.get_buffer(), text.element_count);
+			upload_debug_completed = true;
+			upload_debug_success = true;
+		}
 
+		//if (crash_ui_enable)
+		{
 			main_render_pregame(pregame_frame_type, text.get_string());
 			c_rasterizer::end_frame();
-			overlapped_update();
-			input_update();
-			terminal_update(shell_seconds_elapsed);
-			online_lsp_update();
-			data_mine_update();
-			network_webstats_update();
-			transport_global_update();
-			online_process_debug_output_queue();
-
-			if (upload_debug_started && !upload_debug_completed)
-				upload_debug_completed = upload_debug_complete(&upload_debug_success);
-
-			sleep(0);
 		}
 
-		// by setting the `emergency_mode` here to `false` we enable fonts again
-		{
-			c_font_cache_scope_lock scope_lock{};
-			g_font_globals.emergency_mode = false;
-		}
+		overlapped_update();
+		input_update();
+		terminal_update(shell_seconds_elapsed);
+		online_lsp_update();
+		data_mine_update();
+		network_webstats_update();
+		transport_global_update();
+		online_process_debug_output_queue();
 
-		recursion_lock_triggered = false;
+		if (upload_debug_started && !upload_debug_completed)
+			upload_debug_completed = upload_debug_complete(&upload_debug_success);
+
+		sleep(0);
 	}
+
+	// by setting the `emergency_mode` here to `false` we reenable fonts
+	{
+		c_font_cache_scope_lock scope_lock{};
+		g_font_globals.emergency_mode = false;
+	}
+
+	//while (!return_to_application)
+	//	__debugbreak();
+
+	x_recursion_lock = false;
+	
 	main_loop_pregame_halt_and_catch_fire_pop();
 }
 
