@@ -169,7 +169,7 @@ extern char const* const& k_font_package_base_name;
 extern char const* const& k_font_package_suffix;
 
 enum e_async_completion;
-union s_async_task;
+struct s_async_task;
 
 enum e_language;
 

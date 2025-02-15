@@ -150,6 +150,8 @@ extern bool debug_no_drawing;
 
 extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
 
+enum e_async_completion;
+struct s_async_task;
 struct s_file_reference;
 struct s_game_tick_time_samples;
 struct s_model_customization_region_permutation;
@@ -163,6 +165,8 @@ extern void __cdecl main_activate_cinematic_zone(long cinematic_zone_index);
 extern void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index);
 extern void __cdecl main_activate_designer_zone(long designer_zone_index);
 extern void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags);
+extern e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, long data_size);
+extern void __cdecl main_crash_just_upload_dammit();
 extern void __cdecl main_deactivate_cinematic_tag_private();
 extern void __cdecl main_deactivate_cinematic_zone(long cinematic_zone_index);
 extern void __cdecl main_deactivate_designer_zone(long designer_zone_index);
