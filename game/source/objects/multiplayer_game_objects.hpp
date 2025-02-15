@@ -90,6 +90,7 @@ enum e_multiplayer_object_boundary_shape
 
 	k_multiplayer_object_boundary_count
 };
+using c_multiplayer_object_boundary_shape = c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count>;
 
 enum e_multiplayer_object_spawn_timer_type
 {

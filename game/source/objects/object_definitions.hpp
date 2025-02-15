@@ -6,6 +6,18 @@
 #include "physics/collision_model_definitions.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 
+enum
+{
+	SCENARIO_CUSTOM_DECAL_ID = 'blah',
+	SCENARIO_CAMERA_POINT_EDITOR_FLAGS_ID = 'cmed',
+	SCENARIO_OBJECT_TYPE_ID = 'type',
+	SCENARIO_ENVIRONMENT_OBJECT_EDITOR_FLAGS_ID = 'envf',
+	SCENARIO_OBJECT_NAME_ID = 'name',
+	SCENARIO_OBJECT_VARIANT_ID = 'vari',
+	SCENARIO_OBJECT_IDENTIFIER_ID = 'obj#',
+	SCENARIO_OBJECT_EDIT_ID = 'obed',
+};
+
 enum e_object_type
 {
 	_object_type_biped = 0,
@@ -453,7 +465,7 @@ struct c_object_identifier
 	bool is_equal(c_object_identifier const* other) const;
 	e_object_type get_type() const;
 
-	long m_unique_id; // 'obj#'
+	long m_unique_id; // SCENARIO_OBJECT_IDENTIFIER_ID
 
 	// scenario_structure_bsp_reference
 	short m_origin_bsp_index;

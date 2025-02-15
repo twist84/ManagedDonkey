@@ -48,7 +48,8 @@ enum e_multiplayer_team_designator
 
 enum e_teleporter_channel
 {
-	_channel_alpha = 0,
+	_channel_first = 0,
+	_channel_alpha = _channel_first,
 	_channel_bravo,
 	_channel_charlie,
 	_channel_delta,
@@ -76,8 +77,9 @@ enum e_teleporter_channel
 	_channel_zulu,
 
 	k_teleporter_channel_count,
-	k_channel_default = _channel_alpha
+	k_channel_default = _channel_first,
 };
+using c_teleporter_channel = c_enum<enum e_teleporter_channel, byte, k_channel_default, k_teleporter_channel_count>;
 
 struct s_variant_multiplayer_object_properties_definition
 {

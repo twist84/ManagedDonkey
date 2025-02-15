@@ -57,13 +57,32 @@ enum e_game_engine_state
 	k_game_engine_state_count
 };
 
+enum e_garbage_collect_speed
+{
+	_garbage_collect_speed_normal = 0,
+	_garbage_collect_speed_fast,
+
+	k_garbage_collect_speed_count
+};
+
+enum e_game_engine_performance_flags
+{
+	_unused = 0,
+
+	k_game_engine_performance_flags_count
+};
+using c_game_engine_performance_flags = c_flags<e_game_engine_performance_flags, word, k_game_engine_performance_flags_count>;
+
 struct s_player_navpoint_data
 {
-	byte __data0[0x4];
-	real_point3d head_position;
-	word respawn_timer10;
-	word respawn_timer12;
-	byte __data[0x8];
+	bool last_living_location_valid;
+	real_point3d last_living_location;
+	word total_time_to_respawn_in_ticks;
+	word current_time_to_respawn_in_ticks;
+	long __unknown14;
+	char current_navpoint_action;
+	char current_navpoint_action_timer;
+	char next_navpoint_action;
 };
 static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 
@@ -87,6 +106,7 @@ struct s_multiplayer_weapon_tracker
 {
 	long weapon_index;
 	short multiplayer_weapon_identifier;
+	word pad;
 	long owner_unit_index;
 	long owner_player_index;
 };
@@ -106,7 +126,6 @@ struct s_game_engine_globals
 	dword game_engine_gamestate_index;
 	dword statborg_gamestate_index;
 	c_static_array<long, 16> player_gamestate_indices;
-	byte __data74[0x4];
 	c_map_variant runtime_map_variant;
 	c_enum<e_game_engine_state, short, _game_engine_state_game_over, k_game_engine_state_count> current_state;
 	short round_index;
@@ -128,7 +147,7 @@ struct s_game_engine_globals
 		s_infection_globals infection_globals;
 
 		// probably contains more bytes than it should
-		byte globals_storage[0x1800];
+		byte multiplayer_globals_storage[0x1800];
 	};
 
 	short round_timer_in_seconds;
@@ -151,8 +170,8 @@ struct s_game_engine_globals
 	dword game_engine_state_timer;
 	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
 	bool game_engine_has_handled_game_end;
-	long garbage_collect_speed; // e_garbage_collect_speed
-	dword performance_flags;
+	e_garbage_collect_speed garbage_collect_speed;
+	c_game_engine_performance_flags performance_flags;
 	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> game_engine_index;
 
 	long multiplayer_weapon_count;
