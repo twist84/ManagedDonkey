@@ -147,15 +147,15 @@ real __cdecl evaluate_piecewise_linear_function(short count, real* const functio
 //.text:005D07A0 ; bool __cdecl player_control_action_test_y()
 //.text:005D07B0 ; bool __cdecl player_control_action_test_zoom()
 
-//void __cdecl player_control_build_action(long, long, s_player_action*)
-void __cdecl player_control_build_action(long player_index, long input_user_index, s_player_action* action)
+//void __cdecl player_control_build_action(long, long, player_action*)
+void __cdecl player_control_build_action(long player_index, long input_user_index, player_action* action)
 {
 	INVOKE(0x005D07C0, player_control_build_action, player_index, input_user_index, action);
 }
 
 //.text:005D0860 ; bool __cdecl player_control_camera_control_is_active()
 //.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(long, e_controller_index, s_game_input_state const*, s_player_control_input*)
-//.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(s_player_action const*, s_player_control_state*)
+//.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(player_action const*, s_player_control_state*)
 //.text:005D0980 ; void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*)
 
 void __cdecl player_control_dispose()
@@ -294,14 +294,14 @@ void __cdecl player_control_propagate_output(long input_user_index)
 //.text:005D44E0 ; void __cdecl player_control_scale_all_input(real, real)
 //.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(long, real, real)
 //.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, qword)
-//.text:005D46C0 ; void __cdecl player_control_set_external_action(long, s_player_action const*)
+//.text:005D46C0 ; void __cdecl player_control_set_external_action(long, player_action const*)
 
 void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing)
 {
 	INVOKE(0x005D4700, player_control_set_facing, input_user_index, facing);
 }
 
-//.text:005D4760 ; void __cdecl player_control_state_build_action(s_player_control_state const*, s_player_action*)
+//.text:005D4760 ; void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*)
 //.text:005D4820 ; void __cdecl player_control_state_clear(s_player_control_state*)
 //.text:005D4860 ; void __cdecl player_control_suppress_rotate_weapons(long)
 //.text:005D48A0 ; void __cdecl player_control_unlock_gaze(long)
@@ -316,7 +316,7 @@ void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds
 	//player_control_update_debug_begin();
 
 	dword player_mask = 0;
-	c_static_array<s_player_action, k_number_of_users> actions{};
+	player_action actions[k_number_of_users]{};
 
 	for (long user_index = first_input_user(); user_index != NONE; user_index = next_input_user(user_index))
 	{

@@ -7,7 +7,7 @@
 //.text:00465F50 ; void c_simulation_view::destroy_view()
 //.text:00465F60 ; void c_simulation_view::detach_from_world()
 //.text:00465FC0 ; void c_simulation_view::detach_observer_channel()
-//.text:00466100 ; void c_simulation_view::dispatch_synchronous_actions(dword, c_static_array<s_player_action, 4> const&)
+//.text:00466100 ; void c_simulation_view::dispatch_synchronous_actions(dword, c_static_array<player_action, 4> const&)
 //.text:00466230 ; void c_simulation_view::dispatch_synchronous_playback_control(e_network_synchronous_playback_control, long, long)
 //.text:004662A0 ; void c_simulation_view::dispatch_synchronous_update(struct simulation_update const*, s_simulation_update_metadata const*)
 //.text:00466350 ; void c_simulation_view::distributed_join_abort()
@@ -97,7 +97,7 @@ bool c_simulation_view::handle_synchronous_acknowledge(long current_update_numbe
 	return INVOKE_CLASS_MEMBER(0x00466B10, c_simulation_view, handle_synchronous_acknowledge, current_update_number);
 }
 
-bool c_simulation_view::handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, s_player_action const* actions)
+bool c_simulation_view::handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, player_action const* actions)
 {
 	return INVOKE_CLASS_MEMBER(0x00466B30, c_simulation_view, handle_synchronous_actions, action_number, current_action_number, user_flags, actions);
 }

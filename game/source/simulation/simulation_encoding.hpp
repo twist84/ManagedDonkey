@@ -3,15 +3,15 @@
 #include "cseries/cseries.hpp"
 
 struct c_bitstream;
-struct s_player_action;
+struct player_action;
 struct s_simulation_camera_update;
 struct simulation_machine_update;
 struct simulation_player_update;
 struct unit_control_data;
 
-extern bool __cdecl player_action_compare(s_player_action const* action_a, s_player_action* action_b);
-extern bool __cdecl player_action_decode(c_bitstream* packet, s_player_action* action);
-extern void __cdecl player_action_encode(c_bitstream* packet, s_player_action const* action);
+extern bool __cdecl player_action_compare(player_action const* action_a, player_action* action_b);
+extern bool __cdecl player_action_decode(c_bitstream* packet, player_action* action);
+extern void __cdecl player_action_encode(c_bitstream* packet, player_action const* action);
 extern bool __cdecl simulation_camera_update_decode(c_bitstream* packet, s_simulation_camera_update* camera_update);
 extern void __cdecl simulation_camera_update_encode(c_bitstream* packet, s_simulation_camera_update const* camera_update);
 extern void __cdecl simulation_encoding_get_world_bounds(real_rectangle3d* world_bounds);

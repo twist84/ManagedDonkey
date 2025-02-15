@@ -230,8 +230,8 @@ void players_debug_render()
 //.text:00537210 ; 
 //.text:00537430 ; 
 //.text:005375B0 ; long __cdecl find_best_starting_location_index(long, bool, bool)
-//.text:00537860 ; void __cdecl map_editor_process_player_control(long, s_player_action*)
-//.text:005379E0 ; void __cdecl player_action_clear(s_player_action*)
+//.text:00537860 ; void __cdecl map_editor_process_player_control(long, player_action*)
+//.text:005379E0 ; void __cdecl player_action_clear(player_action*)
 
 void __cdecl player_action_context_clear(s_player_action_context* action_context)
 {
@@ -239,7 +239,7 @@ void __cdecl player_action_context_clear(s_player_action_context* action_context
 }
 
 //.text:00537A80 ; bool __cdecl player_action_context_valid(s_player_action_context const*)
-//.text:00537AB0 ; bool __cdecl player_action_valid(s_player_action const*)
+//.text:00537AB0 ; bool __cdecl player_action_valid(player_action const*)
 //.text:00537C90 ; 
 //.text:00537D10 ; 
 //.text:00537DB0 ; void __cdecl player_active_camo_screen_effect(long)
@@ -501,7 +501,7 @@ bool __cdecl player_is_reading_terminal()
 //.text:0053B670 ; void __cdecl player_leave_game_internal(long)
 //.text:0053B7D0 ; void __cdecl player_left_game(long)
 //.text:0053B7E0 ; first_player_set_armor
-//.text:0053B840 ; void __cdecl player_mostly_input_inhibit(long, s_player_action*)
+//.text:0053B840 ; void __cdecl player_mostly_input_inhibit(long, player_action*)
 
 long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress)
 {
@@ -560,7 +560,7 @@ void __cdecl player_positions_initialize_for_new_structure_bsp(dword activating_
 	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:0053BD90 ; void __cdecl player_prepare_action(long, s_player_action*)
+//.text:0053BD90 ; void __cdecl player_prepare_action(long, player_action*)
 //.text:0053BFF0 ; void __cdecl player_reading_terminal_set(bool)
 //.text:0053C020 ; void __cdecl player_rejoined_game(long,  game_player_options const*, bool)
 //.text:0053C070 ; void __cdecl player_reset(long, bool, bool,  game_player_options const*)
@@ -610,9 +610,9 @@ bool __cdecl player_spawn(long player_index, real_point3d const* position, real 
 }
 
 //.text:0053D500 ; void __cdecl player_sprint_inhibit(bool)
-//.text:0053D520 ; void __cdecl player_submit_actions(long, long, s_player_action*)
+//.text:0053D520 ; void __cdecl player_submit_actions(long, long, player_action*)
 //.text:0053EC70 ; bool __cdecl player_submit_assassination(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*)
-//.text:0053F010 ; void __cdecl player_submit_control(long, long, s_player_action const*)
+//.text:0053F010 ; void __cdecl player_submit_control(long, long, player_action const*)
 
 //void __cdecl player_suppress_action(long, enum e_player_suppress_action_type_enum)
 void __cdecl player_suppress_action(long player_index, long player_suppress_action_type)

@@ -260,7 +260,7 @@ struct s_player_control_input_state
 };
 static_assert(sizeof(s_player_control_input_state) == 0xF8);
 
-struct s_player_action
+struct player_action
 {
 	dword control_context;
 	byte control_context_identifier;
@@ -285,7 +285,7 @@ struct s_player_action
 	bool velocity_exceeds_motion_tracker_threshold;
 	qword action_test_flags;
 };
-static_assert(sizeof(s_player_action) == 0x80);
+static_assert(sizeof(player_action) == 0x80);
 
 struct s_player_control_globals
 {
@@ -356,10 +356,10 @@ extern real __cdecl evaluate_piecewise_linear_function(short count, real* const 
 //extern bool __cdecl player_control_action_test_x();
 //extern bool __cdecl player_control_action_test_y();
 //extern bool __cdecl player_control_action_test_zoom();
-extern void __cdecl player_control_build_action(long player_index, long input_user_index, s_player_action* action);
+extern void __cdecl player_control_build_action(long player_index, long input_user_index, player_action* action);
 //extern bool __cdecl player_control_camera_control_is_active();
 //extern bool __cdecl player_control_compute_input_inhibition(long, e_controller_index, s_game_input_state const*, s_player_control_input*);
-//extern void __cdecl player_control_copy_state_from_action(s_player_action const*, s_player_control_state*);
+//extern void __cdecl player_control_copy_state_from_action(player_action const*, s_player_control_state*);
 //extern void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*);
 extern void __cdecl player_control_dispose();
 extern void __cdecl player_control_dispose_from_old_map();
@@ -398,9 +398,9 @@ extern void __cdecl player_control_propagate_output(long input_user_index);
 //extern void __cdecl player_control_scale_all_input(real, real);
 //extern void __cdecl player_control_scale_all_input_for_player(long, real, real);
 //extern void __cdecl player_control_set_deterministic_action_test_flags(long, qword);
-//extern void __cdecl player_control_set_external_action(long, s_player_action const*);
+//extern void __cdecl player_control_set_external_action(long, player_action const*);
 extern void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing);
-//extern void __cdecl player_control_state_build_action(s_player_control_state const*, s_player_action*);
+//extern void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*);
 //extern void __cdecl player_control_state_clear(s_player_control_state*);
 //extern void __cdecl player_control_suppress_rotate_weapons(long);
 //extern void __cdecl player_control_unlock_gaze(long);

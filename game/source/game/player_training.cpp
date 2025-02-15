@@ -11,7 +11,7 @@ HOOK_DECLARE(0x00689EF0, player_training_render_screen);
 //.text:006895A0 ; 
 //.text:006895D0 ; public: bool __cdecl s_player_training_profile_data::add_training_data(s_player_training_profile_data const*)
 //.text:00689640 ; 
-//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(long, s_player_action const*)
+//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(long, player_action const*)
 //.text:006896F0 ; 
 //.text:00689720 ; public: bool __cdecl c_recent_actions::did_player_recently_perform_action(long, long)
 //.text:00689770 ; 
@@ -37,7 +37,7 @@ void __cdecl player_training_dispose_from_old_map()
 }
 
 //.text:00689A40 ; void __cdecl player_training_enable_scripted(bool)
-//.text:00689A70 ; void __cdecl player_training_examine_action(long, s_player_action const*)
+//.text:00689A70 ; void __cdecl player_training_examine_action(long, player_action const*)
 //.text:00689B80 ; void __cdecl player_training_handle_saved_game(long)
 
 void __cdecl player_training_initialize()

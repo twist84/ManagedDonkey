@@ -73,7 +73,7 @@ struct c_simulation_player
 	bool m_pending_deletion;
 	bool m_active;
 	long m_current_action_time;
-	s_player_action m_current_action;
+	player_action m_current_action;
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
 

@@ -49,7 +49,7 @@ static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
 
 enum e_simulation_view_establishment_mode;
 enum e_network_synchronous_playback_control;
-struct s_player_action;
+struct player_action;
 
 enum e_simulation_view_synchronous_catchup_stage
 {
@@ -101,7 +101,7 @@ struct c_simulation_view :
 	bool handle_player_acknowledge(dword player_valid_mask, dword player_in_game_mask, s_player_identifier const* player_identifiers);
 	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, long establishment_identifier, long signature_size, byte const* signature_data);
 	bool handle_synchronous_acknowledge(long current_update_number);
-	bool handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, s_player_action const* actions);
+	bool handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, player_action const* actions);
 	bool handle_synchronous_gamestate(s_network_message_synchronous_gamestate const* synchronous_gamestate, void const* chunk);
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, long identifier, long update_number);
 	bool handle_synchronous_update(struct simulation_update const* update);

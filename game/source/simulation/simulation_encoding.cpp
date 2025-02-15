@@ -6,17 +6,17 @@
 #include "replication/replication_encoding.hpp"
 #include "simulation/simulation.hpp"
 
-bool __cdecl player_action_compare(s_player_action const* action_a, s_player_action* action_b)
+bool __cdecl player_action_compare(player_action const* action_a, player_action* action_b)
 {
 	return INVOKE(0x0046DCA0, player_action_compare, action_a, action_b);
 }
 
-bool __cdecl player_action_decode(c_bitstream* packet, s_player_action* action)
+bool __cdecl player_action_decode(c_bitstream* packet, player_action* action)
 {
 	return INVOKE(0x0046DF80, player_action_decode, packet, action);
 }
 
-void __cdecl player_action_encode(c_bitstream* packet, s_player_action const* action)
+void __cdecl player_action_encode(c_bitstream* packet, player_action const* action)
 {
 	INVOKE(0x0046E240, player_action_encode, packet, action);
 }

@@ -41,7 +41,7 @@ struct s_network_message_synchronous_actions
 	long action_number;
 	long current_update_number;
 	dword valid_user_mask;
-	s_player_action user_actions[4];
+	player_action user_actions[4];
 };
 static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
 
