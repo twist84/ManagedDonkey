@@ -138,52 +138,55 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
 
-	//if (!game_is_multithreaded())
-	//	return 0;
-	//
-	//dword result = 0;
-	//
 	//PROFILER(internal_halt_render_thread)
 	//{
-	//	if (render_thread_get_mode() != _render_thread_mode_loading_screen && thread_system_initialized() && restricted_region_valid(k_game_state_render_region) && get_current_thread_index() != k_thread_render)
+	//	if (!game_is_multithreaded() || render_thread_get_mode() == _render_thread_mode_loading_screen)
+	//		return 0;
+	//
+	//	if (!thread_system_initialized())
+	//		return 0;
+	//
+	//	if (!restricted_region_valid(k_game_state_render_region))
+	//		return 0;
+	//
+	//	if (get_current_thread_index() == k_thread_render)
+	//		return 0;
+	//
+	//	dword result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
+	//	if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
 	//	{
-	//		result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
+	//		restricted_region_lock_primary(k_game_state_render_region);
+	//		restricted_region_lock_primary(k_global_render_data_region);
 	//
-	//		if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
+	//		c_rasterizer::rasterizer_device_acquire_thread();
+	//
+	//		result |= FLAG(0);
+	//
+	//		if (!thread_has_crashed(k_thread_render))
 	//		{
-	//			restricted_region_lock_primary(k_game_state_render_region);
-	//			restricted_region_lock_primary(k_global_render_data_region);
-	//			c_rasterizer::rasterizer_device_acquire_thread();
-	//
-	//			result |= FLAG(0);
-	//
-	//			if (!thread_has_crashed(k_thread_render))
+	//			restricted_region_unlock_primary(k_game_state_shared_region);
+	//			for (long mirror_index = restricted_region_get_mirror_count(k_game_state_shared_region); mirror_index; mirror_index--)
 	//			{
-	//				restricted_region_unlock_primary(k_game_state_shared_region);
-	//				for (long i = restricted_region_get_mirror_count(k_game_state_shared_region); i; --i)
+	//				if (restricted_region_lock_mirror(k_game_state_shared_region))
 	//				{
-	//					if (restricted_region_lock_mirror(k_game_state_shared_region))
 	//					{
-	//						{
-	//							LOCAL_TAG_RESOURCE_SCOPE_LOCK;
-	//							process_published_game_state(false);
-	//						}
-	//
-	//						if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
-	//							restricted_region_unlock_mirror(k_game_state_shared_region);
+	//						LOCAL_TAG_RESOURCE_SCOPE_LOCK;
+	//						process_published_game_state(false);
 	//					}
+	//
+	//					if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//						restricted_region_unlock_mirror(k_game_state_shared_region);
 	//				}
 	//			}
-	//		}
-	//
-	//		if (get_current_thread_index() == k_game_state_update_region && restricted_region_locked_for_current_thread(k_game_state_update_region))
-	//		{
-	//			main_thread_process_pending_messages();
+	//			restricted_region_lock_primary(k_game_state_shared_region);
 	//		}
 	//	}
-	//}
 	//
-	//return result;
+	//	if (get_current_thread_index() == k_game_state_update_region && restricted_region_locked_for_current_thread(k_game_state_update_region))
+	//		main_thread_process_pending_messages();
+	//
+	//	return result;
+	//}
 }
 
 dword __cdecl audio_thread_loop(void* thread_parameter)
