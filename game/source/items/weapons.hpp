@@ -287,7 +287,6 @@ extern bool debug_weapons_secondary;
 extern void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted);
 extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
 extern void __cdecl weapon_debug_render(long weapon_index, long weapon_slot);
-extern weapon_datum* __cdecl weapon_get(long weapon_index);
 extern real __cdecl weapon_get_age(long weapon_index);
 extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);
 extern bool __cdecl weapon_has_infinite_ammo(long weapon_index);

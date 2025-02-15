@@ -37,7 +37,7 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, real_vecto
 {
 	//INVOKE(0x00B6B8F0, biped_bumped_object, biped_index, object_index, linear_velocity);
 
-	biped_datum* biped = biped_get(biped_index);
+	biped_datum* biped = BIPED_GET(biped_index);
 
 	if (biped->biped.bump_ticks < 0)
 	{
@@ -59,7 +59,7 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, real_vecto
 
 	if (TEST_BIT(_object_mask_biped, object_get_type(object_index)))
 	{
-		biped_datum* bumped_biped = biped_get(object_index);
+		biped_datum* bumped_biped = BIPED_GET(object_index);
 		if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
 			//biped->biped.flags.set(15, true);
@@ -128,12 +128,6 @@ void __cdecl biped_bumped_object(long biped_index, long object_index, real_vecto
 //.text:00B6DCB0 ; bool __cdecl biped_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real, real, bool, bool)
 //.text:00B6DD20 ; void __cdecl biped_fix_position_to_pill(long, real_point3d*, real)
 //.text:00B6E040 ; void __cdecl biped_force_ground_fitting_on(long, bool)
-
-biped_datum* __cdecl biped_get(long biped_index)
-{
-	biped_datum* result = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
-	return result;
-}
 
 void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width)
 {
@@ -249,7 +243,7 @@ void __cdecl biped_render_debug(long biped_index)
 
 	if (debug_objects_movement_mode)
 	{
-		biped_datum* biped = biped_get(biped_index);
+		biped_datum* biped = BIPED_GET(biped_index);
 
 		real_point3d base{};
 		real_vector3d height{};
@@ -321,7 +315,7 @@ bool __cdecl biped_update(long biped_index)
 
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 
-	biped_datum* biped = biped_get(biped_index);
+	biped_datum* biped = BIPED_GET(biped_index);
 
 	bool v5 = biped_update_soft_ceilings(biped_index);
 
@@ -368,7 +362,7 @@ void __cdecl biped_update_jetpack(long biped_index)
 	if (!cheat.jetpack)
 		return;
 
-	biped_datum* biped = biped_get(biped_index);
+	biped_datum* biped = BIPED_GET(biped_index);
 	if (!biped || biped->unit.player_index == NONE)
 		return;
 

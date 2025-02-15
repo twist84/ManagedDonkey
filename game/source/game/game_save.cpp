@@ -356,7 +356,7 @@ LABEL_5:;
 			long unit_index = player_iterator.get_datum()->unit_index;
 			if (unit_index != NONE)
 			{
-				if (unit_datum* unit = unit_get(unit_index))
+				if (unit_datum* unit = UNIT_GET(unit_index))
 				{
 					//if (unit->object.current_body_damage < 1.0f)
 					//{

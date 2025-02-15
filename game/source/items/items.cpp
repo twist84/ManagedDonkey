@@ -16,13 +16,6 @@ bool __cdecl dangerous_items_near_player(long* out_item_index)
 //.text:00BABCF0 ; void __cdecl item_detach(long)
 //.text:00BABD10 ; void __cdecl item_detonate(long)
 //.text:00BABE20 ; void __cdecl item_fix_position(long)
-
-item_datum* __cdecl item_get(long item_index)
-{
-	item_datum* result = (item_datum*)object_get_and_verify_type(item_index, _object_mask_item);
-	return result;
-}
-
 //.text:00BAC1B0 ; void __cdecl item_get_position_even_if_in_inventory(long, real_point3d*)
 //.text:00BAC210 ; void __cdecl item_hide_inventory(long)
 //.text:00BAC270 ; bool __cdecl item_in_hand(long)

@@ -68,7 +68,7 @@ bool __cdecl game_engine_object_is_item_in_inventory(long object_index)
 	return INVOKE(0x0058FCE0, game_engine_object_is_item_in_inventory, object_index);
 
 	//if (object_index != NONE)
-	//	return item_get(object_index)->item.inventory_state != 0;
+	//	return ITEM_GET(object_index)->item.inventory_state != 0;
 	//
 	//return false;
 }

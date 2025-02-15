@@ -454,7 +454,7 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A850, c_vehicle_type_component, handled_changed_vehicle_type, vehicle_index);
 
-	vehicle_datum* vehicle = vehicle_get(vehicle_index);
+	vehicle_datum* vehicle = VEHICLE_GET(vehicle_index);
 	if (vehicle_definition_get_default_type(vehicle->definition_index) != m_initialization_type)
 		c_vehicle_type_component::reset(vehicle_index);
 }

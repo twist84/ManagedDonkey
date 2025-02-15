@@ -233,7 +233,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	//if (shader != NONE)
 	//	object_override_set_shader(object_index, shader);
 
-	if (object_definition->object.type == _object_type_biped && biped_get(object_index)->unit.current_weapon_set.weapon_indices[0] == NONE)
+	if (object_definition->object.type == _object_type_biped && BIPED_GET(object_index)->unit.current_weapon_set.weapon_indices[0] == NONE)
 	{
 		tag_iterator iterator{};
 		tag_iterator_new(&iterator, WEAPON_TAG);

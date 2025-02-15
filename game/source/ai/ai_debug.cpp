@@ -713,7 +713,7 @@ void ai_debug_render_vehicle_reservations()
 			unit_seat_source& source = sources[source_index];
 			if (!source.flags->test(_unit_seat_allow_ai_noncombatants_bit))
 			{
-				vehicle_datum* vehicle = vehicle_get(source.vehicle_index);
+				vehicle_datum* vehicle = VEHICLE_GET(source.vehicle_index);
 
 				real_point3d seat_position{};
 				vehicle_get_seat_position(source.vehicle_index, source.seat_index, &seat_position);
@@ -874,7 +874,7 @@ void render_dialogue_variants()
 	{
 		if (actor->meta.unit_index != NONE)
 		{
-			unit_datum* unit = unit_get(actor->meta.unit_index);
+			unit_datum* unit = UNIT_GET(actor->meta.unit_index);
 			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->unit.seat_storage);
 			if (seat_storage->dialogue_definition_index != NONE)
 			{

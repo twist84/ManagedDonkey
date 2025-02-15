@@ -27,7 +27,6 @@ struct object_placement_data;
 struct s_scenario_arg_device;
 
 extern long __cdecl device_arg_device_get_action_string(long arg_device_index);
-extern arg_device_datum* __cdecl device_arg_device_get_datum(long arg_device_index);
 extern bool __cdecl device_arg_device_new(long arg_device_index, object_placement_data* data, bool* out_of_memory);
 extern void __cdecl device_arg_device_place(long arg_device_index, s_scenario_arg_device* scenario_arg_device);
 extern void __cdecl device_arg_device_touch(long arg_device_index);

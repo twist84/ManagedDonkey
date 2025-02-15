@@ -169,7 +169,7 @@ void players_debug_render()
 		//		//&& player->machine_user_index
 		//		&& TEST_MASK(_object_mask_biped, FLAG(object_get_type(player->unit_index))))
 		//	{
-		//		biped_datum* biped = biped_get(player->unit_index);
+		//		biped_datum* biped = BIPED_GET(player->unit_index);
 		// 
 		//		// $TODO: find the bit index
 		//		if (TEST_BIT(biped->biped.flags, ??))
@@ -271,8 +271,8 @@ bool __cdecl player_consider_equipment_interaction(long player_index, long equip
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
-	unit_datum* unit = unit_get(player->unit_index);
-	equipment_datum* equipment = equipment_get(equipment_index);
+	unit_datum* unit = UNIT_GET(player->unit_index);
+	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
 
 	if (equipment->item.inventory_state || equipment->item.ignore_object_index == player->unit_index)
 		return false;
@@ -364,7 +364,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 	if (player->unit_index == NONE)
 		return;
 
-	unit_datum* unit = unit_get(player->unit_index);
+	unit_datum* unit = UNIT_GET(player->unit_index);
 	if (unit->object.parent_object_index != NONE && !TEST_BIT(player->flags, _player_unknown_bit14))
 		return;
 
@@ -579,7 +579,7 @@ void __cdecl player_set_facing(long player_index, real_vector3d const* facing)
 	//{
 	//	if (player->unit_index != NONE)
 	//	{
-	//		unit_datum* unit = unit_get(player->unit_index);
+	//		unit_datum* unit = UNIT_GET(player->unit_index);
 	//		unit->unit.facing_vector = *facing;
 	//		unit->unit.desired_aiming_vector = *facing;
 	//		unit->unit.desired_looking_vector = *facing;

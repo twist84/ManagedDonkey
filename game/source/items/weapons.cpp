@@ -83,11 +83,11 @@ void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool pred
 	if (!cheat.bottomless_clip)
 		return;
 
-	weapon_datum* weapon = weapon_get(weapon_index);
+	weapon_datum* weapon = WEAPON_GET(weapon_index);
 	if (!weapon || weapon->item.inventory_unit_index == NONE)
 		return;
 
-	unit_datum* unit = unit_get(weapon->item.inventory_unit_index);
+	unit_datum* unit = UNIT_GET(weapon->item.inventory_unit_index);
 	if (!unit || unit->unit.player_index == NONE)
 		return;
 
@@ -118,7 +118,7 @@ bool __cdecl weapon_can_be_dual_wielded(long weapon_index)
 {
 	//return INVOKE(0x00B61550, weapon_can_be_dual_wielded, weapon_index);
 
-	weapon_datum* weapon = weapon_get(weapon_index);
+	weapon_datum* weapon = WEAPON_GET(weapon_index);
 	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
 	return weapon_definition->weapon.flags.test(_weapon_can_be_dual_wielded_bit) || weapon_definition->weapon.flags.test(_weapon_can_only_be_dual_wielded_bit);
 }
@@ -137,7 +137,7 @@ bool __cdecl weapon_can_be_dual_wielded(long weapon_index)
 
 void weapon_debug_render(long weapon_index, long weapon_slot)
 {
-	weapon_datum* weapon = weapon_get(weapon_index);
+	weapon_datum* weapon = WEAPON_GET(weapon_index);
 	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
 
 	long inventory_unit_index = NONE;
@@ -444,13 +444,6 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 //.text:00B628C0 ; real __cdecl weapon_estimate_time_to_target(long, short, real, bool)
 //.text:00B62950 ; void __cdecl weapon_fire_barrels(long, s_predicted_weapon_fire_data const*, bool, long)
 //.text:00B629F0 ; bool __cdecl weapon_firing_is_disabled(long)
-
-weapon_datum* __cdecl weapon_get(long weapon_index)
-{
-	weapon_datum* result = (weapon_datum*)object_get_and_verify_type(weapon_index, _object_mask_weapon);
-	return result;
-}
-
 //.text:00B62A50 ; long __cdecl weapon_get_active_barrel_index(long)
 
 real __cdecl weapon_get_age(long weapon_index)
@@ -615,7 +608,7 @@ void __cdecl weapons_debug_render()
 		{
 			if (debug_weapons_primary)
 			{
-				unit_datum* unit = unit_get(unit_index);
+				unit_datum* unit = UNIT_GET(unit_index);
 				long primary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[0]);
 				if (unit->object.parent_object_index != NONE)
 				{
@@ -635,7 +628,7 @@ void __cdecl weapons_debug_render()
 
 			if (debug_weapons_secondary)
 			{
-				unit_datum* unit = unit_get(unit_index);
+				unit_datum* unit = UNIT_GET(unit_index);
 				long secondary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[1]);
 				if (secondary_weapon_index != NONE)
 					weapon_debug_render(secondary_weapon_index, 1);

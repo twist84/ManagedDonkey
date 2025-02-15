@@ -443,7 +443,7 @@ void __cdecl player_control_get_controller_input_for_jetpack(long input_user_ind
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	long unit_index = player_control_globals->input_states[controller_index].output.unit_index;
-	biped_datum* biped = biped_get(unit_index);
+	biped_datum* biped = BIPED_GET(unit_index);
 	if (!biped)
 		return;
 

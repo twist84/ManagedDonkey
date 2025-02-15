@@ -73,7 +73,7 @@ void render_debug_player()
 	if (user_index != NONE)
 	{
 		long unit_index = player_mapping_get_unit_by_output_user(user_index);
-		if (biped_datum* biped = biped_get(unit_index))
+		if (biped_datum* biped = BIPED_GET(unit_index))
 		{
 			if (biped->object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
 			    unit_index = biped->object.parent_object_index;

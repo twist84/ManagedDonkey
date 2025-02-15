@@ -106,7 +106,7 @@ object_header_datum* __cdecl object_header_get_mutable(long object_index)
 
 object_datum* __cdecl object_get(long object_index)
 {
-	object_datum* result = (object_datum*)object_get_and_verify_type(object_index, _object_mask_object);
+	object_datum* result = (object_datum*)object_get_and_verify_type(object_index, _object_mask_any);
 	return result;
 }
 
@@ -1828,7 +1828,7 @@ void __cdecl objects_update()
 	//
 	//				if (object->object.flags.test(_object_in_limbo_bit))
 	//				{
-	//					item_datum* item = item_get(object_header_iter.get_index());
+	//					item_datum* item = ITEM_GET(object_header_iter.get_index());
 	//					//ASSERT(TEST_FLAG(item->item.flags, _item_in_unit_inventory_bit));
 	//					//ASSERT(TEST_FLAG(item->item.flags, _item_hidden_in_unit_inventory_bit));
 	//				}

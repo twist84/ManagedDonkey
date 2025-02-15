@@ -86,7 +86,6 @@ extern bool debug_objects_unit_pathfinding_surface;
 extern bool debug_objects_pendulum;
 
 extern void __cdecl biped_bumped_object(long biped_index, long object_index, real_vector3d const* old_velocity);
-extern biped_datum* __cdecl biped_get(long biped_index);
 extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width);
 extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, real_vector3d* velocity);

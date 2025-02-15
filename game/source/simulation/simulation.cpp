@@ -72,7 +72,7 @@ void __cdecl simulation_apply_before_game(struct simulation_update const* update
 	//		{
 	//			if (TEST_BIT(update->valid_actor_mask, actor_index))
 	//			{
-	//				if (unit_get(update->actor_unit_indices[actor_index]))
+	//				if (UNIT_GET(update->actor_unit_indices[actor_index]))
 	//					unit_control(update->actor_unit_indices[actor_index], &update->actor_control[actor_index]);
 	//			}
 	//		}

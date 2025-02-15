@@ -11,15 +11,9 @@ long __cdecl device_arg_device_get_action_string(long arg_device_index)
 {
 	return INVOKE(0x00BB81E0, device_arg_device_get_action_string, arg_device_index);
 
-	//arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
+	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//struct arg_device_definition* arg_device_definition = TAG_GET(DEVICE_ARG_DEVICE_TAG, struct arg_device_definition, arg_device->definition_index);
 	//return arg_device_definition->arg_device.action_string;
-}
-
-arg_device_datum* __cdecl device_arg_device_get_datum(long arg_device_index)
-{
-	arg_device_datum* result = (arg_device_datum*)object_get_and_verify_type(arg_device_index, _object_type_arg_device);
-	return result;
 }
 
 bool __cdecl device_arg_device_new(long arg_device_index, object_placement_data* data, bool* out_of_memory)
@@ -33,7 +27,7 @@ void __cdecl device_arg_device_place(long arg_device_index, s_scenario_arg_devic
 {
 	INVOKE(0x00BB8230, device_arg_device_place, arg_device_index, scenario_arg_device);
 
-	//arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
+	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//arg_device->arg_device.flags &= ~FLAG(0);
 	//SET_BIT(arg_device->arg_device.flags, 1, TEST_BIT(scenario_arg_device->device.flags, 2));
 	//arg_device->arg_device.pressed_script_index = scenario_arg_device->arg_device.pressed_script_index;
@@ -44,7 +38,7 @@ void __cdecl device_arg_device_touch(long arg_device_index)
 {
 	return INVOKE(0x00BB82A0, device_arg_device_touch, arg_device_index);
 
-	//arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
+	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//long position_group_index = arg_device->device.position_group_index;
 	//if (position_group_index == NONE)
 	//	return;
@@ -60,7 +54,7 @@ void __cdecl device_arg_device_touched(long arg_device_index, long unit_index, b
 {
 	INVOKE(0x00BB8310, device_arg_device_touched, arg_device_index, unit_index, held_script);
 
-	//arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
+	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//
 	//hs_script* script = NULL;
 	//short script_index = held_script ? arg_device->arg_device.held_script_index : arg_device->arg_device.pressed_script_index;
@@ -85,7 +79,7 @@ bool __cdecl device_arg_device_touched_by_unit(long arg_device_index, long unit_
 
 	//if (arg_device_index != NONE)
 	//{
-	//	arg_device_datum* arg_device = device_arg_device_get_datum(arg_device_index);
+	//	arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//	return arg_device->arg_device.unit_index == unit_index && game_time_get() - time < arg_device->arg_device.unit_last_time_touched;
 	//}
 	//

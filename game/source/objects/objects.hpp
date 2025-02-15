@@ -15,48 +15,98 @@
 #include "objects/object_scripting.hpp"
 #include "render/render_objects_static_lighting.hpp"
 
+#define OBJECT_GET(TYPE, INDEX) ((TYPE*)object_get_and_verify_type(INDEX, _object_mask_any))
+
+#define UNIT_GET(INDEX) ((struct unit_datum*)object_get_and_verify_type(INDEX, _object_mask_unit))
+#define BIPED_GET(INDEX) ((struct biped_datum*)object_get_and_verify_type(INDEX, _object_mask_biped))
+#define VEHICLE_GET(INDEX) ((struct vehicle_datum*)object_get_and_verify_type(INDEX, _object_mask_vehicle))
+#define GIANT_GET(INDEX) ((struct giant_datum*)object_get_and_verify_type(INDEX, _object_mask_giant))
+
+#define ITEM_GET(INDEX) ((struct item_datum*)object_get_and_verify_type(INDEX, _object_mask_item))
+#define WEAPON_GET(INDEX) ((struct weapon_datum*)object_get_and_verify_type(INDEX, _object_mask_weapon))
+#define EQUIPMENT_GET(INDEX) ((struct equipment_datum*)object_get_and_verify_type(INDEX, _object_mask_equipment))
+
+#define PROJECTILE_GET(INDEX) ((struct projectile_datum*)object_get_and_verify_type(INDEX, _object_mask_projectile))
+#define SCENERY_GET(INDEX) ((struct scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_scenery))
+#define SOUND_SCENERY_GET(INDEX) ((struct sound_scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_sound_scenery))
+#define CRATE_GET(INDEX) ((struct crate_datum*)object_get_and_verify_type(INDEX, _object_mask_crate))
+#define CREATURE_GET(INDEX) ((struct creature_datum*)object_get_and_verify_type(INDEX, _object_mask_creature))
+#define EFFECT_SCENERY_GET(INDEX) ((struct effect_scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_effect_scenery))
+
+#define DEVICE_GET(INDEX) ((struct device_datum*)object_get_and_verify_type(INDEX, _object_mask_device))
+#define ARG_DEVICE_GET(INDEX) ((struct arg_device_datum*)object_get_and_verify_type(INDEX, _object_mask_arg_device))
+#define TERMINAL_GET(INDEX) ((struct terminal_datum*)object_get_and_verify_type(INDEX, _object_mask_terminal))
+#define MACHINE_GET(INDEX) ((struct machine_datum*)object_get_and_verify_type(INDEX, _object_mask_machine))
+#define CONTROL_GET(INDEX) ((struct control_datum*)object_get_and_verify_type(INDEX, _object_mask_control))
+
 enum e_object_mask
 {
-	_object_mask_object = NONE,
+	_object_mask_none = 0,
+	_object_mask_any = NONE,
+	
+	_object_mask_unit = 
+		FLAG(_object_type_biped) | 
+		FLAG(_object_type_vehicle) | 
+		FLAG(_object_type_giant),
 	_object_mask_biped = FLAG(_object_type_biped),
 	_object_mask_vehicle = FLAG(_object_type_vehicle),
+	_object_mask_giant = FLAG(_object_type_giant),
+
+	_object_mask_item = 
+		FLAG(_object_type_weapon) | 
+		FLAG(_object_type_equipment),
 	_object_mask_weapon = FLAG(_object_type_weapon),
 	_object_mask_equipment = FLAG(_object_type_equipment),
-	_object_mask_arg_device = FLAG(_object_type_arg_device),
-	_object_mask_terminal = FLAG(_object_type_terminal),
+
 	_object_mask_projectile = FLAG(_object_type_projectile),
 	_object_mask_scenery = FLAG(_object_type_scenery),
-	_object_mask_machine = FLAG(_object_type_machine),
-	_object_mask_control = FLAG(_object_type_control),
-	_object_mask_sound_scenery = FLAG(_object_type_sound_scenery),
 	_object_mask_crate = FLAG(_object_type_crate),
 	_object_mask_creature = FLAG(_object_type_creature),
-	_object_mask_giant = FLAG(_object_type_giant),
+	_object_mask_sound_scenery = FLAG(_object_type_sound_scenery),
 	_object_mask_effect_scenery = FLAG(_object_type_effect_scenery),
 
-	_object_mask_item = _object_mask_weapon | _object_mask_equipment,
-	_object_mask_device = _object_mask_arg_device | _object_mask_terminal | _object_mask_machine | _object_mask_control,
-	_object_mask_unit = _object_mask_biped | _object_mask_vehicle | _object_mask_giant,
-	_object_mask_editor_placeable_objects = _object_mask_biped | _object_mask_vehicle |  _object_mask_weapon | _object_mask_equipment | _object_mask_arg_device | _object_mask_terminal | _object_mask_scenery | _object_mask_machine | _object_mask_crate | _object_mask_creature | _object_mask_giant,
+	_object_mask_device = 
+		FLAG(_object_type_arg_device) | 
+		FLAG(_object_type_terminal) | 
+		FLAG(_object_type_machine) | 
+		FLAG(_object_type_control),
+	_object_mask_arg_device = FLAG(_object_type_arg_device),
+	_object_mask_terminal = FLAG(_object_type_terminal),
+	_object_mask_machine = FLAG(_object_type_machine),
+	_object_mask_control = FLAG(_object_type_control),
+
+	_object_mask_mover =
+		_object_mask_unit |
+		_object_mask_creature,
+
+	_object_mask_editor_placeable_objects = 
+		_object_mask_unit | 
+		_object_mask_item | 
+		_object_mask_arg_device | 
+		_object_mask_terminal | 
+		_object_mask_scenery | 
+		_object_mask_machine | 
+		_object_mask_crate | 
+		_object_mask_creature,
 };
+static_assert(0b0010000000000011 == _object_mask_unit);
 static_assert(0b0000000000000001 == _object_mask_biped);
 static_assert(0b0000000000000010 == _object_mask_vehicle);
+static_assert(0b0010000000000000 == _object_mask_giant);
+static_assert(0b0000000000001100 == _object_mask_item);
 static_assert(0b0000000000000100 == _object_mask_weapon);
 static_assert(0b0000000000001000 == _object_mask_equipment);
-static_assert(0b0000000000010000 == _object_mask_arg_device);
-static_assert(0b0000000000100000 == _object_mask_terminal);
 static_assert(0b0000000001000000 == _object_mask_projectile);
 static_assert(0b0000000010000000 == _object_mask_scenery);
-static_assert(0b0000000100000000 == _object_mask_machine);
-static_assert(0b0000001000000000 == _object_mask_control);
 static_assert(0b0000010000000000 == _object_mask_sound_scenery);
 static_assert(0b0000100000000000 == _object_mask_crate);
 static_assert(0b0001000000000000 == _object_mask_creature);
-static_assert(0b0010000000000000 == _object_mask_giant);
 static_assert(0b0100000000000000 == _object_mask_effect_scenery);
-static_assert(0b0000000000001100 == _object_mask_item);
 static_assert(0b0000001100110000 == _object_mask_device);
-static_assert(0b0010000000000011 == _object_mask_unit);
+static_assert(0b0000000000010000 == _object_mask_arg_device);
+static_assert(0b0000000000100000 == _object_mask_terminal);
+static_assert(0b0000000100000000 == _object_mask_machine);
+static_assert(0b0000001000000000 == _object_mask_control);
 static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
 
 // Same as Halo 3

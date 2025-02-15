@@ -24,5 +24,4 @@ struct item_datum
 static_assert(sizeof(item_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum));
 
 extern bool __cdecl dangerous_items_near_player(long* out_item_index);
-extern item_datum* __cdecl item_get(long item_index);
 

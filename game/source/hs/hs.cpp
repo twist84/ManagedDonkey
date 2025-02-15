@@ -872,7 +872,7 @@ short const hs_type_sizes[k_hs_type_count]
 // 0166D7B8
 short const hs_object_type_masks[k_hs_type_object_count]
 {
-	_object_mask_object,        // object
+	_object_mask_any,           // any
 	_object_mask_unit,          // unit
 	_object_mask_vehicle,       // vehicle
 	_object_mask_weapon,        // weapon

@@ -108,7 +108,7 @@ long __cdecl player_mapping_get_input_user_by_unit(long unit_index)
 	//long input_user_index = NONE;
 	//if (unit_index != NONE)
 	//{
-	//	unit_datum* unit = unit_get(unit_index);
+	//	unit_datum* unit = UNIT_GET(unit_index);
 	//	if (unit->player_index != NONE)
 	//		input_user_index = player_mapping_get_input_user(unit->player_index);
 	//}

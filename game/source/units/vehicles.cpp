@@ -35,13 +35,6 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 //.text:00B75AD0 ; void __cdecl vehicle_deplete_function_variables(long)
 //.text:00B75B10 ; void __cdecl vehicle_enable_ghost_effects(bool)
 //.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, dword*)
-
-vehicle_datum* __cdecl vehicle_get(long vehicle_index)
-{
-	vehicle_datum* result = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
-	return result;
-}
-
 //.text:00B75D90 ; bool __cdecl vehicle_get_auto_turret_damage_owner(long, s_damage_owner*)
 //.text:00B75DD0 ; short __cdecl vehicle_get_driver_seat(long, long*)
 
@@ -80,7 +73,7 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
-	vehicle_datum* vehicle = vehicle_get(vehicle_index);
+	vehicle_datum* vehicle = VEHICLE_GET(vehicle_index);
 	struct vehicle_definition* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition, vehicle->definition_index);
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
