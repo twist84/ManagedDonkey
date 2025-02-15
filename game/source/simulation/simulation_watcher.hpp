@@ -13,24 +13,28 @@ struct c_simulation_watcher :
 {
 public:
 	void describe_status(char* buffer, long buffer_length) const;
+	long describe_status_simple() const;
 	bool need_to_generate_updates() const;
 
 protected:
 	c_simulation_world* m_world;
 	c_network_observer* m_observer;
 	c_network_session* m_session;
-	dword m_session_local_update_number;
-	dword m_machine_last_membership_update_number;
-	dword __unknown18;
+	long m_session_local_update_number;
+	long m_machine_last_membership_update_number;
+
+	long __unknown18;
+
 	dword m_local_machine_valid_mask;
-	dword m_local_machine_index;
-	s_machine_identifier m_local_machine_identifiers[17];
-	bool __unknown134;
-	s_player_collection player_collection;
-	dword m_machine_valid_mask;
+	long m_local_machine_index;
 	s_machine_identifier m_machine_identifiers[17];
-	bool __unknown16654;
-	bool m_game_reverted;
+	bool m_machine_update_pending;
+	s_player_collection player_collection;
+	dword m_player_collection_machine_valid_mask;
+	s_machine_identifier m_player_collection_machine_identifiers[17];
+	bool m_changes_pending_acknowledgement;
+	bool m_game_revert_occured;
+
 	bool __unknown16656;
 	bool __unknown16657;
 };

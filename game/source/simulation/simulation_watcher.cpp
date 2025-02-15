@@ -163,7 +163,11 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 		session_status);
 }
 
-//.text:0046C0A0 ; public: e_simulation_status __cdecl c_simulation_watcher::describe_status_simple() const
+//e_simulation_status c_simulation_watcher::describe_status_simple() const
+long c_simulation_watcher::describe_status_simple() const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C0A0, c_simulation_watcher, describe_status_simple);
+}
 
 bool c_simulation_watcher::need_to_generate_updates() const
 {
