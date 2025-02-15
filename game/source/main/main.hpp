@@ -96,7 +96,7 @@ static_assert(sizeof(_main_globals) == 0x84);
 struct s_main_status_value
 {
 	char status_type[256];
-	char status_value[512];
+	char status_data[512];
 };
 
 class c_tag_resources_game_lock
@@ -164,7 +164,10 @@ extern void __cdecl main_activate_cinematic_tag_private();
 extern void __cdecl main_activate_cinematic_zone(long cinematic_zone_index);
 extern void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index);
 extern void __cdecl main_activate_designer_zone(long designer_zone_index);
+extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
+extern void __cdecl main_cheat_drop_tag_private();
 extern void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags);
+extern void __cdecl main_crash(char const* type);
 extern e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, long data_size);
 extern void __cdecl main_crash_just_upload_dammit();
 extern void __cdecl main_deactivate_cinematic_tag_private();
@@ -258,8 +261,5 @@ extern e_render_thread_mode __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
 extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
-extern void __cdecl main_crash(char const* type);
-extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
-extern void __cdecl main_cheat_drop_tag_private();
 extern void __cdecl main_trace_event_internal(char const* context);
 

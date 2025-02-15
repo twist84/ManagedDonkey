@@ -80,6 +80,10 @@ HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
 HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
+#define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"
+
+static c_synchronized_long ill_never_be_done{};
+
 char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
 {
 	"changing the map",
@@ -231,6 +235,42 @@ void __cdecl main_activate_designer_zone(long designer_zone_index)
 
 //.text:00505370 ; void __cdecl sub_505370() // saber function called within `c_rasterizer::cleanup_before_device_reset`
 
+void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	if (tag_index == NONE)
+		return;
+
+	cheat_drop_tag_index = tag_index;
+	cheat_drop_variant_name = variant_name;
+	drop_cheat_tag = true;
+	cheat_drop_permutation_count = 0;
+
+	if (permutations)
+	{
+		for (long i = 0; i < permutation_count; i++)
+		{
+			cheat_drop_permutations[i].region_name = permutations[i].region_name;
+			cheat_drop_permutations[i].permutation_name = permutations[i].permutation_name;
+			cheat_drop_permutation_count++;
+		}
+	}
+}
+
+void __cdecl main_cheat_drop_tag_private()
+{
+	drop_cheat_tag = false;
+
+	cheat_drop_tag_in_main_event_loop(
+		cheat_drop_tag_index,
+		cheat_drop_variant_name,
+		cheat_drop_permutations,
+		cheat_drop_permutation_count);
+
+	cheat_drop_tag_index = NONE;
+	cheat_drop_variant_name = NONE;
+	cheat_drop_permutation_count = 0;
+}
+
 void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags)
 {
 	INVOKE(0x00505380, main_clear_global_pending_zone_activation, game_state_proc_flags);
@@ -252,6 +292,96 @@ void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flag
 	//	main_globals.modify_zone_activation = false;
 	//	main_globals.pending_zone_activation.clear();
 	//}
+}
+
+void __cdecl main_crash(char const* type)
+{
+	stack_walk(0);
+
+	ASSERT(csstricmp(type, "assert"), "asserting on command");
+
+	if (!csstricmp(type, "now"))
+	{
+		NULL_BELONGS_TO_CHUCKY;
+	}
+	else if (!csstricmp(type, "fast"))
+	{
+		main_crash_just_upload_dammit();
+		g_fake_minidump_creation = true;
+		NULL_BELONGS_TO_CHUCKY;
+	}
+	else if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
+	{
+		main_halt_and_catch_fire();
+	}
+	else if (!csstricmp(type, "async"))
+	{
+		async_queue_simple_callback(main_crash_async, NULL, 0, _async_priority_blocking_generic, &ill_never_be_done);
+	}
+	else if (!csstricmp(type, "screen"))
+	{
+		rasterizer_dump_display_to_bmp("crash_report\\crash_screen.bmp");
+	}
+	else if (!csstricmp(type, "crash_profiler_thread"))
+	{
+		signal_thread_to_crash(k_thread_profiler);
+	}
+	else if (!csstricmp(type, "assert_profiler_thread"))
+	{
+		signal_thread_to_assert(k_thread_profiler);
+	}
+	else if (!csstricmp(type, "crash_async_io_thread"))
+	{
+		signal_thread_to_crash(k_thread_async_io);
+	}
+	else if (!csstricmp(type, "assert_async_io_thread"))
+	{
+		signal_thread_to_assert(k_thread_async_io);
+	}
+	else if (!csstricmp(type, "crash_render_thread"))
+	{
+		signal_thread_to_crash(k_thread_render);
+	}
+	else if (!csstricmp(type, "assert_render_thread"))
+	{
+		signal_thread_to_assert(k_thread_render);
+	}
+	else if (!csstricmp(type, "crash_netdebug_thread"))
+	{
+		signal_thread_to_crash(k_thread_net_debug);
+	}
+	else if (!csstricmp(type, "assert_netdebug_thread"))
+	{
+		signal_thread_to_assert(k_thread_net_debug);
+	}
+	else if (!csstricmp(type, "crash_event_logs_thread"))
+	{
+		signal_thread_to_crash(k_thread_event_logs);
+	}
+	else if (!csstricmp(type, "assert_event_logs_thread"))
+	{
+		signal_thread_to_assert(k_thread_event_logs);
+	}
+	else if (!csstricmp(type, "quit"))
+	{
+		main_exit_game();
+	}
+}
+
+e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, long data_size)
+{
+	NULL_BELONGS_TO_CHUCKY;
+	return _async_completion_done;
+}
+
+void __cdecl main_crash_just_upload_dammit()
+{
+	g_catch_exceptions = true;
+	g_set_never_a_debugger_present = true;
+	g_force_upload_even_if_untracked = true;
+	g_suppress_keyboard_for_minidump = true;
+	g_suppress_upload_debug = false;
+	game_state_set_test_options("default");
 }
 
 void __cdecl main_deactivate_cinematic_tag_private()
@@ -398,16 +528,6 @@ void __cdecl main_loop_pregame_halt_and_catch_fire_pop()
 {
 	if (is_main_thread())
 		main_globals.main_loop_pregame_entered--;
-}
-
-void __cdecl main_crash_just_upload_dammit()
-{
-	g_catch_exceptions = true;
-	g_set_never_a_debugger_present = true;
-	g_force_upload_even_if_untracked = true;
-	g_suppress_keyboard_for_minidump = true;
-	g_suppress_upload_debug = false;
-	game_state_set_test_options("default");
 }
 
 #if defined(_DEBUG)
@@ -1751,7 +1871,7 @@ void __cdecl main_status_print()
 	for (long i = 0; i < NUMBEROF(g_status_values); i++)
 	{
 		if (csstrnlen(g_status_values[i].status_type, NUMBEROF(g_status_values[i].status_type)))
-			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_value);
+			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_data);
 	}
 }
 
@@ -2062,125 +2182,6 @@ c_tag_resources_game_lock::c_tag_resources_game_lock() :
 c_tag_resources_game_lock::~c_tag_resources_game_lock()
 {
 	tag_resources_unlock_game(m_resource_key);
-}
-
-#define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"
-
-static c_synchronized_long ill_never_be_done{};
-e_async_completion main_crash_async(s_async_task* task, void* data, long data_size)
-{
-	NULL_BELONGS_TO_CHUCKY;
-	return _async_completion_done;
-}
-
-void __cdecl main_crash(char const* type)
-{
-	stack_walk(0);
-
-	ASSERT(csstricmp(type, "assert"), "asserting on command");
-
-	if (!csstricmp(type, "now"))
-	{
-		NULL_BELONGS_TO_CHUCKY;
-	}
-	else if (!csstricmp(type, "fast"))
-	{
-		main_crash_just_upload_dammit();
-		g_fake_minidump_creation = true;
-		NULL_BELONGS_TO_CHUCKY;
-	}
-	else if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
-	{
-		main_halt_and_catch_fire();
-	}
-	else if (!csstricmp(type, "async"))
-	{
-		async_queue_simple_callback(main_crash_async, NULL, 0, _async_priority_blocking_generic, &ill_never_be_done);
-	}
-	else if (!csstricmp(type, "screen"))
-	{
-		rasterizer_dump_display_to_bmp("crash_report\\crash_screen.bmp");
-	}
-	else if (!csstricmp(type, "crash_profiler_thread"))
-	{
-		signal_thread_to_crash(k_thread_profiler);
-	}
-	else if (!csstricmp(type, "assert_profiler_thread"))
-	{
-		signal_thread_to_assert(k_thread_profiler);
-	}
-	else if (!csstricmp(type, "crash_async_io_thread"))
-	{
-		signal_thread_to_crash(k_thread_async_io);
-	}
-	else if (!csstricmp(type, "assert_async_io_thread"))
-	{
-		signal_thread_to_assert(k_thread_async_io);
-	}
-	else if (!csstricmp(type, "crash_render_thread"))
-	{
-		signal_thread_to_crash(k_thread_render);
-	}
-	else if (!csstricmp(type, "assert_render_thread"))
-	{
-		signal_thread_to_assert(k_thread_render);
-	}
-	else if (!csstricmp(type, "crash_netdebug_thread"))
-	{
-		signal_thread_to_crash(k_thread_net_debug);
-	}
-	else if (!csstricmp(type, "assert_netdebug_thread"))
-	{
-		signal_thread_to_assert(k_thread_net_debug);
-	}
-	else if (!csstricmp(type, "crash_event_logs_thread"))
-	{
-		signal_thread_to_crash(k_thread_event_logs);
-	}
-	else if (!csstricmp(type, "assert_event_logs_thread"))
-	{
-		signal_thread_to_assert(k_thread_event_logs);
-	}
-	else if (!csstricmp(type, "quit"))
-	{
-		main_exit_game();
-	}
-}
-
-void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
-{
-	if (tag_index == NONE)
-		return;
-
-	cheat_drop_tag_index = tag_index;
-	cheat_drop_variant_name = variant_name;
-	drop_cheat_tag = true;
-	cheat_drop_permutation_count = 0;
-
-	if (permutations)
-	{
-		for (long i = 0; i < permutation_count; i++)
-		{
-			cheat_drop_permutations[i].region_name = permutations[i].region_name;
-			cheat_drop_permutations[i].permutation_name = permutations[i].permutation_name;
-			cheat_drop_permutation_count++;
-		}
-	}
-}
-
-void __cdecl main_cheat_drop_tag_private()
-{
-	drop_cheat_tag = false;
-
-	cheat_drop_tag_in_main_event_loop(
-		cheat_drop_tag_index,
-		cheat_drop_variant_name,
-		cheat_drop_permutations,
-		cheat_drop_permutation_count);
-
-	cheat_drop_tag_index = NONE;
-	cheat_drop_variant_name = NONE;
-	cheat_drop_permutation_count = 0;
 }
 
 struct c_event_context_string_builder
