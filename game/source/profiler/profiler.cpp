@@ -3,7 +3,6 @@
 #include "ai/ai_profile.hpp"
 #include "interface/interface.hpp"
 #include "main/console.hpp"
-#include "memory/base/base_memory_windows.hpp"
 #include "objects/objects.hpp"
 #include "shell/shell.hpp"
 #include "text/draw_string.hpp"
@@ -62,8 +61,8 @@ void profile_render(rectangle2d const* screen_pixel_bounds, rectangle2d const* s
 		objects_information objects_information{};
 		objects_information_get(&objects_information);
 
-		s_base_memory_information memory_information{};
-		base_memory_information_get(&memory_information);
+		s_system_memory_information memory_information{};
+		system_memory_information_get(&memory_information);
 
 		/*
 		effects_information effects_information{};

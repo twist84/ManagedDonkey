@@ -51,6 +51,25 @@ void __cdecl system_get_date_and_time(char* buffer, short buffer_size, bool shor
 	INVOKE(0x004EBF70, system_get_date_and_time, buffer, buffer_size, short_date_and_time);
 }
 
+void __cdecl system_memory_information_get(s_system_memory_information* information)
+{
+	INVOKE(0x004EC0E0, system_memory_information_get, information);
+
+	// 32-bit
+	//csmemset(information, 0, sizeof(s_system_memory_information));
+	//information->free = 0x20000000;
+	//information->total = 0x40000000;
+
+	// 64-bit
+	//MEMORYSTATUSEX status;
+	//memset(&status.dwMemoryLoad, 0, sizeof(MEMORYSTATUSEX) - OFFSETOF(MEMORYSTATUSEX, dwMemoryLoad));
+	//status.dwLength = sizeof(MEMORYSTATUSEX);
+	//GlobalMemoryStatusEx(&status);
+	//csmemset(information, 0, sizeof(s_system_memory_information));
+	//information->free = status.ullAvailPhys;
+	//information->total = status.ullTotalPhys;
+}
+
 unsigned long __cdecl system_milliseconds()
 {
 	//return INVOKE(0x004EC110, system_milliseconds);
