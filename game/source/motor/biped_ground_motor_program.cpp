@@ -27,7 +27,7 @@ __declspec(naked) void super_jump_inline()
 		// execute our instructions
 		cmp     cheat.super_jump, 0
 		jz      loc_BE1C2D
-		cmp     dword ptr[edi + 0x198], NONE
+		cmp     dword ptr[edi+0x198], NONE
 		jz      loc_BE1C2D
 
 		movss   xmm0, [ebp-0x8]

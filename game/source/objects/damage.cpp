@@ -123,6 +123,63 @@ void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, 
 	HOOK_INVOKE(, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
 }
 
+__declspec(naked) void omnipotent_inline()
+{
+	// original instructions
+	//      test    dword ptr [edi+0x4], 0x40000
+
+	// all this for the folling
+	//if (cheat.omnipotent && damage_data->damage_owner.damage_owner_player_index != NONE)
+	//    v106 = true;
+
+	ASM_ADDR(0x00B53A72, addr_B53A72);
+
+	__asm
+	{
+		// execute our instructions
+		cmp     cheat.omnipotent, 0
+		jz      short loc_B53A6B
+		cmp     dword ptr[edi+ 0x8], NONE
+		jz      short loc_B53A6B
+		mov     byte ptr[ebp-0x30], 1
+
+		// execute the original instructions
+	loc_B53A6B:
+		test    dword ptr[edi+0x4], 0x40000
+
+		// jump out to after our hook
+		jmp     addr_B53A72
+	}
+}
+HOOK_DECLARE(0x00B53A6B, omnipotent_inline);
+
+//__declspec(naked) void deathless_inline1()
+//{
+//	// original instructions
+//	//      test    edx, _object_mask_unit
+//	//      jz      short loc_B53B25
+//
+//	ASM_ADDR(0x00B53AFB, addr_B53AFB);
+//	ASM_ADDR(0x00B53B25, addr_B53B25);
+//
+//	__asm
+//	{
+//		// execute the original instructions
+//		test    edx, _object_mask_unit
+//		jz      short loc_B53B25
+//
+//		// execute our instructions
+//		cmp     cheat.deathless, 0
+//		jnz     short loc_B53B25
+//		jmp     addr_B53AFB
+//
+//		// jump out to after our hook
+//	loc_B53B25:
+//		jmp     addr_B53B25
+//	}
+//}
+//HOOK_DECLARE(0x00B53AF3, deathless_inline1);
+
 //void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, e_predictability predictability)
 void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, long predictability)
 {
