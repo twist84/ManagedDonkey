@@ -53,7 +53,12 @@
 //.text:014A85D0 ; bool __cdecl prop_should_refresh_state(prop_ref_datum const*)
 //.text:014A8600 ; bool __cdecl prop_should_refresh_status(prop_ref_datum const*)
 //.text:014A8660 ; prop_state* __cdecl prop_state_get(long)
-//.text:014A86D0 ; prop_state* __cdecl prop_state_get(prop_ref_datum const*)
+
+prop_state* __cdecl prop_state_get(prop_ref_datum const* pref)
+{
+	return INVOKE(0x014A86D0, prop_state_get, pref);
+}
+
 //.text:014A8720 ; void __cdecl prop_state_new(prop_state*)
 //.text:014A87A0 ; bool __cdecl prop_state_refresh(prop_state*, long, short, actor_position_data*)
 //.text:014A8AD0 ; long __cdecl prop_track(long, long)

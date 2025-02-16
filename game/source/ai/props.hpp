@@ -153,6 +153,7 @@ struct actor_prop_ref_iterator
 };
 static_assert(sizeof(actor_prop_ref_iterator) == 0x8);
 
+extern prop_state* __cdecl prop_state_get(prop_ref_datum const* pref);
 extern void __cdecl props_dispose();
 extern void __cdecl props_dispose_from_old_map();
 extern void __cdecl props_initialize();

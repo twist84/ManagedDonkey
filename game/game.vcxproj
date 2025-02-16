@@ -203,6 +203,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\ai\ai_player.cpp" />
     <ClCompile Include="source\ai\ai_reference_frame.cpp" />
     <ClCompile Include="source\ai\ai_vehicles.cpp" />
+    <ClCompile Include="source\ai\character_definitions.cpp" />
     <ClCompile Include="source\ai\clump.cpp" />
     <ClCompile Include="source\ai\event_handling.cpp" />
     <ClCompile Include="source\ai\formations.cpp" />

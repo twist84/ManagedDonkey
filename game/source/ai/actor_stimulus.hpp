@@ -4,7 +4,7 @@
 
 enum e_stimulus
 {
-	_stimulus_surprise,
+	_stimulus_surprise = 0,
 	_stimulus_surprise_combat_started,
 	_stimulus_friendly_body,
 	_stimulus_shield_depleted,
@@ -31,5 +31,9 @@ enum e_stimulus
 
 extern char const* const g_stimulus_names[k_stimulus_count];
 
-extern void stimuli_debug();
+extern void __cdecl actor_stimulus_acknowledged_danger_zone(long actor_index, long pref_index);
+extern void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index, bool first_acknowledgement);
+extern void __cdecl actor_stimulus_prop_sighted(long actor_index, long pref_index, bool initial);
+extern void __cdecl actor_stimulus_surprise(long actor_index, short surprise_level, long prop_index, real_vector3d const* surprise_vector);
+extern void __cdecl stimuli_debug();
 

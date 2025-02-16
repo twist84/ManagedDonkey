@@ -147,8 +147,19 @@ static_assert(sizeof(character_placement_properties) == 0xC4);
 
 struct character_perception_properties
 {
+	dword_flags flags;
+	real maximum_vision_distance;
+	real central_vision_angle;
+	real maximum_vision_angle;
+	real peripheral_vision_angle;
+	real peripheral_distance;
+	real hearing_distance;
+	real notice_projectile_chance;
+	real notice_vehicle_chance;
+	real awareness_time;
+	real first_acknowledgement_surprise_distance;
 };
-static_assert(sizeof(character_perception_properties) == 0x1);
+static_assert(sizeof(character_perception_properties) == 0x2C);
 
 struct character_look_properties
 {
@@ -497,4 +508,6 @@ struct character_activity_objects
 	c_string_id unit_marker_name;
 };
 static_assert(sizeof(character_activity_objects) == 0x1C);
+
+extern character_perception_properties* __cdecl actor_perception_properties_get(long actor_index);
 

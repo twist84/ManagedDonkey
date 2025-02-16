@@ -1,6 +1,9 @@
 #include "ai/actor_stimulus.hpp"
 
 #include "ai/actors.hpp"
+#include "ai/character_definitions.hpp"
+#include "ai/props.hpp"
+#include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
 
 char const* const g_stimulus_names[k_stimulus_count]
@@ -28,9 +31,85 @@ char const* const g_stimulus_names[k_stimulus_count]
 	"flood disperse"
 };
 
+//.text:01456700 ; void __cdecl actor_stimuli_update(long)
+
+void __cdecl actor_stimulus_acknowledged_danger_zone(long actor_index, long pref_index)
+{
+	INVOKE(0x014567B0, actor_stimulus_acknowledged_danger_zone, actor_index, pref_index);
+}
+
+//.text:01456A40 ; void __cdecl actor_stimulus_allegiance_update(long, long)
+//.text:01456B20 ; void __cdecl actor_stimulus_bumped(long, long)
+//.text:01456B30 ; bool __cdecl actor_stimulus_clear(long, e_behavior_stimulus)
+//.text:01456BB0 ; void __cdecl actor_stimulus_damage(long, short, long, long, real, real_vector3d const*)
+//.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(long, long, real_point3d const*, short)
+//.text:01456DC0 ; void __cdecl actor_stimulus_friend_body_sighted(long, long)
+//.text:01456FA0 ; void __cdecl actor_stimulus_heard_shooting(long, long, long)
+
+void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index, bool first_acknowledgement)
+{
+	//INVOKE(0x01457200, actor_stimulus_prop_acknowledged, actor_index, prop_index, first_acknowledgement);
+
+	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
+
+	actor_datum* actor = actor_get(actor_index);
+	prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
+
+	if (first_acknowledgement && pref->type == 3)
+	{
+		actor_stimulus_acknowledged_danger_zone(actor_index, prop_index);
+	}
+	else if (16 * pref->line_of_sight > 0)
+	{
+		actor_stimulus_prop_sighted(actor_index, prop_index, first_acknowledgement);
+	}
+
+	if (pref->type == 1 && first_acknowledgement && (pref->flags & 1) != 0)
+	{
+		if (character_perception_properties* actor_perception_properties = actor_perception_properties_get(actor_index))
+		{
+			if (actor_perception_properties->first_acknowledgement_surprise_distance > pref->distance || actor->state.combat_status == 0)
+			{
+				prop_state* state = prop_state_get(pref);
+
+				real_vector3d surprise_vector{};
+				surprise_vector.i = state->body_position.x - actor->input.position.body_position.x;
+				surprise_vector.j = state->body_position.y - actor->input.position.body_position.y;
+				surprise_vector.k = state->body_position.z - actor->input.position.body_position.z;
+				actor_stimulus_surprise(actor_index, 1, prop_index, &surprise_vector);
+			}
+		}
+	}
+
+}
+
+//.text:01457310 ; void __cdecl actor_stimulus_prop_fleeing(long, long)
+//.text:01457320 ; void __cdecl actor_stimulus_prop_just_killed(long, long, long)
+
+void __cdecl actor_stimulus_prop_sighted(long actor_index, long pref_index, bool initial)
+{
+	INVOKE(0x01457480, actor_stimulus_prop_sighted, actor_index, pref_index, initial);
+}
+
+//.text:014575E0 ; void __cdecl actor_stimulus_prop_sound(long, long, bool)
+
+void __cdecl actor_stimulus_surprise(long actor_index, short surprise_level, long prop_index, real_vector3d const* surprise_vector)
+{
+	INVOKE(0x01457620, actor_stimulus_surprise, actor_index, surprise_level, prop_index, surprise_vector);
+}
+
+//.text:014577A0 ; void __cdecl actor_stimulus_switched_danger_zone(long, long)
+//.text:01457900 ; bool __cdecl actor_stimulus_test(long, e_behavior_stimulus)
+//.text:01457950 ; void __cdecl actor_stimulus_tracking_or_locking(long, long, short)
+//.text:01457BB0 ; void __cdecl actor_stimulus_vehicle_eviction(long, long)
+//.text:01457CB0 ; void __cdecl actor_stimulus_weapon_detonation(long, long, real_point3d const*, short)
+//.text:01457CE0 ; void __cdecl actor_stimulus_weapon_impact(long, long, real_point3d const*, short)
+//.text:01457CF0 ; 
+//.text:01457D00 ; void __cdecl stimulus_clear(actor_datum*, behavior_stimulus*)
+
 // $TODO: `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
 
-void stimuli_debug()
+void __cdecl stimuli_debug()
 {
 	//actor_iterator iterator{};
 	//actor_iterator_new(&iterator, true);
@@ -49,3 +128,5 @@ void stimuli_debug()
 	//	}
 	//}
 }
+
+//.text:01457D30 ; bool __cdecl stimulus_register(long, e_behavior_stimulus, short, short)
