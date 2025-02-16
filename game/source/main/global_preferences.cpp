@@ -239,15 +239,15 @@ bool __cdecl global_preferences_get_fullscreen()
 	return global_preferences_get()->current.data.fullscreen;
 }
 
-dword __cdecl global_preferences_get_checksum()
+dword __cdecl global_preferences_get_hardware_crc()
 {
-	//return INVOKE(0x0050B2D0, global_preferences_get_checksum);
+	//return INVOKE(0x0050B2D0, global_preferences_get_hardware_crc);
 
 	if (!global_preferences_available())
 		return 0;
 
 	c_global_preferences_scope_lock scope_lock;
-	return global_preferences_get()->current.data.checksum;
+	return global_preferences_get()->current.data.hardware_crc;
 }
 
 bool __cdecl global_preferences_get_hud_shake()
@@ -258,7 +258,7 @@ bool __cdecl global_preferences_get_hud_shake()
 		return true;
 
 	c_global_preferences_scope_lock scope_lock;
-	return global_preferences_get()->current.data.checksum;
+	return global_preferences_get()->current.data.gameplay_settings.hud_shake;
 }
 
 long __cdecl global_preferences_get_keyboard_preset()
@@ -933,15 +933,15 @@ void __cdecl global_preferences_set_fullscreen(bool fullscreen)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_checksum(dword checksum)
+void __cdecl global_preferences_set_hardware_crc(dword crc)
 {
-	//INVOKE(0x0050D580, global_preferences_set_checksum, checksum);
+	//INVOKE(0x0050D580, global_preferences_set_hardware_crc, crc);
 
 	if (!global_preferences_available())
 		return;
 
 	c_global_preferences_scope_lock scope_lock;
-	global_preferences_get()->current.data.checksum = checksum;
+	global_preferences_get()->current.data.hardware_crc = crc;
 	global_preferences_dirty(true);
 }
 
