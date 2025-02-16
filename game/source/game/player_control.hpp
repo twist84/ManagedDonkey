@@ -113,27 +113,27 @@ enum e_player_control_action_test_bit
 	_player_control_action_test_unkown32_bit,
 
 	// $TODO: find any more, for now count is 64
-	k_player_control_action_test_bits = 64
+	k_number_of_player_control_action_test_bits = 64
 };
 
 enum e_player_control_bit
 {
-	_player_control_camera_control_enabled_bit = 0,
+	_player_control_camera_off_bit = 0,
 
-	k_player_control_bits,
+	k_number_of_player_control_bits,
 };
 
 struct s_player_control_non_deterministic_input_user_state
 {
-	// c_flags<e_player_control_action_test_bit, qword, k_player_control_action_test_bits> flags
+	// c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> action_test_flags
 	dword_flags __flags0;
 	byte __data4[0x2];
 	bool player_input_locked;
 	byte __data7[0x1];
 
-	c_flags<e_player_control_action_test_bit, qword, k_player_control_action_test_bits> testing_for_action_flags;
-	c_flags<e_player_control_action_test_bit, qword, k_player_control_action_test_bits> inhibit_button_flags;
-	c_flags<e_player_control_bit, dword, k_player_control_bits> player_control_flags;
+	c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> testing_for_action_flags;
+	c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> inhibit_button_flags;
+	c_flags<e_player_control_bit, dword, k_number_of_player_control_bits> control_flags;
 
 	// Locks the accept button until the player presses accept
 	bool lock_accept_button_until_pressed;
@@ -145,10 +145,10 @@ struct s_player_control_non_deterministic_input_user_state
 	bool lock_y_button_until_pressed;
 
 	// scale input to x strength over y seconds
-	bool input_scale_enabled;
-	real input_scale_strength0;
-	real input_scale_strength1;
-	real input_scale_time_seconds;
+	bool player_input_scale_in_progress;
+	real current_input_scale;
+	real current_input_scale_target;
+	real current_input_scale_time_remaining;
 
 	byte __pad2C[0x4];
 };
@@ -292,8 +292,8 @@ struct s_player_control_globals
 	s_player_control_non_deterministic_input_user_state input_user_states[16];
 	s_player_control_input_state input_states[4];
 	s_player_control_output_state output_state[4];
-	dword __unknown8A0;
-	dword __unknown8A4;
+	real maximum_down_pitch_allowed;
+	real maximum_up_pitch_allowed;
 	bool machinima_camera_enabled;
 	bool machinima_camera_old_controls;
 	bool machinima_camera_debug;
