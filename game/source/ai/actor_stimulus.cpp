@@ -84,11 +84,8 @@ void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index,
 			if (actor_perception_properties->first_acknowledgement_surprise_distance > pref->distance || actor->state.combat_status == 0)
 			{
 				prop_state* state = prop_state_get(pref);
-
 				real_vector3d surprise_vector{};
-				surprise_vector.i = state->body_position.x - actor->input.position.body_position.x;
-				surprise_vector.j = state->body_position.y - actor->input.position.body_position.y;
-				surprise_vector.k = state->body_position.z - actor->input.position.body_position.z;
+				vector_from_points3d(&actor->input.position.body_position, &state->body_position, &surprise_vector);
 				actor_stimulus_surprise(actor_index, 1, prop_index, &surprise_vector);
 			}
 		}
