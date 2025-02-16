@@ -88,10 +88,18 @@ void profile_render(rectangle2d const* screen_pixel_bounds, rectangle2d const* s
 
 		if (profile_summary_objects_enabled)
 		{
+			real free_memory = real(memory_information.free);
+			if (memory_information.free < 0)
+				free_memory += 1.8446744e19f;
+
+			real total_memory = real(memory_information.total);
+			if (memory_information.total < 0)
+				total_memory += 1.8446744e19f;
+
 			csnzappendf(buffer, sizeof(buffer), "% 6.1fk free of % 6.1fk total|n",
-				memory_information.total * 0.0009765625f,
-				memory_information.free * 0.0009765625f);
-			
+				free_memory * 0.0009765625f,
+				total_memory * 0.0009765625f);
+
 			csnzappendf(buffer, sizeof(buffer), "% 5d active of % 5d objects (% 3.1f%% used)|n",
 				objects_information.active_object_count,
 				objects_information.object_count,
