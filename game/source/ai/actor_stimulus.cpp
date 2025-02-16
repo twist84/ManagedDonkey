@@ -54,9 +54,10 @@ void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index,
 {
 	//INVOKE(0x01457200, actor_stimulus_prop_acknowledged, actor_index, prop_index, first_acknowledgement);
 
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
 
-	actor_datum* actor = actor_get(actor_index);
+	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
 
 	if (first_acknowledgement && pref->type == 3)

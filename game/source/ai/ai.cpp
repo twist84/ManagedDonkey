@@ -105,10 +105,11 @@ bool __cdecl ai_enemies_attacking_players(long* attacking_object_index, dword* p
 {
 	return INVOKE(0x01431670, ai_enemies_attacking_players, attacking_object_index, player_mask_out);
 
+	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//long actor_index = actor_endangering_player(true, true, player_mask_out);
 	//if (actor_index != NONE)
 	//{
-	//	actor_datum* actor = actor_get(actor_index);
+	//	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//	*attacking_object_index = actor->meta.unit_index;
 	//}
 	//return *player_mask_out != 0;
@@ -118,10 +119,11 @@ bool __cdecl ai_enemies_can_see_player(long* object_index)
 {
 	return INVOKE(0x014316D0, ai_enemies_can_see_player, object_index);
 
+	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//long actor_index = actor_endangering_player(false, false, NULL);
 	//if (actor_index != NONE)
 	//{
-	//	actor_datum* actor = actor_get(actor_index);
+	//	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//	*object_index = actor->meta.unit_index;
 	//	return true;
 	//}

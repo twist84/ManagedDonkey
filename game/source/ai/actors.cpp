@@ -55,7 +55,9 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 {
 	//INVOKE(0x01429DF0, actor_erase, actor_index, delete_immediately);
 
-	actor_datum* actor = actor_get(actor_index);
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+
+	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	long unit_index = actor->meta.unit_index;
 	long swarm_index = actor->meta.swarm_index;
 	
@@ -87,13 +89,6 @@ void __cdecl actor_erase(long actor_index, bool delete_immediately)
 bool __cdecl actor_general_update(long actor_index)
 {
 	return INVOKE(0x0142A480, actor_general_update, actor_index);
-}
-
-actor_datum* __cdecl actor_get(long actor_index)
-{
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
-	return actor;
 }
 
 //.text:0142A630 ; bool __cdecl actor_get_active_camo_state(long)
@@ -141,7 +136,8 @@ bool __cdecl actor_is_blind(long actor_index)
 {
 	return INVOKE(0x0142C6A0, actor_is_blind, actor_index);
 
-	//actor_datum const* actor = actor_get(actor_index);
+	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+	//actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//if (actor->state.blind || !actor->meta.active || actor->state.mode == 1)
 	//	return true;
 	//
@@ -153,7 +149,8 @@ bool __cdecl actor_is_deaf(long actor_index)
 {
 	return INVOKE(0x0142C700, actor_is_deaf, actor_index);
 
-	//actor_datum const* actor = actor_get(actor_index);
+	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+	//actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//if (actor->state.deaf || !actor->meta.active)
 	//	return true;
 	//

@@ -216,6 +216,7 @@ void ai_profile_render()
 
 void ai_profile_render_spray()
 {
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	long active_output_user = player_mapping_first_active_output_user();
 	s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
@@ -233,7 +234,7 @@ void ai_profile_render_spray()
 			actor_iterator_new(&iterator, ai_profile.render_spray_mode != _ai_profile_render_spray_activation);
 			while (actor_iterator_next(&iterator))
 			{
-				actor_datum* actor = actor_get(iterator.index);
+				actor_datum* actor = DATUM_GET(actor_data, actor_datum, iterator.index);
 
 				real_argb_color const* debug_color = NULL;
 				if (ai_profile.render_spray_mode == _ai_profile_render_spray_actions)
@@ -399,8 +400,9 @@ long count_actors(bool active_only)
 
 bool __cdecl actor_general_update_for_ai_meters(long actor_index)
 {
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	ai_profile.meters[_ai_meter_actor_active].current_count;
-	actor_datum* actor = actor_get(actor_index);
+	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	if (actor && actor->meta.swarm)
 		ai_profile.meters[_ai_meter_unit_active].current_count++;
 
