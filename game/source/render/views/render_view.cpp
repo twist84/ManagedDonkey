@@ -13,6 +13,7 @@
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
+#include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
@@ -211,7 +212,7 @@ void __cdecl render_debug_frame_render()
 		main_time_frame_rate_display();
 		render_debug_scripting();
 		//render_debug_cluster_blend_info();
-		//profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
+		profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
 		render_synchronization_stats();
 		//player_control_debug_render();
 		weapons_debug_render();

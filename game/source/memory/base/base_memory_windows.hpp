@@ -2,10 +2,9 @@
 
 struct s_base_memory_information
 {
-	long __unknown0;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
+	long free;
+	long total;
+	long pad[2];
 };
 static_assert(sizeof(s_base_memory_information) == 0x10);
 

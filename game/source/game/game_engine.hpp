@@ -79,7 +79,10 @@ struct s_player_navpoint_data
 	real_point3d last_living_location;
 	word total_time_to_respawn_in_ticks;
 	word current_time_to_respawn_in_ticks;
-	long __unknown14;
+	
+	//long dead_unit_index;
+	byte __data14[0x4];
+
 	char current_navpoint_action;
 	char current_navpoint_action_timer;
 	char next_navpoint_action;

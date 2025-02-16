@@ -13,6 +13,7 @@
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
+#include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "units/units.hpp"
 
@@ -653,7 +654,7 @@ s_debug_button g_debug_button_list[]
 {
 	{
 		.name = "drop flag at camera",
-		.button = _controller_button_y,
+		.gamepad_abstract_button = _controller_button_y,
 		.function = debug_button_drop_flag_at_camera,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
@@ -662,7 +663,7 @@ s_debug_button g_debug_button_list[]
 	},
 	{
 		.name = "drop flag as bullet",
-		.button = _controller_button_x,
+		.gamepad_abstract_button = _controller_button_x,
 		.function = debug_button_drop_flag_as_projectile,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
@@ -958,12 +959,6 @@ void __cdecl debug_key_play_animation(bool key_is_down)
 {
 }
 
-bool profile_summary_enabled = false;
-void __cdecl profile_summary_cycle()
-{
-
-}
-
 void __cdecl debug_key_profile_summary(bool key_is_down)
 {
 	if (key_is_down)
@@ -1070,10 +1065,6 @@ void __cdecl debug_key_teleport_to_camera(bool key_is_down)
 
 void __cdecl debug_key_toggle_pause(bool key_is_down)
 {
-	if (key_is_down)
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_print_screen(bool key_is_down)
@@ -1113,11 +1104,11 @@ void __cdecl debug_key_print_screen(bool key_is_down)
 	}
 }
 
-void __cdecl debug_key_adjust_game_speed_internal(real increment)
+void __cdecl debug_key_adjust_game_speed_internal(real delta)
 {
-	real v2 = fabsf(increment);
+	real v2 = fabsf(delta);
 	real v3 = debug_game_speed;
-	real v4 = (debug_game_speed + increment) / v2;
+	real v4 = (debug_game_speed + delta) / v2;
 
 	real v5 = 1.0f;
 	if (v4 < 0.0f)
@@ -1142,8 +1133,8 @@ void __cdecl debug_key_adjust_game_speed_internal(real increment)
 	if (v3 == 0.0f)
 		v6 = fminf(game_tick_length(), v6);
 
-	if (debug_game_speed == game_tick_length() && increment > 0.0f)
-		v6 = increment;
+	if (debug_game_speed == game_tick_length() && delta > 0.0f)
+		v6 = delta;
 
 	debug_game_speed = v6;
 	console_printf("game speed %.1f", v6);
@@ -1175,16 +1166,13 @@ void __cdecl debug_key_decrement_game_speed_major(bool key_is_down)
 
 void __cdecl debug_dump_assert_log(bool key_is_down)
 {
-	if (key_is_down)
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
 }
 
 void __cdecl debug_time_stats_display(bool key_is_down)
 {
 	if (key_is_down)
 	{
+		//game_time_toggle_history_render();
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
@@ -1193,6 +1181,7 @@ void __cdecl debug_time_stats_pause(bool key_is_down)
 {
 	if (key_is_down)
 	{
+		//game_time_toggle_history_gather();
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
@@ -1219,7 +1208,7 @@ void __cdecl debug_key_force_respawn(bool key_is_down)
 			if (player->respawn_forced = force_respawn)
 			{
 				player->respawn_timer = 0;
-				game_engine_globals->player_navpoint_data[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
+				game_engine_globals->player_navpoint_data[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data14[0] = 0;
 			}
 		}
 
