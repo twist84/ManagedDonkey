@@ -208,7 +208,11 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 	return actor;
 }
 
-//.text:0142CA00 ; void __cdecl actor_kill(long, bool, bool)
+void __cdecl actor_kill(long actor_index, bool silent, bool delayed)
+{
+	INVOKE(0x0142CA00, actor_kill, actor_index, silent, delayed);
+}
+
 //.text:0142CAA0 ; void __cdecl actor_memory_update(long)
 //.text:0142CC20 ; void __cdecl actor_nearby_actors_iterator_new(actor_nearby_actors_iterator*, real_point3d const*, real, short, short)
 //.text:0142CC80 ; actor_datum* __cdecl actor_nearby_actors_iterator_next(actor_nearby_actors_iterator*)

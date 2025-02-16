@@ -3,8 +3,12 @@
 #include "ai/actors.hpp"
 #include "ai/character_definitions.hpp"
 #include "ai/props.hpp"
+#include "game/cheats.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
+
+HOOK_DECLARE(0x01457200, actor_stimulus_prop_acknowledged);
 
 char const* const g_stimulus_names[k_stimulus_count]
 {
@@ -62,6 +66,15 @@ void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index,
 	else if (16 * pref->line_of_sight > 0)
 	{
 		actor_stimulus_prop_sighted(actor_index, prop_index, first_acknowledgement);
+	}
+
+	if (cheat.medusa)
+	{
+		TLS_DATA_GET_VALUE_REFERENCE(prop_data);
+		prop_state* state = prop_state_get(pref);
+		prop_datum* prop = DATUM_GET(prop_data, prop_datum, pref->prop_index);
+		if (prop->player && prop->enemy && !state->dead && actor->meta.type != _actor_mounted_weapon)
+			actor_kill(actor_index, false, true);
 	}
 
 	if (pref->type == 1 && first_acknowledgement && (pref->flags & 1) != 0)
