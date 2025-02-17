@@ -328,6 +328,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\physics\collision_features.cpp" />
     <ClCompile Include="source\physics\collision_models.cpp" />
     <ClCompile Include="source\physics\havok_collision_damage.cpp" />
+    <ClCompile Include="source\physics\havok_profile.cpp" />
     <ClCompile Include="source\physics\havok_proxies.cpp" />
     <ClCompile Include="source\physics\impacts.cpp" />
     <ClCompile Include="source\physics\point_physics.cpp" />
@@ -1193,6 +1194,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\physics\collision_features.hpp" />
     <ClInclude Include="source\physics\collision_models.hpp" />
     <ClInclude Include="source\physics\havok_collision_damage.hpp" />
+    <ClInclude Include="source\physics\havok_profile.hpp" />
     <ClInclude Include="source\physics\point_physics.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />

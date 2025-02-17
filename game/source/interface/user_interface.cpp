@@ -195,10 +195,16 @@ s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and
 	return INVOKE(0x00A84D20, user_interface_shared_tag_globals_try_and_get);
 }
 
+//.text:00A84D40 ; bool __cdecl user_interface_should_render_at_origin()
+//.text:00A84D50 ; bool __cdecl user_interface_should_render_fancy()
+
 bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state)
 {
 	return INVOKE(0x00A84D60, user_interface_should_show_console_scoreboard, user_interface_show_busy_state);
 }
+
+//.text:00A84E40 ; void __cdecl user_interface_show_campaign_custom_music_warning_if_needed(bool*)
+//.text:00A84E50 ; void __cdecl user_interface_shut_down()
 
 s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get()
 {
