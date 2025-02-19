@@ -13,7 +13,6 @@
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
-#include "game/player_mapping.hpp"
 #include "hf2p/hf2p.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
@@ -45,6 +44,7 @@
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "test/test_functions.hpp"
+#include "text/font_loading.hpp"
 #include "units/bipeds.hpp"
 #include "xbox/xnet.hpp"
 
@@ -1870,6 +1870,15 @@ callback_result_t status_callback(void const* userdata, long token_count, tokens
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	main_status_print();
+
+	return result;
+}
+
+callback_result_t font_set_emergency_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	font_initialize_emergency();
 
 	return result;
 }

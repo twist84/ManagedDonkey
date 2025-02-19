@@ -102,7 +102,7 @@ public:
 	void set_wrap_horizontally(bool wrap_horizontally);
 	void text_bounds_draw_character(real a1, real a2, real a3, real a4);
 	void set_scale(real scale);
-	void set_font(e_font_id font_id);
+	void set_font(e_font_id font);
 	void set_justification(e_text_justification justification);
 	bool draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial

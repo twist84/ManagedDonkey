@@ -5,6 +5,7 @@
 #include "main/global_preferences.hpp"
 #include "memory/module.hpp"
 #include "text/draw_string.hpp"
+#include "text/font_fallback.hpp"
 #include "text/font_group.hpp"
 #include "text/font_package_cache.hpp"
 
@@ -14,7 +15,7 @@ HOOK_DECLARE(0x00509210, font_dispose);
 HOOK_DECLARE(0x00509280, font_get_debug_name);
 HOOK_DECLARE(0x005092C0, font_get_font_index);
 HOOK_DECLARE(0x005092F0, font_get_header);
-HOOK_DECLARE(0x00509330, font_get_loaded_header);
+HOOK_DECLARE(0x00509330, font_get_header_internal);
 HOOK_DECLARE(0x00509360, font_get_package_file_handle);
 HOOK_DECLARE(0x00509380, font_get_package_header_internal);
 HOOK_DECLARE(0x00509390, font_idle);
@@ -81,30 +82,33 @@ void __cdecl font_dispose()
 }
 
 //char const* __cdecl font_get_debug_name(e_font_index font_index);
-char const* __cdecl font_get_debug_name(long font_index)
+char const* __cdecl font_get_debug_name(long internal_index)
 {
 	//return INVOKE(0x00509280, font_get_debug_name, font_index);
 
-	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
-	{
-		dword header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
-		s_font_header* header = (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
-		if (header)
-			return header->debug_name;
-	}
+	s_font_header const* header = font_get_header_internal(internal_index);
+	if (header)
+		return header->debug_name;
 
-	return nullptr;
+	if (internal_index == _font_index_fallback)
+		return "fallback-font";
+
+	return NULL;
 }
 
-//e_font_index font_get_font_index(e_font_id font_id);
-long __cdecl font_get_font_index(long font_id)
+//e_font_index font_get_font_index(e_font_id font);
+long __cdecl font_get_font_index(long font)
 {
-	//return INVOKE(0x005092C0, font_get_font_index, font_id);
+	//return INVOKE(0x005092C0, font_get_font_index, font);
 
-	if (g_font_globals.font_package_header && font_id >= 0 && font_id < 16)
-		return g_font_globals.font_package_header->font_mapping[font_id];
+	e_font_index result = _font_index_none;
+	if (g_font_globals.font_package_header && font >= 0 && font < 16)
+		result = (e_font_index)g_font_globals.font_package_header->font_mapping[font];
 
-	return _font_index_none;
+	if (g_font_globals.emergency_mode || result == _font_index_none)
+		return _font_index_fallback;
+
+	return result;
 }
 
 //s_font_header const* font_get_header(e_font_id font_id)
@@ -112,33 +116,27 @@ s_font_header const* __cdecl font_get_header(long font_id)
 {
 	//return INVOKE(0x005092F0, font_get_header, font_id);
 
-	long font_index = _font_index_none;
-	if (!g_font_globals.font_package_header)
-		return nullptr;
-
-	if (font_id >= 0 && font_id < 16)
-		font_index = g_font_globals.font_package_header->font_mapping[font_id];
-
-	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
-	{
-		long header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
-		return (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
-	}
-
-	return nullptr;
+	long font_index = font_get_font_index(font_id);
+	s_font_header const* result = font_get_header_internal(font_index);
+	return result;
 }
 
-s_font_header const* __cdecl font_get_loaded_header(long font_index)
+s_font_header const* __cdecl font_get_header_internal(long internal_index)
 {
-	//return INVOKE(0x00509330, font_get_loaded_header, font_index);
+	//return INVOKE(0x00509330, font_get_header_internal, internal_index);
 
-	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
+	if (g_font_globals.font_package_header && internal_index >= 0 && internal_index < g_font_globals.font_package_header->font_count)
 	{
-		long header_offset = g_font_globals.font_package_header->fonts[font_index].header_offset;
+		long header_offset = g_font_globals.font_package_header->fonts[internal_index].header_offset;
 		return (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
 	}
 
-	return nullptr;
+	if (internal_index == _font_index_fallback)
+	{
+		return fallback_font_get_header();
+	}
+
+	return NULL;
 }
 
 bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
@@ -196,6 +194,7 @@ void __cdecl font_initialize_emergency()
 	{
 		csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 		g_font_globals.language = _language_invalid;
+		fallback_font_initialize();
 		font_cache_new();
 		font_package_cache_new();
 		g_font_globals.initialized = true;
@@ -405,7 +404,7 @@ void __cdecl fonts_close()
 
 	font_close_loaded_file(&g_font_globals.package_loading_state);
 	csmemset(&g_font_globals.package_loading_state, 0, sizeof(g_font_globals.package_loading_state));
-	g_font_globals.font_package_header = nullptr;
+	g_font_globals.font_package_header = NULL;
 }
 
 void __cdecl fonts_copy_to_hard_drive()

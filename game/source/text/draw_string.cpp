@@ -80,16 +80,22 @@ void c_draw_string::set_scale(real scale)
 	m_scale = scale;
 }
 
-void c_draw_string::set_font(e_font_id font_id)
+void c_draw_string::set_font(e_font_id font)
 {
-	if (font_id < 0)
-		font_id = _terminal_font;
+	if (font == _font_id_fallback)
+	{
+		m_font_id = _font_id_fallback;
+		m_styled_font_header = font_get_header(_font_id_fallback);
+	}
 
-	if (font_id > 10)
-		font_id = _main_menu_font;
+	if (font < 0)
+		font = _terminal_font;
 
-	m_font_id = font_id;
-	m_styled_font_header = font_get_header(font_id);
+	if (font > 10)
+		font = _main_menu_font;
+
+	m_font_id = font;
+	m_styled_font_header = font_get_header(font);
 }
 
 void c_draw_string::set_justification(e_text_justification justification)

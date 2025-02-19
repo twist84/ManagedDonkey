@@ -2,6 +2,24 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_character_status
+{
+	_character_status_invalid = 0,
+	_character_status_loading,
+	_character_status_ready,
+
+	k_character_status_count
+};
+
+enum e_font_cache_flags
+{
+	_font_cache_block_bit = 0,
+	_font_cache_load_bit,
+	_font_cache_predicted_bit,
+
+	k_font_cache_flag_count
+};
+
 enum e_character_data_index;
 enum e_font_id;
 enum e_utf32 : dword;
@@ -89,4 +107,5 @@ extern void __cdecl font_cache_delete();
 extern void __cdecl font_cache_flush();
 extern void __cdecl font_cache_idle();
 extern void __cdecl font_cache_new();
+extern e_character_status __cdecl font_cache_retrieve_character(dword key, c_flags<e_font_cache_flags, dword, k_font_cache_flag_count> flags, s_font_character const** out_character, void const** out_pixel_data);
 

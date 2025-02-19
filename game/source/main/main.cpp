@@ -706,7 +706,7 @@ void __cdecl main_halt_and_catch_fire()
 		sleep(0);
 	}
 
-	// by setting the `emergency_mode` here to `false` we reenable fonts
+	// by setting the `emergency_mode` to `false` we enable fonts again?
 	{
 		c_font_cache_scope_lock scope_lock{};
 		g_font_globals.emergency_mode = false;
