@@ -87,15 +87,15 @@ void c_draw_string::set_font(e_font_id font)
 		m_font_id = _font_id_fallback;
 		m_styled_font_header = font_get_header(_font_id_fallback);
 	}
-
-	if (font < 0)
-		font = _terminal_font;
-
-	if (font > 10)
-		font = _main_menu_font;
-
-	m_font_id = font;
-	m_styled_font_header = font_get_header(font);
+	else
+	{
+		if (font < 0)
+			font = _terminal_font;
+		if (font > 10)
+			font = _main_menu_font;
+		m_font_id = font;
+		m_styled_font_header = font_get_header(font);
+	}
 }
 
 void c_draw_string::set_justification(e_text_justification justification)
