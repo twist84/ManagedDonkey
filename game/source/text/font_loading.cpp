@@ -178,6 +178,7 @@ void __cdecl font_initialize()
 
 	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 	g_font_globals.language = _language_invalid;
+	fallback_font_initialize();
 	fonts_select_language();
 	fonts_copy_to_hard_drive();
 	fonts_begin_loading(false);

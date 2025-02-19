@@ -63,7 +63,7 @@ e_character_status __cdecl font_cache_retrieve_character(dword key, c_flags<e_fo
 {
 	//return INVOKE(0x0065A960, font_cache_retrieve_character, key, flags, out_character, out_pixel_data);
 
-	if (font_in_emergency_mode() && fallback_font_get_character(e_utf32((word)key), out_character, out_pixel_data))
+	if (word(key >> 16) == (word)_font_index_fallback && fallback_font_get_character(e_utf32(key & 0xFFFF), out_character, out_pixel_data))
 	{
 		return _character_status_ready;
 	}
