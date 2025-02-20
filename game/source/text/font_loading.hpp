@@ -188,6 +188,7 @@ extern void __cdecl font_initialize();
 extern void __cdecl font_initialize_emergency();
 extern void __cdecl font_load(s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking);
 extern e_async_completion __cdecl font_load_callback(s_async_task* task);
+extern void __cdecl font_load_idle(s_font_loading_state* loading_state, bool* out_failure_reported);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
 extern long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, long max_references, long* font_id_mapping, long max_font_ids);

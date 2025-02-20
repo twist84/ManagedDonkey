@@ -24,6 +24,7 @@ HOOK_DECLARE(0x005093D0, font_initialize);
 HOOK_DECLARE(0x00509420, font_initialize_emergency);
 HOOK_DECLARE(0x00509480, font_load);
 HOOK_DECLARE(0x00509550, font_load_callback);
+HOOK_DECLARE(0x005096B0, font_load_idle);
 HOOK_DECLARE(0x005096F0, font_loading_idle);
 HOOK_DECLARE(0x00509780, font_reload);
 //HOOK_DECLARE(0x00509840, font_table_get_font_file_references);
@@ -338,7 +339,17 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 	return completion;
 }
 
-//.text:005096B0 ; 
+void __cdecl font_load_idle(s_font_loading_state* loading_state, bool* out_failure_reported)
+{
+	//INVOKE(0x005096B0, font_load_idle, loading_state, out_failure_reported);
+
+	if (loading_state->finished && loading_state->failed && !*out_failure_reported)
+	{
+		event(_event_critical, "fonts: font file '%s' failed to load, flushing fonts",
+			loading_state->debug_filename);
+		*out_failure_reported = true;
+	}
+}
 
 void __cdecl font_loading_idle()
 {
