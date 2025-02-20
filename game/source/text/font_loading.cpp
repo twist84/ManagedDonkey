@@ -355,11 +355,12 @@ void __cdecl font_loading_idle()
 {
 	//INVOKE(0x005096F0, font_loading_idle);
 
-	if (g_font_globals.package_loading_state.finished && g_font_globals.package_loading_state.failed ||
-		g_font_globals.permanently_unavailable)
+	font_load_idle(&g_font_globals.package_loading_state, &g_font_globals.fonts_unavailable);
+	if (g_font_globals.fonts_unavailable)
 	{
 		if (g_font_globals.cached_to_hard_drive)
 		{
+			event(_event_error, "fonts: failed to load fonts from hard drive, marking cached fonts as invalid");
 			fonts_invalidate_cached_fonts();
 			g_font_globals.cached_to_hard_drive = false;
 		}
@@ -367,12 +368,18 @@ void __cdecl font_loading_idle()
 		if (g_font_globals.failure_retry_count < 3)
 		{
 			g_font_globals.failure_retry_count++;
+			event(_event_error, "fonts: failed to load, attempting reload (retry count #%d)",
+				g_font_globals.failure_retry_count);
 			font_reload();
 		}
 		else
 		{
-			if (!g_font_globals.permanently_unavailable)
-				g_font_globals.permanently_unavailable = true;
+			if (!g_font_globals.fonts_unavailable)
+			{
+				event(_event_critical, "fonts: fonts are unavailable after %d retries, marking fonts as permanently unavailable",
+					g_font_globals.failure_retry_count);
+				g_font_globals.fonts_unavailable = true;
+			}
 
 			//damaged_media_halt_and_display_error();
 		}

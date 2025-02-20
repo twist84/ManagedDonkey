@@ -126,7 +126,7 @@ struct s_font_globals
 	bool initialized;
 	bool cached_to_hard_drive;
 	bool emergency_mode;
-	bool permanently_unavailable;
+	bool fonts_unavailable;
 	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	long failure_retry_count;
 	c_synchronized_long async_error;
