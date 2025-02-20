@@ -59,6 +59,7 @@ extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_p
 extern void __cdecl render_debug_begin(bool a1, bool a2, bool a3);
 extern void __cdecl render_debug_end(bool a1, bool a2, bool a3);
 extern void __cdecl render_debug_structure_draw();
+extern void __cdecl render_debug_visibility_render();
 extern void __cdecl render_debug_clients(long user_index);
 
 real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color);

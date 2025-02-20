@@ -389,6 +389,29 @@ void __cdecl render_debug_end(bool render_game_tick_cache, bool only_render_stri
 	g_render_debug_globals->active = false;
 }
 
+void __cdecl render_debug_visibility_render()
+{
+	//if (visibility_debug_visible_clusters)
+	//{
+	//	s_visibility_region* region = get_global_camera_collection()->get_region();
+	//	if (simple_font::begin_rendering(1.0f, true))
+	//	{
+	//		char output_text[256]{};
+	//		csnzprintf(output_text, sizeof(output_text), "vis clusters: (bsp:cluster)");
+	//		for (long cluster_index = 0; cluster_index < region->cluster_count; cluster_index++)
+	//		{
+	//			s_visibility_cluster* cluster = &region->clusters[cluster_index];
+	//			csnzappendf(output_text, sizeof(output_text), "%d:%d, ",
+	//				cluster->cluster_reference.bsp_index,
+	//				cluster->cluster_reference.cluster_index);
+	//		}
+	//		simple_font::print(100, 500, 0xFFFFFFFF, output_text, csstrnlen(output_text, sizeof(output_text)), true);
+	//		simple_font::end_rendering();
+	//	}
+	//	simple_font::end_rendering();
+	//}
+}
+
 void __cdecl render_debug_clients(long user_index)
 {
 	geometry_cache_debug_render();
@@ -435,6 +458,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_report_render_debug(user_index, true);
 		saved_film_render_debug();
 		saved_film_history_render_debug();
+		render_debug_visibility_render();
 		//debug_aim_assist_targets();
 		events_debug_render();
 		data_mine_render_mission_segment();
