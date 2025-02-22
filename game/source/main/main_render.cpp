@@ -164,32 +164,32 @@ void __cdecl main_render()
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	REFERENCE_DECLARE(0x02446778, long, frames_of_consecutive_delay);
-	
+
 	PROFILER(main_render)
 	{
 		bool should_draw = !sub_42E5D0() || !debug_no_drawing;
-	
+
 		{
 			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 			rasterizer_lag_timing_mark_render_start();
 			main_render_process_messages();
-	
+
 			if (frames_of_consecutive_delay > 50)
 			{
 				should_draw = false;
 				frames_of_consecutive_delay = 0;
 			}
-	
+
 			if (rasterizer_lag_timing_get_gamestate_delay() > 10)
 				frames_of_consecutive_delay++;
 			else
 				frames_of_consecutive_delay = 0;
-	
+
 			if (should_draw)
 			{
 				bool render_game = true;
 				bool render_sapien = false;
-	
+
 				if (c_rasterizer::begin_frame())
 				{
 					PROFILER(render)
@@ -205,15 +205,15 @@ void __cdecl main_render()
 							{
 								render_game = false;
 							}
-	
+
 							if (render_game)
 							{
 								render_sapien = game_in_editor();
 								render_game = !render_sapien;
 							}
-	
+
 							main_render_frame_begin();
-	
+
 							if (render_game)
 							{
 								main_render_game();
@@ -226,7 +226,7 @@ void __cdecl main_render()
 							{
 								main_render_pregame(_main_pregame_frame_normal, NULL);
 							}
-	
+
 							should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
 						}
 					}
@@ -235,25 +235,25 @@ void __cdecl main_render()
 				{
 					should_draw = false;
 				}
-	
+
 				c_render_globals::increment_frame_index();
 			}
-	
+
 			//if (should_draw)
 			//{
 			//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
 			//		status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
 			//}
-	
+
 			rasterizer_lag_timing_mark_render_end();
 		}
-	
+
 		if (should_draw)
 		{
 			__int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
 			restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region);
 			main_time_throttle(target_display_vblank_index);
-	
+
 			sub_604A20();
 		}
 	}
@@ -752,7 +752,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 
 	if (pregame || !game_in_progress())
 		game_engine_render_window_watermarks(NONE);
-	
+
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
 	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
 	game_engine_render_frame_watermarks_for_controller(_controller_index0);
@@ -769,7 +769,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		c_view::abort_current_view_stack();
 
 		c_fullscreen_view fullscreen_view;
-		fullscreen_view.setup_camera(nullptr);
+		fullscreen_view.setup_camera(NULL);
 		fullscreen_view.begin(&fullscreen_view);
 		fullscreen_view.render_blank_frame(&pregame_frame_colors[pregame_frame_type].blank_frame);
 
@@ -780,33 +780,38 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		context.shadow_color = &pregame_frame_colors[pregame_frame_type].text_shadow_color;
 		context.font_scale = pregame_frame_scales[pregame_frame_type];
 
-		if (pregame_frame_type == _main_pregame_frame_normal && !main_game_change_in_progress() && main_halted_with_errors())
-			context.string = events_get();
+		bool game_has_crashed = false;
+		if (pregame_frame_type == _main_pregame_frame_normal)
+		{
+			if (!main_game_change_in_progress() && main_halted_with_errors())
+				context.string = events_get();
+		}
+		else if (IN_RANGE_INCLUSIVE(pregame_frame_type, _main_pregame_frame_cache_loading, _main_pregame_frame_upload))
+		{
+			game_has_crashed = true;
+		}
 
-		bool simple_font = pregame_frame_type == _main_pregame_frame_crash_uploading || pregame_frame_type == _main_pregame_frame_crash_done;
-		render_fullscreen_text(&context, simple_font);
+		render_fullscreen_text(&context, game_has_crashed);
 		overlapped_render();
 		controllers_render();
-		//async_tasks_render();
+		//async_display_current_task_status();
 
 		if (pregame_frame_type == _main_pregame_frame_normal)
 		{
 			fullscreen_view.render();
 
-			// these belongs in `c_fullscreen_view::render`
-			terminal_draw();
-			status_line_draw();
-		}
-
-		if (pregame_frame_type == _main_pregame_frame_normal && bink_playback_active())
-		{
-			bink_playback_update();
-			bink_playback_check_for_terminate_no_lock();
-			bink_playback_render();
+			if (bink_playback_active())
+			{
+				bink_playback_update();
+				bink_playback_check_for_terminate_no_lock();
+				bink_playback_render();
+			}
 		}
 
 		if (pregame_frame_type == _main_pregame_frame_normal || pregame_frame_type == _main_pregame_frame_loading_debug)
+		{
 			game_engine_render_frame_watermarks(true);
+		}
 
 		c_view::end();
 	}
