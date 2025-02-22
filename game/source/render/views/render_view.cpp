@@ -7,7 +7,9 @@
 #include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/interface_constants.hpp"
 #include "interface/terminal.hpp"
+#include "interface/user_interface.hpp"
 #include "items/weapons.hpp"
 #include "main/console.hpp"
 #include "main/main_render.hpp"
@@ -36,6 +38,7 @@ REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
+HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, _render);
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 
@@ -117,6 +120,25 @@ render_projection const* c_view::get_render_projection() const
 render_projection* c_view::get_render_projection_modifiable()
 {
 	return &m_render_projection;
+}
+
+void __thiscall c_fullscreen_view::_render()
+{
+	render_debug_stuff_while_loading();
+}
+
+void c_fullscreen_view::render_debug_stuff_while_loading()
+{
+	rectangle2d screen_bounds{};
+	rectangle2d frame_bounds{};
+	rectangle2d window_bounds{};
+	interface_get_current_display_settings(&screen_bounds, &frame_bounds, &window_bounds, NULL);
+	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, c_rasterizer::sub_A48770(), false);
+	terminal_draw(&screen_bounds, &frame_bounds);
+	status_line_draw();
+	main_time_frame_rate_display();
+	render_synchronization_stats();
+	game_time_render_debug();
 }
 
 void c_fullscreen_view::setup_camera(s_observer_result const* result)

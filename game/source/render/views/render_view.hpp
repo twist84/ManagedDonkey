@@ -100,6 +100,9 @@ public:
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBC0);
 	}
 
+	void __thiscall _render();
+	static void render_debug_stuff_while_loading();
+
 	void setup_camera(s_observer_result const* result);
 	void render_blank_frame(real_rgb_color const* color);
 };
