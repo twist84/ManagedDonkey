@@ -137,10 +137,10 @@ void __cdecl user_interface_non_idle_event_occured()
 //.text:00A84990 ; 
 //.text:00A849A0 ; 
 
-//void __cdecl user_interface_render(e_controller_index controller_index, long user_index, e_window_index window, rectangle2d const* rect, c_rasterizer::e_surface surface, bool a6)
-void __cdecl user_interface_render(e_controller_index controller_index, long user_index, long window, rectangle2d const* rect, long surface, bool a6)
+//void __cdecl user_interface_render(e_controller_index controller, long user_index, e_window_index window, rectangle2d const* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
+void __cdecl user_interface_render(e_controller_index controller, long user_index, long window, rectangle2d const* viewport_bounds, long rasterizer_render_surface, bool is_screenshot)
 {
-	INVOKE(0x00A849B0, user_interface_render, controller_index, user_index, window, rect, surface, a6);
+	INVOKE(0x00A849B0, user_interface_render, controller, user_index, window, viewport_bounds, rasterizer_render_surface, is_screenshot);
 }
 
 //.text:00A84B40 ; 
