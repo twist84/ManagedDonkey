@@ -265,6 +265,11 @@ bool __cdecl game_time_initialized()
 	return game_time_globals && game_time_globals->initialized;
 }
 
+void __cdecl game_time_render_debug()
+{
+	//INVOKE(0x00564FD0, game_time_render_debug);
+}
+
 void __cdecl game_time_set(long game_time)
 {
 	//INVOKE(0x00564FE0, game_time_set, game_time);

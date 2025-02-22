@@ -115,6 +115,7 @@ extern real __cdecl game_time_get_speed();
 extern void __cdecl game_time_initialize();
 extern void __cdecl game_time_initialize_for_new_map();
 extern bool __cdecl game_time_initialized();
+extern void __cdecl game_time_render_debug();
 extern void __cdecl game_time_set(long time);
 extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason);
 extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2);
