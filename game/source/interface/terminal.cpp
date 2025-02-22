@@ -285,7 +285,7 @@ void __cdecl terminal_gets_end(terminal_gets_state* state)
 		terminal_globals.input_state = nullptr;
 }
 
-void __cdecl terminal_draw()
+void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds)
 {
 	if (terminal_globals.initialized)
 	{

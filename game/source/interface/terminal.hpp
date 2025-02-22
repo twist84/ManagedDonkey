@@ -68,5 +68,5 @@ extern void __cdecl terminal_suppress_output(bool suppress_output);
 extern bool __cdecl terminal_gets_active();
 extern bool __cdecl terminal_gets_begin(terminal_gets_state* state);
 extern void __cdecl terminal_gets_end(terminal_gets_state* state);
-extern void __cdecl terminal_draw();
+extern void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds);
 

@@ -1260,6 +1260,8 @@ void __cdecl main_loop_enter()
 	main_time_mark_publishing_start_time();
 	main_time_mark_publishing_end_time();
 
+	//main_loop_present_first_frame();
+
 	if (game_is_multithreaded())
 	{
 		c_rasterizer::rasterizer_device_release_thread();

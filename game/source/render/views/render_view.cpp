@@ -2,6 +2,7 @@
 
 #include "cseries/async_xoverlapped.hpp"
 #include "game/campaign_metagame.hpp"
+#include "game/game_time.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
@@ -200,28 +201,28 @@ void __cdecl render_debug_frame_render()
 		rectangle2d screen_pixel_bounds{};
 		c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
 
-		rectangle2d screen_safe_pixel_bounds{};
-		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&screen_safe_pixel_bounds);
+		rectangle2d safe_frame_pixel_bounds{};
+		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&safe_frame_pixel_bounds);
 
 		render_debug_begin(true, true, true);
 
-		terminal_draw();
+		terminal_draw(&screen_pixel_bounds, &safe_frame_pixel_bounds);
 		status_line_draw();
 		//cinematic_status_draw();
 		render_debug_campaign_metagame();
 		main_time_frame_rate_display();
 		render_debug_scripting();
 		//render_debug_cluster_blend_info();
-		profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
+		profile_render(&screen_pixel_bounds, &safe_frame_pixel_bounds);
 		render_synchronization_stats();
 		//player_control_debug_render();
 		weapons_debug_render();
 		render_debug_debug_menu();
-		//game_time_render_debug();
+		game_time_render_debug();
 		overlapped_render();
 		controllers_render();
 		//font_cache_debug_render();
-		//async_tasks_render();
+		//async_display_current_task_status();
 
 		render_debug_end(false, false, false);
 	}
