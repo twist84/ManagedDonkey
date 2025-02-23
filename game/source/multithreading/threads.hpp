@@ -9,11 +9,11 @@ enum e_registered_threads
 	k_thread_main,
 	k_thread_render,
 	k_thread_async_io,
-	k_thread_net_debug,
+	k_thread_netdebug,
 	k_thread_audio,
 	k_thread_profiler,
 	k_thread_event_logs,
-	k_thread_net_block,
+	k_thread_network_block_detection,
 	k_thread_update,
 
 	k_registered_thread_count

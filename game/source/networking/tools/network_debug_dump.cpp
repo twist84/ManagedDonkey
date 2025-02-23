@@ -146,7 +146,7 @@ bool __cdecl netdebug_initialize(char const* title_string, char const* build_ide
 	//netdebug_set_xtl_version();
 	//create_sessionid();
 	//main_status("session_id", "%s", g_netdebug_globals.sessionid);
-	//start_thread(k_thread_net_debug);
+	//start_thread(k_thread_netdebug);
 	//g_netdebug_globals.initialized = true;
 	//return true;
 }

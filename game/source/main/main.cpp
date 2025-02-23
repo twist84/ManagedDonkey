@@ -348,11 +348,11 @@ void __cdecl main_crash(char const* type)
 	}
 	else if (!csstricmp(type, "crash_netdebug_thread"))
 	{
-		signal_thread_to_crash(k_thread_net_debug);
+		signal_thread_to_crash(k_thread_netdebug);
 	}
 	else if (!csstricmp(type, "assert_netdebug_thread"))
 	{
-		signal_thread_to_assert(k_thread_net_debug);
+		signal_thread_to_assert(k_thread_netdebug);
 	}
 	else if (!csstricmp(type, "crash_event_logs_thread"))
 	{
