@@ -160,7 +160,7 @@ struct s_user_interface_shared_globals
 
 	// Attract Mode Settings
 	// These control behavior of the attract mode movies
-	long delay; // seconds
+	long attract_mode_delay_seconds; // seconds
 
 	// PDA Settings
 	// Random globals for the PDA
