@@ -2,59 +2,22 @@
 
 #include "interface/c_controller.hpp"
 
-enum e_bungienet_user_flags
-{
-	_bungienet_user_flag_bit0 = 0,
-	_bungienet_user_flag_bit1,
-	_bungienet_user_flag_bungie_bit,
-	_bungienet_user_flag_community_bit,
-	_bungienet_user_flag_community2_bit,
-	_bungienet_user_flag_community3_bit,
-
-	// are there more?
-
-	k_bungienet_user_flags
-};
-
-struct s_user_interface_controller
-{
-	c_flags<e_bungienet_user_flags, dword, k_bungienet_user_flags> bungienet_user;
-	byte hopper_access;
-	bool extras_portal_debug;
-
-	byte __unknown6;
-
-	bool desires_veto;
-	long armor_loadout_index;
-	long weapon_loadout_index;
-	bool desires_rematch;
-	bool griefer;
-	bool __unknown12;
-
-	byte __data13[0x19];
-};
-static_assert(sizeof(s_user_interface_controller) == 0x2C);
-
 enum e_event_type
 {
 	_event_type_none = 0,
-
-	_event_type_vertical_navigation1,   // up
-	_event_type_horizontal_navigation2, // left
-	_event_type_vertical_navigation3,   // down
-	_event_type_horizontal_navigation4, // right
-
-	_event_type_vertical_navigation5,   // up?
-	_event_type_horizontal_navigation6, // left?
-	_event_type_vertical_navigation7,   // down?
-	_event_type_horizontal_navigation8, // right?
-
-	_event_type_vertical_navigation9,    // up?
-	_event_type_horizontal_navigation10, // left?
-	_event_type_vertical_navigation11,   // down?
-	_event_type_horizontal_navigation12, // right?
-
-	_event_type_controller_component,
+	_event_type_tab_up,
+	_event_type_tab_left,
+	_event_type_tab_down,
+	_event_type_tab_right,
+	_event_type_alt_stick_up,
+	_event_type_alt_stick_left,
+	_event_type_alt_stick_down,
+	_event_type_alt_stick_right,
+	_event_type_alt_tab_up,
+	_event_type_alt_tab_left,
+	_event_type_alt_tab_down,
+	_event_type_alt_tab_right,
+	_event_type_button_press,
 
 	k_event_type_count
 };
@@ -113,12 +76,60 @@ struct s_event_record
 };
 static_assert(sizeof(s_event_record) == 0x10);
 
+enum e_bungienet_user_flags
+{
+	_bungienet_user_registered_bit = 0,
+	_bungienet_user_pro_member_bit,
+	_bungienet_user_staff_bit,
+	_bungienet_user_community0_bit,
+	_bungienet_user_community1_bit,
+	_bungienet_user_community2_bit,
+
+	k_bungienet_user_flag_count,
+
+	_bungienet_user_is_blue_disk_bit = 31
+};
+
+struct s_user_interface_controller
+{
+	dword_flags bungienet_user_flags;
+	byte hopper_access_flags;
+	bool extras_portal_debug;
+
+	byte __unknown6;
+
+	bool desires_veto;
+	long armor_loadout_index;
+	long weapon_loadout_index;
+	bool desires_rematch;
+	bool griefer;
+	bool notification_pending;
+	dword_flags online_presence_flags;
+	bool online_session_id_valid;
+	//__declspec(align(1)) s_transport_secure_identifier online_session_id;
+	byte online_session_id[0x10];
+};
+static_assert(sizeof(s_user_interface_controller) == 0x2C);
+static_assert(0x00 == OFFSETOF(s_user_interface_controller, bungienet_user_flags));
+static_assert(0x04 == OFFSETOF(s_user_interface_controller, hopper_access_flags));
+static_assert(0x05 == OFFSETOF(s_user_interface_controller, extras_portal_debug));
+static_assert(0x06 == OFFSETOF(s_user_interface_controller, __unknown6));
+static_assert(0x07 == OFFSETOF(s_user_interface_controller, desires_veto));
+static_assert(0x08 == OFFSETOF(s_user_interface_controller, armor_loadout_index));
+static_assert(0x0C == OFFSETOF(s_user_interface_controller, weapon_loadout_index));
+static_assert(0x10 == OFFSETOF(s_user_interface_controller, desires_rematch));
+static_assert(0x11 == OFFSETOF(s_user_interface_controller, griefer));
+static_assert(0x12 == OFFSETOF(s_user_interface_controller, notification_pending));
+static_assert(0x14 == OFFSETOF(s_user_interface_controller, online_presence_flags));
+static_assert(0x18 == OFFSETOF(s_user_interface_controller, online_session_id_valid));
+static_assert(0x19 == OFFSETOF(s_user_interface_controller, online_session_id));
+
 struct s_user_interface_controller_globals
 {
-	s_user_interface_controller controller[k_number_of_controllers];
-	s_event_record record[k_number_of_controllers];
-	bool controller_detached[k_number_of_controllers];
-	bool event_manager_suppress;
+	s_user_interface_controller controllers[k_number_of_controllers];
+	s_event_record queued_events[k_number_of_controllers];
+	bool controller_removed_dialog_required[k_number_of_controllers];
+	bool suppressed;
 };
 static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
 

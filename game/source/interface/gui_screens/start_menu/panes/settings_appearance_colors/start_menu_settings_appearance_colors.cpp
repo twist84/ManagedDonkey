@@ -81,7 +81,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //	{
 //		if (focused_parent_list_widget == group_selector_child_list)
 //		{
-//			if ((event_type == _event_type_controller_component && component == _controller_component_button_a) || event_type == _event_type_horizontal_navigation4)
+//			if ((event_type == _event_type_button_press && component == _controller_component_button_a) || event_type == _event_type_tab_right)
 //			{
 //				c_gui_list_item_widget* parent_list_item = NULL;
 //				if (c_gui_widget* focused_widget = get_focused_widget())
@@ -104,13 +104,13 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //				}
 //
 //			}
-//			else if (event_type == _event_type_controller_component && component == _controller_component_button_b)
+//			else if (event_type == _event_type_button_press && component == _controller_component_button_b)
 //			{
 //				close_current_subpane();
 //				return true;
 //			}
 //		}
-//		else if (event_type == _event_type_controller_component && (component == _controller_component_button_a || component == _controller_component_button_b))
+//		else if (event_type == _event_type_button_press && (component == _controller_component_button_a || component == _controller_component_button_b))
 //		{
 //			long parent_list_name = focused_parent_list_widget->m_name.get_value();
 //			for (c_gui_list_item_widget* child_list_item = (c_gui_list_item_widget*)group_selector_child_list->get_first_child_widget_by_type(_gui_widget_type_list_item);
@@ -183,7 +183,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //		}
 //	}
 //
-//	if (event_type == _event_type_controller_component)
+//	if (event_type == _event_type_button_press)
 //	{
 //		e_controller_index controller_index = message->get_controller();
 //		switch (component)

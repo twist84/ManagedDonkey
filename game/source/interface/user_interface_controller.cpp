@@ -19,7 +19,7 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, c
 
 	s_event_record event_record = {};
 
-	event_record.type = _event_type_controller_component;
+	event_record.type = _event_type_button_press;
 	event_record.controller = controller_index;
 	switch (gamepad_button)
 	{

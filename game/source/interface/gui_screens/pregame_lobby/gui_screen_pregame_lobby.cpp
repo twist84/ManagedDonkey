@@ -11,7 +11,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B22140, c_gui_screen_pregame_lobby, initialize_);
 
 bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_controller_input_message* message)
 {
-	if (message->get_event_type() == _event_type_controller_component && message->get_component() == _controller_component_button_x)
+	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
 		e_controller_index controller_index = message->get_controller();
 

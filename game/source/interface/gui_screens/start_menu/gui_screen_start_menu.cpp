@@ -14,7 +14,7 @@ HOOK_DECLARE_CLASS(0x00AE0720, c_start_menu_screen_widget, handle_global_start_b
 
 bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_controller_input_message* message)
 {
-	if (message->get_event_type() == _event_type_controller_component)
+	if (message->get_event_type() == _event_type_button_press)
 	{
 		if (message->get_component() == _controller_component_button_b || message->get_component() == _controller_component_button_start)
 		{
@@ -35,7 +35,7 @@ bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_co
 
 bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* message)
 {
-	if (message->get_event_type() != _event_type_controller_component)
+	if (message->get_event_type() != _event_type_button_press)
 		return false;
 
 	if (message->get_component() != _controller_component_button_start && message->get_component() != _controller_component_right_stick_y)

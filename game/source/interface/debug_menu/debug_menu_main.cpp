@@ -133,8 +133,8 @@ void debug_menu_dispose_from_old_map()
 	}
 	g_debug_menu_globals.m_active_menu = NULL;
 
-	if (g_user_interface_controller_globals.event_manager_suppress)
-		g_user_interface_controller_globals.event_manager_suppress = false;
+	if (g_user_interface_controller_globals.suppressed)
+		g_user_interface_controller_globals.suppressed = false;
 }
 
 void debug_menu_update_current_gamepad_state()
@@ -318,14 +318,14 @@ void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open)
 		{
 			active_menu->open();
 			active_menu = g_debug_menu_globals.m_active_menu;
-			g_user_interface_controller_globals.event_manager_suppress = true;
+			g_user_interface_controller_globals.suppressed = true;
 		}
 		active_menu->notify_activated();
 	}
 	else if (current_active_menu)
 	{
 		current_active_menu->notify_closed();
-		g_user_interface_controller_globals.event_manager_suppress = false;
+		g_user_interface_controller_globals.suppressed = false;
 	}
 
 	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
