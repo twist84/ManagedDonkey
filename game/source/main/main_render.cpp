@@ -771,6 +771,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		c_fullscreen_view fullscreen_view;
 		fullscreen_view.setup_camera(NULL);
 		fullscreen_view.begin(&fullscreen_view);
+		ASSERT(pregame_frame_type >= 0 && pregame_frame_type < k_main_pregame_frame_count);
 		fullscreen_view.render_blank_frame(&pregame_frame_colors[pregame_frame_type].blank_frame);
 
 		s_render_fullscreen_text_context context;
@@ -786,7 +787,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 			if (!main_game_change_in_progress() && main_halted_with_errors())
 				context.string = events_get();
 		}
-		else if (IN_RANGE_INCLUSIVE(pregame_frame_type, _main_pregame_frame_cache_loading, _main_pregame_frame_upload))
+		else if (IN_RANGE_INCLUSIVE(pregame_frame_type, _main_pregame_frame_cache_loading, _main_pregame_frame_crash_done))
 		{
 			game_has_crashed = true;
 		}

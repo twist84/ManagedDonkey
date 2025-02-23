@@ -552,7 +552,12 @@ void __cdecl sound_source_get_world_position(s_sound_source const* source, long 
 //.text:00519AD0 ; 
 //.text:00519B20 ; void __cdecl sound_start_fade_internal(short, sound_event_fade_reason, real, long, long)
 //.text:00519BF0 ; void __cdecl sound_stop(long, e_sound_event_stop_reason)
-//.text:00519CD0 ; void __cdecl sound_stop_all(long)
+
+void __cdecl sound_stop_all(long game_state_proc_flags)
+{
+	INVOKE(0x00519CD0, sound_stop_all, game_state_proc_flags);
+}
+
 //.text:00519ED0 ; 
 //.text:0051A050 ; void __cdecl sound_stop_and_notify(long, e_sound_event_stop_reason)
 //.text:0051A0B0 ; 
