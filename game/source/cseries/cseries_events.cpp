@@ -360,7 +360,14 @@ struct s_event_spamming_list_add_result
 	long hit_count;
 };
 
-void __cdecl events_debug_render()
+void events_clear()
+{
+	event_logs_flush();
+	event_globals.message_buffer_size = 0;
+	event_globals.message_buffer[0] = 0;
+}
+
+void events_debug_render()
 {
 	if (!g_events_debug_render_enable)
 		return;
@@ -656,7 +663,7 @@ bool events_initialize_if_possible()
 	static bool run_once = false;
 	if (!run_once && is_main_thread() /*&& synchronization_objects_initialized()*/)
 	{
-		g_event_read_write_lock.setup(6, 1);
+		g_event_read_write_lock.setup(k_crit_section_event_rw_lock, 1);
 		run_once = true;
 
 		event_globals.enable_events = true;
@@ -712,6 +719,12 @@ long __cdecl event_interlocked_compare_exchange(long volatile* destination, long
 	return (long)_InterlockedCompareExchange(destination, exchange, comperand);
 }
 
+void event_logs_flush()
+{
+	//if (!thread_has_crashed(k_thread_network_block_detection))
+	//	flush_event_log_cache();
+}
+
 c_event::c_event(e_event_level event_level, long event_category_index, dword event_response_suppress_flags) :
 	m_event_level(event_level),
 	m_event_category_index(event_category_index),
@@ -746,24 +759,25 @@ dword event_query(e_event_level event_level, long category_index, dword event_re
 		if (category->current_display_level != k_event_level_none)
 			SET_BIT(flags, _category_properties_display_level_bit, event_level >= category->current_display_level);
 
-		if (category->current_log_level != k_event_level_none)
-			SET_BIT(flags, _category_properties_force_display_level_bit, event_level >= category->current_log_level);
-
 		if (category->current_remote_log_level != k_event_level_none)
-			SET_BIT(flags, _category_properties_log_level_bit, event_level >= category->current_remote_log_level);
+			SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= category->current_remote_log_level);
 
 		if (category->current_debugger_break_level != k_event_level_none)
-			SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= category->current_debugger_break_level);
+			SET_BIT(flags, _category_properties_debugger_break_level_bit, event_level >= category->current_debugger_break_level);
 
 		if (category->current_halt_level != k_event_level_none)
-			SET_BIT(flags, _category_properties_debugger_break_level_bit, event_level >= category->current_halt_level);
+			SET_BIT(flags, _category_properties_halt_level_bit, event_level >= category->current_halt_level);
+
+		if (category->current_force_display_level != k_event_level_none)
+			SET_BIT(flags, _category_properties_force_display_level_bit, event_level >= category->current_force_display_level);
+
 	}
 
 	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, 0))
 		flags &= ~FLAG(_category_properties_display_level_bit);
 
 	if (event_globals.disable_event_logging)
-		flags &= ~FLAG(_category_properties_force_display_level_bit);
+		flags &= ~FLAG(_category_properties_log_level_bit);
 
 	g_event_read_write_lock.read_unlock();
 
@@ -810,10 +824,10 @@ void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_ad
 
 dword event_update_spam_prevention(dword response_flags, e_event_level event_level, long category_index, char const* event_text)
 {
-	if (event_globals.enable_spam_suppression &&
-		event_level != _event_critical &&
-		TEST_BIT(response_flags, 0) &&
-		!TEST_BIT(response_flags, 0))
+	if (event_globals.enable_spam_suppression
+		&& event_level != _event_critical
+		&& TEST_BIT(response_flags, 0)
+		&& !TEST_BIT(response_flags, 1))
 	{
 		g_event_read_write_lock.write_lock();
 		s_event_category* category = event_category_get(category_index);
@@ -834,16 +848,164 @@ dword event_update_spam_prevention(dword response_flags, e_event_level event_lev
 			s_event_spamming_list_add_result result{ .hit_count = 0 };
 			add_event_to_spamming_list(event_text, &result);
 			if (result.hit_count > 1)
-				response_flags = 0;
+				return 0;
 		}
 	}
 	return response_flags;
 }
 
+bool console_update_spam_prevention(e_event_level event_level)
+{
+	if (!event_globals.enable_spam_suppression || event_level == _event_critical)
+		return false;
+
+	long current_time = (long)system_milliseconds();
+	long last_check_time = event_globals.console_suppression_old_line_check_time;
+	
+	if (!event_globals.console_suppression_count)
+		last_check_time = current_time;
+
+	long new_suppression_count = event_globals.console_suppression_count + 1;
+	event_globals.console_suppression_old_line_check_time = last_check_time;
+	event_globals.console_suppression_count = new_suppression_count;
+
+	if (new_suppression_count < 5 && current_time > last_check_time + 2000)
+	{
+		int elapsed_intervals = (current_time - last_check_time) / 2000;
+		new_suppression_count -= elapsed_intervals;
+		if (new_suppression_count < 0)
+		{
+			new_suppression_count = 0;
+		}
+		event_globals.console_suppression_count = new_suppression_count;
+		event_globals.console_suppression_old_line_check_time = last_check_time + elapsed_intervals + 4 * elapsed_intervals;
+	}
+
+	if (current_time > event_globals.console_suppression_old_time + 10000)
+	{
+		event_globals.console_suppression_count = 0;
+		event_globals.console_suppression_old_time = current_time;
+		return false;
+	}
+
+	bool print_suppression_message = false;
+	if (new_suppression_count == 5)
+	{
+		print_suppression_message = true;
+	}
+	else if (new_suppression_count < 5)
+	{
+		return false;
+	}
+
+	if (print_suppression_message)
+	{
+		terminal_printf(global_real_argb_white, "too many errors, only printing to debug.txt");
+	}
+
+	status_printf("suppressing events");
+	return true;
+}
+
+void write_to_console(e_event_level event_level, long category_index, const char* string)
+{
+	enum
+	{
+		copy_size = 34,
+	};
+
+	bool should_update = console_update_spam_prevention(event_level);
+	//display_debug_string(string);
+	c_console::write_line(string);
+
+	if (!should_update)
+	{
+		char buffer[1040]{};
+		csstrnzcpy(buffer, string, 1027);
+
+		if (event_globals.dump_to_stderr)
+		{
+			fprintf(stderr, "%s\r\n", buffer);
+		}
+		else
+		{
+			real_argb_color color = *global_real_argb_white;
+
+			if (event_level == _event_critical)
+			{
+				color = *global_real_argb_red;
+			}
+			else
+			{
+				g_event_read_write_lock.read_lock();
+				s_event_category* category = event_category_get(category_index);
+				color.rgb = category->current_display_color;
+				g_event_read_write_lock.read_unlock();
+			}
+
+			terminal_printf(&color, "%s", buffer);
+		}
+
+		csstrnzcat(buffer, "\r\n", 1027);
+		g_event_read_write_lock.write_lock();
+
+		short new_size = (short)csstrnlen(buffer, sizeof(buffer)-1);
+		short message_buffer_size = event_globals.message_buffer_size;
+
+		if (message_buffer_size + new_size >= k_error_message_buffer_maximum_size)
+		{
+			short new_position = 0;
+			short calculated_size = new_size + 1058;
+
+			if (calculated_size > 0)
+			{
+				if (calculated_size >= event_globals.message_buffer_size - 1)
+				{
+					new_position = event_globals.message_buffer_size - 1;
+				}
+				else
+				{
+					new_position = calculated_size;
+				}
+			}
+
+			char* newline_pos = strchr(&event_globals.message_buffer[new_position], '\n');
+			short chars_to_keep = newline_pos ?
+				(newline_pos - event_globals.message_buffer + 1) :
+				event_globals.message_buffer_size;
+
+			short prefix_size = event_globals.message_buffer_size - chars_to_keep;
+			ASSERT(prefix_size + copy_size + new_size < k_error_message_buffer_maximum_size);
+			ASSERT(prefix_size >= 0 && copy_size >= 0 && new_size >= 0);
+			ASSERT(VALID_INDEX(prefix_size + copy_size, NUMBEROF(event_globals.message_buffer)));
+
+			memcpy(event_globals.message_buffer, "\r\n", 2);
+			if (prefix_size > 0 && newline_pos)
+			{
+				memmove(&event_globals.message_buffer[copy_size], newline_pos, prefix_size);
+			}
+
+			message_buffer_size = prefix_size + copy_size;
+			event_globals.message_buffer[prefix_size + copy_size] = 0;
+			event_globals.message_buffer_size = message_buffer_size;
+		}
+
+		if (message_buffer_size + new_size < k_error_message_buffer_maximum_size)
+		{
+			csstrnzcpy(&event_globals.message_buffer[message_buffer_size],
+				buffer,
+				k_error_message_buffer_maximum_size - message_buffer_size);
+			event_globals.message_buffer_size += new_size;
+		}
+
+		g_event_read_write_lock.write_unlock();
+	}
+}
+
 void event_generated_handle_console(e_event_level event_level, long category_index, char const* event_text, bool force)
 {
-	char final_text[2048]{};
 	char context_text[256]{};
+	char final_text[2048]{};
 
 	if (event_globals.suppress_console_display_and_show_spinner)
 	{
@@ -855,7 +1017,36 @@ void event_generated_handle_console(e_event_level event_level, long category_ind
 		event_level = _event_critical;
 	}
 
-	c_console::write_line(event_text);
+	csstrnzcpy(context_text, "", sizeof(context_text));
+	bool has_context = false;
+	if (g_event_context_stack_depth > 0)
+	{
+		for (long context_index = 0; context_index < g_event_context_stack_depth; context_index++)
+		{
+			s_event_context* context = &g_event_context_stack[context_index];
+
+			if (context->display_to_console)
+			{
+				csstrnzcat(context_text, context->description, sizeof(context_text));
+				if (context_index < g_event_context_stack_depth - 1)
+				{
+					csstrnzcat(context_text, ":", sizeof(context_text));
+				}
+				has_context = true;
+			}
+		}
+	}
+
+	if (has_context)
+	{
+		csnzprintf(final_text, sizeof(final_text), "%s (%s) %s", k_event_level_severity_strings[event_level], context_text, event_text);
+	}
+	else
+	{
+		csnzprintf(final_text, sizeof(final_text), "%s %s", k_event_level_severity_strings[event_level], event_text);
+	}
+
+	write_to_console(event_level, category_index, final_text);
 }
 
 void event_generated_handle_log(e_event_level event_level, long category_index, char const* event_text)
@@ -868,10 +1059,22 @@ void event_generated_handle_datamine(e_event_level event_level, char const* form
 
 void event_generated_handle_debugger_break(char const* event_text)
 {
+	//static bool x_disable_debugger = false;
+	//if (x_disable_debugger)
+	//{
+	//	char debugstring[2048];
+	//	csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
+	//}
 }
 
 void event_generated_handle_halt(char const* event_text)
 {
+	static bool x_disable_halt = false;
+	if (x_disable_halt)
+	{
+		char debugstring[2048];
+		csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
+	}
 }
 
 void event_generate(e_event_level event_level, long category_index, dword event_response_suppress_flags, char const* format, va_list argument_list)

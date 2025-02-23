@@ -240,7 +240,7 @@ long __cdecl exceptions_update()
 	long thread_id = g_exception_information.thread_id;
 
 	_clearfp();
-	//event_logs_flush();
+	event_logs_flush();
 	release_locks_safe_for_crash_release();
 
 	event(_event_message, "crash: ");

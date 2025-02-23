@@ -3,6 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
 
+enum
+{
+	k_error_message_buffer_maximum_size = 2048,
+};
+
 enum e_event_level
 {
 	_event_verbose = 0,
@@ -164,10 +169,12 @@ extern bool g_events_debug_render_enable;
 
 struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory);
-extern void __cdecl events_debug_render();
-extern char const* __cdecl events_get();
-extern void __cdecl events_initialize();
-extern long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand);
+extern void events_clear();
+extern void events_debug_render();
+extern char const* events_get();
+extern void events_initialize();
+extern long event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand);
+extern void event_logs_flush();
 extern void __cdecl network_debug_print(char const* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS

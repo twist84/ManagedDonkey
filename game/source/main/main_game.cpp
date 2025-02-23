@@ -153,7 +153,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 
 	if (options)
 	{
-		//events_clear();
+		events_clear();
 		input_flush();
 
 		main_status("map", "loading %s", options->scenario_path.get_string());
@@ -894,7 +894,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	}
 
 	game_dispose_from_old_map();
-	//events_clear();
+	events_clear();
 	input_flush();
 	main_render_purge_pending_messages();
 
