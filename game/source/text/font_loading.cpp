@@ -82,10 +82,9 @@ void __cdecl font_dispose()
 	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 }
 
-//char const* __cdecl font_get_debug_name(e_font_index font_index);
-char const* __cdecl font_get_debug_name(long internal_index)
+char const* __cdecl font_get_debug_name(e_font_index internal_index)
 {
-	//return INVOKE(0x00509280, font_get_debug_name, font_index);
+	//return INVOKE(0x00509280, font_get_debug_name, internal_index);
 
 	s_font_header const* header = font_get_header_internal(internal_index);
 	if (header)
@@ -97,8 +96,7 @@ char const* __cdecl font_get_debug_name(long internal_index)
 	return NULL;
 }
 
-//e_font_index font_get_font_index(e_font_id font);
-long __cdecl font_get_font_index(long font)
+e_font_index __cdecl font_get_font_index(e_font_id font)
 {
 	//return INVOKE(0x005092C0, font_get_font_index, font);
 
@@ -112,17 +110,16 @@ long __cdecl font_get_font_index(long font)
 	return result;
 }
 
-//s_font_header const* font_get_header(e_font_id font_id)
-s_font_header const* __cdecl font_get_header(long font_id)
+s_font_header const* __cdecl font_get_header(e_font_id font)
 {
-	//return INVOKE(0x005092F0, font_get_header, font_id);
+	//return INVOKE(0x005092F0, font_get_header, font);
 
-	long font_index = font_get_font_index(font_id);
+	e_font_index font_index = font_get_font_index(font);
 	s_font_header const* result = font_get_header_internal(font_index);
 	return result;
 }
 
-s_font_header const* __cdecl font_get_header_internal(long internal_index)
+s_font_header const* __cdecl font_get_header_internal(e_font_index internal_index)
 {
 	//return INVOKE(0x00509330, font_get_header_internal, internal_index);
 
@@ -470,9 +467,9 @@ void __cdecl get_active_font_directory(s_file_reference* file)
 	//INVOKE(0x00509B50, get_active_font_directory, file);
 
 	if (g_font_globals.cached_to_hard_drive)
-		get_dvd_font_directory(file);
-	else
 		get_hard_drive_font_directory(file);
+	else
+		get_dvd_font_directory(file);
 }
 
 void __cdecl get_dvd_font_directory(s_file_reference* file)

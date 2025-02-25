@@ -12,5 +12,5 @@ extern void __cdecl font_package_cache_flush();
 extern void __cdecl font_package_cache_idle();
 extern void __cdecl font_package_cache_new();
 extern void __cdecl font_package_clear(s_font_package_cache_entry* entry);
-extern bool __cdecl font_package_do_work(bool blocking, s_font_package_cache_entry* entry);
+extern bool __cdecl font_package_do_work(bool block, s_font_package_cache_entry* entry);
 

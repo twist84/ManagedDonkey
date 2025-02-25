@@ -26,6 +26,24 @@ enum e_font_index
 	k_maximum_font_index_count = 10
 };
 
+enum
+{
+	_package_cache_status_line_package_status = 0,
+	_package_cache_status_line_load_stats,
+
+	k_package_cache_status_line_count
+};
+
+enum e_font_package_status
+{
+	_font_package_unavailable = 0,
+	_font_package_delayed_loading,
+	_font_package_loading,
+	_font_package_ready,
+
+	k_font_package_status_count
+};
+
 #pragma pack(push, 1)
 struct s_font_loading_state
 {
@@ -147,7 +165,7 @@ struct s_font_package_cache_entry
 	long async_task;
 	c_synchronized_long async_task_bytes_read;
 	c_synchronized_long async_task_complete;
-	long status;
+	e_font_package_status status;
 	byte package[k_font_package_file_size];
 };
 static_assert(sizeof(s_font_package_cache_entry) == 0x8020);
@@ -156,7 +174,8 @@ struct s_font_package_cache
 {
 	c_synchronized_long initialized;
 	long time;
-	c_static_array<s_font_package_cache_entry, k_font_package_entry_count> entries;
+	s_font_package_cache_entry entries[k_font_package_entry_count];
+	//s_status_line status_lines[k_package_cache_status_line_count];
 };
 static_assert(sizeof(s_font_package_cache) == 0x40108);
 
@@ -176,10 +195,10 @@ enum e_language;
 extern void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state);
 extern void __cdecl font_close_loaded_file(s_font_loading_state* loading_state);
 extern void __cdecl font_dispose();
-extern char const* __cdecl font_get_debug_name(long internal_index);
-extern long __cdecl font_get_font_index(long font_id);
-extern s_font_header const* __cdecl font_get_header(long font_id);
-extern s_font_header const* __cdecl font_get_header_internal(long internal_index);
+extern char const* __cdecl font_get_debug_name(e_font_index internal_index);
+extern e_font_index __cdecl font_get_font_index(e_font_id font);
+extern s_font_header const* __cdecl font_get_header(e_font_id font);
+extern s_font_header const* __cdecl font_get_header_internal(e_font_index internal_index);
 extern bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle);
 extern s_font_package_file_header const* __cdecl font_get_package_header_internal();
 extern void __cdecl font_idle();

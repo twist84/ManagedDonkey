@@ -193,6 +193,7 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
 
 #define NONE -1
+#define INVALID_ASYNC_TASK_ID -1
 
 //#define CHAR_MAX 0x7F
 #define UNSIGNED_CHAR_MAX 0xFF
