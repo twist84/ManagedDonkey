@@ -116,8 +116,8 @@ public:
 	void get_starting_cluster(s_cluster_reference* starting_cluster);
 
 //protected:
-	s_location m_location;
-	byte __data286[0x2];
+	bool m_using_stored_cluster;
+	s_cluster_reference m_stored_cluster;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
 

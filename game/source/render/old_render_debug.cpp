@@ -165,7 +165,7 @@ void render_debug_structure_decals()
 
 bool __cdecl render_debug_lost_camera()
 {
-	return c_player_view::get_current()->m_location.cluster_reference.bsp_index;
+	return c_player_view::get_current()->m_using_stored_cluster;
 }
 
 real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real green, real blue)
