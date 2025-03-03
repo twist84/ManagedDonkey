@@ -355,6 +355,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\render_sky.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\render_tron_effect.cpp" />
+    <ClCompile Include="source\render\render_visibility_collection.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\render\views\hud_camera_view.cpp" />
