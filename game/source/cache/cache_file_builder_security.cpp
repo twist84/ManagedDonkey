@@ -16,6 +16,6 @@ void __cdecl cache_file_builder_security_clean_header(s_cache_file_header* out_h
 	csmemset(&out_header->slot_modification_date, 0, sizeof(out_header->slot_modification_date));
 	csmemset(&out_header->creation_date, 0, sizeof(out_header->creation_date));
 	csmemset(&out_header->shared_creation_date, 0, sizeof(out_header->shared_creation_date));
-	csmemset(&out_header->shared_resource_usage, 0, 0x10);
+	csmemset(&out_header->shared_resource_usage.shared_layout_identifier, 0, sizeof(out_header->shared_resource_usage.shared_layout_identifier));
 }
 

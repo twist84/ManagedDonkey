@@ -8,6 +8,7 @@
 #include "cache/optional_cache.hpp"
 #include "cache/physical_memory_map.hpp"
 #include "cseries/cseries.hpp"
+#include "memory/secure_signature.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
@@ -18,16 +19,39 @@
 #define TAG_RESOURCE_GET(TYPE, RESOURCE) ((TYPE*)tag_resource_get(RESOURCE))
 #define TAG_RESOURCE_TRY_TO_GET(TYPE, RESOURCE) ((TYPE*)tag_resource_try_to_get(RESOURCE))
 
+struct s_cache_file_local_resource_location
+{
+	dword flags : 2;
+	dword file_size : 30;
+	dword memory_size;
+	s_network_http_request_hash entire_checksum;
+};
+static_assert(sizeof(s_cache_file_local_resource_location) == 0x1C);
+
 struct s_cache_file_insertion_point_resource_usage
 {
-	byte __data[0xB4];
+	//byte __data[0xB4];
+
+	char initial_zone_set_index;
+	byte pad[3];
+	c_static_flags<1024> shared_required_locations;
+	c_static_flags<320> local_required_locations;
+
+	// $TODO: idk what this could be, something from ODST?
+	byte __dataAC[8];
 };
 static_assert(sizeof(s_cache_file_insertion_point_resource_usage) == 0xB4);
 
 struct s_cache_file_shared_resource_usage
 {
-	byte __data0[0x2328];
-	long insertion_point_usage_count;
+	s_tag_persistent_identifier shared_layout_identifier;
+	word shared_location_count;
+	word local_location_count;
+	dword first_file_offset;
+	s_tag_persistent_identifier codec_identifier;
+	c_static_array<s_cache_file_local_resource_location, 320> local_locations;
+	byte insertion_point_usage_count;
+	char pad[3];
 	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_usages;
 };
 static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2980);
