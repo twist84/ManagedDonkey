@@ -428,6 +428,8 @@ struct c_rasterizer
 	static e_surface& g_depth_stencil_surface;
 	static e_surface(&g_color_surfaces)[4];
 
+	static bool& g_tiling_force_4x_msaa;
+
 	static rectangle2d& g_last_viewport;
 	static rectangle2d& g_last_scissor_rect;
 
