@@ -3,17 +3,22 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "config/version.hpp"
+#include "game/game.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 #include "objects/lights.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "rasterizer/rasterizer_memory.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_debug_commands.hpp"
 #include "render/render_flags.hpp"
+#include "render/render_lens_flares.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/render_sky.hpp"
+#include "render/render_visibility_collection.hpp"
 #include "text/draw_string.hpp"
 
 REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
@@ -29,6 +34,7 @@ REFERENCE_DECLARE(0x050E88FA, bool, c_render_globals::m_render_pc_albedo_lightin
 REFERENCE_DECLARE(0x050E88FC, void*, g_restricted_render_memory);
 REFERENCE_DECLARE(0x050E8904, c_restricted_section, g_restricted_render_memory_section);
 
+HOOK_DECLARE(0x00A29760, render_frame_begin);
 HOOK_DECLARE(0x00A2A080, render_setup_window);
 
 void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
@@ -109,7 +115,15 @@ void __cdecl render_dispose_from_old_structure_bsp(dword deactivating_structure_
 
 void __cdecl render_frame_begin()
 {
-	INVOKE(0x00A29760, render_frame_begin);
+	//INVOKE(0x00A29760, render_frame_begin);
+
+	render_update_debug_commands();
+	rasterizer_memory_reset();
+	render_visibility_reset_visible_clusters_for_frame();
+	//c_render_information::clear_frame();
+	c_render_flags::prepare_for_frame();
+	lens_flares_garbage_collect();
+	c_rasterizer::g_tiling_force_4x_msaa = game_options_valid() && game_is_ui_shell();
 }
 
 void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font)
