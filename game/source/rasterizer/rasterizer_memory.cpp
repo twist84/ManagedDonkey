@@ -22,7 +22,11 @@ void __cdecl rasterizer_memory_initialize()
 	INVOKE(0x00A6DB10, rasterizer_memory_initialize);
 }
 
-//.text:00A6DB60 ; void __cdecl rasterizer_memory_reset()
+void __cdecl rasterizer_memory_reset()
+{
+	INVOKE(0x00A6DB60, rasterizer_memory_reset);
+}
+
 //.text:00A6DB90 ; void __cdecl rasterizer_memory_set_cost(s_rasterizer_memory_cost* cost, real cost_scale, long CPU_memory_in_bytes, long GPU_memory_in_bytes, real GPU_frontend_cost)
 //.text:00A6DC50 ; void __cdecl rasterizer_memory_zero_cost(s_rasterizer_memory_cost* result)
 

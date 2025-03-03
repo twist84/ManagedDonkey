@@ -45,4 +45,5 @@ static_assert(sizeof(s_rasterizer_memory_globals) == 0x100044);
 extern s_rasterizer_memory_globals& rasterizer_memory_globals;
 
 extern void __cdecl rasterizer_memory_initialize();
+extern void __cdecl rasterizer_memory_reset();
 
