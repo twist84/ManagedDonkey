@@ -15,6 +15,7 @@
 #include "memory/thread_local.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/render_debug_commands.hpp"
 #include "units/units.hpp"
 
 #include <math.h>
@@ -364,16 +365,16 @@ debug_key global_debug_key_list[]
 		.toggle_variable = true,
 		.variable = &display_framerate
 	},
-	//{
-	//	.name = "infinite framerate",
-	//	.key_code = _key_code_f,
-	//	.modifier = 4,
-	//	.function = nullptr,
-	//	.allow_out_of_game = false,
-	//	.allow_in_editor = false,
-	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO: `bool render_debug_infinite_framerate`
-	//},
+	{
+		.name = "infinite framerate",
+		.key_code = _key_code_f,
+		.modifier = 4,
+		.function = nullptr,
+		.allow_out_of_game = false,
+		.allow_in_editor = false,
+		.toggle_variable = true,
+		.variable = &render_debug_infinite_framerate
+	},
 	//{
 	//	.name = "render model vertex",
 	//	.key_code = _key_code_r,

@@ -9,7 +9,12 @@
 
 REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
 
+HOOK_DECLARE(0x00507FF0, main_time_is_throttled);
+HOOK_DECLARE(0x00508160, main_time_throttle);
+
 bool debug_disable_frame_rate_throttle = false;
+bool debug_frame_rate_based_on_system_time = false;
+bool debug_frame_rate_stabilization = false;
 bool display_frame_deltas = false;
 
 void __cdecl __tls_set_g_main_time_globals_allocator(void* address)
@@ -143,13 +148,13 @@ void __cdecl main_time_initialize()
 
 bool __cdecl main_time_is_throttled()
 {
-	return INVOKE(0x00507FF0, main_time_is_throttled);
+	//return INVOKE(0x00507FF0, main_time_is_throttled);
 
-	//if (!game_in_progress() || debug_disable_frame_rate_throttle)
-	//	return false;
-	//
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
-	//return !g_main_time_globals->temporary_throttle_control || g_main_time_globals->temporary_throttle;
+	if (!game_in_progress() || debug_disable_frame_rate_throttle)
+		return false;
+	
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	return !g_main_time_globals->temporary_throttle_control || g_main_time_globals->temporary_throttle;
 }
 
 void __cdecl main_time_mark_input_collection_time()
@@ -216,11 +221,94 @@ void __cdecl main_time_set_temporary_throttle(bool throttle)
 
 void __cdecl main_time_throttle(__int64 target_display_vblank_index)
 {
-	INVOKE(0x00508160, main_time_throttle, target_display_vblank_index);
+	//INVOKE(0x00508160, main_time_throttle, target_display_vblank_index);
+
+	//if (!debug_frame_rate_based_on_system_time)
+	//{
+	//	__int64 target_update_vblank = 0;
+	//	if (target_display_vblank_index)
+	//		target_update_vblank = target_display_vblank_index - 2;
+	//
+	//	g_main_time_throttle_debug.target_update_vblank = target_update_vblank;
+	//	g_main_time_throttle_debug.initial_vblank_index = rasterizer_get_vblank_index();
+	//	g_main_time_throttle_debug.initial_swap_index = rasterizer_get_most_recent_swap_index();
+	//	g_main_time_throttle_debug.previous_swap_index = g_previous_swap_index;
+	//
+	//	if (main_time_is_throttled())
+	//	{
+	//		volatile __int64 current_vblank_index = rasterizer_get_vblank_index();
+	//		for (dword previous_swap_index = g_previous_swap_index; g_previous_swap_index; previous_swap_index = g_previous_swap_index)
+	//		{
+	//			if (current_vblank_index != previous_swap_index)
+	//				break;
+	//			internal_event_wait(k_event_main_time_throttle_vblank);
+	//			current_vblank_index = rasterizer_get_vblank_index();
+	//		}
+	//		g_previous_swap_index = rasterizer_get_most_recent_swap_index();
+	//		if (target_update_vblank > 0 &&
+	//			target_update_vblank - current_vblank_index <= 8 &&
+	//			current_vblank_index < target_update_vblank)
+	//		{
+	//			do
+	//			{
+	//				internal_event_wait(k_event_main_time_throttle_vblank);
+	//			} while (rasterizer_get_vblank_index() < target_update_vblank);
+	//		}
+	//	}
+	//	g_main_time_throttle_debug.final_vblank_index = rasterizer_get_vblank_index();
+	//	dword most_recent_swap_index = rasterizer_get_most_recent_swap_index();
+	//	g_main_time_throttle_debug.count++;
+	//	g_main_time_throttle_debug.final_swap_index = most_recent_swap_index;
+	//	__int64 time_ms = system_milliseconds();
+	//	__int64 time_delta_ms = time_ms - g_main_time_throttle_debug.time_ms;
+	//	g_main_time_throttle_debug.time_ms = time_ms;
+	//	g_main_time_throttle_debug.time_delta_ms = time_delta_ms;
+	//	rasterizer_lag_timing_mark_render_present(target_display_vblank_index);
+	//}
+	//
+	//main_time_update_framerate_datamining();
 }
 
 real __cdecl main_time_update()
 {
 	return INVOKE(0x00508170, main_time_update);
 }
+
+void __cdecl main_time_update_framerate_datamining()
+{
+
+}
+
+__declspec(naked) void main_time_is_throttled_inline()
+{
+	// original instructions
+	//      call    game_in_progress
+	//      test    al, al
+	//      jz      short loc_508287
+
+	// all this for the following
+	//if (main_time_is_throttled())
+
+	ASM_ADDR(0x00508252, addr_508252);
+	ASM_ADDR(0x00508287, addr_508287);
+
+	__asm
+	{
+		// execute the original instructions
+		call    game_in_progress
+		test    al, al
+		jz      short loc_508287
+
+		// execute our instructions
+		cmp     debug_disable_frame_rate_throttle, 0
+		jnz     short loc_508287
+
+		// jump out to after our hook
+		jmp     addr_508252
+
+	loc_508287:
+		jmp     addr_508287
+	}
+}
+HOOK_DECLARE(0x00508249, main_time_is_throttled_inline);
 

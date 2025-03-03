@@ -19,6 +19,8 @@ static_assert(sizeof(s_main_time_globals) == 0x40);
 
 extern bool& display_framerate;
 extern bool debug_disable_frame_rate_throttle;
+extern bool debug_frame_rate_based_on_system_time;
+extern bool debug_frame_rate_stabilization;
 extern bool display_frame_deltas;
 
 extern void __cdecl __tls_set_g_main_time_globals_allocator(void* address);
@@ -43,4 +45,5 @@ extern void __cdecl main_time_restore(long game_state_flags);
 extern void __cdecl main_time_set_temporary_throttle(bool throttle);
 extern void __cdecl main_time_throttle(__int64 target_display_vblank_index);
 extern real __cdecl main_time_update();
+extern void __cdecl main_time_update_framerate_datamining();
 

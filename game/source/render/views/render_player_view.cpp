@@ -14,6 +14,7 @@
 #include "rasterizer/rasterizer_stipple.hpp"
 #include "rasterizer/rasterizer_synchronization.hpp"
 #include "render/render.hpp"
+#include "render/render_debug_commands.hpp"
 #include "render/render_flags.hpp"
 #include "render/render_lens_flares.hpp"
 #include "render/render_transparents.hpp"

@@ -40,6 +40,7 @@
 #include "render/old_render_debug.hpp"
 #include "render/render.hpp"
 #include "render/render_cameras.hpp"
+#include "render/render_debug_commands.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_transparents.hpp"
 #include "render/render_visibility.hpp"

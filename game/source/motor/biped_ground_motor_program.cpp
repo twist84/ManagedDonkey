@@ -15,7 +15,7 @@ __declspec(naked) void super_jump_inline()
 	//     push    esi
 	//     call    object_get_velocities
 
-	// all this for the folling
+	// all this for the following
 	//if (cheat.super_jump && biped->unit.player_index != NONE)
 	//    jump_velocity = jump_velocity * 4.0f;
 

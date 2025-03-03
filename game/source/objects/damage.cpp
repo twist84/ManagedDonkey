@@ -128,7 +128,7 @@ __declspec(naked) void omnipotent_inline()
 	// original instructions
 	//      test    dword ptr [edi+0x4], 0x40000
 
-	// all this for the folling
+	// all this for the following
 	//if (cheat.omnipotent && damage_data->damage_owner.damage_owner_player_index != NONE)
 	//    v106 = true;
 

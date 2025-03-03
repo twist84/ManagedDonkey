@@ -17,6 +17,7 @@
 #include "rasterizer/rasterizer_memory.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
+#include "render/render_debug_commands.hpp"
 #include "render/render_lens_flares.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render_methods/render_method_submit.hpp"
@@ -60,11 +61,6 @@ REFERENCE_DECLARE(0x050DD9A0, rectangle2d, c_rasterizer::g_last_scissor_rect);
 REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
 REFERENCE_DECLARE(0x050DD9C0, dword, c_rasterizer::g_max_ps_gprs);
 REFERENCE_DECLARE(0x050DD9C4, long, c_rasterizer::g_adapter);
-
-long render_debug_toggle_default_lightmaps_texaccum = 0;
-REFERENCE_DECLARE(0x0191C920, bool, render_debug_toggle_default_static_lighting);
-REFERENCE_DECLARE(0x0191C921, bool, render_debug_toggle_default_dynamic_lighting);
-REFERENCE_DECLARE(0x0191C922, bool, render_debug_toggle_default_sfx);
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 

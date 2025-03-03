@@ -795,11 +795,6 @@ struct s_texture_references_block
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
-extern long render_debug_toggle_default_lightmaps_texaccum;
-extern bool& render_debug_toggle_default_static_lighting;
-extern bool& render_debug_toggle_default_dynamic_lighting;
-extern bool& render_debug_toggle_default_sfx;
-
 extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
