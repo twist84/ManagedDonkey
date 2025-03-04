@@ -67,14 +67,14 @@ REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
 
 static c_interlocked_long g_entry_gate;
 
-void display_assert(char const* statement, char const* file, long line, bool assertion_failed)
+void display_assert(char const* statement, char const* file, long line, bool fatal)
 {
 	for (long i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
 		switch_to_thread();
 
 	c_static_string<1156> crash_info;
 
-	if (assertion_failed && !is_debugger_present())
+	if (fatal && !is_debugger_present())
 	{
 		event(_event_critical, "");
 		stack_walk(1);
@@ -88,12 +88,12 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 		event(_event_critical, "%s(%d): %s: %s",
 			file,
 			line,
-			assertion_failed ? "ASSERT" : "WARNING",
+			fatal ? "ASSERT" : "WARNING",
 			statement ? statement : "");
 		crash_info.print("halt:\r\n%s(%d): %s: %s\r\n",
 			file,
 			line,
-			assertion_failed ? "ASSERT" : "WARNING",
+			fatal ? "ASSERT" : "WARNING",
 			statement ? statement : "");
 	}
 	else
@@ -104,11 +104,11 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 			version_get_full_string());
 
 		event(_event_critical, "%s at %s,#%d",
-			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			fatal ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
 		crash_info.append_print("halt:\r\n%s at %s,#%d\r\n",
-			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			fatal ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
 
@@ -121,7 +121,7 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 
 	main_write_stack_to_crash_info_status_file(crash_info.get_string(), nullptr);
 
-	if (assertion_failed)
+	if (fatal)
 	{
 		//call_fatal_error_callbacks();
 
@@ -134,9 +134,9 @@ void display_assert(char const* statement, char const* file, long line, bool ass
 	g_entry_gate.set(0);
 }
 
-bool handle_assert_as_exception(char const* statement, char const* file, long line, bool assertion_failed)
+bool handle_assert_as_exception(char const* statement, char const* file, long line, bool fatal)
 {
-	if (is_debugger_present() && !g_catch_exceptions || !assertion_failed || is_main_thread())
+	if (is_debugger_present() && !g_catch_exceptions || !fatal || is_main_thread())
 		return false;
 
 	s_thread_assert_arguments arguments
@@ -144,7 +144,7 @@ bool handle_assert_as_exception(char const* statement, char const* file, long li
 		.statement = statement,
 		.file = file,
 		.line = line,
-		.assertion_failed = assertion_failed,
+		.fatal = fatal,
 	};
 
 	post_thread_assert_arguments(&arguments);

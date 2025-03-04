@@ -43,20 +43,20 @@ struct s_thread_assert_arguments
 	char const* statement;
 	char const* file;
 	long line;
-	bool assertion_failed;
+	bool fatal;
 };
 static_assert(sizeof(s_thread_assert_arguments) == 0x10);
 
-struct s_registered_thread_definition
+struct s_thread_definition
 {
-	char const* name;
-	e_thread_processor thread_processor;
+	const char* name;
+	dword processor_index;
 	dword stack_size;
-	e_thread_priority priority;
-	dword(__cdecl* start_routine)(void* thread_parameter);
-	void* thread_parameter;
+	e_thread_priority default_priority;
+	dword(*start_routine)(void*);
+	void* user_parameter;
 };
-static_assert(sizeof(s_registered_thread_definition) == 0x18);
+static_assert(sizeof(s_thread_definition) == 0x18);
 
 struct s_thread_system_globals
 {
@@ -82,7 +82,7 @@ static_assert(sizeof(s_thread_system_globals) == 0xCC);
 extern c_interlocked_long thread_should_assert[k_registered_thread_count];
 extern c_interlocked_long thread_should_crash[k_registered_thread_count];
 
-extern s_registered_thread_definition(&k_registered_thread_definitions)[k_registered_thread_count];
+extern s_thread_definition(&k_registered_thread_definitions)[k_registered_thread_count];
 extern s_thread_system_globals& g_thread_globals;
 
 struct _EXCEPTION_POINTERS;
@@ -108,7 +108,7 @@ extern void __cdecl start_thread(e_registered_threads thread_index);
 extern void __cdecl stop_thread(e_registered_threads thread_index);
 extern bool __cdecl switch_to_thread();
 extern int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, long thread_index);
-extern dword __stdcall thread_execution_wrapper(void* thread_parameter);
+extern dword __stdcall thread_execution_wrapper(void* parameter);
 extern bool __cdecl thread_has_crashed(e_registered_threads thread_index);
 extern bool __cdecl thread_is_being_traced(e_registered_threads thread_index);
 extern void __cdecl thread_release_locks_and_d3d_device();

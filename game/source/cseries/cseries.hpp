@@ -334,8 +334,8 @@ do { \
 
 extern bool& g_catch_exceptions;
 
-extern void display_assert(char const* statement, char const* file, long line, bool assertion_failed);
-extern bool handle_assert_as_exception(char const* statement, char const* file, long line, bool assertion_failed);
+extern void display_assert(char const* statement, char const* file, long line, bool fatal);
+extern bool handle_assert_as_exception(char const* statement, char const* file, long line, bool fatal);
 
 extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
 extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);

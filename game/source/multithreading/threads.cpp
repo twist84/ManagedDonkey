@@ -10,7 +10,7 @@
 
 #include <windows.h>
 
-REFERENCE_DECLARE_ARRAY(0x01651258, s_registered_thread_definition, k_registered_thread_definitions, k_registered_thread_count);
+REFERENCE_DECLARE_ARRAY(0x01651258, s_thread_definition, k_registered_thread_definitions, k_registered_thread_count);
 REFERENCE_DECLARE(0x0238EB80, s_thread_system_globals, g_thread_globals);
 
 c_interlocked_long thread_should_assert[k_registered_thread_count]{};
@@ -108,7 +108,7 @@ e_thread_processor __cdecl get_registered_thread_processor(e_registered_threads 
 {
 	//return INVOKE(0x0051C460, get_registered_thread_processor, thread_index);
 
-	return k_registered_thread_definitions[thread_index].thread_processor;
+	return (e_thread_processor)k_registered_thread_definitions[thread_index].processor_index;
 }
 
 char const* __cdecl get_thread_name_from_thread_id(long thread_id)
@@ -128,7 +128,7 @@ void __cdecl initialize_thread(e_registered_threads thread_index)
 	//INVOKE(0x0051C510, initialize_thread, thread_index);
 
 	//ASSERT(thread_index> k_thread_main && thread_index<k_registered_thread_count);
-	s_registered_thread_definition* definition = &k_registered_thread_definitions[thread_index];
+	s_thread_definition* definition = &k_registered_thread_definitions[thread_index];
 	if (definition->start_routine)
 	{
 		//ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE, "Thread already created");
@@ -290,20 +290,18 @@ int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_poin
 	//return 0;
 }
 
-dword __stdcall thread_execution_wrapper(void* thread_parameter)
+dword __stdcall thread_execution_wrapper(void* parameter)
 {
-	return INVOKE(0x0051C960, thread_execution_wrapper, thread_parameter);
+	return INVOKE(0x0051C960, thread_execution_wrapper, parameter);
 
 	//__try
 	//{
-	//	long registered_thread_index = (long)thread_parameter;
+	//	long registered_thread_index = *static_cast<long*>(parameter);
 	//	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
-	//
-	//	s_registered_thread_definition* definition = &k_registered_thread_definitions[registered_thread_index];
+	//	s_thread_definition const* definition = &k_registered_thread_definitions[registered_thread_index];
 	//	ASSERT(definition->start_routine);
-	//
 	//	register_thread_running(registered_thread_index);
-	//	return definition->start_routine(definition->thread_parameter);
+	//	return definition->start_routine(definition->user_parameter);
 	//}
 	//__except (thread_execution_crash_handler(GetExceptionInformation(), registered_thread_index))
 	//{
@@ -346,7 +344,7 @@ void __cdecl thread_set_priority(long thread_index, e_thread_priority priority)
 	ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE);
 
 	if (priority == _thread_priority_default)
-		priority = k_registered_thread_definitions[thread_index].priority;
+		priority = k_registered_thread_definitions[thread_index].default_priority;
 
 	switch (priority)
 	{
@@ -416,7 +414,7 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 }
 
 //// all your threads are belong to donkey
-//s_registered_thread_definition k_registered_thread_definitions[k_registered_thread_count]
+//s_thread_definition k_registered_thread_definitions[k_registered_thread_count]
 //{
 //	{
 //		.name             = "UNKNOWN_THREAD",

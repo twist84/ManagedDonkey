@@ -268,7 +268,7 @@ long __cdecl exceptions_update()
 		char const* exception_string = g_exception_information.thread_assert_arguments.statement;
 		char const* file = g_exception_information.thread_assert_arguments.file;
 		long line = g_exception_information.thread_assert_arguments.line;
-		bool assertion_failed = g_exception_information.thread_assert_arguments.assertion_failed;
+		bool assertion_failed = g_exception_information.thread_assert_arguments.fatal;
 
 		event(_event_message, "crash: %s at %s,#%d",
 			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
