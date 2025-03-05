@@ -488,13 +488,13 @@ s_sound_listener const* __cdecl sound_manager_get_listener(long index)
 //.text:005185A0 ; void __cdecl sound_manager_set_ducker(e_sound_class_ducker)
 //.text:00518620 ; void __cdecl sound_manager_set_global_environment(s_sound_global_environment_parameters const*)
 //.text:00518630 ; void __cdecl sound_manager_set_sound_environment(s_sound_manager_environment const*)
-//.text:00518650 ; 
+//.text:00518650 ; s_sound_listener const* __cdecl sound_manager_try_and_get_default_listener()
 //.text:00518680 ; void __cdecl sound_manager_update_sound_environment()
 //.text:005189C0 ; void __cdecl sound_notify_on_stop_internal(long, e_sound_event_stop_reason)
 //.text:00518A20 ; void __cdecl sound_notify_playback_position_internal(long, long)
 //.text:00518AE0 ; void __cdecl sound_notify_playing_internal(long)
 //.text:00518B40 ; void __cdecl sound_pause(e_sound_pause_state)
-//.text:00518CE0 ; 
+//.text:00518CE0 ; void __cdecl sound_permutation_add_reference(s_sound_permutation_chunk*)
 //.text:00518CF0 ; 
 //.text:00518D00 ; void __cdecl sound_permutation_release(s_sound_permutation_chunk*)
 //.text:00518D10 ; bool __cdecl sound_preempts_sound(long, long, real)
@@ -507,20 +507,24 @@ void __cdecl sound_render()
 void __cdecl sound_render_dispatch()
 {
 	INVOKE(0x005190E0, sound_render_dispatch);
+
+	//internal_event_wait(k_event_sound_render_deferred_start);
+	//platform_sound_end_frame_deferred();
+	//internal_event_set(k_event_sound_render_deferred_complete);
 }
 
-//.text:00519100 ; 
-//.text:00519110 ; 
-//.text:00519140 ; 
+//.text:00519100 ; dword __cdecl sound_render_time()
+//.text:00519110 ; real __cdecl sound_scale_value(real, real, s_sound_parameter_range const*)
+//.text:00519140 ; real __cdecl sound_scale_value(real, real, s_sound_parameter_range_shorts const*)
 //.text:00519180 ; void __cdecl sound_set_cinematic_skip_fade(real)
 //.text:005191B0 ; void __cdecl sound_set_playing_permutation(long, long, short, short, short)
 //.text:00519200 ; bool __cdecl sound_should_update_listener(long)
 //.text:00519220 ; real __cdecl sound_source_calculate_distance_rolloff_factor(s_sound_source const*, long, long, real_point3d const*)
-//.text:00519290 ; 
+//.text:00519290 ; real __cdecl sound_source_calculate_distance_rolloff_factor_simple(s_sound_source const*, long, real)
 //.text:005192D0 ; real __cdecl sound_source_calculate_location_rolloff_factor(s_sound_source const*, long, long, real_point3d const*, real_vector3d const*, real*)
 //.text:005195F0 ; 
 //.text:00519640 ; 
-//.text:005196A0 ; 
+//.text:005196A0 ; real_vector3d* __cdecl sound_source_get_forward(s_sound_source const*, real_vector3d*)
 
 real __cdecl sound_source_get_inner_cone_angle(s_sound_source const* source, long sound_definition_index)
 {
@@ -549,7 +553,7 @@ void __cdecl sound_source_get_world_position(s_sound_source const* source, long 
 	INVOKE(0x005199B0, sound_source_get_world_position, source, listener_index, world_position);
 }
 
-//.text:00519AD0 ; 
+//.text:00519AD0 ; bool __cdecl sound_source_has_directional_attenuation(s_sound_source const*, long)
 //.text:00519B20 ; void __cdecl sound_start_fade_internal(short, sound_event_fade_reason, real, long, long)
 //.text:00519BF0 ; void __cdecl sound_stop(long, e_sound_event_stop_reason)
 
@@ -558,7 +562,7 @@ void __cdecl sound_stop_all(long game_state_proc_flags)
 	INVOKE(0x00519CD0, sound_stop_all, game_state_proc_flags);
 }
 
-//.text:00519ED0 ; 
+//.text:00519ED0 ; void __cdecl sound_stop_all_impulse()
 //.text:0051A050 ; void __cdecl sound_stop_and_notify(long, e_sound_event_stop_reason)
 //.text:0051A0B0 ; 
 //.text:0051A120 ; 
@@ -573,7 +577,7 @@ void __cdecl sound_update()
 	//refresh_listener(false);
 }
 
-//.text:0051A2D0 ; 
+//.text:0051A2D0 ; void __cdecl sound_update_fade(long)
 //.text:0051A320 ; void __cdecl sound_update_frame()
 //.text:0051A330 ; 
 //.text:0051A3A0 ; void __cdecl sound_update_pause_fade()
@@ -582,13 +586,25 @@ void __cdecl sound_update()
 //.text:0051A880 ; 
 //.text:0051A8B0 ; long __cdecl source_audible(s_sound_source const*, real, real*)
 //.text:0051A8E0 ; long __cdecl source_audible_internal(s_sound_source const*, real, real, real*)
-//.text:0051AA30 ; 
-//.text:0051AA70 ; double __cdecl source_distance_squared(long, s_sound_source const*)
+//.text:0051AA30 ; real __cdecl source_distance(long, s_sound_source const*)
+//.text:0051AA70 ; real __cdecl source_distance_squared(long, s_sound_source const*)
 //.text:0051ACC0 ; long __cdecl source_really_audible(s_sound_source const*, long, real, real*)
 //.text:0051AD00 ; void __cdecl stop_impulse_sounds_by_sound_class(long, e_sound_event_stop_reason)
 //.text:0051AF10 ; void __cdecl stop_sounds_by_sound_class(long, e_sound_event_stop_reason)
-//.text:0051AF30 ; 
-//.text:0051AF40 ; public: bool __cdecl sound_class_definition::stops_when_attached_to_object() const
+//.text:0051AF30 ; public: bool sound_class_definition::stop_when_object_dies() const
+//.text:0051AF40 ; public: bool sound_class_definition::stops_when_attached_to_object() const
+//.text:0051AF70 ; public: bool sound_class_definition::stops_with_object() const
+//.text:0051AF80 ; 
+//.text:0051AFA0 ; 
+//.text:0051AFC0 ; 
+//.text:0051AFE0 ; 
+//.text:0051B000 ; 
+//.text:0051B030 ; 
+//.text:0051B060 ; 
+//.text:0051B070 ; void __cdecl touch_channels(s_game_sound_obstruction_parameters*, c_static_array<s_sound_environment_parameters const*, 196>*, c_static_array<s_sound_environment_parameters const*, 196>*)
+//.text:0051B350 ; void __cdecl update_channel_for_impulse_sound(short, real_decibel, s_sound_output_parameters const*)
+//.text:0051B7D0 ; void __cdecl update_channel_hardware(c_static_array<s_sound_transmission_output_parameters const *, 196> const&, c_static_array<s_sound_transmission_output_parameters const*, 196> const&)
+//.text:0051B870 ; void __cdecl update_channels()
 
 real __cdecl sound_definition_get_maximum_distance(long sound_definition_index)
 {
