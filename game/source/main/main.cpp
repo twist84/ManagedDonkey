@@ -71,6 +71,7 @@ REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
 REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 
 //HOOK_DECLARE(0x00504D20, _internal_halt_render_thread_and_lock_resources);
+HOOK_DECLARE(0x00504F80, audio_thread_loop);
 HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x005063A0, main_loop_pregame);
@@ -196,18 +197,18 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 
 dword __cdecl audio_thread_loop(void* blah)
 {
-	return INVOKE(0x00504F80, audio_thread_loop, blah);
+	//return INVOKE(0x00504F80, audio_thread_loop, blah);
 
-	//if (game_is_multithreaded())
-	//{
-	//	while (!current_thread_should_exit())
-	//	{
-	//		current_thread_update_test_functions();
-	//		sound_render_dispatch();
-	//	}
-	//}
-	//
-	//return 1;
+	if (game_is_multithreaded())
+	{
+		while (!current_thread_should_exit())
+		{
+			current_thread_update_test_functions();
+			sound_render_dispatch();
+		}
+	}
+	
+	return 1;
 }
 
 //.text:00505170 ; public: bool __cdecl s_scenario_zone_activation::is_empty() const
