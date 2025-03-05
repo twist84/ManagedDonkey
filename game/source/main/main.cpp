@@ -74,6 +74,7 @@ REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x005063A0, main_loop_pregame);
+HOOK_DECLARE(0x00506430, main_loop_pregame_disable);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
 HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
@@ -1338,7 +1339,15 @@ void __cdecl main_loop_pregame()
 
 void __cdecl main_loop_pregame_disable(bool disable)
 {
-	INVOKE(0x00506430, main_loop_pregame_disable, disable);
+	//INVOKE(0x00506430, main_loop_pregame_disable, disable);
+
+	if (is_main_thread())
+	{
+		if (disable)
+			main_globals.main_loop_pregame_entered++;
+		else
+			main_globals.main_loop_pregame_entered--;
+	}
 }
 
 void __cdecl main_loop_pregame_show_progress_screen()
