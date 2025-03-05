@@ -861,7 +861,11 @@ void __cdecl main_render_sapien()
 	main_render_game();
 }
 
-//.text:00604AD0 ; sets a bool related to D3D
+// sets a bool related to D3D
+void __cdecl main_render_sub_604AD0()
+{
+	INVOKE(0x00604AD0, main_render_sub_604AD0);
+}
 
 void __cdecl main_render_start_blocking_frame()
 {

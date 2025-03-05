@@ -79,6 +79,7 @@ extern void __cdecl sub_604A20();
 extern void __cdecl main_render_process_messages();
 extern void __cdecl main_render_purge_pending_messages();
 extern void __cdecl main_render_sapien();
+extern void __cdecl main_render_sub_604AD0();
 extern void __cdecl main_render_start_blocking_frame();
 extern void __cdecl main_render_status_message(wchar_t const* loading_status);
 extern void __cdecl main_render_update_loading_screen();

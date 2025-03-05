@@ -1160,21 +1160,6 @@ void __cdecl main_loop_body_multi_threaded()
 	publish_waiting_gamestate();
 }
 
-enum e_main_loop_body_part_flags
-{
-	// 1: main_pix_add_named_counter
-	//  - main_thread_work_ms
-	//  - main_thread_constant_overhead_ms
-	//  - main_thread_raw_ms
-	//  - main_thread_raw_game_ticks_ms
-	//  - main_thread_raw_publish_ms
-	//  - main_thread_zone_set_switch_raw_ms
-	//  - main_thread_game_state_flush_raw_ms
-
-	_main_loop_body_part_flags_count = 3
-};
-
-//void __cdecl main_loop_body_single_threaded(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run) // debug?
 void __cdecl main_loop_body_single_threaded()
 {
 	//INVOKE(0x00506080, main_loop_body_single_threaded);
@@ -1278,8 +1263,6 @@ void __cdecl main_loop_exit()
 {
 	//INVOKE(0x00506360, main_loop_exit);
 
-	REFERENCE_DECLARE(0x02446530, bool, d3d_resource_allocator_dont_release);
-
 	render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled);
 	main_loop_dispose_restricted_regions();
 
@@ -1289,7 +1272,7 @@ void __cdecl main_loop_exit()
 		wait_for_thread_to_exit(k_thread_render, 1);
 	}
 
-	d3d_resource_allocator_dont_release = true;
+	main_render_sub_604AD0();
 	main_game_unload_and_prepare_for_next_game(NULL);
 	physical_memory_resize_region_dispose();
 	game_dispose();
