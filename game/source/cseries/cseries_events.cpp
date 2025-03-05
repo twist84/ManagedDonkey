@@ -907,7 +907,7 @@ bool console_update_spam_prevention(e_event_level event_level)
 	return true;
 }
 
-void write_to_console(e_event_level event_level, long category_index, const char* string)
+void write_to_console(e_event_level event_level, long category_index, char const* string)
 {
 	enum
 	{

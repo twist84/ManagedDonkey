@@ -5,7 +5,7 @@
 struct object_datum;
 struct s_watch_object_results
 {
-	const char* object_information;
+	char const* object_information;
 	object_datum* object;
 };
 static_assert(sizeof(s_watch_object_results) == 0x8);

@@ -35,9 +35,9 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	char const* file,
 	long line,
 	e_controller_index controller_index,
-	const wchar_t* default_text,
-	const wchar_t* title_text,
-	const wchar_t* description_text,
+	wchar_t const* default_text,
+	wchar_t const* title_text,
+	wchar_t const* description_text,
 	dword maximum_input_characters,
 	dword_flags character_flags,
 	bool sanitize_result

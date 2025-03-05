@@ -49,7 +49,7 @@ static_assert(sizeof(s_thread_assert_arguments) == 0x10);
 
 struct s_thread_definition
 {
-	const char* name;
+	char const* name;
 	dword processor_index;
 	dword stack_size;
 	e_thread_priority default_priority;

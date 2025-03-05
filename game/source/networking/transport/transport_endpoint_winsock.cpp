@@ -461,7 +461,7 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
     short result = 0;
     if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
     {
-        short bytes_written = send(endpoint->socket, static_cast<const char*>(buffer), length, 0);
+        short bytes_written = send(endpoint->socket, static_cast<char const*>(buffer), length, 0);
         if (bytes_written == short(0xFFFF))
         {
             int error = WSAGetLastError();
