@@ -211,7 +211,7 @@ static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file
 
 extern c_cache_file_copy_optional_cache_callback& g_cache_file_copy_optional_cache_callback;
 extern c_cache_file_copy_fake_decompressor& g_copy_decompressor;
-extern bool& g_cache_files_are_absolute;
+extern bool& g_cache_files_read_from_map_directory;
 extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
@@ -257,6 +257,7 @@ extern void __cdecl cache_files_delete_if_language_has_changed();
 extern long __cdecl cache_files_get_file_status(char const* scenario_path);
 extern bool __cdecl cache_files_has_map_terminal_failure(char const* scenario_path);
 extern void __cdecl cache_files_initialize();
+extern bool __cdecl cache_files_read_from_map_directory();
 extern bool __cdecl cache_files_running_off_dvd();
 extern long __cdecl cache_map_file_nuke(e_map_file_index map_file_index, e_async_category category, e_async_priority priority, bool* success, c_synchronized_long* done);
 extern void __cdecl cache_requests_flush();

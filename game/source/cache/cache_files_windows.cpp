@@ -14,7 +14,7 @@ REFERENCE_DECLARE_ARRAY(0x0165B364, long, k_action_to_copy_buffer_size, 7);
 
 REFERENCE_DECLARE(0x018A1A50, c_cache_file_copy_optional_cache_callback, g_cache_file_copy_optional_cache_callback);
 REFERENCE_DECLARE(0x018A1A54, c_cache_file_copy_fake_decompressor, g_copy_decompressor);
-REFERENCE_DECLARE(0x0240B1E0, bool, g_cache_files_are_absolute);
+REFERENCE_DECLARE(0x0240B1E0, bool, g_cache_files_read_from_map_directory);
 REFERENCE_DECLARE(0x0240B1E8, s_cache_file_table_of_contents, cache_file_table_of_contents);
 REFERENCE_DECLARE(0x0243C098, s_cache_file_copy_globals, cache_file_copy_globals);
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
@@ -22,6 +22,8 @@ REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 HOOK_DECLARE(0x005AA7C0, cache_file_open);
 HOOK_DECLARE(0x005AA870, cache_file_read_ex);
 HOOK_DECLARE(0x005AAE70, cache_files_copy_map_start_only);
+HOOK_DECLARE(0x005AB4F0, cache_files_read_from_map_directory);
+HOOK_DECLARE(0x005AB540, cache_files_running_off_dvd);
 HOOK_DECLARE(0x005AB630, cached_map_file_close);
 HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 
@@ -570,7 +572,7 @@ bool __cdecl cache_file_open(char const* scenario_path, void* header)
 {
 	//return INVOKE(0x005AA7C0, cache_file_open, scenario_path, header);
 
-	if (levels_path_is_dlc(scenario_path) && g_cache_files_are_absolute)
+	if (levels_path_is_dlc(scenario_path) && cache_files_read_from_map_directory())
 	{
 		e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
 		if (map_file_index != k_no_cached_map_file_index)
@@ -581,7 +583,7 @@ bool __cdecl cache_file_open(char const* scenario_path, void* header)
 	if (levels_path_is_dlc(scenario_path))
 		levels_open_dlc(scenario_path, true);
 
-	if (g_cache_files_are_absolute)
+	if (cache_files_read_from_map_directory())
 	{
 		if (map_file_index == k_no_cached_map_file_index)
 		{
@@ -776,10 +778,7 @@ void __cdecl cache_files_initialize()
 {
 	//INVOKE(0x005AB370, cache_files_initialize);
 
-	// seems like it was added in ODST?
-	// controls a few things
-	// this is the best name that we thought of
-	g_cache_files_are_absolute = true;
+	g_cache_files_read_from_map_directory = true;
 
 	csmemset(&cache_file_table_of_contents, 0, sizeof(cache_file_table_of_contents));
 	csmemset(&cache_file_copy_globals, 0, sizeof(cache_file_copy_globals));
@@ -803,14 +802,22 @@ void __cdecl cache_files_initialize()
 
 //.text:005AB450 ; bool __cdecl cache_files_locked_by_map(e_map_file_index, e_map_file_index)
 //.text:005AB490 ; bool __cdecl cache_files_locked_by_map_and_header(e_map_file_index, e_map_file_index, s_cache_file_header const*)
-//.text:005AB4F0 ; cache_files_are_absolute?
+//.text:005AB4E0 ; 
+
+bool __cdecl cache_files_read_from_map_directory()
+{
+	//return INVOKE(0x005AB4F0, cache_files_read_from_map_directory);
+
+	return g_cache_files_read_from_map_directory;
+}
+
 //.text:005AB500 ; void __cdecl cache_files_reset_failed_dlc_maps()
 
 bool __cdecl cache_files_running_off_dvd()
 {
-	return INVOKE(0x005AB540, cache_files_running_off_dvd);
+	//return INVOKE(0x005AB540, cache_files_running_off_dvd);
 
-	//return false;
+	return false;
 }
 
 //.text:005AB550 ; bool __cdecl cache_map_file_can_use_for_io(e_map_file_index)
@@ -915,7 +922,7 @@ void __cdecl cached_map_files_open_all(bool* success)
 
 	event(_event_message, "cache: open all cache map files");
 
-	if (g_cache_files_are_absolute)
+	if (cache_files_read_from_map_directory())
 	{
 		for (s_cached_map_file& map_file : cache_file_table_of_contents.map_files)
 		{
