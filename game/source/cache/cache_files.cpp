@@ -290,45 +290,34 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 	//return NONE;
 }
 
-void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size)
-{
-	INVOKE(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
+//.text:00501850 ; 
+//.text:00501870 ; c_static_string<256>* __cdecl cache_file_get_path(c_static_string<256>* result, char const* scenario_name)
 
-	//csnzprintf(buffer, buffer_size, "%s%s%s", cache_files_map_directory(), mapname, k_cache_file_extension);
+void __cdecl cache_file_get_path(char const* scenario_name, char* cache_file_path, long cache_file_path_size)
+{
+	INVOKE(0x005018C0, cache_file_get_path, scenario_name, cache_file_path, cache_file_path_size);
+
+	//csnzprintf(cache_file_path, cache_file_path_size, "%s%s%s", cache_files_map_directory(), scenario_name, k_cache_file_extension);
 }
 
-#pragma pack(push, 4)
-struct s_cache_file_security_globals
+struct __declspec(align(8)) s_cache_file_security_globals
 {
-	s_cache_file_header header;
-	bool valid_content_signature;
-	c_static_array<dword, 1> hash_sizes;
+	s_cache_file_header clean_header;
+	bool hashes_valid;
+	c_static_array<long, 1> hash_sizes;
 	c_static_array<void const*, 1> hash_addresses;
 	c_static_array<s_network_http_request_hash, 1> hashes;
-	struct
-	{
-		dword count;
-		dword state[5];
-		byte buffer[64];
-		dword sha[234];
-	}
-	state;
-
-	s_network_http_request_hash hash;
+	byte hash_working_memory[0x400];
+	s_network_http_request_hash hash_of_hashes;
 	s_rsa_signature rsa_signature;
-	byte __data38C4[4];
 };
-static_assert(0x000038C8 == sizeof(s_cache_file_security_globals));
-static_assert(0x00000000 == OFFSETOF(s_cache_file_security_globals, header));
-static_assert(0x00003390 == OFFSETOF(s_cache_file_security_globals, valid_content_signature));
+static_assert(sizeof(s_cache_file_security_globals) == 0x38C8);
+static_assert(0x00000000 == OFFSETOF(s_cache_file_security_globals, clean_header));
+static_assert(0x00003390 == OFFSETOF(s_cache_file_security_globals, hashes_valid));
 static_assert(0x00003394 == OFFSETOF(s_cache_file_security_globals, hash_sizes));
 static_assert(0x00003398 == OFFSETOF(s_cache_file_security_globals, hash_addresses));
 static_assert(0x0000339C == OFFSETOF(s_cache_file_security_globals, hashes));
-static_assert(0x000033B0 == OFFSETOF(s_cache_file_security_globals, state));
-static_assert(0x000037B0 == OFFSETOF(s_cache_file_security_globals, hash));
 static_assert(0x000037C4 == OFFSETOF(s_cache_file_security_globals, rsa_signature));
-static_assert(0x000038C4 == OFFSETOF(s_cache_file_security_globals, __data38C4));
-#pragma pack(pop)
 
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 {
@@ -340,7 +329,7 @@ void const* __cdecl cache_file_globals_get_tag_cache_base_address()
 	//return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
 
 	if (!g_cache_file_globals.tags_loaded)
-		return nullptr;
+		return NULL;
 
 	return g_cache_file_globals.tag_cache_base_address;
 }
@@ -1302,22 +1291,22 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		//{
 		//	main_loop_pregame();
 		//
-		//	security_globals->valid_content_signature = false;
+		//	s_cache_file_security_globals* security_state = security_globals;
+		//	security_globals->hashes_valid = false;
 		//
 		//	csmemset(&security_globals->hashes[0], 0xBB, sizeof(s_network_http_request_hash));
-		//	csmemset(&security_globals->hash, 0xCC, sizeof(s_network_http_request_hash));
+		//	csmemset(&security_globals->hash_of_hashes, 0xCC, sizeof(s_network_http_request_hash));
 		//	csmemset(&security_globals->rsa_signature, 0xDD, sizeof(s_rsa_signature));
 		//
-		//	s_cache_file_security_globals* v6 = security_globals;
-		//	v6->header = header_copy;
-		//	cache_file_builder_security_clean_header(&v6->header);
+		//	security_state->clean_header = header_copy;
+		//	cache_file_builder_security_clean_header(&security_state->clean_header);
 		//
-		//	v6->hash_sizes[0] = sizeof(s_cache_file_header);
-		//	v6->hash_addresses[0] = v6;
+		//	security_state->hash_sizes[0] = sizeof(s_cache_file_header);
+		//	security_state->hash_addresses[0] = security_state;
+		//	byte* hash_working_memory = security_state->hash_working_memory;
 		//
 		//	long v7 = sizeof(s_cache_file_header);
-		//	decltype(v6->state)* hash_state = &v6->state;
-		//	if (security_incremental_hash_begin(&v6->state, sizeof(*hash_state), 1))
+		//	if (security_incremental_hash_begin(hash_working_memory, 0x400, true))
 		//	{
 		//		do
 		//		{
@@ -1325,22 +1314,22 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		//			if (v7 > 0x100000)
 		//				v8 = 0x100000;
 		//
-		//			security_incremental_hash_update(hash_state, sizeof(*hash_state), v6, v8);
+		//			security_incremental_hash_update(hash_working_memory, 0x400, security_state, v8);
 		//			main_loop_pregame();
 		//
 		//			v7 -= v8;
-		//			v6 = (s_cache_file_security_globals*)offset_pointer(v6, v8);
+		//			security_state = (s_cache_file_security_globals*)offset_pointer(security_state, v8);
 		//
 		//		} while (v7 > 0);
-		//		security_incremental_hash_finish(hash_state, sizeof(*hash_state), &v6->hashes[0]);
+		//		security_incremental_hash_finish(hash_working_memory, 0x400, &security_state->hashes[0]);
 		//	}
 		//
-		//	security_calculate_hash(&security_globals->hashes, sizeof(s_network_http_request_hash), 1, &security_globals->hash);
+		//	security_calculate_hash(&security_globals->hashes, sizeof(s_network_http_request_hash), 1, &security_globals->hash_of_hashes);
 		//	security_globals->rsa_signature = g_cache_file_globals.header.rsa_signature;
 		//
 		//	main_loop_pregame();
 		//
-		//	success = security_rsa_compute_and_verify_signature(&security_globals->hash, &security_globals->rsa_signature);
+		//	success = security_rsa_compute_and_verify_signature(&security_globals->hash_of_hashes, &security_globals->rsa_signature);
 		//}
 
 		if (success)
@@ -1354,7 +1343,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		if (success)
 		{
-			security_globals->valid_content_signature = true;
+			security_globals->hashes_valid = true;
 
 			cache_file_tags_fixup_all_instances();
 
