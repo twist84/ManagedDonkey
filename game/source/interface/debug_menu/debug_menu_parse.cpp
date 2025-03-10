@@ -290,18 +290,18 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		break;
 		case _hs_type_short_integer:
 		{
-			short inc_value = short(g_parser_state.m_has_inc ? g_parser_state.m_inc : 1);
-			short max_value = short(g_parser_state.m_has_max ? g_parser_state.m_max : SHRT_MAX - 1);
-			short min_value = short(g_parser_state.m_has_min ? g_parser_state.m_min : ~(SHRT_MAX - 1));
+			short inc_value = g_parser_state.m_has_inc ? (short)g_parser_state.m_inc : 1;
+			short max_value = g_parser_state.m_has_max ? (short)g_parser_state.m_max : SHRT_MAX - 1;
+			short min_value = g_parser_state.m_has_min ? (short)g_parser_state.m_min : SHRT_MIN + 1;
 
 			item = new c_debug_menu_item_type_short(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
 		break;
 		case _hs_type_long_integer:
 		{
-			long inc_value = long(g_parser_state.m_has_inc ? g_parser_state.m_inc : 1);
-			long max_value = long(g_parser_state.m_has_max ? g_parser_state.m_max : LONG_MAX - 1);
-			long min_value = long(g_parser_state.m_has_min ? g_parser_state.m_min : ~(LONG_MAX - 1));
+			long inc_value = g_parser_state.m_has_inc ? (long)g_parser_state.m_inc : 1;
+			long max_value = g_parser_state.m_has_max ? (long)g_parser_state.m_max : LONG_MAX - 1;
+			long min_value = g_parser_state.m_has_min ? (long)g_parser_state.m_min : LONG_MIN + 1;
 
 			item = new c_debug_menu_item_type_long(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
