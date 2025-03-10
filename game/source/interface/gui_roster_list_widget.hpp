@@ -14,7 +14,7 @@ public:
 
 protected:
 	bool m_game_roster_is_local_party;
-	bool m_is_team_game;
+	bool m_is_team_game_internal;
 	bool m_team_switching_enabled;
 	bool m_show_party_bar;
 

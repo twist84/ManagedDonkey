@@ -52,7 +52,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		return true;
 	}
 	break;
-	case STRING_ID(global , team):
+	case STRING_ID(global, team):
 	{
 		*value = player_row->player_configuration.host.team_index;
 		return true;
