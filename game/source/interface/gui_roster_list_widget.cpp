@@ -113,13 +113,13 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				)
 			{
 				bool row_is_player = player_row_type_index == c_gui_roster_data::_player_row_type_player;
-				bool row_is_searching = player_row_type_index == c_gui_roster_data::_player_row_type_found;
-				bool row_is_found = player_row_type_index == c_gui_roster_data::_player_row_type_searching;
+				bool row_is_found = player_row_type_index == c_gui_roster_data::_player_row_type_found;
+				bool row_is_searching = player_row_type_index == c_gui_roster_data::_player_row_type_searching;
 				bool row_is_press_a_to_join = player_row_type_index == c_gui_roster_data::_player_row_type_press_a_to_join;
 
 				ASSERT((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
-				bool matchmaking = in_matchmaking_value > 0;
+				bool in_matchmaking = in_matchmaking_value > 0;
 				bool show_rank_tray = experience != NONE;
 
 				bool is_team_game = m_is_team_game_internal;
@@ -137,14 +137,14 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				list_item_widget->set_enabled(row_is_player);
 
 				player_found_text_widget->set_text(player_found.get_string());
-				player_found_bitmap_widget->set_visible(row_is_searching);
-				player_found_text_widget->set_visible(row_is_searching);
+				player_found_bitmap_widget->set_visible(row_is_found);
+				player_found_text_widget->set_visible(row_is_found);
 
 				looking_for_player_text_widget->set_text(looking_for_player.get_string());
-				looking_for_player_bitmap_widget->set_visible(row_is_found);
-				looking_for_player2_bitmap_widget->set_visible(row_is_found);
-				looking_for_player3_bitmap_widget->set_visible(row_is_found);
-				looking_for_player_text_widget->set_visible(row_is_found);
+				looking_for_player_bitmap_widget->set_visible(row_is_searching);
+				looking_for_player2_bitmap_widget->set_visible(row_is_searching);
+				looking_for_player3_bitmap_widget->set_visible(row_is_searching);
+				looking_for_player_text_widget->set_visible(row_is_searching);
 
 				press_a_to_join_text_widget->set_text(press_a_to_join.get_string());
 				press_a_to_join_bitmap_widget->set_visible(row_is_press_a_to_join);
@@ -191,16 +191,16 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				{
 					experience_bitmap_widget->set_sprite_frame(experience);
 					experience_hilite_bitmap_widget->set_sprite_frame(experience);
-					//experience_bitmap_widget->set_render_as_au2_playlist_rating(matchmaking);
-					//experience_hilite_bitmap_widget->set_render_as_au2_playlist_rating(matchmaking);
+					//experience_bitmap_widget->set_render_as_au2_playlist_rating(in_matchmaking);
+					//experience_hilite_bitmap_widget->set_render_as_au2_playlist_rating(in_matchmaking);
 				}
 
 				rank_tray_bitmap_widget->set_visible(row_is_player);
 				rank_tray_hilite_bitmap_widget->set_visible(row_is_player);
 				if (row_is_player)
 				{
-					//rank_tray_bitmap_widget->set_render_as_au2_rank_tray(matchmaking);
-					//rank_tray_hilite_bitmap_widget->set_render_as_au2_rank_tray(matchmaking);
+					//rank_tray_bitmap_widget->set_render_as_au2_rank_tray(in_matchmaking);
+					//rank_tray_hilite_bitmap_widget->set_render_as_au2_rank_tray(in_matchmaking);
 				}
 
 				switch (special_status_value)
