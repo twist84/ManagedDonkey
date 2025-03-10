@@ -3,6 +3,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_widget.hpp"
 #include "interface/user_interface_session.hpp"
+#include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
@@ -51,6 +52,12 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 		return true;
 	}
 	break;
+	case STRING_ID(global , team):
+	{
+		*value = player_row->player_configuration.host.team_index;
+		return true;
+	}
+	break;
 	//case STRING_ID(gui, matchmaking):
 	//{
 	//	*value = player_row->in_matchmaking;
@@ -60,6 +67,12 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 	case STRING_ID(gui, voice_output):
 	{
 		*value = player_row->voice_state;
+		return true;
+	}
+	break;
+	case STRING_ID(gui, party_bar_length):
+	{
+		*value = player_row->party_bar_length;
 		return true;
 	}
 	break;
@@ -109,85 +122,67 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 
 bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long value_name, c_static_wchar_string<1024>* value)
 {
-	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_text_value, element_handle, value_name, value);
+	//bool result = false;
+	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_text_value, element_handle, value_name, value);
+
+	if (!VALID_INDEX(element_handle, m_player_count))
+		return false;
+
+	c_gui_roster_data::s_player_row* player_row = &m_players[element_handle];
 
 	switch (value_name)
 	{
 	case STRING_ID(global, player_name):
 	{
-		if (!result)
+		if (player_row->player_row_type == _player_row_type_player)
+		{
+			value->set(player_row->player_configuration.host.name.get_string());
 			return true;
-	}
-	break;
-	case STRING_ID(gui, name_hilite):
-	{
-		if (!result)
-			return true;
+		}
 	}
 	break;
 	case STRING_ID(global, press_a_to_join):
 	{
-		value->set(L"PRESS A TO JOIN");
-		if (!result)
+		if (player_row->player_row_type == _player_row_type_press_a_to_join)
+		{
+			user_interface_global_string_get(STRING_ID(global, press_a_to_join), value);
 			return true;
+		}
 	}
 	break;
 	case STRING_ID(gui, looking_for_player):
 	{
-		value->set(L"LOOKING FOR PLAYER");
-		if (!result)
+		if (player_row->player_row_type == _player_row_type_searching)
+		{
+			user_interface_global_string_get(STRING_ID(gui, looking_for_player), value);
 			return true;
+		}
 	}
 	break;
 	case STRING_ID(gui, player_found):
 	{
-		value->set(L"PLAYER FOUND");
-		if (!result)
+		if (player_row->player_row_type == _player_row_type_found)
+		{
+			user_interface_global_string_get(STRING_ID(gui, player_found), value);
 			return true;
+		}
 	}
 	break;
 	case STRING_ID(gui, service_tag):
 	{
-		if (!m_players[element_handle].player_configuration.host.appearance.service_tag.length())
+		bool is_elite = player_row->player_configuration.host.appearance.player_model_choice == _player_model_choice_elite;
+		c_static_wchar_string<1024> player_model_text;
+		if (user_interface_global_string_get(is_elite ? STRING_ID(global, dervish) : STRING_ID(global, masterchief), &player_model_text))
 		{
-			long player_index = m_players[element_handle].session_player_index;
-			if (user_interface_session_is_local_player(player_index))
-			{
-				c_controller_interface* controller = controller_get(m_players[element_handle].local_controller_index);
-
-				if (!value->length())
-				{
-					value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.m_appearance.desired_service_tag);
-				}
-				else
-				{
-					value->append(controller->m_player_profile.m_appearance.desired_service_tag);
-				}
-			}
-			else
-			{
-				s_player_configuration* player_data = user_interface_session_get_player_data(player_index);
-				if (player_data)
-				{
-					if (!value->length())
-					{
-						value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag.get_string());
-					}
-					else
-					{
-						value->append(player_data->host.appearance.service_tag.get_string());
-					}
-				}
-			}
-		}
-
-		if (!result)
+			c_static_wchar_string<256> service_tag_text;
+			service_tag_text.set(player_row->player_configuration.host.appearance.service_tag.get_string());
+			value->print(L"%s - %s", player_model_text.get_string(), service_tag_text.get_string());
 			return true;
+		}
 	}
 	break;
 	}
 
-	return result;
+	return false;
 }
 

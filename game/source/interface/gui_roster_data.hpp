@@ -10,8 +10,8 @@ struct c_gui_roster_data :
 	enum e_player_row_type
 	{
 		_player_row_type_player,
-		_player_row_type_player_found,
-		_player_row_type_looking_for_player,
+		_player_row_type_found,
+		_player_row_type_searching,
 		_player_row_type_press_a_to_join,
 
 		k_player_row_type_count
@@ -23,7 +23,16 @@ struct c_gui_roster_data :
 		_voice_state_has_voice,
 		_voice_state_talking,
 		_voice_state_away_in_private_chat,
-		_voice_state_muted,
+		_voice_state_muted
+	};
+
+	enum e_special_status
+	{
+		_special_status_none = 0,
+		_special_status_error,
+		_special_status_party_up_undecided_leader,
+		_special_status_party_up_chosen_leader,
+		_special_status_party_up_chosen_member
 	};
 
 	struct s_player_row
