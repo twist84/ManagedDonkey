@@ -346,7 +346,11 @@ long c_gui_widget::get_name()
 	return __vftable->get_name(this);
 }
 
-//.text:00AB94D0 ; public: c_gui_widget* __cdecl c_gui_widget::get_next()
+c_gui_widget* c_gui_widget::get_next()
+{
+	return INVOKE_CLASS_MEMBER(0x00AB94D0, c_gui_widget, get_next);
+}
+
 //.text:00AB9500 ; public: c_gui_bitmap_widget* __cdecl c_gui_widget::get_previous_bitmap_widget()
 //.text:00AB9510 ; public: c_gui_list_item_widget* __cdecl c_gui_widget::get_previous_list_item_widget(bool)
 //.text:00AB9540 ; public: c_gui_list_widget* __cdecl c_gui_widget::get_previous_list_widget()
@@ -487,7 +491,12 @@ void c_gui_widget::set_enabled(bool a1)
 //.text:00ABA550 ; public: virtual void __cdecl c_sized_user_interface_text<48>::set_string(wchar_t const*, bool, long)
 //.text:00ABA630 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::set_string(wchar_t const*, bool, long)
 //.text:00ABA730 ; 
-//.text:00ABA760 ; public: void __cdecl c_gui_widget::set_use_alternate_ambient_state(bool)
+
+void c_gui_widget::set_use_alternate_ambient_state(bool value)
+{
+	INVOKE_CLASS_MEMBER(0x00ABA760, c_gui_widget, set_use_alternate_ambient_state, value);
+}
+
 //.text:00ABA7D0 ; 
 
 void c_gui_widget::set_visible(bool value)

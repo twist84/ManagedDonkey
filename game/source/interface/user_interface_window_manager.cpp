@@ -1,6 +1,7 @@
 #include "interface/user_interface_window_manager.hpp"
 
 #include "cseries/cseries.hpp"
+#include "interface/c_gui_widget.hpp"
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
@@ -31,7 +32,12 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 //.text:00AAAE80 ; public: void c_window_manager::dispose_screen(c_gui_screen_widget*)
 //.text:00AAB090 ; 
 //.text:00AAB0A0 ; public: c_gui_screen_widget* c_window_manager::get_bottommost_screen(e_window_index)
-//.text:00AAB0D0 ; c_gui_widget::get_children
+
+c_gui_widget* c_gui_widget::get_children()
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB0D0, c_gui_widget, get_children);
+}
+
 //.text:00AAB100 ; 
 //.text:00AAB110 ; 
 //.text:00AAB120 ; public: bool c_window_manager::get_fading() const

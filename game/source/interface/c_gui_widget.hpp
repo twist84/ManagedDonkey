@@ -231,6 +231,7 @@ public:
 	c_gui_list_widget* get_parent_list();
 	c_gui_list_item_widget* get_parent_list_item();
 	c_gui_screen_widget* get_parent_screen();
+	void set_use_alternate_ambient_state(bool value);
 	void set_visible(bool value);
 	c_gui_widget* get_child_widget(e_gui_widget_type type, long name);
 	c_gui_bitmap_widget* get_child_bitmap_widget(long name);
@@ -243,6 +244,8 @@ public:
 
 	e_controller_index get_any_responding_controller() const;
 	void __thiscall get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	c_gui_widget* get_next();
+	c_gui_widget* get_children();
 
 //protected:
 	long __unknown4;
