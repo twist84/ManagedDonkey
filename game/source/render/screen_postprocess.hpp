@@ -119,9 +119,10 @@ struct c_screen_postprocess
 	static void __cdecl setup_rasterizer_for_postprocess(bool a1);
 
 	static c_screen_postprocess::s_settings const* const& x_settings;
+	static c_screen_postprocess::s_settings& x_editable_settings;
 };
 
-extern void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings,
+extern void __cdecl render_ssao(c_camera_fx_settings* fx_settings,
 	render_projection* projection,
 	render_camera* camera);
 

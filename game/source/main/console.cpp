@@ -45,6 +45,7 @@
 #include "render/render_transparents.hpp"
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
+#include "render/screen_postprocess.hpp"
 #include "render/views/render_player_view.hpp"
 #include "render/views/render_view.hpp"
 #include "scenario/scenario_soft_ceilings.hpp"
@@ -926,6 +927,21 @@ s_console_global const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_animation_fp_sprint_disable),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_first_person_skeleton),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_postprocess, c_screen_postprocess::x_editable_settings.m_postprocess),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_accum, c_screen_postprocess::x_editable_settings.m_accum),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_bloom_source, c_screen_postprocess::x_editable_settings.m_bloom_source),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_persist, c_screen_postprocess::x_editable_settings.m_persist),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_bloom, c_screen_postprocess::x_editable_settings.m_bloom),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_bling, c_screen_postprocess::x_editable_settings.m_bling),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_downsample, c_screen_postprocess::x_editable_settings.m_downsample),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_show_alpha, c_screen_postprocess::x_editable_settings.m_display_alpha),
+	CONSOLE_GLOBAL_DECLARE_REAL2(render_postprocess_exposure, c_screen_postprocess::x_editable_settings.m_postprocess_exposure),
+	CONSOLE_GLOBAL_DECLARE_LONG2(render_accum_filter, c_screen_postprocess::x_editable_settings.m_accum_filter),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_tone_curve, c_screen_postprocess::x_editable_settings.m_tone_curve),
+	CONSOLE_GLOBAL_DECLARE_REAL2(render_tone_curve_white, c_screen_postprocess::x_editable_settings.m_tone_curve_white_point),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_exposure_lock, c_screen_postprocess::x_editable_settings.m_auto_exposure_lock),
+
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

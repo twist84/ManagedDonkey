@@ -8,17 +8,18 @@
 #include "render/render.hpp"
 
 REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
+REFERENCE_DECLARE(0x05115B00, c_screen_postprocess::s_settings, c_screen_postprocess::x_editable_settings);
 
 decltype(c_screen_postprocess::postprocess_player_view)* screen_postprocess_postprocess_player_view = c_screen_postprocess::postprocess_player_view;
 HOOK_DECLARE_CALL(0x00A39F4E, screen_postprocess_postprocess_player_view);
-HOOK_DECLARE_CALL(0x00A3A171, sub_A62D70);
+HOOK_DECLARE_CALL(0x00A3A171, render_ssao);
 
 HOOK_DECLARE_CLASS(0x00A60460, c_screen_postprocess, copy);
 HOOK_DECLARE_CLASS(0x00A601E0, c_screen_postprocess, blit);
 HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
 HOOK_DECLARE_CLASS(0x00A61BBD, c_screen_postprocess, render_lightshafts);
 
-void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
+void __cdecl render_ssao(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
 {
 	if (game_is_splitscreen_deterministic())
 		return;
@@ -31,7 +32,7 @@ void __cdecl sub_A62D70(c_camera_fx_settings* fx_settings, render_projection* pr
 	{
 		c_rasterizer_profile_scope _ssao(_rasterizer_profile_element_total, L"ssao");
 
-		INVOKE(0x00A62D70, sub_A62D70, fx_settings, projection, camera);
+		INVOKE(0x00A62D70, render_ssao, fx_settings, projection, camera);
 	}
 }
 
