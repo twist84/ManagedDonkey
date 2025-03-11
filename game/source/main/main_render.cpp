@@ -755,7 +755,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
 	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
-	game_engine_render_frame_watermarks_for_controller(_controller_index0);
+	game_engine_render_frame_watermarks_for_controller(_controller0);
 }
 
 void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* pregame_frame_text)

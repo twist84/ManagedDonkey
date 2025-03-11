@@ -37,7 +37,7 @@ public:
 	c_http_post_source m_http_post_source;
 	c_http_stored_buffer_downloader<1024> m_http_uploader;
 	long : 32; // pad for `c_http_stored_buffer_downloader` this shouldn't be needed
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 	long m_screenshots_uploader_task;
 	long m_screenshot_upload_time;
 	c_url_string m_screenshots_uploader_url;

@@ -694,7 +694,7 @@ short const _hs_type_enum_team_default = NONE;
 short const _hs_type_enum_mp_team_default = _multiplayer_team_red;
 
 // 0166D6A0
-short const _hs_type_enum_controller_default = _controller_index0;
+short const _hs_type_enum_controller_default = _controller0;
 
 // 0166D6A4
 short const _hs_type_enum_button_preset_default = _button_preset_standard;

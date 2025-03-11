@@ -243,7 +243,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
 
-	c_flags<e_bitmap_flags, word, k_tag_bitmap_flags_count> flags;
+	c_flags<e_bitmap_flags, word, k_bitmap_flags_count> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
 	point2d registration_point;

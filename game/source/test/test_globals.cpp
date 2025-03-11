@@ -275,18 +275,18 @@ void __cdecl test_main_loop_body_end()
 	if (game_is_ui_shell())
 	{
 		if (input_key_frames_down(_key_code_right_parenthesis, _input_type_ui) == 1)
-			event_manager_button_pressed(_controller_index0, _button_action_left_bumper);
+			event_manager_button_pressed(_controller0, _button_action_left_bumper);
 
 		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_ui) == 1)
-			event_manager_button_pressed(_controller_index0, _button_action_right_bumper);
+			event_manager_button_pressed(_controller0, _button_action_right_bumper);
 	}
 	else
 	{
 		if (input_key_frames_down(_key_code_right, _input_type_game) == 1)
-			event_manager_button_pressed(_controller_index0, _button_action_left_bumper);
+			event_manager_button_pressed(_controller0, _button_action_left_bumper);
 
 		if (input_key_frames_down(_key_code_left, _input_type_game) == 1)
-			event_manager_button_pressed(_controller_index0, _button_action_right_bumper);
+			event_manager_button_pressed(_controller0, _button_action_right_bumper);
 	}
 
 	//// home cluster keys
@@ -328,7 +328,7 @@ void __cdecl test_main_loop_body_end()
 	//}
 	//if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
 	//{
-	//	load_game_browser(_controller_index0, 0, _browse_system_link);
+	//	load_game_browser(_controller0, 0, _browse_system_link);
 	//}
 }
 

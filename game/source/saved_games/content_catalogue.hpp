@@ -10,7 +10,7 @@
 struct s_data_array;
 struct c_content_catalogue
 {
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 	s_data_array* m_content_item_data_array;
 	s_content_item* m_content_item_array;
 	s_content_item m_content_item;

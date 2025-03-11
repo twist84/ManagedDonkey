@@ -123,7 +123,7 @@ struct c_player_profile_interface
 
 	long m_settings_read_retry_count;
 	dword m_next_settings_read_retry_time_milliseconds;
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 	bool m_achievements_report_as_obtained;
 
 	struct

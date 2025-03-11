@@ -731,7 +731,7 @@ void network_test_set_player_color(long profile_color_index)
 
 	for (long user_index = 0; user_index < 4; user_index++)
 	{
-		e_controller_index controller_index = _controller_index0;
+		e_controller_index controller_index = _controller0;
 		s_player_configuration player_data{};
 		dword player_voice_settings = 0;
 

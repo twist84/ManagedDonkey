@@ -38,7 +38,7 @@ void c_debug_menu::update()
 	gamepad_state const& state = debug_menu_get_gamepad_state();
 	gamepad_state const& last_state = debug_menu_get_last_gamepad_state();
 	s_game_input_state* input_state;
-	input_abstraction_get_input_state(_controller_index0, &input_state);
+	input_abstraction_get_input_state(_controller0, &input_state);
 	if (get_enabled())
 	{
 		if (input_key_frames_down(_key_code_up, _input_type_ui) == 1 || state.button_frames_down[_controller_button_dpad_up])

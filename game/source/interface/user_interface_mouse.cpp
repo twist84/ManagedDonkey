@@ -101,7 +101,7 @@ void user_interface_mouse_update_internal()
 {
 	user_interface_mouse_update_tracking();
 
-	user_interface_mouse_globals.controller_index = _controller_index0;
+	user_interface_mouse_globals.controller_index = _controller0;
 	real x = real(c_rasterizer::render_globals.resolution_offset_x);
 	real y = real(c_rasterizer::render_globals.resolution_offset_y);
 	real width = real(c_rasterizer::render_globals.window_width24);

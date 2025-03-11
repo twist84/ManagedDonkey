@@ -78,7 +78,7 @@ protected:
 	long m_posted_time;
 	c_string_id m_title;
 	c_string_id m_message;
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 	c_static_wchar_string<256> m_custom_title;
 	c_static_wchar_string<256> m_custom_message;
 	bool m_blocking;

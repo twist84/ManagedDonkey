@@ -173,7 +173,7 @@ void __cdecl hf2p_game_update()
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
 
 			// $TODO: when we have full control over player profile and player customization maybe update and use this
-			//c_player_profile_interface* player_profile = controller_get(_controller_index0)->get_player_profile_interface();
+			//c_player_profile_interface* player_profile = controller_get(_controller0)->get_player_profile_interface();
 			//e_player_color_index primary_change_color = player_profile->get_primary_change_color();
 			//e_player_color_index secondary_change_color = player_profile->get_secondary_change_color();
 			//
@@ -280,7 +280,7 @@ s_s3d_player_armor_configuration_loadout& get_armor_loadout()
 	static s_s3d_player_armor_configuration_loadout loadout{};
 
 	long user_index = 0;
-	e_controller_index controller_index = _controller_index0;
+	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
 	dword player_voice_settings = 0;
 
@@ -298,7 +298,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 	static s_s3d_player_weapon_configuration_loadout loadout;
 
 	long user_index = 0;
-	e_controller_index controller_index = _controller_index0;
+	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
 	dword player_voice_settings = 0;
 

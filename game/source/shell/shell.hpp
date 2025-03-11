@@ -428,14 +428,14 @@ enum e_player_model_choice
 	k_number_of_player_model_choices
 };
 
-#define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller_index0 && (CONTROLLER) < k_number_of_controllers)
+#define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)
 
 enum e_controller_index
 {
-	_controller_index0 = 0,
-	_controller_index1,
-	_controller_index2,
-	_controller_index3,
+	_controller0 = 0,
+	_controller1,
+	_controller2,
+	_controller3,
 
 	k_number_of_controllers,
 

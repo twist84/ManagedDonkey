@@ -133,7 +133,7 @@ struct c_gui_scoreboard_data :
 	long m_current_scoreboard_mode;
 	c_static_array<s_player_row, 25> m_player_rows;
 	long m_player_row_count;
-	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
 
