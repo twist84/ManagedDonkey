@@ -9,6 +9,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, _get_integer_value);
 HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value);
+HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, _update);
 
 // $TODO: reimplement `c_gui_active_roster_data::update`
 
@@ -184,5 +185,97 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 	}
 
 	return false;
+}
+
+void __thiscall c_gui_active_roster_data::_update()
+{
+	HOOK_INVOKE_CLASS_MEMBER(, c_gui_active_roster_data, _update);
+
+	//c_gui_data::update();
+	//
+	//s_life_cycle_matchmaking_progress matchmaking_progress{};
+	//if (user_interface_squad_in_matchmaking())
+	//	user_interface_matchmaking_get_matchmaking_progress(&matchmaking_progress);
+	//
+	//if (!m_pause_updating &&
+	//	(user_interface_interactive_session_is_squad() || user_interface_interactive_session_is_group()) &&
+	//	(!user_interface_squad_in_matchmaking() || matchmaking_progress.progress_type))
+	//{
+	//	if (user_interface_squad_in_matchmaking() &&
+	//		matchmaking_progress.progress_type == _life_cycle_matchmaking_progress_post_match &&
+	//		matchmaking_progress.configuring_match.configuring_progress.encountered_load_failure)
+	//	{
+	//		long player_index = 0;
+	//		while (player_index < 16 && !user_interface_session_is_local_player(player_index))
+	//		{
+	//			player_index++;
+	//		}
+	//
+	//		if (player_index < 16)
+	//		{
+	//			user_interface_get_player_party_nonce(player_index);
+	//		}
+	//	}
+	//
+	//	m_player_count = 0;
+	//	dword player_error_mask = 0;
+	//	e_session_game_start_status session_game_start_status = user_interface_get_session_game_start_status(NULL, &player_error_mask);
+	//
+	//	for (long session_player_index = 0; session_player_index < 16; session_player_index++)
+	//	{
+	//		if (!user_interface_session_is_player_valid(session_player_index))
+	//			continue;
+	//
+	//		dword player_mask = FLAG(session_player_index);
+	//		e_special_status special_status = _special_status_none;
+	//		e_controller_index local_controller_index = k_no_controller;
+	//
+	//		if (user_interface_interactive_session_is_squad())
+	//		{
+	//			if (session_game_start_status == _session_game_start_status_error && TEST_MASK(player_mask, player_error_mask))
+	//				special_status = _special_status_error;
+	//		}
+	//		else if (matchmaking_progress.progress_type == _life_cycle_matchmaking_progress_post_match)
+	//		{
+	//			if (TEST_MASK(player_mask, matchmaking_progress.searching.search_criteria.searching_skill_range_max))
+	//			{
+	//				special_status = _special_status_party_up_chosen_leader;
+	//			}
+	//			else if (TEST_MASK(player_mask, matchmaking_progress.searching.search_criteria.searching_skill_range_min))
+	//			{
+	//				special_status = _special_status_party_up_undecided_leader;
+	//			}
+	//			else if (TEST_MASK(player_mask, matchmaking_progress.searching.search_criteria.searching_party_size_min))
+	//			{
+	//				special_status = _special_status_party_up_chosen_member;
+	//			}
+	//		}
+	//		if (user_interface_session_is_local_player(session_player_index))
+	//			local_controller_index = user_interface_session_get_controller_index(session_player_index);
+	//		s_player_row* player_row = c_gui_roster_data::add_player_internal(_player_row_type_player,
+	//			session_player_index,
+	//			user_interface_squad_get_player_identifier(session_player_index),
+	//			user_interface_session_get_player_data(session_player_index),
+	//			local_controller_index,
+	//			_voice_state_none,
+	//			special_status,
+	//			user_interface_networking_should_show_skill());
+	//	}
+	//
+	//	c_gui_active_roster_data::update_press_a_to_join_slots();
+	//	c_gui_roster_data::update_matchmaking_slots();
+	//
+	//	if (user_interface_interactive_session_is_squad())
+	//	{
+	//		m_players.sort(m_player_count, squad_roster_sort_proc);
+	//	}
+	//	else
+	//	{
+	//		c_gui_active_roster_data::calculate_group_aggregates_for_sorting();
+	//		m_players.sort(m_player_count, group_roster_sort_proc);
+	//	}
+	//
+	//	c_gui_active_roster_data::update_party_bar();
+	//}
 }
 

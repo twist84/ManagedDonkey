@@ -111,6 +111,7 @@ static_assert(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for
 struct c_gui_active_roster_data :
 	c_gui_roster_data
 {
+	void __thiscall _update();
 };
 static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 
