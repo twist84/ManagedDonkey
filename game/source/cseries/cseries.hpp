@@ -184,8 +184,9 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define FLAG(bit) (1 << (bit))
 #define MASK(bit) ((1 << (bit)) - 1)
 #define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
+#define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
 #define TEST_FLAG(flags, bit) (flags.test((bit)))
-#define TEST_MASK(flags, mask) (((flags) & mask) != 0)
+#define TEST_MASK(flags, mask) (((flags) & (mask)) != 0)
 #define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
 #define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
 #define SET_BIT(flags, bit, enable) { if ((enable)) { (flags) |= FLAG((bit)); } else { (flags) &= ~FLAG((bit)); } }
