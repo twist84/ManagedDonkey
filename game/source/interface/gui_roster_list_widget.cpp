@@ -25,7 +25,7 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 	{
 		update_team_mode();
 
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_widget_type_list_item));
+		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_list_item));
 			list_item_widget;
 			list_item_widget = list_item_widget->get_next_list_item_widget(true))
 		{
@@ -297,7 +297,7 @@ void __thiscall c_gui_roster_list_widget::update_render_state(dword current_mill
 
 	if (data)
 	{
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_widget_type_list_item));
+		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_list_item));
 			list_item_widget;
 			list_item_widget = list_item_widget->get_next_list_item_widget(true))
 		{

@@ -84,17 +84,18 @@ static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
 
 enum e_gui_widget_type
 {
-	_gui_widget_type_text = 0,
-	_gui_widget_type_bitmap,
-	_gui_widget_type_model,
-	_gui_widget_type_group,
-	_gui_widget_type_button_key,
-	_gui_widget_type_list_item,
-	_gui_widget_type_slider,
-	_gui_widget_type_list,
-	_gui_widget_type_screen,
+	_gui_text = 0,
+	_gui_bitmap,
+	_gui_model,
+	_gui_group,
+	_gui_button_key,
+	_gui_list_item,
+	_gui_slider,
+	_gui_list,
+	_gui_screen,
 
-	k_gui_widget_type_count
+	k_number_of_gui_element_types,
+	k_gui_widget_type_invalid = -1
 };
 
 enum e_controller_index;
@@ -249,7 +250,7 @@ public:
 
 //protected:
 	long __unknown4;
-	c_enum<e_gui_widget_type, long, _gui_widget_type_text, k_gui_widget_type_count> m_type;
+	c_enum<e_gui_widget_type, long, _gui_text, k_number_of_gui_element_types> m_type;
 
 	bool m_visible;
 	bool m_enabled;

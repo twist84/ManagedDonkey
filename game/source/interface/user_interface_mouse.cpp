@@ -152,7 +152,7 @@ void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_recta
 
 void user_interface_mouse_compute_list_item_bounds(c_gui_list_item_widget* list_item_widget, real_rectangle2d* bounds)
 {
-	user_interface_mouse_compute_widget_bounds(list_item_widget, bounds, [](c_gui_widget const* widget) -> bool { return widget->m_visible && widget->m_type == _gui_widget_type_bitmap; });
+	user_interface_mouse_compute_widget_bounds(list_item_widget, bounds, [](c_gui_widget const* widget) -> bool { return widget->m_visible && widget->m_type == _gui_bitmap; });
 
 	real_point2d anchor_position{};
 	anchor_position.x = list_item_widget->m_animated_state.position.x;
@@ -228,7 +228,7 @@ void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_
 
 bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget)
 {
-	for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item);
+	for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)list_widget->get_first_child_widget_by_type(_gui_list_item);
 		list_item_widget;
 		list_item_widget = list_item_widget->get_next_list_item_widget(true))
 	{
@@ -295,7 +295,7 @@ bool user_interface_mouse_handle_list_widgets(c_gui_screen_widget* screen_widget
 			e_gui_widget_type widget_type = list_widget->m_type;
 			switch (widget_type)
 			{
-			case _gui_widget_type_list:
+			case _gui_list:
 				result = user_interface_mouse_handle_list_widget(screen_widget, list_widget);
 				break;
 			default:
@@ -317,10 +317,10 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 	}
 
 	c_gui_widget* focused_widget = screen_widget->get_focused_widget();
-	if (focused_widget && focused_widget->m_type == _gui_widget_type_list_item)
+	if (focused_widget && focused_widget->m_type == _gui_list_item)
 	{
 		c_gui_list_widget* parent_list_widget = focused_widget->get_parent_list();
-		if (parent_list_widget && parent_list_widget->m_type == _gui_widget_type_list)
+		if (parent_list_widget && parent_list_widget->m_type == _gui_list)
 		{
 			if (user_interface_mouse_handle_spinner_list_widget_focus(screen_widget, parent_list_widget))
 			{
@@ -337,10 +337,10 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 		user_interface_mouse_globals.list_item_selected_dirty = true;
 	}
 
-	if (focused_widget && focused_widget->m_type == _gui_widget_type_list_item)
+	if (focused_widget && focused_widget->m_type == _gui_list_item)
 	{
 		c_gui_list_widget* parent_list_widget = focused_widget->get_parent_list();
-		if (parent_list_widget && parent_list_widget->m_type == _gui_widget_type_list)
+		if (parent_list_widget && parent_list_widget->m_type == _gui_list)
 		{
 			long parent_focused_item_index = parent_list_widget->m_focused_item_index;
 			user_interface_mouse_handle_scroll_list_widget(screen_widget, parent_list_widget, user_interface_mouse_globals.mouse_wheel_delta / -input_globals.mouse_wheel_delta);

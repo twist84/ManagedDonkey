@@ -40,19 +40,19 @@ static void __cdecl gui_widget_render(long user_index, s_gui_widget_render_data 
 	//{
 	//	switch (render_data->type)
 	//	{
-	//	case _gui_widget_type_text:
+	//	case _gui_text:
 	//	{
 	//		s_user_interface_text_render_data const* text_render_data = (s_user_interface_text_render_data const*)render_data;
 	//		c_user_interface_text::render(text_render_data, window_bounds);
 	//	}
 	//	break;
-	//	case _gui_widget_type_bitmap:
+	//	case _gui_bitmap:
 	//	{
 	//		s_gui_bitmap_widget_render_data const* bitmap_render_data = (s_gui_bitmap_widget_render_data const*)render_data;
 	//		render_bitmap(bitmap_render_data, window_bounds);
 	//	}
 	//	break;
-	//	case _gui_widget_type_model:
+	//	case _gui_model:
 	//	{
 	//		s_gui_model_widget_render_data const* model_render_data = (s_gui_model_widget_render_data const*)render_data;
 	//		c_gui_model_widget::render(model_render_data, window_bounds);
@@ -190,37 +190,37 @@ long c_gui_widget::get_ambient_state()
 //.text:00AB8A40 ; public: c_gui_bitmap_widget* __cdecl c_gui_widget::get_child_bitmap_widget(long)
 c_gui_bitmap_widget* c_gui_widget::get_child_bitmap_widget(long name)
 {
-	return (c_gui_bitmap_widget*)get_child_widget(_gui_widget_type_bitmap, name);
+	return (c_gui_bitmap_widget*)get_child_widget(_gui_bitmap, name);
 }
 
 //.text:00AB8A60 ; public: c_gui_group_widget* __cdecl c_gui_widget::get_child_group_widget(long)
 c_gui_group_widget* c_gui_widget::get_child_group_widget(long name)
 {
-	return (c_gui_group_widget*)get_child_widget(_gui_widget_type_group, name);
+	return (c_gui_group_widget*)get_child_widget(_gui_group, name);
 }
 
 //.text:00AB8A80 ; public: c_gui_list_item_widget* __cdecl c_gui_widget::get_child_list_item_widget(long)
 c_gui_list_item_widget* c_gui_widget::get_child_list_item_widget(long name)
 {
-	return (c_gui_list_item_widget*)get_child_widget(_gui_widget_type_list_item, name);
+	return (c_gui_list_item_widget*)get_child_widget(_gui_list_item, name);
 }
 
 //.text:00AB8AA0 ; public: c_gui_list_widget* __cdecl c_gui_widget::get_child_list_widget(long)
 c_gui_list_widget* c_gui_widget::get_child_list_widget(long name)
 {
-	return (c_gui_list_widget*)get_child_widget(_gui_widget_type_list, name);
+	return (c_gui_list_widget*)get_child_widget(_gui_list, name);
 }
 
 //.text:00AB8AC0 ; public: c_gui_model_widget* __cdecl c_gui_widget::get_child_model_widget(long)
 c_gui_model_widget* c_gui_widget::get_child_model_widget(long name)
 {
-	return (c_gui_model_widget*)get_child_widget(_gui_widget_type_model, name);
+	return (c_gui_model_widget*)get_child_widget(_gui_model, name);
 }
 
 //.text:00AB8AE0 ; public: c_gui_text_widget* __cdecl c_gui_widget::get_child_text_widget(long)
 c_gui_text_widget* c_gui_widget::get_child_text_widget(long name)
 {
-	return (c_gui_text_widget*)get_child_widget(_gui_widget_type_text, name);
+	return (c_gui_text_widget*)get_child_widget(_gui_text, name);
 }
 
 //.text:00AB8B00 ; public: c_gui_widget* __cdecl c_gui_widget::get_child_widget(e_gui_widget_type, long)
@@ -286,7 +286,7 @@ c_gui_bitmap_widget* c_gui_widget::get_next_bitmap_widget()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9220, c_gui_widget, get_next_bitmap_widget);
 
-	return (c_gui_bitmap_widget*)get_next_widget_of_type(_gui_widget_type_bitmap);
+	return (c_gui_bitmap_widget*)get_next_widget_of_type(_gui_bitmap);
 }
 
 c_gui_list_item_widget* c_gui_widget::get_next_list_item_widget(bool only_consider_valid_items)
@@ -298,21 +298,21 @@ c_gui_list_widget* c_gui_widget::get_next_list_widget()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9260, c_gui_widget, get_next_list_widget);
 
-	return (c_gui_list_widget*)get_next_widget_of_type(_gui_widget_type_list);
+	return (c_gui_list_widget*)get_next_widget_of_type(_gui_list);
 }
 
 c_gui_model_widget* c_gui_widget::get_next_model_widget()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9270, c_gui_widget, get_next_model_widget);
 
-	return (c_gui_model_widget*)get_next_widget_of_type(_gui_widget_type_model);
+	return (c_gui_model_widget*)get_next_widget_of_type(_gui_model);
 }
 
 c_gui_text_widget* c_gui_widget::get_next_text_widget()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9280, c_gui_widget, get_next_text_widget);
 
-	return (c_gui_text_widget*)get_next_widget_of_type(_gui_widget_type_model);
+	return (c_gui_text_widget*)get_next_widget_of_type(_gui_model);
 }
 
 c_gui_widget* c_gui_widget::get_next_widget_of_type(e_gui_widget_type type)
