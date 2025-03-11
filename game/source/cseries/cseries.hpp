@@ -852,72 +852,49 @@ static_assert(sizeof(c_wrapped_flags) == 0x8);
 template<typename t_type, typename t_storage_type, long k_count>
 struct c_flags_no_init
 {
-	//void clear()
-	//t_storage_type get_unsafe()
-	//bool is_empty()
-	//void set(t_storage_type, bool)
-	//void set(t_type, bool)
-	//void set_all()
-	//void set_unsafe(t_storage_type)
-	//bool test(t_storage_type)
-	//bool test(t_type)
-	//bool test_range(t_type, t_type)
-	//void toggle(t_type)
-	//bool valid()
-	//bool valid_bit(t_storage_type)
-	//bool valid_bit(t_type)
-	//bool operator!=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//c_flags_no_init<t_type, t_storage_type, k_count> operator&(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//bool operator==(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//c_flags_no_init<t_type, t_storage_type, k_count>& operator|=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//c_flags_no_init<t_type, t_storage_type, k_count> operator|(c_flags_no_init<t_type, t_storage_type, k_count> const&)
-	//c_flags_no_init<t_type, t_storage_type, k_count> operator~()
-};
-
-//template<typename t_type, typename t_storage_type, t_type k_count>
-template<typename t_type, typename t_storage_type, long k_count>
-struct c_flags //: public c_flags_no_init<t_type, t_storage_type, k_count>
-{
+public:
 	static t_type const k_maximum_count = (t_type)k_count;
 	//static_assert(k_maximum_count <= SIZEOF_BITS(t_storage_type));
-
-public:
-	c_flags() :
-		m_flags(0)
-	{
-
-	}
-
-	c_flags(t_storage_type raw_bits) :
-		m_flags(raw_bits)
-	{
-
-	}
-	t_storage_type get_unsafe() const
-	{
-		return m_flags;
-	}
-
-	void set_unsafe(t_storage_type raw_bits)
-	{
-		m_flags = raw_bits;
-	}
-
-	void set(t_type bit, bool enable)
-	{
-		if (bit < k_maximum_count)
-		{
-			if (enable)
-				m_flags |= (1 << bit);
-			else
-				m_flags &= ~(1 << bit);
-		}
-	}
 
 	void clear()
 	{
 		m_flags = 0;
+	}
+
+	//void set_all()
+
+	bool test(t_type bit) const
+	{
+		ASSERT(valid_bit(bit));
+
+		return TEST_BIT(m_flags, bit);
+	}
+
+	bool test_range(t_type start_bit, t_type end_bit) const
+	{
+		ASSERT(valid_bit(start_bit) && valid_bit(end_bit) && (start_bit <= end_bit));
+		return TEST_RANGE(m_flags, start_bit, end_bit);
+	}
+
+	void set(t_type bit, bool enable)
+	{
+		ASSERT(valid_bit(bit));
+
+		if (bit < k_maximum_count)
+		{
+			SET_BIT(m_flags, bit, enable);
+		}
+	}
+
+	void toggle(t_type bit)
+	{
+		ASSERT(valid_bit(bit));
+		m_flags ^= FLAG(bit);
+	}
+
+	bool valid() const
+	{
+		return (m_flags & MASK(k_maximum_count)) == 0;
 	}
 
 	bool is_empty() const
@@ -928,54 +905,73 @@ public:
 #pragma warning(pop)
 	}
 
-	bool valid_bit(t_type bit)
+	t_type count() const
 	{
-		return VALID_INDEX(0, k_maximum_count);
+		return k_maximum_count;
+	}
+	
+	bool operator==(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
+	{
+		return m_flags == rsa.m_flags;
 	}
 
-	bool valid_bit(t_type bit) const
+	bool operator!=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
 	{
-		return VALID_INDEX(0, k_maximum_count);
+		return m_flags != rsa.m_flags;
 	}
 
-	bool valid() const
+	t_storage_type get_unsafe() const
 	{
-		return (m_flags & MASK(k_maximum_count)) == 0;
+		return m_flags;
 	}
 
-	bool test(t_type bit)
+	void set_unsafe(t_storage_type new_flags)
 	{
-		ASSERT(valid_bit(bit));
-
-		return TEST_BIT(m_flags, static_cast<t_storage_type>(bit));
+		m_flags = new_flags;
 	}
 
-	bool test(t_type bit) const
+	c_flags_no_init<t_type, t_storage_type, k_count>& operator|=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
 	{
-		ASSERT(valid_bit(bit));
-
-		return TEST_BIT(m_flags, static_cast<t_storage_type>(bit));
+		m_flags |= rsa.m_flags;
+		ASSERT(valid());
+		return this;
 	}
 
-	bool operator==(c_flags<t_type, t_storage_type, k_maximum_count>& value)
+	c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
 	{
-		return m_flags == value.m_flags;
+		m_flags &= rsa.m_flags;
+		ASSERT(valid());
+		return this;
 	}
 
-	bool operator==(t_type value)
+	c_flags_no_init<t_type, t_storage_type, k_count> operator~() const
 	{
-		return !!(m_flags & (1 << value));
+		c_flags_no_init<t_type, t_storage_type, k_count> flags;
+		flags.set_unsafe(~m_flags & MASK(k_count));
+		return flags;
 	}
 
-	c_flags<t_type, t_storage_type, k_maximum_count> operator|(c_flags<t_type, t_storage_type, k_maximum_count> const& other) const
+	//c_flags_no_init<t_type, t_storage_type, k_count> operator&(t_storage_type const rsa) const
+	
+	c_flags_no_init<t_type, t_storage_type, k_count> operator&(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
 	{
-		return c_flags(m_flags | other.m_flags);
+		c_flags_no_init<t_type, t_storage_type, k_count> flags;
+		flags.set_unsafe(m_flags & rsa.m_flags);
+		return flags;
 	}
 
-	template <class T>
-	void operator= (T value)
+	//c_flags_no_init<t_type, t_storage_type, k_count> operator|(t_storage_type const rsa) const
+
+	c_flags_no_init<t_type, t_storage_type, k_count> operator|(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
 	{
-		m_flags = static_cast<t_storage_type>(value);
+		c_flags_no_init<t_type, t_storage_type, k_count> flags;
+		flags.set_unsafe(m_flags | rsa.m_flags);
+		return flags;
+	}
+
+	static bool valid_bit(t_type bit)
+	{
+		return VALID_INDEX(bit, k_maximum_count);
 	}
 
 	template <class T>
@@ -986,6 +982,22 @@ public:
 
 protected:
 	t_storage_type m_flags;
+};
+
+template<typename t_type, typename t_storage_type, long k_count>
+struct c_flags :
+	public c_flags_no_init<t_type, t_storage_type, k_count>
+{
+public:
+	c_flags(t_storage_type flags)
+	{
+		this->m_flags = flags;
+	}
+
+	c_flags()
+	{
+		this->m_flags = 0;
+	}
 };
 
 template<long k_maximum_count>
