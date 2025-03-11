@@ -39,6 +39,39 @@ enum
 	k_round_index_bits = 5,
 };
 
+enum e_team_scoring_method
+{
+	_team_scoring_method_first = 0,
+
+	_team_scoring_method_sum = _team_scoring_method_first,
+	_team_scoring_method_minimum,
+	_team_scoring_method_maximum,
+	_team_scoring_method_custom,
+
+	_team_scoring_method_last = _team_scoring_method_custom,
+
+	k_number_of_team_scoring_methods,
+	k_team_scoring_method_default = _team_scoring_method_sum,
+};
+
+enum e_game_engine_type
+{
+	_game_engine_type_none = 0,
+	_game_engine_type_ctf,
+	_game_engine_type_slayer,
+	_game_engine_type_oddball,
+	_game_engine_type_king,
+	_game_engine_type_sandbox,
+	_game_engine_type_vip,
+	_game_engine_type_juggernaut,
+	_game_engine_type_territories,
+	_game_engine_type_assault,
+	_game_engine_type_infection,
+
+	k_game_engine_type_count,
+	k_game_engine_type_default = _game_engine_type_none
+};
+
 enum e_simulation_world_type
 {
 	_simulation_world_type_none = 0,

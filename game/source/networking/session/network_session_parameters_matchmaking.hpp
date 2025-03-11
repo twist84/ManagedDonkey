@@ -102,15 +102,27 @@ struct s_replicated_life_cycle_matchmaking_progress_assembling_match
 };
 static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_assembling_match) == 0xC);
 
+enum e_matchmaking_configuring_match_state
+{
+	_matchmaking_configuring_match_loading = 0,
+	_matchmaking_configuring_match_veto,
+	_matchmaking_configuring_match_vetoed_loading,
+	_matchmaking_configuring_match_countdown,
+	_matchmaking_configuring_match_veto_failed_countdown,
+	_matchmaking_configuring_match_vetoed_countdown,
+
+	k_matchmaking_configuring_match_state_count
+};
+
 struct s_replicated_life_cycle_matchmaking_progress_configuring_match
 {
-	long state;
+	e_matchmaking_configuring_match_state state;
 	long map_load_progress_percentage;
 	long countdown_timer;
 	long current_veto_count;
 	long max_veto_count;
-	long game_map_index;
-	bool load_failure_encountered;
+	long current_game_map_index;
+	bool encountered_load_failure;
 };
 static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_configuring_match) == 0x1C);
 
@@ -123,7 +135,7 @@ static_assert(sizeof(s_replicated_life_cycle_progress_post_match) == 0x8);
 
 struct s_replicated_life_cycle_matchmaking_progress
 {
-	c_enum<e_life_cycle_matchmaking_progress_type, long, _life_cycle_matchmaking_progress_none, k_life_cycle_matchmaking_progress_type_count> progress_type;
+	e_life_cycle_matchmaking_progress_type progress_type;
 
 	union
 	{
@@ -149,26 +161,74 @@ struct s_replicated_life_cycle_matchmaking_progress_search_criteria
 };
 static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_search_criteria) == 0x24);
 
+struct __declspec(align(4)) s_life_cycle_matchmaking_progress_common
+{
+	wchar_t hopper_name[32];
+	long current_squad_player_count;
+	long current_group_player_count;
+	bool hopper_is_ranked;
+	bool hopper_is_team;
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress_common) == 0x4C);
+
+struct s_life_cycle_matchmaking_progress_searching_for_match
+{
+	e_matchmaking_search_preference search_preference;
+	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
+	s_replicated_life_cycle_matchmaking_progress_searching_for_match searching_progress;
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress_searching_for_match) == 0x40);
+
+struct s_life_cycle_matchmaking_progress_assembling_match
+{
+	e_matchmaking_search_preference search_preference;
+	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
+	s_replicated_life_cycle_matchmaking_progress_assembling_match assembling_progress;
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress_assembling_match) == 0x34);
+
+struct s_life_cycle_matchmaking_progress_setting_up_match
+{
+	e_matchmaking_search_preference search_preference;
+	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress_setting_up_match) == 0x28);
+
+struct s_life_cycle_matchmaking_progress_configuring_match
+{
+	s_replicated_life_cycle_matchmaking_progress_configuring_match configuring_progress;
+	long group_local_player_veto_mask;
+	long map_id; // e_map_id
+	wchar_t map_variant_name[32];
+	e_game_engine_type game_engine_index;
+	wchar_t game_variant_name[32];
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress_configuring_match) == 0xA8);
+
+struct __declspec(align(4)) s_life_cycle_progress_post_match
+{
+	s_replicated_life_cycle_progress_post_match post_match_progress;
+	bool rematch_allowed;
+	bool rematch_available_to_squad_leader;
+	dword group_player_can_rematch_mask;
+	dword group_player_chosen_to_rematch_mask;
+	dword group_player_in_rematching_party_mask;
+	bool is_preparing_for_rematch;
+};
+static_assert(sizeof(s_life_cycle_progress_post_match) == 0x1C);
+
 struct s_life_cycle_matchmaking_progress
 {
-	long progress_type;
-	c_static_wchar_string<32> hopper_name;
-	long hopper_squad_player_count;
-	long hopper_group_player_count;
-	bool hopper_is_ranked;
-	bool hopper_is_team_game;
-	long search_preference;
-	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
-
+	e_life_cycle_matchmaking_progress_type progress_type;
+	s_life_cycle_matchmaking_progress_common common;
 	union
 	{
-		s_replicated_life_cycle_matchmaking_progress_searching_for_match searching_for_match;
-		s_replicated_life_cycle_matchmaking_progress_assembling_match assembling_match;
-		s_replicated_life_cycle_matchmaking_progress_configuring_match configuring_match;
-		s_replicated_life_cycle_progress_post_match post_match;
+		s_life_cycle_matchmaking_progress_searching_for_match searching;
+		s_life_cycle_matchmaking_progress_assembling_match assembling;
+		s_life_cycle_matchmaking_progress_setting_up_match setting_up_match;
+		s_life_cycle_matchmaking_progress_configuring_match configuring_match;
+		s_life_cycle_progress_post_match post_match;
 	};
-
-	byte __data[0x64];
 };
 static_assert(sizeof(s_life_cycle_matchmaking_progress) == 0xF8);
 
