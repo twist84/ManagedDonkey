@@ -27,6 +27,7 @@
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/string_ids.hpp"
+#include "text/text_group.hpp"
 #include "units/biped_definitions.hpp"
 #include "units/unit_definition.hpp"
 #include "units/vehicle_definitions.hpp"
@@ -2172,6 +2173,53 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 }
 
 // $TODO: create some sort of tag modification manager
+void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (instance->tag_group != MULTILINGUAL_UNICODE_STRING_LIST_TAG)
+		return;
+
+	s_multilingual_unicode_string_list_group_header* multilingual_unicode_string_list = instance->cast_to<s_multilingual_unicode_string_list_group_header>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_post_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_post_tag_fixup:
+	{
+		if (csstrcmp("ui\\halox\\main_menu\\strings", tag_name) == 0)
+		{
+			for (long block_index = 0; block_index < multilingual_unicode_string_list->string_references.count; block_index++)
+			{
+				s_multilingual_unicode_string_reference& string_reference = multilingual_unicode_string_list->string_references[block_index];
+				if (string_reference.id != STRING_ID(global, leave_game))
+					continue;
+
+				static char x_english_string[] = "QUIT TO DESKTOP";
+				char* string = (char*)tag_data_get_pointer(&multilingual_unicode_string_list->text_data, string_reference.offset[_language_english], sizeof(x_english_string));
+				dword string_length = csstrnlen(string, sizeof(x_english_string));
+				if (string_length + 1 >= sizeof(x_english_string))
+				{
+					csstrnzcpy(string, x_english_string, string_length + 1);
+				}
+				break;
+			}
+		}
+	}
+	break;
+	case _instance_modification_stage_post_scenario_tags_load:
+	{
+	}
+	break;
+	}
+}
+
+// $TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	if (instance == nullptr)
@@ -2193,6 +2241,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(equipment_definition);
 	APPLY_INSTANCE_MODIFICATION(weapon_definition);
 	APPLY_INSTANCE_MODIFICATION(projectile_definition);
+	APPLY_INSTANCE_MODIFICATION(multilingual_unicode_string_list);
 
 #undef APPLY_INSTANCE_MODIFICATION
 }

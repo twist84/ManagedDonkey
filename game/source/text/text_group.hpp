@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
 #include "memory/secure_signature.hpp"
+#include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"
 
 struct s_string_reference
