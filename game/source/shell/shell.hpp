@@ -443,6 +443,36 @@ enum e_controller_index
 	k_no_controller = -1,
 };
 
+static inline e_controller_index operator-(e_controller_index& value, int increment)
+{
+	return e_controller_index((int)value - increment);
+}
+
+static inline e_controller_index operator+(e_controller_index& value, int increment)
+{
+	return e_controller_index((int)value + increment);
+}
+
+static inline e_controller_index operator-=(e_controller_index& value, int increment)
+{
+	return value = e_controller_index((int)value - increment);
+}
+
+static inline e_controller_index operator+=(e_controller_index& value, int increment)
+{
+	return value = e_controller_index((int)value + increment);
+}
+
+static inline e_controller_index operator--(e_controller_index& value, int increment)
+{
+	return value = e_controller_index((int)value - 1);
+}
+
+static inline e_controller_index operator++(e_controller_index& value, int increment)
+{
+	return value = e_controller_index((int)value + 1);
+}
+
 enum e_window_index
 {
 	_player_window_first = 0,
