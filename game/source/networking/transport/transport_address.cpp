@@ -31,10 +31,16 @@ transport_address::transport_address(dword _ipv4_address, word _port, short _add
 }
 
 transport_address::transport_address(s_player_identifier const* player_identifier) :
-	ipv4_address(player_identifier->ipv4_address),
-	port(player_identifier->port),
-	address_length(sizeof(dword))
+	ipv4_address(0),
+	port(0),
+	address_length(0)
 {
+	REFERENCE_DECLARE(player_identifier->identifier + 0, dword const, identifier_ipv4_address);
+	REFERENCE_DECLARE(player_identifier->identifier + 4, word const, identifier_port);
+	REFERENCE_DECLARE(player_identifier->identifier + 6, word const, identifier_flags);
+	ipv4_address = identifier_ipv4_address;
+	port = identifier_port;
+	address_length = sizeof(dword);
 }
 
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)

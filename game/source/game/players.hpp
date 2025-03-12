@@ -21,13 +21,15 @@ struct s_player_identifier
 	s_player_identifier(dword _ipv4_address, word _port, word_flags _flags);
 	s_player_identifier(transport_address const* address);
 
-	// make_int64(ip, port)
-	dword ipv4_address;
-	word port;
+	byte identifier[8];
 
-	// online_xuid_is_guest_account
-	// 0000 0000 1100 1001
-	word_flags flags;
+	//// make_int64(ip, port)
+	//dword ipv4_address;
+	//word port;
+	//
+	//// online_xuid_is_guest_account
+	//// 0000 0000 1100 1001
+	//word_flags flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 

@@ -31,24 +31,30 @@ string_id g_player_desired_mode_override = NONE;
 long g_character_physics_override = _character_physics_default;
 
 s_player_identifier::s_player_identifier() :
-	ipv4_address(0),
-	port(0),
-	flags(0)
+	identifier(0)
 {
 }
 
 s_player_identifier::s_player_identifier(dword _ipv4_address, word _port, word_flags _flags) :
-	ipv4_address(_ipv4_address),
-	port(_port),
-	flags(_flags)
+	identifier(0)
 {
+	REFERENCE_DECLARE(identifier + 0, dword, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, word, port);
+	REFERENCE_DECLARE(identifier + 6, word, flags);
+	ipv4_address = _ipv4_address;
+	port = _port;
+	flags = _flags;
 }
 
 s_player_identifier::s_player_identifier(transport_address const* address) :
-	ipv4_address(address->ipv4_address),
-	port(address->port),
-	flags(address->address_length)
+	identifier(0)
 {
+	REFERENCE_DECLARE(identifier + 0, dword, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, word, port);
+	REFERENCE_DECLARE(identifier + 6, word, flags);
+	ipv4_address = address->ipv4_address;
+	port = address->port;
+	flags = address->address_length;
 }
 
 void c_player_in_game_iterator::begin()
