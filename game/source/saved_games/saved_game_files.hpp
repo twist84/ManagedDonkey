@@ -13,20 +13,29 @@ struct s_saved_game_file_text_parser_input
 };
 static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);
 
-struct c_saved_game_files_globals
+enum e_saved_game_flags
 {
-	byte_flags flags;
-	byte __data1[3];
-	s_saved_game_file_text_parser_input text_parser_input;
+	_last_game_film_saved_by_user_bit = 0,
+
+	k_saved_game_flags_count
+};
+
+struct s_saved_game_file_globals
+{
+	c_flags<e_saved_game_flags, long, k_saved_game_flags_count> flags;
+	s_saved_game_file_text_parser_input saved_game_file_text_parse_data;
 	c_magic_string_game_tag_parser map_variant_name_parser;
 	c_magic_string_game_tag_parser game_variant_name_parser;
 	c_magic_string_game_tag_parser campaign_map_name_parser;
-	c_magic_string_game_tag_parser difficulty_parser;
+	c_magic_string_game_tag_parser campaign_difficulty_parser;
 };
-static_assert(sizeof(c_saved_game_files_globals) == 0x68);
+static_assert(sizeof(s_saved_game_file_globals) == 0x68);
 
-extern c_saved_game_files_globals& g_saved_game_files_globals;
+extern s_saved_game_file_globals& g_saved_game_files_globals;
 
+enum e_controller_index;
+
+extern bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_controller_index controller_index);
 extern void __cdecl saved_game_files_dispose();
 extern void __cdecl saved_game_files_dispose_from_old_map();
 extern void __cdecl saved_game_files_initialize();
