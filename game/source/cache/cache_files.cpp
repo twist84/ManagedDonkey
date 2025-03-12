@@ -828,7 +828,7 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 
 	tag_loaded_count++;
 
-	tag_instance_modification_apply(instance, _instance_modification_stage_tag_load);
+	tag_instance_modification_apply(instance, _instance_modification_stage_post_tag_load);
 
 	if (instance->dependency_count <= 0)
 		return true;
@@ -926,7 +926,7 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 		//ASSERT(data_fixup.value == data_fixup.offset);
 	}
 
-	tag_instance_modification_apply(instance, _instance_modification_stage_tag_fixup);
+	tag_instance_modification_apply(instance, _instance_modification_stage_post_tag_fixup);
 
 	return true;
 }
@@ -1400,7 +1400,7 @@ void __cdecl scenario_tags_load_finished()
 		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-		tag_instance_modification_apply(instance, _instance_modification_stage_after_scenario_tags_loaded);
+		tag_instance_modification_apply(instance, _instance_modification_stage_post_scenario_tags_load);
 	}
 }
 
@@ -1649,12 +1649,12 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 		game_globals->input_globals.index = NONE;
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		ASSERT(game_globals->input_globals.index == NONE);
 
@@ -1662,7 +1662,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(game_globals);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 		UPDATE_STATIC_RUNTIME_DATA(game_globals);
 	}
@@ -1688,7 +1688,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	// Add back missing weapon selections
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 		//if (is_base_cache)
 		//{
@@ -1723,7 +1723,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		//}
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		//if (is_base_cache)
 		//{
@@ -1782,7 +1782,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(multiplayer_globals);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1803,17 +1803,17 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(rasterizer_globals);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1834,17 +1834,17 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(scenario);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1865,17 +1865,17 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(chud_globals_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 		if (chud_globals_definition->sprint_fov_multiplier == 0.0f)
 			chud_globals_definition->sprint_fov_multiplier = 1.0f;
@@ -1898,17 +1898,17 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vision_mode_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1929,17 +1929,17 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1960,17 +1960,17 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -1991,17 +1991,17 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 		// "edge drop" fix
 		biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
@@ -2030,17 +2030,17 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -2061,17 +2061,17 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -2092,17 +2092,17 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(equipment_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -2123,17 +2123,17 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(weapon_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;
@@ -2154,17 +2154,17 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 
 	switch (stage)
 	{
-	case _instance_modification_stage_tag_load:
+	case _instance_modification_stage_post_tag_load:
 	{
 	}
 	break;
-	case _instance_modification_stage_tag_fixup:
+	case _instance_modification_stage_post_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(projectile_definition);
 	}
 	break;
-	case _instance_modification_stage_after_scenario_tags_loaded:
+	case _instance_modification_stage_post_scenario_tags_load:
 	{
 	}
 	break;

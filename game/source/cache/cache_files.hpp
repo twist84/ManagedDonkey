@@ -386,9 +386,9 @@ extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 
 enum e_instance_modification_stage
 {
-	_instance_modification_stage_tag_load = 0,
-	_instance_modification_stage_tag_fixup,
-	_instance_modification_stage_after_scenario_tags_loaded,
+	_instance_modification_stage_post_tag_load = 0,
+	_instance_modification_stage_post_tag_fixup,
+	_instance_modification_stage_post_scenario_tags_load,
 
 	k_instance_modification_stages
 };
