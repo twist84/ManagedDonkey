@@ -59,6 +59,8 @@ extern int usnzprintf(wchar_t *,long,wchar_t const *,...);
 //extern int uvprintf(wchar_t const *,char *);
 
 extern int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list);
+extern wchar_t const* uvsnzappend(wchar_t* string, long size, wchar_t const* format, va_list list);
+extern wchar_t const* usnzappend(wchar_t* string, long size, wchar_t const* format, ...);
 
 //extern struct _iobuf * ufdopen(int,wchar_t const *);
 //extern struct _iobuf * ufopen(wchar_t const *,wchar_t const *);
@@ -137,12 +139,12 @@ public:
 		return m_string;
 	}
 
-	char const* get_offset(long offset) const
+	wchar_t const* get_offset(long offset) const
 	{
 		if (VALID_INDEX(offset, length()))
 			return &m_string[offset];
 
-		return "";
+		return L"";
 	}
 
 	long length() const

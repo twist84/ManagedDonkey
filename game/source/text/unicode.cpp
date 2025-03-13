@@ -152,6 +152,29 @@ int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 	return result;
 }
 
+wchar_t const* uvsnzappend(wchar_t* string, long size, wchar_t const* format, va_list list)
+{
+	long current_length = ustrnlen(string, size);
+
+	//ASSERT(format);
+	//ASSERT(current_length >= 0 && current_length < k_buffer_size);
+
+	uvsnzprintf(string + current_length, size - current_length, format, list);
+
+	return string;
+}
+
+wchar_t const* usnzappend(wchar_t* string, long size, wchar_t const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	uvsnzappend(string, size, format, list);
+
+	va_end(list);
+	return string;
+}
+
 //struct _iobuf * ufdopen(int,wchar_t const *)
 //struct _iobuf * ufopen(wchar_t const *,wchar_t const *)
 //int ufclose(struct _iobuf *)
