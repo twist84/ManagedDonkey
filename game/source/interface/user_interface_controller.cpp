@@ -70,24 +70,34 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, c
 	user_interface_controller_input_event_submit(&event_record);
 }
 
-void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* a3, dword a4, e_controller_component controller_component)
+void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component)
 {
 }
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab_fix_for_double_press);
 
-void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* a3, dword a4, e_controller_component controller_component)
+void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component)
 {
-	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, a3, a4, controller_component);
+	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, vector, now, component);
 }
 
 //.text:00A93A50 ; void __cdecl event_manager_update(dword)
 //.text:00A94290 ; void __cdecl send_stick_magnitude_events(e_controller_index, point2d, e_gamepad_stick)
 //.text:00A94330 ; 
 //.text:00A94340 ; 
-//.text:00A94350 ; void __cdecl user_interface_controller_detached(e_controller_index)
+
+void __cdecl user_interface_controller_detached(e_controller_index controller_index)
+{
+	INVOKE(0x00A94350, user_interface_controller_detached, controller_index);
+}
+
 //.text:00A94380 ; void __cdecl user_interface_controller_clear_voting_for_all_controllers()
 //.text:00A943F0 ; bool __cdecl user_interface_controller_connected(e_controller_index)
-//.text:00A94400 ; void __cdecl user_interface_controller_attached(e_controller_index)
+
+void __cdecl user_interface_controller_attached(e_controller_index controller_index)
+{
+	INVOKE(0x00A94400, user_interface_controller_attached, controller_index);
+}
+
 //.text:00A94410 ; void __cdecl user_interface_controller_dispose()
 //.text:00A94420 ; void __cdecl user_interface_controller_event_manager_suppress(bool)
 //.text:00A94430 ; s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index)
@@ -139,7 +149,12 @@ void __cdecl user_interface_controller_input_event_submit(s_event_record* event_
 //.text:00A94E40 ; void __cdecl user_interface_controller_set_desires_veto(e_controller_index, bool)
 //.text:00A94E70 ; 
 //.text:00A94E90 ; 
-//.text:00A94EC0 ; void __cdecl user_interface_controller_set_user_index(e_controller_index, long)
+
+void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, long user_index)
+{
+	INVOKE(0x00A94EC0, user_interface_controller_set_user_index, controller_index, user_index);
+}
+
 //.text:00A94EE0 ; user_interface_controller_set_weapon_loadout_index
 //.text:00A94F10 ; 
 

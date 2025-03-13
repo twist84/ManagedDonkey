@@ -136,7 +136,10 @@ static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
 extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 
 extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button);
-extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* a3, dword a4, e_controller_component controller_component);
+extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component);
+extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
+extern void __cdecl user_interface_controller_attached(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event_record);
+extern void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, long user_index);
 extern void __cdecl user_interface_controller_update();
 
