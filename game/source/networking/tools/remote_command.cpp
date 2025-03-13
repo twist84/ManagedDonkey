@@ -1284,10 +1284,11 @@ callback_result_t online_user_set_name_callback(void const* userdata, long token
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name = tokens[1]->get_string();
+	long user_index = atol(tokens[1]->get_string());
+	char const* name = tokens[2]->get_string();
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
-	online_user_set_name(name_wide.get_string());
+	online_user_set_name(user_index, name_wide.get_string());
 
 	return result;
 }
