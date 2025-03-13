@@ -10,14 +10,20 @@ struct c_player_marketplace;
 struct c_controller_interface
 {
 public:
-	c_player_profile_interface* get_player_profile_interface();
-	bool is_attached() const;
 	bool in_use() const;
-	bool is_signed_in_to_machine() const;
-	short get_user_index() const;
-	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
-	qword const get_player_xuid() const;
+	e_controller_index get_controller_index() const;
 	wchar_t const* get_display_name() const;
+	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
+	c_player_profile_interface* get_player_profile_interface();
+	qword const get_player_xuid() const;
+	short get_user_index() const;
+	bool is_attached() const;
+	bool is_signed_in_to_machine() const;
+
+//private:
+	void sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary);
+	void sign_out_controller(bool sign_out_for_sign_in_change);
+	void update_controller_properties();
 
 //protected:
 	// 4066
@@ -55,7 +61,8 @@ public:
 	qword m_hash_bits_last_game_instance;
 	c_static_flags<k_achievement_count> m_achievements;
 	c_player_marketplace* m_marketplace;
-	byte __data143C[0x5];
+	dword m_time_controller_signed_out;
+	byte __data1440[0x1];
 	byte vidmaster;
 	byte __data1442[0x6];
 };
