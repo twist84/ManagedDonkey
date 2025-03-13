@@ -24,7 +24,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elemen
 
 long c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index* out_first_in_use_controller)
 {
-	return INVOKE_CLASS_MEMBER(0x00AE75D0, c_main_menu_screen_widget, get_in_use_controller_count, out_first_in_use_controller);
+	//return INVOKE_CLASS_MEMBER(0x00AE75D0, c_main_menu_screen_widget, get_in_use_controller_count, out_first_in_use_controller);
 
 	long in_use_controller_count = 0;
 	if (out_first_in_use_controller)
