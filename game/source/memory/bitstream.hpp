@@ -5,11 +5,13 @@
 
 enum e_bitstream_state
 {
-	_bitstream_state_initial = 0,
-	_bitstream_state_writing,
+	_bitstream_state_none = 0,
+
+	_bitstream_state_write,
 	_bitstream_state_write_finished,
-	_bitstream_state_reading,
-	_bitstream_state_read_only_for_consistency,
+
+	_bitstream_state_read,
+	_bitstream_state_read_consistency_check,
 	_bitstream_state_read_finished,
 
 	k_bitstream_state_count
@@ -23,7 +25,7 @@ public:
 		m_data_max(0),
 		m_data_size_bytes(0)
 	{
-		reset(_bitstream_state_initial);
+		reset(_bitstream_state_none);
 	}
 
 	c_bitstream(byte* data, long data_length) :
@@ -111,6 +113,7 @@ private:
 	void reset(long state);
 
 public:
+	bool reading() const;
 	void set_data(byte* data, long data_length);
 	void skip(long bits_to_skip);
 	bool would_overflow(long size_in_bits) const;
@@ -152,7 +155,7 @@ protected:
 	byte* m_data_max;
 	long m_data_size_bytes;
 	long m_data_size_alignment;
-	c_enum<e_bitstream_state, long, _bitstream_state_initial, k_bitstream_state_count> m_state;
+	c_enum<e_bitstream_state, long, _bitstream_state_none, k_bitstream_state_count> m_state;
 	bool m_data_error_detected;
 	s_bitstream_stack_entry m_bitstream_data;
 
