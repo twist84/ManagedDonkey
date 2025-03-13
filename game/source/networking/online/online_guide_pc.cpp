@@ -248,7 +248,7 @@ dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
 
 void __thiscall c_virtual_keyboard_task::_success(dword return_result)
 {
-	INVOKE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, success, return_result);
+	//INVOKE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, success, return_result);
 
 	//c_overlapped_task::success(return_result);
 
