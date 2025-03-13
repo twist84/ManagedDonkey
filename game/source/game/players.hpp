@@ -23,6 +23,11 @@ struct s_player_identifier
 
 	byte identifier[8];
 
+	bool operator==(s_player_identifier const& other)
+	{
+		return csmemcmp(this, &other, sizeof(*this)) == 0;
+	}
+
 	//// make_int64(ip, port)
 	//dword ipv4_address;
 	//word port;
