@@ -3,9 +3,11 @@
 #include "input/input_windows.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/logic_managed_user.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_time.hpp"
 #include "networking/online/online.hpp"
+#include "networking/online/online_achievements.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A7DE30, c_controller_interface, update_controller_properties);
 
@@ -49,7 +51,6 @@ e_window_index __cdecl controller_get_game_render_window(e_controller_index cont
 	return INVOKE(0x00A7CE80, controller_get_game_render_window, controller_index);
 
 	//ASSERT(VALID_CONTROLLER(controller_index));
-	//
 	//return controller_game_render_windows[controller_index];
 }
 
@@ -90,7 +91,7 @@ e_controller_index c_controller_interface::get_controller_index() const
 
 wchar_t const* c_controller_interface::get_display_name() const
 {
-	return m_display_name.get_string();
+	return m_display_name;
 }
 
 //.text:00A7D430 ; 
@@ -148,6 +149,7 @@ bool c_controller_interface::is_signed_in_to_machine() const
 //.text:00A7D970 ; 
 //.text:00A7D990 ; 
 //.text:00A7D9A0 ; 
+//.text:00A7D9C0 ; private: void c_controller_interface::remove_controller_from_network_session()
 //.text:00A7D9E0 ; public: void c_controller_interface::render()
 //.text:00A7DA20 ; public: void c_controller_interface::reset_user_index()
 //.text:00A7DA30 ; public: void c_controller_interface::set_as_unsigned_in_user(bool)
@@ -175,32 +177,23 @@ void c_controller_interface::sign_out_controller(bool sign_out_for_sign_in_chang
 
 void c_controller_interface::update_controller_properties()
 {
-	HOOK_INVOKE_CLASS_MEMBER(, c_controller_interface, update_controller_properties);
-	return;
-
-	// $TODO: implement me properly
+	//HOOK_INVOKE_CLASS_MEMBER(, c_controller_interface, update_controller_properties);
 
 	e_controller_index controller_index = get_controller_index();
 	bool is_signed_in = online_local_user_is_signed_in(controller_index);
-	bool attached = m_state_flags.test(_attached_bit);
-	bool has_gamepad = input_has_gamepad(controller_index);
+	bool has_gamepad = true;// input_has_gamepad(controller_index);
+	bool attached = is_attached();
+	bool is_user_signed_in = false;
 
-	long is_user_signed_in = 0;
-	if (m_user_index < 4)
+	if (VALID_INDEX(m_user_index, 4))
 	{
-		if (is_user_signed_in = network_session_interface_get_is_user_signed_in(m_user_index))
-		{
-			m_user_index = NONE;
-		}
+		is_user_signed_in = network_session_interface_get_is_user_signed_in(m_user_index);
 	}
-	else
+	else if (m_user_index != NONE && network_session_interface_get_local_user_state(m_user_index) == _network_session_interface_user_state_none)
 	{
-		if (m_user_index != NONE && network_session_interface_get_local_user_state(m_user_index) == _network_session_interface_user_state_none)
-		{
+		m_user_index = NONE;
+	}
 
-		}
-	}
-	dword time_controller_signed_out;
 	if (is_signed_in || m_state_flags.test(_temporary_bit))
 	{
 		qword old_player_identifier = 0;
@@ -209,16 +202,21 @@ void c_controller_interface::update_controller_properties()
 		bool is_silver_or_gold_live = false;
 		bool is_online_enabled = false;
 		bool is_free_live_gold_account = false;
+
 		if (is_user_signed_in)
 		{
-			if (m_user_index >= 4 || !network_session_interface_get_local_user_identifier(m_user_index,(s_player_identifier*)&old_player_identifier, true))
+			if (m_user_index < 4 && network_session_interface_get_local_user_identifier(m_user_index, (s_player_identifier*)&old_player_identifier, true))
+			{
+				network_session_interface_get_local_user_xuid(m_user_index);
+				//network_session_interface_is_local_user_silver_or_gold_live(m_user_index);
+				//network_session_interface_is_local_user_online_enabled(m_user_index);
+			}
+			else
 			{
 				old_player_identifier = 0;
 			}
-			network_session_interface_get_local_user_xuid(m_user_index);
-			//network_session_interface_is_local_user_silver_or_gold_live(m_user_index);
-			//network_session_interface_is_local_user_online_enabled(m_user_index);
 		}
+
 		if (is_signed_in)
 		{
 			xuid = online_local_user_get_xuid(controller_index);
@@ -226,33 +224,39 @@ void c_controller_interface::update_controller_properties()
 			is_online_enabled = online_local_user_is_online_enabled(controller_index);
 			is_free_live_gold_account = online_local_user_is_free_live_gold_account(controller_index);
 		}
+
 		bool is_user_created_content_allowed = online_local_user_is_user_created_content_allowed(controller_index);
 		bool is_friend_created_content_allowed = online_local_user_is_friend_created_content_allowed(controller_index);
-		qword player_identifier = online_local_user_get_player_identifier(controller_index);
-		new_player_identifier = player_identifier;
-		if (!is_user_signed_in || old_player_identifier != player_identifier)
+		new_player_identifier = online_local_user_get_player_identifier(controller_index);
+
+		if (!is_user_signed_in || old_player_identifier != new_player_identifier)
 		{
-			//content_catalogue_get_interface(controller_index)->dispose();
-			m_state_flags.set(_storage_device_selection_performed_bit, false);
-			//if (is_user_signed_in)
-			//	sign_out_controller(true);
-			//managed_user_clear(controller_index);
+			update_for_sign_in_change();
+
+			if (is_user_signed_in)
+				sign_out_controller(true);
+
+			managed_user_clear(controller_index);
+
 			if (!m_state_flags.test(_temporary_bit))
 			{
-				m_player_profile.m_flags |= FLAG(6);
-				//gamer_achievements_begin_retrieval(controller_index);
+				//m_player_profile->mark_for_update_from_storage()?
+				m_player_profile.m_flags |= 0x40;
+				gamer_achievements_begin_retrieval(controller_index);
 			}
+
 			sign_in_controller((s_player_identifier*)&new_player_identifier, m_state_flags.test(_temporary_bit));
 		}
+
 		if (!m_state_flags.test(_temporary_bit))
 		{
-			m_display_name.clear();
-			if (online_local_user_get_name(controller_index))
+			memset(m_display_name, 0, sizeof(m_display_name));
+			if (wchar_t const* name = online_local_user_get_name(controller_index))
 			{
-				wchar_t const* name = online_local_user_get_name(controller_index);
-				m_display_name.set(name);
+				ustrnzcpy(m_display_name, name, NUMBEROF(m_display_name));
 			}
 		}
+
 		network_session_interface_set_local_user_xuid(
 			m_user_index,
 			xuid/*,
@@ -260,41 +264,40 @@ void c_controller_interface::update_controller_properties()
 			is_online_enabled,
 			is_free_live_gold_account,
 			is_user_created_content_allowed,
-			is_friend_created_content_allowed*/
-		);
-		goto LABEL_39;
+			is_friend_created_content_allowed*/);
 	}
-
-	if (!is_user_signed_in)
-		goto LABEL_40;
-
-	time_controller_signed_out = m_time_controller_signed_out;
-	if (!time_controller_signed_out)
-		m_time_controller_signed_out = network_time_get();
-	if (network_time_get() - time_controller_signed_out > 1000)
+	else if (is_user_signed_in)
 	{
-		sign_out_controller(false);
-		m_state_flags.clear();
-		m_display_name.clear();
-	LABEL_39:;
-		m_time_controller_signed_out = 0;
+		if (!m_time_controller_signed_out)
+		{
+			m_time_controller_signed_out = network_time_get();
+		}
+		else if (long(network_time_get() - m_time_controller_signed_out) > 1000)
+		{
+			sign_out_controller(false);
+			m_state_flags.clear();
+			memset(m_display_name, 0, sizeof(m_display_name));
+			m_time_controller_signed_out = 0;
+		}
 	}
-LABEL_40:;
+
 	m_state_flags.set(_attached_bit, has_gamepad);
+
 	if (has_gamepad != attached)
 	{
-		if (VALID_INDEX(m_user_index, 4)
-			&& network_session_interface_local_user_exists(m_user_index)
-			&& !m_state_flags.test(_temporary_bit)
-			|| m_state_flags.test(_temporary_bit))
+		if (has_gamepad && (m_user_index < 4 && network_session_interface_local_user_exists(m_user_index) && !m_state_flags.test(_temporary_bit)) || m_state_flags.test(_temporary_bit))
 		{
-			if (has_gamepad)
-				user_interface_controller_attached(controller_index);
-			else
-				user_interface_controller_detached(controller_index);
+			user_interface_controller_attached(controller_index);
+		}
+		else if (!has_gamepad && (m_user_index < 4 && network_session_interface_local_user_exists(m_user_index) && !m_state_flags.test(_temporary_bit)) || m_state_flags.test(_temporary_bit))
+		{
+			user_interface_controller_detached(controller_index);
 		}
 	}
 }
 
-//.text:00A7E150 ; private: void c_controller_interface::update_for_sign_in_change()
+void c_controller_interface::update_for_sign_in_change()
+{
+	INVOKE_CLASS_MEMBER(0x00A7E150, c_controller_interface, update_for_sign_in_change);
+}
 

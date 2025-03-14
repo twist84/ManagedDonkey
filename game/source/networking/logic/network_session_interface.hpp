@@ -141,7 +141,8 @@ struct c_game_variant;
 struct c_map_variant;
 struct s_network_ui_state;
 struct s_network_session_status_data;
-
+struct s_network_session_peer;
+struct s_network_session_player;
 
 extern long __cdecl network_squad_session_get_countdown_timer();
 extern bool __cdecl network_life_cycle_in_matchmaking();
@@ -170,9 +171,9 @@ extern void __cdecl network_session_interface_dispose();
 extern bool __cdecl network_session_interface_get_is_user_signed_in(long user_index);
 extern bool __cdecl network_session_interface_get_is_zombie_local_user(long user_index);
 extern bool __cdecl network_session_interface_get_live_connection_info(s_transport_qos_result* qos_result, e_online_nat_type* nat_type, long* bandwidth_bps, long* max_machine_count);
-//get_local_framerate_quality
-//sub_4364A0
-extern bool __cdecl network_session_interface_get_local_user_identifier(long user_index, s_player_identifier* player_identifier, bool a3);
+//network_session_interface_get_local_framerate_quality
+//.text:004364A0 ; long __cdecl network_session_interface_get_local_user_count(void)
+extern bool __cdecl network_session_interface_get_local_user_identifier(long user_index, s_player_identifier* player_identifier, bool allow_users_in_erroneous_states);
 extern bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, dword* player_voice_settings);
 extern long __cdecl network_session_interface_get_local_user_state(long user_index);
 extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
@@ -207,6 +208,7 @@ extern bool __cdecl network_squad_session_boot_player(long player_index, e_netwo
 extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
+extern bool __cdecl network_squad_session_get_membership(long* update_number, long* local_peer_index, long* host_peer_index, long* leader_peer_index, long* peer_count, dword* peer_valid_flags, s_network_session_peer const** peers, long* player_count, dword* player_valid_flags, s_network_session_player const** players);
 extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);

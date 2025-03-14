@@ -44,7 +44,12 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 //.text:00A81120 ; bool __cdecl user_interface_group_is_local_player(long player_index)
 //.text:00A81190 ; bool __cdecl user_interface_group_is_player_valid(long player_index)
 //.text:00A811F0 ; bool __cdecl user_interface_interactive_session_is_group()
-//.text:00A81230 ; bool __cdecl user_interface_interactive_session_is_squad()
+
+bool __cdecl user_interface_interactive_session_is_squad()
+{
+	return INVOKE(0x00A81230, user_interface_interactive_session_is_squad);
+}
+
 //.text:00A81270 ; void __cdecl user_interface_leave_game()
 
 void __cdecl user_interface_leave_sessions(e_user_interface_session_leave_type leave_type, e_user_interface_session_leave_reason leave_reason)

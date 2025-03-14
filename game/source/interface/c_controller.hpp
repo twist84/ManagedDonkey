@@ -24,6 +24,7 @@ public:
 	void sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary);
 	void sign_out_controller(bool sign_out_for_sign_in_change);
 	void update_controller_properties();
+	void update_for_sign_in_change();
 
 //protected:
 	// 4066
@@ -56,7 +57,7 @@ public:
 	short m_user_index;
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;
-	c_static_wchar_string<16> m_display_name;
+	wchar_t m_display_name[16];
 	qword m_hash_bits;
 	qword m_hash_bits_last_game_instance;
 	c_static_flags<k_achievement_count> m_achievements;

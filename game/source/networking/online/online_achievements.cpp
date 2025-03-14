@@ -15,3 +15,8 @@ void __cdecl achievements_update(real world_seconds_elapsed)
 	INVOKE(0x014E2440, achievements_update, world_seconds_elapsed);
 }
 
+void __cdecl gamer_achievements_begin_retrieval(e_controller_index controller_index)
+{
+	INVOKE(0x014E2620, gamer_achievements_begin_retrieval, controller_index);
+}
+

@@ -1806,6 +1806,9 @@
     <ClCompile Include="source\render\render_debug_commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\logic_managed_user.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4095,6 +4098,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_debug_commands.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_managed_user.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
