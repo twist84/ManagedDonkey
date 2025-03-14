@@ -100,6 +100,9 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				// $TODO: figure out why this is necessary
 				&& service_tag_text_widget
 
+				&& data->get_text_value(element_handle, STRING_ID(gui, player_found), &player_found)
+				&& data->get_text_value(element_handle, STRING_ID(gui, looking_for_player), &looking_for_player)
+				&& data->get_text_value(element_handle, STRING_ID(global, press_a_to_join), &press_a_to_join)
 				&& data->get_text_value(element_handle, STRING_ID(gui, service_tag), &service_tag)
 				&& data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
 				&& data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type_index)
@@ -137,18 +140,18 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				list_item_widget->set_enabled(row_is_player);
 
 				player_found_text_widget->set_text(player_found.get_string());
-				player_found_bitmap_widget->set_visible(row_is_found);
 				player_found_text_widget->set_visible(row_is_found);
+				player_found_bitmap_widget->set_visible(row_is_found);
 
 				looking_for_player_text_widget->set_text(looking_for_player.get_string());
+				looking_for_player_text_widget->set_visible(row_is_searching);
 				looking_for_player_bitmap_widget->set_visible(row_is_searching);
 				looking_for_player2_bitmap_widget->set_visible(row_is_searching);
 				looking_for_player3_bitmap_widget->set_visible(row_is_searching);
-				looking_for_player_text_widget->set_visible(row_is_searching);
 
 				press_a_to_join_text_widget->set_text(press_a_to_join.get_string());
-				press_a_to_join_bitmap_widget->set_visible(row_is_press_a_to_join);
 				press_a_to_join_text_widget->set_visible(row_is_press_a_to_join);
+				press_a_to_join_bitmap_widget->set_visible(row_is_press_a_to_join);
 
 				bool special_status_party_up = IN_RANGE_INCLUSIVE(special_status_value, c_gui_roster_data::_special_status_party_up_undecided_leader, c_gui_roster_data::_special_status_party_up_chosen_member);
 				check_bitmap_widget->set_visible(special_status_party_up);
@@ -272,6 +275,9 @@ void __thiscall c_gui_roster_list_widget::update(dword current_milliseconds)
 				name_text_widget->get_text_internal()->set_font(_body_text_font);
 				name_hilite_text_widget->get_text_internal()->set_font(_body_text_font);
 				service_tag_text_widget->get_text_internal()->set_font(_body_text_font);
+				player_found_text_widget->get_text_internal()->set_font(_body_text_font);
+				looking_for_player_text_widget->get_text_internal()->set_font(_body_text_font);
+				press_a_to_join_text_widget->get_text_internal()->set_font(_body_text_font);
 
 				if (!team_change_active)
 					data->get_text_value(element_handle, STRING_ID(global, player_name), &name);

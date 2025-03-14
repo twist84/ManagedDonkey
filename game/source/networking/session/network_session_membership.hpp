@@ -186,9 +186,9 @@ public:
 	s_network_session_shared_membership m_shared_network_membership;
 	c_static_array<s_network_session_shared_membership, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership;
 	c_static_array<dword, k_network_maximum_machines_per_session> m_baseline_checksum;
-	bool __unknown1A3D1C;
-	bool __unknown1A3D1D;
-	bool __unknown1A3D1E;
+	bool __unknown1A3D1C; // m_has_received_a_membership_update?
+	bool __unknown1A3D1D; // m_completed_first_player_update?
+	bool __unknown1A3D1E; // m_needs_player_update?
 	bool __unknown1A3D1F;
 	long m_local_peer_index;
 	long m_local_membership_update_number;
@@ -198,4 +198,18 @@ public:
 	long m_add_queue_first_free_slot;
 };
 static_assert(sizeof(c_network_session_membership) == 0x1A3F20);
+static_assert(0x00000000 == OFFSETOF(c_network_session_membership, m_session));
+static_assert(0x00000008 == OFFSETOF(c_network_session_membership, m_shared_network_membership));
+static_assert(0x00017530 == OFFSETOF(c_network_session_membership, m_transmitted_shared_network_membership));
+static_assert(0x001A3CD8 == OFFSETOF(c_network_session_membership, m_baseline_checksum));
+static_assert(0x001A3D1C == OFFSETOF(c_network_session_membership, __unknown1A3D1C));
+static_assert(0x001A3D1D == OFFSETOF(c_network_session_membership, __unknown1A3D1D));
+static_assert(0x001A3D1E == OFFSETOF(c_network_session_membership, __unknown1A3D1E));
+static_assert(0x001A3D1F == OFFSETOF(c_network_session_membership, __unknown1A3D1F));
+static_assert(0x001A3D20 == OFFSETOF(c_network_session_membership, m_local_peer_index));
+static_assert(0x001A3D24 == OFFSETOF(c_network_session_membership, m_local_membership_update_number));
+static_assert(0x001A3D28 == OFFSETOF(c_network_session_membership, m_local_peer_state));
+static_assert(0x001A3DF4 == OFFSETOF(c_network_session_membership, m_player_add_queue));
+static_assert(0x001A3F14 == OFFSETOF(c_network_session_membership, m_add_queue_first_used_slot));
+static_assert(0x001A3F18 == OFFSETOF(c_network_session_membership, m_add_queue_first_free_slot));
 

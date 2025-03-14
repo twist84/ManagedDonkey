@@ -181,7 +181,7 @@ void c_controller_interface::update_controller_properties()
 
 	e_controller_index controller_index = get_controller_index();
 	bool is_signed_in = online_local_user_is_signed_in(controller_index);
-	bool has_gamepad = true;// input_has_gamepad(controller_index);
+	bool has_gamepad = input_has_gamepad(controller_index);
 	bool attached = is_attached();
 	bool is_user_signed_in = false;
 

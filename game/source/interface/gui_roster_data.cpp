@@ -52,8 +52,11 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 	case STRING_ID(gui, base_color):
 	case STRING_ID(gui, base_color_hilite):
 	{
-		if (player_data)
-			*value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[_color_type_primary].value;
+		if (player_row->player_row_type == _player_row_type_player)
+		{
+			if (player_data)
+				*value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[_color_type_primary].value;
+		}
 
 		return true;
 	}
@@ -108,34 +111,40 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 	break;
 	case STRING_ID(gui, experience):
 	{
-		*value = (element_handle % 4) + 1;
+		if (player_row->player_row_type == _player_row_type_player)
+		{
+			*value = (element_handle % 4) + 1;
 
-		// $TODO: pull this from an api?
-		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
-			*value = 42;
-
+			// $TODO: pull this from an api?
+			if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
+				*value = 42;
+		}
 		return true;
 	}
 	break;
 	case STRING_ID(gui, skill_level):
 	{
-		*value = (element_handle % 4) + 1;
+		if (player_row->player_row_type == _player_row_type_player)
+		{
+			*value = (element_handle % 4) + 1;
 
-		// $TODO: pull this from an api?
-		if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
-			*value = 50;
-
+			// $TODO: pull this from an api?
+			if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
+				*value = 50;
+		}
 		return true;
 	}
 	break;
 	case STRING_ID(gui, bungienet_user):
 	{
-		// Look At Me. I'm The Bungie Now.
-		*value |= FLAG(_bungienet_user_default);
+		if (player_row->player_row_type == _player_row_type_player)
+		{
+			// Look At Me. I'm The Bungie Now.
+			*value |= FLAG(_bungienet_user_default);
 
-		if (player_data)
-			*value = player_data->host.weapon.loadouts[0].bungienet_user;
-
+			if (player_data)
+				*value = player_data->host.weapon.loadouts[0].bungienet_user;
+		}
 		return true;
 	}
 	break;
@@ -166,8 +175,8 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 		if (player_row->player_row_type == _player_row_type_player)
 		{
 			value->set(player_row->player_configuration.host.name.get_string());
-			return true;
 		}
+		return true;
 	}
 	break;
 	case STRING_ID(global, press_a_to_join):
@@ -175,8 +184,8 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 		if (player_row->player_row_type == _player_row_type_press_a_to_join)
 		{
 			user_interface_global_string_get(STRING_ID(global, press_a_to_join), value);
-			return true;
 		}
+		return true;
 	}
 	break;
 	case STRING_ID(gui, looking_for_player):
@@ -184,8 +193,8 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 		if (player_row->player_row_type == _player_row_type_searching)
 		{
 			user_interface_global_string_get(STRING_ID(gui, looking_for_player), value);
-			return true;
 		}
+		return true;
 	}
 	break;
 	case STRING_ID(gui, player_found):
@@ -193,8 +202,8 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 		if (player_row->player_row_type == _player_row_type_found)
 		{
 			user_interface_global_string_get(STRING_ID(gui, player_found), value);
-			return true;
 		}
+		return true;
 	}
 	break;
 	case STRING_ID(gui, service_tag):
@@ -206,8 +215,8 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 			c_static_wchar_string<256> service_tag_text;
 			service_tag_text.set(player_row->player_configuration.host.appearance.service_tag.get_string());
 			value->print(L"%s - %s", player_model_text.get_string(), service_tag_text.get_string());
-			return true;
 		}
+		return true;
 	}
 	break;
 	}

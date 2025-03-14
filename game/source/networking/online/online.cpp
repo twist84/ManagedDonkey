@@ -237,13 +237,13 @@ void __cdecl online_initialize()
 		if (!user.player_identifier)
 			user.player_identifier = 3LL;
 
-		user.is_signed_in = controller_index < 1;
-		user.is_silver_or_gold_xbox_live = false;
-		user.is_online_enabled = false;
+		user.is_signed_in = true;// controller_index < 1;
+		user.is_silver_or_gold_xbox_live = true;
+		user.is_online_enabled = true;
 		user.is_free_live_gold = false;
 		user.is_user_created_content_allowed = true;
 		user.is_friend_created_content_allowed = true;
-		user.guest_number = NONE;
+		user.guest_number = controller_index < 1 ? NONE : controller_index - 1;
 		user.local_xuid = user_id;
 		user.online_xuid = xuid_make_online(user_id);
 		user.online_xuid_string = NULL;
