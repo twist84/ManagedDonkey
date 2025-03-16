@@ -21,61 +21,56 @@ HOOK_DECLARE(0x00A95170, user_interface_controller_update_network_properties);
 //.text:00A934C0 ; bool __cdecl dpad_button_tabbed(bool, byte, word)
 //.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, point2d const*, e_controller_component)
 
-void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button)
+void __cdecl event_manager_button_pressed(e_controller_index controller_index, byte button)
 {
 	//INVOKE(0x00A935C0, event_manager_button_pressed, controller_index, gamepad_button);
 
-	s_event_record event_record = {};
+	s_event_record event = {};
 
-	event_record.type = _event_type_button_press;
-	event_record.controller = controller_index;
-	switch (gamepad_button)
+	event.type = _event_type_button_press;
+	event.controller = controller_index;
+	switch (button)
 	{
 	case _button_action_left_trigger:
-		event_record.component = _controller_component_button_left_trigger;
+		event.component = _controller_component_button_left_trigger;
 		break;
 	case _button_action_right_trigger:
-		event_record.component = _controller_component_button_right_trigger;
-		break;
-	case _button_action_dpad_up:
-	case _button_action_dpad_down:
-	case _button_action_dpad_left:
-	case _button_action_dpad_right:
+		event.component = _controller_component_button_right_trigger;
 		break;
 	case _button_action_start:
-		event_record.component = _controller_component_button_start;
+		event.component = _controller_component_button_start;
 		break;
 	case _button_action_back:
-		event_record.component = _controller_component_button_back;
+		event.component = _controller_component_button_back;
 		break;
 	case _button_action_left_stick:
-		event_record.component = _controller_component_button_left_stick;
+		event.component = _controller_component_button_left_thumb;
 		break;
 	case _button_action_right_stick:
-		event_record.component = _controller_component_button_right_stick;
+		event.component = _controller_component_button_right_thumb;
 		break;
 	case _button_action_a:
-		event_record.component = _controller_component_button_a;
+		event.component = _controller_component_button_a;
 		break;
 	case _button_action_b:
-		event_record.component = _controller_component_button_b;
+		event.component = _controller_component_button_b;
 		break;
 	case _button_action_x:
-		event_record.component = _controller_component_button_x;
+		event.component = _controller_component_button_x;
 		break;
 	case _button_action_y:
-		event_record.component = _controller_component_button_y;
+		event.component = _controller_component_button_y;
 		break;
 	case _button_action_right_bumper:
-		event_record.component = _controller_component_button_left_bumper;
+		event.component = _controller_component_button_right_shoulder;
 		break;
 	case _button_action_left_bumper:
-		event_record.component = _controller_component_button_right_bumper;
+		event.component = _controller_component_button_left_shoulder;
 		break;
 	}
-	event_record.value = 0xFF;
+	event.value = 0xFF;
 
-	user_interface_controller_input_event_submit(&event_record);
+	user_interface_controller_input_event_submit(&event);
 }
 
 void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component)

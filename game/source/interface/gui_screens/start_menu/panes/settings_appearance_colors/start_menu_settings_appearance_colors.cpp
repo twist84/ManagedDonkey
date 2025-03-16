@@ -191,10 +191,10 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //		case _controller_component_button_x:
 //			//player_emblem_toggle_alternate_emblem_foreground(controller_index);
 //			return true;
-//		case _controller_component_button_left_stick:
+//		case _controller_component_button_left_thumb:
 //			//player_emblem_toggle_flip_emblem_foreground(controller_index);
 //			return true;
-//		case _controller_component_button_right_stick:
+//		case _controller_component_button_right_thumb:
 //			//player_emblem_toggle_flip_emblem_background(controller_index);
 //			return true;
 //		}

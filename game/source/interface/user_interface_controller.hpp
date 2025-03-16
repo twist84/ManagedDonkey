@@ -29,8 +29,8 @@ enum e_controller_component
 	_controller_component_button_x,
 	_controller_component_button_y,
 
-	_controller_component_button_right_bumper,
-	_controller_component_button_left_bumper,
+	_controller_component_button_left_shoulder,
+	_controller_component_button_right_shoulder,
 
 	_controller_component_button_left_trigger,
 	_controller_component_button_right_trigger,
@@ -43,8 +43,8 @@ enum e_controller_component
 	_controller_component_button_start,
 	_controller_component_button_back,
 
-	_controller_component_button_left_stick,
-	_controller_component_button_right_stick,
+	_controller_component_button_left_thumb,
+	_controller_component_button_right_thumb,
 
 	_controller_component_any_stick,
 
@@ -135,11 +135,17 @@ static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
 
 extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 
-extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button);
+extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, byte button);
 extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component);
-extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_attached(e_controller_index controller_index);
-extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event_record);
+extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
+extern s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index);
+extern bool __cdecl user_interface_controller_get_player_configuration(e_controller_index controller_index, s_player_identifier* player_identifier, s_player_configuration* player_data);
+extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event);
+extern bool __cdecl user_interface_controller_is_player_profile_valid(e_controller_index controller_index);
+extern void __cdecl user_interface_controller_reset(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, long user_index);
+extern void __cdecl user_interface_controller_switch_to_offline(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_update();
+extern void __cdecl user_interface_controller_update_network_properties(e_controller_index controller_index);
 
