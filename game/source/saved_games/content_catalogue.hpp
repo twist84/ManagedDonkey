@@ -10,7 +10,11 @@
 struct s_data_array;
 struct c_content_catalogue
 {
-	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
+public:
+	void initialize(e_controller_index controller_index);
+
+//protected:
+	e_controller_index m_controller_index;
 	s_data_array* m_content_item_data_array;
 	s_content_item* m_content_item_array;
 	s_content_item m_content_item;
@@ -35,4 +39,6 @@ const size_t k_content_catalogue_globals_size = sizeof(s_content_catalogue_globa
 static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
 
 extern s_content_catalogue_globals& g_content_catalogue_globals;
+
+extern c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index controller_index);
 
