@@ -13,12 +13,20 @@ public:
 	bool in_use() const;
 	e_controller_index get_controller_index() const;
 	wchar_t const* get_display_name() const;
+	short get_or_create_user_index();
 	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
 	c_player_profile_interface* get_player_profile_interface();
 	qword const get_player_xuid() const;
 	short get_user_index() const;
 	bool is_attached() const;
 	bool is_signed_in_to_machine() const;
+	bool is_unsigned_in_user() const;
+
+//private:
+	void remove_controller_from_network_session();
+
+//public:
+	void reset_user_index();
 
 //private:
 	void sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary);
@@ -81,6 +89,7 @@ extern bool controller_centered_crosshair;
 enum e_window_index;
 enum e_controller_index;
 
+extern void __cdecl controller_activate_as_unsigned_in_user(short controller_index, bool activate);
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
 extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
 extern e_controller_index __cdecl controller_index_from_user_index(long user_index);
