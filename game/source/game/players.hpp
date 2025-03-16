@@ -151,6 +151,8 @@ static_assert(sizeof(s_s3d_player_configuration_weapon) == 0x774);
 
 struct s_player_configuration_from_client
 {
+	s_player_configuration_from_client();
+
 	c_static_wchar_string<16> desired_name;
 	byte user_selected_team_index;
 	byte vote_selection_index;
@@ -164,6 +166,8 @@ static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 
 struct s_player_configuration_from_host
 {
+	s_player_configuration_from_host();
+
 	s_player_identifier player_identifier;
 	c_static_wchar_string<16> name;
 	e_game_team team_index;
@@ -176,6 +180,8 @@ static_assert(sizeof(s_player_configuration_from_host) == 0x15F0);
 
 struct s_player_configuration
 {
+	s_player_configuration();
+
 	s_player_configuration_from_client client;
 	s_player_configuration_from_host host;
 };

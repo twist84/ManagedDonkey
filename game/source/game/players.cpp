@@ -30,6 +30,27 @@ bool debug_render_players = false;
 string_id g_player_desired_mode_override = NONE;
 long g_character_physics_override = _character_physics_default;
 
+//.text:00434720 ; public: s_player_configuration::s_player_configuration()
+s_player_configuration::s_player_configuration()
+{
+	client = {};
+	host = {};
+}
+
+//.text:00434760 ; public: s_player_configuration_from_client::s_player_configuration_from_client()
+s_player_configuration_from_client::s_player_configuration_from_client()
+{
+	memset(this, 0, sizeof(*this));
+}
+
+//.text:00434780 ; public: s_player_configuration_from_host::s_player_configuration_from_host()
+s_player_configuration_from_host::s_player_configuration_from_host()
+{
+	memset(this, 0, sizeof(*this));
+	team_index = _multiplayer_team_none;
+	assigned_team_index = _multiplayer_team_none;
+}
+
 s_player_identifier::s_player_identifier() :
 	identifier(0)
 {
