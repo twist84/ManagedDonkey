@@ -22,7 +22,7 @@ extern void __cdecl input_xinput_dispose();
 extern dword __cdecl input_xinput_get_state(dword user_index, _XINPUT_STATE* state);
 extern bool __cdecl input_xinput_initialize();
 extern dword __cdecl input_xinput_set_state(dword user_index, _XINPUT_VIBRATION* state);
-extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data);
+extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword elapsed_msec, gamepad_state* in_out_gamepad_state, debug_gamepad_data* out_debug_gamepad_data);
 extern void __cdecl input_xinput_update_rumble_state(dword user_index, rumble_state const* state, bool suppressed);
 extern void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick, short thumb_x, short thumb_y);
 extern void __cdecl input_xinput_update_button(byte* trigger_down_frames, word* trigger_down_msec, bool trigger_down, long duration_ms);

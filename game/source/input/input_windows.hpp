@@ -400,10 +400,10 @@ static_assert(sizeof(mouse_state) == 0x2C);
 // based on `XINPUT_STATE`
 struct gamepad_state
 {
-	c_static_array<byte, 2> trigger_msec_down;
-	c_static_array<byte, 2> max_trigger_msec_down;
-	c_static_array<byte, k_controller_button_count> button_frames_down;
-	c_static_array<word, k_controller_button_count> button_msec_down;
+	byte analog_buttons[2];
+	byte analog_button_thresholds[2];
+	byte button_frames[k_controller_button_count];
+	word button_msec[k_controller_button_count];
 
 	point2d thumb_left;
 	point2d thumb_right;

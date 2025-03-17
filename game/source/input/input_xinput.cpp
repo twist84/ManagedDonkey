@@ -145,16 +145,16 @@ dword __cdecl input_xinput_set_state(dword user_index, _XINPUT_VIBRATION* vibrat
 	return XInputSetState_proxy(user_index, vibration);
 }
 
-bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms, struct gamepad_state* gamepad_state, debug_gamepad_data* out_debug_gamepad_data)
+bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword elapsed_msec, gamepad_state* in_out_gamepad_state, debug_gamepad_data* out_debug_gamepad_data)
 {
-	//bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, duration_ms, gamepad_state, out_debug_gamepad_data);
+	//bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, elapsed_msec, in_out_gamepad_state, out_debug_gamepad_data);
 	//if (result)
 	//{
 	//	if (!out_debug_gamepad_data)
 	//		out_debug_gamepad_data = &g_debug_gamepad_data[gamepad_index];
 	//
-	//	out_debug_gamepad_data->thumb_left = gamepad_state->thumb_left;
-	//	out_debug_gamepad_data->thumb_right = gamepad_state->thumb_right;
+	//	out_debug_gamepad_data->thumb_left = in_out_gamepad_state->thumb_left;
+	//	out_debug_gamepad_data->thumb_right = in_out_gamepad_state->thumb_right;
 	//}
 	//return result;
 
@@ -166,26 +166,26 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 	{
 		for (short trigger_index = 0; trigger_index < 2; trigger_index++)
 		{
-			byte& trigger_msec_down = gamepad_state->trigger_msec_down[trigger_index];
-			byte& max_trigger_msec_down = gamepad_state->max_trigger_msec_down[trigger_index];
-			byte& button_frames_down = gamepad_state->button_frames_down[trigger_index];
-			word& button_msec_down = gamepad_state->button_msec_down[trigger_index];
+			byte& analog_buttons = in_out_gamepad_state->analog_buttons[trigger_index];
+			byte& analog_button_thresholds = in_out_gamepad_state->analog_button_thresholds[trigger_index];
+			byte& button_frames = in_out_gamepad_state->button_frames[trigger_index];
+			word& button_msec = in_out_gamepad_state->button_msec[trigger_index];
 
-			trigger_msec_down = trigger_index ? state.Gamepad.bRightTrigger : state.Gamepad.bLeftTrigger;
-			bool trigger_down = trigger_msec_down > max_trigger_msec_down;
+			analog_buttons = trigger_index ? state.Gamepad.bRightTrigger : state.Gamepad.bLeftTrigger;
+			bool trigger_down = analog_buttons > analog_button_thresholds;
 
-			input_xinput_update_button(&button_frames_down, &button_msec_down, trigger_down, duration_ms);
-			input_xinput_update_trigger(&trigger_msec_down, trigger_down, (byte)duration_ms);
+			input_xinput_update_button(&button_frames, &button_msec, trigger_down, elapsed_msec);
+			input_xinput_update_trigger(&analog_buttons, trigger_down, (byte)elapsed_msec);
 		}
 
 		for (long button_index = 0; button_index < k_xinput_button_count; button_index++)
 		{
-			byte& button_frames_down = gamepad_state->button_frames_down[_controller_button_dpad_up + button_index];
-			word& button_msec_down = gamepad_state->button_msec_down[_controller_button_dpad_up + button_index];
+			byte& button_frames = in_out_gamepad_state->button_frames[_controller_button_dpad_up + button_index];
+			word& button_msec = in_out_gamepad_state->button_msec[_controller_button_dpad_up + button_index];
 
 			bool button_down = TEST_MASK(state.Gamepad.wButtons, xinput_buttons[button_index]);
 
-			input_xinput_update_button(&button_frames_down, &button_msec_down, button_down, duration_ms);
+			input_xinput_update_button(&button_frames, &button_msec, button_down, elapsed_msec);
 		}
 
 		// In Halo Online `out_debug_gamepad_data` is NULL, we "fix" that here
@@ -198,13 +198,13 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 		out_debug_gamepad_data->sticks[1].x = state.Gamepad.sThumbRX;
 		out_debug_gamepad_data->sticks[1].y = state.Gamepad.sThumbRY;
 
-		input_xinput_update_thumbstick(true, &gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
-		input_xinput_update_thumbstick(false, &gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
+		input_xinput_update_thumbstick(true, &in_out_gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
+		input_xinput_update_thumbstick(false, &in_out_gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
 
 		return true;
 	}
 
-	csmemset(gamepad_state, 0, sizeof(struct gamepad_state));
+	csmemset(in_out_gamepad_state, 0, sizeof(struct gamepad_state));
 	return false;
 }
 
@@ -232,29 +232,29 @@ void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick
 	thumbstick->y = ADJUST_THUMB_AXIS_DEADZONE_SHORT(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
-void __cdecl input_xinput_update_button(byte* button_frames_down, word* button_msec_down, bool button_down, long duration_ms)
+void __cdecl input_xinput_update_button(byte* button_frames, word* button_msec, bool button_down, long duration_ms)
 {
-	//INVOKE(0x0065F380, input_xinput_update_button, button_frames_down, button_msec_down, button_down, duration_ms);
+	//INVOKE(0x0065F380, input_xinput_update_button, button_frames, button_msec, button_down, elapsed_msec);
 
-	*button_frames_down = button_down ? MIN(*button_frames_down + 1, UNSIGNED_CHAR_MAX) : 0;
-	*button_msec_down = button_down ? MIN(*button_msec_down + (word)duration_ms, UNSIGNED_SHORT_MAX) : 0;
+	*button_frames = button_down ? MIN(*button_frames + 1, UNSIGNED_CHAR_MAX) : 0;
+	*button_msec = button_down ? MIN(*button_msec + (word)duration_ms, UNSIGNED_SHORT_MAX) : 0;
 }
 
-void __cdecl input_xinput_update_trigger(byte* trigger_msec_down, bool trigger_down, byte duration_ms)
+void __cdecl input_xinput_update_trigger(byte* analog_buttons, bool trigger_down, byte duration_ms)
 {
-	//INVOKE(0x0065F3D0, input_xinput_update_trigger, trigger_msec_down, trigger_down, duration_ms);
+	//INVOKE(0x0065F3D0, input_xinput_update_trigger, analog_buttons, trigger_down, elapsed_msec);
 
 	if (trigger_down)
 	{
 		byte msec_down = CLAMP_LOWER(duration_ms, 0, 32);
-		if (*trigger_msec_down <= msec_down)
-			*trigger_msec_down = msec_down;
+		if (*analog_buttons <= msec_down)
+			*analog_buttons = msec_down;
 	}
 	else
 	{
 		byte msec_down = CLAMP_UPPER(duration_ms, 64, 255);
-		if (*trigger_msec_down >= msec_down)
-			*trigger_msec_down = msec_down;
+		if (*analog_buttons >= msec_down)
+			*analog_buttons = msec_down;
 	}
 }
 
