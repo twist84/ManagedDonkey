@@ -1158,9 +1158,9 @@ void __cdecl object_placement_data_copy_change_colors(object_placement_data* dat
 	//}
 }
 
-void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner)
+void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long creator_object_index, s_damage_owner const* damage_owner)
 {
-	//INVOKE(0x00B31590, object_placement_data_new, data, definition_index, owner_object_index, damage_owner);
+	//INVOKE(0x00B31590, object_placement_data_new, data, definition_index, creator_object_index, damage_owner);
 
 	csmemset(data, 0, sizeof(object_placement_data));
 	
@@ -1174,9 +1174,9 @@ void __cdecl object_placement_data_new(object_placement_data* data, long definit
 	data->change_color_override_mask.clear();
 	data->bsp_placement_policy = 0;
 	
-	if (object_datum* owner_object = object_get(owner_object_index))
+	if (object_datum* owner_object = object_get(creator_object_index))
 	{
-		data->owner_object_index = owner_object_index;
+		data->owner_object_index = creator_object_index;
 		data->owner_player_index = NONE;
 		data->owner_team_index = NONE;
 	
@@ -1205,8 +1205,8 @@ void __cdecl object_placement_data_new(object_placement_data* data, long definit
 	data->scenario_datum_index = NONE;
 	data->location_set = false;
 
-	if (owner_object_index != NONE)
-		data->multiplayer_cinematic_object = object_is_multiplayer_cinematic_object(owner_object_index);
+	if (creator_object_index != NONE)
+		data->multiplayer_cinematic_object = object_is_multiplayer_cinematic_object(creator_object_index);
 
 	data->parent_object_index = NONE;
 	data->parent_marker = _string_id_invalid;

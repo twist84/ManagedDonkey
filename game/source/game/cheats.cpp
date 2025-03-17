@@ -181,57 +181,57 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	return true;
 }
 
-bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long object_definition_index, long variant_name, long shader, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, tag base_group_tag, long object_definition_index, long variant_name, long shader_definition_index, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char const* tag_group_name = "unknown";
 
-	tag_group_name = tag_group_get_name(group_tag);
+	tag_group_name = tag_group_get_name(drop_group_tag);
 
 	if (game_is_predicted())
 		return false;
 
 	if (object_definition_index == NONE)
 	{
-		if (expected_group_tag == OBJECT_TAG)
-			event(_event_warning, "cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
+		if (base_group_tag == OBJECT_TAG)
+			event(_event_warning, "cheats: couldn't load object '%s.%s' to drop it", drop_tag_path, tag_group_name);
 
 		return false;
 	}
 
-	object_placement_data data{};
-	object_placement_data_new(&data, object_definition_index, NONE, NULL);
+	object_placement_data placement_data{};
+	object_placement_data_new(&placement_data, object_definition_index, NONE, NULL);
 
 	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object_definition_index);
 	real bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
-		data.model_variant_index = variant_name;
+		placement_data.model_variant_index = variant_name;
 
-	data.position = *position;
-	data.position.x += bounding_radius * forward->i;
-	data.position.y += bounding_radius * forward->j;
-	data.position.z += bounding_radius * forward->k;
+	placement_data.position = *position;
+	placement_data.position.x += bounding_radius * forward->i;
+	placement_data.position.y += bounding_radius * forward->j;
+	placement_data.position.z += bounding_radius * forward->k;
 
 	if (permutations && permutation_count > 0)
 	{
 		for (long i = 0; i < permutation_count; i++)
 		{
-			data.model_customization_overrides[i] = permutations[i];
-			data.model_customization_override_count++;
+			placement_data.model_customization_overrides[i] = permutations[i];
+			placement_data.model_customization_override_count++;
 		}
 	}
 
-	long object_index = object_new(&data);
+	long object_index = object_new(&placement_data);
 	if (object_index == NONE)
 	{
-		event(_event_warning, "cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
+		event(_event_warning, "cheats: couldn't place '%s.%s'", drop_tag_path, tag_group_name);
 		return false;
 	}
 
 	object_force_inside_bsp(object_index, position, NONE);
 
-	//if (shader != NONE)
-	//	object_override_set_shader(object_index, shader);
+	//if (shader_definition_index != NONE)
+	//	object_override_set_shader(object_index, shader_definition_index);
 
 	if (object_definition->object.type == _object_type_biped && BIPED_GET(object_index)->unit.current_weapon_set.weapon_indices[0] == NONE)
 	{
@@ -239,9 +239,9 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 		tag_iterator_new(&iterator, WEAPON_TAG);
 		for (long weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
 		{
-			object_placement_data weapon_data{};
-			object_placement_data_new(&weapon_data, weapon_definition_index, NONE, NULL);
-			long weapon_object_index = object_new(&weapon_data);
+			object_placement_data weapon_placement_data{};
+			object_placement_data_new(&weapon_placement_data, weapon_definition_index, NONE, NULL);
+			long weapon_object_index = object_new(&weapon_placement_data);
 			if (weapon_object_index != NONE)
 			{
 				if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
@@ -253,7 +253,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	}
 
 	simulation_action_object_create(object_index);
-	console_printf("placed '%s.%s'", tag_name, tag_group_name);
+	console_printf("placed '%s.%s'", drop_tag_path, tag_group_name);
 
 	return true;
 }
