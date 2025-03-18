@@ -1132,6 +1132,55 @@ void __cdecl object_notify_in_local_physics_object(long object_index, long local
 long __cdecl object_override_create(long object_index)
 {
 	return NONE;
+
+	object_datum* object = object_get(object_index);
+	long override_index = object_override_find(object_index);
+	if (override_index == NONE)
+	{
+		ASSERT(!object->object.flags.test(_object_has_override_bit));
+
+		for (long object_override_index = 0; object_override_index < k_maximum_object_override_count; object_override_index++)
+		{
+			s_object_override* override = object_override_get(object_override_index);
+			if (!override->valid)
+			{
+				override_index = object_override_index;
+				override->valid = true;
+				override->object_index = object_index;
+				override->shader_index = NONE;
+				break;
+			}
+		}
+
+		if (override_index == NONE)
+		{
+			s_object_override* override = object_override_get(0);
+			ASSERT(override->valid);
+			ASSERT(override->object_index != NONE);
+
+			if (object_datum* override_object = object_get(override->object_index))
+			{
+				override_object->object.flags.set(_object_has_override_bit, false);
+			}
+
+			memmove_guarded(
+				object_override_globals.overrides,
+				object_override_globals.overrides + 1,
+				sizeof(s_object_override) * k_maximum_object_override_count - 1,
+				object_override_globals.overrides,
+				sizeof(object_override_globals));
+
+			override = object_override_get(k_maximum_object_override_count - 1);
+			override->valid = true;
+			override->object_index = object_index;
+			override->shader_index = NONE;
+			override_index = k_maximum_object_override_count - 1;
+		}
+		object->object.flags.set(_object_has_override_bit, true);
+	}
+
+	ASSERT(object->object.flags.test(_object_has_override_bit) == (override_index != NONE));
+	return override_index;
 }
 
 long __cdecl object_override_find(long object_index)
@@ -1139,6 +1188,24 @@ long __cdecl object_override_find(long object_index)
 	return NONE;
 
 	object_datum* object = object_get(object_index);
+	long override_index = NONE;
+
+	if (object->object.flags.test(_object_has_override_bit))
+	{
+		for (long i = 0; i < k_maximum_object_override_count; i++)
+		{
+			s_object_override const* override = object_override_get(i);
+			ASSERT(override_index >= 0 && override_index < k_maximum_object_override_count);
+			if (override->valid && override->object_index == object_index)
+			{
+				override_index = i;
+				break;
+			}
+		}
+	}
+
+	ASSERT(object->object.flags.test(_object_has_override_bit) == (override_index != NONE));
+	return override_index;
 }
 
 s_object_override* __cdecl object_override_get(long override_index)
