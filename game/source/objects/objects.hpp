@@ -507,6 +507,28 @@ struct objects_information
 };
 static_assert(sizeof(objects_information) == 0x20);
 
+enum
+{
+	k_maximum_object_override_count = 16
+};
+
+struct s_object_override
+{
+	bool valid;
+	byte pad[0x3];
+	long object_index;
+	long shader_index;
+};
+static_assert(sizeof(s_object_override) == 0xC);
+
+struct s_object_override_globals
+{
+	s_object_override overrides[k_maximum_object_override_count];
+};
+static_assert(sizeof(s_object_override_globals) == sizeof(s_object_override) * k_maximum_object_override_count);
+
+extern s_object_override_globals object_override_globals;
+
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
 extern bool debug_objects_sound_spheres;
@@ -652,6 +674,11 @@ extern bool __cdecl object_needs_rigid_body_update(long object_index);
 extern long __cdecl object_new(object_placement_data* data);
 extern bool __cdecl object_node_orientations_frozen(long object_index);
 extern void __cdecl object_notify_in_local_physics_object(long object_index, long local_physics_object_index);
+extern long __cdecl object_override_create(long object_index);
+extern long __cdecl object_override_find(long object_index);
+extern s_object_override* __cdecl object_override_get(long override_index);
+extern long __cdecl object_override_get_shader(long object_index);
+extern void __cdecl object_override_set_shader(long object_index, long shader_index);
 extern void __cdecl object_place(long object_index, s_scenario_object const* scenario_object);
 extern void __cdecl object_placement_data_copy_change_colors(object_placement_data* data, long object_index);
 extern void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner);

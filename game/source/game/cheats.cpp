@@ -230,8 +230,8 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 
 	object_force_inside_bsp(object_index, position, NONE);
 
-	//if (shader_definition_index != NONE)
-	//	object_override_set_shader(object_index, shader_definition_index);
+	if (shader_definition_index != NONE)
+		object_override_set_shader(object_index, shader_definition_index);
 
 	if (object_definition->object.type == _object_type_biped && BIPED_GET(object_index)->unit.current_weapon_set.weapon_indices[0] == NONE)
 	{

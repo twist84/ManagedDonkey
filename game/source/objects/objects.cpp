@@ -20,6 +20,8 @@
 HOOK_DECLARE(0x00B31590, object_placement_data_new);
 HOOK_DECLARE(0x00B32130, object_render_debug);
 
+s_object_override_globals object_override_globals;
+
 bool debug_objects = true;
 bool debug_objects_early_movers = false;
 bool debug_objects_sound_spheres = false;
@@ -1126,6 +1128,46 @@ void __cdecl object_notify_in_local_physics_object(long object_index, long local
 
 //.text:00B312F0 ; void __cdecl object_offset_interpolation(long, real_vector3d const*)
 //.text:00B31380 ; bool __cdecl object_owns_object(long, long)
+
+long __cdecl object_override_create(long object_index)
+{
+	return NONE;
+}
+
+long __cdecl object_override_find(long object_index)
+{
+	return NONE;
+
+	object_datum* object = object_get(object_index);
+}
+
+s_object_override* __cdecl object_override_get(long override_index)
+{
+	ASSERT(override_index >= 0 && override_index < k_maximum_object_override_count);
+	s_object_override* result = &object_override_globals.overrides[override_index];
+	return result;
+}
+
+long __cdecl object_override_get_shader(long object_index)
+{
+	long override_index = object_override_find(object_index);
+	if (override_index != NONE)
+	{
+		long shader_index = object_override_get(override_index)->shader_index;
+		return shader_index;
+	}
+	return NONE;
+}
+
+void __cdecl object_override_set_shader(long object_index, long shader_index)
+{
+	long override_index = object_override_create(object_index);
+	if (override_index != NONE)
+	{
+		object_override_get(override_index)->shader_index = shader_index;
+	}
+}
+
 //.text:00B313E0 ; void __cdecl object_physics_dynamic_force(long, bool)
 
 void __cdecl object_place(long object_index, s_scenario_object const* scenario_object)
