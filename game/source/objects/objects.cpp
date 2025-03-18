@@ -1265,7 +1265,7 @@ void object_prepare_axis_vectors(long object_index, real_vector3d* forward, real
 	INVOKE(0x00B31950, object_prepare_axis_vectors, object_index, forward, up);
 }
 
-//.text:00B31B80 ; void __cdecl object_queue_render_thread_message(long, enum e_object_render_thread_message_type, short)
+//.text:00B31B80 ; void __cdecl object_queue_render_thread_message(long, e_object_render_thread_message_type, short)
 
 void __cdecl object_reconnect_to_map(long object_index, bool a2, s_location const* location)
 {
@@ -1392,9 +1392,9 @@ void __cdecl object_set_in_limbo(long object_index, bool deactivate)
 	INVOKE(0x00B32E20, object_set_in_limbo, object_index, deactivate);
 }
 
-void __cdecl object_shield_stun_infinite(long object_index)
+void __cdecl object_set_infinite_shield_stun(long object_index)
 {
-	INVOKE(0x00B32EE0, object_shield_stun_infinite, object_index);
+	INVOKE(0x00B32EE0, object_set_infinite_shield_stun, object_index);
 }
 
 void __cdecl object_set_initial_change_colors(long object_index, c_flags<char, byte, 5> active_change_colors, real_rgb_color const* change_colors)

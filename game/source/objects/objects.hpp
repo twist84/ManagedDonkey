@@ -685,7 +685,7 @@ extern void __cdecl object_set_desired_velocities(long object_index, real_vector
 extern void __cdecl object_set_garbage(long object_index, bool a2, long collection_ticks);
 extern void __cdecl object_set_hidden(long object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
-extern void __cdecl object_shield_stun_infinite(long object_index);
+extern void __cdecl object_set_infinite_shield_stun(long object_index);
 extern void __cdecl object_set_initial_change_colors(long object_index, c_flags<char, byte, 5> active_change_colors, real_rgb_color const* change_colors);
 extern void __cdecl object_set_invalid_for_recycling(long object_index, bool a2);
 extern bool __cdecl object_set_model_state(long object_index, long a2, long a3, bool a4);
