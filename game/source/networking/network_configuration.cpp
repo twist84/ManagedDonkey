@@ -128,31 +128,31 @@ void __cdecl network_configuration_update()
 {
 	INVOKE(0x0043F4F0, network_configuration_update);
 
-	//if (g_network_configuration_globals.__unknown8 != hopper_directory_update_index)
+	//if (url_key != g_online_url_hopper_directory_key)
 	//{
-	//	g_network_configuration_globals.__unknown8 = hopper_directory_update_index;
+	//	url_key = g_online_url_hopper_directory_key;
 	//
-	//	c_url_string url_string{};
-	//	online_url_make_network_configuration(&url_string);
-	//	g_network_configuration_download_buffer.set_url(&url_string);
+	//	c_url_string url{};
+	//	online_url_make_network_configuration(&url);
+	//	g_network_configuration_globals.downloader.set_url(&url);
 	//}
 	//
-	//g_network_configuration_download_buffer.update();
-	//if (g_network_configuration_globals.__unknown4 != g_network_configuration_download_buffer.get_attempt_index())
+	//g_network_configuration_globals.downloader.update();
+	//if (g_network_configuration_globals.get_attempt_index() != g_network_configuration_globals.downloader.get_attempt_index())
 	//{
-	//	g_network_configuration_download_buffer.update();
+	//	g_network_configuration_globals.downloader.update();
 	//
 	//	s_network_configuration* network_configuration = NULL;
 	//	long network_configuration_size = 0;
 	//
-	//	switch (g_network_configuration_download_buffer.get_data(&network_configuration, &network_configuration_size))
+	//	switch (g_network_configuration_globals.get_data(&network_configuration, &network_configuration_size))
 	//	{
 	//	case _http_download_status_none:
 	//	case _http_download_status_failed:
 	//	case _http_download_status_failed_file_not_found:
 	//	{
-	//		g_network_configuration_globals.__unknown0 = true;
-	//		g_network_configuration_globals.__unknown4 = g_network_configuration_download_buffer.get_attempt_index();
+	//		g_network_configuration_globals.last_download_failed = true;
+	//		g_network_configuration_globals.attempt_index = g_network_configuration_globals.downloader.get_attempt_index();
 	//	}
 	//	break;
 	//	case _http_download_status_succeeded:
@@ -160,9 +160,9 @@ void __cdecl network_configuration_update()
 	//		if (network_configuration)
 	//		{
 	//			g_network_configuration = *network_configuration;
-	//			g_network_configuration_globals.__unknown0 = false;
-	//			g_network_configuration_globals.__unknown1 = true;
-	//			g_network_configuration_globals.__unknown4 = g_network_configuration_download_buffer.get_attempt_index();
+	//			g_network_configuration_globals.last_download_failed = false;
+	//			g_network_configuration_globals.has_downloaded_network_configuration = true;
+	//			g_network_configuration_globals.attempt_index = g_network_configuration_globals.downloader.get_attempt_index();
 	//		}
 	//	}
 	//	break;
