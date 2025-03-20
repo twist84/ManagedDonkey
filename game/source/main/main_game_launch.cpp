@@ -11,8 +11,6 @@ void main_game_launch(char const* map_name)
 	cache_file_map_clear_all_failures();
 	main_game_launch_set_map_name(map_name);
 
-	long launch_player_count = 1;
-
 	if (!is_debugger_present())
 	{
 		if (main_game_globals.launch_game_options.game_mode == _game_mode_campaign && csstrstr(map_name, "levels\\multi\\"))
@@ -44,7 +42,7 @@ void main_game_launch(char const* map_name)
 		return;
 	}
 
-	main_game_globals.launch_player_count = int_pin(launch_player_count, 1, 4);
+	main_game_globals.launch_player_count = int_pin(main_game_globals.launch_player_count, 1, 4);
 	main_game_globals.launch_game_options.record_saved_film = false; // saved_film_manager_should_record_film(&main_game_globals.launch_game_options);
 	game_options_setup_default_players(main_game_globals.launch_player_count, &main_game_globals.launch_game_options);
 	game_options_validate(&main_game_globals.launch_game_options);
