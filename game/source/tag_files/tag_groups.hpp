@@ -232,7 +232,7 @@ static_assert(sizeof(s_tag_block) == 0xC);
 
 struct s_tag_reference
 {
-	tag group_tag = tag(NONE);
+	tag group_tag = _tag_none;
 	char const* name;
 	long name_length;
 	long index = NONE;

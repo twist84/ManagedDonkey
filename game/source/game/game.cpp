@@ -1797,7 +1797,7 @@ void __cdecl game_update_pvs()
 		}
 
 		s_cluster_reference scripted_cluster = game_pvs_scripted_get_cluster_reference();
-		if (scripted_cluster.bsp_index != (char)NONE)
+		if (scripted_cluster.bsp_index != NONE)
 		{
 			s_scenario_pvs_row pvs_row{};
 			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &pvs_row, scenario_zone_set_index_get(), scripted_cluster, false);
