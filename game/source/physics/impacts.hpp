@@ -134,6 +134,38 @@ struct c_impact :
 };
 static_assert(sizeof(c_impact) == 0xB4);
 
+struct c_havok_contact_point;
 
+extern void __cdecl __tls_set_g_impact_array_data_allocator(void* new_address);
+extern void __cdecl __tls_set_g_impact_data_allocator(void* new_address);
+extern void __cdecl __tls_set_g_impact_globals_allocator(void* new_address);
+extern void __cdecl impact_array_add_impact(long impact_array_index, long impact_datum_index);
+extern void __cdecl impact_array_delete(long impact_array_index);
+extern long __cdecl impact_array_impact_count(long impact_array_index);
+extern long __cdecl impact_array_impact_get(long impact_array_index, long impact_array_impact_index);
+extern long __cdecl impact_array_new(long object_index);
+extern void __cdecl impact_array_remove_impact(long impact_array_index, long impact_datum_index);
+extern void __cdecl impact_delete(long impact_datum_index);
+extern long __cdecl impact_new(c_impact::s_contact_description const* contact_description, c_impact::e_states state);
+extern void __cdecl impacts_create_constraint_impacts_for_havok_component(long object_index);
+extern void __cdecl impacts_create_orphaned_impact(long object_index, c_havok_contact_point* contact_point, bool create_new_impacts);
+extern void __cdecl impacts_create_orphaned_impacts();
+extern void __cdecl impacts_disconnect_from_physics();
+extern bool __cdecl impacts_disconnected_from_physics();
+extern void __cdecl impacts_dispose();
+extern void __cdecl impacts_dispose_from_old_map();
+extern void __cdecl impacts_dispose_global_allocations();
+extern void __cdecl impacts_flush();
+extern long __cdecl impacts_get_highest_score_datum_index();
+extern void __cdecl impacts_initialize();
+extern void __cdecl impacts_initialize_for_new_map();
+extern void __cdecl impacts_initialize_global_allocations();
+extern void __cdecl impacts_load_from_game_state();
+extern void __cdecl impacts_merge();
+extern void __cdecl impacts_notify_object_deleted(long object_index);
+extern void __cdecl impacts_pop_highest_score_datum_index();
+extern void __cdecl impacts_quicksort();
+extern void __cdecl impacts_reconnect_to_physics();
+extern bool __cdecl impacts_score_compare(long impact_index_a, long impact_index_b, void const* ignored);
 extern void __cdecl impacts_update();
 
