@@ -415,7 +415,7 @@ struct s_thread_local_storage
 
 	// name: "impact globals"
 	// size: 0x8C
-	s_impact_globals* g_impact_globals;
+	impact_globals* g_impact_globals;
 
 	//  name: "impacts"
 	// count: 32
