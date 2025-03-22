@@ -79,6 +79,11 @@ enum : tag
 	_tag_none = 0xFFFFFFFF
 };
 
+enum e_none_sentinel
+{
+	NONE = -1
+};
+
 #define k_tag_string_length 32
 #define k_tag_long_string_length 256
 
@@ -193,7 +198,6 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define SET_MASK(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
 #define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
 
-#define NONE -1
 #define INVALID_ASYNC_TASK_ID -1
 
 //#define CHAR_MAX 0x7F
