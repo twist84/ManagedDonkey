@@ -5,6 +5,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
+#include "shell/shell.hpp"
 #include "xbox/xbox.hpp"
 
 #include <windows.h>
@@ -20,15 +21,22 @@ HOOK_DECLARE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, _success);
 
 HOOK_DECLARE(0x004E1860, online_guide_delay_toasts);
 HOOK_DECLARE(0x004E1870, online_guide_dispose);
+HOOK_DECLARE(0x004E1880, online_guide_handle_custom_action_pressed);
+HOOK_DECLARE(0x004E1890, online_guide_handle_custom_gamercard);
 HOOK_DECLARE(0x004E18A0, online_guide_initialize);
 HOOK_DECLARE(0x004E18B0, online_guide_set_toast_position);
 HOOK_DECLARE(0x004E18C0, online_guide_show_damaged_media_ui);
+HOOK_DECLARE(0x004E18D0, online_guide_show_device_selector_ui);
 HOOK_DECLARE(0x004E18E0, online_guide_show_file_share_recommendation);
 HOOK_DECLARE(0x004E18F0, online_guide_show_friend_request_ui);
 HOOK_DECLARE(0x004E1900, online_guide_show_friends_ui);
 HOOK_DECLARE(0x004E1910, online_guide_show_gamer_card_ui);
+HOOK_DECLARE(0x004E1920, online_guide_show_marketplace);
+HOOK_DECLARE(0x004E1930, online_guide_show_marketplace_offer);
+HOOK_DECLARE(0x004E1940, online_guide_show_message_ui);
 HOOK_DECLARE(0x004E1950, online_guide_show_player_review_ui);
 HOOK_DECLARE(0x004E1960, online_guide_show_sign_in_ui);
+HOOK_DECLARE(0x004E1970, online_guide_show_virtual_keyboard_ui);
 HOOK_DECLARE(0x004E1980, online_guide_update);
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
@@ -39,7 +47,7 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	wchar_t const* title_text,
 	wchar_t const* description_text,
 	dword maximum_input_characters,
-	dword_flags character_flags,
+	dword character_flags,
 	bool sanitize_result
 )
 {
@@ -51,17 +59,17 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	m_controller_index = controller_index;
 	m_character_flags = character_flags;
 
-	csmemset(m_result_text, 0, sizeof(m_result_text));
-	csmemset(m_default_text, 0, sizeof(m_default_text));
-	csmemset(m_title_text, 0, sizeof(m_title_text));
-	csmemset(m_description_text, 0, sizeof(m_description_text));
+	csmemset(m_result_text_buffer, 0, sizeof(m_result_text_buffer));
+	csmemset(m_default_text_buffer, 0, sizeof(m_default_text_buffer));
+	csmemset(m_title_text_buffer, 0, sizeof(m_title_text_buffer));
+	csmemset(m_description_text_buffer, 0, sizeof(m_description_text_buffer));
 
 	if (maximum_input_characters > 256)
 		maximum_input_characters = 256;
 	m_maximum_input_characters = maximum_input_characters;
 
 	m_sanitize_result = sanitize_result;
-	m_result_text[0] = 0;
+	m_result_text_buffer[0] = 0;
 
 	set_default_text(default_text);
 	set_title_text(title_text);
@@ -93,25 +101,25 @@ void __cdecl c_virtual_keyboard_task::set_controller_index(e_controller_index co
 void __cdecl c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
 {
 	if (default_text)
-		ustrnzcpy(m_default_text, default_text, 256);
+		ustrnzcpy(m_default_text_buffer, default_text, 256);
 	else
-		m_default_text[0] = 0;
+		m_default_text_buffer[0] = 0;
 }
 
 void __cdecl c_virtual_keyboard_task::set_description_text(wchar_t const* description_text)
 {
 	if (description_text)
-		ustrnzcpy(m_description_text, description_text, 64);
+		ustrnzcpy(m_description_text_buffer, description_text, 64);
 	else
-		m_description_text[0] = 0;
+		m_description_text_buffer[0] = 0;
 }
 
 void __cdecl c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
 {
 	if (title_text)
-		ustrnzcpy(m_title_text, title_text, 64);
+		ustrnzcpy(m_title_text_buffer, title_text, 64);
 	else
-		m_title_text[0] = 0;
+		m_title_text_buffer[0] = 0;
 }
 
 void __cdecl c_virtual_keyboard_task::set_maximum_input_characters(dword maximum_input_characters)
@@ -119,7 +127,7 @@ void __cdecl c_virtual_keyboard_task::set_maximum_input_characters(dword maximum
 	m_maximum_input_characters = maximum_input_characters;
 }
 
-void __cdecl c_virtual_keyboard_task::set_character_flags(dword_flags character_flags)
+void __cdecl c_virtual_keyboard_task::set_character_flags(dword character_flags)
 {
 	m_character_flags = character_flags;
 }
@@ -137,7 +145,7 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 	wchar_t const* title_text,
 	wchar_t const* description_text,
 	dword maximum_input_characters,
-	dword_flags character_flags,
+	dword character_flags,
 	bool sanitize_result
 )
 {
@@ -205,23 +213,6 @@ char const* c_virtual_keyboard_task::get_context_string()
 	return "XShowKeyboardUI";
 }
 
-dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* overlapped)
-{
-	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(result_text != NULL);
-	ASSERT(maximum_character_count > 0);
-	ASSERT(overlapped != NULL);
-
-	c_controller_interface* controller = controller_get(controller_index);
-	if (!controller->is_signed_in_to_machine())
-		return E_FAIL;
-
-	// $TODO: properly implement `XShowKeyboardUI`
-	return ERROR_SUCCESS;
-
-	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);
-}
-
 dword c_virtual_keyboard_task::start(void* overlapped)
 {
 	c_controller_interface* controller = controller_get(m_controller_index);
@@ -229,9 +220,9 @@ dword c_virtual_keyboard_task::start(void* overlapped)
 		return E_FAIL;
 
 	if (m_maximum_input_characters > 256)
-		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, overlapped);
+		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, 256, overlapped);
 
-	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, m_maximum_input_characters, overlapped);
+	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, m_maximum_input_characters, overlapped);
 }
 
 dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
@@ -241,9 +232,9 @@ dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
 		return E_FAIL;
 
 	if (m_maximum_input_characters > 256)
-		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, overlapped);
+		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, 256, overlapped);
 
-	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, m_maximum_input_characters, overlapped);
+	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, m_maximum_input_characters, overlapped);
 }
 
 void __thiscall c_virtual_keyboard_task::_success(dword return_result)
@@ -252,22 +243,30 @@ void __thiscall c_virtual_keyboard_task::_success(dword return_result)
 
 	//c_overlapped_task::success(return_result);
 
-	if (!ustrncmp(m_result_text, L".fortune", 9))
-		ustrnzcpy(m_result_text, L"My modem is on file", 256);
+	if (!ustrncmp(m_result_text_buffer, L".fortune", 9))
+		ustrnzcpy(m_result_text_buffer, L"My modem is on file", 256);
 
-	wchar_string_sanitize_for_game(m_result_text, 256);
+	wchar_string_sanitize_for_game(m_result_text_buffer, 256);
 }
 
 dword __cdecl online_guide_delay_toasts(long milliseconds)
 {
 	//return XNotifyDelayUI(milliseconds);
 
-	return -1;
+	return NONE;
 }
 
 void __cdecl online_guide_dispose()
 {
 	//overlapped_task_block_until_finished(&g_online_guide_globals);
+}
+
+void __cdecl online_guide_handle_custom_action_pressed()
+{
+}
+
+void __cdecl online_guide_handle_custom_gamercard(bool guide_is_open)
+{
 }
 
 void __cdecl online_guide_initialize()
@@ -293,7 +292,12 @@ void __cdecl online_guide_show_damaged_media_ui()
 	//XShowDirtyDiscErrorUI(controller_index);
 }
 
-void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, qword user_xuid, long a3, char const* a4, s_service_record_identity const* identity, wchar_t const* a6)
+dword __cdecl online_guide_show_device_selector_ui(e_controller_index controller_index, dword requested_bytes, bool always_show, dword* device_id, void* xenon_task_handle)
+{
+	return NONE;
+}
+
+void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, qword file_share_xuid, long slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text)
 {
 	MessageBoxA(NULL, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
 
@@ -318,7 +322,7 @@ dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 	//
 	//return result;
 
-	return -1;
+	return NONE;
 }
 
 dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
@@ -337,7 +341,7 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 	//
 	//return result;
 
-	return -1;
+	return NONE;
 }
 
 dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_index, qword user_xuid)
@@ -357,7 +361,20 @@ dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 	//
 	//return result;
 
-	return -1;
+	return NONE;
+}
+
+void __cdecl online_guide_show_marketplace(e_controller_index controller_index)
+{
+}
+
+void __cdecl online_guide_show_marketplace_offer(e_controller_index controller_index, qword marketplace_offer_id)
+{
+}
+
+dword __cdecl online_guide_show_message_ui(e_controller_index controller_index, qword target_player_xuid)
+{
+	return 0;
 }
 
 dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_index, qword target_user_xuid)
@@ -378,10 +395,10 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 	//
 	//return result;
 
-	return -1;
+	return NONE;
 }
 
-bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
+bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword flags)
 {
 	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 
@@ -398,6 +415,24 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 	//return result == 0;
 
 	return true;
+}
+
+//dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, dword character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, struct _XOVERLAPPED* platform_handle)
+dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, dword character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* overlapped)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(result_text != NULL);
+	ASSERT(maximum_character_count > 0);
+	ASSERT(overlapped != NULL);
+
+	c_controller_interface* controller = controller_get(controller_index);
+	if (!controller->is_signed_in_to_machine())
+		return E_FAIL;
+
+	// $TODO: properly implement `XShowKeyboardUI`
+	return ERROR_SUCCESS;
+
+	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);
 }
 
 void __cdecl online_guide_update()
