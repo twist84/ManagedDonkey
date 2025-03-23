@@ -3,6 +3,8 @@
 #include "physics/havok_component.hpp"
 #include "render/render_debug.hpp"
 
+#include <xmmintrin.h>
+
 enum hkShapeType
 {
 	HK_SHAPE_ALL = -1,
@@ -41,10 +43,7 @@ enum hkShapeType
 
 struct hkVector4
 {
-	__declspec(align(16)) float x;
-	float y;
-	float z;
-	float w;
+	__m128 m_quad;
 };
 
 struct hkQuaternion
@@ -166,8 +165,8 @@ struct hkBvShape :
 struct hkTransformShape :
 	public hkShape
 {
-	hkSingleShapeContainer m_shape_container;
-	byte __data18[0x18];
+	hkSingleShapeContainer m_childShape;
+	hkQuaternion m_rotation;
 	hkTransform m_transform;
 };
 
@@ -189,15 +188,15 @@ struct hkConvexVerticesShape :
 {
 	struct FourVectors
 	{
-		hkVector4 x;
-		hkVector4 y;
-		hkVector4 z;
+		hkVector4 m_x;
+		hkVector4 m_y;
+		hkVector4 m_z;
 	};
 
-	hkVector4 __unknown20;
-	hkVector4 __unknown30;
-	hkArray<FourVectors> m_four_vectors;
-	hkArray<hkVector4> __unknown4C;
+	hkVector4 m_aabbHalfExtents;
+	hkVector4 m_aabbCenter;
+	hkArray<FourVectors> m_rotatedVertices;
+	hkArray<hkVector4> m_planeEquations;
 };
 
 struct c_sphere_shape :
@@ -246,23 +245,23 @@ void real_point3d_from_hkVector4(real_point3d* p, hkVector4 const* v)
 {
 	ASSERT(p && v);
 
-	set_real_point3d(p, v->x, v->y, v->z);
+	set_real_point3d(p, v->m_quad.m128_f32[0], v->m_quad.m128_f32[1], v->m_quad.m128_f32[2]);
 }
 
 void real_rectangle3d_from_hkVector4_half_extents(real_rectangle3d* b, hkVector4 const* v)
 {
 	ASSERT(b && v);
 
-	set_real_rectangle3d(b, -v->x, v->x, -v->y, v->y, -v->z, v->z);
+	set_real_rectangle3d(b, -v->m_quad.m128_f32[0], v->m_quad.m128_f32[0], -v->m_quad.m128_f32[1], v->m_quad.m128_f32[1], -v->m_quad.m128_f32[2], v->m_quad.m128_f32[2]);
 }
 
 void real_vector3d_from_hkVector4(real_vector3d* v, hkVector4 const* w)
 {
 	ASSERT(v && w);
 
-	v->i = w->x;
-	v->j = w->y;
-	v->k = w->z;
+	v->i = w->m_quad.m128_f32[0];
+	v->j = w->m_quad.m128_f32[1];
+	v->k = w->m_quad.m128_f32[2];
 }
 
 void matrix3x3_from_hkMatrix3(real_matrix3x3* matrix, hkMatrix3 const* rotation)
@@ -340,12 +339,12 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 	{
 		c_convex_vertices_shape const* convex_vertices_shape = static_cast<c_convex_vertices_shape const*>(shape);
 
-		for (long i = 0; i < convex_vertices_shape->m_four_vectors.m_size; i++)
+		for (long i = 0; i < convex_vertices_shape->m_rotatedVertices.m_size; i++)
 		{
-			hkConvexVerticesShape::FourVectors* four_vectors = &convex_vertices_shape->m_four_vectors.m_data[i];
+			hkConvexVerticesShape::FourVectors* rotated_vertices = &convex_vertices_shape->m_rotatedVertices.m_data[i];
 
 			real_point3d point{};
-			set_real_point3d(&point, four_vectors->x.x, four_vectors->y.x, four_vectors->z.x);
+			set_real_point3d(&point, rotated_vertices->m_x.m_quad.m128_f32[0], rotated_vertices->m_y.m_quad.m128_f32[0], rotated_vertices->m_z.m_quad.m128_f32[0]);
 			matrix4x3_transform_point(matrix, &point, &point);
 			render_debug_point(true, &point, 0.125f, color);
 		}
@@ -389,7 +388,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 			real_point3d_from_hkVector4(&point, sphere);
 			matrix4x3_transform_point(matrix, &point, &point);
 
-			render_debug_sphere(true, &point, sphere->w, color);
+			render_debug_sphere(true, &point, sphere->m_quad.m128_f32[3], color);
 		}
 	}
 	break;
@@ -408,7 +407,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 		matrix4x3_from_hkTransform(&transform_matrix, &transform_shape->m_transform);
 		matrix4x3_multiply(matrix, &transform_matrix, &transform_matrix);
 
-		render_debug_physics_shape(transform_shape->m_shape_container.m_child_shape, &transform_matrix, color);
+		render_debug_physics_shape(transform_shape->m_childShape.m_child_shape, &transform_matrix, color);
 	}
 	break;
 	case HK_SHAPE_USER0:
