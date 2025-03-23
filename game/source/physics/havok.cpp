@@ -54,21 +54,22 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 {
 	//0x005C5520
 
-	va_list list;
-	va_start(list, format);
+	va_list arglist;
+	va_start(arglist, format);
 
-	c_static_string<255> string;
-	string.print(format, list);
+	char buffer[255]{};
+	cvsnzprintf(buffer, sizeof(buffer), format, arglist);;
 
-	va_end(list);
+	va_end(arglist);
 
-	// missing in Halo Online
 	if (display_as_event)
 	{
-		event(_event_warning, "%s", string.get_string());
+		event(_event_warning, "%s", buffer);
 	}
 	else
-		terminal_printf(NULL, "%s", string.get_string());
+	{
+		terminal_printf(NULL, "%s", buffer);
+	}
 }
 
 void __cdecl havok_dispose()
@@ -76,7 +77,7 @@ void __cdecl havok_dispose()
 	INVOKE(0x005C5550, havok_dispose);
 }
 
-//.text:005C5590 ; 
+//.text:005C5590 ; void __cdecl havok_dispose_all_allocated_state()
 
 void __cdecl havok_dispose_from_old_map()
 {
@@ -90,7 +91,7 @@ void __cdecl havok_dispose_from_old_structure_bsp(dword deactivating_structure_b
 
 //.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(dword)
 //.text:005C5700 ; void __cdecl havok_entity_post_update(hkEntity*)
-//.text:005C5AB0 ; 
+//.text:005C5AB0 ; bool __cdecl havok_environment_bodies_initialized()
 //.text:005C5AD0 ; void __cdecl havok_error_stub(char const*, void*)
 //.text:005C5AE0 ; void __cdecl havok_garbage_collection_lock(bool)
 //.text:005C5AF0 ; bool __cdecl havok_garbage_collection_locked()
@@ -128,11 +129,11 @@ void __cdecl havok_initialize_for_new_structure_bsp(dword activating_structure_b
 //.text:005C63A0 ; void __cdecl havok_load_from_game_state(long)
 //.text:005C63F0 ; void __cdecl havok_make_space_for_connected_rigid_bodies(long)
 //.text:005C67C0 ; void __cdecl havok_monitor_stream_data_deallocate(void*)
-//.text:005C67D0 ; 
+//.text:005C67D0 ; bool __cdecl havok_multithreading_enabled(void)
 //.text:005C67E0 ; bool __cdecl havok_must_rebuild_environtment_when_tag_of_this_group_changes(long)
 //.text:005C68C0 ; void* __cdecl havok_next_monitor_stream_data_allocate()
-//.text:005C68E0 ; 
-//.text:005C68F0 ; 
+//.text:005C68E0 ; void __cdecl havok_notify_mopp_object_created(long, long)
+//.text:005C68F0 ; void __cdecl havok_notify_mopp_object_deleted(long, long)
 //.text:005C6900 ; void __cdecl havok_notify_object_changed_region_permutation(long, long, char const*)
 //.text:005C6AF0 ; void __cdecl havok_notify_static_geometry_modfied(long, long, long, long, long)
 //.text:005C6B60 ; void __cdecl havok_notify_thread_frame_finished(long)
