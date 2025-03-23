@@ -1809,6 +1809,9 @@
     <ClCompile Include="source\networking\logic\logic_managed_user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="common\havok\hkWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4119,6 +4122,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\havok\hkMonitor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\havok\hkWorld.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
