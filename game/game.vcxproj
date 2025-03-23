@@ -87,7 +87,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -124,7 +124,7 @@ COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -163,7 +163,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -793,6 +793,12 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\havok\hkArray.hpp" />
+    <ClInclude Include="common\havok\hkBase.hpp" />
+    <ClInclude Include="common\havok\hkMath.hpp" />
+    <ClInclude Include="common\havok\hkMonitor.hpp" />
+    <ClInclude Include="common\havok\hkShape.hpp" />
+    <ClInclude Include="common\havok\hkThread.hpp" />
     <ClInclude Include="source\ai\activities.hpp" />
     <ClInclude Include="source\ai\actor_firing_position.hpp" />
     <ClInclude Include="source\ai\actor_moving.hpp" />

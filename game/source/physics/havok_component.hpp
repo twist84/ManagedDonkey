@@ -4,23 +4,7 @@
 #include "memory/data.hpp"
 #include "game/materials.hpp"
 
-template <typename t_type>
-struct hkArrayBase
-{
-public:
-	t_type* m_data;
-	long m_size;
-	dword m_capacityAndFlags;
-};
-static_assert(sizeof(hkArrayBase<void*>) == 0xC);
-
-template <typename t_type, typename t_allocator = void>
-struct hkArray :
-	public hkArrayBase<t_type>
-{
-public:
-};
-static_assert(sizeof(hkArray<void*>) == 0xC);
+#include <hkArray.hpp>
 
 struct c_havok_contact_point
 {

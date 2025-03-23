@@ -2,83 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-// Havok Types
-
-enum HK_MEMORY_CLASS;
-struct hkRigidBody;
-struct hkMemory;
-
-template<typename T>
-struct hkPadSpu
-{
-	T m_storage;
-};
-static_assert(sizeof(hkPadSpu<char*>) == sizeof(char*));
-
-struct hkThreadMemory
-{
-	virtual void* alignedAllocate(int alignment, int nbytes, HK_MEMORY_CLASS cl);
-	virtual void alignedDeallocate(void* p);
-	virtual void setStackArea(void* buf, int nbytes);
-	virtual void releaseCachedMemory(void);
-	virtual void destructor(unsigned int);
-	virtual void* onStackOverflow(int nbytesin);
-	virtual void onStackUnderflow(void* ptr);
-
-	struct Stack
-	{
-		char* m_current;
-		Stack* m_prev;
-		char* m_base;
-		char* m_end;
-	};
-	static_assert(sizeof(Stack) == 0x10);
-
-	struct FreeList
-	{
-		struct FreeElem
-		{
-			FreeElem* m_next;
-		};
-		static_assert(sizeof(FreeElem) == 0x4);
-
-		FreeElem* m_head;
-		int m_numElem;
-	};
-	static_assert(sizeof(FreeList) == 0x8);
-
-	byte __data4[0xC];
-	hkMemory* m_memory;
-	int m_referenceCount;
-	byte __data18[0x8];
-	Stack m_stack;
-	int m_stackSize;
-	int m_maxNumElemsOnFreeList;
-	FreeList m_free_list[17];
-	int m_row_to_size_lut[17];
-	char m_small_size_to_row_lut[512 + 1];
-	int m_large_size_to_row_lut[10];
-};
-static_assert(sizeof(hkThreadMemory) == 0x330);
-
-struct hkBool
-{
-	char m_bool;
-};
-static_assert(sizeof(hkBool) == sizeof(char));
-
-struct hkMonitorStream
-{
-	hkPadSpu<char*> m_start;
-	hkPadSpu<char*> m_end;
-	hkPadSpu<char*> m_capacity;
-	hkPadSpu<char*> m_capacityMinus16;
-	hkBool m_isBufferAllocatedOnTheHeap;
-};
-static_assert(sizeof(hkMonitorStream) == 0x14);
-
-// Blam Types
-
 struct s_havok_gamestate
 {
 	long last_state_reset_time;
@@ -117,6 +40,7 @@ struct s_havok_constants
 };
 static_assert(sizeof(s_havok_constants) == 0x38);
 
+struct hkRigidBody;
 struct s_havok_globals
 {
 	c_static_array<hkRigidBody*, 16> environment_bodies;
