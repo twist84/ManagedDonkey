@@ -421,7 +421,8 @@ void __cdecl main_render_game()
 
 					c_ui_view::begin(&ui_view);
 
-					if (window_count > 1)
+					static bool restore = true;
+					if (restore && window_count > 1)
 					{
 						for (long view_index = window_count - 1; view_index >= 0; view_index--)
 						{
