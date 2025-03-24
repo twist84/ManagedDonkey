@@ -46,6 +46,7 @@ struct s_character_physics_update_input_datum
 	struct s_dead
 	{
 		real_vector3d resting_surface_normal;
+		bool __unknownC;
 		bool update_size;
 		bool in_relaxation_state;
 	};
