@@ -56,6 +56,7 @@ REFERENCE_DECLARE_ARRAY(0x050DAE30, c_rasterizer::s_stream_source, c_rasterizer:
 REFERENCE_DECLARE(0x050DB1EC, c_rasterizer::e_surface, c_rasterizer::g_depth_stencil_surface);
 REFERENCE_DECLARE_ARRAY(0x050DB1F0, c_rasterizer::e_surface, c_rasterizer::g_color_surfaces, 4);
 REFERENCE_DECLARE(0x050DCA2C, bool, c_rasterizer::g_tiling_force_4x_msaa);
+REFERENCE_DECLARE(0x050DCA30, e_splitscreen_res, c_rasterizer::g_current_splitscreen_res);
 REFERENCE_DECLARE(0x050DD998, rectangle2d, c_rasterizer::g_last_viewport);
 REFERENCE_DECLARE(0x050DD9A0, rectangle2d, c_rasterizer::g_last_scissor_rect);
 REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
@@ -1581,15 +1582,16 @@ void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_
 	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
-void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res splitscreen_res)
+void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res res)
 {
-	INVOKE(0x00A292A0, c_rasterizer::set_current_splitscreen_res, splitscreen_res);
+	//INVOKE(0x00A292A0, c_rasterizer::set_current_splitscreen_res, res);
 
-	//c_rasterizer::set_render_target(0, c_rasterizer::get_render_target(0), 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(1, c_rasterizer::get_render_target(1), 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(2, c_rasterizer::get_render_target(2), 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(3, c_rasterizer::get_render_target(3), 0xFFFFFFFF);
-	//c_rasterizer::set_depth_stencil_surface(c_rasterizer::g_depth_stencil_surface);
+	c_rasterizer::g_current_splitscreen_res = res;
+	c_rasterizer::set_render_target(0, c_rasterizer::get_render_target(0), 0xFFFFFFFF);
+	c_rasterizer::set_render_target(1, c_rasterizer::get_render_target(1), 0xFFFFFFFF);
+	c_rasterizer::set_render_target(2, c_rasterizer::get_render_target(2), 0xFFFFFFFF);
+	c_rasterizer::set_render_target(3, c_rasterizer::get_render_target(3), 0xFFFFFFFF);
+	c_rasterizer::set_depth_stencil_surface(c_rasterizer::g_depth_stencil_surface);
 }
 
 c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long surface_index)

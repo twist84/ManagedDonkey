@@ -354,7 +354,7 @@ struct c_rasterizer
 	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
-	static void __cdecl set_current_splitscreen_res(e_splitscreen_res splitscreen_res);
+	static void __cdecl set_current_splitscreen_res(e_splitscreen_res res);
 
 	static e_surface __cdecl get_render_target(long surface_index);
 
@@ -429,6 +429,7 @@ struct c_rasterizer
 	static e_surface(&g_color_surfaces)[4];
 
 	static bool& g_tiling_force_4x_msaa;
+	static e_splitscreen_res& g_current_splitscreen_res;
 
 	static rectangle2d& g_last_viewport;
 	static rectangle2d& g_last_scissor_rect;

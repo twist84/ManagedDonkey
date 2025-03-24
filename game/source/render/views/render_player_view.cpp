@@ -1035,6 +1035,16 @@ void __thiscall c_player_view::render_weather_occlusion()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_weather_occlusion);
 }
 
+void c_player_view::restore_to_display_surface()
+{
+	e_splitscreen_res current_splitscreen_res = c_rasterizer::g_current_splitscreen_res;
+	if (current_splitscreen_res)
+	{
+		INVOKE_CLASS_MEMBER(0x00A3B5E0, c_player_view, restore_to_display_surface);
+		c_rasterizer::set_current_splitscreen_res(current_splitscreen_res);
+	}
+}
+
 void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze)
 {
 	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, user_index, result, render_freeze);

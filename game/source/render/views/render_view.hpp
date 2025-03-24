@@ -247,6 +247,7 @@ public:
 	void __thiscall render_transparents();
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
+	void restore_to_display_surface();
 	void setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze);
 	void __thiscall setup_camera_fx_parameters(real a1);
 	void __thiscall setup_cinematic_clip_planes();

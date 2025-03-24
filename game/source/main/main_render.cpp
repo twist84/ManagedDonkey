@@ -420,6 +420,16 @@ void __cdecl main_render_game()
 					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
 					c_ui_view::begin(&ui_view);
+
+					if (window_count > 1)
+					{
+						for (long view_index = window_count - 1; view_index >= 0; view_index--)
+						{
+							c_player_view* player_view = c_player_view::get_current(view_index);
+							player_view->restore_to_display_surface();
+						}
+					}
+
 					c_rasterizer::begin_high_quality_blend();
 
 					if (bink_playback_in_progress())
