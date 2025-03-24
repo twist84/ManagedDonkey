@@ -61,8 +61,8 @@ struct s_data_array
 	word_flags flags;
 	tag signature;
 	c_allocation_base* allocation;
-	long next_index;
-	long first_unallocated;
+	long first_possibly_free_absolute_index;
+	long count;
 	long actual_count;
 	word next_identifier;
 	word isolated_next_identifier;

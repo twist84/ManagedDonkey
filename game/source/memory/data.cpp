@@ -118,7 +118,7 @@ bool __cdecl data_is_full(s_data_array const* data)
 	ASSERT(data);
 	ASSERT(data->valid);
 
-	return data->maximum_count == data->first_unallocated;
+	return data->maximum_count == data->count;
 }
 
 void data_iterator_begin(s_data_iterator* iterator, s_data_array const* data)
@@ -243,12 +243,12 @@ void __cdecl data_verify(s_data_array const* data)
 	//
 	//if (data->signature != k_data_signature
 	//	|| data->maximum_count < 0
-	//	|| data->first_unallocated < 0
-	//	|| data->first_unallocated > data->maximum_count
-	//	|| data->next_index < 0
-	//	|| data->next_index > data->maximum_count
+	//	|| data->count < 0
+	//	|| data->count > data->maximum_count
+	//	|| data->first_possibly_free_absolute_index < 0
+	//	|| data->first_possibly_free_absolute_index > data->maximum_count
 	//	|| data->actual_count < 0
-	//	|| data->actual_count > data->first_unallocated
+	//	|| data->actual_count > data->count
 	//	|| !TEST_BIT(data->flags, _data_array_disconnected_bit) && !data->offset_to_data
 	//	|| !data->offset_to_bit_vector)
 	//{
@@ -328,12 +328,12 @@ void* __cdecl datum_get(s_data_array* data, long index)
 			data->name.get_string(),
 			index).get_string());
 
-	if (absolute_index < 0 || absolute_index >= data->first_unallocated)
+	if (absolute_index < 0 || absolute_index >= data->count)
 		ASSERT2(c_string_builder("%s index #%d (0x%x) is out of range (%d)",
 			data->name.get_string(),
 			absolute_index,
 			index,
-			data->first_unallocated).get_string());
+			data->count).get_string());
 
 	if (!header->identifier)
 		ASSERT2(c_string_builder("%s index #%d (0x%x) is unused",
@@ -377,13 +377,13 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 				data->name.get_string(),
 				absolute_index).get_string());
 
-		if (absolute_index < 0 || absolute_index >= data->maximum_count)
+		if (absolute_index < 0 || absolute_index >= (short)data->maximum_count)
 			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
 				data->name.get_string(),
 				index,
 				data->maximum_count).get_string());
 
-		if (absolute_index < data->first_unallocated)
+		if (absolute_index < data->count)
 		{
 			void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 			s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
@@ -416,11 +416,11 @@ void* __cdecl datum_get_absolute(s_data_array* data, long index)
 			data->name.get_string(),
 			index).get_string());
 
-	if (index < 0 || index >= data->first_unallocated)
+	if (index < 0 || index >= data->count)
 		ASSERT2(c_string_builder("%s absolute index #%d is out of range (%d)",
 			data->name.get_string(),
 			index,
-			data->first_unallocated).get_string());
+			data->count).get_string());
 
 	if (!header->identifier)
 		ASSERT2(c_string_builder("%s absolute index #%d is unused",
@@ -467,7 +467,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 	//		ASSERT2(assert_string.get_string());
 	//	}
 	//
-	//	if (absolute_index < data->first_unallocated)
+	//	if (absolute_index < data->count)
 	//	{
 	//		void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	//		s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
@@ -493,7 +493,7 @@ void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
 	//short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
 	//short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 	//
-	//if (index != NONE && absolute_index < data->first_unallocated)
+	//if (index != NONE && absolute_index < data->count)
 	//{
 	//	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	//	s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
