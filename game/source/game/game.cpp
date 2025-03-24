@@ -41,6 +41,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/online/online.hpp"
 #include "networking/online/online_achievements.hpp"
 #include "networking/tools/network_webstats.hpp"
 #include "networking/tools/remote_command.hpp"
@@ -284,6 +285,17 @@ void __cdecl game_create_players()
 			{
 				short absolute_index = player_iterator.get_absolute_index();
 				player_datum* player = player_iterator.get_datum();
+
+				e_controller_index controller_index = (e_controller_index)absolute_index;
+				if (VALID_CONTROLLER(controller_index))
+				{
+					qword player_identifier = online_local_user_get_player_identifier(controller_index);
+					player->player_identifier = player_identifier;
+
+					wchar_t const* name = online_local_user_get_name(controller_index);
+					player->configuration.host.name = name;
+					player->configuration.client.desired_name = name;
+				}
 
 				if (player->configuration.host.name.is_empty())
 					player->configuration.host.name.print(L"player_%d", absolute_index);
