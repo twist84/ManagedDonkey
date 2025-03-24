@@ -7,8 +7,16 @@
       "Command": "eldorado.exe game.dll"
     },
     {
+      "Id": "393d0fd6-c1e5-47b9-98d4-1bf960c0bc0a",
+      "Command": "hf2p_game_client_cache_release.exe game.dll"
+    },
+    {
       "Id": "8cd32b7a-d32e-4d33-90f0-be85eafe3e08",
       "Command": "eldorado.exe dedicated_server.dll"
+    },
+    {
+      "Id": "1ebc22b1-2e2c-424e-9b9a-172b138d3c67",
+      "Command": "hf2p_game_client_cache_release.exe dedicated_server.dll"
     },
     {
       "Id": "2b61ead4-823a-4eb1-8271-3cc674314370",

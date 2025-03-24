@@ -7,6 +7,10 @@
       "Command": "eldorado.exe $(TargetFileName)"
     },
     {
+      "Id": "451b4f11-7f2f-4816-a27f-d7265b06be44",
+      "Command": "hf2p_game_client_cache_release.exe $(TargetFileName)"
+    },
+    {
       "Id": "28ca5a68-9b9f-4ab4-b6ea-41768881f76d",
       "Command": "-editor"
     },
