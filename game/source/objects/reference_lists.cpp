@@ -2,6 +2,9 @@
 
 #include "cseries/cseries_events.hpp"
 #include "memory/data.hpp"
+#include "memory/module.hpp"
+
+HOOK_DECLARE(0x00BB6210, reference_list_remove);
 
 void __cdecl reference_list_add(s_data_array* array, long* first_reference_index, long datum_index, long payload_size, void const* payload)
 {
@@ -152,7 +155,14 @@ s_data_array* __cdecl reference_list_new(char const* name, long payload_size, lo
 
 void __cdecl reference_list_remove(s_data_array* array, long* first_reference_index, long datum_index)
 {
-	INVOKE(0x00BB6210, reference_list_remove, array, first_reference_index, datum_index);
+	//INVOKE(0x00BB6210, reference_list_remove, array, first_reference_index, datum_index);
+
+	if (!array->valid)
+	{
+		return;
+	}
+
+	HOOK_INVOKE(, reference_list_remove, array, first_reference_index, datum_index);
 }
 
 void __cdecl reference_list_update_payload(s_data_array* array, long const* first_reference_index, long datum_index, long payload_size, void const* payload)
