@@ -1,5 +1,6 @@
 #include "interface/c_controller.hpp"
 
+#include "input/input_abstraction.hpp"
 #include "input/input_windows.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "memory/module.hpp"
@@ -232,9 +233,14 @@ void c_controller_interface::update_controller_properties()
 
 	e_controller_index controller_index = get_controller_index();
 	bool is_signed_in = online_local_user_is_signed_in(controller_index);
-	bool has_gamepad = input_has_gamepad(controller_index);
 	bool attached = is_attached();
 	bool is_user_signed_in = false;
+
+	bool has_gamepad = controller_index == _controller0;
+	if (!has_gamepad && input_abstraction_get_controls_method() == 1)
+	{
+		has_gamepad = input_has_gamepad(controller_index);
+	}
 
 	if (VALID_INDEX(m_user_index, 4))
 	{
@@ -291,7 +297,7 @@ void c_controller_interface::update_controller_properties()
 
 			if (!m_state_flags.test(_temporary_bit))
 			{
-				//m_player_profile->mark_for_update_from_storage()?
+				//m_player_profile.mark_for_update_from_storage()?
 				m_player_profile.m_flags |= 0x40;
 				gamer_achievements_begin_retrieval(controller_index);
 			}
