@@ -233,14 +233,9 @@ void c_controller_interface::update_controller_properties()
 
 	e_controller_index controller_index = get_controller_index();
 	bool is_signed_in = online_local_user_is_signed_in(controller_index);
+	bool has_gamepad = input_has_gamepad(controller_index);
 	bool attached = is_attached();
 	bool is_user_signed_in = false;
-
-	bool has_gamepad = controller_index == _controller0;
-	if (!has_gamepad && input_abstraction_get_controls_method() == 1)
-	{
-		has_gamepad = input_has_gamepad(controller_index);
-	}
 
 	if (VALID_INDEX(m_user_index, 4))
 	{
@@ -249,6 +244,11 @@ void c_controller_interface::update_controller_properties()
 	else if (m_user_index != NONE && network_session_interface_get_local_user_state(m_user_index) == _network_session_interface_user_state_none)
 	{
 		m_user_index = NONE;
+	}
+
+	if (input_abstraction_get_controls_method() == 0)
+	{
+		has_gamepad = controller_index == _controller0;
 	}
 
 	if (is_signed_in || m_state_flags.test(_temporary_bit))
