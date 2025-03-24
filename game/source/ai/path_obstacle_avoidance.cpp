@@ -137,7 +137,7 @@ void render_debug_path(obstacle_path const* path)
 	step_flags.clear_range(path->step_count);
 	
 	short step_index0 = path->goal_step_index;
-	while (step_index0 != 0xFFFF)
+	while (step_index0 != 0xFFFFi16)
 	{
 		struct step* step0 = path_get_step((obstacle_path*)path, step_index0);
 		step_flags.set(step_index0, true);
@@ -147,7 +147,7 @@ void render_debug_path(obstacle_path const* path)
 	for (short step_index = 0; step_index < path->step_count; step_index++)
 	{
 		struct step* step1 = path_get_step((obstacle_path*)path, step_index);
-		if (step1->previous_step_index == 0xFFFF)
+		if (step1->previous_step_index == 0xFFFFi16)
 			continue;
 	
 		struct step* step2 = path_get_step((obstacle_path*)path, step1->previous_step_index);

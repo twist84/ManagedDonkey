@@ -651,14 +651,14 @@ short c_game_engine_map_override_options::get_weapon_set_absolute_index() const
 
 void c_game_engine_map_override_options::set_weapon_set_absolute_index(short weapon_set_absolute_index)
 {
-	if (weapon_set_absolute_index == short(0xFFFF) || weapon_set_absolute_index == short(0xFFFE) || !main_game_loaded_map() || multiplayer_universal_data_weapon_set_try_and_get(weapon_set_absolute_index))
+	if (weapon_set_absolute_index == 0xFFFFi16 || weapon_set_absolute_index == 0xFFFEi16 || !main_game_loaded_map() || multiplayer_universal_data_weapon_set_try_and_get(weapon_set_absolute_index))
 	{
 		m_weapon_set_absolute_index = weapon_set_absolute_index;
 	}
 	else
 	{
 		event(_event_warning, "game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
-		m_weapon_set_absolute_index = short(0xFFFF);
+		m_weapon_set_absolute_index = 0xFFFFi16;
 	}
 }
 
@@ -669,7 +669,7 @@ short c_game_engine_map_override_options::get_vehicle_set_absolute_index() const
 
 void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short vehicle_set_absolute_index)
 {
-	if (vehicle_set_absolute_index == short(0xFFFF) || !main_game_loaded_map() || multiplayer_universal_data_vehicle_set_try_and_get(vehicle_set_absolute_index))
+	if (vehicle_set_absolute_index == 0xFFFFi16 || !main_game_loaded_map() || multiplayer_universal_data_vehicle_set_try_and_get(vehicle_set_absolute_index))
 	{
 		m_vehicle_set_absolute_index = vehicle_set_absolute_index;
 	}
@@ -678,7 +678,7 @@ void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short ve
 		event(_event_warning, "game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
 
 		//ms23: `m_weapon_set_absolute_index`
-		m_vehicle_set_absolute_index = short(0xFFFF);
+		m_vehicle_set_absolute_index = 0xFFFFi16;
 	}
 }
 
