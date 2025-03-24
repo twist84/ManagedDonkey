@@ -41,6 +41,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/online/online.hpp"
 #include "networking/online/online_achievements.hpp"
 #include "networking/tools/network_webstats.hpp"
 #include "networking/tools/remote_command.hpp"
@@ -274,23 +275,40 @@ void __cdecl game_create_players()
 	//	simulation_notify_players_created();
 	//}
 
-	if (game_is_splitscreen_deterministic())
+	if (!game_is_splitscreen_deterministic())
+		return;
+
+	c_player_in_game_iterator player_iterator;
+	player_iterator.begin();
+	while (player_iterator.next())
 	{
-		c_player_in_game_iterator player_iterator;
-		player_iterator.begin();
-		while (player_iterator.next())
+		if (!player_is_local(player_iterator.get_index()))
+			continue;
+
+		short absolute_index = player_iterator.get_absolute_index();
+		player_datum* player = player_iterator.get_datum();
+
+		e_controller_index controller_index = (e_controller_index)absolute_index;
+		if (VALID_CONTROLLER(controller_index))
 		{
-			if (player_is_local(player_iterator.get_index()))
-			{
-				short absolute_index = player_iterator.get_absolute_index();
-				player_datum* player = player_iterator.get_datum();
+			qword player_identifier = online_local_user_get_player_identifier(controller_index);
+			player->player_identifier = player_identifier;
 
-				if (player->configuration.host.name.is_empty())
-					player->configuration.host.name.print(L"player_%d", absolute_index);
+			wchar_t const* name = online_local_user_get_name(controller_index);
 
-				if (player->configuration.client.desired_name.is_empty())
-					player->configuration.client.desired_name.print(L"player_%d", absolute_index);
-			}
+			if (player->configuration.host.name.is_empty())
+				player->configuration.host.name = name;
+
+			if (player->configuration.client.desired_name.is_empty())
+				player->configuration.client.desired_name = name;
+		}
+		else
+		{
+			if (player->configuration.host.name.is_empty())
+				player->configuration.host.name.print(L"player_%d", absolute_index);
+
+			if (player->configuration.client.desired_name.is_empty())
+				player->configuration.client.desired_name.print(L"player_%d", absolute_index);
 		}
 	}
 }

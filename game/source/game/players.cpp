@@ -56,6 +56,12 @@ s_player_identifier::s_player_identifier() :
 {
 }
 
+s_player_identifier::s_player_identifier(qword data) :
+	identifier(0)
+{
+	csmemcpy(identifier, &data, sizeof(identifier));
+}
+
 s_player_identifier::s_player_identifier(dword _ipv4_address, word _port, word_flags _flags) :
 	identifier(0)
 {
