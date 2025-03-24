@@ -1,12 +1,162 @@
 #include "objects/reference_lists.hpp"
 
-//.text:00BB6030 ; void __cdecl reference_list_add(s_data_array*, long*, long, long, void const*)
-//.text:00BB6080 ; bool __cdecl reference_list_contains(s_data_array*, long*, long)
-//.text:00BB60D0 ; void __cdecl reference_list_copy(s_data_array*, s_data_array const*)
-//.text:00BB60F0 ; void __cdecl reference_list_delete(s_data_array*, long)
-//.text:00BB6130 ; long __cdecl reference_list_get_next_datum_and_payload(s_data_array*, long*, long, void const**)
-//.text:00BB6170 ; long __cdecl reference_list_get_next_datum_index(s_data_array*, long*)
-//.text:00BB61A0 ; s_data_array* __cdecl reference_list_new(char const*, long, long, c_allocation_base*)
-//.text:00BB6210 ; void __cdecl reference_list_remove(s_data_array*, long*, long)
-//.text:00BB6270 ; void __cdecl reference_list_update_payload(s_data_array*, long const*, long, long, void const*)
+#include "cseries/cseries_events.hpp"
+#include "memory/data.hpp"
+
+void __cdecl reference_list_add(s_data_array* array, long* first_reference_index, long datum_index, long payload_size, void const* payload)
+{
+	INVOKE(0x00BB6030, reference_list_add, array, first_reference_index, datum_index, payload_size, payload);
+
+	//ASSERT(array);
+	//ASSERT(first_reference_index);
+	//
+	//if (payload_size <= 0)
+	//{
+	//	ASSERT(array->size == sizeof(struct data_reference));
+	//	ASSERT(payload == NULL);
+	//}
+	//else
+	//{
+	//	ASSERT(payload_size == array->size - sizeof(struct data_reference));
+	//	ASSERT(payload != NULL);
+	//}
+	//
+	//long reference_index = datum_new(array);
+	//if (reference_index == NONE)
+	//{
+	//	event(_event_warning, "WARNING: maximum %ss per map (%d) exceeded.",
+	//		array->name,
+	//		array->maximum_count);
+	//}
+	//else
+	//{
+	//	struct data_reference* data_reference = NULL;
+	//	if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
+	//	{
+	//		data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
+	//	}
+	//	data_reference->datum_index = datum_index;
+	//	data_reference->next_reference_index = *first_reference_index;
+	//	*first_reference_index = reference_index;
+	//
+	//	if (payload)
+	//	{
+	//		csmemcpy(data_reference + 1, payload, payload_size);
+	//	}
+	//}
+}
+
+bool __cdecl reference_list_contains(s_data_array* array, long* first_reference_index, long datum_index)
+{
+	return INVOKE(0x00BB6080, reference_list_contains, array, first_reference_index, datum_index);
+
+	//long reference_index = *first_reference_index;
+	//if (*first_reference_index == NONE)
+	//{
+	//	return false;
+	//}
+	//
+	//while (true)
+	//{
+	//	struct data_reference* data_reference = NULL;
+	//	if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
+	//	{
+	//		data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
+	//	}
+	//
+	//	if (data_reference->datum_index == datum_index)
+	//		break;
+	//
+	//	reference_index = data_reference->next_reference_index;
+	//	if (reference_index == NONE)
+	//		return false;
+	//}
+	//
+	//return true;
+}
+
+void __cdecl reference_list_copy(s_data_array* result, s_data_array const* source)
+{
+	INVOKE(0x00BB60D0, reference_list_copy, result, source);
+
+	//data_copy(source, result);
+}
+
+void __cdecl reference_list_delete(s_data_array* array, long first_reference_index)
+{
+	INVOKE(0x00BB60F0, reference_list_delete, array, first_reference_index);
+
+	//if (first_reference_index != NONE)
+	//{
+	//	long reference_index = first_reference_index;
+	//	do
+	//	{
+	//		struct data_reference* data_reference = NULL;
+	//		if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
+	//		{
+	//			data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
+	//		}
+	//		datum_delete(array, reference_index);
+	//	}
+	//	while (reference_index != NONE);
+	//}
+}
+
+long __cdecl reference_list_get_next_datum_and_payload(s_data_array* array, long* reference_index, long payload_size, void const** out_payload)
+{
+	return INVOKE(0x00BB6130, reference_list_get_next_datum_and_payload, array, reference_index, payload_size, out_payload);
+
+	//if (*reference_index == NONE)
+	//{
+	//	return NONE;
+	//}
+	//
+	//struct data_reference* data_reference = NULL;
+	//if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) < array->count)
+	//{
+	//	data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) * array->size);
+	//}
+	//
+	//ASSERT(payload_size == array->size - sizeof(struct data_reference));
+	//ASSERT(payload_size > 0);
+	//ASSERT(out_payload);
+	//
+	//*out_payload = data_reference + 1;
+	//*reference_index = data_reference->next_reference_index;
+	//return data_reference->datum_index;
+}
+
+long __cdecl reference_list_get_next_datum_index(s_data_array* array, long* reference_index)
+{
+	return INVOKE(0x00BB6170, reference_list_get_next_datum_index, array, reference_index);
+
+	//if (*reference_index == NONE)
+	//{
+	//	return NONE;
+	//}
+	//
+	//struct data_reference* data_reference = NULL;
+	//if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) < array->count)
+	//{
+	//	data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) * array->size);
+	//}
+	//
+	//*reference_index = data_reference->next_reference_index;
+	//return data_reference->datum_index;
+}
+
+s_data_array* __cdecl reference_list_new(char const* name, long payload_size, long maximum_count, c_allocation_base* allocator)
+{
+	return INVOKE(0x00BB61A0, reference_list_new, name, payload_size, maximum_count, allocator);
+}
+
+void __cdecl reference_list_remove(s_data_array* array, long* first_reference_index, long datum_index)
+{
+	INVOKE(0x00BB6210, reference_list_remove, array, first_reference_index, datum_index);
+}
+
+void __cdecl reference_list_update_payload(s_data_array* array, long const* first_reference_index, long datum_index, long payload_size, void const* payload)
+{
+	INVOKE(0x00BB6270, reference_list_update_payload, array, first_reference_index, datum_index, payload_size, payload);
+}
 
