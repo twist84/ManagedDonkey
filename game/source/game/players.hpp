@@ -18,6 +18,7 @@ struct transport_address;
 struct s_player_identifier
 {
 	s_player_identifier();
+	s_player_identifier(qword data);
 	s_player_identifier(dword _ipv4_address, word _port, word_flags _flags);
 	s_player_identifier(transport_address const* address);
 
