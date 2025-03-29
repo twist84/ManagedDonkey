@@ -5,23 +5,16 @@
 
 struct orders_definition
 {
-	c_static_string<k_tag_string_length> name;
+	char name[32];
 	short style;
-
-	// pad
-	byte YATIWNRNR[0x2];
-
+	word pad1;
 	dword_flags flags;
 	short_enum force_combat_status;
-
-	// pad
-	byte PWY[0x2];
-
-	c_static_string<k_tag_string_length> entry_script;
+	short pad2;
+	char script_name[32];
 	short script_index;
 	short follow_squad;
 	real follow_radius;
-
 	s_tag_block primary_area_set;
 	s_tag_block secondary_area_set;
 	s_tag_block secondary_set_trigger;

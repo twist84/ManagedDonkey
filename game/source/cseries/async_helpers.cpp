@@ -226,9 +226,8 @@ long __cdecl async_get_file_size(
 	return async_task_add(priority, &task, category, async_get_file_size_callback, done);
 }
 
-//.text:005AD5F0 ; 
-//.text:005AD600 ; 
-//.text:005AD610 ; 
+//.text:005AD5F0 ; void __cdecl async_helpers_dispose()
+//.text:005AD600 ; void __cdecl async_helpers_initialize()
 //.text:005AD610 ; long __cdecl async_nuke_file(s_file_handle, dword, void const*, e_async_category, e_async_priority, bool*, c_synchronized_long*)
 
 e_async_completion __cdecl async_nuke_file_callback(s_async_task* task)

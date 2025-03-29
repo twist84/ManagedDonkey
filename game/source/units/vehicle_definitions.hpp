@@ -252,26 +252,26 @@ struct physics_variable_speed
 };
 static_assert(sizeof(physics_variable_speed) == 0x10);
 
-enum e_alien_scout_specific_type
-{
-	_alien_scout_specific_type_none = 0,
-	_alien_scout_specific_type_ghost,
-	_alien_scout_specific_type_spectre,
-	_alien_scout_specific_type_wraith,
-	_alien_scout_specific_type_hover_craft,
-
-	k_alien_scout_specific_type_count
-};
-
-enum e_alien_scout_flags
-{
-	_alien_scout_flag_locked_camera_bit = 0,
-
-	k_alien_scout_flags
-};
-
 struct s_vehicle_alien_scout_definition
 {
+	enum e_flags
+	{
+		_locked_camera_bit = 0,
+
+		k_flags_count
+	};
+
+	enum e_specific_type
+	{
+		_specific_type_none = 0,
+		_specific_type_ghost,
+		_specific_type_spectre,
+		_specific_type_wraith,
+		_specific_type_hover_craft,
+
+		k_specific_type_count
+	};
+
 	s_vehicle_steering_control_definition steering;
 
 	// velocity control variables
@@ -280,10 +280,10 @@ struct s_vehicle_alien_scout_definition
 
 	// specific types
 	// different types are treated differently alien scout controller
-	c_enum<e_alien_scout_specific_type, char, _alien_scout_specific_type_none, k_alien_scout_specific_type_count> specific_type;
+	c_enum<e_specific_type, char, _specific_type_none, k_specific_type_count> specific_type;
 
-	c_flags<e_alien_scout_flags, char, k_alien_scout_flags> flags;
-	byte NPBE[0x2]; // pad
+	c_flags<e_flags, byte, k_flags_count> flags;
+	char pad[0x2];
 
 	real drag_coeficient;
 	real constant_deceleration;
@@ -356,7 +356,7 @@ static_assert(sizeof(s_vehicle_alien_fighter_definition) == 0x64);
 
 struct s_vehicle_turret_definition
 {
-	byte ASEXF[0x4]; // pad
+	long pad[1];
 };
 static_assert(sizeof(s_vehicle_turret_definition) == 0x4);
 
@@ -383,7 +383,7 @@ enum e_walker_physics_leg_flags
 	k_walker_physics_leg_flags
 };
 
-struct s_walker_physics_leg_block
+struct s_walker_physics_leg
 {
 	// walker physics
 
@@ -395,31 +395,31 @@ struct s_walker_physics_leg_block
 	c_string_id hip_node_b_name;
 	c_string_id knee_node_a_name;
 	c_string_id knee_node_b_name;
-	c_string_id foot_marker_name;
-	byte RLTGT[0x3C]; // pad
+	c_string_id foot_marker_group_name;
+	long pad2[0xF];
 	c_flags<e_walker_physics_leg_flags, long, k_walker_physics_leg_flags> flags;
-	real_vector3d runtime_initial_origin_to_hip_offset;
-	real_vector3d runtime_pivot_center_to_hip_offset;
-	real runtime_upper_leg_length;
-	real runtime_lower_leg_length;
-	short runtime_hip_node_a_index;
-	short runtime_hip_node_b_index;
-	short runtime_knee_node_a_index;
-	short runtime_knee_node_b_index;
+	real_vector3d initial_hip_to_foot_offset;
+	real_vector3d initial_origin_to_hip_offset;
+	real upper_leg_length;
+	real lower_leg_length;
+	short hip_node_a_index;
+	short hip_node_b_index;
+	short knee_node_a_index;
+	short knee_node_b_index;
 	short runtime_foot_marker_group_index;
 	short runtime_foot_node_index;
 	short runtime_hip_node_index;
 	short runtime_knee_node_index;
-	real_vector3d plant_constraint_position;
-	byte GKX[0xC]; // pad
+	real_point3d plant_constraint_position;
+	long pad3[0x3];
 };
-static_assert(sizeof(s_walker_physics_leg_block) == 0xA0);
+static_assert(sizeof(s_walker_physics_leg) == 0xA0);
 
 struct s_walker_physics_definition
 {
 	real_vector3d maximum_leg_motion;
 	real maximum_turn;
-	c_typed_tag_block<s_walker_physics_leg_block> legs;
+	c_typed_tag_block<s_walker_physics_leg> legs;
 	real leg_apex_fraction;
 	real lift_exponent;
 	real drop_exponent;
@@ -450,7 +450,7 @@ struct s_vehicle_mantis_definition
 
 	// number of legs mantis needs planted to be considered stable.
 	short stable_planted_legs;
-	byte pad[0x2]; // pad
+	short pad;
 
 	real time_without_plant_buffer; // seconds
 	real not_along_up_gravity_scale; // 0-1

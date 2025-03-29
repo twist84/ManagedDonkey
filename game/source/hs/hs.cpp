@@ -476,12 +476,12 @@ void __cdecl hs_enumerate_ai_names(void)
 			hs_tokens_enumerate_add_string(zone.name.get_string());
 
 		for (orders_definition& order : scenario->orders)
-			hs_tokens_enumerate_add_string(order.name.get_string());
+			hs_tokens_enumerate_add_string(order.name);
 	
 		if (scenario->scripting_data.count)
 		{
 			for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count; point_set_index++)
-				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name.get_string());
+				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
 		}
 	}
 }

@@ -60,14 +60,14 @@ struct s_biped_leaping_data
 	// wall-leaping fields
 
 	c_flags<e_biped_leap_flags, dword_flags, k_biped_leap_flags> leap_flags;
-	real_fraction dampening_scale;            // [0,1] 1= very slow changes
-	real_fraction roll_delay;                 // [0,1] 1= roll fast and late
-	real_fraction cannonball_off_axis_scale;  // [0,1] weight
-	real_fraction cannonball_off_track_scale; // [0,1] weight
+	real dampening_scale;            // [0,1] 1= very slow changes
+	real roll_delay;                 // [0,1] 1= roll fast and late
+	real cannonball_off_axis_scale;  // [0,1] weight
+	real cannonball_off_track_scale; // [0,1] weight
 	angle_bounds cannonball_roll_bounds;      // degrees per second
 	real_bounds anticipation_ratio_bounds;    // current velocity/leap velocity
 	real_bounds reaction_force_bounds;        // units per second
-	real_fraction lobbing_desire;             // 1= heavy arc, 0= no arc
+	real lobbing_desire;             // 1= heavy arc, 0= no arc
 };
 static_assert(sizeof(s_biped_leaping_data) == 48);
 
@@ -75,25 +75,25 @@ struct s_biped_ground_fitting_data
 {
 	// ground fitting data
 
-	real_fraction ground_normal_dampening; // react to slope changes (0=slow, 1= fast)
+	real ground_normal_dampening; // react to slope changes (0=slow, 1= fast)
 	real root_offset_max_scale;            // vertical drop to ground allowed (0=none, 1=full)
-	real_fraction root_offset_dampening;   // react to root changes (0=slow, 1= fast)
-	real_fraction following_cam_scale;     // root offset effect on following cam (0=none, 1=full)
-	real_fraction root_leaning_scale;      // lean into slopes (0=none, 1=full)
+	real root_offset_dampening;   // react to root changes (0=slow, 1= fast)
+	real following_cam_scale;     // root offset effect on following cam (0=none, 1=full)
+	real root_leaning_scale;      // lean into slopes (0=none, 1=full)
 	angle foot_roll_max;                   // orient to ground slope (degrees)
 	angle foot_pitch_max;                  // orient to ground slope (degrees)
 
 
 	// pivot-on-foot data
 
-	real_fraction pivot_on_foot_scale; // (0=none, 1= full)
+	real pivot_on_foot_scale; // (0=none, 1= full)
 	real pivot_min_foot_delta;         // vert world units to find lowest foot
 
 	// leg length * this = stride length
 	real pivot_stride_length_scale;
 
-	real_fraction pivot_throttle_scale;   // pivoting slows throttle (0=none, 1= full)
-	real_fraction pivot_offset_dampening; // react to pivot changes (0=slow, 1= fast)
+	real pivot_throttle_scale;   // pivoting slows throttle (0=none, 1= full)
+	real pivot_offset_dampening; // react to pivot changes (0=slow, 1= fast)
 };
 static_assert(sizeof(s_biped_ground_fitting_data) == 0x30);
 
@@ -191,7 +191,7 @@ struct _biped_definition
 
 	s_biped_lock_on_data lock_on_data;
 	short runtime_physics_control_node_index;
-	byte JWSSY[0x2]; // pad
+	short unused2;
 	real runtime_cosine_stationary_turning_threshold;
 	real runtime_crouch_transition_velocity;
 	real runtime_camera_height_velocity;
@@ -227,7 +227,7 @@ struct _biped_definition
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> death_spawn_character;
 
 	short death_spawn_count;
-	byte TQYQEWG[2]; // pad
+	short death_spawn_unused;
 	s_biped_leaping_data leaping_data;
 	s_biped_ground_fitting_data ground_fitting_data;
 

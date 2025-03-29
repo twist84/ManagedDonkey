@@ -81,8 +81,7 @@ struct s_game_globals
 
 	struct damage_reporting_type_block;
 
-	// pad
-	byte YJLTWDSL[0xAC];
+	long unused0[0x2B];
 
 	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	c_typed_tag_block<s_game_globals_havok_cleanup_resources> havok_cleanup_resources;
@@ -94,13 +93,13 @@ struct s_game_globals
 	c_typed_tag_reference<AI_GLOBALS_TAG, INVALID_TAG> ai_globals_ref;
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
-	c_typed_tag_block<g_null_block> empty;
+	char unused1[0xC];
 	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG, INVALID_TAG>> sounds;
 	c_typed_tag_block<s_game_globals_camera> camera;
 	c_typed_tag_block<s_game_globals_player_control> player_control;
 	c_typed_tag_block<s_game_globals_difficulty_information> difficulty_information;
 	c_typed_tag_block<s_game_globals_grenade> grenades;
-	c_typed_tag_block<g_null_block> what;
+	char unused2[0xC];
 	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tag_references;
 
 	// @weapon list (update _weapon_list enum in game_globals.h)
@@ -144,9 +143,7 @@ struct s_game_globals
 	// the default value for what material type water is
 	c_string_id global_water_material; // 'sted'
 	c_global_material_type global_water_material_type;
-
-	// pad
-	byte pad_water_material[2];
+	short pad;
 
 	c_typed_tag_reference<EFFECT_GLOBALS_TAG, INVALID_TAG> effect_globals;
 	c_typed_tag_reference<GAME_PROGRESSION_TAG, INVALID_TAG> game_progression;
@@ -356,9 +353,9 @@ static_assert(sizeof(s_look_function_block) == sizeof(real));
 
 struct s_game_globals_player_control
 {
-	real_fraction magnetism_friction;           // how much the crosshair slows over enemies
-	real_fraction magnetism_adhesion;           // how much the crosshair sticks to enemies
-	real_fraction inconsequential_target_scale; // scales magnetism level for inconsequential targets like infection forms
+	real magnetism_friction;           // how much the crosshair slows over enemies
+	real magnetism_adhesion;           // how much the crosshair sticks to enemies
+	real inconsequential_target_scale; // scales magnetism level for inconsequential targets like infection forms
 
 	// crosshair
 	real_point2d crosshair_location; // -1..1, 0 is middle of the screen
@@ -377,7 +374,7 @@ struct s_game_globals_player_control
 	real look_default_pitch_rate; // degrees
 	real look_default_yaw_rate;   // degrees
 
-	real_fraction look_peg_threshold; // magnitude of yaw for pegged acceleration to kick in
+	real look_peg_threshold; // magnitude of yaw for pegged acceleration to kick in
 
 	// time for a pegged look to reach maximum effect
 	real look_yaw_acceleration_time; // seconds
@@ -388,9 +385,9 @@ struct s_game_globals_player_control
 	real look_pitch_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
 
 	real look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
-	byte TMIDI[0x8]; // pad
+	real look_unused[2];
 	real gravity_scale;
-	byte VM[0x2]; // pad
+	short control_unused;
 	short minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
 };
@@ -477,10 +474,10 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 struct s_game_globals_grenade
 {
 	short maximum_count;
-	byte GQGKOFEHN[0x2]; // pad, previously `short mp_spawn_default`
+	word pad;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> throwing_effect;
-	byte TF[0x10]; // pad, previously `s_tag_reference hud_interface`
-	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> equipment; // pad, `s_tag_reference item`
+	long unused[4];
+	c_typed_tag_reference<ITEM_TAG, INVALID_TAG> item;
 	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> projectile;
 
 	void update_reference_names();
@@ -556,7 +553,7 @@ struct s_game_globals_player_information
 	real maximum_stun_time; // seconds
 
 	real_bounds first_person_idle_time; // seconds
-	real_fraction first_person_skip_fraction; // [0,1]
+	real first_person_skip_fraction; // [0,1]
 
 	// time to prevent player from melee attacking after being hit by damage that supports this (singleplayer only)
 	real melee_inhibit_time; // seconds

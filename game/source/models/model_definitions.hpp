@@ -278,7 +278,7 @@ struct s_model_variant_state
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> looping_effect;
 
 	c_string_id looping_effect_marker_name;
-	real_fraction initial_probability;
+	real initial_probability;
 };
 static_assert(sizeof(s_model_variant_state) == 0x20);
 
@@ -353,7 +353,7 @@ struct s_model_damage_section
 	dword_flags flags;
 
 	// percentage of total object vitality
-	real_fraction vitality_percentage; // [0,1]
+	real vitality_percentage; // [0,1]
 
 	s_tag_block instant_responses;
 	s_tag_block unused0;
@@ -409,7 +409,7 @@ struct s_model_damage_info
 		real recharge_time; // seconds
 
 		// 0 defaults to 1 - to what maximum level the body health will be allowed to recharge
-		real_fraction recharge_fraction;
+		real recharge_fraction;
 
 	} body;
 
@@ -511,7 +511,7 @@ struct s_model_target
 	short variant;
 
 	// higher relevances turn into stronger magnetisms
-	real_fraction targeting_relevance;
+	real targeting_relevance;
 
 	// ignored if zero
 	real aoe_exclusion_radius;

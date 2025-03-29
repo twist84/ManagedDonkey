@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_game_engine_event_flags
@@ -61,35 +62,11 @@ enum e_game_engine_sound_response_flags
 	k_game_engine_sound_response_flags
 };
 
-struct s_sound_response_extra_sounds_definition
-{
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> japanese_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> german_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> french_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> spanish_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> mexican_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> italian_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> korean_sound;
-
-	// Note on Chinese audio
-	// Although text is different between simplified and traditional Chinese, audio should be the same.
-	// Cantonese? Mandarin? I don't know. I'm a gwailo.
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> chinese_sound_traditional;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> chinese_sound_simplified;
-
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> portuguese_sound;
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> russian_sound;
-
-	void update_reference_names();
-};
-static_assert(sizeof(s_sound_response_extra_sounds_definition) == 0xB0);
-
 struct s_multiplayer_event_sound_response_definition
 {
-	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
-	byte AGQD[0x2]; // pad
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> english_sound;
-	s_sound_response_extra_sounds_definition extra_sounds;
+	c_flags<e_game_engine_sound_response_flags, word, k_game_engine_sound_response_flags> flags;
+	word pad;
+	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sounds[k_language_count];
 	real probability;
 
 	void update_reference_names();
@@ -108,24 +85,17 @@ struct s_multiplayer_event_response_definition
 	c_string_id display_string;
 	c_string_id medal_award;
 	short earned_wp;
-	byte ASDF[0x2]; // pad
+	word pad;
 	real display_time; // seconds
 	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> required_field;
 	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> excluded_audience;
 	c_enum<e_game_engine_event_splitscreen_suppression, short, _game_engine_event_splitscreen_suppression_none, k_game_engine_event_splitscreen_suppression_count> splitscreen_suppression;
-	byte CRAP[0x2]; // pad
+	short pad2;
 	c_string_id primary_string;
 	long primary_string_duration; // seconds
 	c_string_id plural_display_string;
 	real sound_delay_announcer_only;
-
-	// inlined `s_multiplayer_event_sound_response_definition`
-	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
-	byte PDHM[0x2]; // pad
-	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sound;
-	s_sound_response_extra_sounds_definition extra_sounds;
-	real probability;
-
+	s_multiplayer_event_sound_response_definition default_sound;
 	c_typed_tag_block<s_multiplayer_event_sound_response_definition> sound_permutations;
 
 	void update_reference_names();

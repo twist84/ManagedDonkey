@@ -5,6 +5,40 @@
 
 struct s_effect_gpu_data;
 
+enum e_effect_definition_flags
+{
+	_effect_deleted_when_inactive_bit = 0,
+	_effect_parallel_events_bit,
+
+	// This option will hurt performance on effects with very short duration.
+	_effect_no_part_reuse_bit,
+
+	_effect_age_creators_primary_weapon_bit,
+	_effect_locations_hybrid_world_local_bit,
+	_effect_can_penetrate_walls_bit,
+
+	// Will help performance for parallel events of different lengths, if the effect is unlikely to be reused
+	_effect_cannot_be_restarted_bit,
+
+	// Do not adopt parent object's lightprobe, even when it's available
+	_effect_force_use_own_lightprobe_bit,
+
+	k_on_disk_effect_definition_flag_count,
+
+	_effect_instant_bit = k_on_disk_effect_definition_flag_count,
+	_effect_must_be_deterministic_bit,
+	_effect_samples_lightmap_bit,
+	_effect_samples_diffuse_texture_bit,
+	_effect_uses_child_location_bit,
+	_effect_xsynced_bit,
+	_effect_depends_on_environment_bit,
+	_effect_track_subframe_movements_bit,
+
+	_effect_bit16,
+
+	k_effect_definition_flag_count
+};
+
 enum e_global_effect_priority
 {
 	_global_effect_priority_normal = 0,
@@ -36,6 +70,7 @@ enum e_effect_disposition
 struct effect_event_definition;
 struct effect_definition
 {
+	//c_flags<e_effect_definition_flags, dword, k_effect_definition_flag_count> flags;
 	dword_flags flags;
 
 	// If this is non-zero, the effect will usually be exactly repeatable
@@ -49,8 +84,7 @@ struct effect_definition
 	real death_delay;
 	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
-	// pad
-	byte ERQOGINED[0x3];
+	byte pad[0x3];
 
 	short loop_start_event;
 	short local_location0;
@@ -153,19 +187,20 @@ struct effect_event_definition
 {
 	c_string_id event_name;
 	dword_flags flags;
-	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
+	byte priority;
 
-	// pad
-	byte EVUIQSNDS[0x3];
+	byte pad[0x3];
 
 	// chance that this event will be skipped entirely
-	real_fraction skip_fraction;
+	real skip_fraction;
 
 	// delay before this event takes place
-	real_bounds delay_bounds; // seconds
+	real delay_lower_bound; // seconds
+	real delay_upper_bound; // seconds
 
 	// duration of this event
-	real_bounds duration_bounds; // seconds
+	real duration_lower_bound; // seconds
+	real duration_upper_bound; // seconds
 
 	c_typed_tag_block<effect_part_definition> parts;
 	s_tag_block accelerations;

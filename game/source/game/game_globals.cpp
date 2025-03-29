@@ -110,7 +110,7 @@ void s_game_globals_falling_damage::update_reference_names()
 void s_game_globals_grenade::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(throwing_effect);
-	UPDATE_REFERENCE_NAME(equipment);
+	UPDATE_REFERENCE_NAME(item);
 	UPDATE_REFERENCE_NAME(projectile);
 }
 

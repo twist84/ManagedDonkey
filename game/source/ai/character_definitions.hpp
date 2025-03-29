@@ -110,10 +110,7 @@ struct character_variant
 {
 	c_string_id variant_name;
 	short variant_index;
-
-	// pad
-	byte VN[2];
-
+	short pad0;
 	c_typed_tag_block<s_character_voice> voices;
 };
 static_assert(sizeof(character_variant) == 0x14);
@@ -136,9 +133,7 @@ static_assert(sizeof(character_vitality_properties) == 0x1);
 
 struct character_placement_properties
 {
-	// pad
-	byte YJQV[4];
-
+	long flags;
 	real few_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
 	real normal_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
 	real many_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
@@ -221,8 +216,7 @@ struct character_swarm_properties
 	// After the given number of deaths, the swarm scatters
 	short scatter_killed_count;
 
-	// pad
-	byte PEVUDXUKY[2];
+	short pad1;
 
 	// the distance from the target that the swarm scatters
 	real scatter_radius;
@@ -326,8 +320,7 @@ static_assert(sizeof(character_presearch_properties) == 0x1);
 
 struct character_idle_properties
 {
-	// pad
-	byte ZTG[4];
+	long flags;
 
 	// time range for delays between idle poses
 	real_bounds idle_pose_delay_time; // seconds

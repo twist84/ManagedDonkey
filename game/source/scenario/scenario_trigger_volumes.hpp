@@ -5,6 +5,14 @@
 
 #define MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO 1024
 
+enum e_trigger_volume_side
+{
+	_trigger_volume_side_position = 0,
+	_trigger_volume_side_extent,
+
+	k_number_of_trigger_volume_sides
+};
+
 struct s_real_sector_point;
 struct s_trigger_volume_triangle;
 struct scenario_trigger_volume
@@ -21,11 +29,11 @@ struct scenario_trigger_volume
 
 	// pad
 	byte padding[2];
-
+	
 	real_vector3d forward;
 	real_vector3d up;
 	real_point3d position;
-	real_point3d extents;
+	real_vector3d extents;
 
 	// this is only valid for sector type trigger volumes
 	real z_sink;
@@ -35,14 +43,13 @@ struct scenario_trigger_volume
 
 	real_rectangle3d runtime_sector_bounds;
 
-	// radius
-	real C;
+	real runtime_radius;
 
 	// s_scenario_kill_trigger_volume
 	short kill_trigger_volume_index; // short_block_index
 
 	// s_scenario_editor_folder
-	short editor_folder; // short_block_index
+	short editor_folder_index; // short_block_index
 };
 static_assert(sizeof(scenario_trigger_volume) == 0x7C);
 
@@ -65,15 +72,13 @@ static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 struct c_trigger_volume_query
 {
 	scenario_trigger_volume* m_trigger_volume;
-
-	// $TODO: confirm names
-	real_matrix4x3 m_matrix;
-	bool m_has_matrix;
+	real_matrix4x3 m_transform;
+	bool m_valid;
 };
 static_assert(sizeof(c_trigger_volume_query) == 0x3C);
 
-extern bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&faces)[k_faces_per_cube_count][4]);
-extern bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* center);
+extern bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&face_vertices)[k_faces_per_cube_count][4]);
+extern bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* out_center_point);
 extern bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix);
 extern real __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume);
 

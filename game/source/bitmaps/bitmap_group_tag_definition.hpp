@@ -8,18 +8,9 @@
 struct bitmap_group_sprite
 {
 	short bitmap_index;
-
-	// pad
-	byte D[2];
-
-	// pad
-	byte GMLJPJIMC[4];
-
-	real left;
-	real right;
-	real top;
-	real bottom;
-
+	short bitmap_pad;
+	long unused;
+	real_rectangle2d bounds;
 	real_point2d registration_point;
 };
 static_assert(sizeof(bitmap_group_sprite) == 0x20);
@@ -29,10 +20,7 @@ struct bitmap_group_sequence
 	char name[32];
 	short first_bitmap_index;
 	short bitmap_count;
-
-	// pad
-	byte OTXYKQ[16];
-
+	long unused[4];
 	c_typed_tag_block<bitmap_group_sprite> sprites;
 };
 static_assert(sizeof(bitmap_group_sequence) == 0x40);
@@ -618,7 +606,7 @@ struct bitmap_group
 	real bump_map_height; // repeats
 
 	// used by detail maps and illum maps.  0 means fade by last mipmap, 1 means fade by first mipmap
-	real_fraction fade_factor; // [0,1]
+	real fade_factor; // [0,1]
 
 	// automatic chooses FAST if your bitmap is bright, and PRETTY if your bitmap has dark bits
 	c_enum<e_bitmap_curve_override, char, _bitmap_curve_override_choose_best, k_bitmap_curve_override_count> curve_mode;

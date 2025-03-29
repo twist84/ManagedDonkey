@@ -51,7 +51,7 @@ enum e_unit_camera_flags
 struct s_unit_camera
 {
 	c_flags<e_unit_camera_flags, short, k_unit_camera_flags> flags;
-	byte doh[0x2]; // pad
+	word pad;
 	c_old_string_id camera_marker_name;
 	c_old_string_id camera_submerged_marker_name;
 	angle pitch_auto_level;
@@ -113,8 +113,8 @@ static_assert(sizeof(s_unit_boost) == sizeof(real) * 5 + sizeof(s_tag_reference)
 
 struct s_unit_lipsync_scales
 {
-	real_fraction attack_weight;
-	real_fraction decay_weight;
+	real attack_weight;
+	real decay_weight;
 };
 static_assert(sizeof(s_unit_lipsync_scales) == 0x8);
 
@@ -262,7 +262,7 @@ struct _unit_definition
 	angle aiming_velocity_maximum; // degrees per second
 	angle aiming_acceleration_maximum; // degrees per second squared
 
-	real_fraction casual_aiming_modifier; // [0,1]
+	real casual_aiming_modifier; // [0,1]
 
 	angle looking_velocity_maximum; // degrees per second
 	angle looking_acceleration_maximum; // degrees per second squared
@@ -341,7 +341,7 @@ static_assert(sizeof(unit_hud_reference) == 0x10);
 struct dialogue_variant_definition
 {
 	short variant_number;
-	byte BQCVEMF[2]; // pad
+	word pad;
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 
 	void update_reference_names();
@@ -443,7 +443,7 @@ struct unit_seat
 	c_string_id in_seat_string;
 
 	// nathan is too lazy to make pings for each seat.
-	real_fraction ping_scale;
+	real ping_scale;
 
 	// how much time it takes to evict a rider from a flipped vehicle
 	real turnover_time; // seconds
@@ -454,7 +454,7 @@ struct unit_seat
 	short boarding_seat;
 
 	// how far to interpolate listener position from camera to occupant's head
-	real_fraction listener_interpolation_factor;
+	real listener_interpolation_factor;
 
 	// speed dependant turn rates
 	// when the unit velocity is 0, the yaw/pitch rates are the left values

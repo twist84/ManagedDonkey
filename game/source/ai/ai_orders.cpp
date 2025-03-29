@@ -10,7 +10,7 @@ short orders_get_by_name(char const* name)
 		for (short orders_index = 0; orders_index < scenario->orders.count; orders_index++)
 		{
 			orders_definition& orders = scenario->orders[orders_index];
-			if (csstrnicmp(orders.name.get_string(), name, orders.name.length()) == 0)
+			if (csstrnicmp(orders.name, name, sizeof(orders.name)) == 0)
 				return orders_index;
 		}
 	}

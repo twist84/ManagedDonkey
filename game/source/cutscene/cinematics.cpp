@@ -27,7 +27,7 @@ void __cdecl cinematic_dispose_from_old_structure_bsp(dword deactivating_structu
 	INVOKE(0x0067CE80, cinematic_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:0067CE90 ; 
+//.text:0067CE90 ; void __cdecl cinematic_force_title(short)
 
 void __cdecl cinematic_game_pause_handler(bool paused)
 {
@@ -36,7 +36,7 @@ void __cdecl cinematic_game_pause_handler(bool paused)
 
 //.text:0067CF10 ; e_cinematic_channel_type __cdecl cinematic_get_channel_type()
 //.text:0067CF60 ; s_cinematic_clip_global const* __cdecl cinematic_get_clip_planes(long*)
-//.text:0067CF90 ; cinematic_get_debug_mode
+//.text:0067CF90 ; bool __cdecl cinematic_get_debug_mode()
 //.text:0067CFA0 ; void __cdecl cinematic_get_default_chapter_title_bounds(rectangle2d*)
 //.text:0067CFE0 ; short __cdecl cinematic_get_descriptor()
 //.text:0067D0A0 ; long __cdecl cinematic_get_early_exit()
@@ -203,8 +203,8 @@ void __cdecl draw_quad(rectangle2d* rect, dword color)
 //.text:0067F8F0 ; 
 //.text:0067F950 ; 
 //.text:0067F960 ; void __cdecl subtitle_add(long, real)
-//.text:0067F9E0 ; 
-//.text:0067FA30 ; 
+//.text:0067F9E0 ; real __cdecl subtitle_compute_alpha(s_subtitle const*)
+//.text:0067FA30 ; void __cdecl subtitle_delete()
 //.text:0067FA60 ; void __cdecl subtitle_render()
 //.text:0067FF40 ; bool __cdecl subtitle_should_render()
 //.text:0067FFC0 ; 

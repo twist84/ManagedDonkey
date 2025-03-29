@@ -1,10 +1,11 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/materials_definitions.hpp"
 #include "math/function_definitions.hpp"
-#include "tag_files/tag_groups.hpp"
-#include "physics/collision_model_definitions.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "physics/collision_model_definitions.hpp"
+#include "tag_files/tag_groups.hpp"
 
 enum
 {
@@ -109,19 +110,6 @@ enum e_sweetener_size
 	k_sweetener_size_count
 };
 
-enum e_water_density_type
-{
-	_water_density_type_default = 0,
-	_water_density_type_super_floater,
-	_water_density_type_floater,
-	_water_density_type_neutral,
-	_water_density_type_sinker,
-	_water_density_type_super_sinker,
-	_water_density_type_none,
-
-	k_water_density_type_count
-};
-
 enum e_object_definition_secondary_flags
 {
 	_object_does_not_affect_projectile_aiming_bit = 0,
@@ -149,7 +137,7 @@ struct _object_definition
 
 	c_enum<e_lightmap_shadow_mode, short, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
 	c_enum<e_sweetener_size, char, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
-	c_enum<e_water_density_type, char, _water_density_type_default, k_water_density_type_count> water_density;
+	c_enum<e_water_density_type, char, _water_density_type_default, k_water_density_count> water_density;
 	dword_flags runtime_flags;
 
 	// sphere to use for dynamic lights and shadows. only used if not 0

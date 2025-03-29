@@ -146,7 +146,7 @@ struct _projectile_definition
 	real_bounds acceleration_range; // world units
 
 	real runtime_acceleration_bound_inverse;
-	real_fraction targeted_leading_fraction;
+	real targeted_leading_fraction;
 	real guided_projectile_outer_range_error_radius;
 	real autoaim_leading_max_lead_time;
 	c_typed_tag_block<s_projectile_material_response_definition> material_responses;
@@ -186,7 +186,7 @@ struct s_projectile_material_response_definition
 	// potential result
 	short_enum potential_response;
 	word_flags response_flags;
-	real_fraction chance_fraction; // [0,1]
+	real chance_fraction; // [0,1]
 	angle_bounds between; // degrees
 	real_bounds _and; // world units per second
 

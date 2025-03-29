@@ -78,9 +78,9 @@ struct s_campaign_metagame_skull_data
 };
 static_assert(sizeof(s_campaign_metagame_skull_data) == sizeof(real));
 
-enum e_campaign_metagame_bucket_flags
+enum e_campaign_metagame_bucket_flag
 {
-	_campaign_metagame_bucket_only_counts_with_riders_bit,
+	_campaign_metagame_bucket_flag_only_counts_with_riders_bit = 0,
 
 	k_campaign_metagame_bucket_flags
 };
@@ -137,13 +137,12 @@ enum e_campaign_metagame_bucket_class
 
 struct s_campaign_metagame_bucket
 {
-	c_flags<e_campaign_metagame_bucket_flags, byte, k_campaign_metagame_bucket_flags> flags;
-	c_enum<e_campaign_metagame_bucket_type, char, _campaign_metagame_bucket_type_brute, k_campaign_metagame_bucket_type_count> type;
-	c_enum<e_campaign_metagame_bucket_class, char, _campaign_metagame_bucket_class_infantry, k_campaign_metagame_bucket_class_count> _class;
-	byte pad0[0x1]; // pad
-
+	c_flags<e_campaign_metagame_bucket_flag, char, k_campaign_metagame_bucket_flags> flags;
+	char type;
+	char _class;
+	byte pad0;
 	short point_count;
-	char pad1[0x2]; // pad
+	short pad1;
 };
 static_assert(sizeof(s_campaign_metagame_bucket) == 0x8);
 

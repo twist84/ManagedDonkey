@@ -343,7 +343,7 @@ struct s_weapon_barrel_firing_parameters
 	real fire_recovery_time; // seconds
 
 	// how much of the recovery allows shots to be queued
-	real_fraction soft_recovery_fraction;
+	real soft_recovery_fraction;
 
 	real __unknown;
 };

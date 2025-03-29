@@ -504,7 +504,7 @@ bool c_director::in_free_camera_mode() const
 //.text:00592DD0 ; bool __cdecl c_director::player_switch_gui_set_visible(long)
 //.text:00592E30 ; void __cdecl c_director::player_switch_gui_update()
 //.text:00592F90 ; bool __cdecl c_director::player_switch_update()
-//.text:005931CC ; 
+//.text:005931D0 ; 
 
 bool c_director::set_camera_mode(e_camera_mode camera_mode, real transition_time)
 {

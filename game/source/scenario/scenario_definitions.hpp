@@ -576,10 +576,10 @@ struct scenario_starting_profile
 	c_static_string<k_tag_string_length> name;
 
 	// [0,1]
-	real_fraction starting_health_damage;
+	real starting_health_damage;
 
 	// [0,1]
-	real_fraction starting_shield_damage;
+	real starting_shield_damage;
 
 	// multiplayer_globals->universal[0]->weapon_selections
 	starting_weapon_info starting_weapons[k_weapon_set_count];

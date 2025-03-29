@@ -59,10 +59,7 @@ struct s_task_slot
 
 	c_overlapped_task* task;
 	dword calling_result;
-	bool terminated;
-
-	// pad?
-	byte __data9[0x3];
+	bool cancelled;
 };
 //static_assert(sizeof(s_task_slot) == 0xC);
 static_assert(sizeof(s_task_slot) == 0x28);
@@ -334,7 +331,7 @@ void __cdecl overlapped_task_terminate(c_overlapped_task* task)
 
 	c_async_xoverlapped_scope_lock scope_lock;
 	if (s_task_slot* task_slot = find_task_slot(task))
-		task_slot->terminated = true;
+		task_slot->cancelled = true;
 }
 
 void __cdecl overlapped_task_toggle_debug_rendering(bool toggle_debug_rendering)
@@ -400,7 +397,7 @@ void __cdecl overlapped_update()
 				{
 					task_slot->calling_result = task_slot->task->start(&task_slot->overlapped);
 					task_slot->task->set_task_state_internal(_overlapped_task_state_pending);
-					task_slot->terminated = false;
+					task_slot->cancelled = false;
 				}
 			}
 		}
@@ -502,7 +499,7 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 	}
 	else
 	{
-		succeeded = !task_slot->terminated && task_slot->task->is_result_successful(calling_result, overlapped_error, overlapped_extended_error);
+		succeeded = !task_slot->cancelled && task_slot->task->is_result_successful(calling_result, overlapped_error, overlapped_extended_error);
 
 		if (g_overlapped_globals.inject_error)
 		{
@@ -532,11 +529,11 @@ void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dwor
 	{
 		task_state = _overlapped_task_state_failed;
 
-		if (task_slot->terminated)
+		if (task_slot->cancelled)
 			overlapped_error = ERROR_CANCELLED;
 
 		task_slot->task->failure(calling_result, overlapped_error, overlapped_extended_error);
-		if (task_slot->terminated ||
+		if (task_slot->cancelled ||
 			overlapped_error == ERROR_CANCELLED ||
 			overlapped_error == ERROR_FUNCTION_FAILED && overlapped_extended_error == ERROR_CANCELLED)
 		{

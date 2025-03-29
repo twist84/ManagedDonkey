@@ -23,8 +23,8 @@ struct s_physics_model_primitive
 	short material;
 	c_flags<e_primitive_flags, word_flags, k_primitive_flags> flags;
 	real relative_mass_scale;
-	real_fraction friction;
-	real_fraction restitution;
+	real friction;
+	real restitution;
 	real volume;
 	real mass;
 	short mass_distribution_index;

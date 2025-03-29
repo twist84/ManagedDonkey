@@ -33,11 +33,11 @@ enum e_point_set_flags
 
 struct cs_point_set
 {
-	c_static_string<k_tag_string_length> name;
-	c_typed_tag_block<cs_point> points;
+	char name[32];
+	c_typed_tag_block<cs_point> point_data;
 
 	// scenario_structure_bsp_reference
-	short bsp_index; // short_block_index
+	short manual_bsp_index; // short_block_index
 
 	// ai_reference_frame
 	short manual_reference_frame; // short_block_index
@@ -55,9 +55,7 @@ static_assert(sizeof(cs_point_set) == 0x38);
 struct cs_script_data
 {
 	c_typed_tag_block<cs_point_set> point_sets;
-
-	// pad
-	byte TPHWNCUR[0x78];
+	long pad1[0x1E];
 };
 static_assert(sizeof(cs_script_data) == 0x84);
 

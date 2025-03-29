@@ -42,9 +42,6 @@
 typedef float real;
 static_assert(sizeof(real) == sizeof(float));
 
-typedef float real_fraction;
-static_assert(sizeof(real_fraction) == sizeof(real));
-
 struct real_decibel
 {
 	real db;

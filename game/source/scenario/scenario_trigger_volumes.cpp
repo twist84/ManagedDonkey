@@ -15,37 +15,35 @@
 //.text:005FAB10 ; public: real_point3d* c_trigger_volume_query::transform_to_trigger_space(real_point3d const*, real_point3d*) const
 //.text:005FAB30 ; public: real_vector3d* c_trigger_volume_query::transform_to_trigger_space(real_vector3d const*, real_vector3d*) const
 
-bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&faces)[k_faces_per_cube_count][4])
+bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&face_vertices)[k_faces_per_cube_count][4])
 {
-	//return INVOKE(0x005FAB50, trigger_volume_build_faces, volume, faces);
+	//return INVOKE(0x005FAB50, trigger_volume_build_faces, volume, face_vertices);
 
-	real_matrix4x3 matrix{};
-	if (trigger_volume_get_matrix(volume, &matrix))
-	{
-		real_rectangle3d rectangle{};
-		rectangle.x0 = 0.0f;
-		rectangle.x1 = volume->extents.x;
-		rectangle.y0 = 0.0f;
-		rectangle.y1 = volume->extents.y;
-		rectangle.z0 = 0.0f;
-		rectangle.z1 = volume->extents.z;
+	real_matrix4x3 transform{};
+	if (!trigger_volume_get_matrix(volume, &transform))
+		return false;
 
-		rectangle3d_build_faces(&rectangle, k_faces_per_cube_count, faces);
-		for (long i = 0; i < k_faces_per_cube_count; ++i)
-			matrix4x3_transform_points(&matrix, 4, faces[i], faces[i]);
+	real_rectangle3d bounds{};
+	bounds.x0 = 0.0f;
+	bounds.x1 = volume->extents.i;
+	bounds.y0 = 0.0f;
+	bounds.y1 = volume->extents.j;
+	bounds.z0 = 0.0f;
+	bounds.z1 = volume->extents.k;
 
-		return true;
-	}
+	rectangle3d_build_faces(&bounds, k_faces_per_cube_count, face_vertices);
+	for (long face_index = 0; face_index < k_faces_per_cube_count; face_index++)
+		matrix4x3_transform_points(&transform, 4, face_vertices[face_index], face_vertices[face_index]);
 
-	return false;
+	return true;
 }
 
 //.text:005FABF0 ; long __cdecl trigger_volume_face_index_to_axis(long)
 //.text:005FAC00 ; e_trigger_volume_side __cdecl trigger_volume_face_index_to_side(long)
 
-bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* center)
+bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* out_center_point)
 {
-	return INVOKE(0x005FAC20, trigger_volume_get_center, volume, center);
+	return INVOKE(0x005FAC20, trigger_volume_get_center, volume, out_center_point);
 }
 
 //.text:005FACB0 ; real __cdecl trigger_volume_get_height(scenario_trigger_volume const*)

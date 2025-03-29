@@ -211,6 +211,7 @@
 extern bool const print_reference_updates;
 
 #define UPDATE_REFERENCE_NAME(_reference) { _reference.get_name(); if (_reference.name) { if (print_reference_updates) c_console::write_line("\t%s: '%s.%s'", #_reference, _reference.name, _reference.get_group_name()); } }
+#define UPDATE_ARRAY_REFERENCE_NAMES(_array) { for (long i = 0; i < NUMBEROF(_array); i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]: '%s.%s'", #_array, i, _array[i].name, _array[i].get_group_name()); } }
 #define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (long i = 0; i < _block.count; i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
 #define UPDATE_STRUCT_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct.update_reference_names(); }
 #define UPDATE_STRUCT_POINTER_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_reference_names(); }
