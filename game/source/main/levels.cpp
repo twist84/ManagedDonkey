@@ -5,12 +5,14 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cseries/runtime_state.hpp"
+#include "input/controllers.hpp"
 #include "interface/user_interface.hpp"
 #include "main/main.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "saved_games/content_catalogue.hpp"
 #include "tag_files/files_windows.hpp"
 #include "text/unicode.hpp"
 
@@ -454,6 +456,111 @@ e_async_completion __cdecl levels_dlc_enumeration_callback(s_async_task* work)
 	e_async_completion result = _async_completion_retry;
 	HOOK_INVOKE(result =, levels_dlc_enumeration_callback, work);
 	return result;
+
+	//s_file_reference found_file{};
+	//switch (work->dlc_enumeration_task.stage)
+	//{
+	//case _dlc_begin_next_content_catalogue_stage:
+	//{
+	//	c_content_catalogue* content_catalogue = content_catalogue_get_interface(work->dlc_enumeration_task.controller_index);
+	//	work->dlc_enumeration_task.content_item_index = NONE;
+	//	if (content_catalogue->valid())
+	//	{
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_content_catalogue_stage;
+	//	}
+	//	else if (!content_catalogue->busy())
+	//	{
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_content_item;
+	//	}
+	//}
+	//break;
+	//case _dlc_find_next_content_item:
+	//{
+	//	c_content_catalogue* content_catalogue = content_catalogue_get_interface(work->dlc_enumeration_task.controller_index);
+	//	if (work->dlc_enumeration_task.content_item_index == NONE)
+	//		work->dlc_enumeration_task.content_item_index = content_catalogue->first_content_item_index();
+	//	else
+	//		work->dlc_enumeration_task.content_item_index = content_catalogue->next_content_item_index(work->dlc_enumeration_task.content_item_index);
+	//
+	//	if (work->dlc_enumeration_task.content_item_index == NONE)
+	//	{
+	//		work->dlc_enumeration_task.stage = _dlc_find_files_start_stage;
+	//		break;
+	//	}
+	//
+	//	if (content_catalogue->content_item_get_game_content_type(work->dlc_enumeration_task.content_item_index) ||
+	//		!content_catalogue->content_item_mount(work->dlc_enumeration_task.content_item_index, true))
+	//	{
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_content_item;
+	//		break;
+	//	}
+	//
+	//	work->dlc_enumeration_task.stage = _dlc_find_files_start_stage;
+	//}
+	//break;
+	//case _dlc_find_files_start_stage:
+	//{
+	//	c_content_catalogue* content_catalogue = content_catalogue_get_interface(work->dlc_enumeration_task.controller_index);
+	//
+	//	if (content_catalogue->content_item_get_directory_file_reference(work->dlc_enumeration_task.content_item_index, &found_file))
+	//	{
+	//		find_files_start(work->dlc_enumeration_task.enumeration_data, 0, &found_file);
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_file_stage;
+	//	}
+	//	else
+	//	{
+	//		content_catalogue->content_item_unmount(work->dlc_enumeration_task.content_item_index, true);
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_content_item;
+	//	}
+	//}
+	//break;
+	//case _dlc_find_next_file_stage:
+	//{
+	//	c_content_catalogue* content_catalogue = content_catalogue_get_interface(work->dlc_enumeration_task.controller_index);
+	//
+	//	s_file_reference file{};
+	//	s_file_last_modification_date date{};
+	//	if (!find_files_next(work->dlc_enumeration_task.enumeration_data, &file, &date))
+	//	{
+	//		find_files_end(work->dlc_enumeration_task.enumeration_data);
+	//		content_catalogue->content_item_unmount(work->dlc_enumeration_task.content_item_index, true);
+	//		work->dlc_enumeration_task.stage = _dlc_find_next_content_item;
+	//		break;
+	//	}
+	//
+	//	wchar_t file_directory[256]{};
+	//	wchar_t file_extension[256]{};
+	//	wchar_t file_name_with_extension[256]{};
+	//
+	//	file_reference_get_name_wide(&file, FLAG(_name_directory_bit), file_directory, NUMBEROF(file_directory));
+	//	file_reference_get_name_wide(&file, FLAG(_name_extension_bit), file_extension, NUMBEROF(file_extension));
+	//	file_reference_get_name_wide(&file, FLAG(_name_file_bit) | FLAG(_name_extension_bit), file_name_with_extension, NUMBEROF(file_name_with_extension));
+	//
+	//	if (ustricmp(file_extension, L"campaign") == 0)
+	//	{
+	//		levels_process_campaign_configuration_file(&file, file_directory, false);
+	//	}
+	//	else if (ustricmp(file_extension, L"mapinfo") == 0)
+	//	{
+	//		levels_process_level_configuration_file(&file, file_directory, false);
+	//	}
+	//}
+	//break;
+	//case _dlc_find_next_content_catalogue_stage:
+	//{
+	//	work->dlc_enumeration_task.controller_index = get_first_signed_in_controller_index();
+	//	if (VALID_CONTROLLER(work->dlc_enumeration_task.controller_index))
+	//	{
+	//		work->dlc_enumeration_task.stage = _dlc_begin_next_content_catalogue_stage;
+	//		break;
+	//	}
+	//
+	//	return _async_completion_done;
+	//}
+	//break;
+	//}
+	//
+	//return _async_completion_retry;
 }
 
 e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work)
