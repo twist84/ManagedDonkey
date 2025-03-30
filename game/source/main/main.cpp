@@ -107,23 +107,6 @@ long cheat_drop_permutation_count = 0;
 
 bool main_loop_suspended = false;
 
-bool main_loop_is_suspended()
-{
-	return main_loop_suspended;
-}
-
-void main_loop_suspend()
-{
-	if (!main_loop_suspended)
-		main_loop_suspended = true;
-}
-
-void main_loop_resume()
-{
-	if (main_loop_suspended)
-		main_loop_suspended = false;
-}
-
 void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address)
 {
 	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, new_address);
@@ -211,6 +194,22 @@ dword __cdecl audio_thread_loop(void* blah)
 	return 1;
 }
 
+//.text:00504FB0 ; 
+//.text:00504FC0 ; 
+//.text:00504FD0 ; 
+//.text:00504FF0 ; void __cdecl console_dispose()
+//.text:00505000 ; void __cdecl console_initialize()
+//.text:00505010 ; 
+//.text:00505040 ; 
+//.text:00505070 ; 
+//.text:00505080 ; 
+//.text:00505090 ; 
+//.text:005050C0 ; 
+//.text:005050F0 ; 
+//.text:00505100 ; 
+//.text:00505130 ; 
+//.text:00505150 ; 
+//.text:00505160 ; 
 //.text:00505170 ; public: bool __cdecl s_scenario_zone_activation::is_empty() const
 
 void __cdecl main_activate_cinematic_tag_private()
@@ -518,18 +517,6 @@ bool __cdecl main_game_is_exiting()
 	//return INVOKE(0x00505700, main_game_is_exiting);
 
 	return main_globals.exit_game;
-}
-
-void __cdecl main_loop_pregame_halt_and_catch_fire_push()
-{
-	if (is_main_thread())
-		main_globals.main_loop_pregame_entered++;
-}
-
-void __cdecl main_loop_pregame_halt_and_catch_fire_pop()
-{
-	if (is_main_thread())
-		main_globals.main_loop_pregame_entered--;
 }
 
 #if defined(_DEBUG)
@@ -1309,6 +1296,11 @@ void __cdecl main_loop_pregame_do_work()
 	}
 }
 
+bool __cdecl main_loop_is_suspended()
+{
+	return main_loop_suspended;
+}
+
 void __cdecl main_loop_pregame()
 {
 	//INVOKE(0x005063A0, main_loop_pregame);
@@ -1349,6 +1341,18 @@ void __cdecl main_loop_pregame_disable(bool disable)
 		else
 			main_globals.main_loop_pregame_entered--;
 	}
+}
+
+void __cdecl main_loop_pregame_halt_and_catch_fire_pop()
+{
+	if (is_main_thread())
+		main_globals.main_loop_pregame_entered--;
+}
+
+void __cdecl main_loop_pregame_halt_and_catch_fire_push()
+{
+	if (is_main_thread())
+		main_globals.main_loop_pregame_entered++;
 }
 
 void __cdecl main_loop_pregame_show_progress_screen()
@@ -1525,6 +1529,18 @@ void __cdecl main_loop_process_global_state_changes()
 				cache_file_tag_resources_update_prefetch_state();
 		}
 	}
+}
+
+void __cdecl main_loop_resume()
+{
+	if (main_loop_suspended)
+		main_loop_suspended = false;
+}
+
+void __cdecl main_loop_suspend()
+{
+	if (!main_loop_suspended)
+		main_loop_suspended = true;
 }
 
 void __cdecl main_loop_status_message(wchar_t const* status_message)
