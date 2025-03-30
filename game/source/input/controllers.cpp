@@ -3,17 +3,17 @@
 #include "cseries/cseries.hpp"
 #include "shell/shell.hpp"
 
-long first_controller()
+e_controller_index first_controller()
 {
-	return 0;
+	return _controller0;
 }
 
-long next_controller(long controller_index)
+e_controller_index next_controller(e_controller_index controller_index)
 {
 	ASSERT(controller_index == k_no_controller || (controller_index >= 0 && controller_index < k_number_of_controllers));
 
-	long result = k_no_controller;
-	if (controller_index >= 0 && controller_index < k_number_of_controllers - 1)
+	e_controller_index result = k_no_controller;
+	if (controller_index >= _controller0 && controller_index < k_number_of_controllers - 1)
 		result = controller_index + 1;
 
 	return result;

@@ -530,9 +530,9 @@ void __cdecl game_time_update_paused_flags()
 		if (game_time_get_paused_for_reason(_game_time_pause_ui) && !v1)
 			game_time_set_paused(false, _game_time_pause_ui);
 	
-		for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
+		for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 		{
-			c_controller_interface* controller = controller_get(e_controller_index(controller_index));
+			c_controller_interface* controller = controller_get(controller_index);
 			if (controller->in_use() && !controller->is_attached() && v1 && controller->get_user_index() != NONE)
 			{
 				game_time_set_paused(true, k_controller_pause_reasons[controller_index]);
