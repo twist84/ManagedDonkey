@@ -22,10 +22,11 @@ HOOK_DECLARE(0x0054A2A0, levels_add_campaign_from_configuration_file);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
 HOOK_DECLARE(0x0054A6C0, levels_add_level_from_configuration_file);
+HOOK_DECLARE(0x0054AD00, levels_begin_dlc_enumeration);
 HOOK_DECLARE(0x0054AD80, levels_begin_dvd_enumeration);
 //HOOK_DECLARE(0x0054ADF0, levels_dispose);
 //HOOK_DECLARE(0x0054AEA0, levels_dispose_from_old_map);
-HOOK_DECLARE(0x0054AEC0, levels_dvd_enumeration_callback2);
+HOOK_DECLARE(0x0054AEC0, levels_dlc_enumeration_callback);
 HOOK_DECLARE(0x0054B250, levels_dvd_enumeration_callback);
 //HOOK_DECLARE(0x0054B610, levels_get_available_map_mask);
 HOOK_DECLARE(0x0054B670, levels_get_campaign_count);
@@ -49,7 +50,7 @@ HOOK_DECLARE(0x0054C320, levels_map_id_is_fake);
 //HOOK_DECLARE(0x0054C360, levels_path_is_dlc);
 HOOK_DECLARE(0x0054C3C0, levels_process_campaign_configuration_file);
 HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
-HOOK_DECLARE(0x0054C820, levels_delete);
+HOOK_DECLARE(0x0054C820, levels_remove_dlc);
 HOOK_DECLARE(0x0054C910, levels_try_and_get_by_map_id);
 HOOK_DECLARE(0x0054C9E0, levels_try_and_get_campaign_insertion);
 HOOK_DECLARE(0x0054CAB0, levels_try_and_get_campaign_map);
@@ -210,7 +211,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 	if (flags.test(_level_is_main_menu_bit))
 	{
-		level = &g_level_globals.mainmenu_level;
+		level = &g_level_globals.main_menu;
 	}
 	else if (flags.test(_level_is_campaign_bit) || flags.test(_level_is_multiplayer_bit))
 	{
@@ -376,6 +377,23 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 	}
 }
 
+bool __cdecl levels_begin_dlc_enumeration()
+{
+	//bool result = false;
+	//HOOK_INVOKE(result =, levels_begin_dlc_enumeration);
+	//return result;
+
+	//ASSERT(!g_level_globals.enumeration_in_progress());
+
+	s_async_task task{};
+	task.dlc_enumeration_task.controller_index = _controller0;
+	task.dlc_enumeration_task.stage = _dlc_begin_next_content_catalogue_stage;
+	task.dlc_enumeration_task.content_item_index = NONE;
+	task.dlc_enumeration_task.enumeration_data = &g_level_globals.find_files_data;
+	g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dlc_enumeration_callback, &g_level_globals.finished);
+	return g_level_globals.enumeration_task != NONE;
+}
+
 bool __cdecl levels_begin_dvd_enumeration()
 {
 	//bool result = false;
@@ -386,8 +404,8 @@ bool __cdecl levels_begin_dvd_enumeration()
 	{
 		s_async_task task{};
 		task.configuration_enumeration_task.stage = _dvd_find_files_start_stage;
-		task.configuration_enumeration_task.enumeration_data = &g_level_globals.enumeration_task_data;
-		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.enumeration_result);
+		task.configuration_enumeration_task.enumeration_data = &g_level_globals.find_files_data;
+		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.finished);
 
 		if (g_level_globals.enumeration_task != NONE)
 		{
@@ -404,7 +422,7 @@ void __cdecl levels_dispose()
 	//INVOKE(0x0054ADF0, levels_dispose);
 
 	if (levels_enumeration_in_progress())
-		internal_async_yield_until_done(&g_level_globals.enumeration_result, false, false, __FILE__, __LINE__);
+		internal_async_yield_until_done(&g_level_globals.finished, false, false, __FILE__, __LINE__);
 
 	g_level_globals.initialized = false;
 
@@ -431,38 +449,35 @@ void __cdecl levels_dispose_from_old_map()
 	INVOKE(0x0054AEA0, levels_dispose_from_old_map);
 }
 
-// searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
-long __cdecl levels_dvd_enumeration_callback2(void* callback_data) // c_levels_dlc_examine_content_item_async::update?
+e_async_completion __cdecl levels_dlc_enumeration_callback(s_async_task* work)
 {
-	long result = 0;
-	HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, callback_data);
-
+	e_async_completion result = _async_completion_retry;
+	HOOK_INVOKE(result =, levels_dlc_enumeration_callback, work);
 	return result;
 }
 
-e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* task_data)
+e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work)
 {
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	switch (task_data->configuration_enumeration_task.stage)
+	switch (work->configuration_enumeration_task.stage)
 	{
 	case _dvd_find_files_start_stage:
 	{
 		found_file_name.append_print("%sinfo", cache_files_map_directory());
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
-		find_files_start(task_data->configuration_enumeration_task.enumeration_data, 0, &found_file);
-		task_data->configuration_enumeration_task.stage = _dvd_find_next_file_stage;
+		find_files_start(work->configuration_enumeration_task.enumeration_data, 0, &found_file);
+		work->configuration_enumeration_task.stage = _dvd_find_next_file_stage;
 	}
 	break;
 	case _dvd_find_next_file_stage:
 	{
 		s_file_reference file{};
 		s_file_last_modification_date date{};
-
-		if (!find_files_next(task_data->configuration_enumeration_task.enumeration_data, &file, &date))
+		if (!find_files_next(work->configuration_enumeration_task.enumeration_data, &file, &date))
 		{
-			find_files_end(task_data->configuration_enumeration_task.enumeration_data);
+			find_files_end(work->configuration_enumeration_task.enumeration_data);
 			return _async_completion_done;
 		}
 
@@ -495,7 +510,7 @@ bool __cdecl levels_enumeration_in_progress()
 {
 	//return INVOKE(0x0054B3A0, levels_enumeration_in_progress);
 
-	return g_level_globals.enumeration_task != NONE && !g_level_globals.enumeration_result.peek();
+	return g_level_globals.enumeration_task != NONE && !g_level_globals.finished.peek();
 }
 
 //.text:0054B3C0 ; 
@@ -701,7 +716,7 @@ char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long ma
 
 	if (map_id == 0x10231971)
 	{
-		csstrnzcpy(path, g_level_globals.mainmenu_level.scenario_file, maximum_characters);
+		csstrnzcpy(path, g_level_globals.main_menu.scenario_file, maximum_characters);
 	}
 	else if (campaign_id == NONE)
 	{
@@ -732,10 +747,10 @@ void __cdecl levels_initialize()
 	data_make_valid(g_level_globals.campaign_insertions);
 	data_make_valid(g_level_globals.multiplayer_levels);
 
-	g_level_globals.mainmenu_level.flags.clear();
-	g_level_globals.mainmenu_level.flags.set(_level_is_main_menu_bit, true);
-	g_level_globals.mainmenu_level.map_id = 0x10231971;
-	csnzprintf(g_level_globals.mainmenu_level.scenario_file, sizeof(g_level_globals.mainmenu_level.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
+	g_level_globals.main_menu.flags.clear();
+	g_level_globals.main_menu.flags.set(_level_is_main_menu_bit, true);
+	g_level_globals.main_menu.map_id = 0x10231971;
+	csnzprintf(g_level_globals.main_menu.scenario_file, sizeof(g_level_globals.main_menu.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
 
 	g_level_globals.initialized = true;
 	g_level_globals.preorder_unlock_controller_mask = 0;
@@ -799,9 +814,9 @@ void __cdecl levels_process_level_configuration_file(s_file_reference* file, wch
 		levels_add_level_from_configuration_file(level, must_byte_swap, source_directory_path, dlc_content);
 }
 
-void __cdecl levels_delete()
+void __cdecl levels_remove_dlc()
 {
-	//INVOKE(0x0054C820, levels_delete);
+	//INVOKE(0x0054C820, levels_remove_dlc);
 
 	c_data_iterator<s_campaign_datum> campaign_iter{};
 	c_data_iterator<s_level_datum> campaign_level_iter{};
@@ -897,7 +912,7 @@ bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 	ASSERT(level != NULL);
 
 	c_critical_section_scope critical_section_scope(k_crit_section_levels);
-	*level = g_level_globals.mainmenu_level;
+	*level = g_level_globals.main_menu;
 
 	return true;
 }
