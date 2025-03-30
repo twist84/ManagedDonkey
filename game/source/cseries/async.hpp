@@ -221,6 +221,27 @@ struct s_configuration_enumeration_task
 };
 static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
 
+enum e_dlc_find_files_stage
+{
+	_dlc_begin_next_content_catalogue_stage = 0,
+	_dlc_find_next_content_item,
+	_dlc_find_files_start_stage,
+	_dlc_find_next_file_stage,
+	_dlc_find_next_content_catalogue_stage,
+
+	k_dlc_find_files_stage_count
+};
+
+enum e_controller_index;
+struct s_dlc_enumeration_task
+{
+	e_controller_index controller_index;
+	e_dlc_find_files_stage stage;
+	long content_item_index;
+	s_find_file_data* enumeration_data;
+};
+static_assert(sizeof(s_dlc_enumeration_task) == 0x10);
+
 struct s_async_task;
 struct s_async_simple_callback_task
 {
@@ -248,6 +269,7 @@ struct s_async_task
 		s_file_raw_handle_based_task file_raw_handle_based_task;
 		s_font_loading_task font_loading_task;
 		s_configuration_enumeration_task configuration_enumeration_task;
+		s_dlc_enumeration_task dlc_enumeration_task;
 		s_async_simple_callback_task simple_callback_task;
 
 		byte storage[k_maximum_async_task_data_size];
