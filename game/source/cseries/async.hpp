@@ -206,9 +206,17 @@ struct s_font_loading_task
 };
 static_assert(sizeof(s_font_loading_task) == 0x4);
 
+enum e_dvd_find_files_stage
+{
+	_dvd_find_files_start_stage = 0,
+	_dvd_find_next_file_stage,
+
+	k_dvd_find_files_stage_count
+};
+
 struct s_configuration_enumeration_task
 {
-	long stage;
+	e_dvd_find_files_stage stage;
 	s_find_file_data* enumeration_data;
 };
 static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
