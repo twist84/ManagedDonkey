@@ -8,7 +8,7 @@ hkStepResult __thiscall hkWorld::stepDeltaTime(float physicsDeltaTime)
 {
 	this;
 
-	//float physicsDeltaTime_ = 1.0f / 30.0f;
+	//static float physicsDeltaTime_ = 1.0f / 30.0f;
 	//c_console::write_line("hkWorld::stepDeltaTime: %f in %f out", physicsDeltaTime, physicsDeltaTime_);
 	//physicsDeltaTime = physicsDeltaTime_;
 
