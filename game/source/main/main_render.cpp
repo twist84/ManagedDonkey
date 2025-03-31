@@ -415,7 +415,7 @@ void __cdecl main_render_game()
 				}
 
 				c_ui_view ui_view{};
-				ui_view.setup_camera(NULL, c_rasterizer::sub_A48770());
+				ui_view.setup_camera(NULL, c_rasterizer::get_display_surface());
 				{
 					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
