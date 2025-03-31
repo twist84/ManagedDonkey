@@ -35,7 +35,7 @@ enum e_vertex_type
 enum e_lighting_vertex_types
 {
 	// default
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vector_vertex_type_unknown0)
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vertex_none)
 	// _entry_point_static_prt_ambient
 	// _entry_point_static_prt_linear
 	// _entry_point_static_prt_quadratic
@@ -44,16 +44,16 @@ enum e_lighting_vertex_types
 	_lighting_vertex_type_unknown0 = 0,
 
 	// _entry_point_vertex_color_lighting
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown1, _transfer_vector_vertex_type_unknown0)
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown1, _transfer_vertex_none)
 	_lighting_vertex_type_unknown1,
 
 	// _entry_point_static_per_pixel
 	// _entry_point_lightmap_debug_mode
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown2, _transfer_vector_vertex_type_unknown0)
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown2, _transfer_vertex_none)
 	_lighting_vertex_type_unknown2,
 
 	// _entry_point_static_per_vertex
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown3, _transfer_vector_vertex_type_unknown0)
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown3, _transfer_vertex_none)
 	_lighting_vertex_type_unknown3,
 
 	k_number_of_lighting_vertex_types
@@ -61,10 +61,10 @@ enum e_lighting_vertex_types
 
 enum e_transfer_vector_vertex_types
 {
-	_transfer_vector_vertex_type_unknown0 = 0,
-	_transfer_vector_vertex_type_unknown1,
-	_transfer_vector_vertex_type_unknown2,
-	_transfer_vector_vertex_type_unknown3,
+	_transfer_vertex_none = 0,
+	_transfer_prt_ambient_only,
+	_transfer_prt_linear,
+	_transfer_prt_quadratic,
 
 	k_number_of_transfer_vertex_types
 };
