@@ -1202,9 +1202,9 @@ void __cdecl c_rasterizer::set_sampler_texture_direct(long sampler_index, e_surf
 	INVOKE(0x00A23530, c_rasterizer::set_sampler_texture_direct, sampler_index, surface);
 }
 
-void __cdecl c_rasterizer::set_sampler_address_mode(long sampler_index, e_sampler_address_mode sampler_address_mode)
+void __cdecl c_rasterizer::set_sampler_address_mode(long sampler_index, e_sampler_address_mode u, e_sampler_address_mode v, e_sampler_address_mode w)
 {
-	INVOKE(0x00A23570, c_rasterizer::set_sampler_address_mode, sampler_index, sampler_address_mode);
+	INVOKE(0x00A23570, c_rasterizer::set_sampler_address_mode, sampler_index, u, v, w);
 }
 
 void __cdecl c_rasterizer::set_sampler_filter_mode(long sampler_index, e_sampler_filter_mode sampler_filter_mode)
@@ -1608,6 +1608,16 @@ c_rasterizer::e_surface c_rasterizer::sub_A48770()
 	return _surface_screenshot_display;
 }
 
+long __cdecl c_rasterizer::get_surface_height(e_surface surface)
+{
+	return INVOKE(0x00A487A0, c_rasterizer::get_surface_height, surface);
+}
+
+long __cdecl c_rasterizer::get_surface_width(e_surface surface)
+{
+	return INVOKE(0x00A48810, c_rasterizer::get_surface_width, surface);
+}
+
 // nullsub
 void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5)
 {
@@ -1622,6 +1632,11 @@ void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface depth_stencil)
 void __cdecl c_rasterizer::set_render_target(long surface_index, e_surface surface, long force_is_srgb)
 {
 	INVOKE(0x00A48E40, c_rasterizer::set_render_target, surface_index, surface, force_is_srgb);
+}
+
+void __cdecl c_rasterizer::set_surface_as_texture(long sampler_index, e_surface surface)
+{
+	INVOKE(0x00A48F20, c_rasterizer::set_surface_as_texture, sampler_index, surface);
 }
 
 void __cdecl c_rasterizer::set_using_albedo_sampler(bool value)

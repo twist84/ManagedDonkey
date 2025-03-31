@@ -225,6 +225,8 @@ struct c_rasterizer
 		_sampler_address_clamp,
 		_sampler_address_mirror,
 		_sampler_address_border,
+		_sampler_address_mirror_once,
+		_sampler_address_mirror_once_border,
 
 		k_number_of_sampler_address_modes
 	};
@@ -327,11 +329,11 @@ struct c_rasterizer
 	static void __cdecl set_fill_mode(e_fill_mode);
 	static void __cdecl set_indices(IDirect3DIndexBuffer9*);
 	static bool __cdecl set_pixel_shader(c_rasterizer_pixel_shader const*, e_entry_point);
-	static void __cdecl set_sampler_texture_direct(long, e_surface);
-	static void __cdecl set_sampler_address_mode(long, e_sampler_address_mode);
-	static void __cdecl set_sampler_filter_mode(long, e_sampler_filter_mode);
-	static void __cdecl set_sampler_texture(long, c_rasterizer_texture_ref);
-	static void __cdecl set_scissor_rect(rectangle2d const*);
+	static void __cdecl set_sampler_texture_direct(long sampler_index, e_surface surface);
+	static void __cdecl set_sampler_address_mode(long sampler_index, e_sampler_address_mode u, e_sampler_address_mode v, e_sampler_address_mode w);
+	static void __cdecl set_sampler_filter_mode(long sampler_index, e_sampler_filter_mode sampler_filter_mode);
+	static void __cdecl set_sampler_texture(long sampler_index, c_rasterizer_texture_ref sampler_texture);
+	static void __cdecl set_scissor_rect(rectangle2d const* scissor_rect);
 	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode);
 	static void __cdecl set_stencil_mode(e_stencil_mode);
 	static void __cdecl set_stencil_mode_with_value(e_stencil_mode, byte);
@@ -360,9 +362,13 @@ struct c_rasterizer
 
 	static e_surface sub_A48770();
 
+	static long __cdecl get_surface_height(e_surface surface);
+	static long __cdecl get_surface_width(e_surface surface);
+
 	static void __cdecl resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
 	static void __cdecl set_render_target(long surface_index, e_surface surface, long force_is_srgb);
+	static void __cdecl set_surface_as_texture(long sampler_index, e_surface surface);
 	static void __cdecl set_using_albedo_sampler(bool value);
 	static void __cdecl set_viewport(rectangle2d const& viewport, real min_z, real max_z);
 	static void __cdecl wait_for_gpu_idle();
@@ -376,8 +382,9 @@ struct c_rasterizer
 	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* polygon, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
 	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
-	static void __cdecl draw_textured_screen_quad(real a1, real a2, real a3, real a4);
-	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* textured_screen_quad, bool a2);
+	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords);
+	static void __cdecl draw_textured_screen_quad(real x0, real y0, real x1, real y1);
+	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip);
 	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, long primitive_count);
 	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* textured_transparent_polygon, long polygon_count, e_alpha_blend_mode alpha_blend_mode);
 	static void __cdecl draw_textured_transparent_quad(rasterizer_vertex_transparent const* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode);
