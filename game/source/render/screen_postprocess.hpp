@@ -35,6 +35,19 @@ struct c_screen_postprocess
 
 	static void __cdecl accept_edited_settings();
 
+	static void __cdecl apply_binary_op_ex(
+		long explicit_shader_index,
+		c_rasterizer::e_surface source_surface_0,
+		c_rasterizer::e_surface source_surface_1,
+		c_rasterizer::e_surface dest_surface,
+		c_rasterizer::e_sampler_filter_mode filter_mode,
+		c_rasterizer::e_sampler_address_mode address_mode,
+		real scale_r,
+		real scale_g,
+		real scale_b,
+		real scale_a,
+		real_rectangle2d* source_texture_rect);
+
 	static void __cdecl blit(
 		long explicit_shader_index,
 		c_rasterizer::e_surface source_surface,
@@ -69,11 +82,44 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c);
 
+	static c_rasterizer::e_surface __cdecl downsample_generate(
+		c_rasterizer::e_surface source_buffer,
+		c_camera_fx_values& camera,
+		c_rasterizer::e_surface dest_buffer_tiny,
+		c_rasterizer::e_surface dest_buffer_mini);
+
 	static void __cdecl gaussian_blur(
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
 		real horizontal_blur_size,
 		real vertical_blur_size);
+
+	static void __cdecl gaussian_blur_fixed(
+		c_rasterizer::e_surface target_surface,
+		c_rasterizer::e_surface temp_surface,
+		real scale_r,
+		real scale_g,
+		real scale_b,
+		real scale_a);
+
+	static c_rasterizer::e_surface __cdecl postprocess_bloom_buffer(
+		c_rasterizer::e_surface bloom_buffer,
+		c_camera_fx_values& camera,
+		c_rasterizer::e_splitscreen_res resolution);
+
+	static bool __cdecl postprocess_final_composite(
+		long explicit_shader_index,
+		c_rasterizer::e_surface display_surface,
+		c_rasterizer::e_surface bloom_surface,
+		real inherent_scale,
+		bool use_tone_curve,
+		bool true_sRGB_output,
+		bool use_depth_of_field,
+		real z_near,
+		real z_far,
+		rectangle2d const* target_rect,
+		real_rectangle2d const* window_rect,
+		s_observer_depth_of_field const* observer_depth_of_field);
 
 	static void __cdecl postprocess_player_view(
 		c_camera_fx_values& fx_values,
@@ -100,6 +146,11 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b);
 
+	static void __cdecl render_ssao(
+		c_camera_fx_settings* fx_settings,
+		render_projection* projection,
+		render_camera* camera);
+
 	static void __cdecl postprocess_ssr(
 		render_projection const* projection,
 		render_camera const* camera,
@@ -116,13 +167,10 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface surface_k,
 		c_rasterizer::e_surface surface_l);
 
-	static void __cdecl setup_rasterizer_for_postprocess(bool a1);
+	static void __cdecl setup_rasterizer_for_postprocess(bool clear_targets);
 
 	static c_screen_postprocess::s_settings const* const& x_settings;
+	static c_screen_postprocess::s_settings& x_settings_internal;
 	static c_screen_postprocess::s_settings& x_editable_settings;
 };
-
-extern void __cdecl render_ssao(c_camera_fx_settings* fx_settings,
-	render_projection* projection,
-	render_camera* camera);
 
