@@ -1601,9 +1601,9 @@ c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(long surface_ind
 
 //.text:00A48730 ; public: static real __cdecl c_rasterizer::get_render_target_alpha_multiplier(long surface_index)
 
-c_rasterizer::e_surface c_rasterizer::sub_A48770()
+c_rasterizer::e_surface c_rasterizer::get_display_surface()
 {
-	//return INVOKE(0x00A48770, c_rasterizer::sub_A48770);
+	//return INVOKE(0x00A48770, c_rasterizer::get_display_surface);
 
 	return _surface_screenshot_display;
 }
@@ -1619,9 +1619,9 @@ long __cdecl c_rasterizer::get_surface_width(e_surface surface)
 }
 
 // nullsub
-void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5)
+void __cdecl c_rasterizer::resolve_surface(e_surface surface, long source_render_target, rectangle2d* source_rectangle, short x, short y)
 {
-	//INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2, a3, a4, a5);
+	//INVOKE(0x00A48C50, c_rasterizer::resolve_surface, surface, source_render_target, source_rectangle, x, y);
 }
 
 void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface depth_stencil)

@@ -133,7 +133,7 @@ void c_fullscreen_view::render_debug_stuff_while_loading()
 	rectangle2d frame_bounds{};
 	rectangle2d window_bounds{};
 	interface_get_current_display_settings(&screen_bounds, &frame_bounds, &window_bounds, NULL);
-	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, c_rasterizer::sub_A48770(), false);
+	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, c_rasterizer::get_display_surface(), false);
 	terminal_draw(&screen_bounds, &frame_bounds);
 	status_line_draw();
 	main_time_frame_rate_display();

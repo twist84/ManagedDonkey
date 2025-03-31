@@ -497,7 +497,7 @@ void __thiscall c_player_view::render_3rd_pass()
 			}
 		}
 
-		render_screen_shaders(&screen_effect_shader_sample_result, 1, c_rasterizer::sub_A48770(), c_rasterizer::_surface_none, NULL);
+		render_screen_shaders(&screen_effect_shader_sample_result, 1, c_rasterizer::get_display_surface(), c_rasterizer::_surface_none, NULL);
 
 		{
 			c_rasterizer_profile_scope _chud_draw_screen(_rasterizer_profile_element_total, L"chud_draw_screen");
@@ -526,7 +526,7 @@ void __thiscall c_player_view::render_3rd_pass()
 				m_camera_user_data.user_index,
 				m_camera_user_data.player_window_index,
 				&display_pixel_bounds,
-				c_rasterizer::sub_A48770(),
+				c_rasterizer::get_display_surface(),
 				false);
 		}
 		{

@@ -369,12 +369,12 @@ struct c_rasterizer
 
 	static e_surface __cdecl get_render_target(long surface_index);
 
-	static e_surface sub_A48770();
+	static e_surface get_display_surface();
 
 	static long __cdecl get_surface_height(e_surface surface);
 	static long __cdecl get_surface_width(e_surface surface);
 
-	static void __cdecl resolve_entire_surface(e_surface surface, long a2, rectangle2d* a3, short a4, short a5);
+	static void __cdecl resolve_surface(e_surface surface, long source_render_target, rectangle2d* source_rectangle, short x, short y);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
 	static void __cdecl set_render_target(long surface_index, e_surface surface, long force_is_srgb);
 	static void __cdecl set_surface_as_texture(long sampler_index, e_surface surface);
