@@ -576,13 +576,13 @@ bool __thiscall c_player_view::render_albedo()
 	return result;
 }
 
-void __cdecl c_player_view::render_albedo_decals(bool a1, bool a2)
+void __cdecl c_player_view::render_albedo_decals(bool render_object_decals, bool render_structure_decals)
 {
-	//INVOKE(0x00A3A310, c_player_view::render_albedo_decals, a1, a2);
+	//INVOKE(0x00A3A310, c_player_view::render_albedo_decals, render_object_decals, render_structure_decals);
 
 	c_rasterizer_profile_scope _decorators(_rasterizer_profile_element_total, L"decorators");
 
-	HOOK_INVOKE_CLASS(, c_player_view, render_albedo_decals, decltype(&c_player_view::render_albedo_decals), a1, a2);
+	HOOK_INVOKE_CLASS(, c_player_view, render_albedo_decals, decltype(&c_player_view::render_albedo_decals), render_object_decals, render_structure_decals);
 }
 
 //.text:00A3A3C0 ; 
@@ -596,13 +596,13 @@ void __thiscall c_player_view::render_effects(e_effect_pass pass)
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, pass);
 }
 
-void __thiscall c_player_view::render_first_person(bool a1)
+void __thiscall c_player_view::render_first_person(bool render_only_transparents)
 {
 	//INVOKE_CLASS_MEMBER(0x00A3A420, c_player_view, render_first_person);
 
 	c_rasterizer_profile_scope _first_person(_rasterizer_profile_element_total, L"first_person");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person, a1);
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person, render_only_transparents);
 }
 
 void __thiscall c_player_view::render_first_person_albedo()
@@ -1050,9 +1050,9 @@ void c_player_view::setup_camera(long player_index, long window_count, long wind
 	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, user_index, result, render_freeze);
 }
 
-void __thiscall c_player_view::setup_camera_fx_parameters(real a1)
+void __thiscall c_player_view::setup_camera_fx_parameters(real exposure_boost)
 {
-	INVOKE_CLASS_MEMBER(0x00A3B990, c_player_view, setup_camera_fx_parameters, a1);
+	INVOKE_CLASS_MEMBER(0x00A3B990, c_player_view, setup_camera_fx_parameters, exposure_boost);
 }
 
 void __thiscall c_player_view::setup_cinematic_clip_planes()
@@ -1076,13 +1076,13 @@ void __thiscall c_player_view::distortion_generate()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, distortion_generate);
 }
 
-void __thiscall c_player_view::submit_occlusion_tests(bool a1, bool a2)
+void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool conditional)
 {
-	//INVOKE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests, a1, a2);
+	//INVOKE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests, occlusion, conditional);
 
 	c_rasterizer_profile_scope _occlusion_tests(_rasterizer_profile_element_occlusions, L"occlusion_tests");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_occlusion_tests, a1, a2);
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_occlusion_tests, occlusion, conditional);
 }
 
 void c_player_view::frame_advance()

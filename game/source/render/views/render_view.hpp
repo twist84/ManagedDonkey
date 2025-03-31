@@ -236,9 +236,9 @@ public:
 	void render_3rd_pass();
 	void render_4th_pass();
 	bool __thiscall render_albedo();
-	static void __cdecl render_albedo_decals(bool a1, bool a2);
+	static void __cdecl render_albedo_decals(bool render_object_decals, bool render_structure_decals);
 	void __thiscall render_effects(e_effect_pass pass);
-	void __thiscall render_first_person(bool a1);
+	void __thiscall render_first_person(bool render_only_transparents);
 	void __thiscall render_first_person_albedo();
 	void __thiscall render_lens_flares();
 	void __thiscall render_lightmap_shadows();
@@ -249,11 +249,11 @@ public:
 	void __thiscall render_weather_occlusion();
 	void restore_to_display_surface();
 	void setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze);
-	void __thiscall setup_camera_fx_parameters(real a1);
+	void __thiscall setup_camera_fx_parameters(real exposure_boost);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
 	void __thiscall distortion_generate();
-	void __thiscall submit_occlusion_tests(bool a1, bool a2);
+	void __thiscall submit_occlusion_tests(bool occlusion, bool conditional);
 
 	static void frame_advance();
 
