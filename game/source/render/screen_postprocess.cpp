@@ -93,13 +93,35 @@ void __cdecl c_screen_postprocess::render_ssao_old(render_projection const* proj
 	//INVOKE(0x00A60AF0, c_screen_postprocess::render_ssao_old, projection, camera, surface_a, surface_b, surface_c);
 }
 
-void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b)
+void __cdecl c_screen_postprocess::gaussian_blur(c_rasterizer::e_surface target_surface, c_rasterizer::e_surface temp_surface, real horizontal_blur_size, real vertical_blur_size)
 {
-	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, surface_a, surface_b);
+	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, target_surface, temp_surface, horizontal_blur_size, vertical_blur_size);
 
 	c_rasterizer_profile_scope _gaussian_blur(_rasterizer_profile_element_total, L"gaussian_blur");
 
-	HOOK_INVOKE_CLASS(, c_screen_postprocess, gaussian_blur, decltype(&c_screen_postprocess::gaussian_blur), surface_a, surface_b);
+	c_screen_postprocess::copy(
+		c_rasterizer_globals::_shader_bloom_blur_kernel_11_horizontal,
+		target_surface,
+		temp_surface,
+		c_rasterizer::_sampler_filter_mode_bilinear,
+		c_rasterizer::_sampler_address_clamp,
+		1.0f,
+		1.0f,
+		1.0f,
+		1.0f,
+		NULL);
+
+	c_screen_postprocess::copy(
+		c_rasterizer_globals::_shader_bloom_blur_kernel_11_vertical,
+		temp_surface,
+		target_surface,
+		c_rasterizer::_sampler_filter_mode_bilinear,
+		c_rasterizer::_sampler_address_clamp,
+		1.0f,
+		1.0f,
+		1.0f,
+		1.0f,
+		NULL);
 }
 
 void __cdecl c_screen_postprocess::postprocess_player_view(

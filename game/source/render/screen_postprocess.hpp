@@ -73,7 +73,9 @@ struct c_screen_postprocess
 
 	static void __cdecl gaussian_blur(
 		c_rasterizer::e_surface surface_a,
-		c_rasterizer::e_surface surface_b);
+		c_rasterizer::e_surface surface_b,
+		real horizontal_blur_size,
+		real vertical_blur_size);
 
 	static void __cdecl postprocess_player_view(
 		c_camera_fx_values& fx_values,
