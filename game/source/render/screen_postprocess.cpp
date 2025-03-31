@@ -28,6 +28,7 @@ HOOK_DECLARE_CLASS(0x00A601E0, c_screen_postprocess, blit);
 HOOK_DECLARE_CLASS(0x00A60460, c_screen_postprocess, copy);
 HOOK_DECLARE_CLASS(0x00A60D60, c_screen_postprocess, gaussian_blur);
 HOOK_DECLARE_CLASS(0x00A60DE0, c_screen_postprocess, gaussian_blur_fixed);
+HOOK_DECLARE_CLASS(0x00A63510, c_screen_postprocess, setup_rasterizer_for_postprocess);
 
 void __cdecl c_screen_postprocess::accept_edited_settings()
 {
@@ -285,16 +286,18 @@ void __cdecl c_screen_postprocess::gaussian_blur_fixed(
 		NULL);
 	c_rasterizer::resolve_surface(temp_surface, 0, 0, 0, 0);
 
-	static real_vector4d const kernel_vertical[]
 	{
-		{ 0.5f, -4.1f, 0.01953125f, 0.0f },
-		{ 0.5f, -2.3f,   0.234375f, 0.0f },
-		{ 0.5f, -0.5f,  0.4921875f, 0.0f },
-		{ 0.5f,  1.3f,   0.234375f, 0.0f },
-		{ 0.5f,  3.1f, 0.01953125f, 0.0f },
-	};
-	static_assert(NUMBEROF(kernel_vertical) == 5);
-	c_rasterizer::set_pixel_shader_constant(3, NUMBEROF(kernel_vertical), kernel_vertical);
+		static real_vector4d const kernel_vertical[]
+		{
+			{ 0.5f, -4.1f, 0.01953125f, 0.0f },
+			{ 0.5f, -2.3f,   0.234375f, 0.0f },
+			{ 0.5f, -0.5f,  0.4921875f, 0.0f },
+			{ 0.5f,  1.3f,   0.234375f, 0.0f },
+			{ 0.5f,  3.1f, 0.01953125f, 0.0f },
+		};
+		static_assert(NUMBEROF(kernel_vertical) == 5);
+		c_rasterizer::set_pixel_shader_constant(3, NUMBEROF(kernel_vertical), kernel_vertical);
+	}
 
 	c_screen_postprocess::copy(
 		c_rasterizer_globals::_shader_convolve_kernel_5,
