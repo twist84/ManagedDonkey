@@ -711,6 +711,11 @@ void input_handle_key_combos()
 	{
 		c_console::toggle_window_visibility();
 	}
+
+	if (input_key_frames_down(_key_code_alt, _input_type_ui) && input_key_frames_down(_key_code_f4, _input_type_ui) == 1)
+	{
+		exit('zekk');
+	}
 }
 
 void input_get_raw_data_string(char* buffer, short size)
