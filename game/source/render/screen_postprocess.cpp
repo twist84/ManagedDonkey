@@ -82,7 +82,45 @@ void __cdecl c_screen_postprocess::copy(
 
 	c_rasterizer_profile_scope _copy(_rasterizer_profile_element_total, L"copy");
 
-	HOOK_INVOKE_CLASS(, c_screen_postprocess, copy, decltype(&c_screen_postprocess::copy), explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, dest_texture_rect);
+	c_rasterizer::set_render_target(0, dest_surface, NONE);
+	if (c_rasterizer::set_explicit_shaders(explicit_shader_index, _vertex_type_screen, _transfer_vertex_none, _entry_point_default))
+	{
+		c_rasterizer::set_surface_as_texture(0, source_surface);
+		c_rasterizer::set_sampler_address_mode(0, address_mode, address_mode, address_mode);
+		c_rasterizer::set_sampler_filter_mode(0, filter_mode);
+	
+		long source_surface_width = c_rasterizer::get_surface_width(source_surface);
+		long source_surface_height = c_rasterizer::get_surface_height(source_surface);
+		long dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
+		long dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
+
+		{
+			real_vector4d constant_data[1]{};
+			constant_data[0].n[0] = 1.0f / source_surface_width;
+			constant_data[0].n[1] = 1.0f / source_surface_height;
+			constant_data[0].n[2] = 0.0f;
+			constant_data[0].n[3] = 0.0f;
+			c_rasterizer::set_pixel_shader_constant(1, NUMBEROF(constant_data), constant_data);
+		}
+	
+		{
+			real_vector4d constant_data[1]{};
+			constant_data[0].n[0] = scale_r;
+			constant_data[0].n[1] = scale_g;
+			constant_data[0].n[2] = scale_b;
+			constant_data[0].n[3] = scale_a;
+			c_rasterizer::set_pixel_shader_constant(2, NUMBEROF(constant_data), constant_data);
+		}
+	
+		if (dest_texture_rect)
+		{
+			c_rasterizer::draw_fullscreen_quad_with_texture_xform(dest_surface_width, dest_surface_height, dest_texture_rect);
+		}
+		else
+		{
+			c_rasterizer::draw_fullscreen_quad(dest_surface_width, dest_surface_height);
+		}
+	}
 }
 
 //.text:00A605B0 ; 
