@@ -116,7 +116,11 @@ bool shell_get_command_line_parameter(char* command_line, char const* parameter_
 	if (value)
 		*value = default_value;
 
-	if (char* parameter_offset = strstr(command_line, parameter_name))
+	char* parameter_offset = strstr(command_line, parameter_name);
+	if (!parameter_offset)
+		return false;
+
+	do
 	{
 		parameter_offset += strlen(parameter_name) + 1;
 		c_static_string<k_maximum_count> parameter = parameter_offset;
@@ -126,11 +130,10 @@ bool shell_get_command_line_parameter(char* command_line, char const* parameter_
 
 		if (value)
 			*value = parameter;
-
-		return true;
 	}
+	while (parameter_offset = strstr(parameter_offset, parameter_name));
 
-	return false;
+	return true;
 }
 
 void system_set_maps_directory()
