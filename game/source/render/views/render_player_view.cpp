@@ -1037,7 +1037,7 @@ void __thiscall c_player_view::render_weather_occlusion()
 
 void c_player_view::restore_to_display_surface()
 {
-	e_splitscreen_res current_splitscreen_res = c_rasterizer::g_current_splitscreen_res;
+	c_rasterizer::e_splitscreen_res current_splitscreen_res = c_rasterizer::g_current_splitscreen_res;
 	if (current_splitscreen_res)
 	{
 		INVOKE_CLASS_MEMBER(0x00A3B5E0, c_player_view, restore_to_display_surface);

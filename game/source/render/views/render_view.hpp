@@ -190,7 +190,7 @@ static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 
 enum e_controller_index;
 enum e_effect_pass;
-enum e_splitscreen_res;
+enum c_rasterizer::e_splitscreen_res;
 
 // 0165E130
 struct c_player_view :
@@ -265,7 +265,7 @@ public:
 		long player_window_arrangement;
 		long user_index;
 		e_controller_index controller_index;
-		e_splitscreen_res m_splitscreen_res_index;
+		c_rasterizer::e_splitscreen_res m_splitscreen_res_index;
 		long m_splitscreen_resolve_surface;
 	};
 	static_assert(sizeof(s_camera_user_data) == 0x1C);

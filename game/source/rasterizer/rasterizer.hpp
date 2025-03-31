@@ -64,9 +64,18 @@ struct s_rasterizer_render_globals
 };
 static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
 
-enum e_splitscreen_res;
 struct c_rasterizer
 {
+	enum e_splitscreen_res
+	{
+		_res_default = 0,
+		_res_half_width,
+		_res_half_size,
+		_res_8_x_3_half_height,
+
+		k_number_of_splitscreen_res_resolutions
+	};
+
 	enum e_separate_alpha_blend_mode
 	{
 		_separate_alpha_blend_off = 0,
@@ -120,7 +129,7 @@ struct c_rasterizer
 
 	enum e_cull_mode
 	{
-		_cull_mode_none = 0x1,
+		_cull_mode_off = 0x1,
 		_cull_mode_cw = 0x2,
 		_cull_mode_ccw = 0x3,
 		_cull_mode_force_dword = 0x7FFFFFFF,

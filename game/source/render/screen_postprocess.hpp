@@ -2,8 +2,6 @@
 
 #include "rasterizer/rasterizer.hpp"
 
-enum e_splitscreen_res;
-
 struct c_camera_fx_values;
 struct c_camera_fx_settings;
 struct render_projection;
@@ -82,7 +80,7 @@ struct c_screen_postprocess
 		render_projection const* projection,
 		render_camera const* camera,
 		s_screen_effect_settings& screen_effect_settings,
-		e_splitscreen_res splitscreen_res,
+		c_rasterizer::e_splitscreen_res splitscreen_res,
 		s_observer_depth_of_field const* observer_dof,
 		long user_index);
 
