@@ -241,35 +241,39 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 	set_cull_mode(_cull_mode_cw);
 }
 
-//.text:00A461B0
+void __cdecl c_rasterizer::draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords)
+{
+	INVOKE(0x00A461B0, c_rasterizer::draw_screen_quad_with_texture_transform, target_width, target_height, dest_texcoords, source_texcoords);
+}
+
 //.text:00A46300
 
-void __cdecl c_rasterizer::draw_textured_screen_quad(real a1, real a2, real a3, real a4)
+void __cdecl c_rasterizer::draw_textured_screen_quad(real x0, real y0, real x1, real y1)
 {
-	//DECLFUNC(0x00A46520, void, __cdecl, real, real, real, real)(a1, a2, a3, a4);
+	//DECLFUNC(0x00A46520, void, __cdecl, real, real, real, real)(x0, y0, x1, y1);
 
 	rasterizer_vertex_screen triangle_fan[4]{};
 
-	triangle_fan[0].position.x = a1;
-	triangle_fan[0].position.y = a2;
+	triangle_fan[0].position.x = x0;
+	triangle_fan[0].position.y = y0;
 	triangle_fan[0].texcoord.i = 0.0f;
 	triangle_fan[0].texcoord.j = 1.0f;
 	triangle_fan[0].color = 0xFFFFFFFF;
 
-	triangle_fan[1].position.x = a3;
-	triangle_fan[1].position.y = a2;
+	triangle_fan[1].position.x = y1;
+	triangle_fan[1].position.y = y0;
 	triangle_fan[1].texcoord.i = 1.0f;
 	triangle_fan[1].texcoord.j = 1.0f;
 	triangle_fan[1].color = 0xFFFFFFFF;
 
-	triangle_fan[2].position.x = a1;
-	triangle_fan[2].position.y = a4;
+	triangle_fan[2].position.x = x0;
+	triangle_fan[2].position.y = y1;
 	triangle_fan[2].texcoord.i = 0.0f;
 	triangle_fan[2].texcoord.j = 0.0f;
 	triangle_fan[2].color = 0xFFFFFFFF;
 
-	triangle_fan[3].position.x = a3;
-	triangle_fan[3].position.y = a4;
+	triangle_fan[3].position.x = x1;
+	triangle_fan[3].position.y = y1;
 	triangle_fan[3].texcoord.i = 1.0f;
 	triangle_fan[3].texcoord.j = 0.0f;
 	triangle_fan[3].color = 0xFFFFFFFF;
@@ -280,9 +284,9 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(real a1, real a2, real a3, 
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_textured_screen_quad(rasterizer_vertex_screen const* textured_screen_quad, bool a2)
+void __cdecl c_rasterizer::draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip)
 {
-	DECLFUNC(0x00A465F0, void, __cdecl, rasterizer_vertex_screen const*, bool)(textured_screen_quad, a2);
+	DECLFUNC(0x00A465F0, void, __cdecl, rasterizer_vertex_screen const*, bool)(vertices, strip);
 }
 
 void __cdecl c_rasterizer::draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, long primitive_count)
