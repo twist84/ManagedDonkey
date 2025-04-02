@@ -92,7 +92,7 @@ void __cdecl user_interface_enter_game_shell()
 {
 	INVOKE(0x00A84330, user_interface_enter_game_shell);
 
-	//g_user_interface_globals.milliseconds_at_last_event = g_user_interface_globals.milliseconds.peek();
+	//g_user_interface_globals.m_last_event_handled_milliseconds = g_user_interface_globals.milliseconds.peek();
 }
 
 //.text:00A84350 ; bool __cdecl user_interface_get_bad_download_flag()
@@ -124,7 +124,14 @@ void __cdecl user_interface_initialize_for_new_map()
 }
 
 //.text:00A84710 ; void __cdecl user_interface_initialize_global_datasources()
-//.text:00A84840 ; bool __cdecl user_interface_is_active()
+
+bool __cdecl user_interface_is_active()
+{
+	return INVOKE(0x00A84840, user_interface_is_active);
+
+	//return window_manager_get()->any_ui_active();
+}
+
 //.text:00A84850 ; bool __cdecl user_interface_is_shutting_down()
 //.text:00A84860 ; 
 //.text:00A848B0 ; bool __cdecl user_interface_main_menu_music_done_fading_out()
@@ -218,12 +225,12 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 		g_ui_time_step = 0.0f;
 	
 		g_user_interface_globals.shell_seconds_elapsed = ui_time;
-		g_user_interface_globals.milliseconds.add(long(ui_time * 1000));
-		long milliseconds = g_user_interface_globals.milliseconds.peek();
+		g_user_interface_globals.m_current_milliseconds.add(long(ui_time * 1000));
+		long milliseconds = g_user_interface_globals.m_current_milliseconds.peek();
 	
 		long output_user_active_count = player_mapping_output_user_active_count();
-		bool v3 = g_user_interface_globals.active_output_user_count == output_user_active_count;
-		g_user_interface_globals.active_output_user_count = output_user_active_count;
+		bool v3 = g_user_interface_globals.m_active_output_user_count == output_user_active_count;
+		g_user_interface_globals.m_active_output_user_count = output_user_active_count;
 		bool update_toast_position = !v3;
 
 		damaged_media_update();
@@ -251,10 +258,10 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 			if (attract_mode_should_start())
 				attract_mode_start();
 	
-			g_user_interface_globals.main_menu_music.update();
+			g_user_interface_globals.m_music_manager.update();
 	
 			if (game_is_ui_shell()/* && user_interface_should_render_fancy()*/)
-				g_user_interface_globals.main_menu_music.__unknown18 = milliseconds;
+				g_user_interface_globals.m_music_manager.__unknown18 = milliseconds;
 	
 			if (game_is_ui_shell())
 			{
@@ -275,8 +282,8 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 			//sub_635120(shell_seconds_elapsed); // saber function
 		}
 	
-		if (g_user_interface_globals.__unknown2248 != NONE &&
-			system_milliseconds() > dword(g_user_interface_globals.__unknown2248 + 2000))
+		if (g_user_interface_globals.m_user_interface_shutdown_start_time != NONE &&
+			system_milliseconds() > dword(g_user_interface_globals.m_user_interface_shutdown_start_time + 2000))
 		{
 			data_mine_flush();
 			exit(0); // relaunch
