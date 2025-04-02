@@ -52,7 +52,7 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 {
 	//INVOKE(0x00A60060, c_screen_postprocess::apply_binary_op_ex, explicit_shader_index, source_surface_0, source_surface_1, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, source_texture_rect);
 
-	c_rasterizer::set_render_target(0, dest_surface, NONE);
+	c_rasterizer::set_render_target(0, dest_surface, 0xFFFFFFFF);
 	if (c_rasterizer::set_explicit_shaders(explicit_shader_index, _vertex_type_screen, _transfer_vertex_none, _entry_point_default))
 	{
 		c_rasterizer::set_surface_as_texture(0, source_surface_0);
@@ -62,7 +62,7 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 		c_rasterizer::set_surface_as_texture(1, source_surface_1);
 		c_rasterizer::set_sampler_address_mode(1, address_mode, address_mode, address_mode);
 		c_rasterizer::set_sampler_filter_mode(1, filter_mode);
-		c_rasterizer::set_sampler_texture(2, (c_rasterizer_texture_ref)NONE);
+		c_rasterizer::set_sampler_texture(2, c_rasterizer_texture_ref());
 
 		long source_surface_0_width = c_rasterizer::get_surface_width(source_surface_0);
 		long source_surface_0_height = c_rasterizer::get_surface_height(source_surface_0);
@@ -84,8 +84,8 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 		long dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
 		long dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
 		c_rasterizer::draw_fullscreen_quad(dest_surface_width, dest_surface_height);
-		c_rasterizer::set_sampler_texture(0, (c_rasterizer_texture_ref)NONE);
-		c_rasterizer::set_sampler_texture(1, (c_rasterizer_texture_ref)NONE);
+		c_rasterizer::set_sampler_texture(0, c_rasterizer_texture_ref());
+		c_rasterizer::set_sampler_texture(1, c_rasterizer_texture_ref());
 	}
 }
 
@@ -109,7 +109,7 @@ void __cdecl c_screen_postprocess::blit(
 	c_rasterizer::set_surface_as_texture(0, source_surface);
 	c_rasterizer::set_sampler_address_mode(0, address_mode, address_mode, address_mode);
 	c_rasterizer::set_sampler_filter_mode(0, filter_mode);
-	c_rasterizer::set_render_target(0, dest_surface, NONE);
+	c_rasterizer::set_render_target(0, dest_surface, 0xFFFFFFFF);
 
 	long source_surface_width = c_rasterizer::get_surface_width(source_surface);
 	long source_surface_height = c_rasterizer::get_surface_height(source_surface);
@@ -135,7 +135,7 @@ void __cdecl c_screen_postprocess::blit(
 		dest_surface_height,
 		dest_texture_rect,
 		source_texture_rect);
-	c_rasterizer::set_sampler_texture(0, (c_rasterizer_texture_ref)NONE);
+	c_rasterizer::set_sampler_texture(0, c_rasterizer_texture_ref());
 }
 
 c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
@@ -160,7 +160,7 @@ void __cdecl c_screen_postprocess::copy(
 
 	c_rasterizer_profile_scope _copy(_rasterizer_profile_element_total, L"copy");
 
-	c_rasterizer::set_render_target(0, dest_surface, NONE);
+	c_rasterizer::set_render_target(0, dest_surface, 0xFFFFFFFF);
 	if (c_rasterizer::set_explicit_shaders(explicit_shader_index, _vertex_type_screen, _transfer_vertex_none, _entry_point_default))
 	{
 		c_rasterizer::set_surface_as_texture(0, source_surface);
@@ -427,13 +427,13 @@ void __cdecl c_screen_postprocess::setup_rasterizer_for_postprocess(bool clear_t
 
 	c_rasterizer_profile_scope _setup_postprocess(_rasterizer_profile_element_total, L"setup_postprocess");
 
-	c_rasterizer::clear_sampler_textures(NONE);
+	c_rasterizer::clear_sampler_textures(0xFFFFFFFF);
 	if (clear_targets)
 	{
 		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
-		c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, NONE);
-		c_rasterizer::set_render_target(2, c_rasterizer::_surface_none, NONE);
-		c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, NONE);
+		c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(2, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
 	}
 	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_opaque);
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);

@@ -2,11 +2,29 @@
 
 #include "cseries/cseries.hpp"
 
+#define INVALID_TEXTURE_REF_HANDLE -1
+
 struct bitmap_data;
 __interface IDirect3DTexture9;
 struct c_rasterizer_texture_ref
 {
 public:
+	c_rasterizer_texture_ref() :
+		m_datum_ref(INVALID_TEXTURE_REF_HANDLE)
+	{
+	}
+
+	c_rasterizer_texture_ref(c_rasterizer_texture_ref const& ref) :
+		m_datum_ref(ref.m_datum_ref)
+	{
+	}
+
+	c_rasterizer_texture_ref(long datum_ref) :
+		m_datum_ref(datum_ref)
+	{
+		ASSERT(m_datum_ref == INVALID_TEXTURE_REF_HANDLE);
+	}
+
 	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, dword format, long a6, bool a7, long a8, long a9);
 	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory);
 	static void __cdecl dispose();
@@ -20,7 +38,7 @@ public:
 	bool __cdecl valid();
 
 //protected:
-	dword m_datum_ref;
+	long m_datum_ref;
 };
 static_assert(sizeof(c_rasterizer_texture_ref) == 0x4);
 
