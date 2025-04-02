@@ -29,6 +29,7 @@
 #include "main/main_game.hpp"
 #include "main/main_predict.hpp"
 #include "main/main_render.hpp"
+#include "main/main_screenshot.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronization.hpp"
@@ -66,9 +67,6 @@ REFERENCE_DECLARE(0x022B4738, _main_globals, main_globals);
 
 //REFERENCE_DECLARE(0x022B47F0, bool, x_recursion_lock);
 //REFERENCE_DECLARE(0x022B47F1, bool, x_fatal_recursion_lock);
-
-REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
-REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 
 //HOOK_DECLARE(0x00504D20, _internal_halt_render_thread_and_lock_resources);
 HOOK_DECLARE(0x00504F80, audio_thread_loop);
@@ -464,7 +462,7 @@ bool __cdecl main_events_pending()
 		|| cache_file_tag_resources_prefetch_update_required()
 		|| texture_cache_is_blocking()
 		|| geometry_cache_is_blocking()
-		|| byte_244DF08 /* sub_6103F0 */)
+		|| screenshot_globals.take_screenshot2 /* is_taking_screenshot */)
 	{
 		result = true;
 	}
@@ -831,7 +829,8 @@ void __cdecl main_loop()
 				main_loop_body_single_threaded();
 			}
 
-			g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
+			bool take_screenshot = screenshot_globals.take_screenshot2 /* is_taking_screenshot */ || screenshot_globals.take_screenshot /* screenshot_sub_610530 */;
+			g_single_thread_request_flags.set_bit(3, take_screenshot);
 			if (game_is_multithreaded())
 			{
 				if ((g_single_thread_request_flags.peek() == 0) != requested_single_thread)

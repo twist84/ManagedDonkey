@@ -559,7 +559,7 @@ void __thiscall c_player_view::render_4th_pass()
 {
 	game_engine_render_debug(m_camera_user_data.user_index);
 
-	if (!sub_610260())
+	if (!screenshot_sub_610260())
 		render_debug_window_render(m_camera_user_data.user_index);
 
 	c_rasterizer::end();
