@@ -768,21 +768,21 @@ void __cdecl main_load_core_private()
 	}
 }
 
-void __cdecl main_loop_initialize_restricted_regions()
-{
-	if (game_is_multithreaded())
-	{
-		restricted_region_unlock_primary(k_global_render_data_region);
-		restricted_region_unlock_primary(k_game_state_render_region);
-	}
-}
-
 void __cdecl main_loop_dispose_restricted_regions()
 {
 	if (game_is_multithreaded())
 	{
 		restricted_region_lock_primary(k_game_state_render_region);
 		restricted_region_lock_primary(k_global_render_data_region);
+	}
+}
+
+void __cdecl main_loop_initialize_restricted_regions()
+{
+	if (game_is_multithreaded())
+	{
+		restricted_region_unlock_primary(k_global_render_data_region);
+		restricted_region_unlock_primary(k_game_state_render_region);
 	}
 }
 
