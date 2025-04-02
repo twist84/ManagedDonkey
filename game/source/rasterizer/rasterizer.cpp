@@ -1459,14 +1459,14 @@ void __cdecl c_rasterizer::setup_occlusion_state()
 
 	//if (g_device)
 	//{
-	//	set_z_buffer_mode(_z_buffer_mode_read);
-	//	set_depth_stencil_surface(_surface_depth_stencil);
-	//	set_render_target(0, _surface_albedo, 0xFFFFFFFF);
-	//	set_render_target(1, _surface_normal, 0xFFFFFFFF);
-	//	set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//	set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//	restore_last_viewport();
-	//	restore_last_scissor_rect();
+	//	c_rasterizer::set_z_buffer_mode(_z_buffer_mode_read);
+	//	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+	//	c_rasterizer::set_render_target(0, _surface_albedo, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(1, _surface_normal, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//	c_rasterizer::restore_last_viewport();
+	//	c_rasterizer::restore_last_scissor_rect();
 	//}
 }
 
@@ -1528,14 +1528,14 @@ void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, b
 {
 	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
 
-	//set_depth_stencil_surface(_surface_depth_stencil);
-	//set_render_target(0, _surface_distortion, 0xFFFFFFFF);
-	//set_render_target(1, _surface_none, 0xFFFFFFFF);
-	//set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//clearf(1, 0x808000, 0.0f, 0);
-	//set_viewport(pixel_bounds, 0.0f, 1.0f);
-	//set_scissor_rect(pixel_bounds);
+	//c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+	//c_rasterizer::set_render_target(0, _surface_distortion, 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//c_rasterizer::clearf(1, 0x808000, 0.0f, 0);
+	//c_rasterizer::set_viewport(*pixel_bounds, 0.0f, 1.0f);
+	//c_rasterizer::set_scissor_rect(pixel_bounds);
 }
 
 void __cdecl c_rasterizer::setup_targets_simple()
@@ -1544,11 +1544,11 @@ void __cdecl c_rasterizer::setup_targets_simple()
 
 	//if (g_device)
 	//{
-	//	set_depth_stencil_surface(_surface_depth_stencil);
-	//	set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
-	//	set_render_target(1, _surface_none, 0xFFFFFFFF);
-	//	set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//	set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+	//	c_rasterizer::set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
 	//}
 }
 
