@@ -53,8 +53,7 @@ protected:
 	e_event_type m_event_type;
 	e_controller_component m_component;
 	long m_event_value;
-
-	long __unknown24;
+	long m_from_automation;
 };
 static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
@@ -107,10 +106,10 @@ public:
 protected:
 	e_screen_transition_type m_transition_type;
 	bool m_respond_to_controller_events;
-	long m_initial_focused_widget;
-	long m_initial_focused_widget_element_handle;
-	long m_initial_focused_widget_column_name;
-	long m_initial_focused_widget_column_value;
+	long m_focus_on_load_name;
+	long m_focus_on_load_element_handle;
+	long m_focus_on_load_column_name;
+	long m_focus_on_load_column_value;
 	long m_parent_screen_index;
 	long m_layered_position;
 	bool m_applies_even_to_codeless_screens;
