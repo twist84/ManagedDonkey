@@ -209,6 +209,20 @@ protected:
 };
 static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 
+enum e_gui_selected_item_type;
+struct c_load_pregame_selection_screen_message :
+	public c_load_screen_message
+{
+public:
+	c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, long layered_position, e_gui_selected_item_type selection_type);
+	virtual ~c_load_pregame_selection_screen_message();
+	virtual void apply_initial_state(c_gui_screen_widget*) const;
+
+protected:
+	e_gui_selected_item_type m_selection_type;
+};
+static_assert(sizeof(c_load_pregame_selection_screen_message) == sizeof(c_load_screen_message) + 0x4);
+
 struct c_message_globals
 {
 	struct s_message_queue_node

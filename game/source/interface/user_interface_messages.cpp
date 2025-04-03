@@ -4,6 +4,8 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
+#include "interface/c_gui_screen_widget.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/logic_session_tracker.hpp"
@@ -348,6 +350,22 @@ c_load_game_browser_screen_message::c_load_game_browser_screen_message(long scre
 
 c_load_game_browser_screen_message::~c_load_game_browser_screen_message()
 {
+}
+
+c_load_pregame_selection_screen_message::c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, long layered_position, e_gui_selected_item_type selection_type) :
+	c_load_screen_message(STRING_ID(gui, pregame_selection), controller, window, layered_position),
+	m_selection_type(selection_type)
+{
+}
+
+c_load_pregame_selection_screen_message::~c_load_pregame_selection_screen_message()
+{
+}
+
+void c_load_pregame_selection_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	if (!screen_widget->running_in_codeless_mode())
+		((c_gui_screen_pregame_selection*)screen_widget)->m_selection_type = m_selection_type;
 }
 
 c_message_globals::c_message_globals()
