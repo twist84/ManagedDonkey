@@ -50,6 +50,11 @@ void c_gui_screen_widget::add_game_tag_parser(c_game_tag_parser* parser)
 	}
 }
 
+bool c_gui_screen_widget::running_in_codeless_mode()
+{
+	return m_running_in_codeless_mode;
+}
+
 void c_gui_screen_widget::transfer_focus(c_gui_widget* widget)
 {
 	INVOKE_CLASS_MEMBER(0x00AB25F0, c_gui_screen_widget, transfer_focus, widget);
@@ -64,3 +69,4 @@ void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
 {
 	m_datasource[m_datasource_count++] = datasource;
 }
+
