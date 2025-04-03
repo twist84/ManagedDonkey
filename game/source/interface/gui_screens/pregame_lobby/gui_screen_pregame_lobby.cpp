@@ -13,12 +13,9 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 {
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
-		e_controller_index controller_index = message->get_controller();
-
 		// `c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen`
 		// `c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen`
-		// if (gui_data->get_string_id_value(list_item->get_element_handle(), STRING_ID(global, name), name) && name == STRING_ID(gui, advanced_options))
-		DECLFUNC(0x00B225B0, void, __thiscall, void*, e_controller_index)(this, controller_index);
+		load_game_variant_editing_screen(message->get_controller());
 	}
 
 	bool result = false;
@@ -44,5 +41,10 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_lobby_film_party_leader_requirement));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_lobby_coop_max_players));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
+}
+
+void c_gui_screen_pregame_lobby::load_game_variant_editing_screen(e_controller_index controller_index)
+{
+	INVOKE_CLASS_MEMBER(0x00B225B0, c_gui_screen_pregame_lobby, load_game_variant_editing_screen, controller_index);
 }
 

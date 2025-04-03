@@ -16,6 +16,9 @@ public:
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	void __thiscall initialize_();
 
+	bool handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	void load_game_variant_editing_screen(e_controller_index controller_index);
+
 protected:
 	long m_last_countdown_value;
 	bool m_is_fading;
