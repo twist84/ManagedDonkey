@@ -43,6 +43,11 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
 }
 
+bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+{
+	return INVOKE_CLASS_MEMBER(0x00B21EA0, c_gui_screen_pregame_lobby, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
+}
+
 void c_gui_screen_pregame_lobby::load_game_variant_editing_screen(e_controller_index controller_index)
 {
 	INVOKE_CLASS_MEMBER(0x00B225B0, c_gui_screen_pregame_lobby, load_game_variant_editing_screen, controller_index);
