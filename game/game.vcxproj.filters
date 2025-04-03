@@ -1812,6 +1812,10 @@
     <ClCompile Include="common\havok\hkWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -4127,6 +4131,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\havok\hkWorld.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.hpp">

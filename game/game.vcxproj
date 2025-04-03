@@ -271,6 +271,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\gui_pregame_setup_manager.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp" />
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.cpp" />
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_colors\start_menu_settings_appearance_colors.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\start_menu_pane_screen_widget.cpp" />
@@ -949,6 +951,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.hpp" />
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.hpp" />
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings_appearance_colors\start_menu_settings_appearance_colors.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.hpp" />
