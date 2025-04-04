@@ -114,9 +114,9 @@ bool c_gui_widget::transitioning_out()
 	return __vftable->transitioning_out(this);
 }
 
-void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
-	__vftable->assemble_render_data(this, render_data, window_bounds, controller_index, projected_bounds, offset, scale_about_local_point, rotate_about_local_point);
+	__vftable->assemble_render_data(this, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 }
 
 bool c_gui_widget::handle_tab(c_controller_input_message const* message)

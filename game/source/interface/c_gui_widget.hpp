@@ -171,7 +171,7 @@ protected:
 			void(__thiscall* set_animated_state_baseline)(c_gui_widget*, s_animation_transform*);
 			bool(__thiscall* transitioning_in)(c_gui_widget*);
 			bool(__thiscall* transitioning_out)(c_gui_widget*);
-			void(__thiscall* assemble_render_data)(c_gui_widget*, s_gui_widget_render_data*, rectangle2d const*, e_controller_index, long, bool, bool, bool);
+			void(__thiscall* assemble_render_data)(c_gui_widget*, s_gui_widget_render_data*, rectangle2d const*, e_controller_index, bool, bool, bool);
 			bool(__thiscall* handle_widget_back_out)(c_gui_widget*);
 			bool(__thiscall* handle_widget_selected)(c_gui_widget*);
 			bool(__thiscall* handle_tab)(c_gui_widget*, c_controller_input_message const*);
@@ -215,7 +215,7 @@ public:
 	void set_animated_state_baseline(s_animation_transform* transform);
 	bool transitioning_in();
 	bool transitioning_out();
-	void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
+	void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 	bool handle_widget_back_out();
 	bool handle_widget_selected();
 	bool handle_tab(c_controller_input_message const* message);
