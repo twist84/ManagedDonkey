@@ -240,6 +240,7 @@ extern void __cdecl user_interface_non_idle_event_occured();
 extern void __cdecl user_interface_render(e_controller_index controller, long user_index, long window, rectangle2d const* viewport_bounds, long rasterizer_render_surface, bool is_screenshot);
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();
+extern void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index controller_index);
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
 extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();

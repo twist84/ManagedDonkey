@@ -188,7 +188,12 @@ void __cdecl user_interface_scoreboard_update()
 }
 
 //.text:00A84C50 ; void __cdecl user_interface_set_bad_download_flag(bool)
-//.text:00A84C70 ; void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index)
+
+void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index controller_index)
+{
+	INVOKE(0x00A84C70, user_interface_set_reload_from_persistent_storage, controller_index);
+}
+
 //.text:00A84C90 ; void __cdecl user_interface_set_selected_campaign_difficulty(long)
 //.text:00A84CC0 ; void __cdecl user_interface_set_selected_campaign_id(e_campaign_id)
 //.text:00A84CE0 ; void __cdecl user_interface_set_selected_campaign_map_id(e_map_id)
