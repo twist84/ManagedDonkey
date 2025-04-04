@@ -175,8 +175,8 @@ protected:
 			bool(__thiscall* handle_widget_back_out)(c_gui_widget*);
 			bool(__thiscall* handle_widget_selected)(c_gui_widget*);
 			bool(__thiscall* handle_tab)(c_gui_widget*, c_controller_input_message const*);
+			bool(__thiscall* handle_alt_stick)(c_gui_widget*, c_controller_input_message const*);
 			bool(__thiscall* handle_alt_tab)(c_gui_widget*, c_controller_input_message const*);
-			void* __func34;
 			bool(__thiscall* handle_controller_input_message)(c_gui_widget*, c_controller_input_message const*);
 			bool(__thiscall* get_string_by_string_id)(c_gui_widget*, long, c_static_wchar_string<1024>*);
 		};
@@ -219,6 +219,7 @@ public:
 	bool handle_widget_back_out();
 	bool handle_widget_selected();
 	bool handle_tab(c_controller_input_message const* message);
+	bool handle_alt_stick(c_controller_input_message const* message);
 	bool handle_alt_tab(c_controller_input_message const* message);
 	bool handle_controller_input_message(c_controller_input_message const* message);
 	bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);

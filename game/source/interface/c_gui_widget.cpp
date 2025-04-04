@@ -124,6 +124,11 @@ bool c_gui_widget::handle_tab(c_controller_input_message const* message)
 	return __vftable->handle_tab(this, message);
 }
 
+bool c_gui_widget::handle_alt_stick(c_controller_input_message const* message)
+{
+	return __vftable->handle_alt_stick(this, message);
+}
+
 bool c_gui_widget::handle_controller_input_message(c_controller_input_message const* message)
 {
 	return __vftable->handle_controller_input_message(this, message);
