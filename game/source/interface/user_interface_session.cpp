@@ -183,9 +183,19 @@ long __cdecl user_interface_squad_get_machine_count()
 //.text:00A82DC0 ; long __cdecl user_interface_squad_get_open_player_slot_count()
 //.text:00A82E00 ; long __cdecl user_interface_squad_get_percent_loaded()
 //.text:00A82E10 ; bool __cdecl user_interface_squad_get_player_at_local_controller(e_controller_index, s_user_interface_session_player_index*)
-//.text:00A82E90 ; long __cdecl user_interface_squad_get_player_count()
+
+long __cdecl user_interface_squad_get_player_count()
+{
+	return INVOKE(0x00A82E90, user_interface_squad_get_player_count);
+}
+
 //.text:00A82EC0 ; s_player_configuration const* __cdecl user_interface_squad_get_player_data(long)
-//.text:00A82F20 ; s_player_identifier const* __cdecl user_interface_session_get_player_identifier(long)
+
+s_player_identifier const* __cdecl user_interface_session_get_player_identifier(long session_player_index)
+{
+	return INVOKE(0x00A82F20, user_interface_session_get_player_identifier, session_player_index);
+}
+
 //.text:00A82F90 ; long __cdecl user_interface_squad_get_player_index(s_player_identifier const*)
 //.text:00A82FD0 ; long __cdecl user_interface_squad_get_player_index_from_xuid(qword)
 //.text:00A83020 ; long __cdecl user_interface_squad_get_player_join_sequence_number(long player_index)
@@ -251,7 +261,12 @@ bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant con
 //.text:00A83CC0 ; bool __cdecl user_interface_squad_set_simulation_protocol(e_network_game_simulation_protocol simulation_protocol)
 //.text:00A83CD0 ; char __cdecl user_interface_squad_set_start_mode(e_network_game_start_mode start_mode)
 //.text:00A83CE0 ; bool __cdecl user_interface_squad_set_ui_game_mode(e_gui_game_mode ui_game_mode)
-//.text:00A83CF0 ; bool __cdecl user_interface_squad_start_countdown_timer(e_controller_index controller_index, long countdown_timer, long accelerate_countdown_timer)
+
+bool __cdecl user_interface_squad_start_countdown_timer(e_controller_index controller_index, long countdown_timer, long accelerate_countdown_timer)
+{
+	return INVOKE(0x00A83CF0, user_interface_squad_start_countdown_timer, controller_index, countdown_timer, accelerate_countdown_timer);
+}
+
 //.text:00A83D70 ; bool __cdecl user_interface_squad_stop_countdown_timer(e_controller_index controller_index, long countdown_timer, bool halo2)
 //.text:00A83DE0 ; bool __cdecl user_interface_target_squad_exists()
 
