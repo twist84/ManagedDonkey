@@ -15,6 +15,7 @@ struct c_gui_screen_pregame_lobby :
 {
 public:
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
+	bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();
 
 	bool handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
