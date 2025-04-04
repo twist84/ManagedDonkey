@@ -164,7 +164,10 @@ long __cdecl user_interface_networking_get_name_from_gui_game_mode(e_gui_game_mo
 	//return _string_id_invalid; // ?
 }
 
-//.text:00A7F110
+e_controller_index __cdecl user_interface_networking_get_saved_game_controller()
+{
+	return INVOKE(0x00A7F110, user_interface_networking_get_saved_game_controller);
+}
 
 e_gui_network_session_advertisement_mode __cdecl user_interface_networking_get_session_advertisement()
 {

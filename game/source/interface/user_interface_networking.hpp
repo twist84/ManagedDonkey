@@ -43,15 +43,19 @@ static_assert(sizeof(s_user_interface_networking_globals) == 0x88);
 
 extern s_user_interface_networking_globals& user_interface_networking_globals;
 
-enum e_gui_game_mode;
-struct c_game_results;
-enum e_gui_network_session_advertisement_mode;
+enum e_controller_index;
 enum e_desired_multiplayer_mode;
+enum e_gui_game_mode;
+enum e_gui_network_session_advertisement_mode;
+struct c_game_results;
 
 extern void __cdecl sub_69D600();
 extern bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, long session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key);
 extern bool __cdecl user_interface_networking_enter_pregame_location(e_gui_game_mode game_mode);
 extern c_game_results const* __cdecl user_interface_networking_get_final_game_results();
+extern long __cdecl user_interface_networking_get_maximum_party_size();
+extern long __cdecl user_interface_networking_get_name_from_gui_game_mode(e_gui_game_mode gui_game_mode);
+extern e_controller_index __cdecl user_interface_networking_get_saved_game_controller();
 extern e_gui_network_session_advertisement_mode __cdecl user_interface_networking_get_session_advertisement();
 extern void __cdecl user_interface_networking_set_start_game_when_ready(bool a1, long controller_index);
 extern void __cdecl user_interface_networking_set_ui_upload_quota(long ui_upload_quota);
