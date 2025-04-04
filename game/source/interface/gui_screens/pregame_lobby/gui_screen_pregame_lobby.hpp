@@ -9,6 +9,16 @@ struct c_gui_screen_pregame_lobby :
 	public c_gui_screen_widget
 {
 public:
+	//virtual bool team_switching_allowed();
+	//virtual bool postgame_stats_enabled();
+	//virtual long get_lobby_header() = 0;
+	//virtual long get_lobby_title() = 0;
+	//virtual long get_start_button_name() = 0;
+	//virtual e_gui_game_mode get_gui_game_mode() = 0;
+	//virtual void start_fade_during_countdown();
+	//virtual void stop_fade_during_countdown();
+
+public:
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();
