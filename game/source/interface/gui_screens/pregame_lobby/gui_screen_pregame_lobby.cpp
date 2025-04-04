@@ -53,3 +53,8 @@ void c_gui_screen_pregame_lobby::load_game_variant_editing_screen(e_controller_i
 	INVOKE_CLASS_MEMBER(0x00B225B0, c_gui_screen_pregame_lobby, load_game_variant_editing_screen, controller_index);
 }
 
+bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index controller_index, s_player_identifier const* target_player_identifier)
+{
+	return INVOKE_CLASS_MEMBER(0x00B22B80, c_gui_screen_pregame_lobby, select_player_in_roster, controller_index, target_player_identifier);
+}
+
