@@ -195,7 +195,7 @@ public:
 	long get_element_handle();
 	long get_datasource_index();
 	bool get_enabled();
-	void set_enabled(bool a1);
+	void set_enabled(bool value);
 	s_runtime_core_widget_definition* get_core_definition();
 	real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
 	real_rectangle2d* get_container_current_bounds(real_rectangle2d* unanimated_bounds);
@@ -222,6 +222,7 @@ public:
 	bool handle_alt_tab(c_controller_input_message const* message);
 	bool handle_controller_input_message(c_controller_input_message const* message);
 	bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);
+
 	c_gui_bitmap_widget* get_next_bitmap_widget();
 	c_gui_list_item_widget* get_next_list_item_widget(bool only_consider_valid_items);
 	c_gui_list_widget* get_next_list_widget();

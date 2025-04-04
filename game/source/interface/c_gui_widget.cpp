@@ -476,9 +476,9 @@ void c_gui_widget::set_animated_state_baseline(s_animation_transform* transform)
 //.text:00ABA280 ; public: void __cdecl c_gui_widget::set_driving_controller(e_controller_index)
 
 //.text:00ABA2D0 ; public: virtual void __cdecl c_gui_widget::set_enabled(bool)
-void c_gui_widget::set_enabled(bool a1)
+void c_gui_widget::set_enabled(bool value)
 {
-	return __vftable->set_enabled(this, a1);
+	return __vftable->set_enabled(this, value);
 }
 
 //.text:00ABA340 ; public: void __cdecl c_gui_widget::set_full_animation_state(const*, bool)
