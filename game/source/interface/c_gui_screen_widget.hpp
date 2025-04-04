@@ -98,19 +98,22 @@ struct c_game_tag_parser;
 struct c_gui_screen_widget :
 	public c_gui_widget
 {
-public:
-	c_gui_data* get_data(long name, long* datasource_index);
-	c_gui_widget* get_focused_widget();
-	e_window_index get_render_window();
-
-	void add_game_tag_parser(c_game_tag_parser* parser);
-	bool running_in_codeless_mode();
-	void transfer_focus(c_gui_widget* widget);
-	void transfer_focus_to_list(c_gui_list_widget* list_widget, long item_index, bool a3, bool a4);
-
 protected:
 	void add_datasource(c_gui_data* datasource);
 
+public:
+	void add_game_tag_parser(c_game_tag_parser* parser);
+	c_gui_data* get_data(long name, long* datasource_index);
+	c_gui_widget* get_focused_widget();
+	e_gui_game_mode get_gui_game_mode();
+	e_window_index get_render_window();
+	bool handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	void play_sound(e_user_interface_sound_effect sound_effect);
+	bool running_in_codeless_mode();
+	void transfer_focus(c_gui_widget* widget);
+	void transfer_focus_to_list(c_gui_list_widget* list_widget, long element_handle, bool play_received_animation, bool play_lost_animation);
+
+public:
 	enum
 	{
 		k_maximum_number_of_game_tag_parsers = 20,
