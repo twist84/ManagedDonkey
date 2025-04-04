@@ -98,6 +98,26 @@ struct c_game_tag_parser;
 struct c_gui_screen_widget :
 	public c_gui_widget
 {
+public:
+	// get_render_data_size
+	// get_gui_location
+	// reconstruct
+	// initialize_datasource
+	// reload_assets
+	// reload_next_frame
+	// predict_immediate_resources? this could be bogus
+	// predict_pending_resources? this could be bogus
+	// can_receive_focus
+	// update_render
+	// process_message
+	// handle_focused_widget_selected
+	// handle_list_item_chosen
+	// handle_dialog_result
+	// submenu_invoked
+	// transition_out_with_transition_type
+	// __funcs53, function between `initialize_datasource` and `load_display_group` this means the name starts with i, j, k, or l
+	// try_and_get_render_data_emblem_info
+
 protected:
 	void add_datasource(c_gui_data* datasource);
 
