@@ -136,6 +136,43 @@ static_assert(sizeof(gui_real_rectangle2d) == 0x20);
 struct c_gui_widget
 {
 protected:
+	//virtual long get_ambient_state();
+	//virtual ~c_gui_widget();
+	//virtual void initialize();
+	//virtual void post_initialize();
+	//virtual void dispose();
+	//virtual long get_name();
+	//virtual long get_element_handle();
+	//virtual long get_datasource_index();
+	//virtual bool get_enabled();
+	//virtual void set_enabled(bool);
+	//virtual s_runtime_core_widget_definition* get_core_definition() = 0;
+	//virtual real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
+	//virtual real_rectangle2d* get_container_current_bounds(real_rectangle2d* unanimated_bounds);
+	//virtual bool should_render(bool* add_to_render_list);
+	//virtual real_argb_color* get_cumulative_color_tint(real_argb_color* tint);
+	//virtual bool can_receive_focus();
+	//virtual bool within_focus_chain();
+	//virtual c_gui_text_widget* create_text_widget(s_runtime_text_widget_definition const* definition);
+	//virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition);
+	//virtual c_gui_group_widget* create_group_widget(s_group_widget_definition const* definition);
+	//virtual c_gui_button_key_widget* create_button_key_widget(s_button_key_definition const* definition);
+	//virtual c_gui_list_widget* create_list_widget(s_list_widget_block const* definition);
+	//virtual c_gui_list_item_widget* create_list_item_widget(s_list_item_widget_block const* definition);
+	//virtual c_gui_model_widget* create_model_widget(s_model_widget_block const* definition);
+	//virtual void update(dword current_milliseconds);
+	//virtual void update_render_state(dword current_milliseconds);
+	//virtual void set_animated_state_baseline(s_animation_transform* transform);
+	//virtual bool transitioning_in();
+	//virtual bool transitioning_out();
+	//virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	//virtual bool handle_widget_back_out();
+	//virtual bool handle_widget_selected();
+	//virtual bool handle_tab(c_controller_input_message const* message);
+	//virtual bool handle_alt_stick(c_controller_input_message const* message);
+	//virtual bool handle_alt_tab(c_controller_input_message const* message);
+	//virtual bool handle_controller_input_message(c_controller_input_message const* message);
+	//virtual bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);
 
 	// HACK: so we don't have to manually construct the class
 	union
