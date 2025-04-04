@@ -22,7 +22,7 @@ public:
 	bool m_content_enumeration_active;
 	s_player_identifier m_last_active_players[4];
 	dword m_progress_dialog_start_time_milliseconds;
-	c_http_blf_simple_downloader<s_motd_popup_data, 4665> m_motd_popup_downloader;
+	c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665> m_motd_popup_downloader;
 	bool m_motd_popup_shown;
 	long m_url_key;
 };

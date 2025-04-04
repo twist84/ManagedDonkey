@@ -3,30 +3,30 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
-struct s_motd_popup_data
+struct s_message_of_the_day_popup
 {
 	static long const k_chunk_type = 'mtdp';
 	static long const k_version_major = 4;
 	//static long const k_version_minor = 0;
 
-	// c_player_profile_interface::popup_message_titles[title_index] = title_index_identifier;
-	long title_index_identifier;
-	dword button_key_wait_time;
+	// c_player_profile_interface::popup_message_titles[title_index] = message_index;
+	long message_index;
+	long prevent_dismissal_duration_milliseconds;
 
-	long title_size;
-	c_static_wchar_string<48> title;
+	long title_text_length;
+	wchar_t title_text[48];
 
-	long header_size;
-	c_static_wchar_string<48> header;
+	long header_text_length;
+	wchar_t header_text[48];
 
-	long button_key_size;
-	c_static_wchar_string<48> button_key;
+	long accept_text_length;
+	wchar_t accept_text[48];
 
-	long button_key_wait_size;
-	c_static_wchar_string<48> button_key_wait;
+	long wait_text_length;
+	wchar_t wait_text[48];
 
-	long message_size;
-	c_static_wchar_string<1024> message;
+	long message_text_length;
+	wchar_t message_text[1024];
 };
-static_assert(sizeof(s_motd_popup_data) == 0x99C);
+static_assert(sizeof(s_message_of_the_day_popup) == 0x99C);
 
