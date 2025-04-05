@@ -280,6 +280,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_mapeditor.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_matchmaking.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.cpp" />
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_survival.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_theater.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_switch_lobby.cpp" />
@@ -970,6 +971,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_mapeditor.hpp" />
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_matchmaking.hpp" />
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_multiplayer.hpp" />
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_survival.hpp" />
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_theater.hpp" />
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.hpp" />
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_switch_lobby.hpp" />

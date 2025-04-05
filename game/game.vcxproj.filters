@@ -1848,6 +1848,9 @@
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_skulls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_survival.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4197,6 +4200,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_skulls.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_survival.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
