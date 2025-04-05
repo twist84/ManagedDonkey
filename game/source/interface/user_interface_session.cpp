@@ -21,7 +21,12 @@ bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_sessio
 //.text:00A80720 ; bool __cdecl user_interface_available_squad_is_local_box(long available_squad_index)
 //.text:00A80770 ; bool __cdecl user_interface_create_new_squad(e_network_session_class squad_session_class)
 //.text:00A807F0 ; bool __cdecl user_interface_game_ending_writing_stats()
-//.text:00A80870 ; e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_difficulty()
+
+e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_difficulty()
+{
+	return INVOKE(0x00A80870, user_interface_game_settings_get_campaign_difficulty);
+}
+
 //.text:00A80880 ; short __cdecl user_interface_squad_get_campaign_insertion_point()
 //.text:00A80890 ; e_campaign_metagame_scoring __cdecl user_interface_squad_get_campaign_metagame_scoring()
 //.text:00A808B0 ; c_game_variant const* __cdecl user_interface_game_settings_get_game_variant()

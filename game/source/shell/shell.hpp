@@ -39,6 +39,19 @@ enum
 	k_round_index_bits = 5,
 };
 
+enum e_gui_campaign_difficulty_setup_mode
+{
+	_campaign_difficulty_setup_mode_start_new_campaign = 0,
+	_campaign_difficulty_setup_mode_replay_level,
+	_campaign_difficulty_setup_mode_lobby
+};
+
+enum e_gui_campaign_level_setup_mode
+{
+	_campaign_level_setup_mode_replay_level = 0,
+	_campaign_level_setup_mode_lobby
+};
+
 enum e_team_scoring_method
 {
 	_team_scoring_method_first = 0,

@@ -216,12 +216,44 @@ struct c_load_pregame_selection_screen_message :
 public:
 	c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, long layered_position, e_gui_selected_item_type selection_type);
 	virtual ~c_load_pregame_selection_screen_message();
-	virtual void apply_initial_state(c_gui_screen_widget*) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
 
 protected:
 	e_gui_selected_item_type m_selection_type;
 };
 static_assert(sizeof(c_load_pregame_selection_screen_message) == sizeof(c_load_screen_message) + 0x4);
+
+struct c_load_campaign_select_difficulty_screen_message :
+	public c_load_screen_message
+{
+public:
+	c_load_campaign_select_difficulty_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, long campaign_id, long map_id, e_campaign_difficulty_level difficulty);
+	virtual ~c_load_campaign_select_difficulty_screen_message();
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+
+protected:
+	e_gui_campaign_difficulty_setup_mode m_campaign_setup_mode;
+	long m_campaign_id;
+	long m_map_id;
+	e_campaign_difficulty_level m_difficulty;
+};
+static_assert(sizeof(c_load_campaign_select_difficulty_screen_message) == sizeof(c_load_screen_message) + 0x10);
+
+struct c_load_campaign_select_level_screen_message :
+	public c_load_screen_message
+{
+public:
+	c_load_campaign_select_level_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point);
+	virtual ~c_load_campaign_select_level_screen_message();
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+
+protected:
+	e_gui_campaign_level_setup_mode m_campaign_setup_mode;
+	long m_campaign_id;
+	long m_map_id;
+	short m_campaign_insertion_point;
+};
+static_assert(sizeof(c_load_campaign_select_level_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 struct c_message_globals
 {

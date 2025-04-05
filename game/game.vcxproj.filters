@@ -1818,6 +1818,33 @@
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\advanced_screen\gui_screen_matchmaking_advanced_options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_campaign.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_mapeditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_matchmaking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_theater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_switch_lobby.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_difficulty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4137,6 +4164,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_selection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\advanced_screen\gui_screen_matchmaking_advanced_options.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_campaign.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_mapeditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_matchmaking.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_theater.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_switch_lobby.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_difficulty.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

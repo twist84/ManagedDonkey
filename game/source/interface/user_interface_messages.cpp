@@ -5,6 +5,8 @@
 #include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
+#include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
@@ -368,6 +370,42 @@ void c_load_pregame_selection_screen_message::apply_initial_state(c_gui_screen_w
 		((c_gui_screen_pregame_selection*)screen_widget)->m_selection_type = m_selection_type;
 }
 
+c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, long campaign_id, long map_id, e_campaign_difficulty_level difficulty) :
+	c_load_screen_message(screen_name, controller, window, layered_position),
+	m_campaign_setup_mode(campaign_setup_mode),
+	m_campaign_id(campaign_id),
+	m_map_id(map_id),
+	m_difficulty(difficulty)
+{
+}
+
+c_load_campaign_select_difficulty_screen_message::~c_load_campaign_select_difficulty_screen_message()
+{
+}
+
+void c_load_campaign_select_difficulty_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	((c_gui_screen_campaign_select_difficulty*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_difficulty);
+}
+
+c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point) :
+	c_load_screen_message(screen_name, controller, window, layered_position),
+	m_campaign_setup_mode(campaign_setup_mode),
+	m_campaign_id(campaign_id),
+	m_map_id(map_id),
+	m_campaign_insertion_point(campaign_insertion_point)
+{
+}
+
+c_load_campaign_select_level_screen_message::~c_load_campaign_select_level_screen_message()
+{
+}
+
+void c_load_campaign_select_level_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	((c_gui_screen_campaign_select_level*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_campaign_insertion_point);
+}
+
 c_message_globals::c_message_globals()
 {
 	csmemset(m_queue, 0, sizeof(m_queue));
@@ -668,4 +706,3 @@ bool __cdecl user_interface_xbox_guide_is_active()
 
 	return g_message_globals.get_xbox_guide_is_active();
 }
-
