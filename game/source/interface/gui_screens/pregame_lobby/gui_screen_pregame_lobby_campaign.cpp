@@ -61,6 +61,39 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 			}
 			return true;
 		}
+		else if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &target_name)) // ODST
+		{
+			switch (target_name)
+			{
+			case STRING_ID(gui, select_scoring):
+			{
+				if (c_load_screen_message* screen_message = new c_load_screen_message(
+					STRING_ID(gui, select_scoring),
+					message->get_controller(),
+					get_render_window(),
+					m_name.get_value()))
+				{
+					screen_message->set_parent_screen_index(m_screen_index);
+					user_interface_messaging_post(screen_message);
+				}
+			}
+			break;
+			case STRING_ID(gui, select_skulls):
+			{
+				if (c_load_screen_message* screen_message = new c_load_screen_message(
+					STRING_ID(gui, campaign_select_skulls),
+					message->get_controller(),
+					get_render_window(),
+					m_name.get_value()))
+				{
+					screen_message->set_parent_screen_index(m_screen_index);
+					user_interface_messaging_post(screen_message);
+				}
+			}
+			break;
+			}
+			return true;
+		}
 	}
 
 	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
