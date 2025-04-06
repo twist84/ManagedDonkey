@@ -97,9 +97,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 		}
 		else if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &target_name))
 		{
-			switch (target_name)
-			{
-			case STRING_ID(gui, switch_lobby):
+			if (target_name == STRING_ID(gui, switch_lobby))
 			{
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, pregame_switch_lobby),
@@ -114,9 +112,9 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 						user_interface_networking_get_name_from_gui_game_mode(get_gui_game_mode()));
 					user_interface_messaging_post(screen_message);
 				}
+				return true;
 			}
-			break;
-			case STRING_ID(gui, start_game):
+			if (target_name == STRING_ID(gui, start_game))
 			{
 				if (user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4))
 				{
@@ -136,10 +134,8 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 				{
 					play_sound(_ui_global_sound_effect_failure);
 				}
+				return true;
 			}
-			break;
-			}
-			return true;
 		}
 	}
 	else if (list_name == STRING_ID(gui, roster))

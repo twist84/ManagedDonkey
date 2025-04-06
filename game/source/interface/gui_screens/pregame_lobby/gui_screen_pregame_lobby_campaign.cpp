@@ -18,9 +18,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 		long element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, target), &target_name))
 		{
-			switch (target_name)
-			{
-			case STRING_ID(global, level):
+			if (target_name == STRING_ID(global, level))
 			{
 				long campaign_id = 1;
 				long map_id = 3005;
@@ -39,9 +37,9 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
 				}
+				return true;
 			}
-			break;
-			case STRING_ID(global, difficulty):
+			if (target_name == STRING_ID(global, difficulty))
 			{
 				if (c_load_campaign_select_difficulty_screen_message* screen_message = new c_load_campaign_select_difficulty_screen_message(
 					STRING_ID(gui, campaign_select_difficulty),
@@ -56,16 +54,12 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
 				}
+				return true;
 			}
-			break;
-			}
-			return true;
 		}
 		else if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &target_name)) // ODST
 		{
-			switch (target_name)
-			{
-			case STRING_ID(gui, select_scoring):
+			if (target_name == STRING_ID(gui, select_scoring))
 			{
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, select_scoring),
@@ -76,9 +70,9 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
 				}
+				return true;
 			}
-			break;
-			case STRING_ID(gui, select_skulls):
+			if (target_name == STRING_ID(gui, select_skulls))
 			{
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, campaign_select_skulls),
@@ -89,10 +83,8 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
 				}
+				return true;
 			}
-			break;
-			}
-			return true;
 		}
 	}
 
