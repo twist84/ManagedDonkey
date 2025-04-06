@@ -27,7 +27,7 @@
 #define INVOKE_CLASS_MEMBER(ADDRESS, CLASS, NAME, ...) (this->*static_to_member_t<decltype(&CLASS##::##NAME)>{ .address = ADDRESS }.function)(__VA_ARGS__)
 
 #define DECLARE_LAMBDA(NAME, RETURN_TYPE, FUNCTION) struct s_##NAME { RETURN_TYPE operator () FUNCTION } NAME; // https://stackoverflow.com/a/31920570
-#define DECLARE_LAMBDA2(NAME, RETURN_TYPE, ...) auto NAME = [](__VA_ARGS__) -> RETURN_TYPE
+#define DECLARE_LAMBDA2(NAME, RETURN_TYPE, ...) RETURN_TYPE(*NAME)(__VA_ARGS__) = [](__VA_ARGS__) -> RETURN_TYPE
 
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
