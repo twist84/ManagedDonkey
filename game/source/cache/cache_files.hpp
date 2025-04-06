@@ -11,6 +11,8 @@
 
 #define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get(GROUP, INDEX))
 
+enum e_map_id;
+
 enum e_cache_file_shared_file_type
 {
 	_cache_file_shared_file_type_ui = 0,
@@ -120,7 +122,7 @@ union s_cache_file_header
 		long tag_cache_offsets;
 		long tag_count;
 
-		long map_id;
+		e_map_id map_id;
 		long scenario_index;
 		long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
 

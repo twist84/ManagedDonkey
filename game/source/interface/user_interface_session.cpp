@@ -76,8 +76,7 @@ e_controller_index user_interface_session_get_controller_index(long player_index
 	return INVOKE(0x00A81620, user_interface_session_get_controller_index, player_index);
 }
 
-//bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id)
-bool __cdecl user_interface_session_get_map(long* campaign_id, long* map_id)
+bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id)
 {
 	return INVOKE(0x00A817B0, user_interface_session_get_map, campaign_id, map_id);
 }

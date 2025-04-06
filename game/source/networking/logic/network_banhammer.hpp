@@ -95,6 +95,7 @@ struct __declspec(align(8)) s_network_banhammer_controller_downloaders
 };
 static_assert(sizeof(s_network_banhammer_controller_downloaders) == 0x17B0);
 
+enum e_map_id;
 struct s_network_banhammer_globals
 {
 	// e_network_banhammer_flags
@@ -104,7 +105,7 @@ struct s_network_banhammer_globals
 	// e_network_banhammer_cheat_flags
 	dword_flags controller_cheat_flags;
 
-	long map_id;
+	e_map_id map_id;
 
 	// e_network_banhammer_ban_flags
 	dword_flags controller_ban_flags;

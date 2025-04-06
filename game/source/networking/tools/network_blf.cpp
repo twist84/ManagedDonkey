@@ -76,7 +76,7 @@ void s_blf_chunk_content_header::initialize()
 	metadata.author[0] = 0;
 	metadata.date = 0;
 	metadata.length_seconds = 0;
-	metadata.map_id = NONE;
+	metadata.map_id = _map_id_none;
 	metadata.game_engine_type = 0;
 }
 
@@ -277,7 +277,7 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	type_flags = 0;
-	campaign_id = NONE;
+	campaign_id = _campaign_id_none;
 	csmemset(names, 0, sizeof(names));
 	csmemset(descriptions, 0, sizeof(descriptions));
 	csmemset(map_ids, 0, sizeof(map_ids));
@@ -288,7 +288,7 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	map_id = NONE;
+	map_id = _map_id_none;
 	flags.clear();
 	csmemset(name, 0, sizeof(name));
 	csmemset(description, 0, sizeof(description));

@@ -26,8 +26,8 @@ struct game_options
 	dword random_seed;
 	e_language language;
 	long determinism_version;
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 	c_static_string<260> scenario_path;
 	short initial_zone_set_index;
 	bool load_level_only;

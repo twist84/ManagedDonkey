@@ -883,7 +883,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 			s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[game_entry_index];
 
 			char scenario_path[256]{};
-			if (!levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+			if (!levels_get_path(_campaign_id_none, entry->map_id, scenario_path, sizeof(scenario_path)))
 			{
 				event(_event_error, "networking:hopper: hopper game set has invalid map id %d",
 					entry->map_id);
@@ -906,7 +906,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 					&& entry->map_id != map_ids[0]
 					&& entry->map_id != map_ids[1]
 					&& entry->map_id != map_ids[2]
-					&& levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+					&& levels_get_path(_campaign_id_none, entry->map_id, scenario_path, sizeof(scenario_path)))
 				{
 					total_entry_weight += entry->game_entry_weight;
 				}
@@ -924,7 +924,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 							&& entry->map_id != map_ids[0]
 							&& entry->map_id != map_ids[1]
 							&& entry->map_id != map_ids[2]
-							&& levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+							&& levels_get_path(_campaign_id_none, entry->map_id, scenario_path, sizeof(scenario_path)))
 						{
 							if (random_entry_weight < entry->game_entry_weight)
 							{
@@ -1423,7 +1423,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 	}
 
 	char scenario_path[256]{};
-	levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
+	levels_get_path(_campaign_id_none, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
 	if (!scenario_path[0])
 	{
 		event(_event_warning, "attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
@@ -1433,7 +1433,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		return;
 	}
 
-	if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
+	if (!network_squad_session_set_map(_campaign_id_none, map_variant->get_map_id(), scenario_path))
 	{
 		event(_event_warning, "networking:configuration: failed to set session map, probably not in a session");
 
@@ -1565,7 +1565,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 	}
 
 	char scenario_path[256]{};
-	levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
+	levels_get_path(_campaign_id_none, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
 	if (!scenario_path[0])
 	{
 		event(_event_warning, "attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
@@ -1576,7 +1576,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 		return;
 	}
 
-	if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
+	if (!network_squad_session_set_map(_campaign_id_none, map_variant->get_map_id(), scenario_path))
 	{
 		event(_event_warning, "networking:configuration: failed to set session map, probably not in a session");
 

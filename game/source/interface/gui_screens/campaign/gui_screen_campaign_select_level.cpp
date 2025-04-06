@@ -54,7 +54,7 @@ void __thiscall c_gui_screen_campaign_select_level::post_initialize_()
 	}
 }
 
-void c_gui_screen_campaign_select_level::setup(e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point)
+void c_gui_screen_campaign_select_level::setup(e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, short campaign_insertion_point)
 {
 	//INVOKE_CLASS_MEMBER(0x00AFDBA0, c_gui_screen_campaign_select_level, setup, campaign_setup_mode, campaign_id, map_id, campaign_insertion_point);
 

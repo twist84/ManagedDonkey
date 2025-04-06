@@ -9,8 +9,7 @@
 //.text:00AFC770 ; public: virtual void c_gui_screen_campaign_select_difficulty::initialize()
 //.text:00AFC790 ; public: virtual void c_gui_screen_campaign_select_difficulty::initialize_datasource()
 
-//void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty)
-void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, long campaign_id, long map_id, e_campaign_difficulty_level difficulty)
+void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty)
 {
 	//INVOKE_CLASS_MEMBER(0x00AFC830, c_gui_screen_campaign_select_difficulty, setup, campaign_setup_mode, campaign_id, map_id, difficulty);
 

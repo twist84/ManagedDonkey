@@ -11,10 +11,13 @@
 #include "networking/session/network_session_parameters_saved_film_game_options.hpp"
 #include "networking/session/network_session_parameters_ui.hpp"
 
+enum e_campaign_id;
+enum e_map_id;
+
 struct s_network_session_parameter_map
 {
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 	c_static_string<128> scenario_path;
 	s_campaign_armaments campaign_armaments;
 	s_campaign_game_progression campaign_progression;

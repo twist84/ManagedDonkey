@@ -174,7 +174,7 @@ struct s_game_set_entry
 	long minimum_player_count;
 	bool skip_after_veto;
 	bool optional;
-	long map_id;
+	e_map_id map_id;
 
 	c_static_string<k_tag_string_length> game_variant_file_name;
 	s_network_http_request_hash game_variant_hash;

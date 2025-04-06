@@ -20,8 +20,8 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 		{
 			if (target_name == STRING_ID(global, level))
 			{
-				long campaign_id = 1;
-				long map_id = 3005;
+				e_campaign_id campaign_id = _campaign_id_default;
+				e_map_id map_id = _map_id_first;
 				short campaign_insertion_point = 0;
 				user_interface_session_get_map(&campaign_id, &map_id);
 				if (c_load_campaign_select_level_screen_message* screen_message = new c_load_campaign_select_level_screen_message(
@@ -47,8 +47,8 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					get_render_window(),
 					m_name.get_value(),
 					_campaign_difficulty_setup_mode_lobby,
-					1,
-					NONE,
+					_campaign_id_default,
+					_map_id_none,
 					user_interface_game_settings_get_campaign_difficulty()))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);

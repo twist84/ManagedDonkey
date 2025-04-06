@@ -209,6 +209,7 @@ public:
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
 
+enum e_map_id;
 struct c_bitstream;
 
 struct c_map_variant
@@ -216,7 +217,7 @@ struct c_map_variant
 public:
 	c_map_variant();
 	//~c_map_variant();
-	void create_default(long map_id);
+	void create_default(e_map_id map_id);
 	bool decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
 	bool is_valid() const;
@@ -225,7 +226,7 @@ public:
 	void set_description(char const* description);
 	void set_name(wchar_t const* name);
 	bool validate();
-	long get_map_id() const;
+	e_map_id get_map_id() const;
 
 	void print();
 
@@ -235,7 +236,7 @@ public:
 	short m_number_of_scenario_objects;
 	short m_number_of_variant_objects;
 	short m_number_of_placeable_object_quotas;
-	long m_map_id;
+	e_map_id m_map_id;
 	real_rectangle3d m_variant_scenario_bounds;
 	long m_game_engine_subtype;
 	real m_maximum_budget;

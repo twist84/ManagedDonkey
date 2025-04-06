@@ -22,10 +22,10 @@ struct s_campaign_datum :
 	s_datum_header
 {
 	c_flags<e_campaign_flags, word, 2> flags;
-	long campaign_id;
+	e_campaign_id campaign_id;
 	wchar_t name[64];
 	wchar_t description[128];
-	long map_ids[64];
+	e_map_id map_ids[64];
 };
 static_assert(sizeof(s_campaign_datum) == 0x288);
 
@@ -33,7 +33,7 @@ struct s_level_datum :
 	s_datum_header
 {
 	c_flags<e_level_flags, word, k_number_of_level_flags> flags;
-	long map_id;
+	e_map_id map_id;
 	wchar_t name[32];
 	wchar_t description[128];
 	char scenario_file[256];
@@ -53,7 +53,7 @@ struct s_level_insertion_datum :
 	s_datum_header
 {
 	short insertion_point_count;
-	long map_id;
+	e_map_id map_id;
 	wchar_t insertion_point_names[k_max_campaign_insertion_points][32];
 	wchar_t insertion_point_descriptions[k_max_campaign_insertion_points][128];
 	byte insertion_point_initial_zone_set[k_max_campaign_insertion_points];
@@ -94,9 +94,9 @@ struct s_configuration_enumeration_task;
 struct s_async_task;
 
 extern void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content);
-extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
+extern void __cdecl levels_add_map_from_scripting(e_map_id map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path);
-extern void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path);
+extern void __cdecl levels_add_multiplayer_map_from_scripting(e_map_id map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path);
 extern void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const* scenario, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content);
 extern bool __cdecl levels_begin_dlc_enumeration();
@@ -108,32 +108,32 @@ extern e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* 
 extern bool __cdecl levels_enumeration_in_progress();
 extern dword __cdecl levels_get_available_map_mask();
 extern long __cdecl levels_get_campaign_count();
-extern long __cdecl levels_get_campaign_id_from_path(char const* path);
-extern long __cdecl levels_get_campaign_level_count(long campaign_id);
-extern long __cdecl levels_get_campaign_level_index(long campaign_id, long map_id);
-extern long __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name);
-extern void __cdecl levels_get_campaign_map_ids(long campaign_id, long* out_map_ids, long* in_out_count);
-extern long __cdecl levels_get_campaign_next_map_id(long campaign_id, long map_id);
-extern long __cdecl levels_get_default_multiplayer_map_id();
+extern e_campaign_id __cdecl levels_get_campaign_id_from_path(char const* path);
+extern long __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id);
+extern long __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id);
+extern e_map_id __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name);
+extern void __cdecl levels_get_campaign_map_ids(e_campaign_id campaign_id, e_map_id* out_map_ids, long* in_out_count);
+extern e_map_id __cdecl levels_get_campaign_next_map_id(e_campaign_id campaign_id, e_map_id map_id);
+extern e_map_id __cdecl levels_get_default_multiplayer_map_id();
 extern dword __cdecl levels_get_checksum();
-extern long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
-extern void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_count);
-extern bool __cdecl levels_get_multiplayer_map_is_allowed(long map_id);
-extern bool __cdecl levels_find_path(s_data_array* data, long map_id, char* path, long maximum_characters);
-extern char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long maximum_characters);
+extern e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
+extern void __cdecl levels_get_multiplayer_map_ids(e_map_id* out_map_ids, long* in_out_count);
+extern bool __cdecl levels_get_multiplayer_map_is_allowed(e_map_id map_id);
+extern bool __cdecl levels_find_path(s_data_array* data, e_map_id map_id, char* path, long maximum_characters);
+extern char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* path, long maximum_characters);
 extern void __cdecl levels_initialize();
 extern void __cdecl levels_initialize_for_new_map();
-extern bool __cdecl levels_map_id_is_fake(long map_id);
+extern bool __cdecl levels_map_id_is_fake(e_map_id map_id);
 extern void __cdecl levels_open_dlc(char const* scenario_path, bool blocking);
 extern bool __cdecl levels_path_is_dlc(char const* scenario_path);
 extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content);
 extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content);
 extern void __cdecl levels_remove_dlc();
-extern bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_level_datum* level);
-extern bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertion_datum* insertion);
-extern bool __cdecl levels_try_and_get_campaign_map(long map_id, s_level_datum* level);
+extern bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, e_map_id map_id, s_level_datum* level);
+extern bool __cdecl levels_try_and_get_campaign_insertion(e_map_id map_id, s_level_insertion_datum* insertion);
+extern bool __cdecl levels_try_and_get_campaign_map(e_map_id map_id, s_level_datum* level);
 extern bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level);
-extern bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level);
+extern bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* level);
 extern void __cdecl levels_update();
 extern void __cdecl sub_54CBA0();
 extern void __cdecl sub_54CC00();

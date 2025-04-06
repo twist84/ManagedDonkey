@@ -12,7 +12,7 @@ struct s_game_results_game_description // s_game_results_multiplayer_game_descri
 	qword game_instance;
 	c_game_variant game_variant;
 	c_static_wchar_string<32> map_variant_name;
-	long map_id;
+	e_map_id map_id;
 	c_static_string<260> scenario_path;
 	bool started;
 	dword start_time;

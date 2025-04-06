@@ -97,8 +97,8 @@ struct s_gui_game_setup_storage
 
 	//protected:
 		bool valid;
-		long campaign_id;
-		long map_id;
+		e_campaign_id campaign_id;
+		e_map_id map_id;
 		short insertion_point;
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;
@@ -122,8 +122,8 @@ struct s_gui_game_setup_storage
 	//protected:
 		bool valid;
 
-		long campaign_id;
-		long map_id;
+		e_campaign_id campaign_id;
+		e_map_id map_id;
 		short insertion_point;
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;

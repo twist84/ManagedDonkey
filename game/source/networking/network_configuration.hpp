@@ -910,9 +910,11 @@ static_assert(sizeof(s_lsp_configuration) == 0x14);
 
 #pragma region map_configuration
 
+enum e_map_id;
+
 struct s_map_information
 {
-	long map_id;
+	e_map_id map_id;
 	long map_status;
 };
 static_assert(sizeof(s_map_information) == 0x8);
@@ -997,7 +999,7 @@ extern bool __cdecl network_configuration_disable_bad_bandwidth_anticheating();
 extern bool __cdecl network_configuration_disable_bad_client_anticheating();
 extern bool __cdecl network_configuration_disable_bad_connectivity_anticheating();
 extern void __cdecl network_configuration_dispose();
-extern long __cdecl network_configuration_get_map_index_from_map_id(long map_id);
+extern long __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id);
 extern long __cdecl network_configuration_get_minidump_generation_type();
 extern long __cdecl network_configuration_get_state();
 extern void __cdecl network_configuration_initialize(bool building_for_network_file_output);

@@ -20,8 +20,8 @@
 struct s_campaign_progression_profile_data
 {
 	qword __time0;
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 	short campaign_insertion_index;
 	s_campaign_armaments campaign_armaments;
 	byte __pad8A[0x2];
@@ -167,22 +167,22 @@ struct c_player_profile_interface
 
 		struct
 		{
-			long solo_map_id;
+			e_map_id solo_map_id;
 			real solo_unknown;
 
-			long coop_map_id;
+			e_map_id coop_map_id;
 			real coop_unknown;
 			long coop_player_count;
 		} survival;
 
 		struct
 		{
-			long solo_map_id;
+			e_map_id solo_map_id;
 			short solo_insertion_point;
 			byte __pad2B6[0x2];
 			real solo_unknown;
 
-			long coop_map_id;
+			e_map_id coop_map_id;
 			short coop_insertion_point;
 			byte __pad2C2[0x2];
 			real coop_unknown;

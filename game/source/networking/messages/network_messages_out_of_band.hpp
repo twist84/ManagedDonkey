@@ -75,11 +75,11 @@ struct s_network_session_status_data
 	c_static_string<16> playlist_name;
 	byte : 8;
 	byte : 8;
-	long game_engine_type;
+	e_game_engine_type game_engine_type;
 	c_static_wchar_string<16> game_engine_variant_name;
-	long campaign_id;
-	long campaign_difficulty_level;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_campaign_difficulty_level campaign_difficulty_level;
+	e_map_id map_id;
 	short insertion_point;
 	c_static_wchar_string<16> map_variant_name;
 	c_static_wchar_string<16> saved_film_name;

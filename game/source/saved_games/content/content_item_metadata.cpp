@@ -13,8 +13,8 @@ void s_saved_game_item_metadata::byteswap()
 	bswap_qword_inplace(size_in_bytes);
 	bswap_qword_inplace(date);
 	bswap_dword_inplace(length_seconds);
-	bswap_dword_inplace(campaign_id);
-	bswap_dword_inplace(map_id);
+	campaign_id = (e_campaign_id)bswap_dword(campaign_id);
+	map_id = (e_map_id)bswap_dword(map_id);
 	bswap_dword_inplace(game_engine_type);
 	bswap_dword_inplace(campaign_difficulty);
 	ASSERT(array_is_zeroed(pad));
@@ -44,8 +44,8 @@ void s_saved_game_item_metadata::decode(c_bitstream* packet)
 	size_in_bytes = packet->read_qword("size-in-bytes", 64);
 	date = packet->read_qword("date", 64);
 	length_seconds = packet->read_integer("length-seconds", 32);
-	campaign_id = packet->read_integer("campaign-id", 32);
-	map_id = packet->read_integer("map-id", 32);
+	campaign_id = (e_campaign_id)packet->read_integer("campaign-id", 32);
+	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
 	campaign_insertion_point = static_cast<byte>(packet->read_integer("campaign-insertion-point", 4));
@@ -98,8 +98,8 @@ void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 	size_in_bytes = packet->read_qword("size-in-bytes", 64);
 	date = packet->read_qword("date", 64);
 	length_seconds = packet->read_integer("length-seconds", 32);
-	campaign_id = packet->read_integer("campaign-id", 32);
-	map_id = packet->read_integer("map-id", 32);
+	campaign_id = (e_campaign_id)packet->read_integer("campaign-id", 32);
+	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
 	word hopper_id = static_cast<word>(packet->read_integer("hopper-id", 16));

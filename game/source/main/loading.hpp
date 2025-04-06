@@ -15,11 +15,12 @@ enum e_basic_loading_phase
 	k_basic_loading_phase_count = 3
 };
 
+enum e_campaign_id;
 struct s_main_loading_action
 {
 	char scenario_path[256];
 	long load_action;
-	long campaign_id;
+	e_campaign_id campaign_id;
 	bool copy_map_start_only;
 	bool copy_stop;
 	bool map_has_progression;

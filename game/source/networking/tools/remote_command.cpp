@@ -2000,7 +2000,7 @@ callback_result_t levels_add_map_solo_callback(void const* userdata, long token_
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long map_id = atol(tokens[1]->get_string());
+	e_map_id map_id = (e_map_id)atol(tokens[1]->get_string());
 	char const* scenario_path = tokens[2]->get_string();
 	levels_add_map_from_scripting(map_id, scenario_path);
 
@@ -2021,7 +2021,7 @@ callback_result_t levels_add_map_multi_callback(void const* userdata, long token
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long map_id = atol(tokens[1]->get_string());
+	e_map_id map_id = (e_map_id)atol(tokens[1]->get_string());
 	char const* scenario_path = tokens[2]->get_string();
 	levels_add_multiplayer_map_from_scripting(map_id, scenario_path);
 

@@ -1,9 +1,18 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
+enum e_campaign_difficulty_level;
+enum e_campaign_id;
 enum e_controller_index;
+enum e_gui_game_mode;
+enum e_gui_network_session_advertisement_mode;
+enum e_map_id;
+enum e_session_game_start_error;
+enum e_session_game_start_status;
+enum e_user_interface_session_leave_reason;
+enum e_user_interface_session_leave_type;
+
 struct c_map_variant;
 struct c_game_variant;
 struct s_player_configuration;
@@ -17,7 +26,7 @@ extern bool __cdecl user_interface_interactive_session_is_squad();
 extern void __cdecl user_interface_leave_sessions(e_user_interface_session_leave_type leave_type, e_user_interface_session_leave_reason leave_reason);
 extern long __cdecl user_interface_local_player_count();
 extern e_controller_index user_interface_session_get_controller_index(long player_index);
-extern bool __cdecl user_interface_session_get_map(long* campaign_id, long* map_id);
+extern bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id);
 extern s_player_configuration* __cdecl user_interface_session_get_player_data(long player_index);
 extern bool __cdecl user_interface_session_is_local_player(long player_index);
 extern bool __cdecl user_interface_squad_is_player_valid(long player_index);

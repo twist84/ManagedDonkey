@@ -531,8 +531,7 @@ void __cdecl scenario_language_pack_unload()
 
 void on_scenario_loaded();
 
-//bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
-bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
+bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
 {
 	//return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
 
@@ -786,8 +785,7 @@ char const* __cdecl scenario_tag_get_structure_bsp_name(long scenario_index, lon
 	return structure_bsp_name;
 }
 
-//bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
-bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
+bool __cdecl scenario_tags_match(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
 {
 	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 

@@ -23,6 +23,8 @@ enum e_saved_game_file_type
 	k_saved_game_file_type_count
 };
 
+enum e_campaign_id;
+enum e_map_id;
 struct c_bitstream;
 struct s_saved_game_item_metadata
 {
@@ -37,8 +39,8 @@ struct s_saved_game_item_metadata
 	qword size_in_bytes;
 	qword date;
 	long length_seconds;
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 	long game_engine_type;
 	long campaign_difficulty;
 	byte campaign_insertion_point;

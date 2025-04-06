@@ -1,20 +1,25 @@
+#pragma once
+
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 
+enum e_campaign_id;
 enum e_controller_index;
 enum e_gui_campaign_level_setup_mode;
+enum e_map_id;
+
 struct c_gui_screen_campaign_select_level :
 	public c_gui_screen_widget
 {
 public:
 	void __thiscall post_initialize_();
 
-	void setup(e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point);
+	void setup(e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, short campaign_insertion_point);
 
 //protected:
 	e_gui_campaign_level_setup_mode m_campaign_setup_mode;
-	long m_campaign_id;
-	long m_map_id;
+	e_campaign_id m_campaign_id;
+	e_map_id m_map_id;
 	short m_campaign_insertion_point;
 	e_controller_index m_controller_index;
 	bool m_saved_game;

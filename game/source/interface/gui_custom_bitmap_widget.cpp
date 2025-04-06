@@ -16,14 +16,14 @@ void patch_gui_custom_bitmap_widget()
 	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, member_to_static_function(&c_gui_custom_bitmap_widget::_assemble_render_data));
 }
 
-bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename)
+bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
 {
 	bool result = false;
 	HOOK_INVOKE_CLASS(result =, c_gui_custom_bitmap_widget, get_map_filename, decltype(&get_map_filename), type, map_id, out_filename);
 	return result;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::_set_map_image(e_custom_map_image_type image_type, long map_id, bool use_compressed_format)
+void __thiscall c_gui_custom_bitmap_widget::_set_map_image(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
 {
 	static c_static_string<256> map_image_path;
 	map_image_path.clear();

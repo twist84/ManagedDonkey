@@ -177,6 +177,8 @@ static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
 
 struct s_cache_file_zone_manifest;
 
+enum e_campaign_id;
+enum e_map_id;
 struct s_cache_file_resource_gestalt
 {
 	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
@@ -214,10 +216,10 @@ struct s_cache_file_resource_gestalt
 	s_tag_resource_cache_prediction_table prediction_table;
 
 	// Mat is in a really bad mood
-	long campaign_id;
+	e_campaign_id campaign_id;
 
 	// Next time we don't put things that the game depends on outside of tool, guerilla, or sapien
-	long map_id;
+	e_map_id map_id;
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 

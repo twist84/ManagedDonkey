@@ -5,6 +5,7 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
+enum e_map_id;
 struct c_gui_custom_bitmap_widget :
 	public c_gui_bitmap_widget
 {
@@ -21,8 +22,8 @@ public:
 		k_custom_map_image_type_count
 	};
 
-	static bool __cdecl get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename);
-	void __thiscall _set_map_image(e_custom_map_image_type image_type, long map_id, bool use_compressed_format);
+	static bool __cdecl get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename);
+	void __thiscall _set_map_image(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format);
 	void __thiscall _assemble_render_data(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	void __cdecl load_from_file_async(bool use_compressed_format, char const* file_path);
 	void __cdecl clear();

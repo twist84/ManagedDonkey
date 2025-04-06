@@ -59,7 +59,7 @@ c_game_variant const* __cdecl network_life_cycle_session_get_game_variant()
 	return INVOKE(0x004352B0, network_life_cycle_session_get_game_variant);
 }
 
-bool __cdecl network_life_cycle_session_get_map(long* campaign_id, long* map_id)
+bool __cdecl network_life_cycle_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id)
 {
 	return INVOKE(0x004354D0, network_life_cycle_session_get_map, campaign_id, map_id);
 }
@@ -416,8 +416,7 @@ bool __cdecl network_squad_session_set_closed_status(long closed_status)
 	return INVOKE(0x004396B0, network_squad_session_set_closed_status, closed_status);
 }
 
-//bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
-bool __cdecl network_squad_session_set_coop_game_options(long campaign_id, long map_id, char const* scenario_path)
+bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
 {
 	return INVOKE(0x004396F0, network_squad_session_set_coop_game_options, campaign_id, map_id, scenario_path);
 }
@@ -432,8 +431,7 @@ bool __cdecl network_squad_session_set_game_variant(c_game_variant const* game_v
 	return INVOKE(0x00439860, network_squad_session_set_game_variant, game_variant);
 }
 
-//bool network_squad_session_set_map(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
-bool __cdecl network_squad_session_set_map(long campaign_id, long map_id, char const* scenario_path)
+bool network_squad_session_set_map(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
 {
 	return INVOKE(0x00439A00, network_squad_session_set_map, campaign_id, map_id, scenario_path);
 }

@@ -339,13 +339,13 @@ public:
 
 	s_blf_header header;
 
-	long campaign_id;
+	e_campaign_id campaign_id;
 
 	dword_flags type_flags;
 
 	wchar_t names[k_language_count][64];
 	wchar_t descriptions[k_language_count][128];
-	long map_ids[64];
+	e_map_id map_ids[64];
 
 	byte pad[0x4];
 };
@@ -383,7 +383,7 @@ struct s_scenario_insertion_point_atlas
 	short zone_set;
 
 	// ODST
-	long return_from_map_id;
+	e_map_id return_from_map_id;
 	long survival_presence_context_id;
 
 	byte __padC[0x4];
@@ -405,7 +405,7 @@ struct s_blf_chunk_scenario
 	
 	s_blf_header header;
 
-	long map_id;
+	e_map_id map_id;
 
 	c_flags<e_level_flags, dword, k_number_of_level_flags> flags;
 

@@ -198,7 +198,7 @@ struct s_life_cycle_matchmaking_progress_configuring_match
 {
 	s_replicated_life_cycle_matchmaking_progress_configuring_match configuring_progress;
 	long group_local_player_veto_mask;
-	long map_id; // e_map_id
+	e_map_id map_id;
 	wchar_t map_variant_name[32];
 	e_game_engine_type game_engine_index;
 	wchar_t game_variant_name[32];

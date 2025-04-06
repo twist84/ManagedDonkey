@@ -498,7 +498,7 @@ void __cdecl network_update()
 
 void network_test_set_map_name(char const* scenario_path)
 {
-	if (network_squad_session_set_map(-1, -2, scenario_path))
+	if (network_squad_session_set_map(_campaign_id_none, _map_id_use_scenario_path, scenario_path))
 	{
 		console_printf("set %s successfully", scenario_path);
 
@@ -506,7 +506,7 @@ void network_test_set_map_name(char const* scenario_path)
 		static c_map_variant map_variant;
 
 		map_path.print(L"%hs", tag_name_strip_path(scenario_path));
-		long multiplayer_map = levels_get_multiplayer_map_by_display_name(map_path.get_string());
+		e_map_id multiplayer_map = levels_get_multiplayer_map_by_display_name(map_path.get_string());
 		map_variant.create_default(multiplayer_map);
 
 		network_test_set_map_variant(&map_variant);
@@ -525,7 +525,7 @@ void network_test_set_map_variant(c_map_variant const* map_variant)
 	if (!user_interface_squad_set_map_variant(map_variant))
 	{
 		static c_map_variant default_map_variant;
-		long multiplayer_map = levels_get_default_multiplayer_map_id();
+		e_map_id multiplayer_map = levels_get_default_multiplayer_map_id();
 		default_map_variant.create_default(multiplayer_map);
 		user_interface_squad_set_map_variant(&default_map_variant);
 	}

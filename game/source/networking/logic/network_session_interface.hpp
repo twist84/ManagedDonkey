@@ -50,8 +50,8 @@ static_assert(0x168C == OFFSETOF(s_network_session_interface_user, user_remove_t
 struct s_saved_film_description
 {
 	long category;
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 	short campaign_insertion_point;
 	bool campaign_survival_enabled;
 	long difficulty;
@@ -93,7 +93,7 @@ struct s_network_session_interface_globals
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	long map_id;
+	e_map_id map_id;
 	long current_map;
 	long current_map_progress_percentage;
 	short hopper_identifier;
@@ -154,7 +154,7 @@ extern short __cdecl network_squad_session_get_campaign_metagame_scoring();
 //sub_435160
 extern s_saved_film_description const* __cdecl network_squad_session_get_film();
 extern c_game_variant const* __cdecl network_life_cycle_session_get_game_variant();
-extern bool __cdecl network_life_cycle_session_get_map(long* campaign_id, long* map_id);
+extern bool __cdecl network_life_cycle_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id);
 extern c_map_variant const* __cdecl network_squad_session_get_map_variant();
 //sub_4355A0
 extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode();
@@ -214,10 +214,10 @@ extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_dif
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);
 extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);
 extern bool __cdecl network_squad_session_set_closed_status(long closed_status);
-extern bool __cdecl network_squad_session_set_coop_game_options(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern bool __cdecl network_squad_session_set_film(s_saved_film_description const* film);
 extern bool __cdecl network_squad_session_set_game_variant(c_game_variant const* game_variant);
-extern bool __cdecl network_squad_session_set_map(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl network_squad_session_set_map(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern bool __cdecl network_squad_session_set_map_variant(c_map_variant const* map_variant);
 extern bool __cdecl network_squad_session_set_maximum_player_count(long maximum_player_count);
 extern bool __cdecl network_squad_session_set_privacy_mode(long privacy_mode);

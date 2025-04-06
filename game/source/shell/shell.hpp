@@ -39,6 +39,21 @@ enum
 	k_round_index_bits = 5,
 };
 
+enum e_campaign_id
+{
+	_campaign_id_default = 1,
+	_campaign_id_none = -1,
+};
+
+enum e_map_id
+{
+	_map_id_first = 3005,
+	_map_id_tutorial = 3010,
+	_map_id_first_playable = 3010,
+	_map_id_none = -1,
+	_map_id_use_scenario_path = -2,
+};
+
 enum e_gui_campaign_difficulty_setup_mode
 {
 	_campaign_difficulty_setup_mode_start_new_campaign = 0,

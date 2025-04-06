@@ -4,9 +4,10 @@
 #include "memory/secure_signature.hpp"
 #include "networking/transport/transport_qos.hpp"
 
+enum e_map_id;
 struct s_game_hopper_picked_game
 {
-	long map_id;
+	e_map_id map_id;
 
 	char game_variant_name[32];
 	s_network_http_request_hash game_variant_hash;

@@ -54,6 +54,9 @@ struct s_scenario_zone_change
 };
 static_assert(sizeof(s_scenario_zone_change) == 0x10);
 
+enum e_campaign_id;
+enum e_map_id;
+
 struct s_game_globals;
 struct structure_bsp;
 struct s_structure_design;
@@ -114,7 +117,7 @@ extern void __cdecl scenario_invalidate();
 extern void __cdecl scenario_invalidate_zone_set_internal();
 extern bool __cdecl scenario_language_pack_load();
 extern void __cdecl scenario_language_pack_unload();
-extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingness);
 extern bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, dword new_touched_cinematics_mask, bool unload_old_bsps);
 extern short __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name);
@@ -126,7 +129,7 @@ extern void __cdecl scenario_switch_to_null_zone_set();
 extern bool __cdecl scenario_switch_zone_set(long zone_set_index);
 extern bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unload_old_bsps);
 extern char const* __cdecl scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index);
-extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl scenario_tags_match(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern void __cdecl scenario_tags_teardown();
 extern bool __cdecl scenario_test_pvs(s_cluster_reference cluster_reference0, s_cluster_reference cluster_reference1);
 extern s_game_globals* __cdecl scenario_try_and_get_game_globals();

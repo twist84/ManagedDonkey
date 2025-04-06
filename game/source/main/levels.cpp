@@ -65,7 +65,7 @@ void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign co
 	HOOK_INVOKE(, levels_add_campaign_from_configuration_file, campaign_data, must_byte_swap, source_directory_path, dlc_content);
 }
 
-void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
+void __cdecl levels_add_map_from_scripting(e_map_id map_id, char const* scenario_path)
 {
 	//HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
 
@@ -111,14 +111,14 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 		{
 			s_campaign_datum* campaign = campaign_iterator.get_datum();
 
-			while (campaign->campaign_id != 1)
+			while (campaign->campaign_id != _campaign_id_default)
 			{
 				if (!campaign_iterator.next())
 					return;
 			}
 
 			long map_index = 0;
-			long* map_ids = campaign->map_ids;
+			e_map_id* map_ids = campaign->map_ids;
 			while (*map_ids && *map_ids != NONE)
 			{
 				map_index++;
@@ -135,10 +135,10 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 {
 	//HOOK_INVOKE(, levels_add_fake_map_from_scripting, scenario_path);
 
-	levels_add_map_from_scripting(-2, scenario_path);
+	levels_add_map_from_scripting(_map_id_use_scenario_path, scenario_path);
 }
 
-void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path)
+void __cdecl levels_add_multiplayer_map_from_scripting(e_map_id map_id, char const* scenario_path)
 {
 	if (g_level_globals.need_to_enumerate_dvd)
 	{
@@ -192,7 +192,7 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 
 void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path)
 {
-	levels_add_multiplayer_map_from_scripting(-2, scenario_path);
+	levels_add_multiplayer_map_from_scripting(_map_id_use_scenario_path, scenario_path);
 }
 
 void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const* level_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content)
@@ -239,7 +239,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 		if (must_byte_swap)
 		{
-			level->map_id = bswap_dword(level_data->map_id);
+			level->map_id = (e_map_id)bswap_dword(level_data->map_id);
 			level->presence_context_id = bswap_dword(level_data->presence_context_id);
 			level->sort_order = bswap_dword(level_data->sort_order);
 
@@ -650,48 +650,41 @@ long __cdecl levels_get_campaign_count()
 	return g_level_globals.initialized && !levels_enumeration_in_progress() ? g_level_globals.campaigns->actual_count : 0;
 }
 
-//e_campaign_id __cdecl levels_get_campaign_id_from_path(char const* path)
-long __cdecl levels_get_campaign_id_from_path(char const* path)
+e_campaign_id __cdecl levels_get_campaign_id_from_path(char const* path)
 {
 	return INVOKE(0x0054B6A0, levels_get_campaign_id_from_path, path);
 }
 
-//long __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id)
-long __cdecl levels_get_campaign_level_count(long campaign_id)
+long __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id)
 {
 	return INVOKE(0x0054B7B0, levels_get_campaign_level_count, campaign_id);
 }
 
-//long __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id)
-long __cdecl levels_get_campaign_level_index(long campaign_id, long map_id)
+long __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id)
 {
 	return INVOKE(0x0054B8A0, levels_get_campaign_level_index, campaign_id, map_id);
 }
 
-//e_map_id __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name)
-long __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name)
+e_map_id __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name)
 {
 	return INVOKE(0x0054B9D0, levels_get_campaign_map_by_display_name, display_name);
 }
 
-//void __cdecl levels_get_campaign_map_ids(e_campaign_id campaign_id, e_map_id* out_map_ids, long* in_out_count)
-void __cdecl levels_get_campaign_map_ids(long campaign_id, long* out_map_ids, long* in_out_count)
+void __cdecl levels_get_campaign_map_ids(e_campaign_id campaign_id, e_map_id* out_map_ids, long* in_out_count)
 {
 	INVOKE(0x0054BAA0, levels_get_campaign_map_ids, campaign_id, out_map_ids, in_out_count);
 }
 
-//e_map_id __cdecl levels_get_campaign_next_map_id(e_campaign_id campaign_id, e_map_id map_id)
-long __cdecl levels_get_campaign_next_map_id(long campaign_id, long map_id)
+e_map_id __cdecl levels_get_campaign_next_map_id(e_campaign_id campaign_id, e_map_id map_id)
 {
 	return INVOKE(0x0054BB80, levels_get_campaign_next_map_id, campaign_id, map_id);
 }
 
-//e_map_id levels_get_default_multiplayer_map_id()
-long __cdecl levels_get_default_multiplayer_map_id()
+e_map_id levels_get_default_multiplayer_map_id()
 {
 	//return INVOKE(0x0054BCA0, levels_get_default_multiplayer_map_id);
 
-	long map_id = NONE;
+	e_map_id map_id = _map_id_none;
 
 	if (g_level_globals.initialized)
 	{
@@ -704,7 +697,7 @@ long __cdecl levels_get_default_multiplayer_map_id()
 			s_level_datum* level = level_iter.get_datum();
 			if (level->map_id > 0 && levels_get_multiplayer_map_is_allowed(level->map_id))
 			{
-				if (map_id == NONE || map_id > level->map_id)
+				if (map_id == _map_id_none || map_id > level->map_id)
 					map_id = level->map_id;
 			}
 		}
@@ -722,8 +715,7 @@ dword __cdecl levels_get_checksum()
 
 //.text:0054BDC0 ; levels_get_campaign_insertion_zone_set_by_map_id_and_index?
 
-//e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t* display_name)
-long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name)
+e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name)
 {
 	//return INVOKE(0x0054BE10, levels_get_multiplayer_map_by_display_name, display_name);
 
@@ -741,11 +733,10 @@ long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_n
 		}
 	}
 
-	return NONE;
+	return _map_id_none;
 }
 
-//void __cdecl levels_get_multiplayer_map_ids(e_map_id* out_map_ids, long* in_out_count)
-void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_count)
+void __cdecl levels_get_multiplayer_map_ids(e_map_id* out_map_ids, long* in_out_count)
 {
 	//INVOKE(0x0054BEE0, levels_get_multiplayer_map_ids, out_map_ids, in_out_count);
 
@@ -765,7 +756,7 @@ void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_coun
 		level_iter.begin(g_level_globals.multiplayer_levels);
 		while (level_iter.next() && count < maximum_count)
 		{
-			long map_id = level_iter.get_datum()->map_id;
+			e_map_id map_id = level_iter.get_datum()->map_id;
 			bool has_map_id = true;
 
 			for (long i = 0; i < count; i++)
@@ -778,8 +769,7 @@ void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_coun
 	*in_out_count = count;
 }
 
-//bool __cdecl levels_get_multiplayer_map_is_allowed(e_map_id map_id)
-bool __cdecl levels_get_multiplayer_map_is_allowed(long map_id)
+bool __cdecl levels_get_multiplayer_map_is_allowed(e_map_id map_id)
 {
 	//return INVOKE(0x0054BFD0, levels_get_multiplayer_map_is_allowed, map_id);
 
@@ -792,8 +782,7 @@ bool __cdecl levels_get_multiplayer_map_is_allowed(long map_id)
 	return true;
 }
 
-//bool __cdecl levels_find_path(s_data_array* data, e_map_id map_id, char* path, long maximum_characters)
-bool __cdecl levels_find_path(s_data_array* data, long map_id, char* path, long maximum_characters)
+bool __cdecl levels_find_path(s_data_array* data, e_map_id map_id, char* path, long maximum_characters)
 {
 	c_data_iterator<s_level_datum> level_iter{};
 
@@ -811,8 +800,7 @@ bool __cdecl levels_find_path(s_data_array* data, long map_id, char* path, long 
 	return false;
 }
 
-//char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* path, long maximum_characters)
-char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long maximum_characters)
+char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* path, long maximum_characters)
 {
 	//return INVOKE(0x0054C040, levels_get_path, campaign_id, map_id, path, maximum_characters);
 
@@ -821,11 +809,11 @@ char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long ma
 
 	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
-	if (map_id == 0x10231971)
+	if (map_id == (e_map_id)0x10231971)
 	{
 		csstrnzcpy(path, g_level_globals.main_menu.scenario_file, maximum_characters);
 	}
-	else if (campaign_id == NONE)
+	else if (campaign_id == _campaign_id_none)
 	{
 		levels_find_path(g_level_globals.multiplayer_levels, map_id, path, maximum_characters);
 	}
@@ -856,7 +844,7 @@ void __cdecl levels_initialize()
 
 	g_level_globals.main_menu.flags.clear();
 	g_level_globals.main_menu.flags.set(_level_is_main_menu_bit, true);
-	g_level_globals.main_menu.map_id = 0x10231971;
+	g_level_globals.main_menu.map_id = (e_map_id)0x10231971;
 	csnzprintf(g_level_globals.main_menu.scenario_file, sizeof(g_level_globals.main_menu.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
 
 	g_level_globals.initialized = true;
@@ -875,14 +863,13 @@ void __cdecl levels_initialize_for_new_map()
 
 //.text:0054C2E0 ; 
 
-//bool __cdecl levels_map_id_is_fake(e_map_id map_id)
-bool __cdecl levels_map_id_is_fake(long map_id)
+bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, levels_map_id_is_fake, map_id);
 	//return result;
 
-	return map_id == -2;
+	return map_id == _map_id_use_scenario_path;
 }
 
 void __cdecl levels_open_dlc(char const* scenario_path, bool blocking)
@@ -951,8 +938,7 @@ void __cdecl levels_remove_dlc()
 	}
 }
 
-//bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, e_map_id map_id, s_level_datum* level)
-bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_level_datum* level)
+bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, e_map_id map_id, s_level_datum* level)
 {
 	//return INVOKE(0x0054C910, levels_try_and_get_by_map_id, data, map_id, level);
 
@@ -975,8 +961,7 @@ bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_lev
 	return false;
 }
 
-//bool __cdecl levels_try_and_get_campaign_insertion(e_map_id map_id, s_level_insertion_datum* insertion)
-bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertion_datum* insertion)
+bool __cdecl levels_try_and_get_campaign_insertion(e_map_id map_id, s_level_insertion_datum* insertion)
 {
 	//return INVOKE(0x0054C9E0, levels_try_and_get_campaign_insertion, map_id, insertion);
 
@@ -1001,8 +986,7 @@ bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertio
 	return false;
 }
 
-//bool __cdecl levels_try_and_get_campaign_map(e_map_id map_id, s_level_datum* level)
-bool __cdecl levels_try_and_get_campaign_map(long map_id, s_level_datum* level)
+bool __cdecl levels_try_and_get_campaign_map(e_map_id map_id, s_level_datum* level)
 {
 	//return INVOKE(0x0054CAB0, levels_try_and_get_campaign_map, map_id, level);
 
@@ -1011,7 +995,6 @@ bool __cdecl levels_try_and_get_campaign_map(long map_id, s_level_datum* level)
 	return levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, level);
 }
 
-//bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 {
 	//return INVOKE(0x0054CAD0, levels_try_and_get_main_menu_map, level);
@@ -1024,8 +1007,7 @@ bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 	return true;
 }
 
-//bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* level)
-bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level)
+bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* level)
 {
 	//return INVOKE(0x0054CB00, levels_try_and_get_multiplayer_map, map_id, level);
 

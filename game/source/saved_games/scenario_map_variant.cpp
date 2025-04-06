@@ -52,8 +52,7 @@ c_map_variant::c_map_variant()
 //.text:00581CC0 ; 
 //.text:00581D60 ; 
 
-//void c_map_variant::create_default(e_map_id map_id)
-void c_map_variant::create_default(long map_id)
+void c_map_variant::create_default(e_map_id map_id)
 {
 	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
@@ -297,8 +296,7 @@ bool c_map_variant::validate()
 //.text:00586D20 ; 
 //.text:00587220 ; 
 
-//e_map_id c_map_variant::get_map_id() const
-long c_map_variant::get_map_id() const
+e_map_id c_map_variant::get_map_id() const
 {
 	return m_map_id;
 }

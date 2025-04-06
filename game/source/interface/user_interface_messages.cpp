@@ -370,7 +370,7 @@ void c_load_pregame_selection_screen_message::apply_initial_state(c_gui_screen_w
 		((c_gui_screen_pregame_selection*)screen_widget)->m_selection_type = m_selection_type;
 }
 
-c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, long campaign_id, long map_id, e_campaign_difficulty_level difficulty) :
+c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty) :
 	c_load_screen_message(screen_name, controller, window, layered_position),
 	m_campaign_setup_mode(campaign_setup_mode),
 	m_campaign_id(campaign_id),
@@ -388,7 +388,7 @@ void c_load_campaign_select_difficulty_screen_message::apply_initial_state(c_gui
 	((c_gui_screen_campaign_select_difficulty*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_difficulty);
 }
 
-c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point) :
+c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, short campaign_insertion_point) :
 	c_load_screen_message(screen_name, controller, window, layered_position),
 	m_campaign_setup_mode(campaign_setup_mode),
 	m_campaign_id(campaign_id),

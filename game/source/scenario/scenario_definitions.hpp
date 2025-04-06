@@ -143,8 +143,8 @@ struct scenario
 	c_enum<e_scenario_campaign_type, char, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
 	c_flags<e_scenario_flags, word, k_scenario_flags> flags;
 
-	long campaign_id;
-	long map_id;
+	e_campaign_id campaign_id;
+	e_map_id map_id;
 
 	angle local_north;
 	real sandbox_budget;

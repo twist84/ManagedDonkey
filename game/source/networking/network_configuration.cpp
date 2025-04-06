@@ -52,8 +52,7 @@ void __cdecl network_configuration_dispose()
 	//csmemset(&g_network_configuration, 0, sizeof(g_network_configuration));
 }
 
-//long __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id)
-long __cdecl network_configuration_get_map_index_from_map_id(long map_id)
+long __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id)
 {
 	return INVOKE(0x0043C900, network_configuration_get_map_index_from_map_id, map_id);
 }

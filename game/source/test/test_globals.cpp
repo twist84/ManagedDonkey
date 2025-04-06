@@ -68,7 +68,7 @@ void copy_input_states(bool enabled)
 
 struct s_location_message
 {
-	long map_id;
+	e_map_id map_id;
 	real radius;
 	real_point3d position;
 	wchar_t const* message;
@@ -76,7 +76,7 @@ struct s_location_message
 
 static s_location_message location_messages[] =
 {
-	{ 340, 2.0f, { 81.6f, -72.4f, 7.2f }, L"a player took the lake base center man cannon" }
+	{ (e_map_id)340, 2.0f, { 81.6f, -72.4f, 7.2f }, L"a player took the lake base center man cannon" }
 };
 
 void show_location_messages()
@@ -86,7 +86,7 @@ void show_location_messages()
 	if (!game_in_progress())
 		return;
 
-	long map_id = game_options_get()->map_id;
+	e_map_id map_id = game_options_get()->map_id;
 
 	s_location_message* found_location_message = nullptr;
 	for (long i = 0; i < NUMBEROF(location_messages); i++)
