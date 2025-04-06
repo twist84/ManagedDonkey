@@ -1,5 +1,14 @@
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
 
+//.text:00AFC2D0 ; public: c_gui_screen_campaign_select_difficulty::c_gui_screen_campaign_select_difficulty(long)
+//.text:00AFC310 ; public: virtual c_gui_screen_campaign_select_difficulty::~c_gui_screen_campaign_select_difficulty()
+//.text:00AFC320 ; public: virtual void* c_gui_screen_campaign_select_difficulty::`scalar deleting destructor'(unsigned int)
+//.text:00AFC350 ; private: void c_gui_screen_campaign_select_difficulty::difficulty_chosen_immediate(e_controller_index)
+//.text:00AFC5A0 ; public: virtual bool c_gui_screen_campaign_select_difficulty::handle_dialog_result(c_dialog_result_message const*)
+//.text:00AFC620 ; public: virtual bool c_gui_screen_campaign_select_difficulty::handle_list_item_chosen(c_controller_input_message const*, long, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AFC770 ; public: virtual void c_gui_screen_campaign_select_difficulty::initialize()
+//.text:00AFC790 ; public: virtual void c_gui_screen_campaign_select_difficulty::initialize_datasource()
+
 //void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty)
 void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, long campaign_id, long map_id, e_campaign_difficulty_level difficulty)
 {
@@ -10,4 +19,6 @@ void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_se
 	m_map_id = map_id;
 	m_difficulty = difficulty;
 }
+
+//.text:00AFC860 ; public: virtual void c_gui_screen_campaign_select_difficulty::update(dword)
 
