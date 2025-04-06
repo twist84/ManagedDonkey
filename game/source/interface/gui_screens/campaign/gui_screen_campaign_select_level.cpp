@@ -1,6 +1,6 @@
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
 
-#include "interface/gui_selected_items.hpp"
+#include "interface/gui_selected_items_level.hpp"
 #include "interface/user_interface_data.hpp"
 #include "memory/module.hpp"
 
