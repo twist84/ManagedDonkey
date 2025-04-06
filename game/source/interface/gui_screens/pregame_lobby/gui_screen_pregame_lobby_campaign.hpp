@@ -1,3 +1,5 @@
+#pragma once
+
 #include "cseries/cseries.hpp"
 
 #include "game/players.hpp"

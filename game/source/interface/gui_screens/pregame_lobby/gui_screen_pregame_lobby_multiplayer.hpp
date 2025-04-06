@@ -1,3 +1,5 @@
+#pragma once
+
 #include "cseries/cseries.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
