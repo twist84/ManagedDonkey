@@ -7,6 +7,8 @@ struct c_gui_screen_campaign_select_level :
 	public c_gui_screen_widget
 {
 public:
+	void __thiscall post_initialize_();
+
 	void setup(e_gui_campaign_level_setup_mode campaign_setup_mode, long campaign_id, long map_id, short campaign_insertion_point);
 
 //protected:
