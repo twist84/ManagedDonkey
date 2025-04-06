@@ -46,6 +46,7 @@ struct c_window_manager
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
 	c_gui_screen_widget* load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index);
+	long locate_screen_definition_tag_by_name(long name);
 	bool named_screen_defined_in_code(long screen_name);
 	void update(dword milliseconds);
 };
