@@ -9,7 +9,7 @@ struct c_gui_network_mode_selected_item :
 {
 public:
 
-	//protected:
+//protected:
 	e_network_mode_category m_network_mode;
 	e_network_mode_choice m_network_choice;
 };

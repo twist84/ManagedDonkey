@@ -809,7 +809,7 @@ char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* 
 
 	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 
-	if (map_id == (e_map_id)0x10231971)
+	if (map_id == _map_id_mainmenu)
 	{
 		csstrnzcpy(path, g_level_globals.main_menu.scenario_file, maximum_characters);
 	}
@@ -844,7 +844,7 @@ void __cdecl levels_initialize()
 
 	g_level_globals.main_menu.flags.clear();
 	g_level_globals.main_menu.flags.set(_level_is_main_menu_bit, true);
-	g_level_globals.main_menu.map_id = (e_map_id)0x10231971;
+	g_level_globals.main_menu.map_id = _map_id_mainmenu;
 	csnzprintf(g_level_globals.main_menu.scenario_file, sizeof(g_level_globals.main_menu.scenario_file), "%s%s", cache_files_map_directory(), "mainmenu");
 
 	g_level_globals.initialized = true;

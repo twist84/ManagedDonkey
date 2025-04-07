@@ -95,7 +95,7 @@ struct s_gui_game_setup_storage
 			return valid;
 		}
 
-	//protected:
+//protected:
 		bool valid;
 		e_campaign_id campaign_id;
 		e_map_id map_id;
@@ -119,7 +119,7 @@ struct s_gui_game_setup_storage
 			return valid;
 		}
 
-	//protected:
+//protected:
 		bool valid;
 
 		e_campaign_id campaign_id;
@@ -152,7 +152,7 @@ struct s_gui_game_setup_storage
 			return valid && game_variant_settings.is_valid() && map_variant_settings.is_valid();
 		}
 
-	//protected:
+//protected:
 		bool valid;
 		s_game_variant_settings game_variant_settings;
 		s_map_variant_settings map_variant_settings;
@@ -167,7 +167,7 @@ struct s_gui_game_setup_storage
 			return valid && map_variant_settings.is_valid();
 		}
 
-	//protected:
+//protected:
 		bool valid;
 		bool dirtied_in_game;
 		long : 32;
@@ -184,7 +184,7 @@ struct s_gui_game_setup_storage
 			return valid;
 		}
 
-	//protected:
+//protected:
 		bool valid;
 		long location;
 		s_player_identifier owner;

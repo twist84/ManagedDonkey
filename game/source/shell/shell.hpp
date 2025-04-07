@@ -50,8 +50,11 @@ enum e_map_id
 	_map_id_first = 3005,
 	_map_id_tutorial = 3010,
 	_map_id_first_playable = 3010,
+
 	_map_id_none = -1,
 	_map_id_use_scenario_path = -2,
+
+	_map_id_mainmenu = 0x10231971,
 };
 
 enum e_gui_campaign_difficulty_setup_mode
@@ -2662,6 +2665,14 @@ enum e_game_time_holiday
 	_game_time_holiday_christmas,
 
 	k_game_time_holiday_count
+};
+
+enum e_render_data_size
+{
+	k_render_data_size_small = 0x1400,
+	k_render_data_size_normal = 0x7800,
+	k_render_data_size_large = 0xF000,
+	k_render_data_maximum_size = 0xF000,
 };
 
 extern bool __cdecl shell_application_is_paused();

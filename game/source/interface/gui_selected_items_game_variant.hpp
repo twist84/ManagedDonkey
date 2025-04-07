@@ -9,7 +9,7 @@ struct c_gui_game_variant_selected_item :
 {
 public:
 
-	//protected:
+//protected:
 	e_controller_index m_controller_index;
 	long m_variant_index;
 	s_file_reference m_file_reference;

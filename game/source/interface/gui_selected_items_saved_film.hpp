@@ -10,7 +10,7 @@ struct c_gui_saved_film_selected_item :
 {
 public:
 
-	//protected:
+//protected:
 	e_controller_index m_controller_index;
 	s_file_reference m_file_reference;
 	qword m_sort_order;
