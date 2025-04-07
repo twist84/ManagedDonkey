@@ -38,10 +38,13 @@ extern long __cdecl user_interface_squad_get_machine_count();
 extern long __cdecl user_interface_squad_get_player_count();
 extern s_player_identifier const* __cdecl user_interface_session_get_player_identifier(long session_player_index);
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
+extern bool __cdecl user_interface_squad_in_or_after_countdown();
+extern bool __cdecl user_interface_squad_local_peer_is_leader();
 extern bool __cdecl user_interface_squad_set_film(s_saved_film_description const* film);
 extern bool __cdecl user_interface_squad_set_film_internal(s_saved_film_description const* film, bool needs_verification);
 extern bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_variant);
 extern bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant);
 extern bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification);
 extern bool __cdecl user_interface_squad_start_countdown_timer(e_controller_index controller_index, long countdown_timer, long accelerate_countdown_timer);
+extern bool __cdecl user_interface_squad_stop_countdown_timer(e_controller_index controller_index, long countdown_timer, bool halo2);
 

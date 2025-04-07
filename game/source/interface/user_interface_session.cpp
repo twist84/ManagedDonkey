@@ -216,14 +216,24 @@ e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
 }
 
 //.text:00A83240 ; bool __cdecl user_interface_squad_in_matchmaking()
-//.text:00A83250 ; bool __cdecl user_interface_squad_in_or_after_countdown()
+
+bool __cdecl user_interface_squad_in_or_after_countdown()
+{
+	return INVOKE(0x00A83250, user_interface_squad_in_or_after_countdown);
+}
+
 //.text:00A83300 ; bool __cdecl user_interface_squad_is_booting_allowed()
 //.text:00A83350 ; e_network_join_refuse_reason __cdecl user_interface_squad_is_joinable()
 //.text:00A833A0 ; bool __cdecl user_interface_squad_is_local_player(long player_index)
 //.text:00A83410 ; bool __cdecl user_interface_squad_is_offline()
 //.text:00A834B0 ; bool __cdecl user_interface_squad_is_player_valid(long player_index)
 //.text:00A83510 ; bool __cdecl user_interface_squad_local_peer_is_host()
-//.text:00A83520 ; bool __cdecl user_interface_squad_local_peer_is_leader()
+
+bool __cdecl user_interface_squad_local_peer_is_leader()
+{
+	return INVOKE(0x00A83520, user_interface_squad_local_peer_is_leader);
+}
+
 //.text:00A835F0 ; bool __cdecl user_interface_squad_set_active_skulls_primary(dword active_skulls_primary)
 //.text:00A83600 ; bool __cdecl user_interface_squad_set_active_skulls_secondary(dword active_skulls_secondary)
 //.text:00A83610 ; bool __cdecl user_interface_squad_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
@@ -271,6 +281,10 @@ bool __cdecl user_interface_squad_start_countdown_timer(e_controller_index contr
 	return INVOKE(0x00A83CF0, user_interface_squad_start_countdown_timer, controller_index, countdown_timer, accelerate_countdown_timer);
 }
 
-//.text:00A83D70 ; bool __cdecl user_interface_squad_stop_countdown_timer(e_controller_index controller_index, long countdown_timer, bool halo2)
+bool __cdecl user_interface_squad_stop_countdown_timer(e_controller_index controller_index, long countdown_timer, bool halo2)
+{
+	return INVOKE(0x00A83D70, user_interface_squad_stop_countdown_timer, controller_index, countdown_timer, halo2);
+}
+
 //.text:00A83DE0 ; bool __cdecl user_interface_target_squad_exists()
 
