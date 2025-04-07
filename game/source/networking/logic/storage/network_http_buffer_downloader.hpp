@@ -22,8 +22,8 @@ struct c_http_buffer_downloader
 	{
 		_internal_status_none = 0,
 		_internal_status_cache_retrieving,
-		_internal_status_unknown2,
-		_internal_status_unknown3,
+		_internal_status_download_started,
+		_internal_status_download_pending,
 		_internal_status_cache_submitting,
 		_internal_status_succeeded,
 		_internal_status_failed,
@@ -57,7 +57,7 @@ protected:
 	c_http_post_source m_http_post_source;
 	bool m_http_post_source_set;
 	c_static_string<1024> m_extra_headers;
-	c_enum<e_internal_status, long, _internal_status_none, k_internal_status_count> m_internal_status;
+	e_internal_status m_internal_status;
 	long m_request_cookie;
 	long m_cache_task_token;
 	char* m_download_buffer;

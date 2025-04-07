@@ -48,8 +48,8 @@ e_download_status __cdecl c_http_buffer_downloader::get_download_status_from_int
 	case _internal_status_none:
 		return _http_download_status_none;
 	case _internal_status_cache_retrieving:
-	case _internal_status_unknown2:
-	case _internal_status_unknown3:
+	case _internal_status_download_started:
+	case _internal_status_download_pending:
 		return _http_download_status_pending;
 	case _internal_status_cache_submitting:
 	case _internal_status_succeeded:
