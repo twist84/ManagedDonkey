@@ -24,6 +24,11 @@ struct c_error_dialog_screen_widget :
 	public c_gui_screen_widget
 {
 public:
+	c_error_dialog_screen_widget(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00AE6DF0, c_error_dialog_screen_widget*, __thiscall, c_error_dialog_screen_widget*, long)(this, name);
+	}
 
 //protected:
 	e_controller_index m_controller_index;
