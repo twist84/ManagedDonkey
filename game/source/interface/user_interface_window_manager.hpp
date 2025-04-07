@@ -3,17 +3,12 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 
-// player 1
-// player 2
-// player 3
-// player 4
-// console
-
+enum e_controller_index;
+enum e_window_index;
 struct s_data_array;
+struct s_event_record;
 struct c_gui_screen_widget;
 struct c_load_screen_message;
-struct s_event_record;
-enum e_window_index;
 struct c_window_manager
 {
 	enum
@@ -45,9 +40,9 @@ struct c_window_manager
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
-	c_gui_screen_widget* load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index);
-	long locate_screen_definition_tag_by_name(long name);
-	bool named_screen_defined_in_code(long screen_name);
+	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, long window_index);
+	static long __cdecl locate_screen_definition_tag_by_name(long name);
+	static bool __cdecl named_screen_defined_in_code(long screen_name);
 	void update(dword milliseconds);
 };
 static_assert(sizeof(c_window_manager) == 0x128);

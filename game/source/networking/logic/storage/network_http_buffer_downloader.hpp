@@ -33,7 +33,7 @@ struct c_http_buffer_downloader
 	};
 
 public:
-	virtual ~c_http_buffer_downloader();
+	virtual ~c_http_buffer_downloader() {};
 
 	e_download_status __thiscall get_download_status();
 	e_download_status __thiscall get_data(char const** out_data, long* out_data_length);

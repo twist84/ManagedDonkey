@@ -6,6 +6,7 @@ struct c_error_dialog_ok_screen_widget :
 	public c_error_dialog_screen_widget
 {
 public:
+	c_error_dialog_ok_screen_widget(long name);
 
 //protected:
 };

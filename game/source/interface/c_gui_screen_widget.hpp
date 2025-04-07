@@ -99,6 +99,11 @@ struct c_gui_screen_widget :
 	public c_gui_widget
 {
 public:
+	c_gui_screen_widget(long name)
+	{
+		DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, long)(this, name);
+	}
+
 	// get_render_data_size
 	// get_gui_location
 	// reconstruct

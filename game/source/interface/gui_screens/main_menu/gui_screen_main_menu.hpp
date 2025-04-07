@@ -10,6 +10,12 @@ struct c_main_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:
+	c_main_menu_screen_widget(long name) :
+		c_gui_screen_widget(name),
+		m_motd_popup_downloader()
+	{
+		DECLFUNC(0x00AE71E0, c_main_menu_screen_widget*, __thiscall, c_main_menu_screen_widget*, long)(this, name);
+	}
 
 //private:
 	long get_in_use_controller_count(e_controller_index* out_first_in_use_controller);
