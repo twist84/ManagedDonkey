@@ -289,7 +289,7 @@ public:
 
 //protected:
 	long __unknown4;
-	c_enum<e_gui_widget_type, long, _gui_text, k_number_of_gui_element_types> m_type;
+	e_gui_widget_type m_type;
 
 	bool m_visible;
 	bool m_enabled;
