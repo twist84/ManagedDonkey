@@ -2,10 +2,19 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
-#include "interface/c_gui_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/c_gui_widget.hpp"
+#include "interface/gui_screens/boot_betrayer/gui_screen_boot_betrayer.hpp"
+#include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
+#include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
 #include "interface/gui_screens/error_dialogs/screen_error_dialog_ok.hpp"
+#include "interface/gui_screens/game_details/gui_game_details.hpp"
 #include "interface/gui_screens/main_menu/gui_screen_main_menu.hpp"
+#include "interface/gui_screens/player_select/gui_player_select_screen_widget.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_campaign.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_matchmaking.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_multiplayer.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
@@ -91,34 +100,34 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_milestone_dialog), c_gui_spartan_milestone);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_rank_dialog), c_gui_spartan_rank);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_settings), c_gui_screen_campaign_settings);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_difficulty), c_gui_screen_campaign_select_difficulty);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_level), c_gui_screen_campaign_select_level);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_campaign), c_gui_screen_pregame_lobby_campaign);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_matchmaking), c_gui_screen_pregame_lobby_matchmaking);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_multiplayer), c_gui_screen_pregame_lobby_multiplayer);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_difficulty), c_gui_screen_campaign_select_difficulty);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_level), c_gui_screen_campaign_select_level);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_campaign), c_gui_screen_pregame_lobby_campaign);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_matchmaking), c_gui_screen_pregame_lobby_matchmaking);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_multiplayer), c_gui_screen_pregame_lobby_multiplayer);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_mapeditor), c_gui_screen_pregame_lobby_mapeditor);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_theater), c_gui_screen_pregame_lobby_theater);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_switch_lobby), c_gui_screen_pregame_switch_lobby);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_selection), c_gui_screen_pregame_selection);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_selection), c_gui_screen_pregame_selection);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_advanced_options_matchmaking), c_gui_screen_matchmaking_advanced_options);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, postgame_lobby), c_gui_screen_postgame_lobby);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, player_select), c_gui_player_select_screen_widget);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, player_select), c_gui_player_select_screen_widget);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_browser), c_gui_game_browser);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer), c_gui_screen_boot_betrayer);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer_splitscreen), c_gui_screen_boot_betrayer);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer), c_gui_screen_boot_betrayer);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer_splitscreen), c_gui_screen_boot_betrayer);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, maximum_party_size), c_gui_screen_maximum_party_size);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_details), c_gui_game_details);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_details), c_gui_game_details);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_options), c_gui_screen_game_options);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_legal), c_gui_screen_alpha_legal);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_motd), c_gui_screen_alpha_motd);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_locked_down), c_gui_screen_alpha_locked_down);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, forge_legal), c_gui_screen_forge_legal);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report), c_gui_screen_carnage_report);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report_player_details), c_gui_player_select_screen_widget);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report_player_details), c_gui_player_select_screen_widget);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard), c_gui_screen_scoreboard);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_half), c_gui_screen_scoreboard);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select), c_gui_player_select_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select_splitscreen), c_gui_player_select_screen_widget);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select), c_gui_player_select_screen_widget);
+	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select_splitscreen), c_gui_player_select_screen_widget);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_searching), c_gui_screen_matchmaking_searching);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_match_found), c_gui_screen_matchmaking_match_found);
 	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_budget_screen), c_sandbox_budget_summary_screen_widget);

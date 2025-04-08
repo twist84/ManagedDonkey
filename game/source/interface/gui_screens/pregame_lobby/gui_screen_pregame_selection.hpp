@@ -11,6 +11,14 @@ struct c_virtual_keyboard_task;
 struct c_gui_screen_pregame_selection :
 	public c_gui_screen_widget
 {
+public:
+	c_gui_screen_pregame_selection(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00B030B0, c_gui_screen_pregame_selection*, __thiscall, c_gui_screen_pregame_selection*, long)(this, name);
+	}
+
+//protected:
 	e_gui_selected_item_type m_selection_type;
 	long m_selected_category_element_handle;
 	c_gui_data* m_subitem_datasource;

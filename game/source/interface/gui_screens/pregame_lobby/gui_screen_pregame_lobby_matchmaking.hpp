@@ -12,6 +12,12 @@ struct c_gui_screen_pregame_lobby_matchmaking :
 public:
 	//bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 
+	c_gui_screen_pregame_lobby_matchmaking(long name) :
+		c_gui_screen_pregame_lobby(name)
+	{
+		DECLFUNC(0x00B01580, c_gui_screen_pregame_lobby_matchmaking*, __thiscall, c_gui_screen_pregame_lobby_matchmaking*, long)(this, name);
+	}
+
 //protected:
 	c_http_blf_simple_downloader<s_dynamic_matchmaking_hopper_statistics, 2465> m_hopper_statstics_downloader;
 	long m_url_key;

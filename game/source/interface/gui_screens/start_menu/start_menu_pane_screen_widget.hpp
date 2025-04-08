@@ -8,6 +8,12 @@ struct c_start_menu_pane_screen_widget :
 	public c_gui_screen_widget
 {
 public:
+	c_start_menu_pane_screen_widget(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00B1F280, c_start_menu_pane_screen_widget*, __thiscall, c_start_menu_pane_screen_widget*, long)(this, name);
+	}
+
 	void close_current_subpane();
 
 //protected:

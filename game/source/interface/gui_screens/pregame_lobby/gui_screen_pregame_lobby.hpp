@@ -19,6 +19,12 @@ public:
 	//virtual void stop_fade_during_countdown();
 
 public:
+	c_gui_screen_pregame_lobby(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00B21180, c_gui_screen_pregame_lobby*, __thiscall, c_gui_screen_pregame_lobby*, long)(this, name);
+	}
+
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();

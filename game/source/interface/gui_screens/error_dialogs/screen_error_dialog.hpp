@@ -2,15 +2,7 @@
 
 #include "interface/c_gui_screen_widget.hpp"
 
-enum e_gui_error_category
-{
-	_gui_error_category_default = 0,
-	_gui_error_category_networking,
-	_gui_error_category_storage,
-	_gui_error_category_controller,
-
-	k_gui_error_category_count
-};
+enum e_gui_error_category;
 
 struct s_gui_error
 {

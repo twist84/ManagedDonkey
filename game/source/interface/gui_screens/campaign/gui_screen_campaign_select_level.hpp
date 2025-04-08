@@ -14,6 +14,12 @@ struct c_gui_screen_campaign_select_level :
 public:
 	void __thiscall post_initialize_();
 
+	c_gui_screen_campaign_select_level(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00AFCA00, c_gui_screen_campaign_select_level*, __thiscall, c_gui_screen_campaign_select_level*, long)(this, name);
+	}
+
 	void setup(e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, short campaign_insertion_point);
 
 //protected:

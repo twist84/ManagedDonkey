@@ -16,6 +16,12 @@ public:
 	//void __thiscall initialize_();
 	//void __thiscall load_progress_ui_(e_controller_index controller_index);
 
+	c_gui_screen_pregame_lobby_campaign(long name) :
+		c_gui_screen_pregame_lobby(name)
+	{
+		DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, long)(this, name);
+	}
+
 //protected:
 	long m_last_player_count;
 	e_network_session_class m_session_class;

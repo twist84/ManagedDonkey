@@ -9,6 +9,12 @@ struct c_gui_player_select_screen_widget :
 public:
 	void __thiscall initialize_();
 
+	c_gui_player_select_screen_widget(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00B07790, c_gui_player_select_screen_widget*, __thiscall, c_gui_player_select_screen_widget*, long)(this, name);
+	}
+
 //protected:
 	s_player_identifier m_current_player_id;
 	s_player_identifier m_target_player_id;

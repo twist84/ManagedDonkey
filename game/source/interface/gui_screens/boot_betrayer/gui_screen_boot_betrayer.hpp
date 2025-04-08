@@ -8,9 +8,15 @@ struct c_gui_screen_boot_betrayer :
 	public c_gui_screen_widget
 {
 public:
+	c_gui_screen_boot_betrayer(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00AB5410, c_gui_screen_boot_betrayer*, __thiscall, c_gui_screen_boot_betrayer*, long)(this, name);
+	}
+
 	void set_current_player_id(s_player_identifier const* current_player_id);
 
-	s_player_identifier const* get_target_player_id();
+	s_player_identifier const* get_target_player_id() const;
 	void set_target_player_id(s_player_identifier const* target_player_id);
 
 protected:
