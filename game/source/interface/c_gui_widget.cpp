@@ -707,17 +707,17 @@ bool c_gui_widget::transitioning_out()
 void c_gui_widget::update(dword current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00ABB070, c_gui_widget, update, current_milliseconds);
-}
-
-void c_gui_widget::update_animation(dword current_milliseconds)
-{
-	INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
 
 	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
 	//{
 	//	if (child_widget->m_type != _gui_screen)
 	//		child_widget->update(current_milliseconds);
 	//}
+}
+
+void c_gui_widget::update_animation(dword current_milliseconds)
+{
+	INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
 }
 
 void c_gui_widget::update_render_state(dword current_milliseconds)
