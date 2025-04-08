@@ -20,8 +20,8 @@
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
-HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);
-HOOK_DECLARE_CLASS(0x00AABFD0, c_window_manager, named_screen_defined_in_code);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);
+//HOOK_DECLARE_CLASS(0x00AABFD0, c_window_manager, named_screen_defined_in_code);
 
 //.text:00AA8C50 ; public: c_window_manager::c_window_manager()
 //.text:00AA8D20 ; public: c_window_manager::~c_window_manager()
@@ -41,119 +41,123 @@ c_gui_screen_widget* c_window_manager::allocate_codeless_screen(long screen_name
 
 c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
+	return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
 
-	if (c_window_manager::locate_screen_definition_tag_by_name(screen_name) == NONE && screen_name != _string_id_gui__message)
-	{
-		event(_event_warning, "ui: failed to allocate screen '%s': no tag definition found", string_id_get_string_const(screen_name));
-		return NULL;
-	}
-
-	switch (screen_name)
-	{
-#define DECLARE_SCREEN_NAME_CASE(SCREEN_NAME, CLASS) case SCREEN_NAME: return new CLASS(SCREEN_NAME)
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, error_ok), c_error_dialog_ok_screen_widget);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, main_menu), c_main_menu_screen_widget);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu), c_start_menu_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_campaign), c_start_menu_game_campaign);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_multiplayer), c_start_menu_game_multiplayer);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_editor), c_start_menu_game_editor);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_saved_film), c_start_menu_game_saved_film);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq), c_start_menu_headquarters);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record), c_gui_start_menu_hq_service_record);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share), c_gui_start_menu_hq_service_record_file_share);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_bungie), c_gui_start_menu_hq_service_record_file_share);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_choose_category), c_gui_start_menu_hq_service_record_file_share_choose_category);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_choose_item), c_gui_start_menu_hq_service_record_file_share_choose_item);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_item_selected), c_gui_start_menu_hq_service_record_file_share_item_selected);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_screenshots), c_gui_start_menu_hq_screenshots);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_screenshots_item_options), c_gui_start_menu_hq_screenshots_options);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_transfers), c_gui_start_menu_hq_transfers);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_transfers_item_selected), c_gui_start_menu_hq_transfers_item_selected);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings), c_start_menu_settings);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls), c_start_menu_settings_controls);
-	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_keyboard), c_start_menu_settings_keyboard);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_button), c_start_menu_settings_controls_button);
-	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_keyboard), c_start_menu_settings_controls_keyboard);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_thumbstick), c_start_menu_settings_controls_thumbstick);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance), c_start_menu_settings_appearance);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_model), c_start_menu_settings_appearance_model);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_emblem), c_start_menu_settings_appearance_emblem);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_colors), c_start_menu_settings_appearance_colors);
-	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_voice), c_start_menu_settings_voice);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_camera), c_start_menu_settings_camera);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_display), c_start_menu_settings_display);
-	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_video), c_start_menu_settings_video);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_film_autosave), c_start_menu_settings_film_autosave);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, screenshots_viewer), c_screenshots_viewer_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, screenshots_file_share_previewer), c_screenshots_file_share_previewer_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_nonblocking), c_gui_alert_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_toast), c_gui_alert_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_ingame_full), c_gui_alert_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_ingame_split), c_gui_alert_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_dialog_two_items), c_gui_dialog_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_dialog_four_items), c_gui_dialog_screen_widget);
-	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_confirm_resolution), c_start_menu_confirm_resolution);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress), c_gui_screen_in_progress);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress_mini), c_gui_screen_in_progress);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress_mini_me), c_gui_screen_in_progress);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_milestone_dialog), c_gui_spartan_milestone);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_rank_dialog), c_gui_spartan_rank);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_settings), c_gui_screen_campaign_settings);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_difficulty), c_gui_screen_campaign_select_difficulty);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_level), c_gui_screen_campaign_select_level);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_campaign), c_gui_screen_pregame_lobby_campaign);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_matchmaking), c_gui_screen_pregame_lobby_matchmaking);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_multiplayer), c_gui_screen_pregame_lobby_multiplayer);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_mapeditor), c_gui_screen_pregame_lobby_mapeditor);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_theater), c_gui_screen_pregame_lobby_theater);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_switch_lobby), c_gui_screen_pregame_switch_lobby);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_selection), c_gui_screen_pregame_selection);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_advanced_options_matchmaking), c_gui_screen_matchmaking_advanced_options);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, postgame_lobby), c_gui_screen_postgame_lobby);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, player_select), c_gui_player_select_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_browser), c_gui_game_browser);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer), c_gui_screen_boot_betrayer);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer_splitscreen), c_gui_screen_boot_betrayer);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, maximum_party_size), c_gui_screen_maximum_party_size);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_details), c_gui_game_details);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_options), c_gui_screen_game_options);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_legal), c_gui_screen_alpha_legal);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_motd), c_gui_screen_alpha_motd);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_locked_down), c_gui_screen_alpha_locked_down);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, forge_legal), c_gui_screen_forge_legal);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report), c_gui_screen_carnage_report);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report_player_details), c_gui_player_select_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard), c_gui_screen_scoreboard);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_half), c_gui_screen_scoreboard);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select), c_gui_player_select_screen_widget);
-	DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select_splitscreen), c_gui_player_select_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_searching), c_gui_screen_matchmaking_searching);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_match_found), c_gui_screen_matchmaking_match_found);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_budget_screen), c_sandbox_budget_summary_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_budget_screen_splitscreen), c_sandbox_budget_summary_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_objects_menu), c_sandbox_object_menu_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_objects_menu_splitscreen), c_sandbox_object_menu_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_object_properties_panel), c_sandbox_object_properties_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_object_properties_panel_splitscreen), c_sandbox_object_properties_screen_widget);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, observer_camera_list_screen), c_observer_camera_list_screen);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, observer_camera_list_splitscreen), c_observer_camera_list_screen);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_control_pad), c_saved_film_control_pad);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_take_screenshot), c_saved_film_take_screenshot);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_snippet), c_saved_film_snippet_screen);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, terminal_screen), c_gui_screen_terminal);
-	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, message), c_motd_popup_screen_widget);
-#undef DECLARE_SCREEN_NAME_CASE
-	}
-
-	// $TODO: remove this when each of the above classes exist and have a constructor 
-	c_gui_screen_widget* result = NULL;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
-	if (result != NULL)
-		return result;
-
-	event(_event_warning, "ui: no c_gui_screen_class registered for ui screen '%s'", string_id_get_string_const(screen_name));
-	return NULL;
+	//c_gui_screen_widget* result = NULL;
+	//HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
+	//return result;
+	//
+	//if (c_window_manager::locate_screen_definition_tag_by_name(screen_name) == NONE && screen_name != _string_id_gui__message)
+	//{
+	//	event(_event_warning, "ui: failed to allocate screen '%s': no tag definition found", string_id_get_string_const(screen_name));
+	//	return NULL;
+	//}
+	//
+	//switch (screen_name)
+	//{
+	//#define DECLARE_SCREEN_NAME_CASE(SCREEN_NAME, CLASS) case SCREEN_NAME: return new CLASS(SCREEN_NAME)
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, error_ok), c_error_dialog_ok_screen_widget);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, main_menu), c_main_menu_screen_widget);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu), c_start_menu_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_campaign), c_start_menu_game_campaign);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_multiplayer), c_start_menu_game_multiplayer);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_editor), c_start_menu_game_editor);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_game_saved_film), c_start_menu_game_saved_film);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq), c_start_menu_headquarters);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record), c_gui_start_menu_hq_service_record);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share), c_gui_start_menu_hq_service_record_file_share);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_bungie), c_gui_start_menu_hq_service_record_file_share);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_choose_category), c_gui_start_menu_hq_service_record_file_share_choose_category);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_choose_item), c_gui_start_menu_hq_service_record_file_share_choose_item);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_service_record_file_share_item_selected), c_gui_start_menu_hq_service_record_file_share_item_selected);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_screenshots), c_gui_start_menu_hq_screenshots);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_screenshots_item_options), c_gui_start_menu_hq_screenshots_options);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_transfers), c_gui_start_menu_hq_transfers);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_hq_transfers_item_selected), c_gui_start_menu_hq_transfers_item_selected);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings), c_start_menu_settings);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls), c_start_menu_settings_controls);
+	//////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_keyboard), c_start_menu_settings_keyboard);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_button), c_start_menu_settings_controls_button);
+	//////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_keyboard), c_start_menu_settings_controls_keyboard);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_controls_thumbstick), c_start_menu_settings_controls_thumbstick);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance), c_start_menu_settings_appearance);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_model), c_start_menu_settings_appearance_model);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_emblem), c_start_menu_settings_appearance_emblem);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_appearance_colors), c_start_menu_settings_appearance_colors);
+	//////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_voice), c_start_menu_settings_voice);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_camera), c_start_menu_settings_camera);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_display), c_start_menu_settings_display);
+	//////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_video), c_start_menu_settings_video);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_settings_film_autosave), c_start_menu_settings_film_autosave);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, screenshots_viewer), c_screenshots_viewer_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, screenshots_file_share_previewer), c_screenshots_file_share_previewer_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_nonblocking), c_gui_alert_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_toast), c_gui_alert_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_ingame_full), c_gui_alert_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_alert_ingame_split), c_gui_alert_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_dialog_two_items), c_gui_dialog_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, gui_dialog_four_items), c_gui_dialog_screen_widget);
+	//////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, start_menu_confirm_resolution), c_start_menu_confirm_resolution);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress), c_gui_screen_in_progress);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress_mini), c_gui_screen_in_progress);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, in_progress_mini_me), c_gui_screen_in_progress);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_milestone_dialog), c_gui_spartan_milestone);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, spartan_rank_dialog), c_gui_spartan_rank);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_settings), c_gui_screen_campaign_settings);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_difficulty), c_gui_screen_campaign_select_difficulty);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, campaign_select_level), c_gui_screen_campaign_select_level);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_campaign), c_gui_screen_pregame_lobby_campaign);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_matchmaking), c_gui_screen_pregame_lobby_matchmaking);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_multiplayer), c_gui_screen_pregame_lobby_multiplayer);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_mapeditor), c_gui_screen_pregame_lobby_mapeditor);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_lobby_theater), c_gui_screen_pregame_lobby_theater);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_switch_lobby), c_gui_screen_pregame_switch_lobby);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_selection), c_gui_screen_pregame_selection);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, pregame_advanced_options_matchmaking), c_gui_screen_matchmaking_advanced_options);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, postgame_lobby), c_gui_screen_postgame_lobby);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, player_select), c_gui_player_select_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_browser), c_gui_game_browser);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer), c_gui_screen_boot_betrayer);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, boot_betrayer_splitscreen), c_gui_screen_boot_betrayer);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, maximum_party_size), c_gui_screen_maximum_party_size);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_details), c_gui_game_details);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, game_options), c_gui_screen_game_options);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_legal), c_gui_screen_alpha_legal);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_motd), c_gui_screen_alpha_motd);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, alpha_locked_down), c_gui_screen_alpha_locked_down);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, forge_legal), c_gui_screen_forge_legal);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report), c_gui_screen_carnage_report);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, carnage_report_player_details), c_gui_player_select_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard), c_gui_screen_scoreboard);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_half), c_gui_screen_scoreboard);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select), c_gui_player_select_screen_widget);
+	//DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, scoreboard_player_select_splitscreen), c_gui_player_select_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_searching), c_gui_screen_matchmaking_searching);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, matchmaking_match_found), c_gui_screen_matchmaking_match_found);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_budget_screen), c_sandbox_budget_summary_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_budget_screen_splitscreen), c_sandbox_budget_summary_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_objects_menu), c_sandbox_object_menu_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_objects_menu_splitscreen), c_sandbox_object_menu_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_object_properties_panel), c_sandbox_object_properties_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, sandbox_object_properties_panel_splitscreen), c_sandbox_object_properties_screen_widget);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, observer_camera_list_screen), c_observer_camera_list_screen);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, observer_camera_list_splitscreen), c_observer_camera_list_screen);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_control_pad), c_saved_film_control_pad);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_take_screenshot), c_saved_film_take_screenshot);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, saved_film_snippet), c_saved_film_snippet_screen);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, terminal_screen), c_gui_screen_terminal);
+	////DECLARE_SCREEN_NAME_CASE(STRING_ID(gui, message), c_motd_popup_screen_widget);
+	//#undef DECLARE_SCREEN_NAME_CASE
+	//}
+	//
+	//// $TODO: remove this when each of the above classes exist and have a constructor 
+	//c_gui_screen_widget* result = NULL;
+	//HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
+	//if (result != NULL)
+	//	return result;
+	//
+	//event(_event_warning, "ui: no c_gui_screen_class registered for ui screen '%s'", string_id_get_string_const(screen_name));
+	//return NULL;
 }
 
 //.text:00AAA7A0 ; public: bool c_window_manager::any_ui_active()
@@ -245,99 +249,99 @@ long __cdecl c_window_manager::locate_screen_definition_tag_by_name(long name)
 
 bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 {
-	//return INVOKE(0x00AABFD0, c_window_manager::named_screen_defined_in_code, screen_name);
+	return INVOKE(0x00AABFD0, c_window_manager::named_screen_defined_in_code, screen_name);
 
-	return screen_name == STRING_ID(gui, error_ok) ||
-		screen_name == STRING_ID(gui, main_menu) ||
-		screen_name == STRING_ID(gui, start_menu) ||
-		screen_name == STRING_ID(gui, start_menu_game_campaign) ||
-		screen_name == STRING_ID(gui, start_menu_game_multiplayer) ||
-		screen_name == STRING_ID(gui, start_menu_game_editor) ||
-		screen_name == STRING_ID(gui, start_menu_game_saved_film) ||
-		screen_name == STRING_ID(gui, start_menu_hq) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_bungie) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_choose_category) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_choose_item) ||
-		screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_item_selected) ||
-		screen_name == STRING_ID(gui, start_menu_hq_screenshots) ||
-		screen_name == STRING_ID(gui, start_menu_hq_screenshots_item_options) ||
-		screen_name == STRING_ID(gui, start_menu_hq_transfers) ||
-		screen_name == STRING_ID(gui, start_menu_hq_transfers_item_selected) ||
-		screen_name == STRING_ID(gui, start_menu_settings) ||
-		screen_name == STRING_ID(gui, start_menu_settings_controls) ||
-		//screen_name == STRING_ID(gui, start_menu_settings_keyboard) ||
-		screen_name == STRING_ID(gui, start_menu_settings_controls_button) ||
-		//screen_name == STRING_ID(gui, start_menu_settings_controls_keyboard) ||
-		screen_name == STRING_ID(gui, start_menu_settings_controls_thumbstick) ||
-		screen_name == STRING_ID(gui, start_menu_settings_appearance) ||
-		screen_name == STRING_ID(gui, start_menu_settings_appearance_model) ||
-		screen_name == STRING_ID(gui, start_menu_settings_appearance_emblem) ||
-		screen_name == STRING_ID(gui, start_menu_settings_appearance_colors) ||
-		//screen_name == STRING_ID(gui, start_menu_settings_voice) ||
-		screen_name == STRING_ID(gui, start_menu_settings_camera) ||
-		screen_name == STRING_ID(gui, start_menu_settings_display) ||
-		//screen_name == STRING_ID(gui, start_menu_settings_video) ||
-		screen_name == STRING_ID(gui, start_menu_settings_film_autosave) ||
-		screen_name == STRING_ID(gui, screenshots_viewer) ||
-		screen_name == STRING_ID(gui, screenshots_file_share_previewer) ||
-		screen_name == STRING_ID(gui, gui_alert_nonblocking) ||
-		screen_name == STRING_ID(gui, gui_alert_toast) ||
-		screen_name == STRING_ID(gui, gui_alert_ingame_full) ||
-		screen_name == STRING_ID(gui, gui_alert_ingame_split) ||
-		screen_name == STRING_ID(gui, gui_dialog_two_items) ||
-		screen_name == STRING_ID(gui, gui_dialog_four_items) ||
-		//screen_name == STRING_ID(gui, start_menu_confirm_resolution) ||
-		screen_name == STRING_ID(gui, in_progress) ||
-		screen_name == STRING_ID(gui, in_progress_mini) ||
-		screen_name == STRING_ID(gui, in_progress_mini_me) ||
-		screen_name == STRING_ID(gui, spartan_milestone_dialog) ||
-		screen_name == STRING_ID(gui, spartan_rank_dialog) ||
-		screen_name == STRING_ID(gui, campaign_settings) ||
-		screen_name == STRING_ID(gui, campaign_select_difficulty) ||
-		screen_name == STRING_ID(gui, campaign_select_level) ||
-		screen_name == STRING_ID(gui, pregame_lobby_campaign) ||
-		screen_name == STRING_ID(gui, pregame_lobby_matchmaking) ||
-		screen_name == STRING_ID(gui, pregame_lobby_multiplayer) ||
-		screen_name == STRING_ID(gui, pregame_lobby_mapeditor) ||
-		screen_name == STRING_ID(gui, pregame_lobby_theater) ||
-		screen_name == STRING_ID(gui, pregame_switch_lobby) ||
-		screen_name == STRING_ID(gui, pregame_selection) ||
-		screen_name == STRING_ID(gui, pregame_advanced_options_matchmaking) ||
-		screen_name == STRING_ID(gui, postgame_lobby) ||
-		screen_name == STRING_ID(gui, player_select) ||
-		screen_name == STRING_ID(gui, game_browser) ||
-		screen_name == STRING_ID(gui, boot_betrayer) ||
-		screen_name == STRING_ID(gui, boot_betrayer_splitscreen) ||
-		screen_name == STRING_ID(gui, maximum_party_size) ||
-		screen_name == STRING_ID(gui, game_details) ||
-		screen_name == STRING_ID(gui, game_options) ||
-		screen_name == STRING_ID(gui, alpha_legal) ||
-		screen_name == STRING_ID(gui, alpha_motd) ||
-		screen_name == STRING_ID(gui, alpha_locked_down) ||
-		screen_name == STRING_ID(gui, forge_legal) ||
-		screen_name == STRING_ID(gui, carnage_report) ||
-		screen_name == STRING_ID(gui, carnage_report_player_details) ||
-		screen_name == STRING_ID(gui, scoreboard) ||
-		screen_name == STRING_ID(gui, scoreboard_half) ||
-		screen_name == STRING_ID(gui, scoreboard_player_select) ||
-		screen_name == STRING_ID(gui, scoreboard_player_select_splitscreen) ||
-		screen_name == STRING_ID(gui, matchmaking_searching) ||
-		screen_name == STRING_ID(gui, matchmaking_match_found) ||
-		screen_name == STRING_ID(gui, sandbox_budget_screen) ||
-		screen_name == STRING_ID(gui, sandbox_budget_screen_splitscreen) ||
-		screen_name == STRING_ID(gui, sandbox_objects_menu) ||
-		screen_name == STRING_ID(gui, sandbox_objects_menu_splitscreen) ||
-		screen_name == STRING_ID(gui, sandbox_object_properties_panel) ||
-		screen_name == STRING_ID(gui, sandbox_object_properties_panel_splitscreen) ||
-		screen_name == STRING_ID(gui, observer_camera_list_screen) ||
-		screen_name == STRING_ID(gui, observer_camera_list_splitscreen) ||
-		screen_name == STRING_ID(gui, saved_film_control_pad) ||
-		screen_name == STRING_ID(gui, saved_film_take_screenshot) ||
-		screen_name == STRING_ID(gui, saved_film_snippet) ||
-		screen_name == STRING_ID(gui, terminal_screen) ||
-		screen_name == STRING_ID(gui, message);
+	//return screen_name == STRING_ID(gui, error_ok) ||
+	//	screen_name == STRING_ID(gui, main_menu) ||
+	//	screen_name == STRING_ID(gui, start_menu) ||
+	//	screen_name == STRING_ID(gui, start_menu_game_campaign) ||
+	//	screen_name == STRING_ID(gui, start_menu_game_multiplayer) ||
+	//	screen_name == STRING_ID(gui, start_menu_game_editor) ||
+	//	screen_name == STRING_ID(gui, start_menu_game_saved_film) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_bungie) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_choose_category) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_choose_item) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_service_record_file_share_item_selected) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_screenshots) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_screenshots_item_options) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_transfers) ||
+	//	screen_name == STRING_ID(gui, start_menu_hq_transfers_item_selected) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_controls) ||
+	//	//screen_name == STRING_ID(gui, start_menu_settings_keyboard) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_controls_button) ||
+	//	//screen_name == STRING_ID(gui, start_menu_settings_controls_keyboard) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_controls_thumbstick) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_appearance) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_appearance_model) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_appearance_emblem) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_appearance_colors) ||
+	//	//screen_name == STRING_ID(gui, start_menu_settings_voice) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_camera) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_display) ||
+	//	//screen_name == STRING_ID(gui, start_menu_settings_video) ||
+	//	screen_name == STRING_ID(gui, start_menu_settings_film_autosave) ||
+	//	screen_name == STRING_ID(gui, screenshots_viewer) ||
+	//	screen_name == STRING_ID(gui, screenshots_file_share_previewer) ||
+	//	screen_name == STRING_ID(gui, gui_alert_nonblocking) ||
+	//	screen_name == STRING_ID(gui, gui_alert_toast) ||
+	//	screen_name == STRING_ID(gui, gui_alert_ingame_full) ||
+	//	screen_name == STRING_ID(gui, gui_alert_ingame_split) ||
+	//	screen_name == STRING_ID(gui, gui_dialog_two_items) ||
+	//	screen_name == STRING_ID(gui, gui_dialog_four_items) ||
+	//	//screen_name == STRING_ID(gui, start_menu_confirm_resolution) ||
+	//	screen_name == STRING_ID(gui, in_progress) ||
+	//	screen_name == STRING_ID(gui, in_progress_mini) ||
+	//	screen_name == STRING_ID(gui, in_progress_mini_me) ||
+	//	screen_name == STRING_ID(gui, spartan_milestone_dialog) ||
+	//	screen_name == STRING_ID(gui, spartan_rank_dialog) ||
+	//	screen_name == STRING_ID(gui, campaign_settings) ||
+	//	screen_name == STRING_ID(gui, campaign_select_difficulty) ||
+	//	screen_name == STRING_ID(gui, campaign_select_level) ||
+	//	screen_name == STRING_ID(gui, pregame_lobby_campaign) ||
+	//	screen_name == STRING_ID(gui, pregame_lobby_matchmaking) ||
+	//	screen_name == STRING_ID(gui, pregame_lobby_multiplayer) ||
+	//	screen_name == STRING_ID(gui, pregame_lobby_mapeditor) ||
+	//	screen_name == STRING_ID(gui, pregame_lobby_theater) ||
+	//	screen_name == STRING_ID(gui, pregame_switch_lobby) ||
+	//	screen_name == STRING_ID(gui, pregame_selection) ||
+	//	screen_name == STRING_ID(gui, pregame_advanced_options_matchmaking) ||
+	//	screen_name == STRING_ID(gui, postgame_lobby) ||
+	//	screen_name == STRING_ID(gui, player_select) ||
+	//	screen_name == STRING_ID(gui, game_browser) ||
+	//	screen_name == STRING_ID(gui, boot_betrayer) ||
+	//	screen_name == STRING_ID(gui, boot_betrayer_splitscreen) ||
+	//	screen_name == STRING_ID(gui, maximum_party_size) ||
+	//	screen_name == STRING_ID(gui, game_details) ||
+	//	screen_name == STRING_ID(gui, game_options) ||
+	//	screen_name == STRING_ID(gui, alpha_legal) ||
+	//	screen_name == STRING_ID(gui, alpha_motd) ||
+	//	screen_name == STRING_ID(gui, alpha_locked_down) ||
+	//	screen_name == STRING_ID(gui, forge_legal) ||
+	//	screen_name == STRING_ID(gui, carnage_report) ||
+	//	screen_name == STRING_ID(gui, carnage_report_player_details) ||
+	//	screen_name == STRING_ID(gui, scoreboard) ||
+	//	screen_name == STRING_ID(gui, scoreboard_half) ||
+	//	screen_name == STRING_ID(gui, scoreboard_player_select) ||
+	//	screen_name == STRING_ID(gui, scoreboard_player_select_splitscreen) ||
+	//	screen_name == STRING_ID(gui, matchmaking_searching) ||
+	//	screen_name == STRING_ID(gui, matchmaking_match_found) ||
+	//	screen_name == STRING_ID(gui, sandbox_budget_screen) ||
+	//	screen_name == STRING_ID(gui, sandbox_budget_screen_splitscreen) ||
+	//	screen_name == STRING_ID(gui, sandbox_objects_menu) ||
+	//	screen_name == STRING_ID(gui, sandbox_objects_menu_splitscreen) ||
+	//	screen_name == STRING_ID(gui, sandbox_object_properties_panel) ||
+	//	screen_name == STRING_ID(gui, sandbox_object_properties_panel_splitscreen) ||
+	//	screen_name == STRING_ID(gui, observer_camera_list_screen) ||
+	//	screen_name == STRING_ID(gui, observer_camera_list_splitscreen) ||
+	//	screen_name == STRING_ID(gui, saved_film_control_pad) ||
+	//	screen_name == STRING_ID(gui, saved_film_take_screenshot) ||
+	//	screen_name == STRING_ID(gui, saved_film_snippet) ||
+	//	screen_name == STRING_ID(gui, terminal_screen) ||
+	//	screen_name == STRING_ID(gui, message);
 }
 
 //.text:00AAC430 ; 

@@ -265,9 +265,11 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\attract_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
+    <ClCompile Include="source\interface\c_gui_list_item_widget.cpp" />
     <ClCompile Include="source\interface\c_player_profile.cpp" />
     <ClCompile Include="source\interface\debug_menu\debug_menu_item_type.cpp" />
     <ClCompile Include="source\interface\debug_menu\debug_menu_zone_sets.cpp" />
+    <ClCompile Include="source\interface\gui_animation.cpp" />
     <ClCompile Include="source\interface\gui_pregame_setup_manager.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_difficulty.cpp" />

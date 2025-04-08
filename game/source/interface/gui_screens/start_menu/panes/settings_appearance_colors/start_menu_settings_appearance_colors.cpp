@@ -131,7 +131,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //			}
 //			else
 //			{
-//				e_controller_index controller_index = get_any_responding_controller();
+//				e_controller_index controller_index = get_arbitrary_responding_controller();
 //				c_player_profile_interface* player_profile = controller_get(controller_index)->get_player_profile_interface();
 //				long focused_item_index = focused_parent_list_widget->get_focused_item_index();
 //
@@ -235,7 +235,7 @@ void __thiscall c_start_menu_settings_appearance_colors::set_color_values_from_p
 {
 	//INVOKE_CLASS_MEMBER(0x00AF9F70, c_start_menu_settings_appearance_colors, set_color_values_from_profile);
 
-	e_controller_index controller_index = get_any_responding_controller();
+	e_controller_index controller_index = get_arbitrary_responding_controller();
 	if (controller_get(controller_index)->in_use())
 	{
 		c_player_profile_interface* player_profile = controller_get(controller_index)->get_player_profile_interface();

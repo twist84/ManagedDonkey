@@ -98,6 +98,7 @@ enum e_gui_widget_type
 	k_gui_widget_type_invalid = -1
 };
 
+enum e_animation_state;
 enum e_controller_index;
 
 struct s_runtime_core_widget_definition;
@@ -110,6 +111,7 @@ struct c_gui_list_item_widget;
 struct c_gui_model_widget;
 struct s_runtime_text_widget_definition;
 struct s_runtime_bitmap_widget_definition;
+struct s_widget_animation_definition;
 struct s_group_widget_definition;
 struct s_button_key_definition;
 struct s_list_widget_block;
@@ -120,28 +122,17 @@ struct s_gui_widget_render_data;
 struct c_controller_input_message;
 struct c_gui_screen_widget;
 
-struct gui_real_rectangle2d
-{
-	real x0_0;
-	real y0_0;
-	real x0_1;
-	real y0_1;
-	real x1_0;
-	real y0_2;
-	real x1_1;
-	real y1_0;
-};
-static_assert(sizeof(gui_real_rectangle2d) == 0x20);
-
 struct c_gui_widget
 {
 protected:
-	//virtual long get_ambient_state();
+	//virtual e_animation_state get_ambient_state();
+
+public:
 	//virtual ~c_gui_widget();
 	//virtual void initialize();
 	//virtual void post_initialize();
 	//virtual void dispose();
-	//virtual long get_name();
+	//virtual long get_name() const;
 	//virtual long get_element_handle();
 	//virtual long get_datasource_index();
 	//virtual bool get_enabled();
@@ -219,21 +210,21 @@ protected:
 		};
 
 		void* __funcs[64];
-	}* __vftable;
-
-	long get_ambient_state();
+	}*__vftable;
+protected:
+	e_animation_state get_ambient_state();
 
 public:
-	void* destructor(dword a1);
+	~c_gui_widget();
 	void initialize();
 	void post_initialize();
 	void dispose();
-	long get_name();
+	long get_name() const;
 	long get_element_handle();
 	long get_datasource_index();
 	bool get_enabled();
-	void set_enabled(bool value);
-	s_runtime_core_widget_definition* get_core_definition();
+	void set_enabled(bool);
+	s_runtime_core_widget_definition* get_core_definition() { return __vftable->get_core_definition(this); };
 	real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
 	real_rectangle2d* get_container_current_bounds(real_rectangle2d* unanimated_bounds);
 	bool should_render(bool* add_to_render_list);
@@ -261,31 +252,75 @@ public:
 	bool handle_controller_input_message(c_controller_input_message const* message);
 	bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);
 
-	c_gui_bitmap_widget* get_next_bitmap_widget();
-	c_gui_list_item_widget* get_next_list_item_widget(bool only_consider_valid_items);
-	c_gui_list_widget* get_next_list_widget();
-	c_gui_model_widget* get_next_model_widget();
-	c_gui_text_widget* get_next_text_widget();
-	c_gui_widget* get_next_widget_of_type(e_gui_widget_type type);
-	c_gui_group_widget* get_parent_group();
-	c_gui_list_widget* get_parent_list();
-	c_gui_list_item_widget* get_parent_list_item();
-	c_gui_screen_widget* get_parent_screen();
-	void set_use_alternate_ambient_state(bool value);
-	void set_visible(bool value);
-	c_gui_widget* get_child_widget(e_gui_widget_type type, long name);
+	void calculate_animation_transform(e_animation_state animation_state, long start_time_milliseconds, long current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
+	bool const can_all_children_be_disposed();
+	bool const can_be_disposed();
+	bool controller_can_drive(e_controller_index controller_index);
+	void delete_all_children();
+	e_controller_index get_arbitrary_responding_controller() const;
+	real_rectangle2d* get_authored_bounds(real_rectangle2d* unanimated_bounds);
 	c_gui_bitmap_widget* get_child_bitmap_widget(long name);
 	c_gui_group_widget* get_child_group_widget(long name);
 	c_gui_list_item_widget* get_child_list_item_widget(long name);
 	c_gui_list_widget* get_child_list_widget(long name);
 	c_gui_model_widget* get_child_model_widget(long name);
 	c_gui_text_widget* get_child_text_widget(long name);
-	c_gui_widget* get_first_child_widget_by_type(e_gui_widget_type type);
-
-	e_controller_index get_any_responding_controller() const;
-	void __thiscall get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
-	c_gui_widget* get_next();
+	c_gui_widget* get_child_widget(e_gui_widget_type type, long name);
 	c_gui_widget* get_children();
+	long get_controller_mask() const;
+	real_argb_color const* get_debug_color();
+	c_gui_widget* get_deepest_widget_that_can_receive_focus();
+	long get_definition_index();
+	e_controller_index get_driving_controller() const;
+	long get_element_index();
+	c_gui_widget* get_first_child_widget_by_type(e_gui_widget_type type);
+	c_gui_widget* get_last_child_widget_by_type(e_gui_widget_type type);
+	c_gui_widget* get_next();
+	c_gui_bitmap_widget* get_next_bitmap_widget();
+	c_gui_list_item_widget* get_next_list_item_widget(bool only_consider_valid_items);
+	c_gui_list_widget* get_next_list_widget();
+	c_gui_model_widget* get_next_model_widget();
+	c_gui_text_widget* get_next_text_widget();
+	c_gui_widget* get_next_widget_of_type(e_gui_widget_type type);
+	c_gui_widget* get_parent();
+	c_gui_group_widget* get_parent_group();
+	c_gui_list_widget* get_parent_list();
+	c_gui_list_item_widget* get_parent_list_item();
+	c_gui_screen_widget* get_parent_screen();
+	c_gui_widget* get_previous();
+	c_gui_bitmap_widget* get_previous_bitmap_widget();
+	c_gui_list_item_widget* get_previous_list_item_widget(bool only_consider_valid_items);
+	c_gui_list_widget* get_previous_list_widget();
+	c_gui_model_widget* get_previous_model_widget();
+	c_gui_text_widget* get_previous_text_widget();
+	c_gui_widget* get_previous_widget_of_type(e_gui_widget_type type);
+	gui_real_rectangle2d* get_projected_bounds(rectangle2d const* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	bool get_render_in_screenshot();
+	e_controller_index get_single_responding_controller() const;
+	void __thiscall get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	bool is_animation_active(e_animation_state animation_state);
+	bool leaf_node_of_widget(c_gui_widget* branch_widget);
+	void modulate_tint_color(real_argb_color const* modulation);
+	void remove_child_widget(c_gui_widget* child);
+	static void render(long user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot);
+	void set_child_bitmap_sprite_frame(long widget_name, long sprite_frame_index);
+	void set_child_enabled(e_gui_widget_type widget_type, long widget_name, bool enabled);
+	void set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, long widget_name, bool value);
+	void set_child_visible(e_gui_widget_type widget_type, long widget_name, bool visible);
+	void set_children(c_gui_widget* children);
+	void set_driving_controller(e_controller_index controller_index);
+	void set_full_animation_state(s_animation_transform const* transform, bool recursive);
+	void set_next(c_gui_widget* next);
+	void set_parent(c_gui_widget* parent);
+	void set_previous(c_gui_widget* previous);
+	void set_tint_color_direct(real_argb_color const* color);
+	void set_use_alternate_ambient_state(bool value);
+	void set_visible(bool value);
+	void start_animation(e_animation_state animation_state, bool recursive);
+	void start_animation_at_time(e_animation_state animation_state, dword animation_start_time, bool recursive);
+	void stomp_bounds(real_rectangle2d const* new_bounds);
+	void update_animation(dword current_milliseconds);
+	bool verify_animation_period(e_animation_state animation_state, long period);
 
 //protected:
 	long __unknown4;

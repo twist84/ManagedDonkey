@@ -20,10 +20,7 @@ struct c_gui_list_item_widget :
 	public c_gui_widget
 {
 public:
-	long get_list_item_index()
-	{
-		return INVOKE_CLASS_MEMBER((dword)__vftable->__funcs[37], c_gui_list_item_widget, get_list_item_index);
-	}
+	long get_list_item_index();
 
 //protected:
 	long __unknownDC;
