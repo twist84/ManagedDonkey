@@ -66,23 +66,29 @@ static void __cdecl gui_widget_render(long user_index, s_gui_widget_render_data 
 HOOK_DECLARE_CALL(0x00AADA93, gui_widget_render);
 */
 
-c_gui_widget* c_gui_widget::get_next()
-{
-	return INVOKE_CLASS_MEMBER(0x00AAB1F0, c_gui_widget, get_next);
-}
-
-c_gui_widget* c_gui_widget::get_parent()
-{
-	return INVOKE_CLASS_MEMBER(0x00AAB220, c_gui_widget, get_parent);
-}
-
 c_gui_widget::~c_gui_widget()
 {
 	DECLFUNC(0x00AB61A0, void, __thiscall, c_gui_widget*)(this);
 }
 
+//.text:00AB63A0 ; public: virtual void* c_gui_widget::`scalar deleting destructor'(unsigned int)
+//.text:00AB63D0 ; public: void c_gui_widget::add_child_widget(c_gui_widget*)
+//.text:00AB64B0 ; public: static void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type, s_core_widget_definition const*, s_runtime_core_widget_definition*, real_rectangle2d const*, bool)
+//.text:00AB6680 ; private: void c_gui_widget::animate(dword)
+//.text:00AB6C20 ; protected: void c_gui_widget::animate_recursively(dword)
+//.text:00AB6C90 ; void __cdecl apply_color_animation(s_animation_transform*, real const, bool const, s_color_keyframe_block const*, s_color_keyframe_block const*, c_function_definition const*)
+//.text:00AB6D40 ; void __cdecl apply_font_animation(s_animation_transform*, real const, bool const, s_font_keyframe_block const*, s_font_keyframe_block const*, c_function_definition const*)
+//.text:00AB6D90 ; void __cdecl apply_position_animation(s_animation_transform*, real const, bool const, real_vector2d const*, s_position_keyframe_block const*, s_position_keyframe_block const*, c_function_definition const*)
+//.text:00AB6E80 ; 
+//.text:00AB6ED0 ; void __cdecl apply_rotation_animation(c_gui_widget*, s_animation_transform*, real const, bool const, s_rotation_keyframe_block const*, s_rotation_keyframe_block const*, c_function_definition const*);
+//.text:00AB7050 ; void __cdecl apply_scale_animation(c_gui_widget*, s_animation_transform*, real const, bool const, s_scale_keyframe_block const*, s_scale_keyframe_block const*, c_function_definition const*)
+//.text:00AB71C0 ; void __cdecl apply_sprite_animation(s_animation_transform*, real const, bool const, s_sprite_keyframe_block const*, s_sprite_keyframe_block const*, c_function_definition const*)
+//.text:00AB7290 ; void __cdecl apply_texture_coordinate_animation(s_animation_transform*, real const, bool const, s_texture_coordinate_keyframe_block const*, s_texture_coordinate_keyframe_block const*, c_function_definition const*)
+
 void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
+	INVOKE_CLASS_MEMBER(0x00AB7330, c_gui_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+
 	ASSERT(render_data != NULL);
 	ASSERT(window_bounds != NULL);
 
@@ -187,7 +193,7 @@ e_animation_state c_gui_widget::get_ambient_state()
 
 //.text:00AB8810 ; 
 //.text:00AB8820 ; private: static long __cdecl c_gui_widget::get_animation_period(s_widget_component_animation_definition const*, long)
-//.text:00AB8850 ; private: unsigned long __cdecl c_gui_widget::get_animation_state_timer(e_animation_state)
+//.text:00AB8850 ; private: dword c_gui_widget::get_animation_state_timer(e_animation_state)
 
 e_controller_index c_gui_widget::get_arbitrary_responding_controller() const
 {
@@ -321,9 +327,9 @@ c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type
 	return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
 }
 
-//.text:00AB9080 ; 
-//.text:00AB90C0 ; 
-//.text:00AB9100 ; 
+//.text:00AB9080 ; void __cdecl get_local_coordinate_system_position_from_rotation_keyframe(c_gui_widget*, s_rotation_keyframe_block const*, real_point2d*)
+//.text:00AB90C0 ; void __cdecl get_local_coordinate_system_position_from_scale_keyframe(c_gui_widget*, s_scale_keyframe_block const*, real_point2d*)
+//.text:00AB9100 ; void __cdecl get_local_widget_coordinate_system_position_from_positioning(c_gui_widget*, e_widget_anchoring, real_point2d*)
 
 c_gui_bitmap_widget* c_gui_widget::get_next_bitmap_widget()
 {
@@ -462,7 +468,7 @@ bool c_gui_widget::get_string_by_string_id(long string_identifier, c_static_wcha
 //.text:00AB9760 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<1024>::get_text_internal()
 //.text:00AB9770 ; 
 
-//.text:00AB97C0 ; public: gui_real_rectangle2d* __cdecl c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*, bool, bool, bool)
+//.text:00AB97C0 ; public: gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*, bool, bool, bool)
 void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	HOOK_INVOKE_CLASS_MEMBER(, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
@@ -487,8 +493,8 @@ void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unpro
 
 //.text:00AB9870 ; 
 //.text:00AB9880 ; 
-//.text:00AB9920 ; public: bool __cdecl c_gui_widget::get_visible() const
-//.text:00AB9930 ; public: s_widget_animation_definition const* __cdecl c_gui_widget::get_widget_animation_definition(e_animation_state)
+//.text:00AB9920 ; public: bool c_gui_widget::get_visible() const
+//.text:00AB9930 ; public: s_widget_animation_definition const* c_gui_widget::get_widget_animation_definition(e_animation_state)
 
 bool c_gui_widget::handle_alt_stick(c_controller_input_message const* message)
 {
@@ -512,13 +518,11 @@ bool c_gui_widget::handle_tab(c_controller_input_message const* message)
 	return INVOKE_CLASS_MEMBER(0x00AB9B40, c_gui_widget, handle_tab, message);
 }
 
-//.text: ; public: virtual bool __cdecl c_gui_widget::handle_widget_back_out()
 bool c_gui_widget::handle_widget_back_out()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9BA0, c_gui_widget, handle_widget_back_out);
 }
 
-//.text: ; public: virtual bool __cdecl c_gui_widget::handle_widget_selected()
 bool c_gui_widget::handle_widget_selected()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9BB0, c_gui_widget, handle_widget_selected);

@@ -190,13 +190,22 @@ c_gui_widget* c_gui_widget::get_children()
 //.text:00AAB1A0 ; 
 //.text:00AAB1B0 ; 
 //.text:00AAB1C0 ; 
-//.text:00AAB1D0 ; public: virtual e_gui_location __cdecl c_gui_screen_widget::get_gui_location() const
+//.text:00AAB1D0 ; public: virtual e_gui_location c_gui_screen_widget::get_gui_location() const
 //.text:00AAB1E0 ; 
-//.text:00AAB1F0 ; 
-//.text:00AAB220 ; 
+
+c_gui_widget* c_gui_widget::get_next()
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB1F0, c_gui_widget, get_next);
+}
+
+c_gui_widget* c_gui_widget::get_parent()
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB220, c_gui_widget, get_parent);
+}
+
 //.text:00AAB250 ; 
-//.text:00AAB260 ; protected: virtual e_render_data_size __cdecl c_gui_screen_widget::get_render_data_size()
-//.text:00AAB270 ; public: s_window_manager_screen_render_data* __cdecl c_gui_screen_widget::get_render_state()
+//.text:00AAB260 ; protected: virtual e_render_data_size c_gui_screen_widget::get_render_data_size()
+//.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
 //.text:00AAB290 ; public: e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widget*)
 //.text:00AAB300 ; 
 //.text:00AAB310 ; 
@@ -220,10 +229,10 @@ c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_
 }
 
 //.text:00AAB680 ; 
-//.text:00AAB690 ; 
-//.text:00AAB6B0 ; 
+//.text:00AAB690 ; public: c_gui_widget* c_robust_pointer<c_gui_widget>::get_value()
+//.text:00AAB6B0 ; public: void* c_robust_void_pointer::get_value()
 //.text:00AAB6D0 ; 
-//.text:00AAB750 ; 
+//.text:00AAB750 ; int __cdecl gui_widget_depth_sort_proc(void const*, void const*)
 
 void c_window_manager::handle_global_controller_event(s_event_record* event_record)
 {
@@ -233,7 +242,7 @@ void c_window_manager::handle_global_controller_event(s_event_record* event_reco
 //.text:00AAB9C0 ; public: void c_window_manager::initialize()
 //.text:00AABA00 ; public: void c_window_manager::initialize_for_new_map()
 //.text:00AABA40 ; private: void c_window_manager::insert_screen_after_named_screen(e_window_index, c_gui_screen_widget*, long)
-//.text:00AABBB0 ; 
+//.text:00AABBB0 ; private: bool __cdecl c_robust_void_pointer::internally_consistent() const
 //.text:00AABBD0 ; public: bool c_window_manager::is_screen_queued_to_be_loaded(long, e_window_index)
 
 c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, long window_index)
@@ -344,10 +353,13 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 	//	screen_name == STRING_ID(gui, message);
 }
 
-//.text:00AAC430 ; 
-//.text:00AAC510 ; 
-//.text:00AAC650 ; 
-//.text:00AAC6C0 ; 
+//.text:00AAC430 ; public: bool c_window_manager::non_dead_cam_ui_active_for_game_player_controller(e_controller_index)
+//.text:00AAC510 ; public: static void __cdecl c_window_manager::play_controller_sound(long, e_event_type, e_controller_component)
+//.text:00AAC650 ; c_window_manager::predict_immediate_resources
+//.text:00AAC6C0 ; c_window_manager::predict_pending_resources
+//.text:00AAC730 ; public: void c_window_manager::prepare_for_tag_reload()
+//.text:00AAC740 ; public: static void __cdecl c_window_manager::print_active_screen_strings_tag_name()
+//.text:00AAC750 ; public: void c_window_manager::print_active_screens()
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(dword)
 //.text:00AAC910 ; public: void c_window_manager::render(e_window_index, long, rectangle2d const*, bool)
 //.text:00AACB10 ; public: void c_window_manager::render_fade()
