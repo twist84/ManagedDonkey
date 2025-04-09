@@ -73,8 +73,8 @@ struct c_gui_roster_data :
 	static_assert(sizeof(s_player_row) == 0x1678);
 
 public:
-	bool __thiscall _get_integer_value(long element_handle, long value_name, long* value);
-	bool __thiscall _get_text_value(long element_handle, long value_name, c_static_wchar_string<1024>* value);
+	bool __thiscall get_integer_value_(long element_handle, long value_name, long* value);
+	bool __thiscall get_text_value_(long element_handle, long value_name, c_static_wchar_string<1024>* value);
 
 protected:
 	long m_matchmaking_last_known_good_extra_slots_searching;
@@ -111,7 +111,7 @@ static_assert(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for
 struct c_gui_active_roster_data :
 	c_gui_roster_data
 {
-	void __thiscall _update();
+	void __thiscall update_();
 };
 static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 

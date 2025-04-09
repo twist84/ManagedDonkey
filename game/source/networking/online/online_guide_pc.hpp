@@ -21,9 +21,9 @@ public:
 		bool cancelled
 	);
 
-	void __thiscall _set_default_text(wchar_t const* default_text);
-	void __thiscall _set_description_text(wchar_t const* description_text);
-	void __thiscall _set_title_text(wchar_t const* title_text);
+	void __thiscall set_default_text_(wchar_t const* default_text);
+	void __thiscall set_description_text_(wchar_t const* description_text);
+	void __thiscall set_title_text_(wchar_t const* title_text);
 
 	void __cdecl set_controller_index(e_controller_index controller_index);
 	void __cdecl set_default_text(wchar_t const* default_text);
@@ -51,8 +51,8 @@ public:
 	virtual char const* get_context_string() override;
 	virtual dword start(void* overlapped) override;
 
-	dword __thiscall _start(void* overlapped);
-	void __thiscall _success(dword return_result);
+	dword __thiscall start_(void* overlapped);
+	void __thiscall success_(dword return_result);
 
 	static c_virtual_keyboard_task* m_instance;
 

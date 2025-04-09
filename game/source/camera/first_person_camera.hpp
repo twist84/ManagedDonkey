@@ -8,7 +8,7 @@ struct c_first_person_camera :
 	public c_camera
 {
 public:
-	void __thiscall _update(long user_index, real a2, s_observer_command* result);
+	void __thiscall update_(long user_index, real dt, s_observer_command* result);
 
 	void constructor(long unit_index)
 	{

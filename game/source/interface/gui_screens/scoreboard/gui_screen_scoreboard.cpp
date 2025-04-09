@@ -25,8 +25,8 @@
 REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
 REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, _update_for_scoreboard_mode);
-HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, update_for_scoreboard_mode_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, update_render_state_);
 
 void c_scoreboard_load_screen_message::set_is_interactive(bool is_interactive)
 {
@@ -38,9 +38,9 @@ void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
 	m_is_interactive = is_interactive;
 }
 
-void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
+void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long x, long y)
 {
-	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, a2, a3);
+	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, x, y);
 }
 
 // c_scoreboard_load_screen_message::c_scoreboard_load_screen_message
@@ -123,7 +123,7 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	//}
 }
 
-void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
+void __thiscall c_gui_screen_scoreboard::update_render_state_(dword a1)
 {
 	// 0x00AB4920
 	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
@@ -284,7 +284,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	return false;
 }
 
-void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool use_session, bool include_score)
+void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_session, bool include_score)
 {
 	static c_static_wchar_string<256> place_string;
 	static c_static_wchar_string<256> score_string;

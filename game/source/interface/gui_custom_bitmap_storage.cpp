@@ -22,10 +22,10 @@ REFERENCE_DECLARE(0x05270C14, c_gui_custom_bitmap_storage_manager, g_gui_custom_
 #if defined(ISEXPERIMENTAL)
 HOOK_DECLARE_CLASS_MEMBER(0x00B20460, c_gui_custom_bitmap_storage_item, dispose);
 HOOK_DECLARE_CLASS_MEMBER(0x00B20470, c_gui_custom_bitmap_storage_item, initialize);
-HOOK_DECLARE_CLASS_MEMBER(0x00B20480, c_gui_custom_bitmap_storage_item, sub_B20480);
+HOOK_DECLARE_CLASS_MEMBER(0x00B20480, c_gui_custom_bitmap_storage_item, initialize_raw);
 HOOK_DECLARE_CLASS_MEMBER(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer);
-HOOK_DECLARE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, sub_B204B0);
-HOOK_DECLARE_CLASS_MEMBER(0x00B204D0, c_gui_custom_bitmap_storage_item, sub_B204D0);
+HOOK_DECLARE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_from_file_or_buffer);
+HOOK_DECLARE_CLASS_MEMBER(0x00B204D0, c_gui_custom_bitmap_storage_item, unload_non_rendered_bitmap);
 HOOK_DECLARE_CLASS_MEMBER(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
 #endif // ISEXPERIMENTAL
 
@@ -77,16 +77,12 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(long width, long he
 	}
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::sub_B20480(long a1, long a2, long a3, long a4, long a5)
+bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(long width, long height, char* buffer, long buffer_length, bool cpu_cached)
 {
 	return false;
 }
 
-// buffer:       blf, async_file_buffer
-// buffer_size:  blf, async_file_buffer_size
-// buffer2:      c_gui_custom_bitmap_storage_manager::m_buffer
-// buffer2_size: c_gui_custom_bitmap_storage_manager::m_buffer_size
-bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio)
 {
 	ASSERT(buffer);
 	ASSERT(!m_bitmap_ready);
@@ -111,7 +107,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	if (FAILED(get_surface_level_result))
 		return false;
 
-	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
+	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, NULL);
 	d3d_surface->Release();
 
 	if (FAILED(load_surface_result))
@@ -129,12 +125,12 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	return true;
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::sub_B204B0(long a1, long a2, long a3, long a4, long a5, long a6)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(char const* filename, char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio)
 {
 	return false;
 }
 
-void __thiscall c_gui_custom_bitmap_storage_item::sub_B204D0()
+void __thiscall c_gui_custom_bitmap_storage_item::unload_non_rendered_bitmap()
 {
 	return;
 }
@@ -152,7 +148,7 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 	return &g_gui_custom_bitmap_storage_manager;
 }
 
-bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
+bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long aspect_ratio)
 {
 	s_bitmap_storage_handle_datum* storage_item = NULL;
 	{
@@ -164,7 +160,7 @@ bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long s
 	if (!storage_item)
 		return false;
 
-	bool result = storage_item->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, a5);
+	bool result = storage_item->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, aspect_ratio);
 
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);

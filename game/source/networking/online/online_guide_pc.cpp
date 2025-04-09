@@ -13,11 +13,11 @@
 
 //HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
 HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
-HOOK_DECLARE_CLASS_MEMBER(0x004E19A0, c_virtual_keyboard_task, _set_default_text);
-HOOK_DECLARE_CLASS_MEMBER(0x004E19B0, c_virtual_keyboard_task, _set_description_text);
-HOOK_DECLARE_CLASS_MEMBER(0x004E19D0, c_virtual_keyboard_task, _set_title_text);
-HOOK_DECLARE_CLASS_MEMBER(0x004E1A00, c_virtual_keyboard_task, _start);
-HOOK_DECLARE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, _success);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19A0, c_virtual_keyboard_task, set_default_text_);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19B0, c_virtual_keyboard_task, set_description_text_);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19D0, c_virtual_keyboard_task, set_title_text_);
+HOOK_DECLARE_CLASS_MEMBER(0x004E1A00, c_virtual_keyboard_task, start_);
+HOOK_DECLARE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, success_);
 
 HOOK_DECLARE(0x004E1860, online_guide_delay_toasts);
 HOOK_DECLARE(0x004E1870, online_guide_dispose);
@@ -78,17 +78,17 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	return this;
 }
 
-void __thiscall c_virtual_keyboard_task::_set_default_text(wchar_t const* default_text)
+void __thiscall c_virtual_keyboard_task::set_default_text_(wchar_t const* default_text)
 {
 	set_default_text(default_text);
 }
 
-void __thiscall c_virtual_keyboard_task::_set_description_text(wchar_t const* description_text)
+void __thiscall c_virtual_keyboard_task::set_description_text_(wchar_t const* description_text)
 {
 	set_description_text(description_text);
 }
 
-void __thiscall c_virtual_keyboard_task::_set_title_text(wchar_t const* title_text)
+void __thiscall c_virtual_keyboard_task::set_title_text_(wchar_t const* title_text)
 {
 	set_title_text(title_text);
 }
@@ -225,7 +225,7 @@ dword c_virtual_keyboard_task::start(void* overlapped)
 	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, m_maximum_input_characters, overlapped);
 }
 
-dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
+dword __thiscall c_virtual_keyboard_task::start_(void* overlapped)
 {
 	c_controller_interface* controller = controller_get(m_controller_index);
 	if (!controller->is_signed_in_to_machine())
@@ -237,7 +237,7 @@ dword __thiscall c_virtual_keyboard_task::_start(void* overlapped)
 	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text_buffer, m_title_text_buffer, m_description_text_buffer, m_result_text_buffer, m_maximum_input_characters, overlapped);
 }
 
-void __thiscall c_virtual_keyboard_task::_success(dword return_result)
+void __thiscall c_virtual_keyboard_task::success_(dword return_result)
 {
 	//INVOKE_CLASS_MEMBER(0x004E1A20, c_virtual_keyboard_task, success, return_result);
 
@@ -294,6 +294,19 @@ void __cdecl online_guide_show_damaged_media_ui()
 
 dword __cdecl online_guide_show_device_selector_ui(e_controller_index controller_index, dword requested_bytes, bool always_show, dword* device_id, void* xenon_task_handle)
 {
+	//MessageBoxA(NULL, "Device Selector UI Placeholder", "networking:online:guide", MB_OK);
+
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(device_id != NULL);
+	ASSERT(xenon_task_handle != NULL);
+	
+	//if (controller_get(controller_index)->is_signed_in_to_machine())
+	//{
+	//	//return XShowDeviceSelectorUI(controller_index, 1, 0, requested_bytes, device_id, xenon_task_handle);
+	//	return ERROR_IO_PENDING;
+	//}
+	//return E_FAIL;
+
 	return NONE;
 }
 

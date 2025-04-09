@@ -22,7 +22,7 @@ struct c_gui_screen_scoreboard :
 	c_gui_screen_widget
 {
 private:
-	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long a2, long a3);
+	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long x, long y);
 
 public:
 	enum e_scoreboard_mode;
@@ -36,7 +36,7 @@ public:
 	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
 	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
 
-	void __thiscall _update_render_state(dword a1);
+	void __thiscall update_render_state_(dword a1);
 
 protected:
 	long m_current_scoreboard_mode;
@@ -125,7 +125,7 @@ struct c_gui_scoreboard_data :
 		bool is_dead,
 		bool left_game);
 
-	void __thiscall _update_for_scoreboard_mode(bool use_session, bool include_score);
+	void __thiscall update_for_scoreboard_mode_(bool use_session, bool include_score);
 	static int __cdecl scoreboard_sort_proc_for_multiplayer(void const* a, void const* b);
 	static int __cdecl scoreboard_sort_proc_for_session(void const* a, void const* b);
 

@@ -100,7 +100,7 @@ public:
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBC0);
 	}
 
-	void __thiscall _render();
+	void __thiscall render_();
 	static void render_debug_stuff_while_loading();
 
 	void setup_camera(s_observer_result const* result);

@@ -24,7 +24,12 @@ REFERENCE_DECLARE(0x0240A340, s_content_catalogue_globals, g_content_catalogue_g
 //.text:005A4EE0 ; public: void c_content_catalogue::close_all_dlc_packages(e_campaign_id const*, e_map_id const*, long)
 //.text:005A50A0 ; bool __cdecl content_catalog_is_initialized()
 //.text:005A50B0 ; char const* __cdecl content_catalogue_build_new_saved_game_file_type_container_name(e_game_content_type, char*, long)
-//.text:005A52A0 ; void __cdecl content_catalogue_close_all_dlc(bool)
+
+void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions)
+{
+	INVOKE(0x005A52A0, content_catalogue_close_all_dlc, allow_exceptions);
+}
+
 //.text:005A5390 ; bool __cdecl content_catalogue_device_selection_active(e_controller_index)
 //.text:005A53D0 ; 
 //.text:005A53F0 ; void __cdecl content_catalogue_display_device_selection_guide_interface(e_controller_index)

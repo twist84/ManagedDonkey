@@ -5,15 +5,16 @@
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "saved_games/content_catalogue.hpp"
 #include "tag_files/string_ids.hpp"
 
 HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
-HOOK_DECLARE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, _set_map_image);
-HOOK_DECLARE(0x00AC3B80, map_image_load_callback);
+HOOK_DECLARE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image_);
+HOOK_DECLARE(0x00AC3B80, load_image_from_blf_file_callback);
 
 void patch_gui_custom_bitmap_widget()
 {
-	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, member_to_static_function(&c_gui_custom_bitmap_widget::_assemble_render_data));
+	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, member_to_static_function(&c_gui_custom_bitmap_widget::assemble_render_data_));
 }
 
 bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
@@ -23,7 +24,7 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
 	return result;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::_set_map_image(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
+void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
 {
 	static c_static_string<256> map_image_path;
 	map_image_path.clear();
@@ -36,12 +37,12 @@ void __thiscall c_gui_custom_bitmap_widget::_set_map_image(e_custom_map_image_ty
 
 void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
 {
-	m_path.set(file_path);
+	m_desired_async_file_to_display.set(file_path);
 	m_use_compressed_format = use_compressed_format;
-	__unknown268 = 0;
+	m_desired_aspect_ratio = 0;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
 	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(get_core_definition()))
 	{
@@ -58,7 +59,7 @@ void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_d
 				if (!instance)
 					continue;
 
-				if (!m_path.is_equal(reinterpret_cast<char const*>(instance->base + instance->total_size)))
+				if (!m_desired_async_file_to_display.is_equal(reinterpret_cast<char const*>(instance->base + instance->total_size)))
 					continue;
 
 				bitmap_widget_definition->bitmap_tag_reference_index = tag_index;
@@ -75,91 +76,91 @@ void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_d
 
 void __cdecl c_gui_custom_bitmap_widget::clear()
 {
-	m_path.clear();
+	m_desired_async_file_to_display.clear();
 }
 
-long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data)
+long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data)
 {
 	wchar_t name_buffer[256];
 
 	bool v2 = false;
 	bool v3 = false;
-	long v4 = callback_data->__unknown1C->peek();
+	long v4 = callback_data->cancelled->peek();
 	bool v5 = v4 != 0;
 
-	switch (callback_data->async_load_stage)
+	switch (callback_data->state)
 	{
 	case 0: // get file size
 	{
 		if (!v5)
 		{
 			constexpr long name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
-			wchar_t* name = file_reference_get_name_wide(callback_data->async_load_file, name_flags, name_buffer, NUMBEROF(name_buffer));
+			wchar_t* name = file_reference_get_name_wide(callback_data->file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
-			callback_data->__unknown24 = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, long)(name, 1);// levels_dlc_open(name, 1);
+			callback_data->image_source_was_dlc = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, long)(name, 1);// levels_dlc_open(name, 1);
 
 			dword error = 0;
-			if (file_open(callback_data->async_load_file, FLAG(_file_open_flag_desired_access_read), &error))
+			if (file_open(callback_data->file, FLAG(_file_open_flag_desired_access_read), &error))
 			{
-				if (file_get_size(callback_data->async_load_file, &callback_data->async_load_file_size)
-					&& callback_data->async_load_file_size < callback_data->async_load_buffer_size)
+				if (file_get_size(callback_data->file, &callback_data->file_size)
+					&& callback_data->file_size < (dword)callback_data->load_buffer_length)
 				{
-					callback_data->async_load_stage = 1;
+					callback_data->state = 1;
 					v2 = true;
 
 					break;
 				}
 
-				file_close(callback_data->async_load_file);
+				file_close(callback_data->file);
 			}
 		}
 	}
 	break;
 	case 1: // read file info memory
 	{
-		if (!v5 && file_read(callback_data->async_load_file, callback_data->async_load_file_size, true, callback_data->async_load_buffer))
+		if (!v5 && file_read(callback_data->file, callback_data->file_size, true, callback_data->load_buffer))
 		{
-			file_close(callback_data->async_load_file);
+			file_close(callback_data->file);
 
-			callback_data->async_load_stage = 2;
+			callback_data->state = 2;
 			v2 = true;
 
 			break;
 		}
 		// left over from `case 0`
-		file_close(callback_data->async_load_file);
+		file_close(callback_data->file);
 	}
 	break;
 	case 2: // find chunk and load bitmap
 	{
 		if (!v5)
 		{
-			long chunk_size = 0;
-			// c_network_blf_buffer_reader::find_chunk(async_load_buffer, async_load_file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
+			long image_data_length = 0;
+			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
 			char const* chunk = DECLFUNC(0x00462B40, char const*, __cdecl, char const*, long, long, long, long, long*)(
-				callback_data->async_load_buffer,
-				callback_data->async_load_file_size,
+				callback_data->load_buffer,
+				callback_data->file_size,
 				s_blf_chunk_map_image::k_chunk_type,
 				s_blf_chunk_map_image::k_version_major,
 				_blf_file_authentication_type_rsa,
-				&chunk_size);
+				&image_data_length);
 
 			if (chunk)
 			{
-				if (chunk_size > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
+				if (image_data_length > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
 				{
 					long buffer_size = *reinterpret_cast<long const*>(chunk + 4);
 					char const* buffer = reinterpret_cast<char const*>(chunk + 8);
 
 					// hack
-					if (bswap_dword(buffer_size) == chunk_size - 8)
+					if (bswap_dword(buffer_size) == image_data_length - 8)
 						buffer_size = bswap_dword(buffer_size);
 
-					if (buffer_size == chunk_size - 8)
+					if (buffer_size == image_data_length - 8)
 					{
-						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(callback_data->bitmap_storage_item_index, buffer, buffer_size, callback_data->__unknown18))
+						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(callback_data->storage_item_index, buffer, buffer_size, callback_data->desired_aspect_ratio))
 						{
-							callback_data->async_load_stage = 3;
+							callback_data->state = 3;
 							v2 = true;
 							v3 = true;
 						}
@@ -171,13 +172,13 @@ long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_da
 	break;
 	}
 
-	*callback_data->__unknown20 = v3;
+	*callback_data->success = v3;
 
 	if (v2 && !v3)
 		return false;
 
-	if (callback_data->__unknown24)
-		DECLFUNC(0x005A52A0, void, __cdecl, bool)(true);// sub_5A52A0(true);
+	if (callback_data->image_source_was_dlc)
+		content_catalogue_close_all_dlc(true);
 
 	return true;
 }

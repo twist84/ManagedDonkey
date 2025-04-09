@@ -38,7 +38,7 @@ REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
-HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, _render);
+HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, render_);
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 
@@ -122,7 +122,7 @@ render_projection* c_view::get_render_projection_modifiable()
 	return &m_render_projection;
 }
 
-void __thiscall c_fullscreen_view::_render()
+void __thiscall c_fullscreen_view::render_()
 {
 	render_debug_stuff_while_loading();
 }

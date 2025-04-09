@@ -23,10 +23,10 @@ struct c_gui_custom_bitmap_storage_item
 {
 	void __thiscall dispose();
 	void __thiscall initialize(long width, long height, bool use_compressed_format);
-	bool __thiscall sub_B20480(long a1, long a2, long a3, long a4, long a5);
-	bool __thiscall load_from_buffer(char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6);
-	bool __thiscall sub_B204B0(long a1, long a2, long a3, long a4, long a5, long a6);
-	void __thiscall sub_B204D0();
+	bool __thiscall initialize_raw(long width, long height, char* buffer, long buffer_length, bool cpu_cached);
+	bool __thiscall load_from_buffer(char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio);
+	bool __thiscall load_from_file_or_buffer(char const* filename, char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio);
+	void __thiscall unload_non_rendered_bitmap();
 	void __thiscall unload_rendered_bitmap();
 
 	long m_width;

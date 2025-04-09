@@ -8,7 +8,7 @@
 #include <cmath>
 
 HOOK_DECLARE_CLASS_MEMBER(0x00726170, c_debug_director, changed_camera);
-HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, _update);
+HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, update_);
 
 byte const cycle_camera_key_code_bytes[] = { _key_code_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
@@ -16,7 +16,7 @@ DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_
 //REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, debug_camera_modes, 2);
 e_camera_mode debug_camera_modes[] = { _camera_mode_flying, _camera_mode_following };
 
-void __thiscall c_debug_director::_update(real dt)
+void __thiscall c_debug_director::update_(real dt)
 {
 	if (input_key_frames_down(_key_code_backspace, _input_type_ui) == 1)
 		cycle_camera();

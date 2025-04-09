@@ -79,15 +79,15 @@ struct c_network_message_type_collection
 	static_assert(sizeof(s_network_message_type) == 0x24);
 
 public:
-	void __thiscall _clear_message_types();
-	bool __thiscall _decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage);
-	bool __thiscall _decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size);
-	void __thiscall _dispose_message(e_network_message_type message_type, long message_storage_size, void* message_storage);
-	void __thiscall _encode_message(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage);
-	void __thiscall _encode_message_header(c_bitstream* packet, e_network_message_type message_type, long message_storage_size);
-	char const* __thiscall _get_message_type_name(e_network_message_type message_type);
+	void __thiscall clear_message_types_();
+	bool __thiscall decode_message_(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage);
+	bool __thiscall decode_message_header_(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size);
+	void __thiscall dispose_message_(e_network_message_type message_type, long message_storage_size, void* message_storage);
+	void __thiscall encode_message_(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage);
+	void __thiscall encode_message_header_(c_bitstream* packet, e_network_message_type message_type, long message_storage_size);
+	char const* __thiscall get_message_type_name_(e_network_message_type message_type);
 
-	void __thiscall _register_message_type(
+	void __thiscall register_message_type_(
 		e_network_message_type message_type,
 		char const* message_type_name,
 		long flags,

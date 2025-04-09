@@ -6,7 +6,7 @@ struct c_debug_director :
 	public c_director
 {
 public:
-	void __thiscall _update(real dt);
+	void __thiscall update_(real dt);
 
 	void constructor(long user_index);
 	void changed_camera();

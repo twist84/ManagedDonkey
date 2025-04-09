@@ -40,5 +40,6 @@ static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
 
 extern s_content_catalogue_globals& g_content_catalogue_globals;
 
+extern void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions);
 extern c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index controller_index);
 

@@ -17,14 +17,14 @@
 
 #include <math.h>
 
-HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, _update);
+HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, update_);
 
 void __cdecl first_person_camera_for_unit_and_vector(long unit_index, real_vector3d const* forward, s_observer_command* result)
 {
 	INVOKE(0x0065F5B0, first_person_camera_for_unit_and_vector, unit_index, forward, result);
 }
 
-void __thiscall c_first_person_camera::_update(long user_index, real dt, s_observer_command* result)
+void __thiscall c_first_person_camera::update_(long user_index, real dt, s_observer_command* result)
 {
 	ASSERT(result);
 	

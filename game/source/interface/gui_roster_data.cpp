@@ -7,9 +7,9 @@
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, _get_integer_value);
-HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value);
-HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, _update);
+HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, get_integer_value_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, get_text_value_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, update_);
 
 // $TODO: reimplement `c_gui_active_roster_data::update`
 
@@ -36,7 +36,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, _update);
 //.text:00B24C80 ; public: static long __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::get_count()
 //.text:00B24C90 ; protected: virtual long __cdecl c_gui_roster_data::get_current_item_count_internal()
 
-bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long value_name, long* value)
+bool __thiscall c_gui_roster_data::get_integer_value_(long element_handle, long value_name, long* value)
 {
 	//bool result = false;
 	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_integer_value, element_handle, value_name, value);
@@ -158,7 +158,7 @@ bool __thiscall c_gui_roster_data::_get_integer_value(long element_handle, long 
 //.text:00B24F40 ; public: virtual bool __cdecl c_gui_roster_data::get_player_configuration_value(long, s_player_configuration*)
 //.text:00B24F90 ; public: virtual bool __cdecl c_gui_roster_data::get_player_identifier_value(long, s_player_identifier*)
 
-bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long value_name, c_static_wchar_string<1024>* value)
+bool __thiscall c_gui_roster_data::get_text_value_(long element_handle, long value_name, c_static_wchar_string<1024>* value)
 {
 	//bool result = false;
 	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_text_value, element_handle, value_name, value);
@@ -229,9 +229,9 @@ bool __thiscall c_gui_roster_data::_get_text_value(long element_handle, long val
 //.text:00B252D0 ; public: void __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::sort(long, int(__cdecl*)(void const*, void const*))
 //.text:00B252F0 ; int __cdecl squad_roster_sort_proc(void const*, void const*)
 
-void __thiscall c_gui_active_roster_data::_update()
+void __thiscall c_gui_active_roster_data::update_()
 {
-	HOOK_INVOKE_CLASS_MEMBER(, c_gui_active_roster_data, _update);
+	HOOK_INVOKE_CLASS_MEMBER(, c_gui_active_roster_data, update_);
 
 	//c_gui_data::update();
 	//
