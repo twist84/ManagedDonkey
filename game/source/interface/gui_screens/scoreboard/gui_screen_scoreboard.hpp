@@ -21,6 +21,13 @@ static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_m
 struct c_gui_screen_scoreboard :
 	c_gui_screen_widget
 {
+public:
+	c_gui_screen_scoreboard(long name) :
+		c_gui_screen_widget(name)
+	{
+		DECLFUNC(0x00AB2A90, c_gui_screen_scoreboard*, __thiscall, c_gui_screen_scoreboard*, long)(this, name);
+	}
+
 private:
 	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long x, long y);
 
