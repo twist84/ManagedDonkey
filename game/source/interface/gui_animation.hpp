@@ -34,6 +34,7 @@ union gui_real_rectangle2d
 	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real angle_radians);
 	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real sine_angle, real cosine_angle);
 	gui_real_rectangle2d* scale_about_local_point(real_point2d const* local_point, real_vector2d const* scale);
+	void scale_direct(real_vector2d const* scale);
 	void set(real_rectangle2d const* source);
 	void set(rectangle2d const* source);
 	static void transform_real_point3d(real_point3d* point, rectangle2d const* window_bounds);

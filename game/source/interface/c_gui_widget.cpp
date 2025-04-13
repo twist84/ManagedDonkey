@@ -478,17 +478,10 @@ void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unpro
 	rectangle2d display_pixel_bounds;
 	interface_get_current_display_settings(NULL, NULL, &display_pixel_bounds, NULL);
 
-	real width_scale_factor = (display_pixel_bounds.x1 - display_pixel_bounds.x0) / 1152.0f;
-	real height_scale_factor = (display_pixel_bounds.y1 - display_pixel_bounds.y0) / 640.0f;
-
-	unprojected_bounds->vertex[0].x *= width_scale_factor;
-	unprojected_bounds->vertex[0].y *= height_scale_factor;
-	unprojected_bounds->vertex[1].x *= width_scale_factor;
-	unprojected_bounds->vertex[1].y *= height_scale_factor;
-	unprojected_bounds->vertex[2].x *= width_scale_factor;
-	unprojected_bounds->vertex[2].y *= height_scale_factor;
-	unprojected_bounds->vertex[3].x *= width_scale_factor;
-	unprojected_bounds->vertex[3].y *= height_scale_factor;
+	real_vector2d scale{};
+	scale.i = (display_pixel_bounds.x1 - display_pixel_bounds.x0) / 1152.0f;
+	scale.j = (display_pixel_bounds.y1 - display_pixel_bounds.y0) / 640.0f;
+	unprojected_bounds->scale_direct(&scale);
 }
 
 //.text:00AB9870 ; 

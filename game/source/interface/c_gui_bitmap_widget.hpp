@@ -51,6 +51,20 @@ struct bitmap_data;
 struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
+protected:
+	//virtual e_animation_state get_ambient_state();
+
+public:
+	//virtual ~c_gui_bitmap_widget();
+	//virtual s_runtime_core_widget_definition* get_core_definition();
+	//virtual real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
+	//virtual bool can_receive_focus();
+	//virtual bool within_focus_chain();
+	//virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition);
+	//virtual void update_render_state(dword current_milliseconds);
+	//virtual void set_animated_state_baseline(s_animation_transform* transform);
+
+
 public:
 	void set_sprite_frame(long sprite_frame);
 	void set_sprite_sequence(long sprite_sequence);
@@ -64,3 +78,4 @@ protected:
 	s_runtime_bitmap_widget_definition m_core_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
+

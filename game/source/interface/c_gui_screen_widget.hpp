@@ -106,6 +106,12 @@ public:
 		DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, long)(this, name);
 	}
 
+	//virtual ~c_gui_screen_widget();
+	//virtual void initialize();
+	//virtual void post_initialize();
+	//virtual void dispose();
+	//virtual void update(dword current_milliseconds);
+
 	// get_render_data_size
 	// get_gui_location
 	// reconstruct

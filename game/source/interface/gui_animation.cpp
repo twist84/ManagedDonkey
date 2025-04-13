@@ -49,6 +49,18 @@ gui_real_rectangle2d* gui_real_rectangle2d::scale_about_local_point(real_point2d
 	return INVOKE_CLASS_MEMBER(0x00B17F40, gui_real_rectangle2d, scale_about_local_point, local_point, scale);
 }
 
+void gui_real_rectangle2d::scale_direct(real_vector2d const* scale)
+{
+	vertex[0].x *= scale->i;
+	vertex[0].y *= scale->j;
+	vertex[1].x *= scale->i;
+	vertex[1].y *= scale->j;
+	vertex[2].x *= scale->i;
+	vertex[2].y *= scale->j;
+	vertex[3].x *= scale->i;
+	vertex[3].y *= scale->j;
+}
+
 void gui_real_rectangle2d::set(real_rectangle2d const* source)
 {
 	//INVOKE_CLASS_MEMBER(0x00B18080, gui_real_rectangle2d, set, source);

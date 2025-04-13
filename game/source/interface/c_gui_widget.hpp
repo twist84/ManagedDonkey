@@ -211,6 +211,7 @@ public:
 
 		void* __funcs[64];
 	}*__vftable;
+
 protected:
 	e_animation_state get_ambient_state();
 
@@ -223,7 +224,7 @@ public:
 	long get_element_handle();
 	long get_datasource_index();
 	bool get_enabled();
-	void set_enabled(bool);
+	void set_enabled(bool value);
 	s_runtime_core_widget_definition* get_core_definition() { return __vftable->get_core_definition(this); };
 	real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
 	real_rectangle2d* get_container_current_bounds(real_rectangle2d* unanimated_bounds);
