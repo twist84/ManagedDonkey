@@ -1668,6 +1668,8 @@ inline typename std::enable_if<sizeof(T) <= sizeof(F), T>::type __coerce(F f)
 #define COERCE_FLOAT(v) __coerce<float>(v)
 #define COERCE_DWORD(v) __coerce<DWORD>(v)
 
+#define SLOBYTE(x) (*((signed char *)&(x)))
+
 extern void __cdecl cseries_dispose();
 extern void __cdecl cseries_initialize();
 

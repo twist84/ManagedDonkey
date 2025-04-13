@@ -586,14 +586,15 @@ void __cdecl debug_render_observer()
 
 	real_point3d focus_position{};
 	real_point3d frustum_points[4]{};
+	real_argb_color frustum_color = *global_real_argb_red;
 	for (long i = 0; i < NUMBEROF(frustum_points); i++)
 	{
 		real_vector3d frustum_edge{};
 		render_camera_screen_to_world(&camera, &projection, &screen_points[i], &focus_position, &frustum_edge);
 		point_from_line3d(&focus_position, &frustum_edge, 1.0f, &frustum_points[i]);
-		render_debug_vector(false, &focus_position, &frustum_edge, 1.0f, global_real_argb_red);
+		render_debug_vector(false, &focus_position, &frustum_edge, 1.0f, &frustum_color);
 	}
-	render_debug_polygon_edges(frustum_points, NUMBEROF(frustum_points), global_real_argb_red);
+	render_debug_polygon_edges(frustum_points, NUMBEROF(frustum_points), &frustum_color);
 
 	if (observer->is_relative)
 		matrix4x3_transform_point(&observer->focus_space, &focus_position, &focus_position);
