@@ -43,7 +43,6 @@
 #include "render/render_debug_commands.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_transparents.hpp"
-#include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_player_view.hpp"
@@ -53,6 +52,7 @@
 #include "sound/sound_manager.hpp"
 #include "text/draw_string.hpp"
 #include "units/bipeds.hpp"
+#include "visibility/visibility_collection.hpp"
 #include "xbox/xbox.hpp"
 
 #include <ctype.h>
