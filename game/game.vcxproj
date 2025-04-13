@@ -811,6 +811,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\units\vehicle_type_vtol.cpp" />
     <ClCompile Include="source\units\vehicle_utilities.cpp" />
     <ClCompile Include="source\visibility\visibility_collection.cpp" />
+    <ClCompile Include="source\visibility\visibility_collection_objects.cpp" />
     <ClCompile Include="source\visibility\visibility_portal_activation.cpp" />
     <ClCompile Include="source\visibility\visibility_render_objects.cpp" />
     <ClCompile Include="source\xbox\xbox.cpp" />
@@ -1607,6 +1608,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\units\vehicle_type_vtol.hpp" />
     <ClInclude Include="source\units\vehicle_utilities.hpp" />
     <ClInclude Include="source\visibility\visibility_collection.hpp" />
+    <ClInclude Include="source\visibility\visibility_collection_objects.hpp" />
     <ClInclude Include="source\visibility\visibility_portal_activation.hpp" />
     <ClInclude Include="source\visibility\visibility_render_objects.hpp" />
     <ClInclude Include="source\xbox\xbox.hpp" />
