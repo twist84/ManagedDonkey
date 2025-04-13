@@ -614,7 +614,12 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 //.text:004EA7D0 ; bool __cdecl scenario_location_deafening(s_location const*)
 //.text:004EA8C0 ; void __cdecl scenario_location_from_leaf(s_location*, long, long)
 //.text:004EA920 ; void __cdecl scenario_location_from_line(s_location*, s_location const*, real_point3d const*, real_point3d const*)
-//.text:004EA940 ; void __cdecl scenario_location_from_point(s_location*, real_point3d const*)
+
+void __cdecl scenario_location_from_point(s_location* location, real_point3d const* point)
+{
+	INVOKE(0x004EA940, scenario_location_from_point, location, point);
+}
+
 //.text:004EAA40 ; bool __cdecl scenario_location_potentially_visible(s_location const*)
 //.text:004EAA80 ; bool __cdecl scenario_location_potentially_visible_local(s_location const*)
 //.text:004EAAC0 ; bool __cdecl scenario_location_valid(s_location)

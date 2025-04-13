@@ -471,16 +471,29 @@ bool c_gui_widget::get_string_by_string_id(long string_identifier, c_static_wcha
 //.text:00AB97C0 ; public: gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*, bool, bool, bool)
 void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
-	HOOK_INVOKE_CLASS_MEMBER(, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
+	//HOOK_INVOKE_CLASS_MEMBER(, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
+
+	real_rectangle2d authored_bounds{};
+	get_current_bounds(&authored_bounds);
+	unprojected_bounds->set(&authored_bounds);
+
+	if (apply_scale)
+		unprojected_bounds->scale_about_local_point(&m_animated_state.local_scale_origin, &m_animated_state.scale);
+
+	if (apply_rotation)
+		unprojected_bounds->rotate_about_local_point(&m_animated_state.local_rotation_origin, m_animated_state.sine_rotation_angle, m_animated_state.cosine_rotation_angle);
+
+	if (apply_translation)
+		unprojected_bounds->offset(m_animated_state.position.x, m_animated_state.position.y);
 
 	// this is more or less what Halo 3 MCC is doing
 
-	rectangle2d display_pixel_bounds;
-	interface_get_current_display_settings(NULL, NULL, &display_pixel_bounds, NULL);
+	rectangle2d render_window_bounds;
+	interface_get_current_display_settings(NULL, NULL, &render_window_bounds, NULL);
 
 	real_vector2d scale{};
-	scale.i = (display_pixel_bounds.x1 - display_pixel_bounds.x0) / 1152.0f;
-	scale.j = (display_pixel_bounds.y1 - display_pixel_bounds.y0) / 640.0f;
+	scale.i = (render_window_bounds.x1 - render_window_bounds.x0) / 1152.0f;
+	scale.j = (render_window_bounds.y1 - render_window_bounds.y0) / 640.0f;
 	unprojected_bounds->scale_direct(&scale);
 }
 

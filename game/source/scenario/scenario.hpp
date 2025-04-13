@@ -119,6 +119,7 @@ extern bool __cdecl scenario_language_pack_load();
 extern void __cdecl scenario_language_pack_unload();
 extern bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingness);
+extern void __cdecl scenario_location_from_point(s_location* location, real_point3d const* point);
 extern bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, dword new_touched_cinematics_mask, bool unload_old_bsps);
 extern short __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name);
 extern bool __cdecl scenario_preload_initial_zone_set(short initial_zone_set_index);
