@@ -1,7 +1,11 @@
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 
+#include "cache/cache_files.hpp"
+#include "game/game_globals.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "rasterizer/rasterizer_resource_definitions.hpp"
+#include "scenario/scenario.hpp"
 
 REFERENCE_DECLARE(0x01914BBC, real, g_screenspace_scale_x);
 REFERENCE_DECLARE(0x01914BC0, real, g_screenspace_scale_y);
@@ -9,8 +13,8 @@ REFERENCE_DECLARE(0x01914BC4, real, g_screenspace_pixel_center);
 REFERENCE_DECLARE(0x05106FA4, real, g_screenspace_offset_x);
 REFERENCE_DECLARE(0x05106FA8, real, g_screenspace_offset_y);
 
-void(__cdecl* rasterizer_draw_textured_screen_quad1)(rasterizer_vertex_screen const*, bool) = c_rasterizer::draw_textured_screen_quad;
 void(__cdecl* rasterizer_draw_textured_screen_quad0)(real, real, real, real) = c_rasterizer::draw_textured_screen_quad;
+void(__cdecl* rasterizer_draw_textured_screen_quad1)(rasterizer_vertex_screen const*, bool) = c_rasterizer::draw_textured_screen_quad;
 void(__cdecl* rasterizer_draw_worldspace_polygon0)(real_point3d const*, long) = c_rasterizer::draw_worldspace_polygon;
 void(__cdecl* rasterizer_draw_worldspace_polygon1)(rasterizer_vertex_world const*, long) = c_rasterizer::draw_worldspace_polygon;
 
@@ -209,41 +213,80 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 	real x = -1.0f / width;
 	real y = 1.0f / height;
 
-	rasterizer_vertex_screen triangle_fan[4]{};
+	rasterizer_vertex_screen vertices[4]{};
 
-	triangle_fan[0].position.x = x - 1.0f;
-	triangle_fan[0].position.y = y + 1.0f;
-	triangle_fan[0].texcoord.i = bounds->x0;
-	triangle_fan[0].texcoord.j = bounds->y0;
-	triangle_fan[0].color = 0xFFFFFFFF;
+	vertices[0].position.x = x - 1.0f;
+	vertices[0].position.y = y + 1.0f;
+	vertices[0].texcoord.i = bounds->x0;
+	vertices[0].texcoord.j = bounds->y0;
+	vertices[0].color = 0xFFFFFFFF;
 
-	triangle_fan[1].position.x = x + 1.0f;
-	triangle_fan[1].position.y = y + 1.0f;
-	triangle_fan[1].texcoord.j = bounds->y0;
-	triangle_fan[1].texcoord.i = bounds->x1;
-	triangle_fan[1].color = 0xFFFFFFFF;
+	vertices[1].position.x = x + 1.0f;
+	vertices[1].position.y = y + 1.0f;
+	vertices[1].texcoord.j = bounds->y0;
+	vertices[1].texcoord.i = bounds->x1;
+	vertices[1].color = 0xFFFFFFFF;
 
-	triangle_fan[2].position.x = x - 1.0f;
-	triangle_fan[2].position.y = y - 1.0f;
-	triangle_fan[2].texcoord.i = bounds->x0;
-	triangle_fan[2].texcoord.j = bounds->y1;
-	triangle_fan[2].color = 0xFFFFFFFF;
+	vertices[2].position.x = x - 1.0f;
+	vertices[2].position.y = y - 1.0f;
+	vertices[2].texcoord.i = bounds->x0;
+	vertices[2].texcoord.j = bounds->y1;
+	vertices[2].color = 0xFFFFFFFF;
 
-	triangle_fan[3].position.x = x + 1.0f;
-	triangle_fan[3].position.y = y - 1.0f;
-	triangle_fan[3].texcoord.i = bounds->x1;
-	triangle_fan[3].texcoord.j = bounds->y1;
-	triangle_fan[3].color = 0xFFFFFFFF;
+	vertices[3].position.x = x + 1.0f;
+	vertices[3].position.y = y - 1.0f;
+	vertices[3].texcoord.i = bounds->x1;
+	vertices[3].texcoord.j = bounds->y1;
+	vertices[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
 	set_indices(NULL);
-	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, triangle_fan, sizeof(rasterizer_vertex_screen));
+	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
 
 void __cdecl c_rasterizer::draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords)
 {
-	INVOKE(0x00A461B0, c_rasterizer::draw_screen_quad_with_texture_transform, target_width, target_height, dest_texcoords, source_texcoords);
+	//INVOKE(0x00A461B0, c_rasterizer::draw_screen_quad_with_texture_transform, target_width, target_height, dest_texcoords, source_texcoords);
+
+	real x = -1.0f / target_width;
+	real y = 1.0f / target_height;
+
+	real x0_offset = ((dest_texcoords->x0 * 2.0f) - 1.0f) + x;
+	real x1_offset = ((dest_texcoords->x1 * 2.0f) - 1.0f) + x;
+	real y0_offset = 1.0f - (dest_texcoords->y0 * 2.0f);
+	real y1_offset = 1.0f - (dest_texcoords->y1 * 2.0f);
+
+	rasterizer_vertex_screen vertices[4]{};
+
+	vertices[0].position.x = x0_offset;
+	vertices[0].position.y = y0_offset + y;
+	vertices[0].texcoord.i = source_texcoords->x0;
+	vertices[0].texcoord.j = source_texcoords->y0;
+	vertices[0].color = 0xFFFFFFFF;
+
+	vertices[1].position.x = x1_offset;
+	vertices[1].position.y = y0_offset + y;
+	vertices[1].texcoord.i = source_texcoords->x1;
+	vertices[1].texcoord.j = source_texcoords->y0;
+	vertices[1].color = 0xFFFFFFFF;
+
+	vertices[2].position.x = x0_offset;
+	vertices[2].position.y = y1_offset + y;
+	vertices[2].texcoord.i = source_texcoords->x0;
+	vertices[2].texcoord.j = source_texcoords->y1;
+	vertices[2].color = 0xFFFFFFFF;
+
+	vertices[3].position.x = x1_offset;
+	vertices[3].position.y = y1_offset + y;
+	vertices[3].texcoord.i = source_texcoords->x1;
+	vertices[3].texcoord.j = source_texcoords->y1;
+	vertices[3].color = 0xFFFFFFFF;
+
+	set_cull_mode(_cull_mode_off);
+	set_indices(NULL);
+	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
+	set_cull_mode(_cull_mode_cw);
 }
 
 //.text:00A46300
@@ -252,41 +295,49 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(real x0, real y0, real x1, 
 {
 	//DECLFUNC(0x00A46520, void, __cdecl, real, real, real, real)(x0, y0, x1, y1);
 
-	rasterizer_vertex_screen triangle_fan[4]{};
+	rasterizer_vertex_screen vertices[4]{};
 
-	triangle_fan[0].position.x = x0;
-	triangle_fan[0].position.y = y0;
-	triangle_fan[0].texcoord.i = 0.0f;
-	triangle_fan[0].texcoord.j = 1.0f;
-	triangle_fan[0].color = 0xFFFFFFFF;
+	vertices[0].position.x = x0;
+	vertices[0].position.y = y0;
+	vertices[0].texcoord.i = 0.0f;
+	vertices[0].texcoord.j = 1.0f;
+	vertices[0].color = 0xFFFFFFFF;
 
-	triangle_fan[1].position.x = y1;
-	triangle_fan[1].position.y = y0;
-	triangle_fan[1].texcoord.i = 1.0f;
-	triangle_fan[1].texcoord.j = 1.0f;
-	triangle_fan[1].color = 0xFFFFFFFF;
+	vertices[1].position.x = y1;
+	vertices[1].position.y = y0;
+	vertices[1].texcoord.i = 1.0f;
+	vertices[1].texcoord.j = 1.0f;
+	vertices[1].color = 0xFFFFFFFF;
 
-	triangle_fan[2].position.x = x0;
-	triangle_fan[2].position.y = y1;
-	triangle_fan[2].texcoord.i = 0.0f;
-	triangle_fan[2].texcoord.j = 0.0f;
-	triangle_fan[2].color = 0xFFFFFFFF;
+	vertices[2].position.x = x0;
+	vertices[2].position.y = y1;
+	vertices[2].texcoord.i = 0.0f;
+	vertices[2].texcoord.j = 0.0f;
+	vertices[2].color = 0xFFFFFFFF;
 
-	triangle_fan[3].position.x = x1;
-	triangle_fan[3].position.y = y1;
-	triangle_fan[3].texcoord.i = 1.0f;
-	triangle_fan[3].texcoord.j = 0.0f;
-	triangle_fan[3].color = 0xFFFFFFFF;
+	vertices[3].position.x = x1;
+	vertices[3].position.y = y1;
+	vertices[3].texcoord.i = 1.0f;
+	vertices[3].texcoord.j = 0.0f;
+	vertices[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
 	set_indices(NULL);
-	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, triangle_fan, sizeof(rasterizer_vertex_screen));
+	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
 
 void __cdecl c_rasterizer::draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip)
 {
 	DECLFUNC(0x00A465F0, void, __cdecl, rasterizer_vertex_screen const*, bool)(vertices, strip);
+
+	//c_rasterizer::set_cull_mode(_cull_mode_off);
+	//c_rasterizer::set_z_buffer_mode(_z_buffer_mode_off);
+	//c_vertex_declaration_table::set(_vertex_type_screen, _transfer_vertex_none, 0);
+	//c_rasterizer::set_indices(0);
+	//c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type(strip + c_rasterizer_index_buffer::_primitive_type_triangle_fan), 2, vertices, sizeof(rasterizer_vertex_screen));
+	//c_rasterizer::set_z_buffer_mode(_z_buffer_mode_read);
+	//c_rasterizer::set_cull_mode(_cull_mode_cw);
 }
 
 void __cdecl c_rasterizer::draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, long primitive_count)
@@ -314,12 +365,12 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(real_point3d const* worldspac
 {
 	DECLFUNC(0x00A46820, void, __cdecl, real_point3d const*, long)(worldspace_polygon, polygon_count);
 
-	//rasterizer_vertex_world triangle_fan[128]{};
+	//rasterizer_vertex_world vertices[128]{};
 	//
 	//for (long i = 0; i < polygon_count; i++)
-	//	triangle_fan[i].position = *worldspace_polygon;
+	//	vertices[i].position = *worldspace_polygon;
 	//
-	//draw_worldspace_polygon(triangle_fan, polygon_count);
+	//draw_worldspace_polygon(vertices, polygon_count);
 }
 
 void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count)
@@ -340,5 +391,29 @@ void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], dword color,
 bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader)
 {
 	return INVOKE(0x00A46FB0, rasterizer_set_explicit_debug_shader, explicit_shader);
+
+	//s_game_globals* game_globals = scenario_get_game_globals();
+	//if (!game_globals)
+	//	return false;
+	//
+	//if (game_globals->rasterizer_globals_ref.index == NONE)
+	//	return false;
+	//
+	//c_rasterizer_globals* rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
+	//if (rasterizer_globals->default_vertex_shader.index == NONE || rasterizer_globals->default_pixel_shader.index == NONE)
+	//	return false;
+	//
+	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
+	//c_vertex_declaration_table::set(_vertex_type_debug, _transfer_vertex_none, 0);
+	//
+	//c_rasterizer_vertex_shader* vertex_shader = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_vertex_shader, rasterizer_globals->default_vertex_shader.index);
+	//c_rasterizer::set_vertex_shader(vertex_shader, _vertex_type_debug, _transfer_vertex_none, _entry_point_default);
+	//
+	//c_rasterizer_pixel_shader* pixel_shader = TAG_GET(PIXEL_SHADER_TAG, c_rasterizer_pixel_shader, rasterizer_globals->default_pixel_shader.index);
+	//c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
+	//
+	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
+	//
+	//return true;
 }
 
