@@ -2,6 +2,7 @@
 
 #include "effects/screen_shader.hpp"
 #include "game/game_engine_display.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/overhead_map.hpp"
 #include "interface/user_interface.hpp"
@@ -22,6 +23,7 @@
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
 #include "render_methods/render_method_submit.hpp"
+#include "render/views/split_screen_config.hpp"
 
 REFERENCE_DECLARE(0x019147B8, real, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
@@ -44,6 +46,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00A3A8C0, c_player_view, render_static_lighting);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B470, c_player_view, render_water);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B500, c_player_view, render_weather_occlusion);
+HOOK_DECLARE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests);
 
@@ -1045,9 +1048,51 @@ void c_player_view::restore_to_display_surface()
 	}
 }
 
-void c_player_view::setup_camera(long player_index, long window_count, long window_arrangement, long user_index, s_observer_result const* result, bool render_freeze)
+void c_player_view::setup_camera(long player_window_index, long player_window_count, long player_window_arrangement, long user_index, s_observer_result const* observer, bool freeze_render_camera)
 {
-	INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_index, window_count, window_arrangement, user_index, result, render_freeze);
+	//INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_window_index, player_window_count, player_window_arrangement, user_index, observer, freeze_render_camera);
+
+	ASSERT(VALID_INDEX(user_index, k_number_of_users));
+
+	render_camera* rasterizer_camera = c_view::get_rasterizer_camera_modifiable();
+	if (game_in_progress() && game_is_ui_shell() && user_interface_should_render_at_origin())
+	{
+		s_observer_result fake_observer = *observer;
+		fake_observer.position = *global_origin3d;
+		observer = &fake_observer;
+		fake_observer.forward = *global_down3d;
+		fake_observer.up = *global_forward3d;
+	}
+	render_view_compute_all_bounds(player_window_index, player_window_count, rasterizer_camera);
+
+	m_camera_user_data.m_splitscreen_resolve_surface = c_rasterizer::_surface_none;
+	m_camera_user_data.m_splitscreen_res_index = (c_rasterizer::e_splitscreen_res)c_splitscreen_config::get_view_bounds(player_window_index, player_window_count, c_rasterizer::get_is_widescreen())->m_render_target_resolution;
+
+	render_camera_build(rasterizer_camera, observer);
+
+	if (observer)
+		m_observer_depth_of_field = observer->depth_of_field;
+	else
+		m_observer_depth_of_field.flags = 0;
+
+	real_rectangle2d frustum_bounds{};
+	render_camera_build_viewport_frustum_bounds(rasterizer_camera, &frustum_bounds);
+
+	render_projection* rasterizer_projection = c_view::get_rasterizer_projection_modifiable();
+	render_camera_build_projection(rasterizer_camera, &frustum_bounds, rasterizer_projection, 0.0f);
+
+	if (!freeze_render_camera)
+	{
+		m_render_camera = *rasterizer_camera;
+		m_render_projection = *rasterizer_projection;
+	}
+
+	m_camera_user_data.player_window_count = player_window_count;
+	m_camera_user_data.player_window_arrangement = player_window_arrangement;
+	m_camera_user_data.player_window_index = player_window_index;
+	m_camera_user_data.user_index = user_index;
+	m_camera_user_data.controller_index = controller_index_from_user_index(user_index);
+	m_window_game_state = get_render_player_window_game_state(player_window_index);
 }
 
 void __thiscall c_player_view::setup_camera_fx_parameters(real exposure_boost)

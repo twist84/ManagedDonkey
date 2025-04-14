@@ -602,6 +602,7 @@ s_console_global const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_freeze),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_horizontal_splitscreen),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_load_panic_to_main_menu),
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),

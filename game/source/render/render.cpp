@@ -35,6 +35,7 @@ REFERENCE_DECLARE(0x050E88FC, void*, g_restricted_render_memory);
 REFERENCE_DECLARE(0x050E8904, c_restricted_section, g_restricted_render_memory_section);
 
 HOOK_DECLARE(0x00A29760, render_frame_begin);
+HOOK_DECLARE(0x00A29970, render_initialize_for_new_map);
 HOOK_DECLARE(0x00A2A080, render_setup_window);
 
 void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
@@ -198,11 +199,11 @@ void __cdecl render_initialize()
 
 void __cdecl render_initialize_for_new_map()
 {
-	INVOKE(0x00A29970, render_initialize_for_new_map);
+	//INVOKE(0x00A29970, render_initialize_for_new_map);
 
-	//debug_render_freeze = false;
-	//c_render_globals::set_frame_time(0.0f);
-	//render_objects_initialize_for_new_map();
+	debug_render_freeze = false;
+	c_render_globals::set_frame_time(0.0f);
+	render_objects_initialize_for_new_map();
 }
 
 void __cdecl render_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)

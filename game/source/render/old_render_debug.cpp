@@ -86,7 +86,16 @@ void render_debug_camera()
 {
 	if (debug_render_freeze)
 	{
-		// $TODO: implement
+		s_visibility_region const* region = get_global_camera_collection()->get_region();
+		real_point3d const(&world_vertices)[5] = region->projections[0].volume.world_vertices;
+		render_debug_line(true, &world_vertices[0], &world_vertices[1], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[1], &world_vertices[3], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[3], &world_vertices[2], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[2], &world_vertices[0], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[0], &world_vertices[4], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[1], &world_vertices[4], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[2], &world_vertices[4], global_real_argb_yellow);
+		render_debug_line(true, &world_vertices[3], &world_vertices[4], global_real_argb_yellow);
 	}
 
 	if (debug_camera || debug_tangent_space)
