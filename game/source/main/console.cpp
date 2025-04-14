@@ -732,6 +732,11 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL(collision_debug_height),
 	CONSOLE_GLOBAL_DECLARE_LONG(collision_debug_ignore_object_index),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_tangent_space),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_player),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_player_control_autoaim_always_active),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_markers),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_surface_references),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_ceilings),

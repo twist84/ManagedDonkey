@@ -3,6 +3,7 @@
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
 #include "input/input_windows.hpp"
+#include "main/console.hpp"
 #include "objects/objects.hpp"
 #include "physics/collisions.hpp"
 #include "render/render_debug.hpp"
@@ -10,6 +11,7 @@
 #include "scenario/scenario.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "units/bipeds.hpp"
+#include "visibility/visibility_collection.hpp"
 
 bool debug_structure_markers = false;
 bool debug_structure_surface_references = false;
@@ -100,12 +102,44 @@ void render_debug_camera()
 
 	if (debug_camera || debug_tangent_space)
 	{
-		// $TODO: implement
+		collision_result ground_collision;
+		c_visibility_collection* camera_collection = get_global_camera_collection();
 
-		//char buffer[2048]{};
-		//csnzprintf(buffer, "point(%01.2f,%01.2f,%01.2f)) cluster(#bsp %d, %d [bsp %d, %d]), sky(attached %d, visible %d)"
-		//	$TODO: );
-		//status_strings("debug camera", buffer);
+		real_matrix4x3 camera{};
+		c_player_view::get_player_render_camera_orientation(&camera);
+
+		s_location location{};
+		scenario_location_from_point(&location, &camera.origin);
+
+		s_cluster_reference cluster_reference = camera_collection->get_cluster_reference();
+
+		char buffer[2048]{};
+		csnzprintf(buffer, sizeof(buffer), "point(%01.2f,%01.2f,%01.2f)) cluster(#bsp %d, %d [bsp %d, %d])",
+			camera.position.x,
+			camera.position.y,
+			camera.position.z,
+			location.cluster_reference.bsp_index,
+			location.cluster_reference.cluster_index,
+			cluster_reference.bsp_index,
+			cluster_reference.cluster_index);
+
+		real_vector3d vector = *global_down3d;
+		scale_vector3d(&vector, 1000.0f, &vector);
+		if (collision_test_vector(_collision_test_structure_geometry_flags, &camera.position, &vector, NONE, NONE, &ground_collision))
+		{
+			real_euler_angles3d angles{};
+			matrix4x3_rotation_to_angles(&camera, &angles);
+			csnzappendf(buffer, sizeof(buffer), "\rground_point(%01.2f,%01.2f,%01.2f) facing(%01.2f, %01.2f) surface(#%d)\rheight(%01.2f)",
+				ground_collision.position.x,
+				ground_collision.position.y,
+				ground_collision.position.z,
+				angles.yaw * RAD,
+				angles.pitch * RAD,
+				ground_collision.surface_index,
+				camera.position.z - ground_collision.position.z);
+		}
+
+		status_strings("debug camera", buffer);
 	}
 }
 
