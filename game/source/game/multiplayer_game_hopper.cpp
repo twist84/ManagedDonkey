@@ -1033,9 +1033,9 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 	}
 
 	if (game_start_error == _session_game_start_error_none && check_hopper)
-		game_start_error = multiplayer_game_hopper_check_required_files(check_hopper, hopper_identifier != 0xFFFFd16);
+		game_start_error = multiplayer_game_hopper_check_required_files(check_hopper, hopper_identifier != short(0xFFFF));
 
-	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == 0xFFFFd16 || hopper == NULL))
+	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == short(0xFFFF) || hopper == NULL))
 		game_start_error = _session_game_start_match_error_invalid_hopper;
 
 	if (game_start_error == _session_game_start_error_none && is_matchmaking)
@@ -1079,7 +1079,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 	{
 		s_file_last_modification_date current_time{};
 		get_current_file_time(&current_time);
-		if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFFd16)
+		if (game_start_error == _session_game_start_error_none && hopper_identifier != short(0xFFFF))
 		{
 			//if (hopper->get_hopper_start_time())
 			//{
@@ -1094,7 +1094,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 			}
 		}
 
-		if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFFd16)
+		if (game_start_error == _session_game_start_error_none && hopper_identifier != short(0xFFFF))
 		{
 			//if (hopper->get_hopper_end_time())
 			//{
@@ -1109,7 +1109,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 			}
 		}
 
-		//if (game_start_error == _session_game_start_error_none && hopper_identifier != 0xFFFFd16)
+		//if (game_start_error == _session_game_start_error_none && hopper_identifier != short(0xFFFF))
 		//{
 		//	//long player_count = session_membership->get_player_count();
 		//	//if (player_count < hopper->get_minimum_party_size())

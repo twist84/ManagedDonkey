@@ -367,10 +367,10 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
 	short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
-	if (index == NONE || index == 0 || identifier == 0xFFFFd16 || absolute_index == 0xFFFFd16)
+	if (index == NONE || index == 0 || identifier == short(0xFFFF) || absolute_index == short(0xFFFF))
 		return NULL;
 
-	if (index != NONE || absolute_index != 0xFFFFd16)
+	if (index != NONE || absolute_index != short(0xFFFF))
 	{
 		if (!identifier)
 			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
