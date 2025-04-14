@@ -42,8 +42,8 @@ public:
 	c_status_line();
 	char const* printf(char const*, ...);
 	char const* appendf(char const*, ...);
-	char const* printf_va(char const*, char*);
-	char const* appendf_va(char const*, char*);
+	char const* printf_va(char const* format, char* list);
+	char const* appendf_va(char const* format, char* list);
 	void set_flag(e_status_line_flags flag, bool enable);
 	void set_alpha(real alpha);
 	void set_color(real_rgb_color const& color);
@@ -61,7 +61,7 @@ public:
 	void remove_single();
 	c_status_line* previous() const;
 	c_status_line* next() const;
-	void initialize_simple(bool*, char const*, long);
+	void initialize_simple(bool* in_use, char const* identifier, long count);
 
 protected:
 	c_static_string<256> m_string;

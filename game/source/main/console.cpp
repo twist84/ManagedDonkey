@@ -1441,11 +1441,10 @@ void status_string_internal(char const* status, char const* message)
 	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
-		c_status_line& status_line = status_string.line;
-		if (status_line.is_empty())
+		if (status_string.line.is_empty())
 		{
 			status_string.time_created = system_milliseconds();
-			status_line.printf("%s", message);
+			status_string.line.printf("%s", message);
 			status_string.format_string.set(status);
 			break;
 		}
@@ -1472,40 +1471,51 @@ void status_strings(char const* status, char const* strings)
 
 bool string_cache_add(s_string_cache* cache, char const* string, real alpha, real_rgb_color const& color, e_text_justification justification)
 {
+	bool result = false;
 	if (cache->string.is_empty())
 	{
 		cache->color = color;
 		cache->alpha = alpha;
 		cache->text_justification = justification;
-
-		cache->string.append(string);
-		cache->string.append("|n");
-
-		return true;
+		result = true;
+	}
+	else if (cache->alpha == alpha
+		&& cache->color.red == color.red
+		&& cache->color.green == color.green
+		&& cache->color.blue == color.blue
+		&& cache->text_justification == justification)
+	{
+		result = true;
 	}
 
-	return false;
+	if (result)
+	{
+		cache->string.append(string);
+		cache->string.append("|n");
+	}
+
+	return result;
 }
 
 void string_cache_render(s_string_cache* cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
-	if (!cache->string.is_empty())
-	{
-		real_argb_color color{};
-		real_argb_color shadow_color{};
+	if (cache->string.is_empty())
+		return;
 
-		color.rgb = cache->color;
-		color.alpha = cache->alpha * 0.5f;
+	real_argb_color color{};
+	real_argb_color shadow_color{};
 
-		shadow_color.rgb = *global_real_rgb_black;
-		shadow_color.alpha = cache->alpha;
+	color.rgb = cache->color;
+	color.alpha = cache->alpha * 0.5f;
 
-		draw_string->set_justification(cache->text_justification);
-		draw_string->set_color(&color);
-		draw_string->set_shadow_color(&shadow_color);
-		draw_string->draw(font_cache, cache->string.get_string());
+	shadow_color.rgb = *global_real_rgb_black;
+	shadow_color.alpha = cache->alpha;
 
-		cache->string.clear();
-	}
+	draw_string->set_justification(cache->text_justification);
+	draw_string->set_color(&color);
+	draw_string->set_shadow_color(&shadow_color);
+	draw_string->draw(font_cache, cache->string.get_string());
+
+	cache->string.clear();
 }
 
