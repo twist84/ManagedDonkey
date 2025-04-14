@@ -204,7 +204,11 @@ s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and
 	return INVOKE(0x00A84D20, user_interface_shared_tag_globals_try_and_get);
 }
 
-//.text:00A84D40 ; bool __cdecl user_interface_should_render_at_origin()
+bool __cdecl user_interface_should_render_at_origin()
+{
+	return INVOKE(0x00A84D40, user_interface_should_render_at_origin);
+}
+
 //.text:00A84D50 ; bool __cdecl user_interface_should_render_fancy()
 
 bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state)
