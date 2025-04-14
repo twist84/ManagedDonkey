@@ -26,6 +26,7 @@
 #include "tag_files/files.hpp"
 
 #include <d3d9.h>
+#include <math.h>
 
 REFERENCE_DECLARE(0x050DD9D0, bool, c_rasterizer::g_d3d_device_is_lost);
 REFERENCE_DECLARE(0x050DD9D1, bool, c_rasterizer::g_d3d_device_reset);
@@ -76,6 +77,8 @@ HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
 
 // Fix aspect ratio not matching resolution
 HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
+
+HOOK_DECLARE_CLASS(0x00A1FC90, c_rasterizer, get_is_widescreen);
 
 HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
 HOOK_DECLARE_CLASS(0x00A22130, c_rasterizer, set_render_resolution);
@@ -283,6 +286,39 @@ void __cdecl c_rasterizer::get_fullscreen_render_pixel_bounds(rectangle2d* resol
 void __cdecl c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(rectangle2d* resolution)
 {
 	INVOKE(0x00A1FBB0, c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds, resolution);
+}
+
+bool __cdecl c_rasterizer::get_is_widescreen()
+{
+	//return INVOKE(0x00A1FC90, c_rasterizer::get_is_widescreen);
+	//return ((real)c_rasterizer::render_globals.width / (real)c_rasterizer::render_globals.height) > 1.5f;
+
+	RECT client_rect{};
+
+	HWND window_handle = g_windows_params.window_handle;
+	if (window_handle != NULL || (window_handle = g_windows_params.game_window_handle) != NULL)
+	{
+		GetClientRect(window_handle, &client_rect);
+	}
+	else
+	{
+		client_rect.right = c_rasterizer::render_globals.resolution_width;
+		client_rect.bottom = c_rasterizer::render_globals.resolution_height;
+	}
+
+	if (client_rect.right <= 8)
+		client_rect.right = 8;
+
+	if (client_rect.bottom <= 8)
+		client_rect.bottom = 8;
+
+	if (render_debug_force_4x3_aspect_ratio)
+	{
+		if (fabsf(real((real)client_rect.right / (real)client_rect.bottom) - 1.3333334f /* 4/3 */) > _real_epsilon)
+			return false;
+	}
+
+	return true;
 }
 
 void __cdecl c_rasterizer::initialize()

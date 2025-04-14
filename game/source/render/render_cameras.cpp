@@ -220,7 +220,7 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 
 	if (cinematic_in_progress())
 	{
-		if (rasterizer_get_is_widescreen())
+		if (c_rasterizer::get_is_widescreen())
 		{
 			if (g_reduce_widescreen_fov_during_cinematics)
 				vertical_field_of_view_tangent = 1.0f * ((vertical_field_of_view_tangent * 1.3333334f /* 4/3 */) * 0.5625f /* 9/16 */);
@@ -363,7 +363,7 @@ real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const
 		v0 = 0.1f;
 
 	real v1 = projection->world_to_screen_size.j;
-	if (cinematic_in_progress() && !rasterizer_get_is_widescreen())
+	if (cinematic_in_progress() && !c_rasterizer::get_is_widescreen())
 		v1 *= real(4 / 3);
 
 	return real(((scale * 10.0f /* default: 2.0f */) * v1) / v0);

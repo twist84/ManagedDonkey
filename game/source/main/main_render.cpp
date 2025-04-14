@@ -87,7 +87,7 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	}
 	else
 	{
-		bool is_widescreen = rasterizer_get_is_widescreen();
+		bool is_widescreen = c_rasterizer::get_is_widescreen();
 		if (debug_render_horizontal_splitscreen)
 			is_widescreen = true;
 
@@ -355,7 +355,7 @@ void __cdecl main_render_game()
 				c_screen_postprocess::accept_edited_settings();
 
 				c_static_wchar_string<32> pix_name;
-				bool is_widescreen = rasterizer_get_is_widescreen();
+				bool is_widescreen = c_rasterizer::get_is_widescreen();
 
 				if (window_count == 1)
 				{

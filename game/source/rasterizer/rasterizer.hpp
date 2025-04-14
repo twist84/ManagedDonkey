@@ -298,6 +298,7 @@ struct c_rasterizer
 	static void __cdecl get_display_title_safe_pixel_bounds(rectangle2d* resolution);
 	static void __cdecl get_fullscreen_render_pixel_bounds(rectangle2d* resolution);
 	static void __cdecl get_fullscreen_render_title_safe_pixel_bounds(rectangle2d* resolution);
+	static bool __cdecl get_is_widescreen();
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
