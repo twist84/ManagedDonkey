@@ -203,14 +203,14 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define INVALID_ASYNC_TASK_ID -1
 
-//#define CHAR_MAX 0x7F
-#define UNSIGNED_CHAR_MAX 0xFFd8
+//#define CHAR_MAX char(0x7F)
+#define UNSIGNED_CHAR_MAX byte(0xFF)
 
-//#define SHORT_MAX 0x7FFF
-#define UNSIGNED_SHORT_MAX short(0xFFFF)
+//#define SHORT_MAX short(0x7FFF)
+#define UNSIGNED_SHORT_MAX word(0xFFFF)
 
-//#define LONG_MAX 0x7FFFFFFF
-#define UNSIGNED_LONG_MAX 0xFFFFFFFFd32
+//#define LONG_MAX long(0x7FFFFFFF)
+#define UNSIGNED_LONG_MAX dword(0xFFFFFFFF)
 
 template<typename t_type>
 union t_value_type
