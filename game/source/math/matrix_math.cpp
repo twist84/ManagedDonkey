@@ -140,7 +140,11 @@ void __cdecl matrix4x3_rotation_from_vectors(real_matrix4x3* matrix, real_vector
 	set_real_point3d(&matrix->position, 0.0f, 0.0f, 0.0f);
 }
 
-//.text:005B3670 ; void __cdecl matrix4x3_rotation_to_angles(real_matrix4x3*, real_euler_angles3d*)
+void __cdecl matrix4x3_rotation_to_angles(real_matrix4x3* matrix, real_euler_angles3d* angles)
+{
+	INVOKE(0x005B3670, matrix4x3_rotation_to_angles, matrix, angles);
+}
+
 //.text:005B37D0 ; void __cdecl matrix4x3_rotation_to_quaternion(real_matrix4x3 const*, real_quaternion*)
 //.text:005B37E0 ; void __cdecl matrix4x3_scale(real_matrix4x3*, real)
 //.text:005B3850 ; void __cdecl matrix4x3_to_orientation(real_matrix4x3 const*, real_orientation*)
