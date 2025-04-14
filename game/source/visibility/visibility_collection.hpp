@@ -4,7 +4,14 @@
 
 //#include <emmintrin.h>
 
-long const k_maximum_item_markers = 6;
+enum
+{
+	k_subpart_bitvector_size_in_bits = 16384,
+
+	k_maximum_region_memory_items = 512,
+	k_maximum_item_markers = 6,
+	k_maximum_sky_items = 6,
+};
 
 template<typename t_type, word k_maximum_count>
 struct c_simple_list
@@ -358,6 +365,12 @@ static_assert(0x2E5CC == OFFSETOF(s_visibility_input, cluster_to_visibility_clus
 
 struct c_visibility_collection
 {
+	s_cluster_reference get_cluster_reference() const
+	{
+		ASSERT(m_input != NULL);
+		return m_input->cluster_reference;
+	}
+
 	e_collection_type get_collection_type()
 	{
 		ASSERT(m_input != NULL);

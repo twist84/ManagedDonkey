@@ -4,8 +4,11 @@
 
 struct s_splitscreen_view_config
 {
-	real_rectangle2d bounds;
-	long __unknown10; // window index?
+	real m_left;
+	real m_top;
+	real m_right;
+	real m_bottom;
+	long m_render_target_resolution;
 };
 static_assert(sizeof(s_splitscreen_view_config) == 0x14);
 

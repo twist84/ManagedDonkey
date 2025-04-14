@@ -409,7 +409,7 @@ void __cdecl c_screen_postprocess::render_ssao(c_camera_fx_settings* fx_settings
 	if (game_is_splitscreen_deterministic())
 		return;
 
-	bool ssao_enable = TEST_BIT(fx_settings->ssao.flags, 1);
+	bool ssao_enable = TEST_BIT(fx_settings->m_ssao.m_flags, 1);
 	if (g_ssao_enable != NONE)
 		ssao_enable = g_ssao_enable == 1;
 

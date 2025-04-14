@@ -427,7 +427,7 @@ void __thiscall c_player_view::render_2nd_pass()
 				m_camera_user_data.user_index);
 
 			c_screen_postprocess::postprocess_player_view(
-				m_window_game_state->camera_fx_values,
+				m_window_game_state->m_camera_fx_values,
 				&m_rasterizer_projection,
 				&m_rasterizer_camera,
 				screen_effect_settings,

@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "render/camera_fx_settings.hpp"
 
+#define MAXIMUM_PLAYER_WINDOWS 4
+
 struct s_render_game_state
 {
 public:
@@ -13,12 +15,12 @@ public:
 
 	struct s_player_window
 	{
-		byte __data[0x170];
-		c_camera_fx_values camera_fx_values;
+		c_camera_fx_settings m_camera_fx_settings;
+		c_camera_fx_values m_camera_fx_values;
 	};
 	static_assert(sizeof(s_player_window) == 0x360);
 
-	s_player_window player_windows[4];
+	s_player_window player_window[MAXIMUM_PLAYER_WINDOWS];
 };
 static_assert(sizeof(s_render_game_state) == 0xD80);
 
