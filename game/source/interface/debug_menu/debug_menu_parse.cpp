@@ -142,38 +142,46 @@ bool string_in_string_case_insensitive(char const* source, char const* find)
 {
 	ASSERT(source && find);
 
-	char const* source_ = source;
-	char const* find_ = find;
+	bool result = false;
 
-	char v3 = *source_;
-	if (IN_RANGE_INCLUSIVE(*source_, 'A', 'Z'))
-		v3 = *source_ - 'A' + 'a';
-
-	char v6 = *find_;
-	if (IN_RANGE_INCLUSIVE(*find_, 'A', 'Z'))
-		v6 = *find_ - 'A' + 'a';
-
-	for (char i = v6; v3 == i || !i; i = v6)
+	long source_length = 0;
+	while (source[source_length])
 	{
-		if (!i)
-			return true;
-
-		if (!v3)
-			return false;
-
-		++source_;
-		++find_;
-
-		v3 = *source_;
-		if (IN_RANGE_INCLUSIVE(*source_, 'A', 'Z'))
-			v3 = *source_ - 'A' + 'a';
-
-		v6 = *find_;
-		if (IN_RANGE_INCLUSIVE(*find_, 'A', 'Z'))
-			v6 = *find_ - 'A' + 'a';
+		source_length += 1;
 	}
 
-	return false;
+	long find_length = 0;
+	while (find[find_length])
+	{
+		find_length += 1;
+	}
+
+	if (find_length == 0)
+	{
+		result = true;
+	}
+	else
+	{
+		bool match = true;
+		long i = 0;
+		while (i < source_length && i < find_length)
+		{
+			char source_char = tolower(source[i]);
+			char find_char = tolower(find[i]);
+			if (source_char != find_char)
+			{
+				match = false;
+				break;
+			}
+			i += 1;
+		}
+		if (match && i == find_length)
+		{
+			result = true;
+		}
+	}
+
+	return result;
 }
 
 void debug_menu_store_number_property(parse_stack_t* parse_stack)
