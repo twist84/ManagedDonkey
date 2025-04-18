@@ -23,8 +23,8 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 	return (c_network_storage_manifest*)working_memory;
 }
 
-//.text:004A5640 ; 
-//.text:004A5660 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data(c_url_string const*, s_online_file_manifest const**, long*)
+//.text:004A5640 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data(s_online_file_manifest const**, long*)
+//.text:004A5660 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data_no_update(s_online_file_manifest const**, long*)
 
 c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest::get_entry_state(s_network_storage_cache_key const* cache_key)
 {
@@ -50,15 +50,21 @@ c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest:
 
 //.text:004A57E0 ; public: bool __cdecl c_network_storage_manifest::get_hash(long, s_network_storage_cache_key const*, s_network_http_request_hash*)
 //.text:004A5910 ; public: long __cdecl c_network_storage_manifest::get_last_downloaded_time(long, s_network_storage_cache_key const*)
-//.text:004A5990 ; 
+//.text:004A5990 ; public: e_network_file_load_status __cdecl c_network_storage_manifest::get_load_status()
 //.text:004A59B0 ; public: void __cdecl c_network_storage_manifest::initialize()
 
 void __cdecl network_storage_manifest_dispose()
 {
-	INVOKE(0x004A59E0, network_storage_manifest_dispose);
+	//INVOKE(0x004A59E0, network_storage_manifest_dispose);
 }
 
-//.text:004A59F0 ; 
+void __cdecl network_storage_manifest_expire_now()
+{
+	//INVOKE(0x004A59F0, network_storage_manifest_expire_now);
+
+	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
+		manifest->m_next_refresh_time_milliseconds = 0;
+}
 
 e_network_file_load_status __cdecl network_storage_manifest_get_load_status()
 {
@@ -98,4 +104,6 @@ void c_network_storage_manifest::update()
 {
 	INVOKE_CLASS_MEMBER(0x004A5CF0, c_network_storage_manifest, update);
 }
+
+//.text:004A5BB0 ; private: void __cdecl c_network_storage_manifest::reset(void)
 

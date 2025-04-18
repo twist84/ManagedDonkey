@@ -51,6 +51,7 @@ public:
 static_assert(sizeof(c_network_storage_manifest) == 0x50D4);
 
 extern void __cdecl network_storage_manifest_dispose();
+extern void __cdecl network_storage_manifest_expire_now();
 extern e_network_file_load_status __cdecl network_storage_manifest_get_load_status();
 extern void __cdecl network_storage_manifest_initialize();
 extern void __cdecl network_storage_manifest_update();
