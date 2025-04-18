@@ -355,7 +355,8 @@ struct _unit_datum
 	byte __pad3FD[0x3];
 
 	// saber related, used is `unit_delete`, `unit_dispose_from_old_structure_bsp`, `sub_B486D0`
-	long __unknown400[2];
+	long emblem_player_shoulder;
+	long emblem_clan_chest;
 
 	byte __data408[0x4];
 };
@@ -373,7 +374,6 @@ static_assert(0x3A4 == OFFSETOF(_unit_datum, __unknown3A4_team_index));
 static_assert(0x3A8 == OFFSETOF(_unit_datum, __unknown3A8_object_index));
 static_assert(0x3FC == OFFSETOF(_unit_datum, __unknown3FC));
 static_assert(0x3FD == OFFSETOF(_unit_datum, __pad3FD));
-static_assert(0x400 == OFFSETOF(_unit_datum, __unknown400));
 static_assert(0x408 == OFFSETOF(_unit_datum, __data408));
 
 struct unit_datum

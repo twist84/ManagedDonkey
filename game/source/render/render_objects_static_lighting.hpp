@@ -41,6 +41,7 @@ struct s_shader_extern_info
 	byte tron_amount;
 	byte active_camo_amount;
 	byte overshield_amount;
+	byte current_body_damage;
 	byte current_shield_damage;
 	real_vector4d bounding_sphere;
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
