@@ -65,7 +65,9 @@ extern transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint*
 extern bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, transport_address const* address);
 extern bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint, bool* is_connected);
 extern bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address);
+extern bool __cdecl transport_endpoint_blocking(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_address const* address);
+extern bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint);
 extern transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type);
 extern bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address);
 extern void __cdecl transport_endpoint_delete(transport_endpoint* endpoint);
@@ -75,6 +77,7 @@ extern bool __cdecl transport_endpoint_get_socket_address(transport_address cons
 extern bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address);
 extern e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint);
+extern bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint);
 extern short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length);
 extern short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source);
 extern bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint);
@@ -87,5 +90,4 @@ extern short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void
 extern short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination);
 extern bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint);
 extern bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address);
-extern bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint);
 
