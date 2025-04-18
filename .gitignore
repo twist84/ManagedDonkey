@@ -354,3 +354,5 @@ MigrationBackup/
 .ionide/
 
 !detours.pdb
+docs/
+
