@@ -547,7 +547,7 @@ void __cdecl main_halt_and_catch_fire()
 	main_loop_pregame_halt_and_catch_fire_push();
 	release_locks_safe_for_crash_release();
 	//crash_report_folder_create_if_not_present();
-	//bool crash_ui_enable = network_configuration_is_crash_ui_enabled() || minidump_force_regular_minidump_with_ui;
+	bool crash_ui_enable = true;//network_configuration_is_crash_ui_enabled() || minidump_force_regular_minidump_with_ui;
 
 	dword lock_time = system_milliseconds();
 
@@ -604,7 +604,7 @@ void __cdecl main_halt_and_catch_fire()
 		real shell_seconds_elapsed = time_delta / 1000.0f;
 		lock_time = this_loop_time;
 
-		//if (crash_ui_enable)
+		if (crash_ui_enable)
 		{
 			c_rasterizer::begin_frame();
 			c_rasterizer::setup_targets_simple();
@@ -671,7 +671,7 @@ void __cdecl main_halt_and_catch_fire()
 			upload_debug_success = true;
 		}
 
-		//if (crash_ui_enable)
+		if (crash_ui_enable)
 		{
 			main_render_pregame(pregame_frame_type, text.get_string());
 			c_rasterizer::end_frame();
