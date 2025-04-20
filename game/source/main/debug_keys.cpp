@@ -335,26 +335,26 @@ debug_key global_debug_key_list[]
 		.toggle_variable = true,
 		.variable = nullptr
 	},
-	//{
-	//	.name = "deathless player",
-	//	.key_code = _key_code_c,
-	//	.modifier = 2,
-	//	.function = nullptr,
-	//	.allow_out_of_game = false,
-	//	.allow_in_editor = false,
-	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO: `cheat.deathless_player`
-	//},
-	//{
-	//	.name = "infinite ammo",
-	//	.key_code = _key_code_c,
-	//	.modifier = 4,
-	//	.function = nullptr,
-	//	.allow_out_of_game = false,
-	//	.allow_in_editor = false,
-	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO: `cheat.infinite_ammo`
-	//},
+	{
+		.name = "deathless player",
+		.key_code = _key_code_c,
+		.modifier = 2,
+		.function = nullptr,
+		.allow_out_of_game = false,
+		.allow_in_editor = false,
+		.toggle_variable = true,
+		.variable = &cheat.deathless_player
+	},
+	{
+		.name = "infinite ammo",
+		.key_code = _key_code_c,
+		.modifier = 4,
+		.function = nullptr,
+		.allow_out_of_game = false,
+		.allow_in_editor = false,
+		.toggle_variable = true,
+		.variable = &cheat.infinite_ammo
+	},
 	{
 		.name = "display framerate",
 		.key_code = _key_code_f,
