@@ -1887,19 +1887,142 @@ void hs_compile_dispose()
 
 long hs_compile_expression(long source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
 {
-	// $TODO: implement me
+	long compiled_expression_index = NONE;
 
-	//if (source_size < 4096)
+	*error_message_pointer = NULL;
+	*error_source_pointer = NULL;
+
+	if (source_size >= 4096)
+	{
+		return compiled_expression_index;
+	}
+
+	char* compiled_source = NULL;
+	long compiled_source_offset = 0;
+	if (global_scenario_index == NONE)
+	{
+		compiled_source = (char*)system_malloc(source_size + 1);
+		hs_compile_globals.malloced = 1;
+		hs_compile_globals.compiled_source = compiled_source;
+
+		ASSERT(hs_compile_globals.compiled_source);
+	}
+	//else
 	//{
+	//	long size = global_scenario->hs_string_constants.size;
+	//	if (size < 4096) {
+	//		event(_event_error, "hs: not enough space to allocate a temporary hs compiled-source buffer! You got yourself into a REALLY weird state! (show Damian)");
+	//		return compiled_expression_index;
+	//	}
 	//
+	//	compiled_source_offset = size - 4096;
+	//	if (global_scenario->hs_string_constants.address)
+	//	{
+	//		compiled_source = global_scenario->hs_string_constants.address;
+	//	}
+	//	else
+	//	{
+	//		compiled_source = NULL;
+	//	}
+	//	hs_compile_globals.compiled_source = compiled_source;
 	//}
 
-	return NONE;
+	if (compiled_source)
+	{
+		ASSERT(g_hs_syntax_data);
+
+		csmemcpy(&compiled_source[compiled_source_offset], source_data, source_size);
+		hs_compile_globals.compiled_source_size = compiled_source_offset + source_size;
+		hs_compile_globals.compiled_source[compiled_source_offset + source_size] = 0;
+		hs_compile_globals.error_message = NULL;
+
+		hs_tokenizer tokenizer{};
+		tokenizer.cursor = &compiled_source[compiled_source_offset];
+		tokenizer.source_file_data = NULL;
+		tokenizer.source_file_size = 0;
+		hs_compile_globals.error_offset = NONE;
+
+		skip_whitespace(&tokenizer.cursor);
+		if (*tokenizer.cursor == '\0')
+		{
+			//hs_runtime_require_gc();
+			return compiled_expression_index;
+		}
+
+		long tokenized_expression_index = hs_tokenize(&tokenizer);
+		if (hs_compile_globals.error_message)
+		{
+			*error_message_pointer = hs_compile_globals.error_message;
+			if (hs_compile_globals.error_offset != NONE)
+			{
+				long error_offset = hs_compile_globals.error_offset - compiled_source_offset;
+				hs_compile_globals.error_offset = error_offset;
+				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
+				*error_source_pointer = &source_data[error_offset];
+			}
+			return compiled_expression_index;
+		}
+
+		compiled_expression_index = datum_new(g_hs_syntax_data);
+		long data_node_index = datum_new(g_hs_syntax_data);
+		if (compiled_expression_index == NONE || data_node_index == NONE)
+		{
+			*error_message_pointer = hs_compile_globals.error_message;
+			return compiled_expression_index;
+		}
+
+		hs_syntax_node* compiled_expression = hs_syntax_get(compiled_expression_index);
+		hs_syntax_node* data_node = hs_syntax_get(data_node_index);
+		compiled_expression->long_value = data_node_index;
+		compiled_expression->next_node_index = NONE;
+		compiled_expression->flags.clear();
+		compiled_expression->source_offset = hs_syntax_get(tokenized_expression_index)->source_offset;
+		data_node->next_node_index = tokenized_expression_index;
+		data_node->source_offset = NONE;
+		data_node->function_index = 24; // inspect?
+		data_node->type = _hs_function_name;
+		data_node->flags.set(_hs_syntax_node_primitive_bit, true);
+
+		if (!hs_parse(compiled_expression_index, _hs_type_void))
+		{
+			*error_message_pointer = hs_compile_globals.error_message;
+			if (hs_compile_globals.error_offset != NONE)
+			{
+				int error_offset = hs_compile_globals.error_offset - compiled_source_offset;
+				hs_compile_globals.error_offset = error_offset;
+				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
+				*error_source_pointer = &source_data[error_offset];
+			}
+			return compiled_expression_index;
+		}
+
+		//hs_runtime_require_gc();
+	}
+
+	return compiled_expression_index;
+}
+
+void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string)
+{
+	// $TODO: implement `hs_validify_expression` properly
+
+	//ASSERT(out_dest_string.count() > 0);
+	//
+	//long copy_length = out_dest_string.m_count - 1;
+	//if (copy_length > in_source_string.m_count)
+	//{
+	//	copy_length = in_source_string.m_count;
+	//}
+	//
+	//_memccpy(out_dest_string.m_elements, in_source_string.m_elements, 0, copy_length);
+	//
+	//out_dest_string.m_elements[copy_length] = 0;
 }
 
 void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, long out_expression_length)
 {
-	// $TODO: implement me
+	// $TODO: actually validate the expression
+	csstrnzcpy(out_valid_expression_buffer, expression, out_expression_length);
 }
 
 bool hs_runtime_safe_to_gc()

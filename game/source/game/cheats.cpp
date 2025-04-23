@@ -6,6 +6,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
+#include "hs/hs_compile.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/terminal.hpp"
 #include "items/equipment_definitions.hpp"
@@ -641,7 +642,7 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 			console_printf(cheat_string);
 
 			// $TODO: add and implement `hs_compile_and_evaluate`
-			//hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
+			hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
 
 			if (csstrcmp(cheat_string, "(set cheat_controller (not cheat_controller))") == 0)
 				cheat.controller_enabled = !cheat.controller_enabled;

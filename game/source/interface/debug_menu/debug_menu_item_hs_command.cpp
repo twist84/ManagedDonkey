@@ -1,5 +1,7 @@
 #include "interface/debug_menu/debug_menu_item_hs_command.hpp"
 
+#include "cseries/cseries_events.hpp"
+#include "hs/hs_compile.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "main/console.hpp"
 
@@ -9,8 +11,8 @@ void c_debug_menu_item_hs_command::notify_selected()
 {
 	if (m_command)
 	{
-		//hs_compile_and_evaluate(_event_message, "debug_menu", m_command, true);
 		console_process_command(m_command, true);
+		hs_compile_and_evaluate(_event_message, "debug_menu", m_command, true);
 	}
 }
 

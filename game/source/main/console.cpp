@@ -501,7 +501,7 @@ void __cdecl console_execute_initial_commands()
 	}
 }
 
-bool __cdecl console_process_command(char const* command, bool a2)
+bool __cdecl console_process_command(char const* command, bool interactive)
 {
 	if (strlen(command) >= 255)
 		return false;
@@ -509,7 +509,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	if (!command[0] || command[0] == ';')
 		return false;
 
-	event(_event_message, "console_command: %s", command);
+	main_status("console_command", "%s", command);
 
 	short command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
 	console_globals.newest_previous_command_index = command_index;
@@ -522,7 +522,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	console_globals.selected_previous_command_index = NONE;
 
-	bool result = false;//hs_compile_and_evaluate(_event_message, "console_command", command, a2);
+	bool result = false;//hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
 
 	tokens_t tokens{};
 	long token_count = 0;
@@ -572,6 +572,8 @@ bool __cdecl console_process_command(char const* command, bool a2)
 		if (!command_found || callback_result.is_equal("not found"))
 			console_warning("command '%s' not found", command_name);
 	}
+
+	main_status("console_command", NULL);
 
 	return result;
 }
