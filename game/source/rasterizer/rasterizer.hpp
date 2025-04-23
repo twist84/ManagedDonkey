@@ -344,12 +344,13 @@ struct c_rasterizer
 	static void __cdecl set_sampler_filter_mode(long sampler_index, e_sampler_filter_mode sampler_filter_mode);
 	static void __cdecl set_sampler_texture(long sampler_index, c_rasterizer_texture_ref sampler_texture);
 	static void __cdecl set_scissor_rect(rectangle2d const* scissor_rect);
-	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode);
-	static void __cdecl set_stencil_mode(e_stencil_mode);
-	static void __cdecl set_stencil_mode_with_value(e_stencil_mode, byte);
+	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode mode);
+	static void __cdecl set_stencil_mode(e_stencil_mode stencil_mode);
+	static void __cdecl set_stencil_mode_with_value(e_stencil_mode stencil_mode, byte value);
+	static void __cdecl set_stencil_write_mask(byte mask);
 	static bool __cdecl set_vertex_declaration(IDirect3DVertexDeclaration9*);
-	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
-	static void __cdecl set_z_buffer_mode(e_z_buffer_mode);
+	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point);
+	static void __cdecl set_z_buffer_mode(e_z_buffer_mode mode);
 	static bool __cdecl get_is_using_floating_point_depth_buffer();
 
 	static void __cdecl setup_occlusion_state();

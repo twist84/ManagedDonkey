@@ -1276,16 +1276,16 @@ void __cdecl c_rasterizer::set_scissor_rect(rectangle2d const* scissor_rect)
 	}
 }
 
-void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode separate_alpha_blend_mode)
+void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode mode)
 {
-	INVOKE(0x00A23A20, c_rasterizer::set_separate_alpha_blend_mode, separate_alpha_blend_mode);
+	INVOKE(0x00A23A20, c_rasterizer::set_separate_alpha_blend_mode, mode);
 
-	//if (separate_alpha_blend_mode == g_current_separate_alpha_blend_mode)
+	//if (mode == g_current_separate_alpha_blend_mode)
 	//	return;
 	//
-	//g_current_separate_alpha_blend_mode = separate_alpha_blend_mode;
+	//g_current_separate_alpha_blend_mode = mode;
 	//
-	//switch (separate_alpha_blend_mode)
+	//switch (mode)
 	//{
 	//case _separate_alpha_blend_off:
 	//{
@@ -1337,6 +1337,11 @@ void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mo
 	INVOKE(0x00A242E0, c_rasterizer::set_stencil_mode_with_value, stencil_mode, value);
 }
 
+void __cdecl c_rasterizer::set_stencil_write_mask(byte mask)
+{
+	c_rasterizer::g_device->SetRenderState(D3DRS_STENCILWRITEMASK, mask);
+}
+
 bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* vertex_declaration)
 {
 	return INVOKE(0x00A24650, c_rasterizer::set_vertex_declaration, vertex_declaration);
@@ -1377,9 +1382,9 @@ bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* v
 	//return true;
 }
 
-void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
+void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 {
-	INVOKE(0x00A247E0, c_rasterizer::set_z_buffer_mode, z_buffer_mode);
+	INVOKE(0x00A247E0, c_rasterizer::set_z_buffer_mode, mode);
 
 	//REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
 	//REFERENCE_DECLARE(0x01692A1C, real, flt_1692A1C); // -0.0000049999999
@@ -1393,10 +1398,10 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	//REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0); // dynamically initialized?
 	//REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4); // dynamically initialized?
 	//
-	//if (z_buffer_mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
+	//if (mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
 	//	return;
 	//
-	//g_current_z_buffer_mode = z_buffer_mode;
+	//g_current_z_buffer_mode = mode;
 	//g_current_z_buffer_floating_point = m_use_floating_point_z_buffer;
 	//
 	//DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
@@ -1405,7 +1410,7 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	//real z_bias = flt_50DD9F0;
 	//real z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
 	//
-	//switch (z_buffer_mode)
+	//switch (mode)
 	//{
 	//case _z_buffer_mode_write:
 	//{
