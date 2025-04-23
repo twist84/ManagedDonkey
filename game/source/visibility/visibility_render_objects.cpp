@@ -4,13 +4,7 @@
 #include "objects/objects.hpp"
 #include "visibility/visibility_collection.hpp"
 
-HOOK_DECLARE_CALL(0x00A44961, visibility_render_objects_compute_lod_transparency);
-
-bool object_has_cinematic_lod(long object_index)
-{
-	object_datum* object = object_get(object_index);
-	return object && object->object.flags.test(_object_cinematic_lod_bit);
-}
+//HOOK_DECLARE_CALL(0x00A44961, visibility_render_objects_compute_lod_transparency);
 
 long __cdecl visibility_render_objects_compute_level_of_detail(long object_index, long player_window_index, s_model_level_of_detail const* level_of_detail_definition, real lod_distance, char last_lod)
 {
@@ -19,14 +13,7 @@ long __cdecl visibility_render_objects_compute_level_of_detail(long object_index
 
 void __cdecl visibility_render_objects_compute_lod_transparency(long object_index, real lod_distance, s_lod_transparency* desired_transparency)
 {
-	bool cinematic_lod = object_has_cinematic_lod(object_index);
-	if (!cinematic_lod)
-		object_cinematic_lod(object_index, true);
-
 	INVOKE(0x00A195E0, visibility_render_objects_compute_lod_transparency, object_index, lod_distance, desired_transparency);
-
-	if (!cinematic_lod)
-		object_cinematic_lod(object_index, false);
 }
 
 bool __cdecl visibility_render_objects_find_geometry(long object_index, long render_model_index, long player_window_index, short* desired_level_of_detail, char last_level_of_detail, byte* mesh_indices, long* region_count, bool* using_old_permutation, word* a9)
