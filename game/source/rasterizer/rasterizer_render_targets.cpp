@@ -27,10 +27,10 @@ c_rasterizer_texture_ref* __cdecl sub_A487E0(c_rasterizer_texture_ref* texture_r
 	c_rasterizer::e_surface surface = c_screen_postprocess::blur_display();
 
 	// for some reason when using the correct surface `display` no ui renders at all
-	//c_rasterizer::set_render_target(0, c_rasterizer::_surface_display, NONE);
+	//c_rasterizer::set_render_target(0, c_rasterizer::_surface_display, 0xFFFFFFFF);
 
 	// use the `screenshot_display` surface
-	c_rasterizer::set_render_target(0, c_rasterizer::_surface_screenshot_display, NONE);
+	c_rasterizer::set_render_target(0, c_rasterizer::_surface_screenshot_display, 0xFFFFFFFF);
 
 	c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
 	c_rasterizer::restore_last_viewport();

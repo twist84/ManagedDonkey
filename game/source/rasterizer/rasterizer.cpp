@@ -176,11 +176,11 @@ bool __cdecl c_rasterizer::end_albedo(rectangle2d const* bounds)
 
 	if (render_debug_toggle_default_lightmaps_texaccum == 1)
 	{
-		c_rasterizer::clearf(1 /*D3DCLEAR_TARGET*/, 0x00BFBFBF, 1.0f, 0);
+		c_rasterizer::clear(1 /*D3DCLEAR_TARGET*/, 0x00BFBFBF, 1.0f, 0);
 	}
 	else if (render_debug_toggle_default_lightmaps_texaccum == 3)
 	{
-		c_rasterizer::clearf(1 /*D3DCLEAR_TARGET*/, 0xFF010101, 1.0f, 0);
+		c_rasterizer::clear(1 /*D3DCLEAR_TARGET*/, 0xFF010101, 1.0f, 0);
 	}
 
 	//if (c_rasterizer::get_is_tiling_bracket_active())
@@ -641,9 +641,9 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 
 //void __cdecl c_rasterizer::clearf(dword, real_vector4d const*, real, dword)
 
-void __cdecl c_rasterizer::clearf(dword flags, dword color, real z, byte stencil)
+void __cdecl c_rasterizer::clear(dword clear_channels, dword clear_color, real clear_z, byte clear_stencil)
 {
-	INVOKE(0x00A213F0, c_rasterizer::clearf, flags, color, z, stencil);
+	INVOKE(0x00A213F0, c_rasterizer::clear, clear_channels, clear_color, clear_z, clear_stencil);
 }
 
 void __cdecl c_rasterizer::sub_A21440()
@@ -1549,11 +1549,11 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//
 	//if (is_clear)
 	//{
-	//	dword flags = D3DCLEAR_ZBUFFER;
+	//	dword clear_channels = D3DCLEAR_ZBUFFER;
 	//	if (!clear_stencil)
-	//		flags = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
+	//		clear_channels = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
 	//
-	//	c_rasterizer::clearf(flags, 0x005577CCu, 1.0f, 0);
+	//	c_rasterizer::clear(clear_channels, 0x005577CCu, 1.0f, 0);
 	//	c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
 	//
 	//	c_rasterizer::set_render_target(0, c_rasterizer::_surface_albedo, 0);
@@ -1569,7 +1569,7 @@ void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, b
 	//c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
 	//c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
 	//c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//c_rasterizer::clearf(1, 0x808000, 0.0f, 0);
+	//c_rasterizer::clear(1, 0x808000, 0.0f, 0);
 	//c_rasterizer::set_viewport(*pixel_bounds, 0.0f, 1.0f);
 	//c_rasterizer::set_scissor_rect(pixel_bounds);
 }

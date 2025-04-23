@@ -284,7 +284,7 @@ void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_su
 	//if (c_rasterizer::get_render_target(0) != m_render_target)
 	//{
 	//	c_rasterizer::set_render_target(0, m_render_target, NONE);
-	//	c_rasterizer::clearf(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
+	//	c_rasterizer::clear(1/*D3DCLEAR_TARGET*/, 0, 0.0f, 0);
 	//}
 }
 

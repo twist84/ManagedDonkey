@@ -455,7 +455,7 @@ struct c_rasterizer
 	static dword& g_max_ps_gprs;
 	static long& g_adapter;
 
-	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
+	static void __cdecl clear(dword clear_channels, dword clear_color, real clear_z, byte clear_stencil);
 	static void __cdecl sub_A21440();
 	static void __cdecl end();
 	static bool __cdecl end_albedo(rectangle2d const* bounds);
