@@ -307,7 +307,7 @@ void c_controller_interface::update_controller_properties()
 
 		if (!m_state_flags.test(_temporary_bit))
 		{
-			memset(m_display_name, 0, sizeof(m_display_name));
+			csmemset(m_display_name, 0, sizeof(m_display_name));
 			if (wchar_t const* name = online_local_user_get_name(controller_index))
 			{
 				ustrnzcpy(m_display_name, name, NUMBEROF(m_display_name));
@@ -333,7 +333,7 @@ void c_controller_interface::update_controller_properties()
 		{
 			sign_out_controller(false);
 			m_state_flags.clear();
-			memset(m_display_name, 0, sizeof(m_display_name));
+			csmemset(m_display_name, 0, sizeof(m_display_name));
 			m_time_controller_signed_out = 0;
 		}
 	}

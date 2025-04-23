@@ -40,25 +40,25 @@ s_player_configuration::s_player_configuration()
 //.text:00434760 ; public: s_player_configuration_from_client::s_player_configuration_from_client()
 s_player_configuration_from_client::s_player_configuration_from_client()
 {
-	memset(this, 0, sizeof(*this));
+	csmemset(this, 0, sizeof(*this));
 }
 
 //.text:00434780 ; public: s_player_configuration_from_host::s_player_configuration_from_host()
 s_player_configuration_from_host::s_player_configuration_from_host()
 {
-	memset(this, 0, sizeof(*this));
+	csmemset(this, 0, sizeof(*this));
 	team_index = _multiplayer_team_none;
 	assigned_team_index = _multiplayer_team_none;
 }
 
-s_player_identifier::s_player_identifier() :
-	identifier(0)
+s_player_identifier::s_player_identifier()
 {
+	csmemset(identifier, 0, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(qword data) :
-	identifier(0)
+s_player_identifier::s_player_identifier(qword data)
 {
+	csmemset(identifier, 0, sizeof(identifier));
 	csmemcpy(identifier, &data, sizeof(identifier));
 }
 
