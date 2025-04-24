@@ -1138,7 +1138,16 @@ void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool condi
 
 	c_rasterizer_profile_scope _occlusion_tests(_rasterizer_profile_element_occlusions, L"occlusion_tests");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_occlusion_tests, occlusion, conditional);
+	if (!screenshot_in_progress())
+	{
+		c_rasterizer::setup_occlusion_state();
+
+		if (occlusion)
+			lens_flares_submit_occlusions(m_camera_user_data.user_index, _lens_flare_occlusion_type_occlusion);
+
+		if (conditional)
+			lens_flares_submit_occlusions(m_camera_user_data.user_index, _lens_flare_occlusion_type_conditional);
+	}
 }
 
 void c_player_view::frame_advance()

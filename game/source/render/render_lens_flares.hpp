@@ -61,4 +61,5 @@ extern void __cdecl lens_flares_render(long user_index);
 extern void __cdecl lens_flares_reset_rasterizer_parameters();
 extern void __cdecl lens_flares_setup_occlusion_shader();
 extern void __cdecl lens_flares_setup_rendering_shader();
+extern void __cdecl lens_flares_submit_occlusions(long user_index, e_lens_flare_occlusion_rendering_types rendering_type);
 
