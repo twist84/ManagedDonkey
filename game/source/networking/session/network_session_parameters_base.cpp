@@ -150,7 +150,8 @@ long c_network_session_parameter_base::get_update_size(void) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00450E30, c_network_session_parameter_base, get_update_size);
 
-	return get_update_payload_size() + 4;
+	//return get_update_payload_size() + sizeof(s_network_session_parameter_update);
+	return get_update_payload_size() + 4; // is the 4 `sizeof(s_network_session_parameter_update)`?
 }
 
 bool c_network_session_parameter_base::handle_change_request(void const* change_request, long change_request_size)
