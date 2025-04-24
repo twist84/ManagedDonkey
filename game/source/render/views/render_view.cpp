@@ -181,7 +181,7 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
 	render_projection* render_projection_modifiable = get_render_projection_modifiable();
 
-	*rasterizer_camera_modifiable = *m_camera;
+	*rasterizer_camera_modifiable = *m_default_rasterizer_camera;
 
 	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->field_of_view_scale, _real_epsilon);
 	rasterizer_camera_modifiable->vertical_field_of_view *= m_fov_scale;
