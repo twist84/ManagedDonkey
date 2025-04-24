@@ -61,10 +61,10 @@ bool c_network_session_parameter_base::change_request_allowed(void) const
 	if (m_change_request_access == _parameter_change_request_access_peer)
 		return true;
 
-	if (m_change_request_access != _parameter_change_request_access_leader)
-		return false;
+	if (m_change_request_access == _parameter_change_request_access_leader)
+		return m_session->is_leader();
 
-	return m_session->is_leader();
+	return false;
 }
 
 void c_network_session_parameter_base::clear(void)

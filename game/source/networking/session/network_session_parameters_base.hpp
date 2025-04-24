@@ -45,11 +45,11 @@ public:
 protected:
 	//c_network_session_parameter_base(void);
 	void initialize(e_network_session_parameter_type parameter_type, char const* parameter_type_description, e_parameter_update_priority update_priority, e_parameter_change_request_access change_request_access, c_network_session* session);
-	void build_update(long, s_network_session_parameter_update*, long) const;
-	bool handle_update(const s_network_session_parameter_update*, long);
+	void build_update(long peer_index, s_network_session_parameter_update* update, long update_size) const;
+	bool handle_update(s_network_session_parameter_update const* update, long update_size);
 	long get_update_size(void) const;
-	void build_change_request(long, void*, long) const;
-	bool handle_change_request(const void*, long);
+	void build_change_request(long peer_index, void* payload, long payload_size) const;
+	bool handle_change_request(void const* change_request, long change_request_size);
 	long get_change_request_size(void) const;
 	bool peer_requires_update(long peer_index) const;
 	e_parameter_update_priority get_update_priority(void) const;
@@ -58,10 +58,10 @@ protected:
 	const char* get_session_description(void) const;
 	void clear(void);
 	void set_update_required(void);
-	void notify_update_sent_to_peer(long);
+	void notify_update_sent_to_peer(long peer_index);
 	void set_desires_change_request(void);
 	void notify_change_request_sent(void);
-	void reset_peer_state(long);
+	void reset_peer_state(long peer_index);
 	void transition_state_to_become_host(void);
 
 	//virtual void validate_buffer(long size, void const* original, void* temporary, void* buffer);
