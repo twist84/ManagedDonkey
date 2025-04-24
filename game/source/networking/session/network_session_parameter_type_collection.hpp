@@ -54,7 +54,8 @@ enum e_network_session_parameter_type
 	_network_session_parameter_type_leader_properties,
 	_network_session_parameter_type_lobby_vote_set,
 
-	k_network_session_parameter_type_count
+	k_network_session_parameter_type_count,
+	k_network_session_parameter_type_none = NONE,
 };
 
 struct c_network_session_parameter_type_collection
