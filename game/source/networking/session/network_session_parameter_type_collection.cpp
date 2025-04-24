@@ -1,6 +1,7 @@
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
 #include "cseries/cseries.hpp"
+#include "networking/messages/network_messages_session_parameters.hpp"
 #include "networking/session/network_session_parameters_base.hpp"
 
 void c_network_session_parameter_type_collection::check_session_parameter_types() const

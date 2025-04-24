@@ -76,7 +76,7 @@ void c_network_session_parameter_base::clear(void)
 		m_parameter_type,
 		m_parameter_type_description);
 
-	m_transmitted_peer_updates.clear();
+	m_transmitted_peer_updates.set_all(false);
 	m_flags = 0;
 	notify_clear();
 }
@@ -361,7 +361,7 @@ void c_network_session_parameter_base::set_update_required(void)
 		m_parameter_type,
 		m_parameter_type_description);
 
-	m_transmitted_peer_updates.clear();
+	m_transmitted_peer_updates.set_all(false);
 	m_flags |= FLAG(_network_session_parameter_valid_bit);
 	notify_set_update_required();
 }
@@ -375,7 +375,7 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 		m_parameter_type,
 		m_parameter_type_description);
 
-	m_transmitted_peer_updates.clear();
+	m_transmitted_peer_updates.set_all(false);
 	m_flags &= FLAG(_network_session_parameter_valid_bit);
 	notify_transition_state_to_become_host();
 }
@@ -393,3 +393,4 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 //	encoded_message.finish_reading();
 //	ASSERT(0 == csmemcmp(original, temporary, size));
 //}
+

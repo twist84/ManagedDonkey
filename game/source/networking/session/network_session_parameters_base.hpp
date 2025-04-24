@@ -100,11 +100,9 @@ protected:
 };
 static_assert(sizeof(c_network_session_parameter_base) == 0x30);
 
-const long k_network_session_parameters_update_payload_size = 0x20000;
-const long k_network_session_parameters_request_payload_size = 0x20000;
-
 struct s_network_session_parameter_update
 {
-	byte payload[k_network_session_parameters_update_payload_size];
+	byte* payload;
 };
-static_assert(sizeof(s_network_session_parameter_update) == k_network_session_parameters_update_payload_size);
+static_assert(sizeof(s_network_session_parameter_update) == sizeof(byte*));
+
