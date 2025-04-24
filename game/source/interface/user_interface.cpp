@@ -209,7 +209,10 @@ bool __cdecl user_interface_should_render_at_origin()
 	return INVOKE(0x00A84D40, user_interface_should_render_at_origin);
 }
 
-//.text:00A84D50 ; bool __cdecl user_interface_should_render_fancy()
+bool __cdecl user_interface_should_render_fancy()
+{
+	return INVOKE(0x00A84D50, user_interface_should_render_fancy);
+}
 
 bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state)
 {
@@ -269,7 +272,7 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 	
 			g_user_interface_globals.m_music_manager.update();
 	
-			if (game_is_ui_shell()/* && user_interface_should_render_fancy()*/)
+			if (game_is_ui_shell() && user_interface_should_render_fancy())
 				g_user_interface_globals.m_music_manager.__unknown18 = milliseconds;
 	
 			if (game_is_ui_shell())

@@ -243,6 +243,7 @@ extern void __cdecl user_interface_scoreboard_update();
 extern void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index controller_index);
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_render_at_origin();
+extern bool __cdecl user_interface_should_render_fancy();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
 extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();
 extern void __cdecl user_interface_update(real shell_seconds_elapsed);
