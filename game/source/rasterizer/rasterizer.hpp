@@ -383,6 +383,7 @@ struct c_rasterizer
 	static void __cdecl set_surface_as_texture(long sampler_index, e_surface surface);
 	static void __cdecl set_using_albedo_sampler(bool value);
 	static void __cdecl set_viewport(rectangle2d const& viewport, real min_z, real max_z);
+	static void __cdecl stretch_rect(e_surface source_surface, e_surface dest_surface);
 	static void __cdecl wait_for_gpu_idle();
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);

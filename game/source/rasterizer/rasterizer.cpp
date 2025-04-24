@@ -1701,6 +1701,11 @@ void __cdecl c_rasterizer::set_viewport(rectangle2d const& viewport_bounds, real
 	c_rasterizer::g_device->SetViewport(&viewport);
 }
 
+void __cdecl c_rasterizer::stretch_rect(e_surface source_surface, e_surface dest_surface)
+{
+	INVOKE(0x00A49080, c_rasterizer::stretch_rect, source_surface, dest_surface);
+}
+
 void __cdecl c_rasterizer::wait_for_gpu_idle()
 {
 	//INVOKE(0x00A49130, c_rasterizer::wait_for_gpu_idle);
