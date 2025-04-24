@@ -93,6 +93,8 @@ protected:
 	e_network_session_parameter_type m_parameter_type;
 	char const* m_parameter_type_description;
 	c_network_session* m_session;
+
+private:
 	e_parameter_update_priority m_update_priority;
 	e_parameter_change_request_access m_change_request_access;
 	c_static_array<bool, 17> m_transmitted_peer_updates;
