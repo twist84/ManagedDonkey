@@ -12,6 +12,7 @@
 #include "devices/devices.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
+#include "hs/hs_library_internal_compile.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_unit_seats.hpp"
 #include "main/console.hpp"
@@ -1031,7 +1032,7 @@ hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 bool hs_parse_variable(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+	char* source_offset = hs_compile_globals.compiled_source + expression->source_offset;
 
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
 
@@ -1658,94 +1659,169 @@ long hs_tokenize(hs_tokenizer* state)
 {
 	// $TODO: implement me
 
-	return NONE;
-
-	//ASSERT(!hs_compile_globals.error_message);
-	//ASSERT(g_hs_syntax_data);
-	//
-	//long expression_index = datum_new(g_hs_syntax_data);
-	//if (expression_index == NONE)
-	//{
-	//	hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
-	//	hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
-	//	return NONE;
-	//}
-	//
-	//hs_syntax_node* expression = hs_syntax_get(expression_index);
-	//expression->type.set_raw_value(0);
-	//expression->flags.clear();
-	//expression->script_index = NONE;
-	//expression->source_offset = NONE;
-	//expression->line_number = NONE;
-	//expression->next_node_index = NONE;
-	//expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
-	//
-	//if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
-	//	hs_tokenize_primitive(state, expression_index);
-	//else
-	//	hs_tokenize_nonprimitive(state, expression_index);
-	//
-	//long source_offset = expression->source_offset;
-	//if (source_offset != NONE && state->source_file_data)
-	//{
-	//	long offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
-	//	ASSERT(offset >= 0 && offset < state->source_file_size);
-	//	expression->line_number = hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
-	//}
-	//
-	//return expression_index;
+	ASSERT(!hs_compile_globals.error_message);
+	ASSERT(g_hs_syntax_data);
+	
+	long expression_index = datum_new(g_hs_syntax_data);
+	if (expression_index == NONE)
+	{
+		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+		hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
+		return NONE;
+	}
+	
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	expression->type = 0;
+	expression->flags.clear();
+	expression->script_index = NONE;
+	expression->source_offset = NONE;
+	expression->line_number = NONE;
+	expression->next_node_index = NONE;
+	expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
+	
+	if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+		hs_tokenize_primitive(state, expression_index);
+	else
+		hs_tokenize_nonprimitive(state, expression_index);
+	
+	long source_offset = expression->source_offset;
+	if (source_offset != NONE && state->source_file_data)
+	{
+		long offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
+		ASSERT(offset >= 0 && offset < state->source_file_size);
+		expression->line_number = (short)hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
+	}
+	
+	return expression_index;
 }
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 {
 	// $TODO: implement me
 
-	//hs_syntax_node* expression = hs_syntax_get(expression_index);
-	//long* next_node_index = &expression->long_value;
-	//
-	//expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
-	//if (!hs_compile_globals.error_message)
-	//{
-	//	while (true)
-	//	{
-	//		char* cursor = state->cursor;
-	//		skip_whitespace(&state->cursor);
-	//		if (state->cursor != cursor)
-	//			*cursor = 0;
-	//
-	//		char char_ = *state->cursor;
-	//		if (!char_)
-	//			break;
-	//
-	//		if (char_ == ')')
-	//		{
-	//			*state->cursor++ = 0;
-	//			goto LABEL_20;
-	//		}
-	//
-	//		*next_node_index = hs_tokenize(state);
-	//		if (*next_node_index != NONE)
-	//			*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
-	//
-	//		if (hs_compile_globals.error_message)
-	//			goto LABEL_20;
-	//	}
-	//
-	//	hs_compile_globals.error_message = "this left parenthesis is unmatched.";
-	//	hs_compile_globals.error_offset = expression->source_offset;
-	//}
-	//
-	//LABEL_20:;
-	//if (next_node_index == &expression->long_value && !hs_compile_globals.error_message)
-	//{
-	//	hs_compile_globals.error_message = "this expression is empty.";
-	//	hs_compile_globals.error_offset = expression->source_offset;
-	//}
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	long* next_node_index = &expression->long_value;
+	
+	expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
+	if (!hs_compile_globals.error_message)
+	{
+		while (true)
+		{
+			char* cursor = state->cursor;
+			skip_whitespace(&state->cursor);
+			if (state->cursor != cursor)
+				*cursor = 0;
+	
+			char char_ = *state->cursor;
+			if (!char_)
+				break;
+	
+			if (char_ == ')')
+			{
+				*state->cursor++ = 0;
+				goto LABEL_20;
+			}
+	
+			*next_node_index = hs_tokenize(state);
+			if (*next_node_index != NONE)
+				*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
+	
+			if (hs_compile_globals.error_message)
+				goto LABEL_20;
+		}
+	
+		hs_compile_globals.error_message = "this left parenthesis is unmatched.";
+		hs_compile_globals.error_offset = expression->source_offset;
+	}
+	
+	LABEL_20:;
+	if (next_node_index == &expression->long_value && !hs_compile_globals.error_message)
+	{
+		hs_compile_globals.error_message = "this expression is empty.";
+		hs_compile_globals.error_offset = expression->source_offset;
+	}
 }
 
 void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 {
-	// $TODO: implement me
+	hs_syntax_node* expression = NULL;
+	char* cursor = state->cursor;
+	char current = *cursor;
+
+	if (hs_syntax_get(expression_index))
+	{
+		expression = hs_syntax_get(expression_index);
+	}
+
+	if (current == '"' || current == '{')
+	{
+		hs_syntax_node* node = hs_syntax_get(expression_index);
+
+		state->cursor = cursor + 1;
+		node->source_offset = long(cursor + 1 - hs_compile_globals.compiled_source);
+
+		char terminator = (current == '"') ? '"' : '}';
+		char* c = state->cursor;
+
+		for (; *c; ++c)
+		{
+			if (*c == terminator)
+				break;
+		}
+
+		state->cursor = c;
+
+		if (!*c)
+		{
+			hs_compile_globals.error_message = (current == '"')
+				? "this quoted constant is unterminated."
+				: "this superstring constant is unterminated. (did you forget a '}' ?)";
+			hs_compile_globals.error_offset = node->source_offset - 1;
+			return;
+		}
+
+		*state->cursor = 0;
+		++state->cursor;
+		return;
+	}
+
+	if (expression)
+		expression->source_offset = long(cursor - hs_compile_globals.compiled_source);
+
+	for (char* c = state->cursor; *c; ++c)
+	{
+		char ch = *c;
+
+		if (ch == ')' || ch == ';')
+			break;
+
+		int found = 0;
+		for (int i = 0; i < 2; ++i)
+		{
+			if (ch == whitespace_characters[i])
+			{
+				found = 1;
+				break;
+			}
+		}
+
+		if (found)
+			break;
+
+		for (int i = 0; i < 2; ++i)
+		{
+			if (ch == eol_characters[i])
+			{
+				found = 1;
+				break;
+			}
+		}
+
+		if (found)
+			break;
+
+		state->cursor = c + 1;
+	}
 }
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
@@ -1899,7 +1975,7 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 
 	char* compiled_source = NULL;
 	long compiled_source_offset = 0;
-	if (global_scenario_index == NONE)
+	//if (global_scenario_index == NONE)
 	{
 		compiled_source = (char*)system_malloc(source_size + 1);
 		hs_compile_globals.malloced = 1;
@@ -1979,7 +2055,7 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 		compiled_expression->source_offset = hs_syntax_get(tokenized_expression_index)->source_offset;
 		data_node->next_node_index = tokenized_expression_index;
 		data_node->source_offset = NONE;
-		data_node->function_index = 24; // inspect?
+		data_node->function_index = _hs_function_inspect;
 		data_node->type = _hs_function_name;
 		data_node->flags.set(_hs_syntax_node_primitive_bit, true);
 
@@ -2034,59 +2110,60 @@ bool hs_runtime_safe_to_gc()
 
 bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive)
 {
-	// $TODO: implement me
+	// $TODO: enable once all sub functions are implemented
+	return false;
 
 	bool result = false;
 
-	//event(event_level, "hs:evaluate: %s: %s", source, expression);
-	//
-	////random_seed_allow_use();
-	//
-	//char expression_buffer[4096]{};
-	//hs_validify_expression(expression, expression_buffer, sizeof(expression_buffer));
-	//if (string_is_not_empty(expression_buffer))
+	event(event_level, "hs:evaluate: %s: %s", source, expression);
+	
+	//random_seed_allow_use();
+	
+	char expression_buffer[4096]{};
+	hs_validify_expression(expression, expression_buffer, sizeof(expression_buffer));
+	if (string_is_not_empty(expression_buffer))
+	{
+		char const* error_message = NULL;
+		char const* error_source = NULL;
+	
+		if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
+			hs_node_gc();
+	
+		hs_compile_initialize(false);
+	
+		hs_syntax_node temporary_syntax_data[128]{};
+		if (TEST_BIT(g_hs_syntax_data->flags, _hs_syntax_node_script_bit))
+		{
+			csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
+			data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
+		}
+	
+		long source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
+		long expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
+		if (expression_index == NONE)
+		{
+			if (error_message)
+				hs_compile_source_error(NULL, error_message, error_source, expression_buffer);
+		}
+		else
+		{
+			result = true;
+			hs_runtime_evaluate(expression_index, interactive, false);
+		}
+	
+		if (g_hs_syntax_data->data == temporary_syntax_data)
+			data_disconnect(g_hs_syntax_data);
+	
+		hs_compile_dispose();
+	}
+	
+	//if (g_recompile_scripts)
 	//{
-	//	char const* error_message = NULL;
-	//	char const* error_source = NULL;
-	//
-	//	if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
-	//		hs_node_gc();
-	//
-	//	hs_compile_initialize(false);
-	//
-	//	hs_syntax_node temporary_syntax_data[128]{};
-	//	if (TEST_BIT(g_hs_syntax_data->flags, _hs_syntax_node_script_bit))
-	//	{
-	//		csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
-	//		data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
-	//	}
-	//
-	//	long source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
-	//	long expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
-	//	if (expression_index == NONE)
-	//	{
-	//		if (error_message)
-	//			hs_compile_source_error(NULL, error_message, error_source, expression_buffer);
-	//	}
-	//	else
-	//	{
-	//		result = true;
-	//		hs_runtime_evaluate(expression_index, interactive, false);
-	//	}
-	//
-	//	if (g_hs_syntax_data->data == temporary_syntax_data)
-	//		data_disconnect(g_hs_syntax_data);
-	//
-	//	hs_compile_dispose();
+	//	hs_rebuild_and_compile(NULL, false, true);
+	//	g_recompile_scripts = false;
 	//}
-	//
-	////if (g_recompile_scripts)
-	////{
-	////	hs_rebuild_and_compile(NULL, false, true);
-	////	g_recompile_scripts = false;
-	////}
-	//
-	////random_seed_disallow_use();
+	
+	//random_seed_disallow_use();
 
 	return result;
 }

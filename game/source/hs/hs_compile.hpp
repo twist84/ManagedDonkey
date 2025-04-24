@@ -64,6 +64,9 @@ static_assert(sizeof(hs_compile_globals) == 0x444);
 using hs_type_primitive_parser_t = bool __cdecl(long expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
 
+enum e_event_level;
+struct hs_tokenizer;
+
 extern bool hs_parse_boolean(long expression_index);
 extern bool hs_parse_real(long expression_index);
 extern bool hs_parse_integer(long expression_index);
@@ -110,8 +113,9 @@ extern void hs_compile_add_reference(long referred_index, e_reference_type refer
 extern void hs_parse_call_predicate(long expression_index, bool* a2, bool* a3);
 extern bool hs_parse_tag_block_element_string_id(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
 extern bool hs_parse_tag_block_element(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
-
-enum e_event_level;
+extern long hs_tokenize(hs_tokenizer* state);
+extern void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index);
+extern void hs_tokenize_primitive(hs_tokenizer* state, long expression_index);
 extern bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive);
 extern void hs_compile_source_error(char const* file_name, char const* error_message, char const* error_source, char const* source);
 
