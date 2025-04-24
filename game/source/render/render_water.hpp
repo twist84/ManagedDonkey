@@ -24,9 +24,9 @@ public:
 	static void __cdecl initialize_for_new_map();
 	static bool __cdecl is_active_ripple_exist();
 	static void __cdecl render_shading();
-	static void __cdecl render_tessellation();
+	static void __cdecl render_tessellation(bool is_screenshot);
 	static void __cdecl render_underwater_fog();
-	static void __cdecl ripple_add(dword a1);
+	static void __cdecl ripple_add(dword valid_event_count);
 	static void __cdecl ripple_apply();
 	static dword __cdecl ripple_check_new();
 	static void __cdecl ripple_slope();

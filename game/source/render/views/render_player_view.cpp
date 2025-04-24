@@ -983,10 +983,10 @@ void __thiscall c_player_view::render_transparents()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, 0);
-	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, 0);
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_texaccum, 1);
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_normal, 1);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, false);
+	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, false);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_texaccum, true);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_normal, true);
 	m_lights_view.submit_simple_light_draw_list_to_shader();
 
 	{
@@ -1026,7 +1026,18 @@ void __thiscall c_player_view::render_water()
 
 	c_rasterizer_profile_scope _water_render(_rasterizer_profile_element_water, L"water_render");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_water);
+	c_rasterizer::resolve_surface(c_rasterizer::_surface_accum_LDR, 0, NULL, 0, 0);
+	c_rasterizer::stretch_rect(c_rasterizer::_surface_accum_LDR, c_rasterizer::_surface_post_LDR);
+
+	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, false);
+	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, false);
+
+	c_water_renderer::render_underwater_fog();
+	c_water_renderer::render_tessellation(screenshot_in_progress());
+	c_water_renderer::render_shading();
+
+	render_method_clear_extern(_render_method_extern_scene_ldr_texture);
+	render_method_clear_extern(_render_method_extern_texture_global_target_z);
 }
 
 void __thiscall c_player_view::render_weather_occlusion()
