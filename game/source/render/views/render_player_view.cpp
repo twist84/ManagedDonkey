@@ -25,6 +25,13 @@
 #include "render_methods/render_method_submit.hpp"
 #include "render/views/split_screen_config.hpp"
 
+enum
+{
+	k_vs_decal_sprite = 228,
+	k_vs_decal_pixel_kill_enabled = 2,
+	k_ps_decal_fade = 32,
+};
+
 REFERENCE_DECLARE(0x019147B8, real, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
@@ -586,17 +593,42 @@ void __cdecl c_player_view::render_albedo_decals(bool render_object_decals, bool
 	c_rasterizer_profile_scope _decorators(_rasterizer_profile_element_total, L"decorators");
 
 	HOOK_INVOKE_CLASS(, c_player_view, render_albedo_decals, decltype(&c_player_view::render_albedo_decals), render_object_decals, render_structure_decals);
+
+	//c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_read);
+	//c_rasterizer::begin_high_quality_blend();
+	//
+	//if (render_object_decals)
+	//{
+	//	int pixel_kill_enabled = 1;
+	//	c_rasterizer::set_vertex_shader_constant_bool(k_vs_decal_pixel_kill_enabled, 1, &pixel_kill_enabled);
+	//
+	//	real_vector4d fade{};
+	//	set_real_vector4d(&fade, 1.0f, 1.0f, 1.0f, 1.0f);
+	//	c_rasterizer::set_pixel_shader_constant(k_ps_decal_fade, 1, &fade);
+	//
+	//	real_vector4d sprite{};
+	//	set_real_vector4d(&sprite, 0.0f, 0.0f, 1.0f, 1.0f);
+	//	c_rasterizer::set_vertex_shader_constant(k_vs_decal_sprite, 1, &sprite);
+	//
+	//	c_object_renderer::render_albedo_decals();
+	//}
+	//
+	//if (render_structure_decals)
+	//	c_decal_system::render_all(_pass_post_albedo);
 }
 
-//.text:00A3A3C0 ; 
+//.text:00A3A3C0 ; protected: void __cdecl c_player_view::render_dynamic_lights(IDirect3DSurface9* ldr_surface, IDirect3DSurface9* hdr_surface, IDirect3DSurface9* depth_surface)
 
-void __thiscall c_player_view::render_effects(e_effect_pass pass)
+void __thiscall c_player_view::render_effects(e_effect_pass effect_pass)
 {
-	//INVOKE_CLASS_MEMBER(0x00A3A3F0, c_player_view, render_effects, pass);
+	//INVOKE_CLASS_MEMBER(0x00A3A3F0, c_player_view, render_effects, effect_pass);
 
 	c_rasterizer_profile_scope _render_effects(_rasterizer_profile_element_effects, L"render_effects");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, pass);
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, effect_pass);
+
+	//if (!game_is_ui_shell() || user_interface_should_render_fancy())
+	//	effects_render(m_camera_user_data.user_index, effect_pass);
 }
 
 void __thiscall c_player_view::render_first_person(bool render_only_transparents)
@@ -615,6 +647,29 @@ void __thiscall c_player_view::render_first_person_albedo()
 	c_rasterizer_profile_scope _first_person_albedo(_rasterizer_profile_element_total, L"first_person_albedo");
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person_albedo);
+
+	//if (player_control_get_zoom_level(m_camera_user_data.user_index) == 0xFFFF)
+	//{
+	//	g_rendering_first_person = true;
+	//	c_visible_items::push_marker();
+	//	c_object_renderer::push_marker();
+	//
+	//	*m_first_person_view.get_render_camera_modifiable() = m_render_camera;
+	//	*m_first_person_view.get_rasterizer_camera_modifiable() = m_rasterizer_camera;
+	//	m_first_person_view.m_default_rasterizer_camera = &m_rasterizer_camera;
+	//
+	//	m_first_person_view.compute_visibility(m_camera_user_data.user_index);
+	//	m_first_person_view.render_submit_visibility(m_camera_user_data.user_index, false);
+	//
+	//	c_view::begin(&m_first_person_view);
+	//	m_first_person_view.override_projection(true);
+	//	m_first_person_view.render_albedo(m_camera_user_data.user_index);
+	//	c_view::end();
+	//
+	//	c_visible_items::pop_marker();
+	//	c_object_renderer::pop_marker();
+	//	g_rendering_first_person = false;
+	//}
 }
 
 //.text:00A3A6B0 ; 

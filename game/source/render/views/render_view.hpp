@@ -237,7 +237,7 @@ public:
 	void render_4th_pass();
 	bool __thiscall render_albedo();
 	static void __cdecl render_albedo_decals(bool render_object_decals, bool render_structure_decals);
-	void __thiscall render_effects(e_effect_pass pass);
+	void __thiscall render_effects(e_effect_pass effect_pass);
 	void __thiscall render_first_person(bool render_only_transparents);
 	void __thiscall render_first_person_albedo();
 	void __thiscall render_lens_flares();

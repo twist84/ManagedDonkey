@@ -10,7 +10,7 @@
 enum
 {
 	k_ps_stencil_stipple_block_size = 80,
-	k_ps_stencil_stipple_odd_bits = 1
+	k_ps_stencil_stipple_odd_bits = 1,
 };
 
 REFERENCE_DECLARE(0x0524B6F8, bool, g_disable_default_stipple_stencil);
