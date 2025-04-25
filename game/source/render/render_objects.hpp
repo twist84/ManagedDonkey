@@ -2,6 +2,23 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_render_object_mesh_part_flags
+{
+	_render_object_mesh_part_lit_bit = 0,
+	_render_object_mesh_part_shadow_casting_bit,
+	_render_object_mesh_part_transparent_bit,
+	_render_object_mesh_part_instance_bit,
+	_render_object_mesh_part_generates_heat_bit,
+	_render_object_mesh_part_decal_bit,
+	_render_object_mesh_part_is_sky_bit,
+	_render_object_mesh_part_tron_bit,
+	_render_object_mesh_part_first_person_squished_bit,
+	_render_object_mesh_part_first_person_unsquished_bit,
+	_render_object_mesh_part_cancel_shadows_for_first_person_albedo,
+
+	k_number_of_render_object_mesh_part_flags
+};
+
 struct s_object_render_context
 {
 	byte __data0[0x10];
@@ -33,9 +50,12 @@ struct s_render_object_globals
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
+enum e_entry_point;
 struct c_object_renderer
 {
 	static void __cdecl render_albedo(dword flags);
-	static void __cdecl submit_and_render_sky(long a1, long player_index);
+	static void __cdecl render_object_contexts(e_entry_point entry_point, long mesh_part_mask);
+	static void __cdecl render_object_widgets(e_entry_point entry_point);
+	static void __cdecl submit_and_render_sky(long entry_point_type, long player_window_index);
 };
 
