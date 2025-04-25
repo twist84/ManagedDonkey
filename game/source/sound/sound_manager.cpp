@@ -758,20 +758,25 @@ void __cdecl render_debug_sound(long sound_index)
 	}
 }
 
-char const* const k_sound_playback_strings[5][2]
+char const* __cdecl get_channel_source_type_name(long type, bool verbose)
 {
-	{ "S_1", "Sound_Mono   " },
-	{ "S_2", "Sound_Stereo " },
-	{ "S_4", "Sound_quad   " },
-	{ "S_6", "Sound_5_dot_1" },
-	{ "S_C", "Sound_Codec  " },
-};
+	ASSERT(VALID_INDEX(type, 5));
 
-char const* __cdecl sound_playback_to_string(long sound_playback, bool full_string)
-{
-	ASSERT(VALID_INDEX(sound_playback, 5));
+	switch (type)
+	{
+	case 0: return verbose ? "Sound_Mono   " : "S_1";
+	case 1: return verbose ? "Sound_Stereo " : "S_2";
+	case 2: return verbose ? "Sound_quad   " : "S_4";
+	case 3: return verbose ? "Sound_5_dot_1" : "S_6";
+	case 4: return verbose ? "Sound_Codec  " : "S_C";
+	case 5: return verbose ? "Music_Mono   " : "M_1";
+	case 6: return verbose ? "Music_Stereo " : "M_2";
+	case 7: return verbose ? "Music_Quad   " : "M_4";
+	case 8: return verbose ? "Music_5_dot_1" : "M_6";
+	case 9: return verbose ? "Music_Codec  " : "M_C";
+	}
 
-	return k_sound_playback_strings[sound_playback][full_string];
+	return "";
 }
 
 void __cdecl sound_debug_render()
@@ -881,24 +886,24 @@ void __cdecl sound_debug_render()
 
 	if (debug_sound_manager_channels)
 	{
-		long valid_channels[5]{};
-		long total_channels[5]{};
+		long inuse[5]{};
+		long count[5]{};
 
 		for (short channel_index = 0; channel_index < g_sound_manager_globals->channel_count; channel_index++)
 		{
 			sound_channel_datum* channel = channel_get(channel_index);
 			if (channel->sound_index != NONE)
-				valid_channels[channel->__unknownA_sound_playback]++;
+				inuse[channel->__unknownA_sound_playback]++;
 
-			total_channels[channel->__unknownA_sound_playback]++;
+			count[channel->__unknownA_sound_playback]++;
 		}
 
-		for (long i = 0; i < NUMBEROF(valid_channels); i++)
+		for (long i = 0; i < NUMBEROF(inuse); i++)
 		{
 			debug_string.append_print("Channels %s: %4d / %4d |n",
-				sound_playback_to_string(i, true),
-				valid_channels[i],
-				total_channels[i]);
+				get_channel_source_type_name(i, true),
+				inuse[i],
+				count[i]);
 		}
 
 		debug_string.append("|n");
@@ -916,7 +921,7 @@ void __cdecl sound_debug_render()
 			if (!sound)
 				continue;
 
-			char const* sound_playback_name = sound_playback_to_string(channel->__unknownA_sound_playback, true);
+			char const* sound_playback_name = get_channel_source_type_name(channel->__unknownA_sound_playback, true);
 			char const* sound_name = tag_name_strip_path(tag_get_name(sound->definition_index));
 
 			debug_string.append_print("c%3d: %s: %7.2f %s|n",
