@@ -1116,16 +1116,16 @@ void __cdecl c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(IDirect3D
 	INVOKE(0x00A22D40, c_rasterizer::set_alpha_blend_mode_custom_device_no_cache, device, alpha_blend_mode);
 }
 
-void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render_state_value)
+void __cdecl c_rasterizer::set_color_write_enable(long target_index, long enable)
 {
-	INVOKE(0x00A231E0, c_rasterizer::set_color_write_enable, render_state, render_state_value);
+	INVOKE(0x00A231E0, c_rasterizer::set_color_write_enable, target_index, enable);
 
-	//if (render_state_value == x_last_render_state_value[render_state])
+	//if (enable == x_last_render_state_value[target_index])
 	//	return;
 	//
-	//x_last_render_state_value[render_state] = render_state_value;
+	//x_last_render_state_value[target_index] = enable;
 	//
-	//g_device->SetRenderState(x_last_render_state_types[render_state], render_state_value);
+	//g_device->SetRenderState(x_last_render_state_types[target_index], enable);
 }
 
 bool __cdecl c_rasterizer::surface_valid(e_surface surface)
