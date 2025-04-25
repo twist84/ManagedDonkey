@@ -159,11 +159,11 @@ void __cdecl main_time_initialize()
 	//
 	//rasterizer_globals_initialize();
 	//
-	////g_frame_rate_data.starting_film_tick = saved_film_manager_get_current_tick_estimate();
-	////g_frame_rate_data.min = 0;
-	////g_frame_rate_data.max = 0;
-	////g_frame_rate_data.measurement_sum = 0;
-	////g_frame_rate_data.measurement_count = 0;
+	//g_frame_rate_data.starting_film_tick = saved_film_manager_get_current_tick_estimate();
+	//g_frame_rate_data.min = 0;
+	//g_frame_rate_data.max = 0;
+	//g_frame_rate_data.measurement_sum = 0;
+	//g_frame_rate_data.measurement_count = 0;
 }
 
 bool __cdecl main_time_is_throttled()

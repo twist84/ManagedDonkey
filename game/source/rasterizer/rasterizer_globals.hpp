@@ -49,11 +49,25 @@ struct s_rasterizer_timing_globals
 };
 static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
 
+struct s_frame_rate_data
+{
+	long starting_film_tick;
+	long min;
+	long max;
+	dword measurement_sum;
+	dword measurement_count;
+};
+static_assert(sizeof(s_frame_rate_data) == 0x14);
+
+extern s_frame_rate_data g_frame_rate_data;
+
 extern real& global_z_near;
 extern real& global_z_far;
 extern s_rasterizer_globals& rasterizer_globals;
 extern s_rasterizer_timing_globals& g_rasterizer_timing_globals;
 
+extern void __cdecl rasterizer_get_z_planes(real* z_near, real* z_far);
+extern void __cdecl rasterizer_globals_initialize();
 extern long __cdecl rasterizer_lag_timing_get_gamestate_delay();
 extern void __cdecl rasterizer_lag_timing_mark_input_adjustment(__int64 a1);
 extern void __cdecl rasterizer_lag_timing_mark_render_end();

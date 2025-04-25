@@ -8,6 +8,8 @@
 
 #include <windows.h>
 
+static s_frame_rate_data g_frame_rate_data;
+
 REFERENCE_DECLARE(0x0191068C, real, global_z_near);
 REFERENCE_DECLARE(0x01910690, real, global_z_far);
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
@@ -26,7 +28,10 @@ void __cdecl rasterizer_get_z_planes(real* z_near, real* z_far)
 	INVOKE(0x00A25AA0, rasterizer_get_z_planes, z_near, z_far);
 }
 
-//.text:00A25B10 ; void __cdecl rasterizer_globals_initialize()
+void __cdecl rasterizer_globals_initialize()
+{
+	INVOKE(0x00A25B10, rasterizer_globals_initialize);
+}
 
 long __cdecl rasterizer_lag_timing_get_gamestate_delay()
 {
