@@ -1890,6 +1890,9 @@
     <ClCompile Include="source\hs\hs_library_internal_compile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4275,6 +4278,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\visibility\visibility_collection_objects.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

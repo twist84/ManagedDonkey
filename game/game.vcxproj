@@ -378,6 +378,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\render_flags.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_lens_flares.cpp" />
+    <ClCompile Include="source\render\render_mesh.cpp" />
     <ClCompile Include="source\render\render_objects.cpp" />
     <ClCompile Include="source\render\render_patchy_fog.cpp" />
     <ClCompile Include="source\render\render_sky.cpp" />
@@ -1274,6 +1275,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\render\render_debug_commands.hpp" />
     <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
+    <ClInclude Include="source\render\render_mesh.hpp" />
     <ClInclude Include="source\render\render_sky.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
     <ClInclude Include="source\render\render_tron_effect.hpp" />
