@@ -71,11 +71,11 @@ real_point3d collision_debug_point{};
 real collision_debug_height = 0.0f;
 real_vector3d collision_debug_vector{};
 //bool collision_debug_? = false;
-c_status_line g_collision_debug_status_lines[10]{};
-c_status_line g_collision_debug_lightmap_status_line{};
-c_status_line g_collision_debug_lightmap_status_line_red_sh{};
-c_status_line g_collision_debug_lightmap_status_line_green_sh{};
-c_status_line g_collision_debug_lightmap_status_line_blue_sh{};
+s_status_line g_collision_debug_status_lines[10]{};
+s_status_line g_collision_debug_lightmap_status_line{};
+s_status_line g_collision_debug_lightmap_status_line_red_sh{};
+s_status_line g_collision_debug_lightmap_status_line_green_sh{};
+s_status_line g_collision_debug_lightmap_status_line_blue_sh{};
 //c_debug_lightmap_drawer global_lightmap_drawer{}:
 
 //HOOK_DECLARE(0x005302B0, collision_debug_initialize);
@@ -227,7 +227,7 @@ void collision_debug_render()
 					ASSERT(VALID_INDEX(collision_result_type, k_collision_result_type_count));
 			
 					g_collision_debug_status_lines_render = true;
-					g_collision_debug_status_lines[0].printf("inside: %s", collision_result_type_names[collision_result_type]);
+					g_collision_debug_status_lines[0].text.print("inside: %s", collision_result_type_names[collision_result_type]);
 			
 					color = global_real_argb_red;
 				}
@@ -244,7 +244,7 @@ void collision_debug_render()
 			stop_watch.stop();
 			stop_watch.start();
 			bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point, &debug_vector_scaled, collision_debug_ignore_object_index, NONE, NONE, &collision);
-			g_collision_debug_status_lines[9].printf("time %.6f", 1000.0f * c_stop_watch::cycles_to_seconds(stop_watch.stop()));
+			g_collision_debug_status_lines[9].text.print("time %.6f", 1000.0f * c_stop_watch::cycles_to_seconds(stop_watch.stop()));
 			
 			if (collision_test_vector_result)
 			{
@@ -334,29 +334,29 @@ void collision_debug_render()
 				{
 				case _collision_result_structure:
 				{
-					g_collision_debug_status_lines[0].printf("structure leaf #%d", collision.leaf_index);
+					g_collision_debug_status_lines[0].text.print("structure leaf #%d", collision.leaf_index);
 				}
 				break;
 				case _collision_result_water:
 				{
-					g_collision_debug_status_lines[0].printf("water plane");
+					g_collision_debug_status_lines[0].text.print("water plane");
 				}
 				break;
 				case _collision_result_instanced_geometry:
 				{
 					structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
 					structure_instanced_geometry_instance& instance = structure->instanced_geometry_instances[collision.instanced_geometry_instance_index];
-					g_collision_debug_status_lines[0].printf("instanced geometry #%d ('%s')", collision.instanced_geometry_instance_index, instance.name.get_string());
+					g_collision_debug_status_lines[0].text.print("instanced geometry #%d ('%s')", collision.instanced_geometry_instance_index, instance.name.get_string());
 				}
 				break;
 				case _collision_result_object:
 				{
-					g_collision_debug_status_lines[0].printf("object #%d, node #%d, region #%d, bsp 0x%x", collision.object_index, collision.node_index, collision.region_index, collision.bsp_reference);
+					g_collision_debug_status_lines[0].text.print("object #%d, node #%d, region #%d, bsp 0x%x", collision.object_index, collision.node_index, collision.region_index, collision.bsp_reference);
 				}
 				break;
 				default:
 				{
-					g_collision_debug_status_lines[0].printf("unknown (wtf?)");
+					g_collision_debug_status_lines[0].text.print("unknown (wtf?)");
 				}
 				break;
 				}
@@ -378,7 +378,7 @@ void collision_debug_render()
 			
 				char const* string1 = "";
 			
-				g_collision_debug_status_lines[1].printf("%s%s (shader: %s)",
+				g_collision_debug_status_lines[1].text.print("%s%s (shader: %s)",
 					seam_material_string.get_string(),
 					material_type != collision.material_type ? "(underwater proxy)" : "",
 					shader_name.get_string());
@@ -387,11 +387,11 @@ void collision_debug_render()
 				{
 					c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
 			
-					g_collision_debug_status_lines[2].printf("plane #%d%s",
+					g_collision_debug_status_lines[2].text.print("plane #%d%s",
 						surface_reference.get_plane_index(),
 						surface_reference.is_plane_negated() ? " negated" : "");
-			
-					g_collision_debug_status_lines[3].printf("surface #%d%s%s%s%s%s",
+
+					g_collision_debug_status_lines[3].text.print("surface #%d%s%s%s%s%s",
 						collision.surface_index,
 						TEST_BIT(collision.flags, _collision_surface_two_sided_bit) ? " two-sided" : "",
 						TEST_BIT(collision.flags, _collision_surface_invisible_bit) ? " invisible" : "",
@@ -401,30 +401,30 @@ void collision_debug_render()
 			
 					if (collision.breakable_surface_set_index == 0xFF)
 					{
-						g_collision_debug_status_lines[8].clear_text();
+						g_collision_debug_status_lines[8].text.clear();
 					}
 					else
 					{
-						g_collision_debug_status_lines[8].printf("breakable set index %d,%d",
+						g_collision_debug_status_lines[8].text.print("breakable set index %d,%d",
 							collision.breakable_surface_set_index,
 							collision.breakable_surface_index);
 					}
 				}
 				else
 				{
-					g_collision_debug_status_lines[2].clear_text();
-					g_collision_debug_status_lines[3].clear_text();
+					g_collision_debug_status_lines[2].text.clear();
+					g_collision_debug_status_lines[3].text.clear();
 				}
 
-				g_collision_debug_status_lines[4].printf("distance %f",
-					collision.t * magnitude3d(&debug_vector_scaled));
+				g_collision_debug_status_lines[4].text.print("distance %f",
+					collision.t* magnitude3d(&debug_vector_scaled));
 
-				g_collision_debug_status_lines[5].printf("position %f %f %f",
+				g_collision_debug_status_lines[5].text.print("position %f %f %f",
 					collision.position.x,
 					collision.position.y,
 					collision.position.z);
 
-				g_collision_debug_status_lines[6].printf("normal %f %f %f",
+				g_collision_debug_status_lines[6].text.print("normal %f %f %f",
 					collision.plane.n.i,
 					collision.plane.n.j,
 					collision.plane.n.k);
@@ -437,7 +437,7 @@ void collision_debug_render()
 					x_angle = 1.0f;
 
 				angle slope = acosf(x_angle);
-				g_collision_debug_status_lines[7].printf("slope %.0f", slope * RAD);
+				g_collision_debug_status_lines[7].text.print("slope %.0f", slope * RAD);
 
 			}
 			else

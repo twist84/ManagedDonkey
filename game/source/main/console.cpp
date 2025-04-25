@@ -67,164 +67,65 @@ bool console_dump_to_debug_display = false;
 
 bool* console_status_render = &console_globals.status_render;
 
-c_status_line* g_status_line_head = NULL;
-c_status_line* g_status_line_tail = NULL;
+c_static_string<256> console_token_buffer;
+long suggestion_current_index;
 
-s_status_string g_status_strings[20]{};
+s_status_line* g_status_line_head = NULL;
+s_status_line* g_status_line_tail = NULL;
 
-bool __cdecl debugging_system_has_focus()
+s_status_string g_status_strings[20];
+
+s_status_line::s_status_line() :
+	text(),
+	flags()
 {
-	return console_is_active() || debug_menu_get_active();
+
 }
 
-void __cdecl console_printf(char const* format, ...)
+s_status_string::s_status_string() :
+	format_string(),
+	line()
 {
-	va_list list;
-	va_start(list, format);
-
-	if (is_main_thread())
-	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		char const* message_string = message.get_string();
-
-		terminal_printf(nullptr, message_string);
-		c_console::write_line(message_string);
-
-		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
-	}
-
-	va_end(list);
 }
 
-void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...)
+s_string_cache::s_string_cache() :
+	string()
 {
-	va_list list;
-	va_start(list, format);
-
-	c_console::write_line(format, list);
-	if (is_main_thread())
-	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		char const* message_string = message.get_string();
-
-		terminal_printf(color, message_string);
-		c_console::write_line(message_string);
-
-		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
-	}
-
-	va_end(list);
 }
 
-void __cdecl console_warning(char const* format, ...)
+FILE* console_open_init_by_application_type(e_shell_application_type application_type)
 {
-	va_list list;
-	va_start(list, format);
+	FILE* file = NULL;
+	c_static_string<256> file_name;
 
-	c_console::write_line(format, list);
-	if (is_main_thread())
+	if (application_type == _shell_application_tool)
 	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		char const* message_string = message.get_string();
-
-		terminal_printf(global_real_argb_red, message_string);
-		c_console::write_line(message_string);
-
-		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
-	}
-
-	va_end(list);
-}
-
-void __cdecl console_initialize()
-{
-	static bool initialize_console = true;
-	if (initialize_console)
-	{
-		terminal_initialize();
-
-		console_globals.status_render = true;
-		console_globals.input_state.color = { 1.0f, 1.0f, 0.3f, 1.0f };
-		console_globals.input_state.prompt.set("donkey( ");
-		console_globals.input_state.result[0] = 0;
-		console_globals.previous_command_count = 0;
-		console_globals.newest_previous_command_index = NONE;
-		console_globals.selected_previous_command_index = NONE;
-
-		debug_keys_initialize();
-
-		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		e_shell_tool_type tool_type = shell_tool_type();
+		if (tool_type == _shell_tool_interactive)
 		{
-			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
-			g_status_strings[i].line.set_flag(_status_line_left_justify_bit, true);
+			file_name.print("guerilla_init.txt");
 		}
-
-		initialize_console = false;
-	}
-}
-
-void __cdecl console_dispose()
-{
-	static bool dispose_console = true;
-	if (dispose_console)
-	{
-		console_close();
-		debug_keys_dispose();
-		terminal_dispose();
-
-		dispose_console = false;
-	}
-}
-
-bool __cdecl console_is_active()
-{
-	return console_globals.active;
-}
-
-bool __cdecl console_is_empty()
-{
-	return console_globals.active && !console_globals.input_state.result[0];
-}
-
-void __cdecl console_open(bool debug_menu)
-{
-	if (!console_is_active() && !debug_menu_get_active())
-	{
-		if (debug_menu)
+		else if (tool_type == _shell_tool_command_line)
 		{
-			debug_menu_open();
-		}
-		else
-		{
-			console_globals.input_state.result[0] = 0;
-			console_globals.active = terminal_gets_begin(&console_globals.input_state);
+			file_name.print("tool_init.txt");
 		}
 	}
-}
-
-void __cdecl console_close()
-{
-	if (console_is_active())
+	else if (application_type == _shell_application_editor)
 	{
-		terminal_gets_end(&console_globals.input_state);
-		console_globals.open_timeout_seconds = 0.1f;
-		console_globals.active = false;
+		file_name.print("editor_init.txt");
 	}
 	else
 	{
-		debug_menu_close();
+		file_name.print("init.txt");
 	}
+
+	fopen_s(&file, file_name.get_string(), "r");
+	return file;
 }
 
-void __cdecl console_clear()
+FILE* console_open_init()
 {
-	terminal_clear();
+	return console_open_init_by_application_type(shell_application_type());
 }
 
 char* __cdecl console_get_token()
@@ -245,8 +146,24 @@ char* __cdecl console_get_token()
 	return result;
 }
 
-c_static_string<256> console_token_buffer;
-long suggestion_current_index;
+void __cdecl console_clear()
+{
+	terminal_clear();
+}
+
+void __cdecl console_close()
+{
+	if (console_is_active())
+	{
+		terminal_gets_end(&console_globals.input_state);
+		console_globals.open_timeout_seconds = 0.1f;
+		console_globals.active = false;
+	}
+	else
+	{
+		debug_menu_close();
+	}
+}
 
 void __cdecl console_complete()
 {
@@ -347,6 +264,129 @@ void __cdecl console_complete()
 	}
 }
 
+void __cdecl console_dispose()
+{
+	static bool dispose_console = true;
+	if (dispose_console)
+	{
+		console_close();
+		debug_keys_dispose();
+		terminal_dispose();
+
+		dispose_console = false;
+	}
+}
+
+void __cdecl console_execute_initial_commands()
+{
+	if (FILE* file = console_open_init())
+	{
+		char buffer[200]{};
+		while (fgets(buffer, NUMBEROF(buffer), file))
+		{
+			string_terminate_at_first_delimiter(buffer, "\r\n");
+			console_process_command(buffer, false);
+		}
+		fclose(file);
+	}
+}
+
+void __cdecl console_initialize()
+{
+	static bool initialize_console = true;
+	if (initialize_console)
+	{
+		terminal_initialize();
+
+		console_globals.status_render = true;
+		console_globals.input_state.color = { 1.0f, 1.0f, 0.3f, 1.0f };
+		console_globals.input_state.prompt.set("donkey( ");
+		console_globals.input_state.result[0] = 0;
+		console_globals.previous_command_count = 0;
+		console_globals.newest_previous_command_index = NONE;
+		console_globals.selected_previous_command_index = NONE;
+
+		debug_keys_initialize();
+
+		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		{
+			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
+			g_status_strings[i].line.flags.set(_status_line_left_justify_bit, true);
+		}
+
+		initialize_console = false;
+	}
+}
+
+bool __cdecl console_is_active()
+{
+	return console_globals.active;
+}
+
+bool __cdecl console_is_empty()
+{
+	return console_globals.active && !console_globals.input_state.result[0];
+}
+
+void __cdecl console_open(bool debug_menu)
+{
+	if (!console_is_active() && !debug_menu_get_active())
+	{
+		if (debug_menu)
+		{
+			debug_menu_open();
+		}
+		else
+		{
+			console_globals.input_state.result[0] = 0;
+			console_globals.active = terminal_gets_begin(&console_globals.input_state);
+		}
+	}
+}
+
+void __cdecl console_printf(char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	if (is_main_thread())
+	{
+		c_static_string<255> message{};
+		message.print_va(format, list);
+		char const* message_string = message.get_string();
+
+		terminal_printf(nullptr, message_string);
+		c_console::write_line(message_string);
+
+		if (console_dump_to_debug_display)
+			display_debug_string(message_string);
+	}
+
+	va_end(list);
+}
+
+void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	c_console::write_line(format, list);
+	if (is_main_thread())
+	{
+		c_static_string<255> message{};
+		message.print_va(format, list);
+		char const* message_string = message.get_string();
+
+		terminal_printf(color, message_string);
+		c_console::write_line(message_string);
+
+		if (console_dump_to_debug_display)
+			display_debug_string(message_string);
+	}
+
+	va_end(list);
+}
+
 void __cdecl console_update(real shell_seconds_elapsed)
 {
 	PROFILER(console_update)
@@ -358,16 +398,16 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				s_key_state* key = &console_globals.input_state.keys[key_index];
 				ASSERT(key->key_code != NONE);
 
-				if (key->key_type == _key_type_down && (key->key_code == _key_code_backquote || key->key_code == _key_code_f1))
+				if (key->ascii_code == _key_type_down && (key->key_code == _key_tilde || key->key_code == _key_f1))
 				{
 					console_close();
 					break;
 				}
-				else if (key->key_type == _key_type_up && key->key_code == _key_code_tab)
+				else if (key->ascii_code == _key_type_up && key->key_code == _key_tab)
 				{
 					console_complete();
 				}
-				else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
+				else if (TEST_BIT(key->modifier_flags, _key_modifier_flag_control_key_bit) && key->ascii_code == _key_type_up && key->key_code == _key_v)
 				{
 					char buffer[256]{};
 					get_clipboard_as_text(buffer, NUMBEROF(buffer));
@@ -377,7 +417,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					console_token_buffer.clear();
 					break;
 				}
-				else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
+				else if (key->ascii_code == _key_type_up && (key->key_code == _key_return || key->key_code == _keypad_enter))
 				{
 					if (console_globals.input_state.result[0])
 					{
@@ -387,9 +427,9 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					}
 					break;
 				}
-				else if (key->key_type == _key_type_up && (key->key_code == _key_code_up || key->key_code == _key_code_down))
+				else if (key->ascii_code == _key_type_up && (key->key_code == _key_up_arrow || key->key_code == _key_down_arrow))
 				{
-					if (key->key_code == _key_code_up)
+					if (key->key_code == _key_up_arrow)
 						console_globals.selected_previous_command_index += 2;
 
 					short v4 = console_globals.selected_previous_command_index - 1;
@@ -418,7 +458,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					}
 					break;
 				}
-				else if (key->vk_code != NONE && key->key_type == _key_type_char)
+				else if (key->vk_code != NONE && key->ascii_code == _key_type_char)
 				{
 					csnzappendf(console_globals.input_state.result, NUMBEROF(console_globals.input_state.result), key->character);
 					break;
@@ -435,7 +475,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			s_key_state key{};
 			if (input_peek_key(&key, _input_type_game))
 			{
-				if (!key.was_key_down && !key.modifier && key.key_type == _key_type_down && (key.key_code == _key_code_backquote || key.key_code == _key_code_f1))
+				if (!key.repeating && !key.modifier_flags && key.ascii_code == _key_type_down && (key.key_code == _key_tilde || key.key_code == _key_f1))
 				{
 					input_get_key(&key, _input_type_game);
 					console_open(false);
@@ -452,53 +492,26 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	}
 }
 
-char const* console_get_init_file_name(e_shell_application_type shell_application_type)
+void __cdecl console_warning(char const* format, ...)
 {
-	switch (shell_application_type)
+	va_list list;
+	va_start(list, format);
+
+	c_console::write_line(format, list);
+	if (is_main_thread())
 	{
-	case _shell_application_editor:
-		return "editor_init.txt";
-	default:
-		switch (shell_tool_type())
-		{
-		case _shell_tool_interactive:
-			return "guerilla_init.txt";
-		case _shell_tool_command_line:
-			return "tool_init.txt";
-		}
-		return "init.txt";
+		c_static_string<255> message{};
+		message.print_va(format, list);
+		char const* message_string = message.get_string();
+
+		terminal_printf(global_real_argb_red, message_string);
+		c_console::write_line(message_string);
+
+		if (console_dump_to_debug_display)
+			display_debug_string(message_string);
 	}
 
-	return "";
-}
-
-FILE* console_open_init()
-{
-	FILE* file = nullptr;
-	fopen_s(&file, console_get_init_file_name(shell_application_type()), "r");
-	return file;
-}
-
-void console_execute_commands_from_file(FILE* file)
-{
-	if (file)
-	{
-		char buffer[200]{};
-		while (fgets(buffer, NUMBEROF(buffer), file))
-		{
-			string_terminate_at_first_delimiter(buffer, "\r\n");
-			console_process_command(buffer, false);
-		}
-	}
-}
-
-void __cdecl console_execute_initial_commands()
-{
-	if (FILE* file = console_open_init())
-	{
-		console_execute_commands_from_file(file);
-		fclose(file);
-	}
+	va_end(list);
 }
 
 bool __cdecl console_process_command(char const* command, bool interactive)
@@ -576,6 +589,11 @@ bool __cdecl console_process_command(char const* command, bool interactive)
 	main_status("console_command", NULL);
 
 	return result;
+}
+
+bool __cdecl debugging_system_has_focus()
+{
+	return console_is_active() || debug_menu_get_active();
 }
 
 #define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_name })
@@ -1076,266 +1094,23 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	return result;
 }
 
-c_status_line::c_status_line() :
-	m_string(),
-	m_color(),
-	m_alpha(),
-	m_flags(),
-	m_in_use(),
-	m_identifier(),
-	m_previous(),
-	m_next()
+void status_line_add_single(s_status_line* inStatusLine)
 {
-}
+	ASSERT(NULL == inStatusLine->prev);
+	ASSERT(NULL == inStatusLine->next);
 
-char const* c_status_line::printf(char const* format, ...)
-{
-	va_list list;
-	va_start(list, format);
+	inStatusLine->next = NULL;
+	inStatusLine->prev = g_status_line_tail;
+	
+	if (g_status_line_tail)
+		g_status_line_tail->next = inStatusLine;
+	else
+		g_status_line_head = inStatusLine;
 
-	printf_va(format, list);
-
-	return get_string();
-}
-
-char const* c_status_line::appendf(char const* format, ...)
-{
-	va_list list;
-	va_start(list, format);
-
-	return appendf_va(format, list);
-}
-
-char const* c_status_line::printf_va(char const* format, char* list)
-{
-	m_string.print_va(format, list);
-
-	return get_string();
-}
-
-char const* c_status_line::appendf_va(char const* format, char* list)
-{
-	return m_string.append_print_va(format, list);
-}
-
-void c_status_line::set_flag(e_status_line_flags flag, bool enable)
-{
-	m_flags.set(flag, enable);
-}
-
-void c_status_line::set_alpha(real alpha)
-{
-	m_alpha = alpha;
-}
-
-void c_status_line::set_color(real_rgb_color const& color)
-{
-	m_color = color;
-}
-
-void c_status_line::set_in_use(bool in_use)
-{
-	*m_in_use = in_use;
-}
-
-void c_status_line::clear_text()
-{
-	m_string.clear();
-}
-
-char const* c_status_line::get_identifier() const
-{
-	return m_identifier;
-}
-
-real_rgb_color const& c_status_line::get_color() const
-{
-	return m_color;
-}
-
-real c_status_line::get_alpha() const
-{
-	return m_alpha;
-}
-
-bool c_status_line::is_empty() const
-{
-	return m_string.is_empty();
-}
-
-char const* c_status_line::get_string() const
-{
-	return m_string.get_string();
-}
-
-bool c_status_line::is_in_use_valid() const
-{
-	return m_in_use != NULL;
-}
-
-bool c_status_line::is_in_use() const
-{
-	ASSERT(is_in_use_valid());
-
-	return *m_in_use;
-}
-
-bool c_status_line::test_flag(e_status_line_flags flag) const
-{
-	return m_flags.test(flag);
-}
-
-void c_status_line::add_single()
-{
-	ASSERT(NULL == m_previous);
-	ASSERT(NULL == m_next);
-
-	m_previous = g_status_line_tail;
-	m_next = NULL;
-
-	(m_previous ? m_previous->m_next : g_status_line_head) = this;
-	(m_next ? m_next->m_previous : g_status_line_tail) = this;
-}
-
-void c_status_line::remove_single()
-{
-	ASSERT(m_next != NULL || this == g_status_line_tail);
-	ASSERT(m_previous != NULL || this == g_status_line_head);
-
-	(m_previous ? m_previous->m_next : g_status_line_head) = m_next;
-	(m_next ? m_next->m_previous : g_status_line_tail) = m_previous;
-
-	m_next = NULL;
-	m_previous = NULL;
-}
-
-c_status_line* c_status_line::previous() const
-{
-	return m_previous;
-}
-
-c_status_line* c_status_line::next() const
-{
-	return m_next;
-}
-
-void c_status_line::initialize_simple(bool* in_use, char const* identifier, long count)
-{
-	m_in_use = in_use;
-	m_identifier = identifier;
-	m_color = *global_real_rgb_white;
-	m_alpha = 1.0f;
-}
-
-void status_lines_initialize(c_status_line* status_lines, bool* flag, long count)
-{
-	status_lines_initialize_simple(status_lines, flag, NULL, count);
-}
-
-void status_lines_initialize_simple(c_status_line* status_lines, bool* flag, char const* identifier, long count)
-{
-	csmemset(status_lines, 0, sizeof(c_status_line) * count);
-
-	for (long i = 0; i < count; i++)
-	{
-		status_lines[i].initialize_simple(flag, identifier, count);
-		status_line_add_single(&status_lines[i]);
-	}
-}
-
-void status_lines_dispose(c_status_line* status_lines, long count)
-{
-	for (long i = 0; i < count; i++)
-		status_line_remove_single(&status_lines[i]);
-}
-
-void status_lines_clear_text(c_status_line* status_lines, long count)
-{
-	for (long i = 0; i < count; i++)
-		status_line_clear_text(&status_lines[i]);
-}
-
-void status_lines_set_flags(c_status_line* status_lines, e_status_line_flags flag, bool enable, long count)
-{
-	for (long i = 0; i < count; i++)
-		status_line_set_flag(&status_lines[i], flag, enable);
-}
-
-void status_lines_enable(char const* identifier)
-{
-	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
-	{
-		if (status_line->get_identifier() && status_line->is_in_use_valid() && !status_line->is_in_use())
-		{
-			if (csstristr(status_line->get_identifier(), identifier))
-				status_line->set_in_use(true);
-		}
-	}
-}
-
-void status_lines_disable(char const* identifier)
-{
-	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
-	{
-		if (status_line->get_identifier() && status_line->is_in_use_valid() && !status_line->is_in_use())
-		{
-			if (csstristr(status_line->get_identifier(), identifier))
-				status_line->set_in_use(false);
-		}
-	}
-}
-
-void status_line_add_single(c_status_line* status_line)
-{
-	status_line->add_single();
-}
-
-void status_line_remove_single(c_status_line* status_line)
-{
-	status_line->remove_single();
-}
-
-char const* status_line_printf(c_status_line* status_line, char const* format, ...)
-{
-	va_list list;
-	va_start(list, format);
-
-	status_line->printf_va(format, list);
-
-	return status_line->get_string();
-}
-
-char const* status_line_appendf(c_status_line* status_line, char const* format, ...)
-{
-	va_list list;
-	va_start(list, format);
-
-	return status_line->appendf_va(format, list);
-}
-
-void status_line_set_flag(c_status_line* status_line, e_status_line_flags flag, bool enable)
-{
-	status_line->set_flag(flag, enable);
-}
-
-void status_line_set_alpha(c_status_line* status_line, real alpha)
-{
-	status_line->set_alpha(alpha);
-}
-
-void status_line_set_color(c_status_line* status_line, real_rgb_color const& color)
-{
-	status_line->set_color(color);
-}
-
-void status_line_clear_text(c_status_line* status_line)
-{
-	status_line->clear_text();
-}
-
-char const* status_line_get_string(c_status_line* status_line)
-{
-	return status_line->get_string();
+	if (inStatusLine->next)
+		inStatusLine->next->prev = inStatusLine;
+	else
+		g_status_line_tail = inStatusLine;
 }
 
 void status_line_draw()
@@ -1347,25 +1122,25 @@ void status_line_draw()
 
 		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 		{
-			c_status_line& status_line = g_status_strings[i].line;
-			if (!status_line.is_empty())
+			s_status_line& status_line = g_status_strings[i].line;
+			if (!status_line.text.is_empty())
 			{
 				dword time = system_milliseconds();
 				long time_delta = time - g_status_strings[i].time_created;
 				if (time_delta > 10000)
 				{
-					status_line.clear_text();
+					status_line.text.clear();
 				}
 				else
 				{
 					if (time_delta > 5000)
 					{
 						time = time_delta - 5000;
-						status_line.set_alpha(1.0f - (real(time) / 5000));
+						status_line.alpha = 1.0f - (real(time) / 5000);
 					}
 					else
 					{
-						status_line.set_alpha(1.0f);
+						status_line.alpha = 1.0f;
 					}
 				}
 			}
@@ -1377,24 +1152,24 @@ void status_line_draw()
 
 		string_cache.string.clear();
 
-		for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+		for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 		{
 			if (!status_line_visible(status_line))
 				continue;
 
-			e_text_justification justification = e_text_justification(!status_line->test_flag(_status_line_left_justify_bit));
+			e_text_justification justification = e_text_justification(!status_line->flags.test(_status_line_left_justify_bit));
 
-			char const* string = status_line->get_string();
-			if (status_line->test_flag(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
+			char const* string = status_line->text.get_string();
+			if (status_line->flags.test(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
 				string = "|n";
 
-			if (!string_cache_add(&string_cache, string, status_line->get_alpha(), status_line->get_color(), justification))
+			if (!string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification))
 			{
 				string_cache_render(&string_cache, &draw_string, &font_cache);
-				string_cache_add(&string_cache, string, status_line->get_alpha(), status_line->get_color(), justification);
+				string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification);
 
-				if (status_line->test_flag(_status_line_draw_once_bit))
-					status_line->clear_text();
+				if (status_line->flags.test(_status_line_draw_once_bit))
+					status_line->text.clear();
 			}
 		}
 
@@ -1402,34 +1177,120 @@ void status_line_draw()
 	}
 }
 
-bool status_line_visible(c_status_line const* status_line)
-{
-	return !((status_line->is_in_use_valid() && !status_line->is_in_use()) || status_line->is_empty() || status_line->test_flag(_status_line_inhibit_drawing_bit));
-}
-
 void status_line_dump()
 {
-	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 	{
 		if (status_line_visible(status_line))
-			event(_event_message, "status_lines: %s", status_line->get_string());
+			event(_event_message, "status_lines: %s", status_line->text.get_string());
+	}
+}
+
+void status_line_remove_single(s_status_line* status_line)
+{
+	ASSERT(status_line->next != NULL || status_line == g_status_line_tail);
+	ASSERT(status_line->prev != NULL || status_line == g_status_line_head);
+
+	if (status_line->prev)
+		status_line->prev->next = status_line->next;
+	else
+		g_status_line_head = status_line->next;
+
+	if (status_line->next)
+		status_line->next->prev = status_line->prev;
+	else
+		g_status_line_tail = status_line->prev;
+
+	status_line->prev = NULL;
+	status_line->next = NULL;
+}
+
+bool status_line_visible(s_status_line const* line)
+{
+	return (!line->in_use || *line->in_use) && !line->text.is_empty() && !line->flags.test(_status_line_inhibit_drawing_bit);
+}
+
+void status_lines_clear_text(s_status_line* status_lines, long count)
+{
+	for (long i = 0; i < count; i++)
+	{
+		status_lines[i].text.clear();
+	}
+}
+
+void status_lines_disable(char const* identifier)
+{
+	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
+	{
+		if (status_line->identifier && status_line->in_use && !*status_line->in_use)
+		{
+			if (csstristr(status_line->identifier, identifier))
+				*status_line->in_use = false;
+		}
+	}
+}
+
+void status_lines_dispose(s_status_line* status_lines, long count)
+{
+	for (long i = 0; i < count; i++)
+		status_line_remove_single(&status_lines[i]);
+}
+
+void status_lines_enable(char const* identifier)
+{
+	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
+	{
+		if (status_line->identifier && status_line->in_use && !*status_line->in_use)
+		{
+			if (csstristr(status_line->identifier, identifier))
+				*status_line->in_use = true;
+		}
+	}
+}
+
+void status_lines_initialize(s_status_line* status_lines, bool* flag, long count)
+{
+	status_lines_initialize_simple(status_lines, flag, NULL, count);
+}
+
+void status_lines_initialize_simple(s_status_line* status_line, bool* flag, char const* identifier, long count)
+{
+	csmemset(status_line, 0, sizeof(s_status_line) * count);
+
+	for (long i = 0; i < count; i++)
+	{
+		s_status_line& line = status_line[i];
+		line.in_use = flag;
+		line.identifier = identifier;
+		line.color = *global_real_rgb_white;
+		line.alpha = 1.0f;
+		status_line_add_single(&line);
+	}
+}
+
+void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, long count)
+{
+	for (long i = 0; i < count; i++)
+	{
+		status_lines[i].flags.set(flag, enable);
 	}
 }
 
 void status_printf(char const* format, ...)
 {
-	if (!is_main_thread())
-		return;
-
-	va_list list;
-	va_start(list, format);
-	status_printf_va(format, list);
+	if (is_main_thread())
+	{
+		va_list arglist;
+		va_start(arglist, format);
+		status_printf_va(format, arglist);
+		va_end(arglist);
+	}
 }
 
-void status_printf_va(char const* format, char* list)
+void status_printf_va(char const* format, char* argument_list)
 {
 	char buffer[1024]{};
-	cvsnzprintf(buffer, sizeof(buffer), format, list);
+	cvsnzprintf(buffer, sizeof(buffer), format, argument_list);
 	status_string_internal(format, buffer);
 }
 
@@ -1438,10 +1299,10 @@ void status_string_internal(char const* status, char const* message)
 	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
-		if (!status_string.line.is_empty() && status_string.format_string.is_equal(status))
+		if (!status_string.line.text.is_empty() && status_string.format_string.is_equal(status))
 		{
 			status_string.time_created = system_milliseconds();
-			status_string.line.printf("%s", message);
+			status_string.line.text.set(message);
 			return;
 		}
 	}
@@ -1449,10 +1310,10 @@ void status_string_internal(char const* status, char const* message)
 	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
-		if (status_string.line.is_empty())
+		if (status_string.line.text.is_empty())
 		{
 			status_string.time_created = system_milliseconds();
-			status_string.line.printf("%s", message);
+			status_string.line.text.set(message);
 			status_string.format_string.set(status);
 			break;
 		}
@@ -1461,19 +1322,19 @@ void status_string_internal(char const* status, char const* message)
 
 void status_strings(char const* status, char const* strings)
 {
-	if (!is_main_thread())
-		return;
-
-	char buffer[1024]{};
-	char* data[3]{};
-	long line = 0;
-
-	csstrnzcpy(buffer, strings, sizeof(buffer));
-	for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(NULL, "\r\n", 1, data))
+	if (is_main_thread())
 	{
-		c_static_string<256> string;
-		string.print("%d%s", line++, status);
-		status_string_internal(string.get_string(), line_end);
+		char buffer[1024]{};
+		char* data[3]{};
+		long line = 0;
+
+		csstrnzcpy(buffer, strings, sizeof(buffer));
+		for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(NULL, "\r\n", 1, data))
+		{
+			c_static_string<256> string;
+			string.print("%d%s", line++, status);
+			status_string_internal(string.get_string(), line_end);
+		}
 	}
 }
 
@@ -1484,14 +1345,14 @@ bool string_cache_add(s_string_cache* cache, char const* string, real alpha, rea
 	{
 		cache->color = color;
 		cache->alpha = alpha;
-		cache->text_justification = justification;
+		cache->justification = justification;
 		result = true;
 	}
 	else if (cache->alpha == alpha
 		&& cache->color.red == color.red
 		&& cache->color.green == color.green
 		&& cache->color.blue == color.blue
-		&& cache->text_justification == justification)
+		&& cache->justification == justification)
 	{
 		result = true;
 	}
@@ -1519,7 +1380,7 @@ void string_cache_render(s_string_cache* cache, c_draw_string* draw_string, c_fo
 	shadow_color.rgb = *global_real_rgb_black;
 	shadow_color.alpha = cache->alpha;
 
-	draw_string->set_justification(cache->text_justification);
+	draw_string->set_justification(cache->justification);
 	draw_string->set_color(&color);
 	draw_string->set_shadow_color(&shadow_color);
 	draw_string->draw(font_cache, cache->string.get_string());

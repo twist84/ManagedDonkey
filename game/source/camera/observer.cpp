@@ -20,7 +20,7 @@ HOOK_DECLARE(0x00613A60, observer_update);
 bool g_debug_observer_render = false;
 
 bool observer_meter_display = false;
-c_status_line observer_meters[4]{};
+s_status_line observer_meters[4]{};
 
 void __cdecl observer_adopt_global_update_list()
 {
@@ -147,7 +147,7 @@ void __cdecl observer_compute_result(long user_index, s_focus_and_distance* focu
 	{
 		s_observer* observer = observer_get(user_index);
 
-		status_line_printf(&observer_meters[0], "positions: p (%.2f, %.2f, %.2f) f (%.2f, %.2f, %.2f) u (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+		observer_meters[0].text.print("positions: p (%.2f, %.2f, %.2f) f (%.2f, %.2f, %.2f) u (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
 			observer->focus_position.x,
 			observer->focus_position.y,
 			observer->focus_position.z,
@@ -161,7 +161,7 @@ void __cdecl observer_compute_result(long user_index, s_focus_and_distance* focu
 			observer->focus_offset.j,
 			observer->focus_offset.k);
 
-		status_line_printf(&observer_meters[1], "velocities: v (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+		observer_meters[1].text.print("velocities: v (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
 			observer->velocities.n[0],
 			observer->velocities.n[1],
 			observer->velocities.n[2],
@@ -172,7 +172,7 @@ void __cdecl observer_compute_result(long user_index, s_focus_and_distance* focu
 			observer->velocities.n[4],
 			observer->velocities.n[5]);
 
-		status_line_printf(&observer_meters[2], "accelerations: a (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+		observer_meters[2].text.print("accelerations: a (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
 			observer->accelerations.n[0],
 			observer->accelerations.n[1],
 			observer->accelerations.n[2],
@@ -183,7 +183,7 @@ void __cdecl observer_compute_result(long user_index, s_focus_and_distance* focu
 			observer->accelerations.n[4],
 			observer->accelerations.n[5]);
 
-		status_line_printf(&observer_meters[3], "displacements: p (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+		observer_meters[3].text.print("displacements: p (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
 			observer->displacements.n[0],
 			observer->displacements.n[1],
 			observer->displacements.n[2],
