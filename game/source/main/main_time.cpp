@@ -7,6 +7,8 @@
 #include "rasterizer/rasterizer_globals.hpp"
 #include "text/draw_string.hpp"
 
+//#include <windows.h>
+
 REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
 
 HOOK_DECLARE(0x00507FF0, main_time_is_throttled);
@@ -144,6 +146,24 @@ void __cdecl main_time_globals_post_copy_update(void* new_address)
 void __cdecl main_time_initialize()
 {
 	INVOKE(0x00507F10, main_time_initialize);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+	//g_main_time_globals = (s_main_time_globals*)g_main_time_globals_allocator.allocate(sizeof(s_main_time_globals), "main_timing");
+	//
+	//g_main_time_globals->last_milliseconds = system_milliseconds();
+	//g_main_time_globals->last_vblank_index = 0LL;
+	//QueryPerformanceCounter((LARGE_INTEGER*)&g_main_time_globals->last_vblank_index);
+	//g_main_time_globals->last_initial_vblank_index = 0LL;
+	//g_main_time_globals->target_display_vblank_index = 0LL;
+	//g_main_time_globals->last_input_timestamp = 0LL;
+	//
+	//rasterizer_globals_initialize();
+	//
+	////g_frame_rate_data.starting_film_tick = saved_film_manager_get_current_tick_estimate();
+	////g_frame_rate_data.min = 0;
+	////g_frame_rate_data.max = 0;
+	////g_frame_rate_data.measurement_sum = 0;
+	////g_frame_rate_data.measurement_count = 0;
 }
 
 bool __cdecl main_time_is_throttled()
