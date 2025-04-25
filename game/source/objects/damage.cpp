@@ -256,7 +256,7 @@ void render_debug_object_damage()
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(&font_cache, string);
 
-		if (input_key_frames_down(_key_code_spacebar, _input_type_game))
+		if (input_key_frames_down(_key_space, _input_type_game))
 		{
 			long user_index = c_player_view::get_current()->get_player_view_user_index();
 			long unit_index = player_mapping_get_unit_by_output_user(user_index);

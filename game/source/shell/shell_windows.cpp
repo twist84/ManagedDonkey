@@ -543,10 +543,10 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	s_key_state key
 	{
-		.key_type = k_key_type_none,
-		.key_code = k_key_code_none,
+		.ascii_code = k_key_type_none,
+		.key_code = _key_not_a_key,
 		.vk_code = word(NONE),
-		.was_key_down = false
+		.repeating = false
 	};
 
 	short key_code = NONE;
@@ -557,9 +557,9 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ASSERT(wParam >= 0 && wParam < k_number_of_windows_input_virtual_codes);
 
 		key_code = virtual_to_key_table[wParam];
-		if (key_code != k_key_code_none)
+		if (key_code != _key_not_a_key)
 		{
-			key.key_type = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
+			key.ascii_code = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
 			key.key_code = key_code;
 			key.vk_code = word(NONE);
 			key_table = key_to_virtual_table;
@@ -568,31 +568,31 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	else if (uMsg == WM_CHAR || uMsg == WM_SYSCHAR && wParam < k_number_of_input_ascii_codes)
 	{
 		key_code = ascii_to_key_table[wParam];
-		if (key_code != k_key_code_none)
+		if (key_code != _key_not_a_key)
 		{
-			key.key_type = _key_type_char;
+			key.ascii_code = _key_type_char;
 			key.key_code = key_code;
 			key.vk_code = wParam;
 			key_table = key_to_ascii_table;
 		}
 	}
 
-	if (key_code == k_key_code_none)
+	if (key_code == _key_not_a_key)
 		return false;
 
-	key.modifier.set(_key_modifier_flag_shift_key_bit, GetKeyState(VK_SHIFT) & 0x8000);
-	key.modifier.set(_key_modifier_flag_control_key_bit, GetKeyState(VK_CONTROL) & 0x8000);
-	key.modifier.set(_key_modifier_flag_alt_key_bit, GetKeyState(VK_MENU) & 0x8000);
+	SET_BIT(key.modifier_flags, _key_modifier_flag_shift_key_bit, GetKeyState(VK_SHIFT) & 0x8000);
+	SET_BIT(key.modifier_flags, _key_modifier_flag_control_key_bit, GetKeyState(VK_CONTROL) & 0x8000);
+	SET_BIT(key.modifier_flags, _key_modifier_flag_alt_key_bit, GetKeyState(VK_MENU) & 0x8000);
 
 	if (input_globals.buffered_key_read_count < input_globals.buffered_keys.get_count())
 	{
-		key.was_key_down = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
+		key.repeating = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
 		input_globals.buffered_keys[input_globals.buffered_key_read_count++] = key;
 	}
 
 	if (key_table)
 	{
-		for (long key_index = _key_code_escape; key_index < k_key_code_count; key_index++)
+		for (long key_index = _key_escape; key_index < k_key_code_count; key_index++)
 		{
 			if (key_table[key_index] == wParam && !input_globals.keys[key_index].__unknown3 && !input_globals.keys[key_index].msec_down)
 			{

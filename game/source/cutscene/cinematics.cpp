@@ -151,10 +151,10 @@ void __cdecl cinematics_game_tick()
 
 	if (game_is_campaign() && cinematic_in_progress())
 	{
-		e_key_code keys[]
+		e_input_key_code keys[]
 		{
-			_key_code_tab,
-			_key_code_spacebar
+			_key_tab,
+			_key_space
 		};
 
 		for (long key_index = 0; key_index < NUMBEROF(keys); key_index++)

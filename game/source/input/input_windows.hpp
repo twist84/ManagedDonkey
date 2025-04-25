@@ -6,133 +6,136 @@
 const long k_number_of_windows_input_virtual_codes = 256;
 const long k_number_of_input_ascii_codes = 128;
 
-enum e_key_code
+enum e_input_key_code
 {
-	_key_code_escape = 0,         // VK_ESCAPE
-	_key_code_f1,                 // VK_F1
-	_key_code_f2,                 // VK_F2
-	_key_code_f3,                 // VK_F3
-	_key_code_f4,                 // VK_F4
-	_key_code_f5,                 // VK_F5
-	_key_code_f6,                 // VK_F6
-	_key_code_f7,                 // VK_F7
-	_key_code_f8,                 // VK_F8
-	_key_code_f9,                 // VK_F9
-	_key_code_f10,                // VK_F10
-	_key_code_f11,                // VK_F11
-	_key_code_f12,                // VK_F12
-	_key_code_print_screen,       // VK_SNAPSHOT
-	_key_code_f14,                // VK_F14
-	_key_code_f15,                // VK_F15
+	_key_escape = 0,         // VK_ESCAPE
+	_key_f1,                 // VK_F1
+	_key_f2,                 // VK_F2
+	_key_f3,                 // VK_F3
+	_key_f4,                 // VK_F4
+	_key_f5,                 // VK_F5
+	_key_f6,                 // VK_F6
+	_key_f7,                 // VK_F7
+	_key_f8,                 // VK_F8
+	_key_f9,                 // VK_F9
+	_key_f10,                // VK_F10
+	_key_f11,                // VK_F11
+	_key_f12,                // VK_F12
+	_key_print_screen,       // VK_SNAPSHOT
+	_key_scroll_lock,        // VK_F14
+	_key_pause,              // VK_F15
 
-	_key_code_backquote,          // VK_OEM_3         '`~' for US
-	_key_code_1,                  // '1'
-	_key_code_2,                  // '2'
-	_key_code_3,                  // '3'
-	_key_code_4,                  // '4'
-	_key_code_5,                  // '5'
-	_key_code_6,                  // '6'
-	_key_code_7,                  // '7'
-	_key_code_8,                  // '8'
-	_key_code_9,                  // '9'
-	_key_code_0,                  // '0'
-	_key_code_minus,              // VK_OEM_MINUS     '-' any country
-	_key_code_plus,               // VK_OEM_PLUS      '+' any country
-	_key_code_backspace,          // VK_BACK
+	_key_backquote,          // VK_OEM_3         ` for US
+	_key_1,                  // '1'
+	_key_2,                  // '2'
+	_key_3,                  // '3'
+	_key_4,                  // '4'
+	_key_5,                  // '5'
+	_key_6,                  // '6'
+	_key_7,                  // '7'
+	_key_8,                  // '8'
+	_key_9,                  // '9'
+	_key_0,                  // '0'
+	_key_dash,               // VK_OEM_MINUS     - any country
+	_key_equal,              // VK_OEM_PLUS      = any country
+	_key_backspace,          // VK_BACK
 
-	_key_code_tab,                // VK_TAB
-	_key_code_q,                  // 'Q'
-	_key_code_w,                  // 'W'
-	_key_code_e,                  // 'E'
-	_key_code_r,                  // 'R'
-	_key_code_t,                  // 'T'
-	_key_code_y,                  // 'Y'
-	_key_code_u,                  // 'U'
-	_key_code_i,                  // 'I'
-	_key_code_o,                  // 'O'
-	_key_code_p,                  // 'P'
-	_key_code_left_parenthesis,   // VK_OEM_4         '[{' for US
-	_key_code_right_parenthesis,  // VK_OEM_6         ']}' for US
-	_key_code_backslash,          // VK_OEM_5         '\|' for US
+	_key_tab,                // VK_TAB
+	_key_q,                  // 'Q'
+	_key_w,                  // 'W'
+	_key_e,                  // 'E'
+	_key_r,                  // 'R'
+	_key_t,                  // 'T'
+	_key_y,                  // 'Y'
+	_key_u,                  // 'U'
+	_key_i,                  // 'I'
+	_key_o,                  // 'O'
+	_key_p,                  // 'P'
+	_key_left_bracket,       // VK_OEM_4         [ for US
+	_key_right_bracket,      // VK_OEM_6         ] for US
+	_key_backslash,          // VK_OEM_5         \ for US
 
-	_key_code_caps_lock,          // VK_CAPITAL
-	_key_code_a,                  // 'A'
-	_key_code_s,                  // 'S'
-	_key_code_d,                  // 'D'
-	_key_code_f,                  // 'F'
-	_key_code_g,                  // 'G'
-	_key_code_h,                  // 'H'
-	_key_code_j,                  // 'J'
-	_key_code_k,                  // 'K'
-	_key_code_l,                  // 'L'
+	_key_caps_lock,          // VK_CAPITAL
+	_key_a,                  // 'A'
+	_key_s,                  // 'S'
+	_key_d,                  // 'D'
+	_key_f,                  // 'F'
+	_key_g,                  // 'G'
+	_key_h,                  // 'H'
+	_key_j,                  // 'J'
+	_key_k,                  // 'K'
+	_key_l,                  // 'L'
 
-	_key_code_colon,              // VK_OEM_1         ';:' for US
-	_key_code_semicolon = _key_code_colon,
+	_key_code_semicolon,     // VK_OEM_1         ; for US
 
-	_key_code_apostrophe,         // VK_OEM_7         ''"' for US
-	_key_code_enter,              // VK_RETURN
+	_key_apostrophe,         // VK_OEM_7         ' for US
+	_key_return,             // VK_RETURN
 
-	_key_code_left_shift,         // VK_LSHIFT
-	_key_code_z,                  // 'Z'
-	_key_code_x,                  // 'X'
-	_key_code_c,                  // 'C'
-	_key_code_v,                  // 'V'
-	_key_code_b,                  // 'B'
-	_key_code_n,                  // 'N'
-	_key_code_m,                  // 'M'
-	_key_code_comma,              // VK_OEM_COMMA     ',' any country
-	_key_code_dot,                // VK_OEM_PERIOD    '.' any country
-	_key_code_slash,              // VK_OEM_2         '/?' for US
-	_key_code_right_shift,        // VK_RSHIFT
+	_key_left_shift,         // VK_LSHIFT
+	_key_z,                  // 'Z'
+	_key_x,                  // 'X'
+	_key_c,                  // 'C'
+	_key_v,                  // 'V'
+	_key_b,                  // 'B'
+	_key_n,                  // 'N'
+	_key_m,                  // 'M'
+	_key_comma,              // VK_OEM_COMMA     , any country
+	_key_period,             // VK_OEM_PERIOD    . any country
+	_key_forwardslash,       // VK_OEM_2         /' for US
+	_key_right_shift,        // VK_RSHIFT
 
-	_key_code_left_control,       // VK_LCONTROL
-	_key_code_left_windows,       // VK_LWIN
-	_key_code_left_alt,           // VK_LMENU
-	_key_code_spacebar,           // VK_SPACE
-	_key_code_right_alt,          // VK_RMENU
-	_key_code_right_windows,      // VK_RWIN
-	_key_code_context_menu,       // VK_APPS
-	_key_code_right_control,      // VK_RCONTROL
+	_key_left_control,       // VK_LCONTROL
+	_key_left_windows,       // VK_LWIN
+	_key_left_alt,           // VK_LMENU
+	_key_space,              // VK_SPACE
+	_key_right_alt,          // VK_RMENU
+	_key_right_windows,      // VK_RWIN
+	_key_menu,               // VK_APPS
+	_key_right_control,      // VK_RCONTROL
 
-	_key_code_up,                 // VK_UP
-	_key_code_down,               // VK_DOWN
-	_key_code_left,               // VK_LEFT
-	_key_code_right,              // VK_RIGHT
+	_key_up_arrow,           // VK_UP
+	_key_down_arrow,         // VK_DOWN
+	_key_left_arrow,         // VK_LEFT
+	_key_right_arrow,        // VK_RIGHT
 
-	_key_code_insert,             // VK_INSERT
-	_key_code_home,               // VK_HOME
-	_key_code_page_up,            // VK_PRIOR
-	_key_code_delete,             // VK_DELETE
-	_key_code_end,                // VK_END
-	_key_code_page_down,          // VK_NEXT
+	_key_insert,             // VK_INSERT
+	_key_home,               // VK_HOME
+	_key_page_up,            // VK_PRIOR
+	_key_delete,             // VK_DELETE
+	_key_end,                // VK_END
+	_key_page_down,          // VK_NEXT
 
-	_key_code_keypad_num_lock,    // VK_NUMLOCK
-	_key_code_keypad_divide,      // VK_DIVIDE
-	_key_code_keypad_multiply,    // VK_MULTIPLY
-	_key_code_keypad_0,           // VK_NUMPAD0
-	_key_code_keypad_1,           // VK_NUMPAD1
-	_key_code_keypad_2,           // VK_NUMPAD2
-	_key_code_keypad_3,           // VK_NUMPAD3
-	_key_code_keypad_4,           // VK_NUMPAD4
-	_key_code_keypad_5,           // VK_NUMPAD5
-	_key_code_keypad_6,           // VK_NUMPAD6
-	_key_code_keypad_7,           // VK_NUMPAD7
-	_key_code_keypad_8,           // VK_NUMPAD8
-	_key_code_keypad_9,           // VK_NUMPAD9
-	_key_code_keypad_subtract,    // VK_SUBTRACT
-	_key_code_keypad_add,         // VK_ADD
-	_key_code_keypad_enter,       // VK_RETURN
-	_key_code_keypad_decimal,     // VK_DECIMAL
+	_keypad_num_lock,    // VK_NUMLOCK
+	_keypad_divide,      // VK_DIVIDE
+	_keypad_multiply,    // VK_MULTIPLY
+	_keypad_0,           // VK_NUMPAD0
+	_keypad_1,           // VK_NUMPAD1
+	_keypad_2,           // VK_NUMPAD2
+	_keypad_3,           // VK_NUMPAD3
+	_keypad_4,           // VK_NUMPAD4
+	_keypad_5,           // VK_NUMPAD5
+	_keypad_6,           // VK_NUMPAD6
+	_keypad_7,           // VK_NUMPAD7
+	_keypad_8,           // VK_NUMPAD8
+	_keypad_9,           // VK_NUMPAD9
+	_keypad_subtract,    // VK_SUBTRACT
+	_keypad_add,         // VK_ADD
+	_keypad_enter,       // VK_RETURN
+	_keypad_decimal,     // VK_DECIMAL
 
 	k_key_code_count,
 
-	_key_code_shift,
-	_key_code_control,
-	_key_code_windows,
-	_key_code_alt,
+	_key_shift,
+	_key_control,
+	_key_windows,
+	_key_alt,
 
-	k_total_key_code_count,
-	k_key_code_none = -1
+	NUMBER_OF_KEYS,
+
+	_key_question_mark = _key_forwardslash,
+	_key_tilde = _key_backquote,
+
+	_key_not_a_key = 0xFF
 };
 
 enum e_input_type
@@ -340,19 +343,19 @@ static_assert(sizeof(key_state) == 0x4);
 
 struct key_stroke
 {
-	c_flags<e_key_modifier_flags, byte, k_key_modifier_flags> modifier;
-	c_enum<e_key_type, char, _key_type_down, k_key_type_count> key_type;
-	c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
-	bool was_key_down;
+	byte_flags modifier_flags;
+	char ascii_code;
+	short key_code;
+	bool repeating;
 };
 static_assert(sizeof(key_stroke) == 0x6);
 
 // key_stroke
 struct s_key_state
 {
-	c_flags<e_key_modifier_flags, byte, k_key_modifier_flags> modifier;
-	c_enum<e_key_type, long, _key_type_down, k_key_type_count> key_type;
-	c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
+	byte_flags modifier_flags;
+	long ascii_code;
+	short key_code;
 
 	// virtual-key code
 	// LOWORD(wParam);
@@ -367,7 +370,7 @@ struct s_key_state
 	// uMsg == WM_CHAR
 	// uMsg == WM_SYSCHAR
 	// = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
-	bool was_key_down;
+	bool repeating;
 };
 static_assert(sizeof(s_key_state) == 0x10);
 
@@ -466,22 +469,22 @@ struct s_input_globals
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
 
-// key_to_virtual_table[_key_code_escape] = VK_ESCAPE
+// key_to_virtual_table[_key_escape] = VK_ESCAPE
 //extern c_static_array<byte const, k_key_code_count>& key_to_virtual_table;
 extern byte const(&key_to_virtual_table)[k_key_code_count];
 //extern byte const key_to_virtual_table[k_key_code_count];
 
-// virtual_to_key_table[VK_ESCAPE] = _key_code_escape
+// virtual_to_key_table[VK_ESCAPE] = _key_escape
 //extern c_static_array<short const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
 extern short const(&virtual_to_key_table)[k_number_of_windows_input_virtual_codes];
 //extern short const virtual_to_key_table[k_number_of_windows_input_virtual_codes];
 
-// key_to_ascii_table[_key_code_spacebar] = ' '
+// key_to_ascii_table[_key_space] = ' '
 //extern c_static_array<byte const, k_key_code_count>& key_to_ascii_table;
 extern byte const(&key_to_ascii_table)[k_key_code_count];
 //extern byte const key_to_ascii_table[k_key_code_count];
 
-// key_to_ascii_table[' '] = _key_code_spacebar
+// key_to_ascii_table[' '] = _key_space
 //extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
 extern short const(&ascii_to_key_table)[k_number_of_input_ascii_codes];
 //extern short const ascii_to_key_table[k_number_of_input_ascii_codes];
@@ -510,8 +513,8 @@ extern void __cdecl input_initialize();
 extern bool __cdecl sub_511AF0();
 extern bool __cdecl sub_511B40();
 extern bool __cdecl input_type_suppressed(e_input_type input_type);
-extern byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type);
-extern word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type);
+extern byte __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input_type);
+extern word __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type);
 extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type);
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);

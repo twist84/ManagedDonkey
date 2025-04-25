@@ -887,7 +887,7 @@ void control_toggling_of_debug_directors(long user_index)
 	c_director* director = director_get(user_index);
 	e_director_mode director_mode = director->get_type();
 
-	if (director_mode != _director_mode_editor && input_key_frames_down(_key_code_backspace, _input_type_game) == 1)
+	if (director_mode != _director_mode_editor && input_key_frames_down(_key_backspace, _input_type_game) == 1)
 	{
 		if (director_mode == _director_mode_debug)
 		{

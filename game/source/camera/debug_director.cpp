@@ -10,7 +10,7 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00726170, c_debug_director, changed_camera);
 HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, update_);
 
-byte const cycle_camera_key_code_bytes[] = { _key_code_backspace };
+byte const cycle_camera_key_code_bytes[] = { _key_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
 
 //REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, debug_camera_modes, 2);
@@ -18,7 +18,7 @@ e_camera_mode debug_camera_modes[] = { _camera_mode_flying, _camera_mode_followi
 
 void __thiscall c_debug_director::update_(real dt)
 {
-	if (input_key_frames_down(_key_code_backspace, _input_type_ui) == 1)
+	if (input_key_frames_down(_key_backspace, _input_type_ui) == 1)
 		cycle_camera();
 
 	mouse_state* state = input_get_mouse_state(_input_type_ui);

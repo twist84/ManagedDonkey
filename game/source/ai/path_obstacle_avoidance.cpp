@@ -88,19 +88,19 @@ void render_debug_obstacle_path()
 	{
 		if (!debugging_system_has_focus())
 		{
-			if (input_key_frames_down(_key_code_o, _input_type_game))
+			if (input_key_frames_down(_key_o, _input_type_game))
 			{
 				debug_obstacle_path_on_failure = true;
 				debug_obstacle_path = false;
 			}
 
-			if (input_key_frames_down(_key_code_g, _input_type_game))
+			if (input_key_frames_down(_key_g, _input_type_game))
 			{
 				debug_obstacle_path_on_failure = true;
 				debug_obstacle_path = false;
 			}
 
-			if (input_key_frames_down(_key_code_n, _input_type_game))
+			if (input_key_frames_down(_key_n, _input_type_game))
 			{
 				path_new(
 					&debug_obstacle_path_path,
@@ -119,7 +119,7 @@ void render_debug_obstacle_path()
 				obstacles_new(&debug_obstacle_path_obstacles);
 			}
 
-			if (input_key_frames_down(_key_code_i, _input_type_game))
+			if (input_key_frames_down(_key_i, _input_type_game))
 				path_iterate(&debug_obstacle_path_path, debug_obstacle_final_step);
 		}
 

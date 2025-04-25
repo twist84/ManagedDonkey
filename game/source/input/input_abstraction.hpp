@@ -7,8 +7,8 @@
 
 struct s_keyboard_input_preferences
 {
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_button_action_count_keyboard> keys_primary;
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_button_action_count_keyboard> keys_alternative;
+	c_static_array<c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS>, k_button_action_count_keyboard> keys_primary;
+	c_static_array<c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS>, k_button_action_count_keyboard> keys_alternative;
 	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_primary;
 	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_alternative;
 

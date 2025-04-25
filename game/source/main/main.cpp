@@ -852,7 +852,7 @@ void __cdecl sub_5077E0()
 {
 	INVOKE(0x005077E0, sub_5077E0);
 
-	//if (input_key_frames_down(_key_code_print_screen, _input_type_ui) == 1)
+	//if (input_key_frames_down(_key_print_screen, _input_type_ui) == 1)
 	//{
 	//	s_key_state key{};
 	//	input_get_key(&key, _input_type_ui);

@@ -37,7 +37,7 @@ debug_key global_debug_key_list[]
 {
 	{
 		.name = "Force Respawn",
-		.key_code = _key_code_8,
+		.key_code = _key_8,
 		.modifier = 4,
 		.function = debug_key_force_respawn,
 		.allow_out_of_game = false,
@@ -47,7 +47,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Select This Actor",
-		.key_code = _key_code_f1,
+		.key_code = _key_f1,
 		.modifier = 0,
 		.function = debug_key_select_this_actor,
 		.allow_out_of_game = false,
@@ -57,7 +57,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Select Prev Encounter",
-		.key_code = _key_code_f2,
+		.key_code = _key_f2,
 		.modifier = 0,
 		.function = debug_key_select_prev_encounter,
 		.allow_out_of_game = false,
@@ -67,7 +67,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Select Next Encounter",
-		.key_code = _key_code_f3,
+		.key_code = _key_f3,
 		.modifier = 0,
 		.function = debug_key_select_next_encounter,
 		.allow_out_of_game = false,
@@ -77,7 +77,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Select Next Actor",
-		.key_code = _key_code_f4,
+		.key_code = _key_f4,
 		.modifier = 0,
 		.function = debug_key_select_next_actor,
 		.allow_out_of_game = false,
@@ -87,7 +87,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Select Prev Actor",
-		.key_code = _key_code_f4,
+		.key_code = _key_f4,
 		.modifier = 1,
 		.function = debug_key_select_prev_actor,
 		.allow_out_of_game = false,
@@ -97,7 +97,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Show Actor Spray",
-		.key_code = _key_code_f5,
+		.key_code = _key_f5,
 		.modifier = 0,
 		.function = debug_key_render_spray,
 		.allow_out_of_game = false,
@@ -107,7 +107,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Erase All Actors",
-		.key_code = _key_code_f6,
+		.key_code = _key_f6,
 		.modifier = 0,
 		.function = debug_key_erase_all_actors,
 		.allow_out_of_game = false,
@@ -117,7 +117,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Rotate Units",
-		.key_code = _key_code_backslash,
+		.key_code = _key_backslash,
 		.modifier = 2,
 		.function = debug_key_rotate_units,
 		.allow_out_of_game = false,
@@ -127,7 +127,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Rotate All Units",
-		.key_code = _key_code_right_parenthesis,
+		.key_code = _key_right_bracket,
 		.modifier = 2,
 		.function = debug_key_rotate_all_units,
 		.allow_out_of_game = false,
@@ -137,7 +137,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Ninja Rope",
-		.key_code = _key_code_left_parenthesis,
+		.key_code = _key_left_bracket,
 		.modifier = 0,
 		.function = debug_key_ninja_rope,
 		.allow_out_of_game = false,
@@ -147,7 +147,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Breakpoint",
-		.key_code = _key_code_b,
+		.key_code = _key_b,
 		.modifier = 0,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -157,7 +157,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Play Animation",
-		.key_code = _key_code_k,
+		.key_code = _key_k,
 		.modifier = 0,
 		.function = debug_key_play_animation,
 		.allow_out_of_game = false,
@@ -167,7 +167,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Summary",
-		.key_code = _key_code_f10,
+		.key_code = _key_f10,
 		.modifier = 0,
 		.function = debug_key_profile_summary,
 		.allow_out_of_game = false,
@@ -177,7 +177,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Summary Off",
-		.key_code = _key_code_f10,
+		.key_code = _key_f10,
 		.modifier = 2,
 		.function = debug_key_profile_summary_off,
 		.allow_out_of_game = false,
@@ -187,7 +187,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Off",
-		.key_code = _key_code_f7,
+		.key_code = _key_f7,
 		.modifier = 2,
 		.function = debug_key_profile_off,
 		.allow_out_of_game = false,
@@ -197,7 +197,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Next Thread",
-		.key_code = _key_code_f7,
+		.key_code = _key_f7,
 		.modifier = 0,
 		.function = debug_key_profile_next_thread,
 		.allow_out_of_game = false,
@@ -207,7 +207,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Prev Thread",
-		.key_code = _key_code_f7,
+		.key_code = _key_f7,
 		.modifier = 1,
 		.function = debug_key_profile_prev_thread,
 		.allow_out_of_game = false,
@@ -217,7 +217,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Next Attrib",
-		.key_code = _key_code_f8,
+		.key_code = _key_f8,
 		.modifier = 0,
 		.function = debug_key_profile_next_attribute,
 		.allow_out_of_game = false,
@@ -227,7 +227,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Prev Attrib",
-		.key_code = _key_code_f8,
+		.key_code = _key_f8,
 		.modifier = 1,
 		.function = debug_key_profile_prev_attribute,
 		.allow_out_of_game = false,
@@ -237,7 +237,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Next Sort",
-		.key_code = _key_code_f9,
+		.key_code = _key_f9,
 		.modifier = 0,
 		.function = debug_key_profile_next_sort,
 		.allow_out_of_game = false,
@@ -247,7 +247,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Prev Sort",
-		.key_code = _key_code_f9,
+		.key_code = _key_f9,
 		.modifier = 1,
 		.function = debug_key_profile_prev_sort,
 		.allow_out_of_game = false,
@@ -257,7 +257,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Disp Type",
-		.key_code = _key_code_f9,
+		.key_code = _key_f9,
 		.modifier = 2,
 		.function = debug_key_profile_next_display,
 		.allow_out_of_game = false,
@@ -267,7 +267,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Profile Dump Frame",
-		.key_code = _key_code_f11,
+		.key_code = _key_f11,
 		.modifier = 0,
 		.function = debug_key_profile_dump_frame,
 		.allow_out_of_game = false,
@@ -277,7 +277,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Input debug",
-		.key_code = _key_code_i,
+		.key_code = _key_i,
 		.modifier = 1,
 		.function = debug_player_input_toggle,
 		.allow_out_of_game = false,
@@ -287,7 +287,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "Weapon Debug",
-		.key_code = _key_code_w,
+		.key_code = _key_w,
 		.modifier = 1,
 		.function = debug_key_toggle_weapons,
 		.allow_out_of_game = false,
@@ -297,7 +297,7 @@ debug_key global_debug_key_list[]
 	},
 	//{
 	//	.name = "4x3 view in widescreen",
-	//	.key_code = _key_code_f11,
+	//	.key_code = _key_f11,
 	//	.modifier = 2,
 	//	.function = nullptr,
 	//	.allow_out_of_game = true,
@@ -307,7 +307,7 @@ debug_key global_debug_key_list[]
 	//},
 	{
 		.name = "exit game",
-		.key_code = _key_code_escape,
+		.key_code = _key_escape,
 		.modifier = 1,
 		.function = debug_key_exit_game,
 		.allow_out_of_game = true,
@@ -317,7 +317,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "toggle mouse focus",
-		.key_code = _key_code_m,
+		.key_code = _key_m,
 		.modifier = 1,
 		.function = debug_key_mouse_focus,
 		.allow_out_of_game = false,
@@ -327,7 +327,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "clear screen",
-		.key_code = _key_code_enter,
+		.key_code = _key_return,
 		.modifier = 1,
 		.function = debug_key_clear_screen,
 		.allow_out_of_game = false,
@@ -337,7 +337,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "deathless player",
-		.key_code = _key_code_c,
+		.key_code = _key_c,
 		.modifier = 2,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -347,7 +347,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "infinite ammo",
-		.key_code = _key_code_c,
+		.key_code = _key_c,
 		.modifier = 4,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -357,7 +357,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "display framerate",
-		.key_code = _key_code_f,
+		.key_code = _key_f,
 		.modifier = 2,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -367,7 +367,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "infinite framerate",
-		.key_code = _key_code_f,
+		.key_code = _key_f,
 		.modifier = 4,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -377,7 +377,7 @@ debug_key global_debug_key_list[]
 	},
 	//{
 	//	.name = "render model vertex",
-	//	.key_code = _key_code_r,
+	//	.key_code = _key_r,
 	//	.modifier = 2,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -387,7 +387,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "render model names",
-	//	.key_code = _key_code_r,
+	//	.key_code = _key_r,
 	//	.modifier = 4,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -397,7 +397,7 @@ debug_key global_debug_key_list[]
 	//},
 	{
 		.name = "save camera",
-		.key_code = _key_code_j,
+		.key_code = _key_j,
 		.modifier = 2,
 		.function = debug_key_save_camera,
 		.allow_out_of_game = false,
@@ -407,7 +407,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "load camera",
-		.key_code = _key_code_k,
+		.key_code = _key_k,
 		.modifier = 2,
 		.function = debug_key_load_camera,
 		.allow_out_of_game = false,
@@ -417,7 +417,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "teleport to Camera",
-		.key_code = _key_code_l,
+		.key_code = _key_l,
 		.modifier = 2,
 		.function = debug_key_teleport_to_camera,
 		.allow_out_of_game = false,
@@ -427,7 +427,7 @@ debug_key global_debug_key_list[]
 	},
 	//{
 	//	.name = "texture cache usage",
-	//	.key_code = _key_code_6,
+	//	.key_code = _key_6,
 	//	.modifier = 2,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -437,7 +437,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "texture cache debug mip",
-	//	.key_code = _key_code_6,
+	//	.key_code = _key_6,
 	//	.modifier = 1,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -447,7 +447,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "texture cache status",
-	//	.key_code = _key_code_7,
+	//	.key_code = _key_7,
 	//	.modifier = 2,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -457,7 +457,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "texture cache graph",
-	//	.key_code = _key_code_7,
+	//	.key_code = _key_7,
 	//	.modifier = 1,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -467,7 +467,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "texture cache list",
-	//	.key_code = _key_code_7,
+	//	.key_code = _key_7,
 	//	.modifier = 4,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -477,7 +477,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "geometry cache status",
-	//	.key_code = _key_code_8,
+	//	.key_code = _key_8,
 	//	.modifier = 2,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -487,7 +487,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "geometry cache graph",
-	//	.key_code = _key_code_8,
+	//	.key_code = _key_8,
 	//	.modifier = 1,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -497,7 +497,7 @@ debug_key global_debug_key_list[]
 	//},
 	//{
 	//	.name = "geometry cache list",
-	//	.key_code = _key_code_8,
+	//	.key_code = _key_8,
 	//	.modifier = 4,
 	//	.function = nullptr,
 	//	.allow_out_of_game = false,
@@ -507,7 +507,7 @@ debug_key global_debug_key_list[]
 	//},
 	{
 		.name = "toggle pause",
-		.key_code = _key_code_f15,
+		.key_code = _key_pause,
 		.modifier = 0,
 		.function = debug_key_toggle_pause,
 		.allow_out_of_game = false,
@@ -517,7 +517,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "print screen",
-		.key_code = _key_code_print_screen,
+		.key_code = _key_print_screen,
 		.modifier = 0,
 		.function = debug_key_print_screen,
 		.allow_out_of_game = false,
@@ -527,7 +527,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed minor +",
-		.key_code = _key_code_plus,
+		.key_code = _key_equal,
 		.modifier = 0,
 		.function = debug_key_increment_game_speed_minor,
 		.allow_out_of_game = false,
@@ -537,7 +537,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed minor -",
-		.key_code = _key_code_minus,
+		.key_code = _key_dash,
 		.modifier = 0,
 		.function = debug_key_decrement_game_speed_minor,
 		.allow_out_of_game = false,
@@ -547,7 +547,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed major +",
-		.key_code = _key_code_plus,
+		.key_code = _key_equal,
 		.modifier = 1,
 		.function = debug_key_increment_game_speed_major,
 		.allow_out_of_game = false,
@@ -557,7 +557,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed major -",
-		.key_code = _key_code_minus,
+		.key_code = _key_dash,
 		.modifier = 1,
 		.function = debug_key_decrement_game_speed_major,
 		.allow_out_of_game = false,
@@ -567,7 +567,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed minor +",
-		.key_code = _key_code_keypad_add,
+		.key_code = _keypad_add,
 		.modifier = 0,
 		.function = debug_key_increment_game_speed_minor,
 		.allow_out_of_game = false,
@@ -577,7 +577,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed minor -",
-		.key_code = _key_code_keypad_subtract,
+		.key_code = _keypad_subtract,
 		.modifier = 0,
 		.function = debug_key_decrement_game_speed_minor,
 		.allow_out_of_game = false,
@@ -587,7 +587,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed major +",
-		.key_code = _key_code_keypad_add,
+		.key_code = _keypad_add,
 		.modifier = 1,
 		.function = debug_key_increment_game_speed_major,
 		.allow_out_of_game = false,
@@ -597,7 +597,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "game speed major -",
-		.key_code = _key_code_keypad_subtract,
+		.key_code = _keypad_subtract,
 		.modifier = 1,
 		.function = debug_key_decrement_game_speed_major,
 		.allow_out_of_game = false,
@@ -607,7 +607,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "dump asserts",
-		.key_code = _key_code_a,
+		.key_code = _key_a,
 		.modifier = 2,
 		.function = debug_dump_assert_log,
 		.allow_out_of_game = false,
@@ -617,7 +617,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "time stats display",
-		.key_code = _key_code_t,
+		.key_code = _key_t,
 		.modifier = 2,
 		.function = debug_time_stats_display,
 		.allow_out_of_game = false,
@@ -627,7 +627,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = "time stats pause",
-		.key_code = _key_code_t,
+		.key_code = _key_t,
 		.modifier = 4,
 		.function = debug_time_stats_pause,
 		.allow_out_of_game = false,
@@ -637,7 +637,7 @@ debug_key global_debug_key_list[]
 	},
 	{
 		.name = nullptr,
-		.key_code = k_key_code_none,
+		.key_code = _key_not_a_key,
 		.modifier = 0,
 		.function = nullptr,
 		.allow_out_of_game = false,
@@ -712,7 +712,7 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 	if ((game_in_progress() || key->allow_out_of_game) && (!game_in_editor() || key->allow_in_editor) && input_globals.mouse_acquired)
 	{
 		ASSERT(VALID_INDEX(key->modifier, 6)); // NUMBEROF(modifier_down) == 6
-		bool key_down = input_key_frames_down(static_cast<e_key_code>(key->key_code), _input_type_game) && modifier_down[key->modifier];
+		bool key_down = input_key_frames_down(static_cast<e_input_key_code>(key->key_code), _input_type_game) && modifier_down[key->modifier];
 
 		if (force_key_down)
 			key_down = force_key_down == 1;
@@ -805,9 +805,9 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 
 void __cdecl debug_keys_update()
 {
-	bool shift_down = input_key_frames_down(_key_code_shift, _input_type_game);
-	bool control_down = input_key_frames_down(_key_code_control, _input_type_game) != 0;
-	bool alt_down = input_key_frames_down(_key_code_alt, _input_type_game) != 0;
+	bool shift_down = input_key_frames_down(_key_shift, _input_type_game);
+	bool control_down = input_key_frames_down(_key_control, _input_type_game) != 0;
+	bool alt_down = input_key_frames_down(_key_alt, _input_type_game) != 0;
 
 	//random_seed_allow_use();
 	bool modifier_down[6]{};

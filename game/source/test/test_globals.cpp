@@ -115,7 +115,7 @@ void show_location_messages()
 void __cdecl test_main_loop_body_begin()
 {
 	// right control for tests
-	if (input_key_frames_down(_key_code_right_control, _input_type_ui) == 1)
+	if (input_key_frames_down(_key_right_control, _input_type_ui) == 1)
 	{
 		async_globals;
 		cache_file_copy_globals;
@@ -218,7 +218,7 @@ void __cdecl test_main_loop_body_begin()
 		game_engine_globals->runtime_map_variant.print();
 	}
 
-	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
+	if (input_key_frames_down(_keypad_add, _input_type_ui) == 1)
 	{
 #if defined(ISEXPERIMENTAL)
 		console_process_command("net_session_create multiplayer system_link", true);
@@ -251,7 +251,7 @@ void __cdecl test_main_loop_body_begin()
 		//main_crash("fast");
 	}
 
-	if (input_key_frames_down(_key_code_keypad_divide, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
+	if (input_key_frames_down(_keypad_divide, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
 	{
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
@@ -274,59 +274,59 @@ void __cdecl test_main_loop_body_end()
 	// change teams buttons
 	if (game_is_ui_shell())
 	{
-		if (input_key_frames_down(_key_code_right_parenthesis, _input_type_ui) == 1)
+		if (input_key_frames_down(_key_right_bracket, _input_type_ui) == 1)
 			event_manager_button_pressed(_controller0, _button_action_left_bumper);
 
-		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_ui) == 1)
+		if (input_key_frames_down(_key_left_bracket, _input_type_ui) == 1)
 			event_manager_button_pressed(_controller0, _button_action_right_bumper);
 	}
 	else
 	{
-		if (input_key_frames_down(_key_code_right, _input_type_game) == 1)
+		if (input_key_frames_down(_key_right_arrow, _input_type_game) == 1)
 			event_manager_button_pressed(_controller0, _button_action_left_bumper);
 
-		if (input_key_frames_down(_key_code_left, _input_type_game) == 1)
+		if (input_key_frames_down(_key_left_arrow, _input_type_game) == 1)
 			event_manager_button_pressed(_controller0, _button_action_right_bumper);
 	}
 
 	//// home cluster keys
-	//if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
+	//if (input_key_frames_down(_key_insert, _input_type_ui) == 1)
 	//{
 	//	console_process_command("load_preferences_from_file preferences.txt", true);
 	//}
-	//if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
+	//if (input_key_frames_down(_key_delete, _input_type_ui) == 1)
 	//{
 	//	static bool elite_hanger = false;
 	//
 	//	if (game_is_ui_shell())
 	//		user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
 	//}
-	//if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
+	//if (input_key_frames_down(_key_home, _input_type_ui) == 1)
 	//{
 	//	//main_game_launch_set_multiplayer_splitscreen_count(2);
 	//	main_game_launch_set_coop_player_count(2);
 	//	main_game_launch("maps\\riverworld");
 	//}
-	//if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
+	//if (input_key_frames_down(_key_end, _input_type_ui) == 1)
 	//{
 	//	director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
 	//}
-	if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
+	if (input_key_frames_down(_key_page_up, _input_type_ui) == 1)
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 		player_control_globals->machinima_camera_enabled = !player_control_globals->machinima_camera_enabled;
 		player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
 	}
-	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
+	if (input_key_frames_down(_key_page_down, _input_type_ui) == 1)
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 		player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
 	}
 	//
-	//if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+	//if (input_key_frames_down(_keypad_enter, _input_type_ui) == 1)
 	//{
 	//}
-	//if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
+	//if (input_key_frames_down(_keypad_decimal, _input_type_ui) == 1)
 	//{
 	//	load_game_browser(_controller0, 0, _browse_system_link);
 	//}

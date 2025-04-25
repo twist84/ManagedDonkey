@@ -6,7 +6,7 @@
 struct debug_key
 {
 	char const* name;
-	//c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
+	//c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS> key_code;
 	short key_code;
 	short modifier;
 	void(__cdecl* function)(bool);

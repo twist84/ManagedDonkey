@@ -165,12 +165,12 @@ void debug_menu_update()
 		bool v2 = false;
 		if (debugging_system_has_focus())
 		{
-			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
+			v2 = input_key_frames_down(_key_home, _input_type_ui) == 1
 				|| state.button_frames[_controller_button_back] == 1;
 		}
 		else
 		{
-			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
+			v2 = input_key_frames_down(_key_home, _input_type_ui) == 1
 				|| state.button_frames[_controller_button_back] == 1 && state.button_frames[_controller_button_start]
 				|| state.button_frames[_controller_button_back] && state.button_frames[_controller_button_start] == 1;
 		}

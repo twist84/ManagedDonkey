@@ -41,22 +41,22 @@ void c_debug_menu::update()
 	input_abstraction_get_input_state(_controller0, &input_state);
 	if (get_enabled())
 	{
-		if (input_key_frames_down(_key_code_up, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_up])
+		if (input_key_frames_down(_key_up_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_up])
 		{
 			input_state->get_button(_button_action_dpad_up).latch();
 			notify_up();
 		}
-		else if (input_key_frames_down(_key_code_down, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_down])
+		else if (input_key_frames_down(_key_down_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_down])
 		{
 			input_state->get_button(_button_action_dpad_down).latch();
 			notify_down();
 		}
-		else if (input_key_frames_down(_key_code_left, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_left])
+		else if (input_key_frames_down(_key_left_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_left])
 		{
 			input_state->get_button(_button_action_dpad_left).latch();
 			try_left();
 		}
-		else if (input_key_frames_down(_key_code_right, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_right])
+		else if (input_key_frames_down(_key_right_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_right])
 		{
 			input_state->get_button(_button_action_dpad_right).latch();
 			try_right();
@@ -74,72 +74,72 @@ void c_debug_menu::update()
 		&& get_num_items() > 0
 		&& get_item(get_selection())->get_active()
 		&& (state.button_frames[_controller_button_a] == 1
-			|| input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1
-			|| input_key_frames_down(_key_code_enter, _input_type_ui) == 1))
+			|| input_key_frames_down(_keypad_enter, _input_type_ui) == 1
+			|| input_key_frames_down(_key_return, _input_type_ui) == 1))
 	{
 		input_state->get_button(_button_action_a).latch();
 		get_item(get_selection())->notify_selected();
 		notify_selected(get_selection());
 	}
 	else if (!state.button_frames[_controller_button_b] &&
-		last_state.button_frames[_controller_button_b] || input_key_frames_down(_key_code_end, _input_type_ui) == 1)
+		last_state.button_frames[_controller_button_b] || input_key_frames_down(_key_end, _input_type_ui) == 1)
 	{
 		input_state->get_button(_button_action_b).latch();
 		close(false);
 	}
 	else
 	{
-		e_key_code letter_keys[26]
+		e_input_key_code letter_keys[26]
 		{
-			_key_code_a,
-			_key_code_b,
-			_key_code_c,
-			_key_code_d,
-			_key_code_e,
-			_key_code_f,
-			_key_code_g,
-			_key_code_h,
-			_key_code_i,
-			_key_code_j,
-			_key_code_k,
-			_key_code_l,
-			_key_code_m,
-			_key_code_n,
-			_key_code_o,
-			_key_code_p,
-			_key_code_q,
-			_key_code_r,
-			_key_code_s,
-			_key_code_t,
-			_key_code_u,
-			_key_code_v,
-			_key_code_w,
-			_key_code_x,
-			_key_code_y,
-			_key_code_z,
+			_key_a,
+			_key_b,
+			_key_c,
+			_key_d,
+			_key_e,
+			_key_f,
+			_key_g,
+			_key_h,
+			_key_i,
+			_key_j,
+			_key_k,
+			_key_l,
+			_key_m,
+			_key_n,
+			_key_o,
+			_key_p,
+			_key_q,
+			_key_r,
+			_key_s,
+			_key_t,
+			_key_u,
+			_key_v,
+			_key_w,
+			_key_x,
+			_key_y,
+			_key_z,
 		};
 
-		short selection = k_key_code_none;
-		for (short i = _key_code_1; i <= _key_code_0; i++)
+		short selection = _key_not_a_key;
+		for (short i = _key_1; i <= _key_0; i++)
 		{
-			if (input_key_frames_down(e_key_code(i), _input_type_ui) == 1)
+			if (input_key_frames_down(e_input_key_code(i), _input_type_ui) == 1)
 			{
-				if (i == _key_code_0)
-					selection = _key_code_f9;
+				if (i == _key_0)
+					selection = _key_f9;
 				else
-					selection = i - _key_code_1;
+					selection = i - _key_1;
 				break;
 			}
 		}
 
-		for (short i = _key_code_keypad_0; i <= _key_code_keypad_9; i++)
+		for (short i = _keypad_0; i <= _keypad_9; i++)
 		{
-			if (input_key_frames_down(e_key_code(i), _input_type_ui) == 1)
+			if (input_key_frames_down(e_input_key_code(i), _input_type_ui) == 1)
 			{
-				if (i == _key_code_keypad_0)
-					selection = _key_code_f9;
+				if (i == _keypad_0)
+					selection = _key_f9;
 				else
-					selection = i - _key_code_keypad_1;
+					selection = i - _keypad_1;
 				break;
 			}
 		}
@@ -148,12 +148,12 @@ void c_debug_menu::update()
 		{
 			if (input_key_frames_down(letter_keys[i], _input_type_ui) == 1)
 			{
-				selection = i + _key_code_f10;
+				selection = i + _key_f10;
 				break;
 			}
 		}
 
-		if (selection != k_key_code_none)
+		if (selection != _key_not_a_key)
 		{
 			if (selection < get_num_items())
 			{
