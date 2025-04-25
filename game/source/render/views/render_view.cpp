@@ -14,12 +14,15 @@
 #include "main/console.hpp"
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 #include "profiler/profiler.hpp"
+#include "rasterizer/rasterizer_globals.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_objects.hpp"
 #include "render/views/hud_camera_view.hpp"
 
 #include <math.h>
@@ -46,11 +49,15 @@ bool render_debug_pix_events = false;
 
 void __cdecl c_view::abort_current_view_stack()
 {
-	g_view_stack_top = -1;
+	//INVOKE(0x00A289C0, c_view::abort_current_view_stack);
+
+	g_view_stack_top = NONE;
 }
 
 void __cdecl c_view::begin(c_view* view)
 {
+	//INVOKE(0x00A289D0, c_view::begin, view);
+
 	if (g_view_stack_top < 3)
 	{
 		g_view_stack[++g_view_stack_top] = view;
@@ -58,28 +65,45 @@ void __cdecl c_view::begin(c_view* view)
 	}
 }
 
+void __cdecl c_view::sub_A28A40()
+{
+	//INVOKE(0x00A28A40, sub_A28A40);
+
+	int constant_bool = 0;
+	real_vector4d constant{};
+	set_real_vector4d(&constant, 0.0f, 0.0f, 0.0f, 0.0f);
+
+	c_rasterizer::set_vertex_shader_constant_bool(8, 1, &constant_bool);
+	c_rasterizer::set_vertex_shader_constant(250, 1, &constant);
+}
+
+void __cdecl c_view::sub_A28A90()
+{
+	//INVOKE(0x00A28A90, sub_A28A90);
+
+	int constant_bool = 1;
+	real_vector4d constant{};
+
+	real z_depth_scale = 1.0f / (global_z_far - global_z_near);
+	set_real_vector4d(&constant, global_z_far * z_depth_scale, (global_z_near * global_z_far) * z_depth_scale, 0.1f, 1.0f);
+
+	c_rasterizer::set_vertex_shader_constant_bool(8, 1, &constant_bool);
+	c_rasterizer::set_vertex_shader_constant(250, 1, &constant);
+}
+
 void __cdecl c_view::end()
 {
+	//INVOKE(0x00A28B10, c_view::end);
+
 	if (--g_view_stack_top >= 0)
 		g_view_stack[g_view_stack_top]->render_setup();
 }
 
 long __cdecl c_view::get_current_stack_level()
 {
+	//return INVOKE(0x00A28B30, c_view::get_current_stack_level);
+
 	return g_view_stack_top;
-}
-
-c_view* __cdecl c_view::top()
-{
-	if (g_view_stack_top < 0)
-		return 0;
-	else
-		return g_view_stack[g_view_stack_top];
-}
-
-void c_lights_view::render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
-{
-	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, user_index, player_index, a3, a4, a5);
 }
 
 render_camera const* c_view::get_render_camera() const
@@ -122,6 +146,19 @@ render_projection* c_view::get_render_projection_modifiable()
 	return &m_render_projection;
 }
 
+c_view* __cdecl c_view::top()
+{
+	if (g_view_stack_top < 0)
+		return 0;
+	else
+		return g_view_stack[g_view_stack_top];
+}
+
+void c_lights_view::render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
+{
+	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, user_index, player_index, a3, a4, a5);
+}
+
 void __thiscall c_fullscreen_view::render_()
 {
 	render_debug_stuff_while_loading();
@@ -141,13 +178,13 @@ void c_fullscreen_view::render_debug_stuff_while_loading()
 	game_time_render_debug();
 }
 
-void c_fullscreen_view::setup_camera(s_observer_result const* result)
+void c_fullscreen_view::setup_camera(s_observer_result const* observer)
 {
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
 	csmemset(rasterizer_camera_modifiable, 0, sizeof(render_camera));
 
 	render_view_compute_fullscreen_bounds(rasterizer_camera_modifiable);
-	render_camera_build(rasterizer_camera_modifiable, nullptr);
+	render_camera_build(rasterizer_camera_modifiable, NULL);
 
 	real_rectangle2d frustum_bounds;
 	render_camera_build_viewport_frustum_bounds(rasterizer_camera_modifiable, &frustum_bounds);
@@ -162,11 +199,6 @@ void c_fullscreen_view::setup_camera(s_observer_result const* result)
 	render_projection* render_projection_modifiable = get_render_projection_modifiable();
 	render_projection const* rasterizer_projection = get_rasterizer_projection();
 	csmemcpy(render_projection_modifiable, rasterizer_projection, sizeof(render_projection));
-}
-
-void c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
-{
-	DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
 }
 
 void c_world_view::get_starting_cluster(s_cluster_reference* starting_cluster)
@@ -190,7 +222,6 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 	long height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
 	real aspect_ratio = (real)width / (real)height;
 
-	// cortana effect fov?
 	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(cortana_effect_get_fov_scale(), _real_epsilon);
 
 	if (squish_close_to_camera)
@@ -208,6 +239,29 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 
 	if (debug_static_first_person)
 		rasterizer_camera_modifiable->vertical_field_of_view = static_vertical_field_of_view;
+}
+
+void __thiscall c_first_person_view::render_albedo(long user_index)
+{
+	//INVOKE_CLASS_MEMBER(0x00A290F0, c_first_person_view, render_albedo, user_index);
+
+	constexpr dword k_first_person_squished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_squished_bit);
+	constexpr dword k_first_person_unsquished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_unsquished_bit);
+
+	c_view::sub_A28A90();
+	c_object_renderer::render_albedo(k_first_person_squished_flags);
+	c_view::sub_A28A40();
+	override_projection(false);
+	c_object_renderer::render_albedo(k_first_person_unsquished_flags);
+}
+
+void c_fullscreen_view::render_blank_frame(real_rgb_color const* background_color)
+{
+	//DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(background_color);
+
+	c_rasterizer::set_render_target(0, c_rasterizer::get_display_surface(), 0xFFFFFFFF);
+	c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
+	c_rasterizer::clear(1, real_rgb_color_to_pixel32(background_color), 1.0f, 1);
 }
 
 void __cdecl render_debug_frame_render()

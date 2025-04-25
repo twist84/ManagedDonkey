@@ -40,6 +40,8 @@ public:
 
 	static void __cdecl abort_current_view_stack();
 	static void __cdecl begin(c_view* view);
+	static void __cdecl sub_A28A40();
+	static void __cdecl sub_A28A90();
 	static void __cdecl end();
 	static long __cdecl get_current_stack_level();
 	static c_view* __cdecl top();
@@ -103,8 +105,8 @@ public:
 	void __thiscall render_();
 	static void render_debug_stuff_while_loading();
 
-	void setup_camera(s_observer_result const* result);
-	void render_blank_frame(real_rgb_color const* color);
+	void setup_camera(s_observer_result const* observer);
+	void render_blank_frame(real_rgb_color const* background_color);
 };
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
@@ -117,9 +119,13 @@ public:
 
 //protected:
 	bool m_using_stored_cluster;
+	byte pad;
 	s_cluster_reference m_stored_cluster;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
+static_assert(0x0 == OFFSETOF(c_world_view, m_using_stored_cluster) - sizeof(c_view));
+static_assert(0x1 == OFFSETOF(c_world_view, pad) - sizeof(c_view));
+static_assert(0x2 == OFFSETOF(c_world_view, m_stored_cluster) - sizeof(c_view));
 
 __interface IDirect3DSurface9;
 
@@ -173,6 +179,7 @@ struct c_first_person_view :
 {
 public:
 	void __thiscall override_projection(bool squish_close_to_camera);
+	void __thiscall render_albedo(long user_index);
 
 //protected:
 
