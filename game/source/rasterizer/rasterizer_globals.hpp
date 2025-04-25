@@ -49,6 +49,8 @@ struct s_rasterizer_timing_globals
 };
 static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
 
+extern real& global_z_near;
+extern real& global_z_far;
 extern s_rasterizer_globals& rasterizer_globals;
 extern s_rasterizer_timing_globals& g_rasterizer_timing_globals;
 
