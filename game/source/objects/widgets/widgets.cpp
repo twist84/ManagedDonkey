@@ -42,7 +42,11 @@
 //.text:00B9FFE0 ; void __cdecl widgets_object_submit_transparents(long)
 //.text:00BA00D0 ; void __cdecl widgets_render_debug(long)
 //.text:00BA0150 ; void __cdecl widgets_render_opaque(long, long)
-//.text:00BA01F0 ; void __cdecl widgets_render_unattached(long)
+
+void __cdecl widgets_render_unattached(long entry_point)
+{
+	INVOKE(0x00BA01F0, widgets_render_unattached, entry_point);
+}
 
 void __cdecl widgets_update(real game_seconds_elapsed)
 {
