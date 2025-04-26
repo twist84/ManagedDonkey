@@ -87,15 +87,15 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dbghelp.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
@@ -124,7 +124,7 @@ COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -133,8 +133,8 @@ COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dbghelp.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -163,7 +163,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -172,8 +172,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dbghelp.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
