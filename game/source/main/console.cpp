@@ -396,18 +396,18 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 			{
 				s_key_state* key = &console_globals.input_state.keys[key_index];
-				ASSERT(key->key_code != NONE);
+				ASSERT(key->ascii_code != _key_not_a_key);
 
-				if (key->ascii_code == _key_type_down && (key->key_code == _key_tilde || key->key_code == _key_f1))
+				if (key->key_type == _key_type_down && (key->ascii_code == _key_backquote || key->ascii_code == _key_f1))
 				{
 					console_close();
 					break;
 				}
-				else if (key->ascii_code == _key_type_up && key->key_code == _key_tab)
+				else if (key->key_type == _key_type_up && key->ascii_code == _key_tab)
 				{
 					console_complete();
 				}
-				else if (TEST_BIT(key->modifier_flags, _key_modifier_flag_control_key_bit) && key->ascii_code == _key_type_up && key->key_code == _key_v)
+				else if (TEST_BIT(key->modifier_flags, _key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->ascii_code == _key_v)
 				{
 					char buffer[256]{};
 					get_clipboard_as_text(buffer, NUMBEROF(buffer));
@@ -417,7 +417,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					console_token_buffer.clear();
 					break;
 				}
-				else if (key->ascii_code == _key_type_up && (key->key_code == _key_return || key->key_code == _keypad_enter))
+				else if (key->key_type == _key_type_up && (key->ascii_code == _key_return || key->ascii_code == _keypad_enter))
 				{
 					if (console_globals.input_state.result[0])
 					{
@@ -427,9 +427,9 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					}
 					break;
 				}
-				else if (key->ascii_code == _key_type_up && (key->key_code == _key_up_arrow || key->key_code == _key_down_arrow))
+				else if (key->key_type == _key_type_up && (key->ascii_code == _key_up_arrow || key->ascii_code == _key_down_arrow))
 				{
-					if (key->key_code == _key_up_arrow)
+					if (key->ascii_code == _key_up_arrow)
 						console_globals.selected_previous_command_index += 2;
 
 					short v4 = console_globals.selected_previous_command_index - 1;
@@ -458,7 +458,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					}
 					break;
 				}
-				else if (key->vk_code != NONE && key->ascii_code == _key_type_char)
+				else if (key->vk_code != NONE && key->key_type == _key_type_char)
 				{
 					csnzappendf(console_globals.input_state.result, NUMBEROF(console_globals.input_state.result), key->character);
 					break;
@@ -475,7 +475,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			s_key_state key{};
 			if (input_peek_key(&key, _input_type_game))
 			{
-				if (!key.repeating && !key.modifier_flags && key.ascii_code == _key_type_down && (key.key_code == _key_tilde || key.key_code == _key_f1))
+				if (!key.repeating && !key.modifier_flags && key.key_type == _key_type_down && (key.ascii_code == _key_tilde || key.ascii_code == _key_f1))
 				{
 					input_get_key(&key, _input_type_game);
 					console_open(false);

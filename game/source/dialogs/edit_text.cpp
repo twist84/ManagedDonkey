@@ -75,9 +75,9 @@ void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key)
 
 	edit_text_fix_selection(edit);
 
-	e_key_type key_type = (e_key_type)key->ascii_code;
-	e_input_key_code key_code = (e_input_key_code)key->key_code;
-	if (key_type == _key_type_down && key_code == _key_backspace)
+	e_key_type key_type = (e_key_type)key->key_type;
+	e_input_key_code ascii_code = (e_input_key_code)key->ascii_code;
+	if (key_type == _key_type_down && ascii_code == _key_backspace)
 	{
 		edit->buffer[edit->insertion_point_index - 1] = 0;
 	}

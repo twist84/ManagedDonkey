@@ -135,7 +135,7 @@ enum e_input_key_code
 	_key_question_mark = _key_forwardslash,
 	_key_tilde = _key_backquote,
 
-	_key_not_a_key = 0xFF
+	_key_not_a_key = NONE
 };
 
 enum e_input_type
@@ -344,8 +344,8 @@ static_assert(sizeof(key_state) == 0x4);
 struct key_stroke
 {
 	byte_flags modifier_flags;
-	char ascii_code;
-	short key_code;
+	char key_type;
+	short ascii_code;
 	bool repeating;
 };
 static_assert(sizeof(key_stroke) == 0x6);
@@ -354,8 +354,8 @@ static_assert(sizeof(key_stroke) == 0x6);
 struct s_key_state
 {
 	byte_flags modifier_flags;
-	long ascii_code;
-	short key_code;
+	long key_type;
+	short ascii_code;
 
 	// virtual-key code
 	// LOWORD(wParam);

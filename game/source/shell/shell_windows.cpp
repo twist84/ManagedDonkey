@@ -543,8 +543,8 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	s_key_state key
 	{
-		.ascii_code = k_key_type_none,
-		.key_code = _key_not_a_key,
+		.key_type = k_key_type_none,
+		.ascii_code = _key_not_a_key,
 		.vk_code = word(NONE),
 		.repeating = false
 	};
@@ -559,8 +559,8 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		key_code = virtual_to_key_table[wParam];
 		if (key_code != _key_not_a_key)
 		{
-			key.ascii_code = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
-			key.key_code = key_code;
+			key.key_type = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
+			key.ascii_code = key_code;
 			key.vk_code = word(NONE);
 			key_table = key_to_virtual_table;
 		}
@@ -570,8 +570,8 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		key_code = ascii_to_key_table[wParam];
 		if (key_code != _key_not_a_key)
 		{
-			key.ascii_code = _key_type_char;
-			key.key_code = key_code;
+			key.key_type = _key_type_char;
+			key.ascii_code = key_code;
 			key.vk_code = wParam;
 			key_table = key_to_ascii_table;
 		}
