@@ -7,18 +7,17 @@
 struct s_rasterizer_globals
 {
 	c_synchronized_int64 vblank_index;
-
-	c_synchronized_int64 __unknown8;
-
+	c_synchronized_int64 flip_vblank_index;
 	c_synchronized_long most_recent_delta;
 	c_synchronized_long most_recent_swap_index;
-
-	int32 frame_delta_index;
-	int32 frame_deltas[16];
-
+	volatile int32 next_flip_delta_index;
+	volatile int32 flip_deltas[15];
+	uint32 flip_index;
 	int32 presentation_interval;
-
-	uint8 __data[0x18];
+	bool initialized;
+	bool gpu_crashed;
+	int64 render_begin_timestamp;
+	int64 render_end_timestamp;
 };
 static_assert(sizeof(s_rasterizer_globals) == 0x78);
 

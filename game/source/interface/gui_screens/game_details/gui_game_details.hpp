@@ -15,6 +15,6 @@ public:
 	}
 
 //protected:
-	s_network_session_status_data m_status_data;
+	s_network_squad_status_data m_status_data;
 };
 static_assert(sizeof(c_gui_game_details) == 0x17F60);

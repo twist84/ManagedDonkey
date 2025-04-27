@@ -85,10 +85,10 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 	if (g_broadcast_search_globals.search_active)
 	{
-		int32 existing_session_index = -1;
-		int32 v7 = -1;
-		int32 v6 = -1;
-		int32 v5 = -1;
+		int32 existing_session_index = NONE;
+		int32 v7 = NONE;
+		int32 v6 = NONE;
+		int32 v5 = NONE;
 
 		for (int32 i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
@@ -96,25 +96,25 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 			if (session->session_valid)
 			{
-				if (transport_secure_address_compare(&session->status_data.host_address, &message->status_data.host_address))
+				if (transport_secure_address_compare(&session->status_data.game_details.description.host_address, &message->status_data.game_details.description.host_address))
 				{
 					ASSERT(existing_session_index == NONE);
 					existing_session_index = i;
 					break;
 				}
 			}
-			else if (v7 == -1)
+			else if (v7 == NONE)
 			{
 				v7 = i;
 			}
 		}
 
-		if (existing_session_index == -1)
+		if (existing_session_index == NONE)
 		{
-			if (v7 == -1)
+			if (v7 == NONE)
 			{
-				if (v6 == -1)
-					v5 = -1;
+				if (v6 == NONE)
+					v5 = NONE;
 				else
 					v5 = v6;
 			}
@@ -128,7 +128,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 			v5 = existing_session_index;
 		}
 
-		if (v5 == -1)
+		if (v5 == NONE)
 		{
 			event(_event_error, "networking:logic:broadcast-search: too many games on the network, can't store reply");
 		}
@@ -139,9 +139,9 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 			if (v5 != existing_session_index)
 				csmemset(session, 0, sizeof(s_available_session));
 
-			if (csmemcmp(&session->status_data, &message->status_data, sizeof(s_network_session_status_data)))
+			if (csmemcmp(&session->status_data, &message->status_data, sizeof(s_network_squad_status_data)))
 			{
-				csmemcpy(&session->status_data, &message->status_data, sizeof(s_network_session_status_data));
+				csmemcpy(&session->status_data, &message->status_data, sizeof(s_network_squad_status_data));
 
 				session->status_data_valid = true;
 				g_broadcast_search_globals.sessions_updated = true;
@@ -158,12 +158,12 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 	{
 		s_available_session const session = g_broadcast_search_globals.available_sessions[i];
 
-		if (session.session_valid && transport_secure_identifier_compare(&session.status_data.session_id, &message->status_data.session_id))
+		if (session.session_valid && transport_secure_identifier_compare(&session.status_data.game_details.description.id, &message->status_data.game_details.description.id))
 			add_session = true;
 	}
 
 	if (add_session)
-		XNetAddEntry(address, &message->status_data.host_address, &message->status_data.session_id);
+		XNetAddEntry(address, &message->status_data.game_details.description.host_address, &message->status_data.game_details.description.id);
 }
 
 bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway)

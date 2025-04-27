@@ -202,21 +202,15 @@ struct game_machine_options
 static_assert(sizeof(game_machine_options) == 0x128);
 #pragma pack(pop)
 
-struct s_network_session_status_data_player
-{
-	s_player_identifier identifier;
-	s_player_configuration configuration;
-};
-static_assert(sizeof(s_network_session_status_data_player) == 0x1628);
-
 struct game_player_options
 {
-	bool player_valid;
+	bool valid;
 	bool player_left_game;
 	int16 user_index;
 	int32 controller_index;
 	s_machine_identifier machine_identifier;
-	s_network_session_status_data_player player_data;
+	s_player_identifier player_identifier;
+	s_player_configuration configuration_data;
 };
 static_assert(sizeof(game_player_options) == 0x1640);
 

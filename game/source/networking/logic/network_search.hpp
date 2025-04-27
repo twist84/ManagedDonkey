@@ -14,7 +14,7 @@ struct s_available_session
 	s_transport_qos_result qos_result;
 	bool status_data_valid;
 	uint8 __data31[0x7];
-	s_network_session_status_data status_data;
+	s_network_squad_status_data status_data;
 };
 static_assert(sizeof(s_available_session) == 0x164F8);
 

@@ -184,8 +184,8 @@ void __cdecl unit_debug_ninja_rope(int32 unit_index)
 	{
 		if (collision.plane.n.k > 0.95f)
 		{
-			collision.position.z += 0.25f;
-			object_set_position(parent_index, &collision.position, NULL, NULL, NULL);
+			collision.point.z += 0.25f;
+			object_set_position(parent_index, &collision.point, NULL, NULL, NULL);
 		}
 	}
 }

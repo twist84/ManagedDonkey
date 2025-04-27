@@ -340,11 +340,8 @@ extern void cache_files_update_main_status();
 
 struct tag_iterator
 {
-	uint32 __unknown0;
-	uint32 __unknown4;
-	int32 datum_index;
-	int32 absolute_tag_index;
-	tag group_tag;
+	c_data_iterator<void/*s_tag_instance_datum*/> iterator;
+	tag key_group_tag;
 };
 static_assert(sizeof(tag_iterator) == 0x14);
 

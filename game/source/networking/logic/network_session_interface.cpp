@@ -338,7 +338,7 @@ bool __cdecl network_squad_session_boot_player(int32 player_index, e_network_ses
 	return INVOKE(0x00437D60, network_squad_session_boot_player, player_index, reason);
 }
 
-bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status)
+bool __cdecl network_squad_session_build_status(s_network_squad_status_data* game_status)
 {
 	return INVOKE(0x00437EA0, network_squad_session_build_status, game_status);
 }

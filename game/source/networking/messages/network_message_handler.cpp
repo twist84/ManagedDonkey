@@ -108,7 +108,7 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 	if (!network_life_cycle_in_system_link_advertisable_session(&in_system_link_advertisable_session))
 		return;
 
-	s_network_session_status_data game_status{};
+	s_network_squad_status_data game_status{};
 	if (!network_squad_session_build_status(&game_status))
 	{
 		event(_event_warning, "networking:messages:broadcast-search: unable to reply, cannot build local game status");
@@ -122,7 +122,7 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 		return;
 	}
 
-	game_status.update_host_player_identifier(&transport_security_globals.address);
+	game_status.update_host_player_identifier(&transport_security_globals.local_insecure_address);
 
 	s_network_message_broadcast_reply broadcast_reply =
 	{
@@ -1714,7 +1714,7 @@ void c_network_message_handler::handle_test(c_network_channel* channel, s_networ
 
 void c_network_message_handler::handle_directed_search(transport_address const* address, s_network_message_directed_search const* message)
 {
-	s_network_session_status_data game_status{};
+	s_network_squad_status_data game_status{};
 	if (!network_squad_session_build_status(&game_status))
 	{
 		event(_event_warning, "networking:messages:directed-search: unable to reply, cannot build local game status");

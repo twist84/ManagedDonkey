@@ -4,43 +4,44 @@
 
 enum
 {
-	k_rasterizer_memory_block_size_in_bytes = 64,
-
-	k_rasterizer_memory_cpu_memory_pool_size_max = 0x100000,
-	k_rasterizer_memory_cpu_puddle_size_max = 0x1
+	k_rasterizer_CPU_memory_pool_size_in_bytes = 0x100000,
+	k_rasterizer_CPU_memory_puddle_size_in_bytes = 0x1,
+	k_rasterizer_GPU_memory_pool_count = 2,
+	k_rasterizer_GPU_memory_pool_alignment = 64,
 };
 
 struct s_rasterizer_memory_cost
 {
-	uint16 CPU_memory_blocks; // CPU_memory_in_bytes / k_rasterizer_memory_block_size_in_bytes
-	uint16 GPU_memory_blocks; // GPU_memory_in_bytes / k_rasterizer_memory_block_size_in_bytes
+	uint16 CPU_memory_blocks; // CPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
+	uint16 GPU_memory_blocks; // GPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
 	real32 GPU_frontend_cost;
 };
 static_assert(sizeof(s_rasterizer_memory_cost) == 0x8);
 
+struct s_rasterizer_GPU_memory_pool
+{
+	void* data;
+	uint32 fence_handle;
+	bool fence_enabled;
+};
+
 struct s_rasterizer_memory_globals
 {
 	bool initialized;
-
-	uint8 __data1[0x7];
-
+	void* physical_memory;
 	int32 CPU_memory_pool_size;
-	uint8 CPU_memory_pool[k_rasterizer_memory_cpu_memory_pool_size_max];
-	int32 __unknown10000C; // CPU_memory_pool_size_used?
-
-	int32 CPU_puddle_size;
-	uint8 CPU_puddle[k_rasterizer_memory_cpu_puddle_size_max];
-
-	int32 __unknown100018;
+	uint8 CPU_memory_pool[k_rasterizer_CPU_memory_pool_size_in_bytes];
+	int32 CPU_memory_pool_max_size_reached;
+	int32 CPU_memory_puddle_size;
+	uint8 CPU_memory_puddle[k_rasterizer_CPU_memory_puddle_size_in_bytes];
+	int32 GPU_memory_pool_index;
 	int32 GPU_memory_pool_size;
 	int32 GPU_memory_pool_size_max;
-
-	uint8 __data100024[0x18];
-
-	bool __unknown10003C;
+	__declspec(align(8)) s_rasterizer_GPU_memory_pool GPU_memory_pools[k_rasterizer_GPU_memory_pool_count];
+	bool GPU_memory_pool_is_dirty;
 	real32 GPU_frontend_remaining;
 };
-static_assert(sizeof(s_rasterizer_memory_globals) == 0x100044);
+static_assert(sizeof(s_rasterizer_memory_globals) == 0x100048);
 
 extern s_rasterizer_memory_globals& rasterizer_memory_globals;
 

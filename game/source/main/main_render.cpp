@@ -765,7 +765,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		game_engine_render_window_watermarks(NONE);
 
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
-	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, int16, __cdecl)()));
+	//game_engine_render_frame_watermarks_for_controller((e_controller_index)DECLFUNC(0x00A94930, int16, __cdecl)());
 	game_engine_render_frame_watermarks_for_controller(_controller0);
 }
 

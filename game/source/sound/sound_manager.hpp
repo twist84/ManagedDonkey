@@ -24,15 +24,21 @@ struct s_sound_listener
 };
 static_assert(sizeof(s_sound_listener) == 0x50);
 
+struct s_sound_azimuth_image
+{
+	real32 start_angle;
+	real32 end_angle;
+	real32 pitch_factor;
+	real32 gain_fraction;
+};
+static_assert(sizeof(s_sound_azimuth_image) == 0x10);
+
 struct s_sound_manager_reverb
 {
-	real32 __unknown0;
-	real32 __unknown4;
-	int32 __unknown8;
-	real32 __unknownC;
-	real32 __unknown10;
-	real32 __unknown14;
-	real32 __unknown18;
+	real32 interpolation_speed;
+	real32 reverb_gain;
+	int32 sound_environment_index;
+	s_sound_azimuth_image azimuth_image;
 };
 static_assert(sizeof(s_sound_manager_reverb) == 0x1C);
 

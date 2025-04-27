@@ -39,7 +39,7 @@ bool __cdecl c_network_message_player_properties::decode(c_bitstream* packet, in
 
 	packet->read_raw_data("session-id", &message->session_id, 128);
 	message->player_update_number = packet->read_integer("player-update-number", 32);
-	message->controller_index = packet->read_integer("controller-index", 2);
+	message->controller_index = (e_controller_index)packet->read_integer("controller-index", 2);
 	bool success = player_configuration_client_decode(packet, &message->player_data.client, 0);
 
 	{
@@ -59,7 +59,7 @@ bool __cdecl c_network_message_player_properties::decode(c_bitstream* packet, in
 			message->player_data.host_partial.consumables[consumable_index] = static_cast<int8>(packet->read_integer("consumable", 8));
 	}
 
-	message->player_voice = packet->read_integer("player-voice", 32);
+	message->player_voice_settings = packet->read_integer("player-voice", 32);
 
 	return success && !packet->error_occurred() && VALID_INDEX(message->controller_index, k_number_of_controllers);
 }
@@ -125,7 +125,7 @@ void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, in
 			packet->write_integer("consumable", message->player_data.host_partial.consumables[consumable_index], 8);
 	}
 
-	packet->write_integer("player-voice", message->player_voice, 32);
+	packet->write_integer("player-voice", message->player_voice_settings, 32);
 }
 
 void __cdecl c_network_message_player_refuse::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)

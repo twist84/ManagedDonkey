@@ -197,9 +197,9 @@ struct s_network_message_player_properties
 {
 	s_transport_secure_identifier session_id;
 	int32 player_update_number;
-	int32 controller_index;
+	e_controller_index controller_index;
 	s_player_configuration_for_player_properties player_data;
-	int32 player_voice;
+	int32 player_voice_settings;
 };
 static_assert(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_patial));
 

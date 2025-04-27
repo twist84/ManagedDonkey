@@ -49,16 +49,18 @@ void rasterizer_render_debug_frame_deltas()
 	bounds.x0 = int16(bounds.x1 - (50.0f * draw_string_get_glyph_scaling_for_display_settings()));
 	bounds.y0 = int16(bounds.y1 - (75.0f * draw_string_get_glyph_scaling_for_display_settings()));
 
-	for (int32 i = (rasterizer_globals.frame_delta_index + 14) % 15; i != rasterizer_globals.frame_delta_index; i = (i + 14) % 15)
+	for (int32 flip_delta_index = (rasterizer_globals.next_flip_delta_index + 14) % 15;
+		flip_delta_index != rasterizer_globals.next_flip_delta_index;
+		flip_delta_index = (flip_delta_index + 14) % 15)
 	{
 		bounds.y0 -= 20;
 		bounds.y1 -= 20;
 
 		char str[8]{};
-		csnzprintf(str, 4, "%d", rasterizer_globals.frame_deltas[i]);
+		csnzprintf(str, 4, "%d", rasterizer_globals.flip_deltas[flip_delta_index]);
 
 		real_argb_color const* color = global_real_argb_green;
-		if (rasterizer_globals.frame_deltas[i] > 2)
+		if (rasterizer_globals.flip_deltas[flip_delta_index] > 2)
 			color = global_real_argb_red;
 
 		draw_string.set_justification(_text_justification_right);

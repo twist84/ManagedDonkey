@@ -5,55 +5,59 @@
 
 struct s_transport_unique_identifier
 {
-	uint32 part0;
-	uint16 part4[2];
+	uint8 data[0x8];
 };
 static_assert(sizeof(s_transport_unique_identifier) == 0x8);
 
-struct s_transport_secure_identifier :
-	s_transport_unique_identifier
+struct s_transport_secure_identifier
 {
-	uint8 part8[8];
+	uint8 data[0x10];
 };
 static_assert(sizeof(s_transport_secure_identifier) == 0x10);
 
-struct s_transport_secure_address :
-	s_transport_unique_identifier
+struct s_transport_secure_address
 {
-	uint8 part8[8];
+	uint8 data[0x10];
 };
 static_assert(sizeof(s_transport_secure_address) == 0x10);
 
-struct s_transport_secure_key :
-	s_transport_unique_identifier
+struct s_transport_secure_key
 {
-	uint8 part8[8];
+	uint8 data[0x10];
 };
 static_assert(sizeof(s_transport_secure_key) == 0x10);
 
 struct s_transport_session_description
 {
 	s_transport_secure_identifier id;
-	s_transport_secure_address address;
+	s_transport_secure_address host_address;
 	s_transport_secure_key key;
 };
 static_assert(sizeof(s_transport_session_description) == 0x30);
 
-#pragma pack(push, 1)
+struct s_transport_security_key
+{
+	bool active;
+	bool generated_locally;
+	int32 key_platform;
+	s_transport_secure_identifier key_id;
+	s_transport_secure_key key;
+};
+static_assert(sizeof(s_transport_security_key) == 0x28);
+
 struct s_transport_security_globals
 {
 	bool initialized;
-	bool address_resolved;
-	s_transport_secure_address secure_address;
-	uint8 __unknown12;
-	uint8 __unknown13;
-	transport_address address;
-	s_transport_secure_identifier identifier;
-	s_transport_secure_address local_unique_identifier;
-	uint8 __data48[0x190];
+	bool local_address_valid;
+	s_transport_secure_address local_secure_address;
+	transport_address local_insecure_address;
+	bool local_machine_nonce_valid;
+	uint64 local_machine_nonce;
+	s_transport_unique_identifier local_unique_identifier;
+	uint8 pad[8];
+	s_transport_security_key keys[10];
 };
 static_assert(sizeof(s_transport_security_globals) == 0x1D8);
-#pragma pack(pop)
 
 extern s_transport_security_globals& transport_security_globals;
 
@@ -90,9 +94,4 @@ extern void __cdecl transport_security_startup();
 //extern s_transport_unique_identifier const* __cdecl transport_unique_identifier_get();
 //extern char const* __cdecl transport_unique_identifier_get_string(s_transport_unique_identifier const*);
 extern void __cdecl transport_unique_identifier_resolve();
-
-extern void transport_secure_identifier_from_string(wchar_t const* str, s_transport_secure_identifier& secure_identifier);
-extern void transport_secure_identifier_from_string(char const* str, s_transport_secure_identifier& secure_identifier);
-extern void transport_secure_address_from_string(wchar_t const* str, s_transport_secure_address& secure_address);
-extern void transport_secure_address_from_string(char const* str, s_transport_secure_address& secure_address);
 

@@ -20,16 +20,14 @@ protected:
 	c_simulation_world* m_world;
 	c_network_observer* m_observer;
 	c_network_session* m_session;
-	int32 m_session_local_update_number;
+	int32 m_machine_last_local_membership_update_number;
 	int32 m_machine_last_membership_update_number;
-
-	int32 __unknown18;
-
-	uint32 m_local_machine_valid_mask;
+	int32 m_player_last_local_membership_update_number;
+	uint32 m_machine_valid_mask;
 	int32 m_local_machine_index;
 	s_machine_identifier m_machine_identifiers[17];
 	bool m_machine_update_pending;
-	s_player_collection player_collection;
+	s_player_collection m_player_collection;
 	uint32 m_player_collection_machine_valid_mask;
 	s_machine_identifier m_player_collection_machine_identifiers[17];
 	bool m_changes_pending_acknowledgement;

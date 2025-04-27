@@ -3131,9 +3131,6 @@
     <ClInclude Include="source\tag_files\tag_resource_cache_stoler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\networking\session\network_session_state.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\cseries\stack_walk_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

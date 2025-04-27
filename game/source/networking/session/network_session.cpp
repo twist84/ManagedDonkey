@@ -547,9 +547,9 @@ void update_player_data(s_player_configuration_for_player_properties* player_dat
 	player_data->host_partial.consumables = weapon_loadout.consumables;
 }
 
-bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uint32 player_voice)
+bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uint32 player_voice_settings)
 {
-	//return INVOKE_CLASS_MEMBER(0x0045DD20, c_network_session, peer_request_player_desired_properties_update, player_update_number, controller_index, player_data_from_client, player_voice);
+	//return INVOKE_CLASS_MEMBER(0x0045DD20, c_network_session, peer_request_player_desired_properties_update, player_update_number, controller_index, player_data_from_client, player_voice_settings);
 
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 	ASSERT(player_data_from_client);
@@ -585,7 +585,7 @@ bool c_network_session::peer_request_player_desired_properties_update(int32 play
 			player_update_number,
 			controller_index,
 			&player_data,
-			player_voice);
+			player_voice_settings);
 	}
 	else
 	{
@@ -599,7 +599,7 @@ bool c_network_session::peer_request_player_desired_properties_update(int32 play
 		message.player_update_number = player_update_number;
 		message.controller_index = controller_index;
 		message.player_data = player_data;
-		message.player_voice = player_voice;
+		message.player_voice_settings = player_voice_settings;
 
 		int32 observer_channel_index = m_session_membership.m_local_peer_state[m_session_membership.host_peer_index()].channel_index;
 		m_observer->observer_channel_send_message(m_session_index, observer_channel_index, false, _network_message_player_properties, sizeof(message), &message);
@@ -782,7 +782,7 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 					message->player_update_number,
 					message->controller_index,
 					&message->player_data,
-					message->player_voice);
+					message->player_voice_settings);
 
 				event(_event_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
 					managed_session_get_id_string(m_managed_session_index),

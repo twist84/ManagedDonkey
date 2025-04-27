@@ -260,7 +260,7 @@ void collision_debug_render()
 					int32 material_index = surface_reference.get_material_index();
 					if (material_index != NONE)
 					{
-						structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+						structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 						structure_collision_material& collision_material = structure->collision_materials[material_index];
 						if (collision_material.seam_mapping_index != NONE)
 							seam_material_index = collision_material.seam_mapping_index;
@@ -273,7 +273,7 @@ void collision_debug_render()
 				break;
 				case _collision_result_instanced_geometry:
 				{
-					structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+					structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 					structure_instanced_geometry_instance& instance = structure->instanced_geometry_instances[collision.instanced_geometry_instance_index];
 					matrix = &instance.matrix;
 		
@@ -281,7 +281,7 @@ void collision_debug_render()
 					int32 material_index = surface_reference.get_material_index();
 					if (material_index != NONE)
 					{
-						structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+						structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 						structure_collision_material& collision_material = structure->collision_materials[material_index];
 		
 						int32 render_method_index = collision_material.render_method.index;
@@ -311,8 +311,8 @@ void collision_debug_render()
 				}
 			
 				render_debug_vector(true, &debug_point, &debug_vector_scaled, collision.t, global_real_argb_red);
-				render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
-				render_debug_vector(true, &collision.position, &collision.plane.n, 0.25f, global_real_argb_red);
+				render_debug_point(true, &collision.point, 0.125f, global_real_argb_red);
+				render_debug_vector(true, &collision.point, &collision.plane.n, 0.25f, global_real_argb_red);
 			
 				if (collision.collision_bsp_reference.valid())
 				{
@@ -321,11 +321,11 @@ void collision_debug_render()
 			
 				if (collision_result_type == _collision_result_structure && TEST_BIT(collision.flags, _collision_surface_conveyor_bit))
 				{
-					structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+					structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 					structure_collision_material& collision_material = structure->collision_materials[collision.material_index];
 					structure_conveyor_surface& conveyor_surface = structure->conveyor_surfaces[collision_material.conveyor_surface_index];
-					render_debug_vector(true, &collision.position, &conveyor_surface.u, 1.0f, global_real_argb_green);
-					render_debug_vector(true, &collision.position, &conveyor_surface.v, 1.0f, global_real_argb_blue);
+					render_debug_vector(true, &collision.point, &conveyor_surface.u, 1.0f, global_real_argb_green);
+					render_debug_vector(true, &collision.point, &conveyor_surface.v, 1.0f, global_real_argb_blue);
 				}
 			
 				g_collision_debug_status_lines_render = true;
@@ -344,7 +344,7 @@ void collision_debug_render()
 				break;
 				case _collision_result_instanced_geometry:
 				{
-					structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+					structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 					structure_instanced_geometry_instance& instance = structure->instanced_geometry_instances[collision.instanced_geometry_instance_index];
 					g_collision_debug_status_lines[0].text.print("instanced geometry #%d ('%s')", collision.instanced_geometry_instance_index, instance.name.get_string());
 				}
@@ -361,10 +361,10 @@ void collision_debug_render()
 				break;
 				}
 			
-				c_global_material_type material_type = collision.material_type;
+				c_global_material_type material_type = collision.global_material_type;
 				if (collision_debug_water_proxy)
 				{
-					//material_type = global_material_resolve_underwater_material_proxy(collision.material_type, &collision.position);
+					//material_type = global_material_resolve_underwater_material_proxy(collision.global_material_type, &collision.point);
 				}
 			
 				s_global_material_definition* material = global_get_material(material_type);
@@ -380,7 +380,7 @@ void collision_debug_render()
 			
 				g_collision_debug_status_lines[1].text.print("%s%s (shader: %s)",
 					seam_material_string.get_string(),
-					material_type != collision.material_type ? "(underwater proxy)" : "",
+					material_type != collision.global_material_type ? "(underwater proxy)" : "",
 					shader_name.get_string());
 			
 				if (collision.collision_bsp_reference.valid())
@@ -420,9 +420,9 @@ void collision_debug_render()
 					collision.t* magnitude3d(&debug_vector_scaled));
 
 				g_collision_debug_status_lines[5].text.print("position %f %f %f",
-					collision.position.x,
-					collision.position.y,
-					collision.position.z);
+					collision.point.x,
+					collision.point.y,
+					collision.point.z);
 
 				g_collision_debug_status_lines[6].text.print("normal %f %f %f",
 					collision.plane.n.i,
@@ -442,8 +442,8 @@ void collision_debug_render()
 			}
 			else
 			{
-				render_debug_line(true, &debug_point, &collision.position, global_real_argb_green);
-				render_debug_point(true, &collision.position, 0.125f, global_real_argb_green);
+				render_debug_line(true, &debug_point, &collision.point, global_real_argb_green);
+				render_debug_point(true, &collision.point, 0.125f, global_real_argb_green);
 			}
 		}
 		else

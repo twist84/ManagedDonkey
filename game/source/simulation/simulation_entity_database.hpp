@@ -29,12 +29,12 @@ public:
 
 protected:
 	bool m_initialized;
-	uint8 __unknown1;
+	bool m_resetting;
 	c_simulation_world* m_world;
 	c_replication_entity_manager* m_entity_manager;
 	c_simulation_type_collection* m_type_collection;
-	c_static_array<s_simulation_entity, 1024> m_entities;
-	c_simulation_event_handler m_event_handler;
+	s_simulation_entity m_entity_data[1024];
 };
-static_assert(sizeof(c_simulation_entity_database) == 0xC028);
+static_assert(sizeof(c_simulation_entity_database) == 0xC010);
+//static_assert(sizeof(c_simulation_entity_database) == 0xC028);
 

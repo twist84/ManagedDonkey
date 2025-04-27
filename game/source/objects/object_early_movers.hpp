@@ -4,51 +4,32 @@
 
 #define MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP 32
 
-struct s_object_early_mover
-{
-	// object_early_mover_update
-	real_vector3d update_linear_velocity;
-	real_vector3d update_angular_velocity;
-	real_point3d update_center_of_mass;
-
-	// object_early_mover_move
-	real_point3d center_of_mass_copy;
-	real_point3d center_of_mass;
-	real_vector3d linear_velocity_copy;
-	real_vector3d linear_velocity;
-	real_vector3d angular_velocity_copy;
-	real_vector3d angular_velocity;
-	real_matrix4x3 transform_copy;
-	real_matrix4x3 transform;
-	real_matrix4x3 inverse_transform;
-	bool __unknown107;
-	bool __unknown108;
-
-	// object_early_mover_update
-	bool __unknown109;
-
-	// object_early_mover_update
-	int32 collision_model_bsp_info_count;
-	union packed_index_t
-	{
-		struct
-		{
-			uint8 node_index;
-			uint8 bsp_index;
-			uint8 permutation_index;
-			uint8 region_index;
-		};
-
-		uint32 value;
-	};
-	c_static_array<packed_index_t, 8> collision_model_bsp_info;
-};
-static_assert(sizeof(s_object_early_mover) == 0x130);
-
 struct s_object_early_movers_globals
 {
-	s_object_early_mover meta[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
-	int32 object_indices[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
+	struct s_meta
+	{
+		real_vector3d current_linear_velocity;
+		real_vector3d current_angular_velocity;
+		real_point3d current_center_of_mass;
+		real_point3d last_frame_center_of_mass;
+		real_point3d frame_center_of_mass;
+		real_vector3d last_frame_linear_velocity;
+		real_vector3d frame_linear_velocity;
+		real_vector3d last_frame_angular_velocity;
+		real_vector3d frame_angular_velocity;
+		real_matrix4x3 last_frame_transform;
+		real_matrix4x3 frame_transform;
+		real_matrix4x3 step_transform;
+		bool valid_last_frame_transform;
+		bool valid_frame_transform;
+		bool valid_current_velocities;
+		int32 bsp_reference_count;
+		c_static_array<uint32, 8> bsp_references;
+	};
+	static_assert(sizeof(s_meta) == 0x130);
+
+	s_meta meta[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
+	int32 object_indexes[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
 	int32 object_index_count;
 	bool map_initialized;
 };

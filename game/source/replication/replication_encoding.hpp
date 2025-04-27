@@ -41,17 +41,12 @@ struct s_player_motion
 {
 	uint32 control_context;
 	uint8 control_context_identifier;
-	real_euler_angles2d aiming_angles;
+	real_euler_angles2d desired_facing_angles;
 	real_point2d throttle;
 	uint16 motion_flags;
 	s_unit_weapon_set weapon_set;
-	uint16 zoom_level;
-
-	// 0: primary, 1: secondary
-	bool primary_predicted_fire[2];
-
-	// 0: primary, 1: secondary
-	bool secondary_predicted_fire[2];
+	int16 zoom_level;
+	bool predicted_weapon_fire[2][2];
 
 	bool motion_sensor_velocity_threshold_exceeded;
 	bool __unknown25;

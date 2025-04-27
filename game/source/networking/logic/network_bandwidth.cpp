@@ -63,7 +63,7 @@ bool __cdecl network_bandwidth_initialize(c_network_observer* observer, s_bandwi
 	//network_bandwidth_globals.online_network_environment = false;
 	//network_bandwidth_globals.estimated_bandwidth_bps_available = configuration;
 	//network_bandwidth_globals.estimated_bandwidth_bps = NONE;
-	//network_bandwidth_globals.estimated_host_capacity_machines = 17; // k_network_maximum_machines_per_session
+	//network_bandwidth_globals.estimated_host_capacity_machines = k_network_maximum_machines_per_session;
 	//network_bandwidth_globals.data = &observer->quality_statistics_get()->network_statistics;
 	//network_bandwidth_globals.initialized = true;
 }

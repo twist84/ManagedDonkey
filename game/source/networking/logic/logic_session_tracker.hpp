@@ -12,7 +12,7 @@ struct s_network_session_tracker_session_data
 	char name[16];
 	s_transport_session_description description;
 	s_transport_qos_result qos_result;
-	s_network_session_status_data status_data;
+	s_network_squad_status_data status_data;
 	int32 session_desirability;
 };
 static_assert(sizeof(s_network_session_tracker_session_data) == 0x16524);
@@ -38,7 +38,7 @@ struct s_network_session_tracker_session
 	int32 qos_attempt_target_index;
 	int32 qos_attempt_target_status;
 	s_transport_qos_result qos_result;
-	s_network_session_status_data qos_data;
+	s_network_squad_status_data qos_data;
 	uint32 time;
 	bool __unknown16544;
 	int32 session_desirability;

@@ -4,8 +4,11 @@
 
 #define INVALID_TEXTURE_REF_HANDLE -1
 
+enum e_character_data_index;
 struct bitmap_data;
+struct s_font_character;
 __interface IDirect3DTexture9;
+
 struct c_rasterizer_texture_ref
 {
 public:
@@ -44,31 +47,31 @@ static_assert(sizeof(c_rasterizer_texture_ref) == 0x4);
 
 struct s_hardware_character
 {
-	int32 character_data_index;
-	int32 __unknown4;
-	int32 __unknown8;
-	int16 __unknownC;
-	int16 __unknownE;
-	int16 __unknown10;
-	int16 __unknown12;
+	uint32 character_key;
+	e_character_data_index character_data_index;
+	s_font_character const* font_character;
+	int16 prev_character_index;
+	int16 next_character_index;
+	int16 x0;
+	int16 y0;
 };
 static_assert(sizeof(s_hardware_character) == 0x14);
 
 struct s_hardware_character_cache_globals
 {
 	bool initialized;
-	uint8 __pad1[0x3];
-	int32 __unknown4;
-	int32 __unknown8;
-	int32 __unknownC;
-	int32 __unknown10;
-	int32 __unknown14;
+	bool pad[0x3];
+	int32 read_index;
+	int32 write_index;
+	int32 x0;
+	int32 y0;
+	int32 maximum_character_height;
 	bitmap_data* bitmap;
 	c_rasterizer_texture_ref hardware_format;
-	real32 __unknown20;
-	real32 __unknown24;
-	c_static_array<int16, 512> __unknown28;
-	c_static_array<s_hardware_character, 512> hardware_characters;
+	real32 one_over_bitmap_width;
+	real32 one_over_bitmap_height;
+	c_static_array<int16, 512> hash_buckets;
+	c_static_array<s_hardware_character, 512> hardware_character_data;
 };
 static_assert(sizeof(s_hardware_character_cache_globals) == 0x2C28);
 

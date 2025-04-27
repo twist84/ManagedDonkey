@@ -36,13 +36,109 @@ struct s_network_message_directed_search :
 };
 static_assert(sizeof(s_network_message_directed_search) == sizeof(s_network_message_broadcast_search));
 
-#pragma pack(push, 1)
-struct s_network_session_status_data
+enum e_network_session_qos_status_data_type
+{
+	_network_session_qos_status_data_none = 0,
+	_network_session_qos_status_data_lobby_or_game,
+	_network_session_qos_status_data_matchmaking,
+
+	k_network_session_qos_status_data_type_count,
+	k_network_session_qos_status_data_type_bits
+};
+
+struct s_player_information
+{
+	s_player_identifier identifier;
+	s_player_configuration configuration_data;
+};
+static_assert(sizeof(s_player_information) == 0x1628);
+
+struct s_network_squad_status_data_game_details
+{
+	e_network_session_class session_class;
+	e_network_session_type session_type;
+	int32 session_privacy_mode; // e_network_game_privacy
+	wchar_t session_name[32];
+	int16 life_cycle_state;
+	s_transport_session_description description;
+	int16 open_public_slot_count;
+	int16 open_private_slot_count;
+	int16 current_public_players;
+	int16 current_private_players;
+	int16 game_mode;
+	int16 game_state;
+	int16 network_game_type;
+	int16 connection_quality;
+	char playlist_name[16];
+	e_game_engine_type game_engine_type;
+	wchar_t game_engine_variant_name[16];
+	e_campaign_id campaign_id;
+	e_campaign_difficulty_level campaign_difficulty_level;
+	e_map_id map_id;
+	int16 insertion_point;
+	wchar_t map_variant_name[16];
+	wchar_t saved_film_name[16];
+	bool game_has_teams;
+	int16 game_team_count;
+	int16 target_score;
+	int16 current_score;
+	int16 player_count;
+	int32 : 32;
+	s_player_information players[16];
+	int32 player_encoded_count;
+	int32 game_timer_type;
+	int32 game_timer_seconds;
+	uint32 valid_team_mask;
+	int32 team_scores[8];
+};
+static_assert(sizeof(s_network_squad_status_data_game_details) == 0x163D0);
+static_assert(0x00000 == OFFSETOF(s_network_squad_status_data_game_details, session_class));
+static_assert(0x00004 == OFFSETOF(s_network_squad_status_data_game_details, session_type));
+static_assert(0x00008 == OFFSETOF(s_network_squad_status_data_game_details, session_privacy_mode));
+static_assert(0x0000C == OFFSETOF(s_network_squad_status_data_game_details, session_name));
+static_assert(0x0004C == OFFSETOF(s_network_squad_status_data_game_details, life_cycle_state));
+static_assert(0x0004E == OFFSETOF(s_network_squad_status_data_game_details, description));
+static_assert(0x0007E == OFFSETOF(s_network_squad_status_data_game_details, open_public_slot_count));
+static_assert(0x00080 == OFFSETOF(s_network_squad_status_data_game_details, open_private_slot_count));
+static_assert(0x00082 == OFFSETOF(s_network_squad_status_data_game_details, current_public_players));
+static_assert(0x00084 == OFFSETOF(s_network_squad_status_data_game_details, current_private_players));
+static_assert(0x00086 == OFFSETOF(s_network_squad_status_data_game_details, game_mode));
+static_assert(0x00088 == OFFSETOF(s_network_squad_status_data_game_details, game_state));
+static_assert(0x0008A == OFFSETOF(s_network_squad_status_data_game_details, network_game_type));
+static_assert(0x0008C == OFFSETOF(s_network_squad_status_data_game_details, connection_quality));
+static_assert(0x0008E == OFFSETOF(s_network_squad_status_data_game_details, playlist_name));
+static_assert(0x000A0 == OFFSETOF(s_network_squad_status_data_game_details, game_engine_type));
+static_assert(0x000A4 == OFFSETOF(s_network_squad_status_data_game_details, game_engine_variant_name));
+static_assert(0x000C4 == OFFSETOF(s_network_squad_status_data_game_details, campaign_id));
+static_assert(0x000C8 == OFFSETOF(s_network_squad_status_data_game_details, campaign_difficulty_level));
+static_assert(0x000CC == OFFSETOF(s_network_squad_status_data_game_details, map_id));
+static_assert(0x000D0 == OFFSETOF(s_network_squad_status_data_game_details, insertion_point));
+static_assert(0x000D2 == OFFSETOF(s_network_squad_status_data_game_details, map_variant_name));
+static_assert(0x000F2 == OFFSETOF(s_network_squad_status_data_game_details, saved_film_name));
+static_assert(0x00112 == OFFSETOF(s_network_squad_status_data_game_details, game_has_teams));
+static_assert(0x00114 == OFFSETOF(s_network_squad_status_data_game_details, game_team_count));
+static_assert(0x00116 == OFFSETOF(s_network_squad_status_data_game_details, target_score));
+static_assert(0x00118 == OFFSETOF(s_network_squad_status_data_game_details, current_score));
+static_assert(0x0011A == OFFSETOF(s_network_squad_status_data_game_details, player_count));
+static_assert(0x00120 == OFFSETOF(s_network_squad_status_data_game_details, players));
+static_assert(0x163A0 == OFFSETOF(s_network_squad_status_data_game_details, player_encoded_count));
+static_assert(0x163A4 == OFFSETOF(s_network_squad_status_data_game_details, game_timer_type));
+static_assert(0x163A8 == OFFSETOF(s_network_squad_status_data_game_details, game_timer_seconds));
+static_assert(0x163AC == OFFSETOF(s_network_squad_status_data_game_details, valid_team_mask));
+static_assert(0x163B0 == OFFSETOF(s_network_squad_status_data_game_details, team_scores));
+
+struct s_network_squad_status_data_matchmaking
+{
+	s_matchmaking_gather_party_properties gather_party_properties;
+};
+static_assert(sizeof(s_network_squad_status_data_matchmaking) == 0xD4);
+
+struct s_network_squad_status_data
 {
 	struct s_header
 	{
-		int16 protocol;
-		int16 platform;
+		int16 network_protocol_version;
+		int16 network_platform;
 		int32 executable_type;
 		int32 executable_version;
 		int32 compatible_version;
@@ -50,52 +146,13 @@ struct s_network_session_status_data
 	static_assert(sizeof(s_header) == 0x10);
 
 	s_header header;
-	c_enum<e_network_session_mode, int32, _network_session_mode_none, k_network_session_mode_count> session_mode;
+	e_network_session_qos_status_data_type session_mode;
 	uint8 : 8;
 	uint8 : 8;
 	uint8 : 8;
 	uint8 : 8;
-	c_enum<e_network_session_class, int32, _network_session_class_offline, k_network_session_class_count> session_class;
-	c_enum<e_network_session_type, int32, _network_session_type_none, k_network_session_type_count> session_type;
-	int32 privacy_mode;
-	c_static_wchar_string<32> session_name;
-	c_enum<e_life_cycle_state, int16, _life_cycle_state_none, k_life_cycle_state_count> life_cycle_state;
-	s_transport_secure_identifier session_id;
-	s_transport_secure_address host_address;
-	s_transport_secure_key key;
-	int16 public_slots;
-	int16 private_slots;
-	int16 public_players;
-	int16 private_players;
-	c_enum<e_session_game_mode, int16, _session_game_mode_none, k_session_game_mode_count> game_mode;
-	int16 game_state;
-	c_enum<e_network_game_type, int16, _network_game_type_none, k_network_game_type_count> network_game_type;
-	int16 connection_quality;
-	c_static_string<16> playlist_name;
-	uint8 : 8;
-	uint8 : 8;
-	e_game_engine_type game_engine_type;
-	c_static_wchar_string<16> game_engine_variant_name;
-	e_campaign_id campaign_id;
-	e_campaign_difficulty_level campaign_difficulty_level;
-	e_map_id map_id;
-	int16 insertion_point;
-	c_static_wchar_string<16> map_variant_name;
-	c_static_wchar_string<16> saved_film_name;
-	bool game_has_teams;
-	uint8 : 8;
-	int16 maximum_team_count;
-	int16 score_to_win_round;
-	int16 best_player_score;
-	int16 player_count;
-	int32 __unknown134;
-	c_static_array<s_network_session_status_data_player, 16> players;
-	int32 player_encoded_count;
-	int32 game_timer_type;
-	int32 game_timer_seconds;
-	uint32 team_mask;
-	c_static_array<int32, 8> team_scores;
-	s_matchmaking_gather_party_properties gather_party_properties;
+	s_network_squad_status_data_game_details game_details;
+	s_network_squad_status_data_matchmaking matchmaking;
 	uint8 : 8;
 	uint8 : 8;
 	uint8 : 8;
@@ -103,17 +160,20 @@ struct s_network_session_status_data
 
 	void update_host_player_identifier(transport_address const* address)
 	{
-		players[0].identifier = address;
+		game_details.players[0].identifier = address;
 	}
 };
-static_assert(sizeof(s_network_session_status_data) == 0x164C0);
-#pragma pack(pop)
+static_assert(sizeof(s_network_squad_status_data) == 0x164C0);
+static_assert(0x00000 == OFFSETOF(s_network_squad_status_data, header));
+static_assert(0x00010 == OFFSETOF(s_network_squad_status_data, session_mode));
+static_assert(0x00018 == OFFSETOF(s_network_squad_status_data, game_details));
+static_assert(0x163E8 == OFFSETOF(s_network_squad_status_data, matchmaking));
 
 struct s_network_message_broadcast_reply
 {
 	uint16 protocol_version;
 	uint64 search_nonce;
-	s_network_session_status_data status_data;
+	s_network_squad_status_data status_data;
 };
 static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
 

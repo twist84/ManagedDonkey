@@ -17,6 +17,12 @@ enum
 
 enum
 {
+	k_network_maximum_machines_per_session = 17,
+	k_network_maximum_players_per_session = 16,
+};
+
+enum
+{
 	_campaign_player0 = 0,
 	_campaign_player1,
 	_campaign_player2,
@@ -678,6 +684,24 @@ enum e_network_session_boot_reason
 	_network_session_boot_unknown12,
 
 	k_network_session_boot_reason_count
+};
+
+enum e_network_session_state
+{
+	_network_session_state_none = 0,
+	_network_session_state_peer_creating,
+	_network_session_state_peer_joining,
+	_network_session_state_peer_join_abort,
+	_network_session_state_peer_established,
+	_network_session_state_peer_leaving,
+	_network_session_state_host_established,
+	_network_session_state_host_disband,
+
+	//_network_session_state_host_handoff,
+	//_network_session_state_host_reestablish,
+	//_network_session_state_election,
+
+	k_network_session_state_count
 };
 
 enum e_life_cycle_join_result

@@ -56,9 +56,9 @@ bool __cdecl transport_secure_address_get(s_transport_secure_address* secure_add
 	//INVOKE(0x00430BA0, transport_secure_address_get, secure_address);
 
 	if (secure_address)
-		*secure_address = transport_security_globals.secure_address;
+		*secure_address = transport_security_globals.local_secure_address;
 
-	return transport_security_globals.address_resolved;
+	return transport_security_globals.local_address_valid;
 }
 
 bool __cdecl transport_secure_address_get_insecure(transport_address* address)
@@ -66,9 +66,9 @@ bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 	//return INVOKE(0x00430BD0, transport_secure_address_get_insecure, address);
 
 	if (address)
-		*address = transport_security_globals.address;
+		*address = transport_security_globals.local_insecure_address;
 
-	return transport_security_globals.address_resolved;
+	return transport_security_globals.local_address_valid;
 }
 
 uint64 __cdecl transport_secure_address_get_local_machine_id()
@@ -97,7 +97,7 @@ bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address 
 	static transport_address address{};
 	XNetXnAddrToInAddr(secure_address, &secure_identifier, &address);
 
-	*secure_machine_id = make_int64(secure_address->part0, address.ipv4_address);
+	*secure_machine_id = make_int64(*(int32*)secure_address->data, address.ipv4_address);
 	return online_is_connected_to_live() && *secure_machine_id;
 }
 
@@ -111,7 +111,7 @@ void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callba
 {
 	//INVOKE(0x00430CE0, transport_secure_address_reset_for_new_networking_mode, callback_data);
 
-	transport_security_globals.address_resolved = false;
+	transport_security_globals.local_address_valid = false;
 }
 
 bool __cdecl transport_secure_address_resolve()
@@ -255,70 +255,6 @@ void __cdecl transport_unique_identifier_resolve()
 	//INVOKE(0x004312E0, transport_unique_identifier_resolve);
 
 	transport_secure_address_resolve();
-	transport_secure_address_extract_identifier(&transport_security_globals.secure_address, &transport_security_globals.local_unique_identifier);
-}
-
-void transport_secure_identifier_from_string(wchar_t const* str, s_transport_secure_identifier& secure_identifier)
-{
-	swscanf_s(str, L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-		&secure_identifier.part0,
-		&secure_identifier.part4[0],
-		&secure_identifier.part4[1],
-		&secure_identifier.part8[0],
-		&secure_identifier.part8[1],
-		&secure_identifier.part8[2],
-		&secure_identifier.part8[3],
-		&secure_identifier.part8[4],
-		&secure_identifier.part8[5],
-		&secure_identifier.part8[6],
-		&secure_identifier.part8[7]);
-}
-
-void transport_secure_identifier_from_string(char const* str, s_transport_secure_identifier& secure_identifier)
-{
-	sscanf_s(str, "%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-		&secure_identifier.part0,
-		&secure_identifier.part4[0],
-		&secure_identifier.part4[1],
-		&secure_identifier.part8[0],
-		&secure_identifier.part8[1],
-		&secure_identifier.part8[2],
-		&secure_identifier.part8[3],
-		&secure_identifier.part8[4],
-		&secure_identifier.part8[5],
-		&secure_identifier.part8[6],
-		&secure_identifier.part8[7]);
-}
-
-void transport_secure_address_from_string(wchar_t const* str, s_transport_secure_address& secure_address)
-{
-	swscanf_s(str, L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-		&secure_address.part0,
-		&secure_address.part4[0],
-		&secure_address.part4[1],
-		&secure_address.part8[0],
-		&secure_address.part8[1],
-		&secure_address.part8[2],
-		&secure_address.part8[3],
-		&secure_address.part8[4],
-		&secure_address.part8[5],
-		&secure_address.part8[6],
-		&secure_address.part8[7]);
-}
-
-void transport_secure_address_from_string(char const* str, s_transport_secure_address& secure_address)
-{
-	sscanf_s(str, "%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-		&secure_address.part0,
-		&secure_address.part4[0],
-		&secure_address.part4[1],
-		&secure_address.part8[0],
-		&secure_address.part8[1],
-		&secure_address.part8[2],
-		&secure_address.part8[3],
-		&secure_address.part8[4],
-		&secure_address.part8[5],
-		&secure_address.part8[6],
-		&secure_address.part8[7]);
+	transport_secure_address_extract_identifier(&transport_security_globals.local_secure_address, &transport_security_globals.local_unique_identifier);
 }
 

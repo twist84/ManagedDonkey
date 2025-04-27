@@ -4,18 +4,23 @@
 
 struct s_object_scripting_state
 {
-	struct s_variable // $TODO: find the actual name
+	enum
 	{
-		c_string_id name;
-		real32 __unknown4;
-		real32 __unknown8;
-		int32 __unknownC;
-		int32 __unknown10;
+		k_maximum_varaibles = 32
+	};
+
+	struct s_variable
+	{
+		c_string_id function_variable_string;
+		real32 old_value;
+		real32 new_value;
+		int32 new_value_set_time;
+		int32 interpolation_time;
 	};
 	static_assert(sizeof(s_variable) == 0x14);
 
-	s_variable variables[32];
-	int32 object_indices[32];
+	s_variable variables[k_maximum_varaibles];
+	int32 variable_owner_indexes[k_maximum_varaibles];
 	bool map_initialized;
 };
 static_assert(sizeof(s_object_scripting_state) == 0x304);

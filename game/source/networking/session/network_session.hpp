@@ -1,9 +1,8 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "networking/logic/network_join.hpp"
 #include "networking/session/network_session_membership.hpp"
 #include "networking/session/network_session_parameters.hpp"
-#include "networking/session/network_session_state.hpp"
 
 enum e_network_session_disconnection_policy
 {
@@ -13,22 +12,6 @@ enum e_network_session_disconnection_policy
 
 	k_network_session_disconnection_policy_count
 };
-
-struct s_network_session_local_player
-{
-	s_player_identifier player_identifier;
-	s_transport_secure_address secure_address;
-	int32 peer_output_user_index;
-};
-static_assert(sizeof(s_network_session_local_player) == 0x1C);
-
-struct s_local_player_add_queue_entry
-{
-	s_player_identifier identifier;
-	c_enum<e_network_join_refuse_reason, int32, _network_join_refuse_reason_none, k_network_join_refuse_reason_count> refuse_reason;
-	uint32 add_time;
-};
-static_assert(sizeof(s_local_player_add_queue_entry) == 0x10);
 
 struct c_network_channel_owner
 {
@@ -133,44 +116,112 @@ struct c_network_session :
 	bool handle_session_disband(transport_address const* address, s_network_message_session_disband const* message);
 	bool handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message);
 
+	struct s_local_state_data_peer_creating
+	{
+		int32 secure_key_platform; // e_transport_platform
+		bool connect_not_join;
+		uint64 join_nonce;
+		s_network_session_join_request join_request;
+	};
+	static_assert(sizeof(s_local_state_data_peer_creating) == 0x320);
+
+	struct s_local_state_data_peer_joining
+	{
+		int32 observer_channel_index;
+		s_transport_secure_address join_remote_address;
+		transport_address join_usable_address;
+		bool connect_not_join;
+		uint64 join_nonce;
+		s_network_session_join_request join_request;
+		uint32 join_initiated_timestamp;
+		uint32 join_ping_from_host_timestamp;
+		uint32 join_secure_connection_timestamp;
+		int32 join_attempt_count;
+		uint32 last_join_attempt_timestamp;
+	};
+	static_assert(sizeof(s_local_state_data_peer_joining) == 0x360);
+
+	struct s_local_state_data_peer_join_abort
+	{
+		s_transport_secure_address join_remote_address;
+		transport_address join_usable_address;
+		s_transport_secure_address joining_local_address;
+		uint64 join_nonce;
+		uint32 join_initiated_timestamp;
+		uint32 join_abort_initiated_timestamp;
+		uint32 last_join_abort_timestamp;
+	};
+	static_assert(sizeof(s_local_state_data_peer_join_abort) == 0x50);
+
+	struct s_local_state_data_peer_established
+	{
+		int32 peer_reestablishment_state; // e_peer_reestablish_state
+		uint32 established_timestamp;
+	};
+	static_assert(sizeof(s_local_state_data_peer_established) == 0x8);
+
+	struct s_local_state_data_peer_leaving
+	{
+		int32 peer_reestablishment_state; // e_peer_reestablish_state
+		uint32 leave_initiated_timestamp;
+		uint32 last_leave_attempt_timestamp;
+	};
+	static_assert(sizeof(s_local_state_data_peer_leaving) == 0xC);
+
+	struct s_local_state_data
+	{
+		union
+		{
+			s_local_state_data_peer_creating peer_creating;
+			s_local_state_data_peer_joining peer_joining;
+			s_local_state_data_peer_join_abort peer_join_abort;
+			s_local_state_data_peer_established peer_established;
+			s_local_state_data_peer_leaving peer_leaving;
+			//s_local_state_data_host_handoff host_handoff;
+			//s_local_state_data_host_reestablish host_reestablish;
+			//s_local_state_data_election election;
+		};
+	};
+
 	c_network_message_gateway* m_message_gateway;
 	c_network_observer* m_observer;
 	c_network_session_manager* m_session_manager;
 	int32 m_session_index;
-	c_enum<e_network_session_type, int32, _network_session_type_none, k_network_session_type_count> m_session_type;
-	c_enum<e_network_session_class, int32, _network_session_class_offline, k_network_session_class_count> m_session_class;
+	e_network_session_type m_session_type;
+	e_network_session_class m_session_class;
 	c_network_session_membership m_session_membership;
 	c_network_session_parameters m_session_parameters;
-
-	c_enum<e_network_session_state, int32, _network_session_state_none, k_network_session_state_count> m_local_state;
-	union
-	{
-		s_network_session_state_peer_creating peer_creating;
-		s_network_session_state_peer_joining peer_joining;
-		s_network_session_state_peer_join_abort peer_join_abort;
-		s_network_session_state_peer_established peer_established;
-		s_network_session_state_peer_leaving peer_leaving;
-	} m_local_state_data;
-
-	uint32 m_connection_identifier;
-	uint32 m_time_synchronization_end_time;
-	uint32 m_time_synchronization_start_time;
+	e_network_session_state m_local_state;
+	c_network_session::s_local_state_data m_local_state_data;
+	uint32 m_local_connection_identifier;
+	uint32 m_local_last_time_synchronize_success_timestamp;
+	uint32 m_local_last_time_synchronize_sent_timestamp;
 	bool m_time_exists;
-	uint32 m_time;
-	int32 __unknown25BBEC;
+	int32 m_time_offset;
+	int32 m_creation_time;
 	int32 m_managed_session_index;
-	c_enum<e_network_join_refuse_reason, int32, _network_join_refuse_reason_none, k_network_join_refuse_reason_count> m_join_refuse_reason;
+	e_network_join_refuse_reason m_join_refuse_reason;
 	uint64 m_host_join_nonce;
-	bool m_close_session;
-	bool m_close_session_for_matchmaking;
-	bool __unknown25BC02;
-	bool __unknown25BC03;
-	uint32 m_matchmaking_start_time;
-	uint32 m_matchmaking_establish_time;
-	uint32 __unknown25BC0C;
-	c_enum<e_network_session_disconnection_policy, int32, _network_session_disconnection_waiting_for_establishment, k_network_session_disconnection_policy_count> m_disconnection_policy;
-	s_network_session_local_player m_player_we_are_adding;
-	s_local_player_add_queue_entry m_local_user_player_add;
+	bool m_only_use_squad_session_for_election;
+	bool m_enable_speculative_host_migration;
+	uint32 m_time_of_last_speculative_host_migration;
+	uint32 m_time_of_last_speculative_host_migration_check;
+	uint32 m_speculative_host_migration_disallow_mask;
+	e_network_session_disconnection_policy m_disconnection_policy;
+
+	struct s_network_session_local_player
+	{
+		s_player_identifier player_identifier;
+		s_transport_secure_address secure_address;
+		int32 peer_output_user_index;
+	} m_player_we_are_adding;
+
+	struct
+	{
+		s_player_identifier player_identifier;
+		e_network_join_refuse_reason refuse_reason;
+		uint32 request_time;
+	} m_local_user_player_add;
 };
 static_assert(sizeof(c_network_session) == 0x25BC40);
 

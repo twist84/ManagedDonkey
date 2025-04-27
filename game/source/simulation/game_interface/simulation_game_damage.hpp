@@ -6,16 +6,16 @@
 struct s_simulation_damage_aftermath_event_data
 {
 	int32 damage_definition_index;
-	int32 __unknown4;
-	int16 damage_owner_player_index;
+	uint32 flags;
+	int16 damage_owner_player_absolute_index;
 	bool direction_valid;
 	real_vector3d direction;
 	bool epicenter_valid;
-	real_vector3d epicenter_direction_vector;
-	real32 epicenter_direction;
-	real32 shake;
+	real_vector3d epicenter_direction;
+	real32 epicenter_magnitude;
+	real32 scale;
 	real32 shake_scale;
-	c_enum<e_damage_aftermath_flags, int32, _damage_aftermath_body_depleted_bit, k_damage_aftermath_flags> flags;
+	int32 result_flags; // e_damage_aftermath_flags
 	real32 shield_damage;
 	real32 body_damage;
 	int16 body_part;

@@ -130,13 +130,13 @@ void render_debug_camera()
 			real_euler_angles3d angles{};
 			matrix4x3_rotation_to_angles(&camera, &angles);
 			csnzappendf(buffer, sizeof(buffer), "\rground_point(%01.2f,%01.2f,%01.2f) facing(%01.2f, %01.2f) surface(#%d)\rheight(%01.2f)",
-				ground_collision.position.x,
-				ground_collision.position.y,
-				ground_collision.position.z,
+				ground_collision.point.x,
+				ground_collision.point.y,
+				ground_collision.point.z,
 				angles.yaw * RAD,
 				angles.pitch * RAD,
 				ground_collision.surface_index,
-				camera.position.z - ground_collision.position.z);
+				camera.position.z - ground_collision.point.z);
 		}
 
 		status_strings("debug camera", buffer);
@@ -177,7 +177,7 @@ void render_debug_structure_decals()
 			real_vector3d vector{};
 			scale_vector3d(&vector, -1.0f, &matrix.up);
 
-			real_point3d* position = &runtime_decal.position;
+			real_point3d* point = &runtime_decal.position;
 			real_argb_color const* color = global_real_argb_red;
 
 			collision_result collision;
@@ -185,17 +185,17 @@ void render_debug_structure_decals()
 			{
 				if (cluster.runtime_first_decal_index != 0xFFFF && runtime_decal_index - cluster.runtime_first_decal_index < cluster.runtime_decal_count)
 				{
-					position = &collision.position;
+					point = &collision.point;
 					color = global_real_argb_yellow;
 				}
 				else
 				{
-					position = &collision.position;
+					point = &collision.point;
 					color = global_real_argb_orange;
 				}
 			}
 
-			render_debug_sphere(true, position, 0.1f, color);
+			render_debug_sphere(true, point, 0.1f, color);
 
 			char const* tag_name = tag_get_name(decal_palette.reference.index);
 			char const* name = tag_name_strip_path(tag_name);

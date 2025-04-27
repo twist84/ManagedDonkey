@@ -24,11 +24,11 @@ public:
 	e_mode get_mode() const;
 
 protected:
-	int16 __unknown0;
-	c_enum<e_mode, uint8, _mode_first, k_mode_count> m_mode;
-	uint8 m_collision_damage_immunity_duration;
+	int16 m_flags;
+	uint8 m_mode;
+	uint8 m_collision_damage_imunity_counter;
 	int32 m_object_index;
-	uint8 __data8[0x78];
+	uint8 m_character_physics_mode_datum_buffer[0x78];
 };
 static_assert(sizeof(c_character_physics_component) == 0x80); // $TODO: find the exact size
 

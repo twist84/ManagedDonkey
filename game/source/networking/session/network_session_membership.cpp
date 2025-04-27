@@ -122,14 +122,14 @@ int32 c_network_session_membership::get_peer_from_observer_channel(int32 observe
 	return peer_index;
 }
 
-void c_network_session_membership::set_player_properties(int32 player_index, int32 player_update_number, int32 controller_index, void const* player_data_, int32 player_voice)
+void c_network_session_membership::set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, void const* player_data_from_client, int32 player_voice_settings)
 {
 	s_network_session_player* player = get_player(player_index);
 
 	bool update_increment = false;
-	if (player->desired_configuration_version != player_update_number)
+	if (player->player_update_number != player_update_number)
 	{
-		player->desired_configuration_version = player_update_number;
+		player->player_update_number = player_update_number;
 		update_increment = true;
 	}
 
@@ -139,46 +139,46 @@ void c_network_session_membership::set_player_properties(int32 player_index, int
 		update_increment = true;
 	}
 
-	s_player_configuration_for_player_properties const* player_data = static_cast<s_player_configuration_for_player_properties const*>(player_data_);
-	if (csmemcmp(&player->configuration.client, &player_data->client, sizeof(s_player_configuration_from_client)))
+	s_player_configuration_for_player_properties const* player_data = (s_player_configuration_for_player_properties const*)player_data_from_client;
+	if (csmemcmp(&player->player_data.client, &player_data->client, sizeof(s_player_configuration_from_client)))
 	{
-		player->configuration.client = player_data->client;
+		player->player_data.client = player_data->client;
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.appearance.service_tag, &player_data->host_partial.service_tag, sizeof(c_static_wchar_string<5>)))
+	if (csmemcmp(&player->player_data.host.appearance.service_tag, &player_data->host_partial.service_tag, sizeof(c_static_wchar_string<5>)))
 	{
-		player->configuration.host.appearance.service_tag = player_data->host_partial.service_tag;
+		player->player_data.host.appearance.service_tag = player_data->host_partial.service_tag;
 		update_increment = true;
 	}
 
-	if (player->configuration.host.weapon.loadouts[0].bungienet_user != player_data->host_partial.bungienet_user)
+	if (player->player_data.host.weapon.loadouts[0].bungienet_user != player_data->host_partial.bungienet_user)
 	{
-		player->configuration.host.weapon.loadouts[0].bungienet_user = player_data->host_partial.bungienet_user;
+		player->player_data.host.weapon.loadouts[0].bungienet_user = player_data->host_partial.bungienet_user;
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.armor.loadouts[0].colors, &player_data->host_partial.colors, sizeof(c_static_array<rgb_color, k_color_type_count>)))
+	if (csmemcmp(&player->player_data.host.armor.loadouts[0].colors, &player_data->host_partial.colors, sizeof(c_static_array<rgb_color, k_color_type_count>)))
 	{
-		player->configuration.host.armor.loadouts[0].colors = player_data->host_partial.colors;
+		player->player_data.host.armor.loadouts[0].colors = player_data->host_partial.colors;
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.armor.loadouts[0].armors, &player_data->host_partial.armors, sizeof(c_static_array<uint8, k_armor_type_count>)))
+	if (csmemcmp(&player->player_data.host.armor.loadouts[0].armors, &player_data->host_partial.armors, sizeof(c_static_array<uint8, k_armor_type_count>)))
 	{
-		player->configuration.host.armor.loadouts[0].armors = player_data->host_partial.armors;
+		player->player_data.host.armor.loadouts[0].armors = player_data->host_partial.armors;
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.weapon.loadouts[0].consumables, &player_data->host_partial.consumables, sizeof(c_static_array<int8, 4>)))
+	if (csmemcmp(&player->player_data.host.weapon.loadouts[0].consumables, &player_data->host_partial.consumables, sizeof(c_static_array<int8, 4>)))
 	{
-		player->configuration.host.weapon.loadouts[0].consumables = player_data->host_partial.consumables;
+		player->player_data.host.weapon.loadouts[0].consumables = player_data->host_partial.consumables;
 		update_increment = true;
 	}
 
-	if (player->voice_settings != player_voice)
+	if (player->player_voice_settings != player_voice_settings)
 	{
-		player->voice_settings = player_voice;
+		player->player_voice_settings = player_voice_settings;
 		update_increment = true;
 	}
 

@@ -6,12 +6,12 @@
 struct c_simulation_world;
 struct c_simulation_actor
 {
-	int32 __unknown0;
-	int32 __unknown4;
+	int32 m_simulation_actor_index;
+	int32 m_unit_index;
 	c_simulation_world* m_world;
-	int32 __unknownC;
-	uint32 m_time;
-	unit_control_data m_actor_control;
+	bool m_exists;
+	int32 m_current_control_time;
+	unit_control_data m_current_control;
 };
 static_assert(sizeof(c_simulation_actor) == 0x94);
 

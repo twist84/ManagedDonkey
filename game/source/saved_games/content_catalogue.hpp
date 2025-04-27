@@ -17,7 +17,7 @@ public:
 	s_content_item* m_content_item_array;
 	s_content_item m_content_item;
 	c_content_item_overlapped_task m_content_item_task;
-	c_content_enumeration_overlapped_task m_content_enumeration_task;
+	c_content_enumeration_overlapped_task m_enumeration_task;
 	uint32 __unknown29C;
 	uint32 __unknown2A0;
 	c_synchronized_long m_content_item_count;

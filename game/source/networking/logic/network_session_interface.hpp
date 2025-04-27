@@ -11,7 +11,7 @@ struct c_game_variant;
 struct c_map_variant;
 struct s_saved_film_description;
 struct s_network_ui_state;
-struct s_network_session_status_data;
+struct s_network_squad_status_data;
 struct s_network_session_peer;
 struct s_network_session_player;
 
@@ -199,7 +199,7 @@ extern void __cdecl network_session_set_player_failure_reason(int32 user_index, 
 extern void __cdecl network_session_update_user_properties(c_network_session* session, int32 user_index);
 extern void __cdecl network_session_update_user_removal(c_network_session* session);
 extern bool __cdecl network_squad_session_boot_player(int32 player_index, e_network_session_boot_reason reason);
-extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);
+extern bool __cdecl network_squad_session_build_status(s_network_squad_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
 extern bool __cdecl network_squad_session_get_membership(int32* update_number, int32* local_peer_index, int32* host_peer_index, int32* leader_peer_index, int32* peer_count, uint32* peer_valid_flags, s_network_session_peer const** peers, int32* player_count, uint32* player_valid_flags, s_network_session_player const** players);

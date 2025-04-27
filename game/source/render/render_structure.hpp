@@ -252,25 +252,25 @@ static_assert(sizeof(large_collision_vertex) == 0x14);
 
 struct s_render_cluster_part
 {
-	uint32 flags;
+	int32 flags;
 	s_cluster_reference cluster_reference;
 	uint16 mesh_index;
 	uint16 part_index;
 };
 static_assert(sizeof(s_render_cluster_part) == 0xC);
 
-struct render_instance_mesh
+struct s_render_instance_part
 {
-	uint32 flags;
+	int32 flags;
 	int16 structure_bsp_index;
-	uint16 lightmap_instance_index;
-	uint16 __unknown8;
+	uint16 structure_instance_index;
+	uint16 mesh_index;
 	uint16 part_index;
-	uint8 __unknownC;
+	uint8 alpha_byte;
 };
-static_assert(sizeof(render_instance_mesh) == 0x10);
+static_assert(sizeof(s_render_instance_part) == 0x10);
 
-struct scenario_lightmap_bsp_data_definition;
+struct s_scenario_lightmap_bsp_data;
 struct s_render_geometry;
 struct render_structure_globals
 {
@@ -278,21 +278,22 @@ struct render_structure_globals
 	{
 		uint32 flags;
 		c_static_array<int32, 16> lightmap_bsp_type;
-		c_static_array<scenario_lightmap_bsp_data_definition*, 16> lightmap_bsp_data;
-		c_static_array<s_render_geometry*, 16> render_geometry;
+		s_scenario_lightmap_bsp_data const* lightmap_bsp_data[16];
+		s_render_geometry const* render_geometry[16];
 	} cached;
 
-	c_static_sized_dynamic_array<s_render_cluster_part, 2048> render_cluster_parts;
-	c_static_sized_dynamic_array<render_instance_mesh, 3072> render_instance_meshes;
+	s_render_cluster_part render_cluster_parts[2048];
+	int32 render_cluster_part_count;
+
+	s_render_instance_part render_instance_meshes[3072];
+	int32 render_instance_part_count;
 
 	int32 marker_index;
-
-	int32 render_cluster_part_markers[6];
-	int32 render_instance_mesh_markers[6];
-
-	int32 scenario_sbsp_index;
-	int32 lightmap_cluster_reference;
-	int32 lightmap_instance_index;
+	int32 render_cluster_part_starting_index[6];
+	int32 render_instance_part_starting_index[6];
+	int32 last_structure_bsp_index;
+	int32 last_instance_definition_index;
+	int32 last_structure_instance_index;
 };
 static_assert(sizeof(render_structure_globals) == 0x1210C);
 

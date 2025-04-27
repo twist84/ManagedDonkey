@@ -486,7 +486,7 @@ struct s_object_render_thread_message
 {
 	int32 object_index;
 	int16 message_type;
-	int16 __unknown6;
+	int16 message_param;
 };
 static_assert(sizeof(s_object_render_thread_message) == 0x8);
 

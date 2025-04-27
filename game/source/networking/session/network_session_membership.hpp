@@ -7,8 +7,6 @@
 #include "networking/transport/transport_security.hpp"
 #include "text/unicode.hpp"
 
-int32 const k_network_maximum_machines_per_session = 17;
-
 struct s_network_session_peer_connectivity
 {
 	uint16 peer_connectivity_mask;
@@ -62,16 +60,25 @@ static_assert(sizeof(s_network_session_peer) == 0xF8);
 
 struct s_network_session_player
 {
-	int32 desired_configuration_version;
+	int32 player_update_number;
 	s_player_identifier player_identifier;
 	int32 peer_index;
 	int32 peer_user_index;
 	bool left_game;
 	uint8 __pad15[3];
-	int32 controller_index;
+	e_controller_index controller_index;
 	uint32 __unknown1C;
-	s_player_configuration configuration;
-	uint32 voice_settings;
+	s_player_configuration player_data;
+	union
+	{
+		uint32 player_voice_settings;
+		struct
+		{
+			int16 player_mute_mask;
+			int16 player_voice_flags;
+		};
+	};
+
 	uint32 __unknown1644;
 };
 static_assert(sizeof(s_network_session_player) == 0x1648);
@@ -89,11 +96,11 @@ struct s_network_session_shared_membership
 	uint8 __unknown17;
 	int32 peer_count;
 	c_static_flags<k_network_maximum_machines_per_session> peer_valid_mask;
-	c_static_array<s_network_session_peer, k_network_maximum_machines_per_session> peers;
+	s_network_session_peer peers[k_network_maximum_machines_per_session];
 	int32 player_count;
 	c_static_flags<16> player_valid_mask;
-	c_static_array<s_network_session_player, 16> players;
-	int32 player_addition_number;
+	s_network_session_player players[16];
+	int32 player_sequence_number;
 	int32 __unknown17524;
 };
 constexpr size_t agt = OFFSETOF(s_network_session_shared_membership, __unknown17524);
@@ -179,7 +186,7 @@ public:
 	int32 get_observer_channel_index(int32 peer_index) const;
 	int32 get_peer_from_observer_channel(int32 observer_channel_index) const;
 
-	void set_player_properties(int32 player_index, int32 player_update_number, int32 controller_index, void const* player_from_client, int32 player_voice);
+	void set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, void const* player_data_from_client, int32 player_voice_settings);
 
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;

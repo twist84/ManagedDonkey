@@ -4,21 +4,20 @@
 
 struct s_scenario_interpolator_state
 {
-	real32 current_value;
-	real32 start_value;
-	real32 final_value;
-	real32 __unknownC;  // reset time?
-	real32 __unknown10; // start time?
-	real32 __unknown14; // stop time?
-	real32 __unknown18;
+	real32 value_current;
+	real32 value_bounds[2];
+	real32 time_current;
+	real32 time_bounds[2];
+	real32 phase;
 	uint8 flags;
+	uint8 pad[0x3];
 };
 static_assert(sizeof(s_scenario_interpolator_state) == 0x20);
 
 struct s_scenario_interpolator_globals
 {
-	c_string_id name;
-	c_static_array<s_scenario_interpolator_state, 16> states;
+	c_string_id last_interpolator_name_id;
+	s_scenario_interpolator_state states[16];
 };
 static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
 

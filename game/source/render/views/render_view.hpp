@@ -76,18 +76,16 @@ struct c_ui_view :
 public:
 	c_ui_view() :
 		c_view(),
-		__unknown298(),
-		m_render_target()
+		m_is_screenshot(),
+		m_render_surface()
 	{
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBAC);
 	}
 
 	void setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface);
 
-	// if true bypass if statement in `c_gui_widget::render`
-	bool __unknown298;
-
-	c_rasterizer::e_surface m_render_target;
+	bool m_is_screenshot;
+	c_rasterizer::e_surface m_render_surface;
 };
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 

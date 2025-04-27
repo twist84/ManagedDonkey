@@ -80,7 +80,7 @@ void __cdecl cheat_all_chars()
 
 		char const* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "character"))
-			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_name);
+			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 	}
 
 	cheat_objects(references, reference_count);
@@ -105,9 +105,9 @@ void __cdecl cheat_all_powerups()
 			if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 				break;
 
-			struct equipment_definition* equipment_definition = TAG_GET(iterator.group_tag, struct equipment_definition, tag_index);
+			struct equipment_definition* equipment_definition = TAG_GET(iterator.key_group_tag, struct equipment_definition, tag_index);
 			if (equipment_definition->equipment.spawner.count)
-				tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+				tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
 		}
 
 		cheat_objects(references, reference_count);
@@ -126,9 +126,9 @@ void __cdecl cheat_all_vehicles()
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		struct vehicle_definition* vehicle_definition = TAG_GET(iterator.group_tag, struct vehicle_definition, tag_index);
+		struct vehicle_definition* vehicle_definition = TAG_GET(iterator.key_group_tag, struct vehicle_definition, tag_index);
 		if (vehicle_definition->unit.powered_seats.count > 0)
-			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
 	}
 
 	cheat_objects(references, reference_count);
@@ -146,7 +146,7 @@ void __cdecl cheat_all_weapons()
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+		tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
 	}
 
 	cheat_objects(references, reference_count);
@@ -170,7 +170,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, int32 eff
 		return false;
 	}
 
-	real_point3d collision_position = collision.position;
+	real_point3d collision_position = collision.point;
 	real_vector3d normal = collision.plane.n;
 
 	collision_position.x -= forward->i * 0.25f;
@@ -542,7 +542,7 @@ void __cdecl cheat_spawn_warthog()
 
 		char const* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "warthog"))
-			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_name);
+			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 	}
 
 	cheat_objects(references, reference_count);
