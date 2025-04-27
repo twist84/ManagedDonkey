@@ -74,17 +74,17 @@ enum e_synchronous_gamestate_message_type
 
 struct s_network_message_synchronous_gamestate
 {
-	c_enum<e_synchronous_gamestate_message_type, byte, _synchronous_gamestate_message_initiate_join, k_number_of_synchronous_gamestate_message_types> message_type;
+	c_enum<e_synchronous_gamestate_message_type, uint8, _synchronous_gamestate_message_initiate_join, k_number_of_synchronous_gamestate_message_types> message_type;
 
 	union
 	{
 		long chunk_offset;
 		long next_update_number;
-		dword compressed_checksum;
+		uint32 compressed_checksum;
 	};
 
 	long chunk_size;
-	dword decompressed_checksum;
+	uint32 decompressed_checksum;
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
@@ -98,10 +98,10 @@ struct c_simulation_view :
 	long get_view_establishment_identifier() const;
 	e_simulation_view_establishment_mode get_view_establishment_mode() const;
 	bool handle_distributed_game_results(long message_establishment_identifier, long incremental_update_number, s_game_results_incremental_update const* incremental_update);
-	bool handle_player_acknowledge(dword player_valid_mask, dword player_in_game_mask, s_player_identifier const* player_identifiers);
-	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, long establishment_identifier, long signature_size, byte const* signature_data);
+	bool handle_player_acknowledge(uint32 player_valid_mask, uint32 player_in_game_mask, s_player_identifier const* player_identifiers);
+	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, long establishment_identifier, long signature_size, uint8 const* signature_data);
 	bool handle_synchronous_acknowledge(long current_update_number);
-	bool handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, player_action const* actions);
+	bool handle_synchronous_actions(long action_number, long current_action_number, uint32 user_flags, player_action const* actions);
 	bool handle_synchronous_gamestate(s_network_message_synchronous_gamestate const* synchronous_gamestate, void const* chunk);
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, long identifier, long update_number);
 	bool handle_synchronous_update(struct simulation_update const* update);
@@ -125,14 +125,14 @@ struct c_simulation_view :
 	long m_observer_channel_index;
 	long m_view_death_reason;
 	long m_view_establishment_mode;
-	dword m_view_establishment_identifier;
+	uint32 m_view_establishment_identifier;
 	long m_remote_establishment_mode;
-	dword m_remote_establishment_identifier;
+	uint32 m_remote_establishment_identifier;
 	c_network_channel* m_channel;
-	dword m_channel_connection_identifier;
+	uint32 m_channel_connection_identifier;
 	c_network_channel_simulation_interface m_channel_interface;
 	bool m_simulation_active;
-	dword m_simulation_player_acknowledged_mask;
+	uint32 m_simulation_player_acknowledged_mask;
 	long m_synchronous_received_action_number;
 	long m_synchronous_acknowledged_update_number;
 	long m_synchronous_catchup_attempt_count;

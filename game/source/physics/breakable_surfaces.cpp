@@ -12,7 +12,7 @@
 //.text:00568FB0 ; void __cdecl breakable_surface_create_impact_decal(real_point3d const*, long, long, long)
 //.text:00569120 ; void __cdecl breakable_surface_damage(long, long, long, long, s_damage_data const*, long)
 //.text:00569580 ; void __cdecl breakable_surface_damage_area_of_effect(s_damage_data const*)
-//.text:005695F0 ; void __cdecl breakable_surface_damage_area_of_effect(s_location const*, real_point3d const*, real)
+//.text:005695F0 ; void __cdecl breakable_surface_damage_area_of_effect(s_location const*, real_point3d const*, real32)
 //.text:00569820 ; 
 //.text:00569AB0 ; bool __cdecl breakable_surface_extant(long, long, long, long)
 //.text:00569B10 ; void __cdecl breakable_surface_flags_internal_set(long, long, long, long, bool)
@@ -46,7 +46,7 @@ void __cdecl breakable_surfaces_dispose_from_old_map()
 	INVOKE(0x0056ADF0, breakable_surfaces_dispose_from_old_map);
 }
 
-void __cdecl breakable_surfaces_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl breakable_surfaces_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0056AE10, breakable_surfaces_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -68,7 +68,7 @@ void __cdecl breakable_surfaces_initialize_for_new_map()
 
 //.text:0056B7C0 ; void __cdecl breakable_surfaces_initialize_for_new_map_internal()
 
-void __cdecl breakable_surfaces_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl breakable_surfaces_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0056B800, breakable_surfaces_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

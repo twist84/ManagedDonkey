@@ -7,13 +7,13 @@
 struct s_available_session
 {
 	bool session_valid;
-	dword last_update_timestamp;
+	uint32 last_update_timestamp;
 	bool connect_established;
 	bool qos_successful;
 	long qos_target_status;
 	s_transport_qos_result qos_result;
 	bool status_data_valid;
-	byte __data31[0x7];
+	uint8 __data31[0x7];
 	s_network_session_status_data status_data;
 };
 static_assert(sizeof(s_available_session) == 0x164F8);
@@ -23,7 +23,7 @@ struct s_network_search_globals
 	long search_category;
 	long reference_count;
 	long maximum_sessions;
-	dword_flags squad_search_flags;
+	uint32 squad_search_flags;
 	c_allocation_base* available_sessions_allocator;
 	long available_session_count;
 	s_available_session* available_sessions;
@@ -40,6 +40,6 @@ extern bool __cdecl network_search_initialize();
 extern s_available_session* __cdecl network_search_session(long available_squad_index);
 extern long __cdecl network_search_session_count();
 extern bool __cdecl network_search_session_valid(s_available_session* session);
-extern bool __cdecl network_search_start(long controller_index, long category, long maximum_sessions, dword_flags available_squad_search_flags, c_allocation_base* session_allocator);
+extern bool __cdecl network_search_start(long controller_index, long category, long maximum_sessions, uint32 available_squad_search_flags, c_allocation_base* session_allocator);
 extern void __cdecl network_search_stop();
 

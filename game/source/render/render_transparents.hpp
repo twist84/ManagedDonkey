@@ -5,12 +5,12 @@
 struct s_transparent_types
 {
 	bool use_plane;
-	real z_sort;
+	real32 z_sort;
 	real_point3d centroid;
 	real_plane3d plane;
 	long sort_layer;
 	real_point3d anchor_points[9];
-	real importance;
+	real32 importance;
 	void(__cdecl* render_callback)(void const*, long);
 	void const* user_data;
 	long user_context;
@@ -19,16 +19,16 @@ static_assert(sizeof(s_transparent_types) == 0xA4);
 
 struct s_transparency_marker
 {
-	word starting_transparent_index;
+	uint16 starting_transparent_index;
 };
-static_assert(sizeof(s_transparency_marker) == sizeof(word));
+static_assert(sizeof(s_transparency_marker) == sizeof(uint16));
 
 template<typename t_type, long k_count>
 struct c_sorter
 {
-	c_static_array<word, k_count> m_order;
+	c_static_array<uint16, k_count> m_order;
 	long m_range[2];
-	word m_count;
+	uint16 m_count;
 	t_type* m_data;
 };
 static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);

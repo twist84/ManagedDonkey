@@ -179,13 +179,13 @@ struct s_parser_state
 	char m_caption[k_string_length];
 
 	bool m_has_min;
-	real m_min;
+	real32 m_min;
 
 	bool m_has_max;
-	real m_max;
+	real32 m_max;
 
 	bool m_has_inc;
-	real m_inc;
+	real32 m_inc;
 
 	bool m_has_item_type;
 	c_enum<e_item_types, long, _item_type_none, k_item_type_count> m_item_type;

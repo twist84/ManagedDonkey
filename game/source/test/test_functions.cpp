@@ -32,7 +32,7 @@ void test_download_storage_file(char const* url, char const* local_filename)
 			open_flags = FLAG(_file_open_flag_desired_access_read) | FLAG(_file_open_flag_desired_access_write) | FLAG(_file_open_flag_set_file_end_and_close)
 		};
 
-		dword error = 0;
+		uint32 error = 0;
 		if (file_create(&g_test_download_storage.request_file) && file_open(&g_test_download_storage.request_file, open_flags, &error))
 		{
 			c_network_http_request_description description{};

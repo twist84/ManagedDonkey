@@ -14,7 +14,7 @@ bool __cdecl mesh_has_subpart_mopp(s_render_geometry* render_geometry, long mesh
 	//		render_geometry->per_mesh_mopp.clear();
 	//return INVOKE(0x0078C780, mesh_has_subpart_mopp, render_geometry, mesh_index);
 
-	for (word cluster_index = 0; cluster_index < c_visible_items::m_items.clusters.get_count(); cluster_index++)
+	for (uint16 cluster_index = 0; cluster_index < c_visible_items::m_items.clusters.get_count(); cluster_index++)
 	{
 		c_visible_items::m_items.clusters[cluster_index].flags |= FLAG(3);
 	}

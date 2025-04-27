@@ -21,9 +21,9 @@
 #include "render/render_visibility_collection.hpp"
 #include "text/draw_string.hpp"
 
-REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
+REFERENCE_DECLARE(0x01913474, uint32, c_render_globals::m_frame_index);
 REFERENCE_DECLARE(0x0191347D, bool, render_pc_specular);
-REFERENCE_DECLARE(0x050E88F0, real, c_render_globals::m_frame_time);
+REFERENCE_DECLARE(0x050E88F0, real32, c_render_globals::m_frame_time);
 REFERENCE_DECLARE(0x050E88F4, bool, c_render_globals::m_distortion_active);
 REFERENCE_DECLARE(0x050E88F5, bool, c_render_globals::m_distortion_visible);
 REFERENCE_DECLARE(0x050E88F6, bool, c_render_globals::m_distortion_history);
@@ -38,14 +38,14 @@ HOOK_DECLARE(0x00A29760, render_frame_begin);
 HOOK_DECLARE(0x00A29970, render_initialize_for_new_map);
 HOOK_DECLARE(0x00A2A080, render_setup_window);
 
-void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
+void __cdecl c_render_globals::advance_frame_time(real32 seconds_elapsed)
 {
 	//INVOKE(0x00A29410, advance_frame_time, seconds_elapsed);
 
 	m_frame_time += seconds_elapsed;
 }
 
-void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real const (* const projection_matrix)[4], real* const projection_and_view_matrix)
+void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real32 const (* const projection_matrix)[4], real32* const projection_and_view_matrix)
 {
 	INVOKE(0x00A29440, combine_projection_and_view_matrix, view_matrix, projection_matrix, projection_and_view_matrix);
 }
@@ -85,7 +85,7 @@ long __cdecl c_render_globals::get_frame_index()
 	return m_frame_index;
 }
 
-real __cdecl c_render_globals::get_frame_time()
+real32 __cdecl c_render_globals::get_frame_time()
 {
 	//return INVOKE(0x00A295A0, get_frame_time);
 
@@ -109,7 +109,7 @@ void __cdecl render_dispose_from_old_map()
 	INVOKE(0x00A29730, render_dispose_from_old_map);
 }
 
-void __cdecl render_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl render_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00A29750, render_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -206,7 +206,7 @@ void __cdecl render_initialize_for_new_map()
 	render_objects_initialize_for_new_map();
 }
 
-void __cdecl render_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl render_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00A29980, render_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
@@ -230,8 +230,8 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	ASSERT(camera && projection);
 
 	real_vector4d pc_only_shader_constant{};
-	real pc_specular{};
-	real pc_albedo_lighting{};
+	real32 pc_specular{};
+	real32 pc_albedo_lighting{};
 
 	if (render_pc_specular)
 		pc_specular = 1.0f;
@@ -250,7 +250,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	c_rasterizer::set_pixel_shader_constant(96, 1, &pc_only_shader_constant);
 
 	real_vector4d combined_matrix[4]{};
-	combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix, (real*)combined_matrix);
+	combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix, (real32*)combined_matrix);
 	c_rasterizer::set_vertex_shader_constant(0, 4, combined_matrix);
 
 	real_vector4d position{};
@@ -318,7 +318,7 @@ void __cdecl c_render_globals::set_frame_index(long frame_index)
 	m_frame_index = frame_index;
 }
 
-void __cdecl c_render_globals::set_frame_time(real frame_time)
+void __cdecl c_render_globals::set_frame_time(real32 frame_time)
 {
 	//INVOKE(0x00A2A340, set_frame_time, frame_time);
 
@@ -339,7 +339,7 @@ bool __cdecl c_render_globals::get_weather_occlusion_available()
 	return m_weather_occlusion_available;
 }
 
-real pregame_frame_scales[9] =
+real32 pregame_frame_scales[9] =
 {
 	1.0f,
 	1.0f,

@@ -13,11 +13,11 @@ struct s_sound_listener
 {
 	tag header_signature;
 	s_location location;
-	byte __data6[0x2];
+	uint8 __data6[0x2];
 	bool valid;
 	bool __unknown9; // underwater?
-	byte __unknownA;
-	byte __unknownB;
+	uint8 __unknownA;
+	uint8 __unknownB;
 	real_matrix4x3 matrix;
 	real_vector3d velocity;
 	tag footer_signature;
@@ -26,19 +26,19 @@ static_assert(sizeof(s_sound_listener) == 0x50);
 
 struct s_sound_manager_reverb
 {
-	real __unknown0;
-	real __unknown4;
+	real32 __unknown0;
+	real32 __unknown4;
 	long __unknown8;
-	real __unknownC;
-	real __unknown10;
-	real __unknown14;
-	real __unknown18;
+	real32 __unknownC;
+	real32 __unknown10;
+	real32 __unknown14;
+	real32 __unknown18;
 };
 static_assert(sizeof(s_sound_manager_reverb) == 0x1C);
 
 struct s_platform_sound_status
 {
-	byte __data0[0x60];
+	uint8 __data0[0x60];
 };
 static_assert(sizeof(s_platform_sound_status) == 0x60);
 
@@ -53,58 +53,58 @@ struct s_sound_manager_globals
 	bool __unknown99;
 	bool game_active;
 
-	byte pause_state;
+	uint8 pause_state;
 	bool idling;
 	bool recursion_lock;
 
-	byte __unknown9E;
-	byte __unknown9F;
-	byte __unknownA0;
+	uint8 __unknown9E;
+	uint8 __unknown9F;
+	uint8 __unknownA0;
 
-	dword system_time;
-	dword render_time;
+	uint32 system_time;
+	uint32 render_time;
 
 	c_static_array<s_sound_listener, k_number_of_sound_manager_listeners> listeners;
 
-	byte __data1EC[0x40];
-	byte __data22C[0x4];
+	uint8 __data1EC[0x40];
+	uint8 __data22C[0x4];
 
 	c_static_array<s_sound_manager_reverb, 2> manager_reverbs;
 
 	long __unknown268;
 
-	real delta_time;
+	real32 delta_time;
 
 	long __unknown27C;
-	real __unknown270;
-	real __unknown274;
-	real __unknown278;
+	real32 __unknown270;
+	real32 __unknown274;
+	real32 __unknown278;
 	long __unknown28C;
-	real __unknown280;
-	real __unknown284;
+	real32 __unknown280;
+	real32 __unknown284;
 	long __unknown288;
 	long __unknown29C;
-	real __unknown290;
-	real __unknown294;
-	real __unknown298;
+	real32 __unknown290;
+	real32 __unknown294;
+	real32 __unknown298;
 
 	struct
 	{
 		long active_ducker;
-		real active_ducker_time;
+		real32 active_ducker_time;
 		long last_ducker;
-		real inactive_time;
+		real32 inactive_time;
 	} ducker;
 
 	short channel_count;
 	short __unknown2B2;
-	real __unknown2B4;
+	real32 __unknown2B4;
 };
 static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
 
 struct s_sound_channel_properties
 {
-	byte __data[0x4B8];
+	uint8 __data[0x4B8];
 };
 static_assert(sizeof(s_sound_channel_properties) == 0x4B8);
 
@@ -115,16 +115,16 @@ extern bool debug_sound_listeners;
 extern bool debug_sound;
 extern bool debug_sound_manager_channels;
 
-extern real sound_definition_map_pitch(void const* sound_definition, real a1, real a2);
+extern real32 sound_definition_map_pitch(void const* sound_definition, real32 a1, real32 a2);
 extern void __cdecl sound_delete(long sound_index);
 extern void __cdecl sound_dispose();
 extern void __cdecl sound_dispose_from_old_map();
-extern void __cdecl sound_dispose_from_old_structure_bsp(dword structure_bps_mask);
+extern void __cdecl sound_dispose_from_old_structure_bsp(uint32 structure_bps_mask);
 extern void __cdecl sound_game_pause_handler(bool paused);
 extern void __cdecl sound_idle();
 extern void __cdecl sound_initialize();
 extern void __cdecl sound_initialize_for_new_map();
-extern void __cdecl sound_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern bool __cdecl sound_is_active();
 extern bool __cdecl sound_is_fading_out(long sound_index);
 extern s_sound_listener const* __cdecl sound_manager_get_listener(long listener_index);

@@ -89,7 +89,7 @@ protected:
 	c_enum<long, char, -10, 10> m_killing_spree_points; // default: 0
 	c_player_traits m_leader_traits;
 
-	byte m_pad1[2];
+	uint8 m_pad1[2];
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 0x200);
 

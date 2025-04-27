@@ -93,7 +93,7 @@ long __cdecl global_preferences_get_aspect_ratio()
 	return global_preferences_get()->current.data.aspect_ratio;
 }
 
-real __cdecl global_preferences_get_betrayal_count()
+real32 __cdecl global_preferences_get_betrayal_count()
 {
 	//return INVOKE(0x0050A930, global_preferences_get_betrayal_count);
 
@@ -115,12 +115,12 @@ long __cdecl global_preferences_get_build_number()
 	return global_preferences_get()->current.data.build_number;
 }
 
-real __cdecl global_preferences_get_camera_fov()
+real32 __cdecl global_preferences_get_camera_fov()
 {
 	//return INVOKE(0x0050AA30, global_preferences_get_camera_fov);
 
 	if (!global_preferences_available())
-		return *reinterpret_cast<real*>(0x0189D42C); // 90.0f
+		return *reinterpret_cast<real32*>(0x0189D42C); // 90.0f
 
 	c_global_preferences_scope_lock scope_lock;
 	return global_preferences_get()->current.data.gameplay_settings.camera_fov;
@@ -239,7 +239,7 @@ bool __cdecl global_preferences_get_fullscreen()
 	return global_preferences_get()->current.data.fullscreen;
 }
 
-dword __cdecl global_preferences_get_hardware_crc()
+uint32 __cdecl global_preferences_get_hardware_crc()
 {
 	//return INVOKE(0x0050B2D0, global_preferences_get_hardware_crc);
 
@@ -796,7 +796,7 @@ void __cdecl global_preferences_set_aspect_ratio(bool aspect_ratio)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_betrayal_count(real betrayal_count)
+void __cdecl global_preferences_set_betrayal_count(real32 betrayal_count)
 {
 	//INVOKE(0x0050CE00, global_preferences_set_betrayal_count, betrayal_count);
 
@@ -820,7 +820,7 @@ void __cdecl global_preferences_set_build_number(long build_number)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_camera_fov(real camera_fov)
+void __cdecl global_preferences_set_camera_fov(real32 camera_fov)
 {
 	//INVOKE(0x0050CF20, global_preferences_set_camera_fov, camera_fov);
 
@@ -933,7 +933,7 @@ void __cdecl global_preferences_set_fullscreen(bool fullscreen)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_hardware_crc(dword crc)
+void __cdecl global_preferences_set_hardware_crc(uint32 crc)
 {
 	//INVOKE(0x0050D580, global_preferences_set_hardware_crc, crc);
 
@@ -1559,7 +1559,7 @@ s_global_preference const* k_global_preferences[k_global_preference_count]
 union value_converter_t
 {
 	bool type_bool;
-	real type_real;
+	real32 type_real;
 	long type_long;
 	e_quality_setting type_quality_setting;
 	e_language type_language;
@@ -1584,7 +1584,7 @@ void value_handler(s_global_preference const& global_preference, value_converter
 			value.type_bool = va_arg(parameters, bool);
 			break;
 		case _global_preference_type_real:
-			value.type_real = static_cast<real>(va_arg(parameters, double));
+			value.type_real = static_cast<real32>(va_arg(parameters, real64));
 			break;
 		case _global_preference_type_long:
 			value.type_long = va_arg(parameters, long);
@@ -1610,7 +1610,7 @@ union function_converter_t
 	void* pointer;
 
 	void(__cdecl* type_bool)(bool);
-	void(__cdecl* type_real)(real);
+	void(__cdecl* type_real)(real32);
 	void(__cdecl* type_long)(long);
 	void(__cdecl* type_quality_setting)(e_quality_setting);
 	void(__cdecl* type_language)(e_language);

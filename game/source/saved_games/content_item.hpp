@@ -4,6 +4,6 @@
 
 struct s_content_item
 {
-	byte __data[0x240];
+	uint8 __data[0x240];
 };
 static_assert(sizeof(s_content_item) == 0x240);

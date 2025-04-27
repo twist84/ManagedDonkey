@@ -7,8 +7,8 @@ struct s_object_scripting_state
 	struct s_variable // $TODO: find the actual name
 	{
 		c_string_id name;
-		real __unknown4;
-		real __unknown8;
+		real32 __unknown4;
+		real32 __unknown8;
 		long __unknownC;
 		long __unknown10;
 	};

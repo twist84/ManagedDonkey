@@ -7,10 +7,10 @@ void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rast
 	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, texture_ref, dirty_rect, a4);
 }
 
-void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, dword format, long a6, bool a7, long a8, long a9)
+void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, uint32 format, long a6, bool a7, long a8, long a9)
 {
 	//INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, levels, format, a6, a7, a8, a9);
-	DECLFUNC(0x00A6DEF0, void, __cdecl, c_rasterizer_texture_ref&, long, long, long, dword, long, bool, long, long)(
+	DECLFUNC(0x00A6DEF0, void, __cdecl, c_rasterizer_texture_ref&, long, long, long, uint32, long, bool, long, long)(
 		texture_ref,
 		width,
 		height,

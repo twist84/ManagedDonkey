@@ -51,7 +51,7 @@ struct character_definition
 {
 	static tag const k_group_tag = CHARACTER_TAG;
 
-	c_enum<e_character_flags, dword, _character_flag_flag1_bit, k_character_flags> character_flags;
+	c_enum<e_character_flags, uint32, _character_flag_flag1_bit, k_character_flags> character_flags;
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> parent_character;
 	c_typed_tag_reference<UNIT_TAG, INVALID_TAG> unit;
 	c_typed_tag_reference<CREATURE_TAG, INVALID_TAG> creature;
@@ -102,7 +102,7 @@ struct s_character_voice
 {
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 	c_string_id designator;
-	real weight;
+	real32 weight;
 };
 static_assert(sizeof(s_character_voice) == 0x18);
 
@@ -134,25 +134,25 @@ static_assert(sizeof(character_vitality_properties) == 0x1);
 struct character_placement_properties
 {
 	long flags;
-	real few_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	real normal_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	real many_upgrade_chance[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	real32 few_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	real32 normal_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	real32 many_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 };
 static_assert(sizeof(character_placement_properties) == 0xC4);
 
 struct character_perception_properties
 {
-	dword_flags flags;
-	real maximum_vision_distance;
-	real central_vision_angle;
-	real maximum_vision_angle;
-	real peripheral_vision_angle;
-	real peripheral_distance;
-	real hearing_distance;
-	real notice_projectile_chance;
-	real notice_vehicle_chance;
-	real awareness_time;
-	real first_acknowledgement_surprise_distance;
+	uint32 flags;
+	real32 maximum_vision_distance;
+	real32 central_vision_angle;
+	real32 maximum_vision_angle;
+	real32 peripheral_vision_angle;
+	real32 peripheral_distance;
+	real32 hearing_distance;
+	real32 notice_projectile_chance;
+	real32 notice_vehicle_chance;
+	real32 awareness_time;
+	real32 first_acknowledgement_surprise_distance;
 };
 static_assert(sizeof(character_perception_properties) == 0x2C);
 
@@ -203,11 +203,11 @@ struct character_flocking_properties
 	// Jaime, don't touch this
 	// Ever.
 
-	real deceleration_distance;
-	real normalized_speed;
-	real buffer_distance;
+	real32 deceleration_distance;
+	real32 normalized_speed;
+	real32 buffer_distance;
 	real_bounds throttle_threshold_bounds;
-	real deceleration_stop_time;
+	real32 deceleration_stop_time;
 };
 static_assert(sizeof(character_flocking_properties) == 0x18);
 
@@ -219,34 +219,34 @@ struct character_swarm_properties
 	short pad1;
 
 	// the distance from the target that the swarm scatters
-	real scatter_radius;
+	real32 scatter_radius;
 
 	// amount of time to remain scattered
-	real scatter_time;
+	real32 scatter_time;
 
-	real hound_min_distance;
-	real hound_max_distance;
+	real32 hound_min_distance;
+	real32 hound_max_distance;
 
 	// how long the infection form and its victim will wrestle before the point of no return
 	real_bounds infection_time; // secs
 
 	// amount of randomness added to creature's throttle
-	real perlin_offset_scale; // [0-1]
+	real32 perlin_offset_scale; // [0-1]
 
 	// how fast the creature changes random offset to throttle
 	real_bounds offset_period; // s
 
 	// a random offset lower then given threshold is made 0. (threshold of 1 = no movement)
-	real perlin_idle_movement_threshold; // [0-1]
+	real32 perlin_idle_movement_threshold; // [0-1]
 
 	// a random offset lower then given threshold is made 0. (threshold of 1 = no movement)
-	real perlin_combat_movement_threshold; // [0-1]
+	real32 perlin_combat_movement_threshold; // [0-1]
 
 	// how long we have to move (stuck distance) before we get deleted
-	real stuck_time;
+	real32 stuck_time;
 
 	// how far we have to move in (stuck time) to not get deleted
-	real stuck_distance;
+	real32 stuck_distance;
 };
 static_assert(sizeof(character_swarm_properties) == 0x38);
 
@@ -281,20 +281,20 @@ static_assert(sizeof(character_charge_properties) == 0x6);
 struct character_evasion_properties
 {
 	// Consider evading when immediate danger surpasses threshold
-	real evasion_danger_threshold;
+	real32 evasion_danger_threshold;
 
 	// Wait at least this delay between evasions
-	real evasion_delay_timer;
+	real32 evasion_delay_timer;
 
 	// If danger is above threshold, the chance that we will evade.
 	// Expressed as chance of evading within a 1 second time period
-	real evasion_chance;
+	real32 evasion_chance;
 
 	// If target is within given proximity, possibly evade
-	real evasion_proximity_threshold;
+	real32 evasion_proximity_threshold;
 
 	// Chance of retreating (fleeing) after danger avoidance dive
-	real dive_retreat_chance;
+	real32 dive_retreat_chance;
 };
 static_assert(sizeof(character_evasion_properties) == 0x14);
 
@@ -338,13 +338,13 @@ struct character_vocalization_properties
 	// Thus if you hurt the arbiter, say, he's still going to yell at you, no matter what, and if you kill somebody and nobody else is there to witness it, he will yell at you.
 	// As always, 0 means speak normally, 1 means skip everything (don't say anything)
 
-	real character_skip_fraction; // [0,1]
+	real32 character_skip_fraction; // [0,1]
 
 	// How long does the player look at an AI before the AI responds?
-	real look_comment_time; // s
+	real32 look_comment_time; // s
 
 	// How long does the player look at the AI before he responds with his 'long look' comment?
-	real look_long_comment_time; // s
+	real32 look_long_comment_time; // s
 };
 static_assert(sizeof(character_vocalization_properties) == 0xC);
 
@@ -356,75 +356,75 @@ static_assert(sizeof(character_boarding_properties) == 0x1);
 struct character_kungfu_properties
 {
 	// If the player is within this distance, open fire, even if your task is kungfu-fight disallowed"
-	real kungfu_override_distance; // wus
+	real32 kungfu_override_distance; // wus
 
 	// If you are kungfu disallowed and your danger is above this level, take cover"
-	real kungfu_cover_danger_threshold; // wus
+	real32 kungfu_cover_danger_threshold; // wus
 };
 static_assert(sizeof(character_kungfu_properties) == 0x8);
 
 struct character_guardian_properties
 {
 	// length of time for which the guardian surges
-	real surge_time; // seconds
+	real32 surge_time; // seconds
 
 	// minimum enforced delay between surges
-	real surge_delay_time; // seconds
+	real32 surge_delay_time; // seconds
 
 	// surge when our target gets closer than this to me (0 value defaults to 2wu
-	real proximity_surge_distance; // "wu
+	real32 proximity_surge_distance; // "wu
 
 	// length of time it takes the guardian to get to its phase destination
-	real phase_time; // seconds
+	real32 phase_time; // seconds
 
 	// Minimum distance that I will consider phasing
-	real current_position_distance; // wu
+	real32 current_position_distance; // wu
 
 	// Minimum distance from my target that I will phase to
-	real target_position_distance; // wu
+	real32 target_position_distance; // wu
 };
 static_assert(sizeof(character_guardian_properties) == 0x18);
 
 struct character_combatform_properties
 {
 	// distance at which combatform will be forced into berserk
-	real berserk_distance; // wu
+	real32 berserk_distance; // wu
 
 	// chance of berserking this second
-	real berserk_chance;
+	real32 berserk_chance;
 };
 static_assert(sizeof(character_combatform_properties) == 0x8);
 
 struct character_engineer_properties
 {
 	// try and rise this amount before dying
-	real death_height; // wu
+	real32 death_height; // wu
 
 	// spend this time rising
-	real death_rise_time; // seconds
+	real32 death_rise_time; // seconds
 
 	// spend this time detonating
-	real death_detonation_time; // seconds
+	real32 death_detonation_time; // seconds
 
 	// Boost the shields of allies within this radius during combat" },
-	real shield_boost_radius_max;
+	real32 shield_boost_radius_max;
 
 	// Allies within this radius get maximum shield boost" },
-	real shield_boost_radius_min;
+	real32 shield_boost_radius_min;
 
 	// Boost allies' shields by this amount during combat" },
-	real shield_boost_vitality;
+	real32 shield_boost_vitality;
 
 	// Detonation Thresholds
 	// If shield vitality AND body vitality fall below the thresholds below, detonate
-	real detonation_shield_threshold;
-	real detonation_body_vitality;
+	real32 detonation_shield_threshold;
+	real32 detonation_body_vitality;
 
 	// if target enters within this radius, either detonate or deploy equipment
-	real proximity_radius; // wus
+	real32 proximity_radius; // wus
 
 	// chance of detonating if target enters the drain radius radius" },
-	real proximity_detonation_chance;
+	real32 proximity_detonation_chance;
 
 	// if target enters radius and detonation is not chosen, deploy this equipment.
 	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> proximity_equipment;
@@ -434,7 +434,7 @@ static_assert(sizeof(character_engineer_properties) == 0x38);
 struct character_inspect_properties
 {
 	// distance from object at which to stop and turn on the inspection light
-	real stop_distance; // wu"
+	real32 stop_distance; // wu"
 
 	// time which we should inspect each object for
 	real_bounds inspect_time; // seconds"
@@ -447,19 +447,19 @@ static_assert(sizeof(character_inspect_properties) == 0x14);
 struct character_scarab_properties
 {
 	// When target within this distance, the scarab will back up
-	real fighting_min_distance; // wus
+	real32 fighting_min_distance; // wus
 
 	// When target outside this distance, the scarab will chase
-	real fighting_max_distance; // wus
+	real32 fighting_max_distance; // wus
 
 	// When within these bounds distance from the target, we blend in our anticipated facing vector
 	real_bounds anticipated_aim_radius; // wus
 
 	// When moving forward within this dot of our desired facing, just move forward", nullptr
-	real snap_forward_angle; // [0-1]
+	real32 snap_forward_angle; // [0-1]
 
 	// When moving forward within this dot of our desired facing, just move forward", nullptr
-	real snap_forward_angle_max; // [0-1]
+	real32 snap_forward_angle_max; // [0-1]
 };
 static_assert(sizeof(character_scarab_properties) == 0x18);
 

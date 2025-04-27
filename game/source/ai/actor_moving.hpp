@@ -30,10 +30,10 @@ struct c_destination_orders
 	};
 
 	long m_ignore_target_object_index;
-	real m_scripted_speed;
-	real m_scripted_goal_throttle;
-	real m_destination_tolerance;
-	real m_raw_path_destination_tolerance;
+	real32 m_scripted_speed;
+	real32 m_scripted_goal_throttle;
+	real32 m_destination_tolerance;
+	real32 m_raw_path_destination_tolerance;
 	real_vector3d m_destination_facing;
 	c_ai_action m_destination_action;
 };

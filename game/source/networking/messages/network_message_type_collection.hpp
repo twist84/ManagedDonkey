@@ -67,7 +67,7 @@ struct c_network_message_type_collection
 	{
 		bool initialized;
 		char const* message_type_name;
-		dword_flags flags;
+		uint32 flags;
 		long message_size;
 		long message_size_maximum;
 

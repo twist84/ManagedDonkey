@@ -8,7 +8,7 @@
 
 struct c_havok_contact_point
 {
-	dword m_environment_shape_key;
+	uint32 m_environment_shape_key;
 	long m_impact_datum_index;
 	long m_contact_surface_index;
 	c_global_material_type m_global_material_type_a;
@@ -17,20 +17,20 @@ struct c_havok_contact_point
 	long m_contact_point_object_index;
 	real_point3d m_position;
 	real_vector3d m_normal;
-	real m_distance;
-	real m_friction;
-	real m_restitution;
-	word m_contact_point_id;
+	real32 m_distance;
+	real32 m_friction;
+	real32 m_restitution;
+	uint16 m_contact_point_id;
 
 	// FLAG(0) _new_bit
 	// FLAG(1) _deleted_bit
-	word_flags m_life_cycle_flags;
+	uint16 m_life_cycle_flags;
 
 	// FLAG(1) _physics_only_surface_bit
 	// FLAG(2) _climbable_surface_bit
 	// FLAG(3) _breakable_surface_bit
 	// FLAG(6) _slip_surface_bit
-	byte_flags m_flags;
+	uint8 m_flags;
 
 	char m_rigid_body_index_a;
 	char m_rigid_body_index_b;
@@ -55,7 +55,7 @@ struct c_havok_component :
 		hkArray<s_contact_point_buffer> m_havok_contact_points;
 		hkArray<char> m_physics_model_rigid_body_indexes;
 
-		byte __dataC[0x4];
+		uint8 __dataC[0x4];
 
 		real_point3d m_pre_simulation_position;
 		real_vector3d m_pre_simulation_linear_velocity;
@@ -65,14 +65,14 @@ struct c_havok_component :
 		// FLAG(0) _plays_impact_effects_bit
 		// FLAG(1) _has_infinite_inertia_tensor_bit
 		// FLAG(2) _get_does_not_collide_with_environment_bit
-		byte_flags m_flags;
+		uint8 m_flags;
 	};
 	static_assert(sizeof(c_rigid_body) == 0x48);
 
 	struct c_constraint
 	{
 		// FLAG(0) powered_bit
-		byte_flags m_flags;
+		uint8 m_flags;
 
 		char m_constraint_type;
 		char m_constraint_type_index;
@@ -99,12 +99,12 @@ struct c_havok_component :
 	// FLAG(5) _one_body_object_space_component_bit
 	// FLAG(6) _constrained_to_world_bit
 	// FLAG(7) _physics_model_havok_component_bit
-	dword_flags m_flags;
+	uint32 m_flags;
 
 	long m_object_index;
-	byte m_object_postion_controlling_rigid_body_index;
-	byte m_object_postion_controlling_node_index;
-	byte m_maximum_rigid_body_size;
+	uint8 m_object_postion_controlling_rigid_body_index;
+	uint8 m_object_postion_controlling_node_index;
+	uint8 m_maximum_rigid_body_size;
 	long m_impact_array_index;
 	hkArray<c_rigid_body> m_havok_rigid_bodies;
 	c_rigid_body m_rigid_body;

@@ -53,7 +53,7 @@ void __cdecl render_visibility_camera_collection_compute(render_camera const* ca
 
 //.text:00A532F0 ; 
 
-bool __cdecl render_visibility_get_projection_depth_regions(real* separation, visibility_projection const* projection)
+bool __cdecl render_visibility_get_projection_depth_regions(real32* separation, visibility_projection const* projection)
 {
 	return INVOKE(0x00A53310, render_visibility_get_projection_depth_regions, separation, projection);
 }

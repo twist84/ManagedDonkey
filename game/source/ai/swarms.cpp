@@ -56,7 +56,7 @@ creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator* it
 	return INVOKE(0x01495BC0, swarm_creature_iterator_next, iterator);
 }
 
-//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(long, real, real, real_point3d const*, real_vector3d*)
+//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(long, real32, real32, real_point3d const*, real_vector3d*)
 //.text:01495D20 ; void __cdecl swarm_creature_update(long, long)
 //.text:014968A0 ; void __cdecl swarm_creature_update_timers(long, long, swarm_creature_state*)
 

@@ -36,14 +36,14 @@ static_assert(sizeof(s_effect_vector) == 0x1C);
 struct effect_datum :
 	s_datum_header
 {
-	dword_flags flags;
+	uint32 flags;
 	long definition_index;
 	long looping_sound_index;
 	c_string_id input_marker_name;
-	byte explicit_marker_index;
-	byte conical_distribution_index;
-	union { long scale_a_function_reference; byte scale_a_index; };
-	union { long scale_b_function_reference; byte scale_b_index; };
+	uint8 explicit_marker_index;
+	uint8 conical_distribution_index;
+	union { long scale_a_function_reference; uint8 scale_a_index; };
+	union { long scale_b_function_reference; uint8 scale_b_index; };
 	s_location location;
 	real_vector3d velocity;
 	long object_index;
@@ -54,13 +54,13 @@ struct effect_datum :
 	char first_person_weapon_user_index;
 	long parent_particle_index;
 	long event_datum_head;
-	real scale_a;
-	real scale_b;
+	real32 scale_a;
+	real32 scale_b;
 	real_point2d impact_size;
 	c_static_array<long, 8> location_datum_indices;
 	long lightprobe_index;
-	real death_delay;
-	dword random_seed;
+	real32 death_delay;
+	uint32 random_seed;
 	long breakable_surface_event_index;
 	real_plane3d location_constraint_plane;
 };
@@ -69,12 +69,12 @@ static_assert(sizeof(effect_datum) == 0xA0);
 struct event_datum :
 	s_datum_header
 {
-	byte_flags flags;
-	byte event_block_index;
-	word event_counter;
+	uint8 flags;
+	uint8 event_block_index;
+	uint16 event_counter;
 	long next_event_index;
-	real time;
-	real duration;
+	real32 time;
+	real32 duration;
 };
 static_assert(sizeof(event_datum) == 0x14);
 
@@ -90,14 +90,14 @@ static_assert(sizeof(effect_location_datum) == 0x40);
 
 struct s_effect_counts
 {
-	byte __data[0x18];
+	uint8 __data[0x18];
 };
 static_assert(sizeof(s_effect_counts) == 0x18);
 
 struct effect_geometry_sample_datum :
 	s_datum_header
 {
-	byte __data[0x26];
+	uint8 __data[0x26];
 };
 static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
@@ -107,9 +107,9 @@ struct s_effect_message
 	long m_effect_datum_index;
 	long m_effect_definition_index;
 	long m_event_datum_index;
-	byte m_event_block_index;
-	byte m_priority;
-	word m_event_counter;
+	uint8 m_event_block_index;
+	uint8 m_priority;
+	uint16 m_event_counter;
 	long m_flags;
 
 	union
@@ -135,7 +135,7 @@ struct s_effect_message
 		//s_event_restarted m_event_restarted;
 		//s_effect_sample_lightmap m_effect_sample_lightmap;
 
-		byte storage[0x44];
+		uint8 storage[0x44];
 	};
 };
 static_assert(sizeof(s_effect_message) == 0x5C);
@@ -143,22 +143,22 @@ static_assert(sizeof(s_effect_message) == 0x5C);
 struct s_geometry_sample
 {
 	real_point3d m_sample_point;
-	real m_light_probe_r[36];
-	real m_light_probe_g[36];
-	real m_light_probe_b[36];
+	real32 m_light_probe_r[36];
+	real32 m_light_probe_g[36];
+	real32 m_light_probe_b[36];
 	real_vector3d m_diffuse;
 	real_vector3d m_normal;
 	real_vector3d m_dominant_light_dir;
 	real_rgb_color m_dominant_light_intensity;
-	real m_dominant_light_contrast;
+	real32 m_dominant_light_contrast;
 	bool m_needs_interpolation;
-	real m_chocalate_mountain_scale;
+	real32 m_chocalate_mountain_scale;
 };
 static_assert(sizeof(s_geometry_sample) == 0x1F8);
 
 struct s_effect_lightprobe
 {
-	byte_flags m_flags;
+	uint8 m_flags;
 	s_geometry_sample m_geometry_sample;
 };
 static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
@@ -167,7 +167,7 @@ extern bool debug_damage_effects;
 
 struct s_game_non_bsp_zone_set;
 struct c_scenario_resource_registry;
-extern void __cdecl effects_prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask);
+extern void __cdecl effects_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask);
 extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
 extern bool __cdecl dangerous_effects_near_player();
@@ -175,12 +175,12 @@ extern void __cdecl effect_render(long effect_index, long user_index);
 extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* normal, long match_all_markers, long effect_deterministic, real_plane3d const* plane, s_cluster_reference* cluster_reference);
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();
-extern void __cdecl effects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
-extern void __cdecl effects_frame_advance(real seconds_elapsed);
-extern void __cdecl effects_frame_advance_gpu(real seconds_elapsed);
+extern void __cdecl effects_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl effects_frame_advance(real32 seconds_elapsed);
+extern void __cdecl effects_frame_advance_gpu(real32 seconds_elapsed);
 extern void __cdecl effects_initialize();
 extern void __cdecl effects_initialize_for_new_map();
-extern void __cdecl effects_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl effects_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 extern void __cdecl effects_render(long user_index, e_effect_pass pass);
 extern void __cdecl effects_submit_cheap_first_person_attachments(long user_index);

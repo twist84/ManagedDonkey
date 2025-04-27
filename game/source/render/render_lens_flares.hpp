@@ -24,10 +24,10 @@ struct s_lens_flare
 	long definition_index;
 	real_point3d position;
 	real_vector3d forward;
-	dword tint_color;
-	real age_function_input;
-	real scale;
-	real marker_scale;
+	uint32 tint_color;
+	real32 age_function_input;
+	real32 scale;
+	real32 marker_scale;
 	long last_pulse_tick;
 	long expected_pixel_count;
 	long attached_type_index;
@@ -48,10 +48,10 @@ extern bool& render_lens_flares_enabled;
 extern _lens_flare_globals& g_lens_flare_globals;
 
 extern void __cdecl lens_flare_get_bitmap_aspect_ratio(long bitmap_group_index, long bitmap_index, real_vector2d* aspect_scale);
-extern void __cdecl lens_flare_render_internal(long user_index, long lens_flare_index, real opacity, long conditional_rendering_index, bool screen_facing);
+extern void __cdecl lens_flare_render_internal(long user_index, long lens_flare_index, real32 opacity, long conditional_rendering_index, bool screen_facing);
 extern void __cdecl lens_flare_render_occlusion(long lens_flare_index);
-extern long __cdecl lens_flares_create(long definition_index, e_lens_flare_attachment_types attachment_type, long attachment_index, word attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real age_function_input, real scale, real marker_scale, bool first_person, long user_index);
-extern long __cdecl lens_flares_create_internal(long definition_index, e_lens_flare_attachment_types attachment_type, long attachment_index, word attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real age_function_input, real scale, real marker_scale, bool first_person, long user_index);
+extern long __cdecl lens_flares_create(long definition_index, e_lens_flare_attachment_types attachment_type, long attachment_index, uint16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, long user_index);
+extern long __cdecl lens_flares_create_internal(long definition_index, e_lens_flare_attachment_types attachment_type, long attachment_index, uint16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, long user_index);
 extern void __cdecl lens_flares_dispose();
 extern void __cdecl lens_flares_dispose_from_old_map();
 extern void __cdecl lens_flares_garbage_collect();

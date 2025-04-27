@@ -223,7 +223,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	char depth;
 
-	c_flags<e_bitmap_more_flags, byte, k_bitmap_more_flags> more_flags;
+	c_flags<e_bitmap_more_flags, uint8, k_bitmap_more_flags> more_flags;
 
 	// DO NOT CHANGE
 	c_enum<e_bitmap_type, short, _bitmap_type_2d, k_bitmap_type_count> type;
@@ -231,7 +231,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
 
-	c_flags<e_bitmap_flags, word, k_bitmap_flags_count> flags;
+	c_flags<e_bitmap_flags, uint16, k_bitmap_flags_count> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
 	point2d registration_point;
@@ -597,16 +597,16 @@ struct bitmap_group
 	// choose how you are using this bitmap
 	c_enum<e_bitmap_usage_global, long, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 
-	c_flags<e_bitmap_group_flags, word, k_bitmap_group_flags> flags;
+	c_flags<e_bitmap_group_flags, uint16, k_bitmap_group_flags> flags;
 
 	// number of pixels between adjacent sprites (0 uses default, negative numbers set no spacing)
 	short sprite_spacing;
 
 	// the apparent height of the bump map above the triangle it is textured onto, in texture repeats (i.e., 1.0 would be as high as the texture is wide)
-	real bump_map_height; // repeats
+	real32 bump_map_height; // repeats
 
 	// used by detail maps and illum maps.  0 means fade by last mipmap, 1 means fade by first mipmap
-	real fade_factor; // [0,1]
+	real32 fade_factor; // [0,1]
 
 	// automatic chooses FAST if your bitmap is bright, and PRETTY if your bitmap has dark bits
 	c_enum<e_bitmap_curve_override, char, _bitmap_curve_override_choose_best, k_bitmap_curve_override_count> curve_mode;
@@ -616,7 +616,7 @@ struct bitmap_group
 
 	// 0 = do not downsample source image
 	short max_resolution;
-	byte post_max_resolution[2];
+	uint8 post_max_resolution[2];
 
 	// overrides the format defined by usage
 	c_enum<e_bitmap_usage_format, short, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;

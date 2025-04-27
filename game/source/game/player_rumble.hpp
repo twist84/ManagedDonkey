@@ -4,8 +4,8 @@
 
 struct rumble_data
 {
-	word left_frequency;
-	word right_frequency;
+	uint16 left_frequency;
+	uint16 right_frequency;
 };
 static_assert(sizeof(rumble_data) == 0x4);
 
@@ -13,24 +13,24 @@ struct player_rumble_impulse
 {
 	long damage_response_index;
 	long class_index;
-	real rumble_scale;
+	real32 rumble_scale;
 };
 static_assert(sizeof(player_rumble_impulse) == 0xC);
 
 struct player_rumble_datum
 {
 	player_rumble_impulse impulse[8];
-	real time_elapsed[8];
-	real left_frequency_continuous;
-	real right_frequency_continuous;
+	real32 time_elapsed[8];
+	real32 left_frequency_continuous;
+	real32 right_frequency_continuous;
 };
 static_assert(sizeof(player_rumble_datum) == 0x88);
 
 struct scripted_rumble_datum
 {
-	real left_frequency;
-	real right_frequency;
-	real scale;
+	real32 left_frequency;
+	real32 right_frequency;
+	real32 scale;
 };
 static_assert(sizeof(scripted_rumble_datum) == 0xC);
 
@@ -46,5 +46,5 @@ extern void __cdecl rumble_dispose();
 extern void __cdecl rumble_dispose_from_old_map();
 extern void __cdecl rumble_initialize();
 extern void __cdecl rumble_initialize_for_new_map();
-extern void __cdecl rumble_update(real world_seconds_elapsed);
+extern void __cdecl rumble_update(real32 world_seconds_elapsed);
 

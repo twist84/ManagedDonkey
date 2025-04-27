@@ -4,14 +4,14 @@
 
 struct real_block
 {
-	real value;
+	real32 value;
 };
-static_assert(sizeof(real_block) == sizeof(real));
+static_assert(sizeof(real_block) == sizeof(real32));
 
 struct function_definition_data
 {
 	char function_type;
-	byte_flags flags;
+	uint8 flags;
 	char function[2];
 	rgb_color color[4];
 	c_typed_tag_block<real_block> values;

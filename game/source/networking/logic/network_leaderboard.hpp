@@ -113,7 +113,7 @@ struct s_online_data
 	union
 	{
 		long data_as_long;
-		real data_as_real;
+		real32 data_as_real;
 	};
 };
 static_assert(sizeof(s_online_data) == 0xC);
@@ -121,7 +121,7 @@ static_assert(sizeof(s_online_data) == 0xC);
 struct s_online_property
 {
 	e_online_property_id id;
-	byte __data4[0x4];
+	uint8 __data4[0x4];
 	s_online_data data;
 	long __unknown14;
 };
@@ -170,20 +170,20 @@ static_assert(sizeof(s_network_leaderboard_player_game_results) == 0x1630);
 
 struct s_network_leaderboard_game_results
 {
-	word hopper_identifier;
-	byte __pad2[0x2];
+	uint16 hopper_identifier;
+	uint8 __pad2[0x2];
 	long draw_probability;
-	real beta;
-	real tau;
+	real32 beta;
+	real32 tau;
 	long experience_base_increment;
 	long experience_penalty_decrement;
 	bool hopper_is_valid;
 	bool is_ranked;
 	bool team_game;
-	byte __pad1B[0x1];
+	uint8 __pad1B[0x1];
 	long team_count;
 	long player_count;
-	dword start_time;
+	uint32 start_time;
 };
 static_assert(sizeof(s_network_leaderboard_game_results) == 0x28);
 
@@ -191,14 +191,14 @@ struct s_network_leaderboard_query_user_statistics
 {
 	bool valid;
 	long controller_index;
-	qword xuid;
+	uint64 xuid;
 	wchar_t name[32];
 
 	long __unknown50;
 	bool __unknown54;
 	long __time58;
 	long __unknown5C;
-	byte __data60[0x1C8];
+	uint8 __data60[0x1C8];
 
 	c_http_stored_buffer_downloader<128> update_user_player_stats_downloader;
 	long highest_skill_set_state;
@@ -209,7 +209,7 @@ static_assert(sizeof(s_network_leaderboard_query_user_statistics) == 0x948);
 struct s_network_leaderboard_write_statistics
 {
 	long __unknown0;
-	byte __data4[0x4];
+	uint8 __data4[0x4];
 };
 static_assert(sizeof(s_network_leaderboard_write_statistics) == 0x8);
 
@@ -220,7 +220,7 @@ struct s_network_leaderboard_globals
 	long global_unarbitrated_leaderboard_id;
 	bool refreshing;
 	long __time10;
-	word hopper_id;
+	uint16 hopper_id;
 	long hopper_skill_leaderboard_id;
 	long hopper_leaderboard_id;
 	c_static_array<s_network_leaderboard_query_user_statistics, 4> query_users;

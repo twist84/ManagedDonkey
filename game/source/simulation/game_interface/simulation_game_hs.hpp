@@ -21,8 +21,8 @@ public:
 	virtual bool reference_delays_entity_deletion() override;
 	virtual bool event_can_be_transmitted(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*) override;
 	virtual long minimum_required_bits(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, long*) override;
-	virtual real calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real) override;
-	virtual void write_description_to_string(c_replication_outgoing_event const* a1, s_simulation_view_telemetry_data const* a2, real a3, long buffer_count, char* buffer) override;
+	virtual real32 calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real32) override;
+	virtual void write_description_to_string(c_replication_outgoing_event const* a1, s_simulation_view_telemetry_data const* a2, real32 a3, long buffer_count, char* buffer) override;
 	virtual long* maximum_required_bits(long* out_bits, c_replication_outgoing_event*, long) override;
 	virtual void event_payload_encode(long payload_size, void const* payload, c_bitstream* packet) override;
 	virtual bool event_payload_decode(long payload_size, void* payload, c_bitstream* packet, bool a4) override;

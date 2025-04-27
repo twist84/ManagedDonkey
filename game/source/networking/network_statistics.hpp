@@ -19,15 +19,15 @@ public:
 	};
 	static_assert(sizeof(s_interval) == 0x8);
 
-	qword m_total_events;
-	qword m_total_values;
+	uint64 m_total_events;
+	uint64 m_total_values;
 
 	long __time10;
 	s_interval __unknown14;
 
 	long m_period_duration_msec;
 	long m_interval_duration_msec;
-	real m_period_duration;
+	real32 m_period_duration;
 	long m_next_interval_index;
 	s_interval m_intervals[k_network_statistics_interval_count]; // $TODO: find a better name?
 	s_interval m_stored_total;

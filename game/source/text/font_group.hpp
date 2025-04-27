@@ -7,7 +7,7 @@ struct s_font_header;
 struct s_kerning_pair;
 
 extern bool __cdecl font_character_validate(s_font_character const* character);
-extern short __cdecl font_get_kerning_pair_offset(s_font_header const* header, dword a2, dword a3);
+extern short __cdecl font_get_kerning_pair_offset(s_font_header const* header, uint32 a2, uint32 a3);
 extern long __cdecl font_get_line_height(s_font_header const* header);
 extern void __cdecl font_header_byteswap(s_font_header* header);
 extern bool __cdecl font_header_validate(s_font_header const* header);

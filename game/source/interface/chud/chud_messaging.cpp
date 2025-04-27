@@ -21,7 +21,7 @@ void __cdecl chud_messaging_post(long user_index, wchar_t const* message_text, e
 	INVOKE(0x00A95920, chud_messaging_post, user_index, message_text, chud_message_context);
 }
 
-//.text:00A95950 ; void __cdecl chud_messaging_post_progression_toast(long, long, real)
+//.text:00A95950 ; void __cdecl chud_messaging_post_progression_toast(long, long, real32)
 //.text:00A95990 ; 
 //.text:00A959C0 ; 
 //.text:00A95A10 ; 

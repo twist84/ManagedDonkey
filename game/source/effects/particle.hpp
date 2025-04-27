@@ -7,25 +7,25 @@ struct c_particle :
 {
 	struct s_property_values
 	{
-		real m_manual_rotation;
-		real m_animation_rate;
+		real32 m_manual_rotation;
+		real32 m_animation_rate;
 		real_vector3d m_self_acceleration;
 	};
 	static_assert(sizeof(s_property_values) == 0x14);
 
-	word_flags m_flags : 13;
-	word m_collision_countdown : 3;
+	uint16 m_flags : 13;
+	uint16 m_collision_countdown : 3;
 	long m_next_particle;
 	long m_parent_emitter_index;
 	unsigned int m_gpu_address;
-	real m_age;
-	real m_inverse_lifespan;
-	real m_emission_time;
-	word m_random_seed[8];
+	real32 m_age;
+	real32 m_inverse_lifespan;
+	real32 m_emission_time;
+	uint16 m_random_seed[8];
 	real_point3d m_position;
 	real_vector3d m_velocity;
-	real m_angular_velocity;
-	real m_physical_rotation;
+	real32 m_angular_velocity;
+	real32 m_physical_rotation;
 	real_argb_color m_initial_color;
 	real_vector3d m_axis;
 	s_property_values m_property_values;

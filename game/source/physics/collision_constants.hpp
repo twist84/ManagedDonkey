@@ -60,8 +60,8 @@ static_assert(MASK(k_collision_test_objects_flags_count) == ~0xFFFF0000);
 
 struct s_collision_test_flags
 {
-	c_flags<e_collision_test_flag, dword, k_collision_test_flags_count> collision_flags;
-	c_flags<e_collision_test_objects_flag, dword, k_collision_test_objects_flags_count> object_flags;
+	c_flags<e_collision_test_flag, uint32, k_collision_test_flags_count> collision_flags;
+	c_flags<e_collision_test_objects_flag, uint32, k_collision_test_objects_flags_count> object_flags;
 };
 static_assert(sizeof(s_collision_test_flags) == 0x8);
 

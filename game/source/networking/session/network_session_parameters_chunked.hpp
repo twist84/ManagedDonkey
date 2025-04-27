@@ -16,12 +16,12 @@ protected:
 	long m_update_chunk_index;
 	long m_change_request_chunk_index;
 
-	byte m_update_payload[k_payload_size];
+	uint8 m_update_payload[k_payload_size];
 	long m_update_encoded_size;
 	long m_update_encoded_checksum;
 	long m_update_chunk_count;
 
-	byte m_change_request_payload[k_payload_size];
+	uint8 m_change_request_payload[k_payload_size];
 	long m_change_request_encoded_size;
 	long m_change_request_encoded_checksum;
 	long m_change_request_chunk_count;

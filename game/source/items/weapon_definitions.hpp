@@ -94,7 +94,7 @@ enum e_weapon_type
 struct melee_damage_parameters_struct
 {
 	real_euler_angles2d damage_pyramid_angles;
-	real damage_pyramid_depth;
+	real32 damage_pyramid_depth;
 	s_tag_reference first_hit_damage;
 	s_tag_reference first_hit_response;
 	s_tag_reference second_hit_damage;
@@ -115,24 +115,24 @@ static_assert(sizeof(melee_damage_parameters_struct) == 0xCC);
 struct aim_assist_parameters
 {
 	angle autoaim_angle;
-	real autoaim_range;
-	real autoaim_falloff_range;
-	real autoaim_near_falloff_range;
+	real32 autoaim_range;
+	real32 autoaim_falloff_range;
+	real32 autoaim_near_falloff_range;
 	angle magnetism_angle;
-	real magnetism_range;
-	real magnetism_falloff_range;
-	real magnetism_near_falloff_range;
+	real32 magnetism_range;
+	real32 magnetism_falloff_range;
+	real32 magnetism_near_falloff_range;
 	angle deviation_angle;
-	byte ZHV[0x4];
-	byte CVYGPMLMX[0xC];
-	byte UQXKLVAXI[0x4];
+	uint8 ZHV[0x4];
+	uint8 CVYGPMLMX[0xC];
+	uint8 UQXKLVAXI[0x4];
 };
 static_assert(sizeof(aim_assist_parameters) == 0x38);
 
 struct weapon_tracking
 {
 	short tracking_type;
-	byte F[0x2];
+	uint8 F[0x2];
 };
 static_assert(sizeof(weapon_tracking) == 0x4);
 
@@ -147,7 +147,7 @@ static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
 
 struct s_weapon_magazine
 {
-	dword_flags flags;
+	uint32 flags;
 	short rounds_recharged; // per second
 	short rounds_total_initial;
 	short rounds_total_maximum;
@@ -155,24 +155,24 @@ struct s_weapon_magazine
 	short runtime_rounds_inventory_maximum;
 
 	// pad
-	byte IIO[0x2];
+	uint8 IIO[0x2];
 
 	// the length of time it takes to load a single magazine into the weapon
-	real reload_time; // seconds
+	real32 reload_time; // seconds
 
 	short rounds_reloaded;
 
 	// pad
-	byte VJGZW[0x2];
+	uint8 VJGZW[0x2];
 
 	// the length of time it takes to chamber the next round
-	real chamber_time; // seconds
+	real32 chamber_time; // seconds
 
 	// pad
-	byte HPMIV[0x8];
+	uint8 HPMIV[0x8];
 
 	// pad
-	byte P[0x10];
+	uint8 P[0x10];
 
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> reloading_effect;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> reloading_damage_effect;
@@ -248,8 +248,8 @@ struct weapon_trigger_definition
 	{
 		// AUTOFIRE
 
-		real autofire_time;
-		real autofire_throw;
+		real32 autofire_time;
+		real32 autofire_throw;
 		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> secondary_action;
 		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> primary_action;
 	};
@@ -260,10 +260,10 @@ struct weapon_trigger_definition
 		// CHARGING
 
 		// the amount of time it takes for this trigger to become fully charged
-		real charging_time; // seconds
+		real32 charging_time; // seconds
 
 		// the amount of time this trigger can be charged before becoming overcharged
-		real charged_time; // seconds
+		real32 charged_time; // seconds
 
 		c_enum<e_weapon_trigger_overcharged_action, short, _weapon_trigger_overcharged_action_none, k_weapon_trigger_overcharged_actions> overcharged_action;
 
@@ -271,10 +271,10 @@ struct weapon_trigger_definition
 		short cancelled_trigger_throw;
 
 		// the amount of illumination given off when the weapon is fully charged
-		real charged_illumination; // [0,1]
+		real32 charged_illumination; // [0,1]
 
 		// length of time the weapon will spew (fire continuously) while discharging
-		real spew_time; // seconds
+		real32 spew_time; // seconds
 
 		// the charging effect is created once when the trigger begins to charge
 		c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> charging_effect;
@@ -286,7 +286,7 @@ struct weapon_trigger_definition
 		c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> charging_continuous_damage_response;
 
 		// how much battery to drain per second when charged
-		real charged_drain_rate;
+		real32 charged_drain_rate;
 
 		// the discharging effect is created once when the trigger releases its charge
 		c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> discharge_effect;
@@ -298,7 +298,7 @@ struct weapon_trigger_definition
 	};
 	static_assert(sizeof(s_charging_fields) == 0x68);
 
-	c_flags<e_weapon_trigger_definition_flags, dword, k_weapon_trigger_definition_flags> flags;
+	c_flags<e_weapon_trigger_definition_flags, uint32, k_weapon_trigger_definition_flags> flags;
 	c_enum<e_weapon_trigger_input, short, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
 	c_enum<e_weapon_trigger_behavior, short, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
 	short primary_barrel;
@@ -306,14 +306,14 @@ struct weapon_trigger_definition
 	c_enum<e_trigger_prediction_type, short, _trigger_prediction_type_none, k_trigger_prediction_types> prediction;
 
 	// pad
-	byte GNFR[0x2];
+	uint8 GNFR[0x2];
 
 	s_autofire_fields autofire;
 	s_charging_fields charging;
 
-	real lock_on_hold_time;
-	real lock_on_acquire_time;
-	real lock_on_grace_time;
+	real32 lock_on_hold_time;
+	real32 lock_on_acquire_time;
+	real32 lock_on_grace_time;
 
 	void update_reference_names();
 };
@@ -322,74 +322,74 @@ static_assert(sizeof(weapon_trigger_definition) == 0x90);
 struct s_weapon_barrel_firing_parameters
 {
 	// the number of firing effects created per second
-	real rounds_per_second;
+	real32 rounds_per_second;
 
 	// the continuous firing time it takes for the weapon to achieve its final rounds per second
-	real acceleration_time; // seconds
+	real32 acceleration_time; // seconds
 
 	// the continuous idle time it takes for the weapon to return from its final rounds per second to its initial
-	real deceleration_time; // seconds
+	real32 deceleration_time; // seconds
 
 	// scale the barrel spin speed by this amount
-	real barrel_spin_scale;
+	real32 barrel_spin_scale;
 
 	// a percentage between 0 and 1 which controls how soon in its firing animation the weapon blurs
-	real blurred_rate_of_fire;
+	real32 blurred_rate_of_fire;
 
 	// allows designer caps to the shots you can fire from one firing action
-	real shots_per_fire;
+	real32 shots_per_fire;
 
 	// how long after a set of shots it takes before the barrel can fire again
-	real fire_recovery_time; // seconds
+	real32 fire_recovery_time; // seconds
 
 	// how much of the recovery allows shots to be queued
-	real soft_recovery_fraction;
+	real32 soft_recovery_fraction;
 
-	real __unknown;
+	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_firing_parameters) == sizeof(real) * 9);
+static_assert(sizeof(s_weapon_barrel_firing_parameters) == sizeof(real32) * 9);
 
 struct s_weapon_barrel_firing_error
 {
 	// the continuous firing time it takes for the weapon to achieve its final error
-	real acceleration_time; // seconds
+	real32 acceleration_time; // seconds
 
 	// the continuous idle time it takes for the weapon to return to its initial error
-	real deceleration_time; // seconds
+	real32 deceleration_time; // seconds
 
 	// the range of angles (in degrees) that a damaged weapon will skew fire
-	real damage_error;
+	real32 damage_error;
 
 	angle min_error_look_pitch_rate; // yaw rate is doubled
 	angle full_error_look_pitch_rate; // yaw rate is doubled
 
 	// use to soften or sharpen the rate ding
-	real look_pitch_error_power;
+	real32 look_pitch_error_power;
 
-	real __unknown;
+	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_firing_error) == sizeof(real) * 7);
+static_assert(sizeof(s_weapon_barrel_firing_error) == sizeof(real32) * 7);
 
 struct s_weapon_barrel_dual_weapon_error
 {
 	// the continuous firing time it takes for the weapon to achieve its final error
-	real acceleration_time; // seconds
+	real32 acceleration_time; // seconds
 
 	// the continuous idle time it takes for the weapon to return to its initial error
-	real deceleration_time; // seconds
+	real32 deceleration_time; // seconds
 
-	real runtime_acceleration_time;
-	real runtime_deceleration_time;
-	real minimum_error; // degrees
-	real error_angle; // degrees
-	real dual_wield_damage_scale;
-	real __unknown;
+	real32 runtime_acceleration_time;
+	real32 runtime_deceleration_time;
+	real32 minimum_error; // degrees
+	real32 error_angle; // degrees
+	real32 dual_wield_damage_scale;
+	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real) * 8);
+static_assert(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real32) * 8);
 
 struct s_weapon_barrel
 {
-	dword_flags flags;
+	uint32 flags;
 
 	// firing
 	s_weapon_barrel_firing_parameters firing;
@@ -412,10 +412,10 @@ struct s_weapon_barrel
 	// prediction properties
 	// what the behavior of this barrel is in a predicted network game
 
-	short_enum prediction_type;
+	int16 prediction_type;
 
 	// how loud this weapon appears to the AI
-	short_enum firing_noise;
+	int16 firing_noise;
 
 
 	// error
@@ -434,14 +434,14 @@ struct s_weapon_barrel
 
 	// projectile
 
-	short_enum distribution_function;
+	int16 distribution_function;
 	short projectiles_per_shot;
-	real distribution_angle; // degrees
+	real32 distribution_angle; // degrees
 	angle minimum_error; // degrees
 	angle_bounds error_angle; // degrees
 
 	// $TODO: map the rest of this struct
-	byte __data88[0x1AC - 0x88];
+	uint8 __data88[0x1AC - 0x88];
 };
 static_assert(sizeof(s_weapon_barrel) == 0x1AC);
 
@@ -452,8 +452,8 @@ struct _weapon_definition
 	// All weapons should have 'primary trigger' and 'secondary trigger' markers as appropriate.
 	// Blurred permutations are called '$primary-blur' and '$secondary-blur'.
 
-	c_flags<e_weapon_definition_flags, dword, k_weapon_definition_flags> flags;
-	c_flags<e_weapon_definition_secondary_flags, dword, k_weapon_definition_secondary_flags> secondary_flags;
+	c_flags<e_weapon_definition_flags, uint32, k_weapon_definition_flags> flags;
+	c_flags<e_weapon_definition_secondary_flags, uint32, k_weapon_definition_secondary_flags> secondary_flags;
 	c_string_id unused_label;
 	short secondary_trigger_mode;
 
@@ -461,12 +461,12 @@ struct _weapon_definition
 	short maximum_alternate_shots_loaded;
 
 	// how long after being readied it takes this weapon to switch its 'turned_on' attachment to 1.0
-	real turn_on_time;
+	real32 turn_on_time;
 
 
 	// old obsolete export to functions
 
-	real ready_time; // seconds
+	real32 ready_time; // seconds
 	s_tag_reference ready_effect;
 	s_tag_reference ready_damage_effect;
 
@@ -474,25 +474,25 @@ struct _weapon_definition
 	// heat
 
 	// the heat value a weapon must return to before leaving the overheated state, once it has become overheated in the first place
-	real heat_recovery_threshold; // [0,1]
+	real32 heat_recovery_threshold; // [0,1]
 
 	// the heat value over which a weapon first becomes overheated (should be greater than the heat recovery threshold)
-	real overheated_threshold; // [0,1]
+	real32 overheated_threshold; // [0,1]
 
 	// the heat value above which the weapon has a chance of exploding each time it is fired
-	real heat_detonation_threshold; // [0,1]
+	real32 heat_detonation_threshold; // [0,1]
 
 	// the percent chance (between 0.0 and 1.0) the weapon will explode when fired over the heat detonation threshold
-	real heat_detonation_fraction; // [0,1]
+	real32 heat_detonation_fraction; // [0,1]
 
 	// the amount of heat lost each second when the weapon is not being fired
-	real heat_loss_per_second; // [0,1]
+	real32 heat_loss_per_second; // [0,1]
 
 	// the amount of illumination given off when the weapon is overheated
-	real heat_illusion; // [0,1]
+	real32 heat_illusion; // [0,1]
 
 	// the amount of heat lost each second when the weapon is not being fired
-	real overheated_heat_loss_per_second; // [0,1]
+	real32 overheated_heat_loss_per_second; // [0,1]
 
 	s_tag_reference overheated;
 	s_tag_reference overheated_damage_effect;
@@ -516,13 +516,13 @@ struct _weapon_definition
 	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> melee_damage_reporting_type;
 
 	// pad
-	byte FEOROBJE[0x1];
+	uint8 FEOROBJE[0x1];
 
 	// the number of magnification levels this weapon allows
 	short magnification_levels;
 	real_bounds magnification_range;
-	dword_flags magnification_flags;
-	real switch_ready_speed;
+	uint32 magnification_flags;
+	real32 switch_ready_speed;
 
 
 	// weapon aim assist
@@ -530,13 +530,13 @@ struct _weapon_definition
 	aim_assist_parameters weapon_aim_assist;
 
 	// Halo Online
-	dword __unknown1DC;
+	uint32 __unknown1DC;
 
 	s_tag_block target_tracking;
-	real ballistics0;
-	real ballistics1;
-	real ballistics2;
-	real ballistics3;
+	real32 ballistics0;
+	real32 ballistics1;
+	real32 ballistics2;
+	real32 ballistics3;
 
 
 	// movement
@@ -544,51 +544,51 @@ struct _weapon_definition
 	short movement_penalized;
 
 	// pad
-	byte GTIXVRPA[0x2];
+	uint8 GTIXVRPA[0x2];
 
-	real forward_movement_penalty;
-	real sideways_movement_penalty;
+	real32 forward_movement_penalty;
+	real32 sideways_movement_penalty;
 
 
 	// AI targeting parameters
-	real ai_scariness;
+	real32 ai_scariness;
 
 
 	// miscellaneous
 
-	real weapon_power_on_time; // seconds
-	real weapon_power_off_time; // seconds
+	real32 weapon_power_on_time; // seconds
+	real32 weapon_power_off_time; // seconds
 
 	s_tag_reference weapon_power_on_effect;
 	s_tag_reference weapon_power_off_effect;
 
 	// how much the weapon's heat recovery is penalized as it ages
-	real age_heat_recovery_penalty;
+	real32 age_heat_recovery_penalty;
 
 	// how much the weapon's rate of fire is penalized as it ages
-	real age_rate_of_fire_penalty;
+	real32 age_rate_of_fire_penalty;
 
 	// the age threshold when the weapon begins to misfire
-	real age_misfire_start; // [0,1]
+	real32 age_misfire_start; // [0,1]
 
 	// at age 1.0, the misfire chance per shot
-	real age_misfire_chance; // [0,1]
+	real32 age_misfire_chance; // [0,1]
 
 	s_tag_reference pickup_sound;
 	s_tag_reference zoom_in_sound;
 	s_tag_reference zoom_out_sound;
 
 	// how much to decrease active camo when a round is fired
-	real active_camo_ding;
+	real32 active_camo_ding;
 
 	// how fast to increase active camo (per tick) when a round is fired
-	real active_camo_regrowth_rate;
+	real32 active_camo_regrowth_rate;
 
 	// the node that get's attached to the unit's hand
 	c_string_id handle_node;
 
 	// Halo Online
-	real __unknown280; // STRING_ID(global, sprint_exit) related
+	real32 __unknown280; // STRING_ID(global, sprint_exit) related
 
 	// weapon labels
 	c_string_id weapon_class;
@@ -607,32 +607,32 @@ struct _weapon_definition
 	c_typed_tag_block<s_weapon_magazine> magazines;
 	c_typed_tag_block<weapon_trigger_definition> triggers;
 	c_typed_tag_block<s_weapon_barrel> barrels;
-	real runtime_weapon_power_on_velocity;
-	real runtime_weapon_power_off_velocity;
+	real32 runtime_weapon_power_on_velocity;
+	real32 runtime_weapon_power_off_velocity;
 
 
 	// first-person movement control
 
-	real max_movement_acceleration;
-	real max_movement_velocity;
-	real max_turning_acceleration;
-	real max_turning_velocity;
+	real32 max_movement_acceleration;
+	real32 max_movement_velocity;
+	real32 max_turning_acceleration;
+	real32 max_turning_velocity;
 	s_tag_reference deployed_vehicle;
 	s_tag_reference tossed_weapon;
 	s_tag_reference age_effect;
 	s_tag_reference age_weapon;
 	s_tag_reference age_material_effects;
-	real external_aging_amount;
-	real campaign_external_aging_amount;
+	real32 external_aging_amount;
+	real32 campaign_external_aging_amount;
 	real_vector3d first_person_weapon_offset;
 	real_vector2d first_person_scope_size;
 
 	// range in degrees. 0 is straight, -90 is down, 90 is up
 	real_bounds support_third_person_camera_range; // degrees
 
-	real weapon_zoom_time; // seconds
-	real weapon_ready_for_use_time; // seconds
-	real target_obstructed_max_distance; // wu
+	real32 weapon_zoom_time; // seconds
+	real32 weapon_ready_for_use_time; // seconds
+	real32 target_obstructed_max_distance; // wu
 	c_string_id unit_stow_anchor_name;
 
 	void update_reference_names();

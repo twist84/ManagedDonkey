@@ -18,11 +18,11 @@ struct transport_address;
 struct s_player_identifier
 {
 	s_player_identifier();
-	s_player_identifier(qword data);
-	s_player_identifier(dword _ipv4_address, word _port, word_flags _flags);
+	s_player_identifier(uint64 data);
+	s_player_identifier(uint32 _ipv4_address, uint16 _port, uint16 _flags);
 	s_player_identifier(transport_address const* address);
 
-	byte identifier[8];
+	uint8 identifier[8];
 
 	bool operator==(s_player_identifier const& other)
 	{
@@ -30,12 +30,12 @@ struct s_player_identifier
 	}
 
 	//// make_int64(ip, port)
-	//dword ipv4_address;
-	//word port;
+	//uint32 ipv4_address;
+	//uint16 port;
 	//
 	//// online_xuid_is_guest_account
 	//// 0000 0000 1100 1001
-	//word_flags flags;
+	//uint16 flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
@@ -65,15 +65,15 @@ struct s_emblem_info
 	void __thiscall decode(c_bitstream* packet);
 	void __thiscall encode(c_bitstream* packet);
 
-	byte foreground_emblem_index;
-	byte background_emblem_index;
-	c_flags<e_emblem_info_flags, byte, k_emblem_info_flags_count> emblem_info_flags;
+	uint8 foreground_emblem_index;
+	uint8 background_emblem_index;
+	c_flags<e_emblem_info_flags, uint8, k_emblem_info_flags_count> emblem_info_flags;
 	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> primary_color_index;
 	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> secondary_color_index;
 	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> background_color_index;
-	word pad;
+	uint16 pad;
 
-	byte __pad8[0x648];
+	uint8 __pad8[0x648];
 };
 static_assert(sizeof(s_emblem_info) == 0x650);
 
@@ -89,15 +89,15 @@ enum e_bungienet_user
 
 struct s_player_appearance
 {
-	byte_flags flags;
-	byte player_model_choice;
+	uint8 flags;
+	uint8 player_model_choice;
 
-	byte __pad2[0x2];
+	uint8 __pad2[0x2];
 
 	s_emblem_info emblem_info;
 	c_static_wchar_string<5> service_tag;
 
-	byte __pad65E[0x2];
+	uint8 __pad65E[0x2];
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 
@@ -106,47 +106,47 @@ struct s_s3d_player_armor_configuration_loadout
 	c_static_array<rgb_color, k_color_type_count> colors;
 
 	// array of 10 based on the decode function for this struct
-	c_static_array<byte, k_armor_type_count> armors;
-	byte : 8;
-	byte : 8;
+	c_static_array<uint8, k_armor_type_count> armors;
+	uint8 : 8;
+	uint8 : 8;
 };
 static_assert(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
 
 struct s_s3d_player_configuration_armor
 {
-	byte_flags flags;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 flags;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 
-	dword loadout_index;
+	uint32 loadout_index;
 	c_static_array<s_s3d_player_armor_configuration_loadout, 5> loadouts;
-	c_static_array<c_static_array<dword, k_gameplay_modifier_count>, 5> loadout_modifiers;
+	c_static_array<c_static_array<uint32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
 static_assert(sizeof(s_s3d_player_configuration_armor) == 0x7EC);
 
 struct s_s3d_player_weapon_configuration_loadout
 {
-	byte primary_weapon_index;
-	byte secondary_weapon_index;
+	uint8 primary_weapon_index;
+	uint8 secondary_weapon_index;
 	c_enum<e_grenade_type, char, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_index;
 	c_static_array<char, 4> consumables;
 
-	// using this byte for our implementation
-	c_flags<e_bungienet_user, byte, k_bungienet_user_count> bungienet_user;
+	// using this uint8 for our implementation
+	c_flags<e_bungienet_user, uint8, k_bungienet_user_count> bungienet_user;
 };
 static_assert(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
 
 struct s_s3d_player_configuration_weapon
 {
 	bool __unknown0;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 
-	dword loadout_index;
+	uint32 loadout_index;
 	c_static_array<s_s3d_player_weapon_configuration_loadout, 5> loadouts;
-	c_static_array<c_static_array<dword, k_gameplay_modifier_count>, 5> loadout_modifiers;
+	c_static_array<c_static_array<uint32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
 static_assert(sizeof(s_s3d_player_configuration_weapon) == 0x774);
 
@@ -155,13 +155,13 @@ struct s_player_configuration_from_client
 	s_player_configuration_from_client();
 
 	c_static_wchar_string<16> desired_name;
-	byte user_selected_team_index;
-	byte vote_selection_index;
-	byte armor_loadout_index;
-	byte weapon_loadout_index;
+	uint8 user_selected_team_index;
+	uint8 vote_selection_index;
+	uint8 armor_loadout_index;
+	uint8 weapon_loadout_index;
 	bool player_is_griefer;
-	dword_flags cheat_flags;
-	dword_flags ban_flags;
+	uint32 cheat_flags;
+	uint32 ban_flags;
 };
 static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 
@@ -191,14 +191,14 @@ static_assert(sizeof(s_player_configuration) == 0x1620);
 #pragma pack(push, 1)
 struct game_machine_options
 {
-	dword valid_machine_mask;
+	uint32 valid_machine_mask;
 	s_machine_identifier machines[k_maximum_machines];
 
 	bool local_machine_exists;
 	s_machine_identifier local_machine;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 };
 static_assert(sizeof(game_machine_options) == 0x128);
 #pragma pack(pop)
@@ -223,7 +223,7 @@ static_assert(sizeof(game_player_options) == 0x1640);
 
 struct s_tracking_object
 {
-	byte __data[0x4];
+	uint8 __data[0x4];
 	long object_index;
 	long __time8;
 };
@@ -253,7 +253,7 @@ struct multiplayer_player_info
 	char with_unit_timer;
 	bool was_crouched;
 	bool is_crouched;
-	byte pad;
+	uint8 pad;
 	short player_display_count;
 	short remaining_lives;
 	long last_betrayer_player_index;
@@ -291,7 +291,7 @@ struct _simulation_unit_melee_damage_event_data
 	long surface_index;
 	long global_material_index;
 	long object_material_index;
-	real scale;
+	real32 scale;
 	s_damage_reporting_info damage_reporting_info;
 };
 
@@ -299,7 +299,7 @@ struct s_player_shot_info
 {
 	short shot_id;
 	s_damage_reporting_info damage_reporting_info;
-	word pad;
+	uint16 pad;
 	long game_time;
 };
 static_assert(sizeof(s_player_shot_info) == 0xC);
@@ -349,7 +349,7 @@ struct player_datum :
 	s_datum_header
 {
 	short __unknown2;
-	dword_flags flags;
+	uint32 flags;
 	s_player_identifier player_identifier;
 	long left_game_time;
 	s_machine_identifier machine_identifier;
@@ -361,36 +361,36 @@ struct player_datum :
 	long unit_index;
 	long dead_unit_index;
 	long failed_teleport_unit_index;
-	dword_flags latched_control_flags;
+	uint32 latched_control_flags;
 
 	struct // ---------- cooldown_reset ----------
 	{
 		// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
 		// if `player->cooldown_reset_unknown40 == 0` do something with equipment
 		// gameplay_modifier: `cooldown_reset` related
-		word cooldown_reset_unknown40;
-		word cooldown_reset_unknown42;
-		word cooldown_reset_unknown44;
+		uint16 cooldown_reset_unknown40;
+		uint16 cooldown_reset_unknown42;
+		uint16 cooldown_reset_unknown44;
 	};
 
-	word_flags latched_action_flags;
-	byte outside_of_world_timer;
-	byte next_spawn_control_context;
+	uint16 latched_action_flags;
+	uint8 outside_of_world_timer;
+	uint8 next_spawn_control_context;
 
 	long armor_loadout_index;
 	long weapon_loadout_index;
 
 	// used in `players_update_after_game`
-	byte melee_recovery_ticks;
-	byte melee_soft_recovery_ticks;
-	byte grenade_suppression_timer;
+	uint8 melee_recovery_ticks;
+	uint8 melee_soft_recovery_ticks;
+	uint8 grenade_suppression_timer;
 
 	bool sprinting;
 	bool crouching;
 	bool shooting_left;
 	bool shooting_right; // $TODO: confirmed this by checking it in ED??
-	byte __unknown5B;
-	word magnification_level; // zoom
+	uint8 __unknown5B;
+	uint16 magnification_level; // zoom
 
 	struct // momentum
 	{
@@ -398,8 +398,8 @@ struct player_datum :
 
 		bool __unknown5E; // something todo with `shooting`
 		bool __unknown5F; // something todo with `magnification_level`
-		word __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
-		word __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
+		uint16 __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
+		uint16 __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
 	};
 
 	real_vector3d position;
@@ -413,7 +413,7 @@ struct player_datum :
 		bool early_respawn_requested;
 		bool respawn_in_progress;
 		bool respawn_forced; // if true respawn instantaneously
-		byte __unknown2CB7;
+		uint8 __unknown2CB7;
 		long respawn_timer;
 		long respawn_timer_countdown;
 		long respawn_penalty;
@@ -453,28 +453,28 @@ struct player_datum :
 
 	short recently_spawned_timer;
 	bool recently_spawned_timer_is_initial_spawn;
-	byte respawn_failure_reason;
+	uint8 respawn_failure_reason;
 
 	struct // tank_mode
 	{
 		// used in `sub_537D10`, struct?
 		long tank_mode_time2D64; // = game_time_get();
-		real tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
-		real tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
-		real tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
+		real32 tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
+		real32 tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
+		real32 tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
 
 		// used in `sub_540730`
-		real tank_mode_unknown2D74;
-		real tank_mode_unknown2D78;
+		real32 tank_mode_unknown2D74;
+		real32 tank_mode_unknown2D78;
 	};
 
 	struct // reactive_armor
 	{
 		// used in `sub_537C90`, struct?
 		long reactive_armor_time2D7C; // = game_time_get();
-		real reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
-		real reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
-		real reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
+		real32 reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
+		real32 reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
+		real32 reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
 	};
 
 	// used in `players_update_after_game`
@@ -483,7 +483,7 @@ struct player_datum :
 	// used in `sub_536FD0`
 	bool grenade_scavenger_modifier_used; // gameplay_modifier: `grenade_scavenger`
 
-	byte __data2D91[0x3];
+	uint8 __data2D91[0x3];
 
 	// `players_reset`
 	multiplayer_player_info multiplayer;
@@ -515,21 +515,21 @@ struct player_datum :
 	bool revenge_shield_boost_unknown2E24;
 
 	// pad?
-	byte __data2E25[3];
+	uint8 __data2E25[3];
 
-	byte __data2E28[0x2];
+	uint8 __data2E28[0x2];
 
 	// used in `player_died`, struct?
 	// `respawn_weapon_definition_indices`?
 	// `respawn_equipment_definition_index`?
 	// `respawn_grenades_additional`?
 	// `desired_respawn_transform_valid`?
-	// *(qword*)__data2E2A = 0i64;
-	// *(qword*)&__data2E2A[0x8] = 0i64;
-	// *(dword*)&__data2E2A[0x10] = 0;
-	// *(dword*)&__data2E2A[0x16] = -1;
-	// *(dword*)&__data2E2A[0x1A] = 0;
-	byte __data2E2A[0x1E];
+	// *(uint64*)__data2E2A = 0i64;
+	// *(uint64*)&__data2E2A[0x8] = 0i64;
+	// *(uint32*)&__data2E2A[0x10] = 0;
+	// *(uint32*)&__data2E2A[0x16] = -1;
+	// *(uint32*)&__data2E2A[0x1A] = 0;
+	uint8 __data2E2A[0x1E];
 
 	struct // assassination info
 	{
@@ -542,7 +542,7 @@ struct player_datum :
 
 	c_static_array<s_player_shot_info, 8> shot_info;
 	short spawn_count;
-	byte __pad2F06[2];
+	uint8 __pad2F06[2];
 };
 static_assert(sizeof(player_datum) == 0x2F08);
 static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
@@ -672,7 +672,7 @@ struct players_global_data
 	bool weapon_pickup_inhibited;
 	bool sprint_inhibited;
 	bool equipment_use_inhibited;
-	dword machine_valid_mask;
+	uint32 machine_valid_mask;
 	s_machine_identifier machine_identifiers[k_maximum_machines];
 	bool local_machine_exists;
 	__declspec(align(1)) s_machine_identifier local_machine_identifier;
@@ -687,12 +687,12 @@ struct players_global_data
 	short zone_set_switch_check_recursive_ticks;
 	long zone_set_switch_player_index;
 	long zone_set_switch_previous_zone_set_index;
-	dword disabled_zone_set_switch_trigger_volume_flags[32];
-	word terminal_completed_flags;
-	word terminal_accessed_flags;
+	uint32 disabled_zone_set_switch_trigger_volume_flags[32];
+	uint16 terminal_completed_flags;
+	uint16 terminal_accessed_flags;
 	bool terminal_being_read;
-	dword combined_pvs[8];
-	dword combined_pvs_local[8];
+	uint32 combined_pvs[8];
+	uint32 combined_pvs_local[8];
 };
 static_assert(sizeof(players_global_data) == 0x234);
 static_assert(0x000 == OFFSETOF(players_global_data, players_in_game_count));
@@ -767,19 +767,19 @@ extern void __cdecl player_delete(long player_index);
 extern bool __cdecl player_evaluate_interaction(long player_index, s_player_interaction const* interaction, s_player_interaction* current_interaction);
 extern void __cdecl player_find_action_context(long player_index, s_player_action_context* out_action_context);
 extern long __cdecl player_index_from_unit_index(long unit_index);
-extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
+extern bool __cdecl player_interaction_exists(long player_index, uint32 object_mask, s_player_interaction const* interaction);
 extern bool __cdecl player_is_local(long player_index);
 extern bool __cdecl player_is_reading_terminal();
 extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_positions_dispose();
 extern void __cdecl player_positions_dispose_from_old_map();
-extern void __cdecl player_positions_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+extern void __cdecl player_positions_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl player_positions_initialize();
 extern void __cdecl player_positions_initialize_for_new_map();
-extern void __cdecl player_positions_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl player_positions_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl player_set_facing(long player_index, real_vector3d const* facing);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
-extern bool __cdecl player_spawn(long player_index, real_point3d const* position, real const* facing);
+extern bool __cdecl player_spawn(long player_index, real_point3d const* position, real32 const* facing);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern bool __cdecl player_try_to_drop_weapon(long player_index, bool primary_weapon);
@@ -793,16 +793,16 @@ extern bool __cdecl players_any_are_near_death(long* out_unit_index);
 extern void __cdecl players_detach_from_map();
 extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();
-extern void __cdecl players_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+extern void __cdecl players_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl players_finish_creation();
 extern long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progress_players);
 extern void __cdecl players_handle_deleted_player_internal(long player_index);
 extern void __cdecl players_initialize();
 extern void __cdecl players_initialize_for_new_map();
-extern void __cdecl players_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl players_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl players_rebuild_user_mapping(bool force_rebuild);
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
-extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
+extern void __cdecl players_set_machines(uint32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
 extern void __cdecl players_verify();
 extern void __cdecl players_update_after_game(struct simulation_update const* update);
 extern void __cdecl players_update_before_game(struct simulation_update const* update);

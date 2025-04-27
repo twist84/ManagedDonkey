@@ -27,7 +27,7 @@ private:
 
 public:
 	void send_all_pending_messages();
-	bool send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
+	bool send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, uint16 port);
 	bool send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
 	void send_pending_messages_to_address(transport_address const* address);
 
@@ -40,8 +40,8 @@ protected:
 	c_network_message_type_collection const* m_message_types;
 	c_network_message_handler* m_message_handler;
 	bool m_outgoing_packet_pending;
-	byte m_outgoing_packet_storage[0x5BE /* k_network_link_maximum_game_data_size */];
-	byte __pad5D3[0x1];
+	uint8 m_outgoing_packet_storage[0x5BE /* k_network_link_maximum_game_data_size */];
+	uint8 __pad5D3[0x1];
 	transport_address m_outgoing_packet_address;
 	c_bitstream m_outgoing_packet;
 };

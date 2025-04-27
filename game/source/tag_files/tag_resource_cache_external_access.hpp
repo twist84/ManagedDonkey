@@ -29,7 +29,7 @@ struct c_tag_resource_cache_new
 	c_tag_resource_runtime_active_set* m_runtime_active_set;
 	c_tag_resource_cache_file_prefetch_set* m_cache_file_prefetch_set;
 
-	byte __data134[0xC];
+	uint8 __data134[0xC];
 
 	c_tag_resource_cache_thread_lock_lock_freeish m_thread_access_lock;
 
@@ -41,12 +41,12 @@ struct c_tag_resource_cache_new
 	bool m_can_load_all_optional_resources;
 	bool m_enable_incremental_publish;
 
-	byte __data307[0x55];
+	uint8 __data307[0x55];
 
-	dword m_idle_signal_flags;
-	dword m_do_not_allocate_beyond_size;
+	uint32 m_idle_signal_flags;
+	uint32 m_do_not_allocate_beyond_size;
 
-	byte __data364[0x1C];
+	uint8 __data364[0x1C];
 };
 static_assert(sizeof(c_tag_resource_cache_new) == 0x380);
 static_assert(0x000 == OFFSETOF(c_tag_resource_cache_new, m_published_resource_interface));

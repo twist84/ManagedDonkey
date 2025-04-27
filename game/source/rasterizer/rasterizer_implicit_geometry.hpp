@@ -13,26 +13,26 @@ enum e_implicit_transparent_type
 
 struct s_rasterizer_implicit_cylinder_object
 {
-	real width;
+	real32 width;
 };
-static_assert(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real));
+static_assert(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real32));
 
 struct s_rasterizer_implicit_sphere_object
 {
-	real width;
-	real absolute_positive_height;
-	real absolute_negative_height;
+	real32 width;
+	real32 absolute_positive_height;
+	real32 absolute_negative_height;
 };
-static_assert(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real) * 3);
+static_assert(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real32) * 3);
 
 struct s_rasterizer_implicit_box_object
 {
-	real width;
-	real length;
-	real absolute_positive_height;
-	real absolute_negative_height;
+	real32 width;
+	real32 length;
+	real32 absolute_positive_height;
+	real32 absolute_negative_height;
 };
-static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real) * 4);
+static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real32) * 4);
 
 struct s_rasterizer_implicit_object
 {
@@ -74,9 +74,9 @@ void initialize_circle_strip()
 	{
 		s_rasterizer_implicit_vertex* vertex_data = &g_rasterizer_implicit_geometry_globals->circle_strip[i];
 
-		real angle_scaling_factor = i * 63.0f;
-		real circle_x_shift = sinf(angle_scaling_factor * TWO_PI);
-		real circle_y_shift = cosf(angle_scaling_factor * TWO_PI);
+		real32 angle_scaling_factor = i * 63.0f;
+		real32 circle_x_shift = sinf(angle_scaling_factor * TWO_PI);
+		real32 circle_y_shift = cosf(angle_scaling_factor * TWO_PI);
 
  
 		// MS23

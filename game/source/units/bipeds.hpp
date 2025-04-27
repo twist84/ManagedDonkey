@@ -7,14 +7,14 @@
 
 struct _biped_datum
 {
-	word_flags flags;
+	uint16 flags;
 	short pathfinding_structure_index;
 	long last_pathfinding_attempt_time;
 	long pathfinding_surface_index;
 	c_sector_ref pathfinding_sector;
 	long pathfinding_instanced_geometry_index;
 	long pathfinding_object_index;
-	dword pathfinding_bsp_reference;
+	uint32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 	real_vector3d pathfinding_ground_collision_normal;
 	real_point3d pathfinding_ground_collision_point;
@@ -22,12 +22,12 @@ struct _biped_datum
 	long bump_object_index;
 	char bump_ticks;
 	char jump_control_ticks;
-	byte stun_ticks;
+	uint8 stun_ticks;
 	char last_known_speed_scale;
-	real lean;
-	real camera_offset_z;
-	real camera_offset_y;
-	real camera_height;
+	real32 lean;
+	real32 camera_offset_z;
+	real32 camera_offset_y;
+	real32 camera_height;
 	long jump_time;
 	long land_time;
 	short current_gate_type;
@@ -42,8 +42,8 @@ struct _biped_datum
 	object_header_block_reference last_node_matrices_storage;
 	real_vector3d root_offset;
 	real_vector3d ground_fit_normal;
-	real pivot_on_foot_scale;
-	real pivot_on_foot_scale_boost;
+	real32 pivot_on_foot_scale;
+	real32 pivot_on_foot_scale_boost;
 	real_point3d pivot_point;
 	real_vector2d pivot_fixup;
 	real_matrix4x3 left_foot_target;
@@ -51,10 +51,10 @@ struct _biped_datum
 	real_point3d leap_destination;
 	real_vector3d leap_destination_normal;
 	real_matrix4x3 root_matrix_history[3];
-	real landing_recovery_offset;
-	real pendulum_scale;
+	real32 landing_recovery_offset;
+	real32 pendulum_scale;
 	real_vector3d pendulum_vector;
-	real gravity_scale;
+	real32 gravity_scale;
 
 	// linked, armor related
 	long  customized_area_object_indices[10];
@@ -62,7 +62,7 @@ struct _biped_datum
 
 	long character_definition_index;
 	short death_squad_index;
-	byte airborne_intentional_ticks;
+	uint8 airborne_intentional_ticks;
 	char ai_combat_status;
 };
 static_assert(sizeof(_biped_datum) == 0x2C8);
@@ -86,8 +86,8 @@ extern bool debug_objects_unit_pathfinding_surface;
 extern bool debug_objects_pendulum;
 
 extern void __cdecl biped_bumped_object(long biped_index, long object_index, real_vector3d const* old_velocity);
-extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real* autoaim_width);
-extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius);
+extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, real_vector3d* height, real32* autoaim_width);
+extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real32* height, real32* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, real_vector3d* velocity);
 extern void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, real_vector3d const* a5, real_vector3d const* desired_facing_vector, real_vector3d const* desired_gun_offset, real_point3d* camera_position);
 extern bool __cdecl biped_in_airborne_state(long biped_index);

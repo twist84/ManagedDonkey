@@ -104,7 +104,7 @@ enum e_simulation_vehicle_update_flag
 
 enum e_simulation_entity_type;
 struct c_simulation_object_update_flags :
-	public c_flags<long, qword, 64>
+	public c_flags<long, uint64, 64>
 {
 public:
 	c_simulation_object_update_flags();
@@ -131,8 +131,8 @@ public:
 
 struct object_placement_data;
 
-extern void __cdecl simulation_action_game_engine_globals_update(c_flags<long, qword, 64>& flags);
-extern void __cdecl simulation_action_game_engine_player_update(long player_index, c_flags<long, qword, 64>& flags);
+extern void __cdecl simulation_action_game_engine_globals_update(c_flags<long, uint64, 64>& flags);
+extern void __cdecl simulation_action_game_engine_player_update(long player_index, c_flags<long, uint64, 64>& flags);
 extern void __cdecl simulation_action_object_create(long object_index);
 extern void __cdecl simulation_action_object_force_update(long object_index, c_simulation_object_update_flags& flags);
 extern void __cdecl simulation_action_object_update_internal(long object_index, c_simulation_object_update_flags& flags);

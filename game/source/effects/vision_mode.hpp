@@ -14,24 +14,24 @@ enum e_vision_mode_global_flags
 struct s_vision_mode_ping_falloff
 {
 	// maximum distance affected
-	real radius; // world units
+	real32 radius; // world units
 
 	// intensity control for the pings
-	real ping_intensity;
+	real32 ping_intensity;
 
 	// speed of the ping wave
-	real ping_speed; // world units per second
+	real32 ping_speed; // world units per second
 
 	// width of the ping wave
-	real ping_width; // world units
+	real32 ping_width; // world units
 
 	// how fast the ping falls off
-	real ping_falloff; // power [0-10]
+	real32 ping_falloff; // power [0-10]
 
 	// delay between the end of one ping, and the beginning of the next, note there can only be one ping at a time
-	real ping_delay;
+	real32 ping_delay;
 };
-static_assert(sizeof(s_vision_mode_ping_falloff) == sizeof(real) * 6);
+static_assert(sizeof(s_vision_mode_ping_falloff) == sizeof(real32) * 6);
 
 struct s_vision_mode_function
 {
@@ -45,23 +45,23 @@ struct s_vision_mode_ping_color
 	s_vision_mode_function ping_color;
 
 	// controls transparency
-	real alpha; // [0-1]
+	real32 alpha; // [0-1]
 
-	real intensity;
-	real ping_intensity;
-	real overlapping_dimming_factor;
+	real32 intensity;
+	real32 ping_intensity;
+	real32 overlapping_dimming_factor;
 };
-static_assert(sizeof(s_vision_mode_ping_color) == (sizeof(s_vision_mode_function) * 2) + (sizeof(real) * 4));
+static_assert(sizeof(s_vision_mode_ping_color) == (sizeof(s_vision_mode_function) * 2) + (sizeof(real32) * 4));
 
 struct s_vision_mode_definition
 {
 	static tag const k_group_tag = VISION_MODE_TAG;
 
-	c_flags<e_vision_mode_global_flags, word, k_vision_mode_global_flags> global_flags;
+	c_flags<e_vision_mode_global_flags, uint16, k_vision_mode_global_flags> global_flags;
 	char internal_version;
 
 	// pad
-	byte FJRE[0x1];
+	uint8 FJRE[0x1];
 
 	// falloff for on_foot
 	// falloff for in_vehicle
@@ -91,7 +91,7 @@ static_assert(sizeof(s_vision_mode_definition) == 0x194);
 
 struct s_vision_mode_state
 {
-	byte __data[0x3C];
+	uint8 __data[0x3C];
 };
 static_assert(sizeof(s_vision_mode_state) == 0x3C);
 

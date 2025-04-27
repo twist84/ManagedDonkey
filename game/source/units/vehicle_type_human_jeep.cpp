@@ -9,7 +9,7 @@ void c_vehicle_type_human_jeep::adjust_gravity(long vehicle_index, real_vector3d
 
 //.text:00BC87D0 ; 
 
-bool c_vehicle_type_human_jeep::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_human_jeep::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE_CLASS_MEMBER(0x00BC8840, c_vehicle_type_human_jeep, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
@@ -58,7 +58,7 @@ bool __cdecl c_vehicle_type_human_jeep::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BC8CA0, c_vehicle_type_human_jeep::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_human_jeep::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_human_jeep::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BC8CB0, c_vehicle_type_human_jeep, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }

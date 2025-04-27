@@ -14,8 +14,8 @@ struct s_network_broadcast_search_globals
 	c_network_message_gateway* message_gateway;
 	bool search_active;
 	bool sessions_updated;
-	dword last_broadcast_message_sent;
-	qword search_nonce;
+	uint32 last_broadcast_message_sent;
+	uint64 search_nonce;
 	long maximum_session_count;
 	s_available_session* available_sessions;
 };
@@ -29,7 +29,7 @@ struct s_network_message_broadcast_reply;
 
 extern void(__cdecl* network_broadcast_search_update_callback)(transport_address* outgoing_address);
 
-extern bool __cdecl network_broadcast_search_active(qword* search_nonce);
+extern bool __cdecl network_broadcast_search_active(uint64* search_nonce);
 extern bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage);
 extern void __cdecl network_broadcast_search_dispose();
 extern void __cdecl network_broadcast_search_end();

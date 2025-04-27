@@ -13,7 +13,7 @@ enum
 	k_maximum_sky_items = 6,
 };
 
-template<typename t_type, word k_maximum_count>
+template<typename t_type, uint16 k_maximum_count>
 struct c_simple_list
 {
 	c_simple_list()
@@ -57,7 +57,7 @@ struct c_simple_list
 		return list_iterator_next(iterator);
 	}
 
-	void set_count(word count)
+	void set_count(uint16 count)
 	{
 		ASSERT(count <= m_maximum_count);
 		m_count = count;
@@ -74,8 +74,8 @@ struct c_simple_list
 		return data[index];
 	}
 
-	word m_maximum_count;
-	word m_count;
+	uint16 m_maximum_count;
+	uint16 m_count;
 
 	t_type data[k_maximum_count];
 };
@@ -90,19 +90,19 @@ static_assert(sizeof(s_zone_cluster) == 0x4);
 
 struct s_lod_transparency
 {
-	byte model_alpha;
-	byte instance_alpha;
-	byte shadow_alpha;
-	byte unused_alpha;
+	uint8 model_alpha;
+	uint8 instance_alpha;
+	uint8 shadow_alpha;
+	uint8 unused_alpha;
 };
 static_assert(sizeof(s_lod_transparency) == 0x4);
 
 struct s_visible_object_hierarchy
 {
 	short flags;
-	word region_cluster_bitvector_start_index;
+	uint16 region_cluster_bitvector_start_index;
 	long first_visibility_object_index;
-	word visibility_object_index_count;
+	uint16 visibility_object_index_count;
 	s_lod_transparency lod_transparency;
 };
 static_assert(sizeof(s_visible_object_hierarchy) == 0x10);
@@ -113,13 +113,13 @@ struct s_render_object_info
 	long region_count;
 	long render_model_index;
 	long skinning_memory_designator;
-	byte skinning_matrix_count;
-	byte region_mesh_indices[16];
-	word region_z_sort_offset_enum_index[16];
-	word __unknown3E[16];
+	uint8 skinning_matrix_count;
+	uint8 region_mesh_indices[16];
+	uint16 region_z_sort_offset_enum_index[16];
+	uint16 __unknown3E[16];
 	short lod_index;
 	short lightmap_object_index;
-	dword clip_plane_masks;
+	uint32 clip_plane_masks;
 	s_shader_extern_info* render_info;
 };
 static_assert(sizeof(s_render_object_info) == 0x6C);
@@ -128,29 +128,29 @@ struct s_visible_object_render_visibility
 {
 	s_render_object_info info;
 	long object_index;
-	dword* subpart_bitvector;
-	byte_flags flags;
+	uint32* subpart_bitvector;
+	uint8 flags;
 };
 static_assert(sizeof(s_visible_object_render_visibility) == 0x78);
 
 struct s_visible_instance_list
 {
 	s_zone_cluster cluster;
-	word instance_list_index;
-	word first_visible_instance_list_instance_index;
-	word visible_instance_list_count;
-	word mesh_index;
+	uint16 instance_list_index;
+	uint16 first_visible_instance_list_instance_index;
+	uint16 visible_instance_list_count;
+	uint16 mesh_index;
 };
 static_assert(sizeof(s_visible_instance_list) == 0xC);
 
 struct s_visible_instances
 {
 	short flags;
-	word structure_bsp_instance_index;
+	uint16 structure_bsp_instance_index;
 	short structure_bsp_index;
-	word region_cluster_bitvector_start_index;
-	byte alpha_byte;
-	dword* part_bitvector;
+	uint16 region_cluster_bitvector_start_index;
+	uint8 alpha_byte;
+	uint32* part_bitvector;
 };
 static_assert(sizeof(s_visible_instances) == 0x10);
 
@@ -158,9 +158,9 @@ struct s_visible_clusters
 {
 	short flags;
 	s_zone_cluster cluster;
-	word region_cluster_index;
-	word mesh_index;
-	dword* part_bitvector;
+	uint16 region_cluster_index;
+	uint16 mesh_index;
+	uint32* part_bitvector;
 };
 static_assert(sizeof(s_visible_clusters) == 0x10);
 
@@ -174,10 +174,10 @@ struct s_visible_items
 	c_simple_list<long, 50> lights;                                 // address: 0x018E58BC, offset: 0x261D4
 	c_simple_list<long, 6> skies;                                   // address: 0x018E5988, offset: 0x262A0
 	c_static_flags<16384> visible_subpart_bitvector;                // address: 0x018E59A4, offset: 0x262BC
-	word visible_subpart_bitvector_count;                           // address: 0x018E61A4, offset: 0x26ABC
-	word visiblity_region_cluster_bitvector_count;                  // address: 0x018E61A6, offset: 0x26ABE
+	uint16 visible_subpart_bitvector_count;                           // address: 0x018E61A4, offset: 0x26ABC
+	uint16 visiblity_region_cluster_bitvector_count;                  // address: 0x018E61A6, offset: 0x26ABE
 	c_static_flags<65536> visibility_region_cluster_bitvector;      // address: 0x018E61A8, offset: 0x26AC0
-	word __unknown28AC0[2048];                                      // address: 0x018E81A8, offset: 0x28AC0
+	uint16 __unknown28AC0[2048];                                      // address: 0x018E81A8, offset: 0x28AC0
 };
 static_assert(sizeof(s_visible_items) == 0x29AC0);
 
@@ -185,27 +185,27 @@ struct c_visible_items
 {
 	struct s_marker_indices
 	{
-		word root_objects_starting_index;
-		word objects_starting_index;
-		word instance_list_starting_index;
-		word instances_starting_index;
-		word cluster_starting_index;
-		word light_starting_index;
-		word visible_subpart_bitvector_count;
-		word visiblity_region_cluster_bitvector_count;
-		word sky_starting_index;
+		uint16 root_objects_starting_index;
+		uint16 objects_starting_index;
+		uint16 instance_list_starting_index;
+		uint16 instances_starting_index;
+		uint16 cluster_starting_index;
+		uint16 light_starting_index;
+		uint16 visible_subpart_bitvector_count;
+		uint16 visiblity_region_cluster_bitvector_count;
+		uint16 sky_starting_index;
 	};
 
 	static void __cdecl clear();
 	static void __cdecl clear_all();
 
-	static word __cdecl get_root_objects_starting_index();
-	static word __cdecl get_objects_starting_index();
-	static word __cdecl get_instance_list_starting_index();
-	static word __cdecl get_instances_starting_index();
-	static word __cdecl get_cluster_starting_index();
-	static word __cdecl get_light_starting_index();
-	static word __cdecl get_sky_starting_index();
+	static uint16 __cdecl get_root_objects_starting_index();
+	static uint16 __cdecl get_objects_starting_index();
+	static uint16 __cdecl get_instance_list_starting_index();
+	static uint16 __cdecl get_instances_starting_index();
+	static uint16 __cdecl get_cluster_starting_index();
+	static uint16 __cdecl get_light_starting_index();
+	static uint16 __cdecl get_sky_starting_index();
 
 //private:
 	static long& m_marker_count;
@@ -215,7 +215,7 @@ struct c_visible_items
 
 struct visibility_volume
 {
-	byte vector_planes[0x10 * 6];
+	uint8 vector_planes[0x10 * 6];
 	//__m128 vector_planes[6];
 
 	short projection_index;
@@ -224,7 +224,7 @@ struct visibility_volume
 	short plane_bsp_index;
 	short parent_volume_index;
 	real_rectangle2d frustum_bounds;
-	real portal_nearest_z;
+	real32 portal_nearest_z;
 	real_point3d world_vertices[5];
 	real_rectangle3d world_bounds;
 	real_plane3d world_planes[6];
@@ -247,19 +247,19 @@ static_assert(0x134 == OFFSETOF(visibility_volume, world_edge_vectors));
 struct visibility_projection
 {
 	bool parallel_projection_flag;
-	byte pad0[0x3];
+	uint8 pad0[0x3];
 	real_matrix4x3 world_to_basis;
 	real_matrix4x3 basis_to_world;
 	bool near_bounded_flag;
-	byte pad1[0x3];
-	real near_distance;
+	uint8 pad1[0x3];
+	real32 near_distance;
 	real_plane3d near_plane;
 	bool far_bounded_flag;
 	bool far_bounded_spherical_flag;
-	byte pad2[0x2];
-	real far_distance;
+	uint8 pad2[0x2];
+	real32 far_distance;
 	bool volume_bounded_flag;
-	byte pad3[0x3];
+	uint8 pad3[0x3];
 	visibility_volume volume;
 	long convex_hull_point_count;
 	real_point2d convex_hull_points[4];
@@ -341,11 +341,11 @@ struct s_visibility_input
 	long flags;
 	short projection_count;
 	real_point3d sphere_center;
-	real sphere_radius;
+	real32 sphere_radius;
 	e_collection_type collection_type;
 	e_collection_shape collection_shape;
 	long visible_items_marker_index;
-	dword visible_cluster_bitvector[16][8];
+	uint32 visible_cluster_bitvector[16][8];
 	c_static_array<c_static_array<char, 256>, 16> cluster_to_visibility_cluster_lookup;
 };
 static_assert(sizeof(s_visibility_input) == 0x2F5CC);
@@ -389,15 +389,15 @@ struct c_visibility_collection
 		return &m_input->region;
 	}
 
-	e_collection_shape prepare_collection_for_build(long flags, e_collection_type collection_type, visibility_projection const* projections, long projection_count, s_cluster_reference initial_cluster_reference, long intersection_marker_index, real_point3d const* sphere_center, real sphere_radius, long user_index, long player_window_index);
+	e_collection_shape prepare_collection_for_build(long flags, e_collection_type collection_type, visibility_projection const* projections, long projection_count, s_cluster_reference initial_cluster_reference, long intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, long user_index, long player_window_index);
 
-	static long __cdecl add_root_object(long object_index, real_point3d const* object_center, real object_radius, long player_window_index, bool lit, bool shadow_casting, bool fully_contained, long region_cluster_memory, s_lod_transparency lod_transparency, bool calculate_lod, bool ignore_first_person_objects, long ignore_first_person_user_index, word* a13);
+	static long __cdecl add_root_object(long object_index, real_point3d const* object_center, real32 object_radius, long player_window_index, bool lit, bool shadow_casting, bool fully_contained, long region_cluster_memory, s_lod_transparency lod_transparency, bool calculate_lod, bool ignore_first_person_objects, long ignore_first_person_user_index, uint16* a13);
 	static void __cdecl expand_sky_object(long player_window_index);
 	static void __cdecl generate_objects_visible_subparts();
 
 	s_visibility_input* m_input;
 
-	word* __unknown4;
+	uint16* __unknown4;
 	// pointer to `s_visible_items::__unknown28AC0`
 };
 static_assert(sizeof(c_visibility_collection) == 0x8);

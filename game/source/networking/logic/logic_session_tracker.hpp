@@ -51,7 +51,7 @@ enum e_session_tracker_session_flags
 
 struct s_network_session_tracker_session
 {
-	c_flags<e_session_tracker_session_flags, byte, k_session_tracker_session_flags> flags;
+	c_flags<e_session_tracker_session_flags, uint8, k_session_tracker_session_flags> flags;
 	char name[16];
 	long session_index;
 	s_transport_session_description description;
@@ -63,10 +63,10 @@ struct s_network_session_tracker_session
 	long qos_attempt_target_status;
 	s_transport_qos_result qos_result;
 	s_network_session_status_data qos_data;
-	dword time;
+	uint32 time;
 	bool __unknown16544;
 	long session_desirability;
-	byte __data[4];
+	uint8 __data[4];
 };
 static_assert(sizeof(s_network_session_tracker_session) == 0x16550);
 
@@ -81,7 +81,7 @@ struct s_session_tracker_qos_attempt
 	long qos_index;
 	e_transport_qos_type qos_type;
 	long target_count;
-	dword time;
+	uint32 time;
 };
 static_assert(sizeof(s_session_tracker_qos_attempt) == 0x10);
 
@@ -155,7 +155,7 @@ private:
 protected:
 	long m_sort_method;
 	long m_expected_qos_data_type;
-	c_flags<e_session_tracker_flags, byte, k_session_tracker_flags> m_flags;
+	c_flags<e_session_tracker_flags, uint8, k_session_tracker_flags> m_flags;
 	c_matchmaking_quality* m_matchmaking_quality;
 
 	long m_session_count;

@@ -12,8 +12,8 @@ struct s_survival_mode_globals
 
 	short __unknownA;
 
-	real set_multiplier;
-	real bonus_multiplier;
+	real32 set_multiplier;
+	real32 bonus_multiplier;
 	short waves_per_round;
 	short rounds_per_set;
 
@@ -21,8 +21,8 @@ struct s_survival_mode_globals
 	long __unknown1C;
 
 	long wave_in_set_index;
-	dword primary_skulls;
-	dword secondary_skulls;
+	uint32 primary_skulls;
+	uint32 secondary_skulls;
 
 	long __unknown2C;
 
@@ -30,11 +30,11 @@ struct s_survival_mode_globals
 
 	struct
 	{
-		word __unknown0; // wave begin seconds?
-		word __unknown2; // active skulls?
+		uint16 __unknown0; // wave begin seconds?
+		uint16 __unknown2; // active skulls?
 	} waves_in_set[225];
 
-	byte __data7D8[0x8];
+	uint8 __data7D8[0x8];
 };
 static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
 

@@ -7,9 +7,9 @@
 struct s_simple_read_file_ex_overlapped_result
 {
 	c_synchronized_long done;
-	dword error_code;
-	dword bytes_transferred;
-	dword bytes_requested;
+	uint32 error_code;
+	uint32 bytes_transferred;
+	uint32 bytes_requested;
 };
 static_assert(sizeof(s_simple_read_file_ex_overlapped_result) == 0x10);
 
@@ -33,9 +33,9 @@ enum e_async_priority;
 long __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,
-	dword offset,
-	dword size,
-	dword const* verify_decompression_hash,
+	uint32 offset,
+	uint32 size,
+	uint32 const* verify_decompression_hash,
 	c_basic_buffer<void> decompression_scratch_buffer,
 	c_cache_file_decompressor* decompressor,
 	c_basic_buffer<void> uncompressed_output_buffer,

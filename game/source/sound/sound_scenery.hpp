@@ -6,11 +6,11 @@
 struct _sound_scenery_datum
 {
 	long volume_type;
-	real height;
-	real override_minimum_distance;
-	real override_maximum_distance;
-	real override_inner_cone_angle;
-	real override_outer_cone_angle;
+	real32 height;
+	real32 override_minimum_distance;
+	real32 override_maximum_distance;
+	real32 override_inner_cone_angle;
+	real32 override_outer_cone_angle;
 	real_decibel override_outer_cone_gain_db;
 };
 static_assert(sizeof(_sound_scenery_datum) == 0x1C);

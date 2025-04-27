@@ -55,7 +55,7 @@ public:
 	void set_inside_hill_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_king_flags_settings, dword_flags, k_king_flags_settings> m_variant_flags;
+	c_flags<e_king_flags_settings, uint32, k_king_flags_settings> m_variant_flags;
 	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
 	c_enum<long, short, 0, 1000> m_score_unknown;         // default: 90, halo online specific
 	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
@@ -66,7 +66,7 @@ protected:
 	c_enum<long, char, -10, 10> m_outside_hill_points;    // default: 0
 	c_player_traits m_inside_hill_traits;
 
-	byte m_pad1[6];
+	uint8 m_pad1[6];
 };
 static_assert(sizeof(c_game_engine_king_variant) == 0x200);
 
@@ -83,8 +83,8 @@ struct s_king_globals
 	c_static_array<long, 8> team_ticks_in_hill;
 	c_static_array<long, 8> team_ticks_outside_hill;
 	long hill_timer;
-	word players_in_hill;
-	word pad;
+	uint16 players_in_hill;
+	uint16 pad;
 	c_static_array<long, 16> hill_kills;
 };
 static_assert(sizeof(s_king_globals) == 0x480);

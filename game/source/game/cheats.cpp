@@ -203,7 +203,7 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 	object_placement_data_new(&placement_data, object_definition_index, NONE, NULL);
 
 	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object_definition_index);
-	real bounding_radius = object_definition->object.bounding_radius + 1.0f;
+	real32 bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
 		placement_data.model_variant_index = variant_name;
@@ -458,7 +458,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 	if (player_index == NONE)
 		return;
 
-	real radius = 0.0f;
+	real32 radius = 0.0f;
 	for (short reference_index = 0; reference_index < reference_count; reference_index++)
 	{
 		s_tag_reference& reference = references[reference_index];
@@ -469,7 +469,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		if (!object_definition)
 			continue;
 
-		real bounding_radius = object_definition->object.bounding_radius + 1.5f;
+		real32 bounding_radius = object_definition->object.bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
 			radius = bounding_radius;
 	}
@@ -499,7 +499,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.forward = forward;
 		data.up = up;
 
-		real angle_scaling_factor = arctangent(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
+		real32 angle_scaling_factor = arctangent(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
 		data.position.x += (cosf(angle_scaling_factor) * radius);
 		data.position.y += (sinf(angle_scaling_factor) * radius);
 		data.position.z += 0.8f;

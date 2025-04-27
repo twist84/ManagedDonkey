@@ -71,14 +71,14 @@ bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 	return transport_security_globals.address_resolved;
 }
 
-qword __cdecl transport_secure_address_get_local_machine_id()
+uint64 __cdecl transport_secure_address_get_local_machine_id()
 {
 	//return INVOKE(0x00430C10, transport_secure_address_get_local_machine_id);
 
 	s_transport_secure_address secure_address{};
 	if (transport_secure_address_get(&secure_address))
 	{
-		qword machine_id{};
+		uint64 machine_id{};
 		if (transport_secure_address_get_machine_id(&secure_address, &machine_id))
 			return machine_id;
 	}
@@ -86,7 +86,7 @@ qword __cdecl transport_secure_address_get_local_machine_id()
 	return 0;
 }
 
-bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, qword* secure_machine_id)
+bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, uint64* secure_machine_id)
 {
 	//return INVOKE(0x00430C30, transport_secure_address_get_machine_id, secure_address, secure_machine_id);
 
@@ -127,7 +127,7 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 	//HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
 	//return result;
 
-	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
+	if (usable_address->address_length == sizeof(uint32) && usable_address->ipv4_address && platform)
 		return _XNetInAddrToXnAddr(usable_address, secure_address);
 
 	return false;
@@ -161,7 +161,7 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 	//HOOK_INVOKE(result =, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
 	//return result;
 
-	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
+	if (usable_address->address_length == sizeof(uint32) && usable_address->ipv4_address && platform)
 		return XNetInAddrToXnAddr(usable_address, secure_address, secure_identifier);
 
 	return false;
@@ -170,7 +170,7 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 //00430F60 ; bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform)
 //00430FD0 ; bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform)
 
-bool __cdecl transport_secure_nonce_compare(qword nonce1, qword nonce2)
+bool __cdecl transport_secure_nonce_compare(uint64 nonce1, uint64 nonce2)
 {
 	//return INVOKE(0x00430FF0, transport_secure_nonce_compare, nonce1, nonce2);
 
@@ -179,19 +179,19 @@ bool __cdecl transport_secure_nonce_compare(qword nonce1, qword nonce2)
 	return nonce1 == nonce2;
 }
 
-qword __cdecl transport_secure_nonce_generate()
+uint64 __cdecl transport_secure_nonce_generate()
 {
 	return INVOKE(0x00431010, transport_secure_nonce_generate);
 }
 
-char const* __cdecl transport_secure_nonce_get_string(qword nonce)
+char const* __cdecl transport_secure_nonce_get_string(uint64 nonce)
 {
 	//INVOKE(0x00431100, transport_secure_nonce_get_string, nonce);
 
 	union
 	{
-		qword value;
-		byte bytes[8];
+		uint64 value;
+		uint8 bytes[8];
 	};
 
 	value = nonce;
@@ -201,7 +201,7 @@ char const* __cdecl transport_secure_nonce_get_string(qword nonce)
 	return transport_secure_nonce_string.get_string();
 }
 
-void __cdecl transport_secure_random(long random_length, byte* random_data)
+void __cdecl transport_secure_random(long random_length, uint8* random_data)
 {
 	long const k_meg = 0x100000;
 

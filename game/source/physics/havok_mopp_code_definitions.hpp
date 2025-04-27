@@ -4,7 +4,7 @@
 
 struct hkMoppCode
 {
-	byte __data[0x30];
+	uint8 __data[0x30];
 };
 static_assert(sizeof(hkMoppCode) == 0x30);
 

@@ -7,7 +7,7 @@ struct c_gui_selected_item;
 struct c_gui_data
 {
 public:
-	virtual void* destructor(dword); // void *`scalar deleting destructor'(unsigned int)
+	virtual void* destructor(uint32); // void *`scalar deleting destructor'(unsigned int)
 	virtual bool initialize(long name);
 	virtual void dispose();
 	virtual void update();
@@ -21,8 +21,8 @@ public:
 	virtual bool get_integer_value(long element_handle, long value_name, long* value);
 	virtual bool get_text_value(long element_handle, long value_name, c_static_wchar_string<1024>* buffer);
 	virtual bool get_string_id_value(long element_handle, long value_name, long* value);
-	virtual bool get_qword_value(long element_handle, long value_name, qword* value);
-	virtual bool get_real_value(long element_handle, long value_name, real* value);
+	virtual bool get_qword_value(long element_handle, long value_name, uint64* value);
+	virtual bool get_real_value(long element_handle, long value_name, real32* value);
 	virtual bool get_player_appearance(long element_handle, s_player_appearance* appearance);
 	virtual c_gui_selected_item const* get_gui_selected_item(long element_handle) const;
 	virtual long get_maximum_item_count();

@@ -273,7 +273,7 @@ void __cdecl game_save_update()
 	LABEL_3:;
 		if (g_game_save_globals->save_priority != _game_save_priority_no_timeout)
 		{
-			if (game_ticks_to_seconds(real(game_time_get() - g_game_save_globals->save_start_time)) >= 8.0f)
+			if (game_ticks_to_seconds(real32(game_time_get() - g_game_save_globals->save_start_time)) >= 8.0f)
 			{
 				if (debug_game_save)
 					console_printf("timeout trying to save");

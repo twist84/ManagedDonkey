@@ -5,30 +5,30 @@
 struct s_leaf
 {
 	c_word_quantized_position position;
-	byte_flags flags;
-	byte leaf_type_index;
+	uint8 flags;
+	uint8 leaf_type_index;
 	c_dword_unit_vector physics_normal;
 	c_dword_unit_vector pendulum_axis;
 	c_short_quaternion render_orientation;
-	real velocity_scale;
+	real32 velocity_scale;
 	c_dword_unit_vector unit_velocity;
-	word age_in_quarter_ticks;
-	word rotation;
+	uint16 age_in_quarter_ticks;
+	uint16 rotation;
 };
 static_assert(sizeof(s_leaf) == 0x24);
 
 struct s_leaf_system_datum :
 	s_datum_header
 {
-	word pad;
+	uint16 pad;
 	long object_index;
 	long definition_index;
 	c_static_array<s_leaf, 64> leaves;
 	real_rectangle3d movement_bounding_box;
 	real_point3d origin;
 	s_location location;
-	real next_emission_time_left;
-	real total_leaf_frequency;
+	real32 next_emission_time_left;
+	real32 total_leaf_frequency;
 	bool valid_lighting_sample;
 	real_vector3d lighting_sample;
 };

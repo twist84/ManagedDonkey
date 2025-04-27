@@ -54,9 +54,9 @@ struct s_user_interface_shared_globals
 	// miscellaneous rendering globals, more below...
 	short inc_text_update_period;
 	short inc_text_block_character;
-	real near_clip_plane_distance;
-	real projection_plane_distance;
-	real far_clip_plane_distance;
+	real32 near_clip_plane_distance;
+	real32 projection_plane_distance;
+	real32 far_clip_plane_distance;
 
 	// Global Text Strings
 	// Global UI Text goes here
@@ -111,8 +111,8 @@ struct s_user_interface_shared_globals
 
 	// Blur Constants
 	// These control the blur kernel used when blurring overlayed UI
-	real horizontal_blur_factor;
-	real vertical_blur_factor;
+	real32 horizontal_blur_factor;
+	real32 vertical_blur_factor;
 
 	// Player Appearance Bipeds
 	// One element per player model choice.
@@ -165,20 +165,20 @@ struct s_user_interface_shared_globals
 	// PDA Settings
 	// Random globals for the PDA
 	s_tag_data beacon_bitmap_zoom_scale;
-	real camera_velocity; // pixels per second
-	real camera_auto_move_delay;
-	real player_offscreen_marker_tolerance; // pixels
+	real32 camera_velocity; // pixels per second
+	real32 camera_auto_move_delay;
+	real32 player_offscreen_marker_tolerance; // pixels
 
 	// area around you where the PDA doesn't auto-orient you
-	real player_orientation_dead_zone; // pixels
+	real32 player_orientation_dead_zone; // pixels
 
-	real ai_clump_culling_distance; // wu
+	real32 ai_clump_culling_distance; // wu
 	real_argb_color fourth_wall_played_color;
 	real_argb_color fourth_wall_unplayed_color;
 	c_string_id pda_poi_waypoint_prefix;
 	c_string_id pda_poi_waypoint_suffix;
 	long pda_back_button_latch_ticks;
-	real pda_fourth_wall_text_fade_time;
+	real32 pda_fourth_wall_text_fade_time;
 	s_tag_block pda_fourth_wall_audio_sounds;
 };
 static_assert(sizeof(s_user_interface_shared_globals) == 0x3CC);
@@ -195,7 +195,7 @@ struct s_user_interface_globals
 
 	c_synchronized_long flags;
 	c_synchronized_long m_reload_from_persistent_storage_controller_at_next_map_load;
-	real shell_seconds_elapsed;
+	real32 shell_seconds_elapsed;
 	c_synchronized_long m_current_milliseconds;
 	c_synchronized_long m_last_event_handled_milliseconds;
 	c_synchronized_long m_last_scenario_load_time_milliseconds;
@@ -215,8 +215,8 @@ static_assert(sizeof(s_user_interface_globals) == 0x2258);
 
 extern s_user_interface_globals& g_user_interface_globals;
 
-extern real g_ui_time_scale;
-extern real g_ui_time_step;
+extern real32 g_ui_time_scale;
+extern real32 g_ui_time_step;
 
 enum e_controller_index;
 enum e_window_index;
@@ -235,7 +235,7 @@ extern void __cdecl user_interface_get_number_of_render_windows(long user_index,
 extern void __cdecl user_interface_initialize();
 extern void __cdecl user_interface_initialize_for_new_map();
 extern bool __cdecl user_interface_is_active();
-extern dword __cdecl user_interface_milliseconds();
+extern uint32 __cdecl user_interface_milliseconds();
 extern void __cdecl user_interface_non_idle_event_occured();
 extern void __cdecl user_interface_render(e_controller_index controller, long user_index, long window, rectangle2d const* viewport_bounds, long rasterizer_render_surface, bool is_screenshot);
 extern bool __cdecl user_interface_requests_unlocked_framerate();
@@ -246,7 +246,7 @@ extern bool __cdecl user_interface_should_render_at_origin();
 extern bool __cdecl user_interface_should_render_fancy();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
 extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();
-extern void __cdecl user_interface_update(real shell_seconds_elapsed);
+extern void __cdecl user_interface_update(real32 shell_seconds_elapsed);
 extern void __cdecl user_interface_update_console_scoreboard();
 extern void __cdecl user_interface_update_toast_position();
 

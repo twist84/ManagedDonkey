@@ -40,7 +40,7 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, point2d
 
 	if (get_active())
 	{
-		real alpha = get_menu()->get_enabled() ? 0.7f : 0.1f;
+		real32 alpha = get_menu()->get_enabled() ? 0.7f : 0.1f;
 
 		short x0 = position.x;
 		short y0 = short(position.y + debug_menu_get_item_indent_y());
@@ -126,7 +126,7 @@ void c_debug_menu_item_type_real::to_string(char* buffer, long buffer_size)
 	csnzprintf(buffer, buffer_size, "%f", m_value.get());
 }
 
-c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real min, real max, real inc) :
+c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real32 min, real32 max, real32 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),

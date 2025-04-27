@@ -16,7 +16,7 @@ struct c_dynamic_cubemap_sample
 {
 	s_cubemap_sample m_current;
 	s_cubemap_sample m_last;
-	real m_blend_factor;
+	real32 m_blend_factor;
 };
 static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
 
@@ -32,17 +32,17 @@ static_assert(sizeof(render_lighting) == 0x218);
 struct s_shader_extern_info
 {
 	long context;
-	real(__cdecl* context_interface)(long, long, long);
-	dword cpu_memory_pool_designator;
-	dword render_frame_allocated;
+	real32(__cdecl* context_interface)(long, long, long);
+	uint32 cpu_memory_pool_designator;
+	uint32 render_frame_allocated;
 	render_lighting lighting;
-	dword change_colors[5];
-	byte change_color_count;
-	byte tron_amount;
-	byte active_camo_amount;
-	byte overshield_amount;
-	byte current_body_damage;
-	byte current_shield_damage;
+	uint32 change_colors[5];
+	uint8 change_color_count;
+	uint8 tron_amount;
+	uint8 active_camo_amount;
+	uint8 overshield_amount;
+	uint8 current_body_damage;
+	uint8 current_shield_damage;
 	real_vector4d bounding_sphere;
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
 	c_rasterizer_texture_ref emblem_clan_chest_texture;
@@ -70,7 +70,7 @@ struct render_first_person_model
 {
 	long render_model_index;
 	long object_index;
-	dword_flags flags;
+	uint32 flags;
 	c_static_array<real_matrix4x3, 150> node_matrices;
 };
 static_assert(sizeof(render_first_person_model) == 0x1E84);

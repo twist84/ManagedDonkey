@@ -28,7 +28,7 @@ struct s_network_session_state_peer_creating
 	// e_transport_platform
 	long platform;
 	bool __unknown4;
-	qword join_nonce;
+	uint64 join_nonce;
 	s_network_session_join_request join_request;
 };
 static_assert(sizeof(s_network_session_state_peer_creating) == 0x320);
@@ -39,12 +39,12 @@ struct s_network_session_state_peer_joining
 	s_transport_secure_address join_address;
 	transport_address join_usable_address;
 	bool use_peer_joining_join_nonce;
-	qword join_nonce;
+	uint64 join_nonce;
 	s_network_session_join_request join_request;
-	dword join_secure_connection_timestamp;
-	dword __unknown34C;
-	dword __unknown350;
-	byte __data[0xC];
+	uint32 join_secure_connection_timestamp;
+	uint32 __unknown34C;
+	uint32 __unknown350;
+	uint8 __data[0xC];
 };
 static_assert(sizeof(s_network_session_state_peer_joining) == 0x360);
 
@@ -53,24 +53,24 @@ struct s_network_session_state_peer_join_abort
 	s_transport_secure_address join_address;
 	transport_address join_usable_address;
 	s_transport_secure_address secure_address;
-	qword join_nonce;
-	dword join_secure_connection_timestamp;
-	dword join_abort_secure_connection_timestamp;
-	byte __data[0x8];
+	uint64 join_nonce;
+	uint32 join_secure_connection_timestamp;
+	uint32 join_abort_secure_connection_timestamp;
+	uint8 __data[0x8];
 };
 static_assert(sizeof(s_network_session_state_peer_join_abort) == 0x50);
 
 struct s_network_session_state_peer_established
 {
-	dword __unknown0;
-	dword peer_established_secure_connection_timestamp;
+	uint32 __unknown0;
+	uint32 peer_established_secure_connection_timestamp;
 };
 static_assert(sizeof(s_network_session_state_peer_established) == 0x8);
 
 struct s_network_session_state_peer_leaving
 {
-	byte __data[0x8];
-	dword __unknown8;
+	uint8 __data[0x8];
+	uint32 __unknown8;
 };
 static_assert(sizeof(s_network_session_state_peer_leaving) == 0xC);
 

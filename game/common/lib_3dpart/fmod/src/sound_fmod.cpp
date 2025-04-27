@@ -4,11 +4,11 @@
 
 #define MAX_CHANNELS 256
 
-t_value_type<byte> const fmod_wasapi_fix = { .value = 2 };
-t_value_type<dword> const max_channels_as_dword = { .value = dword(MAX_CHANNELS) };
-t_value_type<byte> const max_channels_as_byte = { .value = byte(MAX_CHANNELS) };
-//t_value_type<dword> const sound_preferences_channel_counts_loop_count = { .value = 0 };
-//t_value_type<dword> const sound_channels_datum_size = { .value = dword(MAX_CHANNELS * 0x38) };
+t_value_type<uint8> const fmod_wasapi_fix = { .value = 2 };
+t_value_type<uint32> const max_channels_as_dword = { .value = uint32(MAX_CHANNELS) };
+t_value_type<uint8> const max_channels_as_byte = { .value = uint8(MAX_CHANNELS) };
+//t_value_type<uint32> const sound_preferences_channel_counts_loop_count = { .value = 0 };
+//t_value_type<uint32> const sound_channels_datum_size = { .value = uint32(MAX_CHANNELS * 0x38) };
 //t_value_type<short[5]> const sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
 
 HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, LoadCinePreload);
@@ -129,7 +129,7 @@ namespace snd
 		return DECLFUNC(0x00404D70, bool, __thiscall, SYSTEM_FMOD*, void*)(this, a1);
 	}
 
-	//void __thiscall SYSTEM_FMOD::Update(real a1)
+	//void __thiscall SYSTEM_FMOD::Update(real32 a1)
 	//{
 	//	HALO_SOUND_SYSTEM::GetInstance()->Update();
 	//
@@ -171,7 +171,7 @@ void __cdecl fmod_dispose()
 	snd::SystemFMod->__vftable->Term(snd::SystemFMod);
 }
 
-short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real pitch_modifier, short pitch_range_index)
+short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real32 pitch_modifier, short pitch_range_index)
 {
 	short result = INVOKE(0x00661C20, sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound, sound, pitch_modifier, pitch_range_index);
 	if (result != -1)

@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-//.text:00B69B20 ; bool __cdecl action_allow_interruption(e_action, e_action, c_flags<e_action_interruption_context, word, 2> const*)
+//.text:00B69B20 ; bool __cdecl action_allow_interruption(e_action, e_action, c_flags<e_action_interruption_context, uint16, 2> const*)
 //.text:00B69BA0 ; bool __cdecl action_executing(long, e_action)
 //.text:00B69BF0 ; void __cdecl action_finished(long, e_action)
 //.text:00B69C10 ; s_action_definition const* __cdecl action_get_definition(e_action)

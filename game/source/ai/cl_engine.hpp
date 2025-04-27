@@ -53,14 +53,14 @@ struct cs_command
 	union
 	{
 		long integer_parameter1;
-		real parameter1;
+		real32 parameter1;
 		bool bool_param1;
 	};
 
 	union
 	{
 		long integer_parameter2;
-		real parameter2;
+		real32 parameter2;
 		bool bool_param2;
 	};
 
@@ -82,7 +82,7 @@ static_assert(sizeof(s_control_directmovement) == 0x1C);
 struct s_control_point_destination
 {
 	c_ai_point3d point;
-	real radius;
+	real32 radius;
 };
 static_assert(sizeof(s_control_point_destination) == 0x14);
 
@@ -95,8 +95,8 @@ static_assert(sizeof(s_control_move_towards) == 0x4);
 struct s_control_jump
 {
 	short delay_ticks;
-	real target_horizontal_vel;
-	real target_vertical_vel;
+	real32 target_horizontal_vel;
+	real32 target_vertical_vel;
 };
 static_assert(sizeof(s_control_jump) == 0xC);
 
@@ -150,7 +150,7 @@ struct command_script_datum :
 	bool script_initiated_custom_animation;
 	bool walk;
 	bool crouch;
-	real crouch_speed;
+	real32 crouch_speed;
 	bool look_at_target;
 	cs_target_specification look_target;
 	bool face_exactly;
@@ -159,9 +159,9 @@ struct command_script_datum :
 	bool face_at_target;
 	cs_target_specification aim_target;
 	bool vehicle_speed_valid;
-	real vehicle_speed;
+	real32 vehicle_speed;
 	bool turn_urgency_valid;
-	real turn_urgency;
+	real32 turn_urgency;
 	bool boosting;
 	bool ignore_obstacles;
 	bool failsafe_pathfinding;
@@ -183,9 +183,9 @@ struct command_script_datum :
 	bool approach_pending;
 	bool approach_within_range;
 	long approach_object_index;
-	real approach_distance_sq;
-	real approach_max_distance_sq;
-	real approach_follow_distance_sq;
+	real32 approach_distance_sq;
+	real32 approach_max_distance_sq;
+	real32 approach_follow_distance_sq;
 };
 static_assert(sizeof(command_script_datum) == 0x188);
 

@@ -42,11 +42,11 @@ struct error_report_category
 {
 	char name[k_tag_long_string_length];
 	c_enum<e_error_report_types, short, _error_report_type_silent, k_error_report_type_count> report_type;
-	c_flags<e_error_report_flags, word, k_error_report_flags> flags;
-	word_flags runtime_generation_flags;
+	c_flags<e_error_report_flags, uint16, k_error_report_flags> flags;
+	uint16 runtime_generation_flags;
 
 	// pad
-	byte WVTP[0x2];
+	uint8 WVTP[0x2];
 
 	long runtime_something;
 
@@ -56,7 +56,7 @@ static_assert(sizeof(s_structure_seams) == 0x1C);
 
 struct s_structure_seam_identifier
 {
-	dword part[4];
+	uint32 part[4];
 };
 static_assert(sizeof(s_structure_seam_identifier) == 0x10);
 
@@ -91,7 +91,7 @@ struct s_structure_seam_final_triangle
 	short final_points[3]; // s_structure_seam_final_point
 
 	// PAD
-	byte pad0[0x2];
+	uint8 pad0[0x2];
 };
 static_assert(sizeof(s_structure_seam_final_triangle) == 0xC);
 

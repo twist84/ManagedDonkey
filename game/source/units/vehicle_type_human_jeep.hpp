@@ -11,7 +11,7 @@ struct c_vehicle_type_human_jeep
 {
 public:
 	void adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
-	bool compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
+	bool compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active);
 	static void __cdecl create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
 	static bool __cdecl effected_by_vehicle_ceiling(long vehicle_index);
@@ -20,7 +20,7 @@ public:
 	bool is_stopped(long vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(long vehicle_index);
 	static bool __cdecl physics_disabled(long vehicle_index);
-	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
 	bool should_override_deactivation(long vehicle_index);
 	void update_control(long vehicle_index);
@@ -33,12 +33,12 @@ protected:
 	c_animation_id m_ground_rear_animation_id;
 	c_animation_id m_turn_animation_id;
 	real_vector3d m_grounded_up_vector;
-	real m_wheel;
-	real m_rear_wheel;
-	real m_turn;
+	real32 m_wheel;
+	real32 m_rear_wheel;
+	real32 m_turn;
 	c_vehicle_stop_counter m_stop_counter;
 	c_vehicle_braking_counter m_braking_counter;
-	byte m_control_e_brake;
+	uint8 m_control_e_brake;
 };
 static_assert(sizeof(c_vehicle_type_human_jeep) == 0x3C);
 

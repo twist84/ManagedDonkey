@@ -8,7 +8,7 @@ struct s_console_globals
 {
 	bool active;
 	bool status_render;
-	real open_timeout_seconds;
+	real32 open_timeout_seconds;
 	terminal_gets_state input_state;
 	c_static_string<255> previous_commands[16];
 	short previous_command_count;
@@ -42,8 +42,8 @@ struct s_status_line
 
 	c_static_string<256> text;
 	real_rgb_color color;
-	real alpha;
-	c_flags<e_status_line_flags, dword, k_status_line_count> flags;
+	real32 alpha;
+	c_flags<e_status_line_flags, uint32, k_status_line_count> flags;
 	bool* in_use;
 	char const* identifier;
 	s_status_line* prev;
@@ -67,7 +67,7 @@ struct s_string_cache
 	s_string_cache();
 
 	c_static_string<4096> string;
-	real alpha;
+	real32 alpha;
 	real_rgb_color color;
 	e_text_justification justification;
 };
@@ -100,7 +100,7 @@ extern void __cdecl console_open(bool debug_menu);
 extern void __cdecl console_printf(char const* format, ...);
 extern void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...);
 extern bool __cdecl console_process_command(char const* command, bool interactive);
-extern void __cdecl console_update(real shell_seconds_elapsed);
+extern void __cdecl console_update(real32 shell_seconds_elapsed);
 extern void __cdecl console_warning(char const* format, ...);
 
 extern bool __cdecl debugging_system_has_focus();
@@ -125,5 +125,5 @@ extern void status_printf_va(char const* format, char* list);
 extern void status_string_internal(char const* status, char const* message);
 extern void status_strings(char const* status, char const* strings);
 
-extern bool string_cache_add(s_string_cache* cache, char const* string, real alpha, real_rgb_color const& color, e_text_justification justification);
+extern bool string_cache_add(s_string_cache* cache, char const* string, real32 alpha, real_rgb_color const& color, e_text_justification justification);
 extern void string_cache_render(s_string_cache* string_cache, struct c_draw_string* draw_string, c_font_cache_base* font_cache);

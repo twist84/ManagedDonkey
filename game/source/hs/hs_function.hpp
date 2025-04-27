@@ -10,7 +10,7 @@ using hs_function_evaluate_t = void __cdecl(short function_index, long thread_in
 struct hs_function_definition
 {
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
-	word_flags flags;
+	uint16 flags;
 	hs_function_evaluate_t* evaluate;
 	char const* parameters;
 
@@ -27,7 +27,7 @@ struct hs_function_definition_debug
 {
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 	char const* name;
-	word_flags flags;
+	uint16 flags;
 
 	hs_function_parser_t* parse;
 	hs_function_evaluate_t* evaluate;

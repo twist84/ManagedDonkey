@@ -76,14 +76,14 @@ void player_control_update_debug_render()
 //.text:005CF990 ; void __cdecl clear_player_control_input(s_player_control_input* input)
 //.text:005CF9C0 ; 
 //.text:005CF9F0 ; 
-//.text:005CFA20 ; public: real __cdecl c_abstract_button::down_amount(void)
+//.text:005CFA20 ; public: real32 __cdecl c_abstract_button::down_amount(void)
 
 // crash hack fix for controller
 // count is player_control[i]->look_function.count
 // function is player_control[i]->look_function.address
 // there is no check inplace of count
 // count is used to determine index
-real __cdecl evaluate_piecewise_linear_function(short count, real* const function, real a3)
+real32 __cdecl evaluate_piecewise_linear_function(short count, real32* const function, real32 a3)
 {
 	if (count <= 0)
 		return a3;
@@ -104,13 +104,13 @@ real __cdecl evaluate_piecewise_linear_function(short count, real* const functio
 //.text:005CFC60 ; 
 //.text:005CFC70 ; bool __cdecl player0_controller_get_look_invert()
 //.text:005CFC80 ; void __cdecl player0_controller_set_look_invert(bool)
-//.text:005CFCC0 ; real __cdecl player0_get_looking_pitch()
+//.text:005CFCC0 ; real32 __cdecl player0_get_looking_pitch()
 //.text:005CFD10 ; bool __cdecl player0_looking_down()
 //.text:005CFD60 ; bool __cdecl player0_looking_up()
-//.text:005CFDB0 ; void __cdecl player0_set_pitch(real, long)
-//.text:005CFDD0 ; void __cdecl player1_set_pitch(real, long)
-//.text:005CFDF0 ; void __cdecl player2_set_pitch(real, long)
-//.text:005CFE10 ; void __cdecl player3_set_pitch(real, long)
+//.text:005CFDB0 ; void __cdecl player0_set_pitch(real32, long)
+//.text:005CFDD0 ; void __cdecl player1_set_pitch(real32, long)
+//.text:005CFDF0 ; void __cdecl player2_set_pitch(real32, long)
+//.text:005CFE10 ; void __cdecl player3_set_pitch(real32, long)
 //.text:005CFE30 ; void __cdecl player_action_test_inhibit_button_flags_set_all_players(e_player_control_action_test_bit, bool)
 //.text:005CFEB0 ; void __cdecl player_action_test_testing_for_action_flags_set_all_players(e_player_control_action_test_bit, bool)
 //.text:005CFF30 ; bool __cdecl player_control_action_test_accept()
@@ -168,10 +168,10 @@ void __cdecl player_control_dispose_from_old_map()
 	INVOKE(0x005D0A50, player_control_dispose_from_old_map);
 }
 
-//.text:005D0A60 ; void __cdecl player_control_fade_in_all_input(real)
-//.text:005D0A90 ; void __cdecl player_control_fade_in_all_input_for_player(long, real)
-//.text:005D0AF0 ; void __cdecl player_control_fade_out_all_input(real)
-//.text:005D0B20 ; void __cdecl player_control_fade_out_all_input_for_player(long, real)
+//.text:005D0A60 ; void __cdecl player_control_fade_in_all_input(real32)
+//.text:005D0A90 ; void __cdecl player_control_fade_in_all_input_for_player(long, real32)
+//.text:005D0AF0 ; void __cdecl player_control_fade_out_all_input(real32)
+//.text:005D0B20 ; void __cdecl player_control_fade_out_all_input_for_player(long, real32)
 //.text:005D0B80 ; bool __cdecl player_control_flags_test_all_players(e_player_control_bit)
 
 s_player_action_context const* __cdecl player_control_get_action_context(long user_index)
@@ -186,14 +186,14 @@ void __cdecl player_control_get_aiming_vector(long user_index, real_vector3d* ai
 	INVOKE(0x005D0C30, player_control_get_aiming_vector, user_index, aiming_vector);
 }
 
-void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
 {
 	INVOKE(0x005D0C90, player_control_get_controller_input, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 }
 
 //.text:005D29E0 ; real_euler_angles2d const* __cdecl player_control_get_facing_angles(long)
-//.text:005D2A10 ; real __cdecl player_control_get_field_of_view(long)
-//.text:005D2AA0 ; real __cdecl player_control_get_field_of_view_change_time(long)
+//.text:005D2A10 ; real32 __cdecl player_control_get_field_of_view(long)
+//.text:005D2AA0 ; real32 __cdecl player_control_get_field_of_view_change_time(long)
 
 bool __cdecl player_control_get_machinima_camera_debug()
 {
@@ -231,7 +231,7 @@ bool __cdecl player_control_get_machinima_camera_use_old_controls()
 	return false;
 }
 
-//.text:005D2C30 ; real __cdecl player_control_get_target_autoaim_level(long)
+//.text:005D2C30 ; real32 __cdecl player_control_get_target_autoaim_level(long)
 //.text:005D2C80 ; long __cdecl player_control_get_target_player_index(long)
 //.text:005D2CE0 ; s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(long)
 //.text:005D2D10 ; void __cdecl player_control_get_unit_camera_info(long, s_unit_camera_info*)
@@ -260,7 +260,7 @@ void __cdecl player_control_initialize_for_new_map()
 }
 
 //.text:005D3290 ; void __cdecl player_control_input_set_unit_index(long, long)
-//.text:005D3360 ; void __cdecl player_control_lock_gaze(long, long, real)
+//.text:005D3360 ; void __cdecl player_control_lock_gaze(long, long, real32)
 
 bool __cdecl player_control_machinima_available()
 {
@@ -269,7 +269,7 @@ bool __cdecl player_control_machinima_available()
 	return game_in_progress() && !game_is_ui_shell() && game_options_get()->game_network_type != _network_game_simulation_sync_server;
 }
 
-//.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(long, real, real, real, real)
+//.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(long, real32, real32, real32, real32)
 //.text:005D4350 ; s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(long)
 //.text:005D4380 ; void __cdecl player_control_output_set_unit_index(long, long)
 //.text:005D43E0 ; void __cdecl player_control_permanent_impulse(long, real_euler_angles2d const*)
@@ -291,9 +291,9 @@ void __cdecl player_control_propagate_output(long input_user_index)
 	}
 }
 
-//.text:005D44E0 ; void __cdecl player_control_scale_all_input(real, real)
-//.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(long, real, real)
-//.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, qword)
+//.text:005D44E0 ; void __cdecl player_control_scale_all_input(real32, real32)
+//.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(long, real32, real32)
+//.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, uint64)
 //.text:005D46C0 ; void __cdecl player_control_set_external_action(long, player_action const*)
 
 void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing)
@@ -308,14 +308,14 @@ void __cdecl player_control_set_facing(long input_user_index, real_vector3d cons
 //.text:005D48E0 ; void __cdecl player_control_unzoom(long)
 //.text:005D4920 ; void __cdecl player_control_unzoom_all()
 
-void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds_elapsed)
+void __cdecl player_control_update(real32 world_seconds_elapsed, real32 game_seconds_elapsed)
 {
 	//INVOKE(0x005D4990, player_control_update, world_seconds_elapsed, game_seconds_elapsed);
 
 	//collision_log_begin_period(5);
 	//player_control_update_debug_begin();
 
-	dword player_mask = 0;
+	uint32 player_mask = 0;
 	player_action actions[k_number_of_users]{};
 
 	for (long user_index = first_input_user(); user_index != NONE; user_index = next_input_user(user_index))
@@ -376,13 +376,13 @@ void __cdecl player_control_update_machinima()
 	}
 }
 
-//void __cdecl player_control_update_player(long, long, e_controller_index, real, real)
-void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed)
+//void __cdecl player_control_update_player(long, long, e_controller_index, real32, real32)
+void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed)
 {
 	INVOKE(0x005D4BF0, player_control_update_player, player_index, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed);
 }
 
-//.text:005D5590 ; void __cdecl player_set_pitch_internal(long, real, long)
+//.text:005D5590 ; void __cdecl player_set_pitch_internal(long, real32, long)
 //.text:005D5670 ; bool __cdecl process_user_interface_input(e_controller_index, s_player_control_input*)
 //.text:005D56E0 ; 
 //.text:005D5720 ; 
@@ -392,7 +392,7 @@ void __cdecl player_control_update_player(long player_index, long input_user_ind
 //.text:005D5870 ; 
 //.text:005D58C0 ; 
 //.text:005D58F0 ; 
-//.text:005D5910 ; real __cdecl signed_angular_difference(real, real)
+//.text:005D5910 ; real32 __cdecl signed_angular_difference(real32, real32)
 //.text:005D5970 ; 
 //.text:005D59B0 ; 
 //.text:005D59D0 ; 
@@ -433,7 +433,7 @@ void __cdecl player_control_update_player(long player_index, long input_user_ind
 //.text:005D62B0 ; 
 //.text:005D62C0 ; bool __cdecl user_currently_piloting_aircraft(enum long)
 
-void __cdecl player_control_get_controller_input_for_jetpack(long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
+void __cdecl player_control_get_controller_input_for_jetpack(long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input)
 {
 	player_control_get_controller_input(input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 
@@ -451,8 +451,8 @@ void __cdecl player_control_get_controller_input_for_jetpack(long input_user_ind
 	if (input_states[controller_index]->get_button(_button_action_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
 	{
 		bool v1 = TEST_BIT(biped->unit.unit_control_flags, _unit_control_jump_bit);
-		real jump_control_ticks = (real)biped->biped.jump_control_ticks;
-		real v2 = (real)game_tick_rate() / 15.0f;
+		real32 jump_control_ticks = (real32)biped->biped.jump_control_ticks;
+		real32 v2 = (real32)game_tick_rate() / 15.0f;
 		bool v3 = v2 > jump_control_ticks;
 		if ((v1 && v3) || TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
 			v0 = true;

@@ -10,7 +10,7 @@ struct c_simulation_actor
 	long __unknown4;
 	c_simulation_world* m_world;
 	long __unknownC;
-	dword m_time;
+	uint32 m_time;
 	unit_control_data m_actor_control;
 };
 static_assert(sizeof(c_simulation_actor) == 0x94);

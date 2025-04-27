@@ -260,7 +260,7 @@ void __thiscall c_gui_active_roster_data::update_()
 	//	}
 	//
 	//	m_player_count = 0;
-	//	dword player_error_mask = 0;
+	//	uint32 player_error_mask = 0;
 	//	e_session_game_start_status session_game_start_status = user_interface_get_session_game_start_status(NULL, &player_error_mask);
 	//
 	//	for (long session_player_index = 0; session_player_index < 16; session_player_index++)
@@ -268,7 +268,7 @@ void __thiscall c_gui_active_roster_data::update_()
 	//		if (!user_interface_session_is_player_valid(session_player_index))
 	//			continue;
 	//
-	//		dword player_mask = FLAG(session_player_index);
+	//		uint32 player_mask = FLAG(session_player_index);
 	//		e_special_status special_status = _special_status_none;
 	//		e_controller_index local_controller_index = k_no_controller;
 	//

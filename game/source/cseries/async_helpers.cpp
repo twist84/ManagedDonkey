@@ -47,7 +47,7 @@ long __cdecl async_copy_file_from_existing_file(
 	wchar_t const* source_file,
 	wchar_t const* destination_file,
 	void* copy_buffer,
-	dword copy_buffer_size,
+	uint32 copy_buffer_size,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* success,
@@ -98,18 +98,18 @@ e_async_completion __cdecl async_copy_position_callback(s_async_task* task)
 
 //long __cdecl async_create_file(
 //	wchar_t const* file_name,
-//	dword flags1,
+//	uint32 flags1,
 //	e_file_open_disposition file_open_disposition,
-//	dword flags2,
+//	uint32 flags2,
 //	e_async_category category,
 //	e_async_priority priority,
 //	s_file_handle volatile* file_handle,
 //	c_synchronized_long* done)
 long __cdecl async_create_file(
 	wchar_t const* file_name,
-	dword flags1,
+	uint32 flags1,
 	long file_open_disposition,
-	dword flags2,
+	uint32 flags2,
 	e_async_category category,
 	e_async_priority priority,
 	s_file_handle volatile* file_handle,
@@ -145,23 +145,23 @@ e_async_completion __cdecl async_create_file_callback(s_async_task* task)
 	return INVOKE(0x005ACFA0, async_create_file_callback, task);
 }
 
-//.text:005AD130 ; void __cdecl async_create_file_from_reference_blocking(s_file_reference*, dword, e_file_open_disposition, dword, e_async_category, s_file_handle volatile*)
-//.text:005AD1C0 ; void __cdecl async_create_file_synchronous(wchar_t const*, dword, e_file_open_disposition, dword, long, long, s_file_handle*)
+//.text:005AD130 ; void __cdecl async_create_file_from_reference_blocking(s_file_reference*, uint32, e_file_open_disposition, uint32, e_async_category, s_file_handle volatile*)
+//.text:005AD1C0 ; void __cdecl async_create_file_synchronous(wchar_t const*, uint32, e_file_open_disposition, uint32, long, long, s_file_handle*)
 
 //void __cdecl async_create_file_task_initialize(
 //	wchar_t const* file_name,
-//	dword flags1,
+//	uint32 flags1,
 //	e_file_open_disposition file_open_disposition,
-//	dword flags2,
+//	uint32 flags2,
 //	long category,
 //	long priority,
 //	s_file_handle volatile* file_handle,
 //	s_create_file_task* task)
 void __cdecl async_create_file_task_initialize(
 	wchar_t const* file_name,
-	dword flags1,
+	uint32 flags1,
 	long file_open_disposition,
-	dword flags2,
+	uint32 flags2,
 	long category,
 	long priority,
 	s_file_handle volatile* file_handle,
@@ -179,7 +179,7 @@ void __cdecl async_create_file_task_initialize(
 }
 
 //.text:005AD370 ; long __cdecl async_delete_file(wchar_t const*, bool, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
-//.text:005AD3F0 ; long __cdecl async_enumerate_files(dword, char const*, long, s_file_reference*, long*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+//.text:005AD3F0 ; long __cdecl async_enumerate_files(uint32, char const*, long, s_file_reference*, long*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
 
 long __cdecl async_flush_file(
 	s_file_handle file_handle,
@@ -207,7 +207,7 @@ e_async_completion __cdecl async_flush_file_callback(s_async_task* task)
 
 long __cdecl async_get_file_size(
 	s_file_handle file_handle,
-	dword volatile* file_size,
+	uint32 volatile* file_size,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* done)
@@ -228,14 +228,14 @@ long __cdecl async_get_file_size(
 
 //.text:005AD5F0 ; void __cdecl async_helpers_dispose()
 //.text:005AD600 ; void __cdecl async_helpers_initialize()
-//.text:005AD610 ; long __cdecl async_nuke_file(s_file_handle, dword, void const*, e_async_category, e_async_priority, bool*, c_synchronized_long*)
+//.text:005AD610 ; long __cdecl async_nuke_file(s_file_handle, uint32, void const*, e_async_category, e_async_priority, bool*, c_synchronized_long*)
 
 e_async_completion __cdecl async_nuke_file_callback(s_async_task* task)
 {
 	return INVOKE(0x005AD660, async_nuke_file_callback, task);
 }
 
-//.text:005AD6E0 ; long __cdecl async_perform_operation_between_files(wchar_t const*, wchar_t const*, bool, bool, bool, bool, dword, dword, e_async_category, e_async_priority, s_async_task*, e_async_completion(__cdecl*)(s_async_task*), c_synchronized_long*, s_file_handle*, s_file_handle*)
+//.text:005AD6E0 ; long __cdecl async_perform_operation_between_files(wchar_t const*, wchar_t const*, bool, bool, bool, bool, uint32, uint32, e_async_category, e_async_priority, s_async_task*, e_async_completion(__cdecl*)(s_async_task*), c_synchronized_long*, s_file_handle*, s_file_handle*)
 
 long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size), void const* data, long data_size, e_async_priority priority, c_synchronized_long* done)
 {
@@ -254,13 +254,13 @@ long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s
 	return NONE;
 }
 
-//.text:005AD9E0 ; long __cdecl async_read_entire_file(wchar_t const*, void*, dword, dword volatile*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+//.text:005AD9E0 ; long __cdecl async_read_entire_file(wchar_t const*, void*, uint32, uint32 volatile*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
 
 long __cdecl async_read_position(
 	s_file_handle file_handle,
 	void* buffer,
 	long buffer_size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* size,
@@ -298,7 +298,7 @@ long __cdecl async_read_position_ex(
 	s_file_handle file_handle,
 	void* buffer,
 	long buffer_size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* size,
@@ -331,7 +331,7 @@ long __cdecl async_read_position_overlapped(
 	s_file_handle file_handle,
 	void* buffer,
 	long buffer_size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* size,
@@ -368,7 +368,7 @@ long __cdecl async_read_position_overlapped_ex(
 	s_file_handle file_handle,
 	void* buffer,
 	long buffer_size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	c_synchronized_long* size,
@@ -424,7 +424,7 @@ long __cdecl async_validify_file(
 	s_file_handle file_handle,
 	void* buffer,
 	long buffer_size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	bool a7,
@@ -448,13 +448,13 @@ e_async_completion __cdecl async_validify_file_callback(s_async_task* task)
 	return INVOKE(0x005ADED0, async_validify_file_callback, task);
 }
 
-//.text:005ADFC0 ; long __cdecl async_write_buffer_to_file(wchar_t const*, void const*, dword, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+//.text:005ADFC0 ; long __cdecl async_write_buffer_to_file(wchar_t const*, void const*, uint32, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
 
 long __cdecl async_write_position(
 	s_file_handle file,
 	void* buffer,
 	long size,
-	dword offset,
+	uint32 offset,
 	e_async_category category,
 	e_async_priority priority,
 	bool a7,
@@ -482,8 +482,8 @@ long __cdecl async_write_position_ex(
 	s_file_handle file,
 	void* buffer,
 	long size,
-	dword offset,
-	c_flags<e_write_position_flags, dword, k_write_position_flags> flags,
+	uint32 offset,
+	c_flags<e_write_position_flags, uint32, k_write_position_flags> flags,
 	e_async_category category,
 	e_async_priority priority,
 	bool a8,

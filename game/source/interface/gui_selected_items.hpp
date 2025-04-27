@@ -35,24 +35,24 @@ enum e_saved_game_file_type;
 
 struct s_ui_saved_game_item_metadata
 {
-	qword unique_id;
+	uint64 unique_id;
 	wchar_t display_name[16];
 	wchar_t description[128];
 	char author[16];
 	e_saved_game_file_type file_type;
 	bool author_is_xuid_online;
-	qword author_id;
-	qword size_in_bytes;
-	qword date;
+	uint64 author_id;
+	uint64 size_in_bytes;
+	uint64 date;
 	long length_seconds;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	e_game_engine_type game_engine_index;
 	e_campaign_difficulty_level campaign_difficulty;
-	byte campaign_insertion_point;
+	uint8 campaign_insertion_point;
 	bool campaign_survival_enabled;
-	word pad;
-	qword game_id;
+	uint16 pad;
+	uint64 game_id;
 };
 static_assert(sizeof(s_ui_saved_game_item_metadata) == 0x178);
 static_assert(0x000 == OFFSETOF(s_ui_saved_game_item_metadata, unique_id));

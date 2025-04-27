@@ -26,6 +26,6 @@ extern void __cdecl simulation_object_glue_index_encode(c_bitstream* bitstream, 
 extern bool __cdecl simulation_gamestate_index_valid(long gamestate_index);
 extern long __cdecl simulation_entity_create(e_simulation_entity_type entity_type, long object_index, long simulation_object_glue_index);
 extern void __cdecl simulation_entity_delete(long simulation_entity_index, long object_index, long simulation_object_glue_index);
-extern void __cdecl simulation_entity_force_update(long simulation_entity_index, long object_index, c_flags<long, qword, 64>& flags);
-extern void __cdecl simulation_entity_update(long simulation_entity_index, long object_index, c_flags<long, qword, 64>& flags);
+extern void __cdecl simulation_entity_force_update(long simulation_entity_index, long object_index, c_flags<long, uint64, 64>& flags);
+extern void __cdecl simulation_entity_update(long simulation_entity_index, long object_index, c_flags<long, uint64, 64>& flags);
 

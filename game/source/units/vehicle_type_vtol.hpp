@@ -11,12 +11,12 @@ public:
 	static void __cdecl adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 
 private:
-	static void __cdecl apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, real_vector3d* force, real_vector3d* torque);
-	real calculate_lift_turn_acceleration(long vehicle_index, s_havok_vehicle_physics_instance const* instance);
-	void compute_engine_scales(real* left, real* right) const;
+	static void __cdecl apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* vector, real_point3d const* origin, long marker_name, real32 thrust, real_vector3d* force, real_vector3d* torque);
+	real32 calculate_lift_turn_acceleration(long vehicle_index, s_havok_vehicle_physics_instance const* instance);
+	void compute_engine_scales(real32* left, real32* right) const;
 
 public:
-	bool compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
+	bool compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active);
 
 private:
 	void compute_throttle(long vehicle_index, real_vector3d* throttle);
@@ -33,13 +33,13 @@ public:
 	static bool __cdecl is_stopped(long vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(long vehicle_index);
 	static bool __cdecl physics_disabled(long vehicle_index);
-	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
 	static bool __cdecl should_override_deactivation(long vehicle_index);
 	void update_control(long vehicle_index);
 
 private:
-	void update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* throttle, real desired_acceleration_k, long marker_name, real_vector3d* lift_vector, real_point3d* lift_origin, real_euler_angles2d* angles, real_euler_angles2d* render_angles, real_vector2d* velocity, real_vector2d* render_velocity, real* effect_scale);
+	void update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* throttle, real32 desired_acceleration_k, long marker_name, real_vector3d* lift_vector, real_point3d* lift_origin, real_euler_angles2d* angles, real_euler_angles2d* render_angles, real_vector2d* velocity, real_vector2d* render_velocity, real32* effect_scale);
 
 public:
 	void update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance);
@@ -60,11 +60,11 @@ public:
 		k_lift_vector_count
 	};
 
-	real m_steering;
-	real m_turn;
-	real m_target_elevation;
-	byte m_lift_effect_scale_left_history[4];
-	byte m_lift_effect_scale_right_history[4];
+	real32 m_steering;
+	real32 m_turn;
+	real32 m_target_elevation;
+	uint8 m_lift_effect_scale_left_history[4];
+	uint8 m_lift_effect_scale_right_history[4];
 	real_euler_angles2d m_left_lift_angles;
 	real_euler_angles2d m_left_render_lift_angles;
 	real_euler_angles2d m_right_lift_angles;
@@ -75,11 +75,11 @@ public:
 	real_vector2d m_right_render_lift_velocity;
 	c_animation_id m_lift_left_id;
 	c_animation_id m_lift_right_id;
-	real m_gear_position;
+	real32 m_gear_position;
 };
 static_assert(sizeof(c_vehicle_type_vtol) == 0x60);
 
-extern real __cdecl calculate_acceleration_magnitude_vtol(bool govern_velocity, bool acceleration_as_force, real mass, real distance, real acceleration, real velocity_towards_target, real maximum_velocity, real dead_radius, real hookes_law_e, bool disable_damping, real* scale);
-extern real __cdecl calculate_desired_acceleration(real velocity, real minimum_acceleration, real maximum_acceleration, real distance);
-extern real __cdecl calculate_desired_acceleration(real velocity, real gravity, real minimum_acceleration, real maximum_acceleration, real distance);
+extern real32 __cdecl calculate_acceleration_magnitude_vtol(bool govern_velocity, bool acceleration_as_force, real32 mass, real32 distance, real32 acceleration, real32 velocity_towards_target, real32 maximum_velocity, real32 dead_radius, real32 hookes_law_e, bool disable_damping, real32* scale);
+extern real32 __cdecl calculate_desired_acceleration(real32 velocity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance);
+extern real32 __cdecl calculate_desired_acceleration(real32 velocity, real32 gravity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance);
 

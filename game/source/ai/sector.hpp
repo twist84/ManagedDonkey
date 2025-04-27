@@ -5,7 +5,7 @@
 struct c_sector_ref
 {
 	short structure_bsp_index;
-	word sector_index;
+	uint16 sector_index;
 };
 static_assert(sizeof(c_sector_ref) == 0x4);
 

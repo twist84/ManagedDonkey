@@ -26,15 +26,15 @@ public:
 	static void __cdecl render_shading();
 	static void __cdecl render_tessellation(bool is_screenshot);
 	static void __cdecl render_underwater_fog();
-	static void __cdecl ripple_add(dword valid_event_count);
+	static void __cdecl ripple_add(uint32 valid_event_count);
 	static void __cdecl ripple_apply();
-	static dword __cdecl ripple_check_new();
+	static uint32 __cdecl ripple_check_new();
 	static void __cdecl ripple_slope();
 	static void __cdecl ripple_update();
 	static void __cdecl set_performance_throttles();
 	static bool __cdecl update_water_part_list();
 
-	static void frame_advance(real seconds_elapsed);
+	static void frame_advance(real32 seconds_elapsed);
 };
 
 extern bool& render_water_enabled;

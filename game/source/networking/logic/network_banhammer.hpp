@@ -9,18 +9,18 @@
 struct s_network_web_event_cheating_local_player
 {
 	bool caught_cheating;
-	byte __pad1[0x7];
+	uint8 __pad1[0x7];
 	s_player_identifier player_identifier;
 
-	qword machine_id;
+	uint64 machine_id;
 
 	wchar_t name[16];
 
-	qword game_instance;
+	uint64 game_instance;
 
-	dword_flags cheat_flags;
+	uint32 cheat_flags;
 	bool webstats_submitted;
-	byte _pad45[0x3];
+	uint8 _pad45[0x3];
 };
 static_assert(sizeof(s_network_web_event_cheating_local_player) == 0x48);
 
@@ -32,8 +32,8 @@ static_assert(sizeof(s_network_banhammer_remote_cheater_data) == sizeof(s_networ
 
 struct s_network_banhammer_cheating_report
 {
-	dword_flags controller_cheat_flags;
-	dword_flags controller_new_cheat_flags;
+	uint32 controller_cheat_flags;
+	uint32 controller_new_cheat_flags;
 
 	// set from `g_network_banhammer_globals.__unknown160D4`
 	bool __unknown8;
@@ -43,7 +43,7 @@ struct s_network_banhammer_cheating_report
 
 	s_rsa_signature map_signature;
 
-	byte __data10A[0x6];
+	uint8 __data10A[0x6];
 };
 static_assert(sizeof(s_network_banhammer_cheating_report) == 0x110);
 
@@ -51,24 +51,24 @@ struct s_network_banhammer_controller_data
 {
 	// e_network_banhammer_controller_flags
 	// 0: repeated play list?
-	byte_flags flags;
-	byte __pad1[3];
+	uint8 flags;
+	uint8 __pad1[3];
 
-	byte __data4[0x4];
+	uint8 __data4[0x4];
 
-	qword player_xuid;
+	uint64 player_xuid;
 	wchar_t name[16];
-	dword_flags old_ban_flags;
-	dword_flags new_ban_flags;
-	dword_flags old_cheat_flags;
-	dword_flags new_cheat_flags;
-	dword repeated_play_coefficient;
+	uint32 old_ban_flags;
+	uint32 new_ban_flags;
+	uint32 old_cheat_flags;
+	uint32 new_cheat_flags;
+	uint32 repeated_play_coefficient;
 
-	byte __data44[0xF8C];
+	uint8 __data44[0xF8C];
 
 	long highest_skill;
 
-	byte __dataFD4[0x4];
+	uint8 __dataFD4[0x4];
 };
 static_assert(sizeof(s_network_banhammer_controller_data) == 0xFD8);
 
@@ -99,25 +99,25 @@ enum e_map_id;
 struct s_network_banhammer_globals
 {
 	// e_network_banhammer_flags
-	byte_flags controller_flags;
-	byte __pad1[0x3];
+	uint8 controller_flags;
+	uint8 __pad1[0x3];
 
 	// e_network_banhammer_cheat_flags
-	dword_flags controller_cheat_flags;
+	uint32 controller_cheat_flags;
 
 	e_map_id map_id;
 
 	// e_network_banhammer_ban_flags
-	dword_flags controller_ban_flags;
-	dword_flags controller_ban_message_flags;
+	uint32 controller_ban_flags;
+	uint32 controller_ban_message_flags;
 
 	// pad?
-	byte __data14[0x4];
+	uint8 __data14[0x4];
 
 	c_static_array<s_network_banhammer_controller_data, 4> controllers;
 	c_static_array<s_network_banhammer_remote_cheater_data, 64> remote_cheaters;
-	dword machine_file_download_time;
-	dword machine_file_refresh_time;
+	uint32 machine_file_download_time;
+	uint32 machine_file_refresh_time;
 	bool map_file_manifest_valid;
 	bool map_file_manifest_failed;
 	long map_file_manifest_attempt_index;
@@ -130,7 +130,7 @@ struct s_network_banhammer_globals
 	c_http_blf_simple_downloader<s_files_user_banhammer_messages, 10401> message_downloader;
 	c_static_array<s_network_banhammer_controller_downloaders, 4> controller_downloaders;
 	c_http_stored_buffer_downloader<1024> machine_uploader;
-	byte __data20984[0x4];
+	uint8 __data20984[0x4];
 	s_network_quality_statistics network_statistics_upload_buffer;
 };
 static_assert(sizeof(c_http_stored_buffer_downloader<34977>) == 0x8F3C);

@@ -147,19 +147,19 @@ c_collision_surface_reference::c_collision_surface_reference(c_collision_bsp_ref
 {
 }
 
-byte c_collision_surface_reference::get_best_plane_calculation_vertex_index() const
+uint8 c_collision_surface_reference::get_best_plane_calculation_vertex_index() const
 {
 	if (is_small())
 	{
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface= &small_bsp->surfaces[m_surface_index];
-		byte best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
+		uint8 best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
 		return best_plane_calculation_vertex_index;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
 	large_collision_surface* surface= &large_bsp->surfaces[m_surface_index];
-	byte best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
+	uint8 best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
 	return best_plane_calculation_vertex_index;
 }
 
@@ -211,19 +211,19 @@ long c_collision_surface_reference::get_first_edge_index() const
 	return first_edge;
 }
 
-byte_flags c_collision_surface_reference::get_flags() const
+uint8 c_collision_surface_reference::get_flags() const
 {
 	if (is_small())
 	{
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
-		byte_flags flags = surface->flags;
+		uint8 flags = surface->flags;
 		return flags;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
 	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
-	byte_flags flags = surface->flags;
+	uint8 flags = surface->flags;
 	return flags;
 }
 

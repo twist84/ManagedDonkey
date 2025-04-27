@@ -50,7 +50,7 @@ public:
 	void set_attacker_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_territories_variant_flags, word_flags, k_territories_variant_flags> m_variant_flags;
+	c_flags<e_territories_variant_flags, uint16, k_territories_variant_flags> m_variant_flags;
 	c_enum<e_territories_respawn_on_capture_settings, short, _territories_respawn_on_capture_settings_disabled, k_territories_respawn_on_capture_settings> m_respawn_on_capture;
 	c_enum<e_territories_capture_time_settings, short, _territories_capture_time_settings_instant, k_territories_capture_time_settings> m_capture_time;
 	c_enum<e_territories_sudden_death_settings, short, _territories_sudden_death_settings_indefinite, k_territories_sudden_death_settings> m_sudden_death_time;
@@ -69,8 +69,8 @@ public:
 struct s_territory_data :
 	c_area
 {
-	c_static_array<word, 8> team_capture_time;
-	c_static_array<byte, 8> team_capture_time_in_seconds;
+	c_static_array<uint16, 8> team_capture_time;
+	c_static_array<uint8, 8> team_capture_time_in_seconds;
 	long controlling_team_designator;
 	long state;
 };

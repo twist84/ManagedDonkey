@@ -58,22 +58,22 @@ bool __cdecl unit_active_camouflage_is_active(long unit_index)
 	return INVOKE(0x00B38720, unit_active_camouflage_is_active, unit_index);
 }
 
-void __cdecl unit_active_camouflage_ding(long unit_index, real active_camo_ding, real active_camo_regrowth_rate)
+void __cdecl unit_active_camouflage_ding(long unit_index, real32 active_camo_ding, real32 active_camo_regrowth_rate)
 {
 	INVOKE(0x00B38760, unit_active_camouflage_ding, unit_index, active_camo_ding, active_camo_regrowth_rate);
 }
 
-void __cdecl unit_active_camouflage_disable(long unit_index, real interpolation_time)
+void __cdecl unit_active_camouflage_disable(long unit_index, real32 interpolation_time)
 {
 	INVOKE(0x00B38880, unit_active_camouflage_disable, unit_index, interpolation_time);
 }
 
-void __cdecl unit_active_camouflage_enable(long unit_index, real interpolation_time, long end_time)
+void __cdecl unit_active_camouflage_enable(long unit_index, real32 interpolation_time, long end_time)
 {
 	INVOKE(0x00B38940, unit_active_camouflage_enable, unit_index, interpolation_time, end_time);
 }
 
-void __cdecl unit_active_camouflage_strength(long unit_index, real active_camouflage)
+void __cdecl unit_active_camouflage_strength(long unit_index, real32 active_camouflage)
 {
 	INVOKE(0x00B38A10, unit_active_camouflage_strength, unit_index, active_camouflage);
 }
@@ -126,7 +126,7 @@ bool __cdecl unit_can_pickup_equipment(long unit_index, long equipment_index)
 }
 
 //.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(long, long, e_weapon_addition_method, unit_weapon_pickup_result*)
-//.text:00B3B190 ; bool __cdecl unit_can_see_point(long, real_point3d const*, real)
+//.text:00B3B190 ; bool __cdecl unit_can_see_point(long, real_point3d const*, real32)
 //.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(long, long, short, real_point3d const*, real_vector3d const*)
 //.text:00B3B5B0 ; bool __cdecl unit_can_use_weapon(long, long)
 //.text:00B3B5D0 ; bool __cdecl unit_can_use_weapon_in_seat(long, long, long)
@@ -134,16 +134,16 @@ bool __cdecl unit_can_pickup_equipment(long unit_index, long equipment_index)
 //.text:00B3B920 ; void __cdecl unit_cause_ai_melee_attack(long, short)
 //.text:00B3BD20 ; void __cdecl unit_cause_assassination_damage(long, long, s_damage_owner const*, long, bool)
 //.text:00B3BE30 ; void __cdecl unit_cause_melee_damage_response(long, long, long, long, c_global_material_type, real_point3d const*, real_vector3d const*)
-//.text:00B3BFE0 ; void __cdecl unit_cause_player_melee_attack_apply(long, long, short, real, bool, s_player_melee_attack_query_result*, s_simulation_biped_melee_damage_event_data*)
+//.text:00B3BFE0 ; void __cdecl unit_cause_player_melee_attack_apply(long, long, short, real32, bool, s_player_melee_attack_query_result*, s_simulation_biped_melee_damage_event_data*)
 //.text:00B3C360 ; unit_cause_player_melee_attack_query
 //.text:00B3CDE0 ; void __cdecl unit_cause_player_melee_damage(long, long, s_damage_owner const*, s_unit_player_melee_damage_target const*)
-//.text:00B3D3A0 ; void __cdecl unit_check_ping_thresholds(long, real, real, long*)
+//.text:00B3D3A0 ; void __cdecl unit_check_ping_thresholds(long, real32, real32, long*)
 //.text:00B3D470 ; void __cdecl unit_clear_aim_assist(long)
 //.text:00B3D4F0 ; bool __cdecl unit_clip_vector_to_aiming_screen_bounds(long, real_vector3d*, bool)
-//.text:00B3D9A0 ; real __cdecl unit_compute_boost_fraction(long)
-//.text:00B3DA70 ; bool __cdecl unit_compute_function_value(long, long, long, real*, bool*, bool*, bool)
-//.text:00B3DDC0 ; long __cdecl unit_compute_ping_type(long, bool, bool, bool, bool, bool, bool, real, real)
-//.text:00B3DEE0 ; void __cdecl unit_consider_nearby_seats(long, long, long*, short*, short*, real*, bool*)
+//.text:00B3D9A0 ; real32 __cdecl unit_compute_boost_fraction(long)
+//.text:00B3DA70 ; bool __cdecl unit_compute_function_value(long, long, long, real32*, bool*, bool*, bool)
+//.text:00B3DDC0 ; long __cdecl unit_compute_ping_type(long, bool, bool, bool, bool, bool, bool, real32, real32)
+//.text:00B3DEE0 ; void __cdecl unit_consider_nearby_seats(long, long, long*, short*, short*, real32*, bool*)
 
 void __cdecl unit_control(long unit_index, unit_control_data const* control_data)
 {
@@ -160,7 +160,7 @@ void __cdecl unit_control(long unit_index, unit_control_data const* control_data
 //.text:00B3E6D0 ; void __cdecl unit_correct_backpack_weapon_state(long)
 //.text:00B3E780 ; void __cdecl unit_correct_dual_wield_state(long)
 //.text:00B3E820 ; void __cdecl unit_create_children(long)
-//.text:00B3E850 ; void __cdecl unit_create_reflexive_damage(long, long, real)
+//.text:00B3E850 ; void __cdecl unit_create_reflexive_damage(long, long, real32)
 //.text:00B3E9F0 ; long __cdecl unit_create_starting_weapon(long, starting_weapon_info const*, bool)
 //.text:00B3EAB0 ; void __cdecl unit_damage_aftermath_apply(long, s_damage_aftermath_result_data const*)
 //.text:00B3F590 ; void __cdecl unit_damage_aftermath_compute(long, long, s_damage_data const*, s_damage_aftermath_result_data*)
@@ -215,15 +215,15 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 //.text:00B40CC0 ; equipment related
 
 //.text:00B40D50 ; void __cdecl unit_estimate_position(long, short, real_point3d const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real_point3d*)
-//.text:00B40EF0 ; void __cdecl unit_euler_aiming_update(real_matrix4x3 const*, real, real_vector3d*, real_vector3d const*, real, real_vector3d*, real_rectangle2d const*, real, real, real*)
-//.text:00B42080 ; void __cdecl unit_euler_axis_buildplan(real, real, real, real, euler_axis_plan*)
-//.text:00B423A0 ; void __cdecl unit_euler_axis_couple(euler_axis_plan*, euler_axis_plan*, real, real)
-//.text:00B42570 ; bool __cdecl unit_euler_axis_doplan(euler_axis_plan const*, real, real, real*, real, real*)
+//.text:00B40EF0 ; void __cdecl unit_euler_aiming_update(real_matrix4x3 const*, real32, real_vector3d*, real_vector3d const*, real32, real_vector3d*, real_rectangle2d const*, real32, real32, real32*)
+//.text:00B42080 ; void __cdecl unit_euler_axis_buildplan(real32, real32, real32, real32, euler_axis_plan*)
+//.text:00B423A0 ; void __cdecl unit_euler_axis_couple(euler_axis_plan*, euler_axis_plan*, real32, real32)
+//.text:00B42570 ; bool __cdecl unit_euler_axis_doplan(euler_axis_plan const*, real32, real32, real32*, real32, real32*)
 //.text:00B42670 ; bool __cdecl unit_evict_parent_seat_occupant(long, bool, bool)
 //.text:00B427D0 ; void __cdecl unit_falling_damage_disable(long, bool)
 //.text:00B42820 ; short __cdecl unit_find_nearby_seat(long, long, long*, short*)
 //.text:00B42890 ; short __cdecl unit_first_free_weapon_index(long)
-//.text:00B428E0 ; bool __cdecl unit_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real, real, bool)
+//.text:00B428E0 ; bool __cdecl unit_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real32, real32, bool)
 //.text:00B42BA0 ; void __cdecl unit_force_detach_from_parent_object(long)
 //.text:00B42C50 ; void __cdecl unit_force_drop_weapon(long, long, bool, bool)
 
@@ -291,7 +291,7 @@ long __cdecl unit_get_current_equipment(long unit_index, long equipment_slot_ind
 //.text:00B43FF0 ; unit_get_equipment_?
 //.text:00B44060 ; void __cdecl unit_get_facing_vector(long, real_vector3d*)
 
-real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level)
+real32 __cdecl unit_get_field_of_view(long unit_index, real32 fov_radians, short zoom_level)
 {
 	return INVOKE(0x00B44080, unit_get_field_of_view, unit_index, fov_radians, zoom_level);
 }
@@ -309,26 +309,26 @@ void __cdecl unit_get_head_position(long unit_index, real_point3d* position)
 //.text:00B442D0 ; bool __cdecl unit_get_hologram_target_point(long, real_point3d*)
 //.text:00B44340 ; long __cdecl unit_get_last_associated_weak_player_index_for_appearance(long)
 //.text:00B443B0 ; void __cdecl unit_get_looking_vector(long, real_vector3d*)
-//.text:00B443F0 ; real __cdecl unit_get_open_amount(long)
+//.text:00B443F0 ; real32 __cdecl unit_get_open_amount(long)
 //.text:00B44470 ; c_sector_ref __cdecl unit_get_pathfinding_get_attached_sector(long)
 //.text:00B444C0 ; e_game_team __cdecl unit_get_campaign_team(long)
 //.text:00B444F0 ; long __cdecl unit_get_time_to_end_of_assasination(long)
 //.text:00B445B0 ; long __cdecl unit_get_ultimate_motion_control_unit_index(long)
 //.text:00B44600 ; long __cdecl unit_get_ultimate_weapon_control_unit_index(long)
 //.text:00B44650 ; long __cdecl unit_get_weapon(unit_datum const*, short)
-//.text:00B44680 ; real __cdecl unit_get_weapon_dual_error_theta(long, long)
+//.text:00B44680 ; real32 __cdecl unit_get_weapon_dual_error_theta(long, long)
 
 short __cdecl unit_get_zoom_level(long unit_index)
 {
 	return INVOKE(0x00B44780, unit_get_zoom_level, unit_index);
 }
 
-//.text:00B447B0 ; real __cdecl unit_get_zoom_magnification(long, short)
+//.text:00B447B0 ; real32 __cdecl unit_get_zoom_magnification(long, short)
 //.text:00B448C0 ; bool __cdecl unit_gunned_by_ai(long)
 //.text:00B44910 ; void __cdecl unit_handle_deleted_object(long, long)
 //.text:00B44B60 ; void __cdecl unit_handle_deleted_player(long, long)
 //.text:00B44BA0 ; 
-//.text:00B44D60 ; void __cdecl unit_handle_region_destroyed(long, short, dword)
+//.text:00B44D60 ; void __cdecl unit_handle_region_destroyed(long, short, uint32)
 //.text:00B44D70 ; void __cdecl unit_handle_weapon_state_change(long, long, long)
 //.text:00B44EF0 ; bool __cdecl equipment_suppresses_all_actions(long)
 //.text:00B44F90 ; 
@@ -381,13 +381,13 @@ long __cdecl unit_inventory_get_weapon(long unit_index, short inventory_index)
 //.text:00B46730 ; void __cdecl unit_pathfinding_detach(long)
 //.text:00B46780 ; bool __cdecl unit_pathfinding_is_attached(long)
 //.text:00B467B0 ; void __cdecl unit_perform_detach_and_damage(long, long)
-//.text:00B469E0 ; void __cdecl unit_persistent_control(long, long, dword)
+//.text:00B469E0 ; void __cdecl unit_persistent_control(long, long, uint32)
 //.text:00B46A20 ; void __cdecl unit_place(long, s_scenario_unit_datum const*)
 //.text:00B46B20 ; bool __cdecl unit_placement_try_to_put_unit_in_seat_using_marker_name(long, long, long)
 //.text:00B46BF0 ; bool __cdecl unit_post_update(long)
 //.text:00B46C10 ; void __cdecl unit_prepare_to_change_seats(long)
 //.text:00B46C30 ; bool __cdecl unit_put_away_weapon(long, short, bool)
-//.text:00B46D00 ; void __cdecl unit_record_damage(long, real, short, bool, long, c_game_team, long, s_damage_reporting_info const&)
+//.text:00B46D00 ; void __cdecl unit_record_damage(long, real32, short, bool, long, c_game_team, long, s_damage_reporting_info const&)
 
 void __cdecl unit_render_debug(long unit_index)
 {
@@ -453,10 +453,10 @@ void __cdecl unit_render_debug(long unit_index)
 			object_get_markers_by_string_id(unit_index, STRING_ID(global, head), markers, NUMBEROF(markers));
 			real_point3d point = markers[0].matrix.origin;
 
-			real absolute_i = fabsf(unit->unit.seat_acceleration.i);
-			real absolute_j = fabsf(unit->unit.seat_acceleration.j);
-			real absolute_k = fabsf(unit->unit.seat_acceleration.k);
-			real acceleration_scale = fmaxf(absolute_i, absolute_j);
+			real32 absolute_i = fabsf(unit->unit.seat_acceleration.i);
+			real32 absolute_j = fabsf(unit->unit.seat_acceleration.j);
+			real32 absolute_k = fabsf(unit->unit.seat_acceleration.k);
+			real32 acceleration_scale = fmaxf(absolute_i, absolute_j);
 			if (acceleration_scale <= absolute_k)
 				acceleration_scale = absolute_k;
 
@@ -512,14 +512,14 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B48710 ; void __cdecl unit_set_grenade_counts(long, char const*)
 //.text:00B48770 ; void __cdecl unit_set_hologram(long, long, long, real_point3d const*)
 //.text:00B48980 ; void __cdecl unit_set_melee_attack_resolved(long)
-//.text:00B489E0 ; void __cdecl unit_set_mouth_aperture(long, real)
+//.text:00B489E0 ; void __cdecl unit_set_mouth_aperture(long, real32)
 //.text:00B48A60 ; void __cdecl unit_set_player_melee_suppression(long, long)
 //.text:00B48AD0 ; void __cdecl unit_set_possessed(long, bool)
 //.text:00B48B20 ; void __cdecl unit_set_predicted_controller(long, long, long, long, long, long)
 //.text:00B48BB0 ; void __cdecl unit_set_predicted_vehicle(long, long, short)
 //.text:00B48C00 ; void __cdecl unit_set_prefer_tight_camera_track(long, bool)
-//.text:00B48C40 ; void __cdecl unit_set_weapon_state(long, long, long, long, real)
-//.text:00B48CB0 ; void __cdecl unit_set_weapon_type(long, long, long, short, byte, s_unit_weapon_set const*)
+//.text:00B48C40 ; void __cdecl unit_set_weapon_state(long, long, long, long, real32)
+//.text:00B48CB0 ; void __cdecl unit_set_weapon_type(long, long, long, short, uint8, s_unit_weapon_set const*)
 //.text:00B48EC0 ; bool __cdecl unit_should_clip_to_aiming_bounds(long)
 //.text:00B48F10 ; void __cdecl unit_show_weapon_from_inventory(long, long, e_unit_hand)
 //.text:00B48FF0 ; void __cdecl unit_start_running_blindly(long unit_index)
@@ -529,7 +529,7 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B49190 ; void __cdecl unit_take_item(long, long)
 //.text:00B491B0 ; bool __cdecl unit_test_pickup_with_mode(long, unit_weapon_pickup_result const*, e_weapon_addition_method, short*)
 //.text:00B492A0 ; bool __cdecl unit_test_seat_entrance_markers(long, long, short)
-//.text:00B49580 ; void __cdecl unit_toss_item(long unit_index, long item_index, long marker_name, real a4, bool a5)
+//.text:00B49580 ; void __cdecl unit_toss_item(long unit_index, long item_index, long marker_name, real32 a4, bool a5)
 //.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(long unit_index)
 //.text:00B49990 ; bool __cdecl unit_player_plant_plasma_on_death(long unit_index, long player_index)
 
@@ -669,7 +669,7 @@ void __cdecl unit_update_illumination(long unit_index)
 		if (unit->unit.player_index != NONE)
 		{
 			long current_time = game_time_get();
-			if (game_ticks_to_seconds(real(current_time - debug_unit_illumination_time)) >= 1.0f)
+			if (game_ticks_to_seconds(real32(current_time - debug_unit_illumination_time)) >= 1.0f)
 			{
 				event(_event_warning, "player illumination: self %.2f ambient %.2f",
 					unit->unit.self_illumination,
@@ -754,7 +754,7 @@ bool __cdecl sub_B4D160(long unit_index)
 	return INVOKE(0x00B4D160, sub_B4D160, unit_index);
 }
 
-double __cdecl sub_B4D1E0(long unit_index)
+real64 __cdecl sub_B4D1E0(long unit_index)
 {
 	return INVOKE(0x00B4D1E0, sub_B4D1E0, unit_index);
 }
@@ -785,7 +785,7 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 	//return INVOKE(0x00B4D430, units_debug_get_closest_unit, unit_index);
 
 	long closest_unit_index = NONE;
-	real closest_distance = k_real_max;
+	real32 closest_distance = k_real_max;
 
 	c_object_iterator<unit_datum> unit_iterator;
 	unit_iterator.begin(_object_mask_unit, 0);
@@ -795,7 +795,7 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 		{
 			if (units_debug_can_select_unit(unit_iterator.get_index()))
 			{
-				real distance = 0.0f;
+				real32 distance = 0.0f;
 				if (unit_index != NONE)
 				{
 					real_point3d unit_origin{};

@@ -7,7 +7,7 @@ void __cdecl c_vehicle_type_turret::adjust_gravity(long vehicle_index, real_vect
 	INVOKE(0x00BCEC00, c_vehicle_type_turret::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-bool __cdecl c_vehicle_type_turret::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool __cdecl c_vehicle_type_turret::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE(0x00BCEC10, c_vehicle_type_turret::compute_function_value, vehicle_index, function, magnitude, force_active);
 }
@@ -47,7 +47,7 @@ bool __cdecl c_vehicle_type_turret::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BCEC80, c_vehicle_type_turret::physics_disabled, vehicle_index);
 }
 
-void __cdecl c_vehicle_type_turret::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void __cdecl c_vehicle_type_turret::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE(0x00BCECC0, c_vehicle_type_turret::process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }

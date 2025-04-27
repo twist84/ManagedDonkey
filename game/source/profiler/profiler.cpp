@@ -89,11 +89,11 @@ void profile_render(rectangle2d const* screen_pixel_bounds, rectangle2d const* s
 
 		if (profile_summary_objects_enabled)
 		{
-			real free_memory = real(memory_information.free);
+			real32 free_memory = real32(memory_information.free);
 			if (memory_information.free < 0)
 				free_memory += 1.8446744e19f;
 
-			real total_memory = real(memory_information.total);
+			real32 total_memory = real32(memory_information.total);
 			if (memory_information.total < 0)
 				total_memory += 1.8446744e19f;
 

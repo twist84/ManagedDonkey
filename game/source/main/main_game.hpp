@@ -45,8 +45,8 @@ struct s_main_game_globals
 
 	bool map_change_pending;
 	bool map_change_pending_unload;
-	dword map_change_initiate_time;
-	dword map_change_timer;
+	uint32 map_change_initiate_time;
+	uint32 map_change_timer;
 	game_options pending_game_options;
 
 	// missing in release builds

@@ -55,7 +55,7 @@ unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definiti
 
 	if (packet_definition->version > 0)
 	{
-		t_value_type<byte> data = { .value = static_cast<byte>(version) };
+		t_value_type<uint8> data = { .value = static_cast<uint8>(version) };
 		data_encode_memory(&state, data.bytes, sizeof(data.bytes), _1byte);
 	}
 

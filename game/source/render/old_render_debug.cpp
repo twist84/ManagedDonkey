@@ -211,7 +211,7 @@ bool __cdecl render_debug_lost_camera()
 	return c_player_view::get_current()->m_using_stored_cluster;
 }
 
-real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real green, real blue)
+real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real32 red, real32 green, real32 blue)
 {
 	ASSERT(color);
 
@@ -222,7 +222,7 @@ real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real
 	return color;
 }
 
-real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real alpha, real red, real green, real blue)
+real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real32 alpha, real32 red, real32 green, real32 blue)
 {
 	ASSERT(color);
 

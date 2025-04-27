@@ -56,7 +56,7 @@ void __cdecl rasterizer_stipple_initialize()
 		int pass_index = 0;
 
 		constexpr long num_block_sizes = 3;
-		constexpr real block_sizes[] = { 4.0f, 2.0f, 1.0f };
+		constexpr real32 block_sizes[] = { 4.0f, 2.0f, 1.0f };
 		static_assert(NUMBEROF(block_sizes) == num_block_sizes);
 		for (long block_size_index = 0; block_size_index < num_block_sizes; block_size_index++)
 		{

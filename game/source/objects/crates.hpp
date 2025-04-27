@@ -5,7 +5,7 @@
 
 struct _crate_datum
 {
-	dword_flags flags;
+	uint32 flags;
 	long self_destruction_timer;
 };
 static_assert(sizeof(_crate_datum) == 0x8);

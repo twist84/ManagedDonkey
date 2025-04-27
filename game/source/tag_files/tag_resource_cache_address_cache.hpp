@@ -35,7 +35,7 @@ struct c_tag_resource_address_cache
 
 	c_tag_resource_address_cache_control_interface m_control_interface;
 	c_wrapped_array<s_cached_resource_state*> m_cached_access_datums;
-	c_wrapped_array<qword> m_cached_resource_snapshots;
+	c_wrapped_array<uint64> m_cached_resource_snapshots;
 	c_wrapped_flags m_ready_resource_addresses;
 	c_wrapped_flags m_required_resource_addresses;
 	c_wrapped_flags m_demanded_external_resources;

@@ -11,12 +11,12 @@ struct c_life_cycle_state_handler_matchmaking_find_match :
 public:
 	
 //protected:
-	byte_flags m_flags;
-	byte __data29[0x3];
-	byte __data2C[0x4];
+	uint8 m_flags;
+	uint8 __data29[0x3];
+	uint8 __data2C[0x4];
 	c_matchmaking_seeker m_seeker;
 	s_network_session_tracker_session_data m_session;
-	byte __data19A5C[0xC];
+	uint8 __data19A5C[0xC];
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_find_match) == 0x19A68);
 

@@ -32,15 +32,15 @@ struct c_overlapped_task
 	};
 
 public:
-	virtual void* destructor(dword);
+	virtual void* destructor(uint32);
 	virtual char const* get_context_string();
-	virtual dword start(void* overlapped);
-	virtual void update(dword return_result);
-	virtual void success(dword return_result);
-	virtual void failure(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
+	virtual uint32 start(void* overlapped);
+	virtual void update(uint32 return_result);
+	virtual void success(uint32 return_result);
+	virtual void failure(uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error);
 	virtual void complete();
 	virtual void reset();
-	virtual bool is_result_successful(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
+	virtual bool is_result_successful(uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error);
 
 	e_overlapped_task_state get_task_state() const;
 	void set_task_state_internal(e_overlapped_task_state task_state);
@@ -79,8 +79,8 @@ extern void __cdecl overlapped_task_toggle_debug_rendering(bool toggle_debug_ren
 extern void __cdecl overlapped_task_wait_for_all_tasks_to_finish();
 extern void __cdecl overlapped_update();
 extern void __cdecl task_block_until_finished(s_task_slot* task_slot);
-extern bool __cdecl task_is_complete(s_task_slot* task_slot, dword* return_result, dword* calling_result, dword* overlapped_error, dword* overlapped_extended_error);
-extern void __cdecl task_now_finished(s_task_slot* task_slot, dword return_result, dword calling_result, dword overlapped_error, dword overlapped_extended_error);
+extern bool __cdecl task_is_complete(s_task_slot* task_slot, uint32* return_result, uint32* calling_result, uint32* overlapped_error, uint32* overlapped_extended_error);
+extern void __cdecl task_now_finished(s_task_slot* task_slot, uint32 return_result, uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error);
 
 extern void overlapped_tasks_log_to_debug_txt(e_event_level event_level);
 extern void overlapped_task_display_task_descriptions();

@@ -77,7 +77,7 @@ bool __cdecl loading_basic_progress_enabled()
 	//return loading_globals.basic_progress_enabled;
 }
 
-real __cdecl loading_basic_progress_get()
+real32 __cdecl loading_basic_progress_get()
 {
 	return INVOKE(0x0052EEB0, loading_basic_progress_get);
 
@@ -85,7 +85,7 @@ real __cdecl loading_basic_progress_get()
 	//return loading_globals.progress;
 }
 
-void __cdecl loading_basic_progress_phase_begin(long phase, dword update_size)
+void __cdecl loading_basic_progress_phase_begin(long phase, uint32 update_size)
 {
 	INVOKE(0x0052EEC0, loading_basic_progress_phase_begin, phase, update_size);
 
@@ -110,14 +110,14 @@ void __cdecl loading_basic_progress_phase_end()
 	//}
 }
 
-void __cdecl loading_basic_progress_update_fraction(real progress_fraction)
+void __cdecl loading_basic_progress_update_fraction(real32 progress_fraction)
 {
 	INVOKE(0x0052EF10, loading_basic_progress_update_fraction, progress_fraction);
 
 	//if (loading_globals.basic_progress_enabled && VALID_INDEX(loading_globals.basic_progress_phase, k_basic_loading_phase_count))
 	//{
 	//	ASSERT(IN_RANGE_INCLUSIVE(progress_fraction, 0.0f, 1.0f));
-	//	loading_basic_progress_update_size(dword((1.0f - progress_fraction) * loading_globals.progress_sizes0[loading_globals.basic_progress_phase]));
+	//	loading_basic_progress_update_size(uint32((1.0f - progress_fraction) * loading_globals.progress_sizes0[loading_globals.basic_progress_phase]));
 	//}
 }
 
@@ -128,14 +128,14 @@ void __cdecl loading_basic_progress_update_phase_sizes()
 	// $TODO: implement
 }
 
-void __cdecl loading_basic_progress_update_size(dword update_size)
+void __cdecl loading_basic_progress_update_size(uint32 update_size)
 {
 	INVOKE(0x0052F010, loading_basic_progress_update_size, update_size);
 
 	// $TODO: implement
 }
 
-bool __cdecl main_blocking_load_in_progress(real* out_progress)
+bool __cdecl main_blocking_load_in_progress(real32* out_progress)
 {
 	return INVOKE(0x0052F130, main_blocking_load_in_progress, out_progress);
 }
@@ -149,7 +149,7 @@ bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
 }
 
 // a2 is possibly insertion_point
-real __cdecl main_load_map_loading_progress(long scenario_type, short a2, char const* scenario_path)
+real32 __cdecl main_load_map_loading_progress(long scenario_type, short a2, char const* scenario_path)
 {
 	return INVOKE(0x0052F1A0, main_load_map_loading_progress, scenario_type, a2, scenario_path);
 }
@@ -234,8 +234,8 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 
 		if (loading_globals.tag_load_in_progress)
 		{
-			static dword last_time = system_milliseconds();
-			dword time = system_milliseconds();
+			static uint32 last_time = system_milliseconds();
+			uint32 time = system_milliseconds();
 			if (time < last_time + 250)
 				return _main_pregame_frame_none;
 

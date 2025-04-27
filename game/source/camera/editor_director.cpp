@@ -27,7 +27,7 @@ c_editor_director* __cdecl get_editor_director()
 	return INVOKE(0x00728110, get_editor_director);
 }
 
-real __cdecl c_editor_director::get_speed()
+real32 __cdecl c_editor_director::get_speed()
 {
 	return INVOKE(0x00728170, get_speed);
 }

@@ -10,10 +10,10 @@
 //.text:014C5150 ; void __cdecl formation_delete(long)
 //.text:014C5180 ; bool __cdecl formation_fit_position_to_pathfinding(real_point3d*)
 //.text:014C5290 ; 
-//.text:014C5930 ; bool __cdecl formation_get_reservation_position(long, real, real_point3d const*, real_vector3d const*, short, real_point3d*)
+//.text:014C5930 ; bool __cdecl formation_get_reservation_position(long, real32, real_point3d const*, real_vector3d const*, short, real_point3d*)
 //.text:014C5A80 ; long __cdecl formation_new(long)
-//.text:014C5C20 ; short __cdecl formation_primitive_generate_positions(long, short, real, real_point3d const*, real_vector3d const*, real_point3d**, short)
-//.text:014C5AC0 ; void __cdecl formation_point_get_position(s_formation_point const*, real, real_point3d const*, real_vector3d const*, real_point3d*)
+//.text:014C5C20 ; short __cdecl formation_primitive_generate_positions(long, short, real32, real_point3d const*, real_vector3d const*, real_point3d**, short)
+//.text:014C5AC0 ; void __cdecl formation_point_get_position(s_formation_point const*, real32, real_point3d const*, real_vector3d const*, real_point3d*)
 //.text:014C6180 ; 
 //.text:014C6C20 ; void __cdecl formation_reservation_clear(long, short)
 //.text:014C6C80 ; bool __cdecl formation_reservation_valid(long, short)

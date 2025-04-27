@@ -2,7 +2,7 @@
 
 //.text:00B966B0 ; 
 //.text:00B966D0 ; 
-//.text:00B966F0 ; public: __cdecl c_object_broadphase_ray_cast_callback::c_object_broadphase_ray_cast_callback(s_collision_test_flags, dword, real_point3d const*, real_vector3d const*, long, long, long, collision_result*, real, real)
+//.text:00B966F0 ; public: __cdecl c_object_broadphase_ray_cast_callback::c_object_broadphase_ray_cast_callback(s_collision_test_flags, uint32, real_point3d const*, real_vector3d const*, long, long, long, collision_result*, real32, real32)
 //.text:00B96780 ; 
 //.text:00B96790 ; 
 //.text:00B967B0 ; 
@@ -14,7 +14,7 @@
 //.text:00B96820 ; 
 //.text:00B96830 ; public: virtual __cdecl c_object_broadphase_ray_cast_callback::~c_object_broadphase_ray_cast_callback()
 //.text:00B96860 ; public: virtual __cdecl hkBroadPhaseCastCollector::~hkBroadPhaseCastCollector()
-//.text:00B96890 ; protected: virtual real __cdecl c_object_broadphase_ray_cast_callback::addBroadPhaseHandle(class hkBroadPhaseHandle const *, int)
+//.text:00B96890 ; protected: virtual real32 __cdecl c_object_broadphase_ray_cast_callback::addBroadPhaseHandle(class hkBroadPhaseHandle const *, int)
 //.text:00B96970 ; 
 //.text:00B969B0 ; bool __cdecl can_use_object_broadphase()
 //.text:00B969C0 ; 
@@ -45,7 +45,7 @@ void __cdecl object_broadphase_dispose_from_old_map()
 	INVOKE(0x00B96E50, object_broadphase_dispose_from_old_map);
 }
 
-void __cdecl object_broadphase_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl object_broadphase_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00B96E60, object_broadphase_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -60,13 +60,13 @@ void __cdecl object_broadphase_initialize_for_new_map()
 	INVOKE(0x00B96F20, object_broadphase_initialize_for_new_map);
 }
 
-void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl object_broadphase_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00B96F30, object_broadphase_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:00B97420 ; void __cdecl object_broadphase_post_copy_fixup(s_object_broadphase*)
-//.text:00B97510 ; bool __cdecl object_broadphase_ray_cast(s_collision_test_flags, dword, real_point3d const*, real_vector3d const*, long, long, long, collision_result*)
+//.text:00B97510 ; bool __cdecl object_broadphase_ray_cast(s_collision_test_flags, uint32, real_point3d const*, real_vector3d const*, long, long, long, collision_result*)
 //.text:00B97720 ; void __cdecl object_broadphase_remove_object(long)
 //.text:00B97840 ; void __cdecl __tls_set_g_object_broadphase_allocator(void*)
 //.text:00B97870 ; s_object_broadphase* object_broadphase_sweep_vtable_pointer_get()

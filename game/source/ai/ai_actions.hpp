@@ -29,7 +29,7 @@ struct c_ai_action
 {
 	long m_ai_action;
 	bool m_point_valid;
-	byte m_pad0;
+	uint8 m_pad0;
 	short m_ticks;
 
 	union

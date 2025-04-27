@@ -63,7 +63,7 @@ protected:
 	c_enum<long, short, 0, 300> m_flag_reset_time; // default: 30
 	c_player_traits m_carrier_traits;
 
-	byte m_pad1[6];
+	uint8 m_pad1[6];
 };
 static_assert(sizeof(c_game_engine_ctf_variant) == 0x200);
 
@@ -98,8 +98,8 @@ struct s_ctf_shared_globals
 	long defensive_team_index;
 	long sudden_death_ticks;
 	long grace_period_ticks;
-	word_flags helper_flags;
-	word_flags flags;
+	uint16 helper_flags;
+	uint16 flags;
 };
 static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
 
@@ -108,7 +108,7 @@ struct s_ctf_globals : s_ctf_shared_globals
 	c_static_array<long, 9> touch_return_timer;
 	c_static_array<short, 9> flag_reset_timer;
 	c_static_array<long, 9> player_emblem_for_flag;
-	c_static_array<byte_flags, 9> flag_weapon_flags;
+	c_static_array<uint8, 9> flag_weapon_flags;
 	c_static_array<short, 9> failure_event_timer;
 	c_static_array<short, 9> timeout_return_second_counter;
 };

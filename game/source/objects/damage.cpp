@@ -27,10 +27,10 @@ bool debug_player_damage = false;
 bool debug_damage = false;
 long global_debug_damage_object_index = NONE;
 
-//real __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
-real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
+//real32 __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
+real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
 {
-	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
+	real32 result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
 
 	if (cheat.deathless_player && TEST_BIT(_object_mask_biped, object_get_type(object_index)))
 	{
@@ -202,8 +202,8 @@ void render_debug_object_damage()
 	{
 		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
-		bounds.x0 += short(real(bounds.x1 - bounds.x0) * 0.7f);
-		bounds.y0 += short(real(bounds.y1 - bounds.y0) * 0.1f);
+		bounds.x0 += short(real32(bounds.x1 - bounds.x0) * 0.7f);
+		bounds.y0 += short(real32(bounds.y1 - bounds.y0) * 0.1f);
 
 		char string[2048]{};
 		if (global_debug_damage_object_index == NONE)
@@ -239,7 +239,7 @@ void render_debug_object_damage()
 
 							csnzappendf(string, sizeof(string), "  %s %0.3f|n",
 								damage_section.name.get_string(),
-								real(1.0f - real(real(object_damage_section->current_damage) / 255.0f)));
+								real32(1.0f - real32(real32(object_damage_section->current_damage) / 255.0f)));
 						}
 					}
 				}

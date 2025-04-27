@@ -22,11 +22,11 @@ public:
 
 	bool m_target_player_configuration_valid;
 	bool m_full_details;
-	byte __data30D2[0x2];
+	uint8 __data30D2[0x2];
 	
 	c_string_id m_biggest_kill_name;
 
-	byte __data30D8[0x4];
+	uint8 __data30D8[0x4];
 
 	long m_implement_of_destruction;
 

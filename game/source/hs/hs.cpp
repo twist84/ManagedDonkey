@@ -15,7 +15,7 @@
 #include "shell/shell.hpp"
 
 //REFERENCE_DECLARE(0x0166D5E8, bool const, _hs_type_boolean_default);
-//REFERENCE_DECLARE(0x0166D5EC, real const, _hs_type_real_default);
+//REFERENCE_DECLARE(0x0166D5EC, real32 const, _hs_type_real_default);
 //REFERENCE_DECLARE(0x0166D5F0, short const, _hs_type_short_integer_default);
 //REFERENCE_DECLARE(0x0166D5F4, long const, _hs_type_long_integer_default);
 //REFERENCE_DECLARE(0x0166D5F8, short const, _hs_type_script_default);
@@ -183,8 +183,8 @@ void __cdecl hs_node_gc()
 //.text:006795B0 ; 
 //.text:006795C0 ; void __cdecl hs_reset_time(long)
 //.text:006795D0 ; bool __cdecl hs_scenario_postprocess(bool, bool, bool)
-//.text:00679670 ; long __cdecl hs_seconds_to_ticks(real)
-//.text:006796C0 ; double __cdecl hs_ticks_to_seconds(long)
+//.text:00679670 ; long __cdecl hs_seconds_to_ticks(real32)
+//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(long)
 
 void __cdecl hs_update()
 {
@@ -327,7 +327,7 @@ void hs_enumerate_scenario_data(short scenario_offset, short block_offset, long 
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
+	uint8 const* scenario_data = reinterpret_cast<uint8 const*>(global_scenario_get());
 	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data(block, block_offset, block_size);
 }
@@ -347,7 +347,7 @@ void hs_enumerate_scenario_data_string_id(short scenario_offset, short block_off
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
+	uint8 const* scenario_data = reinterpret_cast<uint8 const*>(global_scenario_get());
 	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data_string_id(block, block_offset, block_size);
 }
@@ -559,7 +559,7 @@ void __cdecl hs_enumerate_enum_skull_names(void)
 bool const _hs_type_boolean_default = false;
 
 // 0166D5EC
-real const _hs_type_real_default = 0.0f;
+real32 const _hs_type_real_default = 0.0f;
 
 // 0166D5F0
 short const _hs_type_short_integer_default = 0;
@@ -783,7 +783,7 @@ short const hs_type_sizes[k_hs_type_count]
 
 	0, // void
 	1, // boolean
-	4, // real
+	4, // real32
 	2, // short
 	4, // long
 	4, // string
@@ -938,7 +938,7 @@ char const* const hs_type_names[k_hs_type_count]
 
 	"void",
 	"boolean",
-	"real",
+	"real32",
 	"short",
 	"long",
 	"string",

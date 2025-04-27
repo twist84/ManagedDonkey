@@ -27,7 +27,7 @@ enum e_sector_flags
 
 struct sector
 {
-	c_flags<e_sector_flags, word, k_sector_flags> pathfinding_sector_flags;
+	c_flags<e_sector_flags, uint16, k_sector_flags> pathfinding_sector_flags;
 	short hint_index;
 	long first_link; // do not set manually
 };
@@ -54,12 +54,12 @@ enum e_sector_link_flags
 
 struct sector_link
 {
-	word index;
-	word index2;
-	c_flags<e_sector_link_flags, word, k_sector_link_flags> link_flags;
+	uint16 index;
+	uint16 index2;
+	c_flags<e_sector_link_flags, uint16, k_sector_link_flags> link_flags;
 	short hint_index;
-	word links[2]; // forward, reverse
-	word sectors[2]; // left, right
+	uint16 links[2]; // forward, reverse
+	uint16 sectors[2]; // left, right
 };
 static_assert(sizeof(sector_link) == 0x10);
 
@@ -104,7 +104,7 @@ struct pathfinding_data
 	s_tag_block object_refs;
 	c_typed_tag_block<pathfinding_hint_data> pathfinding_hints;
 	s_tag_block instanced_geometry_refs;
-	dword structure_checksum;
+	uint32 structure_checksum;
 	s_tag_block giant_pathfinding_data;
 	s_tag_block seams;
 	s_tag_block jump_seams;

@@ -21,7 +21,7 @@
 //.text:00B9F570 ; public: void __cdecl c_word_quantized_position::set_real_point3d(real_rectangle3d const*, real_point3d const*)
 //.text:00B9F670 ; public: void __cdecl c_short_quaternion::set_real_quaternion(real_quaternion*)
 //.text:00B9F6E0 ; public: void __cdecl c_dword_unit_vector::set_real_vector3d(real_vector3d const*)
-//.text:00B9F700 ; short __cdecl tag_group_to_widget_type(dword)
+//.text:00B9F700 ; short __cdecl tag_group_to_widget_type(uint32)
 //.text:00B9F730 ; void __cdecl widget_delete_type_datum(long, long, bool)
 //.text:00B9F830 ; long __cdecl widget_get_next_widget(long)
 //.text:00B9F860 ; void __cdecl widget_get_type_data(long, long*, long*)
@@ -34,10 +34,10 @@
 //.text:00B9FB20 ; void __cdecl widgets_delete(long)
 //.text:00B9FBC0 ; void __cdecl widgets_dispose()
 //.text:00B9FBF0 ; void __cdecl widgets_dispose_from_old_map(void)
-//.text:00B9FC30 ; void __cdecl widgets_dispose_from_old_structure_bsp(dword)
+//.text:00B9FC30 ; void __cdecl widgets_dispose_from_old_structure_bsp(uint32)
 //.text:00B9FCF0 ; void __cdecl widgets_initialize()
 //.text:00B9FD50 ; void __cdecl widgets_initialize_for_new_map()
-//.text:00B9FDA0 ; void __cdecl widgets_initialize_for_new_structure_bsp(dword)
+//.text:00B9FDA0 ; void __cdecl widgets_initialize_for_new_structure_bsp(uint32)
 //.text:00B9FF30 ; void __cdecl widgets_new(long)
 //.text:00B9FFE0 ; void __cdecl widgets_object_submit_transparents(long)
 //.text:00BA00D0 ; void __cdecl widgets_render_debug(long)
@@ -48,7 +48,7 @@ void __cdecl widgets_render_unattached(long entry_point)
 	INVOKE(0x00BA01F0, widgets_render_unattached, entry_point);
 }
 
-void __cdecl widgets_update(real game_seconds_elapsed)
+void __cdecl widgets_update(real32 game_seconds_elapsed)
 {
 	INVOKE(0x00BA0230, widgets_update, game_seconds_elapsed);
 }

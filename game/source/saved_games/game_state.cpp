@@ -204,7 +204,7 @@ void __cdecl game_state_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_se
 	INVOKE(0x0050F5F0, game_state_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
 
-void __cdecl game_state_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl game_state_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0050F600, game_state_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -287,7 +287,7 @@ void __cdecl game_state_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_
 	INVOKE(0x0050FEB0, game_state_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
 
-void __cdecl game_state_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl game_state_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0050FED0, game_state_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -317,7 +317,7 @@ void __cdecl game_state_preserve()
 	INVOKE(0x00510100, game_state_preserve);
 }
 
-bool __cdecl game_state_read_core(char const* core_name, void* buffer, dword buffer_length)
+bool __cdecl game_state_read_core(char const* core_name, void* buffer, uint32 buffer_length)
 {
 	//return INVOKE(0x00510110, game_state_read_core, core_name, buffer, buffer_length);
 
@@ -327,7 +327,7 @@ bool __cdecl game_state_read_core(char const* core_name, void* buffer, dword buf
 	s_file_reference file{};
 	game_state_get_core_file_reference(core_name, &file);
 
-	dword error = 0;
+	uint32 error = 0;
 	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &error))
 		return false;
 
@@ -346,7 +346,7 @@ bool __cdecl game_state_read_core(char const* core_name, void* buffer, dword buf
 	return result;
 }
 
-bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, dword buffer_size)
+bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, uint32 buffer_size)
 {
 	return INVOKE(0x00510270, game_state_read_from_persistent_storage_blocking, controller_index, buffer, buffer_size);
 }
@@ -367,7 +367,7 @@ void __cdecl game_state_reset_mapping(long a1)
 
 //.text:00510350
 
-void __cdecl game_state_revert(dword flags)
+void __cdecl game_state_revert(uint32 flags)
 {
 	INVOKE(0x00510360, game_state_revert, flags);
 }
@@ -510,8 +510,8 @@ void __cdecl game_state_shell_initialize()
 	game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
 	ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
 
-	dword available_memory = k_game_state_file_size;
-	byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
+	uint32 available_memory = k_game_state_file_size;
+	uint8* starting_address = static_cast<uint8*>(game_state_globals.base_address);
 
 	initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, k_crit_section_header_subsection);
 	initialize_game_state_section(k_game_state_update_region, k_game_state_update_region_size, &starting_address, &available_memory, k_crit_section_update_subsection);
@@ -536,7 +536,7 @@ void __cdecl game_state_shell_initialize()
 	game_state_globals.header = (s_game_state_header*)restricted_region_get_member_address(k_game_state_header_region, game_state_header_member_index);
 	ASSERT(game_state_globals.header == (s_game_state_header*)game_state_globals.base_address);
 
-	dword error = 0;
+	uint32 error = 0;
 	create_report_file_reference(&game_state_allocation_record_file, "gamestate.txt", true);
 	if (file_create(&game_state_allocation_record_file) && file_open(&game_state_allocation_record_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
@@ -572,7 +572,7 @@ void const* __cdecl game_state_with_mirrors_get_buffer_address(long* buffer_size
 	return INVOKE(0x00510F90, game_state_with_mirrors_get_buffer_address, buffer_size);
 }
 
-bool __cdecl game_state_write_core(char const* core_name, void const* buffer, dword buffer_length)
+bool __cdecl game_state_write_core(char const* core_name, void const* buffer, uint32 buffer_length)
 {
 	//return INVOKE(0x00510FB0, game_state_write_core, core_name, buffer, buffer_length);
 
@@ -583,7 +583,7 @@ bool __cdecl game_state_write_core(char const* core_name, void const* buffer, dw
 	if (!file_exists(&file))
 		file_create(&file);
 
-	dword error = 0;
+	uint32 error = 0;
 	if (!file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 		return false;
 
@@ -604,7 +604,7 @@ void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocatio
 {
 	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
-	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
+	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (uint8*)&allocation_size, 4);
 }
 
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
@@ -612,7 +612,7 @@ void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_alloca
 {
 	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
-	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
+	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (uint8*)&allocation_size, 4);
 }
 
 void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
@@ -661,7 +661,7 @@ void c_game_state_compressor::initialize()
 	//m_compressed_game_state_size = 0;
 }
 
-void __cdecl initialize_game_state_section(long section_index, unsigned int size, byte** starting_address, dword* available_memory, e_critical_sections critical_section_id)
+void __cdecl initialize_game_state_section(long section_index, unsigned int size, uint8** starting_address, uint32* available_memory, e_critical_sections critical_section_id)
 {
 	return INVOKE(0x00511170, initialize_game_state_section, section_index, size, starting_address, available_memory, critical_section_id);
 

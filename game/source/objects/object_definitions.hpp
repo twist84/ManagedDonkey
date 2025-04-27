@@ -128,20 +128,20 @@ struct s_object_health_pack_definition;
 struct _object_definition
 {
 	c_enum<e_object_type, short, _object_type_biped, k_object_type_count> type;
-	c_flags<e_object_definition_flags, word_flags, k_object_definition_flags_count> flags;
-	real bounding_radius; // world units
+	c_flags<e_object_definition_flags, uint16, k_object_definition_flags_count> flags;
+	real32 bounding_radius; // world units
 	real_point3d bounding_offset;
 
 	// marine 1.0, grunt 1.4, elite 0.9, hunter 0.5, etc.
-	real acceleration_scale; // [0,+inf]
+	real32 acceleration_scale; // [0,+inf]
 
 	c_enum<e_lightmap_shadow_mode, short, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
 	c_enum<e_sweetener_size, char, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
 	c_enum<e_water_density_type, char, _water_density_type_default, k_water_density_count> water_density;
-	dword_flags runtime_flags;
+	uint32 runtime_flags;
 
 	// sphere to use for dynamic lights and shadows. only used if not 0
-	real dynamic_light_sphere_radius;
+	real32 dynamic_light_sphere_radius;
 
 	// only used if radius not 0
 	real_point3d dynamic_light_sphere_offset;
@@ -165,7 +165,7 @@ struct _object_definition
 	c_typed_tag_block<object_ai_properties> ai_properties;
 	c_typed_tag_block<s_object_function_definition> functions;
 	short hud_text_message_index;
-	c_flags<e_object_definition_secondary_flags, word_flags, k_object_definition_secondary_flags_count> secondary_flags;
+	c_flags<e_object_definition_secondary_flags, uint16, k_object_definition_secondary_flags_count> secondary_flags;
 	c_typed_tag_block<object_attachment_definition> attachments;
 	c_typed_tag_block<object_definition_widget> widgets;
 	c_typed_tag_block<object_change_color_definition> change_colors;
@@ -239,7 +239,7 @@ enum e_global_ai_jump_height
 
 struct object_ai_properties
 {
-	c_flags<e_ai_properties_flags, dword_flags, k_ai_properties_flags> ai_flags;
+	c_flags<e_ai_properties_flags, uint32, k_ai_properties_flags> ai_flags;
 	c_string_id ai_type_name;
 	c_enum<e_ai_size, short, _ai_size_default, k_ai_size_count> ai_size;
 	c_enum<e_global_ai_jump_height, short, _global_ai_jump_height_none, k_global_ai_jump_height_count> leap_jump_speed;
@@ -271,11 +271,11 @@ enum e_object_function_flags
 
 struct s_object_function_definition
 {
-	c_flags<e_object_function_flags, dword_flags, k_object_function_flags> flags;
+	c_flags<e_object_function_flags, uint32, k_object_function_flags> flags;
 	c_string_id import_name;
 	c_string_id export_name;
 	c_string_id turn_off_with;
-	real min_value;
+	real32 min_value;
 
 	// default function		
 	mapping_function default_function;
@@ -312,7 +312,7 @@ struct object_attachment_definition
 	c_string_id marker; // old string id
 
 	c_enum<e_global_object_change_color, short, _global_object_change_color_none, k_global_object_change_color_count> change_color;
-	byte DPKP[0x2]; // pad
+	uint8 DPKP[0x2]; // pad
 	c_string_id primary_scale;
 	c_string_id secondary_scale;
 
@@ -339,7 +339,7 @@ static_assert(sizeof(object_change_color_definition) == 0x18);
 
 struct object_change_color_initial_permutation
 {
-	real weight;
+	real32 weight;
 	real_rgb_color color_lower_bound;
 	real_rgb_color color_upper_bound;
 	c_string_id variant_name;
@@ -359,7 +359,7 @@ enum e_global_rgb_interpolation_flags
 
 struct object_change_color_function
 {
-	byte TJJWBYNU[0x4]; // pad
+	uint8 TJJWBYNU[0x4]; // pad
 	c_flags<e_global_rgb_interpolation_flags, int32_t, k_global_rgb_interpolation_flags> scale_flags;
 	real_rgb_color color_lower_bound;
 	real_rgb_color color_upper_bound;
@@ -384,7 +384,7 @@ static_assert(sizeof(s_object_health_pack_definition) == sizeof(s_tag_reference)
 
 struct s_scenario_multiplayer_scenario_object_parent
 {
-	byte der[2];
+	uint8 der[2];
 
 	// if an object with this name exists, we attach to it as a child
 	short parent_object; // short_block_index
@@ -407,32 +407,32 @@ struct s_scenario_multiplayer_object_properties
 	// Multiplayer Data
 	// object data for multiplayer game use
 
-	long_enum game_engine_symmetric_placement;
-	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flags> game_engine_flags;
-	short_enum owner_team;
+	int32 game_engine_symmetric_placement;
+	c_flags<e_global_game_engine_type_flags, uint16, k_global_game_engine_type_flags> game_engine_flags;
+	int16 owner_team;
 	char spawn_order; // -1 for random
 	char quota_minimum;
 	char quota_maximum; // <=0 for unlimited
 
-	c_flags<e_multiplayer_object_placement_spawn_flags, byte_flags, k_multiplayer_object_placement_spawn_flags> spawn_flags;
+	c_flags<e_multiplayer_object_placement_spawn_flags, uint8, k_multiplayer_object_placement_spawn_flags> spawn_flags;
 	short spawn_time; // seconds
 	short abandonment_time; // seconds
 
-	char_enum remapping_policy;
-	char_enum boundary_shape;
-	char_enum teleporter_channel;
-	byte blah[1];
+	int8 remapping_policy;
+	int8 boundary_shape;
+	int8 teleporter_channel;
+	uint8 blah[1];
 
 	s_scenario_multiplayer_scenario_object_parent map_variant_parent;
 
-	union { real boundary_width; real boundary_radius; };
-	real boundary_box_length;
-	real boundary_positive_height;
-	real boundary_negative_height;
+	union { real32 boundary_width; real32 boundary_radius; };
+	real32 boundary_box_length;
+	real32 boundary_positive_height;
+	real32 boundary_negative_height;
 
 	// Player Respawn Weight
 	// This is valid only for objects which are used as player respawn locations
-	real natural_respawn_weight;
+	real32 natural_respawn_weight;
 };
 static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
 

@@ -72,7 +72,7 @@ void c_simulation_queue::enqueue(c_simulation_queue_element* element)
 	INVOKE_CLASS_MEMBER(0x00465930, c_simulation_queue, enqueue, element);
 }
 
-void c_simulation_queue::get_allocation_status(real* a1, real* a2) const
+void c_simulation_queue::get_allocation_status(real32* a1, real32* a2) const
 {
 	INVOKE_CLASS_MEMBER(0x00465970, c_simulation_queue, get_allocation_status, a1, a2);
 }

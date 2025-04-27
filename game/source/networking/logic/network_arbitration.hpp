@@ -19,9 +19,9 @@ struct s_arbitration_registration_result
 
 	struct
 	{
-		qword machine;
-		dword trust;
-		qword xuid;
+		uint64 machine;
+		uint32 trust;
+		uint64 xuid;
 	} registrants[16];
 };
 static_assert(sizeof(s_arbitration_registration_result) == 0x188);

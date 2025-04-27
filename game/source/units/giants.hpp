@@ -13,10 +13,10 @@ struct s_giant_foot_data
 	real_point3d source_point;
 	real_point3d test_point;
 	real_vector3d test_vector;
-	real target_scale;
+	real32 target_scale;
 	short target_frame_index;
-	byte_flags foot_flags;
-	byte state;
+	uint8 foot_flags;
+	uint8 state;
 };
 static_assert(sizeof(s_giant_foot_data) == 0x3C);
 
@@ -36,14 +36,14 @@ struct _giant_datum
 	real_point3d contact_points[3];
 	s_buckling_workspace buckle_workspace;
 	real_quaternion buckle_rotation;
-	dword_flags flags;
-	byte static_physics_timer;
-	real buckling_slider_start;
-	real buckling_slider_velocity;
-	real buckling_slider_acceleration;
-	real buckling_depth;
-	real buckling_timeout;
-	real custom_animation_recovery_time;
+	uint32 flags;
+	uint8 static_physics_timer;
+	real32 buckling_slider_start;
+	real32 buckling_slider_velocity;
+	real32 buckling_slider_acceleration;
+	real32 buckling_depth;
+	real32 buckling_timeout;
+	real32 custom_animation_recovery_time;
 	long foot_count;
 	long last_known_graph_index;
 	long weapon_timeout;
@@ -58,7 +58,7 @@ struct _giant_datum
 	c_sector_ref pathfinding_sector;
 	long pathfinding_instanced_geometry_index;
 	long pathfinding_object_index;
-	dword pathfinding_bsp_reference;
+	uint32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 };
 static_assert(sizeof(_giant_datum) == 0x3208);
@@ -74,14 +74,14 @@ struct giant_datum
 static_assert(sizeof(giant_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_giant_datum));
 
 extern long& g_giant_hunt_player;
-extern real& g_giant_hunting_min_radius;
-extern real& g_giant_hunting_max_radius;
-extern real& g_giant_hunting_throttle_scale;
+extern real32& g_giant_hunting_min_radius;
+extern real32& g_giant_hunting_max_radius;
+extern real32& g_giant_hunting_throttle_scale;
 extern long& g_giant_weapon_wait_time;
 extern long& g_giant_weapon_trigger_time;
 extern bool& g_giant_foot_ik;
 extern bool& g_giant_ankle_ik;
 extern bool& g_giant_elevation_control;
 extern bool& g_giant_buckle_rotation;
-extern real& g_giant_custom_animation_recovery_time;
+extern real32& g_giant_custom_animation_recovery_time;
 

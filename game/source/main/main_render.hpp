@@ -52,7 +52,7 @@ struct s_render_fullscreen_text_context
 	char const* string;
 	real_rgb_color* text_color;
 	real_rgb_color* shadow_color;
-	real font_scale;
+	real32 font_scale;
 };
 static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
 
@@ -60,7 +60,7 @@ extern bool debug_force_all_player_views_to_default_player;
 extern bool debug_render_horizontal_splitscreen;
 extern long g_watermark_enabled;
 
-extern real pregame_frame_scales[k_main_pregame_frame_count];
+extern real32 pregame_frame_scales[k_main_pregame_frame_count];
 extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
 
 struct c_player_view;

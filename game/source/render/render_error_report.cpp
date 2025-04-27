@@ -28,14 +28,14 @@ void __cdecl render_report_render_debug(long user_index, bool draw_environment_e
 		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&resolution);
 
 		real_point2d safe_frame_bounds[4]{};
-		safe_frame_bounds[0].y = static_cast<real>(resolution.y0);
-		safe_frame_bounds[1].y = static_cast<real>(resolution.y0);
-		safe_frame_bounds[0].x = static_cast<real>(resolution.x0);
-		safe_frame_bounds[2].y = static_cast<real>(resolution.y1);
-		safe_frame_bounds[3].y = static_cast<real>(resolution.y1);
-		safe_frame_bounds[1].x = static_cast<real>(resolution.x1);
-		safe_frame_bounds[2].x = static_cast<real>(resolution.x1);
-		safe_frame_bounds[3].x = static_cast<real>(resolution.x0);
+		safe_frame_bounds[0].y = static_cast<real32>(resolution.y0);
+		safe_frame_bounds[1].y = static_cast<real32>(resolution.y0);
+		safe_frame_bounds[0].x = static_cast<real32>(resolution.x0);
+		safe_frame_bounds[2].y = static_cast<real32>(resolution.y1);
+		safe_frame_bounds[3].y = static_cast<real32>(resolution.y1);
+		safe_frame_bounds[1].x = static_cast<real32>(resolution.x1);
+		safe_frame_bounds[2].x = static_cast<real32>(resolution.x1);
+		safe_frame_bounds[3].x = static_cast<real32>(resolution.x0);
 
 		render_debug_line2d(safe_frame_bounds, &safe_frame_bounds[1], global_real_argb_white);
 		render_debug_line2d(&safe_frame_bounds[1], &safe_frame_bounds[2], global_real_argb_white);

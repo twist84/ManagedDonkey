@@ -70,25 +70,25 @@ enum e_effect_disposition
 struct effect_event_definition;
 struct effect_definition
 {
-	//c_flags<e_effect_definition_flags, dword, k_effect_definition_flag_count> flags;
-	dword_flags flags;
+	//c_flags<e_effect_definition_flags, uint32, k_effect_definition_flag_count> flags;
+	uint32 flags;
 
 	// If this is non-zero, the effect will usually be exactly repeatable
-	dword fixed_random_seed;
+	uint32 fixed_random_seed;
 
 	// overlap threshold
-	real restart_if_within; // world units
+	real32 restart_if_within; // world units
 
-	real continue_if_within; // world units
+	real32 continue_if_within; // world units
 
-	real death_delay;
+	real32 death_delay;
 	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
-	byte pad[0x3];
+	uint8 pad[0x3];
 
 	short loop_start_event;
 	short local_location0;
-	real runtime_danger_radius;
+	real32 runtime_danger_radius;
 	s_tag_block locations;
 	c_typed_tag_block<effect_event_definition> events;
 
@@ -97,12 +97,12 @@ struct effect_definition
 	char location;
 	char bind_scale_to_event;
 	short local_location1;
-	real always_play_distance;
-	real never_play_distance;
+	real32 always_play_distance;
+	real32 never_play_distance;
 
 	// runtime
-	real lightprobe_death_delay;
-	real local_space_death_delay;
+	real32 lightprobe_death_delay;
+	real32 local_space_death_delay;
 
 	s_tag_block conical_distribution;
 };
@@ -155,7 +155,7 @@ struct effect_part_definition
 	c_enum<e_effect_disposition, short, _effect_disposition_either_mode, k_effect_disposition_count> violence_mode;
 	short location;
 	short secondary_location; // beams
-	c_flags<e_effect_part_flags, word, k_effect_part_flags> flags;
+	c_flags<e_effect_part_flags, uint16, k_effect_part_flags> flags;
 	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
 	// Currently, the only supported use is to turn parts off in first-person view.
@@ -178,29 +178,29 @@ struct effect_part_definition
 	real_euler_angles2d relative_orientation; // yaw, pitch
 
 	// SCALE MODIFIERS
-	c_flags<e_effect_part_scaleable_values, dword, k_effect_part_scaleable_values> A_scale_value;
-	c_flags<e_effect_part_scaleable_values, dword, k_effect_part_scaleable_values> B_scale_value;
+	c_flags<e_effect_part_scaleable_values, uint32, k_effect_part_scaleable_values> A_scale_value;
+	c_flags<e_effect_part_scaleable_values, uint32, k_effect_part_scaleable_values> B_scale_value;
 };
 static_assert(sizeof(effect_part_definition) == 0x60);
 
 struct effect_event_definition
 {
 	c_string_id event_name;
-	dword_flags flags;
-	byte priority;
+	uint32 flags;
+	uint8 priority;
 
-	byte pad[0x3];
+	uint8 pad[0x3];
 
 	// chance that this event will be skipped entirely
-	real skip_fraction;
+	real32 skip_fraction;
 
 	// delay before this event takes place
-	real delay_lower_bound; // seconds
-	real delay_upper_bound; // seconds
+	real32 delay_lower_bound; // seconds
+	real32 delay_upper_bound; // seconds
 
 	// duration of this event
-	real duration_lower_bound; // seconds
-	real duration_upper_bound; // seconds
+	real32 duration_lower_bound; // seconds
+	real32 duration_upper_bound; // seconds
 
 	c_typed_tag_block<effect_part_definition> parts;
 	s_tag_block accelerations;

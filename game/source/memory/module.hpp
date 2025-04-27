@@ -39,13 +39,13 @@
 
 union module_address
 {
-	dword address;
-	byte* data;
+	uint32 address;
+	uint8* data;
 	void* pointer;
 };
 
 extern module_address global_module;
-extern dword global_address_get(dword rva);
+extern uint32 global_address_get(uint32 rva);
 
 extern void set_donkey_module(void* _module);
 extern void* get_donkey_module();
@@ -56,7 +56,7 @@ extern void apply_all_patches(bool revert);
 class c_hook
 {
 public:
-	c_hook(char const* name, dword address, module_address const function, bool remove_base = true);
+	c_hook(char const* name, uint32 address, module_address const function, bool remove_base = true);
 
 	bool apply(bool revert);
 
@@ -65,12 +65,12 @@ public:
 		return m_name.get_string();
 	}
 
-	dword get_address()
+	uint32 get_address()
 	{
 		return m_addr.address;
 	}
 
-	dword get_original()
+	uint32 get_original()
 	{
 		return m_orig.address;
 	}
@@ -86,14 +86,14 @@ class c_hook_call
 #pragma pack(push, 1)
 	struct call_instruction
 	{
-		byte opcode;
-		dword offset;
+		uint8 opcode;
+		uint32 offset;
 	};
 	static_assert(sizeof(call_instruction) == 0x5);
 #pragma pack(pop)
 
 public:
-	c_hook_call(char const* name, dword address, module_address const function, bool remove_base = true);
+	c_hook_call(char const* name, uint32 address, module_address const function, bool remove_base = true);
 
 	bool apply(bool revert);
 
@@ -102,7 +102,7 @@ public:
 		return m_name.get_string();
 	}
 
-	dword get_address()
+	uint32 get_address()
 	{
 		return m_addr.address;
 	}
@@ -117,7 +117,7 @@ private:
 class c_data_patch
 {
 public:
-	c_data_patch(char const* name, dword address, long patch_size, byte const(&patch)[], bool remove_base = true);
+	c_data_patch(char const* name, uint32 address, long patch_size, uint8 const(&patch)[], bool remove_base = true);
 
 	bool apply(bool revert);
 
@@ -126,7 +126,7 @@ public:
 		return m_name.get_string();
 	}
 
-	dword get_address()
+	uint32 get_address()
 	{
 		return m_addr.address;
 	}
@@ -134,15 +134,15 @@ public:
 private:
 	c_static_string<128> m_name;
 	module_address m_addr;
-	byte const* m_bytes;
-	byte* m_bytes_original;
+	uint8 const* m_bytes;
+	uint8* m_bytes_original;
 	long m_byte_count;
 };
 
 class c_data_patch_array
 {
 public:
-	c_data_patch_array(char const* name, long address_count, dword const(&addresses)[], long patch_size, void* patch, bool remove_base = true);
+	c_data_patch_array(char const* name, long address_count, uint32 const(&addresses)[], long patch_size, void* patch, bool remove_base = true);
 
 	~c_data_patch_array();
 
@@ -156,18 +156,18 @@ public:
 private:
 	c_static_string<128> m_name;
 	long m_address_count;
-	dword const* m_addresses;
+	uint32 const* m_addresses;
 	long m_byte_count;
 	void* m_bytes;
-	byte** m_bytes_original;
+	uint8** m_bytes_original;
 };
 
-extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, long out_string_size);
+extern void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, long out_string_size);
 
 template<typename t_type, long k_string_size>
 void type_as_byte_string(t_type* type, char(&out_string)[k_string_size])
 {
-	buffer_as_byte_string((byte*)type, sizeof(t_type), out_string, k_string_size);
+	buffer_as_byte_string((uint8*)type, sizeof(t_type), out_string, k_string_size);
 }
 
 extern bool patch_pointer(module_address address, void const* pointer);

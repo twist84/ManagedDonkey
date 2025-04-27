@@ -10,7 +10,7 @@ struct c_vehicle_type_turret
 {
 public:
 	static void __cdecl adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
-	static bool __cdecl compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
+	static bool __cdecl compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active);
 	static void __cdecl create_effects(long vehicle_index);
 	static void __cdecl deplete_function_variables(long vehicle_index);
 	static bool __cdecl effected_by_vehicle_ceiling(long vehicle_index);
@@ -19,7 +19,7 @@ public:
 	static bool __cdecl is_stopped(long vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(long vehicle_index);
 	static bool __cdecl physics_disabled(long vehicle_index);
-	static void __cdecl process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	static void __cdecl process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
 	static bool __cdecl should_override_deactivation(long vehicle_index);
 	static void __cdecl update_control(long vehicle_index);

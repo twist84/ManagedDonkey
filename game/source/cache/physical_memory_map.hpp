@@ -40,11 +40,11 @@ enum memory_stage
 
 struct s_physical_memory_stage
 {
-	dword low_address;
-	dword high_address;
+	uint32 low_address;
+	uint32 high_address;
 	char* next_available_zero_allocation;
-	dword allocation_count;
-	dword fixed_address_allocation_count;
+	uint32 allocation_count;
+	uint32 fixed_address_allocation_count;
 };
 static_assert(sizeof(s_physical_memory_stage) == 0x14);
 
@@ -61,42 +61,42 @@ struct s_physical_memory_globals
 {
 	c_physical_memory_contiguous_region_listener* resize_region_listener;
 	long current_stage;
-	dword minimum_address;
-	dword maximum_address;
+	uint32 minimum_address;
+	uint32 maximum_address;
 	char* no_mans_land;
 	c_static_array<s_physical_memory_stage, k_memory_stage_count> memory_stages;
 };
 static_assert(sizeof(s_physical_memory_globals) == 0xB4);
 
 extern s_physical_memory_globals& physical_memory_globals;
-extern dword g_physical_memory_data_size_increase_mb;
-extern dword g_physical_memory_cache_size_increase_mb;
+extern uint32 g_physical_memory_data_size_increase_mb;
+extern uint32 g_physical_memory_cache_size_increase_mb;
 extern char const* const k_physical_memory_stage_names[];
 
-extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, dword flags);
-extern dword align_up(dword value, long alignment_bits);
+extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, uint32 flags);
+extern uint32 align_up(uint32 value, long alignment_bits);
 extern void __cdecl physical_memory_adjust_resize_region(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b);
 extern bool __cdecl physical_memory_can_allocate_fixed_allocations();
 extern void __cdecl physical_memory_create_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener* resize_region_listener);
 extern void __cdecl physical_memory_destroy_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener const* resize_region_listener);
 extern void __cdecl physical_memory_dispose();
 extern void __cdecl physical_memory_free(void* memory);
-extern dword __cdecl physical_memory_get_broken_memory_offset();
+extern uint32 __cdecl physical_memory_get_broken_memory_offset();
 extern s_physical_memory_stage* __cdecl physical_memory_get_current_stage();
 extern c_basic_buffer<void>* __cdecl physical_memory_get_free_memory_region(c_basic_buffer<void>* buffer);
 extern long __cdecl physical_memory_get_remaining();
 extern void __cdecl physical_memory_initialize();
 extern void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> old_free_region, c_basic_buffer<void> new_free_region);
 extern void __cdecl physical_memory_resize_region_dispose();
-extern void __cdecl physical_memory_query_bounds(dword physical_memory_base_address, dword physical_memory_query_address, dword* out_physical_memory_start, dword* out_physical_memory_end);
+extern void __cdecl physical_memory_query_bounds(uint32 physical_memory_base_address, uint32 physical_memory_query_address, uint32* out_physical_memory_start, uint32* out_physical_memory_end);
 extern void __cdecl physical_memory_resize_region_initialize();
 extern c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock();
 extern void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> resize_region);
-extern dword __cdecl physical_memory_round_up_allocation_size(dword size);
+extern uint32 __cdecl physical_memory_round_up_allocation_size(uint32 size);
 extern void __cdecl physical_memory_stage_pop(memory_stage stage);
 extern void __cdecl physical_memory_stage_push(memory_stage stage);
 extern void __cdecl physical_memory_system_free(void* address);
-extern void* __cdecl physical_memory_system_malloc(dword size, void* address);
-extern bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, dword minimum_new_size, c_basic_buffer<void>* out_new_region);
-extern bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, dword in_region_size, dword minimum_new_size, dword requested_size, dword a6, void** out_new_base_address, dword* out_new_region_size);
+extern void* __cdecl physical_memory_system_malloc(uint32 size, void* address);
+extern bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, uint32 minimum_new_size, c_basic_buffer<void>* out_new_region);
+extern bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, uint32 in_region_size, uint32 minimum_new_size, uint32 requested_size, uint32 a6, void** out_new_base_address, uint32* out_new_region_size);
 

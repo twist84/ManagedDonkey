@@ -19,31 +19,31 @@ static_assert(sizeof(s_netgame_goal_influencer) == 0x8);
 
 struct s_netgame_goal_spawn_influence
 {
-	real full_weight_radius; // wu
-	real fall_off_radius; // wu
-	real upper_cylinder_height; // wu
-	real lower_cylinder_height; // wu
-	real weight;
+	real32 full_weight_radius; // wu
+	real32 fall_off_radius; // wu
+	real32 upper_cylinder_height; // wu
+	real32 lower_cylinder_height; // wu
+	real32 weight;
 };
 static_assert(sizeof(s_netgame_goal_spawn_influence) == 0x14);
 
 struct s_player_spawn_influence
 {
-	real full_weight_radius; // wu
-	real fall_off_radius; // wu
-	real upper_height; // wu
-	real lower_height; // wu
-	real weight;
+	real32 full_weight_radius; // wu
+	real32 fall_off_radius; // wu
+	real32 upper_height; // wu
+	real32 lower_height; // wu
+	real32 weight;
 };
 static_assert(sizeof(s_player_spawn_influence) == 0x14);
 
 struct s_weapon_spawn_influence
 {
 	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon;
-	real full_weight_range;
-	real fall_off_range;
-	real fall_off_cone_radius;
-	real weight;
+	real32 full_weight_range;
+	real32 fall_off_range;
+	real32 fall_off_cone_radius;
+	real32 weight;
 
 	void update_reference_names();
 };
@@ -52,10 +52,10 @@ static_assert(sizeof(s_weapon_spawn_influence) == 0x20);
 struct s_vehicle_spawn_influence
 {
 	c_typed_tag_reference<VEHICLE_TAG, INVALID_TAG> vehicle;
-	real pill_radius;
-	real lead_time;
-	real minimum_velocity;
-	real weight;
+	real32 pill_radius;
+	real32 lead_time;
+	real32 minimum_velocity;
+	real32 weight;
 
 	void update_reference_names();
 };
@@ -64,9 +64,9 @@ static_assert(sizeof(s_vehicle_spawn_influence) == 0x20);
 struct s_projectile_spawn_influence
 {
 	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> projectile;
-	real lead_time;
-	real collision_cylinder_radius;
-	real weight;
+	real32 lead_time;
+	real32 collision_cylinder_radius;
+	real32 weight;
 
 	void update_reference_names();
 };
@@ -75,7 +75,7 @@ static_assert(sizeof(s_projectile_spawn_influence) == 0x1C);
 struct s_equipment_spawn_influence
 {
 	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> equipment;
-	real weight;
+	real32 weight;
 
 	void update_reference_names();
 };

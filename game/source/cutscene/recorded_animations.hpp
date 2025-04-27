@@ -22,8 +22,8 @@ struct animation_thread :
 	s_datum_header
 {
 	long unit_index;
-	word ticks_left;
-	word_flags flags;
+	uint16 ticks_left;
+	uint16 flags;
 	long relative_ticks;
 	char const* event_stream;
 	unit_control_data controller;

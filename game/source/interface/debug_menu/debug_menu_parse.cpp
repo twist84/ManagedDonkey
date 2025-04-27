@@ -204,15 +204,15 @@ void debug_menu_store_number_property(parse_stack_t* parse_stack)
 	{
 	case _property_min:
 		g_parser_state.m_has_min = true;
-		g_parser_state.m_min = real(atof(g_parser_state.m_number_buffer));
+		g_parser_state.m_min = real32(atof(g_parser_state.m_number_buffer));
 		break;
 	case _property_max:
 		g_parser_state.m_has_max = true;
-		g_parser_state.m_max = real(atof(g_parser_state.m_number_buffer));
+		g_parser_state.m_max = real32(atof(g_parser_state.m_number_buffer));
 		break;
 	case _property_inc:
 		g_parser_state.m_has_inc = true;
-		g_parser_state.m_inc = real(atof(g_parser_state.m_number_buffer));
+		g_parser_state.m_inc = real32(atof(g_parser_state.m_number_buffer));
 		break;
 	}
 	g_parser_state.m_current_property_type = _property_none;
@@ -289,9 +289,9 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		break;
 		case _hs_type_real:
 		{
-			real inc_value = g_parser_state.m_has_inc ? g_parser_state.m_inc : 0.1f;
-			real max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
-			real min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
+			real32 inc_value = g_parser_state.m_has_inc ? g_parser_state.m_inc : 0.1f;
+			real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
+			real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
 
 			item = new c_debug_menu_item_type_real(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}

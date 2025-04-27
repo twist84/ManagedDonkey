@@ -649,7 +649,7 @@ debug_key global_debug_key_list[]
 
 c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4)> global_debug_key_down; // 16 bit aligned
 //long global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
-dword_flags g_debug_button_down_flags;
+uint32 g_debug_button_down_flags;
 
 s_debug_button g_debug_button_list[]
 {
@@ -1105,17 +1105,17 @@ void __cdecl debug_key_print_screen(bool key_is_down)
 	}
 }
 
-void __cdecl debug_key_adjust_game_speed_internal(real delta)
+void __cdecl debug_key_adjust_game_speed_internal(real32 delta)
 {
-	real v2 = fabsf(delta);
-	real v3 = debug_game_speed;
-	real v4 = (debug_game_speed + delta) / v2;
+	real32 v2 = fabsf(delta);
+	real32 v3 = debug_game_speed;
+	real32 v4 = (debug_game_speed + delta) / v2;
 
-	real v5 = 1.0f;
+	real32 v5 = 1.0f;
 	if (v4 < 0.0f)
 		v5 = -1.0f;
 
-	real v6 = ((v5 / 2) + v4) * v2;
+	real32 v6 = ((v5 / 2) + v4) * v2;
 	if (fmaxf(v6, 0.0f) >= 5.0f)
 	{
 		v6 = 5.0f;
@@ -1125,7 +1125,7 @@ void __cdecl debug_key_adjust_game_speed_internal(real delta)
 		v3 = debug_game_speed;
 		if (debug_game_speed > game_tick_length())
 		{
-			real v8 = game_tick_length();
+			real32 v8 = game_tick_length();
 			v3 = debug_game_speed;
 			v6 = v8;
 		}

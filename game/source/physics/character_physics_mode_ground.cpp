@@ -19,12 +19,12 @@ real_vector3d const* c_character_physics_mode_ground_datum::get_ground_plane() c
 	return INVOKE_CLASS_MEMBER(0x00723570, c_character_physics_mode_ground_datum, get_ground_plane);
 }
 
-real c_character_physics_mode_ground_datum::get_ground_plane_contact_offset() const
+real32 c_character_physics_mode_ground_datum::get_ground_plane_contact_offset() const
 {
 	return INVOKE_CLASS_MEMBER(0x00723580, c_character_physics_mode_ground_datum, get_ground_plane_contact_offset);
 }
 
-real c_character_physics_mode_ground_datum::get_landing_velocity() const
+real32 c_character_physics_mode_ground_datum::get_landing_velocity() const
 {
 	return INVOKE_CLASS_MEMBER(0x007235C0, c_character_physics_mode_ground_datum, get_landing_velocity);
 }

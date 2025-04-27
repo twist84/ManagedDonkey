@@ -22,7 +22,7 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 		return;
 	}
 
-	real load_progress = 0.0f;
+	real32 load_progress = 0.0f;
 	if (main_blocking_load_in_progress(&load_progress))
 	{
 		csnzprintf(buffer, buffer_length, "Loading map... %3.0f%%", load_progress * 100.0f);
@@ -92,7 +92,7 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 				join_client_joining_count,
 				join_client_complete_count,
 				join_client_total_count,
-				(real)join_time_to_abort / 1000.0f);
+				(real32)join_time_to_abort / 1000.0f);
 		}
 		return;
 		case _simulation_world_state_active:
@@ -122,8 +122,8 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 				host_name,
 				join_client_joining_count,
 				join_client_waiting_count,
-				(real)join_client_establishing_count / 1000.0f,
-				(real)join_time_to_abort / 1000.0f);
+				(real32)join_client_establishing_count / 1000.0f,
+				(real32)join_time_to_abort / 1000.0f);
 		}
 		return;
 		case _simulation_world_state_active:
@@ -159,7 +159,7 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 	csnzprintf(buffer, buffer_length, "Gameworld client connecting to '%s'...|n(channel %s, fail in %4.1fsec)|n%s",
 		host_name,
 		observer_status,
-		(real)disconnected_time_to_failure / 1000.0f,
+		(real32)disconnected_time_to_failure / 1000.0f,
 		session_status);
 }
 

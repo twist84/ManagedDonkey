@@ -60,7 +60,7 @@ struct _main_globals
 	bool reset_map_random_seed;
 
 	bool revert_map;
-	c_flags<e_game_state_revert_bit, byte, k_number_of_game_state_revert_bits> revert_map_flags;
+	c_flags<e_game_state_revert_bit, uint8, k_number_of_game_state_revert_bits> revert_map_flags;
 
 	bool save_map;
 	bool save_map_and_exit;
@@ -83,12 +83,12 @@ struct _main_globals
 	long switch_to_zone_set_index;
 	s_scenario_zone_activation pending_zone_activation;
 
-	//dword cinematic_zone_group_tag;
+	//uint32 cinematic_zone_group_tag;
 	//long cinematic_zone_tag_index;
-	byte __pad74[8]; // is this the above?
+	uint8 __pad74[8]; // is this the above?
 
 	long main_loop_pregame_entered;
-	dword main_loop_pregame_last_time;
+	uint32 main_loop_pregame_last_time;
 };
 static_assert(sizeof(_main_globals) == 0x84);
 
@@ -157,8 +157,8 @@ struct s_model_customization_region_permutation;
 
 extern void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address);
 extern void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address);
-extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
-extern dword __cdecl audio_thread_loop(void* blah);
+extern uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
+extern uint32 __cdecl audio_thread_loop(void* blah);
 extern void __cdecl main_activate_cinematic_tag_private();
 extern void __cdecl main_activate_cinematic_zone(long cinematic_zone_index);
 extern void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index);
@@ -234,7 +234,7 @@ extern void __cdecl main_save_map();
 extern void __cdecl main_save_map_and_exit_private();
 extern bool __cdecl main_save_map_pending();
 extern void __cdecl main_save_map_private();
-extern void __cdecl main_set_active_designer_zone_mask(dword designer_zone_mask);
+extern void __cdecl main_set_active_designer_zone_mask(uint32 designer_zone_mask);
 extern void __cdecl main_set_single_thread_request_flag(e_single_threaded_request_flags flag, bool setting);
 extern void __cdecl main_skip_cinematic();
 extern void __cdecl main_skip_cinematic_private();
@@ -263,7 +263,7 @@ extern void __cdecl process_published_game_state(bool render);
 extern void __cdecl publish_waiting_gamestate();
 extern e_render_thread_mode __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
-extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
+extern void __cdecl unlock_resources_and_resume_render_thread(uint32 flags);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
 extern void __cdecl main_trace_event_internal(char const* context);
 

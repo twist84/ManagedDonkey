@@ -24,7 +24,7 @@ void __cdecl first_person_camera_for_unit_and_vector(long unit_index, real_vecto
 	INVOKE(0x0065F5B0, first_person_camera_for_unit_and_vector, unit_index, forward, result);
 }
 
-void __thiscall c_first_person_camera::update_(long user_index, real dt, s_observer_command* result)
+void __thiscall c_first_person_camera::update_(long user_index, real32 dt, s_observer_command* result)
 {
 	ASSERT(result);
 	
@@ -77,7 +77,7 @@ void __thiscall c_first_person_camera::update_(long user_index, real dt, s_obser
 				set_real_point2d(&result->crosshair_location, 1.0f, scenario_get_game_globals()->player_control[0].crosshair_location.y);
 		}
 
-		real camera_fov = fminf(fmaxf(global_preferences_get_camera_fov(), 70.0f), k_horizontal_field_of_view_max * RAD);
+		real32 camera_fov = fminf(fmaxf(global_preferences_get_camera_fov(), 70.0f), k_horizontal_field_of_view_max * RAD);
 	
 		//c_first_person_view::m_fov_scale = 1.700000047683716f - camera_fov * 0.01f;
 	

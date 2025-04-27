@@ -24,10 +24,10 @@ struct c_screen_postprocess
 		long m_bling;
 		bool m_persist;
 		long m_downsample;
-		real m_postprocess_exposure;
+		real32 m_postprocess_exposure;
 		bool m_allow_debug_display;
 		bool m_tone_curve;
-		real m_tone_curve_white_point;
+		real32 m_tone_curve_white_point;
 		bool m_auto_exposure_lock;
 		long m_debug_mode;
 	};
@@ -42,10 +42,10 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode filter_mode,
 		c_rasterizer::e_sampler_address_mode address_mode,
-		real scale_r,
-		real scale_g,
-		real scale_b,
-		real scale_a,
+		real32 scale_r,
+		real32 scale_g,
+		real32 scale_b,
+		real32 scale_a,
 		real_rectangle2d* source_texture_rect);
 
 	static void __cdecl blit(
@@ -54,10 +54,10 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode filter_mode,
 		c_rasterizer::e_sampler_address_mode address_mode,
-		real scale_r,
-		real scale_g,
-		real scale_b,
-		real scale_a,
+		real32 scale_r,
+		real32 scale_g,
+		real32 scale_b,
+		real32 scale_a,
 		real_rectangle2d* source_texture_rect,
 		real_rectangle2d* dest_texture_rect);
 
@@ -69,10 +69,10 @@ struct c_screen_postprocess
 		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
 		c_rasterizer::e_sampler_address_mode sampler_address_mode,
-		real scale_r,
-		real scale_g,
-		real scale_b,
-		real scale_a,
+		real32 scale_r,
+		real32 scale_g,
+		real32 scale_b,
+		real32 scale_a,
 		real_rectangle2d* dest_texture_rect);
 
 	static void __cdecl render_ssao_old(
@@ -91,16 +91,16 @@ struct c_screen_postprocess
 	static void __cdecl gaussian_blur(
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
-		real horizontal_blur_size,
-		real vertical_blur_size);
+		real32 horizontal_blur_size,
+		real32 vertical_blur_size);
 
 	static void __cdecl gaussian_blur_fixed(
 		c_rasterizer::e_surface target_surface,
 		c_rasterizer::e_surface temp_surface,
-		real scale_r,
-		real scale_g,
-		real scale_b,
-		real scale_a);
+		real32 scale_r,
+		real32 scale_g,
+		real32 scale_b,
+		real32 scale_a);
 
 	static c_rasterizer::e_surface __cdecl postprocess_bloom_buffer(
 		c_rasterizer::e_surface bloom_buffer,
@@ -111,12 +111,12 @@ struct c_screen_postprocess
 		long explicit_shader_index,
 		c_rasterizer::e_surface display_surface,
 		c_rasterizer::e_surface bloom_surface,
-		real inherent_scale,
+		real32 inherent_scale,
 		bool use_tone_curve,
 		bool true_sRGB_output,
 		bool use_depth_of_field,
-		real z_near,
-		real z_far,
+		real32 z_near,
+		real32 z_far,
 		rectangle2d const* target_rect,
 		real_rectangle2d const* window_rect,
 		s_observer_depth_of_field const* observer_depth_of_field);
@@ -134,7 +134,7 @@ struct c_screen_postprocess
 		render_projection const* projection,
 		render_camera const* camera,
 		real_matrix4x3 const* matrix,
-		real const(*projection_matrix)[4],
+		real32 const(*projection_matrix)[4],
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c);

@@ -41,12 +41,12 @@ long c_simulation_hs_script_wake_event_definition::minimum_required_bits(c_repli
 	return 42;
 }
 
-real c_simulation_hs_script_wake_event_definition::calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real)
+real32 c_simulation_hs_script_wake_event_definition::calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real32)
 {
 	return 0.0f;
 }
 
-void c_simulation_hs_script_wake_event_definition::write_description_to_string(c_replication_outgoing_event const* a1, s_simulation_view_telemetry_data const* a2, real a3, long buffer_count, char* buffer)
+void c_simulation_hs_script_wake_event_definition::write_description_to_string(c_replication_outgoing_event const* a1, s_simulation_view_telemetry_data const* a2, real32 a3, long buffer_count, char* buffer)
 {
 	csnzprintf(buffer, buffer_count, "hs-script-wake : relevance=%5.3f", calculate_relevance(a1, a2, a3));
 }

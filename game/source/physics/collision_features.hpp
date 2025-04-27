@@ -21,11 +21,11 @@ struct collision_sphere
 	long bsp_reference;
 	long object_index;
 	long surface_index;
-	byte_flags flags; // e_surface_flags
-	byte breakable_surface_index;
+	uint8 flags; // e_surface_flags
+	uint8 breakable_surface_index;
 	short material_index;
 	real_point3d center;
-	real radius;
+	real32 radius;
 };
 static_assert(sizeof(collision_sphere) == 0x24);
 
@@ -36,12 +36,12 @@ struct collision_cylinder
 	long bsp_reference;
 	long object_index;
 	long surface_index;
-	byte_flags flags; // e_surface_flags
-	byte breakable_surface_index;
+	uint8 flags; // e_surface_flags
+	uint8 breakable_surface_index;
 	short material_index;
 	real_point3d base;
 	real_vector3d height;
-	real width;
+	real32 width;
 };
 static_assert(sizeof(collision_cylinder) == 0x30);
 
@@ -52,13 +52,13 @@ struct collision_prism
 	long bsp_reference;
 	long object_index;
 	long surface_index;
-	byte_flags flags; // e_surface_flags
-	byte breakable_surface_index;
+	uint8 flags; // e_surface_flags
+	uint8 breakable_surface_index;
 	short material_index;
 	real_plane3d plane;
-	real height;
+	real32 height;
 	short projection_axis;
-	byte projection_sign;
+	uint8 projection_sign;
 	long point_count;
 	real_point2d points[MAXIMUM_POINTS_PER_COLLISION_PRISM];
 };
@@ -82,10 +82,10 @@ struct collision_plane
 	long object_index;
 	long bsp_reference;
 	long surface_index;
-	byte_flags flags; // e_surface_flags
-	byte breakable_surface_index;
+	uint8 flags; // e_surface_flags
+	uint8 breakable_surface_index;
 	short material_index;
-	real t;
+	real32 t;
 	real_point3d point;
 	real_plane3d plane;
 };

@@ -48,7 +48,7 @@ void s_saved_game_item_metadata::decode(c_bitstream* packet)
 	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	campaign_insertion_point = static_cast<byte>(packet->read_integer("campaign-insertion-point", 4));
+	campaign_insertion_point = static_cast<uint8>(packet->read_integer("campaign-insertion-point", 4));
 	campaign_survival_enabled = packet->read_bool("campaign-survival-enabled");
 	game_id = packet->read_qword("game-id", 64);
 }
@@ -102,7 +102,7 @@ void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	word hopper_id = static_cast<word>(packet->read_integer("hopper-id", 16));
+	uint16 hopper_id = static_cast<uint16>(packet->read_integer("hopper-id", 16));
 	game_id = packet->read_qword("game-id", 64);
 }
 

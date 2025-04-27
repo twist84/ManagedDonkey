@@ -35,7 +35,7 @@ void __cdecl screen_effect_sample(real_point3d const* point, real_vector3d const
 	INVOKE(0x00683190, screen_effect_sample, point, vector, settings, result, user_index);
 }
 
-void __cdecl screen_effect_update(real update_interval)
+void __cdecl screen_effect_update(real32 update_interval)
 {
 	HOOK_INVOKE(, screen_effect_update, update_interval);
 }

@@ -661,9 +661,9 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return NONE;
 //}
 //
-//real c_game_engine::compute_object_function(long object_index, long name) const
+//real32 c_game_engine::compute_object_function(long object_index, long name) const
 //{
-//	//return DECLFUNC(0x00749B60, real, __thiscall, c_game_engine const*, long, long)(this, object_index, name);
+//	//return DECLFUNC(0x00749B60, real32, __thiscall, c_game_engine const*, long, long)(this, object_index, name);
 //
 //	return 0.0f;
 //}

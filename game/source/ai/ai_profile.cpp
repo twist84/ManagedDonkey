@@ -373,7 +373,7 @@ void ai_profile_update()
 		meter->history_max_index = MAX(meter->history_max_index, history_next_index);
 		meter->history_next_index = history_next_index;
 
-		meter->average_count = (real)meter->average_total / meter->history_max_index;
+		meter->average_count = (real32)meter->average_total / meter->history_max_index;
 	}
 
 	csmemset(&ai_profile.ai_profile_info, 0, sizeof(s_ai_profile_info));

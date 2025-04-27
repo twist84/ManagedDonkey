@@ -46,16 +46,16 @@ public:
 
 	real_point3d m_position;
 	real_euler_angles2d m_orientation;
-	real m_roll;
-	real m_time_boosting;
-	real m_time_moving_vertical;
+	real32 m_roll;
+	real32 m_time_boosting;
+	real32 m_time_moving_vertical;
 
 	bool __unknown30;
-	real __unknown34;
+	real32 __unknown34;
 
 	c_flags<e_flags, long, k_number_of_flags> m_flags;
 
-	byte unused[0x10];
+	uint8 unused[0x10];
 };
 static_assert(sizeof(c_flying_camera) == 0x4C);
 

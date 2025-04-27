@@ -11,7 +11,7 @@ struct c_vehicle_type_guardian
 {
 public:
 	static void __cdecl adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
-	static bool __cdecl compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active);
+	static bool __cdecl compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active);
 	static void __cdecl create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
 	static bool __cdecl effected_by_vehicle_ceiling(long vehicle_index);
@@ -25,7 +25,7 @@ public:
 	static bool __cdecl is_stopped(long vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(long vehicle_index);
 	static bool __cdecl physics_disabled(long vehicle_index);
-	static void __cdecl process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	static void __cdecl process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
 	bool should_override_deactivation(long vehicle_index);
 	void update_control(long vehicle_index);
@@ -33,8 +33,8 @@ public:
 	static bool __cdecl vector_is_upsides_down(long vehicle_index, real_vector3d const* vector);
 
 protected:
-	real m_steering;
-	real m_hover;
+	real32 m_steering;
+	real32 m_hover;
 	c_vehicle_auto_turret m_auto_turret;
 };
 static_assert(sizeof(c_vehicle_type_guardian) == 0x38);

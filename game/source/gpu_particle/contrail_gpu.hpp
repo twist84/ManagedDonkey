@@ -13,16 +13,16 @@ public:
 	{
 		long m_prev;
 		long m_next;
-		word m_row;
-		byte m_used_count;
-		real m_lifespan;
+		uint16 m_row;
+		uint8 m_used_count;
+		real32 m_lifespan;
 	};
 	static_assert(sizeof(s_row) == 0x14);
 
 	long m_contrail_index;
 	long m_row_head;
-	word m_profile_count;
-	word_flags m_flags;
+	uint16 m_profile_count;
+	uint16 m_flags;
 };
 static_assert(sizeof(c_contrail_gpu) == 0x10);
 

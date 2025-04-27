@@ -19,18 +19,18 @@
 
 struct s_campaign_progression_profile_data
 {
-	qword __time0;
+	uint64 __time0;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	short campaign_insertion_index;
 	s_campaign_armaments campaign_armaments;
-	byte __pad8A[0x2];
+	uint8 __pad8A[0x2];
 	s_campaign_game_progression campaign_game_progression;
 	s_campaign_game_progression hub_progression;
 	long campaign_difficulty;
 	long campaign_metagame_scoring;
-	dword_flags active_primary_skulls;
-	dword_flags active_secondary_skulls;
+	uint32 active_primary_skulls;
+	uint32 active_secondary_skulls;
 	long __unknown19C;
 };
 static_assert(sizeof(s_campaign_progression_profile_data) == 0x1A0);
@@ -63,7 +63,7 @@ struct c_player_profile_insertion_point_flags
 	//void set(long, short, bool);
 	//bool test(long, short) const;
 	//long get_flag_index(long, long) const;
-	//word get_for_map(long) const;
+	//uint16 get_for_map(long) const;
 
 	c_static_array<c_static_flags<k_max_map_count>, k_max_insertion_point_count> m_flags;
 };
@@ -120,10 +120,10 @@ struct c_player_profile_interface
 		//
 		//k_number_of_player_profile_flags,
 	};
-	dword_flags m_flags;
+	uint32 m_flags;
 
 	long m_settings_read_retry_count;
-	dword m_next_settings_read_retry_time_milliseconds;
+	uint32 m_next_settings_read_retry_time_milliseconds;
 	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
 	bool m_achievements_report_as_obtained;
 
@@ -134,13 +134,13 @@ struct c_player_profile_interface
 		long look_sensitivity;
 	} m_controls;
 
-	byte __data1C[0x1D8];
+	uint8 __data1C[0x1D8];
 
-	byte __data1F8[0x1];
+	uint8 __data1F8[0x1];
 
 	bool m_display_hints;
 
-	byte __data1FA[0x2];
+	uint8 __data1FA[0x2];
 
 	struct
 	{
@@ -156,8 +156,8 @@ struct c_player_profile_interface
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> current_difficulty;
 		short current_campaign_absolute_index;
 		short current_map_absolute_index;
-		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
-		c_static_array<qword, k_campaign_game_mode_count> last_campaign_played_time;
+		c_static_array<c_flags<e_campaign_difficulty_level, uint8, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
+		c_static_array<uint64, k_campaign_game_mode_count> last_campaign_played_time;
 		long awarded_primary_skull_bitvector;
 		long awarded_secondary_skull_bitvector;
 		short terminals_read_level1_bitvector;
@@ -168,10 +168,10 @@ struct c_player_profile_interface
 		struct
 		{
 			e_map_id solo_map_id;
-			real solo_unknown;
+			real32 solo_unknown;
 
 			e_map_id coop_map_id;
-			real coop_unknown;
+			real32 coop_unknown;
 			long coop_player_count;
 		} survival;
 
@@ -179,17 +179,17 @@ struct c_player_profile_interface
 		{
 			e_map_id solo_map_id;
 			short solo_insertion_point;
-			byte __pad2B6[0x2];
-			real solo_unknown;
+			uint8 __pad2B6[0x2];
+			real32 solo_unknown;
 
 			e_map_id coop_map_id;
 			short coop_insertion_point;
-			byte __pad2C2[0x2];
-			real coop_unknown;
+			uint8 __pad2C2[0x2];
+			real32 coop_unknown;
 			long coop_player_count;
 		} campaign;
 
-		byte __data2CC[0x4]; // pad?
+		uint8 __data2CC[0x4]; // pad?
 
 		s_campaign_progression_profile_data m_campaign_progression;
 	} m_campaign;
@@ -215,7 +215,7 @@ struct c_player_profile_interface
 
 		long player_model_choice;
 		s_emblem_info emblem;
-		byte model_area_selections[10];
+		uint8 model_area_selections[10];
 		wchar_t last_known_good_service_tag[5];
 		wchar_t desired_service_tag[5];
 		bool service_tag_was_randomly_generated;

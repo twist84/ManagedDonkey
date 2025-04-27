@@ -17,10 +17,10 @@ enum e_camera_script_mode
 
 struct s_cinematic_field_of_view
 {
-	real time_elapsed;
-	real time_total;
-	real start;
-	real end;
+	real32 time_elapsed;
+	real32 time_total;
+	real32 start;
+	real32 end;
 };
 static_assert(sizeof(s_cinematic_field_of_view) == 0x10);
 
@@ -38,7 +38,7 @@ struct s_scripted_camera_globals
 
 	union
 	{
-		byte storage[0xB0];
+		uint8 storage[0xB0];
 
 		//s_scripted_camera_control_point internal_control_point;
 		//s_scripted_camera_constant_pan internal_contant_pan;

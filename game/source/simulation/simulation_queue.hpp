@@ -27,7 +27,7 @@ struct c_simulation_queue_element
 	c_enum<e_simulation_queue_element_type, long, _simulation_queue_element_type_none, k_simulation_queue_element_type_count> m_type;
 	c_simulation_queue_element* m_next;
 	long m_data_size;
-	byte* m_data;
+	uint8* m_data;
 };
 static_assert(sizeof(c_simulation_queue_element) == 0x10);
 
@@ -49,7 +49,7 @@ public:
 	void dispose();
 	void encode(c_bitstream* packet) const;
 	void enqueue(c_simulation_queue_element* element);
-	void get_allocation_status(real* a1, real* a2) const;
+	void get_allocation_status(real32* a1, real32* a2) const;
 	long get_element_size_in_bytes(c_simulation_queue_element* element) const;
 	c_simulation_queue_element* get_first_element() const;
 	c_simulation_queue_element* get_next_element(c_simulation_queue_element* element) const;

@@ -25,24 +25,24 @@ struct _device_definition
 {
 	// $$$ DEVICE $$$
 
-	dword_flags flags;
-	real power_transition_time; // seconds
-	real power_acceleration_time; // seconds
-	real powered_position_transition_time; // seconds
-	real powered_position_acceleration_time; // seconds
-	real depowered_position_transition_time; // seconds
-	real depowered_position_acceleration_time; // seconds
-	word_flags lightmap_flags;
-	word pad;
+	uint32 flags;
+	real32 power_transition_time; // seconds
+	real32 power_acceleration_time; // seconds
+	real32 powered_position_transition_time; // seconds
+	real32 powered_position_acceleration_time; // seconds
+	real32 depowered_position_transition_time; // seconds
+	real32 depowered_position_acceleration_time; // seconds
+	uint16 lightmap_flags;
+	uint16 pad;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_start_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> negative_start_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_stop_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> negative_stop_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> depowered_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> repowered_effect;
-	real delay_time; // seconds
+	real32 delay_time; // seconds
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> delay_effect;
-	real automatic_activation_radius; // world units
+	real32 automatic_activation_radius; // world units
 };
 static_assert(sizeof(_device_definition) == 0x98);
 
@@ -79,7 +79,7 @@ struct _control_definition
 
 	short type;
 	short trigger;
-	real call_value; // [0,1]
+	real32 call_value; // [0,1]
 	string_id action_string;
 
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> on_effect;
@@ -127,12 +127,12 @@ enum // flags
 struct _machine_definition
 {
 	short type;
-	word_flags flags;
-	real door_open_time; // seconds
+	uint16 flags;
+	real32 door_open_time; // seconds
 
 	// maps position [0,1] to occlusion
-	real door_occlusion_lower_bound;
-	real door_occlusion_upper_bound;
+	real32 door_occlusion_lower_bound;
+	real32 door_occlusion_upper_bound;
 
 	short collision_response;
 	short elevator_node_index;
@@ -165,13 +165,13 @@ struct _terminal_definition
 {
 	// $$$ TERMINAL $$$
 
-	dword_flags flags;
+	uint32 flags;
 	string_id action_string;
 	short terminal_number;
 	short pad0;
 
 	// set the exposure to the this when viewing terminal
-	real exposure_value;
+	real32 exposure_value;
 
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> activation_sound;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> deactivation_sound;

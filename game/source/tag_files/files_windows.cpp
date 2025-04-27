@@ -205,7 +205,7 @@ bool __cdecl file_get_creation_date(s_file_reference const* reference, struct s_
 	return INVOKE(0x00529750, file_get_creation_date, reference, date);
 }
 
-dword __cdecl file_get_eof(s_file_reference const* reference)
+uint32 __cdecl file_get_eof(s_file_reference const* reference)
 {
 	return INVOKE(0x005298C0, file_get_eof, reference);
 }
@@ -215,12 +215,12 @@ bool __cdecl file_get_last_modification_date(s_file_reference const* reference, 
 	return INVOKE(0x00529980, file_get_last_modification_date, reference, date);
 }
 
-dword __cdecl file_get_position(s_file_reference const* reference)
+uint32 __cdecl file_get_position(s_file_reference const* reference)
 {
 	return INVOKE(0x00529AF0, file_get_position, reference);
 }
 
-bool __cdecl file_get_size(s_file_reference* reference, dword* out_file_size)
+bool __cdecl file_get_size(s_file_reference* reference, uint32* out_file_size)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, file_get_size, reference, out_file_size);
@@ -273,7 +273,7 @@ bool __cdecl file_move_to(s_file_reference const* reference, s_file_reference co
 	return INVOKE(0x0052A0C0, file_move_to, reference, other);
 }
 
-bool __cdecl file_open(s_file_reference* reference, dword open_flags, dword* error)
+bool __cdecl file_open(s_file_reference* reference, uint32 open_flags, uint32* error)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, file_open, reference, open_flags, error);
@@ -283,9 +283,9 @@ bool __cdecl file_open(s_file_reference* reference, dword open_flags, dword* err
 	ASSERT(error);
 
 	bool result = false;
-	dword desired_access = 0;
-	dword share_mode = 0;
-	dword flags_and_attributes = FILE_READ_ATTRIBUTES;
+	uint32 desired_access = 0;
+	uint32 share_mode = 0;
+	uint32 flags_and_attributes = FILE_READ_ATTRIBUTES;
 
 	*error = _file_open_error_none;
 
@@ -387,7 +387,7 @@ void __cdecl file_path_split(char* path, char** directory, char** parent_directo
 	INVOKE(0x0052A710, file_path_split, path, directory, parent_directory, filename, extension, is_file_name);
 }
 
-bool __cdecl file_read(s_file_reference* reference, dword size, bool print_error, void* buffer)
+bool __cdecl file_read(s_file_reference* reference, uint32 size, bool print_error, void* buffer)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, file_read, reference, size, print_error, buffer);
@@ -418,7 +418,7 @@ bool __cdecl file_read(s_file_reference* reference, dword size, bool print_error
 	return result;
 }
 
-bool __cdecl file_read_from_position(s_file_reference* reference, dword offset, dword size, bool print_error, void* buffer)
+bool __cdecl file_read_from_position(s_file_reference* reference, uint32 offset, uint32 size, bool print_error, void* buffer)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, file_read_from_position, reference, size, print_error, buffer);
@@ -472,12 +472,12 @@ bool __cdecl file_rename_wide(s_file_reference* reference, wchar_t const* name)
 	return INVOKE(0x0052ACB0, file_rename_wide, reference, name);
 }
 
-bool __cdecl file_set_eof(s_file_reference* reference, dword offset)
+bool __cdecl file_set_eof(s_file_reference* reference, uint32 offset)
 {
 	return INVOKE(0x0052AEC0, file_set_eof, reference, offset);
 }
 
-bool __cdecl file_set_position(s_file_reference* reference, dword offset, bool print_error)
+bool __cdecl file_set_position(s_file_reference* reference, uint32 offset, bool print_error)
 {
 	if (reference->position == offset)
 		return true;
@@ -499,12 +499,12 @@ bool __cdecl file_set_writeable(s_file_reference* reference, bool writeable)
 	return INVOKE(0x0052B0D0, file_set_writeable, reference, writeable);
 }
 
-bool __cdecl file_write(s_file_reference* reference, dword size, void const* buffer)
+bool __cdecl file_write(s_file_reference* reference, uint32 size, void const* buffer)
 {
 	return INVOKE(0x0052B250, file_write, reference, size, buffer);
 }
 
-bool __cdecl file_write_to_position(s_file_reference* reference, dword offset, dword size, void const* buffer)
+bool __cdecl file_write_to_position(s_file_reference* reference, uint32 offset, uint32 size, void const* buffer)
 {
 	return INVOKE(0x0052B350, file_write_to_position, reference, offset, size, buffer);
 }
@@ -539,12 +539,12 @@ bool __cdecl find_files_next(s_find_file_data* data, s_file_reference* out_file,
 	return result;
 }
 
-void __cdecl find_files_start(s_find_file_data* data, dword_flags flags, s_file_reference const* file)
+void __cdecl find_files_start(s_find_file_data* data, uint32 flags, s_file_reference const* file)
 {
 	find_files_start_with_search_spec(data, flags, file, "*.*");
 }
 
-void __cdecl find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec)
+void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uint32 flags, s_file_reference const* file, char const* search_spec)
 {
 	for (short i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
 		invalidate_file_handle(&data->active_find_file_state.handles[i]);
@@ -567,7 +567,7 @@ void __cdecl invalidate_file_handle(s_file_handle* handle)
 	handle->handle = INVALID_HANDLE_VALUE;
 }
 
-void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*file_handler)(s_file_reference*))
+void find_files_recursive(s_file_reference* directory, uint32 open_flags, bool(*file_handler)(s_file_reference*))
 {
 	s_find_file_data find_file_data{};
 	find_files_start(&find_file_data, FLAG(1) | FLAG(2), directory);
@@ -584,7 +584,7 @@ void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*f
 		}
 		else
 		{
-			dword error = 0;
+			uint32 error = 0;
 			if (!file_open(&found_file, open_flags, &error))
 				continue;
 

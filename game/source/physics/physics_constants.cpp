@@ -17,7 +17,7 @@ bool __cdecl character_ground_adhesion_forces_disabled()
 	return (physics_constants->character_ground_adhesion_forces_enable_time - game_time_get()) > 0;
 }
 
-void __cdecl disable_character_ground_adhesion_forces(real disable_time)
+void __cdecl disable_character_ground_adhesion_forces(real32 disable_time)
 {
 	if (disable_time <= k_physics_character_ground_adhesion_force_minimum_disable_time)
 		disable_time = k_physics_character_ground_adhesion_force_minimum_disable_time;
@@ -46,21 +46,21 @@ real_vector3d* __cdecl global_physics_velocity_frame_get()
 	//INVOKE(0x006815C0, global_physics_velocity_frame_get);
 }
 
-void __cdecl global_physics_velocity_frame_set(real i, real j, real k)
+void __cdecl global_physics_velocity_frame_set(real32 i, real32 j, real32 k)
 {
 	global_physics_constants_get()->velocity_frame = { i, j, k };
 
 	//INVOKE(0x006815E0, global_physics_velocity_frame_set, i, j, k);
 }
 
-real __cdecl global_slip_surface_maximum_k_get()
+real32 __cdecl global_slip_surface_maximum_k_get()
 {
 	return game_is_multiplayer() ? 1.0f : global_physics_constants_get()->slip_surface_maximum_k;
 
 	//INVOKE(0x00681620, global_slip_surface_maximum_k_get);
 }
 
-real __cdecl global_standard_gravity_get()
+real32 __cdecl global_standard_gravity_get()
 {
 	return 4.1712594f;
 
@@ -96,36 +96,36 @@ void __cdecl physics_constants_reset()
 	physics_constants->air_density = 0.0011f;
 	physics_constants->character_ground_adhesion_forces_enable_time = 0;
 	physics_constants->velocity_frame = { 0.0f, 0.0f, 0.0f }; // global_zero_vector3d
-	physics_constants->slip_surface_maximum_k = static_cast<real>(cos(0.61086524f));
+	physics_constants->slip_surface_maximum_k = static_cast<real32>(cos(0.61086524f));
 
 	//INVOKE(0x006817F0, physics_constants_reset);
 }
 
-void __cdecl physics_constants_set_gravity_absolute(real gravity)
+void __cdecl physics_constants_set_gravity_absolute(real32 gravity)
 {
 	global_physics_constants_get()->gravity = gravity;
 
 	//INVOKE(0x00681870, physics_constants_set_gravity_absolute, gravity);
 }
 
-void __cdecl physics_constants_set_gravity_halo_relative(real gravity)
+void __cdecl physics_constants_set_gravity_halo_relative(real32 gravity)
 {
 	physics_constants_set_gravity_absolute(gravity * global_standard_gravity_get());
 
 	//INVOKE(0x006818A0, physics_constants_set_gravity_absolute, gravity);
 }
 
-real __cdecl global_gravity_get()
+real32 __cdecl global_gravity_get()
 {
 	return global_physics_constants_get()->gravity;
 }
 
-real __cdecl global_water_density_get()
+real32 __cdecl global_water_density_get()
 {
 	return global_physics_constants_get()->water_density;
 }
 
-real __cdecl global_air_density_get()
+real32 __cdecl global_air_density_get()
 {
 	return global_physics_constants_get()->air_density;
 }

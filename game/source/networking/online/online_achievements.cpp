@@ -10,7 +10,7 @@ void __cdecl achievements_initialize()
 	INVOKE(0x014E2320, achievements_initialize);
 }
 
-void __cdecl achievements_update(real world_seconds_elapsed)
+void __cdecl achievements_update(real32 world_seconds_elapsed)
 {
 	INVOKE(0x014E2440, achievements_update, world_seconds_elapsed);
 }

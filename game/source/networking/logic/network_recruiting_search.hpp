@@ -5,7 +5,7 @@
 
 struct s_recruiting_session_search
 {
-	byte __data[0x2E8];
+	uint8 __data[0x2E8];
 };
 static_assert(sizeof(s_recruiting_session_search) == 0x2E8);
 
@@ -13,7 +13,7 @@ struct c_recruiting_seeker
 {
 	void update();
 
-	byte_flags m_flags;
+	uint8 m_flags;
 	long m_squad_search_flags;
 	long m_controller_index;
 	long m_session_search_count;
@@ -23,8 +23,8 @@ struct c_recruiting_seeker
 	long m_total_sessions_found;
 	long m_current_sessions_contacted_count;
 	long m_total_session_contacted_count;
-	dword m_search_start_time;
-	dword m_current_search_completed_time;
+	uint32 m_search_start_time;
+	uint32 m_current_search_completed_time;
 	c_static_array<s_recruiting_session_search, 16> m_session_search_data;
 	long m_game_mode;
 	long m_game_type;
@@ -35,14 +35,14 @@ struct s_available_session;
 struct s_network_recruiting_search_globals
 {
 	bool initialized;
-	dword __unknown4;
+	uint32 __unknown4;
 	c_recruiting_seeker recruiting_seeker;
 	c_matchmaking_quality matchmaking_quality;
 	bool search_active;
 	bool sessions_updated;
 	long maximum_session_count;
 	s_available_session* session_storage;
-	dword __unknownC7C4;
+	uint32 __unknownC7C4;
 };
 static_assert(sizeof(s_network_recruiting_search_globals) == 0xC7C8);
 static_assert(0x0008 == OFFSETOF(s_network_recruiting_search_globals, recruiting_seeker));

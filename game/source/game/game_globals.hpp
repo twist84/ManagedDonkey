@@ -19,9 +19,9 @@ struct game_globals_storage
 {
 	bool initializing;
 	bool map_active;
-	dword active_structure_bsp_mask;
-	dword active_designer_zone_mask;
-	dword active_cinematic_zone_mask;
+	uint32 active_structure_bsp_mask;
+	uint32 active_designer_zone_mask;
+	uint32 active_cinematic_zone_mask;
 	game_options options;
 
 	// ODST
@@ -46,7 +46,7 @@ struct game_globals_storage
 	s_game_cluster_bit_vectors cluster_pvs_local;
 	s_game_cluster_bit_vectors cluster_activation;
 	bool pvs_use_scripted_camera;
-	byte unused_pad;
+	uint8 unused_pad;
 	short pvs_activation_type;
 	struct
 	{
@@ -56,7 +56,7 @@ struct game_globals_storage
 
 	long game_ragdoll_count;
 
-	byte __data25204[4];
+	uint8 __data25204[4];
 };
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
@@ -153,10 +153,10 @@ struct s_game_globals
 
 	c_typed_tag_reference<INPUT_GLOBALS_TAG, INVALID_TAG> input_globals;
 
-	real biped_camo_reference;
-	real vehicle_camo_reference;
-	real biped_speed_reference;
-	real vehicle_speed_reference;
+	real32 biped_camo_reference;
+	real32 vehicle_camo_reference;
+	real32 biped_speed_reference;
+	real32 vehicle_speed_reference;
 	c_function_definition speed_to_maximum_camo;
 
 	// these 4 values are a struct passed to `sub_B56980` in `object_damage_update`
@@ -174,14 +174,14 @@ struct s_game_globals
 	// object.shield_impact_current_body_damage
 	// object.shield_impact_current_shield_damage
 	// object.body_damage_delay_ticks
-	real __unknown5E4;
-	real __unknown5E8;
-	real __unknown5EC;
-	real __unknown5F0;
+	real32 __unknown5E4;
+	real32 __unknown5E8;
+	real32 __unknown5EC;
+	real32 __unknown5F0;
 
-	real __unknown5F4;
+	real32 __unknown5F4;
 	c_typed_tag_block<damage_reporting_type_block> damage_reporting_types;
-	real __unknown604;
+	real32 __unknown604;
 
 	struct damage_reporting_type_block
 	{
@@ -214,7 +214,7 @@ static_assert(sizeof(s_damage_group_definition) == 0x10);
 struct s_armor_modifier_definition
 {
 	c_string_id name;
-	real damage_multiplier;
+	real32 damage_multiplier;
 };
 static_assert(sizeof(s_armor_modifier_definition) == 0x8);
 
@@ -232,161 +232,161 @@ struct s_game_globals_camera
 
 	// CAMERA UNIVERSALS
 
-	real field_of_view; // degrees
-	real yaw_scale;
-	real pitch_scale;
-	real forward_scale;
-	real side_scale;
-	real up_scale;
+	real32 field_of_view; // degrees
+	real32 yaw_scale;
+	real32 pitch_scale;
+	real32 forward_scale;
+	real32 side_scale;
+	real32 up_scale;
 
 
 	// DEAD CAMERA
 
 	// time it takes for the camera to move from the initial distance to the final distance
-	real transition_time; // seconds
+	real32 transition_time; // seconds
 
 	// time it takes for the camera to move to its final position during a falling death
-	real falling_death_transition_time; // seconds
+	real32 falling_death_transition_time; // seconds
 
 	// on the first frame after death, this is how far out of the body the camera will be
-	real initial_distance; // wu
+	real32 initial_distance; // wu
 
 	// how far from the body the camera will settle
-	real final_distance; // wu
+	real32 final_distance; // wu
 
 	// how far above the body the camera focuses on
-	real dead_cam_z_offset; // wu
+	real32 dead_cam_z_offset; // wu
 
 	// the highest angle the camera can raise to(prevents it from flipping over the vertical axis)
-	real dead_cam_maximum_elevation; // radians
+	real32 dead_cam_maximum_elevation; // radians
 
 	// delay in tracking the killer
-	real dead_cam_movement_delay; // seconds
+	real32 dead_cam_movement_delay; // seconds
 
 	// how long the death camera lasts before switching to orbiting camera
-	real time; // seconds
+	real32 time; // seconds
 
 	// minimum velocity to switch to fell to death behavior(when biped is not actually falling to death)
-	real dead_camera_minimum_falling_velocity;
+	real32 dead_camera_minimum_falling_velocity;
 
 
 	// FLYING CAMERA
 
 	// the scaling factor for the left stick when the left trigger is fully depressed
-	real maximum_boost_speed;
+	real32 maximum_boost_speed;
 
 	// seconds. while pegging boost, time to reach maximum speed
-	real time_to_maximum_boost;
+	real32 time_to_maximum_boost;
 
 	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> boost_function;
-	byte hoist[2];
+	uint8 hoist[2];
 
 	// field of view when zoomed
-	real zoomed_field_of_view; // degrees
+	real32 zoomed_field_of_view; // degrees
 
 	// scaling factor for look speed when zoomed
-	real zoomed_look_speed;
+	real32 zoomed_look_speed;
 
 	// radius of sphere for collision
-	real bounding_sphere_radius; // wu
+	real32 bounding_sphere_radius; // wu
 
 	// how quickly the camera responds to the user's input
-	real flying_cam_movement_delay; // seconds
+	real32 flying_cam_movement_delay; // seconds
 
 	// how long it takes to zoom in or out
-	real zoom_transition_time; // seconds
+	real32 zoom_transition_time; // seconds
 
-	real vertical_movement_time_to;
+	real32 vertical_movement_time_to;
 	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
-	byte moist[2];
+	uint8 moist[2];
 
 	// how long it takes in survival mode before switching to flying camera
-	real survival_switch_time; // seconds
+	real32 survival_switch_time; // seconds
 
 
 	// ORBITING CAMERA
 
-	real minimum_distance; // wu
-	real maximum_distance; // wu
+	real32 minimum_distance; // wu
+	real32 maximum_distance; // wu
 
 	// how quickly the camera responds to the user's input
-	real orbit_cam_movement_delay; // seconds
+	real32 orbit_cam_movement_delay; // seconds
 
 	// how far above the object's root node to position the camera's focus point
-	real orbit_cam_z_offset; // wu
+	real32 orbit_cam_z_offset; // wu
 
 	// lowest angle the camera can be moved to
-	real orbit_cam_minimum_elevation; // radians
+	real32 orbit_cam_minimum_elevation; // radians
 
 	// highest angle the camera can be moved to
-	real orbit_cam_maximum_elevation; // radians
+	real32 orbit_cam_maximum_elevation; // radians
 
 
 	// SAVED FILMS
 
 	// how fast the film plays when the trigger is fully depressed
-	real max_playback_speed;
+	real32 max_playback_speed;
 
 	// how long it takes for the screen to fade out when rewinding
-	real fade_out_time; // seconds
+	real32 fade_out_time; // seconds
 
 	// see above
-	real fade_in_time; // seconds
+	real32 fade_in_time; // seconds
 
 
 	// IN GAME
 
 	// how long it takes the camera to move from first to third person when entering a vehicle
-	real enter_vehicle_transition_time; // seconds
+	real32 enter_vehicle_transition_time; // seconds
 
 	// see above
-	real exit_vehicle_transition_time; // seconds
+	real32 exit_vehicle_transition_time; // seconds
 
 	void update_reference_names();
 };
 
 struct s_look_function_block
 {
-	real scale;
+	real32 scale;
 };
-static_assert(sizeof(s_look_function_block) == sizeof(real));
+static_assert(sizeof(s_look_function_block) == sizeof(real32));
 
 struct s_game_globals_player_control
 {
-	real magnetism_friction;           // how much the crosshair slows over enemies
-	real magnetism_adhesion;           // how much the crosshair sticks to enemies
-	real inconsequential_target_scale; // scales magnetism level for inconsequential targets like infection forms
+	real32 magnetism_friction;           // how much the crosshair slows over enemies
+	real32 magnetism_adhesion;           // how much the crosshair sticks to enemies
+	real32 inconsequential_target_scale; // scales magnetism level for inconsequential targets like infection forms
 
 	// crosshair
 	real_point2d crosshair_location; // -1..1, 0 is middle of the screen
 
 	// sprinting
-	real seconds_to_start;             // how long you must be pegged before you start sprinting
-	real seconds_to_full_speed;        // how long you must sprint before you reach top speed
-	real decay_rate;                   // how fast being unpegged decays the timer (seconds per second)
-	real full_speed_multiplier;        // how much faster we actually go when at full sprint
-	real pegged_magnitude;             // how far the stick needs to be pressed before being considered pegged
-	real pegged_angular_threshold;     // how far off straight up (in degrees) we consider pegged
-	real stamina_deplete_restore_time; // time to restore stamina from empty or deplete from full (seconds)
-	real cooldown_time;                // time between sprint end and next available use (seconds)
+	real32 seconds_to_start;             // how long you must be pegged before you start sprinting
+	real32 seconds_to_full_speed;        // how long you must sprint before you reach top speed
+	real32 decay_rate;                   // how fast being unpegged decays the timer (seconds per second)
+	real32 full_speed_multiplier;        // how much faster we actually go when at full sprint
+	real32 pegged_magnitude;             // how far the stick needs to be pressed before being considered pegged
+	real32 pegged_angular_threshold;     // how far off straight up (in degrees) we consider pegged
+	real32 stamina_deplete_restore_time; // time to restore stamina from empty or deplete from full (seconds)
+	real32 cooldown_time;                // time between sprint end and next available use (seconds)
 
 	// looking
-	real look_default_pitch_rate; // degrees
-	real look_default_yaw_rate;   // degrees
+	real32 look_default_pitch_rate; // degrees
+	real32 look_default_yaw_rate;   // degrees
 
-	real look_peg_threshold; // magnitude of yaw for pegged acceleration to kick in
-
-	// time for a pegged look to reach maximum effect
-	real look_yaw_acceleration_time; // seconds
-	real look_yaw_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
+	real32 look_peg_threshold; // magnitude of yaw for pegged acceleration to kick in
 
 	// time for a pegged look to reach maximum effect
-	real look_pitch_acceleration_time; // seconds
-	real look_pitch_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
+	real32 look_yaw_acceleration_time; // seconds
+	real32 look_yaw_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
 
-	real look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
-	real look_unused[2];
-	real gravity_scale;
+	// time for a pegged look to reach maximum effect
+	real32 look_pitch_acceleration_time; // seconds
+	real32 look_pitch_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
+
+	real32 look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
+	real32 look_unused[2];
+	real32 gravity_scale;
 	short control_unused;
 	short minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
@@ -398,59 +398,59 @@ struct s_game_globals_difficulty_information
 	// health
 	// 
 	// scale values for enemy health and damage settings
-	real enemy_damage[k_number_of_campaign_difficulty_levels];    // enemy damage multiplier
-	real enemy_vitality[k_number_of_campaign_difficulty_levels];  // enemy maximum body vitality scale
-	real enemy_shield[k_number_of_campaign_difficulty_levels];    // enemy maximum shield vitality scale
-	real enemy_recharge[k_number_of_campaign_difficulty_levels];  // enemy shield recharge scale
-	real friend_damage[k_number_of_campaign_difficulty_levels];   // friend damage multiplier
-	real friend_vitality[k_number_of_campaign_difficulty_levels]; // friend maximum body vitality scale
-	real friend_shield[k_number_of_campaign_difficulty_levels];   // friend maximum shield vitality scale
-	real friend_recharge[k_number_of_campaign_difficulty_levels]; // friend shield recharge scale
-	real infection_forms[k_number_of_campaign_difficulty_levels]; // toughness of infection forms (may be negative)
-	byte $[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	real32 enemy_damage[k_number_of_campaign_difficulty_levels];    // enemy damage multiplier
+	real32 enemy_vitality[k_number_of_campaign_difficulty_levels];  // enemy maximum body vitality scale
+	real32 enemy_shield[k_number_of_campaign_difficulty_levels];    // enemy maximum shield vitality scale
+	real32 enemy_recharge[k_number_of_campaign_difficulty_levels];  // enemy shield recharge scale
+	real32 friend_damage[k_number_of_campaign_difficulty_levels];   // friend damage multiplier
+	real32 friend_vitality[k_number_of_campaign_difficulty_levels]; // friend maximum body vitality scale
+	real32 friend_shield[k_number_of_campaign_difficulty_levels];   // friend maximum shield vitality scale
+	real32 friend_recharge[k_number_of_campaign_difficulty_levels]; // friend shield recharge scale
+	real32 infection_forms[k_number_of_campaign_difficulty_levels]; // toughness of infection forms (may be negative)
+	uint8 $[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 
 	// ranged fire
 	// 
 	// difficulty-affecting values for enemy ranged combat settings
-	real rate_of_fire[k_number_of_campaign_difficulty_levels];       // enemy rate of fire scale
-	real projectile_error[k_number_of_campaign_difficulty_levels];   // enemy projectile error scale, as a fraction of their base firing error.
-	real burst_error[k_number_of_campaign_difficulty_levels];        // enemy burst error scale; reduces intra-burst shot distance.
-	real new_target_delay[k_number_of_campaign_difficulty_levels];   // enemy new-target delay scale factor.
-	real burst_separation[k_number_of_campaign_difficulty_levels];   // delay time between bursts scale factor for enemies.
-	real target_tracking[k_number_of_campaign_difficulty_levels];    // additional target tracking fraction for enemies.
-	real target_leading[k_number_of_campaign_difficulty_levels];     // additional target leading fraction for enemies.
-	real overcharge_chance[k_number_of_campaign_difficulty_levels];  // overcharge chance scale factor for enemies.
-	real special_fire_delay[k_number_of_campaign_difficulty_levels]; // delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies.
-	real guidance_vs_player[k_number_of_campaign_difficulty_levels]; // guidance velocity scale factor for all projectiles targeted on a player.
-	real melee_delay_base[k_number_of_campaign_difficulty_levels];   // delay period added to all melee attacks, even when berserk.
-	real melee_delay_scale[k_number_of_campaign_difficulty_levels];  // multiplier for all existing non-berserk melee delay times.
-	byte $$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	real32 rate_of_fire[k_number_of_campaign_difficulty_levels];       // enemy rate of fire scale
+	real32 projectile_error[k_number_of_campaign_difficulty_levels];   // enemy projectile error scale, as a fraction of their base firing error.
+	real32 burst_error[k_number_of_campaign_difficulty_levels];        // enemy burst error scale; reduces intra-burst shot distance.
+	real32 new_target_delay[k_number_of_campaign_difficulty_levels];   // enemy new-target delay scale factor.
+	real32 burst_separation[k_number_of_campaign_difficulty_levels];   // delay time between bursts scale factor for enemies.
+	real32 target_tracking[k_number_of_campaign_difficulty_levels];    // additional target tracking fraction for enemies.
+	real32 target_leading[k_number_of_campaign_difficulty_levels];     // additional target leading fraction for enemies.
+	real32 overcharge_chance[k_number_of_campaign_difficulty_levels];  // overcharge chance scale factor for enemies.
+	real32 special_fire_delay[k_number_of_campaign_difficulty_levels]; // delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies.
+	real32 guidance_vs_player[k_number_of_campaign_difficulty_levels]; // guidance velocity scale factor for all projectiles targeted on a player.
+	real32 melee_delay_base[k_number_of_campaign_difficulty_levels];   // delay period added to all melee attacks, even when berserk.
+	real32 melee_delay_scale[k_number_of_campaign_difficulty_levels];  // multiplier for all existing non-berserk melee delay times.
+	uint8 $$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 
 	// grenades
 	// 
 	// difficulty-affecting values for enemy grenade behavior
-	real grenade_chance_scale[k_number_of_campaign_difficulty_levels]; // scale factor affecting the desicions to throw a grenade.
-	real grenade_timer_scale[k_number_of_campaign_difficulty_levels];  // scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often).
-	byte $$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	byte $$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	byte $$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	real32 grenade_chance_scale[k_number_of_campaign_difficulty_levels]; // scale factor affecting the desicions to throw a grenade.
+	real32 grenade_timer_scale[k_number_of_campaign_difficulty_levels];  // scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often).
+	uint8 $$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	uint8 $$$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	uint8 $$$$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 
 	// placement
 	// 
 	// difficulty-affecting values for enemy placement
-	real major_upgrade_normal[k_number_of_campaign_difficulty_levels]; // fraction of actors upgraded to their major variant.
-	real major_upgrade_few[k_number_of_campaign_difficulty_levels];    // fraction of actors upgraded to their major variant when mix = normal.
-	real major_upgrade_many[k_number_of_campaign_difficulty_levels];   // fraction of actors upgraded to their major variant when mix = many.
+	real32 major_upgrade_normal[k_number_of_campaign_difficulty_levels]; // fraction of actors upgraded to their major variant.
+	real32 major_upgrade_few[k_number_of_campaign_difficulty_levels];    // fraction of actors upgraded to their major variant when mix = normal.
+	real32 major_upgrade_many[k_number_of_campaign_difficulty_levels];   // fraction of actors upgraded to their major variant when mix = many.
 
 	// vehicles
 	// 
 	// difficulty-affecting values for vehicle driving/combat
-	real player_vehicle_ram_chance[k_number_of_campaign_difficulty_levels]; // Chance of deciding to ram the player in a vehicle
-	byte $$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	byte $$$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
-	byte $$$$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	real32 player_vehicle_ram_chance[k_number_of_campaign_difficulty_levels]; // Chance of deciding to ram the player in a vehicle
+	uint8 $$$$$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	uint8 $$$$$$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	uint8 $$$$$$$$[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 
-	byte Q[0x54];
+	uint8 Q[0x54];
 };
 static_assert(sizeof(s_game_globals_difficulty_information) == 0x284);
 
@@ -462,9 +462,9 @@ struct s_game_globals_falling_damage
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> soft_landing_damage;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> hard_landing_damage;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> hs_damage;
-	real maximum_falling_distance; // world units
+	real32 maximum_falling_distance; // world units
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> distance_damage;
-	real runtime_maximum_falling_velocity;
+	real32 runtime_maximum_falling_velocity;
 	real_bounds runtime_damage_velocity_bounds;
 
 	void update_reference_names();
@@ -474,7 +474,7 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 struct s_game_globals_grenade
 {
 	short maximum_count;
-	word pad;
+	uint16 pad;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> throwing_effect;
 	long unused[4];
 	c_typed_tag_reference<ITEM_TAG, INVALID_TAG> item;
@@ -524,47 +524,47 @@ static_assert(sizeof(s_game_globals_interface_tag_references) == 0x12C);
 struct s_game_globals_player_information
 {
 	// world units per second
-	real walking_speed;         // world units per second
-	real run_forward_speed;     // world units per second
-	real run_backward_speed;    // world units per second
-	real run_sideways_speed;    // world units per second
-	real run_acceleration;      // world units per second squared
-	real sneak_acceleration;    // world units per second
-	real sneak_sideways_speed;  // world units per second
-	real sneak_backward_speed;  // world units per second
-	real sneak_forward_speed;   // world units per second
-	real airborne_acceleration; // world units per second
+	real32 walking_speed;         // world units per second
+	real32 run_forward_speed;     // world units per second
+	real32 run_backward_speed;    // world units per second
+	real32 run_sideways_speed;    // world units per second
+	real32 run_acceleration;      // world units per second squared
+	real32 sneak_acceleration;    // world units per second
+	real32 sneak_sideways_speed;  // world units per second
+	real32 sneak_backward_speed;  // world units per second
+	real32 sneak_forward_speed;   // world units per second
+	real32 airborne_acceleration; // world units per second
 
 	real_point3d grenade_origin;
 
 	// 1.0 prevents moving while stunned
-	real stun_movement_penalty; // [0,1]
+	real32 stun_movement_penalty; // [0,1]
 
 	// 1.0 prevents moving while stunned
-	real stun_turning_penalty; // [0,1]
+	real32 stun_turning_penalty; // [0,1]
 
 	// 1.0 prevents moving while stunned
-	real stun_jumping_penalty; // [0,1]
+	real32 stun_jumping_penalty; // [0,1]
 
 	// all stunning damage will last for at least this long
-	real minimum_stun_time; // seconds
+	real32 minimum_stun_time; // seconds
 
 	// no stunning damage will last for longer than this
-	real maximum_stun_time; // seconds
+	real32 maximum_stun_time; // seconds
 
 	real_bounds first_person_idle_time; // seconds
-	real first_person_skip_fraction; // [0,1]
+	real32 first_person_skip_fraction; // [0,1]
 
 	// time to prevent player from melee attacking after being hit by damage that supports this (singleplayer only)
-	real melee_inhibit_time; // seconds
+	real32 melee_inhibit_time; // seconds
 
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_countdown_sound;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_respawn_sound;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> coop_respawn_effect;
 	long binoculars_zoom_count;
 	real_bounds binoculars_zoom_range;
-	real __unknown94;
-	real __unknown98;
+	real32 __unknown94;
+	real32 __unknown98;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> unit_sounds[2];
 	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> default_damage_response;
 
@@ -575,9 +575,9 @@ static_assert(sizeof(s_game_globals_player_information) == 0xCC);
 struct s_game_globals_player_representation
 {
 	c_string_id name;
-	char_enum model_choice;
-	char_enum _class;
-	byte __pad6[2];
+	int8 model_choice;
+	int8 _class;
+	uint8 __pad6[2];
 	s_tag_reference first_person_hands;
 	s_tag_reference first_person_body;
 	s_tag_reference first_person_unit;
@@ -595,9 +595,9 @@ struct s_game_globals_shield_boost
 	// shield boosting
 	// 
 	// This feature was implemented for the engineer character in atlas. Shield dynamics overrides for when shields are being 'boosted' by an external source
-	real shield_boost_decay;         // amount of shield-boost to decay per second
-	real shield_boost_recharge_time; // time to recharge full shields when getting boosted
-	real shield_boost_stun_time;     // stun time when getting boosted
+	real32 shield_boost_decay;         // amount of shield-boost to decay per second
+	real32 shield_boost_recharge_time; // time to recharge full shields when getting boosted
+	real32 shield_boost_stun_time;     // stun time when getting boosted
 };
 static_assert(sizeof(s_game_globals_shield_boost) == 0xC);
 

@@ -11,15 +11,15 @@ struct c_render_surface
 	IDirect3DTexture9* m_d3d_texture;
 
 	void* m_surface_description;
-	dword m_surface_width;
-	dword m_surface_height;
-	byte unknown14[20];
-	dword m_render_target_format;
-	byte m_render_state;
-	byte unknown2C[12];
-	dword unknown60;
-	byte unknown64[16];
+	uint32 m_surface_width;
+	uint32 m_surface_height;
+	uint8 unknown14[20];
+	uint32 m_render_target_format;
+	uint8 m_render_state;
+	uint8 unknown2C[12];
+	uint32 unknown60;
+	uint8 unknown64[16];
 	IDirect3DSurface9* m_d3d_resolve_surface;
-	byte unknown54[36];
+	uint8 unknown54[36];
 };
 

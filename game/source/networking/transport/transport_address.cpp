@@ -23,7 +23,7 @@ transport_address::transport_address() :
 {
 }
 
-transport_address::transport_address(dword _ipv4_address, word _port, short _address_length) :
+transport_address::transport_address(uint32 _ipv4_address, uint16 _port, short _address_length) :
 	ipv4_address(_ipv4_address),
 	port(_port),
 	address_length(_address_length)
@@ -35,12 +35,12 @@ transport_address::transport_address(s_player_identifier const* player_identifie
 	port(0),
 	address_length(0)
 {
-	REFERENCE_DECLARE(player_identifier->identifier + 0, dword const, identifier_ipv4_address);
-	REFERENCE_DECLARE(player_identifier->identifier + 4, word const, identifier_port);
-	REFERENCE_DECLARE(player_identifier->identifier + 6, word const, identifier_flags);
+	REFERENCE_DECLARE(player_identifier->identifier + 0, uint32 const, identifier_ipv4_address);
+	REFERENCE_DECLARE(player_identifier->identifier + 4, uint16 const, identifier_port);
+	REFERENCE_DECLARE(player_identifier->identifier + 6, uint16 const, identifier_flags);
 	ipv4_address = identifier_ipv4_address;
 	port = identifier_port;
-	address_length = sizeof(dword);
+	address_length = sizeof(uint32);
 }
 
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
@@ -60,16 +60,16 @@ char const* __cdecl transport_address_get_string(transport_address const* addres
 	return _string;
 }
 
-void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_address, word port)
+void __cdecl transport_address_ipv4_build(transport_address* address, uint32 ip_address, uint16 port)
 {
 	ASSERT(address);
 
-	address->address_length = sizeof(dword);
+	address->address_length = sizeof(uint32);
 	address->ipv4_address = ip_address;
 	address->port = port;
 }
 
-dword __cdecl transport_address_ipv4_extract(transport_address const* address)
+uint32 __cdecl transport_address_ipv4_extract(transport_address const* address)
 {
 	ASSERT(address);
 
@@ -80,7 +80,7 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 {
 	ASSERT(address);
 
-	return address->address_length == sizeof(dword) && address->ipv4_address == 0x7F000001;
+	return address->address_length == sizeof(uint32) && address->ipv4_address == 0x7F000001;
 }
 
 char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
@@ -189,36 +189,36 @@ bool __cdecl transport_address_valid(transport_address const* address)
 	return result;
 }
 
-void __cdecl transport_get_broadcast_address(transport_address* address, word port)
+void __cdecl transport_get_broadcast_address(transport_address* address, uint16 port)
 {
 	ASSERT(address);
 
-	address->address_length = sizeof(dword);
+	address->address_length = sizeof(uint32);
 	address->ipv4_address = 0xFFFFFFFF;
 	address->port = port;
 }
 
-void __cdecl transport_get_listen_address(transport_address* address, word port)
+void __cdecl transport_get_listen_address(transport_address* address, uint16 port)
 {
 	ASSERT(address);
 
-	address->address_length = sizeof(dword);
+	address->address_length = sizeof(uint32);
 	address->ipv4_address = 0;
 	address->port = port;
 }
 
-void __cdecl transport_get_loopback_address(transport_address* address, word port)
+void __cdecl transport_get_loopback_address(transport_address* address, uint16 port)
 {
 	ASSERT(address);
 
-	address->address_length = sizeof(dword);
+	address->address_length = sizeof(uint32);
 	address->ipv4_address = 0x7F000001;
 	address->port = port;
 }
 
 void transport_address_from_string(wchar_t const* str, transport_address& address)
 {
-	byte ip_addr[4]{};
+	uint8 ip_addr[4]{};
 	if (swscanf_s(str, L"%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
 	{
 		address.ina.bytes[0] = ip_addr[0];
@@ -232,7 +232,7 @@ void transport_address_from_string(wchar_t const* str, transport_address& addres
 
 void transport_address_from_string(char const* str, transport_address& address)
 {
-	byte ip_addr[4]{};
+	uint8 ip_addr[4]{};
 	if (sscanf_s(str, "%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
 	{
 		address.ina.bytes[0] = ip_addr[0];

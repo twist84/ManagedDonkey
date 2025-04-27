@@ -21,7 +21,7 @@ HOOK_DECLARE(0x004D9EC0, network_broadcast_search_update);
 
 void(__cdecl* network_broadcast_search_update_callback)(transport_address* outgoing_address) = nullptr;
 
-bool __cdecl network_broadcast_search_active(qword* search_nonce)
+bool __cdecl network_broadcast_search_active(uint64* search_nonce)
 {
 	//return INVOKE(0x004D9C40, network_broadcast_search_active, search_nonce);
 
@@ -199,7 +199,7 @@ void __cdecl network_broadcast_search_update()
 					g_broadcast_search_globals.message_gateway->send_message_directed(&outgoing_address, _custom_network_message_directed_search, sizeof(message), &message);
 			}
 
-			for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+			for (uint16 broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			{
 				if (broadcast_port == g_broadcast_port)
 					continue;

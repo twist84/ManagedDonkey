@@ -10,13 +10,13 @@ struct step
 	real_point3d point;
 	c_sector_ref sector_ref;
 	real_vector2d direction;
-	real distance;
-	word obstacle_index;
-	word disc_index;
+	real32 distance;
+	uint16 obstacle_index;
+	uint16 disc_index;
 	bool obstacle_direction_index;
 	bool turning_point;
 	short obstructed_goal_step_indices[2];
-	real total_distance;
+	real32 total_distance;
 	short previous_step_index;
 	short child_count;
 	short children_failed_count;
@@ -27,7 +27,7 @@ static_assert(sizeof(struct step) == 0x38);
 
 struct obstacle_path
 {
-	real radius;
+	real32 radius;
 	bool ignore_broken_surfaces;
 	struct obstacles const* obstacles;
 	real_point3d goal;
@@ -35,7 +35,7 @@ struct obstacle_path
 	short goal_obstacle_index;
 	short goal_step_index;
 	short best_goal_blocked_step_index;
-	real best_goal_blocked_distance;
+	real32 best_goal_blocked_distance;
 	short projection_axis;
 	bool projection_sign;
 	bool goal_found_exactly;
@@ -55,7 +55,7 @@ extern c_sector_ref debug_obstacle_path_start_sector_ref;
 extern real_point3d debug_obstacle_path_goal_point;
 extern c_sector_ref debug_obstacle_path_goal_sector_ref;
 extern short debug_obstacle_path_projection_axis;
-extern real debug_obstacle_path_radius;
+extern real32 debug_obstacle_path_radius;
 extern struct obstacles debug_obstacle_path_obstacles;
 extern bool debug_obstacle_path_projection_sign;
 extern bool debug_obstacle_path_finishing;
@@ -70,7 +70,7 @@ extern bool __cdecl path_new(
 	obstacle_path* path,
 	struct obstacles const* obstacles,
 	bool ignore_broken_surfaces,
-	real radius,
+	real32 radius,
 	real_point3d const* start,
 	c_sector_ref start_sector_ref,
 	real_point3d const* goal,

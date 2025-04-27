@@ -16,7 +16,7 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte __data[0x10];
+	uint8 __data[0x10];
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_prepare_map) == 0x38);
 

@@ -112,7 +112,7 @@ void debug_render_player_needs_vehicle()
 
 				real_argb_color const* color = ai_player_state_needs_vehicle(ai_player_index) ? global_real_argb_green : global_real_argb_red;
 
-				render_debug_string_at_point(&unit_head_position, c_string_builder("need vehicle time: %.2f", game_ticks_to_seconds(real(game_time_get() - ai_player.needs_vehicle_time))).get_string(), color);
+				render_debug_string_at_point(&unit_head_position, c_string_builder("need vehicle time: %.2f", game_ticks_to_seconds(real32(game_time_get() - ai_player.needs_vehicle_time))).get_string(), color);
 			}
 		}
 	}

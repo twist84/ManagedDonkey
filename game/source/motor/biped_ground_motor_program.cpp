@@ -19,7 +19,7 @@ __declspec(naked) void super_jump_inline()
 	//if (cheat.super_jump && biped->unit.player_index != NONE)
 	//    jump_velocity = jump_velocity * 4.0f;
 
-	static real const velocity_multiplier = 4.0f;
+	static real32 const velocity_multiplier = 4.0f;
 	ASM_ADDR(0x00BE1C39, addr_BE1C39);
 
 	__asm

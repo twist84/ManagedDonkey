@@ -32,12 +32,12 @@ e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_di
 //.text:00A808B0 ; c_game_variant const* __cdecl user_interface_game_settings_get_game_variant()
 //.text:00A80970 ; e_session_game_mode __cdecl user_interface_get_session_game_mode()
 
-e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, dword* player_error_mask)
+e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uint32* player_error_mask)
 {
 	return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
 }
 
-//.text:00A80AA0 ; bool __cdecl user_interface_get_session_precaching_progress(word* map_load_progress, e_session_game_start_status* game_start_status)
+//.text:00A80AA0 ; bool __cdecl user_interface_get_session_precaching_progress(uint16* map_load_progress, e_session_game_start_status* game_start_status)
 //.text:00A80B90 ; e_controller_index __cdecl user_interface_group_get_controller_index(long player_index)
 //.text:00A80BF0 ; long __cdecl user_interface_group_get_guest_index(long player_index)
 //.text:00A80C70 ; long __cdecl user_interface_group_get_machine_index(long player_index)
@@ -45,7 +45,7 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 //.text:00A80D50 ; long __cdecl user_interface_group_get_player_count()
 //.text:00A80D80 ; s_player_configuration const* __cdecl user_interface_group_get_player_data(long player_index)
 //.text:00A80F10 ; long __cdecl user_interface_group_get_player_join_sequence_number(long player_index)
-//.text:00A80F70 ; qword __cdecl user_interface_group_get_player_party_nonce(long player_index)
+//.text:00A80F70 ; uint64 __cdecl user_interface_group_get_player_party_nonce(long player_index)
 //.text:00A81120 ; bool __cdecl user_interface_group_is_local_player(long player_index)
 //.text:00A81190 ; bool __cdecl user_interface_group_is_player_valid(long player_index)
 //.text:00A811F0 ; bool __cdecl user_interface_interactive_session_is_group()
@@ -89,10 +89,10 @@ s_player_configuration* __cdecl user_interface_session_get_player_data(long play
 }
 
 //.text:00A81950 ; s_player_identifier const* __cdecl user_interface_squad_get_player_identifier(long player_index)
-//.text:00A81AC0 ; long __cdecl user_interface_session_get_player_index_from_xuid(qword, c_network_session const*)
-//.text:00A81BC0 ; qword __cdecl user_interface_get_player_party_nonce(long)
-//.text:00A81C50 ; qword __cdecl user_interface_session_get_player_xuid(long)
-//.text:00A81CE0 ; qword __cdecl user_interface_session_get_usable_player_xuid(long)
+//.text:00A81AC0 ; long __cdecl user_interface_session_get_player_index_from_xuid(uint64, c_network_session const*)
+//.text:00A81BC0 ; uint64 __cdecl user_interface_get_player_party_nonce(long)
+//.text:00A81C50 ; uint64 __cdecl user_interface_session_get_player_xuid(long)
+//.text:00A81CE0 ; uint64 __cdecl user_interface_session_get_usable_player_xuid(long)
 //.text:00A81D90 ; void __cdecl user_interface_session_initialize()
 //.text:00A81DA0 ; bool __cdecl user_interface_session_is_joining_allowed()
 
@@ -116,8 +116,8 @@ long __cdecl user_interface_squad_get_player_index(s_player_identifier const* pl
 	return INVOKE(0x00A82040, user_interface_squad_get_player_index, player_identifier);
 }
 
-//.text:00A82080 ; qword __cdecl user_interface_session_player_get_player_xuid(s_player_identifier const*)
-//.text:00A820E0 ; qword __cdecl user_interface_session_player_get_usable_player_xuid(s_player_identifier const*)
+//.text:00A82080 ; uint64 __cdecl user_interface_session_player_get_player_xuid(s_player_identifier const*)
+//.text:00A820E0 ; uint64 __cdecl user_interface_session_player_get_usable_player_xuid(s_player_identifier const*)
 //.text:00A82140 ; bool __cdecl user_interface_session_player_in_current_session(s_player_identifier const*)
 //.text:00A82150 ; bool __cdecl user_interface_session_set_name(wchar_t const*, wchar_t const*)
 //.text:00A821D0 ; void __cdecl user_interface_session_string_verify_update()
@@ -201,7 +201,7 @@ s_player_identifier const* __cdecl user_interface_session_get_player_identifier(
 }
 
 //.text:00A82F90 ; long __cdecl user_interface_squad_get_player_index(s_player_identifier const*)
-//.text:00A82FD0 ; long __cdecl user_interface_squad_get_player_index_from_xuid(qword)
+//.text:00A82FD0 ; long __cdecl user_interface_squad_get_player_index_from_xuid(uint64)
 //.text:00A83020 ; long __cdecl user_interface_squad_get_player_join_sequence_number(long player_index)
 //.text:00A83110 ; e_network_session_class __cdecl user_interface_squad_get_session_class()
 //.text:00A83120 ; bool __cdecl user_interface_squad_get_session_id(s_transport_secure_identifier* session_id)
@@ -234,8 +234,8 @@ bool __cdecl user_interface_squad_local_peer_is_leader()
 	return INVOKE(0x00A83520, user_interface_squad_local_peer_is_leader);
 }
 
-//.text:00A835F0 ; bool __cdecl user_interface_squad_set_active_skulls_primary(dword active_skulls_primary)
-//.text:00A83600 ; bool __cdecl user_interface_squad_set_active_skulls_secondary(dword active_skulls_secondary)
+//.text:00A835F0 ; bool __cdecl user_interface_squad_set_active_skulls_primary(uint32 active_skulls_primary)
+//.text:00A83600 ; bool __cdecl user_interface_squad_set_active_skulls_secondary(uint32 active_skulls_secondary)
 //.text:00A83610 ; bool __cdecl user_interface_squad_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
 //.text:00A83620 ; bool __cdecl user_interface_squad_set_campaign_insertion_point(short campaign_insertion_point)
 //.text:00A83630 ; bool __cdecl user_interface_squad_set_map(e_campaign_id campaign_id, e_map_id map_id)

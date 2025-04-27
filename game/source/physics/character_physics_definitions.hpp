@@ -28,26 +28,26 @@ struct s_character_physics_ground_definition
 	angle uphill_falloff_angle; // degrees
 	angle uphill_cutoff_angle; // degrees
 
-	real downhill_velocity_scale;
-	real uphill_velocity_scale;
+	real32 downhill_velocity_scale;
+	real32 uphill_velocity_scale;
 
-	real runtime_minimum_normal_k;
-	real runtime_downhill_k[2];
-	real runtime_uphill_k[2];
+	real32 runtime_minimum_normal_k;
+	real32 runtime_downhill_k[2];
+	real32 runtime_uphill_k[2];
 
 	// angle for bipeds at which climb direction changes between up and down
-	real climb_inflection_angle;
+	real32 climb_inflection_angle;
 
 	// scale on the time for the entity to realize it is airborne
 	angle scale_airborne_reaction_time;
 
 	// scale on velocity with which the entity is pushed back into its ground plane
-	real scale_ground_adhesion_velocity;
+	real32 scale_ground_adhesion_velocity;
 
 	// scale on gravity for this entity
-	real gravity_scale;
+	real32 gravity_scale;
 
-	real airborne_acceleration_scale;
+	real32 airborne_acceleration_scale;
 };
 static_assert(sizeof(s_character_physics_ground_definition) == 0x44);
 
@@ -57,22 +57,22 @@ struct s_character_physics_flying_definition
 	angle bank_angle; // degrees
 
 	// time it takes us to apply a bank
-	real bank_apply_time; // seconds
+	real32 bank_apply_time; // seconds
 
 	// time it takes us to recover from a bank
-	real bank_decay_time; // seconds
+	real32 bank_decay_time; // seconds
 
 	// amount that we pitch up/down when moving up or down
-	real pitch_ratio;
+	real32 pitch_ratio;
 
 	// max velocity when not crouching
-	real max_velocity; // world units per second
+	real32 max_velocity; // world units per second
 
 	// max sideways or up/down velocity when not crouching
-	real max_sidestep_velocity; // world units per second
+	real32 max_sidestep_velocity; // world units per second
 
-	real acceleration; // world units per second squared
-	real deceleration; // world units per second squared
+	real32 acceleration; // world units per second squared
+	real32 deceleration; // world units per second squared
 
 	// turn rate
 	angle angular_velocity_maximum; // degrees per second
@@ -81,19 +81,19 @@ struct s_character_physics_flying_definition
 	angle angular_acceleration_maximum; // degrees per second squared
 
 	// how much slower we fly if crouching (zero = same speed)
-	real crouch_velocity_modifier; // [0,1]
+	real32 crouch_velocity_modifier; // [0,1]
 };
 static_assert(sizeof(s_character_physics_flying_definition) == 0x2C);
 
 struct s_character_physics_definition
 {
-	c_flags<e_character_physics_flags, dword_flags, k_number_of_character_physics_flags> flags;
+	c_flags<e_character_physics_flags, uint32, k_number_of_character_physics_flags> flags;
 
-	real height_standing;
-	real height_crouching;
+	real32 height_standing;
+	real32 height_crouching;
 
-	real radius;
-	real mass;
+	real32 radius;
+	real32 mass;
 
 	// collision material used when character is alive
 	c_string_id living_material_name;

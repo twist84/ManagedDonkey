@@ -91,11 +91,11 @@ struct s_model_definition
 	// reaching zero alpha and disappearing at the disappear distance. These distances should be greater than all
 	// of the LOD reduction distances.
 
-	real disappear_distance; // world units
-	real begin_fade_distance; // world units
-	real animation_lod_distance; // world units
-	real reduce_to_L1; // world units (low)
-	real instance_disappear_distance; // world units
+	real32 disappear_distance; // world units
+	real32 begin_fade_distance; // world units
+	real32 animation_lod_distance; // world units
+	real32 reduce_to_L1; // world units (low)
+	real32 instance_disappear_distance; // world units
 	c_typed_tag_reference<RENDER_MODEL_TAG, INVALID_TAG> lod_render_model;
 
 
@@ -107,7 +107,7 @@ struct s_model_definition
 	c_typed_tag_block<s_model_target> targets;
 	s_tag_block runtime_regions;
 	s_tag_block runtime_nodes;
-	dword runtime_node_list_checksum;
+	uint32 runtime_node_list_checksum;
 	s_tag_block model_object_data;
 
 
@@ -119,14 +119,14 @@ struct s_model_definition
 	// The default FEMALE dialogue tag for this model (overriden by variants)
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> secondary_dialogue;
 
-	c_flags<e_model_definition_flags, dword, k_model_definition_flags> flags;
+	c_flags<e_model_definition_flags, uint32, k_model_definition_flags> flags;
 
 	// The default dialogue tag for this model (overriden by variants)
 	c_string_id default_dialogue_effect;
 
-	dword_flags render_only_node_flags[8];
-	dword_flags render_only_section_flags[8];
-	c_flags<e_model_definition_private_flags, dword, k_model_definition_private_flags> runtime_flags;
+	uint32 render_only_node_flags[8];
+	uint32 render_only_section_flags[8];
+	c_flags<e_model_definition_private_flags, uint32, k_model_definition_private_flags> runtime_flags;
 	s_tag_block scenario_load_parameters;
 
 
@@ -151,7 +151,7 @@ struct s_model_definition
 
 	c_enum<e_model_self_shadow_detail, char, _model_self_shadow_detail_ambient_occlusion, k_model_self_shadow_detail_count> PRT_shadow_detail;
 	c_enum<e_model_self_shadow_bounces, char, _model_self_shadow_0_bounces, k_model_self_shadow_bounce_count> PRT_shadow_bounces;
-	byte NCFGBA[0x2];
+	uint8 NCFGBA[0x2];
 
 
 	s_tag_block shadow_cast_override;
@@ -183,7 +183,7 @@ struct s_model_variant
 	c_string_id dialogue_effect;
 
 	c_enum<e_odst_recon_variant, char, _odst_recon_variant_none, k_odst_recon_variant_count> ai_character;
-	byte NASUHJ[0x3];
+	uint8 NASUHJ[0x3];
 	char runtime_variant_region_indices[16];
 	c_typed_tag_block<s_model_variant_region> regions;
 	c_typed_tag_block<s_model_variant_object> objects;
@@ -191,7 +191,7 @@ struct s_model_variant
 	// selects an instance group for this variant
 	long instance_group;
 
-	byte RHTDQLFD[0x8];
+	uint8 RHTDQLFD[0x8];
 };
 static_assert(sizeof(s_model_variant) == 0x50);
 
@@ -232,7 +232,7 @@ struct s_model_variant_region
 
 	// negative values mean closer to the camera
 	c_enum<e_region_sort, short, _region_sort_no_sorting, k_region_sort_count> sort_order;
-	byte JO[0x2];
+	uint8 JO[0x2];
 }; static_assert(sizeof(s_model_variant_region) == 0x18);
 
 enum e_model_variant_permutation_flags
@@ -248,12 +248,12 @@ struct s_model_variant_permutation
 {
 	c_string_id permutation_name;
 	char runtime_permutation_index;
-	c_flags<e_model_variant_permutation_flags, byte, k_model_variant_permutation_flags> flags;
-	byte KSJOSR[0x2];
-	real probability; // (0,+inf)
+	c_flags<e_model_variant_permutation_flags, uint8, k_model_variant_permutation_flags> flags;
+	uint8 KSJOSR[0x2];
+	real32 probability; // (0,+inf)
 	c_typed_tag_block<s_model_variant_state> states;
 	char runtime_state_permutation_indices[5];
-	byte LOOEL[0x7];
+	uint8 LOOEL[0x7];
 };
 static_assert(sizeof(s_model_variant_permutation) == 0x24);
 
@@ -271,14 +271,14 @@ struct s_model_variant_state
 {
 	c_string_id permutation_name;
 	char runtime_permutation_index;
-	c_flags<e_model_state_property_flags, byte, k_model_state_property_flags> property_flags;
+	c_flags<e_model_state_property_flags, uint8, k_model_state_property_flags> property_flags;
 	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> state;
 
 	// played while the model is in this state
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> looping_effect;
 
 	c_string_id looping_effect_marker_name;
-	real initial_probability;
+	real32 initial_probability;
 };
 static_assert(sizeof(s_model_variant_state) == 0x20);
 
@@ -303,7 +303,7 @@ struct c_model_instance_group_member
 	c_string_id instances;
 
 	// higher numbers make it more likely
-	real probability; // > 0.0
+	real32 probability; // > 0.0
 
 	long instance_placement_mask[4];
 };
@@ -326,20 +326,20 @@ struct c_model_instance_group
 	c_enum<e_model_instance_group_choice, long, _model_instance_group_choice_choose_one_member, k_model_instance_group_choice_count> choice;
 
 	c_typed_tag_block<c_model_instance_group_member> member_list;
-	real total_probability;
+	real32 total_probability;
 };
 static_assert(sizeof(c_model_instance_group) == 0x18);
 
 struct s_model_material
 {
 	c_string_id material_name;
-	byte unused_flags[0x2];
+	uint8 unused_flags[0x2];
 	short damage_section;
 	short runtime_collision_material_index;
 	short runtime_damager_material_index;
 	c_string_id global_material_name;
 	short runtime_global_material_index;
-	byte SEWETKHRE[0x2];
+	uint8 SEWETKHRE[0x2];
 };
 static_assert(sizeof(s_model_material) == 0x14);
 
@@ -350,28 +350,28 @@ struct s_model_damage_section
 	// * absorbs body damage: damage to this section does not count against body vitality
 	// * headshottable: takes extra headshot damage when shot
 	// * ignores shields: damage to this section bypasses shields
-	dword_flags flags;
+	uint32 flags;
 
 	// percentage of total object vitality
-	real vitality_percentage; // [0,1]
+	real32 vitality_percentage; // [0,1]
 
 	s_tag_block instant_responses;
 	s_tag_block unused0;
 	s_tag_block unused1;
-	real stun_time; // seconds
-	real recharge_time; // seconds
-	real runtime_recharge_velocity;
+	real32 stun_time; // seconds
+	real32 recharge_time; // seconds
+	real32 runtime_recharge_velocity;
 	string_id resurrection_restored_region_name;
 	short runtime_resurrection_restored_region_index;
 
 	// pad
-	byte AG[0x2];
+	uint8 AG[0x2];
 };
 static_assert(sizeof(s_model_damage_section) == 0x44);
 
 struct s_model_damage_info
 {
-	dword_flags flags;
+	uint32 flags;
 
 	// absorbes AOE or child damage
 	c_string_id global_indirect_material_name;
@@ -380,59 +380,59 @@ struct s_model_damage_info
 	short indirect_damage_section; // short_block_index_custom_search
 
 	// pad
-	byte XN[0x2];
+	uint8 XN[0x2];
 
 	// pad
-	byte LPVYKO[0x4];
+	uint8 LPVYKO[0x4];
 
 	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> collision_damage_reporting_type;
 	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> response_damage_reporting_type;
 
 	// pad
-	byte MQ[0x2];
+	uint8 MQ[0x2];
 
 	// pad
-	byte MYON[0x14];
+	uint8 MYON[0x14];
 
 	// body
 	struct
 	{
-		real maximum_vitality;
+		real32 maximum_vitality;
 
 		// the minimum damage required to stun this object's health
-		real minimum_stun_damage;
+		real32 minimum_stun_damage;
 
 		// the length of time the health stay stunned (do not recharge) after taking damage
-		real stun_time; // seconds
+		real32 stun_time; // seconds
 
 		// the length of time it would take for the shields to fully recharge after being completely depleted
-		real recharge_time; // seconds
+		real32 recharge_time; // seconds
 
 		// 0 defaults to 1 - to what maximum level the body health will be allowed to recharge
-		real recharge_fraction;
+		real32 recharge_fraction;
 
 	} body;
 
 	// pad
-	byte IKEIDYSCX[0x40];
+	uint8 IKEIDYSCX[0x40];
 
 	struct
 	{
 		// the default initial and maximum shield vitality of this object
-		real maximum_shield_vitality;
+		real32 maximum_shield_vitality;
 
 		c_string_id global_shield_material_name;
 
 		// the minimum damage required to stun this object's shields
-		real minimum_stun_damage;
+		real32 minimum_stun_damage;
 
 		// the length of time the shields stay stunned (do not recharge) after taking damage
-		real stun_time; // seconds
+		real32 stun_time; // seconds
 		
 		// the length of time it would take for the shields to fully recharge after being completely depleted
-		real recharge_time; // seconds
+		real32 recharge_time; // seconds
 
-		real shield_damaged_threshold;
+		real32 shield_damaged_threshold;
 
 		c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> shield_damaged_effect;
 		c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> shield_depleted_effect;
@@ -446,8 +446,8 @@ struct s_model_damage_info
 	short runtime_shield_material_type;
 	short runtime_indirect_material_type;
 
-	real runtime_shield_recharge_velocity;
-	real runtime_health_recharge_velocity;
+	real32 runtime_shield_recharge_velocity;
+	real32 runtime_health_recharge_velocity;
 
 	s_tag_block damage_seats;
 	s_tag_block damage_constraints;
@@ -471,8 +471,8 @@ struct s_model_target_lock_on_data
 {
 	// lock-on fields
 
-	c_flags<e_model_target_lock_on_flags, dword, k_model_target_lock_on_flags> flags;
-	real lock_on_distance;
+	c_flags<e_model_target_lock_on_flags, uint32, k_model_target_lock_on_flags> flags;
+	real32 lock_on_distance;
 
 	// a weapon can track/lock on this target if this string is in the weapon's tracking block
 	c_string_id tracking_type;
@@ -492,14 +492,14 @@ enum e_model_target_flags
 
 struct s_model_target
 {
-	c_flags<e_model_target_flags, byte, k_model_target_flags> flags;
-	byte MTBNP1[0x3];
+	c_flags<e_model_target_flags, uint8, k_model_target_flags> flags;
+	uint8 MTBNP1[0x3];
 
 	// multiple markers become multiple spheres of the same radius
 	c_string_id marker_name;
 
 	// sphere radius
-	real size;
+	real32 size;
 
 	// the target is only visible when viewed within this angle of the marker's x axis
 	angle cone_angle;
@@ -511,10 +511,10 @@ struct s_model_target
 	short variant;
 
 	// higher relevances turn into stronger magnetisms
-	real targeting_relevance;
+	real32 targeting_relevance;
 
 	// ignored if zero
-	real aoe_exclusion_radius;
+	real32 aoe_exclusion_radius;
 
 	s_model_target_lock_on_data lock_on_data;
 };

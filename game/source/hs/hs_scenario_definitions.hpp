@@ -17,7 +17,7 @@ struct hs_script_parameter
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 
 	// pad
-	byte JBG[2];
+	uint8 JBG[2];
 };
 static_assert(sizeof(hs_script_parameter) == 0x24);
 
@@ -27,7 +27,7 @@ struct hs_global_internal
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
 	// pad
-	byte EB[2];
+	uint8 EB[2];
 
 	long initialization_expression_index;
 };
@@ -53,7 +53,7 @@ enum hs_source_file_flags
 
 struct hs_string_data_definition
 {
-	__pragma(warning(disable : 4200)) byte data[];
+	__pragma(warning(disable : 4200)) uint8 data[];
 };
 
 enum e_hs_syntax_node_flags
@@ -81,7 +81,7 @@ struct hs_syntax_node :
 
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
-	c_flags<e_hs_syntax_node_flags, word, NUMBER_OF_HS_SYNTAX_NODE_FLAGS> flags;
+	c_flags<e_hs_syntax_node_flags, uint16, NUMBER_OF_HS_SYNTAX_NODE_FLAGS> flags;
 
 	long next_node_index;
 	long source_offset;
@@ -89,13 +89,13 @@ struct hs_syntax_node :
 	union
 	{
 		bool bool_value;
-		real real_value;
+		real32 real_value;
 		short short_value;
 		long long_value;
 		char const* string_value;
 		string_id string_id_value;
 
-		byte storage[4];
+		uint8 storage[4];
 	};
 
 	short line_number;

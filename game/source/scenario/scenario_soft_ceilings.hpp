@@ -5,7 +5,7 @@
 struct s_soft_ceiling_debug_cache
 {
 	long time_stamp;
-	real search_radius;
+	real32 search_radius;
 	real_point3d triangle[3];
 	real_point3d position;
 	real_point3d contact_position;

@@ -56,18 +56,18 @@ s_player_identifier::s_player_identifier()
 	csmemset(identifier, 0, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(qword data)
+s_player_identifier::s_player_identifier(uint64 data)
 {
 	csmemset(identifier, 0, sizeof(identifier));
 	csmemcpy(identifier, &data, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(dword _ipv4_address, word _port, word_flags _flags) :
+s_player_identifier::s_player_identifier(uint32 _ipv4_address, uint16 _port, uint16 _flags) :
 	identifier(0)
 {
-	REFERENCE_DECLARE(identifier + 0, dword, ipv4_address);
-	REFERENCE_DECLARE(identifier + 4, word, port);
-	REFERENCE_DECLARE(identifier + 6, word, flags);
+	REFERENCE_DECLARE(identifier + 0, uint32, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, uint16, port);
+	REFERENCE_DECLARE(identifier + 6, uint16, flags);
 	ipv4_address = _ipv4_address;
 	port = _port;
 	flags = _flags;
@@ -76,9 +76,9 @@ s_player_identifier::s_player_identifier(dword _ipv4_address, word _port, word_f
 s_player_identifier::s_player_identifier(transport_address const* address) :
 	identifier(0)
 {
-	REFERENCE_DECLARE(identifier + 0, dword, ipv4_address);
-	REFERENCE_DECLARE(identifier + 4, word, port);
-	REFERENCE_DECLARE(identifier + 6, word, flags);
+	REFERENCE_DECLARE(identifier + 0, uint32, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, uint16, port);
+	REFERENCE_DECLARE(identifier + 6, uint16, flags);
 	ipv4_address = address->ipv4_address;
 	port = address->port;
 	flags = address->address_length;
@@ -281,7 +281,7 @@ void __cdecl player_action_context_clear(s_player_action_context* action_context
 //.text:00537F90 ; void __cdecl player_appearance_initialize(s_player_appearance*)
 //.text:00537FB0 ; bool __cdecl player_appearance_valid(s_player_appearance const*)
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
-//.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, real_vector3d*)
+//.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real32, real32, real_vector3d*)
 //.text:005384C0 ; void __cdecl player_build_facing_vector_from_throttle(long, real_vector3d const*, real_vector2d const*, real_vector3d*, real_vector3d*)
 //.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
@@ -379,7 +379,7 @@ bool __cdecl player_evaluate_interaction(long player_index, s_player_interaction
 	return INVOKE(0x00539240, player_evaluate_interaction, player_index, interaction, current_interaction);
 }
 
-//.text:005392F0 ; real __cdecl player_evaluate_interaction_compute_weight(long, long)
+//.text:005392F0 ; real32 __cdecl player_evaluate_interaction_compute_weight(long, long)
 //.text:005394A0 ; void __cdecl player_examine_nearby_item(long, long)
 //.text:00539900 ; void __cdecl player_examine_nearby_objects(long)
 //.text:00539A30 ; bool __cdecl player_fancy_assassinate_object(long, long)
@@ -404,7 +404,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 	s_location location{};
 	object_get_location(player->unit_index, &location);
 
-	real search_radius = (unit->object.bounding_sphere_radius + 0.4f) + 0.1f;
+	real32 search_radius = (unit->object.bounding_sphere_radius + 0.4f) + 0.1f;
 
 	long object_indices[64]{};
 	long object_count = objects_in_sphere(
@@ -473,7 +473,7 @@ void __cdecl player_find_action_context(long player_index, s_player_action_conte
 	}
 }
 
-//.text:00539E30 ; bool __cdecl player_find_best_spawn_location(long, real_point3d*, real*, real*, bool, bool)
+//.text:00539E30 ; bool __cdecl player_find_best_spawn_location(long, real_point3d*, real32*, real32*, bool, bool)
 //.text:00539F70 ; void __cdecl player_find_player_character_unit_and_variant_info(long, long*, long*)
 //.text:0053A010 ; bool __cdecl player_find_zone_set_switches(long, long*)
 //.text:0053A1E0 ; bool __cdecl player_flashlight_on()
@@ -511,7 +511,7 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
 //.text:0053B2D0 ; void __cdecl player_interaction_clear(s_player_interaction*)
 
-bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction)
+bool __cdecl player_interaction_exists(long player_index, uint32 object_mask, s_player_interaction const* interaction)
 {
 	return INVOKE(0x0053B2F0, player_interaction_exists, player_index, object_mask, interaction);
 }
@@ -530,7 +530,7 @@ bool __cdecl player_is_reading_terminal()
 	return INVOKE(0x0053B570, player_is_reading_terminal);
 }
 
-//.text:0053B590 ; bool __cdecl player_is_sprinting(long, real*)
+//.text:0053B590 ; bool __cdecl player_is_sprinting(long, real32*)
 //.text:0053B670 ; void __cdecl player_leave_game_internal(long)
 //.text:0053B7D0 ; void __cdecl player_left_game(long)
 //.text:0053B7E0 ; first_player_set_armor
@@ -573,7 +573,7 @@ void __cdecl player_positions_dispose_from_old_map()
 	INVOKE(0x0053BBA0, player_positions_dispose_from_old_map);
 }
 
-void __cdecl player_positions_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl player_positions_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0053BBB0, player_positions_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -588,7 +588,7 @@ void __cdecl player_positions_initialize_for_new_map()
 	INVOKE(0x0053BBD0, player_positions_initialize_for_new_map);
 }
 
-void __cdecl player_positions_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl player_positions_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -637,7 +637,7 @@ void __cdecl player_set_unit_index(long player_index, long unit_index)
 
 //.text:0053CDC0 ; bool __cdecl player_should_auto_pickup_weapon(long, long)
 
-bool __cdecl player_spawn(long player_index, real_point3d const* position, real const* facing)
+bool __cdecl player_spawn(long player_index, real_point3d const* position, real32 const* facing)
 {
 	return INVOKE(0x0053CE60, player_spawn, player_index, position, facing);
 }
@@ -791,7 +791,7 @@ void __cdecl players_dispose_from_old_map()
 	INVOKE(0x00541B30, players_dispose_from_old_map);
 }
 
-void __cdecl players_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl players_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00541B70, players_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -810,13 +810,13 @@ long __cdecl players_get_active_and_in_game_count(bool include_joined_in_progres
 
 //.text:00541CF0 ; long __cdecl players_get_alive_count()
 //.text:00541D60 ; s_campaign_armaments_player const* __cdecl players_get_campaign_armaments_player_from_player_index(long)
-//.text:00541DF0 ; dword const* __cdecl players_get_combined_pvs()
-//.text:00541E10 ; dword const* __cdecl players_get_combined_pvs_local()
+//.text:00541DF0 ; uint32 const* __cdecl players_get_combined_pvs()
+//.text:00541E10 ; uint32 const* __cdecl players_get_combined_pvs_local()
 //.text:00541E30 ; bool __cdecl players_get_local_machine(s_machine_identifier*)
 //.text:00541E90 ; long __cdecl players_get_local_machine_index()
 //.text:00541EB0 ; s_machine_identifier const* __cdecl players_get_machine_identifier(long)
 //.text:00541EE0 ; long __cdecl players_get_machine_index(s_machine_identifier const*)
-//.text:00541F60 ; void __cdecl players_get_machines(dword*, s_machine_identifier*)
+//.text:00541F60 ; void __cdecl players_get_machines(uint32*, s_machine_identifier*)
 //.text:00541FA0 ; short __cdecl players_get_respawn_failure()
 //.text:00541FC0 ; void __cdecl players_get_sorted_lifeless_waiting_to_respawn_list(long, long*, long, long*)
 //.text:00542070 ; long __cdecl players_get_total_players_in_game()
@@ -838,7 +838,7 @@ void __cdecl players_initialize_for_new_map()
 	INVOKE(0x00542340, players_initialize_for_new_map);
 }
 
-void __cdecl players_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl players_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00542460, players_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -859,7 +859,7 @@ void __cdecl players_set_local_machine(s_machine_identifier const* machine_ident
 	INVOKE(0x00542D60, players_set_local_machine, machine_identifier);
 }
 
-void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers)
+void __cdecl players_set_machines(uint32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers)
 {
 	INVOKE(0x00542F80, players_set_machines, new_machine_valid_mask, new_machine_identifiers);
 
@@ -881,7 +881,7 @@ void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identi
 	//	}
 	//}
 	//
-	//dword old_machine_valid_mask = players_globals->machine_valid_mask;
+	//uint32 old_machine_valid_mask = players_globals->machine_valid_mask;
 	//
 	//s_machine_identifier old_machine_identifiers[k_maximum_machines];
 	//long new_machine_indices[k_maximum_machines];
@@ -1023,7 +1023,7 @@ void s_emblem_info::decode(c_bitstream* packet)
 {
 	foreground_emblem_index = (char)packet->read_integer("foreground-emblem", 6);
 	background_emblem_index = (char)packet->read_integer("background-emblem", 6);
-	emblem_info_flags.set_unsafe((byte)packet->read_integer("emblem-flags", 3));
+	emblem_info_flags.set_unsafe((uint8)packet->read_integer("emblem-flags", 3));
 	primary_color_index.set_raw_value((char)packet->read_integer("emblem-primary-color", 6));
 	secondary_color_index.set_raw_value((char)packet->read_integer("emblem-secondary-color", 6));
 	background_color_index.set_raw_value((char)packet->read_integer("emblem-background-color", 6));
@@ -1216,8 +1216,8 @@ void apply_player_representation_fixup()
 	static t_value_type<long> spartan_representation_index = { .value = 2 };
 	static t_value_type<long> elite_representation_index = { .value = 3 };
 
-	static dword const spartan_representation_addresses[] = { 0x00537482 + 1, 0x0053761A + 1, 0x00539EB9 + 1, 0x00539FBD + 1, 0x0053A738 + 1, 0x0053A7C6 + 1 };
-	static dword const elite_representation_addresses[] = { 0x0053748F + 1, 0x00537627 + 1, 0x00539EC6 + 1, 0x00539FCA + 1, 0x0053A745 + 1, 0x0053A7BE + 1 };
+	static uint32 const spartan_representation_addresses[] = { 0x00537482 + 1, 0x0053761A + 1, 0x00539EB9 + 1, 0x00539FBD + 1, 0x0053A738 + 1, 0x0053A7C6 + 1 };
+	static uint32 const elite_representation_addresses[] = { 0x0053748F + 1, 0x00537627 + 1, 0x00539EC6 + 1, 0x00539FCA + 1, 0x0053A745 + 1, 0x0053A7BE + 1 };
 
 	DATA_PATCH_ARRAY_DECLARE2(spartan_representation_addresses, spartan_representation_index, spartan_representation_index.bytes);
 	DATA_PATCH_ARRAY_DECLARE2(elite_representation_addresses, elite_representation_index, elite_representation_index.bytes);

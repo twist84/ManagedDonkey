@@ -63,7 +63,7 @@ void c_gui_list_widget::set_scroll_position(long scroll_position)
 
 //.text:00B16490 ; 
 //.text:00B164F0 ; 
-//.text:00B16510 ; public: virtual void c_gui_list_widget::update(dword)
+//.text:00B16510 ; public: virtual void c_gui_list_widget::update(uint32)
 //.text:00B165D0 ; private: void __cdecl c_gui_list_widget::update_indicator_bitmap_widget_animation_states()
 
 void c_gui_list_widget::set_selectable_item_cap_count(long selectable_item_cap_count)

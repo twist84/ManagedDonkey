@@ -51,7 +51,7 @@ struct s_font_loading_state
 	e_font_index font_index;
 	bool file_open;
 	s_file_reference file_reference;
-	byte pad0[0x3];
+	uint8 pad0[0x3];
 	long task_id;
 	c_synchronized_long started;
 	c_synchronized_long failed;
@@ -62,15 +62,15 @@ static_assert(sizeof(s_font_loading_state) == 0x148);
 
 struct s_kerning_pair
 {
-	byte second_character;
+	uint8 second_character;
 	char offset;
 };
 static_assert(sizeof(s_kerning_pair) == 0x2);
 
 struct s_font_package_entry
 {
-	dword first_character_key;
-	dword last_character_key;
+	uint32 first_character_key;
+	uint32 last_character_key;
 };
 static_assert(sizeof(s_font_package_entry) == 0x8);
 
@@ -99,7 +99,7 @@ static_assert(sizeof(s_font_package_file_header) == 0x118);
 struct s_font_character
 {
 	short character_width;
-	word packed_size;
+	uint16 packed_size;
 	short bitmap_height;
 	short bitmap_width;
 	short initial_offset;
@@ -117,13 +117,13 @@ struct s_font_header
 	short leading_width;
 	long kerning_pairs_offset;
 	long kerning_pair_count;
-	byte character_first_kerning_pair_index[k_font_header_kerning_pair_index_count];
+	uint8 character_first_kerning_pair_index[k_font_header_kerning_pair_index_count];
 	long location_table_offset;
 	long location_table_count;
 	long character_count;
 	long character_data_offset;
 	long character_data_size_bytes;
-	dword no_such_character_data_location;
+	uint32 no_such_character_data_location;
 	long maximum_packed_pixel_size_bytes;
 	long maximum_unpacked_pixel_size_bytes;
 	long total_packed_pixel_size_bytes;
@@ -135,7 +135,7 @@ struct s_font_package_file
 {
 	s_font_package_file_header header;
 	s_font_header font_headers[k_font_count];
-	byte data[0x6928];
+	uint8 data[0x6928];
 };
 static_assert(sizeof(s_font_package_file) == k_font_package_file_size);
 
@@ -151,7 +151,7 @@ struct s_font_globals
 	s_font_loading_state package_loading_state;
 	s_font_package_file_header const* font_package_header;
 
-	//byte header_storage[k_font_package_file_size];
+	//uint8 header_storage[k_font_package_file_size];
 	s_font_package_file package_file;
 };
 static_assert(sizeof(s_font_globals) == 0x815C);
@@ -166,7 +166,7 @@ struct s_font_package_cache_entry
 	c_synchronized_long async_task_bytes_read;
 	c_synchronized_long async_task_complete;
 	e_font_package_status status;
-	byte package[k_font_package_file_size];
+	uint8 package[k_font_package_file_size];
 };
 static_assert(sizeof(s_font_package_cache_entry) == 0x8020);
 

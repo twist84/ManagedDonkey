@@ -12,7 +12,7 @@ s_terminal_globals terminal_globals = { .initialized = false };
 
 bool g_terminal_render_enable = true;
 
-real const k_output_total_seconds = 4.0f + 1.0f;
+real32 const k_output_total_seconds = 4.0f + 1.0f;
 short const k_tab_stops[] = { 160, 320, 470, 620, 770 };
 
 void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
@@ -101,7 +101,7 @@ void terminal_handle_key(s_key_state* key)
 	terminal_globals.insertion_point_toggle_timer = 0.0f;
 }
 
-bool __cdecl terminal_update_input(real shell_seconds_elapsed)
+bool __cdecl terminal_update_input(real32 shell_seconds_elapsed)
 {
 	if (terminal_gets_active())
 	{
@@ -142,7 +142,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 	return false;
 }
 
-void __cdecl terminal_update_output(real shell_seconds_elapsed)
+void __cdecl terminal_update_output(real32 shell_seconds_elapsed)
 {
 	if (!terminal_globals.suppress_output && shell_seconds_elapsed < 0.5f)
 	{
@@ -162,7 +162,7 @@ void __cdecl terminal_update_output(real shell_seconds_elapsed)
 	}
 }
 
-bool __cdecl terminal_update(real shell_seconds_elapsed)
+bool __cdecl terminal_update(real32 shell_seconds_elapsed)
 {
 	bool result = false;
 	if (terminal_globals.initialized)
@@ -337,7 +337,7 @@ void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds
 				output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line_index);
 				line_count = line->line_count;
 
-				real alpha_scale = fmaxf(4.0f - line->timer, 0.0f);
+				real32 alpha_scale = fmaxf(4.0f - line->timer, 0.0f);
 				if (alpha_scale >= 1.0f)
 					alpha_scale = 1.0f;
 

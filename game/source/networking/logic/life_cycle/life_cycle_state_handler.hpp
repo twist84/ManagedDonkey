@@ -37,14 +37,14 @@ public:
 	c_life_cycle_state_manager* get_manager() const;
 
 //protected:
-	byte __data4[0x4];
+	uint8 __data4[0x4];
 
 	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_state;
 	c_life_cycle_state_manager* m_manager;
 
-	c_flags<e_life_cycle_state_handler_flags, byte, k_life_cycle_state_handler_flags> m_handler_flags;
-	c_flags<e_network_session_parameter_type, qword, k_network_session_parameter_type_count> m_required_squad_session_parameter_mask;
-	c_flags<e_network_session_parameter_type, qword, k_network_session_parameter_type_count> m_required_group_session_parameter_mask;
+	c_flags<e_life_cycle_state_handler_flags, uint8, k_life_cycle_state_handler_flags> m_handler_flags;
+	c_flags<e_network_session_parameter_type, uint64, k_network_session_parameter_type_count> m_required_squad_session_parameter_mask;
+	c_flags<e_network_session_parameter_type, uint64, k_network_session_parameter_type_count> m_required_group_session_parameter_mask;
 };
 static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
 

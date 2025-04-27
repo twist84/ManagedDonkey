@@ -39,14 +39,14 @@ enum e_dynamic_spawn_influencer_type
 
 struct s_dynamic_spawn_influencer
 {
-	c_enum<e_dynamic_spawn_influencer_shape, byte, _dynamic_spawn_influencer_shape_cylinder, k_dynamic_spawn_influencer_shapes> shape;
-	c_enum<e_dynamic_spawn_influencer_type, byte, _dynamic_spawn_influencer_type_enemy_forbid, k_dynamic_spawn_influencer_types> type;
-	word team; // e_multiplayer_team_designator
-	real full_weight_radius;
-	real fall_off_radius;
-	real total_height;
+	c_enum<e_dynamic_spawn_influencer_shape, uint8, _dynamic_spawn_influencer_shape_cylinder, k_dynamic_spawn_influencer_shapes> shape;
+	c_enum<e_dynamic_spawn_influencer_type, uint8, _dynamic_spawn_influencer_type_enemy_forbid, k_dynamic_spawn_influencer_types> type;
+	uint16 team; // e_multiplayer_team_designator
+	real32 full_weight_radius;
+	real32 fall_off_radius;
+	real32 total_height;
 	real_matrix4x3 matrix;
-	real weight;
+	real32 weight;
 };
 static_assert(sizeof(s_dynamic_spawn_influencer) == 0x48);
 

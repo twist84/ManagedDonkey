@@ -20,7 +20,7 @@ struct participant_entry
 	long actor_index;
 	short status;
 	short joint_priority;
-	real grade;
+	real32 grade;
 };
 static_assert(sizeof(participant_entry) == 0xC);
 
@@ -79,9 +79,9 @@ struct pursuit_sync_data
 	long object_index;
 	long last_completion_test_time;
 	short ticks;
-	real position_time;
+	real32 position_time;
 	pursuit_location pursuit_location;
-	real orphan_time;
+	real32 orphan_time;
 	real_vector3d orphan_vector;
 };
 static_assert(sizeof(pursuit_sync_data) == 0x3C);

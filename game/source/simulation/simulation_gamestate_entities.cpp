@@ -57,7 +57,7 @@ void __cdecl simulation_object_glue_delete(long object_index)
 }
 
 //.text:00471F10 ; long __cdecl simulation_gamestate_entity_get_object_index(long)
-//.text:00471F50 ; long __cdecl simulation_object_glue_get_object_index_type_safe(long, dword)
+//.text:00471F50 ; long __cdecl simulation_object_glue_get_object_index_type_safe(long, uint32)
 
 long __cdecl simulation_object_glue_get_simulation_entity_index(long object_index)
 {
@@ -111,7 +111,7 @@ void __cdecl simulation_entity_delete(long simulation_entity_index, long object_
 	INVOKE(0x004AF910, simulation_entity_delete, simulation_entity_index, object_index, simulation_object_glue_index);
 }
 
-void __cdecl simulation_entity_force_update(long simulation_entity_index, long object_index, c_flags<long, qword, 64>& flags)
+void __cdecl simulation_entity_force_update(long simulation_entity_index, long object_index, c_flags<long, uint64, 64>& flags)
 {
 	INVOKE(0x004AF970, simulation_entity_force_update, simulation_entity_index, object_index, flags);
 }
@@ -130,7 +130,7 @@ bool __cdecl simulation_entity_type_is_object(e_simulation_entity_type entity_ty
 	//return IN_RANGE_INCLUSIVE(entity_type, _simulation_entity_type_unit, _simulation_entity_type_device);
 }
 
-void __cdecl simulation_entity_update(long simulation_entity_index, long object_index, c_flags<long, qword, 64>& flags)
+void __cdecl simulation_entity_update(long simulation_entity_index, long object_index, c_flags<long, uint64, 64>& flags)
 {
 	INVOKE(0x004AFC20, simulation_entity_update, simulation_entity_index, object_index, flags);
 

@@ -4,7 +4,7 @@
 
 struct s_player_training_globals
 {
-	byte __data[0x8E8];
+	uint8 __data[0x8E8];
 };
 static_assert(sizeof(s_player_training_globals) == 0x8E8);
 

@@ -9,7 +9,7 @@ struct c_online_marketplace_purchase_task :
 
 	long m_controller_index;
 	long m_entry_point;
-	qword m_offers[k_max_offer_count]; // is this the correct name
+	uint64 m_offers[k_max_offer_count]; // is this the correct name
 	long m_offer_count;
 	long m_purchase_result;
 };
@@ -21,7 +21,7 @@ struct c_online_marketplace_enumerate_assets_task :
 	long m_controller_index;
 	void* m_enumeration_handle;
 
-	byte m_results[0x84]; // is this the correct name
+	uint8 m_results[0x84]; // is this the correct name
 	long m_result_count;
 };
 static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == 0xA0);

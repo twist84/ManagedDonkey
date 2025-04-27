@@ -5,8 +5,8 @@
 
 struct _item_datum
 {
-	byte_flags flags;
-	byte inventory_state;
+	uint8 flags;
+	uint8 inventory_state;
 	short detonation_ticks;
 	long ignore_object_index;
 	long last_relevant_time;

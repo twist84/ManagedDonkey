@@ -1,8 +1,8 @@
 #include "objects/target_tracking.hpp"
 
-//.text:00B74BE0 ; private: long __cdecl c_target_tracking_system::get_best_target_index(real*) const
-//.text:00B74C90 ; public: real __cdecl c_target_tracking_system::get_locking_theta() const
-//.text:00B74CB0 ; public: real __cdecl c_tracked_target::get_locking_theta() const
+//.text:00B74BE0 ; private: long __cdecl c_target_tracking_system::get_best_target_index(real32*) const
+//.text:00B74C90 ; public: real32 __cdecl c_target_tracking_system::get_locking_theta() const
+//.text:00B74CB0 ; public: real32 __cdecl c_tracked_target::get_locking_theta() const
 //.text:00B74D00 ; public: c_aim_target_object const* __cdecl c_target_tracking_system::get_target() const
 //.text:00B74D20 ; 
 //.text:00B74D30 ; public: void __cdecl c_target_tracking_system::initialize()

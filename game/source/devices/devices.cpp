@@ -14,19 +14,19 @@
 //.text:00B92540 ; 
 //.text:00B92550 ; bool __cdecl device_allow_interaction(long, real_point3d const*, real_vector3d const*)
 //.text:00B92630 ; 
-//.text:00B92670 ; void __cdecl device_animate_overlay(long, real, real, real, real)
-//.text:00B92700 ; void __cdecl device_animate_position(long, real, real, real, real, bool)
+//.text:00B92670 ; void __cdecl device_animate_overlay(long, real32, real32, real32, real32)
+//.text:00B92700 ; void __cdecl device_animate_position(long, real32, real32, real32, real32, bool)
 //.text:00B927A0 ; bool __cdecl device_can_change_position(long)
 //.text:00B92840 ; 
 //.text:00B928E0 ; void __cdecl device_closes_automatically_set(long, bool)
 //.text:00B92930 ; bool __cdecl device_compute_activation(long, s_game_cluster_bit_vectors const*, bool*)
-//.text:00B92980 ; bool __cdecl device_compute_function_value(long, long, long, real*, bool*, bool*)
+//.text:00B92980 ; bool __cdecl device_compute_function_value(long, long, long, real32*, bool*, bool*)
 //.text:00B92CC0 ; void __cdecl device_delete(long)
 //.text:00B92CD0 ; void __cdecl device_effect_new(long, long)
 //.text:00B92DA0 ; bool __cdecl device_frontfacing(long, real_point3d const*, real_vector3d const*)
 //.text:00B92E30 ; long __cdecl device_get_action_string(long)
-//.text:00B92E90 ; double __cdecl device_get_position(long)
-//.text:00B92EE0 ; double __cdecl device_get_power(long)
+//.text:00B92E90 ; real64 __cdecl device_get_position(long)
+//.text:00B92EE0 ; real64 __cdecl device_get_power(long)
 //.text:00B92F30 ; void __cdecl device_group_change_only_once_more_set(long, bool)
 //.text:00B92FE0 ; bool __cdecl device_group_delete(long, long) // $TODO: confirm this
 
@@ -35,10 +35,10 @@ long __cdecl device_group_get_from_scenario_index(short device_index)
 	return INVOKE(0x00B93040, device_group_get_from_scenario_index, device_index);
 }
 
-//.text:00B930A0 ; real __cdecl device_group_get_value(long)
-//.text:00B930D0 ; long __cdecl device_group_new(long, real, dword)
-//.text:00B93130 ; void __cdecl device_group_set_actual_value(long, real)
-//.text:00B93270 ; bool __cdecl device_group_set_desired_value(long, long, real)
+//.text:00B930A0 ; real32 __cdecl device_group_get_value(long)
+//.text:00B930D0 ; long __cdecl device_group_new(long, real32, uint32)
+//.text:00B93130 ; void __cdecl device_group_set_actual_value(long, real32)
+//.text:00B93270 ; bool __cdecl device_group_set_desired_value(long, long, real32)
 //.text:00B933E0 ; void __cdecl device_groups_reset()
 //.text:00B93460 ; void __cdecl device_ignore_player_set(long, bool)
 //.text:00B934B0 ; 
@@ -50,13 +50,13 @@ long __cdecl device_group_get_from_scenario_index(short device_index)
 //.text:00B938E0 ; void __cdecl device_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)
 //.text:00B939C0 ; void __cdecl device_render_debug(long)
 //.text:00B939D0 ; void __cdecl device_reset_animation_channels(long)
-//.text:00B93A00 ; void __cdecl device_set_actual_position(long, real)
+//.text:00B93A00 ; void __cdecl device_set_actual_position(long, real32)
 //.text:00B93A70 ; void __cdecl device_set_animation_changed(long)
-//.text:00B93AF0 ; bool __cdecl device_set_desired_position(long, real)
+//.text:00B93AF0 ; bool __cdecl device_set_desired_position(long, real32)
 //.text:00B93B60 ; void __cdecl device_set_never_appears_locked(long, bool)
 //.text:00B93BA0 ; bool __cdecl device_set_overlay_track(long, long)
-//.text:00B93C40 ; bool __cdecl device_set_position_track(long, long, real)
-//.text:00B94330 ; void __cdecl device_set_power(long, real)
+//.text:00B93C40 ; bool __cdecl device_set_position_track(long, long, real32)
+//.text:00B94330 ; void __cdecl device_set_power(long, real32)
 //.text:00B943C0 ; bool __cdecl device_setup_position_animation_channel(long, long)
 //.text:00B94460 ; bool __cdecl device_setup_power_and_overlay_track_animation_channel(long, long)
 //.text:00B94500 ; void __cdecl device_touched(long, long, bool)
@@ -72,6 +72,6 @@ long __cdecl device_group_get_from_scenario_index(short device_index)
 //.text:00B94EF0 ; 
 //.text:00B94F00 ; 
 //.text:00B94F20 ; 
-//.text:00B94F60 ; void __cdecl setup_device_animation_control(s_device_animation_control*, real, real, real, real, real, real)
-//.text:00B95140 ; bool __cdecl update_device_animation_control(long, s_device_animation_control*, c_animation_manager const*, c_animation_channel*, real, real*)
+//.text:00B94F60 ; void __cdecl setup_device_animation_control(s_device_animation_control*, real32, real32, real32, real32, real32, real32)
+//.text:00B95140 ; bool __cdecl update_device_animation_control(long, s_device_animation_control*, c_animation_manager const*, c_animation_channel*, real32, real32*)
 

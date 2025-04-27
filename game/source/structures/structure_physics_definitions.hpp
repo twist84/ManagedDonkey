@@ -8,7 +8,7 @@ struct s_soft_surfaces_definition;
 struct s_structure_physics
 {
 	s_tag_block mopp_code_block;
-	byte JWF[0x4];
+	uint8 JWF[0x4];
 	real_point3d mopp_bounds_min;
 	real_point3d mopp_bounds_max;
 	s_tag_block breakable_surfaces_mopp_code_block;
@@ -20,7 +20,7 @@ struct s_structure_soft_ceiling_triangle
 {
 	real_plane3d plane;
 	real_point3d bounding_sphere_center;
-	real bounding_sphere_radius;
+	real32 bounding_sphere_radius;
 	real_point3d vertex0;
 	real_point3d vertex1;
 	real_point3d vertex2;
@@ -31,7 +31,7 @@ struct s_structure_soft_ceiling
 {
 	c_string_id name;
 	c_enum<e_soft_ceiling_type, short, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
-	byte fresh[0x2];
+	uint8 fresh[0x2];
 	c_typed_tag_block<s_structure_soft_ceiling_triangle> soft_ceiling_triangles;
 };
 static_assert(sizeof(s_structure_soft_ceiling) == 0x14);
@@ -51,7 +51,7 @@ static_assert(sizeof(s_structure_physics_water_instance_debug_triangle) == sizeo
 struct s_structure_physics_water_instance
 {
 	short group;
-	byte PAD0[0x2];
+	uint8 PAD0[0x2];
 	real_vector3d direction;
 	angle angle;
 	s_tag_block water_planes;
@@ -74,7 +74,7 @@ struct s_structure_design
 {
 	s_structure_design_physics physics;
 
-	real pda_z_plane_min; // meters
+	real32 pda_z_plane_min; // meters
 };
 static_assert(sizeof(s_structure_design) == 0x44);
 

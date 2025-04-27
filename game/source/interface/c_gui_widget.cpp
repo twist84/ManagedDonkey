@@ -74,16 +74,16 @@ c_gui_widget::~c_gui_widget()
 //.text:00AB63A0 ; public: virtual void* c_gui_widget::`scalar deleting destructor'(unsigned int)
 //.text:00AB63D0 ; public: void c_gui_widget::add_child_widget(c_gui_widget*)
 //.text:00AB64B0 ; public: static void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type, s_core_widget_definition const*, s_runtime_core_widget_definition*, real_rectangle2d const*, bool)
-//.text:00AB6680 ; private: void c_gui_widget::animate(dword)
-//.text:00AB6C20 ; protected: void c_gui_widget::animate_recursively(dword)
-//.text:00AB6C90 ; void __cdecl apply_color_animation(s_animation_transform*, real const, bool const, s_color_keyframe_block const*, s_color_keyframe_block const*, c_function_definition const*)
-//.text:00AB6D40 ; void __cdecl apply_font_animation(s_animation_transform*, real const, bool const, s_font_keyframe_block const*, s_font_keyframe_block const*, c_function_definition const*)
-//.text:00AB6D90 ; void __cdecl apply_position_animation(s_animation_transform*, real const, bool const, real_vector2d const*, s_position_keyframe_block const*, s_position_keyframe_block const*, c_function_definition const*)
+//.text:00AB6680 ; private: void c_gui_widget::animate(uint32)
+//.text:00AB6C20 ; protected: void c_gui_widget::animate_recursively(uint32)
+//.text:00AB6C90 ; void __cdecl apply_color_animation(s_animation_transform*, real32 const, bool const, s_color_keyframe_block const*, s_color_keyframe_block const*, c_function_definition const*)
+//.text:00AB6D40 ; void __cdecl apply_font_animation(s_animation_transform*, real32 const, bool const, s_font_keyframe_block const*, s_font_keyframe_block const*, c_function_definition const*)
+//.text:00AB6D90 ; void __cdecl apply_position_animation(s_animation_transform*, real32 const, bool const, real_vector2d const*, s_position_keyframe_block const*, s_position_keyframe_block const*, c_function_definition const*)
 //.text:00AB6E80 ; 
-//.text:00AB6ED0 ; void __cdecl apply_rotation_animation(c_gui_widget*, s_animation_transform*, real const, bool const, s_rotation_keyframe_block const*, s_rotation_keyframe_block const*, c_function_definition const*);
-//.text:00AB7050 ; void __cdecl apply_scale_animation(c_gui_widget*, s_animation_transform*, real const, bool const, s_scale_keyframe_block const*, s_scale_keyframe_block const*, c_function_definition const*)
-//.text:00AB71C0 ; void __cdecl apply_sprite_animation(s_animation_transform*, real const, bool const, s_sprite_keyframe_block const*, s_sprite_keyframe_block const*, c_function_definition const*)
-//.text:00AB7290 ; void __cdecl apply_texture_coordinate_animation(s_animation_transform*, real const, bool const, s_texture_coordinate_keyframe_block const*, s_texture_coordinate_keyframe_block const*, c_function_definition const*)
+//.text:00AB6ED0 ; void __cdecl apply_rotation_animation(c_gui_widget*, s_animation_transform*, real32 const, bool const, s_rotation_keyframe_block const*, s_rotation_keyframe_block const*, c_function_definition const*);
+//.text:00AB7050 ; void __cdecl apply_scale_animation(c_gui_widget*, s_animation_transform*, real32 const, bool const, s_scale_keyframe_block const*, s_scale_keyframe_block const*, c_function_definition const*)
+//.text:00AB71C0 ; void __cdecl apply_sprite_animation(s_animation_transform*, real32 const, bool const, s_sprite_keyframe_block const*, s_sprite_keyframe_block const*, c_function_definition const*)
+//.text:00AB7290 ; void __cdecl apply_texture_coordinate_animation(s_animation_transform*, real32 const, bool const, s_texture_coordinate_keyframe_block const*, s_texture_coordinate_keyframe_block const*, c_function_definition const*)
 
 void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
@@ -193,7 +193,7 @@ e_animation_state c_gui_widget::get_ambient_state()
 
 //.text:00AB8810 ; 
 //.text:00AB8820 ; private: static long __cdecl c_gui_widget::get_animation_period(s_widget_component_animation_definition const*, long)
-//.text:00AB8850 ; private: dword c_gui_widget::get_animation_state_timer(e_animation_state)
+//.text:00AB8850 ; private: uint32 c_gui_widget::get_animation_state_timer(e_animation_state)
 
 e_controller_index c_gui_widget::get_arbitrary_responding_controller() const
 {
@@ -686,7 +686,7 @@ void c_gui_widget::start_animation(e_animation_state animation_state, bool recur
 	INVOKE_CLASS_MEMBER(0x00ABA890, c_gui_widget, start_animation, animation_state, recursive);
 }
 
-void c_gui_widget::start_animation_at_time(e_animation_state animation_state, dword animation_start_time, bool recursive)
+void c_gui_widget::start_animation_at_time(e_animation_state animation_state, uint32 animation_start_time, bool recursive)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA8B0, c_gui_widget, start_animation_at_time, animation_state, animation_start_time, recursive);
 }
@@ -714,7 +714,7 @@ bool c_gui_widget::transitioning_out()
 //.text:00ABAE30 ; public: virtual void __cdecl c_sized_user_interface_text<48>::update(long)
 //.text:00ABAF40 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::update(long)
 
-void c_gui_widget::update(dword current_milliseconds)
+void c_gui_widget::update(uint32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00ABB070, c_gui_widget, update, current_milliseconds);
 
@@ -725,12 +725,12 @@ void c_gui_widget::update(dword current_milliseconds)
 	//}
 }
 
-void c_gui_widget::update_animation(dword current_milliseconds)
+void c_gui_widget::update_animation(uint32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
 }
 
-void c_gui_widget::update_render_state(dword current_milliseconds)
+void c_gui_widget::update_render_state(uint32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, current_milliseconds);
 

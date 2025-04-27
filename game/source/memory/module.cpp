@@ -5,7 +5,7 @@
 
 static module_address global_module = { .pointer = GetModuleHandle(NULL) };
 
-dword global_address_get(dword rva)
+uint32 global_address_get(uint32 rva)
 {
 	if (!global_module.address)
 		global_module.pointer = GetModuleHandle(NULL);
@@ -87,7 +87,7 @@ void apply_all_patches(bool revert)
 	}
 }
 
-c_hook::c_hook(char const* name, dword address, module_address const function, bool remove_base) :
+c_hook::c_hook(char const* name, uint32 address, module_address const function, bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? function.address - 0x00400000 : function.address) }),
 	m_orig({ .address = global_address_get(remove_base ? address - 0x00400000 : address) })
@@ -119,7 +119,7 @@ bool c_hook::apply(bool revert)
 	return true;
 }
 
-c_hook_call::c_hook_call(char const* name, dword address, module_address const function, bool remove_base) :
+c_hook_call::c_hook_call(char const* name, uint32 address, module_address const function, bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) }),
@@ -140,7 +140,7 @@ bool c_hook_call::apply(bool revert)
 	if (!revert)
 		csmemcpy(&m_call_original, m_addr.pointer, sizeof(call_instruction));
 
-	dword protect;
+	uint32 protect;
 	if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), PAGE_READWRITE, &protect))
 		return false;
 
@@ -152,12 +152,12 @@ bool c_hook_call::apply(bool revert)
 	return true;
 }
 
-c_data_patch::c_data_patch(char const* name, dword address, long patch_size, byte const(&patch)[], bool remove_base) :
+c_data_patch::c_data_patch(char const* name, uint32 address, long patch_size, uint8 const(&patch)[], bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_byte_count(patch_size),
 	m_bytes(patch),
-	m_bytes_original(new byte[m_byte_count]{})
+	m_bytes_original(new uint8[m_byte_count]{})
 {
 	ASSERT(VALID_COUNT(g_data_patch_count, k_maximum_individual_modification_count));
 	data_patches[g_data_patch_count++] = this;
@@ -174,7 +174,7 @@ bool c_data_patch::apply(bool revert)
 	if (!revert)
 		csmemcpy(m_bytes_original, m_addr.pointer, m_byte_count);
 
-	dword protect;
+	uint32 protect;
 	if (!VirtualProtect(m_addr.pointer, m_byte_count, PAGE_READWRITE, &protect))
 		return false;
 
@@ -186,13 +186,13 @@ bool c_data_patch::apply(bool revert)
 	return true;
 }
 
-c_data_patch_array::c_data_patch_array(char const* name, long address_count, dword const(&addresses)[], long patch_size, void* patch, bool remove_base) :
+c_data_patch_array::c_data_patch_array(char const* name, long address_count, uint32 const(&addresses)[], long patch_size, void* patch, bool remove_base) :
 	m_name(name),
 	m_address_count(address_count),
 	m_addresses(addresses),
 	m_byte_count(patch_size),
 	m_bytes(patch),
-	m_bytes_original(new byte* [patch_size] {})
+	m_bytes_original(new uint8* [patch_size] {})
 {
 	ASSERT(VALID_COUNT(g_data_patch_array_count, k_maximum_individual_modification_count));
 	data_patch_arrays[g_data_patch_array_count++] = this;
@@ -224,9 +224,9 @@ bool c_data_patch_array::apply(bool revert)
 		address.address = m_addresses[i];
 
 		if (!revert)
-			m_bytes_original[i] = (byte*)csmemcpy(new byte[m_byte_count]{}, address.pointer, m_byte_count);
+			m_bytes_original[i] = (uint8*)csmemcpy(new uint8[m_byte_count]{}, address.pointer, m_byte_count);
 
-		dword protect;
+		uint32 protect;
 		if (!VirtualProtect(address.pointer, m_byte_count, PAGE_READWRITE, &protect))
 			continue;
 
@@ -239,17 +239,17 @@ bool c_data_patch_array::apply(bool revert)
 	return true;
 }
 
-void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, long out_string_size)
+void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, long out_string_size)
 {
 	csmemset(out_string, 0, out_string_size);
 
-	for (dword i = 0; i < buffer_size; i++)
+	for (uint32 i = 0; i < buffer_size; i++)
 		csnzprintf(&out_string[3 * i], out_string_size, "%02X ", buffer[i]);
 }
 
 bool patch_pointer(module_address address, void const* pointer)
 {
-	dword protect;
+	uint32 protect;
 	if (!VirtualProtect(address.pointer, sizeof(void*), PAGE_READWRITE, &protect))
 		return false;
 

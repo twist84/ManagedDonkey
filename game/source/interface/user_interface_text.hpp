@@ -5,7 +5,7 @@
 
 #define UTF32_STRING(name) wchar_t name[2]{}; utf32_to_string(_utf32_##name, name);
 
-enum e_utf32 : dword
+enum e_utf32 : uint32
 {
 	_utf32_ampersand = '\u0026',
 
@@ -178,13 +178,13 @@ public:
 	void set_font(long font);
 	void set_justification(long justification);
 	void set_style(long style);
-	void set_flags(dword_flags flags);
+	void set_flags(uint32 flags);
 	void set_controller_index(e_controller_index controller_index);
 	void set_drop_shadow_style(long drop_shadow_style);
-	void set_rotation_origin(real x, real y);
-	void set_rotation(real rotation);
-	void set_scroll_amount(real i, real j);
-	void set_scale(real scale);
+	void set_rotation_origin(real32 x, real32 y);
+	void set_rotation(real32 rotation);
+	void set_scroll_amount(real32 i, real32 j);
+	void set_scale(real32 scale);
 
 protected:
 	// FLAG(0),  0x1: render_uppercase
@@ -193,7 +193,7 @@ protected:
 	// FLAG(3),  0x8: has_overflowed
 	// FLAG(4), 0x10: ?
 	// FLAG(5), 0x20: get_string_was_set
-	dword_flags m_flags;
+	uint32 m_flags;
 
 	e_controller_index m_controller_index;
 	long m_font;
@@ -204,23 +204,23 @@ protected:
 	short m_tab_stops[16];
 	long m_tab_stop_count;
 	real_point2d m_rotation_origin;
-	real m_rotation;
+	real32 m_rotation;
 	real_vector2d m_scroll_amount;
-	real m_scale;
+	real32 m_scale;
 };
 static_assert(sizeof(c_user_interface_text) == 0x5C);
 
 struct s_parse_text_entry
 {
 	wchar_t* name;
-	dword magic_character;
-	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, dword magic_character, c_static_wchar_string<1024>* buffer);
+	uint32 magic_character;
+	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, uint32 magic_character, c_static_wchar_string<1024>* buffer);
 };
 static_assert(sizeof(s_parse_text_entry) == 0xC);
 
 struct s_last_known_session_state
 {
-	word hopper_identifier;
+	uint16 hopper_identifier;
 	c_static_wchar_string<256> mapname;
 	c_static_wchar_string<512> variant;
 	c_static_wchar_string<256> leader;

@@ -10,7 +10,7 @@ enum e_optional_cache_user
 struct s_optional_cache_user_memory_configuration
 {
 	long maximum_priority;
-	dword maximum_size;
+	uint32 maximum_size;
 };
 static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
 
@@ -43,7 +43,7 @@ private:
 	virtual void deallocate(e_optional_cache_user, void*);
 
 	bool m_active;
-	dword __unknown8;
+	uint32 __unknown8;
 };
 static_assert(sizeof(c_optional_cache_backend) == 0xC);
 

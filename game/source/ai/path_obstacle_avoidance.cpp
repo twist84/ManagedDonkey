@@ -11,7 +11,7 @@ c_sector_ref debug_obstacle_path_start_sector_ref = {};
 real_point3d debug_obstacle_path_goal_point = {};
 c_sector_ref debug_obstacle_path_goal_sector_ref = {};
 short debug_obstacle_path_projection_axis = 0;
-real debug_obstacle_path_radius = 0.0f;
+real32 debug_obstacle_path_radius = 0.0f;
 struct obstacles debug_obstacle_path_obstacles = {};
 bool debug_obstacle_path_projection_sign = false;
 bool debug_obstacle_path_finishing = false;
@@ -19,8 +19,8 @@ bool debug_ignore_broken_surfaces = false;
 bool debug_obstacle_final_step = false;
 obstacle_path debug_obstacle_path_path = {};
 
-//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(long, struct obstacles const*, short, bool, real_point3d const*, c_sector_ref, real_vector3d const*, real, real, long*, short*)
-//.text:014DF830 ; real __cdecl heap_cost(obstacle_path*, short)
+//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(long, struct obstacles const*, short, bool, real_point3d const*, c_sector_ref, real_vector3d const*, real32, real32, long*, short*)
+//.text:014DF830 ; real32 __cdecl heap_cost(obstacle_path*, short)
 //.text:014DF860 ; void __cdecl heap_down(obstacle_path*, short)
 //.text:014DF970 ; bool __cdecl heap_insert(obstacle_path*, short)
 //.text:014DF9C0 ; short __cdecl heap_left_index(short)
@@ -30,11 +30,11 @@ obstacle_path debug_obstacle_path_path = {};
 //.text:014DFA40 ; void __cdecl heap_up(obstacle_path*, short)
 //.text:014DFAE0 ; real_vector3d* __cdecl inverse_project_vector3d(real_vector3d const*, short, bool, real_vector3d*)
 //.text:014DFB30 ; short __cdecl obstacle_from_disc(struct obstacles const*, short)
-//.text:014DFB60 ; short __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, short, bool, bool, short, real, short)
+//.text:014DFB60 ; short __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, short, bool, bool, short, real32, short)
 //.text:014DFEB0 ; short __cdecl path_add_steps(obstacle_path*, short, short)
-//.text:014E04D0 ; short __cdecl path_add_turning_point_step(obstacle_path*, short, real_point3d const*, short, word, bool, bool)
+//.text:014E04D0 ; short __cdecl path_add_turning_point_step(obstacle_path*, short, real_point3d const*, short, uint16, bool, bool)
 //.text:014E0800 ; bool __cdecl path_avoid_obstacles(long, struct path_state*, short, struct path_step const*, bool, short*, struct path_step*, bool*, long*, short*, bool*)
-//.text:014E17D0 ; bool __cdecl path_find(struct path_state const*, obstacle_path*, bool, struct obstacles const*, real, real_point3d const*, c_sector_ref, real_point3d const*, c_sector_ref, short, bool, bool, bool)
+//.text:014E17D0 ; bool __cdecl path_find(struct path_state const*, obstacle_path*, bool, struct obstacles const*, real32, real_point3d const*, c_sector_ref, real_point3d const*, c_sector_ref, short, bool, bool, bool)
 
 struct step* __cdecl path_get_step(obstacle_path* path, short step_index)
 {
@@ -55,7 +55,7 @@ bool __cdecl path_new(
 	obstacle_path* path,
 	struct obstacles const* obstacles,
 	bool ignore_broken_surfaces,
-	real radius,
+	real32 radius,
 	real_point3d const* start,
 	c_sector_ref start_sector_ref,
 	real_point3d const* goal,
@@ -152,8 +152,8 @@ void render_debug_path(obstacle_path const* path)
 	
 		struct step* step2 = path_get_step((obstacle_path*)path, step1->previous_step_index);
 	
-		real v15 = 0.0f;
-		real v10 = 0.0f;
+		real32 v15 = 0.0f;
+		real32 v10 = 0.0f;
 	
 		//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
 		//{

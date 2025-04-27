@@ -7,13 +7,13 @@ void __cdecl c_vehicle_type_alien_scout::adjust_gravity(long vehicle_index, real
 	INVOKE(0x00BCAA90, c_vehicle_type_alien_scout::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-bool c_vehicle_type_alien_scout::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_alien_scout::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCAAA0, c_vehicle_type_alien_scout, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
 
 // this belongs in vehicle_scout_utilities.cpp
-//.text:00BCAC60 ; real __cdecl scout_compute_function_velocity(real, real, bool, s_engine_function_definition const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real, real, real)
+//.text:00BCAC60 ; real32 __cdecl scout_compute_function_velocity(real32, real32, bool, s_engine_function_definition const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real32, real32, real32)
 
 void c_vehicle_type_alien_scout::compute_throttle(long vehicle_index, real_vector3d* throttle)
 {
@@ -50,7 +50,7 @@ bool __cdecl c_vehicle_type_alien_scout::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BCB1C0, c_vehicle_type_alien_scout::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_alien_scout::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_alien_scout::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BCB200, c_vehicle_type_alien_scout, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }

@@ -13,14 +13,14 @@ public:
 
 //protected:
 	real_euler_angles2d m_orientation;
-	real m_distance;
-	real m_vertical_offset;
+	real32 m_distance;
+	real32 m_vertical_offset;
 	bool m_orientation_enabled;
 	bool m_movement_enabled;
 	bool m_external_distance_set;
 
-	byte pad[0x1];
-	byte unused[0x28];
+	uint8 pad[0x1];
+	uint8 unused[0x28];
 };
 static_assert(sizeof(c_orbiting_camera) == 0x4C);
 

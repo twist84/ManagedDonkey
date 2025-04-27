@@ -107,12 +107,12 @@ struct s_multiplayer_object_boundary_geometry_data
 	// shader used for boundary geometry
 	union { long standard_shader_index; long opaque_shader_index; };
 
-	real boundary_width;
-	real boundary_box_length;
-	real boundary_positive_height;
-	real boundary_negative_height;
+	real32 boundary_width;
+	real32 boundary_box_length;
+	real32 boundary_positive_height;
+	real32 boundary_negative_height;
 	real_matrix4x3 boundary_matrix;
-	real boundary_radius;
+	real32 boundary_radius;
 };
 static_assert(sizeof(s_multiplayer_object_boundary_geometry_data) == 0x50);
 
@@ -120,14 +120,14 @@ struct s_multiplayer_object_properties_definition
 {
 	// GAME ENGINE INCLUSION
 	// Set which game engines you desire this object to appear in
-	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flags> game_engine_flags;
+	c_flags<e_global_game_engine_type_flags, uint16, k_global_game_engine_type_flags> game_engine_flags;
 
 	// TYPE AND FLAGS
 	// Type pertains to how you want the game engine to handle this object
 	// Certain flags applicable only to certain object types, should be self evident
 	c_enum<e_multiplayer_object_type, char, _multiplayer_object_type_ordinary, k_multiplayer_object_type_count> type;
-	c_flags<e_teleporter_passability_flags, byte_flags, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
-	c_flags<e_multiplayer_object_data_flags, word_flags, k_multiplayer_object_data_tag_flags_count> flags;
+	c_flags<e_teleporter_passability_flags, uint8, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
+	c_flags<e_multiplayer_object_data_flags, uint16, k_multiplayer_object_data_tag_flags_count> flags;
 
 	// GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones
@@ -141,16 +141,16 @@ struct s_multiplayer_object_properties_definition
 
 	// MORE GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones
-	union { real boundary_width; real boundary_radius; };
-	real boundary_box_length;
-	real boundary_positive_height; // boundary +height
-	real boundary_negative_height; // boundary +height
+	union { real32 boundary_width; real32 boundary_radius; };
+	real32 boundary_box_length;
+	real32 boundary_positive_height; // boundary +height
+	real32 boundary_negative_height; // boundary +height
 
 	// RESPAWN ZONE DATA
 	// These are respawn zone weights, used only for respawn zones
-	real normal_weight; // aka natural weight
-	real flag_away_weight;
-	real flag_at_home_weight;
+	real32 normal_weight; // aka natural weight
+	real32 flag_away_weight;
+	real32 flag_at_home_weight;
 
 	// MARKER DATA
 	// These fields are only used for defining certain, special markers to use for positional locations if the default position (object origin) is not sufficient

@@ -3,9 +3,9 @@
 long __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,
-	dword offset,
-	dword size,
-	dword const* verify_decompression_hash,
+	uint32 offset,
+	uint32 size,
+	uint32 const* verify_decompression_hash,
 	c_basic_buffer<void> decompression_scratch_buffer,
 	c_cache_file_decompressor* decompressor,
 	c_basic_buffer<void> uncompressed_output_buffer,

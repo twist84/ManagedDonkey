@@ -8,9 +8,9 @@ struct c_tag_resource_inverse_page_table
 	struct s_page_resource_reference_range :
 		s_datum_header
 	{
-		word first_resource_handle_index;
-		word used_resource_handle_count;
-		word resource_handle_count;
+		uint16 first_resource_handle_index;
+		uint16 used_resource_handle_count;
+		uint16 resource_handle_count;
 	};
 	static_assert(sizeof(s_page_resource_reference_range) == 0x8);
 
@@ -18,8 +18,8 @@ struct c_tag_resource_inverse_page_table
 	void* m_allocation;
 	c_wrapped_array<long*> m_resource_handle_storage;
 	s_data_array* m_page_entries;
-	word_flags flags;
-	word m_next_resource_handle_index;
+	uint16 flags;
+	uint16 m_next_resource_handle_index;
 };
 static_assert(sizeof(c_tag_resource_inverse_page_table) == 0x18);
 

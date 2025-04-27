@@ -151,13 +151,13 @@ enum e_object_data_flags
 struct object_header_block_reference
 {
 	short size;
-	word offset;
+	uint16 offset;
 };
 static_assert(sizeof(object_header_block_reference) == 0x4);
 
 struct _object_datum
 {
-	c_flags<e_object_data_flags, dword, k_object_data_flags_count> flags;
+	c_flags<e_object_data_flags, uint32, k_object_data_flags_count> flags;
 
 	// override
 	long collision_damage_definition_index;
@@ -165,74 +165,74 @@ struct _object_datum
 	long next_object_index;
 	long first_child_object_index;
 	long parent_object_index;
-	byte parent_node_index;
-	byte_flags inhibited_flags;
+	uint8 parent_node_index;
+	uint8 inhibited_flags;
 	short scenario_datum_index;
 	short map_variant_index;
 	s_location location;
 	real_point3d bounding_sphere_center;
-	real bounding_sphere_radius;
+	real32 bounding_sphere_radius;
 	real_point3d attached_bounds_center;
-	real attached_bounds_radius;
+	real32 attached_bounds_radius;
 	real_point3d attached_bounds_sphere_center;
-	real attached_bounds_sphere_radius;
+	real32 attached_bounds_sphere_radius;
 	long first_cluster_reference_index;
 	real_point3d position;
 	real_vector3d forward;
 	real_vector3d up;
 	real_vector3d transitional_velocity;
 	real_vector3d angular_velocity;
-	real scale;
+	real32 scale;
 	c_object_identifier object_identifier;
 	short name_index;
 	char bsp_placement_policy;
-	byte keyframed_object_collision_damage_ticks;
+	uint8 keyframed_object_collision_damage_ticks;
 	long havok_component_index;
 	long local_physics_space_object_index;
 	long last_motion_time;
-	dword_flags physics_flags;
-	byte physics_deactivation_count;
-	byte physically_attached_node;
-	byte phantom_power_scale;
-	byte phantom_speed_scale;
+	uint32 physics_flags;
+	uint8 physics_deactivation_count;
+	uint8 physically_attached_node;
+	uint8 phantom_power_scale;
+	uint8 phantom_speed_scale;
 	short in_water_ticks;
 	char environment_interpenetration_ticks;
-	byte brittle_collision_damage_timer;
+	uint8 brittle_collision_damage_timer;
 	short scale_intepolation_ticks;
 	char variant_index;
-	byte_flags object_ai_flags;
-	dword melee_damage_unique_identifier;
+	uint8 object_ai_flags;
+	uint32 melee_damage_unique_identifier;
 	s_damage_owner damage_owner;
 	short structure_bsp_fake_lightprobe_index;
 	bool created_at_rest;
-	byte clusters_touched_on_connection;
+	uint8 clusters_touched_on_connection;
 	long simulation_object_glue_index;
 	short owner_team_index;
-	byte_flags simulation_flags;
+	uint8 simulation_flags;
 	char child_variant_index;
 	long simulation_object_interpolation_time;
 	real_point3d simulation_object_interpolation_position;
 	long first_widget_index;
-	word destroyed_constraints;
-	word loosened_constraints;
-	real maximum_body_vitality;
-	real maximum_shield_vitality;
-	real shield_charge_delay;
-	real body_vitality;
-	real shield_vitality;
-	real current_body_damage;
-	real current_shield_damage;
-	real recent_body_damage;
-	real recent_shield_damage;
-	real shield_impact_current_body_damage;
-	real shield_impact_current_shield_damage;
+	uint16 destroyed_constraints;
+	uint16 loosened_constraints;
+	real32 maximum_body_vitality;
+	real32 maximum_shield_vitality;
+	real32 shield_charge_delay;
+	real32 body_vitality;
+	real32 shield_vitality;
+	real32 current_body_damage;
+	real32 current_shield_damage;
+	real32 recent_body_damage;
+	real32 recent_shield_damage;
+	real32 shield_impact_current_body_damage;
+	real32 shield_impact_current_shield_damage;
 	short shield_stun_ticks;
 	short body_stun_ticks;
-	dword_flags damage_flags;
+	uint32 damage_flags;
 	char damaged_explosion_timer;
 	char body_damage_delay_ticks;
 	char shield_impact_decay_timer;
-	byte_flags recycling_flags;
+	uint8 recycling_flags;
 	long next_recycling_object_index;
 	long recycling_time;
 	long parent_recycling_group;
@@ -241,7 +241,7 @@ struct _object_datum
 	long sync_action_name;
 	c_animation_id sync_animation_id;
 	long ai_sync_action_arranger_index;
-	word_flags render_flags;
+	uint16 render_flags;
 	object_header_block_reference original_node_orientations;
 	object_header_block_reference node_orientations;
 	object_header_block_reference node_matrices;
@@ -251,7 +251,7 @@ struct _object_datum
 	object_header_block_reference change_colors;
 	object_header_block_reference animation;
 	object_header_block_reference multiplayer;
-	byte __pad16E[0x2];
+	uint8 __pad16E[0x2];
 
 	// (bsp_index << 24) | probe_index & 0xFFFFFF
 	long air_probe_index; // airprobes block
@@ -292,8 +292,8 @@ enum e_object_header_flags
 struct object_header_datum :
 	s_datum_header
 {
-	c_flags<e_object_header_flags, byte, k_object_header_flags_count> flags;
-	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
+	c_flags<e_object_header_flags, uint8, k_object_header_flags_count> flags;
+	c_enum<e_object_type, uint8, _object_type_biped, k_object_type_count> object_type;
 	s_cluster_reference cluster_reference;
 	short data_size;
 	long datum_handle;
@@ -307,7 +307,7 @@ public:
 	long get_index();
 
 protected:
-	void object_iterator_begin_internal(dword_flags type_flags, dword header_flags, dword iteration_match_flags, long next_absolute_index);
+	void object_iterator_begin_internal(uint32 type_flags, uint32 header_flags, uint32 iteration_match_flags, long next_absolute_index);
 	bool object_iterator_next_internal();
 	bool object_iterator_next_with_match_flags_internal();
 	object_datum* get_datum_internal();
@@ -315,12 +315,12 @@ protected:
 private:
 	struct s_object_iterator
 	{
-		c_flags<e_object_type, dword_flags, k_object_type_count> type_flags;
-		dword header_mask;
-		dword iteration_match_flags;
+		c_flags<e_object_type, uint32, k_object_type_count> type_flags;
+		uint32 header_mask;
+		uint32 iteration_match_flags;
 		long object_index;
 		long index;
-		dword signature; // 0x86868686 is initialized
+		uint32 signature; // 0x86868686 is initialized
 	};
 	static_assert(sizeof(s_object_iterator) == 0x18);
 
@@ -333,7 +333,7 @@ template<typename t_object_type>
 struct c_object_iterator :
 	c_object_iterator_base
 {
-	void begin(dword type_flags, byte match_flags)
+	void begin(uint32 type_flags, uint8 match_flags)
 	{
 		object_iterator_begin_internal(type_flags, match_flags, 0, NONE);
 	}
@@ -364,31 +364,31 @@ struct object_placement_data
 	c_object_identifier object_identifier;
 	long model_variant_index;
 	long scenario_datum_index;
-	byte bsp_placement_policy;
-	byte pad1[0x3];
-	dword_flags flags;
+	uint8 bsp_placement_policy;
+	uint8 pad1[0x3];
+	uint32 flags;
 	real_point3d position;
 	real_vector3d forward;
 	real_vector3d up;
 	real_vector3d translational_velocity;
 	real_vector3d angular_velocity;
-	real scale;
+	real32 scale;
 	long owner_player_index;
 	long owner_object_index;
 	long owner_team_index;
 	s_damage_owner damage_owner;
-	c_flags<long, dword, 5> change_color_override_mask;
+	c_flags<long, uint32, 5> change_color_override_mask;
 	c_static_array<real_rgb_color, 5> change_color_overrides;
 	long model_customization_override_count;
 	c_static_array<s_model_customization_region_permutation, 16> model_customization_overrides;
 	long disabled_regions;
-	word destroyed_constraints;
-	word loosened_constraints;
+	uint16 destroyed_constraints;
+	uint16 loosened_constraints;
 	short ai_state_type;
 	short ai_state_size;
 	short ai_state_alignment_bits;
 	bool location_set;
-	byte __data147[0x1];
+	uint8 __data147[0x1];
 	s_location location;
 	bool multiplayer_cinematic_object;
 	long parent_object_index;
@@ -438,17 +438,17 @@ struct object_marker
 	short node_index;
 	real_matrix4x3 node_matrix;
 	real_matrix4x3 matrix;
-	real radius;
+	real32 radius;
 };
 static_assert(sizeof(object_marker) == 0x70);
 
 struct s_object_cluster_payload
 {
-	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
-	byte_flags object_visibility_cull_flags;
-	byte_flags object_collision_cull_flags;
+	c_enum<e_object_type, uint8, _object_type_biped, k_object_type_count> object_type;
+	uint8 object_visibility_cull_flags;
+	uint8 object_collision_cull_flags;
 	real_point3d bounding_sphere_center;
-	real bounding_sphere_radius;
+	real32 bounding_sphere_radius;
 };
 static_assert(sizeof(s_object_cluster_payload) == 0x14);
 
@@ -473,7 +473,7 @@ struct s_object_globals
 	long object_identifier_salt;
 	long object_update_absolute_index;
 	render_lighting cinematic_lighting;
-	real scripted_object_functions[4];
+	real32 scripted_object_functions[4];
 	bool custom_animations_hold_on_last_frame;
 	bool custom_animations_prevent_lipsync_head_movement;
 	bool warthog_chaingun_light_disabled;
@@ -496,8 +496,8 @@ struct objects_information
 	short free_object_count;
 	short active_object_count;
 	short active_garbage_count;
-	real used_memory;
-	real contiguous_free_memory;
+	real32 used_memory;
+	real32 contiguous_free_memory;
 
 	// unsure of these names
 	long collideable_object_actual_count;
@@ -515,7 +515,7 @@ enum
 struct s_object_override
 {
 	bool valid;
-	byte pad[0x3];
+	uint8 pad[0x3];
 	long object_index;
 	long shader_index;
 };
@@ -569,9 +569,9 @@ extern void* __cdecl object_header_block_get_with_count(long object_index, objec
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern object_header_datum* __cdecl object_header_get_mutable(long object_index);
 extern object_datum* __cdecl object_get(long object_index);
-extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
+extern void* __cdecl object_get_and_verify_type(long object_index, uint32 object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
-extern void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center, real* radius);
+extern void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center, real32* radius);
 extern long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference);
 extern long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload);
 extern long __cdecl cluster_get_first_noncollideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload);
@@ -594,7 +594,7 @@ extern void __cdecl object_cinematic_visibility(long object_index, bool enable);
 extern void __cdecl object_clear_sync_action(long object_index);
 extern void __cdecl object_connect_lights(long object_index, bool disconnect_this_object, bool reconnect_this_object);
 extern void __cdecl object_connect_lights_recursive(long object_index, bool disconnect_this_object, bool reconnect_this_object, bool a3, bool a4);
-extern long __cdecl object_count(long type_flags, byte header_mask);
+extern long __cdecl object_count(long type_flags, uint8 header_mask);
 extern void __cdecl object_create_attachments(long object_index);
 extern void __cdecl object_create_children(long object_index);
 extern bool __cdecl object_custom_animations_hold_on_last_frame();
@@ -619,14 +619,14 @@ extern bool __cdecl object_find_initial_location(long object_index, s_location* 
 extern void __cdecl object_find_structure_bsp_fake_lightprobe_index(long structure_bsp_index, long object_index);
 extern bool __cdecl object_force_inside_bsp(long object_index, real_point3d const* position, long ignore_object_index);
 extern void __cdecl object_freeze_node_orientations(long object_index, bool a2);
-extern bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic);
+extern bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real32* out_function_magnitude, bool* deterministic);
 extern long __cdecl object_get_attachment_marker_name(long object_index, short attachment_index);
 extern bool __cdecl object_get_base_change_color_by_index(long object_index, long change_color_index, real_rgb_color* color);
 extern real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center);
 extern bool __cdecl object_get_change_color(long object_index, long change_color_index, real_rgb_color* change_color);
 extern void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, real_vector3d* normal);
 extern void __cdecl object_get_damage_owner(long object_index, s_damage_owner* owner);
-extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude);
+extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real32* out_function_magnitude);
 extern s_location* __cdecl object_get_location(long object_index, s_location* location);
 extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
 extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);
@@ -703,8 +703,8 @@ extern void __cdecl object_resurrect(long object_index);
 extern void __cdecl object_set_always_active(long object_index, bool always_active);
 extern void __cdecl object_set_at_rest(long object_index, bool at_rest);
 extern bool __cdecl object_set_base_change_color_by_index(long object_index, long color_index, real_rgb_color const* color);
-extern void __cdecl object_set_body_vitality(long object_index, real body_vitality, short body_stun_ticks);
-extern void __cdecl object_set_custom_animation_speed(long object_index, real custom_animation_speed);
+extern void __cdecl object_set_body_vitality(long object_index, real32 body_vitality, short body_stun_ticks);
+extern void __cdecl object_set_custom_animation_speed(long object_index, real32 custom_animation_speed);
 extern void __cdecl object_set_custom_animations_hold_on_last_frame(bool custom_animations_hold_on_last_frame);
 extern void __cdecl object_set_custom_animations_prevent_lipsync_head_movement(bool custom_animations_prevent_lipsync_head_movement);
 extern void __cdecl object_set_damage_owner(long object_index, s_damage_owner const* damage_owner, bool a3);
@@ -713,7 +713,7 @@ extern void __cdecl object_set_garbage(long object_index, bool a2, long collecti
 extern void __cdecl object_set_hidden(long object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
 extern void __cdecl object_set_infinite_shield_stun(long object_index);
-extern void __cdecl object_set_initial_change_colors(long object_index, c_flags<char, byte, 5> active_change_colors, real_rgb_color const* change_colors);
+extern void __cdecl object_set_initial_change_colors(long object_index, c_flags<char, uint8, 5> active_change_colors, real_rgb_color const* change_colors);
 extern void __cdecl object_set_invalid_for_recycling(long object_index, bool a2);
 extern bool __cdecl object_set_model_state(long object_index, long a2, long a3, bool a4);
 extern void __cdecl object_set_model_state_property(long object_index, long a2, long a3, bool a4, bool a5);
@@ -726,7 +726,7 @@ extern void __cdecl object_set_position(long object_index, real_point3d const* d
 extern void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool in_editor);
 extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool at_rest);
 extern void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location);
-extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask);
+extern void* __cdecl object_try_and_get_and_verify_type(long object_index, uint32 object_type_mask);
 extern bool __cdecl object_unmarked(long object_index);
 extern void __cdecl object_unregister_scenario_object(long object_index);
 extern bool __cdecl object_update(long object_index);
@@ -740,7 +740,7 @@ extern long __cdecl objects_compact_memory_pool();
 extern void __cdecl objects_detach_from_simulation();
 extern void __cdecl objects_dispose();
 extern void __cdecl objects_dispose_from_old_map();
-extern void __cdecl objects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+extern void __cdecl objects_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light);
 extern void __cdecl objects_garbage_collection();
 extern long __cdecl objects_get_active_garbage_count();
@@ -750,11 +750,11 @@ extern long __cdecl objects_get_free_object_header_count();
 extern long __cdecl objects_get_next_garbage_object(long object_index);
 extern void __cdecl objects_handle_deleted_object(long object_index);
 extern void __cdecl objects_handle_deleted_player(long object_index);
-extern long __cdecl objects_in_sphere(dword class_flags, dword type_flags, s_location const* location, real_point3d const* center, real radius, long* object_indices, long maximum_count);
+extern long __cdecl objects_in_sphere(uint32 class_flags, uint32 type_flags, s_location const* location, real_point3d const* center, real32 radius, long* object_indices, long maximum_count);
 extern void __cdecl objects_information_get(objects_information* objects_information_out);
 extern void __cdecl objects_initialize();
 extern void __cdecl objects_initialize_for_new_map();
-extern void __cdecl objects_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl objects_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern bool __cdecl objects_is_warthog_chaingun_light_enabled();
 extern void __cdecl objects_memory_compact();
 extern void __cdecl objects_move();
@@ -763,12 +763,12 @@ extern void __cdecl objects_purge_deleted_objects();
 extern void __cdecl objects_render_thread_update();
 extern void __cdecl objects_setup_structure_bsp_fake_lightprobes(long structure_bsp_index);
 extern void __cdecl objects_update();
-extern void __cdecl objects_update_header_callback(long object_index, dword datum_handle);
+extern void __cdecl objects_update_header_callback(long object_index, uint32 datum_handle);
 extern void __cdecl recursive_wake_children_awoken_by_movement(long object_index);
 extern void __cdecl reset_object_cached_render_state(long object_index);
 extern void __cdecl reset_object_render_message_queue();
 extern bool __cdecl sample_object_lighting_from_probes(long object_index);
-extern void __cdecl scripted_object_function_set(long object_function_index, real object_function_value);
+extern void __cdecl scripted_object_function_set(long object_function_index, real32 object_function_value);
 
 extern void object_debug_teleport(long object_index, real_point3d const* position);
 extern void object_render_debug_internal(long object_index);

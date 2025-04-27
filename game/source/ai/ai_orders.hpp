@@ -7,14 +7,14 @@ struct orders_definition
 {
 	char name[32];
 	short style;
-	word pad1;
-	dword_flags flags;
-	short_enum force_combat_status;
+	uint16 pad1;
+	uint32 flags;
+	int16 force_combat_status;
 	short pad2;
 	char script_name[32];
 	short script_index;
 	short follow_squad;
-	real follow_radius;
+	real32 follow_radius;
 	s_tag_block primary_area_set;
 	s_tag_block secondary_area_set;
 	s_tag_block secondary_set_trigger;

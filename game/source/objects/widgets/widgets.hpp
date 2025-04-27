@@ -16,5 +16,5 @@ struct widget_datum :
 static_assert(sizeof(widget_datum) == 0xC);
 
 extern void __cdecl widgets_render_unattached(long entry_point);
-extern void __cdecl widgets_update(real game_seconds_elapsed);
+extern void __cdecl widgets_update(real32 game_seconds_elapsed);
 

@@ -60,7 +60,7 @@ public:
 	void set_carrier_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_oddball_variant_flags, dword_flags, k_oddball_variant_flags> m_variant_flags;
+	c_flags<e_oddball_variant_flags, uint32, k_oddball_variant_flags> m_variant_flags;
 	c_enum<long, short, -1, 1000> m_score_to_win;              // default: 200
 	c_enum<long, short, 0, 1000> m_score_unknown;              // default: 180, halo online specific
 	c_enum<long, short, -10, 10> m_carrying_points;            // default: 1, points per second when carrying the ball
@@ -73,7 +73,7 @@ protected:
 
 	c_player_traits m_carrier_traits;
 
-	byte m_pad1[2];
+	uint8 m_pad1[2];
 };
 static_assert(sizeof(c_game_engine_oddball_variant) == 0x200);
 

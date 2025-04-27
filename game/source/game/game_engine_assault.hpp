@@ -67,7 +67,7 @@ public:
 	void set_arming_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_assault_variant_flags, word_flags, k_assault_variant_flags> m_variant_flags;
+	c_flags<e_assault_variant_flags, uint16, k_assault_variant_flags> m_variant_flags;
 	c_enum<e_assault_respawn_settings, short, _assault_respawn_settings_disabled, k_assault_respawn_settings> m_respawn;
 	c_enum<e_assault_game_type_settings, short, _assault_game_type_settings_multi_bomb, k_assault_game_type_settings> m_game_type;
 	c_enum<e_assault_enemy_bomb_waypoint_settings, short, _assault_enemy_bomb_waypoint_settings_never, k_assault_enemy_bomb_waypoint_settings> m_enemy_bomb_waypoint;
@@ -84,7 +84,7 @@ protected:
 	c_player_traits m_carrier_traits;
 	c_player_traits m_arming_traits;
 
-	byte m_pad1[4];
+	uint8 m_pad1[4];
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 
@@ -99,9 +99,9 @@ struct s_assault_globals : s_ctf_shared_globals
 {
 	c_static_array<long, 9> arming_or_disarming_timer;
 	c_static_array<short, 9> bomb_reset_timer;
-	c_static_array<byte_flags, 2> bomb_flags;
+	c_static_array<uint8, 2> bomb_flags;
 	c_static_array<long, 9> player_that_placed_bomb;
-	c_static_array<byte, 8> __unknown16A8;
+	c_static_array<uint8, 8> __unknown16A8;
 	c_static_array<short, 9> assault_timeout_return_second_counter;
 };
 static_assert(sizeof(s_assault_globals) == 0x16C4);

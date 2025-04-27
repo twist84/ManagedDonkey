@@ -18,7 +18,7 @@ void c_draw_string::set_bounds(rectangle2d const* bounds)
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, rectangle2d const*)(this, bounds);
 }
 
-void c_draw_string::set_color(dword color)
+void c_draw_string::set_color(uint32 color)
 {
 	real_argb_color real_color{};
 	set_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
@@ -70,12 +70,12 @@ void c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
 	m_flags.set(_text_flag_wrap_horizontally_bit, wrap_horizontally);
 }
 
-void c_draw_string::text_bounds_draw_character(real a1, real a2, real a3, real a4)
+void c_draw_string::text_bounds_draw_character(real32 a1, real32 a2, real32 a3, real32 a4)
 {
 	INVOKE_CLASS_MEMBER(0x00659340, c_draw_string, text_bounds_draw_character, a1, a2, a3, a4);
 }
 
-void c_draw_string::set_scale(real scale)
+void c_draw_string::set_scale(real32 scale)
 {
 	m_scale = scale;
 }
@@ -219,7 +219,7 @@ c_chud_draw_string::c_chud_draw_string() :
 	DECLFUNC(0x00A95570, void, __thiscall, c_chud_draw_string*)(this);
 }
 
-real __cdecl draw_string_get_glyph_scaling_for_display_settings()
+real32 __cdecl draw_string_get_glyph_scaling_for_display_settings()
 {
 	return INVOKE(0x006582E0, draw_string_get_glyph_scaling_for_display_settings);
 }

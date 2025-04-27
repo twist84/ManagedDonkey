@@ -22,7 +22,7 @@ void __cdecl cinematic_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set
 	INVOKE(0x0067CE70, cinematic_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl cinematic_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0067CE80, cinematic_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -40,8 +40,8 @@ void __cdecl cinematic_game_pause_handler(bool paused)
 //.text:0067CFA0 ; void __cdecl cinematic_get_default_chapter_title_bounds(rectangle2d*)
 //.text:0067CFE0 ; short __cdecl cinematic_get_descriptor()
 //.text:0067D0A0 ; long __cdecl cinematic_get_early_exit()
-//.text:0067D0C0 ; double __cdecl cinematic_get_fade_amount()
-//.text:0067D130 ; double __cdecl cinematic_get_letterbox_coverage()
+//.text:0067D0C0 ; real64 __cdecl cinematic_get_fade_amount()
+//.text:0067D130 ; real64 __cdecl cinematic_get_letterbox_coverage()
 //.text:0067D1C0 ; long __cdecl cinematic_get_scene_index(long, long)
 //.text:0067D220 ; void __cdecl cinematic_get_shot()
 //.text:0067D230 ; long __cdecl cinematic_get_shot_index()
@@ -67,7 +67,7 @@ void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_s
 	INVOKE(0x0067D400, cinematic_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl cinematic_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0067D410, cinematic_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -75,7 +75,7 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(dword activating_structu
 //.text:0067D420 ; bool __cdecl cinematic_is_letterbox()
 //.text:0067D480 ; void __cdecl cinematic_move_attached_objects(long, long, long, long)
 //.text:0067D550 ; void __cdecl cinematic_new_globals_initialize()
-//.text:0067D620 ; long __cdecl cinematic_object_create(char const*, long, long, dword)
+//.text:0067D620 ; long __cdecl cinematic_object_create(char const*, long, long, uint32)
 //.text:0067D750 ; void __cdecl cinematic_object_create_cinematic_anchor(char const*, long)
 //.text:0067D820 ; void __cdecl cinematic_object_create_from_cinematic_scene(char const*)
 //.text:0067D950 ; void __cdecl cinematic_object_destroy(char const*)
@@ -86,7 +86,7 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(dword activating_structu
 //.text:0067DC40 ; void __cdecl cinematic_outro_start()
 //.text:0067DC60 ; void __cdecl cinematic_predict_shot(s_cinematic_scene*, long, long, c_tag_resource_collector*)
 
-void __cdecl cinematic_prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask)
+void __cdecl cinematic_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask)
 {
 	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
@@ -116,7 +116,7 @@ void __cdecl cinematic_render(bool a1, bool a2)
 //.text:0067E7C0 ; void __cdecl cinematic_set_early_exit(long)
 //.text:0067E7E0 ; void __cdecl cinematic_set_shot(long, long)
 //.text:0067E810 ; void __cdecl cinematic_set_title(short)
-//.text:0067E830 ; void __cdecl cinematic_set_title_delayed(short, real)
+//.text:0067E830 ; void __cdecl cinematic_set_title_delayed(short, real32)
 //.text:0067E8B0 ; void __cdecl cinematic_show_letterbox(bool)
 //.text:0067E8D0 ; void __cdecl cinematic_show_letterbox_immediate(bool)
 //.text:0067E920 ; bool __cdecl cinematic_skip_in_progress()
@@ -176,7 +176,7 @@ void __cdecl cinematics_game_tick()
 //.text:0067F1A0 ; 
 //.text:0067F1D0 ; 
 
-void __cdecl draw_quad(rectangle2d* rect, dword color)
+void __cdecl draw_quad(rectangle2d* rect, uint32 color)
 {
 	return INVOKE(0x0067F200, draw_quad, rect, color);
 }
@@ -191,7 +191,7 @@ void __cdecl draw_quad(rectangle2d* rect, dword color)
 //.text:0067F570 ; s_cinematic_light_globals* __cdecl get_cinematic_light_globals()
 //.text:0067F590 ; 
 //.text:0067F5A0 ; s_cinematic_scene* __cdecl global_cinematic_scene_try_and_get()
-//.text:0067F5D0 ; void __cdecl hs_subtitle(long, real)
+//.text:0067F5D0 ; void __cdecl hs_subtitle(long, real32)
 //.text:0067F5F0 ; void __cdecl iterate_future_shots(long, void (__cdecl*)(s_cinematic_scene*, long, long, c_tag_resource_collector*), class c_tag_resource_collector*)
 //.text:0067F720 ; void __cdecl predict_shot_dialogue_by_frame(s_cinematic_scene*, long, long, long)
 //.text:0067F7E0 ; void __cdecl predict_shot_dialogue(s_cinematic_scene*, long, long, c_tag_resource_collector*)
@@ -202,8 +202,8 @@ void __cdecl draw_quad(rectangle2d* rect, dword color)
 //.text:0067F8B0 ; 
 //.text:0067F8F0 ; 
 //.text:0067F950 ; 
-//.text:0067F960 ; void __cdecl subtitle_add(long, real)
-//.text:0067F9E0 ; real __cdecl subtitle_compute_alpha(s_subtitle const*)
+//.text:0067F960 ; void __cdecl subtitle_add(long, real32)
+//.text:0067F9E0 ; real32 __cdecl subtitle_compute_alpha(s_subtitle const*)
 //.text:0067FA30 ; void __cdecl subtitle_delete()
 //.text:0067FA60 ; void __cdecl subtitle_render()
 //.text:0067FF40 ; bool __cdecl subtitle_should_render()

@@ -17,12 +17,12 @@ static_assert(sizeof(s_campaign_armaments_weapon) == 0x8);
 struct s_campaign_armaments_player
 {
 	bool valid;
-	byte : 8;
+	uint8 : 8;
 
 	s_campaign_armaments_weapon primary_weapon;
 	s_campaign_armaments_weapon backpack_weapon;
 	s_campaign_armaments_weapon secondary_weapon;
-	c_static_array<byte, 4> grenade_counts;
+	c_static_array<uint8, 4> grenade_counts;
 };
 static_assert(sizeof(s_campaign_armaments_player) == 0x1E);
 
@@ -35,7 +35,7 @@ static_assert(sizeof(s_campaign_armaments) == 0x78);
 struct s_campaign_game_progression
 {
 	// long[32]?
-	c_static_array<dword, 32> integer_names;
+	c_static_array<uint32, 32> integer_names;
 };
 static_assert(sizeof(s_campaign_game_progression) == 0x80);
 
@@ -44,9 +44,9 @@ struct s_hub_progression
 	s_campaign_armaments hub_armaments;
 	long hub_return_to_insertion_point;
 	bool hub_progression_valid;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 };
 static_assert(sizeof(s_hub_progression) == 0x80);
 #pragma warning(pop)

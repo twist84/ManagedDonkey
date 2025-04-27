@@ -14,7 +14,7 @@ struct object_type_definition
 	short placement_tag_block_offset;
 	short palette_tag_block_offset;
 	short placement_tag_block_element_size;
-	dword maximum_placement_count;
+	uint32 maximum_placement_count;
 	long animation_mixing_board_definition_index;
 	c_mover_definition_data* mover_definition;
 	void(__cdecl* initialize)();
@@ -33,16 +33,16 @@ struct object_type_definition
 	long(__cdecl* datum_post_update)(long object_index);
 	void(__cdecl* datum_move)(long object_index);
 	long(__cdecl* datum_compute_activation)(long object_index, s_game_cluster_bit_vectors const* cluster_activation, bool* out_active);
-	bool(__cdecl* datum_compute_function_value)(long object_index, long function, long function_owner_tag_index, real* value, bool* active, bool deterministic);
+	bool(__cdecl* datum_compute_function_value)(long object_index, long function, long function_owner_tag_index, real32* value, bool* active, bool deterministic);
 	void(__cdecl* datum_attach_gamestate_entity)(long object_index);
 	void(__cdecl* datum_detach_gamestate_entity)(long object_index);
 	void(__cdecl* datum_attach_to_marker)(long parent_object_index, long parent_marker_name, long child_object_index, long child_marker_name);
 	void(__cdecl* datum_attach_to_node)(long parent_object_index, long child_object_index, short node_index);
 	void(__cdecl* datum_detach_from_parent)(long object_index);
 	void(__cdecl* handle_deleted_object)(long object_index, long deleted_object_index);
-	dword deleted_object_type_mask;
+	uint32 deleted_object_type_mask;
 	void(__cdecl* handle_deleted_player)(long object_index, long deleted_player_index);
-	void(__cdecl* handle_region_destroyed)(long object_index, short region_index, dword damage_region_flags);
+	void(__cdecl* handle_region_destroyed)(long object_index, short region_index, uint32 damage_region_flags);
 	bool(__cdecl* handle_parent_destroyed)(long object_index);
 	void(__cdecl* datum_fix_transform)(long object_index, real_point3d* position, real_vector3d* forward, real_vector3d* up);
 	void(__cdecl* datum_fix_transform_to_physics)(long object_index, real_matrix4x3* world_matrix);
@@ -55,7 +55,7 @@ struct object_type_definition
 	void(__cdecl* render_debug)(long object_index);
 	object_type_definition* part_definitions[16];
 	object_type_definition* next;
-	dword deleted_object_notification_mask;
+	uint32 deleted_object_notification_mask;
 };
 static_assert(sizeof(object_type_definition) == 0xF4);
 

@@ -5,8 +5,8 @@
 
 struct _equipment_datum
 {
-	word_flags flags;
-	byte __pad2[0x2];
+	uint16 flags;
+	uint8 __pad2[0x2];
 
 	long __time4;
 	long __time8;
@@ -14,10 +14,10 @@ struct _equipment_datum
 	char current_use_count;
 
 	// some ticks
-	byte __unknownD;
+	uint8 __unknownD;
 
-	byte __unknownE;
-	byte __unknownF;
+	uint8 __unknownE;
+	uint8 __unknownF;
 	long __unknown10;
 
 	s_damage_owner creator_damage_owner;

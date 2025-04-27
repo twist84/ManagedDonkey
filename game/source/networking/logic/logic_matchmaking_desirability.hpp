@@ -20,12 +20,12 @@ static_assert(sizeof(s_matchmaking_session_player_properties) == 0x8);
 
 struct s_matchmaking_session_properties
 {
-	word hopper_identifier;
+	uint16 hopper_identifier;
 	bool hopper_is_ranked;
-	byte : 8;
+	uint8 : 8;
 
 	long player_count;
-	dword_flags player_valid_flags;
+	uint32 player_valid_flags;
 	c_static_array<s_matchmaking_session_player_properties, 16> player_properties;
 	long avg_skill;
 	long maximum_skill_level;
@@ -38,19 +38,19 @@ struct s_matchmaking_session_properties
 	long party_nat_type;
 	long gamer_zone;
 	long gamer_region;
-	dword language;
+	uint32 language;
 	long nat_type;
 
-	byte_flags flags;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 flags;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 };
 static_assert(sizeof(s_matchmaking_session_properties) == 0xC4);
 
 struct s_matchmaking_gather_party_properties
 {
-	dword gather_seconds;
+	uint32 gather_seconds;
 	s_matchmaking_session_preferences gather_party_preferences;
 	s_matchmaking_session_properties matchmaking_desirability;
 };
@@ -58,8 +58,8 @@ static_assert(sizeof(s_matchmaking_gather_party_properties) == 0xD4);
 
 struct s_matchmaking_search_party_properties
 {
-	dword search_seconds;
-	dword search_latency;
+	uint32 search_seconds;
+	uint32 search_latency;
 	s_matchmaking_session_preferences search_party_preferences;
 	s_matchmaking_session_properties matchmaking_desirability;
 };

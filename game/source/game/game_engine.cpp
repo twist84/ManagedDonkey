@@ -43,7 +43,7 @@ c_game_statborg campaign_statborg{};
 //.text:0054D9C0 ; bool __cdecl game_engine_are_players_tied()
 //.text:0054DA50 ; bool __cdecl game_engine_are_teams_tied()
 //.text:0054DAA0 ; bool __cdecl game_engine_state_is_round_over_or_waiting_for_next_round() // named by us
-//.text:0054DAE0 ; real __cdecl game_engine_bomb_get_arming_theta(long)
+//.text:0054DAE0 ; real32 __cdecl game_engine_bomb_get_arming_theta(long)
 //.text:0054DB00 ; void __cdecl game_engine_boot_player(long)
 //.text:0054DB70 ; void __cdecl game_engine_build_allowable_team_designators()
 //.text:0054DC00 ; void __cdecl game_engine_check_for_round_winner()
@@ -52,7 +52,7 @@ c_game_statborg campaign_statborg{};
 //.text:0054DEB0 ; long __cdecl game_engine_compare_players(long, long, bool)
 //.text:0054E0A0 ; long __cdecl game_engine_compare_scores(long, long)
 //.text:0054E0B0 ; long __cdecl game_engine_compare_teams(long, long, bool)
-//.text:0054E210 ; real __cdecl game_engine_compute_object_function(long, long)
+//.text:0054E210 ; real32 __cdecl game_engine_compute_object_function(long, long)
 //.text:0054E250 ; bool __cdecl game_engine_current_game_rules_asymmetric()
 //.text:0054E270 ; bool __cdecl game_engine_current_game_rules_symmetric()
 
@@ -91,7 +91,7 @@ void __cdecl game_engine_game_starting()
 //.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
 //.text:0054F220 ; char const* __cdecl game_engine_get_current_variant_name() // named by us
-//.text:0054F250 ; real __cdecl game_engine_get_change_colors(long, dword, e_game_team, real_rgb_color*, bool*), modified by saber
+//.text:0054F250 ; real32 __cdecl game_engine_get_change_colors(long, uint32, e_game_team, real_rgb_color*, bool*), modified by saber
 //.text:0054F5E0 ; long __cdecl game_engine_get_current_talker(long)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
 
@@ -231,7 +231,7 @@ void __cdecl game_engine_initialize_for_new_round()
 
 //.text:00551750 ; void __cdecl game_engine_initialize_state()
 
-void __cdecl game_engine_interface_update(real world_seconds_elapsed)
+void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 {
 	//INVOKE(0x00551780, game_engine_interface_update, world_seconds_elapsed);
 
@@ -495,7 +495,7 @@ void __cdecl game_engine_update_after_game()
 	//		if (!game_engine_globals->game_finished)
 	//		{
 	//			game_engine_globals->game_finished = true;
-	//			c_flags<long, qword, 64> flags = FLAG(3);
+	//			c_flags<long, uint64, 64> flags = FLAG(3);
 	//			simulation_action_game_engine_globals_update(flags);
 	//
 	//			if (game_engine_globals1->current_state == 1)
@@ -565,7 +565,7 @@ void __cdecl game_engine_update_after_game()
 
 //.text:00552AC0 ; void __cdecl game_engine_update_after_game_update_state()
 
-void __cdecl game_engine_update_global_fade_timers(real world_seconds_elapsed)
+void __cdecl game_engine_update_global_fade_timers(real32 world_seconds_elapsed)
 {
 	INVOKE(0x00552D40, game_engine_update_global_fade_timers, world_seconds_elapsed);
 }
@@ -589,7 +589,7 @@ void __cdecl game_engine_update_round_conditions()
 
 	long round_time = game_engine_round_time_get();
 
-	c_flags<long, byte, 8> round_condition_flags(round_time < 5);
+	c_flags<long, uint8, 8> round_condition_flags(round_time < 5);
 
 	round_condition_flags.set(1, round_time < game_seconds_integer_to_ticks(1));
 	round_condition_flags.set(2, round_time < game_seconds_integer_to_ticks(3));
@@ -614,7 +614,7 @@ void __cdecl game_engine_update_round_conditions()
 		}
 	}
 
-	c_flags<long, qword, 64> flags(64);
+	c_flags<long, uint64, 64> flags(64);
 	simulation_action_game_engine_globals_update(flags);
 	game_engine_globals->round_condition_flags = round_condition_flags;
 }
@@ -687,7 +687,7 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			if (!file_exists(&file))
 				file_create(&file);
 
-			dword error = 0;
+			uint32 error = 0;
 			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 			{
 				c_game_engine const* game_engine = current_game_engine();

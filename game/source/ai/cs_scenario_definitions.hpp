@@ -42,13 +42,13 @@ struct cs_point_set
 	// ai_reference_frame
 	short manual_reference_frame; // short_block_index
 
-	c_flags<e_point_set_flags, dword, k_point_set_flags> flags;
+	c_flags<e_point_set_flags, uint32, k_point_set_flags> flags;
 
 	// s_scenario_editor_folder
 	short editor_folder; // short_block_index
 
 	// pad
-	byte AJDEYNFD[2];
+	uint8 AJDEYNFD[2];
 };
 static_assert(sizeof(cs_point_set) == 0x38);
 

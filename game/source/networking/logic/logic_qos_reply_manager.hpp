@@ -8,7 +8,7 @@
 struct c_live_service_qos_manager
 {
 	s_transport_qos_result m_qos_result;
-	byte m_flags;
+	uint8 m_flags;
 	long m_live_service_qos_index;
 	long __unknown28;
 };
@@ -23,9 +23,9 @@ protected:
 	virtual long get_qos_reply_bandwidth_limit();
 	virtual void notify_qos_reply_block_set();
 
-	byte __data4[0x4];
+	uint8 __data4[0x4];
 	bool m_initialized;
-	dword m_time;
+	uint32 m_time;
 	s_network_session_status_data game_status;
 };
 static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);

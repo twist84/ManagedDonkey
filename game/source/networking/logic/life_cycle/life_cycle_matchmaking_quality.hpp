@@ -24,14 +24,14 @@ static_assert(sizeof(s_game_hopper_picked_game_collection) == 0x1B0);
 
 struct s_matchmaking_quality_qos_sample
 {
-	byte __data0[0x20];
+	uint8 __data0[0x20];
 	s_transport_qos_result qos_result;
 };
 static_assert(sizeof(s_matchmaking_quality_qos_sample) == 0x40);
 
 struct s_matchmaking_session_search
 {
-	byte __data[0x340];
+	uint8 __data[0x340];
 };
 static_assert(sizeof(s_matchmaking_session_search) == 0x340);
 
@@ -52,13 +52,13 @@ struct __declspec(align(8)) s_matchmaking_quality_data
 	bool gathering_by_force;
 	s_game_hopper_picked_game vetoed_or_played_game;
 	long ping_msec;
-	dword search_time;
-	dword gather_time;
-	dword arbitration_time;
-	dword host_selection_time;
-	dword prepare_map_time;
-	dword in_match_time;
-	byte local_address[32];
+	uint32 search_time;
+	uint32 gather_time;
+	uint32 arbitration_time;
+	uint32 host_selection_time;
+	uint32 prepare_map_time;
+	uint32 in_match_time;
+	uint8 local_address[32];
 	long qos_sample_count;
 	s_matchmaking_quality_qos_sample qos_samples[400];
 	long session_search_count;

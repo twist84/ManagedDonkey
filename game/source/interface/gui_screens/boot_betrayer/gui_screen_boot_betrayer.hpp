@@ -24,7 +24,7 @@ protected:
 	s_player_identifier m_target_player_id;
 	bool m_target_player_booted;
 
-	byte __pad1AB1[7];
+	uint8 __pad1AB1[7];
 };
 static_assert(sizeof(c_gui_screen_boot_betrayer) == sizeof(c_gui_screen_widget) + 0x18);
 

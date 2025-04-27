@@ -66,7 +66,7 @@ struct c_impact :
 	struct s_contact_description
 	{
 		bool new_contact;
-		byte type;
+		uint8 type;
 		short explicit_pad0;
 		long object_index_a;
 		long rigid_body_index_a;
@@ -78,16 +78,16 @@ struct c_impact :
 		real_vector3d normal;
 		long vehicle_friction_point_index;
 		bool vehicle_friction_point_sound_only;
-		byte explicit_pad1;
+		uint8 explicit_pad1;
 		short explicit_pad2;
 		s_physics_model_constraint_reference constraint_reference;
 	};
 	static_assert(sizeof(s_contact_description) == 0x40);
 
-	byte_flags m_flags;
+	uint8 m_flags;
 	char m_score_sorted_order;
 	e_type m_type;
-	real m_score;
+	real32 m_score;
 	short m_reference_count;
 	char m_ticks_unreferenced;
 	char m_sweetener_size;
@@ -98,8 +98,8 @@ struct c_impact :
 	long m_last_time_in_collision_state;
 	char m_ticks_at_collision_state;
 	bool m_queued_collision;
-	real m_best_collision_scale;
-	real m_queued_collision_scale;
+	real32 m_best_collision_scale;
+	real32 m_queued_collision_scale;
 	char m_ticks_at_impulse_effect_state;
 	char m_looping_effect_state;
 	char m_ticks_at_looping_effect_state;
@@ -116,20 +116,20 @@ struct c_impact :
 	long m_effect_index_a;
 	long m_effect_secondary_index_a;
 	long m_effect_index_b;
-	real m_collision_magnitude;
-	real m_grinding_magnitude;
-	real m_grinding_scale;
-	real m_rolling_scale;
+	real32 m_collision_magnitude;
+	real32 m_grinding_magnitude;
+	real32 m_grinding_scale;
+	real32 m_rolling_scale;
 	real_vector3d m_effect_direction;
 	real_vector3d m_normal;
 	real_point3d m_world_space_position;
 	real_point3d m_rigid_body_space_position_a;
 	real_point3d m_rigid_body_space_position_b;
-	real m_last_pre_simulation_velocity_squared_maximum;
+	real32 m_last_pre_simulation_velocity_squared_maximum;
 	char m_last_pre_simulation_velocity_squared_age;
 	char m_ticks_at_looping_state;
 	long m_last_collision_effect_game_time;
-	real m_last_collision_effect_scale;
+	real32 m_last_collision_effect_scale;
 	s_physics_model_constraint_reference m_constraint_reference;
 };
 static_assert(sizeof(c_impact) == 0xB4);

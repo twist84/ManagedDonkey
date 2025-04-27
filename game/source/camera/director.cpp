@@ -50,7 +50,7 @@ s_director_globals* director_globals_get()
 //.text:005914B0 ; c_director::c_director(long)
 //.text:00591540 ; c_director::c_director()
 //.text:00591550 ; c_null_camera::c_null_camera()
-//.text:005915A0 ; byte(&__cdecl c_static_array<byte[0x160], 4>::operator[]<long>(long))[0x160]
+//.text:005915A0 ; uint8(&__cdecl c_static_array<uint8[0x160], 4>::operator[]<long>(long))[0x160]
 //.text:005915C0 ; s_director_info& __cdecl c_static_array<s_director_info, 4>::operator[]<long>(long)
 
 e_director_mode __cdecl choose_appropriate_director(long user_index)
@@ -113,7 +113,7 @@ s_cluster_reference __cdecl director_get_deterministic_scripted_camera_cluster_r
 	return INVOKE(0x005919F0, director_get_deterministic_scripted_camera_cluster_reference);
 }
 
-real __cdecl director_get_fade_timer()
+real32 __cdecl director_get_fade_timer()
 {
 	//return INVOKE(0x00591A20, director_get_fade_timer);
 
@@ -139,7 +139,7 @@ void __cdecl director_get_position(long user_index, real_point3d* position)
 	//c_director* director = director_get(user_index);
 	//s_observer_command const* observer_command = director->get_last_observer_command();
 	//
-	//real scale = -observer_command->focus_distance;
+	//real32 scale = -observer_command->focus_distance;
 	//position->x = observer_command->focus_position.x + (observer_command->forward.i * scale);
 	//position->y = observer_command->focus_position.y + (observer_command->forward.j * scale);
 	//position->z = observer_command->focus_position.z + (observer_command->forward.k * scale);
@@ -338,7 +338,7 @@ void __cdecl director_set_camera_third_person(long user_index, bool camera_third
 	//director_set_camera_mode(user_index, camera_third_person ? _camera_mode_following : _camera_mode_first_person);
 }
 
-void __cdecl director_set_fade_timer(real fade_timer)
+void __cdecl director_set_fade_timer(real32 fade_timer)
 {
 	INVOKE(0x00592440, director_set_fade_timer, fade_timer);
 
@@ -378,7 +378,7 @@ void __cdecl director_setup_flying_camera_at_scenario_point(long user_index, lon
 	INVOKE(0x00592620, director_setup_flying_camera_at_scenario_point, user_index, camera_point_index);
 }
 
-void __cdecl director_update(real dt)
+void __cdecl director_update(real32 dt)
 {
 	//INVOKE(0x005926C0, director_update, dt);
 
@@ -387,13 +387,13 @@ void __cdecl director_update(real dt)
 	if (!g_director_use_dt)
 		dt = 0.016666668f;
 
-	real timestep = fminf(0.06666667f, dt);
+	real32 timestep = fminf(0.06666667f, dt);
 
 	//collision_log_begin_period(6);
 
 	director_globals->dtime = timestep;
 
-	real fade_timer = director_globals->fade_timer;
+	real32 fade_timer = director_globals->fade_timer;
 	if (fade_timer <= 0.0f)
 	{
 		if (fade_timer < 0.0f)
@@ -420,7 +420,7 @@ void __cdecl director_update(real dt)
 //.text:00592780 ; void __cdecl c_camera::enable_movement(bool)
 //.text:00592790 ; void __cdecl c_camera::enable_orientation(bool)
 //.text:005927A0 ; void __cdecl c_camera::enable_roll(bool)
-//.text:005927B0 ; bool __cdecl c_director::force_set_camera_mode(e_camera_mode, real)
+//.text:005927B0 ; bool __cdecl c_director::force_set_camera_mode(e_camera_mode, real32)
 
 c_camera* c_director::get_camera()
 {
@@ -506,14 +506,14 @@ bool c_director::in_free_camera_mode() const
 //.text:00592F90 ; bool __cdecl c_director::player_switch_update()
 //.text:005931D0 ; 
 
-bool c_director::set_camera_mode(e_camera_mode camera_mode, real transition_time)
+bool c_director::set_camera_mode(e_camera_mode camera_mode, real32 transition_time)
 {
 	//return INVOKE_CLASS_MEMBER(0x005931F0, c_director, set_camera_mode, camera_mode, transition_time);
 
 	return set_camera_mode_internal(camera_mode, transition_time, false);
 }
 
-bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transition_time, bool force_update)
+bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update)
 {
 	//return INVOKE_CLASS_MEMBER(0x00593210, c_director, set_camera_mode_internal, camera_mode, transition_time, force_update);
 
@@ -570,12 +570,12 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 
 //.text:005934A0 ; void __cdecl c_camera::set_forward(real_vector3d const*)
 //.text:005934B0 ; void __cdecl c_camera::set_position(real_point3d const*)
-//.text:005934C0 ; void __cdecl c_camera::set_roll(real)
+//.text:005934C0 ; void __cdecl c_camera::set_roll(real32)
 //.text:005934D0 ; void __cdecl c_director::set_watched_player(long)
 //.text:00593520 ; bool __cdecl c_director::should_draw_hud() const
 //.text:00593530 ; bool __cdecl c_director::should_draw_hud_saved_film() const
-//.text:00593540 ; void __cdecl c_director::update(real)
-//.text:00593770 ; void __cdecl c_null_camera::update(long, real, s_observer_command*)
+//.text:00593540 ; void __cdecl c_director::update(real32)
+//.text:00593770 ; void __cdecl c_null_camera::update(long, real32, s_observer_command*)
 //.text:00593780 ; void __cdecl c_director::update_perspective()
 //.text:005937F0 ; void __cdecl update_vtables()
 
@@ -588,7 +588,7 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 //.text:00721970 ; bool __cdecl c_game_director::inhibits_input() const
 //.text:00721980 ; bool __cdecl c_game_director::should_draw_hud() const
 //.text:00721990 ; bool __cdecl c_game_director::should_draw_hud_saved_film() const
-//.text:007219A0 ; void __cdecl c_game_director::update(real)
+//.text:007219A0 ; void __cdecl c_game_director::update(real32)
 
 //.text:00725A80 ; c_camera::c_camera()
 
@@ -697,7 +697,7 @@ void __cdecl director_set_flying_camera_direct(long user_index, real_point3d con
 
 	real_vector3d up_from_forward{};
 	generate_up_vector3d(forward, &up_from_forward);
-	real roll = angle_between_vectors3d(up, &up_from_forward);
+	real32 roll = angle_between_vectors3d(up, &up_from_forward);
 	real_vector3d product3d;
 	cross_product3d(up, &up_from_forward, &product3d);
 	if (dot_product3d(&product3d, forward) > 0.0f)
@@ -792,7 +792,7 @@ void director_load_camera_named(char const* name)
 	real_point3d position{};
 	real_vector3d forward{};
 	real_vector3d up{};
-	real field_of_view;
+	real32 field_of_view;
 
 	fscanf_s(file, "%f %f %f\n", &position.x, &position.y, &position.z);
 	fscanf_s(file, "%f %f %f\n", &forward.i, &forward.j, &forward.k);

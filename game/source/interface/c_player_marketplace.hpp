@@ -33,10 +33,10 @@ protected:
 	// 4: Expired
 	long m_status;
 
-	byte __data1C[0x4];
+	uint8 __data1C[0x4];
 
 	// NextOfferID
-	qword m_next_offer_id;
+	uint64 m_next_offer_id;
 
 	// 0: HQButton
 	// 1: HQMessage
@@ -49,7 +49,7 @@ protected:
 	c_static_array<c_static_wchar_string<256>, 8> m_strings;
 
 	// SubscriptionSecondsPast19700101
-	qword m_subscription_seconds;
+	uint64 m_subscription_seconds;
 
 	// SubscriptionHash
 	long m_subscription_hash;
@@ -61,7 +61,7 @@ protected:
 	long m_portal_offer_count;
 
 	// PortalOfferID
-	qword m_portal_offer_id;
+	uint64 m_portal_offer_id;
 
 	// PortalExecuteImageFilename
 	c_static_string<256> m_portal_execute_package_filename;
@@ -70,14 +70,14 @@ protected:
 	c_static_string<256> m_portal_execute_image_filename;
 
 	// PortalExecuteLaunchData
-	qword m_portal_execute_launch_data;
+	uint64 m_portal_execute_launch_data;
 
 	long m_consumable_assets_checked;
 
 	bool __unknown144C;
-	byte __pad144D[3];
+	uint8 __pad144D[3];
 
-	byte __data1450[12];
+	uint8 __data1450[12];
 
 	bool __unknown145C;
 };

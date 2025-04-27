@@ -80,9 +80,9 @@ void __thiscall c_player_profile_interface::dirty_or(bool dirty)
 //.text:00AA0830 ; public: static e_language c_player_profile_interface::get_language()
 //.text:00AA0840 ; public: short c_player_profile_interface::get_last_campaign_map_played_absolute_index() const
 //.text:00AA0850 ; public: short c_player_profile_interface::get_last_campaign_played_absolute_index() const
-//.text:00AA0860 ; public: qword c_player_profile_interface::get_last_campaign_played_time(e_campaign_game_mode) const
+//.text:00AA0860 ; public: uint64 c_player_profile_interface::get_last_campaign_played_time(e_campaign_game_mode) const
 //.text:00AA0880 ; public: e_map_id c_player_profile_interface::get_last_custom_multiplayer_map_played() const
-//.text:00AA0890 ; public: word c_player_profile_interface::get_last_network_game_hopper_played() const
+//.text:00AA0890 ; public: uint16 c_player_profile_interface::get_last_network_game_hopper_played() const
 //.text:00AA08A0 ; public: long c_player_profile_interface::get_last_shown_popup_message_index(e_popup_message_title) const
 //.text:00AA08C0 ; public: bool c_player_profile_interface::get_last_variant_played(e_game_engine_type*, long*) const
 //.text:00AA08F0 ; public: e_look_sensitivity c_player_profile_interface::get_look_sensitivity() const
@@ -189,9 +189,9 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA3090 ; public: void c_player_profile_interface::set_joystick_preset(e_joystick_presets, bool)
 //.text:00AA30D0 ; public: void c_player_profile_interface::set_last_campaign_map_played_absolute_index(short, bool)
 //.text:00AA3160 ; public: void c_player_profile_interface::set_last_campaign_played_absolute_index(short, bool)
-//.text:00AA31F0 ; public: void c_player_profile_interface::set_last_campaign_played_time(e_campaign_game_mode, qword, bool)
+//.text:00AA31F0 ; public: void c_player_profile_interface::set_last_campaign_played_time(e_campaign_game_mode, uint64, bool)
 //.text:00AA3230 ; public: void c_player_profile_interface::set_last_custom_multiplayer_map_played(e_map_id, bool)
-//.text:00AA32B0 ; public: void c_player_profile_interface::set_last_network_game_hopper_played(word, bool)
+//.text:00AA32B0 ; public: void c_player_profile_interface::set_last_network_game_hopper_played(uint16, bool)
 //.text:00AA3340 ; public: void c_player_profile_interface::set_last_shown_popup_message_index(e_popup_message_title, long, bool)
 //.text:00AA33C0 ; public: void c_player_profile_interface::set_last_variant_played(e_game_engine_type, long, bool)
 //.text:00AA3410 ; public: void c_player_profile_interface::set_look_sensitivity(e_look_sensitivity, bool)

@@ -49,7 +49,7 @@ const long k_cache_file_version = 18;
 #pragma pack(push, 4)
 union s_cache_file_header
 {
-	__pragma(warning(disable : 4200)) byte base[];
+	__pragma(warning(disable : 4200)) uint8 base[];
 
 	struct
 	{
@@ -59,8 +59,8 @@ union s_cache_file_header
 
 		long compressed_file_padding;
 		long tags_offset;
-		dword tag_buffer_offset;
-		dword total_tags_size;
+		uint32 tag_buffer_offset;
+		uint32 total_tags_size;
 
 		c_static_string<k_tag_long_string_length> path;
 		c_static_string<k_tag_string_length> build_number;
@@ -71,22 +71,22 @@ union s_cache_file_header
 		bool uncompressed;
 		bool tracked_build;
 		bool valid_shared_resource_usage;
-		byte_flags header_flags;
+		uint8 header_flags;
 
 		s_file_last_modification_date slot_modification_date;
 
 		long low_detail_texture_number;
-		dword low_detail_texture_offset;
-		dword low_detail_texture_byte_count;
+		uint32 low_detail_texture_offset;
+		uint32 low_detail_texture_byte_count;
 
 		long string_id_count;
 		long string_id_data_count;
-		dword string_id_index_offset;
-		dword string_id_data_offset;
+		uint32 string_id_index_offset;
+		uint32 string_id_data_offset;
 
 		// bool uses_shared_map[shared_file_count];
-		// c_flags<e_cache_file_shared_file_type, byte, k_number_of_cache_file_shared_file_types> shared_file_flags;
-		byte_flags shared_file_flags;
+		// c_flags<e_cache_file_shared_file_type, uint8, k_number_of_cache_file_shared_file_types> shared_file_flags;
+		uint8 shared_file_flags;
 
 		s_file_last_modification_date creation_date;
 		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_file_types> shared_creation_date;
@@ -97,19 +97,19 @@ union s_cache_file_header
 		long minor_version_number;
 
 		long debug_tag_name_count;
-		dword debug_tag_name_data_offset;
+		uint32 debug_tag_name_data_offset;
 		long debug_tag_name_data_size;
-		dword debug_tag_name_index_offset;
+		uint32 debug_tag_name_index_offset;
 
 		s_cache_file_section_file_bounds reports;
 
-		byte __data2E4[0x4];
+		uint8 __data2E4[0x4];
 
 		c_static_string<k_tag_string_length> creator_name;
 
-		byte __data308[0x10];
+		uint8 __data308[0x10];
 
-		qword signature_marker;
+		uint64 signature_marker;
 
 		s_network_http_request_hash content_hashes[1];
 		s_rsa_signature rsa_signature;
@@ -126,7 +126,7 @@ union s_cache_file_header
 		long scenario_index;
 		long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
 
-		byte padding[0x594];
+		uint8 padding[0x594];
 
 		tag footer_signature;
 	};
@@ -136,35 +136,35 @@ static_assert(sizeof(s_cache_file_header) == 0x3390);
 
 union cache_address
 {
-	dword value;
+	uint32 value;
 	struct
 	{
-		dword offset : 30;
-		dword persistent : 1;
-		dword : 1;
+		uint32 offset : 30;
+		uint32 persistent : 1;
+		uint32 : 1;
 	};
 };
 static_assert(sizeof(cache_address) == 0x4);
 
 union cache_file_tag_instance
 {
-	__pragma(warning(disable : 4200)) byte base[];
+	__pragma(warning(disable : 4200)) uint8 base[];
 
 	struct
 	{
-		dword checksum;
-		dword total_size;
+		uint32 checksum;
+		uint32 total_size;
 		short dependency_count;
 		short data_fixup_count;
 		short resource_fixup_count;
 		short : 16;
 
 		// offset from `base`
-		dword offset;
+		uint32 offset;
 
 		s_cache_file_tag_group tag_group;
 
-		__pragma(warning(disable : 4200)) dword dependencies[];
+		__pragma(warning(disable : 4200)) uint32 dependencies[];
 	};
 
 	char const* get_name()
@@ -189,10 +189,10 @@ static_assert(sizeof(cache_file_tag_instance) == 0x24);
 struct s_file_reference_persist
 {
 	tag signture;
-	word_flags flags;
+	uint16 flags;
 	short location;
 	char path[108];
-	dword handle;
+	uint32 handle;
 	long position;
 };
 static_assert(sizeof(s_file_reference_persist) == 0x7C);
@@ -200,14 +200,14 @@ static_assert(sizeof(s_file_reference_persist) == 0x7C);
 struct s_cache_file_report
 {
 	char __unknown0[32];
-	dword hash[5];
+	uint32 hash[5];
 	s_file_reference_persist file_reference;
-	dword __unknownB0[20];
-	dword __unknown100;
-	dword __unknown104;
-	dword __unknown108;
-	dword __unknown10C;
-	dword __unknown110;
+	uint32 __unknownB0[20];
+	uint32 __unknown100;
+	uint32 __unknown104;
+	uint32 __unknown108;
+	uint32 __unknown10C;
+	uint32 __unknown110;
 };
 static_assert(sizeof(s_cache_file_report) == 0x114);
 
@@ -226,17 +226,17 @@ static_assert(sizeof(s_cache_file_reports) == 0x8);
 
 union s_cache_file_section_header
 {
-	__pragma(warning(disable : 4200)) byte base[];
+	__pragma(warning(disable : 4200)) uint8 base[];
 
 	struct
 	{
-		dword __unknown0;
+		uint32 __unknown0;
 		long file_offsets;
 		long file_count;
-		dword __unknownC;
+		uint32 __unknownC;
 		s_file_last_modification_date creation_date;
-		dword __unknown18;
-		dword __unknown1C;
+		uint32 __unknown18;
+		uint32 __unknown1C;
 	};
 };
 static_assert(sizeof(s_cache_file_section_header) == 0x20);
@@ -246,7 +246,7 @@ const long k_tag_cache_maximum_size = 0x4B00000;
 
 struct s_cache_file_debug_globals
 {
-	dword debug_tag_name_offsets[k_tag_cache_maximum_files_count];
+	uint32 debug_tag_name_offsets[k_tag_cache_maximum_files_count];
 	char debug_tag_name_buffer[k_tag_cache_maximum_files_count * k_tag_long_string_length];
 	char const* debug_tag_names[k_tag_cache_maximum_files_count];
 };
@@ -276,10 +276,10 @@ struct s_cache_file_globals
 	long tag_loaded_count;
 	long tag_total_count;
 
-	//byte(&tag_cache_base_address)[k_tag_cache_maximum_size];
-	byte* tag_cache_base_address;
-	dword tag_loaded_size;
-	dword tag_cache_size; // k_tag_cache_maximum_size
+	//uint8(&tag_cache_base_address)[k_tag_cache_maximum_size];
+	uint8* tag_cache_base_address;
+	uint32 tag_loaded_size;
+	uint32 tag_cache_size; // k_tag_cache_maximum_size
 
 	s_cache_file_header header;
 
@@ -313,7 +313,7 @@ extern char const*& k_cache_video_file;
 extern char const*& k_cache_file_extension;
 extern char const* k_cache_path_format;
 
-extern byte const g_cache_file_creator_key[64];
+extern uint8 const g_cache_file_creator_key[64];
 extern long g_tag_total_count_pre_external_files;
 
 extern s_tag_reference g_last_tag_accessed;
@@ -332,8 +332,8 @@ extern long tag_name_get_index(tag group_tag, char const* name);
 struct s_cache_file_security_globals;
 
 extern bool __cdecl cache_file_blocking_read(long cache_file_section, long section_offset, long buffer_size, void* buffer);
-extern bool __cdecl cache_file_content_signatures_match(long signature0_size, byte const* signature0, long signature1_size, byte const* signature1, bool unused);
-extern bool __cdecl cache_file_get_content_signature(long* out_signature_size, byte const** out_signature);
+extern bool __cdecl cache_file_content_signatures_match(long signature0_size, uint8 const* signature0, long signature1_size, uint8 const* signature1, bool unused);
+extern bool __cdecl cache_file_get_content_signature(long* out_signature_size, uint8 const** out_signature);
 extern long __cdecl cache_file_get_global_tag_index(tag group_tag);
 extern void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size);
 extern s_cache_file_security_globals* __cdecl cache_file_get_security_globals();
@@ -341,18 +341,18 @@ extern void const* __cdecl cache_file_globals_get_tag_cache_base_address();
 extern bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
 extern bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
 extern void __cdecl cache_file_invalidate_signature();
-extern real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path);
+extern real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path);
 extern long __cdecl cache_file_map_progress_estimated_miliseconds_remaining(long scenario_type, char const* scenario_path);
-extern real __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type);
-extern dword __cdecl cache_files_get_checksum();
+extern real32 __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type);
+extern uint32 __cdecl cache_files_get_checksum();
 extern s_cache_file_header const* __cdecl cache_files_get_header();
 extern s_rsa_signature const* __cdecl cache_files_get_rsa_signature();
 extern long __cdecl cache_files_get_total_tags_size();
 extern char const* __cdecl cache_files_map_directory();
 extern s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt();
 extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
-extern dword __cdecl compute_realtime_checksum(char* buffer, int len);
-extern void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resource_offsets);
+extern uint32 __cdecl compute_realtime_checksum(char* buffer, int len);
+extern void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uint32>* resource_offsets);
 extern bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer);
 extern void __cdecl cache_file_tags_unload();
 extern bool __cdecl scenario_tags_load(char const* scenario_path);
@@ -364,8 +364,8 @@ extern void cache_files_update_main_status();
 
 struct tag_iterator
 {
-	dword __unknown0;
-	dword __unknown4;
+	uint32 __unknown0;
+	uint32 __unknown4;
 	long datum_index;
 	long absolute_tag_index;
 	tag group_tag;
@@ -382,7 +382,7 @@ extern bool __cdecl cache_file_tags_load_recursive(long tag_index);
 extern void __cdecl cache_file_tags_fixup_all_instances();
 extern void* __cdecl tag_get(tag group_tag, long tag_index);
 extern void* __cdecl tag_get(tag group_tag, char const* tag_name);
-extern dword __cdecl tag_get_group_tag(long tag_index);
+extern uint32 __cdecl tag_get_group_tag(long tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index);
 extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 

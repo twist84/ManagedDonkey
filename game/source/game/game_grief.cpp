@@ -71,7 +71,7 @@ void __cdecl game_grief_record_betrayal(long player_index)
 	//
 	//e_controller_index controller = player_mapping_get_input_controller(player_index);
 	//bool is_griefer = false;
-	//real betrayal_count = global_preferences_get_betrayal_count() + 1;
+	//real32 betrayal_count = global_preferences_get_betrayal_count() + 1;
 	//game_grief_globals.grief_user.time_of_last_betrayal_ms = system_milliseconds();
 	//if (betrayal_count >= g_network_configuration.griefer_config.betrayal_cutoff && controller != k_no_controller)
 	//{
@@ -127,7 +127,7 @@ void __cdecl game_grief_update()
 	//
 	//unsigned long time = system_milliseconds();
 	//
-	//real betrayal_count = global_preferences_get_betrayal_count();
+	//real32 betrayal_count = global_preferences_get_betrayal_count();
 	//if (betrayal_count > 0.0f && (time - game_grief_globals.grief_user.time_of_last_betrayal_ms) > g_network_configuration.griefer_config.betrayal_decrement_time)
 	//{
 	//	event(_event_status, "ejection count decremented!");

@@ -114,8 +114,8 @@ struct c_network_http_request_queue
 	long m_file_queue_count;
 	c_network_http_request_item m_request_items[32];
 	long m_connection_token;
-	dword m_ip_address;
-	word m_port;
+	uint32 m_ip_address;
+	uint16 m_port;
 	c_http_client m_http_client;
 	c_http_get_stream m_http_get_stream;
 	c_http_post_stream m_http_post_stream;

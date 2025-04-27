@@ -32,10 +32,10 @@ enum
 	k_ps_decal_fade = 32,
 };
 
-REFERENCE_DECLARE(0x019147B8, real, g_particle_hack_near_fade_scale);
-REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
-REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
-REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
+REFERENCE_DECLARE(0x019147B8, real32, g_particle_hack_near_fade_scale);
+REFERENCE_DECLARE(0x019147BC, real32, render_debug_depth_render_scale_r);
+REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
+REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
 REFERENCE_DECLARE(0x01694EC8, c_screen_postprocess::s_settings const* const, c_screen_postprocess::x_settings);
 
@@ -110,25 +110,25 @@ void __thiscall c_player_view::queue_patchy_fog()
 // $TODO: move this
 struct s_surface_group_description
 {
-	dword_flags flags;
+	uint32 flags;
 	IDirect3DTexture9* Texture;
-	real DepthWidth;
-	real __unknownC;
-	dword DepthFormat;
-	byte __unknown14[4];
-	dword Srgb;
-	dword MultiSample;
-	real __unknown20;
-	real __unknown24;
-	dword __unknown28;
-	dword __unknown2C;
-	dword __unknown30;
-	dword __unknown34;
-	dword __unknown38;
-	dword __unknown3C;
-	dword Alias;
-	dword __unknown44;
-	dword index_unknown_of_size_54;
+	real32 DepthWidth;
+	real32 __unknownC;
+	uint32 DepthFormat;
+	uint8 __unknown14[4];
+	uint32 Srgb;
+	uint32 MultiSample;
+	real32 __unknown20;
+	real32 __unknown24;
+	uint32 __unknown28;
+	uint32 __unknown2C;
+	uint32 __unknown30;
+	uint32 __unknown34;
+	uint32 __unknown38;
+	uint32 __unknown3C;
+	uint32 Alias;
+	uint32 __unknown44;
+	uint32 index_unknown_of_size_54;
 };
 
 // $TODO: move this
@@ -160,7 +160,7 @@ void __cdecl sub_14E56A0(long player_index, c_player_view* player_view)
 }
 
 // $TODO: move this
-void __cdecl vision_mode_render(long player_index, c_player_view const* player_view, real a3, real a4, real a5, long a6, long a7)
+void __cdecl vision_mode_render(long player_index, c_player_view const* player_view, real32 a3, real32 a4, real32 a5, long a6, long a7)
 {
 	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);
 }
@@ -193,7 +193,7 @@ void __thiscall c_player_view::render_1st_pass()
 		c_atmosphere_fog_interface::compute_cluster_weights(cluster_reference, &rasterizer_camera->position);
 
 		{
-			real horizontal_field_of_view = observer_get_camera(m_camera_user_data.user_index)->horizontal_field_of_view;
+			real32 horizontal_field_of_view = observer_get_camera(m_camera_user_data.user_index)->horizontal_field_of_view;
 			if (horizontal_field_of_view < k_real_epsilon)
 				horizontal_field_of_view = k_real_epsilon;
 			g_particle_hack_near_fade_scale = 1.0f / horizontal_field_of_view;
@@ -766,7 +766,7 @@ void __cdecl render_texture_camera_enable_dynamic_lights(bool enable)
 	//g_render_texture_camera_globals->dynamic_lights = enable;
 }
 
-real __cdecl render_texture_camera_get_aspect_ratio()
+real32 __cdecl render_texture_camera_get_aspect_ratio()
 {
 	return INVOKE(0x00A3ABD0, render_texture_camera_get_aspect_ratio);
 
@@ -880,7 +880,7 @@ void __cdecl render_texture_camera_on()
 	//g_render_texture_camera_globals->active = true;
 }
 
-void __cdecl render_texture_camera_position_world_offset(real offset_x, real offset_y, real offset_z)
+void __cdecl render_texture_camera_position_world_offset(real32 offset_x, real32 offset_y, real32 offset_z)
 {
 	INVOKE(0x00A3AE90, render_texture_camera_position_world_offset, offset_x, offset_y, offset_z);
 
@@ -898,7 +898,7 @@ void __cdecl render_texture_camera_render_mode(long mode)
 	//g_render_texture_camera_globals->render_mode = (e_texture_camera_render_mode)MAX(_texture_camera_render_default, MIN(mode, _texture_camera_render_target_only));
 }
 
-void __cdecl render_texture_camera_set_aspect_ratio(real aspect_ratio)
+void __cdecl render_texture_camera_set_aspect_ratio(real32 aspect_ratio)
 {
 	INVOKE(0x00A3AF20, render_texture_camera_set_aspect_ratio, aspect_ratio);
 
@@ -906,7 +906,7 @@ void __cdecl render_texture_camera_set_aspect_ratio(real aspect_ratio)
 	//g_render_texture_camera_globals->aspect_ratio = aspect_ratio;
 }
 
-void __cdecl render_texture_camera_set_fov(real vertical_field_of_view_degrees)
+void __cdecl render_texture_camera_set_fov(real32 vertical_field_of_view_degrees)
 {
 	INVOKE(0x00A3AF50, render_texture_camera_set_fov, vertical_field_of_view_degrees);
 
@@ -915,7 +915,7 @@ void __cdecl render_texture_camera_set_fov(real vertical_field_of_view_degrees)
 	//g_render_texture_camera_globals->fov.vertical_fov_radians = CLAMP(vertical_field_of_view_degrees, 1.0f, 180.0f) * DEG;
 }
 
-void __cdecl render_texture_camera_set_fov_frame_target(real target_zoom)
+void __cdecl render_texture_camera_set_fov_frame_target(real32 target_zoom)
 {
 	INVOKE(0x00A3AFB0, render_texture_camera_set_fov_frame_target, target_zoom);
 
@@ -924,7 +924,7 @@ void __cdecl render_texture_camera_set_fov_frame_target(real target_zoom)
 	//g_render_texture_camera_globals->fov.target_scale = target_zoom;
 }
 
-void __cdecl render_texture_camera_set_object_marker(long object_index, long marker_id, real vertical_field_of_view_degrees)
+void __cdecl render_texture_camera_set_object_marker(long object_index, long marker_id, real32 vertical_field_of_view_degrees)
 {
 	INVOKE(0x00A3AFF0, render_texture_camera_set_object_marker, object_index, marker_id, vertical_field_of_view_degrees);
 
@@ -955,7 +955,7 @@ void __cdecl render_texture_camera_set_object_marker(long object_index, long mar
 	//}
 }
 
-void __cdecl render_texture_camera_set_position(real position_x, real position_y, real position_z)
+void __cdecl render_texture_camera_set_position(real32 position_x, real32 position_y, real32 position_z)
 {
 	INVOKE(0x00A3B0F0, render_texture_camera_set_position, position_x, position_y, position_z);
 
@@ -969,7 +969,7 @@ void __cdecl render_texture_camera_set_position(real position_x, real position_y
 	//g_render_texture_camera_globals->position_offset.k = 0.0f;
 }
 
-void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, real vertical_field_of_view_degrees)
+void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, real32 vertical_field_of_view_degrees)
 {
 	INVOKE(0x00A3B150, render_texture_camera_set_position_and_direction, enabled, position, forward, up, vertical_field_of_view_degrees);
 
@@ -1006,7 +1006,7 @@ void __cdecl render_texture_camera_set_resolution(long width, long height)
 	//g_render_texture_camera_globals->height = MAX(1, MIN(height, 288));
 }
 
-void __cdecl render_texture_camera_set_target(real position_x, real position_y, real position_z)
+void __cdecl render_texture_camera_set_target(real32 position_x, real32 position_y, real32 position_z)
 {
 	INVOKE(0x00A3B2E0, render_texture_camera_set_target, position_x, position_y, position_z);
 
@@ -1161,7 +1161,7 @@ void c_player_view::setup_camera(long player_window_index, long player_window_co
 	m_window_game_state = get_render_player_window_game_state(player_window_index);
 }
 
-void __thiscall c_player_view::setup_camera_fx_parameters(real exposure_boost)
+void __thiscall c_player_view::setup_camera_fx_parameters(real32 exposure_boost)
 {
 	INVOKE_CLASS_MEMBER(0x00A3B990, c_player_view, setup_camera_fx_parameters, exposure_boost);
 }

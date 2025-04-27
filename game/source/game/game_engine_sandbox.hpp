@@ -40,7 +40,7 @@ public:
 	void set_player_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_sandbox_variant_flags, byte_flags, k_sandbox_variant_flags> m_variant_flags;
+	c_flags<e_sandbox_variant_flags, uint8, k_sandbox_variant_flags> m_variant_flags;
 	c_enum<e_sandbox_edit_mode_settings, char, _sandbox_edit_mode_settings_all_players, k_sandbox_edit_mode_settings> m_edit_mode;
 	c_enum<e_sandbox_respawn_time, short, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
@@ -55,10 +55,10 @@ struct c_sandbox_engine :
 struct s_core_quota
 {
 	long object_definition_index;
-	byte maximum_count;
-	byte minimum_count;
-	byte placed_on_map;
-	byte pad0;
+	uint8 maximum_count;
+	uint8 minimum_count;
+	uint8 placed_on_map;
+	uint8 pad0;
 };
 static_assert(sizeof(s_core_quota) == 0x8);
 

@@ -13,12 +13,12 @@ struct s_simulation_damage_aftermath_event_data
 	real_vector3d direction;
 	bool epicenter_valid;
 	real_vector3d epicenter_direction_vector;
-	real epicenter_direction;
-	real shake;
-	real shake_scale;
+	real32 epicenter_direction;
+	real32 shake;
+	real32 shake_scale;
 	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_body_depleted_bit, k_damage_aftermath_flags> flags;
-	real shield_damage;
-	real body_damage;
+	real32 shield_damage;
+	real32 body_damage;
 	short body_part;
 	short node_index;
 	long ping_type;

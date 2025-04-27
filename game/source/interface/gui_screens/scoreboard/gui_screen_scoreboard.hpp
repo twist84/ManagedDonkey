@@ -35,7 +35,7 @@ public:
 	enum e_scoreboard_mode;
 
 	void set_is_interactive(bool is_interactive);
-	static real __cdecl get_scoreboard_alpha(e_controller_index controller_index);
+	static real32 __cdecl get_scoreboard_alpha(e_controller_index controller_index);
 	static c_gui_screen_scoreboard* __cdecl get_scoreboard_screen(e_controller_index controller_index);
 	static void __cdecl hide_scoreboard(e_controller_index controller_index);
 	static bool __cdecl is_scoreboard_displayed(e_controller_index controller_index);
@@ -43,15 +43,15 @@ public:
 	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
 	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
 
-	void __thiscall update_render_state_(dword a1);
+	void __thiscall update_render_state_(uint32 a1);
 
 protected:
 	long m_current_scoreboard_mode;
 	bool m_is_interactive;
 
 private:
-	static real(&m_scoreboard_alpha)[4];
-	static real& m_console_scoreboard_alpha;
+	static real32(&m_scoreboard_alpha)[4];
+	static real32& m_console_scoreboard_alpha;
 };
 static_assert(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
 

@@ -43,7 +43,7 @@ c_map_variant::c_map_variant()
 //.text:00580D90 ; 
 //.text:00580E30 ; public: void c_map_variant::apply_multiplayer_properties(long, long) const
 //.text:00580E80 ; public: void c_map_variant::apply_multiplayer_properties(s_variant_multiplayer_object_properties_definition const*, long) const
-//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(long, dword, long, void const*)
+//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(long, uint32, long, void const*)
 //.text:00581400 ; public: bool c_map_variant::build_simulation_baseline(long, long, void*)
 //.text:005816C0 ; 
 //.text:00581B90 ; public: bool c_map_variant::can_place_scenario_object(e_object_type, long) const
@@ -57,7 +57,7 @@ void c_map_variant::create_default(e_map_id map_id)
 	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
 
-//.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, word)
+//.text:00582110 ; public: long c_map_variant::create_object(long, long, long, real_point3d const*, real_vector3d const*, real_vector3d const*, long, e_object_type, s_variant_multiplayer_object_properties_definition const*, uint16)
 
 bool c_map_variant::decode(c_bitstream* packet)
 {
@@ -100,7 +100,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//		continue;
 	//	}
 	//
-	//	variant_object.flags.set_unsafe((word)packet->read_integer("variant-object-flags", 16));
+	//	variant_object.flags.set_unsafe((uint16)packet->read_integer("variant-object-flags", 16));
 	//	variant_object.variant_quota_index = (long)packet->read_integer("variant-object-definition-index", 32);
 	//
 	//	if (packet->read_bool("parent-object-exists"))
@@ -119,12 +119,12 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	packet->read_axes<14, 20>("variant-object-axes", &variant_object.forward, &variant_object.up);
 	//
 	//	s_variant_multiplayer_object_properties_definition& variant_properties = variant_object.multiplayer_game_object_properties;
-	//	variant_properties.object_type = (byte)packet->read_integer("variant-properties-cached-object-type", 8);
-	//	variant_properties.symmetry_placement_flags.set_unsafe((word)packet->read_integer("variant-properties-flags", 8));
-	//	variant_properties.game_engine_flags.set_unsafe((byte)packet->read_integer("variant-properties-game-engine-flags", 8));
-	//	variant_properties.shared_storage.value = (byte)packet->read_integer("variant-properties-shared-storage", 8);
+	//	variant_properties.object_type = (uint8)packet->read_integer("variant-properties-cached-object-type", 8);
+	//	variant_properties.symmetry_placement_flags.set_unsafe((uint16)packet->read_integer("variant-properties-flags", 8));
+	//	variant_properties.game_engine_flags.set_unsafe((uint8)packet->read_integer("variant-properties-game-engine-flags", 8));
+	//	variant_properties.shared_storage.value = (uint8)packet->read_integer("variant-properties-shared-storage", 8);
 	//	variant_properties.spawn_rate = (char)packet->read_integer("variant-properties-spawn-time", 8);
-	//	variant_properties.owner_team.set_raw_value((byte)packet->read_integer("variant-properties-team-affiliation", 8));
+	//	variant_properties.owner_team.set_raw_value((uint8)packet->read_integer("variant-properties-team-affiliation", 8));
 	//
 	//	e_multiplayer_object_boundary_shape shape_type = (e_multiplayer_object_boundary_shape)packet->read_integer("variant-properties-shape_type", 8);
 	//	variant_properties.boundary_shape = shape_type;
@@ -166,11 +166,11 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	}
 	//
 	//	variant_quota.object_definition_index = (long)packet->read_integer("object_definition_index", 32);
-	//	variant_quota.minimum_count = (byte)packet->read_integer("minimum_count", 8);
-	//	variant_quota.maximum_count = (byte)packet->read_integer("maximum_count", 8);
-	//	variant_quota.placed_on_map = (byte)packet->read_integer("placed_on_map", 8);
-	//	variant_quota.maximum_allowed = (byte)packet->read_integer("maximum_allowed", 8);
-	//	variant_quota.price_per_item = (real)packet->read_integer("price-per-item", 32);
+	//	variant_quota.minimum_count = (uint8)packet->read_integer("minimum_count", 8);
+	//	variant_quota.maximum_count = (uint8)packet->read_integer("maximum_count", 8);
+	//	variant_quota.placed_on_map = (uint8)packet->read_integer("placed_on_map", 8);
+	//	variant_quota.maximum_allowed = (uint8)packet->read_integer("maximum_allowed", 8);
+	//	variant_quota.price_per_item = (real32)packet->read_integer("price-per-item", 32);
 	//}
 	//
 	//return result;
@@ -189,7 +189,7 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:00583210 ; 
 //.text:00583220 ; 
 //.text:00583230 ; c_map_variant* __cdecl game_engine_get_runtime_map_variant()
-//.text:00583250 ; public: real c_map_variant::get_budget_fraction(long*, long*) const
+//.text:00583250 ; public: real32 c_map_variant::get_budget_fraction(long*, long*) const
 //.text:005832A0 ; 
 //.text:005832E0 ; public: long c_map_variant::get_object_index(long) const
 //.text:00583300 ; public: s_variant_quota const* c_map_variant::get_object_quota_datum(long)
@@ -308,8 +308,8 @@ void s_variant_multiplayer_object_properties_definition::print(long const tab_co
 	char tabs[128]{};
 	csmemset(tabs, ' ', tab_count * 4);
 
-	PRINT_TABS; c_console::write_line("<item name = \"Symmetry Placement Flags\" value = %d>", (word)symmetry_placement_flags);
-	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Flags\" value = %d>", (byte)game_engine_flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Symmetry Placement Flags\" value = %d>", (uint16)symmetry_placement_flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Flags\" value = %d>", (uint8)game_engine_flags);
 	PRINT_TABS; c_console::write_line("<item name = \"Team Affiliation\" value = %d>", (long)team_affiliation);
 	PRINT_TABS; c_console::write_line("<item name = \"Shared Storage\" value = %d>", shared_storage);
 	PRINT_TABS; c_console::write_line("<item name = \"Spawn Time In Seconds\" value = %d>", spawn_time_in_seconds);
@@ -326,7 +326,7 @@ void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_co
 	char tabs[128]{};
 	csmemset(tabs, ' ', tab_count * 4);
 
-	PRINT_TABS; c_console::write_line("<item name = \"Flags\" value = %d>", (dword)flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Flags\" value = %d>", (uint32)flags);
 	PRINT_TABS; c_console::write_line("<item name = \"Object Index\" value = 0x%08X>", object_index);
 	PRINT_TABS; c_console::write_line("<item name = \"Helper Object Index\" value = %d>", helper_object_index);
 

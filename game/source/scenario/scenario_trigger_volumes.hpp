@@ -28,7 +28,7 @@ struct scenario_trigger_volume
 	short type;
 
 	// pad
-	byte padding[2];
+	uint8 padding[2];
 	
 	real_vector3d forward;
 	real_vector3d up;
@@ -36,14 +36,14 @@ struct scenario_trigger_volume
 	real_vector3d extents;
 
 	// this is only valid for sector type trigger volumes
-	real z_sink;
+	real32 z_sink;
 
 	c_typed_tag_block<s_real_sector_point> sector_points;
 	c_typed_tag_block<s_trigger_volume_triangle> runtime_triangles;
 
 	real_rectangle3d runtime_sector_bounds;
 
-	real runtime_radius;
+	real32 runtime_radius;
 
 	// s_scenario_kill_trigger_volume
 	short kill_trigger_volume_index; // short_block_index
@@ -80,5 +80,5 @@ static_assert(sizeof(c_trigger_volume_query) == 0x3C);
 extern bool __cdecl trigger_volume_build_faces(scenario_trigger_volume const* volume, real_point3d(&face_vertices)[k_faces_per_cube_count][4]);
 extern bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, real_point3d* out_center_point);
 extern bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix);
-extern real __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume);
+extern real32 __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume);
 

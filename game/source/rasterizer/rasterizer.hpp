@@ -50,8 +50,8 @@ struct s_rasterizer_render_globals
 	long back_buffer_height;
 	long resolution_offset_x;
 	long resolution_offset_y;
-	real resolution_scale_x;
-	real resolution_scale_y;
+	real32 resolution_scale_x;
+	real32 resolution_scale_y;
 	long occlusion_view_resolution;
 	long window_width24;
 	long window_height28;
@@ -293,8 +293,8 @@ struct c_rasterizer
 	static void __cdecl cleanup_d3d_states(bool wait_for_gpu_idle_);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
-	static real __cdecl get_aspect_ratio();
+	static void __cdecl dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+	static real32 __cdecl get_aspect_ratio();
 	static void __cdecl get_display_pixel_bounds(rectangle2d* display_pixel_bounds);
 	static void __cdecl get_display_title_safe_pixel_bounds(rectangle2d* resolution);
 	static void __cdecl get_fullscreen_render_pixel_bounds(rectangle2d* resolution);
@@ -303,7 +303,7 @@ struct c_rasterizer
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 	static void __cdecl notify_game_tick_begin();
 	static void __cdecl restore_last_scissor_rect();
 	static void __cdecl restore_last_viewport();
@@ -315,7 +315,7 @@ struct c_rasterizer
 	static bool __cdecl reset_device();
 	static bool __cdecl begin_frame();
 	static void __cdecl begin_high_quality_blend();
-	//static void __cdecl clearf(dword, real_vector4d const*, real, dword);
+	//static void __cdecl clearf(uint32, real_vector4d const*, real32, uint32);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
 	static bool __cdecl sub_A218C0();
@@ -327,7 +327,7 @@ struct c_rasterizer
 	static bool __cdecl rasterizer_thread_owns_device();
 	static void __cdecl initialize_window();
 	static e_gpr_allocation __cdecl set_gprs_allocation(e_gpr_allocation type);
-	static void __cdecl clear_sampler_textures(dword);
+	static void __cdecl clear_sampler_textures(uint32);
 	static e_cull_mode __cdecl get_cull_mode(void);
 	static void __cdecl set_alpha_blend_mode(e_alpha_blend_mode);
 	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
@@ -347,25 +347,25 @@ struct c_rasterizer
 	static void __cdecl set_scissor_rect(rectangle2d const* scissor_rect);
 	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode mode);
 	static void __cdecl set_stencil_mode(e_stencil_mode stencil_mode);
-	static void __cdecl set_stencil_mode_with_value(e_stencil_mode stencil_mode, byte value);
-	static void __cdecl set_stencil_write_mask(byte mask);
+	static void __cdecl set_stencil_mode_with_value(e_stencil_mode stencil_mode, uint8 value);
+	static void __cdecl set_stencil_write_mask(uint8 mask);
 	static bool __cdecl set_vertex_declaration(IDirect3DVertexDeclaration9*);
 	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point);
 	static void __cdecl set_z_buffer_mode(e_z_buffer_mode mode);
 	static bool __cdecl get_is_using_floating_point_depth_buffer();
 
 	static void __cdecl setup_occlusion_state();
-	static void __cdecl setup_render_target_globals_with_exposure(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
-	static void __cdecl setup_render_target_globals_with_exposure_for_texture_camera_only(real view_exposure, real illum_scale, real HDR_target_stops, bool alpha_blend);
+	static void __cdecl setup_render_target_globals_with_exposure(real32 view_exposure, real32 illum_scale, real32 HDR_target_stops, bool alpha_blend);
+	static void __cdecl setup_render_target_globals_with_exposure_for_texture_camera_only(real32 view_exposure, real32 illum_scale, real32 HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_targets_albedo(bool clear_stencil, bool is_clear);
 	static void __cdecl setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test);
 	static void __cdecl setup_targets_simple();
-	static void __cdecl setup_targets_static_lighting(real view_exposure, real illum_scale, bool render_to_HDR_target, real HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
+	static void __cdecl setup_targets_static_lighting(real32 view_exposure, real32 illum_scale, bool render_to_HDR_target, real32 HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
 
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count);
 	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
-	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
+	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uint32 primitive_count, void const* stream_data, uint32 stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
 	static void __cdecl set_current_splitscreen_res(e_splitscreen_res res);
@@ -382,21 +382,21 @@ struct c_rasterizer
 	static void __cdecl set_render_target(long surface_index, e_surface surface, long force_is_srgb);
 	static void __cdecl set_surface_as_texture(long sampler_index, e_surface surface);
 	static void __cdecl set_using_albedo_sampler(bool value);
-	static void __cdecl set_viewport(rectangle2d const& viewport, real min_z, real max_z);
+	static void __cdecl set_viewport(rectangle2d const& viewport, real32 min_z, real32 max_z);
 	static void __cdecl stretch_rect(e_surface source_surface, e_surface dest_surface);
 	static void __cdecl wait_for_gpu_idle();
 
-	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
-	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
+	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uint32 color0, uint32 color1);
+	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, uint32 color0, uint32 color1);
 	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
-	static void __cdecl draw_debug_linestrip2d(point2d const* points, long point_count, dword color);
+	static void __cdecl draw_debug_linestrip2d(point2d const* points, long point_count, uint32 color);
 	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* polygon, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
 	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
 	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords);
-	static void __cdecl draw_textured_screen_quad(real x0, real y0, real x1, real y1);
+	static void __cdecl draw_textured_screen_quad(real32 x0, real32 y0, real32 x1, real32 y1);
 	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip);
 	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, long primitive_count);
 	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* textured_transparent_polygon, long polygon_count, e_alpha_blend_mode alpha_blend_mode);
@@ -407,7 +407,7 @@ struct c_rasterizer
 	static void __cdecl set_pixel_shader_constant(long constant_index, long count, real_vector4d const* constants);
 	static void __cdecl set_pixel_shader_constant_bool(long constant_index, long count, int const* constants);
 	static void __cdecl set_pixel_shader_constant_int(long constant_index, long vector_count, int const* constants);
-	static void __cdecl set_pixel_shader_constant_single(long constant_index, real value);
+	static void __cdecl set_pixel_shader_constant_single(long constant_index, real32 value);
 	static void __cdecl set_vertex_shader_constant(long constant_index, long vector_count, real_vector4d const* constants);
 	static void __cdecl set_vertex_shader_constant_bool(long constant_index, long count, int const* constants);
 	static void __cdecl set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
@@ -416,11 +416,11 @@ struct c_rasterizer
 	static bool& g_d3d_device_is_lost;
 	static bool& g_d3d_device_reset;
 	static _D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
-	static dword& g_render_thread;
+	static uint32& g_render_thread;
 
 	static s_rasterizer_render_globals& render_globals;
 
-	static dword& g_render_thread_begin_scene;
+	static uint32& g_render_thread_begin_scene;
 
 	static IDirect3D9Ex*& g_direct3d;
 	static IDirect3DDevice9Ex*& g_device;
@@ -432,7 +432,7 @@ struct c_rasterizer
 	static e_separate_alpha_blend_mode& g_current_separate_alpha_blend_mode;
 	static e_z_buffer_mode& g_current_z_buffer_mode;
 	static bool& g_current_z_buffer_floating_point;
-	static byte& g_current_stencil_value;
+	static uint8& g_current_stencil_value;
 	static bool& initialized;
 	static bool& m_use_floating_point_z_buffer;
 	static e_stencil_mode& g_current_stencil_mode;
@@ -454,11 +454,11 @@ struct c_rasterizer
 	static rectangle2d& g_last_viewport;
 	static rectangle2d& g_last_scissor_rect;
 
-	static dword& g_max_vs_gprs;
-	static dword& g_max_ps_gprs;
+	static uint32& g_max_vs_gprs;
+	static uint32& g_max_ps_gprs;
 	static long& g_adapter;
 
-	static void __cdecl clear(dword clear_channels, dword clear_color, real clear_z, byte clear_stencil);
+	static void __cdecl clear(uint32 clear_channels, uint32 clear_color, real32 clear_z, uint8 clear_stencil);
 	static void __cdecl sub_A21440();
 	static void __cdecl end();
 	static bool __cdecl end_albedo(rectangle2d const* bounds);
@@ -599,12 +599,12 @@ public:
 	};
 	static_assert(sizeof(s_explicit_shader) == 0x20);
 
-	dword __cdecl get_max_vs_gprs() const
+	uint32 __cdecl get_max_vs_gprs() const
 	{
 		return m_max_vs_gprs;
 	}
 
-	dword __cdecl get_max_ps_gprs() const
+	uint32 __cdecl get_max_ps_gprs() const
 	{
 		return m_max_ps_gprs;
 	}
@@ -774,8 +774,8 @@ protected:
 	c_typed_tag_block<s_texture_references_block> atmosphere_lookup_tables;
 
 	// runtime
-	dword m_max_vs_gprs;
-	dword m_max_ps_gprs;
+	uint32 m_max_vs_gprs;
+	uint32 m_max_ps_gprs;
 
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> active_camo_distortion_texture;
 	c_typed_tag_reference<PERFORMANCE_THROTTLES_TAG, INVALID_TAG> default_performance_throttles;
@@ -789,19 +789,19 @@ protected:
 	//	expected dt:.......... expected time per tick, in seconds (used to correct motion blur in fast/slow frames)
 
 	long number_of_taps;
-	real max_blur_x;
-	real max_blur_y;
-	real blur_scale_x;
-	real blur_scale_y;
-	real center_falloff;
-	real expected_dt;
+	real32 max_blur_x;
+	real32 max_blur_y;
+	real32 blur_scale_x;
+	real32 blur_scale_y;
+	real32 center_falloff;
+	real32 expected_dt;
 
-	byte __padB4[4];
+	uint8 __padB4[4];
 };
 
 struct s_global_bitmaps
 {
-	dword_flags options;
+	uint32 options;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> default_bitmaps;
 
 	void update_reference_names();
@@ -820,7 +820,7 @@ extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
-extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
+extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, short bitmap_index, bool a5);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);

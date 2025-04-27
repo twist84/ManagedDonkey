@@ -21,7 +21,7 @@ private:
 	void update_state();
 
 public:
-	real fade_out_progress();
+	real32 fade_out_progress();
 
 private:
 	long get_music_index();

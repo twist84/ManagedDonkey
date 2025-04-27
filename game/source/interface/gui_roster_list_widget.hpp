@@ -7,8 +7,8 @@ struct c_gui_roster_list_widget :
 	c_gui_list_widget
 {
 public:
-	void __thiscall update(dword a1);
-	void __thiscall update_render_state(dword a1);
+	void __thiscall update(uint32 a1);
+	void __thiscall update_render_state(uint32 a1);
 
 	void update_team_mode();
 
@@ -22,11 +22,11 @@ protected:
 	{
 		bool temporary_team_change_active;
 		long temporary_team_index;
-		dword lying_end_time;
-		dword lying_begin_time;
+		uint32 lying_end_time;
+		uint32 lying_begin_time;
 	} m_temporary_team[16];
 
-	byte __data[4];
+	uint8 __data[4];
 };
 static_assert(sizeof(c_gui_roster_list_widget) == sizeof(c_gui_list_widget) + 0x108);
 

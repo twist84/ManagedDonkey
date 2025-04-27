@@ -18,7 +18,7 @@ struct s_runtime_state_globals
 	bool locked;
 	void* base_address;
 	long allocated_size;
-	dword size_checksum;
+	uint32 size_checksum;
 };
 static_assert(sizeof(s_runtime_state_globals) == 0x10);
 

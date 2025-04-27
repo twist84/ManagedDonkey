@@ -11,7 +11,7 @@ HOOK_DECLARE(0x0042ED50, network_get_machine_name);
 //.text:0042EC70 ; 
 //.text:0042EC80 ; 
 
-short __cdecl _random_range(dword* seed_ptr, char const* name, char const* filename, dword line, short range_begin, short range_end)
+short __cdecl _random_range(uint32* seed_ptr, char const* name, char const* filename, uint32 line, short range_begin, short range_end)
 {
 	return INVOKE(0x0042EC90, _random_range, seed_ptr, name, filename, line, range_begin, range_end);
 }

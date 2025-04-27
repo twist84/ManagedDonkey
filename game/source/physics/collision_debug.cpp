@@ -31,7 +31,7 @@ bool collision_debug_flag_instanced_geometry = true;
 bool collision_debug_flag_objects = true;
 bool collision_debug_flag_front_facing_surfaces = true;
 bool collision_debug_flag_ignore_invisible_surfaces = true;
-real collision_debug_length = 100.0f;
+real32 collision_debug_length = 100.0f;
 long collision_debug_ignore_object_index = NONE;
 bool collision_debug_geometry_sampling = false;
 bool collision_debug_flag_objects_terminals = false;
@@ -66,9 +66,9 @@ bool collision_debug_flag_ignore_breakable_surfaces = false;
 bool collision_debug_flag_allow_early_out = false;
 bool collision_debug_flag_try_to_keep_location_valid = false;
 bool collision_debug_repeat = false;
-real collision_debug_width = 0.0f;
+real32 collision_debug_width = 0.0f;
 real_point3d collision_debug_point{};
-real collision_debug_height = 0.0f;
+real32 collision_debug_height = 0.0f;
 real_vector3d collision_debug_vector{};
 //bool collision_debug_? = false;
 s_status_line g_collision_debug_status_lines[10]{};
@@ -429,7 +429,7 @@ void collision_debug_render()
 					collision.plane.n.j,
 					collision.plane.n.k);
 
-				real x = fminf(1.0f, collision.plane.n.k);
+				real32 x = fminf(1.0f, collision.plane.n.k);
 				ASSERT(x >= -1.0f - k_real_epsilon && x <= +1.0f + k_real_epsilon);
 
 				angle x_angle = fmaxf(x, -1.0);
@@ -535,22 +535,22 @@ void collision_debug_render()
 		//
 		//	real_point3d point{};
 		//	
-		//	real x = camera.center.x + (camera.matrix.forward.i * 2.0f);
-		//	real y = camera.center.y + (camera.matrix.forward.j * 2.0f);
-		//	real z = camera.center.z + (camera.matrix.forward.k * 2.0f);
+		//	real32 x = camera.center.x + (camera.matrix.forward.i * 2.0f);
+		//	real32 y = camera.center.y + (camera.matrix.forward.j * 2.0f);
+		//	real32 z = camera.center.z + (camera.matrix.forward.k * 2.0f);
 		//	
-		//	real z1 = z - 0.125f;
-		//	real z2 = z + 0.125f;
+		//	real32 z1 = z - 0.125f;
+		//	real32 z2 = z + 0.125f;
 		//	
 		//	for (point.z = z1; z2 >= z1; z1 += 0.0625f, point.z = z1)
 		//	{
-		//		real y1 = y - 0.125f;
-		//		real y2 = y + 0.125f;
+		//		real32 y1 = y - 0.125f;
+		//		real32 y2 = y + 0.125f;
 		//	
 		//		for (point.y = y1; y2 >= y1; y1 += 0.0625f, point.y = y1)
 		//		{
-		//			real x1 = x - 0.125f;
-		//			real x2 = x + 0.125f;
+		//			real32 x1 = x - 0.125f;
+		//			real32 x2 = x + 0.125f;
 		//	
 		//			for (point.x = x1; x2 >= x1; x1 += 0.0625f, point.x += x1)
 		//			{
@@ -568,11 +568,11 @@ void collision_debug_render()
 	if (collision_debug_features)
 	{
 		real_argb_color const* features_color = global_real_argb_green;
-		real height_absolute = fabsf(collision_debug_height);
-		real width_absolute = fabsf(collision_debug_width);
+		real32 height_absolute = fabsf(collision_debug_height);
+		real32 width_absolute = fabsf(collision_debug_width);
 
 		real_point3d debug_point = collision_debug_point;
-		real height = 0.0f;
+		real32 height = 0.0f;
 		if (collision_debug_length > 0.0f)
 		{
 			debug_point.x += (collision_debug_vector.i * 0.5f);
@@ -588,7 +588,7 @@ void collision_debug_render()
 			height = height_absolute * 0.5f;
 		}
 
-		real radius = height + width_absolute;
+		real32 radius = height + width_absolute;
 
 		collision_feature_list features{};
 		if (collision_get_features_in_sphere(collision_test_flags, &debug_point, radius, height_absolute, width_absolute, collision_debug_ignore_object_index, NONE, &features))

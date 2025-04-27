@@ -54,7 +54,7 @@ enum e_first_person_weapon_data_flags
 struct first_person_weapon_data
 {
 	// e_first_person_weapon_data_flags
-	dword_flags flags;
+	uint32 flags;
 	first_person_weapon_attachment attachment;
 	c_animation_manager animation_manager;
 	c_animation_channel channel1;
@@ -63,8 +63,8 @@ struct first_person_weapon_data
 	c_animation_id pitch_and_turn_id;
 	c_animation_id overlays_id;
 	c_animation_id ammunition_id;
-	real firing_push_back;
-	real firing_push_back_velocity;
+	real32 firing_push_back;
+	real32 firing_push_back_velocity;
 	short ticks_idle;
 	short ticks_until_pose;
 	short ticks_until_predict;
@@ -90,7 +90,7 @@ static_assert(sizeof(first_person_weapon_data) == 0x27A0);
 
 struct first_person_weapon
 {
-	dword_flags flags;
+	uint32 flags;
 	long unit_index;
 	first_person_weapon_attachment attachment;
 	first_person_weapon_data weapon[k_first_person_max_weapons];

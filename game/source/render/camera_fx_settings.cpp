@@ -1,6 +1,6 @@
 #include "render/camera_fx_settings.hpp"
 
-REFERENCE_DECLARE(0x019134C0, real, c_camera_fx_values::g_HDR_target_stops);
+REFERENCE_DECLARE(0x019134C0, real32, c_camera_fx_values::g_HDR_target_stops);
 
 void __cdecl s_scripted_exposure::dispose()
 {
@@ -22,7 +22,7 @@ void __cdecl s_scripted_exposure::initialize_for_new_map()
 	INVOKE(0x00A2AAF0, initialize_for_new_map);
 }
 
-void __cdecl scripted_exposure_update(real game_seconds_elapsed)
+void __cdecl scripted_exposure_update(real32 game_seconds_elapsed)
 {
 	INVOKE(0x00A2AF70, scripted_exposure_update, game_seconds_elapsed);
 }
@@ -135,7 +135,7 @@ void c_camera_fx_values::set(c_camera_fx_settings const* settings)
 	//m_bling_count = settings->m_bling_count.m_target;
 }
 
-void s_color_grading_parameter::set_defaults(dword flags, real blend_time)
+void s_color_grading_parameter::set_defaults(uint32 flags, real32 blend_time)
 {
 	INVOKE_CLASS_MEMBER(0x00A6FDB0, s_color_grading_parameter, set_defaults, flags, blend_time);
 

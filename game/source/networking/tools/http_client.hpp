@@ -26,7 +26,7 @@ public:
 		long* out_http_response_code
 	);
 
-	dword get_ip_address();
+	uint32 get_ip_address();
 	static void get_ip_address_string(long ipv4_address, c_static_string<16>* out_string);
 	long get_upload_length();
 	long get_upload_position();
@@ -54,7 +54,7 @@ public:
 	void set_upstream_quota(long upstream_quota);
 
 public:
-	bool start(c_http_stream* stream, long ip_address, word port, char const* url, bool endpoint_is_alpha);
+	bool start(c_http_stream* stream, long ip_address, uint16 port, char const* url, bool endpoint_is_alpha);
 
 private:
 	bool start_connect();
@@ -76,8 +76,8 @@ protected:
 	long m_bytes_remaining;
 	long m_socket_count;
 	bool m_started;
-	qword m_start_time;
-	qword m_previous_time;
+	uint64 m_start_time;
+	uint64 m_previous_time;
 	long m_upstream_quota;
 	e_upload_state m_current_state;
 };

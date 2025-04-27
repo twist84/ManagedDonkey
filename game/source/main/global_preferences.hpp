@@ -102,8 +102,8 @@ struct s_gui_game_setup_storage
 		short insertion_point;
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;
-		dword active_primary_skulls;
-		dword active_secondary_skulls;
+		uint32 active_primary_skulls;
+		uint32 active_secondary_skulls;
 		s_campaign_armaments campaign_armaments;
 		s_campaign_game_progression campaign_progression;
 		s_hub_progression hub_progression;
@@ -127,8 +127,8 @@ struct s_gui_game_setup_storage
 		short insertion_point;
 		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;
-		dword active_primary_skulls;
-		dword active_secondary_skulls;
+		uint32 active_primary_skulls;
+		uint32 active_secondary_skulls;
 		s_campaign_armaments campaign_armaments;
 		s_campaign_game_progression campaign_progression;
 		s_hub_progression hub_progression;
@@ -138,7 +138,7 @@ struct s_gui_game_setup_storage
 	struct s_matchmaking_settings
 	{
 		bool valid;
-		word hopper_id;
+		uint16 hopper_id;
 
 		long : 32;
 	};
@@ -276,7 +276,7 @@ struct s_global_preferences_data
 		bool hud_shake;
 		bool display_hints;
 		long team_color;
-		real camera_fov;
+		real32 camera_fov;
 	};
 	static_assert(sizeof(s_gameplay_settings) == 0xC);
 
@@ -300,13 +300,13 @@ struct s_global_preferences_data
 	c_enum<e_language, long, _language_invalid, k_language_count> last_font_language;
 	s_file_last_modification_date last_fonts_modification_date;
 	long build_number;
-	real betrayal_count; // betrayal_penalty?
+	real32 betrayal_count; // betrayal_penalty?
 	long eviction_count;
 	c_enum<e_gui_game_mode, long, _ui_game_mode_none, k_ui_game_mode_count> last_main_menu_item;
 	long last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
 	c_enum<e_gui_network_session_advertisement_mode, long, _gui_network_session_advertisement_mode_invalid, k_gui_network_session_advertisement_mode_count> xbox_live_private_privacy_setting;
-	dword hardware_crc;
+	uint32 hardware_crc;
 	long adapter;
 	bool fullscreen;
 	long aspect_ratio;
@@ -325,7 +325,7 @@ static_assert(sizeof(s_global_preferences_data) == 0x41DF0);
 struct s_global_preferences
 {
 	s_network_http_request_hash secure_signature;
-	byte __data14[4];
+	uint8 __data14[4];
 	s_global_preferences_data data;
 	char __data41E08[0x1F8];
 };
@@ -356,9 +356,9 @@ extern void __cdecl global_preferences_dispose();
 extern void __cdecl global_preferences_flush();
 extern bool __cdecl global_preferences_get_antialiasing();
 extern long __cdecl global_preferences_get_aspect_ratio();
-extern real __cdecl global_preferences_get_betrayal_count();
+extern real32 __cdecl global_preferences_get_betrayal_count();
 extern long __cdecl global_preferences_get_build_number();
-extern real __cdecl global_preferences_get_camera_fov();
+extern real32 __cdecl global_preferences_get_camera_fov();
 extern long __cdecl global_preferences_get_controls_method();
 extern s_keyboard_input_preferences* __cdecl global_preferences_get_keyboard_preferences(s_keyboard_input_preferences* preferences);
 extern void __cdecl global_preferences_bindings_create_default(s_keyboard_input_preferences* preferences);
@@ -372,7 +372,7 @@ extern bool __cdecl global_preferences_get_display_hints();
 extern e_quality_setting __cdecl global_preferences_get_effects_quality();
 extern long __cdecl global_preferences_get_eviction_count();
 extern bool __cdecl global_preferences_get_fullscreen();
-extern dword __cdecl global_preferences_get_hardware_crc();
+extern uint32 __cdecl global_preferences_get_hardware_crc();
 extern bool __cdecl global_preferences_get_hud_shake();
 extern long __cdecl global_preferences_get_keyboard_preset();
 extern e_language __cdecl global_preferences_get_last_font_language();
@@ -415,9 +415,9 @@ extern void __cdecl global_preferences_invalidate_maps();
 extern void __cdecl global_preferences_make_safe(s_global_preferences* preferences);
 extern void __cdecl global_preferences_set_antialiasing(bool antialiasing);
 extern void __cdecl global_preferences_set_aspect_ratio(bool aspect_ratio);
-extern void __cdecl global_preferences_set_betrayal_count(real betrayal_count);
+extern void __cdecl global_preferences_set_betrayal_count(real32 betrayal_count);
 extern void __cdecl global_preferences_set_build_number(long build_number);
-extern void __cdecl global_preferences_set_camera_fov(real camera_fov);
+extern void __cdecl global_preferences_set_camera_fov(real32 camera_fov);
 extern void __cdecl global_preferences_set_controls_method(long controls_method);
 extern void __cdecl global_preferences_set_keyboard_preferences(s_keyboard_input_preferences* keyboard_preferences);
 extern void __cdecl global_preferences_set_details_quality(e_quality_setting details_quality);
@@ -427,7 +427,7 @@ extern void __cdecl global_preferences_set_display_hints(bool display_hints);
 extern void __cdecl global_preferences_set_effects_quality(e_quality_setting effects_quality);
 extern void __cdecl global_preferences_set_eviction_count(long eviction_count);
 extern void __cdecl global_preferences_set_fullscreen(bool fullscreen);
-extern void __cdecl global_preferences_set_hardware_crc(dword crc);
+extern void __cdecl global_preferences_set_hardware_crc(uint32 crc);
 extern void __cdecl global_preferences_set_hide_watermark(bool hide_watermark);
 extern void __cdecl global_preferences_set_hud_shake(bool hud_shake);
 extern void __cdecl global_preferences_set_keyboard_preset(long keyboard_preset);

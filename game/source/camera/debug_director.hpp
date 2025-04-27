@@ -6,7 +6,7 @@ struct c_debug_director :
 	public c_director
 {
 public:
-	void __thiscall update_(real dt);
+	void __thiscall update_(real32 dt);
 
 	void constructor(long user_index);
 	void changed_camera();
@@ -18,8 +18,8 @@ public:
 	bool m_input_inhibited;
 	bool m_flying_camera_biped_control;
 
-	byte pad[0x2];
-	byte unused[0xC];
+	uint8 pad[0x2];
+	uint8 unused[0xC];
 };
 static_assert(sizeof(c_debug_director) == 0x160);
 

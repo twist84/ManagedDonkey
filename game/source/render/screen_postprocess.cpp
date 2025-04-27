@@ -9,9 +9,9 @@
 
 REFERENCE_DECLARE(0x01917D18, c_screen_postprocess::s_settings, c_screen_postprocess::x_settings_internal);
 REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
-REFERENCE_DECLARE(0x01917D54, real, g_ssao_radius);
-REFERENCE_DECLARE(0x01917D58, real, g_ssao_intensity);
-REFERENCE_DECLARE(0x01917D5C, real, g_ssao_sample_z_threshold);
+REFERENCE_DECLARE(0x01917D54, real32, g_ssao_radius);
+REFERENCE_DECLARE(0x01917D58, real32, g_ssao_intensity);
+REFERENCE_DECLARE(0x01917D5C, real32, g_ssao_sample_z_threshold);
 REFERENCE_DECLARE(0x01917D60, bool, g_use_fxaa);
 REFERENCE_DECLARE(0x01917D61, bool, g_lightshafts_enable);
 REFERENCE_DECLARE(0x01917D62, bool, g_high_quality_postprocessing_enabled);
@@ -44,10 +44,10 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_sampler_filter_mode filter_mode,
 	c_rasterizer::e_sampler_address_mode address_mode,
-	real scale_r,
-	real scale_g,
-	real scale_b,
-	real scale_a,
+	real32 scale_r,
+	real32 scale_g,
+	real32 scale_b,
+	real32 scale_a,
 	real_rectangle2d* source_texture_rect)
 {
 	//INVOKE(0x00A60060, c_screen_postprocess::apply_binary_op_ex, explicit_shader_index, source_surface_0, source_surface_1, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, source_texture_rect);
@@ -95,10 +95,10 @@ void __cdecl c_screen_postprocess::blit(
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_sampler_filter_mode filter_mode,
 	c_rasterizer::e_sampler_address_mode address_mode,
-	real scale_r,
-	real scale_g,
-	real scale_b,
-	real scale_a,
+	real32 scale_r,
+	real32 scale_g,
+	real32 scale_b,
+	real32 scale_a,
 	real_rectangle2d* source_texture_rect,
 	real_rectangle2d* dest_texture_rect)
 {
@@ -153,10 +153,10 @@ void __cdecl c_screen_postprocess::copy(
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_sampler_filter_mode filter_mode,
 	c_rasterizer::e_sampler_address_mode address_mode,
-	real scale_r,
-	real scale_g,
-	real scale_b,
-	real scale_a,
+	real32 scale_r,
+	real32 scale_g,
+	real32 scale_b,
+	real32 scale_a,
 	real_rectangle2d* dest_texture_rect)
 {
 	//INVOKE(0x00A60460, c_screen_postprocess::copy, explicit_shader_index, source_surface, dest_surface, filter_mode, address_mode, scale_r, scale_g, scale_b, scale_a, dest_texture_rect);
@@ -203,10 +203,10 @@ void __cdecl c_screen_postprocess::copy(
 void __cdecl copy_accumulation_target(
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_surface star_buffer,
-	real natural_intensity,
-	real bloom_intensity,
-	real bling_intensity,
-	real persist_intensity,
+	real32 natural_intensity,
+	real32 bloom_intensity,
+	real32 bling_intensity,
+	real32 persist_intensity,
 	bool use_depth_of_field,
 	s_observer_depth_of_field const* observer_depth_of_field)
 {
@@ -234,8 +234,8 @@ c_rasterizer::e_surface __cdecl c_screen_postprocess::downsample_generate(
 void __cdecl c_screen_postprocess::gaussian_blur(
 	c_rasterizer::e_surface target_surface,
 	c_rasterizer::e_surface temp_surface,
-	real horizontal_blur_size,
-	real vertical_blur_size)
+	real32 horizontal_blur_size,
+	real32 vertical_blur_size)
 {
 	//INVOKE(0x00A60D60, c_screen_postprocess::gaussian_blur, target_surface, temp_surface, horizontal_blur_size, vertical_blur_size);
 
@@ -269,10 +269,10 @@ void __cdecl c_screen_postprocess::gaussian_blur(
 void __cdecl c_screen_postprocess::gaussian_blur_fixed(
 	c_rasterizer::e_surface target_surface,
 	c_rasterizer::e_surface temp_surface,
-	real scale_r,
-	real scale_g,
-	real scale_b,
-	real scale_a)
+	real32 scale_r,
+	real32 scale_g,
+	real32 scale_b,
+	real32 scale_a)
 {
 	//INVOKE(0x00A60DE0, c_screen_postprocess::gaussian_blur_fixed, target_surface, temp_surface, scale_r, scale_g, scale_b, scale_a);
 
@@ -328,12 +328,12 @@ bool __cdecl c_screen_postprocess::postprocess_final_composite(
 	long explicit_shader_index,
 	c_rasterizer::e_surface display_surface,
 	c_rasterizer::e_surface bloom_surface,
-	real inherent_scale,
+	real32 inherent_scale,
 	bool use_tone_curve,
 	bool true_sRGB_output,
 	bool use_depth_of_field,
-	real z_near,
-	real z_far,
+	real32 z_near,
+	real32 z_far,
 	rectangle2d const* target_rect,
 	real_rectangle2d const* window_rect,
 	s_observer_depth_of_field const* observer_depth_of_field)
@@ -392,7 +392,7 @@ void __cdecl c_screen_postprocess::sub_A62710(
 	render_projection const* projection,
 	render_camera const* camera,
 	real_matrix4x3 const* matrix,
-	real const(*projection_matrix)[4],
+	real32 const(*projection_matrix)[4],
 	c_rasterizer::e_surface surface_a,
 	c_rasterizer::e_surface surface_b,
 	c_rasterizer::e_surface surface_c)

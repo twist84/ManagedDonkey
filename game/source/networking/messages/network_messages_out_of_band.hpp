@@ -10,24 +10,24 @@
 
 struct s_network_message_ping
 {
-	word id;
-	dword timestamp;
+	uint16 id;
+	uint32 timestamp;
 	bool request_qos;
 };
 static_assert(sizeof(s_network_message_ping) == 0xC);
 
 struct s_network_message_pong
 {
-	word id;
-	dword timestamp;
-	dword qos_response;
+	uint16 id;
+	uint32 timestamp;
+	uint32 qos_response;
 };
 static_assert(sizeof(s_network_message_pong) == 0xC);
 
 struct s_network_message_broadcast_search
 {
-	word protocol_version;
-	qword nonce;
+	uint16 protocol_version;
+	uint64 nonce;
 };
 static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
 
@@ -52,10 +52,10 @@ struct s_network_session_status_data
 
 	s_header header;
 	c_enum<e_network_session_mode, long, _network_session_mode_none, k_network_session_mode_count> session_mode;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 	c_enum<e_network_session_class, long, _network_session_class_offline, k_network_session_class_count> session_class;
 	c_enum<e_network_session_type, long, _network_session_type_none, k_network_session_type_count> session_type;
 	long privacy_mode;
@@ -73,8 +73,8 @@ struct s_network_session_status_data
 	c_enum<e_network_game_type, short, _network_game_type_none, k_network_game_type_count> network_game_type;
 	short connection_quality;
 	c_static_string<16> playlist_name;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
 	e_game_engine_type game_engine_type;
 	c_static_wchar_string<16> game_engine_variant_name;
 	e_campaign_id campaign_id;
@@ -84,7 +84,7 @@ struct s_network_session_status_data
 	c_static_wchar_string<16> map_variant_name;
 	c_static_wchar_string<16> saved_film_name;
 	bool game_has_teams;
-	byte : 8;
+	uint8 : 8;
 	short maximum_team_count;
 	short score_to_win_round;
 	short best_player_score;
@@ -94,13 +94,13 @@ struct s_network_session_status_data
 	long player_encoded_count;
 	long game_timer_type;
 	long game_timer_seconds;
-	dword team_mask;
+	uint32 team_mask;
 	c_static_array<long, 8> team_scores;
 	s_matchmaking_gather_party_properties gather_party_properties;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 
 	void update_host_player_identifier(transport_address const* address)
 	{
@@ -112,8 +112,8 @@ static_assert(sizeof(s_network_session_status_data) == 0x164C0);
 
 struct s_network_message_broadcast_reply
 {
-	word protocol_version;
-	qword search_nonce;
+	uint16 protocol_version;
+	uint64 search_nonce;
 	s_network_session_status_data status_data;
 };
 static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);

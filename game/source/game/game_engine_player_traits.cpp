@@ -211,7 +211,7 @@ void c_player_trait_shield_vitality::set_damage_resistance_percentage_setting(e_
 	}
 }
 
-real c_player_trait_shield_vitality::get_damage_resistance_percentage() const
+real32 c_player_trait_shield_vitality::get_damage_resistance_percentage() const
 {
 	e_damage_resistance_percentage_setting setting = get_damage_resistance_percentage_setting();
 
@@ -222,13 +222,13 @@ real c_player_trait_shield_vitality::get_damage_resistance_percentage() const
 	return k_damage_resistance_percentage_values[k_damage_resistance_percentage_setting_default - minimum_value];
 }
 
-void c_player_trait_shield_vitality::set_damage_resistance_percentage(real damage_resistance_percentage, bool force)
+void c_player_trait_shield_vitality::set_damage_resistance_percentage(real32 damage_resistance_percentage, bool force)
 {
 	const long minimum_value = _damage_resistance_percentage_setting_10_percent;
 	for (long setting = minimum_value; setting < k_damage_resistance_percentage_settings; setting++)
 	{
-		real value = k_damage_resistance_percentage_values[setting - minimum_value];
-		real distance = damage_resistance_percentage - value;
+		real32 value = k_damage_resistance_percentage_values[setting - minimum_value];
+		real32 distance = damage_resistance_percentage - value;
 		if ((damage_resistance_percentage - value) < 0.0f)
 			distance = -distance;
 
@@ -262,7 +262,7 @@ void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage_setting
 	}
 }
 
-real c_player_trait_shield_vitality::get_shield_recharge_rate_percentage() const
+real32 c_player_trait_shield_vitality::get_shield_recharge_rate_percentage() const
 {
 	e_shield_recharge_rate_percentage_setting setting = get_shield_recharge_rate_percentage_setting();
 
@@ -273,13 +273,13 @@ real c_player_trait_shield_vitality::get_shield_recharge_rate_percentage() const
 	return k_shield_recharge_rate_percentage_values[k_shield_recharge_rate_percentage_setting_default - minimum_value];
 }
 
-void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage(real shield_recharge_rate_percentage, bool force)
+void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage(real32 shield_recharge_rate_percentage, bool force)
 {
 	const long minimum_value = _shield_recharge_rate_percentage_setting_negative_25_percent;
 	for (long setting = minimum_value; setting < k_shield_recharge_rate_percentage_settings; setting++)
 	{
-		real value = k_shield_recharge_rate_percentage_values[setting - minimum_value];
-		real distance = shield_recharge_rate_percentage - value;
+		real32 value = k_shield_recharge_rate_percentage_values[setting - minimum_value];
+		real32 distance = shield_recharge_rate_percentage - value;
 		if ((shield_recharge_rate_percentage - value) < 0.0f)
 			distance = -distance;
 
@@ -313,7 +313,7 @@ void c_player_trait_shield_vitality::set_vampirism_percentage_setting(e_vampiris
 	}
 }
 
-real c_player_trait_shield_vitality::get_vampirism_percentage() const
+real32 c_player_trait_shield_vitality::get_vampirism_percentage() const
 {
 	e_vampirism_percentage_setting setting = get_vampirism_percentage_setting();
 
@@ -324,13 +324,13 @@ real c_player_trait_shield_vitality::get_vampirism_percentage() const
 	return k_shield_recharge_rate_percentage_values[k_vampirism_percentage_setting_default - minimum_value];
 }
 
-void c_player_trait_shield_vitality::set_vampirism_percentage(real vampirism_percentage, bool force)
+void c_player_trait_shield_vitality::set_vampirism_percentage(real32 vampirism_percentage, bool force)
 {
 	const long minimum_value = _vampirism_percentage_setting_0_percent;
 	for (long setting = minimum_value; setting < k_vampirism_percentage_settings; setting++)
 	{
-		real value = k_vampirism_percentage_values[setting - minimum_value];
-		real distance = vampirism_percentage - value;
+		real32 value = k_vampirism_percentage_values[setting - minimum_value];
+		real32 distance = vampirism_percentage - value;
 		if ((vampirism_percentage - value) < 0.0f)
 			distance = -distance;
 
@@ -425,9 +425,9 @@ void c_player_trait_shield_vitality::set_shield_multiplier(long shield_multiplie
 	set_shield_multiplier_setting(_shield_multiplier_setting_unchanged, force);
 }
 
-real c_player_trait_shield_vitality::get_maximum_shield_vitality()
+real32 c_player_trait_shield_vitality::get_maximum_shield_vitality()
 {
-	return static_cast<real>(get_shield_multiplier());
+	return static_cast<real32>(get_shield_multiplier());
 }
 
 void c_player_trait_weapons::byteswap()
@@ -530,8 +530,8 @@ void c_player_trait_weapons::set_initial_grenade_count(long initial_grenade_coun
 	const long minimum_value = _grenade_count_setting_none;
 	for (long setting = minimum_value; setting < k_grenade_count_settings; setting++)
 	{
-		real value = k_grenade_count_values[setting - minimum_value];
-		real distance = initial_grenade_count - value;
+		real32 value = k_grenade_count_values[setting - minimum_value];
+		real32 distance = initial_grenade_count - value;
 		if ((initial_grenade_count - value) < 0.0f)
 			distance = -distance;
 
@@ -635,7 +635,7 @@ void c_player_trait_weapons::set_damage_modifier_percentage_setting(e_damage_mod
 	}
 }
 
-real c_player_trait_weapons::get_damage_modifier_percentage() const
+real32 c_player_trait_weapons::get_damage_modifier_percentage() const
 {
 	e_damage_modifier_percentage_setting setting = get_damage_modifier_percentage_setting();
 
@@ -646,13 +646,13 @@ real c_player_trait_weapons::get_damage_modifier_percentage() const
 	return k_damage_modifier_percentage_values[k_damage_modifier_percentage_setting_default - minimum_value];
 }
 
-void c_player_trait_weapons::set_damage_modifier_percentage(real damage_modifier_percentage, bool force)
+void c_player_trait_weapons::set_damage_modifier_percentage(real32 damage_modifier_percentage, bool force)
 {
 	const long minimum_value = _damage_modifier_percentage_setting_0_percent;
 	for (long setting = minimum_value; setting < k_damage_modifier_percentage_settings; setting++)
 	{
-		real value = k_damage_modifier_percentage_values[setting - minimum_value];
-		real distance = damage_modifier_percentage - value;
+		real32 value = k_damage_modifier_percentage_values[setting - minimum_value];
+		real32 distance = damage_modifier_percentage - value;
 		if ((damage_modifier_percentage - value) < 0.0f)
 			distance = -distance;
 
@@ -815,7 +815,7 @@ void c_player_trait_movement::set_speed_setting(e_player_speed_setting speed_set
 	}
 }
 
-real c_player_trait_movement::get_speed() const
+real32 c_player_trait_movement::get_speed() const
 {
 	e_player_speed_setting setting = get_speed_setting();
 
@@ -826,13 +826,13 @@ real c_player_trait_movement::get_speed() const
 	return k_player_speed_values[k_player_speed_setting_default - minimum_value];
 }
 
-void c_player_trait_movement::set_speed(real speed, bool force)
+void c_player_trait_movement::set_speed(real32 speed, bool force)
 {
 	const long minimum_value = _player_speed_setting_25_percent;
 	for (long setting = minimum_value; setting < k_player_speed_settings; setting++)
 	{
-		real value = k_player_speed_values[setting - minimum_value];
-		real distance = speed - value;
+		real32 value = k_player_speed_values[setting - minimum_value];
+		real32 distance = speed - value;
 		if ((speed - value) < 0.0f)
 			distance = -distance;
 
@@ -866,7 +866,7 @@ void c_player_trait_movement::set_gravity_setting(e_player_gravity_setting gravi
 	}
 }
 
-real c_player_trait_movement::get_gravity() const
+real32 c_player_trait_movement::get_gravity() const
 {
 	e_player_gravity_setting setting = get_gravity_setting();
 
@@ -877,13 +877,13 @@ real c_player_trait_movement::get_gravity() const
 	return k_player_gravity_values[k_player_gravity_setting_default - minimum_value];
 }
 
-void c_player_trait_movement::set_gravity(real gravity, bool force)
+void c_player_trait_movement::set_gravity(real32 gravity, bool force)
 {
 	const long minimum_value = _player_gravity_setting_50_percent;
 	for (long setting = minimum_value; setting < k_player_gravity_settings; setting++)
 	{
-		real value = k_player_gravity_values[setting - minimum_value];
-		real distance = gravity - value;
+		real32 value = k_player_gravity_values[setting - minimum_value];
+		real32 distance = gravity - value;
 		if ((gravity - value) < 0.0f)
 			distance = -distance;
 
@@ -1113,7 +1113,7 @@ void c_player_trait_sensors::set_motion_tracker_range_setting(e_motion_tracker_r
 	}
 }
 
-real c_player_trait_sensors::get_motion_tracker_range_meters() const
+real32 c_player_trait_sensors::get_motion_tracker_range_meters() const
 {
 	e_motion_tracker_range_setting setting = get_motion_tracker_range_setting();
 

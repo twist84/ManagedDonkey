@@ -15,7 +15,7 @@
 //.text:0058F840 ; 
 //.text:0058F850 ; 
 
-bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real sphere_radius, real distance)
+bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real32 sphere_radius, real32 distance)
 {
 	return INVOKE(0x0058F860, game_engine_any_player_nearby_and_looking_at_sphere, sphere_center, sphere_radius, distance);
 }
@@ -78,12 +78,12 @@ bool __cdecl game_engine_object_is_useless_weapon(long object_index)
 	return INVOKE(0x0058FD40, game_engine_object_is_useless_weapon, object_index);
 }
 
-bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, real_point3d const* sphere_center, real sphere_radius)
+bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, real_point3d const* sphere_center, real32 sphere_radius)
 {
 	return INVOKE(0x0058FDB0, game_engine_player_is_looking_at_sphere, player_index, sphere_center, sphere_radius);
 }
 
-bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real radius)
+bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real32 radius)
 {
 	return INVOKE(0x0058FEE0, game_engine_player_is_nearby, point, radius);
 }

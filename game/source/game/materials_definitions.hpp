@@ -21,12 +21,12 @@ struct s_material_physics_drag_properties
 	// drag= k*power(q*velocity, e)
 	// 
 	// defaults to k= .5, q= 1.0, e= 1.0
-	real drag_k;
-	real drag_q;
-	real drag_e;
+	real32 drag_k;
+	real32 drag_q;
+	real32 drag_e;
 
 	// objects of this flotation category have this density relative to being in this material (1.0f==neutral)
-	real water_densities[k_water_density_count];
+	real32 water_densities[k_water_density_count];
 };
 static_assert(sizeof(s_material_physics_drag_properties) == 0x28);
 
@@ -41,10 +41,10 @@ enum e_global_material_bit
 
 struct s_material_physics_properties
 {
-	dword_flags flags;
-	real friction;
-	real restitution;
-	real density;
+	uint32 flags;
+	real32 friction;
+	real32 restitution;
+	real32 density;
 	c_typed_tag_block<s_material_physics_drag_properties> drag_block;
 };
 static_assert(sizeof(s_material_physics_properties) == 0x1C);
@@ -121,7 +121,7 @@ struct s_global_material_definition
 	c_string_id name;
 	c_string_id parent_name;
 	short runtime_material_index;
-	c_flags<e_global_material_bit, word, k_number_of_global_material_bits> flags;
+	c_flags<e_global_material_bit, uint16, k_number_of_global_material_bits> flags;
 	c_string_id general_armor;
 	c_string_id specific_armor;
 	s_material_physics_properties physics_properties;
@@ -131,7 +131,7 @@ struct s_global_material_definition
 	c_typed_tag_block<s_global_material_underwater_proxy> underwater_proxies_block;
 	c_string_id footsteps_in_rain_material_name; // When it's raining, use this as the footstep material
 	short runtime_rain_material_index;
-	byte ASDF[0x2]; // pad
+	uint8 ASDF[0x2]; // pad
 
 	void update_reference_names();
 };

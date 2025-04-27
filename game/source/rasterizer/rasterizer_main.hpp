@@ -11,11 +11,11 @@ struct s_rasterizer_game_states
 	bool weather;
 	bool cinematic_motion_blur;
 
-	byte __unknown5[0x27];
+	uint8 __unknown5[0x27];
 
 	bool autoexposure;
 
-	byte __unknown44[0x1DB];
+	uint8 __unknown44[0x1DB];
 };
 static_assert(sizeof(s_rasterizer_game_states) == 0x208);
 

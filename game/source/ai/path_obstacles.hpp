@@ -11,10 +11,10 @@ struct disc
 	short obstacle_index;
 	long object_index;
 	real_point2d center;
-	real radius;
+	real32 radius;
 
 	// debug only?
-	//real z;
+	//real32 z;
 };
 static_assert(sizeof(struct disc) == 0x14);
 
@@ -32,5 +32,5 @@ static_assert(sizeof(struct obstacles) == 0x140C);
 extern struct disc const* __cdecl obstacles_get_disc(struct obstacles const* obstacles, short disc_index);
 extern void __cdecl obstacles_new(struct obstacles* obstacles);
 
-extern void render_debug_obstacles(struct obstacles const* obstacles, real radius);
+extern void render_debug_obstacles(struct obstacles const* obstacles, real32 radius);
 

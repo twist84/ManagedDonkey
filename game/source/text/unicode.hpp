@@ -71,9 +71,9 @@ extern wchar_t const* usnzappend(wchar_t* string, long size, wchar_t const* form
 //extern wchar_t * utmpnam(wchar_t *);
 //extern long ustrtol(wchar_t const *,wchar_t * *,int);
 //extern unsigned long ustrtoul(wchar_t const *,wchar_t * *,int);
-//extern double ustrtod(wchar_t const *,wchar_t * *);
+//extern real64 ustrtod(wchar_t const *,wchar_t * *);
 //extern wchar_t * ustrftime_tm(wchar_t *,long,wchar_t const *,struct tm const *);
-//extern wchar_t * ustrftime(wchar_t *,long,wchar_t const *,__int64);
+//extern wchar_t * ustrftime(wchar_t *,long,wchar_t const *,int64);
 //extern int uatoi(wchar_t const *);
 
 extern void wchar_string_to_ascii_string(wchar_t const* source, char* destination, long source_length, long* destination_length);

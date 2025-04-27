@@ -12,8 +12,8 @@ long const k_network_maximum_machines_per_session = 17;
 
 struct s_network_session_peer_connectivity
 {
-	word_flags peer_connectivity_mask;
-	word_flags peer_probe_mask;
+	uint16 peer_connectivity_mask;
+	uint16 peer_probe_mask;
 	long peer_latency_min;
 	long peer_latency_est;
 	long peer_latency_max;
@@ -23,11 +23,11 @@ struct s_network_session_peer_properties
 {
 	c_static_wchar_string<16> peer_name;
 	c_static_wchar_string<32> peer_session_name;
-	dword peer_mp_map_mask[1];
+	uint32 peer_mp_map_mask[1];
 	long peer_map;
 	c_enum<e_network_session_map_status, long, _network_session_map_status_none, k_network_session_map_status_count> peer_map_status;
 	long peer_map_progress_percentage;
-	qword peer_game_instance;
+	uint64 peer_game_instance;
 	short ready_hopper_id;
 	short : 16;
 	c_enum<e_session_game_start_error, long, _session_game_start_error_none, k_session_game_start_error_count> game_start_error;
@@ -43,7 +43,7 @@ struct s_network_session_peer_properties
 	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	long determinism_version;
 	long determinism_compatible_version;
-	c_flags<e_network_session_peer_properties_status_flags, dword, k_network_session_peer_properties_status_flags> flags;
+	c_flags<e_network_session_peer_properties_status_flags, uint32, k_network_session_peer_properties_status_flags> flags;
 };
 static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
 
@@ -52,12 +52,12 @@ struct s_network_session_peer
 	s_transport_secure_address secure_address;
 	c_enum<e_network_session_peer_state, long, _network_session_peer_state_none, k_network_session_peer_state_count> connection_state;
 	long version;
-	dword join_start_time;
+	uint32 join_start_time;
 	long __unknown1C;
 	s_network_session_peer_properties properties;
-	qword party_nonce;
-	qword join_nonce;
-	dword player_mask[1];
+	uint64 party_nonce;
+	uint64 join_nonce;
+	uint32 player_mask[1];
 };
 static_assert(sizeof(s_network_session_peer) == 0xF8);
 
@@ -68,12 +68,12 @@ struct s_network_session_player
 	long peer_index;
 	long peer_user_index;
 	bool left_game;
-	byte __pad15[3];
+	uint8 __pad15[3];
 	long controller_index;
-	dword __unknown1C;
+	uint32 __unknown1C;
 	s_player_configuration configuration;
-	dword voice_settings;
-	dword __unknown1644;
+	uint32 voice_settings;
+	uint32 __unknown1644;
 };
 static_assert(sizeof(s_network_session_player) == 0x1648);
 
@@ -86,8 +86,8 @@ struct s_network_session_shared_membership
 	long public_slot_count;
 	bool friends_only;
 	bool are_slots_locked;
-	byte __unknown16;
-	byte __unknown17;
+	uint8 __unknown16;
+	uint8 __unknown17;
 	long peer_count;
 	c_static_flags<k_network_maximum_machines_per_session> peer_valid_mask;
 	c_static_array<s_network_session_peer, k_network_maximum_machines_per_session> peers;
@@ -102,7 +102,7 @@ static_assert(sizeof(s_network_session_shared_membership) == 0x17528);
 
 struct s_local_session_peer
 {
-	dword_flags flags;
+	uint32 flags;
 	long channel_index;
 	long expected_update_number;
 };
@@ -115,7 +115,7 @@ struct s_player_add_queue_entry
 	long user_index;
 	e_controller_index controller_index;
 	s_player_configuration_from_client player_data_from_client;
-	dword player_voice_settings;
+	uint32 player_voice_settings;
 };
 static_assert(sizeof(s_player_add_queue_entry) == 0x48);
 
@@ -185,7 +185,7 @@ public:
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;
 	c_static_array<s_network_session_shared_membership, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership;
-	c_static_array<dword, k_network_maximum_machines_per_session> m_baseline_checksum;
+	c_static_array<uint32, k_network_maximum_machines_per_session> m_baseline_checksum;
 	bool __unknown1A3D1C; // m_has_received_a_membership_update?
 	bool __unknown1A3D1D; // m_completed_first_player_update?
 	bool __unknown1A3D1E; // m_needs_player_update?

@@ -22,7 +22,7 @@ actor_datum* squad_actor_iterator_next(squad_actor_iterator* iterator)
 }
 
 //.text:0148F680 ; void __cdecl squad_add_vehicle(long, long)
-//.text:0148F6D0 ; double __cdecl squad_adoption_distance_to_actor(long, long, short)
+//.text:0148F6D0 ; real64 __cdecl squad_adoption_distance_to_actor(long, long, short)
 //.text:0148F7F0 ; bool __cdecl squad_ancestor_of_squad_group(long, long)
 //.text:0148F870 ; bool __cdecl squad_area_iterator_new(squad_area_iterator*, short, short, short, bool, e_pureform)
 //.text:0148FB30 ; short __cdecl squad_area_iterator_next(squad_area_iterator*)
@@ -32,7 +32,7 @@ actor_datum* squad_actor_iterator_next(squad_actor_iterator* iterator)
 //.text:01490000 ; void __cdecl squad_build_inhibition_vector(c_static_flags<209>*, short)
 //.text:01490090 ; void __cdecl squad_clear_arrived(long)
 //.text:014900E0 ; void __cdecl squad_clear_create_options(squad_create_options*)
-//.text:01490100 ; bool __cdecl squad_consider_major_upgrade(short, real)
+//.text:01490100 ; bool __cdecl squad_consider_major_upgrade(short, real32)
 //.text:01490200 ; void __cdecl squad_create(long, squad_create_options const*)
 //.text:01490580 ; short __cdecl squad_create_from_spawn_definitions(long, squad_create_options const*, c_static_stack<actor_spawn_definition, 256>*)
 

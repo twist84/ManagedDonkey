@@ -148,7 +148,7 @@ struct s_tag_block;
 struct s_data_array;
 
 extern bool const _hs_type_boolean_default;
-extern real const _hs_type_real_default;
+extern real32 const _hs_type_real_default;
 extern short const _hs_type_short_integer_default;
 extern long const _hs_type_long_integer_default;
 extern short const _hs_type_script_default;

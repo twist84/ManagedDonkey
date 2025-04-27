@@ -7,12 +7,12 @@ void __cdecl c_vehicle_type_chopper::adjust_gravity(long vehicle_index, real_vec
 	INVOKE(0x00BD37B0, c_vehicle_type_chopper::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-real __cdecl chopper_calculate_acceleration_magnitude(real distance, real acceleration, real velocity_towards_target, real maximum_velocity, real dead_radius, real hookes_law_e, real* scale)
+real32 __cdecl chopper_calculate_acceleration_magnitude(real32 distance, real32 acceleration, real32 velocity_towards_target, real32 maximum_velocity, real32 dead_radius, real32 hookes_law_e, real32* scale)
 {
 	return INVOKE(0x00BD37C0, chopper_calculate_acceleration_magnitude, distance, acceleration, velocity_towards_target, maximum_velocity, dead_radius, hookes_law_e, scale);
 }
 
-bool c_vehicle_type_chopper::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_chopper::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE_CLASS_MEMBER(0x00BD39C0, c_vehicle_type_chopper, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
@@ -62,7 +62,7 @@ bool __cdecl c_vehicle_type_chopper::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BD3D60, c_vehicle_type_chopper::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_chopper::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_chopper::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BD3D70, c_vehicle_type_chopper, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }

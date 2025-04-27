@@ -67,8 +67,8 @@ public:
 	virtual bool reference_delays_entity_deletion() = 0;
 	virtual bool event_can_be_transmitted(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*) = 0;
 	virtual long minimum_required_bits(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, long*) = 0;
-	virtual real calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real) = 0;
-	virtual void write_description_to_string(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real, long, char*) = 0;
+	virtual real32 calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real32) = 0;
+	virtual void write_description_to_string(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real32, long, char*) = 0;
 	virtual long* maximum_required_bits(long* out_bits, c_replication_outgoing_event*, long) = 0; // unsure of the name, pc only?
 	virtual void event_payload_encode(long, void const*, c_bitstream*) = 0;
 	virtual bool event_payload_decode(long, void*, c_bitstream*, bool a4) = 0;

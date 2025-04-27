@@ -16,7 +16,7 @@ REFERENCE_DECLARE(0x02247448, s_online_session_manager_globals, online_session_m
 //.text:00480240 ; s_online_managed_session* __cdecl s_online_managed_session::s_online_managed_session();
 //.text:004802A0 ; s_online_managed_session* __cdecl s_online_managed_session::~s_online_managed_session();
 
-void __cdecl add_to_player_list(s_online_session_player* players, long player_count, qword const* xuids, bool const* xuids_left_game, long xuid_count)
+void __cdecl add_to_player_list(s_online_session_player* players, long player_count, uint64 const* xuids, bool const* xuids_left_game, long xuid_count)
 {
 	INVOKE(0x00480350, add_to_player_list, players, player_count, xuids, xuids_left_game, xuid_count);
 }
@@ -27,8 +27,8 @@ void __thiscall c_managed_session_overlapped_task::complete_()
 	m_completion_routine(m_managed_session_index, m_result, m_return_result);
 }
 
-//.text:00480440 ; virtual void __cdecl c_managed_session_overlapped_task::failure(dword, dword, dword);
-void __thiscall c_managed_session_overlapped_task::failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error)
+//.text:00480440 ; virtual void __cdecl c_managed_session_overlapped_task::failure(uint32, uint32, uint32);
+void __thiscall c_managed_session_overlapped_task::failure_(uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error)
 {
 	m_return_result = overlapped_extended_error;
 	m_result = false;
@@ -38,7 +38,7 @@ void __thiscall c_managed_session_overlapped_task::failure_(dword calling_result
 //.text:00480510 ; e_controller_index __cdecl get_first_signed_in_controller_index()
 //.text:00480590 ; public: bool __cdecl c_controller_interface::in_use() const
 
-void __cdecl managed_session_add_players(long index, qword const* xuids, bool const* xuids_left_game, long xuid_count)
+void __cdecl managed_session_add_players(long index, uint64 const* xuids, bool const* xuids_left_game, long xuid_count)
 {
 	INVOKE(0x00480630, managed_session_add_players, index, xuids, xuids_left_game, xuid_count);
 }
@@ -93,14 +93,14 @@ long __cdecl managed_session_count_master_sessions()
 	return INVOKE(0x00481070, managed_session_count_master_sessions);
 }
 
-//long __cdecl managed_session_create_client(e_network_session_class session_class, c_flags<e_managed_session_creation_flags, byte, 4> creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_transport_secure_identifier const* session_id, s_transport_secure_address const* host_address, s_transport_secure_key const* key, s_online_context const* creation_contexts, long context_count)
-long __cdecl managed_session_create_client(e_network_session_class session_class, byte creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_transport_secure_identifier const* session_id, s_transport_secure_address const* host_address, s_transport_secure_key const* key, s_online_context const* creation_contexts, long creation_context_count)
+//long __cdecl managed_session_create_client(e_network_session_class session_class, c_flags<e_managed_session_creation_flags, uint8, 4> creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_transport_secure_identifier const* session_id, s_transport_secure_address const* host_address, s_transport_secure_key const* key, s_online_context const* creation_contexts, long context_count)
+long __cdecl managed_session_create_client(e_network_session_class session_class, uint8 creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_transport_secure_identifier const* session_id, s_transport_secure_address const* host_address, s_transport_secure_key const* key, s_online_context const* creation_contexts, long creation_context_count)
 {
 	return INVOKE(0x00481110, managed_session_create_client, session_class, creation_flags, platform, private_slot_count, public_slot_count, session_id, host_address, key, creation_contexts, creation_context_count);
 }
 
-//long __cdecl managed_session_create_host(e_network_session_class session_class, c_flags<e_managed_session_creation_flags, byte, 4> creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_online_context const* creation_contexts, long creation_context_count)
-long __cdecl managed_session_create_host(e_network_session_class session_class, byte creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_online_context const* creation_contexts, long creation_context_count)
+//long __cdecl managed_session_create_host(e_network_session_class session_class, c_flags<e_managed_session_creation_flags, uint8, 4> creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_online_context const* creation_contexts, long creation_context_count)
+long __cdecl managed_session_create_host(e_network_session_class session_class, uint8 creation_flags, e_transport_platform platform, long private_slot_count, long public_slot_count, s_online_context const* creation_contexts, long creation_context_count)
 {
 	return INVOKE(0x00481270, managed_session_create_host, session_class, creation_flags, platform, private_slot_count, public_slot_count, creation_contexts, creation_context_count);
 }
@@ -115,7 +115,7 @@ void __cdecl managed_session_create_session_internal(long index, s_online_manage
 	INVOKE(0x00481550, managed_session_create_session_internal, index, managed_session);
 }
 
-void __cdecl managed_session_creation_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_creation_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00481930, managed_session_creation_complete, index, succeeded, a3);
 }
@@ -135,7 +135,7 @@ void __cdecl managed_session_delete_session_internal(long index, s_online_manage
 	INVOKE(0x00481C10, managed_session_delete_session_internal, index, managed_session);
 }
 
-void __cdecl managed_session_deletion_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_deletion_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00481D30, managed_session_deletion_complete, index, succeeded, a3);
 }
@@ -150,7 +150,7 @@ void __cdecl managed_session_game_end(long index)
 	INVOKE(0x00481E10, managed_session_game_end, index);
 }
 
-void __cdecl managed_session_game_end_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_game_end_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00481EB0, managed_session_game_end_complete, index, succeeded, a3);
 }
@@ -160,7 +160,7 @@ void __cdecl managed_session_game_start(long index)
 	INVOKE(0x00481F10, managed_session_game_start, index);
 }
 
-void __cdecl managed_session_game_start_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_game_start_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00481F80, managed_session_game_start_complete, index, succeeded, a3);
 }
@@ -195,7 +195,7 @@ void __cdecl managed_session_get_new_host_information(long index, s_transport_se
 	INVOKE(0x004820D0, managed_session_get_new_host_information, index, session_description, platform);
 }
 
-bool __cdecl managed_session_get_nonce(long index, qword* nonce)
+bool __cdecl managed_session_get_nonce(long index, uint64* nonce)
 {
 	return INVOKE(0x00482140, managed_session_get_nonce, index, nonce);
 }
@@ -205,8 +205,8 @@ bool __cdecl managed_session_get_security_information(long index, bool host_migr
 	return INVOKE(0x00482170, managed_session_get_security_information, index, host_migrating, session_description, platform);
 }
 
-//c_flags<e_managed_session_status_flags, word, 14> __cdecl managed_session_get_status(long index)
-word __cdecl managed_session_get_status(long index)
+//c_flags<e_managed_session_status_flags, uint16, 14> __cdecl managed_session_get_status(long index)
+uint16 __cdecl managed_session_get_status(long index)
 {
 	return INVOKE(0x00482280, managed_session_get_status, index);
 }
@@ -216,7 +216,7 @@ bool __cdecl managed_session_handle_valid(void* handle)
 	return INVOKE(0x004823C0, managed_session_handle_valid, handle);
 }
 
-void __cdecl managed_session_host_migration_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_host_migration_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00482410, managed_session_host_migration_complete, index, succeeded, a3);
 }
@@ -241,7 +241,7 @@ void __cdecl managed_session_mark_session_to_be_created_offline(long index)
 	INVOKE(0x00482590, managed_session_mark_session_to_be_created_offline, index);
 }
 
-void __cdecl managed_session_modify_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_modify_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x004825B0, managed_session_modify_complete, index, succeeded, a3);
 }
@@ -251,12 +251,12 @@ void __cdecl managed_session_modify_slot_counts(long index, long private_slot_co
 	INVOKE(0x00482650, managed_session_modify_slot_counts, index, private_slot_count, public_slot_count, friends_only, slots_locked);
 }
 
-void __cdecl managed_session_players_add_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_players_add_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x00482750, managed_session_players_add_complete, index, succeeded, a3);
 }
 
-void __cdecl managed_session_players_remove_complete(long index, bool succeeded, dword a3)
+void __cdecl managed_session_players_remove_complete(long index, bool succeeded, uint32 a3)
 {
 	INVOKE(0x004827F0, managed_session_players_remove_complete, index, succeeded, a3);
 }
@@ -266,7 +266,7 @@ void __cdecl managed_session_process_pending_operations(long index)
 	INVOKE(0x00482880, managed_session_process_pending_operations, index);
 }
 
-void __cdecl managed_session_remove_players(long index, qword const* xuids, long xuid_count)
+void __cdecl managed_session_remove_players(long index, uint64 const* xuids, long xuid_count)
 {
 	INVOKE(0x00482D60, managed_session_remove_players, index, xuids, xuid_count);
 }
@@ -366,13 +366,13 @@ void __cdecl online_session_manager_update()
 	INVOKE(0x00483B20, online_session_manager_update);
 }
 
-void __cdecl remove_from_player_list(s_online_session_player* players, long player_count, qword const* xuids, long xuid_count)
+void __cdecl remove_from_player_list(s_online_session_player* players, long player_count, uint64 const* xuids, long xuid_count)
 {
 	INVOKE(0x00483B50, remove_from_player_list, players, player_count, xuids, xuid_count);
 }
 
-//.text:00483CB0 ; virtual void __cdecl c_managed_session_overlapped_task::success(dword)
-void __thiscall c_managed_session_overlapped_task::success_(dword return_result)
+//.text:00483CB0 ; virtual void __cdecl c_managed_session_overlapped_task::success(uint32)
+void __thiscall c_managed_session_overlapped_task::success_(uint32 return_result)
 {
 	m_return_result = return_result;
 	m_result = true;

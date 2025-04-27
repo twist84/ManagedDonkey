@@ -91,16 +91,16 @@ struct weapon_barrel
 	char idle_ticks;
 	c_enum<e_weapon_barrel_state, char, _weapon_barrel_state_idle, k_weapon_barrel_states> state;
 	short timer;
-	c_flags<e_weapon_barrel_flags, word, k_weapon_barrel_flags> flags;
+	c_flags<e_weapon_barrel_flags, uint16, k_weapon_barrel_flags> flags;
 
-	byte __data4[0x16];
+	uint8 __data4[0x16];
 
-	real current_error;
-	real angle_change_scale;
-	real bonus_round_fraction;
-	real overflow;
+	real32 current_error;
+	real32 angle_change_scale;
+	real32 bonus_round_fraction;
+	real32 overflow;
 
-	byte __data2C[0x8];
+	uint8 __data2C[0x8];
 };
 static_assert(sizeof(weapon_barrel) == 0x34);
 
@@ -134,12 +134,12 @@ struct weapon_trigger
 {
 	c_enum<e_weapon_trigger_state, char, _weapon_trigger_state_idle, k_weapon_trigger_states> state;
 
-	byte __data1[0x3];
+	uint8 __data1[0x3];
 
 	short timer;
-	c_flags<e_weapon_trigger_flags, word, k_weapon_trigger_flags> flags;
+	c_flags<e_weapon_trigger_flags, uint16, k_weapon_trigger_flags> flags;
 
-	byte __data8[0x4];
+	uint8 __data8[0x4];
 };
 static_assert(sizeof(weapon_trigger) == 0xC);
 
@@ -184,7 +184,7 @@ static_assert(sizeof(weapon_magazine) == 0x1A);
 
 struct weapon_first_person_emulation
 {
-	byte __data[0x1C];
+	uint8 __data[0x1C];
 };
 static_assert(sizeof(weapon_first_person_emulation) == 0x1C);
 
@@ -218,17 +218,17 @@ enum e_weapon_state
 
 struct _weapon_datum
 {
-	c_flags<e_weapon_flags, word, k_weapon_flags> flags;
-	word_flags control_flags;
-	byte primary_trigger;
-	byte last_primary_trigger;
-	byte last_hill_or_valley;
+	c_flags<e_weapon_flags, uint16, k_weapon_flags> flags;
+	uint16 control_flags;
+	uint8 primary_trigger;
+	uint8 last_primary_trigger;
+	uint8 last_hill_or_valley;
 	char primary_trigger_direction;
 	char primary_trigger_down_ticks;
 	char primary_trigger_firing_ticks;
-	byte delay_apply_predicted_state_timer;
+	uint8 delay_apply_predicted_state_timer;
 
-	byte __unknownB;
+	uint8 __unknownB;
 
 	c_enum<e_weapon_state, short, _weapon_state_idle, k_weapon_states> state;
 	short state_timer;
@@ -243,21 +243,21 @@ struct _weapon_datum
 	short __unknown12;
 
 	short multiplayer_weapon_identifier;
-	byte turn_on_timer;
-	byte ready_for_use_timer;
-	real heat;
-	real age;
-	real delayed_age;
-	real overcharged;
-	real current_power;
-	real desired_power;
+	uint8 turn_on_timer;
+	uint8 ready_for_use_timer;
+	real32 heat;
+	real32 age;
+	real32 delayed_age;
+	real32 overcharged;
+	real32 current_power;
+	real32 desired_power;
 	c_target_tracking_system tracked_target;
 	
-	byte __data70[0x4];
+	uint8 __data70[0x4];
 
 	short alternate_shots_loaded;
 
-	byte __data76[0x2];
+	uint8 __data76[0x2];
 
 	weapon_barrel const barrels[2];
 	weapon_trigger const triggers[2];
@@ -287,8 +287,8 @@ extern bool debug_weapons_secondary;
 extern void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted);
 extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
 extern void __cdecl weapon_debug_render(long weapon_index, long weapon_slot);
-extern real __cdecl weapon_get_age(long weapon_index);
-extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);
+extern real32 __cdecl weapon_get_age(long weapon_index);
+extern real32 __cdecl weapon_get_field_of_view_change_time(long weapon_index);
 extern bool __cdecl weapon_has_infinite_ammo(long weapon_index);
 extern bool __cdecl weapon_is_support_weapon(long weapon_index);
 extern void __cdecl weapons_debug_render();

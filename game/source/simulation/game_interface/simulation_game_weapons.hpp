@@ -36,14 +36,14 @@ struct s_simulation_weapon_fire_event_data
 	long predicted_impact_target_count;
 	struct
 	{
-		byte __data0[0xC];
+		uint8 __data0[0xC];
 	} predicted_impact_targets[16];
 	static_assert(sizeof(*predicted_impact_targets) == 0xC);
 
 	long predicted_projectile_fire_data_count;
 	struct
 	{
-		byte __data0[0x20];
+		uint8 __data0[0x20];
 	} predicted_projectile_fire_data[16];
 	static_assert(sizeof(*predicted_projectile_fire_data) == 0x20);
 
@@ -52,9 +52,9 @@ struct s_simulation_weapon_fire_event_data
 
 	c_aim_target_simulation_entity simulation_entity;
 
-	real projectile_error;
-	word unit_zoom_level;
-	dword random_seed;
+	real32 projectile_error;
+	uint16 unit_zoom_level;
+	uint32 random_seed;
 	bool generated_from_host_live_fire;
 };
 static_assert(sizeof(s_simulation_weapon_fire_event_data) == 0x354);
@@ -83,16 +83,16 @@ static_assert(sizeof(s_simulation_weapon_pickup_event_data) == 0x8);
 
 struct s_simulation_weapon_put_away_event_data
 {
-	word unit_weapon_set_index;
-	word unit_inventory_index;
+	uint16 unit_weapon_set_index;
+	uint16 unit_inventory_index;
 	long weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_put_away_event_data) == 0x8);
 
 struct s_simulation_weapon_drop_event_data
 {
-	word unit_weapon_set_index;
-	word unit_inventory_index;
+	uint16 unit_weapon_set_index;
+	uint16 unit_inventory_index;
 	long weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_drop_event_data) == 0x8);

@@ -187,14 +187,14 @@ REFERENCE_DECLARE(0x019995F0, t_restricted_allocation_manager<k_game_state_rende
 
 s_thread_local_storage* get_tls()
 {
-	static dword tls_index = 'NOGO';
+	static uint32 tls_index = 'NOGO';
 	if (tls_index == 'NOGO')
 	{
-		byte* module_base = reinterpret_cast<byte*>(global_address_get(0));
+		uint8* module_base = reinterpret_cast<uint8*>(global_address_get(0));
 		PIMAGE_DOS_HEADER dos_header = reinterpret_cast<PIMAGE_DOS_HEADER>(module_base);
 		PIMAGE_NT_HEADERS nt_headers = reinterpret_cast<PIMAGE_NT_HEADERS>(module_base + dos_header->e_lfanew);
 		PIMAGE_TLS_DIRECTORY tls_directory = reinterpret_cast<PIMAGE_TLS_DIRECTORY>(module_base + nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);
-		tls_index = *reinterpret_cast<dword*>(tls_directory->AddressOfIndex);
+		tls_index = *reinterpret_cast<uint32*>(tls_directory->AddressOfIndex);
 	}
 
 	if (tls_index == 'NOGO')

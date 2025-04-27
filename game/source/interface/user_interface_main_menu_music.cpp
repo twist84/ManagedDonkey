@@ -27,9 +27,9 @@ void c_user_interface_main_menu_music::update_state()
 	INVOKE_CLASS_MEMBER(0x00AD5530, c_user_interface_main_menu_music, update_state);
 }
 
-real c_user_interface_main_menu_music::fade_out_progress()
+real32 c_user_interface_main_menu_music::fade_out_progress()
 {
-	return (real)DECLFUNC(0x00AD55E0, double, __thiscall, c_user_interface_main_menu_music*)(this);
+	return (real32)DECLFUNC(0x00AD55E0, real64, __thiscall, c_user_interface_main_menu_music*)(this);
 }
 
 //.text:00AD5690 ; 

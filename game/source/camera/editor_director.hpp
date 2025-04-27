@@ -13,7 +13,7 @@ public:
 	}
 
 	static void __cdecl bump_speed();
-	static real __cdecl get_speed();
+	static real32 __cdecl get_speed();
 	void set_position_and_roll(real_point3d const* position, real_euler_angles2d const* facing);
 	void set_scripted(bool scripted);
 	
@@ -22,8 +22,8 @@ public:
 	bool m_is_scripted;
 	bool m_use_roll;
 
-	byte pad[0x2];
-	byte unused[0xC];
+	uint8 pad[0x2];
+	uint8 unused[0xC];
 };
 static_assert(sizeof(c_editor_director) == 0x160);
 

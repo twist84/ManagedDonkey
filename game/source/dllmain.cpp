@@ -83,7 +83,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:019AB7F0 ; s_network_life_cycle_globals life_cycle_globals
 //.data:019E8D28 ; s_network_bandwidth_globals network_bandwidth_globals
 //.data:019E8D4C ; s_network_time_globals network_time_globals
-//.data:019E8D58 ; byte message_storage[0x40000]
+//.data:019E8D58 ; uint8 message_storage[0x40000]
 //.data:01A28D58 ; s_network_shared_memory_globals network_shared_memory_globals
 //.data:01A28D88 ; s_network_base_memory_globals network_base_memory_globals
 //.data:02179450 ; 
@@ -109,7 +109,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0224A4AC ; c_network_session_parameter_type_collection* g_network_session_parameter_types
 //.data:0224A4B0 ; c_network_session_manager* g_network_session_manager
 //.data:0224A4B4 ; s_network_globals network_globals
-//.data:0224A4C0 ; dword g_last_http_acquire_server_time
+//.data:0224A4C0 ; uint32 g_last_http_acquire_server_time
 //.data:0224A4C8 ; c_network_http_request_queue g_network_http_request_queue[2]
 //.data:02269678 ; c_static_string<256> g_storage_url_subdirectory
 //.data:02269778 ; 
@@ -142,11 +142,11 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:022AAEB0 ; 
 //.data:022AAEB4 ; scenario* global_scenario
 //.data:022AAEB8 ; s_game_globals* global_game_globals
-//.data:022AAEBC ; dword g_active_structure_bsp_mask
-//.data:022AAEC0 ; dword g_touched_structure_bsp_mask
-//.data:022AAEC4 ; dword g_active_designer_zone_mask
-//.data:022AAEC8 ; dword g_active_cinematic_zone_mask
-//.data:022AAECC ; dword g_touched_cinematic_zone_mask
+//.data:022AAEBC ; uint32 g_active_structure_bsp_mask
+//.data:022AAEC0 ; uint32 g_touched_structure_bsp_mask
+//.data:022AAEC4 ; uint32 g_active_designer_zone_mask
+//.data:022AAEC8 ; uint32 g_active_cinematic_zone_mask
+//.data:022AAECC ; uint32 g_touched_cinematic_zone_mask
 //.data:022AAED1 ; 
 //.data:022AAED8 ; 
 //.data:022AAEDC ; 
@@ -163,7 +163,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:022B4738 ; _main_globals main_globals
 //.data:022B47F0 ; bool x_recursion_lock
 //.data:022B47F1 ; bool x_fatal_recursion_lock
-//.data:022B47F8 ; real last_framerate_time
+//.data:022B47F8 ; real32 last_framerate_time
 //.data:022B47FC ; bool display_framerate
 //.data:022B4800 ; 
 //.data:022B4808 ; 
@@ -189,7 +189,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0238E874 ; long g_sound_manager_reference_count
 //.data:0238E878 ; bool g_set_always_a_debugger_present
 //.data:0238E879 ; bool g_set_never_a_debugger_present
-//.data:0238E87C ; dword g_exception_time
+//.data:0238E87C ; uint32 g_exception_time
 //.data:0238E880 ; PEXCEPTION_POINTERS g_exception_pointers
 //.data:0238E884 ; c_synchronized_long g_exception_caching_in_progress
 //.data:0238E888 ; s_exception_information g_exception_information
@@ -198,7 +198,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0238ED04 ; void* resources_buffer
 //.data:0238ED08 ; void* k_physical_memory_base_virtual_address
 //.data:0238ED0C ; void* k_virtual_to_physical_base_offset
-//.data:0238ED14 ; dword g_local_random_seed
+//.data:0238ED14 ; uint32 g_local_random_seed
 //.data:0238ED18 ; 
 //.data:0238ED1C ; 
 //.data:0238ED20 ; long g_saved_game_files[14]

@@ -68,9 +68,9 @@
 //.text:01467900 ; void __cdecl action_selection(long)
 //.text:01467C40 ; void __cdecl action_uncover_control(long, c_behavior_state*)
 //.text:01467E20 ; bool __cdecl action_uncover_perform(long, c_behavior_state*)
-//.text:01468130 ; bool __cdecl actor_action_find_escape_from_danger(long, short*, real*, real_vector2d*, bool*)
-//.text:01468670 ; bool __cdecl actor_action_try_to_dive(long, short, real, real_vector2d*, real)
-//.text:01468880 ; bool __cdecl actor_assess_danger(long, real, bool*, bool*, bool*, bool*, real*)
+//.text:01468130 ; bool __cdecl actor_action_find_escape_from_danger(long, short*, real32*, real_vector2d*, bool*)
+//.text:01468670 ; bool __cdecl actor_action_try_to_dive(long, short, real32, real_vector2d*, real32)
+//.text:01468880 ; bool __cdecl actor_assess_danger(long, real32, bool*, bool*, bool*, bool*, real32*)
 //.text:01468EC0 ; void __cdecl actor_attach_equipment(long)
 //.text:01468F90 ; Behavior_header* __cdecl actor_behavior_get(actor_datum*, short)
 //.text:01468FE0 ; 
@@ -79,7 +79,7 @@
 //.text:014690F0 ; 
 
 //c_behavior_state* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index)
-byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index)
+uint8* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index)
 {
 	return INVOKE(0x01469180, actor_behavior_state_get, actor, layer_index);
 }
@@ -88,7 +88,7 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:014691E0 ; bool __cdecl actor_can_grapple(long)
 //.text:01469270 ; bool __cdecl actor_executing(long, short)
 //.text:01469290 ; short __cdecl actor_executing_layer(long, short)
-//.text:01469320 ; void __cdecl actor_get_desired_follow_range(long, long, real*, real*)
+//.text:01469320 ; void __cdecl actor_get_desired_follow_range(long, long, real32*, real32*)
 //.text:014693B0 ; 
 //.text:014693F0 ; void __cdecl actor_request_search(long)
 //.text:01469460 ; bool __cdecl actor_search_allowed(long)
@@ -544,7 +544,7 @@ void __cdecl behaviors_initialize()
 //.text:01480B50 ; short __cdecl broken_scatter_get_impulse(long, c_behavior_state*)
 //.text:01480BB0 ; short __cdecl charge_children_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01480C60 ; 
-//.text:01480D30 ; void __cdecl charge_movement_helper(long, c_charge_state_data*, real, bool*, bool*, bool*)
+//.text:01480D30 ; void __cdecl charge_movement_helper(long, c_charge_state_data*, real32, bool*, bool*, bool*)
 //.text:01480E10 ; 
 //.text:01480E30 ; child_entry** __cdecl child_list_get(long, short, short*)
 //.text:01480E90 ; 
@@ -554,16 +554,16 @@ void __cdecl behaviors_initialize()
 //.text:014810C0 ; bool __cdecl cover_point_exposed(long, c_cover_state_data*, prop_ref_datum*)
 //.text:01481140 ; short __cdecl coverme_investigate_get_impulse(long, c_behavior_state*)
 //.text:014813A0 ; bool __cdecl cure_isolation_attached_vehicle(long, seat_entry_info const*, c_cure_isolation_data*, path_state*)
-//.text:01481590 ; bool __cdecl cure_isolation_jump(long, path_state*, real, real)
-//.text:01481990 ; short __cdecl cure_isolation_test_vector(long, real_vector3d const*, real_vector3d const*, path_state const*, real, real, real*)
-//.text:01481D70 ; bool __cdecl cure_isolation_undirected(long, path_state*, real, real)
-//.text:01482080 ; bool __cdecl cure_isolation_visible_enemy(long, path_state*, real, real)
+//.text:01481590 ; bool __cdecl cure_isolation_jump(long, path_state*, real32, real32)
+//.text:01481990 ; short __cdecl cure_isolation_test_vector(long, real_vector3d const*, real_vector3d const*, path_state const*, real32, real32, real32*)
+//.text:01481D70 ; bool __cdecl cure_isolation_undirected(long, path_state*, real32, real32)
+//.text:01482080 ; bool __cdecl cure_isolation_visible_enemy(long, path_state*, real32, real32)
 //.text:014823C0 ; short __cdecl damage_vehicle_cover_get_impulse(long, c_behavior_state*)
 //.text:014824D0 ; short __cdecl danger_cover_get_impulse(long, c_behavior_state*)
 //.text:014826D0 ; short __cdecl danger_crouch_get_impulse(long, c_behavior_state*)
 //.text:01482780 ; short __cdecl danger_vehicle_exit_get_impulse(long, c_behavior_state*)
 //.text:014828C0 ; short __cdecl dive_get_impulse(long, c_behavior_state*)
-//.text:01482C40 ; bool __cdecl emerge_wait_for_actor(long, long, real*, short*)
+//.text:01482C40 ; bool __cdecl emerge_wait_for_actor(long, long, real32*, short*)
 //.text:01482D50 ; 
 //.text:01482D80 ; 
 //.text:01483040 ; 
@@ -591,7 +591,7 @@ void __cdecl behaviors_initialize()
 //.text:014849B0 ; short __cdecl formation_member_get_position_index(short, joint_state_datum*)
 //.text:014849E0 ; c_behavior_state* __cdecl formation_member_get_state(joint_state_datum*, short)
 //.text:01484A50 ; void __cdecl generate_style_vector(long, c_static_flags<224>*)
-//.text:01484C50 ; public: static double __cdecl c_combat_range::get_actor_max_firing_range(long)
+//.text:01484C50 ; public: static real64 __cdecl c_combat_range::get_actor_max_firing_range(long)
 //.text:01484C80 ; 
 //.text:01484C90 ; short __cdecl guard_get_guard_state(long)
 //.text:01484D50 ; 
@@ -661,9 +661,9 @@ void __cdecl behaviors_initialize()
 //.text:01488150 ; short __cdecl unassailable_enemy_grenade_get_impulse(long, c_behavior_state*)
 //.text:014882A0 ; short __cdecl unassailable_enemy_self_preservation_get_impulse(long, c_behavior_state*)
 //.text:014883D0 ; short __cdecl unreachable_enemy_self_preservation_get_impulse(long, c_behavior_state*)
-//.text:01488470 ; bool __cdecl vehicle_charge_angle_valid(long, character_vehicle_properties*, real, long, bool)
-//.text:01488570 ; real __cdecl vehicle_charge_get_min_weapon_range(long)
-//.text:01488670 ; bool __cdecl vehicle_charge_range_valid(long, real*, long)
+//.text:01488470 ; bool __cdecl vehicle_charge_angle_valid(long, character_vehicle_properties*, real32, long, bool)
+//.text:01488570 ; real32 __cdecl vehicle_charge_get_min_weapon_range(long)
+//.text:01488670 ; bool __cdecl vehicle_charge_range_valid(long, real32*, long)
 //.text:01488940 ; bool __cdecl vehicle_cover_safe(long, long)
 //.text:014889E0 ; short __cdecl vehicle_engage_patrol_get_impulse(long, c_behavior_state*)
 //.text:01488A40 ; short __cdecl vehicle_engage_wander_get_impulse(long, c_behavior_state*)

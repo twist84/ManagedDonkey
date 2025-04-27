@@ -10,13 +10,13 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00726170, c_debug_director, changed_camera);
 HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, update_);
 
-byte const cycle_camera_key_code_bytes[] = { _key_backspace };
+uint8 const cycle_camera_key_code_bytes[] = { _key_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
 
 //REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, debug_camera_modes, 2);
 e_camera_mode debug_camera_modes[] = { _camera_mode_flying, _camera_mode_following };
 
-void __thiscall c_debug_director::update_(real dt)
+void __thiscall c_debug_director::update_(real32 dt)
 {
 	if (input_key_frames_down(_key_backspace, _input_type_ui) == 1)
 		cycle_camera();
@@ -32,12 +32,12 @@ void __thiscall c_debug_director::update_(real dt)
 
 		if (g_editor_director_mouse_wheel_speed_enabled && !state->frames_down[_mouse_button_middle_click])
 		{
-			//g_director_camera_speed_scale = int_pin(powf(1.3f, (real)state->wheel_ticks) * g_director_camera_speed_scale, 0.0009765625f, 256.0f);
+			//g_director_camera_speed_scale = int_pin(powf(1.3f, (real32)state->wheel_ticks) * g_director_camera_speed_scale, 0.0009765625f, 256.0f);
 
-			real wheel_value = real(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
+			real32 wheel_value = real32(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
 			g_director_camera_speed_scale = int_pin(powf(1.3f, wheel_value) * g_director_camera_speed_scale, 0.0009765625f, 256.0f);
 
-			//real wheel_value = real(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
+			//real32 wheel_value = real32(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
 			//if (wheel_value < 0.0f)
 			//	g_director_camera_speed_scale = int_pin(g_director_camera_speed_scale / 1.03f, 0.0009765625f, 256.0f);
 			//if (wheel_value > 0.0f)

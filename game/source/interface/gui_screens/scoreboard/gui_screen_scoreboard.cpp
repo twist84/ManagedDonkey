@@ -22,8 +22,8 @@
 
 #include <cstdlib> // qsort
 
-REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
-REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
+REFERENCE_DECLARE_ARRAY(0x05269788, real32, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
+REFERENCE_DECLARE(0x05269798, real32, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, update_for_scoreboard_mode_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, update_render_state_);
@@ -54,7 +54,7 @@ c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboa
 	return DECLFUNC(0x00AB2AD0, c_scoreboard_load_screen_message*, __thiscall, c_scoreboard_load_screen_message*, long, e_controller_index, e_window_index, long, bool)(message, screen_name, controller, window, layered_position, is_interactive);
 }
 
-real __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
+real32 __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
 {
 	return INVOKE(0x00AB30F0, c_gui_screen_scoreboard::get_scoreboard_alpha, controller_index);
 }
@@ -123,10 +123,10 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	//}
 }
 
-void __thiscall c_gui_screen_scoreboard::update_render_state_(dword a1)
+void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
 {
 	// 0x00AB4920
-	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
+	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, uint32), _this, a2);
 
 	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
 	c_gui_data* data = get_data(STRING_ID(gui, scoreboard), 0);
@@ -173,7 +173,7 @@ void __thiscall c_gui_screen_scoreboard::update_render_state_(dword a1)
 					else
 					{
 						base_color |= (255 << 24);
-						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
+						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uint32>(base_color) });
 					}
 
 					tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
@@ -299,7 +299,7 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 
 	bool include_team_score = include_score && game_engine_has_teams();
 	long round_score = 0;
-	dword_flags team_flags = 0;
+	uint32 team_flags = 0;
 
 	if (use_session)
 	{

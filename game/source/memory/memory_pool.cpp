@@ -1,6 +1,6 @@
 #include "memory/memory_pool.hpp"
 
-dword memory_pool_handle_from_address(s_memory_pool const* pool, void const* pointer)
+uint32 memory_pool_handle_from_address(s_memory_pool const* pool, void const* pointer)
 {
 	ASSERT(pool);
 	ASSERT(pointer);
@@ -48,7 +48,7 @@ s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool const* pool, lo
 	return block;
 }
 
-void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, dword payload_handle)
+void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, uint32 payload_handle)
 {
 	//INVOKE(0x00969C80, memory_pool_block_free_handle, pool, payload_handle);
 

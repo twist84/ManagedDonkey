@@ -26,7 +26,7 @@ struct __declspec(align(4)) c_vehicle_type_component
 public:
 	void adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration);
 	bool auto_control(long vehicle_index);
-	bool compute_function_value(long vehicle_index, long function_name, real* function_value, bool* function_result);
+	bool compute_function_value(long vehicle_index, long function_name, real32* function_value, bool* function_result);
 	void create_effects(long vehicle_index);
 	void deplete_function_variables(long vehicle_index);
 	bool effected_by_vehicle_ceiling(long vehicle_index);
@@ -45,13 +45,13 @@ public:
 	c_vehicle_type_chopper* get_type_chopper();
 	void handle_deleted_object(long vehicle_index, long damage_owner_object_index);
 	void handled_changed_vehicle_type(long vehicle_index);
-	bool init_auto_turret(long vehicle_index, long trigger_volume, real min_range, real alt_range, real alt_time, long object_index);
+	bool init_auto_turret(long vehicle_index, long trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, long object_index);
 	bool is_e_braking(long vehicle_index);
 	bool is_running_trick(long vehicle_index);
 	bool is_stopped(long vehicle_index);
 	bool kills_riders_at_terminal_velocity(long vehicle_index);
 	bool physics_disabled(long vehicle_index);
-	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(long vehicle_index);
 	void set_auto_turret_damage_owner(long vehicle_index, long damage_owner_index);
 	bool should_override_deactivation(long vehicle_index);
@@ -75,7 +75,7 @@ protected:
 		//c_vehicle_type_guardian m_type_guardian;
 	};
 
-	byte m_vehicle_type_buffer[0x60];
+	uint8 m_vehicle_type_buffer[0x60];
 	c_enum<e_vehicle_type, char, _vehicle_type_human_tank, k_vehicle_type_count> m_initialization_type;
 };
 static_assert(sizeof(c_vehicle_type_component) == 0x64);

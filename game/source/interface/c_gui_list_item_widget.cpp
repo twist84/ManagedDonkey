@@ -17,7 +17,7 @@
 
 long c_gui_list_item_widget::get_list_item_index()
 {
-	return INVOKE_CLASS_MEMBER((dword)__vftable->__funcs[37], c_gui_list_item_widget, get_list_item_index);
+	return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[37], c_gui_list_item_widget, get_list_item_index);
 	//return m_list_item_index;
 }
 

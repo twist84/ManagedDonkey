@@ -42,7 +42,7 @@ c_critical_section_scope::c_critical_section_scope(long critical_section_id, lon
 	m_critical_section_entered = false;
 	*out_lock_acquired = false;
 
-	dword end_time = system_milliseconds() + timeout_in_milliseconds;
+	uint32 end_time = system_milliseconds() + timeout_in_milliseconds;
 	while (true)
 	{
 		m_critical_section_entered = internal_critical_section_try_and_enter(m_critical_section_id);
@@ -136,7 +136,7 @@ void __cdecl internal_event_wait(long event_id)
 	INVOKE(0x0052C5A0, internal_event_wait, event_id);
 }
 
-bool __cdecl internal_event_wait_timeout(long event_id, dword timeout_in_milliseconds)
+bool __cdecl internal_event_wait_timeout(long event_id, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0052C5D0, internal_event_wait_timeout, event_id, timeout_in_milliseconds);
 }
@@ -164,7 +164,7 @@ void __cdecl internal_mutex_take(long mutex_id)
 	//ASSERT(result);
 }
 
-bool __cdecl internal_mutex_take_timeout(long mutex_id, dword timeout_in_milliseconds)
+bool __cdecl internal_mutex_take_timeout(long mutex_id, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0052C690, internal_mutex_take_timeout, mutex_id, timeout_in_milliseconds);
 
@@ -320,7 +320,7 @@ bool __cdecl synchronization_objects_initialized()
 	//return g_synch_globals.initialized;
 }
 
-bool __cdecl wait_for_single_object_internal(void* handle, dword timeout_in_milliseconds)
+bool __cdecl wait_for_single_object_internal(void* handle, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0052CC90, wait_for_single_object_internal, handle, timeout_in_milliseconds);
 

@@ -7,10 +7,10 @@
 struct s_screen_effect_datum :
 	s_datum_header
 {
-	byte position_type;
-	byte unused;
+	uint8 position_type;
+	uint8 unused;
 	long definition_index;
-	real time_accumulator;
+	real32 time_accumulator;
 	real_point3d world_position;
 
 	union
@@ -42,28 +42,28 @@ struct s_screen_effect_settings
 	// in the case of overlapping effects, the maximum will be taken
 
 	// increase or decrease in exposure
-	real exposure_boost; // stops
+	real32 exposure_boost; // stops
 
 	// shifts hue R->G->B
-	real hue_left; // degrees [0-360]
+	real32 hue_left; // degrees [0-360]
 
 	// shifts hue B->G->R
-	real hue_right; // degrees [0-360]
+	real32 hue_right; // degrees [0-360]
 
 	// increases saturation
-	real saturation; // [0-1]
+	real32 saturation; // [0-1]
 
 	// decreases saturation
-	real desaturation; // [0-1]
+	real32 desaturation; // [0-1]
 
 	// contrast increase
-	real contrast_enhance; // [0-1]
+	real32 contrast_enhance; // [0-1]
 
 	// gamma increase
-	real gamma_enhance; // [0-10]
+	real32 gamma_enhance; // [0-10]
 
 	// gamma increase
-	real gamma_reduce; // [0-10]
+	real32 gamma_reduce; // [0-10]
 
 	// this color is multiplied on top
 	real_rgb_color color_filter;
@@ -72,29 +72,29 @@ struct s_screen_effect_settings
 	real_rgb_color color_floor;
 
 	// turns on the global vision mode
-	real vision_mode; // [0-1]
+	real32 vision_mode; // [0-1]
 
 	// adds noise to the vision mode
-	real vision_noise; // [0-1]
+	real32 vision_noise; // [0-1]
 };
 static_assert(sizeof(s_screen_effect_settings) == 0x40);
 
 struct s_single_screen_effect_definition
 {
 	c_string_id name;
-	dword_flags flags;
+	uint32 flags;
 
 	// DISTANCE FALLOFF
 
 	// the maximum distance this screen effect will affect
-	real maximum_distance; // world units
+	real32 maximum_distance; // world units
 	screen_effect_scalar_function distance_falloff;
 
 	// TIME EVOLUTION
 	// controls the lifetime and time falloff of this effect
 	// NOTE: not used for scenario global effects
 
-	real lifetime;
+	real32 lifetime;
 	screen_effect_scalar_function time_falloff;
 
 	// ANGLE FALLOFF
@@ -122,7 +122,7 @@ struct s_screen_effect_shader_sample_result
 	struct s_screen_effect_shader_sample
 	{
 		long definition_index;
-		byte __data4[0x10];
+		uint8 __data4[0x10];
 		real_rectangle2d rect;
 	};
 	static_assert(sizeof(s_screen_effect_shader_sample) == 0x24);
@@ -139,7 +139,7 @@ extern void __cdecl screen_effect_initialize();
 extern void __cdecl screen_effect_initialize_for_new_map();
 extern long __cdecl screen_effect_new(long definition_index, long object_index, short node_index, real_point3d const* point, real_rectangle2d const* rectangle);
 extern void __cdecl screen_effect_sample(real_point3d const* point, real_vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, long user_index);
-extern void __cdecl screen_effect_update(real update_interval);
+extern void __cdecl screen_effect_update(real32 update_interval);
 
 extern void apply_global_screen_effect();
 

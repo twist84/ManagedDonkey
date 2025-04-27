@@ -4,10 +4,10 @@
 
 struct s_splitscreen_view_config
 {
-	real m_left;
-	real m_top;
-	real m_right;
-	real m_bottom;
+	real32 m_left;
+	real32 m_top;
+	real32 m_right;
+	real32 m_bottom;
 	long m_render_target_resolution;
 };
 static_assert(sizeof(s_splitscreen_view_config) == 0x14);

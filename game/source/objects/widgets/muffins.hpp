@@ -7,13 +7,13 @@ struct s_muffin_datum :
 {
 	struct s_muffin
 	{
-		byte_flags flags;
-		byte type_index;
-		byte attached_node_index;
-		byte mesh_index;
-		word event_delay;
-		byte scale;
-		byte unused;
+		uint8 flags;
+		uint8 type_index;
+		uint8 attached_node_index;
+		uint8 mesh_index;
+		uint16 event_delay;
+		uint8 scale;
+		uint8 unused;
 		long marker_name;
 		long birth_time;
 		real_point3d jiggle_position;
@@ -24,12 +24,12 @@ struct s_muffin_datum :
 	};
 	static_assert(sizeof(s_muffin) == 0xC4);
 
-	byte unused;
-	byte muffin_count;
+	uint8 unused;
+	uint8 muffin_count;
 	s_muffin muffins[32];
 	long definition_index;
 	long object_index;
-	real time_accumulator;
+	real32 time_accumulator;
 };
 static_assert(sizeof(s_muffin_datum) == 0x1890);
 

@@ -9,8 +9,8 @@ struct s_depth_of_field
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static s_depth_of_field* __cdecl get();
-	bool get_current_depth_of_field_parameters(s_observer_depth_of_field const* observer_depth_of_field, real* focus_distance, real* aperture, real* focus_half_width, real* depth_of_field_blur);
-	static real __cdecl get_depth_of_field_blur_sigma(s_observer_depth_of_field const* observer_depth_of_field);
+	bool get_current_depth_of_field_parameters(s_observer_depth_of_field const* observer_depth_of_field, real32* focus_distance, real32* aperture, real32* focus_half_width, real32* depth_of_field_blur);
+	static real32 __cdecl get_depth_of_field_blur_sigma(s_observer_depth_of_field const* observer_depth_of_field);
 	static bool __cdecl get_enabled();
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
@@ -23,26 +23,26 @@ struct s_depth_of_field
 //protected:
 	bool enabled;
 	bool animate;
-	real speed;
-	real focus_distance_near;
-	real focus_distance_far;
-	real aperture;
-	real blur_start;
-	real blur_target;
+	real32 speed;
+	real32 focus_distance_near;
+	real32 focus_distance_far;
+	real32 aperture;
+	real32 blur_start;
+	real32 blur_target;
 	long blur_start_time;
 	long blur_end_time;
 	long animation_start_time;
 	long animation_end_time;
-	real animation_last_alpha;
-	real actual_blur;
-	real actual_focus_distance_near;
-	real actual_focus_distance_far;
-	real actual_aperture;
+	real32 animation_last_alpha;
+	real32 actual_blur;
+	real32 actual_focus_distance_near;
+	real32 actual_focus_distance_far;
+	real32 actual_aperture;
 };
 static_assert(sizeof(s_depth_of_field) == 0x40);
 
-extern void __cdecl render_animate_depth_of_field(real near_distance, real far_distance, real depth, real ticks);
-extern void __cdecl render_animate_depth_of_field_blur(real blur, real ticks);
+extern void __cdecl render_animate_depth_of_field(real32 near_distance, real32 far_distance, real32 depth, real32 ticks);
+extern void __cdecl render_animate_depth_of_field_blur(real32 blur, real32 ticks);
 extern void __cdecl render_enable_depth_of_field(bool enable);
-extern void __cdecl render_set_depth_of_field(real depth);
+extern void __cdecl render_set_depth_of_field(real32 depth);
 

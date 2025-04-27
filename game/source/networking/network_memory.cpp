@@ -3,7 +3,7 @@
 REFERENCE_DECLARE(0x01A28D58, s_network_shared_memory_globals, network_shared_memory_globals);
 REFERENCE_DECLARE(0x01A28D88, s_network_base_memory_globals, network_base_memory_globals);
 
-REFERENCE_DECLARE(0x01860454, word, g_broadcast_port);
+REFERENCE_DECLARE(0x01860454, uint16, g_broadcast_port);
 
 void* __cdecl network_heap_allocate_block(long block_size)
 {

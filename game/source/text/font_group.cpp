@@ -28,7 +28,7 @@ bool __cdecl font_character_validate(s_font_character const* character)
 	//return bitmap_origin_y < 64 && valid;
 }
 
-short __cdecl font_get_kerning_pair_offset(s_font_header const* header, dword a2, dword a3)
+short __cdecl font_get_kerning_pair_offset(s_font_header const* header, uint32 a2, uint32 a3)
 {
 	return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, a2, a3);
 }

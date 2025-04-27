@@ -31,18 +31,18 @@ struct c_service_client
 			void** object_value;
 			s_json_data** array_value;
 			bool* bool_value;
-			long long* integer_value;
-			float* float_value;
+			int64* integer_value;
+			real32* float_value;
 			wchar_t const** string_value;
 		};
 
-		dword __unknownC;
+		uint32 __unknownC;
 	};
 	static_assert(sizeof(s_json_data) == 0x10);
 
 	struct s_json_request
 	{
-		dword __unknown0;
+		uint32 __unknown0;
 
 		// success: __unknown4 == 3
 		long __unknown4;

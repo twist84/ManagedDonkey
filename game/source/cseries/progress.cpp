@@ -111,7 +111,7 @@ long __cdecl progress_update_with_description(long current_amount, long total_am
 {
 	return INVOKE(0x005F09B0, progress_update_with_description, current_amount, total_amount, optional_description);
 
-	//dword time = system_milliseconds();
+	//uint32 time = system_milliseconds();
 	//long progress = 100 * MIN(MAX(current_amount, 0), total_amount) / MAX(total_amount, 1);
 	//if (progress_globals.currently_valid && (shell_tool_type() != _shell_tool_command_line || progress >= progress_globals.last_progress + 20 || time - progress_globals.last_milliseconds > 500))
 	//{

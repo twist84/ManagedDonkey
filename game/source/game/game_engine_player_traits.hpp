@@ -26,7 +26,7 @@ enum e_damage_resistance_percentage_setting
 	k_damage_resistance_percentage_setting_default = _damage_resistance_percentage_setting_100_percent
 };
 
-constexpr real k_damage_resistance_percentage_values[k_damage_resistance_percentage_settings - _damage_resistance_percentage_setting_10_percent]
+constexpr real32 k_damage_resistance_percentage_values[k_damage_resistance_percentage_settings - _damage_resistance_percentage_setting_10_percent]
 {
 	0.1f,
 	0.5f,
@@ -60,7 +60,7 @@ enum e_shield_recharge_rate_percentage_setting
 	k_shield_recharge_rate_percentage_setting_default = _shield_recharge_rate_percentage_setting_100_percent
 };
 
-constexpr real k_shield_recharge_rate_percentage_values[k_shield_recharge_rate_percentage_settings - _shield_recharge_rate_percentage_setting_negative_25_percent]
+constexpr real32 k_shield_recharge_rate_percentage_values[k_shield_recharge_rate_percentage_settings - _shield_recharge_rate_percentage_setting_negative_25_percent]
 {
 	-0.25f,
 	-0.1f,
@@ -87,7 +87,7 @@ enum e_vampirism_percentage_setting
 	k_vampirism_percentage_setting_default = _vampirism_percentage_setting_0_percent
 };
 
-constexpr real k_vampirism_percentage_values[k_vampirism_percentage_settings - _vampirism_percentage_setting_0_percent]
+constexpr real32 k_vampirism_percentage_values[k_vampirism_percentage_settings - _vampirism_percentage_setting_0_percent]
 {
 	0.0f,
 	0.1f,
@@ -150,7 +150,7 @@ enum e_damage_modifier_percentage_setting
 	k_damage_modifier_percentage_setting_default = _damage_modifier_percentage_setting_100_percent
 };
 
-constexpr real k_damage_modifier_percentage_values[k_damage_modifier_percentage_settings - _damage_modifier_percentage_setting_0_percent]
+constexpr real32 k_damage_modifier_percentage_values[k_damage_modifier_percentage_settings - _damage_modifier_percentage_setting_0_percent]
 {
 	0.0f,
 	0.25f,
@@ -260,7 +260,7 @@ enum e_player_speed_setting
 	k_player_speed_setting_default = _player_speed_setting_100_percent
 };
 
-constexpr real k_player_speed_values[k_player_speed_settings - _player_speed_setting_25_percent]
+constexpr real32 k_player_speed_values[k_player_speed_settings - _player_speed_setting_25_percent]
 {
 	0.25f,
 	0.5f,
@@ -288,7 +288,7 @@ enum e_player_gravity_setting
 	k_player_gravity_setting_default = _player_gravity_setting_100_percent
 };
 
-constexpr real k_player_gravity_values[k_player_gravity_settings - _player_gravity_setting_50_percent]
+constexpr real32 k_player_gravity_values[k_player_gravity_settings - _player_gravity_setting_50_percent]
 {
 	0.5f,
 	0.75f,
@@ -460,7 +460,7 @@ enum e_motion_tracker_range_setting
 	//k_motion_tracker_range_setting_default = _motion_tracker_range_setting_0_meters // 0.0
 };
 
-constexpr real k_motion_tracker_range_values[k_motion_tracker_range_settings - _motion_tracker_range_setting_10_meters]
+constexpr real32 k_motion_tracker_range_values[k_motion_tracker_range_settings - _motion_tracker_range_setting_10_meters]
 {
 	10.0f,
 	15.0f,
@@ -471,11 +471,11 @@ constexpr real k_motion_tracker_range_values[k_motion_tracker_range_settings - _
 	150.0f
 };
 
-typedef c_enum<e_damage_resistance_percentage_setting, byte, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> c_damage_resistance_percentage_setting;
-typedef c_enum<e_shield_recharge_rate_percentage_setting, byte, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> c_shield_recharge_rate_percentage_setting;
-typedef c_enum<e_vampirism_percentage_setting, byte, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> c_vampirism_percentage_setting;
-typedef c_enum<e_headshot_immunity_setting, byte, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> c_headshot_immunity_setting;
-typedef c_enum<e_shield_multiplier_setting, byte, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> c_shield_multiplier_setting;
+typedef c_enum<e_damage_resistance_percentage_setting, uint8, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> c_damage_resistance_percentage_setting;
+typedef c_enum<e_shield_recharge_rate_percentage_setting, uint8, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> c_shield_recharge_rate_percentage_setting;
+typedef c_enum<e_vampirism_percentage_setting, uint8, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> c_vampirism_percentage_setting;
+typedef c_enum<e_headshot_immunity_setting, uint8, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> c_headshot_immunity_setting;
+typedef c_enum<e_shield_multiplier_setting, uint8, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> c_shield_multiplier_setting;
 struct c_player_trait_shield_vitality
 {
 public:
@@ -486,18 +486,18 @@ public:
 
 	e_damage_resistance_percentage_setting get_damage_resistance_percentage_setting() const;
 	void set_damage_resistance_percentage_setting(e_damage_resistance_percentage_setting damage_resistance_percentage_setting, bool force);
-	real get_damage_resistance_percentage() const;
-	void set_damage_resistance_percentage(real damage_resistance_percentage, bool force);
+	real32 get_damage_resistance_percentage() const;
+	void set_damage_resistance_percentage(real32 damage_resistance_percentage, bool force);
 
 	e_shield_recharge_rate_percentage_setting get_shield_recharge_rate_percentage_setting() const;
 	void set_shield_recharge_rate_percentage_setting(e_shield_recharge_rate_percentage_setting shield_recharge_rate_percentage_setting, bool force);
-	real get_shield_recharge_rate_percentage() const;
-	void set_shield_recharge_rate_percentage(real shield_recharge_rate_percentage, bool force);
+	real32 get_shield_recharge_rate_percentage() const;
+	void set_shield_recharge_rate_percentage(real32 shield_recharge_rate_percentage, bool force);
 
 	e_vampirism_percentage_setting get_vampirism_percentage_setting() const;
 	void set_vampirism_percentage_setting(e_vampirism_percentage_setting vampirism_percentage_setting, bool force);
-	real get_vampirism_percentage() const;
-	void set_vampirism_percentage(real vampirism_percentage, bool force);
+	real32 get_vampirism_percentage() const;
+	void set_vampirism_percentage(real32 vampirism_percentage, bool force);
 
 	e_headshot_immunity_setting get_headshot_immunity_setting() const;
 	void set_headshot_immunity_setting(e_headshot_immunity_setting headshot_immunity_setting, bool force);
@@ -508,7 +508,7 @@ public:
 	void set_shield_multiplier_setting(e_shield_multiplier_setting shield_multiplier_setting, bool force);
 	long get_shield_multiplier() const;
 	void set_shield_multiplier(long shield_multiplier, bool force);
-	real get_maximum_shield_vitality();
+	real32 get_maximum_shield_vitality();
 
 protected:
 	c_damage_resistance_percentage_setting m_damage_resistance_percentage_setting;
@@ -518,15 +518,15 @@ protected:
 	c_shield_multiplier_setting m_shield_multiplier_setting;
 
 	// elephant
-	byte pad[3];
+	uint8 pad[3];
 };
 static_assert(sizeof(c_player_trait_shield_vitality) == 0x8);
 
 typedef c_enum<e_grenade_count_setting, short, _grenade_count_setting_unchanged, k_grenade_count_settings> c_grenade_count_setting;
-typedef c_enum<e_damage_modifier_percentage_setting, byte, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> c_damage_modifier_percentage_setting;
-typedef c_enum<e_recharging_grenades_setting, byte, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> c_recharging_grenades_setting;
-typedef c_enum<e_infinite_ammo_setting, byte, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> c_infinite_ammo_setting;
-typedef c_enum<e_weapon_pickup_setting, byte, _weapon_pickup_setting_unchanged, k_weapon_pickup_settings> c_weapon_pickup_setting;
+typedef c_enum<e_damage_modifier_percentage_setting, uint8, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> c_damage_modifier_percentage_setting;
+typedef c_enum<e_recharging_grenades_setting, uint8, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> c_recharging_grenades_setting;
+typedef c_enum<e_infinite_ammo_setting, uint8, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> c_infinite_ammo_setting;
+typedef c_enum<e_weapon_pickup_setting, uint8, _weapon_pickup_setting_unchanged, k_weapon_pickup_settings> c_weapon_pickup_setting;
 struct c_player_trait_weapons
 {
 public:
@@ -553,8 +553,8 @@ public:
 
 	e_damage_modifier_percentage_setting get_damage_modifier_percentage_setting() const;
 	void set_damage_modifier_percentage_setting(e_damage_modifier_percentage_setting damage_modifier_percentage_setting, bool force);
-	real get_damage_modifier_percentage() const;
-	void set_damage_modifier_percentage(real damage_modifier_percentage, bool force);
+	real32 get_damage_modifier_percentage() const;
+	void set_damage_modifier_percentage(real32 damage_modifier_percentage, bool force);
 
 	e_recharging_grenades_setting get_recharging_grenades_setting() const;
 	void set_recharging_grenades_setting(e_recharging_grenades_setting recharging_grenades_setting, bool force);
@@ -582,9 +582,9 @@ protected:
 };
 static_assert(sizeof(c_player_trait_weapons) == 0x8);
 
-typedef c_enum<e_player_speed_setting, byte, _player_speed_setting_unchanged, k_player_speed_settings> c_player_speed_setting;
-typedef c_enum<e_player_gravity_setting, byte, _player_gravity_setting_unchanged, k_player_gravity_settings> c_player_gravity_setting;
-typedef c_enum<e_vehicle_usage_setting, byte, _vehicle_usage_setting_unchanged, k_vehicle_usage_settings> c_vehicle_usage_setting;
+typedef c_enum<e_player_speed_setting, uint8, _player_speed_setting_unchanged, k_player_speed_settings> c_player_speed_setting;
+typedef c_enum<e_player_gravity_setting, uint8, _player_gravity_setting_unchanged, k_player_gravity_settings> c_player_gravity_setting;
+typedef c_enum<e_vehicle_usage_setting, uint8, _vehicle_usage_setting_unchanged, k_vehicle_usage_settings> c_vehicle_usage_setting;
 struct c_player_trait_movement
 {
 public:
@@ -595,13 +595,13 @@ public:
 
 	e_player_speed_setting get_speed_setting() const;
 	void set_speed_setting(e_player_speed_setting speed_setting, bool force);
-	real get_speed() const;
-	void set_speed(real speed, bool force);
+	real32 get_speed() const;
+	void set_speed(real32 speed, bool force);
 
 	e_player_gravity_setting get_gravity_setting() const;
 	void set_gravity_setting(e_player_gravity_setting gravity_setting, bool force);
-	real get_gravity() const;
-	void set_gravity(real gravity, bool force);
+	real32 get_gravity() const;
+	void set_gravity(real32 gravity, bool force);
 
 	e_vehicle_usage_setting get_vehicle_usage_setting() const;
 	void set_vehicle_usage_setting(e_vehicle_usage_setting vehicle_usage_setting, bool force);
@@ -612,15 +612,15 @@ protected:
 	c_vehicle_usage_setting m_vehicle_usage_setting;
 
 	// shark
-	byte pad;
+	uint8 pad;
 };
 static_assert(sizeof(c_player_trait_movement) == 0x4);
 
 // Traits that affect the player's appearance
-typedef c_enum<e_active_camo_setting, byte, _active_camo_setting_unchanged, k_active_camo_settings> c_active_camo_setting;
-typedef c_enum<e_waypoint_setting, byte, _waypoint_setting_unchanged, k_waypoint_settings> c_waypoint_setting;
-typedef c_enum<e_aura_setting, byte, _aura_setting_unchanged, k_aura_settings> c_aura_setting;
-typedef c_enum<e_forced_change_color_setting, byte, _forced_change_color_setting_unchanged, k_forced_change_color_settings> c_forced_change_color_setting;
+typedef c_enum<e_active_camo_setting, uint8, _active_camo_setting_unchanged, k_active_camo_settings> c_active_camo_setting;
+typedef c_enum<e_waypoint_setting, uint8, _waypoint_setting_unchanged, k_waypoint_settings> c_waypoint_setting;
+typedef c_enum<e_aura_setting, uint8, _aura_setting_unchanged, k_aura_settings> c_aura_setting;
+typedef c_enum<e_forced_change_color_setting, uint8, _forced_change_color_setting_unchanged, k_forced_change_color_settings> c_forced_change_color_setting;
 struct c_player_trait_appearance
 {
 public:
@@ -650,8 +650,8 @@ protected:
 static_assert(sizeof(c_player_trait_appearance) == 0x4);
 
 // Traits that affect the HUD motion sensor behavior
-typedef c_enum<e_motion_tracker_setting, word, _motion_tracker_setting_unchanged, k_motion_tracker_settings> c_motion_tracker_setting;
-typedef c_enum<e_motion_tracker_range_setting, word, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> c_motion_tracker_range_setting;
+typedef c_enum<e_motion_tracker_setting, uint16, _motion_tracker_setting_unchanged, k_motion_tracker_settings> c_motion_tracker_setting;
+typedef c_enum<e_motion_tracker_range_setting, uint16, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> c_motion_tracker_range_setting;
 struct c_player_trait_sensors
 {
 public:
@@ -666,7 +666,7 @@ public:
 
 	e_motion_tracker_range_setting get_motion_tracker_range_setting() const;
 	void set_motion_tracker_range_setting(e_motion_tracker_range_setting motion_tracker_range_setting, bool force);
-	real get_motion_tracker_range_meters() const;
+	real32 get_motion_tracker_range_meters() const;
 
 protected:
 	c_motion_tracker_setting m_motion_tracker_setting;

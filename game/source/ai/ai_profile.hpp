@@ -47,7 +47,7 @@ struct ai_meter
 {
 	short current_count;
 	short last_count;
-	real average_count;
+	real32 average_count;
 	long average_total;
 	short history_next_index;
 	short history_max_index;

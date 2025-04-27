@@ -50,13 +50,13 @@ protected:
 	virtual void to_string(char* buffer, long buffer_size) override;
 
 public:
-	c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real min, real max, real inc);
+	c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real32 min, real32 max, real32 inc);
 
 protected:
-	c_debug_menu_value_hs_global_external<real> m_value;
-	real m_min;
-	real m_max;
-	real m_inc;
+	c_debug_menu_value_hs_global_external<real32> m_value;
+	real32 m_min;
+	real32 m_max;
+	real32 m_inc;
 };
 
 class c_debug_menu_item_type_short :

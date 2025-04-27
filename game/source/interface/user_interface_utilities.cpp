@@ -21,9 +21,9 @@ void __cdecl tint_widget_to_change_argb_color(c_gui_widget* widget, argb_color c
 //.text:00AA4CD0 ; void __cdecl user_interface_build_local_machine_and_players(s_machine_identifier*, long*, game_player_options*)
 //.text:00AA4D80 ; bool __cdecl user_interface_error_display_allowed()
 //.text:00AA4DC0 ; bool __cdecl user_interface_get_bytes_size_string(long, c_static_wchar_string<1024>*)
-//.text:00AA4EF0 ; bool __cdecl user_interface_get_date_string(__int64, c_static_wchar_string<1024>*)
+//.text:00AA4EF0 ; bool __cdecl user_interface_get_date_string(int64, c_static_wchar_string<1024>*)
 //.text:00AA50D0 ; 
-//.text:00AA5120 ; bool __cdecl user_interface_get_percentage_string(real, c_static_wchar_string<1024>*)
+//.text:00AA5120 ; bool __cdecl user_interface_get_percentage_string(real32, c_static_wchar_string<1024>*)
 //.text:00AA51C0 ; 
 //.text:00AA5340 ; long __cdecl user_interface_get_player_appearance_biped(s_player_appearance const*)
 //.text:00AA53B0 ; 
@@ -33,7 +33,7 @@ void __cdecl tint_widget_to_change_argb_color(c_gui_widget* widget, argb_color c
 //.text:00AA55C0 ; long __cdecl user_interface_get_player_rank_element_handle(e_experience_rank, e_experience_grade)
 //.text:00AA55F0 ; bool __cdecl user_interface_get_player_rank_string(e_experience_rank, e_experience_grade, c_static_wchar_string<1024>*)
 //.text:00AA5660 ; bool __cdecl user_interface_get_player_total_xp(long, c_static_wchar_string<1024>*)
-//.text:00AA56D0 ; bool __cdecl user_interface_get_real_number_string(real, c_static_wchar_string<1024>*)
+//.text:00AA56D0 ; bool __cdecl user_interface_get_real_number_string(real32, c_static_wchar_string<1024>*)
 //.text:00AA5700 ; 
 //.text:00AA5740 ; bool __cdecl user_interface_get_timespan_string(long, e_user_interface_timespan_format, bool, c_static_wchar_string<1024>*)
 

@@ -34,7 +34,7 @@ enum e_network_ui_state_flags
 
 struct s_network_ui_state
 {
-	c_flags<e_network_ui_state_flags, word, k_network_ui_state_flags> flags;
+	c_flags<e_network_ui_state_flags, uint16, k_network_ui_state_flags> flags;
 };
 static_assert(sizeof(s_network_ui_state) == 0x2);
 
@@ -66,14 +66,14 @@ struct c_network_session_parameters
 		c_generic_network_session_parameter<long> dedicated_server_session_state;
 		c_generic_network_session_parameter<s_network_session_parameter_map> map;
 		c_network_session_parameter_initial_participants initial_participants;
-		c_generic_network_session_parameter<qword> game_instance;
-		c_generic_network_session_parameter<dword> random_seed;
+		c_generic_network_session_parameter<uint64> game_instance;
+		c_generic_network_session_parameter<uint32> random_seed;
 		c_generic_network_session_parameter<e_language> language;
 		c_generic_network_session_parameter<long> determinism_version;
 		c_generic_network_session_parameter<e_network_game_simulation_protocol> game_simulation_protocol;
 		c_generic_network_session_parameter<e_campaign_difficulty_level> campaign_difficulty;
-		c_generic_network_session_parameter<c_flags<e_primary_skulls, dword, k_number_of_primary_skulls>> campaign_active_skulls_primary;
-		c_generic_network_session_parameter<c_flags<e_secondary_skulls, dword, k_number_of_secondary_skulls>> campaign_active_skulls_secondary;
+		c_generic_network_session_parameter<c_flags<e_primary_skulls, uint32, k_number_of_primary_skulls>> campaign_active_skulls_primary;
+		c_generic_network_session_parameter<c_flags<e_secondary_skulls, uint32, k_number_of_secondary_skulls>> campaign_active_skulls_secondary;
 		c_generic_network_session_parameter<short> campaign_metagame_scoring;
 		c_generic_network_session_parameter<short> campaign_insertion_point;
 		c_generic_network_session_parameter<s_network_ui_state> ui_state;
@@ -88,7 +88,7 @@ struct c_network_session_parameters
 		c_generic_network_session_parameter<long> voice_repeater;
 		c_network_session_parameter_requested_remote_join_data requested_remote_join_data;
 		c_network_session_parameter_remote_join_data remote_join_data;
-		c_generic_network_session_parameter<qword> matchmaking_arbitration_nonce;
+		c_generic_network_session_parameter<uint64> matchmaking_arbitration_nonce;
 		c_network_session_parameter_matchmaking_hopper_list matchmaking_hopper_list;
 		c_generic_network_session_parameter<s_game_hopper_picked_game_collection> matchmaking_game_list;
 		c_generic_network_session_parameter<short> matchmaking_requested_hopper;
@@ -97,7 +97,7 @@ struct c_network_session_parameters
 		c_generic_network_session_parameter<e_matchmaking_search_preference> matchmaking_search_preference;
 		c_generic_network_session_parameter<s_replicated_life_cycle_matchmaking_progress> matchmaking_progress;
 		c_generic_network_session_parameter<s_replicated_life_cycle_matchmaking_progress_search_criteria> matchmaking_progress_search_criteria;
-		c_generic_network_session_parameter<dword> matchmaking_peer_evict_mask;
+		c_generic_network_session_parameter<uint32> matchmaking_peer_evict_mask;
 		c_network_session_parameter_matchmaking_rematch_data matchmaking_rematch_data;
 		c_network_session_parameter_matchmaking_hopper_statistics matchmaking_hopper_statistics;
 		c_generic_network_session_parameter<long> matchmaking_tip;
@@ -117,8 +117,8 @@ struct c_network_session_parameters
 	c_network_session* m_session;
 	c_network_observer* m_observer;
 	c_network_session_parameter_base* m_parameter_interfaces[49 /* k_network_session_parameter_type_count */];
-	dword_flags m_flags;
-	dword m_initial_parameters_update_mask;
+	uint32 m_flags;
+	uint32 m_initial_parameters_update_mask;
 	long : 32;
 };
 static_assert(sizeof(c_network_session_parameters) == 0xB7930);

@@ -28,7 +28,7 @@ bool effects_render_pass_check(e_effect_pass pass)
 	return result;
 }
 
-void __cdecl effects_prepare_for_new_zone_set(dword old_active_structure_bsp_mask, dword new_active_structure_bsp_mask)
+void __cdecl effects_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask)
 {
 	INVOKE(0x00530200, effects_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
@@ -101,7 +101,7 @@ bool __cdecl dangerous_effects_near_player()
 //.text:005B5F70 ; void __cdecl effect_delete_without_detaching(long)
 //.text:005B6000 ; void __cdecl effect_destroy(long, bool)
 //.text:005B6120 ; void __cdecl effect_detach(long)
-//.text:005B61A0 ; bool __cdecl effect_filter_message_for_destroy(s_effect_message*, dword)
+//.text:005B61A0 ; bool __cdecl effect_filter_message_for_destroy(s_effect_message*, uint32)
 //.text:005B61C0 ; 
 //.text:005B61E0 ; void __cdecl effect_filter_messages_for_destroy(long)
 //.text:005B6210 ; 
@@ -114,7 +114,7 @@ void __cdecl effect_render(long effect_index, long user_index)
 }
 
 //.text:005B6740 ; event_datum const* __cdecl effect_get_event(effect_datum const*, long)
-//.text:005B67A0 ; enum e_event_status __cdecl effect_get_event_status(long, long, word, real*)
+//.text:005B67A0 ; enum e_event_status __cdecl effect_get_event_status(long, long, uint16, real32*)
 //.text:005B68A0 ; bool __cdecl effect_get_first_person(long, long)
 //.text:005B68C0 ; real_matrix4x3 const* __cdecl effect_get_first_valid_location(effect_datum const*, real_matrix4x3*)
 //.text:005B6980 ; real_point2d const* __cdecl effect_get_impact_size(long)
@@ -145,12 +145,12 @@ void __cdecl effect_render(long effect_index, long user_index)
 //.text:005B7890 ; long __cdecl effect_location_get_next_valid_index(effect_datum const*, long, short)
 //.text:005B7910 ; 
 //.text:005B7930 ; void __cdecl effect_marker_list_get_marker(object_marker*, effect_marker_list const*, short, real_plane3d const*)
-//.text:005B7C30 ; long __cdecl effect_new_attached_from_marker_name(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, short, long, real, real, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
+//.text:005B7C30 ; long __cdecl effect_new_attached_from_marker_name(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, short, long, real32, real32, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
 //.text:005B7D70 ; void __cdecl handle_effect_reverse_message(s_effect_reverse_message const*)
-//.text:005B7E20 ; void __cdecl effect_new_attached_from_particle(c_tag_index, long, byte, byte, real_point3d const*, real_vector3d const*, real_vector3d const*, real, real, s_location const*, bool)
-//.text:005B7EF0 ; long __cdecl effect_new_breakable_surface(c_tag_index, long, real, real)
+//.text:005B7E20 ; void __cdecl effect_new_attached_from_particle(c_tag_index, long, uint8, uint8, real_point3d const*, real_vector3d const*, real_vector3d const*, real32, real32, s_location const*, bool)
+//.text:005B7EF0 ; long __cdecl effect_new_breakable_surface(c_tag_index, long, real32, real32)
 //.text:005B7FC0 ; long __cdecl effect_new_from_creation_data(s_effect_creation_data const*)
-//.text:005B8550 ; long __cdecl effect_new_from_object(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, real, real, real_rgb_color const*, effect_vector_field const*, e_effect_deterministic)
+//.text:005B8550 ; long __cdecl effect_new_from_object(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, real32, real32, real_rgb_color const*, effect_vector_field const*, e_effect_deterministic)
 //.text:005B86A0 ; 
 
 //long __cdecl effect_new_from_point_vector(long, real_point3d const*, real_vector3d const*, real_vector3d const*, e_match_all_markers, e_effect_deterministic, real_plane3d const*, s_cluster_reference*)
@@ -160,27 +160,27 @@ long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const*
 }
 
 //.text:005B88E0 ; long __cdecl effect_new_looping(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, long, long, long, short)
-//.text:005B89E0 ; long __cdecl effect_new_unattached_from_markers(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real, e_effect_deterministic)
-//.text:005B8A90 ; long __cdecl effect_new_unattached_from_markers_ex(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real, real, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
+//.text:005B89E0 ; long __cdecl effect_new_unattached_from_markers(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real32, e_effect_deterministic)
+//.text:005B8A90 ; long __cdecl effect_new_unattached_from_markers_ex(c_tag_index, s_damage_owner const*, long, real_vector3d const*, long, s_effect_vector const*, real_plane3d const*, s_location const*, real32, real32, real_rgb_color const*, effect_vector_field const*, long, e_effect_deterministic)
 //.text:005B8B50 ; long __cdecl effect_new_unattached_from_markers_lite(c_tag_index, s_damage_owner const*, s_damage_reporting_info const&, long, s_effect_vector const*, real_plane3d const*, s_location const*, e_effect_deterministic)
 //.text:005B8BD0 ; long __cdecl effect_new_weather(c_tag_index)
 //.text:005B8C80 ; bool __cdecl effect_parent_particle_valid(effect_datum const*)
 //.text:005B8CC0 ; 
 //.text:005B8CE0 ; 
 //.text:005B8D40 ; 
-//.text:005B8DA0 ; bool __cdecl effect_ping(long, long, real, real, bool)
+//.text:005B8DA0 ; bool __cdecl effect_ping(long, long, real32, real32, bool)
 //.text:005B8E20 ; 
-//.text:005B8ED0 ; bool __cdecl effect_ping_from_impact(long, real, real, real_matrix4x3 const*, real_vector3d const*, real_point2d const*, real_plane3d const*)
+//.text:005B8ED0 ; bool __cdecl effect_ping_from_impact(long, real32, real32, real_matrix4x3 const*, real_vector3d const*, real_point2d const*, real_plane3d const*)
 //.text:005B9100 ; 
 //.text:005B9130 ; void __cdecl effect_ping_from_ricochet(long)
 //.text:005B9170 ; void __cdecl effect_queue_message(s_effect_message const*)
 //.text:005B91F0 ; 
-//.text:005B9210 ; void __cdecl effect_random_angular_velocity(char const*, bool, effect_datum const*, real_vector3d*, real, real, dword, dword)
+//.text:005B9210 ; void __cdecl effect_random_angular_velocity(char const*, bool, effect_datum const*, real_vector3d*, real32, real32, uint32, uint32)
 //.text:005B92F0 ; void __cdecl effect_random_direction3d(char const*, bool, effect_datum const*, real_vector3d*)
-//.text:005B9340 ; void __cdecl effect_random_translational_velocity(char const*, bool, effect_datum const*, real_vector3d const*, real_vector3d*, real_vector3d*, real, real, real, dword, dword)
-//.text:005B9500 ; real __cdecl effect_real_random(char const*, bool, effect_datum const*)
-//.text:005B9580 ; real __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real, real)
-//.text:005B9610 ; real __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real, real, dword, dword, short)
+//.text:005B9340 ; void __cdecl effect_random_translational_velocity(char const*, bool, effect_datum const*, real_vector3d const*, real_vector3d*, real_vector3d*, real32, real32, real32, uint32, uint32)
+//.text:005B9500 ; real32 __cdecl effect_real_random(char const*, bool, effect_datum const*)
+//.text:005B9580 ; real32 __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real32, real32)
+//.text:005B9610 ; real32 __cdecl effect_real_random_range(char const*, bool, effect_datum const*, real32, real32, uint32, uint32, short)
 //.text:005B9720 ; void __cdecl effect_refresh_location(long, s_cluster_reference const*)
 //.text:005B9760 ; void __cdecl effect_refresh_locations(long)
 
@@ -197,13 +197,13 @@ void __cdecl sub_5B9820(long effect_index, long user_index)
 
 //.text:005B9870 ; void __cdecl effect_restart_all_events(long)
 //.text:005B98D0 ; 
-//.text:005B9920 ; dword* __cdecl effect_seed(bool, effect_datum const*)
+//.text:005B9920 ; uint32* __cdecl effect_seed(bool, effect_datum const*)
 //.text:005B9960 ; void __cdecl effect_send_event_restart_message(long, long)
 //.text:005B9A20 ; void __cdecl effect_send_relocated_messages(long, bool)
 //.text:005B9CE0 ; void __cdecl effect_send_restart_message(long)
 //.text:005B9DA0 ; void __cdecl effect_send_sample_lightmap_message(long)
 //.text:005B9E50 ; void __cdecl effect_set_event(long, short)
-//.text:005B9EF0 ; void __cdecl effect_setup_tiling_constants(long, real, real)
+//.text:005B9EF0 ; void __cdecl effect_setup_tiling_constants(long, real32, real32)
 //.text:005B9F20 ; bool __cdecl effect_should_frame_advance(long)
 //.text:005B9F60 ; bool __cdecl effect_should_render(long)
 //.text:005B9FA0 ; bool __cdecl effect_should_skip_event(effect_datum const*, long)
@@ -212,18 +212,18 @@ void __cdecl sub_5B9820(long effect_index, long user_index)
 //.text:005BA480 ; 
 //.text:005BA490 ; void __cdecl effect_stop_looping_sounds(effect_datum*)
 //.text:005BA4C0 ; 
-//.text:005BA500 ; void __cdecl effect_update(long, real)
-//.text:005BA540 ; bool __cdecl effect_update_attached_sound(long, real_point3d*, real_vector3d*, s_location*, real*)
-//.text:005BA640 ; void __cdecl effect_update_beam_system(c_beam_system*, real)
-//.text:005BAAD0 ; void __cdecl effect_update_contrail_locations(effect_datum const*, c_contrail_system*, real)
-//.text:005BAD90 ; void __cdecl effect_update_contrail_system(c_contrail_system*, real)
-//.text:005BAE40 ; void __cdecl effect_update_light_volume_system(c_light_volume_system*, real)
+//.text:005BA500 ; void __cdecl effect_update(long, real32)
+//.text:005BA540 ; bool __cdecl effect_update_attached_sound(long, real_point3d*, real_vector3d*, s_location*, real32*)
+//.text:005BA640 ; void __cdecl effect_update_beam_system(c_beam_system*, real32)
+//.text:005BAAD0 ; void __cdecl effect_update_contrail_locations(effect_datum const*, c_contrail_system*, real32)
+//.text:005BAD90 ; void __cdecl effect_update_contrail_system(c_contrail_system*, real32)
+//.text:005BAE40 ; void __cdecl effect_update_light_volume_system(c_light_volume_system*, real32)
 //.text:005BB070 ; void __cdecl effect_update_lighting_samples(effect_datum const*)
 //.text:005BB340 ; bool __cdecl effect_update_object(long)
 //.text:005BB530 ; void __cdecl effect_update_parent_particle(effect_datum*)
 //.text:005BB6C0 ; void __cdecl effect_update_particle_locations(effect_datum const*, c_particle_system*, real_matrix4x3 const*)
 //.text:005BB940 ; void __cdecl effect_update_particle_system(c_particle_system*)
-//.text:005BBA90 ; bool __cdecl effect_update_time(long, real)
+//.text:005BBA90 ; bool __cdecl effect_update_time(long, real32)
 //.text:005BBC10 ; bool __cdecl effect_update_visibility(long)
 //.text:005BBD20 ; 
 //.text:005BBDE0 ; void __cdecl effects_assert_no_pending_messages()
@@ -239,17 +239,17 @@ void __cdecl effects_dispose_from_old_map()
 	INVOKE(0x005BBF10, effects_dispose_from_old_map);
 }
 
-void __cdecl effects_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl effects_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x005BBFD0, effects_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-void __cdecl effects_frame_advance(real seconds_elapsed)
+void __cdecl effects_frame_advance(real32 seconds_elapsed)
 {
 	INVOKE(0x005BBFE0, effects_frame_advance, seconds_elapsed);
 }
 
-void __cdecl effects_frame_advance_gpu(real seconds_elapsed)
+void __cdecl effects_frame_advance_gpu(real32 seconds_elapsed)
 {
 	c_rasterizer_profile_scope _effects_frame_advance(_rasterizer_profile_element_effects, L"effects_frame_advance");
 
@@ -272,7 +272,7 @@ void __cdecl effects_initialize_for_new_map()
 	INVOKE(0x005BC990, effects_initialize_for_new_map);
 }
 
-void __cdecl effects_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl effects_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005BCA80, effects_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -322,7 +322,7 @@ void __cdecl effects_render(long user_index, e_effect_pass pass)
 }
 
 //.text:005BD040 ; void __cdecl effects_reset()
-//.text:005BD0D0 ; void __cdecl effects_submit_cheap_attachments(long, byte)
+//.text:005BD0D0 ; void __cdecl effects_submit_cheap_attachments(long, uint8)
 
 void __cdecl effects_submit_cheap_first_person_attachments(long user_index)
 {
@@ -347,8 +347,8 @@ void __cdecl effects_update()
 //.text:005BDE30 ; void __cdecl event_create_particle_system(s_effect_message const*)
 //.text:005BDF40 ; void __cdecl event_create_particle_systems(long, long)
 //.text:005BE530 ; void __cdecl event_destroy(long, bool)
-//.text:005BE5A0 ; void __cdecl event_generate_accelerations(effect_datum*, long, real)
-//.text:005BE930 ; void __cdecl event_generate_part(long, long, byte*, effect_part_definition const*, long, bool, real_matrix4x3 const*, real)
+//.text:005BE5A0 ; void __cdecl event_generate_accelerations(effect_datum*, long, real32)
+//.text:005BE930 ; void __cdecl event_generate_part(long, long, uint8*, effect_part_definition const*, long, bool, real_matrix4x3 const*, real32)
 //.text:005BF2A0 ; void __cdecl event_generate_parts(long, long, bool)
 //.text:005BF670 ; void __cdecl event_initialize_beam_system(s_effect_message const*)
 //.text:005BF6C0 ; void __cdecl event_initialize_contrail_system(s_effect_message const*)
@@ -364,7 +364,7 @@ void __cdecl effects_update()
 //.text:005C03E0 ; void __cdecl event_request_light_volume_system(long, long, effect_part_definition const*, long)
 //.text:005C04D0 ; void __cdecl event_request_light_volume_system_initialization(long, long, effect_part_definition const*)
 //.text:005C0560 ; void __cdecl event_request_light_volume_system_location(long, long, effect_part_definition const*, real_matrix4x3 const*, bool)
-//.text:005C0890 ; bool __cdecl event_update_time(long, long, real)
+//.text:005C0890 ; bool __cdecl event_update_time(long, long, real32)
 //.text:005C0A00 ; bool __cdecl events_create(long)
 //.text:005C0A50 ; 
 //.text:005C0A90 ; public: void __cdecl t_message_queue<s_effect_message, 512>::filter_messages(bool(__cdecl*)(s_effect_message*, long), long)
@@ -431,8 +431,8 @@ void __cdecl effects_update()
 //.text:005C1130 ; 
 //.text:005C1140 ; 
 //.text:005C1150 ; 
-//.text:005C1160 ; void __cdecl handle_effect_render_message(s_effect_message const*, dword)
-//.text:005C1290 ; bool __cdecl handle_effect_render_message_by_asserting(s_effect_message*, dword)
+//.text:005C1160 ; void __cdecl handle_effect_render_message(s_effect_message const*, uint32)
+//.text:005C1290 ; bool __cdecl handle_effect_render_message_by_asserting(s_effect_message*, uint32)
 //.text:005C12A0 ; 
 //.text:005C12B0 ; void __cdecl handle_effect_reverse_messages()
 //.text:005C1300 ; 
@@ -560,8 +560,8 @@ void debug_effects_full()
 				_event = DATUM_GET(event_data, event_datum, event_index);
 				effect_event_definition& effect_event = effect_definition->events[_event->event_block_index];
 
-				real duration = _event->duration;
-				real age = _event->time;
+				real32 duration = _event->duration;
+				real32 age = _event->time;
 				if (duration != 0.0f)
 					age /= duration;
 

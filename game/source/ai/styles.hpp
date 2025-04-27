@@ -52,7 +52,7 @@ struct style_palette_entry
 	// Style Behavior Control
 	// 
 	// Check the appropriate box to turn on/off the given behavior
-	c_flags<e_style_control_flags, dword, k_style_control_flags> style_control;
+	c_flags<e_style_control_flags, uint32, k_style_control_flags> style_control;
 
 	c_static_flags<NUMBER_OF_BEHAVIORS> behaviors;
 
@@ -79,9 +79,9 @@ enum e_special_movement_flags
 
 struct special_movement_definition
 {
-	c_flags<e_special_movement_flags, dword, k_special_movement_flags> special_movement1;
+	c_flags<e_special_movement_flags, uint32, k_special_movement_flags> special_movement1;
 };
-static_assert(sizeof(special_movement_definition) == sizeof(dword));
+static_assert(sizeof(special_movement_definition) == sizeof(uint32));
 
 struct style_behavior_name
 {

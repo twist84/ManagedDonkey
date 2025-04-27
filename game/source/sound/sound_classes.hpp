@@ -75,7 +75,7 @@ enum e_sound_class
 
 struct sound_class_datum
 {
-	byte __data[0x1144];
+	uint8 __data[0x1144];
 };
 static_assert(sizeof(sound_class_datum) == 0x1144);
 

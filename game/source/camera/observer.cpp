@@ -10,8 +10,8 @@
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
 
-REFERENCE_DECLARE(0x018BB17C, real, g_observer_wave_height);
-REFERENCE_DECLARE(0x018BB180, real, g_camera_speed);
+REFERENCE_DECLARE(0x018BB17C, real32, g_observer_wave_height);
+REFERENCE_DECLARE(0x018BB180, real32, g_camera_speed);
 
 HOOK_DECLARE(0x00612710, observer_game_tick);
 HOOK_DECLARE(0x00613A60, observer_update);
@@ -47,7 +47,7 @@ void __cdecl observer_build_result_from_point_and_vectors(s_observer_result* out
 	INVOKE(0x00610E70, observer_build_result_from_point_and_vectors, out_result, position, forward, up);
 }
 
-//.text:00610F00 ; void __cdecl observer_check_penetration(long, real_point3d*, real_vector3d*, real_vector3d const*, real_point3d const*, real, long, long, real*, real, real)
+//.text:00610F00 ; void __cdecl observer_check_penetration(long, real_point3d*, real_vector3d*, real_vector3d const*, real_point3d const*, real32, long, long, real32*, real32, real32)
 
 void __cdecl observer_clear(s_observer* observer)
 {
@@ -69,10 +69,10 @@ s_collision_test_flags __cdecl observer_collision_flags_get(long user_index)
 	return INVOKE(0x00611620, observer_collision_flags_get, user_index);
 }
 
-//.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(long user_index, real_point3d const*, real_vector3d const*, real, real*, real_vector3d*, real_point3d*, real)
-//.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(long, real_point3d*, real_vector3d*, real)
+//.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(long user_index, real_point3d const*, real_vector3d const*, real32, real32*, real_vector3d*, real_point3d*, real32)
+//.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(long, real_point3d*, real_vector3d*, real32)
 
-bool __cdecl observer_collision_test_differential(long user_index, real_point3d* focus_position, real_point3d* camera_point, real_vector3d* differential_basis, real differential, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media)
+bool __cdecl observer_collision_test_differential(long user_index, real_point3d* focus_position, real_point3d* camera_point, real_vector3d* differential_basis, real32 differential, long primary_ignore_object_index, long secondary_ignore_object_index, real32* t, bool ignore_media)
 {
 	return INVOKE(0x00611B90, observer_collision_test_differential, user_index, focus_position, camera_point, differential_basis, differential, primary_ignore_object_index, secondary_ignore_object_index, t, ignore_media);
 
@@ -82,7 +82,7 @@ bool __cdecl observer_collision_test_differential(long user_index, real_point3d*
 	//return observer_collision_test_differential(user_index, focus_position, &point, primary_ignore_object_index, secondary_ignore_object_index, t);
 }
 
-bool __cdecl observer_collision_test_with_t(long user_index, real_point3d* p0, real_point3d* p1, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media)
+bool __cdecl observer_collision_test_with_t(long user_index, real_point3d* p0, real_point3d* p1, long primary_ignore_object_index, long secondary_ignore_object_index, real32* t, bool ignore_media)
 {
 	return INVOKE(0x00611C30, observer_collision_test_with_t, user_index, p0, p1, primary_ignore_object_index, secondary_ignore_object_index, t, ignore_media);
 
@@ -212,12 +212,12 @@ void __cdecl observer_dispose_from_old_map()
 	INVOKE(0x00612530, observer_dispose_from_old_map);
 }
 
-void __cdecl observer_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl observer_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00612540, observer_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:00612550 ; void __cdecl observer_find_displacement(real const* const, real const* const, s_observer_derivative* derivative)
+//.text:00612550 ; void __cdecl observer_find_displacement(real32 const* const, real32 const* const, s_observer_derivative* derivative)
 //.text:006125E0 ; void __cdecl observer_fix_focus_position_to_safe_position(long, real_point3d*, long, long, real_point3d const*)
 
 void __cdecl observer_game_tick()
@@ -270,14 +270,14 @@ s_observer_result const* observer_get_camera(long user_index)
 	return result;
 }
 
-real __cdecl observer_get_max_wave_height()
+real32 __cdecl observer_get_max_wave_height()
 {
 	return INVOKE(0x006127F0, observer_get_max_wave_height);
 
 	//return g_observer_wave_height;
 }
 
-real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real vertical_fov)
+real32 __cdecl observer_get_near_plane_farthest_distance(real32 horizontal_fov, real32 vertical_fov)
 {
 	return INVOKE(0x00612800, observer_get_near_plane_farthest_distance, horizontal_fov, vertical_fov);
 }
@@ -323,7 +323,7 @@ void __cdecl observer_initialize_for_new_map()
 	//observer_gamestate_globals->__unknownA = NONE;
 }
 
-void __cdecl observer_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl observer_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00612AA0, observer_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -347,9 +347,9 @@ void __cdecl observer_pass_time(long user_index)
 	INVOKE(0x00612B70, observer_pass_time, user_index);
 }
 
-//.text:00612C10 ; void __cdecl observer_penetration_check_volume(real_point3d*, real_vector3d const*, real_point3d const*, real, real)
+//.text:00612C10 ; void __cdecl observer_penetration_check_volume(real_point3d*, real_vector3d const*, real_point3d const*, real32, real32)
 
-void __cdecl observer_perform_collision(long user_index, s_focus_and_distance const* focus_and_distance, real world_seconds_elapsed)
+void __cdecl observer_perform_collision(long user_index, s_focus_and_distance const* focus_and_distance, real32 world_seconds_elapsed)
 {
 	INVOKE(0x00612D60, observer_perform_collision, user_index, focus_and_distance, world_seconds_elapsed);
 }
@@ -369,7 +369,7 @@ void __cdecl observer_result_compute_parameters(s_observer_result* result)
 	INVOKE(0x006131E0, observer_result_compute_parameters, result);
 }
 
-void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, real_vector3d const* forward)
+void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real32 distance, real_vector3d const* forward)
 {
 	INVOKE(0x00613460, observer_result_set_position, user_index, position, distance, forward);
 }
@@ -391,7 +391,7 @@ void __cdecl observer_set_camera(long user_index, s_observer_command* command)
 	INVOKE(0x006136A0, observer_set_camera, user_index, command);
 }
 
-real __cdecl observer_suggested_field_of_view()
+real32 __cdecl observer_suggested_field_of_view()
 {
 	return INVOKE(0x00613730, observer_suggested_field_of_view);
 
@@ -401,14 +401,14 @@ real __cdecl observer_suggested_field_of_view()
 	//return g_camera_fov_radians * RAD;
 }
 
-real __cdecl observer_suggested_field_of_view_change_time()
+real32 __cdecl observer_suggested_field_of_view_change_time()
 {
 	return INVOKE(0x00613780, observer_suggested_field_of_view_change_time);
 
 	//return 0.18f;
 }
 
-//.text:00613790 ; void __cdecl observer_test_water(real_point3d const*, real_vector3d*, real_point3d*, real, real)
+//.text:00613790 ; void __cdecl observer_test_water(real_point3d const*, real_vector3d*, real_point3d*, real32, real32)
 
 s_observer_result const* __cdecl observer_try_and_get_camera(long user_index)
 {
@@ -425,7 +425,7 @@ s_observer_result const* __cdecl observer_try_to_get_valid_camera_invalid_locati
 	return INVOKE(0x00613A10, observer_try_to_get_valid_camera_invalid_location_okay, user_index);
 }
 
-void __cdecl observer_update(real world_seconds_elapsed)
+void __cdecl observer_update(real32 world_seconds_elapsed)
 {
 	//INVOKE(0x00613A60, observer_update, world_seconds_elapsed);
 
@@ -515,7 +515,7 @@ void __cdecl observer_validate_camera_command(s_observer_command* command)
 	INVOKE(0x00614D60, observer_validate_camera_command, command);
 }
 
-bool __cdecl valid_field_of_view(real field_of_view)
+bool __cdecl valid_field_of_view(real32 field_of_view)
 {
 	//return INVOKE(0x00615050, valid_field_of_view, field_of_view);
 
@@ -523,7 +523,7 @@ bool __cdecl valid_field_of_view(real field_of_view)
 		&& IN_RANGE_INCLUSIVE(field_of_view, k_horizontal_field_of_view_min, k_horizontal_field_of_view_max);
 }
 
-bool __cdecl valid_focus_distance(real focus_distance)
+bool __cdecl valid_focus_distance(real32 focus_distance)
 {
 	//return INVOKE(0x00615090, valid_focus_distance, focus_distance);
 
@@ -531,7 +531,7 @@ bool __cdecl valid_focus_distance(real focus_distance)
 		&& IN_RANGE_INCLUSIVE(focus_distance, 0.0f, k_distance_max);
 }
 
-bool __cdecl valid_timer(real timer)
+bool __cdecl valid_timer(real32 timer)
 {
 	//return INVOKE(0x006150D0, valid_timer, timer);
 
@@ -539,7 +539,7 @@ bool __cdecl valid_timer(real timer)
 		&& IN_RANGE_INCLUSIVE(timer, 0.0f, 3600.0f);
 }
 
-bool __cdecl valid_world_real(real world_real)
+bool __cdecl valid_world_real(real32 world_real)
 {
 	//return INVOKE(0x00615110, valid_world_real, world_real);
 
@@ -575,14 +575,14 @@ void __cdecl debug_render_observer()
 	render_camera_build_projection(&camera, NULL, &projection, 0.0f);
 
 	real_point2d screen_points[4]{};
-	screen_points[0].x = static_cast<real>(camera.render_pixel_bounds.x0);
-	screen_points[1].x = static_cast<real>(camera.render_pixel_bounds.x0);
-	screen_points[2].x = static_cast<real>(camera.render_pixel_bounds.x1);
-	screen_points[3].x = static_cast<real>(camera.render_pixel_bounds.x1);
-	screen_points[0].y = static_cast<real>(camera.render_pixel_bounds.y0);
-	screen_points[1].y = static_cast<real>(camera.render_pixel_bounds.y1);
-	screen_points[2].y = static_cast<real>(camera.render_pixel_bounds.y1);
-	screen_points[3].y = static_cast<real>(camera.render_pixel_bounds.y0);
+	screen_points[0].x = static_cast<real32>(camera.render_pixel_bounds.x0);
+	screen_points[1].x = static_cast<real32>(camera.render_pixel_bounds.x0);
+	screen_points[2].x = static_cast<real32>(camera.render_pixel_bounds.x1);
+	screen_points[3].x = static_cast<real32>(camera.render_pixel_bounds.x1);
+	screen_points[0].y = static_cast<real32>(camera.render_pixel_bounds.y0);
+	screen_points[1].y = static_cast<real32>(camera.render_pixel_bounds.y1);
+	screen_points[2].y = static_cast<real32>(camera.render_pixel_bounds.y1);
+	screen_points[3].y = static_cast<real32>(camera.render_pixel_bounds.y0);
 
 	real_point3d focus_position{};
 	real_point3d frustum_points[4]{};

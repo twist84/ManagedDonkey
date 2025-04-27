@@ -11,13 +11,13 @@ static_assert(sizeof(s_havok_gamestate) == 0x8);
 
 struct s_havok_constants
 {
-	real havok_collision_tolerance;
-	real havok_iterative_linear_cast_early_out_distance;
+	real32 havok_collision_tolerance;
+	real32 havok_iterative_linear_cast_early_out_distance;
 	long havok_environment_type;
 	long havok_debug_mode;
-	real havok_shape_radius;
+	real32 havok_shape_radius;
 	bool havok_disable_deactivation;
-	real havok_deactivation_reference_distance;
+	real32 havok_deactivation_reference_distance;
 	bool havok_jumping_beans;
 	bool havok_weld_environment;
 	bool havok_shape_cache;
@@ -34,8 +34,8 @@ struct s_havok_constants
 	bool havok_render_shape_properties;
 	bool havok_cleanup_inactive_agents;
 	bool havok_batch_add_entities_disabled;
-	real havok_maximum_linear_velocity;
-	real havok_minimum_maximum_penetration_depth;
+	real32 havok_maximum_linear_velocity;
+	real32 havok_minimum_maximum_penetration_depth;
 	long havok_thread_count;
 };
 static_assert(sizeof(s_havok_constants) == 0x38);
@@ -75,10 +75,10 @@ extern void __cdecl havok_display_stats(bool display_as_event);
 extern void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...);
 extern void __cdecl havok_dispose();
 extern void __cdecl havok_dispose_from_old_map();
-extern void __cdecl havok_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+extern void __cdecl havok_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl havok_initialize();
 extern void __cdecl havok_initialize_for_new_map();
-extern void __cdecl havok_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl havok_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl havok_object_set_position(long object_index, bool a2, bool a3, bool a4);
 extern void __cdecl havok_prepare_fpu_for_update();
 extern void __cdecl havok_restore_fpu_from_update();

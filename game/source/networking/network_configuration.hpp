@@ -37,12 +37,12 @@ static_assert(sizeof(s_bandwidth_configuration_host_preference_table) == 0x34);
 
 struct s_bandwidth_configuration
 {
-	real bandwidth_outlier_discard_fraction;
+	real32 bandwidth_outlier_discard_fraction;
 	long bandwidth_minimum_measurement_count;
 	long bandwidth_safety_margin_bps;
 	long bandwidth_minimum_known_good_bps;
 	long bandwidth_tracking_minimum_duration_msec;
-	real bandwidth_tracking_maximum_satiation;
+	real32 bandwidth_tracking_maximum_satiation;
 	long bandwidth_dispute_minimum_count;
 	long bandwidth_dispute_threshold_bps;
 	long bandwidth_dispute_increase_bps;
@@ -55,8 +55,8 @@ struct s_bandwidth_configuration
 	long host_speculative_migration_required_match_host_bandwidth_difference;
 	long host_speculative_migration_required_custom_host_rating_difference;
 	long host_speculative_migration_required_custom_host_bandwidth_difference;
-	byte host_preference_latency_table[20];
-	byte host_preference_local_user_table[5];
+	uint8 host_preference_latency_table[20];
+	uint8 host_preference_local_user_table[5];
 	s_bandwidth_configuration_host_preference_table host_preferences[4];
 	long host_preference_connectivity_rankings_spread;
 	long host_preference_host_rankings_spread;
@@ -95,7 +95,7 @@ static_assert(sizeof(s_life_cycle_handler_joining_configuration) == 0x20);
 struct s_life_cycle_handler_matchmaking_configuration
 {
 	bool perform_nat_check;
-	real matchmaking_strict_nat_host_percentage;
+	real32 matchmaking_strict_nat_host_percentage;
 	long matchmaking_start_failure_wait_time_ms;
 	long matchmaking_find_match_joinable_session_threshold;
 	long matchmaking_find_match_join_wait_time_ms;
@@ -160,7 +160,7 @@ struct s_logic_matchmaking_desirability
 	long search_time_desirability_bonus;
 	long average_skill_range_for_desirability_bonus;
 	long average_skill_desirability_bonus_factor;
-	real average_mu_range_for_desirability_bonus;
+	real32 average_mu_range_for_desirability_bonus;
 	long average_mu_desirability_bonus_factor;
 	long average_experience_rank_range_for_desirability_bonus;
 	long average_experience_rank_desirability_bonus_factor;
@@ -182,8 +182,8 @@ struct s_logic_matchmaking_seeker_configuration
 	long failed_session_search_wait_time_ms;
 	long final_session_search_query_minimum_time_ms;
 	long search_stage_strict_skill_round_limit;
-	real search_stage_strict_skill_initial_mu_range;
-	real search_stage_strict_skill_final_mu_range;
+	real32 search_stage_strict_skill_initial_mu_range;
+	real32 search_stage_strict_skill_final_mu_range;
 	long search_stage_strict_skill_initial_desired_skill_range;
 	long search_stage_strict_skill_final_desired_skill_range;
 	long search_stage_strict_skill_initial_average_skill_range;
@@ -194,7 +194,7 @@ struct s_logic_matchmaking_seeker_configuration
 	long search_stage_skill_connection_threshold_ms;
 	long search_stage_any_round_limit;
 	long search_stage_any_final_connection_threshold_ms;
-	real search_stage_any_final_mu_range;
+	real32 search_stage_any_final_mu_range;
 	long search_stage_any_final_average_skill_range;
 	long search_stage_any_final_desired_skill_range;
 };
@@ -271,18 +271,18 @@ static_assert(sizeof(s_banhammer_configuration) == 0x18);
 
 struct s_simulation_zoom_relevance
 {
-	real zoom_0_tolerance;
-	real zoom_1_tolerance;
-	real zoom_0_relevance_bonus;
-	real zoom_1_relevance_bonus;
+	real32 zoom_0_tolerance;
+	real32 zoom_1_tolerance;
+	real32 zoom_0_relevance_bonus;
+	real32 zoom_1_relevance_bonus;
 };
 static_assert(sizeof(s_simulation_zoom_relevance) == 0x10);
 
 struct s_simulation_control_relevance
 {
-	real zero_relevance_distance;
-	real max_relevance;
-	real min_relevance;
+	real32 zero_relevance_distance;
+	real32 max_relevance;
+	real32 min_relevance;
 	long min_period;
 	long max_period;
 };
@@ -290,10 +290,10 @@ static_assert(sizeof(s_simulation_control_relevance) == 0x14);
 
 struct s_simulation_position_relevance
 {
-	real distance_to_player_threshold;
-	real aiming_vector_high_tolerance;
-	real aiming_vector_medium_tolerance;
-	real distance_to_player_medium_tolerance;
+	real32 distance_to_player_threshold;
+	real32 aiming_vector_high_tolerance;
+	real32 aiming_vector_medium_tolerance;
+	real32 distance_to_player_medium_tolerance;
 };
 static_assert(sizeof(s_simulation_position_relevance) == 0x10);
 
@@ -313,8 +313,8 @@ static_assert(sizeof(s_simulation_view_configuration) == 0x8);
 
 struct s_simulation_shared_configuration
 {
-	real action_persist_time;
-	real simulation_event_projectile_supercombine_request_fraction;
+	real32 action_persist_time;
+	real32 simulation_event_projectile_supercombine_request_fraction;
 };
 static_assert(sizeof(s_simulation_shared_configuration) == 0x8);
 
@@ -325,53 +325,53 @@ struct s_simulation_world_configuration
 	long host_join_minimum_wait_time;
 	long host_join_timeout;
 	long join_total_wait_timeout;
-	real pause_game_required_machines_fraction;
-	real join_activation_blocking_machines_fraction;
+	real32 pause_game_required_machines_fraction;
+	real32 join_activation_blocking_machines_fraction;
 	long maximum_catchup_attempts;
 	long catchup_failure_timeout;
 	long client_join_failure_count;
 	long client_activation_failure_timeout;
-	real game_simulation_queue_danger_allocation_size_percentage;
-	real game_simulation_queue_danger_allocation_count_percentage;
+	real32 game_simulation_queue_danger_allocation_size_percentage;
+	real32 game_simulation_queue_danger_allocation_count_percentage;
 };
 static_assert(sizeof(s_simulation_world_configuration) == 0x34);
 
 struct s_simulation_event_configuration
 {
-	real constant_priority;
+	real32 constant_priority;
 	long cancel_timer_milliseconds;
-	real zero_relevance_distance;
-	real minimum_priority;
-	real maximum_priority;
+	real32 zero_relevance_distance;
+	real32 minimum_priority;
+	real32 maximum_priority;
 };
 static_assert(sizeof(s_simulation_event_configuration) == 0x14);
 
 struct s_simulation_entity_creation_configuration
 {
-	real constant_priority;
-	real creation_zero_relevance_distance;
-	real creation_minimum_priority;
-	real creation_maximum_priority;
+	real32 constant_priority;
+	real32 creation_zero_relevance_distance;
+	real32 creation_minimum_priority;
+	real32 creation_maximum_priority;
 };
 static_assert(sizeof(s_simulation_entity_creation_configuration) == 0x10);
 
 struct s_simulation_entity_update_configuration
 {
-	real constant_priority;
-	real zero_relevance_distance;
-	real minimum_relevance;
-	real maximum_relevance;
+	real32 constant_priority;
+	real32 zero_relevance_distance;
+	real32 minimum_relevance;
+	real32 maximum_relevance;
 	long minimum_period;
 	long maximum_period;
-	real normal_minimum_priority;
-	real normal_maximum_priority;
+	real32 normal_minimum_priority;
+	real32 normal_maximum_priority;
 	long delayed_time_threshold;
-	real delayed_minimum_priority;
-	real delayed_maximum_priority;
-	real maximum_priority;
-	real player_priority;
-	real dead_priority;
-	real in_motion_by_unit;
+	real32 delayed_minimum_priority;
+	real32 delayed_maximum_priority;
+	real32 maximum_priority;
+	real32 player_priority;
+	real32 dead_priority;
+	real32 in_motion_by_unit;
 };
 static_assert(sizeof(s_simulation_entity_update_configuration) == 0x3C);
 
@@ -384,21 +384,21 @@ static_assert(sizeof(s_simulation_entity_configuration) == 0x4C);
 
 struct s_simulation_warping_configuration
 {
-	real simulation_position_update_object_corrective_accept_tolerance;
-	real simulation_position_update_object_predicted_accept_tolerance;
-	real simulation_position_update_vehicle_corrective_accept_tolerance;
-	real simulation_position_update_vehicle_predicted_accept_tolerance;
-	real position_update_recent_seconds;
-	real position_update_minimum_distance;
+	real32 simulation_position_update_object_corrective_accept_tolerance;
+	real32 simulation_position_update_object_predicted_accept_tolerance;
+	real32 simulation_position_update_vehicle_corrective_accept_tolerance;
+	real32 simulation_position_update_vehicle_predicted_accept_tolerance;
+	real32 position_update_recent_seconds;
+	real32 position_update_minimum_distance;
 };
 static_assert(sizeof(s_simulation_warping_configuration) == 0x18);
 
 struct s_simulation_weapon_configuration
 {
-	real trigger_recent_spew_time;
-	real prediction_delay_timer;
-	real predicted_fire_allow_ratio;
-	real predicted_fire_always_allow_threshold;
+	real32 trigger_recent_spew_time;
+	real32 prediction_delay_timer;
+	real32 predicted_fire_allow_ratio;
+	real32 predicted_fire_always_allow_threshold;
 };
 static_assert(sizeof(s_simulation_weapon_configuration) == 0x10);
 
@@ -412,7 +412,7 @@ struct s_simulation_configuration
 	s_simulation_shared_configuration shared;
 
 	// odst?
-	real __unknown68;
+	real32 __unknown68;
 
 	s_simulation_world_configuration world;
 	c_static_array<s_simulation_event_configuration, 39> simulation_event_configurations;
@@ -434,13 +434,13 @@ static_assert(sizeof(s_event_manager_view_configuration) == 0x4);
 
 struct s_replication_control_view
 {
-	real base_non_player_motion_priority;
+	real32 base_non_player_motion_priority;
 	long max_priority_threshold;
-	real max_priority;
-	real medium_priority_base;
-	real medium_priority_relevance_scale;
-	real min_priority_base;
-	real min_priority_relevance_scale;
+	real32 max_priority;
+	real32 medium_priority_base;
+	real32 medium_priority_relevance_scale;
+	real32 min_priority_base;
+	real32 min_priority_relevance_scale;
 };
 static_assert(sizeof(s_replication_control_view) == 0x1C);
 
@@ -511,27 +511,27 @@ struct s_observer_configuration
 	long synchronous_connection_drop_receive_timeout;
 	long minimum_undesired_connection_timeout_msec;
 	long maximum_undesired_connection_timeout_msec;
-	real safety_window_threshold;
-	real safety_packet_interval;
-	real safety_packet_maximum_interval;
+	real32 safety_window_threshold;
+	real32 safety_packet_interval;
+	real32 safety_packet_maximum_interval;
 	long packet_rate_multiplier_count;
-	real packet_rate_multipliers[16];
+	real32 packet_rate_multipliers[16];
 	long packet_window_minimum_bytes;
-	real voice_fraction_authority;
-	real voice_fraction_client;
-	real voice_fraction_non_simulation;
-	real voice_maximum_packet_rate;
+	real32 voice_fraction_authority;
+	real32 voice_fraction_client;
+	real32 voice_fraction_non_simulation;
+	real32 voice_maximum_packet_rate;
 	long voice_receive_fast_acknowledge_time;
 	long bandwidth_interval;
 	long loss_detection_window_size;
 	long flood_max_aperture_msec;
-	real flood_packet_fraction;
+	real32 flood_packet_fraction;
 	long desired_payload_bytes_out_of_game;
 	long desired_payload_bytes_simulation;
-	real desired_minimum_packet_rate_multiplier;
+	real32 desired_minimum_packet_rate_multiplier;
 	long minimum_bandwidth_bps;
 	long bandwidth_adjust_interval;
-	real bandwidth_flood_channel_fraction;
+	real32 bandwidth_flood_channel_fraction;
 	long bandwidth_flood_check_threshold;
 	long bandwidth_flood_backoff_kbps;
 	long bandwidth_flood_backoff_repeat_interval;
@@ -567,29 +567,29 @@ struct s_observer_configuration
 	long stream_minimum_rtt_msec;
 	long stream_rtt_average_gain_bits;
 	long stream_loss_window_size;
-	real stream_loss_throttle_fraction;
+	real32 stream_loss_throttle_fraction;
 	long stream_throttle_rtt_multiplier;
-	real stream_throttle_reduce_multiplier;
+	real32 stream_throttle_reduce_multiplier;
 	long stream_throttle_cookie_event_count;
 	long stream_throttle_cookie_backoff_threshold;
 	long stream_bandwidth_step_bps;
-	real stream_bandwidth_step_max_fraction;
+	real32 stream_bandwidth_step_max_fraction;
 	long stream_bandwidth_backoff_bps;
-	real stream_bandwidth_backoff_max_fraction;
+	real32 stream_bandwidth_backoff_max_fraction;
 	long stream_period_maximum_msec;
 	long stream_growth_period_minimum_msec;
 	long stream_throughput_recording_period_minimum_msec;
 	long stream_throughput_satiated_bandwidth_bps;
-	real stream_throughput_satiated_stream_fraction;
+	real32 stream_throughput_satiated_stream_fraction;
 	long stream_satiation_timeout_msec;
 	long stream_congestion_bandwidth_average_gain_bits;
 	long stream_congestion_offender_bandwidth_increment_bps;
 	long stream_congestion_offender_timeout_msec;
 	long stream_growth_maximum_count;
-	real stream_growth_maximum_fraction;
-	real stream_growth_desire_maximum;
+	real32 stream_growth_maximum_fraction;
+	real32 stream_growth_desire_maximum;
 	long stream_growth_desire_delay_multiplier;
-	real stream_growth_desire_penalty_bandwidth_multiplier;
+	real32 stream_growth_desire_penalty_bandwidth_multiplier;
 	long stream_growth_out_of_game_maximum_rtt_increase_msec;
 	long stream_growth_simulation_maximum_rtt_increase_msec;
 	long stream_non_growth_simulation_maximum_rtt_increase_msec;
@@ -600,7 +600,7 @@ struct s_observer_configuration
 	long stream_cautious_expansion_instability_timeout_msec;
 	long bandwidth_monitor_period_count;
 	long bandwidth_monitor_limitation_bps;
-	real bandwidth_monitor_constriction_fraction;
+	real32 bandwidth_monitor_constriction_fraction;
 	long bandwidth_monitor_constriction_threshold_bps;
 	long client_badness_rating_threshold;
 	long bad_bandwidth_throughput_threshold;
@@ -677,7 +677,7 @@ struct s_observer_configuration
 	long stable_probe_query_time_msec;
 	long stable_probe_query_time_minimum_msec;
 	long stable_probe_settle_time_msec;
-	real stable_probe_settle_bandwidth_multiplier;
+	real32 stable_probe_settle_bandwidth_multiplier;
 	long stable_probe_throttle_minimum_rollback;
 	long stable_probe_recover_minimum_time_msec;
 	long stable_probe_overprobe_minimum_bps;
@@ -689,7 +689,7 @@ struct s_observer_configuration
 	long initial_probe_query_time_msec;
 	long initial_probe_query_time_minimum_msec;
 	long initial_probe_settle_time_msec;
-	real initial_probe_settle_bandwidth_multiplier;
+	real32 initial_probe_settle_bandwidth_multiplier;
 	long initial_probe_throttle_minimum_rollback;
 	long initial_probe_recover_minimum_time_msec;
 	long initial_probe_overprobe_minimum_bps;
@@ -701,7 +701,7 @@ struct s_observer_configuration
 	long fast_probe_query_time_msec;
 	long fast_probe_query_time_minimum_msec;
 	long fast_probe_settle_time_msec;
-	real fast_probe_settle_bandwidth_multiplier;
+	real32 fast_probe_settle_bandwidth_multiplier;
 	long fast_probe_throttle_minimum_rollback;
 	long fast_probe_recover_minimum_time_msec;
 	long fast_probe_overprobe_minimum_bps;
@@ -713,7 +713,7 @@ struct s_observer_configuration
 	long slow_probe_query_time_msec;
 	long slow_probe_query_time_minimum_msec;
 	long slow_probe_settle_time_msec;
-	real slow_probe_settle_bandwidth_multiplier;
+	real32 slow_probe_settle_bandwidth_multiplier;
 	long slow_probe_throttle_minimum_rollback;
 	long slow_probe_recover_minimum_time_msec;
 	long slow_probe_overprobe_minimum_bps;
@@ -753,7 +753,7 @@ struct s_connection_configuration
 	long backoff_increment_msec;
 	long backoff_max_msec;
 	long backoff_decrement_msec;
-	real bandwidth_warning_latency_multiplier;
+	real32 bandwidth_warning_latency_multiplier;
 	long bandwidth_warning_latency_minimum_increase;
 };
 static_assert(sizeof(s_connection_configuration) == 0x54);
@@ -790,8 +790,8 @@ static_assert(sizeof(s_transport_configuration) == 0x20);
 
 struct s_voice_configuration
 {
-	real push_to_talk_inactivity_threshold_seconds;
-	real maximum_push_to_talk_time_seconds;
+	real32 push_to_talk_inactivity_threshold_seconds;
+	real32 maximum_push_to_talk_time_seconds;
 	bool clients_can_be_preferred_consumers_of_voice_repeater;
 	long open_channel_player_count;
 };
@@ -815,11 +815,11 @@ static_assert(sizeof(s_data_mine_configuration) == 0xC);
 
 struct s_griefer_configuration
 {
-	dword betrayal_decrement_time;
-	dword eject_decrement_time;
-	real betrayal_cutoff;
+	uint32 betrayal_decrement_time;
+	uint32 eject_decrement_time;
+	real32 betrayal_cutoff;
 	long ejection_cutoff;
-	real friendly_assist_amount; // UNUSED
+	real32 friendly_assist_amount; // UNUSED
 };
 static_assert(sizeof(s_griefer_configuration) == 0x14);
 

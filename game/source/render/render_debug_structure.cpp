@@ -109,17 +109,17 @@ void __cdecl render_debug_structure()
 
 					if (debug_structure_complexity)
 					{
-						real cmpval0 = log10f(0.2f);
-						real cmpval1 = log10f(0.05f);
-						real cmpval2 = log10f(0.2f);
+						real32 cmpval0 = log10f(0.2f);
+						real32 cmpval1 = log10f(0.05f);
+						real32 cmpval2 = log10f(0.2f);
 
-						real vertex_distance = distance_squared3d(start_vertex_reference.get_position(), end_vertex_reference.get_position());
-						real v136 = 0.5f * log10f(vertex_distance);
+						real32 vertex_distance = distance_squared3d(start_vertex_reference.get_position(), end_vertex_reference.get_position());
+						real32 v136 = 0.5f * log10f(vertex_distance);
 						if (v136 < cmpval0)
 						{
-							real v137 = fminf(fmaxf(v136, cmpval1), cmpval2);
-							real green_value = (v137 - cmpval1) / (cmpval2 - cmpval1);
-							real red_value = 1.0f - green_value;
+							real32 v137 = fminf(fmaxf(v136, cmpval1), cmpval2);
+							real32 green_value = (v137 - cmpval1) / (cmpval2 - cmpval1);
+							real32 red_value = 1.0f - green_value;
 
 							real_argb_color color{};
 							set_real_argb_color(&color, 1.0f, red_value, green_value, 0.0f);

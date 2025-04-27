@@ -10,8 +10,8 @@ public:
 	~c_simple_font_screen_display();
 
 	void close_session();
-	void draw(long column, long row, dword color, char const* format, ...);
-	bool open_session(real scale);
+	void draw(long column, long row, uint32 color, char const* format, ...);
+	bool open_session(real32 scale);
 
 	//long get_max_column() const;
 	//long get_max_row() const;
@@ -57,7 +57,7 @@ namespace simple_font
 		long const char_pitch;
 		long const char_start;
 		long const char_end;
-		real char_scale;
+		real32 char_scale;
 
 		long const texture_width;
 		long const texture_height;
@@ -71,24 +71,24 @@ namespace simple_font
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
 
-	extern bool __cdecl begin_rendering(real scale, bool drop_shadow);
+	extern bool __cdecl begin_rendering(real32 scale, bool drop_shadow);
 	extern void __cdecl draw_quads(rasterizer_vertex_screen* triangle_vertices, long verts_used, bool apply_display_scalar_correction);
 	extern void __cdecl end_rendering();
 	extern long __cdecl get_height();
 	extern long __cdecl get_width();
 	extern void __cdecl install();
-	extern long __cdecl make_quad(long x1, long y1, real u1, real v1, long x2, long y2, real u2, real v2, dword color, long shadow_offset, rasterizer_vertex_screen* triangle_vertices);
-	extern void __cdecl print(long x, long y, dword color, char const* c, long count, bool apply_display_scalar_correction);
-	extern void __cdecl print_block(long x, long y, long width, long height, dword color, char const* c);
+	extern long __cdecl make_quad(long x1, long y1, real32 u1, real32 v1, long x2, long y2, real32 u2, real32 v2, uint32 color, long shadow_offset, rasterizer_vertex_screen* triangle_vertices);
+	extern void __cdecl print(long x, long y, uint32 color, char const* c, long count, bool apply_display_scalar_correction);
+	extern void __cdecl print_block(long x, long y, long width, long height, uint32 color, char const* c);
 	extern void __cdecl print_white(long x, long y, char const* c, long count);
-	extern void __cdecl printf(long x, long y, dword color, char const* c, ...);
+	extern void __cdecl printf(long x, long y, uint32 color, char const* c, ...);
 	extern void __cdecl printf(long x, long y, char const* c, ...);
-	extern void __cdecl printf_down(long x, long y, dword color, char const* c, ...);
-	extern void __cdecl printf_left(long x, long y, dword color, char const* c, ...);
-	extern void __cdecl printf_up(long x, long y, dword color, char const* c, ...);
+	extern void __cdecl printf_down(long x, long y, uint32 color, char const* c, ...);
+	extern void __cdecl printf_left(long x, long y, uint32 color, char const* c, ...);
+	extern void __cdecl printf_up(long x, long y, uint32 color, char const* c, ...);
 	extern void __cdecl remove();
-	extern void __cdecl render_text(s_font_data const* font, long pixelX, long pixelY, long pixelPitch, long flags, dword color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
-	extern void __cdecl vprintf(long x, long y, long flags, dword color, char const* c, char* arglist);
+	extern void __cdecl render_text(s_font_data const* font, long pixelX, long pixelY, long pixelPitch, long flags, uint32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
+	extern void __cdecl vprintf(long x, long y, long flags, uint32 color, char const* c, char* arglist);
 
 	extern s_font_data*(&g_fonts)[2];
 	extern s_font_data& g_font_6x10;
@@ -98,8 +98,8 @@ namespace simple_font
 	extern s_font_data*& g_activeFont;
 
 	extern bool& x_initialized;
-	extern real& x_one_over_window_bounds_width;
-	extern real& x_one_over_window_bounds_height;
+	extern real32& x_one_over_window_bounds_width;
+	extern real32& x_one_over_window_bounds_height;
 	extern real_vector2d& x_aspect_ratio_scale;
 };
 

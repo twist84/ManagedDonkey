@@ -42,14 +42,14 @@ bool __cdecl screenshot_sub_610260()
 
 //.text:00610280 ; bool __cdecl screenshot_full_anisotropic()
 //.text:006102A0 ; long __cdecl screenshot_get_anisotropic_level()
-//.text:006102C0 ; void __cdecl screenshot_get_scales(real*, real*)
+//.text:006102C0 ; void __cdecl screenshot_get_scales(real32*, real32*)
 
 bool __cdecl screenshot_in_progress()
 {
 	return INVOKE(0x00610310, screenshot_in_progress);
 }
 
-//.text:00610320 ; real __cdecl screenshot_mipmap_lod_bias()
+//.text:00610320 ; real32 __cdecl screenshot_mipmap_lod_bias()
 //.text:00610330 ; void __cdecl screenshot_multiple(short, char const*)
 //.text:00610390 ; void __cdecl screenshot_multiple_raw(short, char const*)
 //.text:006103F0 ; bool __cdecl is_taking_screenshot()
@@ -67,7 +67,7 @@ bool __cdecl screenshot_post_render()
 //.text:00610520 ; void __cdecl screenshot_sub_610520()
 //.text:00610530 ; bool __cdecl screenshot_sub_610530()
 //.text:00610540 ; 
-//.text:00610550 ; void __cdecl screenshot_sub_610550(char const*, long, real, real, real)
+//.text:00610550 ; void __cdecl screenshot_sub_610550(char const*, long, real32, real32, real32)
 
 bool __cdecl screenshot_sub_6105E0()
 {

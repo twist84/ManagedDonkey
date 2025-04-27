@@ -21,7 +21,7 @@ struct actor_meta_data
 	bool disposable;
 	bool erase_next_tick;
 	bool allowed_to_refresh_status;
-	real original_vitality;
+	real32 original_vitality;
 	long unit_index;
 	long swarm_index;
 	long next_actor_index;
@@ -50,7 +50,7 @@ struct actor_meta_data
 	long character_definition_index;
 	long character_equipment_definition_index;
 	long first_prop_ref_index;
-	real min_trackable_weight;
+	real32 min_trackable_weight;
 	long clump_index;
 	long clump_next_actor_index;
 };
@@ -69,16 +69,16 @@ struct s_actor_patrol_state
 	short __unknown0;
 	short __unknown2;
 	short __unknown4;
-	word_flags flags;
+	uint16 flags;
 };
 static_assert(sizeof(s_actor_patrol_state) == 0x8);
 
 struct actor_state_data
 {
-	byte behavior_state_data[512];
+	uint8 behavior_state_data[512];
 	short behavior_state_offsets[8];
 	short leaf_layer;
-	byte __data212[0x2];
+	uint8 __data212[0x2];
 	invitation_data const invitation[4];
 	long const behavior_check_timer[14];
 	short mode;
@@ -108,7 +108,7 @@ struct actor_state_data
 	short berserk_ticks;
 	short covered_ticks;
 	s_actor_patrol_state patrol_state;
-	word_flags engineer_state_flags;
+	uint16 engineer_state_flags;
 	short isolated_from_squad_ticks;
 };
 static_assert(sizeof(actor_state_data) == 0x2E4);
@@ -146,13 +146,13 @@ struct actor_input_data
 	real_vector3d looking_vector;
 	real_vector3d looking_left_vector;
 	real_vector3d looking_up_vector;
-	real scariness;
-	real body_vitality;
-	real shield_vitality;
-	real recent_body_damage;
-	real recent_shield_damage;
+	real32 scariness;
+	real32 body_vitality;
+	real32 shield_vitality;
+	real32 recent_body_damage;
+	real32 recent_shield_damage;
 	bool player_weighting_valid;
-	real player_weighting;
+	real32 player_weighting;
 };
 static_assert(sizeof(actor_input_data) == 0xB8);
 
@@ -160,14 +160,14 @@ struct c_recent_obstacle
 {
 	long m_object_index;
 	short m_ticks;
-	word_flags m_flags;
+	uint16 m_flags;
 };
 static_assert(sizeof(c_recent_obstacle) == 0x8);
 
 struct actor_obstacle_data
 {
 	c_recent_obstacle recent_obstacles[3];
-	byte interaction_target[8];
+	uint8 interaction_target[8];
 };
 static_assert(sizeof(actor_obstacle_data) == 0x20);
 
@@ -177,9 +177,9 @@ struct actor_memory_data
 	short ticks_since_enemy_engaged;
 	long last_damage_vocalization_time;
 	short most_recent_interest;
-	byte recent_interest_objects[4][8];
+	uint8 recent_interest_objects[4][8];
 	long current_interest_object_index;
-	real current_interest_object_interest;
+	real32 current_interest_object_interest;
 	long postcombat_flags;
 	c_sector_ref last_valid_valid_sector;
 	c_ai_point3d last_valid_pathfinding_point;
@@ -220,7 +220,7 @@ static_assert(sizeof(actor_situation) == 0xC);
 
 struct actor_target_data
 {
-	word_flags flags;
+	uint16 flags;
 	short preferred_target_team_index;
 	long preferred_ai_index;
 	long target_prop_index;
@@ -254,15 +254,15 @@ struct actor_danger_zone
 	long object_index;
 	long owner_unit_index;
 	long pref_index;
-	real danger_radius;
+	real32 danger_radius;
 	real_point3d position;
 	real_vector3d velocity;
 	real_point3d predict_danger_position;
-	real current_distance_from_actor;
-	real current_distance_from_center;
-	real bounding_sphere_radius;
+	real32 current_distance_from_actor;
+	real32 current_distance_from_center;
+	real32 bounding_sphere_radius;
 	real_point3d bounding_sphere_center;
-	byte union_storage[2];
+	uint8 union_storage[2];
 };
 static_assert(sizeof(actor_danger_zone) == 0x58);
 
@@ -271,7 +271,7 @@ struct actor_stimulus_data
 	short surprise_level;
 	long surprise_prop_index;
 	bool stunned;
-	real stun_level;
+	real32 stun_level;
 	real_vector3d stunned_vector;
 	long cover_friend_actor_index;
 	short cover_friend_behavior_index;
@@ -285,7 +285,7 @@ struct actor_vehicle_data
 {
 	long attached_vehicle_index;
 	long attached_seat_unit_index;
-	real attached_seat_score;
+	real32 attached_seat_score;
 	short flags;
 	short attached_seat_index;
 	short attachment_status;
@@ -312,7 +312,7 @@ struct actor_player_data
 	bool greeting_stare;
 	short player_looking_ticks;
 	short player_looking_index;
-	real in_front_distance;
+	real32 in_front_distance;
 	short player_index_interested;
 	short player_interested_ticks;
 	short player_uninterested_ticks;
@@ -321,8 +321,8 @@ static_assert(sizeof(actor_player_data) == 0x18);
 
 struct actor_emotion_data
 {
-	real instantaneous_danger;
-	real perceived_danger;
+	real32 instantaneous_danger;
+	real32 perceived_danger;
 	bool ignorant_of_broken_surfaces;
 	long last_vehicle_charge_time;
 };
@@ -371,16 +371,16 @@ struct actor_move_orders
 	bool override_throttle;
 	long override_movement_type;
 	real_vector3d override_movement_direction_vector;
-	real override_throttle_value;
+	real32 override_throttle_value;
 	bool jump;
 	bool jump_leap;
 	bool jump_boosted;
 	bool jump_targeted;
 	real_vector2d jump_alignment_vector;
-	real jump_target_horizontal_vel;
-	real jump_target_vertical_vel;
+	real32 jump_target_horizontal_vel;
+	real32 jump_target_vertical_vel;
 	long jump_target_pref_index;
-	real scripted_turn_urgency;
+	real32 scripted_turn_urgency;
 	bool ignore_obstacles;
 	bool scripted_disallow_movement;
 	bool zig_zag;
@@ -400,7 +400,7 @@ struct actor_move_orders
 	bool moving_crouch;
 	bool disallow_combat_crouch;
 	bool throttle_vehicle_speed;
-	real throttle_vehicle_desired;
+	real32 throttle_vehicle_desired;
 };
 static_assert(sizeof(actor_move_orders) == 0x48);
 
@@ -450,7 +450,7 @@ struct c_path_destination
 	c_ai_point3d m_point;
 	real_vector3d m_alignment;
 	c_sector_ref m_sector_ref;
-	real m_target_radius;
+	real32 m_target_radius;
 };
 static_assert(sizeof(c_path_destination) == 0x24);
 
@@ -492,7 +492,7 @@ struct path_result
 	c_ai_point3d start_point;
 	c_path_destination endpoint;
 	long ignorable_object_index;
-	word_flags ignorable_object_flags;
+	uint16 ignorable_object_flags;
 	char step_count;
 	char step_index;
 	path_step steps[4];
@@ -514,16 +514,16 @@ struct turn_info
 {
 	bool left;
 	bool rev;
-	real angle;
-	real rating;
+	real32 angle;
+	real32 rating;
 	real_vector2d expected_facing;
-	real world_orientation;
+	real32 world_orientation;
 	short turn_index;
-	real current_throttle;
-	real last_throttle;
-	real last_yaw_angle;
-	real last_urgency;
-	real current_yaw_angle;
+	real32 current_throttle;
+	real32 last_throttle;
+	real32 last_yaw_angle;
+	real32 last_urgency;
+	real32 current_yaw_angle;
 	bool valid;
 };
 static_assert(sizeof(turn_info) == 0x34);
@@ -533,11 +533,11 @@ struct flying_turn_info
 	bool servo_to_target;
 	bool finished_turn;
 	short movement_mode;
-	real last_yaw_angle;
-	real current_yaw_angle;
-	real last_pitch_angle;
-	real current_pitch_angle;
-	real urgency;
+	real32 last_yaw_angle;
+	real32 current_yaw_angle;
+	real32 last_pitch_angle;
+	real32 current_pitch_angle;
+	real32 urgency;
 	real_vector3d current_throttle;
 	real_vector3d last_throttle;
 };
@@ -545,17 +545,17 @@ static_assert(sizeof(flying_turn_info) == 0x30);
 
 struct hovering_turn_info
 {
-	real last_yaw_angle;
-	real last_throttle_scale;
-	real current_yaw_angle;
-	real current_throttle_scale;
+	real32 last_yaw_angle;
+	real32 last_throttle_scale;
+	real32 current_yaw_angle;
+	real32 current_throttle_scale;
 	short last_mode;
 };
 static_assert(sizeof(hovering_turn_info) == 0x14);
 
 struct actor_control_data
 {
-	dword_flags flags;
+	uint32 flags;
 	actor_path_control_data path;
 	real_point3d stuck_point;
 	short stuck_ticks;
@@ -563,7 +563,7 @@ struct actor_control_data
 	real_vector3d moving_towards_vector;
 	real_vector3d moving_forced_aim_direction;
 	real_plane3d persistent_movement_plane;
-	real persistent_movement_distance;
+	real32 persistent_movement_distance;
 	short persistent_movement_ticks;
 
 	// odst?
@@ -572,16 +572,16 @@ struct actor_control_data
 	short freeze_ticks;
 	short suppress_shooting_ticks;
 	real_vector2d jump_alignment_vector;
-	real jump_target_horizontal_vel;
-	real jump_target_vertical_vel;
+	real32 jump_target_horizontal_vel;
+	real32 jump_target_vertical_vel;
 	long jump_target_pref_index;
 	long last_deceleration_to_zero_time;
 	long deceleration_object_index;
 	short deceleration_ticks;
 
 	// odst?
-	byte __unknown1A2; // actor_ground_throttle_control
-	byte __unknown1A3; // actor_ground_throttle_control
+	uint8 __unknown1A2; // actor_ground_throttle_control
+	uint8 __unknown1A3; // actor_ground_throttle_control
 
 	union
 	{
@@ -611,8 +611,8 @@ struct actor_control_data
 	short blocked_timer;
 	short special_fire_delay;
 	short special_fire_deny_attempts;
-	real accuracy;
-	real burst_distance;
+	real32 accuracy;
+	real32 burst_distance;
 	long last_burst_start_time;
 	short blocked_projectiles_count;
 	short current_fire_target_type;
@@ -626,18 +626,18 @@ struct actor_control_data
 	short player_blocking_ticks;
 	long last_player_blocking_time;
 	c_ai_point3d current_fire_target_position;
-	real current_fire_target_range;
+	real32 current_fire_target_range;
 	real_vector3d current_fire_target_aim_vector;
-	real current_fire_target_distance;
+	real32 current_fire_target_distance;
 	c_ai_point3d burst_initial_position;
 	real_point3d burst_origin;
 	real_vector3d burst_relative_position;
 	real_vector3d burst_adjustment;
 	real_point3d burst_target;
-	real burst_aim_by_vector_velocity;
+	real32 burst_aim_by_vector_velocity;
 	real_vector3d burst_aim_vector;
-	real burst_error;
-	real burst_damage_modifier;
+	real32 burst_error;
+	real32 burst_damage_modifier;
 	short grenade_request_ticks;
 	short grenade_flags;
 	long grenade_last_throw_time;
@@ -645,7 +645,7 @@ struct actor_control_data
 	long grenade_current_prop_index;
 	long grenade_current_ignore_object_index;
 	real_vector3d grenade_current_aim_vector;
-	real grenade_current_aim_speed;
+	real32 grenade_current_aim_speed;
 	c_ai_point3d equipment_target;
 	long last_hop_time;
 	c_ai_point3d phase_destination;
@@ -666,10 +666,10 @@ struct actor_output_data
 	long movement_type;
 	actor_animation_orders animation;
 	short aiming_speed;
-	dword control_flags;
+	uint32 control_flags;
 	real_vector3d throttle;
-	real analog_primary_trigger;
-	real analog_secondary_trigger;
+	real32 analog_primary_trigger;
+	real32 analog_secondary_trigger;
 	real_vector3d facing_vector;
 	real_vector3d aiming_vector;
 	real_vector3d looking_vector;

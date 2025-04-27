@@ -26,9 +26,9 @@ struct s_screenshot_globals
 	bool __unknown25;
 	bool __unknown26;
 	long __unknown28;
-	real __unknown2C;
-	real __unknown30;
-	real __unknown34;
+	real32 __unknown2C;
+	real32 __unknown30;
+	real32 __unknown34;
 	bool __unknown38;
 	bool __unknown39;
 	void(__cdecl* tile_callback)(long, long, long, long, long, long, long, long);

@@ -37,7 +37,7 @@ bool debug_first_person_skeleton = false;
 //.text:00A9A190 ; void __cdecl first_person_weapon_apply_camera_effect(long, real_matrix4x3*)
 //.text:00A9A1E0 ; bool __cdecl first_person_weapon_attach(long, long, bool)
 //.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(long, long, first_person_weapon_attachment const*, bool)
-//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(long, long, dword, real_matrix4x3 const*, long, real_matrix4x3 const*, long const*, render_first_person_model*)
+//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(long, long, uint32, real_matrix4x3 const*, long, real_matrix4x3 const*, long const*, render_first_person_model*)
 
 long __cdecl first_person_weapon_build_models(long user_index, long object_index, long maximum_model_count, render_first_person_model* first_person_model)
 {
@@ -127,7 +127,7 @@ void __cdecl first_person_weapon_perspective_changed(long user_index)
 //.text:00A9C850 ; bool __cdecl first_person_weapon_set_state(long, long, long, bool)
 //.text:00A9D0B0 ; void __cdecl first_person_weapon_set_visibility(long, long, bool)
 //.text:00A9D110 ; void __cdecl first_person_weapon_setup_animations(long, long, bool)
-//.text:00A9D300 ; void __cdecl first_person_weapon_start_interpolation(long, long, real)
+//.text:00A9D300 ; void __cdecl first_person_weapon_start_interpolation(long, long, real32)
 //.text:00A9D3D0 ; long __cdecl first_person_weapon_state_from_message(short)
 //.text:00A9D5E0 ; bool __cdecl first_person_weapon_state_makes_weapon_busy(long)
 //.text:00A9D6E0 ; void __cdecl first_person_weapon_suspend_weapon_attachment(long, bool)

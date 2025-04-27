@@ -20,119 +20,119 @@ struct s_camera_globals
 {
 	// CAMERA UNIVERSALS
 
-	real field_of_view; // degrees
-	real yaw_scale;
-	real pitch_scale;
-	real forward_scale;
-	real side_scale;
-	real up_scale;
+	real32 field_of_view; // degrees
+	real32 yaw_scale;
+	real32 pitch_scale;
+	real32 forward_scale;
+	real32 side_scale;
+	real32 up_scale;
 
 
 	// DEAD CAMERA
 
 	// time it takes for the camera to move from the initial distance to the final distance
-	real transition_time; // seconds
+	real32 transition_time; // seconds
 
 	// time it takes for the camera to move to its final position during a falling death
-	real falling_death_transition_time; // seconds
+	real32 falling_death_transition_time; // seconds
 
 	// on the first frame after death, this is how far out of the body the camera will be
-	real initial_distance; // wu
+	real32 initial_distance; // wu
 
 	// how far from the body the camera will settle
-	real final_distance; // wu
+	real32 final_distance; // wu
 
 	// how far above the body the camera focuses on
-	real dead_cam_z_offset; // wu
+	real32 dead_cam_z_offset; // wu
 
 	// the highest angle the camera can raise to(prevents it from flipping over the vertical axis)
-	real dead_cam_maximum_elevation; // radians
+	real32 dead_cam_maximum_elevation; // radians
 
 	// delay in tracking the killer
-	real dead_cam_movement_delay; // seconds
+	real32 dead_cam_movement_delay; // seconds
 
 	// how long the death camera lasts before switching to orbiting camera
-	real time; // seconds
+	real32 time; // seconds
 
 	// minimum velocity to switch to fell to death behavior(when biped is not actually falling to death)
-	real dead_camera_minimum_falling_velocity;
+	real32 dead_camera_minimum_falling_velocity;
 
 
 	// FLYING CAMERA
 
 	// the scaling factor for the left stick when the left trigger is fully depressed
-	real maximum_boost_speed;
+	real32 maximum_boost_speed;
 
 	// seconds. while pegging boost, time to reach maximum speed
-	real time_to_maximum_boost;
+	real32 time_to_maximum_boost;
 
 	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> boost_function;
-	byte hoist[2];
+	uint8 hoist[2];
 
 	// field of view when zoomed
-	real zoomed_field_of_view; // degrees
+	real32 zoomed_field_of_view; // degrees
 
 	// scaling factor for look speed when zoomed
-	real zoomed_look_speed;
+	real32 zoomed_look_speed;
 
 	// radius of sphere for collision
-	real bounding_sphere_radius; // wu
+	real32 bounding_sphere_radius; // wu
 
 	// how quickly the camera responds to the user's input
-	real flying_cam_movement_delay; // seconds
+	real32 flying_cam_movement_delay; // seconds
 
 	// how long it takes to zoom in or out
-	real zoom_transition_time; // seconds
+	real32 zoom_transition_time; // seconds
 
-	real vertical_movement_time_to;
+	real32 vertical_movement_time_to;
 	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
-	byte moist[2];
+	uint8 moist[2];
 
 	// how long it takes in survival mode before switching to flying camera
-	real survival_switch_time; // seconds
+	real32 survival_switch_time; // seconds
 
 
 	// ORBITING CAMERA
 
-	real minimum_distance; // wu
-	real maximum_distance; // wu
+	real32 minimum_distance; // wu
+	real32 maximum_distance; // wu
 
 	// how quickly the camera responds to the user's input
-	real orbit_cam_movement_delay; // seconds
+	real32 orbit_cam_movement_delay; // seconds
 
 	// how far above the object's root node to position the camera's focus point
-	real orbit_cam_z_offset; // wu
+	real32 orbit_cam_z_offset; // wu
 
 	// lowest angle the camera can be moved to
-	real orbit_cam_minimum_elevation; // radians
+	real32 orbit_cam_minimum_elevation; // radians
 
 	// highest angle the camera can be moved to
-	real orbit_cam_maximum_elevation; // radians
+	real32 orbit_cam_maximum_elevation; // radians
 
 
 	// SAVED FILMS
 
 	// how fast the film plays when the trigger is fully depressed
-	real max_playback_speed;
+	real32 max_playback_speed;
 
 	// how long it takes for the screen to fade out when rewinding
-	real fade_out_time; // seconds
+	real32 fade_out_time; // seconds
 
 	// see above
-	real fade_in_time; // seconds
+	real32 fade_in_time; // seconds
 
 
 	// IN GAME
 
 	// how long it takes the camera to move from first to third person when entering a vehicle
-	real enter_vehicle_transition_time; // seconds
+	real32 enter_vehicle_transition_time; // seconds
 
 	// see above
-	real exit_vehicle_transition_time; // seconds
+	real32 exit_vehicle_transition_time; // seconds
 };
 static_assert(sizeof(s_camera_globals) == 0x94);
 
 extern s_camera_globals& g_camera_globals;
-extern real& g_director_camera_speed_scale;
+extern real32& g_director_camera_speed_scale;
 extern bool g_editor_director_mouse_wheel_speed_enabled;
 

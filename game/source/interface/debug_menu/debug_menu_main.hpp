@@ -20,7 +20,7 @@ extern bool debug_menu_enabled;
 extern bool g_debug_menu_rebuild_request;
 extern c_static_stack<long, 262144> g_debug_menu_stack;
 
-extern void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real alpha, real_argb_color const* color);
+extern void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real32 alpha, real_argb_color const* color);
 extern bool debug_menu_get_active();
 extern void debug_menu_initialize();
 extern void debug_menu_dispose();
@@ -38,12 +38,12 @@ extern void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open
 extern void debug_menu_set_caption(short caption_index, char const* caption);
 extern char const* debug_menu_get_caption(short caption_index);
 extern long debug_menu_get_time();
-extern real debug_menu_get_item_margin();
-extern real debug_menu_get_item_width();
-extern real debug_menu_get_item_height();
-extern real debug_menu_get_title_height();
-extern real debug_menu_get_item_indent_x();
-extern real debug_menu_get_item_indent_y();
+extern real32 debug_menu_get_item_margin();
+extern real32 debug_menu_get_item_width();
+extern real32 debug_menu_get_item_height();
+extern real32 debug_menu_get_title_height();
+extern real32 debug_menu_get_item_indent_x();
+extern real32 debug_menu_get_item_indent_y();
 extern void* debug_menu_malloc(long size);
 extern void xor_buffers(void* dest, void const* source, long count);
 

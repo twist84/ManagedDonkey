@@ -33,13 +33,13 @@ struct s_object_early_mover
 	{
 		struct
 		{
-			byte node_index;
-			byte bsp_index;
-			byte permutation_index;
-			byte region_index;
+			uint8 node_index;
+			uint8 bsp_index;
+			uint8 permutation_index;
+			uint8 region_index;
 		};
 
-		dword value;
+		uint32 value;
 	};
 	c_static_array<packed_index_t, 8> collision_model_bsp_info;
 };

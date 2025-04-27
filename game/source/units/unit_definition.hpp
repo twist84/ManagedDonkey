@@ -16,16 +16,16 @@ static_assert(sizeof(s_unit_camera_track) == sizeof(s_tag_reference));
 
 struct s_unit_camera_acceleration_displacment_function
 {
-	real k;
-	real scale;
-	real power;
-	real maximum;
+	real32 k;
+	real32 scale;
+	real32 power;
+	real32 maximum;
 
 	// scale factor used when this acceleration component is along the axis of the forward vector of the camera
-	real camera_scale_axial;
+	real32 camera_scale_axial;
 
 	// scale factor used when this acceleration component is perpendicular to the camera
-	real camera_scale_perpendicular;
+	real32 camera_scale_perpendicular;
 };
 static_assert(sizeof(s_unit_camera_acceleration_displacment_function) == 0x18);
 
@@ -37,7 +37,7 @@ struct s_unit_camera_acceleration
 	s_unit_camera_acceleration_displacment_function velocity_k;
 
 	// maximum offset velocity
-	real maximum_displacment_velocity;
+	real32 maximum_displacment_velocity;
 };
 static_assert(sizeof(s_unit_camera_acceleration) == 0x4C);
 
@@ -51,7 +51,7 @@ enum e_unit_camera_flags
 struct s_unit_camera
 {
 	c_flags<e_unit_camera_flags, short, k_unit_camera_flags> flags;
-	word pad;
+	uint16 pad;
 	c_old_string_id camera_marker_name;
 	c_old_string_id camera_submerged_marker_name;
 	angle pitch_auto_level;
@@ -69,10 +69,10 @@ struct unit_seat_acceleration
 	real_vector3d scale; // world units per second squared
 
 	// actions fail
-	real action_limit; // [0,1+]
+	real32 action_limit; // [0,1+]
 
 	// detach unit
-	real attachment_limit; // [0,1+]
+	real32 attachment_limit; // [0,1+]
 };
 static_assert(sizeof(unit_seat_acceleration) == 0x14);
 
@@ -101,20 +101,20 @@ static_assert(sizeof(s_unit_boarding_melee) == sizeof(s_tag_reference) * 9);
 struct s_unit_boost
 {
 	c_typed_tag_reference<COLLISION_DAMAGE_TAG, INVALID_TAG> boost_collision_damage;
-	real boost_peak_power;
-	real boost_rise_power;
-	real boost_peak_time;
-	real boost_fall_power;
-	real dead_time;
+	real32 boost_peak_power;
+	real32 boost_rise_power;
+	real32 boost_peak_time;
+	real32 boost_fall_power;
+	real32 dead_time;
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_unit_boost) == sizeof(real) * 5 + sizeof(s_tag_reference));
+static_assert(sizeof(s_unit_boost) == sizeof(real32) * 5 + sizeof(s_tag_reference));
 
 struct s_unit_lipsync_scales
 {
-	real attack_weight;
-	real decay_weight;
+	real32 attack_weight;
+	real32 decay_weight;
 };
 static_assert(sizeof(s_unit_lipsync_scales) == 0x8);
 
@@ -207,14 +207,14 @@ struct _unit_definition
 {
 	// $$$ UNIT $$$
 
-	c_flags<e_unit_definition_flags, dword_flags, k_unit_definition_flags> flags;
+	c_flags<e_unit_definition_flags, uint32, k_unit_definition_flags> flags;
 	c_enum<e_unit_default_teams, short, _unit_default_teams_default, k_unit_default_teams_count> default_team;
 	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
 	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG, INVALID_TAG> hologram_unit_reference;
 	c_typed_tag_block<s_campaign_metagame_bucket> campaign_metagame_bucket;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> integrated_light_toggle;
 	angle camera_field_of_view; // degrees
-	real camera_stiffness;
+	real32 camera_stiffness;
 	s_unit_camera unit_camera;
 
 	// sync action camera fields
@@ -234,21 +234,21 @@ struct _unit_definition
 
 	unit_seat_acceleration acceleration;
 
-	real soft_ping_threshold; // [0,1]
-	real soft_ping_interrupt_time; // seconds
-	real hard_ping_threshold; // [0,1]
-	real hard_ping_interrupt_time; // seconds
-	real hard_death_threshold; // [0,1]
-	real feign_death_threshold; // [0,1]
-	real feign_death_time; // seconds
+	real32 soft_ping_threshold; // [0,1]
+	real32 soft_ping_interrupt_time; // seconds
+	real32 hard_ping_threshold; // [0,1]
+	real32 hard_ping_interrupt_time; // seconds
+	real32 hard_death_threshold; // [0,1]
+	real32 feign_death_threshold; // [0,1]
+	real32 feign_death_time; // seconds
 
 	// this must be set to tell the AI how far it should expect our dive animation to move us
-	real distance_of_dive_anim; // world units
+	real32 distance_of_dive_anim; // world units
 
 	// if we take this much damage in a short space of time we will play our 'stunned movement' animations
-	real stunned_movement_threshold; // [0,1]
-	real feign_death_chance; // [0,1]
-	real feign_repeat_chance; // [0,1]
+	real32 stunned_movement_threshold; // [0,1]
+	real32 feign_death_chance; // [0,1]
+	real32 feign_repeat_chance; // [0,1]
 
 	// automatically created character when this unit is driven
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> spawned_turret_character;
@@ -257,12 +257,12 @@ struct _unit_definition
 	int16_bounds spawned_actor_count;
 
 	// velocity at which we throw spawned actors
-	real spawned_velocity;
+	real32 spawned_velocity;
 
 	angle aiming_velocity_maximum; // degrees per second
 	angle aiming_acceleration_maximum; // degrees per second squared
 
-	real casual_aiming_modifier; // [0,1]
+	real32 casual_aiming_modifier; // [0,1]
 
 	angle looking_velocity_maximum; // degrees per second
 	angle looking_acceleration_maximum; // degrees per second squared
@@ -282,11 +282,11 @@ struct _unit_definition
 	c_typed_tag_block<unit_hud_reference> new_hud_interfaces;
 	c_typed_tag_block<dialogue_variant_definition> dialogue_variants;
 
-	real grenade_maximum_autoaim_distance; // world units
+	real32 grenade_maximum_autoaim_distance; // world units
 	angle grenade_angle; // degrees
 	angle grenade_angle_max_elevation; // degrees
 	angle grenade_angle_min_elevation; // degrees
-	real grenade_velocity; // world units per second
+	real32 grenade_velocity; // world units per second
 	c_enum<e_grenade_type, short, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_type;
 	short grenade_count;
 	c_typed_tag_block<powered_seat_definition> powered_seats;
@@ -295,7 +295,7 @@ struct _unit_definition
 	c_typed_tag_block<unit_seat> seats_block;
 
 	// EMP Disabling
-	real emp_disabled_time; // seconds
+	real32 emp_disabled_time; // seconds
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> emp_disabled_effect;
 
 	// Boost
@@ -341,7 +341,7 @@ static_assert(sizeof(unit_hud_reference) == 0x10);
 struct dialogue_variant_definition
 {
 	short variant_number;
-	word pad;
+	uint16 pad;
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 
 	void update_reference_names();
@@ -350,8 +350,8 @@ static_assert(sizeof(dialogue_variant_definition) == 0x14);
 
 struct powered_seat_definition
 {
-	real driver_powerup_time;
-	real driver_powerdown_time;
+	real32 driver_powerup_time;
+	real32 driver_powerdown_time;
 };
 static_assert(sizeof(powered_seat_definition) == 0x8);
 
@@ -372,9 +372,9 @@ static_assert(sizeof(s_tracking_type) == sizeof(string_id));
 struct s_target_tracking_parameters
 {
 	c_typed_tag_block<s_tracking_type> tracking_types;
-	real acquire_time;
-	real grace_time;
-	real decay_time;
+	real32 acquire_time;
+	real32 grace_time;
+	real32 decay_time;
 	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> tracking_sound;
 	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> locked_sound;
 
@@ -433,7 +433,7 @@ enum e_global_ai_seat_type
 
 struct unit_seat
 {
-	c_flags<e_unit_seat_flags, dword_flags, k_unit_seat_flags> flags;
+	c_flags<e_unit_seat_flags, uint32, k_unit_seat_flags> flags;
 	c_old_string_id label;
 	c_old_string_id marker_name;
 	c_string_id entry_markers_name;
@@ -443,18 +443,18 @@ struct unit_seat
 	c_string_id in_seat_string;
 
 	// nathan is too lazy to make pings for each seat.
-	real ping_scale;
+	real32 ping_scale;
 
 	// how much time it takes to evict a rider from a flipped vehicle
-	real turnover_time; // seconds
+	real32 turnover_time; // seconds
 
 	unit_seat_acceleration acceleration;
-	real ai_scariness;
+	real32 ai_scariness;
 	c_enum<e_global_ai_seat_type, short, _global_ai_seat_type_none, k_global_ai_seat_type_count> ai_seat_type;
 	short boarding_seat;
 
 	// how far to interpolate listener position from camera to occupant's head
-	real listener_interpolation_factor;
+	real32 listener_interpolation_factor;
 
 	// speed dependant turn rates
 	// when the unit velocity is 0, the yaw/pitch rates are the left values
@@ -465,10 +465,10 @@ struct unit_seat
 	real_bounds pitch_rate_bounds; // degrees per second
 
 	// 0 means use default 17
-	real pitch_interpolation_time; // seconds to interpolate
-	real min_speed_reference;
-	real max_speed_reference;
-	real speed_exponent;
+	real32 pitch_interpolation_time; // seconds to interpolate
+	real32 min_speed_reference;
+	real32 max_speed_reference;
+	real32 speed_exponent;
 
 	// camera fields
 	s_unit_camera unit_camera;
@@ -485,14 +485,14 @@ struct unit_seat
 	// to enter.
 
 	// how close to the entry marker a unit must be
-	real entry_radius;
+	real32 entry_radius;
 
 	// angle from marker forward the unit must be
 	angle entry_marker_cone_angle;
 
 	// angle from unit facing the marker must be
 	angle entry_marker_facing_angle;
-	real maximum_relative_velocity;
+	real32 maximum_relative_velocity;
 
 	c_string_id invisible_seat_region;
 	long runtime_invisible_seat_region_index;

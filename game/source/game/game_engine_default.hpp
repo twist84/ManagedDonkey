@@ -81,7 +81,7 @@ public:
 	void set_team_scoring_method(short team_scoring_method);
 
 protected:
-	dword m_checksum;
+	uint32 m_checksum;
 
 	char m_name[32];
 	s_saved_game_item_metadata m_metadata;
@@ -89,26 +89,26 @@ protected:
 	c_game_engine_respawn_options m_respawn_options;
 	c_game_engine_social_options m_social_options;
 	c_game_engine_map_override_options m_map_override_options;
-	c_flags<e_base_variant_flags, word, k_base_variant_flags> m_flags;
+	c_flags<e_base_variant_flags, uint16, k_base_variant_flags> m_flags;
 	c_enum<e_team_scoring_method, short, _team_scoring_method_first, k_number_of_team_scoring_methods> m_team_scoring_method;
 };
 static_assert(sizeof(c_game_engine_base_variant) == 0x1D0);
 
 struct s_game_engine_state_data
 {
-	word_flags initial_teams;
-	word_flags valid_team_designators;
-	word_flags valid_teams;
-	word_flags active_teams;
-	word_flags ever_active_teams;
+	uint16 initial_teams;
+	uint16 valid_team_designators;
+	uint16 valid_teams;
+	uint16 active_teams;
+	uint16 ever_active_teams;
 	c_static_array<short, 9> team_designator_to_team_index;
 	c_static_array<char, 8> team_lives_per_round;
-	byte current_state;
-	byte game_finished;
+	uint8 current_state;
+	uint8 game_finished;
 	short round_index;
 	short round_timer;
-	byte_flags round_condition_flags;
-	byte pad2B[0x1];
+	uint8 round_condition_flags;
+	uint8 pad2B[0x1];
 };
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
@@ -152,7 +152,7 @@ public:
 	virtual bool should_auto_pickup_weapon(long player_index, long weapon_index) const;
 	virtual void player_nearby_multiplayer_weapon(long player_index, long weapon_index) const;
 	virtual long object_get_emblem_player(long object_index) const;
-	virtual real compute_object_function(long object_index, long function) const;
+	virtual real32 compute_object_function(long object_index, long function) const;
 	virtual void multiplayer_weapon_register(long weapon_index) const;
 	virtual void multiplayer_weapon_deregister(long weapon_index) const;
 	virtual void multiplayer_weapon_picked_up(long weapon_index, long unit_index) const;
@@ -179,8 +179,8 @@ public:
 	virtual void promote_to_simulation_authority() const;
 	virtual void recover_state_before_promotion() const;
 	virtual void build_global_baseline(s_game_engine_state_data* state_data) const;
-	virtual void build_global_update(dword update_mask, c_static_flags_no_init<64>* actual_update_mask, s_game_engine_state_data* state_data) const;
-	virtual bool apply_global_update(dword update_mask, s_game_engine_state_data const* state_data) const;
+	virtual void build_global_update(uint32 update_mask, c_static_flags_no_init<64>* actual_update_mask, s_game_engine_state_data* state_data) const;
+	virtual bool apply_global_update(uint32 update_mask, s_game_engine_state_data const* state_data) const;
 	virtual void build_simulation_baseline(long state_data_size, void* state_data) const;
 	virtual void build_simulation_update(c_static_flags_no_init<64>* update_mask, long state_data_size, void* state_data) const;
 	virtual bool apply_simulation_update(c_static_flags_no_init<64>* update_mask, long state_data_size, void const* state_data) const;

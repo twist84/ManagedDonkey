@@ -19,7 +19,7 @@ bool __cdecl c_rasterizer_loading_screen::fading_out()
 	return false;
 }
 
-real __cdecl c_rasterizer_loading_screen::get_completion_remainder()
+real32 __cdecl c_rasterizer_loading_screen::get_completion_remainder()
 {
 	//return INVOKE(0x00A20510, c_rasterizer_loading_screen::get_completion_remainder);
 
@@ -36,7 +36,7 @@ void __cdecl c_rasterizer_loading_screen::render()
 	//INVOKE(0x00A20530, c_rasterizer_loading_screen::render);
 }
 
-void __cdecl c_rasterizer_loading_screen::set_completion_remainder(real completion_remainder)
+void __cdecl c_rasterizer_loading_screen::set_completion_remainder(real32 completion_remainder)
 {
 	//INVOKE(0x00A20540, c_rasterizer_loading_screen::set_completion_remainder, completion_remainder);
 }

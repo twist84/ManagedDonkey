@@ -241,7 +241,7 @@ void __cdecl main_render()
 
 			//if (should_draw)
 			//{
-			//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
+			//	if (int64 blocking_cycles = g_main_render_block_watch.stop())
 			//		status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
 			//}
 
@@ -250,7 +250,7 @@ void __cdecl main_render()
 
 		if (should_draw)
 		{
-			__int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
+			int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
 			restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region);
 			main_time_throttle(target_display_vblank_index);
 
@@ -541,7 +541,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 10), real(bounds.y1 - 4 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 4 * line_height), bounds.y1);
 
 		for (long i = 0; i < NUMBEROF(strings); i++)
 		{
@@ -556,7 +556,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 15), real(bounds.y1 - 3 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 15), real32(bounds.y1 - 3 * line_height), bounds.y1);
 
 		draw_string.set_bounds(&rect);
 		draw_string.draw(&font_cache, player_xuid_rand.get_string());
@@ -611,7 +611,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 10), real(bounds.y1 - 6 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 6 * line_height), bounds.y1);
 
 		for (long i = 0; i < NUMBEROF(strings); i++)
 		{
@@ -626,7 +626,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 15), real(bounds.y1 - 7 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 15), real32(bounds.y1 - 7 * line_height), bounds.y1);
 
 		draw_string.set_bounds(&rect);
 		draw_string.draw(&font_cache, player_xuid_rand.get_string());
@@ -691,7 +691,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 10), real(bounds.y1 - 13 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 13 * line_height), bounds.y1);
 
 		for (long i = 0; i < NUMBEROF(strings); i++)
 		{
@@ -706,7 +706,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 
 	{
 		real_rectangle2d rect{};
-		set_real_rectangle2d(&rect, real(bounds.x0 + 10), bounds.x1, real(bounds.y0 + 7 * line_height), bounds.y1);
+		set_real_rectangle2d(&rect, real32(bounds.x0 + 10), bounds.x1, real32(bounds.y0 + 7 * line_height), bounds.y1);
 
 		draw_string.set_bounds(&rect);
 		draw_string.draw(&font_cache, player_xuid_rand.get_string());

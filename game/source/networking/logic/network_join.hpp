@@ -34,8 +34,8 @@ static_assert(sizeof(s_joining_player) == sizeof(s_player_identifier));
 
 struct s_network_session_join_request
 {
-	qword join_nonce;
-	qword join_party_nonce;
+	uint64 join_nonce;
+	uint64 join_party_nonce;
 	long joining_peer_count;
 	s_joining_peer joining_peers[17];
 	long joining_player_count;
@@ -49,7 +49,7 @@ struct s_networking_join_queue_entry
 {
 	transport_address address;
 	s_network_session_join_request join_request;
-	dword times[2];
+	uint32 times[2];
 	long session_desirability;
 };
 static_assert(sizeof(s_networking_join_queue_entry) == 0x338);
@@ -59,7 +59,7 @@ struct s_networking_join_data
 	bool disable_outgoing_joins;
 	c_enum<e_join_local_state, long, _join_local_state_none, k_join_local_state_count> local_join_state;
 	c_enum<e_life_cycle_join_result, long, _life_cycle_join_result_none, k_life_cycle_join_result_count> local_join_result;
-	dword time;
+	uint32 time;
 
 	// network_join_update
 	bool __unknown10;
@@ -96,7 +96,7 @@ enum e_network_join_squad_join_source;
 //extern void __cdecl network_join_clear_squad_join_result();
 //extern void __cdecl network_join_disable_outgoing_joins(bool);
 //extern void __cdecl network_join_flush_join_queue();
-//extern void __cdecl network_join_flush_our_join_from_join_queue(s_transport_secure_address const*, qword);
+//extern void __cdecl network_join_flush_our_join_from_join_queue(s_transport_secure_address const*, uint64);
 //extern e_life_cycle_join_result __cdecl network_join_get_group_join_result();
 //extern e_network_join_queue_mode __cdecl network_join_get_join_queue_mode();
 //extern e_life_cycle_join_result __cdecl network_join_get_squad_join_result();
@@ -113,7 +113,7 @@ enum e_network_join_squad_join_source;
 //extern long __cdecl network_join_number_of_joins_in_queue();
 //extern bool __cdecl network_join_process_joins_from_queue()	;
 //extern void __cdecl network_join_queue_update();
-//extern void __cdecl network_join_remove_join_from_queue(qword);
+//extern void __cdecl network_join_remove_join_from_queue(uint64);
 //extern void __cdecl network_join_remove_join_from_queue_internal(s_networking_join_queue_entry*);
 extern void __cdecl network_join_set_join_queue_mode(e_network_join_queue_mode join_queue_mode);
 //extern void __cdecl network_join_squad_join_abort();

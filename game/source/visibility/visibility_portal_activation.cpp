@@ -20,7 +20,7 @@ void __cdecl portal_activation_dispose_from_old_map()
 	INVOKE(0x005F9CB0, portal_activation_dispose_from_old_map);
 }
 
-void __cdecl portal_activation_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl portal_activation_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x005F9CC0, portal_activation_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -36,7 +36,7 @@ void __cdecl portal_activation_initialize_for_new_map()
 	INVOKE(0x005F9E90, portal_activation_initialize_for_new_map);
 }
 
-void __cdecl portal_activation_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl portal_activation_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005F9EA0, portal_activation_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

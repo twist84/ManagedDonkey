@@ -27,13 +27,13 @@ struct simulation_player_update
 	short user_index;
 	short controller_index;
 
-	byte __pad22[0x2];
+	uint8 __pad22[0x2];
 
 	s_player_configuration configuration;
 	long swap_player_index;
 	s_player_identifier swap_player_identifier;
 
-	byte __pad1654[0x4];
+	uint8 __pad1654[0x4];
 };
 static_assert(sizeof(simulation_player_update) == 0x1658);
 
@@ -55,8 +55,8 @@ static_assert(sizeof(s_player_collection_player) == 0x1640);
 
 struct s_player_collection
 {
-	dword_flags player_valid_mask;
-	dword __unknown4;
+	uint32 player_valid_mask;
+	uint32 __unknown4;
 	s_player_collection_player collection_players[16];
 };
 static_assert(sizeof(s_player_collection) == 0x16408);
@@ -80,7 +80,7 @@ static_assert(sizeof(c_simulation_player) == 0xB0);
 extern void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, simulation_player_update const* player_update);
 extern void __cdecl simulation_player_collection_build(s_player_collection* collection);
 extern void __cdecl simulation_player_collection_clear(s_player_collection* collection);
-extern dword __cdecl simulation_player_collection_get_in_game_mask(s_player_collection const* collection);
+extern uint32 __cdecl simulation_player_collection_get_in_game_mask(s_player_collection const* collection);
 extern void __cdecl simulation_player_collection_verify(s_player_collection const* collection);
 extern bool __cdecl simulation_player_update_apply_added(simulation_player_update const* player_update);
 extern bool __cdecl simulation_player_update_apply_configuration(simulation_player_update const* player_update);

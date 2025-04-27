@@ -49,7 +49,7 @@ void __cdecl create_sessionid()
 template<long k_filename_size>
 char* file_reference_get_filename(s_file_reference const* file, char(&filename)[k_filename_size])
 {
-	constexpr dword_flags flags = FLAG(_name_file_bit) | FLAG(_name_extension_bit);
+	constexpr uint32 flags = FLAG(_name_file_bit) | FLAG(_name_extension_bit);
 	return file_reference_get_name(file, flags, filename, k_filename_size);
 }
 
@@ -164,7 +164,7 @@ bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task)
 
 	ASSERT(task);
 
-	dword error = 0;
+	uint32 error = 0;
 	if (file_open(&task->file, FLAG(_file_open_flag_desired_access_read), &error))
 	{
 		c_http_post_source post_source{};
@@ -227,7 +227,7 @@ void __cdecl netdebug_set_sessionid(char const* sessionid)
 	//g_netdebug_globals.sessionid.set(sessionid);
 }
 
-dword __cdecl netdebug_thread_function(void* thread_parameter)
+uint32 __cdecl netdebug_thread_function(void* thread_parameter)
 {
 	//return INVOKE(0x004301D0, netdebug_thread_function, thread_parameter);
 
@@ -324,7 +324,7 @@ bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, lo
 	{
 		long connection_token = 0;
 		long ip_address = 0;
-		word port = 0;
+		uint16 port = 0;
 	
 		long acquire_server_result = 0;
 		do
@@ -338,7 +338,7 @@ bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, lo
 			if (client->start(stream, ip_address, port, k_debug_server_url, true))
 			{
 				bool upload_complete = false;
-				dword timeout = system_milliseconds() + 1000 * seconds;
+				uint32 timeout = system_milliseconds() + 1000 * seconds;
 				while (!upload_complete && system_milliseconds() < timeout)
 				{
 					if (!client->do_work(&upload_complete, NULL, NULL, NULL))
@@ -389,7 +389,7 @@ void __cdecl create_session_description()
 	if (!file_exists(&file))
 		file_create(&file);
 
-	dword error = 0;
+	uint32 error = 0;
 	if (file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		session_description.print("%s%s\r\n", k_session_description_title_string, g_netdebug_globals.title.get_string());

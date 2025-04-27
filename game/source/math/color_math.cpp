@@ -12,44 +12,44 @@ real_rgb_color* __cdecl pixel32_to_real_rgb_color(rgb_color color, real_rgb_colo
 	return INVOKE(0x00521300, pixel32_to_real_rgb_color, color, real_color);
 }
 
-dword __cdecl real_argb_color_to_pixel32(real_argb_color const* real_color)
+uint32 __cdecl real_argb_color_to_pixel32(real_argb_color const* real_color)
 {
 	return INVOKE(0x00521810, real_argb_color_to_pixel32, real_color);
 }
 
-dword __cdecl real_rgb_color_to_pixel32(real_rgb_color const* real_color)
+uint32 __cdecl real_rgb_color_to_pixel32(real_rgb_color const* real_color)
 {
 	return INVOKE(0x00521D90, real_rgb_color_to_pixel32, real_color);
 }
 
-real __cdecl value_degamma(real value)
+real32 __cdecl value_degamma(real32 value)
 {
-	real v3 = value;
+	real32 v3 = value;
 	if (value <= 0.0f)
 		v3 = 0.0f;
 
-	real v4 = value;
+	real32 v4 = value;
 	if (value <= 0.0f)
 		v4 = 0.0f;
 
-	real v5 = v4;
+	real32 v5 = v4;
 	if (v3 >= 1.0f)
 		v5 = 1.0f;
 
 	return powf(v5, 2.2f);
 }
 
-real __cdecl value_regamma(real value)
+real32 __cdecl value_regamma(real32 value)
 {
-	real v3 = value;
+	real32 v3 = value;
 	if (value <= 0.0f)
 		v3 = 0.0f;
 
-	real v4 = value;
+	real32 v4 = value;
 	if (value <= 0.0f)
 		v4 = 0.0f;
 
-	real v5 = v4;
+	real32 v5 = v4;
 	if (v3 >= 1.0f)
 		v5 = 1.0f;
 

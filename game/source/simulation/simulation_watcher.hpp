@@ -25,12 +25,12 @@ protected:
 
 	long __unknown18;
 
-	dword m_local_machine_valid_mask;
+	uint32 m_local_machine_valid_mask;
 	long m_local_machine_index;
 	s_machine_identifier m_machine_identifiers[17];
 	bool m_machine_update_pending;
 	s_player_collection player_collection;
-	dword m_player_collection_machine_valid_mask;
+	uint32 m_player_collection_machine_valid_mask;
 	s_machine_identifier m_player_collection_machine_identifiers[17];
 	bool m_changes_pending_acknowledgement;
 	bool m_game_revert_occured;

@@ -6,15 +6,15 @@ enum e_font_id;
 
 struct s_animation_transform
 {
-	byte __data0[0x38];
+	uint8 __data0[0x38];
 
 	real_argb_color color;
 	real_point3d position;
 	real_vector2d scale;
 	real_point2d local_scale_origin;
-	real rotation_angle_radians;
-	real sine_rotation_angle;
-	real cosine_rotation_angle;
+	real32 rotation_angle_radians;
+	real32 sine_rotation_angle;
+	real32 cosine_rotation_angle;
 	real_point2d local_rotation_origin;
 	real_point2d texture_uv;
 	short bitmap_sprite_sequence;
@@ -25,14 +25,14 @@ static_assert(sizeof(s_animation_transform) == 0x88);
 
 union gui_real_rectangle2d
 {
-	gui_real_rectangle2d* apply_projection_transform(real depth, rectangle2d const* window_bounds);
+	gui_real_rectangle2d* apply_projection_transform(real32 depth, rectangle2d const* window_bounds);
 	real_point2d* get_centroid(real_point2d* centroid) const;
-	real get_height() const;
-	real get_width() const;
-	gui_real_rectangle2d* offset(real dx, real dy);
+	real32 get_height() const;
+	real32 get_width() const;
+	gui_real_rectangle2d* offset(real32 dx, real32 dy);
 	gui_real_rectangle2d* pin(real_rectangle2d const* pin_bounds);
-	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real angle_radians);
-	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real sine_angle, real cosine_angle);
+	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real32 angle_radians);
+	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real32 sine_angle, real32 cosine_angle);
 	gui_real_rectangle2d* scale_about_local_point(real_point2d const* local_point, real_vector2d const* scale);
 	void scale_direct(real_vector2d const* scale);
 	void set(real_rectangle2d const* source);

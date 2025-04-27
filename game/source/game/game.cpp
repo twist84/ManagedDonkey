@@ -130,8 +130,8 @@ real_argb_color const* const k_activation_colors[6]
 };
 long k_activation_color_override_index = 0;
 
-real const k_game_loss_time = 6.0f;
-real const k_game_finished_time = 7.0f;
+real32 const k_game_loss_time = 6.0f;
+real32 const k_game_finished_time = 7.0f;
 
 s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, long bsp_index, long cluster_index)
 {
@@ -163,7 +163,7 @@ void __cdecl assert_game_options_verify(game_options const* options)
 //.text:00530790 ; 
 //.text:005307A0 ; 
 
-void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, dword structure_bsp_mask)
+void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, uint32 structure_bsp_mask)
 {
 	INVOKE(0x005307B0, game_clear_structure_pvs, structure_pvs, structure_bsp_mask);
 }
@@ -291,7 +291,7 @@ void __cdecl game_create_players()
 		e_controller_index controller_index = (e_controller_index)absolute_index;
 		if (VALID_CONTROLLER(controller_index))
 		{
-			qword player_identifier = online_local_user_get_player_identifier(controller_index);
+			uint64 player_identifier = online_local_user_get_player_identifier(controller_index);
 			player->player_identifier = player_identifier;
 
 			wchar_t const* name = online_local_user_get_name(controller_index);
@@ -417,7 +417,7 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 	game_globals->active_cinematic_zone_mask = 0;
 }
 
-void __cdecl game_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl game_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	//INVOKE(0x00530E70, game_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
@@ -476,7 +476,7 @@ void __cdecl game_finished_update()
 		game_globals->game_finished_timer--;
 }
 
-void __cdecl game_frame(real game_seconds_elapsed)
+void __cdecl game_frame(real32 game_seconds_elapsed)
 {
 	//INVOKE(0x00531070, game_frame, game_seconds_elapsed);
 
@@ -496,7 +496,7 @@ void __cdecl game_frame(real game_seconds_elapsed)
 	game_globals->game_had_an_update_tick_this_frame = false;
 }
 
-dword __cdecl game_get_active_cinematic_zone_mask()
+uint32 __cdecl game_get_active_cinematic_zone_mask()
 {
 	//return INVOKE(0x00531110, game_get_active_cinematic_zone_mask);
 
@@ -505,7 +505,7 @@ dword __cdecl game_get_active_cinematic_zone_mask()
 	return game_globals->active_cinematic_zone_mask;
 }
 
-dword __cdecl game_get_active_designer_zone_mask()
+uint32 __cdecl game_get_active_designer_zone_mask()
 {
 	//return INVOKE(0x00531130, game_get_active_designer_zone_mask);
 
@@ -514,7 +514,7 @@ dword __cdecl game_get_active_designer_zone_mask()
 	return game_globals->active_designer_zone_mask;
 }
 
-dword __cdecl game_get_active_structure_bsp_mask()
+uint32 __cdecl game_get_active_structure_bsp_mask()
 {
 	//return INVOKE(0x00531150, game_get_active_structure_bsp_mask);
 
@@ -781,7 +781,7 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 	game_cinematic_zone_set_debug_status("initialization done", game_globals->active_cinematic_zone_mask);
 }
 
-void __cdecl game_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl game_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	//INVOKE(0x005317F0, game_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
@@ -1373,7 +1373,7 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 	game_cinematic_zone_set_debug_status("switching to", new_non_bsp_zone_set->cinematic_zone_mask);
 }
 
-void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
+void __cdecl game_prepare_to_switch_structure_bsp(uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask)
 {
 	//INVOKE(0x00532B10, game_prepare_to_switch_structure_bsp, old_structure_bsp_mask, new_structure_bsp_mask);
 
@@ -1506,7 +1506,7 @@ void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enab
 		SET_BIT(game_globals->active_primary_skulls, primary_skull, enable);
 }
 
-void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
+void __cdecl game_set_active_skulls(uint32* active_primary_skulls, uint32* active_secondary_skulls)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -1739,7 +1739,7 @@ void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time)
 //.text:00533640 ; 
 //.text:00533690 ; game_prepare_for_progression
 
-void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
+void __cdecl game_update(long tick_count, real32* game_seconds_elapsed)
 {
 	//INVOKE(0x005336F0, game_update, tick_count, game_seconds_elapsed);
 
@@ -1787,7 +1787,7 @@ void __cdecl game_update_pvs()
 		{
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
 
-			dword active_clusters[8]{};
+			uint32 active_clusters[8]{};
 			if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count))
 			{
 				for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
@@ -1999,7 +1999,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	return true;
 }
 
-void game_bsp_debug_status(char const* status, dword structure_bsp_mask)
+void game_bsp_debug_status(char const* status, uint32 structure_bsp_mask)
 {
 	ASSERT(status);
 
@@ -2008,7 +2008,7 @@ void game_bsp_debug_status(char const* status, dword structure_bsp_mask)
 	main_status("bsp", "%s 0x%x (%s)", status, structure_bsp_mask, structure_bsp_string);
 }
 
-void game_designer_zone_set_debug_status(char const* status, dword designer_zone_mask)
+void game_designer_zone_set_debug_status(char const* status, uint32 designer_zone_mask)
 {
 	ASSERT(status);
 
@@ -2017,7 +2017,7 @@ void game_designer_zone_set_debug_status(char const* status, dword designer_zone
 	main_status("designer_zone", "%s 0x%x (%s)", status, designer_zone_mask, designer_zone_string);
 }
 
-void game_cinematic_zone_set_debug_status(char const* status, dword cinematic_zone_mask)
+void game_cinematic_zone_set_debug_status(char const* status, uint32 cinematic_zone_mask)
 {
 	ASSERT(status);
 

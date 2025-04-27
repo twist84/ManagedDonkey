@@ -98,57 +98,38 @@ enum e_none_sentinel
 //typedef char long_string[k_tag_long_string_length];
 //static_assert(sizeof(long_string) == 0x100);
 
-// a 32-bit string identifier
 typedef long string_id;
 static_assert(sizeof(string_id) == 0x4);
 
-// 8-bit unsigned integer ranging from 0 to 255
-typedef unsigned char byte;
-static_assert(sizeof(byte) == 0x1);
+typedef char int8;
+static_assert(sizeof(int8) == 0x1);
 
-// 16-bit unsigned integer ranging from 0 to 65,535
-typedef unsigned short word;
-static_assert(sizeof(word) == 0x2);
+typedef unsigned char uint8;
+static_assert(sizeof(uint8) == 0x1);
 
-// 32-bit unsigned integer ranging from 0 to 4,294,967,295
-typedef unsigned long dword;
-static_assert(sizeof(dword) == 0x4);
+typedef short int16;
+static_assert(sizeof(int16) == 0x2);
 
-// 64-bit unsigned integer ranging from 0 to 18,446,744,073,709,551,615
-typedef unsigned long long qword;
-static_assert(sizeof(qword) == 0x8);
+typedef unsigned short uint16;
+static_assert(sizeof(uint16) == 0x2);
 
-// 8-bit enumerator value
-typedef char char_enum;
-static_assert(sizeof(char_enum) == 0x1);
+typedef long int32;
+static_assert(sizeof(int32) == 0x4);
 
-// 16-bit enumerator value
-typedef short short_enum;
-static_assert(sizeof(short_enum) == 0x2);
+typedef unsigned long uint32;
+static_assert(sizeof(uint32) == 0x4);
 
-// 32-bit enumerator value
-typedef long long_enum;
-static_assert(sizeof(long_enum) == 0x4);
+typedef long long int64;
+static_assert(sizeof(int64) == 0x8);
 
-// 8-bit flags container
-typedef byte byte_flags;
-static_assert(sizeof(byte_flags) == 0x1);
+typedef unsigned long long uint64;
+static_assert(sizeof(uint64) == 0x8);
 
-// 16-bit flags container
-typedef word word_flags;
-static_assert(sizeof(word_flags) == 0x2);
+typedef float real32;
+static_assert(sizeof(real32) == 0x4);
 
-// 32-bit flags container
-typedef dword dword_flags;
-static_assert(sizeof(dword_flags) == 0x4);
-
-// 64-bit flags container
-typedef qword qword_flags;
-static_assert(sizeof(qword_flags) == 0x8);
-
-// 32-bit floating-point number ranging from 1.175494351e-38F to 3.402823466e+38F
-typedef float real;
-static_assert(sizeof(real) == 0x4);
+typedef double real64;
+static_assert(sizeof(real64) == 0x8);
 
 typedef char utf8;
 
@@ -204,18 +185,18 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define INVALID_ASYNC_TASK_ID -1
 
 //#define CHAR_MAX char(0x7F)
-#define UNSIGNED_CHAR_MAX byte(0xFF)
+#define UNSIGNED_CHAR_MAX uint8(0xFF)
 
 //#define SHORT_MAX short(0x7FFF)
-#define UNSIGNED_SHORT_MAX word(0xFFFF)
+#define UNSIGNED_SHORT_MAX uint16(0xFFFF)
 
 //#define LONG_MAX long(0x7FFFFFFF)
-#define UNSIGNED_LONG_MAX dword(0xFFFFFFFF)
+#define UNSIGNED_LONG_MAX uint32(0xFFFFFFFF)
 
 template<typename t_type>
 union t_value_type
 {
-	byte bytes[sizeof(t_type)];
+	uint8 bytes[sizeof(t_type)];
 	t_type value;
 };
 
@@ -248,7 +229,7 @@ void _reverse(t_element_type* begin, t_element_type* end)
 struct c_allocation_base
 {
 public:
-	virtual void* allocate(dword allocation, char const* name);
+	virtual void* allocate(uint32 allocation, char const* name);
 	virtual void deallocate(void* buffer);
 };
 
@@ -353,18 +334,18 @@ extern int strncmp_debug(char const* s1, char const* s2, size_t size);
 
 extern long csstricmp(char const* s1, char const* s2);
 extern long csstrcmp(char const* s1, char const* s2);
-extern long csstrnicmp(char const* s1, char const* s2, dword max_count);
+extern long csstrnicmp(char const* s1, char const* s2, uint32 max_count);
 extern char* __cdecl csstristr(char const* s1, char const* s2);
-extern char* csstrnzcpy(char* s1, char const* s2, dword size);
-extern char* csstrnzcat(char* s1, char const* s2, dword size);
-extern dword csstrnlen(char const* s, dword size);
-extern char* csstrnupr(char* s, dword size);
-extern char* csstrnlwr(char* s, dword size);
+extern char* csstrnzcpy(char* s1, char const* s2, uint32 size);
+extern char* csstrnzcat(char* s1, char const* s2, uint32 size);
+extern uint32 csstrnlen(char const* s, uint32 size);
+extern char* csstrnupr(char* s, uint32 size);
+extern char* csstrnlwr(char* s, uint32 size);
 extern char const* csstrstr(char const* look_for, char const* look_inside);
 extern char* __cdecl csstrtok(char* s, char const* delimiters, long delimiter_mode, char** data);
-extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
-extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
-extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
+extern long cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list);
+extern char* csnzprintf(char* buffer, uint32 size, char const* format, ...);
+extern char* csnzappendf(char* buffer, uint32 size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
 extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
 
@@ -457,13 +438,13 @@ public:
 	//{
 	//}
 	//
-	//c_basic_buffer(void* start, dword size) :
+	//c_basic_buffer(void* start, uint32 size) :
 	//	m_buffer(start),
 	//	m_size(size)
 	//{
 	//}
 	//
-	//c_basic_buffer(void* start, dword size) :
+	//c_basic_buffer(void* start, uint32 size) :
 	//	m_buffer(start),
 	//	m_size(size)
 	//{
@@ -482,7 +463,7 @@ public:
 		m_size = 0;
 	}
 
-	void set_buffer(t_type* start, dword size)
+	void set_buffer(t_type* start, uint32 size)
 	{
 		ASSERT(start || size == 0);
 
@@ -498,7 +479,7 @@ public:
 		m_size = pointer_distance(start, end);
 	}
 
-	dword size()
+	uint32 size()
 	{
 		return m_size;
 	}
@@ -515,7 +496,7 @@ public:
 
 //protected:
 	t_type* m_buffer;
-	dword m_size;
+	uint32 m_size;
 };
 
 template<typename t_type, long k_count>
@@ -815,11 +796,11 @@ struct c_typed_opaque_data
 {
 	t_type* get()
 	{
-		ASSERT(((dword)m_opaque_storage & k_alignment_mask) == 0);
-		return reinterpret_cast<t_type*>(((dword)m_opaque_storage + k_alignment_mask) & ~k_alignment_mask);
+		ASSERT(((uint32)m_opaque_storage & k_alignment_mask) == 0);
+		return reinterpret_cast<t_type*>(((uint32)m_opaque_storage + k_alignment_mask) & ~k_alignment_mask);
 	}
 
-	byte m_opaque_storage[k_type_size];
+	uint8 m_opaque_storage[k_type_size];
 	//t_type* m_live_object;
 };
 
@@ -851,7 +832,7 @@ static_assert(sizeof(c_reference_count<long>) == 0x4);
 
 struct c_wrapped_flags
 {
-	dword* m_bit_storage;
+	uint32* m_bit_storage;
 	long m_bit_count;
 };
 static_assert(sizeof(c_wrapped_flags) == 0x8);
@@ -1024,8 +1005,8 @@ struct c_static_flags_no_init
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		dword const* vector_a_bits = vector_a->get_bits_direct();
-		dword const* vector_b_bits = vector_b->get_bits_direct();
+		uint32 const* vector_a_bits = vector_a->get_bits_direct();
+		uint32 const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & ~vector_b_bits[i];
@@ -1035,8 +1016,8 @@ struct c_static_flags_no_init
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		dword const* vector_a_bits = vector_a->get_bits_direct();
-		dword const* vector_b_bits = vector_b->get_bits_direct();
+		uint32 const* vector_a_bits = vector_a->get_bits_direct();
+		uint32 const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & vector_b_bits[i];
@@ -1064,19 +1045,19 @@ struct c_static_flags_no_init
 		return bit_vector_count_bits(m_flags, k_maximum_count);
 	}
 
-	void fill(long count, byte fill_value)
+	void fill(long count, uint8 fill_value)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
 		csmemset(m_flags, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
-	dword const* get_bits_direct() const
+	uint32 const* get_bits_direct() const
 	{
 		return m_flags;
 	}
 
-	dword* get_writeable_bits_direct()
+	uint32* get_writeable_bits_direct()
 	{
 		return m_flags;
 	}
@@ -1094,12 +1075,12 @@ struct c_static_flags_no_init
 			m_flags[i] = ~m_flags[i];
 
 		// no clue
-		//m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (byte)m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
+		//m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (uint8)m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
 	}
 
 	bool is_clear() const
 	{
-		byte result = 1;
+		uint8 result = 1;
 		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			result &= m_flags[i] == 0;
 
@@ -1116,7 +1097,7 @@ struct c_static_flags_no_init
 		m_flags[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
 	}
 
-	void or_bits(dword const* bits, long count)
+	void or_bits(uint32 const* bits, long count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1139,7 +1120,7 @@ struct c_static_flags_no_init
 		csmemset(m_flags, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
-	void set_bits_direct_destructive(long count, dword const* bits)
+	void set_bits_direct_destructive(long count, uint32 const* bits)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1160,7 +1141,7 @@ struct c_static_flags_no_init
 		return BIT_VECTOR_TEST_FLAG(m_flags, index);
 	}
 
-	dword m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
+	uint32 m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
 };
 
 template<long k_maximum_count>
@@ -1277,7 +1258,7 @@ protected:
 struct s_cluster_reference
 {
 	char bsp_index;
-	byte cluster_index;
+	uint8 cluster_index;
 };
 static_assert(sizeof(s_cluster_reference) == 0x2);
 
@@ -1285,7 +1266,7 @@ static_assert(sizeof(s_cluster_reference) == 0x2);
 struct s_location
 {
 	s_cluster_reference cluster_reference;
-	//word leaf_index;
+	//uint16 leaf_index;
 };
 static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
 //static_assert(sizeof(s_location) == 0x4);
@@ -1437,7 +1418,7 @@ public:
 
 	char const* append_print_va(char const* format, va_list list)
 	{
-		dword current_length = length();
+		uint32 current_length = length();
 
 		ASSERT(format);
 		ASSERT(current_length >= 0 && current_length < k_maximum_count);
@@ -1605,13 +1586,13 @@ static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
 struct c_word_quantized_position
 {
-	word m_position[3];
+	uint16 m_position[3];
 };
 static_assert(sizeof(c_word_quantized_position) == 0x6);
 
 struct c_dword_unit_vector
 {
-	dword m_vector;
+	uint32 m_vector;
 };
 static_assert(sizeof(c_dword_unit_vector) == 0x4);
 
@@ -1621,13 +1602,13 @@ struct c_short_quaternion
 };
 static_assert(sizeof(c_short_quaternion) == 0x8);
 
-extern __int64 make_int64(long low, long high);
+extern int64 make_int64(long low, long high);
 
 // IDA
 template<class T>
 T rotate_left(T value, int count)
 {
-	const dword nbits = sizeof(T) * 8;
+	const uint32 nbits = sizeof(T) * 8;
 
 	if (count > 0)
 	{
@@ -1648,14 +1629,14 @@ T rotate_left(T value, int count)
 	return value;
 }
 
-#define __ROL1__(value, count) rotate_left(static_cast<byte>(value), count)
-#define __ROL2__(value, count) rotate_left(static_cast<word>(value), count)
-#define __ROL4__(value, count) rotate_left(static_cast<dword>(value), count)
-#define __ROL8__(value, count) rotate_left(static_cast<qword>(value), count)
-#define __ROR1__(value, count) rotate_left(static_cast<byte>(value), -count)
-#define __ROR2__(value, count) rotate_left(static_cast<word>(value), -count)
-#define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
-#define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
+#define __ROL1__(value, count) rotate_left(static_cast<uint8>(value), count)
+#define __ROL2__(value, count) rotate_left(static_cast<uint16>(value), count)
+#define __ROL4__(value, count) rotate_left(static_cast<uint32>(value), count)
+#define __ROL8__(value, count) rotate_left(static_cast<uint64>(value), count)
+#define __ROR1__(value, count) rotate_left(static_cast<uint8>(value), -count)
+#define __ROR2__(value, count) rotate_left(static_cast<uint16>(value), -count)
+#define __ROR4__(value, count) rotate_left(static_cast<uint32>(value), -count)
+#define __ROR8__(value, count) rotate_left(static_cast<uint64>(value), -count)
 
 // IDA
 template <typename T, typename F>

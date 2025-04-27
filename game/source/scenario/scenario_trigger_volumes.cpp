@@ -1,8 +1,8 @@
 #include "scenario/scenario_trigger_volumes.hpp"
 
 //.text:005FA190 ; public: c_trigger_volume_query::c_trigger_volume_query(scenario_trigger_volume const*)
-//.text:005FA1D0 ; public: real c_trigger_volume_query::distance_to_face(long, real_point3d const*) const
-//.text:005FA210 ; public: real c_trigger_volume_query::distance_to_face_local(long, real_point3d const*) const
+//.text:005FA1D0 ; public: real32 c_trigger_volume_query::distance_to_face(long, real_point3d const*) const
+//.text:005FA210 ; public: real32 c_trigger_volume_query::distance_to_face_local(long, real_point3d const*) const
 //.text:005FA380 ; public: void c_trigger_volume_query::get_local_bounds(real_rectangle3d*) const
 //.text:005FA450 ; 
 //.text:005FA4E0 ; bool __cdecl scenario_trigger_volume_get_matrix(long, real_matrix4x3*)
@@ -46,7 +46,7 @@ bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, re
 	return INVOKE(0x005FAC20, trigger_volume_get_center, volume, out_center_point);
 }
 
-//.text:005FACB0 ; real __cdecl trigger_volume_get_height(scenario_trigger_volume const*)
+//.text:005FACB0 ; real32 __cdecl trigger_volume_get_height(scenario_trigger_volume const*)
 //.text:005FADE0 ; void __cdecl trigger_volume_get_position(scenario_trigger_volume const*, real_point3d*)
 
 bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix)
@@ -54,15 +54,15 @@ bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, re
 	return INVOKE(0x005FACC0, trigger_volume_get_matrix, volume, matrix);
 }
 
-real __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume)
+real32 __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume)
 {
 	return INVOKE(0x005FAF10, trigger_volume_get_radius, volume);
 }
 
 //.text:005FAF20 ; s_sector_point_template<real_point3d>* __cdecl trigger_volume_get_sector_point(scenario_trigger_volume const*, long)
-//.text:005FAF40 ; real __cdecl trigger_volume_get_sink(scenario_trigger_volume const*)
+//.text:005FAF40 ; real32 __cdecl trigger_volume_get_sink(scenario_trigger_volume const*)
 //.text:005FAFE0 ; s_trigger_volume_triangle const* __cdecl trigger_volume_get_triangle(scenario_trigger_volume const*, long)
-//.text:005FB000 ; void __cdecl trigger_volume_set_height(scenario_trigger_volume*, real)
+//.text:005FB000 ; void __cdecl trigger_volume_set_height(scenario_trigger_volume*, real32)
 //.text:005FB020 ; void __cdecl trigger_volume_set_position(scenario_trigger_volume*, real_point3d const*)
-//.text:005FB0C0 ; void __cdecl trigger_volume_set_sink(scenario_trigger_volume*, real)
+//.text:005FB0C0 ; void __cdecl trigger_volume_set_sink(scenario_trigger_volume*, real32)
 

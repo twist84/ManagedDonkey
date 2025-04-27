@@ -19,11 +19,11 @@ struct _item_definition
 {
 	// $$$ ITEM $$$
 
-	c_flags<e_item_definition_flags, dword_flags, k_item_definition_flags> flags;
+	c_flags<e_item_definition_flags, uint32, k_item_definition_flags> flags;
 	short old_message_index;
 	short sort_order;
-	real old_multiplayer_on_ground_scale;
-	real old_campaign_on_ground_scale;
+	real32 old_multiplayer_on_ground_scale;
+	real32 old_campaign_on_ground_scale;
 
 
 	// NEW hud messages
@@ -48,26 +48,26 @@ struct _item_definition
 	// Item scale settings
 	// because grenades look better as coconuts. 0==1
 
-	real single_player_ground;
-	real multiplayer_ground;
-	real small_unit_armed;
-	real small_unit_stowed;
-	real medium_unit_armed;
-	real medium_unit_stowed;
-	real player_unit_armed;
-	real player_unit_stowed;
-	real large_unit_armed;
-	real large_unit_stowed;
+	real32 single_player_ground;
+	real32 multiplayer_ground;
+	real32 small_unit_armed;
+	real32 small_unit_stowed;
+	real32 medium_unit_armed;
+	real32 medium_unit_stowed;
+	real32 player_unit_armed;
+	real32 player_unit_stowed;
+	real32 large_unit_armed;
+	real32 large_unit_stowed;
 
 
 	// Damping settings
 	// how much do we damp the velocity when the item is in contact with a slow
 
 	// ~30 == complete damping, 0 == defaults
-	real grounded_angular_damping;
+	real32 grounded_angular_damping;
 
 	// ~30 == complete damping, 0 == defaults
-	real grounded_linear_damping;
+	real32 grounded_linear_damping;
 
 	void update_reference_names();
 };

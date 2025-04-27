@@ -6,8 +6,8 @@
 struct cinematics_globals_block
 {
 	c_typed_tag_reference<SCENERY_TAG, INVALID_TAG> cinematic_anchor_reference;
-	real cinematic_film_aperture;
-	real subtitles_screen_position;
+	real32 cinematic_film_aperture;
+	real32 subtitles_screen_position;
 
 	void update_reference_names();
 };

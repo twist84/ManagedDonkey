@@ -62,13 +62,13 @@ s_network_session_peer* c_network_session_membership::get_peer(long peer_index)
 //.text:0044E910 ; public: long c_network_session_membership::get_peer_from_secure_address(s_transport_secure_address const*) const
 //.text:0044E9E0 ; public: long c_network_session_membership::get_peer_from_unique_identifier(s_transport_unique_identifier const*) const
 //.text:0044EAE0 ; public: long c_network_session_membership::get_peer_index_of_player_in_queue(s_player_identifier const*) const
-//.text:0044EB10 ; public: dword c_network_session_membership::get_peer_valid_mask() const
+//.text:0044EB10 ; public: uint32 c_network_session_membership::get_peer_valid_mask() const
 //.text:0044EB20 ; public: s_network_session_player const* c_network_session_membership::get_player(long) const
 //.text:0044EB40 ; public: s_player_add_queue_entry const* c_network_session_membership::get_player_add_queue_entry(long) const
 //.text:0044EB90 ; public: long c_network_session_membership::get_player_from_identifier(s_player_identifier const*) const
-//.text:0044EC60 ; public: long c_network_session_membership::get_player_from_xuid(qword) const
-//.text:0044ED30 ; public: c_flags<long, dword, 16> c_network_session_membership::get_player_incompatible_determinism_mask(long) const
-//.text:0044EE00 ; public: dword c_network_session_membership::get_player_valid_mask() const
+//.text:0044EC60 ; public: long c_network_session_membership::get_player_from_xuid(uint64) const
+//.text:0044ED30 ; public: c_flags<long, uint32, 16> c_network_session_membership::get_player_incompatible_determinism_mask(long) const
+//.text:0044EE00 ; public: uint32 c_network_session_membership::get_player_valid_mask() const
 //.text:0044EE10 ; public: s_player_identifier const* c_network_session_membership::get_player_identifier(long) const
 //.text:0044EE30 ; 
 //.text:0044EE50 ; 
@@ -98,7 +98,7 @@ bool c_network_session_membership::is_peer_valid(long peer_index) const
 
 long c_network_session_membership::get_player_index_from_peer(long peer_index)
 {
-	return DECLFUNC(0x0052E280, long, __cdecl, dword*, long)(m_shared_network_membership.peers[peer_index].player_mask, 16);
+	return DECLFUNC(0x0052E280, long, __cdecl, uint32*, long)(m_shared_network_membership.peers[peer_index].player_mask, 16);
 }
 
 long c_network_session_membership::get_observer_channel_index(long peer_index) const
@@ -164,7 +164,7 @@ void c_network_session_membership::set_player_properties(long player_index, long
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.armor.loadouts[0].armors, &player_data->host_partial.armors, sizeof(c_static_array<byte, k_armor_type_count>)))
+	if (csmemcmp(&player->configuration.host.armor.loadouts[0].armors, &player_data->host_partial.armors, sizeof(c_static_array<uint8, k_armor_type_count>)))
 	{
 		player->configuration.host.armor.loadouts[0].armors = player_data->host_partial.armors;
 		update_increment = true;

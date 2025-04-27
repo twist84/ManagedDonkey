@@ -10,20 +10,20 @@
 
 static s_frame_rate_data g_frame_rate_data;
 
-REFERENCE_DECLARE(0x0191068C, real, global_z_near);
-REFERENCE_DECLARE(0x01910690, real, global_z_far);
+REFERENCE_DECLARE(0x0191068C, real32, global_z_near);
+REFERENCE_DECLARE(0x01910690, real32, global_z_far);
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
 REFERENCE_DECLARE(0x050DDA80, s_rasterizer_timing_globals, g_rasterizer_timing_globals);
 
-//.text:00A259A0 ; real __cdecl rasterizer_get_average_frame_delta()
+//.text:00A259A0 ; real32 __cdecl rasterizer_get_average_frame_delta()
 //.text:00A25A30 ; long __cdecl rasterizer_get_d3d_presentation_interval()
-//.text:00A25A40 ; real __cdecl rasterizer_get_most_recent_delta()
-//.text:00A25A60 ; dword __cdecl rasterizer_get_most_recent_swap_index()
+//.text:00A25A40 ; real32 __cdecl rasterizer_get_most_recent_delta()
+//.text:00A25A60 ; uint32 __cdecl rasterizer_get_most_recent_swap_index()
 //.text:00A25A70 ; long __cdecl rasterizer_get_presentation_interval()
-//.text:00A25A80 ; __int64 __cdecl rasterizer_get_vblank_index()
+//.text:00A25A80 ; int64 __cdecl rasterizer_get_vblank_index()
 //.text:00A25A90 ; long __cdecl rasterizer_get_vblank_interval()
 
-void __cdecl rasterizer_get_z_planes(real* z_near, real* z_far)
+void __cdecl rasterizer_get_z_planes(real32* z_near, real32* z_far)
 {
 	INVOKE(0x00A25AA0, rasterizer_get_z_planes, z_near, z_far);
 }
@@ -38,7 +38,7 @@ long __cdecl rasterizer_lag_timing_get_gamestate_delay()
 	return INVOKE(0x00A25CF0, rasterizer_lag_timing_get_gamestate_delay);
 }
 
-void __cdecl rasterizer_lag_timing_mark_input_adjustment(__int64 a1)
+void __cdecl rasterizer_lag_timing_mark_input_adjustment(int64 a1)
 {
 	INVOKE(0x00A25D00, rasterizer_lag_timing_mark_input_adjustment, a1);
 }
@@ -48,7 +48,7 @@ void __cdecl rasterizer_lag_timing_mark_render_end()
 	INVOKE(0x00A25D20, rasterizer_lag_timing_mark_render_end);
 }
 
-void __cdecl rasterizer_lag_timing_mark_render_present(__int64 a1)
+void __cdecl rasterizer_lag_timing_mark_render_present(int64 a1)
 {
 	INVOKE(0x00A25D40, rasterizer_lag_timing_mark_render_present, a1);
 }

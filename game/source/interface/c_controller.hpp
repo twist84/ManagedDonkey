@@ -16,7 +16,7 @@ public:
 	short get_or_create_user_index();
 	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
 	c_player_profile_interface* get_player_profile_interface();
-	qword const get_player_xuid() const;
+	uint64 const get_player_xuid() const;
 	short get_user_index() const;
 	bool is_attached() const;
 	bool is_signed_in_to_machine() const;
@@ -63,17 +63,17 @@ public:
 
 	c_flags<e_controller_state_flags, short, k_number_of_controller_state_flags> m_state_flags;
 	short m_user_index;
-	dword __unknown4;
+	uint32 __unknown4;
 	c_player_profile_interface m_player_profile;
 	wchar_t m_display_name[16];
-	qword m_hash_bits;
-	qword m_hash_bits_last_game_instance;
+	uint64 m_hash_bits;
+	uint64 m_hash_bits_last_game_instance;
 	c_static_flags<k_achievement_count> m_achievements;
 	c_player_marketplace* m_marketplace;
-	dword m_time_controller_signed_out;
-	byte __data1440[0x1];
-	byte vidmaster;
-	byte __data1442[0x6];
+	uint32 m_time_controller_signed_out;
+	uint8 __data1440[0x1];
+	uint8 vidmaster;
+	uint8 __data1442[0x6];
 };
 static_assert(sizeof(c_controller_interface) == 0x1448);
 

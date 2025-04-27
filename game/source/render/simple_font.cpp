@@ -37,7 +37,7 @@ void c_simple_font_screen_display::close_session()
 	}
 }
 
-void c_simple_font_screen_display::draw(long column, long row, dword color, char const* format, ...)
+void c_simple_font_screen_display::draw(long column, long row, uint32 color, char const* format, ...)
 {
 	//return INVOKE_CLASS_MEMBER(0x00A76960, c_simple_font_screen_display, draw, column, row, color, format);
 
@@ -54,7 +54,7 @@ void c_simple_font_screen_display::draw(long column, long row, dword color, char
 		false);
 }
 
-bool c_simple_font_screen_display::open_session(real scale)
+bool c_simple_font_screen_display::open_session(real32 scale)
 {
 	//return INVOKE_CLASS_MEMBER(0x00A76FA0, c_simple_font_screen_display, open_session, scale);
 
@@ -93,12 +93,12 @@ namespace simple_font
 
 	// static variables from `simple_font::draw_quads`
 	REFERENCE_DECLARE(0x0524B6BC, bool, x_initialized);
-	REFERENCE_DECLARE(0x0524B6C0, real, x_one_over_window_bounds_width);
-	REFERENCE_DECLARE(0x0524B6C4, real, x_one_over_window_bounds_height);
+	REFERENCE_DECLARE(0x0524B6C0, real32, x_one_over_window_bounds_width);
+	REFERENCE_DECLARE(0x0524B6C4, real32, x_one_over_window_bounds_height);
 	REFERENCE_DECLARE(0x0524B6C8, real_vector2d, x_aspect_ratio_scale);
 }
 
-bool __cdecl simple_font::begin_rendering(real scale, bool drop_shadow)
+bool __cdecl simple_font::begin_rendering(real32 scale, bool drop_shadow)
 {
 	return INVOKE(0x00A76690, simple_font::begin_rendering, scale, drop_shadow);
 
@@ -131,14 +131,14 @@ long __cdecl simple_font::get_height()
 {
 	return INVOKE(0x00A76AF0, simple_font::get_height);
 
-	//return long(real(simple_font::g_activeFont->char_height) * simple_font::g_activeFont->char_scale);
+	//return long(real32(simple_font::g_activeFont->char_height) * simple_font::g_activeFont->char_scale);
 }
 
 long __cdecl simple_font::get_width()
 {
 	return INVOKE(0x00A76B30, simple_font::get_width);
 
-	//return long(real(simple_font::g_activeFont->char_width) * simple_font::g_activeFont->char_scale);
+	//return long(real32(simple_font::g_activeFont->char_width) * simple_font::g_activeFont->char_scale);
 }
 
 void simple_font::s_font_data::install()
@@ -190,19 +190,19 @@ void __cdecl simple_font::install()
 
 //.text:00A76DB0 ; bool __cdecl c_simple_font_draw_string::s_character_group_render_data::is_full() const
 
-long __cdecl simple_font::make_quad(long x1, long y1, real u1, real v1, long x2, long y2, real u2, real v2, dword color, long shadow_offset, rasterizer_vertex_screen* triangle_vertices)
+long __cdecl simple_font::make_quad(long x1, long y1, real32 u1, real32 v1, long x2, long y2, real32 u2, real32 v2, uint32 color, long shadow_offset, rasterizer_vertex_screen* triangle_vertices)
 {
 	return INVOKE(0x00A76DB0, simple_font::make_quad, x1, y1, u1, v1, x2, y2, u2, v2, color, shadow_offset, triangle_vertices);
 }
 
-void __cdecl simple_font::print(long x, long y, dword color, char const* c, long count, bool apply_display_scalar_correction)
+void __cdecl simple_font::print(long x, long y, uint32 color, char const* c, long count, bool apply_display_scalar_correction)
 {
 	//INVOKE(0x00A770E0, print, x, y, color, c, count, apply_display_scalar_correction);
 
 	simple_font::render_text(g_activeFont, x, y, 1024, 0, color, c, count, apply_display_scalar_correction);
 }
 
-void __cdecl simple_font::print_block(long x, long y, long width, long height, dword color, char const* c)
+void __cdecl simple_font::print_block(long x, long y, long width, long height, uint32 color, char const* c)
 {
 	INVOKE(0x00A77110, print_block, x, y, width, height, color, c);
 }
@@ -213,7 +213,7 @@ void __cdecl simple_font::print_white(long x, long y, char const* c, long count)
 }
 
 //.text:00A77160
-void __cdecl simple_font::printf(long x, long y, dword color, char const* c, ...)
+void __cdecl simple_font::printf(long x, long y, uint32 color, char const* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -231,7 +231,7 @@ void __cdecl simple_font::printf(long x, long y, char const* c, ...)
 }
 
 //.text:00A77240
-void __cdecl simple_font::printf_down(long x, long y, dword color, char const* c, ...)
+void __cdecl simple_font::printf_down(long x, long y, uint32 color, char const* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -240,7 +240,7 @@ void __cdecl simple_font::printf_down(long x, long y, dword color, char const* c
 }
 
 //.text:00A772B0
-void __cdecl simple_font::printf_left(long x, long y, dword color, char const* c, ...)
+void __cdecl simple_font::printf_left(long x, long y, uint32 color, char const* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -249,7 +249,7 @@ void __cdecl simple_font::printf_left(long x, long y, dword color, char const* c
 }
 
 //.text:00A77320
-void __cdecl simple_font::printf_up(long x, long y, dword color, char const* c, ...)
+void __cdecl simple_font::printf_up(long x, long y, uint32 color, char const* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -278,12 +278,12 @@ void __cdecl simple_font::remove()
 		font_data->remove();
 }
 
-void __cdecl simple_font::render_text(s_font_data const* font, long pixelX, long pixelY, long pixelPitch, long flags, dword color, char const* text, unsigned int charCount, bool apply_display_scalar_correction)
+void __cdecl simple_font::render_text(s_font_data const* font, long pixelX, long pixelY, long pixelPitch, long flags, uint32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction)
 {
 	INVOKE(0x00A77480, render_text, font, pixelX, pixelY, pixelPitch, flags, color, text, charCount, apply_display_scalar_correction);
 }
 
-void __cdecl simple_font::vprintf(long x, long y, long flags, dword color, char const* c, char* arglist)
+void __cdecl simple_font::vprintf(long x, long y, long flags, uint32 color, char const* c, char* arglist)
 {
 	//INVOKE(0x00A779B0, simple_font::vprintf, x, y, flags, color, c, arglist);
 

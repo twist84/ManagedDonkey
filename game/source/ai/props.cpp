@@ -10,7 +10,7 @@
 //.text:014A6830 ; void __cdecl __tls_set_g_prop_ref_data_allocator(void*)
 //.text:014A6860 ; void __cdecl __tls_set_g_tracking_data_allocator(void*)
 //.text:014A6890 ; void __cdecl actor_disregard_orphans(long)
-//.text:014A6910 ; short __cdecl actor_flush_prop_tracks(long, real)
+//.text:014A6910 ; short __cdecl actor_flush_prop_tracks(long, real32)
 //.text:014A6AC0 ; void __cdecl actor_prop_abandon_search(long, long, short)
 //.text:014A6B80 ; void __cdecl actor_prop_update_new_position(long, long, bool)
 //.text:014A6E20 ; void __cdecl actor_unacknowledge_orphans(long)
@@ -62,7 +62,7 @@ prop_state* __cdecl prop_state_get(prop_ref_datum const* pref)
 //.text:014A8720 ; void __cdecl prop_state_new(prop_state*)
 //.text:014A87A0 ; bool __cdecl prop_state_refresh(prop_state*, long, short, actor_position_data*)
 //.text:014A8AD0 ; long __cdecl prop_track(long, long)
-//.text:014A8C60 ; real __cdecl prop_track_weight(long)
+//.text:014A8C60 ; real32 __cdecl prop_track_weight(long)
 //.text:014A8D50 ; void __cdecl prop_unacknowledge(long, long)
 //.text:014A8DD0 ; prop_view* __cdecl prop_view_get(long)
 //.text:014A8E20 ; prop_view* __cdecl prop_view_get(prop_ref_datum const*)
@@ -93,7 +93,7 @@ void __cdecl props_initialize_for_new_map()
 //.text:014A9070 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_prop_ref_data_allocator(void*)>::reserve_memory
 //.text:014A90B0 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_tracking_data_allocator(void*)>::reserve_memory
 //.text:014A90F0 ; bool __cdecl track_prop_ref(prop_ref_datum const*)
-//.text:014A9110 ; bool __cdecl tracking_data_cleanup(long, real)
+//.text:014A9110 ; bool __cdecl tracking_data_cleanup(long, real32)
 //.text:014A9320 ; 
 //.text:014A9350 ; 
 //.text:014A9380 ; bool __cdecl uninspected_orphan(prop_ref_datum*)

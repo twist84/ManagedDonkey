@@ -8,7 +8,7 @@ c_network_observer::s_channel_observer const* c_network_observer::find_observer_
     //ASSERT(observer >= &m_channel_observers[0] && observer < &m_channel_observers[k_network_maximum_observers]);
     ASSERT((void*)observer >= &m_channel_observers[0] && (void*)observer < &m_channel_observers[k_network_maximum_observers]);
 
-    ASSERT(((byte*)observer - (byte*)&m_channel_observers[0]) % sizeof(s_channel_observer) == 0);
+    ASSERT(((uint8*)observer - (uint8*)&m_channel_observers[0]) % sizeof(s_channel_observer) == 0);
 
     return (c_network_observer::s_channel_observer const*)observer;
 }
@@ -22,11 +22,11 @@ void c_network_observer::destroy_observer()
 //.text:004463B0 ; c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const*) const
 //.text:004463C0 ; c_network_observer::s_channel_observer* c_network_observer::find_observer_by_channel(c_network_channel const*)
 //.text:004463D0 ; long c_network_observer::find_observer_index_by_channel(c_network_channel const*) const
-//.text:004463F0 ; bool c_network_observer::get_bandwidth_results(long*, real*, long*) const
+//.text:004463F0 ; bool c_network_observer::get_bandwidth_results(long*, real32*, long*) const
 //.text:00446490 ; 
 //.text:004464A0 ; 
 //.text:004464B0 ; long c_network_observer::get_estimated_bandwidth() const
-//.text:004464C0 ; dword c_network_channel::get_identifier() const
+//.text:004464C0 ; uint32 c_network_channel::get_identifier() const
 //.text:004464D0 ; bool c_network_observer::get_is_estimated_bandwidth_reliable() const
 //.text:004464E0 ; long c_network_observer::get_latency_to_simulation_authority() const
 //.text:00446520 ; 
@@ -34,9 +34,9 @@ void c_network_observer::destroy_observer()
 //.text:00446540 ; c_network_observer::s_channel_observer* c_network_observer::get_observer(e_network_observer_owner, long)
 //.text:00446560 ; 
 //.text:00446570 ; bool c_network_channel::get_remote_address(transport_address*) const
-//.text:004465C0 ; dword c_network_channel::get_remote_identifier() const
+//.text:004465C0 ; uint32 c_network_channel::get_remote_identifier() const
 //.text:004465D0 ; e_transport_secure_connection c_network_observer::get_secure_connection_status(long) const
-//.text:00446610 ; bool c_network_observer::get_simple_status(long, long*, real*, long*, long*)
+//.text:00446610 ; bool c_network_observer::get_simple_status(long, long*, real32*, long*, long*)
 
 void c_network_observer::handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request)
 {
@@ -90,7 +90,7 @@ long c_network_observer::observer_channel_find_by_network_channel(long owner_typ
 }
 
 //.text:004471A0 ; void c_network_observer::observer_channel_get_bandwidth_events(e_network_observer_owner, long, long, long*) const
-//.text:004471E0 ; bool c_network_observer::observer_channel_get_last_receive_activity(e_network_observer_owner, long, dword*) const
+//.text:004471E0 ; bool c_network_observer::observer_channel_get_last_receive_activity(e_network_observer_owner, long, uint32*) const
 //.text:00447220 ; c_network_channel* c_network_observer::observer_channel_get_network_channel(e_network_observer_owner, long)
 //.text:00447240 ; c_network_channel const* c_network_observer::observer_channel_get_network_channel(e_network_observer_owner, long) const
 //.text:00447260 ; void c_network_observer::observer_channel_get_secure_address(e_network_observer_owner, long, s_transport_secure_address*) const
@@ -127,10 +127,10 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize)
     }
 }
 
-//.text:00447820 ; real c_network_observer::packet_rate_get_maximum_given_bandwidth_bps(long, bool, bool) const
-//.text:004478E0 ; real c_network_observer::packet_rate_increase(real, bool) const
-//.text:00447A10 ; bool c_network_observer::packet_rate_is_limiting(real, bool, bool, bool) const
-//.text:00447AA0 ; void __cdecl quality_record_bit(qword*,long,long)
+//.text:00447820 ; real32 c_network_observer::packet_rate_get_maximum_given_bandwidth_bps(long, bool, bool) const
+//.text:004478E0 ; real32 c_network_observer::packet_rate_increase(real32, bool) const
+//.text:00447A10 ; bool c_network_observer::packet_rate_is_limiting(real32, bool, bool, bool) const
+//.text:00447AA0 ; void __cdecl quality_record_bit(uint64*,long,long)
 //.text:00447B10 ; bool c_network_observer::quality_statistics_are_set() const
 //.text:00447B20 ; c_network_oberserver::quality_statistics_report_badness
 //.text:00447B60 ; s_network_quality_statistics* c_network_observer::quality_statistics_get()
@@ -168,7 +168,7 @@ void c_network_observer::set_online_network_environment(bool online_network_envi
 //.text:004495F0 ; void c_network_observer::stream_packet_bandwidth_restricted(long)
 //.text:00449610 ; void c_network_observer::stream_packet_sent(long, long, long, long, long)
 //.text:00449650 ; void c_network_observer::stream_set_bandwidth(long, long)
-//.text:004496C0 ; void c_network_observer::stream_set_parameters(long, long, real)
+//.text:004496C0 ; void c_network_observer::stream_set_parameters(long, long, real32)
 //.text:00449770 ; void c_network_observer::stream_update()
 //.text:0044BE90 ; void c_network_observer::update_observer_connection_initiation(long)
 //.text:0044C2A0 ; void c_network_observer::update_observer_connection_state(long)

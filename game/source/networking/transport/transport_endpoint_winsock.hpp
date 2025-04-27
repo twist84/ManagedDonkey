@@ -52,7 +52,7 @@ enum e_transport_endpoint_connected_flag
 
 struct transport_endpoint
 {
-	dword socket;
+	uint32 socket;
 	e_transport_type type;
 	long flags;
 };
@@ -73,8 +73,8 @@ extern bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoin
 extern void __cdecl transport_endpoint_delete(transport_endpoint* endpoint);
 extern void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint);
 extern long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option);
-extern bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, byte* const socket_address);
-extern bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address);
+extern bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, uint8* const socket_address);
+extern bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, uint8 const* const socket_address, transport_address* address);
 extern e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint);

@@ -45,7 +45,7 @@ void __cdecl actor_stimulus_acknowledged_danger_zone(long actor_index, long pref
 //.text:01456A40 ; void __cdecl actor_stimulus_allegiance_update(long, long)
 //.text:01456B20 ; void __cdecl actor_stimulus_bumped(long, long)
 //.text:01456B30 ; bool __cdecl actor_stimulus_clear(long, e_behavior_stimulus)
-//.text:01456BB0 ; void __cdecl actor_stimulus_damage(long, short, long, long, real, real_vector3d const*)
+//.text:01456BB0 ; void __cdecl actor_stimulus_damage(long, short, long, long, real32, real_vector3d const*)
 //.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(long, long, real_point3d const*, short)
 //.text:01456DC0 ; void __cdecl actor_stimulus_friend_body_sighted(long, long)
 //.text:01456FA0 ; void __cdecl actor_stimulus_heard_shooting(long, long, long)

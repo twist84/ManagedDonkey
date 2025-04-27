@@ -184,9 +184,9 @@ wchar_t const* usnzappend(wchar_t* string, long size, wchar_t const* format, ...
 //wchar_t * utmpnam(wchar_t *)
 //long ustrtol(wchar_t const *,wchar_t * *,int)
 //unsigned long ustrtoul(wchar_t const *,wchar_t * *,int)
-//double ustrtod(wchar_t const *,wchar_t * *)
+//real64 ustrtod(wchar_t const *,wchar_t * *)
 //wchar_t * ustrftime_tm(wchar_t *,long,wchar_t const *,struct tm const *)
-//wchar_t * ustrftime(wchar_t *,long,wchar_t const *,__int64)
+//wchar_t * ustrftime(wchar_t *,long,wchar_t const *,int64)
 //int uatoi(wchar_t const *)
 
 void wchar_string_to_ascii_string(wchar_t const* source, char* destination, long source_length, long* destination_length)

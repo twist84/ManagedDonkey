@@ -21,8 +21,8 @@
 
 #include <windows.h>
 
-real g_ui_time_scale = 1.0f;
-real g_ui_time_step = 0.0f;
+real32 g_ui_time_scale = 1.0f;
+real32 g_ui_time_step = 0.0f;
 
 REFERENCE_DECLARE(0x0191CC20, long, g_user_interface_alpha_locked_down_state); // e_alpha_configuration_ui_level
 REFERENCE_DECLARE(0x0191CC24, bool, g_eula_accepted);
@@ -103,8 +103,8 @@ void __cdecl user_interface_get_number_of_render_windows(long user_index, long* 
 	INVOKE(0x00A84370, user_interface_get_number_of_render_windows, user_index, horizontal_window_count, vertical_window_count);
 }
 
-//.text:00A84420 ; qword __cdecl user_interface_get_player_hash_bits(e_controller_index, long)
-//.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real*, real*, real*)
+//.text:00A84420 ; uint64 __cdecl user_interface_get_player_hash_bits(e_controller_index, long)
+//.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real32*, real32*, real32*)
 //.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
 //.text:00A844E0 ; 
 //.text:00A844F0 ; long __cdecl user_interface_get_selected_campaign_difficulty()
@@ -135,15 +135,15 @@ bool __cdecl user_interface_is_active()
 //.text:00A84850 ; bool __cdecl user_interface_is_shutting_down()
 //.text:00A84860 ; 
 //.text:00A848B0 ; bool __cdecl user_interface_main_menu_music_done_fading_out()
-//.text:00A848C0 ; double __cdecl user_interface_main_menu_music_fade_out_progress()
+//.text:00A848C0 ; real64 __cdecl user_interface_main_menu_music_fade_out_progress()
 //.text:00A848D0 ; void __cdecl user_interface_main_menu_music_initialize_for_saved_game()
 
-dword __cdecl user_interface_milliseconds()
+uint32 __cdecl user_interface_milliseconds()
 {
 	return INVOKE(0x00A848E0, user_interface_milliseconds);
 }
 
-//.text:00A848F0 ; dword __cdecl user_interface_milliseconds_at_last_event()
+//.text:00A848F0 ; uint32 __cdecl user_interface_milliseconds_at_last_event()
 //.text:00A84900 ; bool __cdecl user_interface_non_dead_cam_active_for_game_player_controller(e_controller_index)
 
 void __cdecl user_interface_non_idle_event_occured()
@@ -165,8 +165,8 @@ void __cdecl user_interface_render(e_controller_index controller, long user_inde
 
 //.text:00A84B40 ; void __cdecl user_interface_render_begin(c_rasterizer::e_surface)
 //.text:00A84B70 ; void __cdecl user_interface_render_end()
-//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(rectangle2d const*, dword)
-//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(rectangle2d const*, dword)
+//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(rectangle2d const*, uint32)
+//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(rectangle2d const*, uint32)
 
 bool __cdecl user_interface_requests_unlocked_framerate()
 {
@@ -227,13 +227,13 @@ s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_g
 	return INVOKE(0x00A84E80, user_interface_tag_globals_try_and_get);
 }
 
-void __cdecl user_interface_update(real shell_seconds_elapsed)
+void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 {
 	//INVOKE(0x00A84EE0, user_interface_update, shell_seconds_elapsed);
 
 	PROFILER(user_interface_update)
 	{
-		real ui_time = (shell_seconds_elapsed * g_ui_time_scale) + g_ui_time_step;
+		real32 ui_time = (shell_seconds_elapsed * g_ui_time_scale) + g_ui_time_step;
 		g_ui_time_step = 0.0f;
 	
 		g_user_interface_globals.shell_seconds_elapsed = ui_time;
@@ -295,7 +295,7 @@ void __cdecl user_interface_update(real shell_seconds_elapsed)
 		}
 	
 		if (g_user_interface_globals.m_user_interface_shutdown_start_time != NONE &&
-			system_milliseconds() > dword(g_user_interface_globals.m_user_interface_shutdown_start_time + 2000))
+			system_milliseconds() > uint32(g_user_interface_globals.m_user_interface_shutdown_start_time + 2000))
 		{
 			data_mine_flush();
 			exit(0); // relaunch

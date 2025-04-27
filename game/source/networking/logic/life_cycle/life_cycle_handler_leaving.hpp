@@ -15,9 +15,9 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte_flags m_flags;
+	uint8 m_flags;
 	bool m_disconnected;
-	byte __data[0x6];
+	uint8 __data[0x6];
 };
 static_assert(sizeof(c_life_cycle_state_handler_leaving) == 0x30);
 

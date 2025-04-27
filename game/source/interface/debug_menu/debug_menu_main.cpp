@@ -79,7 +79,7 @@ bool g_debug_menu_rebuild_request = false;
 
 c_static_stack<long, 262144> g_debug_menu_stack;
 
-void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real alpha, real_argb_color const* color)
+void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real32 alpha, real_argb_color const* color)
 {
 	point2d points[4]{};
 
@@ -259,32 +259,32 @@ gamepad_state const& debug_menu_get_last_gamepad_state()
 	return g_debug_menu_globals.m_last_gamepad;
 }
 
-real debug_menu_get_item_margin()
+real32 debug_menu_get_item_margin()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 10.0f;
 }
 
-real debug_menu_get_item_width()
+real32 debug_menu_get_item_width()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 650.0f;
 }
 
-real debug_menu_get_item_height()
+real32 debug_menu_get_item_height()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
 }
 
-real debug_menu_get_title_height()
+real32 debug_menu_get_title_height()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
 }
 
-real debug_menu_get_item_indent_x()
+real32 debug_menu_get_item_indent_x()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 40.0f;
 }
 
-real debug_menu_get_item_indent_y()
+real32 debug_menu_get_item_indent_y()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 2.0f;
 }
@@ -360,6 +360,6 @@ void* debug_menu_malloc(long size)
 void xor_buffers(void* dest, void const* source, long count)
 {
 	for (long i = 0; i < count; i++)
-		((byte*)dest)[i] ^= ((byte const*)source)[i];
+		((uint8*)dest)[i] ^= ((uint8 const*)source)[i];
 }
 

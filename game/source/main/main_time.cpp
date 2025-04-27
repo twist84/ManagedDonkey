@@ -31,7 +31,7 @@ void __cdecl __tls_set_g_main_time_globals_allocator(void* address)
 //.text:00507AA0 ; 
 //.text:00507AD0 ; 
 //.text:00507B00 ; 
-//.text:00507B20 ; double __cdecl main_time_compute_frame_rate_average()
+//.text:00507B20 ; real64 __cdecl main_time_compute_frame_rate_average()
 
 void __cdecl main_time_frame_rate_debug()
 {
@@ -76,9 +76,9 @@ void __cdecl main_time_frame_rate_display()
 		rasterizer_render_debug_frame_deltas();
 }
 
-//.text:00507D70 ; __int64 sub_507D70() // return g_main_time_globals->last_milliseconds;
+//.text:00507D70 ; int64 sub_507D70() // return g_main_time_globals->last_milliseconds;
 
-__int64 __cdecl main_time_get_absolute_milliseconds()
+int64 __cdecl main_time_get_absolute_milliseconds()
 {
 	return INVOKE(0x00507D90, main_time_get_absolute_milliseconds);
 }
@@ -86,7 +86,7 @@ __int64 __cdecl main_time_get_absolute_milliseconds()
 //.text:00507DD0
 //.text:00507DE0
 
-__int64 __cdecl main_time_get_input_collection_time()
+int64 __cdecl main_time_get_input_collection_time()
 {
 	return INVOKE(0x00507DF0, main_time_get_input_collection_time);
 
@@ -99,7 +99,7 @@ long __cdecl main_time_get_native_tick_rate()
 	return INVOKE(0x00507E10, main_time_get_native_tick_rate);
 }
 
-__int64 __cdecl main_time_get_publishing_end_time()
+int64 __cdecl main_time_get_publishing_end_time()
 {
 	return INVOKE(0x00507E40, main_time_get_publishing_end_time);
 
@@ -107,7 +107,7 @@ __int64 __cdecl main_time_get_publishing_end_time()
 	//return g_main_time_globals->last_publish_end_timestamp;
 }
 
-__int64 __cdecl main_time_get_publishing_start_time()
+int64 __cdecl main_time_get_publishing_start_time()
 {
 	return INVOKE(0x00507E60, main_time_get_publishing_start_time);
 
@@ -115,7 +115,7 @@ __int64 __cdecl main_time_get_publishing_start_time()
 	//return g_main_time_globals->last_publish_start_timestamp;
 }
 
-__int64 __cdecl main_time_get_target_display_vblank_index()
+int64 __cdecl main_time_get_target_display_vblank_index()
 {
 	return INVOKE(0x00507E80, main_time_get_target_display_vblank_index);
 
@@ -123,7 +123,7 @@ __int64 __cdecl main_time_get_target_display_vblank_index()
 	//return g_main_time_globals->target_display_vblank_index;
 }
 
-long __cdecl main_time_get_time_since_input_collection(__int64 timestamp)
+long __cdecl main_time_get_time_since_input_collection(int64 timestamp)
 {
 	return INVOKE(0x00507EA0, main_time_get_time_since_input_collection, timestamp);
 
@@ -239,13 +239,13 @@ void __cdecl main_time_set_temporary_throttle(bool throttle)
 	//g_main_time_globals->temporary_throttle = throttle;
 }
 
-void __cdecl main_time_throttle(__int64 target_display_vblank_index)
+void __cdecl main_time_throttle(int64 target_display_vblank_index)
 {
 	//INVOKE(0x00508160, main_time_throttle, target_display_vblank_index);
 
 	//if (!debug_frame_rate_based_on_system_time)
 	//{
-	//	__int64 target_update_vblank = 0;
+	//	int64 target_update_vblank = 0;
 	//	if (target_display_vblank_index)
 	//		target_update_vblank = target_display_vblank_index - 2;
 	//
@@ -256,8 +256,8 @@ void __cdecl main_time_throttle(__int64 target_display_vblank_index)
 	//
 	//	if (main_time_is_throttled())
 	//	{
-	//		volatile __int64 current_vblank_index = rasterizer_get_vblank_index();
-	//		for (dword previous_swap_index = g_previous_swap_index; g_previous_swap_index; previous_swap_index = g_previous_swap_index)
+	//		volatile int64 current_vblank_index = rasterizer_get_vblank_index();
+	//		for (uint32 previous_swap_index = g_previous_swap_index; g_previous_swap_index; previous_swap_index = g_previous_swap_index)
 	//		{
 	//			if (current_vblank_index != previous_swap_index)
 	//				break;
@@ -276,11 +276,11 @@ void __cdecl main_time_throttle(__int64 target_display_vblank_index)
 	//		}
 	//	}
 	//	g_main_time_throttle_debug.final_vblank_index = rasterizer_get_vblank_index();
-	//	dword most_recent_swap_index = rasterizer_get_most_recent_swap_index();
+	//	uint32 most_recent_swap_index = rasterizer_get_most_recent_swap_index();
 	//	g_main_time_throttle_debug.count++;
 	//	g_main_time_throttle_debug.final_swap_index = most_recent_swap_index;
-	//	__int64 time_ms = system_milliseconds();
-	//	__int64 time_delta_ms = time_ms - g_main_time_throttle_debug.time_ms;
+	//	int64 time_ms = system_milliseconds();
+	//	int64 time_delta_ms = time_ms - g_main_time_throttle_debug.time_ms;
 	//	g_main_time_throttle_debug.time_ms = time_ms;
 	//	g_main_time_throttle_debug.time_delta_ms = time_delta_ms;
 	//	rasterizer_lag_timing_mark_render_present(target_display_vblank_index);
@@ -289,7 +289,7 @@ void __cdecl main_time_throttle(__int64 target_display_vblank_index)
 	//main_time_update_framerate_datamining();
 }
 
-real __cdecl main_time_update()
+real32 __cdecl main_time_update()
 {
 	return INVOKE(0x00508170, main_time_update);
 }

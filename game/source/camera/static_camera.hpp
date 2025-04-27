@@ -14,12 +14,12 @@ public:
 //protected:
 	real_point3d m_position;
 	real_vector3d m_forward;
-	real m_field_of_view;
+	real32 m_field_of_view;
 
-	real __unknown2C;
-	dword __unknown30;
+	real32 __unknown2C;
+	uint32 __unknown30;
 
-	byte unused[0x18];
+	uint8 unused[0x18];
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
 
@@ -33,7 +33,7 @@ public:
 	}
 
 //protected:
-	byte unused[0x3C];
+	uint8 unused[0x3C];
 };
 static_assert(sizeof(c_scripted_camera) == 0x4C);
 

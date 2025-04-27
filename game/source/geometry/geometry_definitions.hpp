@@ -8,15 +8,15 @@ struct s_mesh
 {
 	s_tag_block parts;
 	s_tag_block subparts;
-	word vertex_buffer_indices[8];
+	uint16 vertex_buffer_indices[8];
 	short index_buffer_index;
 	short index_buffer_tessellation;
-	byte_flags mesh_flags;
+	uint8 mesh_flags;
 	char rigid_node_index;
 	char vertex_type;
 	char prt_vertex_type;
 	char index_buffer_type;
-	byte BAASDFIR[3];
+	uint8 BAASDFIR[3];
 	s_tag_block instance_bucket;
 	s_tag_block water_indices_start;
 };
@@ -24,8 +24,8 @@ static_assert(sizeof(s_mesh) == 0x4C);
 
 struct s_compression_info
 {
-	word_flags compression_flags;
-	byte JOJOBOMO[2];
+	uint16 compression_flags;
+	uint8 JOJOBOMO[2];
 
 	// WARNING
 
@@ -45,9 +45,9 @@ struct s_positioning
 {
 	real_plane3d plane;
 	real_point3d position;
-	real radius;
+	real32 radius;
 	char node_indices[4];
-	real node_weights[4];
+	real32 node_weights[4];
 };
 static_assert(sizeof(s_positioning) == 0x34);
 
@@ -73,7 +73,7 @@ struct s_per_mesh_raw_data
 	s_tag_block raw_water_data;
 	short parameterized_texture_width;
 	short parameterized_texture_height;
-	dword_flags flags;
+	uint32 flags;
 };
 static_assert(sizeof(s_per_mesh_raw_data) == 0x2C);
 
@@ -107,7 +107,7 @@ struct s_per_instance_lightmap_texcoords
 {
 	s_tag_block texture_coordinates;
 	short vertex_buffer_index;
-	byte HTJIAHA[2];
+	uint8 HTJIAHA[2];
 };
 static_assert(sizeof(s_per_instance_lightmap_texcoords) == 0x10);
 
@@ -122,7 +122,7 @@ static_assert(sizeof(s_render_geometry_api_resource) == 0x30);
 
 struct s_render_geometry
 {
-	dword_flags runtime_flags;
+	uint32 runtime_flags;
 	c_typed_tag_block<s_mesh> meshes;
 	c_typed_tag_block<s_compression_info> compression_info;
 	c_typed_tag_block<s_positioning> part_sorting_position;

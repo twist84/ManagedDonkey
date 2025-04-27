@@ -12,7 +12,7 @@ public:
 	}
 	
 //protected:
-	byte unused[0x14];
+	uint8 unused[0x14];
 };
 static_assert(sizeof(c_game_director) == 0x160);
 

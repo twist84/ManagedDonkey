@@ -15,9 +15,9 @@ public:
 		return m_index != other.m_index;
 	}
 
-	word m_index;
+	uint16 m_index;
 };
-static_assert(sizeof(c_global_material_type) == sizeof(word));
+static_assert(sizeof(c_global_material_type) == sizeof(uint16));
 
 struct s_global_material_definition;
 

@@ -28,11 +28,11 @@ REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
 REFERENCE_DECLARE(0x0189CD0C, long, global_zone_set_index);
 REFERENCE_DECLARE(0x022AAEB4, struct scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
-REFERENCE_DECLARE(0x022AAEBC, dword, g_active_structure_bsp_mask);
-REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
-REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
-REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
-REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
+REFERENCE_DECLARE(0x022AAEBC, uint32, g_active_structure_bsp_mask);
+REFERENCE_DECLARE(0x022AAEC0, uint32, g_touched_structure_bsp_mask);
+REFERENCE_DECLARE(0x022AAEC4, uint32, g_active_designer_zone_mask);
+REFERENCE_DECLARE(0x022AAEC8, uint32, g_active_cinematic_zone_mask);
+REFERENCE_DECLARE(0x022AAECC, uint32, g_touched_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAED1, bool, scenario_load_resources_blocking_in_progress);
 
 HOOK_DECLARE(0x004E9CB0, scenario_connect_zone_set_resources);
@@ -55,37 +55,37 @@ bool s_scenario_zone_change::any_zone_changes() const
 	return any_cinematic_zone_changes() || any_designer_zone_changes();
 }
 
-dword s_scenario_zone_change::get_activating_cinematic_zone_mask() const
+uint32 s_scenario_zone_change::get_activating_cinematic_zone_mask() const
 {
 	return new_cinematic_zone_mask & ~original_cinematic_zone_mask;
 }
 
-dword s_scenario_zone_change::get_activating_designer_zone_mask() const
+uint32 s_scenario_zone_change::get_activating_designer_zone_mask() const
 {
 	return original_designer_zone_mask & ~new_designer_zone_mask;
 }
 
-dword s_scenario_zone_change::get_deactivating_cinematic_zone_mask() const
+uint32 s_scenario_zone_change::get_deactivating_cinematic_zone_mask() const
 {
 	return original_cinematic_zone_mask & ~new_cinematic_zone_mask;
 }
 
-dword s_scenario_zone_change::get_deactivating_designer_zone_mask() const
+uint32 s_scenario_zone_change::get_deactivating_designer_zone_mask() const
 {
 	return original_designer_zone_mask & ~new_designer_zone_mask;
 }
 
-dword s_scenario_zone_change::pre_switch_cinematic_zone_mask() const
+uint32 s_scenario_zone_change::pre_switch_cinematic_zone_mask() const
 {
 	return original_cinematic_zone_mask & new_cinematic_zone_mask;
 }
 
-dword s_scenario_zone_change::pre_switch_designer_zone_mask() const
+uint32 s_scenario_zone_change::pre_switch_designer_zone_mask() const
 {
 	return original_designer_zone_mask & new_designer_zone_mask;
 }
 
-dword __cdecl global_cinematic_zone_active_mask_get()
+uint32 __cdecl global_cinematic_zone_active_mask_get()
 {
 	return INVOKE(0x004E9570, global_cinematic_zone_active_mask_get);
 
@@ -95,7 +95,7 @@ dword __cdecl global_cinematic_zone_active_mask_get()
 //.text:004E9580 ; bool __cdecl global_cinematic_zone_is_active(long)
 //.text:004E95B0 ; c_collision_bsp_reference __cdecl global_collision_bsp_get(long)
 
-dword __cdecl global_designer_zone_active_mask_get()
+uint32 __cdecl global_designer_zone_active_mask_get()
 {
 	return INVOKE(0x004E95E0, global_designer_zone_active_mask_get);
 
@@ -129,7 +129,7 @@ struct scenario* __cdecl global_scenario_try_and_get()
 	return NULL;
 }
 
-dword __cdecl global_structure_bsp_active_mask_get()
+uint32 __cdecl global_structure_bsp_active_mask_get()
 {
 	return g_active_structure_bsp_mask;
 }
@@ -215,7 +215,7 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 
 //.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(s_cluster_reference const*)
 
-bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dword new_structure_bsp_mask)
+bool __cdecl scenario_connect_game_to_new_bsps(uint32 game_structure_bsp_mask, uint32 new_structure_bsp_mask)
 {
 	return INVOKE(0x004E9C40, scenario_connect_game_to_new_bsps, game_structure_bsp_mask, new_structure_bsp_mask);
 
@@ -230,11 +230,11 @@ bool __cdecl scenario_connect_game_to_new_bsps(dword game_structure_bsp_mask, dw
 
 bool __cdecl scenario_connect_zone_set_resources(
 	long new_zone_set_index,
-	dword new_active_bsp_mask,
-	dword new_touched_bsp_mask,
-	dword new_designer_zone_mask,
-	dword new_cinematic_zone_mask,
-	dword new_touched_cinematic_zone_mask,
+	uint32 new_active_bsp_mask,
+	uint32 new_touched_bsp_mask,
+	uint32 new_designer_zone_mask,
+	uint32 new_cinematic_zone_mask,
+	uint32 new_touched_cinematic_zone_mask,
 	bool unload_old_bsps
 )
 {
@@ -275,16 +275,16 @@ bool __cdecl scenario_connect_zone_set_resources(
 
 //.text:004E9D90 ; bool __cdecl scenario_couple_structure_objects_to_structure()
 //.text:004E9DA0 ; void __cdecl scenario_deactivate_all_zones_for_cache_builder()
-//.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
+//.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(uint32, uint32, s_scenario_zone_change const*, bool)
 
-void __cdecl scenario_disconnect_from_old_zone_set(dword loaded_structure_bsp_mask, dword new_structure_bsp_mask)
+void __cdecl scenario_disconnect_from_old_zone_set(uint32 loaded_structure_bsp_mask, uint32 new_structure_bsp_mask)
 {
 	INVOKE(0x004E9F00, scenario_disconnect_from_old_zone_set, loaded_structure_bsp_mask, new_structure_bsp_mask);
 
 	//scenario_resources_unload_active_zone_set();
 }
 
-bool __cdecl scenario_disconnect_game_from_old_bsps(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
+bool __cdecl scenario_disconnect_game_from_old_bsps(uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask)
 {
 	return INVOKE(0x004E9F10, scenario_disconnect_game_from_old_bsps, old_structure_bsp_mask, new_structure_bsp_mask);
 
@@ -319,7 +319,7 @@ void __cdecl scenario_dispose_from_old_map()
 	structure_seams_dispose_from_old_map();
 }
 
-void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask)
+void __cdecl scenario_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
 {
 	//INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
@@ -329,7 +329,7 @@ void __cdecl scenario_dispose_from_old_structure_bsp(dword deactivating_structur
 //.text:004E9FC0 ; bool __cdecl scenario_do_not_attach_unused_designer_zone_resources()
 //.text:004E9FD0 ; bool __cdecl scenario_ensure_point_within_world(real_point3d*)
 
-void __cdecl scenario_frame_update(real game_seconds_elapsed)
+void __cdecl scenario_frame_update(real32 game_seconds_elapsed)
 {
 	INVOKE(0x004EA0F0, scenario_frame_update, game_seconds_elapsed);
 }
@@ -338,7 +338,7 @@ void __cdecl scenario_frame_update(real game_seconds_elapsed)
 //.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(s_scenario_game_state const*)
 //.text:004EA1A0 ; bool __cdecl scenario_game_states_match(s_scenario_game_state const*, s_scenario_game_state const*)
 
-char const* __cdecl scenario_get_cinematic_zone_string_from_mask(dword cinematic_zone_mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
+char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uint32 cinematic_zone_mask, char* cinematic_zone_string, uint32 cinematic_zone_string_size)
 {
 	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
 
@@ -378,7 +378,7 @@ long __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* sce
 	return NONE;
 }
 
-char const* __cdecl scenario_get_designer_zone_string_from_mask(dword designer_zone_mask, char* designer_zone_string, dword designer_zone_string_size)
+char const* __cdecl scenario_get_designer_zone_string_from_mask(uint32 designer_zone_mask, char* designer_zone_string, uint32 designer_zone_string_size)
 {
 	csnzprintf(designer_zone_string, designer_zone_string_size, "");
 
@@ -418,7 +418,7 @@ char const* __cdecl scenario_get_structure_bsp_name(long structure_bsp_index)
 	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
 }
 
-char const* __cdecl scenario_get_structure_bsp_string_from_mask(dword structure_bsp_mask, char* structure_bsp_string, dword structure_bsp_string_size)
+char const* __cdecl scenario_get_structure_bsp_string_from_mask(uint32 structure_bsp_mask, char* structure_bsp_string, uint32 structure_bsp_string_size)
 {
 	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
 
@@ -443,8 +443,8 @@ char const* __cdecl scenario_get_structure_bsp_string_from_mask(dword structure_
 }
 
 //.text:004EA280 ; 
-//.text:004EA290 ; dword __cdecl scenario_get_touched_bsp_mask_internal()
-//.text:004EA2A0 ; dword __cdecl scenario_get_touched_cinematics_mask_internal()
+//.text:004EA290 ; uint32 __cdecl scenario_get_touched_bsp_mask_internal()
+//.text:004EA2A0 ; uint32 __cdecl scenario_get_touched_cinematics_mask_internal()
 
 long __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
 {
@@ -484,7 +484,7 @@ void __cdecl scenario_initialize_for_new_map()
 	structure_seams_initialize_for_new_map();
 }
 
-void __cdecl scenario_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl scenario_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	//INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
@@ -495,7 +495,7 @@ void __cdecl scenario_initialize_for_new_structure_bsp(dword activating_structur
 	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, activating_structure_bsp_mask);
 }
 
-//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, dword)
+//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, uint32)
 //.text:004EA3A0 ; void __cdecl scenario_initialize_game_state(s_scenario_game_state*)
 
 void __cdecl scenario_invalidate()
@@ -569,7 +569,7 @@ bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, char cons
 	return false;
 }
 
-//.text:004EA6A0 ; bool __cdecl scenario_load_new_bsps(dword, dword, dword*)
+//.text:004EA6A0 ; bool __cdecl scenario_load_new_bsps(uint32, uint32, uint32*)
 
 // halo online only loads pending resources
 // ~~we add back the if statement for pending or required~~
@@ -603,7 +603,7 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 		}
 	}
 	
-	if (__int64 blocking_cycles = scenario_load_resources_blocking_watch.stop())
+	if (int64 blocking_cycles = scenario_load_resources_blocking_watch.stop())
 		status_printf("scenario_load_resources_blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
 
 	scenario_load_resources_blocking_in_progress = false;
@@ -626,7 +626,7 @@ void __cdecl scenario_location_from_point(s_location* location, real_point3d con
 //.text:004EAAD0 ; 
 //.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(s_scenario_zone_activation const*)
 
-bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, dword new_touched_cinematics_mask, bool unload_old_bsps)
+bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask, uint32 new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, uint32 new_touched_cinematics_mask, bool unload_old_bsps)
 {
 	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
 }
@@ -704,7 +704,7 @@ void __cdecl scenario_reset_zone_resources_from_main()
 
 //.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(long, short, s_tag_reference*)
 //.text:004EB4F0 ; short __cdecl scenario_structure_index_from_point(real_point3d const*)
-//.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(dword)
+//.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(uint32)
 
 void __cdecl scenario_switch_to_null_zone_set()
 {
@@ -733,21 +733,21 @@ bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unl
 {
 	return INVOKE(0x004EB640, scenario_switch_zone_set_internal, new_zone_set_index, unload_old_bsps);
 
-	//dword new_structure_bsp_mask = scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
-	//dword active_structure_bsp_mask = game_get_active_structure_bsp_mask();
-	//dword touched_structure_bsp_mask = g_touched_structure_bsp_mask;
-	//dword game_structure_bsp_mask = active_structure_bsp_mask;
-	//dword new_touched_bsp_mask = touched_structure_bsp_mask | scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
-	//dword active_designer_zone_mask = game_get_active_designer_zone_mask();
+	//uint32 new_structure_bsp_mask = scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
+	//uint32 active_structure_bsp_mask = game_get_active_structure_bsp_mask();
+	//uint32 touched_structure_bsp_mask = g_touched_structure_bsp_mask;
+	//uint32 game_structure_bsp_mask = active_structure_bsp_mask;
+	//uint32 new_touched_bsp_mask = touched_structure_bsp_mask | scenario_zone_set_bsp_active_mask_get(new_zone_set_index);
+	//uint32 active_designer_zone_mask = game_get_active_designer_zone_mask();
 	//
-	////dword new_designer_zone_mask = (active_designer_zone_mask | scenario_zone_set_designer_zone_required_mask_get(new_zone_set_index)) & ~scenario_zone_set_designer_zone_forbidden_mask_get(new_zone_set_index);
-	//dword new_designer_zone_mask = scenario_zone_set_compute_new_designer_zone_mask(
+	////uint32 new_designer_zone_mask = (active_designer_zone_mask | scenario_zone_set_designer_zone_required_mask_get(new_zone_set_index)) & ~scenario_zone_set_designer_zone_forbidden_mask_get(new_zone_set_index);
+	//uint32 new_designer_zone_mask = scenario_zone_set_compute_new_designer_zone_mask(
 	//	active_designer_zone_mask,
 	//	scenario_zone_set_designer_zone_required_mask_get(new_zone_set_index),
 	//	scenario_zone_set_designer_zone_forbidden_mask_get(new_zone_set_index));
 	//
-	//dword active_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
-	//dword new_touched_cinematics_mask = g_touched_structure_bsp_mask;
+	//uint32 active_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	//uint32 new_touched_cinematics_mask = g_touched_structure_bsp_mask;
 	//
 	//ASSERT(game_structure_bsp_mask == 0 || VALID_INDEX(highest_bit_set(game_structure_bsp_mask), global_scenario->structure_bsp_references.count));
 	//ASSERT(global_structure_bsp_active_mask_get() == 0 || VALID_INDEX(highest_bit_set(global_structure_bsp_active_mask_get()), global_scenario->structure_bsp_references.count));
@@ -835,7 +835,7 @@ void __cdecl scenario_unload()
 	scenario_invalidate();
 }
 
-//.text:004EB9A0 ; void __cdecl scenario_unload_old_bsps(dword, dword, bool)
+//.text:004EB9A0 ; void __cdecl scenario_unload_old_bsps(uint32, uint32, bool)
 //.text:004EBA00 ; bool __cdecl scenario_use_designer_zones()
 //.text:004EBA10 ; 
 

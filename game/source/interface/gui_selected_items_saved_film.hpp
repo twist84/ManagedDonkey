@@ -13,7 +13,7 @@ public:
 //protected:
 	e_controller_index m_controller_index;
 	s_file_reference m_file_reference;
-	qword m_sort_order;
+	uint64 m_sort_order;
 	e_saved_film_category m_category;
 };
 static_assert(sizeof(c_gui_saved_film_selected_item) == sizeof(c_gui_selected_item) + 0x128);

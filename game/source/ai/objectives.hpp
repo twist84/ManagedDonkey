@@ -7,8 +7,8 @@
 struct s_objective_datum :
 	s_datum_header
 {
-	dword __unknown4;
-	dword __unknown8;
+	uint32 __unknown4;
+	uint32 __unknown8;
 };
 static_assert(sizeof(s_objective_datum) == 0xC);
 
@@ -18,7 +18,7 @@ struct s_task_record
 	short body_count;
 	short lowest_rank;
 	short highest_rank;
-	word_flags flags; // assume odst flags
+	uint16 flags; // assume odst flags
 	long __timeC;
 	long __time10;
 	long __time14;
@@ -28,7 +28,7 @@ struct s_task_record
 	long __time24;
 	real_point3d position;
 	bool position_calculated;
-	byte __data35[0x1];
+	uint8 __data35[0x1];
 	short __unknown36;
 	c_clump_behavior_state state;
 };
@@ -42,7 +42,7 @@ struct s_area_reference
 	short zone_index;
 	short area_index;
 	angle yaw;
-	//dword_flags connection_flags;
+	//uint32 connection_flags;
 };
 static_assert(sizeof(s_area_reference) == 0x10);
 
@@ -165,26 +165,26 @@ enum e_filter
 
 struct s_task
 {
-	c_flags<e_task_flags, word, k_task_flags> flags;
-	c_flags<e_inhibit_behavior_flags, word, k_inhibit_behavior_flags> inhibit_groups;
-	c_flags<e_inhibit_difficulty_flags, word, k_inhibit_difficulty_flags> inhibit_on_difficulty;
+	c_flags<e_task_flags, uint16, k_task_flags> flags;
+	c_flags<e_inhibit_behavior_flags, uint16, k_inhibit_behavior_flags> inhibit_groups;
+	c_flags<e_inhibit_difficulty_flags, uint16, k_inhibit_difficulty_flags> inhibit_on_difficulty;
 	int16_bounds round_range;
 	int16_bounds set_range;
 	short movement;
 	short follow;
 	short follow_squad; // short_block_index
-	real follow_radius;
+	real32 follow_radius;
 
 	// Don't follow at areas outside of this vertical margin
-	real follow_z_clamp; // wu/s
+	real32 follow_z_clamp; // wu/s
 
-	real player_front_radius;
+	real32 player_front_radius;
 
 	// Exhaust this task after it has been active for this long
-	real maximum_duration; // seconds
+	real32 maximum_duration; // seconds
 
 	// When a task exhausts, hold actors in the task for this long before releasing them
-	real exhaustion_delay; // seconds
+	real32 exhaustion_delay; // seconds
 
 	c_static_string<k_tag_string_length> entry_script;
 	c_static_string<k_tag_string_length> command_script;
@@ -198,13 +198,13 @@ struct s_task
 	// when someone enters this task for the first time, they play this type of dialogue
 	short dialogue_type;
 
-	c_flags<e_task_runtime_flags, word, k_task_runtime_flags> runtime_flags;
+	c_flags<e_task_runtime_flags, uint16, k_task_runtime_flags> runtime_flags;
 	s_tag_block pureform_distribution;
 
 	// The number of guys under this task that should be allowed to fight the player at a time
 	short kungfu_count;
 
-	byte post_kungfu_count[2];
+	uint8 post_kungfu_count[2];
 
 
 	// UI-Controlled
@@ -218,7 +218,7 @@ struct s_task
 	s_tag_block activation_script;
 	short activation_script_index; // short_block_index
 	short lifetime_count;
-	c_flags<e_filter_flags, word, k_filter_flags> filter_flags;
+	c_flags<e_filter_flags, uint16, k_filter_flags> filter_flags;
 	c_enum<e_filter, short, _filter_none, k_filter_count> filter;
 	int16_bounds capacity;
 
@@ -228,7 +228,7 @@ struct s_task
 	short style;
 
 	// task becomes inactive after the strength of the participants falls below the given level
-	real min_strength; // [0,1]
+	real32 min_strength; // [0,1]
 
 	c_typed_tag_block<s_area_reference> areas;
 	s_tag_block direction;
@@ -246,7 +246,7 @@ struct s_objective
 {
 	c_string_id name;
 	s_tag_block opposing_objectives;
-	c_flags<e_objective_flags, word, k_objective_flags> objective_flags;
+	c_flags<e_objective_flags, uint16, k_objective_flags> objective_flags;
 	short zone_index; // short_block_index
 	short first_task_index; // short_block_index
 	short editor_folder; // short_block_index
@@ -257,7 +257,7 @@ static_assert(sizeof(s_objective) == 0x24);
 extern s_task_record* __cdecl objective_get_task_record(short objective_index, short task_index);
 extern void __cdecl objectives_initialize();
 extern void __cdecl objectives_initialize_for_new_map();
-extern void __cdecl objectives_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl objectives_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl objectives_update();
 
 extern void ai_debug_render_objectives(long squad_index, real_point3d const* position);

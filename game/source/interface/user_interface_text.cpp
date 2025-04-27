@@ -62,9 +62,9 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 //.text:00ABCE90 ; public: __cdecl c_user_interface_text::c_user_interface_text()
 //.text:00ABCF40 ; public: virtual __cdecl c_user_interface_text::~c_user_interface_text()
 //.text:00ABCF70 ; public: virtual void* __cdecl c_user_interface_text::`scalar deleting destructor'(unsigned int)
-//.text:00ABCFA0 ; protected: bool __cdecl c_user_interface_text::compute_bounds_internal(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, short, rectangle2d*, rectangle2d*)
-//.text:00ABD170 ; public: void __cdecl c_user_interface_text::compute_caret_bounds(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, short, rectangle2d*)
-//.text:00ABD1B0 ; public: bool __cdecl c_user_interface_text::compute_text_bounds(c_font_cache_base*, long, rectangle2d const*, real, rectangle2d const*, rectangle2d*)
+//.text:00ABCFA0 ; protected: bool __cdecl c_user_interface_text::compute_bounds_internal(c_font_cache_base*, long, rectangle2d const*, real32, rectangle2d const*, short, rectangle2d*, rectangle2d*)
+//.text:00ABD170 ; public: void __cdecl c_user_interface_text::compute_caret_bounds(c_font_cache_base*, long, rectangle2d const*, real32, rectangle2d const*, short, rectangle2d*)
+//.text:00ABD1B0 ; public: bool __cdecl c_user_interface_text::compute_text_bounds(c_font_cache_base*, long, rectangle2d const*, real32, rectangle2d const*, rectangle2d*)
 //.text:00ABD200 ; 
 //.text:00ABD210 ; public: bool __cdecl c_user_interface_text::get_align_vertically() const
 //.text:00ABD220 ; public: real_argb_color __cdecl c_user_interface_text::get_argb_color() const
@@ -73,9 +73,9 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 //.text:00ABD3D0 ; public: e_text_drop_shadow_style __cdecl c_user_interface_text::get_drop_shadow_style() const
 //.text:00ABD3E0 ; public: e_text_justification __cdecl c_user_interface_text::get_justification() const
 //.text:00ABD3F0 ; public: bool __cdecl c_user_interface_text::get_render_uppercase() const
-//.text:00ABD400 ; public: double __cdecl c_user_interface_text::get_rotation() const
+//.text:00ABD400 ; public: real64 __cdecl c_user_interface_text::get_rotation() const
 //.text:00ABD410 ; public: real_point2d const * __cdecl c_user_interface_text::get_rotation_origin() const
-//.text:00ABD420 ; public: double __cdecl c_user_interface_text::get_scale() const
+//.text:00ABD420 ; public: real64 __cdecl c_user_interface_text::get_scale() const
 //.text:00ABD430 ; public: e_text_style __cdecl c_user_interface_text::get_style() const
 //.text:00ABD440 ; public: void __cdecl c_user_interface_text::get_tab_stops(short*, short*)
 //.text:00ABD480 ; 
@@ -83,7 +83,7 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_le
 //.text:00ABD4A0 ; public: void __cdecl c_user_interface_text::initialize(wchar_t const*, short, e_font_id, real_rgb_color const*, long, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
 //.text:00ABD530 ; public: static void __cdecl c_user_interface_text::render(s_user_interface_text_render_data*, rectangle2d*)
-//.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(long, real_rectangle2d const*, real_rectangle2d const*, real, real, rectangle2d const*)
+//.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(long, real_rectangle2d const*, real_rectangle2d const*, real32, real32, rectangle2d const*)
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
 {
@@ -208,7 +208,7 @@ void __cdecl parse_build_number_string(e_controller_index controller_index, e_ut
 	}
 }
 
-void c_user_interface_text::set_flags(dword_flags flags)
+void c_user_interface_text::set_flags(uint32 flags)
 {
 	m_flags = flags;
 }
@@ -223,24 +223,24 @@ void c_user_interface_text::set_drop_shadow_style(long drop_shadow_style)
 	m_drop_shadow_style = drop_shadow_style;
 }
 
-void c_user_interface_text::set_rotation_origin(real x, real y)
+void c_user_interface_text::set_rotation_origin(real32 x, real32 y)
 {
 	m_rotation_origin.x = x;
 	m_rotation_origin.y = y;
 }
 
-void c_user_interface_text::set_rotation(real rotation)
+void c_user_interface_text::set_rotation(real32 rotation)
 {
 	m_rotation = rotation;
 }
 
-void c_user_interface_text::set_scroll_amount(real i, real j)
+void c_user_interface_text::set_scroll_amount(real32 i, real32 j)
 {
 	m_scroll_amount.i = i;
 	m_scroll_amount.j = j;
 }
 
-void c_user_interface_text::set_scale(real scale)
+void c_user_interface_text::set_scale(real32 scale)
 {
 	m_scale = scale;
 }

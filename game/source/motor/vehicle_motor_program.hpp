@@ -25,9 +25,9 @@ struct s_anti_gravity_vehicle_physics_point_datum :
 	bool valid;
 	real_vector3d local_offset;
 	real_vector3d powered_force;
-	real antigrav_fraction;
-	real antigrav_error;
-	real antigrav_height_fraction;
+	real32 antigrav_fraction;
+	real32 antigrav_error;
+	real32 antigrav_height_fraction;
 };
 static_assert(sizeof(s_anti_gravity_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x28);
 
@@ -46,11 +46,11 @@ struct s_friction_vehicle_physics_point_datum :
 	bool sliding;
 	bool emergency_braking;
 	bool braking;
-	real ground_depth;
-	real current_radius;
-	real normal_force_magnitude;
-	real ground_friction_velocity;
-	real ground_tire_relative_velocity;
+	real32 ground_depth;
+	real32 current_radius;
+	real32 normal_force_magnitude;
+	real32 ground_friction_velocity;
+	real32 ground_tire_relative_velocity;
 	real_vector3d normal_force;
 	real_vector3d ground_plane;
 	real_point3d ground_position;
@@ -69,10 +69,10 @@ struct s_havok_vehicle_physics_instance
 	real_matrix4x3 world_matrix;
 	real_matrix3x3 inertia_tensor;
 	real_point3d world_center_of_mass;
-	real mass;
-	real wheel_total_frictional_torque;
+	real32 mass;
+	real32 wheel_total_frictional_torque;
 	real_vector3d throttle;
-	real steering;
+	real32 steering;
 	bool is_e_braking;
 	bool antigravity_disabled;
 	bool cache_invalid;

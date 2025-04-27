@@ -4,7 +4,7 @@
 
 struct s_determinism_verification
 {
-	dword unchanged_field_mask;
+	uint32 unchanged_field_mask;
 	long game_state_check;
 	long cheats_check;
 	c_static_array<long, 30> consumer_check;

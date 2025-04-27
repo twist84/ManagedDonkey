@@ -13,7 +13,7 @@ void* __cdecl restricted_memory_get_address(long index, unsigned long offset)
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
 	//ASSERT(offset < g_restricted_regions[index].subsection_size());
-	//return (byte*)address + offset;
+	//return (uint8*)address + offset;
 }
 
 void __cdecl restricted_memory_set_base_address(long index, void* address)
@@ -137,7 +137,7 @@ void* __cdecl restricted_region_get_member_address(long index, long member_index
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
-	//return (byte*)address + g_restricted_regions[index].get_member_offset(member_index);
+	//return (uint8*)address + g_restricted_regions[index].get_member_offset(member_index);
 }
 
 unsigned long __cdecl restricted_region_get_member_offset(long index, long member_index)

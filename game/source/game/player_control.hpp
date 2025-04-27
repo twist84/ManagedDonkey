@@ -7,7 +7,7 @@
 
 struct s_player_control_globals_deterministic
 {
-	byte __data[0x80];
+	uint8 __data[0x80];
 };
 static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
@@ -125,15 +125,15 @@ enum e_player_control_bit
 
 struct s_player_control_non_deterministic_input_user_state
 {
-	// c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> action_test_flags
-	dword_flags __flags0;
-	byte __data4[0x2];
+	// c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> action_test_flags
+	uint32 __flags0;
+	uint8 __data4[0x2];
 	bool player_input_locked;
-	byte __data7[0x1];
+	uint8 __data7[0x1];
 
-	c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> testing_for_action_flags;
-	c_flags<e_player_control_action_test_bit, qword, k_number_of_player_control_action_test_bits> inhibit_button_flags;
-	c_flags<e_player_control_bit, dword, k_number_of_player_control_bits> control_flags;
+	c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> testing_for_action_flags;
+	c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> inhibit_button_flags;
+	c_flags<e_player_control_bit, uint32, k_number_of_player_control_bits> control_flags;
 
 	// Locks the accept button until the player presses accept
 	bool lock_accept_button_until_pressed;
@@ -146,11 +146,11 @@ struct s_player_control_non_deterministic_input_user_state
 
 	// scale input to x strength over y seconds
 	bool player_input_scale_in_progress;
-	real current_input_scale;
-	real current_input_scale_target;
-	real current_input_scale_time_remaining;
+	real32 current_input_scale;
+	real32 current_input_scale_target;
+	real32 current_input_scale_time_remaining;
 
-	byte __pad2C[0x4];
+	uint8 __pad2C[0x4];
 };
 static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x30);
 
@@ -167,7 +167,7 @@ struct s_player_interaction
 
 		struct
 		{
-			byte_flags pick_up_flags;
+			uint8 pick_up_flags;
 		} pick_up_weapon;
 	} data;
 
@@ -185,27 +185,27 @@ static_assert(sizeof(s_player_action_context) == 0xC);
 struct s_player_control_input
 {
 	real_point2d throttle;
-	real primary_trigger;
-	real secondary_trigger;
+	real32 primary_trigger;
+	real32 secondary_trigger;
 	real_euler_angles2d facing_delta;
-	dword_flags unit_control_flags;
-	dword_flags player_control_flags;
-	word_flags player_action_flags;
+	uint32 unit_control_flags;
+	uint32 player_control_flags;
+	uint16 player_action_flags;
 	bool controller_look_inverted;
-	real lookstick_pitch;
+	real32 lookstick_pitch;
 	s_aim_assist_targeting_result aim_assist_targeting;
 };
 static_assert(sizeof(s_player_control_input) == 0x50);
 
 struct s_player_control_state
 {
-	dword control_flags;
-	word action_flags;
-	word pad;
+	uint32 control_flags;
+	uint16 action_flags;
+	uint16 pad;
 	real_euler_angles2d desired_angles;
 	real_point2d throttle;
-	real primary_trigger;
-	real secondary_trigger;
+	real32 primary_trigger;
+	real32 secondary_trigger;
 	s_unit_weapon_set desired_weapon_set;
 	short desired_grenade_index;
 	short desired_zoom_level;
@@ -217,7 +217,7 @@ struct s_player_control_state
 		bool rotation_valid;
 		bool player_locked_for_manipulation;
 		real_euler_angles2d map_editor_rotation;
-		word_flags map_editor_flags;
+		uint16 map_editor_flags;
 	} map_editor_data;
 };
 static_assert(sizeof(s_player_control_state) == 0x6C);
@@ -233,38 +233,38 @@ struct s_player_control_input_state
 {
 	s_player_control_output_state output;
 	bool use_autolevel;
-	real autolevel_time;
+	real32 autolevel_time;
 	real_matrix4x3 last_local_physics_transform;
-	real camera_offset_y;
-	real camera_offset_z;
+	real32 camera_offset_y;
+	real32 camera_offset_z;
 	long last_local_physics_object_index;
 	bool magnetism_active;
-	real look_yaw_acceleration_time;
-	real look_pitch_acceleration_time;
-	real pitch_minimum;
-	real pitch_maximum;
+	real32 look_yaw_acceleration_time;
+	real32 look_pitch_acceleration_time;
+	real32 pitch_minimum;
+	real32 pitch_maximum;
 	bool crouching;
 	short tracking_crouch_ticks;
 	bool tracking_temporary_zoom;
-	word saved_zoom_level;
+	uint16 saved_zoom_level;
 	short tracking_temporary_zoom_ticks;
 	bool rotate_weapons_in_progress;
 	bool rotate_weapons_suppress;
 	bool switch_grenade_prev_button_was_down;
 	bool switch_grenade_next_button_was_down;
-	real scripted_set_pitch_velocity;
+	real32 scripted_set_pitch_velocity;
 	long scripted_set_pitch_ticks;
 	bool gaze_at_point;
 	real_point3d gaze_target;
-	real gaze_max_velocity;
+	real32 gaze_max_velocity;
 };
 static_assert(sizeof(s_player_control_input_state) == 0xF8);
 
 struct player_action
 {
-	dword control_context;
-	byte control_context_identifier;
-	dword_flags control_flags;
+	uint32 control_context;
+	uint8 control_context_identifier;
+	uint32 control_flags;
 	real_euler_angles2d angles;
 	real_point2d throttle;
 	struct
@@ -272,18 +272,18 @@ struct player_action
 		bool rotation_valid;
 		bool player_locked_for_manipulation;
 		real_euler_angles2d rotation_yaw_pitch;
-		word_flags flags;
+		uint16 flags;
 	};
-	real trigger;
-	real secondary_trigger;
-	word_flags action_flags;
+	real32 trigger;
+	real32 secondary_trigger;
+	uint16 action_flags;
 	s_unit_weapon_set weapon_set;
-	word grenade_index;
-	word zoom_level;
+	uint16 grenade_index;
+	uint16 zoom_level;
 	s_player_action_context action_context;
 	s_aim_assist_targeting_result targeting;
 	bool velocity_exceeds_motion_tracker_threshold;
-	qword action_test_flags;
+	uint64 action_test_flags;
 };
 static_assert(sizeof(player_action) == 0x80);
 
@@ -292,8 +292,8 @@ struct s_player_control_globals
 	s_player_control_non_deterministic_input_user_state input_user_states[16];
 	s_player_control_input_state input_states[4];
 	s_player_control_output_state output_state[4];
-	real maximum_down_pitch_allowed;
-	real maximum_up_pitch_allowed;
+	real32 maximum_down_pitch_allowed;
+	real32 maximum_up_pitch_allowed;
 	bool machinima_camera_enabled;
 	bool machinima_camera_old_controls;
 	bool machinima_camera_debug;
@@ -313,15 +313,15 @@ extern void player_control_update_debug_render();
 //extern  void __cdecl __tls_set_g_player_control_globals_allocator(void* address)
 //extern  void __cdecl __tls_set_g_player_control_globals_deterministic_allocator(void* address);
 //extern  void __cdecl clear_player_control_input(s_player_control_input* input);
-extern real __cdecl evaluate_piecewise_linear_function(short count, real* const function, real a3);
+extern real32 __cdecl evaluate_piecewise_linear_function(short count, real32* const function, real32 a3);
 //extern void __cdecl player0_controller_set_look_invert(bool);
-//extern real __cdecl player0_get_looking_pitch();
+//extern real32 __cdecl player0_get_looking_pitch();
 //extern bool __cdecl player0_looking_down();
 //extern bool __cdecl player0_looking_up();
-//extern void __cdecl player0_set_pitch(real, long);
-//extern void __cdecl player1_set_pitch(real, long);
-//extern void __cdecl player2_set_pitch(real, long);
-//extern void __cdecl player3_set_pitch(real, long);
+//extern void __cdecl player0_set_pitch(real32, long);
+//extern void __cdecl player1_set_pitch(real32, long);
+//extern void __cdecl player2_set_pitch(real32, long);
+//extern void __cdecl player3_set_pitch(real32, long);
 //extern void __cdecl player_action_test_inhibit_button_flags_set_all_players(e_player_control_action_test_bit, bool);
 //extern void __cdecl player_action_test_testing_for_action_flags_set_all_players(e_player_control_action_test_bit, bool);
 //extern bool __cdecl player_control_action_test_accept();
@@ -363,22 +363,22 @@ extern void __cdecl player_control_build_action(long player_index, long input_us
 //extern void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*);
 extern void __cdecl player_control_dispose();
 extern void __cdecl player_control_dispose_from_old_map();
-//extern void __cdecl player_control_fade_in_all_input(real);
-//extern void __cdecl player_control_fade_in_all_input_for_player(long, real);
-//extern void __cdecl player_control_fade_out_all_input(real);
-//extern void __cdecl player_control_fade_out_all_input_for_player(long, real);
+//extern void __cdecl player_control_fade_in_all_input(real32);
+//extern void __cdecl player_control_fade_in_all_input_for_player(long, real32);
+//extern void __cdecl player_control_fade_out_all_input(real32);
+//extern void __cdecl player_control_fade_out_all_input_for_player(long, real32);
 //extern bool __cdecl player_control_flags_test_all_players(e_player_control_bit);
 extern s_player_action_context const* __cdecl player_control_get_action_context(long user_index);
 //extern long __cdecl player_control_get_aiming_unit_index(long);
 extern void __cdecl player_control_get_aiming_vector(long user_index, real_vector3d* aiming_vector);
-extern void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input);
+extern void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input);
 //extern real_euler_angles2d const* __cdecl player_control_get_facing_angles(long);
-//extern real __cdecl player_control_get_field_of_view(long);
-//extern real __cdecl player_control_get_field_of_view_change_time(long);
+//extern real32 __cdecl player_control_get_field_of_view(long);
+//extern real32 __cdecl player_control_get_field_of_view_change_time(long);
 extern bool __cdecl player_control_get_machinima_camera_debug();
 extern bool __cdecl player_control_get_machinima_camera_enabled();
 extern bool __cdecl player_control_get_machinima_camera_use_old_controls();
-//extern real __cdecl player_control_get_target_autoaim_level(long);
+//extern real32 __cdecl player_control_get_target_autoaim_level(long);
 //extern long __cdecl player_control_get_target_player_index(long);
 //extern s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(long);
 //extern void __cdecl player_control_get_unit_camera_info(long, s_unit_camera_info*);
@@ -388,16 +388,16 @@ extern void __cdecl player_control_suppress_rotate_weapons(long user_index);
 extern void __cdecl player_control_initialize();
 extern void __cdecl player_control_initialize_for_new_map();
 //extern void __cdecl player_control_input_set_unit_index(long, long);
-//extern void __cdecl player_control_lock_gaze(long, long, real);
+//extern void __cdecl player_control_lock_gaze(long, long, real32);
 extern bool __cdecl player_control_machinima_available();
-//extern void __cdecl player_control_modify_desired_angles_default(long, real, real, real, real);
+//extern void __cdecl player_control_modify_desired_angles_default(long, real32, real32, real32, real32);
 //extern s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(long);
 //extern void __cdecl player_control_output_set_unit_index(long, long);
 //extern void __cdecl player_control_permanent_impulse(long, real_euler_angles2d const*);
 extern void __cdecl player_control_propagate_output(long input_user_index);
-//extern void __cdecl player_control_scale_all_input(real, real);
-//extern void __cdecl player_control_scale_all_input_for_player(long, real, real);
-//extern void __cdecl player_control_set_deterministic_action_test_flags(long, qword);
+//extern void __cdecl player_control_scale_all_input(real32, real32);
+//extern void __cdecl player_control_scale_all_input_for_player(long, real32, real32);
+//extern void __cdecl player_control_set_deterministic_action_test_flags(long, uint64);
 //extern void __cdecl player_control_set_external_action(long, player_action const*);
 extern void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing);
 //extern void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*);
@@ -406,13 +406,13 @@ extern void __cdecl player_control_set_facing(long input_user_index, real_vector
 //extern void __cdecl player_control_unlock_gaze(long);
 //extern void __cdecl player_control_unzoom(long);
 //extern void __cdecl player_control_unzoom_all();
-extern void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds_elapsed);
+extern void __cdecl player_control_update(real32 world_seconds_elapsed, real32 game_seconds_elapsed);
 extern void __cdecl player_control_update_machinima();
-extern void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real world_seconds_elapsed, real game_seconds_elapsed);
-//extern void __cdecl player_set_pitch_internal(long, real, long);
+extern void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed);
+//extern void __cdecl player_set_pitch_internal(long, real32, long);
 //extern bool __cdecl sub_5D5670(e_controller_index, s_player_control_input* input);
 //extern bool __cdecl scripted_player_control_set_camera_control(bool);
-//extern real __cdecl signed_angular_difference(real, real);
+//extern real32 __cdecl signed_angular_difference(real32, real32);
 //extern void __cdecl player_action_test_inhibit_button_flags_set(long, e_player_control_action_test_bit, bool);
 //extern void __cdecl player_action_test_testing_for_action_flags_set(long, e_player_control_action_test_bit, bool);
 //extern bool __cdecl player_control_action_test(long, e_player_control_action_test_bit);

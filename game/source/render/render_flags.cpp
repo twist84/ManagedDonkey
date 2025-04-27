@@ -2,12 +2,12 @@
 
 #define MAXIMUM_PLAYER_WINDOWS 4
 
-REFERENCE_DECLARE(0x0524B6D4, dword, c_render_flags::g_this_frame);
-REFERENCE_DECLARE(0x0524B6D8, dword, c_render_flags::g_last_frame);
-REFERENCE_DECLARE(0x0524B6DC, dword, c_render_flags::g_this_window);
-REFERENCE_DECLARE(0x0524B6E0, dword, c_render_flags::g_last_window);
-REFERENCE_DECLARE_ARRAY(0x0524B6E4, dword, c_render_flags::g_last_windows, 4);
-REFERENCE_DECLARE(0x0524B6F4, dword, c_render_flags::g_active_player_window_index);
+REFERENCE_DECLARE(0x0524B6D4, uint32, c_render_flags::g_this_frame);
+REFERENCE_DECLARE(0x0524B6D8, uint32, c_render_flags::g_last_frame);
+REFERENCE_DECLARE(0x0524B6DC, uint32, c_render_flags::g_this_window);
+REFERENCE_DECLARE(0x0524B6E0, uint32, c_render_flags::g_last_window);
+REFERENCE_DECLARE_ARRAY(0x0524B6E4, uint32, c_render_flags::g_last_windows, 4);
+REFERENCE_DECLARE(0x0524B6F4, uint32, c_render_flags::g_active_player_window_index);
 
 void __cdecl c_render_flags::prepare_for_frame()
 {
@@ -30,7 +30,7 @@ void __cdecl c_render_flags::prepare_for_player_window(long player_window_index)
 	//c_render_flags::g_this_window = 0;
 }
 
-void __cdecl c_render_flags::set_frame_bit(e_frame_bit frame_bit, dword flags)
+void __cdecl c_render_flags::set_frame_bit(e_frame_bit frame_bit, uint32 flags)
 {
 	INVOKE(0x00A3B760, c_render_flags::set_frame_bit, frame_bit, flags);
 
@@ -51,7 +51,7 @@ bool __cdecl c_render_flags::test_last_window_bit(e_window_bit window_bit)
 	//return TEST_BIT(c_render_flags::g_last_window, window_bit);
 }
 
-void __cdecl c_render_flags::or_window_bit(e_window_bit window_bit, dword flags)
+void __cdecl c_render_flags::or_window_bit(e_window_bit window_bit, uint32 flags)
 {
 	INVOKE(0x00A781A0, c_render_flags::or_window_bit, window_bit, flags);
 

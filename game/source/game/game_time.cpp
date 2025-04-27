@@ -38,7 +38,7 @@ HOOK_DECLARE(0x005651D0, game_time_set_speed);
 HOOK_DECLARE(0x00565250, game_time_update);
 HOOK_DECLARE(0x00565510, game_time_update_paused_flags);
 
-real debug_game_speed = 1.0f;
+real32 debug_game_speed = 1.0f;
 bool debug_game_time_statistics = false;
 bool debug_game_time_lock = false;
 bool debug_pause_game_active = false;
@@ -48,7 +48,7 @@ FILE* game_time_statistics_file = NULL;
 bool game_time_statistics_started;
 bool game_time_statistics_update_time;
 bool game_time_statistics_write_header;
-dword game_time_statistics_time;
+uint32 game_time_statistics_time;
 
 void __cdecl __tls_set_g_game_time_globals_allocator(void* address)
 {
@@ -68,7 +68,7 @@ long __cdecl game_seconds_integer_to_ticks(long seconds)
 	return seconds * game_time_globals->tick_rate;
 }
 
-real __cdecl game_seconds_to_ticks_real(real seconds)
+real32 __cdecl game_seconds_to_ticks_real(real32 seconds)
 {
 	//return INVOKE(0x00564B70, game_seconds_to_ticks_real, seconds);
 
@@ -78,18 +78,18 @@ real __cdecl game_seconds_to_ticks_real(real seconds)
 	return seconds * game_time_globals->tick_rate;
 }
 
-long __cdecl game_seconds_to_ticks_round(real seconds)
+long __cdecl game_seconds_to_ticks_round(real32 seconds)
 {
 	//return INVOKE(0x00564BB0, game_seconds_to_ticks_round, seconds);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
-	real tick_rate = game_time_globals->tick_rate * seconds;
+	real32 tick_rate = game_time_globals->tick_rate * seconds;
 	return long(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 }
 
-real __cdecl game_tick_length()
+real32 __cdecl game_tick_length()
 {
 	//return INVOKE(0x00564C20, game_tick_length);
 
@@ -109,7 +109,7 @@ long __cdecl game_tick_rate()
 	return game_time_globals->tick_rate;
 }
 
-real __cdecl game_ticks_to_seconds(real ticks)
+real32 __cdecl game_ticks_to_seconds(real32 ticks)
 {
 	//return INVOKE(0x00564C60, game_ticks_to_seconds, ticks);
 
@@ -129,7 +129,7 @@ void __cdecl game_time_advance()
 	game_time_globals->time++;
 }
 
-void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt)
+void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real32* elapsed_game_dt)
 {
 	//INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, elapsed_game_dt);
 
@@ -141,7 +141,7 @@ void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elap
 	ASSERT(elapsed_game_dt);
 	if (actual_ticks)
 	{
-		real lost_dt = game_ticks_to_seconds(real(desired_ticks - actual_ticks));
+		real32 lost_dt = game_ticks_to_seconds(real32(desired_ticks - actual_ticks));
 		ASSERT(*elapsed_game_dt - lost_dt > -_real_epsilon);
 		*elapsed_game_dt = MAX(*elapsed_game_dt - lost_dt, 0.0f);
 	}
@@ -187,7 +187,7 @@ bool __cdecl game_time_get_paused()
 	bool result = false;
 	if (game_time_globals->initialized)
 	{
-		c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
+		c_flags<e_game_time_pause_reason, uint16, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
 	
 		bool v1 = game_is_campaign() && !(game_is_playback() && !game_is_authoritative_playback());
 		result = TEST_FLAG(pause_flags, _game_time_pause_debug);
@@ -215,7 +215,7 @@ bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
 	return game_time_globals->initialized && game_time_globals->flags.test(reason);
 }
 
-real __cdecl game_time_get_safe_in_seconds()
+real32 __cdecl game_time_get_safe_in_seconds()
 {
 	//return INVOKE(0x00564E60, game_time_get_safe_in_seconds);
 
@@ -225,7 +225,7 @@ real __cdecl game_time_get_safe_in_seconds()
 	return 0.0f;
 }
 
-real __cdecl game_time_get_speed()
+real32 __cdecl game_time_get_speed()
 {
 	//return INVOKE(0x00564EB0, game_time_get_speed);
 
@@ -294,7 +294,7 @@ void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
 	sound_game_pause_handler(game_time_get_paused());
 }
 
-void __cdecl game_time_set_rate_scale(real world_seconds_elapsed, real game_seconds_elapsed, real shell_seconds_elapsed)
+void __cdecl game_time_set_rate_scale(real32 world_seconds_elapsed, real32 game_seconds_elapsed, real32 shell_seconds_elapsed)
 {
 	//INVOKE(0x00565060, game_time_set_rate_scale, world_seconds_elapsed, game_seconds_elapsed, shell_seconds_elapsed);
 
@@ -311,13 +311,13 @@ void __cdecl game_time_set_rate_scale(real world_seconds_elapsed, real game_seco
 	game_time_set_rate_scale_direct(shell_seconds_elapsed > 0.0f ? world_seconds_elapsed : game_seconds_elapsed);
 }
 
-void __cdecl game_time_set_rate_scale_direct(real rate_scale)
+void __cdecl game_time_set_rate_scale_direct(real32 rate_scale)
 {
 	//INVOKE(0x00565110, game_time_set_rate_scale_direct, rate_scale);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	real game_tick_rate = game_options_get()->game_tick_rate;
-	real tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
+	real32 game_tick_rate = game_options_get()->game_tick_rate;
+	real32 tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
 	tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2);
 	game_time_globals->tick_rate = short(tick_rate);
 	game_time_globals->tick_length = 1.0f / tick_rate;
@@ -325,7 +325,7 @@ void __cdecl game_time_set_rate_scale_direct(real rate_scale)
 	debug_game_speed = game_time_globals->speed;
 }
 
-void __cdecl game_time_set_speed(real speed)
+void __cdecl game_time_set_speed(real32 speed)
 {
 	//INVOKE(0x005651D0, game_time_set_speed, speed);
 
@@ -342,27 +342,27 @@ void game_time_set_cinematic_rate()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 
-	real tick_rate = game_options_get()->game_tick_rate;
+	real32 tick_rate = game_options_get()->game_tick_rate;
 	if (game_is_campaign() && cinematic_in_progress())
 		tick_rate = 30.0f;
 	game_time_globals->tick_rate = short(tick_rate);
 	game_time_globals->tick_length = 1.0f / tick_rate;
 }
 
-bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed_)
+bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds_elapsed, long* game_ticks_elapsed_)
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	
-	dword game_ticks_target = 0;
+	uint32 game_ticks_target = 0;
 	bool result = false;
-	dword game_ticks_limit = 0;
-	dword game_ticks_elapsed = 0;
+	uint32 game_ticks_limit = 0;
+	uint32 game_ticks_elapsed = 0;
 	bool discontinuity = false;
-	real elapsed_game_dt = 0.0f;
-	real real_desired_ticks = 0.0f;
-	real game_ticks_leftover = 0.0f;
+	real32 elapsed_game_dt = 0.0f;
+	real32 real_desired_ticks = 0.0f;
+	real32 game_ticks_leftover = 0.0f;
 	
 	if (debug_pause_game != debug_pause_game_active)
 	{
@@ -385,8 +385,8 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		if (game_time_globals->rate_scale_duration > 0.0f)
 		{
 			game_time_globals->rate_scale_timer += world_seconds_elapsed;
-			real unknown18 = game_time_globals->rate_scale_timer;
-			real rate_scale_duration = game_time_globals->rate_scale_duration;
+			real32 unknown18 = game_time_globals->rate_scale_timer;
+			real32 rate_scale_duration = game_time_globals->rate_scale_duration;
 			if (rate_scale_duration <= unknown18)
 			{
 				game_time_set_rate_scale_direct(game_time_globals->rate_scale_final);
@@ -394,7 +394,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 			}
 			else
 			{
-				real rate_scale = 
+				real32 rate_scale = 
 					((1.0f - (unknown18 / rate_scale_duration)) * game_time_globals->rate_scale_initial)
 					+ ((unknown18 / rate_scale_duration) * game_time_globals->rate_scale_final);
 				game_time_set_rate_scale_direct(rate_scale);
@@ -414,8 +414,8 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	
 		if (!match_remote_time && !v36)
 		{
-			real tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
-			game_ticks_limit = (dword)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
+			real32 tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
+			game_ticks_limit = (uint32)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 		}
 	
 		if (thread_is_being_traced(k_thread_main))
@@ -481,7 +481,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		}
 		else
 		{
-			game_ticks_leftover = real_desired_ticks - (real)game_ticks_elapsed;
+			game_ticks_leftover = real_desired_ticks - (real32)game_ticks_elapsed;
 			ASSERT(abs(game_ticks_elapsed - game_ticks_target) <= 1);
 			ASSERT(game_ticks_leftover >= -1.0f && game_ticks_leftover <= 2.0f);
 		}
@@ -572,14 +572,14 @@ void game_time_statistics_start()
 }
 
 void game_time_statistics_frame(
-	real world_seconds_elapsed,
-	real game_seconds_elapsed,
-	real real_desired_ticks,
+	real32 world_seconds_elapsed,
+	real32 game_seconds_elapsed,
+	real32 real_desired_ticks,
 	long game_ticks_target,
 	long game_ticks_limit,
 	long game_ticks_available,
 	long game_ticks_elapsed,
-	real game_ticks_leftover,
+	real32 game_ticks_leftover,
 	bool discontinuity)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
@@ -592,8 +592,8 @@ void game_time_statistics_frame(
 			game_time_statistics_update_time = false;
 		}
 
-		dword time = system_milliseconds();
-		dword milliseconds_elapsed = time - game_time_statistics_time;
+		uint32 time = system_milliseconds();
+		uint32 milliseconds_elapsed = time - game_time_statistics_time;
 		game_time_statistics_time = time;
 
 		if (game_time_statistics_file)

@@ -8,7 +8,7 @@ struct c_first_person_camera :
 	public c_camera
 {
 public:
-	void __thiscall update_(long user_index, real dt, s_observer_command* result);
+	void __thiscall update_(long user_index, real32 dt, s_observer_command* result);
 
 	void constructor(long unit_index)
 	{
@@ -16,7 +16,7 @@ public:
 	}
 	
 //protected:
-	real m_last_horizontal_field_of_view;
+	real32 m_last_horizontal_field_of_view;
 	real_euler_angles2d m_orientation_offset;
 	bool m_allow_controlled_facing;
 };

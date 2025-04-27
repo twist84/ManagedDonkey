@@ -56,34 +56,34 @@ struct s_chud_globals_definition
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_medals;
 	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> metagame_medal_animation;
 	short metagame_medal_basis;
-	byte __pad6E[0x2];
-	real metagame_medal_scale;
-	real metagame_medal_width;
-	real metagame_medal_horizontal_offset;
-	real metagame_medal_vertical_offset;
-	real metagame_scoreboard_primary_height;
-	real metagame_scoreboard_other_height;
+	uint8 __pad6E[0x2];
+	real32 metagame_medal_scale;
+	real32 metagame_medal_width;
+	real32 metagame_medal_horizontal_offset;
+	real32 metagame_medal_vertical_offset;
+	real32 metagame_scoreboard_primary_height;
+	real32 metagame_scoreboard_other_height;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> directional_damage_microtexture;
-	real directional_damage_micro_scale;
+	real32 directional_damage_micro_scale;
 
 	// Motion Sensor
-	real medium_blip_scale;
-	real small_blip_scale;
-	real large_blip_scale;
-	real max_age_size;
-	real size_power;
-	real alpha_power;
+	real32 medium_blip_scale;
+	real32 small_blip_scale;
+	real32 large_blip_scale;
+	real32 max_age_size;
+	real32 size_power;
+	real32 alpha_power;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> blip_texture_reference;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> grunt_birthday_effect;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> tentacle_porn;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> flood_goo;
-	real motion_sensor_level_height_range;
-	real shield_minor_threshold;
-	real shield_major_threshold;
-	real shield_critical_threshold;
-	real health_minor_threshold;
-	real health_major_threshold;
-	real health_critical_threshold;
+	real32 motion_sensor_level_height_range;
+	real32 shield_minor_threshold;
+	real32 shield_major_threshold;
+	real32 shield_critical_threshold;
+	real32 health_minor_threshold;
+	real32 health_major_threshold;
+	real32 health_critical_threshold;
 
 	// health effect intensity
 	real_argb_color health_multiply_colors[2];
@@ -95,15 +95,15 @@ struct s_chud_globals_definition
 	real_argb_color shield_additive_colors[2];
 	c_function_definition shield_effect_intensity;
 
-	real sprint_fov_multiplier;
-	real sprint_fov_transition_in_time;
-	real sprint_fov_transition_out_time;
+	real32 sprint_fov_multiplier;
+	real32 sprint_fov_transition_in_time;
+	real32 sprint_fov_transition_out_time;
 
 	c_typed_tag_reference<CHUD_WIDGET_PARALLAX_DATA_TAG, INVALID_TAG> parallax_data;
 
 	struct
 	{
-		real period;
+		real32 period;
 		c_function_definition horizontal;
 		c_function_definition vertical;
 		c_function_definition yaw;
@@ -112,7 +112,7 @@ struct s_chud_globals_definition
 	} camera_shake[2];
 
 	c_typed_tag_reference<CHUD_DEFINITION_TAG, INVALID_TAG> survival_mode_multiplayer_intro;
-	real achievement_toast_time; // seconds
+	real32 achievement_toast_time; // seconds
 
 	void update_reference_names();
 };
@@ -147,53 +147,53 @@ enum e_chud_curvature_res_flags
 
 struct s_chud_curvature_info
 {
-	c_flags<e_chud_curvature_res_flags, dword, k_chud_curvature_res_flags> res_flags;
+	c_flags<e_chud_curvature_res_flags, uint32, k_chud_curvature_res_flags> res_flags;
 	angle source_fov_y;
-	real souce_aspect;
-	real destination_offset_z;
+	real32 souce_aspect;
+	real32 destination_offset_z;
 	long virtual_width;
 	long virtual_height;
 	real_point2d sensor_origin;
-	real sensor_radius;
-	real blip_radius;
-	real global_safe_frame_horizontal;
-	real global_safe_frame_vertical;
-	real safe_frame_horizontal_ding;
-	real safe_frame_vertical_ding;
+	real32 sensor_radius;
+	real32 blip_radius;
+	real32 global_safe_frame_horizontal;
+	real32 global_safe_frame_vertical;
+	real32 safe_frame_horizontal_ding;
+	real32 safe_frame_vertical_ding;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> health_effect;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> third_person_health_effect;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> shield_effect;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> third_person_shield_effect;
 
-	real state_message_scale;
+	real32 state_message_scale;
 	real_point2d state_message_offset;
 
-	real __unknown1;
-	real __unknown2;
-	real __unknown3;
-	real __unknown4;
+	real32 __unknown1;
+	real32 __unknown2;
+	real32 __unknown3;
+	real32 __unknown4;
 
-	real message_anchor_vertical_offset;
-	real state_message_vertical_offset;
-	real medal_scale;
-	real medal_width;
+	real32 message_anchor_vertical_offset;
+	real32 state_message_vertical_offset;
+	real32 medal_scale;
+	real32 medal_width;
 
 	real_point2d __unknown5;
-	real __unknown6;
+	real32 __unknown6;
 	real_point2d __unknown7;
 
-	real message_scale;
-	real message_width;
+	real32 message_scale;
+	real32 message_width;
 	long message_count_delta;
 
 	real_point2d __unknown8;
-	real __unknown9;
-	real __unknown10;
-	real __unknown11;
+	real32 __unknown9;
+	real32 __unknown10;
+	real32 __unknown11;
 	real_point2d __unknown12;
 
-	real pda_message_vertical_offset;
-	real pda_message_horizontal_offset;
+	real32 pda_message_vertical_offset;
+	real32 pda_message_horizontal_offset;
 
 	void update_reference_names();
 };
@@ -242,7 +242,7 @@ struct s_chud_sound_character_definition
 	c_enum<e_odst_recon_variant, char, _odst_recon_variant_none, k_odst_recon_variant_count> character;
 
 	// pad
-	byte HKJNCIUW[0x3];
+	uint8 HKJNCIUW[0x3];
 
 	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> sound;
 
@@ -252,8 +252,8 @@ static_assert(sizeof(s_chud_sound_character_definition) == 0x14);
 
 struct chud_sound_element_definition
 {
-	c_flags<e_chud_sound_cue_flags, dword, k_chud_sound_cue_flags> latched_to;
-	real scale;
+	c_flags<e_chud_sound_cue_flags, uint32, k_chud_sound_cue_flags> latched_to;
+	real32 scale;
 	c_typed_tag_block<s_chud_sound_character_definition> characters;
 
 	void update_reference_names();
@@ -269,12 +269,12 @@ static_assert(sizeof(s_chud_medal_name) == sizeof(c_string_id));
 struct s_chud_config_info
 {
 	real_point2d grenade_anchor_position;
-	real grenade_anchor_offset;
-	real backpack_equipment_verticle_offset_single;
-	real backpack_equipment_verticle_offset_dual;
-	real backpack_equipment_verticle_offset_none;
-	real equipment_horizontal_size;
-	real scoreboard_spacing_size;
+	real32 grenade_anchor_offset;
+	real32 backpack_equipment_verticle_offset_single;
+	real32 backpack_equipment_verticle_offset_dual;
+	real32 backpack_equipment_verticle_offset_none;
+	real32 equipment_horizontal_size;
+	real32 scoreboard_spacing_size;
 };
 static_assert(sizeof(s_chud_config_info) == 0x20);
 
@@ -332,13 +332,13 @@ struct s_chud_skin_info
 
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> unknown_reference;
 
-	real direction_damage_duration_modifier;
-	real direction_damage_hide_angle;
-	real direction_damage_size;
+	real32 direction_damage_duration_modifier;
+	real32 direction_damage_hide_angle;
+	real32 direction_damage_size;
 
-	real __unknown15C;
-	real __unknown160;
-	real __unknown164;
+	real32 __unknown15C;
+	real32 __unknown160;
+	real32 __unknown164;
 
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> navpoints_reference;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> player_navpoints_reference;
@@ -357,9 +357,9 @@ struct s_chud_skin_info
 	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG, INVALID_TAG> jammer_damage;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> jammer_damage_sound;
 	s_chud_config_info config_info;
-	real waypoint_minimum_distance_scale;
-	real waypoint_maximum_distance_scale;
-	real waypoint_scale;
+	real32 waypoint_minimum_distance_scale;
+	real32 waypoint_maximum_distance_scale;
+	real32 waypoint_scale;
 
 	void update_reference_names();
 };
@@ -376,29 +376,29 @@ static_assert(sizeof(s_chud_shader) == sizeof(s_tag_reference) * 2);
 
 struct s_chud_suck_profile
 {
-	real effect_radius;
+	real32 effect_radius;
 
-	real vertex_noise_min;
-	real vertex_noise_max;
-	real vertex_noise_power;
+	real32 vertex_noise_min;
+	real32 vertex_noise_max;
+	real32 vertex_noise_power;
 
-	real pixel_noise_min;
-	real pixel_noise_max;
-	real pixel_noise_power;
+	real32 pixel_noise_min;
+	real32 pixel_noise_max;
+	real32 pixel_noise_power;
 
-	real warp_radius_min;
-	real warp_radius_max;
-	real warp_radius_power;
+	real32 warp_radius_min;
+	real32 warp_radius_max;
+	real32 warp_radius_power;
 
-	real warp_intensity_min;
-	real warp_intensity_max;
-	real warp_intensity_power;
+	real32 warp_intensity_min;
+	real32 warp_intensity_max;
+	real32 warp_intensity_power;
 
-	real noise_sharpness_min;
-	real noise_sharpness_max;
-	real noise_sharpness_power;
+	real32 noise_sharpness_min;
+	real32 noise_sharpness_max;
+	real32 noise_sharpness_power;
 };
-static_assert(sizeof(s_chud_suck_profile) == sizeof(real) * 16);
+static_assert(sizeof(s_chud_suck_profile) == sizeof(real32) * 16);
 
 struct s_cortana_effect_heading_config
 {
@@ -445,7 +445,7 @@ struct s_cortana_effect_distance_config
 	// 
 	//  - TRANSLATION (controlled by noise B)
 	// translation scale x/y: how much to accept noise contribution towards movement
-	real distance;
+	real32 distance;
 
 	// Facing
 	s_cortana_effect_heading_config facing;
@@ -455,7 +455,7 @@ struct s_cortana_effect_distance_config
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_cortana_effect_distance_config) == sizeof(real) + (sizeof(s_cortana_effect_heading_config) * 2));
+static_assert(sizeof(s_cortana_effect_distance_config) == sizeof(real32) + (sizeof(s_cortana_effect_heading_config) * 2));
 
 struct s_cortana_effect_config
 {
@@ -491,12 +491,12 @@ struct s_player_training_entry_data
 	short redisplay_delay;
 
 	// how long the event can be triggered before it's displayed
-	real display_delay; // seconds
+	real32 display_delay; // seconds
 
-	c_flags<e_player_training_flags, word, k_player_training_flags> flags;
+	c_flags<e_player_training_flags, uint16, k_player_training_flags> flags;
 
 	// pad
-	byte HURLUV[0x2];
+	uint8 HURLUV[0x2];
 };
 static_assert(sizeof(s_player_training_entry_data) == 0x14);
 

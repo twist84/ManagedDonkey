@@ -301,7 +301,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							level_insertion->insertion_point_initial_zone_set[i] = byte(bswap_word(scenario_insertion->zone_set));
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_word(scenario_insertion->zone_set));
 							level_insertion->return_from_map_ids[i] = NONE;
 							level_insertion->survival_presence_context_ids[i] = NONE;
 
@@ -312,7 +312,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_halo3->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
 							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 
-							level_insertion->insertion_point_initial_zone_set[i] = byte(scenario_insertion->zone_set);
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(scenario_insertion->zone_set);
 							level_insertion->return_from_map_ids[i] = NONE;
 							level_insertion->survival_presence_context_ids[i] = NONE;
 						}
@@ -338,7 +338,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 							level_insertion->return_from_map_ids[i] = bswap_dword(scenario_insertion->return_from_map_id);
 							level_insertion->survival_presence_context_ids[i] = bswap_dword(scenario_insertion->survival_presence_context_id);
-							level_insertion->insertion_point_initial_zone_set[i] = byte(bswap_word(scenario_insertion->zone_set));
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_word(scenario_insertion->zone_set));
 							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 						}
 						else
@@ -348,7 +348,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 							level_insertion->return_from_map_ids[i] = scenario_insertion->return_from_map_id;
 							level_insertion->survival_presence_context_ids[i] = scenario_insertion->survival_presence_context_id;
-							level_insertion->insertion_point_initial_zone_set[i] = byte(scenario_insertion->zone_set);
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(scenario_insertion->zone_set);
 							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 						}
 
@@ -624,11 +624,11 @@ bool __cdecl levels_enumeration_in_progress()
 //.text:0054B400 ; wchar_t* __cdecl levels_get_active_session_map_name(wchar_t*, long)
 //.text:0054B500 ; wchar_t* __cdecl levels_get_active_session_campaign_name(wchar_t*, long)
 
-dword __cdecl levels_get_available_map_mask()
+uint32 __cdecl levels_get_available_map_mask()
 {
 	return INVOKE(0x0054B610, levels_get_available_map_mask);
 
-	//dword available_map_mask = 0;
+	//uint32 available_map_mask = 0;
 	//
 	//long map_ids[32]{};
 	//long count = NUMBEROF(map_ids);
@@ -706,7 +706,7 @@ e_map_id levels_get_default_multiplayer_map_id()
 	return map_id;
 }
 
-dword __cdecl levels_get_checksum()
+uint32 __cdecl levels_get_checksum()
 {
 	//return INVOKE(0x0054BDB0, levels_get_checksum);
 
@@ -1048,8 +1048,8 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 	*must_byte_swap = false;
 
 	bool file_added = false;
-	dword error = 0;
-	dword file_size = 0;
+	uint32 error = 0;
+	uint32 file_size = 0;
 	long chunk_size = 0;
 	char const* chunk_buffer = nullptr;
 	bool eof_chunk = false;
@@ -1139,8 +1139,8 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	*must_byte_swap = false;
 
 	bool file_added = false;
-	dword error = 0;
-	dword file_size = 0;
+	uint32 error = 0;
+	uint32 file_size = 0;
 	long chunk_size = 0;
 	char const* chunk_buffer = nullptr;
 	bool eof_chunk = false;
@@ -1224,7 +1224,7 @@ function_end:
 
 	if (!file_added)
 	{
-		dword_flags flags = FLAG(0) | FLAG(2) | FLAG(3);
+		uint32 flags = FLAG(0) | FLAG(2) | FLAG(3);
 		char filename[256]{};
 		file_reference_get_name(file, flags, filename, NUMBEROF(filename));
 		event(_event_warning, "levels: failed to add level file '%s'", file->path.get_string());

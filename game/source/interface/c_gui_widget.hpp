@@ -39,7 +39,7 @@ struct s_core_widget_definition
 	// override: e_model_widget_definition_flags
 	// override: e_screen_widget_definition_flags
 	// override: e_text_widget_definition_flags
-	dword_flags flags;
+	uint32 flags;
 
 	// identification only
 	c_string_id name;
@@ -65,7 +65,7 @@ struct s_runtime_core_widget_definition
 	// override: e_model_widget_definition_flags
 	// override: e_screen_widget_definition_flags
 	// override: e_text_widget_definition_flags
-	dword_flags flags;
+	uint32 flags;
 
 	// identification only
 	c_string_id name;
@@ -151,8 +151,8 @@ public:
 	//virtual c_gui_list_widget* create_list_widget(s_list_widget_block const* definition);
 	//virtual c_gui_list_item_widget* create_list_item_widget(s_list_item_widget_block const* definition);
 	//virtual c_gui_model_widget* create_model_widget(s_model_widget_block const* definition);
-	//virtual void update(dword current_milliseconds);
-	//virtual void update_render_state(dword current_milliseconds);
+	//virtual void update(uint32 current_milliseconds);
+	//virtual void update_render_state(uint32 current_milliseconds);
 	//virtual void set_animated_state_baseline(s_animation_transform* transform);
 	//virtual bool transitioning_in();
 	//virtual bool transitioning_out();
@@ -171,7 +171,7 @@ public:
 		struct
 		{
 			long(__thiscall* get_ambient_state)(c_gui_widget*);
-			void* (__thiscall* destructor)(c_gui_widget*, dword);
+			void* (__thiscall* destructor)(c_gui_widget*, uint32);
 			void(__thiscall* initialize)(c_gui_widget*);
 			void(__thiscall* post_initialize)(c_gui_widget*);
 			void(__thiscall* dispose)(c_gui_widget*);
@@ -194,8 +194,8 @@ public:
 			c_gui_list_widget* (__thiscall* create_list_widget)(c_gui_widget*, s_list_widget_block const*);
 			c_gui_list_item_widget* (__thiscall* create_list_item_widget)(c_gui_widget*, s_list_item_widget_block const*);
 			c_gui_model_widget* (__thiscall* create_model_widget)(c_gui_widget*, s_model_widget_block const*);
-			void(__thiscall* update)(c_gui_widget*, dword);
-			void(__thiscall* update_render_state)(c_gui_widget*, dword);
+			void(__thiscall* update)(c_gui_widget*, uint32);
+			void(__thiscall* update_render_state)(c_gui_widget*, uint32);
 			void(__thiscall* set_animated_state_baseline)(c_gui_widget*, s_animation_transform*);
 			bool(__thiscall* transitioning_in)(c_gui_widget*);
 			bool(__thiscall* transitioning_out)(c_gui_widget*);
@@ -239,8 +239,8 @@ public:
 	c_gui_list_widget* create_list_widget(s_list_widget_block const* definition);
 	c_gui_list_item_widget* create_list_item_widget(s_list_item_widget_block const* definition);
 	c_gui_model_widget* create_model_widget(s_model_widget_block const* definition);
-	void update(dword current_milliseconds);
-	void update_render_state(dword current_milliseconds);
+	void update(uint32 current_milliseconds);
+	void update_render_state(uint32 current_milliseconds);
 	void set_animated_state_baseline(s_animation_transform* transform);
 	bool transitioning_in();
 	bool transitioning_out();
@@ -318,9 +318,9 @@ public:
 	void set_use_alternate_ambient_state(bool value);
 	void set_visible(bool value);
 	void start_animation(e_animation_state animation_state, bool recursive);
-	void start_animation_at_time(e_animation_state animation_state, dword animation_start_time, bool recursive);
+	void start_animation_at_time(e_animation_state animation_state, uint32 animation_start_time, bool recursive);
 	void stomp_bounds(real_rectangle2d const* new_bounds);
-	void update_animation(dword current_milliseconds);
+	void update_animation(uint32 current_milliseconds);
 	bool verify_animation_period(e_animation_state animation_state, long period);
 
 //protected:
@@ -343,8 +343,8 @@ public:
 	//c_gui_widget* m_previous;
 
 	c_string_id m_name;
-	real __unknown44;
-	dword_flags m_flags;
+	real32 __unknown44;
+	uint32 m_flags;
 	long __unknown4C;
 	s_animation_transform m_animated_state;
 	long m_last_animated_milliseconds;

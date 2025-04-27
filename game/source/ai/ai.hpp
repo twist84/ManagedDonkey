@@ -29,7 +29,7 @@ struct ai_mission_critical_actor
 	long character_definition_index;
 	short flags;
 	short teleport_ticks;
-	real teleport_range;
+	real32 teleport_range;
 };
 static_assert(sizeof(ai_mission_critical_actor) == 0x10);
 
@@ -50,7 +50,7 @@ struct ai_globals_type
 	short current_objective_index;
 	long first_squadless_actor_index;
 	long highest_clump_refresh_weight;
-	real major_upgrade_error;
+	real32 major_upgrade_error;
 	bool dialogue_enabled;
 	short dialogue_suppression_ticks;
 	bool ai_player_dialogue_enable;
@@ -116,15 +116,15 @@ static_assert(0x404 == OFFSETOF(ai_globals_type, mission_critical_units));
 static_assert(0x484 == OFFSETOF(ai_globals_type, cached_cluster_ref));
 static_assert(0x488 == OFFSETOF(ai_globals_type, cached_pas));
 
-extern long __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_mask, dword* player_mask_out);
+extern long __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_mask, uint32* player_mask_out);
 extern void __cdecl ai_debug_update();
 extern void __cdecl ai_dispose();
 extern void __cdecl ai_dispose_from_old_map();
-extern void __cdecl ai_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
-extern bool __cdecl ai_enemies_attacking_players(long* attacking_object_index, dword* player_mask_out);
+extern void __cdecl ai_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern bool __cdecl ai_enemies_attacking_players(long* attacking_object_index, uint32* player_mask_out);
 extern bool __cdecl ai_enemies_can_see_player(long* object_index);
 extern void __cdecl ai_erase(long squad_index, bool delete_immediately);
-extern bool __cdecl ai_get_active_clusters(long structure_bsp_index, dword* activation_bitvector, long cluster_count);
+extern bool __cdecl ai_get_active_clusters(long structure_bsp_index, uint32* activation_bitvector, long cluster_count);
 extern void __cdecl ai_globals_initialize();
 extern void __cdecl ai_globals_initialize_for_new_map();
 extern void __cdecl ai_globals_set_ai_active(bool enable);
@@ -132,7 +132,7 @@ extern void __cdecl ai_globals_update();
 extern void __cdecl ai_handle_bump(long biped_index, long object_index, real_vector3d const* old_velocity);
 extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();
-extern void __cdecl ai_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl ai_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern bool __cdecl ai_test_line_of_fire(long actor_index, long ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, long* prop_index_reference);
 extern short __cdecl ai_test_line_of_sight(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, short mode, bool test_line_of_fire, long ignore_object_index, long ignore_object_index2, bool ignore_vehicles, bool allow_early_out, long* blocking_object_index_ref, bool* two_sided_obstruction_ref);
 extern void __cdecl ai_update();

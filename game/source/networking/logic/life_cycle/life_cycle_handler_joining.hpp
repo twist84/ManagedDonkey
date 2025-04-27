@@ -9,10 +9,10 @@ struct c_life_cycle_state_handler_joining :
 public:
 	
 //protected:
-	byte m_flags;
+	uint8 m_flags;
 	e_gui_game_mode m_game_mode;
 	e_life_cycle_state m_enter_state;
-	byte __data[0x4];
+	uint8 __data[0x4];
 };
 static_assert(sizeof(c_life_cycle_state_handler_joining) == 0x38);
 

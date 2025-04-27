@@ -9,10 +9,10 @@
 
 struct s_network_message_join_request
 {
-	word protocol;
-	word executable_type;
-	dword minimum_network_version;
-	dword current_network_version;
+	uint16 protocol;
+	uint16 executable_type;
+	uint32 minimum_network_version;
+	uint32 current_network_version;
 	s_transport_secure_identifier session_id;
 	s_network_session_join_request join_request;
 };
@@ -20,16 +20,16 @@ static_assert(sizeof(s_network_message_join_request) == 0x330);
 
 struct s_network_message_peer_connect
 {
-	word protocol;
+	uint16 protocol;
 	s_transport_secure_identifier session_id;
-	qword join_nonce;
+	uint64 join_nonce;
 };
 static_assert(sizeof(s_network_message_peer_connect) == 0x20);
 
 struct s_network_message_join_abort
 {
 	s_transport_secure_identifier session_id;
-	qword join_nonce;
+	uint64 join_nonce;
 };
 static_assert(sizeof(s_network_message_join_abort) == 0x18);
 
@@ -71,7 +71,7 @@ struct s_network_message_host_decline
 	bool session_exists;
 	bool peer_exists;
 	bool host_exists;
-	byte __pad13[0x1];
+	uint8 __pad13[0x1];
 	s_transport_secure_address host_address;
 };
 static_assert(sizeof(s_network_message_host_decline) == 0x24);
@@ -85,9 +85,9 @@ static_assert(sizeof(s_network_message_peer_establish) == 0x10);
 struct s_network_message_time_synchronize
 {
 	s_transport_secure_identifier session_id;
-	dword client_timestamp[2];
-	dword authority_timestamp[2];
-	dword synchronization_stage;
+	uint32 client_timestamp[2];
+	uint32 authority_timestamp[2];
+	uint32 synchronization_stage;
 };
 static_assert(sizeof(s_network_message_time_synchronize) == 0x24);
 

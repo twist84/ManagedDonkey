@@ -9,12 +9,12 @@ struct firing_position_definition
 {
 	c_ai_point3d position;
 	short flags;
-	word posture_flags;
+	uint16 posture_flags;
 	short area_index;
 	short cluster_index;
 	c_sector_ref sector_ref;
 	real_euler_angles2d normal;
-	real yaw;
+	real32 yaw;
 };
 static_assert(sizeof(firing_position_definition) == 0x28);
 

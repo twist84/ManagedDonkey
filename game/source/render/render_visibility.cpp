@@ -10,7 +10,7 @@ void __cdecl render_invisible_objects_iterate(void(*function)(long))
 	INVOKE(0x00A7BC50, render_invisible_objects_iterate, function);
 }
 
-bool __cdecl render_sphere_visible(real_point3d const* center, real radius)
+bool __cdecl render_sphere_visible(real_point3d const* center, real32 radius)
 {
 	return INVOKE(0x00A7BDA0, render_sphere_visible, center, radius);
 }

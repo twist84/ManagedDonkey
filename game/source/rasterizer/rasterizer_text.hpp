@@ -25,7 +25,7 @@ public:
 		ASSERT(m_datum_ref == INVALID_TEXTURE_REF_HANDLE);
 	}
 
-	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, dword format, long a6, bool a7, long a8, long a9);
+	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, uint32 format, long a6, bool a7, long a8, long a9);
 	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory);
 	static void __cdecl dispose();
 	IDirect3DTexture9* get_d3d_texture() const;
@@ -57,7 +57,7 @@ static_assert(sizeof(s_hardware_character) == 0x14);
 struct s_hardware_character_cache_globals
 {
 	bool initialized;
-	byte __pad1[0x3];
+	uint8 __pad1[0x3];
 	long __unknown4;
 	long __unknown8;
 	long __unknownC;
@@ -65,8 +65,8 @@ struct s_hardware_character_cache_globals
 	long __unknown14;
 	bitmap_data* bitmap;
 	c_rasterizer_texture_ref hardware_format;
-	real __unknown20;
-	real __unknown24;
+	real32 __unknown20;
+	real32 __unknown24;
 	c_static_array<short, 512> __unknown28;
 	c_static_array<s_hardware_character, 512> hardware_characters;
 };

@@ -53,7 +53,7 @@ REFERENCE_DECLARE(0x0189D00C, char const*, k_cache_file_extension);
 
 char const* k_cache_path_format = "maps\\%s.map";
 
-byte const g_cache_file_creator_key[64]
+uint8 const g_cache_file_creator_key[64]
 {
 	0x05, 0x11, 0x6A, 0xA3, 0xCA, 0xB5, 0x07, 0xDF,
 	0x50, 0xE7, 0x5B, 0x75, 0x6B, 0x4A, 0xBB, 0xF4,
@@ -183,7 +183,7 @@ long __cdecl tag_loaded(tag group_tag, char const* tag_name)
 struct s_cache_file_global_tags_definition
 {
 	c_typed_tag_block<s_tag_reference> references;
-	dword : 32;
+	uint32 : 32;
 };
 static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
@@ -264,12 +264,12 @@ bool __cdecl cache_file_blocking_read(long cache_file_section, long section_offs
 	return size.peek() == buffer_size;
 }
 
-bool __cdecl cache_file_content_signatures_match(long signature0_size, byte const* signature0, long signature1_size, byte const* signature1, bool unused)
+bool __cdecl cache_file_content_signatures_match(long signature0_size, uint8 const* signature0, long signature1_size, uint8 const* signature1, bool unused)
 {
 	return INVOKE(0x00501740, cache_file_content_signatures_match, signature0_size, signature0, signature1_size, signature1, unused);
 }
 
-bool __cdecl cache_file_get_content_signature(long* out_signature_size, byte const** out_signature)
+bool __cdecl cache_file_get_content_signature(long* out_signature_size, uint8 const** out_signature)
 {
 	return INVOKE(0x00501780, cache_file_get_content_signature, out_signature_size, out_signature);
 }
@@ -308,7 +308,7 @@ struct __declspec(align(8)) s_cache_file_security_globals
 	c_static_array<long, 1> hash_sizes;
 	c_static_array<void const*, 1> hash_addresses;
 	c_static_array<s_network_http_request_hash, 1> hashes;
-	byte hash_working_memory[0x400];
+	uint8 hash_working_memory[0x400];
 	s_network_http_request_hash hash_of_hashes;
 	s_rsa_signature rsa_signature;
 };
@@ -418,7 +418,7 @@ void __cdecl cache_file_invalidate_signature()
 }
 
 //float cache_file_map_progress_estimated_megabytes_remaining(enum e_scenario_type,char const *)
-real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path)
+real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path)
 {
 	return INVOKE(0x00501B90, cache_file_map_progress_estimated_megabytes_remaining, scenario_type, scenario_path);
 }
@@ -430,12 +430,12 @@ long __cdecl cache_file_map_progress_estimated_miliseconds_remaining(long scenar
 }
 
 //float cache_file_map_progress_helper(enum e_scenario_type, char const*, enum e_cache_file_progress_type)
-real __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type)
+real32 __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type)
 {
 	return INVOKE(0x00501BF0, cache_file_map_progress_helper, scenario_type, scenario_path, progress_type);
 }
 
-dword __cdecl cache_files_get_checksum()
+uint32 __cdecl cache_files_get_checksum()
 {
 	return INVOKE(0x00501F40, cache_files_get_checksum);
 }
@@ -471,7 +471,7 @@ char const* __cdecl cache_files_map_directory()
 	return g_cache_file_globals.map_directory;
 }
 
-void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resource_offsets, s_cache_file_resource_gestalt* resource_gestalt)
+void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uint32>& resource_offsets, s_cache_file_resource_gestalt* resource_gestalt)
 {
 	tag_block_set_elements(&resource_gestalt->resources, resource_gestalt + 1);
 	g_cache_file_globals.resource_gestalt = resource_gestalt;
@@ -479,8 +479,8 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 	s_cache_file_tag_resource_data** resource_blocks = resource_gestalt->resources.begin();
 
 	long resource_count = 0;
-	dword resources_size = 0;
-	dword resources_available = 0;
+	uint32 resources_size = 0;
+	uint32 resources_available = 0;
 
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
@@ -496,7 +496,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 
 			if (resource_fixup.persistent)
 				resource_fixup.persistent = false;
-			resource_fixup.value += (dword)instance;
+			resource_fixup.value += (uint32)instance;
 
 			s_tag_resource* resource = (s_tag_resource*)resource_fixup.value;
 			if (!resource)
@@ -511,7 +511,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 			resource_blocks[resource_count] = resource->resource_data;
 			s_cache_file_tag_resource_data* resource_data = resource->resource_data;
 
-			byte_flags flags = resource_data->file_location.flags.get_unsafe();
+			uint8 flags = resource_data->file_location.flags.get_unsafe();
 
 			if (!TEST_MASK(flags, k_cache_file_tag_resource_location_mask))
 			{
@@ -564,7 +564,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 
 s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 {
-	c_wrapped_array<dword> resource_offsets;
+	c_wrapped_array<uint32> resource_offsets;
 	cache_files_populate_resource_offsets(&resource_offsets);
 
 	long total_resource_fixup_count = 0;
@@ -641,7 +641,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	return true;
 }
 
-dword __cdecl compute_realtime_checksum(char* buffer, int len)
+uint32 __cdecl compute_realtime_checksum(char* buffer, int len)
 {
 	return INVOKE(0x00502300, compute_realtime_checksum, buffer, len);
 }
@@ -681,7 +681,7 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	//reports->count = GET_REPORT_COUNT_FROM_SIZE(header->reports.size);
 }
 
-void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resource_offsets)
+void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uint32>* resource_offsets)
 {
 	//INVOKE(0x00502550, cache_files_populate_resource_offsets, resource_offsets);
 
@@ -739,7 +739,7 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resou
 		return;
 	}
 
-	dword* file_offsets = (dword*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, sizeof(dword) * file_count, 0);
+	uint32* file_offsets = (uint32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, sizeof(uint32) * file_count, 0);
 
 	long offset_index_offset = 0;
 	for (long i = 0; i < NUMBEROF(section_handles); i++)
@@ -748,7 +748,7 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resou
 		if (!cached_map_file_is_shared(map_file_index))
 			continue;
 
-		void* offsets = (byte*)file_offsets + offset_index_offset;
+		void* offsets = (uint8*)file_offsets + offset_index_offset;
 		long offsets_size = sizeof(long) * section_headers[i].file_count;
 
 		c_synchronized_long done = 0;
@@ -857,10 +857,10 @@ void __cdecl cache_file_load_tags_section()
 		if (g_cache_file_globals.tags_section.path.is_empty())
 			file_reference_create_from_path(&g_cache_file_globals.tags_section, k_cache_tags_file, false);
 
-		dword error = 0;
+		uint32 error = 0;
 		if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
 		{
-			dword file_size = 0;
+			uint32 file_size = 0;
 			file_get_size(&g_cache_file_globals.tags_section, &file_size);
 
 			if (tags_section)
@@ -923,7 +923,7 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 
 		ASSERT(data_fixup.persistent == true);
 		data_fixup.persistent = false;
-		data_fixup.value += (dword)instance;
+		data_fixup.value += (uint32)instance;
 		//ASSERT(data_fixup.value == data_fixup.offset);
 	}
 
@@ -944,11 +944,11 @@ bool __cdecl cache_file_debug_tag_names_load()
 
 	// debug_tag_names
 	decltype(g_cache_file_debug_globals->debug_tag_name_offsets)& offsets = g_cache_file_debug_globals->debug_tag_name_offsets;
-	constexpr dword offsets_size = sizeof(g_cache_file_debug_globals->debug_tag_name_offsets);
+	constexpr uint32 offsets_size = sizeof(g_cache_file_debug_globals->debug_tag_name_offsets);
 	decltype(g_cache_file_debug_globals->debug_tag_name_buffer)& buffer = g_cache_file_debug_globals->debug_tag_name_buffer;
-	constexpr dword buffer_size = sizeof(g_cache_file_debug_globals->debug_tag_name_buffer);
+	constexpr uint32 buffer_size = sizeof(g_cache_file_debug_globals->debug_tag_name_buffer);
 	decltype(g_cache_file_debug_globals->debug_tag_names)& storage = g_cache_file_debug_globals->debug_tag_names;
-	constexpr dword storage_size = sizeof(g_cache_file_debug_globals->debug_tag_names);
+	constexpr uint32 storage_size = sizeof(g_cache_file_debug_globals->debug_tag_names);
 
 	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
 	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
@@ -970,7 +970,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 			return true;
 		}
 
-		dword tag_list_size = 0;
+		uint32 tag_list_size = 0;
 		file_get_size(&tag_list_file, &tag_list_size);
 		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
 		{
@@ -1097,7 +1097,7 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 	{
 		if (tags_section)
 		{
-			csmemcpy(buffer, static_cast<byte*>(tags_section) + offset, size);
+			csmemcpy(buffer, static_cast<uint8*>(tags_section) + offset, size);
 			return true;
 		}
 
@@ -1232,7 +1232,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		cache_file_tags_load_allocate();
 
-		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
+		uint32 total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
 		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, total_instance_size, 0);
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
@@ -1241,10 +1241,10 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 #if defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
 		//g_cache_file_globals.tag_cache_size = g_cache_file_globals.header.total_tags_size;
 		g_cache_file_globals.tag_cache_size = 0x6400000; // 100 * 1024 * 1024 or 100MiB
-		g_cache_file_globals.tag_cache_base_address = (byte*)physical_memory_system_malloc(g_cache_file_globals.tag_cache_size, NULL);
+		g_cache_file_globals.tag_cache_base_address = (uint8*)physical_memory_system_malloc(g_cache_file_globals.tag_cache_size, NULL);
 #else
 		g_cache_file_globals.tag_cache_size = 0x4B00000; //  75 * 1024 * 1024 or 75MiB
-		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
+		g_cache_file_globals.tag_cache_base_address = (uint8*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
 #endif
 
 		g_cache_file_globals.tag_loaded_size = 0;
@@ -1304,7 +1304,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		//
 		//	security_state->hash_sizes[0] = sizeof(s_cache_file_header);
 		//	security_state->hash_addresses[0] = security_state;
-		//	byte* hash_working_memory = security_state->hash_working_memory;
+		//	uint8* hash_working_memory = security_state->hash_working_memory;
 		//
 		//	long v7 = sizeof(s_cache_file_header);
 		//	if (security_incremental_hash_begin(hash_working_memory, 0x400, true))
@@ -1503,12 +1503,12 @@ void* __cdecl tag_get(tag group_tag, char const* tag_name)
 	return nullptr;
 }
 
-dword __cdecl tag_get_group_tag(long tag_index)
+uint32 __cdecl tag_get_group_tag(long tag_index)
 {
 	return INVOKE(0x005033A0, tag_get_group_tag, tag_index);
 }
 
-//.text:005033C0 ; dword __cdecl tag_group_get_parent_group_tag(dword)
+//.text:005033C0 ; uint32 __cdecl tag_group_get_parent_group_tag(uint32)
 //.text:005033D0 ; long __cdecl cache_files_get_loaded_tags_count()
 
 void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag)
@@ -1535,7 +1535,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	c_console::write_line(tag_instance_byte_string);
 }
 
-//.text:00503510 ; void* __cdecl tag_try_and_get_unsafe(dword, long)
+//.text:00503510 ; void* __cdecl tag_try_and_get_unsafe(uint32, long)
 
 bool cache_file_tags_single_tag_file_load(s_file_reference* file, long* out_tag_index, cache_file_tag_instance** out_instance)
 {
@@ -1548,7 +1548,7 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long* out_tag_
 	if (!file_read_from_position(file, 0, sizeof(cache_file_tag_instance), false, instance))
 		return false;
 
-	dword file_size = 0;
+	uint32 file_size = 0;
 	file_get_size(file, &file_size);
 
 	g_cache_file_globals.tag_loaded_size += file_size;
@@ -1587,7 +1587,7 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long* out_tag_
 void cache_file_tags_load_single_tag_file_test(char const* file_name)
 {
 	s_file_reference file;
-	dword error = 0;
+	uint32 error = 0;
 
 	file_reference_create_from_path(&file, "tags\\", false);
 	file.path.append(file_name);
@@ -1599,7 +1599,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 		{
 			cache_file_tags_single_tag_instance_fixup(instance);
 
-			dword file_size = 0;
+			uint32 file_size = 0;
 			file_get_size(&file, &file_size);
 
 			if (instance->tag_group == BITMAP_TAG)
@@ -2007,7 +2007,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 		// "edge drop" fix
 		biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
 
-		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
+		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real32, bool, bool)
 		//{
 		//	if (biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
 		//		physics_input->m_ground_adhesion_velocity_scale = biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity;
@@ -2202,7 +2202,7 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 
 				static char x_english_string[] = "QUIT TO DESKTOP";
 				char* string = (char*)tag_data_get_pointer(&multilingual_unicode_string_list->text_data, string_reference.offset[_language_english], sizeof(x_english_string));
-				dword string_length = csstrnlen(string, sizeof(x_english_string));
+				uint32 string_length = csstrnlen(string, sizeof(x_english_string));
 				if (string_length + 1 >= sizeof(x_english_string))
 				{
 					csstrnzcpy(string, x_english_string, string_length + 1);
@@ -2293,7 +2293,7 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 
 void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_instance* instance)
 {
-	dword file_size = 0;
+	uint32 file_size = 0;
 	file_get_size(file, &file_size);
 
 	if (instance->tag_group == BITMAP_TAG)
@@ -2338,11 +2338,11 @@ bool check_for_specific_scenario(s_file_reference* file)
 	if (!file_exists(&specific_scenario_file))
 		return false;
 
-	dword error = 0;
+	uint32 error = 0;
 	if (!file_open(&specific_scenario_file, FLAG(_file_open_flag_desired_access_read), &error))
 		return false;
 
-	dword file_size = 0;
+	uint32 file_size = 0;
 	if (!file_get_size(&specific_scenario_file, &file_size))
 	{
 		file_close(&specific_scenario_file);
@@ -2412,14 +2412,14 @@ bool load_external_resource(s_file_reference* file)
 	if (valid_extension <= 0)
 		return false;
 
-	dword file_size = 0;
+	uint32 file_size = 0;
 	if (!file_get_size(file, &file_size))
 		return false;
 
 	if (file_size <= sizeof(s_resource_file_header))
 		return false;
 
-	void* buffer = new byte[file_size]{};
+	void* buffer = new uint8[file_size]{};
 	ASSERT(buffer != nullptr);
 
 	if (!file_read(file, file_size, false, buffer))

@@ -35,7 +35,7 @@ static_assert(sizeof(c_lruv_block_long) == 0x4);
 struct s_lruv_cache_block :
 	s_datum_header
 {
-	c_flags<e_lruv_cache_block_bit, byte, k_lruv_cache_block_bits> flags;
+	c_flags<e_lruv_cache_block_bit, uint8, k_lruv_cache_block_bits> flags;
 	long page_count;
 	long first_page_index;
 	long next_block_index;
@@ -62,8 +62,8 @@ enum e_lruv_cache_bit
 
 using delete_block_proc_t = void __cdecl(void*, long, bool);
 using locked_block_proc_t = bool __cdecl(void*, long);
-using usage_block_proc_t = byte __cdecl(void*, long);
-using move_block_proc_t = void __cdecl(void*, long, dword, dword);
+using usage_block_proc_t = uint8 __cdecl(void*, long);
+using move_block_proc_t = void __cdecl(void*, long, uint32, uint32);
 
 enum e_hole_algorithm
 {
@@ -96,7 +96,7 @@ struct s_lruv_cache
 	tag signature; // LRUV_CACHE_SIGNATURE
 	c_allocation_base* allocation;
 	long critical_section_index;
-	c_flags<e_lruv_cache_bit, dword, k_lruv_cache_bits> flags;
+	c_flags<e_lruv_cache_bit, uint32, k_lruv_cache_bits> flags;
 };
 static_assert(sizeof(s_lruv_cache) == 0x84);
 
@@ -104,10 +104,10 @@ extern s_lruv_cache* __cdecl lruv_allocate(char const* name, long page_size_bits
 extern long __cdecl lruv_allocation_size(long maximum_count);
 extern void __cdecl lruv_block_delete(s_lruv_cache* cache, long block_index);
 extern void __cdecl lruv_block_delete_internal(s_lruv_cache* cache, long block_index, bool a3);
-extern dword __cdecl lruv_block_get_address(s_lruv_cache* cache, long block_index);
+extern uint32 __cdecl lruv_block_get_address(s_lruv_cache* cache, long block_index);
 extern long __cdecl lruv_block_get_age(s_lruv_cache* cache, long block_index);
-extern dword __cdecl lruv_block_get_page_index(s_lruv_cache* cache, long block_index);
-extern dword __cdecl lruv_block_get_size(s_lruv_cache* cache, long block_index);
+extern uint32 __cdecl lruv_block_get_page_index(s_lruv_cache* cache, long block_index);
+extern uint32 __cdecl lruv_block_get_size(s_lruv_cache* cache, long block_index);
 extern void __cdecl lruv_block_initialize(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long page_count, long block_index);
 extern long __cdecl lruv_block_new(s_lruv_cache* cache, long size_in_bytes, long minimum_age);
 extern long __cdecl lruv_block_new_at_index(s_lruv_cache* cache, long block_index, long size_in_bytes, long minimum_age);
@@ -118,24 +118,24 @@ extern void __cdecl lruv_block_set_always_locked(s_lruv_cache* cache, long block
 extern void __cdecl lruv_block_touch(s_lruv_cache* cache, long block_index);
 extern bool __cdecl lruv_block_touched(s_lruv_cache* cache, long block_index);
 extern bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_block* block);
-extern dword __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, dword size_in_bytes);
+extern uint32 __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, uint32 size_in_bytes);
 extern bool __cdecl lruv_cache_find_hole(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_hole* hole, long* a5, bool* a6);
-extern void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, byte* page_usage);
+extern void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, uint8* page_usage);
 extern void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long desired_page_count);
 extern bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, long desired_page_count, s_lruv_cache_hole const* hole_a, s_lruv_cache_hole const* hole_b);
-extern dword __cdecl lruv_compact(s_lruv_cache* cache);
+extern uint32 __cdecl lruv_compact(s_lruv_cache* cache);
 extern long __cdecl lruv_compute_fragmentation_threshold(s_lruv_cache const* cache);
 extern void __cdecl lruv_connect(s_lruv_cache* cache, s_data_array* blocks, long maximum_page_count);
 extern void __cdecl lruv_delete(s_lruv_cache* cache);
 extern void __cdecl lruv_flush(s_lruv_cache* cache);
-extern dword __cdecl lruv_get_address_from_page_index(s_lruv_cache* cache, dword page_index);
+extern uint32 __cdecl lruv_get_address_from_page_index(s_lruv_cache* cache, uint32 page_index);
 extern long __cdecl lruv_get_age(s_lruv_cache* cache);
 extern long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache);
 extern long __cdecl lruv_get_locked_pages(s_lruv_cache* cache, long a2);
 extern long __cdecl lruv_get_page_count(s_lruv_cache* cache);
-extern dword __cdecl lruv_get_page_size(s_lruv_cache* cache);
-extern dword __cdecl lruv_get_used_page_end(s_lruv_cache* cache);
-extern dword __cdecl lruv_get_used_size(s_lruv_cache* cache);
+extern uint32 __cdecl lruv_get_page_size(s_lruv_cache* cache);
+extern uint32 __cdecl lruv_get_used_page_end(s_lruv_cache* cache);
+extern uint32 __cdecl lruv_get_used_size(s_lruv_cache* cache);
 extern bool __cdecl lruv_has_locked_proc(s_lruv_cache const* cache);
 extern void __cdecl lruv_idle(s_lruv_cache* cache);
 extern void __cdecl lruv_initialize(s_lruv_cache* cache, char const* name, long maximum_page_count, long page_size_bits, s_data_array* blocks, void* proc_context, delete_block_proc_t* delete_block_proc, locked_block_proc_t* locked_block_proc, usage_block_proc_t* usage_block_proc, c_allocation_base* allocation, long critical_section_index);

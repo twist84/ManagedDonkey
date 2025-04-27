@@ -4,20 +4,20 @@
 
 struct s_model_skinning_matrix
 {
-	real forward_i;
-	real left_i;
-	real up_i;
-	real center_x;
+	real32 forward_i;
+	real32 left_i;
+	real32 up_i;
+	real32 center_x;
 
-	real forward_j;
-	real left_j;
-	real up_j;
-	real center_y;
+	real32 forward_j;
+	real32 left_j;
+	real32 up_j;
+	real32 center_y;
 
-	real forward_k;
-	real left_k;
-	real up_k;
-	real center_z;
+	real32 forward_k;
+	real32 left_k;
+	real32 up_k;
+	real32 center_z;
 };
-static_assert(sizeof(s_model_skinning_matrix) == sizeof(real) * 12);
+static_assert(sizeof(s_model_skinning_matrix) == sizeof(real32) * 12);
 

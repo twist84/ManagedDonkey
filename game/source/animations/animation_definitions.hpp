@@ -31,11 +31,11 @@ struct s_animation_graph_node
 	short next_sibling_node_index;
 	short first_child_node_index;
 	short parent_node_index;
-	c_flags<e_animation_node_model_flags, byte, k_animation_node_model_flags> model_flags;
-	c_flags<e_node_joint_flags, byte, k_node_joint_flags> node_joint_flags;
+	c_flags<e_animation_node_model_flags, uint8, k_animation_node_model_flags> model_flags;
+	c_flags<e_node_joint_flags, uint8, k_node_joint_flags> node_joint_flags;
 	real_vector3d base_vector;
-	real vector_range;
-	real z_pos;
+	real32 vector_range;
+	real32 z_pos;
 };
 static_assert(sizeof(s_animation_graph_node) == 0x20);
 
@@ -44,7 +44,7 @@ struct s_animation_inheritence
 	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG> inherited_tag_reference;
 	s_tag_block node_remap;
 	s_tag_block node_remap_flags;
-	real z_scale;
+	real32 z_scale;
 	long inheritance_flags;
 };
 static_assert(sizeof(s_animation_inheritence) == 0x30);
@@ -54,8 +54,8 @@ struct c_animation_graph_definitions
 	// GRAPH DATA
 
 	s_tag_reference parent_animation_graph;
-	byte_flags inheritance_flags;
-	byte_flags private_flags;
+	uint8 inheritance_flags;
+	uint8 private_flags;
 	short animation_codec_pack;
 	c_typed_tag_block<s_animation_graph_node> skeleton_nodes;
 	s_tag_block sound_references;
@@ -104,10 +104,10 @@ static_assert(sizeof(c_model_animation_tag_resource_group) == 0xC);
 struct c_model_animation_tag_resource_member
 {
 	long UNUSED_animation_index;
-	dword production_checksum;
+	uint32 production_checksum;
 	short frame_count;
-	byte node_count;
-	byte movement_data_type;
+	uint8 node_count;
+	uint8 movement_data_type;
 	c_animation_data_sizes data_sizes;
 	s_tag_data animation_tag_data;
 };
@@ -116,22 +116,22 @@ static_assert(sizeof(c_model_animation_tag_resource_member) == 0x30);
 struct c_model_animation
 {
 	c_string_id name;
-	real weight;
+	real32 weight;
 	short private_loop_frame_index;
-	word_flags playback_flags;
+	uint16 playback_flags;
 	char blend_screen_index;
 	char desired_compression_setting;
 	char current_compression_setting;
-	byte node_count;
+	uint8 node_count;
 	short frame_count;
 	char animation_type;
 	char frame_info_type;
-	word_flags production_flags;
-	word_flags internal_flags;
-	dword node_list_checksum;
-	dword production_checksum;
-	word importer_version;
-	word compressor_version;
+	uint16 production_flags;
+	uint16 internal_flags;
+	uint32 node_list_checksum;
+	uint32 production_checksum;
+	uint16 importer_version;
+	uint16 compressor_version;
 	short runtime_parent_animation_index;
 	short next_animation_index;
 	short resource_group_index;
@@ -143,8 +143,8 @@ struct c_model_animation
 	s_tag_block object_space_nodes;
 	s_tag_block foot_tracking_data;
 	real_vector3d movement_heading;
-	real average_translation_magnitude;
-	real average_pivot_magnitude;
+	real32 average_translation_magnitude;
+	real32 average_pivot_magnitude;
 };
 static_assert(sizeof(c_model_animation) == 0x88);
 

@@ -7,7 +7,7 @@
 //.text:014423C0 ; 
 //.text:014423D0 ; void __cdecl __tls_set_g_command_script_allocator(void*)
 //.text:01442400 ; bool __cdecl actor_allow_vignette(long, long, short, bool*)
-//.text:01442490 ; real __cdecl actor_can_fill_role(long, long, short, mission_dialogue_line const*, s_role_set*, short, long*, short*, bool*)
+//.text:01442490 ; real32 __cdecl actor_can_fill_role(long, long, short, mission_dialogue_line const*, s_role_set*, short, long*, short*, bool*)
 //.text:01442720 ; 
 //.text:01442760 ; long __cdecl command_script_new(long, long, long)
 //.text:01442910 ; void __cdecl cs_abort_on_alert2(long, long, bool)
@@ -48,7 +48,7 @@ void __cdecl cs_dispose_from_old_map()
 	INVOKE(0x01443E50, cs_dispose_from_old_map);
 }
 
-//.text:01443E70 ; bool __cdecl cs_get_crouch_modifier(long, real*)
+//.text:01443E70 ; bool __cdecl cs_get_crouch_modifier(long, real32*)
 
 cs_point_set* __cdecl cs_get_point_set(long index)
 {

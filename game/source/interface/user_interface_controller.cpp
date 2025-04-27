@@ -18,10 +18,10 @@ HOOK_DECLARE(0x00A94B40, user_interface_controller_input_event_submit);
 HOOK_DECLARE(0x00A94BD0, user_interface_controller_reset);
 HOOK_DECLARE(0x00A95170, user_interface_controller_update_network_properties);
 
-//.text:00A934C0 ; bool __cdecl dpad_button_tabbed(bool, byte, word)
+//.text:00A934C0 ; bool __cdecl dpad_button_tabbed(bool, uint8, uint16)
 //.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, point2d const*, e_controller_component)
 
-void __cdecl event_manager_button_pressed(e_controller_index controller_index, byte button)
+void __cdecl event_manager_button_pressed(e_controller_index controller_index, uint8 button)
 {
 	//INVOKE(0x00A935C0, event_manager_button_pressed, controller_index, gamepad_button);
 
@@ -73,17 +73,17 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, b
 	user_interface_controller_input_event_submit(&event);
 }
 
-void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component)
+void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
 {
 }
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab_fix_for_double_press);
 
-void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, dword now, e_controller_component component)
+void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
 {
 	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, vector, now, component);
 }
 
-//.text:00A93A50 ; void __cdecl event_manager_update(dword)
+//.text:00A93A50 ; void __cdecl event_manager_update(uint32)
 //.text:00A94290 ; void __cdecl send_stick_magnitude_events(e_controller_index, point2d, e_gamepad_stick)
 //.text:00A94330 ; 
 //.text:00A94340 ; 
@@ -134,12 +134,12 @@ s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_
 }
 
 //.text:00A94440 ; bool __cdecl user_interface_controller_get_autolevel_enabled(e_controller_index)
-//.text:00A94480 ; c_flags<e_bungienet_user_flags, word, 16> __cdecl user_interface_controller_get_bungienet_user(e_controller_index)
+//.text:00A94480 ; c_flags<e_bungienet_user_flags, uint16, 16> __cdecl user_interface_controller_get_bungienet_user(e_controller_index)
 //.text:00A944A0 ; e_controller_index __cdecl user_interface_controller_get_controller_for_user(long)
 //.text:00A94500 ; bool __cdecl user_interface_controller_get_extras_portal_debug(e_controller_index)
 //.text:00A94520 ; e_controller_index __cdecl user_interface_controller_get_first_xbox_live_signed_in_non_guest()
 //.text:00A94570 ; bool __cdecl user_interface_controller_get_griefer(e_controller_index, bool)
-//.text:00A94590 ; byte __cdecl user_interface_controller_get_hopper_access(e_controller_index)
+//.text:00A94590 ; uint8 __cdecl user_interface_controller_get_hopper_access(e_controller_index)
 //.text:00A945B0 ; short __cdecl user_interface_controller_get_live_account_controllers_mask()
 //.text:00A94630 ; e_controller_index __cdecl user_interface_controller_get_next_controller(e_controller_index)
 //.text:00A94680 ; bool __cdecl user_interface_controller_get_notification_pending(e_controller_index)
@@ -201,12 +201,12 @@ void __cdecl user_interface_controller_reset(e_controller_index controller_index
 
 //.text:00A94C60 ; void __cdecl user_interface_controller_reset_any_offline_controllers()
 //.text:00A94CC0 ; user_interface_controller_set_armor_loadout_index
-//.text:00A94CF0 ; void __cdecl user_interface_controller_set_bungienet_user(e_controller_index, c_flags<e_bungienet_user_flags, word, 16>)
+//.text:00A94CF0 ; void __cdecl user_interface_controller_set_bungienet_user(e_controller_index, c_flags<e_bungienet_user_flags, uint16, 16>)
 //.text:00A94D30 ; void __cdecl user_interface_controller_set_desired_multiplayer_team(e_controller_index, e_game_team)
 //.text:00A94D60 ; void __cdecl user_interface_controller_set_desires_rematch(e_controller_index, bool)
 //.text:00A94D90 ; void __cdecl user_interface_controller_set_extras_portal_debug(e_controller_index, bool)
 //.text:00A94DE0 ; void __cdecl user_interface_controller_set_griefer(e_controller_index, bool)
-//.text:00A94E00 ; void __cdecl user_interface_controller_set_hopper_access(e_controller_index, byte)
+//.text:00A94E00 ; void __cdecl user_interface_controller_set_hopper_access(e_controller_index, uint8)
 //.text:00A94E40 ; void __cdecl user_interface_controller_set_desires_veto(e_controller_index, bool)
 //.text:00A94E70 ; void __cdecl user_interface_controller_set_notification_pending(e_controller_index, bool)
 //.text:00A94E90 ; user_interface_controller_set_? // offset 0x6
@@ -237,7 +237,7 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 	if (user_index != NONE && network_session_interface_local_user_exists(user_index))
 	{
 		s_player_configuration player_data;
-		dword player_voice_settings = 0; // voice_get_controller_settings(controller_index);
+		uint32 player_voice_settings = 0; // voice_get_controller_settings(controller_index);
 		s_player_identifier network_user_identifier;
 		if (user_interface_controller_get_player_configuration(controller_index, &network_user_identifier, &player_data))
 		{
@@ -267,6 +267,6 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 //.text:00A953D0 ; long __cdecl user_interface_get_player_last_used_hopper(e_controller_index)
 //.text:00A95420 ; void __cdecl user_interface_queue_event(s_event_record*)
 //.text:00A95460 ; void __cdecl user_interface_set_last_campaign_level(e_campaign_id, e_map_id)
-//.text:00A95520 ; void __cdecl user_interface_set_player_last_used_hopper(e_controller_index, word)
+//.text:00A95520 ; void __cdecl user_interface_set_player_last_used_hopper(e_controller_index, uint16)
 //.text:00A95560 ; 
 

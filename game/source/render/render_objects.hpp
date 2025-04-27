@@ -21,19 +21,19 @@ enum e_render_object_mesh_part_flags
 
 struct s_object_render_context
 {
-	byte __data0[0x10];
+	uint8 __data0[0x10];
 };
 static_assert(sizeof(s_object_render_context) == 0x10);
 
 struct s_context_mesh_part
 {
-	dword_flags flags;
+	uint32 flags;
 	void* info;
-	byte __data8[0x4];
-	word mesh_index;
-	word part_index;
-	word region_index;
-	byte __data[0xA];
+	uint8 __data8[0x4];
+	uint16 mesh_index;
+	uint16 part_index;
+	uint16 region_index;
+	uint8 __data[0xA];
 };
 static_assert(sizeof(s_context_mesh_part) == 0x1C);
 
@@ -42,7 +42,7 @@ struct s_render_object_globals
 	c_static_sized_dynamic_array<s_object_render_context, 1024> object_render_contexts;
 	c_static_sized_dynamic_array<s_context_mesh_part, 8192> context_mesh_part;
 
-	byte __data3C008[0x4];
+	uint8 __data3C008[0x4];
 	long marker_index;
 
 	long object_render_context_markers[6];
@@ -53,7 +53,7 @@ static_assert(sizeof(s_render_object_globals) == 0x3C040);
 enum e_entry_point;
 struct c_object_renderer
 {
-	static void __cdecl render_albedo(dword flags);
+	static void __cdecl render_albedo(uint32 flags);
 	static void __cdecl render_object_contexts(e_entry_point entry_point, long mesh_part_mask);
 	static void __cdecl render_object_widgets(e_entry_point entry_point);
 	static void __cdecl submit_and_render_sky(long entry_point_type, long player_window_index);

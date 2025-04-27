@@ -36,7 +36,7 @@ struct c_director
 {
 public:
 	virtual e_director_mode get_type() const;
-	virtual void update(real dt);
+	virtual void update(real32 dt);
 	virtual bool should_draw_hud();
 	virtual bool should_draw_hud_saved_film();
 	virtual bool inhibits_facing();
@@ -51,17 +51,17 @@ public:
 	c_camera const* get_camera() const;
 	s_observer_command const* get_last_observer_command() const;
 	e_director_perspective get_perspective() const;
-	bool set_camera_mode_internal(e_camera_mode camera_mode, real transition_time, bool force_update);
-	bool set_camera_mode(e_camera_mode camera_mode, real transition_time);
+	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
+	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
 
 //protected:
-	byte m_camera_storage[0x4C];
+	uint8 m_camera_storage[0x4C];
 	s_observer_command m_last_observer_command;
-	real m_change_camera_pause;
+	real32 m_change_camera_pause;
 	long m_user_index;
 	long m_watched_player_index;
 	bool m_player_switch_gui_activated;
-	byte pad[3];
+	uint8 pad[3];
 };
 static_assert(sizeof(c_director) == 0x14C);
 
@@ -75,11 +75,11 @@ static_assert(sizeof(s_director_info) == 0xC);
 
 struct s_director_globals
 {
-	c_static_array<byte[0x160], 4> directors;
+	c_static_array<uint8[0x160], 4> directors;
 	c_static_array<s_director_info, 4> director_info;
-	real dtime;
-	real fade_timer;
-	real fade_maximum;
+	real32 dtime;
+	real32 fade_timer;
+	real32 fade_maximum;
 	bool debug_force_scripted_camera_disable;
 };
 static_assert(sizeof(s_director_globals) == 0x5C0);
@@ -103,7 +103,7 @@ extern void __cdecl director_game_tick();
 extern c_director* __cdecl director_get(long user_index);
 extern bool __cdecl director_get_camera_third_person(long user_index);
 extern s_cluster_reference __cdecl director_get_deterministic_scripted_camera_cluster_reference();
-extern real __cdecl director_get_fade_timer();
+extern real32 __cdecl director_get_fade_timer();
 extern e_director_perspective __cdecl director_get_perspective(long user_index);
 extern void __cdecl director_get_position(long user_index, real_point3d* position);
 extern void __cdecl director_handle_deleted_object(long object_index);
@@ -122,11 +122,11 @@ extern void __cdecl director_reset_user_game_camera(long user_index);
 extern void __cdecl director_script_camera(bool scripted);
 extern void __cdecl director_set_camera_mode(long user_index, e_camera_mode camera_mode);
 extern void __cdecl director_set_camera_third_person(long user_index, bool camera_third_person);
-extern void __cdecl director_set_fade_timer(real fade_timer);
+extern void __cdecl director_set_fade_timer(real32 fade_timer);
 extern void __cdecl director_set_mode(long user_index, e_director_mode director_mode);
 extern void __cdecl director_setup_flying_camera_at_scenario_point(long user_index, long camera_point_index);
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
-extern void __cdecl director_update(real dt);
+extern void __cdecl director_update(real32 dt);
 
 extern char const* director_mode_get_name(e_director_mode director_mode);
 extern e_director_mode director_mode_from_string(char const* str);

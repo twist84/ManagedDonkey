@@ -19,5 +19,5 @@ void c_gui_screen_campaign_select_difficulty::setup(e_gui_campaign_difficulty_se
 	m_difficulty = difficulty;
 }
 
-//.text:00AFC860 ; public: virtual void c_gui_screen_campaign_select_difficulty::update(dword)
+//.text:00AFC860 ; public: virtual void c_gui_screen_campaign_select_difficulty::update(uint32)
 

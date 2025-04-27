@@ -1,6 +1,6 @@
 #include "physics/collision_models.hpp"
 
-long __cdecl collision_model_get_bsp_node_index(collision_model_instance const* instance, dword bsp_reference)
+long __cdecl collision_model_get_bsp_node_index(collision_model_instance const* instance, uint32 bsp_reference)
 {
 	return INVOKE(0x00980D30, collision_model_get_bsp_node_index, instance, bsp_reference);
 

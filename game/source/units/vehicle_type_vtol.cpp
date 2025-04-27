@@ -7,41 +7,41 @@ void __cdecl c_vehicle_type_vtol::adjust_gravity(long vehicle_index, real_vector
 	return INVOKE(0x00BD0C30, c_vehicle_type_vtol::adjust_gravity, vehicle_index, gravity_acceleration);
 }
 
-void __cdecl c_vehicle_type_vtol::apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* vector, real_point3d const* origin, long marker_name, real thrust, real_vector3d* force, real_vector3d* torque)
+void __cdecl c_vehicle_type_vtol::apply_thrust(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* vector, real_point3d const* origin, long marker_name, real32 thrust, real_vector3d* force, real_vector3d* torque)
 {
 	INVOKE(0x00BD0C40, c_vehicle_type_vtol::apply_thrust, vehicle_index, instance, vector, origin, marker_name, thrust, force, torque);
 }
 
-real __cdecl calculate_acceleration_magnitude_vtol(bool govern_velocity, bool acceleration_as_force, real mass, real distance, real acceleration, real velocity_towards_target, real maximum_velocity, real dead_radius, real hookes_law_e, bool disable_damping, real* scale)
+real32 __cdecl calculate_acceleration_magnitude_vtol(bool govern_velocity, bool acceleration_as_force, real32 mass, real32 distance, real32 acceleration, real32 velocity_towards_target, real32 maximum_velocity, real32 dead_radius, real32 hookes_law_e, bool disable_damping, real32* scale)
 {
 	return INVOKE(0x00BD0D20, calculate_acceleration_magnitude_vtol, govern_velocity, acceleration_as_force, mass, distance, acceleration, velocity_towards_target, maximum_velocity, dead_radius, hookes_law_e, disable_damping, scale);
 }
 
 // dummy declaration
-real __cdecl calculate_desired_acceleration_real4(real velocity, real minimum_acceleration, real maximum_acceleration, real distance);
-real __cdecl calculate_desired_acceleration(real velocity, real minimum_acceleration, real maximum_acceleration, real distance)
+real32 __cdecl calculate_desired_acceleration_real4(real32 velocity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance);
+real32 __cdecl calculate_desired_acceleration(real32 velocity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance)
 {
 	return INVOKE(0x00BD10C0, calculate_desired_acceleration_real4, velocity, minimum_acceleration, maximum_acceleration, distance);
 }
 
 // dummy declaration
-real __cdecl calculate_desired_acceleration_real5(real velocity, real gravity, real minimum_acceleration, real maximum_acceleration, real distance);
-real __cdecl calculate_desired_acceleration(real velocity, real gravity, real minimum_acceleration, real maximum_acceleration, real distance)
+real32 __cdecl calculate_desired_acceleration_real5(real32 velocity, real32 gravity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance);
+real32 __cdecl calculate_desired_acceleration(real32 velocity, real32 gravity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance)
 {
 	return INVOKE(0x00BD1250, calculate_desired_acceleration_real5, velocity, gravity, minimum_acceleration, maximum_acceleration, distance);
 }
 
-real c_vehicle_type_vtol::calculate_lift_turn_acceleration(long vehicle_index, s_havok_vehicle_physics_instance const* instance)
+real32 c_vehicle_type_vtol::calculate_lift_turn_acceleration(long vehicle_index, s_havok_vehicle_physics_instance const* instance)
 {
 	return INVOKE_CLASS_MEMBER(0x00BD15F0, c_vehicle_type_vtol, calculate_lift_turn_acceleration, vehicle_index, instance);
 }
 
-void c_vehicle_type_vtol::compute_engine_scales(real* left, real* right) const
+void c_vehicle_type_vtol::compute_engine_scales(real32* left, real32* right) const
 {
 	INVOKE_CLASS_MEMBER(0x00BD1B10, c_vehicle_type_vtol, compute_engine_scales, left, right);
 }
 
-bool c_vehicle_type_vtol::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_vtol::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE_CLASS_MEMBER(0x00BD1BB0, c_vehicle_type_vtol, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
@@ -86,7 +86,7 @@ bool __cdecl c_vehicle_type_vtol::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BD2220, c_vehicle_type_vtol::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_vtol::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_vtol::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BD2260, c_vehicle_type_vtol, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -106,7 +106,7 @@ void c_vehicle_type_vtol::update_control(long vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BD2430, c_vehicle_type_vtol, update_control, vehicle_index);
 }
 
-void c_vehicle_type_vtol::update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* throttle, real desired_acceleration_k, long marker_name, real_vector3d* lift_vector, real_point3d* lift_origin, real_euler_angles2d* angles, real_euler_angles2d* render_angles, real_vector2d* velocity, real_vector2d* render_velocity, real* effect_scale)
+void c_vehicle_type_vtol::update_lift_vector(long vehicle_index, s_havok_vehicle_physics_instance const* instance, real_vector3d const* throttle, real32 desired_acceleration_k, long marker_name, real_vector3d* lift_vector, real_point3d* lift_origin, real_euler_angles2d* angles, real_euler_angles2d* render_angles, real_vector2d* velocity, real_vector2d* render_velocity, real32* effect_scale)
 {
 	INVOKE_CLASS_MEMBER(0x00BD24E0, c_vehicle_type_vtol, update_lift_vector, vehicle_index, instance, throttle, desired_acceleration_k, marker_name, lift_vector, lift_origin, angles, render_angles, velocity, render_velocity, effect_scale);
 }

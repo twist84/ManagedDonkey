@@ -7,7 +7,7 @@
 // - halo 3: 1.0f
 // - halo reach: 1.5f
 // - halo online: 1.5f
-REFERENCE_DECLARE(0x018F2FFC, real, c_geometry_sampler::g_bounce_light_scale);
+REFERENCE_DECLARE(0x018F2FFC, real32, c_geometry_sampler::g_bounce_light_scale);
 REFERENCE_DECLARE(0x018F3000, s_geometry_sample, c_geometry_sampler::m_default_lightprobe_sample);
 
 c_geometry_sampler::c_geometry_sampler()

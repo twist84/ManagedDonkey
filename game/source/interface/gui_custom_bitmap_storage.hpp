@@ -14,8 +14,8 @@ struct D3DBaseTexture
 	char mipmap_count_plus_one;
 	bool high_res_pixels_size_nonzero;
 	char type;
-	dword xenon_d3d_format;
-	byte __dataC[0x28];
+	uint32 xenon_d3d_format;
+	uint8 __dataC[0x28];
 };
 static_assert(sizeof(D3DBaseTexture) == 0x34);
 
@@ -38,7 +38,7 @@ struct c_gui_custom_bitmap_storage_item
 	bitmap_data m_bitmap;
 
 	bool m_allocated;
-	byte __pad3D[3];
+	uint8 __pad3D[3];
 
 	c_rasterizer_texture_ref m_hardware_format_bitmap;
 	bool m_bitmap_ready;
@@ -52,7 +52,7 @@ struct c_gui_custom_bitmap_storage_item
 	// in `halo3_cache_debug` this isn't a pointer making the struct size 0x90
 	D3DBaseTexture* texture_header;
 
-	byte __data58[0x8];
+	uint8 __data58[0x8];
 };
 static_assert(sizeof(c_gui_custom_bitmap_storage_item) == 0x60);
 
@@ -61,7 +61,7 @@ struct c_gui_custom_bitmap_storage_manager
 	struct s_bitmap_storage_handle_datum :
 		s_datum_header
 	{
-		word __unknown2;
+		uint16 __unknown2;
 		long reference_count;
 		long __unknown8;
 		c_gui_custom_bitmap_storage_item storage_item;

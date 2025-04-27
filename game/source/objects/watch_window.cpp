@@ -17,7 +17,7 @@ HOOK_DECLARE(0x0068C810, watch_object_describe_internal);
 //HOOK_DECLARE(0x0068C8E0, watch_window_dispose);
 //HOOK_DECLARE(0x0068C8F0, watch_window_initialize);
 
-dword __cdecl clear_watch_window_globals()
+uint32 __cdecl clear_watch_window_globals()
 {
 	//INVOKE(0x0068C600, clear_watch_window_globals);
 

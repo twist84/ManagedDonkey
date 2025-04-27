@@ -28,7 +28,7 @@ struct geometry_block_info
 	long owner_tag_index;
 	short owner_tag_section_offset;
 	bool runtime_section_data_valid;
-	c_flags<enum e_geometry_block_info_bit, byte, k_number_of_geometry_block_info_bits> flags;
+	c_flags<enum e_geometry_block_info_bit, uint8, k_number_of_geometry_block_info_bits> flags;
 	long runtime_cache_block_index;
 };
 static_assert(sizeof(geometry_block_info) == 0x28);

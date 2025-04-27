@@ -43,7 +43,7 @@ struct s_cache_file_resource_file_location
 	// runtime
 	short resource_handle_salt;
 
-	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags> flags;
+	c_flags<e_cache_file_tag_resource_location_flags, uint8, k_cache_file_tag_resource_location_flags> flags;
 	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
 
 	union
@@ -52,12 +52,12 @@ struct s_cache_file_resource_file_location
 		long shared_file_location_index;
 
 		// runtime combined offset, at runtime all resource files are a combined buffer
-		dword file_offset;
+		uint32 file_offset;
 	};
 
-	dword file_size;
-	dword size;
-	dword checksum;
+	uint32 file_size;
+	uint32 size;
+	uint32 checksum;
 	s_cache_file_resource_streaming_sublocation_table streaming_sublocation_table;
 };
 static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
@@ -70,10 +70,10 @@ struct s_render_texture_format
 	char mipmap_count_including_highest;
 	char bitmap_type;
 	char is_high_res_bitmap;
-	dword xenon_d3d_format;
+	uint32 xenon_d3d_format;
 	char bm_format;
 	char bm_curve;
-	word_flags bm_flags;
+	uint16 bm_flags;
 };
 static_assert(sizeof(s_render_texture_format) == 0x10);
 
@@ -139,7 +139,7 @@ struct s_cache_file_resource_runtime_data_new
 	c_tag_resource_fixup root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
 	c_typed_tag_block<s_tag_resource_interop_location> interop_locations;
-	c_flags<e_cache_file_resource_data_flags, dword, k_cache_file_resource_data_flags> flags;
+	c_flags<e_cache_file_resource_data_flags, uint32, k_cache_file_resource_data_flags> flags;
 };
 static_assert(sizeof(s_cache_file_resource_runtime_data_new) == 0x48);
 
@@ -153,7 +153,7 @@ static_assert(sizeof(s_cache_file_tag_resource_data) == 0x6C);
 struct s_cache_file_tag_parentage
 {
 	s_tag_reference child_tag;
-	word_flags flags;
+	uint16 flags;
 	short resource_owner_index;
 	c_typed_tag_block<long> parent_indices; // s_cache_file_tag_parentage block indices
 	c_typed_tag_block<long> child_indices;  // s_cache_file_tag_parentage block indices
@@ -182,8 +182,8 @@ enum e_map_id;
 struct s_cache_file_resource_gestalt
 {
 	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
-	dword resources_size;
-	dword resources_available;
+	uint32 resources_size;
+	uint32 resources_available;
 
 	c_typed_tag_block<s_cache_file_zone_manifest> designer_zone_manifests;
 	c_typed_tag_block<s_cache_file_zone_manifest> global_zone_manifests;
@@ -198,11 +198,11 @@ struct s_cache_file_resource_gestalt
 	c_typed_tag_block<s_cache_file_zone_manifest> expected_zone_set_manifests;
 	c_typed_tag_block<s_cache_file_zone_manifest> fully_populated_zone_set_manifests;
 	s_tag_data naive_control_data;
-	dword minimum_complete_pageable_data_size;
-	dword minimum_required_pageable_data_size;
-	dword minimum_required_dvd_data_size;
-	dword global_pageable_data_size;
-	dword optional_control_data_size;
+	uint32 minimum_complete_pageable_data_size;
+	uint32 minimum_required_pageable_data_size;
+	uint32 minimum_required_dvd_data_size;
+	uint32 global_pageable_data_size;
+	uint32 optional_control_data_size;
 	s_tag_block global_resource_usage;
 	s_tag_block bsp_game_attachments;
 	s_tag_block debug_resources_per_model_variant;

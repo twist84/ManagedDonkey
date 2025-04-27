@@ -13,7 +13,7 @@ public:
 	
 //protected:
 	real_euler_angles2d m_facing_offset;
-	real m_distance_scale;
+	real32 m_distance_scale;
 	real_vector3d m_acceleration_offset;
 	long m_last_unit_index;
 	bool m_confined;
@@ -23,7 +23,7 @@ public:
 	short m_zoom_level;
 	short m_seat_index;
 
-	byte unused[0x18];
+	uint8 unused[0x18];
 };
 static_assert(sizeof(c_following_camera) == 0x4C);
 

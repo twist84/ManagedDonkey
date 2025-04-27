@@ -72,7 +72,7 @@ enum
 struct s_gpu_time_profile
 {
 	c_stop_watch stop_watch;
-	__int64 cycles;
+	int64 cycles;
 };
 static_assert(sizeof(s_gpu_time_profile) == 0x20);
 
@@ -86,8 +86,8 @@ public:
 	
 	s_gpu_time_profile* get_element_profile(e_rasterizer_profile_elements profile_element_index, long frame_reference);
 
-	double* get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, long block_buffer_index);
-	double* get_block_time_total(long block_buffer_index);
+	real64* get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, long block_buffer_index);
+	real64* get_block_time_total(long block_buffer_index);
 
 	bool* get_frame_valid(long index);
 	long get_last_frame_reference();
@@ -103,8 +103,8 @@ public:
 protected:
 	s_gpu_time_profile m_element_profile[k_rasterizer_profile_element_count][k_max_cpu_frames_ahead_of_gpu];
 
-	double m_element_block_time[k_rasterizer_profile_stall_count][k_maximum_number_of_block_time_buffers];
-	double m_block_time_total[k_maximum_number_of_block_time_buffers];
+	real64 m_element_block_time[k_rasterizer_profile_stall_count][k_maximum_number_of_block_time_buffers];
+	real64 m_block_time_total[k_maximum_number_of_block_time_buffers];
 
 	bool m_frame_valid[k_max_cpu_frames_ahead_of_gpu];
 	long m_frame_reference;

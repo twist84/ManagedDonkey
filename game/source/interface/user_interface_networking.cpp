@@ -351,5 +351,5 @@ void __cdecl user_interface_set_desired_multiplayer_mode(e_desired_multiplayer_m
 	INVOKE(0x00A7FFB0, user_interface_set_desired_multiplayer_mode, desired_multiplayer_mode);
 }
 
-//.text:00A80060 ; void __cdecl user_interface_simulation_describe_status(string_id* status_string, real* progress)
+//.text:00A80060 ; void __cdecl user_interface_simulation_describe_status(string_id* status_string, real32* progress)
 

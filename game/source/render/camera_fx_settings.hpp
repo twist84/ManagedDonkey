@@ -11,15 +11,15 @@ public:
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 
-	dword_flags m_flags;
-	real m_light_intensity_scale;
-	real m_exposure_bias;
-	real m_exposure_blend;
-	real m_exposure_stops;
-	real g_original_exposure_stops;
-	real g_target_exposure_stops;
-	real g_original_exposure_blend;
-	real g_target_exposure_blend;
+	uint32 m_flags;
+	real32 m_light_intensity_scale;
+	real32 m_exposure_bias;
+	real32 m_exposure_blend;
+	real32 m_exposure_stops;
+	real32 g_original_exposure_stops;
+	real32 g_target_exposure_stops;
+	real32 g_original_exposure_blend;
+	real32 g_target_exposure_blend;
 	long g_exposure_animation_start_time;
 	long g_exposure_animation_end_time;
 	long g_exposure_adapt_instantly_frames;
@@ -32,24 +32,24 @@ struct s_ssao_parameter
 	// SSAO
 	// SSAO parameters
 
-	dword_flags m_flags;
+	uint32 m_flags;
 
-	real m_intensity;
-	real m_radius;
-	real m_sample_z_threshold;
+	real32 m_intensity;
+	real32 m_radius;
+	real32 m_sample_z_threshold;
 };
 static_assert(sizeof(s_ssao_parameter) == 0x10);
 
 struct s_color_grading_parameter
 {
-	void set_defaults(dword flags, real blend_time);
+	void set_defaults(uint32 flags, real32 blend_time);
 
 	// COLOR GRADING
 	// Color grading parameters
 
-	dword_flags m_flags;
+	uint32 m_flags;
 
-	real m_blend_time;
+	real32 m_blend_time;
 
 	s_tag_block m_curves_editor;
 	s_tag_block m_brightness_contrast;
@@ -65,16 +65,16 @@ struct s_lightshafts
 	// LIGHTSHAFTS
 	// Lightshafts parameters
 
-	dword_flags m_flags;
+	uint32 m_flags;
 
-	real m_pitch;           // [0...90]
-	real m_heading;         // [0...360]
+	real32 m_pitch;           // [0...90]
+	real32 m_heading;         // [0...360]
 	real_rgb_color m_tint;
-	real m_depth_clamp;
-	real m_intensity_clamp; // [0...1]
-	real m_falloff_radius;  // [0...2]
-	real m_intensity;       // [0...50]
-	real m_blur_radius;     // [0...20]
+	real32 m_depth_clamp;
+	real32 m_intensity_clamp; // [0...1]
+	real32 m_falloff_radius;  // [0...2]
+	real32 m_intensity;       // [0...50]
+	real32 m_blur_radius;     // [0...20]
 };
 static_assert(sizeof(s_lightshafts) == 0x2C);
 
@@ -95,45 +95,45 @@ struct c_camera_fx_settings
 
 	struct s_parameter
 	{
-		word_flags m_flags;
+		uint16 m_flags;
 	};
 
 	struct s_real_parameter :
 		s_parameter
 	{
-		word pad;
-		real m_target;
-		real m_blend_limit;
-		real m_blend_speed;
+		uint16 pad;
+		real32 m_target;
+		real32 m_blend_limit;
+		real32 m_blend_speed;
 	};
 
 	struct s_real_instant_parameter :
 		s_parameter
 	{
-		word pad;
-		real m_target;
+		uint16 pad;
+		real32 m_target;
 	};
 
 	struct s_word_parameter :
 		s_parameter
 	{
-		word m_target;
+		uint16 m_target;
 	};
 
 	struct s_color_parameter :
 		s_parameter
 	{
-		word pad;
+		uint16 pad;
 		real_rgb_color m_color;
 	};
 
 	struct s_real_exposure_parameter :
 		s_real_parameter
 	{
-		real m_target_min;
-		real m_target_max;
-		real m_auto_exposure_target_brightness;
-		real m_auto_exposure_delay;
+		real32 m_target_min;
+		real32 m_target_max;
+		real32 m_auto_exposure_target_brightness;
+		real32 m_auto_exposure_delay;
 	};
 
 	s_real_exposure_parameter m_exposure;
@@ -164,10 +164,10 @@ struct c_exposure
 	long m_render_target_queue_index;
 	long m_render_target_queue[1];
 
-	real m_prev_exposure;
-	real m_exposure;
-	real m_exposure_velocity;
-	real m_exposure_buffer[60];
+	real32 m_prev_exposure;
+	real32 m_exposure;
+	real32 m_exposure_velocity;
+	real32 m_exposure_buffer[60];
 
 	long m_buffer_index;
 };
@@ -179,31 +179,31 @@ public:
 	void set(c_camera_fx_settings const* settings);
 
 public:
-	static real& g_HDR_target_stops;
+	static real32& g_HDR_target_stops;
 
 //protected:
 	c_exposure m_exposure;
-	real m_exposure_boost;
-	real m_auto_exposure_sensitivity;
-	real m_exposure_anti_bloom;
-	real m_bloom_point;
-	real m_bloom_inherent;
-	real m_bloom_intensity;
-	real m_bling_intensity;
-	real m_bling_size;
-	real m_bling_angle;
-	word m_bling_count;
+	real32 m_exposure_boost;
+	real32 m_auto_exposure_sensitivity;
+	real32 m_exposure_anti_bloom;
+	real32 m_bloom_point;
+	real32 m_bloom_inherent;
+	real32 m_bloom_intensity;
+	real32 m_bling_intensity;
+	real32 m_bling_size;
+	real32 m_bling_angle;
+	uint16 m_bling_count;
 	real_rgb_color m_bloom_large_color;
 	real_rgb_color m_bloom_medium_color;
 	real_rgb_color m_bloom_small_color;
-	real m_self_illum_preferred;
-	real m_self_illum_scale;
-	real m_self_illum_exposure;
+	real32 m_self_illum_preferred;
+	real32 m_self_illum_scale;
+	real32 m_self_illum_exposure;
 	s_ssao_parameter ssao;
 	s_color_grading_parameter color_grading;
 	s_lightshafts lightshafts;
 };
 static_assert(sizeof(c_camera_fx_values) == 0x1F0);
 
-extern void __cdecl scripted_exposure_update(real game_seconds_elapsed);
+extern void __cdecl scripted_exposure_update(real32 game_seconds_elapsed);
 

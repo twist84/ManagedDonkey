@@ -113,7 +113,7 @@ bool c_vehicle_type_component::auto_control(long vehicle_index)
 	return false;
 }
 
-bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A2D0, c_vehicle_type_component, compute_function_value, vehicle_index, function, magnitude, force_active);
 
@@ -459,7 +459,7 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 		c_vehicle_type_component::reset(vehicle_index);
 }
 
-bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real min_range, real alt_range, real alt_time, long object_index)
+bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, long object_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 
@@ -636,7 +636,7 @@ bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 	return result;
 }
 
-void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8ABF0, c_vehicle_type_component, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 

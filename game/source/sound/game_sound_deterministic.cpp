@@ -18,7 +18,7 @@ void __cdecl game_sound_deterministic_dispose_from_old_map()
 	INVOKE(0x0068CA40, game_sound_deterministic_dispose_from_old_map);
 }
 
-//.text:0068CA50 ; double __cdecl game_sound_deterministic_get_permutation_playing_time(long, s_game_sound_deterministic_permutation const*)
+//.text:0068CA50 ; real64 __cdecl game_sound_deterministic_get_permutation_playing_time(long, s_game_sound_deterministic_permutation const*)
 //.text:0068CB10 ;
 //.text:0068CBD0 ;
 

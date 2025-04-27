@@ -66,9 +66,9 @@ struct c_online_service_record_manager
 {
 	long m_last_download_status;
 	c_http_stored_buffer_downloader<4373> m_downloader;
-	byte __align17B0[0x8];
-	qword m_current_service_record_xuid;
-	__int64 m_current_service_record_refresh_milliseconds;
+	uint8 __align17B0[0x8];
+	uint64 m_current_service_record_xuid;
+	int64 m_current_service_record_refresh_milliseconds;
 	c_online_service_record m_current_service_record;
 };
 static_assert(sizeof(c_online_service_record_manager) == 0x17D0);
@@ -78,7 +78,7 @@ struct s_service_record_identity
 	c_static_wchar_string<16> name;
 	s_player_appearance appearance;
 	bool extras_portal_debug;
-	byte vidmaster;
+	uint8 vidmaster;
 	e_campaign_progress campaign_progress;
 	long highest_skill;
 	long experience;

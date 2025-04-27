@@ -21,12 +21,12 @@ struct s_physics_model_primitive
 {
 	c_string_id name;
 	short material;
-	c_flags<e_primitive_flags, word_flags, k_primitive_flags> flags;
-	real relative_mass_scale;
-	real friction;
-	real restitution;
-	real volume;
-	real mass;
+	c_flags<e_primitive_flags, uint16, k_primitive_flags> flags;
+	real32 relative_mass_scale;
+	real32 friction;
+	real32 restitution;
+	real32 volume;
+	real32 mass;
 	short mass_distribution_index;
 	char phantom;
 	char runtime_collision_group;
@@ -46,7 +46,7 @@ static_assert(sizeof(s_havok_shape) == 0x10);
 struct s_havok_convex_shape // hkConvexShape
 {
 	s_havok_shape base;
-	real radius;
+	real32 radius;
 };
 static_assert(sizeof(s_havok_convex_shape) == 0x14);
 
@@ -86,7 +86,7 @@ struct s_havok_convex_translate_shape // hkConvexTranslateShape
 	s_havok_shape_reference havok_shape_reference_struct;
 	long child_shape_size;
 	real_vector3d translation;
-	real havok_w_translation;
+	real32 havok_w_translation;
 };
 static_assert(sizeof(s_havok_convex_translate_shape) == 0x30);
 
@@ -96,7 +96,7 @@ struct s_havok_shape_collection // hkShapeCollection
 	void* field_pointer_skip;
 	char disable_welding;
 	char collection_type;
-	byte VDVAPBSS[0x2]; // pad
+	uint8 VDVAPBSS[0x2]; // pad
 };
 static_assert(sizeof(s_havok_shape_collection) == 0x18);
 
@@ -104,7 +104,7 @@ struct s_physics_model_sphere
 {
 	s_physics_model_primitive base;
 	s_havok_convex_shape sphere_shape;
-	byte algn344[0xC]; // pad
+	uint8 algn344[0xC]; // pad
 	s_havok_convex_translate_shape translate_shape;
 };
 static_assert(sizeof(s_physics_model_sphere) == 0x70);
@@ -113,11 +113,11 @@ struct s_physics_model_pill
 {
 	s_physics_model_primitive base;
 	s_havok_convex_shape capsule_shape;
-	byte algn243[0xC]; // pad
+	uint8 algn243[0xC]; // pad
 	real_vector3d bottom;
-	real havok_w_bottom;
+	real32 havok_w_bottom;
 	real_vector3d top;
-	real havok_w_top;
+	real32 havok_w_top;
 };
 static_assert(sizeof(s_physics_model_pill) == 0x60);
 

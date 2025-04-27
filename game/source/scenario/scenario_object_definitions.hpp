@@ -10,7 +10,7 @@ struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<t_group_tags> name;
 
-	byte GYFQQPUM[0x20]; // pad
+	uint8 GYFQQPUM[0x20]; // pad
 
 	void update_reference_names()
 	{
@@ -25,9 +25,9 @@ struct scenario_object_palette_entry_with_string_id
 	c_typed_tag_reference<t_group_tags> name;
 	c_string_id display_name;
 	long maximum_allowed;
-	real price_per_instance;
+	real32 price_per_instance;
 
-	byte GYFQQPUM[0x14]; // pad
+	uint8 GYFQQPUM[0x14]; // pad
 
 	void update_reference_names()
 	{
@@ -38,30 +38,30 @@ static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x
 
 struct s_scenario_object_datum
 {
-	dword_flags placement_flags;
+	uint32 placement_flags;
 	real_point3d position;
 	real_euler_angles3d rotation;
-	real scale;
+	real32 scale;
 	s_tag_block node_orientations;
-	word_flags transform_flags;
-	word manual_bsp_flags; // word_block_flags
+	uint16 transform_flags;
+	uint16 manual_bsp_flags; // word_block_flags
 	c_string_id light_airprobe_name;
 	c_object_identifier object_id;
-	char bsp_policy; // char_enum
+	int8 bsp_policy;
 	char editing_bound_to_bsp; // char_block_index
 	short editor_folder; // short_block_index
 	s_scenario_multiplayer_scenario_object_parent parent_id;
-	word can_attach_to_bsp_flags; // word_block_flags
+	uint16 can_attach_to_bsp_flags; // word_block_flags
 
 	// pad
-	byte asdf[0x2];
+	uint8 asdf[0x2];
 };
 static_assert(sizeof(s_scenario_object_datum) == 0x50);
 
 struct s_scenario_object_permutation
 {
 	string_id variant_name;
-	dword_flags active_change_colors;
+	uint32 active_change_colors;
 	rgb_color change_colors[5];
 };
 static_assert(sizeof(s_scenario_object_permutation) == 0x1C);
@@ -86,8 +86,8 @@ enum e_scenario_unit_datum_flags
 
 struct s_scenario_unit_datum
 {
-	real body_vitality;
-	c_flags<e_scenario_unit_datum_flags, dword, k_scenario_unit_datum_flags> flags;
+	real32 body_vitality;
+	c_flags<e_scenario_unit_datum_flags, uint32, k_scenario_unit_datum_flags> flags;
 };
 static_assert(sizeof(s_scenario_unit_datum) == 0x8);
 
@@ -122,12 +122,12 @@ enum e_device_group_flags
 struct scenario_device_group
 {
 	c_static_string<k_tag_string_length> name;
-	real initial_value; // [0,1]
-	c_flags<e_device_group_flags, dword, k_device_group_flags> flags;
+	real32 initial_value; // [0,1]
+	c_flags<e_device_group_flags, uint32, k_device_group_flags> flags;
 	short editor_folder; // short_block_index
 
 	// pad
-	byte WAFNDIO[0x2];
+	uint8 WAFNDIO[0x2];
 };
 static_assert(sizeof(scenario_device_group) == 0x2C);
 
@@ -136,10 +136,10 @@ struct s_scenario_equipment;
 
 struct scenario_giant_datum
 {
-	short_enum pathfinding_policy;
+	int16 pathfinding_policy;
 
 	// pad
-	byte post_pathfinding[0x2];
+	uint8 post_pathfinding[0x2];
 
 	s_tag_block pathfinding_references;
 };
@@ -176,7 +176,7 @@ struct s_scenario_weapon_datum
 {
 	short rounds_left;
 	short rounds_loaded;
-	c_flags<e_scenario_weapon_datum_flags, dword, k_scenario_weapon_datum_flags> flags;
+	c_flags<e_scenario_weapon_datum_flags, uint32, k_scenario_weapon_datum_flags> flags;
 };
 static_assert(sizeof(s_scenario_weapon_datum) == 0x8);
 

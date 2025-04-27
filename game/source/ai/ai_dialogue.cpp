@@ -61,35 +61,35 @@ void __cdecl ai_dialogue_update()
 //.text:01438BC0 ; bool __cdecl dialogue_category_survives_suppression(short)
 //.text:01438C30 ; short __cdecl dialogue_choose_option(c_dialogue_option*, short)
 //.text:01438D40 ; void __cdecl dialogue_emotion(long, short, short)
-//.text:01438DA0 ; long __cdecl dialogue_find_speaker(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, bool, bool, long*, short*, real*, real*)
-//.text:01439060 ; long __cdecl dialogue_find_speaker_clump(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long*, short*, real*, real*)
-//.text:01439190 ; long __cdecl dialogue_find_speaker_joint(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, long*, short*, real*, real*)
-//.text:014393D0 ; long __cdecl dialogue_find_speaker_vehicle(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, bool, long*, short*, real*, real*)
+//.text:01438DA0 ; long __cdecl dialogue_find_speaker(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, bool, bool, long*, short*, real32*, real32*)
+//.text:01439060 ; long __cdecl dialogue_find_speaker_clump(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long*, short*, real32*, real32*)
+//.text:01439190 ; long __cdecl dialogue_find_speaker_joint(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, long*, short*, real32*, real32*)
+//.text:014393D0 ; long __cdecl dialogue_find_speaker_vehicle(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, bool, long*, short*, real32*, real32*)
 //.text:014395B0 ; long __cdecl dialogue_get_team_vocalization_delay(ai_dialogue_definitions const*, team_dialogue_state*, short)
 
-double __cdecl dialogue_player_weighting(long unit_index)
+real64 __cdecl dialogue_player_weighting(long unit_index)
 {
 	return INVOKE(0x014395E0, dialogue_player_weighting, unit_index);
 }
 
 //.text:01439A00 ; bool __cdecl dialogue_reply_event(long, long, long, c_dialogue_option*, long*)
 //.text:01439D20 ; bool __cdecl dialogue_speak(ai_dialogue_definitions*, long, c_dialogue_option*, long*)
-//.text:01439E70 ; long __cdecl dialogue_task_find_speaker(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long*, short*, real*, real*)
+//.text:01439E70 ; long __cdecl dialogue_task_find_speaker(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long*, short*, real32*, real32*)
 
 short __cdecl dialogue_team_get(short team)
 {
 	return INVOKE(0x01439FE0, dialogue_team_get, team);
 }
 
-//.text:0143A010 ; short __cdecl dialogue_unit_can_vocalize(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long, long*, real*)
+//.text:0143A010 ; short __cdecl dialogue_unit_can_vocalize(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, long, long*, real32*)
 //.text:0143AC00 ; 
 //.text:0143AC10 ; 
 //.text:0143AC40 ; 
 //.text:0143AC70 ; 
 //.text:0143AC80 ; 
 //.text:0143AC90 ; 
-//.text:0143ACB0 ; bool __cdecl pattern_match_ai_type_name(long, long, real*)
-//.text:0143AE30 ; bool __cdecl pattern_match_object_type(short, long, real*)
+//.text:0143ACB0 ; bool __cdecl pattern_match_ai_type_name(long, long, real32*)
+//.text:0143AE30 ; bool __cdecl pattern_match_object_type(short, long, real32*)
 //.text:0143B7D0 ; bool __cdecl pattern_match_spatial(long, long, short)
 //.text:0143BB30 ; 
 //.text:0143BB40 ; 

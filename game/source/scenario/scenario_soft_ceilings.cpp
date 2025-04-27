@@ -144,7 +144,7 @@ void __cdecl scenario_soft_ceilings_render_debug(
 						if (!render_soft_ceilings || structure_design->physics.importer_version < 1 || !scenario_soft_ceilings_plane_get(&plane, structure_bsp_index, soft_ceiling_index, triangle_index))
 							break;
 
-						real distance_to_point = plane3d_distance_to_point(&plane, point);
+						real32 distance_to_point = plane3d_distance_to_point(&plane, point);
 
 						real_argb_color soft_ceilings_color = *global_real_argb_pink;
 						if (distance_to_point >= 0.0f)

@@ -15,7 +15,7 @@ void c_vehicle_auto_turret::handle_deleted_object(long vehicle_index, long delet
 	INVOKE_CLASS_MEMBER(0x00BBFFC0, c_vehicle_auto_turret, handle_deleted_object, vehicle_index, deleted_object_index);
 }
 
-bool c_vehicle_auto_turret::init(long vehicle_index, long trigger_volume, real min_range, real alt_range, real alt_time, long creator_object_index)
+bool c_vehicle_auto_turret::init(long vehicle_index, long trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, long creator_object_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00BC0010, c_vehicle_auto_turret, init, vehicle_index, trigger_volume, min_range, alt_range, alt_time, creator_object_index);
 }
@@ -25,7 +25,7 @@ void c_vehicle_auto_turret::reset()
 	return INVOKE_CLASS_MEMBER(0x00BC01A0, c_vehicle_auto_turret, reset);
 }
 
-real c_vehicle_auto_turret::score_target(long vehicle_index, long target_unit_index)
+real32 c_vehicle_auto_turret::score_target(long vehicle_index, long target_unit_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00BC0210, c_vehicle_auto_turret, score_target, vehicle_index, target_unit_index);
 }

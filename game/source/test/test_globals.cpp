@@ -51,10 +51,10 @@
 #include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
 
-// a static byte array used in `c_network_channel::receive_packet`
+// a static uint8 array used in `c_network_channel::receive_packet`
 // passed to `c_network_message_queue::retrieve_message`
 // passed to `c_network_message_handler::handle_channel_message`
-REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
+REFERENCE_DECLARE_ARRAY(0x019E8D58, uint8, message_storage, 0x40000);
 
 void copy_input_states(bool enabled)
 {
@@ -69,7 +69,7 @@ void copy_input_states(bool enabled)
 struct s_location_message
 {
 	e_map_id map_id;
-	real radius;
+	real32 radius;
 	real_point3d position;
 	wchar_t const* message;
 };
@@ -81,7 +81,7 @@ static s_location_message location_messages[] =
 
 void show_location_messages()
 {
-	static real last_message_time = game_time_get_safe_in_seconds();
+	static real32 last_message_time = game_time_get_safe_in_seconds();
 
 	if (!game_in_progress())
 		return;

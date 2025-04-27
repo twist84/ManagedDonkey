@@ -67,10 +67,10 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//	bool player2_valid = TEST_BIT(collection->player_valid_mask, player_update->swap_player_index);
 	//
 	//	bool player1_left_game = swap_player->left_game;
-	//	dword player1_left_game_time = swap_player->left_game_time;
+	//	uint32 player1_left_game_time = swap_player->left_game_time;
 	//
 	//	bool player2_left_game = swap_player->left_game;
-	//	dword player2_left_game_time = swap_player->left_game_time;
+	//	uint32 player2_left_game_time = swap_player->left_game_time;
 	//
 	//	ASSERT(player1_valid || player2_valid);
 	//	ASSERT(player2_valid == player2_left_game);
@@ -226,13 +226,13 @@ void __cdecl simulation_player_collection_clear(s_player_collection* collection)
 	//}
 }
 
-dword simulation_player_collection_get_in_game_mask(s_player_collection const* collection)
+uint32 simulation_player_collection_get_in_game_mask(s_player_collection const* collection)
 {
 	return INVOKE(0x004A7E90, simulation_player_collection_get_in_game_mask, collection);
 
 	//ASSERT(collection);
 	//
-	//dword in_game_mask = 0;
+	//uint32 in_game_mask = 0;
 	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
 	//	if (TEST_BIT(collection->player_valid_mask, player_index))

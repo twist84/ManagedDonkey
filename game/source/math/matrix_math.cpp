@@ -4,12 +4,12 @@
 
 #include <math.h>
 
-//.text:005B0330 ; real __cdecl matrix3x3_determinant(real_matrix3x3 const*)
-//.text:005B03B0 ; void __cdecl matrix3x3_from_angles(real_matrix3x3*, real, real, real)
-//.text:005B04F0 ; void __cdecl matrix3x3_from_angles_cpp(real_matrix3x3*, real, real, real)
-//.text:005B0630 ; real_matrix3x3* __cdecl matrix3x3_from_axis_and_angle(real_matrix3x3*, real_vector3d const*, real, real)
+//.text:005B0330 ; real32 __cdecl matrix3x3_determinant(real_matrix3x3 const*)
+//.text:005B03B0 ; void __cdecl matrix3x3_from_angles(real_matrix3x3*, real32, real32, real32)
+//.text:005B04F0 ; void __cdecl matrix3x3_from_angles_cpp(real_matrix3x3*, real32, real32, real32)
+//.text:005B0630 ; real_matrix3x3* __cdecl matrix3x3_from_axis_and_angle(real_matrix3x3*, real_vector3d const*, real32, real32)
 //.text:005B0740 ; real_matrix3x3* __cdecl matrix3x3_from_forward_and_up(real_matrix3x3*, real_vector3d const*, real_vector3d const*)
-//.text:005B07C0 ; real_matrix3x3* __cdecl matrix3x3_inverse(real_matrix3x3 const*, real, real_matrix3x3*)
+//.text:005B07C0 ; real_matrix3x3* __cdecl matrix3x3_inverse(real_matrix3x3 const*, real32, real_matrix3x3*)
 //.text:005B0900 ; real_vector3d* __cdecl matrix3x3_inverse_transform_vector(real_matrix3x3 const*, real_vector3d const*, real_vector3d*)
 //.text:005B09B0 ; real_matrix3x3* __cdecl matrix3x3_multiply(real_matrix3x3 const*, real_matrix3x3 const*, real_matrix3x3*)
 //.text:005B0BB0 ; bool __cdecl matrix3x3_normalize(real_matrix3x3*)
@@ -51,9 +51,9 @@ void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* res
 {
 	INVOKE(0x005B21E0, matrix4x3_inverse, matrix, result);
 
-	real negative_x = -matrix->position.x;
-	real negative_y = -matrix->position.y;
-	real negative_z = -matrix->position.z;
+	real32 negative_x = -matrix->position.x;
+	real32 negative_y = -matrix->position.y;
+	real32 negative_z = -matrix->position.z;
 
 	if (matrix->scale == 1.0f)
 	{
@@ -122,8 +122,8 @@ void __cdecl matrix4x3_multiply(real_matrix4x3 const* a, real_matrix4x3 const* b
 
 //.text:005B2A90 ; void __cdecl matrix4x3_multiply_cpp(real_matrix4x3 const* a, real_matrix4x3 const* b, real_matrix4x3* result)
 //.text:005B2D20 ; void __cdecl matrix4x3_rotation_between_vectors(real_matrix4x3*, real_vector3d const*, real_vector3d const*)
-//.text:005B3100 ; void __cdecl matrix4x3_rotation_from_angles(real_matrix4x3*, real, real, real)
-//.text:005B3270 ; void __cdecl matrix4x3_rotation_from_axis_and_angle(real_matrix4x3*, real_vector3d const*, real, real)
+//.text:005B3100 ; void __cdecl matrix4x3_rotation_from_angles(real_matrix4x3*, real32, real32, real32)
+//.text:005B3270 ; void __cdecl matrix4x3_rotation_from_axis_and_angle(real_matrix4x3*, real_vector3d const*, real32, real32)
 //.text:005B33A0 ; void __cdecl matrix4x3_rotation_from_nonaxial_forward_and_left(real_matrix4x3*, real_vector3d const*, real_vector3d const*)
 //.text:005B33E0 ; void __cdecl matrix4x3_rotation_from_nonaxial_vectors(real_matrix4x3*, real_vector3d const*, real_vector3d const*)
 //.text:005B3420 ; void __cdecl matrix4x3_rotation_from_nonaxial_vectors_using_up(real_matrix4x3*, real_vector3d const*, real_vector3d const*)
@@ -146,7 +146,7 @@ void __cdecl matrix4x3_rotation_to_angles(real_matrix4x3* matrix, real_euler_ang
 }
 
 //.text:005B37D0 ; void __cdecl matrix4x3_rotation_to_quaternion(real_matrix4x3 const*, real_quaternion*)
-//.text:005B37E0 ; void __cdecl matrix4x3_scale(real_matrix4x3*, real)
+//.text:005B37E0 ; void __cdecl matrix4x3_scale(real_matrix4x3*, real32)
 //.text:005B3850 ; void __cdecl matrix4x3_to_orientation(real_matrix4x3 const*, real_orientation*)
 //.text:005B3890 ; void __cdecl matrix4x3_to_point_and_vectors(real_matrix4x3 const*, real_point3d*, real_vector3d*, real_vector3d*)
 
@@ -175,9 +175,9 @@ real_point3d* __cdecl matrix4x3_transform_point(real_matrix4x3 const* matrix, re
 {
 	//return INVOKE(0x005B3A40, matrix4x3_transform_point, matrix, point, result);
 
-	real forward = point->n[0] * matrix->scale;
-	real left = point->n[1] * matrix->scale;
-	real up = point->n[2] * matrix->scale;
+	real32 forward = point->n[0] * matrix->scale;
+	real32 left = point->n[1] * matrix->scale;
+	real32 up = point->n[2] * matrix->scale;
 
 	result->n[0] = (((matrix->left.n[0] * left) + (matrix->forward.n[0] * forward)) + (matrix->up.n[0] * up)) + matrix->position.n[0];
 	result->n[1] = (((matrix->left.n[1] * left) + (matrix->forward.n[1] * forward)) + (matrix->up.n[1] * up)) + matrix->position.n[1];
@@ -198,9 +198,9 @@ real_vector3d* __cdecl matrix4x3_transform_vector(real_matrix4x3 const* matrix, 
 {
 	//return INVOKE(0x005B3BD0, matrix4x3_transform_vector, matrix, vector, result);
 
-	real forward = vector->n[0];
-	real left = vector->n[1];
-	real up = vector->n[2];
+	real32 forward = vector->n[0];
+	real32 left = vector->n[1];
+	real32 up = vector->n[2];
 
 	if (matrix->scale != 1.0)
 	{

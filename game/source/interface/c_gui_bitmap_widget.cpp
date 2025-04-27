@@ -23,7 +23,7 @@
 
 bitmap_data const* c_gui_bitmap_widget::get_current_bitmap() const
 {
-	//return INVOKE_CLASS_MEMBER((dword)__vftable->__funcs[38], c_gui_bitmap_widget, get_current_bitmap);
+	//return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[38], c_gui_bitmap_widget, get_current_bitmap);
 	return INVOKE_CLASS_MEMBER(0x00B16AC0, c_gui_bitmap_widget, get_current_bitmap);
 }
 
@@ -51,6 +51,6 @@ void c_gui_bitmap_widget::set_sprite_sequence(long sprite_sequence)
 	m_sprite_sequence = sprite_sequence;
 }
 
-//.text:00B17690 ; public: virtual void __cdecl c_gui_bitmap_widget::update_render_state(dword)
+//.text:00B17690 ; public: virtual void __cdecl c_gui_bitmap_widget::update_render_state(uint32)
 //.text:00B17810 ; public: virtual bool __cdecl c_gui_bitmap_widget::within_focus_chain()
 

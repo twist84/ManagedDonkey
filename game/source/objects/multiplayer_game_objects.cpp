@@ -43,8 +43,8 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			real_vector3d height{};
 			real_point3d base{};
 
-			real absolute_boundary_positive_height = fabsf(geometry_data->boundary_positive_height);
-			real absolute_boundary_negative_height = fabsf(geometry_data->boundary_negative_height);
+			real32 absolute_boundary_positive_height = fabsf(geometry_data->boundary_positive_height);
+			real32 absolute_boundary_negative_height = fabsf(geometry_data->boundary_negative_height);
 
 			height.k = absolute_boundary_negative_height + absolute_boundary_positive_height;
 			base.z = height.k * -0.5f;
@@ -59,10 +59,10 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 		{
 			real_rectangle3d bounds{};
 
-			real absolute_boundary_positive_height = fabsf(geometry_data->boundary_positive_height);
-			real absolute_boundary_negative_height = fabsf(geometry_data->boundary_negative_height);
-			real absolute_boundary_width = fabsf(geometry_data->boundary_width);
-			real absolute_boundary_box_length = fabsf(geometry_data->boundary_box_length);
+			real32 absolute_boundary_positive_height = fabsf(geometry_data->boundary_positive_height);
+			real32 absolute_boundary_negative_height = fabsf(geometry_data->boundary_negative_height);
+			real32 absolute_boundary_width = fabsf(geometry_data->boundary_width);
+			real32 absolute_boundary_box_length = fabsf(geometry_data->boundary_box_length);
 
 			bounds.x0 = absolute_boundary_width / 2;
 			bounds.x1 = absolute_boundary_width / -2;
@@ -70,7 +70,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			bounds.y0 = absolute_boundary_box_length / 2;
 			bounds.y1 = absolute_boundary_box_length / -2;
 
-			real v7 = absolute_boundary_positive_height - ((absolute_boundary_negative_height + absolute_boundary_positive_height) / 2);
+			real32 v7 = absolute_boundary_positive_height - ((absolute_boundary_negative_height + absolute_boundary_positive_height) / 2);
 			bounds.z0 = absolute_boundary_positive_height - v7;
 			bounds.z1 = -absolute_boundary_negative_height - v7;
 

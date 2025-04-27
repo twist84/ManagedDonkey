@@ -51,20 +51,20 @@ public:
 public:
 	struct s_world_state_data_disconnected
 	{
-		dword disconnected_timestamp;
+		uint32 disconnected_timestamp;
 	};
 	static_assert(sizeof(s_world_state_data_disconnected) == 0x4);
 
 	struct s_world_state_data_joining
 	{
-		dword join_start_timestamp;
-		dword join_client_machine_mask;
+		uint32 join_start_timestamp;
+		uint32 join_client_machine_mask;
 	};
 	static_assert(sizeof(s_world_state_data_joining) == 0x8);
 
 	struct s_world_state_data_active
 	{
-		dword active_client_machine_mask;
+		uint32 active_client_machine_mask;
 	};
 	static_assert(sizeof(s_world_state_data_active) == 0x4);
 
@@ -103,17 +103,17 @@ public:
 	bool m_attached_to_map;
 	bool m_gamestate_flush_client_skip;
 	long m_unsuccessful_join_attempts;
-	dword m_last_active_timestamp;
+	uint32 m_last_active_timestamp;
 	long m_next_view_establishment_identifier;
 	long m_joining_total_wait_msec;
 	long m_maximum_queued_updates;
 	e_update_queue_state m_update_queue_state;
-	dword m_update_queue_state_time;
+	uint32 m_update_queue_state_time;
 	long m_view_count;
 	c_simulation_view* m_views[16];
 	c_simulation_player m_players[16];
 	c_simulation_actor m_actors[16];
-	dword m_synchronous_catchup_initiation_failure_timestamp;
+	uint32 m_synchronous_catchup_initiation_failure_timestamp;
 	long m_update_queue_next_update_number_to_dequeue;
 	e_update_queue_node m_update_queue_latest_entry_received_type;
 	long m_update_queue_latest_entry_received_update_number;

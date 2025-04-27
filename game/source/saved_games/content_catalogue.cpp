@@ -97,16 +97,16 @@ c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index 
 //.text:005A7A50 ; 
 //.text:005A7A60 ; 
 //.text:005A7A70 ; 
-//.text:005A7A80 ; protected: dword c_content_catalogue::get_device_id() const
+//.text:005A7A80 ; protected: uint32 c_content_catalogue::get_device_id() const
 //.text:005A7AA0 ; 
 //.text:005A7AB0 ; public: long c_content_catalogue::get_free_slots_for_content(e_game_content_type, bool) const
-//.text:005A7C10 ; public: qword c_content_catalogue::get_free_space_bytes() const
+//.text:005A7C10 ; public: uint64 c_content_catalogue::get_free_space_bytes() const
 //.text:005A7CB0 ; 
 //.text:005A7CC0 ; 
 //.text:005A7CD0 ; 
 //.text:005A7CE0 ; 
 //.text:005A7CF0 ; 
-//.text:005A7D00 ; public: bool c_content_catalogue::get_storage_space(qword*, qword*)
+//.text:005A7D00 ; public: bool c_content_catalogue::get_storage_space(uint64*, uint64*)
 //.text:005A7E00 ; 
 
 void c_content_catalogue::initialize(e_controller_index controller_index)

@@ -1,7 +1,7 @@
 #include "objects/object_recycling.hpp"
 
-//.text:00BB9260 ; long __cdecl recycle_worst_object_available(long, byte*, long, bool*, char*, long)
-//.text:00BB9330 ; long __cdecl setup_recycling_workspace(long, byte*, long, bool*, char*, long)
+//.text:00BB9260 ; long __cdecl recycle_worst_object_available(long, uint8*, long, bool*, char*, long)
+//.text:00BB9330 ; long __cdecl setup_recycling_workspace(long, uint8*, long, bool*, char*, long)
 //.text:00BB9360 ; 
 //.text:00BB9370 ; 
 //.text:00BB9390 ; 
@@ -44,8 +44,8 @@
 //.text:00BBA100 ; void __cdecl objects_recycling_update(e_recycling_methods)
 //.text:00BBA330 ; void __cdecl objects_recycling_update_membership(s_recycling_workspace*)
 //.text:00BBA860 ; void __cdecl prepare_recycling_group_list(s_recycling_workspace*)
-//.text:00BBAA00 ; dword __cdecl recycling_get_target_flags(dword)
-//.text:00BBAA90 ; dword __cdecl recycling_get_tolerance_flags()
+//.text:00BBAA00 ; uint32 __cdecl recycling_get_target_flags(uint32)
+//.text:00BBAA90 ; uint32 __cdecl recycling_get_tolerance_flags()
 //.text:00BBAB00 ; void __cdecl recycling_release_object(long)
 //.text:00BBAB30 ; 
 //.text:00BBAB70 ; 

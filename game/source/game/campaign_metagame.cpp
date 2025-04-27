@@ -5,7 +5,7 @@
 
 REFERENCE_DECLARE(0x0244A898, bool, chud_debug_metagame);
 REFERENCE_DECLARE(0x0244A8A0, s_campaign_metagame_runtime_globals_secondary, g_campaign_metagame_runtime_globals_secondary);
-REFERENCE_DECLARE(0x0244C9B8, dword, dword_244C9B8);
+REFERENCE_DECLARE(0x0244C9B8, uint32, dword_244C9B8);
 
 bool debug_skulls = false;
 

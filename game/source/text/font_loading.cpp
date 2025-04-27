@@ -236,7 +236,7 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 	s_font_loading_state* loading_state = task->font_loading_task.loading_state;
 	e_async_completion completion = _async_completion_retry;
 
-	dword unused_error_code = 0;
+	uint32 unused_error_code = 0;
 	if (loading_state->file_open)
 	{
 		bool loaded_font_file = false;

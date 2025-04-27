@@ -32,9 +32,9 @@ void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long 
 	if (!unit || unit->unit.player_index == NONE)
 		return;
 
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x34), real, __unknown34);
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x48), real, __unknown48);
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x50), real, __unknown50);
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x34), real32, __unknown34);
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x48), real32, __unknown48);
+	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x50), real32, __unknown50);
 
 	__unknown34 = k_real_max;
 	__unknown48 = k_real_max;
@@ -134,7 +134,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A89A70 ; 
 //.text:00A89BB0 ; 
 //.text:00A89BD0 ; 
-//.text:00A89C00 ; void __cdecl chud_scripting_bonus_round_set_timer(real)
+//.text:00A89C00 ; void __cdecl chud_scripting_bonus_round_set_timer(real32)
 //.text:00A89C40 ; void __cdecl chud_scripting_bonus_round_show_timer(bool)
 //.text:00A89C70 ; void __cdecl chud_scripting_bonus_round_start_timer(bool)
 //.text:00A89CA0 ; 
@@ -142,7 +142,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A89DC0 ; 
 //.text:00A89E20 ; 
 //.text:00A89E70 ; 
-//.text:00A89ED0 ; void __cdecl chud_scripting_set_fade(real, real)
+//.text:00A89ED0 ; void __cdecl chud_scripting_set_fade(real32, real32)
 //.text:00A89F50 ; 
 //.text:00A89F80 ; 
 //.text:00A89FC0 ; 
@@ -157,7 +157,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A210 ; 
 //.text:00A8A250 ; 
 //.text:00A8A290 ; 
-//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(wchar_t const*, real)
+//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(wchar_t const*, real32)
 //.text:00A8A3C0 ; 
 //.text:00A8A410 ; 
 //.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(long, wchar_t const*)
@@ -170,7 +170,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A7F0 ; 
 //.text:00A8A830 ; 
 //.text:00A8A860 ; 
-//.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, real_vector3d const*, real, short, real, real, real, real_argb_color*)
+//.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, real_vector3d const*, real32, short, real32, real32, real32, real_argb_color*)
 
 //void __cdecl chud_submit_navpoint(long user_index, c_chud_navpoint const* navpoint)
 void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)
@@ -181,7 +181,7 @@ void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)
 //.text:00A8AA30 ; 
 //.text:00A8AA90 ; 
 
-void __cdecl chud_update(real world_seconds_elapsed)
+void __cdecl chud_update(real32 world_seconds_elapsed)
 {
 	INVOKE(0x00A8AAE0, chud_update, world_seconds_elapsed);
 

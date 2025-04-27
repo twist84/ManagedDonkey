@@ -11,7 +11,7 @@ public:
 	struct s_row :
 		s_datum_header
 	{
-		word m_row;
+		uint16 m_row;
 		long m_prev;
 		long m_next;
 	};
@@ -19,7 +19,7 @@ public:
 
 	long m_beam_index;
 	long m_row_head;
-	word_flags m_flags;
+	uint16 m_flags;
 };
 static_assert(sizeof(c_beam_gpu) == 0x10);
 

@@ -123,7 +123,7 @@ struct s_thread_local_storage
 	// name: "random math"
 	// type: "globals"
 	// size: 0x4
-	dword* g_deterministic_random_seed_ptr;
+	uint32* g_deterministic_random_seed_ptr;
 
 	// used in `suppress_file_errors` and `file_error`
 	bool g_file_errors_suppressed;

@@ -22,8 +22,8 @@ struct game_options
 	char game_simulation;
 	char game_network_type;
 	short game_tick_rate;
-	qword game_instance;
-	dword random_seed;
+	uint64 game_instance;
+	uint32 random_seed;
 	e_language language;
 	long determinism_version;
 	e_campaign_id campaign_id;
@@ -31,7 +31,7 @@ struct game_options
 	c_static_string<260> scenario_path;
 	short initial_zone_set_index;
 	bool load_level_only;
-	byte dump_machine_index; // 5 bits, 32 max, is this be a char/int8?
+	uint8 dump_machine_index; // 5 bits, 32 max, is this be a char/int8?
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;
@@ -44,17 +44,17 @@ struct game_options
 	short campaign_metagame_scoring;
 	bool campaign_metagame_enabled;
 	bool survival_enabled;
-	byte : 8; // halo3_tag_test: campaign_allow_persistent_storage
-	byte : 8; // halo3_tag_test: campaign_customization_enabled
+	uint8 : 8; // halo3_tag_test: campaign_allow_persistent_storage
+	uint8 : 8; // halo3_tag_test: campaign_customization_enabled
 	s_campaign_armaments campaign_armaments;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
 	s_campaign_game_progression campaign_game_progression;
 	long campaign_active_primary_skulls;
 	long campaign_active_secondary_skulls;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
-	byte pad1[7];
+	uint8 pad1[7];
 	s_game_matchmaking_options matchmaking_options;
 	c_game_variant multiplayer_variant;
 	c_map_variant map_variant;

@@ -5,7 +5,7 @@
 
 struct s_user_interface_networking_globals
 {
-	byte __data0[0x8];
+	uint8 __data0[0x8];
 
 	bool join_in_progress;
 	c_string_id join_failed_alert_name;
@@ -26,7 +26,7 @@ struct s_user_interface_networking_globals
 	c_string_id active_dialog;
 
 	bool xbox_guide_active;
-	dword xbox_guide_last_active_time;
+	uint32 xbox_guide_last_active_time;
 	bool __unknown44;
 	bool __unknown45;
 

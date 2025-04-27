@@ -8,7 +8,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00433760, c_http_client, receive_data);
 
-real g_http_client_test_failure_ratio = 0.0f;
+real32 g_http_client_test_failure_ratio = 0.0f;
 
 c_http_client::c_http_client() :
 	m_address(),
@@ -132,7 +132,7 @@ bool c_http_client::do_work(
 	return result;
 }
 
-dword c_http_client::get_ip_address()
+uint32 c_http_client::get_ip_address()
 {
 	if (m_current_state)
 		return htonl(m_address.ipv4_address);
@@ -145,7 +145,7 @@ void c_http_client::get_ip_address_string(long ipv4_address, c_static_string<16>
 	union
 	{
 		long value;
-		byte bytes[4];
+		uint8 bytes[4];
 	};
 
 	value = ipv4_address;
@@ -416,7 +416,7 @@ bool c_http_client::send_data()
 
 		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
 		{
-			word bytes_written = 0;
+			uint16 bytes_written = 0;
 			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
@@ -477,7 +477,7 @@ void c_http_client::set_upstream_quota(long upstream_quota)
 	m_upstream_quota = upstream_quota;
 }
 
-bool c_http_client::start(c_http_stream* stream, long ip_address, word port, char const* url, bool endpoint_is_alpha)
+bool c_http_client::start(c_http_stream* stream, long ip_address, uint16 port, char const* url, bool endpoint_is_alpha)
 {
 	ASSERT(stream);
 	ASSERT(url);
@@ -487,7 +487,7 @@ bool c_http_client::start(c_http_stream* stream, long ip_address, word port, cha
 	ASSERT(port != 0);
 
 	m_http_stream = stream;
-	m_address.address_length = sizeof(dword);
+	m_address.address_length = sizeof(uint32);
 	m_address.ipv4_address = ip_address;
 	m_address.port = port;
 	get_ip_address_string(ip_address, &m_ip_address_string);
@@ -515,7 +515,7 @@ bool c_http_client::start(c_http_stream* stream, long ip_address, word port, cha
 bool c_http_client::start_connect()
 {
 	ASSERT(m_current_state == _upload_state_none);
-	ASSERT(m_address.address_length == sizeof(dword));
+	ASSERT(m_address.address_length == sizeof(uint32));
 	ASSERT(m_address.ipv4_address != 0);
 	ASSERT(m_address.port != 0);
 	ASSERT(m_socket_count == 0);

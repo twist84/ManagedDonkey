@@ -13,7 +13,7 @@ static_assert(sizeof(antenna_vertex_datum) == 0x1C);
 struct antenna_datum :
 	s_datum_header
 {
-	word pad;
+	uint16 pad;
 	bool invalid;
 	bool first_update;
 	long definition_index;

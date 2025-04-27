@@ -19,7 +19,7 @@ HOOK_DECLARE(0x006E5160, game_engine_render_watermarks);
 
 // game_engine_hud_get_state_message
 // skip over `respawning_soon`, and `game_over_{ won, tied, lost, you_lost_but_game_tied }` checks
-byte const game_engine_status_skip_patch_bytes[]
+uint8 const game_engine_status_skip_patch_bytes[]
 {
 	//.text:006E4CF4                 jmp     short loc_6E4D0D
 	//.text:006E4CF6                 nop
@@ -49,8 +49,8 @@ void __cdecl game_engine_get_team_name(long team, c_static_wchar_string<256>* te
 	INVOKE(0x006E49A0, game_engine_get_team_name, team, team_name);
 }
 
-//real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
-real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
+//real32 __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
+real32 __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 {
 	//return INVOKE(0x006E49F0, game_engine_get_user_fade_to_black_amount, user_index);
 
@@ -61,7 +61,7 @@ real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 	return game_engine_globals->fade_to_black_amount[user_index];
 }
 
-real __cdecl game_engine_hud_get_fade(long user_index)
+real32 __cdecl game_engine_hud_get_fade(long user_index)
 {
 	return INVOKE(0x006E4A40, game_engine_hud_get_fade, user_index);
 
@@ -72,7 +72,7 @@ real __cdecl game_engine_hud_get_fade(long user_index)
 	//if (controller_index == k_no_controller)
 	//	return 1.0f;
 	//
-	//real scoreboard_alpha = c_gui_screen_scoreboard::get_scoreboard_alpha(controller_index);
+	//real32 scoreboard_alpha = c_gui_screen_scoreboard::get_scoreboard_alpha(controller_index);
 	//return 1.0f - scoreboard_alpha;
 }
 
@@ -125,7 +125,7 @@ void __cdecl game_engine_render_fade_to_black(long user_index)
 	//if (director_debug_supress_black_screen(player_mapping_first_active_output_user()))
 	//	return;
 
-	real user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(user_index);
+	real32 user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(user_index);
 	if (user_fade_to_black_amount <= 0.0f)
 		return;
 

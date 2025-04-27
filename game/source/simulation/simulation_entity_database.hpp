@@ -5,16 +5,16 @@
 
 struct s_simulation_entity
 {
-	dword entity_index;
-	dword entity_type;
+	uint32 entity_index;
+	uint32 entity_type;
 	bool exists_in_gameworld;
-	byte event_reference_count;
-	dword gamestate_index;
-	qword_flags pending_update_mask;
-	qword_flags force_update_mask;
-	dword creation_data_size;
+	uint8 event_reference_count;
+	uint32 gamestate_index;
+	uint64 pending_update_mask;
+	uint64 force_update_mask;
+	uint32 creation_data_size;
 	void* creation_data;
-	dword state_data_size;
+	uint32 state_data_size;
 	void* state_data;
 };
 static_assert(sizeof(s_simulation_entity) == 0x30);
@@ -29,7 +29,7 @@ public:
 
 protected:
 	bool m_initialized;
-	byte __unknown1;
+	uint8 __unknown1;
 	c_simulation_world* m_world;
 	c_replication_entity_manager* m_entity_manager;
 	c_simulation_type_collection* m_type_collection;

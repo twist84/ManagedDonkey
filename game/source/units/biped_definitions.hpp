@@ -8,8 +8,8 @@
 struct s_biped_camera_height
 {
 	c_string_id weapon_class;
-	real standing_height;
-	real crouching_height;
+	real32 standing_height;
+	real32 crouching_height;
 };
 static_assert(sizeof(s_biped_camera_height) == 0xC);
 
@@ -25,17 +25,17 @@ enum e_biped_lock_on_flags
 struct s_biped_lock_on_data
 {
 	// lock-on fields
-	c_flags<e_biped_lock_on_flags, dword_flags, k_biped_lock_on_flags> flags;
-	real lock_on_distance;
+	c_flags<e_biped_lock_on_flags, uint32, k_biped_lock_on_flags> flags;
+	real32 lock_on_distance;
 };
 static_assert(sizeof(s_biped_lock_on_data) == 0x8);
 
 struct s_biped_movement_gate
 {
-	real period;
-	real z_offset;
-	real y_offset;
-	real speed_threshold;
+	real32 period;
+	real32 z_offset;
+	real32 y_offset;
+	real32 speed_threshold;
 
 	// default function		
 	mapping_function default_function;
@@ -59,15 +59,15 @@ struct s_biped_leaping_data
 {
 	// wall-leaping fields
 
-	c_flags<e_biped_leap_flags, dword_flags, k_biped_leap_flags> leap_flags;
-	real dampening_scale;            // [0,1] 1= very slow changes
-	real roll_delay;                 // [0,1] 1= roll fast and late
-	real cannonball_off_axis_scale;  // [0,1] weight
-	real cannonball_off_track_scale; // [0,1] weight
+	c_flags<e_biped_leap_flags, uint32, k_biped_leap_flags> leap_flags;
+	real32 dampening_scale;            // [0,1] 1= very slow changes
+	real32 roll_delay;                 // [0,1] 1= roll fast and late
+	real32 cannonball_off_axis_scale;  // [0,1] weight
+	real32 cannonball_off_track_scale; // [0,1] weight
 	angle_bounds cannonball_roll_bounds;      // degrees per second
 	real_bounds anticipation_ratio_bounds;    // current velocity/leap velocity
 	real_bounds reaction_force_bounds;        // units per second
-	real lobbing_desire;             // 1= heavy arc, 0= no arc
+	real32 lobbing_desire;             // 1= heavy arc, 0= no arc
 };
 static_assert(sizeof(s_biped_leaping_data) == 48);
 
@@ -75,25 +75,25 @@ struct s_biped_ground_fitting_data
 {
 	// ground fitting data
 
-	real ground_normal_dampening; // react to slope changes (0=slow, 1= fast)
-	real root_offset_max_scale;            // vertical drop to ground allowed (0=none, 1=full)
-	real root_offset_dampening;   // react to root changes (0=slow, 1= fast)
-	real following_cam_scale;     // root offset effect on following cam (0=none, 1=full)
-	real root_leaning_scale;      // lean into slopes (0=none, 1=full)
+	real32 ground_normal_dampening; // react to slope changes (0=slow, 1= fast)
+	real32 root_offset_max_scale;            // vertical drop to ground allowed (0=none, 1=full)
+	real32 root_offset_dampening;   // react to root changes (0=slow, 1= fast)
+	real32 following_cam_scale;     // root offset effect on following cam (0=none, 1=full)
+	real32 root_leaning_scale;      // lean into slopes (0=none, 1=full)
 	angle foot_roll_max;                   // orient to ground slope (degrees)
 	angle foot_pitch_max;                  // orient to ground slope (degrees)
 
 
 	// pivot-on-foot data
 
-	real pivot_on_foot_scale; // (0=none, 1= full)
-	real pivot_min_foot_delta;         // vert world units to find lowest foot
+	real32 pivot_on_foot_scale; // (0=none, 1= full)
+	real32 pivot_min_foot_delta;         // vert world units to find lowest foot
 
 	// leg length * this = stride length
-	real pivot_stride_length_scale;
+	real32 pivot_stride_length_scale;
 
-	real pivot_throttle_scale;   // pivoting slows throttle (0=none, 1= full)
-	real pivot_offset_dampening; // react to pivot changes (0=slow, 1= fast)
+	real32 pivot_throttle_scale;   // pivoting slows throttle (0=none, 1= full)
+	real32 pivot_offset_dampening; // react to pivot changes (0=slow, 1= fast)
 };
 static_assert(sizeof(s_biped_ground_fitting_data) == 0x30);
 
@@ -121,11 +121,11 @@ struct _biped_definition
 	// $$$ BIPED $$$
 
 	angle moving_turning_speed; // degrees per second
-	c_flags<e_biped_definition_flags, dword_flags, k_biped_definition_flags> flags;
+	c_flags<e_biped_definition_flags, uint32, k_biped_definition_flags> flags;
 	angle stationary_turning_threshold;
 
 	// if the biped dies while moving faster than this velocity, immediately transition to ragdoll.  Use 0 for 'never'
-	real ragdoll_threshold_velocity; // wu/s
+	real32 ragdoll_threshold_velocity; // wu/s
 
 	// when the biped transitions to ragdoll, this region will change to the destroyed state
 	c_string_id ragdoll_region_name;
@@ -133,38 +133,38 @@ struct _biped_definition
 
 	// jumping and landing
 
-	real jump_velocity; // world units per second
+	real32 jump_velocity; // world units per second
 
 	// the longest amount of time the biped can take to recover from a soft landing
-	real maximum_soft_landing_time; // seconds
+	real32 maximum_soft_landing_time; // seconds
 
 	// the longest amount of time the biped can take to recover from a hard landing
-	real maximum_hard_landing_time; // seconds
+	real32 maximum_hard_landing_time; // seconds
 
 	// below this velocity the biped does not react when landing
-	real minimum_soft_landing_velocity; // world units per second
+	real32 minimum_soft_landing_velocity; // world units per second
 
 	// below this velocity the biped will not do a soft landing when returning to the ground
-	real minimum_hard_landing_velocity; // world units per second
+	real32 minimum_hard_landing_velocity; // world units per second
 
 	// the velocity corresponding to the maximum landing time
-	real maximum_hard_landing_velocity; // world units per second
+	real32 maximum_hard_landing_velocity; // world units per second
 
 	// the maximum velocity with which a character can strike the ground and live
-	real death_hard_landing_velocity; // world units per second
+	real32 death_hard_landing_velocity; // world units per second
 
 	// 0 is the default.
 	// Bipeds are stuned when damaged by vehicle collisions, also some are when they take emp damage
-	real stun_duration;
+	real32 stun_duration;
 
 
 	// camera, collision, and autoaim
 
-	real standing_camera_height; // world units
-	real running_camera_height; // world units
-	real crouching_camera_height; // world units
-	real crouch_walking_camera_height; // world units
-	real crouch_transition_time; // seconds
+	real32 standing_camera_height; // world units
+	real32 running_camera_height; // world units
+	real32 crouching_camera_height; // world units
+	real32 crouch_walking_camera_height; // world units
+	real32 crouch_transition_time; // seconds
 
 	mapping_function camera_height_velocity_function;
 	c_typed_tag_block<s_biped_camera_height> camera_heights;
@@ -176,42 +176,42 @@ struct _biped_definition
 	angle camera_interpolation_end; // degrees
 
 	// amount of fp camera movement forward and back (1.0 is full)
-	real camera_forward_movement_scale;
+	real32 camera_forward_movement_scale;
 
 	// amount of fp camera movement side-to-side (1.0 is full)
-	real camera_side_movement_scale;
+	real32 camera_side_movement_scale;
 
 	// amount of fp camera movement vertically (1.0 is full)
-	real camera_vertical_movement_scale;
+	real32 camera_vertical_movement_scale;
 
 	// fp camera must always be at least this far out from root node
-	real camera_exclusion_distance; // world units
+	real32 camera_exclusion_distance; // world units
 
-	real autoaim_width; // world units
+	real32 autoaim_width; // world units
 
 	s_biped_lock_on_data lock_on_data;
 	short runtime_physics_control_node_index;
 	short unused2;
-	real runtime_cosine_stationary_turning_threshold;
-	real runtime_crouch_transition_velocity;
-	real runtime_camera_height_velocity;
+	real32 runtime_cosine_stationary_turning_threshold;
+	real32 runtime_crouch_transition_velocity;
+	real32 runtime_camera_height_velocity;
 	short runtime_pelvis_node_index;
 	short runtime_head_node_index;
-	real fp_crouch_moving_animation_playback_speed_multiplier;
+	real32 fp_crouch_moving_animation_playback_speed_multiplier;
 
 	// when the biped ragdolls from a head shot it acceleartes based on this value.
 	// 0 defaults to the standard acceleration scale
-	real head_shot_acc_scale;
+	real32 head_shot_acc_scale;
 
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> area_damage_effect;
 	c_typed_tag_block<s_biped_movement_gate> movement_gates;
 	c_typed_tag_block<s_biped_movement_gate> movement_gates_crouching;
-	real jump_aim_offset_distance; // world units
-	real jump_aim_offset_duration; // seconds
-	real land_aim_offset_distance; // world units
-	real land_aim_offset_duration; // seconds
-	real aim_compensate_minimum_distance; // world units
-	real aim_compensate_maximum_distance; // world units
+	real32 jump_aim_offset_distance; // world units
+	real32 jump_aim_offset_duration; // seconds
+	real32 land_aim_offset_distance; // world units
+	real32 land_aim_offset_duration; // seconds
+	real32 aim_compensate_minimum_distance; // world units
+	real32 aim_compensate_maximum_distance; // world units
 	s_character_physics_definition physics;
 
 	// these are the points where the biped touches the ground

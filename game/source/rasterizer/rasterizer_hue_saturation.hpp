@@ -15,11 +15,11 @@ public:
 	//static c_hue_saturation_control& x_exposed_to_hs;
 	//thread_local c_hue_saturation_control* x_in_gamestate;
 
-	real m_hue;
-	real m_saturation;
-	real m_filter_red;
-	real m_filter_green;
-	real m_filter_blue;
+	real32 m_hue;
+	real32 m_saturation;
+	real32 m_filter_red;
+	real32 m_filter_green;
+	real32 m_filter_blue;
 };
 static_assert(sizeof(c_hue_saturation_control) == 0x14);
 

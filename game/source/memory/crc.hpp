@@ -2,12 +2,12 @@
 
 #include "cseries/cseries.hpp"
 
-extern dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_size);
-extern dword __cdecl crc_checksum_buffer(dword checksum, byte* buffer, dword buffer_size);
+extern uint32 __cdecl crc_checksum_buffer_adler32(uint32 sum, uint8* buffer, uint32 buffer_size);
+extern uint32 __cdecl crc_checksum_buffer(uint32 checksum, uint8* buffer, uint32 buffer_size);
 
-extern dword adler_new();
-extern dword adler32(dword adler, const byte* buf, dword len);
+extern uint32 adler_new();
+extern uint32 adler32(uint32 adler, const uint8* buf, uint32 len);
 
-extern dword crc_new();
-extern dword crc32(dword crc, const byte* buf, dword len);
+extern uint32 crc_new();
+extern uint32 crc32(uint32 crc, const uint8* buf, uint32 len);
 

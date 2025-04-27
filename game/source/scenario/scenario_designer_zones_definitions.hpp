@@ -6,7 +6,7 @@
 struct s_scenario_designer_zone
 {
 	c_string_id name;
-	dword_flags flags;
+	uint32 flags;
 
 	s_tag_block biped;
 	s_tag_block vehicle;

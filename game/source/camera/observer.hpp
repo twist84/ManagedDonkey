@@ -7,7 +7,7 @@
 struct s_focus_and_distance
 {
 	real_point3d focus;
-	real distance;
+	real32 distance;
 };
 static_assert(sizeof(s_focus_and_distance) == 0x10);
 
@@ -20,16 +20,16 @@ struct s_observer_depth_of_field
 	};
 
 	long flags;
-	real near_focal_plane_distance;
-	real far_focal_plane_distance;
-	real focal_depth;
-	real blur_amount;
+	real32 near_focal_plane_distance;
+	real32 far_focal_plane_distance;
+	real32 focal_depth;
+	real32 blur_amount;
 };
 static_assert(sizeof(s_observer_depth_of_field) == 0x14);
 
 struct s_observer_command
 {
-	dword_flags flags;
+	uint32 flags;
 
 	union
 	{
@@ -38,13 +38,13 @@ struct s_observer_command
 			real_point3d focus_position;
 			real_vector3d focus_offset;
 			real_point2d crosshair_location;
-			real focus_distance;
-			real field_of_view;
+			real32 focus_distance;
+			real32 field_of_view;
 			real_vector3d forward;
 			real_vector3d up;
 		};
 
-		real parameters[16];
+		real32 parameters[16];
 	};
 
 	real_vector3d focus_velocity;
@@ -53,43 +53,43 @@ struct s_observer_command
 	long relative_space_identifier;
 
 	real_point3d safe_position;
-	real timer;
+	real32 timer;
 
 	long collision_ignore_objects[2];
 	long collision_ignore_objects_count;
 
 	real_point3d pill_base;
-	real pill_height;
-	real pill_width;
+	real32 pill_height;
+	real32 pill_width;
 
 	union
 	{
 		struct
 		{
-			byte position_flags;
-			byte focus_offset_flags;
-			byte view_offset_flags;
-			byte distance_flags;
-			byte field_of_view_flags;
-			byte orientation_flags;
+			uint8 position_flags;
+			uint8 focus_offset_flags;
+			uint8 view_offset_flags;
+			uint8 distance_flags;
+			uint8 field_of_view_flags;
+			uint8 orientation_flags;
 		};
 
-		byte parameter_flags[6];
+		uint8 parameter_flags[6];
 	};
 
 	union
 	{
 		struct
 		{
-			real position_timer;
-			real focus_offset_timer;
-			real view_offset_timer;
-			real distance_timer;
-			real field_of_view_timer;
-			real orientation_timer;
+			real32 position_timer;
+			real32 focus_offset_timer;
+			real32 view_offset_timer;
+			real32 distance_timer;
+			real32 field_of_view_timer;
+			real32 orientation_timer;
 		};
 
-		real parameter_timers[6];
+		real32 parameter_timers[6];
 	};
 
 	s_observer_depth_of_field depth_of_field;
@@ -104,13 +104,13 @@ struct s_observer_result
 	real_vector3d rotation;
 	real_vector3d forward;
 	real_vector3d up;
-	real horizontal_field_of_view;
+	real32 horizontal_field_of_view;
 	s_observer_depth_of_field depth_of_field;
-	real aspect_ratio;
+	real32 aspect_ratio;
 	real_vector2d view_offset;
-	real magic_crosshair_offset;
-	real vertical_field_of_view;
-	real field_of_view_scale;
+	real32 magic_crosshair_offset;
+	real32 vertical_field_of_view;
+	real32 field_of_view_scale;
 };
 static_assert(sizeof(s_observer_result) == 0x70);
 
@@ -123,12 +123,12 @@ struct s_observer_derivative
 			real_vector3d focus_position;
 			real_vector3d focus_offset;
 			real_vector2d view_offset;
-			real focus_distance;
-			real field_of_view;
+			real32 focus_distance;
+			real32 field_of_view;
 			real_vector3d rotation;
 		};
 
-		real n[13];
+		real32 n[13];
 	};
 };
 
@@ -141,8 +141,8 @@ struct s_observer
 	bool first_command;
 	bool is_relative;
 	bool variable_up;
-	real geometry_anticipation_buffer_scale;
-	real geometry_anticipation_buffer_scale_velocity;
+	real32 geometry_anticipation_buffer_scale;
+	real32 geometry_anticipation_buffer_scale_velocity;
 	long collision_ignore_object_a;
 	long collision_ignore_object_b;
 	bool result_valid;
@@ -155,25 +155,25 @@ struct s_observer
 			real_point3d focus_position;
 			real_vector3d focus_offset;
 			real_vector2d view_offset;
-			real focus_distance;
-			real horizontal_field_of_view;
+			real32 focus_distance;
+			real32 horizontal_field_of_view;
 			real_vector3d forward;
 			real_vector3d up;
 		};
 
-		real positions[16];
+		real32 positions[16];
 	};
 
 	real_matrix4x3 focus_space;
 
 	s_observer_derivative velocities;
 	s_observer_derivative accelerations;
-	real a[13];
-	real b[13];
-	real c[13];
-	real d[13];
-	real e[13];
-	real f[13];
+	real32 a[13];
+	real32 b[13];
+	real32 c[13];
+	real32 d[13];
+	real32 e[13];
+	real32 f[13];
 	s_observer_derivative displacements;
 
 	long trailer_signature;
@@ -182,7 +182,7 @@ static_assert(sizeof(s_observer) == 0x3C8);
 
 struct s_observer_globals
 {
-	real dtime;
+	real32 dtime;
 	s_observer observers[4];
 	bool first_call;
 	bool bsp_lightmap_block_requested_for_next_tick;
@@ -190,8 +190,8 @@ struct s_observer_globals
 };
 static_assert(sizeof(s_observer_globals) == 0xF28);
 
-extern real& g_observer_wave_height;
-extern real& g_camera_speed;
+extern real32& g_observer_wave_height;
+extern real32& g_camera_speed;
 
 extern bool g_debug_observer_render;
 
@@ -206,8 +206,8 @@ extern void __cdecl observer_clear(s_observer* observer);
 extern void __cdecl observer_clear_all();
 extern void __cdecl observer_clear_global_update_list();
 extern s_collision_test_flags __cdecl observer_collision_flags_get(long user_index);
-extern bool __cdecl observer_collision_test_differential(long user_index, real_point3d* focus_position, real_point3d* camera_point, real_vector3d* differential_basis, real differential, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media);
-extern bool __cdecl observer_collision_test_with_t(long user_index, real_point3d* p0, real_point3d* p1, long primary_ignore_object_index, long secondary_ignore_object_index, real* t, bool ignore_media);
+extern bool __cdecl observer_collision_test_differential(long user_index, real_point3d* focus_position, real_point3d* camera_point, real_vector3d* differential_basis, real32 differential, long primary_ignore_object_index, long secondary_ignore_object_index, real32* t, bool ignore_media);
+extern bool __cdecl observer_collision_test_with_t(long user_index, real_point3d* p0, real_point3d* p1, long primary_ignore_object_index, long secondary_ignore_object_index, real32* t, bool ignore_media);
 extern void __cdecl observer_command_clear(s_observer_command* command);
 extern void __cdecl observer_command_get_collision_ignore_objects(long user_index, s_observer_command const* command, long* out_first_ignore_object_index, long* out_second_ignore_object_index);
 extern bool __cdecl observer_command_has_finished(long user_index);
@@ -215,33 +215,33 @@ extern void __cdecl observer_compute_result(long user_index, s_focus_and_distanc
 extern void __cdecl observer_compute_view_offset_matrix(long user_index, real_matrix4x3* view_offset_matrix);
 extern void __cdecl observer_dispose();
 extern void __cdecl observer_dispose_from_old_map();
-extern void __cdecl observer_dispose_from_old_structure_bsp(dword deactivating_structure_bsp_mask);
+extern void __cdecl observer_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl observer_game_tick();
 extern s_observer* __cdecl observer_get(long user_index);
 extern s_observer_result const* observer_get_camera(long user_index);
-extern real __cdecl observer_get_max_wave_height();
-extern real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real vertical_fov);
+extern real32 __cdecl observer_get_max_wave_height();
+extern real32 __cdecl observer_get_near_plane_farthest_distance(real32 horizontal_fov, real32 vertical_fov);
 extern s_observer_globals* observer_globals_get();
 extern void __cdecl observer_initialize();
 extern void __cdecl observer_initialize_after_load_saved_game(long flags);
 extern void __cdecl observer_initialize_before_saved_game(long flags);
 extern void __cdecl observer_initialize_for_new_map();
-extern void __cdecl observer_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask);
+extern void __cdecl observer_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl observer_initialize_for_saved_game(long flags);
 extern void __cdecl observer_obsolete_position(long user_index);
 extern void __cdecl observer_pass_time(long user_index);
-extern void __cdecl observer_perform_collision(long user_index, s_focus_and_distance const* focus_and_distance, real world_seconds_elapsed);
+extern void __cdecl observer_perform_collision(long user_index, s_focus_and_distance const* focus_and_distance, real32 world_seconds_elapsed);
 extern void __cdecl observer_post_global_update_list();
 extern void __cdecl observer_result_clear(s_observer_result* result);
 extern void __cdecl observer_result_compute_parameters(s_observer_result* result);
-extern void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real distance, real_vector3d const* forward);
+extern void __cdecl observer_result_set_position(long user_index, real_point3d const* position, real32 distance, real_vector3d const* forward);
 extern bool __cdecl observer_result_valid(long user_index);
 extern void __cdecl observer_rotational_displacement(real_vector3d const* forward0, real_vector3d const* up0, real_vector3d const* forward1, real_vector3d const* up1, real_vector3d* displacement);
 extern void __cdecl observer_set_camera(long user_index, s_observer_command* command);
-extern real __cdecl observer_suggested_field_of_view();
-extern real __cdecl observer_suggested_field_of_view_change_time();
+extern real32 __cdecl observer_suggested_field_of_view();
+extern real32 __cdecl observer_suggested_field_of_view_change_time();
 extern s_observer_result const* __cdecl observer_try_and_get_camera(long user_index);
-extern void __cdecl observer_update(real world_seconds_elapsed);
+extern void __cdecl observer_update(real32 world_seconds_elapsed);
 extern void __cdecl observer_update_accelerations(long user_index);
 extern void __cdecl observer_update_command(long user_index);
 extern void __cdecl observer_update_displacements(long user_index);
@@ -250,10 +250,10 @@ extern void __cdecl observer_update_positions(long user_index);
 extern void __cdecl observer_update_velocities(long user_index);
 extern bool __cdecl observer_valid_camera_command(s_observer_command* command);
 extern void __cdecl observer_validate_camera_command(s_observer_command* command);
-extern bool __cdecl valid_field_of_view(real field_of_view);
-extern bool __cdecl valid_focus_distance(real focus_distance);
-extern bool __cdecl valid_timer(real timer);
-extern bool __cdecl valid_world_real(real world_real);
+extern bool __cdecl valid_field_of_view(real32 field_of_view);
+extern bool __cdecl valid_focus_distance(real32 focus_distance);
+extern bool __cdecl valid_timer(real32 timer);
+extern bool __cdecl valid_world_real(real32 world_real);
 extern bool __cdecl valid_world_real_point3d(real_point3d* world_real_point);
 extern void __cdecl debug_render_observer();
 

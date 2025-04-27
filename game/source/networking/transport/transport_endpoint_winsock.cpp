@@ -78,7 +78,7 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 	if (!transport_available())
 		return NULL;
 
-	byte socket_address[0x1C];
+	uint8 socket_address[0x1C];
 	int socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -113,7 +113,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 	if (!transport_available())
 		return false;
 
-	byte socket_address[0x1C];
+	uint8 socket_address[0x1C];
 	long socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -170,7 +170,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 	if (!transport_available())
 		return false;
 
-	byte socket_address[0x1C];
+	uint8 socket_address[0x1C];
 	long socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -215,7 +215,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
 	if (!transport_available())
 		return false;
 
-	byte socket_address[0x1C];
+	uint8 socket_address[0x1C];
 	long socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -356,7 +356,7 @@ long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e
 	return option_value;
 }
 
-bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, byte* const socket_address)
+bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, uint8* const socket_address)
 {
 	//return INVOKE(0x00440000, transport_endpoint_get_socket_address, address, socket_address_size, socket_address);
 
@@ -397,7 +397,7 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	return false;
 }
 
-bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address)
+bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, uint8 const* const socket_address, transport_address* address)
 {
 	//return INVOKE(0x00440120, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
 

@@ -165,7 +165,7 @@ bool hs_parse_real(long expression_index)
 		source_offset++;
 	}
 
-	expression->real_value = static_cast<real>(atof(&hs_compile_globals.compiled_source[expression->source_offset]));
+	expression->real_value = static_cast<real32>(atof(&hs_compile_globals.compiled_source[expression->source_offset]));
 	return result;
 }
 
@@ -596,7 +596,7 @@ bool hs_parse_point_ref(long expression_index)
 			char name[k_tag_string_length]{};
 			if (v7 - source_offset < k_tag_string_length)
 			{
-				dword name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
+				uint32 name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
 				csstrnzcpy(name, source_offset, name_size);
 				short point_set_index = cs_point_set_index_by_name(name);
 				short point_index = NONE;
@@ -943,7 +943,7 @@ hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 
 	nullptr,                              // void
 	hs_parse_boolean,                     // boolean
-	hs_parse_real,                        // real
+	hs_parse_real,                        // real32
 	hs_parse_integer,                     // short_integer
 	hs_parse_integer,                     // long_integer
 	hs_parse_string,                      // string
@@ -1482,7 +1482,7 @@ bool hs_parse_tag_block_element_string_id(long expression_index, long offset, lo
 	bool valid = false;
 	for (long block_index = 0; block_index < block->count; block_index++)
 	{
-		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<byte*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
+		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<uint8*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
 		if (block_element_string_id == string_id_retrieve(source_offset))
 		{
 			expression->short_value = static_cast<short>(block_index);

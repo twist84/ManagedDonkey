@@ -36,10 +36,10 @@ enum e_gui_error_icon
 struct s_gui_alert_description
 {
 	c_string_id error_name;
-	c_flags<e_gui_alert_flags, byte, k_gui_alert_flags> flags;
-	c_enum<e_gui_error_category, byte, _gui_error_category_default, k_gui_error_category_count> error_category;
-	c_enum<e_gui_error_icon, byte, _gui_error_icon_default_alert, k_gui_error_icon_count> error_icon;
-	byte pad0[1];
+	c_flags<e_gui_alert_flags, uint8, k_gui_alert_flags> flags;
+	c_enum<e_gui_error_category, uint8, _gui_error_category_default, k_gui_error_category_count> error_category;
+	c_enum<e_gui_error_icon, uint8, _gui_error_icon_default_alert, k_gui_error_icon_count> error_icon;
+	uint8 pad0[1];
 	c_string_id title;
 	c_string_id message;
 };
@@ -106,7 +106,7 @@ public:
 	void post_toast_with_custom_message(long error_name, wchar_t const* custom_title, wchar_t const* custom_message);
 	void resolve_error(long error_name, e_controller_index controller_index);
 	void resolve_error_with_custom_message(long error_name, e_controller_index controller_index, wchar_t const* custom_message);
-	void update(dword);
+	void update(uint32);
 	
 private:
 	enum e_alert_display_mode

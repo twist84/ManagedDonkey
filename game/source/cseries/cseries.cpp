@@ -177,7 +177,7 @@ long csstrcmp(char const* s1, char const* s2)
 	return strcmp(s1, s2);
 }
 
-long csstrnicmp(char const* s1, char const* s2, dword max_count)
+long csstrnicmp(char const* s1, char const* s2, uint32 max_count)
 {
 	return _strnicmp(s1, s2, max_count);
 }
@@ -187,7 +187,7 @@ char* __cdecl csstristr(char const* s1, char const* s2)
 	return INVOKE(0x00401520, csstristr, s1, s2);
 }
 
-char* csstrnzcpy(char* s1, char const* s2, dword size)
+char* csstrnzcpy(char* s1, char const* s2, uint32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -198,16 +198,16 @@ char* csstrnzcpy(char* s1, char const* s2, dword size)
 	return result;
 }
 
-char* csstrnzcat(char* s1, char const* s2, dword size)
+char* csstrnzcat(char* s1, char const* s2, uint32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
 
-	dword len = csstrnlen(s1, size);
+	uint32 len = csstrnlen(s1, size);
 	return csstrnzcpy(s1 + len, s2, size - len);
 }
 
-dword csstrnlen(char const* s, dword size)
+uint32 csstrnlen(char const* s, uint32 size)
 {
 	ASSERT(s);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -215,23 +215,23 @@ dword csstrnlen(char const* s, dword size)
 	return strnlen(s, size);
 }
 
-char* csstrnupr(char* s, dword size)
+char* csstrnupr(char* s, uint32 size)
 {
 	ASSERT(s);
 	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
-	for (dword i = 0; i < size; i++)
+	for (uint32 i = 0; i < size; i++)
 		s[i] = toupper(s[i]);
 
 	return s;
 }
 
-char* csstrnlwr(char* s, dword size)
+char* csstrnlwr(char* s, uint32 size)
 {
 	ASSERT(s);
 	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
-	for (dword i = 0; i < size; i++)
+	for (uint32 i = 0; i < size; i++)
 		s[i] = tolower(s[i]);
 
 	return s;
@@ -248,7 +248,7 @@ char* __cdecl csstrtok(char* s, char const* delimiters, long delimiter_mode, cha
 	return INVOKE(0x00401A20, csstrtok, s, delimiters, delimiter_mode, data);
 }
 
-long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
+long cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list)
 {
 	ASSERT(buffer);
 	ASSERT(format);
@@ -263,7 +263,7 @@ long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
 	return result;
 }
 
-char* csnzprintf(char* buffer, dword size, char const* format, ...)
+char* csnzprintf(char* buffer, uint32 size, char const* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -275,9 +275,9 @@ char* csnzprintf(char* buffer, dword size, char const* format, ...)
 	return buffer;
 }
 
-char* csnzappendf(char* buffer, dword size, char const* format, ...)
+char* csnzappendf(char* buffer, uint32 size, char const* format, ...)
 {
-	dword current_length = strlen(buffer);
+	uint32 current_length = strlen(buffer);
 	ASSERT(current_length >= 0 && current_length < size);
 
 	va_list list;
@@ -373,9 +373,9 @@ bool c_old_string_id::is_string(char const* string) const
 	return m_id != NONE && m_id == string_id_retrieve(string);
 }
 
-__int64 make_int64(long low, long high)
+int64 make_int64(long low, long high)
 {
-	return low | ((__int64)high << 32);
+	return low | ((int64)high << 32);
 }
 
 void* offset_pointer(void* pointer, long offset)

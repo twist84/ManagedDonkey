@@ -305,7 +305,7 @@ void c_gui_error_manager::resolve_error_with_custom_message(long error_name, e_c
 	}
 }
 
-void c_gui_error_manager::update(dword ui_time)
+void c_gui_error_manager::update(uint32 ui_time)
 {
 	INVOKE_CLASS_MEMBER(0x00A92340, c_gui_error_manager, update, ui_time);
 

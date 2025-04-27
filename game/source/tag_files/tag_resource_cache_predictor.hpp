@@ -11,16 +11,16 @@ static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
 struct s_tag_resource_prediction_atom
 {
 	short identifier;
-	word predicted_resource_count;
+	uint16 predicted_resource_count;
 	long first_prediction_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
 
 struct s_tag_resource_prediction_molecule
 {
-	word predicted_atom_count;
+	uint16 predicted_atom_count;
 	short first_predicted_atom_index;
-	word predicted_resource_count;
+	uint16 predicted_resource_count;
 	short first_predicted_resource_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
@@ -104,7 +104,7 @@ struct c_tag_resource_cache_dynamic_predictor :
 	bool m_ran_out_of_molecule_atoms;
 	bool m_ran_out_of_molecules;
 
-	dword m_last_reset_time;
+	uint32 m_last_reset_time;
 };
 static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
 

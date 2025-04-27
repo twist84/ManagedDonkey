@@ -52,7 +52,7 @@ void __cdecl player_training_initialize_for_new_map()
 
 //.text:00689C90 ; void __cdecl player_training_notify_equipment_pickup(long)
 //.text:00689CD0 ; void __cdecl player_training_notify_grenade_pickup(long)
-//.text:00689D10 ; void __cdecl player_training_notify_kill(long, long, byte)
+//.text:00689D10 ; void __cdecl player_training_notify_kill(long, long, uint8)
 //.text:00689E10 ; long __cdecl player_training_profile_data_get_completion_count(s_player_training_profile_data const*, long)
 //.text:00689E50 ; void __cdecl player_training_profile_data_set_completion_count(s_player_training_profile_data*, long, long)
 //.text:00689EB0 ; void __cdecl player_training_profile_data_set_completion_count_all(s_player_training_profile_data*, bool)

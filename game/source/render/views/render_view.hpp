@@ -119,7 +119,7 @@ public:
 
 //protected:
 	bool m_using_stored_cluster;
-	byte pad;
+	uint8 pad;
 	s_cluster_reference m_stored_cluster;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
@@ -140,13 +140,13 @@ public:
 	void render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
 
 	static long& g_gel_bitmap_index;
-	static real& g_render_light_intensity;
-	static dword& g_debug_clip_planes;
+	static real32& g_render_light_intensity;
+	static uint32& g_debug_clip_planes;
 
 protected:
-	byte __data298[0xD54];
+	uint8 __data298[0xD54];
 	real_vector4d m_light_draw_list[40];
-	real m_light_intensity_scale;
+	real32 m_light_intensity_scale;
 };
 static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
 
@@ -155,7 +155,7 @@ struct c_lightmap_shadows_view :
 	public c_world_view
 {
 protected:
-	byte __data298[0x40];
+	uint8 __data298[0x40];
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
@@ -186,10 +186,10 @@ public:
 	// c_first_person_camera::update
 	// c_first_person_view::override_projection
 	// hs_external_globals[242]
-	static real& m_fov_scale;
+	static real32& m_fov_scale;
 
 	// c_first_person_view::override_projection
-	static real& m_z_far_scale; // from reach, missing `g_enable_first_person_squish && ` in if statement, always `1.0f`
+	static real32& m_z_far_scale; // from reach, missing `g_enable_first_person_squish && ` in if statement, always `1.0f`
 
 	render_camera* m_default_rasterizer_camera;
 };
@@ -256,7 +256,7 @@ public:
 	void __thiscall render_weather_occlusion();
 	void restore_to_display_surface();
 	void setup_camera(long player_window_index, long player_window_count, long player_window_arrangement, long user_index, s_observer_result const* observer, bool freeze_render_camera);
-	void __thiscall setup_camera_fx_parameters(real exposure_boost);
+	void __thiscall setup_camera_fx_parameters(real32 exposure_boost);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
 	void __thiscall distortion_generate();
@@ -279,8 +279,8 @@ public:
 
 
 	s_render_game_state::s_player_window* m_window_game_state;
-	real m_render_exposure;
-	real m_illum_render_scale;
+	real32 m_render_exposure;
+	real32 m_illum_render_scale;
 	s_observer_depth_of_field m_observer_depth_of_field;
 	c_patchy_fog m_patchy_fog;
 
@@ -289,9 +289,9 @@ public:
 		real_point3d position;
 		real_vector3d forward;
 		real_vector3d up;
-		real game_time;
+		real32 game_time;
 		real_matrix4x3 view_matrix;
-		real projection_matrix[4][4];
+		real32 projection_matrix[4][4];
 	} m_last_frame_motion_blur_state;
 
 	c_first_person_view m_first_person_view;
@@ -327,7 +327,7 @@ protected:
 	c_rasterizer_texture_ref __unknown26C8_texture_ref;
 	long __unknown26CC;
 	long m_depth_stencil_surface_index;
-	dword_flags __unknown26D4_flags;
+	uint32 __unknown26D4_flags;
 	long __unknown26D8;
 	long __unknown26DC;
 	long __unknown26E0;

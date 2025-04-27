@@ -4,7 +4,7 @@
 
 struct s_scenario_pvs_row
 {
-	dword bit_vector[16];
+	uint32 bit_vector[16];
 	long bit_vector_counts[16];
 };
 static_assert(sizeof(s_scenario_pvs_row) == 0x80);

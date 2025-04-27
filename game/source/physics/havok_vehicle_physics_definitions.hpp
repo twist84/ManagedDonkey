@@ -18,46 +18,46 @@ struct s_friction_point_definition;
 struct s_vehicle_phantom_shape_definition;
 struct s_havok_vehicle_physics_definition
 {
-	c_flags<e_havok_vehicle_physics_definition_flags, dword_flags, k_havok_vehicle_physics_definition_flags> flags;
+	c_flags<e_havok_vehicle_physics_definition_flags, uint32, k_havok_vehicle_physics_definition_flags> flags;
 
 	// this sucks.
 	// for friction based vehicles only
-	real ground_friction;
-	real ground_depth;
-	real ground_damp_factor;
-	real ground_moving_friction;
+	real32 ground_friction;
+	real32 ground_depth;
+	real32 ground_damp_factor;
+	real32 ground_moving_friction;
 
 
 	// degrees 0-90
-	real ground_maximum_slope_0;
+	real32 ground_maximum_slope_0;
 
 	// degrees 0-90.
 	// and greater than slope 0
-	real ground_maximum_slope_1;
+	real32 ground_maximum_slope_1;
 
 	// 0 defaults to 3, this prevents the physics from becoming unstable when hucked against a surface
-	real maximum_normal_force_contribution;
+	real32 maximum_normal_force_contribution;
 
 	// lift per WU.
-	real anti_gravity_bank_lift;
+	real32 anti_gravity_bank_lift;
 
 	// how quickly we bank when we steer
-	real steering_bank_reaction_scale;
+	real32 steering_bank_reaction_scale;
 
 	// value of 0 defaults to 1.  .5 is half gravity
-	real gravity_scale;
+	real32 gravity_scale;
 
 	// generated from the radius of the hkConvexShape for this vehicle
-	real radius;
+	real32 radius;
 
 	// WU.  if a friciton point moves more than this distance it must update
-	real maximum_update_distance;
+	real32 maximum_update_distance;
 
 	// Seconds. a friction point of this vehicle must update a least this often when controlled by a local player.
-	real maximum_update_period;
+	real32 maximum_update_period;
 
 	// Seconds. a friction point of this vehicle must update a least this often when controlled by an ai or remote player.
-	real maximum_remote_update_period;
+	real32 maximum_remote_update_period;
 
 	c_typed_tag_block<s_anti_gravity_point_definition> anti_gravity_points;
 	c_typed_tag_block<s_friction_point_definition> friction_points;
@@ -68,24 +68,24 @@ static_assert(sizeof(s_havok_vehicle_physics_definition) == 0x60);
 struct s_anti_gravity_point_definition
 {
 	c_string_id marker_name;
-	dword_flags flags;
-	real antigrav_strength;
-	real antigrav_offset;
-	real antigrav_height;
-	real antigrav_damp_factor;
-	real antigrav_normal_k1;
-	real antigrav_normal_k0;
-	real radius;
+	uint32 flags;
+	real32 antigrav_strength;
+	real32 antigrav_offset;
+	real32 antigrav_height;
+	real32 antigrav_damp_factor;
+	real32 antigrav_normal_k1;
+	real32 antigrav_normal_k0;
+	real32 radius;
 
 	// pad
-	byte OX[0xC];
+	uint8 OX[0xC];
 
 	// pad
-	byte BB[0x2];
+	uint8 BB[0x2];
 
 	short WU;
 	c_string_id damage_source_region_name;
-	real model_state_error[k_number_of_model_states];
+	real32 model_state_error[k_number_of_model_states];
 };
 static_assert(sizeof(s_anti_gravity_point_definition) == 0x4C);
 
@@ -112,22 +112,22 @@ enum e_friction_type
 struct s_friction_point_definition
 {
 	c_string_id marker_name;
-	c_flags<e_friction_point_flags, dword, k_friction_point_flags> flags;
-	real fraction_of_total_mass; // (0.0-1.0) fraction of total vehicle mass
-	real radius;
-	real damaged_radius; // radius when the tire is blown off.
+	c_flags<e_friction_point_flags, uint32, k_friction_point_flags> flags;
+	real32 fraction_of_total_mass; // (0.0-1.0) fraction of total vehicle mass
+	real32 radius;
+	real32 damaged_radius; // radius when the tire is blown off.
 	c_enum<e_friction_type, short, _friction_type_point, k_friction_type_count> friction_type;
 
 	// pad
-	byte BTUPMKNC[0x2];
+	uint8 BTUPMKNC[0x2];
 
-	real moving_friction_velocity_diff;
-	real e_brake_moving_friction;
-	real e_brake_friction;
-	real e_brake_moving_friction_vel_diff;
+	real32 moving_friction_velocity_diff;
+	real32 e_brake_moving_friction;
+	real32 e_brake_friction;
+	real32 e_brake_moving_friction_vel_diff;
 
 	// pad
-	byte ESECRABPX[0x14];
+	uint8 ESECRABPX[0x14];
 
 	c_string_id collision_global_material_name;
 	c_global_material_type runtime_global_material_index;
@@ -142,7 +142,7 @@ static_assert(sizeof(s_friction_point_definition) == 0x4C);
 struct s_havok_vector4 // hkVector4
 {
 	real_vector3d sphere;
-	real havok_w_sphere;
+	real32 havok_w_sphere;
 };
 
 struct c_multi_sphere_shape
@@ -178,13 +178,13 @@ struct s_vehicle_phantom_shape_definition
 	long child_shapes_pointer;
 	long child_shapes_size;
 	long child_shapes_capacity;
-	byte nail_in_dick[0xC]; // pad
+	uint8 nail_in_dick[0xC]; // pad
 	real_vector3d aabb_half_extents;
-	real havok_w_aabb_half_extents;
+	real32 havok_w_aabb_half_extents;
 	real_vector3d aabb_center;
-	real havok_w_aabb_center;
+	real32 havok_w_aabb_center;
 	long multisphere_count;
-	c_flags<e_vehicle_phantom_shape_flags, dword_flags, k_vehicle_phantom_shape_flags> flags;
+	c_flags<e_vehicle_phantom_shape_flags, uint32, k_vehicle_phantom_shape_flags> flags;
 	real_rectangle3d bounds;
 	c_multi_sphere_shape multispheres[4];
 	c_list_shape::ChildInfo list_shape_children[4];

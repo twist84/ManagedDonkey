@@ -84,7 +84,7 @@ void __cdecl network_session_check_properties(c_network_session* session)
 }
 
 //.text:00435DE0 ; e_map_id __cdecl network_session_get_last_network_map_loaded()
-//.text:00435DF0 ; bool __cdecl network_session_get_membership(c_network_session const*, long*, long*, long*, long*, long*, dword*, s_network_session_peer const**, long*, dword*, s_network_session_player const**)
+//.text:00435DF0 ; bool __cdecl network_session_get_membership(c_network_session const*, long*, long*, long*, long*, long*, uint32*, s_network_session_peer const**, long*, uint32*, s_network_session_player const**)
 
 void __cdecl network_session_inteface_update_host_framerate_quality()
 {
@@ -97,7 +97,7 @@ void __cdecl network_session_interface_add_local_user(long user_index, s_player_
 	INVOKE(0x00436000, network_session_interface_add_local_user, user_index, player_identifier);
 }
 
-//.text:004360A0 ; double __cdecl network_session_interface_calculate_map_progress(e_scenario_type, short, char const*)
+//.text:004360A0 ; real64 __cdecl network_session_interface_calculate_map_progress(e_scenario_type, short, char const*)
 
 void __cdecl network_session_interface_clear_peer_status_flags()
 {
@@ -138,7 +138,7 @@ bool __cdecl network_session_interface_get_local_user_identifier(long user_index
 	return INVOKE(0x004364D0, network_session_interface_get_local_user_identifier, user_index, player_identifier, allow_users_in_erroneous_states);
 }
 
-bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, dword* player_voice_settings)
+bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, uint32* player_voice_settings)
 {
 	return INVOKE(0x00436520, network_session_interface_get_local_user_properties, user_index, controller_index, player_data, player_voice_settings);
 
@@ -161,7 +161,7 @@ long __cdecl network_session_interface_get_local_user_state(long user_index)
 	return INVOKE(0x00436580, network_session_interface_get_local_user_state, user_index);
 }
 
-qword __cdecl network_session_interface_get_local_user_xuid(long user_index)
+uint64 __cdecl network_session_interface_get_local_user_xuid(long user_index)
 {
 	return INVOKE(0x004365A0, network_session_interface_get_local_user_xuid, user_index);
 }
@@ -250,7 +250,7 @@ void __cdecl network_session_interface_set_local_user_override_hopper_directory(
 	INVOKE(0x00436A60, network_session_interface_set_local_user_override_hopper_directory, user_index, override_hopper_directory);
 }
 
-void __cdecl network_session_interface_set_local_user_properties(long user_index, e_controller_index controller_index, s_player_configuration const* player_data, dword player_voice_settings)
+void __cdecl network_session_interface_set_local_user_properties(long user_index, e_controller_index controller_index, s_player_configuration const* player_data, uint32 player_voice_settings)
 {
 	INVOKE(0x00436AB0, network_session_interface_set_local_user_properties, user_index, controller_index, player_data, player_voice_settings);
 }
@@ -261,7 +261,7 @@ void __cdecl network_session_interface_set_local_user_state(long user_index, lon
 	INVOKE(0x00436B30, network_session_interface_set_local_user_state, user_index, local_user_state);
 }
 
-void __cdecl network_session_interface_set_local_user_xuid(long user_index, qword xuid)
+void __cdecl network_session_interface_set_local_user_xuid(long user_index, uint64 xuid)
 {
 	INVOKE(0x00436B70, network_session_interface_set_local_user_xuid, user_index, xuid);
 }
@@ -273,7 +273,7 @@ void __cdecl network_session_interface_set_peer_status_flag(e_network_session_pe
 	//session_interface_globals.peer_status_flags.set(peer_status_flag, enabled);
 }
 
-void __cdecl network_session_interface_set_ready_hopper_identifier(word hopper_identifier, e_session_game_start_error error)
+void __cdecl network_session_interface_set_ready_hopper_identifier(uint16 hopper_identifier, e_session_game_start_error error)
 {
 	INVOKE(0x00436BF0, network_session_interface_set_ready_hopper_identifier, hopper_identifier, error);
 }
@@ -371,7 +371,7 @@ bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader)
 //.text:00438B80 ; bool __cdecl network_squad_session_get_closed()
 //.text:00438C00 ; 
 //.text:00438C70 ; 
-//.text:00438CA0 ; word __cdecl network_squad_session_get_hopper()
+//.text:00438CA0 ; uint16 __cdecl network_squad_session_get_hopper()
 //.text:00438D10 ; bool __cdecl network_squad_session_get_hopper_statistics(s_matchmaking_single_hopper_statistics*)
 //.text:00438D80 ; 
 //.text:00438DE0 ; long __cdecl network_squad_session_get_host_player_index()
@@ -380,7 +380,7 @@ bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader)
 //.text:00438F70 ; long __cdecl network_squad_session_get_matchmaking_tip()
 //.text:00438FF0 ; long __cdecl network_squad_session_get_maximum_player_count()
 
-bool __cdecl network_squad_session_get_membership(long* update_number, long* local_peer_index, long* host_peer_index, long* leader_peer_index, long* peer_count, dword* peer_valid_flags, s_network_session_peer const** peers, long* player_count, dword* player_valid_flags, s_network_session_player const** players)
+bool __cdecl network_squad_session_get_membership(long* update_number, long* local_peer_index, long* host_peer_index, long* leader_peer_index, long* peer_count, uint32* peer_valid_flags, s_network_session_peer const** peers, long* player_count, uint32* player_valid_flags, s_network_session_player const** players)
 {
 	return INVOKE(0x00439020, network_squad_session_get_membership, update_number, local_peer_index, host_peer_index, leader_peer_index, peer_count, peer_valid_flags, peers, player_count, player_valid_flags, players);
 }

@@ -250,7 +250,7 @@ void __cdecl console_complete()
 		{
 			suggestion_current_index = 0;
 			console_token_buffer.copy_to(token, k_terminal_gets_state_input_text_size);
-			console_globals.input_state.edit.insertion_point_index = word(console_token_buffer.length() + 1);
+			console_globals.input_state.edit.insertion_point_index = uint16(console_token_buffer.length() + 1);
 		}
 		else
 		{
@@ -387,7 +387,7 @@ void __cdecl console_printf_color(real_argb_color const* color, char const* form
 	va_end(list);
 }
 
-void __cdecl console_update(real shell_seconds_elapsed)
+void __cdecl console_update(real32 shell_seconds_elapsed)
 {
 	PROFILER(console_update)
 	{
@@ -995,7 +995,7 @@ bool string_to_boolean(char const* string, bool* value)
 	return input != *value;
 }
 
-bool string_to_real(char const* string, real* value)
+bool string_to_real(char const* string, real32* value)
 {
 	if (!string)
 		return true;
@@ -1003,8 +1003,8 @@ bool string_to_real(char const* string, real* value)
 	if (!value)
 		return false;
 
-	real const input = *value;
-	*value = static_cast<real>(atof(string));
+	real32 const input = *value;
+	*value = static_cast<real32>(atof(string));
 	return input != *value;
 }
 
@@ -1073,8 +1073,8 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	break;
 	case _hs_type_real:
 	{
-		result = string_to_real(value_string, static_cast<real*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%.6f", *static_cast<real*>(console_global->pointer));
+		result = string_to_real(value_string, static_cast<real32*>(console_global->pointer)) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%.6f", *static_cast<real32*>(console_global->pointer));
 	}
 	break;
 	case _hs_type_short_integer:
@@ -1125,7 +1125,7 @@ void status_line_draw()
 			s_status_line& status_line = g_status_strings[i].line;
 			if (!status_line.text.is_empty())
 			{
-				dword time = system_milliseconds();
+				uint32 time = system_milliseconds();
 				long time_delta = time - g_status_strings[i].time_created;
 				if (time_delta > 10000)
 				{
@@ -1136,7 +1136,7 @@ void status_line_draw()
 					if (time_delta > 5000)
 					{
 						time = time_delta - 5000;
-						status_line.alpha = 1.0f - (real(time) / 5000);
+						status_line.alpha = 1.0f - (real32(time) / 5000);
 					}
 					else
 					{
@@ -1338,7 +1338,7 @@ void status_strings(char const* status, char const* strings)
 	}
 }
 
-bool string_cache_add(s_string_cache* cache, char const* string, real alpha, real_rgb_color const& color, e_text_justification justification)
+bool string_cache_add(s_string_cache* cache, char const* string, real32 alpha, real_rgb_color const& color, e_text_justification justification)
 {
 	bool result = false;
 	if (cache->string.is_empty())

@@ -34,11 +34,11 @@ REFERENCE_DECLARE(0x050DEDF0, c_player_view*, c_player_view::x_current_player_vi
 REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_player_views, 4);
 
 REFERENCE_DECLARE(0x019180B8, long, c_lights_view::g_gel_bitmap_index);
-REFERENCE_DECLARE(0x019180BC, real, c_lights_view::g_render_light_intensity);
-REFERENCE_DECLARE(0x019180C0, dword, c_lights_view::g_debug_clip_planes);
+REFERENCE_DECLARE(0x019180BC, real32, c_lights_view::g_render_light_intensity);
+REFERENCE_DECLARE(0x019180C0, uint32, c_lights_view::g_debug_clip_planes);
 
-REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
-REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
+REFERENCE_DECLARE(0x01913434, real32, c_first_person_view::m_fov_scale);
+REFERENCE_DECLARE(0x01913470, real32, c_first_person_view::m_z_far_scale);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, render_);
@@ -84,7 +84,7 @@ void __cdecl c_view::sub_A28A90()
 	int constant_bool = 1;
 	real_vector4d constant{};
 
-	real z_depth_scale = 1.0f / (global_z_far - global_z_near);
+	real32 z_depth_scale = 1.0f / (global_z_far - global_z_near);
 	set_real_vector4d(&constant, global_z_far * z_depth_scale, (global_z_near * global_z_far) * z_depth_scale, 0.1f, 1.0f);
 
 	c_rasterizer::set_vertex_shader_constant_bool(8, 1, &constant_bool);
@@ -220,7 +220,7 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 
 	long width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
 	long height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
-	real aspect_ratio = (real)width / (real)height;
+	real32 aspect_ratio = (real32)width / (real32)height;
 
 	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(cortana_effect_get_fov_scale(), _real_epsilon);
 
@@ -230,7 +230,7 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 		rasterizer_camera_modifiable->z_near *= aspect_ratio > 1.8f ? 2.4f : 3.2f;
 	}
 
-	real static_vertical_field_of_view = rasterizer_camera_modifiable->vertical_field_of_view * 0.78500003f;
+	real32 static_vertical_field_of_view = rasterizer_camera_modifiable->vertical_field_of_view * 0.78500003f;
 
 	real_rectangle2d frustum_bounds{};
 	render_camera_build_viewport_frustum_bounds(rasterizer_camera_modifiable, &frustum_bounds);
@@ -245,8 +245,8 @@ void __thiscall c_first_person_view::render_albedo(long user_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00A290F0, c_first_person_view, render_albedo, user_index);
 
-	constexpr dword k_first_person_squished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_squished_bit);
-	constexpr dword k_first_person_unsquished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_unsquished_bit);
+	constexpr uint32 k_first_person_squished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_squished_bit);
+	constexpr uint32 k_first_person_unsquished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_unsquished_bit);
 
 	c_view::sub_A28A90();
 	c_object_renderer::render_albedo(k_first_person_squished_flags);

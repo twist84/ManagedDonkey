@@ -6,7 +6,7 @@ struct c_tag_resource_cache_stoler
 {
 	struct s_stolen_memory_user
 	{
-		byte __data[0x14];
+		uint8 __data[0x14];
 	};
 	static_assert(sizeof(s_stolen_memory_user) == 0x14);
 

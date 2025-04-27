@@ -42,7 +42,7 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
 	m_desired_aspect_ratio = 0;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(uint8* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
 	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(get_core_definition()))
 	{
@@ -99,11 +99,11 @@ long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* call
 
 			callback_data->image_source_was_dlc = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, long)(name, 1);// levels_dlc_open(name, 1);
 
-			dword error = 0;
+			uint32 error = 0;
 			if (file_open(callback_data->file, FLAG(_file_open_flag_desired_access_read), &error))
 			{
 				if (file_get_size(callback_data->file, &callback_data->file_size)
-					&& callback_data->file_size < (dword)callback_data->load_buffer_length)
+					&& callback_data->file_size < (uint32)callback_data->load_buffer_length)
 				{
 					callback_data->state = 1;
 					v2 = true;

@@ -2,7 +2,7 @@
 
 //.text:00BB4DB0 ; void __cdecl machine_align_rigid_bodies_to_node_positions(long)
 //.text:00BB4DF0 ; bool __cdecl machine_compute_activation(long, s_game_cluster_bit_vectors const*, bool*)
-//.text:00BB4F10 ; bool __cdecl machine_compute_function_value(long, long, long, real*, bool*, bool*)
+//.text:00BB4F10 ; bool __cdecl machine_compute_function_value(long, long, long, real32*, bool*, bool*)
 //.text:00BB4F20 ; bool __cdecl machine_definition_is_elevator(machine_definition const*)
 //.text:00BB4F50 ; void __cdecl machine_delete(long)
 //.text:00BB4FF0 ; bool __cdecl machine_door_test_object(long, long*, short)

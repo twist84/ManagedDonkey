@@ -6,7 +6,7 @@
 struct chud_widget_datum :
 	s_datum_header
 {
-	byte __data[0x16];
+	uint8 __data[0x16];
 };
 static_assert(sizeof(chud_widget_datum) == 0x18);
 
@@ -30,23 +30,23 @@ static_assert(sizeof(chud_player_hud_elements) == 0xD);
 
 struct c_chud_persistent_global_data
 {
-	byte __data[0x14D];
+	uint8 __data[0x14D];
 	chud_player_hud_elements player_hud;
-	byte __unknown181[0x316];
+	uint8 __unknown181[0x316];
 };
 static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
 
 struct c_chud_persistent_user_data
 {
-	byte __unknown0[0x14D];
+	uint8 __unknown0[0x14D];
 	chud_player_hud_elements player_hud[4];
-	byte __unknown181[0x273];
-	byte bonus_round_show_timer;
-	byte bonus_round_start_timer;
-	byte __unknown3F6[2];
+	uint8 __unknown181[0x273];
+	uint8 bonus_round_show_timer;
+	uint8 bonus_round_start_timer;
+	uint8 __unknown3F6[2];
 	long bonus_round_set_timer;
 	long bonus_round_set_target_score;
-	byte __unknown3FC[0xF640];
+	uint8 __unknown3FC[0xF640];
 };
 static_assert(sizeof(c_chud_persistent_user_data) == 0xFA40);
 
@@ -57,7 +57,7 @@ struct s_chud_navpoint
 	long icon_type;
 	long color_type;
 	long flags;
-	real alpha;
+	real32 alpha;
 	wchar_t navpoint_text[6];
 	real_point3d position_worldspace;
 };
@@ -67,7 +67,7 @@ struct s_some_chud_struct
 {
 	void __thiscall sub_A8AED0(long a1, long a2, long a3);
 
-	byte __data[0x910];
+	uint8 __data[0x910];
 };
 static_assert(sizeof(s_some_chud_struct) == 0x910);
 
@@ -85,5 +85,5 @@ extern bool __cdecl chud_generate_damage_flash_texture(long user_index);
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
 extern void __cdecl chud_submit_navpoint(long, s_chud_navpoint* navpoint);
-extern void __cdecl chud_update(real world_seconds_elapsed);
+extern void __cdecl chud_update(real32 world_seconds_elapsed);
 

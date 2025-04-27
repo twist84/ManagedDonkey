@@ -333,13 +333,13 @@ short c_debug_menu::get_max_active_captions()
 
 void c_debug_menu::render_background(c_font_cache_base* font_cache, point2d const& point)
 {
-	real item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
+	real32 item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
 
 	short x0 = short((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
 	short y0 = point.y;
 	short x1 = short((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
 	short y1 = short((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
-	real alpha = get_enabled() ? 0.7f : 0.1f;
+	real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_tv_blue);
 }
@@ -355,7 +355,7 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, point2d const& po
 	short y0 = short(point.y + debug_menu_get_item_indent_y());
 	short x1 = short(point.x + debug_menu_get_item_width());
 	short y1 = short((point.y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
-	real alpha = get_enabled() ? 0.7f : 0.1f;
+	real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 
@@ -377,7 +377,7 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, point2d const& 
 		short y0 = short(point.y + debug_menu_get_item_indent_y());
 		short x1 = short(point.x + debug_menu_get_item_width());
 		short y1 = short(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
-		real alpha = get_enabled() ? 0.7f : 0.1f;
+		real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 		debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 	}
@@ -404,7 +404,7 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d 
 			short y0 = short(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
 			short x1 = short(point.x + debug_menu_get_item_width());
 			short y1 = short(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
-			real alpha = get_enabled() ? 0.7f : 0.1f;
+			real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 			debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 		}
@@ -434,7 +434,7 @@ void c_debug_menu::render_items(c_font_cache_base* font_cache, point2d const& po
 			short y0 = short(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
 			short x1 = short(point.x + debug_menu_get_item_width());
 			short y1 = short((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
-			real alpha = get_enabled() ? 0.7f : 0.1f;
+			real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 			debug_menu_draw_rect(x0, y0, x1, y1, alpha, item->get_background_color());
 		}

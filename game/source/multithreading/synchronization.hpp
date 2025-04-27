@@ -274,15 +274,15 @@ static_assert(sizeof(s_list_entry) == 0x8);
 
 struct s_critical_section_debug // RTL_CRITICAL_SECTION_DEBUG
 {
-	word type;
-	word creator_back_trace_index;
+	uint16 type;
+	uint16 creator_back_trace_index;
 	struct s_critical_section* critical_section;
 	s_list_entry process_locks_list;
-	dword entry_count;
-	dword contention_count;
-	dword flags;
-	word creator_back_trace_index_high;
-	word spare_word;
+	uint32 entry_count;
+	uint32 contention_count;
+	uint32 flags;
+	uint16 creator_back_trace_index_high;
+	uint16 spare_word;
 };
 static_assert(sizeof(s_critical_section_debug) == 0x20);
 
@@ -299,7 +299,7 @@ struct s_critical_section // RTL_CRITICAL_SECTION
 	long recursion_count;
 	void* owning_thread;        // from the thread's ClientId->UniqueThread
 	void* lock_semaphore;
-	/* ULONG_PTR */ dword spin_count;        // force size on 64-bit systems when packed
+	/* ULONG_PTR */ uint32 spin_count;        // force size on 64-bit systems when packed
 };
 static_assert(sizeof(s_critical_section) == 0x18);
 
@@ -361,10 +361,10 @@ extern bool __cdecl internal_critical_section_try_and_enter(long critical_sectio
 extern void __cdecl internal_event_reset(long event_id);
 extern void __cdecl internal_event_set(long event_id);
 extern void __cdecl internal_event_wait(long event_id);
-extern bool __cdecl internal_event_wait_timeout(long event_id, dword timeout_in_milliseconds);
+extern bool __cdecl internal_event_wait_timeout(long event_id, uint32 timeout_in_milliseconds);
 extern void __cdecl internal_mutex_release(long mutex_id);
 extern void __cdecl internal_mutex_take(long mutex_id);
-extern bool __cdecl internal_mutex_take_timeout(long mutex_id, dword timeout_in_milliseconds);
+extern bool __cdecl internal_mutex_take_timeout(long mutex_id, uint32 timeout_in_milliseconds);
 extern long __cdecl internal_semaphore_release(long semaphore_id);
 extern void __cdecl internal_semaphore_take(long semaphore_id);
 extern void __cdecl release_all_critical_sections_owned_by_thread();
@@ -376,5 +376,5 @@ extern void __cdecl release_locks_safe_for_crash_release();
 extern void __cdecl render_synchronization_stats();
 extern long __cdecl sempahore_get_max_signal_count(long semaphore_id);
 extern bool __cdecl synchronization_objects_initialized();
-extern bool __cdecl wait_for_single_object_internal(void* handle, dword timeout_in_milliseconds);
+extern bool __cdecl wait_for_single_object_internal(void* handle, uint32 timeout_in_milliseconds);
 

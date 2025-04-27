@@ -33,7 +33,7 @@ enum e_online_lsp_state
 struct s_server_connect_info
 {
 	c_static_string<16> ip;
-	word port;
+	uint16 port;
 	c_static_string<200> services_supported;
 };
 static_assert(sizeof(s_server_connect_info) == 0xDA);
@@ -49,7 +49,7 @@ struct c_online_lsp_manager
 		k_client_state_count
 	};
 
-	long __thiscall acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, word* port_out, char const* service_description);
+	long __thiscall acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, uint16* port_out, char const* service_description);
 	
 	void clear_activated_servers();
 	void clear_client(long client_index);
@@ -72,7 +72,7 @@ struct c_online_lsp_manager
 	{
 		long currently_activated_server_index;
 		long currently_activated_server_ip;
-		word currently_activated_server_port;
+		uint16 currently_activated_server_port;
 	} m_service[9];
 
 	long m_last_search_start_time;
@@ -103,13 +103,13 @@ extern bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, lo
 extern bool __cdecl online_lsp_begin_search();
 extern void __cdecl online_lsp_deactivate();
 extern void __cdecl online_lsp_dispose();
-extern dword __cdecl online_lsp_get_server_count();
+extern uint32 __cdecl online_lsp_get_server_count();
 extern bool __cdecl online_lsp_get_server_description(long server_index, c_static_string<200>* server_description);
 extern e_online_lsp_state __cdecl online_lsp_get_state();
 extern void __cdecl online_lsp_initialize();
 extern bool __cdecl online_lsp_service_available();
 extern void __cdecl online_lsp_update();
 
-extern void online_lsp_get_info(long* ip_address, word* port);
+extern void online_lsp_get_info(long* ip_address, uint16* port);
 extern void online_lsp_set_info(char const* host, char const* port);
 

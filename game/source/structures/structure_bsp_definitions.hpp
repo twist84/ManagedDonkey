@@ -38,7 +38,7 @@ struct structure_bsp
 	long import_info_checksum;
 	long import_version;
 	c_string_id visible_name;
-	c_flags<e_structure_bsp_flags, dword, k_structure_bsp_flags> flags;
+	c_flags<e_structure_bsp_flags, uint32, k_structure_bsp_flags> flags;
 	c_typed_tag_block<structure_seam_identifier> seam_identifiers;
 	c_typed_tag_block<structure_edge_to_seam_edge_mapping> edge_to_seam_edge;
 	c_typed_tag_block<structure_collision_material> collision_materials;
@@ -70,7 +70,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_runtime_decal> runtime_decals;
 	s_tag_block environment_object_palette;
 	s_tag_block environment_objects;
-	byte IMISWXUG[0x4];
+	uint8 IMISWXUG[0x4];
 	s_tag_block leaf_map_leaves;
 	s_tag_block leaf_map_connections;
 	s_tag_block errors;
@@ -110,7 +110,7 @@ struct structure_collision_material
 	short runtime_global_material_index;
 	short conveyor_surface_index;
 	short seam_mapping_index;
-	byte pad[0x2];
+	uint8 pad[0x2];
 };
 static_assert(sizeof(structure_collision_material) == 0x18);
 
@@ -146,8 +146,8 @@ struct cluster_portal
 	short front_cluster;
 	long plane_index;
 	real_point3d centroid;
-	real bounding_radius;
-	c_flags<e_cluster_portal_flags, dword, k_cluster_portal_flags> flags;
+	real32 bounding_radius;
+	c_flags<e_cluster_portal_flags, uint32, k_cluster_portal_flags> flags;
 	c_typed_tag_block<real_point3d> vertices;
 };
 static_assert(sizeof(cluster_portal) == 0x28);
@@ -155,12 +155,12 @@ static_assert(sizeof(cluster_portal) == 0x28);
 struct structure_weather_palette_entry
 {
 	char name[32];
-	byte SHTA[2];
-	byte FI[2];
-	byte EJMGHGBY[32];
+	uint8 SHTA[2];
+	uint8 FI[2];
+	uint8 EJMGHGBY[32];
 	real_vector3d wind_direction;
-	real wind_magnitude;
-	byte XQLJZUE[2];
+	real32 wind_magnitude;
+	uint8 XQLJZUE[2];
 	short runtime_wind_global_scenario_function_index;
 	char wind_scale_function[32];
 };
@@ -185,7 +185,7 @@ struct structure_cluster
 	char scenario_sky_index;
 	char atmosphere_index;
 	char camera_fx_index;
-	byte ERERRER[0x1];
+	uint8 ERERRER[0x1];
 	short acoustics;
 	short acoustics_sound_cluster_index;
 	short background_sound;
@@ -195,12 +195,12 @@ struct structure_cluster
 	short reverb_sound_cluster_index;
 	short runtime_first_decal_index;
 	short runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
-	c_flags<e_structure_cluster_flags, word, k_structure_cluster_flags> flags;
+	c_flags<e_structure_cluster_flags, uint16, k_structure_cluster_flags> flags;
 	s_tag_block predicted_resources;
 	s_tag_block portals;
 	s_collision_instanced_geometry_definition collision_instanced_geometry;
 	short mesh_index;
-	byte FERAIDF[0x2];
+	uint8 FERAIDF[0x2];
 	s_tag_block seam_indices;
 	s_tag_block decorator_groups;
 	s_tag_block pvs_bound_object_identifiers;
@@ -227,11 +227,11 @@ static_assert(sizeof(structure_marker) == 0x3C);
 struct structure_runtime_decal
 {
 	short decal_palette_index;
-	byte padding[2];
+	uint8 padding[2];
 
 	real_quaternion rotation;
 	real_point3d position;
-	real scale;
+	real32 scale;
 };
 static_assert(sizeof(structure_runtime_decal) == 0x24);
 
@@ -271,18 +271,18 @@ struct structure_instanced_geometry_instance
 {
 	real_matrix4x3 matrix;
 	short instance_definition;
-	c_flags<e_instanced_geometry_flags, word, k_instanced_geometry_flags> flags;
+	c_flags<e_instanced_geometry_flags, uint16, k_instanced_geometry_flags> flags;
 	short lightmap_texcoord_block_index;
-	byte BJOLSRJV[0x2];
+	uint8 BJOLSRJV[0x2];
 	short runtime_subcluster_render_first_bitvector_index;
 	short runtime_magic_render_number;
 	real_point3d world_bounding_sphere_center;
-	real world_bounding_sphere_radius;
-	dword checksum;
+	real32 world_bounding_sphere_radius;
+	uint32 checksum;
 	c_string_id name;
 	c_enum<e_instanced_geometry_pathfinding_policy, short, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
 	c_enum<e_instanced_geometry_lightmapping_policy, short, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
-	real lightmap_resolution_scale;
+	real32 lightmap_resolution_scale;
 	s_tag_block bsp_physics;
 	short fade_pixels_start;
 	short fade_pixels_end;

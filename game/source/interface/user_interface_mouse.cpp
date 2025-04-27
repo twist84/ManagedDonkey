@@ -50,12 +50,12 @@ void widget_bounds_from_window_bounds(real_rectangle2d const* window_bounds, rea
 {
 	real_vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
 
-	real bounds_x = window_bounds->x1 - window_bounds->x0;
-	real bounds_y = window_bounds->y1 - window_bounds->y0;
-	real adjusted_x = real(bounds_x / 2) + window_bounds->x0;
-	real adjusted_y = real(bounds_y / 2) + window_bounds->y0;
-	real normalized_x = real(bounds_x / real(c_rasterizer::render_globals.resolution_width));
-	real normalized_y = real(bounds_y / real(c_rasterizer::render_globals.resolution_height));
+	real32 bounds_x = window_bounds->x1 - window_bounds->x0;
+	real32 bounds_y = window_bounds->y1 - window_bounds->y0;
+	real32 adjusted_x = real32(bounds_x / 2) + window_bounds->x0;
+	real32 adjusted_y = real32(bounds_y / 2) + window_bounds->y0;
+	real32 normalized_x = real32(bounds_x / real32(c_rasterizer::render_globals.resolution_width));
+	real32 normalized_y = real32(bounds_y / real32(c_rasterizer::render_globals.resolution_height));
 
 	widget_bounds->x0 = ((widget_bounds->x0 * normalized_x) * aspect_ratio_scaling.i) + adjusted_x;
 	widget_bounds->x1 = ((widget_bounds->x1 * normalized_x) * aspect_ratio_scaling.i) + adjusted_x;
@@ -83,8 +83,8 @@ void user_interface_mouse_update_tracking()
 	user_interface_mouse_globals.update_cursor_position.x = cursor_position.x;
 	user_interface_mouse_globals.update_cursor_position.y = cursor_position.y;
 
-	static real mouse_move_delta = 0.0f;
-	mouse_move_delta += ((real(y_delta * y_delta + x_delta * x_delta) * 1.0f) / 60.0f);
+	static real32 mouse_move_delta = 0.0f;
+	mouse_move_delta += ((real32(y_delta * y_delta + x_delta * x_delta) * 1.0f) / 60.0f);
 
 	if (mouse_move_delta > 0.00001f)
 		mouse_move_delta *= 0.4f;
@@ -102,10 +102,10 @@ void user_interface_mouse_update_internal()
 	user_interface_mouse_update_tracking();
 
 	user_interface_mouse_globals.controller_index = _controller0;
-	real x = real(c_rasterizer::render_globals.resolution_offset_x);
-	real y = real(c_rasterizer::render_globals.resolution_offset_y);
-	real width = real(c_rasterizer::render_globals.window_width24);
-	real height = real(c_rasterizer::render_globals.window_height28);
+	real32 x = real32(c_rasterizer::render_globals.resolution_offset_x);
+	real32 y = real32(c_rasterizer::render_globals.resolution_offset_y);
+	real32 width = real32(c_rasterizer::render_globals.window_width24);
+	real32 height = real32(c_rasterizer::render_globals.window_height28);
 
 	user_interface_mouse_globals.window_bounds.x0 = x;
 	user_interface_mouse_globals.window_bounds.x1 = width - x;
@@ -113,8 +113,8 @@ void user_interface_mouse_update_internal()
 	user_interface_mouse_globals.window_bounds.y1 = height - y;
 
 	user_interface_mouse_globals.last_window_cursor_position = user_interface_mouse_globals.window_cursor_position;
-	user_interface_mouse_globals.window_cursor_position.x = real(user_interface_mouse_globals.update_cursor_position.x);
-	user_interface_mouse_globals.window_cursor_position.y = real(user_interface_mouse_globals.update_cursor_position.y);
+	user_interface_mouse_globals.window_cursor_position.x = real32(user_interface_mouse_globals.update_cursor_position.x);
+	user_interface_mouse_globals.window_cursor_position.y = real32(user_interface_mouse_globals.update_cursor_position.y);
 
 	user_interface_mouse_globals.left_button_frames_down = input_mouse_frames_down(_mouse_button_left_click, _input_type_ui);
 	user_interface_mouse_globals.right_button_frames_down = input_mouse_frames_down(_mouse_button_right_click, _input_type_ui);
@@ -261,7 +261,7 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 					}
 				}
 
-				REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), dword, v20);
+				REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uint32, v20);
 				bool v19 = v20 >> 3 || v20 >> 5;
 				if (user_interface_mouse_globals.left_button_frames_down == 1 && list_item_widget == focused_widget && !v19)
 				{

@@ -21,36 +21,36 @@
 
 struct s_cache_file_local_resource_location
 {
-	dword flags : 2;
-	dword file_size : 30;
-	dword memory_size;
+	uint32 flags : 2;
+	uint32 file_size : 30;
+	uint32 memory_size;
 	s_network_http_request_hash entire_checksum;
 };
 static_assert(sizeof(s_cache_file_local_resource_location) == 0x1C);
 
 struct s_cache_file_insertion_point_resource_usage
 {
-	//byte __data[0xB4];
+	//uint8 __data[0xB4];
 
 	char initial_zone_set_index;
-	byte pad[3];
+	uint8 pad[3];
 	c_static_flags<1024> shared_required_locations;
 	c_static_flags<320> local_required_locations;
 
 	// $TODO: idk what this could be, something from ODST?
-	byte __dataAC[8];
+	uint8 __dataAC[8];
 };
 static_assert(sizeof(s_cache_file_insertion_point_resource_usage) == 0xB4);
 
 struct s_cache_file_shared_resource_usage
 {
 	s_tag_persistent_identifier shared_layout_identifier;
-	word shared_location_count;
-	word local_location_count;
-	dword first_file_offset;
+	uint16 shared_location_count;
+	uint16 local_location_count;
+	uint32 first_file_offset;
 	s_tag_persistent_identifier codec_identifier;
 	c_static_array<s_cache_file_local_resource_location, 320> local_locations;
-	byte insertion_point_usage_count;
+	uint8 insertion_point_usage_count;
 	char pad[3];
 	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_usages;
 };
@@ -97,7 +97,7 @@ struct c_cache_file_streamed_sublocation_decompressor :
 
 	s_cache_file_resource_streaming_sublocation_table* m_streaming_sublocation_table;
 	c_basic_buffer<void> __buffer8;
-	byte* __unknown10;
+	uint8* __unknown10;
 	c_basic_buffer<void> __buffer14;
 };
 static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c_cache_file_decompressor) + 0x18);
@@ -164,8 +164,8 @@ static_assert(sizeof(c_cache_file_resource_rollover_table) == 0x40010);
 
 struct c_indirect_cache_file_decompressor_service
 {
-	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>) = 0;
-	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*) = 0;
+	virtual c_cache_file_decompressor* begin_decompression(uint64, long, c_basic_buffer<void>) = 0;
+	virtual void dispose_decompressor(uint64, long, c_cache_file_decompressor*) = 0;
 };
 static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
 
@@ -173,11 +173,11 @@ struct c_cache_file_uncompressed_decompressor;
 struct c_cache_file_tag_resource_codec_service :
 	c_indirect_cache_file_decompressor_service
 {
-	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>)
+	virtual c_cache_file_decompressor* begin_decompression(uint64, long, c_basic_buffer<void>)
 	{
 		throw;
 	}
-	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*)
+	virtual void dispose_decompressor(uint64, long, c_cache_file_decompressor*)
 	{
 		throw;
 	}
@@ -187,7 +187,7 @@ struct c_cache_file_tag_resource_codec_service :
 
 	c_typed_opaque_data<c_cache_file_streamed_sublocation_decompressor> m_streamed_sublocation_decompressor;
 
-	byte __data224[0x10];
+	uint8 __data224[0x10];
 	c_cache_file_uncompressed_decompressor* m_uncompressed_cache_file_decompressor;
 	c_basic_buffer<void> m_decompression_buffer;
 	bool m_decompression_buffer_locked;
@@ -236,8 +236,8 @@ struct c_tag_resource_page_range_allocator
 {
 public:
 	virtual bool __cdecl try_to_grab_restore_range(c_basic_buffer<void> desired_range, c_basic_buffer<void>* in_out_range);
-	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>* in_out_range, dword, dword, dword);
-	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>* in_out_range, dword new_size);
+	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>* in_out_range, uint32, uint32, uint32);
+	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>* in_out_range, uint32 new_size);
 	virtual void __cdecl reclaim_stolen_memory(c_basic_buffer<void>* in_out_range);
 	virtual void __cdecl release_allocation(c_basic_buffer<void>* in_out_range);
 	virtual void __cdecl make_range_writeable(c_basic_buffer<void> range);
@@ -254,7 +254,7 @@ struct s_indirect_cache_file_location;
 struct c_indirect_cache_file_location_atlas
 {
 public:
-	virtual bool get_location(qword, s_indirect_cache_file_location* out_location);
+	virtual bool get_location(uint64, s_indirect_cache_file_location* out_location);
 };
 static_assert(sizeof(c_indirect_cache_file_location_atlas) == 0x4);
 
@@ -269,21 +269,21 @@ static_assert(sizeof(c_tag_resource_prediction_atom_generator) == 0x4);
 struct c_cache_file_resource_stoler
 {
 public:
-	virtual void* try_to_steal_memory(dword size);
-	virtual void* steal_memory_shouldnt_fail(dword size);
-	virtual void return_memory(void* stolen_memory, dword size);
+	virtual void* try_to_steal_memory(uint32 size);
+	virtual void* steal_memory_shouldnt_fail(uint32 size);
+	virtual void return_memory(void* stolen_memory, uint32 size);
 };
 static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
 
 struct s_cache_file_tag_resource_runtime_shared_file :
 	s_datum_header
 {
-	word_flags flags;
+	uint16 flags;
 	s_file_handle async_file_handle;
 	s_file_handle overlapped_handle;
 	s_indirect_file indirect_file;
 	s_cache_file_shared_resource_usage const* shared_resource_usage;
-	dword resource_section_offset;
+	uint32 resource_section_offset;
 	long map_file_index;
 };
 static_assert(sizeof(s_cache_file_tag_resource_runtime_shared_file) == 0x1C);
@@ -376,11 +376,11 @@ public:
 	c_basic_buffer<void> m_stoler_range;
 	bool m_actual_storage_range_read_locked;
 
-	byte __pad2A32D[0x3];
+	uint8 __pad2A32D[0x3];
 
 	c_basic_buffer<void> m_writeable_range;
 
-	byte __pad2A33C[0xC];
+	uint8 __pad2A33C[0xC];
 
 	c_thread_safeish_tag_resource_cache m_threaded_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
@@ -400,7 +400,7 @@ public:
 	bool m_cache_pages_for_next_map;
 
 	// $TODO: map this
-	byte __data6ACAA[0x16];
+	uint8 __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
@@ -457,7 +457,7 @@ struct s_scenario_game_state;
 
 extern void __cdecl cache_file_tag_resources_dispose();
 extern void __cdecl cache_file_tag_resources_dispose_from_old_map();
-extern void __cdecl cache_file_tag_resources_get_active_tag_set(dword active_bsp_zone_mask, dword touched_bsp_zone_mask, dword active_designer_zone_mask, dword active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags);
+extern void __cdecl cache_file_tag_resources_get_active_tag_set(uint32 active_bsp_zone_mask, uint32 touched_bsp_zone_mask, uint32 active_designer_zone_mask, uint32 active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags);
 extern void __cdecl cache_file_tag_resources_initialize();
 extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode);
 extern void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result* io_result);
@@ -488,7 +488,7 @@ struct s_resource_file_header
 	long tag_index;
 
 	// resource data size and offset from file begin
-	dword file_size;
+	uint32 file_size;
 	long resource_index;
 };
 static_assert(sizeof(s_resource_file_header) == 0x10);

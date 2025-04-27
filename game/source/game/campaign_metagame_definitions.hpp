@@ -21,19 +21,19 @@ struct s_campaign_metagame_globals
 	long multi_kill_count;
 
 	// in what period of time does this have to happen (seconds)
-	real multi_kill_window;
+	real32 multi_kill_window;
 
 	// time after taking a guys shields down with emp damage you have to get the emp kill bonus (seconds)
-	real emp_kill_window;
+	real32 emp_kill_window;
 
 	// like EMP but for the jack-then-kill medal (seconds)
-	real jack_kill_window_period;
+	real32 jack_kill_window_period;
 
 	// like EMP but for the airborne jack-then-kill medal (seconds)
-	real airborne_jack_kill_window_period;
+	real32 airborne_jack_kill_window_period;
 
 	// window after which death from the grave medal can be awarded (seconds)
-	real death_from_grave_required_period;
+	real32 death_from_grave_required_period;
 
 	// for sword/shotgun/snipes/etc medals
 	long minor_spree_count;
@@ -59,7 +59,7 @@ static_assert(sizeof(s_campaign_metagame_globals) == 0x98);
 
 struct s_campaign_metagame_style_type
 {
-	real style_multiplier;
+	real32 style_multiplier;
 	long point_count;
 	long display_ticks;
 	c_string_id survival_mode_event_name;
@@ -68,15 +68,15 @@ static_assert(sizeof(s_campaign_metagame_style_type) == 0x10);
 
 struct s_campaign_metagame_difficulty
 {
-	real difficulty_multiplier;
+	real32 difficulty_multiplier;
 };
-static_assert(sizeof(s_campaign_metagame_difficulty) == sizeof(real));
+static_assert(sizeof(s_campaign_metagame_difficulty) == sizeof(real32));
 
 struct s_campaign_metagame_skull_data
 {
-	real difficulty_multiplier;
+	real32 difficulty_multiplier;
 };
-static_assert(sizeof(s_campaign_metagame_skull_data) == sizeof(real));
+static_assert(sizeof(s_campaign_metagame_skull_data) == sizeof(real32));
 
 enum e_campaign_metagame_bucket_flag
 {
@@ -140,7 +140,7 @@ struct s_campaign_metagame_bucket
 	c_flags<e_campaign_metagame_bucket_flag, char, k_campaign_metagame_bucket_flags> flags;
 	char type;
 	char _class;
-	byte pad0;
+	uint8 pad0;
 	short point_count;
 	short pad1;
 };

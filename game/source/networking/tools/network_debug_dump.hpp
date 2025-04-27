@@ -16,7 +16,7 @@ struct s_netdebug_upload_task
 	void* completion_data;
 
 	s_file_reference file;
-	dword checksum;
+	uint32 checksum;
 };
 static_assert(sizeof(s_netdebug_upload_task) == 0x224);
 
@@ -40,7 +40,7 @@ struct s_netdebug_globals
 	c_static_array<s_netdebug_upload_task, 10> task_queue;
 
 	bool initialized;
-	byte __pad3969[7];
+	uint8 __pad3969[7];
 };
 static_assert(sizeof(s_netdebug_globals) == 0x3970);
 
@@ -72,7 +72,7 @@ extern bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task);
 extern void __cdecl netdebug_process_next_task();
 extern bool __cdecl netdebug_queue_task(s_netdebug_upload_task const* task);
 extern void __cdecl netdebug_set_sessionid(char const* sessionid);
-extern dword __cdecl netdebug_thread_function(void* thread_parameter);
+extern uint32 __cdecl netdebug_thread_function(void* thread_parameter);
 extern void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long upload_position, long upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data);
 extern void __cdecl remove_current_task(bool succeeded);
 extern void __cdecl netdebug_set_system_version();

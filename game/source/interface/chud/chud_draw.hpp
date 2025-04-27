@@ -19,15 +19,15 @@ struct s_chud_draw_globals
 
 	rectangle2d adjusted_camera_window_title_safe_pixel_bounds;
 
-	real virtual_width;
-	real virtual_height;
+	real32 virtual_width;
+	real32 virtual_height;
 
 	s_chud_curvature_info* current_curvature_info;
 	real_point2d current_sensor_origin;
 	long current_resolution;
 
-	real global_alpha;
-	real global_first_person_theta;
+	real32 global_alpha;
+	real32 global_first_person_theta;
 
 	long user_index;
 	long user_skin_index;
@@ -46,8 +46,8 @@ extern bool& chud_debug_crosshair;
 
 extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);
 extern void __cdecl chud_debug_draw(long user_index);
-extern void __cdecl chud_debug_draw_reticle(long user_index, real angle, real_argb_color const* color);
-extern void __cdecl chud_debug_draw_reticle_labeled(long user_index, real angle, char const* label, real a4, real_argb_color const* color);
+extern void __cdecl chud_debug_draw_reticle(long user_index, real32 angle, real_argb_color const* color);
+extern void __cdecl chud_debug_draw_reticle_labeled(long user_index, real32 angle, char const* label, real32 a4, real_argb_color const* color);
 extern void __cdecl chud_debug_render();
 extern void __cdecl chud_draw_bitmap_widget(long user_index, void* draw_widget_data, bool is_draw_turbulence);
 extern void __cdecl chud_draw_text_widget(long user_index, void* draw_widget_data, bool is_draw_turbulence);

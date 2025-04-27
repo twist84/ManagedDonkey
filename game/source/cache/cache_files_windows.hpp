@@ -76,7 +76,7 @@ struct s_cached_map_file
 	s_file_handle file_handle;
 
 	// io_lock_count?
-	dword __unknown4;
+	uint32 __unknown4;
 
 	s_cache_file_header header;
 	s_indirect_file bulk_read_handle;
@@ -87,7 +87,7 @@ static_assert(sizeof(s_cached_map_file) == 0x33A0);
 struct s_failed_map
 {
 	c_static_string<k_tag_long_string_length> path;
-	dword time;
+	uint32 time;
 	long index;
 };
 static_assert(sizeof(s_failed_map) == 0x108);
@@ -152,12 +152,12 @@ struct s_cache_file_copy_globals
 {
 	s_cache_file_header copy_file_header;
 	c_synchronized_long copy_bytes_transferred;
-	dword copy_start_time_ms;
-	dword intended_copy_bytes_transferred;
-	dword total_copy_bytes_transferred;
+	uint32 copy_start_time_ms;
+	uint32 intended_copy_bytes_transferred;
+	uint32 total_copy_bytes_transferred;
 	bool nuke_cache_file_success;
 	bool validify_cache_file_success;
-	dword volatile source_file_size;
+	uint32 volatile source_file_size;
 	long copy_task_id;
 	e_cache_copy_state last_copy_state;
 	e_cache_copy_state copy_state;
@@ -174,7 +174,7 @@ struct s_cache_file_copy_globals
 	char copying_map_file_path[k_tag_long_string_length];
 	s_cache_copy_request current_request;
 	s_cache_copy_request pending_request;
-	dword running_realtime_checksum;
+	uint32 running_realtime_checksum;
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
@@ -194,17 +194,17 @@ struct c_cache_file_copy_fake_decompressor :
 		throw;
 	}
 
-	void setup(s_file_handle file_handle, dword offset, dword checksum, c_basic_buffer<void> buffer);
+	void setup(s_file_handle file_handle, uint32 offset, uint32 checksum, c_basic_buffer<void> buffer);
 	void teardown();
 
 	s_file_handle m_output_file;
 	c_synchronized_long m_copy_bytes_progress;
 	c_synchronized_long m_copy_in_progress;
-	dword m_running_checksum;
+	uint32 m_running_checksum;
 	bool m_running_success;
 	bool m_overall_copy_in_progress;
 	s_simple_read_file_ex_overlapped_result m_overlapped_result;
-	byte m_overlapped[0x14]; // OVERLAPPED
+	uint8 m_overlapped[0x14]; // OVERLAPPED
 	c_basic_buffer<void> m_copy_buffer;
 };
 static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
@@ -233,7 +233,7 @@ extern bool __cdecl cache_file_get_indirect_file_handle_from_index(e_map_file_in
 extern bool __cdecl cache_file_get_master_async_file_handle(s_file_handle* out_handle);
 extern bool __cdecl cache_file_get_master_indirect_file_handle(s_indirect_file* out_handle);
 extern bool __cdecl cache_file_get_master_overlapped_file_handle(s_file_handle* out_handle);
-extern bool __cdecl cache_file_get_master_resource_section_offset(dword* out_offset);
+extern bool __cdecl cache_file_get_master_resource_section_offset(uint32* out_offset);
 extern bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle);
 extern void __cdecl cache_file_map_clear_all_failures();
 extern void __cdecl cache_file_map_has_failed(char const* scenario_path);
@@ -245,7 +245,7 @@ extern void __cdecl cache_files_copy_do_work();
 extern void __cdecl cache_files_copy_halt();
 extern bool __cdecl cache_files_copy_halting();
 extern bool __cdecl cache_files_copy_in_progress();
-extern bool __cdecl cache_files_copy_in_progress_internal(real* out_progress);
+extern bool __cdecl cache_files_copy_in_progress_internal(real32* out_progress);
 extern bool __cdecl cache_files_copy_map(char const* scenario_path, long load_action);
 extern bool __cdecl cache_files_copy_map_start_only(char const* scenario_path, long load_action);
 extern void __cdecl cache_files_copy_pause();
@@ -262,10 +262,10 @@ extern bool __cdecl cache_files_running_off_dvd();
 extern long __cdecl cache_map_file_nuke(e_map_file_index map_file_index, e_async_category category, e_async_priority priority, bool* success, c_synchronized_long* done);
 extern void __cdecl cache_requests_flush();
 extern void __cdecl cached_map_file_close(e_map_file_index map_file_index);
-extern bool __cdecl cached_map_file_dependencies_loaded(s_cache_file_header const* header, dword* shared_files_flags);
+extern bool __cdecl cached_map_file_dependencies_loaded(s_cache_file_header const* header, uint32* shared_files_flags);
 extern s_cached_map_file* __cdecl cached_map_file_get(e_map_file_index map_file_index);
 extern s_file_handle __cdecl cached_map_file_get_handle(e_map_file_index map_file_index);
-extern dword __cdecl cached_map_file_get_size(e_map_file_index map_file_index);
+extern uint32 __cdecl cached_map_file_get_size(e_map_file_index map_file_index);
 extern bool __cdecl cached_map_file_load(e_map_file_index map_file_index, char const* scenario_path);
 extern void __cdecl cached_map_files_delete(e_map_file_index start_map_file_index, e_map_file_index end_map_file_index);
 extern e_map_file_index __cdecl cached_map_files_find_free_utility_drive_map(long size, short map_type);

@@ -6,7 +6,7 @@ struct s_object_schedule
 {
 	// all names subject to change
 
-	real phase_time;
+	real32 phase_time;
 	long object_index;
 	long phase_index_update_time;
 	short phase_index;
@@ -28,7 +28,7 @@ struct s_object_schedule_globals
 	// all names subject to change
 
 	c_static_array<s_object_schedule, 32> schedules;
-	c_static_array<real, 30> phases;
+	c_static_array<real32, 30> phases;
 	c_static_flags<30> phases_allocated;
 };
 static_assert(sizeof(s_object_schedule_globals) == 0x27C);

@@ -16,7 +16,7 @@ struct __declspec(align(8)) s_simulation_view_telemetry_data
 {
 	c_simulation_view_telemetry_provider const* provider;
 	bool joining;
-	dword player_acknowledged_mask;
+	uint32 player_acknowledged_mask;
 	long number_of_players;
 	s_simulation_view_player_telemetry_data players[4];
 };

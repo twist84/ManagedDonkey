@@ -12,7 +12,7 @@ bool c_vehicle_type_alien_fighter::can_select_new_trick(long vehicle_index)
 	return INVOKE_CLASS_MEMBER(0x00BCCD00, c_vehicle_type_alien_fighter, can_select_new_trick, vehicle_index);
 }
 
-bool c_vehicle_type_alien_fighter::compute_function_value(long vehicle_index, long function, real* magnitude, bool* force_active)
+bool c_vehicle_type_alien_fighter::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCCD60, c_vehicle_type_alien_fighter, compute_function_value, vehicle_index, function, magnitude, force_active);
 }
@@ -27,7 +27,7 @@ bool c_vehicle_type_alien_fighter::compute_reference_and_trick_rotation(long veh
 	return INVOKE_CLASS_MEMBER(0x00BCD060, c_vehicle_type_alien_fighter, compute_reference_and_trick_rotation, vehicle_index, instance, reference_rotation, trick_rotation);
 }
 
-real c_vehicle_type_alien_fighter::compute_trick_t(long vehicle_index)
+real32 c_vehicle_type_alien_fighter::compute_trick_t(long vehicle_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCD420, c_vehicle_type_alien_fighter, compute_trick_t, vehicle_index);
 }
@@ -67,7 +67,7 @@ bool __cdecl c_vehicle_type_alien_fighter::physics_disabled(long vehicle_index)
 	return INVOKE(0x00BCD610, c_vehicle_type_alien_fighter::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_alien_fighter::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_alien_fighter::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BCD650, c_vehicle_type_alien_fighter, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -87,7 +87,7 @@ void c_vehicle_type_alien_fighter::start_trick(long vehicle_index, e_vehicle_tri
 	INVOKE_CLASS_MEMBER(0x00BCD7C0, c_vehicle_type_alien_fighter, start_trick, vehicle_index, vehicle_trick_type);
 }
 
-real c_vehicle_type_alien_fighter::trick_duration(long vehicle_index)
+real32 c_vehicle_type_alien_fighter::trick_duration(long vehicle_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00BCD7E0, c_vehicle_type_alien_fighter, trick_duration, vehicle_index);
 }

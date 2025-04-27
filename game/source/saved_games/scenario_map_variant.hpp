@@ -79,17 +79,17 @@ enum e_teleporter_channel
 	k_teleporter_channel_count,
 	k_channel_default = _channel_first,
 };
-using c_teleporter_channel = c_enum<enum e_teleporter_channel, byte, k_channel_default, k_teleporter_channel_count>;
+using c_teleporter_channel = c_enum<enum e_teleporter_channel, uint8, k_channel_default, k_teleporter_channel_count>;
 
 struct s_variant_multiplayer_object_properties_definition
 {
 public:
 	struct tag_shape_data
 	{
-		real boundary_width_or_radius;
-		real boundary_box_length;
-		real boundary_positive_height;
-		real boundary_negative_height;
+		real32 boundary_width_or_radius;
+		real32 boundary_box_length;
+		real32 boundary_positive_height;
+		real32 boundary_negative_height;
 	};
 	static_assert(sizeof(tag_shape_data) == 0x10);
 
@@ -119,9 +119,9 @@ public:
 
 //protected:
 
-	c_flags<e_game_engine_symmetric_placement, word, k_number_of_game_engine_symmetric_placement_settings> symmetry_placement_flags;
-	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_type_count> game_engine_flags;
-	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> team_affiliation;
+	c_flags<e_game_engine_symmetric_placement, uint16, k_number_of_game_engine_symmetric_placement_settings> symmetry_placement_flags;
+	c_flags<e_scenario_game_engine, uint8, k_scenario_game_engine_type_count> game_engine_flags;
+	c_enum<e_multiplayer_team_designator, uint8, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> team_affiliation;
 
 	union
 	{
@@ -129,13 +129,13 @@ public:
 		char teleporter_channel;
 		char spawn_order;
 
-		byte value;
+		uint8 value;
 	} shared_storage;
 
 	// seconds
-	byte spawn_time_in_seconds;
+	uint8 spawn_time_in_seconds;
 
-	byte cached_object_type;
+	uint8 cached_object_type;
 
 	c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count> shape;
 	tag_shape_data shape_data;
@@ -171,7 +171,7 @@ public:
 	void print(c_map_variant* map_variant, long const tab_count);
 
 //protected:
-	c_flags<e_variant_object_placement_flags, word, k_variant_object_placement_flags> flags;
+	c_flags<e_variant_object_placement_flags, uint16, k_variant_object_placement_flags> flags;
 	short reuse_timeout;
 	long object_index;
 	long helper_object_index;
@@ -201,11 +201,11 @@ public:
 
 //protected:
 	long object_definition_index;
-	byte minimum_count;
-	byte maximum_count;
-	byte placed_on_map;
-	byte maximum_allowed;
-	real price_per_item;
+	uint8 minimum_count;
+	uint8 maximum_count;
+	uint8 placed_on_map;
+	uint8 maximum_allowed;
+	real32 price_per_item;
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
 
@@ -239,11 +239,11 @@ public:
 	e_map_id m_map_id;
 	real_rectangle3d m_variant_scenario_bounds;
 	long m_game_engine_subtype;
-	real m_maximum_budget;
-	real m_spent_budget;
+	real32 m_maximum_budget;
+	real32 m_spent_budget;
 	bool m_showing_helpers;
 	bool m_built_in;
-	dword m_original_map_signature_hash;
+	uint32 m_original_map_signature_hash;
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
 	c_static_array<short, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;

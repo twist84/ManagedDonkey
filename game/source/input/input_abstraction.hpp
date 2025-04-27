@@ -18,8 +18,8 @@ static_assert(sizeof(s_keyboard_input_preferences) == 0x17C);
 
 struct s_gamepad_input_preferences
 {
-	real look_sensitivity_x;
-	real look_sensitivity_y;
+	real32 look_sensitivity_x;
+	real32 look_sensitivity_y;
 
 	c_static_array<c_enum<e_controller_button, char, _controller_button_left_trigger, k_controller_button_count>, k_button_action_count> gamepad_buttons;
 	c_static_array<bool, k_button_action_count> gamepad_buttons_held;
@@ -29,8 +29,8 @@ struct s_gamepad_input_preferences
 	bool controller_look_inverted;
 	bool controller_flight_stick_aircraft_controls;
 	short camera_panning;
-	real camera_flying_movement;
-	real camera_flying_thrust;
+	real32 camera_flying_movement;
+	real32 camera_flying_thrust;
 };
 static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
 
@@ -39,27 +39,27 @@ struct c_abstract_button
 public:
 	c_abstract_button();
 	
-	void update(word down_msec, word down_frames, byte down_amount);
+	void update(uint16 down_msec, uint16 down_frames, uint8 down_amount);
 	void set_accessor(e_button_action accessor);
 	void unlock();
 	bool locked();
 	void lock();
-	real down_amount();
+	real32 down_amount();
 	bool access_valid() const;
-	word down_msec();
+	uint16 down_msec();
 	bool latched() const;
-	byte down_frames() const;
+	uint8 down_frames() const;
 	void set_latch_bit(bool set_bit);
 	void latch();
 	bool is_down();
 
 protected:
-	word m_down_msec;
-	byte m_down_frames;
-	byte_flags m_flags;
-	real m_down_amount;
-	byte m_accessor;
-	byte m_locked;
+	uint16 m_down_msec;
+	uint8 m_down_frames;
+	uint8 m_flags;
+	real32 m_down_amount;
+	uint8 m_accessor;
+	uint8 m_locked;
 };
 static_assert(sizeof(c_abstract_button) == 0xC);
 
@@ -76,7 +76,7 @@ struct s_game_input_state
 	//   input_state->aircraft_pitch1 = input_state->vehicle_pitch1;
 	// }
 	// 
-	// real pitch = user_currently_piloting_aircraft(input_user_index) ? input_state->aircraft_pitch : input_state->pitch
+	// real32 pitch = user_currently_piloting_aircraft(input_user_index) ? input_state->aircraft_pitch : input_state->pitch
 
 	// sub_60D620
 	// input_state->aircraft_pitch = input_state->aircraft_pitch1
@@ -85,20 +85,20 @@ struct s_game_input_state
 	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
 	point2d abstract_sticks[2];
 
-	real forward_movement;
-	real strafe;
-	real vehicle_forward_movement;
+	real32 forward_movement;
+	real32 strafe;
+	real32 vehicle_forward_movement;
 
-	real yaw;
-	real pitch;
-	real aircraft_pitch;
+	real32 yaw;
+	real32 pitch;
+	real32 aircraft_pitch;
 
-	real vehicle_yaw;
-	real vehicle_pitch;
+	real32 vehicle_yaw;
+	real32 vehicle_pitch;
 
 	// overrides?
-	real aircraft_pitch1;
-	real vehicle_pitch1;
+	real32 aircraft_pitch1;
+	real32 vehicle_pitch1;
 
 	// apply_mouse_acceleration?
 	bool __unknown324;
@@ -119,7 +119,7 @@ struct s_input_abstraction_globals
 {
 	s_gamepad_input_preferences preferences[k_number_of_controllers];
 	s_game_input_state input_states[k_number_of_controllers];
-	dword controller_detection_timer;
+	uint32 controller_detection_timer;
 	bool input_has_gamepad[k_number_of_controllers];
 	long controls_method;
 	bool input_device_changed;
@@ -156,7 +156,7 @@ extern void __cdecl input_abstraction_reset_controller_detection_timer();
 extern void __cdecl input_should_suppress_rumble(long controls_method);
 extern void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_update();
-extern void __cdecl input_abstraction_update_device_changes(dword flags);
+extern void __cdecl input_abstraction_update_device_changes(uint32 flags);
 
 extern void input_abstraction_get_raw_data_string(char* buffer, short size);
 

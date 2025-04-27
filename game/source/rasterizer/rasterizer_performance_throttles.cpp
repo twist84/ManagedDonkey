@@ -3,7 +3,7 @@
 #include "objects/objects.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x01917BA0, s_performance_throttles, c_performance_throttles::m_default_throttles, 4);
-REFERENCE_DECLARE_ARRAY(0x01917C80, real, c_performance_throttles::m_object_modifiers, k_object_type_count);
+REFERENCE_DECLARE_ARRAY(0x01917C80, real32, c_performance_throttles::m_object_modifiers, k_object_type_count);
 REFERENCE_DECLARE(0x05115AB4, bool, c_performance_throttles::m_ignore_predefined_performance_throttles);
 REFERENCE_DECLARE(0x05115AB8, s_performance_throttles, c_performance_throttles::m_current_throttles);
 
@@ -16,14 +16,14 @@ s_performance_throttles* __cdecl c_performance_throttles::get_current_performanc
 
 //.text:00A5F8F0 ; public: s_tag_reference const* __cdecl c_rasterizer_globals::get_default_performance_throttles_ref() const
 
-real __cdecl get_performance_throttle(char const* name, long player_count)
+real32 __cdecl get_performance_throttle(char const* name, long player_count)
 {
 	//INVOKE(0x00A5F900, get_performance_throttle, name, player_count);
 
 	return c_performance_throttles::get_performance_throttle(name, player_count);
 }
 
-real __cdecl c_performance_throttles::get_performance_throttle(char const* name, long player_count)
+real32 __cdecl c_performance_throttles::get_performance_throttle(char const* name, long player_count)
 {
 	//INVOKE(0x00A5F910, c_performance_throttles::get_performance_throttle, name, player_count);
 
@@ -74,13 +74,13 @@ real __cdecl c_performance_throttles::get_performance_throttle(char const* name,
 			return throttle.decal_fade_distance_scale;
 
 		if (csstricmp(name, "cpu_light_count") == 0)
-			return (real)throttle.max_cpu_dynamic_lights;
+			return (real32)throttle.max_cpu_dynamic_lights;
 
 		if (csstricmp(name, "gpu_light_count") == 0)
-			return (real)throttle.max_gpu_dynamic_lights;
+			return (real32)throttle.max_gpu_dynamic_lights;
 
 		if (csstricmp(name, "shadow_count") == 0)
-			return (real)throttle.max_shadow_casting_objects;
+			return (real32)throttle.max_shadow_casting_objects;
 
 		if (csstricmp(name, "shadow_quality") == 0)
 			return throttle.shadow_quality_lod;
@@ -91,14 +91,14 @@ real __cdecl c_performance_throttles::get_performance_throttle(char const* name,
 
 //.text:00A5FBB0 ; 
 
-void __cdecl set_performance_throttle(char const* name, long player_count, real value)
+void __cdecl set_performance_throttle(char const* name, long player_count, real32 value)
 {
 	//INVOKE(0x00A5FBE0, set_performance_throttle, name, player_count, value);
 
 	c_performance_throttles::set_performance_throttle(name, player_count, value);
 }
 
-void __cdecl c_performance_throttles::set_performance_throttle(char const* name, long player_count, real value)
+void __cdecl c_performance_throttles::set_performance_throttle(char const* name, long player_count, real32 value)
 {
 	//INVOKE(0x00A5FC00, c_performance_throttles::set_performance_throttle, name, player_count, value);
 

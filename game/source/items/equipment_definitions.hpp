@@ -91,28 +91,28 @@ struct _equipment_definition
 {
 	// $$$ EQUIPMENT $$$
 
-	real duration;
+	real32 duration;
 
 	// time in seconds for the phantom volumes on this object to start accelerating things in them
-	real phantom_volume_activation_time;
+	real32 phantom_volume_activation_time;
 
 	// -1 means unlimited charges, 0 means fire on creation
 	short charges;
 
-	c_flags<e_equipment_flags, word, k_equipment_flags> flags;
+	c_flags<e_equipment_flags, uint16, k_equipment_flags> flags;
 
 	// AI
 	// 
 	// Settings which the AI use to know how they should react to this equipment
 
 	// How large a danger zone we should create around this equipment (0 means no danger zone)
-	real danger_radius;
+	real32 danger_radius;
 
 	// How far does my target have to be for me to throw this at them?
-	real min_deployment_distance; // wus
+	real32 min_deployment_distance; // wus
 
 	// How long I should go unnoticed by nearby enemies
-	real awareness_time; // seconds
+	real32 awareness_time; // seconds
 
 	s_tag_block override_camera;
 
@@ -178,9 +178,9 @@ static_assert(sizeof(equipment_definition) == sizeof(_object_definition) + sizeo
 
 struct s_equipment_type_super_shield
 {
-	real shield_recharge_delay_scale; // 0.0f defaults to 1.0f
-	real shield_recharge_rate_scale; // 0.0f defaults to 1.0f
-	real shield_ceiling_scale; // 0.0f defaults to 1.0f
+	real32 shield_recharge_delay_scale; // 0.0f defaults to 1.0f
+	real32 shield_recharge_rate_scale; // 0.0f defaults to 1.0f
+	real32 shield_ceiling_scale; // 0.0f defaults to 1.0f
 	s_tag_reference shield_effect;
 	s_tag_reference overcharge_effect;
 	s_tag_reference overcharge_damage_effect;
@@ -210,20 +210,20 @@ struct s_equipment_type_spawner
 	s_tag_reference spawned_effect;
 
 	// distance from players eyeball on the z-plane that this effect spawns
-	real spawn_radius;
+	real32 spawn_radius;
 
 	// z-offset of effect spawn
-	real spawn_z_offset;
+	real32 spawn_z_offset;
 
 	// need a sphere of radius r's free space in order to spawn, otherwise we pick a new spawn location
-	real spawn_area_radius;
+	real32 spawn_area_radius;
 
-	real spawn_velocity; // WU/sec
+	real32 spawn_velocity; // WU/sec
 
 	c_enum<e_spawn_type, short, _spawn_type_along_aiming_vector, k_spawn_type_count> type;
 
 	// pad
-	byte LSJ[0x2];
+	uint8 LSJ[0x2];
 
 	void update_reference_names();
 };
@@ -235,18 +235,18 @@ struct s_equipment_type_proximity_mine
 	s_tag_reference explosion_damage_effect;
 
 	// time before it becomes a proximity mine
-	real arm_time;
+	real32 arm_time;
 
 	// seconds after it is created that it must self destruct.
 	// 0 means never destroy
-	real self_destruct_time;
+	real32 self_destruct_time;
 
 	// seconds object moving at trigger velocity takes to trigger explosion.
 	// This will smooth out sensitivity to velocity noise
-	real trigger_time;
+	real32 trigger_time;
 
 	// WU/sec at which we trigger explosion
-	real trigger_velocity;
+	real32 trigger_velocity;
 
 	void update_reference_names();
 };
@@ -255,30 +255,30 @@ static_assert(sizeof(s_equipment_type_proximity_mine) == 0x30);
 struct s_equipment_type_motion_tracker_noise
 {
 	// time before it starts making noise
-	real arm_time;
+	real32 arm_time;
 
 	// radius in WU that the noise extends to.
-	real noise_radius;
+	real32 noise_radius;
 
 	// number of noise points that are generated
 	long noise_count;
 
 	// radius in WU that the damage flash noise extends to.
-	real flash_radius;
+	real32 flash_radius;
 };
 static_assert(sizeof(s_equipment_type_motion_tracker_noise) == 0x10);
 
 struct s_equipment_type_showme
 {
 	// radius in WU that the showme extends to.
-	real showme_radius;
+	real32 showme_radius;
 };
 static_assert(sizeof(s_equipment_type_showme) == 0x4);
 
 struct s_equipment_type_invisibility_mode
 {
-	real invisible_time; // seconds
-	real transition_time; // seconds
+	real32 invisible_time; // seconds
+	real32 transition_time; // seconds
 };
 static_assert(sizeof(s_equipment_type_invisibility_mode) == 0x8);
 
@@ -288,9 +288,9 @@ struct s_equipment_type_invincibility_mode
 	c_global_material_type invincibility_material_type;
 
 	// pad
-	byte invincibility_material_pad[0x2];
+	uint8 invincibility_material_pad[0x2];
 
-	real shield_recharge_time; // seconds
+	real32 shield_recharge_time; // seconds
 
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> activation_effect;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> attached_effect;
@@ -309,15 +309,15 @@ static_assert(sizeof(s_equipment_type_treeoflife) == 0x10);
 
 struct s_equipment_type_health_pack
 {
-	real heath_ammount;
-	real shield_ammount;
+	real32 heath_ammount;
+	real32 shield_ammount;
 };
 static_assert(sizeof(s_equipment_type_health_pack) == 0x8);
 
 struct s_equipment_type_forced_reload
 {
 	s_tag_reference effect;
-	real ammo_penalty;
+	real32 ammo_penalty;
 
 	void update_reference_names();
 };
@@ -336,9 +336,9 @@ struct s_equipment_type_tank_mode
 {
 	c_string_id new_player_material;
 	long __unknown4;
-	real duration;
-	real damage_absorption_scale;
-	real __unknown10;
+	real32 duration;
+	real32 damage_absorption_scale;
+	real32 __unknown10;
 	long __unknown14;
 	s_tag_reference active_hud;
 
@@ -348,16 +348,16 @@ static_assert(sizeof(s_equipment_type_tank_mode) == 0x28);
 
 struct s_equipment_type_mag_pulse
 {
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
+	real32 __unknown0;
+	real32 __unknown4;
+	real32 __unknown8;
+	real32 __unknownC;
 };
 static_assert(sizeof(s_equipment_type_mag_pulse) == 0x10);
 
 struct s_equipment_type_hologram
 {
-	real hologram_duration; // s
+	real32 hologram_duration; // s
 
 	s_tag_reference creation_effect;
 	s_tag_reference attached_effect;
@@ -367,10 +367,10 @@ struct s_equipment_type_hologram
 	s_tag_reference destruction_effect;
 
 	// how fast shimmer decreases
-	real shimmer_decrease_rate; // 1.0/s
+	real32 shimmer_decrease_rate; // 1.0/s
 
 	// how much to ping shimmer when hit by a bullet
-	real shimmer_bullet_ping; // 0-1
+	real32 shimmer_bullet_ping; // 0-1
 
 	// this is a periodic function with a period of 1 second
 	// the shimmer value is used as the range input (interpolates between green and red)
@@ -384,8 +384,8 @@ static_assert(sizeof(s_equipment_type_hologram) == 0x6C);
 
 struct s_equipment_type_reactive_armor
 {
-	real duration;
-	real damage_reflection_ratio;
+	real32 duration;
+	real32 damage_reflection_ratio;
 	long __unknown8;
 	s_tag_reference activation_effect;
 	s_tag_reference __unknown1C;
@@ -400,8 +400,8 @@ struct s_equipment_type_bomb_run
 {
 	long grenade_count;
 	real_bounds velocity_bounds;
-	real horizontal_randomness;
-	real vertical_randomness;
+	real32 horizontal_randomness;
+	real32 vertical_randomness;
 	s_tag_reference projectile;
 	s_tag_reference throw_sound;
 
@@ -420,7 +420,7 @@ static_assert(sizeof(s_equipment_type_armor_lock) == 0x20);
 
 struct s_equipment_type_adrenaline
 {
-	real sprint_restore;
+	real32 sprint_restore;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> activation_effect;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> active_effect;
 
@@ -430,7 +430,7 @@ static_assert(sizeof(s_equipment_type_adrenaline) == 0x24);
 
 struct s_equipment_type_lightning_strike
 {
-	real melee_time_reduction;
+	real32 melee_time_reduction;
 	s_tag_reference unknown_effect;
 
 	void update_reference_names();

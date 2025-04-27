@@ -10,7 +10,7 @@ struct s_watch_object_results
 };
 static_assert(sizeof(s_watch_object_results) == 0x8);
 
-extern dword __cdecl clear_watch_window_globals();
+extern uint32 __cdecl clear_watch_window_globals();
 extern bool __cdecl object_index_valid_for_try_and_get(long object_index);
 extern s_watch_object_results& __cdecl watch_object(long object_index);
 extern char const* __cdecl watch_object_describe(long object_index);

@@ -19,18 +19,18 @@ struct s_network_session_interface_user
 
 	union
 	{
-		dword player_voice_settings;
+		uint32 player_voice_settings;
 		struct
 		{
-			word player_mute_mask;
-			word player_voice_flags;
+			uint16 player_mute_mask;
+			uint16 player_voice_flags;
 		};
 	};
 
 	long session_to_change_teams_on;
 	long desired_team_index;
-	dword user_update_timestamp[3];
-	dword user_remove_timestamp[3];
+	uint32 user_update_timestamp[3];
+	uint32 user_remove_timestamp[3];
 };
 static_assert(sizeof(s_network_session_interface_user) == 0x1698);
 static_assert(0x0000 == OFFSETOF(s_network_session_interface_user, user_state));
@@ -76,55 +76,55 @@ static_assert(0x318 == OFFSETOF(s_saved_film_description, length_seconds));
 struct s_network_session_interface_globals
 {
 	bool initialized;
-	byte : 8;
+	uint8 : 8;
 	c_static_wchar_string<16> machine_name;
 	c_static_wchar_string<32> session_name;
 	bool has_live_connection_info;
-	byte : 8;
+	uint8 : 8;
 	s_transport_qos_result qos_result;
 	long bandwidth_bps;
 	long max_machine_count;
-	c_flags<e_network_session_peer_properties_status_flags, dword, k_network_session_peer_properties_status_flags> peer_status_flags;
+	c_flags<e_network_session_peer_properties_status_flags, uint32, k_network_session_peer_properties_status_flags> peer_status_flags;
 	short ready_hopper_identifier;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
 	long game_start_error;
 	bool was_guide_opened_during_a_multiplayer_session;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 	e_map_id map_id;
 	long current_map;
 	long current_map_progress_percentage;
 	short hopper_identifier;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 	c_static_array<s_network_session_interface_user, k_number_of_users> users;
-	qword game_instance;
+	uint64 game_instance;
 	long scenario_type;
 	c_static_string<128> scenario_path;
 	short campaign_insertion_point;
 	short map_status;
-	real map_progress;
+	real32 map_progress;
 	s_saved_film_description local_specific_film;
-	dword local_specific_film_time;
+	uint32 local_specific_film_time;
 	c_static_array<long, 3> session_connection_identifiers;
 	c_static_array<long, 3> session_peer_properties_update_times;
 	c_static_array<long, 3> session_membership_update_number;
 	c_static_array<bool, 3> session_variant_has_teams;
 	c_static_array<bool, 3> session_variant_has_sve_teams;
 	c_static_array<bool, 3> session_variant_observers_allowed;
-	byte __pad5EF1[3];
+	uint8 __pad5EF1[3];
 	c_static_array<long, 3> session_variant_session_maximum_team_counts;
 	c_network_session_manager* session_manager;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
+	uint8 : 8;
 };
 static_assert(sizeof(s_network_session_interface_globals) == 0x5F08);
 #pragma pack(pop)
@@ -174,9 +174,9 @@ extern bool __cdecl network_session_interface_get_live_connection_info(s_transpo
 //network_session_interface_get_local_framerate_quality
 //.text:004364A0 ; long __cdecl network_session_interface_get_local_user_count(void)
 extern bool __cdecl network_session_interface_get_local_user_identifier(long user_index, s_player_identifier* player_identifier, bool allow_users_in_erroneous_states);
-extern bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, dword* player_voice_settings);
+extern bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, uint32* player_voice_settings);
 extern long __cdecl network_session_interface_get_local_user_state(long user_index);
-extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
+extern uint64 __cdecl network_session_interface_get_local_user_xuid(long user_index);
 extern void __cdecl network_session_interface_handle_message(e_session_network_message message);
 extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
 extern bool __cdecl network_session_interface_local_user_exists(long user_index);
@@ -188,11 +188,11 @@ extern void __cdecl network_session_interface_set_is_zombie_local_user(long user
 extern void __cdecl network_session_interface_set_live_service_qos(s_transport_qos_result const* qos_result);
 extern void __cdecl network_session_interface_set_local_name(wchar_t const* machine_name, wchar_t const* session_name);
 extern void __cdecl network_session_interface_set_local_user_override_hopper_directory(long user_index, char const* override_hopper_directory);
-extern void __cdecl network_session_interface_set_local_user_properties(long user_index, e_controller_index controller_index, s_player_configuration const* player_data, dword player_voice_settings);
+extern void __cdecl network_session_interface_set_local_user_properties(long user_index, e_controller_index controller_index, s_player_configuration const* player_data, uint32 player_voice_settings);
 extern void __cdecl network_session_interface_set_local_user_state(long user_index, long state);
-extern void __cdecl network_session_interface_set_local_user_xuid(long user_index, qword xuid);
+extern void __cdecl network_session_interface_set_local_user_xuid(long user_index, uint64 xuid);
 extern void __cdecl network_session_interface_set_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag, bool enabled);
-extern void __cdecl network_session_interface_set_ready_hopper_identifier(word hopper_identifier, e_session_game_start_error error);
+extern void __cdecl network_session_interface_set_ready_hopper_identifier(uint16 hopper_identifier, e_session_game_start_error error);
 extern bool __cdecl network_session_interface_test_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag);
 extern void __cdecl network_session_interface_update();
 extern void __cdecl network_session_interface_update_local_state();
@@ -208,7 +208,7 @@ extern bool __cdecl network_squad_session_boot_player(long player_index, e_netwo
 extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
-extern bool __cdecl network_squad_session_get_membership(long* update_number, long* local_peer_index, long* host_peer_index, long* leader_peer_index, long* peer_count, dword* peer_valid_flags, s_network_session_peer const** peers, long* player_count, dword* player_valid_flags, s_network_session_player const** players);
+extern bool __cdecl network_squad_session_get_membership(long* update_number, long* local_peer_index, long* host_peer_index, long* leader_peer_index, long* peer_count, uint32* peer_valid_flags, s_network_session_peer const** peers, long* player_count, uint32* player_valid_flags, s_network_session_player const** players);
 extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);

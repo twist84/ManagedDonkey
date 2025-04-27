@@ -10,7 +10,7 @@ struct c_tracked_target
 	short __unknownC;
 	short __unknownE;
 
-	real looking_theta;
+	real32 looking_theta;
 
 	short __unknown14;
 	short __unknown16;

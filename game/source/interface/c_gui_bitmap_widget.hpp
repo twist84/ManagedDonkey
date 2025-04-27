@@ -24,11 +24,11 @@ struct s_bitmap_widget_definition :
 {
 	s_tag_reference bitmap_tag;
 	s_tag_reference custom_pixel_shader;
-	short_enum bitmap_blend_method;
+	int16 bitmap_blend_method;
 	short initial_sprite_sequence;
 	short initial_sprite_frame;
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
 	c_string_id value_override_list;
 	c_string_id value_identifier;
 };
@@ -61,7 +61,7 @@ public:
 	//virtual bool can_receive_focus();
 	//virtual bool within_focus_chain();
 	//virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition);
-	//virtual void update_render_state(dword current_milliseconds);
+	//virtual void update_render_state(uint32 current_milliseconds);
 	//virtual void set_animated_state_baseline(s_animation_transform* transform);
 
 

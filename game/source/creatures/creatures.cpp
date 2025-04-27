@@ -2,7 +2,7 @@
 
 //.text:00BB3D30 ; void __cdecl creature_accelerate(long, real_vector3d const*)
 //.text:00BB3DD0 ; void __cdecl creature_cause_attached_damage(long)
-//.text:00BB3F20 ; bool __cdecl creature_compute_function_value(long, long, long, bool, real*, bool*, bool*)
+//.text:00BB3F20 ; bool __cdecl creature_compute_function_value(long, long, long, bool, real32*, bool*, bool*)
 //.text:00BB3F90 ; void __cdecl creature_control(long, s_creature_control_data const*)
 //.text:00BB4000 ; void __cdecl creature_control_clear(s_creature_control_data*)
 //.text:00BB4050 ; void __cdecl creature_control_verify(s_creature_control_data const*)

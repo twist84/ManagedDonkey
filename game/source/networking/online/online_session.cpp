@@ -21,8 +21,8 @@ HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process
 HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
 
-//.text:00442C00 ; void __cdecl c_managed_session_overlapped_task::process_add_players(long, void(__cdecl*)(long, bool, dword), s_online_session*, qword const*, bool const*, bool const*, long);
-void __thiscall c_managed_session_overlapped_task::process_add_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, bool const* a6, long player_count)
+//.text:00442C00 ; void __cdecl c_managed_session_overlapped_task::process_add_players(long, void(__cdecl*)(long, bool, uint32), s_online_session*, uint64 const*, bool const*, bool const*, long);
+void __thiscall c_managed_session_overlapped_task::process_add_players(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session, uint64 const* a4, bool const* a5, bool const* a6, long player_count)
 {
 	m_session = session;
 	m_managed_session_index = managed_session_index;
@@ -45,10 +45,10 @@ void __thiscall c_managed_session_overlapped_task::process_add_players(long mana
 	}
 }
 
-//.text:00442C10 ; bool __cdecl c_managed_session_overlapped_task::process_add_players_immediately(s_online_session*, qword const*, bool const*, bool const*, long)
+//.text:00442C10 ; bool __cdecl c_managed_session_overlapped_task::process_add_players_immediately(s_online_session*, uint64 const*, bool const*, bool const*, long)
 
-//.text:00442C20 ; void __cdecl c_managed_session_overlapped_task::process_create(long, void(__cdecl*)(long, bool, dword), s_online_session*, c_flags<e_online_session_flags, word, 9>);
-void __thiscall c_managed_session_overlapped_task::process_create(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, word_flags flags)
+//.text:00442C20 ; void __cdecl c_managed_session_overlapped_task::process_create(long, void(__cdecl*)(long, bool, uint32), s_online_session*, c_flags<e_online_session_flags, uint16, 9>);
+void __thiscall c_managed_session_overlapped_task::process_create(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session, uint16 flags)
 {
 	m_context = _process_create;
 	m_session = session;
@@ -62,8 +62,8 @@ void __thiscall c_managed_session_overlapped_task::process_create(long managed_s
 		reset();
 }
 
-//.text:00442C30 ; void __cdecl c_managed_session_overlapped_task::process_delete(long, void(__cdecl*)(long, bool, dword), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_delete(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session)
+//.text:00442C30 ; void __cdecl c_managed_session_overlapped_task::process_delete(long, void(__cdecl*)(long, bool, uint32), s_online_session*);
+void __thiscall c_managed_session_overlapped_task::process_delete(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session)
 {
 	m_managed_session_index = managed_session_index;
 	m_completion_routine = callback;
@@ -76,8 +76,8 @@ void __thiscall c_managed_session_overlapped_task::process_delete(long managed_s
 		reset();
 }
 
-//.text:00442C40 ; void __cdecl c_managed_session_overlapped_task::process_game_end(long, void(__cdecl*)(long, bool, dword), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_game_end(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session)
+//.text:00442C40 ; void __cdecl c_managed_session_overlapped_task::process_game_end(long, void(__cdecl*)(long, bool, uint32), s_online_session*);
+void __thiscall c_managed_session_overlapped_task::process_game_end(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session)
 {
 	m_managed_session_index = managed_session_index;
 	m_completion_routine = callback;
@@ -90,8 +90,8 @@ void __thiscall c_managed_session_overlapped_task::process_game_end(long managed
 		reset();
 }
 
-//.text:00442C50 ; void __cdecl c_managed_session_overlapped_task::process_game_start(long, void(__cdecl*)(long, bool, dword), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_game_start(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session)
+//.text:00442C50 ; void __cdecl c_managed_session_overlapped_task::process_game_start(long, void(__cdecl*)(long, bool, uint32), s_online_session*);
+void __thiscall c_managed_session_overlapped_task::process_game_start(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session)
 {
 	m_managed_session_index = managed_session_index;
 	m_completion_routine = callback;
@@ -104,8 +104,8 @@ void __thiscall c_managed_session_overlapped_task::process_game_start(long manag
 		reset();
 }
 
-//.text:00442C60 ; void __cdecl c_managed_session_overlapped_task::process_modify(long, void(__cdecl*)(long, bool, dword), s_online_session*, s_online_session*, s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_modify(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, s_online_session* desired_session, s_online_session* actual_session)
+//.text:00442C60 ; void __cdecl c_managed_session_overlapped_task::process_modify(long, void(__cdecl*)(long, bool, uint32), s_online_session*, s_online_session*, s_online_session*);
+void __thiscall c_managed_session_overlapped_task::process_modify(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session, s_online_session* desired_session, s_online_session* actual_session)
 {
 	m_managed_session_index = managed_session_index;
 	m_desired_session = desired_session;
@@ -122,8 +122,8 @@ void __thiscall c_managed_session_overlapped_task::process_modify(long managed_s
 
 //.text:00442C70 ; static bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_online_session*, s_online_session*);
 
-//.text:00442C80 ; void __cdecl c_managed_session_overlapped_task::process_remove_players(long, void(__cdecl*)(long, bool, dword), s_online_session*, qword const*, bool const*, long);
-void __thiscall c_managed_session_overlapped_task::process_remove_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, long player_count)
+//.text:00442C80 ; void __cdecl c_managed_session_overlapped_task::process_remove_players(long, void(__cdecl*)(long, bool, uint32), s_online_session*, uint64 const*, bool const*, long);
+void __thiscall c_managed_session_overlapped_task::process_remove_players(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session, uint64 const* a4, bool const* a5, long player_count)
 {
 	m_session = session;
 	m_managed_session_index = managed_session_index;
@@ -146,10 +146,10 @@ void __thiscall c_managed_session_overlapped_task::process_remove_players(long m
 	}
 }
 
-//.text:00442C90 ; bool __cdecl c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session*, qword const*, bool const*, long);
+//.text:00442C90 ; bool __cdecl c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session*, uint64 const*, bool const*, long);
 
-//.text:00442CA0 ; void __cdecl c_managed_session_overlapped_task::process_session_host_migrate(long, void(__cdecl*)(long, bool, dword), s_online_session*, bool, s_transport_session_description*);
-void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, bool is_host, s_transport_session_description* host_migration_description)
+//.text:00442CA0 ; void __cdecl c_managed_session_overlapped_task::process_session_host_migrate(long, void(__cdecl*)(long, bool, uint32), s_online_session*, bool, s_transport_session_description*);
+void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(long managed_session_index, void(__cdecl* callback)(long, bool, uint32), s_online_session* session, bool is_host, s_transport_session_description* host_migration_description)
 {
 	m_managed_session_index = managed_session_index;
 	m_is_host = is_host;
@@ -164,10 +164,10 @@ void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(
 		reset();
 }
 
-//.text:00442CB0 ; virtual dword __cdecl c_managed_session_overlapped_task::start(void*);
-dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
+//.text:00442CB0 ; virtual uint32 __cdecl c_managed_session_overlapped_task::start(void*);
+uint32 __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 {
-	dword result = 0;
+	uint32 result = 0;
 
 	e_overlapped_task context = m_context;
 	switch (context)

@@ -94,12 +94,12 @@ struct s_render_texture_camera_globals
 
     union
     {
-        real vertical_fov_radians;
-        real target_scale;
+        real32 vertical_fov_radians;
+        real32 target_scale;
 
     } fov;
 
-    real aspect_ratio;
+    real32 aspect_ratio;
     long width;
     long height;
 };

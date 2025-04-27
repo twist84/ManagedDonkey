@@ -9,24 +9,24 @@
 
 struct _vehicle_datum
 {
-	word_flags flags;
-	byte upside_down_on_ground_ticks;
-	byte airborne_ticks;
-	byte upending_type;
-	byte upending_ticks;
-	byte on_ground_ticks;
-	byte pad7[0x5];
-	word slipping_wheels_bit_vector;
-	real mean_antigrav_fraction;
+	uint16 flags;
+	uint8 upside_down_on_ground_ticks;
+	uint8 airborne_ticks;
+	uint8 upending_type;
+	uint8 upending_ticks;
+	uint8 on_ground_ticks;
+	uint8 pad7[0x5];
+	uint16 slipping_wheels_bit_vector;
+	real32 mean_antigrav_fraction;
 	c_vehicle_type_component type_component;
-	byte suspension_last_measurement[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
-	byte suspension[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
+	uint8 suspension_last_measurement[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
+	uint8 suspension[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
 	long last_physics_cache_update_time;
 	long squad_index;
 	long next_vehicle_index;
 	long spawn_point_name;
 	long bipeds_killed;
-	dword disallowed_seats[2];
+	uint32 disallowed_seats[2];
 	long reserved_seats[128];
 	long pathfinding_time;
 	short pathfinding_structure_index;
@@ -34,7 +34,7 @@ struct _vehicle_datum
 	c_sector_ref pathfinding_sector;
 	long pathfinding_instanced_geometry_index;
 	long pathfinding_object_index;
-	dword pathfinding_bsp_reference;
+	uint32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 	long last_known_animation_graph_index;
 	c_animation_id steering_animation_id;
@@ -42,8 +42,8 @@ struct _vehicle_datum
 	c_animation_id throttle_animation_id;
 	c_animation_id velocity_animation_id;
 	c_animation_id acceleration_animation_id[3];
-	real driver_force_position;
-	real driver_force_scale;
+	real32 driver_force_position;
+	real32 driver_force_scale;
 	real_vector3d auto_aiming_vector;
 	real_point3d last_soft_ceiling_update_position;
 	object_header_block_reference vehicle_physics_cache;

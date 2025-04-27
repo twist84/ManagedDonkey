@@ -5,7 +5,7 @@
 struct rasterizer_vertex_debug
 {
 	real_point3d position;
-	dword color;
+	uint32 color;
 };
 static_assert(sizeof(rasterizer_vertex_debug) == 0x10);
 
@@ -29,7 +29,7 @@ struct rasterizer_vertex_screen
 {
 	real_point2d position;
 	real_vector2d texcoord;
-	dword color;
+	uint32 color;
 };
 static_assert(sizeof(rasterizer_vertex_screen) == 0x14);
 
@@ -37,7 +37,7 @@ struct rasterizer_vertex_transparent
 {
 	real_point3d position;
 	real_vector2d texcoord;
-	dword color;
+	uint32 color;
 };
 static_assert(sizeof(rasterizer_vertex_transparent) == 0x18);
 

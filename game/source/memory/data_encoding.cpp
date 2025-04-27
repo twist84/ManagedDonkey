@@ -34,19 +34,19 @@ void* data_decode_array(data_encoding_state* state, long element_count_size, lon
 	return data_decode_structures(state, element_count, bs_definition);
 }
 
-byte data_decode_byte(data_encoding_state* state)
+uint8 data_decode_byte(data_encoding_state* state)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + (long)sizeof(byte) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(uint8) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
 	}
 
-	byte* memory = (byte*)state->buffer + offset;
-	state->offset += sizeof(byte);
+	uint8* memory = (uint8*)state->buffer + offset;
+	state->offset += sizeof(uint8);
 
 	if (!memory)
 		return 0;
@@ -54,20 +54,20 @@ byte data_decode_byte(data_encoding_state* state)
 	return *memory;
 }
 
-qword data_decode_int64(data_encoding_state* state)
+uint64 data_decode_int64(data_encoding_state* state)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + (long)sizeof(qword) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(uint64) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
 	}
 
-	byte* memory = (byte*)state->buffer + offset;
+	uint8* memory = (uint8*)state->buffer + offset;
 	byte_swap_memory(memory, 1, _8byte);
-	state->offset += sizeof(qword);
+	state->offset += sizeof(uint64);
 
 	if (!memory)
 		return 0;
@@ -75,20 +75,20 @@ qword data_decode_int64(data_encoding_state* state)
 	return *memory;
 }
 
-dword data_decode_long(data_encoding_state* state)
+uint32 data_decode_long(data_encoding_state* state)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + (long)sizeof(dword) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(uint32) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
 	}
 
-	byte* memory = (byte*)state->buffer + offset;
+	uint8* memory = (uint8*)state->buffer + offset;
 	byte_swap_memory(memory, 1, _4byte);
-	state->offset += sizeof(dword);
+	state->offset += sizeof(uint32);
 
 	if (!memory)
 		return 0;
@@ -105,16 +105,16 @@ void* data_decode_memory(data_encoding_state* state, short count, long code)
 	switch (code)
 	{
 	case _8byte:
-		size = count * sizeof(qword);
+		size = count * sizeof(uint64);
 		break;
 	case _4byte:
-		size = count * sizeof(dword);
+		size = count * sizeof(uint32);
 		break;
 	case _2byte:
-		size = count * sizeof(word);
+		size = count * sizeof(uint16);
 		break;
 	case _1byte:
-		size = count * sizeof(byte);
+		size = count * sizeof(uint8);
 		break;
 	default:
 		throw; // halt()
@@ -128,7 +128,7 @@ void* data_decode_memory(data_encoding_state* state, short count, long code)
 		return 0;
 	}
 
-	byte* memory = (byte*)state->buffer + offset;
+	uint8* memory = (uint8*)state->buffer + offset;
 
 	if (code != _1byte)
 		byte_swap_memory(memory, count, code);
@@ -148,20 +148,20 @@ void data_decode_new(data_encoding_state* state, void* buffer, long buffer_size)
 	state->buffer_size = buffer_size;
 }
 
-word data_decode_short(data_encoding_state* state)
+uint16 data_decode_short(data_encoding_state* state)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset <= state->buffer_size);
 
 	long offset = state->offset;
-	if (offset + (long)sizeof(word) > state->buffer_size || state->overflow_flag)
+	if (offset + (long)sizeof(uint16) > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
 		return 0;
 	}
 
-	byte* memory = (byte*)state->buffer + offset;
+	uint8* memory = (uint8*)state->buffer + offset;
 	byte_swap_memory(memory, 1, _2byte);
-	state->offset += sizeof(word);
+	state->offset += sizeof(uint16);
 
 	if (!memory)
 		return 0;
@@ -187,7 +187,7 @@ void* data_decode_structures(data_encoding_state* state, short structure_count, 
 		return NULL;
 	}
 
-	byte* memory = (byte*)state->buffer + state->offset;
+	uint8* memory = (uint8*)state->buffer + state->offset;
 	if (structure_size)
 	{
 		byte_swap_data(bs_definition, memory, structure_count);
@@ -197,17 +197,17 @@ void* data_decode_structures(data_encoding_state* state, short structure_count, 
 	return memory;
 }
 
-byte data_encode_array(data_encoding_state* state, long element_count_size, void* source_array, long element_count, byte_swap_definition* bs_definition)
+uint8 data_encode_array(data_encoding_state* state, long element_count_size, void* source_array, long element_count, byte_swap_definition* bs_definition)
 {
 	throw "unimplemented";
 }
 
-byte data_encode_integer(data_encoding_state* state, long value, long maximum_value)
+uint8 data_encode_integer(data_encoding_state* state, long value, long maximum_value)
 {
 	throw "unimplemented";
 }
 
-byte data_encode_memory(data_encoding_state* state, void const* buffer, short count, long code)
+uint8 data_encode_memory(data_encoding_state* state, void const* buffer, short count, long code)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 
@@ -215,16 +215,16 @@ byte data_encode_memory(data_encoding_state* state, void const* buffer, short co
 	switch (code)
 	{
 	case _8byte:
-		size = count * sizeof(qword);
+		size = count * sizeof(uint64);
 		break;
 	case _4byte:
-		size = count * sizeof(dword);
+		size = count * sizeof(uint32);
 		break;
 	case _2byte:
-		size = count * sizeof(word);
+		size = count * sizeof(uint16);
 		break;
 	case _1byte:
-		size = count * sizeof(byte);
+		size = count * sizeof(uint8);
 		break;
 	default:
 		throw; // halt()
@@ -237,7 +237,7 @@ byte data_encode_memory(data_encoding_state* state, void const* buffer, short co
 	}
 	else
 	{
-		byte* memory = (byte*)state->buffer + state->offset;
+		uint8* memory = (uint8*)state->buffer + state->offset;
 		if (buffer)
 			csmemcpy(memory, buffer, size);
 		else
@@ -262,7 +262,7 @@ void data_encode_new(data_encoding_state* state, void* buffer, long buffer_size)
 	state->buffer_size = buffer_size;
 }
 
-byte data_encode_string(data_encoding_state* state, char* source_string, short maximum_string_length)
+uint8 data_encode_string(data_encoding_state* state, char* source_string, short maximum_string_length)
 {
 	long string_length = (long)csstrnlen(source_string, maximum_string_length);
 	ASSERT(state->offset + string_length + 1 <= state->buffer_size);
@@ -281,7 +281,7 @@ byte data_encode_string(data_encoding_state* state, char* source_string, short m
 	return state->overflow_flag == 0;
 }
 
-byte data_encode_structures(data_encoding_state* state, void const* source_structures, short structure_count, byte_swap_definition* bs_definition)
+uint8 data_encode_structures(data_encoding_state* state, void const* source_structures, short structure_count, byte_swap_definition* bs_definition)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 	ASSERT(source_structures);
@@ -296,7 +296,7 @@ byte data_encode_structures(data_encoding_state* state, void const* source_struc
 		}
 		else
 		{
-			void* definition_structures = (byte*)state->buffer + state->offset;
+			void* definition_structures = (uint8*)state->buffer + state->offset;
 			csmemcpy(definition_structures, source_structures, structure_size);
 			byte_swap_data(bs_definition, definition_structures, structure_count);
 			state->offset += structure_size;

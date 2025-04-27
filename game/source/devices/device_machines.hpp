@@ -20,7 +20,7 @@ enum // flags
 
 struct _machine_datum
 {
-	dword_flags flags;
+	uint32 flags;
 	long door_open_ticks;
 	short pathfinding_policy;
 	short door_machine_first_portal_index;

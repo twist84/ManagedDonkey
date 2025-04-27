@@ -48,27 +48,27 @@ HOOK_DECLARE(0x007B8870, hf2p_backend_update);
 
 #if defined(DEDICATED_SERVER)
 
-byte const nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+uint8 const nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
 DATA_PATCH_DECLARE(0x004370F9, dedicated_server_patch, nop);	// unskip peer request player add status
 
-byte const jump[] = { 0xEB };
+uint8 const jump[] = { 0xEB };
 //DATA_PATCH_DECLARE(0x0045B596, dedicated_server_patch, jump);	// skip can accept player join request
 DATA_PATCH_DECLARE(0x0045A8BB, dedicated_server_patch, jump);
 DATA_PATCH_DECLARE(0x0052D62E, dedicated_server_patch, jump);
 DATA_PATCH_DECLARE(0x0052D67A, dedicated_server_patch, jump);
 
-byte const return0[] = { 0x32, 0xC0, 0xC3 };
-byte const return1[] = { 0xB0, 0x01, 0xC3 };
+uint8 const return0[] = { 0x32, 0xC0, 0xC3 };
+uint8 const return1[] = { 0xB0, 0x01, 0xC3 };
 DATA_PATCH_DECLARE(0x0042E5D0, sub_42E5D0, return1); // disable render resources
 DATA_PATCH_DECLARE(0x0042E5E0, sub_42E5E0, return1); // disable audio resources
 DATA_PATCH_DECLARE(0x0042E600, game_is_dedicated_server, return1);
 DATA_PATCH_DECLARE(0x0042E610, game_is_client, return0);
 
-byte const bool_true[] = { 0x1 };
+uint8 const bool_true[] = { 0x1 };
 DATA_PATCH_DECLARE(0x0244F970, byte_244F970, bool_true); // enable dedicated mode
 DATA_PATCH_DECLARE(0x0244F971, byte_244F971, bool_true); // disable audio
 
-byte const _return[] = { 0xC3 };
+uint8 const _return[] = { 0xC3 };
 DATA_PATCH_DECLARE(0x00504F80, dedicated_server_patch, _return); // audio_thread_loop
 DATA_PATCH_DECLARE(0x005075A0, dedicated_server_patch, _return); // render_thread_loop
 DATA_PATCH_DECLARE(0x0050C830, dedicated_server_patch, _return); // global_preferences_init
@@ -170,7 +170,7 @@ void __cdecl hf2p_game_update()
 			// only allow one instance of this
 			s_s3d_player_armor_configuration_loadout& loadout = get_armor_loadout();
 
-			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
+			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, uint32)(&loadout, mainmenu_unit_index);
 
 			// $TODO: when we have full control over player profile and player customization maybe update and use this
 			//c_player_profile_interface* player_profile = controller_get(_controller0)->get_player_profile_interface();
@@ -190,7 +190,7 @@ void __cdecl hf2p_game_update()
 				pixel32_to_real_rgb_color(color, &real_color);
 				object_set_base_change_color_by_index(mainmenu_unit_index, color_index, &real_color);
 			}
-			DECLFUNC(0x005A2FA0, void, __cdecl, dword)(mainmenu_unit_index);
+			DECLFUNC(0x005A2FA0, void, __cdecl, uint32)(mainmenu_unit_index);
 		}
 
 		long primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_primary);
@@ -282,7 +282,7 @@ s_s3d_player_armor_configuration_loadout& get_armor_loadout()
 	long user_index = 0;
 	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
-	dword player_voice_settings = 0;
+	uint32 player_voice_settings = 0;
 
 	if (network_session_interface_get_local_user_properties(user_index, &controller_index, &player_data, &player_voice_settings))
 	{
@@ -300,7 +300,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 	long user_index = 0;
 	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
-	dword player_voice_settings = 0;
+	uint32 player_voice_settings = 0;
 
 	// $TODO: pull this from tags
 	//loadout.grenade_index = _grenade_type_firebomb;

@@ -30,11 +30,11 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 //.text:00B757C0 ; bool __cdecl vehicle_calculate_aabb_phantom_bounds(long, real_rectangle3d*)
 //.text:00B75810 ; bool __cdecl vehicle_can_be_teleported(long)
 //.text:00B75860 ; bool __cdecl vehicle_causes_collision_damage(long)
-//.text:00B758B0 ; bool __cdecl vehicle_compute_function_value(long, long, long, real*, bool*, bool*)
+//.text:00B758B0 ; bool __cdecl vehicle_compute_function_value(long, long, long, real32*, bool*, bool*)
 //.text:00B75A90 ; long __cdecl vehicle_count_bipeds_killed(long)
 //.text:00B75AD0 ; void __cdecl vehicle_deplete_function_variables(long)
 //.text:00B75B10 ; void __cdecl vehicle_enable_ghost_effects(bool)
-//.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, dword*)
+//.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(long, short*, long*, c_sector_ref*, real_point3d*, long*, uint32*)
 //.text:00B75D90 ; bool __cdecl vehicle_get_auto_turret_damage_owner(long, s_damage_owner*)
 //.text:00B75DD0 ; short __cdecl vehicle_get_driver_seat(long, long*)
 
@@ -54,7 +54,7 @@ e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 //.text:00B75FF0 ; bool __cdecl vehicle_has_fixed_camera_yaw(long)
 //.text:00B76050 ; bool __cdecl vehicle_has_gameplay_modifier(long, e_gameplay_modifier, long*)
 //.text:00B76100 ; void __cdecl vehicle_hover(long, bool)
-//.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(long, render_model_definition const*, c_animation_channel*, real, real, real, void*)
+//.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*)
 //.text:00B76230 ; bool __cdecl vehicle_is_flipped(long)
 //.text:00B76270 ; bool __cdecl vehicle_is_running_trick(long)
 //.text:00B762B0 ; bool __cdecl vehicle_is_stopped(long)
@@ -69,7 +69,7 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 //.text:00B765F0 ; bool __cdecl vehicle_physics_disabled(long)
 //.text:00B76630 ; void __cdecl vehicle_place(long, s_scenario_vehicle*)
 //.text:00B766F0 ; void __cdecl vehicle_preprocess_node_orientations(long, c_static_flags<255> const*, long, real_orientation*)
-//.text:00B76720 ; void __cdecl vehicle_process_animation_channels(long, void(__cdecl*)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void*)
+//.text:00B76720 ; void __cdecl vehicle_process_animation_channels(long, void(__cdecl*)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void*)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
@@ -107,7 +107,7 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 		{
 			if (engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
 			{
-				real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
+				real32 v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
 				long v1 = static_cast<long>(fminf(fmaxf(v0, 0.0f), 20.0f));
 				long v2 = static_cast<long>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
 				long v3 = 20 - v1;
@@ -126,8 +126,8 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 }
 
 //.text:00B76AC0 ; void __cdecl vehicle_reset(long)
-//.text:00B76C80 ; void __cdecl vehicle_set_auto_turret(long, long, real, real, real)
-//.text:00B76CC0 ; void __cdecl vehicle_set_auto_turret(long, long, real, real, real, long)
+//.text:00B76C80 ; void __cdecl vehicle_set_auto_turret(long, long, real32, real32, real32)
+//.text:00B76CC0 ; void __cdecl vehicle_set_auto_turret(long, long, real32, real32, real32, long)
 //.text:00B76D50 ; void __cdecl vehicle_set_auto_turret_damage_owner(long, long)
 //.text:00B76D90 ; bool __cdecl vehicle_should_override_deactivation(long)
 //.text:00B76DD0 ; bool __cdecl vehicle_start_trick(long, e_vehicle_trick_type)

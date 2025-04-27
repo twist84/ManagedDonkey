@@ -47,14 +47,14 @@ char const* const inhibit_behavior_flag_names[k_inhibit_behavior_flags]
 //.text:014463B0 ; void __cdecl clear_assignments(short, short, short, s_squad_info*, short, s_task_info*)
 //.text:01446430 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_objectives_data_allocator(void*)>::deallocate
 //.text:01446460 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_tasks_data_allocator(void*)>::deallocate
-//.text:01446490 ; bool __cdecl decide_task_group(short, short, s_task_info*, real*, long*)
-//.text:01446630 ; bool __cdecl decide_tasks_priority_group(short, short, short, short, short, s_task_info*, real*, long*)
-//.text:01446FB0 ; void __cdecl disallow_task(short, short, dword*)
-//.text:01447050 ; void __cdecl disallowed_tasks_unassign_squads(short, short, s_task_info*, dword*, s_squad_info*, short*)
+//.text:01446490 ; bool __cdecl decide_task_group(short, short, s_task_info*, real32*, long*)
+//.text:01446630 ; bool __cdecl decide_tasks_priority_group(short, short, short, short, short, s_task_info*, real32*, long*)
+//.text:01446FB0 ; void __cdecl disallow_task(short, short, uint32*)
+//.text:01447050 ; void __cdecl disallowed_tasks_unassign_squads(short, short, s_task_info*, uint32*, s_squad_info*, short*)
 //.text:01447180 ; void __cdecl eject_squad(short, short, short, s_task_info*)
 //.text:01447230 ; 
 //.text:01447250 ; void __cdecl finalize_task_change(long)
-//.text:01447850 ; bool __cdecl find_assignment(short, short, short, short, s_squad_info*, short, s_task_info*, dword*, real*, long*)
+//.text:01447850 ; bool __cdecl find_assignment(short, short, short, short, s_squad_info*, short, s_task_info*, uint32*, real32*, long*)
 //.text:01448140 ; 
 //.text:01448150 ; 
 //.text:01448160 ; 
@@ -84,7 +84,7 @@ s_task_record* __cdecl objective_get_task_record(short objective_index, short ta
 //.text:01448EE0 ; void __cdecl objective_task_calculate_position(short, short)
 //.text:014490C0 ; bool __cdecl objective_task_engage_allowed(short, short)
 //.text:01449110 ; bool __cdecl objective_task_get_area_direction(short, short, short, short, real_vector3d*)
-//.text:01449200 ; bool __cdecl objective_task_get_area_yaw(short, short, short, short, real*)
+//.text:01449200 ; bool __cdecl objective_task_get_area_yaw(short, short, short, short, real32*)
 //.text:014492A0 ; short __cdecl objective_task_get_body_count(short, short)
 //.text:014492F0 ; short __cdecl objective_task_get_by_name(long, long)
 //.text:01449350 ; short __cdecl objective_task_get_firing_position_count(short, short)
@@ -105,13 +105,13 @@ s_task_record* __cdecl objective_get_task_record(short objective_index, short ta
 //.text:01449960 ; void __cdecl objective_task_signal_search(long)
 //.text:014499B0 ; bool __cdecl objective_task_test_activation(short, short, s_task_info const*, bool, bool*)
 //.text:01449CB0 ; bool __cdecl objective_task_test_script_activation(short, short)
-//.text:01449D10 ; short __cdecl objective_task_update_fight_count_internal(long, long, qword*)
+//.text:01449D10 ; short __cdecl objective_task_update_fight_count_internal(long, long, uint64*)
 //.text:0144A150 ; bool __cdecl objective_unassigned_add_squad(short, long)
 //.text:0144A1B0 ; bool __cdecl objective_unassigned_remove_squad(short, long)
 //.text:0144A1F0 ; void __cdecl objective_update(long)
 //.text:0144A460 ; void __cdecl objective_update_fight_count(long)
 //.text:0144A4D0 ; void __cdecl objective_update_leadership(short, short, short, long)
-//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(short, dword const*)
+//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(short, uint32 const*)
 //.text:0144A7A0 ; void __cdecl objectives_handle_source_editing(s_script_fragment*)
 
 void __cdecl objectives_initialize()
@@ -124,7 +124,7 @@ void __cdecl objectives_initialize_for_new_map()
 	INVOKE(0x0144A830, objectives_initialize_for_new_map);
 }
 
-void __cdecl objectives_initialize_for_new_structure_bsp(dword activating_structure_bsp_mask)
+void __cdecl objectives_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0144A920, objectives_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -154,7 +154,7 @@ void __cdecl objectives_update()
 //.text:0144B370 ; squad_datum* __cdecl task_actor_iterator_get_next_squad(task_actor_iterator*)
 //.text:0144B3F0 ; void __cdecl task_actor_iterator_new(short, short, task_actor_iterator*)
 //.text:0144B490 ; actor_datum* __cdecl task_actor_iterator_next(task_actor_iterator*)
-//.text:0144B560 ; real __cdecl task_estimate_vitality(short, short)
+//.text:0144B560 ; real32 __cdecl task_estimate_vitality(short, short)
 //.text:0144B620 ; void __cdecl task_exhaust(short, short, long)
 //.text:0144B700 ; 
 //.text:0144BAE0 ; 
@@ -253,7 +253,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 				long ticks = record->__time20 - game_time_get();
 				if (ticks > 0)
 				{
-					csnzprintf(string, sizeof(string), "Exhausting: %.2f", game_ticks_to_seconds(real(ticks)));
+					csnzprintf(string, sizeof(string), "Exhausting: %.2f", game_ticks_to_seconds(real32(ticks)));
 					render_debug_string_at_point(ai_debug_drawstack(), string, global_real_argb_red);
 				}
 			}
@@ -265,7 +265,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 				long ticks = record->__time24 - game_time_get() + game_seconds_to_ticks_round(task->maximum_duration);
 				if (ticks > 0)
 				{
-					csnzprintf(string, sizeof(string), "Deactivate in: %.2f", game_ticks_to_seconds(real(ticks)));
+					csnzprintf(string, sizeof(string), "Deactivate in: %.2f", game_ticks_to_seconds(real32(ticks)));
 					render_debug_string_at_point(ai_debug_drawstack(), string, global_real_argb_red);
 				}
 			}

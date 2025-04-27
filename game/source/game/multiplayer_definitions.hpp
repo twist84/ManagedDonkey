@@ -88,7 +88,7 @@ struct s_multiplayer_customized_model_selection
 	s_tag_reference first_person_armor_object;
 
 	short __unknown24;
-	byte __pad26[2];
+	uint8 __pad26[2];
 
 	c_string_id parent_attach_marker;
 	c_string_id child_attach_marker;
@@ -102,7 +102,7 @@ struct s_multiplayer_equipment
 	c_string_id name;
 	s_tag_reference object;
 	short type;
-	byte __pad[2];
+	uint8 __pad[2];
 
 	void update_reference_names();
 };
@@ -120,7 +120,7 @@ struct s_multiplayer_weapon_selection
 	c_string_id name;
 
 	// used only for random weapon set
-	real random_weapon_set_weight;
+	real32 random_weapon_set_weight;
 
 	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon_tag;
 
@@ -189,7 +189,7 @@ struct s_multiplayer_podium_stance_animation
 	c_string_id loop_animation;
 	c_string_id unarmed_transition;
 	c_string_id armed_transition;
-	real camera_distance_offset;
+	real32 camera_distance_offset;
 };
 static_assert(sizeof(s_multiplayer_podium_stance_animation) == 0x34);
 
@@ -199,7 +199,7 @@ struct s_multiplayer_podium_move_animation
 	c_string_id in_animation;
 	c_string_id loop_animation;
 	c_string_id out_transition;
-	real offset;
+	real32 offset;
 	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> primary_weapon;
 	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> secondary_weapon;
 
@@ -302,7 +302,7 @@ struct s_multiplayer_constants
 	// DEAD TEAMMATE BIAS
 	// Dead teammate influences are cylinders centered upon the body of a dead teammate (or the player's own dead body).
 	s_player_spawn_influence dead_teammate_influencer;
-	real dead_teammate_influence_duration; // seconds
+	real32 dead_teammate_influence_duration; // seconds
 
 	// WEAPON INFLUENCERS
 	// These influencers are induced by weapons either weilded or carried in the player's backpack
@@ -354,22 +354,22 @@ struct s_multiplayer_constants
 
 	// MORE MP CONSTANTS
 	// More old Halo2 stuff follows...
-	real maximum_random_spawn_bias;
-	real teleporter_recharge_time; // seconds
-	real grenade_danger_weight;
-	real grenade_danger_inner_radius;
-	real grenade_danger_outer_radius;
-	real grenade_danger_lead_time; // seconds
-	real vehicle_danger_min_speed; // wu/sec
-	real vehicle_danger_weight;
-	real vehicle_danger_radius;
-	real vehicle_danger_lead_time; // seconds
-	real vehicle_nearby_player_dist; // how nearby a player is to count a vehicle as 'occupied'
+	real32 maximum_random_spawn_bias;
+	real32 teleporter_recharge_time; // seconds
+	real32 grenade_danger_weight;
+	real32 grenade_danger_inner_radius;
+	real32 grenade_danger_outer_radius;
+	real32 grenade_danger_lead_time; // seconds
+	real32 vehicle_danger_min_speed; // wu/sec
+	real32 vehicle_danger_weight;
+	real32 vehicle_danger_radius;
+	real32 vehicle_danger_lead_time; // seconds
+	real32 vehicle_nearby_player_dist; // how nearby a player is to count a vehicle as 'occupied'
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> hill_bitmap;
-	real flag_return_distance;
-	real flag_contest_inner_radius;
-	real flag_contest_outer_radius;
-	real territories_waypoint_vertical_offset;
+	real32 flag_return_distance;
+	real32 flag_contest_inner_radius;
+	real32 flag_contest_outer_radius;
+	real32 territories_waypoint_vertical_offset;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_effect;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_secondary_effect;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> bomb_explode_dmg_effect;
@@ -407,13 +407,13 @@ static_assert(sizeof(s_multiplayer_constants) == 0x220);
 struct s_game_engine_status_response
 {
 	c_flags<e_game_engine_status_flags, short, k_game_engine_status_flags> flags;
-	byte FAW[0x2]; // pad
+	uint8 FAW[0x2]; // pad
 	c_enum<e_game_engine_status, short, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
-	byte BNYFIDDGX[0x2]; // pad
+	uint8 BNYFIDDGX[0x2]; // pad
 	c_string_id ffa_message;
 	c_string_id team_message;
 	s_tag_reference unused;
-	byte GTL[0x4]; // pad
+	uint8 GTL[0x4]; // pad
 
 	void update_reference_names();
 };

@@ -25,7 +25,7 @@
 #include <climits>
 
 real_point3d global_ai_debug_drawstack_next_position;
-real global_ai_debug_drawstack_height;
+real32 global_ai_debug_drawstack_height;
 real_point3d global_ai_debug_drawstack_last_position;
 
 short global_ai_debug_string_position = 0;
@@ -368,7 +368,7 @@ real_point3d* ai_debug_drawstack()
 	return &global_ai_debug_drawstack_last_position;
 }
 
-real_point3d* ai_debug_drawstack_offset(real offset)
+real_point3d* ai_debug_drawstack_offset(real32 offset)
 {
 	global_ai_debug_drawstack_last_position = global_ai_debug_drawstack_next_position;
 	global_ai_debug_drawstack_next_position.z += offset;
@@ -653,7 +653,7 @@ void ai_debug_render_squads()
 
 		if (scale > 0)
 		{
-			scale_vector3d((real_vector3d*)&position, 1.0f / (real)scale, (real_vector3d*)&position);
+			scale_vector3d((real_vector3d*)&position, 1.0f / (real32)scale, (real_vector3d*)&position);
 			ai_debug_drawstack_setup(&position);
 			render_debug_sphere(true, &position, 0.3f, global_real_argb_red);
 
@@ -662,7 +662,7 @@ void ai_debug_render_squads()
 			while (actor_datum* squad_actor = squad_actor_iterator_next(&squad_actor_iter))
 			{
 				real_point3d center{};
-				real radius = 0.0f;
+				real32 radius = 0.0f;
 
 				if (squad_actor->meta.unit_index == NONE)
 					center = squad_actor->input.position.body_position;

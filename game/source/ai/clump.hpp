@@ -7,7 +7,7 @@
 struct c_clump_behavior_state
 {
 	short m_state;
-	word_flags m_flags;
+	uint16 m_flags;
 	long m_time;
 };
 static_assert(sizeof(c_clump_behavior_state) == 0x8);
@@ -18,21 +18,21 @@ struct clump_datum :
 	real_point3d position;
 	short num_members;
 	short team_index;
-	real nearest_player_distance;
-	real membership_radius;
+	real32 nearest_player_distance;
+	real32 membership_radius;
 	long first_prop_index;
 	long first_actor_index;
 	bool active;
 	bool giant_clump;
 	short refresh_timer;
 	long last_active_time;
-	real importance_threshold;
-	real min_importance;
-	real max_salience;
+	real32 importance_threshold;
+	real32 min_importance;
+	real32 max_salience;
 	short importance_threshold_freeze_ticks;
 	short fought_flags;
 	c_clump_behavior_state behavior_state;
-	real max_clump_perception_distance;
+	real32 max_clump_perception_distance;
 	long last_new_enemy_sighted_time;
 	long last_relevance_time;
 	bool contains_disposable;

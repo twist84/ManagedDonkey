@@ -12,7 +12,7 @@ HOOK_DECLARE(0x004A8780, decode_event_from_buffer);
 
 //#define ENABLE_ADDITION_ENTITY_TYPES
 
-bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_queue_decoded_event_data* decoded_event_data)
+bool __cdecl decode_event_from_buffer(uint8* data, long data_size, s_simulation_queue_decoded_event_data* decoded_event_data)
 {
 	//return INVOKE(0x004A8780, decode_event_from_buffer, data, data_size, decoded_event_data);
 
@@ -73,7 +73,7 @@ bool __cdecl decode_event_from_buffer(byte* data, long data_size, s_simulation_q
 	return result;
 }
 
-bool __cdecl encode_event_to_buffer(byte* buffer, long buffer_size, long* size_out, e_simulation_event_type event_type, long reference_count, long const* references, void const* payload, long payload_size)
+bool __cdecl encode_event_to_buffer(uint8* buffer, long buffer_size, long* size_out, e_simulation_event_type event_type, long reference_count, long const* references, void const* payload, long payload_size)
 {
 	return INVOKE(0x004A88B0, encode_event_to_buffer, buffer, buffer_size, size_out, event_type, reference_count, references, payload, payload_size);
 }

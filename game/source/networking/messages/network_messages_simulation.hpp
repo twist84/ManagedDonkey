@@ -22,14 +22,14 @@ struct s_network_message_view_establishment
 
 	bool signature_exists;
 	long signature_size;
-	byte signature_data[0x3C];
+	uint8 signature_data[0x3C];
 };
 static_assert(sizeof(s_network_message_view_establishment) == 0x4C);
 
 struct s_network_message_player_acknowledge
 {
-	dword player_valid_mask;
-	dword player_in_game_mask;
+	uint32 player_valid_mask;
+	uint32 player_in_game_mask;
 	s_player_identifier player_identifiers[16];
 };
 static_assert(sizeof(s_network_message_player_acknowledge) == 0x88);

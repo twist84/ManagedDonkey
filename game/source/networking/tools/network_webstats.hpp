@@ -4,17 +4,17 @@
 
 struct s_game_matchmaking_options
 {
-	word hopper_identifier;
-	byte xlast_index;
+	uint16 hopper_identifier;
+	uint8 xlast_index;
 	bool is_ranked;
 	bool team_game;
-	byte : 8;
+	uint8 : 8;
 	wchar_t hopper_name[32];
-	byte : 8;
-	byte : 8;
+	uint8 : 8;
+	uint8 : 8;
 	long draw_probability;
-	real beta;
-	real tau;
+	real32 beta;
+	real32 tau;
 	long experience_base_increment;
 	long experience_penalty_decrement;
 };

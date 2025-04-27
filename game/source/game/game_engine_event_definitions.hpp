@@ -64,10 +64,10 @@ enum e_game_engine_sound_response_flags
 
 struct s_multiplayer_event_sound_response_definition
 {
-	c_flags<e_game_engine_sound_response_flags, word, k_game_engine_sound_response_flags> flags;
-	word pad;
+	c_flags<e_game_engine_sound_response_flags, uint16, k_game_engine_sound_response_flags> flags;
+	uint16 pad;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sounds[k_language_count];
-	real probability;
+	real32 probability;
 
 	void update_reference_names();
 };
@@ -85,8 +85,8 @@ struct s_multiplayer_event_response_definition
 	c_string_id display_string;
 	c_string_id medal_award;
 	short earned_wp;
-	word pad;
-	real display_time; // seconds
+	uint16 pad;
+	real32 display_time; // seconds
 	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> required_field;
 	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> excluded_audience;
 	c_enum<e_game_engine_event_splitscreen_suppression, short, _game_engine_event_splitscreen_suppression_none, k_game_engine_event_splitscreen_suppression_count> splitscreen_suppression;
@@ -94,7 +94,7 @@ struct s_multiplayer_event_response_definition
 	c_string_id primary_string;
 	long primary_string_duration; // seconds
 	c_string_id plural_display_string;
-	real sound_delay_announcer_only;
+	real32 sound_delay_announcer_only;
 	s_multiplayer_event_sound_response_definition default_sound;
 	c_typed_tag_block<s_multiplayer_event_sound_response_definition> sound_permutations;
 

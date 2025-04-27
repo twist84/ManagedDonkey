@@ -37,7 +37,7 @@ enum e_category_properties_flags
 
 struct s_spamming_event
 {
-	dword last_spam_time;
+	uint32 last_spam_time;
 	long hit_count;
 	char spam_text[2048];
 	bool valid;
@@ -63,7 +63,7 @@ struct s_event_category
 	long event_log_index;
 	e_event_level current_display_level;
 	real_rgb_color current_display_color;
-	dword last_event_time;
+	uint32 last_event_time;
 	long possible_spam_event_count;
 	e_event_level current_log_level;
 	char log_name[256];
@@ -72,7 +72,7 @@ struct s_event_category
 	e_event_level current_debugger_break_level;
 	e_event_level current_halt_level;
 	e_event_level current_force_display_level;
-	dword event_listeners;
+	uint32 event_listeners;
 	long parent_index;
 	long first_child_index;
 	long sibling_index;
@@ -131,7 +131,7 @@ static_assert(sizeof(s_event_globals) == 0x82B6C);
 struct c_event
 {
 public:
-	c_event(e_event_level event_level, long event_category_index, dword event_response_suppress_flags);
+	c_event(e_event_level event_level, long event_category_index, uint32 event_response_suppress_flags);
 
 	bool query();
 	long generate(char const* format, ...);
@@ -139,7 +139,7 @@ public:
 protected:
 	e_event_level m_event_level;
 	long m_event_category_index;
-	dword m_event_response_suppress_flags;
+	uint32 m_event_response_suppress_flags;
 };
 static_assert(sizeof(c_event) == 0xC);
 
