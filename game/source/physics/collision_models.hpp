@@ -9,7 +9,7 @@ struct collision_model_instance
 	int32 object_index;
 	s_model_definition* model_definition;
 	collision_model_definition* collision_model;
-	char* collision_region_permutation_indices;
+	int8* collision_region_permutation_indices;
 	real_matrix4x3* nodes;
 };
 static_assert(sizeof(collision_model_instance) == 0x14);

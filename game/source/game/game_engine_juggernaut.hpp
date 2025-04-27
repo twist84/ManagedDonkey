@@ -50,23 +50,23 @@ public:
 	e_juggernaut_zone_order_settings get_zone_order() const;
 	void set_zone_order(e_juggernaut_zone_order_settings zone_order);
 
-	char get_kill_points() const;
-	void set_kill_points(char kill_points);
+	int8 get_kill_points() const;
+	void set_kill_points(int8 kill_points);
 
-	char get_juggernaut_kill_points() const;
-	void set_juggernaut_kill_points(char juggernaut_kill_points);
+	int8 get_juggernaut_kill_points() const;
+	void set_juggernaut_kill_points(int8 juggernaut_kill_points);
 
-	char get_kill_as_juggernaut_points() const;
-	void set_kill_as_juggernaut_points(char kill_as_juggernaut_points);
+	int8 get_kill_as_juggernaut_points() const;
+	void set_kill_as_juggernaut_points(int8 kill_as_juggernaut_points);
 
-	char get_destination_arrival_points() const;
-	void set_destination_arrival_points(char destination_arrival_points);
+	int8 get_destination_arrival_points() const;
+	void set_destination_arrival_points(int8 destination_arrival_points);
 
-	char get_suicide_points() const;
-	void set_suicide_points(char suicide_points);
+	int8 get_suicide_points() const;
+	void set_suicide_points(int8 suicide_points);
 
-	char get_betrayal_points() const;
-	void set_betrayal_points(char betrayal_points);
+	int8 get_betrayal_points() const;
+	void set_betrayal_points(int8 betrayal_points);
 
 	uint8 get_juggernaut_delay() const;
 	void set_juggernaut_delay(uint8 juggernaut_delay);
@@ -86,12 +86,12 @@ protected:
 	c_flags<e_juggernaut_variant_flags, uint8, k_juggernaut_variant_flags> m_variant_flags;
 	c_enum<e_juggernaut_zone_movement_settings, uint8, _juggernaut_zone_movement_settings_off, k_number_of_juggernaut_zone_movement_settings> m_zone_movement;
 	c_enum<e_juggernaut_zone_order_settings, uint8, _juggernaut_zone_order_settings_random, k_juggernaut_zone_order_settings> m_zone_order;
-	c_enum<int32, char, -10, 10> m_kill_points;                // default: 0
-	c_enum<int32, char, -10, 10> m_juggernaut_kill_points;     // default: 1
-	c_enum<int32, char, -10, 10> m_kill_as_juggernaut_points;  // default: 1
-	c_enum<int32, char, -10, 10> m_destination_arrival_points; // default: 1
-	c_enum<int32, char, -10, 10> m_suicide_points;             // default: 1
-	c_enum<int32, char, -10, 10> m_betrayal_points;            // default: 1
+	c_enum<int32, int8, -10, 10> m_kill_points;                // default: 0
+	c_enum<int32, int8, -10, 10> m_juggernaut_kill_points;     // default: 1
+	c_enum<int32, int8, -10, 10> m_kill_as_juggernaut_points;  // default: 1
+	c_enum<int32, int8, -10, 10> m_destination_arrival_points; // default: 1
+	c_enum<int32, int8, -10, 10> m_suicide_points;             // default: 1
+	c_enum<int32, int8, -10, 10> m_betrayal_points;            // default: 1
 	c_enum<int32, uint8, 0, 10> m_juggernaut_delay;             // default: 0
 	c_player_traits m_juggernaut_traits;
 

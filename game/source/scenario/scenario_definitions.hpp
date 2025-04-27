@@ -138,8 +138,8 @@ struct scenario
 {
 	static tag const k_group_tag = SCENARIO_TAG;
 
-	c_enum<e_scenario_type, char, _scenario_type_solo, k_scenario_type_count> type;
-	c_enum<e_scenario_campaign_type, char, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
+	c_enum<e_scenario_type, int8, _scenario_type_solo, k_scenario_type_count> type;
+	c_enum<e_scenario_campaign_type, int8, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
 	c_flags<e_scenario_flags, uint16, k_scenario_flags> flags;
 
 	e_campaign_id campaign_id;
@@ -587,7 +587,7 @@ struct scenario_starting_profile
 	int16 starting_equipment[4]; // short_block_index
 
 	// multiplayer_globals->universal[0]->grenade_selections
-	char starting_grenades[4]; // short_block_index
+	int8 starting_grenades[4]; // char_block_index
 	
 	// s_scenario_editor_folder
 	int16 editor_folder; // short_block_index

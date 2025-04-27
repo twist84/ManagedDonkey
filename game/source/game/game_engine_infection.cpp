@@ -58,12 +58,12 @@ void c_game_engine_infection_variant::encode_to_mcc(c_bitstream* packet) const
 	e_infection_next_zombie_settings next_zombie = get_next_zombie();
 	e_infection_initial_zombie_count_settings initial_zombie_count = get_initial_zombie_count();
 	int16 safe_haven_movement_time = get_safe_haven_movement_time();
-	char zombie_kill_points = get_zombie_kill_points();
-	char infection_points = get_infection_points();
-	char safe_haven_arrival_points = get_safe_haven_arrival_points();
-	char suicide_points = get_suicide_points();
-	char betrayal_points = get_betrayal_points();
-	char last_man_bonus_points = get_last_man_bonus_points();
+	int8 zombie_kill_points = get_zombie_kill_points();
+	int8 infection_points = get_infection_points();
+	int8 safe_haven_arrival_points = get_safe_haven_arrival_points();
+	int8 suicide_points = get_suicide_points();
+	int8 betrayal_points = get_betrayal_points();
+	int8 last_man_bonus_points = get_last_man_bonus_points();
 
 	packet->write_bool("infection-respawn-on-haven-move", respawn_on_haven_move);
 	packet->write_integer("infection-safe-havens", safe_havens, 2);
@@ -91,12 +91,12 @@ void c_game_engine_infection_variant::decode_from_mcc(c_bitstream* packet)
 	e_infection_next_zombie_settings next_zombie = packet->read_enum<e_infection_next_zombie_settings, 2>("infection-next-zombie");
 	e_infection_initial_zombie_count_settings initial_zombie_count = packet->read_enum<e_infection_initial_zombie_count_settings, 5>("infection-initial-zombie-count");
 	int16 safe_haven_movement_time = static_cast<int16>(packet->read_integer("infection-safe-haven-movement-time", 7));
-	char zombie_kill_points = static_cast<char>(packet->read_signed_integer("infection-zombie-kill-points", 5));
-	char infection_points = static_cast<char>(packet->read_signed_integer("infection-infection-points", 5));
-	char safe_haven_arrival_points = static_cast<char>(packet->read_signed_integer("infection-safe-haven-arrival-points", 5));
-	char suicide_points = static_cast<char>(packet->read_signed_integer("infection-suicide-points", 5));
-	char betrayal_points = static_cast<char>(packet->read_signed_integer("infection-betrayal-points", 5));
-	char last_man_bonus_points = static_cast<char>(packet->read_signed_integer("infection-last-man-bonus-points", 5));
+	int8 zombie_kill_points = static_cast<int8>(packet->read_signed_integer("infection-zombie-kill-points", 5));
+	int8 infection_points = static_cast<int8>(packet->read_signed_integer("infection-infection-points", 5));
+	int8 safe_haven_arrival_points = static_cast<int8>(packet->read_signed_integer("infection-safe-haven-arrival-points", 5));
+	int8 suicide_points = static_cast<int8>(packet->read_signed_integer("infection-suicide-points", 5));
+	int8 betrayal_points = static_cast<int8>(packet->read_signed_integer("infection-betrayal-points", 5));
+	int8 last_man_bonus_points = static_cast<int8>(packet->read_signed_integer("infection-last-man-bonus-points", 5));
 	get_zombie_traits()->encode_to_mcc(packet);
 	get_first_zombie_traits()->encode_to_mcc(packet);
 	get_safe_haven_defender_traits()->encode_to_mcc(packet);
@@ -201,12 +201,12 @@ void c_game_engine_infection_variant::set_safe_haven_movement_time(int16 safe_ha
 	}
 }
 
-char c_game_engine_infection_variant::get_zombie_kill_points() const
+int8 c_game_engine_infection_variant::get_zombie_kill_points() const
 {
 	return m_zombie_kill_points;
 }
 
-void c_game_engine_infection_variant::set_zombie_kill_points(char zombie_kill_points)
+void c_game_engine_infection_variant::set_zombie_kill_points(int8 zombie_kill_points)
 {
 	if (!VALID_INDEX(zombie_kill_points + 10, 20))
 	{
@@ -220,12 +220,12 @@ void c_game_engine_infection_variant::set_zombie_kill_points(char zombie_kill_po
 	}
 }
 
-char c_game_engine_infection_variant::get_infection_points() const
+int8 c_game_engine_infection_variant::get_infection_points() const
 {
 	return m_infection_points;
 }
 
-void c_game_engine_infection_variant::set_infection_points(char infection_points)
+void c_game_engine_infection_variant::set_infection_points(int8 infection_points)
 {
 	if (!VALID_INDEX(infection_points + 10, 20))
 	{
@@ -239,12 +239,12 @@ void c_game_engine_infection_variant::set_infection_points(char infection_points
 	}
 }
 
-char c_game_engine_infection_variant::get_safe_haven_arrival_points() const
+int8 c_game_engine_infection_variant::get_safe_haven_arrival_points() const
 {
 	return m_safe_haven_arrival_points;
 }
 
-void c_game_engine_infection_variant::set_safe_haven_arrival_points(char safe_haven_arrival_points)
+void c_game_engine_infection_variant::set_safe_haven_arrival_points(int8 safe_haven_arrival_points)
 {
 	if (!VALID_INDEX(safe_haven_arrival_points + 10, 20))
 	{
@@ -258,12 +258,12 @@ void c_game_engine_infection_variant::set_safe_haven_arrival_points(char safe_ha
 	}
 }
 
-char c_game_engine_infection_variant::get_suicide_points() const
+int8 c_game_engine_infection_variant::get_suicide_points() const
 {
 	return m_suicide_points;
 }
 
-void c_game_engine_infection_variant::set_suicide_points(char suicide_points)
+void c_game_engine_infection_variant::set_suicide_points(int8 suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
@@ -277,12 +277,12 @@ void c_game_engine_infection_variant::set_suicide_points(char suicide_points)
 	}
 }
 
-char c_game_engine_infection_variant::get_betrayal_points() const
+int8 c_game_engine_infection_variant::get_betrayal_points() const
 {
 	return m_betrayal_points;
 }
 
-void c_game_engine_infection_variant::set_betrayal_points(char betrayal_points)
+void c_game_engine_infection_variant::set_betrayal_points(int8 betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
@@ -296,12 +296,12 @@ void c_game_engine_infection_variant::set_betrayal_points(char betrayal_points)
 	}
 }
 
-char c_game_engine_infection_variant::get_last_man_bonus_points() const
+int8 c_game_engine_infection_variant::get_last_man_bonus_points() const
 {
 	return m_last_man_bonus_points;
 }
 
-void c_game_engine_infection_variant::set_last_man_bonus_points(char last_man_bonus_points)
+void c_game_engine_infection_variant::set_last_man_bonus_points(int8 last_man_bonus_points)
 {
 	if (!VALID_INDEX(last_man_bonus_points + 10, 20))
 	{

@@ -38,29 +38,29 @@ public:
 	//virtual int32 get_score_to_win_round() override;?
 	void set_score_to_win_round(int16 score_to_win_round);
 
-	char get_kill_points() const;
-	void set_kill_points(char kill_points);
+	int8 get_kill_points() const;
+	void set_kill_points(int8 kill_points);
 
-	char get_takedown_points() const;
-	void set_takedown_points(char takedown_points);
+	int8 get_takedown_points() const;
+	void set_takedown_points(int8 takedown_points);
 
-	char get_kill_as_vip_points() const;
-	void set_kill_as_vip_points(char kill_as_vip_points);
+	int8 get_kill_as_vip_points() const;
+	void set_kill_as_vip_points(int8 kill_as_vip_points);
 
-	char get_vip_death_points() const;
-	void set_vip_death_points(char vip_death_points);
+	int8 get_vip_death_points() const;
+	void set_vip_death_points(int8 vip_death_points);
 
-	char get_destination_arrival_points() const;
-	void set_destination_arrival_points(char destination_arrival_points);
+	int8 get_destination_arrival_points() const;
+	void set_destination_arrival_points(int8 destination_arrival_points);
 
-	char get_suicide_points() const;
-	void set_suicide_points(char suicide_points);
+	int8 get_suicide_points() const;
+	void set_suicide_points(int8 suicide_points);
 
-	char get_betrayal_points() const;
-	void set_betrayal_points(char betrayal_points);
+	int8 get_betrayal_points() const;
+	void set_betrayal_points(int8 betrayal_points);
 
-	char get_vip_suicide_points() const;
-	void set_vip_suicide_points(char vip_suicide_points);
+	int8 get_vip_suicide_points() const;
+	void set_vip_suicide_points(int8 vip_suicide_points);
 
 	e_vip_vip_selection_settings get_vip_selection() const;
 	void set_vip_selection(e_vip_vip_selection_settings vip_selection);
@@ -91,14 +91,14 @@ protected:
 	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15
 	c_enum<int32, int16, 0, 500> m_score_unknown;              // default: 10, halo online specific
 	c_flags<e_vip_variant_flags, uint16, k_vip_variant_flags> m_variant_flags;
-	c_enum<int32, char, -10, 10> m_kill_points;                // default: 0
-	c_enum<int32, char, -10, 10> m_takedown_points;            // default: 0
-	c_enum<int32, char, -10, 10> m_kill_as_vip_points;         // default: 0
-	c_enum<int32, char, -10, 10> m_vip_death_points;           // default: 0
-	c_enum<int32, char, -10, 10> m_destination_arrival_points; // default: 0
-	c_enum<int32, char, -10, 10> m_suicide_points;             // default: 0
-	c_enum<int32, char, -10, 10> m_betrayal_points;            // default: 0
-	c_enum<int32, char, -10, 10> m_vip_suicide_points;         // default: 0
+	c_enum<int32, int8, -10, 10> m_kill_points;                // default: 0
+	c_enum<int32, int8, -10, 10> m_takedown_points;            // default: 0
+	c_enum<int32, int8, -10, 10> m_kill_as_vip_points;         // default: 0
+	c_enum<int32, int8, -10, 10> m_vip_death_points;           // default: 0
+	c_enum<int32, int8, -10, 10> m_destination_arrival_points; // default: 0
+	c_enum<int32, int8, -10, 10> m_suicide_points;             // default: 0
+	c_enum<int32, int8, -10, 10> m_betrayal_points;            // default: 0
+	c_enum<int32, int8, -10, 10> m_vip_suicide_points;         // default: 0
 	c_enum<e_vip_vip_selection_settings, uint8, _vip_vip_selection_settings_random, k_vip_vip_selection_settings> m_vip_selection;
 	c_enum<e_vip_zone_movement_settings, uint8, _vip_zone_movement_settings_off, k_number_of_vip_zone_movement_settings> m_zone_movement;
 	c_enum<e_vip_zone_order_settings, uint8, _vip_zone_order_settings_random, k_vip_zone_order_settings> m_zone_order;

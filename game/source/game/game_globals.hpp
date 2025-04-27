@@ -93,13 +93,13 @@ struct s_game_globals
 	c_typed_tag_reference<AI_GLOBALS_TAG, INVALID_TAG> ai_globals_ref;
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
-	char unused1[0xC];
+	int8 unused1[0xC];
 	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG, INVALID_TAG>> sounds;
 	c_typed_tag_block<s_game_globals_camera> camera;
 	c_typed_tag_block<s_game_globals_player_control> player_control;
 	c_typed_tag_block<s_game_globals_difficulty_information> difficulty_information;
 	c_typed_tag_block<s_game_globals_grenade> grenades;
-	char unused2[0xC];
+	int8 unused2[0xC];
 	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tag_references;
 
 	// @weapon list (update _weapon_list enum in game_globals.h)

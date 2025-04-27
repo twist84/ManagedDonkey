@@ -665,7 +665,7 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00554650 ; 
 //.text:00554730 ; 
 //.text:00554740 ; 
-//.text:00554780 ; void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, char, int16)
+//.text:00554780 ; void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, int8, int16)
 //.text:005547F0 ; void __cdecl process_game_engine_globals_messages()
 //.text:00554930 ; void __cdecl seconds_to_unicode_time_string(int32, c_static_wchar_string<256>*)
 //.text:005549E0 ; 
@@ -741,8 +741,8 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 	}
 }
 
-//void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, char, int16)
-void __cdecl post_game_engine_globals_message(int32 message_type, char a2, int16 a3)
+//void __cdecl post_game_engine_globals_message(e_game_engine_globals_message_type, int8, int16)
+void __cdecl post_game_engine_globals_message(int32 message_type, int8 a2, int16 a3)
 {
 	INVOKE(0x00554780, post_game_engine_globals_message, message_type, a2, a3);
 }

@@ -8,7 +8,7 @@ struct __declspec(align(4)) s_simulation_view_player_telemetry_data
 	int32 controlled_entity_index;
 	real_point3d position;
 	real_vector3d desired_aiming_vector;
-	char desired_zoom_level;
+	int8 desired_zoom_level;
 };
 static_assert(sizeof(s_simulation_view_player_telemetry_data) == 0x24);
 

@@ -252,7 +252,7 @@ static_assert(sizeof(s_game_results_incremental) == 0x1B450);
 
 struct s_game_results_event
 {
-	/* 0x00 */ c_enum<e_game_results_event_type, char, _game_results_event_type_none, k_game_results_event_type_count> type;
+	/* 0x00 */ c_enum<e_game_results_event_type, int8, _game_results_event_type_none, k_game_results_event_type_count> type;
 
 	union
 	{

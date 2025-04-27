@@ -91,7 +91,7 @@ struct hs_thread :
 	uint8 type;
 	uint8 flags;
 	uint8 ai_flags;
-	char ai_data;
+	int8 ai_data;
 	int32 ai_index;
 	uint8 stack_data[HS_THREAD_STACK_SIZE];
 };

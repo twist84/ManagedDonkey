@@ -29,7 +29,7 @@ public:
 	int32 m_first_location_index;
 	c_flags<e_flags, uint16, k_flags> m_flags;
 	uint8 m_camera_mode;
-	char m_first_person_user_mask;
+	int8 m_first_person_user_mask;
 	real32 m_age;
 	real32 m_effect_scale_a;
 	real32 m_effect_scale_b;

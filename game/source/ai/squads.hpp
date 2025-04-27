@@ -30,12 +30,12 @@ struct squad_datum :
 	int16 current_in_combat_count;
 	real_point3d mean_position;
 	int16 spawn_count;
-	char combat_status;
+	int8 combat_status;
 
 	uint8 __data33[0x1];
 
 	int16 remain_active_timer;
-	char dynamic_area_count;
+	int8 dynamic_area_count;
 
 	uint8 __data37[0x1];
 
@@ -51,7 +51,7 @@ struct squad_datum :
 	int32 parent_index;
 	int32 first_vehicle_index;
 	int16 next_sibling_index;
-	char team;
+	int8 team;
 
 	uint8 __padB7[0x1];
 

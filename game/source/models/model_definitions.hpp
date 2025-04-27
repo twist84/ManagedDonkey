@@ -148,8 +148,8 @@ struct s_model_definition
 	//     increases the calculation time.  1 or 2 bounces should be good enough for
 	//     almost all models.
 
-	c_enum<e_model_self_shadow_detail, char, _model_self_shadow_detail_ambient_occlusion, k_model_self_shadow_detail_count> PRT_shadow_detail;
-	c_enum<e_model_self_shadow_bounces, char, _model_self_shadow_0_bounces, k_model_self_shadow_bounce_count> PRT_shadow_bounces;
+	c_enum<e_model_self_shadow_detail, int8, _model_self_shadow_detail_ambient_occlusion, k_model_self_shadow_detail_count> PRT_shadow_detail;
+	c_enum<e_model_self_shadow_bounces, int8, _model_self_shadow_0_bounces, k_model_self_shadow_bounce_count> PRT_shadow_bounces;
 	uint8 NCFGBA[0x2];
 
 
@@ -181,9 +181,9 @@ struct s_model_variant
 	// The dialogue effect for this model variant
 	c_string_id dialogue_effect;
 
-	c_enum<e_odst_recon_variant, char, _odst_recon_variant_none, k_odst_recon_variant_count> ai_character;
+	c_enum<e_odst_recon_variant, int8, _odst_recon_variant_none, k_odst_recon_variant_count> ai_character;
 	uint8 NASUHJ[0x3];
-	char runtime_variant_region_indices[16];
+	int8 runtime_variant_region_indices[16];
 	c_typed_tag_block<s_model_variant_region> regions;
 	c_typed_tag_block<s_model_variant_object> objects;
 
@@ -224,8 +224,8 @@ struct s_model_variant_permutation;
 struct s_model_variant_region
 {
 	c_string_id region_name; // must match region name in render_model
-	char runtime_region_index;
-	char runtime_flags;
+	int8 runtime_region_index;
+	int8 runtime_flags;
 	int16 parent_variant;
 	c_typed_tag_block<s_model_variant_permutation> permutations;
 
@@ -246,12 +246,12 @@ struct s_model_variant_state;
 struct s_model_variant_permutation
 {
 	c_string_id permutation_name;
-	char runtime_permutation_index;
+	int8 runtime_permutation_index;
 	c_flags<e_model_variant_permutation_flags, uint8, k_model_variant_permutation_flags> flags;
 	uint8 KSJOSR[0x2];
 	real32 probability; // (0,+inf)
 	c_typed_tag_block<s_model_variant_state> states;
-	char runtime_state_permutation_indices[5];
+	int8 runtime_state_permutation_indices[5];
 	uint8 LOOEL[0x7];
 };
 static_assert(sizeof(s_model_variant_permutation) == 0x24);
@@ -269,7 +269,7 @@ enum e_model_state_property_flags
 struct s_model_variant_state
 {
 	c_string_id permutation_name;
-	char runtime_permutation_index;
+	int8 runtime_permutation_index;
 	c_flags<e_model_state_property_flags, uint8, k_model_state_property_flags> property_flags;
 	c_enum<e_model_state, int16, _model_state_standard, k_number_of_model_states> state;
 
@@ -384,8 +384,8 @@ struct s_model_damage_info
 	// pad
 	uint8 LPVYKO[0x4];
 
-	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> collision_damage_reporting_type;
-	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> response_damage_reporting_type;
+	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> collision_damage_reporting_type;
+	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> response_damage_reporting_type;
 
 	// pad
 	uint8 MQ[0x2];

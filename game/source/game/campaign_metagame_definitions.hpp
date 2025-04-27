@@ -137,9 +137,9 @@ enum e_campaign_metagame_bucket_class
 
 struct s_campaign_metagame_bucket
 {
-	c_flags<e_campaign_metagame_bucket_flag, char, k_campaign_metagame_bucket_flags> flags;
-	char type;
-	char _class;
+	c_flags<e_campaign_metagame_bucket_flag, int8, k_campaign_metagame_bucket_flags> flags;
+	int8 type;
+	int8 _class;
 	uint8 pad0;
 	int16 point_count;
 	int16 pad1;

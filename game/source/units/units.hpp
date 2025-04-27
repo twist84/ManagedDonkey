@@ -12,7 +12,7 @@ int32 const k_seat_acceleration_memory_length = 6;
 struct s_unit_weapon_set
 {
 	uint16 set_identifier;
-	c_static_array<char, k_weapon_set_count> weapon_indices;
+	c_static_array<int8, k_weapon_set_count> weapon_indices;
 };
 
 struct unit_control_data
@@ -161,9 +161,9 @@ struct _unit_datum
 	real_vector3d throttle;
 	real_vector3d control_throttle;
 	uint8 control_context_identifier;
-	char aiming_speed;
+	int8 aiming_speed;
 	s_damage_reporting_info special_death_damage_reporting_info;
-	char special_death_type;
+	int8 special_death_type;
 	int16 special_death_node_index;
 
 	bool __unknownAA;
@@ -175,9 +175,9 @@ struct _unit_datum
 	s_aim_assist_targeting_result aim_assist_data;
 	c_target_tracking_system target_tracking;
 	uint32 persistent_control_flags;
-	char weapon_drop_delay_ticks;
-	char left_eye_node;
-	char right_eye_node;
+	int8 weapon_drop_delay_ticks;
+	int8 left_eye_node;
+	int8 right_eye_node;
 	uint8 horizontal_aiming_change;
 	uint8 primary_fire_timer;
 	uint8 secondary_fire_timer;
@@ -196,21 +196,21 @@ struct _unit_datum
 	int32 consumable_energy_level;
 	int32 consumable_energy_restored_game_time;
 	int16 weapon_firing_time;
-	char current_grenade_index;
-	char desired_grenade_index;
+	int8 current_grenade_index;
+	int8 desired_grenade_index;
 	c_static_array<uint8, 4> grenade_counts;
-	char current_zoom_level;
-	char desired_zoom_level;
-	char gunner_inactive_ticks;
-	char aiming_change;
+	int8 current_zoom_level;
+	int8 desired_zoom_level;
+	int8 gunner_inactive_ticks;
+	int8 aiming_change;
 	int32 weapon_control_last_active_time;
 	int32 driver_object_index;
 	int32 gunner_object_index;
 	int32 last_vehicle_index;
 	int32 game_time_at_last_vehicle_exit;
 	int16 fake_squad_index;
-	char impulse_vehicle_from_seat_ticks;
-	char seat_power_valid_flags;
+	int8 impulse_vehicle_from_seat_ticks;
+	int8 seat_power_valid_flags;
 	c_static_array<real32, 1> seat_power;
 	real32 integrated_light_power;
 	real32 integrated_light_battery;

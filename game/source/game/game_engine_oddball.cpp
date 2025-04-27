@@ -53,11 +53,11 @@ void c_game_engine_oddball_variant::encode_to_mcc(c_bitstream* packet) const
 	bool auto_ball_pickup = get_auto_ball_pickup();
 	bool ball_effect_enabled = get_ball_effect_enabled();
 	int16 score_to_win = get_score_to_win();
-	char carrying_points = get_carrying_points();
-	char kill_points = get_kill_points();
-	char ball_kill_points = get_ball_kill_points();
-	char carrier_kill_points = get_carrier_kill_points();
-	char ball_count = get_ball_count();
+	int8 carrying_points = get_carrying_points();
+	int8 kill_points = get_kill_points();
+	int8 ball_kill_points = get_ball_kill_points();
+	int8 carrier_kill_points = get_carrier_kill_points();
+	int8 ball_count = get_ball_count();
 	int16 ball_spawn_delay = get_ball_spawn_delay();
 	int16 ball_inactive_respawn_delay = get_ball_inactive_respawn_delay();
 
@@ -81,11 +81,11 @@ void c_game_engine_oddball_variant::decode_from_mcc(c_bitstream* packet)
 	bool auto_ball_pickup = packet->read_bool("oddball-auto-ball-pickup");
 	bool ball_effect_enabled = packet->read_bool("oddball-ball-effect-enabled");
 	int16 score_to_win = static_cast<int16>(packet->read_signed_integer("oddball-score-to-win", 11));
-	char carrying_points = static_cast<char>(packet->read_signed_integer("oddball-carrying-points", 5));
-	char kill_points = static_cast<char>(packet->read_signed_integer("oddball-kill-points", 5));
-	char ball_kill_points = static_cast<char>(packet->read_signed_integer("oddball-ball-kill-points", 5));
-	char carrier_kill_points = static_cast<char>(packet->read_signed_integer("oddball-carrier-kill-points", 5));
-	char ball_count = static_cast<char>(packet->read_integer("oddball-ball-count", 2));
+	int8 carrying_points = static_cast<int8>(packet->read_signed_integer("oddball-carrying-points", 5));
+	int8 kill_points = static_cast<int8>(packet->read_signed_integer("oddball-kill-points", 5));
+	int8 ball_kill_points = static_cast<int8>(packet->read_signed_integer("oddball-ball-kill-points", 5));
+	int8 carrier_kill_points = static_cast<int8>(packet->read_signed_integer("oddball-carrier-kill-points", 5));
+	int8 ball_count = static_cast<int8>(packet->read_integer("oddball-ball-count", 2));
 	int16 ball_spawn_delay = static_cast<int16>(packet->read_integer("oddball-ball-spawn-delay", 7));
 	int16 ball_inactive_respawn_delay = static_cast<int16>(packet->read_integer("oddball-ball-inactive-respawn-delay", 7));
 	get_carrier_traits_writeable()->decode_from_mcc(packet);
@@ -141,12 +141,12 @@ void c_game_engine_oddball_variant::set_score_to_win(int16 score_to_win)
 	}
 }
 
-char c_game_engine_oddball_variant::get_carrying_points() const
+int8 c_game_engine_oddball_variant::get_carrying_points() const
 {
 	return m_carrying_points;
 }
 
-void c_game_engine_oddball_variant::set_carrying_points(char carrying_points)
+void c_game_engine_oddball_variant::set_carrying_points(int8 carrying_points)
 {
 	if (!VALID_INDEX(carrying_points + 10, 20))
 	{
@@ -160,12 +160,12 @@ void c_game_engine_oddball_variant::set_carrying_points(char carrying_points)
 	}
 }
 
-char c_game_engine_oddball_variant::get_kill_points() const
+int8 c_game_engine_oddball_variant::get_kill_points() const
 {
 	return m_kill_points;
 }
 
-void c_game_engine_oddball_variant::set_kill_points(char kill_points)
+void c_game_engine_oddball_variant::set_kill_points(int8 kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
@@ -179,12 +179,12 @@ void c_game_engine_oddball_variant::set_kill_points(char kill_points)
 	}
 }
 
-char c_game_engine_oddball_variant::get_ball_kill_points() const
+int8 c_game_engine_oddball_variant::get_ball_kill_points() const
 {
 	return m_ball_kill_points;
 }
 
-void c_game_engine_oddball_variant::set_ball_kill_points(char ball_kill_points)
+void c_game_engine_oddball_variant::set_ball_kill_points(int8 ball_kill_points)
 {
 	if (!VALID_INDEX(ball_kill_points + 10, 20))
 	{
@@ -198,12 +198,12 @@ void c_game_engine_oddball_variant::set_ball_kill_points(char ball_kill_points)
 	}
 }
 
-char c_game_engine_oddball_variant::get_carrier_kill_points() const
+int8 c_game_engine_oddball_variant::get_carrier_kill_points() const
 {
 	return m_carrier_kill_points;
 }
 
-void c_game_engine_oddball_variant::set_carrier_kill_points(char carrier_kill_points)
+void c_game_engine_oddball_variant::set_carrier_kill_points(int8 carrier_kill_points)
 {
 	if (!VALID_INDEX(carrier_kill_points + 10, 20))
 	{
@@ -217,12 +217,12 @@ void c_game_engine_oddball_variant::set_carrier_kill_points(char carrier_kill_po
 	}
 }
 
-char c_game_engine_oddball_variant::get_ball_count() const
+int8 c_game_engine_oddball_variant::get_ball_count() const
 {
 	return m_ball_count;
 }
 
-void c_game_engine_oddball_variant::set_ball_count(char ball_count)
+void c_game_engine_oddball_variant::set_ball_count(int8 ball_count)
 {
 	if (!VALID_INDEX(ball_count - 1, 2))
 	{

@@ -170,7 +170,7 @@ void c_network_session_membership::set_player_properties(int32 player_index, int
 		update_increment = true;
 	}
 
-	if (csmemcmp(&player->configuration.host.weapon.loadouts[0].consumables, &player_data->host_partial.consumables, sizeof(c_static_array<char, 4>)))
+	if (csmemcmp(&player->configuration.host.weapon.loadouts[0].consumables, &player_data->host_partial.consumables, sizeof(c_static_array<int8, 4>)))
 	{
 		player->configuration.host.weapon.loadouts[0].consumables = player_data->host_partial.consumables;
 		update_increment = true;

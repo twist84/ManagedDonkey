@@ -75,7 +75,7 @@ void __cdecl ai_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp
 		actor_iterator_new(&actor_iter, false);
 		for (actor_datum* actor = actor_iterator_next(&actor_iter); actor; actor = actor_iterator_next(&actor_iter))
 		{
-			char bsp_index = actor->input.position.body_location.cluster_reference.bsp_index;
+			int8 bsp_index = actor->input.position.body_location.cluster_reference.bsp_index;
 			if (bsp_index != NONE && TEST_BIT(deactivating_structure_bsp_mask, bsp_index))
 			{
 				actor_set_active(actor_iter.index, true);

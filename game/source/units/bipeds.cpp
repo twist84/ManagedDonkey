@@ -47,7 +47,7 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, real_vec
 			return;
 		}
 
-		biped->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+		biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
 	}
 
 	if (object_index == NONE)
@@ -84,11 +84,11 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, real_vec
 							player_set_unit_index(biped->unit.player_index, object_index);
 
 							if (bump_object->object.object_identifier.get_type() == _object_type_biped)
-								bump_object->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+								bump_object->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
 						}
 					}
 
-					biped->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+					biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
 				}
 			}
 			else
@@ -322,7 +322,7 @@ bool __cdecl biped_update(int32 biped_index)
 	if (biped->unit.actor_index != NONE)
 	{
 		actor_datum* actor = DATUM_GET(actor_data, actor_datum, biped->unit.actor_index);
-		biped->biped.ai_combat_status = (char)actor->state.combat_status;
+		biped->biped.ai_combat_status = (int8)actor->state.combat_status;
 	}
 
 	bool result = false;

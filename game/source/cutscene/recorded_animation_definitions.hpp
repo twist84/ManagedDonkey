@@ -9,7 +9,7 @@ struct recorded_animation_definition
 {
 	char name[32];
 	uint8 version;
-	char raw_animation_data;
+	int8 raw_animation_data;
 	uint8 unit_control_data_version;
 
 	uint8 DVU[0x1];

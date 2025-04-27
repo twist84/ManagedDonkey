@@ -326,7 +326,7 @@ struct s_global_preferences
 	s_network_http_request_hash secure_signature;
 	uint8 __data14[4];
 	s_global_preferences_data data;
-	char __data41E08[0x1F8];
+	uint8 __data41E08[0x1F8];
 };
 static_assert(sizeof(s_global_preferences) == 0x42000);
 

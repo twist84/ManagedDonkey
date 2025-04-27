@@ -82,7 +82,7 @@ struct effect_definition
 	real32 continue_if_within; // world units
 
 	real32 death_delay;
-	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
+	c_enum<e_global_effect_priority, int8, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
 	uint8 pad[0x3];
 
@@ -94,8 +94,8 @@ struct effect_definition
 
 	// Looping Sound
 	s_tag_reference looping_sound;
-	char location;
-	char bind_scale_to_event;
+	int8 location;
+	int8 bind_scale_to_event;
 	int16 local_location1;
 	real32 always_play_distance;
 	real32 never_play_distance;
@@ -156,10 +156,10 @@ struct effect_part_definition
 	int16 location;
 	int16 secondary_location; // beams
 	c_flags<e_effect_part_flags, uint16, k_effect_part_flags> flags;
-	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
+	c_enum<e_global_effect_priority, int8, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
 	// Currently, the only supported use is to turn parts off in first-person view.
-	c_enum<e_effect_camera_mode, char, _effect_camera_mode_independent_of_camera_mode, k_effect_camera_mode_count> camera_mode;
+	c_enum<e_effect_camera_mode, int8, _effect_camera_mode_independent_of_camera_mode, k_effect_camera_mode_count> camera_mode;
 
 	tag base_group_tag;
 	effect_part_definition_type_group_tags type;

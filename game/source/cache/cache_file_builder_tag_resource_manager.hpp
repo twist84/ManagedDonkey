@@ -32,7 +32,7 @@ struct s_cache_file_resource_file_location
 	int16 resource_handle_salt;
 
 	c_flags<e_cache_file_tag_resource_location_flags, uint8, k_cache_file_tag_resource_location_flags> flags;
-	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
+	c_enum<e_cache_file_compression_codec, int8, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
 
 	union
 	{
@@ -54,13 +54,13 @@ struct s_render_texture_format
 {
 	int16 width;
 	int16 height;
-	char depth;
-	char mipmap_count_including_highest;
-	char bitmap_type;
-	char is_high_res_bitmap;
+	int8 depth;
+	int8 mipmap_count_including_highest;
+	int8 bitmap_type;
+	int8 is_high_res_bitmap;
 	uint32 xenon_d3d_format;
-	char bm_format;
-	char bm_curve;
+	int8 bm_format;
+	int8 bm_curve;
 	uint16 bm_flags;
 };
 static_assert(sizeof(s_render_texture_format) == 0x10);
@@ -99,8 +99,8 @@ struct s_cache_file_resource_runtime_data_new
 {
 	s_tag_reference owner_tag;
 	int16 resource_salt;
-	c_enum<e_cache_file_resource_type, char, _cache_file_resource_type_structure_bsp_cache_file_tag_resources, k_cache_file_resource_type_count> resource_type;
-	char control_alignment_bits;
+	c_enum<e_cache_file_resource_type, int8, _cache_file_resource_type_structure_bsp_cache_file_tag_resources, k_cache_file_resource_type_count> resource_type;
+	int8 control_alignment_bits;
 	c_typed_tag_data<control_data_t> control_data;
 	c_tag_resource_fixup root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;

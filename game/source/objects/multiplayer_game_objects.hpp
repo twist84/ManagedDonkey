@@ -90,7 +90,7 @@ enum e_multiplayer_object_boundary_shape
 
 	k_multiplayer_object_boundary_count
 };
-using c_multiplayer_object_boundary_shape = c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count>;
+using c_multiplayer_object_boundary_shape = c_enum<e_multiplayer_object_boundary_shape, int8, _shape_unused, k_multiplayer_object_boundary_count>;
 
 enum e_multiplayer_object_spawn_timer_type
 {
@@ -125,17 +125,17 @@ struct s_multiplayer_object_properties_definition
 	// TYPE AND FLAGS
 	// Type pertains to how you want the game engine to handle this object
 	// Certain flags applicable only to certain object types, should be self evident
-	c_enum<e_multiplayer_object_type, char, _multiplayer_object_type_ordinary, k_multiplayer_object_type_count> type;
+	c_enum<e_multiplayer_object_type, int8, _multiplayer_object_type_ordinary, k_multiplayer_object_type_count> type;
 	c_flags<e_teleporter_passability_flags, uint8, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
 	c_flags<e_multiplayer_object_data_flags, uint16, k_multiplayer_object_data_tag_flags_count> flags;
 
 	// GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones
-	c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
+	c_enum<e_multiplayer_object_boundary_shape, int8, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
 
 	// SPAWNING DATA
 	// These fields are used for default spawning times and remapping
-	c_enum<e_multiplayer_object_spawn_timer_type, char, _timer_starts_on_death, k_number_of_multiplayer_object_spawn_timer_types> spawn_timer_type;
+	c_enum<e_multiplayer_object_spawn_timer_type, int8, _timer_starts_on_death, k_number_of_multiplayer_object_spawn_timer_types> spawn_timer_type;
 	int16 default_spawn_time; // seconds
 	int16 default_abandonment_time; // seconds
 

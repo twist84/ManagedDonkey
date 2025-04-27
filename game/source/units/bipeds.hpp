@@ -20,10 +20,10 @@ struct _biped_datum
 	real_point3d pathfinding_ground_collision_point;
 	int32 last_falling_communication_time;
 	int32 bump_object_index;
-	char bump_ticks;
-	char jump_control_ticks;
+	int8 bump_ticks;
+	int8 jump_control_ticks;
 	uint8 stun_ticks;
-	char last_known_speed_scale;
+	int8 last_known_speed_scale;
 	real32 lean;
 	real32 camera_offset_z;
 	real32 camera_offset_y;
@@ -63,7 +63,7 @@ struct _biped_datum
 	int32 character_definition_index;
 	int16 death_squad_index;
 	uint8 airborne_intentional_ticks;
-	char ai_combat_status;
+	int8 ai_combat_status;
 };
 static_assert(sizeof(_biped_datum) == 0x2C8);
 

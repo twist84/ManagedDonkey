@@ -4,7 +4,7 @@
 
 struct c_candy_spawner
 {
-	char m_flags;
+	int8 m_flags;
 	int32 m_map_variant_index;
 	int32 m_last_object_spawned_index;
 	int16 m_respawn_timer_seconds;

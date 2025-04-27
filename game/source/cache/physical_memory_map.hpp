@@ -42,7 +42,7 @@ struct s_physical_memory_stage
 {
 	uint32 low_address;
 	uint32 high_address;
-	char* next_available_zero_allocation;
+	int8* next_available_zero_allocation;
 	uint32 allocation_count;
 	uint32 fixed_address_allocation_count;
 };
@@ -63,7 +63,7 @@ struct s_physical_memory_globals
 	int32 current_stage;
 	uint32 minimum_address;
 	uint32 maximum_address;
-	char* no_mans_land;
+	int8* no_mans_land;
 	c_static_array<s_physical_memory_stage, k_memory_stage_count> memory_stages;
 };
 static_assert(sizeof(s_physical_memory_globals) == 0xB4);

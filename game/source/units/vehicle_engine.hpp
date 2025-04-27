@@ -7,8 +7,8 @@ struct s_vehicle_engine
 	real32 cruising_to_loaded_transition;
 	real32 engine_angular_velocity;
 	real32 torque_from_wheels;
-	char gear;
-	char desired_gear;
+	int8 gear;
+	int8 desired_gear;
 	uint8 shift_counter;
 	uint8 clutch_in_ticks;
 	uint8 ticks_in_gear;

@@ -56,7 +56,7 @@ bool __cdecl c_network_message_player_properties::decode(c_bitstream* packet, in
 			message->player_data.host_partial.armors[armor_index] = static_cast<uint8>(packet->read_integer("armor", 8));
 
 		for (int32 consumable_index = 0; consumable_index < 4; consumable_index++)
-			message->player_data.host_partial.consumables[consumable_index] = static_cast<char>(packet->read_integer("consumable", 8));
+			message->player_data.host_partial.consumables[consumable_index] = static_cast<int8>(packet->read_integer("consumable", 8));
 	}
 
 	message->player_voice = packet->read_integer("player-voice", 32);

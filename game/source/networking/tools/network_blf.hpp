@@ -70,7 +70,7 @@ public:
 	s_blf_header header;
 
 	int32 file_size;
-	c_enum<e_blf_file_authentication_type, char, _blf_file_authentication_type_none, k_blf_file_authentication_type_count> authentication_type;
+	c_enum<e_blf_file_authentication_type, int8, _blf_file_authentication_type_none, k_blf_file_authentication_type_count> authentication_type;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
 
@@ -417,10 +417,10 @@ struct s_blf_chunk_scenario
 	int32 presence_context_id;
 	int32 sort_order;
 
-	char mp_minimum_desired_players;
-	char mp_maximum_desired_players;
+	int8 mp_minimum_desired_players;
+	int8 mp_maximum_desired_players;
 
-	char maximum_teams[k_game_engine_type_count];
+	int8 maximum_teams[k_game_engine_type_count];
 
 	bool allows_saved_films;
 

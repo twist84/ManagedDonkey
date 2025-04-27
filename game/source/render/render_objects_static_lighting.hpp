@@ -61,8 +61,8 @@ struct object_render_state :
 	real_point3d refresh_sample_position;
 	render_lighting desired_lighting;
 	s_shader_extern_info render_info;
-	char last_level_of_detail_rendered;
-	char last_rendered_permutation_indices[4][16];
+	int8 last_level_of_detail_rendered;
+	int8 last_rendered_permutation_indices[4][16];
 };
 static_assert(sizeof(object_render_state) == 0x4D8);
 

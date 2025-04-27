@@ -169,7 +169,7 @@ uint32 __cdecl crc32(uint32 crc, const uint8* buf, uint32 len)
 		{
 			uint32 crc = static_cast<uint32>(uint8);
 
-			for (char bit = 0; bit < 8; bit++)
+			for (int8 bit = 0; bit < 8; bit++)
 			{
 				if (TEST_BIT(crc, 0))
 					crc = (crc >> 1) ^ 0xEDB88320;

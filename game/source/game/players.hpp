@@ -67,9 +67,9 @@ struct s_emblem_info
 	uint8 foreground_emblem_index;
 	uint8 background_emblem_index;
 	c_flags<e_emblem_info_flags, uint8, k_emblem_info_flags_count> emblem_info_flags;
-	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> primary_color_index;
-	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> secondary_color_index;
-	c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> background_color_index;
+	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> primary_color_index;
+	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> secondary_color_index;
+	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> background_color_index;
 	uint16 pad;
 
 	uint8 __pad8[0x648];
@@ -128,8 +128,8 @@ struct s_s3d_player_weapon_configuration_loadout
 {
 	uint8 primary_weapon_index;
 	uint8 secondary_weapon_index;
-	c_enum<e_grenade_type, char, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_index;
-	c_static_array<char, 4> consumables;
+	c_enum<e_grenade_type, int8, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_index;
+	c_static_array<int8, 4> consumables;
 
 	// using this uint8 for our implementation
 	c_flags<e_bungienet_user, uint8, k_bungienet_user_count> bungienet_user;
@@ -247,9 +247,9 @@ struct multiplayer_player_info
 {
 	int32 player_display_index;
 	int16 teleporter_index;
-	char in_vehicle_timer;
-	char without_unit_timer;
-	char with_unit_timer;
+	int8 in_vehicle_timer;
+	int8 without_unit_timer;
+	int8 with_unit_timer;
 	bool was_crouched;
 	bool is_crouched;
 	uint8 pad;

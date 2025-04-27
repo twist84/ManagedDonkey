@@ -8,8 +8,8 @@ __interface IDirect3DPixelShader9;
 
 struct s_compiled_shader_reference
 {
-	char start_index;
-	char count;
+	int8 start_index;
+	int8 count;
 };
 static_assert(sizeof(s_compiled_shader_reference) == 0x2);
 
@@ -24,7 +24,7 @@ static_assert(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_blo
 struct c_rasterizer_constant_table_definition
 {
 	s_tag_block constants;
-	c_enum<e_rasterizer_constant_table_type, char, _rasterizer_constant_table_type_vertex, k_rasterizer_constant_table_type_count> type;
+	c_enum<e_rasterizer_constant_table_type, int8, _rasterizer_constant_table_type_vertex, k_rasterizer_constant_table_type_count> type;
 
 	// pad
 	uint8 qersaui[0x3];

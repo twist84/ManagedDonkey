@@ -24,7 +24,7 @@ static_assert(sizeof(s_font_loading_state) == 0x148);
 struct s_kerning_pair
 {
 	uint8 second_character;
-	char offset;
+	int8 offset;
 };
 static_assert(sizeof(s_kerning_pair) == 0x2);
 

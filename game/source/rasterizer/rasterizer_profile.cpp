@@ -131,12 +131,12 @@ void rasterizer_profile_update()
 
 void rasterizer_profile_start_element_timer(e_rasterizer_profile_elements profile_element_index)
 {
-	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (unsigned char)g_rasterizer_profile_globals.get_current_frame_reference(), true);
+	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uint8)g_rasterizer_profile_globals.get_current_frame_reference(), true);
 }
 
 void rasterizer_profile_stop_element_timer(e_rasterizer_profile_elements profile_element_index)
 {
-	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (unsigned char)g_rasterizer_profile_globals.get_current_frame_reference(), false);
+	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uint8)g_rasterizer_profile_globals.get_current_frame_reference(), false);
 }
 
 void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode)
@@ -290,13 +290,13 @@ void c_rasterizer_profile_globals::set_mode(e_rasterizer_profile_modes mode)
 	m_mode = mode;
 }
 
-void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_elements profile_element_index, unsigned char frame_reference, bool start)
+void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uint8 frame_reference, bool start)
 {
 	//if (get_mode())
 	//{
 	//	ASSERT(profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count);
 	//
-	//	unsigned char start_flag = start ? 0x8000 : 0;
+	//	uint8 start_flag = start ? 0x8000 : 0;
 	//
 	//	ASSERT(c_rasterizer::get_device() != NULL);
 	//	c_rasterizer::get_device()->InsertCallback(

@@ -39,9 +39,9 @@ struct effect_datum :
 	int32 object_index;
 	s_damage_owner damage_owner;
 	s_damage_reporting_info damage_reporting_info;
-	char first_person_player_user_mask;
-	char first_person_weapon_user_mask;
-	char first_person_weapon_user_index;
+	int8 first_person_player_user_mask;
+	int8 first_person_weapon_user_mask;
+	int8 first_person_weapon_user_index;
 	int32 parent_particle_index;
 	int32 event_datum_head;
 	real32 scale_a;

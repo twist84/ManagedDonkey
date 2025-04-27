@@ -97,7 +97,7 @@ public:
 	e_rasterizer_profile_modes get_mode();
 	void set_mode(e_rasterizer_profile_modes mode);
 
-	void toggle_element_timer(e_rasterizer_profile_elements profile_element_index, unsigned char frame_reference, bool a3);
+	void toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uint8 frame_reference, bool a3);
 	static void frame_time_callback(uint32);
 
 protected:

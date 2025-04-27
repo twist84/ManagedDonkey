@@ -280,10 +280,10 @@ struct s_vehicle_alien_scout_definition
 
 	// specific types
 	// different types are treated differently alien scout controller
-	c_enum<e_specific_type, char, _specific_type_none, k_specific_type_count> specific_type;
+	c_enum<e_specific_type, int8, _specific_type_none, k_specific_type_count> specific_type;
 
 	c_flags<e_flags, uint8, k_flags_count> flags;
-	char pad[0x2];
+	int8 pad[0x2];
 
 	real32 drag_coeficient;
 	real32 constant_deceleration;
@@ -387,9 +387,9 @@ struct s_walker_physics_leg
 {
 	// walker physics
 
-	c_enum<e_walker_physics_leg_group, char, _walker_physics_leg_group_primary, k_walker_physics_leg_group_count> leg_group;
-	c_enum<e_walker_physics_leg_side, char, _walker_physics_leg_side_left, k_walker_physics_leg_side_count> leg_side;
-	char leg_side_order;
+	c_enum<e_walker_physics_leg_group, int8, _walker_physics_leg_group_primary, k_walker_physics_leg_group_count> leg_group;
+	c_enum<e_walker_physics_leg_side, int8, _walker_physics_leg_side_left, k_walker_physics_leg_side_count> leg_side;
+	int8 leg_side_order;
 	bool valid;
 	c_string_id hip_node_a_name;
 	c_string_id hip_node_b_name;
@@ -616,10 +616,10 @@ struct _vehicle_definition
 	// friction and antigravity points
 	s_havok_vehicle_physics_definition physics;
 
-	c_enum<e_player_training_vehicle_type, char, _player_training_vehicle_type_none, k_player_training_vehicle_type_count> training_type;
+	c_enum<e_player_training_vehicle_type, int8, _player_training_vehicle_type_none, k_player_training_vehicle_type_count> training_type;
 
 	// The size determine what kind of seats in larger vehicles it may occupy (i.e. small or large cargo seats)
-	c_enum<e_vehicle_size, char, _vehicle_size_small, k_vehicle_size_count> vehicle_size;
+	c_enum<e_vehicle_size, int8, _vehicle_size_small, k_vehicle_size_count> vehicle_size;
 	int16 pad;
 
 	real32 minimum_flipping_angular_velocity;

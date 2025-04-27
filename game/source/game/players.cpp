@@ -1021,12 +1021,12 @@ void __cdecl players_verify()
 
 void s_emblem_info::decode(c_bitstream* packet)
 {
-	foreground_emblem_index = (char)packet->read_integer("foreground-emblem", 6);
-	background_emblem_index = (char)packet->read_integer("background-emblem", 6);
+	foreground_emblem_index = (uint8)packet->read_integer("foreground-emblem", 6);
+	background_emblem_index = (uint8)packet->read_integer("background-emblem", 6);
 	emblem_info_flags.set_unsafe((uint8)packet->read_integer("emblem-flags", 3));
-	primary_color_index.set_raw_value((char)packet->read_integer("emblem-primary-color", 6));
-	secondary_color_index.set_raw_value((char)packet->read_integer("emblem-secondary-color", 6));
-	background_color_index.set_raw_value((char)packet->read_integer("emblem-background-color", 6));
+	primary_color_index.set_raw_value((int8)packet->read_integer("emblem-primary-color", 6));
+	secondary_color_index.set_raw_value((int8)packet->read_integer("emblem-secondary-color", 6));
+	background_color_index.set_raw_value((int8)packet->read_integer("emblem-background-color", 6));
 }
 
 void s_emblem_info::encode(c_bitstream* packet)

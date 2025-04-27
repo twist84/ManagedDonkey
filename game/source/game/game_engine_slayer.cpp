@@ -51,19 +51,19 @@ void c_game_engine_slayer_variant::encode_to_mcc(c_bitstream* packet) const
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
 	int16 score_to_win = get_score_to_win();
-	char kill_points = get_kill_points();
-	char assist_points = get_assist_points();
-	char death_points = get_death_points();
-	char suicide_points = get_suicide_points();
-	char betrayal_points = get_betrayal_points();
-	char leader_killed_points = get_leader_killed_points();
-	char elimination_points = get_elimination_points();
-	char assassination_points = get_assassination_points();
-	char headshot_points = get_headshot_points();
-	char melee_points = get_melee_points();
-	char sticky_points = get_sticky_points();
-	char splatter_points = get_splatter_points();
-	char killing_spree_points = get_killing_spree_points();
+	int8 kill_points = get_kill_points();
+	int8 assist_points = get_assist_points();
+	int8 death_points = get_death_points();
+	int8 suicide_points = get_suicide_points();
+	int8 betrayal_points = get_betrayal_points();
+	int8 leader_killed_points = get_leader_killed_points();
+	int8 elimination_points = get_elimination_points();
+	int8 assassination_points = get_assassination_points();
+	int8 headshot_points = get_headshot_points();
+	int8 melee_points = get_melee_points();
+	int8 sticky_points = get_sticky_points();
+	int8 splatter_points = get_splatter_points();
+	int8 killing_spree_points = get_killing_spree_points();
 
 	packet->write_signed_integer("slayer-score-to-win", score_to_win, 10);
 	packet->write_signed_integer("slayer-kill-points", kill_points, 5);
@@ -87,19 +87,19 @@ void c_game_engine_slayer_variant::decode_from_mcc(c_bitstream* packet)
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
 	int16 score_to_win = static_cast<int16>(packet->read_signed_integer("slayer-score-to-win", 10));
-	char kill_points = static_cast<char>(packet->read_signed_integer("slayer-kill-points", 5));
-	char assist_points = static_cast<char>(packet->read_signed_integer("slayer-assist-points", 5));
-	char death_points = static_cast<char>(packet->read_signed_integer("slayer-death-points", 5));
-	char suicide_points = static_cast<char>(packet->read_signed_integer("slayer-suicide-points", 5));
-	char betrayal_points = static_cast<char>(packet->read_signed_integer("slayer-betrayal-points", 5));
-	char leader_killed_points = static_cast<char>(packet->read_signed_integer("slayer-leader-killed-points", 5));
-	char elimination_points = static_cast<char>(packet->read_signed_integer("slayer-elimination-points", 5));
-	char assassination_points = static_cast<char>(packet->read_signed_integer("slayer-assassination-points", 5));
-	char headshot_points = static_cast<char>(packet->read_signed_integer("slayer-headshot-points", 5));
-	char melee_points = static_cast<char>(packet->read_signed_integer("slayer-melee-points", 5));
-	char sticky_points = static_cast<char>(packet->read_signed_integer("slayer-sticky-points", 5));
-	char splatter_points = static_cast<char>(packet->read_signed_integer("slayer-splatter-points", 5));
-	char killing_spree_points = static_cast<char>(packet->read_signed_integer("slayer-killing-spree-points", 5));
+	int8 kill_points = static_cast<int8>(packet->read_signed_integer("slayer-kill-points", 5));
+	int8 assist_points = static_cast<int8>(packet->read_signed_integer("slayer-assist-points", 5));
+	int8 death_points = static_cast<int8>(packet->read_signed_integer("slayer-death-points", 5));
+	int8 suicide_points = static_cast<int8>(packet->read_signed_integer("slayer-suicide-points", 5));
+	int8 betrayal_points = static_cast<int8>(packet->read_signed_integer("slayer-betrayal-points", 5));
+	int8 leader_killed_points = static_cast<int8>(packet->read_signed_integer("slayer-leader-killed-points", 5));
+	int8 elimination_points = static_cast<int8>(packet->read_signed_integer("slayer-elimination-points", 5));
+	int8 assassination_points = static_cast<int8>(packet->read_signed_integer("slayer-assassination-points", 5));
+	int8 headshot_points = static_cast<int8>(packet->read_signed_integer("slayer-headshot-points", 5));
+	int8 melee_points = static_cast<int8>(packet->read_signed_integer("slayer-melee-points", 5));
+	int8 sticky_points = static_cast<int8>(packet->read_signed_integer("slayer-sticky-points", 5));
+	int8 splatter_points = static_cast<int8>(packet->read_signed_integer("slayer-splatter-points", 5));
+	int8 killing_spree_points = static_cast<int8>(packet->read_signed_integer("slayer-killing-spree-points", 5));
 	get_leader_traits_writeable()->decode_from_mcc(packet);
 
 	set_score_to_win(score_to_win);
@@ -137,12 +137,12 @@ void c_game_engine_slayer_variant::set_score_to_win(int16 score_to_win)
 	}
 }
 
-char c_game_engine_slayer_variant::get_kill_points() const
+int8 c_game_engine_slayer_variant::get_kill_points() const
 {
 	return m_kill_points;
 }
 
-void c_game_engine_slayer_variant::set_kill_points(char kill_points)
+void c_game_engine_slayer_variant::set_kill_points(int8 kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
@@ -156,12 +156,12 @@ void c_game_engine_slayer_variant::set_kill_points(char kill_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_assist_points() const
+int8 c_game_engine_slayer_variant::get_assist_points() const
 {
 	return m_assist_points;
 }
 
-void c_game_engine_slayer_variant::set_assist_points(char assist_points)
+void c_game_engine_slayer_variant::set_assist_points(int8 assist_points)
 {
 	if (!VALID_INDEX(assist_points + 10, 20))
 	{
@@ -175,12 +175,12 @@ void c_game_engine_slayer_variant::set_assist_points(char assist_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_death_points() const
+int8 c_game_engine_slayer_variant::get_death_points() const
 {
 	return m_death_points;
 }
 
-void c_game_engine_slayer_variant::set_death_points(char death_points)
+void c_game_engine_slayer_variant::set_death_points(int8 death_points)
 {
 	if (!VALID_INDEX(death_points + 10, 20))
 	{
@@ -194,12 +194,12 @@ void c_game_engine_slayer_variant::set_death_points(char death_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_suicide_points() const
+int8 c_game_engine_slayer_variant::get_suicide_points() const
 {
 	return m_suicide_points;
 }
 
-void c_game_engine_slayer_variant::set_suicide_points(char suicide_points)
+void c_game_engine_slayer_variant::set_suicide_points(int8 suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
@@ -213,12 +213,12 @@ void c_game_engine_slayer_variant::set_suicide_points(char suicide_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_betrayal_points() const
+int8 c_game_engine_slayer_variant::get_betrayal_points() const
 {
 	return m_betrayal_points;
 }
 
-void c_game_engine_slayer_variant::set_betrayal_points(char betrayal_points)
+void c_game_engine_slayer_variant::set_betrayal_points(int8 betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
@@ -232,12 +232,12 @@ void c_game_engine_slayer_variant::set_betrayal_points(char betrayal_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_leader_killed_points() const
+int8 c_game_engine_slayer_variant::get_leader_killed_points() const
 {
 	return m_leader_killed_points;
 }
 
-void c_game_engine_slayer_variant::set_leader_killed_points(char leader_killed_points)
+void c_game_engine_slayer_variant::set_leader_killed_points(int8 leader_killed_points)
 {
 	if (!VALID_INDEX(leader_killed_points + 10, 20))
 	{
@@ -251,12 +251,12 @@ void c_game_engine_slayer_variant::set_leader_killed_points(char leader_killed_p
 	}
 }
 
-char c_game_engine_slayer_variant::get_elimination_points() const
+int8 c_game_engine_slayer_variant::get_elimination_points() const
 {
 	return m_elimination_points;
 }
 
-void c_game_engine_slayer_variant::set_elimination_points(char elimination_points)
+void c_game_engine_slayer_variant::set_elimination_points(int8 elimination_points)
 {
 	if (!VALID_INDEX(elimination_points + 10, 20))
 	{
@@ -270,12 +270,12 @@ void c_game_engine_slayer_variant::set_elimination_points(char elimination_point
 	}
 }
 
-char c_game_engine_slayer_variant::get_assassination_points() const
+int8 c_game_engine_slayer_variant::get_assassination_points() const
 {
 	return m_assassination_points;
 }
 
-void c_game_engine_slayer_variant::set_assassination_points(char assassination_points)
+void c_game_engine_slayer_variant::set_assassination_points(int8 assassination_points)
 {
 	if (!VALID_INDEX(assassination_points + 10, 20))
 	{
@@ -289,12 +289,12 @@ void c_game_engine_slayer_variant::set_assassination_points(char assassination_p
 	}
 }
 
-char c_game_engine_slayer_variant::get_headshot_points() const
+int8 c_game_engine_slayer_variant::get_headshot_points() const
 {
 	return m_headshot_points;
 }
 
-void c_game_engine_slayer_variant::set_headshot_points(char headshot_points)
+void c_game_engine_slayer_variant::set_headshot_points(int8 headshot_points)
 {
 	if (!VALID_INDEX(headshot_points + 10, 20))
 	{
@@ -308,12 +308,12 @@ void c_game_engine_slayer_variant::set_headshot_points(char headshot_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_melee_points() const
+int8 c_game_engine_slayer_variant::get_melee_points() const
 {
 	return m_melee_points;
 }
 
-void c_game_engine_slayer_variant::set_melee_points(char melee_points)
+void c_game_engine_slayer_variant::set_melee_points(int8 melee_points)
 {
 	if (!VALID_INDEX(melee_points + 10, 20))
 	{
@@ -327,12 +327,12 @@ void c_game_engine_slayer_variant::set_melee_points(char melee_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_sticky_points() const
+int8 c_game_engine_slayer_variant::get_sticky_points() const
 {
 	return m_sticky_points;
 }
 
-void c_game_engine_slayer_variant::set_sticky_points(char sticky_points)
+void c_game_engine_slayer_variant::set_sticky_points(int8 sticky_points)
 {
 	if (!VALID_INDEX(sticky_points + 10, 20))
 	{
@@ -346,12 +346,12 @@ void c_game_engine_slayer_variant::set_sticky_points(char sticky_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_splatter_points() const
+int8 c_game_engine_slayer_variant::get_splatter_points() const
 {
 	return m_splatter_points;
 }
 
-void c_game_engine_slayer_variant::set_splatter_points(char splatter_points)
+void c_game_engine_slayer_variant::set_splatter_points(int8 splatter_points)
 {
 	if (!VALID_INDEX(splatter_points + 10, 20))
 	{
@@ -365,12 +365,12 @@ void c_game_engine_slayer_variant::set_splatter_points(char splatter_points)
 	}
 }
 
-char c_game_engine_slayer_variant::get_killing_spree_points() const
+int8 c_game_engine_slayer_variant::get_killing_spree_points() const
 {
 	return m_killing_spree_points;
 }
 
-void c_game_engine_slayer_variant::set_killing_spree_points(char killing_spree_points)
+void c_game_engine_slayer_variant::set_killing_spree_points(int8 killing_spree_points)
 {
 	if (!VALID_INDEX(killing_spree_points + 10, 20))
 	{

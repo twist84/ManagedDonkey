@@ -65,12 +65,12 @@ void c_game_engine_juggernaut_variant::encode_to_mcc(c_bitstream* packet) const
 	e_juggernaut_next_juggernaut_settings next_juggernaut = get_next_juggernaut();
 	e_juggernaut_zone_movement_settings zone_movement = get_zone_movement();
 	e_juggernaut_zone_order_settings zone_order = get_zone_order();
-	char kill_points = get_kill_points();
-	char juggernaut_kill_points = get_juggernaut_kill_points();
-	char kill_as_juggernaut_points = get_kill_as_juggernaut_points();
-	char destination_arrival_points = get_destination_arrival_points();
-	char suicide_points = get_suicide_points();
-	char betrayal_points = get_betrayal_points();
+	int8 kill_points = get_kill_points();
+	int8 juggernaut_kill_points = get_juggernaut_kill_points();
+	int8 kill_as_juggernaut_points = get_kill_as_juggernaut_points();
+	int8 destination_arrival_points = get_destination_arrival_points();
+	int8 suicide_points = get_suicide_points();
+	int8 betrayal_points = get_betrayal_points();
 	uint8 juggernaut_delay = get_juggernaut_delay();
 
 	packet->write_bool("juggernaut-allied-against-juggernaut", allied_against_juggernaut);
@@ -103,12 +103,12 @@ void c_game_engine_juggernaut_variant::decode_from_mcc(c_bitstream* packet)
 	e_juggernaut_next_juggernaut_settings next_juggernaut = packet->read_enum<e_juggernaut_next_juggernaut_settings, 2>("juggernaut-next-juggernaut");
 	e_juggernaut_zone_movement_settings zone_movement = packet->read_enum<e_juggernaut_zone_movement_settings, 4>("juggernaut-zone-movement");
 	e_juggernaut_zone_order_settings zone_order = packet->read_enum<e_juggernaut_zone_order_settings, 1>("juggernaut-zone-order");
-	char kill_points = static_cast<char>(packet->read_signed_integer("juggernaut-kill-points", 5));
-	char juggernaut_kill_points = static_cast<char>(packet->read_signed_integer("juggernaut-juggernaut-kill-points", 5));
-	char kill_as_juggernaut_points = static_cast<char>(packet->read_signed_integer("juggernaut-kill-as-juggernaut-points", 5));
-	char destination_arrival_points = static_cast<char>(packet->read_signed_integer("juggernaut-destination-arrival-points", 5));
-	char suicide_points = static_cast<char>(packet->read_signed_integer("juggernaut-suicide-points", 5));
-	char betrayal_points = static_cast<char>(packet->read_signed_integer("juggernaut-betrayal-points", 5));
+	int8 kill_points = static_cast<int8>(packet->read_signed_integer("juggernaut-kill-points", 5));
+	int8 juggernaut_kill_points = static_cast<int8>(packet->read_signed_integer("juggernaut-juggernaut-kill-points", 5));
+	int8 kill_as_juggernaut_points = static_cast<int8>(packet->read_signed_integer("juggernaut-kill-as-juggernaut-points", 5));
+	int8 destination_arrival_points = static_cast<int8>(packet->read_signed_integer("juggernaut-destination-arrival-points", 5));
+	int8 suicide_points = static_cast<int8>(packet->read_signed_integer("juggernaut-suicide-points", 5));
+	int8 betrayal_points = static_cast<int8>(packet->read_signed_integer("juggernaut-betrayal-points", 5));
 	uint8 juggernaut_delay = static_cast<uint8>(packet->read_integer("juggernaut-juggernaut-delay", 4));
 	get_juggernaut_traits_writeable()->decode_from_mcc(packet);
 
@@ -257,12 +257,12 @@ void c_game_engine_juggernaut_variant::set_zone_order(e_juggernaut_zone_order_se
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_kill_points() const
+int8 c_game_engine_juggernaut_variant::get_kill_points() const
 {
 	return m_kill_points;
 }
 
-void c_game_engine_juggernaut_variant::set_kill_points(char kill_points)
+void c_game_engine_juggernaut_variant::set_kill_points(int8 kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
@@ -276,12 +276,12 @@ void c_game_engine_juggernaut_variant::set_kill_points(char kill_points)
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_juggernaut_kill_points() const
+int8 c_game_engine_juggernaut_variant::get_juggernaut_kill_points() const
 {
 	return m_juggernaut_kill_points;
 }
 
-void c_game_engine_juggernaut_variant::set_juggernaut_kill_points(char juggernaut_kill_points)
+void c_game_engine_juggernaut_variant::set_juggernaut_kill_points(int8 juggernaut_kill_points)
 {
 	if (!VALID_INDEX(juggernaut_kill_points + 10, 20))
 	{
@@ -295,12 +295,12 @@ void c_game_engine_juggernaut_variant::set_juggernaut_kill_points(char juggernau
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_kill_as_juggernaut_points() const
+int8 c_game_engine_juggernaut_variant::get_kill_as_juggernaut_points() const
 {
 	return m_kill_as_juggernaut_points;
 }
 
-void c_game_engine_juggernaut_variant::set_kill_as_juggernaut_points(char kill_as_juggernaut_points)
+void c_game_engine_juggernaut_variant::set_kill_as_juggernaut_points(int8 kill_as_juggernaut_points)
 {
 	if (!VALID_INDEX(kill_as_juggernaut_points + 10, 20))
 	{
@@ -314,12 +314,12 @@ void c_game_engine_juggernaut_variant::set_kill_as_juggernaut_points(char kill_a
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_destination_arrival_points() const
+int8 c_game_engine_juggernaut_variant::get_destination_arrival_points() const
 {
 	return m_destination_arrival_points;
 }
 
-void c_game_engine_juggernaut_variant::set_destination_arrival_points(char destination_arrival_points)
+void c_game_engine_juggernaut_variant::set_destination_arrival_points(int8 destination_arrival_points)
 {
 	if (!VALID_INDEX(destination_arrival_points + 10, 20))
 	{
@@ -333,12 +333,12 @@ void c_game_engine_juggernaut_variant::set_destination_arrival_points(char desti
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_suicide_points() const
+int8 c_game_engine_juggernaut_variant::get_suicide_points() const
 {
 	return m_suicide_points;
 }
 
-void c_game_engine_juggernaut_variant::set_suicide_points(char suicide_points)
+void c_game_engine_juggernaut_variant::set_suicide_points(int8 suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
@@ -352,12 +352,12 @@ void c_game_engine_juggernaut_variant::set_suicide_points(char suicide_points)
 	}
 }
 
-char c_game_engine_juggernaut_variant::get_betrayal_points() const
+int8 c_game_engine_juggernaut_variant::get_betrayal_points() const
 {
 	return m_betrayal_points;
 }
 
-void c_game_engine_juggernaut_variant::set_betrayal_points(char betrayal_points)
+void c_game_engine_juggernaut_variant::set_betrayal_points(int8 betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{

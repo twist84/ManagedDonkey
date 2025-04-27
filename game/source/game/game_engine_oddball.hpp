@@ -34,20 +34,20 @@ public:
 	int16 get_score_to_win() const;
 	void set_score_to_win(int16 score_to_win);
 
-	char get_carrying_points() const;
-	void set_carrying_points(char carrying_points);
+	int8 get_carrying_points() const;
+	void set_carrying_points(int8 carrying_points);
 
-	char get_kill_points() const;
-	void set_kill_points(char kill_points);
+	int8 get_kill_points() const;
+	void set_kill_points(int8 kill_points);
 
-	char get_ball_kill_points() const;
-	void set_ball_kill_points(char ball_kill_points);
+	int8 get_ball_kill_points() const;
+	void set_ball_kill_points(int8 ball_kill_points);
 
-	char get_carrier_kill_points() const;
-	void set_carrier_kill_points(char carrier_kill_points);
+	int8 get_carrier_kill_points() const;
+	void set_carrier_kill_points(int8 carrier_kill_points);
 
-	char get_ball_count() const;
-	void set_ball_count(char ball_count);
+	int8 get_ball_count() const;
+	void set_ball_count(int8 ball_count);
 
 	int16 get_ball_spawn_delay() const;
 	void set_ball_spawn_delay(int16 ball_spawn_delay);
@@ -64,10 +64,10 @@ protected:
 	c_enum<int32, int16, -1, 1000> m_score_to_win;              // default: 200
 	c_enum<int32, int16, 0, 1000> m_score_unknown;              // default: 180, halo online specific
 	c_enum<int32, int16, -10, 10> m_carrying_points;            // default: 1, points per second when carrying the ball
-	c_enum<int32, char, -10, 10> m_kill_points;                 // default: 0
-	c_enum<int32, char, -10, 10> m_ball_kill_points;            // default: 0, number of points for a melee kill with the ball
-	c_enum<int32, char, -10, 10> m_carrier_kill_points;         // default: 0, number of points for killing the ball carrier
-	c_enum<int32, char, 1, 3> m_ball_count;                     // default: 1
+	c_enum<int32, int8, -10, 10> m_kill_points;                 // default: 0
+	c_enum<int32, int8, -10, 10> m_ball_kill_points;            // default: 0, number of points for a melee kill with the ball
+	c_enum<int32, int8, -10, 10> m_carrier_kill_points;         // default: 0, number of points for killing the ball carrier
+	c_enum<int32, int8, 1, 3> m_ball_count;                     // default: 1
 	c_enum<int32, int16, 0, 120> m_ball_spawn_delay;            // default: 5, time until first ball spawn after round start, and also delay in respawning ball if it goes out of play
 	c_enum<int32, int16, 0, 120> m_ball_inactive_respawn_delay; // default: 30 time until ball respawns if it is inactive
 
@@ -92,8 +92,8 @@ struct s_oddball_globals
 		c_static_array<real_point3d, 5> ball_spawn_position;
 		c_static_array<int16, 5> ball_reset_timer;
 		c_static_array<int32, 5> ball_owner_player_index;
-		c_static_array<char, 5> ball_second_timer;
-		c_static_array<char, 5> ball_second_count;
+		c_static_array<int8, 5> ball_second_timer;
+		c_static_array<int8, 5> ball_second_count;
 	} networked;
 
 	struct

@@ -65,14 +65,14 @@ void c_game_engine_vip_variant::encode_to_mcc(c_bitstream* packet) const
 	bool destination_zones_enabled = get_destination_zones_enabled();
 	bool should_end_round_on_vip_death = get_should_end_round_on_vip_death();
 	int32 score_to_win_round = get_score_to_win_round();
-	char kill_points = get_kill_points();
-	char takedown_points = get_takedown_points();
-	char kill_as_vip_points = get_kill_as_vip_points();
-	char vip_death_points = get_vip_death_points();
-	char destination_arrival_points = get_destination_arrival_points();
-	char suicide_points = get_suicide_points();
-	char vip_suicide_points = get_vip_suicide_points();
-	char betrayal_points = get_betrayal_points();
+	int8 kill_points = get_kill_points();
+	int8 takedown_points = get_takedown_points();
+	int8 kill_as_vip_points = get_kill_as_vip_points();
+	int8 vip_death_points = get_vip_death_points();
+	int8 destination_arrival_points = get_destination_arrival_points();
+	int8 suicide_points = get_suicide_points();
+	int8 vip_suicide_points = get_vip_suicide_points();
+	int8 betrayal_points = get_betrayal_points();
 	e_vip_vip_selection_settings vip_selection = get_vip_selection();
 	e_vip_zone_movement_settings zone_movement = get_zone_movement();
 	e_vip_zone_order_settings zone_order = get_zone_order();
@@ -107,14 +107,14 @@ void c_game_engine_vip_variant::decode_from_mcc(c_bitstream* packet)
 	bool destination_zones_enabled = packet->read_bool("vip-destination-zones-enabled");
 	bool should_end_round_on_vip_death = packet->read_bool("vip-end-round-on-vip-death");
 	int16 score_to_win_round = static_cast<int16>(packet->read_integer("vip-score-to-win-round", 10));
-	char kill_points = static_cast<char>(packet->read_signed_integer("vip-kill-points", 5));
-	char takedown_points = static_cast<char>(packet->read_signed_integer("vip-takedown-points", 5));
-	char kill_as_vip_points = static_cast<char>(packet->read_signed_integer("vip-kill-as-vip-points", 5));
-	char vip_death_points = static_cast<char>(packet->read_signed_integer("vip-vip-death-points", 5));
-	char destination_arrival_points = static_cast<char>(packet->read_signed_integer("vip-destination-arrival-points", 5));
-	char suicide_points = static_cast<char>(packet->read_signed_integer("vip-suicide-points", 5));
-	char vip_suicide_points = static_cast<char>(packet->read_signed_integer("vip-vip-suicide-points", 5));
-	char betrayal_points = static_cast<char>(packet->read_signed_integer("vip-betrayal-points", 5));
+	int8 kill_points = static_cast<int8>(packet->read_signed_integer("vip-kill-points", 5));
+	int8 takedown_points = static_cast<int8>(packet->read_signed_integer("vip-takedown-points", 5));
+	int8 kill_as_vip_points = static_cast<int8>(packet->read_signed_integer("vip-kill-as-vip-points", 5));
+	int8 vip_death_points = static_cast<int8>(packet->read_signed_integer("vip-vip-death-points", 5));
+	int8 destination_arrival_points = static_cast<int8>(packet->read_signed_integer("vip-destination-arrival-points", 5));
+	int8 suicide_points = static_cast<int8>(packet->read_signed_integer("vip-suicide-points", 5));
+	int8 vip_suicide_points = static_cast<int8>(packet->read_signed_integer("vip-vip-suicide-points", 5));
+	int8 betrayal_points = static_cast<int8>(packet->read_signed_integer("vip-betrayal-points", 5));
 	e_vip_vip_selection_settings vip_selection = packet->read_enum<e_vip_vip_selection_settings, 2>("vip-vip-selection");
 	e_vip_zone_movement_settings zone_movement = packet->read_enum<e_vip_zone_movement_settings, 4>("vip-zone-movement");
 	e_vip_zone_order_settings zone_order = packet->read_enum<e_vip_zone_order_settings, 1>("vip-zone-order");
@@ -185,12 +185,12 @@ void c_game_engine_vip_variant::set_score_to_win_round(int16 score_to_win_round)
 	}
 }
 
-char c_game_engine_vip_variant::get_kill_points() const
+int8 c_game_engine_vip_variant::get_kill_points() const
 {
 	return m_kill_points;
 }
 
-void c_game_engine_vip_variant::set_kill_points(char kill_points)
+void c_game_engine_vip_variant::set_kill_points(int8 kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
@@ -204,12 +204,12 @@ void c_game_engine_vip_variant::set_kill_points(char kill_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_takedown_points() const
+int8 c_game_engine_vip_variant::get_takedown_points() const
 {
 	return m_takedown_points;
 }
 
-void c_game_engine_vip_variant::set_takedown_points(char takedown_points)
+void c_game_engine_vip_variant::set_takedown_points(int8 takedown_points)
 {
 	if (!VALID_INDEX(takedown_points + 10, 20))
 	{
@@ -223,12 +223,12 @@ void c_game_engine_vip_variant::set_takedown_points(char takedown_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_kill_as_vip_points() const
+int8 c_game_engine_vip_variant::get_kill_as_vip_points() const
 {
 	return m_kill_as_vip_points;
 }
 
-void c_game_engine_vip_variant::set_kill_as_vip_points(char kill_as_vip_points)
+void c_game_engine_vip_variant::set_kill_as_vip_points(int8 kill_as_vip_points)
 {
 	if (!VALID_INDEX(kill_as_vip_points + 10, 20))
 	{
@@ -242,12 +242,12 @@ void c_game_engine_vip_variant::set_kill_as_vip_points(char kill_as_vip_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_vip_death_points() const
+int8 c_game_engine_vip_variant::get_vip_death_points() const
 {
 	return m_vip_death_points;
 }
 
-void c_game_engine_vip_variant::set_vip_death_points(char vip_death_points)
+void c_game_engine_vip_variant::set_vip_death_points(int8 vip_death_points)
 {
 	if (!VALID_INDEX(vip_death_points + 10, 20))
 	{
@@ -261,12 +261,12 @@ void c_game_engine_vip_variant::set_vip_death_points(char vip_death_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_destination_arrival_points() const
+int8 c_game_engine_vip_variant::get_destination_arrival_points() const
 {
 	return m_destination_arrival_points;
 }
 
-void c_game_engine_vip_variant::set_destination_arrival_points(char destination_arrival_points)
+void c_game_engine_vip_variant::set_destination_arrival_points(int8 destination_arrival_points)
 {
 	if (!VALID_INDEX(destination_arrival_points + 10, 20))
 	{
@@ -280,12 +280,12 @@ void c_game_engine_vip_variant::set_destination_arrival_points(char destination_
 	}
 }
 
-char c_game_engine_vip_variant::get_suicide_points() const
+int8 c_game_engine_vip_variant::get_suicide_points() const
 {
 	return m_suicide_points;
 }
 
-void c_game_engine_vip_variant::set_suicide_points(char suicide_points)
+void c_game_engine_vip_variant::set_suicide_points(int8 suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
@@ -299,12 +299,12 @@ void c_game_engine_vip_variant::set_suicide_points(char suicide_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_betrayal_points() const
+int8 c_game_engine_vip_variant::get_betrayal_points() const
 {
 	return m_betrayal_points;
 }
 
-void c_game_engine_vip_variant::set_betrayal_points(char betrayal_points)
+void c_game_engine_vip_variant::set_betrayal_points(int8 betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
@@ -318,12 +318,12 @@ void c_game_engine_vip_variant::set_betrayal_points(char betrayal_points)
 	}
 }
 
-char c_game_engine_vip_variant::get_vip_suicide_points() const
+int8 c_game_engine_vip_variant::get_vip_suicide_points() const
 {
 	return m_vip_suicide_points;
 }
 
-void c_game_engine_vip_variant::set_vip_suicide_points(char vip_suicide_points)
+void c_game_engine_vip_variant::set_vip_suicide_points(int8 vip_suicide_points)
 {
 	if (!VALID_INDEX(vip_suicide_points + 10, 20))
 	{

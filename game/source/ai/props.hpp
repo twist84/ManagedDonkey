@@ -11,21 +11,21 @@ struct prop_ref_datum :
 		return object_index;
 	}
 
-	char type;
-	char dialogue_event;
-	char dialogue_index;
+	int8 type;
+	int8 dialogue_event;
+	int8 dialogue_index;
 	uint8 dialogue_ticks;
-	char stimulus;
+	int8 stimulus;
 	uint8 stimulus_decay_ticks;
 	int32 actor_index;
 	int32 prop_index;
 	int32 object_index;
 	int32 tracking_index;
 	real32 awareness;
-	char status;
-	char perception;
-	char visibility : 4;
-	char line_of_sight : 4;
+	int8 status;
+	int8 perception;
+	int8 visibility : 4;
+	int8 line_of_sight : 4;
 	uint8 flags;
 	int16 status_refresh_timer;
 	int16 state_refresh_timer;
@@ -99,8 +99,8 @@ struct prop_datum :
 	int16 comment_timer;
 	int16 remind_timer;
 	zone_area_ref discarded_pursuit_areas[5];
-	char current_pursuit_index;
-	char num_discarded_areas;
+	int8 current_pursuit_index;
+	int8 num_discarded_areas;
 	zone_area_ref pursuit_area;
 	prop_state state;
 };
@@ -119,7 +119,7 @@ struct prop_view
 	int32 first_sighted_time;
 	c_ai_point3d last_visible_position;
 	real_vector3d actor_to_prop;
-	char quantized_facing;
+	int8 quantized_facing;
 	int32 last_unreachable_time;
 	int32 unassailable_reset_time;
 	real32 awareness_of_me;

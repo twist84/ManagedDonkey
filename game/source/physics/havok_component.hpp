@@ -32,9 +32,9 @@ struct c_havok_contact_point
 	// FLAG(6) _slip_surface_bit
 	uint8 m_flags;
 
-	char m_rigid_body_index_a;
-	char m_rigid_body_index_b;
-	char m_structure_bsp_index;
+	int8 m_rigid_body_index_a;
+	int8 m_rigid_body_index_b;
+	int8 m_structure_bsp_index;
 };
 static_assert(sizeof(c_havok_contact_point) == 0x44);
 
@@ -53,7 +53,7 @@ struct c_havok_component :
 		static_assert(sizeof(s_contact_point_buffer) == 0x44);
 
 		hkArray<s_contact_point_buffer> m_havok_contact_points;
-		hkArray<char> m_physics_model_rigid_body_indexes;
+		hkArray<int8> m_physics_model_rigid_body_indexes;
 
 		uint8 __dataC[0x4];
 
@@ -74,9 +74,9 @@ struct c_havok_component :
 		// FLAG(0) powered_bit
 		uint8 m_flags;
 
-		char m_constraint_type;
-		char m_constraint_type_index;
-		char m_stretched_counter;
+		int8 m_constraint_type;
+		int8 m_constraint_type_index;
+		int8 m_stretched_counter;
 		int32 m_constraint_impact_datum_index;
 		hkConstraintInstance* m_constraint;
 	};
@@ -84,8 +84,8 @@ struct c_havok_component :
 
 	struct s_body_in_phantom
 	{
-		char body_physics_model_material_index;
-		char body_rigid_body_index;
+		int8 body_physics_model_material_index;
+		int8 body_rigid_body_index;
 		int32 body_object_index;
 		int32 reference_count;
 	};

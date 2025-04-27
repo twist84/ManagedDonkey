@@ -48,7 +48,7 @@ struct s_scenario_object_datum
 	c_string_id light_airprobe_name;
 	c_object_identifier object_id;
 	int8 bsp_policy;
-	char editing_bound_to_bsp; // char_block_index
+	int8 editing_bound_to_bsp; // char_block_index
 	int16 editor_folder; // short_block_index
 	s_scenario_multiplayer_scenario_object_parent parent_id;
 	uint16 can_attach_to_bsp_flags; // word_block_flags

@@ -18,7 +18,7 @@ struct s_seam_mapping
 	};
 	static_assert(sizeof(s_seam_cluster_mapping) == 0x14);
 
-	char structure_bsp_indices[2];
+	int8 structure_bsp_indices[2];
 	int16 cluster_count;
 	c_static_array<s_seam_cluster_mapping, 32> clusters;
 };

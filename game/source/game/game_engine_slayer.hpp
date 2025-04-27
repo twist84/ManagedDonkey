@@ -28,44 +28,44 @@ public:
 	int16 get_score_to_win() const;
 	void set_score_to_win(int16 score_to_win);
 
-	char get_kill_points() const;
-	void set_kill_points(char kill_points);
+	int8 get_kill_points() const;
+	void set_kill_points(int8 kill_points);
 
-	char get_assist_points() const;
-	void set_assist_points(char assist_points);
+	int8 get_assist_points() const;
+	void set_assist_points(int8 assist_points);
 
-	char get_death_points() const;
-	void set_death_points(char death_points);
+	int8 get_death_points() const;
+	void set_death_points(int8 death_points);
 
-	char get_suicide_points() const;
-	void set_suicide_points(char suicide_points);
+	int8 get_suicide_points() const;
+	void set_suicide_points(int8 suicide_points);
 
-	char get_betrayal_points() const;
-	void set_betrayal_points(char betrayal_points);
+	int8 get_betrayal_points() const;
+	void set_betrayal_points(int8 betrayal_points);
 
-	char get_leader_killed_points() const;
-	void set_leader_killed_points(char leader_killed_points);
+	int8 get_leader_killed_points() const;
+	void set_leader_killed_points(int8 leader_killed_points);
 
-	char get_elimination_points() const;
-	void set_elimination_points(char elimination_points);
+	int8 get_elimination_points() const;
+	void set_elimination_points(int8 elimination_points);
 
-	char get_assassination_points() const;
-	void set_assassination_points(char assassination_points);
+	int8 get_assassination_points() const;
+	void set_assassination_points(int8 assassination_points);
 
-	char get_headshot_points() const;
-	void set_headshot_points(char headshot_points);
+	int8 get_headshot_points() const;
+	void set_headshot_points(int8 headshot_points);
 
-	char get_melee_points() const;
-	void set_melee_points(char melee_points);
+	int8 get_melee_points() const;
+	void set_melee_points(int8 melee_points);
 
-	char get_sticky_points() const;
-	void set_sticky_points(char sticky_points);
+	int8 get_sticky_points() const;
+	void set_sticky_points(int8 sticky_points);
 
-	char get_splatter_points() const;
-	void set_splatter_points(char splatter_points);
+	int8 get_splatter_points() const;
+	void set_splatter_points(int8 splatter_points);
 
-	char get_killing_spree_points() const;
-	void set_killing_spree_points(char killing_spree_points);
+	int8 get_killing_spree_points() const;
+	void set_killing_spree_points(int8 killing_spree_points);
 
 	c_player_traits* get_leader_traits_writeable();
 	c_player_traits const* get_leader_traits() const;
@@ -75,18 +75,18 @@ protected:
 	c_enum<int32, int16, -1, 250> m_score_to_win;        // default: 25
 	c_enum<int32, int16, 0, 250> m_score_unknown;        // default: 20, halo online specific
 	c_enum<int32, int16, -10, 10> m_kill_points;         // default: 1
-	c_enum<int32, char, -10, 10> m_assist_points;        // default: 0
-	c_enum<int32, char, -10, 10> m_death_points;         // default: 0
-	c_enum<int32, char, -10, 10> m_suicide_points;       // default: -1
-	c_enum<int32, char, -10, 10> m_betrayal_points;      // default: -1
-	c_enum<int32, char, -10, 10> m_leader_killed_points; // default: 0
-	c_enum<int32, char, -10, 10> m_elimination_points;   // default: 0
-	c_enum<int32, char, -10, 10> m_assassination_points; // default: 0
-	c_enum<int32, char, -10, 10> m_headshot_points;      // default: 0
-	c_enum<int32, char, -10, 10> m_melee_points;         // default: 0
-	c_enum<int32, char, -10, 10> m_sticky_points;        // default: 0
-	c_enum<int32, char, -10, 10> m_splatter_points;      // default: 0
-	c_enum<int32, char, -10, 10> m_killing_spree_points; // default: 0
+	c_enum<int32, int8, -10, 10> m_assist_points;        // default: 0
+	c_enum<int32, int8, -10, 10> m_death_points;         // default: 0
+	c_enum<int32, int8, -10, 10> m_suicide_points;       // default: -1
+	c_enum<int32, int8, -10, 10> m_betrayal_points;      // default: -1
+	c_enum<int32, int8, -10, 10> m_leader_killed_points; // default: 0
+	c_enum<int32, int8, -10, 10> m_elimination_points;   // default: 0
+	c_enum<int32, int8, -10, 10> m_assassination_points; // default: 0
+	c_enum<int32, int8, -10, 10> m_headshot_points;      // default: 0
+	c_enum<int32, int8, -10, 10> m_melee_points;         // default: 0
+	c_enum<int32, int8, -10, 10> m_sticky_points;        // default: 0
+	c_enum<int32, int8, -10, 10> m_splatter_points;      // default: 0
+	c_enum<int32, int8, -10, 10> m_killing_spree_points; // default: 0
 	c_player_traits m_leader_traits;
 
 	uint8 m_pad1[2];

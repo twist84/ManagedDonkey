@@ -88,8 +88,8 @@ enum e_weapon_barrel_flags
 
 struct weapon_barrel
 {
-	char idle_ticks;
-	c_enum<e_weapon_barrel_state, char, _weapon_barrel_state_idle, k_weapon_barrel_states> state;
+	int8 idle_ticks;
+	c_enum<e_weapon_barrel_state, int8, _weapon_barrel_state_idle, k_weapon_barrel_states> state;
 	int16 timer;
 	c_flags<e_weapon_barrel_flags, uint16, k_weapon_barrel_flags> flags;
 
@@ -132,7 +132,7 @@ enum e_weapon_trigger_flags
 
 struct weapon_trigger
 {
-	c_enum<e_weapon_trigger_state, char, _weapon_trigger_state_idle, k_weapon_trigger_states> state;
+	c_enum<e_weapon_trigger_state, int8, _weapon_trigger_state_idle, k_weapon_trigger_states> state;
 
 	uint8 __data1[0x3];
 
@@ -159,7 +159,7 @@ enum e_weapon_magazine_state
 
 struct weapon_magazine
 {
-	c_enum<e_weapon_magazine_state, char, _weapon_magazine_state_idle, k_weapon_magazine_states> state;
+	c_enum<e_weapon_magazine_state, int8, _weapon_magazine_state_idle, k_weapon_magazine_states> state;
 	int16 reload_cooldown;
 
 	int16 __unknown4;
@@ -223,9 +223,9 @@ struct _weapon_datum
 	uint8 primary_trigger;
 	uint8 last_primary_trigger;
 	uint8 last_hill_or_valley;
-	char primary_trigger_direction;
-	char primary_trigger_down_ticks;
-	char primary_trigger_firing_ticks;
+	int8 primary_trigger_direction;
+	int8 primary_trigger_down_ticks;
+	int8 primary_trigger_firing_ticks;
 	uint8 delay_apply_predicted_state_timer;
 
 	uint8 __unknownB;

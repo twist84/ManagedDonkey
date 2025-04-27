@@ -31,7 +31,7 @@ struct s_cache_file_insertion_point_resource_usage
 {
 	//uint8 __data[0xB4];
 
-	char initial_zone_set_index;
+	int8 initial_zone_set_index;
 	uint8 pad[3];
 	c_static_flags<1024> shared_required_locations;
 	c_static_flags<320> local_required_locations;
@@ -50,7 +50,7 @@ struct s_cache_file_shared_resource_usage
 	s_tag_persistent_identifier codec_identifier;
 	c_static_array<s_cache_file_local_resource_location, 320> local_locations;
 	uint8 insertion_point_usage_count;
-	char pad[3];
+	int8 pad[3];
 	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_usages;
 };
 static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2980);

@@ -82,9 +82,9 @@ struct s_player_navpoint_data
 	//int32 dead_unit_index;
 	uint8 __data14[0x4];
 
-	char current_navpoint_action;
-	char current_navpoint_action_timer;
-	char next_navpoint_action;
+	int8 current_navpoint_action;
+	int8 current_navpoint_action_timer;
+	int8 next_navpoint_action;
 };
 static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 
@@ -124,7 +124,7 @@ struct s_game_engine_globals
 	uint16 active_teams;
 	uint16 ever_active_teams;
 	c_static_array<int16, 9> team_designator_to_team_index;
-	c_static_array<char, 8> team_lives_per_round;
+	c_static_array<int8, 8> team_lives_per_round;
 	uint32 game_engine_gamestate_index;
 	uint32 statborg_gamestate_index;
 	c_static_array<int32, 16> player_gamestate_indices;
@@ -249,6 +249,6 @@ extern void __cdecl game_engine_update_after_game();
 extern void __cdecl game_engine_update_global_fade_timers(real32 world_seconds_elapsed);
 extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
-extern void __cdecl post_game_engine_globals_message(int32 message_type, char a2, int16 a3);
+extern void __cdecl post_game_engine_globals_message(int32 message_type, int8 a2, int16 a3);
 extern void __cdecl process_game_engine_globals_messages();
 

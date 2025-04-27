@@ -12,7 +12,7 @@ struct ai_player_state
 	int16 ticks_since_player_threatening;
 	int32 last_friendly_vehicle_shoot_time;
 	int32 last_friendly_vehicle_shoot_index;
-	char last_vehicle_airborne_ticks;
+	int8 last_vehicle_airborne_ticks;
 	bool crazy_vehicle_vocalized;
 	bool needs_vehicle;
 	int32 needs_vehicle_time;

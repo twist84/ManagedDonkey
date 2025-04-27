@@ -346,7 +346,7 @@ struct s_visibility_input
 	e_collection_shape collection_shape;
 	int32 visible_items_marker_index;
 	uint32 visible_cluster_bitvector[16][8];
-	c_static_array<c_static_array<char, 256>, 16> cluster_to_visibility_cluster_lookup;
+	c_static_array<c_static_array<int8, 256>, 16> cluster_to_visibility_cluster_lookup;
 };
 static_assert(sizeof(s_visibility_input) == 0x2F5CC);
 static_assert(0x0 == OFFSETOF(s_visibility_input, region));

@@ -221,7 +221,7 @@ struct bitmap_data
 	int16 height;
 
 	// DO NOT CHANGE
-	char depth;
+	int8 depth;
 
 	c_flags<e_bitmap_more_flags, uint8, k_bitmap_more_flags> more_flags;
 
@@ -237,13 +237,13 @@ struct bitmap_data
 	point2d registration_point;
 
 	// DO NOT CHANGE
-	char mipmap_count_excluding_highest;
+	int8 mipmap_count_excluding_highest;
 
 	// how to convert from pixel value to linear
-	char curve;
+	int8 curve;
 
-	char interleaved_interop;
-	char interleaved_texture_index;
+	int8 interleaved_interop;
+	int8 interleaved_texture_index;
 
 	// DO NOT CHANGE (offset of the beginning of this bitmap, into pixel data)
 	int32 pixels_offset; // bytes
@@ -609,10 +609,10 @@ struct bitmap_group
 	real32 fade_factor; // [0,1]
 
 	// automatic chooses FAST if your bitmap is bright, and PRETTY if your bitmap has dark bits
-	c_enum<e_bitmap_curve_override, char, _bitmap_curve_override_choose_best, k_bitmap_curve_override_count> curve_mode;
+	c_enum<e_bitmap_curve_override, int8, _bitmap_curve_override_choose_best, k_bitmap_curve_override_count> curve_mode;
 
 	// 0 = use default defined by usage
-	char max_mipmap_level;
+	int8 max_mipmap_level;
 
 	// 0 = do not downsample source image
 	int16 max_resolution;

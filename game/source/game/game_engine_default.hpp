@@ -94,7 +94,7 @@ struct s_game_engine_state_data
 	uint16 active_teams;
 	uint16 ever_active_teams;
 	c_static_array<int16, 9> team_designator_to_team_index;
-	c_static_array<char, 8> team_lives_per_round;
+	c_static_array<int8, 8> team_lives_per_round;
 	uint8 current_state;
 	uint8 game_finished;
 	int16 round_index;

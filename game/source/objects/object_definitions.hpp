@@ -113,8 +113,8 @@ struct _object_definition
 	real32 acceleration_scale; // [0,+inf]
 
 	c_enum<e_lightmap_shadow_mode, int16, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
-	c_enum<e_sweetener_size, char, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
-	c_enum<e_water_density_type, char, _water_density_type_default, k_water_density_count> water_density;
+	c_enum<e_sweetener_size, int8, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
+	c_enum<e_water_density_type, int8, _water_density_type_default, k_water_density_count> water_density;
 	uint32 runtime_flags;
 
 	// sphere to use for dynamic lights and shadows. only used if not 0
@@ -347,7 +347,7 @@ static_assert(sizeof(object_change_color_function) == 0x28);
 
 struct object_node_map_defintion
 {
-	char target_node;
+	int8 target_node;
 };
 static_assert(sizeof(object_node_map_defintion) == 0x1);
 
@@ -387,9 +387,9 @@ struct s_scenario_multiplayer_object_properties
 	int32 game_engine_symmetric_placement;
 	c_flags<e_global_game_engine_type_flags, uint16, k_global_game_engine_type_flags> game_engine_flags;
 	int16 owner_team;
-	char spawn_order; // -1 for random
-	char quota_minimum;
-	char quota_maximum; // <=0 for unlimited
+	int8 spawn_order; // -1 for random
+	int8 quota_minimum;
+	int8 quota_maximum; // <=0 for unlimited
 
 	c_flags<e_multiplayer_object_placement_spawn_flags, uint8, k_multiplayer_object_placement_spawn_flags> spawn_flags;
 	int16 spawn_time; // seconds
@@ -435,8 +435,8 @@ struct c_object_identifier
 	// scenario_structure_bsp_reference
 	int16 m_origin_bsp_index;
 
-	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
-	c_enum<e_object_source, char, _object_source_structure_object, k_number_of_object_sources> m_source;
+	c_enum<e_object_type, int8, _object_type_biped, k_object_type_count> m_type;
+	c_enum<e_object_source, int8, _object_source_structure_object, k_number_of_object_sources> m_source;
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
 

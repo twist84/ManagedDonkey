@@ -4,8 +4,8 @@
 
 struct c_animation_data_sizes
 {
-	char m_static_node_flags;
-	char m_animated_node_flags;
+	int8 m_static_node_flags;
+	int8 m_animated_node_flags;
 	int16 m_movement_data;
 	int16 m_pill_offset_data;
 	int16 m_default_data;

@@ -120,7 +120,7 @@ struct joint_state_datum :
 	participant_entry participants[10];
 	int16 behavior_index;
 	int16 num_members;
-	char status;
+	int8 status;
 	int32 joint_type;
 	int32 clump_index;
 	int16 pending_timer;

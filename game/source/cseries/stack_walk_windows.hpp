@@ -18,7 +18,7 @@ struct debug_symbol_table
 struct _stack_walk_globals
 {
 	int32 fixup;
-	unsigned char disregard_symbol_names;
+	uint8 disregard_symbol_names;
 	debug_symbol_table symbol_table;
 };
 

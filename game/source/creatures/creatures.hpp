@@ -10,7 +10,7 @@ struct s_creature_control_data
 	int32 animation_mode;
 	int32 animation_state;
 	uint16 control_flags;
-	char turning_speed;
+	int8 turning_speed;
 	uint8 pad;
 	real_vector3d throttle;
 	real_vector3d forward;
@@ -28,8 +28,8 @@ struct _creature_datum
 	real_vector3d turning_velocity;
 	real32 bank;
 	c_character_physics_component physics;
-	char attached_damage_timer;
-	char attached_cooldown_timer;
+	int8 attached_damage_timer;
+	int8 attached_cooldown_timer;
 	int16 destroy_after_death_timer;
 	int16 lifetime_ticks;
 };

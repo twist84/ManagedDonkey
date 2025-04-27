@@ -46,8 +46,8 @@ enum e_ai_atom
 
 struct cs_command
 {
-	char atom_type;
-	char flags;
+	int8 atom_type;
+	int8 flags;
 	int16 atom_modifier;
 
 	union

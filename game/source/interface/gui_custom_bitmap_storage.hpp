@@ -10,10 +10,10 @@ struct D3DBaseTexture
 {
 	int16 width;
 	int16 height;
-	char depth;
-	char mipmap_count_plus_one;
+	int8 depth;
+	int8 mipmap_count_plus_one;
 	bool high_res_pixels_size_nonzero;
-	char type;
+	int8 type;
 	uint32 xenon_d3d_format;
 	uint8 __dataC[0x28];
 };

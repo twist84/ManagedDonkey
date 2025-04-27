@@ -182,7 +182,7 @@ struct s_player_configuration_from_host_patial
 	c_flags<e_bungienet_user, uint8, k_bungienet_user_count> bungienet_user;
 	c_static_array<rgb_color, k_color_type_count> colors;
 	c_static_array<uint8, k_armor_type_count> armors;
-	c_static_array<char, 4> consumables;
+	c_static_array<int8, 4> consumables;
 };
 static_assert(sizeof(s_player_configuration_from_host_patial) == 0x30);
 

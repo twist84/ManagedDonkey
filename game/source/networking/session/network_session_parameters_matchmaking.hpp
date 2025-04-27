@@ -50,7 +50,7 @@ static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD
 struct s_network_session_matchmaking_hopper
 {
 	uint16 hopper_identifier;
-	char xlast_index;
+	int8 xlast_index;
 	bool is_ranked;
 	bool veto_allowed;
 	bool rematch_allowed;

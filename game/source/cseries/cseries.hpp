@@ -1145,7 +1145,7 @@ protected:
 // $TODO: find an actual home
 struct s_cluster_reference
 {
-	char bsp_index;
+	int8 bsp_index;
 	uint8 cluster_index;
 };
 static_assert(sizeof(s_cluster_reference) == 0x2);

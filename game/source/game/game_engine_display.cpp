@@ -114,7 +114,7 @@ void __cdecl game_engine_render_fade_to_black(int32 user_index)
 		int32 ticks = 0;
 		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index], g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index] > ticks)
 		{
-			post_game_engine_globals_message(0, static_cast<char>(user_index), 0);
+			post_game_engine_globals_message(0, static_cast<int8>(user_index), 0);
 		}
 	}
 	else

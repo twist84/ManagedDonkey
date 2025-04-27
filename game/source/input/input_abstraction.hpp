@@ -8,8 +8,8 @@ struct s_keyboard_input_preferences
 {
 	c_static_array<c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>, k_button_action_count_keyboard> keys_primary;
 	c_static_array<c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>, k_button_action_count_keyboard> keys_alternative;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_primary;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_alternative;
+	c_static_array<c_enum<e_mouse_button, int8, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_primary;
+	c_static_array<c_enum<e_mouse_button, int8, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_alternative;
 
 	int16 joystick_preset;
 };
@@ -20,7 +20,7 @@ struct s_gamepad_input_preferences
 	real32 look_sensitivity_x;
 	real32 look_sensitivity_y;
 
-	c_static_array<c_enum<e_controller_button, char, _controller_button_left_trigger, k_controller_button_count>, k_button_action_count> gamepad_buttons;
+	c_static_array<c_enum<e_controller_button, int8, _controller_button_left_trigger, k_controller_button_count>, k_button_action_count> gamepad_buttons;
 	c_static_array<bool, k_button_action_count> gamepad_buttons_held;
 
 	s_keyboard_input_preferences keyboard_preferences;

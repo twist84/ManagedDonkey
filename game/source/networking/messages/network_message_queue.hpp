@@ -13,7 +13,7 @@
 //public:
 //	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 //
-//	char __data[4];
+//	int8 __data[4];
 //
 //	char const* name;
 //	c_network_message_type_collection* m_message_types;

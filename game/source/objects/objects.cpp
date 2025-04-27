@@ -1506,7 +1506,7 @@ void __cdecl object_set_infinite_shield_stun(int32 object_index)
 	INVOKE(0x00B32EE0, object_set_infinite_shield_stun, object_index);
 }
 
-void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<char, uint8, 5> active_change_colors, real_rgb_color const* change_colors)
+void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uint8, 5> active_change_colors, real_rgb_color const* change_colors)
 {
 	INVOKE(0x00B32F20, object_set_initial_change_colors, object_index, active_change_colors, change_colors);
 }

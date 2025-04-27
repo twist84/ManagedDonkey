@@ -66,7 +66,7 @@ struct s_hopper_universal_configuration
 	int32 experience_points_per_win;
 	int32 experience_penalty_per_drop;
 	real32 minimum_mu_per_level[49];
-	char maximum_skill_level_match_delta[50];
+	int8 maximum_skill_level_match_delta[50];
 	real32 trueskill_sigma_multiplier;
 	real32 trueskill_beta_performance_variation;
 	real32 trueskill_tau_dynamics_factor;

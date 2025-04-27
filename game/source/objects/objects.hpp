@@ -185,7 +185,7 @@ struct _object_datum
 	real32 scale;
 	c_object_identifier object_identifier;
 	int16 name_index;
-	char bsp_placement_policy;
+	int8 bsp_placement_policy;
 	uint8 keyframed_object_collision_damage_ticks;
 	int32 havok_component_index;
 	int32 local_physics_space_object_index;
@@ -196,10 +196,10 @@ struct _object_datum
 	uint8 phantom_power_scale;
 	uint8 phantom_speed_scale;
 	int16 in_water_ticks;
-	char environment_interpenetration_ticks;
+	int8 environment_interpenetration_ticks;
 	uint8 brittle_collision_damage_timer;
 	int16 scale_intepolation_ticks;
-	char variant_index;
+	int8 variant_index;
 	uint8 object_ai_flags;
 	uint32 melee_damage_unique_identifier;
 	s_damage_owner damage_owner;
@@ -209,7 +209,7 @@ struct _object_datum
 	int32 simulation_object_glue_index;
 	int16 owner_team_index;
 	uint8 simulation_flags;
-	char child_variant_index;
+	int8 child_variant_index;
 	int32 simulation_object_interpolation_time;
 	real_point3d simulation_object_interpolation_position;
 	int32 first_widget_index;
@@ -229,9 +229,9 @@ struct _object_datum
 	int16 shield_stun_ticks;
 	int16 body_stun_ticks;
 	uint32 damage_flags;
-	char damaged_explosion_timer;
-	char body_damage_delay_ticks;
-	char shield_impact_decay_timer;
+	int8 damaged_explosion_timer;
+	int8 body_damage_delay_ticks;
+	int8 shield_impact_decay_timer;
 	uint8 recycling_flags;
 	int32 next_recycling_object_index;
 	int32 recycling_time;
@@ -713,7 +713,7 @@ extern void __cdecl object_set_garbage(int32 object_index, bool a2, int32 collec
 extern void __cdecl object_set_hidden(int32 object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(int32 object_index, bool deactivate);
 extern void __cdecl object_set_infinite_shield_stun(int32 object_index);
-extern void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<char, uint8, 5> active_change_colors, real_rgb_color const* change_colors);
+extern void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uint8, 5> active_change_colors, real_rgb_color const* change_colors);
 extern void __cdecl object_set_invalid_for_recycling(int32 object_index, bool a2);
 extern bool __cdecl object_set_model_state(int32 object_index, int32 a2, int32 a3, bool a4);
 extern void __cdecl object_set_model_state_property(int32 object_index, int32 a2, int32 a3, bool a4, bool a5);

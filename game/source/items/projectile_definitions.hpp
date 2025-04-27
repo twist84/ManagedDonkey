@@ -91,7 +91,7 @@ struct _projectile_definition
 	// pad
 	uint8 UAQLONXGN[1];
 
-	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> super_detonation_object_types;
+	c_enum<e_object_type, int8, _object_type_biped, k_object_type_count> super_detonation_object_types;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> super_attached_detonation_damage;
 
 	// radius within we will generate material effects

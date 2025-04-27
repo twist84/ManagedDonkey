@@ -12,10 +12,10 @@ struct s_mesh
 	int16 index_buffer_index;
 	int16 index_buffer_tessellation;
 	uint8 mesh_flags;
-	char rigid_node_index;
-	char vertex_type;
-	char prt_vertex_type;
-	char index_buffer_type;
+	int8 rigid_node_index;
+	int8 vertex_type;
+	int8 prt_vertex_type;
+	int8 index_buffer_type;
 	uint8 BAASDFIR[3];
 	s_tag_block instance_bucket;
 	s_tag_block water_indices_start;
@@ -46,15 +46,15 @@ struct s_positioning
 	real_plane3d plane;
 	real_point3d position;
 	real32 radius;
-	char node_indices[4];
+	int8 node_indices[4];
 	real32 node_weights[4];
 };
 static_assert(sizeof(s_positioning) == 0x34);
 
 struct s_render_geometry_user_data_header
 {
-	char data_type;
-	char data_count;
+	int8 data_type;
+	int8 data_count;
 	int16 data_size;
 };
 static_assert(sizeof(s_render_geometry_user_data_header) == 0x4);

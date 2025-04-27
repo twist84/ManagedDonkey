@@ -143,7 +143,7 @@ void __cdecl sub_60C040(int32 keyboard_preset, s_gamepad_input_preferences* pref
 
 	c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>& reload_left_button = preferences->keyboard_preferences.keys_primary[_button_action_reload_left];
 	c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>& pick_up_left_button = preferences->keyboard_preferences.keys_primary[_button_action_pick_up_left];
-	c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>& fire_left_button = preferences->keyboard_preferences.mouse_buttons_primary[_button_action_fire_left];
+	c_enum<e_mouse_button, int8, _mouse_button_1, k_total_mouse_button_count>& fire_left_button = preferences->keyboard_preferences.mouse_buttons_primary[_button_action_fire_left];
 
 	reload_left_button = _key_z;
 	pick_up_left_button = _key_z;

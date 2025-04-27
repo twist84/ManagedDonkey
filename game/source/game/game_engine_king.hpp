@@ -38,17 +38,17 @@ public:
 	e_king_moving_hill_order_settings get_moving_hill_order() const;
 	void set_moving_hill_order(e_king_moving_hill_order_settings moving_hill_order);
 
-	char get_uncontested_hill_bonus() const;
-	void set_uncontested_hill_bonus(char uncontested_hill_bonus);
+	int8 get_uncontested_hill_bonus() const;
+	void set_uncontested_hill_bonus(int8 uncontested_hill_bonus);
 
-	char get_kill_points() const;
-	void set_kill_points(char kill_points);
+	int8 get_kill_points() const;
+	void set_kill_points(int8 kill_points);
 
-	char get_inside_hill_points() const;
-	void set_inside_hill_points(char inside_hill_points);
+	int8 get_inside_hill_points() const;
+	void set_inside_hill_points(int8 inside_hill_points);
 
-	char get_outside_hill_points() const;
-	void set_outside_hill_points(char outside_hill_points);
+	int8 get_outside_hill_points() const;
+	void set_outside_hill_points(int8 outside_hill_points);
 
 	c_player_traits* get_inside_hill_traits_writeable();
 	c_player_traits const* get_inside_hill_traits() const;
@@ -58,12 +58,12 @@ protected:
 	c_flags<e_king_flags_settings, uint32, k_king_flags_settings> m_variant_flags;
 	c_enum<int32, int16, 0, 1000> m_score_to_win;          // default: 100
 	c_enum<int32, int16, 0, 1000> m_score_unknown;         // default: 90, halo online specific
-	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
-	c_enum<e_king_moving_hill_order_settings, char, _king_moving_hill_order_settings_random, k_king_moving_hill_order_settings> m_moving_hill_order;
-	c_enum<int32, char, -10, 10> m_uncontested_hill_bonus; // default: 0
-	c_enum<int32, char, -10, 10> m_kill_points;            // default: 0
-	c_enum<int32, char, -10, 10> m_inside_hill_points;     // default: 0
-	c_enum<int32, char, -10, 10> m_outside_hill_points;    // default: 0
+	c_enum<e_king_moving_hill_settings, int8, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
+	c_enum<e_king_moving_hill_order_settings, int8, _king_moving_hill_order_settings_random, k_king_moving_hill_order_settings> m_moving_hill_order;
+	c_enum<int32, int8, -10, 10> m_uncontested_hill_bonus; // default: 0
+	c_enum<int32, int8, -10, 10> m_kill_points;            // default: 0
+	c_enum<int32, int8, -10, 10> m_inside_hill_points;     // default: 0
+	c_enum<int32, int8, -10, 10> m_outside_hill_points;    // default: 0
 	c_player_traits m_inside_hill_traits;
 
 	uint8 m_pad1[6];

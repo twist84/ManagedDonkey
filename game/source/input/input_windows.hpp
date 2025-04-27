@@ -343,7 +343,7 @@ static_assert(sizeof(key_state) == 0x4);
 struct key_stroke
 {
 	uint8 modifier_flags;
-	char key_type;
+	int8 key_type;
 	int16 ascii_code;
 	bool repeating;
 };
@@ -379,7 +379,7 @@ struct s_mouse_state
 	uint32 x;
 	uint32 y;
 	uint32 wheel_delta;
-	c_enum<e_mouse_button, char, _mouse_button_1, k_mouse_button_count> mouse_button;
+	c_enum<e_mouse_button, int8, _mouse_button_1, k_mouse_button_count> mouse_button;
 };
 static_assert(sizeof(s_mouse_state) == 0x14);
 

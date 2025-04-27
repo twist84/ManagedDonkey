@@ -119,13 +119,13 @@ struct c_model_animation
 	real32 weight;
 	int16 private_loop_frame_index;
 	uint16 playback_flags;
-	char blend_screen_index;
-	char desired_compression_setting;
-	char current_compression_setting;
+	int8 blend_screen_index;
+	int8 desired_compression_setting;
+	int8 current_compression_setting;
 	uint8 node_count;
 	int16 frame_count;
-	char animation_type;
-	char frame_info_type;
+	int8 animation_type;
+	int8 frame_info_type;
 	uint16 production_flags;
 	uint16 internal_flags;
 	uint32 node_list_checksum;

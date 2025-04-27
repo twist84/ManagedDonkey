@@ -32,8 +32,8 @@ void c_player_traits::set(c_player_traits const* traits, bool force)
 		get_shield_vitality_traits_writeable()->set_shield_multiplier_setting(_shield_multiplier_setting_unchanged, force);
 
 		get_weapons_traits_writeable()->set_initial_grenade_count_setting(_grenade_count_setting_unchanged, force);
-		get_weapons_traits_writeable()->set_initial_primary_weapon_absolute_index(char(0xFE), force);
-		get_weapons_traits_writeable()->set_initial_secondary_weapon_absolute_index(char(0xFE), force);
+		get_weapons_traits_writeable()->set_initial_primary_weapon_absolute_index(int8(0xFE), force);
+		get_weapons_traits_writeable()->set_initial_secondary_weapon_absolute_index(int8(0xFE), force);
 		get_weapons_traits_writeable()->set_damage_modifier_percentage_setting(_damage_modifier_percentage_setting_unchanged, force);
 		get_weapons_traits_writeable()->set_recharging_grenades_setting(_recharging_grenades_setting_unchanged, force);
 		get_weapons_traits_writeable()->set_infinite_ammo_setting(_infinite_ammo_setting_unchanged, force);
@@ -453,8 +453,8 @@ void c_player_trait_weapons::encode_to_mcc(c_bitstream* packet) const
 	ASSERT(packet != NULL);
 
 	e_damage_modifier_percentage_setting damage_modifier_percentage_setting = get_damage_modifier_percentage_setting();
-	char initial_primary_weapon_absolute_index = get_initial_primary_weapon_absolute_index();
-	char initial_secondary_weapon_absolute_index = get_initial_secondary_weapon_absolute_index();
+	int8 initial_primary_weapon_absolute_index = get_initial_primary_weapon_absolute_index();
+	int8 initial_secondary_weapon_absolute_index = get_initial_secondary_weapon_absolute_index();
 	e_grenade_count_setting initial_grenade_count_setting = get_initial_grenade_count_setting();
 	e_infinite_ammo_setting infinite_ammo_setting = get_infinite_ammo_setting();
 	e_recharging_grenades_setting recharging_grenades_setting = get_recharging_grenades_setting();
@@ -474,8 +474,8 @@ void c_player_trait_weapons::decode_from_mcc(c_bitstream* packet)
 	ASSERT(packet != NULL);
 
 	e_damage_modifier_percentage_setting damage_modifier_percentage_setting = packet->read_enum<e_damage_modifier_percentage_setting, 4>("player-trait-damage-modifier");
-	char initial_primary_weapon_absolute_index = static_cast<char>(packet->read_signed_integer("player-trait-initial-primary-weapon", 8));
-	char initial_secondary_weapon_absolute_index = static_cast<char>(packet->read_signed_integer("player-trait-initial-secondary-weapon", 8));
+	int8 initial_primary_weapon_absolute_index = static_cast<int8>(packet->read_signed_integer("player-trait-initial-primary-weapon", 8));
+	int8 initial_secondary_weapon_absolute_index = static_cast<int8>(packet->read_signed_integer("player-trait-initial-secondary-weapon", 8));
 	e_grenade_count_setting initial_grenade_count_setting = packet->read_enum<e_grenade_count_setting, 2>("player-trait-initial-grenade-count");
 	e_infinite_ammo_setting infinite_ammo_setting = packet->read_enum<e_infinite_ammo_setting, 2>("player-traits-infinite-ammo-setting");
 	e_recharging_grenades_setting recharging_grenades_setting = packet->read_enum<e_recharging_grenades_setting, 2>("player-traits-recharging-grenades");
@@ -514,7 +514,7 @@ void c_player_trait_weapons::set_initial_grenade_count_setting(e_grenade_count_s
 	}
 }
 
-char c_player_trait_weapons::get_initial_grenade_count() const
+int8 c_player_trait_weapons::get_initial_grenade_count() const
 {
 	e_grenade_count_setting setting = get_initial_grenade_count_setting();
 
@@ -545,28 +545,28 @@ void c_player_trait_weapons::set_initial_grenade_count(int32 initial_grenade_cou
 	set_initial_grenade_count_setting(_grenade_count_setting_unchanged, force);
 }
 
-char c_player_trait_weapons::get_initial_primary_weapon_absolute_index() const
+int8 c_player_trait_weapons::get_initial_primary_weapon_absolute_index() const
 {
 	return m_initial_primary_weapon_absolute_index;
 }
 
-void c_player_trait_weapons::set_initial_primary_weapon_absolute_index(char initial_primary_weapon_absolute_index, bool force)
+void c_player_trait_weapons::set_initial_primary_weapon_absolute_index(int8 initial_primary_weapon_absolute_index, bool force)
 {
-	if (initial_primary_weapon_absolute_index >= 0 || initial_primary_weapon_absolute_index == char(0xFF) || initial_primary_weapon_absolute_index == char(0xFD) || initial_primary_weapon_absolute_index == char(0xFE))
+	if (initial_primary_weapon_absolute_index >= 0 || initial_primary_weapon_absolute_index == int8(0xFF) || initial_primary_weapon_absolute_index == int8(0xFD) || initial_primary_weapon_absolute_index == int8(0xFE))
 	{
-		if (force || initial_primary_weapon_absolute_index != char(0xFE))
+		if (force || initial_primary_weapon_absolute_index != int8(0xFE))
 		{
 			m_initial_primary_weapon_absolute_index = initial_primary_weapon_absolute_index;
 		}
 		else
 		{
-			event(_event_warning, "game_engine:player_trait:weapons: ignoring initial primary weapon '%d'", char(0xFE));
+			event(_event_warning, "game_engine:player_trait:weapons: ignoring initial primary weapon '%d'", int8(0xFE));
 		}
 	}
 	else if (force)
 	{
 		event(_event_warning, "game_engine:player_trait:weapons: invalid initial primary weapon '%d'", initial_primary_weapon_absolute_index);
-		m_initial_primary_weapon_absolute_index = char(0xFE);
+		m_initial_primary_weapon_absolute_index = int8(0xFE);
 	}
 }
 
@@ -577,31 +577,31 @@ int32 c_player_trait_weapons::get_initial_primary_weapon() const
 
 void c_player_trait_weapons::set_initial_primary_weapon(int32 initial_primary_weapon, bool force)
 {
-	set_initial_primary_weapon_absolute_index(static_cast<char>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_primary_weapon)), force);
+	set_initial_primary_weapon_absolute_index(static_cast<int8>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_primary_weapon)), force);
 }
 
-char c_player_trait_weapons::get_initial_secondary_weapon_absolute_index() const
+int8 c_player_trait_weapons::get_initial_secondary_weapon_absolute_index() const
 {
 	return m_initial_secondary_weapon_absolute_index;
 }
 
-void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(char initial_secondary_weapon_absolute_index, bool force)
+void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(int8 initial_secondary_weapon_absolute_index, bool force)
 {
-	if (initial_secondary_weapon_absolute_index >= 0 || initial_secondary_weapon_absolute_index == char(0xFF) || initial_secondary_weapon_absolute_index == char(0xFD) || initial_secondary_weapon_absolute_index == char(0xFE))
+	if (initial_secondary_weapon_absolute_index >= 0 || initial_secondary_weapon_absolute_index == int8(0xFF) || initial_secondary_weapon_absolute_index == int8(0xFD) || initial_secondary_weapon_absolute_index == int8(0xFE))
 	{
-		if (force || initial_secondary_weapon_absolute_index != char(0xFE))
+		if (force || initial_secondary_weapon_absolute_index != int8(0xFE))
 		{
 			m_initial_secondary_weapon_absolute_index = initial_secondary_weapon_absolute_index;
 		}
 		else
 		{
-			event(_event_warning, "game_engine:player_trait:weapons: ignoring initial secondary weapon '%d'", char(0xFE));
+			event(_event_warning, "game_engine:player_trait:weapons: ignoring initial secondary weapon '%d'", int8(0xFE));
 		}
 	}
 	else if (force)
 	{
 		event(_event_warning, "game_engine:player_trait:weapons: invalid initial secondary weapon '%d'", initial_secondary_weapon_absolute_index);
-		m_initial_secondary_weapon_absolute_index = char(0xFE);
+		m_initial_secondary_weapon_absolute_index = int8(0xFE);
 	}
 }
 
@@ -612,7 +612,7 @@ int32 c_player_trait_weapons::get_initial_secondary_weapon() const
 
 void c_player_trait_weapons::set_initial_secondary_weapon(int32 initial_secondary_weapon, bool force)
 {
-	set_initial_secondary_weapon_absolute_index(static_cast<char>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_secondary_weapon)), force);
+	set_initial_secondary_weapon_absolute_index(static_cast<int8>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_secondary_weapon)), force);
 }
 
 e_damage_modifier_percentage_setting c_player_trait_weapons::get_damage_modifier_percentage_setting() const

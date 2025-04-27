@@ -42,7 +42,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_seam_identifier> seam_identifiers;
 	c_typed_tag_block<structure_edge_to_seam_edge_mapping> edge_to_seam_edge;
 	c_typed_tag_block<structure_collision_material> collision_materials;
-	c_typed_tag_block<char /* char cluster; */> leaves;
+	c_typed_tag_block<int8 /* int8 cluster; */> leaves;
 	real_rectangle3d world_bounds;
 	c_typed_tag_block<structure_surface> structure_surfaces;
 	c_typed_tag_block<structure_surface> large_structure_surfaces;
@@ -182,9 +182,9 @@ struct structure_cluster
 	// CLUSTER INFO
 
 	real_rectangle3d bounds;
-	char scenario_sky_index;
-	char atmosphere_index;
-	char camera_fx_index;
+	int8 scenario_sky_index;
+	int8 atmosphere_index;
+	int8 camera_fx_index;
 	uint8 ERERRER[0x1];
 	int16 acoustics;
 	int16 acoustics_sound_cluster_index;

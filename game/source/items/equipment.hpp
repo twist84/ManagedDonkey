@@ -11,7 +11,7 @@ struct _equipment_datum
 	int32 __time4;
 	int32 __time8;
 
-	char current_use_count;
+	int8 current_use_count;
 
 	// some ticks
 	uint8 __unknownD;

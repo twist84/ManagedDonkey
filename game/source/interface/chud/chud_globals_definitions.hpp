@@ -238,7 +238,7 @@ enum e_chud_sound_cue_flags
 
 struct s_chud_sound_character_definition
 {
-	c_enum<e_odst_recon_variant, char, _odst_recon_variant_none, k_odst_recon_variant_count> character;
+	c_enum<e_odst_recon_variant, int8, _odst_recon_variant_none, k_odst_recon_variant_count> character;
 
 	// pad
 	uint8 HKJNCIUW[0x3];

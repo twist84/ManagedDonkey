@@ -234,7 +234,7 @@ struct c_player_profile_interface
 	struct
 	{
 		c_static_array<int32, k_popup_message_title_count> last_shown_popup_message_index;
-		char last_shown_vidmaster_popup_message_index;
+		int8 last_shown_vidmaster_popup_message_index;
 	} m_online;
 
 	// film_progression?

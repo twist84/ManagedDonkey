@@ -48,8 +48,8 @@ protected:
 	real32 m_steering;
 	real32 m_speed;
 	real32 m_slide;
-	char m_planted_leg_group;
-	char m_legs_planted_ticks;
+	int8 m_planted_leg_group;
+	int8 m_legs_planted_ticks;
 	int32 m_jump_time;
 };
 static_assert(sizeof(c_vehicle_type_mantis) == 0x30);

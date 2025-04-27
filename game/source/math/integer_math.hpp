@@ -109,12 +109,12 @@ union rgb_color
 {
 	struct
 	{
-		unsigned char : 8;
-		unsigned char red;
-		unsigned char green;
-		unsigned char blue;
+		uint8 : 8;
+		uint8 red;
+		uint8 green;
+		uint8 blue;
 	};
-	unsigned char n[4];
+	uint8 n[4];
 	uint32 value;
 };
 static_assert(sizeof(rgb_color) == 0x4);
@@ -123,12 +123,12 @@ union argb_color
 {
 	struct
 	{
-		unsigned char alpha;
-		unsigned char red;
-		unsigned char green;
-		unsigned char blue;
+		uint8 alpha;
+		uint8 red;
+		uint8 green;
+		uint8 blue;
 	};
-	unsigned char n[4];
+	uint8 n[4];
 	uint32 value;
 };
 static_assert(sizeof(argb_color) == 0x4);

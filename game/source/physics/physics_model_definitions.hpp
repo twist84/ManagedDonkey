@@ -28,8 +28,8 @@ struct s_physics_model_primitive
 	real32 volume;
 	real32 mass;
 	int16 mass_distribution_index;
-	char phantom;
-	char runtime_collision_group;
+	int8 phantom;
+	int8 runtime_collision_group;
 };
 static_assert(sizeof(s_physics_model_primitive) == 0x20);
 
@@ -94,8 +94,8 @@ struct s_havok_shape_collection // hkShapeCollection
 {
 	s_havok_shape base;
 	void* field_pointer_skip;
-	char disable_welding;
-	char collection_type;
+	int8 disable_welding;
+	int8 collection_type;
 	uint8 VDVAPBSS[0x2]; // pad
 };
 static_assert(sizeof(s_havok_shape_collection) == 0x18);

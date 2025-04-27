@@ -18,8 +18,8 @@ struct game_options
 	}
 
 	int32 game_mode;
-	char game_simulation;
-	char game_network_type;
+	int8 game_simulation;
+	int8 game_network_type;
 	int16 game_tick_rate;
 	uint64 game_instance;
 	uint32 random_seed;
@@ -30,7 +30,7 @@ struct game_options
 	c_static_string<260> scenario_path;
 	int16 initial_zone_set_index;
 	bool load_level_only;
-	uint8 dump_machine_index; // 5 bits, 32 max, is this be a char/int8?
+	int8 dump_machine_index;
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;

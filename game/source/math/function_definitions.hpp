@@ -10,9 +10,9 @@ static_assert(sizeof(real_block) == sizeof(real32));
 
 struct function_definition_data
 {
-	char function_type;
+	int8 function_type;
 	uint8 flags;
-	char function[2];
+	int8 function[2];
 	rgb_color color[4];
 	c_typed_tag_block<real_block> values;
 };

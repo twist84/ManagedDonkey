@@ -181,7 +181,7 @@ enum e_grenade_count_setting
 	k_grenade_count_setting_default = _grenade_count_setting_two
 };
 
-constexpr char k_grenade_count_values[k_grenade_count_settings - _grenade_count_setting_none]
+constexpr int8 k_grenade_count_values[k_grenade_count_settings - _grenade_count_setting_none]
 {
 	0,
 	1,
@@ -538,16 +538,16 @@ public:
 
 	e_grenade_count_setting get_initial_grenade_count_setting() const;
 	void set_initial_grenade_count_setting(e_grenade_count_setting initial_grenade_count_setting, bool force);
-	char get_initial_grenade_count() const;
+	int8 get_initial_grenade_count() const;
 	void set_initial_grenade_count(int32 initial_grenade_count, bool force);
 
-	char get_initial_primary_weapon_absolute_index() const;
-	void set_initial_primary_weapon_absolute_index(char initial_primary_weapon_absolute_index, bool force);
+	int8 get_initial_primary_weapon_absolute_index() const;
+	void set_initial_primary_weapon_absolute_index(int8 initial_primary_weapon_absolute_index, bool force);
 	int32 get_initial_primary_weapon() const;
 	void set_initial_primary_weapon(int32 initial_primary_weapon, bool force);
 
-	char get_initial_secondary_weapon_absolute_index() const;
-	void set_initial_secondary_weapon_absolute_index(char initial_secondary_weapon_absolute_index, bool force);
+	int8 get_initial_secondary_weapon_absolute_index() const;
+	void set_initial_secondary_weapon_absolute_index(int8 initial_secondary_weapon_absolute_index, bool force);
 	int32 get_initial_secondary_weapon() const;
 	void set_initial_secondary_weapon(int32 initial_secondary_weapon, bool force);
 
@@ -573,8 +573,8 @@ public:
 
 protected:
 	c_grenade_count_setting m_initial_grenade_count_setting;
-	char m_initial_primary_weapon_absolute_index;
-	char m_initial_secondary_weapon_absolute_index;
+	int8 m_initial_primary_weapon_absolute_index;
+	int8 m_initial_secondary_weapon_absolute_index;
 	c_damage_modifier_percentage_setting m_damage_modifier_percentage_setting;
 	c_recharging_grenades_setting m_recharging_grenades_setting;
 	c_infinite_ammo_setting m_infinite_ammo_setting;

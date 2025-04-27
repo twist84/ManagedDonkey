@@ -100,10 +100,10 @@ struct actor_state_data
 	bool suppress_combat;
 	bool broken;
 	bool berserk;
-	char covered;
+	int8 covered;
 	bool desired_berserk;
 	bool desired_stowed;
-	char not_sleeping_ticks;
+	int8 not_sleeping_ticks;
 	int16 berserk_ticks;
 	int16 covered_ticks;
 	s_actor_patrol_state patrol_state;
@@ -185,8 +185,8 @@ struct actor_memory_data
 	bool pathfinding_currently_invalid;
 	int16 chorus_vocalization_index;
 	int16 chorus_vocalization_delay_ticks;
-	char chorus_pitch_range_index;
-	char chorus_permutation_index;
+	int8 chorus_pitch_range_index;
+	int8 chorus_permutation_index;
 	bool armored;
 	int16 protecting;
 };
@@ -210,7 +210,7 @@ static_assert(sizeof(actor_morph_data) == 0x18);
 
 struct actor_situation
 {
-	char known_enemies;
+	int8 known_enemies;
 	int16 highest_prop_class;
 	int32 highest_prop_class_prop_index;
 	bool close_enemy;
@@ -424,8 +424,8 @@ static_assert(sizeof(actor_combat_orders) == 0x1C);
 
 struct actor_swarm_orders
 {
-	char action;
-	char target_type;
+	int8 action;
+	int8 target_type;
 	int32 target_index;
 };
 
@@ -492,8 +492,8 @@ struct path_result
 	c_path_destination endpoint;
 	int32 ignorable_object_index;
 	uint16 ignorable_object_flags;
-	char step_count;
-	char step_index;
+	int8 step_count;
+	int8 step_index;
 	path_step steps[4];
 	path_error_info error_info;
 };

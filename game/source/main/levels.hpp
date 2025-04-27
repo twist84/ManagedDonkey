@@ -31,12 +31,12 @@ struct s_level_datum :
 	char image_file_base[256];
 	int32 presence_context_id;
 	int32 sort_order;
-	char minimum_desired_players;
-	char maximum_desired_players;
-	char maximum_teams[11];
+	int8 minimum_desired_players;
+	int8 maximum_desired_players;
+	int8 maximum_teams[11];
 	bool allows_saved_films;
 	bool allows_survival;
-	char playable_character;
+	int8 playable_character;
 };
 static_assert(sizeof(s_level_datum) == 0x360);
 

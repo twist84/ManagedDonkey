@@ -52,10 +52,10 @@ public:
 	void set_carrier_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_ctf_variant_flags, char, k_ctf_variant_flags> m_variant_flags;
-	c_enum<e_ctf_home_flag_waypoint_settings, char, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
-	c_enum<e_ctf_game_type_settings, char, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
-	c_enum<e_ctf_respawn_settings, char, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
+	c_flags<e_ctf_variant_flags, int8, k_ctf_variant_flags> m_variant_flags;
+	c_enum<e_ctf_home_flag_waypoint_settings, int8, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
+	c_enum<e_ctf_game_type_settings, int8, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
+	c_enum<e_ctf_respawn_settings, int8, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
 	c_enum<e_ctf_touch_return_settings, int16, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
 	c_enum<e_ctf_sudden_death_time, int16, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
 	c_enum<int32, int16, 0, 50> m_score_to_win;     // default: 5

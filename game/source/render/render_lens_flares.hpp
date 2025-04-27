@@ -32,7 +32,7 @@ struct s_lens_flare
 	int32 expected_pixel_count;
 	int32 attached_type_index;
 	e_lens_flare_attachment_types attachment_type;
-	char flags;
+	int8 flags;
 	int32 user_index;
 };
 static_assert(sizeof(s_lens_flare) == 0x44);

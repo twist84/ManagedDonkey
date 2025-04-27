@@ -34,7 +34,7 @@ bool __cdecl network_get_machine_name(wchar_t* machine_name, int32 machine_name_
 	return true;
 }
 
-//.text:0042ED60 ; void __cdecl network_get_player_colors(e_game_team, bool, c_enum<e_player_color_index, char, -1, 32> const* const, real_rgb_color* const)
+//.text:0042ED60 ; void __cdecl network_get_player_colors(e_game_team, bool, c_enum<e_player_color_index, int8, -1, 32> const* const, real_rgb_color* const)
 //.text:0042EE60 ; bool __cdecl network_get_random_player_name(wchar_t*, int32)
 //.text:0042EF10 ; real_rgb_color __cdecl network_get_team_color(e_game_team)
 //.text:0042EF60 ; bool __cdecl network_get_unique_player_name(wchar_t*, int32, int32, wchar_t const**)

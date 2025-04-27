@@ -49,10 +49,10 @@ void c_game_engine_king_variant::encode_to_mcc(c_bitstream* packet) const
 	int16 score_to_win = get_score_to_win();
 	e_king_moving_hill_settings moving_hill = get_moving_hill();
 	e_king_moving_hill_order_settings moving_hill_order = get_moving_hill_order();
-	char inside_hill_points = get_inside_hill_points();
-	char outside_hill_points = get_outside_hill_points();
-	char uncontested_hill_bonus = get_uncontested_hill_bonus();
-	char kill_points = get_kill_points();
+	int8 inside_hill_points = get_inside_hill_points();
+	int8 outside_hill_points = get_outside_hill_points();
+	int8 uncontested_hill_bonus = get_uncontested_hill_bonus();
+	int8 kill_points = get_kill_points();
 
 	packet->write_bool("king-opaque-hill", opaque_hill);
 	packet->write_integer("king-score-to-win", score_to_win, 10);
@@ -73,10 +73,10 @@ void c_game_engine_king_variant::decode_from_mcc(c_bitstream* packet)
 	int16 score_to_win = static_cast<int16>(packet->read_integer("king-score-to-win", 10));
 	e_king_moving_hill_settings moving_hill = packet->read_enum<e_king_moving_hill_settings, 4>("king-moving-hill");
 	e_king_moving_hill_order_settings moving_hill_order = packet->read_enum<e_king_moving_hill_order_settings, 2>("king-moving-hill-order");
-	char inside_hill_points = static_cast<char>(packet->read_signed_integer("king_inside_hill_points", 5));
-	char outside_hill_points = static_cast<char>(packet->read_signed_integer("king_outside_hill_points", 5));
-	char uncontested_hill_bonus = static_cast<char>(packet->read_signed_integer("king_uncontested_hill_bonus", 5));
-	char kill_points = static_cast<char>(packet->read_signed_integer("king_kill_points", 5));
+	int8 inside_hill_points = static_cast<int8>(packet->read_signed_integer("king_inside_hill_points", 5));
+	int8 outside_hill_points = static_cast<int8>(packet->read_signed_integer("king_outside_hill_points", 5));
+	int8 uncontested_hill_bonus = static_cast<int8>(packet->read_signed_integer("king_uncontested_hill_bonus", 5));
+	int8 kill_points = static_cast<int8>(packet->read_signed_integer("king_kill_points", 5));
 	get_inside_hill_traits_writeable()->decode_from_mcc(packet);
 
 	set_opaque_hill(opaque_hill);
@@ -167,12 +167,12 @@ void c_game_engine_king_variant::set_moving_hill_order(e_king_moving_hill_order_
 	}
 }
 
-char c_game_engine_king_variant::get_uncontested_hill_bonus() const
+int8 c_game_engine_king_variant::get_uncontested_hill_bonus() const
 {
 	return m_uncontested_hill_bonus;
 }
 
-void c_game_engine_king_variant::set_uncontested_hill_bonus(char uncontested_hill_bonus)
+void c_game_engine_king_variant::set_uncontested_hill_bonus(int8 uncontested_hill_bonus)
 {
 	if (!VALID_INDEX(uncontested_hill_bonus + 10, 20))
 	{
@@ -186,12 +186,12 @@ void c_game_engine_king_variant::set_uncontested_hill_bonus(char uncontested_hil
 	}
 }
 
-char c_game_engine_king_variant::get_kill_points() const
+int8 c_game_engine_king_variant::get_kill_points() const
 {
 	return m_kill_points;
 }
 
-void c_game_engine_king_variant::set_kill_points(char kill_points)
+void c_game_engine_king_variant::set_kill_points(int8 kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
@@ -205,12 +205,12 @@ void c_game_engine_king_variant::set_kill_points(char kill_points)
 	}
 }
 
-char c_game_engine_king_variant::get_inside_hill_points() const
+int8 c_game_engine_king_variant::get_inside_hill_points() const
 {
 	return m_inside_hill_points;
 }
 
-void c_game_engine_king_variant::set_inside_hill_points(char inside_hill_points)
+void c_game_engine_king_variant::set_inside_hill_points(int8 inside_hill_points)
 {
 	if (!VALID_INDEX(inside_hill_points + 10, 20))
 	{
@@ -224,12 +224,12 @@ void c_game_engine_king_variant::set_inside_hill_points(char inside_hill_points)
 	}
 }
 
-char c_game_engine_king_variant::get_outside_hill_points() const
+int8 c_game_engine_king_variant::get_outside_hill_points() const
 {
 	return m_outside_hill_points;
 }
 
-void c_game_engine_king_variant::set_outside_hill_points(char outside_hill_points)
+void c_game_engine_king_variant::set_outside_hill_points(int8 outside_hill_points)
 {
 	if (!VALID_INDEX(outside_hill_points + 10, 20))
 	{

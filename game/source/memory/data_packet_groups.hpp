@@ -24,7 +24,7 @@ struct data_packet_group_definition
 
 struct packet_header
 {
-	char type;
+	int8 type;
 };
 
 extern unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definition* group_definition, void* a2, void* encoded_packet, int16* encoded_packet_size, int16 packet_type, int16 version);

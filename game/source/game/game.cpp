@@ -136,8 +136,8 @@ real32 const k_game_finished_time = 7.0f;
 
 s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
 {
-	cluster_reference->bsp_index = static_cast<char>(bsp_index);
-	cluster_reference->cluster_index = static_cast<char>(cluster_index);
+	cluster_reference->bsp_index = static_cast<int8>(bsp_index);
+	cluster_reference->cluster_index = static_cast<int8>(cluster_index);
 
 	return cluster_reference;
 }
@@ -859,7 +859,7 @@ bool __cdecl game_is_distributed()
 {
 	//return INVOKE(0x00531AF0, game_is_distributed);
 
-	char game_simulation = game_options_get()->game_simulation;
+	int8 game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_distributed_client &&
 		game_simulation <= _game_simulation_distributed_server)
 		return true;
@@ -923,7 +923,7 @@ bool __cdecl game_is_networked()
 {
 	//return INVOKE(0x00531C20, game_is_networked);
 
-	char game_simulation = game_options_get()->game_simulation;
+	int8 game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
 		game_simulation <= _game_simulation_distributed_server)
 		return true;
@@ -961,7 +961,7 @@ bool __cdecl game_is_server()
 {
 	//return INVOKE(0x00531DA0, game_is_server);
 
-	char game_simulation = game_options_get()->game_simulation;
+	int8 game_simulation = game_options_get()->game_simulation;
 	if (game_simulation == _game_simulation_synchronous_server ||
 		game_simulation == _game_simulation_distributed_server)
 		return true;

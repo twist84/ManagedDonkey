@@ -196,7 +196,7 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA33C0 ; public: void c_player_profile_interface::set_last_variant_played(e_game_engine_type, int32, bool)
 //.text:00AA3410 ; public: void c_player_profile_interface::set_look_sensitivity(e_look_sensitivity, bool)
 //.text:00AA3450 ; public: void c_player_profile_interface::set_map_completed_at_difficulty_level(e_campaign_game_mode, int32, e_campaign_difficulty_level, bool, bool)
-//.text:00AA34D0 ; public: void c_player_profile_interface::set_model_customization_selection(e_player_model_choice, int32, char, bool)
+//.text:00AA34D0 ; public: void c_player_profile_interface::set_model_customization_selection(e_player_model_choice, int32, int8, bool)
 //.text:00AA3560 ; public: void c_player_profile_interface::set_player_appearance(s_player_appearance const*, bool)
 //.text:00AA35C0 ; 
 //.text:00AA3620 ; public: void c_player_profile_interface::set_player_model_choice(e_player_model_choice, bool)

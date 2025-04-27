@@ -34,8 +34,8 @@ static_assert(sizeof(s_sound_location) == 0x2C);
 struct s_sound_source
 {
 	uint16 flags;
-	char volume_type;
-	char spatialization_mode;
+	int8 volume_type;
+	int8 spatialization_mode;
 	real32 scale;
 	uint8 __dataC[0x4];
 	s_sound_location location;
@@ -63,7 +63,7 @@ struct sound_channel_datum
 	int32 __unknown4;
 	int32 debug_entry_index;
 	int32 __unknownC;
-	char type_index; // c_enum<e_sound_channel_type, char>
+	int8 type_index; // c_enum<e_sound_channel_type, int8>
 	uint8 flags;
 	uint8 __unknownA_sound_playback; // c_flags<e_sound_playback_bit, uint8>
 	uint8 __unknownB_sound_playback; // c_flags<e_sound_playback_bit, uint8>
@@ -102,8 +102,8 @@ static_assert(sizeof(s_sound_tracker_datum) == 0x40);
 struct sound_datum :
 	s_datum_header
 {
-	char software_reference_count;
-	char hardware_reference_count;
+	int8 software_reference_count;
+	int8 hardware_reference_count;
 
 	uint32 flags;
 
@@ -117,7 +117,7 @@ struct sound_datum :
 
 	uint8 __data6C[4];
 
-	char loop_track_index;
+	int8 loop_track_index;
 	uint8 __unknown71;
 	uint8 __unknown72;
 	uint8 __unknown73;
@@ -131,9 +131,9 @@ struct sound_datum :
 	real32 __unknownA4;
 
 	real32 maybe_pitch_scale;
-	char pitch_range_index;
+	int8 pitch_range_index;
 
-	char permutation_index;
+	int8 permutation_index;
 	int16 permutation_chunk_index;
 
 	c_enum<int32, uint8, 0, 4> listener_index;
@@ -144,8 +144,8 @@ struct sound_datum :
 	int32 playback_controller_index_;
 
 	int16 playing_channel_index; // index into `channel_get` and `g_sound_channels`
-	char sound_fade_mode;
-	char event_stop_reason;
+	int8 sound_fade_mode;
+	int8 event_stop_reason;
 
 	real32 __unknownBC;
 	int32 __unknownC0;
@@ -164,9 +164,9 @@ struct looping_sound_track_datum
 {
 	int32 sound_index;
 	uint8 __data4[0x8];
-	char current_playback_state;
-	char queued_playback_state;
-	char playing_sound_count;
+	int8 current_playback_state;
+	int8 queued_playback_state;
+	int8 playing_sound_count;
 	uint8 __dataF[0x5];
 	c_static_array<real32, 4> gains;
 };
@@ -184,7 +184,7 @@ struct looping_sound_datum :
 
 	s_sound_source source;
 	uint8 flags;
-	char component_sound_count;
+	int8 component_sound_count;
 	int32 playback_controller_index;
 
 	uint8 __data68[0x30];
@@ -198,7 +198,7 @@ struct s_sound_effect_datum :
 {
 	uint8 __data2[0x1];
 
-	char source_type;
+	int8 source_type;
 	uint16 flags;
 	int32 playback_controller_index;
 	int32 tracker_index;
@@ -214,7 +214,7 @@ struct c_sound_playback_controller :
 	// reference ^= (reference ^ (reference + 1)) & 0x3F
 	uint8 reference;
 
-	char m_ready_count;
+	int8 m_ready_count;
 	int32 identifier;
 	uint32 random_seed;
 

@@ -148,7 +148,7 @@ struct c_multi_sphere_shape
 {
 	s_havok_shape sphere_rep_shape;
 	int32 num_spheres;
-	char cock_suck[0xC];
+	int8 cock_suck[0xC];
 	s_havok_vector4 four_vectors_storage[8];
 };
 

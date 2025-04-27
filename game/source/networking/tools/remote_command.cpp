@@ -1458,7 +1458,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 				char consumable_name[32]{};
 				if (sscanf_s(buffer, "consumables[%d]: %s", &consumable_index, consumable_name, sizeof(consumable_name)) && (consumable_index != NONE && *consumable_name))
 				{
-					weapon_loadout.consumables[consumable_index] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index(consumable_name));
+					weapon_loadout.consumables[consumable_index] = static_cast<int8>(multiplayer_universal_data_get_absolute_equipment_block_index(consumable_name));
 					continue;
 				}
 			}

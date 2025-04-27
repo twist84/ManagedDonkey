@@ -157,7 +157,7 @@ void __cdecl physical_memory_initialize()
 	physical_memory_globals.current_stage = _memory_stage_initial;
 	physical_memory_globals.minimum_address = (uint32)k_virtual_to_physical_base_offset;
 	physical_memory_globals.maximum_address = (uint32)resources_buffer;
-	physical_memory_globals.no_mans_land = (char*)1;
+	physical_memory_globals.no_mans_land = (int8*)1;
 
 	if (s_physical_memory_stage* current_stage = physical_memory_get_current_stage())
 	{

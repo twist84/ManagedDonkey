@@ -379,12 +379,12 @@ int64 make_int64(int32 low, int32 high)
 
 void* offset_pointer(void* pointer, int32 offset)
 {
-	return (char*)pointer + offset;
+	return (uint8*)pointer + offset;
 }
 
 void const* offset_pointer(void const* pointer, int32 offset)
 {
-	return (char const*)pointer + offset;
+	return (uint8 const*)pointer + offset;
 }
 
 unsigned int align_address(unsigned int address, int32 alignment_bits)
@@ -399,12 +399,12 @@ void* align_pointer(void* pointer, int32 alignment_bits)
 
 int32 pointer_distance(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<int32>((char*)pointer_b - (char*)pointer_a);
+	return static_cast<int32>((uint8*)pointer_b - (uint8*)pointer_a);
 }
 
 int32 pointer_difference(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<int32>((char*)pointer_b - (char*)pointer_a);
+	return static_cast<int32>((uint8*)pointer_b - (uint8*)pointer_a);
 }
 
 void __cdecl cseries_dispose()

@@ -41,7 +41,7 @@ public:
 
 protected:
 	c_flags<e_sandbox_variant_flags, uint8, k_sandbox_variant_flags> m_variant_flags;
-	c_enum<e_sandbox_edit_mode_settings, char, _sandbox_edit_mode_settings_all_players, k_sandbox_edit_mode_settings> m_edit_mode;
+	c_enum<e_sandbox_edit_mode_settings, int8, _sandbox_edit_mode_settings_all_players, k_sandbox_edit_mode_settings> m_edit_mode;
 	c_enum<e_sandbox_respawn_time, int16, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
 };

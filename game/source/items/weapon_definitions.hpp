@@ -512,7 +512,7 @@ struct _weapon_definition
 	melee_damage_parameters_struct melee_damage_parameters;
 
 	s_tag_reference clash_effect;
-	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> melee_damage_reporting_type;
+	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> melee_damage_reporting_type;
 
 	// pad
 	uint8 FEOROBJE[0x1];

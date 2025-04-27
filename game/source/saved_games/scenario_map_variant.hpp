@@ -52,9 +52,9 @@ public:
 
 	union
 	{
-		char spare_clips;
-		char teleporter_channel;
-		char spawn_order;
+		uint8 spare_clips;
+		uint8 teleporter_channel;
+		uint8 spawn_order;
 
 		uint8 value;
 	} shared_storage;
@@ -64,7 +64,7 @@ public:
 
 	uint8 cached_object_type;
 
-	c_enum<e_multiplayer_object_boundary_shape, char, _shape_unused, k_multiplayer_object_boundary_count> shape;
+	c_enum<e_multiplayer_object_boundary_shape, int8, _shape_unused, k_multiplayer_object_boundary_count> shape;
 	tag_shape_data shape_data;
 };
 static_assert(sizeof(s_variant_multiplayer_object_properties_definition) == 0x18);

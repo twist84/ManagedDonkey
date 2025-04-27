@@ -64,12 +64,12 @@ struct collision_result
 	int32 leaf_index;
 	int32 surface_index;
 	int32 plane_designator;
-	char edge_index;
+	int8 edge_index;
 	uint8 flags; // c_flags<e_surface_flags, uint8, k_surface_flags>
 	uint8 breakable_surface_index;
 	uint8 __unknown57;
 	int16 material_index;
-	char breakable_surface_set_index;
+	int8 breakable_surface_set_index;
 	uint8 __data5B[0x1];
 };
 static_assert(sizeof(collision_result) == 0x5C);
@@ -81,7 +81,7 @@ struct collision_bsp_test_vector_result
 	int32 leaf_index;
 	int32 surface_index;
 	int32 plane_index;
-	char edge_index;
+	int8 edge_index;
 	uint8 flags;
 	uint8 breakable_surface_index;
 	int16 material_index;
