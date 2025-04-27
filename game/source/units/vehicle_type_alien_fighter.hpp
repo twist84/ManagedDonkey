@@ -2,16 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_vehicle_trick_type
-{
-	_vehicle_trick_type_none = 0,
-	_vehicle_trick_type_left_barrel_roll,
-	_vehicle_trick_type_right_barrel_roll,
-	_vehicle_trick_type_back_loop,
-
-	k_vehicle_trick_type_count
-};
-
 struct s_havok_vehicle_physics_instance;
 struct render_model_definition;
 struct c_animation_channel;

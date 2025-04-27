@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "networking/online/online_marketplace.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct c_player_marketplace

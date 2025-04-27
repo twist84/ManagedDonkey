@@ -2,34 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_parameter_change_request_access
-{
-	_parameter_change_request_access_default = 0,
-	_parameter_change_request_access_leader,
-	_parameter_change_request_access_peer,
-	k_parameter_change_request_access_count,
-
-	k_parameter_change_request_access_none = NONE,
-};
-
-enum e_network_session_parameter_flags
-{
-	_network_session_parameter_valid_bit = 0,
-	_network_session_parameter_desires_change_request_bit,
-
-	k_network_session_parameter_flags_count
-};
-
-enum e_parameter_update_priority
-{
-	_parameter_update_priority_default = 0,
-	_parameter_update_priority_high,
-	k_parameter_update_priority_count,
-
-	k_parameter_update_priority_none = NONE,
-};
-
-enum e_network_session_parameter_type;
 struct c_network_session;
 struct s_network_session_parameter_update;
 struct c_network_session_parameter_base

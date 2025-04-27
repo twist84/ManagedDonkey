@@ -3,11 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 
-enum e_campaign_id;
-enum e_controller_index;
-enum e_gui_campaign_level_setup_mode;
-enum e_map_id;
-
 struct c_gui_screen_campaign_select_level :
 	public c_gui_screen_widget
 {

@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_data.hpp"
-#include "shell/shell.hpp"
 
 struct c_gui_roster_data :
 	c_gui_ordered_data

@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_game_team;
 struct s_game_engine_score_list
 {
 	long player_indices[16];

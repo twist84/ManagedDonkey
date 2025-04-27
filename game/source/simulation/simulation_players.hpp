@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "game/player_control.hpp"
 #include "game/players.hpp"
-#include "shell/shell.hpp"
 
 enum e_simulation_player_update_type
 {

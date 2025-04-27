@@ -4,63 +4,6 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-enum
-{
-	k_maximum_async_task_data_size = 0x220
-};
-
-enum e_async_category
-{
-	_async_category_none = 0,
-	_async_category_background_copy,
-	_async_category_cache_file_misc,
-	_async_category_cache_file_texture,
-	_async_category_cache_file_geometry,
-	_async_category_cache_file_sound,
-	_async_category_cache_file_animation,
-	_async_category_text,
-	_async_category_saved_games,
-	_async_category_online_files,
-
-	k_async_category_count
-};
-
-enum e_async_priority
-{
-	_async_priority_background_idle_loading = 0,
-	_async_priority_background_user_task,
-	_async_priority_background_important_loading,
-	_async_priority_background_important_user_task,
-	_async_priority_predicted,
-	_async_priority_important_non_blocking,
-	_async_priority_blocking_below_sound,
-	_async_priority_sound,
-	_async_priority_very_important_non_blocking,
-	_async_priority_blocking_generic,
-	_async_priority_blocking_render,
-	_async_priority_blocking_animation,
-
-	k_async_priorities_count
-};
-
-enum e_async_completion
-{
-	_async_completion_retry = 0,
-	_async_completion_done,
-	_async_completion_thread_exit,
-
-	k_async_completion_count
-};
-
-enum e_yield_reason
-{
-	_yield_for_unknown = 0,
-	_yield_for_sound_cache,
-	_yield_for_texture_cache,
-	_yield_for_geometry_cache,
-	_yield_for_font_cache
-};
-
 struct s_create_file_task
 {
 	wchar_t file_path[256];
@@ -83,13 +26,6 @@ struct s_read_position_task
 	long buffer_offset;
 };
 static_assert(sizeof(s_read_position_task) == 0x18);
-
-enum e_write_position_flags
-{
-	_write_position_flush_file_bit = 0,
-
-	k_write_position_flags
-};
 
 struct s_write_position_task
 {
@@ -206,14 +142,6 @@ struct s_font_loading_task
 };
 static_assert(sizeof(s_font_loading_task) == 0x4);
 
-enum e_dvd_find_files_stage
-{
-	_dvd_find_files_start_stage = 0,
-	_dvd_find_next_file_stage,
-
-	k_dvd_find_files_stage_count
-};
-
 struct s_configuration_enumeration_task
 {
 	e_dvd_find_files_stage stage;
@@ -221,18 +149,6 @@ struct s_configuration_enumeration_task
 };
 static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
 
-enum e_dlc_find_files_stage
-{
-	_dlc_begin_next_content_catalogue_stage = 0,
-	_dlc_find_next_content_item,
-	_dlc_find_files_start_stage,
-	_dlc_find_next_file_stage,
-	_dlc_find_next_content_catalogue_stage,
-
-	k_dlc_find_files_stage_count
-};
-
-enum e_controller_index;
 struct s_dlc_enumeration_task
 {
 	e_controller_index controller_index;

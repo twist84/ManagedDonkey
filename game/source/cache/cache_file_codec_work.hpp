@@ -29,7 +29,6 @@ struct c_cache_file_async_decompression_task
 };
 static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
 
-enum e_async_priority;
 long __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,

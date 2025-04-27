@@ -5,9 +5,9 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-enum e_gui_selected_item_type;
 struct c_gui_data;
 struct c_virtual_keyboard_task;
+
 struct c_gui_screen_pregame_selection :
 	public c_gui_screen_widget
 {

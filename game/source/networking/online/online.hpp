@@ -1,20 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "text/unicode.hpp"
-
-enum e_online_nat_type
-{
-	_online_nat_type_none = 0,
-	_online_nat_type_open,
-	_online_nat_type_moderate,
-	_online_nat_type_strict,
-
-	k_online_nat_type_count
-};
-
-enum e_controller_index;
-
 extern void __cdecl online_dispose();
 extern void __cdecl online_dump_machine_info(uint64 game_instance);
 extern e_online_nat_type __cdecl online_get_maximum_compatible_nat_type(e_online_nat_type nat_type);

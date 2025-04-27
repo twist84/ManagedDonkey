@@ -43,8 +43,6 @@ struct c_network_session_parameter_initial_participants :
 };
 static_assert(sizeof(c_network_session_parameter_initial_participants) == 0x2CA90);
 
-enum e_session_game_start_status;
-enum e_session_game_start_error;
 struct s_network_session_parameter_game_start_status
 {
 	e_session_game_start_status game_start_status;

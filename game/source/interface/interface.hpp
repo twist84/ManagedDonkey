@@ -1,11 +1,7 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 struct c_draw_string;
-enum e_font_id;
-enum e_text_style;
-enum e_text_justification;
+union real_argb_color;
 
 extern void __cdecl interface_dispose();
 extern void __cdecl interface_dispose_from_old_map();

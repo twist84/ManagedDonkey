@@ -2,7 +2,6 @@
 
 #include "interface/c_gui_widget.hpp"
 #include "interface/user_interface_text.hpp"
-#include "shell/shell.hpp"
 
 enum e_text_widget_definition_flags
 {

@@ -5,6 +5,7 @@
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x022C0128, s_global_preferences_internals_type, g_global_preferences_internal);
 

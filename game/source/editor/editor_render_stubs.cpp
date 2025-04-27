@@ -1,7 +1,6 @@
 #include "editor/editor_render_stubs.hpp"
 
 #include "math/integer_math.hpp"
-#include "shell/shell.hpp"
 
 void editor_render_debug()
 {

@@ -21,7 +21,6 @@
 #include "render/render_lens_flares.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render_methods/render_method_submit.hpp"
-#include "shell/shell.hpp"
 #include "shell/shell_windows.hpp"
 #include "tag_files/files.hpp"
 

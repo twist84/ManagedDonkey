@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 // mapped using halo 3/odst/halo reach
 // only `_game_time_pause_reason_debug` works in multiplayer

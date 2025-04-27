@@ -11,7 +11,6 @@ struct s_simulation_gamestate_entity :
 };
 static_assert(sizeof(s_simulation_gamestate_entity) == 0x10);
 
-enum e_simulation_entity_type;
 struct c_bitstream;
 
 extern void __cdecl simulation_gamestate_entities_dispose();

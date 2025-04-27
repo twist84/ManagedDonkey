@@ -50,7 +50,6 @@ struct s_render_object_globals
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
-enum e_entry_point;
 struct c_object_renderer
 {
 	static void __cdecl render_albedo(uint32 flags);

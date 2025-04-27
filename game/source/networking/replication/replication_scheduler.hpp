@@ -1,7 +1,6 @@
 #pragma once
 
 #include "networking/delivery/network_channel.hpp"
-#include "shell/shell.hpp"
 
 enum e_network_read_result;
 struct c_bitstream;

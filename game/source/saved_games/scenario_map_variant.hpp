@@ -6,79 +6,6 @@
 
 struct c_map_variant;
 
-enum e_game_engine_symmetric_placement
-{
-	_game_engine_disregard_symmetry_for_placement = 0,
-	_game_engine_symmetric_placement,
-	_game_engine_asymmetric_placement,
-
-	k_number_of_game_engine_symmetric_placement_settings
-};
-
-enum e_scenario_game_engine
-{
-	_scenario_game_engine_type_ctf = 0,
-	_scenario_game_engine_type_slayer,
-	_scenario_game_engine_type_oddball,
-	_scenario_game_engine_type_king,
-	_scenario_game_engine_type_juggernaut,
-	_scenario_game_engine_type_territories,
-	_scenario_game_engine_type_assault,
-	_scenario_game_engine_type_vip,
-	_scenario_game_engine_type_infection,
-	_scenario_game_engine_type_target_training,
-
-	k_scenario_game_engine_type_count
-};
-
-enum e_multiplayer_team_designator
-{
-	_multiplayer_team_designator_defender = 0,
-	_multiplayer_team_designator_attacker,
-	_multiplayer_team_designator_third_party,
-	_multiplayer_team_designator_fourth_party,
-	_multiplayer_team_designator_fifth_party,
-	_multiplayer_team_designator_sixth_party,
-	_multiplayer_team_designator_seventh_party,
-	_multiplayer_team_designator_eigth_party,
-	_multiplayer_team_designator_neutral,
-
-	k_multiplayer_team_designator_count
-};
-
-enum e_teleporter_channel
-{
-	_channel_first = 0,
-	_channel_alpha = _channel_first,
-	_channel_bravo,
-	_channel_charlie,
-	_channel_delta,
-	_channel_echo,
-	_channel_foxtrot,
-	_channel_golf,
-	_channel_hotel,
-	_channel_india,
-	_channel_juliet,
-	_channel_kilo,
-	_channel_lima,
-	_channel_mike,
-	_channel_november,
-	_channel_oscar,
-	_channel_papa,
-	_channel_quebec,
-	_channel_romeo,
-	_channel_sierra,
-	_channel_tango,
-	_channel_uniform,
-	_channel_victor,
-	_channel_whiskey,
-	_channel_xray,
-	_channel_yankee,
-	_channel_zulu,
-
-	k_teleporter_channel_count,
-	k_channel_default = _channel_first,
-};
 using c_teleporter_channel = c_enum<enum e_teleporter_channel, uint8, k_channel_default, k_teleporter_channel_count>;
 
 struct s_variant_multiplayer_object_properties_definition
@@ -209,7 +136,6 @@ public:
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
 
-enum e_map_id;
 struct c_bitstream;
 
 struct c_map_variant

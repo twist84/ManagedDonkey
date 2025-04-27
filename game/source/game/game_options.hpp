@@ -7,7 +7,6 @@
 #include "game/players.hpp"
 #include "networking/tools/network_webstats.hpp"
 #include "saved_games/scenario_map_variant.hpp"
-#include "shell/shell.hpp"
 
 #pragma warning(push)
 #pragma warning(disable : 26495)

@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
-#include "shell/shell.hpp"
 
 struct c_service_client
 {

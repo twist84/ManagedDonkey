@@ -5,7 +5,6 @@
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/network_utilities.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct s_network_message_ping

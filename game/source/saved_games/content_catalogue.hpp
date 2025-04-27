@@ -1,11 +1,9 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "saved_games/c_storage_device.hpp"
 #include "saved_games/content_catalogue_tasks.hpp"
 #include "saved_games/content_item.hpp"
-#include "shell/shell.hpp"
 
 struct s_data_array;
 struct c_content_catalogue

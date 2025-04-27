@@ -1,14 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "hs/hs_scenario_definitions.hpp"
-
-enum e_reference_type
-{
-	_hs_reference_type_global = 0,
-	_hs_reference_type_script
-};
-
 long const k_hs_compile_error_buffer_size = 1024;
 long const k_maximum_hs_scripts_per_scenario = 1024;
 long const k_maximum_hs_globals_per_scenario = 256;
@@ -22,13 +13,6 @@ struct s_hs_reference
 	s_hs_reference* next;
 };
 static_assert(sizeof(s_hs_reference) == 0x14);
-
-enum
-{
-	k_maximum_number_of_references = 10240,
-	k_maximum_number_of_script_references = 1024,
-	k_maximum_number_of_global_references = 280,
-};
 
 static inline struct
 {
@@ -64,8 +48,8 @@ static_assert(sizeof(hs_compile_globals) == 0x444);
 using hs_type_primitive_parser_t = bool __cdecl(long expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
 
-enum e_event_level;
 struct hs_tokenizer;
+struct s_tag_block;
 
 extern bool hs_parse_boolean(long expression_index);
 extern bool hs_parse_real(long expression_index);

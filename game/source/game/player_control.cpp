@@ -8,7 +8,6 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "motor/mover.hpp"
-#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 #include "units/bipeds.hpp"
 

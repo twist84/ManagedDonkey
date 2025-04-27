@@ -3,46 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
 #include "multithreading/synchronized_value.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/files.hpp"
-
-enum
-{
-	k_latest_font_package_header_version = 0xC0000003,
-	
-	k_font_package_file_size = 0x8000,
-	k_font_package_entry_count = 8,
-	k_font_count = 16,
-
-	k_latest_font_header_version = 0xF0000005,
-	k_font_header_kerning_pair_index_count = 256,
-};
-
-enum e_font_index
-{
-	_font_index_none = -1,
-	_font_index_fallback = -2,
-
-	k_maximum_font_index_count = 10
-};
-
-enum
-{
-	_package_cache_status_line_package_status = 0,
-	_package_cache_status_line_load_stats,
-
-	k_package_cache_status_line_count
-};
-
-enum e_font_package_status
-{
-	_font_package_unavailable = 0,
-	_font_package_delayed_loading,
-	_font_package_loading,
-	_font_package_ready,
-
-	k_font_package_status_count
-};
 
 #pragma pack(push, 1)
 struct s_font_loading_state
@@ -187,10 +148,7 @@ extern char const*& k_dvd_font_directory;
 extern char const* const& k_font_package_base_name;
 extern char const* const& k_font_package_suffix;
 
-enum e_async_completion;
 struct s_async_task;
-
-enum e_language;
 
 extern void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state);
 extern void __cdecl font_close_loaded_file(s_font_loading_state* loading_state);

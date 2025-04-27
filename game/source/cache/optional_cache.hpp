@@ -15,7 +15,6 @@ struct s_optional_cache_user_memory_configuration
 static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
 
 enum e_optional_cache_user_priority;
-enum e_map_memory_configuration;
 struct s_optional_cache_user_memory_configuration;
 
 struct c_optional_cache_user_callback

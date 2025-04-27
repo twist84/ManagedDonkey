@@ -1,7 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 struct s_bink_shared_game_state
 {
 	long texture_index_to_render;
@@ -9,7 +7,6 @@ struct s_bink_shared_game_state
 };
 static_assert(sizeof(s_bink_shared_game_state) == 0x8);
 
-enum e_map_memory_configuration;
 struct s_game_non_bsp_zone_set;
 struct c_scenario_resource_registry;
 

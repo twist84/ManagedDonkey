@@ -16,12 +16,6 @@
 
 #define STARTSWITH(s1, s1_len, s2) (csmemcmp((s1), (s2), csstrnlen((s2), (s1_len))) == 0)
 
-#define xstr(a) str(a)
-#define str(a) #a
-
-#define _STRCONCAT(x, y) x ## y
-#define STRCONCAT(x, y) _STRCONCAT(x, y)
-
 #define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
 #define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(&TYPE)>(ADDR)(__VA_ARGS__)
 #define INVOKE_CLASS_MEMBER(ADDRESS, CLASS, NAME, ...) (this->*static_to_member_t<decltype(&CLASS##::##NAME)>{ .address = ADDRESS }.function)(__VA_ARGS__)
@@ -29,36 +23,11 @@
 #define DECLARE_LAMBDA(NAME, RETURN_TYPE, FUNCTION) struct s_##NAME { RETURN_TYPE operator () FUNCTION } NAME; // https://stackoverflow.com/a/31920570
 #define DECLARE_LAMBDA2(NAME, RETURN_TYPE, ...) RETURN_TYPE(*NAME)(__VA_ARGS__) = [](__VA_ARGS__) -> RETURN_TYPE
 
-#define OFFSETOF(s,m) __builtin_offsetof(s,m)
-#define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
-#define IN_RANGE(value, begin, end) ((value) > (begin) && (value) < (end))
-#define IN_RANGE_INCLUSIVE(value, begin, end) ((value) >= (begin) && (value) <= (end))
-#define VALID_INDEX(index, count) ((index) >= 0 && (index) < (count))
-#define VALID_COUNT(index, count) ((index) >= 0 && (index) <= (count))
-
-// referenced
-#define BIT_VECTOR_SIZE_IN_LONGS(BIT_COUNT) (((BIT_COUNT) + (LONG_BITS - 1)) >> 5)
-#define BIT_VECTOR_SIZE_IN_BYTES(BIT_COUNT) (4 * BIT_VECTOR_SIZE_IN_LONGS(BIT_COUNT))
-#define BIT_VECTOR_TEST_FLAG(BIT_VECTOR, BIT) ((BIT_VECTOR[BIT >> 5] & (1 << (BIT & (LONG_BITS - 1)))) != 0)
-
-// not referenced
-#define BIT_VECTOR_OR_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] |= (1 << (BIT & (LONG_BITS - 1))))
-#define BIT_VECTOR_AND_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] &= ~(1 << (BIT & (LONG_BITS - 1))))
-
 #define REFERENCE_DECLARE(address, type, name) type& name = *reinterpret_cast<type*>(address)
 #define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
 #define REFERENCE_DECLARE_2D_ARRAY(address, type, name, count0, count1) type(&name)[count0][count1] = *reinterpret_cast<type(*)[count0][count1]>(address)
 #define REFERENCE_DECLARE_3D_ARRAY(address, type, name, count0, count1, count3) type(&name)[count0][count1][count3] = *reinterpret_cast<type(*)[count0][count1][count3]>(address)
 #define REFERENCE_DECLARE_STATIC_ARRAY(address, type, count, name) c_static_array<type, count> &name = *reinterpret_cast<c_static_array<type, count>*>(address)
-
-#define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
-#define MIN(x, low) ((x) < (low) ? (x) : (low))
-#define MAX(x, high) ((x) > (high) ? (x) : (high))
-#define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
-#define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
-#define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))
-
-#define try_bool(X) if (!X) return false
 
 #if defined(_DEBUG)
 #define DEBUG_ONLY(...) __VA_ARGS__
@@ -73,20 +42,6 @@
 #define DEBUG_ONLY(...)
 #endif
 
-// 4-character tag group identifier
-typedef unsigned long tag;
-static_assert(sizeof(tag) == 0x4);
-
-enum : tag
-{
-	_tag_none = 0xFFFFFFFF
-};
-
-enum e_none_sentinel
-{
-	NONE = -1
-};
-
 #define k_tag_string_length 32
 #define k_tag_long_string_length 256
 
@@ -97,41 +52,6 @@ enum e_none_sentinel
 // 256-character ascii string
 //typedef char long_string[k_tag_long_string_length];
 //static_assert(sizeof(long_string) == 0x100);
-
-typedef long string_id;
-static_assert(sizeof(string_id) == 0x4);
-
-typedef char int8;
-static_assert(sizeof(int8) == 0x1);
-
-typedef unsigned char uint8;
-static_assert(sizeof(uint8) == 0x1);
-
-typedef short int16;
-static_assert(sizeof(int16) == 0x2);
-
-typedef unsigned short uint16;
-static_assert(sizeof(uint16) == 0x2);
-
-typedef long int32;
-static_assert(sizeof(int32) == 0x4);
-
-typedef unsigned long uint32;
-static_assert(sizeof(uint32) == 0x4);
-
-typedef long long int64;
-static_assert(sizeof(int64) == 0x8);
-
-typedef unsigned long long uint64;
-static_assert(sizeof(uint64) == 0x8);
-
-typedef float real32;
-static_assert(sizeof(real32) == 0x4);
-
-typedef double real64;
-static_assert(sizeof(real64) == 0x8);
-
-typedef char utf8;
 
 struct s_datum_header
 {
@@ -160,38 +80,6 @@ public:
 public:
 	long m_index;
 };
-
-#define SIZEOF_BITS(value) 8 * sizeof(value)
-
-const long CHAR_BYTES = sizeof(char);
-const long SHORT_BYTES = sizeof(short);
-const long LONG_BYTES = sizeof(long);
-const long CHAR_BITS = SIZEOF_BITS(char);
-const long SHORT_BITS = SIZEOF_BITS(short);
-const long LONG_BITS = SIZEOF_BITS(long);
-
-#define FLAG(bit) (1 << (bit))
-#define MASK(bit) ((1 << (bit)) - 1)
-#define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
-#define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
-#define TEST_FLAG(flags, bit) (flags.test((bit)))
-#define TEST_MASK(flags, mask) (((flags) & (mask)) != 0)
-#define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
-#define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
-#define SET_BIT(flags, bit, enable) { if ((enable)) { (flags) |= FLAG((bit)); } else { (flags) &= ~FLAG((bit)); } }
-#define SET_MASK(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
-#define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
-
-#define INVALID_ASYNC_TASK_ID -1
-
-//#define CHAR_MAX char(0x7F)
-#define UNSIGNED_CHAR_MAX uint8(0xFF)
-
-//#define SHORT_MAX short(0x7FFF)
-#define UNSIGNED_SHORT_MAX uint16(0xFFFF)
-
-//#define LONG_MAX long(0x7FFFFFFF)
-#define UNSIGNED_LONG_MAX uint32(0xFFFFFFFF)
 
 template<typename t_type>
 union t_value_type

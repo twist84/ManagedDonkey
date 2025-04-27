@@ -5,7 +5,6 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-enum e_map_id;
 struct c_gui_custom_bitmap_widget :
 	public c_gui_bitmap_widget
 {

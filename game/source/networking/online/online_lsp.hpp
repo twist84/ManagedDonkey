@@ -2,34 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_online_lsp_service_type
-{
-	// H3
-	/* ttl */ _online_lsp_service_type_title_files = 0,
-	/* usr */ _online_lsp_service_type_user_files,
-	/* shr */ _online_lsp_service_type_mass_storage,
-	/* dbg */ _online_lsp_service_type_debug,
-	/* web */ _online_lsp_service_type_webstats,
-
-	// HO
-	/* mmk */ _online_lsp_service_type_mmk, // matchmaking?
-	/* amm */ _online_lsp_service_type_amm, // ?
-	/* prs */ _online_lsp_service_type_prs, // presence from reach?
-	/* ofr */ _online_lsp_service_type_ofr, // offers?
-
-	k_online_lsp_service_type_count
-};
-
-enum e_online_lsp_state
-{
-	_online_lsp_state_search_start = 0,
-	_online_lsp_state_searching,
-	_online_lsp_state_search_succeeded,
-	_online_lsp_state_search_failed,
-
-	k_online_lsp_state_count
-};
-
 struct s_server_connect_info
 {
 	c_static_string<16> ip;

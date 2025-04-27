@@ -4,7 +4,6 @@
 #include "game/materials.hpp"
 #include "items/item_definitions.hpp"
 #include "math/function_definitions.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_equipment_type

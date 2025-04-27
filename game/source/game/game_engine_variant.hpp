@@ -12,7 +12,6 @@
 #include "game/game_engine_slayer.hpp"
 #include "game/game_engine_territories.hpp"
 #include "game/game_engine_vip.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 #define BUILD_DEFAULT_GAME_VARIANT(_game_variant, _game_engine_index)                            \

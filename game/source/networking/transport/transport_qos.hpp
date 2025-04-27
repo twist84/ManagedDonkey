@@ -3,8 +3,6 @@
 #include "cseries/cseries.hpp"
 
 enum e_transport_qos_target_status;
-enum e_transport_qos_type;
-
 struct s_transport_qos_listener_stats;
 
 struct s_transport_qos_result

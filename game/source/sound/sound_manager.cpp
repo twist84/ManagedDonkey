@@ -5,7 +5,6 @@
 #include "memory/data.hpp"
 #include "memory/module.hpp"
 #include "render/render_debug.hpp"
-#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_classes.hpp"
 

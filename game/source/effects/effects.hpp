@@ -15,16 +15,6 @@
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
 
-enum e_effect_pass
-{
-	_effect_pass_opaque = 0,
-	_effect_pass_transparents,
-	_effect_pass_distortion,
-	_effect_pass_first_person,
-
-	k_effect_pass_count
-};
-
 struct s_effect_vector
 {
 	real_point3d position;

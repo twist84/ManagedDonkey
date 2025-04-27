@@ -9,39 +9,6 @@
 
 long const k_seat_acceleration_memory_length = 6;
 
-enum
-{
-	_unit_estimate_none = 0,
-	_unit_estimate_head_standing,
-	_unit_estimate_head_crouching,
-	_unit_estimate_gun_position,
-	_unit_estimate_aiming_standing,
-	_unit_estimate_aiming_crouching,
-
-	k_unit_estimate_position_modes_count
-};
-
-enum e_unit_drop_type
-{
-	_unit_drop_type_drop = 0,
-	_unit_drop_type_delete,
-	_unit_drop_type_drop_right,
-	_unit_drop_type_drop_left,
-	_unit_drop_type_response_to_deletion,
-
-	k_unit_drop_type_count,
-
-	k_unit_drop_type_none = -1
-};
-
-enum e_weapon_set
-{
-	_weapon_set_primary = 0,
-	_weapon_set_secondary,
-
-	k_weapon_set_count
-};
-
 struct s_unit_weapon_set
 {
 	uint16 set_identifier;

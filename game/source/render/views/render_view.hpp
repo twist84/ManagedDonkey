@@ -195,8 +195,6 @@ public:
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 
-enum e_controller_index;
-enum e_effect_pass;
 enum c_rasterizer::e_splitscreen_res;
 
 // 0165E130

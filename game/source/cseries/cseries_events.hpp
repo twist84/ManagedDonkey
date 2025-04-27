@@ -3,38 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
 
-enum
-{
-	k_error_message_buffer_maximum_size = 2048,
-};
-
-enum e_event_level
-{
-	_event_verbose = 0,
-	_event_status,
-	_event_message,
-	_event_warning,
-	_event_error,
-	_event_critical,
-
-	k_event_level_count,
-
-	k_event_level_none = NONE,
-};
-
-enum e_category_properties_flags
-{
-	_category_properties_display_level_bit = 0,
-	_category_properties_force_display_level_bit,
-	_category_properties_log_level_bit,
-	_category_properties_remote_log_level_bit,
-	_category_properties_debugger_break_level_bit,
-	_category_properties_halt_level_bit,
-	_category_properties_event_listener_bit,
-
-	k_category_properties_flags_count
-};
-
 struct s_spamming_event
 {
 	uint32 last_spam_time;

@@ -8,25 +8,6 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
-enum e_map_file_index
-{
-	_map_file_index_shared_ui = 0,
-	_map_file_index_shared_resources,
-	_map_file_index_shared_textures,
-	_map_file_index_shared_textures_b,
-	_map_file_index_shared_audio,
-	_map_file_index_shared_video,
-
-	k_cached_map_file_shared_count = 6,
-	k_total_tracked_cached_map_files_count = 15,
-	k_no_cached_map_file_index = -1,
-};
-
-enum e_cache_file_load_action
-{
-
-};
-
 static inline e_map_file_index operator-(e_map_file_index& value, int increment)
 {
 	return e_map_file_index((int)value - increment);
@@ -103,44 +84,6 @@ struct s_cache_file_table_of_contents
 };
 static_assert(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
 
-enum e_cache_copy_state
-{
-	_cache_copy_state_idle = 0,
-	_cache_copy_state_mount_dlc,
-	_cache_copy_state_create_source_file,
-	_cache_copy_state_verify_create_source_file,
-	_cache_copy_state_read_dvd_header,
-	_cache_copy_state_verify_read_dvd_header,
-	_cache_copy_state_get_dvd_file_size,
-	_cache_copy_state_verify_get_dvd_file_size,
-	_cache_copy_state_find_free_map_and_clear_header,
-	_cache_copy_state_verify_find_free_map_and_clear_header,
-	_cache_copy_state_flush_clear_header,
-	_cache_copy_state_start_copying_map_data,
-	_cache_copy_state_copy_map_data,
-	_cache_copy_state_verify_copy_map_data,
-	_cache_copy_state_prepare_copy_thread,
-	_cache_copy_state_kick_off_copy_thread,
-	_cache_copy_state_finish_copy_from_thread,
-	_cache_copy_state_flush_after_copy,
-	_cache_copy_state_write_header,
-	_cache_copy_state_verify_write_header,
-	_cache_copy_state_mark_file_as_loaded,
-	_cache_copy_state_halt,
-	_cache_copy_state_close_source_file,
-	_cache_copy_state_finish,
-
-	k_number_of_cache_copy_states
-};
-
-enum e_cache_copy_finish_reason
-{
-	_cache_copy_finish_reason_invalid = 0,
-	_cache_copy_finish_reason_copied,
-	_cache_copy_finish_reason_canceled,
-	_cache_copy_finish_reason_failed
-};
-
 struct s_cache_copy_request
 {
 	c_static_string<k_tag_long_string_length> map_name;
@@ -215,9 +158,6 @@ extern bool& g_cache_files_read_from_map_directory;
 extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
-
-enum e_async_category;
-enum e_async_priority;
 
 extern bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index);
 extern void __cdecl cache_file_block_until_not_busy();

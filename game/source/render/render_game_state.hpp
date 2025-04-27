@@ -1,9 +1,6 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "render/camera_fx_settings.hpp"
-
-#define MAXIMUM_PLAYER_WINDOWS 4
 
 struct s_render_game_state
 {

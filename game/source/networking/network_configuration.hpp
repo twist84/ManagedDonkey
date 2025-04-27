@@ -910,8 +910,6 @@ static_assert(sizeof(s_lsp_configuration) == 0x14);
 
 #pragma region map_configuration
 
-enum e_map_id;
-
 struct s_map_information
 {
 	e_map_id map_id;

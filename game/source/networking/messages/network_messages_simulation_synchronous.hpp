@@ -1,15 +1,6 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "simulation/simulation.hpp"
-
-enum
-{
-	_network_message_type_variable_length_bit = 0,
-	_network_message_type_message_without_body_bit,
-
-	k_network_message_type_flags_count
-};
 
 struct s_network_message_synchronous_update
 {
@@ -19,14 +10,6 @@ struct s_network_message_synchronous_update
 static_assert(sizeof(s_network_message_synchronous_update) == 0x1668);
 static_assert(0x0000 == OFFSETOF(s_network_message_synchronous_update, update));
 static_assert(0x1658 == OFFSETOF(s_network_message_synchronous_update, metadata));
-
-enum e_network_synchronous_playback_control
-{
-	_network_synchronous_playback_control_revert = 0,
-	_network_synchronous_playback_control_end_playback,
-
-	k_network_synchronous_playback_control_count
-};
 
 struct s_network_message_synchronous_playback_control
 {

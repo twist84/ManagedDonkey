@@ -13,13 +13,6 @@ struct s_saved_game_file_text_parser_input
 };
 static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);
 
-enum e_saved_game_flags
-{
-	_last_game_film_saved_by_user_bit = 0,
-
-	k_saved_game_flags_count
-};
-
 struct s_saved_game_file_globals
 {
 	c_flags<e_saved_game_flags, long, k_saved_game_flags_count> flags;
@@ -32,8 +25,6 @@ struct s_saved_game_file_globals
 static_assert(sizeof(s_saved_game_file_globals) == 0x68);
 
 extern s_saved_game_file_globals& g_saved_game_files_globals;
-
-enum e_controller_index;
 
 extern bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_controller_index controller_index);
 extern void __cdecl saved_game_files_dispose();

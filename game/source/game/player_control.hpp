@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "game/aim_assist.hpp"
-#include "shell/shell.hpp"
 #include "units/units.hpp"
 
 struct s_player_control_globals_deterministic

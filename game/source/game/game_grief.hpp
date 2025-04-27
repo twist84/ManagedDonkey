@@ -18,8 +18,6 @@ static_assert(sizeof(s_game_grief_globals) == 0x14);
 
 extern s_game_grief_globals& game_grief_globals;
 
-enum e_controller_index;
-
 extern void __cdecl game_grief_record_reprieve();
 extern bool __cdecl game_grief_can_eject(long player_index);
 extern void __cdecl game_grief_dispose();

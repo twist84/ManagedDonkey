@@ -2,7 +2,6 @@
 
 #include "memory/module.hpp"
 #include "networking/session/network_session_membership.hpp"
-#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x02247448, s_online_session_manager_globals, online_session_manager_globals);
 

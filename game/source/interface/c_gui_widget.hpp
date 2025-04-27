@@ -5,31 +5,6 @@
 #include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"
 
-enum e_core_widget_definition_flags
-{
-	_core_widget_definition_flag_do_not_apply_old_content_upscaling_bit = 0,
-	_core_widget_definition_flag_override_template_flags_bit,
-	_core_widget_definition_flag_enable_animation_debugging_bit,
-
-	k_core_widget_definition_flags
-};
-
-enum e_widget_positioning
-{
-	_widget_positioning_unused = 0,
-	_widget_positioning_centered,
-	_widget_positioning_top_edge,
-	_widget_positioning_bottom_edge,
-	_widget_positioning_left_edge,
-	_widget_positioning_right_edge,
-	_widget_positioning_top_left_corner,
-	_widget_positioning_top_right_corner,
-	_widget_positioning_bottom_right_corner,
-	_widget_positioning_bottom_left_corner,
-
-	k_widget_positioning_count
-};
-
 struct s_core_widget_definition
 {
 	// e_core_widget_definition_flags
@@ -82,24 +57,7 @@ struct s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
 
-enum e_gui_widget_type
-{
-	_gui_text = 0,
-	_gui_bitmap,
-	_gui_model,
-	_gui_group,
-	_gui_button_key,
-	_gui_list_item,
-	_gui_slider,
-	_gui_list,
-	_gui_screen,
-
-	k_number_of_gui_element_types,
-	k_gui_widget_type_invalid = -1
-};
-
 enum e_animation_state;
-enum e_controller_index;
 
 struct s_runtime_core_widget_definition;
 struct c_gui_text_widget;

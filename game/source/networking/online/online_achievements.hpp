@@ -1,8 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
-enum e_controller_index;
 extern void __cdecl achievements_dispose();
 extern void __cdecl achievements_initialize();
 extern void __cdecl achievements_update(real32 world_seconds_elapsed);

@@ -5,7 +5,6 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "networking/online/online_service_record.hpp"
 
-enum e_controller_index;
 struct c_controller_input_message;
 
 struct s_start_menu_breadcrumb

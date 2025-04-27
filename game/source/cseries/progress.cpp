@@ -2,7 +2,6 @@
 
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x02446088, s_progress_globals, progress_globals);
 

@@ -1,9 +1,7 @@
 #pragma once
 
 #include "camera/observer.hpp"
-#include "shell/shell.hpp"
 
-#define MAXIMUM_PLAYER_WINDOWS 4
 #define RENDER_ENABLED(true_false) if (sub_42E5D0() == true_false)
 
 struct c_player_render_camera_iterator
@@ -24,21 +22,6 @@ protected:
 	s_observer_result const* m_current_observer_result;
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
-
-enum e_main_pregame_frame
-{
-	_main_pregame_frame_none = 0,
-	_main_pregame_frame_normal,
-	_main_pregame_frame_loading_debug,
-	_main_pregame_frame_cache_loading,
-	_main_pregame_frame_crash_uploading,
-	_main_pregame_frame_crash_done,
-	_main_pregame_frame_upload,
-	_main_pregame_frame_notify_out_of_sync,
-	_main_pregame_frame_loading_screen,
-
-	k_main_pregame_frame_count
-};
 
 struct s_render_fullscreen_text_context_colors
 {

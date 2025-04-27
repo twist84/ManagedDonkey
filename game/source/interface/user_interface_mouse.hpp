@@ -2,7 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_controller_index;
+struct c_gui_widget;
+struct c_gui_list_item_widget;
+struct c_gui_list_widget;
+struct c_gui_screen_widget;
 
 struct s_user_interface_mouse_globals
 {
@@ -22,11 +25,6 @@ struct s_user_interface_mouse_globals
 static_assert(sizeof(s_user_interface_mouse_globals) == 0x3C);
 
 extern s_user_interface_mouse_globals user_interface_mouse_globals;
-
-struct c_gui_widget;
-struct c_gui_list_item_widget;
-struct c_gui_list_widget;
-struct c_gui_screen_widget;
 
 extern void user_interface_mouse_update();
 extern void user_interface_mouse_update_tracking();

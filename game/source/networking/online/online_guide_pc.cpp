@@ -5,7 +5,6 @@
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
 #include "xbox/xbox.hpp"
 
 #include <windows.h>

@@ -3,6 +3,7 @@
 #include "interface/gui_selected_items.hpp"
 
 enum e_hopper_category_id;
+
 struct s_hopper_information
 {
 	wchar_t name[32];

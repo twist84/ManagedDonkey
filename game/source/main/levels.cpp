@@ -13,6 +13,7 @@
 #include "multithreading/synchronization.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "saved_games/content_catalogue.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 #include "text/unicode.hpp"
 

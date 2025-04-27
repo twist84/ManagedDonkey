@@ -18,7 +18,6 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);

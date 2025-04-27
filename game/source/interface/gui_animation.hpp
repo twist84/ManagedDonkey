@@ -2,8 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_font_id;
-
 struct s_animation_transform
 {
 	uint8 __data0[0x38];

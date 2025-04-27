@@ -1,14 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
-enum
-{
-    k_max_decoded_event_data_reference_count = 2,
-    k_max_decoded_event_data_payload_size = 1024
-};
-
-enum e_simulation_event_type;
 struct s_simulation_queue_decoded_event_data
 {
     e_simulation_event_type event_type;

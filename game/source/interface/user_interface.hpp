@@ -218,9 +218,6 @@ extern s_user_interface_globals& g_user_interface_globals;
 extern real32 g_ui_time_scale;
 extern real32 g_ui_time_step;
 
-enum e_controller_index;
-enum e_window_index;
-
 extern bool __cdecl get_alpha_custom_games_disabled();
 extern bool __cdecl get_alpha_eula_accepted();
 extern bool __cdecl get_alpha_is_external_beta();

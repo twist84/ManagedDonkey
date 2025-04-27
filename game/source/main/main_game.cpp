@@ -30,6 +30,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/online/online_guide_pc.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);

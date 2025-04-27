@@ -92,9 +92,6 @@ struct s_window_manager_screen_render_data
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
-enum e_gui_game_mode;
-enum e_user_interface_sound_effect;
-enum e_window_index;
 struct c_gui_data;
 struct c_game_tag_parser;
 struct c_gui_screen_widget :

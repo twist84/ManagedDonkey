@@ -2,7 +2,6 @@
 
 #include "game/game_engine_spawn_influencer.hpp"
 #include "game/game_engine_event_definitions.hpp"
-#include "shell/shell.hpp"
 #include "sound/sound_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 

@@ -1,9 +1,7 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
-#include "shell/shell.hpp"
 
 #pragma pack(push, 4)
 

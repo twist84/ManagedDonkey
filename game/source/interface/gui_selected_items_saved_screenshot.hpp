@@ -3,7 +3,6 @@
 #include "interface/gui_selected_items.hpp"
 #include "tag_files/files.hpp"
 
-enum e_controller_index;
 struct c_gui_saved_screenshot_selected_item :
 	public c_gui_selected_item
 {

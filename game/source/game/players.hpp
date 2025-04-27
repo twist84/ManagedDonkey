@@ -5,7 +5,6 @@
 #include "game/game_engine_player_traits.hpp"
 #include "memory/data.hpp"
 #include "objects/damage_reporting.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct s_machine_identifier

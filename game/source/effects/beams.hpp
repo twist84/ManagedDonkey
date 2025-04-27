@@ -2,8 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_effect_pass;
-
 struct c_beam_system :
 	s_datum_header
 {

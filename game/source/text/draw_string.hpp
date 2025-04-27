@@ -4,9 +4,6 @@
 #include "interface/user_interface_text.hpp"
 #include "text/font_cache.hpp"
 
-enum e_font_id;
-enum e_text_style;
-enum e_text_justification;
 enum e_text_drop_shadow_style;
 struct s_font_header;
 struct s_font_character;

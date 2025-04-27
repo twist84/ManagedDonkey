@@ -1,12 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-
 #include "game/players.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
-enum e_controller_index;
-enum e_network_session_class;
 struct c_gui_screen_pregame_lobby_campaign :
 	public c_gui_screen_pregame_lobby
 {

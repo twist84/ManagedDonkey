@@ -1,10 +1,9 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
-enum e_user_interface_sound_effect;
 struct c_gui_widget;
+union argb_color;
 
 extern void __cdecl tint_widget_to_change_color(c_gui_widget* widget, long change_color_index, bool change_color_is_team_color);
 extern void __cdecl tint_widget_to_change_argb_color(c_gui_widget* widget, argb_color color);

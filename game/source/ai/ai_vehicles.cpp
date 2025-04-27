@@ -1,5 +1,7 @@
 #include "ai/ai_vehicles.hpp"
 
+#include "cseries/cseries.hpp"
+
 //.text:014416B0 ; void __cdecl ai_vehicle_enter2(long, long)
 //.text:014416D0 ; void __cdecl ai_vehicle_enter(long, long, long)
 //.text:014416F0 ; void __cdecl ai_vehicle_enter_immediate2(long, long)

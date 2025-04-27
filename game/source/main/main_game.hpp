@@ -4,32 +4,6 @@
 #include "game/game_progression.hpp"
 #include "game/game_options.hpp"
 
-enum e_map_memory_configuration
-{
-	_map_memory_configuration_none = 0,
-	_map_memory_configuration_main_menu,
-	_map_memory_configuration_multiplayer,
-	_map_memory_configuration_multiplayer_saved_film,
-	_map_memory_configuration_campaign,
-	_map_memory_configuration_campaign_saved_film,
-	_map_memory_configuration_campaign_epilogue,
-
-	k_map_memory_configuration_count
-};
-
-enum e_game_loaded_status
-{
-	_game_loaded_status_none = 0,
-	_game_loaded_status_map_loading,
-	_game_loaded_status_map_loaded,
-	_game_loaded_status_map_loaded_failure,
-	_game_loaded_status_map_unloading,
-	_game_loaded_status_map_reloading,
-	_game_loaded_status_pregame,
-
-	k_game_loaded_status_count
-};
-
 struct s_main_game_globals
 {
 	long map_memory_configuration;

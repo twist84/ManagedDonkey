@@ -5,49 +5,10 @@
 #include "networking/online/online_session.hpp"
 #include "networking/transport/transport_security.hpp"
 
-enum e_online_managed_session_flags
-{
-	_online_managed_session_allocated_bit = 0,
-	_online_managed_session_master_bit,
-	_online_managed_session_pending_retry_bit,
-	_online_managed_session_force_create_offline_bit,
-	_online_managed_session_created_bit,
-	_online_managed_session_creation_failed_bit,
-	_online_managed_session_host_migration_in_process_bit,
-	_online_managed_session_host_migration_session_created_bit,
-	_online_managed_session_host_migration_must_delete_session_bit,
-	_online_managed_session_host_migration_using_new_session_bit,
-	_online_managed_session_players_add_pending_bit,
-	_online_managed_session_players_add_succeeded_bit,
-	_online_managed_session_players_add_failed_bit,
-	_online_managed_session_game_started_bit,
-	_online_managed_session_game_start_failed_bit,
-	_online_managed_session_game_ended_bit,
-	_online_managed_session_game_end_failed_bit,
-	_online_managed_session_locking_flags_bit,
-	_online_managed_session_flags_locked_bit,
-
-	k_online_managed_session_flags_count
-};
-
-enum e_online_managed_session_operation_flags
-{
-	_online_managed_session_delete_bit = 0,
-	_online_managed_session_free_bit,
-	_online_managed_session_create_bit,
-	_online_managed_session_delete_host_migration_bit,
-	_online_managed_session_create_host_migration_bit,
-	_online_managed_session_recreate_players_bit,
-	_online_managed_session_players_remove_bit,
-	_online_managed_session_modify_session_bit,
-	_online_managed_session_players_add_bit,
-	_online_managed_session_game_end_bit,
-	_online_managed_session_game_start_bit,
-
-	k_online_managed_session_operation_flags_count
-};
-
 struct s_online_session;
+struct s_transport_secure_identifier;
+struct c_network_session_membership;
+
 struct c_managed_session_overlapped_task :
 	public c_overlapped_task
 {
@@ -164,11 +125,6 @@ static_assert(0x0 == offsetof(s_online_session_manager_globals, current_operatio
 static_assert(0x8 == offsetof(s_online_session_manager_globals, managed_sessions));
 
 extern s_online_session_manager_globals& online_session_manager_globals;
-
-enum e_network_session_class;
-enum e_transport_platform;
-struct s_transport_secure_identifier;
-struct c_network_session_membership;
 
 extern void __cdecl add_to_player_list(s_online_session_player* players, long player_count, uint64 const* xuids, bool const* xuids_left_game, long xuid_count);
 extern void __cdecl managed_session_add_players(long index, uint64 const* xuids, bool const* xuids_left_game, long xuid_count);

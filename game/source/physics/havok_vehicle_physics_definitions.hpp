@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "game/materials.hpp"
 #include "physics/physics_model_definitions.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_havok_vehicle_physics_definition_flags

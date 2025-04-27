@@ -1,6 +1,5 @@
 #pragma once
 
-enum e_window_index;
 union rectangle2d;
 
 extern void editor_render_debug();

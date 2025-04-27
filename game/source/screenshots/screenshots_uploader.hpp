@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "tag_files/files.hpp"
-#include "shell/shell.hpp"
 
 struct c_screenshots_uploader
 {
@@ -57,8 +56,6 @@ static_assert(0xCF4 == OFFSETOF(c_screenshots_uploader, m_screenshot_file));
 static_assert(0xE04 == OFFSETOF(c_screenshots_uploader, m_progress_spinner_active));
 
 extern c_screenshots_uploader*& g_screenshots_uploader;
-
-enum e_map_memory_configuration;
 
 extern void __cdecl screenshots_uploader_dispose();
 extern void __cdecl screenshots_uploader_dispose_from_old_map();

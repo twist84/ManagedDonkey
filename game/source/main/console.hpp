@@ -26,16 +26,6 @@ struct s_console_global
 };
 static_assert(sizeof(s_console_global) == 0xC);
 
-enum e_status_line_flags
-{
-	_status_line_blink_bit,
-	_status_line_inhibit_drawing_bit,
-	_status_line_left_justify_bit,
-	_status_line_draw_once_bit,
-
-	k_status_line_count
-};
-
 struct s_status_line
 {
 	s_status_line();
@@ -61,7 +51,6 @@ struct s_status_string
 };
 static_assert(sizeof(s_status_string) == 0x228);
 
-enum e_text_justification;
 struct s_string_cache
 {
 	s_string_cache();

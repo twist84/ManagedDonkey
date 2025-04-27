@@ -2,29 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_saved_game_file_type
-{
-	_saved_game_file_type_none = -1,
-	_saved_game_file_type_personal,
-	_saved_game_file_type_ctf,
-	_saved_game_file_type_slayer,
-	_saved_game_file_type_oddball,
-	_saved_game_file_type_king,
-	_saved_game_file_type_juggernaut,
-	_saved_game_file_type_territories,
-	_saved_game_file_type_assault,
-	_saved_game_file_type_infection,
-	_saved_game_file_type_vip,
-	_saved_game_file_type_usermap,
-	_saved_game_file_type_film,
-	_saved_game_file_type_clip,
-	_saved_game_file_type_screenshot,
-
-	k_saved_game_file_type_count
-};
-
-enum e_campaign_id;
-enum e_map_id;
 struct c_bitstream;
 struct s_saved_game_item_metadata
 {

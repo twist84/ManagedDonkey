@@ -1,5 +1,7 @@
 #include "objects/object_placement.hpp"
 
+#include "cseries/cseries.hpp"
+
 bool __cdecl object_definition_can_be_placed(long object_definition_index, long model_variant_index)
 {
 	return INVOKE(0x00B58FF0, object_definition_can_be_placed, object_definition_index, model_variant_index);

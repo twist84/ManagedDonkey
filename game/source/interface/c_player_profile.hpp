@@ -4,7 +4,6 @@
 #include "game/game_progression.hpp"
 #include "game/players.hpp"
 #include "networking/online/online_guide_pc.hpp"
-#include "shell/shell.hpp"
 
 // e_button_presets
 // e_joystick_presets

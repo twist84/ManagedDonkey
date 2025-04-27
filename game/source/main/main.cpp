@@ -45,6 +45,7 @@
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_debug.hpp"
 #include "screenshots/screenshots_uploader.hpp"
+#include "shell/shell.hpp"
 #include "shell/shell_windows.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_manager.hpp"

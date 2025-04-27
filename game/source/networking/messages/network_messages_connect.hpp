@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 enum e_network_connect_refuse_reason
 {

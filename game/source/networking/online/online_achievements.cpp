@@ -1,5 +1,7 @@
 #include "networking/online/online_achievements.hpp"
 
+#include "cseries/cseries.hpp"
+
 void __cdecl achievements_dispose()
 {
 	INVOKE(0x014E22D0, achievements_dispose);

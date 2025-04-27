@@ -11,30 +11,6 @@
 
 #define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get(GROUP, INDEX))
 
-enum e_map_id;
-
-enum e_cache_file_shared_file_type
-{
-	_cache_file_shared_file_type_ui = 0,
-	_cache_file_shared_file_type_resources,
-	_cache_file_shared_file_type_textures,
-	_cache_file_shared_file_type_textures_b,
-	_cache_file_shared_file_type_audio,
-	_cache_file_shared_file_type_video,
-
-	k_number_of_cache_file_shared_file_types
-};
-
-enum e_cache_file_section
-{
-	_cache_file_debug_section = 0,
-	_cache_file_resource_section,
-	_cache_file_tag_section,
-	_cache_file_language_pack_section,
-
-	k_number_of_cache_file_sections
-};
-
 struct s_cache_file_section_file_bounds
 {
 	long offset;

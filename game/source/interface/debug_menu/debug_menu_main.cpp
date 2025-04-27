@@ -15,7 +15,6 @@
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
-#include "shell/shell.hpp"
 #include "text/draw_string.hpp"
 
 //HOOK_DECLARE(0x00671670, debug_menu_initialize);

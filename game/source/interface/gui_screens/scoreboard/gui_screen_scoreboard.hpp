@@ -4,7 +4,6 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_messages.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct c_scoreboard_load_screen_message :

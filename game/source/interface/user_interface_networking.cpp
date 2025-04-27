@@ -9,7 +9,6 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
-#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x05253D88, s_user_interface_networking_globals, user_interface_networking_globals);

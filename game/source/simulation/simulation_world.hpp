@@ -1,10 +1,8 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "game/players.hpp"
 #include "networking/replication/replication_entity_manager.hpp"
 #include "networking/replication/replication_event_manager.hpp"
-#include "shell/shell.hpp"
 #include "simulation/simulation_actors.hpp"
 #include "simulation/simulation_entity_database.hpp"
 #include "simulation/simulation_players.hpp"

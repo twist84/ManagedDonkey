@@ -1,7 +1,6 @@
 #include "interface/closed_caption.hpp"
 
 #include "interface/user_interface.hpp"
-#include "shell/shell.hpp"
 
 void __cdecl closed_caption_add_caption(long a1, bool a2)
 {

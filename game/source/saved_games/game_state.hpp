@@ -129,8 +129,6 @@ extern c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondetermin
 extern c_gamestate_allocation_record_allocation_callbacks g_gamestate_allocation_record_allocation_callbacks;
 extern s_game_state_globals& game_state_globals;
 
-enum e_controller_index;
-enum e_critical_sections;
 struct s_player_identifier;
 extern bool __cdecl create_file_from_buffer(char const* file_name, char const* file_contents);
 extern void __cdecl game_state_buffer_handle_read();

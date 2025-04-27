@@ -4,10 +4,17 @@
 #include "networking/delivery/network_connection.hpp"
 #include "networking/messages/network_message_queue.hpp"
 #include "networking/transport/transport_address.hpp"
-#include "shell/shell.hpp"
 
 enum e_network_read_result;
 struct c_bitstream;
+struct c_network_message_type_collection;
+struct c_network_link;
+struct c_network_observer;
+struct c_network_message_gateway;
+struct c_network_message_handler;
+struct s_channel_configuration;
+struct c_network_message_type_collection;
+
 struct c_network_channel_client
 {
 public:
@@ -61,8 +68,6 @@ public:
 };
 static_assert(sizeof(c_network_connection) == 0x960);
 
-enum e_network_message_type;
-struct c_network_message_type_collection;
 struct c_network_message_queue :
 	public c_network_channel_client
 {
@@ -164,24 +169,6 @@ struct c_network_channel_simulation_gatekeeper :
 };
 static_assert(sizeof(c_network_channel_simulation_gatekeeper) == 0x8);
 
-enum e_network_channel_state
-{
-	_network_channel_state_none = 0,
-	_network_channel_state_empty,
-	_network_channel_state_closed,
-	_network_channel_state_connecting,
-	_network_channel_state_established,
-	_network_channel_state_connected,
-
-	k_network_channel_state_count
-};
-
-struct c_network_link;
-struct c_network_observer;
-struct c_network_message_gateway;
-struct c_network_message_handler;
-struct s_channel_configuration;
-struct c_network_message_type_collection;
 struct c_network_channel
 {
 public:

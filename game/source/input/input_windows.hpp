@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 const long k_number_of_windows_input_virtual_codes = 256;
 const long k_number_of_input_ascii_codes = 128;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_model_definition_flags

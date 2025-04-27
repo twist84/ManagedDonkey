@@ -1,7 +1,6 @@
 #include "game/game_engine_team.hpp"
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 //.text:00556200 ; void __cdecl game_engine_build_initial_teams(void)
 //.text:00556360 ; void __cdecl game_engine_build_teams(void)

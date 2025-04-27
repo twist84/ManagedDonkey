@@ -1,6 +1,7 @@
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 
 #include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "tag_files/string_ids.hpp"
 
 void load_game_browser(e_controller_index controller, long search_flags, e_browser_type type)

@@ -3,18 +3,10 @@
 #include "cseries/cseries.hpp"
 #include "game/game_engine_traits.hpp"
 #include "saved_games/content/content_item_metadata.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/files.hpp"
 #include "text/unicode.hpp"
 
 #pragma pack(push, 4)
-
-enum e_game_team;
-enum e_multiplayer_team_designator;
-enum e_game_engine_kill_flags;
-enum e_simulation_entity_type;
-enum e_simulation_event_type;
-enum e_game_results_medal;
 
 struct game_engine_interface_state;
 struct s_chud_navpoint;
@@ -112,6 +104,7 @@ struct s_game_engine_state_data
 };
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
+enum e_game_engine_kill_flags;
 struct c_game_engine
 {
 public:

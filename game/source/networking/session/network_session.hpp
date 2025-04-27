@@ -4,7 +4,6 @@
 #include "networking/session/network_session_membership.hpp"
 #include "networking/session/network_session_parameters.hpp"
 #include "networking/session/network_session_state.hpp"
-#include "shell/shell.hpp"
 
 enum e_network_session_disconnection_policy
 {

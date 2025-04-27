@@ -7,7 +7,6 @@
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
-#include "shell/shell.hpp"
 
 struct actor_meta_data
 {

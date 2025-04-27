@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
+struct c_font_cache_base;
+
 #define UTF32_STRING(name) wchar_t name[2]{}; utf32_to_string(_utf32_##name, name);
 
 enum e_utf32 : uint32
@@ -164,8 +166,6 @@ struct utf32
 	e_utf32 character;
 };
 
-enum e_controller_index;
-struct c_font_cache_base;
 struct c_user_interface_text
 {
 public:

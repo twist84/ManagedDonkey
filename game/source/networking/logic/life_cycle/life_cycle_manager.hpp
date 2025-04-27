@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 const long k_maximum_state_change_entry_data_size = 16;
 

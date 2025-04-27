@@ -1,7 +1,6 @@
 #pragma once
 
 #include "items/item_definitions.hpp"
-#include "shell/shell.hpp"
 
 enum e_weapon_definition_flags
 {

@@ -2,23 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_camera_mode
-{
-	_camera_mode_following = 0,
-	_camera_mode_orbiting,
-	_camera_mode_flying,
-	_camera_mode_first_person,
-	_camera_mode_dead,
-	_camera_mode_static,
-	_camera_mode_scripted,
-	_camera_mode_authored,
-
-	k_number_of_camera_modes,
-	k_camera_mode_null = -1,
-};
-
-enum e_director_perspective;
-
 struct s_observer_command;
 
 struct c_camera

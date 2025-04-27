@@ -7,8 +7,6 @@
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
-#include "interface/user_interface.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AFFA90, c_gui_screen_pregame_lobby_campaign, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AFFAE0, c_gui_screen_pregame_lobby_campaign, handle_list_item_chosen_);

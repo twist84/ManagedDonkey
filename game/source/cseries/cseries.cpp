@@ -9,7 +9,6 @@
 #include "memory/byte_swapping.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "multithreading/threads.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <ctype.h>

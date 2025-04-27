@@ -7,18 +7,6 @@
 #define QOS_ATTEMPT_MIN_COUNT 2
 #define QOS_ATTEMPT_MAX_COUNT 10
 
-enum e_transport_qos_type
-{
-	// probe only
-	_transport_qos_type_probe_only = 0,
-
-	// default (full)
-	_transport_qos_type_default,
-
-	k_transport_qos_type_count,
-	k_transport_qos_type_none = NONE
-};
-
 struct s_network_session_tracker_session_data
 {
 	char name[16];
@@ -36,18 +24,6 @@ struct s_network_session_tracker_session_status
 	long __unknown8;
 };
 static_assert(sizeof(s_network_session_tracker_session_status) == 0xC);
-
-enum e_session_tracker_session_flags
-{
-	_session_tracker_session_valid_bit = 0,
-
-	// if anyone runs into the names of these bits hit me up on discord
-	_session_tracker_session_bit1,
-	_session_tracker_session_bit2,
-	_session_tracker_session_bit3,
-
-	k_session_tracker_session_flags
-};
 
 struct s_network_session_tracker_session
 {

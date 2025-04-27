@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
 #include "networking/session/network_session_parameters_matchmaking.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 long const k_hopper_maximum_hopper_count = 32;

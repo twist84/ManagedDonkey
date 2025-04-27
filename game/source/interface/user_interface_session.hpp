@@ -2,17 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_campaign_difficulty_level;
-enum e_campaign_id;
-enum e_controller_index;
-enum e_gui_game_mode;
-enum e_gui_network_session_advertisement_mode;
-enum e_map_id;
-enum e_session_game_start_error;
-enum e_session_game_start_status;
-enum e_user_interface_session_leave_reason;
-enum e_user_interface_session_leave_type;
-
 struct c_map_variant;
 struct c_game_variant;
 struct s_player_configuration;

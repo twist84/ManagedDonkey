@@ -3,15 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/transport/transport_security.hpp"
 
-enum e_online_session_player_flags
-{
-	_online_session_player_valid_bit = 0,
-	_online_session_player_occupies_private_slot_bit,
-	//_online_session_player_is_online_enabled_bit,
-
-	k_online_session_player_flags_count
-};
-
 struct s_online_session_player
 {
 	c_flags_no_init<e_online_session_player_flags, uint16, k_online_session_player_flags_count> flags;
@@ -21,7 +12,6 @@ static_assert(sizeof(s_online_session_player) == 0x10);
 static_assert(0x00 == OFFSETOF(s_online_session_player, flags));
 static_assert(0x08 == OFFSETOF(s_online_session_player, xuid));
 
-enum e_controller_index;
 struct s_online_session
 {
 	e_controller_index controller_index;

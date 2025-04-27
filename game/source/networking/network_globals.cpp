@@ -54,6 +54,7 @@
 #include "objects/object_placement.hpp"
 #include "profiler/profiler.hpp"
 #include "saved_games/scenario_map_variant.hpp"
+#include "shell/shell.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "xbox/xnet.hpp"

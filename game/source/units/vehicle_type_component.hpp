@@ -4,7 +4,6 @@
 #include "units/vehicle_definitions.hpp"
 #include "units/vehicle_engine.hpp"
 
-enum e_vehicle_trick_type;
 struct c_vehicle_auto_turret;
 struct s_vehicle_engine;
 struct c_vehicle_type_human_tank;

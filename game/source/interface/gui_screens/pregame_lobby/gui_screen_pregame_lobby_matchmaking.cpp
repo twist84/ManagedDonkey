@@ -7,7 +7,6 @@
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
 
 //HOOK_DECLARE_CLASS_MEMBER(0x00B01920, c_gui_screen_pregame_lobby_matchmaking, handle_list_item_chosen_);
 //

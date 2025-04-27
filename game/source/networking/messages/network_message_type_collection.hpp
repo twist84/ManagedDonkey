@@ -4,58 +4,6 @@
 
 #define k_network_message_maximum_size 0x40000
 
-enum e_network_message_type
-{
-	_network_message_ping = 0,
-	_network_message_pong,
-	_network_message_broadcast_search,
-	_network_message_broadcast_reply,
-	_network_message_connect_request,
-	_network_message_connect_refuse,
-	_network_message_connect_establish,
-	_network_message_connect_closed,
-	_network_message_join_request,
-	_network_message_peer_connect,
-	_network_message_join_abort,
-	_network_message_join_refuse,
-	_network_message_leave_session,
-	_network_message_leave_acknowledge,
-	_network_message_session_disband,
-	_network_message_session_boot,
-	_network_message_host_decline,
-	_network_message_peer_establish,
-	_network_message_time_synchronize,
-	_network_message_membership_update,
-	_network_message_peer_properties,
-	_network_message_delegate_leadership,
-	_network_message_boot_machine,
-	_network_message_player_add,
-	_network_message_player_refuse,
-	_network_message_player_remove,
-	_network_message_player_properties,
-	_network_message_parameters_update,
-	_network_message_parameters_request,
-	_network_message_view_establishment,
-	_network_message_player_acknowledge,
-	_network_message_synchronous_update,
-	_network_message_synchronous_playback_control,
-	_network_message_synchronous_actions,
-	_network_message_synchronous_acknowledge,
-	_network_message_synchronous_gamestate,
-	_network_message_distributed_game_results,
-	_network_message_synchronous_client_ready,
-	_network_message_test,
-
-	k_old_network_message_type_count,
-
-	_custom_network_message_text_chat = k_old_network_message_type_count,
-	_custom_network_message_directed_search,
-
-	k_network_message_type_count,
-
-	k_custom_network_message_count = (k_network_message_type_count - k_old_network_message_type_count)
-};
-
 struct c_network_message_type_collection
 {
 	using encode_t = void __cdecl(c_bitstream* packet, long message_storage_size, void const* message_storage);

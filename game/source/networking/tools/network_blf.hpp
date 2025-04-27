@@ -5,7 +5,6 @@
 #include "game/game_options.hpp"
 #include "memory/secure_signature.hpp"
 #include "saved_games/saved_game_files.hpp"
-#include "shell/shell.hpp"
 
 #pragma pack(push, 1)
 struct s_blf_header

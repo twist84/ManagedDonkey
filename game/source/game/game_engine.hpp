@@ -9,7 +9,6 @@
 #include "game/game_engine_util.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_statborg.hpp"
-#include "shell/shell.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "text/unicode.hpp"
 

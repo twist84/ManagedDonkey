@@ -43,6 +43,7 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "shell/shell.hpp"
 #include "test/test_functions.hpp"
 #include "text/font_loading.hpp"
 #include "units/bipeds.hpp"

@@ -2,21 +2,12 @@
 
 #include "memory/data.hpp"
 #include "multithreading/synchronized_value.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
-enum
-{
-	k_max_campaign_insertion_points = 9
-};
-
-enum e_campaign_flags
-{
-	_campaign_from_dlc_bit = 0,
-	_campaign_unlockable_bit,
-
-	k_number_of_campaign_flags
-};
+struct s_async_task;
+struct s_blf_chunk_campaign;
+struct s_blf_chunk_scenario;
+struct s_configuration_enumeration_task;
 
 struct s_campaign_datum :
 	s_datum_header
@@ -84,14 +75,6 @@ struct s_level_globals
 static_assert(sizeof(s_level_globals) == 0xA1C);
 
 extern s_level_globals& g_level_globals;
-
-enum e_async_completion;
-
-struct s_blf_chunk_campaign;
-struct s_blf_chunk_scenario;
-struct s_configuration_enumeration_task;
-
-struct s_async_task;
 
 extern void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content);
 extern void __cdecl levels_add_map_from_scripting(e_map_id map_id, char const* scenario_path);

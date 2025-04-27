@@ -11,9 +11,6 @@
 #include "networking/session/network_session_parameters_saved_film_game_options.hpp"
 #include "networking/session/network_session_parameters_ui.hpp"
 
-enum e_campaign_id;
-enum e_map_id;
-
 struct s_network_session_parameter_map
 {
 	e_campaign_id campaign_id;

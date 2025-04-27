@@ -3,12 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 
-enum e_controller_index;
-enum e_window_index;
 struct s_data_array;
 struct s_event_record;
 struct c_gui_screen_widget;
 struct c_load_screen_message;
+
 struct c_window_manager
 {
 	enum

@@ -48,6 +48,7 @@
 #include "render/views/render_player_view.hpp"
 #include "render/views/render_view.hpp"
 #include "scenario/scenario_soft_ceilings.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "text/draw_string.hpp"

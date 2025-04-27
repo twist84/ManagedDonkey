@@ -4,7 +4,6 @@
 #include "game/player_control.hpp"
 #include "game/players.hpp"
 #include "replication/replication_encoding.hpp"
-#include "shell/shell.hpp"
 #include "simulation/simulation_queue.hpp"
 #include "simulation/simulation_view.hpp"
 #include "units/units.hpp"

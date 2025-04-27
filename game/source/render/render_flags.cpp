@@ -1,7 +1,5 @@
 #include "render/render_flags.hpp"
 
-#define MAXIMUM_PLAYER_WINDOWS 4
-
 REFERENCE_DECLARE(0x0524B6D4, uint32, c_render_flags::g_this_frame);
 REFERENCE_DECLARE(0x0524B6D8, uint32, c_render_flags::g_last_frame);
 REFERENCE_DECLARE(0x0524B6DC, uint32, c_render_flags::g_this_window);

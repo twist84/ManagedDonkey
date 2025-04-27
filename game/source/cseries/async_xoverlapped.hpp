@@ -9,18 +9,6 @@ public:
 	~c_async_xoverlapped_scope_lock();
 };
 
-enum e_overlapped_task_state
-{
-	_overlapped_task_state_none = 0,
-	_overlapped_task_state_starting,
-	_overlapped_task_state_pending,
-	_overlapped_task_state_completing,
-	_overlapped_task_state_succeeded,
-	_overlapped_task_state_failed,
-
-	k_overlapped_task_state_count
-};
-
 struct c_overlapped_task
 {
 	enum e_overlapped_task_flags
@@ -64,7 +52,6 @@ protected:
 };
 static_assert(sizeof(c_overlapped_task) == 0x10);
 
-enum e_event_level;
 struct s_task_slot;
 
 extern s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task);

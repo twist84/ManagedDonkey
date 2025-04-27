@@ -5,52 +5,6 @@
 #include "networking/tools/http_client.hpp"
 #include "networking/tools/http_stream.hpp"
 
-enum e_online_lsp_service_type;
-
-enum e_network_http_request_queue_type
-{
-	// REQ LSP
-	_network_http_request_queue_type_required = 0,
-
-	// OPT LSP
-	_network_http_request_queue_type_optional,
-
-	k_network_http_request_queue_type_count
-};
-
-enum e_network_http_request_result
-{
-	_network_http_request_result_none = 0,
-	_network_http_request_result_success,
-	_network_http_request_result_failure,
-	_network_http_request_result_reset,
-
-	k_network_http_request_result_count
-};
-
-enum e_network_http_request_queue_failure_reason
-{
-	_network_http_request_queue_failure_reason_unknown = 0,
-	_network_http_request_queue_failure_reason_file_not_found,
-	_network_http_request_queue_failure_reason_bad_request,
-	_network_http_request_queue_failure_reason_internal_server_error
-};
-
-enum e_http_request_type
-{
-	// GET
-	_http_request_type_get = 0,
-
-	// POST
-	_http_request_type_post
-};
-
-enum e_client_usage_type
-{
-	_client_usage_type_stream = 0,
-	_client_usage_type_fill_buffer
-};
-
 struct c_network_http_request_description
 {
 	c_network_http_request_description(char const* url, e_http_request_type request_type);

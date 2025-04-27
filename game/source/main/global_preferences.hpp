@@ -8,7 +8,6 @@
 #include "multithreading/synchronized_value.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "saved_games/scenario_map_variant.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 class c_global_preferences_scope_lock

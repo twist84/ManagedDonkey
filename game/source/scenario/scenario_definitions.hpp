@@ -14,7 +14,6 @@
 #include "scenario/scenario_resource_definitions.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 #include "scenario/scenario_zone_debugger_definitions.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "units/units.hpp"
 

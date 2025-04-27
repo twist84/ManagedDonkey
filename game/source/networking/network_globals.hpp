@@ -1,5 +1,10 @@
 #pragma once
 
+struct c_network_session_manager;
+struct c_map_variant;
+struct c_game_variant;
+struct transport_address;
+
 struct s_network_globals
 {
 	bool initialized;
@@ -19,12 +24,6 @@ extern struct c_network_session*& g_network_sessions;
 extern struct c_network_session_parameter_type_collection*& g_network_session_parameter_types;
 extern struct c_network_session_manager*& g_network_session_manager;
 extern struct s_network_globals& network_globals;
-
-struct c_network_session_manager;
-struct c_map_variant;
-struct c_game_variant;
-struct transport_address;
-enum e_game_engine_type;
 
 extern void __cdecl network_memory_base_dispose();
 extern bool __cdecl network_memory_base_initialize(

@@ -1,37 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
-
-enum e_gui_alert_flags
-{
-	_gui_alert_flag_allow_auto_dismissal_bit = 0,
-	_gui_alert_flag_show_spinner_bit,
-
-	k_gui_alert_flags
-};
-
-enum e_gui_error_category
-{
-	_gui_error_category_default = 0,
-	_gui_error_category_networking,
-	_gui_error_category_storage,
-	_gui_error_category_controller,
-
-	k_gui_error_category_count
-};
-
-enum e_gui_error_icon
-{
-	_gui_error_icon_default_alert = 0,
-	_gui_error_icon_downloading,
-	_gui_error_icon_paused,
-	_gui_error_icon_uploading,
-	_gui_error_icon_completed,
-
-	k_gui_error_icon_count
-};
 
 struct s_gui_alert_description
 {

@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/session/network_session_parameters_generic.hpp"
 #include "networking/transport/transport_security.hpp"
-#include "shell/shell.hpp"
 
 struct s_network_session_parameter_session_mode
 {

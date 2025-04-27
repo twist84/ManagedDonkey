@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "objects/object_definitions.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_projectile_flags

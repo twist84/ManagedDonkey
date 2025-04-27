@@ -4,7 +4,6 @@
 #include "game/aim_assist.hpp"
 #include "game/campaign_metagame_definitions.hpp"
 #include "objects/object_definitions.hpp"
-#include "shell/shell.hpp"
 
 struct s_unit_camera_track
 {

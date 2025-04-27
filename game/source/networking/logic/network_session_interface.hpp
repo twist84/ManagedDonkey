@@ -5,8 +5,15 @@
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 #include "networking/transport/transport_qos.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
+
+struct c_game_variant;
+struct c_map_variant;
+struct s_saved_film_description;
+struct s_network_ui_state;
+struct s_network_session_status_data;
+struct s_network_session_peer;
+struct s_network_session_player;
 
 struct s_network_session_interface_user
 {
@@ -130,19 +137,6 @@ static_assert(sizeof(s_network_session_interface_globals) == 0x5F08);
 #pragma pack(pop)
 
 extern s_network_session_interface_globals& session_interface_globals;
-
-enum e_campaign_difficulty_level;
-enum e_network_game_simulation_protocol;
-enum e_network_game_start_mode;
-enum e_gui_game_mode;
-enum e_online_nat_type;
-struct s_saved_film_description;
-struct c_game_variant;
-struct c_map_variant;
-struct s_network_ui_state;
-struct s_network_session_status_data;
-struct s_network_session_peer;
-struct s_network_session_player;
 
 extern long __cdecl network_squad_session_get_countdown_timer();
 extern bool __cdecl network_life_cycle_in_matchmaking();

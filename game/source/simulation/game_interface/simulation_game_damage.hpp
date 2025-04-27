@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "objects/damage_reporting.hpp"
-#include "shell/shell.hpp"
 
 struct s_simulation_damage_aftermath_event_data
 {

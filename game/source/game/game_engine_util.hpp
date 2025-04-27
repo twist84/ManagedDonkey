@@ -2,8 +2,6 @@
 
 #include "game/game_engine_default.hpp"
 
-enum e_weapon_set;
-
 struct c_game_engine;
 struct c_game_variant;
 struct s_game_engine_event_data;

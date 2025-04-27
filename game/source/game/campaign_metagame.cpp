@@ -2,6 +2,7 @@
 
 #include "game/game.hpp"
 #include "render/simple_font.hpp"
+#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x0244A898, bool, chud_debug_metagame);
 REFERENCE_DECLARE(0x0244A8A0, s_campaign_metagame_runtime_globals_secondary, g_campaign_metagame_runtime_globals_secondary);

@@ -4,7 +4,6 @@
 #include "game/materials.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
-#include "shell/shell.hpp"
 
 struct s_damage_globals
 {

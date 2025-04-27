@@ -1,0 +1,69 @@
+#pragma once
+
+#define xstr(a) str(a)
+#define str(a) #a
+
+#define try_bool(X) if (!X) return false
+
+#define _STRCONCAT(x, y) x ## y
+#define STRCONCAT(x, y) _STRCONCAT(x, y)
+
+#define OFFSETOF(s,m) __builtin_offsetof(s,m)
+#define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
+#define IN_RANGE(value, begin, end) ((value) > (begin) && (value) < (end))
+#define IN_RANGE_INCLUSIVE(value, begin, end) ((value) >= (begin) && (value) <= (end))
+#define VALID_INDEX(index, count) ((index) >= 0 && (index) < (count))
+#define VALID_COUNT(index, count) ((index) >= 0 && (index) <= (count))
+
+// referenced
+#define BIT_VECTOR_SIZE_IN_LONGS(BIT_COUNT) (((BIT_COUNT) + (LONG_BITS - 1)) >> 5)
+#define BIT_VECTOR_SIZE_IN_BYTES(BIT_COUNT) (4 * BIT_VECTOR_SIZE_IN_LONGS(BIT_COUNT))
+#define BIT_VECTOR_TEST_FLAG(BIT_VECTOR, BIT) ((BIT_VECTOR[BIT >> 5] & (1 << (BIT & (LONG_BITS - 1)))) != 0)
+
+// not referenced
+#define BIT_VECTOR_OR_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] |= (1 << (BIT & (LONG_BITS - 1))))
+#define BIT_VECTOR_AND_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] &= ~(1 << (BIT & (LONG_BITS - 1))))
+
+#define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
+#define MIN(x, low) ((x) < (low) ? (x) : (low))
+#define MAX(x, high) ((x) > (high) ? (x) : (high))
+#define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
+#define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
+#define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))
+
+#define SIZEOF_BITS(value) 8 * sizeof(value)
+
+const long CHAR_BYTES = sizeof(char);
+const long SHORT_BYTES = sizeof(short);
+const long LONG_BYTES = sizeof(long);
+const long CHAR_BITS = SIZEOF_BITS(char);
+const long SHORT_BITS = SIZEOF_BITS(short);
+const long LONG_BITS = SIZEOF_BITS(long);
+
+#define FLAG(bit) (1 << (bit))
+#define MASK(bit) ((1 << (bit)) - 1)
+#define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
+#define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
+#define TEST_FLAG(flags, bit) (flags.test((bit)))
+#define TEST_MASK(flags, mask) (((flags) & (mask)) != 0)
+#define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
+#define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
+#define SET_BIT(flags, bit, enable) { if ((enable)) { (flags) |= FLAG((bit)); } else { (flags) &= ~FLAG((bit)); } }
+#define SET_MASK(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
+#define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
+
+#define INVALID_ASYNC_TASK_ID -1
+
+//#define CHAR_MAX char(0x7F)
+#define UNSIGNED_CHAR_MAX uint8(0xFF)
+
+//#define SHORT_MAX short(0x7FFF)
+#define UNSIGNED_SHORT_MAX uint16(0xFFFF)
+
+//#define LONG_MAX long(0x7FFFFFFF)
+#define UNSIGNED_LONG_MAX uint32(0xFFFFFFFF)
+
+#define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)
+
+#define MAXIMUM_PLAYER_WINDOWS 4
+

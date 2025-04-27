@@ -33,8 +33,6 @@ struct geometry_block_info
 };
 static_assert(sizeof(geometry_block_info) == 0x28);
 
-enum e_map_memory_configuration;
-
 extern bool __cdecl _geometry_cache_block_query(geometry_block_info* block_info, long flags);
 extern void __cdecl geometry_cache_block_delete(geometry_block_info* block_info);
 extern void __cdecl geometry_cache_block_for_one_frame(e_geometry_block_type block_type);

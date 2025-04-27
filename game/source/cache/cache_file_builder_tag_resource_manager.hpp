@@ -26,18 +26,6 @@ enum e_cache_file_tag_resource_location_flags
 	| FLAG(_cache_file_tag_resource_location_flags_video)
 };
 
-enum e_cache_file_compression_codec
-{
-	_cache_file_compression_codec_none = NONE,
-	_cache_file_compression_codec_lz,
-
-	// custom compression codecs
-	_cache_file_compression_codec_runtime_resource,
-	_cache_file_compression_codec_runtime_tag_resource,
-
-	k_cache_file_compression_codec_count
-};
-
 struct s_cache_file_resource_file_location
 {
 	// runtime
@@ -105,29 +93,7 @@ struct s_tag_resource_interop_location
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
-enum e_cache_file_resource_type
-{
-	_cache_file_resource_type_structure_bsp_cache_file_tag_resources = 0,
-	_cache_file_resource_type_bitmap_texture_interop_resource,
-	_cache_file_resource_type_bitmap_texture_interleaved_interop_resource,
-	_cache_file_resource_type_sound_resource_definition,
-	_cache_file_resource_type_model_animation_tag_resource,
-	_cache_file_resource_type_render_geometry_api_resource_definition,
-	_cache_file_resource_type_bink_resource,
-	_cache_file_resource_type_structure_bsp_tag_resources,
-
-	k_cache_file_resource_type_count
-};
-
 extern char const* const k_cache_file_resource_type_names[k_cache_file_resource_type_count];
-
-enum e_cache_file_resource_data_flags
-{
-	_cache_file_resource_data_flags_has_pageable_data = 0,
-	_cache_file_resource_data_flags_has_optional_data,
-
-	k_cache_file_resource_data_flags
-};
 
 struct s_cache_file_resource_runtime_data_new
 {
@@ -177,8 +143,6 @@ static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
 
 struct s_cache_file_zone_manifest;
 
-enum e_campaign_id;
-enum e_map_id;
 struct s_cache_file_resource_gestalt
 {
 	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;

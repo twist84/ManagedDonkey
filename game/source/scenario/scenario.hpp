@@ -54,9 +54,6 @@ struct s_scenario_zone_change
 };
 static_assert(sizeof(s_scenario_zone_change) == 0x10);
 
-enum e_campaign_id;
-enum e_map_id;
-
 struct s_game_globals;
 struct structure_bsp;
 struct s_structure_design;

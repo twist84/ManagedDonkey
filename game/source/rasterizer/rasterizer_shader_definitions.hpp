@@ -3,98 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
-enum e_vertex_type
-{
-	_vertex_type_world = 0,
-	_vertex_type_rigid,
-	_vertex_type_skinned,
-	_vertex_type_particle_model,
-	_vertex_type_flat_world,
-	_vertex_type_flat_rigid,
-	_vertex_type_flat_skinned,
-	_vertex_type_screen,
-	_vertex_type_debug,
-	_vertex_type_transparent,
-	_vertex_type_particle,
-	_vertex_type_contrail,
-	_vertex_type_light_volume,
-	_vertex_type_simple_chud,
-	_vertex_type_fancy_chud,
-	_vertex_type_decorator,
-	_vertex_type_tiny_position,
-	_vertex_type_patchy_fog,
-	_vertex_type_water,
-	_vertex_type_ripple,
-	_vertex_type_implicit,
-	_vertex_type_beam,
-	_vertex_type_dual_quat,
-
-	k_number_of_vertex_types
-};
-
-enum e_lighting_vertex_types
-{
-	// default
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vertex_none)
-	// _entry_point_static_prt_ambient
-	// _entry_point_static_prt_linear
-	// _entry_point_static_prt_quadratic
-	// _entry_point_active_camo
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, transfer_vertex_type)
-	_lighting_vertex_type_unknown0 = 0,
-
-	// _entry_point_vertex_color_lighting
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown1, _transfer_vertex_none)
-	_lighting_vertex_type_unknown1,
-
-	// _entry_point_static_per_pixel
-	// _entry_point_lightmap_debug_mode
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown2, _transfer_vertex_none)
-	_lighting_vertex_type_unknown2,
-
-	// _entry_point_static_per_vertex
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown3, _transfer_vertex_none)
-	_lighting_vertex_type_unknown3,
-
-	k_number_of_lighting_vertex_types
-};
-
-enum e_transfer_vector_vertex_types
-{
-	_transfer_vertex_none = 0,
-	_transfer_prt_ambient_only,
-	_transfer_prt_linear,
-	_transfer_prt_quadratic,
-
-	k_number_of_transfer_vertex_types
-};
-
-enum e_entry_point
-{
-	_entry_point_default = 0,
-	_entry_point_albedo,
-	_entry_point_static_default,
-	_entry_point_static_per_pixel,
-	_entry_point_static_per_vertex,
-	_entry_point_static_sh,
-	_entry_point_static_prt_ambient,
-	_entry_point_static_prt_linear,
-	_entry_point_static_prt_quadratic,
-	_entry_point_dynamic_light,
-	_entry_point_shadow_generate,
-	_entry_point_shadow_apply,
-	_entry_point_active_camo,
-	_entry_point_lightmap_debug_mode,
-	_entry_point_vertex_color_lighting,
-	_entry_point_water_tessellation,
-	_entry_point_water_shading,
-	_entry_point_dynamic_light_cinematic,
-	_entry_point_z_only,
-	_entry_point_sfx_distort,
-
-	k_entry_point_count
-};
-
 __interface IDirect3DVertexShader9;
 __interface IDirect3DPixelShader9;
 
@@ -112,17 +20,6 @@ struct s_rasterizer_vertex_shader_entry_point
 	c_typed_tag_block<s_compiled_shader_reference> vertex_types;
 };
 static_assert(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_block));
-
-enum e_rasterizer_constant_table_type
-{
-	_rasterizer_constant_table_type_vertex = 0,
-	_rasterizer_constant_table_type_pixel,
-
-	// MCC
-	//_rasterizer_constant_table_type_compute,
-
-	k_rasterizer_constant_table_type_count
-};
 
 struct c_rasterizer_constant_table_definition
 {

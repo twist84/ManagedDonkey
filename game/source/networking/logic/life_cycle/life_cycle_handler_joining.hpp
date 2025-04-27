@@ -1,7 +1,6 @@
 #pragma once
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
-#include "shell/shell.hpp"
 
 struct c_life_cycle_state_handler_joining :
 	public c_life_cycle_state_handler

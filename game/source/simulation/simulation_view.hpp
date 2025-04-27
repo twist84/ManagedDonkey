@@ -9,7 +9,6 @@
 #include "networking/replication/replication_event_manager_view.hpp"
 #include "networking/replication/replication_scheduler.hpp"
 #include "simulation/simulation_view_telemetry.hpp"
-#include "shell/shell.hpp"
 
 /*
 	built from `c_simulation_view::get_statistics`
@@ -47,30 +46,7 @@ struct c_simulation_distributed_view :
 };
 static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
 
-enum e_simulation_view_establishment_mode;
-enum e_network_synchronous_playback_control;
 struct player_action;
-
-enum e_simulation_view_synchronous_catchup_stage
-{
-	_synchronous_catchup_not_in_progress = 0,
-	_synchronous_catchup_intiate,
-	_synchronous_catchup_preparing_for_gamestate,
-	_synchronous_catchup_in_progress,
-	_synchronous_catchup_finish,
-	_synchronous_catchup_client_decompressing_gamestate,
-
-	k_synchronous_catchup_stage_count
-};
-
-enum e_synchronous_gamestate_message_type
-{
-	_synchronous_gamestate_message_initiate_join = 0,
-	_synchronous_gamestate_message_gamestate_chunk,
-	_synchronous_gamestate_message_checksums,
-
-	k_number_of_synchronous_gamestate_message_types
-};
 
 struct s_network_message_synchronous_gamestate
 {

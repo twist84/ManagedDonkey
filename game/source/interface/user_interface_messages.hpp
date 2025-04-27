@@ -3,8 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_error_manager.hpp"
-#include "shell/shell.hpp"
 
+enum e_gui_dialog_choice;
+enum e_screen_transition_type;
 struct c_gui_screen_widget;
 
 template<typename t_class>
@@ -76,8 +77,6 @@ protected:
 };
 static_assert(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
 
-enum e_screen_transition_type;
-
 //_ui_message_type_load_screen
 struct c_load_screen_message :
 	public c_message
@@ -130,8 +129,6 @@ protected:
 	long m_sub_type;
 };
 static_assert(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
-
-enum e_gui_dialog_choice;
 
 //_ui_message_type_dialog_result
 struct c_dialog_result_message :
@@ -209,7 +206,6 @@ protected:
 };
 static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 
-enum e_gui_selected_item_type;
 struct c_load_pregame_selection_screen_message :
 	public c_load_screen_message
 {

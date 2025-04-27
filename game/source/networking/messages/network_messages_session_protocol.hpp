@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_join.hpp"
 #include "networking/transport/transport_security.hpp"
-#include "shell/shell.hpp"
 
 #define k_network_protocol_version 9
 

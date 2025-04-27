@@ -5,7 +5,6 @@
 #include "game/players.hpp"
 #include "networking/online/online.hpp"
 #include "networking/transport/transport_security.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 long const k_network_maximum_machines_per_session = 17;

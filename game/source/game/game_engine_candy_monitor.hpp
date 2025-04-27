@@ -36,8 +36,6 @@ struct c_multiplayer_candy_monitor_manager
 };
 static_assert(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
 
-enum e_object_type;
-
 extern bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real32 sphere_radius, real32 distance);
 extern void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority();
 extern bool __cdecl game_engine_object_being_used(long object_index);

@@ -1,10 +1,7 @@
 #pragma once
 
 #include "cseries/async_xoverlapped.hpp"
-#include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
-enum e_controller_index;
 struct c_storage_device;
 struct c_storage_device_selector_overlapped_task :
 	public c_overlapped_task

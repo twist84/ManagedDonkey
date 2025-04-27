@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "render/render_visibility_collection.hpp"
 
-enum e_object_type;
 struct s_tag_field;
 
 extern void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);

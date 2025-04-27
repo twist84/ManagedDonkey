@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
-#include "shell/shell.hpp"
 
 enum e_life_cycle_state_transition_type
 {

@@ -12,7 +12,6 @@
 #include "game/survival_mode.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "saved_games/game_state.hpp"
-#include "shell/shell.hpp"
 
 #define MAXIMUM_CLUSTERS_PER_STRUCTURE 255
 

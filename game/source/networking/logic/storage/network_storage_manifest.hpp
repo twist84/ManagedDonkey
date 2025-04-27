@@ -1,10 +1,8 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "networking/online/online_url.hpp"
-#include "shell/shell.hpp"
 
 struct s_online_file
 {

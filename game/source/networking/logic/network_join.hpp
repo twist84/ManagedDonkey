@@ -5,7 +5,10 @@
 #include "networking/session/network_session_parameters_session.hpp"
 #include "networking/transport/transport_address.hpp"
 #include "networking/transport/transport_security.hpp"
-#include "shell/shell.hpp"
+
+enum e_network_join_squad_join_source;
+struct c_network_session;
+struct c_network_session_membership;
 
 struct s_group_session_join_request_payload
 {
@@ -85,10 +88,6 @@ struct s_networking_join_data
 static_assert(sizeof(s_networking_join_data) == 0x68C8);
 
 extern s_networking_join_data& g_network_join_data;
-
-struct c_network_session;
-struct c_network_session_membership;
-enum e_network_join_squad_join_source;
 
 //extern void __cdecl network_join_add_join_to_queue(c_network_session*, transport_address const*, s_network_session_join_request const*);
 //extern void __cdecl network_join_calculate_full_queue_desirability(c_network_session_membership* membership);

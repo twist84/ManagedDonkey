@@ -2,37 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_gui_selected_item_location
-{
-	_gui_stored_item_location_none = NONE,
-	_gui_stored_item_location_built_in,
-	_gui_stored_item_location_saved_game_file,
-	_gui_stored_item_location_autosave_queue,
-
-	k_gui_stored_item_location_count
-};
-
-enum e_gui_selected_item_type
-{
-	_gui_selection_type_none = NONE,
-	_gui_selection_type_level,
-	_gui_selection_type_difficulty,
-	_gui_selection_type_map,
-	_gui_selection_type_game_variant,
-	_gui_selection_type_hopper,
-	_gui_selection_type_film,
-	_gui_selection_type_screenshot,
-	_gui_selection_type_network_mode,
-
-	k_gui_selected_item_type_count
-};
-
-enum e_campaign_difficulty_level;
-enum e_campaign_id;
-enum e_game_engine_type;
-enum e_map_id;
-enum e_saved_game_file_type;
-
 struct s_ui_saved_game_item_metadata
 {
 	uint64 unique_id;

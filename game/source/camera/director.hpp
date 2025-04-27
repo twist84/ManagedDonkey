@@ -10,28 +10,6 @@
 #include "camera/orbiting_camera.hpp"
 #include "camera/static_camera.hpp"
 
-enum e_director_mode
-{
-	_director_mode_game = 0,
-	_director_mode_saved_film,
-	_director_mode_observer,
-	_director_mode_debug,
-	_director_mode_unused,
-	_director_mode_editor,
-
-	k_number_of_director_modes
-};
-
-enum e_director_perspective
-{
-	_director_perspective_first_person = 0,
-	_director_perspective_third_person,
-	_director_perspective_scripted,
-	_director_perspective_neutral,
-
-	k_number_of_director_perspectives,
-};
-
 struct c_director
 {
 public:
@@ -90,8 +68,6 @@ struct s_observer_gamestate_globals
 	s_cluster_reference cluster_references[4];
 };
 static_assert(sizeof(s_observer_gamestate_globals) == 0xC);
-
-enum e_controller_index;
 
 extern e_director_mode __cdecl choose_appropriate_director(long user_index);
 extern long __cdecl dead_or_alive_unit_from_user(long user_index);

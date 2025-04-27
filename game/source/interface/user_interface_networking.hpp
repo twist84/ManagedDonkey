@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "networking/transport/transport_security.hpp"
 
+struct c_game_results;
+
 struct s_user_interface_networking_globals
 {
 	uint8 __data0[0x8];
@@ -42,12 +44,6 @@ struct s_user_interface_networking_globals
 static_assert(sizeof(s_user_interface_networking_globals) == 0x88);
 
 extern s_user_interface_networking_globals& user_interface_networking_globals;
-
-enum e_controller_index;
-enum e_desired_multiplayer_mode;
-enum e_gui_game_mode;
-enum e_gui_network_session_advertisement_mode;
-struct c_game_results;
 
 extern void __cdecl sub_69D600();
 extern bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, long session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key);

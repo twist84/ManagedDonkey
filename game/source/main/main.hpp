@@ -2,22 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_main_reset_events_reason
-{
-	_main_reset_events_map_change = 0,
-	_main_reset_events_pending_xsync,
-
-	k_number_of_main_reset_event_reasons
-};
-
-enum e_game_state_revert_bit
-{
-	_game_state_revert_user_bit = 0,
-	_game_state_revert_by_scripting_bit,
-	_game_state_revert_keep_playing_cinematic_outros_bit,
-
-	k_number_of_game_state_revert_bits
-};
+struct s_async_task;
+struct s_file_reference;
+struct s_game_tick_time_samples;
+struct s_model_customization_region_permutation;
 
 struct s_scenario_zone_activation
 {
@@ -109,28 +97,6 @@ protected:
 };
 #define LOCAL_TAG_RESOURCE_SCOPE_LOCK c_tag_resources_game_lock __local_tag_resource_scope_lock{}
 
-enum e_single_threaded_request_flags
-{
-	_single_thread_for_user_request = 0,
-	_single_thread_for_physics_debug,
-	_single_thread_for_actor_debug,
-	_single_thread_for_ai_profile,
-	_single_thread_for_hs_debug,
-	_single_thread_for_unknown5,
-	_single_thread_for_unknown6,
-	_single_thread_for_unknown7,
-	_single_thread_for_render_device_reset
-};
-
-enum e_render_thread_mode
-{
-	_render_thread_mode_disabled = 0,
-	_render_thread_mode_enabled,
-	_render_thread_mode_loading_screen,
-
-	k_render_thread_mode_count
-};
-
 class c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
 extern bool& g_render_thread_user_setting;
@@ -148,12 +114,6 @@ extern bool debug_console_pauses_game;
 extern bool debug_no_drawing;
 
 extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
-
-enum e_async_completion;
-struct s_async_task;
-struct s_file_reference;
-struct s_game_tick_time_samples;
-struct s_model_customization_region_permutation;
 
 extern void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address);
 extern void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address);

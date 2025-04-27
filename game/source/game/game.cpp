@@ -84,6 +84,7 @@
 #include "scenario/scenario_soft_ceilings.hpp"
 #include "screenshots/screenshots_loader.hpp"
 #include "screenshots/screenshots_uploader.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 #include "sky_atm/atmosphere.hpp"
 #include "sound/game_sound.hpp"

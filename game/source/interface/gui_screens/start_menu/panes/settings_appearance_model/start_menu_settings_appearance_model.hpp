@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/gui_screens/start_menu/start_menu_pane_screen_widget.hpp"
-#include "shell/shell.hpp"
 
 struct c_start_menu_settings_appearance_model :
 	public c_start_menu_pane_screen_widget

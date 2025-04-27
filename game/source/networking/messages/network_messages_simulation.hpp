@@ -3,18 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
 
-enum e_simulation_view_establishment_mode
-{
-	_simulation_view_establishment_mode_none = 0,
-	_simulation_view_establishment_mode_unknown1,
-	_simulation_view_establishment_mode_unknown2,
-	_simulation_view_establishment_mode_unknown3,
-	_simulation_view_establishment_mode_joining,
-	_simulation_view_establishment_mode_unknown5,
-
-	k_simulation_view_establishment_mode_count
-};
-
 struct s_network_message_view_establishment
 {
 	c_enum<e_simulation_view_establishment_mode, long, _simulation_view_establishment_mode_none, k_simulation_view_establishment_mode_count> establishment_mode;

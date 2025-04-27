@@ -8,7 +8,7 @@
 struct c_network_link;
 struct c_network_message_type_collection;
 struct c_network_message_handler;
-enum e_network_message_type;
+
 struct c_network_message_gateway :
 	public c_network_out_of_band_consumer
 {

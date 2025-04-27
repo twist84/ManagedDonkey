@@ -2,14 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum
-{
-	k_title_id = 0x4D530877
-};
-
-enum e_online_lsp_service_type;
-enum e_network_http_request_queue_type;
-
 struct c_url_string
 {
 	enum e_cachable_type

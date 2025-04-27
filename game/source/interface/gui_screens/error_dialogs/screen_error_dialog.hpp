@@ -2,8 +2,6 @@
 
 #include "interface/c_gui_screen_widget.hpp"
 
-enum e_gui_error_category;
-
 struct s_gui_error
 {
 	short error_category;
@@ -11,7 +9,6 @@ struct s_gui_error
 };
 static_assert(sizeof(s_gui_error) == 0x8);
 
-enum e_controller_index;
 struct c_error_dialog_screen_widget :
 	public c_gui_screen_widget
 {

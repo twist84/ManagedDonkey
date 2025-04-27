@@ -11,7 +11,6 @@
 #include "memory/secure_signature.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "scenario/scenario.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/tag_resource_cache_predictor.hpp"
 #include "tag_files/tag_resource_cache_stoler.hpp"
 #include "tag_files/tag_resource_threading.hpp"
@@ -451,7 +450,6 @@ public:
 };
 extern c_cache_file_tag_resource_runtime_manager_allocation& g_resource_runtime_manager;
 
-enum e_game_mode;
 struct c_scenario_resource_registry;
 struct s_scenario_game_state;
 

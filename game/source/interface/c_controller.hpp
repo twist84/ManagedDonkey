@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/c_player_profile.hpp"
-#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct s_player_identifier;
@@ -85,9 +84,6 @@ static_assert(sizeof(s_controller_globals) == 0x5120);
 
 extern s_controller_globals& g_controller_globals;
 extern bool controller_centered_crosshair;
-
-enum e_window_index;
-enum e_controller_index;
 
 extern void __cdecl controller_activate_as_unsigned_in_user(short controller_index, bool activate);
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);

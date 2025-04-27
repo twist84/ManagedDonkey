@@ -1,6 +1,12 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+struct c_network_channel;
+struct c_network_link;
+struct c_network_message_type_collection;
+struct c_network_message_gateway;
+struct c_network_observer;
+struct c_network_session_manager;
+struct transport_address;
 
 struct s_network_message_ping;
 struct s_network_message_pong;
@@ -88,14 +94,6 @@ union network_message_converter_t
 	s_network_message_directed_search const* message_directed_search;
 };
 
-struct c_network_channel;
-struct c_network_link;
-struct c_network_message_type_collection;
-struct c_network_message_gateway;
-struct c_network_observer;
-struct c_network_session_manager;
-struct transport_address;
-enum e_network_message_type;
 struct c_network_message_handler
 {
 public:

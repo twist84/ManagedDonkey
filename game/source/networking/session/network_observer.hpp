@@ -10,6 +10,13 @@
 long const k_network_maximum_observers = 34;
 
 struct c_network_session;
+struct c_network_link;
+struct c_network_message_gateway;
+struct c_network_message_handler;
+struct c_network_message_type_collection;
+struct s_observer_configuration;
+struct s_network_message_connect_request;
+
 struct s_channel_observer_owner
 {
 	c_network_session* owner;
@@ -17,13 +24,6 @@ struct s_channel_observer_owner
 };
 static_assert(sizeof(s_channel_observer_owner) == 0x8);
 
-struct c_network_link;
-struct c_network_message_gateway;
-struct c_network_message_handler;
-struct c_network_message_type_collection;
-struct s_observer_configuration;
-struct s_network_message_connect_request;
-enum e_network_message_type;
 struct c_network_observer
 {
 	struct s_stream_parameters

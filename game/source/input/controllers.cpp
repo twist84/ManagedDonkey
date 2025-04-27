@@ -1,7 +1,6 @@
 #include "input/controllers.hpp"
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 
 e_controller_index first_controller()
 {

@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/sliding_window.hpp"
 
-//enum e_network_message_type;
 //struct c_network_message_type_collection;
 //struct c_network_message_queue :
 //	public c_network_channel_client

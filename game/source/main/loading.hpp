@@ -3,19 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
-enum e_map_load_status
-{
-	_map_load_status_loaded = 3,
-};
-
-enum e_basic_loading_phase
-{
-	_basic_loading_phase_none = NONE,
-
-	k_basic_loading_phase_count = 3
-};
-
-enum e_campaign_id;
 struct s_main_loading_action
 {
 	char scenario_path[256];
@@ -53,8 +40,6 @@ extern bool& disable_progress_screen;
 extern loading_globals_definition& loading_globals;
 extern long& loaded_resource_bytes;
 extern long& total_resource_bytes;
-
-enum e_main_pregame_frame;
 
 extern void __cdecl loading_basic_progress_complete();
 extern void __cdecl loading_basic_progress_disable();

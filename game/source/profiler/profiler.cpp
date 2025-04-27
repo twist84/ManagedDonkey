@@ -6,7 +6,6 @@
 #include "objects/objects.hpp"
 #include "physics/havok_profile.hpp"
 #include "render/render_visibility.hpp"
-#include "shell/shell.hpp"
 #include "text/draw_string.hpp"
 
 bool profile_summary_objects_enabled = true;

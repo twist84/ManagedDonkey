@@ -1,8 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
-
 struct s_object_placement_globals
 {
 	uint8 __data[0x320];
