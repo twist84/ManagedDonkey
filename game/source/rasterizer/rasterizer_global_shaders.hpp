@@ -1,6 +1,6 @@
 #pragma once
 
-const long k_number_of_global_shaders = 10;
+const int32 k_number_of_global_shaders = 10;
 
 struct IDirect3DPixelShader9;
 struct IDirect3DVertexShader9;

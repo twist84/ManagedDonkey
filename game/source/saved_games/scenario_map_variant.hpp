@@ -42,7 +42,7 @@ public:
 		shape_data.boundary_negative_height = 0.0f;
 	}
 
-	void print(long const tab_count);
+	void print(int32 const tab_count);
 
 //protected:
 
@@ -95,14 +95,14 @@ public:
 	{
 	}
 
-	void print(c_map_variant* map_variant, long const tab_count);
+	void print(c_map_variant* map_variant, int32 const tab_count);
 
 //protected:
 	c_flags<e_variant_object_placement_flags, uint16, k_variant_object_placement_flags> flags;
-	short reuse_timeout;
-	long object_index;
-	long helper_object_index;
-	long variant_quota_index;
+	int16 reuse_timeout;
+	int32 object_index;
+	int32 helper_object_index;
+	int32 variant_quota_index;
 	real_point3d position;
 	real_vector3d forward;
 	real_vector3d up;
@@ -124,10 +124,10 @@ public:
 	{
 	}
 
-	void print(long const tab_count);
+	void print(int32 const tab_count);
 
 //protected:
-	long object_definition_index;
+	int32 object_definition_index;
 	uint8 minimum_count;
 	uint8 maximum_count;
 	uint8 placed_on_map;
@@ -158,21 +158,21 @@ public:
 
 //protected:
 	s_saved_game_item_metadata m_metadata;
-	short m_map_variant_version;
-	short m_number_of_scenario_objects;
-	short m_number_of_variant_objects;
-	short m_number_of_placeable_object_quotas;
+	int16 m_map_variant_version;
+	int16 m_number_of_scenario_objects;
+	int16 m_number_of_variant_objects;
+	int16 m_number_of_placeable_object_quotas;
 	e_map_id m_map_id;
 	real_rectangle3d m_variant_scenario_bounds;
-	long m_game_engine_subtype;
+	int32 m_game_engine_subtype;
 	real32 m_maximum_budget;
 	real32 m_spent_budget;
 	bool m_showing_helpers;
 	bool m_built_in;
 	uint32 m_original_map_signature_hash;
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
-	c_static_array<short, k_object_type_count> m_object_type_start_index;
+	c_static_array<int16, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;
-	c_static_array<long, 80> m_gamestate_indices;
+	c_static_array<int32, 80> m_gamestate_indices;
 };
 static_assert(sizeof(c_map_variant) == 0xE090);

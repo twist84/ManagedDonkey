@@ -18,7 +18,7 @@ void __cdecl game_sound_deterministic_dispose_from_old_map()
 	INVOKE(0x0068CA40, game_sound_deterministic_dispose_from_old_map);
 }
 
-//.text:0068CA50 ; real64 __cdecl game_sound_deterministic_get_permutation_playing_time(long, s_game_sound_deterministic_permutation const*)
+//.text:0068CA50 ; real64 __cdecl game_sound_deterministic_get_permutation_playing_time(int32, s_game_sound_deterministic_permutation const*)
 //.text:0068CB10 ;
 //.text:0068CBD0 ;
 
@@ -35,8 +35,8 @@ void __cdecl game_sound_deterministic_initialize_for_new_map()
 }
 
 //.text:0068CD80 ; 
-//.text:0068CE40 ; bool __cdecl game_sound_deterministic_permutation_valid(long, s_game_sound_deterministic_permutation const*)
-//.text:0068CED0 ; void __cdecl game_sound_deterministic_pick_permutation(long, s_game_sound_deterministic_permutation*, bool*)
+//.text:0068CE40 ; bool __cdecl game_sound_deterministic_permutation_valid(int32, s_game_sound_deterministic_permutation const*)
+//.text:0068CED0 ; void __cdecl game_sound_deterministic_pick_permutation(int32, s_game_sound_deterministic_permutation*, bool*)
 //.text:0068D100 ; 
 //.text:0068D1B0 ; 
 

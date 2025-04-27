@@ -13,7 +13,7 @@ struct c_aim_target_base
 		k_aim_target_type_count
 	};
 	c_enum<e_aim_target_type, uint8, _aim_target_type_none, k_aim_target_type_count> m_target_type;
-	long m_model_index;
+	int32 m_model_index;
 };
 
 struct c_aim_target_object :
@@ -21,8 +21,8 @@ struct c_aim_target_object :
 {
 	union
 	{
-		long m_object_index;
-		long m_laser_designation;
+		int32 m_object_index;
+		int32 m_laser_designation;
 	};
 };
 static_assert(sizeof(c_aim_target_object) == 0xC);
@@ -32,8 +32,8 @@ struct c_aim_target_predicted :
 {
 	union
 	{
-		long m_entity_index;
-		long m_laser_designation;
+		int32 m_entity_index;
+		int32 m_laser_designation;
 	};
 };
 static_assert(sizeof(c_aim_target_predicted) == 0xC);
@@ -44,10 +44,10 @@ struct c_aim_target_simulation_entity :
 	bool m_data_valid;
 	union
 	{
-		long m_aim_target;
-		long m_laser_designation;
+		int32 m_aim_target;
+		int32 m_laser_designation;
 	};
-	long m_gamestate_index;
+	int32 m_gamestate_index;
 };
 static_assert(sizeof(c_aim_target_simulation_entity) == 0x14);
 

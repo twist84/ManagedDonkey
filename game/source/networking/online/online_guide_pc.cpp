@@ -40,7 +40,7 @@ HOOK_DECLARE(0x004E1980, online_guide_update);
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	char const* file,
-	long line,
+	int32 line,
 	e_controller_index controller_index,
 	wchar_t const* default_text,
 	wchar_t const* title_text,
@@ -138,7 +138,7 @@ void __cdecl c_virtual_keyboard_task::set_sanitize_result(bool sanitize_result)
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 	char const* file,
-	long line,
+	int32 line,
 	e_controller_index controller_index,
 	wchar_t const* default_text,
 	wchar_t const* title_text,
@@ -248,7 +248,7 @@ void __thiscall c_virtual_keyboard_task::success_(uint32 return_result)
 	wchar_string_sanitize_for_game(m_result_text_buffer, 256);
 }
 
-uint32 __cdecl online_guide_delay_toasts(long milliseconds)
+uint32 __cdecl online_guide_delay_toasts(int32 milliseconds)
 {
 	//return XNotifyDelayUI(milliseconds);
 
@@ -276,7 +276,7 @@ void __cdecl online_guide_initialize()
 
 void __cdecl online_guide_set_toast_position(e_online_guide_toast_position toast_position)
 {
-	//long toast_position_map[k_toast_position_count] { 5, 1, 9, 4, 0, 8, 6, 2, 10 };
+	//int32 toast_position_map[k_toast_position_count] { 5, 1, 9, 4, 0, 8, 6, 2, 10 };
 	//XNotifyPositionUI(toast_position_map[toast_position]);
 }
 
@@ -309,7 +309,7 @@ uint32 __cdecl online_guide_show_device_selector_ui(e_controller_index controlle
 	return NONE;
 }
 
-void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uint64 file_share_xuid, long slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text)
+void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uint64 file_share_xuid, int32 slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text)
 {
 	MessageBoxA(NULL, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
 
@@ -410,7 +410,7 @@ uint32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_
 	return NONE;
 }
 
-bool __cdecl online_guide_show_sign_in_ui(long pane_count, uint32 flags)
+bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uint32 flags)
 {
 	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 

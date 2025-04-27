@@ -34,11 +34,11 @@ void __cdecl havok_proxies_update()
 	INVOKE(0x0067A630, havok_proxies_update);
 }
 
-//.text:0067AAF0 ; void __cdecl havok_proxy_aquire(long)
-//.text:0067AB40 ; bool __cdecl havok_proxy_aquire_internal(long, bool)
-//.text:0067ACA0 ; void __cdecl havok_proxy_rebuild(long)
-//.text:0067AD10 ; void __cdecl havok_proxy_release(long)
-//.text:0067AD30 ; void __cdecl havok_proxy_release_internal(long, bool)
-//.text:0067ADE0 ; long __cdecl havok_proxy_rigid_bodies_get(c_static_array<hkRigidBody*, 16>*)
+//.text:0067AAF0 ; void __cdecl havok_proxy_aquire(int32)
+//.text:0067AB40 ; bool __cdecl havok_proxy_aquire_internal(int32, bool)
+//.text:0067ACA0 ; void __cdecl havok_proxy_rebuild(int32)
+//.text:0067AD10 ; void __cdecl havok_proxy_release(int32)
+//.text:0067AD30 ; void __cdecl havok_proxy_release_internal(int32, bool)
+//.text:0067ADE0 ; int32 __cdecl havok_proxy_rigid_bodies_get(c_static_array<hkRigidBody*, 16>*)
 //.text:0067AE50 ; 
 

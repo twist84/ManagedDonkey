@@ -33,7 +33,7 @@ enum e_king_moving_hill_settings
 	k_king_moving_hill_settings_default = _king_moving_hill_settings_30_seconds
 };
 
-constexpr short k_king_moving_hill_values[k_king_moving_hill_settings - _king_moving_hill_settings_10_seconds]
+constexpr int16 k_king_moving_hill_values[k_king_moving_hill_settings - _king_moving_hill_settings_10_seconds]
 {
 	10,
 	15,

@@ -47,7 +47,7 @@ void render_debug_campaign_metagame()
 		c_simple_font_screen_display screen_display{};
 		if (screen_display.open_session(1.0f))
 		{
-			long text_y_offset = 0;
+			int32 text_y_offset = 0;
 
 			screen_display.draw(0, text_y_offset++, 0xFFFFFFFF, "PRIMARY SKULLS");
 			for (e_primary_skulls primary_skull = _campaign_skull_iron; primary_skull < k_number_of_primary_skulls; primary_skull = e_primary_skulls(primary_skull + 1))

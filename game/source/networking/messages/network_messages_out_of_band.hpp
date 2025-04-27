@@ -41,36 +41,36 @@ struct s_network_session_status_data
 {
 	struct s_header
 	{
-		short protocol;
-		short platform;
-		long executable_type;
-		long executable_version;
-		long compatible_version;
+		int16 protocol;
+		int16 platform;
+		int32 executable_type;
+		int32 executable_version;
+		int32 compatible_version;
 	};
 	static_assert(sizeof(s_header) == 0x10);
 
 	s_header header;
-	c_enum<e_network_session_mode, long, _network_session_mode_none, k_network_session_mode_count> session_mode;
+	c_enum<e_network_session_mode, int32, _network_session_mode_none, k_network_session_mode_count> session_mode;
 	uint8 : 8;
 	uint8 : 8;
 	uint8 : 8;
 	uint8 : 8;
-	c_enum<e_network_session_class, long, _network_session_class_offline, k_network_session_class_count> session_class;
-	c_enum<e_network_session_type, long, _network_session_type_none, k_network_session_type_count> session_type;
-	long privacy_mode;
+	c_enum<e_network_session_class, int32, _network_session_class_offline, k_network_session_class_count> session_class;
+	c_enum<e_network_session_type, int32, _network_session_type_none, k_network_session_type_count> session_type;
+	int32 privacy_mode;
 	c_static_wchar_string<32> session_name;
-	c_enum<e_life_cycle_state, short, _life_cycle_state_none, k_life_cycle_state_count> life_cycle_state;
+	c_enum<e_life_cycle_state, int16, _life_cycle_state_none, k_life_cycle_state_count> life_cycle_state;
 	s_transport_secure_identifier session_id;
 	s_transport_secure_address host_address;
 	s_transport_secure_key key;
-	short public_slots;
-	short private_slots;
-	short public_players;
-	short private_players;
-	c_enum<e_session_game_mode, short, _session_game_mode_none, k_session_game_mode_count> game_mode;
-	short game_state;
-	c_enum<e_network_game_type, short, _network_game_type_none, k_network_game_type_count> network_game_type;
-	short connection_quality;
+	int16 public_slots;
+	int16 private_slots;
+	int16 public_players;
+	int16 private_players;
+	c_enum<e_session_game_mode, int16, _session_game_mode_none, k_session_game_mode_count> game_mode;
+	int16 game_state;
+	c_enum<e_network_game_type, int16, _network_game_type_none, k_network_game_type_count> network_game_type;
+	int16 connection_quality;
 	c_static_string<16> playlist_name;
 	uint8 : 8;
 	uint8 : 8;
@@ -79,22 +79,22 @@ struct s_network_session_status_data
 	e_campaign_id campaign_id;
 	e_campaign_difficulty_level campaign_difficulty_level;
 	e_map_id map_id;
-	short insertion_point;
+	int16 insertion_point;
 	c_static_wchar_string<16> map_variant_name;
 	c_static_wchar_string<16> saved_film_name;
 	bool game_has_teams;
 	uint8 : 8;
-	short maximum_team_count;
-	short score_to_win_round;
-	short best_player_score;
-	short player_count;
-	long __unknown134;
+	int16 maximum_team_count;
+	int16 score_to_win_round;
+	int16 best_player_score;
+	int16 player_count;
+	int32 __unknown134;
 	c_static_array<s_network_session_status_data_player, 16> players;
-	long player_encoded_count;
-	long game_timer_type;
-	long game_timer_seconds;
+	int32 player_encoded_count;
+	int32 game_timer_type;
+	int32 game_timer_seconds;
 	uint32 team_mask;
-	c_static_array<long, 8> team_scores;
+	c_static_array<int32, 8> team_scores;
 	s_matchmaking_gather_party_properties gather_party_properties;
 	uint8 : 8;
 	uint8 : 8;
@@ -122,36 +122,36 @@ struct c_bitstream;
 class c_network_message_ping
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_pong
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_broadcast_search
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_directed_search
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_broadcast_reply
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 struct c_network_message_type_collection;

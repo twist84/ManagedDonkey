@@ -4,19 +4,19 @@
 
 bool debug_recording = false;
 
-bool __cdecl recorded_animation_controlling_unit(long object_index)
+bool __cdecl recorded_animation_controlling_unit(int32 object_index)
 {
 	return INVOKE(0x00681AF0, recorded_animation_controlling_unit, object_index);
 }
 
-//.text:00681B70 ; long __cdecl recorded_animation_get_time_left_for_scripting(long)
-//.text:00681C10 ; void __cdecl recorded_animation_kill(long)
-//.text:00681C90 ; bool __cdecl recorded_animation_play(long, long)
-//.text:00681CB0 ; bool __cdecl recorded_animation_play_and_delete(long, long)
-//.text:00681CD0 ; bool __cdecl recorded_animation_play_and_hover(long, long)
-//.text:00681CF0 ; bool __cdecl recorded_animation_play_internal(long, long, uint16)
+//.text:00681B70 ; int32 __cdecl recorded_animation_get_time_left_for_scripting(int32)
+//.text:00681C10 ; void __cdecl recorded_animation_kill(int32)
+//.text:00681C90 ; bool __cdecl recorded_animation_play(int32, int32)
+//.text:00681CB0 ; bool __cdecl recorded_animation_play_and_delete(int32, int32)
+//.text:00681CD0 ; bool __cdecl recorded_animation_play_and_hover(int32, int32)
+//.text:00681CF0 ; bool __cdecl recorded_animation_play_internal(int32, int32, uint16)
 //.text:00681E50 ; void __cdecl recorded_animation_verify(recorded_animation_definition const*)
-//.text:00681ED0 ; void __cdecl recorded_animations_clear_debug_storage(long)
+//.text:00681ED0 ; void __cdecl recorded_animations_clear_debug_storage(int32)
 
 void __cdecl recorded_animations_dispose()
 {

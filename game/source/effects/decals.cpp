@@ -68,16 +68,16 @@ void __cdecl c_decal_system::prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_
 }
 
 //void __cdecl c_decal::render(c_decal_definition::e_pass) const
-void __thiscall c_decal::render(long pass)
+void __thiscall c_decal::render(int32 pass)
 {
 	//INVOKE_CLASS_MEMBER(0x00694430, c_decal, render, pass);
 
 	static c_static_wchar_string<128> tag_name;
 	char const* tag_name_ = "$TODO: tag_name";
 	//TLS_DATA_GET_VALUE_REFERENCE(g_decal_system_data_array);
-	//REFERENCE_DECLARE(offset_pointer(this, 0x8), long, decal_system_index);
+	//REFERENCE_DECLARE(offset_pointer(this, 0x8), int32, decal_system_index);
 	//void* decal_system = DATUM_GET(g_decal_system_data_array, void, decal_system_index);
-	//REFERENCE_DECLARE(offset_pointer(decal_system, 0x4), long, tag_index);
+	//REFERENCE_DECLARE(offset_pointer(decal_system, 0x4), int32, tag_index);
 	//tag_name_ = tag_name_strip_path(tag_get_name(tag_index));
 	c_rasterizer_profile_scope _decal(_rasterizer_profile_element_effects, tag_name.print(L"%hs", tag_name_));
 
@@ -85,7 +85,7 @@ void __thiscall c_decal::render(long pass)
 }
 
 //void __cdecl c_decal::render_all(enum c_decal_definition::e_pass)
-void __cdecl c_decal::render_all(long pass)
+void __cdecl c_decal::render_all(int32 pass)
 {
 	//INVOKE(0x00694790, c_decal::render_all, pass);
 
@@ -102,7 +102,7 @@ void __cdecl c_decal_system::submit_all()
 	INVOKE(0x006951B0, c_decal_system::submit_all);
 }
 
-void __cdecl sub_6948C0(long a1)
+void __cdecl sub_6948C0(int32 a1)
 {
 	if (disable_sub_6948C0)
 		return;

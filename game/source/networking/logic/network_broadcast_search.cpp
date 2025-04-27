@@ -33,7 +33,7 @@ bool __cdecl network_broadcast_search_active(uint64* search_nonce)
 	return g_broadcast_search_globals.search_active;
 }
 
-bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage)
+bool __cdecl network_broadcast_search_begin(int32 controller_index, int32 maximum_session_count, s_available_session* session_storage)
 {
 	//return INVOKE(0x004D9C70, network_broadcast_search_begin, controller_index, maximum_session_count, session_storage);
 
@@ -85,12 +85,12 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 	if (g_broadcast_search_globals.search_active)
 	{
-		long existing_session_index = -1;
-		long v7 = -1;
-		long v6 = -1;
-		long v5 = -1;
+		int32 existing_session_index = -1;
+		int32 v7 = -1;
+		int32 v6 = -1;
+		int32 v5 = -1;
 
-		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+		for (int32 i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
 			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
 
@@ -154,7 +154,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 	}
 
 	bool add_session = false;
-	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+	for (int32 i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 	{
 		s_available_session const session = g_broadcast_search_globals.available_sessions[i];
 
@@ -210,7 +210,7 @@ void __cdecl network_broadcast_search_update()
 			g_broadcast_search_globals.last_broadcast_message_sent = network_time_get();
 		}
 
-		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+		for (int32 i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
 			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
 			if (session->session_valid)

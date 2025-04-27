@@ -7,28 +7,28 @@
 //.text:014355F0 ; 
 //.text:01435610 ; 
 //.text:01435620 ; void __cdecl __tls_set_g_ai_players_allocator(void*)
-//.text:01435640 ; bool __cdecl actor_player_is_attacking(long, real_vector3d*)
-//.text:014356E0 ; void __cdecl actor_player_looking_update(long)
-//.text:014358A0 ; void __cdecl actor_player_prop_state_refresh(long, long)
-//.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(long, long, real_point3d const*, short)
-//.text:01435B80 ; void __cdecl actor_player_update(long)
-//.text:01435BA0 ; void __cdecl actor_player_update_combat_movement(long)
-//.text:01435DE0 ; void __cdecl actor_player_update_vehicle_interest(long)
+//.text:01435640 ; bool __cdecl actor_player_is_attacking(int32, real_vector3d*)
+//.text:014356E0 ; void __cdecl actor_player_looking_update(int32)
+//.text:014358A0 ; void __cdecl actor_player_prop_state_refresh(int32, int32)
+//.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(int32, int32, real_point3d const*, int16)
+//.text:01435B80 ; void __cdecl actor_player_update(int32)
+//.text:01435BA0 ; void __cdecl actor_player_update_combat_movement(int32)
+//.text:01435DE0 ; void __cdecl actor_player_update_vehicle_interest(int32)
 //.text:014363C0 ; 
 //.text:01436420 ; 
-//.text:01436480 ; short __cdecl ai_player_index_get(long)
+//.text:01436480 ; int16 __cdecl ai_player_index_get(int32)
 
 void __cdecl ai_player_initialize()
 {
 	INVOKE(0x014364C0, ai_player_initialize);
 }
 
-//.text:01436520 ; void __cdecl ai_player_state_create(long)
-//.text:01436590 ; void __cdecl ai_player_state_delete(long)
-//.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(long)
-//.text:01436650 ; void __cdecl ai_player_state_handle_deleted_object(long)
+//.text:01436520 ; void __cdecl ai_player_state_create(int32)
+//.text:01436590 ; void __cdecl ai_player_state_delete(int32)
+//.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(int32)
+//.text:01436650 ; void __cdecl ai_player_state_handle_deleted_object(int32)
 
-bool __cdecl ai_player_state_needs_vehicle(short ai_player_index)
+bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index)
 {
 	//return INVOKE(0x014366A0, ai_player_state_needs_vehicle, ai_player_index);
 
@@ -72,7 +72,7 @@ void debug_render_player_battle_vector()
 	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	for (short ai_player_index = 0; ai_player_index < 4; ai_player_index++)
+	for (int16 ai_player_index = 0; ai_player_index < 4; ai_player_index++)
 	{
 		ai_player_state& ai_player = g_ai_players[ai_player_index];
 		if (ai_player.player_index != NONE)
@@ -99,7 +99,7 @@ void debug_render_player_needs_vehicle()
 	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	for (short ai_player_index = 0; ai_player_index < 4; ai_player_index++)
+	for (int16 ai_player_index = 0; ai_player_index < 4; ai_player_index++)
 	{
 		ai_player_state& ai_player = g_ai_players[ai_player_index];
 		if (ai_player.player_index != NONE)

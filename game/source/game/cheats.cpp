@@ -36,16 +36,16 @@ char cheat_strings[k_controller_button_count][200] = {};
 
 void __cdecl cheat_active_camouflage(bool enable)
 {
-	long user_index = player_mapping_first_active_input_user();
-	long player_index = player_mapping_get_player_by_input_user(user_index);
+	int32 user_index = player_mapping_first_active_input_user();
+	int32 player_index = player_mapping_get_player_by_input_user(user_index);
 	cheat_active_camouflage_by_player(player_index, enable);
 }
 
-void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
+void __cdecl cheat_active_camouflage_by_player(int32 player_index, bool enable)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	long user_index = player_mapping_get_input_user(player_index);
+	int32 user_index = player_mapping_get_input_user(player_index);
 	if (VALID_INDEX(user_index, k_number_of_users))
 	{
 		player_datum* player = DATUM_GET(player_data, player_datum, player_index);
@@ -68,12 +68,12 @@ void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
 
 void __cdecl cheat_all_chars()
 {
-	short reference_count = 0;
+	int16 reference_count = 0;
 	s_tag_reference references[64]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, UNIT_TAG);
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
@@ -91,16 +91,16 @@ void __cdecl cheat_all_powerups()
 	s_game_globals* game_globals = scenario_get_game_globals();
 	if (game_globals->cheat_powerups.count)
 	{
-		cheat_objects(game_globals->cheat_powerups.begin(), (short)game_globals->cheat_powerups.count);
+		cheat_objects(game_globals->cheat_powerups.begin(), (int16)game_globals->cheat_powerups.count);
 	}
 	else
 	{
-		short reference_count = 0;
+		int16 reference_count = 0;
 		s_tag_reference references[32]{};
 
 		tag_iterator iterator{};
 		tag_iterator_new(&iterator, EQUIPMENT_TAG);
-		for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+		for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 		{
 			if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 				break;
@@ -116,12 +116,12 @@ void __cdecl cheat_all_powerups()
 
 void __cdecl cheat_all_vehicles()
 {
-	short reference_count = 0;
+	int16 reference_count = 0;
 	s_tag_reference references[16]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, VEHICLE_TAG);
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
@@ -136,12 +136,12 @@ void __cdecl cheat_all_vehicles()
 
 void __cdecl cheat_all_weapons()
 {
-	short reference_count = 0;
+	int16 reference_count = 0;
 	s_tag_reference references[128 /* 32 */]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, WEAPON_TAG);
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
@@ -152,7 +152,7 @@ void __cdecl cheat_all_weapons()
 	cheat_objects(references, reference_count);
 }
 
-bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effect_index, real_point3d* position, real_vector3d* forward)
+bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, int32 effect_index, real_point3d* position, real_vector3d* forward)
 {
 	if (effect_index == NONE)
 	{
@@ -182,7 +182,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	return true;
 }
 
-bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, tag base_group_tag, long object_definition_index, long variant_name, long shader_definition_index, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, tag base_group_tag, int32 object_definition_index, int32 variant_name, int32 shader_definition_index, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, int32 permutation_count)
 {
 	char const* tag_group_name = "unknown";
 
@@ -215,14 +215,14 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 
 	if (permutations && permutation_count > 0)
 	{
-		for (long i = 0; i < permutation_count; i++)
+		for (int32 i = 0; i < permutation_count; i++)
 		{
 			placement_data.model_customization_overrides[i] = permutations[i];
 			placement_data.model_customization_override_count++;
 		}
 	}
 
-	long object_index = object_new(&placement_data);
+	int32 object_index = object_new(&placement_data);
 	if (object_index == NONE)
 	{
 		event(_event_warning, "cheats: couldn't place '%s.%s'", drop_tag_path, tag_group_name);
@@ -238,11 +238,11 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 	{
 		tag_iterator iterator{};
 		tag_iterator_new(&iterator, WEAPON_TAG);
-		for (long weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
+		for (int32 weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
 		{
 			object_placement_data weapon_placement_data{};
 			object_placement_data_new(&weapon_placement_data, weapon_definition_index, NONE, NULL);
-			long weapon_object_index = object_new(&weapon_placement_data);
+			int32 weapon_object_index = object_new(&weapon_placement_data);
 			if (weapon_object_index != NONE)
 			{
 				if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
@@ -259,13 +259,13 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 	return true;
 }
 
-long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+int32 __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
 {
-	long variant_id = NONE;
+	int32 variant_id = NONE;
 
 	char const* tag_group_name = tag_group_get_name(group_tag);
 
-	long tag_index = cheat_get_tag_definition(group_tag, tag_name);
+	int32 tag_index = cheat_get_tag_definition(group_tag, tag_name);
 
 	if (variant_name)
 		variant_id = string_id_retrieve(variant_name);
@@ -282,12 +282,12 @@ long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* var
 	return tag_index;
 }
 
-void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
 {
 	if (tag_index == NONE)
 		return;
 
-	long user_index = player_mapping_first_active_output_user();
+	int32 user_index = player_mapping_first_active_output_user();
 	if (user_index == k_number_of_users)
 		return;
 
@@ -346,11 +346,11 @@ void __cdecl cheat_drop_tag_name(char const* tag_name)
 void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_info)
 {
 	s_model_customization_region_permutation permutations[16]{};
-	long permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
+	int32 permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, permutations, permutation_count);
 }
 
-void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
 {
 	c_static_string<256> name = tag_name;
 
@@ -373,10 +373,10 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 	}
 
 	tag droppable_tag_types[32]{};
-	long droppable_tag_type_count = 0;
+	int32 droppable_tag_type_count = 0;
 	cheat_get_droppable_tag_types(droppable_tag_types, &droppable_tag_type_count);
 
-	long droppable_tag_type_index = 0;
+	int32 droppable_tag_type_index = 0;
 	while (cheat_drop_tag(droppable_tag_types[droppable_tag_type_index], name.get_string(), variant_name, permutations, permutation_count) == NONE)
 	{
 		if (++droppable_tag_type_index >= 14)
@@ -392,28 +392,28 @@ void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char cons
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, NULL, 0);
 }
 
-void __cdecl cheat_drop_tag_safe_hs(long tag_index)
+void __cdecl cheat_drop_tag_safe_hs(int32 tag_index)
 {
 	main_cheat_drop_tag(tag_index, NONE, NULL, 0);
 }
 
-void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, long* out_droppable_tag_type_count)
+void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, int32* out_droppable_tag_type_count)
 {
 	tag droppable_tag_types[] = { VEHICLE_TAG, BIPED_TAG, CREATURE_TAG, WEAPON_TAG, CRATE_TAG, EQUIPMENT_TAG, DEVICE_MACHINE_TAG, DEVICE_CONTROL_TAG, PROJECTILE_TAG, DEVICE_TERMINAL_TAG, SOUND_SCENERY_TAG, SCENERY_TAG, EFFECT_SCENERY_TAG, EFFECT_TAG };
 	csmemcpy(out_droppable_tag_types, droppable_tag_types, sizeof(droppable_tag_types));
 	*out_droppable_tag_type_count = NUMBEROF(droppable_tag_types);
 }
 
-long __cdecl cheat_get_region_and_permutation_array_from_string(char const* permutation_info, s_model_customization_region_permutation* permutations, long maximum_permutations)
+int32 __cdecl cheat_get_region_and_permutation_array_from_string(char const* permutation_info, s_model_customization_region_permutation* permutations, int32 maximum_permutations)
 {
 	c_static_string<1022> permutations_string = permutation_info;
 	c_static_string<1022> name_string;
 
-	long permutation_string_index = 0;
-	long permutation_string_next_index = 0;
-	long permutation_string_length = permutations_string.length();
+	int32 permutation_string_index = 0;
+	int32 permutation_string_next_index = 0;
+	int32 permutation_string_length = permutations_string.length();
 
-	long permutation_index = 0;
+	int32 permutation_index = 0;
 	while (permutation_string_next_index < permutation_string_length && permutation_index < maximum_permutations)
 	{
 		permutation_string_next_index = permutations_string.next_index_of("=", permutation_string_index);
@@ -424,17 +424,17 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 		}
 
 		permutations_string.substring(permutation_string_index, permutation_string_next_index - permutation_string_index, name_string);
-		long region_name = string_id_retrieve(name_string.get_string());
+		int32 region_name = string_id_retrieve(name_string.get_string());
 
 		permutation_string_index = permutation_string_next_index + 1;
 		permutation_string_next_index = permutations_string.next_index_of(",", permutation_string_next_index + 1);
 
-		long index = permutation_string_next_index;
+		int32 index = permutation_string_next_index;
 		if (permutation_string_next_index != -1)
 			index = permutation_string_length;
 
 		permutations_string.substring(permutation_string_index, index - permutation_string_index, name_string);
-		long permutation_name = string_id_retrieve(name_string.get_string());
+		int32 permutation_name = string_id_retrieve(name_string.get_string());
 		permutation_string_index = permutation_string_next_index + 1;
 
 		if (region_name != -1 && permutation_name != -1)
@@ -447,19 +447,19 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 	return permutation_index;
 }
 
-long __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
+int32 __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
 {
 	return tag_loaded(group_tag, tag_name);
 }
 
-void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
+void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 {
-	long player_index = cheat_player_index();
+	int32 player_index = cheat_player_index();
 	if (player_index == NONE)
 		return;
 
 	real32 radius = 0.0f;
-	for (short reference_index = 0; reference_index < reference_count; reference_index++)
+	for (int16 reference_index = 0; reference_index < reference_count; reference_index++)
 	{
 		s_tag_reference& reference = references[reference_index];
 		if (reference.index == NONE)
@@ -479,7 +479,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 	if (!player)
 		return;
 
-	for (short reference_index = 0; reference_index < reference_count; reference_index++)
+	for (int16 reference_index = 0; reference_index < reference_count; reference_index++)
 	{
 		s_tag_reference& reference = references[reference_index];
 		if (reference.index == NONE)
@@ -504,14 +504,14 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.position.y += (sinf(angle_scaling_factor) * radius);
 		data.position.z += 0.8f;
 
-		long object_index = object_new(&data);
+		int32 object_index = object_new(&data);
 
 		if (object_index != NONE)
 			simulation_action_object_create(object_index);
 	}
 }
 
-long __cdecl cheat_player_index()
+int32 __cdecl cheat_player_index()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
@@ -530,12 +530,12 @@ long __cdecl cheat_player_index()
 
 void __cdecl cheat_spawn_warthog()
 {
-	short reference_count = 0;
+	int16 reference_count = 0;
 	s_tag_reference references[16]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, VEHICLE_TAG);
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
@@ -550,7 +550,7 @@ void __cdecl cheat_spawn_warthog()
 
 void __cdecl cheat_teleport_to_camera()
 {
-	long active_output_user = player_mapping_first_active_output_user();
+	int32 active_output_user = player_mapping_first_active_output_user();
 	if (active_output_user != NONE)
 	{
 		s_observer_result const* camera = observer_get_camera(active_output_user);
@@ -560,10 +560,10 @@ void __cdecl cheat_teleport_to_camera()
 		}
 		else
 		{
-			long unit_by_output_user = player_mapping_get_unit_by_output_user(active_output_user);
+			int32 unit_by_output_user = player_mapping_get_unit_by_output_user(active_output_user);
 			if (unit_by_output_user != NONE)
 			{
-				long ultimate_parent = object_get_ultimate_parent(unit_by_output_user);
+				int32 ultimate_parent = object_get_ultimate_parent(unit_by_output_user);
 				object_datum* object = object_get(ultimate_parent);
 
 				event(_event_warning, "networking:cheats: calling cheat_teleport_to_camera()");
@@ -601,7 +601,7 @@ void __cdecl cheats_load()
 	if (fopen_s(&cheats_file, "cheats.txt", "r") == 0 && cheats_file)
 	{
 		char line[200]{};
-		for (long controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count && fgets(line, NUMBEROF(line), cheats_file); controller_button++)
+		for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count && fgets(line, NUMBEROF(line), cheats_file); controller_button++)
 		{
 			char* line_match = strpbrk(line, "\r\n\t;");
 			if (line_match == line)
@@ -623,7 +623,7 @@ void __cdecl cheats_load()
 }
 
 // $TODO: find used locations and add hooks
-bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state const* input_state)
+bool __cdecl cheats_process_gamepad(int32 controller_index, s_game_input_state const* input_state)
 {
 	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
 	if (!cheat.controller_enabled || controller_index == k_no_controller || game_is_networked())
@@ -632,7 +632,7 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 	if (!input_state->get_button(banned_action).down_frames())
 		return false;
 
-	for (long controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
+	for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
 	{
 		e_button_action controller_action = static_cast<e_button_action>(controller_button);
 		char const* cheat_string = cheat_strings[controller_button];

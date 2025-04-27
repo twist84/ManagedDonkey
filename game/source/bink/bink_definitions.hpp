@@ -11,7 +11,7 @@ static_assert(sizeof(s_bink_resource_definition) == sizeof(s_tag_data));
 
 struct s_bink_definition
 {
-	long frame_count;
+	int32 frame_count;
 	s_tag_resource bink_resource;
 };
 static_assert(sizeof(s_bink_definition) == 0xC);

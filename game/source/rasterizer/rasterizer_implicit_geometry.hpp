@@ -36,8 +36,8 @@ static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real32) * 4);
 
 struct s_rasterizer_implicit_object
 {
-	c_enum<e_implicit_transparent_type, long, _implicit_transparent_type_cylinder, k_implicit_transparent_type_count> transparent_type;
-	long render_method_index;
+	c_enum<e_implicit_transparent_type, int32, _implicit_transparent_type_cylinder, k_implicit_transparent_type_count> transparent_type;
+	int32 render_method_index;
 	real_argb_color color;
 	real_matrix4x3 transform;
 
@@ -59,7 +59,7 @@ static_assert(sizeof(s_rasterizer_implicit_vertex) == 0x14);
 
 struct s_rasterizer_implicit_geometry_globals
 {
-	long implicit_object_count;
+	int32 implicit_object_count;
 	s_rasterizer_implicit_object implicit_objects[64];
 	s_rasterizer_implicit_vertex circle_strip[128];
 };
@@ -70,7 +70,7 @@ void initialize_circle_strip()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
 
-	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->circle_strip); i++)
+	for (int32 i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->circle_strip); i++)
 	{
 		s_rasterizer_implicit_vertex* vertex_data = &g_rasterizer_implicit_geometry_globals->circle_strip[i];
 
@@ -94,7 +94,7 @@ void initialize_circle_strip()
 
  
 		// H3EK
-		for (long j = 0; j < 2; j += 2)
+		for (int32 j = 0; j < 2; j += 2)
 		{
 			vertex_data[0].position.x = circle_x_shift;
 			vertex_data[0].position.y = circle_y_shift;

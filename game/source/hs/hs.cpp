@@ -16,101 +16,101 @@
 
 //REFERENCE_DECLARE(0x0166D5E8, bool const, _hs_type_boolean_default);
 //REFERENCE_DECLARE(0x0166D5EC, real32 const, _hs_type_real_default);
-//REFERENCE_DECLARE(0x0166D5F0, short const, _hs_type_short_integer_default);
-//REFERENCE_DECLARE(0x0166D5F4, long const, _hs_type_long_integer_default);
-//REFERENCE_DECLARE(0x0166D5F8, short const, _hs_type_script_default);
-//REFERENCE_DECLARE(0x0166D5FC, long const, _hs_type_string_id_default);
-//REFERENCE_DECLARE(0x0166D600, long const, _hs_type_unit_seat_mapping_default);
-//REFERENCE_DECLARE(0x0166D604, short const, _hs_type_trigger_volume_default);
-//REFERENCE_DECLARE(0x0166D608, short const, _hs_type_cutscene_flag_default);
-//REFERENCE_DECLARE(0x0166D60C, short const, _hs_type_cutscene_camera_point_default);
-//REFERENCE_DECLARE(0x0166D610, short const, _hs_type_cutscene_title_default);
-//REFERENCE_DECLARE(0x0166D614, short const, _hs_type_cutscene_recording_default);
-//REFERENCE_DECLARE(0x0166D618, long const, _hs_type_device_group_default);
-//REFERENCE_DECLARE(0x0166D61C, long const, _hs_type_ai_default);
-//REFERENCE_DECLARE(0x0166D620, short const, _hs_type_ai_command_list_default);
-//REFERENCE_DECLARE(0x0166D624, short const, _hs_type_ai_command_script_default);
-//REFERENCE_DECLARE(0x0166D628, short const, _hs_type_ai_behavior_default);
-//REFERENCE_DECLARE(0x0166D62C, short const, _hs_type_ai_orders_default);
-//REFERENCE_DECLARE(0x0166D630, long const, _hs_type_ai_line_default);
-//REFERENCE_DECLARE(0x0166D634, short const, _hs_type_starting_profile_default);
-//REFERENCE_DECLARE(0x0166D638, short const, _hs_type_conversation_default);
-//REFERENCE_DECLARE(0x0166D63C, short const, _hs_type_zone_set_default);
-//REFERENCE_DECLARE(0x0166D640, short const, _hs_type_designer_zone_default);
-//REFERENCE_DECLARE(0x0166D644, long const, _hs_type_point_ref_default);
-//REFERENCE_DECLARE(0x0166D648, long const, _hs_type_style_default);
-//REFERENCE_DECLARE(0x0166D64C, long const, _hs_type_object_list_default);
-//REFERENCE_DECLARE(0x0166D650, long const, _hs_type_folder_default);
-//REFERENCE_DECLARE(0x0166D654, long const, _hs_type_sound_default);
-//REFERENCE_DECLARE(0x0166D658, long const, _hs_type_looping_sound_default);
-//REFERENCE_DECLARE(0x0166D65C, long const, _hs_type_effect_default);
-//REFERENCE_DECLARE(0x0166D660, long const, _hs_type_damage_default);
-//REFERENCE_DECLARE(0x0166D664, long const, _hs_type_animation_graph_default);
-//REFERENCE_DECLARE(0x0166D668, long const, _hs_type_damage_effect_default);
-//REFERENCE_DECLARE(0x0166D66C, long const, _hs_type_object_definition_default);
-//REFERENCE_DECLARE(0x0166D670, long const, _hs_type_bitmap_default);
-//REFERENCE_DECLARE(0x0166D674, long const, _hs_type_shader_default);
-//REFERENCE_DECLARE(0x0166D678, long const, _hs_type_render_model_definition_default);
-//REFERENCE_DECLARE(0x0166D67C, long const, _hs_type_structure_bsp_definition_default);
-//REFERENCE_DECLARE(0x0166D680, long const, _hs_type_structure_lightmap_definition_default);
-//REFERENCE_DECLARE(0x0166D684, long const, _hs_type_cinematic_definition_default);
-//REFERENCE_DECLARE(0x0166D688, long const, _hs_type_cinematic_scene_definition_default);
-//REFERENCE_DECLARE(0x0166D68C, long const, _hs_type_bink_definition_default);
-//REFERENCE_DECLARE(0x0166D690, long const, _hs_type_any_tag_default);
-//REFERENCE_DECLARE(0x0166D694, short const, _hs_type_enum_game_difficulty_default);
-//REFERENCE_DECLARE(0x0166D698, short const, _hs_type_enum_team_default);
-//REFERENCE_DECLARE(0x0166D69C, short const, _hs_type_enum_mp_team_default);
-//REFERENCE_DECLARE(0x0166D6A0, short const, _hs_type_enum_controller_default);
-//REFERENCE_DECLARE(0x0166D6A4, short const, _hs_type_enum_button_preset_default);
-//REFERENCE_DECLARE(0x0166D6A8, short const, _hs_type_enum_joystick_preset_default);
-//REFERENCE_DECLARE(0x0166D6AC, short const, _hs_type_enum_player_character_type_default);
-//REFERENCE_DECLARE(0x0166D6B0, short const, _hs_type_enum_voice_output_setting_default);
-//REFERENCE_DECLARE(0x0166D6B4, short const, _hs_type_enum_subtitle_setting_default);
-//REFERENCE_DECLARE(0x0166D6B8, short const, _hs_type_enum_actor_type_default);
-//REFERENCE_DECLARE(0x0166D6BC, short const, _hs_type_enum_model_state_default);
-//REFERENCE_DECLARE(0x0166D6C0, short const, _hs_type_enum_event_default);
-//REFERENCE_DECLARE(0x0166D6C8, short const, _hs_type_enum_character_physics_override_default);
-//REFERENCE_DECLARE(0x0166D6CC, short const, _hs_type_enum_primary_skull_default);
-//REFERENCE_DECLARE(0x0166D6D0, short const, _hs_type_enum_secondary_skull_default);
-//REFERENCE_DECLARE(0x0166D6D4, short const, _hs_type_object_name_default);
-//REFERENCE_DECLARE(0x0166D6D8, long const, _hs_type_object_default);
-//REFERENCE_DECLARE(0x0166D6DC, long const, _hs_type_unit_default);
-//REFERENCE_DECLARE(0x0166D6E0, long const, _hs_type_vehicle_default);
-//REFERENCE_DECLARE(0x0166D6E4, long const, _hs_type_weapon_default);
-//REFERENCE_DECLARE(0x0166D6E8, long const, _hs_type_device_default);
-//REFERENCE_DECLARE(0x0166D6EC, long const, _hs_type_scenery_default);
-//REFERENCE_DECLARE(0x0166D6F0, long const, _hs_type_effect_scenery_default);
-//REFERENCE_DECLARE(0x0166D6F4, long const, _hs_type_cinematic_lightprobe_default);
-//REFERENCE_DECLARE(0x0166D6F8, long const, _hs_type_budget_reference_animation_graph_default);
-//REFERENCE_DECLARE(0x0166D6FC, long const, _hs_type_budget_reference_looping_sound_default);
-//REFERENCE_DECLARE(0x0166D700, long const, _hs_type_budget_reference_sound_default);
+//REFERENCE_DECLARE(0x0166D5F0, int16 const, _hs_type_short_integer_default);
+//REFERENCE_DECLARE(0x0166D5F4, int32 const, _hs_type_long_integer_default);
+//REFERENCE_DECLARE(0x0166D5F8, int16 const, _hs_type_script_default);
+//REFERENCE_DECLARE(0x0166D5FC, int32 const, _hs_type_string_id_default);
+//REFERENCE_DECLARE(0x0166D600, int32 const, _hs_type_unit_seat_mapping_default);
+//REFERENCE_DECLARE(0x0166D604, int16 const, _hs_type_trigger_volume_default);
+//REFERENCE_DECLARE(0x0166D608, int16 const, _hs_type_cutscene_flag_default);
+//REFERENCE_DECLARE(0x0166D60C, int16 const, _hs_type_cutscene_camera_point_default);
+//REFERENCE_DECLARE(0x0166D610, int16 const, _hs_type_cutscene_title_default);
+//REFERENCE_DECLARE(0x0166D614, int16 const, _hs_type_cutscene_recording_default);
+//REFERENCE_DECLARE(0x0166D618, int32 const, _hs_type_device_group_default);
+//REFERENCE_DECLARE(0x0166D61C, int32 const, _hs_type_ai_default);
+//REFERENCE_DECLARE(0x0166D620, int16 const, _hs_type_ai_command_list_default);
+//REFERENCE_DECLARE(0x0166D624, int16 const, _hs_type_ai_command_script_default);
+//REFERENCE_DECLARE(0x0166D628, int16 const, _hs_type_ai_behavior_default);
+//REFERENCE_DECLARE(0x0166D62C, int16 const, _hs_type_ai_orders_default);
+//REFERENCE_DECLARE(0x0166D630, int32 const, _hs_type_ai_line_default);
+//REFERENCE_DECLARE(0x0166D634, int16 const, _hs_type_starting_profile_default);
+//REFERENCE_DECLARE(0x0166D638, int16 const, _hs_type_conversation_default);
+//REFERENCE_DECLARE(0x0166D63C, int16 const, _hs_type_zone_set_default);
+//REFERENCE_DECLARE(0x0166D640, int16 const, _hs_type_designer_zone_default);
+//REFERENCE_DECLARE(0x0166D644, int32 const, _hs_type_point_ref_default);
+//REFERENCE_DECLARE(0x0166D648, int32 const, _hs_type_style_default);
+//REFERENCE_DECLARE(0x0166D64C, int32 const, _hs_type_object_list_default);
+//REFERENCE_DECLARE(0x0166D650, int32 const, _hs_type_folder_default);
+//REFERENCE_DECLARE(0x0166D654, int32 const, _hs_type_sound_default);
+//REFERENCE_DECLARE(0x0166D658, int32 const, _hs_type_looping_sound_default);
+//REFERENCE_DECLARE(0x0166D65C, int32 const, _hs_type_effect_default);
+//REFERENCE_DECLARE(0x0166D660, int32 const, _hs_type_damage_default);
+//REFERENCE_DECLARE(0x0166D664, int32 const, _hs_type_animation_graph_default);
+//REFERENCE_DECLARE(0x0166D668, int32 const, _hs_type_damage_effect_default);
+//REFERENCE_DECLARE(0x0166D66C, int32 const, _hs_type_object_definition_default);
+//REFERENCE_DECLARE(0x0166D670, int32 const, _hs_type_bitmap_default);
+//REFERENCE_DECLARE(0x0166D674, int32 const, _hs_type_shader_default);
+//REFERENCE_DECLARE(0x0166D678, int32 const, _hs_type_render_model_definition_default);
+//REFERENCE_DECLARE(0x0166D67C, int32 const, _hs_type_structure_bsp_definition_default);
+//REFERENCE_DECLARE(0x0166D680, int32 const, _hs_type_structure_lightmap_definition_default);
+//REFERENCE_DECLARE(0x0166D684, int32 const, _hs_type_cinematic_definition_default);
+//REFERENCE_DECLARE(0x0166D688, int32 const, _hs_type_cinematic_scene_definition_default);
+//REFERENCE_DECLARE(0x0166D68C, int32 const, _hs_type_bink_definition_default);
+//REFERENCE_DECLARE(0x0166D690, int32 const, _hs_type_any_tag_default);
+//REFERENCE_DECLARE(0x0166D694, int16 const, _hs_type_enum_game_difficulty_default);
+//REFERENCE_DECLARE(0x0166D698, int16 const, _hs_type_enum_team_default);
+//REFERENCE_DECLARE(0x0166D69C, int16 const, _hs_type_enum_mp_team_default);
+//REFERENCE_DECLARE(0x0166D6A0, int16 const, _hs_type_enum_controller_default);
+//REFERENCE_DECLARE(0x0166D6A4, int16 const, _hs_type_enum_button_preset_default);
+//REFERENCE_DECLARE(0x0166D6A8, int16 const, _hs_type_enum_joystick_preset_default);
+//REFERENCE_DECLARE(0x0166D6AC, int16 const, _hs_type_enum_player_character_type_default);
+//REFERENCE_DECLARE(0x0166D6B0, int16 const, _hs_type_enum_voice_output_setting_default);
+//REFERENCE_DECLARE(0x0166D6B4, int16 const, _hs_type_enum_subtitle_setting_default);
+//REFERENCE_DECLARE(0x0166D6B8, int16 const, _hs_type_enum_actor_type_default);
+//REFERENCE_DECLARE(0x0166D6BC, int16 const, _hs_type_enum_model_state_default);
+//REFERENCE_DECLARE(0x0166D6C0, int16 const, _hs_type_enum_event_default);
+//REFERENCE_DECLARE(0x0166D6C8, int16 const, _hs_type_enum_character_physics_override_default);
+//REFERENCE_DECLARE(0x0166D6CC, int16 const, _hs_type_enum_primary_skull_default);
+//REFERENCE_DECLARE(0x0166D6D0, int16 const, _hs_type_enum_secondary_skull_default);
+//REFERENCE_DECLARE(0x0166D6D4, int16 const, _hs_type_object_name_default);
+//REFERENCE_DECLARE(0x0166D6D8, int32 const, _hs_type_object_default);
+//REFERENCE_DECLARE(0x0166D6DC, int32 const, _hs_type_unit_default);
+//REFERENCE_DECLARE(0x0166D6E0, int32 const, _hs_type_vehicle_default);
+//REFERENCE_DECLARE(0x0166D6E4, int32 const, _hs_type_weapon_default);
+//REFERENCE_DECLARE(0x0166D6E8, int32 const, _hs_type_device_default);
+//REFERENCE_DECLARE(0x0166D6EC, int32 const, _hs_type_scenery_default);
+//REFERENCE_DECLARE(0x0166D6F0, int32 const, _hs_type_effect_scenery_default);
+//REFERENCE_DECLARE(0x0166D6F4, int32 const, _hs_type_cinematic_lightprobe_default);
+//REFERENCE_DECLARE(0x0166D6F8, int32 const, _hs_type_budget_reference_animation_graph_default);
+//REFERENCE_DECLARE(0x0166D6FC, int32 const, _hs_type_budget_reference_looping_sound_default);
+//REFERENCE_DECLARE(0x0166D700, int32 const, _hs_type_budget_reference_sound_default);
 //REFERENCE_DECLARE_ARRAY(0x0166D704, tag const, hs_budget_reference_type_group_tags, k_hs_type_budget_reference_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D710, short const, hs_type_sizes, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D7B8, short const, hs_object_type_masks, k_hs_type_object_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D7C8, long const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D710, int16 const, hs_type_sizes, k_hs_type_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D7B8, int16 const, hs_object_type_masks, k_hs_type_object_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D7C8, int32 const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
 //REFERENCE_DECLARE(0x018BEC94, char const* const, _hs_type_string_default);
 //REFERENCE_DECLARE_ARRAY(0x018BEC98, char const* const, hs_type_names, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x018BEDE8, char const* const, hs_script_type_names, k_hs_script_type_count);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
-hs_function_definition const* hs_function_get(short function_index)
+hs_function_definition const* hs_function_get(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
 	return hs_function_table[function_index];
 }
 
-hs_function_definition_debug const* hs_function_get_debug(short function_index)
+hs_function_definition_debug const* hs_function_get_debug(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_debug_count);
 	return hs_function_table_debug[function_index];
 }
 
-hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
+hs_syntax_node* __cdecl hs_syntax_get(int32 expression_index)
 {
 	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
 
-	short index = DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index);
+	int16 index = DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index);
 	if (g_hs_syntax_data && g_hs_syntax_data->data && index < g_hs_syntax_data->maximum_count)
 		return (hs_syntax_node*)g_hs_syntax_data->data + index;
 
@@ -127,25 +127,25 @@ void __cdecl hs_dispose_from_old_map()
 	INVOKE(0x006791E0, hs_dispose_from_old_map);
 }
 
-short __cdecl hs_find_script_by_name(char const* name, short num_arguments)
+int16 __cdecl hs_find_script_by_name(char const* name, int16 num_arguments)
 {
 	//return INVOKE(0x00679220, hs_find_script_by_name, name, num_arguments);
 
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_script>& scripts = global_scenario_get()->scripts;
-		for (long script_index = 0; script_index < scripts.count; script_index++)
+		for (int32 script_index = 0; script_index < scripts.count; script_index++)
 		{
 			hs_script& script = scripts[script_index];
 			if (ascii_stricmp(name, script.name) == 0 && num_arguments == NONE || num_arguments == script.parameters.count)
-				return static_cast<short>(script_index);
+				return static_cast<int16>(script_index);
 		}
 	}
 
 	return NONE;
 }
 
-short __cdecl hs_global_get_type(short global_index)
+int16 __cdecl hs_global_get_type(int16 global_index)
 {
 	//return INVOKE(0x006792E0, hs_global_get_type, global_index);
 
@@ -181,10 +181,10 @@ void __cdecl hs_node_gc()
 }
 
 //.text:006795B0 ; 
-//.text:006795C0 ; void __cdecl hs_reset_time(long)
+//.text:006795C0 ; void __cdecl hs_reset_time(int32)
 //.text:006795D0 ; bool __cdecl hs_scenario_postprocess(bool, bool, bool)
-//.text:00679670 ; long __cdecl hs_seconds_to_ticks(real32)
-//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(long)
+//.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32)
+//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(int32)
 
 void __cdecl hs_update()
 {
@@ -193,9 +193,9 @@ void __cdecl hs_update()
 	hs_runtime_update();
 }
 
-short hs_find_function_by_name(char const* name, short parameter_count)
+int16 hs_find_function_by_name(char const* name, int16 parameter_count)
 {
-	for (short function_index = 0; function_index < hs_function_table_count; function_index++)
+	for (int16 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
 		hs_function_definition const* const function = hs_function_table[function_index];
 		if (csstrcmp(hs_function_table_names[function_index], name) == 0
@@ -207,7 +207,7 @@ short hs_find_function_by_name(char const* name, short parameter_count)
 		}
 	}
 
-	for (short function_index = 0; function_index < hs_function_table_debug_count; function_index++)
+	for (int16 function_index = 0; function_index < hs_function_table_debug_count; function_index++)
 	{
 		hs_function_definition_debug const* const function = hs_function_table_debug[function_index];
 		if (csstrcmp(function->name, name) == 0
@@ -222,10 +222,10 @@ short hs_find_function_by_name(char const* name, short parameter_count)
 	return NONE;
 }
 
-short __cdecl hs_script_find_parameter_by_name(long script_index, char const* name)
+int16 __cdecl hs_script_find_parameter_by_name(int32 script_index, char const* name)
 {
 	hs_script& script = global_scenario_get()->scripts[script_index];
-	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count); parameter_index++)
+	for (int16 parameter_index = 0; parameter_index < static_cast<int16>(script.parameters.count); parameter_index++)
 	{
 		hs_script_parameter& parameter = script.parameters[parameter_index];
 		if (ascii_stricmp(name, parameter.name) == 0)
@@ -235,29 +235,29 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 	return NONE;
 }
 
-hs_global_external* hs_global_external_get(short global_index)
+hs_global_external* hs_global_external_get(int16 global_index)
 {
 	ASSERT(global_index >= 0 && global_index < k_hs_external_global_count);
 
 	return hs_external_globals[global_index];
 }
 
-hs_global_external_debug* hs_global_external_get_debug(short global_index)
+hs_global_external_debug* hs_global_external_get_debug(int16 global_index)
 {
 	ASSERT(global_index >= 0 && global_index < k_hs_external_global_debug_count);
 
 	return hs_external_globals_debug[global_index];
 }
 
-short hs_find_global_by_name(char const* name)
+int16 hs_find_global_by_name(char const* name)
 {
-	for (short global_index = 0; global_index < k_hs_external_global_count; global_index++)
+	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
 	{
 		if (csstrcmp(name, hs_external_globals_names[global_index]) == 0)
 			return global_index & 0x7FFF | 0x8000;
 	}
 
-	for (short global_index = 0; global_index < k_hs_external_global_debug_count; global_index++)
+	for (int16 global_index = 0; global_index < k_hs_external_global_debug_count; global_index++)
 	{
 		hs_global_external_debug* global_external = hs_global_external_get_debug(global_index);
 		if (csstrcmp(name, global_external->name) == 0)
@@ -267,7 +267,7 @@ short hs_find_global_by_name(char const* name)
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->globals;
-		for (short global_index = 0; global_index < static_cast<short>(globals.count); global_index++)
+		for (int16 global_index = 0; global_index < static_cast<int16>(globals.count); global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
 			if (ascii_stricmp(name, global_internal.name) == 0)
@@ -278,7 +278,7 @@ short hs_find_global_by_name(char const* name)
 	return NONE;
 }
 
-char const* hs_global_get_name(short global_index)
+char const* hs_global_get_name(int16 global_index)
 {
 	if ((global_index & 0x8000) != 0)
 	{
@@ -292,8 +292,8 @@ char const* hs_global_get_name(short global_index)
 	return global_scenario_get()->globals[global_index].name;
 }
 
-short enumeration_count = 0;
-short enumeration_results_count = 0;
+int16 enumeration_count = 0;
+int16 enumeration_results_count = 0;
 char const** enumeration_results = NULL;
 char const* enumeration_token = NULL;
 
@@ -307,22 +307,22 @@ void hs_tokens_enumerate_add_string(char const* string)
 		enumeration_results[enumeration_count++] = string;
 }
 
-void hs_enumerate_from_string_list(char const* const* string_list, short starting_index, short count)
+void hs_enumerate_from_string_list(char const* const* string_list, int16 starting_index, int16 count)
 {
 	while (starting_index < count)
 		hs_tokens_enumerate_add_string(string_list[starting_index++]);
 }
 
-void hs_enumerate_block_data(s_tag_block const* block, short offset, long size)
+void hs_enumerate_block_data(s_tag_block const* block, int16 offset, int32 size)
 {
-	for (short index = 0; index < block->count; index++)
+	for (int16 index = 0; index < block->count; index++)
 	{
 		char const* name = static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset;
 		hs_tokens_enumerate_add_string(name);
 	}
 }
 
-void hs_enumerate_scenario_data(short scenario_offset, short block_offset, long block_size)
+void hs_enumerate_scenario_data(int16 scenario_offset, int16 block_offset, int32 block_size)
 {
 	if (global_scenario_index_get() == NONE)
 		return;
@@ -332,9 +332,9 @@ void hs_enumerate_scenario_data(short scenario_offset, short block_offset, long 
 	hs_enumerate_block_data(block, block_offset, block_size);
 }
 
-void hs_enumerate_block_data_string_id(s_tag_block const* block, short offset, long size)
+void hs_enumerate_block_data_string_id(s_tag_block const* block, int16 offset, int32 size)
 {
-	for (short index = 0; index < block->count; index++)
+	for (int16 index = 0; index < block->count; index++)
 	{
 		string_id name_string_id = *reinterpret_cast<string_id const*>(static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset);
 		char const* name = string_id_get_string_const(name_string_id);
@@ -342,7 +342,7 @@ void hs_enumerate_block_data_string_id(s_tag_block const* block, short offset, l
 	}
 }
 
-void hs_enumerate_scenario_data_string_id(short scenario_offset, short block_offset, long block_size)
+void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_offset, int32 block_size)
 {
 	if (global_scenario_index_get() == NONE)
 		return;
@@ -352,7 +352,7 @@ void hs_enumerate_scenario_data_string_id(short scenario_offset, short block_off
 	hs_enumerate_block_data_string_id(block, block_offset, block_size);
 }
 
-long const k_maximum_hs_token_enumerator_count = 32;
+int32 const k_maximum_hs_token_enumerator_count = 32;
 
 using hs_enumerator_t = void __cdecl(void);
 hs_enumerator_t* hs_token_enumerators[]
@@ -377,9 +377,9 @@ hs_enumerator_t* hs_token_enumerators[]
 	hs_enumerate_cutscene_recording_names,
 	hs_enumerate_enum_skull_names
 };
-long const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
+int32 const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
 
-short hs_tokens_enumerate(char const* token, long type_mask, char const** matching_items, short matching_item_count)
+int16 hs_tokens_enumerate(char const* token, int32 type_mask, char const** matching_items, int16 matching_item_count)
 {
 	ASSERT(!enumeration_results);
 
@@ -388,7 +388,7 @@ short hs_tokens_enumerate(char const* token, long type_mask, char const** matchi
 	enumeration_results = matching_items;
 	enumeration_token = token ? token : "";
 
-	for (short type_index = 0; type_index < k_hs_token_enumerator_count && type_index < k_maximum_hs_token_enumerator_count; type_index++)
+	for (int16 type_index = 0; type_index < k_hs_token_enumerator_count && type_index < k_maximum_hs_token_enumerator_count; type_index++)
 	{
 		ASSERT(hs_token_enumerators[type_index]);
 
@@ -402,7 +402,7 @@ short hs_tokens_enumerate(char const* token, long type_mask, char const** matchi
 	return enumeration_count;
 }
 
-bool __cdecl sort_by_found_index(long look_inside1, long look_inside2, void const* look_for)
+bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, void const* look_for)
 {
 	char const* look_inside1_ = reinterpret_cast<char const*>(look_inside1);
 	char const* look_inside2_ = reinterpret_cast<char const*>(look_inside2);
@@ -439,7 +439,7 @@ void __cdecl hs_enumerate_function_names(void)
 	hs_enumerate_from_string_list(hs_function_table_names, 0, hs_function_table_count);
 
 	// our names, eventually it'll only be this
-	//for (short function_index = 0; function_index < short(hs_function_table_debug_count); function_index++)
+	//for (int16 function_index = 0; function_index < int16(hs_function_table_debug_count); function_index++)
 	//	hs_tokens_enumerate_add_string(hs_function_get_debug(function_index)->name);
 }
 
@@ -454,7 +454,7 @@ void __cdecl hs_enumerate_variable_names(void)
 	hs_enumerate_from_string_list(hs_external_globals_names, 0, k_hs_external_global_count);
 
 	// our names, eventually it'll only be this
-	//for (short global_index = 0; global_index < short(k_hs_external_global_debug_count); global_index++)
+	//for (int16 global_index = 0; global_index < int16(k_hs_external_global_debug_count); global_index++)
 	//	hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
 
 	hs_enumerate_scenario_data(OFFSETOF(struct scenario, globals), 0, sizeof(hs_global_internal));
@@ -480,7 +480,7 @@ void __cdecl hs_enumerate_ai_names(void)
 	
 		if (scenario->scripting_data.count)
 		{
-			for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count; point_set_index++)
+			for (int32 point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count; point_set_index++)
 				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
 		}
 	}
@@ -506,7 +506,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 
 void __cdecl hs_enumerate_ai_behavior_names(void)
 {
-	for (long i = 0; i < NUMBER_OF_BEHAVIORS; i++)
+	for (int32 i = 0; i < NUMBER_OF_BEHAVIORS; i++)
 		hs_tokens_enumerate_add_string(behavior_names[i]);
 }
 
@@ -562,208 +562,208 @@ bool const _hs_type_boolean_default = false;
 real32 const _hs_type_real_default = 0.0f;
 
 // 0166D5F0
-short const _hs_type_short_integer_default = 0;
+int16 const _hs_type_short_integer_default = 0;
 
 // 0166D5F4
-long const _hs_type_long_integer_default = 0;
+int32 const _hs_type_long_integer_default = 0;
 
 // 0166D5F8
-short const _hs_type_script_default = NONE;
+int16 const _hs_type_script_default = NONE;
 
 // 0166D5FC
-long const _hs_type_string_id_default = k_string_id_empty_string;
+int32 const _hs_type_string_id_default = k_string_id_empty_string;
 
 // 0166D600
-long const _hs_type_unit_seat_mapping_default = NONE;
+int32 const _hs_type_unit_seat_mapping_default = NONE;
 
 // 0166D604
-short const _hs_type_trigger_volume_default = NONE;
+int16 const _hs_type_trigger_volume_default = NONE;
 
 // 0166D608
-short const _hs_type_cutscene_flag_default = NONE;
+int16 const _hs_type_cutscene_flag_default = NONE;
 
 // 0166D60C
-short const _hs_type_cutscene_camera_point_default = NONE;
+int16 const _hs_type_cutscene_camera_point_default = NONE;
 
 // 0166D610
-short const _hs_type_cutscene_title_default = NONE;
+int16 const _hs_type_cutscene_title_default = NONE;
 
 // 0166D614
-short const _hs_type_cutscene_recording_default = NONE;
+int16 const _hs_type_cutscene_recording_default = NONE;
 
 // 0166D618
-long const _hs_type_device_group_default = NONE;
+int32 const _hs_type_device_group_default = NONE;
 
 // 0166D61C
-long const _hs_type_ai_default = 0;
+int32 const _hs_type_ai_default = 0;
 
 // 0166D620
-short const _hs_type_ai_command_list_default = NONE;
+int16 const _hs_type_ai_command_list_default = NONE;
 
 // 0166D624
-short const _hs_type_ai_command_script_default = NONE;
+int16 const _hs_type_ai_command_script_default = NONE;
 
 // 0166D628
-short const _hs_type_ai_behavior_default = NONE;
+int16 const _hs_type_ai_behavior_default = NONE;
 
 // 0166D62C
-short const _hs_type_ai_orders_default = NONE;
+int16 const _hs_type_ai_orders_default = NONE;
 
 // 0166D630
-long const _hs_type_ai_line_default = NONE;
+int32 const _hs_type_ai_line_default = NONE;
 
 // 0166D634
-short const _hs_type_starting_profile_default = NONE;
+int16 const _hs_type_starting_profile_default = NONE;
 
 // 0166D638
-short const _hs_type_conversation_default = NONE;
+int16 const _hs_type_conversation_default = NONE;
 
 // 0166D63C
-short const _hs_type_zone_set_default = NONE;
+int16 const _hs_type_zone_set_default = NONE;
 
 // 0166D640
-short const _hs_type_designer_zone_default = NONE;
+int16 const _hs_type_designer_zone_default = NONE;
 
 // 0166D644
-long const _hs_type_point_ref_default = NONE;
+int32 const _hs_type_point_ref_default = NONE;
 
 // 0166D648
-long const _hs_type_style_default = NONE;
+int32 const _hs_type_style_default = NONE;
 
 // 0166D64C
-long const _hs_type_object_list_default = NONE;
+int32 const _hs_type_object_list_default = NONE;
 
 // 0166D650
-long const _hs_type_folder_default = NONE;
+int32 const _hs_type_folder_default = NONE;
 
 // 0166D654
-long const _hs_type_sound_default = NONE;
+int32 const _hs_type_sound_default = NONE;
 
 // 0166D658
-long const _hs_type_looping_sound_default = NONE;
+int32 const _hs_type_looping_sound_default = NONE;
 
 // 0166D65C
-long const _hs_type_effect_default = NONE;
+int32 const _hs_type_effect_default = NONE;
 
 // 0166D660
-long const _hs_type_damage_default = NONE;
+int32 const _hs_type_damage_default = NONE;
 
 // 0166D664
-long const _hs_type_animation_graph_default = NONE;
+int32 const _hs_type_animation_graph_default = NONE;
 
 // 0166D668
-long const _hs_type_damage_effect_default = NONE;
+int32 const _hs_type_damage_effect_default = NONE;
 
 // 0166D66C
-long const _hs_type_object_definition_default = NONE;
+int32 const _hs_type_object_definition_default = NONE;
 
 // 0166D670
-long const _hs_type_bitmap_default = NONE;
+int32 const _hs_type_bitmap_default = NONE;
 
 // 0166D674
-long const _hs_type_shader_default = NONE;
+int32 const _hs_type_shader_default = NONE;
 
 // 0166D678
-long const _hs_type_render_model_definition_default = NONE;
+int32 const _hs_type_render_model_definition_default = NONE;
 
 // 0166D67C
-long const _hs_type_structure_bsp_definition_default = NONE;
+int32 const _hs_type_structure_bsp_definition_default = NONE;
 
 // 0166D680
-long const _hs_type_structure_lightmap_definition_default = NONE;
+int32 const _hs_type_structure_lightmap_definition_default = NONE;
 
 // 0166D684
-long const _hs_type_cinematic_definition_default = NONE;
+int32 const _hs_type_cinematic_definition_default = NONE;
 
 // 0166D688
-long const _hs_type_cinematic_scene_definition_default = NONE;
+int32 const _hs_type_cinematic_scene_definition_default = NONE;
 
 // 0166D68C
-long const _hs_type_bink_definition_default = NONE;
+int32 const _hs_type_bink_definition_default = NONE;
 
 // 0166D690
-long const _hs_type_any_tag_default = NONE;
+int32 const _hs_type_any_tag_default = NONE;
 
 // 0166D694
-short const _hs_type_enum_game_difficulty_default = NONE;
+int16 const _hs_type_enum_game_difficulty_default = NONE;
 
 // 0166D698
-short const _hs_type_enum_team_default = NONE;
+int16 const _hs_type_enum_team_default = NONE;
 
 // 0166D69C
-short const _hs_type_enum_mp_team_default = _multiplayer_team_red;
+int16 const _hs_type_enum_mp_team_default = _multiplayer_team_red;
 
 // 0166D6A0
-short const _hs_type_enum_controller_default = _controller0;
+int16 const _hs_type_enum_controller_default = _controller0;
 
 // 0166D6A4
-short const _hs_type_enum_button_preset_default = _button_preset_standard;
+int16 const _hs_type_enum_button_preset_default = _button_preset_standard;
 
 // 0166D6A8
-short const _hs_type_enum_joystick_preset_default = _joystick_preset_standard;
+int16 const _hs_type_enum_joystick_preset_default = _joystick_preset_standard;
 
 // 0166D6AC
-short const _hs_type_enum_player_character_type_default = _player_model_choice_spartan;
+int16 const _hs_type_enum_player_character_type_default = _player_model_choice_spartan;
 
 // 0166D6B0
-short const _hs_type_enum_voice_output_setting_default = _voice_output_setting_default;
+int16 const _hs_type_enum_voice_output_setting_default = _voice_output_setting_default;
 
 // 0166D6B4
-short const _hs_type_enum_subtitle_setting_default = _subtitle_setting_automatic;
+int16 const _hs_type_enum_subtitle_setting_default = _subtitle_setting_automatic;
 
 // 0166D6B8
-short const _hs_type_enum_actor_type_default = NONE;
+int16 const _hs_type_enum_actor_type_default = NONE;
 
 // 0166D6BC
-short const _hs_type_enum_model_state_default = NONE;
+int16 const _hs_type_enum_model_state_default = NONE;
 
 // 0166D6C0
-short const _hs_type_enum_event_default = NONE;
+int16 const _hs_type_enum_event_default = NONE;
 
 // 0166D6C8
-short const _hs_type_enum_character_physics_override_default = _character_physics_default;
+int16 const _hs_type_enum_character_physics_override_default = _character_physics_default;
 
 // 0166D6CC
-short const _hs_type_enum_primary_skull_default = NONE;
+int16 const _hs_type_enum_primary_skull_default = NONE;
 
 // 0166D6D0
-short const _hs_type_enum_secondary_skull_default = NONE;
+int16 const _hs_type_enum_secondary_skull_default = NONE;
 
 // 0166D6D4
-short const _hs_type_object_name_default = NONE;
+int16 const _hs_type_object_name_default = NONE;
 
 // 0166D6D8
-long const _hs_type_object_default = NONE;
+int32 const _hs_type_object_default = NONE;
 
 // 0166D6DC
-long const _hs_type_unit_default = NONE;
+int32 const _hs_type_unit_default = NONE;
 
 // 0166D6E0
-long const _hs_type_vehicle_default = NONE;
+int32 const _hs_type_vehicle_default = NONE;
 
 // 0166D6E4
-long const _hs_type_weapon_default = NONE;
+int32 const _hs_type_weapon_default = NONE;
 
 // 0166D6E8
-long const _hs_type_device_default = NONE;
+int32 const _hs_type_device_default = NONE;
 
 // 0166D6EC
-long const _hs_type_scenery_default = NONE;
+int32 const _hs_type_scenery_default = NONE;
 
 // 0166D6F0
-long const _hs_type_effect_scenery_default = NONE;
+int32 const _hs_type_effect_scenery_default = NONE;
 
 // 0166D6F4
-long const _hs_type_cinematic_lightprobe_default = NONE;
+int32 const _hs_type_cinematic_lightprobe_default = NONE;
 
 // 0166D6F8
-long const _hs_type_budget_reference_animation_graph_default = NONE;
+int32 const _hs_type_budget_reference_animation_graph_default = NONE;
 
 // 0166D6FC
-long const _hs_type_budget_reference_looping_sound_default = NONE;
+int32 const _hs_type_budget_reference_looping_sound_default = NONE;
 
 // 0166D700
-long const _hs_type_budget_reference_sound_default = NONE;
+int32 const _hs_type_budget_reference_sound_default = NONE;
 
 // 0166D704
 tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count]
@@ -774,7 +774,7 @@ tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count]
 };
 
 // 0166D710
-short const hs_type_sizes[k_hs_type_count]
+int16 const hs_type_sizes[k_hs_type_count]
 {
 	0, // unparsed
 	0, // special_form
@@ -784,8 +784,8 @@ short const hs_type_sizes[k_hs_type_count]
 	0, // void
 	1, // boolean
 	4, // real32
-	2, // short
-	4, // long
+	2, // int16
+	4, // int32
 	4, // string
 	2, // script
 	4, // string_id
@@ -870,7 +870,7 @@ short const hs_type_sizes[k_hs_type_count]
 };
 
 // 0166D7B8
-short const hs_object_type_masks[k_hs_type_object_count]
+int16 const hs_object_type_masks[k_hs_type_object_count]
 {
 	_object_mask_any,           // any
 	_object_mask_unit,          // unit
@@ -882,7 +882,7 @@ short const hs_object_type_masks[k_hs_type_object_count]
 };
 
 // 0166D7C8
-long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
+int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
 {
 	SOUND_TAG,                            // sound
 	EFFECT_TAG,                           // effect
@@ -939,8 +939,8 @@ char const* const hs_type_names[k_hs_type_count]
 	"void",
 	"boolean",
 	"real32",
-	"short",
-	"long",
+	"int16",
+	"int32",
 	"string",
 	"script",
 	"string_id",

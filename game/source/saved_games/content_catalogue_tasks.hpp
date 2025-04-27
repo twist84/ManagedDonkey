@@ -6,7 +6,7 @@ struct s_content_item;
 struct c_content_item_overlapped_task :
 	public c_overlapped_task
 {
-	long m_task_type;
+	int32 m_task_type;
 	s_content_item* m_content_item;
 	uint8 __data18[0x8];
 };

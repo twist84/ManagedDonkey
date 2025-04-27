@@ -6,11 +6,11 @@ struct c_particle_location :
 	s_datum_header
 {
 	uint8 m_random_seed;
-	long m_flags;
-	long m_emitter_list_head;
-	long m_emitter_list_tail;
-	long m_next_sibling_index;
-	long m_parent_system_index;
+	int32 m_flags;
+	int32 m_emitter_list_head;
+	int32 m_emitter_list_tail;
+	int32 m_next_sibling_index;
+	int32 m_parent_system_index;
 	real_matrix4x3 m_matrix;
 	real32 m_lod_amount;
 	real_point3d m_bounding_sphere_center;

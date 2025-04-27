@@ -31,7 +31,7 @@ extern _D3DDISPLAYMODE& g_global_display_mode;
 extern _D3DPRESENT_PARAMETERS_& g_presentation_parameters;
 extern _D3DPRESENT_PARAMETERS_& g_new_presentation_parameters;
 
-extern long __cdecl get_current_thread_index();
+extern int32 __cdecl get_current_thread_index();
 extern _D3DCAPS9* __cdecl get_global_device_caps();
 extern _D3DDISPLAYMODE* __cdecl get_global_display_mode();
 extern _D3DPRESENT_PARAMETERS_* __cdecl get_presentation_parameters();

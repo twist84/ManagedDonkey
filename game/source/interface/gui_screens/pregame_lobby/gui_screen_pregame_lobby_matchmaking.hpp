@@ -10,22 +10,22 @@ struct c_gui_screen_pregame_lobby_matchmaking :
 	public c_gui_screen_pregame_lobby
 {
 public:
-	//bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	//bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 
-	c_gui_screen_pregame_lobby_matchmaking(long name) :
+	c_gui_screen_pregame_lobby_matchmaking(int32 name) :
 		c_gui_screen_pregame_lobby(name)
 	{
-		DECLFUNC(0x00B01580, c_gui_screen_pregame_lobby_matchmaking*, __thiscall, c_gui_screen_pregame_lobby_matchmaking*, long)(this, name);
+		DECLFUNC(0x00B01580, c_gui_screen_pregame_lobby_matchmaking*, __thiscall, c_gui_screen_pregame_lobby_matchmaking*, int32)(this, name);
 	}
 
 //protected:
 	c_http_blf_simple_downloader<s_dynamic_matchmaking_hopper_statistics, 2465> m_hopper_statstics_downloader;
-	long m_url_key;
+	int32 m_url_key;
 	c_http_stored_buffer_downloader<102400> m_nightmap_downloader;
-	long pad;
+	int32 pad;
 	bool m_nightmap_download_completed;
-	long m_last_hopper_catalog_load_status;
-	short m_statistics_current_hopper_id;
+	int32 m_last_hopper_catalog_load_status;
+	int16 m_statistics_current_hopper_id;
 	s_matchmaking_single_hopper_statistics m_statistics_current_statistics;
 };
 static_assert(sizeof(c_gui_screen_pregame_lobby_matchmaking) == sizeof(c_gui_screen_pregame_lobby) + 0x1A6F8);

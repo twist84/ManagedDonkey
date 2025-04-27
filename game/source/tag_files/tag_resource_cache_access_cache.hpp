@@ -4,7 +4,7 @@
 
 struct s_tag_resource_access_datum
 {
-	long resource_handle;
+	int32 resource_handle;
 	void* resource_data;
 };
 static_assert(sizeof(s_tag_resource_access_datum) == 0x8);
@@ -19,7 +19,7 @@ enum e_tag_resource_access_state_bit
 struct c_tag_resource_cache_file_access_cache
 {
 public:
-	bool __cdecl cached_resource_available(long resource_handle)
+	bool __cdecl cached_resource_available(int32 resource_handle)
 	{
 		if (resource_handle == NONE)
 			return false;
@@ -33,7 +33,7 @@ public:
 		return cached_resource->resource_handle != NONE && cached_resource->resource_data;
 	}
 
-	void* __cdecl get_cached_resource_data(long resource_handle)
+	void* __cdecl get_cached_resource_data(int32 resource_handle)
 	{
 		ASSERT(resource_handle != NONE);
 

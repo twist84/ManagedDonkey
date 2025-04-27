@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#define valid_edit_text(edit) ((edit) && (edit)->buffer && (edit)->maximum_length > 0 && short(strlen((edit)->buffer)) <= (edit)->maximum_length)
+#define valid_edit_text(edit) ((edit) && (edit)->buffer && (edit)->maximum_length > 0 && int16(strlen((edit)->buffer)) <= (edit)->maximum_length)
 
 void __cdecl edit_text_new(edit_text* edit)
 {
@@ -15,12 +15,12 @@ void __cdecl edit_text_new(edit_text* edit)
 
 void __cdecl edit_text_fix_selection(edit_text* edit)
 {
-	short text_len = short(strlen(edit->buffer));
+	int16 text_len = int16(strlen(edit->buffer));
 
 	if (edit->insertion_point_index <= 0)
 		edit->insertion_point_index = 0;
 
-	short text_len11 = text_len;
+	int16 text_len11 = text_len;
 	if (edit->insertion_point_index < text_len)
 		text_len11 = edit->insertion_point_index;
 
@@ -28,7 +28,7 @@ void __cdecl edit_text_fix_selection(edit_text* edit)
 	bool v8 = edit->selection_start_index <= NONE;
 	edit->insertion_point_index = text_len;
 
-	short v5 = NONE;
+	int16 v5 = NONE;
 	if (!v8)
 		v5 = selection_start_index;
 	if (v5 < text_len)
@@ -52,7 +52,7 @@ void __cdecl edit_text_selection_reset(edit_text* edit)
 	edit->selection_start_index = NONE;
 }
 
-uint8 __cdecl edit_text_get_selection_indices(edit_text* edit, short* start_index, short* end_index)
+uint8 __cdecl edit_text_get_selection_indices(edit_text* edit, int16* start_index, int16* end_index)
 {
 	ASSERT(valid_edit_text(edit));
 

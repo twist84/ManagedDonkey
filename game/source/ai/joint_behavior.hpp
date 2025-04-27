@@ -7,52 +7,52 @@
 
 struct invitation_data
 {
-	short behavior_index;
-	short slot;
-	long joint_type;
-	long jindex;
-	long expiration_time;
+	int16 behavior_index;
+	int16 slot;
+	int32 joint_type;
+	int32 jindex;
+	int32 expiration_time;
 };
 static_assert(sizeof(invitation_data) == 0x10);
 
 struct participant_entry
 {
-	long actor_index;
-	short status;
-	short joint_priority;
+	int32 actor_index;
+	int16 status;
+	int16 joint_priority;
 	real32 grade;
 };
 static_assert(sizeof(participant_entry) == 0xC);
 
 struct crossfire_data
 {
-	long target_object_index;
+	int32 target_object_index;
 	real_vector3d target_to_initiator;
-	long crossfire_timer;
-	long position_timer;
+	int32 crossfire_timer;
+	int32 position_timer;
 	bool reached_cross_position;
 };
 static_assert(sizeof(crossfire_data) == 0x1C);
 
 struct surprise_data
 {
-	long target_object_index;
+	int32 target_object_index;
 };
 static_assert(sizeof(surprise_data) == 0x4);
 
 struct joint_formation_data
 {
 	bool started;
-	short formation_type;
-	long point_ref;
-	long point_ref_destination;
+	int16 formation_type;
+	int32 point_ref;
+	int32 point_ref_destination;
 };
 static_assert(sizeof(joint_formation_data) == 0xC);
 
 struct joint_scared_by_leader_data
 {
-	long scared_actor_index;
-	long leader_actor_index;
+	int32 scared_actor_index;
+	int32 leader_actor_index;
 	bool played_berserk;
 };
 static_assert(sizeof(joint_scared_by_leader_data) == 0xC);
@@ -66,7 +66,7 @@ static_assert(sizeof(coordinated_ambush_data) == 0x2);
 
 struct pursuit_location
 {
-	short type;
+	int16 type;
 	s_cluster_reference static_cluster_ref;
 	c_sector_ref sector_ref;
 	c_ai_point3d position;
@@ -76,9 +76,9 @@ static_assert(sizeof(pursuit_location) == 0x18);
 struct pursuit_sync_data
 {
 	bool finished;
-	long object_index;
-	long last_completion_test_time;
-	short ticks;
+	int32 object_index;
+	int32 last_completion_test_time;
+	int16 ticks;
 	real32 position_time;
 	pursuit_location pursuit_location;
 	real32 orphan_time;
@@ -88,20 +88,20 @@ static_assert(sizeof(pursuit_sync_data) == 0x3C);
 
 struct joint_vehicle_flip_data
 {
-	long vehicle_index;
-	short num_ready;
-	short num_required;
+	int32 vehicle_index;
+	int16 num_ready;
+	int16 num_required;
 	real_vector3d target_direction;
-	short current_position_index;
+	int16 current_position_index;
 };
 static_assert(sizeof(joint_vehicle_flip_data) == 0x18);
 
 struct joint_presearch_data
 {
-	long start_time;
-	short min_presearch_time;
-	short max_presearch_time;
-	long pref_index;
+	int32 start_time;
+	int16 min_presearch_time;
+	int16 max_presearch_time;
+	int32 pref_index;
 	bool vocalized_end;
 };
 static_assert(sizeof(joint_presearch_data) == 0x10);
@@ -109,8 +109,8 @@ static_assert(sizeof(joint_presearch_data) == 0x10);
 struct joint_huddle_data
 {
 	firing_position_ref position;
-	long initiator_index;
-	short actor_type;
+	int32 initiator_index;
+	int16 actor_type;
 };
 static_assert(sizeof(joint_huddle_data) == 0xC);
 
@@ -118,12 +118,12 @@ struct joint_state_datum :
 	s_datum_header
 {
 	participant_entry participants[10];
-	short behavior_index;
-	short num_members;
+	int16 behavior_index;
+	int16 num_members;
 	char status;
-	long joint_type;
-	long clump_index;
-	short pending_timer;
+	int32 joint_type;
+	int32 clump_index;
+	int16 pending_timer;
 
 	union
 	{
@@ -143,7 +143,7 @@ static_assert(sizeof(joint_state_datum) == 0xCC);
 extern void __cdecl joint_behavior_create_for_new_map();
 extern void __cdecl joint_behavior_dispose();
 extern void __cdecl joint_behavior_dispose_from_old_map();
-extern bool __cdecl joint_behavior_get_participant_limits(short behavior_index, short* min_participants_ref, short* max_participants_ref);
+extern bool __cdecl joint_behavior_get_participant_limits(int16 behavior_index, int16* min_participants_ref, int16* max_participants_ref);
 extern void __cdecl joint_behavior_initialize();
 extern void __cdecl joint_behavior_initialize_for_new_map();
 extern void __cdecl joint_behaviors_update();

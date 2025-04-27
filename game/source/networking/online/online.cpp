@@ -47,7 +47,7 @@ struct s_online_user_globals
 	bool is_free_live_gold;
 	bool is_user_created_content_allowed;
 	bool is_friend_created_content_allowed;
-	long guest_number;
+	int32 guest_number;
 	uint64 player_identifier;
 	uint64 local_xuid;
 	uint64 online_xuid;
@@ -65,7 +65,7 @@ static_assert(sizeof(s_online_globals) == sizeof(s_online_user_globals) * 4);
 
 s_online_globals online_globals{};
 
-long g_nat_type_override = _online_nat_type_open;
+int32 g_nat_type_override = _online_nat_type_open;
 
 uint64 hash64(uint64 h, uint64 s = 0x3B9F1629F7D0609Eu)
 {
@@ -145,7 +145,7 @@ e_online_nat_type __cdecl online_get_maximum_compatible_nat_type(e_online_nat_ty
 
 e_online_nat_type __cdecl online_get_nat_type()
 {
-	long result = _online_nat_type_none;
+	int32 result = _online_nat_type_none;
 	//XONLINE_NAT_TYPE xnat_type XOnlineGetNatType()
 
 	if (!online_is_connected_to_live() /* || xnat_type == XONLINE_NAT_OPEN*/)
@@ -181,7 +181,7 @@ e_online_nat_type __cdecl online_get_nat_type()
 	return static_cast<e_online_nat_type>(result);
 }
 
-void __cdecl online_get_title_name_string(uint32 title_id, wchar_t* buffer, long buffer_length)
+void __cdecl online_get_title_name_string(uint32 title_id, wchar_t* buffer, int32 buffer_length)
 {
 	usnzprintf(buffer, buffer_length, L"%08lX", title_id);
 }
@@ -226,7 +226,7 @@ void __cdecl online_initialize()
 			usnzappend(computer_name, MAX_COMPUTERNAME_LENGTH + 1, L"(%li)", controller_index);
 			computer_name_length = ustrnlen(computer_name, MAX_COMPUTERNAME_LENGTH);
 		}
-		for (unsigned long name_hash_index = 0; name_hash_index < computer_name_length; name_hash_index++)
+		for (uint32 name_hash_index = 0; name_hash_index < computer_name_length; name_hash_index++)
 		{
 			user_id = hash64(computer_name[controller_index], user_id);
 		}
@@ -255,7 +255,7 @@ void __cdecl online_initialize()
 		ASSERT(SUCCEEDED(hr = WindowsCreateString(computer_name, computer_name_length + 1, &user.gamertag)));
 		ASSERT(SUCCEEDED(hr = WindowsCreateString(computer_name, computer_name_length + 1, &user.display_name)));
 
-		//user_interface_controller_set_user_index(controller_index, (long)controller_index);
+		//user_interface_controller_set_user_index(controller_index, (int32)controller_index);
 	}
 }
 
@@ -333,7 +333,7 @@ void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
 	g_online_is_connected_to_live = is_connected_to_live;
 }
 
-void __cdecl online_user_set_name(long user_index, wchar_t const* name)
+void __cdecl online_user_set_name(int32 user_index, wchar_t const* name)
 {
 	s_online_user_globals& user = online_globals.users[user_index];
 

@@ -15,10 +15,10 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AFFAE0, c_gui_screen_pregame_lobby_campaign, handl
 
 //.text:00AFF9D0 ; public: virtual enum e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
 //.text:00AFF9E0 ; public: virtual enum e_gui_location c_gui_screen_pregame_lobby::get_gui_location() const
-//.text:00AFF9F0 ; public: virtual long c_gui_screen_pregame_lobby_campaign::get_lobby_header()
-//.text:00AFFA00 ; public: virtual long c_gui_screen_pregame_lobby_campaign::get_lobby_title()
+//.text:00AFF9F0 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_header()
+//.text:00AFFA00 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_title()
 //.text:00AFFA10 ; protected: virtual enum e_render_data_size c_gui_screen_pregame_lobby::get_render_data_size()
-//.text:00AFFA20 ; public: virtual long c_gui_screen_pregame_lobby_campaign::get_start_button_name()
+//.text:00AFFA20 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_start_button_name()
 //.text:00AFFA80 ; 
 
 bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(c_controller_input_message const* message)
@@ -49,19 +49,19 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
 }
 
-bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
-		long target_name = _string_id_invalid;
-		long element_handle = list_item_widget->get_element_handle();
+		int32 target_name = _string_id_invalid;
+		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, target), &target_name))
 		{
 			if (target_name == STRING_ID(global, level))
 			{
 				e_campaign_id campaign_id = _campaign_id_default;
 				e_map_id map_id = _map_id_first;
-				short campaign_insertion_point = 0;
+				int16 campaign_insertion_point = 0;
 				user_interface_session_get_map(&campaign_id, &map_id);
 				if (c_load_campaign_select_level_screen_message* screen_message = new c_load_campaign_select_level_screen_message(
 					STRING_ID(gui, campaign_select_level),

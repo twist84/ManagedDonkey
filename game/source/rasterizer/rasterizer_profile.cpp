@@ -7,7 +7,7 @@
 
 c_rasterizer_profile_globals g_rasterizer_profile_globals;
 
-unsigned long g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count]
+uint32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count]
 {
 	real_argb_color_to_pixel32(global_real_argb_black),     // total
 	real_argb_color_to_pixel32(global_real_argb_grey),      // texaccum
@@ -97,8 +97,8 @@ void rasterizer_profile_frame_begin()
 	if (g_rasterizer_profile_globals.get_mode())
 		*g_rasterizer_profile_globals.get_frame_valid(g_rasterizer_profile_globals.get_current_frame_reference()) = false;
 
-	float element_elapsed_milliseconds[k_rasterizer_profile_element_count]{};
-	for (long i = 0; i < k_rasterizer_profile_element_count; i++)
+	real32 element_elapsed_milliseconds[k_rasterizer_profile_element_count]{};
+	for (int32 i = 0; i < k_rasterizer_profile_element_count; i++)
 	{
 		e_rasterizer_profile_elements profile_element_index = e_rasterizer_profile_elements(i);
 
@@ -108,7 +108,7 @@ void rasterizer_profile_frame_begin()
 		element_profile->stop_watch.stop();
 	}
 
-	for (long i = 0; i < k_rasterizer_profile_element_count; i++)
+	for (int32 i = 0; i < k_rasterizer_profile_element_count; i++)
 	{
 		e_rasterizer_profile_stall_elements profile_element_index = e_rasterizer_profile_stall_elements(i);
 
@@ -144,11 +144,11 @@ void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode)
 	g_rasterizer_profile_globals.set_mode(mode);
 }
 
-float rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index)
+real32 rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index)
 {
 	s_gpu_time_profile* element_profile = g_rasterizer_profile_globals.get_element_profile(profile_element_index, g_rasterizer_profile_globals.get_last_frame_reference());
 
-	float element_elapsed_milliseconds = c_stop_watch::cycles_to_seconds(element_profile->cycles) * 1000.0f;
+	real32 element_elapsed_milliseconds = c_stop_watch::cycles_to_seconds(element_profile->cycles) * 1000.0f;
 	if (profile_element_index == _rasterizer_profile_element_total)
 	{
 		// $TODO: d3d device get counter
@@ -157,17 +157,17 @@ float rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_e
 	return element_elapsed_milliseconds;
 }
 
-float rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index)
+real32 rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index)
 {
-	return (float)*g_rasterizer_profile_globals.get_element_block_time(profile_element_index, 1);
+	return (real32)*g_rasterizer_profile_globals.get_element_block_time(profile_element_index, 1);
 }
 
-float rasterizer_profile_get_block_total_time()
+real32 rasterizer_profile_get_block_total_time()
 {
-	return (float)*g_rasterizer_profile_globals.get_block_time_total(1);
+	return (real32)*g_rasterizer_profile_globals.get_block_time_total(1);
 }
 
-char const* rasterizer_profile_get_stall_name(long profile_element_index)
+char const* rasterizer_profile_get_stall_name(int32 profile_element_index)
 {
 	if (profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_stall_count)
 		return k_rasterizer_profile_stall_names[profile_element_index];
@@ -213,7 +213,7 @@ void c_rasterizer_profile_globals::initialize()
 {
 }
 
-s_gpu_time_profile* c_rasterizer_profile_globals::get_element_profile(e_rasterizer_profile_elements profile_element_index, long frame_reference)
+s_gpu_time_profile* c_rasterizer_profile_globals::get_element_profile(e_rasterizer_profile_elements profile_element_index, int32 frame_reference)
 {
 	ASSERT(profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count);
 	ASSERT(frame_reference >= 0 && frame_reference < k_max_cpu_frames_ahead_of_gpu);
@@ -221,7 +221,7 @@ s_gpu_time_profile* c_rasterizer_profile_globals::get_element_profile(e_rasteriz
 	return &g_rasterizer_profile_globals.m_element_profile[profile_element_index][frame_reference];
 }
 
-real64* c_rasterizer_profile_globals::get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, long block_buffer_index)
+real64* c_rasterizer_profile_globals::get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, int32 block_buffer_index)
 {
 	ASSERT(profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count);
 	ASSERT(block_buffer_index >= 0 && block_buffer_index < k_maximum_number_of_block_time_buffers);
@@ -229,26 +229,26 @@ real64* c_rasterizer_profile_globals::get_element_block_time(e_rasterizer_profil
 	return &g_rasterizer_profile_globals.m_element_block_time[profile_element_index][block_buffer_index];
 }
 
-real64* c_rasterizer_profile_globals::get_block_time_total(long block_buffer_index)
+real64* c_rasterizer_profile_globals::get_block_time_total(int32 block_buffer_index)
 {
 	ASSERT(block_buffer_index >= 0 && block_buffer_index < k_maximum_number_of_block_time_buffers);
 
 	return &m_block_time_total[block_buffer_index];
 }
 
-bool* c_rasterizer_profile_globals::get_frame_valid(long index)
+bool* c_rasterizer_profile_globals::get_frame_valid(int32 index)
 {
 	ASSERT(index >= 0 && index < k_max_cpu_frames_ahead_of_gpu);
 
 	return &m_frame_valid[index];
 }
 
-long c_rasterizer_profile_globals::get_last_frame_reference()
+int32 c_rasterizer_profile_globals::get_last_frame_reference()
 {
 	bool last_frame_valid = false;
-	long last_frame_reference = 0;
+	int32 last_frame_reference = 0;
 
-	for (long frame_reference = m_frame_reference - 1 + k_max_cpu_frames_ahead_of_gpu;
+	for (int32 frame_reference = m_frame_reference - 1 + k_max_cpu_frames_ahead_of_gpu;
 		frame_reference > m_frame_reference - 1;
 		frame_reference--)
 	{
@@ -268,7 +268,7 @@ long c_rasterizer_profile_globals::get_last_frame_reference()
 	return last_frame_reference;
 }
 
-long c_rasterizer_profile_globals::get_current_frame_reference()
+int32 c_rasterizer_profile_globals::get_current_frame_reference()
 {
 	return m_frame_reference % k_max_cpu_frames_ahead_of_gpu;
 }
@@ -306,11 +306,11 @@ void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_ele
 	//}
 }
 
-void c_rasterizer_profile_globals::frame_time_callback(unsigned long packed_value)
+void c_rasterizer_profile_globals::frame_time_callback(uint32 packed_value)
 {
 	bool start_flag = HIWORD(packed_value) & 0x8000;
 	e_rasterizer_profile_elements profile_element_index = e_rasterizer_profile_elements(HIWORD(packed_value) & 0x7FFF);
-	long frame_reference = packed_value & 0x7FFF;
+	int32 frame_reference = packed_value & 0x7FFF;
 
 	s_gpu_time_profile* element_profile = g_rasterizer_profile_globals.get_element_profile(profile_element_index, frame_reference);
 

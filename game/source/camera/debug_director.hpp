@@ -8,13 +8,13 @@ struct c_debug_director :
 public:
 	void __thiscall update_(real32 dt);
 
-	void constructor(long user_index);
+	void constructor(int32 user_index);
 	void changed_camera();
 	void cycle_camera();
 	bool finished_cycle();
 
 //protected:
-	long m_current_camera_mode_index;
+	int32 m_current_camera_mode_index;
 	bool m_input_inhibited;
 	bool m_flying_camera_biped_control;
 

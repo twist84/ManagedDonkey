@@ -48,17 +48,17 @@ void __cdecl rasterizer_stipple_initialize()
 		c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_off);
 		c_rasterizer::set_stencil_mode(c_rasterizer::_stencil_mode_old_stipple);
 
-		long surface_height = c_rasterizer::get_surface_height(c_rasterizer::_surface_albedo);
-		long surface_width = c_rasterizer::get_surface_width(c_rasterizer::_surface_albedo);
+		int32 surface_height = c_rasterizer::get_surface_height(c_rasterizer::_surface_albedo);
+		int32 surface_width = c_rasterizer::get_surface_width(c_rasterizer::_surface_albedo);
 
 		real_vector4d block_size[1]{};
 		int odd_pass[4]{};
 		int pass_index = 0;
 
-		constexpr long num_block_sizes = 3;
+		constexpr int32 num_block_sizes = 3;
 		constexpr real32 block_sizes[] = { 4.0f, 2.0f, 1.0f };
 		static_assert(NUMBEROF(block_sizes) == num_block_sizes);
-		for (long block_size_index = 0; block_size_index < num_block_sizes; block_size_index++)
+		for (int32 block_size_index = 0; block_size_index < num_block_sizes; block_size_index++)
 		{
 			csmemset(block_size, 0, sizeof(block_size));
 			set_real_vector4d(block_size, block_sizes[block_size_index], block_sizes[block_size_index], block_sizes[block_size_index], block_sizes[block_size_index]);
@@ -79,7 +79,7 @@ void __cdecl rasterizer_stipple_initialize()
 	}
 }
 
-void __cdecl rasterizer_stipple_set_fade_byte(long alpha, long write_heat_flag, long write_decal_occlusion_flag, long first_person)
+void __cdecl rasterizer_stipple_set_fade_byte(int32 alpha, int32 write_heat_flag, int32 write_decal_occlusion_flag, int32 first_person)
 {
 	//INVOKE(0x00A7AC20, rasterizer_stipple_set_fade_byte, alpha, write_heat_flag, write_decal_occlusion_flag, first_person);
 

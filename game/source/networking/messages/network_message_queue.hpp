@@ -11,7 +11,7 @@
 //	struct s_incoming_fragment_record;
 //
 //public:
-//	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
+//	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 //
 //	char __data[4];
 //
@@ -26,7 +26,7 @@
 //	s_incoming_fragment_record* m_incoming_fragment_list_head;
 //	s_incoming_fragment_record* m_incoming_fragment_list_tail;
 //
-//	long m_outgoing_payload_bytes;
-//	long m_incoming_payload_bytes;
+//	int32 m_outgoing_payload_bytes;
+//	int32 m_incoming_payload_bytes;
 //};
 

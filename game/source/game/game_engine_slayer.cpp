@@ -50,7 +50,7 @@ void c_game_engine_slayer_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
-	short score_to_win = get_score_to_win();
+	int16 score_to_win = get_score_to_win();
 	char kill_points = get_kill_points();
 	char assist_points = get_assist_points();
 	char death_points = get_death_points();
@@ -86,7 +86,7 @@ void c_game_engine_slayer_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
-	short score_to_win = static_cast<short>(packet->read_signed_integer("slayer-score-to-win", 10));
+	int16 score_to_win = static_cast<int16>(packet->read_signed_integer("slayer-score-to-win", 10));
 	char kill_points = static_cast<char>(packet->read_signed_integer("slayer-kill-points", 5));
 	char assist_points = static_cast<char>(packet->read_signed_integer("slayer-assist-points", 5));
 	char death_points = static_cast<char>(packet->read_signed_integer("slayer-death-points", 5));
@@ -118,12 +118,12 @@ void c_game_engine_slayer_variant::decode_from_mcc(c_bitstream* packet)
 	set_killing_spree_points(killing_spree_points);
 }
 
-short c_game_engine_slayer_variant::get_score_to_win() const
+int16 c_game_engine_slayer_variant::get_score_to_win() const
 {
 	return m_score_to_win;
 }
 
-void c_game_engine_slayer_variant::set_score_to_win(short score_to_win)
+void c_game_engine_slayer_variant::set_score_to_win(int16 score_to_win)
 {
 	if (!VALID_INDEX(score_to_win + 1, 501))
 	{

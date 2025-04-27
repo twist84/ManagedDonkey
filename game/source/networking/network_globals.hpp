@@ -9,7 +9,7 @@ struct s_network_globals
 {
 	bool initialized;
 	bool entered;
-	unsigned long thread_id;
+	uint32 thread_id;
 
 	// $TODO: add back all the missing globals
 };
@@ -53,11 +53,11 @@ extern void network_test_set_game_variant(char const* game_engine_name);
 extern void network_test_set_session_mode(char const* session_mode_name);
 extern void network_test_set_ui_game_mode(char const* ui_game_mode_name);
 extern void network_test_set_advertisement_mode(char const* advertisement_mode_name);
-extern void network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value);
+extern void network_test_set_game_variant_parameter(char const* parameter_name, int32 value, int32* old_value);
 extern void network_test_ping();
 extern void network_test_reset_objects();
 extern void network_test_ping_directed(transport_address const* address);
 extern void network_test_text_chat(char const* text);
 extern void network_test_text_chat_directed(transport_address const* address, char const* text);
-extern void network_test_set_player_color(long profile_color_index);
+extern void network_test_set_player_color(int32 profile_color_index);
 

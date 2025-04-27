@@ -15,7 +15,7 @@ void __cdecl c_render_flags::prepare_for_frame()
 	//c_render_flags::g_this_frame = 0;
 }
 
-void __cdecl c_render_flags::prepare_for_player_window(long player_window_index)
+void __cdecl c_render_flags::prepare_for_player_window(int32 player_window_index)
 {
 	INVOKE(0x00A296A0, c_render_flags::prepare_for_player_window, player_window_index);
 

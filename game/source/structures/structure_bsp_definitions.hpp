@@ -35,8 +35,8 @@ struct structure_bsp
 {
 	static tag const k_group_tag = SCENARIO_STRUCTURE_BSP_TAG;
 
-	long import_info_checksum;
-	long import_version;
+	int32 import_info_checksum;
+	int32 import_version;
 	c_string_id visible_name;
 	c_flags<e_structure_bsp_flags, uint32, k_structure_bsp_flags> flags;
 	c_typed_tag_block<structure_seam_identifier> seam_identifiers;
@@ -93,38 +93,38 @@ static_assert(sizeof(structure_bsp) == 0x3A0);
 
 struct structure_seam_identifier
 {
-	long seam_id[4];
+	int32 seam_id[4];
 };
 static_assert(sizeof(structure_seam_identifier) == 0x10);
 
 struct structure_edge_to_seam_edge_mapping
 {
-	short seam_index;
-	short seam_edge_index;
+	int16 seam_index;
+	int16 seam_edge_index;
 };
 static_assert(sizeof(structure_edge_to_seam_edge_mapping) == 0x4);
 
 struct structure_collision_material
 {
 	c_typed_tag_reference<RENDER_METHOD_TAG, INVALID_TAG> render_method; // old shader
-	short runtime_global_material_index;
-	short conveyor_surface_index;
-	short seam_mapping_index;
+	int16 runtime_global_material_index;
+	int16 conveyor_surface_index;
+	int16 seam_mapping_index;
 	uint8 pad[0x2];
 };
 static_assert(sizeof(structure_collision_material) == 0x18);
 
 struct structure_surface
 {
-	long first_structure_surface_to_triangle_mapping_index;
-	long structure_surface_to_triangle_mapping_count;
+	int32 first_structure_surface_to_triangle_mapping_index;
+	int32 structure_surface_to_triangle_mapping_count;
 };
 static_assert(sizeof(structure_surface) == 0x8);
 
 struct structure_surface_to_triangle_mapping
 {
-	short triangle_index;
-	short section_index;
+	int16 triangle_index;
+	int16 section_index;
 };
 static_assert(sizeof(structure_surface_to_triangle_mapping) == 0x4);
 
@@ -142,9 +142,9 @@ enum e_cluster_portal_flags
 
 struct cluster_portal
 {
-	short back_cluster;
-	short front_cluster;
-	long plane_index;
+	int16 back_cluster;
+	int16 front_cluster;
+	int32 plane_index;
 	real_point3d centroid;
 	real32 bounding_radius;
 	c_flags<e_cluster_portal_flags, uint32, k_cluster_portal_flags> flags;
@@ -161,7 +161,7 @@ struct structure_weather_palette_entry
 	real_vector3d wind_direction;
 	real32 wind_magnitude;
 	uint8 XQLJZUE[2];
-	short runtime_wind_global_scenario_function_index;
+	int16 runtime_wind_global_scenario_function_index;
 	char wind_scale_function[32];
 };
 static_assert(sizeof(structure_weather_palette_entry) == 0x78);
@@ -186,20 +186,20 @@ struct structure_cluster
 	char atmosphere_index;
 	char camera_fx_index;
 	uint8 ERERRER[0x1];
-	short acoustics;
-	short acoustics_sound_cluster_index;
-	short background_sound;
-	short sound_environment;
-	short weather;
-	short background_sound_sound_cluster_index;
-	short reverb_sound_cluster_index;
-	short runtime_first_decal_index;
-	short runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
+	int16 acoustics;
+	int16 acoustics_sound_cluster_index;
+	int16 background_sound;
+	int16 sound_environment;
+	int16 weather;
+	int16 background_sound_sound_cluster_index;
+	int16 reverb_sound_cluster_index;
+	int16 runtime_first_decal_index;
+	int16 runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
 	c_flags<e_structure_cluster_flags, uint16, k_structure_cluster_flags> flags;
 	s_tag_block predicted_resources;
 	s_tag_block portals;
 	s_collision_instanced_geometry_definition collision_instanced_geometry;
-	short mesh_index;
+	int16 mesh_index;
 	uint8 FERAIDF[0x2];
 	s_tag_block seam_indices;
 	s_tag_block decorator_groups;
@@ -226,7 +226,7 @@ static_assert(sizeof(structure_marker) == 0x3C);
 
 struct structure_runtime_decal
 {
-	short decal_palette_index;
+	int16 decal_palette_index;
 	uint8 padding[2];
 
 	real_quaternion rotation;
@@ -270,24 +270,24 @@ enum e_instanced_geometry_lightmapping_policy
 struct structure_instanced_geometry_instance
 {
 	real_matrix4x3 matrix;
-	short instance_definition;
+	int16 instance_definition;
 	c_flags<e_instanced_geometry_flags, uint16, k_instanced_geometry_flags> flags;
-	short lightmap_texcoord_block_index;
+	int16 lightmap_texcoord_block_index;
 	uint8 BJOLSRJV[0x2];
-	short runtime_subcluster_render_first_bitvector_index;
-	short runtime_magic_render_number;
+	int16 runtime_subcluster_render_first_bitvector_index;
+	int16 runtime_magic_render_number;
 	real_point3d world_bounding_sphere_center;
 	real32 world_bounding_sphere_radius;
 	uint32 checksum;
 	c_string_id name;
-	c_enum<e_instanced_geometry_pathfinding_policy, short, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
-	c_enum<e_instanced_geometry_lightmapping_policy, short, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
+	c_enum<e_instanced_geometry_pathfinding_policy, int16, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
+	c_enum<e_instanced_geometry_lightmapping_policy, int16, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
 	real32 lightmap_resolution_scale;
 	s_tag_block bsp_physics;
-	short fade_pixels_start;
-	short fade_pixels_end;
-	short cubemap0_bitmap_index;
-	short cubemap1_bitmap_index;
+	int16 fade_pixels_start;
+	int16 fade_pixels_end;
+	int16 cubemap0_bitmap_index;
+	int16 cubemap1_bitmap_index;
 };
 static_assert(sizeof(structure_instanced_geometry_instance) == 0x74);
 

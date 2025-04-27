@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-//.text:00605B70 ; void __cdecl main_predict_potentially_active_tags(long, long, c_scenario_resource_registry*, c_tag_resource_demand_collector*)
+//.text:00605B70 ; void __cdecl main_predict_potentially_active_tags(int32, int32, c_scenario_resource_registry*, c_tag_resource_demand_collector*)
 
 void __cdecl main_predict_reset_for_map_reload()
 {

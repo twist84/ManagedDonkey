@@ -54,12 +54,12 @@ struct s_network_message_synchronous_gamestate
 
 	union
 	{
-		long chunk_offset;
-		long next_update_number;
+		int32 chunk_offset;
+		int32 next_update_number;
 		uint32 compressed_checksum;
 	};
 
-	long chunk_size;
+	int32 chunk_size;
 	uint32 decompressed_checksum;
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
@@ -71,54 +71,54 @@ struct c_simulation_view :
 {
 	e_simulation_view_type view_type() const;
 	char const* get_view_description() const;
-	long get_view_establishment_identifier() const;
+	int32 get_view_establishment_identifier() const;
 	e_simulation_view_establishment_mode get_view_establishment_mode() const;
-	bool handle_distributed_game_results(long message_establishment_identifier, long incremental_update_number, s_game_results_incremental_update const* incremental_update);
+	bool handle_distributed_game_results(int32 message_establishment_identifier, int32 incremental_update_number, s_game_results_incremental_update const* incremental_update);
 	bool handle_player_acknowledge(uint32 player_valid_mask, uint32 player_in_game_mask, s_player_identifier const* player_identifiers);
-	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, long establishment_identifier, long signature_size, uint8 const* signature_data);
-	bool handle_synchronous_acknowledge(long current_update_number);
-	bool handle_synchronous_actions(long action_number, long current_action_number, uint32 user_flags, player_action const* actions);
+	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, uint8 const* signature_data);
+	bool handle_synchronous_acknowledge(int32 current_update_number);
+	bool handle_synchronous_actions(int32 action_number, int32 current_action_number, uint32 user_flags, player_action const* actions);
 	bool handle_synchronous_gamestate(s_network_message_synchronous_gamestate const* synchronous_gamestate, void const* chunk);
-	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, long identifier, long update_number);
+	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
 	bool handle_synchronous_update(struct simulation_update const* update);
 	bool is_client_view() const;
-	long synchronous_catchup_attempt_count() const;
+	int32 synchronous_catchup_attempt_count() const;
 	void synchronous_catchup_complete();
 	bool synchronous_catchup_in_progress() const;
 	bool synchronous_catchup_initiate();
 	void synchronous_catchup_send_data();
 	void synchronous_catchup_terminate();
-	long synchronous_client_get_acknowledged_update_number();
+	int32 synchronous_client_get_acknowledged_update_number();
 
 	e_simulation_view_type m_view_type;
-	long m_view_datum_index;
+	int32 m_view_datum_index;
 	c_simulation_distributed_view* m_distributed_view;
 	c_simulation_world* m_world;
-	long m_world_view_index;
+	int32 m_world_view_index;
 	s_machine_identifier m_remote_machine_identifier;
-	long m_remote_machine_index;
+	int32 m_remote_machine_index;
 	c_network_observer* m_observer;
-	long m_observer_channel_index;
-	long m_view_death_reason;
-	long m_view_establishment_mode;
+	int32 m_observer_channel_index;
+	int32 m_view_death_reason;
+	int32 m_view_establishment_mode;
 	uint32 m_view_establishment_identifier;
-	long m_remote_establishment_mode;
+	int32 m_remote_establishment_mode;
 	uint32 m_remote_establishment_identifier;
 	c_network_channel* m_channel;
 	uint32 m_channel_connection_identifier;
 	c_network_channel_simulation_interface m_channel_interface;
 	bool m_simulation_active;
 	uint32 m_simulation_player_acknowledged_mask;
-	long m_synchronous_received_action_number;
-	long m_synchronous_acknowledged_update_number;
-	long m_synchronous_catchup_attempt_count;
-	long m_synchronous_catchup_start_update;
-	long m_synchronous_catchup_time_of_last_activity;
-	long m_synchronous_catchup_finish_time;
-	long m_synchronous_catchup_buffer_offset;
+	int32 m_synchronous_received_action_number;
+	int32 m_synchronous_acknowledged_update_number;
+	int32 m_synchronous_catchup_attempt_count;
+	int32 m_synchronous_catchup_start_update;
+	int32 m_synchronous_catchup_time_of_last_activity;
+	int32 m_synchronous_catchup_finish_time;
+	int32 m_synchronous_catchup_buffer_offset;
 	e_simulation_view_synchronous_catchup_stage m_synchronous_catchup_stage;
 	s_network_message_synchronous_gamestate m_checksum_message;
-	long m_synchronous_next_action_number;
+	int32 m_synchronous_next_action_number;
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);
 

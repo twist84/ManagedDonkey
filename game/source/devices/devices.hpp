@@ -30,13 +30,13 @@ static_assert(sizeof(s_device_animation_control) == 0x20);
 struct _device_datum
 {
 	uint32 flags;
-	long power_group_index;
+	int32 power_group_index;
 	real32 power;
 	real32 power_velocity;
-	long position_group_index;
+	int32 position_group_index;
 	real32 position;
 	real32 position_velocity;
-	short delay_ticks;
+	int16 delay_ticks;
 	uint16 pad;
 	s_device_animation_control position_track;
 	s_device_animation_control power_and_overlay_track;
@@ -47,11 +47,11 @@ static_assert(sizeof(_device_datum) == 0xD8);
 
 struct device_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_device_datum device;
 };
-static_assert(sizeof(device_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_device_datum));
+static_assert(sizeof(device_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum));
 
-extern long __cdecl device_group_get_from_scenario_index(short device_index);
+extern int32 __cdecl device_group_get_from_scenario_index(int16 device_index);
 

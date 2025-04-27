@@ -4,8 +4,8 @@
 
 struct s_gui_error
 {
-	short error_category;
-	long error_name;
+	int16 error_category;
+	int32 error_name;
 };
 static_assert(sizeof(s_gui_error) == 0x8);
 
@@ -13,10 +13,10 @@ struct c_error_dialog_screen_widget :
 	public c_gui_screen_widget
 {
 public:
-	c_error_dialog_screen_widget(long name) :
+	c_error_dialog_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AE6DF0, c_error_dialog_screen_widget*, __thiscall, c_error_dialog_screen_widget*, long)(this, name);
+		DECLFUNC(0x00AE6DF0, c_error_dialog_screen_widget*, __thiscall, c_error_dialog_screen_widget*, int32)(this, name);
 	}
 
 //protected:

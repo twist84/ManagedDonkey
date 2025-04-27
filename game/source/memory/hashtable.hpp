@@ -5,19 +5,19 @@
 struct c_hash
 {
 	static uint8 const k_hash_polynomials[];
-	static long const k_hash_polynomial_count;
+	static int32 const k_hash_polynomial_count;
 
 public:
 	c_hash();
 	~c_hash();
 
 	uint32 add_byte(uint8 byte_to_add);
-	uint32 add_data_range(void const* data, long data_size);
+	uint32 add_data_range(void const* data, int32 data_size);
 	uint32 get_hash() const;
 
 protected:
 	uint32 m_hash;
-	long m_polynomial_index;
+	int32 m_polynomial_index;
 };
 static_assert(sizeof(c_hash) == 0x8);
 
@@ -33,15 +33,15 @@ struct s_hash_table_bucket
 };
 static_assert(sizeof(s_hash_table_bucket) == 0xC);
 
-// long target_bucket_index = hash - hash / table->bucket_count * table->bucket_count;
-// long target_bucket_index = hash % table->bucket_count;
+// int32 target_bucket_index = hash - hash / table->bucket_count * table->bucket_count;
+// int32 target_bucket_index = hash % table->bucket_count;
 // s_hash_table_bucket* target_bucket = table.data[target_bucket_index];
 
 struct s_hash_table
 {
 	c_static_string<32> name;
-	long number_of_buckets;
-	long maximum_elements;
+	int32 number_of_buckets;
+	int32 maximum_elements;
 	uint32 user_data_size;
 	hash_table_hash_function_t* hash_function;
 	hash_table_compare_function_t* compare_function;
@@ -53,11 +53,11 @@ struct s_hash_table
 static_assert(sizeof(s_hash_table) == 0x40);
 
 extern bool __cdecl hash_table_add(s_hash_table* table, void const* key, void const* user_data);
-extern uint32 __cdecl hash_table_allocation_size(uint32 user_data_size, long number_of_buckets, long maximum_elements);
+extern uint32 __cdecl hash_table_allocation_size(uint32 user_data_size, int32 number_of_buckets, int32 maximum_elements);
 extern void __cdecl hash_table_dispose(s_hash_table* table);
 extern void const* __cdecl hash_table_find(s_hash_table* table, void const* key, void* user_data);
 extern s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, void const* key);
-extern s_hash_table* __cdecl hash_table_new(char const* name, uint32 user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation);
+extern s_hash_table* __cdecl hash_table_new(char const* name, uint32 user_data_size, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation);
 extern void __cdecl hash_table_rebase(s_hash_table* table);
 extern void __cdecl hash_table_rebase_pointer(s_hash_table* table, s_hash_table_bucket* new_free_list_elements, s_hash_table_bucket** pointer);
 extern bool __cdecl hash_table_remove(s_hash_table* table, void const* key);
@@ -82,7 +82,7 @@ struct c_hash_table
 			hash_table_dispose(m_hash_table);
 	}
 
-	bool __cdecl create(char const* name, long bucket_count, long maximum_elements, hash_table_hash_function_t* hash_function, hash_table_compare_function_t* compare_function, c_allocation_base* allocation)
+	bool __cdecl create(char const* name, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* hash_function, hash_table_compare_function_t* compare_function, c_allocation_base* allocation)
 	{
 		ASSERT(m_hash_table == NULL);
 		m_hash_table = hash_table_new(name, sizeof(t_user_data_type), bucket_count, maximum_elements, hash_function, compare_function, allocation);
@@ -112,5 +112,5 @@ struct c_hash_table
 
 	s_hash_table* m_hash_table;
 };
-static_assert(sizeof(c_hash_table<long, char>) == sizeof(s_hash_table*));
+static_assert(sizeof(c_hash_table<int32, char>) == sizeof(s_hash_table*));
 

@@ -23,7 +23,7 @@ transport_address::transport_address() :
 {
 }
 
-transport_address::transport_address(uint32 _ipv4_address, uint16 _port, short _address_length) :
+transport_address::transport_address(uint32 _ipv4_address, uint16 _port, int16 _address_length) :
 	ipv4_address(_ipv4_address),
 	port(_port),
 	address_length(_address_length)
@@ -48,7 +48,7 @@ bool __cdecl transport_address_equivalent(transport_address const* a, transport_
 	ASSERT(a != NULL);
 	ASSERT(b != NULL);
 
-	short address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
+	int16 address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
 	return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
 }
 
@@ -83,7 +83,7 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 	return address->address_length == sizeof(uint32) && address->ipv4_address == 0x7F000001;
 }
 
-char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
+char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, int16 maximum_string_length, bool include_port, bool include_extra)
 {
 	ASSERT(address);
 	ASSERT(_string);
@@ -171,7 +171,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 		break;
 		case 16:
 		{
-			for (long i = 0; i < 8; ++i)
+			for (int32 i = 0; i < 8; ++i)
 			{
 				if (address->ina6.words[i])
 				{

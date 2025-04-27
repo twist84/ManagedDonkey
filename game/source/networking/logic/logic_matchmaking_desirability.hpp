@@ -5,16 +5,16 @@
 
 struct s_matchmaking_session_preferences
 {
-	long search_preference;
-	long search_min_skill;
-	long search_max_skill;
+	int32 search_preference;
+	int32 search_min_skill;
+	int32 search_max_skill;
 };
 static_assert(sizeof(s_matchmaking_session_preferences) == 0xC);
 
 struct s_matchmaking_session_player_properties
 {
-	long peer_index;
-	long party_index;
+	int32 peer_index;
+	int32 party_index;
 };
 static_assert(sizeof(s_matchmaking_session_player_properties) == 0x8);
 
@@ -24,22 +24,22 @@ struct s_matchmaking_session_properties
 	bool hopper_is_ranked;
 	uint8 : 8;
 
-	long player_count;
+	int32 player_count;
 	uint32 player_valid_flags;
 	c_static_array<s_matchmaking_session_player_properties, 16> player_properties;
-	long avg_skill;
-	long maximum_skill_level;
-	long minimum_adjusted_skill_level;
-	long avg_mu;
-	long avg_rank;
-	long party_needed;
-	long party_join;
-	long good_host_count;
-	long party_nat_type;
-	long gamer_zone;
-	long gamer_region;
+	int32 avg_skill;
+	int32 maximum_skill_level;
+	int32 minimum_adjusted_skill_level;
+	int32 avg_mu;
+	int32 avg_rank;
+	int32 party_needed;
+	int32 party_join;
+	int32 good_host_count;
+	int32 party_nat_type;
+	int32 gamer_zone;
+	int32 gamer_region;
 	uint32 language;
-	long nat_type;
+	int32 nat_type;
 
 	uint8 flags;
 	uint8 : 8;

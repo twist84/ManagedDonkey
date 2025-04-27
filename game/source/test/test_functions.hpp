@@ -4,7 +4,7 @@
 
 struct s_test_download_storage
 {
-	long request_cookie;
+	int32 request_cookie;
 	s_file_reference request_file;
 };
 static_assert(sizeof(s_test_download_storage) == 0x114);

@@ -6,7 +6,7 @@
 
 HOOK_DECLARE(0x00BB6210, reference_list_remove);
 
-void __cdecl reference_list_add(s_data_array* array, long* first_reference_index, long datum_index, long payload_size, void const* payload)
+void __cdecl reference_list_add(s_data_array* array, int32* first_reference_index, int32 datum_index, int32 payload_size, void const* payload)
 {
 	INVOKE(0x00BB6030, reference_list_add, array, first_reference_index, datum_index, payload_size, payload);
 
@@ -24,7 +24,7 @@ void __cdecl reference_list_add(s_data_array* array, long* first_reference_index
 	//	ASSERT(payload != NULL);
 	//}
 	//
-	//long reference_index = datum_new(array);
+	//int32 reference_index = datum_new(array);
 	//if (reference_index == NONE)
 	//{
 	//	event(_event_warning, "WARNING: maximum %ss per map (%d) exceeded.",
@@ -49,11 +49,11 @@ void __cdecl reference_list_add(s_data_array* array, long* first_reference_index
 	//}
 }
 
-bool __cdecl reference_list_contains(s_data_array* array, long* first_reference_index, long datum_index)
+bool __cdecl reference_list_contains(s_data_array* array, int32* first_reference_index, int32 datum_index)
 {
 	return INVOKE(0x00BB6080, reference_list_contains, array, first_reference_index, datum_index);
 
-	//long reference_index = *first_reference_index;
+	//int32 reference_index = *first_reference_index;
 	//if (*first_reference_index == NONE)
 	//{
 	//	return false;
@@ -85,13 +85,13 @@ void __cdecl reference_list_copy(s_data_array* result, s_data_array const* sourc
 	//data_copy(source, result);
 }
 
-void __cdecl reference_list_delete(s_data_array* array, long first_reference_index)
+void __cdecl reference_list_delete(s_data_array* array, int32 first_reference_index)
 {
 	INVOKE(0x00BB60F0, reference_list_delete, array, first_reference_index);
 
 	//if (first_reference_index != NONE)
 	//{
-	//	long reference_index = first_reference_index;
+	//	int32 reference_index = first_reference_index;
 	//	do
 	//	{
 	//		struct data_reference* data_reference = NULL;
@@ -105,7 +105,7 @@ void __cdecl reference_list_delete(s_data_array* array, long first_reference_ind
 	//}
 }
 
-long __cdecl reference_list_get_next_datum_and_payload(s_data_array* array, long* reference_index, long payload_size, void const** out_payload)
+int32 __cdecl reference_list_get_next_datum_and_payload(s_data_array* array, int32* reference_index, int32 payload_size, void const** out_payload)
 {
 	return INVOKE(0x00BB6130, reference_list_get_next_datum_and_payload, array, reference_index, payload_size, out_payload);
 
@@ -129,7 +129,7 @@ long __cdecl reference_list_get_next_datum_and_payload(s_data_array* array, long
 	//return data_reference->datum_index;
 }
 
-long __cdecl reference_list_get_next_datum_index(s_data_array* array, long* reference_index)
+int32 __cdecl reference_list_get_next_datum_index(s_data_array* array, int32* reference_index)
 {
 	return INVOKE(0x00BB6170, reference_list_get_next_datum_index, array, reference_index);
 
@@ -148,12 +148,12 @@ long __cdecl reference_list_get_next_datum_index(s_data_array* array, long* refe
 	//return data_reference->datum_index;
 }
 
-s_data_array* __cdecl reference_list_new(char const* name, long payload_size, long maximum_count, c_allocation_base* allocator)
+s_data_array* __cdecl reference_list_new(char const* name, int32 payload_size, int32 maximum_count, c_allocation_base* allocator)
 {
 	return INVOKE(0x00BB61A0, reference_list_new, name, payload_size, maximum_count, allocator);
 }
 
-void __cdecl reference_list_remove(s_data_array* array, long* first_reference_index, long datum_index)
+void __cdecl reference_list_remove(s_data_array* array, int32* first_reference_index, int32 datum_index)
 {
 	//INVOKE(0x00BB6210, reference_list_remove, array, first_reference_index, datum_index);
 
@@ -165,7 +165,7 @@ void __cdecl reference_list_remove(s_data_array* array, long* first_reference_in
 	HOOK_INVOKE(, reference_list_remove, array, first_reference_index, datum_index);
 }
 
-void __cdecl reference_list_update_payload(s_data_array* array, long const* first_reference_index, long datum_index, long payload_size, void const* payload)
+void __cdecl reference_list_update_payload(s_data_array* array, int32 const* first_reference_index, int32 datum_index, int32 payload_size, void const* payload)
 {
 	INVOKE(0x00BB6270, reference_list_update_payload, array, first_reference_index, datum_index, payload_size, payload);
 }

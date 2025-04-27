@@ -75,7 +75,7 @@ real_argb_color const* c_debug_menu_item::get_background_color()
 
 	static real_argb_color background_color{};
 	background_color.alpha = 1.0f;
-	for (long i = 0; i < NUMBEROF(background_color.rgb.n); i++)
+	for (int32 i = 0; i < NUMBEROF(background_color.rgb.n); i++)
 	{
 		real32 v6 = (v5 * 0.4f) + 0.05f;
 		background_color.rgb.n[i] = (debug_real_argb_tv_white->rgb.n[i] * v6) + (global_real_argb_black->rgb.n[i] * (1.0f - v6));
@@ -101,7 +101,7 @@ char const* c_debug_menu_item::get_name()
 
 void c_debug_menu_item::set_name(char const* name)
 {
-	long name_size = strlen(name) + 1;
+	int32 name_size = strlen(name) + 1;
 
 	ASSERT(name != NULL && m_name == NULL);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));
@@ -133,14 +133,14 @@ bool c_debug_menu_item::get_data()
 	return m_data;
 }
 
-void c_debug_menu_item::set_data(long data)
+void c_debug_menu_item::set_data(int32 data)
 {
 	m_data = data;
 }
 
-short c_debug_menu_item::get_index()
+int16 c_debug_menu_item::get_index()
 {
-	for (short item_index = 0; item_index < get_menu()->get_num_items(); item_index++)
+	for (int16 item_index = 0; item_index < get_menu()->get_num_items(); item_index++)
 	{
 		if (get_menu()->get_item(item_index) == this)
 			return item_index;

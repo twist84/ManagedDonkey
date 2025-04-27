@@ -75,24 +75,24 @@ static_assert(sizeof(s_multiplayer_event_sound_response_definition) == 0xC8);
 
 struct s_multiplayer_event_response_definition
 {
-	c_flags<e_game_engine_event_flags, short, k_game_engine_event_flags> flags;
-	short runtime_event_type;
+	c_flags<e_game_engine_event_flags, int16, k_game_engine_event_flags> flags;
+	int16 runtime_event_type;
 	c_string_id event_id;
-	c_enum<e_game_engine_event_audience, short, _game_engine_event_audience_cause_player, k_game_engine_event_audience_count> audience;
-	short display_priority;
-	short sub_priority;
-	c_enum<e_game_engine_event_response_context, short, _game_engine_event_response_context_self, k_game_engine_event_response_context_count> display_context;
+	c_enum<e_game_engine_event_audience, int16, _game_engine_event_audience_cause_player, k_game_engine_event_audience_count> audience;
+	int16 display_priority;
+	int16 sub_priority;
+	c_enum<e_game_engine_event_response_context, int16, _game_engine_event_response_context_self, k_game_engine_event_response_context_count> display_context;
 	c_string_id display_string;
 	c_string_id medal_award;
-	short earned_wp;
+	int16 earned_wp;
 	uint16 pad;
 	real32 display_time; // seconds
-	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> required_field;
-	c_enum<e_game_engine_event_input, short, _game_engine_event_input_none, k_game_engine_event_input_count> excluded_audience;
-	c_enum<e_game_engine_event_splitscreen_suppression, short, _game_engine_event_splitscreen_suppression_none, k_game_engine_event_splitscreen_suppression_count> splitscreen_suppression;
-	short pad2;
+	c_enum<e_game_engine_event_input, int16, _game_engine_event_input_none, k_game_engine_event_input_count> required_field;
+	c_enum<e_game_engine_event_input, int16, _game_engine_event_input_none, k_game_engine_event_input_count> excluded_audience;
+	c_enum<e_game_engine_event_splitscreen_suppression, int16, _game_engine_event_splitscreen_suppression_none, k_game_engine_event_splitscreen_suppression_count> splitscreen_suppression;
+	int16 pad2;
 	c_string_id primary_string;
-	long primary_string_duration; // seconds
+	int32 primary_string_duration; // seconds
 	c_string_id plural_display_string;
 	real32 sound_delay_announcer_only;
 	s_multiplayer_event_sound_response_definition default_sound;

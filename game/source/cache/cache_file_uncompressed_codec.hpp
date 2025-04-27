@@ -18,7 +18,7 @@ struct c_cache_file_uncompressed_decompressor :
 		throw;
 	}
 
-	long m_bytes_processed;
+	int32 m_bytes_processed;
 	c_basic_buffer<void> __buffer;
 };
 static_assert(sizeof(c_cache_file_uncompressed_decompressor) == sizeof(c_cache_file_decompressor) + 0xC);

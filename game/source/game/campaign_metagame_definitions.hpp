@@ -13,12 +13,12 @@ struct s_campaign_metagame_globals
 	c_typed_tag_block<s_campaign_metagame_skull_data> primary_skulls;
 	c_typed_tag_block<s_campaign_metagame_skull_data> secondary_skulls;
 
-	long friendly_death_point_count;
-	long player_death_point_count;
-	long player_betrayal_point_count;
+	int32 friendly_death_point_count;
+	int32 player_death_point_count;
+	int32 player_betrayal_point_count;
 
 	// how many kills for this to happen
-	long multi_kill_count;
+	int32 multi_kill_count;
 
 	// in what period of time does this have to happen (seconds)
 	real32 multi_kill_window;
@@ -36,32 +36,32 @@ struct s_campaign_metagame_globals
 	real32 death_from_grave_required_period;
 
 	// for sword/shotgun/snipes/etc medals
-	long minor_spree_count;
-	long major_spree_count;
+	int32 minor_spree_count;
+	int32 major_spree_count;
 
-	long killing_spree_threshold;
-	long killing_frenzy_threshold;
-	long running_riot_threshold;
-	long rampage_threshold;
-	long untouchable_threshold;
-	long invincible_threshold;
-	long double_kill_threshold;
-	long triple_kill_threshold;
-	long overkill_threshold;
-	long killtacular_threshold;
-	long killtrocity_threshold;
-	long killamanjaro_threshold;
-	long killtastrophe_threshold;
-	long killpocalpyse_threshold;
-	long killionaire_threshold;
+	int32 killing_spree_threshold;
+	int32 killing_frenzy_threshold;
+	int32 running_riot_threshold;
+	int32 rampage_threshold;
+	int32 untouchable_threshold;
+	int32 invincible_threshold;
+	int32 double_kill_threshold;
+	int32 triple_kill_threshold;
+	int32 overkill_threshold;
+	int32 killtacular_threshold;
+	int32 killtrocity_threshold;
+	int32 killamanjaro_threshold;
+	int32 killtastrophe_threshold;
+	int32 killpocalpyse_threshold;
+	int32 killionaire_threshold;
 };
 static_assert(sizeof(s_campaign_metagame_globals) == 0x98);
 
 struct s_campaign_metagame_style_type
 {
 	real32 style_multiplier;
-	long point_count;
-	long display_ticks;
+	int32 point_count;
+	int32 display_ticks;
 	c_string_id survival_mode_event_name;
 };
 static_assert(sizeof(s_campaign_metagame_style_type) == 0x10);
@@ -141,8 +141,8 @@ struct s_campaign_metagame_bucket
 	char type;
 	char _class;
 	uint8 pad0;
-	short point_count;
-	short pad1;
+	int16 point_count;
+	int16 pad1;
 };
 static_assert(sizeof(s_campaign_metagame_bucket) == 0x8);
 

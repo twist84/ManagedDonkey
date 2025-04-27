@@ -10,7 +10,7 @@ extern uint32* __cdecl get_local_random_seed_address();
 extern uint32 __cdecl get_random_seed();
 extern uint32* __cdecl get_random_seed_address();
 extern uint32 __cdecl random_direction_table_count();
-extern bool __cdecl random_direction_table_sample(long sample_index, real_vector3d* out_sample);
+extern bool __cdecl random_direction_table_sample(int32 sample_index, real_vector3d* out_sample);
 extern void __cdecl random_math_dispose();
 extern void __cdecl random_math_dispose_tool();
 extern void __cdecl random_math_initialize();

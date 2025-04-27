@@ -11,7 +11,7 @@ extern bool collision_debug_flag_objects;
 extern bool collision_debug_flag_front_facing_surfaces;
 extern bool collision_debug_flag_ignore_invisible_surfaces;
 extern real32 collision_debug_length;
-extern long collision_debug_ignore_object_index;
+extern int32 collision_debug_ignore_object_index;
 extern bool collision_debug_geometry_sampling;
 extern bool collision_debug_flag_objects_terminals;
 extern bool g_collision_debug_status_lines_render;

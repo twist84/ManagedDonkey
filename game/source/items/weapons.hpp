@@ -90,7 +90,7 @@ struct weapon_barrel
 {
 	char idle_ticks;
 	c_enum<e_weapon_barrel_state, char, _weapon_barrel_state_idle, k_weapon_barrel_states> state;
-	short timer;
+	int16 timer;
 	c_flags<e_weapon_barrel_flags, uint16, k_weapon_barrel_flags> flags;
 
 	uint8 __data4[0x16];
@@ -136,7 +136,7 @@ struct weapon_trigger
 
 	uint8 __data1[0x3];
 
-	short timer;
+	int16 timer;
 	c_flags<e_weapon_trigger_flags, uint16, k_weapon_trigger_flags> flags;
 
 	uint8 __data8[0x4];
@@ -160,25 +160,25 @@ enum e_weapon_magazine_state
 struct weapon_magazine
 {
 	c_enum<e_weapon_magazine_state, char, _weapon_magazine_state_idle, k_weapon_magazine_states> state;
-	short reload_cooldown;
+	int16 reload_cooldown;
 
-	short __unknown4;
+	int16 __unknown4;
 
-	short rounds_unloaded;
+	int16 rounds_unloaded;
 
-	short __unknown8;
+	int16 __unknown8;
 
-	short rounds_loaded;
+	int16 rounds_loaded;
 
-	short __unknownC;
-	short __unknownE;
-	short __unknown10;
+	int16 __unknownC;
+	int16 __unknownE;
+	int16 __unknown10;
 
-	short firing_cooldown;
+	int16 firing_cooldown;
 
-	short __unknown14;
-	short __unknown16;
-	short __unknown18;
+	int16 __unknown14;
+	int16 __unknown16;
+	int16 __unknown18;
 };
 static_assert(sizeof(weapon_magazine) == 0x1A);
 
@@ -230,9 +230,9 @@ struct _weapon_datum
 
 	uint8 __unknownB;
 
-	c_enum<e_weapon_state, short, _weapon_state_idle, k_weapon_states> state;
-	short state_timer;
-	short weapon_disabled_by_reload_timer;
+	c_enum<e_weapon_state, int16, _weapon_state_idle, k_weapon_states> state;
+	int16 state_timer;
+	int16 weapon_disabled_by_reload_timer;
 
 	// weapon_compute_function_value
 	// - STRING_ID(global, bomb_arming_amount)
@@ -240,9 +240,9 @@ struct _weapon_datum
 	// - STRING_ID(global, bomb_is_arming)
 	// - STRING_ID(global, bomb_is_armed)
 	// if (game_is_multiplayer() && weapon->weapon.__unknown12 != NONE && object_is_ctf_flag(object))
-	short __unknown12;
+	int16 __unknown12;
 
-	short multiplayer_weapon_identifier;
+	int16 multiplayer_weapon_identifier;
 	uint8 turn_on_timer;
 	uint8 ready_for_use_timer;
 	real32 heat;
@@ -255,27 +255,27 @@ struct _weapon_datum
 	
 	uint8 __data70[0x4];
 
-	short alternate_shots_loaded;
+	int16 alternate_shots_loaded;
 
 	uint8 __data76[0x2];
 
 	weapon_barrel const barrels[2];
 	weapon_trigger const triggers[2];
 	weapon_magazine const magazines[2];
-	long overheated_effect_index;
-	long game_time_last_fired;
+	int32 overheated_effect_index;
+	int32 game_time_last_fired;
 	weapon_first_person_emulation first_person_emulation;
 };
 static_assert(sizeof(_weapon_datum) == 0x150);
 
 struct weapon_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_item_datum item;
 	_weapon_datum weapon;
 };
-static_assert(sizeof(weapon_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
+static_assert(sizeof(weapon_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
 extern bool debug_weapons;
 extern bool debug_weapons_triggers;
@@ -284,13 +284,13 @@ extern bool debug_weapons_magazines;
 extern bool debug_weapons_primary;
 extern bool debug_weapons_secondary;
 
-extern void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted);
-extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
-extern void __cdecl weapon_debug_render(long weapon_index, long weapon_slot);
-extern real32 __cdecl weapon_get_age(long weapon_index);
-extern real32 __cdecl weapon_get_field_of_view_change_time(long weapon_index);
-extern bool __cdecl weapon_has_infinite_ammo(long weapon_index);
-extern bool __cdecl weapon_is_support_weapon(long weapon_index);
+extern void __cdecl weapon_barrel_fire(int32 weapon_index, int16 barrel_index, bool predicted);
+extern bool __cdecl weapon_can_be_dual_wielded(int32 weapon_index);
+extern void __cdecl weapon_debug_render(int32 weapon_index, int32 weapon_slot);
+extern real32 __cdecl weapon_get_age(int32 weapon_index);
+extern real32 __cdecl weapon_get_field_of_view_change_time(int32 weapon_index);
+extern bool __cdecl weapon_has_infinite_ammo(int32 weapon_index);
+extern bool __cdecl weapon_is_support_weapon(int32 weapon_index);
 extern void __cdecl weapons_debug_render();
 extern void __cdecl weapons_debug_render_toggle();
 

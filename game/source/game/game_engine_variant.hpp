@@ -26,7 +26,7 @@ struct c_bitstream;
 //
 //#pragma pack(pop)
 
-long const k_maximum_game_engine_variant_size = 0x260;
+int32 const k_maximum_game_engine_variant_size = 0x260;
 
 struct c_bitstream;
 
@@ -43,7 +43,7 @@ public:
 	bool decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
 
-	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
+	int32 get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
 	bool is_equal_to(c_game_variant const* other) const;
 	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
 
@@ -83,17 +83,17 @@ public:
 	c_game_engine_infection_variant const* get_infection_variant() const;
 	c_game_engine_infection_variant* get_infection_variant_writeable();
 
-	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
-	bool set_integer_game_engine_setting(e_game_variant_parameter parameter, long value);
+	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, int32* out_value) const;
+	bool set_integer_game_engine_setting(e_game_variant_parameter parameter, int32 value);
 
-	bool get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
-	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value);
+	bool get_string_id_game_engine_setting(e_game_variant_parameter parameter, int32* out_value) const;
+	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, int32 value);
 
 protected:
-	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
-	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
+	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, int32* out_value) const;
+	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, int32 value);
 
-	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> m_game_engine_index;
+	c_enum<e_game_engine_type, int32, _game_engine_type_none, k_game_engine_type_count> m_game_engine_index;
 	union
 	{
 		c_game_engine_base_variant m_base_variant;
@@ -112,12 +112,12 @@ protected:
 };
 static_assert(sizeof(c_game_variant) == 0x264);
 
-extern char const* game_engine_type_get_string(long game_engine_variant);
+extern char const* game_engine_type_get_string(int32 game_engine_variant);
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
-extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant);
-extern long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index);
-extern long __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant);
-extern bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, long variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description);
+extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, int32 variant_index, c_game_variant* game_variant);
+extern int32 __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index);
+extern int32 __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant);
+extern bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, int32 variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description);
 extern void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_variant);
 extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* variant);
 extern bool game_engine_variant_validate(c_game_variant* variant);

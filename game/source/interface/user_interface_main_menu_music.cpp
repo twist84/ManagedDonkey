@@ -34,7 +34,7 @@ real32 c_user_interface_main_menu_music::fade_out_progress()
 
 //.text:00AD5690 ; 
 
-long c_user_interface_main_menu_music::get_music_index()
+int32 c_user_interface_main_menu_music::get_music_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00AD56C0, c_user_interface_main_menu_music, get_music_index);
 }

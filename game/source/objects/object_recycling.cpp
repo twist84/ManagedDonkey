@@ -1,7 +1,7 @@
 #include "objects/object_recycling.hpp"
 
-//.text:00BB9260 ; long __cdecl recycle_worst_object_available(long, uint8*, long, bool*, char*, long)
-//.text:00BB9330 ; long __cdecl setup_recycling_workspace(long, uint8*, long, bool*, char*, long)
+//.text:00BB9260 ; int32 __cdecl recycle_worst_object_available(int32, uint8*, int32, bool*, char*, int32)
+//.text:00BB9330 ; int32 __cdecl setup_recycling_workspace(int32, uint8*, int32, bool*, char*, int32)
 //.text:00BB9360 ; 
 //.text:00BB9370 ; 
 //.text:00BB9390 ; 
@@ -16,28 +16,28 @@
 //.text:00BB94D0 ; 
 //.text:00BB9550 ; 
 //.text:00BB9580 ; 
-//.text:00BB95B0 ; long __cdecl find_worst_object_in_group(long, s_recycling_group const*, long)
+//.text:00BB95B0 ; int32 __cdecl find_worst_object_in_group(int32, s_recycling_group const*, int32)
 //.text:00BB96B0 ; 
 //.text:00BB96C0 ; 
 //.text:00BB96F0 ; 
 //.text:00BB9720 ; 
 //.text:00BB9730 ; 
-//.text:00BB9740 ; long __cdecl get_player_head_positions(real_point3d*, long)
+//.text:00BB9740 ; int32 __cdecl get_player_head_positions(real_point3d*, int32)
 //.text:00BB97D0 ; 
 //.text:00BB97E0 ; 
 //.text:00BB97F0 ; 
 //.text:00BB9800 ; 
 //.text:00BB9820 ; 
-//.text:00BB9830 ; void __cdecl move_recycling_object_between_groups(long, long, long, long)
+//.text:00BB9830 ; void __cdecl move_recycling_object_between_groups(int32, int32, int32, int32)
 //.text:00BB98F0 ; 
 //.text:00BB9910 ; void __cdecl object_recycling_clear_history()
-//.text:00BB9920 ; void __cdecl object_recycling_group_remove_object(long)
+//.text:00BB9920 ; void __cdecl object_recycling_group_remove_object(int32)
 //.text:00BB99B0 ; void __cdecl object_recycling_reset_volume_list()
-//.text:00BB9A40 ; void __cdecl object_recycling_switch_lists(long, long*, long*)
-//.text:00BB9AD0 ; void __cdecl object_recycling_system_add_volume(long, long, long)
+//.text:00BB9A40 ; void __cdecl object_recycling_switch_lists(int32, int32*, int32*)
+//.text:00BB9AD0 ; void __cdecl object_recycling_system_add_volume(int32, int32, int32)
 //.text:00BB9BA0 ; void __cdecl objects_recycling_dispose()
 //.text:00BB9BB0 ; void __cdecl objects_recycling_dispose_from_old_map()
-//.text:00BB9BF0 ; void __cdecl objects_recycling_group_process(s_recycling_workspace*, long)
+//.text:00BB9BF0 ; void __cdecl objects_recycling_group_process(s_recycling_workspace*, int32)
 //.text:00BBA020 ; void __cdecl objects_recycling_initialize()
 //.text:00BBA0B0 ; void __cdecl objects_recycling_initialize_for_new_map()
 //.text:00BBA0F0 ; void __cdecl objects_recycling_render(s_recycling_workspace*)
@@ -46,7 +46,7 @@
 //.text:00BBA860 ; void __cdecl prepare_recycling_group_list(s_recycling_workspace*)
 //.text:00BBAA00 ; uint32 __cdecl recycling_get_target_flags(uint32)
 //.text:00BBAA90 ; uint32 __cdecl recycling_get_tolerance_flags()
-//.text:00BBAB00 ; void __cdecl recycling_release_object(long)
+//.text:00BBAB00 ; void __cdecl recycling_release_object(int32)
 //.text:00BBAB30 ; 
 //.text:00BBAB70 ; 
 //.text:00BBABB0 ; 

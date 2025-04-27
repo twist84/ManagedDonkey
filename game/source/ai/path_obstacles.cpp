@@ -3,20 +3,20 @@
 #include "physics/collisions.hpp"
 #include "render/render_debug.hpp"
 
-//.text:014CA200 ; bool __cdecl obstacle_object_test(long, long, struct s_obstacle_profile*, short, bool, struct obstacles*, struct obstacles*)
-//.text:014CB180 ; bool __cdecl obstacle_object_test(long, long, struct s_obstacle_profile*, struct obstacles*, struct obstacles*)
-//.text:014CB1A0 ; void __cdecl obstacle_profile_new(struct s_obstacle_profile*, real_point3d const*, real32, long, struct special_movement*, real_vector3d const*, long, long)
-//.text:014CB230 ; void __cdecl obstacle_profile_set_actor(long, real_point3d const*, real_vector3d const*, short, bool, struct s_obstacle_profile*)
-//.text:014CB390 ; bool __cdecl obstacles_add_disc(struct obstacles*, long, short, real_point3d const*, real32)
-//.text:014CB420 ; void __cdecl obstacles_disc_neighborhood(struct obstacles const*, real32, short, c_static_flags<256>*)
-//.text:014CB560 ; void __cdecl obstacles_disc_tangents(struct obstacles const*, short, real_point2d const*, real32, real_vector2d*, real_vector2d*, real32*)
+//.text:014CA200 ; bool __cdecl obstacle_object_test(int32, int32, struct s_obstacle_profile*, int16, bool, struct obstacles*, struct obstacles*)
+//.text:014CB180 ; bool __cdecl obstacle_object_test(int32, int32, struct s_obstacle_profile*, struct obstacles*, struct obstacles*)
+//.text:014CB1A0 ; void __cdecl obstacle_profile_new(struct s_obstacle_profile*, real_point3d const*, real32, int32, struct special_movement*, real_vector3d const*, int32, int32)
+//.text:014CB230 ; void __cdecl obstacle_profile_set_actor(int32, real_point3d const*, real_vector3d const*, int16, bool, struct s_obstacle_profile*)
+//.text:014CB390 ; bool __cdecl obstacles_add_disc(struct obstacles*, int32, int16, real_point3d const*, real32)
+//.text:014CB420 ; void __cdecl obstacles_disc_neighborhood(struct obstacles const*, real32, int16, c_static_flags<256>*)
+//.text:014CB560 ; void __cdecl obstacles_disc_tangents(struct obstacles const*, int16, real_point2d const*, real32, real_vector2d*, real_vector2d*, real32*)
 
-struct disc const* __cdecl obstacles_get_disc(struct obstacles const* obstacles, short disc_index)
+struct disc const* __cdecl obstacles_get_disc(struct obstacles const* obstacles, int16 disc_index)
 {
 	return INVOKE(0x014CB720, obstacles_get_disc, obstacles, disc_index);
 }
 
-//.text:014CB740 ; void __cdecl obstacles_get_discs_in_sphere(long, long, short, bool, struct special_movement*, struct obstacles*, struct obstacles*, real_point3d const*, real32, real_vector3d const*, real_vector3d const*, long, long)
+//.text:014CB740 ; void __cdecl obstacles_get_discs_in_sphere(int32, int32, int16, bool, struct special_movement*, struct obstacles*, struct obstacles*, real_point3d const*, real32, real_vector3d const*, real_vector3d const*, int32, int32)
 
 void __cdecl obstacles_new(struct obstacles* obstacles)
 {
@@ -24,12 +24,12 @@ void __cdecl obstacles_new(struct obstacles* obstacles)
 }
 
 //.text:014CB8B0 ; void __cdecl obstacles_recompute(struct obstacles*, real32)
-//.text:014CB980 ; short __cdecl obstacles_test_circle(struct obstacles const*, short, real_point2d const*, real32)
-//.text:014CBA00 ; bool __cdecl obstacles_test_pill(struct obstacles const*, short, real_point2d const*, real_vector2d const*, real32, real32, bool, struct obstacles_test_pill_result*)
+//.text:014CB980 ; int16 __cdecl obstacles_test_circle(struct obstacles const*, int16, real_point2d const*, real32)
+//.text:014CBA00 ; bool __cdecl obstacles_test_pill(struct obstacles const*, int16, real_point2d const*, real_vector2d const*, real32, real32, bool, struct obstacles_test_pill_result*)
 
 void render_debug_obstacles(struct obstacles const* obstacles, real32 radius)
 {
-	for (short disc_index = 0; disc_index < obstacles->disc_count; disc_index++)
+	for (int16 disc_index = 0; disc_index < obstacles->disc_count; disc_index++)
 	{
 		struct disc const* disc = obstacles_get_disc(obstacles, disc_index);
 

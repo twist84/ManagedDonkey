@@ -32,8 +32,8 @@ public:
 	e_sandbox_edit_mode_settings get_edit_mode() const;
 	void set_edit_mode(e_sandbox_edit_mode_settings edit_mode);
 
-	short get_respawn_time() const;
-	void set_respawn_time(short respawn_time);
+	int16 get_respawn_time() const;
+	void set_respawn_time(int16 respawn_time);
 
 	c_player_traits* get_player_traits_writeable();
 	c_player_traits const* get_player_traits() const;
@@ -42,7 +42,7 @@ public:
 protected:
 	c_flags<e_sandbox_variant_flags, uint8, k_sandbox_variant_flags> m_variant_flags;
 	c_enum<e_sandbox_edit_mode_settings, char, _sandbox_edit_mode_settings_all_players, k_sandbox_edit_mode_settings> m_edit_mode;
-	c_enum<e_sandbox_respawn_time, short, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
+	c_enum<e_sandbox_respawn_time, int16, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
 };
 static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
@@ -54,7 +54,7 @@ struct c_sandbox_engine :
 
 struct s_core_quota
 {
-	long object_definition_index;
+	int32 object_definition_index;
 	uint8 maximum_count;
 	uint8 minimum_count;
 	uint8 placed_on_map;
@@ -65,26 +65,26 @@ static_assert(sizeof(s_core_quota) == 0x8);
 struct s_sandbox_globals
 {
 	s_core_quota quota;
-	long player_role_bit_array;
-	c_static_array<long, 16> edited_object_ids;
-	c_static_array<float, 16> cursor_distance_from_camera;
+	int32 player_role_bit_array;
+	c_static_array<int32, 16> edited_object_ids;
+	c_static_array<real32, 16> cursor_distance_from_camera;
 	c_static_array<real_point3d, 16> cursor_position;
 	c_static_array<real_vector3d, 16> cursor_normal;
 	c_static_array<real_vector3d, 16> cursor_vector;
-	c_static_array<long, 16> object_under_cursor;
+	c_static_array<int32, 16> object_under_cursor;
 	c_static_array<bool, 16> rotating_object;
-	c_static_array<long, 64> tracked_edited_objects;
+	c_static_array<int32, 64> tracked_edited_objects;
 	c_static_array<real_point3d, 64> tracked_edited_objects_last_soft_ceiling_position;
-	long number_of_tracked_objects;
-	long edited_map_variant_index;
-	long current_object_definition_index;
+	int32 number_of_tracked_objects;
+	int32 edited_map_variant_index;
+	int32 current_object_definition_index;
 	bool legal_accepted;
-	long last_rendered_boundary_object_index;
+	int32 last_rendered_boundary_object_index;
 	s_variant_multiplayer_object_properties_definition edited_object_properties;
 };
 static_assert(sizeof(s_sandbox_globals) == 0x748);
 
 extern c_game_engine_sandbox_variant*& sandbox_variant;
 
-extern bool __cdecl game_engine_object_is_fixed(long object_index);
+extern bool __cdecl game_engine_object_is_fixed(int32 object_index);
 

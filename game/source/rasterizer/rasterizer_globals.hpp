@@ -13,10 +13,10 @@ struct s_rasterizer_globals
 	c_synchronized_long most_recent_delta;
 	c_synchronized_long most_recent_swap_index;
 
-	long frame_delta_index;
-	long frame_deltas[16];
+	int32 frame_delta_index;
+	int32 frame_deltas[16];
 
-	long presentation_interval;
+	int32 presentation_interval;
 
 	uint8 __data[0x18];
 };
@@ -51,9 +51,9 @@ static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
 
 struct s_frame_rate_data
 {
-	long starting_film_tick;
-	long min;
-	long max;
+	int32 starting_film_tick;
+	int32 min;
+	int32 max;
 	uint32 measurement_sum;
 	uint32 measurement_count;
 };
@@ -68,10 +68,10 @@ extern s_rasterizer_timing_globals& g_rasterizer_timing_globals;
 
 extern void __cdecl rasterizer_get_z_planes(real32* z_near, real32* z_far);
 extern void __cdecl rasterizer_globals_initialize();
-extern long __cdecl rasterizer_lag_timing_get_gamestate_delay();
+extern int32 __cdecl rasterizer_lag_timing_get_gamestate_delay();
 extern void __cdecl rasterizer_lag_timing_mark_input_adjustment(int64 a1);
 extern void __cdecl rasterizer_lag_timing_mark_render_end();
 extern void __cdecl rasterizer_lag_timing_mark_render_present(int64 a1);
 extern void __cdecl rasterizer_lag_timing_mark_render_start();
-extern void __cdecl rasterizer_set_presentation_interval(long presentation_interval);
+extern void __cdecl rasterizer_set_presentation_interval(int32 presentation_interval);
 

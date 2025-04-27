@@ -10,12 +10,12 @@
 
 //HOOK_DECLARE_CLASS_MEMBER(0x00B01920, c_gui_screen_pregame_lobby_matchmaking, handle_list_item_chosen_);
 //
-//bool __thiscall c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+//bool __thiscall c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 //{
 //	if (list_name == STRING_ID(gui, lobby_list))
 //	{
-//		long target_name = _string_id_invalid;
-//		long element_handle = list_item_widget->get_element_handle();
+//		int32 target_name = _string_id_invalid;
+//		int32 element_handle = list_item_widget->get_element_handle();
 //		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, target), &target_name))
 //		{
 //

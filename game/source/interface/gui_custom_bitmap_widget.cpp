@@ -51,9 +51,9 @@ void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(uint8* render_
 			bitmap_widget_definition->bitmap_tag_reference_index = NONE;
 
 			// the base cache has over 17K tags so only check the last 256 tags, this is bad but acceptable for now
-			for (long i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
+			for (int32 i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
 			{
-				long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+				int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 
 				cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 				if (!instance)
@@ -79,13 +79,13 @@ void __cdecl c_gui_custom_bitmap_widget::clear()
 	m_desired_async_file_to_display.clear();
 }
 
-long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data)
+int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data)
 {
 	wchar_t name_buffer[256];
 
 	bool v2 = false;
 	bool v3 = false;
-	long v4 = callback_data->cancelled->peek();
+	int32 v4 = callback_data->cancelled->peek();
 	bool v5 = v4 != 0;
 
 	switch (callback_data->state)
@@ -94,10 +94,10 @@ long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* call
 	{
 		if (!v5)
 		{
-			constexpr long name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
+			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
 			wchar_t* name = file_reference_get_name_wide(callback_data->file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
-			callback_data->image_source_was_dlc = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, long)(name, 1);// levels_dlc_open(name, 1);
+			callback_data->image_source_was_dlc = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, int32)(name, 1);// levels_dlc_open(name, 1);
 
 			uint32 error = 0;
 			if (file_open(callback_data->file, FLAG(_file_open_flag_desired_access_read), &error))
@@ -135,9 +135,9 @@ long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* call
 	{
 		if (!v5)
 		{
-			long image_data_length = 0;
+			int32 image_data_length = 0;
 			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
-			char const* chunk = DECLFUNC(0x00462B40, char const*, __cdecl, char const*, long, long, long, long, long*)(
+			char const* chunk = DECLFUNC(0x00462B40, char const*, __cdecl, char const*, int32, int32, int32, int32, int32*)(
 				callback_data->load_buffer,
 				callback_data->file_size,
 				s_blf_chunk_map_image::k_chunk_type,
@@ -149,7 +149,7 @@ long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* call
 			{
 				if (image_data_length > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
 				{
-					long buffer_size = *reinterpret_cast<long const*>(chunk + 4);
+					int32 buffer_size = *reinterpret_cast<int32 const*>(chunk + 4);
 					char const* buffer = reinterpret_cast<char const*>(chunk + 8);
 
 					// hack

@@ -36,8 +36,8 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
 
-//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, uint16* port_out, char const* service_description)
-long __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, uint16* port_out, char const* service_description)
+//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uint16* port_out, char const* service_description)
+int32 __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uint16* port_out, char const* service_description)
 {
 	*out_connection_token = 1;
 	*ip_address_out = lsp_server_address.ipv4_address;
@@ -52,18 +52,18 @@ void c_online_lsp_manager::clear_activated_servers()
 {
 	//INVOKE_CLASS_MEMBER(0x00431740, c_online_lsp_manager, clear_activated_servers);
 
-	for (long i = 0; i < NUMBEROF(m_service); i++)
+	for (int32 i = 0; i < NUMBEROF(m_service); i++)
 	{
 		m_service[i].currently_activated_server_index = NONE;
 		m_service[i].currently_activated_server_ip = 0;
 		m_service[i].currently_activated_server_port = 0;
 	}
 	
-	for (long i = 0; i < NUMBEROF(m_current_clients); i++)
+	for (int32 i = 0; i < NUMBEROF(m_current_clients); i++)
 		clear_client(i);
 }
 
-void c_online_lsp_manager::clear_client(long client_index)
+void c_online_lsp_manager::clear_client(int32 client_index)
 {
 	//INVOKE_CLASS_MEMBER(0x004317F0, c_online_lsp_manager, clear_client, client_index);
 
@@ -73,14 +73,14 @@ void c_online_lsp_manager::clear_client(long client_index)
 	m_current_clients[client_index].client_description.clear();
 }
 
-void c_online_lsp_manager::disconnect_from_server(long connection_token, bool success)
+void c_online_lsp_manager::disconnect_from_server(int32 connection_token, bool success)
 {
 	//INVOKE_CLASS_MEMBER(0x00431830, c_online_lsp_manager, disconnect_from_server, connection_token, success);
 
 	ASSERT(connection_token != NONE);
 
 	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
-	long slot_index = find_slot_index_from_token(connection_token);
+	int32 slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index == NONE)
 		return;
 
@@ -96,11 +96,11 @@ void c_online_lsp_manager::disconnect_from_server(long connection_token, bool su
 	m_last_use_time = system_milliseconds();
 }
 
-long c_online_lsp_manager::find_empty_slot_index()
+int32 c_online_lsp_manager::find_empty_slot_index()
 {
 	//return INVOKE_CLASS_MEMBER(0x00431910, c_online_lsp_manager, find_empty_slot_index);
 
-	for (long slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
+	for (int32 slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state == _client_state_none)
 			return slot_index;
@@ -108,11 +108,11 @@ long c_online_lsp_manager::find_empty_slot_index()
 	return NONE;
 }
 
-long c_online_lsp_manager::find_slot_index_from_token(long connection_token)
+int32 c_online_lsp_manager::find_slot_index_from_token(int32 connection_token)
 {
 	//return INVOKE_CLASS_MEMBER(0x00431930, c_online_lsp_manager, find_slot_index_from_token, connection_token);
 
-	for (long slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
+	for (int32 slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state != _client_state_none && m_current_clients[slot_index].connection_token == connection_token)
 			return slot_index;
@@ -157,14 +157,14 @@ void c_online_lsp_manager::reset()
 	m_last_search_start_time = 0;
 }
 
-void c_online_lsp_manager::server_connected(long connection_token)
+void c_online_lsp_manager::server_connected(int32 connection_token)
 {
 	//INVOKE_CLASS_MEMBER(0x00431F50, c_online_lsp_manager, server_connected, connection_token);
 
 	ASSERT(connection_token != NONE);
 
 	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
-	long slot_index = find_slot_index_from_token(connection_token);
+	int32 slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index != NONE && m_current_clients[slot_index].client_state == _client_state_connecting)
 	{
 		event(_event_message, "networking:online:lsp: token=%d, server connected", connection_token);
@@ -181,7 +181,7 @@ void c_online_lsp_manager::update()
 
 //.text:00432400 ; c_online_lsp_manager::update_online_status
 
-bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, long* ip_address_out)
+bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, int32* ip_address_out)
 {
 	return INVOKE(0x0043C440, online_lsp_activate_and_retrieve_server, server_index, ip_address_out);
 }
@@ -206,7 +206,7 @@ uint32 __cdecl online_lsp_get_server_count()
 	return INVOKE(0x0043C4A0, online_lsp_get_server_count);
 }
 
-bool __cdecl online_lsp_get_server_description(long server_index, c_static_string<200>* server_description)
+bool __cdecl online_lsp_get_server_description(int32 server_index, c_static_string<200>* server_description)
 {
 	return INVOKE(0x0043C4B0, online_lsp_get_server_description, server_index, server_description);
 }
@@ -231,7 +231,7 @@ void __cdecl online_lsp_update()
 	INVOKE(0x0043C5B0, online_lsp_update);
 }
 
-void online_lsp_get_info(long* ip_address, uint16* port)
+void online_lsp_get_info(int32* ip_address, uint16* port)
 {
 	if (ip_address)
 		*ip_address = ntohl(lsp_server_address.ipv4_address);

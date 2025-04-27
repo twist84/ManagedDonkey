@@ -78,7 +78,7 @@ bool __cdecl c_render_globals::get_distortion_visible()
 	return m_distortion_visible;
 }
 
-long __cdecl c_render_globals::get_frame_index()
+int32 __cdecl c_render_globals::get_frame_index()
 {
 	//return INVOKE(0x00A29590, get_frame_index);
 
@@ -213,7 +213,7 @@ void __cdecl render_initialize_for_new_structure_bsp(uint32 activating_structure
 	//c_structure_renderer::reset();
 }
 
-void __cdecl render_prepare_for_window(long player_window_index, long user_index)
+void __cdecl render_prepare_for_window(int32 player_window_index, int32 user_index)
 {
 	//INVOKE(0x00A29990, render_prepare_for_window, player_window_index, user_index);
 
@@ -276,7 +276,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	c_rasterizer::set_pixel_shader_constant(16, 1, &position);
 }
 
-void __cdecl render_window_reset(long user_index)
+void __cdecl render_window_reset(int32 user_index)
 {
 	//INVOKE(0x00A2A2E0, render_window_reset, user_index);
 
@@ -311,7 +311,7 @@ void __cdecl c_render_globals::set_distortion_visible(bool distortion_visible)
 	m_distortion_visible = distortion_visible;
 }
 
-void __cdecl c_render_globals::set_frame_index(long frame_index)
+void __cdecl c_render_globals::set_frame_index(int32 frame_index)
 {
 	//INVOKE(0x00A2A330, set_frame_index, frame_index);
 

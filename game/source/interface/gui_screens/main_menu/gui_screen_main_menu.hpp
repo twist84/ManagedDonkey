@@ -10,19 +10,19 @@ struct c_main_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:
-	c_main_menu_screen_widget(long name) :
+	c_main_menu_screen_widget(int32 name) :
 		c_gui_screen_widget(name),
 		m_motd_popup_downloader()
 	{
-		DECLFUNC(0x00AE71E0, c_main_menu_screen_widget*, __thiscall, c_main_menu_screen_widget*, long)(this, name);
+		DECLFUNC(0x00AE71E0, c_main_menu_screen_widget*, __thiscall, c_main_menu_screen_widget*, int32)(this, name);
 	}
 
 //private:
-	long get_in_use_controller_count(e_controller_index* out_first_in_use_controller);
+	int32 get_in_use_controller_count(e_controller_index* out_first_in_use_controller);
 	void set_list_elements();
 
 //protected:
-	long m_last_ui_lockdown_level;
+	int32 m_last_ui_lockdown_level;
 	bool m_checked_for_film_autoplayback;
 	bool m_bink_was_active;
 	bool m_content_enumeration_active;
@@ -30,7 +30,7 @@ public:
 	uint32 m_progress_dialog_start_time_milliseconds;
 	c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665> m_motd_popup_downloader;
 	bool m_motd_popup_shown;
-	long m_url_key;
+	int32 m_url_key;
 };
 static_assert(sizeof(c_main_menu_screen_widget) == 0x33B4);
 static_assert(0x1AA0 == OFFSETOF(c_main_menu_screen_widget, m_last_ui_lockdown_level));

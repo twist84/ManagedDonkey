@@ -5,7 +5,7 @@
 #include "memory/bitstream.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 
-bool c_network_message_text_chat::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool c_network_message_text_chat::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
 
@@ -24,7 +24,7 @@ bool c_network_message_text_chat::decode(c_bitstream* packet, long message_stora
 	if (!VALID_COUNT(message->payload.destination_player_count, 16))
 		return false;
 
-	for (long i = 0; i < message->payload.destination_player_count; i++)
+	for (int32 i = 0; i < message->payload.destination_player_count; i++)
 	{
 		s_transport_secure_address* destination_player = &message->payload.destination_players[i];
 		packet->read_secure_address("destination-player", destination_player);
@@ -38,7 +38,7 @@ bool c_network_message_text_chat::decode(c_bitstream* packet, long message_stora
 	return !packet->error_occurred();
 }
 
-void c_network_message_text_chat::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void c_network_message_text_chat::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
 
@@ -54,7 +54,7 @@ void c_network_message_text_chat::encode(c_bitstream* packet, long message_stora
 		packet->write_secure_address("source-player", &message->payload.source_player);
 
 	packet->write_integer("destination-player-count", message->payload.destination_player_count, 8);
-	for (long i = 0; i < message->payload.destination_player_count; i++)
+	for (int32 i = 0; i < message->payload.destination_player_count; i++)
 	{
 		s_transport_secure_address const* destination_player = &message->payload.destination_players[i];
 		packet->write_secure_address("destination-player", destination_player);

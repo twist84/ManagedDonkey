@@ -648,7 +648,7 @@ debug_key global_debug_key_list[]
 };
 
 c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4)> global_debug_key_down; // 16 bit aligned
-//long global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
+//int32 global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
 uint32 g_debug_button_down_flags;
 
 s_debug_button g_debug_button_list[]
@@ -676,7 +676,7 @@ s_debug_button g_debug_button_list[]
 void __cdecl debug_keys_initialize()
 {
 	debug_key* key = global_debug_key_list;
-	long key_down_count = 0;
+	int32 key_down_count = 0;
 	for (key_down_count = 0; key->name; key_down_count++)
 	{
 		if (key->variable)
@@ -687,8 +687,8 @@ void __cdecl debug_keys_initialize()
 
 	//if (!global_debug_key_down)
 	//{
-	//	long key_down_size = 4 * ((key_down_count + 31) >> 5);
-	//	global_debug_key_down = (long*)malloc(key_down_size /*, __FILE__, __LINE__ */);
+	//	int32 key_down_size = 4 * ((key_down_count + 31) >> 5);
+	//	global_debug_key_down = (int32*)malloc(key_down_size /*, __FILE__, __LINE__ */);
 	//	ASSERT(global_debug_key_down);
 	//	csmemset(global_debug_key_down, 0, key_down_size);
 	//}
@@ -706,7 +706,7 @@ void __cdecl debug_keys_dispose()
 	//}
 }
 
-bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_down, long force_key_down)
+bool __cdecl debug_key_update(int32 key_index, debug_key* key, bool* modifier_down, int32 force_key_down)
 {
 	bool result = false;
 	if ((game_in_progress() || key->allow_out_of_game) && (!game_in_editor() || key->allow_in_editor) && input_globals.mouse_acquired)
@@ -759,7 +759,7 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 // name assumption
 bool __cdecl debug_key_execute(char const* name, bool key_down)
 {
-	long v4 = 2; // debug_key not found
+	int32 v4 = 2; // debug_key not found
 
 	bool modifier_down[6];
 	csmemset(modifier_down, 0, NUMBEROF(modifier_down));
@@ -769,7 +769,7 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 
 	if (key_name)
 	{
-		long key_index = NONE;
+		int32 key_index = NONE;
 		for (; csstricmp(name, key_name); key++, key_index++)
 		{
 			key_name = (key + 1)->name;
@@ -822,7 +822,7 @@ void __cdecl debug_keys_update()
 	debug_key* key = global_debug_key_list;
 	if (key->name)
 	{
-		for (long key_index = 0; key->name; key_index++)
+		for (int32 key_index = 0; key->name; key_index++)
 			debug_key_update(key_index, key++, modifier_down, 0);
 	}
 
@@ -906,14 +906,14 @@ void __cdecl debug_key_rotate_units(bool key_is_down)
 {
 	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
-		long active_input_user = player_mapping_first_active_input_user();
+		int32 active_input_user = player_mapping_first_active_input_user();
 		if (active_input_user != k_number_of_users)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-			long player_index = player_mapping_get_player_by_input_user(active_input_user);
+			int32 player_index = player_mapping_get_player_by_input_user(active_input_user);
 			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
-			long closest_unit = units_debug_get_closest_unit(player->unit_index);
+			int32 closest_unit = units_debug_get_closest_unit(player->unit_index);
 			if (closest_unit != NONE)
 				player_set_unit_index(player_index, closest_unit);
 		}
@@ -924,17 +924,17 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 {
 	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
-		long active_input_user = player_mapping_first_active_input_user();
+		int32 active_input_user = player_mapping_first_active_input_user();
 		if (active_input_user != k_number_of_users)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-			long player_index = player_mapping_get_player_by_input_user(active_input_user);
+			int32 player_index = player_mapping_get_player_by_input_user(active_input_user);
 			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
-			long unit_index = player->unit_index;
+			int32 unit_index = player->unit_index;
 			if (unit_index != NONE)
 			{
-				long next_unit = units_debug_get_next_unit(unit_index);
+				int32 next_unit = units_debug_get_next_unit(unit_index);
 				if (next_unit != NONE)
 					player_set_unit_index(player_index, next_unit);
 			}
@@ -946,10 +946,10 @@ void __cdecl debug_key_ninja_rope(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 	{
-		long active_input_user = player_mapping_first_active_input_user();
+		int32 active_input_user = player_mapping_first_active_input_user();
 		if (active_input_user != k_number_of_users)
 		{
-			long unit_by_input_user = player_mapping_get_unit_by_input_user(active_input_user);
+			int32 unit_by_input_user = player_mapping_get_unit_by_input_user(active_input_user);
 			if (unit_by_input_user != NONE)
 				unit_debug_ninja_rope(unit_by_input_user);
 		}
@@ -1075,7 +1075,7 @@ void __cdecl debug_key_print_screen(bool key_is_down)
 		c_static_string<128> screenshot_path;
 		c_static_string<128> screenshot_filepath;
 
-		long index = 0;
+		int32 index = 0;
 		while (true)
 		{
 			screenshot_path.clear();

@@ -10,27 +10,27 @@ public:
 	~c_simple_font_screen_display();
 
 	void close_session();
-	void draw(long column, long row, uint32 color, char const* format, ...);
+	void draw(int32 column, int32 row, uint32 color, char const* format, ...);
 	bool open_session(real32 scale);
 
-	//long get_max_column() const;
-	//long get_max_row() const;
-	//void get_text_row_column_from_screen_pos(point2d, long*, long*) const;
-	//void get_text_row_column_from_screen_pos(real_point2d const*, long*, long*) const;
-	//void get_screen_pos_from_text_column_row(long, long, point2d*) const;
-	//long get_column_width(long) const;
-	//long get_char_width() const;
+	//int32 get_max_column() const;
+	//int32 get_max_row() const;
+	//void get_text_row_column_from_screen_pos(point2d, int32*, int32*) const;
+	//void get_text_row_column_from_screen_pos(real_point2d const*, int32*, int32*) const;
+	//void get_screen_pos_from_text_column_row(int32, int32, point2d*) const;
+	//int32 get_column_width(int32) const;
+	//int32 get_char_width() const;
 
 //protected:
 	bool m_print_session_open;
-	long m_base_x;
-	long m_base_y;
-	long m_total_width;
-	long m_total_height;
-	long m_char_width;
-	long m_char_height;
-	long m_max_column;
-	long m_max_row;
+	int32 m_base_x;
+	int32 m_base_y;
+	int32 m_total_width;
+	int32 m_total_height;
+	int32 m_char_width;
+	int32 m_char_height;
+	int32 m_max_column;
+	int32 m_max_row;
 	char buffer[1024];
 };
 static_assert(sizeof(c_simple_font_screen_display) == 0x424);
@@ -52,43 +52,43 @@ namespace simple_font
 
 		bool installed;
 
-		long const char_width;
-		long const char_height;
-		long const char_pitch;
-		long const char_start;
-		long const char_end;
+		int32 const char_width;
+		int32 const char_height;
+		int32 const char_pitch;
+		int32 const char_start;
+		int32 const char_end;
 		real32 char_scale;
 
-		long const texture_width;
-		long const texture_height;
+		int32 const texture_width;
+		int32 const texture_height;
 		bitmap_data* bitmap;
 		c_rasterizer_texture_ref hardware_format;
-		long pitch;
+		int32 pitch;
 
-		long const source_width;
-		long const source_height;
+		int32 const source_width;
+		int32 const source_height;
 		char const* source_data;
 	};
 	static_assert(sizeof(s_font_data) == 0x3C);
 
 	extern bool __cdecl begin_rendering(real32 scale, bool drop_shadow);
-	extern void __cdecl draw_quads(rasterizer_vertex_screen* triangle_vertices, long verts_used, bool apply_display_scalar_correction);
+	extern void __cdecl draw_quads(rasterizer_vertex_screen* triangle_vertices, int32 verts_used, bool apply_display_scalar_correction);
 	extern void __cdecl end_rendering();
-	extern long __cdecl get_height();
-	extern long __cdecl get_width();
+	extern int32 __cdecl get_height();
+	extern int32 __cdecl get_width();
 	extern void __cdecl install();
-	extern long __cdecl make_quad(long x1, long y1, real32 u1, real32 v1, long x2, long y2, real32 u2, real32 v2, uint32 color, long shadow_offset, rasterizer_vertex_screen* triangle_vertices);
-	extern void __cdecl print(long x, long y, uint32 color, char const* c, long count, bool apply_display_scalar_correction);
-	extern void __cdecl print_block(long x, long y, long width, long height, uint32 color, char const* c);
-	extern void __cdecl print_white(long x, long y, char const* c, long count);
-	extern void __cdecl printf(long x, long y, uint32 color, char const* c, ...);
-	extern void __cdecl printf(long x, long y, char const* c, ...);
-	extern void __cdecl printf_down(long x, long y, uint32 color, char const* c, ...);
-	extern void __cdecl printf_left(long x, long y, uint32 color, char const* c, ...);
-	extern void __cdecl printf_up(long x, long y, uint32 color, char const* c, ...);
+	extern int32 __cdecl make_quad(int32 x1, int32 y1, real32 u1, real32 v1, int32 x2, int32 y2, real32 u2, real32 v2, uint32 color, int32 shadow_offset, rasterizer_vertex_screen* triangle_vertices);
+	extern void __cdecl print(int32 x, int32 y, uint32 color, char const* c, int32 count, bool apply_display_scalar_correction);
+	extern void __cdecl print_block(int32 x, int32 y, int32 width, int32 height, uint32 color, char const* c);
+	extern void __cdecl print_white(int32 x, int32 y, char const* c, int32 count);
+	extern void __cdecl printf(int32 x, int32 y, uint32 color, char const* c, ...);
+	extern void __cdecl printf(int32 x, int32 y, char const* c, ...);
+	extern void __cdecl printf_down(int32 x, int32 y, uint32 color, char const* c, ...);
+	extern void __cdecl printf_left(int32 x, int32 y, uint32 color, char const* c, ...);
+	extern void __cdecl printf_up(int32 x, int32 y, uint32 color, char const* c, ...);
 	extern void __cdecl remove();
-	extern void __cdecl render_text(s_font_data const* font, long pixelX, long pixelY, long pixelPitch, long flags, uint32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
-	extern void __cdecl vprintf(long x, long y, long flags, uint32 color, char const* c, char* arglist);
+	extern void __cdecl render_text(s_font_data const* font, int32 pixelX, int32 pixelY, int32 pixelPitch, int32 flags, uint32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
+	extern void __cdecl vprintf(int32 x, int32 y, int32 flags, uint32 color, char const* c, char* arglist);
 
 	extern s_font_data*(&g_fonts)[2];
 	extern s_font_data& g_font_6x10;

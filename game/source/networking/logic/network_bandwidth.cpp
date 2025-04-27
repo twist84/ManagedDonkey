@@ -6,7 +6,7 @@
 
 REFERENCE_DECLARE(0x019E8D28, s_network_bandwidth_globals, network_bandwidth_globals);
 
-long __cdecl network_bandwidth_compute_average(long sample_count, long const* samples)
+int32 __cdecl network_bandwidth_compute_average(int32 sample_count, int32 const* samples)
 {
 	return INVOKE(0x00455550, network_bandwidth_compute_average, sample_count, samples);
 }
@@ -18,7 +18,7 @@ void __cdecl network_bandwidth_dispose()
 	//network_bandwidth_globals.initialized = false;
 }
 
-long __cdecl network_bandwidth_get_estimated_bandwidth_bps(bool* available)
+int32 __cdecl network_bandwidth_get_estimated_bandwidth_bps(bool* available)
 {
 	return INVOKE(0x004556E0, network_bandwidth_get_estimated_bandwidth_bps, available);
 
@@ -27,12 +27,12 @@ long __cdecl network_bandwidth_get_estimated_bandwidth_bps(bool* available)
 	//return network_bandwidth_globals.estimated_bandwidth_bps;
 }
 
-long __cdecl network_bandwidth_get_estimated_desired_machine_capacity_of_bandwidth(long a1)
+int32 __cdecl network_bandwidth_get_estimated_desired_machine_capacity_of_bandwidth(int32 a1)
 {
 	return INVOKE(0x00455700, network_bandwidth_get_estimated_desired_machine_capacity_of_bandwidth, a1);
 }
 
-long __cdecl network_bandwidth_get_estimated_host_capacity_machines()
+int32 __cdecl network_bandwidth_get_estimated_host_capacity_machines()
 {
 	return INVOKE(0x00455740, network_bandwidth_get_estimated_host_capacity_machines);
 
@@ -40,7 +40,7 @@ long __cdecl network_bandwidth_get_estimated_host_capacity_machines()
 	//return network_bandwidth_globals.estimated_host_capacity_machines;
 }
 
-long __cdecl network_bandwidth_get_estimated_maximum_machine_capacity_of_bandwidth(long a1)
+int32 __cdecl network_bandwidth_get_estimated_maximum_machine_capacity_of_bandwidth(int32 a1)
 {
 	return INVOKE(0x00455750, network_bandwidth_get_estimated_maximum_machine_capacity_of_bandwidth, a1);
 }
@@ -92,7 +92,7 @@ void __cdecl network_bandwidth_tracking_begin()
 	//	event(_event_message, "networking:logic:bandwidth: begin bandwidth tracking");
 	//	network_bandwidth_globals.observer->reset_bandwidth();
 	//	network_bandwidth_globals.tracking = true;
-	//	network_bandwidth_globals.tracking_start_time = (long)network_time_get();
+	//	network_bandwidth_globals.tracking_start_time = (int32)network_time_get();
 	//}
 }
 

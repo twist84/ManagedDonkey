@@ -101,7 +101,7 @@ public:
 	void handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message);
 	void handle_broadcast_reply(transport_address const* address, s_network_message_broadcast_reply const* message);
 	void handle_broadcast_search(transport_address const* address, s_network_message_broadcast_search const* message);
-	void handle_channel_message(c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage);
+	void handle_channel_message(c_network_channel* channel, e_network_message_type message_type, int32 message_storage_size, void const* message_storage);
 	void handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message);
 	void handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message);
 	void handle_connect_refuse(c_network_channel* channel, s_network_message_connect_refuse const* message);
@@ -115,7 +115,7 @@ public:
 	void handle_leave_acknowledge(transport_address const* address, s_network_message_leave_acknowledge const* message);
 	void handle_leave_session(transport_address const* address, s_network_message_leave_session const* message);
 	void handle_membership_update(c_network_channel* channel, s_network_message_membership_update const* message);
-	void handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage);
+	void handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, int32 message_storage_size, void const* message_storage);
 	void handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message);
 	void handle_parameters_update(c_network_channel* channel, s_network_message_parameters_update const* message);
 	void handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message);
@@ -133,7 +133,7 @@ public:
 	void handle_synchronous_acknowledge(c_network_channel* channel, s_network_message_synchronous_acknowledge const* message);
 	void handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message);
 	void handle_synchronous_client_ready(c_network_channel* channel);
-	void handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long chunk_size, void const* chunk_data);
+	void handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, int32 chunk_size, void const* chunk_data);
 	void handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message);
 	void handle_synchronous_update(c_network_channel* channel, s_network_message_synchronous_update const* message);
 	void handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message);

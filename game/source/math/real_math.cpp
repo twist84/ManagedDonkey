@@ -42,7 +42,7 @@ REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectang
 REFERENCE_DECLARE(0x0189CF64, real_rectangle3d const* const, global_zero_rectangle3d);
 
 // 0164F660
-short const global_projection3d_mappings[3][2][3] =
+int16 const global_projection3d_mappings[3][2][3] =
 {
 	{
 		{ _z, _y, _x },
@@ -59,7 +59,7 @@ short const global_projection3d_mappings[3][2][3] =
 };
 
 // 0164F684
-short const global_projection3d_inverse_mappings[3][2][3] =
+int16 const global_projection3d_inverse_mappings[3][2][3] =
 {
 	{
 		{ _z, _y, _x },
@@ -228,12 +228,12 @@ real_vector3d* __cdecl generate_up_vector3d(real_vector3d const* forward, real_v
 	return INVOKE(0x004F2310, generate_up_vector3d, forward, up);
 }
 
-real_point3d* __cdecl project_point2d(real_point2d const* p2d, real_plane3d const* plane, short projection, bool sign, real_point3d* p3d)
+real_point3d* __cdecl project_point2d(real_point2d const* p2d, real_plane3d const* plane, int16 projection, bool sign, real_point3d* p3d)
 {
 	//return INVOKE(0x004F9830, project_point2d, p2d, plane, projection, sign, p3d);
 
-	short v5 = global_projection3d_mappings[projection][sign][_x];
-	short v6 = global_projection3d_mappings[projection][sign][_y];
+	int16 v5 = global_projection3d_mappings[projection][sign][_x];
+	int16 v6 = global_projection3d_mappings[projection][sign][_y];
 
 	real32 v7 = 0.0f;
 	if (fabsf((plane->n.n[projection] - 0.0f)) >= k_real_epsilon)
@@ -247,10 +247,10 @@ real_point3d* __cdecl project_point2d(real_point2d const* p2d, real_plane3d cons
 	return p3d;
 }
 
-//.text:004F98F0 ; real_point2d* __cdecl project_point3d(real_point3d const*, short, bool, real_point2d*)
-//.text:004F9930 ; void __cdecl project_polygon2d(long, real_point2d const* const, real_plane3d const*, long, bool, real_point3d* const)
-//.text:004F9A20 ; void __cdecl project_polygon3d(long, real_point3d const* const, long, bool, real_point2d* const)
-//.text:004F9A80 ; real_vector2d* __cdecl project_vector3d(real_vector3d const *, short, bool, real_vector2d*)
+//.text:004F98F0 ; real_point2d* __cdecl project_point3d(real_point3d const*, int16, bool, real_point2d*)
+//.text:004F9930 ; void __cdecl project_polygon2d(int32, real_point2d const* const, real_plane3d const*, int32, bool, real_point3d* const)
+//.text:004F9A20 ; void __cdecl project_polygon3d(int32, real_point3d const* const, int32, bool, real_point2d* const)
+//.text:004F9A80 ; real_vector2d* __cdecl project_vector3d(real_vector3d const *, int16, bool, real_vector2d*)
 
 void __cdecl quaternion_transform_point(real_quaternion const* q, real_point3d const* p, real_point3d* result)
 {
@@ -297,7 +297,7 @@ bool __cdecl real_rectangle2d_compute_intersection(real_rectangle2d const* a, re
 }
 
 //.text:004FBAA0 ; real_rectangle2d* __cdecl real_rectangle2d_enclose_point(real_rectangle2d*, real_point2d const*)
-//.text:004FBB30 ; real_rectangle2d* __cdecl real_rectangle2d_enclose_points(real_rectangle2d*, long, real_point2d const* const)
+//.text:004FBB30 ; real_rectangle2d* __cdecl real_rectangle2d_enclose_points(real_rectangle2d*, int32, real_point2d const* const)
 //.text:004FBBE0 ; real_rectangle2d* __cdecl real_rectangle2d_enclose_rectangle(real_rectangle2d*, real_rectangle2d const*)
 //.text:004FBC70 ; bool __cdecl real_rectangle3d_compute_intersection(real_rectangle3d const*, real_rectangle3d const*, real_rectangle3d*)
 
@@ -326,13 +326,13 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* bound
 	return bounds;
 }
 
-real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* bounds, long point_count, real_point3d const* points)
+real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* bounds, int32 point_count, real_point3d const* points)
 {
 	//return INVOKE(0x004FBE40, real_rectangle3d_enclose_points, bounds, point_count, points);
 
 	//ASSERT(valid_polygon3d(point_count, points));
 
-	for (long i = 0; i < point_count; i++)
+	for (int32 i = 0; i < point_count; i++)
 		real_rectangle3d_enclose_point(bounds, &points[i]);
 
 	return bounds;
@@ -382,7 +382,7 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* b
 //.text:004FCA60 ; void __cdecl real_vector3d_build_axes_from_vectors_using_up(real_vector3d const*, real_vector3d const*, real_vector3d*, real_vector3d*, real_vector3d*)
 //.text:004FCEB0 ; 
 
-long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximum_edge_count, real_point3d(* const edges)[2])
+int32 __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, int32 maximum_edge_count, real_point3d(* const edges)[2])
 {
 	//return INVOKE(0x004FCF10, rectangle3d_build_edges, bounds, maximum_edge_count, edges);
 
@@ -390,7 +390,7 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 	ASSERT(maximum_edge_count >= k_edges_per_cube_count);
 	ASSERT(edges);
 
-	long line_vertex_indices[k_edges_per_cube_count][2]
+	int32 line_vertex_indices[k_edges_per_cube_count][2]
 	{
 		{ 0, 2 },
 		{ 2, 3 },
@@ -409,7 +409,7 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 	real_point3d vertices[k_vertices_per_cube_count]{};
 	rectangle3d_build_vertices(bounds, k_vertices_per_cube_count, vertices);
 
-	for (long edge_index = 0; edge_index < k_edges_per_cube_count; edge_index++)
+	for (int32 edge_index = 0; edge_index < k_edges_per_cube_count; edge_index++)
 	{
 		ASSERT((line_vertex_indices[edge_index][0] >= 0) && (line_vertex_indices[edge_index][0] < k_vertices_per_cube_count));
 		ASSERT((line_vertex_indices[edge_index][1] >= 0) && (line_vertex_indices[edge_index][1] < k_vertices_per_cube_count));
@@ -421,7 +421,7 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 	return k_edges_per_cube_count;
 }
 
-long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximum_face_count, real_point3d(* const faces)[4])
+int32 __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, int32 maximum_face_count, real_point3d(* const faces)[4])
 {
 	//return INVOKE(0x004FD030, rectangle3d_build_faces, bounds, maximum_face_count, faces);
 
@@ -429,7 +429,7 @@ long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximu
 	ASSERT(maximum_face_count >= k_faces_per_cube_count);
 	ASSERT(faces);
 
-	long face_vertex_indices[k_faces_per_cube_count][4]
+	int32 face_vertex_indices[k_faces_per_cube_count][4]
 	{
 		{ 0, 2, 3, 1 },
 		{ 0, 1, 5, 4 },
@@ -442,9 +442,9 @@ long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximu
 	real_point3d vertices[k_vertices_per_cube_count]{};
 	rectangle3d_build_vertices(bounds, k_vertices_per_cube_count, vertices);
 
-	for (long face_index = 0; face_index < k_faces_per_cube_count; face_index++)
+	for (int32 face_index = 0; face_index < k_faces_per_cube_count; face_index++)
 	{
-		for (long vertex_index = 0; vertex_index < k_vertices_per_cube_count; vertex_index++)
+		for (int32 vertex_index = 0; vertex_index < k_vertices_per_cube_count; vertex_index++)
 		{
 			ASSERT((face_vertex_indices[face_index][vertex_index] >= 0) && (face_vertex_indices[face_index][vertex_index] < k_vertices_per_cube_count));
 
@@ -455,7 +455,7 @@ long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximu
 	return k_faces_per_cube_count;
 }
 
-long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices)
+int32 __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, int32 maximum_vertex_count, real_point3d* const vertices)
 {
 	//return INVOKE(0x004FD1A0, rectangle3d_build_vertices, bounds, maximum_vertex_count, vertices);
 
@@ -576,14 +576,14 @@ bool __cdecl valid_real_vector3d_axes3(real_vector3d const* forward, real_vector
 		&& valid_realcmp(dot_product3d(up, forward), 0.0f);
 }
 
-bool __cdecl valid_polygon2d(long point_count, real_point2d const* const points)
+bool __cdecl valid_polygon2d(int32 point_count, real_point2d const* const points)
 {
 	//return INVOKE(0x0078AF90, valid_polygon2d, point_count, points);
 
 	ASSERT(point_count >= 0);
 	ASSERT(point_count == 0 || points);
 
-	for (long i = 0; i < point_count; i++)
+	for (int32 i = 0; i < point_count; i++)
 	{
 		if (!valid_real_point2d(&points[i]))
 			return false;

@@ -17,6 +17,6 @@ public:
 protected:
 	void render_number(c_font_cache_base* font_cache, point2d const& position);
 
-	short get_indent();
+	int16 get_indent();
 };
 

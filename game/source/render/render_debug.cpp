@@ -73,8 +73,8 @@ enum e_render_debug_type
 
 struct cache_entry
 {
-	short type;
-	short layer;
+	int16 type;
+	int16 layer;
 	real32 sort_key;
 
 	union
@@ -82,7 +82,7 @@ struct cache_entry
 		struct // _render_debug_type_circle
 		{
 			real_plane3d plane;
-			short projection_axis;
+			int16 projection_axis;
 			bool projection_sign;
 			real_point2d center;
 			real32 radius;
@@ -152,14 +152,14 @@ struct cache_entry
 
 		struct // _render_debug_type_string
 		{
-			long string_index;
-			short tab_stops[16];
-			short tab_stop_count;
+			int32 string_index;
+			int16 tab_stops[16];
+			int16 tab_stop_count;
 		} string;
 		
 		struct // _render_debug_type_string_at_point
 		{
-			long string_index;
+			int32 string_index;
 			real_point3d point;
 			real_argb_color color;
 			real32 scale;
@@ -183,18 +183,18 @@ struct s_render_debug_globals
 
 	real32 group_key;
 
-	long group_ids[2];
-	long group_level;
+	int32 group_ids[2];
+	int32 group_level;
 
-	short cache_count;
-	short game_tick_cache_count;
+	int16 cache_count;
+	int16 game_tick_cache_count;
 
 	bool inside_game_tick;
 
 	cache_entry cache[8192];
 
-	short cache_string_length;
-	short game_tick_cache_string_length;
+	int16 cache_string_length;
+	int16 game_tick_cache_string_length;
 
 	char cache_string[MAXIMUM_CACHE_STRING_LENGTH];
 };
@@ -204,7 +204,7 @@ static s_render_debug_globals _render_debug_globals{};
 
 thread_local s_render_debug_globals* g_render_debug_globals = NULL;
 
-long type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
+int32 type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
 
 void __cdecl render_debug_initialize()
 {
@@ -284,7 +284,7 @@ void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p
 	color0_.alpha = 1.0f;
 	color1_.alpha = 1.0f;
 
-	for (long i = 0; i < NUMBEROF(color0_.rgb.n); i++)
+	for (int32 i = 0; i < NUMBEROF(color0_.rgb.n); i++)
 	{
 		color0_.rgb.n[i] = color0_.rgb.n[i] * color0_.rgb.n[i];
 		color1_.rgb.n[i] = color1_.rgb.n[i] * color1_.rgb.n[i];
@@ -400,7 +400,7 @@ void __cdecl render_debug_visibility_render()
 		{
 			char output_text[256]{};
 			csnzprintf(output_text, sizeof(output_text), "vis clusters: (bsp:cluster)");
-			for (long cluster_index = 0; cluster_index < region->cluster_count; cluster_index++)
+			for (int32 cluster_index = 0; cluster_index < region->cluster_count; cluster_index++)
 			{
 				visibility_cluster const& cluster = region->clusters[cluster_index];
 				csnzappendf(output_text, sizeof(output_text), "%d:%d, ",
@@ -413,7 +413,7 @@ void __cdecl render_debug_visibility_render()
 	}
 }
 
-void __cdecl render_debug_clients(long user_index)
+void __cdecl render_debug_clients(int32 user_index)
 {
 	geometry_cache_debug_render();
 	texture_cache_debug_render();
@@ -476,11 +476,11 @@ void __cdecl render_debug_clients(long user_index)
 	editor_render_debug();
 }
 
-long __cdecl render_debug_add_cache_string(char const* string)
+int32 __cdecl render_debug_add_cache_string(char const* string)
 {
 	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
-	for (long i = 0; i < render_debug_globals->cache_string_length; i++)
+	for (int32 i = 0; i < render_debug_globals->cache_string_length; i++)
 	{
 		if (csstrcmp(string, &render_debug_globals->cache_string[i]) == 0)
 		{
@@ -489,16 +489,16 @@ long __cdecl render_debug_add_cache_string(char const* string)
 		}
 	}
 
-	short cache_string_length = render_debug_globals->cache_string_length;
+	int16 cache_string_length = render_debug_globals->cache_string_length;
 	if (cache_string_length < MAXIMUM_CACHE_STRING_LENGTH)
 	{
-		long string_offset = cache_string_length;
+		int32 string_offset = cache_string_length;
 		csstrnzcpy(&g_render_debug_globals->cache_string[cache_string_length], string, MAXIMUM_CACHE_STRING_LENGTH - cache_string_length);
-		short v8 = (short)strlen(string);
+		int16 v8 = (int16)strlen(string);
 		// length assert
 
 		g_render_debug_globals->cache_string_length += v8 + 1;
-		short v9 = g_render_debug_globals->cache_string_length;
+		int16 v9 = g_render_debug_globals->cache_string_length;
 		if (v9 > 4095)
 			v9 = 4095;
 		g_render_debug_globals->cache_string_length = v9;
@@ -542,7 +542,7 @@ real_argb_color const global_render_debug_colors[17]
 	{ 1.0f, 0.5f, 0.0f, 0.5f },
 };
 
-real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_color* color)
+real_argb_color const* __cdecl render_debug_unique_color(int32 index, real_argb_color* color)
 {
 	ASSERT(color);
 
@@ -553,7 +553,7 @@ real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_c
 
 //render_debug_spray
 
-void __cdecl render_debug_point2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real32 scale, real_argb_color const* color, real32 a8)
+void __cdecl render_debug_point2d(bool draw_immediately, real_plane3d const* plane, int16 projection_axis, bool projection_sign, real_point2d const* point, real32 scale, real_argb_color const* color, real32 a8)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -584,7 +584,7 @@ void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const*
 	}
 }
 
-void __cdecl render_debug_line2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real32 a8)
+void __cdecl render_debug_line2d(bool draw_immediately, real_plane3d const* plane, int16 projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real32 a8)
 {
 	ASSERT(plane);
 	ASSERT(p0);
@@ -603,7 +603,7 @@ void __cdecl render_debug_line2d(bool draw_immediately, real_plane3d const* plan
 	render_debug_line(draw_immediately, &point0, &point1, color);
 }
 
-void __cdecl render_debug_vector2d(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real_vector2d const* vector, real32 scale, real_argb_color const* color, real32 a9)
+void __cdecl render_debug_vector2d(bool draw_immediately, real_plane3d const* plane, int16 projection_axis, bool projection_sign, real_point2d const* point, real_vector2d const* vector, real32 scale, real_argb_color const* color, real32 a9)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -615,7 +615,7 @@ void __cdecl render_debug_vector2d(bool draw_immediately, real_plane3d const* pl
 	render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, point, &point1, color, a9);
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, real_plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* center, real32 radius, real_argb_color const* color, real32 a8)
+void __cdecl render_debug_circle(bool draw_immediately, real_plane3d const* plane, int16 projection_axis, bool projection_sign, real_point2d const* center, real32 radius, real_argb_color const* color, real32 a8)
 {
 	ASSERT(plane);
 	ASSERT(center);
@@ -625,7 +625,7 @@ void __cdecl render_debug_circle(bool draw_immediately, real_plane3d const* plan
 	{
 		real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
 		render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
-		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
 		{
 			real_point2d* circle_point0 = &circle_points[i];
 			real_point2d* circle_point1 = &circle_points[i + 1];
@@ -649,7 +649,7 @@ void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* cent
 	render_debug_polygon_regular(draw_immediately, center, CIRCLE_DIVISIONS, normal, radius, color);
 }
 
-void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, real_vector3d const* normal, real32 radius, real_argb_color const* color)
+void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, int32 point_count, real_vector3d const* normal, real32 radius, real_argb_color const* color)
 {
 	ASSERT(center != NULL);
 	ASSERT(normal != NULL);
@@ -667,7 +667,7 @@ void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d co
 	real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
 	render_debug_build_circle_points(radius, circle_points, point_count + 1);
 
-	for (long i = 0; i < point_count; i++)
+	for (int32 i = 0; i < point_count; i++)
 	{
 		real_point3d point0{};
 		real_point3d point1{};
@@ -707,7 +707,7 @@ void __cdecl render_debug_point(bool draw_immediately, real_point3d const* point
 		set_real_point3d(&points[4], point->x, point->y, point->z - scale);
 		set_real_point3d(&points[5], point->x, point->y, point->z + scale);
 
-		for (long i = 0; i < 6; i += 2)
+		for (int32 i = 0; i < 6; i += 2)
 			render_debug_line(true, &points[i], &points[i + 1], color);
 	}
 	else
@@ -935,7 +935,7 @@ void __cdecl render_debug_sphere(bool draw_immediately, real_point3d const* cent
 		{
 			real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
 			render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
-			for (long i = 0; i < CIRCLE_DIVISIONS; i++)
+			for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
 			{
 				real_point2d* circle_point0 = &circle_points[i];
 				real_point2d* circle_point1 = &circle_points[i + 1];
@@ -976,16 +976,16 @@ void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* ba
 
 		render_debug_build_pill_points(base, height, radius, points0, points1, NULL, NULL, NULL, NULL);
 
-		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
 		{
 			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
 			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
 		}
 
-		for (long i = 0; i < CIRCLE_DIVISIONS; i += 4)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS; i += 4)
 			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
 
-		for (long i = 0; i < 8; i += 4)
+		for (int32 i = 0; i < 8; i += 4)
 		{
 			render_debug_line(draw_immediately, &points0[i], &points0[i + 8], color);
 			render_debug_line(draw_immediately, &points1[i], &points1[i + 8], color);
@@ -1014,16 +1014,16 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 
 		render_debug_build_pill_points(base, height, radius, points0, points1, points2, points3, points4, points5);
 
-		for (long i = 0; i < CIRCLE_DIVISIONS; ++i)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS; ++i)
 		{
 			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
 			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
 		}
 
-		for (long i = 0; i < CIRCLE_DIVISIONS; i += 4)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS; i += 4)
 			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
 
-		for (long i = 0; i < CIRCLE_DIVISIONS / 2; i++)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS / 2; i++)
 		{
 			render_debug_line(draw_immediately, &points2[i], &points2[i + 1], color);
 			render_debug_line(draw_immediately, &points3[i], &points3[i + 1], color);
@@ -1074,7 +1074,7 @@ void __cdecl render_debug_box(bool draw_immediately, real_rectangle3d const* bou
 		real_point3d faces[k_faces_per_cube_count][4]{};
 		rectangle3d_build_faces(bounds, k_faces_per_cube_count, faces);
 
-		for (long i = 0; i < k_faces_per_cube_count; i++)
+		for (int32 i = 0; i < k_faces_per_cube_count; i++)
 			render_debug_quadrilateral(1, faces[i], &faces[i][1], &faces[i][2], &faces[i][3], color);
 	}
 	else
@@ -1089,7 +1089,7 @@ void __cdecl render_debug_box_oriented(bool draw_immediately, real_rectangle3d c
 	matrix4x3_transform_points(matrix, k_faces_per_cube_count * 4, (real_point3d*)faces, (real_point3d*)faces);
 	rectangle3d_build_faces(bounds, k_faces_per_cube_count, faces);
 
-	for (long i = 0; i < k_faces_per_cube_count; i++)
+	for (int32 i = 0; i < k_faces_per_cube_count; i++)
 		render_debug_quadrilateral(draw_immediately, faces[i], &faces[i][1], &faces[i][2], &faces[i][3], color);
 }
 
@@ -1102,7 +1102,7 @@ void __cdecl render_debug_box_outline(bool draw_immediately, real_rectangle3d co
 	{
 		real_point3d edges[k_edges_per_cube_count][2]{};
 		rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
-		for (long i = 0; i < k_edges_per_cube_count; i++)
+		for (int32 i = 0; i < k_edges_per_cube_count; i++)
 			render_debug_line(true, edges[i], &edges[i][1], color);
 	}
 	else
@@ -1119,7 +1119,7 @@ void __cdecl render_debug_box_outline_oriented(bool draw_immediately, real_recta
 
 	real_point3d edges[k_edges_per_cube_count][2]{};
 	rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
-	for (long i = 0; i < k_edges_per_cube_count; i++)
+	for (int32 i = 0; i < k_edges_per_cube_count; i++)
 	{
 		matrix4x3_transform_point(matrix, edges[i], edges[i]);
 		matrix4x3_transform_point(matrix, &edges[i][1], &edges[i][1]);
@@ -1127,19 +1127,19 @@ void __cdecl render_debug_box_outline_oriented(bool draw_immediately, real_recta
 	}
 }
 
-void __cdecl render_debug_polygon(real_point3d const* points, short total_point_count, real_argb_color const* color)
+void __cdecl render_debug_polygon(real_point3d const* points, int16 total_point_count, real_argb_color const* color)
 {
 	if (total_point_count > 1)
 	{
 		ASSERT(points);
 		ASSERT(color);
 
-		for (short i = 1; i < total_point_count - 1; i++)
+		for (int16 i = 1; i < total_point_count - 1; i++)
 			render_debug_triangle(true, points, &points[i], &points[i + 1], color);
 	}
 }
 
-void __cdecl render_debug_polygon_edges(real_point3d const* points, short total_point_count, real_argb_color const* color)
+void __cdecl render_debug_polygon_edges(real_point3d const* points, int16 total_point_count, real_argb_color const* color)
 {
 	if (total_point_count > 1)
 	{
@@ -1149,22 +1149,22 @@ void __cdecl render_debug_polygon_edges(real_point3d const* points, short total_
 		if (total_point_count > 2)
 		{
 			render_debug_line(true, &points[total_point_count - 1], points, color);
-			for (short i = 1; i < total_point_count; i++)
+			for (int16 i = 1; i < total_point_count; i++)
 				render_debug_line(true, &points[i - 1], &points[i], color);
 		}
 	}
 }
 
-void __cdecl render_debug_k_graph(real_point3d const* points, short total_point_count, real_argb_color const* color)
+void __cdecl render_debug_k_graph(real_point3d const* points, int16 total_point_count, real_argb_color const* color)
 {
 	ASSERT(points);
 	ASSERT(color);
 
 	if (total_point_count > 2)
 	{
-		for (short i = 0; i < total_point_count; i++)
+		for (int16 i = 0; i < total_point_count; i++)
 		{
-			for (short j = i + 1; j < total_point_count; j++)
+			for (int16 j = i + 1; j < total_point_count; j++)
 				render_debug_line(1, &points[i], &points[j], color);
 		}
 	}
@@ -1190,7 +1190,7 @@ void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const
 	normalize3d(&perpendicular_cross_product);
 
 	real_point3d cone_outline_points[10]{};
-	for (long i = 0; i < NUMBEROF(cone_outline_points); i++)
+	for (int32 i = 0; i < NUMBEROF(cone_outline_points); i++)
 	{
 		real32 angle = (TWO_PI * i) / NUMBEROF(cone_outline_points);
 
@@ -1201,9 +1201,9 @@ void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const
 		point_from_line3d(&cone_outline_points[i], &perpendicular_cross_product, (cone_vertex_offset * cosf(angle)), cross_product_point);
 	}
 
-	for (long i = 0; i < NUMBEROF(cone_outline_points); i++)
+	for (int32 i = 0; i < NUMBEROF(cone_outline_points); i++)
 	{
-		long next_point_index = (i + 1) % NUMBEROF(cone_outline_points);
+		int32 next_point_index = (i + 1) % NUMBEROF(cone_outline_points);
 		render_debug_line(draw_immediately, &cone_outline_points[i], &cone_outline_points[next_point_index], color);
 		render_debug_line(draw_immediately, &cone_outline_points[i], point, color);
 	}
@@ -1227,7 +1227,7 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color, font_scale);
 }
 
-void __cdecl render_debug_string_immediate(bool draw_immediately, short const* tab_stops, short tab_stop_count, char const* string)
+void __cdecl render_debug_string_immediate(bool draw_immediately, int16 const* tab_stops, int16 tab_stop_count, char const* string)
 {
 	if (string && *string)
 	{
@@ -1279,8 +1279,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		}
 
 		rectangle2d bounds{};
-		bounds.x0 = static_cast<short>(screen_point.x - window_display_bounds.x0);
-		bounds.y0 = static_cast<short>(screen_point.y - window_display_bounds.y0);
+		bounds.x0 = static_cast<int16>(screen_point.x - window_display_bounds.x0);
+		bounds.y0 = static_cast<int16>(screen_point.y - window_display_bounds.y0);
 		bounds.x1 = SHRT_MAX;
 		bounds.y1 = SHRT_MAX;
 
@@ -1330,7 +1330,7 @@ bool __cdecl render_debug_draw_immediately(real_argb_color const* color)
 	return true;
 }
 
-void __cdecl render_debug_add_cache_entry(short type, ...)
+void __cdecl render_debug_add_cache_entry(int16 type, ...)
 {
 	ASSERT(g_render_debug_globals);
 
@@ -1348,7 +1348,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_circle:
 		{
 			entry->circle.plane = *va_arg(list, real_plane3d*);
-			entry->circle.projection_axis = (short)va_arg(list, int);
+			entry->circle.projection_axis = (int16)va_arg(list, int);
 			entry->circle.projection_sign = (bool)va_arg(list, int);
 			entry->circle.center = *va_arg(list, real_point2d*);
 			entry->circle.radius = (real32)va_arg(list, real64);
@@ -1434,7 +1434,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_string:
 		{
 			char const* string = va_arg(list, char const*);
-			long string_index = render_debug_add_cache_string(string);
+			int32 string_index = render_debug_add_cache_string(string);
 			if (string_index != NONE)
 			{
 				entry->string.string_index = string_index;
@@ -1452,7 +1452,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		case _render_debug_type_string_at_point:
 		{
 			char const* string = va_arg(list, char const*);
-			long string_index = render_debug_add_cache_string(string);
+			int32 string_index = render_debug_add_cache_string(string);
 			if (string_index != NONE)
 			{
 				entry->string_at_point.string_index = string_index;
@@ -1515,21 +1515,21 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 
-	short cache_start_index = 0;
+	int16 cache_start_index = 0;
 	if (!render_game_tick_cache)
 		cache_start_index = g_render_debug_globals->game_tick_cache_count;
 
 	if (g_render_debug_globals->cache_count - cache_start_index > 0)
 	{
-		short cache_layer = 0;
-		long type = 0;
+		int16 cache_layer = 0;
+		int32 type = 0;
 
 		ASSERT(!g_render_debug_globals->drawing_cached_geometry);
 
 		g_render_debug_globals->drawing_cached_geometry = true;
 
-		long alpha_blend_modes[2] = { 0, 3 };
-		for (short cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
+		int32 alpha_blend_modes[2] = { 0, 3 };
+		for (int16 cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
 		{
 			cache_entry* entry = &g_render_debug_globals->cache[cache_index];
 			if (VALID_INDEX(entry->layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(g_render_debug_globals->group_ids)` ?
@@ -1686,7 +1686,7 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 }
 
 // `sound/game_sound_spatialization.cpp`
-void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_point_count, real_argb_color const* color)
+void __cdecl render_debug_polygon_fan(real_point3d const* points, int16 total_point_count, real_argb_color const* color)
 {
 	if (total_point_count > 1)
 	{
@@ -1696,7 +1696,7 @@ void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_po
 		real_argb_color color_ = *color;
 		color_.alpha = 1.0f;
 
-		for (short i = 1; i < total_point_count - 1; i++)
+		for (int16 i = 1; i < total_point_count - 1; i++)
 		{
 			render_debug_triangle(true, points, &points[i], &points[i + 1], color);
 			render_debug_line(true, points, &points[i], &color_);
@@ -1719,7 +1719,7 @@ real32 __cdecl build_height_matrix(real_point3d const* base, real_vector3d const
 	return result;
 }
 
-void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* points, long total_point_count)
+void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* points, int32 total_point_count)
 {
 	ASSERT(total_point_count > 0);
 
@@ -1727,7 +1727,7 @@ void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* point
 	real32 sin_angle = sinf(angle);
 	real32 cos_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
-	for (long i = 0; i + 1 < total_point_count; i++)
+	for (int32 i = 0; i + 1 < total_point_count; i++)
 		rotate_vector2d((real_vector2d*)&points[i], sin_angle, cos_angle, (real_vector2d*)&points[i + 1]);
 
 	points[total_point_count - 1] = *points;
@@ -1743,7 +1743,7 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, real_vecto
 
 	if (points0 && points1)
 	{
-		for (long i = 0; i < CIRCLE_DIVISIONS + 1; i++)
+		for (int32 i = 0; i < CIRCLE_DIVISIONS + 1; i++)
 		{
 			real_point2d* circle_point = &circle_points[i];
 
@@ -1757,7 +1757,7 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, real_vecto
 
 	if (points2 && points3 && points4 && points5)
 	{
-		for (long i = 0; i < (CIRCLE_DIVISIONS / 2) + 1; i++)
+		for (int32 i = 0; i < (CIRCLE_DIVISIONS / 2) + 1; i++)
 		{
 			real_point2d* circle_point1 = &circle_points[i];
 			real_point2d* circle_point0 = &circle_points[i + 8];

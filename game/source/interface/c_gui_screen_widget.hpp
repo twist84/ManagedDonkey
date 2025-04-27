@@ -33,7 +33,7 @@ struct s_screen_widget_definition :
 	// NOTE: must be of type 'command script' and will not interrupt any currently running script of the same name
 	char on_load_script_name[32];
 
-	short script_index;
+	int16 script_index;
 	uint8 scary[2];
 };
 static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
@@ -41,14 +41,14 @@ static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definit
 struct s_runtime_screen_widget_definition :
 	s_runtime_core_widget_definition
 {
-	long string_list_index;
+	int32 string_list_index;
 	c_string_id initial_button_key_name;
 	s_tag_block debug_datasources;
 	s_tag_block groups;
 	s_tag_block button_keys;
-	long sound_overrides_index;
+	int32 sound_overrides_index;
 	c_static_string<k_tag_string_length> on_load_script_name;
-	short script_index;
+	int16 script_index;
 	uint8 scary[2];
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
@@ -56,9 +56,9 @@ static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_cor
 struct s_depth_sorted_render_widget
 {
 	e_gui_widget_type type;
-	long render_data_offset;
+	int32 render_data_offset;
 	real32 depth;
-	long depth_bias;
+	int32 depth_bias;
 };
 static_assert(sizeof(s_depth_sorted_render_widget) == 0x10);
 
@@ -70,9 +70,9 @@ struct s_window_manager_static_render_data
 	};
 
 	char render_data_buffer[0x14000];
-	long render_data_buffer_count;
+	int32 render_data_buffer_count;
 	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
-	long current_count;
+	int32 current_count;
 };
 static_assert(sizeof(s_window_manager_static_render_data) == 0x15808);
 
@@ -84,10 +84,10 @@ struct s_window_manager_screen_render_data
 	};
 
 	char* render_data_buffer;
-	long render_data_buffer_length;
-	long render_data_buffer_count;
+	int32 render_data_buffer_length;
+	int32 render_data_buffer_count;
 	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
-	long current_count;
+	int32 current_count;
 	rectangle2d built_for_viewport_bounds;
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
@@ -98,9 +98,9 @@ struct c_gui_screen_widget :
 	public c_gui_widget
 {
 public:
-	c_gui_screen_widget(long name)
+	c_gui_screen_widget(int32 name)
 	{
-		DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, long)(this, name);
+		DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
 	}
 
 	//virtual ~c_gui_screen_widget();
@@ -133,15 +133,15 @@ protected:
 
 public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
-	c_gui_data* get_data(long name, long* datasource_index);
+	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
 	e_gui_game_mode get_gui_game_mode();
 	e_window_index get_render_window();
-	bool handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void play_sound(e_user_interface_sound_effect sound_effect);
 	bool running_in_codeless_mode();
 	void transfer_focus(c_gui_widget* widget);
-	void transfer_focus_to_list(c_gui_list_widget* list_widget, long element_handle, bool play_received_animation, bool play_lost_animation);
+	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
 
 public:
 	enum
@@ -157,28 +157,28 @@ public:
 		k_display_group_type_count
 	};
 
-	long __unknownDC;
-	long m_screen_index;
+	int32 __unknownDC;
+	int32 m_screen_index;
 	uint32 m_creation_time_milliseconds;
 	uint32 m_disposal_time_milliseconds;
 	uint32 m_last_focus_change_time_milliseconds;
 	c_gui_widget* m_current_focused_widget;
 	bool m_suppress_focus;
 	bool m_render_in_screenshot;
-	long m_current_display_group_widgets[k_display_group_type_count];
-	long m_previous_display_group_widgets[k_display_group_type_count];
-	long m_current_display_group_indicies[k_display_group_type_count];
+	int32 m_current_display_group_widgets[k_display_group_type_count];
+	int32 m_previous_display_group_widgets[k_display_group_type_count];
+	int32 m_current_display_group_indicies[k_display_group_type_count];
 	bool m_reload_next_frame;
 	bool m_responds_to_controller_events;
-	long m_initial_focused_widget;
-	long m_initial_focused_widget_element_handle;
-	long m_initial_focused_widget_column_name;
-	long m_initial_focused_widget_column_value;
+	int32 m_initial_focused_widget;
+	int32 m_initial_focused_widget_element_handle;
+	int32 m_initial_focused_widget_column_name;
+	int32 m_initial_focused_widget_column_value;
 	s_runtime_screen_widget_definition m_definition;
 	c_gui_data* m_datasource[32];
-	long m_datasource_count;
+	int32 m_datasource_count;
 	c_game_tag_parser* m_game_tag_parsers[k_maximum_number_of_game_tag_parsers];
-	long m_game_tag_parser_count;
+	int32 m_game_tag_parser_count;
 	s_window_manager_screen_render_data m_render_data;
 	bool m_running_in_codeless_mode;
 };

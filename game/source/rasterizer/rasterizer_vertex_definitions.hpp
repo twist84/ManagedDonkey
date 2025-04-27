@@ -45,9 +45,9 @@ struct rasterizer_vertex_world
 {
 	real_point3d position;
 	real_point2d texcoord;
-	real_vector3d normal;   //short normal[4];
-	real_vector3d tangent;  //short tangent[4];
-	real_vector3d binormal; //short binormal[4];
+	real_vector3d normal;   //int16 normal[4];
+	real_vector3d tangent;  //int16 tangent[4];
+	real_vector3d binormal; //int16 binormal[4];
 };
 static_assert(sizeof(rasterizer_vertex_world) == 0x38);
 

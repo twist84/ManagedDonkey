@@ -11,8 +11,8 @@ static_assert(sizeof(rumble_data) == 0x4);
 
 struct player_rumble_impulse
 {
-	long damage_response_index;
-	long class_index;
+	int32 damage_response_index;
+	int32 class_index;
 	real32 rumble_scale;
 };
 static_assert(sizeof(player_rumble_impulse) == 0xC);

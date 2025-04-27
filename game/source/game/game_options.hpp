@@ -17,30 +17,30 @@ struct game_options
 		DECLFUNC(0x00485420, void, __thiscall, game_options*)(this);
 	}
 
-	long game_mode;
+	int32 game_mode;
 	char game_simulation;
 	char game_network_type;
-	short game_tick_rate;
+	int16 game_tick_rate;
 	uint64 game_instance;
 	uint32 random_seed;
 	e_language language;
-	long determinism_version;
+	int32 determinism_version;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	c_static_string<260> scenario_path;
-	short initial_zone_set_index;
+	int16 initial_zone_set_index;
 	bool load_level_only;
 	uint8 dump_machine_index; // 5 bits, 32 max, is this be a char/int8?
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;
-	short game_playback;
+	int16 game_playback;
 	bool record_saved_film;
-	long playback_start_ticks;
-	long playback_length_in_ticks;
-	short campaign_difficulty;
-	short campaign_insertion_point;
-	short campaign_metagame_scoring;
+	int32 playback_start_ticks;
+	int32 playback_length_in_ticks;
+	int16 campaign_difficulty;
+	int16 campaign_insertion_point;
+	int16 campaign_metagame_scoring;
 	bool campaign_metagame_enabled;
 	bool survival_enabled;
 	uint8 : 8; // halo3_tag_test: campaign_allow_persistent_storage
@@ -49,8 +49,8 @@ struct game_options
 	uint8 : 8;
 	uint8 : 8;
 	s_campaign_game_progression campaign_game_progression;
-	long campaign_active_primary_skulls;
-	long campaign_active_secondary_skulls;
+	int32 campaign_active_primary_skulls;
+	int32 campaign_active_secondary_skulls;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
 	uint8 pad1[7];

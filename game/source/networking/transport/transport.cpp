@@ -31,12 +31,12 @@ void __cdecl transport_dispose()
 	}
 }
 
-long __cdecl transport_get_packet_maximum_payload(long type)
+int32 __cdecl transport_get_packet_maximum_payload(int32 type)
 {
 	return 4096;
 }
 
-long __cdecl transport_get_packet_overhead(long type)
+int32 __cdecl transport_get_packet_overhead(int32 type)
 {
 	if (type >= 0)
 	{
@@ -105,7 +105,7 @@ void __cdecl transport_reset()
 {
 	ASSERT(transport_globals.initialized);
 
-	for (long i = 0; i < transport_globals.transition_function_count; i++)
+	for (int32 i = 0; i < transport_globals.transition_function_count; i++)
 	{
 		transport_reset_function_t reset_function = transport_globals.reset_functions[i];
 		if (reset_function)
@@ -118,7 +118,7 @@ void __cdecl transport_shutdown()
 	if (transport_globals.winsock_initialized)
 	{
 		network_session_interface_handle_message(_network_message_network_interface_connection_lost);
-		for (long i = 0; i < transport_globals.transition_function_count; i++)
+		for (int32 i = 0; i < transport_globals.transition_function_count; i++)
 		{
 			transport_shutdown_function_t shutdown_function = transport_globals.shutdown_functions[i];
 			if (shutdown_function)
@@ -153,7 +153,7 @@ void __cdecl transport_startup()
 			transport_security_startup();
 			transport_qos_startup();
 
-			for (long i = 0; i < transport_globals.transition_function_count; i++)
+			for (int32 i = 0; i < transport_globals.transition_function_count; i++)
 			{
 				transport_startup_function_t startup_function = transport_globals.startup_functions[i];
 				if (startup_function)

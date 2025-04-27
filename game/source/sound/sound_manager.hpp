@@ -7,7 +7,7 @@
 
 tag const k_sound_listener_header_signature = 'lshd';
 tag const k_sound_listener_footer_signature = 'lsft';
-long const k_number_of_sound_manager_listeners = 4;
+int32 const k_number_of_sound_manager_listeners = 4;
 
 struct s_sound_listener
 {
@@ -28,7 +28,7 @@ struct s_sound_manager_reverb
 {
 	real32 __unknown0;
 	real32 __unknown4;
-	long __unknown8;
+	int32 __unknown8;
 	real32 __unknownC;
 	real32 __unknown10;
 	real32 __unknown14;
@@ -71,33 +71,33 @@ struct s_sound_manager_globals
 
 	c_static_array<s_sound_manager_reverb, 2> manager_reverbs;
 
-	long __unknown268;
+	int32 __unknown268;
 
 	real32 delta_time;
 
-	long __unknown27C;
+	int32 __unknown27C;
 	real32 __unknown270;
 	real32 __unknown274;
 	real32 __unknown278;
-	long __unknown28C;
+	int32 __unknown28C;
 	real32 __unknown280;
 	real32 __unknown284;
-	long __unknown288;
-	long __unknown29C;
+	int32 __unknown288;
+	int32 __unknown29C;
 	real32 __unknown290;
 	real32 __unknown294;
 	real32 __unknown298;
 
 	struct
 	{
-		long active_ducker;
+		int32 active_ducker;
 		real32 active_ducker_time;
-		long last_ducker;
+		int32 last_ducker;
 		real32 inactive_time;
 	} ducker;
 
-	short channel_count;
-	short __unknown2B2;
+	int16 channel_count;
+	int16 __unknown2B2;
 	real32 __unknown2B4;
 };
 static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
@@ -116,7 +116,7 @@ extern bool debug_sound;
 extern bool debug_sound_manager_channels;
 
 extern real32 sound_definition_map_pitch(void const* sound_definition, real32 a1, real32 a2);
-extern void __cdecl sound_delete(long sound_index);
+extern void __cdecl sound_delete(int32 sound_index);
 extern void __cdecl sound_dispose();
 extern void __cdecl sound_dispose_from_old_map();
 extern void __cdecl sound_dispose_from_old_structure_bsp(uint32 structure_bps_mask);
@@ -126,11 +126,11 @@ extern void __cdecl sound_initialize();
 extern void __cdecl sound_initialize_for_new_map();
 extern void __cdecl sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern bool __cdecl sound_is_active();
-extern bool __cdecl sound_is_fading_out(long sound_index);
-extern s_sound_listener const* __cdecl sound_manager_get_listener(long listener_index);
+extern bool __cdecl sound_is_fading_out(int32 sound_index);
+extern s_sound_listener const* __cdecl sound_manager_get_listener(int32 listener_index);
 extern void __cdecl sound_render();
 extern void __cdecl sound_render_dispatch();
-extern void __cdecl sound_stop_all(long game_state_proc_flags);
+extern void __cdecl sound_stop_all(int32 game_state_proc_flags);
 extern void __cdecl sound_update();
 
 extern void __cdecl sound_debug_render();

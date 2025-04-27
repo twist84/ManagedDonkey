@@ -48,7 +48,7 @@ enum e_game_create_mode
 struct s_game_options_launch_settings
 {
 	// 106708
-	long build_number;
+	int32 build_number;
 
 	char scenario_path[256];
 
@@ -57,10 +57,10 @@ struct s_game_options_launch_settings
 	e_game_mode game_mode;
 	e_game_engine_type game_engine_index;
 
-	long player_count;
+	int32 player_count;
 
-	short insertion_point;
-	short zone_set_index;
+	int16 insertion_point;
+	int16 zone_set_index;
 	uint32 launch_file_flags; // bit 1, delete after read
 
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
@@ -71,24 +71,24 @@ static_assert(sizeof(s_game_options_launch_settings) == 0x11C);
 
 struct s_date_and_time
 {
-	long year;
-	long month;
-	long day;
-	long hour;
-	long minute;
-	long second;
+	int32 year;
+	int32 month;
+	int32 day;
+	int32 hour;
+	int32 minute;
+	int32 second;
 };
 static_assert(sizeof(s_date_and_time) == 0x18);
 
 extern s_game_system const g_game_systems[];
-extern long const g_game_system_count;
+extern int32 const g_game_system_count;
 
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];
 extern char const* const k_game_playback_names[k_game_playback_count];
-extern c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
+extern c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
 extern real_argb_color const* const k_activation_colors[6];
-extern long k_activation_color_override_index;
+extern int32 k_activation_color_override_index;
 
 extern bool __cdecl game_is_multithreaded();
 //extern void __cdecl __tls_set_g_game_globals_allocator(void*);
@@ -100,16 +100,16 @@ extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structu
 extern void __cdecl game_clusters_and(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
 extern void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2);
 extern void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
-extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3);
+extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3);
 //extern bool __cdecl game_coop_allow_respawn();
-//extern long __cdecl game_coop_player_count();
+//extern int32 __cdecl game_coop_player_count();
 extern void __cdecl game_create_ai(e_game_create_mode mode);
-extern long __cdecl game_create_lock_resources(e_game_create_mode mode);
+extern int32 __cdecl game_create_lock_resources(e_game_create_mode mode);
 extern void __cdecl game_create_missing_objects(e_game_create_mode mode);
 extern void __cdecl game_create_objects(e_game_create_mode mode);
 extern void __cdecl game_create_players();
-extern void __cdecl game_create_unlock_resources(e_game_create_mode mode, long&);
-//extern bool __cdecl game_determinism_version_compatible(long determinism_version);
+extern void __cdecl game_create_unlock_resources(e_game_create_mode mode, int32&);
+//extern bool __cdecl game_determinism_version_compatible(int32 determinism_version);
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get();
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy();
 extern void __cdecl game_dispose();
@@ -126,10 +126,10 @@ extern uint32 __cdecl game_get_active_structure_bsp_mask();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_activation();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local();
-//extern void __cdecl game_get_determinism_versions(long* determinism_version, long* determinism_compatible_version);
+//extern void __cdecl game_get_determinism_versions(int32* determinism_version, int32* determinism_compatible_version);
 //.text:00531200 ; 
 extern e_language __cdecl game_get_master_language();
-//extern long __cdecl game_get_recently_spawned_grace_period_seconds();
+//extern int32 __cdecl game_get_recently_spawned_grace_period_seconds();
 extern void __cdecl game_globals_dispose_from_old_map();
 extern void __cdecl game_globals_initialize_for_new_map(game_options const* options);
 extern bool __cdecl game_had_an_update_tick_this_frame();
@@ -140,9 +140,9 @@ extern void __cdecl game_initialize();
 extern void __cdecl game_initialize_for_new_map(game_options const* options);
 extern void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 extern void __cdecl game_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
-//extern short __cdecl game_insertion_point_get();
-//extern void __cdecl game_insertion_point_lock(short);
-//extern void __cdecl game_insertion_point_unlock(short);
+//extern int16 __cdecl game_insertion_point_get();
+//extern void __cdecl game_insertion_point_lock(int16);
+//extern void __cdecl game_insertion_point_unlock(int16);
 extern bool __cdecl game_is_authoritative();
 extern bool __cdecl game_is_authoritative_playback();
 extern bool __cdecl game_is_available();
@@ -181,13 +181,13 @@ extern game_options* __cdecl game_options_get();
 extern void __cdecl game_options_print_game_id();
 //extern  bool __cdecl game_options_match(game_options const*, game_options const*);
 extern void __cdecl game_options_new(game_options* options);
-extern void __cdecl game_options_setup_default_players(long player_count, game_options* options);
+extern void __cdecl game_options_setup_default_players(int32 player_count, game_options* options);
 //extern void __cdecl game_options_setup_for_playback(e_game_playback_type);
 //void __cdecl game_options_setup_for_saved_film(e_game_playback_type);
 extern bool __cdecl game_options_valid();
 extern void __cdecl game_options_validate(game_options* options);
-//extern void __cdecl game_options_validate_for_saved_game(long);
-extern bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length);
+//extern void __cdecl game_options_validate_for_saved_game(int32);
+extern bool __cdecl game_options_verify(game_options const* options, char* error_string, int32 error_string_length);
 extern e_game_playback_type __cdecl game_playback_get();
 //extern void __cdecl game_playback_set(e_game_playback_type playback_type);
 extern void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* currently_active_tags_registry);
@@ -198,8 +198,8 @@ extern void __cdecl game_pvs_clear_scripted_camera_pvs();
 extern void __cdecl game_pvs_enable_scripted_camera_pvs();
 extern void __cdecl game_pvs_scripted_clear();
 extern s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference();
-//extern void __cdecl game_pvs_scripted_set_camera_point(short camera_point_index);
-extern void __cdecl game_pvs_scripted_set_object(long object_index);
+//extern void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index);
+extern void __cdecl game_pvs_scripted_set_object(int32 object_index);
 //extern void __cdecl update_controller_game_progression();
 //.text: ; skull_secondary_enable;
 extern void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, bool enable);
@@ -209,7 +209,7 @@ extern bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 extern bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull);
 extern void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable);
 extern void __cdecl game_set_active_skulls(uint32* active_primary_skulls, uint32* active_secondary_skulls);
-extern void __cdecl game_set_difficulty(short campaign_difficulty);
+extern void __cdecl game_set_difficulty(int16 campaign_difficulty);
 extern e_game_simulation_type __cdecl game_simulation_get();
 extern void __cdecl game_simulation_set(e_game_simulation_type game_simulation);
 extern void __cdecl game_start(e_game_create_mode mode);
@@ -217,18 +217,18 @@ extern bool __cdecl game_survival_allow_respawn();
 //extern bool __cdecl game_test_cluster_activation(s_cluster_reference const*);
 extern void __cdecl game_tick();
 extern void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update);
-extern long __cdecl game_tick_rate_get();
+extern int32 __cdecl game_tick_rate_get();
 extern void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time);
 //extern e_game_time_holiday __cdecl game_time_get_holiday();
 //.text:005335E0 game_progression_get_previous_map_block_index;
 //.text:00533640 ; 
 //.text:00533690 ; game_prepare_for_progression;
-extern void __cdecl game_update(long tick_count, real32* game_seconds_elapsed);
+extern void __cdecl game_update(int32 tick_count, real32* game_seconds_elapsed);
 //.text:005339C0 ; 
 extern void __cdecl game_update_pvs();
 extern void __cdecl game_won();
 //.text:00533EF0 ; 
-//extern char const* __cdecl get_game_difficulty_name(short);
+//extern char const* __cdecl get_game_difficulty_name(int16);
 extern void __cdecl game_finish_immediate();
 extern bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings);
 extern bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch_settings);

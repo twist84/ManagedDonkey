@@ -27,8 +27,8 @@ private:
 
 public:
 	void send_all_pending_messages();
-	bool send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, uint16 port);
-	bool send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
+	bool send_message_broadcast(e_network_message_type message_type, int32 data_size, void const* data, uint16 port);
+	bool send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, int32 data_size, void const* data);
 	void send_pending_messages_to_address(transport_address const* address);
 
 private:

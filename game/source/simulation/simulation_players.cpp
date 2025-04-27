@@ -179,7 +179,7 @@ void __cdecl simulation_player_collection_build(s_player_collection* collection)
 	//player_iterator.begin(*player_data);
 	//while (player_iterator.next())
 	//{
-	//	long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index());
+	//	int32 player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index());
 	//	player_datum* player = player_iterator.get_datum();
 	//
 	//	s_player_collection_player* collection_player = &collection->collection_players[player_absolute_index];
@@ -216,7 +216,7 @@ void __cdecl simulation_player_collection_clear(s_player_collection* collection)
 	//ASSERT(collection);
 	//
 	//csmemset(collection, 0, sizeof(s_player_collection));
-	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
+	//for (int32 player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
 	//	s_player_collection_player* collection_player = &collection->collection_players[player_index];
 	//	collection_player->left_game = false;
@@ -233,7 +233,7 @@ uint32 simulation_player_collection_get_in_game_mask(s_player_collection const* 
 	//ASSERT(collection);
 	//
 	//uint32 in_game_mask = 0;
-	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
+	//for (int32 player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
 	//	if (TEST_BIT(collection->player_valid_mask, player_index))
 	//		SET_BIT(in_game_mask, player_index, !collection->collection_players[player_index].left_game);
@@ -247,7 +247,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 
 	//ASSERT(collection);
 	//
-	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
+	//for (int32 player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
 	//	s_player_collection_player const* collection_player = &collection->collection_players[player_index];
 	//	if (TEST_BIT(collection->player_valid_mask, player_index))
@@ -268,7 +268,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//			//ASSERT(collection_player->controller_index >= 0 && collection_player->controller_index < k_number_of_controllers);
 	//		}
 	//
-	//		//for (long test_player_index = player_index + 1; test_player_index < k_maximum_players; test_player_index++)
+	//		//for (int32 test_player_index = player_index + 1; test_player_index < k_maximum_players; test_player_index++)
 	//		//{
 	//		//	if (TEST_BIT(collection->player_valid_mask, test_player_index))
 	//		//	{
@@ -322,7 +322,7 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//	return false;
 	//}
 	//
-	//long player_index = player_data->get_index(player_update->player_index);
+	//int32 player_index = player_data->get_index(player_update->player_index);
 	//player_set_configuration(player_index, &player_update->configuration);
 	//
 	//event(_event_message, "networking:simulation:players:apply-configuration: player [#%d] configuration updated",
@@ -367,8 +367,8 @@ bool __cdecl simulation_player_update_apply_swap(simulation_player_update const*
 	// $TODO: implement me
 }
 
-//void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, long machine_user_index, e_controller_index machine_controller_index, s_player_configuration const* player_data, bool joined_in_progress)
-void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress)
+//void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, int32 machine_user_index, e_controller_index machine_controller_index, s_player_configuration const* player_data, bool joined_in_progress)
+void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress)
 {
 	INVOKE(0x004A8390, simulation_player_update_generate_add, player_update, players, player_index, player_identifier, machine_identifier, player_data, joined_in_progress);
 
@@ -399,7 +399,7 @@ void __cdecl simulation_player_update_generate_add(simulation_player_update* pla
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data)
+void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data)
 {
 	INVOKE(0x004A8400, simulation_player_update_generate_configuration, player_update, players, player_index, player_identifier, player_data);
 
@@ -424,7 +424,7 @@ void __cdecl simulation_player_update_generate_configuration(simulation_player_u
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier)
+void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier)
 {
 	INVOKE(0x004A8450, simulation_player_update_generate_left_game, player_update, players, player_index, player_identifier);
 
@@ -439,7 +439,7 @@ void __cdecl simulation_player_update_generate_left_game(simulation_player_updat
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_remove(simulation_player_update* player_update, s_player_collection* players, long player_index)
+void __cdecl simulation_player_update_generate_remove(simulation_player_update* player_update, s_player_collection* players, int32 player_index)
 {
 	INVOKE(0x004A8480, simulation_player_update_generate_remove, player_update, players, player_index);
 
@@ -458,7 +458,7 @@ void __cdecl simulation_player_update_generate_remove(simulation_player_update* 
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_swap(simulation_player_update* player_update, s_player_collection* players, long player_index, long swap_player_index)
+void __cdecl simulation_player_update_generate_swap(simulation_player_update* player_update, s_player_collection* players, int32 player_index, int32 swap_player_index)
 {
 	INVOKE(0x004A84C0, simulation_player_update_generate_swap, player_update, players, player_index, swap_player_index);
 

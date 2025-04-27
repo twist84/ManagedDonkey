@@ -27,13 +27,13 @@
 
 #include <math.h>
 
-REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
+REFERENCE_DECLARE(0x01913430, int32, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
 
 REFERENCE_DECLARE(0x050DEDF0, c_player_view*, c_player_view::x_current_player_view);
 REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_player_views, 4);
 
-REFERENCE_DECLARE(0x019180B8, long, c_lights_view::g_gel_bitmap_index);
+REFERENCE_DECLARE(0x019180B8, int32, c_lights_view::g_gel_bitmap_index);
 REFERENCE_DECLARE(0x019180BC, real32, c_lights_view::g_render_light_intensity);
 REFERENCE_DECLARE(0x019180C0, uint32, c_lights_view::g_debug_clip_planes);
 
@@ -99,7 +99,7 @@ void __cdecl c_view::end()
 		g_view_stack[g_view_stack_top]->render_setup();
 }
 
-long __cdecl c_view::get_current_stack_level()
+int32 __cdecl c_view::get_current_stack_level()
 {
 	//return INVOKE(0x00A28B30, c_view::get_current_stack_level);
 
@@ -154,7 +154,7 @@ c_view* __cdecl c_view::top()
 		return g_view_stack[g_view_stack_top];
 }
 
-void c_lights_view::render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
+void c_lights_view::render(int32 user_index, int32 player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
 {
 	INVOKE_CLASS_MEMBER(0x00A67060, c_lights_view, render, user_index, player_index, a3, a4, a5);
 }
@@ -218,8 +218,8 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->field_of_view_scale, _real_epsilon);
 	rasterizer_camera_modifiable->vertical_field_of_view *= m_fov_scale;
 
-	long width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
-	long height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
+	int32 width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
+	int32 height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
 	real32 aspect_ratio = (real32)width / (real32)height;
 
 	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(cortana_effect_get_fov_scale(), _real_epsilon);
@@ -241,7 +241,7 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 		rasterizer_camera_modifiable->vertical_field_of_view = static_vertical_field_of_view;
 }
 
-void __thiscall c_first_person_view::render_albedo(long user_index)
+void __thiscall c_first_person_view::render_albedo(int32 user_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00A290F0, c_first_person_view, render_albedo, user_index);
 
@@ -304,7 +304,7 @@ void __cdecl render_debug_frame_render()
 	}
 }
 
-void __cdecl render_debug_window_render(long user_index)
+void __cdecl render_debug_window_render(int32 user_index)
 {
 	c_rasterizer_profile_scope _window_debug(_rasterizer_profile_element_debug, L"window_debug");
 
@@ -347,7 +347,7 @@ c_hud_camera_view* c_hud_camera_view::constructor()
 	return INVOKE_CLASS_MEMBER(0x0060DC00, c_hud_camera_view, constructor);
 }
 
-void c_hud_camera_view::render(long player_index, c_player_view const* player_view, void* data)
+void c_hud_camera_view::render(int32 player_index, c_player_view const* player_view, void* data)
 {
 	INVOKE_CLASS_MEMBER(0x00A2D490, c_hud_camera_view, render, player_index, player_view, data);
 }

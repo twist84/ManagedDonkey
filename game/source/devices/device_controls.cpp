@@ -3,7 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "devices/device_definitions.hpp"
 
-void __cdecl control_destroyed(long control_index)
+void __cdecl control_destroyed(int32 control_index)
 {
 	INVOKE(0x00BBFB20, control_destroyed, control_index);
 
@@ -15,7 +15,7 @@ void __cdecl control_destroyed(long control_index)
 	//}
 }
 
-long __cdecl control_get_action_string(long control_index)
+int32 __cdecl control_get_action_string(int32 control_index)
 {
 	return INVOKE(0x00BBFB70, control_get_action_string, control_index);
 
@@ -24,7 +24,7 @@ long __cdecl control_get_action_string(long control_index)
 	//return control_definition->control.action_string;
 }
 
-void __cdecl control_place(long control_index, s_scenario_control const* scenario_control)
+void __cdecl control_place(int32 control_index, s_scenario_control const* scenario_control)
 {
 	INVOKE(0x00BBFBB0, control_place, control_index, scenario_control);
 
@@ -38,17 +38,17 @@ void __cdecl control_place(long control_index, s_scenario_control const* scenari
 	//control->control.hud_override_index = scenario_control->control.hud_override_string_list_index - 1;
 }
 
-void __cdecl control_toggle(long control_index)
+void __cdecl control_toggle(int32 control_index)
 {
 	INVOKE(0x00BBFC30, control_toggle, control_index);
 
 	//control_datum* control = CONTROL_GET(control_index);
 	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index)
-	//long position_group_index = control->device.position_group_index;
+	//int32 position_group_index = control->device.position_group_index;
 	//// $TODO: implement me
 }
 
-void __cdecl control_touched(long control_index, long unit_index)
+void __cdecl control_touched(int32 control_index, int32 unit_index)
 {
 	INVOKE(0x00BBFD50, control_touched, control_index, unit_index);
 

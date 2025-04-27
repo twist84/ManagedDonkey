@@ -295,7 +295,7 @@ void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const
 	get_social_options()->encode_to_mcc(packet);
 	get_map_override_options()->encode_to_mcc(packet);
 
-	short team_scoring_method = get_team_scoring_method();
+	int16 team_scoring_method = get_team_scoring_method();
 
 	packet->write_integer("team-scoring-method", team_scoring_method, 3);
 }
@@ -312,7 +312,7 @@ void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
 	get_social_options_writeable()->decode_from_mcc(packet);
 	get_map_override_options_writeable()->decode_from_mcc(packet);
 
-	short team_scoring_method = static_cast<short>(packet->read_integer("team-scoring-method", 3));
+	int16 team_scoring_method = static_cast<int16>(packet->read_integer("team-scoring-method", 3));
 
 	set_built_in(built_in);
 
@@ -427,26 +427,26 @@ void c_game_engine_base_variant::set_built_in(bool built_in)
 	m_flags.set(_base_variant_flags_built_in, built_in);
 }
 
-short c_game_engine_base_variant::get_team_scoring_method() const
+int16 c_game_engine_base_variant::get_team_scoring_method() const
 {
 	return m_team_scoring_method;
 }
 
-void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_method)
+void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_method)
 {
 	m_team_scoring_method = team_scoring_method;
 }
 
-//long c_game_engine::get_type() const
+//int32 c_game_engine::get_type() const
 //{
-//	//return DECLFUNC(0x00749ED0, long, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749ED0, int32, __thiscall, c_game_engine const*)(this);
 //
 //	return 0;
 //}
 //
-//long c_game_engine::get_score_to_win_round() const
+//int32 c_game_engine::get_score_to_win_round() const
 //{
-//	//return DECLFUNC(0x00749E90, long, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749E90, int32, __thiscall, c_game_engine const*)(this);
 //
 //	if (current_game_variant())
 //		return current_game_variant()->get_active_variant()->get_score_to_win_round();
@@ -454,9 +454,9 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return 0;
 //}
 //
-//long c_game_engine::get_score_to_win_round_early() const
+//int32 c_game_engine::get_score_to_win_round_early() const
 //{
-//	//return DECLFUNC(0x00749E50, long, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749E50, int32, __thiscall, c_game_engine const*)(this);
 //
 //	if (current_game_variant())
 //		return current_game_variant()->get_active_variant()->get_score_to_win_round_early();
@@ -464,21 +464,21 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return 0;
 //}
 //
-//void c_game_engine::recompute_team_score(e_game_team game_team, long a1, e_team_scoring_method team_scoring_method) const
+//void c_game_engine::recompute_team_score(e_game_team game_team, int32 a1, e_team_scoring_method team_scoring_method) const
 //{
-//	DECLFUNC(0x0074A450, void, __thiscall, c_game_engine const*, e_game_team, long, e_team_scoring_method)(this, game_team, a1, team_scoring_method);
+//	DECLFUNC(0x0074A450, void, __thiscall, c_game_engine const*, e_game_team, int32, e_team_scoring_method)(this, game_team, a1, team_scoring_method);
 //}
 //
-//void c_game_engine::get_score_string(long score, c_static_wchar_string<256>* score_string) const
+//void c_game_engine::get_score_string(int32 score, c_static_wchar_string<256>* score_string) const
 //{
-//	//DECLFUNC(0x00749E70, void, __thiscall, c_game_engine const*, long, c_static_wchar_string<256>*)(this, score, score_string);
+//	//DECLFUNC(0x00749E70, void, __thiscall, c_game_engine const*, int32, c_static_wchar_string<256>*)(this, score, score_string);
 //
 //	score_string->print(L"%d", score);
 //}
 //
-//void c_game_engine::get_hud_interface_state(long a1, game_engine_interface_state* hud_interface_state) const
+//void c_game_engine::get_hud_interface_state(int32 a1, game_engine_interface_state* hud_interface_state) const
 //{
-//	//DECLFUNC(0x00749DB0, void, __thiscall, c_game_engine const*, long, game_engine_interface_state*)(this, a1, hud_interface_state);
+//	//DECLFUNC(0x00749DB0, void, __thiscall, c_game_engine const*, int32, game_engine_interface_state*)(this, a1, hud_interface_state);
 //}
 //
 //bool c_game_engine::initialize_for_new_map() const
@@ -513,44 +513,44 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return !levels_try_and_get_multiplayer_map(global_scenario_get()->map_id, &multiplayer_level) || team_designator < multiplayer_level.engine_maximum_teams[get_type()];
 //}
 //
-//void c_game_engine::player_added(long player_index) const
+//void c_game_engine::player_added(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FB0, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x00749FB0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_activated(long player_index) const
+//void c_game_engine::player_activated(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FA0, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x00749FA0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_left(long player_index) const
+//void c_game_engine::player_left(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A1D0, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x0074A1D0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_rejoined(long player_index) const
+//void c_game_engine::player_rejoined(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A1F0, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x0074A1F0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_changed_indices(long player_index_a, long player_index_b) const
+//void c_game_engine::player_changed_indices(int32 player_index_a, int32 player_index_b) const
 //{
-//	//DECLFUNC(0x00749FD0, void, __thiscall, c_game_engine const*, long, long)(this, player_index_a, player_index_b);
+//	//DECLFUNC(0x00749FD0, void, __thiscall, c_game_engine const*, int32, int32)(this, player_index_a, player_index_b);
 //}
 //
-//void c_game_engine::player_changed_teams(long player_index) const
+//void c_game_engine::player_changed_teams(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FE0, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x00749FE0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_about_to_spawn(long player_index) const
+//void c_game_engine::player_about_to_spawn(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749F90, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x00749F90, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::player_just_spawned(long player_index) const
+//void c_game_engine::player_just_spawned(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A010, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	//DECLFUNC(0x0074A010, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::game_ending() const
@@ -563,29 +563,29 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	//DECLFUNC(0x00749D90, void, __thiscall, c_game_engine const*)(this);
 //}
 //
-//void c_game_engine::render(long user_index) const
+//void c_game_engine::render(int32 user_index) const
 //{
-//	//DECLFUNC(0x0074A540, void, __thiscall, c_game_engine const*, long)(this, user_index);
+//	//DECLFUNC(0x0074A540, void, __thiscall, c_game_engine const*, int32)(this, user_index);
 //}
 //
-//void c_game_engine::render_debug(long user_index) const
+//void c_game_engine::render_debug(int32 user_index) const
 //{
-//	//DECLFUNC(0x0074A550, void, __thiscall, c_game_engine const*, long)(this, user_index);
+//	//DECLFUNC(0x0074A550, void, __thiscall, c_game_engine const*, int32)(this, user_index);
 //}
 //
-//void c_game_engine::submit_nav_points(long user_index, long player_index) const
+//void c_game_engine::submit_nav_points(int32 user_index, int32 player_index) const
 //{
-//	DECLFUNC(0x0074A680, void, __thiscall, c_game_engine const*, long, long)(this, user_index, player_index);
+//	DECLFUNC(0x0074A680, void, __thiscall, c_game_engine const*, int32, int32)(this, user_index, player_index);
 //}
 //
-//bool c_game_engine::build_player_nav_point(long a1, long a2, long a3, bool a4, s_chud_navpoint* chud_navpoint) const
+//bool c_game_engine::build_player_nav_point(int32 a1, int32 a2, int32 a3, bool a4, s_chud_navpoint* chud_navpoint) const
 //{
-//	return DECLFUNC(0x0074A680, bool, __thiscall, c_game_engine const*, long, long, long, bool, s_chud_navpoint*)(this, a1, a2, a3, a4, chud_navpoint);
+//	return DECLFUNC(0x0074A680, bool, __thiscall, c_game_engine const*, int32, int32, int32, bool, s_chud_navpoint*)(this, a1, a2, a3, a4, chud_navpoint);
 //}
 //
-//bool c_game_engine::should_draw_nav_point(long user_index, long player_index) const
+//bool c_game_engine::should_draw_nav_point(int32 user_index, int32 player_index) const
 //{
-//	return DECLFUNC(0x0074A5B0, bool, __thiscall, c_game_engine const*, long, long)(this, user_index, player_index);
+//	return DECLFUNC(0x0074A5B0, bool, __thiscall, c_game_engine const*, int32, int32)(this, user_index, player_index);
 //}
 //
 //void c_game_engine::update() const
@@ -593,47 +593,47 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	//DECLFUNC(0x0074A790, void, __thiscall, c_game_engine const*)(this);
 //}
 //
-//void c_game_engine::player_update(long player_index) const
+//void c_game_engine::player_update(int32 player_index) const
 //{
-//	DECLFUNC(0x0074A200, void, __thiscall, c_game_engine const*, long)(this, player_index);
+//	DECLFUNC(0x0074A200, void, __thiscall, c_game_engine const*, int32)(this, player_index);
 //}
 //
-//void c_game_engine::apply_baseline_traits_for_player(long player_index, c_player_traits* player_traits) const
+//void c_game_engine::apply_baseline_traits_for_player(int32 player_index, c_player_traits* player_traits) const
 //{
-//	//DECLFUNC(0x00748940, void, __thiscall, c_game_engine const*, long, c_player_traits*)(this, player_index, player_traits);
+//	//DECLFUNC(0x00748940, void, __thiscall, c_game_engine const*, int32, c_player_traits*)(this, player_index, player_traits);
 //
 //	player_traits->set(current_game_variant()->get_active_variant()->get_map_override_options()->get_base_player_traits(), false);
 //}
 //
-//void c_game_engine::apply_game_engine_traits_for_player(long player_index, c_player_traits* player_traits) const
+//void c_game_engine::apply_game_engine_traits_for_player(int32 player_index, c_player_traits* player_traits) const
 //{
-//	//DECLFUNC(0x00748960, void, __thiscall, c_game_engine const*, long, c_player_traits*)(this, player_index, player_traits);
+//	//DECLFUNC(0x00748960, void, __thiscall, c_game_engine const*, int32, c_player_traits*)(this, player_index, player_traits);
 //}
 //
-//void c_game_engine::assemble_spawn_influencers_for_player(long a1, s_netgame_goal_influencer* influencer, long* a3) const
+//void c_game_engine::assemble_spawn_influencers_for_player(int32 a1, s_netgame_goal_influencer* influencer, int32* a3) const
 //{
-//	//DECLFUNC(0x00748F60, void, __thiscall, c_game_engine const*, long, s_netgame_goal_influencer*, long*)(this, a1, influencer, a3);
+//	//DECLFUNC(0x00748F60, void, __thiscall, c_game_engine const*, int32, s_netgame_goal_influencer*, int32*)(this, a1, influencer, a3);
 //
 //	*a3 = 0;
 //}
 //
-//long c_game_engine::compare_players(long player_index_a, long player_index_b) const
+//int32 c_game_engine::compare_players(int32 player_index_a, int32 player_index_b) const
 //{
-//	//return DECLFUNC(0x00749B40, long, __thiscall, c_game_engine const*, long, long)(this, player_index_a, player_index_b);
+//	//return DECLFUNC(0x00749B40, int32, __thiscall, c_game_engine const*, int32, int32)(this, player_index_a, player_index_b);
 //
 //	return 0;
 //}
 //
-//long c_game_engine::compare_teams(e_game_team team_a, e_game_team team_b) const
+//int32 c_game_engine::compare_teams(e_game_team team_a, e_game_team team_b) const
 //{
-//	//return DECLFUNC(0x00749B50, long, __thiscall, c_game_engine const*, long, long)(this, team_a, team_b);
+//	//return DECLFUNC(0x00749B50, int32, __thiscall, c_game_engine const*, int32, int32)(this, team_a, team_b);
 //
 //	return 0;
 //}
 //
-//bool c_game_engine::allow_weapon_pickup(long player_index, long weapon_index) const
+//bool c_game_engine::allow_weapon_pickup(int32 player_index, int32 weapon_index) const
 //{
-//	//return DECLFUNC(0x00748900, bool, __thiscall, c_game_engine const*, long, long)(this, player_index, weapon_index);
+//	//return DECLFUNC(0x00748900, bool, __thiscall, c_game_engine const*, int32, int32)(this, player_index, weapon_index);
 //
 //	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 //	bool result = game_engine_in_round();
@@ -642,54 +642,54 @@ void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_meth
 //	return result;
 //}
 //
-//bool c_game_engine::should_auto_pickup_weapon(long player_index, long weapon_index) const
+//bool c_game_engine::should_auto_pickup_weapon(int32 player_index, int32 weapon_index) const
 //{
-//	//return DECLFUNC(0x0074A5A0, bool, __thiscall, c_game_engine const*, long, long)(this, player_index, weapon_index);
+//	//return DECLFUNC(0x0074A5A0, bool, __thiscall, c_game_engine const*, int32, int32)(this, player_index, weapon_index);
 //
 //	return false;
 //}
 //
-//void c_game_engine::player_nearby_multiplayer_weapon(long a1, long a2) const
+//void c_game_engine::player_nearby_multiplayer_weapon(int32 a1, int32 a2) const
 //{
-//	//DECLFUNC(0x0074A1E0, void, __thiscall, c_game_engine const*, long, long)(this, a1, a2);
+//	//DECLFUNC(0x0074A1E0, void, __thiscall, c_game_engine const*, int32, int32)(this, a1, a2);
 //}
 //
-//long c_game_engine::object_get_emblem_player(long object_index) const
+//int32 c_game_engine::object_get_emblem_player(int32 object_index) const
 //{
-//	//return DECLFUNC(0x00749F70, long, __thiscall, c_game_engine const*, long)(this, object_index);
+//	//return DECLFUNC(0x00749F70, int32, __thiscall, c_game_engine const*, int32)(this, object_index);
 //
 //	return NONE;
 //}
 //
-//real32 c_game_engine::compute_object_function(long object_index, long name) const
+//real32 c_game_engine::compute_object_function(int32 object_index, int32 name) const
 //{
-//	//return DECLFUNC(0x00749B60, real32, __thiscall, c_game_engine const*, long, long)(this, object_index, name);
+//	//return DECLFUNC(0x00749B60, real32, __thiscall, c_game_engine const*, int32, int32)(this, object_index, name);
 //
 //	return 0.0f;
 //}
 //
-//void c_game_engine::multiplayer_weapon_register(long weapon_index) const
+//void c_game_engine::multiplayer_weapon_register(int32 weapon_index) const
 //{
-//	//DECLFUNC(0x00749F60, void, __thiscall, c_game_engine const*, long)(this, weapon_index);
+//	//DECLFUNC(0x00749F60, void, __thiscall, c_game_engine const*, int32)(this, weapon_index);
 //}
 //
-//void c_game_engine::multiplayer_weapon_deregister(long weapon_index) const
+//void c_game_engine::multiplayer_weapon_deregister(int32 weapon_index) const
 //{
-//	//DECLFUNC(0x00749F30, void, __thiscall, c_game_engine const*, long)(this, weapon_index);
+//	//DECLFUNC(0x00749F30, void, __thiscall, c_game_engine const*, int32)(this, weapon_index);
 //}
 //
-//void c_game_engine::multiplayer_weapon_picked_up(long weapon_index, long unit_index) const
+//void c_game_engine::multiplayer_weapon_picked_up(int32 weapon_index, int32 unit_index) const
 //{
-//	//DECLFUNC(0x00749F50, void, __thiscall, c_game_engine const*, long, long)(this, weapon_index, unit_index);
+//	//DECLFUNC(0x00749F50, void, __thiscall, c_game_engine const*, int32, int32)(this, weapon_index, unit_index);
 //}
 //
-//void c_game_engine::multiplayer_weapon_dropped(long weapon_index, long unit_index) const
+//void c_game_engine::multiplayer_weapon_dropped(int32 weapon_index, int32 unit_index) const
 //{
-//	//DECLFUNC(0x00749F40, void, __thiscall, c_game_engine const*, long, long)(this, weapon_index, unit_index);
+//	//DECLFUNC(0x00749F40, void, __thiscall, c_game_engine const*, int32, int32)(this, weapon_index, unit_index);
 //}
 //
-//void c_game_engine::handle_deleted_object(long object_index) const
+//void c_game_engine::handle_deleted_object(int32 object_index) const
 //{
-//	//DECLFUNC(0x00749EF0, void, __thiscall, c_game_engine const*, long)(this, object_index);
+//	//DECLFUNC(0x00749EF0, void, __thiscall, c_game_engine const*, int32)(this, object_index);
 //}
 

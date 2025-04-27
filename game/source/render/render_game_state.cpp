@@ -20,7 +20,7 @@ void __cdecl s_render_game_state::dispose_from_old_map()
 	//INVOKE(0x00A3E6E0, s_render_game_state::dispose_from_old_map);
 }
 
-s_render_game_state::s_player_window* __cdecl get_render_player_window_game_state(long player_window_index)
+s_render_game_state::s_player_window* __cdecl get_render_player_window_game_state(int32 player_window_index)
 {
 	//return INVOKE(0x00A3E720, get_render_player_window_game_state, player_window_index);
 
@@ -43,7 +43,7 @@ void __cdecl s_render_game_state::initialize_for_new_map()
 	//INVOKE(0x00A3E7B0, s_render_game_state::initialize_for_new_map);
 
 	TLS_DATA_GET_VALUE_REFERENCE(render_game_globals);
-	for (long player_window_index = 0; player_window_index < MAXIMUM_PLAYER_WINDOWS; player_window_index++)
+	for (int32 player_window_index = 0; player_window_index < MAXIMUM_PLAYER_WINDOWS; player_window_index++)
 	{
 		s_render_game_state::s_player_window* player_window = get_render_player_window_game_state(player_window_index);
 		player_window->m_camera_fx_settings.set_defaults(true);

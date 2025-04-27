@@ -31,22 +31,22 @@ struct s_remote_command_globals
 	transport_endpoint* receive_endpoint;
 	transport_endpoint* listen_endpoint;
 
-	long reception_header_size;
+	int32 reception_header_size;
 	char reception_header_buffer[32];
 
-	long reception_packet_total_size;
-	long reception_packet_payload_size;
-	long reception_packet_received;
+	int32 reception_packet_total_size;
+	int32 reception_packet_payload_size;
+	int32 reception_packet_received;
 	char reception_packet_buffer[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE + MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE];
 
-	long last_camera_sync_milliseconds;
+	int32 last_camera_sync_milliseconds;
 	s_observer_result last_camera_synch_state;
 
-	//long light_volume_index;
+	//int32 light_volume_index;
 	//uint32 light_volume_send_time;
 	//scenario_light_block light_volume; // scenario->light_volumes[light_volume_index];
 
-	// long connections?
+	// int32 connections?
 	bool connected;
 };
 static_assert(sizeof(s_remote_command_globals) == 0x104B4);
@@ -56,7 +56,7 @@ static_assert(sizeof(s_remote_command_globals) == 0x104B4);
 #define k_maximum_number_of_tokens 100
 #define k_token_length 256
 
-#define COMMAND_CALLBACK_DECLARE(_command) callback_result_t _command##_callback(void const* userdata, long token_count, tokens_t const tokens)
+#define COMMAND_CALLBACK_DECLARE(_command) callback_result_t _command##_callback(void const* userdata, int32 token_count, tokens_t const tokens)
 #define COMMAND_CALLBACK_REGISTER(_command, _parameter_count, _parameters, ...) { #_command, _command##_callback, _parameter_count, _parameters, __VA_ARGS__ }
 
 #define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
@@ -81,13 +81,13 @@ using token_t = _token_t*;
 using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
 
 using callback_result_t = c_static_string<4096>;
-using callback_t = callback_result_t(void const*, long, tokens_t const);
+using callback_t = callback_result_t(void const*, int32, tokens_t const);
 
 struct s_command
 {
 	char const* name;
 	callback_t* callback;
-	long parameter_count;
+	int32 parameter_count;
 	char const* parameter_types;
 	char const* extra_info;
 };
@@ -306,12 +306,12 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(mp_players_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(deterministic_end_game, 0, "", "end game deterministically, by inserting a simulation queue event\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_active_player_count_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<short>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<short>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<short> <short>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<short> <short>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<int16>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<int16>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<int16> <int16>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<int16> <int16>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<bool>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
 
@@ -364,8 +364,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(overlapped_task_pause, 2, "<string> <bool>", "pause tasks\r\nNETWORK SAFE: lol"),
 };
 
-extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
-extern long token_try_parse_bool(token_t const& token);
+extern void command_tokenize(char const* input, tokens_t& tokens, int32* token_count);
+extern int32 token_try_parse_bool(token_t const& token);
 extern bool load_preference(char const* name, char const* value);;
 
 extern s_remote_command_globals remote_command_globals;
@@ -375,8 +375,8 @@ extern void __cdecl remote_command_initialize();
 extern bool __cdecl remote_command_connected();
 extern void __cdecl remote_command_disconnect();
 extern void __cdecl remote_command_process();
-extern bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length);
-extern bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* encoded_command_buffer, long payload_size, void const* payload);
-extern bool __cdecl remote_command_send(long command_type, void const* a2, long payload_size, void const* payload);
-extern bool __cdecl remote_camera_update(long user_index, s_observer_result const* camera);
+extern bool __cdecl remote_command_process_received_chunk(char const* buffer, int32 buffer_length);
+extern bool __cdecl remote_command_send_encoded(int32 encoded_command_size, void const* encoded_command_buffer, int32 payload_size, void const* payload);
+extern bool __cdecl remote_command_send(int32 command_type, void const* a2, int32 payload_size, void const* payload);
+extern bool __cdecl remote_camera_update(int32 user_index, s_observer_result const* camera);
 

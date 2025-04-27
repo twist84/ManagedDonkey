@@ -5,7 +5,7 @@
 #include "memory/module.hpp"
 
 using t_motd_popup_data_downloader = c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665>;
-e_download_status __thiscall t_motd_popup_data_downloader::get_data(s_message_of_the_day_popup const** data, long* data_size)
+e_download_status __thiscall t_motd_popup_data_downloader::get_data(s_message_of_the_day_popup const** data, int32* data_size)
 {
 	static s_message_of_the_day_popup static_data{};
 

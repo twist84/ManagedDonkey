@@ -11,7 +11,7 @@ public:
 	static bool __cdecl get_distortion_active();
 	static bool __cdecl get_distortion_history();
 	static bool __cdecl get_distortion_visible();
-	static long __cdecl get_frame_index();
+	static int32 __cdecl get_frame_index();
 	static real32 __cdecl get_frame_time();
 
 	static void __cdecl increment_frame_index();
@@ -20,7 +20,7 @@ public:
 	static void __cdecl set_distortion_active(bool distortion_active);
 	static void __cdecl set_distortion_history(bool distortion_history);
 	static void __cdecl set_distortion_visible(bool distortion_visible);
-	static void __cdecl set_frame_index(long frame_index);
+	static void __cdecl set_frame_index(int32 frame_index);
 	static void __cdecl set_frame_time(real32 frame_time);
 
 	static void __cdecl set_weather_occlusion_available(bool weather_occlusion_available);
@@ -57,7 +57,7 @@ extern void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_con
 extern void __cdecl render_initialize();
 extern void __cdecl render_initialize_for_new_map();
 extern void __cdecl render_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
-extern void __cdecl render_prepare_for_window(long player_window_index, long user_index);
+extern void __cdecl render_prepare_for_window(int32 player_window_index, int32 user_index);
 extern void __cdecl render_setup_window(render_camera* camera, render_projection* projection);
-extern void __cdecl render_window_reset(long user_index);
+extern void __cdecl render_window_reset(int32 user_index);
 

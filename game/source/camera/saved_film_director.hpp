@@ -11,7 +11,7 @@ struct c_saved_film_director :
 	uint8 pad[0x2];
 	uint8 unused[0x4];
 
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x007276C0, c_saved_film_director, constructor, user_index);
 	}

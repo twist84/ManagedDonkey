@@ -21,22 +21,22 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, update_);
 //.text:00B24840 ; 
 //.text:00B24850 ; public: virtual __cdecl c_gui_static_roster_data::~c_gui_static_roster_data()
 //.text:00B24860 ; 
-//.text:00B24870 ; public: c_gui_roster_data::s_player_row & __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::operator[](long)
+//.text:00B24870 ; public: c_gui_roster_data::s_player_row & __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::operator[](int32)
 //.text:00B24890 ; public: virtual void* __cdecl c_gui_active_roster_data::`vector deleting destructor'(unsigned int)
 //.text:00B248C0 ; public: virtual void* __cdecl c_gui_roster_data::`vector deleting destructor'(unsigned int)
 //.text:00B248F0 ; public: virtual void* __cdecl c_gui_static_roster_data::`vector deleting destructor'(unsigned int)
-//.text:00B24920 ; public: bool __cdecl c_gui_static_roster_data::add_player(long, s_player_configuration const*, e_controller_index)
-//.text:00B24940 ; protected: bool __cdecl c_gui_roster_data::add_player_internal(c_gui_roster_data::e_player_row_type, long, s_player_configuration const*, e_controller_index, c_gui_roster_data::e_voice_talking_state, bool, bool)
+//.text:00B24920 ; public: bool __cdecl c_gui_static_roster_data::add_player(int32, s_player_configuration const*, e_controller_index)
+//.text:00B24940 ; protected: bool __cdecl c_gui_roster_data::add_player_internal(c_gui_roster_data::e_player_row_type, int32, s_player_configuration const*, e_controller_index, c_gui_roster_data::e_voice_talking_state, bool, bool)
 //.text:00B24A20 ; protected: c_gui_roster_data::s_player_row* __cdecl c_gui_roster_data::add_player_simple(c_gui_roster_data::e_player_row_type, s_player_identifier const*, s_player_configuration const*, e_controller_index)
 //.text:00B24A40 ; private: void __cdecl c_gui_active_roster_data::calculate_group_aggregates_for_sorting()
-//.text:00B24B00 ; bool __cdecl compare_ascending_long(long, long, int*)
-//.text:00B24B30 ; bool __cdecl compare_descending_long(long, long, int*)
+//.text:00B24B00 ; bool __cdecl compare_ascending_long(int32, int32, int*)
+//.text:00B24B30 ; bool __cdecl compare_descending_long(int32, int32, int*)
 //.text:00B24B60 ; protected: static bool __cdecl c_gui_roster_data::considered_to_be_in_same_party(c_gui_roster_data::s_player_row const*, c_gui_roster_data::s_player_row const*)
-//.text:00B24BC0 ; public: virtual void __cdecl c_gui_roster_data::get_column_names(long* const, long*)
-//.text:00B24C80 ; public: static long __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::get_count()
-//.text:00B24C90 ; protected: virtual long __cdecl c_gui_roster_data::get_current_item_count_internal()
+//.text:00B24BC0 ; public: virtual void __cdecl c_gui_roster_data::get_column_names(int32* const, int32*)
+//.text:00B24C80 ; public: static int32 __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::get_count()
+//.text:00B24C90 ; protected: virtual int32 __cdecl c_gui_roster_data::get_current_item_count_internal()
 
-bool __thiscall c_gui_roster_data::get_integer_value_(long element_handle, long value_name, long* value)
+bool __thiscall c_gui_roster_data::get_integer_value_(int32 element_handle, int32 value_name, int32* value)
 {
 	//bool result = false;
 	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_integer_value, element_handle, value_name, value);
@@ -154,11 +154,11 @@ bool __thiscall c_gui_roster_data::get_integer_value_(long element_handle, long 
 }
 
 //.text:00B24E30 ; private: bool __cdecl c_gui_active_roster_data::get_local_party_voted_to_party_up(s_life_cycle_matchmaking_progress const*)
-//.text:00B24EA0 ; public: virtual bool __cdecl c_gui_roster_data::get_player_appearance(long, s_player_appearance*)
-//.text:00B24F40 ; public: virtual bool __cdecl c_gui_roster_data::get_player_configuration_value(long, s_player_configuration*)
-//.text:00B24F90 ; public: virtual bool __cdecl c_gui_roster_data::get_player_identifier_value(long, s_player_identifier*)
+//.text:00B24EA0 ; public: virtual bool __cdecl c_gui_roster_data::get_player_appearance(int32, s_player_appearance*)
+//.text:00B24F40 ; public: virtual bool __cdecl c_gui_roster_data::get_player_configuration_value(int32, s_player_configuration*)
+//.text:00B24F90 ; public: virtual bool __cdecl c_gui_roster_data::get_player_identifier_value(int32, s_player_identifier*)
 
-bool __thiscall c_gui_roster_data::get_text_value_(long element_handle, long value_name, c_static_wchar_string<1024>* value)
+bool __thiscall c_gui_roster_data::get_text_value_(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value)
 {
 	//bool result = false;
 	//HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_text_value, element_handle, value_name, value);
@@ -224,9 +224,9 @@ bool __thiscall c_gui_roster_data::get_text_value_(long element_handle, long val
 	return false;
 }
 
-//.text:00B25180 ; public: static c_gui_roster_data::e_voice_talking_state __cdecl c_gui_roster_data::get_voice_for_player(e_controller_index, long)
+//.text:00B25180 ; public: static c_gui_roster_data::e_voice_talking_state __cdecl c_gui_roster_data::get_voice_for_player(e_controller_index, int32)
 //.text:00B25190 ; int __cdecl group_roster_sort_proc(void const*, void const*)
-//.text:00B252D0 ; public: void __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::sort(long, int(__cdecl*)(void const*, void const*))
+//.text:00B252D0 ; public: void __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::sort(int32, int(__cdecl*)(void const*, void const*))
 //.text:00B252F0 ; int __cdecl squad_roster_sort_proc(void const*, void const*)
 
 void __thiscall c_gui_active_roster_data::update_()
@@ -247,7 +247,7 @@ void __thiscall c_gui_active_roster_data::update_()
 	//		matchmaking_progress.progress_type == _life_cycle_matchmaking_progress_post_match &&
 	//		matchmaking_progress.configuring_match.configuring_progress.encountered_load_failure)
 	//	{
-	//		long player_index = 0;
+	//		int32 player_index = 0;
 	//		while (player_index < 16 && !user_interface_session_is_local_player(player_index))
 	//		{
 	//			player_index++;
@@ -263,7 +263,7 @@ void __thiscall c_gui_active_roster_data::update_()
 	//	uint32 player_error_mask = 0;
 	//	e_session_game_start_status session_game_start_status = user_interface_get_session_game_start_status(NULL, &player_error_mask);
 	//
-	//	for (long session_player_index = 0; session_player_index < 16; session_player_index++)
+	//	for (int32 session_player_index = 0; session_player_index < 16; session_player_index++)
 	//	{
 	//		if (!user_interface_session_is_player_valid(session_player_index))
 	//			continue;

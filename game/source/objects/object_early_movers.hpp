@@ -28,7 +28,7 @@ struct s_object_early_mover
 	bool __unknown109;
 
 	// object_early_mover_update
-	long collision_model_bsp_info_count;
+	int32 collision_model_bsp_info_count;
 	union packed_index_t
 	{
 		struct
@@ -48,8 +48,8 @@ static_assert(sizeof(s_object_early_mover) == 0x130);
 struct s_object_early_movers_globals
 {
 	s_object_early_mover meta[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
-	long object_indices[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
-	long object_index_count;
+	int32 object_indices[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
+	int32 object_index_count;
 	bool map_initialized;
 };
 static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
@@ -61,14 +61,14 @@ struct s_object_early_mover_obb
 };
 static_assert(sizeof(s_object_early_mover_obb) == 0x4C);
 
-extern bool __cdecl object_early_mover_get_obb(long object_index_array_index, s_object_early_mover_obb* obb);
-extern void __cdecl object_early_mover_notify_local_objects(long early_mover_object_index);
-extern void __cdecl object_early_mover_update(long object_index, long early_mover_array_index);
+extern bool __cdecl object_early_mover_get_obb(int32 object_index_array_index, s_object_early_mover_obb* obb);
+extern void __cdecl object_early_mover_notify_local_objects(int32 early_mover_object_index);
+extern void __cdecl object_early_mover_update(int32 object_index, int32 early_mover_array_index);
 extern void __cdecl object_early_movers_dispose();
 extern void __cdecl object_early_movers_dispose_from_old_map();
 extern void __cdecl object_early_movers_initialize();
 extern void __cdecl object_early_movers_initialize_for_new_map();
-extern bool __cdecl object_get_early_mover_local_space_velocity(long object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5);
-extern void __cdecl object_get_early_movers(long const** object_early_movers, long* object_early_movers_count);
+extern bool __cdecl object_get_early_mover_local_space_velocity(int32 object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5);
+extern void __cdecl object_get_early_movers(int32 const** object_early_movers, int32* object_early_movers_count);
 extern void __cdecl object_early_mover_render_debug();
 

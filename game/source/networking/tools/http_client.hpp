@@ -22,39 +22,39 @@ public:
 	bool do_work(
 		bool* upload_complete,
 		char* out_response_content_buffer,
-		long* out_response_content_buffer_count,
-		long* out_http_response_code
+		int32* out_response_content_buffer_count,
+		int32* out_http_response_code
 	);
 
 	uint32 get_ip_address();
-	static void get_ip_address_string(long ipv4_address, c_static_string<16>* out_string);
-	long get_upload_length();
-	long get_upload_position();
-	long get_upstream_quota();
+	static void get_ip_address_string(int32 ipv4_address, c_static_string<16>* out_string);
+	int32 get_upload_length();
+	int32 get_upload_position();
+	int32 get_upstream_quota();
 	bool is_connected();
 	bool is_started();
 
 //private:
 	bool parse_http_response(
 		char const* buffer,
-		long buffer_length,
+		int32 buffer_length,
 		bool* out_completed_successfully,
-		long* http_header_size,
-		long* http_response_code,
-		long* content_length
+		int32* http_header_size,
+		int32* http_response_code,
+		int32* content_length
 	);
 	bool __thiscall receive_data(
 		bool* out_completed_successfully,
 		char* out_response_content_buffer,
-		long* out_response_content_buffer_count,
-		long* out_http_response_code
+		int32* out_response_content_buffer_count,
+		int32* out_http_response_code
 	);
 
 	bool send_data();
-	void set_upstream_quota(long upstream_quota);
+	void set_upstream_quota(int32 upstream_quota);
 
 public:
-	bool start(c_http_stream* stream, long ip_address, uint16 port, char const* url, bool endpoint_is_alpha);
+	bool start(c_http_stream* stream, int32 ip_address, uint16 port, char const* url, bool endpoint_is_alpha);
 
 private:
 	bool start_connect();
@@ -72,13 +72,13 @@ protected:
 	transport_endpoint* m_endpoint_ptr;
 	c_http_stream* m_http_stream;
 	char m_response_buffer[4096];
-	long m_response_buffer_count;
-	long m_bytes_remaining;
-	long m_socket_count;
+	int32 m_response_buffer_count;
+	int32 m_bytes_remaining;
+	int32 m_socket_count;
 	bool m_started;
 	uint64 m_start_time;
 	uint64 m_previous_time;
-	long m_upstream_quota;
+	int32 m_upstream_quota;
 	e_upload_state m_current_state;
 };
 static_assert(sizeof(c_http_client) == 0x1060);

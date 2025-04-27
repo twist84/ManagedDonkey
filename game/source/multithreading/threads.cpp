@@ -28,7 +28,7 @@ bool __cdecl current_thread_should_exit()
 {
 	return INVOKE(0x0051C360, current_thread_should_exit);
 
-	//long thread_index = get_current_thread_index();
+	//int32 thread_index = get_current_thread_index();
 	//if (!VALID_INDEX(thread_index, k_registered_thread_count))
 	//	ASSERT2("invalid thread index");
 	//return g_thread_globals.thread_should_exit[thread_index].peek() == TRUE;
@@ -36,7 +36,7 @@ bool __cdecl current_thread_should_exit()
 
 bool __cdecl current_thread_should_assert()
 {
-	long thread_index = get_current_thread_index();
+	int32 thread_index = get_current_thread_index();
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
 		return thread_should_assert[thread_index].peek() == TRUE;
 
@@ -45,7 +45,7 @@ bool __cdecl current_thread_should_assert()
 
 bool __cdecl current_thread_should_crash()
 {
-	long thread_index = get_current_thread_index();
+	int32 thread_index = get_current_thread_index();
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
 		return thread_should_crash[thread_index].peek() == TRUE;
 
@@ -68,13 +68,13 @@ void __cdecl destroy_thread_management()
 	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//ASSERT(g_thread_globals.initialized.peek() != FALSE, "thread management has not been initialized");
 	//ASSERT(g_registered_thread_index == k_thread_main, "Must be called by the main thread");
-	//for (long thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
+	//for (int32 thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
 	//{
 	//	if (g_thread_globals.thread_id[thread_index] != NONE)
 	//		g_thread_globals.thread_should_exit[thread_index].set(TRUE);
 	//}
 	//sleep(500);
-	//for (long thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
+	//for (int32 thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
 	//{
 	//	if (g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE)
 	//	{
@@ -94,7 +94,7 @@ uint32 __cdecl get_main_thread_id()
 	return g_thread_globals.thread_id[k_thread_main];
 }
 
-char const* __cdecl get_registered_thread_name(long thread_index)
+char const* __cdecl get_registered_thread_name(int32 thread_index)
 {
 	//return INVOKE(0x0051C440, get_registered_thread_name, thread_index);
 
@@ -111,11 +111,11 @@ e_thread_processor __cdecl get_registered_thread_processor(e_registered_threads 
 	return (e_thread_processor)k_registered_thread_definitions[thread_index].processor_index;
 }
 
-char const* __cdecl get_thread_name_from_thread_id(long thread_id)
+char const* __cdecl get_thread_name_from_thread_id(int32 thread_id)
 {
 	return INVOKE(0x0051C480, get_thread_name_from_thread_id, thread_id);
 
-	//for (long thread_index = 0; thread_index < k_registered_thread_count; thread_index++)
+	//for (int32 thread_index = 0; thread_index < k_registered_thread_count; thread_index++)
 	//{
 	//	if (g_thread_globals.thread_id[thread_index] == thread_id)
 	//		return get_registered_thread_name(thread_index);
@@ -143,7 +143,7 @@ void __cdecl initialize_thread_management()
 	INVOKE(0x0051C580, initialize_thread_management);
 
 	//SetThreadName(GetCurrentThreadId(), "MAIN_THREAD");
-	//for (long thread_index = k_thread_unknown; thread_index < k_registered_thread_count; thread_index++)
+	//for (int32 thread_index = k_thread_unknown; thread_index < k_registered_thread_count; thread_index++)
 	//{
 	//	g_thread_globals.thread_handle[thread_index] = INVALID_HANDLE_VALUE;
 	//	g_thread_globals.thread_has_crashed[thread_index].set(FALSE);
@@ -195,7 +195,7 @@ void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments)
 	//g_thread_assert_triggered = true;
 }
 
-void __cdecl register_thread(void* handle, long thread_index, uint32 thread_id, void* user_data)
+void __cdecl register_thread(void* handle, int32 thread_index, uint32 thread_id, void* user_data)
 {
 	//INVOKE(0x0051C710, register_thread, handle, thread_index, thread_id, user_data);
 
@@ -210,7 +210,7 @@ void __cdecl register_thread(void* handle, long thread_index, uint32 thread_id, 
 	thread_set_priority(thread_index, _thread_priority_default);
 }
 
-void __cdecl register_thread_running(long thread_index)
+void __cdecl register_thread_running(int32 thread_index)
 {
 	INVOKE(0x0051C760, register_thread_running, thread_index);
 
@@ -265,7 +265,7 @@ bool __cdecl switch_to_thread()
 	//return SwitchToThread() == TRUE;
 }
 
-int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, long thread_index)
+int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, int32 thread_index)
 {
 	return INVOKE(0x0051C8C0, thread_execution_crash_handler, exception_pointers, thread_index);
 
@@ -296,7 +296,7 @@ uint32 __stdcall thread_execution_wrapper(void* parameter)
 
 	//__try
 	//{
-	//	long registered_thread_index = *static_cast<long*>(parameter);
+	//	int32 registered_thread_index = *static_cast<int32*>(parameter);
 	//	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
 	//	s_thread_definition const* definition = &k_registered_thread_definitions[registered_thread_index];
 	//	ASSERT(definition->start_routine);
@@ -336,7 +336,7 @@ void __cdecl thread_release_locks_and_d3d_device()
 	//release_all_locks_owned_by_thread();
 }
 
-void __cdecl thread_set_priority(long thread_index, e_thread_priority priority)
+void __cdecl thread_set_priority(int32 thread_index, e_thread_priority priority)
 {
 	//INVOKE(0x0051CA60, thread_set_priority, thread_index, priority);
 
@@ -379,7 +379,7 @@ bool __cdecl thread_system_initialized()
 	//return g_thread_globals.initialized.peek() != FALSE;
 }
 
-void __cdecl unregister_thread(long thread_index)
+void __cdecl unregister_thread(int32 thread_index)
 {
 	INVOKE(0x0051CB40, unregister_thread, thread_index);
 
@@ -389,7 +389,7 @@ void __cdecl unregister_thread(long thread_index)
 	//g_thread_globals.thread_user_data[thread_index] = NULL;
 }
 
-bool __cdecl wait_for_thread_to_exit(long thread_index, uint32 timeout_in_milliseconds)
+bool __cdecl wait_for_thread_to_exit(int32 thread_index, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0051CB70, wait_for_thread_to_exit, thread_index, timeout_in_milliseconds);
 

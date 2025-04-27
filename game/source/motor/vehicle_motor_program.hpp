@@ -14,7 +14,7 @@ struct s_vehicle_physics_point_datum
 	real_vector3d torque;
 	bool moving_surface;
 	real_vector3d surface_velocity;
-	long object_index;
+	int32 object_index;
 };
 static_assert(sizeof(s_vehicle_physics_point_datum) == 0x84);
 
@@ -54,7 +54,7 @@ struct s_friction_vehicle_physics_point_datum :
 	real_vector3d normal_force;
 	real_vector3d ground_plane;
 	real_point3d ground_position;
-	long plane_object_index;
+	int32 plane_object_index;
 	c_global_material_type ground_global_material_type;
 	bool pad;
 	bool disabled;
@@ -64,7 +64,7 @@ static_assert(sizeof(s_friction_vehicle_physics_point_datum) == sizeof(s_vehicle
 
 struct s_havok_vehicle_physics_instance
 {
-	long vehicle_index;
+	int32 vehicle_index;
 	s_havok_vehicle_physics_definition* physics;
 	real_matrix4x3 world_matrix;
 	real_matrix3x3 inertia_tensor;
@@ -76,8 +76,8 @@ struct s_havok_vehicle_physics_instance
 	bool is_e_braking;
 	bool antigravity_disabled;
 	bool cache_invalid;
-	long anti_gravity_points_on_slip_surface_count;
-	long friction_points_on_slip_surface_count;
+	int32 anti_gravity_points_on_slip_surface_count;
+	int32 friction_points_on_slip_surface_count;
 
 	s_anti_gravity_vehicle_physics_point_datum anti_gravity_points[16];
 	s_friction_vehicle_physics_point_datum friction_points[16];

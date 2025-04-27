@@ -10,22 +10,22 @@ public:
 
 private:
 	bool can_change_location();
-	long get_pregame_lobby_name(long gui_game_mode);
+	int32 get_pregame_lobby_name(int32 gui_game_mode);
 
 public:
 	void set_running(bool running);
 	void update();
-	void __thiscall change_location(long screen_name);
-	long __thiscall get_current_ui_location();
+	void __thiscall change_location(int32 screen_name);
+	int32 __thiscall get_current_ui_location();
 	c_gui_screen_widget* get_location_screen();
-	long get_location_screen_name(long gui_location);
+	int32 get_location_screen_name(int32 gui_location);
 
 //protected:
 	bool m_running;
 	uint32 __unknown4;
 	bool m_show_postgame_stats_upon_lobby_entrance;
 	uint32 m_change_time;
-	long m_change_location;
+	int32 m_change_location;
 };
 static_assert(sizeof(c_gui_location_manager) == 0x14);
 

@@ -21,20 +21,20 @@ enum // flags
 struct _machine_datum
 {
 	uint32 flags;
-	long door_open_ticks;
-	short pathfinding_policy;
-	short door_machine_first_portal_index;
-	short door_machine_portal_index_count;
-	short door_machine_portal_structure_bsp_index;
+	int32 door_open_ticks;
+	int16 pathfinding_policy;
+	int16 door_machine_first_portal_index;
+	int16 door_machine_portal_index_count;
+	int16 door_machine_portal_structure_bsp_index;
 };
 static_assert(sizeof(_machine_datum) == 0x10);
 
 struct machine_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_device_datum device;
 	_machine_datum machine;
 };
-static_assert(sizeof(machine_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_machine_datum));
+static_assert(sizeof(machine_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_machine_datum));
 

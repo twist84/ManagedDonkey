@@ -27,13 +27,13 @@ struct s_scripted_camera_globals
 {
 	bool enabled;
 	bool first_update;
-	c_enum<e_camera_script_mode, short, _camera_script_mode_none, k_camera_script_mode_count> mode;
+	c_enum<e_camera_script_mode, int16, _camera_script_mode_none, k_camera_script_mode_count> mode;
 	s_cinematic_field_of_view fov;
-	long game_tick_timer;
+	int32 game_tick_timer;
 	real_point3d point;
 	real_vector3d forward;
 	real_vector3d up;
-	long relative_object_index;
+	int32 relative_object_index;
 
 	union
 	{

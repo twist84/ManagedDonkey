@@ -1,7 +1,7 @@
 #include "memory/hashtable.hpp"
 
 uint8 const c_hash::k_hash_polynomials[]{ 3, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 54, 59 };
-long const c_hash::k_hash_polynomial_count = NUMBEROF(c_hash::k_hash_polynomials);
+int32 const c_hash::k_hash_polynomial_count = NUMBEROF(c_hash::k_hash_polynomials);
 
 c_hash::c_hash() :
 	m_hash(0),
@@ -30,11 +30,11 @@ uint32 c_hash::add_byte(uint8 byte_to_add)
 	//return m_hash;
 }
 
-uint32 c_hash::add_data_range(void const* data, long data_size)
+uint32 c_hash::add_data_range(void const* data, int32 data_size)
 {
 	return INVOKE_CLASS_MEMBER(0x00967EE0, c_hash, add_data_range, data, data_size);
 
-	//for (long i = 0; i < data_size; i++)
+	//for (int32 i = 0; i < data_size; i++)
 	//	add_byte(static_cast<uint8 const*>(data)[i]);
 	//
 	//return m_hash;
@@ -52,7 +52,7 @@ bool __cdecl hash_table_add(s_hash_table* table, void const* key, void const* us
 	return INVOKE(0x00967F40, hash_table_add, table, key, user_data);
 }
 
-uint32 __cdecl hash_table_allocation_size(uint32 user_data_size, long number_of_buckets, long maximum_elements)
+uint32 __cdecl hash_table_allocation_size(uint32 user_data_size, int32 number_of_buckets, int32 maximum_elements)
 {
 	return INVOKE(0x00967FA0, hash_table_allocation_size, user_data_size, number_of_buckets, maximum_elements);
 
@@ -81,7 +81,7 @@ s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, void 
 	return INVOKE(0x00968020, hash_table_find_internal, table, key);
 }
 
-s_hash_table* __cdecl hash_table_new(char const* name, uint32 user_data_size, long bucket_count, long maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
+s_hash_table* __cdecl hash_table_new(char const* name, uint32 user_data_size, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
 {
 	return INVOKE(0x00968070, hash_table_new, name, user_data_size, bucket_count, maximum_elements, hash_function, compare_function, allocation);
 }
@@ -108,12 +108,12 @@ void __cdecl hash_table_reset(s_hash_table* table)
 {
 	return INVOKE(0x00968250, hash_table_reset, table);
 
-	//long bucket_size = sizeof(void*) * table->bucket_count;
+	//int32 bucket_size = sizeof(void*) * table->bucket_count;
 	//csmemset(table + 1, 0, bucket_size + table->maximum_elements * (table->user_data_size + sizeof(s_hash_table_bucket)));
 	//
 	//void* next_element_offset = offset_pointer(table, bucket_size + sizeof(s_hash_table));
-	//long element_size = table->user_data_size + sizeof(s_hash_table_bucket);
-	//for (long element_index = 0; element_index < table->maximum_elements; ++element_index)
+	//int32 element_size = table->user_data_size + sizeof(s_hash_table_bucket);
+	//for (int32 element_index = 0; element_index < table->maximum_elements; ++element_index)
 	//{
 	//	s_hash_table_bucket* next_element_to_add = static_cast<s_hash_table_bucket*>(offset_pointer(next_element_offset, element_index * element_size));
 	//	//ASSERT(hash_table_valid_bucket_pointer(table, next_element_to_add))
@@ -156,7 +156,7 @@ void __cdecl hash_table_verify(s_hash_table* table)
 	//ASSERT(table->allocation);
 	//ASSERT(table->base_address == static_cast<const void*>(table));
 
-	//for (long bucket_index = 0; bucket_index < table->bucket_count; bucket_index++)
+	//for (int32 bucket_index = 0; bucket_index < table->bucket_count; bucket_index++)
 	//{
 	//	for (s_hash_table_bucket* current_bucket = reinterpret_cast<s_hash_table_bucket*>(table) + bucket_index; current_bucket; current_bucket = current_bucket->next)
 	//	{

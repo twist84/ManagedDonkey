@@ -212,8 +212,8 @@ static_assert(sizeof(action_request_vehicle_board) == 0x44);
 
 struct action_request_vehicle_enter
 {
-	long vehicle_index;
-	short seat_index;
+	int32 vehicle_index;
+	int16 seat_index;
 	bool immediate;
 	bool force_entry;
 
@@ -379,8 +379,8 @@ static_assert(sizeof(action_request_melee_ai) == 0x44);
 
 struct action_request_weapon_pickup
 {
-	long weapon_index;
-	long add_weapon_mode; // e_weapon_addition_method
+	int32 weapon_index;
+	int32 add_weapon_mode; // e_weapon_addition_method
 
 	uint8 __data[0x44 - 0x8];
 };
@@ -472,7 +472,7 @@ static_assert(sizeof(action_request_equipment_animation) == 0x44);
 
 struct action_request_equipment_pickup
 {
-	long equipment_index;
+	int32 equipment_index;
 
 	uint8 __data[0x44 - 0x4];
 };
@@ -630,7 +630,7 @@ static_assert(sizeof(action_request_secondary_weapon_overheat_exit) == 0x44);
 
 struct action_request
 {
-	c_enum<e_action, long, _action_death_ping, k_action_count> type;
+	c_enum<e_action, int32, _action_death_ping, k_action_count> type;
 
 	union
 	{
@@ -727,6 +727,6 @@ struct action_request
 };
 static_assert(sizeof(action_request) == 0x4 + 0x44);
 
-extern bool __cdecl action_submit(long mover_index, action_request const* request);
-extern bool __cdecl action_submit(long mover_index, e_action action_type);
+extern bool __cdecl action_submit(int32 mover_index, action_request const* request);
+extern bool __cdecl action_submit(int32 mover_index, e_action action_type);
 

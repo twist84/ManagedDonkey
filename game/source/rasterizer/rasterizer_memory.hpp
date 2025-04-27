@@ -24,16 +24,16 @@ struct s_rasterizer_memory_globals
 
 	uint8 __data1[0x7];
 
-	long CPU_memory_pool_size;
+	int32 CPU_memory_pool_size;
 	uint8 CPU_memory_pool[k_rasterizer_memory_cpu_memory_pool_size_max];
-	long __unknown10000C; // CPU_memory_pool_size_used?
+	int32 __unknown10000C; // CPU_memory_pool_size_used?
 
-	long CPU_puddle_size;
+	int32 CPU_puddle_size;
 	uint8 CPU_puddle[k_rasterizer_memory_cpu_puddle_size_max];
 
-	long __unknown100018;
-	long GPU_memory_pool_size;
-	long GPU_memory_pool_size_max;
+	int32 __unknown100018;
+	int32 GPU_memory_pool_size;
+	int32 GPU_memory_pool_size_max;
 
 	uint8 __data100024[0x18];
 

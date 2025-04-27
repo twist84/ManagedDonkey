@@ -28,7 +28,7 @@ struct c_life_cycle_state_handler
 public:
 	virtual void update();
 	virtual e_life_cycle_state_transition_type update_for_state_transition();
-	virtual void enter(c_life_cycle_state_handler* handler, long entry_data_size, void* entry_data);
+	virtual void enter(c_life_cycle_state_handler* handler, int32 entry_data_size, void* entry_data);
 	virtual void exit(c_life_cycle_state_handler* handler);
 	virtual char const* get_state_string();
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
@@ -38,7 +38,7 @@ public:
 //protected:
 	uint8 __data4[0x4];
 
-	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_state;
+	c_enum<e_life_cycle_state, int32, _life_cycle_state_none, k_life_cycle_state_count> m_state;
 	c_life_cycle_state_manager* m_manager;
 
 	c_flags<e_life_cycle_state_handler_flags, uint8, k_life_cycle_state_handler_flags> m_handler_flags;

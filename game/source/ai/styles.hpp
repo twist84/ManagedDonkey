@@ -40,14 +40,14 @@ struct style_palette_entry
 	// Controls how combat status is allowed to be automatically reduced in the absence of combat stimuli.
 	// 'Latch at X' means that once the level of x is attained (and/or surpassed) the combat status never falls below it.
 	// Not applicable when style is applied to a character tag.
-	c_enum<e_combat_status, short, _combat_status_latch_at_idle, k_combat_status_count> combat_status_decay_options;
+	c_enum<e_combat_status, int16, _combat_status_latch_at_idle, k_combat_status_count> combat_status_decay_options;
 
 	// Atittude
 	// 
 	// Indicates general stance for style.
 	// This tells us which of the property blocks in the character definition to reference (e.g. timid defense properties).
 	// Not applicable when style is applied to a character tag.
-	c_enum<e_style_attitude, short, _style_attitude_normal, k_style_attitude_count> atittude;
+	c_enum<e_style_attitude, int16, _style_attitude_normal, k_style_attitude_count> atittude;
 
 	// Style Behavior Control
 	// 
@@ -89,5 +89,5 @@ struct style_behavior_name
 };
 static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<k_tag_string_length>));
 
-extern long __cdecl style_get_by_name(char const* name);
+extern int32 __cdecl style_get_by_name(char const* name);
 

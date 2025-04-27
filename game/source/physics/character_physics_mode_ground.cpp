@@ -31,7 +31,7 @@ real32 c_character_physics_mode_ground_datum::get_landing_velocity() const
 
 //.text:007235D0
 
-long c_character_physics_mode_ground_datum::get_support_havok_component_index() const
+int32 c_character_physics_mode_ground_datum::get_support_havok_component_index() const
 {
 	return INVOKE_CLASS_MEMBER(0x007235E0, c_character_physics_mode_ground_datum, get_support_havok_component_index);
 
@@ -43,12 +43,12 @@ real_matrix4x3 const* c_character_physics_mode_ground_datum::get_support_havok_c
 	return INVOKE_CLASS_MEMBER(0x007235F0, c_character_physics_mode_ground_datum, get_support_havok_component_matrix);
 }
 
-long c_character_physics_mode_ground_datum::get_support_object_index() const
+int32 c_character_physics_mode_ground_datum::get_support_object_index() const
 {
 	return INVOKE_CLASS_MEMBER(0x00723600, c_character_physics_mode_ground_datum, get_support_object_index);
 }
 
-long c_character_physics_mode_ground_datum::get_support_rigid_body_index() const
+int32 c_character_physics_mode_ground_datum::get_support_rigid_body_index() const
 {
 	return INVOKE_CLASS_MEMBER(0x00723610, c_character_physics_mode_ground_datum, get_support_rigid_body_index);
 }
@@ -81,7 +81,7 @@ void c_character_physics_mode_ground_datum::notify_in_slip_surface_volume()
 	INVOKE_CLASS_MEMBER(0x00723E60, c_character_physics_mode_ground_datum, notify_in_slip_surface_volume);
 }
 
-void c_character_physics_mode_ground_datum::set_contact(long havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, real_vector3d const* ground_plane)
+void c_character_physics_mode_ground_datum::set_contact(int32 havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, real_vector3d const* ground_plane)
 {
 	INVOKE_CLASS_MEMBER(0x00723E70, c_character_physics_mode_ground_datum, set_contact, havok_component_index, primary_contact_point_reference, ground_plane);
 }
@@ -108,7 +108,7 @@ bool __thiscall c_character_physics_mode_ground_datum::update_ground_velocity(s_
 	bool result = false;
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_character_physics_mode_ground_datum, update_ground_velocity, physics_input, linear_velocity, rotation);
 
-	long support_havok_component_index = get_support_havok_component_index();
+	int32 support_havok_component_index = get_support_havok_component_index();
 	if (support_havok_component_index == NONE)
 		return result;
 

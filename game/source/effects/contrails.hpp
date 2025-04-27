@@ -17,30 +17,30 @@ struct c_contrail_system :
 	};
 
 public:
-	static void __cdecl submit_all(long user_index, e_effect_pass effect_pass);
+	static void __cdecl submit_all(int32 user_index, e_effect_pass effect_pass);
 
-	long m_effect_index;
+	int32 m_effect_index;
 	uint8 m_event_block_index;
 	uint8 m_priority;
 	uint16 m_event_counter;
-	long m_part_block_index;
-	long m_definition_index;
-	long m_lightprobe_index;
-	long m_first_location_index;
+	int32 m_part_block_index;
+	int32 m_definition_index;
+	int32 m_lightprobe_index;
+	int32 m_first_location_index;
 	c_flags<e_flags, uint16, k_flags> m_flags;
 	uint8 m_camera_mode;
 	char m_first_person_user_mask;
 	real32 m_age;
 	real32 m_effect_scale_a;
 	real32 m_effect_scale_b;
-	long m_lod;
+	int32 m_lod;
 };
 static_assert(sizeof(c_contrail_system) == 0x30);
 
 struct c_contrail :
 	s_datum_header
 {
-	static void __cdecl render_callback(void const*, long);
+	static void __cdecl render_callback(void const*, int32);
 	void render() const;
 
 	enum e_flags
@@ -51,15 +51,15 @@ struct c_contrail :
 		k_flags
 	};
 
-	long m_next_sibling_index;
-	long m_contrail_gpu_index;
-	long m_first_profile_index;
-	long m_definition_block_index;
-	long m_parent_location_index;
+	int32 m_next_sibling_index;
+	int32 m_contrail_gpu_index;
+	int32 m_first_profile_index;
+	int32 m_definition_block_index;
+	int32 m_parent_location_index;
 	uint32 m_flags;
 	uint32 m_random_seed_starter;
 	real32 m_random_seed[2];
-	long m_profile_accumulator;
+	int32 m_profile_accumulator;
 	real_point3d m_previous_profile_position;
 	real32 m_length;
 	real32 m_emission_rate;
@@ -78,9 +78,9 @@ struct c_contrail_location :
 		k_flags
 	};
 
-	long m_next_sibling_index;
-	long m_parent_system_index;
-	long m_first_contrail_index;
+	int32 m_next_sibling_index;
+	int32 m_parent_system_index;
+	int32 m_first_contrail_index;
 	uint32 m_flags;
 	real_matrix4x3 m_matrix;
 	real_vector3d m_velocity;
@@ -98,8 +98,8 @@ struct c_contrail_profile :
 		k_flags
 	};
 
-	long m_next_sibling_index;
-	long m_flags;
+	int32 m_next_sibling_index;
+	int32 m_flags;
 	real32 m_age;
 	real32 m_lifespan;
 	uint16 m_random_seed[4];

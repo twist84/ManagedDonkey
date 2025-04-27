@@ -26,10 +26,10 @@ extern e_movie_type& last_attract_movie;
 extern uint32& g_attract_mode_countdown_timer;
 
 extern bool __cdecl attract_mode_get_built_in_movie_path(e_movie_type movie, c_static_string<256>* out_fullpath);
-extern long __cdecl attract_mode_get_countdown_time_milliseconds();
+extern int32 __cdecl attract_mode_get_countdown_time_milliseconds();
 extern bool __cdecl attract_mode_get_movie_path(char const* movie_name, c_static_string<256>* out_fullpath);
 extern void __cdecl attract_mode_reset_timer();
-extern void __cdecl attract_mode_set_countdown_length(long countdown_length);
+extern void __cdecl attract_mode_set_countdown_length(int32 countdown_length);
 extern bool __cdecl attract_mode_should_music_be_playing();
 extern bool __cdecl attract_mode_should_start();
 extern void __cdecl attract_mode_start();

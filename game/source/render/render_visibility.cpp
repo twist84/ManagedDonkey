@@ -2,7 +2,7 @@
 
 #include "visibility/visibility_collection.hpp"
 
-void __cdecl render_invisible_objects_iterate(void(*function)(long))
+void __cdecl render_invisible_objects_iterate(void(*function)(int32))
 {
 	ASSERT(function);
 	ASSERT(c_visible_items::get_cluster_starting_index() == 0);
@@ -20,7 +20,7 @@ void __cdecl render_visibility_build_projection(render_camera const* camera, ren
 	INVOKE(0x00A7BDD0, render_visibility_build_projection, camera, projection, camera_cluster_reference, visibility_projection);
 }
 
-long __cdecl render_visible_objects_iterate(void(*function)(long))
+int32 __cdecl render_visible_objects_iterate(void(*function)(int32))
 {
     ASSERT(function);
     ASSERT(c_visible_items::get_root_objects_starting_index() == 0);
@@ -28,7 +28,7 @@ long __cdecl render_visible_objects_iterate(void(*function)(long))
     return INVOKE(0x00A7C130, render_visible_objects_iterate, function);
 }
 
-void visibility_profile_display(char* buffer, long buffer_size)
+void visibility_profile_display(char* buffer, int32 buffer_size)
 {
 	csnzappendf(buffer, buffer_size, "|nObjects:                  (bip/veh/weap/other)     skies: %d|n",
 		0); // $TODO: c_render_information::sky_count

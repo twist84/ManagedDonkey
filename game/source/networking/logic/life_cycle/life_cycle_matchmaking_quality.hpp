@@ -50,7 +50,7 @@ struct __declspec(align(8)) s_matchmaking_quality_data
 	bool gathering;
 	bool gathering_by_force;
 	s_game_hopper_picked_game vetoed_or_played_game;
-	long ping_msec;
+	int32 ping_msec;
 	uint32 search_time;
 	uint32 gather_time;
 	uint32 arbitration_time;
@@ -58,14 +58,14 @@ struct __declspec(align(8)) s_matchmaking_quality_data
 	uint32 prepare_map_time;
 	uint32 in_match_time;
 	uint8 local_address[32];
-	long qos_sample_count;
+	int32 qos_sample_count;
 	s_matchmaking_quality_qos_sample qos_samples[400];
-	long session_search_count;
+	int32 session_search_count;
 	s_matchmaking_session_search session_searches[16];
 	bool live_service_qos_result_valid;
 	s_transport_qos_result live_service_qos_result;
 	bool nat_type_valid;
-	long nat_type;
+	int32 nat_type;
 	bool primary_map_load_failure;
 	bool secondary_map_load_failure;
 };

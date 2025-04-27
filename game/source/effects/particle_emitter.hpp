@@ -23,11 +23,11 @@ struct c_particle_emitter :
 
 	uint16 m_particle_cpu_count;
 	uint16 m_flags;
-	long m_particle_list_head;
-	long m_next_sibling_index;
-	long m_emitter_gpu_index;
-	long m_parent_location_index;
-	long m_definition_block_index;
+	int32 m_particle_list_head;
+	int32 m_next_sibling_index;
+	int32 m_emitter_gpu_index;
+	int32 m_parent_location_index;
+	int32 m_definition_block_index;
 	s_property_values m_property_values;
 	real32 m_particle_accumulator;
 	real_matrix4x3 m_matrix;

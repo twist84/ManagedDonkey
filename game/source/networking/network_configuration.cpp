@@ -8,18 +8,18 @@
 #include "networking/online/online_url.hpp"
 #include "networking/tools/network_blf.hpp"
 
-REFERENCE_DECLARE(0x01860808, long, hopper_directory_update_index);
+REFERENCE_DECLARE(0x01860808, int32, hopper_directory_update_index);
 
 REFERENCE_DECLARE(0x019A62B8, bool, g_network_configuration_initialized);
 REFERENCE_DECLARE(0x019A62C0, s_network_configuration, g_network_configuration);
 REFERENCE_DECLARE(0x019A7988, c_network_configuration_globals, g_network_configuration_globals);
 
-long __cdecl network_configuration_calculate_next_retry_interval(long current_interval, long original_interval)
+int32 __cdecl network_configuration_calculate_next_retry_interval(int32 current_interval, int32 original_interval)
 {
 	return INVOKE(0x0043C820, network_configuration_calculate_next_retry_interval, current_interval, original_interval);
 }
 
-long __cdecl network_configuration_client_badness_rating_threshold()
+int32 __cdecl network_configuration_client_badness_rating_threshold()
 {
 	return INVOKE(0x0043C890, network_configuration_client_badness_rating_threshold);
 }
@@ -52,19 +52,19 @@ void __cdecl network_configuration_dispose()
 	//csmemset(&g_network_configuration, 0, sizeof(g_network_configuration));
 }
 
-long __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id)
+int32 __cdecl network_configuration_get_map_index_from_map_id(e_map_id map_id)
 {
 	return INVOKE(0x0043C900, network_configuration_get_map_index_from_map_id, map_id);
 }
 
 //enum e_minidump_generation __cdecl network_configuration_get_minidump_generation_type()
-long __cdecl network_configuration_get_minidump_generation_type()
+int32 __cdecl network_configuration_get_minidump_generation_type()
 {
 	return INVOKE(0x0043C930, network_configuration_get_minidump_generation_type);
 }
 
 //e_network_configuration_state __cdecl network_configuration_get_state()
-long __cdecl network_configuration_get_state()
+int32 __cdecl network_configuration_get_state()
 {
 	return INVOKE(0x0043C940, network_configuration_get_state);
 }
@@ -118,7 +118,7 @@ bool __cdecl network_configuration_is_crash_ui_enabled()
 	return INVOKE(0x0043F4D0, network_configuration_is_crash_ui_enabled);
 }
 
-long __cdecl network_configuration_maximum_multiplayer_split_screen()
+int32 __cdecl network_configuration_maximum_multiplayer_split_screen()
 {
 	return INVOKE(0x0043F4E0, network_configuration_maximum_multiplayer_split_screen);
 }
@@ -142,7 +142,7 @@ void __cdecl network_configuration_update()
 	//	g_network_configuration_globals.downloader.update();
 	//
 	//	s_network_configuration* network_configuration = NULL;
-	//	long network_configuration_size = 0;
+	//	int32 network_configuration_size = 0;
 	//
 	//	switch (g_network_configuration_globals.get_data(&network_configuration, &network_configuration_size))
 	//	{

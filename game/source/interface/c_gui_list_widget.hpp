@@ -19,7 +19,7 @@ struct s_list_widget_definition :
 {
 	c_string_id datasource_name;
 	s_tag_reference skin;
-	long rows;
+	int32 rows;
 	s_tag_block items;
 	s_tag_reference prev_indicator_bitmap;
 	s_tag_reference next_indicator_bitmap;
@@ -30,11 +30,11 @@ struct s_runtime_list_widget_definition :
 	s_runtime_core_widget_definition
 {
 	c_string_id datasource_name;
-	long skin_index;
-	long rows;
+	int32 skin_index;
+	int32 rows;
 	s_tag_block items;
-	long prev_indicator_bitmap_reference_index;
-	long next_indicator_bitmap_reference_index;
+	int32 prev_indicator_bitmap_reference_index;
+	int32 next_indicator_bitmap_reference_index;
 };
 static_assert(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
 
@@ -44,23 +44,23 @@ struct c_gui_list_widget :
 {
 public:
 	c_gui_data* get_data();
-	long get_focused_item_index();
-	long get_scroll_position();
-	long get_selectable_item_count();
-	bool set_focused_item_index(long focused_item_index, bool a2);
-	void set_scroll_position(long scroll_position);
-	void set_selectable_item_cap_count(long selectable_item_cap_count);
+	int32 get_focused_item_index();
+	int32 get_scroll_position();
+	int32 get_selectable_item_count();
+	bool set_focused_item_index(int32 focused_item_index, bool a2);
+	void set_scroll_position(int32 scroll_position);
+	void set_selectable_item_cap_count(int32 selectable_item_cap_count);
 
 //protected:
-	long __unknownDC;
+	int32 __unknownDC;
 	s_runtime_list_widget_definition m_core_definition;
 	c_string_id m_datasource_name;
 	c_gui_widget* m_prev_indicator;
 	c_gui_widget* m_next_indicator;
-	long m_focused_item_index;
-	long __unknown144;
-	long m_scroll_position;
-	long m_selectable_item_cap_count;
+	int32 m_focused_item_index;
+	int32 __unknown144;
+	int32 m_scroll_position;
+	int32 m_selectable_item_cap_count;
 	c_gui_widget* m_submenu_item;
 	bool m_is_submenu;
 	bool m_is_submenu_that_needs_disposal;

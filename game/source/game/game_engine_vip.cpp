@@ -32,7 +32,7 @@ void c_game_engine_vip_variant::set(c_game_engine_vip_variant const* variant, bo
 	set_destination_zones_enabled(variant->get_destination_zones_enabled());
 	set_end_round_on_vip_death(variant->get_should_end_round_on_vip_death());
 
-	set_score_to_win_round(static_cast<short>(variant->get_score_to_win_round()));
+	set_score_to_win_round(static_cast<int16>(variant->get_score_to_win_round()));
 	set_kill_points(variant->get_kill_points());
 	set_takedown_points(variant->get_takedown_points());
 	set_kill_as_vip_points(variant->get_kill_as_vip_points());
@@ -64,7 +64,7 @@ void c_game_engine_vip_variant::encode_to_mcc(c_bitstream* packet) const
 	bool single_vip = get_single_vip();
 	bool destination_zones_enabled = get_destination_zones_enabled();
 	bool should_end_round_on_vip_death = get_should_end_round_on_vip_death();
-	long score_to_win_round = get_score_to_win_round();
+	int32 score_to_win_round = get_score_to_win_round();
 	char kill_points = get_kill_points();
 	char takedown_points = get_takedown_points();
 	char kill_as_vip_points = get_kill_as_vip_points();
@@ -76,7 +76,7 @@ void c_game_engine_vip_variant::encode_to_mcc(c_bitstream* packet) const
 	e_vip_vip_selection_settings vip_selection = get_vip_selection();
 	e_vip_zone_movement_settings zone_movement = get_zone_movement();
 	e_vip_zone_order_settings zone_order = get_zone_order();
-	short influence_radius = get_influence_radius();
+	int16 influence_radius = get_influence_radius();
 
 	packet->write_bool("vip-single-vip", single_vip);
 	packet->write_bool("vip-destination-zones-enabled", destination_zones_enabled);
@@ -106,7 +106,7 @@ void c_game_engine_vip_variant::decode_from_mcc(c_bitstream* packet)
 	bool single_vip = packet->read_bool("vip-single-vip");
 	bool destination_zones_enabled = packet->read_bool("vip-destination-zones-enabled");
 	bool should_end_round_on_vip_death = packet->read_bool("vip-end-round-on-vip-death");
-	short score_to_win_round = static_cast<short>(packet->read_integer("vip-score-to-win-round", 10));
+	int16 score_to_win_round = static_cast<int16>(packet->read_integer("vip-score-to-win-round", 10));
 	char kill_points = static_cast<char>(packet->read_signed_integer("vip-kill-points", 5));
 	char takedown_points = static_cast<char>(packet->read_signed_integer("vip-takedown-points", 5));
 	char kill_as_vip_points = static_cast<char>(packet->read_signed_integer("vip-kill-as-vip-points", 5));
@@ -118,7 +118,7 @@ void c_game_engine_vip_variant::decode_from_mcc(c_bitstream* packet)
 	e_vip_vip_selection_settings vip_selection = packet->read_enum<e_vip_vip_selection_settings, 2>("vip-vip-selection");
 	e_vip_zone_movement_settings zone_movement = packet->read_enum<e_vip_zone_movement_settings, 4>("vip-zone-movement");
 	e_vip_zone_order_settings zone_order = packet->read_enum<e_vip_zone_order_settings, 1>("vip-zone-order");
-	short influence_radius = static_cast<short>(packet->read_integer("vip-influence-radius", 6));
+	int16 influence_radius = static_cast<int16>(packet->read_integer("vip-influence-radius", 6));
 	get_vip_team_traits_writeable()->decode_from_mcc(packet);
 	get_vip_influence_traits_writeable()->decode_from_mcc(packet);
 	get_vip_traits_writeable()->decode_from_mcc(packet);
@@ -171,7 +171,7 @@ void c_game_engine_vip_variant::set_end_round_on_vip_death(bool end_round_on_vip
 	m_variant_flags.set(_vip_variant_flags_end_round_on_vip_death, end_round_on_vip_death);
 }
 
-void c_game_engine_vip_variant::set_score_to_win_round(short score_to_win_round)
+void c_game_engine_vip_variant::set_score_to_win_round(int16 score_to_win_round)
 {
 	if (!VALID_INDEX(score_to_win_round, 500))
 	{
@@ -361,7 +361,7 @@ e_vip_zone_movement_settings c_game_engine_vip_variant::get_zone_movement() cons
 	return m_zone_movement;
 }
 
-long c_game_engine_vip_variant::get_zone_movement_time_in_seconds() const
+int32 c_game_engine_vip_variant::get_zone_movement_time_in_seconds() const
 {
 	//ASSERT(VALID_INDEX(m_zone_movement, k_number_of_vip_zone_movement_settings));
 	ASSERT(VALID_INDEX(get_zone_movement(), k_number_of_vip_zone_movement_settings));
@@ -402,12 +402,12 @@ void c_game_engine_vip_variant::set_zone_order(e_vip_zone_order_settings zone_or
 	}
 }
 
-short c_game_engine_vip_variant::get_influence_radius() const
+int16 c_game_engine_vip_variant::get_influence_radius() const
 {
 	return m_influence_radius;
 }
 
-void c_game_engine_vip_variant::set_influence_radius(short influence_radius)
+void c_game_engine_vip_variant::set_influence_radius(int16 influence_radius)
 {
 	if (!VALID_INDEX(influence_radius, 50))
 	{

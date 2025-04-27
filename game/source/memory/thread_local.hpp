@@ -68,21 +68,21 @@
 #include "structures/cluster_partitions.hpp"
 #include "structures/structure_seams.hpp"
 
-template<long index, void(__cdecl* tls_pre_overwrite_fixup_callback)(void*) = nullptr, void(__cdecl* tls_post_copy_fixup_callback)(void*) = nullptr, void(__cdecl* tls_update_callback)(void*) = nullptr>
+template<int32 index, void(__cdecl* tls_pre_overwrite_fixup_callback)(void*) = nullptr, void(__cdecl* tls_post_copy_fixup_callback)(void*) = nullptr, void(__cdecl* tls_update_callback)(void*) = nullptr>
 struct t_restricted_allocation_manager :
 	public c_allocation_base
 {
 public:
 	//t_restricted_allocation_manager();
-	//void* reserve_memory(char const* name, char const* type, unsigned int allocation, long alignment_bits);
+	//void* reserve_memory(char const* name, char const* type, unsigned int allocation, int32 alignment_bits);
 	bool valid() const
 	{
 		return m_member_index != NONE && m_thread_id != NONE;
 	}
 
 protected:
-	long m_member_index;
-	long m_thread_id;
+	int32 m_member_index;
+	int32 m_thread_id;
 };
 static_assert(sizeof(t_restricted_allocation_manager<NONE>) == 0xC);
 
@@ -117,7 +117,7 @@ struct s_thread_local_storage
 	s_global_preferences_internals_type* g_global_preferences;
 
 	bool g_thread_assert_triggered;
-	long g_registered_thread_index;
+	int32 g_registered_thread_index;
 	s_thread_assert_arguments g_thread_assert_arguments;
 
 	// name: "random math"
@@ -249,7 +249,7 @@ struct s_thread_local_storage
 	s_havok_gamestate* g_havok_game_state;
 
 	// from assert
-	long havok_style_fpu_exceptions_count;
+	int32 havok_style_fpu_exceptions_count;
 
 	// name: "player control globals"
 	// size: 0x8B0
@@ -708,7 +708,7 @@ struct s_thread_local_storage
 
 	// name: "object name list"
 	// size: 0x2000
-	c_static_array<long, 2048>* g_object_name_list;
+	c_static_array<int32, 2048>* g_object_name_list;
 
 	// name: "object messaging queue"
 	// size: 0x4104
@@ -820,7 +820,7 @@ struct s_thread_local_storage
 	// and perhaps and fmod related memory allocations are using a saber provided memory allocator?
 
 	// unknown saber/fmod memory allocation related
-	long __unknown4CC;
+	int32 __unknown4CC;
 
 	void* __unknown4D0;
 
@@ -838,7 +838,7 @@ struct s_thread_local_storage
 	void* __unknown4F8;
 
 	// unknown saber/fmod memory allocation related
-	long __unknown4FC;
+	int32 __unknown4FC;
 
 	void* __unknown500;
 	void* __unknown504;

@@ -13,8 +13,8 @@ enum e_pathfinding_sphere_flags
 
 struct collision_model_pathfinding_sphere
 {
-	short node;
-	c_flags<e_pathfinding_sphere_flags, short, k_pathfinding_sphere_flags> flags;
+	int16 node;
+	c_flags<e_pathfinding_sphere_flags, int16, k_pathfinding_sphere_flags> flags;
 	real_point3d center;
 	real32 radius;
 };

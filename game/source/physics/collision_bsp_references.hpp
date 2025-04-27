@@ -26,11 +26,11 @@ public:
 	bool is_small() const;
 	collision_bsp const* get_small_bsp() const;
 	large_collision_bsp const* get_large_bsp() const;
-	long get_leaf_count() const;
-	long get_bsp2d_reference_count() const;
-	long get_bsp2d_node_count() const;
-	long get_surface_count() const;
-	long get_edge_count() const;
-	long get_vertex_count() const;
+	int32 get_leaf_count() const;
+	int32 get_bsp2d_reference_count() const;
+	int32 get_bsp2d_node_count() const;
+	int32 get_surface_count() const;
+	int32 get_edge_count() const;
+	int32 get_vertex_count() const;
 };
 

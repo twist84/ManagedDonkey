@@ -12,7 +12,7 @@ file_reference_info* file_reference_get_info(s_file_reference* info)
 	return info;
 }
 
-bool __cdecl datastore_read(char const* file_name, char const* field_name, long length, void* destination)
+bool __cdecl datastore_read(char const* file_name, char const* field_name, int32 length, void* destination)
 {
 	ASSERT(NULL != file_name);
 	ASSERT(NULL != field_name);
@@ -26,7 +26,7 @@ bool __cdecl datastore_read(char const* file_name, char const* field_name, long 
 	return INVOKE(0x00527BC0, datastore_read, file_name, field_name, length, destination);
 }
 
-bool __cdecl datastore_write(char const* file_name, char const* field_name, long length, void const* source)
+bool __cdecl datastore_write(char const* file_name, char const* field_name, int32 length, void const* source)
 {
 	ASSERT(NULL != file_name);
 	ASSERT(NULL != field_name);
@@ -50,7 +50,7 @@ bool __cdecl file_create_parent_directories_if_not_present(struct s_file_referen
 	return INVOKE(0x00527FF0, file_create_parent_directories_if_not_present, info);
 }
 
-bool __cdecl file_is_readable(s_file_reference* reference, unsigned long* error)
+bool __cdecl file_is_readable(s_file_reference* reference, uint32* error)
 {
 	return INVOKE(0x00528210, file_is_readable, reference, error);
 }
@@ -92,7 +92,7 @@ s_file_reference* __cdecl file_reference_add_directory_wide(s_file_reference* re
 	return INVOKE(0x00528490, file_reference_add_directory_wide, reference, directory);
 }
 
-s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location)
+s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, int16 location)
 {
 	//return INVOKE(0x00528500, file_reference_agnostic_create, reference, location);
 
@@ -124,27 +124,27 @@ s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference*
 	return INVOKE(0x005285B0, file_reference_create_from_path_wide, reference, path, a3);
 }
 
-wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, long full_path_length)
+wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, int32 full_path_length)
 {
 	return INVOKE(0x005285F0, file_reference_get_fullpath_wide, reference, out_full_path, full_path_length);
 }
 
-char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, long full_path_length)
+char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, int32 full_path_length)
 {
 	return INVOKE(0x00528630, file_reference_get_fullpath, reference, out_full_path, full_path_length);
 }
 
-short __cdecl file_reference_get_location(s_file_reference const* reference)
+int16 __cdecl file_reference_get_location(s_file_reference const* reference)
 {
 	return INVOKE(0x00528690, file_reference_get_location, reference);
 }
 
-char* file_reference_get_name(s_file_reference const* reference, uint32 flags, char* out_name, long name_length)
+char* file_reference_get_name(s_file_reference const* reference, uint32 flags, char* out_name, int32 name_length)
 {
 	return INVOKE(0x005286A0, file_reference_get_name, reference, flags, out_name, name_length);
 }
 
-wchar_t* file_reference_get_name_wide(s_file_reference const* reference, uint32 flags, wchar_t* out_name, long name_length)
+wchar_t* file_reference_get_name_wide(s_file_reference const* reference, uint32 flags, wchar_t* out_name, int32 name_length)
 {
 	return INVOKE(0x005286E0, file_reference_get_name_wide, reference, flags, out_name, name_length);
 }
@@ -179,7 +179,7 @@ bool __cdecl file_references_equal(s_file_reference const* reference_a, s_file_r
 	return INVOKE(0x00528930, file_references_equal, reference_a, reference_b);
 }
 
-void __cdecl file_trim(s_file_reference* reference, long size)
+void __cdecl file_trim(s_file_reference* reference, int32 size)
 {
 	INVOKE(0x005289A0, file_trim, reference, size);
 }
@@ -189,7 +189,7 @@ void __cdecl file_vprintf(s_file_reference* reference, char const* format, char*
 	INVOKE(0x00528A90, file_printf, reference, format, list);
 }
 
-long __cdecl find_files(unsigned long flags, s_file_reference const* directory, long maximum_count, s_file_reference* references)
+int32 __cdecl find_files(uint32 flags, s_file_reference const* directory, int32 maximum_count, s_file_reference* references)
 {
 	return INVOKE(0x00528AF0, find_files, flags, directory, maximum_count, references);
 }

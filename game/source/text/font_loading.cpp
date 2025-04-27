@@ -125,7 +125,7 @@ s_font_header const* __cdecl font_get_header_internal(e_font_index internal_inde
 
 	if (g_font_globals.font_package_header && internal_index >= 0 && internal_index < g_font_globals.font_package_header->font_count)
 	{
-		long header_offset = g_font_globals.font_package_header->fonts[internal_index].header_offset;
+		int32 header_offset = g_font_globals.font_package_header->fonts[internal_index].header_offset;
 		return (s_font_header*)offset_pointer(g_font_globals.font_package_header, header_offset);
 	}
 
@@ -247,11 +247,11 @@ e_async_completion __cdecl font_load_callback(s_async_task* task)
 			if (font_package_file_header_validate(&g_font_globals.package_file.header))
 			{
 				bool load_package_file_failed = false;
-				for (long font_index = 0; font_index < g_font_globals.package_file.header.font_count && !load_package_file_failed; ++font_index)
+				for (int32 font_index = 0; font_index < g_font_globals.package_file.header.font_count && !load_package_file_failed; ++font_index)
 				{
 					s_font_package_font& font = g_font_globals.package_file.header.fonts[font_index];
-					if (font.header_offset < (long)sizeof(s_font_package_file_header) &&
-						font.header_offset + (long)sizeof(s_font_header) > g_font_globals.package_file.header.header_data_offset + g_font_globals.package_file.header.header_data_size)
+					if (font.header_offset < (int32)sizeof(s_font_package_file_header) &&
+						font.header_offset + (int32)sizeof(s_font_header) > g_font_globals.package_file.header.header_data_offset + g_font_globals.package_file.header.header_data_size)
 					{
 						event(_event_error, "package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
 							font_index,
@@ -398,7 +398,7 @@ void __cdecl font_reload()
 	fonts_begin_loading(true);
 }
 
-long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, long max_references, long* font_id_mapping, long max_font_ids)
+int32 __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids)
 {
 	return INVOKE(0x00509840, font_table_get_font_file_references, text, directory, references, max_references, font_id_mapping, max_font_ids);
 }
@@ -479,7 +479,7 @@ void __cdecl get_dvd_font_directory(s_file_reference* file)
 	file_reference_create_from_path(file, k_dvd_font_directory, true);
 }
 
-void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size)
+void __cdecl get_font_master_filename(e_language language, char* buffer, int32 buffer_size)
 {
 	//INVOKE(0x00509BB0, get_font_master_filename, language, buffer, buffer_size);
 

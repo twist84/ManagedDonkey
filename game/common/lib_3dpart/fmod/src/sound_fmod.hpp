@@ -44,15 +44,15 @@ struct HALO_SOUND_SYSTEM
 {
 	struct HALO_SOUND_SYSTEM_vtbl
 	{
-		long(__thiscall* Init)(HALO_SOUND_SYSTEM*, long, void**);
+		int32(__thiscall* Init)(HALO_SOUND_SYSTEM*, int32, void**);
 		void(__thiscall* Term)(HALO_SOUND_SYSTEM*);
 		void(__thiscall* Update)(HALO_SOUND_SYSTEM*);
 		void(__thiscall* InitForNewMap)(HALO_SOUND_SYSTEM*, void*);
-		long(__thiscall* DisposeFromOldMap)(HALO_SOUND_SYSTEM*);
+		int32(__thiscall* DisposeFromOldMap)(HALO_SOUND_SYSTEM*);
 		void* __func14;
 		void* __func18;
-		long(__thiscall* InitUIScreenSounds)(HALO_SOUND_SYSTEM*);
-		long(__thiscall* TermUIScreenSounds)(HALO_SOUND_SYSTEM*);
+		int32(__thiscall* InitUIScreenSounds)(HALO_SOUND_SYSTEM*);
+		int32(__thiscall* TermUIScreenSounds)(HALO_SOUND_SYSTEM*);
 		void* __func24;
 		void* __func28;
 		void* __func2C;
@@ -62,13 +62,13 @@ struct HALO_SOUND_SYSTEM
 	};
 	HALO_SOUND_SYSTEM_vtbl* __vftable;
 
-	long Init(long a1, void** a2) { return __vftable->Init(this, a1, a2); }
+	int32 Init(int32 a1, void** a2) { return __vftable->Init(this, a1, a2); }
 	void Term() { __vftable->Term(this); }
 	void Update() { __vftable->Update(this); }
 	void InitForNewMap() { __vftable->InitForNewMap(this, 0); }
-	long DisposeFromOldMap() { return __vftable->DisposeFromOldMap(this); }
-	long InitUIScreenSounds() { return __vftable->InitUIScreenSounds(this); }
-	long TermUIScreenSounds() { return __vftable->TermUIScreenSounds(this); }
+	int32 DisposeFromOldMap() { return __vftable->DisposeFromOldMap(this); }
+	int32 InitUIScreenSounds() { return __vftable->InitUIScreenSounds(this); }
+	int32 TermUIScreenSounds() { return __vftable->TermUIScreenSounds(this); }
 
 	static HALO_SOUND_SYSTEM* __cdecl GetInstance();
 	void __thiscall LoadCinePreload();
@@ -76,34 +76,34 @@ struct HALO_SOUND_SYSTEM
 
 	struct VolumeStruct
 	{
-		long __unknown0;
+		int32 __unknown0;
 		real32 __unknown4;
 	};
 	
 	// starts as volume but morths into some data in `FMOD::EventSystemI`
 	real32 Volume;
 
-	long __unknown8;
-	long SampleRate; // 48000
+	int32 __unknown8;
+	int32 SampleRate; // 48000
 	VolumeStruct SfxVolume;
 	VolumeStruct VoiceVolume;
 	VolumeStruct MusicVolume;
 	VolumeStruct MasterVolume;
 	uint32 __flags30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
+	int32 __unknown34;
+	int32 __unknown38;
+	int32 __unknown3C;
+	int32 __unknown40;
 	real32 __unknown44;
-	long __unknown48;
+	int32 __unknown48;
 	real32 __unknown4C;
-	long __unknown50;
+	int32 __unknown50;
 	real32 __unknown54;
-	long __unknown58; // 5, SoundEncoding?
+	int32 __unknown58; // 5, SoundEncoding?
 	uint8 __data5C[0x18];
 	HALO_CHANNEL* Channels;
-	long ChannelCount;
-	long MaximumChannelCount;
+	int32 ChannelCount;
+	int32 MaximumChannelCount;
 	uint8 __data80[0x12C];
 	uint8 __data1AC[0x58];
 };
@@ -131,7 +131,7 @@ namespace FMOD
 			void* setPluginPath;
 			void* getVersion;
 			void* getInfo;
-			long(__stdcall* getSystemObject)(EventSystemI*, void*);
+			int32(__stdcall* getSystemObject)(EventSystemI*, void*);
 			void* getMusicSystem;
 			void* load;
 			void* unload;
@@ -199,7 +199,7 @@ namespace FMOD
 	};
 	static_assert(sizeof(EventSystemI) == 0xE4);
 
-	extern long __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata);
+	extern int32 __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata);
 };
 
 namespace snd
@@ -219,11 +219,11 @@ namespace snd
 		struct SYSTEM_vtbl
 		{
 			void* Destructor;
-			void(__thiscall* Init)(SYSTEM*, long, long);
-			long(__thiscall* Term)(SYSTEM*);
+			void(__thiscall* Init)(SYSTEM*, int32, int32);
+			int32(__thiscall* Term)(SYSTEM*);
 			void* Mute;
 			void* StopAll;
-			long(__thiscall* Update)(SYSTEM*, uint32);
+			int32(__thiscall* Update)(SYSTEM*, uint32);
 			void* GetBuffer;
 			void* Func07;
 			void* Func08;
@@ -231,7 +231,7 @@ namespace snd
 			void* RegisterLevelSounds;
 			void* RegisterWavebank;
 			void* CommitRegisteredWavebanks;
-			void(__thiscall* UnregisterWavebank)(SYSTEM*, long*);
+			void(__thiscall* UnregisterWavebank)(SYSTEM*, int32*);
 			void* GetRegisteredWavebanks;
 			void* PreloadSoundbank;
 			void* UnloadSoundbank;
@@ -240,14 +240,14 @@ namespace snd
 			void(__thiscall* SetPreset)(SYSTEM*, uint32*);
 			void* Func20;
 			void(__thiscall* Func21)(SYSTEM*, uint32, uint32);
-			void(__thiscall* Func22)(SYSTEM*, long);
+			void(__thiscall* Func22)(SYSTEM*, int32);
 			void* SetListener;
-			void(__thiscall* GetListener)(SYSTEM*, long, uint64*, uint32, uint32, uint32);
+			void(__thiscall* GetListener)(SYSTEM*, int32, uint64*, uint32, uint32, uint32);
 			void* GetInfo;
 			void* GetPlayingIter;
 			void* GetInfoIter;
 			void* FindInfoIter;
-			long(__thiscall* Func29)(SYSTEM*);
+			int32(__thiscall* Func29)(SYSTEM*);
 			void* DropBuffer;
 			void* UpdateListenersCount;
 		};
@@ -262,8 +262,8 @@ namespace snd
 	struct SYSTEM_FMOD :
 		SYSTEM
 	{
-		static long __cdecl sub_4035E0();
-		bool __thiscall Init(long a1, void** a2);
+		static int32 __cdecl sub_4035E0();
+		bool __thiscall Init(int32 a1, void** a2);
 		static bool __cdecl PrepareInit();
 		bool InitEventSystem(void* a1);
 		//void __thiscall Update(real32 a1);

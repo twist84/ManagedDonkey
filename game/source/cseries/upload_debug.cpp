@@ -83,7 +83,7 @@ bool upload_debug_complete(bool* out_success)
 	return !g_upload_debug_globals.archive_upload_in_progress && g_upload_debug_globals.archive_upload_complete == TRUE;// && !data_mine_uploading_files();
 }
 
-bool __cdecl upload_debug_get_output(char* buffer, long buffer_length)
+bool __cdecl upload_debug_get_output(char* buffer, int32 buffer_length)
 {
 	if (buffer && buffer_length)
 	{
@@ -102,10 +102,10 @@ bool __cdecl upload_debug_get_output(char* buffer, long buffer_length)
 		//}
 		else
 		{
-			long upload_position = g_upload_debug_globals.current_count;
-			long total_count = g_upload_debug_globals.total_count;
+			int32 upload_position = g_upload_debug_globals.current_count;
+			int32 total_count = g_upload_debug_globals.total_count;
 			real32 upload_progress = total_count > 0 ? 100.0f * (real32(upload_position) / real32(total_count)) : 0.0f;
-			csnzappendf(buffer, buffer_length, "\r\nUploading files to server, please wait... %i %%", long(upload_progress));
+			csnzappendf(buffer, buffer_length, "\r\nUploading files to server, please wait... %i %%", int32(upload_progress));
 		}
 	}
 
@@ -131,13 +131,13 @@ bool __cdecl upload_debug_create_fake_archive()
 
 	bool fake_contents_written = true;
 
-	for (long i = 0; i < 2560 && fake_contents_written; i++)
+	for (int32 i = 0; i < 2560 && fake_contents_written; i++)
 		fake_contents_written &= file_write(&file_reference, sizeof(fake_contents), fake_contents);
 
 	return fake_contents_written;
 }
 
-void __cdecl upload_debug_update_callback(long current_count, long total_count)
+void __cdecl upload_debug_update_callback(int32 current_count, int32 total_count)
 {
 	g_upload_debug_globals.current_count = current_count;
 	g_upload_debug_globals.total_count = total_count;

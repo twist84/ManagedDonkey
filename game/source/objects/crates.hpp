@@ -6,15 +6,15 @@
 struct _crate_datum
 {
 	uint32 flags;
-	long self_destruction_timer;
+	int32 self_destruction_timer;
 };
 static_assert(sizeof(_crate_datum) == 0x8);
 
 struct crate_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_crate_datum crate;
 };
-static_assert(sizeof(crate_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_crate_datum));
+static_assert(sizeof(crate_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_crate_datum));
 

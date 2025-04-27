@@ -5,7 +5,7 @@
 
 HOOK_DECLARE_CLASS(0x00A7B5F0, c_tron_effect, resolve_and_process_z_camera);
 
-void __cdecl c_tron_effect::resolve_and_process_z_camera(long player_window_index, rectangle2d* resolve_rectangle, bool use_fullsize_depth_texture)
+void __cdecl c_tron_effect::resolve_and_process_z_camera(int32 player_window_index, rectangle2d* resolve_rectangle, bool use_fullsize_depth_texture)
 {
 	//INVOKE(0x00A7B5F0, sub_A7B5F0, player_window_index, resolve_rectangle);
 

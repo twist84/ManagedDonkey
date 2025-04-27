@@ -21,9 +21,9 @@ struct c_service_client
 
 	struct s_json_data
 	{
-		c_enum<e_json_data_type, long, _json_data_type_undefined, k_json_data_type_count> json_data_type;
+		c_enum<e_json_data_type, int32, _json_data_type_undefined, k_json_data_type_count> json_data_type;
 
-		long object_or_array_count;
+		int32 object_or_array_count;
 		union
 		{
 			void* null_value;
@@ -44,33 +44,33 @@ struct c_service_client
 		uint32 __unknown0;
 
 		// success: __unknown4 == 3
-		long __unknown4;
+		int32 __unknown4;
 
-		long service_type;
+		int32 service_type;
 
 		s_json_data* json_data;
 
-		void(__cdecl* callback)(long user_val, bool success, s_json_data* json_data);
-		long user_val;
+		void(__cdecl* callback)(int32 user_val, bool success, s_json_data* json_data);
+		int32 user_val;
 		bool __unknown18;
 	};
 	static_assert(sizeof(s_json_request) == 0x1C);
 
 	s_json_request m_requests[16];
-	long m_current_request;
-	long m_next_request;
-	long m_previous_request;
+	int32 m_current_request;
+	int32 m_next_request;
+	int32 m_previous_request;
 
 	c_http_stored_buffer_downloader<358400> __downloader1CC;
 
 	char m_contents[4096];
-	long m_content_length;
+	int32 m_content_length;
 };
 
-extern long& mainmenu_spartan_unit_index;
-extern long& mainmenu_elite_unit_index;
+extern int32& mainmenu_spartan_unit_index;
+extern int32& mainmenu_elite_unit_index;
 
-extern void __cdecl hf2p_handle_deleted_object(long object_index);
+extern void __cdecl hf2p_handle_deleted_object(int32 object_index);
 extern void __cdecl hf2p_initialize_for_new_map();
 extern void __cdecl hf2p_initialize();
 extern void __cdecl hf2p_game_initialize();

@@ -12,7 +12,7 @@ void c_recruiting_seeker::update()
 	INVOKE_CLASS_MEMBER(0x004E6E20, c_recruiting_seeker, update);
 }
 
-bool __cdecl network_recruiting_search_begin(long controller_index,long squad_search_flags,long maximum_session_count, s_available_session* session_storage)
+bool __cdecl network_recruiting_search_begin(int32 controller_index,int32 squad_search_flags,int32 maximum_session_count, s_available_session* session_storage)
 {
 	return INVOKE(0x004DBE00, network_recruiting_search_begin, controller_index, squad_search_flags, maximum_session_count, session_storage);
 
@@ -75,7 +75,7 @@ void __cdecl network_recruiting_search_update()
 	if (g_recruiting_search_globals.search_active)
 	{
 		g_recruiting_search_globals.recruiting_seeker.update();
-		for (long i = 0; i < g_recruiting_search_globals.maximum_session_count; i++)
+		for (int32 i = 0; i < g_recruiting_search_globals.maximum_session_count; i++)
 		{
 			s_available_session* session = g_recruiting_search_globals.session_storage + i;
 

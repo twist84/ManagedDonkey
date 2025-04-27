@@ -15,7 +15,7 @@
 #pragma comment(lib, "xinput.lib")
 #endif
 
-#define ADJUST_THUMB_AXIS_DEADZONE_SHORT(THUMB_AXIS, THUMB_DEADZONE) (short)input_xinput_adjust_thumb_axis_deadzone((THUMB_AXIS), (THUMB_DEADZONE))
+#define ADJUST_THUMB_AXIS_DEADZONE_SHORT(THUMB_AXIS, THUMB_DEADZONE) (int16)input_xinput_adjust_thumb_axis_deadzone((THUMB_AXIS), (THUMB_DEADZONE))
 
 using XInputGetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_STATE* pState);
 using XInputSetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);
@@ -58,7 +58,7 @@ uint16 xinput_buttons[]
 	XINPUT_GAMEPAD_LEFT_SHOULDER,
 	XINPUT_GAMEPAD_RIGHT_SHOULDER
 };
-long const k_xinput_button_count = NUMBEROF(xinput_buttons);
+int32 const k_xinput_button_count = NUMBEROF(xinput_buttons);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
@@ -164,7 +164,7 @@ bool __cdecl input_xinput_update_gamepad(uint32 gamepad_index, uint32 elapsed_ms
 	XINPUT_STATE state{};
 	if (!XInputGetState_proxy(gamepad_index, &state))
 	{
-		for (short trigger_index = 0; trigger_index < 2; trigger_index++)
+		for (int16 trigger_index = 0; trigger_index < 2; trigger_index++)
 		{
 			uint8& analog_buttons = in_out_gamepad_state->analog_buttons[trigger_index];
 			uint8& analog_button_thresholds = in_out_gamepad_state->analog_button_thresholds[trigger_index];
@@ -178,7 +178,7 @@ bool __cdecl input_xinput_update_gamepad(uint32 gamepad_index, uint32 elapsed_ms
 			input_xinput_update_trigger(&analog_buttons, trigger_down, (uint8)elapsed_msec);
 		}
 
-		for (long button_index = 0; button_index < k_xinput_button_count; button_index++)
+		for (int32 button_index = 0; button_index < k_xinput_button_count; button_index++)
 		{
 			uint8& button_frames = in_out_gamepad_state->button_frames[_controller_button_dpad_up + button_index];
 			uint16& button_msec = in_out_gamepad_state->button_msec[_controller_button_dpad_up + button_index];
@@ -224,7 +224,7 @@ void __cdecl input_xinput_update_rumble_state(uint32 user_index, rumble_state co
 	}
 }
 
-void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick, short thumb_x, short thumb_y)
+void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick, int16 thumb_x, int16 thumb_y)
 {
 	//INVOKE(0x0065F280, input_xinput_update_thumbstick, left_thumb, thumbstick, thumb_x, thumb_y);
 
@@ -232,7 +232,7 @@ void __cdecl input_xinput_update_thumbstick(bool left_thumb, point2d* thumbstick
 	thumbstick->y = ADJUST_THUMB_AXIS_DEADZONE_SHORT(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
-void __cdecl input_xinput_update_button(uint8* button_frames, uint16* button_msec, bool button_down, long duration_ms)
+void __cdecl input_xinput_update_button(uint8* button_frames, uint16* button_msec, bool button_down, int32 duration_ms)
 {
 	//INVOKE(0x0065F380, input_xinput_update_button, button_frames, button_msec, button_down, elapsed_msec);
 

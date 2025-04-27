@@ -22,5 +22,5 @@ public:
 static_assert(sizeof(s_render_game_state) == 0xD80);
 
 extern void __cdecl __tls_set_g_render_game_globals_allocator(void* new_address);
-extern s_render_game_state::s_player_window* __cdecl get_render_player_window_game_state(long player_window_index);
+extern s_render_game_state::s_player_window* __cdecl get_render_player_window_game_state(int32 player_window_index);
 

@@ -14,15 +14,15 @@ static_assert(0x1658 == OFFSETOF(s_network_message_synchronous_update, metadata)
 struct s_network_message_synchronous_playback_control
 {
 	e_network_synchronous_playback_control type;
-	long identifier;
-	long update_number;
+	int32 identifier;
+	int32 update_number;
 };
 static_assert(sizeof(s_network_message_synchronous_playback_control) == 0xC);
 
 struct s_network_message_synchronous_actions
 {
-	long action_number;
-	long current_update_number;
+	int32 action_number;
+	int32 current_update_number;
 	uint32 valid_user_mask;
 	player_action user_actions[4];
 };
@@ -30,7 +30,7 @@ static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
 
 struct s_network_message_synchronous_acknowledge
 {
-	long current_update_number;
+	int32 current_update_number;
 };
 static_assert(sizeof(s_network_message_synchronous_acknowledge) == 0x4);
 
@@ -39,40 +39,40 @@ struct c_bitstream;
 class c_network_message_synchronous_update
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
-	static bool __cdecl compare(long, void*, void*);
-	static void __cdecl dispose(long, void*);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
+	static bool __cdecl compare(int32, void*, void*);
+	static void __cdecl dispose(int32, void*);
 };
 
 class c_network_message_synchronous_playback_control
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_synchronous_actions
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
-	static bool __cdecl compare(long, void*, void*);
-	static void __cdecl dispose(long, void*);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
+	static bool __cdecl compare(int32, void*, void*);
+	static void __cdecl dispose(int32, void*);
 };
 
 class c_network_message_synchronous_acknowledge
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_synchronous_gamestate
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 struct c_network_message_type_collection;

@@ -79,7 +79,7 @@ auto member_to_static_function(t_member_function member_function)
 template<typename function_t>
 union static_to_member_t
 {
-    unsigned long address;
+    uint32 address;
     void* pointer;
     function_t function;
 };

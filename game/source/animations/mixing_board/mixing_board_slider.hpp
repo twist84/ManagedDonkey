@@ -4,10 +4,10 @@
 
 struct c_mixing_board_slider
 {
-	short m_value;
-	short m_starting_value;
-	short m_total_seconds;
-	short m_seconds_remaining;
+	int16 m_value;
+	int16 m_starting_value;
+	int16 m_total_seconds;
+	int16 m_seconds_remaining;
 	uint8 m_slider_pattern;
 	uint8 m_slider_target;
 	uint8 m_parent_slider_type;

@@ -15,16 +15,16 @@ void c_cubemap_debug::render()
         render_user_cubemap_samples(0);
 }
 
-void c_cubemap_debug::render_user_cubemap_samples(long user_index)
+void c_cubemap_debug::render_user_cubemap_samples(int32 user_index)
 {
     if (!g_render || user_index == 4)
         return;
 
-    long object_index = player_mapping_get_unit_by_output_user(user_index);
+    int32 object_index = player_mapping_get_unit_by_output_user(user_index);
     render_object_cubemap_samples(object_index);
 }
 
-void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
+void __cdecl c_cubemap_debug::render_object_cubemap_samples(int32 object_index)
 {
     if (!g_render || object_index == NONE)
         return;

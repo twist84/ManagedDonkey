@@ -29,7 +29,7 @@ void c_game_engine_juggernaut_variant::set(c_game_engine_juggernaut_variant cons
 	set_allied_against_juggernaut(variant->get_allied_against_juggernaut());
 	set_respawn_on_lone_juggernaut(variant->get_respawn_on_lone_juggernaut());
 	set_destination_zones_enabled(variant->get_destination_zones_enabled());
-	set_score_to_win_round(static_cast<short>(variant->get_score_to_win_round()));
+	set_score_to_win_round(static_cast<int16>(variant->get_score_to_win_round()));
 
 	zero_array(m_pad);
 
@@ -60,7 +60,7 @@ void c_game_engine_juggernaut_variant::encode_to_mcc(c_bitstream* packet) const
 	bool allied_against_juggernaut = get_allied_against_juggernaut();
 	bool respawn_on_lone_juggernaut = get_respawn_on_lone_juggernaut();
 	bool destination_zones_enabled = get_destination_zones_enabled();
-	short score_to_win_round = static_cast<short>(get_score_to_win_round());
+	int16 score_to_win_round = static_cast<int16>(get_score_to_win_round());
 	e_juggernaut_initial_juggernaut_settings initial_juggernaut = get_initial_juggernaut();
 	e_juggernaut_next_juggernaut_settings next_juggernaut = get_next_juggernaut();
 	e_juggernaut_zone_movement_settings zone_movement = get_zone_movement();
@@ -98,7 +98,7 @@ void c_game_engine_juggernaut_variant::decode_from_mcc(c_bitstream* packet)
 	bool allied_against_juggernaut = packet->read_bool("juggernaut-allied-against-juggernaut");
 	bool respawn_on_lone_juggernaut = packet->read_bool("juggernaut-respawn-on-lone-juggernaut");
 	bool destination_zones_enabled = packet->read_bool("juggernaut-destination-zones-enabled");
-	short score_to_win_round = static_cast<short>(packet->read_integer("juggernaut-score-to-win-round", 9));
+	int16 score_to_win_round = static_cast<int16>(packet->read_integer("juggernaut-score-to-win-round", 9));
 	e_juggernaut_initial_juggernaut_settings initial_juggernaut = packet->read_enum<e_juggernaut_initial_juggernaut_settings, 2>("juggernaut-initial-juggernaut");
 	e_juggernaut_next_juggernaut_settings next_juggernaut = packet->read_enum<e_juggernaut_next_juggernaut_settings, 2>("juggernaut-next-juggernaut");
 	e_juggernaut_zone_movement_settings zone_movement = packet->read_enum<e_juggernaut_zone_movement_settings, 4>("juggernaut-zone-movement");
@@ -159,7 +159,7 @@ void c_game_engine_juggernaut_variant::set_destination_zones_enabled(bool destin
 	m_variant_flags.set(_juggernaut_variant_flags_destination_zones_enabled, destination_zones_enabled);
 }
 
-void c_game_engine_juggernaut_variant::set_score_to_win_round(short score_to_win_round)
+void c_game_engine_juggernaut_variant::set_score_to_win_round(int16 score_to_win_round)
 {
 	if (!VALID_INDEX(score_to_win_round, 500))
 	{
@@ -216,7 +216,7 @@ e_juggernaut_zone_movement_settings c_game_engine_juggernaut_variant::get_zone_m
 	return m_zone_movement;
 }
 
-long c_game_engine_juggernaut_variant::get_zone_movement_time_in_seconds() const
+int32 c_game_engine_juggernaut_variant::get_zone_movement_time_in_seconds() const
 {
 	//ASSERT(VALID_INDEX(m_zone_movement, k_number_of_juggernaut_zone_movement_settings));
 	ASSERT(VALID_INDEX(get_zone_movement(), k_number_of_juggernaut_zone_movement_settings));

@@ -20,8 +20,8 @@ struct _item_definition
 	// $$$ ITEM $$$
 
 	c_flags<e_item_definition_flags, uint32, k_item_definition_flags> flags;
-	short old_message_index;
-	short sort_order;
+	int16 old_message_index;
+	int16 sort_order;
 	real32 old_multiplayer_on_ground_scale;
 	real32 old_campaign_on_ground_scale;
 

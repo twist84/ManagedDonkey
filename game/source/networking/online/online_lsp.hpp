@@ -21,47 +21,47 @@ struct c_online_lsp_manager
 		k_client_state_count
 	};
 
-	long __thiscall acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, uint16* port_out, char const* service_description);
+	int32 __thiscall acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uint16* port_out, char const* service_description);
 	
 	void clear_activated_servers();
-	void clear_client(long client_index);
-	void disconnect_from_server(long connection_token, bool success);
-	long find_empty_slot_index();
-	long find_slot_index_from_token(long connection_token);
+	void clear_client(int32 client_index);
+	void disconnect_from_server(int32 connection_token, bool success);
+	int32 find_empty_slot_index();
+	int32 find_slot_index_from_token(int32 connection_token);
 	static c_online_lsp_manager* get();
 	void go_into_crash_mode();
 	void reset();
-	void server_connected(long connection_token);
+	void server_connected(int32 connection_token);
 
 	void update();
 
-	static long const k_client_description_length = 48;
+	static int32 const k_client_description_length = 48;
 
 	bool m_last_online_state;
 	bool m_crash_mode;
 
 	struct
 	{
-		long currently_activated_server_index;
-		long currently_activated_server_ip;
+		int32 currently_activated_server_index;
+		int32 currently_activated_server_ip;
 		uint16 currently_activated_server_port;
 	} m_service[9];
 
-	long m_last_search_start_time;
-	long m_last_use_time;
-	long m_lsp_server_count;
-	long m_raw_server_count;
-	c_static_array<long, 20> m_best_service_indices;
+	int32 m_last_search_start_time;
+	int32 m_last_use_time;
+	int32 m_lsp_server_count;
+	int32 m_raw_server_count;
+	c_static_array<int32, 20> m_best_service_indices;
 
 	struct
 	{
-		c_enum<e_client_state, long, _client_state_none, k_client_state_count> client_state;
-		long service_type;
-		long connection_token;
+		c_enum<e_client_state, int32, _client_state_none, k_client_state_count> client_state;
+		int32 service_type;
+		int32 connection_token;
 		c_static_string<k_client_description_length> client_description;
 	}  m_current_clients[16];
 
-	long connection_token;
+	int32 connection_token;
 };
 static_assert(sizeof(c_online_lsp_manager) == 0x494);
 
@@ -71,17 +71,17 @@ extern c_online_lsp_manager& g_online_lsp_manager;
 
 extern char const* const k_service_type_descriptions[k_online_lsp_service_type_count];
 
-extern bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, long* ip_address_out);
+extern bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, int32* ip_address_out);
 extern bool __cdecl online_lsp_begin_search();
 extern void __cdecl online_lsp_deactivate();
 extern void __cdecl online_lsp_dispose();
 extern uint32 __cdecl online_lsp_get_server_count();
-extern bool __cdecl online_lsp_get_server_description(long server_index, c_static_string<200>* server_description);
+extern bool __cdecl online_lsp_get_server_description(int32 server_index, c_static_string<200>* server_description);
 extern e_online_lsp_state __cdecl online_lsp_get_state();
 extern void __cdecl online_lsp_initialize();
 extern bool __cdecl online_lsp_service_available();
 extern void __cdecl online_lsp_update();
 
-extern void online_lsp_get_info(long* ip_address, uint16* port);
+extern void online_lsp_get_info(int32* ip_address, uint16* port);
 extern void online_lsp_set_info(char const* host, char const* port);
 

@@ -43,7 +43,7 @@ extern void __cdecl sub_511F20();
 extern void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam);
 extern void __cdecl WndProc_HandleActivate(UINT uMsg, WPARAM wParam);
 extern void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
+extern bool __cdecl shell_get_system_identifier(char* system_identifier, int32 system_identifier_len);
 
 #define IDD_CHOOSE_RASTERIZER_DIALOG 101
 #define ID_CHOOSE_RASTERIZER_BUTTON_OK IDOK

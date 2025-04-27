@@ -14,7 +14,7 @@ struct recorded_animation_definition
 
 	uint8 DVU[0x1];
 
-	short length_of_animation; // ticks
+	int16 length_of_animation; // ticks
 
 	uint8 DCAU[0x2];
 	uint8 HL[0x4];

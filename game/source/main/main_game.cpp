@@ -578,7 +578,7 @@ bool __cdecl main_game_load_blocking(char const* scenario_path)
 	return main_load_map(scenario_path, 2);
 }
 
-void __cdecl main_tag_load_begin(long game_mode, long a2, char const* map_or_zone_name)
+void __cdecl main_tag_load_begin(int32 game_mode, int32 a2, char const* map_or_zone_name)
 {
 	ASSERT(map_or_zone_name);
 	ASSERT(!loading_globals.tag_load_in_progress);
@@ -611,7 +611,7 @@ bool __cdecl main_game_load_map(game_options const* options)
 	bool map_loaded = false;
 
 	char const* scenario_path = options->scenario_path.get_string();
-	long map_load_status = main_load_map_status(scenario_path);
+	int32 map_load_status = main_load_map_status(scenario_path);
 
 	if (map_load_status == 0 || map_load_status == 1)
 	{
@@ -687,7 +687,7 @@ bool __cdecl main_game_load_map(game_options const* options)
 		//	bool keep_pumping = true;
 		//	while (keep_pumping)
 		//	{
-		//		long map_load_progress = 0;
+		//		int32 map_load_progress = 0;
 		//		e_session_game_start_status game_start_status{};
 		//		if (user_interface_squad_get_machine_count() <= 1
 		//			|| !user_interface_get_session_precaching_progress(&map_load_progress, &game_start_status)
@@ -798,7 +798,7 @@ void __cdecl main_game_notify_language_change(e_language language)
 	//director_notify_map_reset();
 }
 
-void __cdecl main_game_progression_request_level_advance_spoke(long gp_level_index)
+void __cdecl main_game_progression_request_level_advance_spoke(int32 gp_level_index)
 {
 	//INVOKE(0x00567C10, main_game_progression_request_level_advance_spoke, gp_level_index);
 
@@ -819,7 +819,7 @@ void __cdecl main_game_progression_request_level_advance()
 	main_game_globals.map_advance_pending = true;
 }
 
-void __cdecl main_game_progression_request_level_advance_hub(long gp_level_index)
+void __cdecl main_game_progression_request_level_advance_hub(int32 gp_level_index)
 {
 	//INVOKE(0x00567C50, main_game_progression_request_level_advance_hub, gp_level_index);
 
@@ -830,7 +830,7 @@ void __cdecl main_game_progression_request_level_advance_hub(long gp_level_index
 	main_game_globals.map_advance_pending = true;
 }
 
-void __cdecl main_game_progression_request_level_advance_normal(long gp_level_index)
+void __cdecl main_game_progression_request_level_advance_normal(int32 gp_level_index)
 {
 	//INVOKE(0x00567C70, main_game_progression_request_level_advance_normal, gp_level_index);
 
@@ -868,7 +868,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 
 	if (!game_is_survival())
 	{
-		long last_level = game_progression_get_last_level();
+		int32 last_level = game_progression_get_last_level();
 		if (last_level != NONE && game_progression_level_has_gameplay(last_level) && !game_progression_level_is_hub(last_level))
 		{
 			options.campaign_insertion_point = 0;
@@ -878,10 +878,10 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	if (reset_map_random)
 		options.random_seed = generate_random_seed();
 
-	short zone_set_index = options.initial_zone_set_index;
+	int16 zone_set_index = options.initial_zone_set_index;
 	if (game_in_editor())
 	{
-		zone_set_index = (short)scenario_zone_set_index_get();
+		zone_set_index = (int16)scenario_zone_set_index_get();
 		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
 			options.initial_zone_set_index = zone_set_index;
 		else
@@ -912,7 +912,7 @@ bool __cdecl main_game_start(game_options const* options)
 {
 	//return INVOKE(0x00567E40, main_game_start, options);
 
-	long zone_set_index = 0;
+	int32 zone_set_index = 0;
 	if (options->initial_zone_set_index > 0)
 		zone_set_index = options->initial_zone_set_index;
 

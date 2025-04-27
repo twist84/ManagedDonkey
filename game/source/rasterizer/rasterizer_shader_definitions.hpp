@@ -42,7 +42,7 @@ struct c_rasterizer_compiled_shader
 	c_rasterizer_constant_table_definition rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_platform_count
 
 	// ..:gprs
-	long gprs;
+	int32 gprs;
 };
 static_assert(sizeof(c_rasterizer_compiled_shader) == 0x4C);
 
@@ -66,32 +66,32 @@ static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
 struct c_rasterizer_vertex_shader
 {
-	static c_rasterizer_vertex_shader const* get(long definition_index);
-	static c_rasterizer_vertex_shader* get_modifiable(long definition_index);
+	static c_rasterizer_vertex_shader const* get(int32 definition_index);
+	static c_rasterizer_vertex_shader* get_modifiable(int32 definition_index);
 
-	s_rasterizer_vertex_shader_entry_point const* get_entry_point(long entry_point) const;
-	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(long shader_index) const;
-	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const;
-	IDirect3DVertexShader9* get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const;
+	s_rasterizer_vertex_shader_entry_point const* get_entry_point(int32 entry_point) const;
+	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(int32 shader_index) const;
+	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const;
+	IDirect3DVertexShader9* get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const;
 
 	c_flags<e_entry_point, uint32, k_entry_point_count> entry_point_flags;
 	c_typed_tag_block<s_rasterizer_vertex_shader_entry_point> entry_points;
-	long version;
+	int32 version;
 	c_typed_tag_block<c_rasterizer_compiled_vertex_shader> compiled_shader;
 };
 static_assert(sizeof(c_rasterizer_vertex_shader) == 0x20);
 
 struct c_rasterizer_pixel_shader
 {
-	static c_rasterizer_pixel_shader const* get(long definition_index);
-	static c_rasterizer_pixel_shader* get_modifiable(long definition_index);
+	static c_rasterizer_pixel_shader const* get(int32 definition_index);
+	static c_rasterizer_pixel_shader* get_modifiable(int32 definition_index);
 
-	c_rasterizer_compiled_pixel_shader const* get_compiled_shader(e_entry_point entry_point, long shader_index) const;
-	IDirect3DPixelShader9* get_d3d_shader(e_entry_point entry_point, long shader_index) const;
+	c_rasterizer_compiled_pixel_shader const* get_compiled_shader(e_entry_point entry_point, int32 shader_index) const;
+	IDirect3DPixelShader9* get_d3d_shader(e_entry_point entry_point, int32 shader_index) const;
 
 	c_flags<e_entry_point, uint32, k_entry_point_count> entry_point_flags;
 	c_typed_tag_block<s_compiled_shader_reference> entry_points;
-	long version;
+	int32 version;
 	c_typed_tag_block<c_rasterizer_compiled_pixel_shader> compiled_shader;
 };
 static_assert(sizeof(c_rasterizer_pixel_shader) == 0x20);

@@ -11,9 +11,9 @@ struct s_console_globals
 	real32 open_timeout_seconds;
 	terminal_gets_state input_state;
 	c_static_string<255> previous_commands[16];
-	short previous_command_count;
-	short newest_previous_command_index;
-	short selected_previous_command_index;
+	int16 previous_command_count;
+	int16 newest_previous_command_index;
+	int16 selected_previous_command_index;
 };
 //static_assert(sizeof(s_console_globals) == 0x1204);
 
@@ -21,7 +21,7 @@ struct s_console_global
 {
 	char const* name;
 
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
 	void* pointer;
 };
 static_assert(sizeof(s_console_global) == 0xC);
@@ -46,7 +46,7 @@ struct s_status_string
 	s_status_string();
 
 	c_static_string<256> format_string;
-	long time_created;
+	int32 time_created;
 	s_status_line line;
 };
 static_assert(sizeof(s_status_string) == 0x228);
@@ -65,7 +65,7 @@ static_assert(sizeof(s_string_cache) == 0x1014);
 extern s_console_globals console_globals;
 
 extern s_console_global const k_console_globals[];
-extern long const k_console_global_count;
+extern int32 const k_console_global_count;
 
 extern bool console_dump_to_debug_display;
 
@@ -100,13 +100,13 @@ extern void status_line_dump();
 extern void status_line_remove_single(s_status_line* status_line);
 extern bool status_line_visible(s_status_line const* status_line);
 
-extern void status_lines_clear_text(s_status_line* status_lines, long count);
+extern void status_lines_clear_text(s_status_line* status_lines, int32 count);
 extern void status_lines_disable(char const* identifier);
-extern void status_lines_dispose(s_status_line* status_lines, long count);
+extern void status_lines_dispose(s_status_line* status_lines, int32 count);
 extern void status_lines_enable(char const* identifier);
-extern void status_lines_initialize(s_status_line* status_lines, bool* flag, long count);
-extern void status_lines_initialize_simple(s_status_line* status_lines, bool* flag, char const* identifier, long count);
-extern void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, long count);
+extern void status_lines_initialize(s_status_line* status_lines, bool* flag, int32 count);
+extern void status_lines_initialize_simple(s_status_line* status_lines, bool* flag, char const* identifier, int32 count);
+extern void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, int32 count);
 
 extern void status_printf(char const* format, ...);
 extern void status_printf_va(char const* format, char* list);

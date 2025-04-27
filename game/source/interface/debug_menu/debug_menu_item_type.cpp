@@ -23,7 +23,7 @@ void c_debug_menu_item_type::render(c_font_cache_base* font_cache, point2d const
 	c_debug_menu_item::render(font_cache, next_point);
 }
 
-void c_debug_menu_item_type::to_string(char* buffer, long buffer_size)
+void c_debug_menu_item_type::to_string(char* buffer, int32 buffer_size)
 {
 	csstrnzcpy(buffer, "overload toString", buffer_size);
 }
@@ -42,10 +42,10 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, point2d
 	{
 		real32 alpha = get_menu()->get_enabled() ? 0.7f : 0.1f;
 
-		short x0 = position.x;
-		short y0 = short(position.y + debug_menu_get_item_indent_y());
-		short x1 = short(position.x + 60);
-		short y1 = short((position.y + get_menu()->get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+		int16 x0 = position.x;
+		int16 y0 = int16(position.y + debug_menu_get_item_indent_y());
+		int16 x1 = int16(position.x + 60);
+		int16 y1 = int16((position.y + get_menu()->get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
 
 		debug_menu_draw_rect(x0, y0, x1, y1, alpha, get_background_color());
 	}
@@ -90,7 +90,7 @@ void c_debug_menu_item_type_bool::notify_right()
 		m_value.set(!m_value.get());
 }
 
-void c_debug_menu_item_type_bool::to_string(char* buffer, long buffer_size)
+void c_debug_menu_item_type_bool::to_string(char* buffer, int32 buffer_size)
 {
 	csnzprintf(buffer, buffer_size, "%s", m_value.get() ? "True" : "False");
 }
@@ -121,7 +121,7 @@ void c_debug_menu_item_type_real::notify_right()
 		m_value.set(MIN(m_max, MAX(m_min, m_value.get() + m_inc)));
 }
 
-void c_debug_menu_item_type_real::to_string(char* buffer, long buffer_size)
+void c_debug_menu_item_type_real::to_string(char* buffer, int32 buffer_size)
 {
 	csnzprintf(buffer, buffer_size, "%f", m_value.get());
 }
@@ -155,12 +155,12 @@ void c_debug_menu_item_type_short::notify_right()
 		m_value.set(MIN(m_max, MAX(m_min, m_value.get() + m_inc)));
 }
 
-void c_debug_menu_item_type_short::to_string(char* buffer, long buffer_size)
+void c_debug_menu_item_type_short::to_string(char* buffer, int32 buffer_size)
 {
 	csnzprintf(buffer, buffer_size, "%d", m_value.get());
 }
 
-c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, short min, short max, short inc) :
+c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int16 min, int16 max, int16 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),
@@ -189,12 +189,12 @@ void c_debug_menu_item_type_long::notify_right()
 		m_value.set(MIN(m_max, MAX(m_min, m_value.get() + m_inc)));
 }
 
-void c_debug_menu_item_type_long::to_string(char* buffer, long buffer_size)
+void c_debug_menu_item_type_long::to_string(char* buffer, int32 buffer_size)
 {
 	csnzprintf(buffer, buffer_size, "%d", m_value.get());
 }
 
-c_debug_menu_item_type_long::c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, long min, long max, long inc) :
+c_debug_menu_item_type_long::c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int32 min, int32 max, int32 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),

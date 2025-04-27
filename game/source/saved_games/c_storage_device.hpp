@@ -20,7 +20,7 @@ struct c_storage_device
 {
 	void set_device_selection_cancelled(bool device_selection_cancelled);
 
-	long m_flags;
+	int32 m_flags;
 	uint32 m_device_id;
 	e_controller_index m_controller_index;
 	c_storage_device_selector_overlapped_task m_storage_device_selector_task;

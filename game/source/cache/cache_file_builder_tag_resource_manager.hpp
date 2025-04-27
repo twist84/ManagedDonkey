@@ -29,7 +29,7 @@ enum e_cache_file_tag_resource_location_flags
 struct s_cache_file_resource_file_location
 {
 	// runtime
-	short resource_handle_salt;
+	int16 resource_handle_salt;
 
 	c_flags<e_cache_file_tag_resource_location_flags, uint8, k_cache_file_tag_resource_location_flags> flags;
 	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
@@ -37,7 +37,7 @@ struct s_cache_file_resource_file_location
 	union
 	{
 		// persistent file index, dependant on what location flag is active
-		long shared_file_location_index;
+		int32 shared_file_location_index;
 
 		// runtime combined offset, at runtime all resource files are a combined buffer
 		uint32 file_offset;
@@ -52,8 +52,8 @@ static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
 
 struct s_render_texture_format
 {
-	short width;
-	short height;
+	int16 width;
+	int16 height;
 	char depth;
 	char mipmap_count_including_highest;
 	char bitmap_type;
@@ -81,15 +81,15 @@ union control_data_t
 
 struct s_cache_file_resource_fixup_location
 {
-	long encoded_fixup_location;
-	long encoded_fixup_value;
+	int32 encoded_fixup_location;
+	int32 encoded_fixup_value;
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
 struct s_tag_resource_interop_location
 {
 	c_tag_resource_fixup encoded_interop_location;
-	long interop_type_index; // long_block_index
+	int32 interop_type_index; // long_block_index
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
@@ -98,7 +98,7 @@ extern char const* const k_cache_file_resource_type_names[k_cache_file_resource_
 struct s_cache_file_resource_runtime_data_new
 {
 	s_tag_reference owner_tag;
-	short resource_salt;
+	int16 resource_salt;
 	c_enum<e_cache_file_resource_type, char, _cache_file_resource_type_structure_bsp_cache_file_tag_resources, k_cache_file_resource_type_count> resource_type;
 	char control_alignment_bits;
 	c_typed_tag_data<control_data_t> control_data;
@@ -120,9 +120,9 @@ struct s_cache_file_tag_parentage
 {
 	s_tag_reference child_tag;
 	uint16 flags;
-	short resource_owner_index;
-	c_typed_tag_block<long> parent_indices; // s_cache_file_tag_parentage block indices
-	c_typed_tag_block<long> child_indices;  // s_cache_file_tag_parentage block indices
+	int16 resource_owner_index;
+	c_typed_tag_block<int32> parent_indices; // s_cache_file_tag_parentage block indices
+	c_typed_tag_block<int32> child_indices;  // s_cache_file_tag_parentage block indices
 };
 static_assert(sizeof(s_cache_file_tag_parentage) == 0x2C);
 
@@ -135,7 +135,7 @@ struct s_tag_resource_cache_prediction_table
 {
 	c_typed_tag_block<s_tag_resource_prediction_quantum> quanta;
 	c_typed_tag_block<s_tag_resource_prediction_atom> atoms;
-	c_typed_tag_block<long> molecule_atoms;
+	c_typed_tag_block<int32> molecule_atoms;
 	c_typed_tag_block<s_tag_resource_prediction_molecule> molecules;
 	c_typed_tag_block<s_tag_resource_prediction_molecule_key> molecule_keys;
 };
@@ -187,5 +187,5 @@ struct s_cache_file_resource_gestalt
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 
-extern char const* cache_file_resource_type_get_name(long resource_type);
+extern char const* cache_file_resource_type_get_name(int32 resource_type);
 

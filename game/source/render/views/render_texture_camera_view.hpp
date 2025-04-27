@@ -59,8 +59,8 @@ struct s_render_texture_camera_globals
     {
         struct
         {
-            long object_index;
-            long marker_id;
+            int32 object_index;
+            int32 marker_id;
         };
 
         real_point3d position;
@@ -73,15 +73,15 @@ struct s_render_texture_camera_globals
     {
         struct
         {
-            long object_index;
-            long marker_id;
+            int32 object_index;
+            int32 marker_id;
         };
 
         real_point3d position;
 
     } target;
 
-    long __unknown40_object_index;
+    int32 __unknown40_object_index;
 
     union
     {
@@ -100,8 +100,8 @@ struct s_render_texture_camera_globals
     } fov;
 
     real32 aspect_ratio;
-    long width;
-    long height;
+    int32 width;
+    int32 height;
 };
 static_assert(sizeof(s_render_texture_camera_globals) == 0x6C);
 

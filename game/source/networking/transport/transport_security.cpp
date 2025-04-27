@@ -119,7 +119,7 @@ bool __cdecl transport_secure_address_resolve()
 	return INVOKE(0x00430CF0, transport_secure_address_resolve);
 }
 
-bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, long platform, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, int32 platform, s_transport_secure_address* secure_address)
 {
 	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, platform, secure_address);
 
@@ -133,7 +133,7 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 	return false;
 }
 
-char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac)
+char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, int32 maximum_string_length, bool include_online, bool include_mac)
 {
 	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, _string, maximum_string_length, include_online, include_mac);
 }
@@ -153,7 +153,7 @@ char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifi
 	return result;
 }
 
-bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, int32 platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
 {
 	//return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
 
@@ -201,9 +201,9 @@ char const* __cdecl transport_secure_nonce_get_string(uint64 nonce)
 	return transport_secure_nonce_string.get_string();
 }
 
-void __cdecl transport_secure_random(long random_length, uint8* random_data)
+void __cdecl transport_secure_random(int32 random_length, uint8* random_data)
 {
-	long const k_meg = 0x100000;
+	int32 const k_meg = 0x100000;
 
 	ASSERT(random_data);
 	ASSERT(random_length > 0 && random_length < k_meg);
@@ -219,8 +219,8 @@ void __cdecl transport_secure_random(long random_length, uint8* random_data)
 	{
 		INVOKE(0x00431130, transport_secure_random, random_length, random_data);
 
-		//long random_seed = generate_random_seed(random_length);
-		//for (long i = 0; i < random_length; ++i)
+		//int32 random_seed = generate_random_seed(random_length);
+		//for (int32 i = 0; i < random_length; ++i)
 		//	random_data[i] = _random_range(random_seed, 0, __FILE__, __LINE__, 0, 256);
 	}
 }

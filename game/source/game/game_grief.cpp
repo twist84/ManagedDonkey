@@ -15,7 +15,7 @@ void __cdecl game_grief_record_reprieve()
 	//event(_event_status, "betrayal forgiveness granted");
 }
 
-bool __cdecl game_grief_can_eject(long player_index)
+bool __cdecl game_grief_can_eject(int32 player_index)
 {
 	return INVOKE(0x00678F30, game_grief_can_eject, player_index);
 
@@ -58,11 +58,11 @@ void __cdecl game_grief_initialize_for_new_map()
 {
 	INVOKE(0x00678FF0, game_grief_initialize_for_new_map);
 
-	//long constexpr k_size = sizeof(game_grief_globals) - OFFSETOF(s_game_grief_globals, time_of_last_forgiveness_ms);
+	//int32 constexpr k_size = sizeof(game_grief_globals) - OFFSETOF(s_game_grief_globals, time_of_last_forgiveness_ms);
 	//csmemset(&game_grief_globals.time_of_last_forgiveness_ms, 0, k_size);
 }
 
-void __cdecl game_grief_record_betrayal(long player_index)
+void __cdecl game_grief_record_betrayal(int32 player_index)
 {
 	INVOKE(0x00679010, game_grief_record_betrayal, player_index);
 
@@ -89,14 +89,14 @@ void __cdecl game_grief_record_betrayal(long player_index)
 	//global_preferences_set_betrayal_count(betrayal_count);
 }
 
-void __cdecl game_grief_record_ejection(long player_index)
+void __cdecl game_grief_record_ejection(int32 player_index)
 {
 	INVOKE(0x00679070, game_grief_record_ejection, player_index);
 
 	//if (game_is_playback())
 	//	return;
 	//
-	//long eviction_count = global_preferences_get_eviction_count();
+	//int32 eviction_count = global_preferences_get_eviction_count();
 	//game_grief_globals.grief_user.time_of_last_ejection_ms = system_milliseconds();
 	//
 	//event(_event_status, "ejection recorded for player %d", player_index);
@@ -125,7 +125,7 @@ void __cdecl game_grief_update()
 	//if (game_is_playback())
 	//	return;
 	//
-	//unsigned long time = system_milliseconds();
+	//uint32 time = system_milliseconds();
 	//
 	//real32 betrayal_count = global_preferences_get_betrayal_count();
 	//if (betrayal_count > 0.0f && (time - game_grief_globals.grief_user.time_of_last_betrayal_ms) > g_network_configuration.griefer_config.betrayal_decrement_time)
@@ -137,7 +137,7 @@ void __cdecl game_grief_update()
 	//
 	//	if (g_network_configuration.griefer_config.betrayal_cutoff > betrayal_count)
 	//	{
-	//		for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
+	//		for (int32 controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	//		{
 	//			user_interface_controller_set_griefer(controller_index, false);
 	//			user_interface_controller_update_network_properties(controller_index);
@@ -145,7 +145,7 @@ void __cdecl game_grief_update()
 	//	}
 	//}
 	//
-	//long eviction_count = global_preferences_get_eviction_count();
+	//int32 eviction_count = global_preferences_get_eviction_count();
 	//if (eviction_count > 0 && (time - game_grief_globals.grief_user.time_of_last_ejection_ms) > g_network_configuration.griefer_config.eject_decrement_time)
 	//{
 	//	event(_event_status, "ejection count decremented!");

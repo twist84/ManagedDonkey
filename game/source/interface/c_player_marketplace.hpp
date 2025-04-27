@@ -8,21 +8,21 @@
 struct c_player_marketplace
 {
 private:
-	static long& x_active_count;
+	static int32& x_active_count;
 	static c_online_marketplace_purchase_task& m_purchase_task;
 	static c_online_marketplace_enumerate_assets_task& m_enumerate_assets_task;
 	static c_online_marketplace_consume_asset_task& m_consume_asset_task;
 	static c_http_stored_buffer_downloader<4096>& m_downloader;
 
 protected:
-	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, int32, _controller0, k_number_of_controllers> m_controller_index;
 
 	bool m_refresh;
-	long m_marketplace_state;
+	int32 m_marketplace_state;
 
-	long __unknownC;
+	int32 __unknownC;
 
-	long m_subscription_info_checked;
+	int32 m_subscription_info_checked;
 	bool m_extras_portal_enabled;
 
 	// 0: ?
@@ -30,7 +30,7 @@ protected:
 	// 2: Subscribed
 	// 3: SubscribedRenew
 	// 4: Expired
-	long m_status;
+	int32 m_status;
 
 	uint8 __data1C[0x4];
 
@@ -51,13 +51,13 @@ protected:
 	uint64 m_subscription_seconds;
 
 	// SubscriptionHash
-	long m_subscription_hash;
+	int32 m_subscription_hash;
 
 	// PortalButton
 	c_static_wchar_string<256> m_extras_portal;
 
 	// PortalOfferCount
-	long m_portal_offer_count;
+	int32 m_portal_offer_count;
 
 	// PortalOfferID
 	uint64 m_portal_offer_id;
@@ -71,7 +71,7 @@ protected:
 	// PortalExecuteLaunchData
 	uint64 m_portal_execute_launch_data;
 
-	long m_consumable_assets_checked;
+	int32 m_consumable_assets_checked;
 
 	bool __unknown144C;
 	uint8 __pad144D[3];

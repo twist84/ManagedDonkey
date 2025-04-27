@@ -48,7 +48,7 @@ enum e_juggernaut_zone_movement_settings
 	k_juggernaut_zone_movement_settings_default = _juggernaut_zone_movement_settings_off
 };
 
-long const k_juggernaut_zone_movement_values[k_number_of_juggernaut_zone_movement_settings]
+int32 const k_juggernaut_zone_movement_values[k_number_of_juggernaut_zone_movement_settings]
 {
 	0,
 	10,

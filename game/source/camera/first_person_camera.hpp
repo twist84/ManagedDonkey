@@ -8,9 +8,9 @@ struct c_first_person_camera :
 	public c_camera
 {
 public:
-	void __thiscall update_(long user_index, real32 dt, s_observer_command* result);
+	void __thiscall update_(int32 user_index, real32 dt, s_observer_command* result);
 
-	void constructor(long unit_index)
+	void constructor(int32 unit_index)
 	{
 		INVOKE_CLASS_MEMBER(0x0065F410, c_first_person_camera, constructor, unit_index);
 	}
@@ -26,7 +26,7 @@ struct c_authored_camera :
 	public c_camera
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x0072F2E0, c_authored_camera, constructor, user_index);
 	}

@@ -24,7 +24,7 @@
 real32 g_ui_time_scale = 1.0f;
 real32 g_ui_time_step = 0.0f;
 
-REFERENCE_DECLARE(0x0191CC20, long, g_user_interface_alpha_locked_down_state); // e_alpha_configuration_ui_level
+REFERENCE_DECLARE(0x0191CC20, int32, g_user_interface_alpha_locked_down_state); // e_alpha_configuration_ui_level
 REFERENCE_DECLARE(0x0191CC24, bool, g_eula_accepted);
 REFERENCE_DECLARE(0x052559E0, bool, g_user_interface_is_alpha);
 REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
@@ -59,7 +59,7 @@ bool __cdecl get_alpha_is_locked_down()
 }
 
 //e_alpha_configuration_ui_level __cdecl get_alpha_locked_down_state()
-long __cdecl get_alpha_locked_down_state()
+int32 __cdecl get_alpha_locked_down_state()
 {
 	return INVOKE(0x00A84190, get_alpha_locked_down_state);
 }
@@ -72,7 +72,7 @@ bool __cdecl get_is_alpha_version()
 }
 
 //.text:00A841F0 ; 
-//.text:00A84200 ; c_gui_data* __cdecl interface_get_global_datasource(long)
+//.text:00A84200 ; c_gui_data* __cdecl interface_get_global_datasource(int32)
 //.text:00A84240 ; void __cdecl set_debug_frame_element_bounds(bool)
 //.text:00A84260 ; void __cdecl ui_handle_script_verification()
 
@@ -96,21 +96,21 @@ void __cdecl user_interface_enter_game_shell()
 }
 
 //.text:00A84350 ; bool __cdecl user_interface_get_bad_download_flag()
-//.text:00A84360 ; long __cdecl user_interface_get_main_menu_music_fade_time_milliseconds()
+//.text:00A84360 ; int32 __cdecl user_interface_get_main_menu_music_fade_time_milliseconds()
 
-void __cdecl user_interface_get_number_of_render_windows(long user_index, long* horizontal_window_count, long* vertical_window_count)
+void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32* horizontal_window_count, int32* vertical_window_count)
 {
 	INVOKE(0x00A84370, user_interface_get_number_of_render_windows, user_index, horizontal_window_count, vertical_window_count);
 }
 
-//.text:00A84420 ; uint64 __cdecl user_interface_get_player_hash_bits(e_controller_index, long)
+//.text:00A84420 ; uint64 __cdecl user_interface_get_player_hash_bits(e_controller_index, int32)
 //.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real32*, real32*, real32*)
 //.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
 //.text:00A844E0 ; 
-//.text:00A844F0 ; long __cdecl user_interface_get_selected_campaign_difficulty()
+//.text:00A844F0 ; int32 __cdecl user_interface_get_selected_campaign_difficulty()
 //.text:00A84500 ; e_campaign_id __cdecl user_interface_get_selected_campaign_id()
 //.text:00A84510 ; e_map_id __cdecl user_interface_get_selected_campaign_map_id()
-//.text:00A84520 ; char* __cdecl user_interface_get_selected_campaign_path(char*, long)
+//.text:00A84520 ; char* __cdecl user_interface_get_selected_campaign_path(char*, int32)
 //.text:00A84570 ; bool __cdecl user_interface_get_storage_device_selection_deferred()
 
 void __cdecl user_interface_initialize()
@@ -157,8 +157,8 @@ void __cdecl user_interface_non_idle_event_occured()
 //.text:00A84990 ; 
 //.text:00A849A0 ; 
 
-//void __cdecl user_interface_render(e_controller_index controller, long user_index, e_window_index window, rectangle2d const* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
-void __cdecl user_interface_render(e_controller_index controller, long user_index, long window, rectangle2d const* viewport_bounds, long rasterizer_render_surface, bool is_screenshot)
+//void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
+void __cdecl user_interface_render(e_controller_index controller, int32 user_index, int32 window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot)
 {
 	INVOKE(0x00A849B0, user_interface_render, controller, user_index, window, viewport_bounds, rasterizer_render_surface, is_screenshot);
 }
@@ -177,7 +177,7 @@ void __cdecl user_interface_scoreboard_update()
 {
 	//INVOKE(0x00A84C00, user_interface_scoreboard_update);
 
-	for (long i = 0; i < k_number_of_controllers; i++)
+	for (int32 i = 0; i < k_number_of_controllers; i++)
 	{
 		e_controller_index controller_index = static_cast<e_controller_index>(i);
 
@@ -194,7 +194,7 @@ void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_inde
 	INVOKE(0x00A84C70, user_interface_set_reload_from_persistent_storage, controller_index);
 }
 
-//.text:00A84C90 ; void __cdecl user_interface_set_selected_campaign_difficulty(long)
+//.text:00A84C90 ; void __cdecl user_interface_set_selected_campaign_difficulty(int32)
 //.text:00A84CC0 ; void __cdecl user_interface_set_selected_campaign_id(e_campaign_id)
 //.text:00A84CE0 ; void __cdecl user_interface_set_selected_campaign_map_id(e_map_id)
 //.text:00A84D00 ; void __cdecl user_interface_set_storage_device_selection_deferred(bool)
@@ -214,7 +214,7 @@ bool __cdecl user_interface_should_render_fancy()
 	return INVOKE(0x00A84D50, user_interface_should_render_fancy);
 }
 
-bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state)
+bool __cdecl user_interface_should_show_console_scoreboard(int32* user_interface_show_busy_state)
 {
 	return INVOKE(0x00A84D60, user_interface_should_show_console_scoreboard, user_interface_show_busy_state);
 }
@@ -237,10 +237,10 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 		g_ui_time_step = 0.0f;
 	
 		g_user_interface_globals.shell_seconds_elapsed = ui_time;
-		g_user_interface_globals.m_current_milliseconds.add(long(ui_time * 1000));
-		long milliseconds = g_user_interface_globals.m_current_milliseconds.peek();
+		g_user_interface_globals.m_current_milliseconds.add(int32(ui_time * 1000));
+		int32 milliseconds = g_user_interface_globals.m_current_milliseconds.peek();
 	
-		long output_user_active_count = player_mapping_output_user_active_count();
+		int32 output_user_active_count = player_mapping_output_user_active_count();
 		bool v3 = g_user_interface_globals.m_active_output_user_count == output_user_active_count;
 		g_user_interface_globals.m_active_output_user_count = output_user_active_count;
 		bool update_toast_position = !v3;

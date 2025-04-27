@@ -83,7 +83,7 @@ bool __cdecl global_preferences_get_antialiasing()
 	return global_preferences_get()->current.data.video_settings.antialiasing;
 }
 
-long __cdecl global_preferences_get_aspect_ratio()
+int32 __cdecl global_preferences_get_aspect_ratio()
 {
 	//return INVOKE(0x0050A8B0, global_preferences_get_aspect_ratio);
 
@@ -105,7 +105,7 @@ real32 __cdecl global_preferences_get_betrayal_count()
 	return global_preferences_get()->current.data.betrayal_count;
 }
 
-long __cdecl global_preferences_get_build_number()
+int32 __cdecl global_preferences_get_build_number()
 {
 	//return INVOKE(0x0050A9B0, global_preferences_get_build_number);
 
@@ -127,7 +127,7 @@ real32 __cdecl global_preferences_get_camera_fov()
 	return global_preferences_get()->current.data.gameplay_settings.camera_fov;
 }
 
-long __cdecl global_preferences_get_controls_method()
+int32 __cdecl global_preferences_get_controls_method()
 {
 	//return INVOKE(0x0050AAC0, global_preferences_get_controls_method);
 
@@ -176,7 +176,7 @@ e_quality_setting __cdecl global_preferences_get_details_quality()
 	return global_preferences_get()->current.data.video_settings.details_quality;
 }
 
-long __cdecl global_preferences_get_brightness()
+int32 __cdecl global_preferences_get_brightness()
 {
 	//return INVOKE(0x0050B050, global_preferences_get_brightness);
 
@@ -187,7 +187,7 @@ long __cdecl global_preferences_get_brightness()
 	return global_preferences_get()->current.data.brightness;
 }
 
-long __cdecl global_preferences_get_contrast()
+int32 __cdecl global_preferences_get_contrast()
 {
 	if (!global_preferences_available())
 		return 50;
@@ -218,7 +218,7 @@ e_quality_setting __cdecl global_preferences_get_effects_quality()
 	return global_preferences_get()->current.data.video_settings.effects_quality;
 }
 
-long __cdecl global_preferences_get_eviction_count()
+int32 __cdecl global_preferences_get_eviction_count()
 {
 	//return INVOKE(0x0050B1D0, global_preferences_get_eviction_count);
 
@@ -262,7 +262,7 @@ bool __cdecl global_preferences_get_hud_shake()
 	return global_preferences_get()->current.data.gameplay_settings.hud_shake;
 }
 
-long __cdecl global_preferences_get_keyboard_preset()
+int32 __cdecl global_preferences_get_keyboard_preset()
 {
 	//return INVOKE(0x0050B3D0, global_preferences_get_keyboard_preset);
 
@@ -307,7 +307,7 @@ s_gui_game_setup_storage* __cdecl global_preferences_get_last_game_setup()
 }
 
 //bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode, e_campaign_id*, e_map_id*)
-bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mode, long* campaign_id, long* map_id)
+bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mode, int32* campaign_id, int32* map_id)
 {
 	//return INVOKE(0x0050B5E0, global_preferences_get_last_game_setup_map, game_mode, campaign_id, map_id);
 
@@ -397,7 +397,7 @@ e_quality_setting __cdecl global_preferences_get_lighting_quality()
 	return global_preferences_get()->current.data.video_settings.lighting_quality;
 }
 
-long __cdecl global_preferences_get_master_volume()
+int32 __cdecl global_preferences_get_master_volume()
 {
 	//return INVOKE(0x0050B910, global_preferences_get_master_volume);
 
@@ -419,7 +419,7 @@ bool __cdecl global_preferences_get_motion_blur()
 	return global_preferences_get()->current.data.video_settings.motion_blur;
 }
 
-long __cdecl global_preferences_get_mouse_acceleration()
+int32 __cdecl global_preferences_get_mouse_acceleration()
 {
 	//return INVOKE(0x0050BA10, global_preferences_get_mouse_acceleration);
 
@@ -452,7 +452,7 @@ bool __cdecl global_preferences_get_mouse_inversion()
 	return global_preferences_get()->current.data.controls_settings.mouse_inversion;
 }
 
-long __cdecl global_preferences_get_mouse_sensitivity_horizontal()
+int32 __cdecl global_preferences_get_mouse_sensitivity_horizontal()
 {
 	//return INVOKE(0x0050BB90, global_preferences_get_mouse_sensitivity_horizontal);
 
@@ -463,7 +463,7 @@ long __cdecl global_preferences_get_mouse_sensitivity_horizontal()
 	return global_preferences_get()->current.data.controls_settings.mouse_sensitivity_horizontal;
 }
 
-long __cdecl global_preferences_get_mouse_sensitivity_vehicle_horizontal()
+int32 __cdecl global_preferences_get_mouse_sensitivity_vehicle_horizontal()
 {
 	//return INVOKE(0x0050BC10, global_preferences_get_mouse_sensitivity_vehicle_horizontal);
 
@@ -474,7 +474,7 @@ long __cdecl global_preferences_get_mouse_sensitivity_vehicle_horizontal()
 	return global_preferences_get()->current.data.controls_settings.mouse_sensitivity_vehicle_horizontal;
 }
 
-long __cdecl global_preferences_get_mouse_sensitivity_vehicle_vertical()
+int32 __cdecl global_preferences_get_mouse_sensitivity_vehicle_vertical()
 {
 	//return INVOKE(0x0050BC90, global_preferences_get_mouse_sensitivity_vehicle_vertical);
 
@@ -485,7 +485,7 @@ long __cdecl global_preferences_get_mouse_sensitivity_vehicle_vertical()
 	return global_preferences_get()->current.data.controls_settings.mouse_sensitivity_vehicle_vertical;
 }
 
-long __cdecl global_preferences_get_mouse_sensitivity_vertical()
+int32 __cdecl global_preferences_get_mouse_sensitivity_vertical()
 {
 	//return INVOKE(0x0050BD10, global_preferences_get_mouse_sensitivity_vertical);
 
@@ -496,7 +496,7 @@ long __cdecl global_preferences_get_mouse_sensitivity_vertical()
 	return global_preferences_get()->current.data.controls_settings.mouse_sensitivity_vertical;
 }
 
-long __cdecl global_preferences_get_music_volume()
+int32 __cdecl global_preferences_get_music_volume()
 {
 	//return INVOKE(0x0050BD90, global_preferences_get_music_volume);
 
@@ -518,8 +518,8 @@ e_quality_setting __cdecl global_preferences_get_postprocessing_quality()
 	return global_preferences_get()->current.data.video_settings.postprocessing_quality;
 }
 
-//long __cdecl global_preferences_get_content_item_unique_name_number_seed(e_content_item_type)
-long __cdecl global_preferences_get_content_item_unique_name_number_seed(long content_item_type)
+//int32 __cdecl global_preferences_get_content_item_unique_name_number_seed(e_content_item_type)
+int32 __cdecl global_preferences_get_content_item_unique_name_number_seed(int32 content_item_type)
 {
 	//return INVOKE(0x0050BFA0, global_preferences_get_content_item_unique_name_number_seed, content_item_type);
 
@@ -531,7 +531,7 @@ long __cdecl global_preferences_get_content_item_unique_name_number_seed(long co
 	return global_preferences_get()->current.data.content_item_unique_name_number_seed[content_item_type];
 }
 
-void __cdecl global_preferences_get_screen_resolution(long* width, long* height)
+void __cdecl global_preferences_get_screen_resolution(int32* width, int32* height)
 {
 	//INVOKE(0x0050C030, global_preferences_get_screen_resolution, width, height);
 
@@ -547,7 +547,7 @@ void __cdecl global_preferences_get_screen_resolution(long* width, long* height)
 	*height = global_preferences_get()->current.data.video_settings.height;
 }
 
-long __cdecl global_preferences_get_sfx_volume()
+int32 __cdecl global_preferences_get_sfx_volume()
 {
 	//return INVOKE(0x0050C0D0, global_preferences_get_sfx_volume);
 
@@ -580,7 +580,7 @@ e_subtitle_setting __cdecl global_preferences_get_subtitle_setting()
 	return global_preferences_get()->current.data.subtitle_setting;
 }
 
-long __cdecl global_preferences_get_team_color()
+int32 __cdecl global_preferences_get_team_color()
 {
 	//return INVOKE(0x0050C250, global_preferences_get_team_color);
 
@@ -624,7 +624,7 @@ bool __cdecl global_preferences_get_toggle_crouch()
 	return global_preferences_get()->current.data.gameplay_settings.toggle_crouch;
 }
 
-long __cdecl global_preferences_get_adapter()
+int32 __cdecl global_preferences_get_adapter()
 {
 	//return INVOKE(0x0050C450, global_preferences_get_adapter);
 
@@ -635,7 +635,7 @@ long __cdecl global_preferences_get_adapter()
 	return global_preferences_get()->current.data.adapter;
 }
 
-long __cdecl global_preferences_get_unknown41BDC()
+int32 __cdecl global_preferences_get_unknown41BDC()
 {
 	//return INVOKE(0x0050C4D0, global_preferences_get_unknown41BDC);
 
@@ -646,7 +646,7 @@ long __cdecl global_preferences_get_unknown41BDC()
 	return global_preferences_get()->current.data.video_settings.__unknown0;
 }
 
-long __cdecl global_preferences_get_voice_chat_control()
+int32 __cdecl global_preferences_get_voice_chat_control()
 {
 	//return INVOKE(0x0050C550, global_preferences_get_voice_chat_control);
 
@@ -657,7 +657,7 @@ long __cdecl global_preferences_get_voice_chat_control()
 	return global_preferences_get()->current.data.sound_settings.voice_chat_control;
 }
 
-long __cdecl global_preferences_get_voice_chat_volume()
+int32 __cdecl global_preferences_get_voice_chat_volume()
 {
 	//return INVOKE(0x0050C5D0, global_preferences_get_voice_chat_volume);
 
@@ -668,7 +668,7 @@ long __cdecl global_preferences_get_voice_chat_volume()
 	return global_preferences_get()->current.data.sound_settings.voice_chat_volume;
 }
 
-long __cdecl global_preferences_get_voice_volume()
+int32 __cdecl global_preferences_get_voice_volume()
 {
 	//return INVOKE(0x0050C650, global_preferences_get_voice_volume);
 
@@ -809,7 +809,7 @@ void __cdecl global_preferences_set_betrayal_count(real32 betrayal_count)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_build_number(long build_number)
+void __cdecl global_preferences_set_build_number(int32 build_number)
 {
 	//INVOKE(0x0050CE90, global_preferences_set_build_number, build_number);
 
@@ -833,7 +833,7 @@ void __cdecl global_preferences_set_camera_fov(real32 camera_fov)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_controls_method(long controls_method)
+void __cdecl global_preferences_set_controls_method(int32 controls_method)
 {
 	//INVOKE(0x0050CFB0, global_preferences_set_controls_method, controls_method);
 
@@ -862,7 +862,7 @@ void __cdecl global_preferences_set_details_quality(e_quality_setting details_qu
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_brightness(long brightness)
+void __cdecl global_preferences_set_brightness(int32 brightness)
 {
 	//INVOKE(0x0050D220, global_preferences_set_brightness, brightness);
 
@@ -874,7 +874,7 @@ void __cdecl global_preferences_set_brightness(long brightness)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_contrast(long contrast)
+void __cdecl global_preferences_set_contrast(int32 contrast)
 {
 	//INVOKE(0x0050D2B0, global_preferences_set_contrast, contrast);
 
@@ -910,7 +910,7 @@ void __cdecl global_preferences_set_effects_quality(e_quality_setting effects_qu
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_eviction_count(long eviction_count)
+void __cdecl global_preferences_set_eviction_count(int32 eviction_count)
 {
 	//INVOKE(0x0050D460, global_preferences_set_eviction_count, eviction_count);
 
@@ -970,7 +970,7 @@ void __cdecl global_preferences_set_hud_shake(bool hud_shake)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_keyboard_preset(long keyboard_preset)
+void __cdecl global_preferences_set_keyboard_preset(int32 keyboard_preset)
 {
 	//INVOKE(0x0050D730, global_preferences_set_keyboard_preset, keyboard_preset);
 
@@ -1030,7 +1030,7 @@ void __cdecl global_preferences_set_last_language(e_language last_language)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_last_main_menu_item(long last_main_menu_item)
+void __cdecl global_preferences_set_last_main_menu_item(int32 last_main_menu_item)
 {
 	//INVOKE(0x0050DA10, global_preferences_set_last_main_menu_item, last_main_menu_item);
 
@@ -1054,7 +1054,7 @@ void __cdecl global_preferences_set_lighting_quality(e_quality_setting lighting_
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_master_volume(long master_volume)
+void __cdecl global_preferences_set_master_volume(int32 master_volume)
 {
 	//INVOKE(0x0050DB30, global_preferences_set_master_volume, master_volume);
 
@@ -1078,7 +1078,7 @@ void __cdecl global_preferences_set_motion_blur(bool motion_blur)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_mouse_acceleration(long mouse_acceleration)
+void __cdecl global_preferences_set_mouse_acceleration(int32 mouse_acceleration)
 {
 	//INVOKE(0x0050DC50, global_preferences_set_mouse_acceleration, mouse_acceleration);
 
@@ -1114,7 +1114,7 @@ void __cdecl global_preferences_set_mouse_inversion(bool mouse_inversion)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_mouse_sensitivity_horizontal(long mouse_sensitivity_horizontal)
+void __cdecl global_preferences_set_mouse_sensitivity_horizontal(int32 mouse_sensitivity_horizontal)
 {
 	//INVOKE(0x0050DE00, global_preferences_set_mouse_sensitivity_horizontal, mouse_sensitivity_horizontal);
 
@@ -1126,7 +1126,7 @@ void __cdecl global_preferences_set_mouse_sensitivity_horizontal(long mouse_sens
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_mouse_sensitivity_vehicle_horizontal(long mouse_sensitivity_vehicle_horizontal)
+void __cdecl global_preferences_set_mouse_sensitivity_vehicle_horizontal(int32 mouse_sensitivity_vehicle_horizontal)
 {
 	//INVOKE(0x0050DE90, global_preferences_set_mouse_sensitivity_vehicle_horizontal, mouse_sensitivity_vehicle_horizontal);
 
@@ -1138,7 +1138,7 @@ void __cdecl global_preferences_set_mouse_sensitivity_vehicle_horizontal(long mo
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_mouse_sensitivity_vehicle_vertical(long mouse_sensitivity_vehicle_vertical)
+void __cdecl global_preferences_set_mouse_sensitivity_vehicle_vertical(int32 mouse_sensitivity_vehicle_vertical)
 {
 	//INVOKE(0x0050DF20, global_preferences_set_mouse_sensitivity_vehicle_vertical, mouse_sensitivity_vehicle_vertical);
 
@@ -1150,7 +1150,7 @@ void __cdecl global_preferences_set_mouse_sensitivity_vehicle_vertical(long mous
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_mouse_sensitivity_vertical(long mouse_sensitivity_vertical)
+void __cdecl global_preferences_set_mouse_sensitivity_vertical(int32 mouse_sensitivity_vertical)
 {
 	//INVOKE(0x0050DFB0, global_preferences_set_mouse_sensitivity_vertical, mouse_sensitivity_vertical);
 
@@ -1162,7 +1162,7 @@ void __cdecl global_preferences_set_mouse_sensitivity_vertical(long mouse_sensit
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_music_volume(long music_volume)
+void __cdecl global_preferences_set_music_volume(int32 music_volume)
 {
 	//INVOKE(0x0050E040, global_preferences_set_music_volume, music_volume);
 
@@ -1186,8 +1186,8 @@ void __cdecl global_preferences_set_postprocessing_quality(e_quality_setting pos
 	global_preferences_dirty(true);
 }
 
-//void __cdecl global_preferences_set_content_item_unique_name_number_seed(e_content_item_type content_item_type, long seed)
-void __cdecl global_preferences_set_content_item_unique_name_number_seed(long content_item_type, long seed)
+//void __cdecl global_preferences_set_content_item_unique_name_number_seed(e_content_item_type content_item_type, int32 seed)
+void __cdecl global_preferences_set_content_item_unique_name_number_seed(int32 content_item_type, int32 seed)
 {
 	//INVOKE(0x0050E160, global_preferences_set_content_item_unique_name_number_seed, content_item_type, seed);
 
@@ -1199,7 +1199,7 @@ void __cdecl global_preferences_set_content_item_unique_name_number_seed(long co
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_screen_resolution(long width, long height)
+void __cdecl global_preferences_set_screen_resolution(int32 width, int32 height)
 {
 	//INVOKE(0x0050E1C0, global_preferences_set_screen_resolution, width, height);
 
@@ -1212,7 +1212,7 @@ void __cdecl global_preferences_set_screen_resolution(long width, long height)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_sfx_volume(long sfx_volume)
+void __cdecl global_preferences_set_sfx_volume(int32 sfx_volume)
 {
 	//INVOKE(0x0050E260, global_preferences_set_sfx_volume, sfx_volume);
 
@@ -1248,7 +1248,7 @@ void __cdecl global_preferences_set_subtitle_setting(e_subtitle_setting subtitle
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_team_color(long team_color)
+void __cdecl global_preferences_set_team_color(int32 team_color)
 {
 	//INVOKE(0x0050E410, global_preferences_set_team_color, team_color);
 
@@ -1296,7 +1296,7 @@ void __cdecl global_preferences_set_toggle_crouch(bool toggle_crouch)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_adapter(long adapter)
+void __cdecl global_preferences_set_adapter(int32 adapter)
 {
 	//INVOKE(0x0050E650, global_preferences_set_adapter, adapter);
 
@@ -1308,7 +1308,7 @@ void __cdecl global_preferences_set_adapter(long adapter)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_unknown41BDC(long unknown41BDC)
+void __cdecl global_preferences_set_unknown41BDC(int32 unknown41BDC)
 {
 	//INVOKE(0x0050E6E0, global_preferences_set_unknown41BDC, unknown41BDC);
 
@@ -1320,7 +1320,7 @@ void __cdecl global_preferences_set_unknown41BDC(long unknown41BDC)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_voice_chat_control(long voice_chat_control)
+void __cdecl global_preferences_set_voice_chat_control(int32 voice_chat_control)
 {
 	//INVOKE(0x0050E770, global_preferences_set_voice_chat_control, voice_chat_control);
 
@@ -1332,7 +1332,7 @@ void __cdecl global_preferences_set_voice_chat_control(long voice_chat_control)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_voice_chat_volume(long voice_chat_volume)
+void __cdecl global_preferences_set_voice_chat_volume(int32 voice_chat_volume)
 {
 	//INVOKE(0x0050E800, global_preferences_set_voice_chat_volume, voice_chat_volume);
 
@@ -1344,7 +1344,7 @@ void __cdecl global_preferences_set_voice_chat_volume(long voice_chat_volume)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_voice_volume(long voice_volume)
+void __cdecl global_preferences_set_voice_volume(int32 voice_volume)
 {
 	//INVOKE(0x0050E890, global_preferences_set_voice_volume, voice_volume);
 
@@ -1434,17 +1434,17 @@ void __cdecl global_preferences_write()
 	//}
 }
 
-void __stdcall sound_system_set_master_volume(long volume, bool update_preference)
+void __stdcall sound_system_set_master_volume(int32 volume, bool update_preference)
 {
 	INVOKE(0x0079B7D0, sound_system_set_master_volume, volume, update_preference);
 }
 
-void __stdcall sound_system_set_music_volume(long volume, bool update_preference)
+void __stdcall sound_system_set_music_volume(int32 volume, bool update_preference)
 {
 	INVOKE(0x0079B940, sound_system_set_music_volume, volume, update_preference);
 }
 
-void __stdcall sound_system_set_sfx_volume(long volume, bool update_preference)
+void __stdcall sound_system_set_sfx_volume(int32 volume, bool update_preference)
 {
 	INVOKE(0x0079B9E0, sound_system_set_sfx_volume, volume, update_preference);
 }
@@ -1561,19 +1561,19 @@ union value_converter_t
 {
 	bool type_bool;
 	real32 type_real;
-	long type_long;
+	int32 type_long;
 	e_quality_setting type_quality_setting;
 	e_language type_language;
 	e_subtitle_setting type_subtitle_setting;
 	e_gui_network_session_advertisement_mode type_advertisement_mode;
 };
 
-template<long const k_maximum_parameter_count>
+template<int32 const k_maximum_parameter_count>
 void value_handler(s_global_preference const& global_preference, value_converter_t(&values)[k_maximum_parameter_count], va_list parameters)
 {
 	ASSERT(VALID_COUNT(k_maximum_parameter_count, k_maximum_global_preference_parameters));
 
-	for (long parameter_index = 0; parameter_index < global_preference.parameter_count; parameter_index++)
+	for (int32 parameter_index = 0; parameter_index < global_preference.parameter_count; parameter_index++)
 	{
 		ASSERT(VALID_INDEX(parameter_index, k_maximum_global_preference_parameters));
 
@@ -1588,7 +1588,7 @@ void value_handler(s_global_preference const& global_preference, value_converter
 			value.type_real = static_cast<real32>(va_arg(parameters, real64));
 			break;
 		case _global_preference_type_long:
-			value.type_long = va_arg(parameters, long);
+			value.type_long = va_arg(parameters, int32);
 			break;
 		case _global_preference_type_quality_setting:
 			value.type_quality_setting = va_arg(parameters, e_quality_setting);
@@ -1612,16 +1612,16 @@ union function_converter_t
 
 	void(__cdecl* type_bool)(bool);
 	void(__cdecl* type_real)(real32);
-	void(__cdecl* type_long)(long);
+	void(__cdecl* type_long)(int32);
 	void(__cdecl* type_quality_setting)(e_quality_setting);
 	void(__cdecl* type_language)(e_language);
 	void(__cdecl* type_subtitle_setting)(e_subtitle_setting);
 	void(__cdecl* type_advertisement_mode)(e_gui_network_session_advertisement_mode);
 
-	void(__cdecl* type_screen_resolution)(long, long);
+	void(__cdecl* type_screen_resolution)(int32, int32);
 };
 
-template<long const k_maximum_parameter_count>
+template<int32 const k_maximum_parameter_count>
 void function_handler(s_global_preference const& global_preference, value_converter_t(&values)[k_maximum_parameter_count])
 {
 	function_converter_t function = { .pointer = global_preference.set };
@@ -1708,7 +1708,7 @@ void function_handler(s_global_preference const& global_preference, value_conver
 	}
 }
 
-bool global_preference_set_impl(char const* name, short parameter_count, ...)
+bool global_preference_set_impl(char const* name, int16 parameter_count, ...)
 {
 	e_global_preference preference = global_preference_from_string(name);
 	if (preference == e_global_preference(-1))
@@ -1743,7 +1743,7 @@ char const* global_preference_get_name(e_global_preference preference)
 e_global_preference global_preference_from_string(char const* str)
 {
 	e_global_preference preference = e_global_preference(-1);
-	for (long i = _global_preference_antialiasing; i < k_global_preference_count; i++)
+	for (int32 i = _global_preference_antialiasing; i < k_global_preference_count; i++)
 	{
 		if (csstricmp(str, k_global_preference_names[i]) != 0)
 			continue;

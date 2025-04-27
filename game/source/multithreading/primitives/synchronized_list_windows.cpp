@@ -37,12 +37,12 @@ void __cdecl synchronized_list_push(s_synchronized_list_header* header, s_synchr
 	InterlockedPushEntrySList((PSLIST_HEADER)header, (PSLIST_ENTRY)entry);
 }
 
-void __cdecl synchronized_list_push_multiple(s_synchronized_list_header* header, long entry_count, s_synchronized_list_entry** entries)
+void __cdecl synchronized_list_push_multiple(s_synchronized_list_header* header, int32 entry_count, s_synchronized_list_entry** entries)
 {
 	ASSERT(header);
 	ASSERT(entries);
 
-	for (long i = 0; i < entry_count; i++)
+	for (int32 i = 0; i < entry_count; i++)
 	{
 		synchronized_list_push(header, entries[i]);
 	}
@@ -58,7 +58,7 @@ s_synchronized_list_entry* __cdecl synchronized_list_flush(s_synchronized_list_h
 	return (s_synchronized_list_entry*)InterlockedFlushSList((PSLIST_HEADER)header);
 }
 
-long __cdecl synchronized_list_get_count(s_synchronized_list_header* header)
+int32 __cdecl synchronized_list_get_count(s_synchronized_list_header* header)
 {
 	return header->s.depth;
 }

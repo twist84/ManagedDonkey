@@ -23,12 +23,12 @@ void __cdecl XNetCreateKey(s_transport_secure_identifier* out_secure_identifier)
 }
 
 // called from `XNetAddEntry`
-long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_address const* secure_address, bool ignore_invalid)
+int32 __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_address const* secure_address, bool ignore_invalid)
 {
 	//return INVOKE(0x0052D6E0, XNetFindEntry, address, secure_address, ignore_invalid);
 
-	long result = -1;
-	for (long entry_index = 0; entry_index < NUMBEROF(xnet_mapping); entry_index++)
+	int32 result = -1;
+	for (int32 entry_index = 0; entry_index < NUMBEROF(xnet_mapping); entry_index++)
 	{
 		s_xnet_entry& entry = xnet_mapping[entry_index];
 
@@ -57,7 +57,7 @@ void __cdecl XNetAddEntry(transport_address const* address, s_transport_secure_a
 {
 	//INVOKE(0x0052D7B0, XNetAddEntry, address, secure_address, secure_identifier);
 
-	long entry_index = XNetFindEntry(address, secure_address, false);
+	int32 entry_index = XNetFindEntry(address, secure_address, false);
 	if (entry_index == -1)
 		return;
 
@@ -73,7 +73,7 @@ bool __cdecl XNetXnAddrToInAddr(s_transport_secure_address const* secure_address
 {
 	//return INVOKE(0x0052D840, XNetXnAddrToInAddr, secure_address, secure_identifier, out_address);
 
-	long entry_index = XNetFindEntry(nullptr, secure_address, true);
+	int32 entry_index = XNetFindEntry(nullptr, secure_address, true);
 	if (entry_index == -1)
 		return false;
 
@@ -88,7 +88,7 @@ bool __cdecl _XNetInAddrToXnAddr(transport_address const* address, s_transport_s
 {
 	//return INVOKE(0x0052D8F0, XNetInAddrToXnAddr, address, out_secure_address);
 
-	long entry_index = XNetFindEntry(address, nullptr, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	if (entry_index == -1)
 		return false;
 
@@ -103,7 +103,7 @@ bool __cdecl XNetInAddrToXnAddr(transport_address const* address, s_transport_se
 {
 	//return INVOKE(0x0052D970, XNetInAddrToXnAddr, address, out_secure_address, out_secure_identifier);
 
-	long entry_index = XNetFindEntry(address, nullptr, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	if (entry_index == -1)
 		return false;
 
@@ -120,7 +120,7 @@ void __cdecl XNetRemoveEntry(transport_address const* address)
 {
 	//INVOKE(0x0052DA40, XNetRemoveEntry, address);
 
-	long entry_index = XNetFindEntry(address, nullptr, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	if (entry_index == -1)
 		return;
 
@@ -154,13 +154,13 @@ uint32 get_external_ip()
 		{
 			bool completed_successfully = false;
 			char response_content_buffer[4096]{};
-			long http_response_code = 0;
+			int32 http_response_code = 0;
 
-			long seconds = 1800;
+			int32 seconds = 1800;
 			uint32 v7 = 1000 * seconds + system_milliseconds();
 			while (system_milliseconds() < v7)
 			{
-				long response_content_buffer_count = NUMBEROF(response_content_buffer);
+				int32 response_content_buffer_count = NUMBEROF(response_content_buffer);
 				if (!g_external_ip.http_client.do_work(&completed_successfully, response_content_buffer, &response_content_buffer_count, &http_response_code))
 				{
 					g_external_ip.http_client.stop();

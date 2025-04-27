@@ -7,7 +7,7 @@ struct c_cluster_collision_instanced_geometry_shape
 {
 	s_havok_shape_collection cluster_collsion_shape;
 	s_tag_reference structure_bsp_reference;
-	long cluster_index;
+	int32 cluster_index;
 };
 static_assert(sizeof(c_cluster_collision_instanced_geometry_shape) == 0x2C);
 

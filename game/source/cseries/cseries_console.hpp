@@ -29,5 +29,5 @@ protected:
 	static FILE* m_file;
 };
 
-extern void get_error_message(unsigned long message_id, char(&message_buffer)[2048]);
+extern void get_error_message(uint32 message_id, char(&message_buffer)[2048]);
 

@@ -9,13 +9,13 @@ struct s_object_scripting_state
 		c_string_id name;
 		real32 __unknown4;
 		real32 __unknown8;
-		long __unknownC;
-		long __unknown10;
+		int32 __unknownC;
+		int32 __unknown10;
 	};
 	static_assert(sizeof(s_variable) == 0x14);
 
 	s_variable variables[32];
-	long object_indices[32];
+	int32 object_indices[32];
 	bool map_initialized;
 };
 static_assert(sizeof(s_object_scripting_state) == 0x304);

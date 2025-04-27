@@ -7,7 +7,7 @@ struct s_new_interaction_event
 	real_point3d position;
 	real_vector3d object_velocity;
 	real_vector3d water_velocity;
-	long water_ripple_definition_index;
+	int32 water_ripple_definition_index;
 };
 static_assert(sizeof(s_new_interaction_event) == 0x28);
 static_assert(sizeof(s_new_interaction_event) * 128 == 0x1400);
@@ -15,7 +15,7 @@ static_assert(sizeof(s_new_interaction_event) * 128 == 0x1400);
 struct c_water_renderer
 {
 public:
-	static void __cdecl set_player_window(long window_index, long window_count, bool is_widescreen);
+	static void __cdecl set_player_window(int32 window_index, int32 window_count, bool is_widescreen);
 
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();

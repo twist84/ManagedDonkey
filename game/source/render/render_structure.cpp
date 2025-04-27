@@ -55,7 +55,7 @@ void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(uint32 activ
 }
 
 //.text:00A2EF80 ; 
-//.text:00A2EFC0 ; public: static bool __cdecl c_structure_renderer::lightmaps_available(long)
+//.text:00A2EFC0 ; public: static bool __cdecl c_structure_renderer::lightmaps_available(int32)
 //.text:00A2EFE0 ; public: static bool __cdecl c_structure_renderer::lightmaps_available_on_all_active_bsps()
 //.text:00A2EFF0 ; public: static void __cdecl c_structure_renderer::pop_marker()
 //.text:00A2F020 ; public: static void __cdecl c_structure_renderer::push_marker()
@@ -70,8 +70,8 @@ void __cdecl c_structure_renderer::render_albedo()
 }
 
 //.text:00A2F0C0 ; 
-//.text:00A2F0D0 ; public: static void __cdecl c_structure_renderer::render_cluster_mesh_part(long, e_entry_point, long)
-//.text:00A2F2A0 ; public: static void __cdecl c_structure_renderer::render_cluster_parts(e_entry_point, long)
+//.text:00A2F0D0 ; public: static void __cdecl c_structure_renderer::render_cluster_mesh_part(int32, e_entry_point, int32)
+//.text:00A2F2A0 ; public: static void __cdecl c_structure_renderer::render_cluster_parts(e_entry_point, int32)
 
 void __cdecl c_structure_renderer::render_decorators()
 {

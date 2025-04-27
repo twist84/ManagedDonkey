@@ -5,7 +5,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00686E80, c_visibility_collection, prepare_collection_for_build);
 
-REFERENCE_DECLARE(0x018BF6B0, long, c_visible_items::m_marker_count);
+REFERENCE_DECLARE(0x018BF6B0, int32, c_visible_items::m_marker_count);
 REFERENCE_DECLARE(0x018BF6E8, s_visible_items, c_visible_items::m_items);
 REFERENCE_DECLARE_ARRAY(0x024B0A58, c_visible_items::s_marker_indices, c_visible_items::m_marker_indices, k_maximum_item_markers);
 REFERENCE_DECLARE(0x024B0AC8, c_visibility_globals_keeper, g_visibility_globals_keeper);
@@ -39,9 +39,9 @@ s_visible_items& __cdecl get_global_items()
 }
 
 //.text:00686BB0 ; 
-//.text:00686BC0 ; public: uint32* __cdecl c_visibility_collection::get_part_bitvector_space(long)
+//.text:00686BC0 ; public: uint32* __cdecl c_visibility_collection::get_part_bitvector_space(int32)
 
-e_collection_shape c_visibility_collection::prepare_collection_for_build(long flags, e_collection_type collection_type, visibility_projection const* projections, long projection_count, s_cluster_reference initial_cluster_reference, long intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, long user_index, long player_window_index)
+e_collection_shape c_visibility_collection::prepare_collection_for_build(int32 flags, e_collection_type collection_type, visibility_projection const* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00686E80, c_visibility_collection, prepare_collection_for_build, flags, collection_type, projections, projection_count, initial_cluster_reference, intersection_marker_index, sphere_center, sphere_radius, user_index, player_window_index);
 
@@ -52,7 +52,7 @@ e_collection_shape c_visibility_collection::prepare_collection_for_build(long fl
 	m_input->user_index = user_index;
 	m_input->player_window_index = player_window_index;
 	m_input->flags = flags;
-	m_input->projection_count = (short)projection_count;
+	m_input->projection_count = (int16)projection_count;
 	m_input->sphere_center = *sphere_center;
 	m_input->sphere_radius = sphere_radius;
 	m_input->visible_items_marker_index = c_visible_items::m_marker_count;
@@ -61,7 +61,7 @@ e_collection_shape c_visibility_collection::prepare_collection_for_build(long fl
 	{
 		csmemcpy(m_input->region.projections, projections, sizeof(visibility_projection) * projection_count);
 	}
-	m_input->region.projection_count = (short)projection_count;
+	m_input->region.projection_count = (int16)projection_count;
 
 	if (initial_cluster_reference.bsp_index == 0xFF)
 	{

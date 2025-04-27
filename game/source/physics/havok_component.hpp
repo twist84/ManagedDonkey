@@ -9,12 +9,12 @@
 struct c_havok_contact_point
 {
 	uint32 m_environment_shape_key;
-	long m_impact_datum_index;
-	long m_contact_surface_index;
+	int32 m_impact_datum_index;
+	int32 m_contact_surface_index;
 	c_global_material_type m_global_material_type_a;
 	c_global_material_type m_global_material_type_b;
-	long m_contact_havok_component_index;
-	long m_contact_point_object_index;
+	int32 m_contact_havok_component_index;
+	int32 m_contact_point_object_index;
 	real_point3d m_position;
 	real_vector3d m_normal;
 	real32 m_distance;
@@ -77,7 +77,7 @@ struct c_havok_component :
 		char m_constraint_type;
 		char m_constraint_type_index;
 		char m_stretched_counter;
-		long m_constraint_impact_datum_index;
+		int32 m_constraint_impact_datum_index;
 		hkConstraintInstance* m_constraint;
 	};
 	static_assert(sizeof(c_constraint) == 0xC);
@@ -86,8 +86,8 @@ struct c_havok_component :
 	{
 		char body_physics_model_material_index;
 		char body_rigid_body_index;
-		long body_object_index;
-		long reference_count;
+		int32 body_object_index;
+		int32 reference_count;
 	};
 	static_assert(sizeof(s_body_in_phantom) == 0xC);
 
@@ -101,11 +101,11 @@ struct c_havok_component :
 	// FLAG(7) _physics_model_havok_component_bit
 	uint32 m_flags;
 
-	long m_object_index;
+	int32 m_object_index;
 	uint8 m_object_postion_controlling_rigid_body_index;
 	uint8 m_object_postion_controlling_node_index;
 	uint8 m_maximum_rigid_body_size;
-	long m_impact_array_index;
+	int32 m_impact_array_index;
 	hkArray<c_rigid_body> m_havok_rigid_bodies;
 	c_rigid_body m_rigid_body;
 	hkArray<c_constraint> m_constraints;

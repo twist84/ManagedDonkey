@@ -43,19 +43,19 @@ enum
 	_hs_function_debug_string__last = 29,
 };
 
-extern bool hs_parse_begin(short function_index, long expression_index);
-extern bool hs_parse_if(short function_index, long expression_index);
-extern bool hs_parse_cond(short function_index, long expression_index);
-extern bool hs_parse_set(short function_index, long expression_index);
-extern bool hs_parse_logical(short function_index, long expression_index);
-extern bool hs_parse_arithmetic(short function_index, long expression_index);
-extern bool hs_parse_equality(short function_index, long expression_index);
-extern bool hs_parse_inequality(short function_index, long expression_index);
-extern bool hs_parse_sleep(short function_index, long expression_index);
-extern bool hs_parse_sleep_for_ticks(short function_index, long expression_index);
-extern bool hs_parse_sleep_forever(short function_index, long expression_index);
-extern bool hs_parse_sleep_until(short function_index, long expression_index);
-extern bool hs_parse_wake(short function_index, long expression_index);
-extern bool hs_parse_inspect(short function_index, long expression_index);
-extern bool hs_parse_object_cast_up(short function_index, long expression_index);
+extern bool hs_parse_begin(int16 function_index, int32 expression_index);
+extern bool hs_parse_if(int16 function_index, int32 expression_index);
+extern bool hs_parse_cond(int16 function_index, int32 expression_index);
+extern bool hs_parse_set(int16 function_index, int32 expression_index);
+extern bool hs_parse_logical(int16 function_index, int32 expression_index);
+extern bool hs_parse_arithmetic(int16 function_index, int32 expression_index);
+extern bool hs_parse_equality(int16 function_index, int32 expression_index);
+extern bool hs_parse_inequality(int16 function_index, int32 expression_index);
+extern bool hs_parse_sleep(int16 function_index, int32 expression_index);
+extern bool hs_parse_sleep_for_ticks(int16 function_index, int32 expression_index);
+extern bool hs_parse_sleep_forever(int16 function_index, int32 expression_index);
+extern bool hs_parse_sleep_until(int16 function_index, int32 expression_index);
+extern bool hs_parse_wake(int16 function_index, int32 expression_index);
+extern bool hs_parse_inspect(int16 function_index, int32 expression_index);
+extern bool hs_parse_object_cast_up(int16 function_index, int32 expression_index);
 

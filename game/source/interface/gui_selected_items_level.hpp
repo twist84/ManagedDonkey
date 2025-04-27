@@ -11,7 +11,7 @@ public:
 	e_campaign_id m_campaign_id;
 	e_map_id m_map_id;
 	bool m_level_is_locked;
-	short m_insertion_point;
+	int16 m_insertion_point;
 };
 static_assert(sizeof(c_gui_level_selected_item) == sizeof(c_gui_selected_item) + 0x10);
 static_assert(0x190 == OFFSETOF(c_gui_level_selected_item, m_campaign_id));

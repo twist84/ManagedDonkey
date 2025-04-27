@@ -11,8 +11,8 @@ static_assert(sizeof(game_looping_sound_datum) == 0x20);
 
 struct s_game_sound_listener
 {
-	long cluster_loop_index;
-	long active_fog_definition_index;
+	int32 cluster_loop_index;
+	int32 active_fog_definition_index;
 	bool tracked_as_underwater;
 };
 static_assert(sizeof(s_game_sound_listener) == 0xC);
@@ -23,7 +23,7 @@ struct s_sound_global_environment_parameters
 	real32 direct_hf_gain;
 	real32 reverb_gain;
 	real32 reverb_hf_gain;
-	long speaker_filter_frequency;
+	int32 speaker_filter_frequency;
 	real32 speaker_filter_gain;
 };
 static_assert(sizeof(s_sound_global_environment_parameters) == 0x18);
@@ -31,7 +31,7 @@ static_assert(sizeof(s_sound_global_environment_parameters) == 0x18);
 struct s_game_sound_globals
 {
 	c_static_array<s_game_sound_listener, 4> listeners;
-	long dialog_ducker_stop_tick;
+	int32 dialog_ducker_stop_tick;
 	c_static_array<uint16, 128> portal_occlusions;
 	s_sound_global_environment_parameters global_environment_parameters;
 	bool allow_details_in_cinematics;

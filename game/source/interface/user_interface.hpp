@@ -52,8 +52,8 @@ struct s_user_interface_shared_globals
 
 	// UI Rendering Globals
 	// miscellaneous rendering globals, more below...
-	short inc_text_update_period;
-	short inc_text_block_character;
+	int16 inc_text_update_period;
+	int16 inc_text_block_character;
 	real32 near_clip_plane_distance;
 	real32 projection_plane_distance;
 	real32 far_clip_plane_distance;
@@ -67,7 +67,7 @@ struct s_user_interface_shared_globals
 	// Main menu music
 	// Looping sound that plays while the main menu is active
 	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> main_menu_music;
-	long music_fade_time; // milliseconds
+	int32 music_fade_time; // milliseconds
 
 	// Default Text and Shadow Colors
 	// These are the default values used for text glyphs and text shadows
@@ -154,13 +154,13 @@ struct s_user_interface_shared_globals
 	// This controls tabbing around the UI.
 	// The tab delay is how fast you move around normally.
 	// Tab fast wait is how long the UI waits till using the tab fast delay instead of the tab delay.
-	long navigation_tab_delay_msec;
-	long navigation_tab_fast_wait_msec;
-	long navigation_tab_fast_delay_msec;
+	int32 navigation_tab_delay_msec;
+	int32 navigation_tab_fast_wait_msec;
+	int32 navigation_tab_fast_delay_msec;
 
 	// Attract Mode Settings
 	// These control behavior of the attract mode movies
-	long attract_mode_delay_seconds; // seconds
+	int32 attract_mode_delay_seconds; // seconds
 
 	// PDA Settings
 	// Random globals for the PDA
@@ -177,7 +177,7 @@ struct s_user_interface_shared_globals
 	real_argb_color fourth_wall_unplayed_color;
 	c_string_id pda_poi_waypoint_prefix;
 	c_string_id pda_poi_waypoint_suffix;
-	long pda_back_button_latch_ticks;
+	int32 pda_back_button_latch_ticks;
 	real32 pda_fourth_wall_text_fade_time;
 	s_tag_block pda_fourth_wall_audio_sounds;
 };
@@ -199,16 +199,16 @@ struct s_user_interface_globals
 	c_synchronized_long m_current_milliseconds;
 	c_synchronized_long m_last_event_handled_milliseconds;
 	c_synchronized_long m_last_scenario_load_time_milliseconds;
-	long m_show_game_end_scoreboard_at_game_time;
+	int32 m_show_game_end_scoreboard_at_game_time;
 	c_synchronized_long m_selected_campaign_id;
 	c_synchronized_long m_selected_campaign_map_id;
 	c_synchronized_long m_selected_campaign_difficulty;
 	c_user_interface_main_menu_music m_music_manager;
 	c_static_array<c_gui_tag_datasource, 32> m_global_datasources;
-	long m_global_datasources_count;
-	long m_user_interface_shutdown_start_time;
-	long m_active_user_count;
-	long m_active_output_user_count;
+	int32 m_global_datasources_count;
+	int32 m_user_interface_shutdown_start_time;
+	int32 m_active_user_count;
+	int32 m_active_output_user_count;
 	bool m_campaign_custom_music_warning_shown;
 };
 static_assert(sizeof(s_user_interface_globals) == 0x2258);
@@ -223,25 +223,25 @@ extern bool __cdecl get_alpha_eula_accepted();
 extern bool __cdecl get_alpha_is_external_beta();
 extern bool __cdecl get_alpha_is_internal_beta();
 extern bool __cdecl get_alpha_is_locked_down();
-extern long __cdecl get_alpha_locked_down_state();
+extern int32 __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
 extern void __cdecl user_interface_dispose();
 extern void __cdecl user_interface_dispose_from_old_map();
 extern void __cdecl user_interface_enter_game_shell();
-extern void __cdecl user_interface_get_number_of_render_windows(long user_index, long* horizontal_window_count, long* vertical_window_count);
+extern void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32* horizontal_window_count, int32* vertical_window_count);
 extern void __cdecl user_interface_initialize();
 extern void __cdecl user_interface_initialize_for_new_map();
 extern bool __cdecl user_interface_is_active();
 extern uint32 __cdecl user_interface_milliseconds();
 extern void __cdecl user_interface_non_idle_event_occured();
-extern void __cdecl user_interface_render(e_controller_index controller, long user_index, long window, rectangle2d const* viewport_bounds, long rasterizer_render_surface, bool is_screenshot);
+extern void __cdecl user_interface_render(e_controller_index controller, int32 user_index, int32 window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot);
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();
 extern void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index controller_index);
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_render_at_origin();
 extern bool __cdecl user_interface_should_render_fancy();
-extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
+extern bool __cdecl user_interface_should_show_console_scoreboard(int32* user_interface_show_busy_state);
 extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();
 extern void __cdecl user_interface_update(real32 shell_seconds_elapsed);
 extern void __cdecl user_interface_update_console_scoreboard();

@@ -24,7 +24,7 @@ struct scenario_object_palette_entry_with_string_id
 {
 	c_typed_tag_reference<t_group_tags> name;
 	c_string_id display_name;
-	long maximum_allowed;
+	int32 maximum_allowed;
 	real32 price_per_instance;
 
 	uint8 GYFQQPUM[0x14]; // pad
@@ -49,7 +49,7 @@ struct s_scenario_object_datum
 	c_object_identifier object_id;
 	int8 bsp_policy;
 	char editing_bound_to_bsp; // char_block_index
-	short editor_folder; // short_block_index
+	int16 editor_folder; // short_block_index
 	s_scenario_multiplayer_scenario_object_parent parent_id;
 	uint16 can_attach_to_bsp_flags; // word_block_flags
 
@@ -68,8 +68,8 @@ static_assert(sizeof(s_scenario_object_permutation) == 0x1C);
 
 struct s_scenario_object
 {
-	short type;
-	short name;
+	int16 type;
+	int16 name;
 	s_scenario_object_datum object_data;
 	s_scenario_object_permutation permutation_data;
 };
@@ -124,7 +124,7 @@ struct scenario_device_group
 	c_static_string<k_tag_string_length> name;
 	real32 initial_value; // [0,1]
 	c_flags<e_device_group_flags, uint32, k_device_group_flags> flags;
-	short editor_folder; // short_block_index
+	int16 editor_folder; // short_block_index
 
 	// pad
 	uint8 WAFNDIO[0x2];
@@ -174,8 +174,8 @@ enum e_scenario_weapon_datum_flags
 
 struct s_scenario_weapon_datum
 {
-	short rounds_left;
-	short rounds_loaded;
+	int16 rounds_left;
+	int16 rounds_loaded;
 	c_flags<e_scenario_weapon_datum_flags, uint32, k_scenario_weapon_datum_flags> flags;
 };
 static_assert(sizeof(s_scenario_weapon_datum) == 0x8);

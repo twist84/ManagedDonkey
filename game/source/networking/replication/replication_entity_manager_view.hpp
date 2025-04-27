@@ -6,8 +6,8 @@
 struct s_replication_entity_view_data
 {
 	uint16 flags;
-	short view_state;
-	long entity_index;
+	int16 view_state;
+	int32 entity_index;
 	uint64 update_mask;
 
 	uint8 __data[0x8];
@@ -16,12 +16,12 @@ static_assert(sizeof(s_replication_entity_view_data) == 0x18);
 
 struct s_replication_entity_manager_view_statistics
 {
-	long creations_sent;
-	long creations_pending;
-	long updates_sent;
-	long updates_pending;
-	long deletions_sent;
-	long deletions_pending;
+	int32 creations_sent;
+	int32 creations_pending;
+	int32 updates_sent;
+	int32 updates_pending;
+	int32 deletions_sent;
+	int32 deletions_pending;
 };
 static_assert(sizeof(s_replication_entity_manager_view_statistics) == 0x18);
 
@@ -37,13 +37,13 @@ public:
 	bool m_initialized;
 	bool m_replicating;
 	bool m_fatal_error;
-	long m_view_index;
+	int32 m_view_index;
 	uint32 m_view_mask;
 	uint32 m_replication_start_time;
 	c_replication_entity_manager* m_entity_manager;
 	c_replication_entity_packet_record* m_packet_list;
 	c_replication_entity_status_record* m_outgoing_packet;
-	long m_current_absolute_index_position;
+	int32 m_current_absolute_index_position;
 	s_replication_entity_view_data m_entity_data[1024];
 	uint64 m_valid_entity_mask[16];
 	s_replication_entity_manager_view_statistics m_statistics;

@@ -145,7 +145,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 	{
 		c_convex_vertices_shape const* convex_vertices_shape = static_cast<c_convex_vertices_shape const*>(shape);
 
-		for (long i = 0; i < convex_vertices_shape->m_rotatedVertices.m_size; i++)
+		for (int32 i = 0; i < convex_vertices_shape->m_rotatedVertices.m_size; i++)
 		{
 			hkConvexVerticesShape::FourVectors* rotated_vertices = &convex_vertices_shape->m_rotatedVertices.m_data[i];
 
@@ -186,7 +186,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 		c_multi_sphere_shape const* multi_sphere_shape = static_cast<c_multi_sphere_shape const*>(shape);
 
 		ASSERT(IN_RANGE_INCLUSIVE(multi_sphere_shape->m_num_spheres, 0, hkMultiSphereShape::MAX_SPHERES));
-		for (long i = 0; i < multi_sphere_shape->m_num_spheres; i++)
+		for (int32 i = 0; i < multi_sphere_shape->m_num_spheres; i++)
 		{
 			hkVector4 const* sphere = &multi_sphere_shape->m_spheres[i];
 

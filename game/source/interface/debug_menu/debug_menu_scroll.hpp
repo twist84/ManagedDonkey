@@ -12,21 +12,21 @@ public:
 	virtual void open() override;
 
 protected:
-	virtual long get_num_items_to_render() override;
+	virtual int32 get_num_items_to_render() override;
 
 public:
-	c_debug_menu_scroll(c_debug_menu* parent, short num_visible, char const* name);
+	c_debug_menu_scroll(c_debug_menu* parent, int16 num_visible, char const* name);
 
 protected:
-	short get_num_visible();
-	short get_first();
+	int16 get_num_visible();
+	int16 get_first();
 
 private:
-	void set_num_visible(short num_visible);
-	void set_first(short first);
+	void set_num_visible(int16 num_visible);
+	void set_first(int16 first);
 
 protected:
-	short m_num_visible;
-	short m_first;
+	int16 m_num_visible;
+	int16 m_first;
 };
 

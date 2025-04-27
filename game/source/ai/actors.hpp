@@ -10,7 +10,7 @@
 
 struct actor_meta_data
 {
-	c_enum<e_actor_type, short, _actor_elite, k_number_of_actor_types> type;
+	c_enum<e_actor_type, int16, _actor_elite, k_number_of_actor_types> type;
 	bool general_update;
 	bool swarm;
 	bool frozen;
@@ -21,53 +21,53 @@ struct actor_meta_data
 	bool erase_next_tick;
 	bool allowed_to_refresh_status;
 	real32 original_vitality;
-	long unit_index;
-	long swarm_index;
-	long next_actor_index;
-	short team_index;
+	int32 unit_index;
+	int32 swarm_index;
+	int32 next_actor_index;
+	int16 team_index;
 	bool squad_limbo;
-	long prevehicle_squad_index;
-	short squad_adoption_timeout;
-	short squad_adoption_attempts;
-	short outside_map_ticks;
-	short equipment_use_flags;
-	long squad_index;
-	short cell_index;
-	short spawn_point_index;
-	short spawn_formation_index;
+	int32 prevehicle_squad_index;
+	int16 squad_adoption_timeout;
+	int16 squad_adoption_attempts;
+	int16 outside_map_ticks;
+	int16 equipment_use_flags;
+	int32 squad_index;
+	int16 cell_index;
+	int16 spawn_point_index;
+	int16 spawn_formation_index;
 	bool pathfinding_timeslice;
 	bool perception_timeslice;
-	short pathfinding_service_timer;
-	short perception_service_timer;
-	long spawn_time;
-	long first_active_time;
-	long last_active_time;
-	long last_in_pvs_time;
-	long inactive_erase_time;
-	short highest_prop_status_timer;
-	short highest_prop_state_timer;
-	long character_definition_index;
-	long character_equipment_definition_index;
-	long first_prop_ref_index;
+	int16 pathfinding_service_timer;
+	int16 perception_service_timer;
+	int32 spawn_time;
+	int32 first_active_time;
+	int32 last_active_time;
+	int32 last_in_pvs_time;
+	int32 inactive_erase_time;
+	int16 highest_prop_status_timer;
+	int16 highest_prop_state_timer;
+	int32 character_definition_index;
+	int32 character_equipment_definition_index;
+	int32 first_prop_ref_index;
 	real32 min_trackable_weight;
-	long clump_index;
-	long clump_next_actor_index;
+	int32 clump_index;
+	int32 clump_next_actor_index;
 };
 static_assert(sizeof(actor_meta_data) == 0x6C);
 
 struct behavior_stimulus
 {
-	long type;
-	short ticks;
-	short desire;
+	int32 type;
+	int16 ticks;
+	int16 desire;
 };
 static_assert(sizeof(behavior_stimulus) == 0x8);
 
 struct s_actor_patrol_state
 {
-	short __unknown0;
-	short __unknown2;
-	short __unknown4;
+	int16 __unknown0;
+	int16 __unknown2;
+	int16 __unknown4;
 	uint16 flags;
 };
 static_assert(sizeof(s_actor_patrol_state) == 0x8);
@@ -75,16 +75,16 @@ static_assert(sizeof(s_actor_patrol_state) == 0x8);
 struct actor_state_data
 {
 	uint8 behavior_state_data[512];
-	short behavior_state_offsets[8];
-	short leaf_layer;
+	int16 behavior_state_offsets[8];
+	int16 leaf_layer;
 	uint8 __data212[0x2];
 	invitation_data const invitation[4];
-	long const behavior_check_timer[14];
-	short mode;
-	short combat_status;
-	long combat_status_timer;
+	int32 const behavior_check_timer[14];
+	int16 mode;
+	int16 combat_status;
+	int32 combat_status_timer;
 	behavior_stimulus behavior_stimulus[5];
-	long stimulus_flags;
+	int32 stimulus_flags;
 	bool group_searching;
 	bool disallow_retreating;
 	bool arrived;
@@ -104,11 +104,11 @@ struct actor_state_data
 	bool desired_berserk;
 	bool desired_stowed;
 	char not_sleeping_ticks;
-	short berserk_ticks;
-	short covered_ticks;
+	int16 berserk_ticks;
+	int16 covered_ticks;
 	s_actor_patrol_state patrol_state;
 	uint16 engineer_state_flags;
-	short isolated_from_squad_ticks;
+	int16 isolated_from_squad_ticks;
 };
 static_assert(sizeof(actor_state_data) == 0x2E4);
 
@@ -133,9 +133,9 @@ struct actor_input_data
 	bool gunner;
 	bool boarding;
 	bool carrying_player;
-	long root_vehicle_index;
-	short vehicle_driver_type;
-	long gunning_unit_index;
+	int32 root_vehicle_index;
+	int16 vehicle_driver_type;
+	int32 gunning_unit_index;
 	bool movement_disallowed;
 	bool pathfinding_location_valid;
 	c_ai_point3d pathfinding_point;
@@ -157,8 +157,8 @@ static_assert(sizeof(actor_input_data) == 0xB8);
 
 struct c_recent_obstacle
 {
-	long m_object_index;
-	short m_ticks;
+	int32 m_object_index;
+	int16 m_ticks;
 	uint16 m_flags;
 };
 static_assert(sizeof(c_recent_obstacle) == 0x8);
@@ -172,47 +172,47 @@ static_assert(sizeof(actor_obstacle_data) == 0x20);
 
 struct actor_memory_data
 {
-	long recent_dead_peer_time;
-	short ticks_since_enemy_engaged;
-	long last_damage_vocalization_time;
-	short most_recent_interest;
+	int32 recent_dead_peer_time;
+	int16 ticks_since_enemy_engaged;
+	int32 last_damage_vocalization_time;
+	int16 most_recent_interest;
 	uint8 recent_interest_objects[4][8];
-	long current_interest_object_index;
+	int32 current_interest_object_index;
 	real32 current_interest_object_interest;
-	long postcombat_flags;
+	int32 postcombat_flags;
 	c_sector_ref last_valid_valid_sector;
 	c_ai_point3d last_valid_pathfinding_point;
 	bool pathfinding_currently_invalid;
-	short chorus_vocalization_index;
-	short chorus_vocalization_delay_ticks;
+	int16 chorus_vocalization_index;
+	int16 chorus_vocalization_delay_ticks;
 	char chorus_pitch_range_index;
 	char chorus_permutation_index;
 	bool armored;
-	short protecting;
+	int16 protecting;
 };
 static_assert(sizeof(actor_memory_data) == 0x5C);
 
 struct actor_morph_data
 {
-	long last_morph_time;
-	short morph_delay_ticks;
-	short ticks_getting_damaged_outside_range;
-	short ticks_since_getting_damaged_outside_range;
-	short default_form;
+	int32 last_morph_time;
+	int16 morph_delay_ticks;
+	int16 ticks_getting_damaged_outside_range;
+	int16 ticks_since_getting_damaged_outside_range;
+	int16 default_form;
 	bool currently_in_default_form;
 	bool pending_form_is_default;
 	bool pending_form_propogate;
-	short pending_form;
-	short pending_form_priority;
-	short turtle_delay_ticks;
+	int16 pending_form;
+	int16 pending_form_priority;
+	int16 turtle_delay_ticks;
 };
 static_assert(sizeof(actor_morph_data) == 0x18);
 
 struct actor_situation
 {
 	char known_enemies;
-	short highest_prop_class;
-	long highest_prop_class_prop_index;
+	int16 highest_prop_class;
+	int32 highest_prop_class_prop_index;
 	bool close_enemy;
 };
 static_assert(sizeof(actor_situation) == 0xC);
@@ -220,39 +220,39 @@ static_assert(sizeof(actor_situation) == 0xC);
 struct actor_target_data
 {
 	uint16 flags;
-	short preferred_target_team_index;
-	long preferred_ai_index;
-	long target_prop_index;
-	long target_marker;
-	long retreat_target_prop_index;
-	long target_occluding_object_index;
-	long since_any_target_visible_timer;
-	short target_group;
+	int16 preferred_target_team_index;
+	int32 preferred_ai_index;
+	int32 target_prop_index;
+	int32 target_marker;
+	int32 retreat_target_prop_index;
+	int32 target_occluding_object_index;
+	int32 since_any_target_visible_timer;
+	int16 target_group;
 	bool target_group_include_player;
 };
 static_assert(sizeof(actor_target_data) == 0x20);
 
 struct actor_activity_data
 {
-	short activity_index;
-	short variant_index;
-	short point_set_index;
+	int16 activity_index;
+	int16 variant_index;
+	int16 point_set_index;
 	bool starting_location_activity;
-	long __unknown8;
+	int32 __unknown8;
 };
 static_assert(sizeof(actor_activity_data) == 0xC);
 
 struct actor_danger_zone
 {
-	short danger_type;
-	short hostility;
+	int16 danger_type;
+	int16 hostility;
 	bool allow_dive_evasion;
 	bool allow_brace_evasion;
 	bool communicated;
 	bool attached_to_us;
-	long object_index;
-	long owner_unit_index;
-	long pref_index;
+	int32 object_index;
+	int32 owner_unit_index;
+	int32 pref_index;
 	real32 danger_radius;
 	real_point3d position;
 	real_vector3d velocity;
@@ -267,37 +267,37 @@ static_assert(sizeof(actor_danger_zone) == 0x58);
 
 struct actor_stimulus_data
 {
-	short surprise_level;
-	long surprise_prop_index;
+	int16 surprise_level;
+	int32 surprise_prop_index;
 	bool stunned;
 	real32 stun_level;
 	real_vector3d stunned_vector;
-	long cover_friend_actor_index;
-	short cover_friend_behavior_index;
-	short cover_friend_dialogue_type;
-	long tracking_projectile_start_time;
-	long tracking_projectile_last_time;
+	int32 cover_friend_actor_index;
+	int16 cover_friend_behavior_index;
+	int16 cover_friend_dialogue_type;
+	int32 tracking_projectile_start_time;
+	int32 tracking_projectile_last_time;
 };
 static_assert(sizeof(actor_stimulus_data) == 0x2C);
 
 struct actor_vehicle_data
 {
-	long attached_vehicle_index;
-	long attached_seat_unit_index;
+	int32 attached_vehicle_index;
+	int32 attached_seat_unit_index;
 	real32 attached_seat_score;
-	short flags;
-	short attached_seat_index;
-	short attachment_status;
-	short attachment_pending_ticks;
-	short attachment_locked_ticks;
-	short attachment_failure_ticks;
-	short attachment_recent_ticks;
-	long recent_vehicle_index;
-	short recent_seat_index;
-	short recent_vehicle_exit_ticks;
-	short recent_vehicle_disallow_ticks;
-	short disallow_vehicle_exit_ticks;
-	long vehicle_turtling_time;
+	int16 flags;
+	int16 attached_seat_index;
+	int16 attachment_status;
+	int16 attachment_pending_ticks;
+	int16 attachment_locked_ticks;
+	int16 attachment_failure_ticks;
+	int16 attachment_recent_ticks;
+	int32 recent_vehicle_index;
+	int16 recent_seat_index;
+	int16 recent_vehicle_exit_ticks;
+	int16 recent_vehicle_disallow_ticks;
+	int16 disallow_vehicle_exit_ticks;
+	int32 vehicle_turtling_time;
 };
 static_assert(sizeof(actor_vehicle_data) == 0x2C);
 
@@ -305,16 +305,16 @@ struct actor_player_data
 {
 	bool crouch_blocking_player_line_of_fire;
 	bool moving_into_player_line_of_fire;
-	short crouch_timer;
-	short moving_into_player_line_of_fire_timer;
+	int16 crouch_timer;
+	int16 moving_into_player_line_of_fire_timer;
 	bool player_looking_at_me;
 	bool greeting_stare;
-	short player_looking_ticks;
-	short player_looking_index;
+	int16 player_looking_ticks;
+	int16 player_looking_index;
 	real32 in_front_distance;
-	short player_index_interested;
-	short player_interested_ticks;
-	short player_uninterested_ticks;
+	int16 player_index_interested;
+	int16 player_interested_ticks;
+	int16 player_uninterested_ticks;
 };
 static_assert(sizeof(actor_player_data) == 0x18);
 
@@ -323,7 +323,7 @@ struct actor_emotion_data
 	real32 instantaneous_danger;
 	real32 perceived_danger;
 	bool ignorant_of_broken_surfaces;
-	long last_vehicle_charge_time;
+	int32 last_vehicle_charge_time;
 };
 static_assert(sizeof(actor_player_data) == 0x18);
 
@@ -340,11 +340,11 @@ struct actor_firing_position_data
 	bool current_position_found_outside_range;
 	bool search_areas_available;
 	bool current_position_is_goal;
-	short goal_status;
-	long dynamic_firing_set_index;
-	long dynamic_firing_set_support_object_index;
-	short dynamic_firing_set_support_object_inaccessible_ticks;
-	short current_discarded_firing_positions_entry;
+	int16 goal_status;
+	int32 dynamic_firing_set_index;
+	int32 dynamic_firing_set_support_object_index;
+	int16 dynamic_firing_set_support_object_inaccessible_ticks;
+	int16 current_discarded_firing_positions_entry;
 	actor_discarded_firing_position discarded_firing_positions[4];
 	firing_position_ref current_position_index;
 	c_ai_point3d proxy_point;
@@ -354,9 +354,9 @@ static_assert(sizeof(actor_firing_position_data) == 0x44);
 
 struct actor_look_orders
 {
-	short aim_type;
+	int16 aim_type;
 	c_ai_direction aim_direction;
-	short look_type;
+	int16 look_type;
 	c_ai_direction look_direction;
 	bool look_force_weapon_down;
 };
@@ -368,7 +368,7 @@ struct actor_move_orders
 	bool move_face_exactly;
 	bool override_movement_direction;
 	bool override_throttle;
-	long override_movement_type;
+	int32 override_movement_type;
 	real_vector3d override_movement_direction_vector;
 	real32 override_throttle_value;
 	bool jump;
@@ -378,7 +378,7 @@ struct actor_move_orders
 	real_vector2d jump_alignment_vector;
 	real32 jump_target_horizontal_vel;
 	real32 jump_target_vertical_vel;
-	long jump_target_pref_index;
+	int32 jump_target_pref_index;
 	real32 scripted_turn_urgency;
 	bool ignore_obstacles;
 	bool scripted_disallow_movement;
@@ -409,11 +409,11 @@ struct actor_combat_orders
 	bool bombard_target;
 	bool abort_burst;
 	bool override_firing_restrictions;
-	long target_type;
+	int32 target_type;
 	union
 	{
 		c_ai_point3d target_point;
-		long prop_index;
+		int32 prop_index;
 	};
 	bool disregard_visibility;
 	bool use_secondary_trigger;
@@ -426,7 +426,7 @@ struct actor_swarm_orders
 {
 	char action;
 	char target_type;
-	long target_index;
+	int32 target_index;
 };
 
 struct actor_orders
@@ -455,8 +455,8 @@ static_assert(sizeof(c_path_destination) == 0x24);
 
 struct path_step
 {
-	short type;
-	short flags;
+	int16 type;
+	int16 flags;
 	c_sector_ref sector_ref;
 	c_hint_ref hint_ref;
 	c_ai_point3d point;
@@ -465,20 +465,20 @@ static_assert(sizeof(path_step) == 0x1C);
 
 struct path_step_source
 {
-	short type;
-	short structure_index;
+	int16 type;
+	int16 structure_index;
 	union
 	{
-		long sector_link_index;
-		long hint_index;
+		int32 sector_link_index;
+		int32 hint_index;
 	};
 };
 static_assert(sizeof(path_step_source) == 0x8);
 
 struct path_error_info
 {
-	short error_stage;
-	short num_thresholds;
+	int16 error_stage;
+	int16 num_thresholds;
 	path_step_source failed_threshold[3];
 };
 static_assert(sizeof(path_error_info) == 0x1C);
@@ -490,7 +490,7 @@ struct path_result
 	bool obstacle_on_goal;
 	c_ai_point3d start_point;
 	c_path_destination endpoint;
-	long ignorable_object_index;
+	int32 ignorable_object_index;
 	uint16 ignorable_object_flags;
 	char step_count;
 	char step_index;
@@ -502,9 +502,9 @@ static_assert(sizeof(path_result) == 0xCC);
 struct actor_path_control_data
 {
 	c_destination_orders destination_orders;
-	short status;
+	int16 status;
 	bool refreshed_this_tick;
-	short failure_count;
+	int16 failure_count;
 	path_result path;
 };
 static_assert(sizeof(actor_path_control_data) == 0x13C);
@@ -517,7 +517,7 @@ struct turn_info
 	real32 rating;
 	real_vector2d expected_facing;
 	real32 world_orientation;
-	short turn_index;
+	int16 turn_index;
 	real32 current_throttle;
 	real32 last_throttle;
 	real32 last_yaw_angle;
@@ -531,7 +531,7 @@ struct flying_turn_info
 {
 	bool servo_to_target;
 	bool finished_turn;
-	short movement_mode;
+	int16 movement_mode;
 	real32 last_yaw_angle;
 	real32 current_yaw_angle;
 	real32 last_pitch_angle;
@@ -548,7 +548,7 @@ struct hovering_turn_info
 	real32 last_throttle_scale;
 	real32 current_yaw_angle;
 	real32 current_throttle_scale;
-	short last_mode;
+	int16 last_mode;
 };
 static_assert(sizeof(hovering_turn_info) == 0x14);
 
@@ -557,26 +557,26 @@ struct actor_control_data
 	uint32 flags;
 	actor_path_control_data path;
 	real_point3d stuck_point;
-	short stuck_ticks;
-	short isolation_count;
+	int16 stuck_ticks;
+	int16 isolation_count;
 	real_vector3d moving_towards_vector;
 	real_vector3d moving_forced_aim_direction;
 	real_plane3d persistent_movement_plane;
 	real32 persistent_movement_distance;
-	short persistent_movement_ticks;
+	int16 persistent_movement_ticks;
 
 	// odst?
 	bool __unknown17E; // actor_move_update
 
-	short freeze_ticks;
-	short suppress_shooting_ticks;
+	int16 freeze_ticks;
+	int16 suppress_shooting_ticks;
 	real_vector2d jump_alignment_vector;
 	real32 jump_target_horizontal_vel;
 	real32 jump_target_vertical_vel;
-	long jump_target_pref_index;
-	long last_deceleration_to_zero_time;
-	long deceleration_object_index;
-	short deceleration_ticks;
+	int32 jump_target_pref_index;
+	int32 last_deceleration_to_zero_time;
+	int32 deceleration_object_index;
+	int16 deceleration_ticks;
 
 	// odst?
 	uint8 __unknown1A2; // actor_ground_throttle_control
@@ -588,42 +588,42 @@ struct actor_control_data
 		flying_turn_info flying_turn;
 		hovering_turn_info hovering_turn;
 	};
-	short glance_priority;
-	short glance_timer;
+	int16 glance_priority;
+	int16 glance_timer;
 	c_ai_direction glance_direction;
-	long idle_major_change_time;
-	long idle_major_timer;
-	long idle_minor_timer;
+	int32 idle_major_change_time;
+	int32 idle_major_timer;
+	int32 idle_minor_timer;
 	c_ai_direction idle_major_direction;
 	c_ai_direction idle_minor_direction;
-	long pose_timer;
+	int32 pose_timer;
 	real_vector3d desired_facing_vector;
 	real_vector3d desired_aiming_vector;
 	real_vector3d desired_looking_vector;
-	short zig_zag_ticks;
-	short emotion_ticks;
-	short weapon_flags;
-	short fire_state;
-	short fire_state_timer;
-	short burst_disable_timer;
-	short trigger_delay_timer;
-	short blocked_timer;
-	short special_fire_delay;
-	short special_fire_deny_attempts;
+	int16 zig_zag_ticks;
+	int16 emotion_ticks;
+	int16 weapon_flags;
+	int16 fire_state;
+	int16 fire_state_timer;
+	int16 burst_disable_timer;
+	int16 trigger_delay_timer;
+	int16 blocked_timer;
+	int16 special_fire_delay;
+	int16 special_fire_deny_attempts;
 	real32 accuracy;
 	real32 burst_distance;
-	long last_burst_start_time;
-	short blocked_projectiles_count;
-	short current_fire_target_type;
+	int32 last_burst_start_time;
+	int16 blocked_projectiles_count;
+	int16 current_fire_target_type;
 	union
 	{
 		c_ai_point3d current_fire_target_manual_point;
-		long current_fire_target_prop_index;
+		int32 current_fire_target_prop_index;
 	};
-	long current_fire_target_timer;
-	short current_fire_target_line_of_sight;
-	short player_blocking_ticks;
-	long last_player_blocking_time;
+	int32 current_fire_target_timer;
+	int16 current_fire_target_line_of_sight;
+	int16 player_blocking_ticks;
+	int32 last_player_blocking_time;
 	c_ai_point3d current_fire_target_position;
 	real32 current_fire_target_range;
 	real_vector3d current_fire_target_aim_vector;
@@ -637,16 +637,16 @@ struct actor_control_data
 	real_vector3d burst_aim_vector;
 	real32 burst_error;
 	real32 burst_damage_modifier;
-	short grenade_request_ticks;
-	short grenade_flags;
-	long grenade_last_throw_time;
+	int16 grenade_request_ticks;
+	int16 grenade_flags;
+	int32 grenade_last_throw_time;
 	c_ai_point3d grenade_current_target;
-	long grenade_current_prop_index;
-	long grenade_current_ignore_object_index;
+	int32 grenade_current_prop_index;
+	int32 grenade_current_ignore_object_index;
 	real_vector3d grenade_current_aim_vector;
 	real32 grenade_current_aim_speed;
 	c_ai_point3d equipment_target;
-	long last_hop_time;
+	int32 last_hop_time;
 	c_ai_point3d phase_destination;
 	bool anchor_valid;
 	real_point3d anchor_point;
@@ -655,16 +655,16 @@ static_assert(sizeof(actor_control_data) == 0x36C);
 
 struct actor_animation_orders
 {
-	long impulse;
+	int32 impulse;
 	real_vector2d alignment_vector;
 };
 static_assert(sizeof(actor_animation_orders) == 0xC);
 
 struct actor_output_data
 {
-	long movement_type;
+	int32 movement_type;
 	actor_animation_orders animation;
-	short aiming_speed;
+	int16 aiming_speed;
 	uint32 control_flags;
 	real_vector3d throttle;
 	real32 analog_primary_trigger;
@@ -678,9 +678,9 @@ static_assert(sizeof(actor_output_data) == 0x5C);
 
 struct actor_script_data
 {
-	long first_command_script_index;
-	long active_list;
-	short cl_layer;
+	int32 first_command_script_index;
+	int32 active_list;
+	int16 cl_layer;
 };
 static_assert(sizeof(actor_script_data) == 0xC);
 
@@ -732,9 +732,9 @@ static_assert(0xA8C == OFFSETOF(actor_datum, commands));
 
 struct ai_reference_frame
 {
-	long object_index;
-	short runtime_flags;
-	short pad0;
+	int32 object_index;
+	int16 runtime_flags;
+	int16 pad0;
 };
 static_assert(sizeof(ai_reference_frame) == 0x8);
 
@@ -742,23 +742,23 @@ struct actor_iterator
 {
 	c_data_iterator<actor_datum> iterator;
 	bool active_only;
-	long index;
+	int32 index;
 };
 static_assert(sizeof(actor_iterator) == 0x18);
 
-extern real_argb_color const* __cdecl actor_activation_debug_color(long actor_index);
+extern real_argb_color const* __cdecl actor_activation_debug_color(int32 actor_index);
 extern bool __cdecl actor_datum_available_to_current_thread();
-extern void __cdecl actor_delete(long actor_index, bool died);
-extern void __cdecl actor_erase(long actor_index, bool delete_immediately);
-extern bool __cdecl actor_general_update(long actor_index);
+extern void __cdecl actor_delete(int32 actor_index, bool died);
+extern void __cdecl actor_erase(int32 actor_index, bool delete_immediately);
+extern bool __cdecl actor_general_update(int32 actor_index);
 extern bool __cdecl actor_is_active(actor_datum const* actor);
-extern bool __cdecl actor_is_blind(long actor_index);
-extern bool __cdecl actor_is_deaf(long actor_index);
+extern bool __cdecl actor_is_blind(int32 actor_index);
+extern bool __cdecl actor_is_deaf(int32 actor_index);
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool active_only);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
-extern void __cdecl actor_kill(long actor_index, bool silent, bool delayed);
-extern bool __cdecl actor_set_active(long actor_index, bool active);
-extern bool __cdecl actor_switch_bsp(long actor_index);
+extern void __cdecl actor_kill(int32 actor_index, bool silent, bool delayed);
+extern bool __cdecl actor_set_active(int32 actor_index, bool active);
+extern bool __cdecl actor_switch_bsp(int32 actor_index);
 extern void __cdecl actors_dispose();
 extern void __cdecl actors_dispose_from_old_map();
 extern void __cdecl actors_freeze();

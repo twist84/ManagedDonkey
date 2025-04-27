@@ -36,7 +36,7 @@ DWORD WINAPI XGetOverlappedResult(PXOVERLAPPED pOverlapped, LPDWORD pResult, BOO
 
 // ==============================================================================================
 
-bool __cdecl get_clipboard_as_text(char* buf, long len)
+bool __cdecl get_clipboard_as_text(char* buf, int32 len)
 {
 	if (!IsClipboardFormatAvailable(CF_TEXT) || !OpenClipboard(g_windows_params.game_window_handle))
 		return false;
@@ -60,7 +60,7 @@ bool __cdecl get_clipboard_as_text(char* buf, long len)
 	return true;
 }
 
-bool __cdecl set_clipboard_as_text(char* buf, long len)
+bool __cdecl set_clipboard_as_text(char* buf, int32 len)
 {
 	if (!OpenClipboard(g_windows_params.game_window_handle))
 		return false;
@@ -89,13 +89,13 @@ bool __cdecl set_clipboard_as_text(char* buf, long len)
 
 struct XShowKeyboardUI_struct
 {
-	long& controller_index;
-	unsigned long& character_flags;
+	int32& controller_index;
+	uint32& character_flags;
 	wchar_t const*& default_text;
 	wchar_t const*& title_text;
 	wchar_t const*& description_text;
 	wchar_t*& result_text;
-	unsigned long& maximum_character_count;
+	uint32& maximum_character_count;
 	void*& platform_handle;
 
 	void dialog_initialize_handler(HWND dialog_handle)
@@ -105,7 +105,7 @@ struct XShowKeyboardUI_struct
 		SetFocus(GetDlgItem(dialog_handle, ID_TEXT_BOX_TEXT));
 	}
 
-	void dialog_command_handler(HWND dialog_handle, long command)
+	void dialog_command_handler(HWND dialog_handle, int32 command)
 	{
 		switch (command)
 		{
@@ -145,14 +145,14 @@ INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 	return true;
 }
 
-long XShowKeyboardUI(
-	long controller_index,
-	unsigned long character_flags,
+int32 XShowKeyboardUI(
+	int32 controller_index,
+	uint32 character_flags,
 	wchar_t const* default_text,
 	wchar_t const* title_text,
 	wchar_t const* description_text,
 	wchar_t* result_text,
-	unsigned long maximum_character_count,
+	uint32 maximum_character_count,
 	void* overlapped
 )
 {

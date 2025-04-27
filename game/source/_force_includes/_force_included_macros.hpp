@@ -33,12 +33,12 @@
 
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 
-const long CHAR_BYTES = sizeof(char);
-const long SHORT_BYTES = sizeof(short);
-const long LONG_BYTES = sizeof(long);
-const long CHAR_BITS = SIZEOF_BITS(char);
-const long SHORT_BITS = SIZEOF_BITS(short);
-const long LONG_BITS = SIZEOF_BITS(long);
+const int32 CHAR_BYTES = sizeof(char);
+const int32 SHORT_BYTES = sizeof(int16);
+const int32 LONG_BYTES = sizeof(int32);
+const int32 CHAR_BITS = SIZEOF_BITS(char);
+const int32 SHORT_BITS = SIZEOF_BITS(int16);
+const int32 LONG_BITS = SIZEOF_BITS(int32);
 
 #define FLAG(bit) (1 << (bit))
 #define MASK(bit) ((1 << (bit)) - 1)
@@ -57,10 +57,10 @@ const long LONG_BITS = SIZEOF_BITS(long);
 //#define CHAR_MAX char(0x7F)
 #define UNSIGNED_CHAR_MAX uint8(0xFF)
 
-//#define SHORT_MAX short(0x7FFF)
+//#define SHORT_MAX int16(0x7FFF)
 #define UNSIGNED_SHORT_MAX uint16(0xFFFF)
 
-//#define LONG_MAX long(0x7FFFFFFF)
+//#define LONG_MAX int32(0x7FFFFFFF)
 #define UNSIGNED_LONG_MAX uint32(0xFFFFFFFF)
 
 #define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)

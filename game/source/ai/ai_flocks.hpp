@@ -34,10 +34,10 @@ static_assert(sizeof(flock_definition) == 0x5C);
 
 struct s_flock_instance
 {
-	long name;
-	short flock_palette_index;
-	short bsp_index;
-	short bounding_volume_index;
+	int32 name;
+	int16 flock_palette_index;
+	int16 bsp_index;
+	int16 bounding_volume_index;
 	uint16 flags;
 	real32 ecology_margin;
 	s_tag_block sources;
@@ -48,17 +48,17 @@ struct s_flock_instance
 	real32 scale_max;
 	real32 scale_to_zero_source_radius;
 	real32 scale_to_zero_sink_radius;
-	short creature_index;
-	short boid_count_min;
-	short boid_count_max;
-	short enemy_flock;
+	int16 creature_index;
+	int16 boid_count_min;
+	int16 boid_count_max;
+	int16 enemy_flock;
 };
 static_assert(sizeof(s_flock_instance) == 0x48);
 
 struct s_perlin_state
 {
-	short random_offset_total_ticks;
-	short random_offset_ticks;
+	int16 random_offset_total_ticks;
+	int16 random_offset_ticks;
 	real_point3d random_offset;
 	real_point3d previous_random_offset;
 };
@@ -66,22 +66,22 @@ static_assert(sizeof(s_perlin_state) == 0x1C);
 
 struct boid_state
 {
-	long flock_index;
-	long next_boid_index;
+	int32 flock_index;
+	int32 next_boid_index;
 	bool erase;
 	bool moving;
 	bool active;
 	bool perched;
-	short inactive_ticks;
-	short source_index;
-	short sink_index;
-	short want_to_move_ticks;
-	short target_update_ticks;
+	int16 inactive_ticks;
+	int16 source_index;
+	int16 sink_index;
+	int16 want_to_move_ticks;
+	int16 target_update_ticks;
 	real32 scale;
-	long danger_object;
-	long target_object_index;
-	short danger_ticks;
-	short target_shooting_ticks;
+	int32 danger_object;
+	int32 target_object_index;
+	int16 danger_ticks;
+	int16 target_shooting_ticks;
 	s_perlin_state perlin;
 };
 static_assert(sizeof(boid_state) == 0x44);
@@ -89,37 +89,37 @@ static_assert(sizeof(boid_state) == 0x44);
 struct flock_datum :
 	s_datum_header
 {
-	short instance_index;
-	long definition_index;
-	long first_boid_index;
-	short boid_count;
-	short boid_creation_delay_ticks;
+	int16 instance_index;
+	int32 definition_index;
+	int32 first_boid_index;
+	int16 boid_count;
+	int16 boid_creation_delay_ticks;
 	bool active;
 	bool emitting;
 	bool spewing;
-	short spew_threshold;
-	short spew_source_index;
-	short active_sources;
-	short used_sources;
-	short threatening_players;
+	int16 spew_threshold;
+	int16 spew_source_index;
+	int16 active_sources;
+	int16 used_sources;
+	int16 threatening_players;
 	real_point3d danger_point;
 	real32 danger_scale;
-	short danger_ticks;
+	int16 danger_ticks;
 	real_rectangle3d bounding_box;
 };
 static_assert(sizeof(flock_datum) == 0x4C);
 
 struct flock_boid_iterator
 {
-	long next_boid_index;
-	long boid_index;
+	int32 next_boid_index;
+	int32 boid_index;
 };
 static_assert(sizeof(flock_boid_iterator) == 0x8);
 
 struct flock_iterator
 {
 	c_data_iterator<flock_datum> iterator;
-	long index;
+	int32 index;
 };
 static_assert(sizeof(flock_iterator) == 0x14);
 

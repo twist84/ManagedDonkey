@@ -41,7 +41,7 @@ public:
 	static void __cdecl restore_atmosphere_constants();
 	static void __cdecl set_default_atmosphere_constants(s_weighted_atmosphere_parameters* parameters);
 
-	static long& m_last_custom_index;
+	static int32& m_last_custom_index;
 	static bool& m_use_local_pvs;
 	static s_weighted_atmosphere_parameters& m_default_parameters;
 

@@ -38,8 +38,8 @@ public:
 	e_infection_initial_zombie_count_settings get_initial_zombie_count() const;
 	void set_initial_zombie_count(e_infection_initial_zombie_count_settings initial_zombie_count);
 
-	short get_safe_haven_movement_time() const;
-	void set_safe_haven_movement_time(short safe_haven_movement_time);
+	int16 get_safe_haven_movement_time() const;
+	void set_safe_haven_movement_time(int16 safe_haven_movement_time);
 
 	char get_zombie_kill_points() const;
 	void set_zombie_kill_points(char zombie_kill_points);
@@ -80,13 +80,13 @@ protected:
 	c_enum<e_infection_safe_havens_settings, char, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;
 	c_enum<e_infection_next_zombie_settings, char, _infection_next_zombie_winner, k_infection_next_zombie_settings> m_next_zombie;
 	c_enum<e_infection_initial_zombie_count_settings, char, _infection_initial_zombie_count_25_percent, k_infection_initial_zombie_count_settings> m_initial_zombie_count;
-	c_enum<long, short, 0, 120> m_safe_haven_movement_time;  // default: 30
-	c_enum<long, char, -10, 10> m_zombie_kill_points;        // default: 1
-	c_enum<long, char, -10, 10> m_infection_points;          // default: 0
-	c_enum<long, char, -10, 10> m_safe_haven_arrival_points; // default: 0
-	c_enum<long, char, -10, 10> m_suicide_points;            // default: -1
-	c_enum<long, char, -10, 10> m_betrayal_points;           // default: -1
-	c_enum<long, char, -10, 10> m_last_man_bonus_points;     // default: 0
+	c_enum<int32, int16, 0, 120> m_safe_haven_movement_time;  // default: 30
+	c_enum<int32, char, -10, 10> m_zombie_kill_points;        // default: 1
+	c_enum<int32, char, -10, 10> m_infection_points;          // default: 0
+	c_enum<int32, char, -10, 10> m_safe_haven_arrival_points; // default: 0
+	c_enum<int32, char, -10, 10> m_suicide_points;            // default: -1
+	c_enum<int32, char, -10, 10> m_betrayal_points;           // default: -1
+	c_enum<int32, char, -10, 10> m_last_man_bonus_points;     // default: 0
 	c_player_traits m_zombie_traits;
 	c_player_traits m_first_zombie_traits;
 	c_player_traits m_safe_haven_defender_traits;
@@ -109,7 +109,7 @@ struct s_infection_globals
 	{
 		uint16 zombie_bitvector;
 		uint16 first_zombie_bitvector;
-		long safe_haven_timer;
+		int32 safe_haven_timer;
 		uint16 zombie_team_bitvector;
 		uint16 players_in_safe_haven_bitvector;
 	} networked;
@@ -117,8 +117,8 @@ struct s_infection_globals
 	struct
 	{
 		c_area_set<c_area, 12> safe_havens;
-		c_static_array<long, 16> zombie_kills;
-		c_static_array<long, 16> human_kills;
+		c_static_array<int32, 16> zombie_kills;
+		c_static_array<int32, 16> human_kills;
 		bool emitted_last_man_standing_event;
 	} local;
 };

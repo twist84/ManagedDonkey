@@ -10,7 +10,7 @@ struct s_hopper_information
 	uint16 hopper_identifier;
 	e_hopper_category_id category_identifier;
 	uint8 presence_hopper_identifier;
-	long image_index;
+	int32 image_index;
 	bool is_visible;
 	bool is_playable;
 	bool is_ranked;

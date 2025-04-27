@@ -22,7 +22,7 @@ void c_gui_screen_widget::add_game_tag_parser(c_game_tag_parser* parser)
 	}
 }
 
-c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
+c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB0DB0, c_gui_screen_widget, get_data, name, datasource_index);
 
@@ -32,7 +32,7 @@ c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 	if (m_datasource_count <= 0)
 		return nullptr;
 
-	long index = 0;
+	int32 index = 0;
 	for (c_gui_data** datasource = m_datasource; (*datasource)->get_name().get_value() != name; datasource++)
 	{
 		if (++index >= m_datasource_count)
@@ -60,7 +60,7 @@ e_window_index c_gui_screen_widget::get_render_window()
 	return INVOKE_CLASS_MEMBER(0x00AB0FF0, c_gui_screen_widget, get_render_window);
 }
 
-bool c_gui_screen_widget::handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_widget::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB14C0, c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 	//return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[49], c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
@@ -85,7 +85,7 @@ void c_gui_screen_widget::transfer_focus(c_gui_widget* widget)
 	INVOKE_CLASS_MEMBER(0x00AB25F0, c_gui_screen_widget, transfer_focus, widget);
 }
 
-void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget, long element_handle, bool play_received_animation, bool play_lost_animation)
+void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation)
 {
 	INVOKE_CLASS_MEMBER(0x00AB2640, c_gui_screen_widget, transfer_focus_to_list, list_widget, element_handle, play_received_animation, play_lost_animation);
 }

@@ -26,8 +26,8 @@ public:
 
 //private:
 	c_tag_index m_definition_index;
-	long m_first_decal_index;
-	long m_flags;
+	int32 m_first_decal_index;
+	int32 m_flags;
 	s_cluster_reference m_cluster_refs[4];
 	real_matrix4x3 m_projection;
 	real32 m_rotation;
@@ -47,18 +47,18 @@ struct c_decal :
 	s_datum_header
 {
 public:
-	void __thiscall render(long pass);
-	static void __cdecl render_all(long pass);
+	void __thiscall render(int32 pass);
+	static void __cdecl render_all(int32 pass);
 
-	long m_definition_block_index;
-	long m_parent_system_index;
-	long m_next_sibling_index;
-	long m_vertex_allocation_index;
-	long m_index_allocation_index;
+	int32 m_definition_block_index;
+	int32 m_parent_system_index;
+	int32 m_next_sibling_index;
+	int32 m_vertex_allocation_index;
+	int32 m_index_allocation_index;
 	uint8 __data18[0xC];
 	uint16 m_vertex_count;
 	uint16 m_index_count;
-	long m_flags;
+	int32 m_flags;
 	real32 m_age;
 	real32 m_lifespan;
 	real32 m_decay_period;
@@ -94,5 +94,5 @@ struct s_decal_message_queue :
 };
 static_assert(sizeof(s_decal_message_queue) == 0x824);
 
-extern void __cdecl sub_6948C0(long a1);
+extern void __cdecl sub_6948C0(int32 a1);
 

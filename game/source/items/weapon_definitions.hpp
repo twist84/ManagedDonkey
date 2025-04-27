@@ -113,15 +113,15 @@ static_assert(sizeof(melee_damage_parameters_struct) == 0xCC);
 
 struct aim_assist_parameters
 {
-	angle autoaim_angle;
+	real32 autoaim_angle;
 	real32 autoaim_range;
 	real32 autoaim_falloff_range;
 	real32 autoaim_near_falloff_range;
-	angle magnetism_angle;
+	real32 magnetism_angle;
 	real32 magnetism_range;
 	real32 magnetism_falloff_range;
 	real32 magnetism_near_falloff_range;
-	angle deviation_angle;
+	real32 deviation_angle;
 	uint8 ZHV[0x4];
 	uint8 CVYGPMLMX[0xC];
 	uint8 UQXKLVAXI[0x4];
@@ -130,7 +130,7 @@ static_assert(sizeof(aim_assist_parameters) == 0x38);
 
 struct weapon_tracking
 {
-	short tracking_type;
+	int16 tracking_type;
 	uint8 F[0x2];
 };
 static_assert(sizeof(weapon_tracking) == 0x4);
@@ -147,11 +147,11 @@ static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
 struct s_weapon_magazine
 {
 	uint32 flags;
-	short rounds_recharged; // per second
-	short rounds_total_initial;
-	short rounds_total_maximum;
-	short rounds_loaded_maximum;
-	short runtime_rounds_inventory_maximum;
+	int16 rounds_recharged; // per second
+	int16 rounds_total_initial;
+	int16 rounds_total_maximum;
+	int16 rounds_loaded_maximum;
+	int16 runtime_rounds_inventory_maximum;
 
 	// pad
 	uint8 IIO[0x2];
@@ -159,7 +159,7 @@ struct s_weapon_magazine
 	// the length of time it takes to load a single magazine into the weapon
 	real32 reload_time; // seconds
 
-	short rounds_reloaded;
+	int16 rounds_reloaded;
 
 	// pad
 	uint8 VJGZW[0x2];
@@ -249,8 +249,8 @@ struct weapon_trigger_definition
 
 		real32 autofire_time;
 		real32 autofire_throw;
-		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> secondary_action;
-		c_enum<e_weapon_trigger_autofire_action, short, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> primary_action;
+		c_enum<e_weapon_trigger_autofire_action, int16, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> secondary_action;
+		c_enum<e_weapon_trigger_autofire_action, int16, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> primary_action;
 	};
 	static_assert(sizeof(s_autofire_fields) == 0xC);
 
@@ -264,10 +264,10 @@ struct weapon_trigger_definition
 		// the amount of time this trigger can be charged before becoming overcharged
 		real32 charged_time; // seconds
 
-		c_enum<e_weapon_trigger_overcharged_action, short, _weapon_trigger_overcharged_action_none, k_weapon_trigger_overcharged_actions> overcharged_action;
+		c_enum<e_weapon_trigger_overcharged_action, int16, _weapon_trigger_overcharged_action_none, k_weapon_trigger_overcharged_actions> overcharged_action;
 
 		// 96 was the constant in code for the pp
-		short cancelled_trigger_throw;
+		int16 cancelled_trigger_throw;
 
 		// the amount of illumination given off when the weapon is fully charged
 		real32 charged_illumination; // [0,1]
@@ -298,11 +298,11 @@ struct weapon_trigger_definition
 	static_assert(sizeof(s_charging_fields) == 0x68);
 
 	c_flags<e_weapon_trigger_definition_flags, uint32, k_weapon_trigger_definition_flags> flags;
-	c_enum<e_weapon_trigger_input, short, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
-	c_enum<e_weapon_trigger_behavior, short, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
-	short primary_barrel;
-	short secondary_barrel;
-	c_enum<e_trigger_prediction_type, short, _trigger_prediction_type_none, k_trigger_prediction_types> prediction;
+	c_enum<e_weapon_trigger_input, int16, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
+	c_enum<e_weapon_trigger_behavior, int16, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
+	int16 primary_barrel;
+	int16 secondary_barrel;
+	c_enum<e_trigger_prediction_type, int16, _trigger_prediction_type_none, k_trigger_prediction_types> prediction;
 
 	// pad
 	uint8 GNFR[0x2];
@@ -359,8 +359,8 @@ struct s_weapon_barrel_firing_error
 	// the range of angles (in degrees) that a damaged weapon will skew fire
 	real32 damage_error;
 
-	angle min_error_look_pitch_rate; // yaw rate is doubled
-	angle full_error_look_pitch_rate; // yaw rate is doubled
+	real32 min_error_look_pitch_rate; // yaw rate is doubled
+	real32 full_error_look_pitch_rate; // yaw rate is doubled
 
 	// use to soften or sharpen the rate ding
 	real32 look_pitch_error_power;
@@ -394,16 +394,16 @@ struct s_weapon_barrel
 	s_weapon_barrel_firing_parameters firing;
 
 	// the magazine from which this trigger draws its ammunition
-	short magazine;
+	int16 magazine;
 
 	// the number of rounds expended to create a single firing effect
-	short rounds_per_shot;
+	int16 rounds_per_shot;
 
 	// the minimum number of rounds necessary to fire the weapon
-	short minimum_rounds_loaded;
+	int16 minimum_rounds_loaded;
 
 	// the number of non-tracer rounds fired between tracers
-	short rounds_between_tracers;
+	int16 rounds_between_tracers;
 
 	c_string_id optional_barrel_marker_name;
 
@@ -434,9 +434,9 @@ struct s_weapon_barrel
 	// projectile
 
 	int16 distribution_function;
-	short projectiles_per_shot;
+	int16 projectiles_per_shot;
 	real32 distribution_angle; // degrees
-	angle minimum_error; // degrees
+	real32 minimum_error; // degrees
 	angle_bounds error_angle; // degrees
 
 	// $TODO: map the rest of this struct
@@ -454,10 +454,10 @@ struct _weapon_definition
 	c_flags<e_weapon_definition_flags, uint32, k_weapon_definition_flags> flags;
 	c_flags<e_weapon_definition_secondary_flags, uint32, k_weapon_definition_secondary_flags> secondary_flags;
 	c_string_id unused_label;
-	short secondary_trigger_mode;
+	int16 secondary_trigger_mode;
 
 	// if the second trigger loads alternate ammunition, this is the maximum number of shots that can be loaded at a time
-	short maximum_alternate_shots_loaded;
+	int16 maximum_alternate_shots_loaded;
 
 	// how long after being readied it takes this weapon to switch its 'turned_on' attachment to 1.0
 	real32 turn_on_time;
@@ -518,7 +518,7 @@ struct _weapon_definition
 	uint8 FEOROBJE[0x1];
 
 	// the number of magnification levels this weapon allows
-	short magnification_levels;
+	int16 magnification_levels;
 	real_bounds magnification_range;
 	uint32 magnification_flags;
 	real32 switch_ready_speed;
@@ -540,7 +540,7 @@ struct _weapon_definition
 
 	// movement
 
-	short movement_penalized;
+	int16 movement_penalized;
 
 	// pad
 	uint8 GTIXVRPA[0x2];
@@ -592,15 +592,15 @@ struct _weapon_definition
 	// weapon labels
 	c_string_id weapon_class;
 	c_string_id weapon_name;
-	c_enum<e_multiplayer_weapon_type, short, _multiplayer_weapon_type_none, k_multiplayer_weapon_type_count> multiplayer_weapon_type;
+	c_enum<e_multiplayer_weapon_type, int16, _multiplayer_weapon_type_none, k_multiplayer_weapon_type_count> multiplayer_weapon_type;
 
 
 	// more miscellaneous
 
-	c_enum<e_weapon_type, short, _weapon_type_undefined, k_weapon_type_count> weapon_type;
+	c_enum<e_weapon_type, int16, _weapon_type_undefined, k_weapon_type_count> weapon_type;
 	weapon_tracking tracking;
-	long special_hud_version;
-	long special_hud_icon;
+	int32 special_hud_version;
+	int32 special_hud_icon;
 	weapon_interface_definition_new player_interface;
 	s_tag_block predicted_resources;
 	c_typed_tag_block<s_weapon_magazine> magazines;

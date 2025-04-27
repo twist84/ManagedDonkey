@@ -45,31 +45,31 @@ enum
 
 struct ai_meter
 {
-	short current_count;
-	short last_count;
+	int16 current_count;
+	int16 last_count;
 	real32 average_count;
-	long average_total;
-	short history_next_index;
-	short history_max_index;
-	short history_count[60];
+	int32 average_total;
+	int16 history_next_index;
+	int16 history_max_index;
+	int16 history_count[60];
 };
 static_assert(sizeof(ai_meter) == 0x88);
 
 struct ai_meter_definition
 {
-	short meter_id;
-	short flags;
-	short(__cdecl* value_callback)();
+	int16 meter_id;
+	int16 flags;
+	int16(__cdecl* value_callback)();
 };
 static_assert(sizeof(ai_meter_definition) == 0x8);
 
 struct s_ai_profile_info
 {
-	short ai_updates;
-	short line_of_sight;
-	short test_ray2d;
-	short firing_position_evaluation;
-	short perception_line_of_sight;
+	int16 ai_updates;
+	int16 line_of_sight;
+	int16 test_ray2d;
+	int16 firing_position_evaluation;
+	int16 perception_line_of_sight;
 };
 static_assert(sizeof(s_ai_profile_info) == 0xA);
 
@@ -77,7 +77,7 @@ struct ai_profile_state
 {
 	bool disable_ai;
 	bool move_randomly;
-	short render_spray_mode;
+	int16 render_spray_mode;
 	bool show;
 	bool show_stats;
 	bool show_actors;
@@ -91,20 +91,20 @@ struct ai_profile_state
 };
 static_assert(sizeof(ai_profile_state) == 0xDE8);
 
-extern short global_ai_profile_draw_string_position;
+extern int16 global_ai_profile_draw_string_position;
 extern char profilestring[2048];
 extern ai_profile_state ai_profile;
 
-extern short ai_meter_actor();
-extern short ai_meter_prop();
-extern short ai_meter_swarm_actor();
-extern short ai_meter_swarm_cache();
-extern short ai_meter_unit();
-extern short ai_profile_change_render_spray();
-extern void ai_profile_display(char* textbuffer, long textbuffer_size);
+extern int16 ai_meter_actor();
+extern int16 ai_meter_prop();
+extern int16 ai_meter_swarm_actor();
+extern int16 ai_meter_swarm_cache();
+extern int16 ai_meter_unit();
+extern int16 ai_profile_change_render_spray();
+extern void ai_profile_display(char* textbuffer, int32 textbuffer_size);
 extern void ai_profile_dispose();
 extern void ai_profile_dispose_from_old_map();
-extern void ai_profile_draw_string(char const* string, short tab_count, short const* tabs, real_argb_color const* color);
+extern void ai_profile_draw_string(char const* string, int16 tab_count, int16 const* tabs, real_argb_color const* color);
 extern void ai_profile_initialize();
 extern void ai_profile_initialize_for_new_map();
 extern void ai_profile_render();
@@ -115,5 +115,5 @@ extern void ai_profile_show_paths();
 extern void ai_profile_show_prop_types();
 extern void ai_profile_show_swarms();
 extern void ai_profile_update();
-extern long count_actors(bool active_only);
+extern int32 count_actors(bool active_only);
 

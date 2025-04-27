@@ -6,9 +6,9 @@
 struct debug_key
 {
 	char const* name;
-	//c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS> key_code;
-	short key_code;
-	short modifier;
+	//c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS> key_code;
+	int16 key_code;
+	int16 modifier;
 	void(__cdecl* function)(bool);
 	bool allow_out_of_game;
 	bool allow_in_editor;
@@ -20,8 +20,8 @@ static_assert(sizeof(debug_key) == 0x14);
 struct s_debug_button
 {
 	char const* name;
-	//c_enum<e_controller_button, short, _controller_button_left_trigger, k_controller_button_count> gamepad_abstract_button;
-	short gamepad_abstract_button;
+	//c_enum<e_controller_button, int16, _controller_button_left_trigger, k_controller_button_count> gamepad_abstract_button;
+	int16 gamepad_abstract_button;
 	void(__cdecl* function)(bool);
 	bool allow_out_of_game;
 	bool allow_in_editor;

@@ -34,23 +34,23 @@ bool g_fade_to_black_enabled = false;
 
 //.text:006E47D0 ; 
 
-void __cdecl game_engine_get_place_string(long place, c_static_wchar_string<256>* place_string)
+void __cdecl game_engine_get_place_string(int32 place, c_static_wchar_string<256>* place_string)
 {
 	INVOKE(0x006E48C0, game_engine_get_place_string, place, place_string);
 }
 
-void __cdecl game_engine_get_score_string(long score, class c_static_wchar_string<256>* score_string)
+void __cdecl game_engine_get_score_string(int32 score, class c_static_wchar_string<256>* score_string)
 {
 	INVOKE(0x006E4960, game_engine_get_place_string, score, score_string);
 }
 
-void __cdecl game_engine_get_team_name(long team, c_static_wchar_string<256>* team_name)
+void __cdecl game_engine_get_team_name(int32 team, c_static_wchar_string<256>* team_name)
 {
 	INVOKE(0x006E49A0, game_engine_get_team_name, team, team_name);
 }
 
-//real32 __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
-real32 __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
+//real32 __cdecl game_engine_get_user_fade_to_black_amount(int32 user_index)
+real32 __cdecl game_engine_get_user_fade_to_black_amount(int32 user_index)
 {
 	//return INVOKE(0x006E49F0, game_engine_get_user_fade_to_black_amount, user_index);
 
@@ -61,7 +61,7 @@ real32 __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 	return game_engine_globals->fade_to_black_amount[user_index];
 }
 
-real32 __cdecl game_engine_hud_get_fade(long user_index)
+real32 __cdecl game_engine_hud_get_fade(int32 user_index)
 {
 	return INVOKE(0x006E4A40, game_engine_hud_get_fade, user_index);
 
@@ -76,15 +76,15 @@ real32 __cdecl game_engine_hud_get_fade(long user_index)
 	//return 1.0f - scoreboard_alpha;
 }
 
-bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message_buffer, long message_buffer_length, bool a4)
+bool __cdecl game_engine_hud_get_state_message(int32 user_index, wchar_t* message_buffer, int32 message_buffer_length, bool a4)
 {
 	return INVOKE(0x006E4AA0, game_engine_hud_get_state_message, user_index, message_buffer, message_buffer_length, a4);
 }
 
-//.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(long)
-//.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, long)
+//.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(int32)
+//.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, int32)
 
-void __cdecl game_engine_render(long user_index)
+void __cdecl game_engine_render(int32 user_index)
 {
 	//INVOKE(0x006E4E50, game_engine_render, user_index);
 
@@ -93,12 +93,12 @@ void __cdecl game_engine_render(long user_index)
 
 //.text:006E4E90 ; void __cdecl game_engine_render_all_multiplayer_object_boundaries()
 
-void __cdecl game_engine_render_debug(long user_index)
+void __cdecl game_engine_render_debug(int32 user_index)
 {
 	INVOKE(0x006E4FE0, game_engine_render_debug, user_index);
 }
 
-void __cdecl game_engine_render_fade_to_black(long user_index)
+void __cdecl game_engine_render_fade_to_black(int32 user_index)
 {
 	//INVOKE(0x006E5040, game_engine_render_fade_to_black, user_index);
 
@@ -111,7 +111,7 @@ void __cdecl game_engine_render_fade_to_black(long user_index)
 	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	if (TEST_BIT(game_engine_globals->fade_to_black_cache_latch, user_index))
 	{
-		long ticks = 0;
+		int32 ticks = 0;
 		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index], g_game_engine_render_globals.fade_to_black_cache_latch_faliure_count[user_index] > ticks)
 		{
 			post_game_engine_globals_message(0, static_cast<char>(user_index), 0);
@@ -148,9 +148,9 @@ void __cdecl game_engine_render_watermarks()
 	game_engine_render_frame_watermarks(false);
 }
 
-//.text:006E54D0 ; void __cdecl game_engine_submit_nav_points(long, long)
+//.text:006E54D0 ; void __cdecl game_engine_submit_nav_points(int32, int32)
 
-bool __cdecl game_engine_suppress_render_scene(long user_index)
+bool __cdecl game_engine_suppress_render_scene(int32 user_index)
 {
 	return INVOKE(0x006E5510, game_engine_suppress_render_scene, user_index);
 }

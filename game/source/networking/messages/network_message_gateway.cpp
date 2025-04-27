@@ -65,7 +65,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 		header_chars = k_network_message_experimental_packet_header;
 
 	bool invalid_header = false;
-	for (long i = 0; i < header_chars[i]; i++)
+	for (int32 i = 0; i < header_chars[i]; i++)
 	{
 		if (static_cast<uint8>(packet->read_integer("header_char", 8)) != static_cast<uint8>(header_chars[i]))
 			invalid_header = true;
@@ -104,7 +104,7 @@ bool c_network_message_gateway::receive_out_of_band_packet(transport_address con
 	ASSERT(packet);
 
 	e_network_message_type message_type;
-	long message_storage_size = 0;
+	int32 message_storage_size = 0;
 	uint8 message_storage[0x40000]{};
 
 	packet->data_is_untrusted(true);
@@ -144,16 +144,16 @@ bool c_network_message_gateway::receive_out_of_band_packet(transport_address con
 	{
 		result = false;
 
-		long data_length = 0;
+		int32 data_length = 0;
 		uint8 const* data = packet->get_data(&data_length);
 		c_static_string<256> data_string;
 
 		// added by us
 		data_string.append("{ ");
 
-		for (long offset = 0;; offset++)
+		for (int32 offset = 0;; offset++)
 		{
-			long length = data_length <= 8 ? data_length : 8;
+			int32 length = data_length <= 8 ? data_length : 8;
 			if (offset >= length)
 				break;
 
@@ -204,7 +204,7 @@ void c_network_message_gateway::send_all_pending_messages()
 				event(_event_critical, "networking:messages:gateway:send_all_pending_messages: an outgoing message header is corrupt!");
 
 			e_network_message_type message_type;
-			long message_storage_size = 0;
+			int32 message_storage_size = 0;
 			uint8 message_storage[0x40000]{};
 
 			while (m_outgoing_packet.read_bool("has_message"))
@@ -232,7 +232,7 @@ void c_network_message_gateway::send_all_pending_messages()
 	ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
 }
 
-bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, uint16 port)
+bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, int32 data_size, void const* data, uint16 port)
 {
 	//return INVOKE_CLASS_MEMBER(0x00484080, c_network_message_gateway, send_message_broadcast, message_type, data_size, data, port);
 
@@ -241,7 +241,7 @@ bool c_network_message_gateway::send_message_broadcast(e_network_message_type me
 	return send_message_directed(&outgoing_address, message_type, data_size, data);
 }
 
-bool c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data)
+bool c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, int32 data_size, void const* data)
 {
 	//return INVOKE_CLASS_MEMBER(0x004840C0, c_network_message_gateway, send_message_directed, outgoing_address, message_type, data_size, data);
 
@@ -251,13 +251,13 @@ bool c_network_message_gateway::send_message_directed(transport_address const* o
 	if (m_outgoing_packet_pending && !transport_address_equivalent(&m_outgoing_packet_address, outgoing_address))
 		send_all_pending_messages();
 
-	long encoded_bits = 0;
+	int32 encoded_bits = 0;
 	while (true)
 	{
 		bool v12 = false;
 		if (!m_outgoing_packet_pending)
 		{
-			long packet_size = sizeof(m_outgoing_packet_storage);
+			int32 packet_size = sizeof(m_outgoing_packet_storage);
 			if (!m_link->adjust_packet_size(true, 0, &packet_size))
 			{
 				event(_event_error, "networking:messages:gateway:send_message: unable to get packet size to send [tried %d bytes]", packet_size);
@@ -285,7 +285,7 @@ bool c_network_message_gateway::send_message_directed(transport_address const* o
 		m_outgoing_packet.push_position();
 		m_outgoing_packet.write_bool("has_message", true);
 
-		long space_used_in_bits = m_outgoing_packet.get_space_used_in_bits();
+		int32 space_used_in_bits = m_outgoing_packet.get_space_used_in_bits();
 		m_message_types->encode_message(&m_outgoing_packet, message_type, data_size, data);
 		encoded_bits = m_outgoing_packet.get_space_used_in_bits() - space_used_in_bits;
 
@@ -333,7 +333,7 @@ void c_network_message_gateway::write_packet_header()
 	if (net_experimental)
 		header_chars = k_network_message_experimental_packet_header;
 
-	for (long i = 0; i < header_chars[i]; i++)
+	for (int32 i = 0; i < header_chars[i]; i++)
 		m_outgoing_packet.write_integer("header_char", header_chars[i], 8);
 
 	m_outgoing_packet.write_integer("protocol", k_network_protocol_version, 32);

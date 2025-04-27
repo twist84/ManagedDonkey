@@ -19,55 +19,55 @@ struct squad_datum :
 
 	real32 original_vitality;
 	real32 original_count;
-	short current_count;
-	short current_swarm_count;
-	short current_non_swarm_count;
+	int16 current_count;
+	int16 current_swarm_count;
+	int16 current_non_swarm_count;
 
 	uint8 __data1A[0x2];
 
 	real32 current_strength_fraction;
-	short prebattle_living_count;
-	short current_in_combat_count;
+	int16 prebattle_living_count;
+	int16 current_in_combat_count;
 	real_point3d mean_position;
-	short spawn_count;
+	int16 spawn_count;
 	char combat_status;
 
 	uint8 __data33[0x1];
 
-	short remain_active_timer;
+	int16 remain_active_timer;
 	char dynamic_area_count;
 
 	uint8 __data37[0x1];
 
 	s_dynamic_area const dynamic_areas[16];
 
-	long last_dynamic_area_update_time;
-	short objective_index;
-	short task_index;
-	short previous_objective_index;
-	short previous_task_index;
-	long objective_start_time;
-	long first_actor_index;
-	long parent_index;
-	long first_vehicle_index;
-	short next_sibling_index;
+	int32 last_dynamic_area_update_time;
+	int16 objective_index;
+	int16 task_index;
+	int16 previous_objective_index;
+	int16 previous_task_index;
+	int32 objective_start_time;
+	int32 first_actor_index;
+	int32 parent_index;
+	int32 first_vehicle_index;
+	int16 next_sibling_index;
 	char team;
 
 	uint8 __padB7[0x1];
 
-	long last_active_time;
-	short ticks_outside_of_pvs;
+	int32 last_active_time;
+	int16 ticks_outside_of_pvs;
 
 	uint8 __padBE[0x2];
 
-	long follow_target_unit_index;
+	int32 follow_target_unit_index;
 	c_static_flags<256> style_bitvector;
-	short objective_next_squad_index;
+	int16 objective_next_squad_index;
 	bool temporary_task;
 
 	uint8 __dataE7[0x1];
 
-	short highest_rank;
+	int16 highest_rank;
 
 	uint8 __padEA[0x2];
 };
@@ -76,27 +76,27 @@ static_assert(sizeof(squad_datum) == 0xEC);
 struct squad_group_datum :
 	s_datum_header
 {
-	short highest_combat_status;
-	long first_group_child_index;
-	long first_leaf_child_index;
-	long next_sibling_index;
-	long parent_index;
+	int16 highest_combat_status;
+	int32 first_group_child_index;
+	int32 first_leaf_child_index;
+	int32 next_sibling_index;
+	int32 parent_index;
 	bool active;
 	bool placed;
 	bool enemy_visible;
-	short current_count;
-	short original_vitality;
-	short prebattle_living_count;
-	short current_in_combat_count;
+	int16 current_count;
+	int16 original_vitality;
+	int16 prebattle_living_count;
+	int16 current_in_combat_count;
 	real32 current_strength_fraction;
 };
 static_assert(sizeof(squad_group_datum) == 0x24);
 
 struct squad_actor_iterator
 {
-	long squad_index;
-	long index;
-	long next_index;
+	int32 squad_index;
+	int32 index;
+	int32 next_index;
 	bool active_only;
 };
 static_assert(sizeof(squad_actor_iterator) == 0x10);
@@ -104,16 +104,16 @@ static_assert(sizeof(squad_actor_iterator) == 0x10);
 struct squad_iterator
 {
 	c_data_iterator<squad_datum> iterator;
-	long squad_index;
+	int32 squad_index;
 };
 static_assert(sizeof(squad_iterator) == 0x14);
 
 struct actor_datum;
 
-extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, long squad_index, bool active_only);
+extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, int32 squad_index, bool active_only);
 extern actor_datum* __cdecl squad_actor_iterator_next(squad_actor_iterator* iterator);
-extern void __cdecl squad_deactivate(long squad_index);
-extern squad_datum* __cdecl squad_get(long squad_index);
+extern void __cdecl squad_deactivate(int32 squad_index);
+extern squad_datum* __cdecl squad_get(int32 squad_index);
 extern void __cdecl squad_iterator_new(squad_iterator* iterator);
 extern squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator);
 extern void __cdecl squads_dispose();

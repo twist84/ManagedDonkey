@@ -10,11 +10,11 @@ HOOK_DECLARE(0x0065C190, font_package_cache_delete);
 HOOK_DECLARE(0x0065C4D0, font_package_cache_new);
 HOOK_DECLARE(0x0065C590, font_package_clear);
 
-//.text:0065B820 ; long __cdecl font_pack_character_pixels(long, uint16 const*, long, void*)
+//.text:0065B820 ; int32 __cdecl font_pack_character_pixels(int32, uint16 const*, int32, void*)
 //.text:0065BB00 ; void __cdecl font_package_character_byteswap(s_font_package_character*)
 //.text:0065BB10 ; bool __cdecl font_package_character_validate(s_font_package const*, s_font_package_character const*)
 
-void __cdecl font_package_entries_byteswap(s_font_package_entry* entry, long character_key)
+void __cdecl font_package_entries_byteswap(s_font_package_entry* entry, int32 character_key)
 {
 	//INVOKE(0x0065BB70, font_package_entries_byteswap, entry, character_key);
 }
@@ -41,7 +41,7 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 	valid &= (package_header->package_table_count > 0 && package_header->package_table_count <= 65536)
 		&& package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;
 
-	for (long i = 0; valid && i < package_header->font_count; i++)
+	for (int32 i = 0; valid && i < package_header->font_count; i++)
 	{
 		s_font_package_font const* font = &package_header->fonts[i];
 
@@ -51,14 +51,14 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 		valid &= font->package_table_index < sizeof(s_font_package_file)
 			&& font->package_table_index + font->package_table_count <= package_header->package_table_count;
 
-		for (long j = 0; j < i; j++)
+		for (int32 j = 0; j < i; j++)
 		{
 			valid &= package_header->fonts[j].header_offset + package_header->fonts[j].header_size <= font->header_offset
 				&& package_header->fonts[j].package_table_index + package_header->fonts[j].package_table_count - 1 <= font->package_table_index;
 		}
 	}
 
-	for (long k = 0; k < NUMBEROF(package_header->font_mapping); k++)
+	for (int32 k = 0; k < NUMBEROF(package_header->font_mapping); k++)
 	{
 		valid &= package_header->font_mapping[k] == NONE
 			|| package_header->font_mapping[k] >= 0
@@ -71,8 +71,8 @@ bool __cdecl font_package_file_header_validate(s_font_package_file_header const*
 //.text:0065BD20 ; s_font_character const* __cdecl font_package_get_character(s_font_package const* font_package, uint32)
 //.text:0065BDA0 ; void __cdecl font_package_header_byteswap(s_font_package*)
 //.text:0065BDB0 ; bool __cdecl font_package_header_validate(s_font_package const*)
-//.text:0065BE40 ; long __cdecl font_package_table_find_character(s_font_package_file_header const* package_header, uint32)
-//.text:0065BE70 ; long __cdecl font_unpack_character_pixels(long, void const*, long, uint16*)
+//.text:0065BE40 ; int32 __cdecl font_package_table_find_character(s_font_package_file_header const* package_header, uint32)
+//.text:0065BE70 ; int32 __cdecl font_unpack_character_pixels(int32, void const*, int32, uint16*)
 //.text:0065C080 ; 
 //.text:0065C0F0 ; int __cdecl package_table_search_function(void const*, void const*, void const*)
 //.text:0065C110 ; public: __cdecl s_font_package_cache::s_font_package_cache()
@@ -98,7 +98,7 @@ void __cdecl font_package_cache_flush()
 	INVOKE(0x0065C200, font_package_cache_flush);
 
 	//c_font_cache_scope_lock scope_lock;
-	//for (long entry_index = 0; entry_index < k_font_package_entry_count; entry_index++)
+	//for (int32 entry_index = 0; entry_index < k_font_package_entry_count; entry_index++)
 	//{
 	//	s_font_package_cache_entry* entry = &g_font_package_cache.entries[entry_index];
 	//	if (entry->async_task != INVALID_ASYNC_TASK_ID)
@@ -147,6 +147,6 @@ bool __cdecl font_package_do_work(bool block, s_font_package_cache_entry* entry)
 	return INVOKE(0x0065C5D0, font_package_do_work, block, entry);
 }
 
-//.text:0065C6F0 ; e_font_package_status __cdecl font_package_get(long, c_flags<e_font_cache_flags, uint32, 3>, uint32, s_font_package const**)
+//.text:0065C6F0 ; e_font_package_status __cdecl font_package_get(int32, c_flags<e_font_cache_flags, uint32, 3>, uint32, s_font_package const**)
 //.text:0065C880 ; bool __cdecl font_package_make_ready(s_font_package*)
 

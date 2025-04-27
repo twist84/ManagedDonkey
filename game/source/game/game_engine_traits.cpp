@@ -31,9 +31,9 @@ void c_game_engine_miscellaneous_options::encode_to_mcc(c_bitstream* packet) con
 	bool teams_enabled = get_teams_enabled();
 	bool round_reset_players = get_round_reset_players();
 	bool round_reset_map = get_round_reset_map();
-	long round_time_limit_minutes = get_round_time_limit_minutes();
-	long round_limit = get_round_limit();
-	long early_victory_win_count = get_early_victory_win_count();
+	int32 round_time_limit_minutes = get_round_time_limit_minutes();
+	int32 round_limit = get_round_limit();
+	int32 early_victory_win_count = get_early_victory_win_count();
 
 	packet->write_bool("miscellaneous-options-teams", get_teams_enabled());
 	packet->write_bool("miscellaneous-options-round-reset-players", get_round_reset_players());
@@ -48,9 +48,9 @@ void c_game_engine_miscellaneous_options::decode_from_mcc(c_bitstream* packet)
 	bool teams_enabled = packet->read_bool("miscellaneous-options-teams");
 	bool round_reset_players = packet->read_bool("miscellaneous-options-round-reset-players");
 	bool round_reset_map = packet->read_bool("miscellaneous-options-round-reset-map");
-	long round_time_limit_minutes = static_cast<long>(packet->read_integer("miscellaneous-options-round-time-limit-minutes", 8));
-	long round_limit = static_cast<long>(packet->read_integer("miscellaneous-options-round-limit", 4));
-	long early_victory_win_count = static_cast<long>(packet->read_integer("miscellaneous-options-early-victory-win-count", 4));
+	int32 round_time_limit_minutes = static_cast<int32>(packet->read_integer("miscellaneous-options-round-time-limit-minutes", 8));
+	int32 round_limit = static_cast<int32>(packet->read_integer("miscellaneous-options-round-limit", 4));
+	int32 early_victory_win_count = static_cast<int32>(packet->read_integer("miscellaneous-options-early-victory-win-count", 4));
 
 	set_teams_enabled(teams_enabled);
 	set_round_reset_players(round_reset_players);
@@ -95,17 +95,17 @@ uint8 c_game_engine_miscellaneous_options::get_round_time_limit_minutes() const
 	return m_round_time_limit_minutes;
 }
 
-void c_game_engine_miscellaneous_options::set_round_time_limit_minutes(long round_time_limit_minutes)
+void c_game_engine_miscellaneous_options::set_round_time_limit_minutes(int32 round_time_limit_minutes)
 {
 	m_round_time_limit_minutes = round_time_limit_minutes;
 }
 
-long c_game_engine_miscellaneous_options::get_round_time_limit_seconds() const
+int32 c_game_engine_miscellaneous_options::get_round_time_limit_seconds() const
 {
 	return 60 * get_round_time_limit_minutes();
 }
 
-void c_game_engine_miscellaneous_options::set_round_time_limit_seconds(long round_time_limit_seconds)
+void c_game_engine_miscellaneous_options::set_round_time_limit_seconds(int32 round_time_limit_seconds)
 {
 	set_round_time_limit_minutes(round_time_limit_seconds / 60);
 }
@@ -115,7 +115,7 @@ uint8 c_game_engine_miscellaneous_options::get_round_limit() const
 	return m_round_limit;
 }
 
-void c_game_engine_miscellaneous_options::set_round_limit(long round_limit)
+void c_game_engine_miscellaneous_options::set_round_limit(int32 round_limit)
 {
 	m_round_limit = round_limit;
 }
@@ -125,7 +125,7 @@ uint8 c_game_engine_miscellaneous_options::get_early_victory_win_count() const
 	return m_early_victory_win_count;
 }
 
-void c_game_engine_miscellaneous_options::set_early_victory_win_count(long early_victory_win_count)
+void c_game_engine_miscellaneous_options::set_early_victory_win_count(int32 early_victory_win_count)
 {
 	m_early_victory_win_count = early_victory_win_count;
 }
@@ -268,7 +268,7 @@ uint8 c_game_engine_respawn_options::get_lives_per_round() const
 	return m_lives_per_round;
 }
 
-void c_game_engine_respawn_options::set_lives_per_round(long lives_per_round)
+void c_game_engine_respawn_options::set_lives_per_round(int32 lives_per_round)
 {
 	m_lives_per_round = lives_per_round;
 }
@@ -278,7 +278,7 @@ uint8 c_game_engine_respawn_options::get_team_lives_per_round() const
 	return m_team_lives_per_round;
 }
 
-void c_game_engine_respawn_options::set_team_lives_per_round(long team_lives_per_round)
+void c_game_engine_respawn_options::set_team_lives_per_round(int32 team_lives_per_round)
 {
 	m_team_lives_per_round = team_lives_per_round;
 }
@@ -288,7 +288,7 @@ uint8 c_game_engine_respawn_options::get_respawn_time_seconds() const
 	return m_respawn_time_seconds;
 }
 
-void c_game_engine_respawn_options::set_respawn_time_seconds(long respawn_time_seconds)
+void c_game_engine_respawn_options::set_respawn_time_seconds(int32 respawn_time_seconds)
 {
 	m_respawn_time_seconds = respawn_time_seconds;
 }
@@ -298,7 +298,7 @@ uint8 c_game_engine_respawn_options::get_suicide_penalty_seconds() const
 	return m_suicide_penalty_seconds;
 }
 
-void c_game_engine_respawn_options::set_suicide_penalty_seconds(long suicide_penalty_seconds)
+void c_game_engine_respawn_options::set_suicide_penalty_seconds(int32 suicide_penalty_seconds)
 {
 	m_suicide_penalty_seconds = suicide_penalty_seconds;
 }
@@ -308,7 +308,7 @@ uint8 c_game_engine_respawn_options::get_betrayal_penalty_seconds() const
 	return m_betrayal_penalty_seconds;
 }
 
-void c_game_engine_respawn_options::set_betrayal_penalty_seconds(long betrayal_penalty_seconds)
+void c_game_engine_respawn_options::set_betrayal_penalty_seconds(int32 betrayal_penalty_seconds)
 {
 	m_betrayal_penalty_seconds = betrayal_penalty_seconds;
 }
@@ -318,7 +318,7 @@ uint8 c_game_engine_respawn_options::get_unknown_penalty_seconds() const
 	return m_unknown_penalty_seconds;
 }
 
-void c_game_engine_respawn_options::set_unknown_penalty_seconds(long unknown_penalty_seconds)
+void c_game_engine_respawn_options::set_unknown_penalty_seconds(int32 unknown_penalty_seconds)
 {
 	m_unknown_penalty_seconds = unknown_penalty_seconds;
 }
@@ -328,7 +328,7 @@ uint8 c_game_engine_respawn_options::get_respawn_growth_seconds() const
 	return m_respawn_growth_seconds;
 }
 
-void c_game_engine_respawn_options::set_respawn_growth_seconds(long respawn_growth_seconds)
+void c_game_engine_respawn_options::set_respawn_growth_seconds(int32 respawn_growth_seconds)
 {
 	m_respawn_growth_seconds = respawn_growth_seconds;
 }
@@ -338,7 +338,7 @@ uint8 c_game_engine_respawn_options::get_respawn_player_traits_duration_seconds(
 	return m_respawn_player_traits_duration_seconds;
 }
 
-void c_game_engine_respawn_options::set_respawn_player_traits_duration_seconds(long respawn_player_traits_duration_seconds)
+void c_game_engine_respawn_options::set_respawn_player_traits_duration_seconds(int32 respawn_player_traits_duration_seconds)
 {
 	m_respawn_player_traits_duration_seconds = respawn_player_traits_duration_seconds;
 }
@@ -385,7 +385,7 @@ void c_game_engine_social_options::set(c_game_engine_social_options const* optio
 void c_game_engine_social_options::encode_to_mcc(c_bitstream* packet) const
 {
 	bool observers_enabled = get_observers_enabled();
-	long team_changing_setting = get_team_changing_setting();
+	int32 team_changing_setting = get_team_changing_setting();
 	bool friendly_fire_enabled = get_friendly_fire_enabled();
 	bool betrayal_booting_enabled = get_betrayal_booting_enabled();
 	bool enemy_voice_enabled = get_enemy_voice_enabled();
@@ -404,7 +404,7 @@ void c_game_engine_social_options::encode_to_mcc(c_bitstream* packet) const
 void c_game_engine_social_options::decode_from_mcc(c_bitstream* packet)
 {
 	bool observers_enabled = packet->read_bool("social-options-observers");
-	long team_changing_setting = packet->read_integer("social-options-team-changing", 2);
+	int32 team_changing_setting = packet->read_integer("social-options-team-changing", 2);
 	bool friendly_fire_enabled = packet->read_bool("social-options-friendly-fire");
 	bool betrayal_booting_enabled = packet->read_bool("social-options-betrayal-booting");
 	bool enemy_voice_enabled = packet->read_bool("social-options-enemy-voice");
@@ -511,13 +511,13 @@ void c_game_engine_social_options::set_team_changing_balancing_only_enabled(bool
 }
 
 //e_team_changing_type c_game_engine_social_options::get_team_changing_setting() const
-long c_game_engine_social_options::get_team_changing_setting() const
+int32 c_game_engine_social_options::get_team_changing_setting() const
 {
 	return m_team_changing;
 }
 
 //void c_game_engine_social_options::set_team_changing_setting(e_team_changing_type team_changing)
-void c_game_engine_social_options::set_team_changing_setting(long team_changing)
+void c_game_engine_social_options::set_team_changing_setting(int32 team_changing)
 {
 	if (!VALID_INDEX(team_changing, 2))
 	{
@@ -567,8 +567,8 @@ void c_game_engine_map_override_options::encode_to_mcc(c_bitstream* packet) cons
 {
 	bool grenades_on_map_enabled = get_grenades_on_map_enabled();
 	bool indestructible_vehicles_enabled = get_indestructible_vehicles_enabled();
-	short weapon_set_absolute_index = get_weapon_set_absolute_index();
-	short vehicle_set_absolute_index = get_vehicle_set_absolute_index();
+	int16 weapon_set_absolute_index = get_weapon_set_absolute_index();
+	int16 vehicle_set_absolute_index = get_vehicle_set_absolute_index();
 	uint8 red_powerup_duration_seconds = get_red_powerup_duration_seconds();
 	uint8 blue_powerup_duration_seconds = get_blue_powerup_duration_seconds();
 	uint8 yellow_powerup_duration_seconds = get_yellow_powerup_duration_seconds();
@@ -591,8 +591,8 @@ void c_game_engine_map_override_options::decode_from_mcc(c_bitstream* packet)
 	bool grenades_on_map_enabled = packet->read_bool("map-override-grenades-on-map");
 	bool indestructible_vehicles_enabled = packet->read_bool("map-override-indestructible-vehicles");
 	get_base_player_traits_writeable()->decode_from_mcc(packet);
-	short weapon_set_absolute_index = static_cast<short>(packet->read_signed_integer("map-override-weapon-set", 8));
-	short vehicle_set_absolute_index = static_cast<short>(packet->read_signed_integer("map-override-vehicle-set", 8));
+	int16 weapon_set_absolute_index = static_cast<int16>(packet->read_signed_integer("map-override-weapon-set", 8));
+	int16 vehicle_set_absolute_index = static_cast<int16>(packet->read_signed_integer("map-override-vehicle-set", 8));
 	get_red_powerup_traits_writeable()->decode_from_mcc(packet);
 	get_blue_powerup_traits_writeable()->decode_from_mcc(packet);
 	get_yellow_powerup_traits_writeable()->decode_from_mcc(packet);
@@ -644,12 +644,12 @@ void c_game_engine_map_override_options::set_base_player_traits(c_player_traits 
 	m_base_player_traits.set(traits, force);
 }
 
-short c_game_engine_map_override_options::get_weapon_set_absolute_index() const
+int16 c_game_engine_map_override_options::get_weapon_set_absolute_index() const
 {
 	return m_weapon_set_absolute_index;
 }
 
-void c_game_engine_map_override_options::set_weapon_set_absolute_index(short weapon_set_absolute_index)
+void c_game_engine_map_override_options::set_weapon_set_absolute_index(int16 weapon_set_absolute_index)
 {
 	if (weapon_set_absolute_index == 0xFFFFi16 || weapon_set_absolute_index == 0xFFFEi16 || !main_game_loaded_map() || multiplayer_universal_data_weapon_set_try_and_get(weapon_set_absolute_index))
 	{
@@ -662,12 +662,12 @@ void c_game_engine_map_override_options::set_weapon_set_absolute_index(short wea
 	}
 }
 
-short c_game_engine_map_override_options::get_vehicle_set_absolute_index() const
+int16 c_game_engine_map_override_options::get_vehicle_set_absolute_index() const
 {
 	return m_vehicle_set_absolute_index;
 }
 
-void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short vehicle_set_absolute_index)
+void c_game_engine_map_override_options::set_vehicle_set_absolute_index(int16 vehicle_set_absolute_index)
 {
 	if (vehicle_set_absolute_index == 0xFFFFi16 || !main_game_loaded_map() || multiplayer_universal_data_vehicle_set_try_and_get(vehicle_set_absolute_index))
 	{
@@ -682,22 +682,22 @@ void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short ve
 	}
 }
 
-long c_game_engine_map_override_options::get_weapon_set() const
+int32 c_game_engine_map_override_options::get_weapon_set() const
 {
 	return multiplayer_universal_data_get_weapon_set_name_from_absolute_index(get_weapon_set_absolute_index());
 }
 
-void c_game_engine_map_override_options::set_weapon_set(long weapon_set)
+void c_game_engine_map_override_options::set_weapon_set(int32 weapon_set)
 {
 	set_weapon_set_absolute_index(multiplayer_universal_data_get_weapon_set_absolute_index_from_string_id(weapon_set));
 }
 
-long c_game_engine_map_override_options::get_vehicle_set() const
+int32 c_game_engine_map_override_options::get_vehicle_set() const
 {
 	return multiplayer_universal_data_get_vehicle_set_name_from_absolute_index(get_vehicle_set_absolute_index());
 }
 
-void c_game_engine_map_override_options::set_vehicle_set(long vehicle_set)
+void c_game_engine_map_override_options::set_vehicle_set(int32 vehicle_set)
 {
 	set_vehicle_set_absolute_index(multiplayer_universal_data_get_vehicle_set_absolute_index_from_string_id(vehicle_set));
 }

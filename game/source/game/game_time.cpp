@@ -58,7 +58,7 @@ void __cdecl __tls_set_g_game_time_globals_allocator(void* address)
 	game_time_globals = (game_time_globals_definition*)address;
 }
 
-long __cdecl game_seconds_integer_to_ticks(long seconds)
+int32 __cdecl game_seconds_integer_to_ticks(int32 seconds)
 {
 	//return INVOKE(0x00564B40, game_seconds_integer_to_ticks, seconds);
 
@@ -78,7 +78,7 @@ real32 __cdecl game_seconds_to_ticks_real(real32 seconds)
 	return seconds * game_time_globals->tick_rate;
 }
 
-long __cdecl game_seconds_to_ticks_round(real32 seconds)
+int32 __cdecl game_seconds_to_ticks_round(real32 seconds)
 {
 	//return INVOKE(0x00564BB0, game_seconds_to_ticks_round, seconds);
 
@@ -86,7 +86,7 @@ long __cdecl game_seconds_to_ticks_round(real32 seconds)
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	real32 tick_rate = game_time_globals->tick_rate * seconds;
-	return long(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
+	return int32(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 }
 
 real32 __cdecl game_tick_length()
@@ -99,7 +99,7 @@ real32 __cdecl game_tick_length()
 	return game_time_globals->tick_length;
 }
 
-long __cdecl game_tick_rate()
+int32 __cdecl game_tick_rate()
 {
 	//return INVOKE(0x00564C40, game_tick_rate);
 
@@ -129,7 +129,7 @@ void __cdecl game_time_advance()
 	game_time_globals->time++;
 }
 
-void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real32* elapsed_game_dt)
+void __cdecl game_time_discard(int32 desired_ticks, int32 actual_ticks, real32* elapsed_game_dt)
 {
 	//INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, elapsed_game_dt);
 
@@ -168,7 +168,7 @@ void __cdecl game_time_dispose_from_old_map()
 	}
 }
 
-long __cdecl game_time_get()
+int32 __cdecl game_time_get()
 {
 	//return INVOKE(0x00564D50, game_time_get);
 
@@ -270,7 +270,7 @@ void __cdecl game_time_render_debug()
 	//INVOKE(0x00564FD0, game_time_render_debug);
 }
 
-void __cdecl game_time_set(long game_time)
+void __cdecl game_time_set(int32 game_time)
 {
 	//INVOKE(0x00564FE0, game_time_set, game_time);
 
@@ -319,7 +319,7 @@ void __cdecl game_time_set_rate_scale_direct(real32 rate_scale)
 	real32 game_tick_rate = game_options_get()->game_tick_rate;
 	real32 tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
 	tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2);
-	game_time_globals->tick_rate = short(tick_rate);
+	game_time_globals->tick_rate = int16(tick_rate);
 	game_time_globals->tick_length = 1.0f / tick_rate;
 	game_time_globals->speed = game_tick_rate / tick_rate;
 	debug_game_speed = game_time_globals->speed;
@@ -345,11 +345,11 @@ void game_time_set_cinematic_rate()
 	real32 tick_rate = game_options_get()->game_tick_rate;
 	if (game_is_campaign() && cinematic_in_progress())
 		tick_rate = 30.0f;
-	game_time_globals->tick_rate = short(tick_rate);
+	game_time_globals->tick_rate = int16(tick_rate);
 	game_time_globals->tick_length = 1.0f / tick_rate;
 }
 
-bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds_elapsed, long* game_ticks_elapsed_)
+bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds_elapsed, int32* game_ticks_elapsed_)
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
 
@@ -433,7 +433,7 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 		{
 			elapsed_game_dt = game_time_get_speed() * world_seconds_elapsed;
 			real_desired_ticks = (game_time_globals->tick_rate * elapsed_game_dt) + game_time_globals->leftover_ticks;
-			game_ticks_target = (long)real_desired_ticks;
+			game_ticks_target = (int32)real_desired_ticks;
 		}
 	
 		if (match_remote_time)
@@ -575,10 +575,10 @@ void game_time_statistics_frame(
 	real32 world_seconds_elapsed,
 	real32 game_seconds_elapsed,
 	real32 real_desired_ticks,
-	long game_ticks_target,
-	long game_ticks_limit,
-	long game_ticks_available,
-	long game_ticks_elapsed,
+	int32 game_ticks_target,
+	int32 game_ticks_limit,
+	int32 game_ticks_available,
+	int32 game_ticks_elapsed,
 	real32 game_ticks_leftover,
 	bool discontinuity)
 {

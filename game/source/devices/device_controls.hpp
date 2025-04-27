@@ -15,25 +15,25 @@ enum
 struct _control_datum
 {
 	uint32 flags;
-	short hud_override_index;
+	int16 hud_override_index;
 	uint16 pad;
 };
 static_assert(sizeof(_control_datum) == 0x8);
 
 struct control_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_device_datum device;
 	_control_datum control;
 };
-static_assert(sizeof(control_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_control_datum));
+static_assert(sizeof(control_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_control_datum));
 
 struct s_scenario_control;
 
-extern void __cdecl control_destroyed(long control_index);
-extern long __cdecl control_get_action_string(long control_index);
-extern void __cdecl control_place(long control_index, s_scenario_control const* scenario_control);
-extern void __cdecl control_toggle(long control_index);
-extern void __cdecl control_touched(long control_index, long unit_index);
+extern void __cdecl control_destroyed(int32 control_index);
+extern int32 __cdecl control_get_action_string(int32 control_index);
+extern void __cdecl control_place(int32 control_index, s_scenario_control const* scenario_control);
+extern void __cdecl control_toggle(int32 control_index);
+extern void __cdecl control_touched(int32 control_index, int32 unit_index);
 

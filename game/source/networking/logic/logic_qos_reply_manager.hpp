@@ -9,8 +9,8 @@ struct c_live_service_qos_manager
 {
 	s_transport_qos_result m_qos_result;
 	uint8 m_flags;
-	long m_live_service_qos_index;
-	long __unknown28;
+	int32 m_live_service_qos_index;
+	int32 __unknown28;
 };
 static_assert(sizeof(c_live_service_qos_manager) == 0x2C);
 
@@ -20,7 +20,7 @@ protected:
 	virtual bool get_session_id(s_transport_secure_identifier* session_id);
 	virtual bool desires_qos_reply_block_set();
 	virtual bool get_qos_status(s_network_session_status_data* status);
-	virtual long get_qos_reply_bandwidth_limit();
+	virtual int32 get_qos_reply_bandwidth_limit();
 	virtual void notify_qos_reply_block_set();
 
 	uint8 __data4[0x4];

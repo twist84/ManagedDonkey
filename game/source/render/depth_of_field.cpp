@@ -84,7 +84,7 @@ void __cdecl render_animate_depth_of_field(real32 near_distance, real32 far_dist
 	//depth_of_field_game_globals->focus_distance_far = far_distance;
 	//depth_of_field_game_globals->aperture = 1.0f / (depth > 0.001f ? depth : 0.001f);
 	//depth_of_field_game_globals->animation_start_time = game_time_get();
-	//depth_of_field_game_globals->animation_end_time = depth_of_field_game_globals->animation_start_time + (long)ceil(ticks);
+	//depth_of_field_game_globals->animation_end_time = depth_of_field_game_globals->animation_start_time + (int32)ceil(ticks);
 	//depth_of_field_game_globals->animation_last_alpha = 0.0f;
 }
 
@@ -96,7 +96,7 @@ void __cdecl render_animate_depth_of_field_blur(real32 blur, real32 ticks)
 	//depth_of_field_game_globals->blur_start = depth_of_field_game_globals->actual_blur;
 	//depth_of_field_game_globals->blur_target = blur;
 	//depth_of_field_game_globals->blur_start_time = game_time_get();
-	//depth_of_field_game_globals->blur_end_time = depth_of_field_game_globals->blur_start_time + (long)ceil(ticks);
+	//depth_of_field_game_globals->blur_end_time = depth_of_field_game_globals->blur_start_time + (int32)ceil(ticks);
 }
 
 void __cdecl render_enable_depth_of_field(bool enable)

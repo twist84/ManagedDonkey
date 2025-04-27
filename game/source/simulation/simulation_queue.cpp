@@ -2,27 +2,27 @@
 
 #include "memory/bitstream.hpp"
 
-void c_simulation_queue::allocate(long size, c_simulation_queue_element** element_out)
+void c_simulation_queue::allocate(int32 size, c_simulation_queue_element** element_out)
 {
 	INVOKE_CLASS_MEMBER(0x00465240, c_simulation_queue, allocate, size, element_out);
 }
 
-long c_simulation_queue::allocated_count() const
+int32 c_simulation_queue::allocated_count() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465340, c_simulation_queue, allocated_count);
 }
 
-long c_simulation_queue::allocated_encoded_size_in_bytes() const
+int32 c_simulation_queue::allocated_encoded_size_in_bytes() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465350, c_simulation_queue, allocated_encoded_size_in_bytes);
 }
 
-long c_simulation_queue::allocated_new_encoded_size_bytes(long size) const
+int32 c_simulation_queue::allocated_new_encoded_size_bytes(int32 size) const
 {
 	return INVOKE_CLASS_MEMBER(0x004653A0, c_simulation_queue, allocated_new_encoded_size_bytes, size);
 }
 
-long c_simulation_queue::allocated_size_in_bytes() const
+int32 c_simulation_queue::allocated_size_in_bytes() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465400, c_simulation_queue, allocated_size_in_bytes);
 }
@@ -77,7 +77,7 @@ void c_simulation_queue::get_allocation_status(real32* a1, real32* a2) const
 	INVOKE_CLASS_MEMBER(0x00465970, c_simulation_queue, get_allocation_status, a1, a2);
 }
 
-long c_simulation_queue::get_element_size_in_bytes(c_simulation_queue_element* element) const
+int32 c_simulation_queue::get_element_size_in_bytes(c_simulation_queue_element* element) const
 {
 	return INVOKE_CLASS_MEMBER(0x004659B0, c_simulation_queue, get_element_size_in_bytes, element);
 }
@@ -97,22 +97,22 @@ void c_simulation_queue::initialize()
 	INVOKE_CLASS_MEMBER(0x00465A00, c_simulation_queue, initialize);
 }
 
-long c_simulation_queue::queued_count() const
+int32 c_simulation_queue::queued_count() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465A30, c_simulation_queue, queued_count);
 }
 
-long c_simulation_queue::queued_encoded_size_in_bytes() const
+int32 c_simulation_queue::queued_encoded_size_in_bytes() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465A40, c_simulation_queue, queued_encoded_size_in_bytes);
 }
 
-long c_simulation_queue::queued_new_encoded_size_bytes(long size) const
+int32 c_simulation_queue::queued_new_encoded_size_bytes(int32 size) const
 {
 	return INVOKE_CLASS_MEMBER(0x00465A90, c_simulation_queue, queued_new_encoded_size_bytes, size);
 }
 
-long c_simulation_queue::queued_size_in_bytes() const
+int32 c_simulation_queue::queued_size_in_bytes() const
 {
 	return INVOKE_CLASS_MEMBER(0x00465AF0, c_simulation_queue, queued_size_in_bytes);
 }

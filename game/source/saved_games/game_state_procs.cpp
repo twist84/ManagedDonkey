@@ -2,22 +2,22 @@
 
 #include "cseries/cseries.hpp"
 
-void __cdecl game_state_call_after_load_procs(long game_state_proc_flags)
+void __cdecl game_state_call_after_load_procs(int32 game_state_proc_flags)
 {
 	INVOKE(0x0058A4B0, game_state_call_after_load_procs, game_state_proc_flags);
 }
 
-void __cdecl game_state_call_after_save_procs(long game_state_proc_flags)
+void __cdecl game_state_call_after_save_procs(int32 game_state_proc_flags)
 {
 	INVOKE(0x0058A550, game_state_call_after_save_procs, game_state_proc_flags);
 }
 
-void __cdecl game_state_call_before_load_procs(long game_state_proc_flags)
+void __cdecl game_state_call_before_load_procs(int32 game_state_proc_flags)
 {
 	INVOKE(0x0058A5F0, game_state_call_before_load_procs, game_state_proc_flags);
 }
 
-void __cdecl game_state_call_before_save_procs(long game_state_proc_flags)
+void __cdecl game_state_call_before_save_procs(int32 game_state_proc_flags)
 {
 	INVOKE(0x0058A6A0, game_state_call_before_save_procs, game_state_proc_flags);
 }

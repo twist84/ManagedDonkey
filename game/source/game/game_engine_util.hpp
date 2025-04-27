@@ -10,9 +10,9 @@ extern c_game_engine* (&game_engines)[k_game_engine_type_count];
 
 extern c_game_engine const* __cdecl current_game_engine();
 extern c_game_variant const* __cdecl current_game_variant();
-extern void __cdecl build_multiplayer_string(long player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, long buffer_size, wchar_t* dest_ptr);
-extern short __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(long name);
-extern long __cdecl game_engine_get_multiplayer_weapon_selection_name(short absolute_index);
-extern long __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(short absolute_weapons_selection_block_index, e_weapon_set weapon_set);
-extern long __cdecl game_engine_add_starting_weapon_to_player(long unit_index, long definition_index, long method);
+extern void __cdecl build_multiplayer_string(int32 player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, int32 buffer_size, wchar_t* dest_ptr);
+extern int16 __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(int32 name);
+extern int32 __cdecl game_engine_get_multiplayer_weapon_selection_name(int16 absolute_index);
+extern int32 __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(int16 absolute_weapons_selection_block_index, e_weapon_set weapon_set);
+extern int32 __cdecl game_engine_add_starting_weapon_to_player(int32 unit_index, int32 definition_index, int32 method);
 

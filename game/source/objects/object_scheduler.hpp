@@ -7,10 +7,10 @@ struct s_object_schedule
 	// all names subject to change
 
 	real32 phase_time;
-	long object_index;
-	long phase_index_update_time;
-	short phase_index;
-	short phase_count;
+	int32 object_index;
+	int32 phase_index_update_time;
+	int16 phase_index;
+	int16 phase_count;
 };
 static_assert(sizeof(s_object_schedule) == 0x10);
 
@@ -18,7 +18,7 @@ struct c_schedule_iterator
 {
 	// all names subject to change
 
-	long phase_index;
+	int32 phase_index;
 	c_static_flags<32> phases_allocated;
 };
 static_assert(sizeof(c_schedule_iterator) == 0x8);

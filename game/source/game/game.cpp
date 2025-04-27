@@ -118,7 +118,7 @@ HOOK_DECLARE(0x006961B0, game_launch_get_initial_script_name);
 
 bool g_debug_survival_mode = false;
 
-c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
+c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
 
 real_argb_color const* const k_activation_colors[6]
 {
@@ -129,12 +129,12 @@ real_argb_color const* const k_activation_colors[6]
 	global_real_argb_purple,
 	global_real_argb_yellow
 };
-long k_activation_color_override_index = 0;
+int32 k_activation_color_override_index = 0;
 
 real32 const k_game_loss_time = 6.0f;
 real32 const k_game_finished_time = 7.0f;
 
-s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, long bsp_index, long cluster_index)
+s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
 {
 	cluster_reference->bsp_index = static_cast<char>(bsp_index);
 	cluster_reference->cluster_index = static_cast<char>(cluster_index);
@@ -184,7 +184,7 @@ void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_clust
 	INVOKE(0x00530860, game_clusters_or, a1, a2, a3);
 }
 
-void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3)
+void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3)
 {
 	INVOKE(0x005308B0, game_compute_pvs, a1, a2, a3);
 }
@@ -195,13 +195,13 @@ bool game_clusters_test(s_game_cluster_bit_vectors const* vector, struct s_clust
 }
 
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
-//.text:00530A40 ; long __cdecl game_coop_player_count()
+//.text:00530A40 ; int32 __cdecl game_coop_player_count()
 
 void __cdecl game_create_ai(e_game_create_mode mode)
 {
 	INVOKE(0x00530A70, game_create_ai, mode);
 
-	//long lock = game_create_lock_resources(mode);
+	//int32 lock = game_create_lock_resources(mode);
 	//random_seed_allow_use();
 	//
 	//ai_place(game_mode_get(), true);
@@ -210,7 +210,7 @@ void __cdecl game_create_ai(e_game_create_mode mode)
 	//game_create_unlock_resources(mode, lock);
 }
 
-long __cdecl game_create_lock_resources(e_game_create_mode mode)
+int32 __cdecl game_create_lock_resources(e_game_create_mode mode)
 {
 	return INVOKE(0x00530AC0, game_create_lock_resources, mode);
 
@@ -226,7 +226,7 @@ void __cdecl game_create_missing_objects(e_game_create_mode mode)
 	//assert_game_options_verify(&game_globals->options);
 	//ASSERT(game_globals->map_active);
 	//
-	//long lock = game_create_lock_resources(mode);
+	//int32 lock = game_create_lock_resources(mode);
 	//random_seed_allow_use();
 	//
 	//object_placement_create_global_objects(game_globals->options.game_mode, true);
@@ -244,7 +244,7 @@ void __cdecl game_create_objects(e_game_create_mode mode)
 	//assert_game_options_verify(&game_globals->options);
 	//ASSERT(game_globals->map_active);
 	//
-	//long lock = game_create_lock_resources(mode);
+	//int32 lock = game_create_lock_resources(mode);
 	//random_seed_allow_use();
 	//
 	//c_scenerio_sky_objects_helper::create_sky_objects(global_scenario_get());
@@ -266,7 +266,7 @@ void __cdecl game_create_players()
 	//
 	//	players_set_machines(options->machines.valid_machine_mask, options->machines.machines);
 	//	players_set_local_machine(options->machines.local_machine_exists ? &options->machines.local_machine : NULL);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (options->players[i].player_valid)
 	//			player_new(i, &options->players[i], false);
@@ -286,7 +286,7 @@ void __cdecl game_create_players()
 		if (!player_is_local(player_iterator.get_index()))
 			continue;
 
-		short absolute_index = player_iterator.get_absolute_index();
+		int16 absolute_index = player_iterator.get_absolute_index();
 		player_datum* player = player_iterator.get_datum();
 
 		e_controller_index controller_index = (e_controller_index)absolute_index;
@@ -314,7 +314,7 @@ void __cdecl game_create_players()
 	}
 }
 
-void __cdecl game_create_unlock_resources(e_game_create_mode mode, long& lock)
+void __cdecl game_create_unlock_resources(e_game_create_mode mode, int32& lock)
 {
 	INVOKE(0x00530C20, game_create_unlock_resources, mode, lock);
 
@@ -322,7 +322,7 @@ void __cdecl game_create_unlock_resources(e_game_create_mode mode, long& lock)
 	//	tag_resources_unlock_game(lock);
 }
 
-//.text:00530C50 ; bool __cdecl game_determinism_version_compatible(long determinism_version)
+//.text:00530C50 ; bool __cdecl game_determinism_version_compatible(int32 determinism_version)
 
 e_campaign_difficulty_level __cdecl game_difficulty_level_get()
 {
@@ -347,7 +347,7 @@ void __cdecl game_dispose()
 
 	// some bool set to false
 
-	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
+	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		ASSERT(g_game_systems[system_index].dispose_proc);
 		g_game_systems[system_index].dispose_proc();
@@ -377,7 +377,7 @@ void __cdecl game_dispose_from_old_map()
 
 	fmod_dispose_from_old_map();
 
-	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
+	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_map_proc)
 			g_game_systems[system_index].dispose_from_old_map_proc();
@@ -402,7 +402,7 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
+	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
 			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(old_non_bsp_zone_set);
@@ -437,7 +437,7 @@ void __cdecl game_dispose_from_old_structure_bsp(uint32 deactivating_structure_b
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
+	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
 			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(deactivating_structure_bsp_mask);
@@ -557,7 +557,7 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local()
 	return &game_globals->cluster_pvs_local;
 }
 
-//.text:005311D0 ; void __cdecl game_get_determinism_versions(long* determinism_version, long* determinism_compatible_version)
+//.text:005311D0 ; void __cdecl game_get_determinism_versions(int32* determinism_version, int32* determinism_compatible_version)
 //.text:00531200 ; 
 
 e_language __cdecl game_get_master_language()
@@ -567,7 +567,7 @@ e_language __cdecl game_get_master_language()
 	return game_options_get()->language;
 }
 
-//.text:00531270 ; long __cdecl game_get_recently_spawned_grace_period_seconds()
+//.text:00531270 ; int32 __cdecl game_get_recently_spawned_grace_period_seconds()
 
 void __cdecl game_globals_dispose_from_old_map()
 {
@@ -683,7 +683,7 @@ void __cdecl game_initialize()
 
 	real_math_reset_precision();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		//system_debug_memory_internal(c_string_builder("before initializing %s", g_game_systems[system_index].name).get_string(), __FILE__, __LINE__);
 		c_console::write_line("before initializing %s", g_game_systems[system_index].name);
@@ -737,7 +737,7 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	game_globals_initialize_for_new_map(options);
 	fmod_initialize_for_new_map();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_map_proc)
 			g_game_systems[system_index].initialize_for_new_map_proc();
@@ -770,7 +770,7 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 
 	random_seed_allow_use();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
 			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
@@ -798,7 +798,7 @@ void __cdecl game_initialize_for_new_structure_bsp(uint32 activating_structure_b
 
 	random_seed_allow_use();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
 			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(activating_structure_bsp_mask);
@@ -809,9 +809,9 @@ void __cdecl game_initialize_for_new_structure_bsp(uint32 activating_structure_b
 	game_bsp_debug_status("initialization done", game_globals->active_structure_bsp_mask);
 }
 
-//.text:00531840 ; short __cdecl game_insertion_point_get()
-//.text:00531870 ; void __cdecl game_insertion_point_lock(short)
-//.text:00531900 ; void __cdecl game_insertion_point_unlock(short)
+//.text:00531840 ; int16 __cdecl game_insertion_point_get()
+//.text:00531870 ; void __cdecl game_insertion_point_lock(int16)
+//.text:00531900 ; void __cdecl game_insertion_point_unlock(int16)
 
 bool __cdecl game_is_authoritative()
 {
@@ -973,7 +973,7 @@ bool __cdecl game_is_splitscreen_deterministic()
 {
 	return INVOKE(0x00531DD0, game_is_splitscreen_deterministic);
 
-	//long player_count = 0;
+	//int32 player_count = 0;
 	//
 	//c_player_in_game_iterator player_iterator;
 	//player_iterator.begin();
@@ -1111,9 +1111,9 @@ void __cdecl game_options_new(game_options* options)
 	INVOKE(0x005323A0, game_options_new, options);
 }
 
-void __cdecl game_options_setup_default_players(long player_count, game_options* options)
+void __cdecl game_options_setup_default_players(int32 player_count, game_options* options)
 {
-	DECLFUNC(0x00532440, void, __cdecl, long, game_options*)(player_count, options);
+	DECLFUNC(0x00532440, void, __cdecl, int32, game_options*)(player_count, options);
 }
 
 //.text:00532610 ; void __cdecl game_options_setup_for_playback(e_game_playback_type)
@@ -1136,9 +1136,9 @@ void __cdecl game_options_validate(game_options* options)
 	options->map_variant.validate();
 }
 
-//.text:005326B0 ; void __cdecl game_options_validate_for_saved_game(long)
+//.text:005326B0 ; void __cdecl game_options_validate_for_saved_game(int32)
 
-bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
+bool __cdecl game_options_verify(game_options const* options, char* error_string, int32 error_string_length)
 {
 	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
 
@@ -1229,7 +1229,7 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 	//	return false;
 	//}
 	//
-	//long player_count = 0;
+	//int32 player_count = 0;
 	//// $TODO: `options->machines` checks
 	//// $TODO: `options->players` checks
 	//
@@ -1358,7 +1358,7 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 
 	random_seed_allow_use();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
 			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(old_non_bsp_zone_set, new_non_bsp_zone_set, currently_active_tags_registry);
@@ -1391,7 +1391,7 @@ void __cdecl game_prepare_to_switch_structure_bsp(uint32 old_structure_bsp_mask,
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = 0; system_index < g_game_system_count; system_index++)
+	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
 			g_game_systems[system_index].prepare_for_new_zone_set_proc(old_structure_bsp_mask, new_structure_bsp_mask);
@@ -1442,9 +1442,9 @@ s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
 	return INVOKE(0x00532C10, game_pvs_scripted_get_cluster_reference);
 }
 
-//.text:00532CB0 ; void __cdecl game_pvs_scripted_set_camera_point(short camera_point_index)
+//.text:00532CB0 ; void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index)
 
-void __cdecl game_pvs_scripted_set_object(long object_index)
+void __cdecl game_pvs_scripted_set_object(int32 object_index)
 {
 	//INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
 
@@ -1521,7 +1521,7 @@ void __cdecl game_set_active_skulls(uint32* active_primary_skulls, uint32* activ
 	}
 }
 
-void __cdecl game_set_difficulty(short campaign_difficulty)
+void __cdecl game_set_difficulty(int16 campaign_difficulty)
 {
 	//INVOKE(0x00532F80, game_set_difficulty, campaign_difficulty);
 
@@ -1569,7 +1569,7 @@ void __cdecl game_start(e_game_create_mode mode)
 	game_globals->game_in_progress = true;
 	simulation_start();
 
-	long lock = game_create_lock_resources(mode);
+	int32 lock = game_create_lock_resources(mode);
 	//random_seed_allow_use();
 
 	game_engine_game_starting();
@@ -1723,7 +1723,7 @@ void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update 
 	INVOKE(0x005333A0, game_tick_pulse_random_seed_deterministic, update);
 }
 
-long __cdecl game_tick_rate_get()
+int32 __cdecl game_tick_rate_get()
 {
 	//return INVOKE(0x00533470, game_tick_rate_get);
 
@@ -1740,7 +1740,7 @@ void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time)
 //.text:00533640 ; 
 //.text:00533690 ; game_prepare_for_progression
 
-void __cdecl game_update(long tick_count, real32* game_seconds_elapsed)
+void __cdecl game_update(int32 tick_count, real32* game_seconds_elapsed)
 {
 	//INVOKE(0x005336F0, game_update, tick_count, game_seconds_elapsed);
 
@@ -1752,7 +1752,7 @@ void __cdecl game_update(long tick_count, real32* game_seconds_elapsed)
 
 		game_globals->game_had_an_update_tick_this_frame = game_simulation_get() == _game_simulation_synchronous_server && tick_count == 1;
 
-		long actual_ticks;
+		int32 actual_ticks;
 		for (actual_ticks = 0; actual_ticks < tick_count && !main_events_pending() && !simulation_aborted(); actual_ticks++)
 		{
 			game_tick();
@@ -1782,7 +1782,7 @@ void __cdecl game_update_pvs()
 		game_compute_pvs(&game_globals->cluster_pvs, false, &g_cluster_activation_reason);
 		game_compute_pvs(&game_globals->cluster_pvs_local, true, NULL);
 
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
@@ -1791,7 +1791,7 @@ void __cdecl game_update_pvs()
 			uint32 active_clusters[8]{};
 			if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count))
 			{
-				for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
+				for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 				{
 					if (!game_globals->cluster_pvs.flags[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(active_clusters, cluster_index))
 					{
@@ -1824,7 +1824,7 @@ void __cdecl game_update_pvs()
 			s_game_cluster_bit_vectors clusters_from_pvs_row{};
 			scenario_zone_set_pvs_write_row(&clusters_from_pvs_row, &pvs_row);
 
-			for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+			for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 				structure_bsp_index != NONE;
 				structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 			{
@@ -1832,7 +1832,7 @@ void __cdecl game_update_pvs()
 
 				ASSERT(VALID_COUNT(bsp->clusters.count, MAXIMUM_CLUSTERS_PER_STRUCTURE));
 
-				for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
+				for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 				{
 					s_cluster_reference cluster_reference{};
 					cluster_reference_set(&cluster_reference, structure_bsp_index, cluster_index);
@@ -1848,7 +1848,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < g_game_system_count; system_index++)
+			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs, &game_globals->cluster_pvs, false);
@@ -1857,7 +1857,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_pvs_local, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < g_game_system_count; system_index++)
+			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs_local, &game_globals->cluster_pvs_local, true);
@@ -1866,7 +1866,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < g_game_system_count; system_index++)
+			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].activation_proc)
 					g_game_systems[system_index].activation_proc(&cluster_activation, &game_globals->cluster_activation);
@@ -1881,7 +1881,7 @@ void __cdecl game_won()
 }
 
 //.text:00533EF0 ; 
-//.text:00533FC0 ; char const* __cdecl get_game_difficulty_name(short)
+//.text:00533FC0 ; char const* __cdecl get_game_difficulty_name(int16)
 
 void __cdecl game_finish_immediate()
 {
@@ -2031,12 +2031,12 @@ void __cdecl game_pvs_debug_render()
 {
 	if (game_in_progress() && game_get_active_structure_bsp_mask())
 	{
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
-			for (long cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
+			for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 			{
 				real_argb_color const* activation_color = nullptr;
 				if (debug_pvs_activation)
@@ -2829,5 +2829,5 @@ s_game_system const g_game_systems[]
 #undef DECLARE_GAME_SYSTEM_MEMBER_ADDRESS
 #undef DECLARE_GAME_SYSTEM_NAME
 
-long const g_game_system_count = NUMBEROF(g_game_systems);
+int32 const g_game_system_count = NUMBEROF(g_game_systems);
 

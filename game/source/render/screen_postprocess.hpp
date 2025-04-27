@@ -16,27 +16,27 @@ struct c_screen_postprocess
 	struct s_settings
 	{
 		bool m_postprocess;
-		long m_display_alpha;
-		long m_accum;
-		long m_bloom_source;
-		long m_accum_filter;
-		long m_bloom;
-		long m_bling;
+		int32 m_display_alpha;
+		int32 m_accum;
+		int32 m_bloom_source;
+		int32 m_accum_filter;
+		int32 m_bloom;
+		int32 m_bling;
 		bool m_persist;
-		long m_downsample;
+		int32 m_downsample;
 		real32 m_postprocess_exposure;
 		bool m_allow_debug_display;
 		bool m_tone_curve;
 		real32 m_tone_curve_white_point;
 		bool m_auto_exposure_lock;
-		long m_debug_mode;
+		int32 m_debug_mode;
 	};
 	static_assert(sizeof(s_settings) == 0x38);
 
 	static void __cdecl accept_edited_settings();
 
 	static void __cdecl apply_binary_op_ex(
-		long explicit_shader_index,
+		int32 explicit_shader_index,
 		c_rasterizer::e_surface source_surface_0,
 		c_rasterizer::e_surface source_surface_1,
 		c_rasterizer::e_surface dest_surface,
@@ -49,7 +49,7 @@ struct c_screen_postprocess
 		real_rectangle2d* source_texture_rect);
 
 	static void __cdecl blit(
-		long explicit_shader_index,
+		int32 explicit_shader_index,
 		c_rasterizer::e_surface source_surface,
 		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode filter_mode,
@@ -64,7 +64,7 @@ struct c_screen_postprocess
 	static c_rasterizer::e_surface __cdecl blur_display();
 
 	static void __cdecl copy(
-		long explicit_shader_index,
+		int32 explicit_shader_index,
 		c_rasterizer::e_surface source_surface,
 		c_rasterizer::e_surface dest_surface,
 		c_rasterizer::e_sampler_filter_mode sampler_filter_mode,
@@ -108,7 +108,7 @@ struct c_screen_postprocess
 		c_rasterizer::e_splitscreen_res resolution);
 
 	static bool __cdecl postprocess_final_composite(
-		long explicit_shader_index,
+		int32 explicit_shader_index,
 		c_rasterizer::e_surface display_surface,
 		c_rasterizer::e_surface bloom_surface,
 		real32 inherent_scale,
@@ -128,7 +128,7 @@ struct c_screen_postprocess
 		s_screen_effect_settings& screen_effect_settings,
 		c_rasterizer::e_splitscreen_res splitscreen_res,
 		s_observer_depth_of_field const* observer_dof,
-		long user_index);
+		int32 user_index);
 
 	static void __cdecl sub_A62710(
 		render_projection const* projection,

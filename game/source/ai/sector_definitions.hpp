@@ -28,8 +28,8 @@ enum e_sector_flags
 struct sector
 {
 	c_flags<e_sector_flags, uint16, k_sector_flags> pathfinding_sector_flags;
-	short hint_index;
-	long first_link; // do not set manually
+	int16 hint_index;
+	int32 first_link; // do not set manually
 };
 static_assert(sizeof(sector) == 0x8);
 
@@ -57,7 +57,7 @@ struct sector_link
 	uint16 index;
 	uint16 index2;
 	c_flags<e_sector_link_flags, uint16, k_sector_link_flags> link_flags;
-	short hint_index;
+	int16 hint_index;
 	uint16 links[2]; // forward, reverse
 	uint16 sectors[2]; // left, right
 };
@@ -88,9 +88,9 @@ enum e_hint_type
 
 struct pathfinding_hint_data
 {
-	c_enum<e_hint_type, short, _hint_type_intersection_link, k_hint_type_count> hint_type;
-	short next_hint_index;
-	long hint_data[4];
+	c_enum<e_hint_type, int16, _hint_type_intersection_link, k_hint_type_count> hint_type;
+	int16 next_hint_index;
+	int32 hint_data[4];
 };
 static_assert(sizeof(pathfinding_hint_data) == 0x14);
 

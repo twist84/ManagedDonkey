@@ -4,14 +4,14 @@
 
 struct s_network_bandwidth_persistent_data
 {
-	long qos_sample_count;
-	long qos_samples[8];
+	int32 qos_sample_count;
+	int32 qos_samples[8];
 
-	long bandwidth_measurement_count;
-	long bandwidth_measurement_successful_bps[8];
-	long bandwidth_measurement_unsafe_bps[8];
+	int32 bandwidth_measurement_count;
+	int32 bandwidth_measurement_successful_bps[8];
+	int32 bandwidth_measurement_unsafe_bps[8];
 
-	long bandwidth_dispute_count;
+	int32 bandwidth_dispute_count;
 };
 static_assert(sizeof(s_network_bandwidth_persistent_data) == 0x6C);
 
@@ -43,20 +43,20 @@ struct s_network_bandwidth_globals
 	bool in_game;
 	uint32 tracking_start_timestamp;
 	bool estimate_based_on_measurement;
-	long estimated_bps;
-	long estimated_max_machine_count;
+	int32 estimated_bps;
+	int32 estimated_max_machine_count;
 };
 static_assert(sizeof(s_network_bandwidth_globals) == 0x24);
 
 extern s_network_bandwidth_globals& network_bandwidth_globals;
 
 struct s_transport_qos_result;
-extern long __cdecl network_bandwidth_compute_average(long sample_count, long const* samples);
+extern int32 __cdecl network_bandwidth_compute_average(int32 sample_count, int32 const* samples);
 extern void __cdecl network_bandwidth_dispose();
-extern long __cdecl network_bandwidth_get_estimated_bandwidth_bps(bool* available);
-extern long __cdecl network_bandwidth_get_estimated_desired_machine_capacity_of_bandwidth(long a1);
-extern long __cdecl network_bandwidth_get_estimated_host_capacity_machines();
-extern long __cdecl network_bandwidth_get_estimated_maximum_machine_capacity_of_bandwidth(long a1);
+extern int32 __cdecl network_bandwidth_get_estimated_bandwidth_bps(bool* available);
+extern int32 __cdecl network_bandwidth_get_estimated_desired_machine_capacity_of_bandwidth(int32 a1);
+extern int32 __cdecl network_bandwidth_get_estimated_host_capacity_machines();
+extern int32 __cdecl network_bandwidth_get_estimated_maximum_machine_capacity_of_bandwidth(int32 a1);
 extern bool __cdecl network_bandwidth_get_online_network_environment();
 extern bool __cdecl network_bandwidth_initialize(c_network_observer* observer, s_bandwidth_configuration const* configuration);
 extern void __cdecl network_bandwidth_notify_live_service_qos_measurement(s_transport_qos_result const* qos_result);

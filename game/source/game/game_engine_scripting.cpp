@@ -9,7 +9,7 @@
 
 // mp_active_player_count_by_team
 // given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes
-long __cdecl game_engine_active_player_count_by_team(long team)
+int32 __cdecl game_engine_active_player_count_by_team(int32 team)
 {
 	return INVOKE(0x006E5590, game_engine_active_player_count_by_team, team);
 
@@ -19,10 +19,10 @@ long __cdecl game_engine_active_player_count_by_team(long team)
 	//	return 0;
 	//}
 	//
-	//long player_count = 0;
+	//int32 player_count = 0;
 	//
 	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//for (long i = data_next_index(*player_data, NONE); i != NONE; i = data_next_index(*player_data, i))
+	//for (int32 i = data_next_index(*player_data, NONE); i != NONE; i = data_next_index(*player_data, i))
 	//{
 	//	player_datum* player = &player_data[i];
 	//	if (player->configuration.host.team_index == team && (player->unit_index != NONE || player->multiplayer.lives_remaining > 0))
@@ -34,7 +34,7 @@ long __cdecl game_engine_active_player_count_by_team(long team)
 
 // mp_ai_allegiance
 // causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_ai_scripting_allegiance(short campaign_team, short team)
+void __cdecl game_engine_ai_scripting_allegiance(int16 campaign_team, int16 team)
 {
 	INVOKE(0x006E5620, game_engine_ai_scripting_allegiance, campaign_team, team);
 
@@ -65,14 +65,14 @@ void __cdecl game_engine_finish_game()
 }
 
 // used in `game_engine_ai_scripting_allegiance` and `game_engine_mp_team_allegiance`
-void __cdecl game_engine_form_team_allegiance(short campaign_team, short team)
+void __cdecl game_engine_form_team_allegiance(int16 campaign_team, int16 team)
 {
 	INVOKE(0x006E5680, game_engine_form_team_allegiance, campaign_team, team);
 }
 
 // mp_game_won
 // given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_game_won(short team)
+void __cdecl game_engine_game_won(int16 team)
 {
 	//INVOKE(0x006E5690, game_engine_game_won, team);
 
@@ -96,35 +96,35 @@ void __cdecl game_engine_game_won(short team)
 
 // mp_object_belongs_to_team
 // causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_give_object_ownership_to_team(long object_index, short team)
+void __cdecl game_engine_give_object_ownership_to_team(int32 object_index, int16 team)
 {
 	INVOKE(0x006E56C0, game_engine_give_object_ownership_to_team, object_index, team);
 }
 
 // mp_weapon_belongs_to_team
 // causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_give_weapon_ownership_to_team(long weapon_index, short team)
+void __cdecl game_engine_give_weapon_ownership_to_team(int32 weapon_index, int16 team)
 {
 	INVOKE(0x006E5730, game_engine_give_weapon_ownership_to_team, weapon_index, team);
 }
 
 // mp_allegiance
 // create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_mp_team_allegiance(short team_a, short team_b)
+void __cdecl game_engine_mp_team_allegiance(int16 team_a, int16 team_b)
 {
 	INVOKE(0x006E5740, game_engine_mp_team_allegiance, team_a, team_b);
 }
 
 // mp_players_by_team
 // given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes
-long __cdecl game_engine_players_by_team(long team)
+int32 __cdecl game_engine_players_by_team(int32 team)
 {
 	return INVOKE(0x006E5770, game_engine_players_by_team, team);
 }
 
 // mp_respawn_override_timers
 // causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes
-void __cdecl game_engine_respawn_override_timers(short team)
+void __cdecl game_engine_respawn_override_timers(int16 team)
 {
 	INVOKE(0x006E5820, game_engine_respawn_override_timers, team);
 
@@ -141,7 +141,7 @@ void __cdecl game_engine_respawn_override_timers(short team)
 	//while (player_iterator.next())
 	//{
 	//	player_datum* player = player_iterator.get_datum();
-	//	if (player->configuration.host.team_index == (long)team)
+	//	if (player->configuration.host.team_index == (int32)team)
 	//	{
 	//		player->respawn_timer = 0;
 	//		game_engine_globals->player_navpoint_data[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;

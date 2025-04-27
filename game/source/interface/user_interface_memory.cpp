@@ -36,7 +36,7 @@ void __cdecl user_interface_free(void const* ptr)
 	memory_pool_block_free(g_ui_memory_pool, &ptr);
 }
 
-void* __cdecl user_interface_malloc_tracked(uint32 size, char const* file, long line)
+void* __cdecl user_interface_malloc_tracked(uint32 size, char const* file, int32 line)
 {
 	return INVOKE(0x00AB4EF0, user_interface_malloc_tracked, size, file, line);
 }

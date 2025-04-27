@@ -12,11 +12,11 @@ public:
 	bool in_use() const;
 	e_controller_index get_controller_index() const;
 	wchar_t const* get_display_name() const;
-	short get_or_create_user_index();
+	int16 get_or_create_user_index();
 	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
 	c_player_profile_interface* get_player_profile_interface();
 	uint64 const get_player_xuid() const;
-	short get_user_index() const;
+	int16 get_user_index() const;
 	bool is_attached() const;
 	bool is_signed_in_to_machine() const;
 	bool is_unsigned_in_user() const;
@@ -60,8 +60,8 @@ public:
 		k_number_of_controller_state_flags
 	};
 
-	c_flags<e_controller_state_flags, short, k_number_of_controller_state_flags> m_state_flags;
-	short m_user_index;
+	c_flags<e_controller_state_flags, int16, k_number_of_controller_state_flags> m_state_flags;
+	int16 m_user_index;
 	uint32 __unknown4;
 	c_player_profile_interface m_player_profile;
 	wchar_t m_display_name[16];
@@ -85,10 +85,10 @@ static_assert(sizeof(s_controller_globals) == 0x5120);
 extern s_controller_globals& g_controller_globals;
 extern bool controller_centered_crosshair;
 
-extern void __cdecl controller_activate_as_unsigned_in_user(short controller_index, bool activate);
+extern void __cdecl controller_activate_as_unsigned_in_user(int16 controller_index, bool activate);
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
 extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
-extern e_controller_index __cdecl controller_index_from_user_index(long user_index);
+extern e_controller_index __cdecl controller_index_from_user_index(int32 user_index);
 extern void __cdecl controllers_render();
 extern bool __cdecl controller_has_centered_crosshair(e_controller_index controller_index);
 

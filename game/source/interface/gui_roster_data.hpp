@@ -37,49 +37,49 @@ struct c_gui_roster_data :
 	struct s_player_row
 	{
 		e_player_row_type player_row_type;
-		long session_player_index;
+		int32 session_player_index;
 		s_player_identifier player_identifier;
 		bool player_identifier_valid;
-		long pad0;
+		int32 pad0;
 		s_player_configuration player_configuration;
 		bool player_configuration_valid;
 
 		struct
 		{
-			long skill_level;
-			long experience;
+			int32 skill_level;
+			int32 experience;
 		} configuration;
 
-		long machine_index;
-		long squad_join_sequence_number;
-		long pad1;
+		int32 machine_index;
+		int32 squad_join_sequence_number;
+		int32 pad1;
 		uint64 squad_nonce;
-		long leader_team;
+		int32 leader_team;
 		e_controller_index local_controller_index;
-		long voice_state;
-		long party_bar_length;
+		int32 voice_state;
+		int32 party_bar_length;
 		bool is_leader;
 		bool show_teams;
-		long special_status;
+		int32 special_status;
 		
 		//bool in_matchmaking;
 		struct
 		{
-			long highest_party_skill;
-			long highest_party_experience;
+			int32 highest_party_skill;
+			int32 highest_party_experience;
 		} calculated_for_group;
 	};
 	static_assert(sizeof(s_player_row) == 0x1678);
 
 public:
-	bool __thiscall get_integer_value_(long element_handle, long value_name, long* value);
-	bool __thiscall get_text_value_(long element_handle, long value_name, c_static_wchar_string<1024>* value);
+	bool __thiscall get_integer_value_(int32 element_handle, int32 value_name, int32* value);
+	bool __thiscall get_text_value_(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value);
 
 protected:
-	long m_matchmaking_last_known_good_extra_slots_searching;
-	long m_matchmaking_last_known_good_extra_slots_found;
+	int32 m_matchmaking_last_known_good_extra_slots_searching;
+	int32 m_matchmaking_last_known_good_extra_slots_found;
 	c_static_array<s_player_row, k_maximum_players> m_players;
-	long m_player_count;
+	int32 m_player_count;
 	e_controller_index m_driving_controller;
 	bool m_pause_updating;
 };

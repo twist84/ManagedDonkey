@@ -97,7 +97,7 @@ struct s_global_material_sweeteners_definition
 	// 
 	// when a sweetener inheritance flag is set the sound\effect is not inherited from the parent material.  If you leave the sweetener blank and set the flag than no effect\sound will play
 
-	c_flags<e_global_material_sweetener_types, long, k_global_material_sweeteners_inheritance_flags_count> inheritance_flags;
+	c_flags<e_global_material_sweetener_types, int32, k_global_material_sweeteners_inheritance_flags_count> inheritance_flags;
 
 	void update_reference_names();
 };
@@ -111,8 +111,8 @@ struct s_global_material_underwater_proxy
 	// ... we report it as this material
 	c_string_id proxy_material;
 
-	short underwater_material_type;
-	short proxy_material_type;
+	int16 underwater_material_type;
+	int16 proxy_material_type;
 };
 static_assert(sizeof(s_global_material_underwater_proxy) == 0xC);
 
@@ -120,7 +120,7 @@ struct s_global_material_definition
 {
 	c_string_id name;
 	c_string_id parent_name;
-	short runtime_material_index;
+	int16 runtime_material_index;
 	c_flags<e_global_material_bit, uint16, k_number_of_global_material_bits> flags;
 	c_string_id general_armor;
 	c_string_id specific_armor;
@@ -130,7 +130,7 @@ struct s_global_material_definition
 	c_typed_tag_reference<MATERIAL_EFFECTS_TAG, INVALID_TAG> material_effects;
 	c_typed_tag_block<s_global_material_underwater_proxy> underwater_proxies_block;
 	c_string_id footsteps_in_rain_material_name; // When it's raining, use this as the footstep material
-	short runtime_rain_material_index;
+	int16 runtime_rain_material_index;
 	uint8 ASDF[0x2]; // pad
 
 	void update_reference_names();

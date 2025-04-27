@@ -21,14 +21,14 @@ struct c_gui_screen_scoreboard :
 	c_gui_screen_widget
 {
 public:
-	c_gui_screen_scoreboard(long name) :
+	c_gui_screen_scoreboard(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AB2A90, c_gui_screen_scoreboard*, __thiscall, c_gui_screen_scoreboard*, long)(this, name);
+		DECLFUNC(0x00AB2A90, c_gui_screen_scoreboard*, __thiscall, c_gui_screen_scoreboard*, int32)(this, name);
 	}
 
 private:
-	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long x, long y);
+	static void __cdecl translate_widget_recursive(c_gui_widget* widget, int32 x, int32 y);
 
 public:
 	enum e_scoreboard_mode;
@@ -45,7 +45,7 @@ public:
 	void __thiscall update_render_state_(uint32 a1);
 
 protected:
-	long m_current_scoreboard_mode;
+	int32 m_current_scoreboard_mode;
 	bool m_is_interactive;
 
 private:
@@ -78,8 +78,8 @@ struct c_gui_scoreboard_data :
 	{
 		e_player_row_type player_row_type;
 
-		long game_player_index;
-		long session_player_index;
+		int32 game_player_index;
+		int32 session_player_index;
 
 		s_player_appearance player_appearance;
 		c_static_wchar_string<48> player_name;
@@ -92,14 +92,14 @@ struct c_gui_scoreboard_data :
 		// color_list = tint_color->bitmap_player[color_list_index]
 		// color_list = tint_color->bitmap_team[color_list_index]
 		// color = color_list.color
-		long base_color_index;
+		int32 base_color_index;
 
-		long team_index;
+		int32 team_index;
 		bool show_team;
 
 		e_controller_index local_controller_index;
 		e_voice_talking_state voice_state;
-		long connectivity_rating;
+		int32 connectivity_rating;
 
 		c_static_wchar_string<48> place;
 		c_static_wchar_string<48> score;
@@ -114,17 +114,17 @@ struct c_gui_scoreboard_data :
 
 	bool __cdecl add_player_internal(
 		e_player_row_type player_row_type,
-		long game_player_index,
-		long session_player_index,
+		int32 game_player_index,
+		int32 session_player_index,
 		s_player_appearance const* appearance,
 		wchar_t const* player_name,
 		wchar_t const* service_tag,
-		long base_color_index,
-		long team_index,
+		int32 base_color_index,
+		int32 team_index,
 		bool show_team,
 		e_controller_index controller_index,
 		e_voice_talking_state voice_state,
-		long connectivity_rating,
+		int32 connectivity_rating,
 		wchar_t const* place,
 		wchar_t const* score,
 		wchar_t const* round_score,
@@ -136,17 +136,17 @@ struct c_gui_scoreboard_data :
 	static int __cdecl scoreboard_sort_proc_for_session(void const* a, void const* b);
 
 //protected:
-	long m_current_scoreboard_mode;
+	int32 m_current_scoreboard_mode;
 	c_static_array<s_player_row, 25> m_player_rows;
-	long m_player_row_count;
-	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
+	int32 m_player_row_count;
+	c_enum<e_controller_index, int32, _controller0, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
 
 extern c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
-	long screen_name,
+	int32 screen_name,
 	e_controller_index controller,
 	e_window_index window,
-	long layered_position,
+	int32 layered_position,
 	bool is_interactive);
 

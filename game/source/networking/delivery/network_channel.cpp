@@ -5,7 +5,7 @@
 #include "networking/messages/network_messages_connect.hpp"
 #include "networking/network_time.hpp"
 
-long const c_network_channel::k_network_channel_name_size = 256;
+int32 const c_network_channel::k_network_channel_name_size = 256;
 
 char const* c_network_channel::get_short_name() const
 {
@@ -196,7 +196,7 @@ void c_network_channel::establish(uint32 remote_channel_identifier)
 	INVOKE_CLASS_MEMBER(0x0045FC20, c_network_channel, establish, remote_channel_identifier);
 }
 
-void c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier)
+void c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, int32 channel_identifier)
 {
 	INVOKE_CLASS_MEMBER(0x004603B0, c_network_channel, open, remote_address, send_connect_packets, channel_identifier);
 
@@ -236,7 +236,7 @@ void c_network_channel::open(transport_address const* remote_address, bool send_
 	//m_message_queue.reserve_first_fragment();
 }
 
-void c_network_channel::send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload)
+void c_network_channel::send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload)
 {
 	//INVOKE_CLASS_MEMBER(0x00460930, c_network_channel, send_message, message_type, raw_message_size, raw_message_payload);
 

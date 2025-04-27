@@ -19,15 +19,15 @@ struct s_data_array;
 struct c_fixed_memory_rockall_heap;
 struct s_network_shared_memory_globals
 {
-	long current_configuration;
-	long physical_memory_size;
+	int32 current_configuration;
+	int32 physical_memory_size;
 	void* physical_memory_low_address;
 	void* physical_memory_high_address;
 	bool distributed_simulation_available;
 	c_simulation_distributed_world* simulation_distributed_world;
 	s_data_array* simulation_view_data_array;
 	s_data_array* simulation_distributed_view_data_array;
-	long heap_size;
+	int32 heap_size;
 	c_fixed_memory_rockall_heap* heap;
 	void* heap_buffer;
 	uint32 : 32;
@@ -64,8 +64,8 @@ extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
 extern uint16& g_broadcast_port;
 
-extern void* __cdecl network_heap_allocate_block(long block_size);
-extern char* __cdecl network_heap_describe(char* buffer, long buffer_size);
+extern void* __cdecl network_heap_allocate_block(int32 block_size);
+extern char* __cdecl network_heap_describe(char* buffer, int32 buffer_size);
 extern void __cdecl network_heap_free_block(void* block);
 extern void __cdecl network_memory_shared_dispose();
 extern bool __cdecl network_memory_simulation_initialize(c_simulation_world** world, c_simulation_watcher** watcher, c_simulation_type_collection** type_collection);

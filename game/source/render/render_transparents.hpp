@@ -8,12 +8,12 @@ struct s_transparent_types
 	real32 z_sort;
 	real_point3d centroid;
 	real_plane3d plane;
-	long sort_layer;
+	int32 sort_layer;
 	real_point3d anchor_points[9];
 	real32 importance;
-	void(__cdecl* render_callback)(void const*, long);
+	void(__cdecl* render_callback)(void const*, int32);
 	void const* user_data;
-	long user_context;
+	int32 user_context;
 };
 static_assert(sizeof(s_transparent_types) == 0xA4);
 
@@ -23,11 +23,11 @@ struct s_transparency_marker
 };
 static_assert(sizeof(s_transparency_marker) == sizeof(uint16));
 
-template<typename t_type, long k_count>
+template<typename t_type, int32 k_count>
 struct c_sorter
 {
 	c_static_array<uint16, k_count> m_order;
-	long m_range[2];
+	int32 m_range[2];
 	uint16 m_count;
 	t_type* m_data;
 };
@@ -40,16 +40,16 @@ struct c_transparency_renderer
 	static void __cdecl sort();
 
 //private:
-	//static long& m_current_marker_index;
+	//static int32& m_current_marker_index;
 	//static c_sorter<s_transparent_types, 768>& transparent_sorted_order;
 	//static bool& m_using_active_camo;
 	//static bool& m_needs_active_camo_ldr_resolve;
 	//static s_transparency_marker(&m_markers)[6][3];
-	//static long& m_total_transparent_count;
+	//static int32& m_total_transparent_count;
 	//static rectangle2d& m_active_camo_resolve_bounds;
 	//static real_vector4d& m_active_camo_distort_bounds;
 	//static c_static_array<s_transparent_types, 768>& transparents;
 };
 
-extern short& render_debug_transparent_sort_method;
+extern int16& render_debug_transparent_sort_method;
 

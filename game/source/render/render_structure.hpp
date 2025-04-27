@@ -9,7 +9,7 @@ struct c_structure_bsp_resource_interface
 	c_typed_tag_block<s_structure_bsp_resources> raw_resources;
 	s_tag_resource tag_resources;
 	s_tag_resource cache_file_resources;
-	long use_resource_items;
+	int32 use_resource_items;
 
 	s_structure_bsp_resources* get_resources() const;
 };
@@ -105,8 +105,8 @@ struct structure_instanced_geometry_definition
 	s_tag_block breakable_surface_sets;
 	s_tag_block surfaces;
 	s_tag_block surface_to_triangle_mapping;
-	short mesh_index;
-	short compression_index;
+	int16 mesh_index;
+	int16 compression_index;
 	real32 global_lightmap_resolution_scale;
 	s_tag_block mesh_mopps;
 	void* mesh_mopp_bv_tree;
@@ -121,9 +121,9 @@ static_assert(sizeof(bsp3d_node) == 0x8);
 
 struct large_bsp3d_node
 {
-	long plane;
-	long back_child;
-	long front_child;
+	int32 plane;
+	int32 back_child;
+	int32 front_child;
 };
 static_assert(sizeof(large_bsp3d_node) == 0xC);
 
@@ -138,46 +138,46 @@ struct collision_leaf
 {
 	c_flags<e_leaf_flags, uint8, k_leaf_flags> flags;
 	uint8 pad[0x1];
-	short bsp2d_reference_count;
-	long first_bsp2d_reference;
+	int16 bsp2d_reference_count;
+	int32 first_bsp2d_reference;
 };
 static_assert(sizeof(collision_leaf) == 0x8);
 
 struct large_collision_leaf
 {
 	c_flags<e_leaf_flags, uint16, k_leaf_flags> flags;
-	short bsp2d_reference_count;
-	long first_bsp2d_reference;
+	int16 bsp2d_reference_count;
+	int32 first_bsp2d_reference;
 };
 static_assert(sizeof(large_collision_leaf) == 0x8);
 
 struct bsp2d_reference
 {
-	short plane;
-	short bsp2d_node;
+	int16 plane;
+	int16 bsp2d_node;
 };
 static_assert(sizeof(bsp2d_reference) == 0x4);
 
 struct large_bsp2d_reference
 {
-	long plane;
-	long bsp2d_node;
+	int32 plane;
+	int32 bsp2d_node;
 };
 static_assert(sizeof(large_bsp2d_reference) == 0x8);
 
 struct bsp2d_node
 {
 	real_plane2d plane;
-	short left_child;
-	short right_child;
+	int16 left_child;
+	int16 right_child;
 };
 static_assert(sizeof(bsp2d_node) == 0x10);
 
 struct large_bsp2d_node
 {
 	real_plane2d plane;
-	long left_child;
-	long right_child;
+	int32 left_child;
+	int32 right_child;
 };
 static_assert(sizeof(large_bsp2d_node) == 0x14);
 
@@ -196,11 +196,11 @@ enum e_surface_flags
 
 struct collision_surface
 {
-	short plane;
-	short first_edge;
-	short material;
-	short breakable_surface_set;
-	short breakable_surface;
+	int16 plane;
+	int16 first_edge;
+	int16 material;
+	int16 breakable_surface_set;
+	int16 breakable_surface;
 	c_flags<e_surface_flags, uint8, k_collision_surface_flags> flags;
 	uint8 best_plane_calculation_vertex_index;
 };
@@ -208,11 +208,11 @@ static_assert(sizeof(collision_surface) == 0xC);
 
 struct large_collision_surface
 {
-	long plane;
-	long first_edge;
-	short material;
-	short breakable_surface_set;
-	short breakable_surface;
+	int32 plane;
+	int32 first_edge;
+	int16 material;
+	int16 breakable_surface_set;
+	int16 breakable_surface;
 	c_flags<e_surface_flags, uint8, k_collision_surface_flags> flags;
 	uint8 best_plane_calculation_vertex_index;
 };
@@ -220,33 +220,33 @@ static_assert(sizeof(large_collision_surface) == 0x10);
 
 struct collision_edge
 {
-	short vertex_indices[2];
-	short edge_indices[2];
-	short surface_indices[2];
+	int16 vertex_indices[2];
+	int16 edge_indices[2];
+	int16 surface_indices[2];
 };
 static_assert(sizeof(collision_edge) == 0xC);
 
 struct large_collision_edge
 {
-	long vertex_indices[2];
-	long edge_indices[2];
-	long surface_indices[2];
+	int32 vertex_indices[2];
+	int32 edge_indices[2];
+	int32 surface_indices[2];
 };
 static_assert(sizeof(large_collision_edge) == 0x18);
 
 struct collision_vertex
 {
 	real_point3d point;
-	short first_edge;
-	short sink;
+	int16 first_edge;
+	int16 sink;
 };
 static_assert(sizeof(collision_vertex) == 0x10);
 
 struct large_collision_vertex
 {
 	real_point3d point;
-	long first_edge;
-	long sink;
+	int32 first_edge;
+	int32 sink;
 };
 static_assert(sizeof(large_collision_vertex) == 0x14);
 
@@ -262,7 +262,7 @@ static_assert(sizeof(s_render_cluster_part) == 0xC);
 struct render_instance_mesh
 {
 	uint32 flags;
-	short structure_bsp_index;
+	int16 structure_bsp_index;
 	uint16 lightmap_instance_index;
 	uint16 __unknown8;
 	uint16 part_index;
@@ -277,7 +277,7 @@ struct render_structure_globals
 	struct
 	{
 		uint32 flags;
-		c_static_array<long, 16> lightmap_bsp_type;
+		c_static_array<int32, 16> lightmap_bsp_type;
 		c_static_array<scenario_lightmap_bsp_data_definition*, 16> lightmap_bsp_data;
 		c_static_array<s_render_geometry*, 16> render_geometry;
 	} cached;
@@ -285,14 +285,14 @@ struct render_structure_globals
 	c_static_sized_dynamic_array<s_render_cluster_part, 2048> render_cluster_parts;
 	c_static_sized_dynamic_array<render_instance_mesh, 3072> render_instance_meshes;
 
-	long marker_index;
+	int32 marker_index;
 
-	long render_cluster_part_markers[6];
-	long render_instance_mesh_markers[6];
+	int32 render_cluster_part_markers[6];
+	int32 render_instance_mesh_markers[6];
 
-	long scenario_sbsp_index;
-	long lightmap_cluster_reference;
-	long lightmap_instance_index;
+	int32 scenario_sbsp_index;
+	int32 lightmap_cluster_reference;
+	int32 lightmap_instance_index;
 };
 static_assert(sizeof(render_structure_globals) == 0x1210C);
 

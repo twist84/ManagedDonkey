@@ -3,12 +3,12 @@
 #include "ai/sector_definitions.hpp"
 #include "render/render_debug.hpp"
 
-pathfinding_data const* __cdecl pathfinding_data_get(short structure_bsp_index)
+pathfinding_data const* __cdecl pathfinding_data_get(int16 structure_bsp_index)
 {
 	return INVOKE(0x01445440, pathfinding_data_get, structure_bsp_index);
 }
 
-void sector_link_render_debug(long link_index, pathfinding_data const* pf_data, real_argb_color const* color, bool a4)
+void sector_link_render_debug(int32 link_index, pathfinding_data const* pf_data, real_argb_color const* color, bool a4)
 {
 	if (VALID_INDEX(link_index, pf_data->links.count))
 	{

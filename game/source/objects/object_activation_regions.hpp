@@ -10,9 +10,9 @@ struct s_object_activation_region :
 	// alignment?
 	uint8 __data2[0x2];
 
-	long activation_time;
+	int32 activation_time;
 	real_rectangle3d region_bounds;
-	long havok_group; // e_havok_group
+	int32 havok_group; // e_havok_group
 	s_location region_location;
 
 	// pad?

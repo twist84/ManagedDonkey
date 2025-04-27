@@ -9,7 +9,7 @@ c_static_flags<20000>* c_scenario_resource_registry::get_tag_instance_flags()
 	return &m_active_tags_flags;
 }
 
-bool c_scenario_resource_registry::is_tag_available(long tag_index) const
+bool c_scenario_resource_registry::is_tag_available(int32 tag_index) const
 {
 	//return INVOKE_CLASS_MEMBER(0x005FB0F0, c_scenario_resource_registry, is_tag_available, tag_index);
 

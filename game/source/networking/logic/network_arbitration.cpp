@@ -7,7 +7,7 @@ void __cdecl network_arbitration_destory()
 	INVOKE(0x004D9A90, network_arbitration_destory);
 }
 
-//.text:004D9AB0 ; bool __cdecl network_arbitration_get_results(long, s_arbitration_registration_result*)
+//.text:004D9AB0 ; bool __cdecl network_arbitration_get_results(int32, s_arbitration_registration_result*)
 //.text:004D9B20 ; e_network_arbitration_status __cdecl network_arbitration_get_status()
 
 bool __cdecl network_arbitration_initialize()
@@ -15,7 +15,7 @@ bool __cdecl network_arbitration_initialize()
 	return INVOKE(0x004D9B30, network_arbitration_initialize);
 }
 
-//.text:004D9B60 ; bool __cdecl network_arbitration_initiate(long, uint64)
+//.text:004D9B60 ; bool __cdecl network_arbitration_initiate(int32, uint64)
 
 void __cdecl network_arbitration_update()
 {

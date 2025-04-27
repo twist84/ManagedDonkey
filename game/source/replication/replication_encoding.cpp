@@ -17,7 +17,7 @@ void __cdecl player_motion_encode(c_bitstream* packet, s_player_motion const* pl
     INVOKE(0x004AA260, player_motion_encode, packet, player_motion);
 }
 
-long __cdecl player_motion_minimum_required_bits()
+int32 __cdecl player_motion_minimum_required_bits()
 {
     return INVOKE(0x004AA750, player_motion_minimum_required_bits);
 }
@@ -42,7 +42,7 @@ void __cdecl player_prediction_encode(c_bitstream* packet, s_player_prediction c
     INVOKE(0x004AAAD0, player_prediction_encode, packet, player_prediction, replicated);
 }
 
-long __cdecl player_prediction_minimum_required_bits()
+int32 __cdecl player_prediction_minimum_required_bits()
 {
     return INVOKE(0x004AAD30, player_prediction_minimum_required_bits);
 }
@@ -63,13 +63,13 @@ bool __cdecl predicted_aim_assist_compare(s_player_predicted_aim_assist const* a
 }
 
 //bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, e_aim_assist_encoding_precision encoding_precision)
-bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, long encoding_precision)
+bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, int32 encoding_precision)
 {
     return INVOKE(0x004AAEE0, predicted_aim_assist_decode, packet, aim_assist, encoding_precision);
 }
 
 //void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, e_aim_assist_encoding_precision encoding_precision)
-void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, long encoding_precision)
+void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, int32 encoding_precision)
 {
     INVOKE(0x004AAFE0, predicted_aim_assist_encode, packet, aim_assist, a3, encoding_precision);
 }

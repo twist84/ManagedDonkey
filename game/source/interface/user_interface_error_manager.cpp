@@ -20,7 +20,7 @@ c_gui_queued_error::c_gui_queued_error() :
 {
 }
 
-void c_gui_queued_error::set(s_gui_alert_description const* alert_description, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, long posted_time, bool requires_resolution, bool blocking)
+void c_gui_queued_error::set(s_gui_alert_description const* alert_description, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, int32 posted_time, bool requires_resolution, bool blocking)
 {
 	m_error_name = alert_description->error_name;
 	m_error_category = alert_description->error_category;
@@ -38,7 +38,7 @@ void c_gui_queued_error::set(s_gui_alert_description const* alert_description, w
 	m_posted_time = posted_time;
 }
 
-bool c_gui_queued_error::match(e_controller_index controller_index, long error_name, wchar_t const* custom_message) const
+bool c_gui_queued_error::match(e_controller_index controller_index, int32 error_name, wchar_t const* custom_message) const
 {
 	if (is_valid()
 		&& get_error_name() == error_name
@@ -79,7 +79,7 @@ void c_gui_queued_error::set_resolved(bool resolved)
 	m_requires_resolution = !resolved;
 }
 
-long c_gui_queued_error::get_error_name() const
+int32 c_gui_queued_error::get_error_name() const
 {
 	ASSERT(is_valid());
 
@@ -114,14 +114,14 @@ bool c_gui_queued_error::get_blocking() const
 	return m_blocking;
 }
 
-long c_gui_queued_error::get_posted_time() const
+int32 c_gui_queued_error::get_posted_time() const
 {
 	ASSERT(is_valid());
 
 	return m_posted_time;
 }
 
-void c_gui_queued_error::set_posted_time(long posted_time)
+void c_gui_queued_error::set_posted_time(int32 posted_time)
 {
 	m_posted_time = posted_time;
 }
@@ -172,12 +172,12 @@ void c_gui_error_manager::clear_all_errors()
 	}
 }
 
-void c_gui_error_manager::clear_error(long error_name, e_controller_index controller_index)
+void c_gui_error_manager::clear_error(int32 error_name, e_controller_index controller_index)
 {
 	clear_error_with_custom_message(error_name, controller_index, NULL);
 }
 
-void c_gui_error_manager::clear_error_with_custom_message(long error_name, e_controller_index controller_index, wchar_t const* custom_message)
+void c_gui_error_manager::clear_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message)
 {
 	bool cleared = false;
 	for (c_gui_queued_error& error : m_errors)
@@ -211,7 +211,7 @@ void c_gui_error_manager::dispose_from_old_map()
 {
 }
 
-c_gui_queued_error const* c_gui_error_manager::get_error(e_controller_index controller_index, long error_name, wchar_t const* custom_message) const
+c_gui_queued_error const* c_gui_error_manager::get_error(e_controller_index controller_index, int32 error_name, wchar_t const* custom_message) const
 {
 	for (c_gui_queued_error const& error : m_errors)
 	{
@@ -265,22 +265,22 @@ void c_gui_error_manager::initialize_for_new_map()
 	//}
 }
 
-void c_gui_error_manager::post_error(long error_name, e_controller_index controller_index, bool requires_resolution)
+void c_gui_error_manager::post_error(int32 error_name, e_controller_index controller_index, bool requires_resolution)
 {
 	post_error_with_custom_message(error_name, NULL, NULL, controller_index, requires_resolution, true);
 }
 
-void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution)
+void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution)
 {
 	post_error_with_custom_message(error_name, NULL, custom_message, controller_index, requires_resolution, true);
 }
 
-void c_gui_error_manager::post_toast(long error_name)
+void c_gui_error_manager::post_toast(int32 error_name)
 {
 	post_toast_with_custom_message(error_name, NULL, NULL);
 }
 
-void c_gui_error_manager::post_toast_with_custom_message(long error_name, wchar_t const* custom_title, wchar_t const* custom_message)
+void c_gui_error_manager::post_toast_with_custom_message(int32 error_name, wchar_t const* custom_title, wchar_t const* custom_message)
 {
 	post_error_with_custom_message(error_name, custom_title, custom_message, k_any_controller, false, false);
 
@@ -288,12 +288,12 @@ void c_gui_error_manager::post_toast_with_custom_message(long error_name, wchar_
 		event(_event_message, "ui:errors: posted a toast while ingame - shouldn't be doing that");
 }
 
-void c_gui_error_manager::resolve_error(long error_name, e_controller_index controller_index)
+void c_gui_error_manager::resolve_error(int32 error_name, e_controller_index controller_index)
 {
 	resolve_error_with_custom_message(error_name, controller_index, NULL);
 }
 
-void c_gui_error_manager::resolve_error_with_custom_message(long error_name, e_controller_index controller_index, wchar_t const* custom_message)
+void c_gui_error_manager::resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message)
 {
 	for (c_gui_queued_error& error : m_errors)
 	{
@@ -334,7 +334,7 @@ void c_gui_error_manager::update(uint32 ui_time)
 	//		.name = !error_ || error_->get_blocking() ? STRING_ID(gui, gui_alert_toast) : STRING_ID(gui, gui_alert_nonblocking)
 	//	};
 	//}
-	//for (long window_index = 0; window_index < k_number_of_render_windows; window_index++)
+	//for (int32 window_index = 0; window_index < k_number_of_render_windows; window_index++)
 	//{
 	//	c_gui_queued_error const* error = get_current_for_user(controller_index);
 	//
@@ -350,7 +350,7 @@ void c_gui_error_manager::update(uint32 ui_time)
 	//	}
 	//}
 	//
-	//for (long window_index = 0; window_index < k_number_of_render_windows; window_index++)
+	//for (int32 window_index = 0; window_index < k_number_of_render_windows; window_index++)
 	//{
 	//	c_gui_queued_error const* error = alerts[window_index].error;
 	//
@@ -423,7 +423,7 @@ c_gui_error_manager::e_alert_display_mode c_gui_error_manager::get_error_display
 	return INVOKE_CLASS_MEMBER(0x00A91CE0, c_gui_error_manager, get_error_display_mode, controller_index);
 }
 
-void c_gui_error_manager::post_error_with_custom_message(long error_name, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution, bool blocking)
+void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution, bool blocking)
 {
 	//return INVOKE_CLASS_MEMBER(0x00A91FD0, c_gui_error_manager, post_error_with_custom_message, error_name, custom_title, custom_message, controller_index, requires_resolution, blocking);
 

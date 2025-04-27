@@ -99,8 +99,8 @@ char const k_version_target_variant[] = VERSION_TARGET_VARIANT;
 char const k_version_target_configuration[] = VERSION_TARGET_CONFIGURATION;
 char const k_version_target_platform[] = VERSION_TARGET_PLATFORM;
 
-long const k_version_build_number_version = VERSION_BUILD_NUMBER_VERSION;
-long const k_version_build_number = VERSION_BUILD_NUMBER;
+int32 const k_version_build_number_version = VERSION_BUILD_NUMBER_VERSION;
+int32 const k_version_build_number = VERSION_BUILD_NUMBER;
 
 char const k_version_project_name[] = VERSION_PROJECT_NAME;
 char const k_version_project_version[] = VERSION_PROJECT_VERSION;
@@ -160,18 +160,18 @@ char const* __cdecl version_get_build_name()
 	return k_version_build_name;
 }
 
-long __cdecl version_get_build_number()
+int32 __cdecl version_get_build_number()
 {
 	//return 106708;
 	return k_version_build_number;
 }
 
-__int64 __cdecl version_get_build_number_identifier()
+int64 __cdecl version_get_build_number_identifier()
 {
 	return make_int64(version_get_build_number(), version_get_build_number_sequence_identifier());
 }
 
-long __cdecl version_get_build_number_sequence_identifier()
+int32 __cdecl version_get_build_number_sequence_identifier()
 {
 	return 2;
 }

@@ -32,8 +32,8 @@ c_http_client::c_http_client() :
 bool c_http_client::do_work(
 	bool* upload_complete,
 	char* out_response_content_buffer,
-	long* out_response_content_buffer_count,
-	long* out_http_response_code
+	int32* out_response_content_buffer_count,
+	int32* out_http_response_code
 )
 {
 	ASSERT(upload_complete);
@@ -140,11 +140,11 @@ uint32 c_http_client::get_ip_address()
 	return 0;
 }
 
-void c_http_client::get_ip_address_string(long ipv4_address, c_static_string<16>* out_string)
+void c_http_client::get_ip_address_string(int32 ipv4_address, c_static_string<16>* out_string)
 {
 	union
 	{
-		long value;
+		int32 value;
 		uint8 bytes[4];
 	};
 
@@ -153,17 +153,17 @@ void c_http_client::get_ip_address_string(long ipv4_address, c_static_string<16>
 	out_string->print("%d.%d.%d.%d", bytes[0], bytes[1], bytes[2], bytes[3]);
 }
 
-long c_http_client::get_upload_length()
+int32 c_http_client::get_upload_length()
 {
 	return m_http_stream->get_length();
 }
 
-long c_http_client::get_upload_position()
+int32 c_http_client::get_upload_position()
 {
 	return m_http_stream->get_position();
 }
 
-long c_http_client::get_upstream_quota()
+int32 c_http_client::get_upstream_quota()
 {
 	return m_upstream_quota;
 }
@@ -180,11 +180,11 @@ bool c_http_client::is_started()
 
 bool c_http_client::parse_http_response(
 	char const* buffer,
-	long buffer_length,
+	int32 buffer_length,
 	bool* out_completed_successfully,
-	long* http_header_size,
-	long* http_response_code,
-	long* content_length
+	int32* http_header_size,
+	int32* http_response_code,
+	int32* content_length
 )
 {
 	ASSERT(buffer);
@@ -208,8 +208,8 @@ bool c_http_client::parse_http_response(
 
 		*http_response_code = atoi(http_response.get_string() + 9);
 
-		long next_index = 0;
-		for (long index = http_response.index_of("\r\n") + 2;; index = next_index + 2)
+		int32 next_index = 0;
+		for (int32 index = http_response.index_of("\r\n") + 2;; index = next_index + 2)
 		{
 			if (index >= http_response.length())
 				break;
@@ -244,8 +244,8 @@ bool c_http_client::parse_http_response(
 bool __thiscall c_http_client::receive_data(
 	bool* out_completed_successfully,
 	char* out_response_content_buffer,
-	long* out_response_content_buffer_count,
-	long* out_http_response_code
+	int32* out_response_content_buffer_count,
+	int32* out_http_response_code
 )
 {
 	bool result = false;
@@ -253,8 +253,8 @@ bool __thiscall c_http_client::receive_data(
 	ASSERT(out_completed_successfully);
 	ASSERT(m_current_state == _upload_state_receiving_header || m_current_state == _upload_state_receiving_content);
 
-	short bytes_read = 0;
-	long input_buffer_size = 0;
+	int16 bytes_read = 0;
+	int32 input_buffer_size = 0;
 	*out_completed_successfully = false;
 
 	if (out_response_content_buffer_count)
@@ -266,7 +266,7 @@ bool __thiscall c_http_client::receive_data(
 
 	if (4096 - m_response_buffer_count > 0 && (m_current_state == _upload_state_receiving_header || m_bytes_remaining > 0))
 	{
-		bytes_read = transport_endpoint_read(m_endpoint_ptr, m_response_buffer + m_response_buffer_count, static_cast<short>(4096 - m_response_buffer_count));
+		bytes_read = transport_endpoint_read(m_endpoint_ptr, m_response_buffer + m_response_buffer_count, static_cast<int16>(4096 - m_response_buffer_count));
 		if (bytes_read <= 0)
 		{
 			if (bytes_read == -2)
@@ -305,9 +305,9 @@ bool __thiscall c_http_client::receive_data(
 		if (m_current_state == _upload_state_receiving_header)
 		{
 			bool completed_successfully = false;
-			long http_header_size = 0;
-			long content_length = 0;
-			long http_response_code = 0;
+			int32 http_header_size = 0;
+			int32 content_length = 0;
+			int32 http_response_code = 0;
 
 			if (parse_http_response(m_response_buffer, m_response_buffer_count, &completed_successfully, &http_header_size, &http_response_code, &content_length))
 			{
@@ -322,8 +322,8 @@ bool __thiscall c_http_client::receive_data(
 						{
 							ASSERT(m_response_buffer_count >= http_header_size);
 
-							long bytes_of_content_ready = m_response_buffer_count - http_header_size;
-							for (long i = 0; i < bytes_of_content_ready; ++i)
+							int32 bytes_of_content_ready = m_response_buffer_count - http_header_size;
+							for (int32 i = 0; i < bytes_of_content_ready; ++i)
 								m_response_buffer[i] = m_response_buffer[i + http_header_size];
 
 							m_response_buffer_count = bytes_of_content_ready;
@@ -378,7 +378,7 @@ bool __thiscall c_http_client::receive_data(
 		csmemcpy(out_response_content_buffer, m_response_buffer, input_buffer_size);
 		*out_response_content_buffer_count = input_buffer_size;
 
-		for (long i = 0; i < m_response_buffer_count - input_buffer_size; ++i)
+		for (int32 i = 0; i < m_response_buffer_count - input_buffer_size; ++i)
 			m_response_buffer[i] = m_response_buffer[i + input_buffer_size];
 
 		m_response_buffer_count -= input_buffer_size;
@@ -395,17 +395,17 @@ bool c_http_client::send_data()
 	ASSERT(m_current_state == _upload_state_sending);
 
 	char buffer[4096]{};
-	long buffer_length = 4096;
+	int32 buffer_length = 4096;
 
-	long upstream_quota = NONE;
+	int32 upstream_quota = NONE;
 	if (m_upstream_quota != NONE)
-		upstream_quota = static_cast<long>((m_upstream_quota * (m_start_time - m_previous_time)) / 1000);
+		upstream_quota = static_cast<int32>((m_upstream_quota * (m_start_time - m_previous_time)) / 1000);
 
 	bool result = true;
 	while (result && (upstream_quota == NONE || upstream_quota > 0))
 	{
-		long position = m_http_stream->get_position();
-		long bytes_read = 0;
+		int32 position = m_http_stream->get_position();
+		int32 bytes_read = 0;
 
 		result = false;
 		if (!transport_endpoint_writeable(m_endpoint_ptr))
@@ -420,7 +420,7 @@ bool c_http_client::send_data()
 			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
-				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<short>(bytes_read));
+				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<int16>(bytes_read));
 			else
 				bytes_written = 0;
 
@@ -472,12 +472,12 @@ bool c_http_client::send_data()
 	return result;
 }
 
-void c_http_client::set_upstream_quota(long upstream_quota)
+void c_http_client::set_upstream_quota(int32 upstream_quota)
 {
 	m_upstream_quota = upstream_quota;
 }
 
-bool c_http_client::start(c_http_stream* stream, long ip_address, uint16 port, char const* url, bool endpoint_is_alpha)
+bool c_http_client::start(c_http_stream* stream, int32 ip_address, uint16 port, char const* url, bool endpoint_is_alpha)
 {
 	ASSERT(stream);
 	ASSERT(url);

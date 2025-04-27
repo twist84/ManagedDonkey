@@ -28,9 +28,9 @@ enum e_node_joint_flags
 struct s_animation_graph_node
 {
 	c_string_id name;
-	short next_sibling_node_index;
-	short first_child_node_index;
-	short parent_node_index;
+	int16 next_sibling_node_index;
+	int16 first_child_node_index;
+	int16 parent_node_index;
 	c_flags<e_animation_node_model_flags, uint8, k_animation_node_model_flags> model_flags;
 	c_flags<e_node_joint_flags, uint8, k_node_joint_flags> node_joint_flags;
 	real_vector3d base_vector;
@@ -45,7 +45,7 @@ struct s_animation_inheritence
 	s_tag_block node_remap;
 	s_tag_block node_remap_flags;
 	real32 z_scale;
-	long inheritance_flags;
+	int32 inheritance_flags;
 };
 static_assert(sizeof(s_animation_inheritence) == 0x30);
 
@@ -56,7 +56,7 @@ struct c_animation_graph_definitions
 	s_tag_reference parent_animation_graph;
 	uint8 inheritance_flags;
 	uint8 private_flags;
-	short animation_codec_pack;
+	int16 animation_codec_pack;
 	c_typed_tag_block<s_animation_graph_node> skeleton_nodes;
 	s_tag_block sound_references;
 	s_tag_block effect_references;
@@ -96,16 +96,16 @@ static_assert(sizeof(c_model_animation_tag_resource) == sizeof(s_tag_block));
 
 struct c_model_animation_tag_resource_group
 {
-	long reference_count;
+	int32 reference_count;
 	s_tag_resource tag_resource;
 };
 static_assert(sizeof(c_model_animation_tag_resource_group) == 0xC);
 
 struct c_model_animation_tag_resource_member
 {
-	long UNUSED_animation_index;
+	int32 UNUSED_animation_index;
 	uint32 production_checksum;
-	short frame_count;
+	int16 frame_count;
 	uint8 node_count;
 	uint8 movement_data_type;
 	c_animation_data_sizes data_sizes;
@@ -117,13 +117,13 @@ struct c_model_animation
 {
 	c_string_id name;
 	real32 weight;
-	short private_loop_frame_index;
+	int16 private_loop_frame_index;
 	uint16 playback_flags;
 	char blend_screen_index;
 	char desired_compression_setting;
 	char current_compression_setting;
 	uint8 node_count;
-	short frame_count;
+	int16 frame_count;
 	char animation_type;
 	char frame_info_type;
 	uint16 production_flags;
@@ -132,10 +132,10 @@ struct c_model_animation
 	uint32 production_checksum;
 	uint16 importer_version;
 	uint16 compressor_version;
-	short runtime_parent_animation_index;
-	short next_animation_index;
-	short resource_group_index;
-	short resource_group_member_index;
+	int16 runtime_parent_animation_index;
+	int16 next_animation_index;
+	int16 resource_group_index;
+	int16 resource_group_member_index;
 	s_tag_block frame_events;
 	s_tag_block sound_events;
 	s_tag_block effect_events;
@@ -151,9 +151,9 @@ static_assert(sizeof(c_model_animation) == 0x88);
 struct c_model_animation_graph
 {
 public:
-	static c_model_animation_graph const* __cdecl get(long definition_index);
-	static c_model_animation_graph const* __cdecl get_from_object_definition(long object_definition_index);
-	s_animation_graph_node* get_node(long node_index) const;
+	static c_model_animation_graph const* __cdecl get(int32 definition_index);
+	static c_model_animation_graph const* __cdecl get_from_object_definition(int32 object_definition_index);
+	s_animation_graph_node* get_node(int32 node_index) const;
 
 //protected:
 	c_animation_graph_definitions definitions;

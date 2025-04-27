@@ -36,6 +36,6 @@ void __cdecl game_sound_player_effects_initialize_for_new_map()
 //.text:006787D0 ; 
 //.text:006788B0 ; void __cdecl game_sound_player_effects_update(real32)
 //.text:00678B00 ; 
-//.text:00678B40 ; void __cdecl scripted_game_sound_player_effects_set_global_effect(long, real32)
+//.text:00678B40 ; void __cdecl scripted_game_sound_player_effects_set_global_effect(int32, real32)
 //.text:00678B60 ; 
 

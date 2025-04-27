@@ -124,14 +124,14 @@ char const* const g_token_names[k_token_count]
 	"\n",
 };
 
-long debug_menu_memory_available()
+int32 debug_menu_memory_available()
 {
 	return 4 * (262144 - g_debug_menu_stack.count());
 }
 
-void debug_menu_look_ahead_read_token(FILE* menu_file, long c, char* token_buffer, long token_buffer_count)
+void debug_menu_look_ahead_read_token(FILE* menu_file, int32 c, char* token_buffer, int32 token_buffer_count)
 {
-	long menu_file_size = ftell(menu_file);
+	int32 menu_file_size = ftell(menu_file);
 	*token_buffer = char(c);
 	token_buffer[1] = 0;
 	fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, menu_file);
@@ -144,13 +144,13 @@ bool string_in_string_case_insensitive(char const* source, char const* find)
 
 	bool result = false;
 
-	long source_length = 0;
+	int32 source_length = 0;
 	while (source[source_length])
 	{
 		source_length += 1;
 	}
 
-	long find_length = 0;
+	int32 find_length = 0;
 	while (find[find_length])
 	{
 		find_length += 1;
@@ -163,7 +163,7 @@ bool string_in_string_case_insensitive(char const* source, char const* find)
 	else
 	{
 		bool match = true;
-		long i = 0;
+		int32 i = 0;
 		while (i < source_length && i < find_length)
 		{
 			char source_char = tolower(source[i]);
@@ -256,7 +256,7 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 	g_parser_state.m_current_property_type = _property_none;
 }
 
-char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
+char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_variable)
 	{
@@ -266,8 +266,8 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 
 	char const* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
 
-	long console_global_index = NONE;
-	for (long i = 0; i < k_console_global_count; i++)
+	int32 console_global_index = NONE;
+	for (int32 i = 0; i < k_console_global_count; i++)
 	{
 		if (!csstricmp(g_parser_state.m_variable, k_console_globals[i].name) && k_console_globals[i].pointer)
 		{
@@ -298,18 +298,18 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		break;
 		case _hs_type_short_integer:
 		{
-			short inc_value = g_parser_state.m_has_inc ? (short)g_parser_state.m_inc : 1;
-			short max_value = g_parser_state.m_has_max ? (short)g_parser_state.m_max : SHRT_MAX - 1;
-			short min_value = g_parser_state.m_has_min ? (short)g_parser_state.m_min : SHRT_MIN + 1;
+			int16 inc_value = g_parser_state.m_has_inc ? (int16)g_parser_state.m_inc : 1;
+			int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
+			int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
 
 			item = new c_debug_menu_item_type_short(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
 		break;
 		case _hs_type_long_integer:
 		{
-			long inc_value = g_parser_state.m_has_inc ? (long)g_parser_state.m_inc : 1;
-			long max_value = g_parser_state.m_has_max ? (long)g_parser_state.m_max : LONG_MAX - 1;
-			long min_value = g_parser_state.m_has_min ? (long)g_parser_state.m_min : LONG_MIN + 1;
+			int32 inc_value = g_parser_state.m_has_inc ? (int32)g_parser_state.m_inc : 1;
+			int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
+			int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
 
 			item = new c_debug_menu_item_type_long(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
@@ -330,7 +330,7 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	return NULL;
 }
 
-char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
+char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_variable)
 	{
@@ -345,7 +345,7 @@ char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer
 	return NULL;
 }
 
-char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
+char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_item_type)
 	{
@@ -373,7 +373,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	char const* caption = g_parser_state.m_has_caption ? g_parser_state.m_caption : "";
 	c_debug_menu* child = NULL;
 
-	for (long i = 0; i < s_parser_state::k_string_length; i++)
+	for (int32 i = 0; i < s_parser_state::k_string_length; i++)
 	{
 		if (g_parser_state.m_name[i] == '\t')
 			g_parser_state.m_name[i] = ',';
@@ -407,7 +407,7 @@ void debug_menu_display_error(char const* error_text, bool error)
 	event(error == false ? _event_warning : _event_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
 }
 
-char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_length)
+char const* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debug_menu* menu, int32* line_count, char* error_buffer, int32 error_buffer_length)
 {
 	char const* parse_error = NULL;
 
@@ -423,7 +423,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 
 	while (file_char && file_char != NONE && !parse_error)
 	{
-		long advance_distance = 0;
+		int32 advance_distance = 0;
 		e_advance_type advance_process_type = _advance_type_process_token;
 
 		if (*parse_stack.get_top() == _parse_state_reading_number)
@@ -510,7 +510,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 					break;
 					case _symbol_quote:
 					{
-						long state = *parse_stack.get_top();
+						int32 state = *parse_stack.get_top();
 						if (state == _parse_state_reading_property_found_eqauls)
 						{
 							g_parser_state.m_string_buffer_index = 0;
@@ -640,17 +640,17 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& file_char, c_debug
 			e_tokens token = _token_none;
 			char token_buffer[1024]{};
 
-			long maximum_token_name_length = 0;
-			for (long i = 0; i < NUMBEROF(g_token_names); i++)
+			int32 maximum_token_name_length = 0;
+			for (int32 i = 0; i < NUMBEROF(g_token_names); i++)
 			{
-				long token_name_length = strlen(g_token_names[i]);
+				int32 token_name_length = strlen(g_token_names[i]);
 				if (token_name_length > maximum_token_name_length)
 					maximum_token_name_length = token_name_length;
 			}
 			ASSERT(maximum_token_name_length + 1 < NUMBEROF(token_buffer));
 
 			debug_menu_look_ahead_read_token(menu_file, file_char, token_buffer, maximum_token_name_length + 1);
-			for (long i = 0; i < NUMBEROF(g_token_names); i++)
+			for (int32 i = 0; i < NUMBEROF(g_token_names); i++)
 			{
 				if (string_in_string_case_insensitive(token_buffer, g_token_names[i]))
 				{
@@ -714,8 +714,8 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 	{
 		char error_buffer[1024]{};
 
-		long line_count = 1;
-		long file_char = (long)fgetc(file);
+		int32 line_count = 1;
+		int32 file_char = (int32)fgetc(file);
 		debug_menu_build_recursive(file, file_char, root_menu, &line_count, error_buffer, sizeof(error_buffer));
 		fclose(file);
 	}

@@ -15,12 +15,12 @@ enum
 
 struct s_game_save_globals
 {
-	long save_priority;
-	long ticks_until_next_save_check;
-	long save_start_time;
-	long safe_interval_count;
-	long time_of_last_game_save;
-	long unsafe_object_index;
+	int32 save_priority;
+	int32 ticks_until_next_save_check;
+	int32 save_start_time;
+	int32 safe_interval_count;
+	int32 time_of_last_game_save;
+	int32 unsafe_object_index;
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
@@ -31,7 +31,7 @@ extern bool __cdecl game_all_quiet();
 extern bool __cdecl game_safe_to_save();
 extern bool __cdecl game_safe_to_save_internal(bool a1);
 extern bool __cdecl game_safe_to_speak();
-extern void __cdecl game_save(long save_priority);
+extern void __cdecl game_save(int32 save_priority);
 extern void __cdecl game_save_cancel();
 extern void __cdecl game_save_cinematic_skip();
 extern void __cdecl game_save_dispose();

@@ -15,10 +15,10 @@ struct data_packet_group_packet;
 struct data_packet_group_definition
 {
 	char const* name;
-	short packet_type_count;
-	short packet_class_count;
-	long maximum_decoded_packet_size;
-	long maximum_encoded_packet_size;
+	int16 packet_type_count;
+	int16 packet_class_count;
+	int32 maximum_decoded_packet_size;
+	int32 maximum_encoded_packet_size;
 	data_packet_group_packet* packets;
 };
 
@@ -27,5 +27,5 @@ struct packet_header
 	char type;
 };
 
-extern unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definition* group_definition, void* a2, void* encoded_packet, short* encoded_packet_size, short packet_type, short version);
+extern unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definition* group_definition, void* a2, void* encoded_packet, int16* encoded_packet_size, int16 packet_type, int16 version);
 

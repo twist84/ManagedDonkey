@@ -165,7 +165,7 @@ void c_console::write_line_va(wchar_t const* format, va_list list)
 		OutputDebugStringW(str.get_string());
 }
 
-void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
+void get_error_message(uint32 message_id, char(&message_buffer)[2048])
 {
 	ASSERT(message_buffer);
 

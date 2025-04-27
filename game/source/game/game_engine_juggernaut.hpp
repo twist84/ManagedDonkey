@@ -35,7 +35,7 @@ public:
 	bool get_destination_zones_enabled() const;
 	void set_destination_zones_enabled(bool destination_zones_enabled);
 
-	void set_score_to_win_round(short score_to_win_round);
+	void set_score_to_win_round(int16 score_to_win_round);
 
 	e_juggernaut_initial_juggernaut_settings get_initial_juggernaut() const;
 	void set_initial_juggernaut(e_juggernaut_initial_juggernaut_settings initial_juggernaut);
@@ -44,7 +44,7 @@ public:
 	void set_next_juggernaut(e_juggernaut_next_juggernaut_settings next_juggernaut);
 
 	e_juggernaut_zone_movement_settings get_zone_movement() const;
-	long get_zone_movement_time_in_seconds() const;
+	int32 get_zone_movement_time_in_seconds() const;
 	void set_zone_movement(e_juggernaut_zone_movement_settings zone_movement);
 
 	e_juggernaut_zone_order_settings get_zone_order() const;
@@ -76,8 +76,8 @@ public:
 	void set_juggernaut_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_enum<long, short, 0, 500> m_score_to_win_round;         // default: 15
-	c_enum<long, short, 0, 500> m_score_unknown;              // default: 13, halo online specific
+	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15
+	c_enum<int32, int16, 0, 500> m_score_unknown;              // default: 13, halo online specific
 
 	uint8 m_pad[2];
 
@@ -86,13 +86,13 @@ protected:
 	c_flags<e_juggernaut_variant_flags, uint8, k_juggernaut_variant_flags> m_variant_flags;
 	c_enum<e_juggernaut_zone_movement_settings, uint8, _juggernaut_zone_movement_settings_off, k_number_of_juggernaut_zone_movement_settings> m_zone_movement;
 	c_enum<e_juggernaut_zone_order_settings, uint8, _juggernaut_zone_order_settings_random, k_juggernaut_zone_order_settings> m_zone_order;
-	c_enum<long, char, -10, 10> m_kill_points;                // default: 0
-	c_enum<long, char, -10, 10> m_juggernaut_kill_points;     // default: 1
-	c_enum<long, char, -10, 10> m_kill_as_juggernaut_points;  // default: 1
-	c_enum<long, char, -10, 10> m_destination_arrival_points; // default: 1
-	c_enum<long, char, -10, 10> m_suicide_points;             // default: 1
-	c_enum<long, char, -10, 10> m_betrayal_points;            // default: 1
-	c_enum<long, uint8, 0, 10> m_juggernaut_delay;             // default: 0
+	c_enum<int32, char, -10, 10> m_kill_points;                // default: 0
+	c_enum<int32, char, -10, 10> m_juggernaut_kill_points;     // default: 1
+	c_enum<int32, char, -10, 10> m_kill_as_juggernaut_points;  // default: 1
+	c_enum<int32, char, -10, 10> m_destination_arrival_points; // default: 1
+	c_enum<int32, char, -10, 10> m_suicide_points;             // default: 1
+	c_enum<int32, char, -10, 10> m_betrayal_points;            // default: 1
+	c_enum<int32, uint8, 0, 10> m_juggernaut_delay;             // default: 0
 	c_player_traits m_juggernaut_traits;
 
 	uint8 m_pad1[2];
@@ -108,13 +108,13 @@ public:
 
 struct s_juggernaut_globals
 {
-	long juggernaut_player_index;
-	short juggernaut_delay_seconds;
+	int32 juggernaut_player_index;
+	int16 juggernaut_delay_seconds;
 	bool juggernaut_visited_zone;
-	long juggernaut_delay_ticks;
+	int32 juggernaut_delay_ticks;
 	c_area_set<c_area, 12> zones;
-	c_static_array<long, 16> juggernaut_kills;
-	long juggernaut_player_index_at_game_update_start;
+	c_static_array<int32, 16> juggernaut_kills;
+	int32 juggernaut_player_index_at_game_update_start;
 };
 static_assert(sizeof(s_juggernaut_globals) == 0x510);
 

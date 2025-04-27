@@ -10,15 +10,15 @@ bool collision_log_time = false;
 bool global_collision_log_enable = false;
 bool global_collision_log_switch_pending = false;
 bool global_collision_log_switch_pending_value = false;
-short global_current_collision_user_depth = 0;
-short global_collision_period_depth = 0;
+int16 global_current_collision_user_depth = 0;
+int16 global_collision_period_depth = 0;
 //collision_period collision_usage_last_frame_buffer[NUMBER_OF_COLLISION_TIME_PERIODS]{};
 //collision_period unknown;
 //collision_period collision_usage_this_frame_buffer[NUMBER_OF_COLLISION_TIME_PERIODS]{};
 //collision_period unknown;
 //collision_period collision_usage_current;
-short global_collision_periods[MAXIMUM_COLLISION_PERIOD_STACK_DEPTH]{};
-short global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH]{};
+int16 global_collision_periods[MAXIMUM_COLLISION_PERIOD_STACK_DEPTH]{};
+int16 global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH]{};
 
 void __cdecl collision_log_initialize()
 {
@@ -48,7 +48,7 @@ void collision_log_render()
 	}
 }
 
-void collision_log_usage(short collision_function)
+void collision_log_usage(int16 collision_function)
 {
 	// $TODO: implement
 }

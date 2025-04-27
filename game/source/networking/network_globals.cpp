@@ -196,7 +196,7 @@ void __cdecl network_dispose()
 		network_broadcast_search_dispose();
 		network_session_tracker_dispose();
 	
-		for (long session_index = 0; session_index < 3; session_index++)
+		for (int32 session_index = 0; session_index < 3; session_index++)
 			g_network_sessions[session_index].destroy_session();
 	
 		g_network_observer->destroy_observer();
@@ -407,7 +407,7 @@ void __cdecl network_send()
 		{
 			NETWORK_ENTER_AND_LOCK_TIME;
 
-			for (long i = 0; i < k_network_session_type_count; i++)
+			for (int32 i = 0; i < k_network_session_type_count; i++)
 				g_network_sessions[i].idle();
 
 			g_network_observer->monitor();
@@ -549,7 +549,7 @@ void network_test_set_game_variant(char const* game_engine_name)
 {
 	e_game_engine_type game_engine_index = _game_engine_type_none;
 
-	for (long i = _game_engine_type_none; i < k_game_engine_type_count; i++)
+	for (int32 i = _game_engine_type_none; i < k_game_engine_type_count; i++)
 	{
 		if (csstricmp(game_engine_name, game_engine_type_get_string(i)) != 0)
 			continue;
@@ -564,7 +564,7 @@ void network_test_set_session_mode(char const* session_mode_name)
 {
 	e_network_session_mode session_mode = _network_session_mode_none;
 
-	for (long i = _network_session_mode_none; i < k_network_session_mode_count; i++)
+	for (int32 i = _network_session_mode_none; i < k_network_session_mode_count; i++)
 	{
 		if (csstricmp(session_mode_name, network_session_mode_get_name(i)) != 0)
 			continue;
@@ -579,7 +579,7 @@ void network_test_set_ui_game_mode(char const* ui_game_mode_name)
 {
 	e_gui_game_mode ui_game_mode = _ui_game_mode_none;
 
-	for (long i = _ui_game_mode_campaign; i < k_ui_game_mode_count; i++)
+	for (int32 i = _ui_game_mode_campaign; i < k_ui_game_mode_count; i++)
 	{
 		if (csstricmp(ui_game_mode_name, ui_game_mode_get_name(i)) != 0)
 			continue;
@@ -594,7 +594,7 @@ void network_test_set_advertisement_mode(char const* advertisement_mode_name)
 {
 	e_gui_network_session_advertisement_mode advertisement_mode = _gui_network_session_advertisement_mode_invalid;
 
-	for (long i = _gui_network_session_advertisement_mode_open_to_public; i < k_gui_network_session_advertisement_mode_count; i++)
+	for (int32 i = _gui_network_session_advertisement_mode_open_to_public; i < k_gui_network_session_advertisement_mode_count; i++)
 	{
 		if (csstricmp(advertisement_mode_name, gui_network_session_advertisement_mode_get_name(i)) != 0)
 			continue;
@@ -605,11 +605,11 @@ void network_test_set_advertisement_mode(char const* advertisement_mode_name)
 	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, advertisement_mode);
 }
 
-void network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value)
+void network_test_set_game_variant_parameter(char const* parameter_name, int32 value, int32* old_value)
 {
 	e_game_variant_parameter parameter = k_game_variant_parameter_none;
 
-	for (long i = _game_variant_base_miscellaneous_teams; i < k_game_variant_parameter_count; i++)
+	for (int32 i = _game_variant_base_miscellaneous_teams; i < k_game_variant_parameter_count; i++)
 	{
 		if (csstricmp(parameter_name, game_variant_parameter_get_name(i)) != 0)
 			continue;
@@ -723,14 +723,14 @@ void network_test_text_chat_directed(transport_address const* address, char cons
 	}
 }
 
-void network_test_set_player_color(long profile_color_index)
+void network_test_set_player_color(int32 profile_color_index)
 {
 	if (!VALID_INDEX(profile_color_index, s_game_globals::profile_colors.count))
 		return;
 
 	rgb_color profile_color = s_game_globals::profile_colors[profile_color_index];
 
-	for (long user_index = 0; user_index < 4; user_index++)
+	for (int32 user_index = 0; user_index < 4; user_index++)
 	{
 		e_controller_index controller_index = _controller0;
 		s_player_configuration player_data{};

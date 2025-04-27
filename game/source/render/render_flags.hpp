@@ -20,7 +20,7 @@ public:
 	};
 
 	static void __cdecl prepare_for_frame();
-	static void __cdecl prepare_for_player_window(long player_window_index);
+	static void __cdecl prepare_for_player_window(int32 player_window_index);
 	static void __cdecl set_frame_bit(e_frame_bit frame_bit, uint32 flags);
 	static bool __cdecl test_frame_bit(e_frame_bit frame_bit);
 	static bool __cdecl test_last_window_bit(e_window_bit window_bit);

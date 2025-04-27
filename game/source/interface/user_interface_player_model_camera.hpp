@@ -19,7 +19,7 @@ struct c_user_interface_player_model_camera
 	s_player_model_camera_state m_current_camera_state;
 	s_player_model_camera_state m_desired_camera_state;
 	real32 __unknown78;
-	long __unknown7C;
+	int32 __unknown7C;
 };
 static_assert(sizeof(c_user_interface_player_model_camera) == 0x80);
 

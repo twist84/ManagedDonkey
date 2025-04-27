@@ -54,7 +54,7 @@ struct s_game_results_player_data
 	uint8 player_standing;
 	uint8 __pad1631[0xB];
 
-	long player_score;
+	int32 player_score;
 };
 static_assert(sizeof(s_game_results_player_data) == 0x1640);
 
@@ -266,7 +266,7 @@ struct s_game_results_event
 			/* 0x04 */ real_point3d killing_player_position;
 			/* 0x10 */ real_point3d dead_player_position;
 
-			/* 0x1C */ c_enum<e_damage_reporting_type, long, _damage_reporting_type_unknown, k_damage_reporting_type_count> tracked_damage_type; // from damage reporting info
+			/* 0x1C */ c_enum<e_damage_reporting_type, int32, _damage_reporting_type_unknown, k_damage_reporting_type_count> tracked_damage_type; // from damage reporting info
 		} kill;
 
 		struct
@@ -277,8 +277,8 @@ struct s_game_results_event
 
 			/* 0x04 */ real_point3d player_position;
 
-			/* 0x10 */ long carry;      // weapon_identifier?
-			/* 0x14 */ long carry_type; // e_game_results_event_carry_type
+			/* 0x10 */ int32 carry;      // weapon_identifier?
+			/* 0x14 */ int32 carry_type; // e_game_results_event_carry_type
 		} carry;
 
 		struct
@@ -289,8 +289,8 @@ struct s_game_results_event
 
 			/* 0x04 */ real_point3d player_position;
 
-			/* 0x10 */ long score;
-			/* 0x14 */ long score_type; // e_game_results_event_score_type
+			/* 0x10 */ int32 score;
+			/* 0x14 */ int32 score_type; // e_game_results_event_score_type
 		} score;
 #pragma pack(pop)
 
@@ -323,7 +323,7 @@ struct s_game_results_globals
 	bool recording;
 	bool recording_paused;
 	bool updating;
-	long event_index;
+	int32 event_index;
 	uint32 __time8;
 	c_game_results* results;
 };
@@ -336,7 +336,7 @@ struct c_game_results_replicator
 	bool m_has_fatal_error;
 	bool m_sending_updates;
 	bool m_receiving_updates;
-	long m_incremental_update_number;
+	int32 m_incremental_update_number;
 	uint32 __unknownC;
 	s_game_results_incremental m_incremental;
 	uint32 __time1B460;
@@ -368,9 +368,9 @@ extern c_game_results& g_current_game_results;
 
 struct c_bitstream;
 
-extern void __cdecl game_results_statistic_increment(long player_absolute_index, long team_index, e_game_results_statistic statistic, long a4);
-extern void __cdecl game_results_statistic_set(long player_absolute_index, long team_index, e_game_results_statistic statistic, long a4);
-extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, long statistics_count, s_integer_statistic_definition const* statistic_definitions, long statistics_definitions_count);
-extern void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_statistic_update const* statistics, long statistics_count, s_integer_statistic_definition const* statistic_definitions, long statistics_definitions_count);
+extern void __cdecl game_results_statistic_increment(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
+extern void __cdecl game_results_statistic_set(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
+extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count);
+extern void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_statistic_update const* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count);
 extern void __cdecl game_results_update();
 

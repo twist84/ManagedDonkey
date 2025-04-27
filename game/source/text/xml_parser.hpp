@@ -8,7 +8,7 @@ template<typename t_character_type>
 struct c_xml_tag_parser
 {
 public:
-	virtual bool parse_tag(t_character_type const* a1, long* a2, t_character_type* a3, long a4, long* a5) = 0;
+	virtual bool parse_tag(t_character_type const* a1, int32* a2, t_character_type* a3, int32 a4, int32* a5) = 0;
 	virtual ~c_xml_tag_parser() { }
 
 	c_xml_tag_parser(t_character_type const* xml_tag) :

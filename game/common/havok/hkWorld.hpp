@@ -37,8 +37,8 @@ struct hkBroadPhaseBorder;
 struct hkMultiThreadLock
 {
 	unsigned int m_threadId;
-	short m_lockCount;
-	unsigned short m_lockBitStack;
+	int16 m_lockCount;
+	uint16 m_lockBitStack;
 };
 
 struct hkStepInfo
@@ -57,7 +57,7 @@ struct hkSolverInfo
 		float m_angularVelocityThresholdInv;
 		float m_slowObjectVelocityMultiplier;
 		float m_relativeSleepVelocityThreshold;
-		unsigned short m_stepsToDeactivate;
+		uint16 m_stepsToDeactivate;
 		float m_maxDistSqrd[2];
 		hkHalf m_maxRotSqrd[2];
 	};
@@ -78,8 +78,8 @@ struct hkSolverInfo
 	hkSolverInfo::DeactivationInfo m_deactivationInfo[6];
 	float m_deltaTime;
 	float m_invDeltaTime;
-	long m_numSteps;
-	long m_numMicroSteps;
+	int32 m_numSteps;
+	int32 m_numMicroSteps;
 	float m_invNumMicroSteps;
 	float m_invNumSteps;
 	hkBool m_forceCoherentConstraintOrderingInSolver;
@@ -124,13 +124,13 @@ public:
 	hkCollisionDispatcher* m_collisionDispatcher;
 	hkConvexListFilter* m_convexListFilter;
 	hkWorldOperationQueue* m_pendingOperations;
-	long m_pendingOperationsCount;
-	long m_criticalOperationsLockCount;
-	long m_criticalOperationsLockCountForPhantoms;
+	int32 m_pendingOperationsCount;
+	int32 m_criticalOperationsLockCount;
+	int32 m_criticalOperationsLockCountForPhantoms;
 	hkBool m_blockExecutingPendingOperations;
 	hkBool m_criticalOperationsAllowed;
 	hkDebugInfoOnPendingOperationQueues* m_pendingOperationQueues;
-	long m_pendingOperationQueueCount;
+	int32 m_pendingOperationQueueCount;
 	hkMultiThreadLock m_multiThreadLock;
 	hkBool m_processActionsInSingleThread;
 	unsigned int m_minDesiredIslandSize;
@@ -150,7 +150,7 @@ public:
 	float m_lowFrequencyDeactivationPeriod;
 	float m_deactivationReferenceDistance;
 	float m_toiCollisionResponseRotateNormal;
-	long m_simulationType;
+	int32 m_simulationType;
 	unsigned int m_lastEntityUid;
 	hkArray<hkPhantom> m_phantoms;
 	hkArray<hkActionListener> m_actionListeners;
@@ -168,10 +168,10 @@ public:
 	hkBroadPhaseBorder* m_broadPhaseBorder;
 	hkWorldDynamicsStepInfo m_dynamicsStepInfo;
 	hkVector4 m_broadPhaseExtents[2];
-	long m_broadPhaseNumMarkers;
-	long m_sizeOfToiEventQueue;
-	long m_broadPhaseQuerySize;
-	long m_broadPhaseUpdateSize;
+	int32 m_broadPhaseNumMarkers;
+	int32 m_sizeOfToiEventQueue;
+	int32 m_broadPhaseQuerySize;
+	int32 m_broadPhaseUpdateSize;
 	signed char m_contactPointGeneration;
 };
 static_assert(sizeof(hkWorld) == 0x320);
@@ -265,10 +265,10 @@ static_assert(sizeof(hkSimulation) == 0x28);
 
 struct hkConstraintInfo
 {
-	long m_maxSizeOfSchema;
-	long m_sizeOfSchemas;
-	long m_numSolverResults;
-	long m_numSolverElemTemps;
+	int32 m_maxSizeOfSchema;
+	int32 m_sizeOfSchemas;
+	int32 m_numSolverResults;
+	int32 m_numSolverElemTemps;
 };
 static_assert(sizeof(hkConstraintInfo) == 0x10);
 
@@ -305,9 +305,9 @@ struct hkSimulationIsland :
 	public hkConstraintOwner
 {
 	hkWorld* m_world;
-	long m_numConstraints;
-	unsigned short m_storageIndex;
-	unsigned short m_dirtyListIndex;
+	int32 m_numConstraints;
+	uint16 m_storageIndex;
+	uint16 m_dirtyListIndex;
 	unsigned char m_splitCheckFrameCounter;
 	unsigned char m_highFrequencyDeactivationCounter;
 	unsigned char m_lowFrequencyDeactivationCounter;

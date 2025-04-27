@@ -56,7 +56,7 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 		request_state_change(_life_cycle_state_leaving, sizeof(bool), &disconnect);
 }
 
-void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void const* entry_data)
+void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, int32 entry_data_size, void const* entry_data)
 {
 	//INVOKE_CLASS_MEMBER(0x0048DE50, c_life_cycle_state_manager, request_state_change, state, entry_data_size, entry_data);
 
@@ -75,7 +75,7 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 	}
 }
 
-void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data)
+void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int32 entry_data_size, void* entry_data)
 {
 	//INVOKE_CLASS_MEMBER(0x0048E0E0, c_life_cycle_state_manager, set_current_state, state, entry_data_size, entry_data);
 

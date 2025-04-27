@@ -10,12 +10,12 @@ HOOK_DECLARE(0x004630D0, network_blf_read_for_known_chunk);
 HOOK_DECLARE(0x00463240, network_blf_verify_end_of_file);
 HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
 
-void s_blf_header::setup(long _chunk_type, long _chunk_size, long _major_version, long _minor_version)
+void s_blf_header::setup(int32 _chunk_type, int32 _chunk_size, int32 _major_version, int32 _minor_version)
 {
 	chunk_type = _chunk_type;
 	chunk_size = _chunk_size;
-	major_version = static_cast<short>(_major_version);
-	minor_version = static_cast<short>(_minor_version);
+	major_version = static_cast<int16>(_major_version);
+	minor_version = static_cast<int16>(_minor_version);
 }
 
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
@@ -67,8 +67,8 @@ void s_blf_chunk_content_header::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	build_number = static_cast<short>(version_get_build_number());
-	map_minor_version = static_cast<short>(get_map_minor_version());
+	build_number = static_cast<int16>(version_get_build_number());
+	map_minor_version = static_cast<int16>(get_map_minor_version());
 
 	metadata.name[0] = 0;
 	metadata.description[0] = 0;
@@ -135,7 +135,7 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 	//return INVOKE_CLASS_MEMBER(0x00573250, s_blffile_map_variant, copy_to_and_validate, map_variant, is_valid);
 
 	bool byte_swap = false;
-	long chunk_size = 0;
+	int32 chunk_size = 0;
 	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &byte_swap, &chunk_size))
 		return false;
 
@@ -240,7 +240,7 @@ s_blf_saved_film::s_blf_saved_film() :
 bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_variant* map_variant, bool* is_valid) const
 {
 	bool byte_swap = false;
-	long chunk_size = 0;
+	int32 chunk_size = 0;
 	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_saved_film), &byte_swap, &chunk_size))
 		return false;
 
@@ -303,7 +303,7 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	zero_array(__pad112A);
 }
 
-template<typename insertion_struct, long insertion_count>
+template<typename insertion_struct, int32 insertion_count>
 s_blf_chunk_scenario_minor_version<insertion_struct, insertion_count>::s_blf_chunk_scenario_minor_version() :
 	s_blf_chunk_scenario()
 {
@@ -320,14 +320,14 @@ s_blf_chunk_scenario_atlas::s_blf_chunk_scenario_atlas() :
 {
 }
 
-bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool must_byte_swap, long desired_chunk_type, short desired_version_major, long* out_chunk_size, char const** out_found_chunk_data_size, long* out_chunk_buffer_size, short* out_version_minor, bool* out_eof_found)
+bool __cdecl network_blf_find_chunk(char const* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, char const** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found)
 {
 	bool result = false;
 
 	while (!result)
 	{
 		char const* chunk_buffer = nullptr;
-		long chunk_size = 0;
+		int32 chunk_size = 0;
 		bool eof_chunk = false;
 
 		bool read_result = network_blf_read_for_known_chunk(buffer, buffer_count, must_byte_swap, desired_chunk_type, desired_version_major, &chunk_size, &chunk_buffer, out_chunk_buffer_size, out_version_minor, &eof_chunk);
@@ -353,7 +353,7 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 	return result;
 }
 
-bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool must_byte_swap, long desired_chunk_type, short desired_version_major, long* out_chunk_size, char const** found_chunk_data, long* out_found_chunk_data_size, short* out_version_minor, bool* out_eof_found)
+bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, char const** found_chunk_data, int32* out_found_chunk_data_size, int16* out_version_minor, bool* out_eof_found)
 {
 	ASSERT(out_chunk_size);
 
@@ -377,10 +377,10 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 	{
 		s_blf_header const* chunk = reinterpret_cast<s_blf_header const*>(buffer);
 
-		long chunk_type = chunk->chunk_type;
-		long chunk_size = chunk->chunk_size;
-		short chunk_major_version = chunk->major_version;
-		short chunk_minor_version = chunk->minor_version;
+		int32 chunk_type = chunk->chunk_type;
+		int32 chunk_size = chunk->chunk_size;
+		int16 chunk_major_version = chunk->major_version;
+		int16 chunk_minor_version = chunk->minor_version;
 
 		if (must_byte_swap)
 		{
@@ -435,14 +435,14 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 	return result;
 }
 
-bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
+bool __cdecl network_blf_verify_end_of_file(char const* buffer, int32 buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
 {
 	bool result = false;
 	HOOK_INVOKE(result =, network_blf_verify_end_of_file, buffer, buffer_count, byte_swap, eof_chunk_buffer, authentication_type);
 	return result;
 }
 
-bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_count, bool* out_byte_swap, long* out_chunk_size)
+bool __cdecl network_blf_verify_start_of_file(char const* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size)
 {
 	bool result = false;
 
@@ -453,10 +453,10 @@ bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_co
 	{
 		s_blf_chunk_start_of_file const* sof_chunk = reinterpret_cast<s_blf_chunk_start_of_file const*>(buffer);
 
-		long chunk_type = sof_chunk->header.chunk_type;
-		long chunk_size = sof_chunk->header.chunk_size;
-		short chunk_major_version = sof_chunk->header.major_version;
-		short chunk_minor_version = sof_chunk->header.minor_version;
+		int32 chunk_type = sof_chunk->header.chunk_type;
+		int32 chunk_size = sof_chunk->header.chunk_size;
+		int16 chunk_major_version = sof_chunk->header.major_version;
+		int16 chunk_minor_version = sof_chunk->header.minor_version;
 
 		if (out_byte_swap)
 			*out_byte_swap = false;

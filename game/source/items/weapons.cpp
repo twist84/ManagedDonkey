@@ -25,7 +25,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5B150 ; 
 //.text:00B5B160 ; 
 //.text:00B5B180 ; 
-//.text:00B5B1A0 ; void __cdecl emulated_first_person_animation_callback(s_animation_event_data const*, long)
+//.text:00B5B1A0 ; void __cdecl emulated_first_person_animation_callback(s_animation_event_data const*, int32)
 //.text:00B5B3D0 ; 
 //.text:00B5B460 ; 
 //.text:00B5B470 ; 
@@ -34,9 +34,9 @@ bool debug_weapons_secondary = false;
 //.text:00B5B4A0 ; 
 //.text:00B5B4B0 ; 
 //.text:00B5B4C0 ; 
-//.text:00B5B4D0 ; real32 __cdecl indirect_fire_compute_arcing_fraction(long, real32)
-//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(long, long, long, real_point3d const*, real_vector3d*, real32*)
-//.text:00B5B770 ; bool __cdecl indirect_fire_get_aim_target_position(long, real_point3d*)
+//.text:00B5B4D0 ; real32 __cdecl indirect_fire_compute_arcing_fraction(int32, real32)
+//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(int32, int32, int32, real_point3d const*, real_vector3d*, real32*)
+//.text:00B5B770 ; bool __cdecl indirect_fire_get_aim_target_position(int32, real_point3d*)
 //.text:00B5B7D0 ; 
 //.text:00B5B7E0 ; 
 //.text:00B5B8A0 ; 
@@ -47,35 +47,35 @@ bool debug_weapons_secondary = false;
 //.text:00B5B930 ; 
 //.text:00B5BA70 ; 
 //.text:00B5BA90 ; 
-//.text:00B5BD90 ; bool __cdecl weapon_action_can_be_interrupted(long)
-//.text:00B5BDD0 ; void __cdecl weapon_age(long, real32)
-//.text:00B5BEC0 ; bool __cdecl weapon_age_external(long)
-//.text:00B5BF40 ; bool __cdecl weapon_aim(long, short, real_point3d const*, real_point3d const*, real32*, bool, real_vector3d*, real32*, real32*, real32*, bool*)
-//.text:00B5C010 ; bool __cdecl weapon_allows_unaimed_lunge(long)
-//.text:00B5C060 ; void __cdecl weapon_apply_predicted_state(long)
+//.text:00B5BD90 ; bool __cdecl weapon_action_can_be_interrupted(int32)
+//.text:00B5BDD0 ; void __cdecl weapon_age(int32, real32)
+//.text:00B5BEC0 ; bool __cdecl weapon_age_external(int32)
+//.text:00B5BF40 ; bool __cdecl weapon_aim(int32, int16, real_point3d const*, real_point3d const*, real32*, bool, real_vector3d*, real32*, real32*, real32*, bool*)
+//.text:00B5C010 ; bool __cdecl weapon_allows_unaimed_lunge(int32)
+//.text:00B5C060 ; void __cdecl weapon_apply_predicted_state(int32)
 //.text:00B5C100 ; 
-//.text:00B5C1D0 ; void __cdecl weapon_barrel_accuracy_ding(long, s_projectile_accuracy_penalty_info::e_penalty_ding)
-//.text:00B5C2E0 ; void __cdecl weapon_barrel_accuracy_penalty_firing(long, long)
-//.text:00B5C430 ; void __cdecl weapon_barrel_accuracy_penalty_jump(long)
-//.text:00B5C450 ; void __cdecl weapon_barrel_accuracy_penalty_movement(long, long)
-//.text:00B5C610 ; void __cdecl weapon_barrel_accuracy_penalty_reload(long)
-//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(long, real_vector3d const*, real_vector3d const*)
-//.text:00B5C830 ; void __cdecl weapon_barrel_accuracy_penalty_weapon_switch(long)
-//.text:00B5C850 ; void __cdecl weapon_barrel_accuracy_penalty_zoom(long)
-//.text:00B5C870 ; bool __cdecl weapon_barrel_apply_fire_error(long, long, bool)
-//.text:00B5C940 ; bool __cdecl weapon_barrel_can_fire(long, short, bool)
-//.text:00B5CB90 ; bool __cdecl weapon_barrel_can_fire_this_tick(long, short, bool*, bool*,bool*)
-//.text:00B5CE60 ; bool __cdecl weapon_barrel_can_fire_this_tick_predicted(long, short, long*, long*, long*, long*, long*)
-//.text:00B5CF80 ; bool __cdecl weapon_barrel_check_for_reload(long, long)
-//.text:00B5D100 ; void __cdecl weapon_barrel_clear_empty_click_bit(long, short)
-//.text:00B5D150 ; void __cdecl weapon_barrel_compute_recovery_ticks(long, short, real32*, real32*)
-//.text:00B5D360 ; real32 __cdecl weapon_barrel_compute_ticks_per_round(long, short)
-//.text:00B5D5A0 ; void __cdecl weapon_barrel_create_projectiles(long, short, s_predicted_weapon_fire_data const*, bool)
-//.text:00B5F2D0 ; uint32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(long, s_predicted_weapon_fire_data const*, bool, bool, uint32*)
-//.text:00B5F470 ; bool __cdecl weapon_barrel_evaluate_penalty_function(long, long, bool, s_projectile_accuracy_penalty_functions::e_penalty_function, real32, real32*)
+//.text:00B5C1D0 ; void __cdecl weapon_barrel_accuracy_ding(int32, s_projectile_accuracy_penalty_info::e_penalty_ding)
+//.text:00B5C2E0 ; void __cdecl weapon_barrel_accuracy_penalty_firing(int32, int32)
+//.text:00B5C430 ; void __cdecl weapon_barrel_accuracy_penalty_jump(int32)
+//.text:00B5C450 ; void __cdecl weapon_barrel_accuracy_penalty_movement(int32, int32)
+//.text:00B5C610 ; void __cdecl weapon_barrel_accuracy_penalty_reload(int32)
+//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(int32, real_vector3d const*, real_vector3d const*)
+//.text:00B5C830 ; void __cdecl weapon_barrel_accuracy_penalty_weapon_switch(int32)
+//.text:00B5C850 ; void __cdecl weapon_barrel_accuracy_penalty_zoom(int32)
+//.text:00B5C870 ; bool __cdecl weapon_barrel_apply_fire_error(int32, int32, bool)
+//.text:00B5C940 ; bool __cdecl weapon_barrel_can_fire(int32, int16, bool)
+//.text:00B5CB90 ; bool __cdecl weapon_barrel_can_fire_this_tick(int32, int16, bool*, bool*,bool*)
+//.text:00B5CE60 ; bool __cdecl weapon_barrel_can_fire_this_tick_predicted(int32, int16, int32*, int32*, int32*, int32*, int32*)
+//.text:00B5CF80 ; bool __cdecl weapon_barrel_check_for_reload(int32, int32)
+//.text:00B5D100 ; void __cdecl weapon_barrel_clear_empty_click_bit(int32, int16)
+//.text:00B5D150 ; void __cdecl weapon_barrel_compute_recovery_ticks(int32, int16, real32*, real32*)
+//.text:00B5D360 ; real32 __cdecl weapon_barrel_compute_ticks_per_round(int32, int16)
+//.text:00B5D5A0 ; void __cdecl weapon_barrel_create_projectiles(int32, int16, s_predicted_weapon_fire_data const*, bool)
+//.text:00B5F2D0 ; uint32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(int32, s_predicted_weapon_fire_data const*, bool, bool, uint32*)
+//.text:00B5F470 ; bool __cdecl weapon_barrel_evaluate_penalty_function(int32, int32, bool, s_projectile_accuracy_penalty_functions::e_penalty_function, real32, real32*)
 //.text:00B5F5D0 ; 
 
-void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool predicted)
+void __cdecl weapon_barrel_fire(int32 weapon_index, int16 barrel_index, bool predicted)
 {
 	//INVOKE(0x00B5F860, weapon_barrel_fire, weapon_index, barrel_index, predicted);
 	HOOK_INVOKE(, weapon_barrel_fire, weapon_index, barrel_index, predicted);
@@ -95,26 +95,26 @@ void __cdecl weapon_barrel_fire(long weapon_index, short barrel_index, bool pred
 	weapon->weapon.age = 0.0f;
 
 	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
-	short magazine_index = weapon_definition->weapon.barrels[barrel_index].magazine;
+	int16 magazine_index = weapon_definition->weapon.barrels[barrel_index].magazine;
 	if (magazine_index != NONE && magazine_index < weapon_definition->weapon.magazines.count)
 		const_cast<weapon_magazine*>(weapon->weapon.magazines)[magazine_index].rounds_loaded = weapon_definition->weapon.magazines[magazine_index].rounds_loaded_maximum;
 }
 
-//.text:00B605D0 ; real32 __cdecl weapon_barrel_get_barrel_error_angle_from_weapon(long, long, bool, short, real32)
-//.text:00B606D0 ; long __cdecl weapon_barrel_get_marker_name(long, long)
-//.text:00B60750 ; void __cdecl weapon_barrel_idle(long, short)
-//.text:00B607F0 ; bool __cdecl weapon_barrel_is_locked_recovering(long, short)
-//.text:00B60840 ; bool __cdecl weapon_barrel_is_recovering(long, short)
-//.text:00B60890 ; bool __cdecl weapon_barrel_is_spew_networking_suppressed(long, short)
-//.text:00B608D0 ; bool __cdecl weapon_barrel_must_recover_predicted(long, short)
-//.text:00B60950 ; void __cdecl weapon_barrel_recover(long, short, bool)
-//.text:00B60A80 ; void __cdecl weapon_barrel_set_fire_bit(long, short, bool)
-//.text:00B60AE0 ; void __cdecl weapon_barrel_set_predicted_recover(long, short)
-//.text:00B60B40 ; void __cdecl weapon_barrel_start_ejection_port(long, short, bool)
-//.text:00B60BD0 ; bool __cdecl weapon_barrel_update(long, long)
-//.text:00B611F0 ; void __cdecl weapon_build_weapon_interface_state(long, weapon_interface_state*)
+//.text:00B605D0 ; real32 __cdecl weapon_barrel_get_barrel_error_angle_from_weapon(int32, int32, bool, int16, real32)
+//.text:00B606D0 ; int32 __cdecl weapon_barrel_get_marker_name(int32, int32)
+//.text:00B60750 ; void __cdecl weapon_barrel_idle(int32, int16)
+//.text:00B607F0 ; bool __cdecl weapon_barrel_is_locked_recovering(int32, int16)
+//.text:00B60840 ; bool __cdecl weapon_barrel_is_recovering(int32, int16)
+//.text:00B60890 ; bool __cdecl weapon_barrel_is_spew_networking_suppressed(int32, int16)
+//.text:00B608D0 ; bool __cdecl weapon_barrel_must_recover_predicted(int32, int16)
+//.text:00B60950 ; void __cdecl weapon_barrel_recover(int32, int16, bool)
+//.text:00B60A80 ; void __cdecl weapon_barrel_set_fire_bit(int32, int16, bool)
+//.text:00B60AE0 ; void __cdecl weapon_barrel_set_predicted_recover(int32, int16)
+//.text:00B60B40 ; void __cdecl weapon_barrel_start_ejection_port(int32, int16, bool)
+//.text:00B60BD0 ; bool __cdecl weapon_barrel_update(int32, int32)
+//.text:00B611F0 ; void __cdecl weapon_build_weapon_interface_state(int32, weapon_interface_state*)
 
-bool __cdecl weapon_can_be_dual_wielded(long weapon_index)
+bool __cdecl weapon_can_be_dual_wielded(int32 weapon_index)
 {
 	//return INVOKE(0x00B61550, weapon_can_be_dual_wielded, weapon_index);
 
@@ -123,24 +123,24 @@ bool __cdecl weapon_can_be_dual_wielded(long weapon_index)
 	return weapon_definition->weapon.flags.test(_weapon_can_be_dual_wielded_bit) || weapon_definition->weapon.flags.test(_weapon_can_only_be_dual_wielded_bit);
 }
 
-//.text:00B61560 ; bool __cdecl weapon_can_be_fired(long)
-//.text:00B61600 ; bool __cdecl weapon_can_be_stowed(long, long, bool)
-//.text:00B61740 ; bool __cdecl weapon_can_interrupt_reload(long)
-//.text:00B61790 ; bool __cdecl weapon_can_only_be_dual_wielded(long)
-//.text:00B617E0 ; bool __cdecl weapon_can_track(long)
-//.text:00B61840 ; bool __cdecl weapon_can_track_bipeds(long)
-//.text:00B618B0 ; bool __cdecl weapon_can_zoom(long)
-//.text:00B61920 ; bool __cdecl weapon_compute_function_value(long, long, long, real32*, bool*, bool*)
-//.text:00B62390 ; real32 __cdecl weapon_compute_movement_penalty(long, bool, bool)
-//.text:00B62420 ; bool __cdecl weapon_counts_towards_inventory_limit(long)
-//.text:00B62480 ; bool __cdecl weapon_damage_barrel(long, long)
+//.text:00B61560 ; bool __cdecl weapon_can_be_fired(int32)
+//.text:00B61600 ; bool __cdecl weapon_can_be_stowed(int32, int32, bool)
+//.text:00B61740 ; bool __cdecl weapon_can_interrupt_reload(int32)
+//.text:00B61790 ; bool __cdecl weapon_can_only_be_dual_wielded(int32)
+//.text:00B617E0 ; bool __cdecl weapon_can_track(int32)
+//.text:00B61840 ; bool __cdecl weapon_can_track_bipeds(int32)
+//.text:00B618B0 ; bool __cdecl weapon_can_zoom(int32)
+//.text:00B61920 ; bool __cdecl weapon_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
+//.text:00B62390 ; real32 __cdecl weapon_compute_movement_penalty(int32, bool, bool)
+//.text:00B62420 ; bool __cdecl weapon_counts_towards_inventory_limit(int32)
+//.text:00B62480 ; bool __cdecl weapon_damage_barrel(int32, int32)
 
-void weapon_debug_render(long weapon_index, long weapon_slot)
+void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 {
 	weapon_datum* weapon = WEAPON_GET(weapon_index);
 	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
 
-	long inventory_unit_index = NONE;
+	int32 inventory_unit_index = NONE;
 	if (weapon->item.inventory_state)
 	{
 		inventory_unit_index = weapon->item.inventory_unit_index;
@@ -150,8 +150,8 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 	c_simple_font_screen_display screen_display{};
 	if (screen_display.open_session(1.25f))
 	{
-		long text_x_offset = (200 - screen_display.m_base_x) / screen_display.m_char_width;
-		long text_y_offset = (525 - screen_display.m_base_y) / screen_display.m_char_height;
+		int32 text_x_offset = (200 - screen_display.m_base_x) / screen_display.m_char_width;
+		int32 text_y_offset = (525 - screen_display.m_base_y) / screen_display.m_char_height;
 
 		char const* weapon_state_string = NULL;
 
@@ -203,8 +203,8 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 
 		if (inventory_unit_index != NONE)
 		{
-			long current_state_string_id = first_person_weapon_get_current_state_string(inventory_unit_index, weapon_slot);
-			long pending_state_string_id = first_person_weapon_get_pending_state_string(inventory_unit_index, weapon_slot);
+			int32 current_state_string_id = first_person_weapon_get_current_state_string(inventory_unit_index, weapon_slot);
+			int32 pending_state_string_id = first_person_weapon_get_pending_state_string(inventory_unit_index, weapon_slot);
 
 			bool current_state_invalid = current_state_string_id == _string_id_invalid;
 			bool pending_state_invalid = pending_state_string_id == _string_id_invalid;
@@ -230,10 +230,10 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 			TEST_FLAG(weapon->weapon.flags, _weapon_overheated_exit_bit) ? "y" : "n"
 		);
 
-		long magazine_index = 0;
+		int32 magazine_index = 0;
 		if (debug_weapons_triggers)
 		{
-			for (long trigger_index = 0; trigger_index < weapon_definition->weapon.triggers.count; trigger_index++)
+			for (int32 trigger_index = 0; trigger_index < weapon_definition->weapon.triggers.count; trigger_index++)
 			{
 				weapon_trigger const& trigger = weapon->weapon.triggers[trigger_index];
 				ASSERT(trigger_index >= 0 && trigger_index < weapon_definition->weapon.triggers.count);
@@ -317,7 +317,7 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 
 		if (debug_weapons_barrels)
 		{
-			for (long barrel_index = 0; barrel_index < weapon_definition->weapon.barrels.count; barrel_index++)
+			for (int32 barrel_index = 0; barrel_index < weapon_definition->weapon.barrels.count; barrel_index++)
 			{
 				weapon_barrel const& barrel = weapon->weapon.barrels[barrel_index];
 				ASSERT(barrel_index >= 0 && barrel_index < weapon_definition->weapon.barrels.count);
@@ -434,19 +434,19 @@ void weapon_debug_render(long weapon_index, long weapon_slot)
 	screen_display.close_session();
 }
 
-//.text:00B624E0 ; bool __cdecl weapon_definition_is_age_based(long)
-//.text:00B62560 ; void __cdecl weapon_delay_predicted_state(long)
-//.text:00B625C0 ; bool __cdecl weapon_destroy_barrel(long, long)
-//.text:00B62620 ; void __cdecl weapon_detonate(long)
-//.text:00B626A0 ; bool __cdecl weapon_disables_non_lunge_melee_dash(long)
-//.text:00B626F0 ; void __cdecl weapon_effect_fire_empty_click(long)
-//.text:00B62770 ; long __cdecl weapon_effect_new(long, long, long, real32, real32)
-//.text:00B628C0 ; real32 __cdecl weapon_estimate_time_to_target(long, short, real32, bool)
-//.text:00B62950 ; void __cdecl weapon_fire_barrels(long, s_predicted_weapon_fire_data const*, bool, long)
-//.text:00B629F0 ; bool __cdecl weapon_firing_is_disabled(long)
-//.text:00B62A50 ; long __cdecl weapon_get_active_barrel_index(long)
+//.text:00B624E0 ; bool __cdecl weapon_definition_is_age_based(int32)
+//.text:00B62560 ; void __cdecl weapon_delay_predicted_state(int32)
+//.text:00B625C0 ; bool __cdecl weapon_destroy_barrel(int32, int32)
+//.text:00B62620 ; void __cdecl weapon_detonate(int32)
+//.text:00B626A0 ; bool __cdecl weapon_disables_non_lunge_melee_dash(int32)
+//.text:00B626F0 ; void __cdecl weapon_effect_fire_empty_click(int32)
+//.text:00B62770 ; int32 __cdecl weapon_effect_new(int32, int32, int32, real32, real32)
+//.text:00B628C0 ; real32 __cdecl weapon_estimate_time_to_target(int32, int16, real32, bool)
+//.text:00B62950 ; void __cdecl weapon_fire_barrels(int32, s_predicted_weapon_fire_data const*, bool, int32)
+//.text:00B629F0 ; bool __cdecl weapon_firing_is_disabled(int32)
+//.text:00B62A50 ; int32 __cdecl weapon_get_active_barrel_index(int32)
 
-real32 __cdecl weapon_get_age(long weapon_index)
+real32 __cdecl weapon_get_age(int32 weapon_index)
 {
 	//return INVOKE(0x00B62AC0, weapon_get_age, weapon_index);
 
@@ -459,37 +459,37 @@ real32 __cdecl weapon_get_age(long weapon_index)
 	return result;
 }
 
-//.text:00B62B20 ; long __cdecl weapon_get_effect_object_index(long)
+//.text:00B62B20 ; int32 __cdecl weapon_get_effect_object_index(int32)
 
-real32 __cdecl weapon_get_field_of_view_change_time(long weapon_index)
+real32 __cdecl weapon_get_field_of_view_change_time(int32 weapon_index)
 {
 	return INVOKE(0x00B62B80, weapon_get_field_of_view_change_time, weapon_index);
 }
 
-//.text:00B62BF0 ; long __cdecl weapon_get_label(long)
-//.text:00B62C40 ; long __cdecl weapon_get_magazine_state(long, long)
-//.text:00B62CE0 ; real32 __cdecl weapon_get_maximum_damage_range(long)
-//.text:00B62DB0 ; short __cdecl weapon_get_multiplayer_type(long)
-//.text:00B62DF0 ; long __cdecl weapon_get_owner_unit_index(long)
-//.text:00B62E30 ; long __cdecl weapon_get_owner_unit_inventory_index(long)
-//.text:00B62EA0 ; real32 __cdecl weapon_get_pitch_throttling_while_firing(long)
-//.text:00B62FA0 ; real32 __cdecl weapon_get_projectile_error(long, long)
-//.text:00B63030 ; long __cdecl weapon_get_projectile_owner_unit_index(long)
-//.text:00B63100 ; real32 __cdecl weapon_get_reload_speed_modifier(long)
-//.text:00B63150 ; long __cdecl weapon_get_rounds_inventory(long, long, bool)
-//.text:00B63280 ; long __cdecl weapon_get_rounds_loaded(long, long)
-//.text:00B632C0 ; long __cdecl weapon_get_rounds_total(long, long, bool)
+//.text:00B62BF0 ; int32 __cdecl weapon_get_label(int32)
+//.text:00B62C40 ; int32 __cdecl weapon_get_magazine_state(int32, int32)
+//.text:00B62CE0 ; real32 __cdecl weapon_get_maximum_damage_range(int32)
+//.text:00B62DB0 ; int16 __cdecl weapon_get_multiplayer_type(int32)
+//.text:00B62DF0 ; int32 __cdecl weapon_get_owner_unit_index(int32)
+//.text:00B62E30 ; int32 __cdecl weapon_get_owner_unit_inventory_index(int32)
+//.text:00B62EA0 ; real32 __cdecl weapon_get_pitch_throttling_while_firing(int32)
+//.text:00B62FA0 ; real32 __cdecl weapon_get_projectile_error(int32, int32)
+//.text:00B63030 ; int32 __cdecl weapon_get_projectile_owner_unit_index(int32)
+//.text:00B63100 ; real32 __cdecl weapon_get_reload_speed_modifier(int32)
+//.text:00B63150 ; int32 __cdecl weapon_get_rounds_inventory(int32, int32, bool)
+//.text:00B63280 ; int32 __cdecl weapon_get_rounds_loaded(int32, int32)
+//.text:00B632C0 ; int32 __cdecl weapon_get_rounds_total(int32, int32, bool)
 //.text:00B63310 ; 
-//.text:00B63350 ; real32 __cdecl weapon_get_switch_weapon_speed_modifier(long)
+//.text:00B63350 ; real32 __cdecl weapon_get_switch_weapon_speed_modifier(int32)
 //.text:00B63410 ; void __cdecl weapon_get_target_tracking_reticle_position(c_aim_target_object const*, real_point3d*)
-//.text:00B63550 ; bool __cdecl weapon_get_trigger_position(long, short, real_point3d*)
+//.text:00B63550 ; bool __cdecl weapon_get_trigger_position(int32, int16, real_point3d*)
 //.text:00B63690 ; 
-//.text:00B636E0 ; real32 __cdecl weapon_get_zoom_magnification(long, short)
-//.text:00B637C0 ; void __cdecl weapon_handle_deleted_projectile(long, long)
-//.text:00B63840 ; bool __cdecl weapon_handle_potential_inventory_item(long, long, long, long, short*)
-//.text:00B63BE0 ; bool __cdecl weapon_has_clang_melee(long)
+//.text:00B636E0 ; real32 __cdecl weapon_get_zoom_magnification(int32, int16)
+//.text:00B637C0 ; void __cdecl weapon_handle_deleted_projectile(int32, int32)
+//.text:00B63840 ; bool __cdecl weapon_handle_potential_inventory_item(int32, int32, int32, int32, int16*)
+//.text:00B63BE0 ; bool __cdecl weapon_has_clang_melee(int32)
 
-bool __cdecl weapon_has_infinite_ammo(long weapon_index)
+bool __cdecl weapon_has_infinite_ammo(int32 weapon_index)
 {
 	//return INVOKE(0x00B63C30, weapon_has_infinite_ammo, weapon_index);
 
@@ -502,114 +502,114 @@ bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 	return result;
 }
 
-//.text:00B63CB0 ; bool __cdecl weapon_has_networked_aiming_consequences(long)
-//.text:00B63CF0 ; void __cdecl weapon_hold_trigger_hs(long, long, bool)
-//.text:00B63D80 ; bool __cdecl weapon_is_age_based(long)
-//.text:00B63DC0 ; bool __cdecl weapon_is_charged_plasma_pistol(long, bool)
+//.text:00B63CB0 ; bool __cdecl weapon_has_networked_aiming_consequences(int32)
+//.text:00B63CF0 ; void __cdecl weapon_hold_trigger_hs(int32, int32, bool)
+//.text:00B63D80 ; bool __cdecl weapon_is_age_based(int32)
+//.text:00B63DC0 ; bool __cdecl weapon_is_charged_plasma_pistol(int32, bool)
 //.text:00B63E40 ; 
-//.text:00B63EA0 ; bool __cdecl weapon_is_controlled_by_player(long)
-//.text:00B63F20 ; bool __cdecl weapon_is_depleted(long)
-//.text:00B64050 ; bool __cdecl weapon_is_dual_wielded(long)
-//.text:00B64140 ; bool __cdecl weapon_is_melee_only(long)
-//.text:00B64190 ; bool __cdecl weapon_is_ready_for_use(long)
+//.text:00B63EA0 ; bool __cdecl weapon_is_controlled_by_player(int32)
+//.text:00B63F20 ; bool __cdecl weapon_is_depleted(int32)
+//.text:00B64050 ; bool __cdecl weapon_is_dual_wielded(int32)
+//.text:00B64140 ; bool __cdecl weapon_is_melee_only(int32)
+//.text:00B64190 ; bool __cdecl weapon_is_ready_for_use(int32)
 
-bool __cdecl weapon_is_support_weapon(long weapon_index)
+bool __cdecl weapon_is_support_weapon(int32 weapon_index)
 {
 	return INVOKE(0x00B641D0, weapon_is_support_weapon, weapon_index);
 }
 
-//.text:00B64220 ; bool __cdecl weapon_is_support_weapon_or_must_be_readied(long)
-//.text:00B64280 ; bool __cdecl weapon_is_tracking(long)
-//.text:00B64300 ; bool __cdecl weapon_is_zoomable(long)
-//.text:00B64350 ; void __cdecl weapon_magazine_execute_reload(long, short)
-//.text:00B644D0 ; void __cdecl weapon_magazine_finish_reload(long, short, bool)
-//.text:00B64540 ; e_unit_messages __cdecl weapon_magazine_get_reload_unit_message(long, short, bool)
-//.text:00B64590 ; long __cdecl weapon_magazine_get_state(long, short)
-//.text:00B645D0 ; bool __cdecl weapon_magazine_is_reloading(long, short, short*)
-//.text:00B64650 ; void __cdecl weapon_magazine_set_state(long, short, short)
-//.text:00B647E0 ; void __cdecl weapon_magazine_start_chamber(long, short)
-//.text:00B648A0 ; bool __cdecl weapon_magazine_start_or_continue_reload(long, short)
-//.text:00B64A70 ; bool __cdecl weapon_magazine_starting_continuous_reload(long, short)
-//.text:00B64AB0 ; bool __cdecl weapon_magazine_state_change_ok(long)
-//.text:00B64B00 ; bool __cdecl weapon_magazine_state_interruptable(short, short)
-//.text:00B64B30 ; bool __cdecl weapon_magazine_update(long, long)
-//.text:00B64E00 ; bool __cdecl weapon_must_be_readied(long)
-//.text:00B64E50 ; bool __cdecl weapon_must_stay_awake_for_accuracy_penalties(long)
-//.text:00B64F20 ; bool __cdecl weapon_new(long, object_placement_data*, bool*)
-//.text:00B650F0 ; bool __cdecl weapon_overcharged(long)
-//.text:00B65130 ; bool __cdecl weapon_owner_submit_reload_action(long, short, bool)
-//.text:00B65270 ; void __cdecl weapon_owner_update(long, uint16, real32)
-//.text:00B652F0 ; long __cdecl weapon_place(long, s_scenario_weapon const*)
-//.text:00B65390 ; bool __cdecl weapon_prevents_crouching(long)
-//.text:00B653E0 ; bool __cdecl weapon_prevents_equipment_throwing(long)
-//.text:00B65460 ; bool __cdecl weapon_prevents_grenade_throwing(long)
-//.text:00B654D0 ; bool __cdecl weapon_prevents_melee_attack(long)
-//.text:00B65530 ; bool __cdecl weapon_put_away(long, bool, bool)
-//.text:00B65950 ; void __cdecl weapon_ready(long, bool, bool)
-//.text:00B65C20 ; bool __cdecl weapon_reload(long, long)
+//.text:00B64220 ; bool __cdecl weapon_is_support_weapon_or_must_be_readied(int32)
+//.text:00B64280 ; bool __cdecl weapon_is_tracking(int32)
+//.text:00B64300 ; bool __cdecl weapon_is_zoomable(int32)
+//.text:00B64350 ; void __cdecl weapon_magazine_execute_reload(int32, int16)
+//.text:00B644D0 ; void __cdecl weapon_magazine_finish_reload(int32, int16, bool)
+//.text:00B64540 ; e_unit_messages __cdecl weapon_magazine_get_reload_unit_message(int32, int16, bool)
+//.text:00B64590 ; int32 __cdecl weapon_magazine_get_state(int32, int16)
+//.text:00B645D0 ; bool __cdecl weapon_magazine_is_reloading(int32, int16, int16*)
+//.text:00B64650 ; void __cdecl weapon_magazine_set_state(int32, int16, int16)
+//.text:00B647E0 ; void __cdecl weapon_magazine_start_chamber(int32, int16)
+//.text:00B648A0 ; bool __cdecl weapon_magazine_start_or_continue_reload(int32, int16)
+//.text:00B64A70 ; bool __cdecl weapon_magazine_starting_continuous_reload(int32, int16)
+//.text:00B64AB0 ; bool __cdecl weapon_magazine_state_change_ok(int32)
+//.text:00B64B00 ; bool __cdecl weapon_magazine_state_interruptable(int16, int16)
+//.text:00B64B30 ; bool __cdecl weapon_magazine_update(int32, int32)
+//.text:00B64E00 ; bool __cdecl weapon_must_be_readied(int32)
+//.text:00B64E50 ; bool __cdecl weapon_must_stay_awake_for_accuracy_penalties(int32)
+//.text:00B64F20 ; bool __cdecl weapon_new(int32, object_placement_data*, bool*)
+//.text:00B650F0 ; bool __cdecl weapon_overcharged(int32)
+//.text:00B65130 ; bool __cdecl weapon_owner_submit_reload_action(int32, int16, bool)
+//.text:00B65270 ; void __cdecl weapon_owner_update(int32, uint16, real32)
+//.text:00B652F0 ; int32 __cdecl weapon_place(int32, s_scenario_weapon const*)
+//.text:00B65390 ; bool __cdecl weapon_prevents_crouching(int32)
+//.text:00B653E0 ; bool __cdecl weapon_prevents_equipment_throwing(int32)
+//.text:00B65460 ; bool __cdecl weapon_prevents_grenade_throwing(int32)
+//.text:00B654D0 ; bool __cdecl weapon_prevents_melee_attack(int32)
+//.text:00B65530 ; bool __cdecl weapon_put_away(int32, bool, bool)
+//.text:00B65950 ; void __cdecl weapon_ready(int32, bool, bool)
+//.text:00B65C20 ; bool __cdecl weapon_reload(int32, int32)
 //.text:00B65E30 ; 
-//.text:00B66220 ; bool __cdecl weapon_reloading(long, long, short*)
+//.text:00B66220 ; bool __cdecl weapon_reloading(int32, int32, int16*)
 //.text:00B66310 ; 
-//.text:00B663E0 ; void __cdecl weapon_report_kill(long, long)
-//.text:00B664A0 ; void __cdecl weapon_reset(long)
-//.text:00B665B0 ; void __cdecl weapon_reset_and_idle_if_not_reloading(long, long)
-//.text:00B665E0 ; void __cdecl weapon_reset_first_person_emulation(long)
-//.text:00B66640 ; long __cdecl weapon_respond_to_drop(long)
-//.text:00B66760 ; short __cdecl weapon_rotate_zoom_level(long, short)
-//.text:00B667F0 ; void __cdecl weapon_send_message_to_unit(long, e_unit_messages)
-//.text:00B66870 ; void __cdecl weapon_set_current_amount(long, real32)
-//.text:00B669A0 ; void __cdecl weapon_set_initial_rounds(long, short, short, short)
-//.text:00B66A80 ; void __cdecl weapon_set_initial_rounds_from_scenario_weapon(long, s_scenario_weapon const*)
-//.text:00B66B30 ; void __cdecl weapon_set_power(long, real32)
-//.text:00B66B90 ; void __cdecl weapon_set_predicted_age(long, real32)
-//.text:00B66BE0 ; void __cdecl weapon_set_predicted_rounds_loaded(long, short, short, short)
-//.text:00B66CB0 ; void __cdecl weapon_set_projectile_error(long, long, real32)
-//.text:00B66D00 ; bool __cdecl weapon_set_state(long, long, bool)
-//.text:00B66F80 ; void __cdecl weapon_set_total_rounds(long, short*)
-//.text:00B67050 ; bool __cdecl weapon_setup_first_person_emulation(long, long, short)
-//.text:00B67360 ; bool __cdecl weapon_state_interruptable(long, long)
-//.text:00B67390 ; void __cdecl weapon_state_key_frame(long)
-//.text:00B67450 ; void __cdecl weapon_state_next(long, bool)
-//.text:00B674C0 ; bool __cdecl weapon_state_prevents_throwing(long)
-//.text:00B67500 ; void __cdecl weapon_steal_goodies(long, long)
-//.text:00B67680 ; bool __cdecl weapon_stop_put_away(long)
-//.text:00B676D0 ; void __cdecl weapon_stop_reload(long, bool)
-//.text:00B67830 ; void __cdecl weapon_stow(long, long)
-//.text:00B67880 ; bool __cdecl weapon_take_inventory_rounds(long, long, long)
-//.text:00B67A00 ; void __cdecl weapon_trigger_begin_charging(long, short)
-//.text:00B67BF0 ; bool __cdecl weapon_trigger_can_begin_charging(long, short)
-//.text:00B67C80 ; void __cdecl weapon_trigger_change_state(long, short, short, short)
-//.text:00B67CD0 ; void __cdecl weapon_trigger_determine_analog_autofire_behavior(long, long, bool*, bool*, bool*)
-//.text:00B67F10 ; void __cdecl weapon_trigger_fully_charged(long, short)
-//.text:00B67FB0 ; real32 __cdecl weapon_trigger_get_charged_with_cooldown_fraction(long, short)
-//.text:00B68080 ; void __cdecl weapon_trigger_idle(long, short)
-//.text:00B680D0 ; void __cdecl weapon_trigger_overcharged(long, short)
-//.text:00B68140 ; void __cdecl weapon_trigger_recover(long, short, bool)
-//.text:00B68210 ; void __cdecl weapon_trigger_release_charge(long, short)
-//.text:00B68460 ; bool __cdecl weapon_trigger_update(long, long)
-//.text:00B68ED0 ; long __cdecl weapon_try_and_get_locked_sound_definition_index(long)
-//.text:00B68F30 ; long __cdecl weapon_try_and_get_tracking_sound_definition_index(long)
-//.text:00B68F90 ; void __cdecl weapon_unready(long)
-//.text:00B68FD0 ; bool __cdecl weapon_update(long)
-//.text:00B69710 ; bool __cdecl weapon_update_first_person_emulation(long)
-//.text:00B69870 ; bool __cdecl weapon_update_targeting(long)
-//.text:00B69A00 ; bool __cdecl weapon_useful(long)
-//.text:00B69A20 ; bool __cdecl weapon_uses_3rd_person_camera(long)
-//.text:00B69A70 ; bool __cdecl weapon_uses_charging_melee(long)
+//.text:00B663E0 ; void __cdecl weapon_report_kill(int32, int32)
+//.text:00B664A0 ; void __cdecl weapon_reset(int32)
+//.text:00B665B0 ; void __cdecl weapon_reset_and_idle_if_not_reloading(int32, int32)
+//.text:00B665E0 ; void __cdecl weapon_reset_first_person_emulation(int32)
+//.text:00B66640 ; int32 __cdecl weapon_respond_to_drop(int32)
+//.text:00B66760 ; int16 __cdecl weapon_rotate_zoom_level(int32, int16)
+//.text:00B667F0 ; void __cdecl weapon_send_message_to_unit(int32, e_unit_messages)
+//.text:00B66870 ; void __cdecl weapon_set_current_amount(int32, real32)
+//.text:00B669A0 ; void __cdecl weapon_set_initial_rounds(int32, int16, int16, int16)
+//.text:00B66A80 ; void __cdecl weapon_set_initial_rounds_from_scenario_weapon(int32, s_scenario_weapon const*)
+//.text:00B66B30 ; void __cdecl weapon_set_power(int32, real32)
+//.text:00B66B90 ; void __cdecl weapon_set_predicted_age(int32, real32)
+//.text:00B66BE0 ; void __cdecl weapon_set_predicted_rounds_loaded(int32, int16, int16, int16)
+//.text:00B66CB0 ; void __cdecl weapon_set_projectile_error(int32, int32, real32)
+//.text:00B66D00 ; bool __cdecl weapon_set_state(int32, int32, bool)
+//.text:00B66F80 ; void __cdecl weapon_set_total_rounds(int32, int16*)
+//.text:00B67050 ; bool __cdecl weapon_setup_first_person_emulation(int32, int32, int16)
+//.text:00B67360 ; bool __cdecl weapon_state_interruptable(int32, int32)
+//.text:00B67390 ; void __cdecl weapon_state_key_frame(int32)
+//.text:00B67450 ; void __cdecl weapon_state_next(int32, bool)
+//.text:00B674C0 ; bool __cdecl weapon_state_prevents_throwing(int32)
+//.text:00B67500 ; void __cdecl weapon_steal_goodies(int32, int32)
+//.text:00B67680 ; bool __cdecl weapon_stop_put_away(int32)
+//.text:00B676D0 ; void __cdecl weapon_stop_reload(int32, bool)
+//.text:00B67830 ; void __cdecl weapon_stow(int32, int32)
+//.text:00B67880 ; bool __cdecl weapon_take_inventory_rounds(int32, int32, int32)
+//.text:00B67A00 ; void __cdecl weapon_trigger_begin_charging(int32, int16)
+//.text:00B67BF0 ; bool __cdecl weapon_trigger_can_begin_charging(int32, int16)
+//.text:00B67C80 ; void __cdecl weapon_trigger_change_state(int32, int16, int16, int16)
+//.text:00B67CD0 ; void __cdecl weapon_trigger_determine_analog_autofire_behavior(int32, int32, bool*, bool*, bool*)
+//.text:00B67F10 ; void __cdecl weapon_trigger_fully_charged(int32, int16)
+//.text:00B67FB0 ; real32 __cdecl weapon_trigger_get_charged_with_cooldown_fraction(int32, int16)
+//.text:00B68080 ; void __cdecl weapon_trigger_idle(int32, int16)
+//.text:00B680D0 ; void __cdecl weapon_trigger_overcharged(int32, int16)
+//.text:00B68140 ; void __cdecl weapon_trigger_recover(int32, int16, bool)
+//.text:00B68210 ; void __cdecl weapon_trigger_release_charge(int32, int16)
+//.text:00B68460 ; bool __cdecl weapon_trigger_update(int32, int32)
+//.text:00B68ED0 ; int32 __cdecl weapon_try_and_get_locked_sound_definition_index(int32)
+//.text:00B68F30 ; int32 __cdecl weapon_try_and_get_tracking_sound_definition_index(int32)
+//.text:00B68F90 ; void __cdecl weapon_unready(int32)
+//.text:00B68FD0 ; bool __cdecl weapon_update(int32)
+//.text:00B69710 ; bool __cdecl weapon_update_first_person_emulation(int32)
+//.text:00B69870 ; bool __cdecl weapon_update_targeting(int32)
+//.text:00B69A00 ; bool __cdecl weapon_useful(int32)
+//.text:00B69A20 ; bool __cdecl weapon_uses_3rd_person_camera(int32)
+//.text:00B69A70 ; bool __cdecl weapon_uses_charging_melee(int32)
 
 void __cdecl weapons_debug_render()
 {
 	if (debug_weapons)
 	{
-		long output_user = player_mapping_first_active_output_user();
-		long unit_index = player_mapping_get_unit_by_output_user(output_user);
+		int32 output_user = player_mapping_first_active_output_user();
+		int32 unit_index = player_mapping_get_unit_by_output_user(output_user);
 
 		if (unit_index != NONE)
 		{
 			if (debug_weapons_primary)
 			{
 				unit_datum* unit = UNIT_GET(unit_index);
-				long primary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[0]);
+				int32 primary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[0]);
 				if (unit->object.parent_object_index != NONE)
 				{
 					object_datum* parent_object = object_get(unit->object.parent_object_index);
@@ -629,7 +629,7 @@ void __cdecl weapons_debug_render()
 			if (debug_weapons_secondary)
 			{
 				unit_datum* unit = UNIT_GET(unit_index);
-				long secondary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[1]);
+				int32 secondary_weapon_index = unit_inventory_get_weapon(unit_index, unit->unit.current_weapon_set.weapon_indices[1]);
 				if (secondary_weapon_index != NONE)
 					weapon_debug_render(secondary_weapon_index, 1);
 			}

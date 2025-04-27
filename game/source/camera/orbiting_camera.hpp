@@ -6,7 +6,7 @@ struct c_orbiting_camera :
 	public c_camera
 {
 public:
-	void constructor(long unit_index)
+	void constructor(int32 unit_index)
 	{
 		INVOKE_CLASS_MEMBER(0x0072A5E0, c_orbiting_camera, constructor, unit_index);
 	}

@@ -102,10 +102,10 @@ enum e_multiplayer_object_spawn_timer_type
 
 struct s_multiplayer_object_boundary_geometry_data
 {
-	c_enum<e_multiplayer_object_boundary_shape, long, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
+	c_enum<e_multiplayer_object_boundary_shape, int32, _shape_unused, k_multiplayer_object_boundary_count> boundary_shape;
 
 	// shader used for boundary geometry
-	union { long standard_shader_index; long opaque_shader_index; };
+	union { int32 standard_shader_index; int32 opaque_shader_index; };
 
 	real32 boundary_width;
 	real32 boundary_box_length;
@@ -136,8 +136,8 @@ struct s_multiplayer_object_properties_definition
 	// SPAWNING DATA
 	// These fields are used for default spawning times and remapping
 	c_enum<e_multiplayer_object_spawn_timer_type, char, _timer_starts_on_death, k_number_of_multiplayer_object_spawn_timer_types> spawn_timer_type;
-	short default_spawn_time; // seconds
-	short default_abandonment_time; // seconds
+	int16 default_spawn_time; // seconds
+	int16 default_abandonment_time; // seconds
 
 	// MORE GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones

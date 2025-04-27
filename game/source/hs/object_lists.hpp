@@ -5,18 +5,18 @@
 struct object_list_header_datum :
 	s_datum_header
 {
-	short __unknown2;
-	short reference_count;
-	short count;
-	long reference_index;
+	int16 __unknown2;
+	int16 reference_count;
+	int16 count;
+	int32 reference_index;
 };
 static_assert(sizeof(object_list_header_datum) == 0xC);
 
 struct object_list_datum :
 	s_datum_header
 {
-	long object_index;
-	long reference_index;
+	int32 object_index;
+	int32 reference_index;
 };
 static_assert(sizeof(object_list_datum) == 0xC);
 

@@ -10,7 +10,7 @@ struct c_animation_channel :
 	real32 m_frame_position;
 	real32 m_playback_ratio;
 	c_animation_id m_additional_id[2];
-	short m_additional_blend_animations[2]; // t_short_fixed<13>
+	int16 m_additional_blend_animations[2]; // t_short_fixed<13>
 	uint32 m_event_flags;
 	uint32 m_future_event_flags;
 	uint32 m_past_event_flags;

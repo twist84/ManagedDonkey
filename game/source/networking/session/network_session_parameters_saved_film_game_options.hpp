@@ -6,8 +6,8 @@
 
 struct s_network_session_parameter_saved_film_game_options
 {
-	long length_in_ticks;
-	long start_ticks;
+	int32 length_in_ticks;
+	int32 start_ticks;
 	game_options options;
 };
 static_assert(sizeof(s_network_session_parameter_saved_film_game_options) == 0x24B50);

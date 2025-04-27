@@ -66,7 +66,7 @@ struct s_network_banhammer_controller_data
 
 	uint8 __data44[0xF8C];
 
-	long highest_skill;
+	int32 highest_skill;
 
 	uint8 __dataFD4[0x4];
 };
@@ -80,7 +80,7 @@ static_assert(sizeof(s_map_file_manifest_entry) == 0x100);
 
 struct s_map_file_manifest
 {
-	long entry_count;
+	int32 entry_count;
 	s_map_file_manifest_entry entries[128];
 };
 static_assert(sizeof(s_map_file_manifest) == 0x8004);
@@ -119,7 +119,7 @@ struct s_network_banhammer_globals
 	uint32 machine_file_refresh_time;
 	bool map_file_manifest_valid;
 	bool map_file_manifest_failed;
-	long map_file_manifest_attempt_index;
+	int32 map_file_manifest_attempt_index;
 	s_map_file_manifest current_map_file_manifest;
 	c_http_blf_simple_downloader<s_map_file_manifest, 34977> map_file_manifest_downloader;
 	bool __unknown160D4;

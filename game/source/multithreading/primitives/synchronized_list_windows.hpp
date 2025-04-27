@@ -1,6 +1,6 @@
 #pragma once
 
-const long k_synchronized_list_alignment_bits = 4;
+const int32 k_synchronized_list_alignment_bits = 4;
 
 // SINGLE_LIST_ENTRY
 struct s_synchronized_list_entry
@@ -14,12 +14,12 @@ struct s_synchronized_list_header
 {
 	union
 	{
-		unsigned long long alignment;
+		uint64 alignment;
 		struct
 		{
 			s_synchronized_list_entry next;
-			unsigned short depth;
-			unsigned short sequence;
+			uint16 depth;
+			uint16 sequence;
 		} s;
 	};
 };
@@ -30,8 +30,8 @@ extern void __cdecl synchronized_list_entry_clear(s_synchronized_list_entry* ent
 extern s_synchronized_list_entry* __cdecl synchronized_list_entry_next(s_synchronized_list_entry* entry);
 extern s_synchronized_list_entry* __cdecl synchronized_list_entry_set(s_synchronized_list_entry* entry, s_synchronized_list_entry* next_entry);
 extern void __cdecl synchronized_list_push(s_synchronized_list_header* header, s_synchronized_list_entry* entry);
-extern void __cdecl synchronized_list_push_multiple(s_synchronized_list_header* header, long entry_count, s_synchronized_list_entry** entries);
+extern void __cdecl synchronized_list_push_multiple(s_synchronized_list_header* header, int32 entry_count, s_synchronized_list_entry** entries);
 extern s_synchronized_list_entry* __cdecl synchronized_list_pop(s_synchronized_list_header* header);
 extern s_synchronized_list_entry* __cdecl synchronized_list_flush(s_synchronized_list_header* header);
-extern long __cdecl synchronized_list_get_count(struct s_synchronized_list_header* header);
+extern int32 __cdecl synchronized_list_get_count(struct s_synchronized_list_header* header);
 

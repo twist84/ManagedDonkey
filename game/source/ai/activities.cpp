@@ -4,29 +4,29 @@
 #include "tag_files/string_ids.hpp"
 
 REFERENCE_DECLARE_2D_ARRAY(0x01764FD0, e_ai_posture const, g_activity_posture_variants, k_activity_count, k_max_activity_variants);
-REFERENCE_DECLARE_ARRAY(0x01765548, long const, g_activity_names, k_activity_count);
+REFERENCE_DECLARE_ARRAY(0x01765548, int32 const, g_activity_names, k_activity_count);
 REFERENCE_DECLARE_ARRAY(0x01765808, s_posture_info const, g_posture_info, k_ai_posture_count);
-REFERENCE_DECLARE_ARRAY(0x058406E0, short, g_variant_counts, k_activity_count);
+REFERENCE_DECLARE_ARRAY(0x058406E0, int16, g_variant_counts, k_activity_count);
 
 void __cdecl activities_initialize()
 {
 	INVOKE(0x01457E60, activities_initialize);
 }
 
-//.text:01457EA0 ; long __cdecl activity_get_posture_name(long, long)
-//.text:01457EF0 ; void __cdecl activity_handle_spawn_point_change(short, short)
-//.text:01458240 ; bool __cdecl activity_index_get_by_name(long, short*, short*)
-//.text:014582F0 ; void __cdecl actor_activity_reset(long)
-//.text:01458330 ; bool __cdecl actor_activity_set(long, short, short, short, e_patrol_definition_types)
-//.text:014583F0 ; bool __cdecl actor_activity_set(long, long, short, e_patrol_definition_types)
-//.text:01458450 ; s_tag_block* __cdecl actor_get_patrol_block(long, short*)
+//.text:01457EA0 ; int32 __cdecl activity_get_posture_name(int32, int32)
+//.text:01457EF0 ; void __cdecl activity_handle_spawn_point_change(int16, int16)
+//.text:01458240 ; bool __cdecl activity_index_get_by_name(int32, int16*, int16*)
+//.text:014582F0 ; void __cdecl actor_activity_reset(int32)
+//.text:01458330 ; bool __cdecl actor_activity_set(int32, int16, int16, int16, e_patrol_definition_types)
+//.text:014583F0 ; bool __cdecl actor_activity_set(int32, int32, int16, e_patrol_definition_types)
+//.text:01458450 ; s_tag_block* __cdecl actor_get_patrol_block(int32, int16*)
 //.text:01458560 ; 
 //.text:01458580 ; 
 //.text:01458590 ; 
 //.text:014585B0 ; 
-//.text:014585C0 ; e_ai_posture __cdecl posture_get_by_name(long)
+//.text:014585C0 ; e_ai_posture __cdecl posture_get_by_name(int32)
 //.text:014585F0 ; s_posture_info const* __cdecl posture_info_get(e_ai_posture)
-//.text:01458610 ; s_posture_info const* __cdecl posture_info_get_by_name(long)
+//.text:01458610 ; s_posture_info const* __cdecl posture_info_get_by_name(int32)
 
 /*e_ai_posture const g_activity_posture_variants[k_activity_count][k_ai_action_count]
 {
@@ -67,7 +67,7 @@ void __cdecl activities_initialize()
 	{ _ai_posture_act_captured_sit_wall, _ai_posture_act_captured_cuffed_wall, _ai_posture_act_captured_kneel,   _ai_posture_none,            _ai_posture_none,           _ai_posture_none, _ai_posture_none, _ai_posture_none, _ai_posture_none, _ai_posture_none }, // _activity_captured
 };*/
 
-/*long const g_activity_names[k_activity_count]
+/*int32 const g_activity_names[k_activity_count]
 {
 	STRING_ID(global, none),
 	STRING_ID(global, patrol),

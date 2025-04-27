@@ -58,7 +58,7 @@ void c_simulation_world::debug_render()
 	}
 }
 
-char const* c_simulation_world::get_state_string(long state)
+char const* c_simulation_world::get_state_string(int32 state)
 {
 	switch (state)
 	{
@@ -82,16 +82,16 @@ char const* c_simulation_world::get_state_string(long state)
 }
 
 void c_simulation_world::get_join_status(
-	long* join_time_elapsed,
-	long* join_time_to_abort,
-	long* join_attempt_count,
-	long* join_attempt_maximum,
-	long* join_client_establishing_count,
-	long* join_client_waiting_count,
-	long* join_client_joining_count,
-	long* join_client_complete_count,
-	long* join_client_total_count,
-	long* join_time_to_failure) const
+	int32* join_time_elapsed,
+	int32* join_time_to_abort,
+	int32* join_attempt_count,
+	int32* join_attempt_maximum,
+	int32* join_client_establishing_count,
+	int32* join_client_waiting_count,
+	int32* join_client_joining_count,
+	int32* join_client_complete_count,
+	int32* join_client_total_count,
+	int32* join_time_to_failure) const
 {
 
 }

@@ -9,7 +9,7 @@ struct s_screen_effect_datum :
 {
 	uint8 position_type;
 	uint8 unused;
-	long definition_index;
+	int32 definition_index;
 	real32 time_accumulator;
 	real_point3d world_position;
 
@@ -17,8 +17,8 @@ struct s_screen_effect_datum :
 	{
 		struct
 		{
-			long object_index;
-			short node_index;
+			int32 object_index;
+			int16 node_index;
 			real_point3d node_position;
 		} attached_to_object;
 	} position;
@@ -121,14 +121,14 @@ struct s_screen_effect_shader_sample_result
 	// $TODO: find the actual name of this
 	struct s_screen_effect_shader_sample
 	{
-		long definition_index;
+		int32 definition_index;
 		uint8 __data4[0x10];
 		real_rectangle2d rect;
 	};
 	static_assert(sizeof(s_screen_effect_shader_sample) == 0x24);
 
 	s_screen_effect_shader_sample __unknown0[8];
-	long __unknown120;
+	int32 __unknown120;
 };
 static_assert(sizeof(s_screen_effect_shader_sample_result) == 0x124);
 
@@ -137,8 +137,8 @@ extern void __cdecl screen_effect_dispose();
 extern void __cdecl screen_effect_dispose_from_old_map();
 extern void __cdecl screen_effect_initialize();
 extern void __cdecl screen_effect_initialize_for_new_map();
-extern long __cdecl screen_effect_new(long definition_index, long object_index, short node_index, real_point3d const* point, real_rectangle2d const* rectangle);
-extern void __cdecl screen_effect_sample(real_point3d const* point, real_vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, long user_index);
+extern int32 __cdecl screen_effect_new(int32 definition_index, int32 object_index, int16 node_index, real_point3d const* point, real_rectangle2d const* rectangle);
+extern void __cdecl screen_effect_sample(real_point3d const* point, real_vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, int32 user_index);
 extern void __cdecl screen_effect_update(real32 update_interval);
 
 extern void apply_global_screen_effect();

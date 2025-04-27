@@ -27,31 +27,31 @@ struct effect_datum :
 	s_datum_header
 {
 	uint32 flags;
-	long definition_index;
-	long looping_sound_index;
+	int32 definition_index;
+	int32 looping_sound_index;
 	c_string_id input_marker_name;
 	uint8 explicit_marker_index;
 	uint8 conical_distribution_index;
-	union { long scale_a_function_reference; uint8 scale_a_index; };
-	union { long scale_b_function_reference; uint8 scale_b_index; };
+	union { int32 scale_a_function_reference; uint8 scale_a_index; };
+	union { int32 scale_b_function_reference; uint8 scale_b_index; };
 	s_location location;
 	real_vector3d velocity;
-	long object_index;
+	int32 object_index;
 	s_damage_owner damage_owner;
 	s_damage_reporting_info damage_reporting_info;
 	char first_person_player_user_mask;
 	char first_person_weapon_user_mask;
 	char first_person_weapon_user_index;
-	long parent_particle_index;
-	long event_datum_head;
+	int32 parent_particle_index;
+	int32 event_datum_head;
 	real32 scale_a;
 	real32 scale_b;
 	real_point2d impact_size;
-	c_static_array<long, 8> location_datum_indices;
-	long lightprobe_index;
+	c_static_array<int32, 8> location_datum_indices;
+	int32 lightprobe_index;
 	real32 death_delay;
 	uint32 random_seed;
-	long breakable_surface_event_index;
+	int32 breakable_surface_event_index;
 	real_plane3d location_constraint_plane;
 };
 static_assert(sizeof(effect_datum) == 0xA0);
@@ -62,7 +62,7 @@ struct event_datum :
 	uint8 flags;
 	uint8 event_block_index;
 	uint16 event_counter;
-	long next_event_index;
+	int32 next_event_index;
 	real32 time;
 	real32 duration;
 };
@@ -71,9 +71,9 @@ static_assert(sizeof(event_datum) == 0x14);
 struct effect_location_datum :
 	s_datum_header
 {
-	short node_designator;
-	long intermediate_location_index;
-	long next_instance_location_index;
+	int16 node_designator;
+	int32 intermediate_location_index;
+	int32 next_instance_location_index;
 	real_matrix4x3 matrix;
 };
 static_assert(sizeof(effect_location_datum) == 0x40);
@@ -93,14 +93,14 @@ static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
 struct s_effect_message
 {
-	long m_type;
-	long m_effect_datum_index;
-	long m_effect_definition_index;
-	long m_event_datum_index;
+	int32 m_type;
+	int32 m_effect_datum_index;
+	int32 m_effect_definition_index;
+	int32 m_event_datum_index;
 	uint8 m_event_block_index;
 	uint8 m_priority;
 	uint16 m_event_counter;
-	long m_flags;
+	int32 m_flags;
 
 	union
 	{
@@ -161,8 +161,8 @@ extern void __cdecl effects_prepare_for_new_zone_set(uint32 old_active_structure
 extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
 extern bool __cdecl dangerous_effects_near_player();
-extern void __cdecl effect_render(long effect_index, long user_index);
-extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* normal, long match_all_markers, long effect_deterministic, real_plane3d const* plane, s_cluster_reference* cluster_reference);
+extern void __cdecl effect_render(int32 effect_index, int32 user_index);
+extern int32 __cdecl effect_new_from_point_vector(int32 effect_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* normal, int32 match_all_markers, int32 effect_deterministic, real_plane3d const* plane, s_cluster_reference* cluster_reference);
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();
 extern void __cdecl effects_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
@@ -172,8 +172,8 @@ extern void __cdecl effects_initialize();
 extern void __cdecl effects_initialize_for_new_map();
 extern void __cdecl effects_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
-extern void __cdecl effects_render(long user_index, e_effect_pass pass);
-extern void __cdecl effects_submit_cheap_first_person_attachments(long user_index);
+extern void __cdecl effects_render(int32 user_index, e_effect_pass pass);
+extern void __cdecl effects_submit_cheap_first_person_attachments(int32 user_index);
 extern void __cdecl effects_update();
 
 extern void render_debug_damage_effects();

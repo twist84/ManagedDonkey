@@ -82,7 +82,7 @@ struct s_anti_gravity_point_definition
 	// pad
 	uint8 BB[0x2];
 
-	short WU;
+	int16 WU;
 	c_string_id damage_source_region_name;
 	real32 model_state_error[k_number_of_model_states];
 };
@@ -115,7 +115,7 @@ struct s_friction_point_definition
 	real32 fraction_of_total_mass; // (0.0-1.0) fraction of total vehicle mass
 	real32 radius;
 	real32 damaged_radius; // radius when the tire is blown off.
-	c_enum<e_friction_type, short, _friction_type_point, k_friction_type_count> friction_type;
+	c_enum<e_friction_type, int16, _friction_type_point, k_friction_type_count> friction_type;
 
 	// pad
 	uint8 BTUPMKNC[0x2];
@@ -132,9 +132,9 @@ struct s_friction_point_definition
 	c_global_material_type runtime_global_material_index;
 
 	// friction point destruction data
-	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> model_state_destroyed; // only need point can destroy flag set
+	c_enum<e_model_state, int16, _model_state_standard, k_number_of_model_states> model_state_destroyed; // only need point can destroy flag set
 	c_string_id region_name; // only need point can destroy flag set
-	long runtime_region_index;
+	int32 runtime_region_index;
 };
 static_assert(sizeof(s_friction_point_definition) == 0x4C);
 
@@ -147,7 +147,7 @@ struct s_havok_vector4 // hkVector4
 struct c_multi_sphere_shape
 {
 	s_havok_shape sphere_rep_shape;
-	long num_spheres;
+	int32 num_spheres;
 	char cock_suck[0xC];
 	s_havok_vector4 four_vectors_storage[8];
 };
@@ -156,10 +156,10 @@ struct c_list_shape
 {
 	struct ChildInfo
 	{
-		long child_shape_pointer;
-		long collision_filter_info;
-		long shape_size;
-		long num_child_shapes;
+		int32 child_shape_pointer;
+		int32 collision_filter_info;
+		int32 shape_size;
+		int32 num_child_shapes;
 	};
 };
 
@@ -174,15 +174,15 @@ enum e_vehicle_phantom_shape_flags
 struct s_vehicle_phantom_shape_definition
 {
 	s_havok_shape_collection list_shape;
-	long child_shapes_pointer;
-	long child_shapes_size;
-	long child_shapes_capacity;
+	int32 child_shapes_pointer;
+	int32 child_shapes_size;
+	int32 child_shapes_capacity;
 	uint8 nail_in_dick[0xC]; // pad
 	real_vector3d aabb_half_extents;
 	real32 havok_w_aabb_half_extents;
 	real_vector3d aabb_center;
 	real32 havok_w_aabb_center;
-	long multisphere_count;
+	int32 multisphere_count;
 	c_flags<e_vehicle_phantom_shape_flags, uint32, k_vehicle_phantom_shape_flags> flags;
 	real_rectangle3d bounds;
 	c_multi_sphere_shape multispheres[4];

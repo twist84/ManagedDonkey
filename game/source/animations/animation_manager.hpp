@@ -18,14 +18,14 @@ struct c_animation_manager
 {
 	c_model_animation_graph const* get_graph() const;
 	bool valid_graph() const;
-	long get_state_name() const;
+	int32 get_state_name() const;
 
 	c_animation_channel m_state_channel;
 	c_animation_channel m_transition_channel;
 	c_interpolator_control m_animation_node_interpolator;
-	long m_mixing_board_definition_index;
-	long m_object_index;
-	long m_graph_tag_index;
+	int32 m_mixing_board_definition_index;
+	int32 m_object_index;
+	int32 m_graph_tag_index;
 	uint16 m_flags;
 	uint16 m_internal_flags;
 	s_animation_goal_settings m_goal_settings;

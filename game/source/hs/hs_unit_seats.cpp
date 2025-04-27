@@ -4,7 +4,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "units/unit_definition.hpp"
 
-bool hs_get_unit_seats_from_substring(long unit_definition_index, char const* seat_substring, c_static_flags<64>* out_unit_seats)
+bool hs_get_unit_seats_from_substring(int32 unit_definition_index, char const* seat_substring, c_static_flags<64>* out_unit_seats)
 {
 	ASSERT(seat_substring);
 	ASSERT(out_unit_seats);
@@ -14,7 +14,7 @@ bool hs_get_unit_seats_from_substring(long unit_definition_index, char const* se
 
 	struct unit_definition* unit_definition = TAG_GET(UNIT_TAG, struct unit_definition, unit_definition_index);
 
-	for (long seat_index = 0; seat_index < unit_definition->unit.seats_block.count; seat_index++)
+	for (int32 seat_index = 0; seat_index < unit_definition->unit.seats_block.count; seat_index++)
 	{
 		unit_seat& seat = unit_definition->unit.seats_block[seat_index];
 		if (csstrstr(seat.label.get_string(), seat_substring) != 0)
@@ -32,7 +32,7 @@ bool hs_unit_seat_mappings_match(s_hs_unit_seat_mapping const& a, s_hs_unit_seat
 	return csmemcmp(&a, &b, sizeof(s_hs_unit_seat_mapping)) == 0;
 }
 
-long hs_encode_unit_seat_mapping(long unit_seat_start_index, long unit_seat_mapping_count)
+int32 hs_encode_unit_seat_mapping(int32 unit_seat_start_index, int32 unit_seat_mapping_count)
 {
 	ASSERT(VALID_INDEX(unit_seat_start_index, k_maximum_hs_unit_seat_mappings));
 	ASSERT(IN_RANGE_INCLUSIVE(unit_seat_mapping_count, 0, k_maximum_hs_unit_seat_mappings));

@@ -23,12 +23,12 @@ void __cdecl network_storage_initialize()
 //.text:004E1E30 ; 
 //.text:004E1E60 ; 
 //.text:004E1E90 ; 
-//.text:004E1EB0 ; void __cdecl network_storage_queue_stop_task(long)
+//.text:004E1EB0 ; void __cdecl network_storage_queue_stop_task(int32)
 
 void __cdecl network_storage_queue_update()
 {
 	INVOKE(0x004E1ED0, network_storage_queue_update);
 }
 
-//.text:004E21C0 ; long __cdecl network_storage_queue_upload_item(c_network_storage_item_interface*, s_network_storage_file_header*, long)
+//.text:004E21C0 ; int32 __cdecl network_storage_queue_upload_item(c_network_storage_item_interface*, s_network_storage_file_header*, int32)
 

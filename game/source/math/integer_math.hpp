@@ -4,10 +4,10 @@ union int16_bounds
 {
 	struct
 	{
-		short lower;
-		short upper;
+		int16 lower;
+		int16 upper;
 	};
-	short n[2];
+	int16 n[2];
 };
 static_assert(sizeof(int16_bounds) == 0x4);
 
@@ -15,10 +15,10 @@ union int32_bounds
 {
 	struct
 	{
-		long lower;
-		long upper;
+		int32 lower;
+		int32 upper;
 	};
-	long n[2];
+	int32 n[2];
 };
 static_assert(sizeof(int32_bounds) == 0x8);
 
@@ -26,10 +26,10 @@ union int64_bounds
 {
 	struct
 	{
-		long long lower;
-		long long upper;
+		int64 lower;
+		int64 upper;
 	};
-	long long n[2];
+	int64 n[2];
 };
 static_assert(sizeof(int64_bounds) == 0x10);
 
@@ -37,10 +37,10 @@ union point2d
 {
 	struct
 	{
-		short x;
-		short y;
+		int16 x;
+		int16 y;
 	};
-	short n[2];
+	int16 n[2];
 };
 static_assert(sizeof(point2d) == 0x4);
 
@@ -48,11 +48,11 @@ union point3d
 {
 	struct
 	{
-		short x;
-		short y;
-		short z;
+		int16 x;
+		int16 y;
+		int16 z;
 	};
-	short n[3];
+	int16 n[3];
 };
 static_assert(sizeof(point3d) == 0x6);
 
@@ -60,10 +60,10 @@ union long_point2d
 {
 	struct
 	{
-		long x;
-		long y;
+		int32 x;
+		int32 y;
 	};
-	long n[2];
+	int32 n[2];
 };
 static_assert(sizeof(long_point2d) == 0x8);
 
@@ -71,11 +71,11 @@ union long_point3d
 {
 	struct
 	{
-		long x;
-		long y;
-		long z;
+		int32 x;
+		int32 y;
+		int32 z;
 	};
-	long n[3];
+	int32 n[3];
 };
 static_assert(sizeof(long_point3d) == 0xC);
 
@@ -83,12 +83,12 @@ union rectangle2d
 {
 	struct
 	{
-		short y0;
-		short x0;
-		short y1;
-		short x1;
+		int16 y0;
+		int16 x0;
+		int16 y1;
+		int16 x1;
 	};
-	short n[4];
+	int16 n[4];
 };
 static_assert(sizeof(rectangle2d) == 0x8);
 
@@ -96,12 +96,12 @@ union long_rectangle2d
 {
 	struct
 	{
-		long y0;
-		long x0;
-		long y1;
-		long x1;
+		int32 y0;
+		int32 x0;
+		int32 y1;
+		int32 x1;
 	};
-	long n[4];
+	int32 n[4];
 };
 static_assert(sizeof(long_rectangle2d) == 0x10);
 
@@ -115,7 +115,7 @@ union rgb_color
 		unsigned char blue;
 	};
 	unsigned char n[4];
-	unsigned long value;
+	uint32 value;
 };
 static_assert(sizeof(rgb_color) == 0x4);
 
@@ -129,21 +129,21 @@ union argb_color
 		unsigned char blue;
 	};
 	unsigned char n[4];
-	unsigned long value;
+	uint32 value;
 };
 static_assert(sizeof(argb_color) == 0x4);
 
-extern bool __cdecl bit_vector_and(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
-extern long __cdecl bit_vector_count_bits(unsigned long const* vector, long count);
-extern long __cdecl bit_vector_highest_bit_set(unsigned long const* vector, long count);
-extern long __cdecl bit_vector_lowest_bit_set(unsigned long const* vector, long count);
-extern void __cdecl bit_vector_not(long count, unsigned long const* vector, unsigned long* result);
-extern void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
+extern bool __cdecl bit_vector_and(int32 count, uint32 const* v0, uint32 const* v1, uint32* result);
+extern int32 __cdecl bit_vector_count_bits(uint32 const* vector, int32 count);
+extern int32 __cdecl bit_vector_highest_bit_set(uint32 const* vector, int32 count);
+extern int32 __cdecl bit_vector_lowest_bit_set(uint32 const* vector, int32 count);
+extern void __cdecl bit_vector_not(int32 count, uint32 const* vector, uint32* result);
+extern void __cdecl bit_vector_or(int32 count, uint32 const* v0, uint32 const* v1, uint32* result);
 
-extern long highest_bit_set(unsigned long mask);
-extern long lowest_bit_set(unsigned long mask);
-extern rectangle2d* set_rectangle2d(rectangle2d* rect, short y0, short x0, short y1, short x1);
-extern point2d* set_point2d(point2d* point, short x, short y);
+extern int32 highest_bit_set(uint32 mask);
+extern int32 lowest_bit_set(uint32 mask);
+extern rectangle2d* set_rectangle2d(rectangle2d* rect, int16 y0, int16 x0, int16 y1, int16 x1);
+extern point2d* set_point2d(point2d* point, int16 x, int16 y);
 
 template<typename t_type>
 t_type int_min(t_type const& val0, t_type const& val1)

@@ -215,7 +215,7 @@ real32 c_player_trait_shield_vitality::get_damage_resistance_percentage() const
 {
 	e_damage_resistance_percentage_setting setting = get_damage_resistance_percentage_setting();
 
-	const long minimum_value = _damage_resistance_percentage_setting_10_percent;
+	const int32 minimum_value = _damage_resistance_percentage_setting_10_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _damage_resistance_percentage_setting_invulnerable))
 		return k_damage_resistance_percentage_values[setting - minimum_value];
 
@@ -224,8 +224,8 @@ real32 c_player_trait_shield_vitality::get_damage_resistance_percentage() const
 
 void c_player_trait_shield_vitality::set_damage_resistance_percentage(real32 damage_resistance_percentage, bool force)
 {
-	const long minimum_value = _damage_resistance_percentage_setting_10_percent;
-	for (long setting = minimum_value; setting < k_damage_resistance_percentage_settings; setting++)
+	const int32 minimum_value = _damage_resistance_percentage_setting_10_percent;
+	for (int32 setting = minimum_value; setting < k_damage_resistance_percentage_settings; setting++)
 	{
 		real32 value = k_damage_resistance_percentage_values[setting - minimum_value];
 		real32 distance = damage_resistance_percentage - value;
@@ -266,7 +266,7 @@ real32 c_player_trait_shield_vitality::get_shield_recharge_rate_percentage() con
 {
 	e_shield_recharge_rate_percentage_setting setting = get_shield_recharge_rate_percentage_setting();
 
-	const long minimum_value = _shield_recharge_rate_percentage_setting_negative_25_percent;
+	const int32 minimum_value = _shield_recharge_rate_percentage_setting_negative_25_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _shield_recharge_rate_percentage_setting_200_percent))
 		return k_shield_recharge_rate_percentage_values[setting - minimum_value];
 
@@ -275,8 +275,8 @@ real32 c_player_trait_shield_vitality::get_shield_recharge_rate_percentage() con
 
 void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage(real32 shield_recharge_rate_percentage, bool force)
 {
-	const long minimum_value = _shield_recharge_rate_percentage_setting_negative_25_percent;
-	for (long setting = minimum_value; setting < k_shield_recharge_rate_percentage_settings; setting++)
+	const int32 minimum_value = _shield_recharge_rate_percentage_setting_negative_25_percent;
+	for (int32 setting = minimum_value; setting < k_shield_recharge_rate_percentage_settings; setting++)
 	{
 		real32 value = k_shield_recharge_rate_percentage_values[setting - minimum_value];
 		real32 distance = shield_recharge_rate_percentage - value;
@@ -317,7 +317,7 @@ real32 c_player_trait_shield_vitality::get_vampirism_percentage() const
 {
 	e_vampirism_percentage_setting setting = get_vampirism_percentage_setting();
 
-	const long minimum_value = _vampirism_percentage_setting_0_percent;
+	const int32 minimum_value = _vampirism_percentage_setting_0_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _vampirism_percentage_setting_100_percent))
 		return k_vampirism_percentage_values[setting - minimum_value];
 
@@ -326,8 +326,8 @@ real32 c_player_trait_shield_vitality::get_vampirism_percentage() const
 
 void c_player_trait_shield_vitality::set_vampirism_percentage(real32 vampirism_percentage, bool force)
 {
-	const long minimum_value = _vampirism_percentage_setting_0_percent;
-	for (long setting = minimum_value; setting < k_vampirism_percentage_settings; setting++)
+	const int32 minimum_value = _vampirism_percentage_setting_0_percent;
+	for (int32 setting = minimum_value; setting < k_vampirism_percentage_settings; setting++)
 	{
 		real32 value = k_vampirism_percentage_values[setting - minimum_value];
 		real32 distance = vampirism_percentage - value;
@@ -394,24 +394,24 @@ void c_player_trait_shield_vitality::set_shield_multiplier_setting(e_shield_mult
 	}
 }
 
-long c_player_trait_shield_vitality::get_shield_multiplier() const
+int32 c_player_trait_shield_vitality::get_shield_multiplier() const
 {
 	e_shield_multiplier_setting setting = get_shield_multiplier_setting();
 
-	const long minimum_value = _shield_multiplier_setting_0x;
+	const int32 minimum_value = _shield_multiplier_setting_0x;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _shield_multiplier_setting_4x))
 		return k_shield_multiplier_values[setting - minimum_value];
 
 	return k_shield_multiplier_values[k_shield_multiplier_setting_default - minimum_value];
 }
 
-void c_player_trait_shield_vitality::set_shield_multiplier(long shield_multiplier, bool force)
+void c_player_trait_shield_vitality::set_shield_multiplier(int32 shield_multiplier, bool force)
 {
-	const long minimum_value = _shield_multiplier_setting_0x;
-	for (long setting = minimum_value; setting < k_shield_multiplier_settings; setting++)
+	const int32 minimum_value = _shield_multiplier_setting_0x;
+	for (int32 setting = minimum_value; setting < k_shield_multiplier_settings; setting++)
 	{
-		long value = k_shield_multiplier_values[setting - minimum_value];
-		long distance = shield_multiplier - value;
+		int32 value = k_shield_multiplier_values[setting - minimum_value];
+		int32 distance = shield_multiplier - value;
 		if ((shield_multiplier - value) < 0.0f)
 			distance = -distance;
 
@@ -518,17 +518,17 @@ char c_player_trait_weapons::get_initial_grenade_count() const
 {
 	e_grenade_count_setting setting = get_initial_grenade_count_setting();
 
-	const long minimum_value = _grenade_count_setting_none;
+	const int32 minimum_value = _grenade_count_setting_none;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _grenade_count_setting_two))
 		return k_grenade_count_values[setting - minimum_value];
 
 	return k_grenade_count_values[k_grenade_count_setting_default - minimum_value];
 }
 
-void c_player_trait_weapons::set_initial_grenade_count(long initial_grenade_count, bool force)
+void c_player_trait_weapons::set_initial_grenade_count(int32 initial_grenade_count, bool force)
 {
-	const long minimum_value = _grenade_count_setting_none;
-	for (long setting = minimum_value; setting < k_grenade_count_settings; setting++)
+	const int32 minimum_value = _grenade_count_setting_none;
+	for (int32 setting = minimum_value; setting < k_grenade_count_settings; setting++)
 	{
 		real32 value = k_grenade_count_values[setting - minimum_value];
 		real32 distance = initial_grenade_count - value;
@@ -570,12 +570,12 @@ void c_player_trait_weapons::set_initial_primary_weapon_absolute_index(char init
 	}
 }
 
-long c_player_trait_weapons::get_initial_primary_weapon() const
+int32 c_player_trait_weapons::get_initial_primary_weapon() const
 {
 	return game_engine_get_multiplayer_weapon_selection_name(get_initial_primary_weapon_absolute_index());
 }
 
-void c_player_trait_weapons::set_initial_primary_weapon(long initial_primary_weapon, bool force)
+void c_player_trait_weapons::set_initial_primary_weapon(int32 initial_primary_weapon, bool force)
 {
 	set_initial_primary_weapon_absolute_index(static_cast<char>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_primary_weapon)), force);
 }
@@ -605,12 +605,12 @@ void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(char in
 	}
 }
 
-long c_player_trait_weapons::get_initial_secondary_weapon() const
+int32 c_player_trait_weapons::get_initial_secondary_weapon() const
 {
 	return game_engine_get_multiplayer_weapon_selection_name(get_initial_secondary_weapon_absolute_index());
 }
 
-void c_player_trait_weapons::set_initial_secondary_weapon(long initial_secondary_weapon, bool force)
+void c_player_trait_weapons::set_initial_secondary_weapon(int32 initial_secondary_weapon, bool force)
 {
 	set_initial_secondary_weapon_absolute_index(static_cast<char>(game_engine_get_multiplayer_weapon_selection_absolute_index(initial_secondary_weapon)), force);
 }
@@ -639,7 +639,7 @@ real32 c_player_trait_weapons::get_damage_modifier_percentage() const
 {
 	e_damage_modifier_percentage_setting setting = get_damage_modifier_percentage_setting();
 
-	const long minimum_value = _damage_modifier_percentage_setting_0_percent;
+	const int32 minimum_value = _damage_modifier_percentage_setting_0_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _damage_modifier_percentage_setting_fatality))
 		return k_damage_modifier_percentage_values[setting - minimum_value];
 
@@ -648,8 +648,8 @@ real32 c_player_trait_weapons::get_damage_modifier_percentage() const
 
 void c_player_trait_weapons::set_damage_modifier_percentage(real32 damage_modifier_percentage, bool force)
 {
-	const long minimum_value = _damage_modifier_percentage_setting_0_percent;
-	for (long setting = minimum_value; setting < k_damage_modifier_percentage_settings; setting++)
+	const int32 minimum_value = _damage_modifier_percentage_setting_0_percent;
+	for (int32 setting = minimum_value; setting < k_damage_modifier_percentage_settings; setting++)
 	{
 		real32 value = k_damage_modifier_percentage_values[setting - minimum_value];
 		real32 distance = damage_modifier_percentage - value;
@@ -819,7 +819,7 @@ real32 c_player_trait_movement::get_speed() const
 {
 	e_player_speed_setting setting = get_speed_setting();
 
-	const long minimum_value = _player_speed_setting_25_percent;
+	const int32 minimum_value = _player_speed_setting_25_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _player_speed_setting_300_percent))
 		return k_player_speed_values[setting - minimum_value];
 
@@ -828,8 +828,8 @@ real32 c_player_trait_movement::get_speed() const
 
 void c_player_trait_movement::set_speed(real32 speed, bool force)
 {
-	const long minimum_value = _player_speed_setting_25_percent;
-	for (long setting = minimum_value; setting < k_player_speed_settings; setting++)
+	const int32 minimum_value = _player_speed_setting_25_percent;
+	for (int32 setting = minimum_value; setting < k_player_speed_settings; setting++)
 	{
 		real32 value = k_player_speed_values[setting - minimum_value];
 		real32 distance = speed - value;
@@ -870,7 +870,7 @@ real32 c_player_trait_movement::get_gravity() const
 {
 	e_player_gravity_setting setting = get_gravity_setting();
 
-	const long minimum_value = _player_gravity_setting_50_percent;
+	const int32 minimum_value = _player_gravity_setting_50_percent;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _player_gravity_setting_200_percent))
 		return k_player_gravity_values[setting - minimum_value];
 
@@ -879,8 +879,8 @@ real32 c_player_trait_movement::get_gravity() const
 
 void c_player_trait_movement::set_gravity(real32 gravity, bool force)
 {
-	const long minimum_value = _player_gravity_setting_50_percent;
-	for (long setting = minimum_value; setting < k_player_gravity_settings; setting++)
+	const int32 minimum_value = _player_gravity_setting_50_percent;
+	for (int32 setting = minimum_value; setting < k_player_gravity_settings; setting++)
 	{
 		real32 value = k_player_gravity_values[setting - minimum_value];
 		real32 distance = gravity - value;
@@ -1117,7 +1117,7 @@ real32 c_player_trait_sensors::get_motion_tracker_range_meters() const
 {
 	e_motion_tracker_range_setting setting = get_motion_tracker_range_setting();
 
-	const long minimum_value = _motion_tracker_range_setting_10_meters;
+	const int32 minimum_value = _motion_tracker_range_setting_10_meters;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _motion_tracker_range_setting_150_meters))
 		return k_motion_tracker_range_values[setting - minimum_value];
 

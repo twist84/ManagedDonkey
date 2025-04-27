@@ -4,7 +4,7 @@
 
 struct hkHalf
 {
-	short m_value;
+	int16 m_value;
 };
 
 struct hkVector4

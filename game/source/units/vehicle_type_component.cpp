@@ -50,7 +50,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B8AF60, c_vehicle_type_component, update_control);
 HOOK_DECLARE_CLASS_MEMBER(0x00B8B030, c_vehicle_type_component, update_physics);
 HOOK_DECLARE_CLASS_MEMBER(0x00B8B1A0, c_vehicle_type_component, vector_is_upsides_down);
 
-void c_vehicle_type_component::adjust_gravity(long vehicle_index, real_vector3d* gravity_acceleration)
+void c_vehicle_type_component::adjust_gravity(int32 vehicle_index, real_vector3d* gravity_acceleration)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A190, c_vehicle_type_component, adjust_gravity, vehicle_index, gravity_acceleration);
 
@@ -91,7 +91,7 @@ void c_vehicle_type_component::adjust_gravity(long vehicle_index, real_vector3d*
 	}
 }
 
-bool c_vehicle_type_component::auto_control(long vehicle_index)
+bool c_vehicle_type_component::auto_control(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A290, c_vehicle_type_component, auto_control, vehicle_index);
 
@@ -113,7 +113,7 @@ bool c_vehicle_type_component::auto_control(long vehicle_index)
 	return false;
 }
 
-bool c_vehicle_type_component::compute_function_value(long vehicle_index, long function, real32* magnitude, bool* force_active)
+bool c_vehicle_type_component::compute_function_value(int32 vehicle_index, int32 function, real32* magnitude, bool* force_active)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A2D0, c_vehicle_type_component, compute_function_value, vehicle_index, function, magnitude, force_active);
 
@@ -158,7 +158,7 @@ bool c_vehicle_type_component::compute_function_value(long vehicle_index, long f
 	return result;
 }
 
-void c_vehicle_type_component::create_effects(long vehicle_index)
+void c_vehicle_type_component::create_effects(int32 vehicle_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A400, c_vehicle_type_component, create_effects, vehicle_index);
 
@@ -199,7 +199,7 @@ void c_vehicle_type_component::create_effects(long vehicle_index)
 	}
 }
 
-void c_vehicle_type_component::deplete_function_variables(long vehicle_index)
+void c_vehicle_type_component::deplete_function_variables(int32 vehicle_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A4E0, c_vehicle_type_component, deplete_function_variables, vehicle_index);
 
@@ -240,7 +240,7 @@ void c_vehicle_type_component::deplete_function_variables(long vehicle_index)
 	}
 }
 
-bool c_vehicle_type_component::effected_by_vehicle_ceiling(long vehicle_index)
+bool c_vehicle_type_component::effected_by_vehicle_ceiling(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A5B0, c_vehicle_type_component, effected_by_vehicle_ceiling, vehicle_index);
 
@@ -299,7 +299,7 @@ c_vehicle_auto_turret* c_vehicle_type_turret::get_auto_turret()
 	return &m_auto_turret;
 }
 
-c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(long vehicle_index)
+c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A680, c_vehicle_type_component, get_auto_turret, vehicle_index);
 
@@ -318,7 +318,7 @@ c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(long vehicle_in
 	return auto_turret;
 }
 
-bool c_vehicle_type_component::get_auto_turret_damage_owner(long vehicle_index, s_damage_owner* damage_owner)
+bool c_vehicle_type_component::get_auto_turret_damage_owner(int32 vehicle_index, s_damage_owner* damage_owner)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A6E0, c_vehicle_type_component, get_auto_turret_damage_owner, vehicle_index, damage_owner);
 
@@ -340,7 +340,7 @@ bool c_vehicle_type_component::get_auto_turret_damage_owner(long vehicle_index, 
 	return false;
 }
 
-s_vehicle_engine const* c_vehicle_type_component::get_engine(long vehicle_index)
+s_vehicle_engine const* c_vehicle_type_component::get_engine(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A720, c_vehicle_type_component, get_engine, vehicle_index);
 
@@ -442,7 +442,7 @@ c_vehicle_type_chopper* c_vehicle_type_component::get_type_chopper()
 	return (c_vehicle_type_chopper*)&m_vehicle_type_buffer;
 }
 
-void c_vehicle_type_component::handle_deleted_object(long vehicle_index, long object_index)
+void c_vehicle_type_component::handle_deleted_object(int32 vehicle_index, int32 object_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A820, c_vehicle_type_component, handle_deleted_object, vehicle_index, object_index);
 
@@ -450,7 +450,7 @@ void c_vehicle_type_component::handle_deleted_object(long vehicle_index, long ob
 		get_type_turret()->handle_deleted_object(vehicle_index, object_index);
 }
 
-void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
+void c_vehicle_type_component::handled_changed_vehicle_type(int32 vehicle_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A850, c_vehicle_type_component, handled_changed_vehicle_type, vehicle_index);
 
@@ -459,7 +459,7 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 		c_vehicle_type_component::reset(vehicle_index);
 }
 
-bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, long object_index)
+bool c_vehicle_type_component::init_auto_turret(int32 vehicle_index, int32 trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, int32 object_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 
@@ -481,7 +481,7 @@ bool c_vehicle_type_component::init_auto_turret(long vehicle_index, long trigger
 	return false;
 }
 
-bool c_vehicle_type_component::is_e_braking(long vehicle_index)
+bool c_vehicle_type_component::is_e_braking(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A910, c_vehicle_type_component, is_e_braking, vehicle_index);
 
@@ -491,7 +491,7 @@ bool c_vehicle_type_component::is_e_braking(long vehicle_index)
 	return false;
 }
 
-bool c_vehicle_type_component::is_running_trick(long vehicle_index)
+bool c_vehicle_type_component::is_running_trick(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A940, c_vehicle_type_component, is_running_trick, vehicle_index);
 
@@ -501,7 +501,7 @@ bool c_vehicle_type_component::is_running_trick(long vehicle_index)
 	return false;
 }
 
-bool c_vehicle_type_component::is_stopped(long vehicle_index)
+bool c_vehicle_type_component::is_stopped(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A970, c_vehicle_type_component, is_stopped, vehicle_index);
 
@@ -546,7 +546,7 @@ bool c_vehicle_type_component::is_stopped(long vehicle_index)
 	return result;
 }
 
-bool c_vehicle_type_component::kills_riders_at_terminal_velocity(long vehicle_index)
+bool c_vehicle_type_component::kills_riders_at_terminal_velocity(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8AA50, c_vehicle_type_component, kills_riders_at_terminal_velocity, vehicle_index);
 
@@ -591,7 +591,7 @@ bool c_vehicle_type_component::kills_riders_at_terminal_velocity(long vehicle_in
 	return result;
 }
 
-bool c_vehicle_type_component::physics_disabled(long vehicle_index)
+bool c_vehicle_type_component::physics_disabled(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8AB20, c_vehicle_type_component, physics_disabled, vehicle_index);
 
@@ -636,7 +636,7 @@ bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 	return result;
 }
 
-void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_component::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8ABF0, c_vehicle_type_component, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 
@@ -677,7 +677,7 @@ void c_vehicle_type_component::process_animation_channels(long vehicle_index, vo
 	}
 }
 
-void c_vehicle_type_component::reset(long vehicle_index)
+void c_vehicle_type_component::reset(int32 vehicle_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8AD30, c_vehicle_type_component, reset, vehicle_index);
 
@@ -721,7 +721,7 @@ void c_vehicle_type_component::reset(long vehicle_index)
 	}
 }
 
-void c_vehicle_type_component::set_auto_turret_damage_owner(long vehicle_index, long damage_owner_index)
+void c_vehicle_type_component::set_auto_turret_damage_owner(int32 vehicle_index, int32 damage_owner_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8AE20, c_vehicle_type_component, set_auto_turret_damage_owner, vehicle_index, damage_owner_index);
 
@@ -741,7 +741,7 @@ void c_vehicle_type_component::set_auto_turret_damage_owner(long vehicle_index, 
 		auto_turret->set_damage_owner(damage_owner_index);
 }
 
-bool c_vehicle_type_component::should_override_deactivation(long vehicle_index)
+bool c_vehicle_type_component::should_override_deactivation(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8AE60, c_vehicle_type_component, should_override_deactivation, vehicle_index);
 
@@ -786,7 +786,7 @@ bool c_vehicle_type_component::should_override_deactivation(long vehicle_index)
 	return result;
 }
 
-void c_vehicle_type_component::start_trick(long vehicle_index, e_vehicle_trick_type trick_type)
+void c_vehicle_type_component::start_trick(int32 vehicle_index, e_vehicle_trick_type trick_type)
 {
 	//INVOKE_CLASS_MEMBER(0x00B8AF30, c_vehicle_type_component, start_trick, vehicle_index, trick_type);
 
@@ -794,7 +794,7 @@ void c_vehicle_type_component::start_trick(long vehicle_index, e_vehicle_trick_t
 		get_type_alien_fighter()->start_trick(vehicle_index, trick_type);
 }
 
-void c_vehicle_type_component::update_control(long vehicle_index)
+void c_vehicle_type_component::update_control(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8AF60, c_vehicle_type_component, update_control, vehicle_index);
 
@@ -835,7 +835,7 @@ void c_vehicle_type_component::update_control(long vehicle_index)
 	}
 }
 
-void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicle_physics_instance* instance)
+void c_vehicle_type_component::update_physics(int32 vehicle_index, s_havok_vehicle_physics_instance* instance)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8B030, c_vehicle_type_component, update_physics, vehicle_index, instance);
 
@@ -878,7 +878,7 @@ void c_vehicle_type_component::update_physics(long vehicle_index, s_havok_vehicl
 	vehicle_try_to_join_local_physics(vehicle_index, instance);
 }
 
-bool c_vehicle_type_component::vector_is_upsides_down(long vehicle_index, real_vector3d const* vector)
+bool c_vehicle_type_component::vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8B1A0, c_vehicle_type_component, vector_is_upsides_down, vehicle_index, vector);
 

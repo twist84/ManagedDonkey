@@ -22,7 +22,7 @@ bool debug_structure_cluster_skies = false;
 bool debug_structure_invisible = false;
 bool debug_structure = false;
 bool debug_structure_automatic = true;
-long debug_plane_index = NONE;
+int32 debug_plane_index = NONE;
 bool debug_structure_unique_colors = false;
 bool debug_structure_complexity = false;
 bool debug_structure_seam_edges = false;
@@ -71,10 +71,10 @@ void render_debug_player()
 	if (!debug_player)
 		return;
 
-	long user_index = c_player_view::get_current()->get_player_view_user_index();
+	int32 user_index = c_player_view::get_current()->get_player_view_user_index();
 	if (user_index != NONE)
 	{
-		long unit_index = player_mapping_get_unit_by_output_user(user_index);
+		int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
 		if (biped_datum* biped = BIPED_GET(unit_index))
 		{
 			if (biped->object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
@@ -153,11 +153,11 @@ void render_debug_structure_decals()
 	if (!debug_permanent_decals)
 		return;
 
-	for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+	for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 		structure_bsp_index != NONE;
 		structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 	{
-		long runtime_decal_index = 0;
+		int32 runtime_decal_index = 0;
 		for (structure_runtime_decal& runtime_decal : global_structure_bsp_get(structure_bsp_index)->runtime_decals)
 		{
 			struct scenario* scenario = global_scenario_get();

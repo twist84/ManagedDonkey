@@ -20,12 +20,12 @@ struct scenario_trigger_volume
 	c_string_id name;
 
 	// scenario_object_name
-	short object_name; // short_block_index
+	int16 object_name; // short_block_index
 
-	short runtime_node_index;
+	int16 runtime_node_index;
 	c_string_id node_name;
 
-	short type;
+	int16 type;
 
 	// pad
 	uint8 padding[2];
@@ -46,10 +46,10 @@ struct scenario_trigger_volume
 	real32 runtime_radius;
 
 	// s_scenario_kill_trigger_volume
-	short kill_trigger_volume_index; // short_block_index
+	int16 kill_trigger_volume_index; // short_block_index
 
 	// s_scenario_editor_folder
-	short editor_folder_index; // short_block_index
+	int16 editor_folder_index; // short_block_index
 };
 static_assert(sizeof(scenario_trigger_volume) == 0x7C);
 

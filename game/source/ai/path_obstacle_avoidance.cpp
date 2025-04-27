@@ -10,7 +10,7 @@ real_point3d debug_obstacle_path_start_point = {};
 c_sector_ref debug_obstacle_path_start_sector_ref = {};
 real_point3d debug_obstacle_path_goal_point = {};
 c_sector_ref debug_obstacle_path_goal_sector_ref = {};
-short debug_obstacle_path_projection_axis = 0;
+int16 debug_obstacle_path_projection_axis = 0;
 real32 debug_obstacle_path_radius = 0.0f;
 struct obstacles debug_obstacle_path_obstacles = {};
 bool debug_obstacle_path_projection_sign = false;
@@ -19,29 +19,29 @@ bool debug_ignore_broken_surfaces = false;
 bool debug_obstacle_final_step = false;
 obstacle_path debug_obstacle_path_path = {};
 
-//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(long, struct obstacles const*, short, bool, real_point3d const*, c_sector_ref, real_vector3d const*, real32, real32, long*, short*)
-//.text:014DF830 ; real32 __cdecl heap_cost(obstacle_path*, short)
-//.text:014DF860 ; void __cdecl heap_down(obstacle_path*, short)
-//.text:014DF970 ; bool __cdecl heap_insert(obstacle_path*, short)
-//.text:014DF9C0 ; short __cdecl heap_left_index(short)
-//.text:014DF9D0 ; short __cdecl heap_parent_index(short)
-//.text:014DF9E0 ; short __cdecl heap_remove(obstacle_path*)
-//.text:014DFA30 ; short __cdecl heap_right_index(short)
-//.text:014DFA40 ; void __cdecl heap_up(obstacle_path*, short)
-//.text:014DFAE0 ; real_vector3d* __cdecl inverse_project_vector3d(real_vector3d const*, short, bool, real_vector3d*)
-//.text:014DFB30 ; short __cdecl obstacle_from_disc(struct obstacles const*, short)
-//.text:014DFB60 ; short __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, short, bool, bool, short, real32, short)
-//.text:014DFEB0 ; short __cdecl path_add_steps(obstacle_path*, short, short)
-//.text:014E04D0 ; short __cdecl path_add_turning_point_step(obstacle_path*, short, real_point3d const*, short, uint16, bool, bool)
-//.text:014E0800 ; bool __cdecl path_avoid_obstacles(long, struct path_state*, short, struct path_step const*, bool, short*, struct path_step*, bool*, long*, short*, bool*)
-//.text:014E17D0 ; bool __cdecl path_find(struct path_state const*, obstacle_path*, bool, struct obstacles const*, real32, real_point3d const*, c_sector_ref, real_point3d const*, c_sector_ref, short, bool, bool, bool)
+//.text:014DF710 ; bool __cdecl actor_test_ignorable_obstacles(int32, struct obstacles const*, int16, bool, real_point3d const*, c_sector_ref, real_vector3d const*, real32, real32, int32*, int16*)
+//.text:014DF830 ; real32 __cdecl heap_cost(obstacle_path*, int16)
+//.text:014DF860 ; void __cdecl heap_down(obstacle_path*, int16)
+//.text:014DF970 ; bool __cdecl heap_insert(obstacle_path*, int16)
+//.text:014DF9C0 ; int16 __cdecl heap_left_index(int16)
+//.text:014DF9D0 ; int16 __cdecl heap_parent_index(int16)
+//.text:014DF9E0 ; int16 __cdecl heap_remove(obstacle_path*)
+//.text:014DFA30 ; int16 __cdecl heap_right_index(int16)
+//.text:014DFA40 ; void __cdecl heap_up(obstacle_path*, int16)
+//.text:014DFAE0 ; real_vector3d* __cdecl inverse_project_vector3d(real_vector3d const*, int16, bool, real_vector3d*)
+//.text:014DFB30 ; int16 __cdecl obstacle_from_disc(struct obstacles const*, int16)
+//.text:014DFB60 ; int16 __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, int16, bool, bool, int16, real32, int16)
+//.text:014DFEB0 ; int16 __cdecl path_add_steps(obstacle_path*, int16, int16)
+//.text:014E04D0 ; int16 __cdecl path_add_turning_point_step(obstacle_path*, int16, real_point3d const*, int16, uint16, bool, bool)
+//.text:014E0800 ; bool __cdecl path_avoid_obstacles(int32, struct path_state*, int16, struct path_step const*, bool, int16*, struct path_step*, bool*, int32*, int16*, bool*)
+//.text:014E17D0 ; bool __cdecl path_find(struct path_state const*, obstacle_path*, bool, struct obstacles const*, real32, real_point3d const*, c_sector_ref, real_point3d const*, c_sector_ref, int16, bool, bool, bool)
 
-struct step* __cdecl path_get_step(obstacle_path* path, short step_index)
+struct step* __cdecl path_get_step(obstacle_path* path, int16 step_index)
 {
 	return INVOKE(0x014E1970, path_get_step, path, step_index);
 }
 
-short __cdecl path_get_step_index(obstacle_path* path, short heap_index)
+int16 __cdecl path_get_step_index(obstacle_path* path, int16 heap_index)
 {
 	return INVOKE(0x014E1990, path_get_step_index, path, heap_index);
 }
@@ -60,7 +60,7 @@ bool __cdecl path_new(
 	c_sector_ref start_sector_ref,
 	real_point3d const* goal,
 	c_sector_ref goal_sector_ref,
-	short projection_axis,
+	int16 projection_axis,
 	bool projection_sign,
 	bool final_step,
 	bool ignore_optional)
@@ -80,7 +80,7 @@ bool __cdecl path_new(
 		ignore_optional);
 }
 
-//.text:014E2070 ; void __cdecl step_failed(obstacle_path*, short, short)
+//.text:014E2070 ; void __cdecl step_failed(obstacle_path*, int16, int16)
 
 void render_debug_obstacle_path()
 {
@@ -136,7 +136,7 @@ void render_debug_path(obstacle_path const* path)
 	c_static_flags<64> step_flags{};
 	step_flags.clear_range(path->step_count);
 	
-	short step_index0 = path->goal_step_index;
+	int16 step_index0 = path->goal_step_index;
 	while (step_index0 != 0xFFFFi16)
 	{
 		struct step* step0 = path_get_step((obstacle_path*)path, step_index0);
@@ -144,7 +144,7 @@ void render_debug_path(obstacle_path const* path)
 		step_index0 = step0->previous_step_index;
 	}
 	
-	for (short step_index = 0; step_index < path->step_count; step_index++)
+	for (int16 step_index = 0; step_index < path->step_count; step_index++)
 	{
 		struct step* step1 = path_get_step((obstacle_path*)path, step_index);
 		if (step1->previous_step_index == 0xFFFFi16)
@@ -155,7 +155,7 @@ void render_debug_path(obstacle_path const* path)
 		real32 v15 = 0.0f;
 		real32 v10 = 0.0f;
 	
-		//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+		//for (int16 disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
 		//{
 		//	if (path->obstacles->discs[disc_index].obstacle_index == step1->obstacle_index)
 		//	{
@@ -163,7 +163,7 @@ void render_debug_path(obstacle_path const* path)
 		//		break;
 		//	}
 		//}
-		//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+		//for (int16 disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
 		//{
 		//	if (path->obstacles->discs[disc_index].obstacle_index == step2->obstacle_index)
 		//	{

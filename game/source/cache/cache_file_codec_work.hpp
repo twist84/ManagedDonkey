@@ -17,19 +17,19 @@ struct c_asynchronous_io_marker;
 struct c_cache_file_decompressor;
 struct c_cache_file_async_decompression_task
 {
-	long m_task_id;
+	int32 m_task_id;
 	bool m_task_done;
 	c_synchronized_long m_task_done_async;
 	c_synchronized_long m_task_abort_signal;
 	c_asynchronous_io_marker* m_task_io_marker;
 	bool m_task_success;
-	long m_active_decompressor_identifier;
+	int32 m_active_decompressor_identifier;
 	c_cache_file_decompressor* m_active_decompressor;
 	c_basic_buffer<void> m_active_decompression_buffer;
 };
 static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
 
-long __cdecl async_decompress_file_section(
+int32 __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,
 	uint32 offset,

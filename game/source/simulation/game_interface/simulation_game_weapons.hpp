@@ -10,37 +10,37 @@ struct s_simulation_weapon_effect_event_data
 {
 	// 0: bomb explode
 	// 0: bomb defuse
-	long weapon_effect_type;
+	int32 weapon_effect_type;
 	real_point3d position;
 };
 static_assert(sizeof(s_simulation_weapon_effect_event_data) == 0x10);
 
 struct s_simulation_weapon_empty_click_event_data
 {
-	long unit_inventory_index;
-	long weapon_definition_index;
+	int32 unit_inventory_index;
+	int32 weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_empty_click_event_data) == 0x8);
 
 struct s_simulation_weapon_fire_event_data
 {
-	long unit_inventory_index;
-	long weapon_definition_index;
+	int32 unit_inventory_index;
+	int32 weapon_definition_index;
 
-	long barrel_index;
+	int32 barrel_index;
 	bool barrel_should_recover;
 
 	bool aiming_vector_valid;
 	real_vector3d aiming_vector;
 
-	long predicted_impact_target_count;
+	int32 predicted_impact_target_count;
 	struct
 	{
 		uint8 __data0[0xC];
 	} predicted_impact_targets[16];
 	static_assert(sizeof(*predicted_impact_targets) == 0xC);
 
-	long predicted_projectile_fire_data_count;
+	int32 predicted_projectile_fire_data_count;
 	struct
 	{
 		uint8 __data0[0x20];
@@ -61,8 +61,8 @@ static_assert(sizeof(s_simulation_weapon_fire_event_data) == 0x354);
 
 struct s_simulation_unit_equipment_use_event_data
 {
-	long player_index;
-	long consumable_index;
+	int32 player_index;
+	int32 consumable_index;
 };
 static_assert(sizeof(s_simulation_unit_equipment_use_event_data) == 0x8);
 
@@ -77,7 +77,7 @@ static_assert(sizeof(s_simulation_weapon_reload_event_data) == 0x3);
 struct s_simulation_weapon_pickup_event_data
 {
 	s_unit_weapon_set weapon_set;
-	long unit_add_weapon_mode;
+	int32 unit_add_weapon_mode;
 };
 static_assert(sizeof(s_simulation_weapon_pickup_event_data) == 0x8);
 
@@ -85,7 +85,7 @@ struct s_simulation_weapon_put_away_event_data
 {
 	uint16 unit_weapon_set_index;
 	uint16 unit_inventory_index;
-	long weapon_definition_index;
+	int32 weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_put_away_event_data) == 0x8);
 
@@ -93,7 +93,7 @@ struct s_simulation_weapon_drop_event_data
 {
 	uint16 unit_weapon_set_index;
 	uint16 unit_inventory_index;
-	long weapon_definition_index;
+	int32 weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_drop_event_data) == 0x8);
 

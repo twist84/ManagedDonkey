@@ -10,7 +10,7 @@ c_debug_menu_zone_sets::~c_debug_menu_zone_sets()
 {
 }
 
-void c_debug_menu_zone_sets::notify_selected(short selected_value)
+void c_debug_menu_zone_sets::notify_selected(int16 selected_value)
 {
 	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count))
 	{
@@ -40,7 +40,7 @@ void c_debug_menu_zone_sets::notify_down()
 	update_caption();
 }
 
-c_debug_menu_zone_sets::c_debug_menu_zone_sets(c_debug_menu* parent, short num_visible, char const* name_ptr) :
+c_debug_menu_zone_sets::c_debug_menu_zone_sets(c_debug_menu* parent, int16 num_visible, char const* name_ptr) :
 	c_debug_menu_scroll(parent, num_visible, name_ptr)
 {
 	csstrnzcpy(m_caption, "", sizeof(m_caption));

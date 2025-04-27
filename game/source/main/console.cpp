@@ -69,7 +69,7 @@ bool console_dump_to_debug_display = false;
 bool* console_status_render = &console_globals.status_render;
 
 c_static_string<256> console_token_buffer;
-long suggestion_current_index;
+int32 suggestion_current_index;
 
 s_status_line* g_status_line_head = NULL;
 s_status_line* g_status_line_tail = NULL;
@@ -181,12 +181,12 @@ void __cdecl console_complete()
 	char* token = console_get_token();
 
 	char const* matching_items[256]{};
-	short matching_item_count = hs_tokens_enumerate(console_token_buffer.get_string(), NONE, matching_items, NUMBEROF(matching_items));
+	int16 matching_item_count = hs_tokens_enumerate(console_token_buffer.get_string(), NONE, matching_items, NUMBEROF(matching_items));
 	if (matching_item_count)
 	{
 		ASSERT(matching_items[0]);
 
-		short last_similar_character_index = SHRT_MAX;
+		int16 last_similar_character_index = SHRT_MAX;
 		bool use_rows = matching_item_count > 16;
 
 		c_static_string<1024> matching_item_row;
@@ -196,15 +196,15 @@ void __cdecl console_complete()
 		{
 			console_printf("");
 
-			short matching_item_index = 0;
+			int16 matching_item_index = 0;
 			char const** matching_item = matching_items;
 			for (matching_item_index = 0; matching_item_index < matching_item_count; matching_item_index++, matching_item++)
 			{
-				short matching_item_length_minus_one = short(strlen(*matching_item)) - 1;
+				int16 matching_item_length_minus_one = int16(strlen(*matching_item)) - 1;
 				if (last_similar_character_index > matching_item_length_minus_one)
 					last_similar_character_index = matching_item_length_minus_one;
 
-				short similar_character_index;
+				int16 similar_character_index;
 				for (similar_character_index = 0; ; similar_character_index++)
 				{
 					if (tolower(matching_items[0][similar_character_index]) != tolower(matching_items[matching_item_index][similar_character_index])
@@ -216,7 +216,7 @@ void __cdecl console_complete()
 
 				if (similar_character_index)
 				{
-					if (similar_character_index >= short(console_token_buffer.length()))
+					if (similar_character_index >= int16(console_token_buffer.length()))
 						last_similar_character_index = similar_character_index - 1;
 				}
 
@@ -238,14 +238,14 @@ void __cdecl console_complete()
 			if (use_rows && (matching_item_index - 1) % 6 != 5)
 				console_printf("%s", matching_item_row.get_string());
 
-			ASSERT(short(strlen(matching_items[0])) >= (last_similar_character_index + 1));
+			ASSERT(int16(strlen(matching_items[0])) >= (last_similar_character_index + 1));
 
 			csmemcpy(token, matching_items[0], last_similar_character_index + 1);
 			token[last_similar_character_index + 1] = 0;
 
-			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + short(token - console_globals.input_state.result + 1);
+			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + int16(token - console_globals.input_state.result + 1);
 
-			suggestion_current_index = short(strlen(matching_items[0])) == last_similar_character_index + 1;
+			suggestion_current_index = int16(strlen(matching_items[0])) == last_similar_character_index + 1;
 		}
 		else if (suggestion_current_index == matching_item_count)
 		{
@@ -257,10 +257,10 @@ void __cdecl console_complete()
 		{
 			csmemcpy(token, matching_items[suggestion_current_index], strlen(matching_items[suggestion_current_index]));
 
-			short suggestion_length = short(strlen(matching_items[suggestion_current_index++]));
+			int16 suggestion_length = int16(strlen(matching_items[suggestion_current_index++]));
 			token[suggestion_length] = 0;
 
-			console_globals.input_state.edit.insertion_point_index = short(token - console_globals.input_state.result) + suggestion_length;
+			console_globals.input_state.edit.insertion_point_index = int16(token - console_globals.input_state.result) + suggestion_length;
 		}
 	}
 }
@@ -309,7 +309,7 @@ void __cdecl console_initialize()
 
 		debug_keys_initialize();
 
-		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 		{
 			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
 			g_status_strings[i].line.flags.set(_status_line_left_justify_bit, true);
@@ -394,7 +394,7 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 	{
 		if (console_is_active())
 		{
-			for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
+			for (int32 key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 			{
 				s_key_state* key = &console_globals.input_state.keys[key_index];
 				ASSERT(key->ascii_code != _key_not_a_key);
@@ -433,7 +433,7 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 					if (key->ascii_code == _key_up_arrow)
 						console_globals.selected_previous_command_index += 2;
 
-					short v4 = console_globals.selected_previous_command_index - 1;
+					int16 v4 = console_globals.selected_previous_command_index - 1;
 					console_globals.selected_previous_command_index = v4;
 
 					if (v4 <= 0)
@@ -525,11 +525,11 @@ bool __cdecl console_process_command(char const* command, bool interactive)
 
 	main_status("console_command", "%s", command);
 
-	short command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
+	int16 command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
 	console_globals.newest_previous_command_index = command_index;
 	console_globals.previous_commands[command_index].set(command);
 
-	short v5 = NUMBEROF(console_globals.previous_commands);
+	int16 v5 = NUMBEROF(console_globals.previous_commands);
 	if (console_globals.previous_command_count + 1 <= NUMBEROF(console_globals.previous_commands))
 		v5 = console_globals.previous_command_count + 1;
 	console_globals.previous_command_count = v5;
@@ -539,14 +539,14 @@ bool __cdecl console_process_command(char const* command, bool interactive)
 	bool result = false;//hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
 
 	tokens_t tokens{};
-	long token_count = 0;
+	int32 token_count = 0;
 	command_tokenize(command, tokens, &token_count);
 	if (token_count > 0)
 	{
 		char const* command_name = tokens[0]->get_string();
 
 		bool command_found = false;
-		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
+		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
 			if (tokens[0]->is_equal(k_registered_commands[i].name))
 			{
@@ -556,7 +556,7 @@ bool __cdecl console_process_command(char const* command, bool interactive)
 
 				c_console::write(callback_result.get_string());
 
-				long succeeded = callback_result.index_of(": succeeded");
+				int32 succeeded = callback_result.index_of(": succeeded");
 				result = succeeded != NONE || tokens[0]->is_equal("help");
 
 				if (result)
@@ -970,7 +970,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_exposure_lock, c_screen_postprocess::x_editable_settings.m_auto_exposure_lock),
 
 };
-long const k_console_global_count = NUMBEROF(k_console_globals);
+int32 const k_console_global_count = NUMBEROF(k_console_globals);
 
 bool string_to_boolean(char const* string, bool* value)
 {
@@ -1009,7 +1009,7 @@ bool string_to_real(char const* string, real32* value)
 	return input != *value;
 }
 
-bool string_to_short_integer(char const* string, short* value)
+bool string_to_short_integer(char const* string, int16* value)
 {
 	if (!string)
 		return true;
@@ -1017,12 +1017,12 @@ bool string_to_short_integer(char const* string, short* value)
 	if (!value)
 		return false;
 
-	short const input = *value;
-	*value = static_cast<short>(atol(string));
+	int16 const input = *value;
+	*value = static_cast<int16>(atol(string));
 	return input != *value;
 }
 
-bool string_to_long_integer(char const* string, long* value)
+bool string_to_long_integer(char const* string, int32* value)
 {
 	if (!string)
 		return true;
@@ -1030,19 +1030,19 @@ bool string_to_long_integer(char const* string, long* value)
 	if (!value)
 		return false;
 
-	long const input = *value;
+	int32 const input = *value;
 	*value = atol(string);
 	return input != *value;
 }
 
-callback_result_t set_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t set_callback(void const* userdata, int32 token_count, tokens_t const tokens)
 {
 	ASSERT(token_count >= 1);
 
 	static callback_result_t result = "not found";
 
-	long console_global_index = NONE;
-	for (long i = 0; i < k_console_global_count; i++)
+	int32 console_global_index = NONE;
+	for (int32 i = 0; i < k_console_global_count; i++)
 	{
 		if (!tokens[0]->is_equal(k_console_globals[i].name))
 			continue;
@@ -1080,14 +1080,14 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	break;
 	case _hs_type_short_integer:
 	{
-		result = string_to_short_integer(value_string, static_cast<short*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%hd", *static_cast<short*>(console_global->pointer));
+		result = string_to_short_integer(value_string, static_cast<int16*>(console_global->pointer)) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%hd", *static_cast<int16*>(console_global->pointer));
 	}
 	break;
 	case _hs_type_long_integer:
 	{
-		result = string_to_long_integer(value_string, static_cast<long*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%d", *static_cast<long*>(console_global->pointer));
+		result = string_to_long_integer(value_string, static_cast<int32*>(console_global->pointer)) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%d", *static_cast<int32*>(console_global->pointer));
 	}
 	break;
 	}
@@ -1121,13 +1121,13 @@ void status_line_draw()
 		if (!console_globals.status_render/* || !can_use_claws()*/)
 			return;
 
-		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 		{
 			s_status_line& status_line = g_status_strings[i].line;
 			if (!status_line.text.is_empty())
 			{
 				uint32 time = system_milliseconds();
-				long time_delta = time - g_status_strings[i].time_created;
+				int32 time_delta = time - g_status_strings[i].time_created;
 				if (time_delta > 10000)
 				{
 					status_line.text.clear();
@@ -1211,9 +1211,9 @@ bool status_line_visible(s_status_line const* line)
 	return (!line->in_use || *line->in_use) && !line->text.is_empty() && !line->flags.test(_status_line_inhibit_drawing_bit);
 }
 
-void status_lines_clear_text(s_status_line* status_lines, long count)
+void status_lines_clear_text(s_status_line* status_lines, int32 count)
 {
-	for (long i = 0; i < count; i++)
+	for (int32 i = 0; i < count; i++)
 	{
 		status_lines[i].text.clear();
 	}
@@ -1231,9 +1231,9 @@ void status_lines_disable(char const* identifier)
 	}
 }
 
-void status_lines_dispose(s_status_line* status_lines, long count)
+void status_lines_dispose(s_status_line* status_lines, int32 count)
 {
-	for (long i = 0; i < count; i++)
+	for (int32 i = 0; i < count; i++)
 		status_line_remove_single(&status_lines[i]);
 }
 
@@ -1249,16 +1249,16 @@ void status_lines_enable(char const* identifier)
 	}
 }
 
-void status_lines_initialize(s_status_line* status_lines, bool* flag, long count)
+void status_lines_initialize(s_status_line* status_lines, bool* flag, int32 count)
 {
 	status_lines_initialize_simple(status_lines, flag, NULL, count);
 }
 
-void status_lines_initialize_simple(s_status_line* status_line, bool* flag, char const* identifier, long count)
+void status_lines_initialize_simple(s_status_line* status_line, bool* flag, char const* identifier, int32 count)
 {
 	csmemset(status_line, 0, sizeof(s_status_line) * count);
 
-	for (long i = 0; i < count; i++)
+	for (int32 i = 0; i < count; i++)
 	{
 		s_status_line& line = status_line[i];
 		line.in_use = flag;
@@ -1269,9 +1269,9 @@ void status_lines_initialize_simple(s_status_line* status_line, bool* flag, char
 	}
 }
 
-void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, long count)
+void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, int32 count)
 {
-	for (long i = 0; i < count; i++)
+	for (int32 i = 0; i < count; i++)
 	{
 		status_lines[i].flags.set(flag, enable);
 	}
@@ -1297,7 +1297,7 @@ void status_printf_va(char const* format, char* argument_list)
 
 void status_string_internal(char const* status, char const* message)
 {
-	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+	for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
 		if (!status_string.line.text.is_empty() && status_string.format_string.is_equal(status))
@@ -1308,7 +1308,7 @@ void status_string_internal(char const* status, char const* message)
 		}
 	}
 
-	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+	for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
 		s_status_string& status_string = g_status_strings[i];
 		if (status_string.line.text.is_empty())
@@ -1327,7 +1327,7 @@ void status_strings(char const* status, char const* strings)
 	{
 		char buffer[1024]{};
 		char* data[3]{};
-		long line = 0;
+		int32 line = 0;
 
 		csstrnzcpy(buffer, strings, sizeof(buffer));
 		for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(NULL, "\r\n", 1, data))

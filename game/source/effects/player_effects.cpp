@@ -31,16 +31,16 @@ void __cdecl player_effect_initialize_for_new_map()
 
 //.text:00684AC0 ; 
 
-void __cdecl player_effect_render(long user_index)
+void __cdecl player_effect_render(int32 user_index)
 {
 	INVOKE(0x00684B20, player_effect_render, user_index);
 }
 
-//.text:00684D40 ; void __cdecl player_effect_screen_flash(long, s_damage_response_screen_flash_definition*, real32)
-//.text:00684D90 ; void __cdecl player_effect_screen_flash_stop(long)
-//.text:00684DF0 ; void __cdecl player_effect_start(long, long, long, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
-//.text:00684E30 ; void __cdecl player_effect_start_internal(long, long, long, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
-//.text:00684F30 ; void __cdecl player_effect_start_response(long, long, long, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
+//.text:00684D40 ; void __cdecl player_effect_screen_flash(int32, s_damage_response_screen_flash_definition*, real32)
+//.text:00684D90 ; void __cdecl player_effect_screen_flash_stop(int32)
+//.text:00684DF0 ; void __cdecl player_effect_start(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
+//.text:00684E30 ; void __cdecl player_effect_start_internal(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
+//.text:00684F30 ; void __cdecl player_effect_start_response(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
 
 void __cdecl player_effect_update()
 {

@@ -5,26 +5,26 @@
 
 struct s_survival_mode_globals
 {
-	long lives;
-	short set_index;
-	short round_index;
-	short wave_index;
+	int32 lives;
+	int16 set_index;
+	int16 round_index;
+	int16 wave_index;
 
-	short __unknownA;
+	int16 __unknownA;
 
 	real32 set_multiplier;
 	real32 bonus_multiplier;
-	short waves_per_round;
-	short rounds_per_set;
+	int16 waves_per_round;
+	int16 rounds_per_set;
 
-	long __unknown18;
-	long __unknown1C;
+	int32 __unknown18;
+	int32 __unknown1C;
 
-	long wave_in_set_index;
+	int32 wave_in_set_index;
 	uint32 primary_skulls;
 	uint32 secondary_skulls;
 
-	long __unknown2C;
+	int32 __unknown2C;
 
 	c_game_statborg statborg;
 

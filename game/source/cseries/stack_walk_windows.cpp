@@ -10,9 +10,9 @@
 #include <dbghelp.h>
 #include <Psapi.h>
 
-long const k_max_stack_depth = 256;
+int32 const k_max_stack_depth = 256;
 
-char const* symbol_name_from_address(unsigned long routine_address, long* out_symbol_offset)
+char const* symbol_name_from_address(uint32 routine_address, int32* out_symbol_offset)
 {
 	static char buffer[16384]{};
 	csstrnzcpy(buffer, "<unknown>", sizeof(buffer));
@@ -84,7 +84,7 @@ char const* symbol_name_from_address(unsigned long routine_address, long* out_sy
 	return buffer;
 }
 
-void walk_stack(uint32* routine_addresses, uint32 number_of_levels, short levels_to_ignore, long* levels_dumped)
+void walk_stack(uint32* routine_addresses, uint32 number_of_levels, int16 levels_to_ignore, int32* levels_dumped)
 {
 	levels_to_ignore++;
 
@@ -94,31 +94,31 @@ void walk_stack(uint32* routine_addresses, uint32 number_of_levels, short levels
 
 	void* stack[k_max_stack_depth]{};
 
-	long stack_trace_result = static_cast<long>(CaptureStackBackTrace(static_cast<DWORD>(levels_to_ignore), k_max_stack_depth, stack, NULL));
+	int32 stack_trace_result = static_cast<int32>(CaptureStackBackTrace(static_cast<DWORD>(levels_to_ignore), k_max_stack_depth, stack, NULL));
 	ASSERT(SUCCEEDED(stack_trace_result));
 
 	csmemcpy(routine_addresses, stack, sizeof(uint32) * number_of_levels);
 	*levels_dumped = stack_trace_result;
 }
 
-void stack_walk_with_context_internal(s_file_reference const* file, short levels_to_ignore, _CONTEXT* context, long number_of_levels, uint32* routine_addresses, long* out_levels_dumped)
+void stack_walk_with_context_internal(s_file_reference const* file, int16 levels_to_ignore, _CONTEXT* context, int32 number_of_levels, uint32* routine_addresses, int32* out_levels_dumped)
 {
 	levels_to_ignore++;
 
-	long levels_dumped = 0;
+	int32 levels_dumped = 0;
 	walk_stack(routine_addresses, number_of_levels, levels_to_ignore, &levels_dumped);
 
 	if (out_levels_dumped)
 		*out_levels_dumped = levels_dumped;
 }
 
-void stack_walk_print(s_file_reference* file, _CONTEXT* context, long levels_dumped, uint32 const* routine_addresses)
+void stack_walk_print(s_file_reference* file, _CONTEXT* context, int32 levels_dumped, uint32 const* routine_addresses)
 {
-	for (long i = levels_dumped - 1; i >= 0; i--)
+	for (int32 i = levels_dumped - 1; i >= 0; i--)
 	{
 		uint32 routine_address = routine_addresses[i];
 
-		long symbol_offset = 0;
+		int32 symbol_offset = 0;
 		char const* symbol_name = symbol_name_from_address(routine_address, &symbol_offset);
 
 		if (file)
@@ -134,31 +134,31 @@ void stack_walk_print(s_file_reference* file, _CONTEXT* context, long levels_dum
 	}
 }
 
-void stack_walk_with_context_common(s_file_reference* file, short levels_to_ignore, _CONTEXT* context)
+void stack_walk_with_context_common(s_file_reference* file, int16 levels_to_ignore, _CONTEXT* context)
 {
 	levels_to_ignore++;
 
 	uint32 routine_addresses[64]{};
-	long levels_dumped = 0;
+	int32 levels_dumped = 0;
 	stack_walk_with_context_internal(file, levels_to_ignore, context, NUMBEROF(routine_addresses), routine_addresses, &levels_dumped);
 	stack_walk_print(file, context, levels_dumped, routine_addresses);
 }
 
-void stack_walk_with_context(s_file_reference* file, short levels_to_ignore, _CONTEXT* context)
+void stack_walk_with_context(s_file_reference* file, int16 levels_to_ignore, _CONTEXT* context)
 {
 	levels_to_ignore++;
 
 	stack_walk_with_context_common(file, levels_to_ignore, context);
 }
 
-void stack_walk_to_file(s_file_reference* file, short levels_to_ignore)
+void stack_walk_to_file(s_file_reference* file, int16 levels_to_ignore)
 {
 	levels_to_ignore++;
 
 	stack_walk_with_context_common(file, levels_to_ignore, nullptr);
 }
 
-void stack_walk(short levels_to_ignore)
+void stack_walk(int16 levels_to_ignore)
 {
 	levels_to_ignore++;
 

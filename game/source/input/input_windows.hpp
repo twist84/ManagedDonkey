@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-const long k_number_of_windows_input_virtual_codes = 256;
-const long k_number_of_input_ascii_codes = 128;
+const int32 k_number_of_windows_input_virtual_codes = 256;
+const int32 k_number_of_input_ascii_codes = 128;
 
 enum e_input_key_code
 {
@@ -344,7 +344,7 @@ struct key_stroke
 {
 	uint8 modifier_flags;
 	char key_type;
-	short ascii_code;
+	int16 ascii_code;
 	bool repeating;
 };
 static_assert(sizeof(key_stroke) == 0x6);
@@ -353,8 +353,8 @@ static_assert(sizeof(key_stroke) == 0x6);
 struct s_key_state
 {
 	uint8 modifier_flags;
-	long key_type;
-	short ascii_code;
+	int32 key_type;
+	int16 ascii_code;
 
 	// virtual-key code
 	// LOWORD(wParam);
@@ -375,7 +375,7 @@ static_assert(sizeof(s_key_state) == 0x10);
 
 struct s_mouse_state
 {
-	c_enum<e_mouse_type, long, _mouse_type_move, k_mouse_type_count> mouse_type;
+	c_enum<e_mouse_type, int32, _mouse_type_move, k_mouse_type_count> mouse_type;
 	uint32 x;
 	uint32 y;
 	uint32 wheel_delta;
@@ -385,17 +385,17 @@ static_assert(sizeof(s_mouse_state) == 0x14);
 
 struct mouse_state
 {
-	long x;
-	long y;
-	long wheel_ticks;
+	int32 x;
+	int32 y;
+	int32 wheel_ticks;
 	c_static_array<uint8, k_mouse_button_count> frames_down;
 	c_static_array<uint16, k_mouse_button_count> msec_down;
 
 	c_flags<e_mouse_button, uint8, k_mouse_button_count> raw_flags;
-	long relative_x;
-	long relative_y;
-	short wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
-	short hwheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_HWHEEL) ? usButtonData : 0
+	int32 relative_x;
+	int32 relative_y;
+	int16 wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
+	int16 hwheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_HWHEEL) ? usButtonData : 0
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
@@ -432,12 +432,12 @@ struct s_input_globals
 
 	c_static_array<key_state, k_key_code_count> keys;
 
-	short buffered_key_read_index;
-	short buffered_key_read_count;
+	int16 buffered_key_read_index;
+	int16 buffered_key_read_count;
 	c_static_array<s_key_state, 64> buffered_keys;
 
-	short buffered_mouse_button_read_index;
-	short buffered_mouse_button_read_count;
+	int16 buffered_mouse_button_read_index;
+	int16 buffered_mouse_button_read_count;
 	c_static_array<s_mouse_state, 64> buffered_mouse_buttons;
 
 	bool raw_input_unknownAB4;
@@ -450,12 +450,12 @@ struct s_input_globals
 
 	// sub_511550
 	// sub_511AF0
-	long mouse_relative_x;  // 1
-	long mouse_relative_y;  // 1
-	short mouse_wheel_delta; // 120, WHEEL_DELTA
-	long mouse_x_ticks;     // 1
-	long mouse_y_ticks;     // 1
-	long mouse_wheel_ticks; // 1
+	int32 mouse_relative_x;  // 1
+	int32 mouse_relative_y;  // 1
+	int16 mouse_wheel_delta; // 120, WHEEL_DELTA
+	int32 mouse_x_ticks;     // 1
+	int32 mouse_y_ticks;     // 1
+	int32 mouse_wheel_ticks; // 1
 
 	c_static_flags<32> gamepad_valid_mask;
 	c_static_array<gamepad_state, k_number_of_controllers> gamepad_states;
@@ -464,7 +464,7 @@ struct s_input_globals
 	c_static_array<rumble_state, k_number_of_controllers> rumble_states;
 
 	uint32 raw_mouse_wheel_update_time;
-	long __unknownC6C;
+	int32 __unknownC6C;
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
 
@@ -474,9 +474,9 @@ extern uint8 const(&key_to_virtual_table)[k_key_code_count];
 //extern uint8 const key_to_virtual_table[k_key_code_count];
 
 // virtual_to_key_table[VK_ESCAPE] = _key_escape
-//extern c_static_array<short const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
-extern short const(&virtual_to_key_table)[k_number_of_windows_input_virtual_codes];
-//extern short const virtual_to_key_table[k_number_of_windows_input_virtual_codes];
+//extern c_static_array<int16 const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
+extern int16 const(&virtual_to_key_table)[k_number_of_windows_input_virtual_codes];
+//extern int16 const virtual_to_key_table[k_number_of_windows_input_virtual_codes];
 
 // key_to_ascii_table[_key_space] = ' '
 //extern c_static_array<uint8 const, k_key_code_count>& key_to_ascii_table;
@@ -484,9 +484,9 @@ extern uint8 const(&key_to_ascii_table)[k_key_code_count];
 //extern uint8 const key_to_ascii_table[k_key_code_count];
 
 // key_to_ascii_table[' '] = _key_space
-//extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
-extern short const(&ascii_to_key_table)[k_number_of_input_ascii_codes];
-//extern short const ascii_to_key_table[k_number_of_input_ascii_codes];
+//extern c_static_array<int16 const, k_number_of_input_ascii_codes>& ascii_to_key_table;
+extern int16 const(&ascii_to_key_table)[k_number_of_input_ascii_codes];
+//extern int16 const ascii_to_key_table[k_number_of_input_ascii_codes];
 
 extern s_input_globals& input_globals;
 
@@ -503,11 +503,11 @@ extern void __cdecl sub_511710();
 extern void __cdecl sub_511760(int error, char const* format, ...);
 extern void __cdecl input_feedback_suppress(bool suppress_feedback);
 extern void __cdecl input_flush();
-extern gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index);
+extern gamepad_state const* __cdecl input_get_gamepad_state(int16 gamepad_index);
 extern bool __cdecl input_get_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type);
 extern mouse_state* __cdecl input_get_mouse_state(e_input_type input_type);
-extern bool __cdecl input_has_gamepad(short gamepad_index);
+extern bool __cdecl input_has_gamepad(int16 gamepad_index);
 extern void __cdecl input_initialize();
 extern bool __cdecl sub_511AF0();
 extern bool __cdecl sub_511B40();
@@ -519,7 +519,7 @@ extern uint16 __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
 extern bool __cdecl sub_512450();
-extern void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed);
+extern void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed);
 extern void __cdecl input_suppress_type(e_input_type input_type, bool suppress);
 extern void __cdecl input_suppress();
 extern void __cdecl sub_5125A0();
@@ -527,14 +527,14 @@ extern bool __cdecl sub_512650();
 extern void __cdecl input_update();
 extern void __cdecl sub_5129B0();
 extern void __cdecl input_update_device_connections();
-extern void __cdecl input_update_keyboard(long duration_ms);
-extern void __cdecl input_update_mouse(long duration_ms);
-extern void __cdecl input_update_gamepads(long duration_ms);
+extern void __cdecl input_update_keyboard(int32 duration_ms);
+extern void __cdecl input_update_mouse(int32 duration_ms);
+extern void __cdecl input_update_gamepads(int32 duration_ms);
 extern void __cdecl input_update_gamepads_rumble();
-extern void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, long duration_ms);
-extern void __cdecl update_key(key_state* key, bool key_down, long duration_ms);
+extern void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, int32 duration_ms);
+extern void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms);
 
 extern void input_handle_key_combos();
-extern void input_get_raw_data_string(char* buffer, short size);
-extern void input_mouse_state_get_raw_data_string(char* buffer, short size);
+extern void input_get_raw_data_string(char* buffer, int16 size);
+extern void input_mouse_state_get_raw_data_string(char* buffer, int16 size);
 

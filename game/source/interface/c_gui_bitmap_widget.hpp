@@ -25,8 +25,8 @@ struct s_bitmap_widget_definition :
 	s_tag_reference bitmap_tag;
 	s_tag_reference custom_pixel_shader;
 	int16 bitmap_blend_method;
-	short initial_sprite_sequence;
-	short initial_sprite_frame;
+	int16 initial_sprite_sequence;
+	int16 initial_sprite_frame;
 	uint8 : 8;
 	uint8 : 8;
 	c_string_id value_override_list;
@@ -37,11 +37,11 @@ static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definit
 struct s_runtime_bitmap_widget_definition :
 	s_runtime_core_widget_definition
 {
-	long bitmap_tag_reference_index;
-	long __unknown38;
-	long bitmap_blend_method;
-	short initial_sprite_sequence;
-	short initial_sprite_frame;
+	int32 bitmap_tag_reference_index;
+	int32 __unknown38;
+	int32 bitmap_blend_method;
+	int16 initial_sprite_sequence;
+	int16 initial_sprite_frame;
 	c_string_id value_override_list;
 	c_string_id value_identifier;
 };
@@ -66,15 +66,15 @@ public:
 
 
 public:
-	void set_sprite_frame(long sprite_frame);
-	void set_sprite_sequence(long sprite_sequence);
+	void set_sprite_frame(int32 sprite_frame);
+	void set_sprite_sequence(int32 sprite_sequence);
 	bitmap_data const* get_current_bitmap() const;
 
 protected:
-	long __unknownDC;
-	long m_bitmap_tag_reference_index;
-	long m_sprite_frame;
-	long m_sprite_sequence;
+	int32 __unknownDC;
+	int32 m_bitmap_tag_reference_index;
+	int32 m_sprite_frame;
+	int32 m_sprite_sequence;
 	s_runtime_bitmap_widget_definition m_core_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);

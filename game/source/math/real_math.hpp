@@ -39,9 +39,6 @@
 #define RAD real32(180 / PI)  // 57.2957795131
 #define DEG real32(PI / 180)  // 0.01745329251
 
-typedef float real32;
-static_assert(sizeof(real32) == sizeof(float));
-
 struct real_decibel
 {
 	real32 db;
@@ -264,45 +261,42 @@ struct real_linear_rgb_color
 };
 static_assert(sizeof(real_linear_rgb_color) == sizeof(real32) * 3);
 
-typedef float angle;
-static_assert(sizeof(angle) == sizeof(float));
-
 union angle_bounds
 {
-	angle n[2];
+	real32 n[2];
 
 	struct
 	{
-		angle lower;
-		angle upper;
+		real32 lower;
+		real32 upper;
 	};
 };
-static_assert(sizeof(angle_bounds) == sizeof(angle) * 2);
+static_assert(sizeof(angle_bounds) == sizeof(real32) * 2);
 
 union real_euler_angles2d
 {
-	angle n[2];
+	real32 n[2];
 
 	struct
 	{
-		angle yaw;
-		angle pitch;
+		real32 yaw;
+		real32 pitch;
 	};
 };
-static_assert(sizeof(real_euler_angles2d) == sizeof(angle) * 2);
+static_assert(sizeof(real_euler_angles2d) == sizeof(real32) * 2);
 
 union real_euler_angles3d
 {
-	angle n[3];
+	real32 n[3];
 
 	struct
 	{
-		angle yaw;
-		angle pitch;
-		angle roll;
+		real32 yaw;
+		real32 pitch;
+		real32 roll;
 	};
 };
-static_assert(sizeof(real_euler_angles3d) == sizeof(angle) * 3);
+static_assert(sizeof(real_euler_angles3d) == sizeof(real32) * 3);
 
 struct real_matrix3x3
 {
@@ -457,7 +451,7 @@ extern bool __cdecl valid_realcmp(real32 a, real32 b);
 extern real32 __cdecl angle_between_vectors3d(real_vector3d const* a, real_vector3d const* b);
 extern real_euler_angles2d* __cdecl euler_angles2d_from_vector3d(real_euler_angles2d* facing, real_vector3d const* forward);
 extern real_vector3d* __cdecl generate_up_vector3d(real_vector3d const* forward, real_vector3d* up);
-extern real_point3d* __cdecl project_point2d(real_point2d const* p2d, real_plane3d const* plane, short projection, bool sign, real_point3d* p3d);
+extern real_point3d* __cdecl project_point2d(real_point2d const* p2d, real_plane3d const* plane, int16 projection, bool sign, real_point3d* p3d);
 extern void __cdecl quaternion_transform_point(real_quaternion const* q, real_point3d const* p, real_point3d* result);
 extern void __cdecl real_math_dispose();
 extern void __cdecl real_math_initialize();
@@ -465,15 +459,15 @@ extern void __cdecl real_math_reset_precision();
 extern void __cdecl real_rectangle2d_clamp_bounds(real_rectangle2d* clampee, real_rectangle2d const* clamper);
 extern bool __cdecl real_rectangle2d_compute_intersection(real_rectangle2d const* a, real_rectangle2d const* b, real_rectangle2d* result);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* bounds, real_point3d const* point);
-extern real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* bounds, long point_count, real_point3d const* points);
+extern real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* bounds, int32 point_count, real_point3d const* points);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* bounds, real_rectangle3d const* rectangle);
-extern long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximum_edge_count, real_point3d(* const edges)[2]);
-extern long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximum_face_count, real_point3d(* const faces)[4]);
-extern long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices);
+extern int32 __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, int32 maximum_edge_count, real_point3d(* const edges)[2]);
+extern int32 __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, int32 maximum_face_count, real_point3d(* const faces)[4]);
+extern int32 __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, int32 maximum_vertex_count, real_point3d* const vertices);
 extern real_vector3d* __cdecl vector3d_from_angle(real_vector3d* vector, real32 angle);
 extern real_vector3d* __cdecl vector3d_from_euler_angles2d(real_vector3d* vector, real_euler_angles2d const* angles);
 extern bool __cdecl valid_real_vector3d_axes3(real_vector3d const* forward, real_vector3d const* left, real_vector3d const* up);
-extern bool __cdecl valid_polygon2d(long point_count, real_point2d const* const points);
+extern bool __cdecl valid_polygon2d(int32 point_count, real_point2d const* const points);
 extern real_vector3d* __cdecl add_vectors3d(real_vector3d const* a, real_vector3d const* b, real_vector3d* result);
 extern real32 __cdecl arctangent(real32 y, real32 x);
 extern real_vector3d* __cdecl cross_product3d(real_vector3d const* a, real_vector3d const* b, real_vector3d* result);

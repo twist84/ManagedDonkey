@@ -23,7 +23,7 @@ uint32 __cdecl crc_checksum_buffer_adler32(uint32 adler, uint8* buffer, uint32 b
 
 		char group_string[8]{};
 		tag_to_string(instance->tag_group.group_tag, group_string);
-		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count];
+		int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count];
 		display_debug_string("%d, tags: tag instance checksum mismatch calcutaled/expected %08X/%08X, ['%s', 0x%04X]", tag_index, checksum, instance->checksum, group_string, tag_index);
 
 		instance->checksum = checksum;
@@ -165,7 +165,7 @@ uint32 __cdecl crc32(uint32 crc, const uint8* buf, uint32 len)
 
 	if (!crc_table_initialized)
 	{
-		for (long uint8 = 0; uint8 < 256; uint8++)
+		for (int32 uint8 = 0; uint8 < 256; uint8++)
 		{
 			uint32 crc = static_cast<uint32>(uint8);
 

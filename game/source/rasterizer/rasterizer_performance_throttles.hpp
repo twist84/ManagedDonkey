@@ -26,19 +26,19 @@ struct s_performance_throttles
 	real32 decal_fade_distance_scale;
 
 	// will quickly fade cpu lights when we try to render more than this many
-	long max_cpu_dynamic_lights;
+	int32 max_cpu_dynamic_lights;
 
 	// scales the size used for distance-fade (set smaller to make it fade earlier)
 	real32 cpu_light_fade_distance_scale;
 
 	// will quickly fade gpu lights when we try to render more than this many
-	long max_gpu_dynamic_lights;
+	int32 max_gpu_dynamic_lights;
 
 	// scales the size used for distance-fade (set smaller to make it fade earlier)
 	real32 gpu_light_fade_distance_scale;
 
 	// 0 = off
-	long max_shadow_casting_objects;
+	int32 max_shadow_casting_objects;
 
 	real32 shadow_quality_lod;
 
@@ -51,8 +51,8 @@ struct c_performance_throttles
 {
 public:
 	static s_performance_throttles* __cdecl get_current_performance_throttles();
-	static real32 __cdecl get_performance_throttle(char const* name, long player_count);
-	static void __cdecl set_performance_throttle(char const* name, long player_count, real32 value);
+	static real32 __cdecl get_performance_throttle(char const* name, int32 player_count);
+	static void __cdecl set_performance_throttle(char const* name, int32 player_count, real32 value);
 	static void __cdecl update_current_performance_throttles();
 
 public:
@@ -68,6 +68,6 @@ public:
 	static s_performance_throttles& m_current_throttles;
 };
 
-extern real32 __cdecl get_performance_throttle(char const* name, long player_count);
-extern void __cdecl set_performance_throttle(char const* name, long player_count, real32 value);
+extern real32 __cdecl get_performance_throttle(char const* name, int32 player_count);
+extern void __cdecl set_performance_throttle(char const* name, int32 player_count, real32 value);
 

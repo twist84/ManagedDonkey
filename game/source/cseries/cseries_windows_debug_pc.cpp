@@ -27,7 +27,7 @@ static_assert(sizeof(s_exception_type_info) == 0x10);
 struct s_exception_information
 {
 	c_synchronized_long exception_occurred;
-	long thread_id;
+	int32 thread_id;
 	CONTEXT context_record;
 	uint32 exception_code;
 	uint32 exception_flags;
@@ -173,7 +173,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//return false;
 }
 
-char const* __cdecl exception_code_get_string(unsigned long code)
+char const* __cdecl exception_code_get_string(uint32 code)
 {
 	return INVOKE(0x0051BE40, exception_code_get_string, code);
 
@@ -204,7 +204,7 @@ char const* __cdecl exception_code_get_string(unsigned long code)
 	//return nullptr;
 }
 
-long __cdecl exceptions_update()
+int32 __cdecl exceptions_update()
 {
 	//INVOKE(0x0051C020, exceptions_update);
 
@@ -237,7 +237,7 @@ long __cdecl exceptions_update()
 
 	c_static_string<1156> crash_info;
 	char const* thread_name = get_thread_name_from_thread_id(g_exception_information.thread_id);
-	long thread_id = g_exception_information.thread_id;
+	int32 thread_id = g_exception_information.thread_id;
 
 	_clearfp();
 	event_logs_flush();
@@ -267,7 +267,7 @@ long __cdecl exceptions_update()
 	{
 		char const* exception_string = g_exception_information.thread_assert_arguments.statement;
 		char const* file = g_exception_information.thread_assert_arguments.file;
-		long line = g_exception_information.thread_assert_arguments.line;
+		int32 line = g_exception_information.thread_assert_arguments.line;
 		bool assertion_failed = g_exception_information.thread_assert_arguments.fatal;
 
 		event(_event_message, "crash: %s at %s,#%d",
@@ -355,7 +355,7 @@ long __cdecl exceptions_update()
 	else
 		main_halt_and_catch_fire();
 
-	long result = !is_debugger_present() ? 1 : -1;
+	int32 result = !is_debugger_present() ? 1 : -1;
 
 	g_exception_information.exception_occurred = false;
 	main_loop_pregame_disable(false);

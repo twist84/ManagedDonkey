@@ -12,51 +12,51 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00AF9C20, c_start_menu_settings_appearance_colors, initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AF9F70, c_start_menu_settings_appearance_colors, set_color_values_from_profile);
 
-bool __cdecl parse_xml_armor1(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_armor1(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return INVOKE(0x00AF9D90, parse_xml_armor1, this_ptr, buffer, buffer_length);
 
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor1));
 }
 
-bool __cdecl parse_xml_armor2(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_armor2(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return INVOKE(0x00AF9DB0, parse_xml_armor2, this_ptr, buffer, buffer_length);
 
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor2));
 }
 
-bool __cdecl parse_xml_armor3(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_armor3(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_armor3));
 
-	long color_armor3 = string_id_retrieve("color_armor3");
+	int32 color_armor3 = string_id_retrieve("color_armor3");
 	if (color_armor3 == _string_id_invalid)
 		return false;
 
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, color_armor3);
 }
 
-bool __cdecl parse_xml_color(c_gui_screen_widget* screen_widget, wchar_t* buffer, long buffer_length, long name)
+bool __cdecl parse_xml_color(c_gui_screen_widget* screen_widget, wchar_t* buffer, int32 buffer_length, int32 name)
 {
 	return INVOKE(0x00AF9DD0, parse_xml_color, screen_widget, buffer, buffer_length, name);
 }
 
-bool __cdecl parse_xml_emblem1(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_emblem1(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return INVOKE(0x00AF9EE0, parse_xml_emblem1, this_ptr, buffer, buffer_length);
 
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem1));
 }
 
-bool __cdecl parse_xml_emblem2(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_emblem2(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return INVOKE(0x00AF9F00, parse_xml_emblem2, this_ptr, buffer, buffer_length);
 
 	return parse_xml_color((c_gui_screen_widget*)this_ptr, buffer, buffer_length, STRING_ID(gui, color_emblem2));
 }
 
-bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	//return INVOKE(0x00AF9F20, parse_xml_emblem3, this_ptr, buffer, buffer_length);
 
@@ -87,10 +87,10 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //				if (c_gui_widget* focused_widget = get_focused_widget())
 //					parent_list_item = focused_widget->get_parent_list_item();
 //
-//				long parent_list_item_name = parent_list_item->m_name.get_value();
+//				int32 parent_list_item_name = parent_list_item->m_name.get_value();
 //				if (c_gui_list_widget* child_list = get_child_list_widget(parent_list_item_name))
 //				{
-//					long focused_item_index = child_list->get_focused_item_index();
+//					int32 focused_item_index = child_list->get_focused_item_index();
 //					for (c_gui_list_item_widget* child_list_item = (c_gui_list_item_widget*)child_list->get_first_child_widget_by_type(_gui_list_item);
 //						child_list_item;
 //						child_list_item = get_next_list_item_widget(true))
@@ -112,7 +112,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //		}
 //		else if (event_type == _event_type_button_press && (component == _controller_component_button_a || component == _controller_component_button_b))
 //		{
-//			long parent_list_name = focused_parent_list_widget->m_name.get_value();
+//			int32 parent_list_name = focused_parent_list_widget->m_name.get_value();
 //			for (c_gui_list_item_widget* child_list_item = (c_gui_list_item_widget*)group_selector_child_list->get_first_child_widget_by_type(_gui_list_item);
 //				child_list_item;
 //				child_list_item = get_next_list_item_widget(true))
@@ -133,7 +133,7 @@ bool __cdecl parse_xml_emblem3(void* this_ptr, wchar_t* buffer, long buffer_leng
 //			{
 //				e_controller_index controller_index = get_arbitrary_responding_controller();
 //				c_player_profile_interface* player_profile = controller_get(controller_index)->get_player_profile_interface();
-//				long focused_item_index = focused_parent_list_widget->get_focused_item_index();
+//				int32 focused_item_index = focused_parent_list_widget->get_focused_item_index();
 //
 //				s_emblem_info emblem_info = player_profile->m_emblem_info;
 //				switch (parent_list_name)
@@ -223,7 +223,7 @@ void __thiscall c_start_menu_settings_appearance_colors::initialize_()
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem3", this, parse_xml_emblem3));
 }
 
-void c_start_menu_settings_appearance_colors::set_color_focused_list_item(long name, e_player_color_index player_color_index)
+void c_start_menu_settings_appearance_colors::set_color_focused_list_item(int32 name, e_player_color_index player_color_index)
 {
 	INVOKE_CLASS_MEMBER(0x00AF9F50, c_start_menu_settings_appearance_colors, set_color_focused_list_item, name, player_color_index);
 

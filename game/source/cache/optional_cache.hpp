@@ -9,7 +9,7 @@ enum e_optional_cache_user
 
 struct s_optional_cache_user_memory_configuration
 {
-	long maximum_priority;
+	int32 maximum_priority;
 	uint32 maximum_size;
 };
 static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
@@ -38,7 +38,7 @@ struct c_optional_cache_backend
 private:
 	virtual void initialize(e_map_memory_configuration memory_configuration, c_static_array<s_optional_cache_user_memory_configuration, k_number_of_optional_cache_users> const*);
 	virtual void dispose();
-	virtual void* try_to_allocate(e_optional_cache_user, e_optional_cache_user_priority, long, c_optional_cache_user_callback*);
+	virtual void* try_to_allocate(e_optional_cache_user, e_optional_cache_user_priority, int32, c_optional_cache_user_callback*);
 	virtual void deallocate(e_optional_cache_user, void*);
 
 	bool m_active;
@@ -59,7 +59,7 @@ static_assert(sizeof(s_optional_cache_globals) == 0x40);
 extern s_optional_cache_globals& g_optional_cache_globals;
 
 extern void __cdecl _optional_cache_free(e_optional_cache_user user, void* pointer);
-extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, long size, c_optional_cache_user_callback* callback);
+extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, int32 size, c_optional_cache_user_callback* callback);
 extern void __cdecl optional_cache_clear_in_game_backend(c_optional_cache_backend* backend);
 extern void __cdecl optional_cache_dispose();
 extern s_optional_cache_user* __cdecl optional_cache_get_user(e_optional_cache_user user);

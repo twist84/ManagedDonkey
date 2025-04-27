@@ -6,7 +6,7 @@
 struct s_aim_assist_targeting_result
 {
 	c_aim_target_object aim_target;
-	long target_player;
+	int32 target_player;
 	real32 primary_autoaim_level;
 	real32 secondary_autoaim_level;
 	real_vector3d lead_vector;
@@ -46,7 +46,7 @@ struct s_aim_assist_query
 
 	real32 weapon_autoaim_range3C;
 
-	long __unknown40;
+	int32 __unknown40;
 	real_point3d __unknown44;
 
 	real32 projectile_velocity;
@@ -54,7 +54,7 @@ struct s_aim_assist_query
 };
 static_assert(sizeof(s_aim_assist_query) == 0x58);
 
-extern bool __cdecl aim_assist_build_query_parameters(long unit_index, uint8 flags, short magnification_level, s_aim_assist_query* out_query);
+extern bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uint8 flags, int16 magnification_level, s_aim_assist_query* out_query);
 
 extern void aim_assist_debug_render();
 

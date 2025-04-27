@@ -6,9 +6,9 @@
 
 struct c_clump_behavior_state
 {
-	short m_state;
+	int16 m_state;
 	uint16 m_flags;
-	long m_time;
+	int32 m_time;
 };
 static_assert(sizeof(c_clump_behavior_state) == 0x8);
 
@@ -16,33 +16,33 @@ struct clump_datum :
 	s_datum_header
 {
 	real_point3d position;
-	short num_members;
-	short team_index;
+	int16 num_members;
+	int16 team_index;
 	real32 nearest_player_distance;
 	real32 membership_radius;
-	long first_prop_index;
-	long first_actor_index;
+	int32 first_prop_index;
+	int32 first_actor_index;
 	bool active;
 	bool giant_clump;
-	short refresh_timer;
-	long last_active_time;
+	int16 refresh_timer;
+	int32 last_active_time;
 	real32 importance_threshold;
 	real32 min_importance;
 	real32 max_salience;
-	short importance_threshold_freeze_ticks;
-	short fought_flags;
+	int16 importance_threshold_freeze_ticks;
+	int16 fought_flags;
 	c_clump_behavior_state behavior_state;
 	real32 max_clump_perception_distance;
-	long last_new_enemy_sighted_time;
-	long last_relevance_time;
+	int32 last_new_enemy_sighted_time;
+	int32 last_relevance_time;
 	bool contains_disposable;
 	bool enemy_sighted_vocalized;
-	short death_count;
-	long dialogue_state;
-	long last_grenade_throw_time;
-	long debug_grenade_throw_actor_index;
-	long debug_grenade_throw_request_time;
-	long behavior_check_timer[1];
+	int16 death_count;
+	int32 dialogue_state;
+	int32 last_grenade_throw_time;
+	int32 debug_grenade_throw_actor_index;
+	int32 debug_grenade_throw_request_time;
+	int32 behavior_check_timer[1];
 	invitation_data const invitations[10];
 };
 static_assert(sizeof(clump_datum) == 0x108);
@@ -50,15 +50,15 @@ static_assert(sizeof(clump_datum) == 0x108);
 struct clump_iterator
 {
 	c_data_iterator<clump_datum> iterator;
-	long index;
+	int32 index;
 };
 static_assert(sizeof(clump_iterator) == 0x14);
 
 struct clump_prop_iterator
 {
 	clump_datum* clump;
-	long index;
-	long next_index;
+	int32 index;
+	int32 next_index;
 };
 static_assert(sizeof(clump_prop_iterator) == 0xC);
 

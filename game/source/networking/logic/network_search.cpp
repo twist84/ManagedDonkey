@@ -6,7 +6,7 @@
 
 REFERENCE_DECLARE(0x0229AEA8, s_network_search_globals, g_network_search_globals);
 
-void network_search_active(long controller_index, bool active)
+void network_search_active(int32 controller_index, bool active)
 {
 	//INVOKE(0x004E1030, network_search_active, controller_index, active);
 
@@ -22,7 +22,7 @@ void network_search_active(long controller_index, bool active)
 	}
 }
 
-bool __cdecl network_search_begin(long controller_index)
+bool __cdecl network_search_begin(int32 controller_index)
 {
 	//return INVOKE(0x004E1090, network_search_begin, controller_index);
 
@@ -98,7 +98,7 @@ bool network_search_initialize()
 	return true;
 }
 
-s_available_session* network_search_session(long available_squad_index)
+s_available_session* network_search_session(int32 available_squad_index)
 {
 	//return INVOKE(0x004E1200, network_search_session, available_squad_index);
 
@@ -112,7 +112,7 @@ s_available_session* network_search_session(long available_squad_index)
 	return nullptr;
 }
 
-long network_search_session_count()
+int32 network_search_session_count()
 {
 	//return INVOKE(0x004E1230, network_search_session_count);
 
@@ -128,7 +128,7 @@ bool __cdecl network_search_session_valid(s_available_session* session)
 	return session->session_valid && session->status_data.header.platform == 1;
 }
 
-bool __cdecl network_search_start(long controller_index, long category, long maximum_sessions, uint32 available_squad_search_flags, c_allocation_base* session_allocator)
+bool __cdecl network_search_start(int32 controller_index, int32 category, int32 maximum_sessions, uint32 available_squad_search_flags, c_allocation_base* session_allocator)
 {
 	//return INVOKE(0x004E1260, network_search_start, controller_index, category, maximum_sessions, available_squad_search_flags, session_allocator);
 

@@ -37,6 +37,6 @@ extern char const* get_language_display_name(e_language language);
 extern e_language get_language_from_display_name_slow(char const* display_name);
 extern char const* __cdecl get_language_iso_639_1_name(e_language language);
 extern char const* __cdecl get_language_suffix(e_language language, bool english_is_empty);
-extern void __cdecl get_localized_data_directory_name(e_language language, char* buffer, long count);
+extern void __cdecl get_localized_data_directory_name(e_language language, char* buffer, int32 count);
 extern void __cdecl set_current_language(e_language language);
 extern void __cdecl set_current_language_from_display_name_slow(char const* display_name);

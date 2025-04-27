@@ -23,9 +23,9 @@
 #include "structures/structure_seams.hpp"
 #include "tag_files/tag_groups.hpp"
 
-REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
-REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
-REFERENCE_DECLARE(0x0189CD0C, long, global_zone_set_index);
+REFERENCE_DECLARE(0x0189CCF8, int32, global_scenario_index);
+REFERENCE_DECLARE(0x0189CCFC, int32, global_scenario_game_globals_index);
+REFERENCE_DECLARE(0x0189CD0C, int32, global_zone_set_index);
 REFERENCE_DECLARE(0x022AAEB4, struct scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
 REFERENCE_DECLARE(0x022AAEBC, uint32, g_active_structure_bsp_mask);
@@ -92,8 +92,8 @@ uint32 __cdecl global_cinematic_zone_active_mask_get()
 	//return g_active_cinematic_zone_mask;
 }
 
-//.text:004E9580 ; bool __cdecl global_cinematic_zone_is_active(long)
-//.text:004E95B0 ; c_collision_bsp_reference __cdecl global_collision_bsp_get(long)
+//.text:004E9580 ; bool __cdecl global_cinematic_zone_is_active(int32)
+//.text:004E95B0 ; c_collision_bsp_reference __cdecl global_collision_bsp_get(int32)
 
 uint32 __cdecl global_designer_zone_active_mask_get()
 {
@@ -105,7 +105,7 @@ uint32 __cdecl global_designer_zone_active_mask_get()
 //.text:004E95F0 ; 
 //.text:004E9640 ; 
 
-long __cdecl global_scenario_index_get()
+int32 __cdecl global_scenario_index_get()
 {
 	return global_scenario_index;
 }
@@ -134,31 +134,31 @@ uint32 __cdecl global_structure_bsp_active_mask_get()
 	return g_active_structure_bsp_mask;
 }
 
-//.text:004E9640 ; structure_instanced_geometry_definition* __cdecl global_instance_geometry_definition_get(long, long)
+//.text:004E9640 ; structure_instanced_geometry_definition* __cdecl global_instance_geometry_definition_get(int32, int32)
 
-long __cdecl global_structure_bsp_first_active_index_get()
+int32 __cdecl global_structure_bsp_first_active_index_get()
 {
 	return INVOKE(0x004E96A0, global_structure_bsp_first_active_index_get);
 }
 
-structure_bsp* __cdecl global_structure_bsp_get(long structure_bsp_index)
+structure_bsp* __cdecl global_structure_bsp_get(int32 structure_bsp_index)
 {
 	return INVOKE(0x004E96D0, global_structure_bsp_get, structure_bsp_index);
 }
 
-bool __cdecl global_structure_bsp_is_active(long structure_bsp_index)
+bool __cdecl global_structure_bsp_is_active(int32 structure_bsp_index)
 {
 	return INVOKE(0x004E9700, global_structure_bsp_is_active, structure_bsp_index);
 }
 
-long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index)
+int32 __cdecl global_structure_bsp_next_active_index_get(int32 structure_bsp_index)
 {
 	return INVOKE(0x004E9730, global_structure_bsp_next_active_index_get, structure_bsp_index);
 }
 
-//.text:004E97A0 ; structure_bsp* __cdecl global_structure_bsp_try_and_get(long)
+//.text:004E97A0 ; structure_bsp* __cdecl global_structure_bsp_try_and_get(int32)
 
-s_structure_design* global_structure_design_get(long structure_bsp_index)
+s_structure_design* global_structure_design_get(int32 structure_bsp_index)
 {
 	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
 }
@@ -173,7 +173,7 @@ s_structure_design* global_structure_design_get(long structure_bsp_index)
 //.text:004E98B0 ; 
 //.text:004E98C0 ; void __cdecl scenario_activate_all_designer_zones()
 
-bool __cdecl scenario_activate_initial_designer_zones(long zone_set_index)
+bool __cdecl scenario_activate_initial_designer_zones(int32 zone_set_index)
 {
 	//return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zone_set_index);
 
@@ -181,7 +181,7 @@ bool __cdecl scenario_activate_initial_designer_zones(long zone_set_index)
 	return scenario_modify_zone_activation_internal(zone_set_index, 0, 0, 0, &zone_change, false, true);
 }
 
-bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
+bool __cdecl scenario_activate_initial_zone_set(int32 zone_set_index)
 {
 	//return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zone_set_index);
 
@@ -201,12 +201,12 @@ bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
 //.text:004E99C0 ; 
 //.text:004E99D0 ; 
 //.text:004E99E0 ; bool __cdecl scenario_attach_game_to_new_non_bsp_zones(s_scenario_zone_change const*)
-//.text:004E9A70 ; long __cdecl scenario_budget_resource_get_looping_sound_reference(long)
-//.text:004E9A90 ; long __cdecl scenario_budget_resource_get_model_animation_graph_reference(long)
-//.text:004E9AB0 ; long __cdecl scenario_budget_resource_get_sound_reference(long)
+//.text:004E9A70 ; int32 __cdecl scenario_budget_resource_get_looping_sound_reference(int32)
+//.text:004E9A90 ; int32 __cdecl scenario_budget_resource_get_model_animation_graph_reference(int32)
+//.text:004E9AB0 ; int32 __cdecl scenario_budget_resource_get_sound_reference(int32)
 //.text:004E9AD0 ; 
-//.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(long, long)
-//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(long, real_point3d const*)
+//.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(int32, int32)
+//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(int32, real_point3d const*)
 
 s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point)
 {
@@ -229,7 +229,7 @@ bool __cdecl scenario_connect_game_to_new_bsps(uint32 game_structure_bsp_mask, u
 }
 
 bool __cdecl scenario_connect_zone_set_resources(
-	long new_zone_set_index,
+	int32 new_zone_set_index,
 	uint32 new_active_bsp_mask,
 	uint32 new_touched_bsp_mask,
 	uint32 new_designer_zone_mask,
@@ -345,7 +345,7 @@ char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uint32 cinemati
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_cinematic = true;
-	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
+	for (int32 cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
 	{
 		if (TEST_BIT(cinematic_zone_mask, cinematic_zone_index))
 		{
@@ -362,12 +362,12 @@ char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uint32 cinemati
 	return cinematic_zone_string;
 }
 
-long __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
+int32 __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
 {
 	string_id retrieved_string_id = string_id_retrieve(name);
 	if (retrieved_string_id != NONE)
 	{
-		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
+		for (int32 designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
 		{
 			s_scenario_designer_zone& designer_zone = scenario->designer_zones[designer_zone_index];
 			if (designer_zone.name.get_value() == retrieved_string_id)
@@ -385,7 +385,7 @@ char const* __cdecl scenario_get_designer_zone_string_from_mask(uint32 designer_
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_designer_zone = true;
-	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
+	for (int32 designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
 	{
 		if (TEST_BIT(designer_zone_mask, designer_zone_index))
 		{
@@ -413,7 +413,7 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
 }
 
-char const* __cdecl scenario_get_structure_bsp_name(long structure_bsp_index)
+char const* __cdecl scenario_get_structure_bsp_name(int32 structure_bsp_index)
 {
 	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
 }
@@ -425,7 +425,7 @@ char const* __cdecl scenario_get_structure_bsp_string_from_mask(uint32 structure
 	struct scenario* scenario = global_scenario_get();
 
 	bool first_structure_bsp = true;
-	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
+	for (int32 structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (TEST_BIT(structure_bsp_mask, structure_bsp_index))
 		{
@@ -446,9 +446,9 @@ char const* __cdecl scenario_get_structure_bsp_string_from_mask(uint32 structure
 //.text:004EA290 ; uint32 __cdecl scenario_get_touched_bsp_mask_internal()
 //.text:004EA2A0 ; uint32 __cdecl scenario_get_touched_cinematics_mask_internal()
 
-long __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
+int32 __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
 {
-	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
+	for (int32 zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
 	{
 		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
 
@@ -463,8 +463,8 @@ long __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario
 	return NONE;
 }
 
-//.text:004EA2B0 ; void __cdecl scenario_handle_tag_resource_lock(long)
-//.text:004EA2C0 ; void __cdecl scenario_handle_tag_resource_unlock(long)
+//.text:004EA2B0 ; void __cdecl scenario_handle_tag_resource_lock(int32)
+//.text:004EA2C0 ; void __cdecl scenario_handle_tag_resource_unlock(int32)
 //.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, real_vector3d*, real_vector3d*, real_rgb_color*, real_rgb_color*)
 
 void __cdecl scenario_initialize()
@@ -495,7 +495,7 @@ void __cdecl scenario_initialize_for_new_structure_bsp(uint32 activating_structu
 	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, activating_structure_bsp_mask);
 }
 
-//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, uint32)
+//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(int32, s_structure_seams const*, uint32)
 //.text:004EA3A0 ; void __cdecl scenario_initialize_game_state(s_scenario_game_state*)
 
 void __cdecl scenario_invalidate()
@@ -526,8 +526,8 @@ void __cdecl scenario_language_pack_unload()
 	INVOKE(0x004EA4B0, scenario_language_pack_unload);
 }
 
-//.text:004EA4F0 ; long __cdecl scenario_leaf_index_from_point(long, real_point3d const*)
-//.text:004EA540 ; long __cdecl scenario_leaf_index_from_point(real_point3d const*, long*)
+//.text:004EA4F0 ; int32 __cdecl scenario_leaf_index_from_point(int32, real_point3d const*)
+//.text:004EA540 ; int32 __cdecl scenario_leaf_index_from_point(real_point3d const*, int32*)
 
 void on_scenario_loaded();
 
@@ -584,7 +584,7 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 	scenario_load_resources_blocking_watch.start();
 	
 	bool succeeded = false;
-	long failure_count = 0;
+	int32 failure_count = 0;
 	while (!succeeded && failure_count < 3)
 	{
 		c_simple_io_result io_result;
@@ -612,7 +612,7 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 }
 
 //.text:004EA7D0 ; bool __cdecl scenario_location_deafening(s_location const*)
-//.text:004EA8C0 ; void __cdecl scenario_location_from_leaf(s_location*, long, long)
+//.text:004EA8C0 ; void __cdecl scenario_location_from_leaf(s_location*, int32, int32)
 //.text:004EA920 ; void __cdecl scenario_location_from_line(s_location*, s_location const*, real_point3d const*, real_point3d const*)
 
 void __cdecl scenario_location_from_point(s_location* location, real_point3d const* point)
@@ -626,14 +626,14 @@ void __cdecl scenario_location_from_point(s_location* location, real_point3d con
 //.text:004EAAD0 ; 
 //.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(s_scenario_zone_activation const*)
 
-bool __cdecl scenario_modify_zone_activation_internal(long new_zone_set_index, uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask, uint32 new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, uint32 new_touched_cinematics_mask, bool unload_old_bsps)
+bool __cdecl scenario_modify_zone_activation_internal(int32 new_zone_set_index, uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask, uint32 new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, uint32 new_touched_cinematics_mask, bool unload_old_bsps)
 {
 	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
 }
 
-short __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
+int16 __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
 {
-	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count); object_name_index++)
+	for (int16 object_name_index = 0; object_name_index < static_cast<int16>(global_scenario_get()->object_names.count); object_name_index++)
 	{
 		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
 		if (object_name.name.is_equal(name))
@@ -643,7 +643,7 @@ short __cdecl scenario_object_name_index_from_string(struct scenario* scenario, 
 	return NONE;
 }
 
-bool __cdecl scenario_preload_initial_zone_set(short initial_zone_set_index)
+bool __cdecl scenario_preload_initial_zone_set(int16 initial_zone_set_index)
 {
 	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, initial_zone_set_index);
 
@@ -667,7 +667,7 @@ bool __cdecl scenario_preload_initial_zone_set(short initial_zone_set_index)
 
 //.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(s_scenario_game_state const* pending_game_state)
 
-void __cdecl scenario_prepare_for_map_reset(short initial_zone_set_index)
+void __cdecl scenario_prepare_for_map_reset(int16 initial_zone_set_index)
 {
 	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, initial_zone_set_index);
 
@@ -690,20 +690,20 @@ void __cdecl scenario_prepare_for_map_reset(short initial_zone_set_index)
 	}
 }
 
-bool __cdecl scenario_prepare_to_switch_zone_set(long new_zone_set_index)
+bool __cdecl scenario_prepare_to_switch_zone_set(int32 new_zone_set_index)
 {
 	return INVOKE(0x004EB420, scenario_prepare_to_switch_zone_set, new_zone_set_index);
 }
 
-//.text:004EB4B0 ; bool __cdecl scenario_prepare_zone_set_for_cache_builder(long)
+//.text:004EB4B0 ; bool __cdecl scenario_prepare_zone_set_for_cache_builder(int32)
 
 void __cdecl scenario_reset_zone_resources_from_main()
 {
 	INVOKE(0x004EB4D0, scenario_reset_zone_resources_from_main);
 }
 
-//.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(long, short, s_tag_reference*)
-//.text:004EB4F0 ; short __cdecl scenario_structure_index_from_point(real_point3d const*)
+//.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(int32, int16, s_tag_reference*)
+//.text:004EB4F0 ; int16 __cdecl scenario_structure_index_from_point(real_point3d const*)
 //.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(uint32)
 
 void __cdecl scenario_switch_to_null_zone_set()
@@ -722,14 +722,14 @@ void __cdecl scenario_switch_to_null_zone_set()
 	scenario_resources_unload_active_zone_set();
 }
 
-bool __cdecl scenario_switch_zone_set(long zone_set_index)
+bool __cdecl scenario_switch_zone_set(int32 zone_set_index)
 {
 	//return INVOKE(0x004EB620, scenario_switch_zone_set, zone_set_index);
 
 	return scenario_switch_zone_set_internal(zone_set_index, true);
 }
 
-bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unload_old_bsps)
+bool __cdecl scenario_switch_zone_set_internal(int32 new_zone_set_index, bool unload_old_bsps)
 {
 	return INVOKE(0x004EB640, scenario_switch_zone_set_internal, new_zone_set_index, unload_old_bsps);
 
@@ -776,7 +776,7 @@ bool __cdecl scenario_switch_zone_set_internal(long new_zone_set_index, bool unl
 	//return succeeded;
 }
 
-char const* __cdecl scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
+char const* __cdecl scenario_tag_get_structure_bsp_name(int32 scenario_index, int32 structure_bsp_index)
 {
 	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
 	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
@@ -839,7 +839,7 @@ void __cdecl scenario_unload()
 //.text:004EBA00 ; bool __cdecl scenario_use_designer_zones()
 //.text:004EBA10 ; 
 
-void __cdecl scenario_zone_set_debug_status(char const* status, long zone_set_index)
+void __cdecl scenario_zone_set_debug_status(char const* status, int32 zone_set_index)
 {
 	ASSERT(status);
 
@@ -865,34 +865,34 @@ void __cdecl scenario_zone_set_debug_status(char const* status, long zone_set_in
 	main_status("zone_set", "%s #%d ('%s')", status, zone_set_index, status_string.get_string());
 }
 
-long __cdecl scenario_zone_set_index_get()
+int32 __cdecl scenario_zone_set_index_get()
 {
 	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
 }
 
-long __cdecl scenario_zone_set_index_get_if_fully_activated()
+int32 __cdecl scenario_zone_set_index_get_if_fully_activated()
 {
 	return INVOKE(0x004EBA30, scenario_zone_set_index_get_if_fully_activated);
 }
 
-bool __cdecl scenario_zone_set_is_fully_active(long zone_set_index)
+bool __cdecl scenario_zone_set_is_fully_active(int32 zone_set_index)
 {
 	return INVOKE(0x004EBA90, scenario_zone_set_is_fully_active, zone_set_index);
 }
 
-long __cdecl scenario_zone_set_name_get()
+int32 __cdecl scenario_zone_set_name_get()
 {
 	return INVOKE(0x004EBAF0, scenario_zone_set_name_get);
 }
 
-structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)
+structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, int32 structure_bsp_index)
 {
 	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
-//.text:007662B0 ; long __cdecl scenario_structure_bsp_tag_index_get(struct scenario const*, long)
-//.text:007662D0 ; long __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(scenario const*, long, long, long)
-//.text:00766380 ; long __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(scenario const*, long, long, long)
+//.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(struct scenario const*, int32)
+//.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(scenario const*, int32, int32, int32)
+//.text:00766380 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(scenario const*, int32, int32, int32)
 //.text:00766430 ; 
 //.text:00766470 ; 
 

@@ -1,6 +1,6 @@
 #include "cache/cache_file_codec_work.hpp"
 
-long __cdecl async_decompress_file_section(
+int32 __cdecl async_decompress_file_section(
 	e_async_priority priority,
 	s_file_handle file_handle,
 	uint32 offset,

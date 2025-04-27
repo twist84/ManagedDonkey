@@ -43,18 +43,18 @@ struct s_render_object_globals
 	c_static_sized_dynamic_array<s_context_mesh_part, 8192> context_mesh_part;
 
 	uint8 __data3C008[0x4];
-	long marker_index;
+	int32 marker_index;
 
-	long object_render_context_markers[6];
-	long context_mesh_part_markers[6];
+	int32 object_render_context_markers[6];
+	int32 context_mesh_part_markers[6];
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
 struct c_object_renderer
 {
 	static void __cdecl render_albedo(uint32 flags);
-	static void __cdecl render_object_contexts(e_entry_point entry_point, long mesh_part_mask);
+	static void __cdecl render_object_contexts(e_entry_point entry_point, int32 mesh_part_mask);
 	static void __cdecl render_object_widgets(e_entry_point entry_point);
-	static void __cdecl submit_and_render_sky(long entry_point_type, long player_window_index);
+	static void __cdecl submit_and_render_sky(int32 entry_point_type, int32 player_window_index);
 };
 

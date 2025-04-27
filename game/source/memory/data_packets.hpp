@@ -38,29 +38,29 @@ data_packet_definition _name = \
 
 struct data_packet_field
 {
-	short type;
-	short count;
-	short first_version;
-	short last_version;
-	short size;
+	int16 type;
+	int16 count;
+	int16 first_version;
+	int16 last_version;
+	int16 size;
 };
 
 struct data_packet_definition
 {
 	char const* name;
-	unsigned long flags;
-	short size;
-	short version;
+	uint32 flags;
+	int16 size;
+	int16 version;
 	data_packet_field* fields;
 	unsigned char initialized_flag;
 };
 
 struct data_packet_group_packet
 {
-	short packet_class;
+	int16 packet_class;
 	data_packet_definition* definition;
 };
 
 extern void __cdecl data_packet_verify(data_packet_definition*);
-extern unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, short version, void* a3, void* buffer, short* buffer_size, short maximum_buffer_size);
+extern unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, int16 version, void* a3, void* buffer, int16* buffer_size, int16 maximum_buffer_size);
 

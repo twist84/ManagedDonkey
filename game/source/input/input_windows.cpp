@@ -14,9 +14,9 @@
 //#include <windows.h> // for `key_to_virtual_table`
 
 REFERENCE_DECLARE_ARRAY(0x01650918, uint8 const, key_to_virtual_table, k_key_code_count);
-REFERENCE_DECLARE_ARRAY(0x01650980, short const, virtual_to_key_table, k_number_of_windows_input_virtual_codes);
+REFERENCE_DECLARE_ARRAY(0x01650980, int16 const, virtual_to_key_table, k_number_of_windows_input_virtual_codes);
 REFERENCE_DECLARE_ARRAY(0x01650B80, uint8 const, key_to_ascii_table, k_key_code_count);
-REFERENCE_DECLARE_ARRAY(0x01650BE8, short const, ascii_to_key_table, k_number_of_input_ascii_codes);
+REFERENCE_DECLARE_ARRAY(0x01650BE8, int16 const, ascii_to_key_table, k_number_of_input_ascii_codes);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 HOOK_DECLARE(0x00512690, input_update);
@@ -231,7 +231,7 @@ void __cdecl input_flush()
 	//input_globals.gamepad_states.clear();
 }
 
-gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
+gamepad_state const* __cdecl input_get_gamepad_state(int16 gamepad_index)
 {
 	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
 
@@ -280,7 +280,7 @@ mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
 	//return &input_globals.raw_mouse_state;
 }
 
-bool __cdecl input_has_gamepad(short gamepad_index)
+bool __cdecl input_has_gamepad(int16 gamepad_index)
 {
 	ASSERT(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);
 
@@ -439,7 +439,7 @@ bool __cdecl sub_512450()
 	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
 }
 
-void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed)
+void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed)
 {
 	INVOKE(0x005124F0, input_set_gamepad_rumbler_state, gamepad_index, left_motor_speed, right_motor_speed);
 
@@ -522,7 +522,7 @@ void __cdecl input_update()
 	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
 	{
 		uint32 time = system_milliseconds();
-		long duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
+		int32 duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
 
 		input_globals.input_suppressed = false;
 		input_globals.update_time = time;
@@ -554,14 +554,14 @@ void __cdecl input_update_device_connections()
 {
 }
 
-void __cdecl input_update_keyboard(long duration_ms)
+void __cdecl input_update_keyboard(int32 duration_ms)
 {
 	bool window_has_focus = game_in_editor() || g_windows_params.game_window_handle == GetForegroundWindow();
 
 	input_globals.buffered_key_read_index = 0;
 	input_globals.buffered_key_read_count = 0;
 
-	for (long key_index = 0; key_index < k_key_code_count; key_index++)
+	for (int32 key_index = 0; key_index < k_key_code_count; key_index++)
 	{
 		key_state& key = input_globals.keys[key_index];
 		uint8 virtual_key = key_to_virtual_table[key_index];
@@ -582,7 +582,7 @@ void __cdecl input_update_keyboard(long duration_ms)
 	// $TODO: dedicated server debug console
 }
 
-void __cdecl input_update_mouse(long duration_ms)
+void __cdecl input_update_mouse(int32 duration_ms)
 {
 	if (!input_globals.raw_input_mouse_state_update)
 		return;
@@ -604,7 +604,7 @@ void __cdecl input_update_mouse(long duration_ms)
 		else
 			input_globals.raw_mouse_state.wheel_ticks = 0;
 
-		long wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
+		int32 wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
 		if (wheel_ticks && !input_globals.raw_mouse_wheel_update_time)
 		{
 			input_globals.raw_mouse_wheel_update_time = input_globals.update_time;
@@ -620,7 +620,7 @@ void __cdecl input_update_mouse(long duration_ms)
 
 	if (game_in_editor() || g_windows_params.game_window_handle == GetForegroundWindow())
 	{
-		for (long i = 0; i < k_mouse_button_count; i++)
+		for (int32 i = 0; i < k_mouse_button_count; i++)
 		{
 			uint8& frames_down = input_globals.raw_mouse_state.frames_down[i];
 			uint16& msec_down = input_globals.raw_mouse_state.msec_down[i];
@@ -630,7 +630,7 @@ void __cdecl input_update_mouse(long duration_ms)
 	}
 }
 
-void __cdecl input_update_gamepads(long duration_ms)
+void __cdecl input_update_gamepads(int32 duration_ms)
 {
 	if (input_abstraction_get_controls_method() == 1)
 	{
@@ -676,7 +676,7 @@ void __cdecl input_update_gamepads_rumble()
 	}
 }
 
-void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, long duration_ms)
+void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, int32 duration_ms)
 {
 	INVOKE(0x00512B00, update_button, frames_down, msec_down, key_down, duration_ms);
 
@@ -684,7 +684,7 @@ void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down,
 	//*msec_down = key_down ? MIN(*msec_down + (uint16)duration_ms, UNSIGNED_SHORT_MAX) : 0;
 }
 
-void __cdecl update_key(key_state* key, bool key_down, long duration_ms)
+void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms)
 {
 	INVOKE(0x00512B50, update_key, key, key_down, duration_ms);
 
@@ -718,7 +718,7 @@ void input_handle_key_combos()
 	}
 }
 
-void input_get_raw_data_string(char* buffer, short size)
+void input_get_raw_data_string(char* buffer, int16 size)
 {
 	// For some reason buffer is displayed incorrectly for both H3EK and Donkey
 	// commented out for now
@@ -729,7 +729,7 @@ void input_get_raw_data_string(char* buffer, short size)
 	//if (buffer && size > 0)
 	//{
 	//	csnzprintf(buffer, size, "|n|n|n|ngamepad|tleft stick|tright stick|t|n");
-	//	for (short gamepad_index = 0; gamepad_index < k_number_of_controllers; gamepad_index++)
+	//	for (int16 gamepad_index = 0; gamepad_index < k_number_of_controllers; gamepad_index++)
 	//	{
 	//		if (input_globals.gamepad_valid_mask.test(gamepad_index))
 	//		{
@@ -744,7 +744,7 @@ void input_get_raw_data_string(char* buffer, short size)
 	//}
 }
 
-void input_mouse_state_get_raw_data_string(char* buffer, short size)
+void input_mouse_state_get_raw_data_string(char* buffer, int16 size)
 {
 	ASSERT(buffer);
 	ASSERT(size > 0);
@@ -870,7 +870,7 @@ void input_mouse_state_get_raw_data_string(char* buffer, short size)
 //	VK_DECIMAL           // _keypad_decimal
 //};
 //
-//short const virtual_to_key_table[k_number_of_windows_input_virtual_codes]
+//int16 const virtual_to_key_table[k_number_of_windows_input_virtual_codes]
 //{
 //	_key_not_a_key,
 //	_key_not_a_key,      // VK_LBUTTON
@@ -1238,7 +1238,7 @@ void input_mouse_state_get_raw_data_string(char* buffer, short size)
 //	'.',                 // _keypad_decimal
 //};
 //
-//short const ascii_to_key_table[k_number_of_input_ascii_codes]
+//int16 const ascii_to_key_table[k_number_of_input_ascii_codes]
 //{
 //	_key_not_a_key,      // NUL    Null
 //	_key_not_a_key,      // SOH    Start of Heading

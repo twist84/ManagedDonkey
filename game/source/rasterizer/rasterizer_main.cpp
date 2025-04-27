@@ -12,7 +12,7 @@ REFERENCE_DECLARE(0x050DD960, D3DPRESENT_PARAMETERS, g_new_presentation_paramete
 
 bool render_debug_force_4x3_aspect_ratio = false;
 
-long __cdecl get_current_thread_index()
+int32 __cdecl get_current_thread_index()
 {
 	return INVOKE(0x0051C410, get_current_thread_index);
 

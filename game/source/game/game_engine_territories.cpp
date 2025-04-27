@@ -44,7 +44,7 @@ void c_game_engine_territories_variant::encode_to_mcc(c_bitstream* packet) const
 	bool one_sided = get_one_sided();
 	bool lock_after_first_capture = get_lock_after_first_capture();
 	e_territories_respawn_on_capture_settings respawn_on_capture = get_respawn_on_capture();
-	short capture_time = get_capture_time();
+	int16 capture_time = get_capture_time();
 
 	packet->write_bool("territories-one-sided", one_sided);
 	packet->write_bool("territories-lock-after-first-capture", lock_after_first_capture);
@@ -61,7 +61,7 @@ void c_game_engine_territories_variant::decode_from_mcc(c_bitstream* packet)
 	bool one_sided = packet->read_bool("territories-one-sided");
 	bool lock_after_first_capture = packet->read_bool("territories-lock-after-first-capture");
 	e_territories_respawn_on_capture_settings respawn_on_capture = packet->read_enum<e_territories_respawn_on_capture_settings, 2>("territories-respawn-on-capture");
-	short capture_time = static_cast<short>(packet->read_integer("territories-capture-time", 7));
+	int16 capture_time = static_cast<int16>(packet->read_integer("territories-capture-time", 7));
 	get_defender_traits_writeable()->decode_from_mcc(packet);
 	get_attacker_traits_writeable()->decode_from_mcc(packet);
 
@@ -110,12 +110,12 @@ void c_game_engine_territories_variant::set_respawn_on_capture(e_territories_res
 	}
 }
 
-short c_game_engine_territories_variant::get_capture_time() const
+int16 c_game_engine_territories_variant::get_capture_time() const
 {
 	return m_capture_time;
 }
 
-void c_game_engine_territories_variant::set_capture_time(short capture_time)
+void c_game_engine_territories_variant::set_capture_time(int16 capture_time)
 {
 	if (!VALID_INDEX(capture_time, k_territories_capture_time_settings))
 	{
@@ -129,7 +129,7 @@ void c_game_engine_territories_variant::set_capture_time(short capture_time)
 	}
 }
 
-short c_game_engine_territories_variant::get_sudden_death_time() const
+int16 c_game_engine_territories_variant::get_sudden_death_time() const
 {
 	return m_sudden_death_time;
 }
@@ -139,7 +139,7 @@ bool c_game_engine_territories_variant::get_sudden_death_enabled() const
 	return m_sudden_death_time != _territories_sudden_death_settings_off;
 }
 
-void c_game_engine_territories_variant::set_sudden_death_time(short sudden_death_time)
+void c_game_engine_territories_variant::set_sudden_death_time(int16 sudden_death_time)
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_territories_sudden_death_settings))
 	{

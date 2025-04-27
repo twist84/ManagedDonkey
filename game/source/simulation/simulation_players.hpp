@@ -17,19 +17,19 @@ enum e_simulation_player_update_type
 
 struct simulation_player_update
 {
-	long player_index;
+	int32 player_index;
 	s_player_identifier player_identifier;
-	c_enum<e_simulation_player_update_type, long, _simulation_player_update_type_left_game, k_simulation_player_update_type_count> update_type;
+	c_enum<e_simulation_player_update_type, int32, _simulation_player_update_type_left_game, k_simulation_player_update_type_count> update_type;
 	s_machine_identifier machine_identifier;
 	bool player_left_game;
 	bool player_joined_in_progress;
-	short user_index;
-	short controller_index;
+	int16 user_index;
+	int16 controller_index;
 
 	uint8 __pad22[0x2];
 
 	s_player_configuration configuration;
-	long swap_player_index;
+	int32 swap_player_index;
 	s_player_identifier swap_player_identifier;
 
 	uint8 __pad1654[0x4];
@@ -41,12 +41,12 @@ struct s_player_collection_player
 {
 	s_player_identifier identifier;
 	bool left_game;
-	long left_game_time;
+	int32 left_game_time;
 	s_machine_identifier machine_identifier;
 
 	// Removed from Halo Online, these still exist in `simulation_player_update`
-	//long user_index;
-	//long controller_index;
+	//int32 user_index;
+	//int32 controller_index;
 
 	s_player_configuration configuration_data;
 };
@@ -63,15 +63,15 @@ static_assert(sizeof(s_player_collection) == 0x16408);
 struct c_simulation_world;
 struct c_simulation_player
 {
-	long m_player_index;
-	long m_player_datum_index;
-	long m_player_type;
+	int32 m_player_index;
+	int32 m_player_datum_index;
+	int32 m_player_type;
 	s_player_identifier m_player_identifier;
 	s_machine_identifier m_player_machine_identifier;
 	c_simulation_world* m_world;
 	bool m_pending_deletion;
 	bool m_active;
-	long m_current_action_time;
+	int32 m_current_action_time;
 	player_action m_current_action;
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
@@ -86,10 +86,10 @@ extern bool __cdecl simulation_player_update_apply_configuration(simulation_play
 extern bool __cdecl simulation_player_update_apply_left_game(simulation_player_update const* player_update);
 extern bool __cdecl simulation_player_update_apply_remove(simulation_player_update const* player_update);
 extern bool __cdecl simulation_player_update_apply_swap(simulation_player_update const* player_update);
-extern void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress);
-extern void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data);
-extern void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier);
-extern void __cdecl simulation_player_update_generate_remove(simulation_player_update* player_update, s_player_collection* players, long player_index);
-extern void __cdecl simulation_player_update_generate_swap(simulation_player_update* player_update, s_player_collection* players, long player_index, long swap_player_index);
+extern void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress);
+extern void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data);
+extern void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier);
+extern void __cdecl simulation_player_update_generate_remove(simulation_player_update* player_update, s_player_collection* players, int32 player_index);
+extern void __cdecl simulation_player_update_generate_swap(simulation_player_update* player_update, s_player_collection* players, int32 player_index, int32 swap_player_index);
 extern bool __cdecl simulation_players_apply_update(simulation_player_update const* player_update);
 

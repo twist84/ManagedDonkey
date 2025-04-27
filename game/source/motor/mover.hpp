@@ -12,11 +12,11 @@ static_assert(sizeof(_mover_datum) == 0xC);
 
 struct mover_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_mover_datum mover;
 };
-static_assert(sizeof(mover_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum));
+static_assert(sizeof(mover_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum));
 
-extern long __cdecl mover_get_motor_program(long motor_index);
+extern int32 __cdecl mover_get_motor_program(int32 motor_index);
 

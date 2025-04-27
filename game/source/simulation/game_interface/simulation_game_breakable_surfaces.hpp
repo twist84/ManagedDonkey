@@ -4,8 +4,8 @@
 
 struct s_simulation_breakable_surface_damage_event_data
 {
-	long instanced_geometry_instance_index;
-	long seed_surface_index;
+	int32 instanced_geometry_instance_index;
+	int32 seed_surface_index;
 	s_cluster_reference cluster_reference;
 	real_point3d position;
 };

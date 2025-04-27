@@ -6,32 +6,32 @@
 
 struct s_player_taunt_request_event_data
 {
-	short absolute_player_index;
-	short __unknown2;
+	int16 absolute_player_index;
+	int16 __unknown2;
 };
 static_assert(sizeof(s_player_taunt_request_event_data) == 0x4);
 
 struct s_player_respawn_target_request_event_data
 {
-	short player_index;
-	short absolute_player_index;
+	int16 player_index;
+	int16 absolute_player_index;
 };
 static_assert(sizeof(s_player_respawn_target_request_event_data) == 0x4);
 
 struct s_player_force_base_respawn_event_data
 {
-	short absolute_player_index;
+	int16 absolute_player_index;
 };
 static_assert(sizeof(s_player_force_base_respawn_event_data) == 0x2);
 
 struct s_player_editor_request_event_data
 {
-	long editor_request_type;
-	short editor_player_index;
+	int32 editor_request_type;
+	int16 editor_player_index;
 	union
 	{
-		long edited_object_id;
-		long object_definition_index;
+		int32 edited_object_id;
+		int32 object_definition_index;
 	};
 	real_point3d player_placement_point;
 	real_vector3d player_placement_axes_forward;
@@ -40,7 +40,7 @@ struct s_player_editor_request_event_data
 	real_vector3d placement_axes_forward;
 	real_vector3d placement_axes_up;
 	real32 throw_force;
-	long changed_gametype;
+	int32 changed_gametype;
 	uint8 minimum_count;
 	uint8 maximum_count;
 	bool editor_desired_mode;
@@ -54,34 +54,34 @@ struct c_simulation_game_engine_player_entity_definition :
 public:
 	//virtual e_simulation_entity_type entity_type();
 	//virtual char const* entity_type_name();
-	//virtual long state_data_size();
-	//virtual long creation_data_size();
-	//virtual long update_flag_count();
+	//virtual int32 state_data_size();
+	//virtual int32 creation_data_size();
+	//virtual int32 update_flag_count();
 	//virtual uint64& initial_update_mask(uint64& mask);
 	//virtual bool entity_replication_required_for_view_activation(s_simulation_entity const*);
 	//virtual bool entity_type_is_gameworld_object();
-	//virtual bool gameworld_attachment_valid(long);
+	//virtual bool gameworld_attachment_valid(int32);
 	//virtual bool entity_can_be_created(s_simulation_entity const*, s_simulation_view_telemetry_data const*);
-	//virtual void creation_minimum_required_bits(s_simulation_entity const*, s_simulation_view_telemetry_data const*, long*);
-	//virtual void write_creation_description_to_string(s_simulation_entity const*, s_simulation_view_telemetry_data const*, long, char*);
-	//virtual void update_minimum_required_bits(s_simulation_entity const*, s_entity_update_data const*, long*);
-	//virtual void entity_creation_encode(long, void const*, s_simulation_view_telemetry_data const*, c_bitstream*, bool);
-	//virtual bool entity_creation_decode(long, void*, c_bitstream*, bool);
-	//virtual bool entity_update_encode(bool, uint32, uint32*, long, void const*, s_simulation_view_telemetry_data const*, c_bitstream*, long, bool);
-	//virtual bool entity_update_decode(bool, uint32*, long, void*, c_bitstream*, bool);
-	//virtual bool entity_state_lossy_compare(void*, void*, long);
-	//virtual bool entity_creation_lossy_compare(void*, void*, long);
-	//virtual void build_creation_data(long, long, void*);
-	//virtual bool build_baseline_state_data(long, void const*, long, void*);
-	//virtual bool build_updated_state_data(s_simulation_entity const*, uint32*, long, void*);
+	//virtual void creation_minimum_required_bits(s_simulation_entity const*, s_simulation_view_telemetry_data const*, int32*);
+	//virtual void write_creation_description_to_string(s_simulation_entity const*, s_simulation_view_telemetry_data const*, int32, char*);
+	//virtual void update_minimum_required_bits(s_simulation_entity const*, s_entity_update_data const*, int32*);
+	//virtual void entity_creation_encode(int32, void const*, s_simulation_view_telemetry_data const*, c_bitstream*, bool);
+	//virtual bool entity_creation_decode(int32, void*, c_bitstream*, bool);
+	//virtual bool entity_update_encode(bool, uint32, uint32*, int32, void const*, s_simulation_view_telemetry_data const*, c_bitstream*, int32, bool);
+	//virtual bool entity_update_decode(bool, uint32*, int32, void*, c_bitstream*, bool);
+	//virtual bool entity_state_lossy_compare(void*, void*, int32);
+	//virtual bool entity_creation_lossy_compare(void*, void*, int32);
+	//virtual void build_creation_data(int32, int32, void*);
+	//virtual bool build_baseline_state_data(int32, void const*, int32, void*);
+	//virtual bool build_updated_state_data(s_simulation_entity const*, uint32*, int32, void*);
 	//virtual void rotate_entity_indices(s_simulation_entity const*);
-	//virtual void prepare_creation_data_for_gameworld(long, void*);
-	//virtual void prepare_state_data_for_gameworld(uint32, long, void*);
-	//virtual bool create_game_entity(long, long, void const*, uint32, long, void const*);
-	//virtual bool update_game_entity(long, uint32, long, void const*);
-	//virtual bool delete_game_entity(long);
-	//virtual bool promote_game_entity_to_authority(long);
-	//virtual void write_update_description_to_string(s_simulation_entity const*, s_entity_update_data const*, long, char*);
+	//virtual void prepare_creation_data_for_gameworld(int32, void*);
+	//virtual void prepare_state_data_for_gameworld(uint32, int32, void*);
+	//virtual bool create_game_entity(int32, int32, void const*, uint32, int32, void const*);
+	//virtual bool update_game_entity(int32, uint32, int32, void const*);
+	//virtual bool delete_game_entity(int32);
+	//virtual bool promote_game_entity_to_authority(int32);
+	//virtual void write_update_description_to_string(s_simulation_entity const*, s_entity_update_data const*, int32, char*);
 };
 
 extern c_simulation_game_engine_player_entity_definition& g_simulation_game_engine_player_entity_definition;

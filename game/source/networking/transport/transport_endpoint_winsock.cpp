@@ -41,7 +41,7 @@ HOOK_DECLARE(0x004406C0, transport_endpoint_write_to);
 HOOK_DECLARE(0x00440740, transport_endpoint_writeable);
 HOOK_DECLARE(0x004407D0, transport_get_endpoint_address);
 
-long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
+int32 __cdecl get_platform_socket_option(e_transport_endpoint_option option)
 {
 	//return INVOKE(0x0043F980, get_platform_socket_option, option);
 
@@ -114,7 +114,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 		return false;
 
 	uint8 socket_address[0x1C];
-	long socket_address_size = sizeof(socket_address);
+	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
 	if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
@@ -171,7 +171,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 		return false;
 
 	uint8 socket_address[0x1C];
-	long socket_address_size = sizeof(socket_address);
+	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
 	if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
@@ -216,7 +216,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
 		return false;
 
 	uint8 socket_address[0x1C];
-	long socket_address_size = sizeof(socket_address);
+	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
 	if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
@@ -326,7 +326,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 	endpoint->flags = 0;
 }
 
-long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option)
+int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option)
 {
 	//return INVOKE(0x0043FF80, transport_endpoint_get_option_value, endpoint, option);
 
@@ -337,14 +337,14 @@ long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e
 		return 0;
 	}
 
-	long platform_socket_option = get_platform_socket_option(option);
+	int32 platform_socket_option = get_platform_socket_option(option);
 	if (platform_socket_option == NONE)
 	{
 		event(_event_error, "networking:transport:endpoint: unsupported endpoint option %d", option);
 		return 0;
 	}
 
-	long option_value = 0;
+	int32 option_value = 0;
 	int option_length = 4;
 	if (getsockopt(endpoint->socket, 0xFFFF, platform_socket_option, (char*)&option_value, &option_length))
 	{
@@ -356,7 +356,7 @@ long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e
 	return option_value;
 }
 
-bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, uint8* const socket_address)
+bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, int32* socket_address_size, uint8* const socket_address)
 {
 	//return INVOKE(0x00440000, transport_endpoint_get_socket_address, address, socket_address_size, socket_address);
 
@@ -397,7 +397,7 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	return false;
 }
 
-bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, uint8 const* const socket_address, transport_address* address)
+bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, uint8 const* const socket_address, transport_address* address)
 {
 	//return INVOKE(0x00440120, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
 
@@ -448,7 +448,7 @@ bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint)
 	return TEST_BIT(endpoint->flags, _transport_endpoint_listening_bit);
 }
 
-short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length)
+int16 __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, int16 length)
 {
 	//return INVOKE(0x00440290, transport_endpoint_read, endpoint, buffer, length);
 
@@ -456,22 +456,22 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 	ASSERT(length > 0);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 
-	short bytes_read = 0;
+	int16 bytes_read = 0;
 	if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
 	{
 		bytes_read = recv(endpoint->socket, static_cast<char*>(buffer), length, 0);
-		if (bytes_read == short(0xFFFF))
+		if (bytes_read == int16(0xFFFF))
 		{
 			int error = WSAGetLastError();
 			if (error == WSAEWOULDBLOCK)
 			{
-				bytes_read = short(0xFFFE);
+				bytes_read = int16(0xFFFE);
 			}
 			else
 			{
 				event(_event_warning, "transport:read: recv() failed w/ unknown error '%s'",
 					winsock_error_to_string(error));
-				bytes_read = short(0xFFFD);
+				bytes_read = int16(0xFFFD);
 			}
 		}
 		else if (bytes_read)
@@ -489,7 +489,7 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 	return bytes_read;
 }
 
-short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source)
+int16 __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, int16 length, transport_address* source)
 {
 	return INVOKE(0x004402F0, transport_endpoint_read_from, endpoint, buffer, length, source);
 
@@ -555,7 +555,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 	// $TODO: implement me
 }
 
-bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, long value)
+bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, int32 value)
 {
 	//return INVOKE(0x00440520, transport_endpoint_set_option_value, endpoint, option, value);
 
@@ -592,7 +592,7 @@ bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_add
 	return result;
 }
 
-short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length)
+int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, int16 length)
 {
 	//return INVOKE(0x00440660, transport_endpoint_write, endpoint, buffer, length);
 
@@ -601,28 +601,28 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 	ASSERT(length > 0);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 
-	short result = 0;
+	int16 result = 0;
 	if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
 	{
-		short bytes_written = send(endpoint->socket, static_cast<char const*>(buffer), length, 0);
-		if (bytes_written == short(0xFFFF))
+		int16 bytes_written = send(endpoint->socket, static_cast<char const*>(buffer), length, 0);
+		if (bytes_written == int16(0xFFFF))
 		{
 			int error = WSAGetLastError();
 
 			if (error == WSAEWOULDBLOCK)
 			{
-				return short(0xFFFE);
+				return int16(0xFFFE);
 			}
 			else if (error == WSAEHOSTUNREACH)
 			{
-				return short(0xFFFF);
+				return int16(0xFFFF);
 			}
 			else
 			{
 				event(_event_warning, "transport:write: send() failed w/ unknown error '%s'",
 					winsock_error_to_string(error));
 
-				return short(0xFFFF);
+				return int16(0xFFFF);
 			}
 		}
 		else
@@ -634,11 +634,11 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 	return result;
 }
 
-short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination)
+int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, int16 length, transport_address const* destination)
 {
 	//return INVOKE(0x004406C0, transport_endpoint_write_to, endpoint, buffer, length, destination);
 
-	short result = 0;
+	int16 result = 0;
 	HOOK_INVOKE(result =, transport_endpoint_write_to, endpoint, buffer, length, destination);
 	return result;
 

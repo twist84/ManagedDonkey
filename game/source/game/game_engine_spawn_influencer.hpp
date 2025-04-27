@@ -4,16 +4,16 @@
 
 struct s_dead_player_info
 {
-	long player_index;
-	long time_of_death;
+	int32 player_index;
+	int32 time_of_death;
 	real_point3d location;
 };
 static_assert(sizeof(s_dead_player_info) == 0x14);
 
 struct s_netgame_goal_influencer
 {
-	long type;
-	long object_index;
+	int32 type;
+	int32 object_index;
 };
 static_assert(sizeof(s_netgame_goal_influencer) == 0x8);
 

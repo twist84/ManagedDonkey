@@ -7,21 +7,21 @@ struct c_motor_task
 {
 public:
 	void clear();
-	bool conflicts(short a1) const;
+	bool conflicts(int16 a1) const;
 	bool program_default();
-	bool restricted_to(short a1) const;
-	bool set(long motor_task, long action, long motor_program, short a4);
+	bool restricted_to(int16 a1) const;
+	bool set(int32 motor_task, int32 action, int32 motor_program, int16 a4);
 	bool valid() const;
 
 //protected:
-	long m_motor_task;
-	long m_action;
-	long m_motor_program;
+	int32 m_motor_task;
+	int32 m_action;
+	int32 m_motor_program;
 	uint8 __unknownC;
 	uint8 m_interrupted;
-	short __unknownE;
+	int16 __unknownE;
 	uint8 __data10[0x8];
-	short m_resource_mask;
+	int16 m_resource_mask;
 	bool __unknown1A;
 	uint8 __data1B[0x1];
 };
@@ -36,8 +36,8 @@ public:
 //protected:
 	bool m_initialized;
 	bool m_force;
-	long m_task;
-	c_enum<e_action, long, _action_none, k_action_count> m_action;
+	int32 m_task;
+	c_enum<e_action, int32, _action_none, k_action_count> m_action;
 
 	union
 	{
@@ -46,5 +46,5 @@ public:
 };
 static_assert(sizeof(c_motor_request) == 0x38);
 
-extern long __cdecl motor_system_submit(long motor_index, c_motor_request const* request);
+extern int32 __cdecl motor_system_submit(int32 motor_index, c_motor_request const* request);
 

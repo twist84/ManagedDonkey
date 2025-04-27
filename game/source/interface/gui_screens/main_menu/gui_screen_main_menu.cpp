@@ -8,7 +8,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements);
 
-//.text:00AE71E0 ; public: c_main_menu_screen_widget::c_main_menu_screen_widget(long)
+//.text:00AE71E0 ; public: c_main_menu_screen_widget::c_main_menu_screen_widget(int32)
 //.text:00AE72A0 ; 
 //.text:00AE72B0 ; 
 //.text:00AE72D0 ; public: virtual c_main_menu_screen_widget::~c_main_menu_screen_widget()
@@ -17,16 +17,16 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elemen
 //.text:00AE7410 ; private: void c_main_menu_screen_widget::compute_active_players(s_player_identifier* const)
 //.text:00AE7470 ; public: virtual void c_main_menu_screen_widget::dispose()
 //.text:00AE7480 ; // extras portal related
-//.text:00AE74E0 ; public: e_download_status c_http_blf_simple_downloader<s_message_of_the_day_popup>::get_data_no_update(s_message_of_the_day_popup const**, long*)
+//.text:00AE74E0 ; public: e_download_status c_http_blf_simple_downloader<s_message_of_the_day_popup>::get_data_no_update(s_message_of_the_day_popup const**, int32*)
 //.text:00AE75A0 ; public: e_download_status c_http_blf_simple_downloader<s_message_of_the_day_popup>::get_download_status() const
 //.text:00AE75B0 ; 
 //.text:00AE75C0 ; public: virtual e_gui_location c_main_menu_screen_widget::get_gui_location() const
 
-long c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index* out_first_in_use_controller)
+int32 c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index* out_first_in_use_controller)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE75D0, c_main_menu_screen_widget, get_in_use_controller_count, out_first_in_use_controller);
 
-	long in_use_controller_count = 0;
+	int32 in_use_controller_count = 0;
 	if (out_first_in_use_controller)
 		*out_first_in_use_controller = k_no_controller;
 	for (e_controller_index controller = _controller0; controller < k_number_of_controllers; controller++)
@@ -47,7 +47,7 @@ long c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index* 
 //.text:00AE7650 ; 
 //.text:00AE7660 ; public: virtual bool c_main_menu_screen_widget::handle_controller_input_message(c_controller_input_message const*)
 //.text:00AE7790 ; public: virtual bool c_main_menu_screen_widget::handle_dialog_result(c_dialog_result_message const*)
-//.text:00AE77D0 ; public: virtual bool c_main_menu_screen_widget::handle_list_item_chosen(c_controller_input_message const*, long, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AE77D0 ; public: virtual bool c_main_menu_screen_widget::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00AE7E80 ; public: virtual void c_main_menu_screen_widget::initialize()
 //.text:00AE7EF0 ; public: bool c_http_blf_simple_downloader<s_message_of_the_day_popup>::is_submitting_to_cache() const
 //.text:00AE7F00 ; private: void c_main_menu_screen_widget::load_progress_ui()

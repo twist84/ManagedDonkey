@@ -60,27 +60,27 @@ c_game_variant const* __cdecl current_game_variant()
 	return nullptr;
 }
 
-void __cdecl build_multiplayer_string(long player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, long buffer_size, wchar_t* dest_ptr)
+void __cdecl build_multiplayer_string(int32 player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, int32 buffer_size, wchar_t* dest_ptr)
 {
 	INVOKE(0x005CE070, build_multiplayer_string, player_index, formatted_string, event_data, buffer_size, dest_ptr);
 }
 
-short __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(long name)
+int16 __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(int32 name)
 {
 	return INVOKE(0x005CE4A0, game_engine_get_multiplayer_weapon_selection_absolute_index, name);
 }
 
-long __cdecl game_engine_get_multiplayer_weapon_selection_name(short absolute_index)
+int32 __cdecl game_engine_get_multiplayer_weapon_selection_name(int16 absolute_index)
 {
 	return INVOKE(0x005CE560, game_engine_get_multiplayer_weapon_selection_name, absolute_index);
 }
 
-long __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(short absolute_weapons_selection_block_index, e_weapon_set weapon_set)
+int32 __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(int16 absolute_weapons_selection_block_index, e_weapon_set weapon_set)
 {
 	return INVOKE(0x005CECD0, game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index, absolute_weapons_selection_block_index, weapon_set);
 }
 
-long __cdecl game_engine_add_starting_weapon_to_player(long unit_index, long definition_index, long method)
+int32 __cdecl game_engine_add_starting_weapon_to_player(int32 unit_index, int32 definition_index, int32 method)
 {
 	return INVOKE(0x005CE210, game_engine_add_starting_weapon_to_player, unit_index, definition_index, method);
 }

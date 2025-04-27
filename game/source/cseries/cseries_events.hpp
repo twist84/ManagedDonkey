@@ -6,7 +6,7 @@
 struct s_spamming_event
 {
 	uint32 last_spam_time;
-	long hit_count;
+	int32 hit_count;
 	char spam_text[2048];
 	bool valid;
 };
@@ -19,39 +19,39 @@ struct s_event_category_default_configuration
 	real_rgb_color initial_display_color;
 	e_event_level initial_log_level;
 	char const* log_name;
-	void(__cdecl* log_format_func)(char*, long);
+	void(__cdecl* log_format_func)(char*, int32);
 	e_event_level initial_remote_log_level;
 };
 static_assert(sizeof(s_event_category_default_configuration) == 0x24);
 
 struct s_event_category
 {
-	short depth;
+	int16 depth;
 	char name[64];
-	long event_log_index;
+	int32 event_log_index;
 	e_event_level current_display_level;
 	real_rgb_color current_display_color;
 	uint32 last_event_time;
-	long possible_spam_event_count;
+	int32 possible_spam_event_count;
 	e_event_level current_log_level;
 	char log_name[256];
-	void(__cdecl* log_format_func)(char*, long);
+	void(__cdecl* log_format_func)(char*, int32);
 	e_event_level current_remote_log_level;
 	e_event_level current_debugger_break_level;
 	e_event_level current_halt_level;
 	e_event_level current_force_display_level;
 	uint32 event_listeners;
-	long parent_index;
-	long first_child_index;
-	long sibling_index;
+	int32 parent_index;
+	int32 first_child_index;
+	int32 sibling_index;
 };
 static_assert(sizeof(s_event_category) == 0x188);
 
 struct c_event_listener_base
 {
 	char m_categories[128];
-	long m_category_index;
-	long m_event_listener_index;
+	int32 m_category_index;
+	int32 m_event_listener_index;
 };
 static_assert(sizeof(c_event_listener_base) == 0x88);
 
@@ -71,18 +71,18 @@ struct s_event_globals
 	e_event_level current_minimum_level;
 	e_event_level current_minimum_category_level;
 	c_static_array<s_event_category, 1024> categories;
-	long category_count;
-	long console_suppression_old_time;
-	long console_suppression_count;
-	long console_suppression_old_line_check_time;
-	short message_buffer_size;
+	int32 category_count;
+	int32 console_suppression_old_time;
+	int32 console_suppression_count;
+	int32 console_suppression_old_line_check_time;
+	int16 message_buffer_size;
 	char message_buffer[2048];
-	long external_primary_event_log_index;
-	long internal_primary_event_log_index;
-	long internal_primary_full_event_log_index;
-	long subfolder_internal_primary_event_log_index;
-	long subfolder_internal_primary_full_event_log_index;
-	long event_index;
+	int32 external_primary_event_log_index;
+	int32 internal_primary_event_log_index;
+	int32 internal_primary_full_event_log_index;
+	int32 subfolder_internal_primary_event_log_index;
+	int32 subfolder_internal_primary_full_event_log_index;
+	int32 event_index;
 	c_static_array<c_event_listener*, 8> event_listeners;
 	c_static_array<s_spamming_event, 64> spamming_event_list;
 	bool enable_events;
@@ -92,21 +92,21 @@ struct s_event_globals
 	bool disable_event_log_trimming;
 	bool disable_event_logging;
 	bool suppress_console_display_and_show_spinner;
-	long permitted_thread_bits;
+	int32 permitted_thread_bits;
 };
 static_assert(sizeof(s_event_globals) == 0x82B6C);
 
 struct c_event
 {
 public:
-	c_event(e_event_level event_level, long event_category_index, uint32 event_response_suppress_flags);
+	c_event(e_event_level event_level, int32 event_category_index, uint32 event_response_suppress_flags);
 
 	bool query();
-	long generate(char const* format, ...);
+	int32 generate(char const* format, ...);
 
 protected:
 	e_event_level m_event_level;
-	long m_event_category_index;
+	int32 m_event_category_index;
 	uint32 m_event_response_suppress_flags;
 };
 static_assert(sizeof(c_event) == 0xC);
@@ -120,8 +120,8 @@ struct s_event_context
 static_assert(sizeof(s_event_context) == 0xC1);
 
 inline thread_local bool g_recursion_lock = false;
-inline thread_local long g_event_context_stack_depth = 0;
-inline thread_local long g_event_context_stack_failure_depth = 0;
+inline thread_local int32 g_event_context_stack_depth = 0;
+inline thread_local int32 g_event_context_stack_failure_depth = 0;
 inline thread_local s_event_context g_event_context_stack[32]{};
 
 extern s_event_globals event_globals;
@@ -141,7 +141,7 @@ extern void events_clear();
 extern void events_debug_render();
 extern char const* events_get();
 extern void events_initialize();
-extern long event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand);
+extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
 extern void event_logs_flush();
 extern void __cdecl network_debug_print(char const* format, ...);
 
@@ -156,7 +156,7 @@ extern void __cdecl network_debug_print(char const* format, ...);
 #else
 #define event(severity, ...) \
 do { \
-	static long volatile x_event_category_index = NONE; \
+	static int32 volatile x_event_category_index = NONE; \
 	c_event local_event(severity, x_event_category_index, 0); \
 	if (local_event.query()) \
 	{ \

@@ -16,8 +16,8 @@ struct s_online_session
 {
 	e_controller_index controller_index;
 	uint16 flags;
-	long public_slot_count;
-	long private_slot_count;
+	int32 public_slot_count;
+	int32 private_slot_count;
 	s_transport_session_description session_description;
 	uint64 nonce;
 	void* handle;

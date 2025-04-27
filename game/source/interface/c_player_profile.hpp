@@ -21,24 +21,24 @@ struct s_campaign_progression_profile_data
 	uint64 __time0;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
-	short campaign_insertion_index;
+	int16 campaign_insertion_index;
 	s_campaign_armaments campaign_armaments;
 	uint8 __pad8A[0x2];
 	s_campaign_game_progression campaign_game_progression;
 	s_campaign_game_progression hub_progression;
-	long campaign_difficulty;
-	long campaign_metagame_scoring;
+	int32 campaign_difficulty;
+	int32 campaign_metagame_scoring;
 	uint32 active_primary_skulls;
 	uint32 active_secondary_skulls;
-	long __unknown19C;
+	int32 __unknown19C;
 };
 static_assert(sizeof(s_campaign_progression_profile_data) == 0x1A0);
 
 struct s_player_training_profile_data
 {
-	long training_blob_bitvector_low[2];
-	long training_blob_bitvector_high[2];
-	long expansion[4];
+	int32 training_blob_bitvector_low[2];
+	int32 training_blob_bitvector_high[2];
+	int32 expansion[4];
 };
 static_assert(sizeof(s_player_training_profile_data) == 0x20);
 
@@ -50,19 +50,19 @@ enum e_campaign_game_mode
 	k_campaign_game_mode_count
 };
 
-template<long max_map_count, long max_insertion_point_count>
+template<int32 max_map_count, int32 max_insertion_point_count>
 struct c_player_profile_insertion_point_flags
 {
-	static long const k_max_map_count = max_map_count;
-	static long const k_max_insertion_point_count = max_insertion_point_count;
+	static int32 const k_max_map_count = max_map_count;
+	static int32 const k_max_insertion_point_count = max_insertion_point_count;
 
 	//c_player_profile_insertion_point_flags();
 	//void clear();
 	//bool is_clear() const;
-	//void set(long, short, bool);
-	//bool test(long, short) const;
-	//long get_flag_index(long, long) const;
-	//uint16 get_for_map(long) const;
+	//void set(int32, int16, bool);
+	//bool test(int32, int16) const;
+	//int32 get_flag_index(int32, int32) const;
+	//uint16 get_for_map(int32) const;
 
 	c_static_array<c_static_flags<k_max_map_count>, k_max_insertion_point_count> m_flags;
 };
@@ -94,8 +94,8 @@ struct c_player_profile_interface
 	e_player_color_index get_secondary_change_color() const;
 
 //public:
-	void set_primary_change_color(long color, bool set_by_user);
-	void set_secondary_change_color(long color, bool set_by_user);
+	void set_primary_change_color(int32 color, bool set_by_user);
+	void set_secondary_change_color(int32 color, bool set_by_user);
 	void signed_out();
 
 //protected:
@@ -121,16 +121,16 @@ struct c_player_profile_interface
 	};
 	uint32 m_flags;
 
-	long m_settings_read_retry_count;
+	int32 m_settings_read_retry_count;
 	uint32 m_next_settings_read_retry_time_milliseconds;
-	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, int32, _controller0, k_number_of_controllers> m_controller_index;
 	bool m_achievements_report_as_obtained;
 
 	struct
 	{
-		long button_preset;
-		long joystick_preset;
-		long look_sensitivity;
+		int32 button_preset;
+		int32 joystick_preset;
+		int32 look_sensitivity;
 	} m_controls;
 
 	uint8 __data1C[0x1D8];
@@ -143,24 +143,24 @@ struct c_player_profile_interface
 
 	struct
 	{
-		long attached_horizontal;
-		long panning;
-		long look_sensitivity;
-		long flying_movement;
-		long flying_thrust;
+		int32 attached_horizontal;
+		int32 panning;
+		int32 look_sensitivity;
+		int32 flying_movement;
+		int32 flying_thrust;
 	} m_camera;
 
 	struct
 	{
-		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> current_difficulty;
-		short current_campaign_absolute_index;
-		short current_map_absolute_index;
+		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> current_difficulty;
+		int16 current_campaign_absolute_index;
+		int16 current_map_absolute_index;
 		c_static_array<c_flags<e_campaign_difficulty_level, uint8, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
 		c_static_array<uint64, k_campaign_game_mode_count> last_campaign_played_time;
-		long awarded_primary_skull_bitvector;
-		long awarded_secondary_skull_bitvector;
-		short terminals_read_level1_bitvector;
-		short terminals_read_level2_bitvector;
+		int32 awarded_primary_skull_bitvector;
+		int32 awarded_secondary_skull_bitvector;
+		int16 terminals_read_level1_bitvector;
+		int16 terminals_read_level2_bitvector;
 		c_static_flags<32> map_flags;
 		c_player_profile_insertion_point_flags<32, 9> insertion_point_flags;
 
@@ -171,21 +171,21 @@ struct c_player_profile_interface
 
 			e_map_id coop_map_id;
 			real32 coop_unknown;
-			long coop_player_count;
+			int32 coop_player_count;
 		} survival;
 
 		struct
 		{
 			e_map_id solo_map_id;
-			short solo_insertion_point;
+			int16 solo_insertion_point;
 			uint8 __pad2B6[0x2];
 			real32 solo_unknown;
 
 			e_map_id coop_map_id;
-			short coop_insertion_point;
+			int16 coop_insertion_point;
 			uint8 __pad2C2[0x2];
 			real32 coop_unknown;
-			long coop_player_count;
+			int32 coop_player_count;
 		} campaign;
 
 		uint8 __data2CC[0x4]; // pad?
@@ -195,24 +195,24 @@ struct c_player_profile_interface
 
 	struct
 	{
-		short last_hopper_identifier;
-		long last_map;
-		long last_variant_type;
-		long last_variant_checksum;
-		long spartan_program_best_milestone;
-		long spartan_program_best_rank;
+		int16 last_hopper_identifier;
+		int32 last_map;
+		int32 last_variant_type;
+		int32 last_variant_checksum;
+		int32 spartan_program_best_milestone;
+		int32 spartan_program_best_rank;
 	} m_multiplayer;
 
 	struct
 	{
-		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> primary_color;
-		c_enum<e_player_color_index, long, _player_color_none, k_player_color_index_count> secondary_color;
+		c_enum<e_player_color_index, int32, _player_color_none, k_player_color_index_count> primary_color;
+		c_enum<e_player_color_index, int32, _player_color_none, k_player_color_index_count> secondary_color;
 
-		long __unknown490;
-		long __unknown494;
-		long __unknown498;
+		int32 __unknown490;
+		int32 __unknown494;
+		int32 __unknown498;
 
-		long player_model_choice;
+		int32 player_model_choice;
 		s_emblem_info emblem;
 		uint8 model_area_selections[10];
 		wchar_t last_known_good_service_tag[5];
@@ -223,17 +223,17 @@ struct c_player_profile_interface
 
 	struct
 	{
-		long mute_setting;
-		long output_setting;
-		long matchmaking_setting;
-		long voice_mask;
-		long guide_voice_through_speakers;
+		int32 mute_setting;
+		int32 output_setting;
+		int32 matchmaking_setting;
+		int32 voice_mask;
+		int32 guide_voice_through_speakers;
 		bool guide_voice_muted;
 	} m_voice;
 
 	struct
 	{
-		c_static_array<long, k_popup_message_title_count> last_shown_popup_message_index;
+		c_static_array<int32, k_popup_message_title_count> last_shown_popup_message_index;
 		char last_shown_vidmaster_popup_message_index;
 	} m_online;
 
@@ -241,8 +241,8 @@ struct c_player_profile_interface
 	s_campaign_game_progression __unknownB30;
 
 	bool m_film_auto_save[k_film_auto_save_type_count];
-	long m_profile_region;
-	long m_gamer_zone;
+	int32 m_profile_region;
+	int32 m_gamer_zone;
 	s_player_training_profile_data m_training_data;
 	c_string_verify_task m_string_verify_task;
 };

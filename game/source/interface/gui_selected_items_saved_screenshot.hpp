@@ -14,7 +14,7 @@ public:
 	char m_author[16];
 	uint64 m_date;
 	uint64 m_size_in_bytes;
-	long m_list_item_index;
+	int32 m_list_item_index;
 };
 static_assert(sizeof(c_gui_saved_screenshot_selected_item) == sizeof(c_gui_selected_item) + 0x140);
 static_assert(0x190 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_controller_index));

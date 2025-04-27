@@ -52,14 +52,14 @@ void c_game_engine_oddball_variant::encode_to_mcc(c_bitstream* packet) const
 
 	bool auto_ball_pickup = get_auto_ball_pickup();
 	bool ball_effect_enabled = get_ball_effect_enabled();
-	short score_to_win = get_score_to_win();
+	int16 score_to_win = get_score_to_win();
 	char carrying_points = get_carrying_points();
 	char kill_points = get_kill_points();
 	char ball_kill_points = get_ball_kill_points();
 	char carrier_kill_points = get_carrier_kill_points();
 	char ball_count = get_ball_count();
-	short ball_spawn_delay = get_ball_spawn_delay();
-	short ball_inactive_respawn_delay = get_ball_inactive_respawn_delay();
+	int16 ball_spawn_delay = get_ball_spawn_delay();
+	int16 ball_inactive_respawn_delay = get_ball_inactive_respawn_delay();
 
 	packet->write_bool("oddball-auto-ball-pickup", auto_ball_pickup);
 	packet->write_bool("oddball-ball-effect-enabled", ball_effect_enabled);
@@ -80,14 +80,14 @@ void c_game_engine_oddball_variant::decode_from_mcc(c_bitstream* packet)
 
 	bool auto_ball_pickup = packet->read_bool("oddball-auto-ball-pickup");
 	bool ball_effect_enabled = packet->read_bool("oddball-ball-effect-enabled");
-	short score_to_win = static_cast<short>(packet->read_signed_integer("oddball-score-to-win", 11));
+	int16 score_to_win = static_cast<int16>(packet->read_signed_integer("oddball-score-to-win", 11));
 	char carrying_points = static_cast<char>(packet->read_signed_integer("oddball-carrying-points", 5));
 	char kill_points = static_cast<char>(packet->read_signed_integer("oddball-kill-points", 5));
 	char ball_kill_points = static_cast<char>(packet->read_signed_integer("oddball-ball-kill-points", 5));
 	char carrier_kill_points = static_cast<char>(packet->read_signed_integer("oddball-carrier-kill-points", 5));
 	char ball_count = static_cast<char>(packet->read_integer("oddball-ball-count", 2));
-	short ball_spawn_delay = static_cast<short>(packet->read_integer("oddball-ball-spawn-delay", 7));
-	short ball_inactive_respawn_delay = static_cast<short>(packet->read_integer("oddball-ball-inactive-respawn-delay", 7));
+	int16 ball_spawn_delay = static_cast<int16>(packet->read_integer("oddball-ball-spawn-delay", 7));
+	int16 ball_inactive_respawn_delay = static_cast<int16>(packet->read_integer("oddball-ball-inactive-respawn-delay", 7));
 	get_carrier_traits_writeable()->decode_from_mcc(packet);
 
 	set_auto_ball_pickup(auto_ball_pickup);
@@ -122,12 +122,12 @@ void c_game_engine_oddball_variant::set_ball_effect_enabled(bool ball_effect_ena
 	m_variant_flags.set(_oddball_variant_flags_ball_effect_enabled, ball_effect_enabled);
 }
 
-short c_game_engine_oddball_variant::get_score_to_win() const
+int16 c_game_engine_oddball_variant::get_score_to_win() const
 {
 	return m_score_to_win;
 }
 
-void c_game_engine_oddball_variant::set_score_to_win(short score_to_win)
+void c_game_engine_oddball_variant::set_score_to_win(int16 score_to_win)
 {
 	if (!VALID_INDEX(score_to_win + 1, 1001))
 	{
@@ -236,12 +236,12 @@ void c_game_engine_oddball_variant::set_ball_count(char ball_count)
 	}
 }
 
-short c_game_engine_oddball_variant::get_ball_spawn_delay() const
+int16 c_game_engine_oddball_variant::get_ball_spawn_delay() const
 {
 	return m_ball_spawn_delay;
 }
 
-void c_game_engine_oddball_variant::set_ball_spawn_delay(short ball_spawn_delay)
+void c_game_engine_oddball_variant::set_ball_spawn_delay(int16 ball_spawn_delay)
 {
 	if (!VALID_INDEX(ball_spawn_delay, 120))
 	{
@@ -255,12 +255,12 @@ void c_game_engine_oddball_variant::set_ball_spawn_delay(short ball_spawn_delay)
 	}
 }
 
-short c_game_engine_oddball_variant::get_ball_inactive_respawn_delay() const
+int16 c_game_engine_oddball_variant::get_ball_inactive_respawn_delay() const
 {
 	return m_ball_inactive_respawn_delay;
 }
 
-void c_game_engine_oddball_variant::set_ball_inactive_respawn_delay(short ball_inactive_respawn_delay)
+void c_game_engine_oddball_variant::set_ball_inactive_respawn_delay(int16 ball_inactive_respawn_delay)
 {
 	if (!VALID_INDEX(ball_inactive_respawn_delay, 120))
 	{

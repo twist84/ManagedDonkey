@@ -4,23 +4,23 @@
 
 struct game_allegiance
 {
-	short team1_index;
-	short team2_index;
-	short incident_threshold;
-	short incident_decay_time;
+	int16 team1_index;
+	int16 team2_index;
+	int16 incident_threshold;
+	int16 incident_decay_time;
 	bool team1_suspicious;
 	bool team2_suspicious;
 	bool currently_broken;
 	bool status_changed;
-	short current_incidents;
-	short current_incident_decay_time;
-	long last_incident_time;
+	int16 current_incidents;
+	int16 current_incident_decay_time;
+	int32 last_incident_time;
 };
 static_assert(sizeof(game_allegiance) == 0x14);
 
 struct s_game_allegiance_globals
 {
-	short allegiance_count;
+	int16 allegiance_count;
 	game_allegiance allegiances[16];
 	c_static_flags<256> ally_bitvector;
 	c_static_flags<256> friendly_bitvector;

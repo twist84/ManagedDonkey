@@ -21,14 +21,14 @@ extern void __cdecl simulation_machine_update_encode(c_bitstream* packet, simula
 extern bool __cdecl simulation_player_update_decode(c_bitstream* packet, simulation_player_update* player_update);
 extern void __cdecl simulation_player_update_encode(c_bitstream* packet, simulation_player_update const* player_update);
 extern void __cdecl simulation_read_location(c_bitstream* packet, s_location* location);
-extern void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, long encoding_type, long axis_encoding_size_in_bits);
-extern void __cdecl simulation_read_quantized_position(c_bitstream* packet, real_point3d* position, long axis_encoding_size_in_bits, real_rectangle3d const* world_bounds);
+extern void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, int32 encoding_type, int32 axis_encoding_size_in_bits);
+extern void __cdecl simulation_read_quantized_position(c_bitstream* packet, real_point3d* position, int32 axis_encoding_size_in_bits, real_rectangle3d const* world_bounds);
 extern bool __cdecl simulation_update_compare(struct simulation_update const* update1, struct simulation_update* update2);
 extern bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_update* update);
 extern void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_update const* update);
 extern void __cdecl simulation_write_location(c_bitstream* packet, s_location const* location);
-extern void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, long encoding_type, long axis_encoding_size_in_bits);
-extern void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point3d const* position, long a3, bool a4, real_rectangle3d const* world_bounds);
+extern void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, int32 encoding_type, int32 axis_encoding_size_in_bits);
+extern void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point3d const* position, int32 a3, bool a4, real_rectangle3d const* world_bounds);
 extern bool __cdecl unit_control_decode(c_bitstream* bitstream, unit_control_data* unit_control);
 extern bool __cdecl unit_control_encode(c_bitstream* bitstream, unit_control_data const* unit_control);
 

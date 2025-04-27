@@ -17,7 +17,7 @@ static_assert(sizeof(s_dialogue_definition) == 0x24);
 // unit_datum: object_header_block_reference seat_storage;
 struct s_seat_storage
 {
-	long dialogue_definition_index;
+	int32 dialogue_definition_index;
 	c_string_id mission_dialogue_designator;
 	c_string_id dialogue_effect;
 

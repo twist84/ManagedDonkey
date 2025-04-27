@@ -157,14 +157,14 @@ struct s_parser_state
 		k_string_length = 2048
 	};
 
-	c_enum<e_property, short, _property_none, k_property_count> m_current_property_type;
-	c_enum<e_property_owners, long, _property_owner_none, k_property_owner_count> m_current_property_owner;
+	c_enum<e_property, int16, _property_none, k_property_count> m_current_property_type;
+	c_enum<e_property_owners, int32, _property_owner_none, k_property_owner_count> m_current_property_owner;
 
 	char m_string_buffer[k_string_length];
-	short m_string_buffer_index;
+	int16 m_string_buffer_index;
 
 	char m_number_buffer[k_string_length];
-	short m_number_buffer_index;
+	int16 m_number_buffer_index;
 
 	bool m_has_name;
 	char m_name[k_string_length];
@@ -188,7 +188,7 @@ struct s_parser_state
 	real32 m_inc;
 
 	bool m_has_item_type;
-	c_enum<e_item_types, long, _item_type_none, k_item_type_count> m_item_type;
+	c_enum<e_item_types, int32, _item_type_none, k_item_type_count> m_item_type;
 };
 //static_assert(sizeof(s_parser_state) == 0x330);
 static_assert(sizeof(s_parser_state) == 0x3030);

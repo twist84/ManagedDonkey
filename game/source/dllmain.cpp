@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0199C000 ; bool shell_application_paused
 //.data:0199C004 ; s_project_version g_project_version
 //.data:0199C010 ; s_windows_params g_windows_params
-//.data:0199C0A8 ; long const k_network_compatible_version
+//.data:0199C0A8 ; int32 const k_network_compatible_version
 //.data:0199C0B0 ; s_netdebug_globals g_netdebug_globals
 //.data:0199FA20 ; c_synchronized_long g_net_debug_thread_has_exited
 //.data:0199FA28 ; s_transport_globals transport_globals
@@ -113,7 +113,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0224A4C8 ; c_network_http_request_queue g_network_http_request_queue[2]
 //.data:02269678 ; c_static_string<256> g_storage_url_subdirectory
 //.data:02269778 ; 
-//.data:02269780 ; private: static long c_simulation_sandbox_engine_globals_definition::next_available_update_bit
+//.data:02269780 ; private: static int32 c_simulation_sandbox_engine_globals_definition::next_available_update_bit
 //.data:02269788 ; s_managed_user managed_user_globals[4]
 //.data:0226B508 ; s_network_leaderboard_globals network_leaderboard_globals
 //.data:0226DAD0 ; bool g_network_banhammer_initialized
@@ -169,7 +169,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:022B4808 ; 
 //.data:022B480C ; 
 //.data:022B4818 ; s_async_globals async_globals
-//.data:022B7FA4 ; long g_secure_memory_size
+//.data:022B7FA4 ; int32 g_secure_memory_size
 //.data:022B7FA8 ; void* g_secure_memory
 //.data:022B7FAC ; s_font_globals g_font_globals
 //.data:022C0108 ; s_runtime_state_globals g_runtime_state_globals
@@ -186,7 +186,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0238E86E ; 
 //.data:0238E86F ; 
 //.data:0238E871 ; bool debug_sound_force_first_person_listener
-//.data:0238E874 ; long g_sound_manager_reference_count
+//.data:0238E874 ; int32 g_sound_manager_reference_count
 //.data:0238E878 ; bool g_set_always_a_debugger_present
 //.data:0238E879 ; bool g_set_never_a_debugger_present
 //.data:0238E87C ; uint32 g_exception_time
@@ -201,18 +201,18 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0238ED14 ; uint32 g_local_random_seed
 //.data:0238ED18 ; 
 //.data:0238ED1C ; 
-//.data:0238ED20 ; long g_saved_game_files[14]
+//.data:0238ED20 ; int32 g_saved_game_files[14]
 //.data:0238ED58 ; 
 //.data:0238ED60 ; 
 //.data:0238EF60 ; bool g_use_temporary_directory
 //.data:0238F45C ; s_synchronization_globals g_synch_globals
 //.data:0238FD80 ; 
-//.data:0238FDA0 ; long crc_table[256]
+//.data:0238FDA0 ; int32 crc_table[256]
 //.data:023901A0 ; bool crc_table_initialized
 //.data:023901A1 ; bool debug_globals_empty
-//.data:023901A4 ; long g_datamine_player_update_interval
-//.data:023901A8 ; long g_mp_player_update_interval
-//.data:023901AC ; long g_datamine_debug_menu_interval
+//.data:023901A4 ; int32 g_datamine_player_update_interval
+//.data:023901A8 ; int32 g_mp_player_update_interval
+//.data:023901AC ; int32 g_datamine_debug_menu_interval
 //.data:023901B0 ; bool g_datamine_spam_enabled
 //.data:023901B8 ; s_xnet_entry stru_23901B8[51]
 //.data:02390CE8 ; LARGE_INTEGER
@@ -233,7 +233,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:023915A0 ; s_synchronized_list_header g_game_engine_globals_messages.__unknown800
 //.data:023915A8 ; s_synchronized_list_header g_game_engine_globals_messages.__unknown808
 //.data:023915B0 ; bool g_game_engine_globals_messages.m_initialized
-//.data:023915B4 ; long g_game_engine_globals_messages.m_last_entry_index
+//.data:023915B4 ; int32 g_game_engine_globals_messages.m_last_entry_index
 //.data:023915C0 ; s_game_engine_ranking_cache g_game_engine_ranking_cache[2]
 //.data:023916C0 ; c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1> g_resource_runtime_manager
 //.data:023916D8 ; s_main_game_globals main_game_globals
@@ -250,14 +250,14 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:023FF441 ; bool debug_globals
 //.data:023FF442 ; bool debug_globals_all
 //.data:023FF444 ; bool[512]
-//.data:023FF648 ; long(__cdecl* g_typecasting_procedures[84][84])(long)
+//.data:023FF648 ; int32(__cdecl* g_typecasting_procedures[84][84])(int32)
 //.data:0240648C ; c_game_engine_sandbox_variant* sandbox_variant
 //.data:02406494 ; c_restricted_memory g_restricted_regions[5]
 //.data:0240A33C ; 
 //.data:0240A340 ; s_content_catalogue_globals g_content_catalogue_globals
 //.data:0240AE08 ; c_storage_device
 //.data:0240AE10 ; 
-//.data:0240AE1A ; short[87]
+//.data:0240AE1A ; int16[87]
 //.data:0240AEC8 ; 
 //.data:0240AED0 ; s_overlapped_globals g_overlapped_globals
 //.data:0240B1E0 ; bool g_cache_files_read_from_map_directory
@@ -265,7 +265,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0243C098 ; s_cache_file_copy_globals cache_file_copy_globals
 //.data:0243F780 ; c_asynchronous_io_arena g_cache_file_io_arena
 //.data:0243FB38 ; 
-//.data:0243FB40 ; long g_io_last_error
+//.data:0243FB40 ; int32 g_io_last_error
 //.data:0243FB44 ; 
 //.data:0243FB60 ; bool effects_enable
 //.data:0243FB64 ; c_aoe_damage_batchifier* global_batchifier_pointer

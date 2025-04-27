@@ -232,7 +232,7 @@ char const* __cdecl get_language_suffix(e_language language, bool english_is_emp
 	return result;
 }
 
-void __cdecl get_localized_data_directory_name(e_language language, char* buffer, long count)
+void __cdecl get_localized_data_directory_name(e_language language, char* buffer, int32 count)
 {
 	//INVOKE(0x00530070, get_localized_data_directory_name, language, buffer, count);
 

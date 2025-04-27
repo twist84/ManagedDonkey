@@ -9,7 +9,7 @@
 
 HOOK_DECLARE(0x00AD86B0, parse_build_number);
 
-bool parse_build_number(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool parse_build_number(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	ASSERT(buffer != NULL);
 	ASSERT(buffer_length > 0);

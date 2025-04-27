@@ -211,23 +211,23 @@
 extern bool const print_reference_updates;
 
 #define UPDATE_REFERENCE_NAME(_reference) { _reference.get_name(); if (_reference.name) { if (print_reference_updates) c_console::write_line("\t%s: '%s.%s'", #_reference, _reference.name, _reference.get_group_name()); } }
-#define UPDATE_ARRAY_REFERENCE_NAMES(_array) { for (long i = 0; i < NUMBEROF(_array); i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]: '%s.%s'", #_array, i, _array[i].name, _array[i].get_group_name()); } }
-#define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (long i = 0; i < _block.count; i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
+#define UPDATE_ARRAY_REFERENCE_NAMES(_array) { for (int32 i = 0; i < NUMBEROF(_array); i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]: '%s.%s'", #_array, i, _array[i].name, _array[i].get_group_name()); } }
+#define UPDATE_BLOCK_REFERENCE_NAMES(_block) { for (int32 i = 0; i < _block.count; i++) { if (print_reference_updates) c_console::write_line("\t%s[%d]:", #_block, i); auto& _element = _block[i]; _element.update_reference_names(); } }
 #define UPDATE_STRUCT_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct.update_reference_names(); }
 #define UPDATE_STRUCT_POINTER_REFERENCE_NAMES(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_reference_names(); }
 #define UPDATE_STATIC_RUNTIME_DATA(_struct) { if (print_reference_updates) c_console::write_line("\t%s: ", #_struct); _struct->update_static_runtime_data(); }
 
-long const k_tag_file_name_length = 256;
+int32 const k_tag_file_name_length = 256;
 
 struct s_tag_block
 {
-	long count;
+	int32 count;
 	union
 	{
 		void* address;
 		uint8* base;
 	};
-	long : 32; // uint8* definition;
+	int32 : 32; // uint8* definition;
 };
 static_assert(sizeof(s_tag_block) == 0xC);
 
@@ -235,8 +235,8 @@ struct s_tag_reference
 {
 	tag group_tag = _tag_none;
 	char const* name;
-	long name_length;
-	long index = NONE;
+	int32 name_length;
+	int32 index = NONE;
 
 	void* get_definition();
 
@@ -253,7 +253,7 @@ static_assert(sizeof(s_tag_reference) == 0x10);
 
 struct s_tag_data
 {
-	long size;
+	int32 size;
 	uint32 internal_flags;
 	uint32 file_offset;
 
@@ -263,7 +263,7 @@ struct s_tag_data
 		uint8* base;
 	};
 
-	long : 32; // uint8* definition;
+	int32 : 32; // uint8* definition;
 };
 static_assert(sizeof(s_tag_data) == 0x14);
 
@@ -294,14 +294,14 @@ public:
 		return static_cast<t_element_type*>(address) + s_tag_block::count;
 	}
 
-	t_element_type& operator[](long index)
+	t_element_type& operator[](int32 index)
 	{
 		ASSERT(VALID_INDEX(index, s_tag_block::count));
 
 		return static_cast<t_element_type*>(address)[index];
 	}
 
-	t_element_type& operator[](long index) const
+	t_element_type& operator[](int32 index) const
 	{
 		ASSERT(VALID_INDEX(index, s_tag_block::count));
 
@@ -376,15 +376,15 @@ struct s_cache_file_tag_group
 };
 static_assert(sizeof(s_cache_file_tag_group) == 0x10);
 
-extern void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, long index, long size);
-extern void* __cdecl tag_data_get_pointer(s_tag_data const* data, long offset, long size);
+extern void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, int32 index, int32 size);
+extern void* __cdecl tag_data_get_pointer(s_tag_data const* data, int32 offset, int32 size);
 extern void __cdecl tag_load_missing_tags_report();
 extern char const* __cdecl tag_name_strip_path(char const* path);
 extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);
 extern tag group_name_to_group_tag(char const* group_name);
 extern void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* name);
 extern void tag_block_set_elements(s_tag_block* block, void* elements);
-extern void tag_block_set_element_count(s_tag_block* block, long count);
+extern void tag_block_set_element_count(s_tag_block* block, int32 count);
 
 static s_cache_file_tag_group global_tag_groups[] =
 {
@@ -1202,5 +1202,5 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, wind)
 	},
 };
-static long const global_tag_group_count = NUMBEROF(global_tag_groups);
+static int32 const global_tag_group_count = NUMBEROF(global_tag_groups);
 

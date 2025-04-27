@@ -25,10 +25,10 @@ bool debug_damage_this_event = false;
 bool debug_damage_verbose = false;
 bool debug_player_damage = false;
 bool debug_damage = false;
-long global_debug_damage_object_index = NONE;
+int32 global_debug_damage_object_index = NONE;
 
-//real32 __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
-real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
+//real32 __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, int32 object_index, bool* a5)
+real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, int32 object_index, bool* a5)
 {
 	real32 result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
 
@@ -70,7 +70,7 @@ void __cdecl damage_acceleration_queue_end()
 
 	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
 
-	for (long i = 0; i < damage_globals->damage_acceleration_count; i++)
+	for (int32 i = 0; i < damage_globals->damage_acceleration_count; i++)
 	{
 		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[i];
 		if (damage_acceleration.object_index != NONE)
@@ -82,7 +82,7 @@ void __cdecl damage_acceleration_queue_end()
 	damage_globals->damage_acceleration_queue_active = false;
 }
 
-void __cdecl damage_data_new(s_damage_data* damage_data, long definition_index)
+void __cdecl damage_data_new(s_damage_data* damage_data, int32 definition_index)
 {
 	INVOKE(0x00B50330, damage_data_new, damage_data, definition_index);
 }
@@ -103,7 +103,7 @@ void __cdecl damage_update() // nullsub
 	//INVOKE(0x00B51F70, damage_update);
 }
 
-void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability)
+void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability)
 {
 	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);
 
@@ -180,13 +180,13 @@ HOOK_DECLARE(0x00B53A6B, omnipotent_inline);
 //}
 //HOOK_DECLARE(0x00B53AF3, deathless_inline1);
 
-//void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, e_predictability predictability)
-void __cdecl object_cause_damage_simple(s_damage_data* damage_data, long object_index, long predictability)
+//void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object_index, e_predictability predictability)
+void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object_index, int32 predictability)
 {
 	INVOKE(0x00B542A0, object_cause_damage_simple, damage_data, object_index, predictability);
 }
 
-s_model_damage_info const* __cdecl object_get_damage_info(long object_index)
+s_model_damage_info const* __cdecl object_get_damage_info(int32 object_index)
 {
 	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
 }
@@ -202,8 +202,8 @@ void render_debug_object_damage()
 	{
 		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
-		bounds.x0 += short(real32(bounds.x1 - bounds.x0) * 0.7f);
-		bounds.y0 += short(real32(bounds.y1 - bounds.y0) * 0.1f);
+		bounds.x0 += int16(real32(bounds.x1 - bounds.x0) * 0.7f);
+		bounds.y0 += int16(real32(bounds.y1 - bounds.y0) * 0.1f);
 
 		char string[2048]{};
 		if (global_debug_damage_object_index == NONE)
@@ -227,13 +227,13 @@ void render_debug_object_damage()
 				{
 					if (damage_info->damage_sections.count > 0)
 					{
-						long element_count = 0;
+						int32 element_count = 0;
 						struct object_damage_section* object_damage_section = (struct object_damage_section*)object_header_block_get_with_count(global_debug_damage_object_index, &object->object.damage_sections, sizeof(struct object_damage_section), &element_count);
 
 						if (element_count > damage_info->damage_sections.count)
 							element_count = damage_info->damage_sections.count;
 
-						for (long i = 0; i < element_count; i++)
+						for (int32 i = 0; i < element_count; i++)
 						{
 							s_model_damage_section& damage_section = damage_info->damage_sections[i];
 
@@ -258,8 +258,8 @@ void render_debug_object_damage()
 
 		if (input_key_frames_down(_key_space, _input_type_game))
 		{
-			long user_index = c_player_view::get_current()->get_player_view_user_index();
-			long unit_index = player_mapping_get_unit_by_output_user(user_index);
+			int32 user_index = c_player_view::get_current()->get_player_view_user_index();
+			int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
 
 			real_matrix4x3 camera{};
 			c_player_view::get_player_render_camera_orientation(&camera);

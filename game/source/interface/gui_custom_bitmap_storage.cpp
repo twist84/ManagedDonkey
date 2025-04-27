@@ -44,13 +44,13 @@ void __thiscall c_gui_custom_bitmap_storage_item::dispose()
 }
 
 const uint32 bitmap_pixel_buffer_alignment_bits = 12;
-void __thiscall c_gui_custom_bitmap_storage_item::initialize(long width, long height, bool use_compressed_format)
+void __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 height, bool use_compressed_format)
 {
 	m_use_compressed_format = use_compressed_format;
 	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
 	D3DFORMAT d3d_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
 
-	bitmap_2d_initialize(&m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, bitmap_format, FLAG(3) | FLAG(6), false, false);
+	bitmap_2d_initialize(&m_bitmap, static_cast<int16>(width), static_cast<int16>(height), 0, bitmap_format, FLAG(3) | FLAG(6), false, false);
 	m_bitmap.curve = 3;
 
 	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, d3d_format, D3DPOOL_DEFAULT, false, 0, 0);
@@ -61,13 +61,13 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(long width, long he
 	uint32 resource_bytes = XGSetTextureHeader(m_bitmap.width, m_bitmap.height, 1, 4, d3d_format, 0, 0, -1, 0, texture_header, &base_size, &mip_size);
 	if (resource_bytes)
 	{
-		long allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
+		int32 allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
 		m_bitmap_pixel_buffer = (char*)user_interface_malloc_tracked(allocate_bytes, __FILE__, __LINE__);
 		if (m_bitmap_pixel_buffer)
 		{
 			m_width = width;
 			m_height = height;
-			m_bitmap_pixel_buffer_base = (char*)ALIGN((long)m_bitmap_pixel_buffer, bitmap_pixel_buffer_alignment_bits);
+			m_bitmap_pixel_buffer_base = (char*)ALIGN((int32)m_bitmap_pixel_buffer, bitmap_pixel_buffer_alignment_bits);
 			m_bitmap_pixel_buffer_length = allocate_bytes - (m_bitmap_pixel_buffer_base - m_bitmap_pixel_buffer);
 			ASSERT(m_bitmap_pixel_buffer_length <= allocate_bytes);
 
@@ -77,12 +77,12 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(long width, long he
 	}
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(long width, long height, char* buffer, long buffer_length, bool cpu_cached)
+bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached)
 {
 	return false;
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, int32 aspect_ratio)
 {
 	ASSERT(buffer);
 	ASSERT(!m_bitmap_ready);
@@ -125,7 +125,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	return true;
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(char const* filename, char const* buffer, long buffer_length, void* d3dx_scratch_buffer, long d3dx_scratch_buffer_length, long aspect_ratio)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, int32 aspect_ratio)
 {
 	return false;
 }
@@ -148,7 +148,7 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 	return &g_gui_custom_bitmap_storage_manager;
 }
 
-bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long aspect_ratio)
+bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 storage_item_index, char const* buffer, int32 buffer_size, int32 aspect_ratio)
 {
 	s_bitmap_storage_handle_datum* storage_item = NULL;
 	{

@@ -14,7 +14,7 @@ static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 struct hs_script_parameter
 {
 	char name[32];
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
+	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
 
 	// pad
 	uint8 JBG[2];
@@ -24,21 +24,21 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 struct hs_global_internal
 {
 	char name[32];
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
 
 	// pad
 	uint8 EB[2];
 
-	long initialization_expression_index;
+	int32 initialization_expression_index;
 };
 static_assert(sizeof(hs_global_internal) == 0x28);
 
 struct hs_script
 {
 	char name[32];
-	c_enum<e_hs_script_type, short, _hs_script_type_startup, k_hs_script_type_count> script_type;
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
-	long root_expression_index;
+	c_enum<e_hs_script_type, int16, _hs_script_type_startup, k_hs_script_type_count> script_type;
+	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
+	int32 root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };
 static_assert(sizeof(hs_script) == 0x34);
@@ -74,32 +74,32 @@ struct hs_syntax_node :
 {
 	union
 	{
-		short script_index;
-		short function_index;
-		c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> constant_type;
+		int16 script_index;
+		int16 function_index;
+		c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> constant_type;
 	};
 
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
 
 	c_flags<e_hs_syntax_node_flags, uint16, NUMBER_OF_HS_SYNTAX_NODE_FLAGS> flags;
 
-	long next_node_index;
-	long source_offset;
+	int32 next_node_index;
+	int32 source_offset;
 
 	union
 	{
 		bool bool_value;
 		real32 real_value;
-		short short_value;
-		long long_value;
+		int16 short_value;
+		int32 long_value;
 		char const* string_value;
 		string_id string_id_value;
 
 		uint8 storage[4];
 	};
 
-	short line_number;
-	short pad0;
+	int16 line_number;
+	int16 pad0;
 };
 static_assert(sizeof(hs_syntax_node) == 0x18);
 
@@ -111,7 +111,7 @@ static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 
 struct s_hs_unit_seat_mapping
 {
-	long unit_definition_tag_index;
+	int32 unit_definition_tag_index;
 	c_static_flags<64> unit_seats;
 };
 static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);

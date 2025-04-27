@@ -1,6 +1,6 @@
 #pragma once
 
 struct D3DBaseTexture;
-unsigned long __stdcall XGSetTextureHeader(unsigned long width, unsigned long height, unsigned long levels, unsigned long usage, unsigned long format, unsigned long pool, unsigned long base_offset, unsigned long mip_offset, unsigned long pitch, D3DBaseTexture* out_texture, unsigned long* out_base_size, unsigned long* out_mip_size);
+uint32 __stdcall XGSetTextureHeader(uint32 width, uint32 height, uint32 levels, uint32 usage, uint32 format, uint32 pool, uint32 base_offset, uint32 mip_offset, uint32 pitch, D3DBaseTexture* out_texture, uint32* out_base_size, uint32* out_mip_size);
 void __stdcall XGOffsetResourceAddress(D3DBaseTexture* out_resource, void* base_address);
 

@@ -19,7 +19,7 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_markers)
 	{
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
@@ -64,7 +64,7 @@ void __cdecl render_debug_structure()
 		c_render_debug_line_drawer debug_line_drawer{};
 		debug_line_drawer.set_color(global_real_argb_green);
 
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
@@ -78,13 +78,13 @@ void __cdecl render_debug_structure()
 			if (debug_plane_index != NONE && debug_structure)
 			{
 				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				for (long edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+				for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
 				{
 					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
 					c_collision_vertex_reference end_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1));
 
-					for (long i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
+					for (int32 i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
 					{
 						if (edge_reference.get_surface_index(i) != NONE)
 						{
@@ -101,7 +101,7 @@ void __cdecl render_debug_structure()
 			else
 			{
 				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				for (long edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+				for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
 				{
 					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
@@ -146,12 +146,12 @@ void __cdecl render_debug_structure()
 		debug_line_drawer_green.set_color(global_real_argb_green);
 		debug_line_drawer_red.set_color(global_real_argb_red);
 
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
 			c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-			for (long edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+			for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
 			{
 				c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 				c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
@@ -160,7 +160,7 @@ void __cdecl render_debug_structure()
 				bool surface_reference_has_slip_bit_enabled = false;
 				bool slip_surface_does_not_exceed_maximum_k = true;
 
-				for (long i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
+				for (int32 i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
 				{
 					if (edge_reference.get_surface_index(i) != NONE)
 					{
@@ -191,7 +191,7 @@ void __cdecl render_debug_structure()
 			}
 
 			//ASSERT(c_visible_items::get_instances_starting_index() == 0);
-			//for (long i = 0; i < c_visible_items::m_items.instances.get_count(); i++)
+			//for (int32 i = 0; i < c_visible_items::m_items.instances.get_count(); i++)
 			//{
 			//	s_visible_instances& instance = c_visible_items::m_items.instances[i];
 			//}

@@ -6,9 +6,9 @@ struct c_dead_camera :
 	public c_camera
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
-		DECLFUNC(0x00729E60, void, __thiscall, c_camera*, long)(this, user_index);
+		DECLFUNC(0x00729E60, void, __thiscall, c_camera*, int32)(this, user_index);
 	}
 	
 //protected:
@@ -17,8 +17,8 @@ public:
 	real32 m_distance;
 	real32 m_field_of_view;
 	real32 m_timer;
-	long m_player_index;
-	long m_killer_object_index;
+	int32 m_player_index;
+	int32 m_killer_object_index;
 	bool m_unit_fell_to_death;
 	uint8 m_user_index;
 

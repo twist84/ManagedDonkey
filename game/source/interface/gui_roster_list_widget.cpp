@@ -18,7 +18,7 @@ void __thiscall c_gui_roster_list_widget::update(uint32 current_milliseconds)
 {
 	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, uint32), _this, current_milliseconds);
 
-	long selectable_item_cap_count = 0;
+	int32 selectable_item_cap_count = 0;
 
 	c_gui_roster_data* data = static_cast<c_gui_roster_data*>(get_data());
 	if (data)
@@ -56,17 +56,17 @@ void __thiscall c_gui_roster_list_widget::update(uint32 current_milliseconds)
 			// $TODO: figure out why this is need here
 			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
-			long element_handle = list_item_widget->get_element_handle();
+			int32 element_handle = list_item_widget->get_element_handle();
 
-			long session_player_index = NONE;
-			long player_row_type_index = c_gui_roster_data::_player_row_type_player;
-			long controller_index = NONE;
-			long voice_state_index = 0;
-			long special_status_value = 0;
-			long experience = NONE;
-			long skill_level = NONE;
-			long bungienet_user_flags = 0;
-			long in_matchmaking_value = 0;
+			int32 session_player_index = NONE;
+			int32 player_row_type_index = c_gui_roster_data::_player_row_type_player;
+			int32 controller_index = NONE;
+			int32 voice_state_index = 0;
+			int32 special_status_value = 0;
+			int32 experience = NONE;
+			int32 skill_level = NONE;
+			int32 bungienet_user_flags = 0;
+			int32 in_matchmaking_value = 0;
 
 			c_static_wchar_string<1024> player_found;
 			c_static_wchar_string<1024> looking_for_player;
@@ -157,7 +157,7 @@ void __thiscall c_gui_roster_list_widget::update(uint32 current_milliseconds)
 				check_bitmap_widget->set_visible(special_status_party_up);
 				party_up_bitmap_widget->set_visible(special_status_party_up);
 
-				long nameplate_sprite_frame = TEST_BIT(bungienet_user_flags, 0); // _bungienet_user_registered_bit
+				int32 nameplate_sprite_frame = TEST_BIT(bungienet_user_flags, 0); // _bungienet_user_registered_bit
 				if (TEST_BIT(bungienet_user_flags, 1)) // _bungienet_user_pro_member_bit
 				{
 					nameplate_sprite_frame = 2;
@@ -313,12 +313,12 @@ void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_mil
 			c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
 			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
-			long element_handle = list_item_widget->get_element_handle();
+			int32 element_handle = list_item_widget->get_element_handle();
 
-			long session_player_index = NONE;
-			long player_row_type_index = c_gui_roster_data::_player_row_type_player;
-			long party_bar_length = 0;
-			long player_color = 0;
+			int32 session_player_index = NONE;
+			int32 player_row_type_index = c_gui_roster_data::_player_row_type_player;
+			int32 party_bar_length = 0;
+			int32 player_color = 0;
 
 			if (base_color_bitmap_widget != NULL
 				&& base_color_hilite_bitmap_widget != NULL
@@ -341,7 +341,7 @@ void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_mil
 
 				bool is_team_game = m_is_team_game_internal;
 
-				long desired_team = NONE;
+				int32 desired_team = NONE;
 				if (is_team_game)
 				{
 					if (session_player_index == NONE
@@ -349,7 +349,7 @@ void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_mil
 						|| !m_temporary_team[session_player_index].temporary_team_change_active
 						&& m_temporary_team->lying_begin_time < current_milliseconds)
 					{
-						long temporary_team_color = NONE;
+						int32 temporary_team_color = NONE;
 						if (data)
 							data->get_integer_value(element_handle, STRING_ID(global, team), &temporary_team_color);
 
@@ -361,7 +361,7 @@ void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_mil
 					}
 				}
 
-				long color_list_index = player_color;
+				int32 color_list_index = player_color;
 				if (is_team_game)
 					color_list_index = desired_team;
 

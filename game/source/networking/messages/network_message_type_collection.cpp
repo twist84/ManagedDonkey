@@ -18,27 +18,27 @@ void __thiscall c_network_message_type_collection::clear_message_types_()
 	clear_message_types();
 }
 
-bool __thiscall c_network_message_type_collection::decode_message_(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage)
+bool __thiscall c_network_message_type_collection::decode_message_(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size, void* message_storage)
 {
 	return decode_message(packet, message_type, message_storage_size, message_storage);
 }
 
-bool __thiscall c_network_message_type_collection::decode_message_header_(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size)
+bool __thiscall c_network_message_type_collection::decode_message_header_(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size)
 {
 	return decode_message_header(packet, message_type, message_storage_size);
 }
 
-void __thiscall c_network_message_type_collection::dispose_message_(e_network_message_type message_type, long message_storage_size, void* message_storage)
+void __thiscall c_network_message_type_collection::dispose_message_(e_network_message_type message_type, int32 message_storage_size, void* message_storage)
 {
 	dispose_message(message_type, message_storage_size, message_storage);
 }
 
-void __thiscall c_network_message_type_collection::encode_message_(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage)
+void __thiscall c_network_message_type_collection::encode_message_(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, void* message_storage)
 {
 	encode_message(packet, message_type, message_storage_size, message_storage);
 }
 
-void __thiscall c_network_message_type_collection::encode_message_header_(c_bitstream* packet, e_network_message_type message_type, long message_storage_size)
+void __thiscall c_network_message_type_collection::encode_message_header_(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size)
 {
 	encode_message_header(packet, message_type, message_storage_size);
 }
@@ -51,9 +51,9 @@ char const* __thiscall c_network_message_type_collection::get_message_type_name_
 void __thiscall c_network_message_type_collection::register_message_type_(
 	e_network_message_type message_type,
 	char const* message_type_name,
-	long flags,
-	long message_size,
-	long message_size_maximum,
+	int32 flags,
+	int32 message_size,
+	int32 message_size_maximum,
 	encode_t* encode_function,
 	decode_t* decode_function,
 	compare_t* compare_function,
@@ -75,7 +75,7 @@ void __thiscall c_network_message_type_collection::register_message_type_(
 
 void __cdecl c_network_message_type_collection::check_message_types() const
 {
-	for (long message_type_index = 0; message_type_index < k_network_message_type_count; message_type_index++)
+	for (int32 message_type_index = 0; message_type_index < k_network_message_type_count; message_type_index++)
 		ASSERT(m_message_types[message_type_index].initialized);
 }
 
@@ -84,7 +84,7 @@ void __cdecl c_network_message_type_collection::clear_message_types()
 	csmemset(m_message_types, 0, sizeof(m_message_types));
 }
 
-bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage) const
+bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size, void* message_storage) const
 {
 	ASSERT(packet);
 	ASSERT(message_type);
@@ -113,7 +113,7 @@ bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* pack
 	return false;
 }
 
-bool c_network_message_type_collection::decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size) const
+bool c_network_message_type_collection::decode_message_header(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size) const
 {
 	ASSERT(packet);
 	ASSERT(message_type);
@@ -137,7 +137,7 @@ bool c_network_message_type_collection::decode_message_header(c_bitstream* packe
 	return false;
 }
 
-void __cdecl c_network_message_type_collection::dispose_message(e_network_message_type message_type, long message_storage_size, void* message_storage) const
+void __cdecl c_network_message_type_collection::dispose_message(e_network_message_type message_type, int32 message_storage_size, void* message_storage) const
 {
 	s_network_message_type const* type_definition = &m_message_types[message_type];
 
@@ -149,7 +149,7 @@ void __cdecl c_network_message_type_collection::dispose_message(e_network_messag
 		type_definition->dispose_function(message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void const* message_storage) const
+void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, void const* message_storage) const
 {
 	s_network_message_type const* type_definition = &m_message_types[message_type];
 
@@ -168,7 +168,7 @@ void __cdecl c_network_message_type_collection::encode_message(c_bitstream* pack
 	return type_definition->encode_function(packet, message_storage_size, message_storage);
 }
 
-void c_network_message_type_collection::encode_message_header(c_bitstream* packet, e_network_message_type message_type, long message_storage_size) const
+void c_network_message_type_collection::encode_message_header(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size) const
 {
 	s_network_message_type const* type_definition = &m_message_types[message_type];
 
@@ -191,9 +191,9 @@ char const* c_network_message_type_collection::get_message_type_name(e_network_m
 void __cdecl c_network_message_type_collection::register_message_type(
 	e_network_message_type message_type,
 	char const* message_type_name,
-	long flags,
-	long message_size,
-	long message_size_maximum,
+	int32 flags,
+	int32 message_size,
+	int32 message_size_maximum,
 	encode_t* encode_function,
 	decode_t* decode_function,
 	compare_t* compare_function,

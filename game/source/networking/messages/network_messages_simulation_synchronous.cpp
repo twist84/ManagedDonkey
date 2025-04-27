@@ -5,72 +5,72 @@
 
 HOOK_DECLARE(0x004E0D70, network_message_types_register_simulation_synchronous);
 
-bool __cdecl c_network_message_synchronous_actions::compare(long a1, void* a2, void* a3)
+bool __cdecl c_network_message_synchronous_actions::compare(int32 a1, void* a2, void* a3)
 {
 	return INVOKE(0x004E0490, compare, a1, a2, a3);
 }
 
-bool __cdecl c_network_message_synchronous_update::compare(long a1, void* a2, void* a3)
+bool __cdecl c_network_message_synchronous_update::compare(int32 a1, void* a2, void* a3)
 {
 	return INVOKE(0x004E0500, compare, a1, a2, a3);
 }
 
-bool __cdecl c_network_message_synchronous_acknowledge::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_synchronous_acknowledge::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E05B0, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_synchronous_actions::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_synchronous_actions::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E05E0, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_synchronous_gamestate::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_synchronous_gamestate::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E0690, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_synchronous_playback_control::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_synchronous_playback_control::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E0730, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_synchronous_update::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_synchronous_update::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E07A0, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_synchronous_actions::dispose(long a1, void* a2)
+void __cdecl c_network_message_synchronous_actions::dispose(int32 a1, void* a2)
 {
 	INVOKE(0x004E0870, dispose, a1, a2);
 }
 
-void __cdecl c_network_message_synchronous_update::dispose(long a1, void* a2)
+void __cdecl c_network_message_synchronous_update::dispose(int32 a1, void* a2)
 {
 	INVOKE(0x004E0880, dispose, a1, a2);
 }
 
-void __cdecl c_network_message_synchronous_acknowledge::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_synchronous_acknowledge::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E0890, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_synchronous_actions::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_synchronous_actions::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E08E0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_synchronous_gamestate::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_synchronous_gamestate::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E0A10, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_synchronous_playback_control::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_synchronous_playback_control::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E0B40, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_synchronous_update::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_synchronous_update::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E0C60, encode, packet, message_storage_size, message_storage);
 }

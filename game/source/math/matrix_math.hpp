@@ -12,6 +12,6 @@ extern void __cdecl matrix4x3_rotation_to_angles(real_matrix4x3* matrix, real_eu
 extern real_vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, real_vector3d const* normal, real_vector3d* result);
 extern real_plane3d* __cdecl matrix4x3_transform_plane(real_matrix4x3 const* matrix, real_plane3d const* plane, real_plane3d* result);
 extern real_point3d* __cdecl matrix4x3_transform_point(real_matrix4x3 const* matrix, real_point3d const* point, real_point3d* result);
-extern void __cdecl matrix4x3_transform_points(real_matrix4x3 const* matrix, long point_count, real_point3d const* const points, real_point3d* const results);
+extern void __cdecl matrix4x3_transform_points(real_matrix4x3 const* matrix, int32 point_count, real_point3d const* const points, real_point3d* const results);
 extern real_vector3d* __cdecl matrix4x3_transform_vector(real_matrix4x3 const* matrix, real_vector3d const* vector, real_vector3d* result);
 

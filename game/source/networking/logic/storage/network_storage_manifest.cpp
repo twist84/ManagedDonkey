@@ -14,7 +14,7 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 	//return INVOKE(0x004A55F0, c_network_storage_manifest::get);
 
 	void* working_memory = NULL;
-	long working_memory_size = 0;
+	int32 working_memory_size = 0;
 	security_get_working_memory(_secure_memory_region_network_storage_manifest, &working_memory, &working_memory_size);
 
 	if (!working_memory || working_memory_size < sizeof(c_network_storage_manifest))
@@ -23,8 +23,8 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 	return (c_network_storage_manifest*)working_memory;
 }
 
-//.text:004A5640 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data(s_online_file_manifest const**, long*)
-//.text:004A5660 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data_no_update(s_online_file_manifest const**, long*)
+//.text:004A5640 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data(s_online_file_manifest const**, int32*)
+//.text:004A5660 ; public: e_download_status __cdecl c_http_blf_simple_downloader<s_online_file_manifest>::get_data_no_update(s_online_file_manifest const**, int32*)
 
 c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest::get_entry_state(s_network_storage_cache_key const* cache_key)
 {
@@ -48,8 +48,8 @@ c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest:
 	return entry_state;
 }
 
-//.text:004A57E0 ; public: bool __cdecl c_network_storage_manifest::get_hash(long, s_network_storage_cache_key const*, s_network_http_request_hash*)
-//.text:004A5910 ; public: long __cdecl c_network_storage_manifest::get_last_downloaded_time(long, s_network_storage_cache_key const*)
+//.text:004A57E0 ; public: bool __cdecl c_network_storage_manifest::get_hash(int32, s_network_storage_cache_key const*, s_network_http_request_hash*)
+//.text:004A5910 ; public: int32 __cdecl c_network_storage_manifest::get_last_downloaded_time(int32, s_network_storage_cache_key const*)
 //.text:004A5990 ; public: e_network_file_load_status __cdecl c_network_storage_manifest::get_load_status()
 //.text:004A59B0 ; public: void __cdecl c_network_storage_manifest::initialize()
 

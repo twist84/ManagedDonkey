@@ -35,7 +35,7 @@ void ui_track_delete<c_message>(c_message const* object)
 	user_interface_free(object);
 }
 
-c_message::c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window) :
+c_message::c_message(e_ui_message_type type, int32 screen_name, e_controller_index controller, e_window_index window) :
 	m_game_time_at_creation(game_time_initialized() ? game_time_get() : 0),
 	m_type(type),
 	m_screen_name(screen_name),
@@ -68,7 +68,7 @@ e_ui_message_type c_message::get_type() const
 }
 
 //user_interface_networking.obj
-long c_message::get_screen_name() const
+int32 c_message::get_screen_name() const
 {
 	return m_screen_name;
 }
@@ -86,12 +86,12 @@ e_window_index c_message::get_window() const
 }
 
 //user_interface_window_manager.obj
-long c_message::get_game_time_at_creation() const
+int32 c_message::get_game_time_at_creation() const
 {
 	return m_game_time_at_creation;
 }
 
-c_controller_input_message::c_controller_input_message(long screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, long event_value) :
+c_controller_input_message::c_controller_input_message(int32 screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, int32 event_value) :
 	c_message(_message_type_controller_input, screen_name, controller, window),
 	m_event_type(event_type),
 	m_component(component),
@@ -117,12 +117,12 @@ e_controller_component c_controller_input_message::get_component() const
 }
 
 //gui_screen_scoreboard.obj
-long c_controller_input_message::get_event_value() const
+int32 c_controller_input_message::get_event_value() const
 {
 	return m_event_value;
 }
 
-c_xenon_message::c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, long event_value) :
+c_xenon_message::c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, int32 event_value) :
 	c_message(_message_type_xenon, _string_id_invalid, controller, k_no_window),
 	m_xenon_message_type(xenon_message_type),
 	m_event_value(event_value)
@@ -140,12 +140,12 @@ c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() 
 }
 
 //c_controller.obj
-long c_xenon_message::get_event_value() const
+int32 c_xenon_message::get_event_value() const
 {
 	return m_event_value;
 }
 
-c_load_screen_message::c_load_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position) :
+c_load_screen_message::c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position) :
 	c_message(_message_type_load_screen, screen_name, controller, window),
 	m_transition_type((e_screen_transition_type)1),
 	m_respond_to_controller_events(true),
@@ -175,7 +175,7 @@ void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen) con
 }
 
 //saved_film_director.obj
-void c_load_screen_message::set_focus_on_load_by_name(long list_name, long column_name, long column_value)
+void c_load_screen_message::set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value)
 {
 	m_focus_on_load_name = list_name;
 	m_focus_on_load_column_name = column_name;
@@ -189,14 +189,14 @@ void c_load_screen_message::set_transition_type(e_screen_transition_type transit
 }
 
 //gui_screen_start_menu.obj
-void c_load_screen_message::set_focus_on_load(long list_name, long element_handle)
+void c_load_screen_message::set_focus_on_load(int32 list_name, int32 element_handle)
 {
 	m_focus_on_load_name = list_name;
 	m_focus_on_load_element_handle = element_handle;
 }
 
 //gui_screen_start_menu.obj
-void c_load_screen_message::set_parent_screen_index(long parent_screen_index)
+void c_load_screen_message::set_parent_screen_index(int32 parent_screen_index)
 {
 	m_parent_screen_index = parent_screen_index;
 }
@@ -214,37 +214,37 @@ bool c_load_screen_message::get_respond_to_controller_events() const
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_focus_on_load_list_name() const
+int32 c_load_screen_message::get_focus_on_load_list_name() const
 {
 	return m_focus_on_load_name;
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_focus_on_load_element_handle() const
+int32 c_load_screen_message::get_focus_on_load_element_handle() const
 {
 	return m_focus_on_load_element_handle;
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_focus_on_load_column_name() const
+int32 c_load_screen_message::get_focus_on_load_column_name() const
 {
 	return m_focus_on_load_column_name;
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_focus_on_load_column_value() const
+int32 c_load_screen_message::get_focus_on_load_column_value() const
 {
 	return m_focus_on_load_column_value;
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_parent_screen_index() const
+int32 c_load_screen_message::get_parent_screen_index() const
 {
 	return m_parent_screen_index;
 }
 
 //user_interface_window_manager.obj
-long c_load_screen_message::get_layered_position() const
+int32 c_load_screen_message::get_layered_position() const
 {
 	return m_layered_position;
 }
@@ -255,7 +255,7 @@ bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 	return m_applies_even_to_codeless_screens;
 }
 
-c_screen_custom_message::c_screen_custom_message(long sub_type, long screen_name, e_controller_index controller, e_window_index window) :
+c_screen_custom_message::c_screen_custom_message(int32 sub_type, int32 screen_name, e_controller_index controller, e_window_index window) :
 	c_message(_message_type_screen_custom, screen_name, controller, window),
 	m_sub_type(sub_type)
 {
@@ -266,12 +266,12 @@ c_screen_custom_message::~c_screen_custom_message()
 }
 
 //gui_screen_start_menu.obj
-long c_screen_custom_message::get_sub_type() const
+int32 c_screen_custom_message::get_sub_type() const
 {
 	return m_sub_type;
 }
 
-c_dialog_result_message::c_dialog_result_message(long screen_name, e_controller_index controller, e_window_index window, long dialog_name, e_gui_dialog_choice dialog_result) :
+c_dialog_result_message::c_dialog_result_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 dialog_name, e_gui_dialog_choice dialog_result) :
 	c_message(_message_type_dialog_result, screen_name, controller, window),
 	m_dialog_result(dialog_result),
 	m_dialog_name(dialog_name),
@@ -284,7 +284,7 @@ c_dialog_result_message::~c_dialog_result_message()
 }
 
 //user_interface_networking.obj
-long c_dialog_result_message::get_dialog_name() const
+int32 c_dialog_result_message::get_dialog_name() const
 {
 	return m_dialog_name;
 }
@@ -296,19 +296,19 @@ e_gui_dialog_choice c_dialog_result_message::get_dialog_result() const
 }
 
 //gui_pregame_setup_manager.obj
-long c_dialog_result_message::get_dispose_on_success_screen_index() const
+int32 c_dialog_result_message::get_dispose_on_success_screen_index() const
 {
 	return m_dispose_on_success_screen_index;
 }
 
 //gui_screen_dialog.obj
-void c_dialog_result_message::set_dispose_on_success_screen_index(long dispose_on_success_screen_index)
+void c_dialog_result_message::set_dispose_on_success_screen_index(int32 dispose_on_success_screen_index)
 {
 	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
 }
 
 
-c_load_dialog_screen_message::c_load_dialog_screen_message(e_controller_index controller, e_window_index window, long layered_position, long dialog_name, long dialog_invoker) :
+c_load_dialog_screen_message::c_load_dialog_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, int32 dialog_name, int32 dialog_invoker) :
 	c_load_screen_message(get_dialog_screen_name(dialog_name), controller, window, layered_position),
 	m_dialog_name(dialog_name),
 	m_dialog_invoker(dialog_invoker),
@@ -321,7 +321,7 @@ c_load_dialog_screen_message::~c_load_dialog_screen_message()
 {
 }
 
-long c_load_dialog_screen_message::get_dialog_screen_name(long dialog_name)
+int32 c_load_dialog_screen_message::get_dialog_screen_name(int32 dialog_name)
 {
 	// $TODO: iterate through `user_interface_shared_globals->dialog_descriptions`,
 	// check `dialog_name` against `dialog_description->dialog_name`
@@ -332,7 +332,7 @@ long c_load_dialog_screen_message::get_dialog_screen_name(long dialog_name)
 }
 
 //gui_pregame_setup_manager.obj
-void c_load_dialog_screen_message::set_dispose_on_success_screen_index(long dispose_on_success_screen_index)
+void c_load_dialog_screen_message::set_dispose_on_success_screen_index(int32 dispose_on_success_screen_index)
 {
 	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
 }
@@ -343,7 +343,7 @@ void c_load_dialog_screen_message::set_test_mode(bool test_mode)
 	m_test_mode = test_mode;
 }
 
-c_load_game_browser_screen_message::c_load_game_browser_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type) :
+c_load_game_browser_screen_message::c_load_game_browser_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, int32 search_flags, e_browser_type type) :
 	c_load_screen_message(screen_name, controller, window, layered_position),
 	m_squad_search_flags(search_flags),
 	m_type(type)
@@ -354,7 +354,7 @@ c_load_game_browser_screen_message::~c_load_game_browser_screen_message()
 {
 }
 
-c_load_pregame_selection_screen_message::c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, long layered_position, e_gui_selected_item_type selection_type) :
+c_load_pregame_selection_screen_message::c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, e_gui_selected_item_type selection_type) :
 	c_load_screen_message(STRING_ID(gui, pregame_selection), controller, window, layered_position),
 	m_selection_type(selection_type)
 {
@@ -370,7 +370,7 @@ void c_load_pregame_selection_screen_message::apply_initial_state(c_gui_screen_w
 		((c_gui_screen_pregame_selection*)screen_widget)->m_selection_type = m_selection_type;
 }
 
-c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty) :
+c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty) :
 	c_load_screen_message(screen_name, controller, window, layered_position),
 	m_campaign_setup_mode(campaign_setup_mode),
 	m_campaign_id(campaign_id),
@@ -388,7 +388,7 @@ void c_load_campaign_select_difficulty_screen_message::apply_initial_state(c_gui
 	((c_gui_screen_campaign_select_difficulty*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_difficulty);
 }
 
-c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, short campaign_insertion_point) :
+c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, int16 campaign_insertion_point) :
 	c_load_screen_message(screen_name, controller, window, layered_position),
 	m_campaign_setup_mode(campaign_setup_mode),
 	m_campaign_id(campaign_id),
@@ -440,7 +440,7 @@ void c_message_globals::initialize_for_new_map()
 	s_message_queue_node* next = NULL;
 	s_message_queue_node* prev = NULL;
 
-	for (long node_index = 0; node_index < NUMBEROF(m_queue); node_index++)
+	for (int32 node_index = 0; node_index < NUMBEROF(m_queue); node_index++)
 	{
 		if (node_index == NUMBEROF(m_queue) - 1)
 			next = m_queue;
@@ -534,7 +534,7 @@ bool c_message_globals::can_write()
 	return !m_prev_read->m_message && m_prev_read->m_next != m_next_read;
 }
 
-void c_message_globals::get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
+void c_message_globals::get_next_message(int32 screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
 	ASSERT(message_reference != NULL);
 
@@ -572,7 +572,7 @@ void c_message_globals::get_next_message(long screen_name, e_controller_index co
 	*message_reference = next_message;
 }
 
-bool c_message_globals::message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window)
+bool c_message_globals::message_match(c_message* message, int32 screen_name, e_controller_index controller, e_window_index window)
 {
 	bool screen_matched = screen_name == _string_id_invalid || message->get_screen_name() == screen_name;
 	bool controller_matched = controller == k_any_controller || message->get_controller() == controller;
@@ -630,7 +630,7 @@ void __cdecl user_interface_messaging_dispose_from_old_map()
 	g_message_globals.dispose_from_old_map();
 }
 
-bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
+bool __cdecl user_interface_messaging_get_next_message(int32 screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
 	//return INVOKE(0x00A933D0, user_interface_messaging_get_next_message, screen_name, controller, window, message_reference);
 

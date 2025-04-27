@@ -29,7 +29,7 @@ public:
 
 protected:
 	uint8 m_selected_item_category_ids[8];
-	long m_advertisement_mode;
+	int32 m_advertisement_mode;
 	c_gui_single_game_setup_storage m_storage;
 	e_gui_game_mode m_game_mode;
 	bool __unknown24E94;

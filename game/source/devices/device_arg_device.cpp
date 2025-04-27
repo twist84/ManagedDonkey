@@ -7,7 +7,7 @@
 
 //.text:00BB81D0 ; 
 
-long __cdecl device_arg_device_get_action_string(long arg_device_index)
+int32 __cdecl device_arg_device_get_action_string(int32 arg_device_index)
 {
 	return INVOKE(0x00BB81E0, device_arg_device_get_action_string, arg_device_index);
 
@@ -16,14 +16,14 @@ long __cdecl device_arg_device_get_action_string(long arg_device_index)
 	//return arg_device_definition->arg_device.action_string;
 }
 
-bool __cdecl device_arg_device_new(long arg_device_index, object_placement_data* data, bool* out_of_memory)
+bool __cdecl device_arg_device_new(int32 arg_device_index, object_placement_data* data, bool* out_of_memory)
 {
 	return INVOKE(0x00BB8220, device_arg_device_new, arg_device_index, data, out_of_memory);
 
 	//return true;
 }
 
-void __cdecl device_arg_device_place(long arg_device_index, s_scenario_arg_device* scenario_arg_device)
+void __cdecl device_arg_device_place(int32 arg_device_index, s_scenario_arg_device* scenario_arg_device)
 {
 	INVOKE(0x00BB8230, device_arg_device_place, arg_device_index, scenario_arg_device);
 
@@ -34,12 +34,12 @@ void __cdecl device_arg_device_place(long arg_device_index, s_scenario_arg_devic
 	//arg_device->arg_device.held_script_index = scenario_arg_device->arg_device.held_script_index;
 }
 
-void __cdecl device_arg_device_touch(long arg_device_index)
+void __cdecl device_arg_device_touch(int32 arg_device_index)
 {
 	return INVOKE(0x00BB82A0, device_arg_device_touch, arg_device_index);
 
 	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
-	//long position_group_index = arg_device->device.position_group_index;
+	//int32 position_group_index = arg_device->device.position_group_index;
 	//if (position_group_index == NONE)
 	//	return;
 	//
@@ -50,14 +50,14 @@ void __cdecl device_arg_device_touch(long arg_device_index)
 	//	arg_device->arg_device.flags |= FLAG(0);
 }
 
-void __cdecl device_arg_device_touched(long arg_device_index, long unit_index, bool held_script)
+void __cdecl device_arg_device_touched(int32 arg_device_index, int32 unit_index, bool held_script)
 {
 	INVOKE(0x00BB8310, device_arg_device_touched, arg_device_index, unit_index, held_script);
 
 	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//
 	//hs_script* script = NULL;
-	//short script_index = held_script ? arg_device->arg_device.held_script_index : arg_device->arg_device.pressed_script_index;
+	//int16 script_index = held_script ? arg_device->arg_device.held_script_index : arg_device->arg_device.pressed_script_index;
 	//if (script_index != NONE)
 	//{
 	//	struct scenario* scenario = global_scenario_get();
@@ -73,7 +73,7 @@ void __cdecl device_arg_device_touched(long arg_device_index, long unit_index, b
 	//device_arg_device_touch(arg_device_index);
 }
 
-bool __cdecl device_arg_device_touched_by_unit(long arg_device_index, long unit_index, long time)
+bool __cdecl device_arg_device_touched_by_unit(int32 arg_device_index, int32 unit_index, int32 time)
 {
 	return INVOKE(0x00BB83F0, device_arg_device_touched_by_unit, arg_device_index, unit_index, time);
 

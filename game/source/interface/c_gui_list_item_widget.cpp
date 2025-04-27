@@ -12,10 +12,10 @@
 //.text:00B18470 ; public: virtual c_gui_model_widget* __cdecl c_gui_list_item_widget::create_model_widget(s_model_widget_block const*)
 //.text:00B18480 ; public: virtual c_gui_text_widget* __cdecl c_gui_list_item_widget::create_text_widget(s_runtime_text_widget_definition const*)
 //.text:00B18490 ; public: virtual s_runtime_core_widget_definition* __cdecl c_gui_list_item_widget::get_core_definition()
-//.text:00B184A0 ; public: virtual long __cdecl c_gui_list_item_widget::get_element_handle()
-//.text:00B184C0 ; public: long __cdecl c_gui_list_item_widget::get_item_label()
+//.text:00B184A0 ; public: virtual int32 __cdecl c_gui_list_item_widget::get_element_handle()
+//.text:00B184C0 ; public: int32 __cdecl c_gui_list_item_widget::get_item_label()
 
-long c_gui_list_item_widget::get_list_item_index()
+int32 c_gui_list_item_widget::get_list_item_index()
 {
 	return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[37], c_gui_list_item_widget, get_list_item_index);
 	//return m_list_item_index;

@@ -31,7 +31,7 @@ void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d
 		debug_line_drawer_green.set_color(global_real_argb_green);
 		debug_line_drawer_red.set_color(global_real_argb_red);
 
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
@@ -45,7 +45,7 @@ void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d
 
 				for (s_structure_physics_water_instance_debug_triangle& water_debug_triangle : water_instance.water_debug_triangles)
 				{
-					for (long i = 0; i < 3; i++)
+					for (int32 i = 0; i < 3; i++)
 					{
 						real_point3d* point0 = &water_debug_triangle.points[i];
 						real_point3d* point1 = &water_debug_triangle.points[(i + 1) % 3];
@@ -86,7 +86,7 @@ void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d
 
 				for (s_structure_physics_water_instance_debug_triangle& water_debug_triangle : water_instance.water_debug_triangles)
 				{
-					for (long i = 0; i < 3; i++)
+					for (int32 i = 0; i < 3; i++)
 					{
 						real_point3d* point0 = &water_debug_triangle.points[i];
 						real_point3d* point1 = &water_debug_triangle.points[(i + 1) % 3];

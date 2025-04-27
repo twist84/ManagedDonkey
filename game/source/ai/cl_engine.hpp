@@ -48,32 +48,32 @@ struct cs_command
 {
 	char atom_type;
 	char flags;
-	short atom_modifier;
+	int16 atom_modifier;
 
 	union
 	{
-		long integer_parameter1;
+		int32 integer_parameter1;
 		real32 parameter1;
 		bool bool_param1;
 	};
 
 	union
 	{
-		long integer_parameter2;
+		int32 integer_parameter2;
 		real32 parameter2;
 		bool bool_param2;
 	};
 
 	real_point3d point1;
 	real_point3d point2;
-	long ref_index;
-	long ref_index2;
+	int32 ref_index;
+	int32 ref_index2;
 };
 static_assert(sizeof(cs_command) == 0x2C);
 
 struct s_control_directmovement
 {
-	short facing;
+	int16 facing;
 	real_vector3d vector;
 	real_point3d start_position;
 };
@@ -88,13 +88,13 @@ static_assert(sizeof(s_control_point_destination) == 0x14);
 
 struct s_control_move_towards
 {
-	long object_index;
+	int32 object_index;
 };
 static_assert(sizeof(s_control_move_towards) == 0x4);
 
 struct s_control_jump
 {
-	short delay_ticks;
+	int16 delay_ticks;
 	real32 target_horizontal_vel;
 	real32 target_vertical_vel;
 };
@@ -102,10 +102,10 @@ static_assert(sizeof(s_control_jump) == 0xC);
 
 struct s_atom_control
 {
-	short atom_type;
-	short pause_timer;
-	short status;
-	short simple_control_flags;
+	int16 atom_type;
+	int16 pause_timer;
+	int16 status;
+	int16 simple_control_flags;
 
 	union
 	{
@@ -119,29 +119,29 @@ static_assert(sizeof(s_atom_control) == 0x24);
 
 struct cs_target_specification
 {
-	short type;
-	long index;
+	int16 type;
+	int32 index;
 };
 static_assert(sizeof(cs_target_specification) == 0x8);
 
 struct command_script_datum :
 	s_datum_header
 {
-	short type;
-	long actor_index;
-	long script_index;
-	long thread_index;
-	long next_cs;
+	int16 type;
+	int32 actor_index;
+	int32 script_index;
+	int32 thread_index;
+	int32 next_cs;
 	bool reserved;
 	bool abort;
 	bool reserve_mandatory;
 	bool abort_on_alert;
 	bool abort_on_damage;
 	bool abort_on_combat_status;
-	short abort_on_combat_status_level;
+	int16 abort_on_combat_status_level;
 	bool abort_on_vehicle_exit;
-	short role_index;
-	short priority;
+	int16 role_index;
+	int16 priority;
 	cs_command command[3];
 	s_atom_control control[3];
 	bool shoot_at_target;
@@ -172,17 +172,17 @@ struct command_script_datum :
 	bool suppress_activity_termination;
 	bool suppress_global_dialogue;
 	bool style_index_valid;
-	short forced_combat_status;
-	long style_index;
-	long action_animation_impulse;
-	long animation_mode;
+	int16 forced_combat_status;
+	int32 style_index;
+	int32 action_animation_impulse;
+	int32 animation_mode;
 	bool grenade_throw_depress_trigger;
 	bool grenade_throw_started;
-	short grenade_throw_trajectory_type;
+	int16 grenade_throw_trajectory_type;
 	c_ai_point3d grenade_target;
 	bool approach_pending;
 	bool approach_within_range;
-	long approach_object_index;
+	int32 approach_object_index;
 	real32 approach_distance_sq;
 	real32 approach_max_distance_sq;
 	real32 approach_follow_distance_sq;
@@ -194,9 +194,9 @@ struct cs_point_set;
 
 extern void __cdecl cs_dispose();
 extern void __cdecl cs_dispose_from_old_map();
-extern cs_point_set* __cdecl cs_get_point_set(long index);
+extern cs_point_set* __cdecl cs_get_point_set(int32 index);
 extern void __cdecl cs_initialize();
 extern void __cdecl cs_initialize_for_new_map();
-extern void __cdecl cs_initialize_for_new_structure_bsp(long activating_structure_bsp_mask);
+extern void __cdecl cs_initialize_for_new_structure_bsp(int32 activating_structure_bsp_mask);
 extern cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario);
 

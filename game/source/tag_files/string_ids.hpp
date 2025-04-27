@@ -4172,7 +4172,7 @@ enum
 static_assert(0x1 == k_first_string_offset);
 static_assert(0xF1E == k_last_string_offset);
 
-long const k_string_namespace_offsets[k_string_id_namespace_count]
+int32 const k_string_namespace_offsets[k_string_id_namespace_count]
 {
 	k_global_string_offset,
 	k_gui_string_offset,
@@ -4185,24 +4185,24 @@ long const k_string_namespace_offsets[k_string_id_namespace_count]
 	k_gpu_string_offset
 };
 
-long const k_maximum_string_id_storage = 0xAA000;
+int32 const k_maximum_string_id_storage = 0xAA000;
 struct s_string_id_globals
 {
 	char* ascii_storage;
-	long ascii_storage_index;
+	int32 ascii_storage_index;
 
 	char const** ascii_strings;
-	long ascii_string_index;
+	int32 ascii_string_index;
 
-	c_hash_table<char, long> string_ids;
-	c_hash_table<long, long> string_id_mappings;
-	long string_id_count;
+	c_hash_table<char, int32> string_ids;
+	c_hash_table<int32, int32> string_id_mappings;
+	int32 string_id_count;
 };
 static_assert(sizeof(s_string_id_globals) == 0x1C);
 
 struct s_constant_string_id
 {
-	long id;
+	int32 id;
 	char const* string;
 };
 
@@ -4210,7 +4210,7 @@ extern s_string_id_globals g_string_id_globals;
 
 extern s_constant_string_id const g_constant_string_id_table[];
 
-long const k_constant_string_id_table_entries = k_string_id_namespace_global_count
+int32 const k_constant_string_id_table_entries = k_string_id_namespace_global_count
 + k_string_id_namespace_gui_count
 + k_string_id_namespace_gui_alert_count
 + k_string_id_namespace_gui_dialog_count
@@ -4221,11 +4221,11 @@ long const k_constant_string_id_table_entries = k_string_id_namespace_global_cou
 + k_string_id_namespace_gpu_count;
 
 // there are 447 string id indices set to NONE in `string_ids.dat`
-long const k_constant_string_id_table_entries_missing = 447;
+int32 const k_constant_string_id_table_entries_missing = 447;
 
-//extern char* __cdecl string_id_get_string(long string_id, char* string, long string_size);
-extern char const* __cdecl string_id_get_string_const(long string_id);
-extern long __cdecl string_id_retrieve(char const* string);
+//extern char* __cdecl string_id_get_string(int32 string_id, char* string, int32 string_size);
+extern char const* __cdecl string_id_get_string_const(int32 string_id);
+extern int32 __cdecl string_id_retrieve(char const* string);
 extern void __cdecl string_id_initialize();
 extern void __cdecl string_id_dispose();
 

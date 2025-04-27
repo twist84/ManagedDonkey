@@ -10,24 +10,24 @@
 
 HOOK_DECLARE_CALL(0x00A970BB, chud_post_action_response); // c_chud_messaging_manager::update
 
-//.text:00A95750 ; void __cdecl chud_messaging_clear(long)
+//.text:00A95750 ; void __cdecl chud_messaging_clear(int32)
 
-//.text:00A95850 ; void __cdecl chud_messaging_picked_up_powerup(long, long)
-//.text:00A95890 ; void __cdecl chud_messaging_picked_up_weapon(long, long)
-//.text:00A958D0 ; void __cdecl chud_messaging_post(long, long, e_chud_message_context)
+//.text:00A95850 ; void __cdecl chud_messaging_picked_up_powerup(int32, int32)
+//.text:00A95890 ; void __cdecl chud_messaging_picked_up_weapon(int32, int32)
+//.text:00A958D0 ; void __cdecl chud_messaging_post(int32, int32, e_chud_message_context)
 
-void __cdecl chud_messaging_post(long user_index, wchar_t const* message_text, e_chud_message_context chud_message_context)
+void __cdecl chud_messaging_post(int32 user_index, wchar_t const* message_text, e_chud_message_context chud_message_context)
 {
 	INVOKE(0x00A95920, chud_messaging_post, user_index, message_text, chud_message_context);
 }
 
-//.text:00A95950 ; void __cdecl chud_messaging_post_progression_toast(long, long, real32)
+//.text:00A95950 ; void __cdecl chud_messaging_post_progression_toast(int32, int32, real32)
 //.text:00A95990 ; 
 //.text:00A959C0 ; 
 //.text:00A95A10 ; 
 //.text:00A95A40 ; 
 //.text:00A95A90 ; 
-//.text:00A95AC0 ; void __cdecl chud_messaging_post_primary(long, wchar_t const*, long, e_chud_message_context)
+//.text:00A95AC0 ; void __cdecl chud_messaging_post_primary(int32, wchar_t const*, int32, e_chud_message_context)
 //.text:00A95B40 ; 
 
 void __cdecl chud_messaging_special_autosave(bool end)
@@ -45,7 +45,7 @@ void __cdecl chud_messaging_special_saving(bool end)
 	INVOKE(0x00A95C80, chud_messaging_special_saving, end);
 }
 
-void __cdecl chud_post_action_response(long user_index)
+void __cdecl chud_post_action_response(int32 user_index)
 {
 	//INVOKE(0x00A95D10, chud_post_action_response, user_index);
 
@@ -82,7 +82,7 @@ void __cdecl chud_post_action_response(long user_index)
 	INVOKE(0x00A95D10, chud_post_action_response, user_index);
 }
 
-bool __cdecl chud_set_state_text(long user_index, long message, long a3, c_chud_messaging_manager::e_chud_state_text_placement text_placement)
+bool __cdecl chud_set_state_text(int32 user_index, int32 message, int32 a3, c_chud_messaging_manager::e_chud_state_text_placement text_placement)
 {
 	return INVOKE(0x00A964E0, chud_set_state_text, user_index, message, a3, text_placement);
 }

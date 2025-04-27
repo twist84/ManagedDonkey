@@ -16,12 +16,12 @@ struct _projectile_datum
 	char consecutive_collision_counter;
 	c_global_material_type hit_global_material;
 	real_vector3d hit_normal;
-	long ignore_object_index;
-	long secondary_ignore_object_index;
+	int32 ignore_object_index;
+	int32 secondary_ignore_object_index;
 	s_projectile_targeting_data targeting_data;
-	long weapon_index;
-	long simulation_collision_object_index;
-	long simulation_collision_object_node_index;
+	int32 weapon_index;
+	int32 simulation_collision_object_index;
+	int32 simulation_collision_object_node_index;
 	real_point3d simulation_collision_object_position;
 	real32 detonation_timer;
 	real32 detonation_timer_delta;
@@ -41,20 +41,20 @@ struct _projectile_datum
 	real32 last_thrust_speed;
 	real32 thrust_odometer;
 	real_point3d start_point;
-	short shot_id;
-	short time_of_flight_ticks;
+	int16 shot_id;
+	int16 time_of_flight_ticks;
 };
 static_assert(sizeof(_projectile_datum) == 0x9C);
 
 struct projectile_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_projectile_datum projectile;
 };
-static_assert(sizeof(projectile_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_projectile_datum));
+static_assert(sizeof(projectile_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_projectile_datum));
 
-extern bool __cdecl dangerous_projectiles_near_player(long* out_projectile_index);
+extern bool __cdecl dangerous_projectiles_near_player(int32* out_projectile_index);
 
 extern void render_debug_projectiles();
 

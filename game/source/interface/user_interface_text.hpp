@@ -170,17 +170,17 @@ struct c_user_interface_text
 {
 public:
 	virtual ~c_user_interface_text();
-	virtual void set_string(wchar_t const* _string, bool parse_xml, long);
+	virtual void set_string(wchar_t const* _string, bool parse_xml, int32);
 	virtual wchar_t const* get_string();
-	virtual void update(long);
+	virtual void update(int32);
 
 	void set_argb_color(real_argb_color* color);
-	void set_font(long font);
-	void set_justification(long justification);
-	void set_style(long style);
+	void set_font(int32 font);
+	void set_justification(int32 justification);
+	void set_style(int32 style);
 	void set_flags(uint32 flags);
 	void set_controller_index(e_controller_index controller_index);
-	void set_drop_shadow_style(long drop_shadow_style);
+	void set_drop_shadow_style(int32 drop_shadow_style);
 	void set_rotation_origin(real32 x, real32 y);
 	void set_rotation(real32 rotation);
 	void set_scroll_amount(real32 i, real32 j);
@@ -196,13 +196,13 @@ protected:
 	uint32 m_flags;
 
 	e_controller_index m_controller_index;
-	long m_font;
+	int32 m_font;
 	argb_color m_argb_color;
-	long m_drop_shadow_style;
-	long m_style;
-	long m_justification;
-	short m_tab_stops[16];
-	long m_tab_stop_count;
+	int32 m_drop_shadow_style;
+	int32 m_style;
+	int32 m_justification;
+	int16 m_tab_stops[16];
+	int32 m_tab_stop_count;
 	real_point2d m_rotation_origin;
 	real32 m_rotation;
 	real_vector2d m_scroll_amount;
@@ -224,28 +224,28 @@ struct s_last_known_session_state
 	c_static_wchar_string<256> mapname;
 	c_static_wchar_string<512> variant;
 	c_static_wchar_string<256> leader;
-	long player_count;
+	int32 player_count;
 };
 static_assert(sizeof(s_last_known_session_state) == 0x808);
 
 extern s_parse_text_entry(&g_parse_text_table)[131];
 extern s_last_known_session_state& g_last_known_session_state;
 
-extern void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count);
+extern void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
 extern void __cdecl parse_build_number_string(e_controller_index controller_index, e_utf32 utf32, c_static_wchar_string<1024>* out_string);
-extern bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_current_players(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_delaying_player(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_film_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_header(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_network(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_party_leader(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_start_button_name(void* this_ptr, wchar_t* buffer, long buffer_length);
-extern bool __cdecl parse_lobby_title(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_delaying_player(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_film_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_header(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_network(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_party_leader(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 

@@ -15,8 +15,8 @@ struct s_animation_transform
 	real32 cosine_rotation_angle;
 	real_point2d local_rotation_origin;
 	real_point2d texture_uv;
-	short bitmap_sprite_sequence;
-	short bitmap_sprite_frame;
+	int16 bitmap_sprite_sequence;
+	int16 bitmap_sprite_frame;
 	e_font_id font;
 };
 static_assert(sizeof(s_animation_transform) == 0x88);

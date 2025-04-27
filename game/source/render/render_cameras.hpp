@@ -77,8 +77,8 @@ extern void __cdecl render_camera_world_sphere_to_screen_extents(render_camera c
 extern bool __cdecl render_camera_world_to_screen(render_camera const* camera, render_projection const* projection, real_point3d const* world_point, real_point2d* screen_point);
 extern bool __cdecl render_camera_world_to_window(render_camera const* camera, render_projection const* projection, rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point);
 extern real32 __cdecl render_projection_sphere_diameter_in_pixels(render_projection const* projection, real_point3d const* point, real32 scale);
-extern void __cdecl render_view_compute_all_bounds(long player_index, long player_count, render_camera* camera);
+extern void __cdecl render_view_compute_all_bounds(int32 player_index, int32 player_count, render_camera* camera);
 extern void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera);
-extern void __cdecl render_view_compute_window_bounds(long player_index, long player_count, rectangle2d* bounds, rectangle2d* safe_bounds);
+extern void __cdecl render_view_compute_window_bounds(int32 player_index, int32 player_count, rectangle2d* bounds, rectangle2d* safe_bounds);
 extern void render_debug_camera_projection();
 

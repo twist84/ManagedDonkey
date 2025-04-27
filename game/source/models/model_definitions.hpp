@@ -80,7 +80,7 @@ struct s_model_definition
 	// level of detail
 
 	// If a model is further away than the LOD reduction distance, it will be reduced to that LOD.
-	// So the L1 reduction distance should be really long and the L5 reduction distance should be really short.
+	// So the L1 reduction distance should be really long and the L5 reduction distance should be really int16.
 	// This means distances should be in descending order, e.g. 5 4 3 2 1.
 	// 
 	// Note that if we run out of memory or too many models are on screen at once, the engine may reduce
@@ -188,7 +188,7 @@ struct s_model_variant
 	c_typed_tag_block<s_model_variant_object> objects;
 
 	// selects an instance group for this variant
-	long instance_group;
+	int32 instance_group;
 
 	uint8 RHTDQLFD[0x8];
 };
@@ -226,11 +226,11 @@ struct s_model_variant_region
 	c_string_id region_name; // must match region name in render_model
 	char runtime_region_index;
 	char runtime_flags;
-	short parent_variant;
+	int16 parent_variant;
 	c_typed_tag_block<s_model_variant_permutation> permutations;
 
 	// negative values mean closer to the camera
-	c_enum<e_region_sort, short, _region_sort_no_sorting, k_region_sort_count> sort_order;
+	c_enum<e_region_sort, int16, _region_sort_no_sorting, k_region_sort_count> sort_order;
 	uint8 JO[0x2];
 }; static_assert(sizeof(s_model_variant_region) == 0x18);
 
@@ -271,7 +271,7 @@ struct s_model_variant_state
 	c_string_id permutation_name;
 	char runtime_permutation_index;
 	c_flags<e_model_state_property_flags, uint8, k_model_state_property_flags> property_flags;
-	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> state;
+	c_enum<e_model_state, int16, _model_state_standard, k_number_of_model_states> state;
 
 	// played while the model is in this state
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> looping_effect;
@@ -296,7 +296,7 @@ static_assert(sizeof(s_model_variant_object) == 0x1C);
 struct c_model_instance_group_member
 {
 	// if this member is chosen, this subgroup will be chosen as well
-	long subgroup;
+	int32 subgroup;
 
 	// instance name, a partial name will choose all matching instances, leave blank for NONE
 	c_string_id instances;
@@ -304,7 +304,7 @@ struct c_model_instance_group_member
 	// higher numbers make it more likely
 	real32 probability; // > 0.0
 
-	long instance_placement_mask[4];
+	int32 instance_placement_mask[4];
 };
 static_assert(sizeof(c_model_instance_group_member) == 0x1C);
 
@@ -322,7 +322,7 @@ struct c_model_instance_group
 	c_string_id name;
 
 	// how to choose members
-	c_enum<e_model_instance_group_choice, long, _model_instance_group_choice_choose_one_member, k_model_instance_group_choice_count> choice;
+	c_enum<e_model_instance_group_choice, int32, _model_instance_group_choice_choose_one_member, k_model_instance_group_choice_count> choice;
 
 	c_typed_tag_block<c_model_instance_group_member> member_list;
 	real32 total_probability;
@@ -333,11 +333,11 @@ struct s_model_material
 {
 	c_string_id material_name;
 	uint8 unused_flags[0x2];
-	short damage_section;
-	short runtime_collision_material_index;
-	short runtime_damager_material_index;
+	int16 damage_section;
+	int16 runtime_collision_material_index;
+	int16 runtime_damager_material_index;
 	c_string_id global_material_name;
-	short runtime_global_material_index;
+	int16 runtime_global_material_index;
 	uint8 SEWETKHRE[0x2];
 };
 static_assert(sizeof(s_model_material) == 0x14);
@@ -361,7 +361,7 @@ struct s_model_damage_section
 	real32 recharge_time; // seconds
 	real32 runtime_recharge_velocity;
 	string_id resurrection_restored_region_name;
-	short runtime_resurrection_restored_region_index;
+	int16 runtime_resurrection_restored_region_index;
 
 	// pad
 	uint8 AG[0x2];
@@ -376,7 +376,7 @@ struct s_model_damage_info
 	c_string_id global_indirect_material_name;
 
 	// absorbes AOE or child damage
-	short indirect_damage_section; // short_block_index_custom_search
+	int16 indirect_damage_section; // short_block_index_custom_search
 
 	// pad
 	uint8 XN[0x2];
@@ -442,8 +442,8 @@ struct s_model_damage_info
 	c_typed_tag_block<s_model_damage_section> damage_sections;
 	s_tag_block nodes;
 
-	short runtime_shield_material_type;
-	short runtime_indirect_material_type;
+	int16 runtime_shield_material_type;
+	int16 runtime_indirect_material_type;
 
 	real32 runtime_shield_recharge_velocity;
 	real32 runtime_health_recharge_velocity;
@@ -501,13 +501,13 @@ struct s_model_target
 	real32 size;
 
 	// the target is only visible when viewed within this angle of the marker's x axis
-	angle cone_angle;
+	real32 cone_angle;
 
 	// the target is associated with this damage section
-	short damage_section;
+	int16 damage_section;
 
 	// the target will only appear with this variant
-	short variant;
+	int16 variant;
 
 	// higher relevances turn into stronger magnetisms
 	real32 targeting_relevance;

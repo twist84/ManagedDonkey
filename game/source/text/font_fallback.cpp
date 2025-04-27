@@ -16,7 +16,7 @@ bool fallback_font_get_character(e_utf32 utf_character, s_font_character const**
 	ASSERT(g_fallback_font_header);
 	ASSERT(g_fallback_font_header->location_table_offset + g_fallback_font_header->location_table_count * sizeof(uint32) <= sizeof(k_fallback_font_data));
 
-	if (VALID_INDEX((long)utf_character, g_fallback_font_header->location_table_count))
+	if (VALID_INDEX((int32)utf_character, g_fallback_font_header->location_table_count))
 	{
 		uint32 location = *(uint32*)offset_pointer(k_fallback_font_data, g_fallback_font_header->location_table_offset + sizeof(uint32) * utf_character);
 		if (location != NONE)
@@ -53,7 +53,7 @@ void fallback_font_initialize()
 	{
 		s_font_header* header = reinterpret_cast<s_font_header*>(k_fallback_font_data);
 		font_header_byteswap(header);
-		long kerning_pair_count = header->kerning_pair_count;
+		int32 kerning_pair_count = header->kerning_pair_count;
 		if (header->kerning_pair_count > 0)
 		{
 			s_kerning_pair* kerning_pairs = (s_kerning_pair*)offset_pointer(header, header->kerning_pairs_offset);
@@ -63,8 +63,8 @@ void fallback_font_initialize()
 		ASSERT(font_header_validate(header));
 		uint32* location_table = (uint32*)offset_pointer(header, header->location_table_offset);
 		ASSERT(header->location_table_offset >= 0 && header->location_table_offset + header->location_table_count * sizeof(uint32) <= sizeof(k_fallback_font_data));
-		long location_table_count = header->location_table_count;
-		for (long i = 0; i < location_table_count; ++location_table)
+		int32 location_table_count = header->location_table_count;
+		for (int32 i = 0; i < location_table_count; ++location_table)
 		{
 			if (*location_table != NONE)
 			{

@@ -6,7 +6,7 @@ struct c_interpolator_control
 {
 	real32 m_time_remaining;
 	real32 m_status;
-	short m_interpolation_type;
+	int16 m_interpolation_type;
 	uint16 m_flags;
 };
 static_assert(sizeof(c_interpolator_control) == 0xC);

@@ -5,11 +5,11 @@
 
 struct s_network_message_view_establishment
 {
-	c_enum<e_simulation_view_establishment_mode, long, _simulation_view_establishment_mode_none, k_simulation_view_establishment_mode_count> establishment_mode;
-	long establishment_identifier;
+	c_enum<e_simulation_view_establishment_mode, int32, _simulation_view_establishment_mode_none, k_simulation_view_establishment_mode_count> establishment_mode;
+	int32 establishment_identifier;
 
 	bool signature_exists;
-	long signature_size;
+	int32 signature_size;
 	uint8 signature_data[0x3C];
 };
 static_assert(sizeof(s_network_message_view_establishment) == 0x4C);
@@ -27,15 +27,15 @@ struct c_bitstream;
 class c_network_message_view_establishment
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_player_acknowledge
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 struct c_network_message_type_collection;

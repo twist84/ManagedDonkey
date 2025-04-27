@@ -108,8 +108,8 @@ static_assert(sizeof(s_character_voice) == 0x18);
 struct character_variant
 {
 	c_string_id variant_name;
-	short variant_index;
-	short pad0;
+	int16 variant_index;
+	int16 pad0;
 	c_typed_tag_block<s_character_voice> voices;
 };
 static_assert(sizeof(character_variant) == 0x14);
@@ -132,7 +132,7 @@ static_assert(sizeof(character_vitality_properties) == 0x1);
 
 struct character_placement_properties
 {
-	long flags;
+	int32 flags;
 	real32 few_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 	real32 normal_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
 	real32 many_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
@@ -167,16 +167,16 @@ struct character_look_properties
 	real_euler_angles2d runtime_looking_deviation_cosines;
 
 	// how far we can turn our head left away from our aiming vector when not in combat
-	angle noncombat_look_delta_left; // degrees
+	real32 noncombat_look_delta_left; // degrees
 
 	// how far we can turn our head right away from our aiming vector when not in combat
-	angle noncombat_look_delta_right; // degrees
+	real32 noncombat_look_delta_right; // degrees
 
 	// how far we can turn our head left away from our aiming vector when in combat
-	angle combat_look_delta_left; // degrees
+	real32 combat_look_delta_left; // degrees
 
 	// how far we can turn our head right away from our aiming vector when in combat
-	angle combat_look_delta_right; // degrees
+	real32 combat_look_delta_right; // degrees
 
 	// rate at which we change look around randomly when not in combat
 	real_bounds noncombat_idle_looking; // seconds
@@ -213,9 +213,9 @@ static_assert(sizeof(character_flocking_properties) == 0x18);
 struct character_swarm_properties
 {
 	// After the given number of deaths, the swarm scatters
-	short scatter_killed_count;
+	int16 scatter_killed_count;
 
-	short pad1;
+	int16 pad1;
 
 	// the distance from the target that the swarm scatters
 	real32 scatter_radius;
@@ -267,13 +267,13 @@ struct character_charge_properties
 	// Per difficulty values to limit the number of guys in particular behaviours
 
 	// How many guys in a single clump can be kamikazing at one time
-	short max_kamikaze_count;
+	int16 max_kamikaze_count;
 
 	// How many guys in a single clump can be berserking at one time
-	short max_berserk_count;
+	int16 max_berserk_count;
 
 	// We'd like at least this number of guys in a single clump can be berserking at one time (primarily combat forms)
-	short min_berserk_count;
+	int16 min_berserk_count;
 };
 static_assert(sizeof(character_charge_properties) == 0x6);
 
@@ -319,7 +319,7 @@ static_assert(sizeof(character_presearch_properties) == 0x1);
 
 struct character_idle_properties
 {
-	long flags;
+	int32 flags;
 
 	// time range for delays between idle poses
 	real_bounds idle_pose_delay_time; // seconds
@@ -501,5 +501,5 @@ struct character_activity_objects
 };
 static_assert(sizeof(character_activity_objects) == 0x1C);
 
-extern character_perception_properties* __cdecl actor_perception_properties_get(long actor_index);
+extern character_perception_properties* __cdecl actor_perception_properties_get(int32 actor_index);
 

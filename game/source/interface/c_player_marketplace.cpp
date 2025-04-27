@@ -1,6 +1,6 @@
 #include "interface/c_player_marketplace.hpp"
 
-REFERENCE_DECLARE(0x0526A178, long, x_active_count);
+REFERENCE_DECLARE(0x0526A178, int32, x_active_count);
 REFERENCE_DECLARE(0x0526A180, c_online_marketplace_purchase_task, m_purchase_task);
 REFERENCE_DECLARE(0x0526A1C0, c_online_marketplace_enumerate_assets_task, m_enumerate_assets_task);
 

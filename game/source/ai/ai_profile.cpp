@@ -13,7 +13,7 @@
 
 #define AI_METER_HISTORY_TICKS 60
 
-short global_ai_profile_draw_string_position;
+int16 global_ai_profile_draw_string_position;
 char profilestring[2048]{};
 ai_profile_state ai_profile{};
 
@@ -58,23 +58,23 @@ char const* spray_mode_names[NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES]
 	"activation status"
 };
 
-short ai_meter_actor()
+int16 ai_meter_actor()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	short member_count = (short)actor_data->actual_count;
+	int16 member_count = (int16)actor_data->actual_count;
 	return member_count;
 }
 
-short ai_meter_prop()
+int16 ai_meter_prop()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(prop_data);
-	short member_count = (short)prop_data->actual_count;
+	int16 member_count = (int16)prop_data->actual_count;
 	return member_count;
 }
 
-short ai_meter_swarm_actor()
+int16 ai_meter_swarm_actor()
 {
-	short member_count = 0;
+	int16 member_count = 0;
 	actor_iterator iterator{};
 	actor_iterator_new(&iterator, false);
 	for (actor_datum* actor = actor_iterator_next(&iterator); actor; actor = actor_iterator_next(&iterator))
@@ -82,21 +82,21 @@ short ai_meter_swarm_actor()
 	return member_count;
 }
 
-short ai_meter_swarm_cache()
+int16 ai_meter_swarm_cache()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(swarm_data);
-	short member_count = (short)swarm_data->actual_count;
+	int16 member_count = (int16)swarm_data->actual_count;
 	return member_count;
 }
 
-short ai_meter_unit()
+int16 ai_meter_unit()
 {
-	short member_count = 0;
+	int16 member_count = 0;
 	actor_iterator iterator{};
 	actor_iterator_new(&iterator, false);
 	for (actor_datum* actor = actor_iterator_next(&iterator); actor; actor = actor_iterator_next(&iterator))
 	{
-		long swarm_index = actor->meta.swarm_index;
+		int32 swarm_index = actor->meta.swarm_index;
 		if (swarm_index == NONE)
 		{
 			member_count++;
@@ -110,17 +110,17 @@ short ai_meter_unit()
 	return member_count;
 }
 
-short ai_profile_change_render_spray()
+int16 ai_profile_change_render_spray()
 {
 	ai_profile.render_spray_mode = (ai_profile.render_spray_mode + 1) % NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES;
 	console_printf("AI line-spray: %s", spray_mode_names[ai_profile.render_spray_mode]);
 	return ai_profile.render_spray_mode;
 }
 
-void ai_profile_display(char* textbuffer, long textbuffer_size)
+void ai_profile_display(char* textbuffer, int32 textbuffer_size)
 {
-	long active_actors = count_actors(true);
-	long actors = count_actors(false);
+	int32 active_actors = count_actors(true);
+	int32 actors = count_actors(false);
 	csnzappendf(textbuffer, textbuffer_size, "%d/%d actors|n", active_actors, actors);
 }
 
@@ -132,7 +132,7 @@ void ai_profile_dispose_from_old_map()
 {
 }
 
-void ai_profile_draw_string(char const* string, short tab_count, short const* tabs, real_argb_color const* color)
+void ai_profile_draw_string(char const* string, int16 tab_count, int16 const* tabs, real_argb_color const* color)
 {
 	c_rasterizer_draw_string draw_string{};
 	c_font_cache_mt_safe font_cache{};
@@ -218,7 +218,7 @@ void ai_profile_render_spray()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	long active_output_user = player_mapping_first_active_output_user();
+	int32 active_output_user = player_mapping_first_active_output_user();
 	s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
 	if (ai_profile.render_spray_mode > _ai_profile_render_spray_none && camera && ai_globals->ai_initialized_for_map)
 	{
@@ -250,7 +250,7 @@ void ai_profile_render_spray()
 				{
 					if (actor->meta.swarm)
 					{
-						long swarm_index = actor->meta.swarm_index;
+						int32 swarm_index = actor->meta.swarm_index;
 						if (swarm_index)
 						{
 							swarm_creature_iterator creature_iterator{};
@@ -279,7 +279,7 @@ void ai_profile_render_spray()
 
 void ai_profile_show_actors()
 {
-	short tabs[] = { 150, 300 };
+	int16 tabs[] = { 150, 300 };
 	csnzprintf(
 		profilestring, sizeof(profilestring),
 		"actors %d/%d/%d|units %d/%d%d",
@@ -294,7 +294,7 @@ void ai_profile_show_actors()
 
 void ai_profile_show_line_of_sight()
 {
-	short tabs[] = { 150, 300, 450 };
+	int16 tabs[] = { 150, 300, 450 };
 	csnzprintf(
 		profilestring, sizeof(profilestring),
 		"collisions %d|tlineofsight %d|tlineoffire %d|tfiringpoint %d",
@@ -307,7 +307,7 @@ void ai_profile_show_line_of_sight()
 
 void ai_profile_show_paths()
 {
-	short tabs[] = { 150, 300, 450 };
+	int16 tabs[] = { 150, 300, 450 };
 	csnzprintf(
 		profilestring, sizeof(profilestring),
 		"path_flood %d|tpath_find %d|taction_change %d",
@@ -319,7 +319,7 @@ void ai_profile_show_paths()
 
 void ai_profile_show_prop_types()
 {
-	short tabs[] = { 150, 300, 450 };
+	int16 tabs[] = { 150, 300, 450 };
 	csnzprintf(
 		profilestring, sizeof(profilestring),
 		"props a/o/u:|tenemy %d/%d/%d|tfriend %d/%d/%d|tdead %d/%d/%d",
@@ -337,7 +337,7 @@ void ai_profile_show_prop_types()
 
 void ai_profile_show_swarms()
 {
-	short tabs[] = { 150 };
+	int16 tabs[] = { 150 };
 	csnzprintf(
 		profilestring, sizeof(profilestring),
 		"swarms %d/%d/%d",
@@ -349,7 +349,7 @@ void ai_profile_show_swarms()
 
 void ai_profile_update()
 {
-	for (long index = 0; index < NUMBER_OF_AI_METERS; index++)
+	for (int32 index = 0; index < NUMBER_OF_AI_METERS; index++)
 	{
 		ai_meter_definition* definition = &global_ai_meter_definitions[index];
 		ai_meter* meter = &ai_profile.meters[index];
@@ -369,7 +369,7 @@ void ai_profile_update()
 
 		meter->history_count[meter->history_next_index] = meter->last_count;
 
-		short history_next_index = (meter->history_next_index + 1) % AI_METER_HISTORY_TICKS;
+		int16 history_next_index = (meter->history_next_index + 1) % AI_METER_HISTORY_TICKS;
 		meter->history_max_index = MAX(meter->history_max_index, history_next_index);
 		meter->history_next_index = history_next_index;
 
@@ -379,9 +379,9 @@ void ai_profile_update()
 	csmemset(&ai_profile.ai_profile_info, 0, sizeof(s_ai_profile_info));
 }
 
-long count_actors(bool active_only)
+int32 count_actors(bool active_only)
 {
-	long actor_count = 0;
+	int32 actor_count = 0;
 	c_object_iterator<biped_datum> iterator;
 	iterator.begin(_object_mask_biped, active_only);
 	while (iterator.next())
@@ -398,7 +398,7 @@ long count_actors(bool active_only)
 
 // hooks for ai meters
 
-bool __cdecl actor_general_update_for_ai_meters(long actor_index)
+bool __cdecl actor_general_update_for_ai_meters(int32 actor_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	ai_profile.meters[_ai_meter_actor_active].current_count;
@@ -411,14 +411,14 @@ bool __cdecl actor_general_update_for_ai_meters(long actor_index)
 HOOK_DECLARE_CALL(0x0142E08E, actor_general_update_for_ai_meters);
 HOOK_DECLARE_CALL(0x01430180, actor_general_update_for_ai_meters);
 
-bool __cdecl ai_test_line_of_fire_for_ai_meters(long actor_index, long ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, long* prop_index_reference)
+bool __cdecl ai_test_line_of_fire_for_ai_meters(int32 actor_index, int32 ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, int32* prop_index_reference)
 {
 	ai_profile.meters[_ai_meter_line_of_fire].current_count++;
 	return ai_test_line_of_fire(actor_index, ignore_unit_index, origin, vector, prop_index_reference);
 }
 HOOK_DECLARE_CALL(0x01463025, ai_test_line_of_fire_for_ai_meters);
 
-short __cdecl ai_test_line_of_sight_for_ai_meters(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, short mode, bool test_line_of_fire, long ignore_object_index, long ignore_object_index2, bool ignore_vehicles, bool allow_early_out, long* blocking_object_index_ref, bool* two_sided_obstruction_ref)
+int16 __cdecl ai_test_line_of_sight_for_ai_meters(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, int16 mode, bool test_line_of_fire, int32 ignore_object_index, int32 ignore_object_index2, bool ignore_vehicles, bool allow_early_out, int32* blocking_object_index_ref, bool* two_sided_obstruction_ref)
 {
 	ai_profile.ai_profile_info.line_of_sight++;
 	ai_profile.meters[_ai_meter_line_of_sight].current_count++;
@@ -434,7 +434,7 @@ HOOK_DECLARE_CALL(0x014A3889, ai_test_line_of_sight_for_ai_meters);
 HOOK_DECLARE_CALL(0x014B941F, ai_test_line_of_sight_for_ai_meters);
 HOOK_DECLARE_CALL(0x014B9584, ai_test_line_of_sight_for_ai_meters);
 
-bool __cdecl collision_test_line_for_ai_meters(s_collision_test_flags flags, real_point3d const* point0, real_point3d const* point1, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision)
+bool __cdecl collision_test_line_for_ai_meters(s_collision_test_flags flags, real_point3d const* point0, real_point3d const* point1, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
 {
 	ai_profile.meters[_ai_meter_collision_vector].current_count++;
 	return collision_test_line(flags, point0, point1, first_ignore_object_index, second_ignore_object_index, collision);
@@ -448,7 +448,7 @@ HOOK_DECLARE_CALL(0x01434F8D, collision_test_line_for_ai_meters);
 HOOK_DECLARE_CALL(0x01434FAE, collision_test_line_for_ai_meters);
 HOOK_DECLARE_CALL(0x01434FCF, collision_test_line_for_ai_meters);
 
-bool __cdecl collision_test_vector_for_ai_meters(s_collision_test_flags flags, real_point3d const* point, real_vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision)
+bool __cdecl collision_test_vector_for_ai_meters(s_collision_test_flags flags, real_point3d const* point, real_vector3d const* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
 {
 	ai_profile.meters[_ai_meter_collision_vector].current_count++;
 	return collision_test_vector(flags, point, vector, first_ignore_object_index, second_ignore_object_index, collision);

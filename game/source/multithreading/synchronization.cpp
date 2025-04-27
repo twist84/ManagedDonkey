@@ -11,7 +11,7 @@ REFERENCE_DECLARE(0x0238F45C, s_synchronization_globals, g_synch_globals);
 
 // .data:0189DA28 ; critical sections
 // char const* name;
-// long spin_count;
+// int32 spin_count;
 
 // .data:0189DC00 ; mutexes
 // char const* name;
@@ -24,11 +24,11 @@ REFERENCE_DECLARE(0x0238F45C, s_synchronization_globals, g_synch_globals);
 
 // .data:0189DC78 ; semaphores
 // char const* name;
-// long initial_signal_count;
-// long max_signal_count;
+// int32 initial_signal_count;
+// int32 max_signal_count;
 // bool dont_use_current_thread; //?
 
-c_critical_section_scope::c_critical_section_scope(long critical_section_id)
+c_critical_section_scope::c_critical_section_scope(int32 critical_section_id)
 {
 	m_critical_section_id = critical_section_id;
 	m_critical_section_entered = false;
@@ -36,7 +36,7 @@ c_critical_section_scope::c_critical_section_scope(long critical_section_id)
 	m_critical_section_entered = true;
 }
 
-c_critical_section_scope::c_critical_section_scope(long critical_section_id, long timeout_in_milliseconds, bool* out_lock_acquired)
+c_critical_section_scope::c_critical_section_scope(int32 critical_section_id, int32 timeout_in_milliseconds, bool* out_lock_acquired)
 {
 	m_critical_section_id = critical_section_id;
 	m_critical_section_entered = false;
@@ -64,12 +64,12 @@ c_critical_section_scope::~c_critical_section_scope()
 		internal_critical_section_leave(m_critical_section_id);
 }
 
-bool __cdecl event_has_automatic_reset(long event_id)
+bool __cdecl event_has_automatic_reset(int32 event_id)
 {
 	return INVOKE(0x0052C250, event_has_automatic_reset, event_id);
 }
 
-char const* __cdecl get_sync_primitive_name(long type, long index)
+char const* __cdecl get_sync_primitive_name(int32 type, int32 index)
 {
 	return INVOKE(0x0052C290, get_sync_primitive_name, type, index);
 }
@@ -79,7 +79,7 @@ void __cdecl initialize_synchronization_objects()
 	INVOKE(0x0052C360, initialize_synchronization_objects);
 }
 
-void __cdecl internal_critical_section_enter(long critical_section_id)
+void __cdecl internal_critical_section_enter(int32 critical_section_id)
 {
 	INVOKE(0x0052C4A0, internal_critical_section_enter, critical_section_id);
 
@@ -92,7 +92,7 @@ void __cdecl internal_critical_section_enter(long critical_section_id)
 	//}
 }
 
-void __cdecl internal_critical_section_leave(long critical_section_id)
+void __cdecl internal_critical_section_leave(int32 critical_section_id)
 {
 	INVOKE(0x0052C4E0, internal_critical_section_leave, critical_section_id);
 
@@ -105,7 +105,7 @@ void __cdecl internal_critical_section_leave(long critical_section_id)
 	//}
 }
 
-bool __cdecl internal_critical_section_try_and_enter(long critical_section_id)
+bool __cdecl internal_critical_section_try_and_enter(int32 critical_section_id)
 {
 	return INVOKE(0x0052C510, internal_critical_section_try_and_enter, critical_section_id);
 
@@ -121,27 +121,27 @@ bool __cdecl internal_critical_section_try_and_enter(long critical_section_id)
 	//return result != FALSE;
 }
 
-void __cdecl internal_event_reset(long event_id)
+void __cdecl internal_event_reset(int32 event_id)
 {
 	INVOKE(0x0052C560, internal_event_reset, event_id);
 }
 
-void __cdecl internal_event_set(long event_id)
+void __cdecl internal_event_set(int32 event_id)
 {
 	INVOKE(0x0052C580, internal_event_set, event_id);
 }
 
-void __cdecl internal_event_wait(long event_id)
+void __cdecl internal_event_wait(int32 event_id)
 {
 	INVOKE(0x0052C5A0, internal_event_wait, event_id);
 }
 
-bool __cdecl internal_event_wait_timeout(long event_id, uint32 timeout_in_milliseconds)
+bool __cdecl internal_event_wait_timeout(int32 event_id, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0052C5D0, internal_event_wait_timeout, event_id, timeout_in_milliseconds);
 }
 
-void __cdecl internal_mutex_release(long mutex_id)
+void __cdecl internal_mutex_release(int32 mutex_id)
 {
 	INVOKE(0x0052C610, internal_mutex_release, mutex_id);
 	
@@ -152,7 +152,7 @@ void __cdecl internal_mutex_release(long mutex_id)
 	//ASSERT(success);
 }
 
-void __cdecl internal_mutex_take(long mutex_id)
+void __cdecl internal_mutex_take(int32 mutex_id)
 {
 	INVOKE(0x0052C640, internal_mutex_take, mutex_id);
 
@@ -164,7 +164,7 @@ void __cdecl internal_mutex_take(long mutex_id)
 	//ASSERT(result);
 }
 
-bool __cdecl internal_mutex_take_timeout(long mutex_id, uint32 timeout_in_milliseconds)
+bool __cdecl internal_mutex_take_timeout(int32 mutex_id, uint32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0052C690, internal_mutex_take_timeout, mutex_id, timeout_in_milliseconds);
 
@@ -176,16 +176,16 @@ bool __cdecl internal_mutex_take_timeout(long mutex_id, uint32 timeout_in_millis
 	//return result;
 }
 
-long __cdecl internal_semaphore_release(long semaphore_id)
+int32 __cdecl internal_semaphore_release(int32 semaphore_id)
 {
 	return INVOKE(0x0052C6F0, internal_semaphore_release, semaphore_id);
 
 	//ASSERT(g_synch_globals.initialized);
 	//ASSERT(semaphore_id >= 0 && semaphore_id < k_total_synchronization_semaphores);
-	//long previous_count = 0;
+	//int32 previous_count = 0;
 	//if (ReleaseSemaphore(g_synch_globals.semaphores[semaphore_id].handle.handle, 1, &previous_count))
 	//{
-	//	long thread_index = get_current_thread_index();
+	//	int32 thread_index = get_current_thread_index();
 	//	if (off_0189DC78[semaphore_id].dont_use_current_thread)
 	//		thread_index = 0;
 	//	g_synch_globals.semaphores[semaphore_id].remove_thread_reference(thread_index);
@@ -193,7 +193,7 @@ long __cdecl internal_semaphore_release(long semaphore_id)
 	//return previous_count;
 }
 
-void __cdecl internal_semaphore_take(long semaphore_id)
+void __cdecl internal_semaphore_take(int32 semaphore_id)
 {
 	INVOKE(0x0052C760, internal_semaphore_take, semaphore_id);
 
@@ -203,7 +203,7 @@ void __cdecl internal_semaphore_take(long semaphore_id)
 	//ASSERT(result);
 	//if (result)
 	//{
-	//	long thread_index = get_current_thread_index();
+	//	int32 thread_index = get_current_thread_index();
 	//	if (off_0189DC78[semaphore_id].dont_use_current_thread)
 	//		thread_index = 0;
 	//
@@ -217,8 +217,8 @@ void __cdecl release_all_critical_sections_owned_by_thread()
 
 	//if (g_synch_globals.initialized)
 	//{
-	//	long thread_index = get_current_thread_index();
-	//	for (long critical_section_id = 0; critical_section_id < k_total_critical_sections; critical_section_id++)
+	//	int32 thread_index = get_current_thread_index();
+	//	for (int32 critical_section_id = 0; critical_section_id < k_total_critical_sections; critical_section_id++)
 	//		release_critical_section_owned_by_thread(thread_index, static_cast<e_critical_sections>(critical_section_id));
 	//}
 }
@@ -241,8 +241,8 @@ void __cdecl release_all_mutexes_owned_by_thread()
 
 	//if (g_synch_globals.initialized)
 	//{
-	//	long thread_index = get_current_thread_index();
-	//	for (long mutex_id = 0; mutex_id < k_total_synchronization_mutexes; mutex_id++)
+	//	int32 thread_index = get_current_thread_index();
+	//	for (int32 mutex_id = 0; mutex_id < k_total_synchronization_mutexes; mutex_id++)
 	//	{
 	//		if (g_synch_globals.mutexes[mutex_id].object.get_locking_thread() == thread_index)
 	//		{
@@ -259,8 +259,8 @@ void __cdecl release_all_semaphores_owned_by_thread()
 
 	//if (g_synch_globals.initialized)
 	//{
-	//	long thread_index = get_current_thread_index();
-	//	for (long semaphore_id = 0; semaphore_id < k_total_synchronization_semaphores; semaphore_id++)
+	//	int32 thread_index = get_current_thread_index();
+	//	for (int32 semaphore_id = 0; semaphore_id < k_total_synchronization_semaphores; semaphore_id++)
 	//	{
 	//		if (off_0189DC78[semaphore_id].dont_use_current_thread)
 	//			thread_index = 0;
@@ -271,7 +271,7 @@ void __cdecl release_all_semaphores_owned_by_thread()
 	//}
 }
 
-void __cdecl release_critical_section_owned_by_thread(long thread_index, e_critical_sections critical_section_id)
+void __cdecl release_critical_section_owned_by_thread(int32 thread_index, e_critical_sections critical_section_id)
 {
 	INVOKE(0x0052C960, release_critical_section_owned_by_thread, thread_index, critical_section_id);
 
@@ -288,7 +288,7 @@ void __cdecl release_locks_safe_for_crash_release()
 
 	//if (g_synch_globals.initialized)
 	//{
-	//	long thread_index = get_current_thread_index();
+	//	int32 thread_index = get_current_thread_index();
 	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_event_logs);
 	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_data_mine);
 	//	release_critical_section_owned_by_thread(thread_index, k_crit_section_ui_widgets_lock);
@@ -305,7 +305,7 @@ void __cdecl render_synchronization_stats()
 	INVOKE(0x0052CC00, render_synchronization_stats);
 }
 
-long __cdecl sempahore_get_max_signal_count(long semaphore_id)
+int32 __cdecl sempahore_get_max_signal_count(int32 semaphore_id)
 {
 	return INVOKE(0x0052CC30, sempahore_get_max_signal_count, semaphore_id);
 

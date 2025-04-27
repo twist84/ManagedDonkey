@@ -25,7 +25,7 @@ struct c_tag_resource_address_cache
 
 	struct s_cached_resource_state
 	{
-		long external_handle;
+		int32 external_handle;
 		void* required_address;
 		void* optional_address;
 		s_tag_resource_location_handle_struct* required_page_handle;

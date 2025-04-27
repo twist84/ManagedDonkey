@@ -24,9 +24,9 @@ enum e_simulation_queue_element_type
 
 struct c_simulation_queue_element
 {
-	c_enum<e_simulation_queue_element_type, long, _simulation_queue_element_type_none, k_simulation_queue_element_type_count> m_type;
+	c_enum<e_simulation_queue_element_type, int32, _simulation_queue_element_type_none, k_simulation_queue_element_type_count> m_type;
 	c_simulation_queue_element* m_next;
-	long m_data_size;
+	int32 m_data_size;
 	uint8* m_data;
 };
 static_assert(sizeof(c_simulation_queue_element) == 0x10);
@@ -35,11 +35,11 @@ struct c_bitstream;
 struct c_simulation_queue
 {
 public:
-	void allocate(long size, c_simulation_queue_element** element_out);
-	long allocated_count() const;
-	long allocated_encoded_size_in_bytes() const;
-	long allocated_new_encoded_size_bytes(long size) const;
-	long allocated_size_in_bytes() const;
+	void allocate(int32 size, c_simulation_queue_element** element_out);
+	int32 allocated_count() const;
+	int32 allocated_encoded_size_in_bytes() const;
+	int32 allocated_new_encoded_size_bytes(int32 size) const;
+	int32 allocated_size_in_bytes() const;
 	void clear();
 	bool compare(c_simulation_queue* queue) const;
 	bool contains_element_type(e_simulation_queue_element_type element_type) const;
@@ -50,22 +50,22 @@ public:
 	void encode(c_bitstream* packet) const;
 	void enqueue(c_simulation_queue_element* element);
 	void get_allocation_status(real32* a1, real32* a2) const;
-	long get_element_size_in_bytes(c_simulation_queue_element* element) const;
+	int32 get_element_size_in_bytes(c_simulation_queue_element* element) const;
 	c_simulation_queue_element* get_first_element() const;
 	c_simulation_queue_element* get_next_element(c_simulation_queue_element* element) const;
 	void initialize();
-	long queued_count() const;
-	long queued_encoded_size_in_bytes() const;
-	long queued_new_encoded_size_bytes(long size) const;
-	long queued_size_in_bytes() const;
+	int32 queued_count() const;
+	int32 queued_encoded_size_in_bytes() const;
+	int32 queued_new_encoded_size_bytes(int32 size) const;
+	int32 queued_size_in_bytes() const;
 	void transfer_elements(c_simulation_queue* simulation_queue);
 
 protected:
 	bool m_initialized;
-	long m_allocated_count;
-	long m_allocated_size;
-	long m_queued_count;
-	long m_size;
+	int32 m_allocated_count;
+	int32 m_allocated_size;
+	int32 m_queued_count;
+	int32 m_size;
 	c_simulation_queue_element* m_head;
 	c_simulation_queue_element* m_elements;
 };

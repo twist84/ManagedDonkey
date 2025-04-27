@@ -8,7 +8,7 @@ void c_network_session_parameter_type_collection::check_session_parameter_types(
 {
 	//INVOKE_CLASS_MEMBER(0x004D26B0, c_network_session_parameter_type_collection, check_session_parameter_types);
 
-	for (long parameter_index = 0; parameter_index < k_network_session_parameter_type_count; parameter_index++)
+	for (int32 parameter_index = 0; parameter_index < k_network_session_parameter_type_count; parameter_index++)
 		ASSERT(m_session_parameter_types[parameter_index].initialized);
 }
 
@@ -24,10 +24,10 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	char const* session_parameter_name,
 	encode_t* update_encode,
 	decode_t* update_decode,
-	long update_size,
+	int32 update_size,
 	encode_t* change_request_encode,
 	decode_t* change_request_decode,
-	long change_request_size
+	int32 change_request_size
 )
 {
 	ASSERT(session_parameter_name);

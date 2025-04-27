@@ -57,13 +57,13 @@ void main_game_launch_campaign()
 //void main_game_launch_default()
 //void main_game_launch_default_editor()
 
-long main_game_launch_get_player_count()
+int32 main_game_launch_get_player_count()
 {
 	return main_game_globals.launch_player_count;
 }
 
 // the last player controls the game visuals, hud and other stuff
-long main_game_launch_get_last_player()
+int32 main_game_launch_get_last_player()
 {
 	return main_game_globals.launch_player_count - 1;
 }
@@ -86,19 +86,19 @@ void main_game_launch_multiplayer()
 
 //void main_game_launch_process()
 
-void main_game_launch_set_active_primary_skulls(long active_primary_skulls)
+void main_game_launch_set_active_primary_skulls(int32 active_primary_skulls)
 {
 	main_game_globals.launch_game_options.game_mode = _game_mode_campaign;
 	main_game_globals.launch_game_options.campaign_active_primary_skulls = active_primary_skulls;
 }
 
-void main_game_launch_set_active_secondary_skulls(long active_secondary_skulls)
+void main_game_launch_set_active_secondary_skulls(int32 active_secondary_skulls)
 {
 	main_game_globals.launch_game_options.game_mode = _game_mode_campaign;
 	main_game_globals.launch_game_options.campaign_active_secondary_skulls = active_secondary_skulls;
 }
 
-void main_game_launch_set_coop_player_count(long coop_player_count)
+void main_game_launch_set_coop_player_count(int32 coop_player_count)
 {
 	if (!IN_RANGE_INCLUSIVE(coop_player_count, 1, 4))
 	{
@@ -111,19 +111,19 @@ void main_game_launch_set_coop_player_count(long coop_player_count)
 	}
 }
 
-void main_game_launch_set_difficulty(long difficulty)
+void main_game_launch_set_difficulty(int32 difficulty)
 {
 	main_game_globals.launch_game_options.game_mode = _game_mode_campaign;
-	main_game_globals.launch_game_options.campaign_difficulty = (short)difficulty;
-	game_set_difficulty((short)difficulty);
+	main_game_globals.launch_game_options.campaign_difficulty = (int16)difficulty;
+	game_set_difficulty((int16)difficulty);
 }
 
-void main_game_launch_set_initial_zone_set_index(long initial_zone_set_index)
+void main_game_launch_set_initial_zone_set_index(int32 initial_zone_set_index)
 {
-	main_game_globals.launch_game_options.initial_zone_set_index = (short)initial_zone_set_index;
+	main_game_globals.launch_game_options.initial_zone_set_index = (int16)initial_zone_set_index;
 }
 
-void main_game_launch_set_insertion_point(short insertion_point)
+void main_game_launch_set_insertion_point(int16 insertion_point)
 {
 	main_game_globals.launch_game_options.campaign_insertion_point = insertion_point;
 }
@@ -136,7 +136,7 @@ void main_game_launch_set_map_name(char const* map_name)
 
 void main_game_launch_set_multiplayer_engine(char const* engine_name)
 {
-	for (long i = _game_engine_type_none; i < k_game_engine_type_count; i++)
+	for (int32 i = _game_engine_type_none; i < k_game_engine_type_count; i++)
 	{
 		if (csstricmp(engine_name, game_engine_type_get_string(i)) != 0)
 			continue;
@@ -151,7 +151,7 @@ void main_game_launch_set_multiplayer_engine(char const* engine_name)
 	event(_event_error, "launch: failed to find multiplayer game engine '%s'", engine_name);
 }
 
-void main_game_launch_set_multiplayer_splitscreen_count(long splitscreen_count)
+void main_game_launch_set_multiplayer_splitscreen_count(int32 splitscreen_count)
 {
 	if (!IN_RANGE_INCLUSIVE(splitscreen_count, 1, 4))
 	{
@@ -183,9 +183,9 @@ void main_game_launch_set_multiplayer_splitscreen_count(long splitscreen_count)
 //	}
 //}
 
-void main_game_launch_set_tick_rate(long tick_rate)
+void main_game_launch_set_tick_rate(int32 tick_rate)
 {
-	main_game_globals.launch_game_options.game_tick_rate = (short)tick_rate;
+	main_game_globals.launch_game_options.game_tick_rate = (int16)tick_rate;
 }
 
 void main_game_launch_survival()

@@ -21,10 +21,10 @@ void __cdecl network_webstats_initialize()
 	INVOKE(0x004E4040, network_webstats_initialize);
 }
 
-//.text:004E40A0 ; void __cdecl network_webstats_set_upstream_quota(long)
-//.text:004E40C0 ; bool __cdecl network_webstats_submit_buffer(e_online_lsp_service_type, void const*, long, char const*, long)
+//.text:004E40A0 ; void __cdecl network_webstats_set_upstream_quota(int32)
+//.text:004E40C0 ; bool __cdecl network_webstats_submit_buffer(e_online_lsp_service_type, void const*, int32, char const*, int32)
 //.text:004E4200 ; bool __cdecl network_webstats_submit_file_allowed()
-//.text:004E4230 ; e_webstats_submission_results __cdecl network_webstats_submit_file(e_online_lsp_service_type, wchar_t const*, char const*, long, void(__cdecl*)(bool))
+//.text:004E4230 ; e_webstats_submission_results __cdecl network_webstats_submit_file(e_online_lsp_service_type, wchar_t const*, char const*, int32, void(__cdecl*)(bool))
 //.text:004E42F0 ; bool __cdecl network_webstats_submit_file_allowed()
 
 void __cdecl network_webstats_update()

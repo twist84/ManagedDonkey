@@ -15,8 +15,8 @@ struct c_particle :
 
 	uint16 m_flags : 13;
 	uint16 m_collision_countdown : 3;
-	long m_next_particle;
-	long m_parent_emitter_index;
+	int32 m_next_particle;
+	int32 m_parent_emitter_index;
 	unsigned int m_gpu_address;
 	real32 m_age;
 	real32 m_inverse_lifespan;

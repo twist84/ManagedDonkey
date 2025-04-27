@@ -18,29 +18,29 @@ IDirect3DPixelShader9* c_rasterizer_compiled_pixel_shader::get_d3d_shader() cons
 	return runtime_shader;
 }
 
-c_rasterizer_vertex_shader const* c_rasterizer_vertex_shader::get(long definition_index)
+c_rasterizer_vertex_shader const* c_rasterizer_vertex_shader::get(int32 definition_index)
 {
 	c_rasterizer_vertex_shader const* result = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_vertex_shader const, definition_index);
 	return result;
 }
 
-c_rasterizer_vertex_shader* c_rasterizer_vertex_shader::get_modifiable(long definition_index)
+c_rasterizer_vertex_shader* c_rasterizer_vertex_shader::get_modifiable(int32 definition_index)
 {
 	c_rasterizer_vertex_shader* result = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_vertex_shader, definition_index);
 	return result;
 }
 
-s_rasterizer_vertex_shader_entry_point const* c_rasterizer_vertex_shader::get_entry_point(long entry_point) const
+s_rasterizer_vertex_shader_entry_point const* c_rasterizer_vertex_shader::get_entry_point(int32 entry_point) const
 {
 	return &entry_points[entry_point];
 }
 
-c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compiled_shader(long shader_index) const
+c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compiled_shader(int32 shader_index) const
 {
 	return &compiled_shader[shader_index];
 }
 
-c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const
+c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const
 {
 	if (entry_point >= entry_points.count)
 	{
@@ -59,7 +59,7 @@ c_rasterizer_compiled_vertex_shader const* c_rasterizer_vertex_shader::get_compi
 	return get_compiled_shader(shader_reference->start_index + shader_index);
 }
 
-IDirect3DVertexShader9* c_rasterizer_vertex_shader::get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const
+IDirect3DVertexShader9* c_rasterizer_vertex_shader::get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const
 {
 	if (c_rasterizer_compiled_vertex_shader const* compiled_shader = get_compiled_shader(vertex_type, entry_point, shader_index))
 		return compiled_shader->get_d3d_shader();
@@ -67,19 +67,19 @@ IDirect3DVertexShader9* c_rasterizer_vertex_shader::get_d3d_shader(e_vertex_type
 	return NULL;
 }
 
-c_rasterizer_pixel_shader const* c_rasterizer_pixel_shader::get(long definition_index)
+c_rasterizer_pixel_shader const* c_rasterizer_pixel_shader::get(int32 definition_index)
 {
 	c_rasterizer_pixel_shader const* result = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_pixel_shader const, definition_index);
 	return result;
 }
 
-c_rasterizer_pixel_shader* c_rasterizer_pixel_shader::get_modifiable(long definition_index)
+c_rasterizer_pixel_shader* c_rasterizer_pixel_shader::get_modifiable(int32 definition_index)
 {
 	c_rasterizer_pixel_shader* result = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_pixel_shader, definition_index);
 	return result;
 }
 
-c_rasterizer_compiled_pixel_shader const* c_rasterizer_pixel_shader::get_compiled_shader(e_entry_point entry_point, long shader_index) const
+c_rasterizer_compiled_pixel_shader const* c_rasterizer_pixel_shader::get_compiled_shader(e_entry_point entry_point, int32 shader_index) const
 {
 	if (entry_point >= entry_points.count)
 	{
@@ -94,7 +94,7 @@ c_rasterizer_compiled_pixel_shader const* c_rasterizer_pixel_shader::get_compile
 	return &compiled_shader[shader_index + reference.start_index];
 }
 
-IDirect3DPixelShader9* c_rasterizer_pixel_shader::get_d3d_shader(e_entry_point entry_point, long shader_index) const
+IDirect3DPixelShader9* c_rasterizer_pixel_shader::get_d3d_shader(e_entry_point entry_point, int32 shader_index) const
 {
 	if (c_rasterizer_compiled_pixel_shader const* compiled_shader = get_compiled_shader(entry_point, shader_index))
 		return compiled_shader->get_d3d_shader();

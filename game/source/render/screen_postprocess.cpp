@@ -8,7 +8,7 @@
 #include "render/render.hpp"
 
 REFERENCE_DECLARE(0x01917D18, c_screen_postprocess::s_settings, c_screen_postprocess::x_settings_internal);
-REFERENCE_DECLARE(0x01917D50, long, g_ssao_enable);
+REFERENCE_DECLARE(0x01917D50, int32, g_ssao_enable);
 REFERENCE_DECLARE(0x01917D54, real32, g_ssao_radius);
 REFERENCE_DECLARE(0x01917D58, real32, g_ssao_intensity);
 REFERENCE_DECLARE(0x01917D5C, real32, g_ssao_sample_z_threshold);
@@ -38,7 +38,7 @@ void __cdecl c_screen_postprocess::accept_edited_settings()
 }
 
 void __cdecl c_screen_postprocess::apply_binary_op_ex(
-	long explicit_shader_index,
+	int32 explicit_shader_index,
 	c_rasterizer::e_surface source_surface_0,
 	c_rasterizer::e_surface source_surface_1,
 	c_rasterizer::e_surface dest_surface,
@@ -64,8 +64,8 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 		c_rasterizer::set_sampler_filter_mode(1, filter_mode);
 		c_rasterizer::set_sampler_texture(2, c_rasterizer_texture_ref());
 
-		long source_surface_0_width = c_rasterizer::get_surface_width(source_surface_0);
-		long source_surface_0_height = c_rasterizer::get_surface_height(source_surface_0);
+		int32 source_surface_0_width = c_rasterizer::get_surface_width(source_surface_0);
+		int32 source_surface_0_height = c_rasterizer::get_surface_height(source_surface_0);
 		{
 			real_vector4d constant_data[]
 			{
@@ -81,8 +81,8 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 			c_rasterizer::set_pixel_shader_constant(2, NUMBEROF(constant_data), constant_data);
 		}
 
-		long dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
-		long dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
+		int32 dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
+		int32 dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
 		c_rasterizer::draw_fullscreen_quad(dest_surface_width, dest_surface_height);
 		c_rasterizer::set_sampler_texture(0, c_rasterizer_texture_ref());
 		c_rasterizer::set_sampler_texture(1, c_rasterizer_texture_ref());
@@ -90,7 +90,7 @@ void __cdecl c_screen_postprocess::apply_binary_op_ex(
 }
 
 void __cdecl c_screen_postprocess::blit(
-	long explicit_shader_index,
+	int32 explicit_shader_index,
 	c_rasterizer::e_surface source_surface,
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_sampler_filter_mode filter_mode,
@@ -113,8 +113,8 @@ void __cdecl c_screen_postprocess::blit(
 	
 	if (c_rasterizer::set_explicit_shaders(explicit_shader_index, _vertex_type_screen, _transfer_vertex_none, _entry_point_default))
 	{
-		long source_surface_width = c_rasterizer::get_surface_width(source_surface);
-		long source_surface_height = c_rasterizer::get_surface_height(source_surface);
+		int32 source_surface_width = c_rasterizer::get_surface_width(source_surface);
+		int32 source_surface_height = c_rasterizer::get_surface_height(source_surface);
 		{
 			real_vector4d constant_data[]
 			{
@@ -130,8 +130,8 @@ void __cdecl c_screen_postprocess::blit(
 			c_rasterizer::set_pixel_shader_constant(2, NUMBEROF(constant_data), constant_data);
 		}
 
-		long dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
-		long dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
+		int32 dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
+		int32 dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
 		c_rasterizer::draw_screen_quad_with_texture_transform(
 			dest_surface_width,
 			dest_surface_height,
@@ -148,7 +148,7 @@ c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
 }
 
 void __cdecl c_screen_postprocess::copy(
-	long explicit_shader_index,
+	int32 explicit_shader_index,
 	c_rasterizer::e_surface source_surface,
 	c_rasterizer::e_surface dest_surface,
 	c_rasterizer::e_sampler_filter_mode filter_mode,
@@ -170,8 +170,8 @@ void __cdecl c_screen_postprocess::copy(
 		c_rasterizer::set_sampler_address_mode(0, address_mode, address_mode, address_mode);
 		c_rasterizer::set_sampler_filter_mode(0, filter_mode);
 	
-		long source_surface_width = c_rasterizer::get_surface_width(source_surface);
-		long source_surface_height = c_rasterizer::get_surface_height(source_surface);
+		int32 source_surface_width = c_rasterizer::get_surface_width(source_surface);
+		int32 source_surface_height = c_rasterizer::get_surface_height(source_surface);
 		{
 			real_vector4d constant_data[]
 			{
@@ -187,8 +187,8 @@ void __cdecl c_screen_postprocess::copy(
 			c_rasterizer::set_pixel_shader_constant(2, NUMBEROF(constant_data), constant_data);
 		}
 	
-		long dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
-		long dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
+		int32 dest_surface_width = c_rasterizer::get_surface_width(dest_surface);
+		int32 dest_surface_height = c_rasterizer::get_surface_height(dest_surface);
 		if (dest_texture_rect)
 		{
 			c_rasterizer::draw_fullscreen_quad_with_texture_xform(dest_surface_width, dest_surface_height, dest_texture_rect);
@@ -325,7 +325,7 @@ c_rasterizer::e_surface __cdecl c_screen_postprocess::postprocess_bloom_buffer(
 }
 
 bool __cdecl c_screen_postprocess::postprocess_final_composite(
-	long explicit_shader_index,
+	int32 explicit_shader_index,
 	c_rasterizer::e_surface display_surface,
 	c_rasterizer::e_surface bloom_surface,
 	real32 inherent_scale,
@@ -349,7 +349,7 @@ void __cdecl c_screen_postprocess::postprocess_player_view(
 	s_screen_effect_settings& screen_effect_settings,
 	c_rasterizer::e_splitscreen_res splitscreen_res,
 	s_observer_depth_of_field const* observer_dof,
-	long user_index)
+	int32 user_index)
 {
 	INVOKE(0x00A61770, c_screen_postprocess::postprocess_player_view, fx_values, projection, camera, screen_effect_settings, splitscreen_res, observer_dof, user_index);
 }

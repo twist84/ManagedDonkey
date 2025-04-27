@@ -35,11 +35,11 @@ struct game_globals_storage
 	// ODST
 	bool prepare_for_game_progression;
 
-	long game_loss_timer;
+	int32 game_loss_timer;
 	bool game_finished;
-	long game_finished_timer;
-	long active_primary_skulls;
-	long active_secondary_skulls;
+	int32 game_finished_timer;
+	int32 active_primary_skulls;
+	int32 active_secondary_skulls;
 	bool game_is_playtest;
 	bool game_had_an_update_tick_this_frame;
 	s_game_cluster_bit_vectors cluster_pvs;
@@ -47,20 +47,20 @@ struct game_globals_storage
 	s_game_cluster_bit_vectors cluster_activation;
 	bool pvs_use_scripted_camera;
 	uint8 unused_pad;
-	short pvs_activation_type;
+	int16 pvs_activation_type;
 	struct
 	{
-		long object_index;
+		int32 object_index;
 		//s_cluster_reference cluster_reference;
 	} pvs_activation;
 
-	long game_ragdoll_count;
+	int32 game_ragdoll_count;
 
 	uint8 __data25204[4];
 };
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
-extern long get_map_minor_version();
+extern int32 get_map_minor_version();
 
 struct s_damage_globals_definition;
 struct s_game_globals_havok_cleanup_resources;
@@ -81,9 +81,9 @@ struct s_game_globals
 
 	struct damage_reporting_type_block;
 
-	long unused0[0x2B];
+	int32 unused0[0x2B];
 
-	c_enum<e_language, long, _language_invalid, k_language_count> language;
+	c_enum<e_language, int32, _language_invalid, k_language_count> language;
 	c_typed_tag_block<s_game_globals_havok_cleanup_resources> havok_cleanup_resources;
 	c_typed_tag_block<s_sound_globals_definition> sound_globals;
 
@@ -143,7 +143,7 @@ struct s_game_globals
 	// the default value for what material type water is
 	c_string_id global_water_material; // 'sted'
 	c_global_material_type global_water_material_type;
-	short pad;
+	int16 pad;
 
 	c_typed_tag_reference<EFFECT_GLOBALS_TAG, INVALID_TAG> effect_globals;
 	c_typed_tag_reference<GAME_PROGRESSION_TAG, INVALID_TAG> game_progression;
@@ -185,8 +185,8 @@ struct s_game_globals
 
 	struct damage_reporting_type_block
 	{
-		short index;
-		short version;
+		int16 index;
+		int16 version;
 		c_static_string<k_tag_string_length> name;
 	};
 	static_assert(sizeof(damage_reporting_type_block) == 0x24);
@@ -278,7 +278,7 @@ struct s_game_globals_camera
 	// seconds. while pegging boost, time to reach maximum speed
 	real32 time_to_maximum_boost;
 
-	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> boost_function;
+	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> boost_function;
 	uint8 hoist[2];
 
 	// field of view when zoomed
@@ -297,7 +297,7 @@ struct s_game_globals_camera
 	real32 zoom_transition_time; // seconds
 
 	real32 vertical_movement_time_to;
-	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
+	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
 	uint8 moist[2];
 
 	// how long it takes in survival mode before switching to flying camera
@@ -387,8 +387,8 @@ struct s_game_globals_player_control
 	real32 look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
 	real32 look_unused[2];
 	real32 gravity_scale;
-	short control_unused;
-	short minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
+	int16 control_unused;
+	int16 minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
 };
 static_assert(sizeof(s_game_globals_player_control) == 0x70);
@@ -473,10 +473,10 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 
 struct s_game_globals_grenade
 {
-	short maximum_count;
+	int16 maximum_count;
 	uint16 pad;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> throwing_effect;
-	long unused[4];
+	int32 unused[4];
 	c_typed_tag_reference<ITEM_TAG, INVALID_TAG> item;
 	c_typed_tag_reference<PROJECTILE_TAG, INVALID_TAG> projectile;
 
@@ -561,7 +561,7 @@ struct s_game_globals_player_information
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_countdown_sound;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> coop_respawn_sound;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> coop_respawn_effect;
-	long binoculars_zoom_count;
+	int32 binoculars_zoom_count;
 	real_bounds binoculars_zoom_range;
 	real32 __unknown94;
 	real32 __unknown98;

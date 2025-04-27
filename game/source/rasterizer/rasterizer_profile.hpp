@@ -84,21 +84,21 @@ public:
 
 	void initialize();
 	
-	s_gpu_time_profile* get_element_profile(e_rasterizer_profile_elements profile_element_index, long frame_reference);
+	s_gpu_time_profile* get_element_profile(e_rasterizer_profile_elements profile_element_index, int32 frame_reference);
 
-	real64* get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, long block_buffer_index);
-	real64* get_block_time_total(long block_buffer_index);
+	real64* get_element_block_time(e_rasterizer_profile_stall_elements profile_element_index, int32 block_buffer_index);
+	real64* get_block_time_total(int32 block_buffer_index);
 
-	bool* get_frame_valid(long index);
-	long get_last_frame_reference();
-	long get_current_frame_reference();
+	bool* get_frame_valid(int32 index);
+	int32 get_last_frame_reference();
+	int32 get_current_frame_reference();
 	void increment_frame_reference();
 
 	e_rasterizer_profile_modes get_mode();
 	void set_mode(e_rasterizer_profile_modes mode);
 
 	void toggle_element_timer(e_rasterizer_profile_elements profile_element_index, unsigned char frame_reference, bool a3);
-	static void frame_time_callback(unsigned long);
+	static void frame_time_callback(uint32);
 
 protected:
 	s_gpu_time_profile m_element_profile[k_rasterizer_profile_element_count][k_max_cpu_frames_ahead_of_gpu];
@@ -107,7 +107,7 @@ protected:
 	real64 m_block_time_total[k_maximum_number_of_block_time_buffers];
 
 	bool m_frame_valid[k_max_cpu_frames_ahead_of_gpu];
-	long m_frame_reference;
+	int32 m_frame_reference;
 
 	e_rasterizer_profile_modes m_mode;
 };
@@ -124,7 +124,7 @@ protected:
 };
 
 extern c_rasterizer_profile_globals g_rasterizer_profile_globals;
-extern unsigned long g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count];
+extern uint32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count];
 
 extern void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, wchar_t const* name);
 extern void rasterizer_profile_end_event();
@@ -139,9 +139,9 @@ extern void rasterizer_profile_update();
 extern void rasterizer_profile_start_element_timer(e_rasterizer_profile_elements profile_element_index);
 extern void rasterizer_profile_stop_element_timer(e_rasterizer_profile_elements profile_element_index);
 extern void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode);
-extern float rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index);
-extern float rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index);
-extern float rasterizer_profile_get_block_total_time();;
-extern char const* rasterizer_profile_get_stall_name(long profile_element_index);
+extern real32 rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index);
+extern real32 rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index);
+extern real32 rasterizer_profile_get_block_total_time();;
+extern char const* rasterizer_profile_get_stall_name(int32 profile_element_index);
 extern char const* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index);
 

@@ -21,8 +21,8 @@ struct s_leaf_system_datum :
 	s_datum_header
 {
 	uint16 pad;
-	long object_index;
-	long definition_index;
+	int32 object_index;
+	int32 definition_index;
 	c_static_array<s_leaf, 64> leaves;
 	real_rectangle3d movement_bounding_box;
 	real_point3d origin;

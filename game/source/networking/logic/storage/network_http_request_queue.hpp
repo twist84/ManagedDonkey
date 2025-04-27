@@ -12,7 +12,7 @@ struct c_network_http_request_description
 	c_network_http_request_description();
 
 	c_static_string<256> m_url;
-	long m_request_type;
+	int32 m_request_type;
 	bool m_has_file_hash;
 	s_network_http_request_hash m_file_hash;
 	c_static_string<1024> m_headers;
@@ -29,25 +29,25 @@ static_assert(0x51C == OFFSETOF(c_network_http_request_description, m_post_sourc
 struct c_network_http_request_queue;
 struct c_network_http_request_item
 {
-	c_network_http_request_item(long request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
+	c_network_http_request_item(int32 request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
 	c_network_http_request_item();
 
-	long m_request_cookie;
-	long m_request_state;
+	int32 m_request_cookie;
+	int32 m_request_state;
 	c_network_http_request_queue* m_request_queue;
 	c_network_http_request_description m_request_description;
 
 	// e_client_usage_type
-	long m_client_usage_type;
+	int32 m_client_usage_type;
 
 	// e_online_lsp_service_type
-	long m_service_type;
+	int32 m_service_type;
 
 	char* m_fill_buffer;
-	long m_fill_buffer_length;
-	long m_fill_buffer_progress;
+	int32 m_fill_buffer_length;
+	int32 m_fill_buffer_progress;
 
-	long m_retries_remaining;
+	int32 m_retries_remaining;
 };
 static_assert(sizeof(c_network_http_request_item) == 0x67C);
 
@@ -55,19 +55,19 @@ struct c_network_http_request_queue
 {
 	c_network_http_request_queue(e_network_http_request_queue_type queue_type);
 
-	void cancel_request(long request_cookie);
+	void cancel_request(int32 request_cookie);
 	static c_network_http_request_queue* get(e_network_http_request_queue_type queue_type);
-	e_network_http_request_result read_bytes(long request_cookie, char* buffer, long buffer_length, long* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason);
-	long start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
-	long start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, long buffer_length);
+	e_network_http_request_result read_bytes(int32 request_cookie, char* buffer, int32 buffer_length, int32* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason);
+	int32 start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
+	int32 start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, int32 buffer_length);
 	bool has_file_changed(c_network_http_request_description const* request_description) const;
-	e_network_http_request_result is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason);
+	e_network_http_request_result is_fill_buffer_complete(int32 request_cookie, int32* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason);
 
-	long m_request_queue_type;
-	long m_request_cookie;
-	long m_file_queue_count;
+	int32 m_request_queue_type;
+	int32 m_request_cookie;
+	int32 m_file_queue_count;
 	c_network_http_request_item m_request_items[32];
-	long m_connection_token;
+	int32 m_connection_token;
 	uint32 m_ip_address;
 	uint16 m_port;
 	c_http_client m_http_client;

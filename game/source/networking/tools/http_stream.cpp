@@ -16,7 +16,7 @@ c_http_post_source::c_http_post_source() :
 {
 }
 
-void c_http_post_source::set_source_as_buffer(char const* contents_buffer, long contents_buffer_length)
+void c_http_post_source::set_source_as_buffer(char const* contents_buffer, int32 contents_buffer_length)
 {
 	ASSERT(contents_buffer);
 
@@ -57,7 +57,7 @@ void c_http_post_source::set_filename(char const* filename)
 	m_filename.set(filename);
 }
 
-void c_http_post_source::set_start_position(long start_position)
+void c_http_post_source::set_start_position(int32 start_position)
 {
 	ASSERT(start_position >= 0);
 
@@ -88,7 +88,7 @@ char const* c_http_post_source::get_filename() const
 	return m_filename.get_string();
 }
 
-long c_http_post_source::get_contents_length() const
+int32 c_http_post_source::get_contents_length() const
 {
 	return m_contents_length;
 }
@@ -108,7 +108,7 @@ s_file_reference* c_http_post_source::get_contents_file() const
 	return m_contents_file;
 }
 
-long c_http_post_source::get_start_position() const
+int32 c_http_post_source::get_start_position() const
 {
 	return m_start_position;
 }
@@ -148,12 +148,12 @@ void c_http_stream::set_headers(char const* headers)
 	m_extra_headers.set(headers);
 }
 
-void c_http_stream::set_position(long position)
+void c_http_stream::set_position(int32 position)
 {
 	m_position = position;
 }
 
-long c_http_stream::get_position()
+int32 c_http_stream::get_position()
 {
 	return m_position;
 }
@@ -187,7 +187,7 @@ bool c_http_get_stream::verify_nescessary_state_is_set()
 	return m_url.length() != 0;
 }
 
-bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
+bool c_http_get_stream::read(char* buffer, int32 buffer_length, int32* bytes_read)
 {
 	//bool success = INVOKE_CLASS_MEMBER(0x00432A10, c_http_get_stream, read, buffer, buffer_length, bytes_read);
 
@@ -195,7 +195,7 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 	ASSERT(bytes_read);
 
 	char* dest_buffer = buffer;
-	long dest_buffer_length = buffer_length;
+	int32 dest_buffer_length = buffer_length;
 	bool success = false;
 
 	if (verify_nescessary_state_is_set())
@@ -212,7 +212,7 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 				if (at_end() || dest_buffer_length <= 0)
 					break;
 
-				long position = m_position;
+				int32 position = m_position;
 				if (position >= m_headers_length)
 				{
 					//ASSERT(some_func(), "c_http_stream::read: Read past the maximum length of the stream.");
@@ -238,7 +238,7 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 	return success;
 }
 
-long c_http_get_stream::get_length()
+int32 c_http_get_stream::get_length()
 {
 	return m_headers_length;
 }
@@ -312,7 +312,7 @@ bool c_http_post_stream::verify_nescessary_state_is_set()
 	//return necessary_state_is_set & (m_url.length() != 0);
 }
 
-bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read)
+bool c_http_post_stream::read(char* buffer, int32 buffer_length, int32* bytes_read)
 {
 	return INVOKE_CLASS_MEMBER(0x00432AD0, c_http_post_stream, read, buffer, buffer_length, bytes_read);
 
@@ -320,7 +320,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 	//ASSERT(bytes_read);
 	//
 	//char* buf = buffer;
-	//long len = buffer_length;
+	//int32 len = buffer_length;
 	//
 	//bool success = false;
 	//
@@ -332,7 +332,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 	//	success = true;
 	//	while (!at_end() && len > 0)
 	//	{
-	//		long position = get_position();
+	//		int32 position = get_position();
 	//		if (position >= m_extra_headers_length)
 	//		{
 	//			position -= m_extra_headers_length;
@@ -406,7 +406,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 	//return success;
 }
 
-long c_http_post_stream::get_length()
+int32 c_http_post_stream::get_length()
 {
 	//return INVOKE_CLASS_MEMBER(0x004328F0, c_http_post_stream, get_length);
 

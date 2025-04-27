@@ -30,9 +30,9 @@ public:
 	void set_active(bool active);
 
 	bool get_data();
-	void set_data(long data);
+	void set_data(int32 data);
 
-	short get_index();
+	int16 get_index();
 	bool get_is_selection();
 
 	void* operator new(unsigned int size);
@@ -43,6 +43,6 @@ protected:
 	c_debug_menu* m_child_ref;
 	bool m_active;
 	//bool m_numbered;
-	long m_data;
+	int32 m_data;
 };
 

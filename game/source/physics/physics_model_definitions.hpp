@@ -20,14 +20,14 @@ enum e_primitive_flags
 struct s_physics_model_primitive
 {
 	c_string_id name;
-	short material;
+	int16 material;
 	c_flags<e_primitive_flags, uint16, k_primitive_flags> flags;
 	real32 relative_mass_scale;
 	real32 friction;
 	real32 restitution;
 	real32 volume;
 	real32 mass;
-	short mass_distribution_index;
+	int16 mass_distribution_index;
 	char phantom;
 	char runtime_collision_group;
 };
@@ -36,10 +36,10 @@ static_assert(sizeof(s_physics_model_primitive) == 0x20);
 struct s_havok_shape // hkShape
 {
 	void* field_pointer_skip;
-	short size;
-	short count;
-	long user_data;
-	long type;
+	int16 size;
+	int16 count;
+	int32 user_data;
+	int32 type;
 };
 static_assert(sizeof(s_havok_shape) == 0x10);
 
@@ -74,8 +74,8 @@ enum e_havok_shape
 
 struct s_havok_shape_reference // hkShape *
 {
-	c_enum<e_havok_shape, short, _havok_shape_sphere, k_havok_shape_count> shape_type;
-	short shape;
+	c_enum<e_havok_shape, int16, _havok_shape_sphere, k_havok_shape_count> shape_type;
+	int16 shape;
 };
 static_assert(sizeof(s_havok_shape_reference) == 0x4);
 
@@ -84,7 +84,7 @@ struct s_havok_convex_translate_shape // hkConvexTranslateShape
 	s_havok_convex_shape convex;
 	void* field_pointer_skip;
 	s_havok_shape_reference havok_shape_reference_struct;
-	long child_shape_size;
+	int32 child_shape_size;
 	real_vector3d translation;
 	real32 havok_w_translation;
 };

@@ -51,7 +51,7 @@ struct s_debug_menu_globals
 	bool m_do_render;
 	gamepad_state m_current_gamepad;
 	gamepad_state m_last_gamepad;
-	long open_menu_time;
+	int32 open_menu_time;
 };
 static_assert(sizeof(s_debug_menu_globals) == 0x488);
 
@@ -76,9 +76,9 @@ s_debug_menu_globals g_debug_menu_globals = {};
 
 bool g_debug_menu_rebuild_request = false;
 
-c_static_stack<long, 262144> g_debug_menu_stack;
+c_static_stack<int32, 262144> g_debug_menu_stack;
 
-void debug_menu_draw_rect(short x0, short y0, short x1, short y1, real32 alpha, real_argb_color const* color)
+void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, real_argb_color const* color)
 {
 	point2d points[4]{};
 
@@ -141,7 +141,7 @@ void debug_menu_update_current_gamepad_state()
 	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));
 	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
-		if (gamepad_state const* state = input_get_gamepad_state(static_cast<short>(controller_index)))
+		if (gamepad_state const* state = input_get_gamepad_state(static_cast<int16>(controller_index)))
 			xor_buffers(&g_debug_menu_globals.m_current_gamepad, state, sizeof(gamepad_state));
 	}
 
@@ -324,41 +324,41 @@ void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open)
 		g_user_interface_controller_globals.suppressed = false;
 	}
 
-	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
+	for (int16 caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
 		debug_menu_set_caption(caption_index, "");
 }
 
-void debug_menu_set_caption(short caption_index, char const* caption)
+void debug_menu_set_caption(int16 caption_index, char const* caption)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
 	csstrnzcpy(g_debug_menu_globals.m_caption[caption_index], caption, sizeof(*g_debug_menu_globals.m_caption));
 }
 
-char const* debug_menu_get_caption(short caption_index)
+char const* debug_menu_get_caption(int16 caption_index)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
 	return g_debug_menu_globals.m_caption[caption_index];
 }
 
-long debug_menu_get_time()
+int32 debug_menu_get_time()
 {
-	return long(((system_milliseconds() * 30.0f) / 1000.0f) + 0.5f);
+	return int32(((system_milliseconds() * 30.0f) / 1000.0f) + 0.5f);
 }
 
-void* debug_menu_malloc(long size)
+void* debug_menu_malloc(int32 size)
 {
-	long size_in_count = (size + 3) >> 2;
+	int32 size_in_count = (size + 3) >> 2;
 	g_debug_menu_stack.resize(g_debug_menu_stack.count() + size_in_count);
 	void* result = g_debug_menu_stack.get(g_debug_menu_stack.count() - size_in_count);
 
 	return result;
 }
 
-void xor_buffers(void* dest, void const* source, long count)
+void xor_buffers(void* dest, void const* source, int32 count)
 {
-	for (long i = 0; i < count; i++)
+	for (int32 i = 0; i < count; i++)
 		((uint8*)dest)[i] ^= ((uint8 const*)source)[i];
 }
 

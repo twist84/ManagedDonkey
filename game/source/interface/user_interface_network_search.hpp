@@ -4,5 +4,5 @@
 
 extern bool& g_available_squads_ready;
 
-extern bool __cdecl user_interface_available_squads_initialize(long controller_index, uint32 available_squad_search_flags, char category);
+extern bool __cdecl user_interface_available_squads_initialize(int32 controller_index, uint32 available_squad_search_flags, char category);
 

@@ -6,7 +6,7 @@ struct c_flying_camera :
 	public c_camera
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x0072ACA0, c_flying_camera, constructor, user_index);
 	}
@@ -53,7 +53,7 @@ public:
 	bool __unknown30;
 	real32 __unknown34;
 
-	c_flags<e_flags, long, k_number_of_flags> m_flags;
+	c_flags<e_flags, int32, k_number_of_flags> m_flags;
 
 	uint8 unused[0x10];
 };

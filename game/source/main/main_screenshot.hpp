@@ -6,10 +6,10 @@ struct s_saved_camera;
 struct s_screenshot_globals
 {
 	bool simple_screenshot;
-	long screenshot_width;
-	long screenshot_height;
-	long num_screenshots;
-	long num_screenshots_taken;
+	int32 screenshot_width;
+	int32 screenshot_height;
+	int32 num_screenshots;
+	int32 num_screenshots_taken;
 	bool in_progress;
 	bool disable_hud;
 	bool render_ui;
@@ -21,17 +21,17 @@ struct s_screenshot_globals
 	bool anisotropic_override;
 	bool copy_to_display_while_rendering;
 	bool disable_first_person;
-	long delay_timer;
+	int32 delay_timer;
 	bool force_smaller_tiles;
 	bool __unknown25;
 	bool __unknown26;
-	long __unknown28;
+	int32 __unknown28;
 	real32 __unknown2C;
 	real32 __unknown30;
 	real32 __unknown34;
 	bool __unknown38;
 	bool __unknown39;
-	void(__cdecl* tile_callback)(long, long, long, long, long, long, long, long);
+	void(__cdecl* tile_callback)(int32, int32, int32, int32, int32, int32, int32, int32);
 	bool force_exact_tiling_by_expanding_size;
 	s_saved_camera* saved_camera_buffer;
 };

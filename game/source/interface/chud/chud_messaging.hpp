@@ -27,10 +27,10 @@ struct c_chud_messaging_manager
 	// $TODO: map this whole ass struct
 };
 
-extern void __cdecl chud_messaging_post(long user_index, wchar_t const* message_text, e_chud_message_context chud_message_context);
+extern void __cdecl chud_messaging_post(int32 user_index, wchar_t const* message_text, e_chud_message_context chud_message_context);
 extern void __cdecl chud_messaging_special_autosave(bool end);
 extern void __cdecl chud_messaging_special_load(bool end);
 extern void __cdecl chud_messaging_special_saving(bool end);
-extern void __cdecl chud_post_action_response(long user_index);
-extern bool __cdecl chud_set_state_text(long user_index, long message, long a3, c_chud_messaging_manager::e_chud_state_text_placement text_placement);
+extern void __cdecl chud_post_action_response(int32 user_index);
+extern bool __cdecl chud_set_state_text(int32 user_index, int32 message, int32 a3, c_chud_messaging_manager::e_chud_state_text_placement text_placement);
 

@@ -12,7 +12,7 @@ struct c_patchy_fog
 	real32 m_roll;
 	real32 m_closest_fog_z;
 	real32 m_distance_to_first_sheet;
-	long m_starting_sheet_attribute_index;
+	int32 m_starting_sheet_attribute_index;
 	real32 m_lateral_offsets[100];
 	real32 m_vertical_offsets[100];
 };

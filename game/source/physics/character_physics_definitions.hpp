@@ -22,11 +22,11 @@ enum e_character_physics_flags
 
 struct s_character_physics_ground_definition
 {
-	angle maximum_slope_angle; // degrees
-	angle downhill_falloff_angle; // degrees
-	angle downhill_cutoff_angle; // degrees
-	angle uphill_falloff_angle; // degrees
-	angle uphill_cutoff_angle; // degrees
+	real32 maximum_slope_angle; // degrees
+	real32 downhill_falloff_angle; // degrees
+	real32 downhill_cutoff_angle; // degrees
+	real32 uphill_falloff_angle; // degrees
+	real32 uphill_cutoff_angle; // degrees
 
 	real32 downhill_velocity_scale;
 	real32 uphill_velocity_scale;
@@ -39,7 +39,7 @@ struct s_character_physics_ground_definition
 	real32 climb_inflection_angle;
 
 	// scale on the time for the entity to realize it is airborne
-	angle scale_airborne_reaction_time;
+	real32 scale_airborne_reaction_time;
 
 	// scale on velocity with which the entity is pushed back into its ground plane
 	real32 scale_ground_adhesion_velocity;
@@ -54,7 +54,7 @@ static_assert(sizeof(s_character_physics_ground_definition) == 0x44);
 struct s_character_physics_flying_definition
 {
 	// angle at which we bank left/right when sidestepping or turning while moving forwards
-	angle bank_angle; // degrees
+	real32 bank_angle; // degrees
 
 	// time it takes us to apply a bank
 	real32 bank_apply_time; // seconds
@@ -75,10 +75,10 @@ struct s_character_physics_flying_definition
 	real32 deceleration; // world units per second squared
 
 	// turn rate
-	angle angular_velocity_maximum; // degrees per second
+	real32 angular_velocity_maximum; // degrees per second
 
 	// turn acceleration rate
-	angle angular_acceleration_maximum; // degrees per second squared
+	real32 angular_acceleration_maximum; // degrees per second squared
 
 	// how much slower we fly if crouching (zero = same speed)
 	real32 crouch_velocity_modifier; // [0,1]
@@ -102,10 +102,10 @@ struct s_character_physics_definition
 	c_string_id dead_material_name;
 
 	// runtime
-	short global_material_type;
+	int16 global_material_type;
 
 	// runtime
-	short dead_global_material_type;
+	int16 dead_global_material_type;
 
 	// don't be a jerk, edit something else
 	c_typed_tag_block<s_physics_model_sphere> dead_sphere_shapes;

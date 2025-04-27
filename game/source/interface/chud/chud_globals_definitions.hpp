@@ -54,7 +54,7 @@ struct s_chud_globals_definition
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_emblems;
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_medals;
 	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> metagame_medal_animation;
-	short metagame_medal_basis;
+	int16 metagame_medal_basis;
 	uint8 __pad6E[0x2];
 	real32 metagame_medal_scale;
 	real32 metagame_medal_width;
@@ -147,11 +147,11 @@ enum e_chud_curvature_res_flags
 struct s_chud_curvature_info
 {
 	c_flags<e_chud_curvature_res_flags, uint32, k_chud_curvature_res_flags> res_flags;
-	angle source_fov_y;
+	real32 source_fov_y;
 	real32 souce_aspect;
 	real32 destination_offset_z;
-	long virtual_width;
-	long virtual_height;
+	int32 virtual_width;
+	int32 virtual_height;
 	real_point2d sensor_origin;
 	real32 sensor_radius;
 	real32 blip_radius;
@@ -183,7 +183,7 @@ struct s_chud_curvature_info
 
 	real32 message_scale;
 	real32 message_width;
-	long message_count_delta;
+	int32 message_count_delta;
 
 	real_point2d __unknown8;
 	real32 __unknown9;
@@ -279,7 +279,7 @@ static_assert(sizeof(s_chud_config_info) == 0x20);
 
 struct s_chud_skin_info
 {
-	c_enum<e_chud_skin_type, long, _chud_skin_type_default, k_chud_skin_type_count> type;
+	c_enum<e_chud_skin_type, int32, _chud_skin_type_default, k_chud_skin_type_count> type;
 	argb_color primary_background;
 	argb_color secondary_background;
 	argb_color highlight_background;
@@ -478,16 +478,16 @@ struct s_player_training_entry_data
 	c_string_id display_string;
 
 	// how long the message can be on screen before being hidden
-	short max_display_time;
+	int16 max_display_time;
 
 	// how many times a training message will get displayed (0-3 only!)
-	short display_count;
+	int16 display_count;
 
 	// how long a displayed but untriggered message stays up
-	short dissapear_delay;
+	int16 dissapear_delay;
 
 	// how long after display this message will stay hidden
-	short redisplay_delay;
+	int16 redisplay_delay;
 
 	// how long the event can be triggered before it's displayed
 	real32 display_delay; // seconds

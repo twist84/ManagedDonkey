@@ -77,8 +77,8 @@ struct _control_definition
 {
 	// $$$ CONTROL $$$
 
-	short type;
-	short trigger;
+	int16 type;
+	int16 trigger;
 	real32 call_value; // [0,1]
 	string_id action_string;
 
@@ -126,7 +126,7 @@ enum // flags
 
 struct _machine_definition
 {
-	short type;
+	int16 type;
 	uint16 flags;
 	real32 door_open_time; // seconds
 
@@ -134,10 +134,10 @@ struct _machine_definition
 	real32 door_occlusion_lower_bound;
 	real32 door_occlusion_upper_bound;
 
-	short collision_response;
-	short elevator_node_index;
-	short pathfinding_policy;
-	short pad0;
+	int16 collision_response;
+	int16 elevator_node_index;
+	int16 pathfinding_policy;
+	int16 pad0;
 };
 static_assert(sizeof(_machine_definition) == 0x18);
 
@@ -153,10 +153,10 @@ struct terminal_difficulty_setting
 {
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> dummy_strings;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> story_strings;
-	short dummy_content_flags;
-	short story_content_flags;
-	short dummy_image_frame_index;
-	short story_image_frame_index;
+	int16 dummy_content_flags;
+	int16 story_content_flags;
+	int16 dummy_image_frame_index;
+	int16 story_image_frame_index;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> error_strings;
 };
 static_assert(sizeof(terminal_difficulty_setting) == 0x38);
@@ -167,8 +167,8 @@ struct _terminal_definition
 
 	uint32 flags;
 	string_id action_string;
-	short terminal_number;
-	short pad0;
+	int16 terminal_number;
+	int16 pad0;
 
 	// set the exposure to the this when viewing terminal
 	real32 exposure_value;

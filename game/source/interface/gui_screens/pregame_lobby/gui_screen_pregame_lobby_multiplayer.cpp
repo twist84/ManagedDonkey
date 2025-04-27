@@ -8,12 +8,12 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B01250, c_gui_screen_pregame_lobby_multiplayer, handle_list_item_chosen_);
 
-bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
-		long target_name = _string_id_invalid;
-		long element_handle = list_item_widget->get_element_handle();
+		int32 target_name = _string_id_invalid;
+		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, target), &target_name))
 		{
 			e_gui_selected_item_type selection_type = _gui_selection_type_none;
@@ -51,14 +51,14 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
 
-//.text:00B01130 ; public: c_gui_screen_pregame_lobby_multiplayer::c_gui_screen_pregame_lobby_multiplayer(long)
+//.text:00B01130 ; public: c_gui_screen_pregame_lobby_multiplayer::c_gui_screen_pregame_lobby_multiplayer(int32)
 //.text:00B01150 ; public: virtual c_gui_screen_pregame_lobby_multiplayer::~c_gui_screen_pregame_lobby_multiplayer()
 //.text:00B011A0 ; public: virtual void* c_gui_screen_pregame_lobby_multiplayer::`scalar deleting destructor'(unsigned int)
 //.text:00B01210 ; public: virtual enum e_gui_game_mode c_gui_screen_pregame_lobby_multiplayer::get_gui_game_mode()
-//.text:00B01220 ; public: virtual long c_gui_screen_pregame_lobby_multiplayer::get_lobby_header()
-//.text:00B01230 ; public: virtual long c_gui_screen_pregame_lobby_multiplayer::get_lobby_title()
-//.text:00B01240 ; public: virtual long c_gui_screen_pregame_lobby_multiplayer::get_start_button_name()
-//.text:00B01250 ; public: virtual bool c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen(c_controller_input_message const*, long, c_gui_list_item_widget*, c_gui_data*)
+//.text:00B01220 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_lobby_header()
+//.text:00B01230 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_lobby_title()
+//.text:00B01240 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_start_button_name()
+//.text:00B01250 ; public: virtual bool c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00B013B0 ; public: virtual void c_gui_screen_pregame_lobby_multiplayer::initialize()
 //.text:00B01470 ; parse_xml_lobby_multiplayer_game
 //.text:00B01490 ; parse_xml_lobby_multiplayer_map

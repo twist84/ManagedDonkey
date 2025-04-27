@@ -20,8 +20,8 @@ struct s_core_widget_definition
 	c_string_id name;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, short, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
-	short render_depth_bias;
+	c_enum<e_widget_positioning, int16, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
+	int16 render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
 	// bounds 480i & bounds 4x3 (640x480)
@@ -46,14 +46,14 @@ struct s_runtime_core_widget_definition
 	c_string_id name;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, long, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
-	long render_depth_bias;
+	c_enum<e_widget_positioning, int32, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
+	int32 render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
 	// bounds 480i & bounds 4x3 (640x480)
 	real_rectangle2d ui_bounds[2];
 
-	long animation_collection_index;
+	int32 animation_collection_index;
 };
 static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
 
@@ -90,9 +90,9 @@ public:
 	//virtual void initialize();
 	//virtual void post_initialize();
 	//virtual void dispose();
-	//virtual long get_name() const;
-	//virtual long get_element_handle();
-	//virtual long get_datasource_index();
+	//virtual int32 get_name() const;
+	//virtual int32 get_element_handle();
+	//virtual int32 get_datasource_index();
 	//virtual bool get_enabled();
 	//virtual void set_enabled(bool);
 	//virtual s_runtime_core_widget_definition* get_core_definition() = 0;
@@ -121,21 +121,21 @@ public:
 	//virtual bool handle_alt_stick(c_controller_input_message const* message);
 	//virtual bool handle_alt_tab(c_controller_input_message const* message);
 	//virtual bool handle_controller_input_message(c_controller_input_message const* message);
-	//virtual bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);
+	//virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer);
 
 	// HACK: so we don't have to manually construct the class
 	union
 	{
 		struct
 		{
-			long(__thiscall* get_ambient_state)(c_gui_widget*);
+			int32(__thiscall* get_ambient_state)(c_gui_widget*);
 			void* (__thiscall* destructor)(c_gui_widget*, uint32);
 			void(__thiscall* initialize)(c_gui_widget*);
 			void(__thiscall* post_initialize)(c_gui_widget*);
 			void(__thiscall* dispose)(c_gui_widget*);
-			long(__thiscall* get_name)(c_gui_widget*);
-			long(__thiscall* get_element_handle)(c_gui_widget*);
-			long(__thiscall* get_datasource_index)(c_gui_widget*);
+			int32(__thiscall* get_name)(c_gui_widget*);
+			int32(__thiscall* get_element_handle)(c_gui_widget*);
+			int32(__thiscall* get_datasource_index)(c_gui_widget*);
 			bool(__thiscall* get_enabled)(c_gui_widget*);
 			void(__thiscall* set_enabled)(c_gui_widget*, bool);
 			s_runtime_core_widget_definition* (__thiscall* get_core_definition)(c_gui_widget*);
@@ -164,7 +164,7 @@ public:
 			bool(__thiscall* handle_alt_stick)(c_gui_widget*, c_controller_input_message const*);
 			bool(__thiscall* handle_alt_tab)(c_gui_widget*, c_controller_input_message const*);
 			bool(__thiscall* handle_controller_input_message)(c_gui_widget*, c_controller_input_message const*);
-			bool(__thiscall* get_string_by_string_id)(c_gui_widget*, long, c_static_wchar_string<1024>*);
+			bool(__thiscall* get_string_by_string_id)(c_gui_widget*, int32, c_static_wchar_string<1024>*);
 		};
 
 		void* __funcs[64];
@@ -178,9 +178,9 @@ public:
 	void initialize();
 	void post_initialize();
 	void dispose();
-	long get_name() const;
-	long get_element_handle();
-	long get_datasource_index();
+	int32 get_name() const;
+	int32 get_element_handle();
+	int32 get_datasource_index();
 	bool get_enabled();
 	void set_enabled(bool value);
 	s_runtime_core_widget_definition* get_core_definition() { return __vftable->get_core_definition(this); };
@@ -209,29 +209,29 @@ public:
 	bool handle_alt_stick(c_controller_input_message const* message);
 	bool handle_alt_tab(c_controller_input_message const* message);
 	bool handle_controller_input_message(c_controller_input_message const* message);
-	bool get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer);
+	bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer);
 
-	void calculate_animation_transform(e_animation_state animation_state, long start_time_milliseconds, long current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
+	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
 	bool const can_all_children_be_disposed();
 	bool const can_be_disposed();
 	bool controller_can_drive(e_controller_index controller_index);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;
 	real_rectangle2d* get_authored_bounds(real_rectangle2d* unanimated_bounds);
-	c_gui_bitmap_widget* get_child_bitmap_widget(long name);
-	c_gui_group_widget* get_child_group_widget(long name);
-	c_gui_list_item_widget* get_child_list_item_widget(long name);
-	c_gui_list_widget* get_child_list_widget(long name);
-	c_gui_model_widget* get_child_model_widget(long name);
-	c_gui_text_widget* get_child_text_widget(long name);
-	c_gui_widget* get_child_widget(e_gui_widget_type type, long name);
+	c_gui_bitmap_widget* get_child_bitmap_widget(int32 name);
+	c_gui_group_widget* get_child_group_widget(int32 name);
+	c_gui_list_item_widget* get_child_list_item_widget(int32 name);
+	c_gui_list_widget* get_child_list_widget(int32 name);
+	c_gui_model_widget* get_child_model_widget(int32 name);
+	c_gui_text_widget* get_child_text_widget(int32 name);
+	c_gui_widget* get_child_widget(e_gui_widget_type type, int32 name);
 	c_gui_widget* get_children();
-	long get_controller_mask() const;
+	int32 get_controller_mask() const;
 	real_argb_color const* get_debug_color();
 	c_gui_widget* get_deepest_widget_that_can_receive_focus();
-	long get_definition_index();
+	int32 get_definition_index();
 	e_controller_index get_driving_controller() const;
-	long get_element_index();
+	int32 get_element_index();
 	c_gui_widget* get_first_child_widget_by_type(e_gui_widget_type type);
 	c_gui_widget* get_last_child_widget_by_type(e_gui_widget_type type);
 	c_gui_widget* get_next();
@@ -261,11 +261,11 @@ public:
 	bool leaf_node_of_widget(c_gui_widget* branch_widget);
 	void modulate_tint_color(real_argb_color const* modulation);
 	void remove_child_widget(c_gui_widget* child);
-	static void render(long user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot);
-	void set_child_bitmap_sprite_frame(long widget_name, long sprite_frame_index);
-	void set_child_enabled(e_gui_widget_type widget_type, long widget_name, bool enabled);
-	void set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, long widget_name, bool value);
-	void set_child_visible(e_gui_widget_type widget_type, long widget_name, bool visible);
+	static void render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot);
+	void set_child_bitmap_sprite_frame(int32 widget_name, int32 sprite_frame_index);
+	void set_child_enabled(e_gui_widget_type widget_type, int32 widget_name, bool enabled);
+	void set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, int32 widget_name, bool value);
+	void set_child_visible(e_gui_widget_type widget_type, int32 widget_name, bool visible);
 	void set_children(c_gui_widget* children);
 	void set_driving_controller(e_controller_index controller_index);
 	void set_full_animation_state(s_animation_transform const* transform, bool recursive);
@@ -279,10 +279,10 @@ public:
 	void start_animation_at_time(e_animation_state animation_state, uint32 animation_start_time, bool recursive);
 	void stomp_bounds(real_rectangle2d const* new_bounds);
 	void update_animation(uint32 current_milliseconds);
-	bool verify_animation_period(e_animation_state animation_state, long period);
+	bool verify_animation_period(e_animation_state animation_state, int32 period);
 
 //protected:
-	long __unknown4;
+	int32 __unknown4;
 	e_gui_widget_type m_type;
 
 	bool m_visible;
@@ -303,9 +303,9 @@ public:
 	c_string_id m_name;
 	real32 __unknown44;
 	uint32 m_flags;
-	long __unknown4C;
+	int32 __unknown4C;
 	s_animation_transform m_animated_state;
-	long m_last_animated_milliseconds;
+	int32 m_last_animated_milliseconds;
 };
 static_assert(sizeof(c_gui_widget) == 0xDC);
 

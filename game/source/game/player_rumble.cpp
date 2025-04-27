@@ -34,13 +34,13 @@ void __cdecl rumble_initialize_for_new_map()
 	INVOKE(0x00615760, rumble_initialize_for_new_map);
 }
 
-//.text:00615860 ; void __cdecl rumble_player_clear(long)
+//.text:00615860 ; void __cdecl rumble_player_clear(int32)
 //.text:00615940 ; void __cdecl rumble_player_clear_scripted_effect()
-//.text:00615980 ; void __cdecl rumble_player_continuous(long, real32, real32)
-//.text:006159C0 ; void __cdecl rumble_player_impulse(long, long, long, real32)
+//.text:00615980 ; void __cdecl rumble_player_continuous(int32, real32, real32)
+//.text:006159C0 ; void __cdecl rumble_player_impulse(int32, int32, int32, real32)
 //.text:00615AA0 ; void __cdecl rumble_player_set_scripted_scale(real32)
 //.text:00615AD0 ; void __cdecl rumble_player_set_scripted_values(real32, real32)
-//.text:00615B10 ; void __cdecl rumble_player_set_scripted_values_for_player(long, real32, real32)
+//.text:00615B10 ; void __cdecl rumble_player_set_scripted_values_for_player(int32, real32, real32)
 
 void __cdecl rumble_update(real32 world_seconds_elapsed)
 {

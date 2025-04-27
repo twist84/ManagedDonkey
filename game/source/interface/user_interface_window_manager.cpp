@@ -26,7 +26,7 @@ REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 //.text:00AA8C50 ; public: c_window_manager::c_window_manager()
 //.text:00AA8D20 ; public: c_window_manager::~c_window_manager()
 
-c_gui_screen_widget* c_window_manager::allocate_codeless_screen(long screen_name)
+c_gui_screen_widget* c_window_manager::allocate_codeless_screen(int32 screen_name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AA8D90, c_window_manager, allocate_codeless_screen, screen_name);
 
@@ -39,7 +39,7 @@ c_gui_screen_widget* c_window_manager::allocate_codeless_screen(long screen_name
 	//return new c_gui_screen_codeless_widget(screen_name);
 }
 
-c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
+c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
 
@@ -271,8 +271,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(long screen_name)
 //.text:00AAA7F0 ; public: void c_window_manager::begin_transition_out(c_gui_screen_widget*, e_screen_transition_type)
 //.text:00AAA870 ; 
 //.text:00AAA970 ; public: bool c_window_manager::controller_input_should_be_suppressed(e_controller_index)
-//.text:00AAA9F0 ; public: void c_window_manager::debug_widget_state(e_gui_widget_type, long, c_window_manager::e_widget_debug_state, bool, bool)
-//.text:00AAAA70 ; public: void c_window_manager::debug_widget_state_for_screen(c_gui_screen_widget*, e_gui_widget_type, long, c_window_manager::e_widget_debug_state, bool, bool)
+//.text:00AAA9F0 ; public: void c_window_manager::debug_widget_state(e_gui_widget_type, int32, c_window_manager::e_widget_debug_state, bool, bool)
+//.text:00AAAA70 ; public: void c_window_manager::debug_widget_state_for_screen(c_gui_screen_widget*, e_gui_widget_type, int32, c_window_manager::e_widget_debug_state, bool, bool)
 //.text:00AAAAA0 ; public: void c_window_manager::debug_widget_state_for_widget(c_gui_widget*, c_window_manager::e_widget_debug_state, bool, bool)
 //.text:00AAABB0 ; public: void c_window_manager::dispose()
 //.text:00AAABE0 ; public: void c_window_manager::dispose_from_old_map()
@@ -325,8 +325,8 @@ c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_in
 }
 
 //.text:00AAB4E0 ; public: c_gui_screen_widget* c_window_manager::get_screen_below(e_window_index, c_gui_screen_widget*)
-//.text:00AAB550 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index, long)
-//.text:00AAB5B0 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(long)
+//.text:00AAB550 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index, int32)
+//.text:00AAB5B0 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32)
 //.text:00AAB620 ; 
 
 c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_index)
@@ -347,22 +347,22 @@ void c_window_manager::handle_global_controller_event(s_event_record* event_reco
 
 //.text:00AAB9C0 ; public: void c_window_manager::initialize()
 //.text:00AABA00 ; public: void c_window_manager::initialize_for_new_map()
-//.text:00AABA40 ; private: void c_window_manager::insert_screen_after_named_screen(e_window_index, c_gui_screen_widget*, long)
+//.text:00AABA40 ; private: void c_window_manager::insert_screen_after_named_screen(e_window_index, c_gui_screen_widget*, int32)
 //.text:00AABBB0 ; private: bool __cdecl c_robust_void_pointer::internally_consistent() const
-//.text:00AABBD0 ; public: bool c_window_manager::is_screen_queued_to_be_loaded(long, e_window_index)
+//.text:00AABBD0 ; public: bool c_window_manager::is_screen_queued_to_be_loaded(int32, e_window_index)
 
-c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, long window_index)
+c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00AABC30, c_window_manager, load_screen, controller_index, load_as_error, screen_message, window_index);
-	//return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, c_window_manager*, long, bool, c_load_screen_message const*, long)(&g_window_manager, controller_index, load_as_error, screen_message, window_index);
+	//return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, c_window_manager*, int32, bool, c_load_screen_message const*, int32)(&g_window_manager, controller_index, load_as_error, screen_message, window_index);
 }
 
-long __cdecl c_window_manager::locate_screen_definition_tag_by_name(long name)
+int32 __cdecl c_window_manager::locate_screen_definition_tag_by_name(int32 name)
 {
 	return INVOKE(0x00AABF50, c_window_manager::locate_screen_definition_tag_by_name, name);
 }
 
-bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
+bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 {
 	return INVOKE(0x00AABFD0, c_window_manager::named_screen_defined_in_code, screen_name);
 
@@ -489,17 +489,17 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 }
 
 //.text:00AAC430 ; public: bool c_window_manager::non_dead_cam_ui_active_for_game_player_controller(e_controller_index)
-//.text:00AAC510 ; public: static void __cdecl c_window_manager::play_controller_sound(long, e_event_type, e_controller_component)
+//.text:00AAC510 ; public: static void __cdecl c_window_manager::play_controller_sound(int32, e_event_type, e_controller_component)
 //.text:00AAC650 ; c_window_manager::predict_immediate_resources
 //.text:00AAC6C0 ; c_window_manager::predict_pending_resources
 //.text:00AAC730 ; public: void c_window_manager::prepare_for_tag_reload()
 //.text:00AAC740 ; public: static void __cdecl c_window_manager::print_active_screen_strings_tag_name()
 //.text:00AAC750 ; public: void c_window_manager::print_active_screens()
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uint32)
-//.text:00AAC910 ; public: void c_window_manager::render(e_window_index, long, rectangle2d const*, bool)
+//.text:00AAC910 ; public: void c_window_manager::render(e_window_index, int32, rectangle2d const*, bool)
 //.text:00AACB10 ; public: void c_window_manager::render_fade()
 //.text:00AACBD0 ; public: void c_window_manager::reset_screens()
-//.text:00AACE40 ; public: void c_window_manager::run_screen_hs_script(long)
+//.text:00AACE40 ; public: void c_window_manager::run_screen_hs_script(int32)
 //.text:00AACEA0 ; 
 //.text:00AACEC0 ; 
 //.text:00AACEF0 ; 
@@ -520,7 +520,7 @@ void c_window_manager::update(uint32 milliseconds)
 
 //.text:00AAD540 ; public: void c_window_manager::update_fade(uint32)
 //.text:00AAD670 ; 
-//.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, long)
+//.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, int32)
 //.text:00AAD8B0 ; void __cdecl window_manager_build_render_data_for_screen(rectangle2d const*, c_gui_screen_widget*, s_window_manager_screen_render_data*)
 
 c_window_manager* __cdecl window_manager_get()
@@ -532,12 +532,12 @@ c_window_manager* __cdecl window_manager_get()
 
 //.text:00AAD940 ; bool __cdecl window_manager_handle_dialog_result_message(c_dialog_result_message const*)
 
-void __cdecl window_manager_load_screen_hs(long screen_name)
+void __cdecl window_manager_load_screen_hs(int32 screen_name)
 {
 	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen_name);
 }
 
-//.text:00AADA20 ; void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data*, long, rectangle2d*, bool)
+//.text:00AADA20 ; void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data*, int32, rectangle2d*, bool)
 
 void __cdecl window_manager_reset_screens()
 {

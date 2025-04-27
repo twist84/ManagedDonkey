@@ -9,18 +9,18 @@ struct c_gui_screen_pregame_lobby_campaign :
 {
 public:
 	bool __thiscall handle_controller_input_message_(c_controller_input_message const* message);
-	bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	//void __thiscall initialize_();
 	//void __thiscall load_progress_ui_(e_controller_index controller_index);
 
-	c_gui_screen_pregame_lobby_campaign(long name) :
+	c_gui_screen_pregame_lobby_campaign(int32 name) :
 		c_gui_screen_pregame_lobby(name)
 	{
-		DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, long)(this, name);
+		DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, int32)(this, name);
 	}
 
 //protected:
-	long m_last_player_count;
+	int32 m_last_player_count;
 	e_network_session_class m_session_class;
 	s_player_identifier m_last_player_identifiers[16];
 	e_controller_index m_use_saved_game_from_controller;

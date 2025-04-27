@@ -39,7 +39,7 @@ enum e_vip_zone_movement_settings
 	k_vip_zone_movement_settings_default = _vip_zone_movement_settings_off
 };
 
-long const k_vip_zone_movement_values[k_number_of_vip_zone_movement_settings]
+int32 const k_vip_zone_movement_values[k_number_of_vip_zone_movement_settings]
 {
 	0,
 	10,

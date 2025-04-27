@@ -49,7 +49,7 @@ e_shell_application_type __cdecl shell_application_type()
 	return _shell_application_game;
 }
 
-bool __cdecl shell_build_number_is_compatible(long build_number)
+bool __cdecl shell_build_number_is_compatible(int32 build_number)
 {
 	return INVOKE(0x0042E360, shell_build_number_is_compatible, build_number);
 }
@@ -224,7 +224,7 @@ e_quality_setting quality_setting_from_string(char const* str)
 	};
 
 	e_quality_setting quality_setting = e_quality_setting(-1);
-	for (long i = _quality_setting_low; i < k_quality_setting_count; i++)
+	for (int32 i = _quality_setting_low; i < k_quality_setting_count; i++)
 	{
 		if (csstricmp(str, names[i]) != 0)
 			continue;
@@ -246,7 +246,7 @@ char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
 e_subtitle_setting subtitle_setting_from_string(char const* str)
 {
 	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
-	for (long i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
+	for (int32 i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
 	{
 		if (csstricmp(str, global_subtitle_setting_names[i]) != 0)
 			continue;
@@ -268,7 +268,7 @@ char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level diffi
 e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
 {
 	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
-	for (long i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
+	for (int32 i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
 	{
 		if (csstricmp(str, global_campaign_difficulty_level_names[i]) != 0)
 			continue;
@@ -279,7 +279,7 @@ e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* st
 	return difficulty;
 }
 
-char const* network_session_mode_get_name(long session_mode)
+char const* network_session_mode_get_name(int32 session_mode)
 {
 	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
 		return "<invalid 'network_session_mode'>";
@@ -287,7 +287,7 @@ char const* network_session_mode_get_name(long session_mode)
 	return k_network_session_mode_names[session_mode];
 }
 
-char const* ui_game_mode_get_name(long ui_game_mode)
+char const* ui_game_mode_get_name(int32 ui_game_mode)
 {
 	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_ui_game_mode_count)
 		return "<invalid 'ui_game_mode'>";
@@ -295,7 +295,7 @@ char const* ui_game_mode_get_name(long ui_game_mode)
 	return k_ui_game_mode_names[ui_game_mode];
 }
 
-char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode)
+char const* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode)
 {
 	if (advertisement_mode < _gui_network_session_advertisement_mode_open_to_public || advertisement_mode >= k_gui_network_session_advertisement_mode_count)
 		return "<invalid 'ui_game_mode'>";
@@ -303,7 +303,7 @@ char const* gui_network_session_advertisement_mode_get_name(long advertisement_m
 	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
 }
 
-char const* game_variant_parameter_get_name(long parameter)
+char const* game_variant_parameter_get_name(int32 parameter)
 {
 	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_game_variant_parameter_count)
 		return "<invalid 'parameter'>";

@@ -25,10 +25,10 @@ struct s_scenario_zone_activation
 			&& !activating_cinematic_zone_mask;
 	}
 
-	long deactivating_designer_zone_mask;
-	long activating_designer_zone_mask;
-	long deactivating_cinematic_zone_mask;
-	long activating_cinematic_zone_mask;
+	int32 deactivating_designer_zone_mask;
+	int32 activating_designer_zone_mask;
+	int32 deactivating_cinematic_zone_mask;
+	int32 activating_cinematic_zone_mask;
 };
 static_assert(sizeof(s_scenario_zone_activation) == 0x10);
 
@@ -67,15 +67,15 @@ struct _main_globals
 	bool activate_cinematic_zone_from_tag;
 	bool deactivate_cinematic_zone_from_tag;
 	//bool cleanup_loading_screen; // unused is this the still here?
-	long prepare_to_switch_to_zone_set_index;
-	long switch_to_zone_set_index;
+	int32 prepare_to_switch_to_zone_set_index;
+	int32 switch_to_zone_set_index;
 	s_scenario_zone_activation pending_zone_activation;
 
 	//uint32 cinematic_zone_group_tag;
-	//long cinematic_zone_tag_index;
+	//int32 cinematic_zone_tag_index;
 	uint8 __pad74[8]; // is this the above?
 
-	long main_loop_pregame_entered;
+	int32 main_loop_pregame_entered;
 	uint32 main_loop_pregame_last_time;
 };
 static_assert(sizeof(_main_globals) == 0x84);
@@ -93,7 +93,7 @@ public:
 	~c_tag_resources_game_lock();
 
 protected:
-	long m_resource_key;
+	int32 m_resource_key;
 };
 #define LOCAL_TAG_RESOURCE_SCOPE_LOCK c_tag_resources_game_lock __local_tag_resource_scope_lock{}
 
@@ -117,21 +117,21 @@ extern char const* const k_main_event_reason_description[k_number_of_main_reset_
 
 extern void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address);
 extern void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address);
-extern uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
+extern uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line);
 extern uint32 __cdecl audio_thread_loop(void* blah);
 extern void __cdecl main_activate_cinematic_tag_private();
-extern void __cdecl main_activate_cinematic_zone(long cinematic_zone_index);
-extern void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index);
-extern void __cdecl main_activate_designer_zone(long designer_zone_index);
-extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
+extern void __cdecl main_activate_cinematic_zone(int32 cinematic_zone_index);
+extern void __cdecl main_activate_cinematic_zone_for_debugging(int32 cinematic_zone_index);
+extern void __cdecl main_activate_designer_zone(int32 designer_zone_index);
+extern void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count);
 extern void __cdecl main_cheat_drop_tag_private();
-extern void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags);
+extern void __cdecl main_clear_global_pending_zone_activation(int32 game_state_proc_flags);
 extern void __cdecl main_crash(char const* type);
-extern e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, long data_size);
+extern e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, int32 data_size);
 extern void __cdecl main_crash_just_upload_dammit();
 extern void __cdecl main_deactivate_cinematic_tag_private();
-extern void __cdecl main_deactivate_cinematic_zone(long cinematic_zone_index);
-extern void __cdecl main_deactivate_designer_zone(long designer_zone_index);
+extern void __cdecl main_deactivate_cinematic_zone(int32 cinematic_zone_index);
+extern void __cdecl main_deactivate_designer_zone(int32 designer_zone_index);
 extern void __cdecl main_decompress_gamestate();
 extern void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool* event_flag);
 extern void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool volatile* event_flag);
@@ -171,7 +171,7 @@ extern void __cdecl main_loop_suspend();
 extern void __cdecl main_loop_status_message(wchar_t const* status_message);
 extern bool __cdecl main_menu_has_performed_startup_sequence();
 extern void __cdecl main_modify_zone_activation_private();
-extern void __cdecl main_prepare_for_switch_zone_set(long zone_set_index);
+extern void __cdecl main_prepare_for_switch_zone_set(int32 zone_set_index);
 extern void __cdecl main_prepare_to_switch_zone_set_private();
 extern void __cdecl main_print_version();
 extern void __cdecl main_reload_active_zone_set_private();
@@ -200,7 +200,7 @@ extern void __cdecl main_skip_cinematic();
 extern void __cdecl main_skip_cinematic_private();
 extern bool __cdecl main_startup_sequence();
 
-template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
+template<typename... parameters_t, int32 k_parameter_count = sizeof...(parameters_t)>
 bool main_status(char const* status_type, char const* format, parameters_t... parameters)
 {
 	return DECLFUNC(0x00506FB0, bool, __cdecl, char const*, char const*, ...)(status_type, format, parameters...);
@@ -209,8 +209,8 @@ bool main_status(char const* status_type, char const* format, parameters_t... pa
 extern void __cdecl main_status_dump(s_file_reference* file);
 extern void __cdecl main_status_print();
 extern void __cdecl main_suppress_startup_sequence();
-extern void __cdecl main_switch_bsp(long zone_set_index);
-extern void __cdecl main_switch_zone_set(long zone_set_index);
+extern void __cdecl main_switch_bsp(int32 zone_set_index);
+extern void __cdecl main_switch_zone_set(int32 zone_set_index);
 extern void __cdecl main_switch_zone_set_private();
 extern void __cdecl main_thread_combine_timing_data(void* address);
 extern void __cdecl main_thread_lock_rasterizer_and_resources();

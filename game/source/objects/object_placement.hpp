@@ -18,7 +18,7 @@ enum e_object_placement_zone_set_create_mode
 struct s_game_non_bsp_zone_set;
 struct c_scenario_resource_registry;
 
-extern bool __cdecl object_definition_can_be_placed(long object_definition_index, long model_variant_index);
+extern bool __cdecl object_definition_can_be_placed(int32 object_definition_index, int32 model_variant_index);
 extern void __cdecl object_placement_create_active_zone_set_objects(e_object_placement_zone_set_create_mode create_mode);
 extern void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool test_object_existence_before_creation);
 extern void __cdecl object_placement_dispose();

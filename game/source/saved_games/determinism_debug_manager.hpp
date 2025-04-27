@@ -5,9 +5,9 @@
 struct s_determinism_verification
 {
 	uint32 unchanged_field_mask;
-	long game_state_check;
-	long cheats_check;
-	c_static_array<long, 30> consumer_check;
+	int32 game_state_check;
+	int32 cheats_check;
+	c_static_array<int32, 30> consumer_check;
 };
 static_assert(sizeof(s_determinism_verification) == 0x84);
 

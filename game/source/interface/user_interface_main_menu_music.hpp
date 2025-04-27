@@ -24,7 +24,7 @@ public:
 	real32 fade_out_progress();
 
 private:
-	long get_music_index();
+	int32 get_music_index();
 	void handle_music_for_loading_screen();
 
 public:
@@ -43,12 +43,12 @@ private:
 
 public:
 //protected:
-	long __unknown0;
-	long m_state;
-	long m_game_shell_music_state;
-	long __unknownC;
-	long m_looping_sound_index;
-	long __unknown14;
+	int32 __unknown0;
+	int32 m_state;
+	int32 m_game_shell_music_state;
+	int32 __unknownC;
+	int32 m_looping_sound_index;
+	int32 __unknown14;
 	c_synchronized_long __unknown18;
 };
 static_assert(sizeof(c_user_interface_main_menu_music) == 0x1C);

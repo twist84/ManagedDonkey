@@ -20,16 +20,16 @@ public:
 	virtual void update();
 	virtual void render(c_font_cache_base* font_cache, point2d const& point);
 	virtual void game_render();
-	virtual void notify_selected(short selected_value);
+	virtual void notify_selected(int16 selected_value);
 	virtual void open();
 	virtual char const* get_caption();
 	virtual void notify_closed();
 	virtual void notify_activated();
 
 protected:
-	virtual long get_num_items_to_render();
+	virtual int32 get_num_items_to_render();
 	virtual void close(bool closed); // closed ? m_parent->notify_selection_closed() : m_parent->notify_selection_exited()
-	virtual short get_value_width();
+	virtual int16 get_value_width();
 	virtual void notify_selection_closed();
 	virtual void notify_selection_exited();
 	virtual void notify_up();
@@ -38,14 +38,14 @@ protected:
 	virtual void notify_right();
 
 	bool is_active_menu();
-	short get_menu_rate();
-	short get_max_active_captions();
+	int16 get_menu_rate();
+	int16 get_max_active_captions();
 
 	void render_background(c_font_cache_base* font_cache, point2d const& point);
 	void render_title(c_font_cache_base* font_cache, point2d const& point);
 	void render_caption(c_font_cache_base* font_cache, point2d const& point);
 	void render_global_caption(c_font_cache_base* font_cache, point2d const& point);
-	void render_items(c_font_cache_base* font_cache, point2d const& point, short start_index, short end_index);
+	void render_items(c_font_cache_base* font_cache, point2d const& point, int16 start_index, int16 end_index);
 
 private:
 	void try_left();
@@ -56,13 +56,13 @@ public:
 
 	void clear();
 
-	short get_num_items();
-	void set_num_items(short num_items);
+	int16 get_num_items();
+	void set_num_items(int16 num_items);
 
-	short get_selection();
-	void set_selection(short selection);
+	int16 get_selection();
+	void set_selection(int16 selection);
 
-	c_debug_menu_item* get_item(short item_index);
+	c_debug_menu_item* get_item(int16 item_index);
 	void add_item(c_debug_menu_item* item);
 
 	char const* get_name();
@@ -75,17 +75,17 @@ public:
 	bool get_enabled();
 	void set_enabled(bool enable);
 
-	short get_title_height();
-	short get_item_indent();
-	short get_item_height();
+	int16 get_title_height();
+	int16 get_item_indent();
+	int16 get_item_height();
 
 protected:
-	short m_num_items;
-	short m_selection;
-	long m_last_up;
-	long m_last_down;
-	long m_last_left;
-	long m_last_right;
+	int16 m_num_items;
+	int16 m_selection;
+	int32 m_last_up;
+	int32 m_last_down;
+	int32 m_last_left;
+	int32 m_last_right;
 	c_debug_menu_item* m_items[k_max_items];
 	char* m_name;
 	char* m_caption;

@@ -78,8 +78,8 @@ void user_interface_mouse_update_tracking()
 	GetCursorPos(&cursor_position);
 	ScreenToClient(g_windows_params.game_window_handle, &cursor_position);
 
-	long x_delta = abs(cursor_position.x - user_interface_mouse_globals.update_cursor_position.x);
-	long y_delta = abs(cursor_position.y - user_interface_mouse_globals.update_cursor_position.y);
+	int32 x_delta = abs(cursor_position.x - user_interface_mouse_globals.update_cursor_position.x);
+	int32 y_delta = abs(cursor_position.y - user_interface_mouse_globals.update_cursor_position.y);
 	user_interface_mouse_globals.update_cursor_position.x = cursor_position.x;
 	user_interface_mouse_globals.update_cursor_position.y = cursor_position.y;
 
@@ -180,12 +180,12 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
 
 	c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
-	long current_item_count = data->get_current_item_count();
+	int32 current_item_count = data->get_current_item_count();
 	if (!current_item_count)
 		return true;
 
-	long index = list_widget->m_focused_item_index - (user_interface_mouse_globals.mouse_wheel_delta / input_globals.mouse_wheel_delta);
-	long focused_item_index = index + current_item_count;
+	int32 index = list_widget->m_focused_item_index - (user_interface_mouse_globals.mouse_wheel_delta / input_globals.mouse_wheel_delta);
+	int32 focused_item_index = index + current_item_count;
 
 	if (index >= 0)
 		focused_item_index = index;
@@ -198,18 +198,18 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 	return true;
 }
 
-void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget, long scroll_amount)
+void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget, int32 scroll_amount)
 {
 	if (scroll_amount)
 	{
 		c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
-		long current_item_count = data->get_current_item_count();
+		int32 current_item_count = data->get_current_item_count();
 		if (current_item_count)
 		{
 			s_runtime_list_widget_definition* definition = (s_runtime_list_widget_definition*)list_widget->get_core_definition();
 			if (list_widget->m_scroll_position != NONE)
 			{
-				long scroll_position = list_widget->m_scroll_position + scroll_amount;
+				int32 scroll_position = list_widget->m_scroll_position + scroll_amount;
 
 				if (scroll_position > current_item_count - definition->items.count)
 					scroll_position = current_item_count - definition->items.count;
@@ -342,10 +342,10 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 		c_gui_list_widget* parent_list_widget = focused_widget->get_parent_list();
 		if (parent_list_widget && parent_list_widget->m_type == _gui_list)
 		{
-			long parent_focused_item_index = parent_list_widget->m_focused_item_index;
+			int32 parent_focused_item_index = parent_list_widget->m_focused_item_index;
 			user_interface_mouse_handle_scroll_list_widget(screen_widget, parent_list_widget, user_interface_mouse_globals.mouse_wheel_delta / -input_globals.mouse_wheel_delta);
 
-			if (short hscroll_ammount = user_interface_mouse_globals.mouse_hwheel_delta / -input_globals.mouse_wheel_delta)
+			if (int16 hscroll_ammount = user_interface_mouse_globals.mouse_hwheel_delta / -input_globals.mouse_wheel_delta)
 			{
 				point2d point = { .x = hscroll_ammount > 0 ? 0x7FFF : -0x7FFF };
 				event_manager_tab(0, user_interface_mouse_globals.controller_index, &point, user_interface_milliseconds(), _controller_component_any_stick);

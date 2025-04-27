@@ -4,8 +4,8 @@
 
 struct __declspec(align(4)) s_simulation_view_player_telemetry_data
 {
-	long absolute_player_index;
-	long controlled_entity_index;
+	int32 absolute_player_index;
+	int32 controlled_entity_index;
 	real_point3d position;
 	real_vector3d desired_aiming_vector;
 	char desired_zoom_level;
@@ -17,7 +17,7 @@ struct __declspec(align(8)) s_simulation_view_telemetry_data
 	c_simulation_view_telemetry_provider const* provider;
 	bool joining;
 	uint32 player_acknowledged_mask;
-	long number_of_players;
+	int32 number_of_players;
 	s_simulation_view_player_telemetry_data players[4];
 };
 static_assert(sizeof(s_simulation_view_telemetry_data) == 0xA0);

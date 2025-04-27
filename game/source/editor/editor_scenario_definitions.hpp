@@ -4,7 +4,7 @@
 
 struct s_scenario_editor_folder
 {
-	long parent_folder; // long_block_index
+	int32 parent_folder; // long_block_index
 
 	c_static_string<k_tag_long_string_length> name;
 };

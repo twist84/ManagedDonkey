@@ -15,9 +15,9 @@
 //	struct s_connection_outgoing_packet
 //	{
 //		uint32 timestamp;
-//		long size_on_wire;
+//		int32 size_on_wire;
 //		uint32 round_trip_msec;
-//		short unretired_window_size;
+//		int16 unretired_window_size;
 //		uint16 flags;
 //	};
 //	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
@@ -27,8 +27,8 @@
 //	c_sliding_window m_incoming_window;
 //	c_sliding_window m_outgoing_window;
 //
-//	long m_incoming_window_size_bytes;
-//	long m_outgoing_window_size_bytes;
+//	int32 m_incoming_window_size_bytes;
+//	int32 m_outgoing_window_size_bytes;
 //
 //	c_static_array<s_connection_incoming_packet, 128> m_incoming_packets;
 //	c_static_array<s_connection_outgoing_packet, 128> m_outgoing_packets;

@@ -6,9 +6,9 @@
 struct c_teleporter_area :
 	c_area
 {
-	long m_recharge_timer;
-	long m_blocked_message_delay;
-	long m_blocked_ticks;
+	int32 m_recharge_timer;
+	int32 m_blocked_message_delay;
+	int32 m_blocked_ticks;
 };
 static_assert(sizeof(c_teleporter_area) == 0x70);
 

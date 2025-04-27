@@ -21,7 +21,7 @@ protected:
 	struct
 	{
 		bool temporary_team_change_active;
-		long temporary_team_index;
+		int32 temporary_team_index;
 		uint32 lying_end_time;
 		uint32 lying_begin_time;
 	} m_temporary_team[16];

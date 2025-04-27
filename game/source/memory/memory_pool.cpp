@@ -8,26 +8,26 @@ uint32 memory_pool_handle_from_address(s_memory_pool const* pool, void const* po
 	return pointer_distance(pool, pointer);
 }
 
-long __cdecl memory_pool_block_handle_from_payload_handle(long payload_handle)
+int32 __cdecl memory_pool_block_handle_from_payload_handle(int32 payload_handle)
 {
 	return INVOKE(0x00969DB0, memory_pool_block_handle_from_payload_handle, payload_handle);
 }
 
-void* __cdecl memory_pool_get_address(s_memory_pool const* memory_pool, long payload_handle)
+void* __cdecl memory_pool_get_address(s_memory_pool const* memory_pool, int32 payload_handle)
 {
 	ASSERT(memory_pool);
 
 	return payload_handle ? (void*)offset_pointer(memory_pool, payload_handle) : NULL;
 }
 
-s_memory_pool_block* __cdecl memory_pool_get_block(s_memory_pool const* pool, long payload_handle)
+s_memory_pool_block* __cdecl memory_pool_get_block(s_memory_pool const* pool, int32 payload_handle)
 {
 	ASSERT(pool);
 
 	return (s_memory_pool_block*)memory_pool_get_address(pool, payload_handle);
 }
 
-s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool const* pool, long payload_handle)
+s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool const* pool, int32 payload_handle)
 {
 	ASSERT(payload_handle);
 
@@ -82,7 +82,7 @@ void memory_pool_block_free(s_memory_pool* pool, void const** payload_data)
 	memory_pool_block_free_handle(pool, memory_pool_handle_from_address(pool, *payload_data));
 }
 
-long __cdecl memory_pool_get_block_size(s_memory_pool* memory_pool, void const** payload_handle)
+int32 __cdecl memory_pool_get_block_size(s_memory_pool* memory_pool, void const** payload_handle)
 {
 	return INVOKE(0x0096A4E0, memory_pool_get_block_size, memory_pool, payload_handle);
 }

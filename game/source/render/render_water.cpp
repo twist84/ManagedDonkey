@@ -16,7 +16,7 @@ HOOK_DECLARE_CLASS(0x00A37000, c_water_renderer, ripple_apply);
 HOOK_DECLARE_CLASS(0x00A372B0, c_water_renderer, ripple_slope);
 HOOK_DECLARE_CLASS(0x00A37350, c_water_renderer, ripple_update);
 
-void __cdecl c_water_renderer::set_player_window(long window_index, long window_count, bool is_widescreen)
+void __cdecl c_water_renderer::set_player_window(int32 window_index, int32 window_count, bool is_widescreen)
 {
 	INVOKE(0x006041F0, c_water_renderer::set_player_window, window_index, window_count, is_widescreen);
 }
@@ -37,7 +37,7 @@ void __cdecl c_water_renderer::dispose_from_old_map()
 	INVOKE(0x00A35BA0, dispose_from_old_map);
 }
 
-//.text:00A35C40 ; public: static void __cdecl c_water_renderer::game_interation_event_add(long, real_point3d const*, real_vector3d const*, real_vector3d const*)
+//.text:00A35C40 ; public: static void __cdecl c_water_renderer::game_interation_event_add(int32, real_point3d const*, real_vector3d const*, real_vector3d const*)
 
 void __cdecl c_water_renderer::game_update()
 {
@@ -59,7 +59,7 @@ bool __cdecl c_water_renderer::is_active_ripple_exist()
 	return INVOKE(0x00A362B0, c_water_renderer::is_active_ripple_exist);
 }
 
-//.text:00A362D0 ; private: static void __cdecl c_water_renderer::render_cluster_parts(e_entry_point, long)
+//.text:00A362D0 ; private: static void __cdecl c_water_renderer::render_cluster_parts(e_entry_point, int32)
 
 void __cdecl c_water_renderer::render_shading()
 {
@@ -76,7 +76,7 @@ void __cdecl c_water_renderer::render_underwater_fog()
 	INVOKE(0x00A36580, c_water_renderer::render_underwater_fog);
 }
 
-//.text:00A36660 ; private: static void __cdecl c_water_renderer::render_water_part(s_render_geometry const*, long, long, e_entry_point, geometry_material const*)
+//.text:00A36660 ; private: static void __cdecl c_water_renderer::render_water_part(s_render_geometry const*, int32, int32, e_entry_point, geometry_material const*)
 //.text:00A36930 ; 
 
 void __cdecl c_water_renderer::ripple_add(uint32 valid_event_count)
@@ -135,7 +135,7 @@ bool __cdecl c_water_renderer::update_water_part_list()
 	return INVOKE(0x00A373F0, c_water_renderer::update_water_part_list);
 }
 
-//.text:00A37B40 ; void __cdecl water_interaction_clear_all(long)
+//.text:00A37B40 ; void __cdecl water_interaction_clear_all(int32)
 
 void c_water_renderer::frame_advance(real32 seconds_elapsed)
 {

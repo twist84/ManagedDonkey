@@ -16,7 +16,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B08A10, c_gui_player_select_screen_widget, initial
 // $TODO: reimplement `c_gui_player_select_screen_widget::handle_dialog_result`
 // $TODO: reimplement `c_gui_player_select_screen_widget::__vftable54`
 
-bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -30,18 +30,18 @@ bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, long buff
 };
 
 //bool __cdecl user_interface_get_player_rank_string(e_experience_rank rank, e_experience_grade grade, c_static_wchar_string<1024>* out_string)
-bool __cdecl user_interface_get_player_rank_string(long rank, long grade, c_static_wchar_string<1024>* out_string)
+bool __cdecl user_interface_get_player_rank_string(int32 rank, int32 grade, c_static_wchar_string<1024>* out_string)
 {
 	return INVOKE(0x00AA55F0, user_interface_get_player_rank_string, rank, grade, out_string);
 }
 
 //bool __cdecl user_interface_get_player_grade_string(e_experience_rank rank, e_experience_grade grade, bool a3, bool a4, c_static_wchar_string<1024>* out_string)
-bool __cdecl user_interface_get_player_grade_string(long rank, long grade, bool a3, bool a4, c_static_wchar_string<1024>* out_string)
+bool __cdecl user_interface_get_player_grade_string(int32 rank, int32 grade, bool a3, bool a4, c_static_wchar_string<1024>* out_string)
 {
 	return INVOKE(0x00AA5410, user_interface_get_player_grade_string, rank, grade, a3, a4, out_string);
 }
 
-bool __cdecl parse_player_rank(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_player_rank(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -55,7 +55,7 @@ bool __cdecl parse_player_rank(void* this_ptr, wchar_t* buffer, long buffer_leng
 	return false;
 };
 
-bool __cdecl parse_player_grade(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_player_grade(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -69,7 +69,7 @@ bool __cdecl parse_player_grade(void* this_ptr, wchar_t* buffer, long buffer_len
 	return false;
 };
 
-bool __cdecl parse_xp_value(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_xp_value(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -83,7 +83,7 @@ bool __cdecl parse_xp_value(void* this_ptr, wchar_t* buffer, long buffer_length)
 	return false;
 };
 
-bool __cdecl parse_skill_value(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_skill_value(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -97,7 +97,7 @@ bool __cdecl parse_skill_value(void* this_ptr, wchar_t* buffer, long buffer_leng
 	return false;
 };
 
-bool __cdecl parse_ranked_value(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_ranked_value(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -111,7 +111,7 @@ bool __cdecl parse_ranked_value(void* this_ptr, wchar_t* buffer, long buffer_len
 	return false;
 };
 
-bool __cdecl parse_social_value(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_social_value(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -125,7 +125,7 @@ bool __cdecl parse_social_value(void* this_ptr, wchar_t* buffer, long buffer_len
 	return false;
 };
 
-bool __cdecl parse_custom_value(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_custom_value(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
@@ -139,9 +139,9 @@ bool __cdecl parse_custom_value(void* this_ptr, wchar_t* buffer, long buffer_len
 	return false;
 };
 
-short game_results_get_player_from_identifier(c_game_results const* game_results, s_player_identifier const* player_identifier)
+int16 game_results_get_player_from_identifier(c_game_results const* game_results, s_player_identifier const* player_identifier)
 {
-	short player_index = 0;
+	int16 player_index = 0;
 	while (game_results->players[player_index].player_exists
 		&& csmemcmp(&game_results->players[player_index].player_identifier, player_identifier, sizeof(s_player_identifier)) != 0)
 	{
@@ -151,16 +151,16 @@ short game_results_get_player_from_identifier(c_game_results const* game_results
 	return player_index;
 }
 
-bool __cdecl parse_kills(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_kills(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 
 	//c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	//
-	//long kills = 0;
+	//int32 kills = 0;
 	//if (c_game_results const* game_results = user_interface_networking_get_final_game_results())
 	//{
-	//	short player_index = game_results_get_player_from_identifier(game_results, &this_->m_target_player_id);
+	//	int16 player_index = game_results_get_player_from_identifier(game_results, &this_->m_target_player_id);
 	//	VALID_INDEX(player_index, NUMBEROF(game_results->statistics.player));
 	//	kills = game_results->statistics.player[0].statistics[_game_results_statistic_kills].statistic & 0x7FFF;
 	//}
@@ -172,57 +172,57 @@ bool __cdecl parse_kills(void* this_ptr, wchar_t* buffer, long buffer_length)
 	//return true;
 };
 
-bool __cdecl parse_deaths(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_deaths(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_kd_ratio(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_kd_ratio(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_headshots(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_headshots(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_best_spree(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_best_spree(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_implement_name(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_implement_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_implement_count(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_implement_count(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_most_killed_name(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_most_killed_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_most_killed_count(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_most_killed_count(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_most_killed_by_name(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_most_killed_by_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_most_killed_by_count(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_most_killed_by_count(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };
 
-bool __cdecl parse_rematch_timer(void* this_ptr, wchar_t* buffer, long buffer_length)
+bool __cdecl parse_rematch_timer(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	return false;
 };

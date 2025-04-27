@@ -10,7 +10,7 @@ REFERENCE_DECLARE(0x0191C922, bool, render_debug_toggle_default_sfx);
 //bool render_debug_toggle_default_static_lighting = true;
 //bool render_debug_toggle_default_dynamic_lighting = true;
 //bool render_debug_toggle_default_sfx = true;
-long render_debug_toggle_default_lightmaps_texaccum = 0;
+int32 render_debug_toggle_default_lightmaps_texaccum = 0;
 bool render_debug_infinite_framerate = false;
 bool g_last_render_debug_infinite_framerate = false;
 

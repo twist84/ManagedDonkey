@@ -9,7 +9,7 @@ struct c_screenshots_uploader
 public:
 	//c_screenshots_uploader();
 	//~c_screenshots_uploader();
-	//bool begin_screenshot_upload(e_controller_index controller_index, long content_item_index, s_file_reference const* file_reference, long game_id);
+	//bool begin_screenshot_upload(e_controller_index controller_index, int32 content_item_index, s_file_reference const* file_reference, int32 game_id);
 	//void cancel_upload();
 	//void dispose();
 
@@ -35,12 +35,12 @@ private:
 public:
 	c_http_post_source m_http_post_source;
 	c_http_stored_buffer_downloader<1024> m_http_uploader;
-	long : 32; // pad for `c_http_stored_buffer_downloader` this shouldn't be needed
-	c_enum<e_controller_index, long, _controller0, k_number_of_controllers> m_controller_index;
-	long m_screenshots_uploader_task;
-	long m_screenshot_upload_time;
+	int32 : 32; // pad for `c_http_stored_buffer_downloader` this shouldn't be needed
+	c_enum<e_controller_index, int32, _controller0, k_number_of_controllers> m_controller_index;
+	int32 m_screenshots_uploader_task;
+	int32 m_screenshot_upload_time;
 	c_url_string m_screenshots_uploader_url;
-	long m_content_item_index;
+	int32 m_content_item_index;
 	s_file_reference m_screenshot_file;
 	bool m_progress_spinner_active;
 };

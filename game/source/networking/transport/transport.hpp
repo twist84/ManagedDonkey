@@ -10,7 +10,7 @@ struct s_transport_globals
 	bool winsock_initialized;
 	bool is_started;
 	bool is_wireless;
-	long transition_function_count;
+	int32 transition_function_count;
 	transport_startup_function_t startup_functions[8];
 	transport_shutdown_function_t shutdown_functions[8];
 	transport_reset_function_t reset_functions[8];
@@ -22,8 +22,8 @@ extern s_transport_globals& transport_globals;
 
 extern bool __cdecl transport_available();
 extern void __cdecl transport_dispose();
-extern long __cdecl transport_get_packet_maximum_payload(long type);
-extern long __cdecl transport_get_packet_overhead(long type);
+extern int32 __cdecl transport_get_packet_maximum_payload(int32 type);
+extern int32 __cdecl transport_get_packet_overhead(int32 type);
 extern void __cdecl transport_global_update();
 extern void __cdecl transport_initialize();
 extern bool __cdecl transport_network_available();

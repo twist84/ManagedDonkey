@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-const long k_maximum_number_of_objectives = 10;
+const int32 k_maximum_number_of_objectives = 10;
 
 enum e_objective_state
 {

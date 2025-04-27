@@ -6,7 +6,7 @@
 void s_saved_game_item_metadata::byteswap()
 {
 	bswap_qword_inplace(unique_id);
-	for (long i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
+	for (int32 i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
 	bswap_dword_inplace(file_type);
 	ASSERT(array_is_zeroed(pad0));
 	bswap_qword_inplace(author_id);
@@ -30,9 +30,9 @@ void s_saved_game_item_metadata::decode(c_bitstream* packet)
 {
 	//INVOKE_CLASS_MEMBER(0x00523FE0, s_saved_game_item_metadata, decode, packet);
 
-	long const k_name_size = NUMBEROF(name);
-	long const k_description_size = NUMBEROF(description);
-	long const k_author_size = NUMBEROF(author);
+	int32 const k_name_size = NUMBEROF(name);
+	int32 const k_description_size = NUMBEROF(description);
+	int32 const k_author_size = NUMBEROF(author);
 
 	unique_id = packet->read_qword("unique-id", 64);
 	packet->read_string_wchar("name", name, k_name_size);
@@ -59,15 +59,15 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 
 	ASSERT(is_valid());
 
-	long const k_name_size = NUMBEROF(name);
-	long const k_description_size = NUMBEROF(description);
-	long const k_author_size = NUMBEROF(author);
+	int32 const k_name_size = NUMBEROF(name);
+	int32 const k_description_size = NUMBEROF(description);
+	int32 const k_author_size = NUMBEROF(author);
 
 	packet->write_qword("unique-id", unique_id, 64);
 	packet->write_string_wchar("name", name, k_name_size);
 	packet->write_string_utf8("description", description, k_description_size);
 	packet->write_string("author", author, k_author_size);
-	packet->write_integer("file-type", static_cast<long>(file_type) + 1, 5);
+	packet->write_integer("file-type", static_cast<int32>(file_type) + 1, 5);
 	packet->write_bool("author-is-xuid-online", author_is_xuid_online);
 	packet->write_qword("author-xuid", author_id, 64);
 	packet->write_qword("size-in-bytes", size_in_bytes, 64);
@@ -84,9 +84,9 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 
 void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 {
-	long const k_name_size = NUMBEROF(name);
-	long const k_description_size = NUMBEROF(description);
-	long const k_author_size = NUMBEROF(author);
+	int32 const k_name_size = NUMBEROF(name);
+	int32 const k_description_size = NUMBEROF(description);
+	int32 const k_author_size = NUMBEROF(author);
 
 	unique_id = packet->read_qword("unique-id", 64);
 	packet->read_string_wchar("name", name, k_name_size);
@@ -110,15 +110,15 @@ void s_saved_game_item_metadata::encode_to_mcc(c_bitstream* packet) const
 {
 	ASSERT(is_valid());
 
-	long const k_name_size = NUMBEROF(name);
-	long const k_description_size = NUMBEROF(description);
-	long const k_author_size = NUMBEROF(author);
+	int32 const k_name_size = NUMBEROF(name);
+	int32 const k_description_size = NUMBEROF(description);
+	int32 const k_author_size = NUMBEROF(author);
 
 	packet->write_qword("unique-id", unique_id, 64);
 	packet->write_string_wchar("name", name, k_name_size);
 	packet->write_string_utf8("description", description, k_description_size);
 	packet->write_string("author", author, k_author_size);
-	packet->write_integer("file-type", static_cast<long>(file_type) + 1, 5);
+	packet->write_integer("file-type", static_cast<int32>(file_type) + 1, 5);
 	packet->write_bool("author-is-xuid-online", author_is_xuid_online);
 	packet->write_qword("author-xuid", author_id, 64);
 	packet->write_qword("size-in-bytes", size_in_bytes, 64);

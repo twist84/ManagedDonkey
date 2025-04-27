@@ -5,20 +5,20 @@
 struct c_candy_spawner
 {
 	char m_flags;
-	long m_map_variant_index;
-	long m_last_object_spawned_index;
-	short m_respawn_timer_seconds;
-	short pad;
+	int32 m_map_variant_index;
+	int32 m_last_object_spawned_index;
+	int16 m_respawn_timer_seconds;
+	int16 pad;
 };
 static_assert(sizeof(c_candy_spawner) == 0x10);
 
 struct c_candy_monitor
 {
-	long m_spawned_object_index;
-	short m_abandoned_seconds;
+	int32 m_spawned_object_index;
+	int16 m_abandoned_seconds;
 	bool m_disturbed_from_initial_placement;
 	bool m_pad[3];
-	short m_abandonment_timeout;
+	int16 m_abandonment_timeout;
 };
 static_assert(sizeof(c_candy_monitor) == 0xC);
 
@@ -38,21 +38,21 @@ static_assert(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
 
 extern bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real32 sphere_radius, real32 distance);
 extern void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority();
-extern bool __cdecl game_engine_object_being_used(long object_index);
-extern bool __cdecl game_engine_object_has_been_abandoned(long object_index);
-extern bool __cdecl game_engine_object_has_been_disturbed(long object_index);
-extern bool __cdecl game_engine_object_can_be_damaged(long object_index);
-extern bool __cdecl game_engine_object_is_item_in_inventory(long object_index);
-extern bool __cdecl game_engine_object_is_useless_weapon(long object_index);
-extern bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, real_point3d const* sphere_center, real32 sphere_radius);
+extern bool __cdecl game_engine_object_being_used(int32 object_index);
+extern bool __cdecl game_engine_object_has_been_abandoned(int32 object_index);
+extern bool __cdecl game_engine_object_has_been_disturbed(int32 object_index);
+extern bool __cdecl game_engine_object_can_be_damaged(int32 object_index);
+extern bool __cdecl game_engine_object_is_item_in_inventory(int32 object_index);
+extern bool __cdecl game_engine_object_is_useless_weapon(int32 object_index);
+extern bool __cdecl game_engine_player_is_looking_at_sphere(int32 player_index, real_point3d const* sphere_center, real32 sphere_radius);
 extern bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real32 radius);
-extern void __cdecl game_engine_register_object(long object_index);
-extern long __cdecl game_engine_remap_vehicle_definition_index(long vehicle_definition_index);
-extern long __cdecl game_engine_remap_weapon_definition_index(long weapon_definition_index);
-extern void __cdecl game_engine_unregister_map_variant_object(long map_variant_index);
-extern void __cdecl game_engine_unregister_object(long object_index);
-extern bool __cdecl game_engine_vehicle_has_passengers(long object_index);
-extern long __cdecl object_get_respawn_time_seconds(long object_index);
-extern long __cdecl scenario_object_get_abandonment_time_seconds(long object_index);
-extern bool __cdecl scenario_object_is_significant(e_object_type object_type, long scenario_datum_index);
+extern void __cdecl game_engine_register_object(int32 object_index);
+extern int32 __cdecl game_engine_remap_vehicle_definition_index(int32 vehicle_definition_index);
+extern int32 __cdecl game_engine_remap_weapon_definition_index(int32 weapon_definition_index);
+extern void __cdecl game_engine_unregister_map_variant_object(int32 map_variant_index);
+extern void __cdecl game_engine_unregister_object(int32 object_index);
+extern bool __cdecl game_engine_vehicle_has_passengers(int32 object_index);
+extern int32 __cdecl object_get_respawn_time_seconds(int32 object_index);
+extern int32 __cdecl scenario_object_get_abandonment_time_seconds(int32 object_index);
+extern bool __cdecl scenario_object_is_significant(e_object_type object_type, int32 scenario_datum_index);
 

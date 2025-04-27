@@ -26,22 +26,22 @@ struct c_window_manager
 	c_gui_screen_widget* m_screen_array[5][k_maximum_number_of_channels_per_render_window];
 	c_synchronized_long m_current_channel_count[5];
 	rectangle2d m_last_known_viewport_bounds[5];
-	long m_had_ui_frames_ago[4];
-	long m_hs_thread_index;
+	int32 m_had_ui_frames_ago[4];
+	int32 m_hs_thread_index;
 	real32 m_fade_amount;
 	bool m_fade_in;
 	bool m_fade_out_and_quit_campaign;
 	bool __unknown126;
 	uint8 __unknown127;
 
-	c_gui_screen_widget* allocate_codeless_screen(long screen_name);
-	c_gui_screen_widget* allocate_named_screen(long screen_name);
+	c_gui_screen_widget* allocate_codeless_screen(int32 screen_name);
+	c_gui_screen_widget* allocate_named_screen(int32 screen_name);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
-	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, long window_index);
-	static long __cdecl locate_screen_definition_tag_by_name(long name);
-	static bool __cdecl named_screen_defined_in_code(long screen_name);
+	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index);
+	static int32 __cdecl locate_screen_definition_tag_by_name(int32 name);
+	static bool __cdecl named_screen_defined_in_code(int32 screen_name);
 	void update(uint32 milliseconds);
 };
 static_assert(sizeof(c_window_manager) == 0x128);
@@ -49,5 +49,5 @@ static_assert(sizeof(c_window_manager) == 0x128);
 extern c_window_manager& g_window_manager;
 
 extern c_window_manager* __cdecl window_manager_get();
-extern void __cdecl window_manager_load_screen_hs(long screen_name);
+extern void __cdecl window_manager_load_screen_hs(int32 screen_name);
 extern void __cdecl window_manager_reset_screens();

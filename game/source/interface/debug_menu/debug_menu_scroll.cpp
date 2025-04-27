@@ -15,13 +15,13 @@ void c_debug_menu_scroll::update()
 
 	if (get_selection() + 1 >= get_first() + get_num_visible())
 	{
-		short v3 = get_num_items();
+		int16 v3 = get_num_items();
 		if (v3 <= get_num_visible())
 			v3 = get_num_visible();
 
 		if (get_first() + 1 >= v3 - get_num_visible())
 		{
-			short v5 = get_num_items();
+			int16 v5 = get_num_items();
 			if (v5 <= get_num_visible())
 				v5 = get_num_visible();
 
@@ -85,7 +85,7 @@ void c_debug_menu_scroll::open()
 	set_first(0);
 }
 
-long c_debug_menu_scroll::get_num_items_to_render()
+int32 c_debug_menu_scroll::get_num_items_to_render()
 {
 	if (get_num_items() <= get_num_visible())
 		return get_num_items();
@@ -93,31 +93,31 @@ long c_debug_menu_scroll::get_num_items_to_render()
 	return get_num_visible();
 }
 
-c_debug_menu_scroll::c_debug_menu_scroll(c_debug_menu* parent, short num_visible, char const* name) :
+c_debug_menu_scroll::c_debug_menu_scroll(c_debug_menu* parent, int16 num_visible, char const* name) :
 	c_debug_menu(parent, name)
 {
 	set_num_visible(num_visible);
 	set_first(0);
 }
 
-short c_debug_menu_scroll::get_num_visible()
+int16 c_debug_menu_scroll::get_num_visible()
 {
 	return m_num_visible;
 }
 
-short c_debug_menu_scroll::get_first()
+int16 c_debug_menu_scroll::get_first()
 {
 	return m_first;
 }
 
-void c_debug_menu_scroll::set_num_visible(short num_visible)
+void c_debug_menu_scroll::set_num_visible(int16 num_visible)
 {
 	ASSERT(num_visible >= 0);
 
 	m_num_visible = num_visible;
 }
 
-void c_debug_menu_scroll::set_first(short first)
+void c_debug_menu_scroll::set_first(int16 first)
 {
 	ASSERT(first >= 0 && first <= FLOOR(get_num_items(), get_num_visible()) - get_num_visible());
 

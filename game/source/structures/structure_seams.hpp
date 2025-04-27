@@ -13,13 +13,13 @@ struct s_seam_mapping
 	struct s_seam_cluster_mapping
 	{
 		real_point3d cluster_center;
-		short cluster_indices[2];
-		short cluster_mapping_indices[2];
+		int16 cluster_indices[2];
+		int16 cluster_mapping_indices[2];
 	};
 	static_assert(sizeof(s_seam_cluster_mapping) == 0x14);
 
 	char structure_bsp_indices[2];
-	short cluster_count;
+	int16 cluster_count;
 	c_static_array<s_seam_cluster_mapping, 32> clusters;
 };
 static_assert(sizeof(s_seam_mapping) == 0x284);
@@ -40,5 +40,5 @@ extern void __cdecl structure_seams_dispose_from_old_map();
 extern void __cdecl structure_seams_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
 extern void __cdecl structure_seams_initialize();
 extern void __cdecl structure_seams_initialize_for_new_map();
-extern void __cdecl structure_seams_initialize_for_new_structure_bsp(long scenario_index, s_structure_seams const* structure_seams, uint32 new_structure_bsp_mask);
+extern void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uint32 new_structure_bsp_mask);
 

@@ -11,7 +11,7 @@ struct s_netdebug_upload_task
 	bool active;
 	c_static_string<256> __string4;
 
-	void(__cdecl* update_proc)(long upload_position, long upload_length);
+	void(__cdecl* update_proc)(int32 upload_position, int32 upload_length);
 	void(__cdecl* completion_proc)(bool succeeded, void* data);
 	void* completion_data;
 
@@ -34,7 +34,7 @@ struct s_netdebug_globals
 	c_http_post_stream http_post_stream;
 	c_http_client http_client;
 
-	short task_fails;
+	int16 task_fails;
 
 	s_netdebug_upload_task current_task;
 	c_static_array<s_netdebug_upload_task, 10> task_queue;
@@ -73,10 +73,10 @@ extern void __cdecl netdebug_process_next_task();
 extern bool __cdecl netdebug_queue_task(s_netdebug_upload_task const* task);
 extern void __cdecl netdebug_set_sessionid(char const* sessionid);
 extern uint32 __cdecl netdebug_thread_function(void* thread_parameter);
-extern void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long upload_position, long upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data);
+extern void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(int32 upload_position, int32 upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data);
 extern void __cdecl remove_current_task(bool succeeded);
 extern void __cdecl netdebug_set_system_version();
 extern void __cdecl netdebug_set_xtl_version();
-extern bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, long seconds, s_netdebug_upload_task const* task);
+extern bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, int32 seconds, s_netdebug_upload_task const* task);
 extern void __cdecl create_session_description();
 

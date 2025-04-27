@@ -6,7 +6,7 @@
 bool error_geometry_object_enabled = false;
 bool render_debug_safe_frame_bounds = false;
 
-void __cdecl render_report_render_debug(long user_index, bool draw_environment_error)
+void __cdecl render_report_render_debug(int32 user_index, bool draw_environment_error)
 {
 	//if (render_debug_drawing_active())
 	//{

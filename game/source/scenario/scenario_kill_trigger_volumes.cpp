@@ -10,7 +10,7 @@
 //.text:0068C2E0 ; 
 //.text:0068C310 ; 
 
-void __cdecl scenario_kill_trigger_volume_disable(long trigger_volume_index)
+void __cdecl scenario_kill_trigger_volume_disable(int32 trigger_volume_index)
 {
 	//INVOKE(0x0068C350, scenario_kill_trigger_volume_disable, trigger_volume_index);
 
@@ -34,7 +34,7 @@ void __cdecl scenario_kill_trigger_volume_disable(long trigger_volume_index)
 	}
 }
 
-void __cdecl scenario_kill_trigger_volume_enable(long trigger_volume_index)
+void __cdecl scenario_kill_trigger_volume_enable(int32 trigger_volume_index)
 {
 	//INVOKE(0x0068C3B0, scenario_kill_trigger_volume_enable, trigger_volume_index);
 
@@ -58,7 +58,7 @@ void __cdecl scenario_kill_trigger_volume_enable(long trigger_volume_index)
 	}
 }
 
-bool __cdecl scenario_kill_trigger_volume_test_object(long object_index, bool* a2)
+bool __cdecl scenario_kill_trigger_volume_test_object(int32 object_index, bool* a2)
 {
 	return INVOKE(0x0068C410, scenario_kill_trigger_volume_test_object, object_index, a2);
 }

@@ -73,12 +73,12 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, u
 	user_interface_controller_input_event_submit(&event);
 }
 
-void __cdecl event_manager_tab_fix_for_double_press(long gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
+void __cdecl event_manager_tab_fix_for_double_press(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
 {
 }
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab_fix_for_double_press);
 
-void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
+void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component)
 {
 	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, vector, now, component);
 }
@@ -135,12 +135,12 @@ s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_
 
 //.text:00A94440 ; bool __cdecl user_interface_controller_get_autolevel_enabled(e_controller_index)
 //.text:00A94480 ; c_flags<e_bungienet_user_flags, uint16, 16> __cdecl user_interface_controller_get_bungienet_user(e_controller_index)
-//.text:00A944A0 ; e_controller_index __cdecl user_interface_controller_get_controller_for_user(long)
+//.text:00A944A0 ; e_controller_index __cdecl user_interface_controller_get_controller_for_user(int32)
 //.text:00A94500 ; bool __cdecl user_interface_controller_get_extras_portal_debug(e_controller_index)
 //.text:00A94520 ; e_controller_index __cdecl user_interface_controller_get_first_xbox_live_signed_in_non_guest()
 //.text:00A94570 ; bool __cdecl user_interface_controller_get_griefer(e_controller_index, bool)
 //.text:00A94590 ; uint8 __cdecl user_interface_controller_get_hopper_access(e_controller_index)
-//.text:00A945B0 ; short __cdecl user_interface_controller_get_live_account_controllers_mask()
+//.text:00A945B0 ; int16 __cdecl user_interface_controller_get_live_account_controllers_mask()
 //.text:00A94630 ; e_controller_index __cdecl user_interface_controller_get_next_controller(e_controller_index)
 //.text:00A94680 ; bool __cdecl user_interface_controller_get_notification_pending(e_controller_index)
 
@@ -152,13 +152,13 @@ bool __cdecl user_interface_controller_get_player_configuration(e_controller_ind
 //.text:00A94780 ; wchar_t const* __cdecl user_interface_controller_get_player_profile_name(e_controller_index)
 //.text:00A947C0 ; user_interface_controller_get_? // offset 0x6
 //.text:00A947E0 ; bool __cdecl user_interface_controller_get_rumble_enabled(e_controller_index)
-//.text:00A947F0 ; short __cdecl user_interface_controller_get_signed_in_controller_count()
-//.text:00A94860 ; short __cdecl user_interface_controller_get_signed_in_controllers_mask()
-//.text:00A948F0 ; short __cdecl user_interface_controller_get_signed_in_live_account_count()
-//.text:00A94930 ; short __cdecl user_interface_controller_get_signed_in_master_live_account_count()
-//.text:00A94980 ; short __cdecl user_interface_controller_get_signed_in_non_guest_controller_count()
-//.text:00A94A00 ; long __cdecl user_interface_controller_get_desired_team_index(e_controller_index)
-//.text:00A94A30 ; long __cdecl user_interface_controller_get_user_index(e_controller_index)
+//.text:00A947F0 ; int16 __cdecl user_interface_controller_get_signed_in_controller_count()
+//.text:00A94860 ; int16 __cdecl user_interface_controller_get_signed_in_controllers_mask()
+//.text:00A948F0 ; int16 __cdecl user_interface_controller_get_signed_in_live_account_count()
+//.text:00A94930 ; int16 __cdecl user_interface_controller_get_signed_in_master_live_account_count()
+//.text:00A94980 ; int16 __cdecl user_interface_controller_get_signed_in_non_guest_controller_count()
+//.text:00A94A00 ; int32 __cdecl user_interface_controller_get_desired_team_index(e_controller_index)
+//.text:00A94A30 ; int32 __cdecl user_interface_controller_get_user_index(e_controller_index)
 //.text:00A94A50 ; void __cdecl user_interface_controller_initialize()
 
 void __cdecl user_interface_controller_input_event_submit(s_event_record* event)
@@ -211,7 +211,7 @@ void __cdecl user_interface_controller_reset(e_controller_index controller_index
 //.text:00A94E70 ; void __cdecl user_interface_controller_set_notification_pending(e_controller_index, bool)
 //.text:00A94E90 ; user_interface_controller_set_? // offset 0x6
 
-void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, long user_index)
+void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, int32 user_index)
 {
 	INVOKE(0x00A94EC0, user_interface_controller_set_user_index, controller_index, user_index);
 }
@@ -233,7 +233,7 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 	//INVOKE(0x00A95170, user_interface_controller_update_network_properties, controller_index);
 
 	c_controller_interface const* controller_interface = controller_get(controller_index);
-	short user_index = controller_interface->get_user_index();
+	int16 user_index = controller_interface->get_user_index();
 	if (user_index != NONE && network_session_interface_local_user_exists(user_index))
 	{
 		s_player_configuration player_data;
@@ -263,8 +263,8 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 //.text:00A95280 ; bool __cdecl user_interface_controller_xbox_live_is_guest_account(e_controller_index)
 //.text:00A952A0 ; void __cdecl user_interface_controllers_perform_storage_device_selection_checks()
 //.text:00A95300 ; void __cdecl user_interface_get_last_campaign_level(e_campaign_id*, e_map_id*)
-//.text:00A95340 ; char* __cdecl user_interface_get_last_campaign_level_path(char*, long)
-//.text:00A953D0 ; long __cdecl user_interface_get_player_last_used_hopper(e_controller_index)
+//.text:00A95340 ; char* __cdecl user_interface_get_last_campaign_level_path(char*, int32)
+//.text:00A953D0 ; int32 __cdecl user_interface_get_player_last_used_hopper(e_controller_index)
 //.text:00A95420 ; void __cdecl user_interface_queue_event(s_event_record*)
 //.text:00A95460 ; void __cdecl user_interface_set_last_campaign_level(e_campaign_id, e_map_id)
 //.text:00A95520 ; void __cdecl user_interface_set_player_last_used_hopper(e_controller_index, uint16)

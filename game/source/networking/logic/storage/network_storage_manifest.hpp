@@ -13,16 +13,16 @@ static_assert(sizeof(s_online_file) == 0x64);
 
 struct s_online_file_manifest
 {
-	long file_count;
+	int32 file_count;
 	s_online_file files[128];
 };
 static_assert(sizeof(s_online_file_manifest) == 0x3204);
 
 struct s_network_storage_manifest_untracked_entry
 {
-	long state;
+	int32 state;
 	s_online_file online_file;
-	long __time68;
+	int32 __time68;
 };
 static_assert(sizeof(s_network_storage_manifest_untracked_entry) == 0x6C);
 
@@ -39,10 +39,10 @@ public:
 	void update();
 
 //protected:
-	long m_next_refresh_time_milliseconds;
+	int32 m_next_refresh_time_milliseconds;
 	s_online_file_manifest* m_manifest;
 	bool m_manifest_download_error;
-	long m_manifest_entry_last_download_time[128];
+	int32 m_manifest_entry_last_download_time[128];
 	c_http_blf_simple_downloader<s_online_file_manifest, 15009> m_online_file_manifest_downloader;
 	s_network_storage_manifest_untracked_entry m_untracked_entries[32];
 };

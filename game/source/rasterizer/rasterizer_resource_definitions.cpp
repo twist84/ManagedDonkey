@@ -21,7 +21,7 @@ IDirect3DVertexDeclaration9* c_vertex_declaration_table::get_d3d_vertex_declarat
     return m_vertex_declarations[base_vertex_type][lighting_vertex_type][transfer_vertex_type];
 }
 
-IDirect3DVertexDeclaration9* c_vertex_declaration_table::get_d3d_vertex_declaration_by_entry_point(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, long entry_point)
+IDirect3DVertexDeclaration9* c_vertex_declaration_table::get_d3d_vertex_declaration_by_entry_point(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, int32 entry_point)
 {
     //return INVOKE(0x00A72150, get_d3d_vertex_declaration_by_entry_point, base_vertex_type, transfer_vertex_type, entry_point);
 
@@ -52,7 +52,7 @@ IDirect3DVertexDeclaration9* c_vertex_declaration_table::get_d3d_vertex_declarat
     return get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vertex_none);
 }
 
-bool __cdecl c_vertex_declaration_table::set(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, long entry_point)
+bool __cdecl c_vertex_declaration_table::set(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, int32 entry_point)
 {
     return INVOKE(0x00A729B0, set, base_vertex_type, transfer_vertex_type, entry_point);
 

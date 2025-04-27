@@ -66,7 +66,7 @@ s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, c
 	return result;
 }
 
-void __cdecl build_networking_buffer_for_log(char*, long)
+void __cdecl build_networking_buffer_for_log(char*, int32)
 {
 
 }
@@ -357,7 +357,7 @@ s_event_category_default_configuration const g_log_events[]
 struct s_event_spamming_list_add_result
 {
 	uint32 last_spam_time;
-	long hit_count;
+	int32 hit_count;
 };
 
 void events_clear()
@@ -396,7 +396,7 @@ void events_debug_render()
 	draw_string.set_bounds(&bounds);
 
 	bool first_event = true;
-	for (long i = 0; i < event_globals.spamming_event_list.get_count(); i++)
+	for (int32 i = 0; i < event_globals.spamming_event_list.get_count(); i++)
 	{
 		s_spamming_event& spamming_event = event_globals.spamming_event_list[i];
 
@@ -436,17 +436,17 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.permitted_thread_bits, get_current_thread_index());
 }
 
-long event_parse_categories(char const* event_name, long max_categories, long category_name_max_length, char(*category_names)[64])
+int32 event_parse_categories(char const* event_name, int32 max_categories, int32 category_name_max_length, char(*category_names)[64])
 {
 	char const* category_substring = event_name;
-	long category_index = 0;
-	long category_count = 0;
+	int32 category_index = 0;
+	int32 category_count = 0;
 	bool succeeded = false;
 	bool failed = false;
 	do
 	{
 		char const* category_name = category_substring;
-		long category_name_length = 0;
+		int32 category_name_length = 0;
 		bool category_found = false;
 		do
 		{
@@ -509,22 +509,22 @@ long event_parse_categories(char const* event_name, long max_categories, long ca
 	return category_index;
 }
 
-s_event_category* event_category_get(long category_index)
+s_event_category* event_category_get(int32 category_index)
 {
 	return &event_globals.categories[category_index];
 }
 
-long event_find_category_recursive(long parent_category_index, bool create_category, long category_count, char(*category_names)[64])
+int32 event_find_category_recursive(int32 parent_category_index, bool create_category, int32 category_count, char(*category_names)[64])
 {
 	while (true)
 	{
 		char const* category_name = category_names[0];
-		long category_index = parent_category_index;
+		int32 category_index = parent_category_index;
 
 		ASSERT(category_count > 0);
 		ASSERT(csstrnlen(category_names[0], NUMBEROF(category_names[0])) > 0);
 
-		long next_category_index = NONE;
+		int32 next_category_index = NONE;
 		g_event_read_write_lock.read_lock();
 		
 		ASSERT(category_index != NONE);
@@ -549,7 +549,7 @@ long event_find_category_recursive(long parent_category_index, bool create_categ
 			g_event_read_write_lock.write_lock();
 
 			s_event_category* _RDI = NULL;
-			long category_index_ = event_globals.category_count;
+			int32 category_index_ = event_globals.category_count;
 			if (event_globals.category_count < 1024
 				&& (next_category_index = event_globals.category_count++,
 					(_RDI = event_category_get(category_index_)) != NULL))
@@ -594,7 +594,7 @@ long event_find_category_recursive(long parent_category_index, bool create_categ
 	}
 }
 
-long event_find_category(bool create_category, long category_count, char(*category_names)[64])
+int32 event_find_category(bool create_category, int32 category_count, char(*category_names)[64])
 {
 	if (category_count > 0)
 		return event_find_category_recursive(0, create_category, category_count, category_names);
@@ -602,13 +602,13 @@ long event_find_category(bool create_category, long category_count, char(*catego
 	return 0;
 }
 
-long event_category_from_name(char const* event_name, bool create_category)
+int32 event_category_from_name(char const* event_name, bool create_category)
 {
 	ASSERT(event_name);
 
 	char categories[8][64]{};
 
-	long category_count = event_parse_categories(event_name, 8, 64, categories);
+	int32 category_count = event_parse_categories(event_name, 8, 64, categories);
 	if (category_count > 0)
 		return event_find_category(create_category, category_count, categories);
 
@@ -637,10 +637,10 @@ void event_initialize_categories()
 	category->event_listeners = 0;
 	event_globals.category_count++;
 
-	for (long i = 0; i < NUMBEROF(g_log_events); i++)
+	for (int32 i = 0; i < NUMBEROF(g_log_events); i++)
 	{
 		s_event_category_default_configuration const* log_event = &g_log_events[i];
-		long category_index = event_category_from_name(log_event->name, true);
+		int32 category_index = event_category_from_name(log_event->name, true);
 		s_event_category* next_category = event_category_get(category_index);
 		next_category->current_display_level = log_event->initial_display_level;
 		next_category->current_display_color = log_event->initial_display_color;
@@ -714,9 +714,9 @@ void __cdecl events_initialize()
 	event(_event_message, "lifecycle: events initalize");
 }
 
-long __cdecl event_interlocked_compare_exchange(long volatile* destination, long exchange, long comperand)
+int32 __cdecl event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand)
 {
-	return (long)_InterlockedCompareExchange(destination, exchange, comperand);
+	return (int32)_InterlockedCompareExchange(destination, exchange, comperand);
 }
 
 void event_logs_flush()
@@ -725,7 +725,7 @@ void event_logs_flush()
 	//	flush_event_log_cache();
 }
 
-c_event::c_event(e_event_level event_level, long event_category_index, uint32 event_response_suppress_flags) :
+c_event::c_event(e_event_level event_level, int32 event_category_index, uint32 event_response_suppress_flags) :
 	m_event_level(event_level),
 	m_event_category_index(event_category_index),
 	m_event_response_suppress_flags(event_response_suppress_flags)
@@ -737,7 +737,7 @@ bool c_event::query()
 	return event_thread_query() && event_level_query(m_event_level);
 }
 
-uint32 event_query(e_event_level event_level, long category_index, uint32 event_response_suppress_flags)
+uint32 event_query(e_event_level event_level, int32 category_index, uint32 event_response_suppress_flags)
 {
 	ASSERT(g_events_initialized);
 
@@ -789,10 +789,10 @@ void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_ad
 	ASSERT(event_text);
 	ASSERT(result_out);
 
-	long event_index = NONE;
+	int32 event_index = NONE;
 	bool event_exists = false;
 
-	for (long i = 0; i < event_globals.spamming_event_list.get_count(); i++)
+	for (int32 i = 0; i < event_globals.spamming_event_list.get_count(); i++)
 	{
 		s_spamming_event* spamming_event = &event_globals.spamming_event_list[i];
 		if (spamming_event->valid)
@@ -822,7 +822,7 @@ void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_ad
 	}
 }
 
-uint32 event_update_spam_prevention(uint32 response_flags, e_event_level event_level, long category_index, char const* event_text)
+uint32 event_update_spam_prevention(uint32 response_flags, e_event_level event_level, int32 category_index, char const* event_text)
 {
 	if (event_globals.enable_spam_suppression
 		&& event_level != _event_critical
@@ -859,13 +859,13 @@ bool console_update_spam_prevention(e_event_level event_level)
 	if (!event_globals.enable_spam_suppression || event_level == _event_critical)
 		return false;
 
-	long current_time = (long)system_milliseconds();
-	long last_check_time = event_globals.console_suppression_old_line_check_time;
+	int32 current_time = (int32)system_milliseconds();
+	int32 last_check_time = event_globals.console_suppression_old_line_check_time;
 	
 	if (!event_globals.console_suppression_count)
 		last_check_time = current_time;
 
-	long new_suppression_count = event_globals.console_suppression_count + 1;
+	int32 new_suppression_count = event_globals.console_suppression_count + 1;
 	event_globals.console_suppression_old_line_check_time = last_check_time;
 	event_globals.console_suppression_count = new_suppression_count;
 
@@ -907,7 +907,7 @@ bool console_update_spam_prevention(e_event_level event_level)
 	return true;
 }
 
-void write_to_console(e_event_level event_level, long category_index, char const* string)
+void write_to_console(e_event_level event_level, int32 category_index, char const* string)
 {
 	enum
 	{
@@ -949,13 +949,13 @@ void write_to_console(e_event_level event_level, long category_index, char const
 		csstrnzcat(buffer, "\r\n", 1027);
 		g_event_read_write_lock.write_lock();
 
-		short new_size = (short)csstrnlen(buffer, sizeof(buffer)-1);
-		short message_buffer_size = event_globals.message_buffer_size;
+		int16 new_size = (int16)csstrnlen(buffer, sizeof(buffer)-1);
+		int16 message_buffer_size = event_globals.message_buffer_size;
 
 		if (message_buffer_size + new_size >= k_error_message_buffer_maximum_size)
 		{
-			short new_position = 0;
-			short calculated_size = new_size + 1058;
+			int16 new_position = 0;
+			int16 calculated_size = new_size + 1058;
 
 			if (calculated_size > 0)
 			{
@@ -970,11 +970,11 @@ void write_to_console(e_event_level event_level, long category_index, char const
 			}
 
 			char* newline_pos = strchr(&event_globals.message_buffer[new_position], '\n');
-			short chars_to_keep = newline_pos ?
+			int16 chars_to_keep = newline_pos ?
 				(newline_pos - event_globals.message_buffer + 1) :
 				event_globals.message_buffer_size;
 
-			short prefix_size = event_globals.message_buffer_size - chars_to_keep;
+			int16 prefix_size = event_globals.message_buffer_size - chars_to_keep;
 			ASSERT(prefix_size + copy_size + new_size < k_error_message_buffer_maximum_size);
 			ASSERT(prefix_size >= 0 && copy_size >= 0 && new_size >= 0);
 			ASSERT(VALID_INDEX(prefix_size + copy_size, NUMBEROF(event_globals.message_buffer)));
@@ -1002,7 +1002,7 @@ void write_to_console(e_event_level event_level, long category_index, char const
 	}
 }
 
-void event_generated_handle_console(e_event_level event_level, long category_index, char const* event_text, bool force)
+void event_generated_handle_console(e_event_level event_level, int32 category_index, char const* event_text, bool force)
 {
 	char context_text[256]{};
 	char final_text[2048]{};
@@ -1021,7 +1021,7 @@ void event_generated_handle_console(e_event_level event_level, long category_ind
 	bool has_context = false;
 	if (g_event_context_stack_depth > 0)
 	{
-		for (long context_index = 0; context_index < g_event_context_stack_depth; context_index++)
+		for (int32 context_index = 0; context_index < g_event_context_stack_depth; context_index++)
 		{
 			s_event_context* context = &g_event_context_stack[context_index];
 
@@ -1049,7 +1049,7 @@ void event_generated_handle_console(e_event_level event_level, long category_ind
 	write_to_console(event_level, category_index, final_text);
 }
 
-void event_generated_handle_log(e_event_level event_level, long category_index, char const* event_text)
+void event_generated_handle_log(e_event_level event_level, int32 category_index, char const* event_text)
 {
 }
 
@@ -1077,7 +1077,7 @@ void event_generated_handle_halt(char const* event_text)
 	}
 }
 
-void event_generate(e_event_level event_level, long category_index, uint32 event_response_suppress_flags, char const* format, va_list argument_list)
+void event_generate(e_event_level event_level, int32 category_index, uint32 event_response_suppress_flags, char const* format, va_list argument_list)
 {
 	ASSERT(g_events_initialized);
 
@@ -1108,7 +1108,7 @@ void event_generate(e_event_level event_level, long category_index, uint32 event
 		}
 
 		g_event_read_write_lock.read_lock();
-		for (long event_listener_index = 0; event_listener_index < event_globals.event_listeners.get_count(); event_listener_index++)
+		for (int32 event_listener_index = 0; event_listener_index < event_globals.event_listeners.get_count(); event_listener_index++)
 		{
 			if (TEST_BIT(category->event_listeners, event_listener_index))
 			{
@@ -1124,7 +1124,7 @@ void event_generate(e_event_level event_level, long category_index, uint32 event
 	}
 }
 
-long c_event::generate(char const* format, ...)
+int32 c_event::generate(char const* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -1160,7 +1160,7 @@ long c_event::generate(char const* format, ...)
 // net::REMOTE_BINLOGGER
 void __cdecl network_debug_print(char const* format, ...)
 {
-	long format_address = (long)format;
+	int32 format_address = (int32)format;
 
 	// no print switch
 	switch (format_address)

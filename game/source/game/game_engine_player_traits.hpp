@@ -120,7 +120,7 @@ enum e_shield_multiplier_setting
 	k_shield_multiplier_setting_default = _shield_multiplier_setting_1x
 };
 
-constexpr long k_shield_multiplier_values[k_shield_multiplier_settings - _shield_multiplier_setting_0x]
+constexpr int32 k_shield_multiplier_values[k_shield_multiplier_settings - _shield_multiplier_setting_0x]
 {
 	0,
 	1,
@@ -506,8 +506,8 @@ public:
 
 	e_shield_multiplier_setting get_shield_multiplier_setting() const;
 	void set_shield_multiplier_setting(e_shield_multiplier_setting shield_multiplier_setting, bool force);
-	long get_shield_multiplier() const;
-	void set_shield_multiplier(long shield_multiplier, bool force);
+	int32 get_shield_multiplier() const;
+	void set_shield_multiplier(int32 shield_multiplier, bool force);
 	real32 get_maximum_shield_vitality();
 
 protected:
@@ -522,7 +522,7 @@ protected:
 };
 static_assert(sizeof(c_player_trait_shield_vitality) == 0x8);
 
-typedef c_enum<e_grenade_count_setting, short, _grenade_count_setting_unchanged, k_grenade_count_settings> c_grenade_count_setting;
+typedef c_enum<e_grenade_count_setting, int16, _grenade_count_setting_unchanged, k_grenade_count_settings> c_grenade_count_setting;
 typedef c_enum<e_damage_modifier_percentage_setting, uint8, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> c_damage_modifier_percentage_setting;
 typedef c_enum<e_recharging_grenades_setting, uint8, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> c_recharging_grenades_setting;
 typedef c_enum<e_infinite_ammo_setting, uint8, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> c_infinite_ammo_setting;
@@ -539,17 +539,17 @@ public:
 	e_grenade_count_setting get_initial_grenade_count_setting() const;
 	void set_initial_grenade_count_setting(e_grenade_count_setting initial_grenade_count_setting, bool force);
 	char get_initial_grenade_count() const;
-	void set_initial_grenade_count(long initial_grenade_count, bool force);
+	void set_initial_grenade_count(int32 initial_grenade_count, bool force);
 
 	char get_initial_primary_weapon_absolute_index() const;
 	void set_initial_primary_weapon_absolute_index(char initial_primary_weapon_absolute_index, bool force);
-	long get_initial_primary_weapon() const;
-	void set_initial_primary_weapon(long initial_primary_weapon, bool force);
+	int32 get_initial_primary_weapon() const;
+	void set_initial_primary_weapon(int32 initial_primary_weapon, bool force);
 
 	char get_initial_secondary_weapon_absolute_index() const;
 	void set_initial_secondary_weapon_absolute_index(char initial_secondary_weapon_absolute_index, bool force);
-	long get_initial_secondary_weapon() const;
-	void set_initial_secondary_weapon(long initial_secondary_weapon, bool force);
+	int32 get_initial_secondary_weapon() const;
+	void set_initial_secondary_weapon(int32 initial_secondary_weapon, bool force);
 
 	e_damage_modifier_percentage_setting get_damage_modifier_percentage_setting() const;
 	void set_damage_modifier_percentage_setting(e_damage_modifier_percentage_setting damage_modifier_percentage_setting, bool force);

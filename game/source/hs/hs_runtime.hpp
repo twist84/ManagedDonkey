@@ -19,34 +19,34 @@ enum e_hs_thread_type
 
 struct hs_stack_pointer
 {
-	short stack_offset;
+	int16 stack_offset;
 };
 static_assert(sizeof(hs_stack_pointer) == 0x2);
 
 struct hs_destination_pointer
 {
-	short destination_type;
+	int16 destination_type;
 
 	union
 	{
 		hs_stack_pointer stack_pointer;
-		short runtime_global_index;
+		int16 runtime_global_index;
 	};
 };
 static_assert(sizeof(hs_destination_pointer) == 0x4);
 
 struct hs_stack_frame
 {
-	long expression_index;
-	long script_index;
+	int32 expression_index;
+	int32 script_index;
 	hs_destination_pointer child_result;
 	hs_stack_pointer parameters;
 	hs_stack_pointer parent;
-	short size;
+	int16 size;
 };
 static_assert(sizeof(hs_stack_frame) == 0x14);
 
-enum : long
+enum : int32
 {
 	//MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS = 0x140,
 	//MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS = 0x4,
@@ -57,7 +57,7 @@ enum : long
 	HS_THREAD_STACK_SIZE = 0x500
 };
 
-enum : long
+enum : int32
 {
 	HS_SLEEP_FINISHED = -1,
 	HS_SLEEP_INDEFINITE = -2,
@@ -81,18 +81,18 @@ enum
 struct hs_thread :
 	s_datum_header
 {
-	short script_index;
-	short cleanup_script_index;
-	long sleep_until;
-	long latent_sleep_until;
+	int16 script_index;
+	int16 cleanup_script_index;
+	int32 sleep_until;
+	int32 latent_sleep_until;
 	hs_stack_pointer stack;
-	long result;
-	long tracking_index;
+	int32 result;
+	int32 tracking_index;
 	uint8 type;
 	uint8 flags;
 	uint8 ai_flags;
 	char ai_data;
-	long ai_index;
+	int32 ai_index;
 	uint8 stack_data[HS_THREAD_STACK_SIZE];
 };
 static_assert(sizeof(hs_thread) == 0x524);
@@ -103,15 +103,15 @@ struct s_hs_runtime_globals
 	bool require_gc;
 	bool require_object_list_gc;
 	bool globals_initializing;
-	long executing_thread_index;
+	int32 executing_thread_index;
 };
 static_assert(sizeof(s_hs_runtime_globals) == 0x8);
 
 struct hs_global_runtime :
 	s_datum_header
 {
-	short distributed_global_runtime_index;
-	long value;
+	int16 distributed_global_runtime_index;
+	int32 value;
 };
 static_assert(sizeof(hs_global_runtime) == 0x8);
 
@@ -133,7 +133,7 @@ static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
 struct s_hs_thread_iterator
 {
-	long raw_thread_index;
+	int32 raw_thread_index;
 	bool iterate_deterministic;
 	bool iterate_non_deterministic;
 	bool non_deterministic;
@@ -157,32 +157,32 @@ extern bool breakpoints_enabled;
 extern bool debug_trigger_volumes;
 extern hs_debug_data_definition hs_debug_data;
 
-extern long* __cdecl hs_arguments_evaluate(long thread_index, short parameter_count, short const* formal_parameters, bool a4);
+extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 parameter_count, int16 const* formal_parameters, bool a4);
 extern void __cdecl hs_breakpoint(char const* s);
-extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
-extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
-extern long __cdecl hs_find_thread_by_name(char const* script_name);
-extern long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool initialize);
-extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
-extern bool __cdecl hs_runtime_evaluate(long expression_index, bool display_expression_result, bool deterministic);
+extern bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type);
+extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, int32 destination_pointer, int32* out_cast);
+extern int32 __cdecl hs_find_thread_by_name(char const* script_name);
+extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
+extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
+extern bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic);
 extern char const* __cdecl hs_runtime_get_executing_thread_name();
-extern long __cdecl hs_runtime_index_from_global_designator(long designator);
+extern int32 __cdecl hs_runtime_index_from_global_designator(int32 designator);
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
-extern long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
+extern int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
 extern void __cdecl hs_runtime_update();
-extern char const* __cdecl hs_thread_format(long thread_index);
-extern bool __cdecl hs_thread_is_deterministic(long thread_index);
+extern char const* __cdecl hs_thread_format(int32 thread_index);
+extern bool __cdecl hs_thread_is_deterministic(int32 thread_index);
 extern void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic);
-extern long __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator);
-extern void __cdecl hs_thread_main(long thread_index);
-extern long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic);
+extern int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator);
+extern void __cdecl hs_thread_main(int32 thread_index);
+extern int32 __cdecl hs_thread_new(e_hs_thread_type thread_type, int32 script_index, bool deterministic);
 extern hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread);
 extern hs_stack_frame const* __cdecl hs_thread_stack(hs_thread const* thread);
 extern bool __cdecl hs_wake_by_name(char const* script_name);
-extern void __cdecl inspect_internal(short type, long value, char* buffer, short buffer_size);
+extern void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size);
 
-extern hs_thread* hs_thread_get(long thread_index);
-extern void hs_find_dormant_script(char const* dormant_script_name, long* script_index_out);
+extern hs_thread* hs_thread_get(int32 thread_index);
+extern void hs_find_dormant_script(char const* dormant_script_name, int32* script_index_out);
 
 extern void render_debug_scripting();
 extern void render_debug_scripting_globals();

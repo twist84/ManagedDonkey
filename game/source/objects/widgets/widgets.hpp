@@ -9,12 +9,12 @@
 struct widget_datum :
 	s_datum_header
 {
-	short type;
-	long type_datum_index;
-	long next_widget_index;
+	int16 type;
+	int32 type_datum_index;
+	int32 next_widget_index;
 };
 static_assert(sizeof(widget_datum) == 0xC);
 
-extern void __cdecl widgets_render_unattached(long entry_point);
+extern void __cdecl widgets_render_unattached(int32 entry_point);
 extern void __cdecl widgets_update(real32 game_seconds_elapsed);
 

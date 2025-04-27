@@ -86,7 +86,7 @@ struct s_multiplayer_customized_model_selection
 	s_tag_reference third_person_armor_object;
 	s_tag_reference first_person_armor_object;
 
-	short __unknown24;
+	int16 __unknown24;
 	uint8 __pad26[2];
 
 	c_string_id parent_attach_marker;
@@ -100,7 +100,7 @@ struct s_multiplayer_equipment
 {
 	c_string_id name;
 	s_tag_reference object;
-	short type;
+	int16 type;
 	uint8 __pad[2];
 
 	void update_reference_names();
@@ -109,8 +109,8 @@ static_assert(sizeof(s_multiplayer_equipment) == 0x18);
 
 struct s_multiplayer_energy_regeneration
 {
-	long duration;
-	long energy_level;
+	int32 duration;
+	int32 energy_level;
 };
 static_assert(sizeof(s_multiplayer_energy_regeneration) == 0x8);
 
@@ -226,7 +226,7 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> safety_booster_effect;
 
 	// `player_spawn`
-	// long sound_index = player_has_gameplay_modifier(_gameplay_modifier_respawn_modifier) ? runtime_data->modifier_respawn_sound.index : runtime_data->default_respawn_sound.index
+	// int32 sound_index = player_has_gameplay_modifier(_gameplay_modifier_respawn_modifier) ? runtime_data->modifier_respawn_sound.index : runtime_data->default_respawn_sound.index
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> default_respawn_sound;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> modifier_respawn_sound;
 
@@ -246,8 +246,8 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_block<s_multiplayer_event_response_definition> assault_events;
 	c_typed_tag_block<s_multiplayer_event_response_definition> infection_events;
 
-	long maximum_frag_count;
-	long maximum_plasma_count;
+	int32 maximum_frag_count;
+	int32 maximum_plasma_count;
 
 	c_typed_tag_block<s_multiplayer_constants> multiplayer_constants;
 	c_typed_tag_block<s_game_engine_status_response> state_responses;
@@ -376,7 +376,7 @@ struct s_multiplayer_constants
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> sandbox_effect;
 	c_string_id bomb_defusal_string;
 	c_string_id blocked_teleporter_string;
-	long __unknown1DC;
+	int32 __unknown1DC;
 
 	// RESPAWN STRINGS
 	// These are used for respawn status message displays
@@ -405,9 +405,9 @@ static_assert(sizeof(s_multiplayer_constants) == 0x220);
 
 struct s_game_engine_status_response
 {
-	c_flags<e_game_engine_status_flags, short, k_game_engine_status_flags> flags;
+	c_flags<e_game_engine_status_flags, int16, k_game_engine_status_flags> flags;
 	uint8 FAW[0x2]; // pad
-	c_enum<e_game_engine_status, short, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
+	c_enum<e_game_engine_status, int16, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
 	uint8 BNYFIDDGX[0x2]; // pad
 	c_string_id ffa_message;
 	c_string_id team_message;
@@ -425,17 +425,17 @@ struct s_multiplayer_globals_tag_reference :
 	void update_reference_names();
 };
 
-extern long __cdecl multiplayer_universal_data_get_random_weapon_definition_index();
-extern long __cdecl multiplayer_universal_data_get_remapped_vehicle_definition_index(long vehicle_tag_index, s_multiplayer_vehicle_set const* vehicle_set);
-extern long __cdecl multiplayer_universal_data_get_remapped_weapon_definition_index(long weapon_tag_index, s_multiplayer_weapon_set const* weapon_set);
-extern long __cdecl multiplayer_universal_data_get_vehicle_selection_definition_index(long name);
-extern short __cdecl multiplayer_universal_data_get_vehicle_set_absolute_index_from_string_id(long name);
-extern long __cdecl multiplayer_universal_data_get_vehicle_set_name_from_absolute_index(short absolute_index);
-extern long __cdecl multiplayer_universal_data_get_weapon_selection_definition_index(long name);
-extern short __cdecl multiplayer_universal_data_get_weapon_set_absolute_index_from_string_id(long name);
-extern long __cdecl multiplayer_universal_data_get_weapon_set_name_from_absolute_index(short absolute_index);
-extern s_multiplayer_vehicle_set const* __cdecl multiplayer_universal_data_vehicle_set_try_and_get(short vehicle_set_index);
-extern s_multiplayer_weapon_set const* __cdecl multiplayer_universal_data_weapon_set_try_and_get(short weapon_set_index);
+extern int32 __cdecl multiplayer_universal_data_get_random_weapon_definition_index();
+extern int32 __cdecl multiplayer_universal_data_get_remapped_vehicle_definition_index(int32 vehicle_tag_index, s_multiplayer_vehicle_set const* vehicle_set);
+extern int32 __cdecl multiplayer_universal_data_get_remapped_weapon_definition_index(int32 weapon_tag_index, s_multiplayer_weapon_set const* weapon_set);
+extern int32 __cdecl multiplayer_universal_data_get_vehicle_selection_definition_index(int32 name);
+extern int16 __cdecl multiplayer_universal_data_get_vehicle_set_absolute_index_from_string_id(int32 name);
+extern int32 __cdecl multiplayer_universal_data_get_vehicle_set_name_from_absolute_index(int16 absolute_index);
+extern int32 __cdecl multiplayer_universal_data_get_weapon_selection_definition_index(int32 name);
+extern int16 __cdecl multiplayer_universal_data_get_weapon_set_absolute_index_from_string_id(int32 name);
+extern int32 __cdecl multiplayer_universal_data_get_weapon_set_name_from_absolute_index(int16 absolute_index);
+extern s_multiplayer_vehicle_set const* __cdecl multiplayer_universal_data_vehicle_set_try_and_get(int16 vehicle_set_index);
+extern s_multiplayer_weapon_set const* __cdecl multiplayer_universal_data_weapon_set_try_and_get(int16 weapon_set_index);
 extern s_multiplayer_runtime_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_runtime_data();
 extern s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_universal_data();
 

@@ -7,7 +7,7 @@ void __cdecl _optional_cache_free(e_optional_cache_user user, void* pointer)
 	INVOKE(0x00603DF0, _optional_cache_free, user, pointer);
 }
 
-void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, long size, c_optional_cache_user_callback* callback)
+void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority priority, int32 size, c_optional_cache_user_callback* callback)
 {
 	return INVOKE(0x00603E30, _optional_cache_try_to_allocate, user, priority, size, callback);
 }

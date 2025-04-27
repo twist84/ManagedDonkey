@@ -17,8 +17,8 @@
 
 REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
 REFERENCE_DECLARE(0x02390D04, loading_globals_definition, loading_globals);
-REFERENCE_DECLARE(0x0471AA58, long, loaded_resource_bytes);
-REFERENCE_DECLARE(0x0471AA5C, long, total_resource_bytes);
+REFERENCE_DECLARE(0x0471AA58, int32, loaded_resource_bytes);
+REFERENCE_DECLARE(0x0471AA5C, int32, total_resource_bytes);
 
 c_static_string<256> loading_globals_definition::loading_progress{};
 c_static_string<256> loading_globals_definition::copy_progress{};
@@ -55,7 +55,7 @@ void __cdecl loading_basic_progress_disable()
 	//loading_globals.scenario_path = NULL;
 }
 
-void __cdecl loading_basic_progress_enable(char const* scenario_path, long insertion_point)
+void __cdecl loading_basic_progress_enable(char const* scenario_path, int32 insertion_point)
 {
 	INVOKE(0x0052EE40, loading_basic_progress_enable, scenario_path, insertion_point);
 
@@ -85,7 +85,7 @@ real32 __cdecl loading_basic_progress_get()
 	//return loading_globals.progress;
 }
 
-void __cdecl loading_basic_progress_phase_begin(long phase, uint32 update_size)
+void __cdecl loading_basic_progress_phase_begin(int32 phase, uint32 update_size)
 {
 	INVOKE(0x0052EEC0, loading_basic_progress_phase_begin, phase, update_size);
 
@@ -141,7 +141,7 @@ bool __cdecl main_blocking_load_in_progress(real32* out_progress)
 }
 
 //bool __cdecl main_load_map(char const *,enum e_map_load_type)
-bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
+bool __cdecl main_load_map(char const* scenario_path, int32 map_load_type)
 {
 	//return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
 
@@ -149,27 +149,27 @@ bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
 }
 
 // a2 is possibly insertion_point
-real32 __cdecl main_load_map_loading_progress(long scenario_type, short a2, char const* scenario_path)
+real32 __cdecl main_load_map_loading_progress(int32 scenario_type, int16 a2, char const* scenario_path)
 {
 	return INVOKE(0x0052F1A0, main_load_map_loading_progress, scenario_type, a2, scenario_path);
 }
 
 //e_map_load_status __cdecl main_load_map_status(char const* scenario_path)
-long __cdecl main_load_map_status(char const* scenario_path)
+int32 __cdecl main_load_map_status(char const* scenario_path)
 {
 	//return INVOKE(0x0052F250, main_load_map_status, scenario_path);
 
 	return main_load_map_status_with_insertion_point(NONE, scenario_path);
 }
 
-//e_map_load_status __cdecl main_load_map_status_with_insertion_point(short insertion_point, char const* scenario_path)
-long __cdecl main_load_map_status_with_insertion_point(short insertion_point, char const* scenario_path)
+//e_map_load_status __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, char const* scenario_path)
+int32 __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, char const* scenario_path)
 {
 	return INVOKE(0x0052F270, main_load_map_status_with_insertion_point, insertion_point, scenario_path);
 }
 
-//bool __cdecl main_load_map_with_insertion_point(short, char const*, enum e_map_load_type)
-bool __cdecl main_load_map_with_insertion_point(short insertion_point, char const* scenario_path, long map_load_type)
+//bool __cdecl main_load_map_with_insertion_point(int16, char const*, enum e_map_load_type)
+bool __cdecl main_load_map_with_insertion_point(int16 insertion_point, char const* scenario_path, int32 map_load_type)
 {
 	return INVOKE(0x0052F2E0, main_load_map_with_insertion_point, insertion_point, scenario_path, map_load_type);
 }
@@ -200,7 +200,7 @@ bool __cdecl main_loading_get_action(struct s_main_loading_action* out_action)
 }
 
 //enum e_gui_game_mode __cdecl main_loading_get_gui_game_mode(void)
-long __cdecl main_loading_get_gui_game_mode()
+int32 __cdecl main_loading_get_gui_game_mode()
 {
 	return INVOKE(0x0052F8F0, main_loading_get_gui_game_mode);
 
@@ -230,7 +230,7 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 			return _main_pregame_frame_none;
 
 		static wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
-		static long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
+		static int32 spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
 
 		if (loading_globals.tag_load_in_progress)
 		{
@@ -281,9 +281,9 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 
 	if (loading_globals.basic_progress_enabled)
 	{
-		long loading_progress = 0;
+		int32 loading_progress = 0;
 		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
-			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
+			loading_progress = int32((loaded_resource_bytes * 100.0f) / total_resource_bytes);
 	
 		if (loading_progress_string)
 			loading_progress_string->append_print(L"basic loading progress: %%%d|n", loading_progress);
@@ -326,7 +326,7 @@ void __cdecl main_loading_idle()
 
 		if (loading_action.map_has_progression)
 		{
-			cache_file_tag_resources_start_map_prefetch(static_cast<short>(loading_action.campaign_id), loading_action.scenario_path);
+			cache_file_tag_resources_start_map_prefetch(static_cast<int16>(loading_action.campaign_id), loading_action.scenario_path);
 		}
 		else if (loading_action.stop_map_prefetch)
 		{
@@ -381,7 +381,7 @@ void __cdecl main_loading_progress_new(char const* description, void* userdata)
 	main_loop_pregame();
 }
 
-void __cdecl main_loading_progress_update(char const* description, char const* scenario_path, long progress, void* userdata)
+void __cdecl main_loading_progress_update(char const* description, char const* scenario_path, int32 progress, void* userdata)
 {
 	//INVOKE(0x0052FB80, main_loading_progress_update, description, scenario_path, progress, userdata);
 

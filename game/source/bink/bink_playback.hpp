@@ -2,8 +2,8 @@
 
 struct s_bink_shared_game_state
 {
-	long texture_index_to_render;
-	long last_updated_frame;
+	int32 texture_index_to_render;
+	int32 last_updated_frame;
 };
 static_assert(sizeof(s_bink_shared_game_state) == 0x8);
 
@@ -30,7 +30,7 @@ extern void __cdecl bink_playback_prepare_for_new_zone_set(uint32 old_active_str
 extern void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 extern void __cdecl bink_playback_render();
 extern bool __cdecl bink_playback_should_be_playing_deterministic_bink();
-extern void __cdecl bink_playback_start(char const* bink_full_path, long tag_index, uint32 flags);
+extern void __cdecl bink_playback_start(char const* bink_full_path, int32 tag_index, uint32 flags);
 extern void __cdecl bink_playback_stop();
 extern void __cdecl bink_playback_stop_due_to_input_device_change();
 extern bool __cdecl bink_playback_ui_rendering_inhibited();

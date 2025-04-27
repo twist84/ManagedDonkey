@@ -16,7 +16,7 @@ struct c_tag_resource_inverse_page_table
 
 	c_allocation_base* m_allocator;
 	void* m_allocation;
-	c_wrapped_array<long*> m_resource_handle_storage;
+	c_wrapped_array<int32*> m_resource_handle_storage;
 	s_data_array* m_page_entries;
 	uint16 flags;
 	uint16 m_next_resource_handle_index;

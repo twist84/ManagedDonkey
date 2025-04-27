@@ -44,19 +44,19 @@ struct c_chud_persistent_user_data
 	uint8 bonus_round_show_timer;
 	uint8 bonus_round_start_timer;
 	uint8 __unknown3F6[2];
-	long bonus_round_set_timer;
-	long bonus_round_set_target_score;
+	int32 bonus_round_set_timer;
+	int32 bonus_round_set_target_score;
 	uint8 __unknown3FC[0xF640];
 };
 static_assert(sizeof(c_chud_persistent_user_data) == 0xFA40);
 
 struct s_chud_navpoint
 {
-	long navpoint_identifier;
-	long arrow_type;
-	long icon_type;
-	long color_type;
-	long flags;
+	int32 navpoint_identifier;
+	int32 arrow_type;
+	int32 icon_type;
+	int32 color_type;
+	int32 flags;
 	real32 alpha;
 	wchar_t navpoint_text[6];
 	real_point3d position_worldspace;
@@ -65,7 +65,7 @@ static_assert(sizeof(s_chud_navpoint) == 0x30);
 
 struct s_some_chud_struct
 {
-	void __thiscall sub_A8AED0(long a1, long a2, long a3);
+	void __thiscall sub_A8AED0(int32 a1, int32 a2, int32 a3);
 
 	uint8 __data[0x910];
 };
@@ -76,14 +76,14 @@ extern s_chud_globals_definition*& chud_globals;
 
 extern void __cdecl chud_dispose();
 extern void __cdecl chud_dispose_from_old_map();
-extern void __cdecl chud_draw_screen(long user_index);
-extern void __cdecl chud_draw_screen_LDR(long user_index);
-extern void __cdecl chud_draw_screen_saved_film(long user_index);
-extern void __cdecl chud_draw_turbulence(long user_index);
+extern void __cdecl chud_draw_screen(int32 user_index);
+extern void __cdecl chud_draw_screen_LDR(int32 user_index);
+extern void __cdecl chud_draw_screen_saved_film(int32 user_index);
+extern void __cdecl chud_draw_turbulence(int32 user_index);
 extern void __cdecl chud_game_tick();
-extern bool __cdecl chud_generate_damage_flash_texture(long user_index);
+extern bool __cdecl chud_generate_damage_flash_texture(int32 user_index);
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
-extern void __cdecl chud_submit_navpoint(long, s_chud_navpoint* navpoint);
+extern void __cdecl chud_submit_navpoint(int32, s_chud_navpoint* navpoint);
 extern void __cdecl chud_update(real32 world_seconds_elapsed);
 

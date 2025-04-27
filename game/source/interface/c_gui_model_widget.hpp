@@ -106,7 +106,7 @@ static_assert(sizeof(s_runtime_model_widget_definition) == sizeof(s_runtime_core
 struct c_gui_model_widget :
 	public c_gui_widget
 {
-	long __unknownDC;
+	int32 __unknownDC;
 
 	s_runtime_model_widget_definition m_definition;
 
@@ -133,8 +133,8 @@ struct c_gui_model_widget :
 	// m_zoom = get_model()->initial_zoom
 	real32 m_zoom;
 
-	long m_object_index;
-	long m_render_window;
+	int32 m_object_index;
+	int32 m_render_window;
 
 	c_string_id m_texture_camera_slice_name;
 	real32 m_texture_camera_near_clip_distance;

@@ -4,7 +4,7 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "simulation/simulation_world.hpp"
 
-void c_simulation_watcher::describe_status(char* buffer, long buffer_length) const
+void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) const
 {
 	//INVOKE_CLASS_MEMBER(0x0046C080, c_simulation_watcher, describe_status, buffer, buffer_length);
 
@@ -55,18 +55,18 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 
 	char host_name[256]{};
 	wchar_string_to_ascii_string(membership->get_host_peer()->properties.peer_name.get_string(), host_name, sizeof(host_name), NULL);
-	long peer_observer_channel = m_session->get_peer_observer_channel(membership->host_peer_index());
+	int32 peer_observer_channel = m_session->get_peer_observer_channel(membership->host_peer_index());
 
-	long join_time_elapsed = 0;
-	long join_time_to_abort = 0;
-	long join_attempt_count = 0;
-	long join_attempt_maximum = 0;
-	long join_client_establishing_count = 0;
-	long join_client_waiting_count = 0;
-	long join_client_joining_count = 0;
-	long join_client_complete_count = 0;
-	long join_client_total_count = 0;
-	long join_time_to_failure = 0;
+	int32 join_time_elapsed = 0;
+	int32 join_time_to_abort = 0;
+	int32 join_attempt_count = 0;
+	int32 join_attempt_maximum = 0;
+	int32 join_client_establishing_count = 0;
+	int32 join_client_waiting_count = 0;
+	int32 join_client_joining_count = 0;
+	int32 join_client_complete_count = 0;
+	int32 join_client_total_count = 0;
+	int32 join_time_to_failure = 0;
 
 	m_world->get_join_status(
 		&join_time_elapsed,
@@ -149,8 +149,8 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 		csstrnzcpy(observer_status, "unavailable", sizeof(observer_status));
 	//}
 
-	long disconnected_time_elapsed = 0;
-	long disconnected_time_to_failure = 0;
+	int32 disconnected_time_elapsed = 0;
+	int32 disconnected_time_to_failure = 0;
 	//m_world->get_disconnected_status(&disconnected_time_elapsed, &disconnected_time_to_failure);
 
 	char session_status[1024]{};
@@ -164,7 +164,7 @@ void c_simulation_watcher::describe_status(char* buffer, long buffer_length) con
 }
 
 //e_simulation_status c_simulation_watcher::describe_status_simple() const
-long c_simulation_watcher::describe_status_simple() const
+int32 c_simulation_watcher::describe_status_simple() const
 {
 	return INVOKE_CLASS_MEMBER(0x0046C0A0, c_simulation_watcher, describe_status_simple);
 }

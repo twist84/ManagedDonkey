@@ -5,9 +5,9 @@
 
 struct s_replication_event_manager_view_statistics
 {
-	long events_sent;
-	long events_pending;
-	long events_in_transit;
+	int32 events_sent;
+	int32 events_pending;
+	int32 events_in_transit;
 };
 static_assert(sizeof(s_replication_event_manager_view_statistics) == 0xC);
 
@@ -26,7 +26,7 @@ public:
 	
 	struct c_packet_record
 	{
-		long m_packet_sequence_number;
+		int32 m_packet_sequence_number;
 		c_event_record* m_event_list;
 		c_packet_record* m_next;
 	};
@@ -35,9 +35,9 @@ public:
 //private:
 	bool m_initialized;
 	bool m_fatal_error;
-	long m_view_index;
+	int32 m_view_index;
 	c_packet_record* m_packet_list;
-	long m_packet_list_length;
+	int32 m_packet_list_length;
 	c_replication_event_manager* m_event_manager;
 	s_replication_event_manager_view_statistics m_view_statistics;
 };

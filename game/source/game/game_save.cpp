@@ -55,7 +55,7 @@ bool __cdecl game_all_quiet()
 {
 	//return INVOKE(0x006821F0, game_all_quiet);
 
-	long unsafe_object_index = NONE;
+	int32 unsafe_object_index = NONE;
 	return !dangerous_projectiles_near_player(&unsafe_object_index)
 		&& !dangerous_items_near_player(&unsafe_object_index)
 		&& !dangerous_effects_near_player()
@@ -111,11 +111,11 @@ bool __cdecl game_safe_to_speak()
 {
 	//return INVOKE(0x006823A0, game_safe_to_speak);
 
-	long unsafe_object_index = NONE;
+	int32 unsafe_object_index = NONE;
 	return !dangerous_projectiles_near_player(&unsafe_object_index) && !players_any_are_dead();
 }
 
-void __cdecl game_save(long save_priority)
+void __cdecl game_save(int32 save_priority)
 {
 	//INVOKE(0x006823D0, game_save, game_save_type);
 
@@ -353,7 +353,7 @@ LABEL_5:;
 		player_iterator.begin(player_data);
 		while (player_iterator.next())
 		{
-			long unit_index = player_iterator.get_datum()->unit_index;
+			int32 unit_index = player_iterator.get_datum()->unit_index;
 			if (unit_index != NONE)
 			{
 				if (unit_datum* unit = UNIT_GET(unit_index))

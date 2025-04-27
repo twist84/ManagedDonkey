@@ -78,7 +78,7 @@ bool __cdecl scenario_soft_ceilings_triangle_plane_get(real_plane3d* plane, s_st
 	return true;
 }
 
-bool __cdecl scenario_soft_ceilings_plane_get(real_plane3d* plane, long structure_design_index, long soft_ceiling_index, long triangle_index)
+bool __cdecl scenario_soft_ceilings_plane_get(real_plane3d* plane, int32 structure_design_index, int32 soft_ceiling_index, int32 triangle_index)
 {
 	s_structure_design* structure_design = global_structure_design_get(structure_design_index);
 	if (!structure_design)
@@ -98,7 +98,7 @@ void __cdecl scenario_soft_ceilings_render_debug(
 {
 	if (render_soft_ceilings || render_soft_kill || render_slip_surfaces)
 	{
-		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
@@ -106,10 +106,10 @@ void __cdecl scenario_soft_ceilings_render_debug(
 			if (!structure_design)
 				continue;
 
-			long soft_ceiling_index = 0;
+			int32 soft_ceiling_index = 0;
 			for (s_structure_soft_ceiling& soft_ceiling : structure_design->physics.soft_ceilings)
 			{
-				long triangle_index = 0;
+				int32 triangle_index = 0;
 				for (s_structure_soft_ceiling_triangle& triangle : soft_ceiling.soft_ceiling_triangles)
 				{
 					switch (soft_ceiling.type.get())

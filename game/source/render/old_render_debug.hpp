@@ -11,7 +11,7 @@ extern bool debug_structure_cluster_skies;
 extern bool debug_structure_invisible;
 extern bool debug_structure;
 extern bool debug_structure_automatic;
-extern long debug_plane_index;
+extern int32 debug_plane_index;
 extern bool debug_structure_unique_colors;
 extern bool debug_structure_complexity;
 extern bool debug_structure_seam_edges;

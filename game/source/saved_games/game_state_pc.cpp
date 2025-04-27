@@ -16,14 +16,14 @@ HOOK_DECLARE(0x0065DBA0, game_state_set_buffer_protection);
 HOOK_DECLARE(0x0065DBC0, game_state_storage_is_valid);
 HOOK_DECLARE(0x0065DBE0, game_state_write_to_storage);
 
-void* __cdecl game_state_allocate_buffer(long cpu_size, long persist_size, long* out_guard_page_size)
+void* __cdecl game_state_allocate_buffer(int32 cpu_size, int32 persist_size, int32* out_guard_page_size)
 {
 	return INVOKE(0x0065D9F0, game_state_allocate_buffer, cpu_size, persist_size, out_guard_page_size);
 }
 
 //.text:0065DA40
 
-void* __cdecl game_state_allocate_temporary_buffer(long buffer_size)
+void* __cdecl game_state_allocate_temporary_buffer(int32 buffer_size)
 {
 	return INVOKE(0x0065DA50, game_state_allocate_temporary_buffer, buffer_size);
 }
@@ -38,12 +38,12 @@ void __cdecl game_state_free_buffer()
 	INVOKE(0x0065DA70, game_state_free_buffer);
 }
 
-void __cdecl game_state_free_temporary_buffer(void* buffer, long buffer_size)
+void __cdecl game_state_free_temporary_buffer(void* buffer, int32 buffer_size)
 {
 	INVOKE(0x0065DAC0, game_state_free_temporary_buffer, buffer, buffer_size);
 }
 
-long __cdecl game_state_get_storage_count()
+int32 __cdecl game_state_get_storage_count()
 {
 	//return INVOKE(0x0065DAD0, game_state_get_storage_count);
 
@@ -58,12 +58,12 @@ void __cdecl game_state_initialize_storage()
 //.text:0065DAF0
 //.text:0065DB00
 
-bool __cdecl game_state_read_from_memory_storage(long storage_index, long game_state_proc_flags)
+bool __cdecl game_state_read_from_memory_storage(int32 storage_index, int32 game_state_proc_flags)
 {
 	return false;
 }
 
-bool __cdecl game_state_read_from_file_storage(long storage_index, long game_state_proc_flags)
+bool __cdecl game_state_read_from_file_storage(int32 storage_index, int32 game_state_proc_flags)
 {
 	if (pc_game_state_globals.buffer_allocated)
 	{
@@ -96,7 +96,7 @@ bool __cdecl game_state_read_from_file_storage(long storage_index, long game_sta
 	return false;
 }
 
-bool __cdecl game_state_read_from_storage(long storage_index, long game_state_proc_flags)
+bool __cdecl game_state_read_from_storage(int32 storage_index, int32 game_state_proc_flags)
 {
 	//return INVOKE(0x0065DB10, game_state_read_from_storage, storage_index, game_state_proc_flags);
 
@@ -122,7 +122,7 @@ bool __cdecl game_state_read_from_storage(long storage_index, long game_state_pr
 
 //.text:0065DB90
 
-void __cdecl game_state_set_buffer_protection(void* buffer, long cpu_size, long guard_page_size)
+void __cdecl game_state_set_buffer_protection(void* buffer, int32 cpu_size, int32 guard_page_size)
 {
 	//INVOKE(0x0065DBA0, game_state_set_buffer_protection, buffer, cpu_size, guard_page_size);
 
@@ -130,7 +130,7 @@ void __cdecl game_state_set_buffer_protection(void* buffer, long cpu_size, long 
 	VirtualProtect(buffer, cpu_size + guard_page_size, PAGE_READWRITE, &old_protect);
 }
 
-bool __cdecl game_state_storage_is_valid(long storage_index)
+bool __cdecl game_state_storage_is_valid(int32 storage_index)
 {
 	//return INVOKE(0x0065DBC0, game_state_storage_is_valid, storage_index);
 
@@ -139,11 +139,11 @@ bool __cdecl game_state_storage_is_valid(long storage_index)
 
 //.text:0065DBD0
 
-void __cdecl game_state_write_to_file_memory_storage(long storage_index)
+void __cdecl game_state_write_to_file_memory_storage(int32 storage_index)
 {
 }
 
-void __cdecl game_state_write_to_file_storage(long storage_index)
+void __cdecl game_state_write_to_file_storage(int32 storage_index)
 {
 	if (pc_game_state_globals.buffer_allocated)
 	{
@@ -171,7 +171,7 @@ void __cdecl game_state_write_to_file_storage(long storage_index)
 	pc_game_state_globals.storage_is_valid = false;
 }
 
-void __cdecl game_state_write_to_storage(long storage_index)
+void __cdecl game_state_write_to_storage(int32 storage_index)
 {
 	//INVOKE(0x0065DBE0, game_state_write_to_storage, storage_index);
 

@@ -15,7 +15,7 @@ void __cdecl data_mine_flush()
 	INVOKE(0x005AC770, data_mine_flush);
 }
 
-//.text:005AC780 ; char const* __cdecl data_mine_get_tag_name(long)
+//.text:005AC780 ; char const* __cdecl data_mine_get_tag_name(int32)
 
 void __cdecl data_mine_initialize()
 {

@@ -6,8 +6,8 @@
 
 struct s_network_session_parameter_countdown_timer
 {
-	long delayed_reason;
-	long countdown_timer;
+	int32 delayed_reason;
+	int32 countdown_timer;
 };
 static_assert(sizeof(s_network_session_parameter_countdown_timer) == 0x8);
 
@@ -16,15 +16,15 @@ struct c_network_session_parameter_countdown_timer :
 	c_generic_network_session_parameter_data<s_network_session_parameter_countdown_timer>
 {
 public:
-	long get_countdown_timer();
+	int32 get_countdown_timer();
 };
 static_assert(sizeof(c_network_session_parameter_countdown_timer) == 0x40);
 
 struct s_network_session_privacy_mode
 {
-	long privacy_mode;
-	long closed_mode;
-	long maximum_player_count;
+	int32 privacy_mode;
+	int32 closed_mode;
+	int32 maximum_player_count;
 	bool is_closed_by_user;
 };
 static_assert(sizeof(s_network_session_privacy_mode) == 0x10);
@@ -48,7 +48,7 @@ struct s_network_session_parameter_game_start_status
 	e_session_game_start_status game_start_status;
 	e_session_game_start_error game_start_error;
 	uint16 player_error_mask;
-	short map_load_progress;
+	int16 map_load_progress;
 };
 static_assert(sizeof(s_network_session_parameter_game_start_status) == 0xC);
 

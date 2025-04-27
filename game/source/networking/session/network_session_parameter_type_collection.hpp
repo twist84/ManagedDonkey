@@ -4,8 +4,8 @@
 
 struct c_network_session_parameter_type_collection
 {
-	using encode_t = void __cdecl(c_bitstream*, void const*, long);
-	using decode_t = bool __cdecl(c_bitstream*, void*, long);
+	using encode_t = void __cdecl(c_bitstream*, void const*, int32);
+	using decode_t = bool __cdecl(c_bitstream*, void*, int32);
 
 	struct s_network_session_parameter_type
 	{
@@ -14,11 +14,11 @@ struct c_network_session_parameter_type_collection
 
 		encode_t* update_encode;
 		decode_t* update_decode;
-		long update_size;
+		int32 update_size;
 
 		encode_t* change_request_encode;
 		decode_t* change_request_decode;
-		long change_request_size;
+		int32 change_request_size;
 	};
 
 public:
@@ -29,10 +29,10 @@ public:
 		char const* session_parameter_name, 
 		encode_t* update_encode,
 		decode_t* update_decode,
-		long update_size, 
+		int32 update_size, 
 		encode_t* change_request_encode,
 		decode_t* change_request_decode,
-		long change_request_size
+		int32 change_request_size
 	);
 
 protected:

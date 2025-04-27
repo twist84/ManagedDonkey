@@ -29,10 +29,10 @@ struct c_draw_string
 
 	struct s_parse_string_state
 	{
-		long string_index;
+		int32 string_index;
 		e_utf32 const* string;
-		long result;
-		long previous_result;
+		int32 result;
+		int32 previous_result;
 		utf32 character;
 		utf32 previous_character;
 		e_font_id current_font;
@@ -95,7 +95,7 @@ public:
 	void set_color(real_argb_color const* color);
 	void set_shadow_color(real_argb_color const* shadow_color);
 	void set_style(e_text_style style);
-	void set_tab_stops(short const* tab_stops, short count);
+	void set_tab_stops(int16 const* tab_stops, int16 count);
 	void set_wrap_horizontally(bool wrap_horizontally);
 	void text_bounds_draw_character(real32 a1, real32 a2, real32 a3, real32 a4);
 	void set_scale(real32 scale);
@@ -104,7 +104,7 @@ public:
 	bool draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial
 	void get_cursor(point2d* cursor) const;
-	short get_line_height() const;
+	int16 get_line_height() const;
 
 protected:
 	c_flags<e_text_flags, uint32, k_text_flags> m_flags;
@@ -117,22 +117,22 @@ protected:
 	real_argb_color m_shadow_color;
 	real32 m_scale;
 	real32 m_display_resolution_scale_adjustment;
-	short m_height_adjust;
-	short m_tab_stop_count;
-	short m_tab_stops[16];
+	int16 m_height_adjust;
+	int16 m_tab_stop_count;
+	int16 m_tab_stops[16];
 	real_rectangle2d m_bounds;
 	real_rectangle2d m_text_bounds;
 	real_rectangle2d m_clip;
 	real_point2d m_cursor;
 	bool(__cdecl* m_permutation_proc)(dynamic_screen_vertex*, void*);
 	void* m_permutation_proc_data;
-	short m_initial_indent;
-	short m_paragraph_indent;
+	int16 m_initial_indent;
+	int16 m_paragraph_indent;
 	c_draw_string::s_parse_string_state m_saved_parse_state;
-	short m_saved_tab_stop_index;
-	short m_saved_line_count;
-	short m_saved_tab_stop_line_count;
-	short m_saved_maximum_tab_stop_line_count;
+	int16 m_saved_tab_stop_index;
+	int16 m_saved_line_count;
+	int16 m_saved_tab_stop_line_count;
+	int16 m_saved_maximum_tab_stop_line_count;
 };
 static_assert(sizeof(c_draw_string) == 0x100);
 
@@ -145,9 +145,9 @@ public:
 
 protected:
 	c_font_cache_mt_safe m_font_cache;
-	long __unknown108;
-	long __unknown10C;
-	long __unknown110;
+	int32 __unknown108;
+	int32 __unknown10C;
+	int32 __unknown110;
 };
 static_assert(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
 
@@ -163,9 +163,9 @@ struct c_simple_font_draw_string :
 
 	protected:
 		uint32 color;
-		long screen_x;
-		long screen_y;
-		long count;
+		int32 screen_x;
+		int32 screen_y;
+		int32 count;
 		char characters[256];
 	};
 
@@ -199,7 +199,7 @@ struct c_rasterizer_draw_string :
 		uint32 color;
 		uint32 shadow_color;
 		s_glyph_render_data glyphs[64];
-		long count;
+		int32 count;
 	};
 	static_assert(sizeof(s_glyph_group_render_data) == 0x710);
 

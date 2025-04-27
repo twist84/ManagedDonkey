@@ -17,7 +17,7 @@ HOOK_DECLARE(0x00A89250, chud_draw_turbulence);
 HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, s_some_chud_struct, sub_A8AED0);
 
 // bottomless clip hud symbol
-void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long a3)
+void __thiscall s_some_chud_struct::sub_A8AED0(int32 weapon_index, int32 a2, int32 a3)
 {
 	HOOK_INVOKE_CLASS_MEMBER(, s_some_chud_struct, sub_A8AED0, weapon_index, a2, a3);
 
@@ -52,8 +52,8 @@ void __thiscall s_some_chud_struct::sub_A8AED0(long weapon_index, long a2, long 
 //.text:00A88A70 ; 
 //.text:00A88AB0 ; 
 //.text:00A88AF0 ; 
-//.text:00A88B30 ; void __cdecl chud_apply_distortion(long, long, long)
-//.text:00A88BE0 ; long __cdecl chud_compute_unit_backpack_weapon_index(long)
+//.text:00A88B30 ; void __cdecl chud_apply_distortion(int32, int32, int32)
+//.text:00A88BE0 ; int32 __cdecl chud_compute_unit_backpack_weapon_index(int32)
 //.text:00A88D00 ; 
 //.text:00A88D50 ; 
 //.text:00A88D60 ; 
@@ -68,26 +68,26 @@ void __cdecl chud_dispose_from_old_map()
 	INVOKE(0x00A88D80, chud_dispose_from_old_map);
 }
 
-void __cdecl chud_draw_screen(long user_index)
+void __cdecl chud_draw_screen(int32 user_index)
 {
 	//INVOKE(0x00A88DA0, chud_draw_screen, user_index);
 
 	HOOK_INVOKE(, chud_draw_screen, user_index);
 }
 
-void __cdecl chud_draw_screen_LDR(long user_index)
+void __cdecl chud_draw_screen_LDR(int32 user_index)
 {
 	INVOKE(0x00A88FE0, chud_draw_screen_LDR, user_index);
 }
 
-void __cdecl chud_draw_screen_saved_film(long user_index)
+void __cdecl chud_draw_screen_saved_film(int32 user_index)
 {
 	//INVOKE(0x00A89100, chud_draw_screen_saved_film, user_index);
 
 	HOOK_INVOKE(, chud_draw_screen_saved_film, user_index);
 }
 
-void __cdecl chud_draw_turbulence(long user_index)
+void __cdecl chud_draw_turbulence(int32 user_index)
 {
 	//INVOKE(0x00A89250, chud_draw_turbulence, user_index);
 
@@ -99,14 +99,14 @@ void __cdecl chud_game_tick()
 	INVOKE(0x00A89420, chud_game_tick);
 }
 
-bool __cdecl chud_generate_damage_flash_texture(long user_index)
+bool __cdecl chud_generate_damage_flash_texture(int32 user_index)
 {
 	return INVOKE(0x00A89440, chud_generate_damage_flash_texture, user_index);
 }
 
-//.text:00A895C0 ; long __cdecl chud_find_active_skin_index(long)
+//.text:00A895C0 ; int32 __cdecl chud_find_active_skin_index(int32)
 //.text:00A89630 ; 
-//.text:00A89670 ; s_player_navpoint_data* __cdecl chud_get_campaign_navpoint_data(long)
+//.text:00A89670 ; s_player_navpoint_data* __cdecl chud_get_campaign_navpoint_data(int32)
 //.text:00A896A0 ; 
 //.text:00A896C0 ; 
 //.text:00A89720 ; void __cdecl chud_handle_tag_changes()
@@ -123,14 +123,14 @@ void __cdecl chud_initialize_for_new_map()
 }
 
 //.text:00A89820 ; 
-//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(long)
-//.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(long)
+//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(int32)
+//.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(int32)
 //.text:00A898B0 ; 
 //.text:00A898F0 ; 
 //.text:00A89940 ; 
-//.text:00A89980 ; void __cdecl chud_picked_up_ammunition(long, long, short)
+//.text:00A89980 ; void __cdecl chud_picked_up_ammunition(int32, int32, int16)
 //.text:00A899D0 ; 
-//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(e_game_team, long)
+//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(e_game_team, int32)
 //.text:00A89A70 ; 
 //.text:00A89BB0 ; 
 //.text:00A89BD0 ; 
@@ -160,20 +160,20 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A310 ; void __cdecl chud_set_campaign_objective(wchar_t const*, real32)
 //.text:00A8A3C0 ; 
 //.text:00A8A410 ; 
-//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(long, wchar_t const*)
+//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32, wchar_t const*)
 //.text:00A8A500 ; 
-//.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(long)
-//.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(long)
+//.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32)
+//.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(int32)
 //.text:00A8A6D0 ; 
 //.text:00A8A730 ; 
 //.text:00A8A7A0 ; 
 //.text:00A8A7F0 ; 
 //.text:00A8A830 ; 
 //.text:00A8A860 ; 
-//.text:00A8A900 ; void __cdecl chud_start_directional_damage(long, real_vector3d const*, real32, short, real32, real32, real32, real_argb_color*)
+//.text:00A8A900 ; void __cdecl chud_start_directional_damage(int32, real_vector3d const*, real32, int16, real32, real32, real32, real_argb_color*)
 
-//void __cdecl chud_submit_navpoint(long user_index, c_chud_navpoint const* navpoint)
-void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)
+//void __cdecl chud_submit_navpoint(int32 user_index, c_chud_navpoint const* navpoint)
+void __cdecl chud_submit_navpoint(int32 user_index, s_chud_navpoint* navpoint)
 {
 	INVOKE(0x00A8A9F0, chud_submit_navpoint, user_index, navpoint);
 }
@@ -189,7 +189,7 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 	//	c_chud_manager::update(world_seconds_elapsed);
 }
 
-//.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(long, long)
+//.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(int32, int32)
 //.text:00A8AB70 ; 
 //.text:00A8ABD0 ; 
 //.text:00A8AD70 ; 

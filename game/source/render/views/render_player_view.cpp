@@ -36,7 +36,7 @@ REFERENCE_DECLARE(0x019147B8, real32, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real32, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
-REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
+REFERENCE_DECLARE(0x050FB3FC, int32, render_debug_depth_render);
 REFERENCE_DECLARE(0x01694EC8, c_screen_postprocess::s_settings const* const, c_screen_postprocess::x_settings);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
@@ -76,7 +76,7 @@ void __thiscall c_player_view::render_distortions()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_distortions);
 }
 
-void c_player_view::create_frame_textures(long player_index)
+void c_player_view::create_frame_textures(int32 player_index)
 {
 	INVOKE_CLASS_MEMBER(0x00A38D70, c_player_view, create_frame_textures, player_index);
 }
@@ -135,7 +135,7 @@ struct s_surface_group_description
 struct c_render_surface_group
 {
 	s_surface_group_description description;
-	long m_count_specializations;
+	int32 m_count_specializations;
 	c_render_surface* m_default_surface;
 };
 
@@ -154,13 +154,13 @@ struct c_render_surfaces_interface
 REFERENCE_DECLARE_ARRAY(0x0510D8D0, c_render_surface_group, c_render_surfaces_interface::m_render_surface_groups, 60);
 
 // $TODO: move this
-void __cdecl sub_14E56A0(long player_index, c_player_view* player_view)
+void __cdecl sub_14E56A0(int32 player_index, c_player_view* player_view)
 {
 	INVOKE(0x014E56A0, sub_14E56A0, player_index, player_view);
 }
 
 // $TODO: move this
-void __cdecl vision_mode_render(long player_index, c_player_view const* player_view, real32 a3, real32 a4, real32 a5, long a6, long a7)
+void __cdecl vision_mode_render(int32 player_index, c_player_view const* player_view, real32 a3, real32 a4, real32 a5, int32 a6, int32 a7)
 {
 	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);
 }
@@ -728,7 +728,7 @@ void __cdecl render_texture_camera_align_to_attached_object()
 	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_attached_object_orient;
 }
 
-void __cdecl render_texture_camera_attach_to_object(long object_index, long marker_id)
+void __cdecl render_texture_camera_attach_to_object(int32 object_index, int32 marker_id)
 {
 	INVOKE(0x00A3AB20, render_texture_camera_attach_to_object, object_index, marker_id);
 
@@ -774,7 +774,7 @@ real32 __cdecl render_texture_camera_get_aspect_ratio()
 	//return g_render_texture_camera_globals->aspect_ratio;
 }
 
-long __cdecl render_texture_camera_get_height()
+int32 __cdecl render_texture_camera_get_height()
 {
 	return INVOKE(0x00A3ABF0, render_texture_camera_get_height);
 
@@ -782,7 +782,7 @@ long __cdecl render_texture_camera_get_height()
 	//return g_render_texture_camera_globals->height;
 }
 
-long __cdecl render_texture_camera_get_render_mode()
+int32 __cdecl render_texture_camera_get_render_mode()
 {
 	return INVOKE(0x00A3AC10, render_texture_camera_get_render_mode);
 
@@ -790,7 +790,7 @@ long __cdecl render_texture_camera_get_render_mode()
 	//return g_render_texture_camera_globals->render_mode;
 }
 
-long __cdecl render_texture_camera_get_sub_A3AC30()
+int32 __cdecl render_texture_camera_get_sub_A3AC30()
 {
 	return INVOKE(0x00A3AC30, render_texture_camera_get_sub_A3AC30);
 
@@ -801,7 +801,7 @@ long __cdecl render_texture_camera_get_sub_A3AC30()
 	//return g_render_texture_camera_globals->__unknown40_object_index;
 }
 
-long __cdecl render_texture_camera_get_target_object_index()
+int32 __cdecl render_texture_camera_get_target_object_index()
 {
 	return INVOKE(0x00A3AC70, render_texture_camera_get_target_object_index);
 
@@ -809,14 +809,14 @@ long __cdecl render_texture_camera_get_target_object_index()
 	//if (g_render_texture_camera_globals->target_type == _texture_camera_type_position)
 	//	return NONE;
 	//
-	//long object_index = g_render_texture_camera_globals->target.object_index;
+	//int32 object_index = g_render_texture_camera_globals->target.object_index;
 	//if (!object_try_and_get_and_verify_type(object_index, NONE))
 	//	return NONE;
 	//
 	//return object_index;
 }
 
-long __cdecl render_texture_camera_get_width()
+int32 __cdecl render_texture_camera_get_width()
 {
 	return INVOKE(0x00A3ACB0, render_texture_camera_get_width);
 
@@ -890,7 +890,7 @@ void __cdecl render_texture_camera_position_world_offset(real32 offset_x, real32
 	//g_render_texture_camera_globals->position_offset.k = offset_y;
 }
 
-void __cdecl render_texture_camera_render_mode(long mode)
+void __cdecl render_texture_camera_render_mode(int32 mode)
 {
 	INVOKE(0x00A3AEE0, render_texture_camera_render_mode, mode);
 
@@ -924,7 +924,7 @@ void __cdecl render_texture_camera_set_fov_frame_target(real32 target_zoom)
 	//g_render_texture_camera_globals->fov.target_scale = target_zoom;
 }
 
-void __cdecl render_texture_camera_set_object_marker(long object_index, long marker_id, real32 vertical_field_of_view_degrees)
+void __cdecl render_texture_camera_set_object_marker(int32 object_index, int32 marker_id, real32 vertical_field_of_view_degrees)
 {
 	INVOKE(0x00A3AFF0, render_texture_camera_set_object_marker, object_index, marker_id, vertical_field_of_view_degrees);
 
@@ -988,7 +988,7 @@ void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real
 }
 
 //.text:00A3B240 ; render_texture_camera_set_?
-void __cdecl render_texture_camera_set_sub_A3B240(long object_index)
+void __cdecl render_texture_camera_set_sub_A3B240(int32 object_index)
 {
 	INVOKE(0x00A3B240, render_texture_camera_set_sub_A3B240, object_index);
 
@@ -997,7 +997,7 @@ void __cdecl render_texture_camera_set_sub_A3B240(long object_index)
 	//	g_render_texture_camera_globals->__unknown40_object_index = object_index;
 }
 
-void __cdecl render_texture_camera_set_resolution(long width, long height)
+void __cdecl render_texture_camera_set_resolution(int32 width, int32 height)
 {
 	INVOKE(0x00A3B280, render_texture_camera_set_resolution, width, height);
 
@@ -1017,7 +1017,7 @@ void __cdecl render_texture_camera_set_target(real32 position_x, real32 position
 	//g_render_texture_camera_globals->target.position.z = position_z;
 }
 
-void __cdecl render_texture_camera_target_object(long object_index, long marker_id)
+void __cdecl render_texture_camera_target_object(int32 object_index, int32 marker_id)
 {
 	INVOKE(0x00A3B330, render_texture_camera_target_object, object_index, marker_id);
 
@@ -1114,7 +1114,7 @@ void c_player_view::restore_to_display_surface()
 	}
 }
 
-void c_player_view::setup_camera(long player_window_index, long player_window_count, long player_window_arrangement, long user_index, s_observer_result const* observer, bool freeze_render_camera)
+void c_player_view::setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, s_observer_result const* observer, bool freeze_render_camera)
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_window_index, player_window_count, player_window_arrangement, user_index, observer, freeze_render_camera);
 

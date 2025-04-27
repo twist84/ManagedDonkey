@@ -4,18 +4,18 @@
 
 HOOK_DECLARE(0x0055B6D0, datum_try_and_get);
 
-long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits)
+int32 __cdecl data_allocation_size(int32 maximum_count, int32 size, int32 alignment_bits)
 {
 	return INVOKE(0x0055AAB0, data_allocation_size, maximum_count, size, alignment_bits);
 
-	//long alignment = 0;
+	//int32 alignment = 0;
 	//if (alignment_bits)
 	//	alignment = MASK(alignment_bits);
 	//
 	//return maximum_count * size + sizeof(s_data_array) + alignment + BIT_VECTOR_SIZE_IN_BYTES(maximum_count);
 }
 
-void __cdecl data_connect(s_data_array* data, long count, void* datums)
+void __cdecl data_connect(s_data_array* data, int32 count, void* datums)
 {
 	INVOKE(0x0055AAE0, data_connect, data, count, datums);
 
@@ -68,7 +68,7 @@ void __cdecl data_dispose(s_data_array* data)
 	//	allocation->deallocate(data);
 }
 
-void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation)
+void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	INVOKE(0x0055ACF0, data_initialize, data, name, maximum_count, size, alignment_bits, allocation);
 
@@ -82,7 +82,7 @@ void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_
 	//data_update_protection(data);
 }
 
-void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation, uint32* in_use_bit_vector)
+void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uint32* in_use_bit_vector)
 {
 	INVOKE(0x0055ADA0, data_initialize_disconnected, data, name, maximum_count, size, alignment_bits, allocation, in_use_bit_vector);
 
@@ -138,12 +138,12 @@ void* data_iterator_next(s_data_iterator* iterator)
 	return INVOKE(0x0055AE30, data_iterator_next, iterator);
 }
 
-void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, long flag_offset, uint8 flag_mask, uint8 flag_value)
+void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
 {
 	return INVOKE(0x0055AE80, data_iterator_next_with_byte_flags, iterator, flag_offset, flag_mask, flag_value);
 }
 
-long __cdecl data_last_index(s_data_array* data)
+int32 __cdecl data_last_index(s_data_array* data)
 {
 	return INVOKE(0x0055AEE0, data_last_index, data);
 }
@@ -165,7 +165,7 @@ void __cdecl data_make_valid(s_data_array* data)
 	//data_verify(data);
 }
 
-s_data_array* __cdecl data_new(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation)
+s_data_array* __cdecl data_new(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	return INVOKE(0x0055AFA0, data_new, name, maximum_count, size, alignment_bits, allocation);
 
@@ -178,7 +178,7 @@ s_data_array* __cdecl data_new(char const* name, long maximum_count, long size, 
 	//return data;
 }
 
-s_data_array* __cdecl data_new_disconnected(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation)
+s_data_array* __cdecl data_new_disconnected(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	return INVOKE(0x0055B010, data_new_disconnected, name, maximum_count, size, alignment_bits, allocation);
 
@@ -190,22 +190,22 @@ s_data_array* __cdecl data_new_disconnected(char const* name, long maximum_count
 	//return data;
 }
 
-long __cdecl data_next_absolute_index(s_data_array const* data, long absolute_index)
+int32 __cdecl data_next_absolute_index(s_data_array const* data, int32 absolute_index)
 {
 	return INVOKE(0x0055B060, data_next_absolute_index, data, absolute_index);
 }
 
-long __cdecl data_next_absolute_index_with_byte_flags(s_data_array const* data, long absolute_index, long flag_offset, uint8 flag_mask, uint8 flag_value)
+int32 __cdecl data_next_absolute_index_with_byte_flags(s_data_array const* data, int32 absolute_index, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
 {
 	return INVOKE(0x0055B0B0, data_next_absolute_index_with_byte_flags, data, absolute_index, flag_offset, flag_mask, flag_value);
 }
 
-long __cdecl data_next_index(s_data_array const* data, long index)
+int32 __cdecl data_next_index(s_data_array const* data, int32 index)
 {
 	return INVOKE(0x0055B130, data_next_index, data, index);
 }
 
-long __cdecl data_previous_index(s_data_array* data, long index)
+int32 __cdecl data_previous_index(s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B170, data_previous_index, data, index);
 }
@@ -215,7 +215,7 @@ void __cdecl data_set_new_base_address(s_data_array** pointer_to_set, s_data_arr
 	INVOKE(0x0055B1D0, data_set_new_base_address, pointer_to_set, new_address);
 }
 
-void __cdecl data_set_protection(s_data_array const* data, long unproteced_element_count)
+void __cdecl data_set_protection(s_data_array const* data, int32 unproteced_element_count)
 {
 	INVOKE(0x0055B220, data_set_protection, data, unproteced_element_count);
 }
@@ -258,17 +258,17 @@ void __cdecl data_verify(s_data_array const* data)
 	//}
 }
 
-long __cdecl datum_absolute_index_to_index(s_data_array const* data, long absolute_index)
+int32 __cdecl datum_absolute_index_to_index(s_data_array const* data, int32 absolute_index)
 {
 	return INVOKE(0x0055B280, datum_absolute_index_to_index, data, absolute_index);
 }
 
-bool __cdecl datum_available_at_index(s_data_array const* data, long index)
+bool __cdecl datum_available_at_index(s_data_array const* data, int32 index)
 {
 	return INVOKE(0x0055B2B0, datum_available_at_index, data, index);
 }
 
-void __cdecl datum_delete(s_data_array* data, long index)
+void __cdecl datum_delete(s_data_array* data, int32 index)
 {
 	INVOKE(0x0055B2E0, datum_delete, data, index);
 }
@@ -288,30 +288,30 @@ void __cdecl datum_initialize_isolated(s_data_array* data, s_datum_header* heade
 	INVOKE(0x0055B3D0, datum_initialize_isolated, data, header);
 }
 
-long __cdecl datum_new(s_data_array* data)
+int32 __cdecl datum_new(s_data_array* data)
 {
 	return INVOKE(0x0055B410, datum_new, data);
 }
 
-long __cdecl datum_new_at_absolute_index(s_data_array* data, long absolute_index)
+int32 __cdecl datum_new_at_absolute_index(s_data_array* data, int32 absolute_index)
 {
 	return INVOKE(0x0055B4D0, datum_new_at_absolute_index, data, absolute_index);
 }
 
-long __cdecl datum_new_at_index(s_data_array* data, long index)
+int32 __cdecl datum_new_at_index(s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B550, datum_new_at_index, data, index);
 }
 
-long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize)
+int32 __cdecl datum_new_in_range(s_data_array* data, int32 minimum_index, int32 count_indices, bool initialize)
 {
 	return INVOKE(0x0055B5D0, datum_new_in_range, data, minimum_index, count_indices, initialize);
 }
 
-void* __cdecl datum_get(s_data_array* data, long index)
+void* __cdecl datum_get(s_data_array* data, int32 index)
 {
-	short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
 	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
@@ -352,7 +352,7 @@ void* __cdecl datum_get(s_data_array* data, long index)
 	return header;
 }
 
-void* __cdecl datum_try_and_get(s_data_array const* data, long index)
+void* __cdecl datum_try_and_get(s_data_array const* data, int32 index)
 {
 	//return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
 
@@ -364,20 +364,20 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	ASSERT(data);
 	ASSERT(data->valid);
 
-	short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
-	if (index == NONE || index == 0 || identifier == short(0xFFFF) || absolute_index == short(0xFFFF))
+	if (index == NONE || index == 0 || identifier == int16(0xFFFF) || absolute_index == int16(0xFFFF))
 		return NULL;
 
-	if (index != NONE || absolute_index != short(0xFFFF))
+	if (index != NONE || absolute_index != int16(0xFFFF))
 	{
 		if (!identifier)
 			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
 				data->name.get_string(),
 				absolute_index).get_string());
 
-		if (absolute_index < 0 || absolute_index >= (short)data->maximum_count)
+		if (absolute_index < 0 || absolute_index >= (int16)data->maximum_count)
 			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
 				data->name.get_string(),
 				index,
@@ -400,7 +400,7 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	return result;
 }
 
-void* __cdecl datum_get_absolute(s_data_array* data, long index)
+void* __cdecl datum_get_absolute(s_data_array* data, int32 index)
 {
 	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, index * data->size);
@@ -432,7 +432,7 @@ void* __cdecl datum_get_absolute(s_data_array* data, long index)
 	return header;
 }
 
-void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
+void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index)
 {
 	return INVOKE(0x0055B710, datum_try_and_get_absolute, data, index);
 
@@ -441,8 +441,8 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 	//ASSERT(data);
 	//ASSERT(data->valid);
 	//
-	//short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	//short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	//int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	//int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 	//
 	//if (index != NONE)
 	//{
@@ -481,7 +481,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 	//return result;
 }
 
-void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
+void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, int32 index)
 {
 	return INVOKE(0x0055B740, datum_try_and_get_unsafe, data, index);
 
@@ -490,8 +490,8 @@ void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
 	//ASSERT(data);
 	//ASSERT(data->valid);
 	//
-	//short identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	//short absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	//int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	//int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 	//
 	//if (index != NONE && absolute_index < data->count)
 	//{

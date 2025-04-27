@@ -24,7 +24,7 @@ void c_read_write_lock::read_unlock()
 	INVOKE_CLASS_MEMBER(0x006EF4E0, c_read_write_lock, read_unlock);
 }
 
-void c_read_write_lock::setup(long critcal_section_index, long semaphore_index)
+void c_read_write_lock::setup(int32 critcal_section_index, int32 semaphore_index)
 {
 	INVOKE_CLASS_MEMBER(0x006EF4F0, c_read_write_lock, setup, critcal_section_index, semaphore_index);
 }

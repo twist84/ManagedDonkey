@@ -3,7 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "main/main.hpp"
 
-bool write_bink_tag_resource_to_disk(long tag_index, char const* filename)
+bool write_bink_tag_resource_to_disk(int32 tag_index, char const* filename)
 {
 	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 
@@ -52,7 +52,7 @@ void write_all_bink_tag_resources_to_disk()
 {
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, BINK_TAG);
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		char const* name = tag_name_strip_path(tag_get_name(tag_index));
 		if (name[0] != 0)

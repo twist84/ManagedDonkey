@@ -26,14 +26,14 @@ struct s_gui_widget_render_data
 	};
 
 	e_gui_widget_type type;
-	c_flags<e_widget_render_data_flags, long, k_number_of_bitmap_render_data_flags> flags;
+	c_flags<e_widget_render_data_flags, int32, k_number_of_bitmap_render_data_flags> flags;
 	gui_real_rectangle2d projected_bounds;
 	e_controller_index local_controller_index;
 };
 
 /*
-//.text:00AB9F40 ; public: static void __cdecl c_gui_widget::render(long, s_gui_widget_render_data const*, rectangle2d const*, bool)
-static void __cdecl gui_widget_render(long user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
+//.text:00AB9F40 ; public: static void __cdecl c_gui_widget::render(int32, s_gui_widget_render_data const*, rectangle2d const*, bool)
+static void __cdecl gui_widget_render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
 {
 	c_rasterizer_profile_scope _widget_render(_rasterizer_profile_element_interface_hud, L"c_gui_widget::render");
 	INVOKE(0x00AB9F40, gui_widget_render, user_index, render_data, window_bounds, is_screenshot);
@@ -103,7 +103,7 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, r
 	render_data->flags.set(s_gui_widget_render_data::_render_in_screenshot_bit, get_render_in_screenshot());
 }
 
-void c_gui_widget::calculate_animation_transform(e_animation_state animation_state, long start_time_milliseconds, long current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished)
+void c_gui_widget::calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished)
 {
 	INVOKE_CLASS_MEMBER(0x00AB73B0, c_gui_widget, calculate_animation_transform, animation_state, start_time_milliseconds, current_time_milliseconds, animation, transform, aspect_ratio_scale, initialize, combinative, finished);
 }
@@ -132,11 +132,11 @@ bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 
 //.text:00AB79D0 ; public: c_gui_button_key_widget* c_gui_widget::create_and_add_button_key(s_button_key_block const*)
 //.text:00AB7A30 ; public: c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(s_bitmap_widget_block const*)
-//.text:00AB7AC0 ; public: void c_gui_widget::create_and_add_child_list_item_widgets(s_tag_block const*, long)
+//.text:00AB7AC0 ; public: void c_gui_widget::create_and_add_child_list_item_widgets(s_tag_block const*, int32)
 //.text:00AB7B80 ; public: c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(s_list_widget_block const*)
 //.text:00AB7BC0 ; public: c_gui_model_widget* c_gui_widget::create_and_add_child_model_widget(s_model_widget_block const*)
 //.text:00AB7C00 ; public: c_gui_text_widget* c_gui_widget::create_and_add_child_text_widget(s_text_widget_block const*)
-//.text:00AB7C90 ; public: void c_gui_widget::create_and_add_children_from_skin_definition(s_gui_skin_definition const*, long, short)
+//.text:00AB7C90 ; public: void c_gui_widget::create_and_add_children_from_skin_definition(s_gui_skin_definition const*, int32, int16)
 //.text:00AB8160 ; public: c_gui_group_widget* c_gui_widget::create_and_add_group(s_group_widget_block const*)
 
 c_gui_bitmap_widget* c_gui_widget::create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition)
@@ -192,7 +192,7 @@ e_animation_state c_gui_widget::get_ambient_state()
 }
 
 //.text:00AB8810 ; 
-//.text:00AB8820 ; private: static long __cdecl c_gui_widget::get_animation_period(s_widget_component_animation_definition const*, long)
+//.text:00AB8820 ; private: static int32 __cdecl c_gui_widget::get_animation_period(s_widget_component_animation_definition const*, int32)
 //.text:00AB8850 ; private: uint32 c_gui_widget::get_animation_state_timer(e_animation_state)
 
 e_controller_index c_gui_widget::get_arbitrary_responding_controller() const
@@ -205,49 +205,49 @@ real_rectangle2d* c_gui_widget::get_authored_bounds(real_rectangle2d* unanimated
 	return INVOKE_CLASS_MEMBER(0x00AB8A10, c_gui_widget, get_authored_bounds, unanimated_bounds);
 }
 
-c_gui_bitmap_widget* c_gui_widget::get_child_bitmap_widget(long name)
+c_gui_bitmap_widget* c_gui_widget::get_child_bitmap_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8A40, c_gui_widget, get_child_bitmap_widget, name);
 
 	return (c_gui_bitmap_widget*)get_child_widget(_gui_bitmap, name);
 }
 
-c_gui_group_widget* c_gui_widget::get_child_group_widget(long name)
+c_gui_group_widget* c_gui_widget::get_child_group_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8A60, c_gui_widget, get_child_group_widget, name);
 
 	return (c_gui_group_widget*)get_child_widget(_gui_group, name);
 }
 
-c_gui_list_item_widget* c_gui_widget::get_child_list_item_widget(long name)
+c_gui_list_item_widget* c_gui_widget::get_child_list_item_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8A80, c_gui_widget, get_child_list_item_widget, name);
 
 	return (c_gui_list_item_widget*)get_child_widget(_gui_list_item, name);
 }
 
-c_gui_list_widget* c_gui_widget::get_child_list_widget(long name)
+c_gui_list_widget* c_gui_widget::get_child_list_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8AA0, c_gui_widget, get_child_list_widget, name);
 
 	return (c_gui_list_widget*)get_child_widget(_gui_list, name);
 }
 
-c_gui_model_widget* c_gui_widget::get_child_model_widget(long name)
+c_gui_model_widget* c_gui_widget::get_child_model_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8AC0, c_gui_widget, get_child_model_widget, name);
 
 	return (c_gui_model_widget*)get_child_widget(_gui_model, name);
 }
 
-c_gui_text_widget* c_gui_widget::get_child_text_widget(long name)
+c_gui_text_widget* c_gui_widget::get_child_text_widget(int32 name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8AE0, c_gui_widget, get_child_text_widget, name);
 
 	return (c_gui_text_widget*)get_child_widget(_gui_text, name);
 }
 
-c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type type, long name)
+c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type type, int32 name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, type, name);
 }
@@ -257,7 +257,7 @@ real_rectangle2d* c_gui_widget::get_container_current_bounds(real_rectangle2d* u
 	return INVOKE_CLASS_MEMBER(0x00AB8BC0, c_gui_widget, get_container_current_bounds, unanimated_bounds);
 }
 
-long c_gui_widget::get_controller_mask() const
+int32 c_gui_widget::get_controller_mask() const
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8CA0, c_gui_widget, get_controller_mask);
 }
@@ -272,7 +272,7 @@ real_rectangle2d* c_gui_widget::get_current_bounds(real_rectangle2d* unanimated_
 	return INVOKE_CLASS_MEMBER(0x00AB8CE0, c_gui_widget, get_current_bounds, unanimated_bounds);
 }
 
-long c_gui_widget::get_datasource_index()
+int32 c_gui_widget::get_datasource_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8D10, c_gui_widget, get_datasource_index);
 }
@@ -287,7 +287,7 @@ c_gui_widget* c_gui_widget::get_deepest_widget_that_can_receive_focus()
 	return INVOKE_CLASS_MEMBER(0x00AB8DA0, c_gui_widget, get_deepest_widget_that_can_receive_focus);
 }
 
-long c_gui_widget::get_definition_index()
+int32 c_gui_widget::get_definition_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8E20, c_gui_widget, get_definition_index);
 }
@@ -297,12 +297,12 @@ e_controller_index c_gui_widget::get_driving_controller() const
 	return INVOKE_CLASS_MEMBER(0x00AB8EB0, c_gui_widget, get_driving_controller);
 }
 
-long c_gui_widget::get_element_handle()
+int32 c_gui_widget::get_element_handle()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8F30, c_gui_widget, get_element_handle);
 }
 
-long c_gui_widget::get_element_index()
+int32 c_gui_widget::get_element_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8F50, c_gui_widget, get_element_index);
 }
@@ -389,7 +389,7 @@ c_gui_screen_widget* c_gui_widget::get_parent_screen()
 	return INVOKE_CLASS_MEMBER(0x00AB9440, c_gui_widget, get_parent_screen);
 }
 
-long c_gui_widget::get_name() const
+int32 c_gui_widget::get_name() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB94B0, c_gui_widget, get_name);
 
@@ -437,7 +437,7 @@ gui_real_rectangle2d* c_gui_widget::get_projected_bounds(rectangle2d const* wind
 	return INVOKE_CLASS_MEMBER(0x00AB95D0, c_gui_widget, get_projected_bounds, window_bounds, projected_bounds, apply_translation, apply_scale, apply_rotation);
 }
 
-//.text:00AB9610 ; public: short c_gui_widget::get_render_depth_bias()
+//.text:00AB9610 ; public: int16 c_gui_widget::get_render_depth_bias()
 
 bool c_gui_widget::get_render_in_screenshot()
 {
@@ -455,14 +455,14 @@ e_controller_index c_gui_widget::get_single_responding_controller() const
 //.text:00AB96E0 ; public: virtual wchar_t const* __cdecl c_sized_user_interface_text<48>::get_string()
 //.text:00AB96F0 ; public: virtual wchar_t const* __cdecl c_sized_user_interface_text<1024>::get_string()
 
-bool c_gui_widget::get_string_by_string_id(long string_identifier, c_static_wchar_string<1024>* buffer)
+bool c_gui_widget::get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9700, c_gui_widget, get_string_by_string_id, string_identifier, buffer);
 }
 
-//.text:00AB9710 ; public: virtual unsigned long __cdecl c_gui_sized_text_widget<256>::get_text_buffer_size() const
-//.text:00AB9720 ; public: virtual unsigned long __cdecl c_gui_sized_text_widget<48>::get_text_buffer_size() const
-//.text:00AB9730 ; public: virtual unsigned long __cdecl c_gui_sized_text_widget<1024>::get_text_buffer_size() const
+//.text:00AB9710 ; public: virtual uint32 __cdecl c_gui_sized_text_widget<256>::get_text_buffer_size() const
+//.text:00AB9720 ; public: virtual uint32 __cdecl c_gui_sized_text_widget<48>::get_text_buffer_size() const
+//.text:00AB9730 ; public: virtual uint32 __cdecl c_gui_sized_text_widget<1024>::get_text_buffer_size() const
 //.text:00AB9740 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<256>::get_text_internal()
 //.text:00AB9750 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<48>::get_text_internal()
 //.text:00AB9760 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<1024>::get_text_internal()
@@ -574,7 +574,7 @@ void c_gui_widget::remove_child_widget(c_gui_widget* child)
 	INVOKE_CLASS_MEMBER(0x00AB9E40, c_gui_widget, remove_child_widget, child);
 }
 
-void c_gui_widget::render(long user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
+void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
 {
 	INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
 }
@@ -590,22 +590,22 @@ void c_gui_widget::set_animated_state_baseline(s_animation_transform* transform)
 //.text:00ABA070 ; 
 //.text:00ABA120 ; 
 
-void c_gui_widget::set_child_bitmap_sprite_frame(long widget_name, long sprite_frame_index)
+void c_gui_widget::set_child_bitmap_sprite_frame(int32 widget_name, int32 sprite_frame_index)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA1E0, c_gui_widget, set_child_bitmap_sprite_frame, widget_name, sprite_frame_index);
 }
 
-void c_gui_widget::set_child_enabled(e_gui_widget_type widget_type, long widget_name, bool enabled)
+void c_gui_widget::set_child_enabled(e_gui_widget_type widget_type, int32 widget_name, bool enabled)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA200, c_gui_widget, set_child_enabled, widget_type, widget_name, enabled);
 }
 
-void c_gui_widget::set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, long widget_name, bool value)
+void c_gui_widget::set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, int32 widget_name, bool value)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA220, c_gui_widget, set_child_use_alternate_ambient_state, widget_type, widget_name, value);
 }
 
-void c_gui_widget::set_child_visible(e_gui_widget_type widget_type, long widget_name, bool visible)
+void c_gui_widget::set_child_visible(e_gui_widget_type widget_type, int32 widget_name, bool visible)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA240, c_gui_widget, set_child_visible, widget_type, widget_name, visible);
 }
@@ -649,9 +649,9 @@ void c_gui_widget::set_previous(c_gui_widget* previous)
 
 //.text:00ABA3F0 ; 
 //.text:00ABA420 ; 
-//.text:00ABA450 ; public: virtual void __cdecl c_sized_user_interface_text<256>::set_string(wchar_t const*, bool, long)
-//.text:00ABA550 ; public: virtual void __cdecl c_sized_user_interface_text<48>::set_string(wchar_t const*, bool, long)
-//.text:00ABA630 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::set_string(wchar_t const*, bool, long)
+//.text:00ABA450 ; public: virtual void __cdecl c_sized_user_interface_text<256>::set_string(wchar_t const*, bool, int32)
+//.text:00ABA550 ; public: virtual void __cdecl c_sized_user_interface_text<48>::set_string(wchar_t const*, bool, int32)
+//.text:00ABA630 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::set_string(wchar_t const*, bool, int32)
 
 void c_gui_widget::set_tint_color_direct(real_argb_color const* color)
 {
@@ -710,9 +710,9 @@ bool c_gui_widget::transitioning_out()
 	return INVOKE_CLASS_MEMBER(0x00ABACB0, c_gui_widget, transitioning_in);
 }
 
-//.text:00ABAD00 ; public: virtual void __cdecl c_sized_user_interface_text<256>::update(long)
-//.text:00ABAE30 ; public: virtual void __cdecl c_sized_user_interface_text<48>::update(long)
-//.text:00ABAF40 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::update(long)
+//.text:00ABAD00 ; public: virtual void __cdecl c_sized_user_interface_text<256>::update(int32)
+//.text:00ABAE30 ; public: virtual void __cdecl c_sized_user_interface_text<48>::update(int32)
+//.text:00ABAF40 ; public: virtual void __cdecl c_sized_user_interface_text<1024>::update(int32)
 
 void c_gui_widget::update(uint32 current_milliseconds)
 {
@@ -746,12 +746,12 @@ void c_gui_widget::update_render_state(uint32 current_milliseconds)
 
 //.text:00ABB210 ; 
 
-bool c_gui_widget::verify_animation_period(e_animation_state animation_state, long period)
+bool c_gui_widget::verify_animation_period(e_animation_state animation_state, int32 period)
 {
 	return INVOKE_CLASS_MEMBER(0x00ABB220, c_gui_widget, verify_animation_period, animation_state, period);
 }
 
-//.text:00ABB270 ; public: static char const* __cdecl c_gui_widget::widget_name_to_string(long)
+//.text:00ABB270 ; public: static char const* __cdecl c_gui_widget::widget_name_to_string(int32)
 //.text:00ABB280 ; public: static char const* __cdecl c_gui_widget::widget_type_to_string(e_gui_widget_type)
 
 bool c_gui_widget::within_focus_chain()

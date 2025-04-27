@@ -31,7 +31,7 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 	return result;
 }
 
-bool c_gui_screen_pregame_lobby::handle_list_item_chosen_(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_pregame_lobby::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	return handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
@@ -56,9 +56,9 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
 }
 
-//.text:00B21180 ; public: c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(long)
+//.text:00B21180 ; public: c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32)
 //.text:00B21230 ; public: virtual void* c_gui_screen_pregame_lobby::`vector deleting destructor'(unsigned int)
-//.text:00B212A0 ; private: void c_gui_screen_pregame_lobby::commit_team_change(long, c_gui_roster_list_widget*, long)
+//.text:00B212A0 ; private: void c_gui_screen_pregame_lobby::commit_team_change(int32, c_gui_roster_list_widget*, int32)
 //.text:00B212F0 ; public: virtual c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(s_runtime_bitmap_widget_definition const*)
 //.text:00B21370 ; public: virtual c_gui_list_widget* c_gui_screen_pregame_lobby::create_list_widget(s_list_widget_block const*)
 //.text:00B21400 ; public: virtual void c_gui_screen_pregame_lobby::dispose()
@@ -66,19 +66,19 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 //.text:00B21450 ; protected: static e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
 //.text:00B214A0 ; protected: c_game_variant const* c_gui_screen_pregame_lobby::get_current_variant()
 //.text:00B214D3 ; 
-//.text:00B214E0 ; protected: static long __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool)
+//.text:00B214E0 ; protected: static int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool)
 //.text:00B21930 ; private: bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index)
 //.text:00B21A20 ; public: virtual bool c_gui_screen_pregame_lobby::handle_controller_input_message(c_controller_input_message const*)
 //.text:00B21E20 ; public: virtual bool c_gui_screen_pregame_lobby::handle_dialog_result(c_dialog_result_message const*)
 
-bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_message const* message, long list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B21EA0, c_gui_screen_pregame_lobby, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
-		long target_name = _string_id_invalid;
-		long element_handle = list_item_widget->get_element_handle();
+		int32 target_name = _string_id_invalid;
+		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, target), &target_name))
 		{
 			if (target_name == STRING_ID(gui, network_mode))
@@ -140,8 +140,8 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 	}
 	else if (list_name == STRING_ID(gui, roster))
 	{
-		long target_session_player_index = NONE;
-		long element_handle = list_item_widget->get_element_handle();
+		int32 target_session_player_index = NONE;
+		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_integer_value(element_handle, STRING_ID(gui, player_index), &target_session_player_index))
 		{
 			if (s_player_identifier const* player_identifier = user_interface_session_get_player_identifier(target_session_player_index))

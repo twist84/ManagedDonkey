@@ -21,11 +21,11 @@ public:
 	virtual char const* get_client_name() const;
 	virtual bool connection_lost(e_network_channel_closure_reason*) const;
 	virtual bool has_data_to_transmit(bool*) const;
-	virtual long space_required_bits(long, long);
-	virtual bool write_to_packet(long, c_bitstream*, long, long);
-	virtual e_network_read_result read_from_packet(long*, c_bitstream*);
-	virtual void notify_packet_acknowledged(long);
-	virtual void notify_packet_retired(long, bool);
+	virtual int32 space_required_bits(int32, int32);
+	virtual bool write_to_packet(int32, c_bitstream*, int32, int32);
+	virtual e_network_read_result read_from_packet(int32*, c_bitstream*);
+	virtual void notify_packet_acknowledged(int32);
+	virtual void notify_packet_retired(int32, bool);
 };
 static_assert(sizeof(c_network_channel_client) == sizeof(void*));
 
@@ -42,9 +42,9 @@ public:
 	struct s_connection_outgoing_packet
 	{
 		uint32 timestamp;
-		long size_on_wire;
+		int32 size_on_wire;
 		uint32 round_trip_msec;
-		short unretired_window_size;
+		int16 unretired_window_size;
 		uint16 flags;
 	};
 	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
@@ -55,16 +55,16 @@ public:
 	char const* m_channel_name;
 	c_sliding_window m_incoming_window;
 	c_sliding_window m_outgoing_window;
-	long m_incoming_window_size_bytes;
-	long m_outgoing_window_size_bytes;
+	int32 m_incoming_window_size_bytes;
+	int32 m_outgoing_window_size_bytes;
 	c_static_array<s_connection_incoming_packet, 128> m_incoming_packets;
 	c_static_array<s_connection_outgoing_packet, 128> m_outgoing_packets;
-	long m_highest_outgoing_acknowledged_sequence_number;
-	long m_highest_incoming_acknowledged_sequence_number;
-	long m_highest_incoming_known_retired_sequence_number;
+	int32 m_highest_outgoing_acknowledged_sequence_number;
+	int32 m_highest_incoming_acknowledged_sequence_number;
+	int32 m_highest_incoming_known_retired_sequence_number;
 	bool m_incoming_window_fully_retired;
 	bool m_outgoing_window_fully_retired;
-	long m_current_timeout_msec;
+	int32 m_current_timeout_msec;
 };
 static_assert(sizeof(c_network_connection) == 0x960);
 
@@ -87,7 +87,7 @@ public:
 		uint8 flags;
 		uint8 fragment_size_bytes;
 		uint16 fragment_size_bits;
-		long packet_sequence_number;
+		int32 packet_sequence_number;
 		s_outgoing_fragment_record* next_fragment;
 		s_outgoing_message_description message_description;
 		__pragma(warning(disable : 4200)) uint8 payload[];
@@ -99,14 +99,14 @@ public:
 		uint8 flags;
 		uint8 fragment_size_bytes;
 		uint16 fragment_size_bits;
-		long sequence_number;
+		int32 sequence_number;
 		s_incoming_fragment_record* next_fragment;
 		__pragma(warning(disable : 4200)) uint8 payload[];
 	};
 	static_assert(sizeof(s_incoming_fragment_record) == 0xC);
 
 public:
-	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
+	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 	bool has_channel_been_used() const;
 
 	bool m_allocated;
@@ -126,8 +126,8 @@ public:
 	s_incoming_fragment_record* m_incoming_fragment_list_head;
 	s_incoming_fragment_record* m_incoming_fragment_list_tail;
 
-	long m_outgoing_payload_bytes;
-	long m_incoming_payload_bytes;
+	int32 m_outgoing_payload_bytes;
+	int32 m_incoming_payload_bytes;
 };
 static_assert(sizeof(c_network_message_queue) == 0x64);
 
@@ -154,7 +154,7 @@ protected:
 	bool m_initialized;
 	void* m_simulation_context;
 	void(__cdecl* m_simulation_closure_callback)(void*);
-	long m_client_count;
+	int32 m_client_count;
 	s_network_channel_client_info m_clients[4];
 	bool m_simulation_is_authority;
 	bool m_established;
@@ -172,7 +172,7 @@ static_assert(sizeof(c_network_channel_simulation_gatekeeper) == 0x8);
 struct c_network_channel
 {
 public:
-	static long const k_network_channel_name_size;
+	static int32 const k_network_channel_name_size;
 
 	struct s_activity_timer
 	{
@@ -196,9 +196,9 @@ public:
 	bool connected() const;
 	void close(e_network_channel_closure_reason reason);
 	void establish(uint32 remote_channel_identifier);
-	void open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
+	void open(transport_address const* remote_address, bool send_connect_packets, int32 channel_identifier);
 
-	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
+	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 
 //protected:
 	c_network_link* m_link;
@@ -210,20 +210,20 @@ public:
 	c_network_connection m_connection;
 	c_network_message_queue m_message_queue;
 	c_network_channel_simulation_gatekeeper m_simulation_gatekeeper;
-	long m_client_count;
+	int32 m_client_count;
 	s_network_channel_client_info m_clients[3];
 	c_network_channel_simulation_interface* m_simulation_interface;
 	uint32 m_channel_flags;
 	uint32 m_channel_identifier;
 	uint32 m_remote_channel_identifier;
-	c_enum<e_network_channel_state, long, _network_channel_state_none, k_network_channel_state_count> m_channel_state;
-	c_enum<e_network_channel_closure_reason, long, _network_channel_reason_none, k_network_channel_reason_count> m_channel_closure_reason;
+	c_enum<e_network_channel_state, int32, _network_channel_state_none, k_network_channel_state_count> m_channel_state;
+	c_enum<e_network_channel_closure_reason, int32, _network_channel_reason_none, k_network_channel_reason_count> m_channel_closure_reason;
 	transport_address m_channel_closure_address;
 	transport_address m_remote_address;
 	bool m_send_connect_packets;
 	uint32 m_first_connect_packet_timestamp;
 	uint32 m_next_connect_packet_timestamp;
-	long m_sent_connect_packet_count;
+	int32 m_sent_connect_packet_count;
 	uint32 m_established_timestamp;
 	uint32 m_connected_timestamp;
 	s_activity_timer m_activity_times[6];

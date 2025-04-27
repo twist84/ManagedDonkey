@@ -5,17 +5,17 @@
 
 struct s_saved_game_file_text_parser_input
 {
-	long user_index;
+	int32 user_index;
 	wchar_t const* map_variant_name;
 	wchar_t const* game_variant_name;
 	wchar_t const* campaign_map_name;
-	long campaign_difficulty;
+	int32 campaign_difficulty;
 };
 static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);
 
 struct s_saved_game_file_globals
 {
-	c_flags<e_saved_game_flags, long, k_saved_game_flags_count> flags;
+	c_flags<e_saved_game_flags, int32, k_saved_game_flags_count> flags;
 	s_saved_game_file_text_parser_input saved_game_file_text_parse_data;
 	c_magic_string_game_tag_parser map_variant_name_parser;
 	c_magic_string_game_tag_parser game_variant_name_parser;

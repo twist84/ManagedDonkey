@@ -17,7 +17,7 @@
 //	DECLFUNC(0x00450BB0, void, __thiscall, c_network_session_parameter_base*)(this);
 //}
 
-void c_network_session_parameter_base::build_change_request(long peer_index, void* payload, long payload_size) const
+void c_network_session_parameter_base::build_change_request(int32 peer_index, void* payload, int32 payload_size) const
 {
 	//INVOKE_CLASS_MEMBER(0x00450C20, c_network_session_parameter_base, build_change_request, peer_index, payload, payload_size);
 
@@ -27,7 +27,7 @@ void c_network_session_parameter_base::build_change_request(long peer_index, voi
 	get_change_request_payload(peer_index, payload);
 }
 
-void c_network_session_parameter_base::build_update(long peer_index, s_network_session_parameter_update* update, long update_size) const
+void c_network_session_parameter_base::build_update(int32 peer_index, s_network_session_parameter_update* update, int32 update_size) const
 {
 	//INVOKE_CLASS_MEMBER(0x00450C40, c_network_session_parameter_base, build_update, peer_index, update, update_size);
 
@@ -44,7 +44,7 @@ bool c_network_session_parameter_base::can_clear_change_request_desired(void)
 	return true;
 }
 
-bool c_network_session_parameter_base::can_set_peer_no_longer_requires_update(long peer_index)
+bool c_network_session_parameter_base::can_set_peer_no_longer_requires_update(int32 peer_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00450C70, c_network_session_parameter_base, can_set_peer_no_longer_requires_update);
 
@@ -107,7 +107,7 @@ char const* c_network_session_parameter_base::get_change_request_denied_reason(v
 	return INVOKE_CLASS_MEMBER(0x00450D10, c_network_session_parameter_base, get_change_request_denied_reason);
 }
 
-long c_network_session_parameter_base::get_change_request_size(void) const
+int32 c_network_session_parameter_base::get_change_request_size(void) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00450D90, c_network_session_parameter_base, get_change_request_size);
 
@@ -146,7 +146,7 @@ e_parameter_update_priority c_network_session_parameter_base::get_update_priorit
 	return m_update_priority;
 }
 
-long c_network_session_parameter_base::get_update_size(void) const
+int32 c_network_session_parameter_base::get_update_size(void) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00450E30, c_network_session_parameter_base, get_update_size);
 
@@ -154,7 +154,7 @@ long c_network_session_parameter_base::get_update_size(void) const
 	return get_update_payload_size() + 4; // is the 4 `sizeof(s_network_session_parameter_update)`?
 }
 
-bool c_network_session_parameter_base::handle_change_request(void const* change_request, long change_request_size)
+bool c_network_session_parameter_base::handle_change_request(void const* change_request, int32 change_request_size)
 {
 	//return INVOKE_CLASS_MEMBER(0x00450E40, c_network_session_parameter_base, handle_change_request, change_request, change_request_size);
 
@@ -172,7 +172,7 @@ bool c_network_session_parameter_base::handle_change_request(void const* change_
 	return result;
 }
 
-bool c_network_session_parameter_base::handle_update(s_network_session_parameter_update const* update, long update_size)
+bool c_network_session_parameter_base::handle_update(s_network_session_parameter_update const* update, int32 update_size)
 {
 	//return INVOKE_CLASS_MEMBER(0x00450EA0, c_network_session_parameter_base, handle_update, update, update_size);
 
@@ -243,12 +243,12 @@ void c_network_session_parameter_base::notify_set_update_required(void)
 	//INVOKE_CLASS_MEMBER(0x00451050, c_network_session_parameter_base, notify_set_update_required);
 }
 
-void c_network_session_parameter_base::notify_update_payload_sent_to_peer(long peer_index)
+void c_network_session_parameter_base::notify_update_payload_sent_to_peer(int32 peer_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00451060, c_network_session_parameter_base, notify_update_payload_sent_to_peer, peer_index);
 }
 
-void c_network_session_parameter_base::notify_update_sent_to_peer(long peer_index)
+void c_network_session_parameter_base::notify_update_sent_to_peer(int32 peer_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00451070, c_network_session_parameter_base, notify_update_sent_to_peer, peer_index);
 
@@ -277,7 +277,7 @@ bool c_network_session_parameter_base::parameter_data_ready_for_consumption(void
 	return true;
 }
 
-bool c_network_session_parameter_base::peer_requires_update(long peer_index) const
+bool c_network_session_parameter_base::peer_requires_update(int32 peer_index) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00451170, c_network_session_parameter_base, peer_requires_update, peer_index);
 
@@ -287,7 +287,7 @@ bool c_network_session_parameter_base::peer_requires_update(long peer_index) con
 	return false;
 }
 
-void c_network_session_parameter_base::reset_peer_state(long peer_index)
+void c_network_session_parameter_base::reset_peer_state(int32 peer_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00451190, c_network_session_parameter_base, reset_peer_state, peer_index);
 
@@ -335,7 +335,7 @@ void c_network_session_parameter_base::set_desires_change_request(void)
 	notify_set_change_request();
 }
 
-void c_network_session_parameter_base::set_peer_no_longer_requires_update(long peer_index)
+void c_network_session_parameter_base::set_peer_no_longer_requires_update(int32 peer_index)
 {
 	//INVOKE_CLASS_MEMBER(0x004512E0, c_network_session_parameter_base, set_peer_no_longer_requires_update, peer_index);
 
@@ -380,9 +380,9 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 	notify_transition_state_to_become_host();
 }
 
-//void c_network_session_parameter_base::validate_buffer(long size, void const* original, void* temporary, void* buffer)
+//void c_network_session_parameter_base::validate_buffer(int32 size, void const* original, void* temporary, void* buffer)
 //{
-//	long update_size = size;
+//	int32 update_size = size;
 //	c_bitstream encoded_message((uint8*)buffer, size);
 //	encoded_message.begin_writing(1);
 //	g_network_session_parameter_type_collection->encode_update(m_parameter_type, &encoded_message, original, update_size);

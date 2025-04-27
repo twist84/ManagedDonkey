@@ -9,7 +9,7 @@ struct c_debug_menu_item_type :
 public:
 	virtual ~c_debug_menu_item_type();
 	virtual void render(c_font_cache_base* font_cache, point2d const& position) override;
-	virtual void to_string(char* buffer, long buffer_size);
+	virtual void to_string(char* buffer, int32 buffer_size);
 	virtual void render_value(c_font_cache_base* font_cache, point2d const& position);
 
 	c_debug_menu_item_type(c_debug_menu* menu, char const* name, bool readonly);
@@ -29,7 +29,7 @@ public:
 	virtual void notify_right() override;
 
 protected:
-	virtual void to_string(char* buffer, long buffer_size) override;
+	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
 	c_debug_menu_item_type_bool(c_debug_menu* menu, char const* name, bool readonly, char const* variable);
@@ -47,7 +47,7 @@ public:
 	virtual void notify_right() override;
 
 protected:
-	virtual void to_string(char* buffer, long buffer_size) override;
+	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
 	c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real32 min, real32 max, real32 inc);
@@ -68,16 +68,16 @@ public:
 	virtual void notify_right() override;
 
 protected:
-	virtual void to_string(char* buffer, long buffer_size) override;
+	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, short min, short max, short inc);
+	c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int16 min, int16 max, int16 inc);
 
 protected:
-	c_debug_menu_value_hs_global_external<short> m_value;
-	short m_min;
-	short m_max;
-	short m_inc;
+	c_debug_menu_value_hs_global_external<int16> m_value;
+	int16 m_min;
+	int16 m_max;
+	int16 m_inc;
 };
 
 class c_debug_menu_item_type_long :
@@ -89,15 +89,15 @@ public:
 	virtual void notify_right() override;
 
 protected:
-	virtual void to_string(char* buffer, long buffer_size) override;
+	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, long min, long max, long inc);
+	c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int32 min, int32 max, int32 inc);
 
 protected:
-	c_debug_menu_value_hs_global_external<long> m_value;
-	long m_min;
-	long m_max;
-	long m_inc;
+	c_debug_menu_value_hs_global_external<int32> m_value;
+	int32 m_min;
+	int32 m_max;
+	int32 m_inc;
 };
 

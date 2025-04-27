@@ -15,7 +15,7 @@ enum e_online_arbitration_registration_status
 
 struct s_arbitration_registration_result
 {
-	long registrant_count;
+	int32 registrant_count;
 
 	struct
 	{
@@ -29,8 +29,8 @@ static_assert(sizeof(s_arbitration_registration_result) == 0x188);
 struct s_network_arbitration_globals
 {
 	bool initialized;
-	long managed_session_index;
-	c_enum<e_online_arbitration_registration_status, long, _network_arbitration_status_none, k_network_arbitration_status_count> arbitration_status;
+	int32 managed_session_index;
+	c_enum<e_online_arbitration_registration_status, int32, _network_arbitration_status_none, k_network_arbitration_status_count> arbitration_status;
 	s_arbitration_registration_result registration_result;
 };
 static_assert(sizeof(s_network_arbitration_globals) == 0x198);

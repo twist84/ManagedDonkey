@@ -14,8 +14,8 @@ struct s_muffin_datum :
 		uint16 event_delay;
 		uint8 scale;
 		uint8 unused;
-		long marker_name;
-		long birth_time;
+		int32 marker_name;
+		int32 birth_time;
 		real_point3d jiggle_position;
 		real_vector3d jiggle_velocity;
 		real_matrix4x3 fixed_node_to_muffin_matrix;
@@ -27,8 +27,8 @@ struct s_muffin_datum :
 	uint8 unused;
 	uint8 muffin_count;
 	s_muffin muffins[32];
-	long definition_index;
-	long object_index;
+	int32 definition_index;
+	int32 object_index;
 	real32 time_accumulator;
 };
 static_assert(sizeof(s_muffin_datum) == 0x1890);

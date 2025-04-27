@@ -8,8 +8,8 @@ struct s_havok_proxy_datum :
 {
 	hkRigidBody* rigid_body;
 	real_matrix4x3 transform;
-	long object_index;
-	long creation_time;
+	int32 object_index;
+	int32 creation_time;
 };
 static_assert(sizeof(s_havok_proxy_datum) == 0x44);
 

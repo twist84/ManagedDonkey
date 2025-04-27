@@ -8,14 +8,14 @@ struct s_splitscreen_view_config
 	real32 m_top;
 	real32 m_right;
 	real32 m_bottom;
-	long m_render_target_resolution;
+	int32 m_render_target_resolution;
 };
 static_assert(sizeof(s_splitscreen_view_config) == 0x14);
 
 struct c_splitscreen_config
 {
 public:
-	static s_splitscreen_view_config const* get_view_bounds(long player_index, long player_count, bool is_widescreen);
+	static s_splitscreen_view_config const* get_view_bounds(int32 player_index, int32 player_count, bool is_widescreen);
 
 private:
 

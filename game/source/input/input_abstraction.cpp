@@ -48,27 +48,27 @@ void __cdecl input_abstraction_dispose_from_old_map()
 	input_abstraction_globals.input_globals = nullptr;
 }
 
-void __cdecl sub_60B3D0(gamepad_state* state, s_gamepad_input_preferences* preferences, s_game_input_state* input_state, long gamepad_index)
+void __cdecl sub_60B3D0(gamepad_state* state, s_gamepad_input_preferences* preferences, s_game_input_state* input_state, int32 gamepad_index)
 {
 	INVOKE(0x0060B3D0, sub_60B3D0, state, preferences, input_state, gamepad_index);
 }
 
-short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
+int16 __cdecl input_abstraction_get_abstract_stick_pitch(int32 controller_index)
 {
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
-	short joystick_preset = input_abstraction_globals.preferences[controller_index].keyboard_preferences.joystick_preset;
+	int16 joystick_preset = input_abstraction_globals.preferences[controller_index].keyboard_preferences.joystick_preset;
 
 	return abstract_sticks[(joystick_preset == 1 || joystick_preset == 3) ? 0 : 1].y;
 }
 
-long __cdecl input_abstraction_get_controls_method()
+int32 __cdecl input_abstraction_get_controls_method()
 {
 	return input_abstraction_globals.controls_method;
 }
 
-void __cdecl input_abstraction_get_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
+void __cdecl input_abstraction_get_controller_preferences(int32 controller_index, s_gamepad_input_preferences* preferences)
 {
 	//INVOKE(0x0060BE70, input_abstraction_get_controller_preferences, controller_index, preferences);
 
@@ -93,7 +93,7 @@ void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferenc
 	//csmemset(preferences->gamepad_buttons.m_storage, 0xFF, sizeof(preferences->gamepad_buttons));
 	//csmemset(preferences->gamepad_buttons_held.m_storage, false, sizeof(preferences->gamepad_buttons_held));
 	//
-	//for (long gamepad_button_index = 0; gamepad_button_index < 16; gamepad_button_index++)
+	//for (int32 gamepad_button_index = 0; gamepad_button_index < 16; gamepad_button_index++)
 	//	preferences->gamepad_buttons[gamepad_button_index] = gamepad_button_index;
 	//
 	//// $TODO: 
@@ -109,7 +109,7 @@ void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferenc
 
 //.text:0060BFC0 ; gamepad_state *sub_60BFC0()
 
-void __cdecl input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state)
+void __cdecl input_abstraction_get_input_state(int32 controller_index, s_game_input_state** input_state)
 {
 	//INVOKE(0x0060BFE0, input_abstraction_get_input_state, controller_index, input_state);
 
@@ -119,7 +119,7 @@ void __cdecl input_abstraction_get_input_state(long controller_index, s_game_inp
 	*input_state = &input_abstraction_globals.input_states[controller_index];
 }
 
-void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, real_euler_angles2d* angular_velocity)
+void __cdecl input_abstraction_get_player_look_angular_velocity(int32 controller_index, real_euler_angles2d* angular_velocity)
 {
 	//INVOKE(0x0060C000, input_abstraction_get_player_look_angular_velocity, controller_index, angular_velocity);
 
@@ -137,12 +137,12 @@ void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_
 	angular_velocity->pitch = look_sensitivity_y * DEG;
 }
 
-void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)
+void __cdecl sub_60C040(int32 keyboard_preset, s_gamepad_input_preferences* preferences)
 {
 	HOOK_INVOKE(, sub_60C040, keyboard_preset, preferences);
 
-	c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS>& reload_left_button = preferences->keyboard_preferences.keys_primary[_button_action_reload_left];
-	c_enum<e_input_key_code, short, _key_escape, NUMBER_OF_KEYS>& pick_up_left_button = preferences->keyboard_preferences.keys_primary[_button_action_pick_up_left];
+	c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>& reload_left_button = preferences->keyboard_preferences.keys_primary[_button_action_reload_left];
+	c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS>& pick_up_left_button = preferences->keyboard_preferences.keys_primary[_button_action_pick_up_left];
 	c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>& fire_left_button = preferences->keyboard_preferences.mouse_buttons_primary[_button_action_fire_left];
 
 	reload_left_button = _key_z;
@@ -151,7 +151,7 @@ void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* prefe
 
 	printf("");
 
-	//for (long i = 0; i < k_button_action_count_keyboard; i++)
+	//for (int32 i = 0; i < k_button_action_count_keyboard; i++)
 	//{
 	//	preferences->keyboard_preferences.keys_primary[i] = _key_not_a_key;
 	//	preferences->keyboard_preferences.mouse_buttons_primary[i] = k_mouse_button_none;
@@ -304,9 +304,9 @@ void __cdecl input_abstraction_initialize()
 	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
 		input_abstraction_get_default_preferences(&input_abstraction_globals.preferences[controller_index]);
-		input_abstraction_globals.input_has_gamepad[controller_index] = input_has_gamepad(static_cast<short>(controller_index));
+		input_abstraction_globals.input_has_gamepad[controller_index] = input_has_gamepad(static_cast<int16>(controller_index));
 
-		for (long button_index = 0; button_index < k_controller_button_count; button_index++)
+		for (int32 button_index = 0; button_index < k_controller_button_count; button_index++)
 		{
 			e_button_action button_action = static_cast<e_button_action>(button_index);
 			input_abstraction_globals.input_states[controller_index].get_button(button_action).unlock();
@@ -326,12 +326,12 @@ void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_s
 {
 	//INVOKE(0x0060C4A0, sub_60C4A0, preferences, input_state);
 
-	for (long i = 0; i < k_button_action_count_keyboard * 2; i++)
+	for (int32 i = 0; i < k_button_action_count_keyboard * 2; i++)
 	{
-		long key_index = i % k_button_action_count_keyboard;
+		int32 key_index = i % k_button_action_count_keyboard;
 
 		e_input_key_code key_code = (i < k_button_action_count_keyboard ? preferences->keyboard_preferences.keys_primary : preferences->keyboard_preferences.keys_alternative)[key_index];
-		if ((short)key_code != 0xFF)
+		if ((int16)key_code != 0xFF)
 		{
 			e_input_type input_type = _input_type_game;
 			if (i == _key_f6 || i == _key_f7)
@@ -395,7 +395,7 @@ void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_s
 //	UPDATE_BUTTON_KEY(     special,    page_down,          start);
 //	UPDATE_BUTTON_KEY(     special,      page_up,           back);
 //
-//	for (long i = _button_action_jump; i < k_button_action_count; i++)
+//	for (int32 i = _button_action_jump; i < k_button_action_count; i++)
 //		input_state->abstract_buttons[i].set_accessor(preferences->gamepad_buttons[i]);
 //
 //#undef UPDATE_BUTTON_MOUSE_AND_KEY
@@ -403,13 +403,13 @@ void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_s
 //#undef UPDATE_BUTTON_KEY
 }
 
-void __cdecl input_abstraction_latch_all_buttons(long controller_index)
+void __cdecl input_abstraction_latch_all_buttons(int32 controller_index)
 {
 	//INVOKE(0x0060CE40, input_abstraction_latch_all_buttons, controller_index);
 
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
-	for (long button_index = 0; button_index < k_button_action_count; button_index++)
+	for (int32 button_index = 0; button_index < k_button_action_count; button_index++)
 	{
 		e_button_action button_action = static_cast<e_button_action>(button_index);
 		input_abstraction_globals.input_states[controller_index].get_button(button_action).latch();
@@ -420,9 +420,9 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 {
 	//INVOKE(0x0060CE70, sub_60CE70, preferences, input_state);
 
-	//for (long i = 0; i < k_button_action_count * 2; i++)
+	//for (int32 i = 0; i < k_button_action_count * 2; i++)
 	//{
-	//	long mouse_button_index = i % k_button_action_count;
+	//	int32 mouse_button_index = i % k_button_action_count;
 	//
 	//	e_mouse_button mouse_button = (i < k_button_action_count ? preferences->keyboard_preferences.mouse_buttons_primary : preferences->keyboard_preferences.mouse_buttons_alternative)[mouse_button_index];
 	//	if (mouse_button < k_mouse_button_count)
@@ -455,7 +455,7 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 	//	}
 	//}
 
-	for (long i = 0; i < k_button_action_count * 2; i++)
+	for (int32 i = 0; i < k_button_action_count * 2; i++)
 	{
 		e_button_action mouse_button_index = e_button_action((i < k_button_action_count) ? i : i - k_button_action_count);
 
@@ -498,7 +498,7 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 	}
 }
 
-void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3)
+void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, int32 a3)
 {
 	INVOKE(0x0060D160, sub_60D160, state, input_state, a3);
 }
@@ -527,12 +527,12 @@ void __cdecl input_abstraction_reset_controller_detection_timer()
 	input_abstraction_globals.controller_detection_timer = system_milliseconds();
 }
 
-void __cdecl input_should_suppress_rumble(long controls_method)
+void __cdecl input_should_suppress_rumble(int32 controls_method)
 {
 	INVOKE(0x0060D7B0, input_should_suppress_rumble, controls_method);
 }
 
-void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
+void __cdecl input_abstraction_set_controller_preferences(int32 controller_index, s_gamepad_input_preferences* preferences)
 {
 	//INVOKE(0x0060D830, input_abstraction_set_controller_preferences, controller_index, preferences);
 
@@ -540,7 +540,7 @@ void __cdecl input_abstraction_set_controller_preferences(long controller_index,
 	ASSERT(preferences);
 	ASSERT(preferences->gamepad_buttons[_button_action_start] == _controller_button_start && preferences->gamepad_buttons[_button_action_back] == _controller_button_back, "invalid controller preferences; can't remap start & back buttons");
 
-	for (long button_index = 0; button_index < 16; button_index++)
+	for (int32 button_index = 0; button_index < 16; button_index++)
 	{
 		e_button_action button_action = static_cast<e_button_action>(button_index);
 		input_abstraction_globals.input_states[controller_index].get_button(button_action).unlock();
@@ -659,7 +659,7 @@ c_abstract_button const& s_game_input_state::get_button(e_button_action button_i
 	return abstract_buttons[button_index];
 }
 
-void input_abstraction_get_raw_data_string(char* buffer, short size)
+void input_abstraction_get_raw_data_string(char* buffer, int16 size)
 {
 	ASSERT(buffer);
 	ASSERT(size > 0);
@@ -667,7 +667,7 @@ void input_abstraction_get_raw_data_string(char* buffer, short size)
 	if (buffer && size > 0)
 	{
 		csnzappendf(buffer, size, "|n|n|n|ninput_abstraction|n");
-		for (short i = 0; i < k_number_of_controllers; i++)
+		for (int16 i = 0; i < k_number_of_controllers; i++)
 		{
 			s_game_input_state& input_state = input_abstraction_globals.input_states[i];
 

@@ -15,7 +15,7 @@ void __cdecl joint_behavior_dispose_from_old_map()
 	INVOKE(0x014A9EC0, joint_behavior_dispose_from_old_map);
 }
 
-bool __cdecl joint_behavior_get_participant_limits(short behavior_index, short* min_participants_ref, short* max_participants_ref)
+bool __cdecl joint_behavior_get_participant_limits(int16 behavior_index, int16* min_participants_ref, int16* max_participants_ref)
 {
 	return INVOKE(0x014A9EE0, joint_behavior_get_participant_limits, behavior_index, min_participants_ref, max_participants_ref);
 }

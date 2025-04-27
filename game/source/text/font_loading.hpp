@@ -13,7 +13,7 @@ struct s_font_loading_state
 	bool file_open;
 	s_file_reference file_reference;
 	uint8 pad0[0x3];
-	long task_id;
+	int32 task_id;
 	c_synchronized_long started;
 	c_synchronized_long failed;
 	c_synchronized_long finished;
@@ -37,58 +37,58 @@ static_assert(sizeof(s_font_package_entry) == 0x8);
 
 struct s_font_package_font
 {
-	long header_offset;
-	long header_size;
-	short package_table_index;
-	short package_table_count;
+	int32 header_offset;
+	int32 header_size;
+	int16 package_table_index;
+	int16 package_table_count;
 };
 static_assert(sizeof(s_font_package_font) == 0xC);
 
 struct s_font_package_file_header
 {
-	long version;
-	long font_count;
+	int32 version;
+	int32 font_count;
 	s_font_package_font fonts[k_font_count];
-	long font_mapping[k_font_count];
-	long header_data_offset;
-	long header_data_size;
-	long package_table_offset;
-	long package_table_count;
+	int32 font_mapping[k_font_count];
+	int32 header_data_offset;
+	int32 header_data_size;
+	int32 package_table_offset;
+	int32 package_table_count;
 };
 static_assert(sizeof(s_font_package_file_header) == 0x118);
 
 struct s_font_character
 {
-	short character_width;
+	int16 character_width;
 	uint16 packed_size;
-	short bitmap_height;
-	short bitmap_width;
-	short initial_offset;
-	short bitmap_origin_y;
+	int16 bitmap_height;
+	int16 bitmap_width;
+	int16 initial_offset;
+	int16 bitmap_origin_y;
 };
 static_assert(sizeof(s_font_character) == 0xC);
 
 struct s_font_header
 {
-	long version;
+	int32 version;
 	char debug_name[32];
-	short ascending_height;
-	short descending_height;
-	short leading_height;
-	short leading_width;
-	long kerning_pairs_offset;
-	long kerning_pair_count;
+	int16 ascending_height;
+	int16 descending_height;
+	int16 leading_height;
+	int16 leading_width;
+	int32 kerning_pairs_offset;
+	int32 kerning_pair_count;
 	uint8 character_first_kerning_pair_index[k_font_header_kerning_pair_index_count];
-	long location_table_offset;
-	long location_table_count;
-	long character_count;
-	long character_data_offset;
-	long character_data_size_bytes;
+	int32 location_table_offset;
+	int32 location_table_count;
+	int32 character_count;
+	int32 character_data_offset;
+	int32 character_data_size_bytes;
 	uint32 no_such_character_data_location;
-	long maximum_packed_pixel_size_bytes;
-	long maximum_unpacked_pixel_size_bytes;
-	long total_packed_pixel_size_bytes;
-	long total_unpacked_pixel_size_bytes;
+	int32 maximum_packed_pixel_size_bytes;
+	int32 maximum_unpacked_pixel_size_bytes;
+	int32 total_packed_pixel_size_bytes;
+	int32 total_unpacked_pixel_size_bytes;
 };
 static_assert(sizeof(s_font_header) == 0x15C);
 
@@ -106,8 +106,8 @@ struct s_font_globals
 	bool cached_to_hard_drive;
 	bool emergency_mode;
 	bool fonts_unavailable;
-	c_enum<e_language, long, _language_invalid, k_language_count> language;
-	long failure_retry_count;
+	c_enum<e_language, int32, _language_invalid, k_language_count> language;
+	int32 failure_retry_count;
 	c_synchronized_long async_error;
 	s_font_loading_state package_loading_state;
 	s_font_package_file_header const* font_package_header;
@@ -119,11 +119,11 @@ static_assert(sizeof(s_font_globals) == 0x815C);
 
 struct s_font_package_cache_entry
 {
-	long package_index;
-	long package_allocation_time;
-	long package_loaded_time;
-	long package_last_used_time;
-	long async_task;
+	int32 package_index;
+	int32 package_allocation_time;
+	int32 package_loaded_time;
+	int32 package_last_used_time;
+	int32 async_task;
 	c_synchronized_long async_task_bytes_read;
 	c_synchronized_long async_task_complete;
 	e_font_package_status status;
@@ -134,7 +134,7 @@ static_assert(sizeof(s_font_package_cache_entry) == 0x8020);
 struct s_font_package_cache
 {
 	c_synchronized_long initialized;
-	long time;
+	int32 time;
 	s_font_package_cache_entry entries[k_font_package_entry_count];
 	//s_status_line status_lines[k_package_cache_status_line_count];
 };
@@ -168,7 +168,7 @@ extern e_async_completion __cdecl font_load_callback(s_async_task* task);
 extern void __cdecl font_load_idle(s_font_loading_state* loading_state, bool* out_failure_reported);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
-extern long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, long max_references, long* font_id_mapping, long max_font_ids);
+extern int32 __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids);
 extern bool __cdecl fonts_begin_loading(bool load_blocking);
 extern void __cdecl fonts_close();
 extern void __cdecl fonts_copy_to_hard_drive();
@@ -176,6 +176,6 @@ extern void __cdecl fonts_invalidate_cached_fonts();
 extern void __cdecl fonts_select_language();
 extern void __cdecl get_active_font_directory(s_file_reference* file);
 extern void __cdecl get_dvd_font_directory(s_file_reference* file);
-extern void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size);
+extern void __cdecl get_font_master_filename(e_language language, char* buffer, int32 buffer_size);
 extern void __cdecl get_hard_drive_font_directory(s_file_reference* file);
 

@@ -98,7 +98,7 @@ bool __cdecl editor_input_inhibited()
 //.text:0042E050 ; 
 
 //.text:0042E060 ; 
-void __cdecl editor_orphan_object(e_object_type object_type, long scenario_datum_index)
+void __cdecl editor_orphan_object(e_object_type object_type, int32 scenario_datum_index)
 {
 }
 
@@ -108,7 +108,7 @@ void __cdecl editor_prepare_for_tag_reload(bool reloading_scenario)
 }
 
 //.text:0042E080 ; 
-void __cdecl editor_register_new_object(e_object_type object_type, long scenario_datum_index, long new_object_index)
+void __cdecl editor_register_new_object(e_object_type object_type, int32 scenario_datum_index, int32 new_object_index)
 {
 }
 
@@ -122,7 +122,7 @@ void __cdecl editor_save_progress()
 }
 
 //.text:0042E0D0 ; 
-bool __cdecl editor_should_render_object(long object_index)
+bool __cdecl editor_should_render_object(int32 object_index)
 {
 	return true;
 }
@@ -146,7 +146,7 @@ bool __cdecl editor_should_resolve_tag_reference(s_tag_field const* reference_fi
 }
 
 //.text:0042E110 ; 
-bool __cdecl editor_switch_zone_set(long zone_set_index)
+bool __cdecl editor_switch_zone_set(int32 zone_set_index)
 {
 	return scenario_switch_zone_set(zone_set_index);
 }

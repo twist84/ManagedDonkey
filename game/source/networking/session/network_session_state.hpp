@@ -26,7 +26,7 @@ enum e_network_session_state
 struct s_network_session_state_peer_creating
 {
 	// e_transport_platform
-	long platform;
+	int32 platform;
 	bool __unknown4;
 	uint64 join_nonce;
 	s_network_session_join_request join_request;
@@ -35,7 +35,7 @@ static_assert(sizeof(s_network_session_state_peer_creating) == 0x320);
 
 struct s_network_session_state_peer_joining
 {
-	long observer_channel;
+	int32 observer_channel;
 	s_transport_secure_address join_address;
 	transport_address join_usable_address;
 	bool use_peer_joining_join_nonce;

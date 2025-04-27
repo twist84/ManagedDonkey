@@ -73,13 +73,13 @@ void __cdecl simulation_read_location(c_bitstream* packet, s_location* location)
 	//location->cluster_reference.cluster_index = packet->read_integer("cluster_index", 8);
 }
 
-//void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, enum e_simulation_node_space_encoding_type encoding_type, long axis_encoding_size_in_bits)
-void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, long encoding_type, long axis_encoding_size_in_bits)
+//void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, enum e_simulation_node_space_encoding_type encoding_type, int32 axis_encoding_size_in_bits)
+void __cdecl simulation_read_quantized_node_space_position(c_bitstream* packet, real_point3d* node_space_position, int32 encoding_type, int32 axis_encoding_size_in_bits)
 {
 	INVOKE(0x0046F360, simulation_read_quantized_node_space_position, packet, node_space_position, encoding_type, axis_encoding_size_in_bits);
 }
 
-void __cdecl simulation_read_quantized_position(c_bitstream* packet, real_point3d* position, long axis_encoding_size_in_bits, real_rectangle3d const* world_bounds)
+void __cdecl simulation_read_quantized_position(c_bitstream* packet, real_point3d* position, int32 axis_encoding_size_in_bits, real_rectangle3d const* world_bounds)
 {
 	INVOKE(0x0046F3F0, simulation_read_quantized_position, packet, position, axis_encoding_size_in_bits, world_bounds);
 }
@@ -104,14 +104,14 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 	//	update->player_flags = packet->read_integer("player-flags", 16);
 	//	update->action_test_flags = packet->read_integer("action-test-flags", 26);
 	//
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->player_flags, i))
 	//			result &= player_action_decode(packet, &update->player_actions[i]);
 	//	}
 	//
 	//	update->valid_actor_mask = packet->read_integer("valid-actor-mask", 16);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_actor_mask, i))
 	//		{
@@ -127,14 +127,14 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 	//	}
 	//
 	//	update->valid_player_prediction_mask = packet->read_integer("valid-player-prediction-mask", 16);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_player_prediction_mask, i))
 	//			result &= player_prediction_decode(packet, &update->player_prediction[i], false);
 	//	}
 	//
 	//	update->valid_camera_mask = packet->read_integer("valid-camera-mask", 1);
-	//	for (long i = 0; i < 1; i++)
+	//	for (int32 i = 0; i < 1; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_camera_mask, i))
 	//			result &= simulation_camera_update_decode(packet, &update->camera_updates[i]);
@@ -164,7 +164,7 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 
 	//PROFILER(simulation_update_encode)
 	//{
-	//	long start_bit_position = packet->get_current_stream_bit_position();
+	//	int32 start_bit_position = packet->get_current_stream_bit_position();
 	//
 	//	ASSERT(packet);
 	//	ASSERT(update);
@@ -174,14 +174,14 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//	packet->write_integer("player-flags", update->player_flags, 16);
 	//
 	//	packet->write_integer("action-test-flags", update->action_test_flags, 26);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->player_flags, i))
 	//			player_action_encode(packet, &update->player_actions[i]);
 	//	}
 	//
 	//	packet->write_integer("valid-actor-mask", update->valid_actor_mask, 16);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_actor_mask, i))
 	//		{
@@ -195,14 +195,14 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//		simulation_machine_update_encode(packet, &update->machine_update);
 	//
 	//	packet->write_integer("valid-player-prediction-mask", update->valid_player_prediction_mask, 16);
-	//	for (long i = 0; i < 16; i++)
+	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_player_prediction_mask, i))
 	//			player_prediction_encode(packet, &update->player_prediction[i], false);
 	//	}
 	//
 	//	packet->write_integer("valid-camera-mask", update->valid_camera_mask, 1);
-	//	for (long i = 0; i < 1; i++)
+	//	for (int32 i = 0; i < 1; i++)
 	//	{
 	//		if (TEST_BIT(update->valid_camera_mask, i))
 	//			simulation_camera_update_encode(packet, &update->camera_updates[i]);
@@ -211,7 +211,7 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//	packet->write_integer("verify-game-time", update->verify_game_time, 32);
 	//	packet->write_integer("verify-random", update->verify_random, 32);
 	//
-	//	long pre_queues_encoded_size = (packet->get_current_stream_bit_position() - start_bit_position + 7) / 8;
+	//	int32 pre_queues_encoded_size = (packet->get_current_stream_bit_position() - start_bit_position + 7) / 8;
 	//	ASSERT(pre_queues_encoded_size > 0);
 	//
 	//	if (pre_queues_encoded_size > 0x1800)
@@ -234,13 +234,13 @@ void __cdecl simulation_write_location(c_bitstream* packet, s_location const* lo
 	//packet->write_integer("cluster_index", location->cluster_reference.cluster_index, 8);
 }
 
-//void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, enum e_simulation_node_space_encoding_type encoding_type, long axis_encoding_size_in_bits)
-void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, long encoding_type, long axis_encoding_size_in_bits)
+//void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, enum e_simulation_node_space_encoding_type encoding_type, int32 axis_encoding_size_in_bits)
+void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, int32 encoding_type, int32 axis_encoding_size_in_bits)
 {
 	INVOKE(0x0046FCC0, simulation_write_quantized_node_space_position, packet, node_space_position, encoding_type, axis_encoding_size_in_bits);
 }
 
-void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point3d const* position, long a3, bool a4, real_rectangle3d const* world_bounds)
+void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point3d const* position, int32 a3, bool a4, real_rectangle3d const* world_bounds)
 {
 	INVOKE(0x0046FD80, simulation_write_quantized_position, packet, position, a3, a4, world_bounds);
 }

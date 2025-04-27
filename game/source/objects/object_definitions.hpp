@@ -104,7 +104,7 @@ struct object_node_map_defintion;
 struct s_object_health_pack_definition;
 struct _object_definition
 {
-	c_enum<e_object_type, short, _object_type_biped, k_object_type_count> type;
+	c_enum<e_object_type, int16, _object_type_biped, k_object_type_count> type;
 	c_flags<e_object_definition_flags, uint16, k_object_definition_flags_count> flags;
 	real32 bounding_radius; // world units
 	real_point3d bounding_offset;
@@ -112,7 +112,7 @@ struct _object_definition
 	// marine 1.0, grunt 1.4, elite 0.9, hunter 0.5, etc.
 	real32 acceleration_scale; // [0,+inf]
 
-	c_enum<e_lightmap_shadow_mode, short, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
+	c_enum<e_lightmap_shadow_mode, int16, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
 	c_enum<e_sweetener_size, char, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
 	c_enum<e_water_density_type, char, _water_density_type_default, k_water_density_count> water_density;
 	uint32 runtime_flags;
@@ -141,7 +141,7 @@ struct _object_definition
 
 	c_typed_tag_block<object_ai_properties> ai_properties;
 	c_typed_tag_block<s_object_function_definition> functions;
-	short hud_text_message_index;
+	int16 hud_text_message_index;
 	c_flags<e_object_definition_secondary_flags, uint16, k_object_definition_secondary_flags_count> secondary_flags;
 	c_typed_tag_block<object_attachment_definition> attachments;
 	c_typed_tag_block<object_definition_widget> widgets;
@@ -218,8 +218,8 @@ struct object_ai_properties
 {
 	c_flags<e_ai_properties_flags, uint32, k_ai_properties_flags> ai_flags;
 	c_string_id ai_type_name;
-	c_enum<e_ai_size, short, _ai_size_default, k_ai_size_count> ai_size;
-	c_enum<e_global_ai_jump_height, short, _global_ai_jump_height_none, k_global_ai_jump_height_count> leap_jump_speed;
+	c_enum<e_ai_size, int16, _ai_size_default, k_ai_size_count> ai_size;
+	c_enum<e_global_ai_jump_height, int16, _global_ai_jump_height_none, k_global_ai_jump_height_count> leap_jump_speed;
 };
 static_assert(sizeof(object_ai_properties) == 0xC);
 
@@ -288,7 +288,7 @@ struct object_attachment_definition
 	c_typed_tag_reference<LIGHT_TAG, EFFECT_TAG, SOUND_LOOPING_TAG, LENS_FLARE_TAG, INVALID_TAG> type;
 	c_string_id marker; // old string id
 
-	c_enum<e_global_object_change_color, short, _global_object_change_color_none, k_global_object_change_color_count> change_color;
+	c_enum<e_global_object_change_color, int16, _global_object_change_color_none, k_global_object_change_color_count> change_color;
 	uint8 DPKP[0x2]; // pad
 	c_string_id primary_scale;
 	c_string_id secondary_scale;
@@ -364,7 +364,7 @@ struct s_scenario_multiplayer_scenario_object_parent
 	uint8 der[2];
 
 	// if an object with this name exists, we attach to it as a child
-	short parent_object; // short_block_index
+	int16 parent_object; // short_block_index
 
 	c_string_id parent_marker;
 	c_string_id connection_marker;
@@ -392,8 +392,8 @@ struct s_scenario_multiplayer_object_properties
 	char quota_maximum; // <=0 for unlimited
 
 	c_flags<e_multiplayer_object_placement_spawn_flags, uint8, k_multiplayer_object_placement_spawn_flags> spawn_flags;
-	short spawn_time; // seconds
-	short abandonment_time; // seconds
+	int16 spawn_time; // seconds
+	int16 abandonment_time; // seconds
 
 	int8 remapping_policy;
 	int8 boundary_shape;
@@ -420,20 +420,20 @@ struct c_object_identifier
 	void clear_for_deletion();
 	void create_dynamic(e_object_type type);
 	void create_from_parent(e_object_type type);
-	void create_from_scenario(e_object_type type, long unique_id);
-	void create_from_sky(e_object_type type, long unique_id);
-	void create_from_structure(e_object_type type, short origin_bsp_index, long unique_id);
-	long find_object_index() const;
-	s_scenario_object* find_scenario_object(long* tag_block_index) const;
-	s_scenario_object* find_scenario_object_from_scenario(struct scenario* scenario, long* tag_block_index) const;
-	long get_unique_id_direct() const;
+	void create_from_scenario(e_object_type type, int32 unique_id);
+	void create_from_sky(e_object_type type, int32 unique_id);
+	void create_from_structure(e_object_type type, int16 origin_bsp_index, int32 unique_id);
+	int32 find_object_index() const;
+	s_scenario_object* find_scenario_object(int32* tag_block_index) const;
+	s_scenario_object* find_scenario_object_from_scenario(struct scenario* scenario, int32* tag_block_index) const;
+	int32 get_unique_id_direct() const;
 	bool is_equal(c_object_identifier const* other) const;
 	e_object_type get_type() const;
 
-	long m_unique_id; // SCENARIO_OBJECT_IDENTIFIER_ID
+	int32 m_unique_id; // SCENARIO_OBJECT_IDENTIFIER_ID
 
 	// scenario_structure_bsp_reference
-	short m_origin_bsp_index;
+	int16 m_origin_bsp_index;
 
 	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
 	c_enum<e_object_source, char, _object_source_structure_object, k_number_of_object_sources> m_source;

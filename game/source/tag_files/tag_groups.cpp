@@ -8,7 +8,7 @@
 
 bool const print_reference_updates = false;
 
-void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, long index, long size)
+void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, int32 index, int32 size)
 {
 	//INVOKE(0x0055AA00, tag_block_get_element_with_size, block, index, size);
 
@@ -20,7 +20,7 @@ void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, long ind
 	return block->base + index * size;
 }
 
-void* __cdecl tag_data_get_pointer(s_tag_data const* data, long offset, long size)
+void* __cdecl tag_data_get_pointer(s_tag_data const* data, int32 offset, int32 size)
 {
 	//INVOKE(0x0055AA60, tag_data_get_pointer, data, offset, size);
 
@@ -59,7 +59,7 @@ wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path)
 tag group_name_to_group_tag(char const* group_name)
 {
 	// string_id_retrieve
-	for (long i = 0; i < global_tag_group_count; i++)
+	for (int32 i = 0; i < global_tag_group_count; i++)
 	{
 		s_cache_file_tag_group const* group = &global_tag_groups[i];
 		if (csstricmp(group_name, group->name.get_string()) == 0)
@@ -130,7 +130,7 @@ void tag_block_set_elements(s_tag_block* block, void* elements)
 	block->address = elements;
 }
 
-void tag_block_set_element_count(s_tag_block* block, long count)
+void tag_block_set_element_count(s_tag_block* block, int32 count)
 {
 	block->count = count;
 }

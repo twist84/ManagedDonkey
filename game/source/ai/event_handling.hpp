@@ -5,36 +5,36 @@
 
 struct ai_spatial_effect
 {
-	short count;
+	int16 count;
 	real_point3d position;
-	long last_tick;
+	int32 last_tick;
 };
 static_assert(sizeof(ai_spatial_effect) == 0x14);
 
 struct ai_allegiance_information_data
 {
-	short team1_index;
-	short team2_index;
-	short type;
+	int16 team1_index;
+	int16 team2_index;
+	int16 type;
 };
 static_assert(sizeof(ai_allegiance_information_data) == 0x6);
 
 struct ai_combat_stimulus_information_data
 {
-	long unused;
+	int32 unused;
 };
 static_assert(sizeof(ai_combat_stimulus_information_data) == 0x4);
 
 struct ai_information_target_knowledge_data
 {
-	long object_index;
+	int32 object_index;
 };
 static_assert(sizeof(ai_information_target_knowledge_data) == 0x4);
 
 struct ai_information_data
 {
-	long information_type;
-	long pref_index;
+	int32 information_type;
+	int32 pref_index;
 	union
 	{
 		ai_allegiance_information_data allegiance;
@@ -47,8 +47,8 @@ static_assert(sizeof(ai_information_data) == 0x18);
 
 struct ai_sound_data
 {
-	short type;
-	short volume;
+	int16 type;
+	int16 volume;
 	union
 	{
 		ai_spatial_effect spatial;

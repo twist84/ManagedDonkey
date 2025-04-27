@@ -12,7 +12,7 @@ HOOK_DECLARE(0x004A8780, decode_event_from_buffer);
 
 //#define ENABLE_ADDITION_ENTITY_TYPES
 
-bool __cdecl decode_event_from_buffer(uint8* data, long data_size, s_simulation_queue_decoded_event_data* decoded_event_data)
+bool __cdecl decode_event_from_buffer(uint8* data, int32 data_size, s_simulation_queue_decoded_event_data* decoded_event_data)
 {
 	//return INVOKE(0x004A8780, decode_event_from_buffer, data, data_size, decoded_event_data);
 
@@ -42,7 +42,7 @@ bool __cdecl decode_event_from_buffer(uint8* data, long data_size, s_simulation_
 		return false;
 	}
 
-	for (long reference_index = 0; reference_index < decoded_event_data->reference_count; reference_index++)
+	for (int32 reference_index = 0; reference_index < decoded_event_data->reference_count; reference_index++)
 	{
 		if (packet.read_bool("gamestate-index-exists"))
 			simulation_object_glue_index_decode(&packet, &decoded_event_data->references[reference_index]);
@@ -73,11 +73,11 @@ bool __cdecl decode_event_from_buffer(uint8* data, long data_size, s_simulation_
 	return result;
 }
 
-bool __cdecl encode_event_to_buffer(uint8* buffer, long buffer_size, long* size_out, e_simulation_event_type event_type, long reference_count, long const* references, void const* payload, long payload_size)
+bool __cdecl encode_event_to_buffer(uint8* buffer, int32 buffer_size, int32* size_out, e_simulation_event_type event_type, int32 reference_count, int32 const* references, void const* payload, int32 payload_size)
 {
 	return INVOKE(0x004A88B0, encode_event_to_buffer, buffer, buffer_size, size_out, event_type, reference_count, references, payload, payload_size);
 }
 
 //.text:004A8A60 ; void __cdecl simulation_queue_event_apply(c_simulation_queue_element const*)
-//.text:004A8AE0 ; void __cdecl simulation_queue_event_insert(e_simulation_event_type, long, long const*, long, void*)
+//.text:004A8AE0 ; void __cdecl simulation_queue_event_insert(e_simulation_event_type, int32, int32 const*, int32, void*)
 

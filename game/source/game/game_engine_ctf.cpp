@@ -52,10 +52,10 @@ void c_game_engine_ctf_variant::encode_to_mcc(c_bitstream* packet) const
 	e_ctf_home_flag_waypoint_settings home_flag_waypoint = get_home_flag_waypoint();
 	e_ctf_game_type_settings game_type = get_game_type();
 	e_ctf_respawn_settings respawn = get_respawn();
-	short score_to_win = get_score_to_win();
-	short sudden_death_time = get_sudden_death_time();
-	short flag_reset_time = get_flag_reset_time();
-	short touch_return_timeout = get_touch_return_timeout();
+	int16 score_to_win = get_score_to_win();
+	int16 sudden_death_time = get_sudden_death_time();
+	int16 flag_reset_time = get_flag_reset_time();
+	int16 touch_return_timeout = get_touch_return_timeout();
 
 	packet->write_bool("ctf-flag-at-home-to-score", flag_at_home_to_score);
 	packet->write_integer("ctf-home-flag-waypoint", home_flag_waypoint, 2);
@@ -76,10 +76,10 @@ void c_game_engine_ctf_variant::decode_from_mcc(c_bitstream* packet)
 	e_ctf_home_flag_waypoint_settings home_flag_waypoint = packet->read_enum<e_ctf_home_flag_waypoint_settings, 2>("ctf-home-flag-waypoint");
 	e_ctf_game_type_settings game_type = packet->read_enum<e_ctf_game_type_settings, 2>("ctf-game-type");
 	e_ctf_respawn_settings respawn = packet->read_enum<e_ctf_respawn_settings, 2>("ctf-respawn");
-	short score_to_win = static_cast<short>(packet->read_integer("ctf-score-to-win", 6));
-	short sudden_death_time = static_cast<short>(packet->read_signed_integer("ctf-sudden-death-time", 9));
-	short flag_reset_time = static_cast<short>(packet->read_integer("ctf-flag-reset-time", 9));
-	short touch_return_timeout = static_cast<short>(packet->read_signed_integer("ctf-touch-return-time", 6));
+	int16 score_to_win = static_cast<int16>(packet->read_integer("ctf-score-to-win", 6));
+	int16 sudden_death_time = static_cast<int16>(packet->read_signed_integer("ctf-sudden-death-time", 9));
+	int16 flag_reset_time = static_cast<int16>(packet->read_integer("ctf-flag-reset-time", 9));
+	int16 touch_return_timeout = static_cast<int16>(packet->read_signed_integer("ctf-touch-return-time", 6));
 	get_carrier_traits_writeable()->decode_from_mcc(packet);
 
 	set_flag_at_home_to_score(flag_at_home_to_score);
@@ -159,22 +159,22 @@ void c_game_engine_ctf_variant::set_respawn(e_ctf_respawn_settings respawn)
 	}
 }
 
-short c_game_engine_ctf_variant::get_touch_return_timeout() const
+int16 c_game_engine_ctf_variant::get_touch_return_timeout() const
 {
 	return m_touch_return_timeout;
 }
 
-void c_game_engine_ctf_variant::set_touch_return_timeout(short touch_return_timeout)
+void c_game_engine_ctf_variant::set_touch_return_timeout(int16 touch_return_timeout)
 {
 	m_touch_return_timeout = touch_return_timeout;
 }
 
-short c_game_engine_ctf_variant::get_sudden_death_time() const
+int16 c_game_engine_ctf_variant::get_sudden_death_time() const
 {
 	return m_sudden_death_time;
 }
 
-void c_game_engine_ctf_variant::set_sudden_death_time(short sudden_death_time)
+void c_game_engine_ctf_variant::set_sudden_death_time(int16 sudden_death_time)
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_ctf_sudden_death_times))
 	{
@@ -188,12 +188,12 @@ void c_game_engine_ctf_variant::set_sudden_death_time(short sudden_death_time)
 	}
 }
 
-short c_game_engine_ctf_variant::get_score_to_win() const
+int16 c_game_engine_ctf_variant::get_score_to_win() const
 {
 	return m_score_to_win;
 }
 
-void c_game_engine_ctf_variant::set_score_to_win(short score_to_win)
+void c_game_engine_ctf_variant::set_score_to_win(int16 score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 50))
 	{
@@ -207,12 +207,12 @@ void c_game_engine_ctf_variant::set_score_to_win(short score_to_win)
 	}
 }
 
-short c_game_engine_ctf_variant::get_flag_reset_time() const
+int16 c_game_engine_ctf_variant::get_flag_reset_time() const
 {
 	return m_flag_reset_time;
 }
 
-void c_game_engine_ctf_variant::set_flag_reset_time(short flag_reset_time)
+void c_game_engine_ctf_variant::set_flag_reset_time(int16 flag_reset_time)
 {
 	if (!VALID_INDEX(flag_reset_time, 300))
 	{

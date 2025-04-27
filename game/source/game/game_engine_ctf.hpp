@@ -35,17 +35,17 @@ public:
 	e_ctf_respawn_settings get_respawn() const;
 	void set_respawn(e_ctf_respawn_settings respawn);
 
-	short get_touch_return_timeout() const;
-	void set_touch_return_timeout(short touch_return_timeout);
+	int16 get_touch_return_timeout() const;
+	void set_touch_return_timeout(int16 touch_return_timeout);
 
-	short get_sudden_death_time() const;
-	void set_sudden_death_time(short sudden_death_time);
+	int16 get_sudden_death_time() const;
+	void set_sudden_death_time(int16 sudden_death_time);
 
-	short get_score_to_win() const;
-	void set_score_to_win(short score_to_win);
+	int16 get_score_to_win() const;
+	void set_score_to_win(int16 score_to_win);
 
-	short get_flag_reset_time() const;
-	void set_flag_reset_time(short flag_reset_time);
+	int16 get_flag_reset_time() const;
+	void set_flag_reset_time(int16 flag_reset_time);
 
 	c_player_traits* get_carrier_traits_writeable();
 	c_player_traits const* get_carrier_traits() const;
@@ -56,11 +56,11 @@ protected:
 	c_enum<e_ctf_home_flag_waypoint_settings, char, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
 	c_enum<e_ctf_game_type_settings, char, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
 	c_enum<e_ctf_respawn_settings, char, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
-	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
-	c_enum<e_ctf_sudden_death_time, short, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
-	c_enum<long, short, 0, 50> m_score_to_win;     // default: 5
-	c_enum<long, short, 0, 50> m_score_unknown;    // default: 3, halo online specific
-	c_enum<long, short, 0, 300> m_flag_reset_time; // default: 30
+	c_enum<e_ctf_touch_return_settings, int16, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
+	c_enum<e_ctf_sudden_death_time, int16, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
+	c_enum<int32, int16, 0, 50> m_score_to_win;     // default: 5
+	c_enum<int32, int16, 0, 50> m_score_unknown;    // default: 3, halo online specific
+	c_enum<int32, int16, 0, 300> m_flag_reset_time; // default: 30
 	c_player_traits m_carrier_traits;
 
 	uint8 m_pad1[6];
@@ -72,14 +72,14 @@ struct c_ctf_engine :
 	c_game_engine
 {
 public:
-	virtual bool static_spawn_zone_is_valid_for_player(long, s_static_spawn_zone const*) const;
-	virtual long get_object_definition_index(void) const;
-	virtual void process_player_holding_object(long, long) const;
+	virtual bool static_spawn_zone_is_valid_for_player(int32, s_static_spawn_zone const*) const;
+	virtual int32 get_object_definition_index(void) const;
+	virtual void process_player_holding_object(int32, int32) const;
 	virtual bool update_object(struct s_multiplayer_weapon_tracker const*) const;
-	virtual void initialize_object_data(long) const;
-	virtual short get_sudden_death_time(void) const;
-	virtual void emit_object_returned_event(long, bool) const;
-	virtual bool object_should_exist(long) const;
+	virtual void initialize_object_data(int32) const;
+	virtual int16 get_sudden_death_time(void) const;
+	virtual void emit_object_returned_event(int32, bool) const;
+	virtual bool object_should_exist(int32) const;
 
 	// unknown function, also exists in halo 3 mcc
 	virtual void* function88(void*, ...);
@@ -95,9 +95,9 @@ struct s_ctf_shared_globals
 	c_static_array<c_area_set<c_area, 3>, 9> spawn_areas_by_team_designator;
 	bool supress_reset_message;
 	bool object_returned_by_player;
-	long defensive_team_index;
-	long sudden_death_ticks;
-	long grace_period_ticks;
+	int32 defensive_team_index;
+	int32 sudden_death_ticks;
+	int32 grace_period_ticks;
 	uint16 helper_flags;
 	uint16 flags;
 };
@@ -105,12 +105,12 @@ static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
 
 struct s_ctf_globals : s_ctf_shared_globals
 {
-	c_static_array<long, 9> touch_return_timer;
-	c_static_array<short, 9> flag_reset_timer;
-	c_static_array<long, 9> player_emblem_for_flag;
+	c_static_array<int32, 9> touch_return_timer;
+	c_static_array<int16, 9> flag_reset_timer;
+	c_static_array<int32, 9> player_emblem_for_flag;
 	c_static_array<uint8, 9> flag_weapon_flags;
-	c_static_array<short, 9> failure_event_timer;
-	c_static_array<short, 9> timeout_return_second_counter;
+	c_static_array<int16, 9> failure_event_timer;
+	c_static_array<int16, 9> timeout_return_second_counter;
 };
 static_assert(sizeof(s_ctf_globals) == 0x16D8);
 

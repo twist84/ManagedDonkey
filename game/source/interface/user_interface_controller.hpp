@@ -72,7 +72,7 @@ struct s_event_record
 	e_event_type type;
 	e_controller_index controller;
 	e_controller_component component;
-	short value;
+	int16 value;
 };
 static_assert(sizeof(s_event_record) == 0x10);
 
@@ -99,8 +99,8 @@ struct s_user_interface_controller
 	uint8 __unknown6;
 
 	bool desires_veto;
-	long armor_loadout_index;
-	long weapon_loadout_index;
+	int32 armor_loadout_index;
+	int32 weapon_loadout_index;
 	bool desires_rematch;
 	bool griefer;
 	bool notification_pending;
@@ -136,7 +136,7 @@ static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
 extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 
 extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, uint8 button);
-extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component);
+extern void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component);
 extern void __cdecl user_interface_controller_attached(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
 extern s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index);
@@ -144,7 +144,7 @@ extern bool __cdecl user_interface_controller_get_player_configuration(e_control
 extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event);
 extern bool __cdecl user_interface_controller_is_player_profile_valid(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_reset(e_controller_index controller_index);
-extern void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, long user_index);
+extern void __cdecl user_interface_controller_set_user_index(e_controller_index controller_index, int32 user_index);
 extern void __cdecl user_interface_controller_switch_to_offline(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_update();
 extern void __cdecl user_interface_controller_update_network_properties(e_controller_index controller_index);

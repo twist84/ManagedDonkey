@@ -12,11 +12,11 @@ struct s_game_matchmaking_options
 	wchar_t hopper_name[32];
 	uint8 : 8;
 	uint8 : 8;
-	long draw_probability;
+	int32 draw_probability;
 	real32 beta;
 	real32 tau;
-	long experience_base_increment;
-	long experience_penalty_decrement;
+	int32 experience_base_increment;
+	int32 experience_penalty_decrement;
 };
 static_assert(sizeof(s_game_matchmaking_options) == 0x5C);
 

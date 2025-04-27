@@ -5,7 +5,7 @@
 #include "replication/replication_encoding.hpp"
 #include "units/units.hpp"
 
-long const k_network_maximum_control_streams = 32;
+int32 const k_network_maximum_control_streams = 32;
 
 struct c_simulation_view_telemetry_provider;
 struct c_replication_control_view :

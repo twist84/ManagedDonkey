@@ -35,22 +35,22 @@ char const* const g_stimulus_names[k_stimulus_count]
 	"flood disperse"
 };
 
-//.text:01456700 ; void __cdecl actor_stimuli_update(long)
+//.text:01456700 ; void __cdecl actor_stimuli_update(int32)
 
-void __cdecl actor_stimulus_acknowledged_danger_zone(long actor_index, long pref_index)
+void __cdecl actor_stimulus_acknowledged_danger_zone(int32 actor_index, int32 pref_index)
 {
 	INVOKE(0x014567B0, actor_stimulus_acknowledged_danger_zone, actor_index, pref_index);
 }
 
-//.text:01456A40 ; void __cdecl actor_stimulus_allegiance_update(long, long)
-//.text:01456B20 ; void __cdecl actor_stimulus_bumped(long, long)
-//.text:01456B30 ; bool __cdecl actor_stimulus_clear(long, e_behavior_stimulus)
-//.text:01456BB0 ; void __cdecl actor_stimulus_damage(long, short, long, long, real32, real_vector3d const*)
-//.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(long, long, real_point3d const*, short)
-//.text:01456DC0 ; void __cdecl actor_stimulus_friend_body_sighted(long, long)
-//.text:01456FA0 ; void __cdecl actor_stimulus_heard_shooting(long, long, long)
+//.text:01456A40 ; void __cdecl actor_stimulus_allegiance_update(int32, int32)
+//.text:01456B20 ; void __cdecl actor_stimulus_bumped(int32, int32)
+//.text:01456B30 ; bool __cdecl actor_stimulus_clear(int32, e_behavior_stimulus)
+//.text:01456BB0 ; void __cdecl actor_stimulus_damage(int32, int16, int32, int32, real32, real_vector3d const*)
+//.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(int32, int32, real_point3d const*, int16)
+//.text:01456DC0 ; void __cdecl actor_stimulus_friend_body_sighted(int32, int32)
+//.text:01456FA0 ; void __cdecl actor_stimulus_heard_shooting(int32, int32, int32)
 
-void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index, bool first_acknowledgement)
+void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_index, bool first_acknowledgement)
 {
 	//INVOKE(0x01457200, actor_stimulus_prop_acknowledged, actor_index, prop_index, first_acknowledgement);
 
@@ -94,27 +94,27 @@ void __cdecl actor_stimulus_prop_acknowledged(long actor_index, long prop_index,
 
 }
 
-//.text:01457310 ; void __cdecl actor_stimulus_prop_fleeing(long, long)
-//.text:01457320 ; void __cdecl actor_stimulus_prop_just_killed(long, long, long)
+//.text:01457310 ; void __cdecl actor_stimulus_prop_fleeing(int32, int32)
+//.text:01457320 ; void __cdecl actor_stimulus_prop_just_killed(int32, int32, int32)
 
-void __cdecl actor_stimulus_prop_sighted(long actor_index, long pref_index, bool initial)
+void __cdecl actor_stimulus_prop_sighted(int32 actor_index, int32 pref_index, bool initial)
 {
 	INVOKE(0x01457480, actor_stimulus_prop_sighted, actor_index, pref_index, initial);
 }
 
-//.text:014575E0 ; void __cdecl actor_stimulus_prop_sound(long, long, bool)
+//.text:014575E0 ; void __cdecl actor_stimulus_prop_sound(int32, int32, bool)
 
-void __cdecl actor_stimulus_surprise(long actor_index, short surprise_level, long prop_index, real_vector3d const* surprise_vector)
+void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, int32 prop_index, real_vector3d const* surprise_vector)
 {
 	INVOKE(0x01457620, actor_stimulus_surprise, actor_index, surprise_level, prop_index, surprise_vector);
 }
 
-//.text:014577A0 ; void __cdecl actor_stimulus_switched_danger_zone(long, long)
-//.text:01457900 ; bool __cdecl actor_stimulus_test(long, e_behavior_stimulus)
-//.text:01457950 ; void __cdecl actor_stimulus_tracking_or_locking(long, long, short)
-//.text:01457BB0 ; void __cdecl actor_stimulus_vehicle_eviction(long, long)
-//.text:01457CB0 ; void __cdecl actor_stimulus_weapon_detonation(long, long, real_point3d const*, short)
-//.text:01457CE0 ; void __cdecl actor_stimulus_weapon_impact(long, long, real_point3d const*, short)
+//.text:014577A0 ; void __cdecl actor_stimulus_switched_danger_zone(int32, int32)
+//.text:01457900 ; bool __cdecl actor_stimulus_test(int32, e_behavior_stimulus)
+//.text:01457950 ; void __cdecl actor_stimulus_tracking_or_locking(int32, int32, int16)
+//.text:01457BB0 ; void __cdecl actor_stimulus_vehicle_eviction(int32, int32)
+//.text:01457CB0 ; void __cdecl actor_stimulus_weapon_detonation(int32, int32, real_point3d const*, int16)
+//.text:01457CE0 ; void __cdecl actor_stimulus_weapon_impact(int32, int32, real_point3d const*, int16)
 //.text:01457CF0 ; 
 //.text:01457D00 ; void __cdecl stimulus_clear(actor_datum*, behavior_stimulus*)
 
@@ -130,7 +130,7 @@ void __cdecl stimuli_debug()
 	//
 	//	real_point3d position{};
 	//	point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
-	//	for (long stimuli_index = 0; stimuli_index < k_stimulus_count; stimuli_index++)
+	//	for (int32 stimuli_index = 0; stimuli_index < k_stimulus_count; stimuli_index++)
 	//	{
 	//		if (TEST_BIT(actor_debug->actor_stimulus_flags, stimuli_index))
 	//		{
@@ -140,4 +140,4 @@ void __cdecl stimuli_debug()
 	//}
 }
 
-//.text:01457D30 ; bool __cdecl stimulus_register(long, e_behavior_stimulus, short, short)
+//.text:01457D30 ; bool __cdecl stimulus_register(int32, e_behavior_stimulus, int16, int16)

@@ -29,10 +29,10 @@ struct s_depth_of_field
 	real32 aperture;
 	real32 blur_start;
 	real32 blur_target;
-	long blur_start_time;
-	long blur_end_time;
-	long animation_start_time;
-	long animation_end_time;
+	int32 blur_start_time;
+	int32 blur_end_time;
+	int32 animation_start_time;
+	int32 animation_end_time;
 	real32 animation_last_alpha;
 	real32 actual_blur;
 	real32 actual_focus_distance_near;

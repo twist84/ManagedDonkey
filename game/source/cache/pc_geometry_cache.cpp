@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-bool __cdecl _geometry_cache_block_query(geometry_block_info* block_info, long flags)
+bool __cdecl _geometry_cache_block_query(geometry_block_info* block_info, int32 flags)
 {
 	return INVOKE(0x00618C70, _geometry_cache_block_query, block_info, flags);
 }
@@ -47,17 +47,17 @@ void __cdecl geometry_cache_flush()
 	INVOKE(0x00618CF0, geometry_cache_flush);
 }
 
-void __cdecl geometry_cache_flush_tag(long owner_tag_index)
+void __cdecl geometry_cache_flush_tag(int32 owner_tag_index)
 {
 	INVOKE(0x00618D00, geometry_cache_flush_tag, owner_tag_index);
 }
 
-void __cdecl geometry_cache_get_base_address_and_size(void** base_address, long* size)
+void __cdecl geometry_cache_get_base_address_and_size(void** base_address, int32* size)
 {
 	INVOKE(0x00618D10, geometry_cache_get_base_address_and_size, base_address, size);
 }
 
-long __cdecl geometry_cache_get_structure_block_pending_count()
+int32 __cdecl geometry_cache_get_structure_block_pending_count()
 {
 	return INVOKE(0x00618D20, geometry_cache_get_structure_block_pending_count);
 }

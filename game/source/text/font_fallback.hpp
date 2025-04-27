@@ -1,6 +1,6 @@
 #pragma once
 
-enum e_utf32 : unsigned long;
+enum e_utf32 : uint32;
 struct s_font_character;
 struct s_font_header;
 

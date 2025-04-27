@@ -26,7 +26,7 @@ void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, po
 {
 	char buffer[64]{};
 
-	short index = get_index();
+	int16 index = get_index();
 	bool is_number = index < 10;
 	bool is_letter = index >= 10 && index < 36;
 
@@ -61,7 +61,7 @@ void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, po
 	draw_string.draw(font_cache, buffer);
 }
 
-short c_debug_menu_item_numbered::get_indent()
+int16 c_debug_menu_item_numbered::get_indent()
 {
 	return 45;
 }

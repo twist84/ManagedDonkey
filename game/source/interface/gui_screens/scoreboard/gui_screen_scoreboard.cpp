@@ -38,20 +38,20 @@ void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
 	m_is_interactive = is_interactive;
 }
 
-void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long x, long y)
+void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, int32 x, int32 y)
 {
 	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, x, y);
 }
 
 // c_scoreboard_load_screen_message::c_scoreboard_load_screen_message
 c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
-	long screen_name,
+	int32 screen_name,
 	e_controller_index controller,
 	e_window_index window,
-	long layered_position,
+	int32 layered_position,
 	bool is_interactive)
 {
-	return DECLFUNC(0x00AB2AD0, c_scoreboard_load_screen_message*, __thiscall, c_scoreboard_load_screen_message*, long, e_controller_index, e_window_index, long, bool)(message, screen_name, controller, window, layered_position, is_interactive);
+	return DECLFUNC(0x00AB2AD0, c_scoreboard_load_screen_message*, __thiscall, c_scoreboard_load_screen_message*, int32, e_controller_index, e_window_index, int32, bool)(message, screen_name, controller, window, layered_position, is_interactive);
 }
 
 real32 __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
@@ -99,11 +99,11 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	//	}
 	//	else
 	//	{
-	//		long user_index = controller_get(controller_index)->get_user_index();
+	//		int32 user_index = controller_get(controller_index)->get_user_index();
 	//		if (user_index != NONE)
 	//		{
-	//			long v1 = 0;
-	//			long v2 = 0;
+	//			int32 v1 = 0;
+	//			int32 v2 = 0;
 	//			user_interface_get_number_of_render_windows(user_index, &v1, &v2);
 	//			half_screen = v2 == 1;
 	//		}
@@ -154,17 +154,17 @@ void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
 				c_gui_bitmap_widget* team_bar_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, team_bar));
 				c_gui_bitmap_widget* observer_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, observer));
 
-				long element_handle = list_item_widget->get_element_handle();
+				int32 element_handle = list_item_widget->get_element_handle();
 
-				long player_row_type = 0;
-				long base_color = 0;
-				long team_color = NONE;
+				int32 player_row_type = 0;
+				int32 base_color = 0;
+				int32 team_color = NONE;
 
 				if (data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
 					&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color)
 					&& data->get_integer_value(element_handle, STRING_ID(gui, team_color), &team_color))
 				{
-					long color_list_index = base_color;
+					int32 color_list_index = base_color;
 					if (has_teams)
 					{
 						color_list_index = team_color;
@@ -192,8 +192,8 @@ void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
 		c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_button_key);
 		if (button_key_child_list_widget)
 		{
-			long v18 = 0;
-			long y19 = 0;
+			int32 v18 = 0;
+			int32 y19 = 0;
 			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_list_item));
 				list_item_widget;
 				list_item_widget = list_item_widget->get_next_list_item_widget(false))
@@ -202,9 +202,9 @@ void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
 				list_item_widget->get_current_bounds(&current_bounds);
 
 				if (list_item_widget->get_element_handle() != NONE)
-					y19 = (long)current_bounds.y0;
+					y19 = (int32)current_bounds.y0;
 
-				v18 = (long)current_bounds.y0;
+				v18 = (int32)current_bounds.y0;
 			}
 
 			if (y19 != v18)
@@ -220,17 +220,17 @@ void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index
 
 bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	e_player_row_type player_row_type,
-	long game_player_index,
-	long session_player_index,
+	int32 game_player_index,
+	int32 session_player_index,
 	s_player_appearance const* appearance,
 	wchar_t const* player_name,
 	wchar_t const* service_tag,
-	long base_color_index,
-	long team_index,
+	int32 base_color_index,
+	int32 team_index,
 	bool show_team,
 	e_controller_index controller_index,
 	e_voice_talking_state voice_state,
-	long connectivity_rating,
+	int32 connectivity_rating,
 	wchar_t const* place,
 	wchar_t const* score,
 	wchar_t const* round_score,
@@ -298,27 +298,27 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 	m_player_rows.clear();
 
 	bool include_team_score = include_score && game_engine_has_teams();
-	long round_score = 0;
+	int32 round_score = 0;
 	uint32 team_flags = 0;
 
 	if (use_session)
 	{
 		ASSERT(!include_score);
 
-		for (long player_index = 0; player_index < k_maximum_players; player_index++)
+		for (int32 player_index = 0; player_index < k_maximum_players; player_index++)
 		{
 			if (user_interface_squad_is_player_valid(player_index))
 			{
 				s_player_configuration* player_data = user_interface_session_get_player_data(player_index);
 				if (player_data->host.team_index != _game_team_none)
 				{
-					long player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
+					int32 player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
 
 					e_controller_index local_controller_index = k_no_controller;
 					if (user_interface_session_is_local_player(player_index))
 						local_controller_index = user_interface_session_get_controller_index(player_index);
 
-					long base_color_index = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
+					int32 base_color_index = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
 
 					add_player_internal(
 						/* player_row_type        */ _player_row_type_player,
@@ -350,9 +350,9 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 		while (player_iterator.next())
 		{
 			player_datum* player = player_iterator.get_datum();
-			long player_iterator_index = player_iterator.get_index();
+			int32 player_iterator_index = player_iterator.get_index();
 
-			long player_index = user_interface_squad_get_player_index(&player->player_identifier);
+			int32 player_index = user_interface_squad_get_player_index(&player->player_identifier);
 			if (player->configuration.host.team_index != _game_team_none)
 			{
 				bool is_dead = !TEST_BIT(player->flags, _player_initial_spawn_bit)
@@ -364,14 +364,14 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 
 				if (include_score)
 				{
-					long finalized_place = game_engine_get_finalized_player_place(player_iterator_index);
+					int32 finalized_place = game_engine_get_finalized_player_place(player_iterator_index);
 					if (include_team_score)
 						finalized_place = game_engine_get_finalized_team_place(player->configuration.host.team_index);
 
 					game_engine_get_place_string(finalized_place, &place_string);
-					long player_score = game_engine_get_player_score_for_display(player_iterator_index, true);
+					int32 player_score = game_engine_get_player_score_for_display(player_iterator_index, true);
 					game_engine_get_score_string(player_score, &score_string);
-					long player_round_score = game_engine_get_player_score_for_display(player_iterator_index, false);
+					int32 player_round_score = game_engine_get_player_score_for_display(player_iterator_index, false);
 					game_engine_get_score_string(player_round_score, &round_score_string);
 				}
 
@@ -380,8 +380,8 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 
 				if (player_index == NONE)
 				{
-					long base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
-					long player_index = player_iterator_index;
+					int32 base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
+					int32 player_index = player_iterator_index;
 					round_score = 0;
 
 					c_gui_scoreboard_data::add_player_internal(
@@ -406,13 +406,13 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 				}
 				else
 				{
-					long player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
+					int32 player_netdebug_filled_bar_count = user_interface_session_get_player_netdebug_filled_bar_count(player_index);
 
 					e_controller_index controller_index = k_no_controller;
 					if (user_interface_session_is_local_player(player_index))
 						controller_index = user_interface_session_get_controller_index(player_index);
 
-					long base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
+					int32 base_color_index = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
 
 					add_player_internal(
 						/* player_row_type        */ _player_row_type_player,
@@ -446,14 +446,14 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 			team_name.clear();
 
-			for (long team_index = 0; team_index < k_multiplayer_team_count; team_index++)
+			for (int32 team_index = 0; team_index < k_multiplayer_team_count; team_index++)
 			{
 				if (game_engine_is_team_ever_active(team_index) || TEST_BIT(team_flags, team_index))
 				{
 					if (include_score)
 					{
-						long team_place = 0;
-						long team_score = 0;
+						int32 team_place = 0;
+						int32 team_score = 0;
 
 						if (game_engine_is_team_ever_active(team_index))
 						{

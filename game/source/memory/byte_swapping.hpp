@@ -39,18 +39,18 @@ enum e_byte_swap_code_constant
 struct byte_swap_definition
 {
 	char const* name;
-	long size;
-	long const* codes;
-	unsigned long signature;
+	int32 size;
+	int32 const* codes;
+	uint32 signature;
 	bool verified;
 };
 static_assert(sizeof(byte_swap_definition) == 0x14);
 
-extern void __cdecl _byte_swap_data(byte_swap_definition* definition, void* data, long const* codes, long* total_size_in_bytes, long* total_size_in_codes);
-extern long __cdecl byte_swap_codes_size(char const* name, long const* codes);
-extern void __cdecl byte_swap_data(byte_swap_definition* definition, void* data, long data_count);
-extern void __cdecl byte_swap_data_explicit(char const* name, long size, long const* codes, long data_count, void* data);
+extern void __cdecl _byte_swap_data(byte_swap_definition* definition, void* data, int32 const* codes, int32* total_size_in_bytes, int32* total_size_in_codes);
+extern int32 __cdecl byte_swap_codes_size(char const* name, int32 const* codes);
+extern void __cdecl byte_swap_data(byte_swap_definition* definition, void* data, int32 data_count);
+extern void __cdecl byte_swap_data_explicit(char const* name, int32 size, int32 const* codes, int32 data_count, void* data);
 extern byte_swap_definition* __cdecl byte_swap_definition_verify(byte_swap_definition* definition);
-extern long __cdecl byte_swap_get_runtime_byte_order();
-extern void __cdecl byte_swap_memory(void* memory, long count, long code);
+extern int32 __cdecl byte_swap_get_runtime_byte_order();
+extern void __cdecl byte_swap_memory(void* memory, int32 count, int32 code);
 

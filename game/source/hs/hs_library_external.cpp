@@ -43,7 +43,7 @@ void __cdecl hs_debug_variable(char const* s, bool debug)
 		else
 			variable_not_enclosed = true;
 	
-		short global_index = hs_find_global_by_name(global_name);
+		int16 global_index = hs_find_global_by_name(global_name);
 		if (global_index != NONE)
 		{
 			debug_globals_all = true;
@@ -69,7 +69,7 @@ void __cdecl hs_print(char const* s)
 	terminal_printf(global_real_argb_green, s);
 }
 
-bool __cdecl hs_trigger_volume_test_objects(short trigger_volume_index, long object_index, bool a3)
+bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 object_index, bool a3)
 {
 	bool result = INVOKE(0x0096F080, hs_trigger_volume_test_objects, trigger_volume_index, object_index, a3);
 
@@ -78,12 +78,12 @@ bool __cdecl hs_trigger_volume_test_objects(short trigger_volume_index, long obj
 	return result;
 }
 
-bool __cdecl hs_trigger_volume_test_objects_all(short trigger_volume_index, long object_index)
+bool __cdecl hs_trigger_volume_test_objects_all(int16 trigger_volume_index, int32 object_index)
 {
 	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, true);
 }
 
-bool __cdecl hs_trigger_volume_test_objects_any(short trigger_volume_index, long object_index)
+bool __cdecl hs_trigger_volume_test_objects_any(int16 trigger_volume_index, int32 object_index)
 {
 	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, false);
 }

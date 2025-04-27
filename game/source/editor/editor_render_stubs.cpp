@@ -7,7 +7,7 @@ void editor_render_debug()
     // $TODO: implement
 }
 
-void editor_render_scene(long a1)
+void editor_render_scene(int32 a1)
 {
     // $TODO: implement
 }

@@ -26,7 +26,7 @@ uint32 __cdecl clear_watch_window_globals()
 	return NONE;
 }
 
-bool __cdecl object_index_valid_for_try_and_get(long object_index)
+bool __cdecl object_index_valid_for_try_and_get(int32 object_index)
 {
 	//INVOKE(0x0068C630, object_index_valid_for_try_and_get, object_index);
 
@@ -34,7 +34,7 @@ bool __cdecl object_index_valid_for_try_and_get(long object_index)
 	return object_index != NONE && object_header_data && DATUM_INDEX_TO_ABSOLUTE_INDEX(object_index) != object_index;
 }
 
-s_watch_object_results& __cdecl watch_object(long object_index)
+s_watch_object_results& __cdecl watch_object(int32 object_index)
 {
 	//INVOKE(0x0068C680, watch_object, object_index);
 
@@ -49,7 +49,7 @@ s_watch_object_results& __cdecl watch_object(long object_index)
 	return watch_object_results;
 }
 
-char const* __cdecl watch_object_describe(long object_index)
+char const* __cdecl watch_object_describe(int32 object_index)
 {
 	//INVOKE(0x0068C750, watch_object_describe, object_index);
 
@@ -60,7 +60,7 @@ char const* __cdecl watch_object_describe(long object_index)
 	return watch_object_description;
 }
 
-char const* __cdecl watch_object_describe_internal(long object_index, char* buffer, long buffer_size)
+char const* __cdecl watch_object_describe_internal(int32 object_index, char* buffer, int32 buffer_size)
 {
 	//INVOKE(0x0068C810, watch_object_describe_internal, object_index, buffer, buffer_size);
 

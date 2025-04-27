@@ -43,7 +43,7 @@ void skip_whitespace(char** c)
 	// $TODO: implement me
 }
 
-bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type byteswap_type)
+bool hs_parse_object_and_object_name_internal(int32 expression_index, e_hs_type byteswap_type)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -58,7 +58,7 @@ bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type b
 	ASSERT(HS_TYPE_IS_OBJECT(byteswap_type) || HS_TYPE_IS_OBJECT_NAME(byteswap_type));
 	ASSERT(HS_TYPE_IS_OBJECT_NAME(expression->type));
 
-	short object_name_index = scenario_object_name_index_from_string(global_scenario_get(), source_offset);
+	int16 object_name_index = scenario_object_name_index_from_string(global_scenario_get(), source_offset);
 	if (object_name_index == NONE)
 	{
 		hs_compile_globals.error_message = "this is not a valid object name.";
@@ -109,7 +109,7 @@ bool hs_parse_object_and_object_name_internal(long expression_index, e_hs_type b
 	return false;
 }
 
-bool hs_parse_boolean(long expression_index)
+bool hs_parse_boolean(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -135,7 +135,7 @@ bool hs_parse_boolean(long expression_index)
 	return false;
 }
 
-bool hs_parse_real(long expression_index)
+bool hs_parse_real(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -169,7 +169,7 @@ bool hs_parse_real(long expression_index)
 	return result;
 }
 
-bool hs_parse_integer(long expression_index)
+bool hs_parse_integer(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -199,7 +199,7 @@ bool hs_parse_integer(long expression_index)
 		source_offset++;
 	}
 
-	long source_value = atoi(&hs_compile_globals.compiled_source[expression->source_offset]);
+	int32 source_value = atoi(&hs_compile_globals.compiled_source[expression->source_offset]);
 	if (result && !(expression->type == _hs_type_short_integer || IN_RANGE_INCLUSIVE(source_value, -32767, 32768)))
 	{
 		hs_compile_globals.error_message = "shorts must be in the range [-32767, 32768].";
@@ -207,14 +207,14 @@ bool hs_parse_integer(long expression_index)
 		result = false;
 	}
 
-	expression->short_value = static_cast<short>(source_value);
+	expression->short_value = static_cast<int16>(source_value);
 	if (expression->type == _hs_type_long_integer)
-		expression->long_value = static_cast<long>(source_value);
+		expression->long_value = static_cast<int32>(source_value);
 
 	return result;
 }
 
-bool hs_parse_string(long expression_index)
+bool hs_parse_string(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -226,7 +226,7 @@ bool hs_parse_string(long expression_index)
 	return true;
 }
 
-bool hs_parse_script(long expression_index)
+bool hs_parse_script(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -234,7 +234,7 @@ bool hs_parse_script(long expression_index)
 	ASSERT(expression->type == _hs_type_script);
 	ASSERT(expression->constant_type == expression->type);
 
-	short script_index = hs_find_script_by_name(source_offset, NONE);
+	int16 script_index = hs_find_script_by_name(source_offset, NONE);
 	if (script_index == NONE)
 	{
 		hs_compile_globals.error_message = "this is not a valid script name.";
@@ -247,7 +247,7 @@ bool hs_parse_script(long expression_index)
 	return true;
 }
 
-bool hs_parse_string_id(long expression_index)
+bool hs_parse_string_id(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -267,7 +267,7 @@ bool hs_parse_string_id(long expression_index)
 	return true;
 }
 
-bool hs_parse_unit_seat_mapping(long expression_index)
+bool hs_parse_unit_seat_mapping(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -281,7 +281,7 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 		c_static_stack<s_hs_unit_seat_mapping, 256> seats_stack;
 		tag_iterator iterator{};
 		tag_iterator_new(&iterator, UNIT_TAG);
-		for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+		for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 		{
 			s_hs_unit_seat_mapping unit_seat_mapping{};
 			unit_seat_mapping.unit_definition_tag_index = tag_index;
@@ -313,8 +313,8 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 		}
 
 		struct scenario* scenario = global_scenario_get();
-		long unit_seat_start_index = NONE;
-		long unit_seat_mapping_count = seats_stack.count();
+		int32 unit_seat_start_index = NONE;
+		int32 unit_seat_mapping_count = seats_stack.count();
 
 		if (scenario->hs_unit_seats.count > 0)
 		{
@@ -343,46 +343,46 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 	return false;
 }
 
-bool hs_parse_trigger_volume(long expression_index)
+bool hs_parse_trigger_volume(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_trigger_volume);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
 }
 
-bool hs_parse_cutscene_flag(long expression_index)
+bool hs_parse_cutscene_flag(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_flag);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
 }
 
-bool hs_parse_cutscene_camera_point(long expression_index)
+bool hs_parse_cutscene_camera_point(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
 }
 
-bool hs_parse_cutscene_title(long expression_index)
+bool hs_parse_cutscene_title(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
 }
 
-bool hs_parse_cutscene_recording(long expression_index)
+bool hs_parse_cutscene_recording(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_recording);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
 }
 
-bool hs_parse_device_group(long expression_index)
+bool hs_parse_device_group(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_device_group);
 
-	if (hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
+	if (hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
 	{
 		hs_syntax_node* expression = hs_syntax_get(expression_index);
 		expression->long_value = device_group_get_from_scenario_index(expression->short_value);
@@ -393,7 +393,7 @@ bool hs_parse_device_group(long expression_index)
 	return false;
 }
 
-bool hs_parse_ai(long expression_index)
+bool hs_parse_ai(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -412,7 +412,7 @@ bool hs_parse_ai(long expression_index)
 	bool ai_index_from_string_result = false;
 	if (global_scenario_index_get() != NONE)
 	{
-		long ai_index_reference = NONE;
+		int32 ai_index_reference = NONE;
 		if (ai_index_from_string_result = ai_index_from_string(global_scenario_get(), source_offset, &ai_index_reference))
 		{
 			expression->long_value = ai_index_from_string_result;
@@ -430,7 +430,7 @@ bool hs_parse_ai(long expression_index)
 	return ai_index_from_string_result;
 }
 
-bool hs_parse_ai_command_list(long expression_index)
+bool hs_parse_ai_command_list(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -439,12 +439,12 @@ bool hs_parse_ai_command_list(long expression_index)
 	return false;
 }
 
-bool hs_parse_ai_command_script(long expression_index)
+bool hs_parse_ai_command_script(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
 
-	short script_index = hs_find_script_by_name(source_offset, 0);
+	int16 script_index = hs_find_script_by_name(source_offset, 0);
 	if (script_index == NONE)
 	{
 		hs_compile_globals.error_message = "this is not a valid command list script";
@@ -464,12 +464,12 @@ bool hs_parse_ai_command_script(long expression_index)
 	return true;
 }
 
-bool hs_parse_ai_behavior(long expression_index)
+bool hs_parse_ai_behavior(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
 
-	short behavior_index = behavior_index_by_name(source_offset);
+	int16 behavior_index = behavior_index_by_name(source_offset);
 	if (behavior_index == NONE)
 	{
 		hs_compile_globals.error_message = "not a valid behavior";
@@ -481,12 +481,12 @@ bool hs_parse_ai_behavior(long expression_index)
 	return true;
 }
 
-bool hs_parse_ai_orders(long expression_index)
+bool hs_parse_ai_orders(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
 
-	short orders_index = orders_get_by_name(source_offset);
+	int16 orders_index = orders_get_by_name(source_offset);
 	if (orders_index == NONE)
 	{
 		hs_compile_globals.error_message = "not a valid order";
@@ -498,7 +498,7 @@ bool hs_parse_ai_orders(long expression_index)
 	return true;
 }
 
-bool hs_parse_ai_line(long expression_index)
+bool hs_parse_ai_line(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -510,19 +510,19 @@ bool hs_parse_ai_line(long expression_index)
 	return true;
 }
 
-bool hs_parse_starting_profile(long expression_index)
+bool hs_parse_starting_profile(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_starting_profile);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
 }
 
-bool hs_parse_conversation(long expression_index)
+bool hs_parse_conversation(int32 expression_index)
 {
 	return false;
 }
 
-bool hs_parse_zone_set(long expression_index)
+bool hs_parse_zone_set(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_zone_set);
 
@@ -536,7 +536,7 @@ bool hs_parse_zone_set(long expression_index)
 		return false;
 	}
 
-	long zone_set_index = NONE;
+	int32 zone_set_index = NONE;
 	if (global_scenario_try_and_get())
 		zone_set_index = scenario_get_zone_set_index_by_name(global_scenario_get(), source_offset, tag_name_strip_path(source_offset) == source_offset);
 
@@ -547,11 +547,11 @@ bool hs_parse_zone_set(long expression_index)
 		return false;
 	}
 
-	expression->short_value = static_cast<short>(zone_set_index);
+	expression->short_value = static_cast<int16>(zone_set_index);
 	return true;
 }
 
-bool hs_parse_designer_zone(long expression_index)
+bool hs_parse_designer_zone(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_designer_zone);
 
@@ -565,7 +565,7 @@ bool hs_parse_designer_zone(long expression_index)
 		return false;
 	}
 
-	long designer_zone_index = NONE;
+	int32 designer_zone_index = NONE;
 	if (global_scenario_try_and_get())
 		designer_zone_index = scenario_get_designer_zone_index_by_name(global_scenario_get(), source_offset);
 
@@ -576,11 +576,11 @@ bool hs_parse_designer_zone(long expression_index)
 		return false;
 	}
 
-	expression->short_value = static_cast<short>(designer_zone_index);
+	expression->short_value = static_cast<int16>(designer_zone_index);
 	return true;
 }
 
-bool hs_parse_point_ref(long expression_index)
+bool hs_parse_point_ref(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -598,8 +598,8 @@ bool hs_parse_point_ref(long expression_index)
 			{
 				uint32 name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
 				csstrnzcpy(name, source_offset, name_size);
-				short point_set_index = cs_point_set_index_by_name(name);
-				short point_index = NONE;
+				int16 point_set_index = cs_point_set_index_by_name(name);
+				int16 point_index = NONE;
 				if (point_set_index != NONE)
 				{
 					point_index = cs_point_index_by_name(cs_get_point_set(point_set_index), v7 + 1);
@@ -614,7 +614,7 @@ bool hs_parse_point_ref(long expression_index)
 		}
 		else
 		{
-			short point_set_index = cs_point_set_index_by_name(source_offset);
+			int16 point_set_index = cs_point_set_index_by_name(source_offset);
 			if (point_set_index != NONE)
 			{
 				expression->long_value = (point_set_index << 16) | UNSIGNED_SHORT_MAX;
@@ -632,7 +632,7 @@ bool hs_parse_point_ref(long expression_index)
 	return valid;
 }
 
-bool hs_parse_style(long expression_index)
+bool hs_parse_style(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -640,7 +640,7 @@ bool hs_parse_style(long expression_index)
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_style);
 	ASSERT(expression->constant_type == expression->type);
 
-	long style = style_get_by_name(source_offset);
+	int32 style = style_get_by_name(source_offset);
 	if (style == NONE)
 	{
 		hs_compile_globals.error_message = "invalid style";
@@ -652,7 +652,7 @@ bool hs_parse_style(long expression_index)
 	return true;
 }
 
-bool hs_parse_object_list(long expression_index)
+bool hs_parse_object_list(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -666,7 +666,7 @@ bool hs_parse_object_list(long expression_index)
 	return result;
 }
 
-bool hs_parse_folder(long expression_index)
+bool hs_parse_folder(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -683,7 +683,7 @@ bool hs_parse_folder(long expression_index)
 	struct scenario* scenario = global_scenario_get();
 	if (scenario->editor_folders.count > 0)
 	{
-		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count; editor_folder_index++)
+		for (int32 editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count; editor_folder_index++)
 		{
 			s_scenario_editor_folder& editor_folder = scenario->editor_folders[editor_folder_index];
 			if (editor_folder.name.is_equal(source_offset))
@@ -699,7 +699,7 @@ bool hs_parse_folder(long expression_index)
 	return false;
 }
 
-bool hs_parse_sound_tag_reference(long expression_index)
+bool hs_parse_sound_tag_reference(int32 expression_index)
 {
 	if (!hs_parse_tag_reference(expression_index))
 	{
@@ -710,7 +710,7 @@ bool hs_parse_sound_tag_reference(long expression_index)
 	return true;
 }
 
-bool hs_parse_tag_reference(long expression_index)
+bool hs_parse_tag_reference(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -744,7 +744,7 @@ bool hs_parse_tag_reference(long expression_index)
 		if (char* extension_offset = strrchr(source_offset, '.'))
 		{
 			char* extension = extension_offset + 1;
-			long tag_name_length = extension_offset - source_offset;
+			int32 tag_name_length = extension_offset - source_offset;
 			if (hs_compile_get_tag_by_name(extension, &group_tag))
 			{
 				c_static_string<256> tag_name;
@@ -760,7 +760,7 @@ bool hs_parse_tag_reference(long expression_index)
 	return true;
 }
 
-bool hs_parse_tag_reference_not_resolving(long expression_index)
+bool hs_parse_tag_reference_not_resolving(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -780,7 +780,7 @@ bool hs_parse_tag_reference_not_resolving(long expression_index)
 		if (char* extension_offset = strrchr(source_offset, '.'))
 		{
 			char* extension = extension_offset + 1;
-			long tag_name_length = extension_offset - source_offset;
+			int32 tag_name_length = extension_offset - source_offset;
 			if (hs_compile_get_tag_by_name(extension, &group_tag))
 			{
 				c_static_string<256> tag_name;
@@ -800,7 +800,7 @@ bool hs_parse_tag_reference_not_resolving(long expression_index)
 	return true;
 }
 
-bool hs_parse_enum(long expression_index)
+bool hs_parse_enum(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -821,7 +821,7 @@ bool hs_parse_enum(long expression_index)
 	hs_enum_definition const* enum_definition = &hs_enum_table[expression->type.get() - _hs_type_game_difficulty];
 	ASSERT(enum_definition->count);
 
-	short i = 0;
+	int16 i = 0;
 	for (; i < enum_definition->count && csstricmp(source_offset, enum_definition->names[i]); i++);
 
 	if (i == enum_definition->count)
@@ -852,7 +852,7 @@ bool hs_parse_enum(long expression_index)
 	return true;
 }
 
-bool hs_parse_object(long expression_index)
+bool hs_parse_object(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -879,12 +879,12 @@ bool hs_parse_object(long expression_index)
 	return result;
 }
 
-bool hs_parse_object_name(long expression_index)
+bool hs_parse_object_name(int32 expression_index)
 {
 	return hs_parse_object_and_object_name_internal(expression_index, _hs_type_object_name);
 }
 
-bool hs_parse_cinematic_lightprobe(long expression_index)
+bool hs_parse_cinematic_lightprobe(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -894,7 +894,7 @@ bool hs_parse_cinematic_lightprobe(long expression_index)
 
 	string_id name = string_id_retrieve(source_offset);
 
-	long cinematic_lighting_palette_entry = scenario_cinematic_lighting_palette_entry_get_by_name(global_scenario_get(), name);
+	int32 cinematic_lighting_palette_entry = scenario_cinematic_lighting_palette_entry_get_by_name(global_scenario_get(), name);
 	if (cinematic_lighting_palette_entry != NONE)
 	{
 		expression->long_value = cinematic_lighting_palette_entry;
@@ -906,7 +906,7 @@ bool hs_parse_cinematic_lightprobe(long expression_index)
 	return false;
 }
 
-bool hs_parse_budget_reference(long expression_index)
+bool hs_parse_budget_reference(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -919,7 +919,7 @@ bool hs_parse_budget_reference(long expression_index)
 		if (scenario->budget_references.count <= 0)
 			return true;
 
-		for (long budget_reference_index = 0; budget_reference_index < scenario->budget_references.count; budget_reference_index++)
+		for (int32 budget_reference_index = 0; budget_reference_index < scenario->budget_references.count; budget_reference_index++)
 		{
 			s_scenario_budget_reference& budget_reference = scenario->budget_references[budget_reference_index];
 			if (budget_reference.reference.index != NONE && csstrcmp(budget_reference.reference.get_name(), source_offset) == 0)
@@ -1029,7 +1029,7 @@ hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 	hs_parse_budget_reference,            // sound_budget_reference,
 };
 
-bool hs_parse_variable(long expression_index)
+bool hs_parse_variable(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char* source_offset = hs_compile_globals.compiled_source + expression->source_offset;
@@ -1037,7 +1037,7 @@ bool hs_parse_variable(long expression_index)
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
 
 	bool valid = false;
-	short type = NONE;
+	int16 type = NONE;
 	bool v9 = false;
 	if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
 	{
@@ -1111,7 +1111,7 @@ bool hs_parse_variable(long expression_index)
 	return true;
 }
 
-bool hs_parse_primitive(long expression_index)
+bool hs_parse_primitive(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -1150,7 +1150,7 @@ bool hs_parse_primitive(long expression_index)
 	return false;
 }
 
-bool hs_parse_nonprimitive(long expression_index)
+bool hs_parse_nonprimitive(int32 expression_index)
 {
 	bool parse_result = false;
 
@@ -1207,7 +1207,7 @@ bool hs_parse_nonprimitive(long expression_index)
 			if (!expression->type.get())
 				expression->type = script.return_type;
 
-			short script_argument_count = hs_count_children(expression_index) - 1;
+			int16 script_argument_count = hs_count_children(expression_index) - 1;
 			if (script_argument_count != script.parameters.count)
 			{
 				hs_compile_globals.error_message = "wrong number of script arguments";
@@ -1215,8 +1215,8 @@ bool hs_parse_nonprimitive(long expression_index)
 				return false;
 			}
 
-			short parameter_index = 0;
-			long next_node_index = special_form_expression->next_node_index;
+			int16 parameter_index = 0;
+			int32 next_node_index = special_form_expression->next_node_index;
 			parse_result = true;
 			while (next_node_index != NONE && parse_result)
 			{
@@ -1296,7 +1296,7 @@ bool hs_parse_nonprimitive(long expression_index)
 	return parse_result;
 }
 
-bool hs_parse(long expression_index, short expected_type)
+bool hs_parse(int32 expression_index, int16 expected_type)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -1314,16 +1314,16 @@ bool hs_parse(long expression_index, short expected_type)
 	return hs_parse_primitive(expression_index);
 }
 
-bool hs_macro_function_parse(short function_index, long expression_index)
+bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 {
 	hs_function_definition_debug const* definition = hs_function_get_debug(function_index);
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
+	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	ASSERT(hs_type_valid(definition->return_type.get()));
 
 	bool has_remaining_arguments = true;
-	short parameter_index;
+	int16 parameter_index;
 	for (parameter_index = 0; has_remaining_arguments && parameter_index < definition->formal_parameter_count && next_node_index != NONE; parameter_index++)
 	{
 		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
@@ -1365,11 +1365,11 @@ bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out)
 	return true;
 }
 
-short hs_count_children(long expression_index)
+int16 hs_count_children(int32 expression_index)
 {
-	short child_count = 0;
+	int16 child_count = 0;
 
-	for (long next_node_index = hs_syntax_get(expression_index)->long_value;
+	for (int32 next_node_index = hs_syntax_get(expression_index)->long_value;
 		next_node_index != NONE;
 		next_node_index = hs_syntax_get(next_node_index)->next_node_index)
 	{
@@ -1379,14 +1379,14 @@ short hs_count_children(long expression_index)
 	return child_count;
 }
 
-void hs_compile_add_reference(long referred_index, e_reference_type reference_type, long expression_index)
+void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 expression_index)
 {
 	if (reference_type || (referred_index & 0x8000) == 0)
 	{
 		ASSERT((hs_compile_globals.current_script_index != NONE) ^ (hs_compile_globals.current_global_index != NONE));
 
 		e_reference_type current_reference_type = _hs_reference_type_global;
-		long current_index = hs_compile_globals.current_global_index;
+		int32 current_index = hs_compile_globals.current_global_index;
 		if (hs_compile_globals.current_script_index != NONE)
 		{
 			current_reference_type = _hs_reference_type_script;
@@ -1426,10 +1426,10 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 	}
 }
 
-void hs_parse_call_predicate(long expression_index, bool* is_function, bool* is_script)
+void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is_script)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long predicate_index = expression->long_value;
+	int32 predicate_index = expression->long_value;
 	hs_syntax_node* predicate = hs_syntax_get(predicate_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + predicate->source_offset, char*, source_offset);
 
@@ -1440,7 +1440,7 @@ void hs_parse_call_predicate(long expression_index, bool* is_function, bool* is_
 	}
 	else
 	{
-		short parameter_count = hs_count_children(expression_index) - 1;
+		int16 parameter_count = hs_count_children(expression_index) - 1;
 		expression->constant_type = hs_find_function_by_name(source_offset, parameter_count);
 		predicate->type = _hs_function_name;
 
@@ -1472,20 +1472,20 @@ void hs_parse_call_predicate(long expression_index, bool* is_function, bool* is_
 	}
 }
 
-bool hs_parse_tag_block_element_string_id(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size)
+bool hs_parse_tag_block_element_string_id(int32 expression_index, int32 offset, int32 scenario_index, s_tag_block* block, int32 element_size)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
 
-	ASSERT((offset + (long)sizeof(string_id)) <= element_size);
+	ASSERT((offset + (int32)sizeof(string_id)) <= element_size);
 
 	bool valid = false;
-	for (long block_index = 0; block_index < block->count; block_index++)
+	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
 		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<uint8*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
 		if (block_element_string_id == string_id_retrieve(source_offset))
 		{
-			expression->short_value = static_cast<short>(block_index);
+			expression->short_value = static_cast<int16>(block_index);
 			valid = true;
 			break;
 		}
@@ -1516,7 +1516,7 @@ bool hs_parse_tag_block_element_string_id(long expression_index, long offset, lo
 	return true;
 }
 
-bool hs_parse_tag_block_element(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size)
+bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int32 scenario_index, s_tag_block* block, int32 element_size)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
@@ -1525,12 +1525,12 @@ bool hs_parse_tag_block_element(long expression_index, long offset, long scenari
 	ASSERT(offset + (k_tag_string_length - 1) < element_size);
 
 	bool valid = false;
-	for (long block_index = 0; block_index < block->count; block_index++)
+	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
 		char const* block_element = static_cast<char const*>(tag_block_get_element_with_size(block, block_index, element_size));
 		if (ascii_stricmp(block_element + offset, source_offset) == 0)
 		{
-			expression->short_value = static_cast<short>(block_index);
+			expression->short_value = static_cast<int16>(block_index);
 			valid = true;
 			break;
 		}
@@ -1593,18 +1593,18 @@ void hs_compile_initialize(bool permanent)
 		hs_compile_globals.global_references =
 			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_global_references);
 	
-		for (long i = 0; i < k_maximum_number_of_script_references; i++)
+		for (int32 i = 0; i < k_maximum_number_of_script_references; i++)
 			hs_compile_globals.script_references = NULL;
 
-		for (long i = 0; i < k_maximum_number_of_global_references; i++)
+		for (int32 i = 0; i < k_maximum_number_of_global_references; i++)
 			hs_compile_globals.global_references = NULL;
 	}
 }
 
 struct s_hs_compile_state
 {
-	long failed_scripts[32];
-	long failed_globals[9];
+	int32 failed_scripts[32];
+	int32 failed_globals[9];
 };
 
 void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* state)
@@ -1613,13 +1613,13 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 	csmemset(state->failed_scripts, 0, sizeof(state->failed_scripts));
 }
 
-char* hs_compile_add_source(long source_size, char const* source_data)
+char* hs_compile_add_source(int32 source_size, char const* source_data)
 {
 	// $TODO: implement me
 
 	return NULL;
 
-	//long initial_size = source_size;
+	//int32 initial_size = source_size;
 	//char* result = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
 	//if (result)
 	//{
@@ -1633,9 +1633,9 @@ char* hs_compile_add_source(long source_size, char const* source_data)
 	//return result;
 }
 
-long hs_source_pointer_get_line_number(char const* source_pointer, char const* source)
+int32 hs_source_pointer_get_line_number(char const* source_pointer, char const* source)
 {
-	long line_number = 1;
+	int32 line_number = 1;
 
 	ASSERT(source_pointer);
 
@@ -1652,17 +1652,17 @@ struct hs_tokenizer
 {
 	char* cursor;
 	char const* source_file_data;
-	long source_file_size;
+	int32 source_file_size;
 };
 
-long hs_tokenize(hs_tokenizer* state)
+int32 hs_tokenize(hs_tokenizer* state)
 {
 	// $TODO: implement me
 
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(g_hs_syntax_data);
 	
-	long expression_index = datum_new(g_hs_syntax_data);
+	int32 expression_index = datum_new(g_hs_syntax_data);
 	if (expression_index == NONE)
 	{
 		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
@@ -1684,23 +1684,23 @@ long hs_tokenize(hs_tokenizer* state)
 	else
 		hs_tokenize_nonprimitive(state, expression_index);
 	
-	long source_offset = expression->source_offset;
+	int32 source_offset = expression->source_offset;
 	if (source_offset != NONE && state->source_file_data)
 	{
-		long offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
+		int32 offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
 		ASSERT(offset >= 0 && offset < state->source_file_size);
-		expression->line_number = (short)hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
+		expression->line_number = (int16)hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
 	}
 	
 	return expression_index;
 }
 
-void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
+void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
 {
 	// $TODO: implement me
 
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long* next_node_index = &expression->long_value;
+	int32* next_node_index = &expression->long_value;
 	
 	expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
 	if (!hs_compile_globals.error_message)
@@ -1742,7 +1742,7 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, long expression_index)
 	}
 }
 
-void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
+void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 {
 	hs_syntax_node* expression = NULL;
 	char* cursor = state->cursor;
@@ -1758,7 +1758,7 @@ void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 		hs_syntax_node* node = hs_syntax_get(expression_index);
 
 		state->cursor = cursor + 1;
-		node->source_offset = long(cursor + 1 - hs_compile_globals.compiled_source);
+		node->source_offset = int32(cursor + 1 - hs_compile_globals.compiled_source);
 
 		char terminator = (current == '"') ? '"' : '}';
 		char* c = state->cursor;
@@ -1786,7 +1786,7 @@ void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 	}
 
 	if (expression)
-		expression->source_offset = long(cursor - hs_compile_globals.compiled_source);
+		expression->source_offset = int32(cursor - hs_compile_globals.compiled_source);
 
 	for (char* c = state->cursor; *c; ++c)
 	{
@@ -1824,7 +1824,7 @@ void hs_tokenize_primitive(hs_tokenizer* state, long expression_index)
 	}
 }
 
-void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_offset)
+void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, char const* source_file_data, char const** error_message_pointer, int32* error_offset)
 {
 	// $TODO: implement me
 
@@ -1840,7 +1840,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, long source_file_s
 	//	skip_whitespace(&_tokenizer.cursor);
 	//	while (*_tokenizer.cursor)
 	//	{
-	//		long expression_index = hs_tokenize(&_tokenizer);
+	//		int32 expression_index = hs_tokenize(&_tokenizer);
 	//		skip_whitespace(&_tokenizer.cursor);
 	//		if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
 	//		{
@@ -1869,13 +1869,13 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 }
 
 char* g_error_output_buffer = NULL;
-long g_error_buffer_length = 0;
+int32 g_error_buffer_length = 0;
 
 bool hs_compile_source(bool fail_on_error, bool verbose)
 {
 	return false;
 
-	//long total_source_size = 0;
+	//int32 total_source_size = 0;
 	//bool success = true;
 	//s_hs_compile_state state;
 	//
@@ -1955,15 +1955,15 @@ void hs_compile_dispose()
 
 	hs_compile_globals.initialized = false;
 
-	//long count = 61440;
+	//int32 count = 61440;
 	//if (g_hs_syntax_data->maximum_count + 512 < 61440)
 	//	count = g_hs_syntax_data->maximum_count + 512;
 	//resize_scenario_syntax_data(count);
 }
 
-long hs_compile_expression(long source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
+int32 hs_compile_expression(int32 source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
 {
-	long compiled_expression_index = NONE;
+	int32 compiled_expression_index = NONE;
 
 	*error_message_pointer = NULL;
 	*error_source_pointer = NULL;
@@ -1974,7 +1974,7 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 	}
 
 	char* compiled_source = NULL;
-	long compiled_source_offset = 0;
+	int32 compiled_source_offset = 0;
 	//if (global_scenario_index == NONE)
 	{
 		compiled_source = (char*)system_malloc(source_size + 1);
@@ -1985,7 +1985,7 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 	}
 	//else
 	//{
-	//	long size = global_scenario->hs_string_constants.size;
+	//	int32 size = global_scenario->hs_string_constants.size;
 	//	if (size < 4096) {
 	//		event(_event_error, "hs: not enough space to allocate a temporary hs compiled-source buffer! You got yourself into a REALLY weird state! (show Damian)");
 	//		return compiled_expression_index;
@@ -2025,13 +2025,13 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 			return compiled_expression_index;
 		}
 
-		long tokenized_expression_index = hs_tokenize(&tokenizer);
+		int32 tokenized_expression_index = hs_tokenize(&tokenizer);
 		if (hs_compile_globals.error_message)
 		{
 			*error_message_pointer = hs_compile_globals.error_message;
 			if (hs_compile_globals.error_offset != NONE)
 			{
-				long error_offset = hs_compile_globals.error_offset - compiled_source_offset;
+				int32 error_offset = hs_compile_globals.error_offset - compiled_source_offset;
 				hs_compile_globals.error_offset = error_offset;
 				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
 				*error_source_pointer = &source_data[error_offset];
@@ -2040,7 +2040,7 @@ long hs_compile_expression(long source_size, char const* source_data, char const
 		}
 
 		compiled_expression_index = datum_new(g_hs_syntax_data);
-		long data_node_index = datum_new(g_hs_syntax_data);
+		int32 data_node_index = datum_new(g_hs_syntax_data);
 		if (compiled_expression_index == NONE || data_node_index == NONE)
 		{
 			*error_message_pointer = hs_compile_globals.error_message;
@@ -2084,7 +2084,7 @@ void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<
 
 	//ASSERT(out_dest_string.count() > 0);
 	//
-	//long copy_length = out_dest_string.m_count - 1;
+	//int32 copy_length = out_dest_string.m_count - 1;
 	//if (copy_length > in_source_string.m_count)
 	//{
 	//	copy_length = in_source_string.m_count;
@@ -2095,7 +2095,7 @@ void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<
 	//out_dest_string.m_elements[copy_length] = 0;
 }
 
-void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, long out_expression_length)
+void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, int32 out_expression_length)
 {
 	// $TODO: actually validate the expression
 	csstrnzcpy(out_valid_expression_buffer, expression, out_expression_length);
@@ -2138,8 +2138,8 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 			data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
 		}
 	
-		long source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
-		long expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
+		int32 source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
+		int32 expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
 		if (expression_index == NONE)
 		{
 			if (error_message)

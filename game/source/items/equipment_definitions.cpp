@@ -30,11 +30,11 @@
 //HOOK_DECLARE(0x00BA0650, equipment_get_vision_definition);
 //HOOK_DECLARE(0x00BA0650, equipment_get_weapon_jammer_definition);
 
-e_equipment_type equipment_definition_get_type(long definition_index, long expected_equipment_type_index)
+e_equipment_type equipment_definition_get_type(int32 definition_index, int32 expected_equipment_type_index)
 {
 	return INVOKE(0x00BA0260, equipment_definition_get_type, definition_index, expected_equipment_type_index);
 
-	//long current_type_index = 0;
+	//int32 current_type_index = 0;
 	//e_equipment_type equipment_types[]
 	//{
 	//	// specific equipment can be disabled with a comment below
@@ -67,7 +67,7 @@ e_equipment_type equipment_definition_get_type(long definition_index, long expec
 	//
 	//if (struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition, definition_index))
 	//{
-	//	for (long equipment_type_index = 0; equipment_type_index < NUMBEROF(equipment_types); equipment_type_index++)
+	//	for (int32 equipment_type_index = 0; equipment_type_index < NUMBEROF(equipment_types); equipment_type_index++)
 	//	{
 	//		if (equipment_definition->equipment.equipment_types[equipment_types[equipment_type_index]].count > 0)
 	//		{
@@ -82,7 +82,7 @@ e_equipment_type equipment_definition_get_type(long definition_index, long expec
 	//return k_equipment_type_none;
 }
 
-bool equipment_definition_has_type(long definition_index, e_equipment_type equipment_type)
+bool equipment_definition_has_type(int32 definition_index, e_equipment_type equipment_type)
 {
 	return INVOKE(0x00BA0360, equipment_definition_has_type, definition_index, equipment_type);
 
@@ -91,7 +91,7 @@ bool equipment_definition_has_type(long definition_index, e_equipment_type equip
 	//return address != NULL;
 }
 
-s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(long definition_index)
+s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0390, equipment_get_adrenaline_definition, definition_index);
 
@@ -100,7 +100,7 @@ s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(long defi
 	//return result;
 }
 
-s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(long definition_index)
+s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03B0, equipment_get_ammo_pack_definition, definition_index);
 
@@ -109,7 +109,7 @@ s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(long defini
 	//return result;
 }
 
-s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(long definition_index)
+s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03D0, equipment_get_armor_lock_definition, definition_index);
 
@@ -118,7 +118,7 @@ s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(long defi
 	//return result;
 }
 
-s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(long definition_index)
+s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03F0, equipment_get_bomb_run_definition, definition_index);
 
@@ -127,7 +127,7 @@ s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(long definiti
 	//return result;
 }
 
-s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definition(long definition_index)
+s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0410, equipment_get_concussive_blast_definition, definition_index);
 
@@ -136,7 +136,7 @@ s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definiti
 	//return result;
 }
 
-s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(long definition_index)
+s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0430, equipment_get_forced_reload_definition, definition_index);
 
@@ -145,7 +145,7 @@ s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(lon
 	//return result;
 }
 
-s_equipment_type_health_pack const* equipment_get_health_pack_definition(long definition_index)
+s_equipment_type_health_pack const* equipment_get_health_pack_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0450, equipment_get_health_pack_definition, definition_index);
 
@@ -154,7 +154,7 @@ s_equipment_type_health_pack const* equipment_get_health_pack_definition(long de
 	//return result;
 }
 
-s_equipment_type_hologram const* equipment_get_hologram_definition(long definition_index)
+s_equipment_type_hologram const* equipment_get_hologram_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0470, equipment_get_hologram_definition, definition_index);
 
@@ -163,7 +163,7 @@ s_equipment_type_hologram const* equipment_get_hologram_definition(long definiti
 	//return result;
 }
 
-s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_mode_definition(long definition_index)
+s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0490, equipment_get_invincibility_mode_definition, definition_index);
 
@@ -172,7 +172,7 @@ s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_m
 	//return result;
 }
 
-s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mode_definition(long definition_index)
+s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04B0, equipment_get_invisibility_mode_definition, definition_index);
 
@@ -181,7 +181,7 @@ s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mod
 	//return result;
 }
 
-s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_definition(long definition_index)
+s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04D0, equipment_get_lightning_strike_definition, definition_index);
 
@@ -190,7 +190,7 @@ s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_
 	//return result;
 }
 
-s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(long definition_index)
+s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04F0, equipment_get_mag_pulse_definition, definition_index);
 
@@ -199,7 +199,7 @@ s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(lon
 	//return result;
 }
 
-s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracker_noise_definition(long definition_index)
+s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracker_noise_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0510, equipment_get_motion_tracker_noise_definition, definition_index);
 
@@ -208,7 +208,7 @@ s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracke
 	//return result;
 }
 
-s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_powerup_definition(long definition_index)
+s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_powerup_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0530, equipment_get_multiplayer_powerup_definition, definition_index);
 
@@ -217,7 +217,7 @@ s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_po
 	//return result;
 }
 
-s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_definition(long definition_index)
+s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0550, equipment_get_proximity_mine_definition, definition_index);
 
@@ -226,7 +226,7 @@ s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_defi
 	//return result;
 }
 
-s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_definition(long definition_index)
+s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0570, equipment_get_reactive_armor_definition, definition_index);
 
@@ -235,7 +235,7 @@ s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_defi
 	//return result;
 }
 
-s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(long definition_index)
+s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0590, equipment_get_scrambler_definition, definition_index);
 
@@ -244,7 +244,7 @@ s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(lon
 	//return result;
 }
 
-s_equipment_type_showme const* __cdecl equipment_get_showme_definition(long definition_index)
+s_equipment_type_showme const* __cdecl equipment_get_showme_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05B0, equipment_get_showme_definition, definition_index);
 
@@ -253,7 +253,7 @@ s_equipment_type_showme const* __cdecl equipment_get_showme_definition(long defi
 	//return result;
 }
 
-s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(long definition_index)
+s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05D0, equipment_get_spawner_definition, definition_index);
 
@@ -262,7 +262,7 @@ s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(long de
 	//return result;
 }
 
-s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definition(long definition_index)
+s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05F0, equipment_get_super_shield_definition, definition_index);
 
@@ -271,7 +271,7 @@ s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definiti
 	//return result;
 }
 
-s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(long definition_index)
+s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0610, equipment_get_tank_mode_definition, definition_index);
 
@@ -280,7 +280,7 @@ s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(lon
 	//return result;
 }
 
-s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(long definition_index)
+s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0630, equipment_get_treeoflife_definition, definition_index);
 
@@ -289,7 +289,7 @@ s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(l
 	//return result;
 }
 
-s_equipment_type_vision const* __cdecl equipment_get_vision_definition(long definition_index)
+s_equipment_type_vision const* __cdecl equipment_get_vision_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0650, equipment_get_vision_definition, definition_index);
 
@@ -298,7 +298,7 @@ s_equipment_type_vision const* __cdecl equipment_get_vision_definition(long defi
 	//return result;
 }
 
-s_equipment_type_weapon_jammer const* __cdecl equipment_get_weapon_jammer_definition(long definition_index)
+s_equipment_type_weapon_jammer const* __cdecl equipment_get_weapon_jammer_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0650, equipment_get_weapon_jammer_definition, definition_index);
 

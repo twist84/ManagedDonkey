@@ -21,7 +21,7 @@
 #include "simulation/simulation_view.hpp"
 #include "xbox/xnet.hpp"
 
-void __fastcall network_message_handler_handle_channel_message(c_network_message_handler* _this, void* unused, c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage)
+void __fastcall network_message_handler_handle_channel_message(c_network_message_handler* _this, void* unused, c_network_channel* channel, e_network_message_type message_type, int32 message_storage_size, void const* message_storage)
 {
 	_this->handle_channel_message(channel, message_type, message_storage_size, message_storage);
 }
@@ -134,7 +134,7 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 	m_message_gateway->send_message_broadcast(_network_message_broadcast_reply, sizeof(s_network_message_broadcast_reply), &broadcast_reply, address->port);
 }
 
-void c_network_message_handler::handle_channel_message(c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage)
+void c_network_message_handler::handle_channel_message(c_network_channel* channel, e_network_message_type message_type, int32 message_storage_size, void const* message_storage)
 {
 	//INVOKE_CLASS_MEMBER(0x0049C470, c_network_message_handler, handle_channel_message, channel, message_type, message_storage_size, message_storage);
 
@@ -635,7 +635,7 @@ void c_network_message_handler::handle_connect_establish(c_network_channel* chan
 					message->remote_identifier,
 					channel->get_remote_identifier());
 
-				long channel_identifier = NONE;
+				int32 channel_identifier = NONE;
 				if (!channel->network_message_queue_get()->has_channel_been_used())
 					channel_identifier = channel->get_identifier();
 
@@ -961,7 +961,7 @@ void c_network_message_handler::handle_membership_update(c_network_channel* chan
 	}
 }
 
-void c_network_message_handler::handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage)
+void c_network_message_handler::handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, int32 message_storage_size, void const* message_storage)
 {
 	//INVOKE_CLASS_MEMBER(0x0049D2C0, c_network_message_handler, handle_out_of_band_message, address, message_type, message_storage_size, message_storage);
 
@@ -1489,9 +1489,9 @@ void c_network_message_handler::handle_synchronous_client_ready(c_network_channe
 	}
 }
 
-void c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long chunk_size, void const* chunk_data)
+void c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, int32 chunk_size, void const* chunk_data)
 {
-	//DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, chunk_size, chunk);
+	//DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, int32, void const*)(channel, message, chunk_size, chunk);
 
 	if (chunk_size == message->chunk_size)
 	{

@@ -14,34 +14,34 @@ static_assert(sizeof(s_objective_datum) == 0xC);
 
 struct s_task_record
 {
-	long leader;
-	short body_count;
-	short lowest_rank;
-	short highest_rank;
+	int32 leader;
+	int16 body_count;
+	int16 lowest_rank;
+	int16 highest_rank;
 	uint16 flags; // assume odst flags
-	long __timeC;
-	long __time10;
-	long __time14;
-	long __time18;
-	long __time1C;
-	long __time20;
-	long __time24;
+	int32 __timeC;
+	int32 __time10;
+	int32 __time14;
+	int32 __time18;
+	int32 __time1C;
+	int32 __time20;
+	int32 __time24;
 	real_point3d position;
 	bool position_calculated;
 	uint8 __data35[0x1];
-	short __unknown36;
+	int16 __unknown36;
 	c_clump_behavior_state state;
 };
 static_assert(sizeof(s_task_record) == 0x40);
 
 struct s_area_reference
 {
-	short type;
-	short flags;
-	short character_flags;
-	short zone_index;
-	short area_index;
-	angle yaw;
+	int16 type;
+	int16 flags;
+	int16 character_flags;
+	int16 zone_index;
+	int16 area_index;
+	real32 yaw;
 	//uint32 connection_flags;
 };
 static_assert(sizeof(s_area_reference) == 0x10);
@@ -170,9 +170,9 @@ struct s_task
 	c_flags<e_inhibit_difficulty_flags, uint16, k_inhibit_difficulty_flags> inhibit_on_difficulty;
 	int16_bounds round_range;
 	int16_bounds set_range;
-	short movement;
-	short follow;
-	short follow_squad; // short_block_index
+	int16 movement;
+	int16 follow;
+	int16 follow_squad; // short_block_index
 	real32 follow_radius;
 
 	// Don't follow at areas outside of this vertical margin
@@ -189,20 +189,20 @@ struct s_task
 	c_static_string<k_tag_string_length> entry_script;
 	c_static_string<k_tag_string_length> command_script;
 	c_static_string<k_tag_string_length> exhaustion_script;
-	short entry_script_index;
-	short command_script_index;
-	short exhaustion_script_index;
+	int16 entry_script_index;
+	int16 command_script_index;
+	int16 exhaustion_script_index;
 
-	short squad_group_filter; // short_block_index
+	int16 squad_group_filter; // short_block_index
 
 	// when someone enters this task for the first time, they play this type of dialogue
-	short dialogue_type;
+	int16 dialogue_type;
 
 	c_flags<e_task_runtime_flags, uint16, k_task_runtime_flags> runtime_flags;
 	s_tag_block pureform_distribution;
 
 	// The number of guys under this task that should be allowed to fight the player at a time
-	short kungfu_count;
+	int16 kungfu_count;
 
 	uint8 post_kungfu_count[2];
 
@@ -211,21 +211,21 @@ struct s_task
 	// You don't need to modify these here. They are managed by the objectives ui
 
 	c_string_id name;
-	short priority;
-	short first_child; // short_block_index
-	short next_sibling; // short_block_index
-	short parent; // short_block_index
+	int16 priority;
+	int16 first_child; // short_block_index
+	int16 next_sibling; // short_block_index
+	int16 parent; // short_block_index
 	s_tag_block activation_script;
-	short activation_script_index; // short_block_index
-	short lifetime_count;
+	int16 activation_script_index; // short_block_index
+	int16 lifetime_count;
 	c_flags<e_filter_flags, uint16, k_filter_flags> filter_flags;
-	c_enum<e_filter, short, _filter_none, k_filter_count> filter;
+	c_enum<e_filter, int16, _filter_none, k_filter_count> filter;
 	int16_bounds capacity;
 
 	// task becomes inactive after the given number of casualties
-	short max_body_count;
+	int16 max_body_count;
 
-	short style;
+	int16 style;
 
 	// task becomes inactive after the strength of the participants falls below the given level
 	real32 min_strength; // [0,1]
@@ -247,18 +247,18 @@ struct s_objective
 	c_string_id name;
 	s_tag_block opposing_objectives;
 	c_flags<e_objective_flags, uint16, k_objective_flags> objective_flags;
-	short zone_index; // short_block_index
-	short first_task_index; // short_block_index
-	short editor_folder; // short_block_index
+	int16 zone_index; // short_block_index
+	int16 first_task_index; // short_block_index
+	int16 editor_folder; // short_block_index
 	c_typed_tag_block<s_task> tasks;
 };
 static_assert(sizeof(s_objective) == 0x24);
 
-extern s_task_record* __cdecl objective_get_task_record(short objective_index, short task_index);
+extern s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 task_index);
 extern void __cdecl objectives_initialize();
 extern void __cdecl objectives_initialize_for_new_map();
 extern void __cdecl objectives_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
 extern void __cdecl objectives_update();
 
-extern void ai_debug_render_objectives(long squad_index, real_point3d const* position);
+extern void ai_debug_render_objectives(int32 squad_index, real_point3d const* position);
 

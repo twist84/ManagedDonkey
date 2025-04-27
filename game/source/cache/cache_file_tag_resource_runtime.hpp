@@ -55,7 +55,7 @@ struct s_cache_file_shared_resource_usage
 };
 static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2980);
 
-template<typename t_type, long k_depth>
+template<typename t_type, int32 k_depth>
 struct c_typed_allocation_data_no_destruct
 {
 public:
@@ -76,7 +76,7 @@ protected:
 	t_type* m_live_object;
 	c_allocation_base* m_allocator;
 };
-static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 0>) == 0x10);
+static_assert(sizeof(c_typed_allocation_data_no_destruct<int32, 0>) == 0x10);
 
 struct c_cache_file_streamed_sublocation_decompressor :
 	public c_cache_file_decompressor
@@ -104,13 +104,13 @@ static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c
 struct s_cache_file_resource_runtime_active_zone_state
 {
 	s_scenario_zone_state zone_state;
-	long prefetching_shared_file_index;
+	int32 prefetching_shared_file_index;
 };
 static_assert(sizeof(s_cache_file_resource_runtime_active_zone_state) == 0x24);
 
 struct s_cache_file_resource_prefetch_map_state
 {
-	long insertion_point_index;
+	int32 insertion_point_index;
 	c_static_string<k_tag_long_string_length> map_name;
 	bool __unknown104;
 };
@@ -118,7 +118,7 @@ static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
 
 struct s_cache_file_resource_runtime_prefetching_state
 {
-	long prefetching_shared_file_index;
+	int32 prefetching_shared_file_index;
 	s_cache_file_resource_prefetch_map_state active_prefetch;
 	s_cache_file_resource_prefetch_map_state requested_prefetch;
 };
@@ -149,22 +149,22 @@ struct c_cache_file_resource_rollover_table
 {
 	struct s_rollover_entry_estimated
 	{
-		long file_size;
-		long size;
+		int32 file_size;
+		int32 size;
 		c_basic_buffer<void> range;
 	};
 	static_assert(sizeof(s_rollover_entry_estimated) == 0x10);
 
 	c_static_sized_dynamic_array<s_rollover_entry_estimated, 16384> m_estimated_rollover_entries;
 	c_basic_buffer<void> m_entry_bounds;
-	long m_next_moved_entry_index;
+	int32 m_next_moved_entry_index;
 };
 static_assert(sizeof(c_cache_file_resource_rollover_table) == 0x40010);
 
 struct c_indirect_cache_file_decompressor_service
 {
-	virtual c_cache_file_decompressor* begin_decompression(uint64, long, c_basic_buffer<void>) = 0;
-	virtual void dispose_decompressor(uint64, long, c_cache_file_decompressor*) = 0;
+	virtual c_cache_file_decompressor* begin_decompression(uint64, int32, c_basic_buffer<void>) = 0;
+	virtual void dispose_decompressor(uint64, int32, c_cache_file_decompressor*) = 0;
 };
 static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
 
@@ -172,11 +172,11 @@ struct c_cache_file_uncompressed_decompressor;
 struct c_cache_file_tag_resource_codec_service :
 	c_indirect_cache_file_decompressor_service
 {
-	virtual c_cache_file_decompressor* begin_decompression(uint64, long, c_basic_buffer<void>)
+	virtual c_cache_file_decompressor* begin_decompression(uint64, int32, c_basic_buffer<void>)
 	{
 		throw;
 	}
-	virtual void dispose_decompressor(uint64, long, c_cache_file_decompressor*)
+	virtual void dispose_decompressor(uint64, int32, c_cache_file_decompressor*)
 	{
 		throw;
 	}
@@ -208,8 +208,8 @@ struct s_tag_resource_definition;
 struct c_tag_resource_runtime_listener
 {
 public:
-	virtual bool __cdecl register_resource(long tag_index, long tag_resource_type_index, void* data);
-	virtual void __cdecl unregister_resource(long tag_index, long tag_resource_type_index, void* data);
+	virtual bool __cdecl register_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
+	virtual void __cdecl unregister_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
 };
 static_assert(sizeof(c_tag_resource_runtime_listener) == 0x4);
 
@@ -217,9 +217,9 @@ struct c_tag_resource_runtime_active_set
 {
 public:
 	virtual bool __cdecl any_resources_active() const;
-	virtual bool __cdecl is_resource_required(long resource_handle, long resource_owner) const;
-	virtual bool __cdecl is_resource_deferred(long resource_handle, long resource_owner) const;
-	virtual bool __cdecl is_resource_pending(long resource_handle, long resource_owner) const;
+	virtual bool __cdecl is_resource_required(int32 resource_handle, int32 resource_owner) const;
+	virtual bool __cdecl is_resource_deferred(int32 resource_handle, int32 resource_owner) const;
+	virtual bool __cdecl is_resource_pending(int32 resource_handle, int32 resource_owner) const;
 };
 static_assert(sizeof(c_tag_resource_runtime_active_set) == 0x4);
 
@@ -261,7 +261,7 @@ struct c_tag_resource_prediction_atom_collector;
 struct c_tag_resource_prediction_atom_generator
 {
 public:
-	virtual bool collect_tag_resources(long tag_index, long prediction_atom_handle, c_tag_resource_prediction_atom_collector* atom_collector);
+	virtual bool collect_tag_resources(int32 tag_index, int32 prediction_atom_handle, c_tag_resource_prediction_atom_collector* atom_collector);
 };
 static_assert(sizeof(c_tag_resource_prediction_atom_generator) == 0x4);
 
@@ -283,7 +283,7 @@ struct s_cache_file_tag_resource_runtime_shared_file :
 	s_indirect_file indirect_file;
 	s_cache_file_shared_resource_usage const* shared_resource_usage;
 	uint32 resource_section_offset;
-	long map_file_index;
+	int32 map_file_index;
 };
 static_assert(sizeof(s_cache_file_tag_resource_runtime_shared_file) == 0x1C);
 
@@ -323,12 +323,12 @@ public:
 	void __thiscall initialize_files(e_game_mode game_mode);
 	void initialize_for_new_map(
 		e_game_mode game_mode,
-		long cache_file_resource_gestalt_index,
-		long resource_vtable_list_count,
+		int32 cache_file_resource_gestalt_index,
+		int32 resource_vtable_list_count,
 		s_cache_file_tag_resource_vtable const** resource_vtable_list,
 		c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry);
 
-	void* get_cached_resource_data(long resource_handle)
+	void* get_cached_resource_data(int32 resource_handle)
 	{
 		return m_threaded_tag_resource_cache.get_resource_data(resource_handle);
 	}
@@ -384,8 +384,8 @@ public:
 	c_thread_safeish_tag_resource_cache m_threaded_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
-	c_static_array<long, 7> m_shared_file_datum_indices;
-	long m_last_shared_file_datum_index;
+	c_static_array<int32, 7> m_shared_file_datum_indices;
+	int32 m_last_shared_file_datum_index;
 	c_wrapped_data_array<s_cache_file_tag_resource_runtime_shared_file> m_shared_file_handles;
 	c_cache_file_resource_uber_location_table m_uber_location_table;
 	e_game_mode m_last_game_mode;
@@ -463,31 +463,31 @@ extern void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_prepare_for_next_map();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
-extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);
-extern void __cdecl cache_file_tag_resources_start_map_prefetch(short campaign_id, char const* scenario_path);
+extern void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, s_scenario_zone_state const* zone_state);
+extern void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, char const* scenario_path);
 extern void __cdecl cache_file_tag_resources_stop_map_prefetch();
 
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource);
-extern long __cdecl tag_resources_lock_game();
+extern int32 __cdecl tag_resources_lock_game();
 extern void __cdecl tag_resources_lock_render();
 extern bool __cdecl tag_resources_locked_for_current_thread_UGLY();
 extern void __cdecl tag_resources_main_loop_idle();
 extern void __cdecl tag_resources_prepare_for_new_map();
 extern void __cdecl tag_resources_pump_io();
 extern void __cdecl tag_resources_stagnate_deferred_resources();
-extern void __cdecl tag_resources_unlock_game(long& lock);
+extern void __cdecl tag_resources_unlock_game(int32& lock);
 
 struct s_resource_file_header
 {
 	// tag info
 	tag group_tag;
-	long tag_index;
+	int32 tag_index;
 
 	// resource data size and offset from file begin
 	uint32 file_size;
-	long resource_index;
+	int32 resource_index;
 };
 static_assert(sizeof(s_resource_file_header) == 0x10);
 

@@ -11,7 +11,7 @@ struct s_physics_constants
 	real32 water_density;
 	real32 air_density;
 	real_vector3d velocity_frame;
-	long character_ground_adhesion_forces_enable_time;
+	int32 character_ground_adhesion_forces_enable_time;
 	real32 slip_surface_maximum_k;
 };
 static_assert(sizeof(s_physics_constants) == 0x20);

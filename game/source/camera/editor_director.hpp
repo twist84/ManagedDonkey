@@ -7,7 +7,7 @@ struct c_editor_director :
 	public c_director
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x00727EA0, c_editor_director, constructor, user_index);
 	}
@@ -18,7 +18,7 @@ public:
 	void set_scripted(bool scripted);
 	
 //protected:
-	long m_unit_focus;
+	int32 m_unit_focus;
 	bool m_is_scripted;
 	bool m_use_roll;
 

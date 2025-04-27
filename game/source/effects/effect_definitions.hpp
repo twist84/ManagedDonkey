@@ -10,7 +10,7 @@ enum e_effect_definition_flags
 	_effect_deleted_when_inactive_bit = 0,
 	_effect_parallel_events_bit,
 
-	// This option will hurt performance on effects with very short duration.
+	// This option will hurt performance on effects with very int16 duration.
 	_effect_no_part_reuse_bit,
 
 	_effect_age_creators_primary_weapon_bit,
@@ -86,8 +86,8 @@ struct effect_definition
 
 	uint8 pad[0x3];
 
-	short loop_start_event;
-	short local_location0;
+	int16 loop_start_event;
+	int16 local_location0;
 	real32 runtime_danger_radius;
 	s_tag_block locations;
 	c_typed_tag_block<effect_event_definition> events;
@@ -96,7 +96,7 @@ struct effect_definition
 	s_tag_reference looping_sound;
 	char location;
 	char bind_scale_to_event;
-	short local_location1;
+	int16 local_location1;
 	real32 always_play_distance;
 	real32 never_play_distance;
 
@@ -151,10 +151,10 @@ enum e_effect_part_scaleable_values
 using effect_part_definition_type_group_tags = c_typed_tag_reference<BEAM_SYSTEM_TAG, RENDER_WATER_RIPPLE_TAG, DAMAGE_EFFECT_TAG, SOUND_TAG, DECAL_SYSTEM_TAG, CONTRAIL_SYSTEM_TAG, LENS_FLARE_TAG, LIGHT_TAG, LIGHT_VOLUME_SYSTEM_TAG, AREA_SCREEN_EFFECT_TAG, CHARACTER_TAG, OBJECT_TAG, INVALID_TAG>;
 struct effect_part_definition
 {
-	c_enum<e_effect_environment, short, _effect_environment_any_environment, k_effect_environment_count> create_in;
-	c_enum<e_effect_disposition, short, _effect_disposition_either_mode, k_effect_disposition_count> violence_mode;
-	short location;
-	short secondary_location; // beams
+	c_enum<e_effect_environment, int16, _effect_environment_any_environment, k_effect_environment_count> create_in;
+	c_enum<e_effect_disposition, int16, _effect_disposition_either_mode, k_effect_disposition_count> violence_mode;
+	int16 location;
+	int16 secondary_location; // beams
 	c_flags<e_effect_part_flags, uint16, k_effect_part_flags> flags;
 	c_enum<e_global_effect_priority, char, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
@@ -170,7 +170,7 @@ struct effect_part_definition
 	real_euler_angles2d velocity_orientation; // yaw, pitch
 
 	// initial velocity will be inside the cone defined by this angle.
-	angle velocity_cone_angle; // degrees
+	real32 velocity_cone_angle; // degrees
 
 	angle_bounds angular_velocity_bounds; // degrees per second
 	real_bounds radius_modifier_bounds;

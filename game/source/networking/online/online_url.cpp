@@ -9,8 +9,8 @@
 
 #include <string.h>
 
-REFERENCE_DECLARE(0x01860808, long, dword_1860808); // initial value: 1
-REFERENCE_DECLARE(0x0186080C, long, dword_186080C); // initial value: 600
+REFERENCE_DECLARE(0x01860808, int32, dword_1860808); // initial value: 1
+REFERENCE_DECLARE(0x0186080C, int32, dword_186080C); // initial value: 600
 REFERENCE_DECLARE(0x019AB758, _g_online_url, g_online_url);
 
 HOOK_DECLARE(0x004515F0, create_title_url_base);
@@ -114,14 +114,14 @@ e_online_lsp_service_type c_url_string::get_service_type() const
 	return m_service_type;
 }
 
-long c_url_string::get_untracked_cache_lifetime_seconds() const
+int32 c_url_string::get_untracked_cache_lifetime_seconds() const
 {
 	//return INVOKE_CLASS_MEMBER(0x004516D0, c_url_string, get_untracked_cache_lifetime_seconds);
 
 	return m_untracked_cache_lifetime_seconds;
 }
 
-void __cdecl make_hopper_network_directory(char* hopper_directory, long hopper_directory_size, char some_char /* separator? */)
+void __cdecl make_hopper_network_directory(char* hopper_directory, int32 hopper_directory_size, char some_char /* separator? */)
 {
 	//INVOKE(0x00451710, make_hopper_network_directory, hopper_directory, hopper_directory_size, some_char);
 
@@ -193,7 +193,7 @@ void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uint64 use
 }
 
 //void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uint64 user_id, e_game_region game_region, e_profile_region profile_region, bool extras_portal_debug)
-void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uint64 user_id, long game_region, long profile_region, bool extras_portal_debug)
+void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uint64 user_id, int32 game_region, int32 profile_region, bool extras_portal_debug)
 {
 	//INVOKE(0x004518B0, online_url_make_bnet_subscription_get_details, url, user_id, game_region, profile_region, extras_portal_debug);
 
@@ -254,7 +254,7 @@ void __cdecl online_url_make_matchmaking_gameset(c_url_string* url, uint16 hoppe
 	url->m_request_type = _network_http_request_queue_type_required;
 }
 
-void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, uint16 hopper_id, long hopper_skill)
+void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, uint16 hopper_id, int32 hopper_skill)
 {
 	//INVOKE(0x00451B10, online_url_make_matchmaking_histogram, url, hopper_id, hopper_skill);
 
@@ -422,7 +422,7 @@ void __cdecl online_url_make_update_machine_network_stats(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uint64 user_id, long highest_skill)
+void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uint64 user_id, int32 highest_skill)
 {
 	//INVOKE(0x00451FA0, online_url_make_update_user_highest_skill, url, user_id, highest_skill);
 

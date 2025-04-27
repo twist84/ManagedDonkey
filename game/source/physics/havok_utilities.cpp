@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-hkMoppCode* __cdecl mopp_code_data_get_mopp_code(s_tag_data* data, long offset)
+hkMoppCode* __cdecl mopp_code_data_get_mopp_code(s_tag_data* data, int32 offset)
 {
 	//ASSERT(suppress_errors || offset + mopp_code->getCodeSize() <= data->size);
 	//ASSERT(suppress_errors || mopp_code->m_data.m_data == reinterpret_cast<hkUint8*>(mopp_code + 1));
@@ -10,7 +10,7 @@ hkMoppCode* __cdecl mopp_code_data_get_mopp_code(s_tag_data* data, long offset)
 	return INVOKE(0x00717BF0, mopp_code_data_get_mopp_code, data, offset);
 }
 
-long __cdecl mopp_code_get_tag_data_size(hkMoppCode const* mopp_code)
+int32 __cdecl mopp_code_get_tag_data_size(hkMoppCode const* mopp_code)
 {
 	ASSERT(mopp_code != NULL);
 

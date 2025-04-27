@@ -10,15 +10,15 @@ static_assert(sizeof(s_cinematic_new_globals_definition) == 0x2808);
 
 struct s_cinematic_title_datum
 {
-	short title_index;
-	short title_timer;
+	int16 title_index;
+	int16 title_timer;
 	bool forced;
 };
 static_assert(sizeof(s_cinematic_title_datum) == 0x6);
 
 struct s_subtitle
 {
-	long string;
+	int32 string;
 	real32 total_duration;
 	real32 current_duration;
 };
@@ -33,12 +33,12 @@ struct s_cinematic_globals_definition
 	bool cinematic_suppress_bsp_object_creation;
 	s_cinematic_title_datum active_titles[4];
 	s_subtitle subtitle;
-	short letter_box_type;
+	int16 letter_box_type;
 	bool cinematic_is_outro;
 	bool pad;
 	bool cinematic_fade_out_in_progress;
-	long cinematic_fade_out_start_time;
-	long cinematic_fade_out_stop_time;
+	int32 cinematic_fade_out_start_time;
+	int32 cinematic_fade_out_stop_time;
 };
 static_assert(sizeof(s_cinematic_globals_definition) == 0x3C);
 

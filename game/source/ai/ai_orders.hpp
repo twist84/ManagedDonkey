@@ -6,14 +6,14 @@
 struct orders_definition
 {
 	char name[32];
-	short style;
+	int16 style;
 	uint16 pad1;
 	uint32 flags;
 	int16 force_combat_status;
-	short pad2;
+	int16 pad2;
 	char script_name[32];
-	short script_index;
-	short follow_squad;
+	int16 script_index;
+	int16 follow_squad;
 	real32 follow_radius;
 	s_tag_block primary_area_set;
 	s_tag_block secondary_area_set;
@@ -26,5 +26,5 @@ static_assert(sizeof(orders_definition) == 0x9C);
 
 struct trigger_definition;
 
-extern short orders_get_by_name(char const* name);
+extern int16 orders_get_by_name(char const* name);
 

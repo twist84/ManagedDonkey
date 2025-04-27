@@ -4,7 +4,7 @@
 #include "memory/data_encoding.hpp"
 #include "memory/data_packet_groups.hpp"
 
-void __cdecl _data_packet_verify(data_packet_definition* packet_definition, short* byte_count_reference, struct data_packet_field* first_field, short* field_count_reference)
+void __cdecl _data_packet_verify(data_packet_definition* packet_definition, int16* byte_count_reference, struct data_packet_field* first_field, int16* field_count_reference)
 {
 	// $TODO: implement me!
 }
@@ -18,8 +18,8 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 	
 	if (!packet_definition->initialized_flag)
 	{
-		short packet_size = 0;
-		short field_count = 0;
+		int16 packet_size = 0;
+		int16 field_count = 0;
 		_data_packet_verify(packet_definition, &packet_size, packet_definition->fields, &field_count);
 
 		if (packet_size != packet_definition->size)
@@ -34,12 +34,12 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 	}
 }
 
-void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data_encoding_state* encode_state, short version, void* original_buffer, short* byte_count_reference, data_packet_field* first_field, short* field_count_reference)
+void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data_encoding_state* encode_state, int16 version, void* original_buffer, int16* byte_count_reference, data_packet_field* first_field, int16* field_count_reference)
 {
 	// $TODO: implement me!
 }
 
-unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, short version, void* data, void* buffer, short* buffer_size, short maximum_buffer_size)
+unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, int16 version, void* data, void* buffer, int16* buffer_size, int16 maximum_buffer_size)
 {
 	ASSERT(packet_definition);
 	ASSERT(buffer && buffer_size);
@@ -60,7 +60,7 @@ unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definiti
 	}
 
 	_data_packet_encode(packet_definition, &state, version, data, NULL, packet_definition->fields, NULL);
-	*buffer_size = static_cast<short>(state.offset);
+	*buffer_size = static_cast<int16>(state.offset);
 
 	return state.overflow_flag == 0;
 }

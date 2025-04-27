@@ -10,8 +10,8 @@ struct hkReferencedObject :
 	public hkBaseObject
 {
 public:
-	short m_size;
-	short m_count;
+	int16 m_size;
+	int16 m_count;
 };
 
 template<typename T>

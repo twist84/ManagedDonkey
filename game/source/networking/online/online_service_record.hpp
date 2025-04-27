@@ -58,13 +58,13 @@ enum e_experience_grade
 struct c_online_service_record
 {
 	char const* m_buffer;
-	long m_buffer_length;
+	int32 m_buffer_length;
 };
 static_assert(sizeof(c_online_service_record) == 0x8);
 
 struct c_online_service_record_manager
 {
-	long m_last_download_status;
+	int32 m_last_download_status;
 	c_http_stored_buffer_downloader<4373> m_downloader;
 	uint8 __align17B0[0x8];
 	uint64 m_current_service_record_xuid;
@@ -80,12 +80,12 @@ struct s_service_record_identity
 	bool extras_portal_debug;
 	uint8 vidmaster;
 	e_campaign_progress campaign_progress;
-	long highest_skill;
-	long experience;
-	long experience_base;
+	int32 highest_skill;
+	int32 experience;
+	int32 experience_base;
 	e_experience_rank experience_rank;
 	e_experience_grade experience_grade;
-	long games_completed;
+	int32 games_completed;
 };
 static_assert(sizeof(s_service_record_identity) == 0x6A0);
 

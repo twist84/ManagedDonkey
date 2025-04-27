@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-void __cdecl game_engine_player_deleted(long player_index)
+void __cdecl game_engine_player_deleted(int32 player_index)
 {
 	INVOKE(0x005A1460, game_engine_player_deleted, player_index);
 }

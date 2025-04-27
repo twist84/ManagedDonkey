@@ -31,16 +31,16 @@ public:
 	void __cdecl load_from_file_async(bool use_compressed_format, char const* file_path);
 	void __cdecl clear();
 
-	long m_storage_item_index;
+	int32 m_storage_item_index;
 	char* m_async_load_buffer;
-	long m_async_load_buffer_count;
-	long m_async_task_id;
+	int32 m_async_load_buffer_count;
+	int32 m_async_task_id;
 	c_synchronized_long m_async_task_signal;
 	c_synchronized_long m_async_task_cancelled;
 	c_synchronized_long m_async_task_success;
 	s_file_reference m_file;
 	bool m_use_compressed_format;
-	long m_desired_aspect_ratio;
+	int32 m_desired_aspect_ratio;
 	c_static_string<256> m_desired_async_file_to_display;
 	c_static_string<256> m_current_async_file_to_display;
 	uint8 __data46C[0x4];
@@ -49,13 +49,13 @@ static_assert(sizeof(c_gui_custom_bitmap_widget) == 0x470);
 
 struct s_load_image_from_file_task
 {
-	long state;
+	int32 state;
 	s_file_reference* file;
 	uint32 file_size;
 	char* load_buffer;
-	long load_buffer_length;
-	long storage_item_index;
-	long desired_aspect_ratio;
+	int32 load_buffer_length;
+	int32 storage_item_index;
+	int32 desired_aspect_ratio;
 	c_synchronized_long* cancelled;
 	c_synchronized_long* success;
 	bool image_source_was_dlc;
@@ -63,5 +63,5 @@ struct s_load_image_from_file_task
 static_assert(sizeof(s_load_image_from_file_task) == 0x28);
 
 extern void patch_gui_custom_bitmap_widget();
-extern long __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data);
+extern int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data);
 

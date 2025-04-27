@@ -13,19 +13,19 @@ REFERENCE_DECLARE(0x0238ED14, uint32, random_seed_local);
 //HOOK_DECLARE(0x0051F070, random_math_dispose);
 //HOOK_DECLARE(0x0051F0B0, random_math_initialize);
 
-long random_seed_allow_use_count = 0;
+int32 random_seed_allow_use_count = 0;
 bool random_seed_debug_file_open = false;
 s_file_reference random_seed_debug_file{};
 
 //.text:0051E790 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7B0 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::~t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7C0 ; void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)
-//.text:0051E7E0 ; real_vector3d* __cdecl _distriubuite_vector_in_cone3d(uint32*, char const*, char const*, uint32, real_vector3d const*, long, long, long, long, real32, real32, real32, real_vector3d*)
+//.text:0051E7E0 ; real_vector3d* __cdecl _distriubuite_vector_in_cone3d(uint32*, char const*, char const*, uint32, real_vector3d const*, int32, int32, int32, int32, real32, real32, real32, real_vector3d*)
 //.text:0051EAA0 ; real_vector3d* __cdecl _random_direction3d(uint32*, char const*, char const*, uint32, real_vector3d*)
 //.text:0051ECA0 ; real_vector3d* __cdecl _random_vector_in_cone3d(uint32*, char const*, char const*, uint32, real_vector3d const*, real32, real32, real_vector3d*)
 //.text:0051EE80 ; public: virtual void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::allocate(unsigned int, char const*)
-//.text:0051EEC0 ; public: virtual void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::deallocate(void*, long)
-//.text:0051EEF0 ; real64 __cdecl distribute_random_stratified(uint32*, char const*, char const*, uint32, long, long)
+//.text:0051EEC0 ; public: virtual void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::deallocate(void*, int32)
+//.text:0051EEF0 ; real64 __cdecl distribute_random_stratified(uint32*, char const*, char const*, uint32, int32, int32)
 //.text:0051EF70 ; public: void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::free_memory()
 
 uint32 __cdecl generate_random_seed()
@@ -75,7 +75,7 @@ uint32 __cdecl random_direction_table_count()
 	return INVOKE(0x0051F020, random_direction_table_count);
 }
 
-bool __cdecl random_direction_table_sample(long sample_index, real_vector3d* out_sample)
+bool __cdecl random_direction_table_sample(int32 sample_index, real_vector3d* out_sample)
 {
 	return INVOKE(0x0051F030, random_direction_table_sample, sample_index, out_sample);
 }
@@ -135,7 +135,7 @@ void __cdecl random_math_initialize_tool()
 	random_math_initialize_internal();
 }
 
-//.text:0051F1C0 ; public: void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::reserve_memory(char const*, char const*, unsigned int, long)
+//.text:0051F1C0 ; public: void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::reserve_memory(char const*, char const*, unsigned int, int32)
 
 void __cdecl set_local_random_seed(uint32 local_random_seed)
 {

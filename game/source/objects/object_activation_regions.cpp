@@ -10,7 +10,7 @@
 //.text:00B9A450 ; 
 //.text:00B9A460 ; 
 //.text:00B9A470 ; 
-//.text:00B9A490 ; void __cdecl object_activation_regions_add_region(long, bool)
+//.text:00B9A490 ; void __cdecl object_activation_regions_add_region(int32, bool)
 
 void __cdecl object_activation_regions_dispose()
 {

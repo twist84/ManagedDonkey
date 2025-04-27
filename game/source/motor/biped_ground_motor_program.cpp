@@ -4,7 +4,7 @@
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 
-//.text:00BE1B30 ; bool __cdecl biped_jump(long)
+//.text:00BE1B30 ; bool __cdecl biped_jump(int32)
 
 __declspec(naked) void super_jump_inline()
 {

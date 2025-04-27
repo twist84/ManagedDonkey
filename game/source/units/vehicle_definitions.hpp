@@ -109,7 +109,7 @@ static_assert(sizeof(s_vehicle_engine_definition) == 0x24);
 
 struct s_vehicle_human_tank_definition
 {
-	angle forward_arc;
+	real32 forward_arc;
 	real32 forward_turn_scale;
 	real32 reverse_turn_scale;
 
@@ -188,7 +188,7 @@ struct s_vehicle_steering_animation_definition
 	real32 interpolation_scale;
 
 	// non-zero= max angle delta per frame
-	angle max_angle;
+	real32 max_angle;
 };
 static_assert(sizeof(s_vehicle_steering_animation_definition) == 0x8);
 
@@ -356,7 +356,7 @@ static_assert(sizeof(s_vehicle_alien_fighter_definition) == 0x64);
 
 struct s_vehicle_turret_definition
 {
-	long pad[1];
+	int32 pad[1];
 };
 static_assert(sizeof(s_vehicle_turret_definition) == 0x4);
 
@@ -396,22 +396,22 @@ struct s_walker_physics_leg
 	c_string_id knee_node_a_name;
 	c_string_id knee_node_b_name;
 	c_string_id foot_marker_group_name;
-	long pad2[0xF];
-	c_flags<e_walker_physics_leg_flags, long, k_walker_physics_leg_flags> flags;
+	int32 pad2[0xF];
+	c_flags<e_walker_physics_leg_flags, int32, k_walker_physics_leg_flags> flags;
 	real_vector3d initial_hip_to_foot_offset;
 	real_vector3d initial_origin_to_hip_offset;
 	real32 upper_leg_length;
 	real32 lower_leg_length;
-	short hip_node_a_index;
-	short hip_node_b_index;
-	short knee_node_a_index;
-	short knee_node_b_index;
-	short runtime_foot_marker_group_index;
-	short runtime_foot_node_index;
-	short runtime_hip_node_index;
-	short runtime_knee_node_index;
+	int16 hip_node_a_index;
+	int16 hip_node_b_index;
+	int16 knee_node_a_index;
+	int16 knee_node_b_index;
+	int16 runtime_foot_marker_group_index;
+	int16 runtime_foot_node_index;
+	int16 runtime_hip_node_index;
+	int16 runtime_knee_node_index;
 	real_point3d plant_constraint_position;
-	long pad3[0x3];
+	int32 pad3[0x3];
 };
 static_assert(sizeof(s_walker_physics_leg) == 0xA0);
 
@@ -449,8 +449,8 @@ struct s_vehicle_mantis_definition
 	real32 walk_cycle_pause;
 
 	// number of legs mantis needs planted to be considered stable.
-	short stable_planted_legs;
-	short pad;
+	int16 stable_planted_legs;
+	int16 pad;
 
 	real32 time_without_plant_buffer; // seconds
 	real32 not_along_up_gravity_scale; // 0-1
@@ -530,8 +530,8 @@ struct s_vehicle_vtol_definition
 	real32 magic_angular_acc_exp;
 	real32 magic_angular_acc_scale;
 	real32 magic_angular_acc_k;
-	angle lift_angles_acc;
-	angle render_lift_angles_acc;
+	real32 lift_angles_acc;
+	real32 render_lift_angles_acc;
 
 
 	// prop rotation
@@ -620,7 +620,7 @@ struct _vehicle_definition
 
 	// The size determine what kind of seats in larger vehicles it may occupy (i.e. small or large cargo seats)
 	c_enum<e_vehicle_size, char, _vehicle_size_small, k_vehicle_size_count> vehicle_size;
-	short pad;
+	int16 pad;
 
 	real32 minimum_flipping_angular_velocity;
 	real32 maximum_flipping_angular_velocity;
@@ -659,17 +659,17 @@ struct vehicle_definition
 };
 static_assert(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
 
-extern void __cdecl vehicle_definition_fixup(long vehicle_definition_index);
-extern e_vehicle_type __cdecl vehicle_definition_get_default_type(long vehicle_definition_index);
-extern void __cdecl vehicle_definition_teardown(long vehicle_definition_index);
-extern s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_definition(long vehicle_definition_index);
-extern s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definition(long vehicle_definition_index);
-extern s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(long vehicle_definition_index);
-extern s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(long vehicle_definition_index);
-extern s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition(long vehicle_definition_index);
-extern s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definition(long vehicle_definition_index);
-extern s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition(long vehicle_definition_index);
-extern s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(long vehicle_definition_index);
-extern s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(long vehicle_definition_index);
-extern s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(long vehicle_definition_index);
+extern void __cdecl vehicle_definition_fixup(int32 vehicle_definition_index);
+extern e_vehicle_type __cdecl vehicle_definition_get_default_type(int32 vehicle_definition_index);
+extern void __cdecl vehicle_definition_teardown(int32 vehicle_definition_index);
+extern s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_definition(int32 vehicle_definition_index);
+extern s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definition(int32 vehicle_definition_index);
+extern s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(int32 vehicle_definition_index);
+extern s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(int32 vehicle_definition_index);
+extern s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition(int32 vehicle_definition_index);
+extern s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definition(int32 vehicle_definition_index);
+extern s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition(int32 vehicle_definition_index);
+extern s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(int32 vehicle_definition_index);
+extern s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(int32 vehicle_definition_index);
+extern s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(int32 vehicle_definition_index);
 

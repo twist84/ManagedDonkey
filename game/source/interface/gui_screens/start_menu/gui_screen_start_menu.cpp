@@ -22,7 +22,7 @@ bool __thiscall c_start_menu_screen_widget::handle_controller_input_message_(c_c
 		if (message->get_component() == _controller_component_button_b || message->get_component() == _controller_component_button_start)
 		{
 			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
-			if (reinterpret_cast<long>(reinterpret_cast<uint8*>(this) + 0x215C) != 1)
+			if (reinterpret_cast<int32>(reinterpret_cast<uint8*>(this) + 0x215C) != 1)
 			{
 				// back_out_current_pane
 				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(this);
@@ -62,7 +62,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press_(c_con
 	return false;
 }
 
-bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, long breadcrumb_count)
+bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count)
 {
 	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
 }

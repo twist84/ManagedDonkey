@@ -155,13 +155,13 @@ static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x3
 
 struct s_player_interaction
 {
-	short type;
+	int16 type;
 
 	union
 	{
 		struct
 		{
-			short seat_index;
+			int16 seat_index;
 		} enter_vehicle;
 
 		struct
@@ -170,14 +170,14 @@ struct s_player_interaction
 		} pick_up_weapon;
 	} data;
 
-	long object_index;
+	int32 object_index;
 };
 static_assert(sizeof(s_player_interaction) == 0x8);
 
 struct s_player_action_context
 {
 	s_player_interaction interaction;
-	long melee_target_unit_index;
+	int32 melee_target_unit_index;
 };
 static_assert(sizeof(s_player_action_context) == 0xC);
 
@@ -206,8 +206,8 @@ struct s_player_control_state
 	real32 primary_trigger;
 	real32 secondary_trigger;
 	s_unit_weapon_set desired_weapon_set;
-	short desired_grenade_index;
-	short desired_zoom_level;
+	int16 desired_grenade_index;
+	int16 desired_zoom_level;
 	s_player_action_context action_context;
 	s_aim_assist_targeting_result aim_assist_targeting;
 
@@ -223,7 +223,7 @@ static_assert(sizeof(s_player_control_state) == 0x6C);
 
 struct s_player_control_output_state
 {
-	long unit_index;
+	int32 unit_index;
 	s_player_control_state output;
 };
 static_assert(sizeof(s_player_control_output_state) == 0x70);
@@ -236,23 +236,23 @@ struct s_player_control_input_state
 	real_matrix4x3 last_local_physics_transform;
 	real32 camera_offset_y;
 	real32 camera_offset_z;
-	long last_local_physics_object_index;
+	int32 last_local_physics_object_index;
 	bool magnetism_active;
 	real32 look_yaw_acceleration_time;
 	real32 look_pitch_acceleration_time;
 	real32 pitch_minimum;
 	real32 pitch_maximum;
 	bool crouching;
-	short tracking_crouch_ticks;
+	int16 tracking_crouch_ticks;
 	bool tracking_temporary_zoom;
 	uint16 saved_zoom_level;
-	short tracking_temporary_zoom_ticks;
+	int16 tracking_temporary_zoom_ticks;
 	bool rotate_weapons_in_progress;
 	bool rotate_weapons_suppress;
 	bool switch_grenade_prev_button_was_down;
 	bool switch_grenade_next_button_was_down;
 	real32 scripted_set_pitch_velocity;
-	long scripted_set_pitch_ticks;
+	int32 scripted_set_pitch_ticks;
 	bool gaze_at_point;
 	real_point3d gaze_target;
 	real32 gaze_max_velocity;
@@ -302,25 +302,25 @@ static_assert(sizeof(s_player_control_globals) == 0x8B0);
 
 struct s_game_input_state;
 
-extern long first_input_user();
-extern long next_input_user(long input_user_index);
-extern long first_output_user();
-extern long next_output_user(long user_index);
-extern s_player_control_input_state* player_control_input_get(long input_user_index);
-extern s_player_control_output_state* player_control_output_get(long user_index);
+extern int32 first_input_user();
+extern int32 next_input_user(int32 input_user_index);
+extern int32 first_output_user();
+extern int32 next_output_user(int32 user_index);
+extern s_player_control_input_state* player_control_input_get(int32 input_user_index);
+extern s_player_control_output_state* player_control_output_get(int32 user_index);
 extern void player_control_update_debug_render();
 //extern  void __cdecl __tls_set_g_player_control_globals_allocator(void* address)
 //extern  void __cdecl __tls_set_g_player_control_globals_deterministic_allocator(void* address);
 //extern  void __cdecl clear_player_control_input(s_player_control_input* input);
-extern real32 __cdecl evaluate_piecewise_linear_function(short count, real32* const function, real32 a3);
+extern real32 __cdecl evaluate_piecewise_linear_function(int16 count, real32* const function, real32 a3);
 //extern void __cdecl player0_controller_set_look_invert(bool);
 //extern real32 __cdecl player0_get_looking_pitch();
 //extern bool __cdecl player0_looking_down();
 //extern bool __cdecl player0_looking_up();
-//extern void __cdecl player0_set_pitch(real32, long);
-//extern void __cdecl player1_set_pitch(real32, long);
-//extern void __cdecl player2_set_pitch(real32, long);
-//extern void __cdecl player3_set_pitch(real32, long);
+//extern void __cdecl player0_set_pitch(real32, int32);
+//extern void __cdecl player1_set_pitch(real32, int32);
+//extern void __cdecl player2_set_pitch(real32, int32);
+//extern void __cdecl player3_set_pitch(real32, int32);
 //extern void __cdecl player_action_test_inhibit_button_flags_set_all_players(e_player_control_action_test_bit, bool);
 //extern void __cdecl player_action_test_testing_for_action_flags_set_all_players(e_player_control_action_test_bit, bool);
 //extern bool __cdecl player_control_action_test_accept();
@@ -334,7 +334,7 @@ extern real32 __cdecl evaluate_piecewise_linear_function(short count, real32* co
 //extern bool __cdecl player_control_action_test_dpad_right();
 //extern bool __cdecl player_control_action_test_dpad_up();
 //extern bool __cdecl player_control_action_test_grenade_trigger();
-//extern void __cdecl player_control_action_test_input(long, s_game_input_state*, s_player_control_input*);
+//extern void __cdecl player_control_action_test_input(int32, s_game_input_state*, s_player_control_input*);
 //extern bool __cdecl player_control_action_test_jump();
 //extern bool __cdecl player_control_action_test_left_shoulder();
 //extern bool __cdecl player_control_action_test_look_invert();
@@ -355,96 +355,96 @@ extern real32 __cdecl evaluate_piecewise_linear_function(short count, real32* co
 //extern bool __cdecl player_control_action_test_x();
 //extern bool __cdecl player_control_action_test_y();
 //extern bool __cdecl player_control_action_test_zoom();
-extern void __cdecl player_control_build_action(long player_index, long input_user_index, player_action* action);
+extern void __cdecl player_control_build_action(int32 player_index, int32 input_user_index, player_action* action);
 //extern bool __cdecl player_control_camera_control_is_active();
-//extern bool __cdecl player_control_compute_input_inhibition(long, e_controller_index, s_game_input_state const*, s_player_control_input*);
+//extern bool __cdecl player_control_compute_input_inhibition(int32, e_controller_index, s_game_input_state const*, s_player_control_input*);
 //extern void __cdecl player_control_copy_state_from_action(player_action const*, s_player_control_state*);
-//extern void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*);
+//extern void __cdecl player_control_copy_state_from_unit(int32, s_player_control_state*);
 extern void __cdecl player_control_dispose();
 extern void __cdecl player_control_dispose_from_old_map();
 //extern void __cdecl player_control_fade_in_all_input(real32);
-//extern void __cdecl player_control_fade_in_all_input_for_player(long, real32);
+//extern void __cdecl player_control_fade_in_all_input_for_player(int32, real32);
 //extern void __cdecl player_control_fade_out_all_input(real32);
-//extern void __cdecl player_control_fade_out_all_input_for_player(long, real32);
+//extern void __cdecl player_control_fade_out_all_input_for_player(int32, real32);
 //extern bool __cdecl player_control_flags_test_all_players(e_player_control_bit);
-extern s_player_action_context const* __cdecl player_control_get_action_context(long user_index);
-//extern long __cdecl player_control_get_aiming_unit_index(long);
-extern void __cdecl player_control_get_aiming_vector(long user_index, real_vector3d* aiming_vector);
-extern void __cdecl player_control_get_controller_input(long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input);
-//extern real_euler_angles2d const* __cdecl player_control_get_facing_angles(long);
-//extern real32 __cdecl player_control_get_field_of_view(long);
-//extern real32 __cdecl player_control_get_field_of_view_change_time(long);
+extern s_player_action_context const* __cdecl player_control_get_action_context(int32 user_index);
+//extern int32 __cdecl player_control_get_aiming_unit_index(int32);
+extern void __cdecl player_control_get_aiming_vector(int32 user_index, real_vector3d* aiming_vector);
+extern void __cdecl player_control_get_controller_input(int32 input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed, s_game_input_state** input_states, s_player_control_input* input);
+//extern real_euler_angles2d const* __cdecl player_control_get_facing_angles(int32);
+//extern real32 __cdecl player_control_get_field_of_view(int32);
+//extern real32 __cdecl player_control_get_field_of_view_change_time(int32);
 extern bool __cdecl player_control_get_machinima_camera_debug();
 extern bool __cdecl player_control_get_machinima_camera_enabled();
 extern bool __cdecl player_control_get_machinima_camera_use_old_controls();
-//extern real32 __cdecl player_control_get_target_autoaim_level(long);
-//extern long __cdecl player_control_get_target_player_index(long);
-//extern s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(long);
-//extern void __cdecl player_control_get_unit_camera_info(long, s_unit_camera_info*);
-extern short __cdecl player_control_get_zoom_level(long user_index);
-extern void __cdecl player_control_suppress_rotate_weapons(long user_index);
-//extern void __cdecl player_control_handle_weapon_put_away(long, short);
+//extern real32 __cdecl player_control_get_target_autoaim_level(int32);
+//extern int32 __cdecl player_control_get_target_player_index(int32);
+//extern s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(int32);
+//extern void __cdecl player_control_get_unit_camera_info(int32, s_unit_camera_info*);
+extern int16 __cdecl player_control_get_zoom_level(int32 user_index);
+extern void __cdecl player_control_suppress_rotate_weapons(int32 user_index);
+//extern void __cdecl player_control_handle_weapon_put_away(int32, int16);
 extern void __cdecl player_control_initialize();
 extern void __cdecl player_control_initialize_for_new_map();
-//extern void __cdecl player_control_input_set_unit_index(long, long);
-//extern void __cdecl player_control_lock_gaze(long, long, real32);
+//extern void __cdecl player_control_input_set_unit_index(int32, int32);
+//extern void __cdecl player_control_lock_gaze(int32, int32, real32);
 extern bool __cdecl player_control_machinima_available();
-//extern void __cdecl player_control_modify_desired_angles_default(long, real32, real32, real32, real32);
-//extern s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(long);
-//extern void __cdecl player_control_output_set_unit_index(long, long);
-//extern void __cdecl player_control_permanent_impulse(long, real_euler_angles2d const*);
-extern void __cdecl player_control_propagate_output(long input_user_index);
+//extern void __cdecl player_control_modify_desired_angles_default(int32, real32, real32, real32, real32);
+//extern s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(int32);
+//extern void __cdecl player_control_output_set_unit_index(int32, int32);
+//extern void __cdecl player_control_permanent_impulse(int32, real_euler_angles2d const*);
+extern void __cdecl player_control_propagate_output(int32 input_user_index);
 //extern void __cdecl player_control_scale_all_input(real32, real32);
-//extern void __cdecl player_control_scale_all_input_for_player(long, real32, real32);
-//extern void __cdecl player_control_set_deterministic_action_test_flags(long, uint64);
-//extern void __cdecl player_control_set_external_action(long, player_action const*);
-extern void __cdecl player_control_set_facing(long input_user_index, real_vector3d const* facing);
+//extern void __cdecl player_control_scale_all_input_for_player(int32, real32, real32);
+//extern void __cdecl player_control_set_deterministic_action_test_flags(int32, uint64);
+//extern void __cdecl player_control_set_external_action(int32, player_action const*);
+extern void __cdecl player_control_set_facing(int32 input_user_index, real_vector3d const* facing);
 //extern void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*);
 //extern void __cdecl player_control_state_clear(s_player_control_state*);
-//extern void __cdecl player_control_suppress_rotate_weapons(long);
-//extern void __cdecl player_control_unlock_gaze(long);
-//extern void __cdecl player_control_unzoom(long);
+//extern void __cdecl player_control_suppress_rotate_weapons(int32);
+//extern void __cdecl player_control_unlock_gaze(int32);
+//extern void __cdecl player_control_unzoom(int32);
 //extern void __cdecl player_control_unzoom_all();
 extern void __cdecl player_control_update(real32 world_seconds_elapsed, real32 game_seconds_elapsed);
 extern void __cdecl player_control_update_machinima();
-extern void __cdecl player_control_update_player(long player_index, long input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed);
-//extern void __cdecl player_set_pitch_internal(long, real32, long);
+extern void __cdecl player_control_update_player(int32 player_index, int32 input_user_index, e_controller_index controller_index, real32 world_seconds_elapsed, real32 game_seconds_elapsed);
+//extern void __cdecl player_set_pitch_internal(int32, real32, int32);
 //extern bool __cdecl sub_5D5670(e_controller_index, s_player_control_input* input);
 //extern bool __cdecl scripted_player_control_set_camera_control(bool);
 //extern real32 __cdecl signed_angular_difference(real32, real32);
-//extern void __cdecl player_action_test_inhibit_button_flags_set(long, e_player_control_action_test_bit, bool);
-//extern void __cdecl player_action_test_testing_for_action_flags_set(long, e_player_control_action_test_bit, bool);
-//extern bool __cdecl player_control_action_test(long, e_player_control_action_test_bit);
-//extern bool __cdecl player_control_action_test_accept(long);
-//extern bool __cdecl player_control_action_test_action(long);
-//extern bool __cdecl player_control_action_test_back(long);
-//extern bool __cdecl player_control_action_test_cancel(long);
-//extern bool __cdecl player_control_action_test_dpad_down(long);
-//extern bool __cdecl player_control_action_test_dpad_left(long);
-//extern bool __cdecl player_control_action_test_dpad_right(long);
-//extern bool __cdecl player_control_action_test_dpad_up(long);
-//extern bool __cdecl player_control_action_test_grenade_trigger(long);
-//extern bool __cdecl player_control_action_test_left_shoulder(long);
-//extern bool __cdecl player_control_action_test_look_invert(long);
-//extern bool __cdecl player_control_action_test_look_relative_all_directions(long);
-//extern bool __cdecl player_control_action_test_look_relative_down(long);
-//extern bool __cdecl player_control_action_test_look_relative_left(long);
-//extern bool __cdecl player_control_action_test_look_relative_right(long);
-//extern bool __cdecl player_control_action_test_look_relative_up(long);
-//extern bool __cdecl player_control_action_test_lookstick_backward(long);
-//extern bool __cdecl player_control_action_test_lookstick_forward(long);
-//extern bool __cdecl player_control_action_test_melee(long);
-//extern bool __cdecl player_control_action_test_move_relative_all_directions(long);
-//extern bool __cdecl player_control_action_test_range(long, e_player_control_action_test_bit, e_player_control_action_test_bit);
-//extern void __cdecl player_control_action_test_reset(long);
-//extern bool __cdecl player_control_action_right_shoulder(long);
-//extern bool __cdecl player_control_action_test_rotate_grenades(long);
-//extern bool __cdecl player_control_action_test_rotate_weapons(long);
-//extern bool __cdecl player_control_action_test_vision_trigger(long);
-//extern bool __cdecl player_control_action_x(long);
-//extern bool __cdecl player_control_action_y(long);
-//extern void __cdecl player_control_lock_accept_button_until_pressed(long);
-//extern void __cdecl player_control_lock_cancel_button_until_pressed(long);
-//extern void __cdecl player_control_lock_y_button_until_pressed(long);
-//extern bool __cdecl user_currently_piloting_aircraft(enum long);
+//extern void __cdecl player_action_test_inhibit_button_flags_set(int32, e_player_control_action_test_bit, bool);
+//extern void __cdecl player_action_test_testing_for_action_flags_set(int32, e_player_control_action_test_bit, bool);
+//extern bool __cdecl player_control_action_test(int32, e_player_control_action_test_bit);
+//extern bool __cdecl player_control_action_test_accept(int32);
+//extern bool __cdecl player_control_action_test_action(int32);
+//extern bool __cdecl player_control_action_test_back(int32);
+//extern bool __cdecl player_control_action_test_cancel(int32);
+//extern bool __cdecl player_control_action_test_dpad_down(int32);
+//extern bool __cdecl player_control_action_test_dpad_left(int32);
+//extern bool __cdecl player_control_action_test_dpad_right(int32);
+//extern bool __cdecl player_control_action_test_dpad_up(int32);
+//extern bool __cdecl player_control_action_test_grenade_trigger(int32);
+//extern bool __cdecl player_control_action_test_left_shoulder(int32);
+//extern bool __cdecl player_control_action_test_look_invert(int32);
+//extern bool __cdecl player_control_action_test_look_relative_all_directions(int32);
+//extern bool __cdecl player_control_action_test_look_relative_down(int32);
+//extern bool __cdecl player_control_action_test_look_relative_left(int32);
+//extern bool __cdecl player_control_action_test_look_relative_right(int32);
+//extern bool __cdecl player_control_action_test_look_relative_up(int32);
+//extern bool __cdecl player_control_action_test_lookstick_backward(int32);
+//extern bool __cdecl player_control_action_test_lookstick_forward(int32);
+//extern bool __cdecl player_control_action_test_melee(int32);
+//extern bool __cdecl player_control_action_test_move_relative_all_directions(int32);
+//extern bool __cdecl player_control_action_test_range(int32, e_player_control_action_test_bit, e_player_control_action_test_bit);
+//extern void __cdecl player_control_action_test_reset(int32);
+//extern bool __cdecl player_control_action_right_shoulder(int32);
+//extern bool __cdecl player_control_action_test_rotate_grenades(int32);
+//extern bool __cdecl player_control_action_test_rotate_weapons(int32);
+//extern bool __cdecl player_control_action_test_vision_trigger(int32);
+//extern bool __cdecl player_control_action_x(int32);
+//extern bool __cdecl player_control_action_y(int32);
+//extern void __cdecl player_control_lock_accept_button_until_pressed(int32);
+//extern void __cdecl player_control_lock_cancel_button_until_pressed(int32);
+//extern void __cdecl player_control_lock_y_button_until_pressed(int32);
+//extern bool __cdecl user_currently_piloting_aircraft(int32);
 

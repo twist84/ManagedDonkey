@@ -11,7 +11,7 @@ public:
 //protected:
 	uint8 m_flags;
 	bool m_handled_simulation_abort;
-	long m_time;
+	int32 m_time;
 	uint32 m_simulation_aborted_timestamp;
 	uint64 m_game_instance;
 };

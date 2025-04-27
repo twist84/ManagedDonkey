@@ -6,8 +6,8 @@
 
 struct s_player_prediction
 {
-	long predicted_entity_index;
-	long predicted_gamestate_index;
+	int32 predicted_entity_index;
+	int32 predicted_gamestate_index;
 	uint8 control_context_identifier;
 	real_point3d position;
 	real_vector3d forward;
@@ -65,15 +65,15 @@ struct c_bitstream;
 extern bool __cdecl player_motion_compare(s_player_motion const* player_motion_a, s_player_motion* player_motion_b);
 extern bool __cdecl player_motion_decode(c_bitstream* packet, s_player_motion* player_motion);
 extern void __cdecl player_motion_encode(c_bitstream* packet, s_player_motion const* player_motion);
-extern long __cdecl player_motion_minimum_required_bits();
+extern int32 __cdecl player_motion_minimum_required_bits();
 extern bool __cdecl player_motion_valid(s_player_motion const* player_motion);
 extern bool __cdecl player_prediction_compare_identical(s_player_prediction const* player_prediction_a, s_player_prediction const* player_prediction_b);
 extern bool __cdecl player_prediction_decode(c_bitstream* packet, s_player_prediction* player_prediction, bool replicated);
 extern void __cdecl player_prediction_encode(c_bitstream* packet, s_player_prediction const* player_prediction, bool replicated);
-extern long __cdecl player_prediction_minimum_required_bits();
+extern int32 __cdecl player_prediction_minimum_required_bits();
 extern bool __cdecl player_prediction_valid(s_player_prediction const* player_prediction);
 extern void __cdecl predicted_aim_assist_clear(s_player_predicted_aim_assist* aim_assist);
 extern bool __cdecl predicted_aim_assist_compare(s_player_predicted_aim_assist const* aim_assist_a, s_player_predicted_aim_assist* aim_assist_b);
-extern bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, long encoding_precision);
-extern void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, long encoding_precision);
+extern bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, int32 encoding_precision);
+extern void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, int32 encoding_precision);
 

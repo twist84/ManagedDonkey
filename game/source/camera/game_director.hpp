@@ -6,7 +6,7 @@ struct c_game_director :
 	public c_director
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x007215C0, c_game_director, constructor, user_index);
 	}

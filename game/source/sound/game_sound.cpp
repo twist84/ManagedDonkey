@@ -1,14 +1,14 @@
 #include "sound/game_sound.hpp"
 
-//.text:005D7920 ; long __cdecl game_looping_sound_attachment_new(long, long, long, long)
-//.text:005D79D0 ; void __cdecl game_looping_sound_delete(long, long)
-//.text:005D7A00 ; void __cdecl game_looping_sound_get_parameters(long, s_game_looping_sound_parameters*)
-//.text:005D7A40 ; bool __cdecl game_looping_sound_get_source(long, s_sound_source*)
+//.text:005D7920 ; int32 __cdecl game_looping_sound_attachment_new(int32, int32, int32, int32)
+//.text:005D79D0 ; void __cdecl game_looping_sound_delete(int32, int32)
+//.text:005D7A00 ; void __cdecl game_looping_sound_get_parameters(int32, s_game_looping_sound_parameters*)
+//.text:005D7A40 ; bool __cdecl game_looping_sound_get_source(int32, s_sound_source*)
 //.text:005D7F00 ; 
-//.text:005D7F60 ; long __cdecl game_portal_get_door_occluder_index(long, long)
-//.text:005D7FA0 ; void __cdecl game_sound_calculate_azimuth_image(s_sound_listener const*, real_point3d const*, structure_bsp*, long, long, real32, bool, s_sound_azimuth_image*)
-//.text:005D8370 ; void __cdecl game_sound_clear(long)
-//.text:005D8410 ; void __cdecl game_sound_compute_cluster_pas(long, c_static_flags<256>*)
+//.text:005D7F60 ; int32 __cdecl game_portal_get_door_occluder_index(int32, int32)
+//.text:005D7FA0 ; void __cdecl game_sound_calculate_azimuth_image(s_sound_listener const*, real_point3d const*, structure_bsp*, int32, int32, real32, bool, s_sound_azimuth_image*)
+//.text:005D8370 ; void __cdecl game_sound_clear(int32)
+//.text:005D8410 ; void __cdecl game_sound_compute_cluster_pas(int32, c_static_flags<256>*)
 //.text:005D85D0 ; void __cdecl game_sound_disable_at_game_finish()
 
 void __cdecl game_sound_dispose()
@@ -31,14 +31,14 @@ void __cdecl game_sound_dispose_from_old_structure_bsp(uint32 deactivating_struc
 //.text:005D87E0 ; s_portal_reference __cdecl game_sound_find_closest_portal(real_point3d const*, s_cluster_reference, real32*)
 //.text:005D8950 ; s_portal_reference __cdecl game_sound_find_closest_portal_directed(real_point3d const*, real_vector3d const*, s_cluster_reference, real32*)
 //.text:005D8B90 ; real32 __cdecl game_sound_get_cluster_distance(s_cluster_reference, s_cluster_reference)
-//.text:005D8BD0 ; real32 __cdecl game_sound_get_door_occlusion(long, long)
+//.text:005D8BD0 ; real32 __cdecl game_sound_get_door_occlusion(int32, int32)
 //.text:005D8C50 ; real32 __cdecl game_sound_get_fixed_fadeout_time()
-//.text:005D8CA0 ; long __cdecl game_sound_get_loop_identifier(long)
-//.text:005D8D00 ; void __cdecl game_sound_get_object_velocity(long, real_vector3d*)
-//.text:005D8DA0 ; long __cdecl game_sound_get_playing_time(long)
-//.text:005D8DE0 ; long __cdecl game_sound_get_scripting_time(long)
+//.text:005D8CA0 ; int32 __cdecl game_sound_get_loop_identifier(int32)
+//.text:005D8D00 ; void __cdecl game_sound_get_object_velocity(int32, real_vector3d*)
+//.text:005D8DA0 ; int32 __cdecl game_sound_get_playing_time(int32)
+//.text:005D8DE0 ; int32 __cdecl game_sound_get_scripting_time(int32)
 //.text:005D8E20 ; void __cdecl game_sound_handle_tag_reloads()
-//.text:005D8EC0 ; long __cdecl game_sound_impulse_new_internal(long, s_game_sound_impulse_internal_parameters const*)
+//.text:005D8EC0 ; int32 __cdecl game_sound_impulse_new_internal(int32, s_game_sound_impulse_internal_parameters const*)
 //.text:005D9110 ; game_sound_impulse_stop?
 //.text:005D9120 ; void __cdecl game_sound_scripted_impulses_update()
 
@@ -57,7 +57,7 @@ void __cdecl game_sound_initialize_for_new_structure_bsp(uint32 activating_struc
 	INVOKE(0x005D9570, game_sound_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:005D95F0 ; void __cdecl game_sound_play_fog_event(long, long)
+//.text:005D95F0 ; void __cdecl game_sound_play_fog_event(int32, int32)
 
 void __cdecl game_sound_process_update_messages()
 {
@@ -67,17 +67,17 @@ void __cdecl game_sound_process_update_messages()
 //.text:005D9690 ; uint32 __cdecl game_sound_quantize_normal3d(real_vector3d const*)
 //.text:005D9770 ; void __cdecl game_sound_reset_at_round_finish()
 //.text:005D9780 ; void __cdecl game_sound_reset_scripted_dialog_timer()
-//.text:005D97A0 ; void __cdecl game_sound_restore(long)
-//.text:005D9A60 ; void __cdecl game_sound_set_door_occlusion(long, long, real32)
-//.text:005D9AE0 ; void __cdecl game_sound_set_lipsync_data(long, long, s_cache_file_sound_permutation const*, real32)
-//.text:005D9B50 ; void __cdecl game_sound_set_mouth_aperture(long, real32)
+//.text:005D97A0 ; void __cdecl game_sound_restore(int32)
+//.text:005D9A60 ; void __cdecl game_sound_set_door_occlusion(int32, int32, real32)
+//.text:005D9AE0 ; void __cdecl game_sound_set_lipsync_data(int32, int32, s_cache_file_sound_permutation const*, real32)
+//.text:005D9B50 ; void __cdecl game_sound_set_mouth_aperture(int32, real32)
 
 void __cdecl game_sound_update(real32 game_seconds_elapsed)
 {
 	INVOKE(0x005D9BA0, game_sound_update, game_seconds_elapsed);
 }
 
-//.text:005D9F20 ; void __cdecl game_sound_update_background_sound(s_cluster_reference const&, long, real_matrix4x3 const*, long, real32, real32)
+//.text:005D9F20 ; void __cdecl game_sound_update_background_sound(s_cluster_reference const&, int32, real_matrix4x3 const*, int32, real32, real32)
 //.text:005DAB20 ; void __cdecl game_sound_update_listeners(real32)
-//.text:005DB160 ; long __cdecl generate_game_looping_sound_controller_identifier(long, long)
+//.text:005DB160 ; int32 __cdecl generate_game_looping_sound_controller_identifier(int32, int32)
 

@@ -11,16 +11,16 @@ public:
 	struct s_row :
 		s_datum_header
 	{
-		long m_prev;
-		long m_next;
+		int32 m_prev;
+		int32 m_next;
 		uint16 m_row;
 		uint8 m_used_count;
 		real32 m_lifespan;
 	};
 	static_assert(sizeof(s_row) == 0x14);
 
-	long m_contrail_index;
-	long m_row_head;
+	int32 m_contrail_index;
+	int32 m_row_head;
 	uint16 m_profile_count;
 	uint16 m_flags;
 };

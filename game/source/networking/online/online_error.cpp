@@ -32,19 +32,19 @@ c_static_string<256> const __cdecl online_error_get_string(uint32 error)
 	c_static_string<256> string;
 	string.clear();
 
-	//for (long i = 0; i < 1515; i++)
+	//for (int32 i = 0; i < 1515; i++)
 	//{
 	//	if (k_windows_error_table[i].error == error)
 	//		add_error(k_windows_error_table[i].error_string, &string);
 	//}
 	//
-	//for (long i = 0; i < 925; i++)
+	//for (int32 i = 0; i < 925; i++)
 	//{
 	//	if (k_com_error_table[i].error == error)
 	//		add_error(k_com_error_table[i].error_string, &string);
 	//}
 	//
-	//for (long i = 0; i < 167; i++)
+	//for (int32 i = 0; i < 167; i++)
 	//{
 	//	if (k_online_error_table[i].error == error)
 	//		add_error(k_online_error_table[i].error_string, &string);

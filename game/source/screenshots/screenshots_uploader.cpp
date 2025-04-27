@@ -5,7 +5,7 @@ REFERENCE_DECLARE(0x0244ECE0, c_screenshots_uploader*, g_screenshots_uploader);
 //.text:006191F0 ; public: __cdecl c_screenshots_uploader::c_screenshots_uploader()
 //.text:00619280 ; public: __cdecl c_screenshots_uploader::~c_screenshots_uploader()
 //.text:00619290 ; public: void* __cdecl c_screenshots_uploader::`scalar deleting destructor'(unsigned int)
-//.text:006192C0 ; public: bool __cdecl c_screenshots_uploader::begin_screenshot_upload(e_controller_index controller_index, long content_item_index, s_file_reference const* file_reference, long game_id)
+//.text:006192C0 ; public: bool __cdecl c_screenshots_uploader::begin_screenshot_upload(e_controller_index controller_index, int32 content_item_index, s_file_reference const* file_reference, int32 game_id)
 //.text:006194B0 ; public: void __cdecl c_screenshots_uploader::cancel_upload()
 //.text:006194C0 ; public: void __cdecl c_screenshots_uploader::dispose(void)
 //.text:00619500 ; private: void __cdecl c_screenshots_uploader::end_progress_spinner()

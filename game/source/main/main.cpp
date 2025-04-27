@@ -98,10 +98,10 @@ char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
 bool debug_console_pauses_game = true;
 bool debug_no_drawing = false;
 
-long cheat_drop_tag_index = 0;
-long cheat_drop_variant_name = 0;
+int32 cheat_drop_tag_index = 0;
+int32 cheat_drop_variant_name = 0;
 s_model_customization_region_permutation cheat_drop_permutations[16]{};
-long cheat_drop_permutation_count = 0;
+int32 cheat_drop_permutation_count = 0;
 
 bool main_loop_suspended = false;
 
@@ -121,7 +121,7 @@ void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address)
 	//g_main_render_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
-uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
+uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
 
@@ -152,7 +152,7 @@ uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file,
 	//		if (!thread_has_crashed(k_thread_render))
 	//		{
 	//			restricted_region_unlock_primary(k_game_state_shared_region);
-	//			for (long mirror_index = restricted_region_get_mirror_count(k_game_state_shared_region); mirror_index; mirror_index--)
+	//			for (int32 mirror_index = restricted_region_get_mirror_count(k_game_state_shared_region); mirror_index; mirror_index--)
 	//			{
 	//				if (restricted_region_lock_mirror(k_game_state_shared_region))
 	//				{
@@ -217,24 +217,24 @@ void __cdecl main_activate_cinematic_tag_private()
 	//main_globals.activate_cinematic_zone_from_tag = false;
 }
 
-void __cdecl main_activate_cinematic_zone(long cinematic_zone_index)
+void __cdecl main_activate_cinematic_zone(int32 cinematic_zone_index)
 {
 	INVOKE(0x005051A0, main_activate_cinematic_zone, cinematic_zone_index);
 }
 
-void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index)
+void __cdecl main_activate_cinematic_zone_for_debugging(int32 cinematic_zone_index)
 {
 	INVOKE(0x00505220, main_activate_cinematic_zone_for_debugging, cinematic_zone_index);
 }
 
-void __cdecl main_activate_designer_zone(long designer_zone_index)
+void __cdecl main_activate_designer_zone(int32 designer_zone_index)
 {
 	INVOKE(0x005052D0, main_activate_designer_zone, designer_zone_index);
 }
 
 //.text:00505370 ; void __cdecl sub_505370() // saber function called within `c_rasterizer::cleanup_before_device_reset`
 
-void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
 {
 	if (tag_index == NONE)
 		return;
@@ -246,7 +246,7 @@ void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_cust
 
 	if (permutations)
 	{
-		for (long i = 0; i < permutation_count; i++)
+		for (int32 i = 0; i < permutation_count; i++)
 		{
 			cheat_drop_permutations[i].region_name = permutations[i].region_name;
 			cheat_drop_permutations[i].permutation_name = permutations[i].permutation_name;
@@ -270,7 +270,7 @@ void __cdecl main_cheat_drop_tag_private()
 	cheat_drop_permutation_count = 0;
 }
 
-void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags)
+void __cdecl main_clear_global_pending_zone_activation(int32 game_state_proc_flags)
 {
 	INVOKE(0x00505380, main_clear_global_pending_zone_activation, game_state_proc_flags);
 
@@ -367,7 +367,7 @@ void __cdecl main_crash(char const* type)
 	}
 }
 
-e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, long data_size)
+e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, int32 data_size)
 {
 	NULL_BELONGS_TO_CHUCKY;
 	return _async_completion_done;
@@ -391,12 +391,12 @@ void __cdecl main_deactivate_cinematic_tag_private()
 	//scenario_set_and_activate_runtime_cinematic_tag(NONE);
 }
 
-void __cdecl main_deactivate_cinematic_zone(long cinematic_zone_index)
+void __cdecl main_deactivate_cinematic_zone(int32 cinematic_zone_index)
 {
 	INVOKE(0x00505400, main_deactivate_cinematic_zone, cinematic_zone_index);
 }
 
-void __cdecl main_deactivate_designer_zone(long designer_zone_index)
+void __cdecl main_deactivate_designer_zone(int32 designer_zone_index)
 {
 	INVOKE(0x00505470, main_deactivate_designer_zone, designer_zone_index);
 }
@@ -630,7 +630,7 @@ void __cdecl main_halt_and_catch_fire()
 		//		create_fake_minidump = false;
 		//		if (!)
 		//		{
-		//			long description_length = 0;
+		//			int32 description_length = 0;
 		//			char description[256]{};
 		//			wchar_string_to_ascii_string(description_wide, description, 256, &description_length);
 		//			if (description_length > 1)
@@ -932,7 +932,7 @@ void __cdecl main_loop_body()
 					real32 shell_seconds_elapsed = 0.0f;
 					real32 world_seconds_elapsed = 0.0f;
 					real32 game_seconds_elapsed = 0.0f;
-					long game_ticks_elapsed = 0;
+					int32 game_ticks_elapsed = 0;
 
 					// main_loop, wait
 					shell_seconds_elapsed = main_time_update();
@@ -1571,7 +1571,7 @@ void __cdecl main_modify_zone_activation_private()
 	//main_globals.pending_zone_activation.clear();
 }
 
-void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
+void __cdecl main_prepare_for_switch_zone_set(int32 zone_set_index)
 {
 	//INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
 
@@ -1878,7 +1878,7 @@ void __cdecl main_status_print()
 {
 	//INVOKE(0x005071C0, main_status_print);
 
-	for (long i = 0; i < NUMBEROF(g_status_values); i++)
+	for (int32 i = 0; i < NUMBEROF(g_status_values); i++)
 	{
 		if (csstrnlen(g_status_values[i].status_type, NUMBEROF(g_status_values[i].status_type)))
 			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_data);
@@ -1892,7 +1892,7 @@ void __cdecl main_suppress_startup_sequence()
 	//main_globals.startup_sequence = false;
 }
 
-void __cdecl main_switch_bsp(long zone_set_index)
+void __cdecl main_switch_bsp(int32 zone_set_index)
 {
 	INVOKE(0x00507200, main_switch_bsp, zone_set_index);
 
@@ -1900,7 +1900,7 @@ void __cdecl main_switch_bsp(long zone_set_index)
 	//main_switch_zone_set(zone_set_index);
 }
 
-void __cdecl main_switch_zone_set(long zone_set_index)
+void __cdecl main_switch_zone_set(int32 zone_set_index)
 {
 	//INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
 
@@ -2148,7 +2148,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 		// dump last accessed tag and resource owner
 		c_static_string<1024> last_accessed;
 		char tag_group[8]{};
-		REFERENCE_DECLARE(0x0190E460, long, last_resource_owner);
+		REFERENCE_DECLARE(0x0190E460, int32, last_resource_owner);
 
 		if (g_last_tag_accessed.index != NONE)
 		{
@@ -2203,7 +2203,7 @@ enum e_event_context_query_destination_type
 	k_event_context_query_destination_console_type_count
 };
 
-bool event_context_get(e_event_context_query_destination_type type, char* buffer, long buffer_size)
+bool event_context_get(e_event_context_query_destination_type type, char* buffer, int32 buffer_size)
 {
 	//csstrnzcpy(buffer, "", buffer_size);
 	//switch (type)

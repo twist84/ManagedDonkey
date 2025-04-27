@@ -46,7 +46,7 @@ void __cdecl create_sessionid()
 	INVOKE(0x0042FA90, create_sessionid);
 }
 
-template<long k_filename_size>
+template<int32 k_filename_size>
 char* file_reference_get_filename(s_file_reference const* file, char(&filename)[k_filename_size])
 {
 	constexpr uint32 flags = FLAG(_name_file_bit) | FLAG(_name_extension_bit);
@@ -250,7 +250,7 @@ uint32 __cdecl netdebug_thread_function(void* thread_parameter)
 	return 0;
 }
 
-void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long upload_position, long upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
+void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(int32 upload_position, int32 upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
 {
 	//INVOKE(0x00430300, netdebug_upload_file, a1, path, update_proc, completion_proc, completion_data);
 
@@ -312,7 +312,7 @@ void __cdecl netdebug_set_xtl_version()
 	//g_netdebug_globals.xtl_version.set("UNKNOWN");
 }
 
-bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, long seconds, s_netdebug_upload_task const* task)
+bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, int32 seconds, s_netdebug_upload_task const* task)
 {
 	//return INVOKE(0x00430470, upload_synchronous, client, stream, seconds, task);
 
@@ -322,11 +322,11 @@ bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, lo
 	bool result = false;
 	if (transport_available())
 	{
-		long connection_token = 0;
-		long ip_address = 0;
+		int32 connection_token = 0;
+		int32 ip_address = 0;
 		uint16 port = 0;
 	
-		long acquire_server_result = 0;
+		int32 acquire_server_result = 0;
 		do
 		{
 			acquire_server_result = c_online_lsp_manager::get()->acquire_server(_online_lsp_service_type_debug, &connection_token, &ip_address, &port, "crash upload");

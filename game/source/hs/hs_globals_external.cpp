@@ -2,7 +2,7 @@
 
 #include "interface/terminal.hpp"
 
-//REFERENCE_DECLARE(0x0167B188, short const, k_hs_external_global_count);
+//REFERENCE_DECLARE(0x0167B188, int16 const, k_hs_external_global_count);
 REFERENCE_DECLARE_ARRAY(0x018EF450, hs_global_external*, hs_external_globals, k_hs_external_global_count);
 
 char const* const hs_external_globals_names[k_hs_external_global_count]
@@ -1339,4 +1339,4 @@ hs_global_external_debug* const hs_external_globals_debug[]
 	EXTERNAL_GLOBAL_DECLARE_BOOL2(terminal_render, g_terminal_render_enable),
 };
 
-short const k_hs_external_global_debug_count = NUMBEROF(hs_external_globals_debug);
+int16 const k_hs_external_global_debug_count = NUMBEROF(hs_external_globals_debug);

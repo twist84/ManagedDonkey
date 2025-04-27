@@ -1,4 +1,4 @@
 #pragma once
 
-extern long __cdecl ai_vehicle_get_reservation(long vehicle_index, long seat_index, e_game_team team);
+extern int32 __cdecl ai_vehicle_get_reservation(int32 vehicle_index, int32 seat_index, e_game_team team);
 

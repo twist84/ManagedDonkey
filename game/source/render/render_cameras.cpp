@@ -369,7 +369,7 @@ real32 __cdecl render_projection_sphere_diameter_in_pixels(render_projection con
 	return real32(((scale * 10.0f /* default: 2.0f */) * v1) / v0);
 }
 
-void __cdecl render_view_compute_all_bounds(long player_index, long player_count, render_camera* camera)
+void __cdecl render_view_compute_all_bounds(int32 player_index, int32 player_count, render_camera* camera)
 {
 	INVOKE(0x00A65EE0, render_view_compute_all_bounds, player_index, player_count, camera);
 
@@ -380,7 +380,7 @@ void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera)
 	INVOKE(0x00A65F40, render_view_compute_fullscreen_bounds, camera);
 }
 
-void __cdecl render_view_compute_window_bounds(long player_index, long player_count, rectangle2d* bounds, rectangle2d* safe_bounds)
+void __cdecl render_view_compute_window_bounds(int32 player_index, int32 player_count, rectangle2d* bounds, rectangle2d* safe_bounds)
 {
 	INVOKE(0x00A65F90, render_view_compute_window_bounds, player_index, player_count, bounds, safe_bounds);
 }
@@ -394,13 +394,13 @@ void render_debug_camera_projection()
 	render_projection const* rasterizer_projection = c_player_view::get_current()->get_rasterizer_projection();
 
 	real32 verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view / 2);
-	short width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;
-	short height = rasterizer_camera->render_title_safe_pixel_bounds.y1 - rasterizer_camera->render_title_safe_pixel_bounds.y0;
+	int16 width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;
+	int16 height = rasterizer_camera->render_title_safe_pixel_bounds.y1 - rasterizer_camera->render_title_safe_pixel_bounds.y0;
 
 	real_point3d points[3][3]{};
-	for (long i = 0; i < 3; i++)
+	for (int32 i = 0; i < 3; i++)
 	{
-		for (long j = 0; j < 3; j++)
+		for (int32 j = 0; j < 3; j++)
 		{
 			real32 point_x = real32((width * ((j - 1) * verical_fov_half_tan)) / height);
 			real32 point_y = real32(verical_fov_half_tan * (i - 1));
@@ -410,9 +410,9 @@ void render_debug_camera_projection()
 		}
 	}
 
-	for (long i = 0; i < 3; i++)
+	for (int32 i = 0; i < 3; i++)
 	{
-		for (long j = 0; j < 3; j++)
+		for (int32 j = 0; j < 3; j++)
 		{
 			render_debug_line(true, &points[j][0], &points[i][2], global_real_argb_red);
 			render_debug_line(true, &points[0][j], &points[2][i], global_real_argb_red);

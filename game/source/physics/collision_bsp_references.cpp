@@ -65,7 +65,7 @@ large_collision_bsp const* c_collision_bsp_reference::get_large_bsp() const
 	return m_large_bsp;
 }
 
-long c_collision_bsp_reference::get_leaf_count() const
+int32 c_collision_bsp_reference::get_leaf_count() const
 {
 	ASSERT(valid());
 
@@ -75,7 +75,7 @@ long c_collision_bsp_reference::get_leaf_count() const
 	return m_large_bsp->leaves.count;
 }
 
-long c_collision_bsp_reference::get_bsp2d_reference_count() const
+int32 c_collision_bsp_reference::get_bsp2d_reference_count() const
 {
 	ASSERT(valid());
 
@@ -85,7 +85,7 @@ long c_collision_bsp_reference::get_bsp2d_reference_count() const
 	return m_large_bsp->bsp2d_references.count;
 }
 
-long c_collision_bsp_reference::get_bsp2d_node_count() const
+int32 c_collision_bsp_reference::get_bsp2d_node_count() const
 {
 	ASSERT(valid());
 
@@ -95,7 +95,7 @@ long c_collision_bsp_reference::get_bsp2d_node_count() const
 	return m_large_bsp->bsp2d_nodes.count;
 }
 
-long c_collision_bsp_reference::get_surface_count() const
+int32 c_collision_bsp_reference::get_surface_count() const
 {
 	ASSERT(valid());
 
@@ -105,7 +105,7 @@ long c_collision_bsp_reference::get_surface_count() const
 	return m_large_bsp->surfaces.count;
 }
 
-long c_collision_bsp_reference::get_edge_count() const
+int32 c_collision_bsp_reference::get_edge_count() const
 {
 	ASSERT(valid());
 
@@ -115,7 +115,7 @@ long c_collision_bsp_reference::get_edge_count() const
 	return m_large_bsp->edges.count;
 }
 
-long c_collision_bsp_reference::get_vertex_count() const
+int32 c_collision_bsp_reference::get_vertex_count() const
 {
 	ASSERT(valid());
 

@@ -52,8 +52,8 @@ struct _projectile_definition
 	// $$$ PROJECTILE $$$
 
 	c_flags<e_projectile_flags, uint32, k_projectile_flags> flags;
-	c_enum<e_projectile_detonation_timer_mode, short, _projectile_detonation_timer_mode_immediately, k_projectile_detonation_timer_mode_count> detonation_timer_starts;
-	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> impact_noise;
+	c_enum<e_projectile_detonation_timer_mode, int16, _projectile_detonation_timer_mode_immediately, k_projectile_detonation_timer_mode_count> detonation_timer_starts;
+	c_enum<e_ai_sound_volume, int16, _ai_sound_volume_silent, k_ai_sound_volume_count> impact_noise;
 	real32 collision_radius; // world units
 
 	// won't detonate before this time elapses
@@ -74,8 +74,8 @@ struct _projectile_definition
 	// Combines with maximum range
 	real32 bounce_maximum_range; // world units
 
-	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> detonation_noise;
-	short super_detonation_projectile_count;
+	c_enum<e_ai_sound_volume, int16, _ai_sound_volume_silent, k_ai_sound_volume_count> detonation_noise;
+	int16 super_detonation_projectile_count;
 	real32 super_detonation_time;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_started;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> detonation_effect_airborne;
@@ -86,7 +86,7 @@ struct _projectile_definition
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> super_detonation_damage; // your momma
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> detonation_sound;
 
-	c_enum<e_damage_reporting_type, short, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
+	c_enum<e_damage_reporting_type, int16, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
 
 	// pad
 	uint8 UAQLONXGN[1];
@@ -137,9 +137,9 @@ struct _projectile_definition
 	// scale on the initial velocity when fired by the ai on legendary difficulty (0 defaults to 1.0)
 	real32 ai_velocity_scale_legendary; // [0-1]
 
-	angle guided_angular_velocity_lower; // degrees per second
-	angle guided_angular_velocity_upper; // degrees per second
-	angle guided_angular_velocity_at_rest; // degrees per second
+	real32 guided_angular_velocity_lower; // degrees per second
+	real32 guided_angular_velocity_upper; // degrees per second
+	real32 guided_angular_velocity_at_rest; // degrees per second
 
 	// what distance range the projectile goes from initial velocity to final velocity
 	real_bounds acceleration_range; // world units
@@ -177,7 +177,7 @@ struct s_projectile_material_response_definition
 
 	int16 default_response;
 	c_string_id material_name;
-	short runtime_material_index;
+	int16 runtime_material_index;
 
 	// pad
 	uint8 JJHT[2];
@@ -196,10 +196,10 @@ struct s_projectile_material_response_definition
 	uint8 BDFI[2];
 
 	// the angle of incidence is randomly perturbed by at most this amount to simulate irregularity.
-	angle angular_noise; // degrees
+	real32 angular_noise; // degrees
 
 	// the velocity is randomly perturbed by at most this amount to simulate irregularity.
-	angle velocity_noise; // world units per second
+	real32 velocity_noise; // world units per second
 
 	// penetration
 	// the fraction of the projectile's velocity lost on penetration
@@ -219,9 +219,9 @@ static_assert(sizeof(s_projectile_material_response_definition) == 0x40);
 
 struct s_projectile_brute_grenade_definition
 {
-	angle minimum_angular_velocity; // degrees/sec
-	angle maximum_angular_velocity; // degrees/sec
-	angle spin_angular_velocity; // degrees/sec
+	real32 minimum_angular_velocity; // degrees/sec
+	real32 maximum_angular_velocity; // degrees/sec
+	real32 spin_angular_velocity; // degrees/sec
 
 	// 0==nothing 30==almost comlete damping
 	real32 angular_damping;
@@ -248,15 +248,15 @@ struct s_projectile_conical_projection_defintion
 {
 	// conical_projection
 	// projectile_count = yaw_count * pitch_count
-	short yaw_count;
-	short pitch_count;
+	int16 yaw_count;
+	int16 pitch_count;
 
 	// exp==.5 even distribution,
 	// exp==1  halo2 distribution,
 	// exp>1== weighted towards center
 	real32 distribution_exponent;
 
-	angle spread; // degrees
+	real32 spread; // degrees
 };
 static_assert(sizeof(s_projectile_conical_projection_defintion) == 0xC);
 

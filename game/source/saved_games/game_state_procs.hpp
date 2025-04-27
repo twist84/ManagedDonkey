@@ -21,10 +21,10 @@ static_assert(sizeof(s_game_state_proc_globals) == 0x8);
 
 extern s_game_state_proc_globals& g_game_state_proc_globals;
 
-extern void __cdecl game_state_call_after_load_procs(long game_state_proc_flags);
-extern void __cdecl game_state_call_after_save_procs(long game_state_proc_flags);
-extern void __cdecl game_state_call_before_load_procs(long game_state_proc_flags);
-extern void __cdecl game_state_call_before_save_procs(long game_state_proc_flags);
+extern void __cdecl game_state_call_after_load_procs(int32 game_state_proc_flags);
+extern void __cdecl game_state_call_after_save_procs(int32 game_state_proc_flags);
+extern void __cdecl game_state_call_before_load_procs(int32 game_state_proc_flags);
+extern void __cdecl game_state_call_before_save_procs(int32 game_state_proc_flags);
 extern e_game_state_proc_state __cdecl game_state_proc_globals_get_state();
 extern void __cdecl game_state_proc_globals_initialize();
 

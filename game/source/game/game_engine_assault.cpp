@@ -62,11 +62,11 @@ void c_game_engine_assault_variant::encode_to_mcc(c_bitstream* packet) const
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
 	bool reset_bomb_on_disarm = get_reset_bomb_on_disarm();
-	short sudden_death_time = get_sudden_death_time();
-	short bomb_arming_time = get_bomb_arming_time();
-	short bomb_disarming_time = get_bomb_disarming_time();
-	short bomb_fuse_time = get_bomb_fuse_time();
-	short bomb_reset_time = get_bomb_reset_time();
+	int16 sudden_death_time = get_sudden_death_time();
+	int16 bomb_arming_time = get_bomb_arming_time();
+	int16 bomb_disarming_time = get_bomb_disarming_time();
+	int16 bomb_fuse_time = get_bomb_fuse_time();
+	int16 bomb_reset_time = get_bomb_reset_time();
 
 	packet->write_bool("assault-reset-bomb-on-disarm", reset_bomb_on_disarm);
 	packet->write_integer("assault-bomb-arming-time", sudden_death_time, 9);
@@ -83,11 +83,11 @@ void c_game_engine_assault_variant::decode_from_mcc(c_bitstream* packet)
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
 	bool reset_bomb_on_disarm = packet->read_bool("assault-reset-bomb-on-disarm");
-	short sudden_death_time = static_cast<short>(packet->read_integer("assault-bomb-arming-time", 9));
-	short bomb_arming_time = static_cast<short>(packet->read_integer("assault-bomb-arming-time", 5));
-	short bomb_disarming_time = static_cast<short>(packet->read_integer("assault-bomb-disarming-time", 5));
-	short bomb_fuse_time = static_cast<short>(packet->read_integer("assault-bomb-fuse-time", 5));
-	short bomb_reset_time = static_cast<short>(packet->read_integer("assault-bomb-reset-time", 6));
+	int16 sudden_death_time = static_cast<int16>(packet->read_integer("assault-bomb-arming-time", 9));
+	int16 bomb_arming_time = static_cast<int16>(packet->read_integer("assault-bomb-arming-time", 5));
+	int16 bomb_disarming_time = static_cast<int16>(packet->read_integer("assault-bomb-disarming-time", 5));
+	int16 bomb_fuse_time = static_cast<int16>(packet->read_integer("assault-bomb-fuse-time", 5));
+	int16 bomb_reset_time = static_cast<int16>(packet->read_integer("assault-bomb-reset-time", 6));
 	get_carrier_traits_writeable()->decode_from_mcc(packet);
 	get_arming_traits_writeable()->decode_from_mcc(packet);
 
@@ -176,12 +176,12 @@ void c_game_engine_assault_variant::set_enemy_bomb_waypoint(e_assault_enemy_bomb
 	}
 }
 
-short c_game_engine_assault_variant::get_score_to_win() const
+int16 c_game_engine_assault_variant::get_score_to_win() const
 {
 	return m_score_to_win;
 }
 
-void c_game_engine_assault_variant::set_score_to_win(short score_to_win)
+void c_game_engine_assault_variant::set_score_to_win(int16 score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 50))
 	{
@@ -195,12 +195,12 @@ void c_game_engine_assault_variant::set_score_to_win(short score_to_win)
 	}
 }
 
-short c_game_engine_assault_variant::get_sudden_death_time() const
+int16 c_game_engine_assault_variant::get_sudden_death_time() const
 {
 	return m_sudden_death_time;
 }
 
-void c_game_engine_assault_variant::set_sudden_death_time(short sudden_death_time)
+void c_game_engine_assault_variant::set_sudden_death_time(int16 sudden_death_time)
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_assault_variant_sudden_death_time))
 	{
@@ -214,12 +214,12 @@ void c_game_engine_assault_variant::set_sudden_death_time(short sudden_death_tim
 	}
 }
 
-short c_game_engine_assault_variant::get_bomb_reset_time() const
+int16 c_game_engine_assault_variant::get_bomb_reset_time() const
 {
 	return m_bomb_reset_time;
 }
 
-void c_game_engine_assault_variant::set_bomb_reset_time(short bomb_reset_time)
+void c_game_engine_assault_variant::set_bomb_reset_time(int16 bomb_reset_time)
 {
 	if (!VALID_INDEX(bomb_reset_time, 90))
 	{
@@ -233,12 +233,12 @@ void c_game_engine_assault_variant::set_bomb_reset_time(short bomb_reset_time)
 	}
 }
 
-short c_game_engine_assault_variant::get_bomb_arming_time() const
+int16 c_game_engine_assault_variant::get_bomb_arming_time() const
 {
 	return m_bomb_arming_time;
 }
 
-void c_game_engine_assault_variant::set_bomb_arming_time(short bomb_arming_time)
+void c_game_engine_assault_variant::set_bomb_arming_time(int16 bomb_arming_time)
 {
 	if (!VALID_INDEX(bomb_arming_time, 90))
 	{
@@ -252,12 +252,12 @@ void c_game_engine_assault_variant::set_bomb_arming_time(short bomb_arming_time)
 	}
 }
 
-short c_game_engine_assault_variant::get_bomb_disarming_time() const
+int16 c_game_engine_assault_variant::get_bomb_disarming_time() const
 {
 	return m_bomb_disarming_time;
 }
 
-void c_game_engine_assault_variant::set_bomb_disarming_time(short bomb_disarming_time)
+void c_game_engine_assault_variant::set_bomb_disarming_time(int16 bomb_disarming_time)
 {
 	if (!VALID_INDEX(bomb_disarming_time, 90))
 	{
@@ -271,12 +271,12 @@ void c_game_engine_assault_variant::set_bomb_disarming_time(short bomb_disarming
 	}
 }
 
-short c_game_engine_assault_variant::get_bomb_fuse_time() const
+int16 c_game_engine_assault_variant::get_bomb_fuse_time() const
 {
 	return m_bomb_fuse_time;
 }
 
-void c_game_engine_assault_variant::set_bomb_fuse_time(short bomb_fuse_time)
+void c_game_engine_assault_variant::set_bomb_fuse_time(int16 bomb_fuse_time)
 {
 	if (!VALID_INDEX(bomb_fuse_time, 90))
 	{

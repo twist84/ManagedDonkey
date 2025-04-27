@@ -19,14 +19,14 @@ uint32 g_physical_memory_data_size_new = physical_memory_round_up_allocation_siz
 uint32 g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
 uint32 g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
 
-void recalculate_data_size_increase(long data_size_increase_mb)
+void recalculate_data_size_increase(int32 data_size_increase_mb)
 {
 	g_physical_memory_data_size_increase_mb = data_size_increase_mb;
 	g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
 	g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);
 }
 
-void recalculate_cache_size_increase(long cache_size_increase_mb)
+void recalculate_cache_size_increase(int32 cache_size_increase_mb)
 {
 	g_physical_memory_cache_size_increase_mb = cache_size_increase_mb;
 	g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
@@ -46,12 +46,12 @@ char const* const k_physical_memory_stage_names[k_memory_stage_count]
 };
 static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
-void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, uint32 flags)
+void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uint32 flags)
 {
 	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, stage, name, size, flags);
 }
 
-uint32 __cdecl align_up(uint32 value, long alignment_bits)
+uint32 __cdecl align_up(uint32 value, int32 alignment_bits)
 {
 	return INVOKE(0x0051D280, align_up, value, alignment_bits);
 
@@ -133,7 +133,7 @@ c_basic_buffer<void>* __cdecl physical_memory_get_free_memory_region(c_basic_buf
 	return INVOKE(0x0051D600, physical_memory_get_free_memory_region, buffer);
 }
 
-long __cdecl physical_memory_get_remaining()
+int32 __cdecl physical_memory_get_remaining()
 {
 	return INVOKE(0x0051D670, physical_memory_get_remaining);
 

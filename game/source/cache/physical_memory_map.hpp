@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-long const k_total_allocated_physical_memory = 0x2F900000;
+int32 const k_total_allocated_physical_memory = 0x2F900000;
 
 enum
 {
@@ -60,7 +60,7 @@ static_assert(sizeof(c_physical_memory_contiguous_region_listener) == sizeof(voi
 struct s_physical_memory_globals
 {
 	c_physical_memory_contiguous_region_listener* resize_region_listener;
-	long current_stage;
+	int32 current_stage;
 	uint32 minimum_address;
 	uint32 maximum_address;
 	char* no_mans_land;
@@ -73,8 +73,8 @@ extern uint32 g_physical_memory_data_size_increase_mb;
 extern uint32 g_physical_memory_cache_size_increase_mb;
 extern char const* const k_physical_memory_stage_names[];
 
-extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, uint32 flags);
-extern uint32 align_up(uint32 value, long alignment_bits);
+extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uint32 flags);
+extern uint32 align_up(uint32 value, int32 alignment_bits);
 extern void __cdecl physical_memory_adjust_resize_region(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b);
 extern bool __cdecl physical_memory_can_allocate_fixed_allocations();
 extern void __cdecl physical_memory_create_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener* resize_region_listener);
@@ -84,7 +84,7 @@ extern void __cdecl physical_memory_free(void* memory);
 extern uint32 __cdecl physical_memory_get_broken_memory_offset();
 extern s_physical_memory_stage* __cdecl physical_memory_get_current_stage();
 extern c_basic_buffer<void>* __cdecl physical_memory_get_free_memory_region(c_basic_buffer<void>* buffer);
-extern long __cdecl physical_memory_get_remaining();
+extern int32 __cdecl physical_memory_get_remaining();
 extern void __cdecl physical_memory_initialize();
 extern void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> old_free_region, c_basic_buffer<void> new_free_region);
 extern void __cdecl physical_memory_resize_region_dispose();

@@ -57,7 +57,7 @@ void c_game_engine_infection_variant::encode_to_mcc(c_bitstream* packet) const
 	e_infection_safe_havens_settings safe_havens = get_safe_havens();
 	e_infection_next_zombie_settings next_zombie = get_next_zombie();
 	e_infection_initial_zombie_count_settings initial_zombie_count = get_initial_zombie_count();
-	short safe_haven_movement_time = get_safe_haven_movement_time();
+	int16 safe_haven_movement_time = get_safe_haven_movement_time();
 	char zombie_kill_points = get_zombie_kill_points();
 	char infection_points = get_infection_points();
 	char safe_haven_arrival_points = get_safe_haven_arrival_points();
@@ -90,7 +90,7 @@ void c_game_engine_infection_variant::decode_from_mcc(c_bitstream* packet)
 	e_infection_safe_havens_settings safe_havens = packet->read_enum<e_infection_safe_havens_settings, 2>("infection-safe-havens");
 	e_infection_next_zombie_settings next_zombie = packet->read_enum<e_infection_next_zombie_settings, 2>("infection-next-zombie");
 	e_infection_initial_zombie_count_settings initial_zombie_count = packet->read_enum<e_infection_initial_zombie_count_settings, 5>("infection-initial-zombie-count");
-	short safe_haven_movement_time = static_cast<short>(packet->read_integer("infection-safe-haven-movement-time", 7));
+	int16 safe_haven_movement_time = static_cast<int16>(packet->read_integer("infection-safe-haven-movement-time", 7));
 	char zombie_kill_points = static_cast<char>(packet->read_signed_integer("infection-zombie-kill-points", 5));
 	char infection_points = static_cast<char>(packet->read_signed_integer("infection-infection-points", 5));
 	char safe_haven_arrival_points = static_cast<char>(packet->read_signed_integer("infection-safe-haven-arrival-points", 5));
@@ -182,12 +182,12 @@ void c_game_engine_infection_variant::set_initial_zombie_count(e_infection_initi
 	}
 }
 
-short c_game_engine_infection_variant::get_safe_haven_movement_time() const
+int16 c_game_engine_infection_variant::get_safe_haven_movement_time() const
 {
 	return m_safe_haven_movement_time;
 }
 
-void c_game_engine_infection_variant::set_safe_haven_movement_time(short safe_haven_movement_time)
+void c_game_engine_infection_variant::set_safe_haven_movement_time(int16 safe_haven_movement_time)
 {
 	if (!VALID_INDEX(safe_haven_movement_time, 120))
 	{

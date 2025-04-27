@@ -8,17 +8,17 @@ struct c_camera
 {
 	virtual e_camera_mode get_type() const;
 	virtual e_director_perspective get_perspective() const;
-	virtual void update(long user_index, real32 dt, s_observer_command* result);
-	virtual long get_target() const;
-	virtual void set_target(long object_index);
+	virtual void update(int32 user_index, real32 dt, s_observer_command* result);
+	virtual int32 get_target() const;
+	virtual void set_target(int32 object_index);
 	virtual void set_position(real_point3d const* position);
 	virtual void set_forward(real_vector3d const* forward);
 	virtual void set_roll(real32 roll);
 	virtual void enable_orientation(bool enabled);
 	virtual void enable_movement(bool enabled);
 	virtual void enable_roll(bool enabled);
-	virtual void handle_deleted_player(long player_index);
-	virtual void handle_deleted_object(long object_index);
+	virtual void handle_deleted_player(int32 player_index);
+	virtual void handle_deleted_object(int32 object_index);
 	virtual real32 get_unknown(); // c_flying_camera, c_static_camera, c_scripted_camera
 
 	enum e_base_camera_flags
@@ -28,9 +28,9 @@ struct c_camera
 		k_number_of_base_camera_flags
 	};
 
-	long m_target_object_index;
-	c_flags<e_base_camera_flags, long, k_number_of_base_camera_flags> m_flags;
-	long m_move_instant_ticks;
+	int32 m_target_object_index;
+	c_flags<e_base_camera_flags, int32, k_number_of_base_camera_flags> m_flags;
+	int32 m_move_instant_ticks;
 
 	void set_next_move_instantly();
 };
@@ -46,6 +46,6 @@ static_assert(sizeof(c_null_camera) == 0x4C);
 //extern char const* const (&global_camera_mode_names)[k_number_of_camera_modes];
 extern char const* const global_camera_mode_names[k_number_of_camera_modes];
 
-extern char const* camera_mode_get_name(long camera_mode);
+extern char const* camera_mode_get_name(int32 camera_mode);
 extern e_camera_mode camera_mode_from_string(char const* str);
 

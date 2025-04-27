@@ -7,10 +7,10 @@ void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rast
 	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, texture_ref, dirty_rect, a4);
 }
 
-void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, uint32 format, long a6, bool a7, long a8, long a9)
+void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 levels, uint32 format, int32 a6, bool a7, int32 a8, int32 a9)
 {
 	//INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, levels, format, a6, a7, a8, a9);
-	DECLFUNC(0x00A6DEF0, void, __cdecl, c_rasterizer_texture_ref&, long, long, long, uint32, long, bool, long, long)(
+	DECLFUNC(0x00A6DEF0, void, __cdecl, c_rasterizer_texture_ref&, int32, int32, int32, uint32, int32, bool, int32, int32)(
 		texture_ref,
 		width,
 		height,
@@ -42,7 +42,7 @@ IDirect3DTexture9* c_rasterizer_texture_ref::get_d3d_texture() const
 	return INVOKE_CLASS_MEMBER(0x00A6E8E0, c_rasterizer_texture_ref, get_d3d_texture);
 }
 
-bool c_rasterizer_texture_ref::get_width_height(long level, long* width, long* height)
+bool c_rasterizer_texture_ref::get_width_height(int32 level, int32* width, int32* height)
 {
 	return INVOKE_CLASS_MEMBER(0x00A6E950, c_rasterizer_texture_ref, get_width_height, level, width, height);
 }
@@ -57,7 +57,7 @@ void __cdecl c_rasterizer_texture_ref::release(c_rasterizer_texture_ref& texture
 	INVOKE(0x00A6EB10, c_rasterizer_texture_ref::release, texture_ref);
 }
 
-void* c_rasterizer_texture_ref::lock(long* pitch)
+void* c_rasterizer_texture_ref::lock(int32* pitch)
 {
 	return INVOKE_CLASS_MEMBER(0x00A74150, c_rasterizer_texture_ref, lock, pitch);
 }

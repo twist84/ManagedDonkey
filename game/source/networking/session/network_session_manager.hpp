@@ -10,9 +10,9 @@ struct c_network_session_manager
 public:
 	void deregister_session(c_network_session* session);
 	void destroy_session_manager();
-	c_network_session* get_session(long index);
+	c_network_session* get_session(int32 index);
 	c_network_session* get_session(s_transport_secure_identifier const* session_id);
-	c_network_session* get_session_from_managed_session_index(long index);
+	c_network_session* get_session_from_managed_session_index(int32 index);
 	bool initialize_session_manager();
 	void register_session(c_network_session* session);
 

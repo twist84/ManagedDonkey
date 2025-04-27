@@ -12,21 +12,21 @@ struct c_simulation_watcher :
 	public c_network_channel_owner
 {
 public:
-	void describe_status(char* buffer, long buffer_length) const;
-	long describe_status_simple() const;
+	void describe_status(char* buffer, int32 buffer_length) const;
+	int32 describe_status_simple() const;
 	bool need_to_generate_updates() const;
 
 protected:
 	c_simulation_world* m_world;
 	c_network_observer* m_observer;
 	c_network_session* m_session;
-	long m_session_local_update_number;
-	long m_machine_last_membership_update_number;
+	int32 m_session_local_update_number;
+	int32 m_machine_last_membership_update_number;
 
-	long __unknown18;
+	int32 __unknown18;
 
 	uint32 m_local_machine_valid_mask;
-	long m_local_machine_index;
+	int32 m_local_machine_index;
 	s_machine_identifier m_machine_identifiers[17];
 	bool m_machine_update_pending;
 	s_player_collection player_collection;

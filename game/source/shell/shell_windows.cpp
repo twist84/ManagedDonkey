@@ -326,7 +326,7 @@ char* __cdecl shell_get_command_line()
 	return g_windows_params.cmd_line;
 }
 
-bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, long* value, long default_value)
+bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, int32* value, int32 default_value)
 {
 	if (!command_line)
 		return false;
@@ -338,7 +338,7 @@ bool shell_get_command_line_parameter(char* command_line, char const* parameter_
 	{
 		parameter_offset += strlen(parameter_name) + 1;
 		c_static_string<32> parameter = parameter_offset;
-		long separator = parameter.index_of(" ");
+		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)
 			parameter.set_bounded(parameter_offset, separator);
 
@@ -476,7 +476,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			sleep(1000);
 	}
 
-	long cache_size_increase = 0;
+	int32 cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
 		g_physical_memory_cache_size_increase_mb = static_cast<uint32>(cache_size_increase);
 
@@ -549,7 +549,7 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		.repeating = false
 	};
 
-	short key_code = NONE;
+	int16 key_code = NONE;
 	uint8 const* key_table = NULL;
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP)
@@ -592,7 +592,7 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	if (key_table)
 	{
-		for (long key_index = _key_escape; key_index < k_key_code_count; key_index++)
+		for (int32 key_index = _key_escape; key_index < k_key_code_count; key_index++)
 		{
 			if (key_table[key_index] == wParam && !input_globals.keys[key_index].__unknown3 && !input_globals.keys[key_index].msec_down)
 			{
@@ -718,7 +718,7 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
+bool __cdecl shell_get_system_identifier(char* system_identifier, int32 system_identifier_len)
 {
 	if (fake_system_identifier)
 		return false;

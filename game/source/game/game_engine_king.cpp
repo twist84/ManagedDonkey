@@ -46,7 +46,7 @@ void c_game_engine_king_variant::encode_to_mcc(c_bitstream* packet) const
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
 	bool opaque_hill = get_opaque_hill();
-	short score_to_win = get_score_to_win();
+	int16 score_to_win = get_score_to_win();
 	e_king_moving_hill_settings moving_hill = get_moving_hill();
 	e_king_moving_hill_order_settings moving_hill_order = get_moving_hill_order();
 	char inside_hill_points = get_inside_hill_points();
@@ -70,7 +70,7 @@ void c_game_engine_king_variant::decode_from_mcc(c_bitstream* packet)
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
 	bool opaque_hill = packet->read_bool("king-opaque-hill");
-	short score_to_win = static_cast<short>(packet->read_integer("king-score-to-win", 10));
+	int16 score_to_win = static_cast<int16>(packet->read_integer("king-score-to-win", 10));
 	e_king_moving_hill_settings moving_hill = packet->read_enum<e_king_moving_hill_settings, 4>("king-moving-hill");
 	e_king_moving_hill_order_settings moving_hill_order = packet->read_enum<e_king_moving_hill_order_settings, 2>("king-moving-hill-order");
 	char inside_hill_points = static_cast<char>(packet->read_signed_integer("king_inside_hill_points", 5));
@@ -99,12 +99,12 @@ void c_game_engine_king_variant::set_opaque_hill(bool opaque_hill)
 	m_variant_flags.set(_king_flags_setting_opaque_hill, opaque_hill);
 }
 
-short c_game_engine_king_variant::get_score_to_win() const
+int16 c_game_engine_king_variant::get_score_to_win() const
 {
 	return m_score_to_win;
 }
 
-void c_game_engine_king_variant::set_score_to_win(short score_to_win)
+void c_game_engine_king_variant::set_score_to_win(int16 score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 1000))
 	{
@@ -123,11 +123,11 @@ e_king_moving_hill_settings c_game_engine_king_variant::get_moving_hill() const
 	return m_moving_hill;
 }
 
-short c_game_engine_king_variant::get_hill_move_in_seconds() const
+int16 c_game_engine_king_variant::get_hill_move_in_seconds() const
 {
 	e_king_moving_hill_settings setting = get_moving_hill();
 
-	const long minimum_value = _king_moving_hill_settings_10_seconds;
+	const int32 minimum_value = _king_moving_hill_settings_10_seconds;
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _king_moving_hill_settings_5_minutes))
 		return k_king_moving_hill_values[setting - minimum_value];
 

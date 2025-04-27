@@ -66,9 +66,9 @@ REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
 
 static c_interlocked_long g_entry_gate;
 
-void display_assert(char const* statement, char const* file, long line, bool fatal)
+void display_assert(char const* statement, char const* file, int32 line, bool fatal)
 {
-	for (long i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
+	for (int32 i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
 		switch_to_thread();
 
 	c_static_string<1156> crash_info;
@@ -133,7 +133,7 @@ void display_assert(char const* statement, char const* file, long line, bool fat
 	g_entry_gate.set(0);
 }
 
-bool handle_assert_as_exception(char const* statement, char const* file, long line, bool fatal)
+bool handle_assert_as_exception(char const* statement, char const* file, int32 line, bool fatal)
 {
 	if (is_debugger_present() && !g_catch_exceptions || !fatal || is_main_thread())
 		return false;
@@ -166,17 +166,17 @@ int strncmp_debug(char const* s1, char const* s2, size_t size)
 	return strncmp(s1, s2, size);
 }
 
-long csstricmp(char const* s1, char const* s2)
+int32 csstricmp(char const* s1, char const* s2)
 {
 	return _stricmp(s1, s2);
 }
 
-long csstrcmp(char const* s1, char const* s2)
+int32 csstrcmp(char const* s1, char const* s2)
 {
 	return strcmp(s1, s2);
 }
 
-long csstrnicmp(char const* s1, char const* s2, uint32 max_count)
+int32 csstrnicmp(char const* s1, char const* s2, uint32 max_count)
 {
 	return _strnicmp(s1, s2, max_count);
 }
@@ -242,18 +242,18 @@ char const* csstrstr(char const* look_inside, char const* look_for)
 }
 
 //char* __cdecl csstrtok(char*, char const*, e_csstrtok_delimiter_mode, csstrtok_data*)
-char* __cdecl csstrtok(char* s, char const* delimiters, long delimiter_mode, char** data)
+char* __cdecl csstrtok(char* s, char const* delimiters, int32 delimiter_mode, char** data)
 {
 	return INVOKE(0x00401A20, csstrtok, s, delimiters, delimiter_mode, data);
 }
 
-long cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list)
+int32 cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list)
 {
 	ASSERT(buffer);
 	ASSERT(format);
 	ASSERT(size > 0);
 
-	long result = vsnprintf(buffer, size - 1, format, list);
+	int32 result = vsnprintf(buffer, size - 1, format, list);
 	buffer[size - 1] = 0;
 
 	size_t buf_size = strlen(buffer);
@@ -303,8 +303,8 @@ bool string_is_not_empty(char const* s)
 	return s && *s;
 }
 
-//.text:00670F70 ; long __cdecl string_list_find(char const*, long, char const* const* const)
-//.text:00670FB0 ; long __cdecl string_list_find_explicit(c_wrapped_array<char const> const&, c_wrapped_array<char const*> const&)
+//.text:00670F70 ; int32 __cdecl string_list_find(char const*, int32, char const* const* const)
+//.text:00670FB0 ; int32 __cdecl string_list_find_explicit(c_wrapped_array<char const> const&, c_wrapped_array<char const*> const&)
 //.text:00671010 ; void __cdecl string_replace_character(char *, char, char)
 
 void string_terminate_at_first_delimiter(char* s, char const* delimiter)
@@ -312,7 +312,7 @@ void string_terminate_at_first_delimiter(char* s, char const* delimiter)
 	s[strcspn(s, delimiter)] = 0;
 }
 
-long ascii_tolower(long C)
+int32 ascii_tolower(int32 C)
 {
 	return ascii_isupper((char)C) ? C + 32 : C;
 }
@@ -322,12 +322,12 @@ bool ascii_isupper(char C)
 	return C >= 'A' && C <= 'Z';
 }
 
-void ascii_strnlwr(char* string, long count)
+void ascii_strnlwr(char* string, int32 count)
 {
 	ASSERT(string != NULL || count == 0);
 	ASSERT(count >= 0 && count < MAXIMUM_STRING_SIZE);
 
-	for (long i = 0; i < count && string[i]; i++)
+	for (int32 i = 0; i < count && string[i]; i++)
 	{
 		if (ascii_isupper(string[i]))
 			string[i] += ' ';
@@ -339,12 +339,12 @@ int __fastcall ascii_stristr(char const* look_inside, char const* look_for)
 	return INVOKE(0x00401160, ascii_stristr, look_inside, look_for);
 }
 
-long __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size)
+int32 __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size)
 {
 	return INVOKE(0x004011E0, ascii_strnicmp, s1, s2, size);
 }
 
-long __cdecl ascii_stricmp(char const* s1, char const* s2)
+int32 __cdecl ascii_stricmp(char const* s1, char const* s2)
 {
 	return INVOKE(0x00401270, ascii_stricmp, s1, s2);
 }
@@ -372,39 +372,39 @@ bool c_old_string_id::is_string(char const* string) const
 	return m_id != NONE && m_id == string_id_retrieve(string);
 }
 
-int64 make_int64(long low, long high)
+int64 make_int64(int32 low, int32 high)
 {
 	return low | ((int64)high << 32);
 }
 
-void* offset_pointer(void* pointer, long offset)
+void* offset_pointer(void* pointer, int32 offset)
 {
 	return (char*)pointer + offset;
 }
 
-void const* offset_pointer(void const* pointer, long offset)
+void const* offset_pointer(void const* pointer, int32 offset)
 {
 	return (char const*)pointer + offset;
 }
 
-unsigned int align_address(unsigned int address, long alignment_bits)
+unsigned int align_address(unsigned int address, int32 alignment_bits)
 {
 	return(address + (unsigned int)(1L << alignment_bits) - 1) & ~(unsigned int)((1L << alignment_bits) - 1);
 }
 
-void* align_pointer(void* pointer, long alignment_bits)
+void* align_pointer(void* pointer, int32 alignment_bits)
 {
 	return (void*)align_address((unsigned int)pointer, alignment_bits);
 }
 
-long pointer_distance(void const* pointer_a, void const* pointer_b)
+int32 pointer_distance(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<long>((char*)pointer_b - (char*)pointer_a);
+	return static_cast<int32>((char*)pointer_b - (char*)pointer_a);
 }
 
-long pointer_difference(void const* pointer_a, void const* pointer_b)
+int32 pointer_difference(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<long>((char*)pointer_b - (char*)pointer_a);
+	return static_cast<int32>((char*)pointer_b - (char*)pointer_a);
 }
 
 void __cdecl cseries_dispose()

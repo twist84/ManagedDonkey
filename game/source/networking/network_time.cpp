@@ -7,7 +7,7 @@
 
 REFERENCE_DECLARE(0x019E8D4C, s_network_time_globals, network_time_globals);
 
-long __cdecl network_time_difference_msec(uint32 time_a, uint32 time_b)
+int32 __cdecl network_time_difference_msec(uint32 time_a, uint32 time_b)
 {
 	return time_b - time_a;
 }
@@ -29,7 +29,7 @@ uint32 __cdecl network_time_get_exact()
 	return system_milliseconds();
 }
 
-long network_time_since(uint32 time)
+int32 network_time_since(uint32 time)
 {
 	//return INVOKE(0x00439E70, network_time_since, time);
 
@@ -52,7 +52,7 @@ bool __cdecl network_session_time_exists(s_transport_secure_identifier const* se
 	return INVOKE(0x0045F1A0, network_session_time_get_time, session_id);
 }
 
-bool __cdecl network_session_time_get_id_and_time(long session_index, s_transport_secure_identifier* session_id, uint32* time)
+bool __cdecl network_session_time_get_id_and_time(int32 session_index, s_transport_secure_identifier* session_id, uint32* time)
 {
 	return INVOKE(0x0045F1D0, network_session_time_get_id_and_time, session_index, session_id, time);
 }

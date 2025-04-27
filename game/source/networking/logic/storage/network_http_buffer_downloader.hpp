@@ -36,7 +36,7 @@ public:
 	virtual ~c_http_buffer_downloader() {};
 
 	e_download_status __thiscall get_download_status();
-	e_download_status __thiscall get_data(char const** out_data, long* out_data_length);
+	e_download_status __thiscall get_data(char const** out_data, int32* out_data_length);
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 	void __thiscall update();
 
@@ -45,7 +45,7 @@ public:
 		m_url.set(url);
 	}
 
-	long get_attempt_index() const
+	int32 get_attempt_index() const
 	{
 		return m_attempt_index;
 	}
@@ -58,48 +58,48 @@ protected:
 	bool m_http_post_source_set;
 	c_static_string<1024> m_extra_headers;
 	e_internal_status m_internal_status;
-	long m_request_cookie;
-	long m_cache_task_token;
+	int32 m_request_cookie;
+	int32 m_cache_task_token;
 	char* m_download_buffer;
-	long m_download_buffer_length;
-	long m_download_buffer_count;
-	long m_automatic_retry_mode;
-	long m_next_retry_backoff_milliseconds;
-	long m_next_retry_milliseconds;
-	long m_attempt_index;
+	int32 m_download_buffer_length;
+	int32 m_download_buffer_count;
+	int32 m_automatic_retry_mode;
+	int32 m_next_retry_backoff_milliseconds;
+	int32 m_next_retry_milliseconds;
+	int32 m_attempt_index;
 };
 static_assert(sizeof(c_http_buffer_downloader) == 0x694);
 
-template<long k_buffer_size>
+template<int32 k_buffer_size>
 struct c_http_stored_buffer_downloader :
 	public c_http_buffer_downloader
 {
 	char m_stored_buffer[ALIGN_UP(k_buffer_size, 3)];
 };
 
-template<typename t_blf_type, long k_buffer_size = sizeof(t_blf_type)>
+template<typename t_blf_type, int32 k_buffer_size = sizeof(t_blf_type)>
 struct c_http_blf_simple_downloader
 {
 public:
-	e_download_status __thiscall get_data(t_blf_type const** data, long* data_size)
+	e_download_status __thiscall get_data(t_blf_type const** data, int32* data_size)
 	{
 		// override this function for hooks
 	}
 
 protected:
 	c_http_stored_buffer_downloader<k_buffer_size> m_downloader;
-	long m_last_attempt_index;
+	int32 m_last_attempt_index;
 	t_blf_type const* m_last_chunk_data;
-	long m_last_data_length;
+	int32 m_last_data_length;
 };
 
 //struct s_some_data
 //{
-//	long some_count;
-//	long many_things[256];
+//	int32 some_count;
+//	int32 many_things[256];
 //};
 //using t_some_data_downloader = c_http_blf_simple_downloader<s_some_data>;
-//e_download_status __thiscall t_some_data_downloader::get_data(s_some_data const** data, long* data_size)
+//e_download_status __thiscall t_some_data_downloader::get_data(s_some_data const** data, int32* data_size)
 //{
 //	static s_some_data static_data{};
 //	if (!static_data.some_count)

@@ -141,7 +141,7 @@ bool __cdecl file_create(s_file_reference* reference)
 	return false;
 }
 
-void __cdecl file_date_format_for_output(s_file_last_modification_date* date, char* buffer, long buffer_size)
+void __cdecl file_date_format_for_output(s_file_last_modification_date* date, char* buffer, int32 buffer_size)
 {
 	HOOK_INVOKE(, file_date_format_for_output, date, buffer, buffer_size);
 	INVOKE(0x00529130, file_date_format_for_output, date, buffer, buffer_size);
@@ -263,10 +263,10 @@ bool __cdecl file_last_modification_date_to_time(s_file_last_modification_date c
 	return INVOKE(0x00529CA0, file_last_modification_date_to_time, date, time, is_local);
 }
 
-//0x00529DE0 void __cdecl file_location_get_full_path(short location, char const* path, wchar_t(&out_full_path)[256])
-//0x00529E50 void __cdecl file_location_get_full_path(short location, char const* path, wchar_t* out_full_path, long full_path_length)
-//0x00529EC0 void __cdecl file_location_get_full_path_wide(short location, wchar_t const* path, wchwchar_tar_t(&out_full_path)[256])
-//0x00529F10 void __cdecl file_location_get_full_path_wide(short location, wchar_t const* path, wchar_t* out_full_path, long full_path_length)
+//0x00529DE0 void __cdecl file_location_get_full_path(int16 location, char const* path, wchar_t(&out_full_path)[256])
+//0x00529E50 void __cdecl file_location_get_full_path(int16 location, char const* path, wchar_t* out_full_path, int32 full_path_length)
+//0x00529EC0 void __cdecl file_location_get_full_path_wide(int16 location, wchar_t const* path, wchwchar_tar_t(&out_full_path)[256])
+//0x00529F10 void __cdecl file_location_get_full_path_wide(int16 location, wchar_t const* path, wchar_t* out_full_path, int32 full_path_length)
 
 bool __cdecl file_move_to(s_file_reference const* reference, s_file_reference const* other)
 {
@@ -360,14 +360,14 @@ bool __cdecl file_open(s_file_reference* reference, uint32 open_flags, uint32* e
 	return result;
 }
 
-void __cdecl file_path_add_extension(wchar_t* path, long maximum_path_length, wchar_t const* extension)
+void __cdecl file_path_add_extension(wchar_t* path, int32 maximum_path_length, wchar_t const* extension)
 {
 	INVOKE(0x0052A4D0, file_path_add_extension, path, maximum_path_length, extension);
 }
 
 //0x0052A530 void __cdecl file_path_add_name(wchar_t(&path)[256], wchar_t const* name)
 
-void __cdecl file_path_add_name(wchar_t* path, long maximum_path_length, wchar_t const* name)
+void __cdecl file_path_add_name(wchar_t* path, int32 maximum_path_length, wchar_t const* name)
 {
 	INVOKE(0x0052A590, file_path_add_name, path, maximum_path_length, name);
 }
@@ -396,7 +396,7 @@ bool __cdecl file_read(s_file_reference* reference, uint32 size, bool print_erro
 	ASSERT(reference);
 	ASSERT(buffer);
 
-	unsigned long bytes_read = 0;
+	uint32 bytes_read = 0;
 	bool result = false;
 
 	if (!size)
@@ -434,7 +434,7 @@ bool __cdecl file_read_from_position(s_file_reference* reference, uint32 offset,
 	return result;
 }
 
-void __cdecl file_reference_create(s_file_reference* reference, short location)
+void __cdecl file_reference_create(s_file_reference* reference, int16 location)
 {
 	file_reference_agnostic_create(reference, location);
 	invalidate_file_handle(&reference->handle);
@@ -511,7 +511,7 @@ bool __cdecl file_write_to_position(s_file_reference* reference, uint32 offset, 
 
 void __cdecl find_files_end(s_find_file_data* data)
 {
-	short depth = data->depth;
+	int16 depth = data->depth;
 	if (depth == 0)
 	{
 		s_file_handle* active_handle = &data->active_find_file_state.handles[depth];
@@ -546,7 +546,7 @@ void __cdecl find_files_start(s_find_file_data* data, uint32 flags, s_file_refer
 
 void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uint32 flags, s_file_reference const* file, char const* search_spec)
 {
-	for (short i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
+	for (int16 i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
 		invalidate_file_handle(&data->active_find_file_state.handles[i]);
 
 	data->flags = flags;

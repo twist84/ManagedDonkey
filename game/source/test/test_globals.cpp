@@ -89,7 +89,7 @@ void show_location_messages()
 	e_map_id map_id = game_options_get()->map_id;
 
 	s_location_message* found_location_message = nullptr;
-	for (long i = 0; i < NUMBEROF(location_messages); i++)
+	for (int32 i = 0; i < NUMBEROF(location_messages); i++)
 	{
 		s_location_message& location_message = location_messages[i];
 		if (location_message.map_id != map_id)
@@ -196,7 +196,7 @@ void __cdecl test_main_loop_body_begin()
 		c_player_in_game_iterator player_iterator;
 		{
 			player_iterator.begin();
-			long player_count = 0;
+			int32 player_count = 0;
 			while (player_iterator.next())
 				player_count++;
 			c_console::write_line("players: %i", player_count);
@@ -204,8 +204,8 @@ void __cdecl test_main_loop_body_begin()
 			player_iterator.begin();
 			while (player_iterator.next())
 			{
-				long index = player_iterator.get_index();
-				short absolute_index = player_iterator.get_absolute_index();
+				int32 index = player_iterator.get_index();
+				int16 absolute_index = player_iterator.get_absolute_index();
 				player_datum* player = player_iterator.get_datum();
 
 				c_console::write_line(L"    0x%08X, #%hi, %s",
@@ -253,7 +253,7 @@ void __cdecl test_main_loop_body_begin()
 
 	if (input_key_frames_down(_keypad_divide, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
 	{
-		static long controls_method = 0;
+		static int32 controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
 		input_abstraction_globals.controls_method = controls_method;
 

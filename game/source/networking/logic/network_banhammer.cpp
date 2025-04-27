@@ -15,8 +15,8 @@ REFERENCE_DECLARE(0x0226DAD8, s_network_banhammer_globals, g_network_banhammer_g
 //.text:004D7D80
 //.text:004D7DB0
 //.text:004D7DD0 ; s_network_banhammer_repeated_play_list* __cdecl network_banhammer_get_controller_repeated_play_list(e_controller_index)
-//.text:004D7E00 ; long __cdecl network_banhammer_get_highest_skill(e_controller_index)
-//.text:004D7E30 ; void __cdecl network_banhammer_get_local_players_for_web_event(s_network_web_event_local_player*, long, long*)
+//.text:004D7E00 ; int32 __cdecl network_banhammer_get_highest_skill(e_controller_index)
+//.text:004D7E30 ; void __cdecl network_banhammer_get_local_players_for_web_event(s_network_web_event_local_player*, int32, int32*)
 
 bool __cdecl network_banhammer_initialize()
 {
@@ -32,8 +32,8 @@ bool __cdecl network_banhammer_initialize()
 //.text:004D82D0 ; e_network_file_load_status __cdecl network_banhammer_repeated_play_list_loaded_for_all_controllers()
 //.text:004D8330 ; void __cdecl network_banhammer_report_on_cheaters()
 //.text:004D8510 ; void __cdecl network_banhammer_set_controller_experience_growth_banned(e_controller_index, bool)
-//.text:004D8580 ; void __cdecl network_banhammer_set_controller_repeated_play_coefficient(e_controller_index, long)
-//.text:004D85C0 ; void __cdecl network_banhammer_set_highest_skill(e_controller_index, long)
+//.text:004D8580 ; void __cdecl network_banhammer_set_controller_repeated_play_coefficient(e_controller_index, int32)
+//.text:004D85C0 ; void __cdecl network_banhammer_set_highest_skill(e_controller_index, int32)
 
 void __cdecl network_banhammer_update()
 {

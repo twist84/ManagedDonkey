@@ -21,22 +21,22 @@ struct _vehicle_datum
 	c_vehicle_type_component type_component;
 	uint8 suspension_last_measurement[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
 	uint8 suspension[MAXIMUM_NUMBER_OF_SUSPENSION_ANIMATIONS];
-	long last_physics_cache_update_time;
-	long squad_index;
-	long next_vehicle_index;
-	long spawn_point_name;
-	long bipeds_killed;
+	int32 last_physics_cache_update_time;
+	int32 squad_index;
+	int32 next_vehicle_index;
+	int32 spawn_point_name;
+	int32 bipeds_killed;
 	uint32 disallowed_seats[2];
-	long reserved_seats[128];
-	long pathfinding_time;
-	short pathfinding_structure_index;
-	long pathfinding_surface_index;
+	int32 reserved_seats[128];
+	int32 pathfinding_time;
+	int16 pathfinding_structure_index;
+	int32 pathfinding_surface_index;
 	c_sector_ref pathfinding_sector;
-	long pathfinding_instanced_geometry_index;
-	long pathfinding_object_index;
+	int32 pathfinding_instanced_geometry_index;
+	int32 pathfinding_object_index;
 	uint32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
-	long last_known_animation_graph_index;
+	int32 last_known_animation_graph_index;
 	c_animation_id steering_animation_id;
 	c_animation_id roll_animation_id;
 	c_animation_id throttle_animation_id;
@@ -53,17 +53,17 @@ static_assert(0x7 == OFFSETOF(_vehicle_datum, pad7));
 
 struct vehicle_datum
 {
-	long definition_index;
+	int32 definition_index;
 	_object_datum object;
 	_mover_datum mover;
 	_unit_datum unit;
 	_vehicle_datum vehicle;
 };
-static_assert(sizeof(vehicle_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
+static_assert(sizeof(vehicle_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
 
-extern bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index);
-extern void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position);
-extern e_vehicle_type __cdecl vehicle_get_type(long vehicle_index);
-extern bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index);
-extern void __cdecl vehicle_render_debug(long vehicle_index);
+extern bool __cdecl vehicle_about_to_detonate_near_any_player(int32* out_vehicle_index);
+extern void __cdecl vehicle_get_seat_position(int32 vehicle_index, int16 seat_index, real_point3d* seat_position);
+extern e_vehicle_type __cdecl vehicle_get_type(int32 vehicle_index);
+extern bool __cdecl vehicle_moving_near_any_player(int32* out_vehicle_index);
+extern void __cdecl vehicle_render_debug(int32 vehicle_index);
 

@@ -30,17 +30,17 @@ struct s_runtime_group_widget_definition :
 	s_tag_block text_items;
 	s_tag_block bitmaps;
 	s_tag_block models;
-	long string_list_reference_index;
+	int32 string_list_reference_index;
 };
 static_assert(sizeof(s_runtime_group_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x34);
 
 struct c_gui_group_widget :
 	public c_gui_widget
 {
-	long __unknownDC;
+	int32 __unknownDC;
 	s_runtime_group_widget_definition m_core_definition;
 	bool m_dispose_as_display_group;
-	long __unknown14C;
+	int32 __unknown14C;
 };
 static_assert(sizeof(c_gui_group_widget) == sizeof(c_gui_widget) + 0x74);
 

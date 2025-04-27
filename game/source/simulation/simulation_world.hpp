@@ -32,19 +32,19 @@ public:
 
 	void debug_render();
 
-	static char const* get_state_string(long state);
+	static char const* get_state_string(int32 state);
 
 	void get_join_status(
-		long* join_time_elapsed,
-		long* join_time_to_abort,
-		long* join_attempt_count,
-		long* join_attempt_maximum,
-		long* join_client_establishing_count,
-		long* join_client_waiting_count,
-		long* join_client_joining_count,
-		long* join_client_complete_count,
-		long* join_client_total_count,
-		long* join_time_to_failure) const;
+		int32* join_time_elapsed,
+		int32* join_time_to_abort,
+		int32* join_attempt_count,
+		int32* join_attempt_maximum,
+		int32* join_client_establishing_count,
+		int32* join_client_waiting_count,
+		int32* join_client_joining_count,
+		int32* join_client_complete_count,
+		int32* join_client_total_count,
+		int32* join_time_to_failure) const;
 
 public:
 	struct s_world_state_data_disconnected
@@ -85,13 +85,13 @@ public:
 #pragma pack(push, 1)
 	s_machine_identifier m_local_machine_identifier;
 #pragma pack(pop)
-	long m_local_machine_index;
+	int32 m_local_machine_index;
 	e_simulation_world_state m_world_state;
 	s_world_state_data m_world_state_data;
 	bool m_time_running;
 	bool m_time_immediate_update;
-	long m_next_update_number;
-	long m_acknowledged_update_number;
+	int32 m_next_update_number;
+	int32 m_acknowledged_update_number;
 	bool m_out_of_sync;
 	bool m_out_of_sync_determinism_failure;
 	bool m_world_clean;
@@ -100,23 +100,23 @@ public:
 	bool m_gamestate_modified_initial_state;
 	bool m_attached_to_map;
 	bool m_gamestate_flush_client_skip;
-	long m_unsuccessful_join_attempts;
+	int32 m_unsuccessful_join_attempts;
 	uint32 m_last_active_timestamp;
-	long m_next_view_establishment_identifier;
-	long m_joining_total_wait_msec;
-	long m_maximum_queued_updates;
+	int32 m_next_view_establishment_identifier;
+	int32 m_joining_total_wait_msec;
+	int32 m_maximum_queued_updates;
 	e_update_queue_state m_update_queue_state;
 	uint32 m_update_queue_state_time;
-	long m_view_count;
+	int32 m_view_count;
 	c_simulation_view* m_views[16];
 	c_simulation_player m_players[16];
 	c_simulation_actor m_actors[16];
 	uint32 m_synchronous_catchup_initiation_failure_timestamp;
-	long m_update_queue_next_update_number_to_dequeue;
+	int32 m_update_queue_next_update_number_to_dequeue;
 	e_update_queue_node m_update_queue_latest_entry_received_type;
-	long m_update_queue_latest_entry_received_update_number;
-	long m_update_queue_length;
-	long m_update_queue_number_of_updates;
+	int32 m_update_queue_latest_entry_received_update_number;
+	int32 m_update_queue_length;
+	int32 m_update_queue_number_of_updates;
 	s_simulation_queued_update* m_update_queue_head;
 	s_simulation_queued_update* m_update_queue_tail;
 	c_simulation_queue m_bookkeeping_simulation_queue;

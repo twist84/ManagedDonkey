@@ -9,10 +9,10 @@ struct c_gui_player_select_screen_widget :
 public:
 	void __thiscall initialize_();
 
-	c_gui_player_select_screen_widget(long name) :
+	c_gui_player_select_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00B07790, c_gui_player_select_screen_widget*, __thiscall, c_gui_player_select_screen_widget*, long)(this, name);
+		DECLFUNC(0x00B07790, c_gui_player_select_screen_widget*, __thiscall, c_gui_player_select_screen_widget*, int32)(this, name);
 	}
 
 //protected:
@@ -28,12 +28,12 @@ public:
 
 	uint8 __data30D8[0x4];
 
-	long m_implement_of_destruction;
+	int32 m_implement_of_destruction;
 
-	long m_killed_most_player_index;
-	short m_killed_count;
-	long m_killed_most_by_player_index;
-	short m_killed_by_count;
+	int32 m_killed_most_player_index;
+	int16 m_killed_count;
+	int32 m_killed_most_by_player_index;
+	int16 m_killed_by_count;
 };
 static_assert(sizeof(c_gui_player_select_screen_widget) == sizeof(c_gui_screen_widget) + 0x1650);
 

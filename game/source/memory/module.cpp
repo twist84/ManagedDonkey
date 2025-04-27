@@ -25,18 +25,18 @@ void* get_donkey_module()
 	return donkey_module;
 }
 
-const long k_maximum_individual_modification_count = 1024;
+const int32 k_maximum_individual_modification_count = 1024;
 
-long g_call_hook_count = 0;
+int32 g_call_hook_count = 0;
 c_hook_call* call_hooks[k_maximum_individual_modification_count];
 
-long g_detour_hook_count = 0;
+int32 g_detour_hook_count = 0;
 c_hook* detour_hooks[k_maximum_individual_modification_count];
 
-long g_data_patch_count = 0;
+int32 g_data_patch_count = 0;
 c_data_patch* data_patches[k_maximum_individual_modification_count];
 
-long g_data_patch_array_count = 0;
+int32 g_data_patch_array_count = 0;
 c_data_patch_array* data_patch_arrays[k_maximum_individual_modification_count];
 
 void apply_all_hooks(bool revert)
@@ -44,7 +44,7 @@ void apply_all_hooks(bool revert)
 	c_hook_call* call_hook = nullptr;
 	c_hook* detour_hook = nullptr;
 
-	for (long call_index = 0; call_index < g_call_hook_count; call_index++)
+	for (int32 call_index = 0; call_index < g_call_hook_count; call_index++)
 	{
 		if (call_hook = call_hooks[call_index]; call_hook)
 		{
@@ -53,7 +53,7 @@ void apply_all_hooks(bool revert)
 		}
 	}
 
-	for (long detour_index = 0; detour_index < g_detour_hook_count; detour_index++)
+	for (int32 detour_index = 0; detour_index < g_detour_hook_count; detour_index++)
 	{
 		if (detour_hook = detour_hooks[detour_index]; detour_hook)
 		{
@@ -68,7 +68,7 @@ void apply_all_patches(bool revert)
 	c_data_patch* data_patch = nullptr;
 	c_data_patch_array* data_patch_array = nullptr;
 
-	for (long data_patch_index = 0; data_patch_index < g_data_patch_count; data_patch_index++)
+	for (int32 data_patch_index = 0; data_patch_index < g_data_patch_count; data_patch_index++)
 	{
 		if (data_patch = data_patches[data_patch_index]; data_patch)
 		{
@@ -77,7 +77,7 @@ void apply_all_patches(bool revert)
 		}
 	}
 
-	for (long data_patch_array_index = 0; data_patch_array_index < g_data_patch_array_count; data_patch_array_index++)
+	for (int32 data_patch_array_index = 0; data_patch_array_index < g_data_patch_array_count; data_patch_array_index++)
 	{
 		if (data_patch_array = data_patch_arrays[data_patch_array_index]; data_patch_array)
 		{
@@ -152,7 +152,7 @@ bool c_hook_call::apply(bool revert)
 	return true;
 }
 
-c_data_patch::c_data_patch(char const* name, uint32 address, long patch_size, uint8 const(&patch)[], bool remove_base) :
+c_data_patch::c_data_patch(char const* name, uint32 address, int32 patch_size, uint8 const(&patch)[], bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_byte_count(patch_size),
@@ -186,7 +186,7 @@ bool c_data_patch::apply(bool revert)
 	return true;
 }
 
-c_data_patch_array::c_data_patch_array(char const* name, long address_count, uint32 const(&addresses)[], long patch_size, void* patch, bool remove_base) :
+c_data_patch_array::c_data_patch_array(char const* name, int32 address_count, uint32 const(&addresses)[], int32 patch_size, void* patch, bool remove_base) :
 	m_name(name),
 	m_address_count(address_count),
 	m_addresses(addresses),
@@ -202,7 +202,7 @@ c_data_patch_array::~c_data_patch_array()
 {
 	if (m_bytes_original)
 	{
-		for (long i = 0; i < m_address_count; i++)
+		for (int32 i = 0; i < m_address_count; i++)
 		{
 			if (m_bytes_original[i])
 			{
@@ -219,7 +219,7 @@ c_data_patch_array::~c_data_patch_array()
 bool c_data_patch_array::apply(bool revert)
 {
 	module_address address{};
-	for (long i = 0; i < m_address_count; i++)
+	for (int32 i = 0; i < m_address_count; i++)
 	{
 		address.address = m_addresses[i];
 
@@ -239,7 +239,7 @@ bool c_data_patch_array::apply(bool revert)
 	return true;
 }
 
-void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, long out_string_size)
+void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, int32 out_string_size)
 {
 	csmemset(out_string, 0, out_string_size);
 

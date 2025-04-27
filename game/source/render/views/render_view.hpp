@@ -18,9 +18,9 @@ protected:
 	struct
 	{
 		void(__thiscall* render)(c_view*);
-		long(__thiscall* render_setup)(c_view*);
-		long(__thiscall* compute_visibility)(c_view*);
-		long(__thiscall* render_submit_visibility)(c_view*);
+		int32(__thiscall* render_setup)(c_view*);
+		int32(__thiscall* compute_visibility)(c_view*);
+		int32(__thiscall* render_submit_visibility)(c_view*);
 	}* __vftable;
 
 public:
@@ -34,16 +34,16 @@ public:
 	}
 
 	void render() { __vftable->render(this); }
-	long render_setup() { return __vftable->render_setup(this); }
-	long compute_visibility() { return __vftable->compute_visibility(this); }
-	long render_submit_visibility() { return __vftable->render_submit_visibility(this); }
+	int32 render_setup() { return __vftable->render_setup(this); }
+	int32 compute_visibility() { return __vftable->compute_visibility(this); }
+	int32 render_submit_visibility() { return __vftable->render_submit_visibility(this); }
 
 	static void __cdecl abort_current_view_stack();
 	static void __cdecl begin(c_view* view);
 	static void __cdecl sub_A28A40();
 	static void __cdecl sub_A28A90();
 	static void __cdecl end();
-	static long __cdecl get_current_stack_level();
+	static int32 __cdecl get_current_stack_level();
 	static c_view* __cdecl top();
 
 	render_camera const* get_render_camera() const;
@@ -59,7 +59,7 @@ public:
 	render_projection* get_render_projection_modifiable();
 
 protected:
-	static long& g_view_stack_top;
+	static int32& g_view_stack_top;
 	static c_view*(&g_view_stack)[4];
 
 	render_camera m_rasterizer_camera;
@@ -135,11 +135,11 @@ struct c_lights_view :
 {
 public:
 	void submit_simple_light_draw_list_to_shader() const;
-	void build_simple_light_draw_list(long a1);
-	void clear_simple_light_draw_list(long a1);
-	void render(long user_index, long player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
+	void build_simple_light_draw_list(int32 a1);
+	void clear_simple_light_draw_list(int32 a1);
+	void render(int32 user_index, int32 player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
 
-	static long& g_gel_bitmap_index;
+	static int32& g_gel_bitmap_index;
 	static real32& g_render_light_intensity;
 	static uint32& g_debug_clip_planes;
 
@@ -179,7 +179,7 @@ struct c_first_person_view :
 {
 public:
 	void __thiscall override_projection(bool squish_close_to_camera);
-	void __thiscall render_albedo(long user_index);
+	void __thiscall render_albedo(int32 user_index);
 
 //protected:
 
@@ -210,7 +210,7 @@ public:
 		return x_current_player_view;
 	}
 
-	static c_player_view* __cdecl get_current(long view_index)
+	static c_player_view* __cdecl get_current(int32 view_index)
 	{
 		return &x_global_player_views[view_index];
 	}
@@ -222,7 +222,7 @@ public:
 		x_current_player_view = view;
 	}
 
-	long get_player_view_user_index()
+	int32 get_player_view_user_index()
 	{
 		return m_camera_user_data.user_index;
 	}
@@ -232,7 +232,7 @@ protected:
 
 public:
 	void __thiscall render_distortions();
-	void create_frame_textures(long player_index);
+	void create_frame_textures(int32 player_index);
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
 	void __thiscall queue_patchy_fog();
 	void __thiscall render_();
@@ -253,7 +253,7 @@ public:
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
 	void restore_to_display_surface();
-	void setup_camera(long player_window_index, long player_window_count, long player_window_arrangement, long user_index, s_observer_result const* observer, bool freeze_render_camera);
+	void setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, s_observer_result const* observer, bool freeze_render_camera);
 	void __thiscall setup_camera_fx_parameters(real32 exposure_boost);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
@@ -265,13 +265,13 @@ public:
 //protected:
 	struct s_camera_user_data
 	{
-		long player_window_index;
-		long player_window_count;
-		long player_window_arrangement;
-		long user_index;
+		int32 player_window_index;
+		int32 player_window_count;
+		int32 player_window_arrangement;
+		int32 user_index;
 		e_controller_index controller_index;
 		c_rasterizer::e_splitscreen_res m_splitscreen_res_index;
-		long m_splitscreen_resolve_surface;
+		int32 m_splitscreen_resolve_surface;
 	};
 	static_assert(sizeof(s_camera_user_data) == 0x1C);
 
@@ -310,7 +310,7 @@ struct c_hud_camera_view :
 public:
 	c_hud_camera_view* constructor();
 
-	void render(long player_index, c_player_view const* player_view, void* data);
+	void render(int32 player_index, c_player_view const* player_view, void* data);
 };
 static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 
@@ -323,18 +323,18 @@ protected:
 	c_rasterizer_texture_ref m_normal_texture_ref;
 	c_rasterizer_texture_ref __unknown26C4_texture_ref;
 	c_rasterizer_texture_ref __unknown26C8_texture_ref;
-	long __unknown26CC;
-	long m_depth_stencil_surface_index;
+	int32 __unknown26CC;
+	int32 m_depth_stencil_surface_index;
 	uint32 __unknown26D4_flags;
-	long __unknown26D8;
-	long __unknown26DC;
-	long __unknown26E0;
-	long __unknown26E4;
+	int32 __unknown26D8;
+	int32 __unknown26DC;
+	int32 __unknown26E0;
+	int32 __unknown26E4;
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
 
 extern bool render_debug_pix_events;
 
 extern void __cdecl render_debug_frame_render();
-extern void __cdecl render_debug_window_render(long user_index);
+extern void __cdecl render_debug_window_render(int32 user_index);
 

@@ -34,7 +34,7 @@ struct c_tag_resource_cache_controller
 	c_cache_file_combined_tag_resource_datum_handler* m_resource_datum_handler;
 	c_tag_resource_control_datum* m_control_datum_info;
 	uint32 m_usage_frame_index;
-	long m_update_since_demand_frame_counter;
+	int32 m_update_since_demand_frame_counter;
 
 	//bool m_any_deferred_demands_pending;
 	//bool m_optional_caching_enabled;

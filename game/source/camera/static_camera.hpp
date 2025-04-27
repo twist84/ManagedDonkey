@@ -6,7 +6,7 @@ struct c_static_camera :
 	public c_camera
 {
 public:
-	void constructor(long user_index)
+	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x0072F170, c_static_camera, constructor, user_index);
 	}

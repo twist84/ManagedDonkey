@@ -18,8 +18,8 @@ struct s_tag_resource_page_datum :
 
 	uint8 state;
 	uint8 __data4[0x2];
-	c_reference_count<short> reference_count;
-	long reservation;
+	c_reference_count<int16> reference_count;
+	int32 reservation;
 	c_basic_buffer<void> buffer;
 };
 static_assert(sizeof(s_tag_resource_page_datum) == 0x14);
@@ -34,7 +34,7 @@ struct c_tag_resource_page_table
 {
 	struct c_tag_resource_lruv_cache
 	{
-		long m_allocation_alignment;
+		int32 m_allocation_alignment;
 		c_tag_resource_page_range_allocator* m_storage_allocator;
 		s_lruv_cache* m_lruv_cache;
 		c_basic_buffer<void> m_lruv_data;
@@ -87,7 +87,7 @@ struct s_indirect_cache_file_sub_location
 	uint32 offset;
 	uint32 unaligned_read_size;
 	uint32 used_storage_size;
-	long decompressor_identifier;
+	int32 decompressor_identifier;
 	bool valid_checksum;
 	uint32 checksum;
 };
@@ -116,7 +116,7 @@ enum e_indirect_cache_file_read_result
 struct c_indirect_cache_file_bulk_read_iterator
 {
 public:
-	virtual void __cdecl request_data(long requested_page_handle, s_indirect_cache_file_read_request const* read_request);
+	virtual void __cdecl request_data(int32 requested_page_handle, s_indirect_cache_file_read_request const* read_request);
 };
 static_assert(sizeof(c_indirect_cache_file_bulk_read_iterator) == 0x4);
 
@@ -129,7 +129,7 @@ struct c_synchronous_resource_io :
 //protected:
 	c_static_sized_dynamic_array<uint64, 1500> m_resource_sort_keys;
 	c_static_sized_dynamic_array<s_indirect_cache_file_read_request, 1500> m_resource_read_requests;
-	c_static_sized_dynamic_array<long, 1500> m_requested_page_handles;
+	c_static_sized_dynamic_array<int32, 1500> m_requested_page_handles;
 	c_static_sized_dynamic_array<e_indirect_cache_file_read_result, 1500> m_request_results;
 	uint32 m_total_request_size;
 	uint32 m_finished_io_request_size;

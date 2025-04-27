@@ -24,27 +24,27 @@ enum e_multiplayer_event_type
 
 struct s_territories_event_data
 {
-	short territory_index;
+	int16 territory_index;
 };
-static_assert(sizeof(s_territories_event_data) == sizeof(short));
+static_assert(sizeof(s_territories_event_data) == sizeof(int16));
 
 struct s_objective_game_role_change_event_data
 {
-	long objective_game_role_index;
+	int32 objective_game_role_index;
 };
-static_assert(sizeof(s_objective_game_role_change_event_data) == sizeof(long));
+static_assert(sizeof(s_objective_game_role_change_event_data) == sizeof(int32));
 
 struct s_game_engine_event_data
 {
-	long event_type;
-	long event;
-	long identifier;
-	long audience_player_index;
-	long cause_player_index;
-	long cause_team_index;
-	long effect_player_index;
-	long effect_team_index;
-	long event_quantity;
+	int32 event_type;
+	int32 event;
+	int32 identifier;
+	int32 audience_player_index;
+	int32 cause_player_index;
+	int32 cause_team_index;
+	int32 effect_player_index;
+	int32 effect_team_index;
+	int32 event_quantity;
 
 	union
 	{

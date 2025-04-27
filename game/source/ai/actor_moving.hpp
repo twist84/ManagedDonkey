@@ -7,8 +7,8 @@
 
 struct c_destination_orders
 {
-	short m_destination_type;
-	short m_flags;
+	int16 m_destination_type;
+	int16 m_flags;
 
 	union
 	{
@@ -25,11 +25,11 @@ struct c_destination_orders
 
 		struct
 		{
-			long prop_index;
+			int32 prop_index;
 		} m_prop;
 	};
 
-	long m_ignore_target_object_index;
+	int32 m_ignore_target_object_index;
 	real32 m_scripted_speed;
 	real32 m_scripted_goal_throttle;
 	real32 m_destination_tolerance;

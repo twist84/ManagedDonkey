@@ -49,16 +49,16 @@ enum e_unit_camera_flags
 
 struct s_unit_camera
 {
-	c_flags<e_unit_camera_flags, short, k_unit_camera_flags> flags;
+	c_flags<e_unit_camera_flags, int16, k_unit_camera_flags> flags;
 	uint16 pad;
 	c_old_string_id camera_marker_name;
 	c_old_string_id camera_submerged_marker_name;
-	angle pitch_auto_level;
+	real32 pitch_auto_level;
 	angle_bounds pitch_range;
 	c_typed_tag_block<s_unit_camera_track> camera_tracks;
-	angle pitch_minimum_spring;
-	angle pitch_mmaximum_spring;
-	angle spring_velocity;
+	real32 pitch_minimum_spring;
+	real32 pitch_mmaximum_spring;
+	real32 spring_velocity;
 	c_typed_tag_block<s_unit_camera_acceleration> camera_acceleration;
 };
 static_assert(sizeof(s_unit_camera) == 0x3C);
@@ -207,12 +207,12 @@ struct _unit_definition
 	// $$$ UNIT $$$
 
 	c_flags<e_unit_definition_flags, uint32, k_unit_definition_flags> flags;
-	c_enum<e_unit_default_teams, short, _unit_default_teams_default, k_unit_default_teams_count> default_team;
-	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
+	c_enum<e_unit_default_teams, int16, _unit_default_teams_default, k_unit_default_teams_count> default_team;
+	c_enum<e_ai_sound_volume, int16, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
 	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG, INVALID_TAG> hologram_unit_reference;
 	c_typed_tag_block<s_campaign_metagame_bucket> campaign_metagame_bucket;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> integrated_light_toggle;
-	angle camera_field_of_view; // degrees
+	real32 camera_field_of_view; // degrees
 	real32 camera_stiffness;
 	s_unit_camera unit_camera;
 
@@ -258,13 +258,13 @@ struct _unit_definition
 	// velocity at which we throw spawned actors
 	real32 spawned_velocity;
 
-	angle aiming_velocity_maximum; // degrees per second
-	angle aiming_acceleration_maximum; // degrees per second squared
+	real32 aiming_velocity_maximum; // degrees per second
+	real32 aiming_acceleration_maximum; // degrees per second squared
 
 	real32 casual_aiming_modifier; // [0,1]
 
-	angle looking_velocity_maximum; // degrees per second
-	angle looking_acceleration_maximum; // degrees per second squared
+	real32 looking_velocity_maximum; // degrees per second
+	real32 looking_acceleration_maximum; // degrees per second squared
 
 	// where the primary weapon is attached
 	c_string_id right_hand_node;
@@ -275,19 +275,19 @@ struct _unit_definition
 	s_unit_additional_node_names more_damn_nodes;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> melee_damage;
 	s_unit_boarding_melee your_momma;
-	c_enum<e_global_chud_blip_type, short, _global_chud_blip_type_medium, k_global_chud_blip_type_count> motion_sensor_blip_size;
-	c_enum<e_unit_item_owner_size, short, _unit_item_owner_size_small, k_unit_item_owner_size_count> item_owner_size;
+	c_enum<e_global_chud_blip_type, int16, _global_chud_blip_type_medium, k_global_chud_blip_type_count> motion_sensor_blip_size;
+	c_enum<e_unit_item_owner_size, int16, _unit_item_owner_size_small, k_unit_item_owner_size_count> item_owner_size;
 	c_typed_tag_block<s_posture_definition> postures;
 	c_typed_tag_block<unit_hud_reference> new_hud_interfaces;
 	c_typed_tag_block<dialogue_variant_definition> dialogue_variants;
 
 	real32 grenade_maximum_autoaim_distance; // world units
-	angle grenade_angle; // degrees
-	angle grenade_angle_max_elevation; // degrees
-	angle grenade_angle_min_elevation; // degrees
+	real32 grenade_angle; // degrees
+	real32 grenade_angle_max_elevation; // degrees
+	real32 grenade_angle_min_elevation; // degrees
 	real32 grenade_velocity; // world units per second
-	c_enum<e_grenade_type, short, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_type;
-	short grenade_count;
+	c_enum<e_grenade_type, int16, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_type;
+	int16 grenade_count;
 	c_typed_tag_block<powered_seat_definition> powered_seats;
 	c_typed_tag_block<unit_initial_weapon> weapons;
 	c_typed_tag_block<s_target_tracking_parameters> target_trackingk;
@@ -339,7 +339,7 @@ static_assert(sizeof(unit_hud_reference) == 0x10);
 
 struct dialogue_variant_definition
 {
-	short variant_number;
+	int16 variant_number;
 	uint16 pad;
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 
@@ -449,8 +449,8 @@ struct unit_seat
 
 	unit_seat_acceleration acceleration;
 	real32 ai_scariness;
-	c_enum<e_global_ai_seat_type, short, _global_ai_seat_type_none, k_global_ai_seat_type_count> ai_seat_type;
-	short boarding_seat;
+	c_enum<e_global_ai_seat_type, int16, _global_ai_seat_type_none, k_global_ai_seat_type_count> ai_seat_type;
+	int16 boarding_seat;
 
 	// how far to interpolate listener position from camera to occupant's head
 	real32 listener_interpolation_factor;
@@ -474,8 +474,8 @@ struct unit_seat
 	c_typed_tag_block<unit_hud_reference> unit_hud_interface;
 	c_string_id enter_seat_string;
 
-	angle yaw_minimum;
-	angle yaw_maximum;
+	real32 yaw_minimum;
+	real32 yaw_maximum;
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> built_in_gunner;
 
 	// entry fields
@@ -486,15 +486,15 @@ struct unit_seat
 	// how close to the entry marker a unit must be
 	real32 entry_radius;
 
-	// angle from marker forward the unit must be
-	angle entry_marker_cone_angle;
+	// real32 from marker forward the unit must be
+	real32 entry_marker_cone_angle;
 
-	// angle from unit facing the marker must be
-	angle entry_marker_facing_angle;
+	// real32 from unit facing the marker must be
+	real32 entry_marker_facing_angle;
 	real32 maximum_relative_velocity;
 
 	c_string_id invisible_seat_region;
-	long runtime_invisible_seat_region_index;
+	int32 runtime_invisible_seat_region_index;
 
 	void update_reference_names();
 };

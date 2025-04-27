@@ -9,8 +9,8 @@ struct s_mesh
 	s_tag_block parts;
 	s_tag_block subparts;
 	uint16 vertex_buffer_indices[8];
-	short index_buffer_index;
-	short index_buffer_tessellation;
+	int16 index_buffer_index;
+	int16 index_buffer_tessellation;
 	uint8 mesh_flags;
 	char rigid_node_index;
 	char vertex_type;
@@ -55,7 +55,7 @@ struct s_render_geometry_user_data_header
 {
 	char data_type;
 	char data_count;
-	short data_size;
+	int16 data_size;
 };
 static_assert(sizeof(s_render_geometry_user_data_header) == 0x4);
 
@@ -71,8 +71,8 @@ struct s_per_mesh_raw_data
 	s_tag_block raw_vertices;
 	s_tag_block raw_indices;
 	s_tag_block raw_water_data;
-	short parameterized_texture_width;
-	short parameterized_texture_height;
+	int16 parameterized_texture_width;
+	int16 parameterized_texture_height;
 	uint32 flags;
 };
 static_assert(sizeof(s_per_mesh_raw_data) == 0x2C);
@@ -106,7 +106,7 @@ static_assert(sizeof(s_per_mesh_prt_data) == 0x20);
 struct s_per_instance_lightmap_texcoords
 {
 	s_tag_block texture_coordinates;
-	short vertex_buffer_index;
+	int16 vertex_buffer_index;
 	uint8 HTJIAHA[2];
 };
 static_assert(sizeof(s_per_instance_lightmap_texcoords) == 0x10);
@@ -137,6 +137,6 @@ struct s_render_geometry
 };
 static_assert(sizeof(s_render_geometry) == 0x84);
 
-//extern bool mesh_has_subpart_mopp(s_render_geometry const* render_geometry, long mesh_index);
-extern bool mesh_has_subpart_mopp(s_render_geometry* render_geometry, long mesh_index);
+//extern bool mesh_has_subpart_mopp(s_render_geometry const* render_geometry, int32 mesh_index);
+extern bool mesh_has_subpart_mopp(s_render_geometry* render_geometry, int32 mesh_index);
 

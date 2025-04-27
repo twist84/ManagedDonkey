@@ -32,7 +32,7 @@ bool collision_debug_flag_objects = true;
 bool collision_debug_flag_front_facing_surfaces = true;
 bool collision_debug_flag_ignore_invisible_surfaces = true;
 real32 collision_debug_length = 100.0f;
-long collision_debug_ignore_object_index = NONE;
+int32 collision_debug_ignore_object_index = NONE;
 bool collision_debug_geometry_sampling = false;
 bool collision_debug_flag_objects_terminals = false;
 bool g_collision_debug_status_lines_render = false;
@@ -178,7 +178,7 @@ void collision_debug_render()
 	{
 		collision_debug_ignore_object_index = NONE;
 
-		long user_index = c_player_view::get_current()->get_player_view_user_index();
+		int32 user_index = c_player_view::get_current()->get_player_view_user_index();
 		if (user_index != NONE && !director_get_perspective(user_index))
 			collision_debug_ignore_object_index = player_mapping_get_unit_by_output_user(user_index);
 
@@ -236,7 +236,7 @@ void collision_debug_render()
 		}
 		else if (collision_debug_width <= 0.0f)
 		{
-			long seam_material_index = NONE;
+			int32 seam_material_index = NONE;
 			collision_result collision;
 			
 			c_stop_watch stop_watch{};
@@ -257,7 +257,7 @@ void collision_debug_render()
 				case _collision_result_structure:
 				{
 					c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
-					long material_index = surface_reference.get_material_index();
+					int32 material_index = surface_reference.get_material_index();
 					if (material_index != NONE)
 					{
 						structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
@@ -265,7 +265,7 @@ void collision_debug_render()
 						if (collision_material.seam_mapping_index != NONE)
 							seam_material_index = collision_material.seam_mapping_index;
 		
-						long render_method_index = collision_material.render_method.index;
+						int32 render_method_index = collision_material.render_method.index;
 						if (render_method_index != NONE)
 							shader_name.set(tag_get_name(render_method_index));
 					}
@@ -278,13 +278,13 @@ void collision_debug_render()
 					matrix = &instance.matrix;
 		
 					c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
-					long material_index = surface_reference.get_material_index();
+					int32 material_index = surface_reference.get_material_index();
 					if (material_index != NONE)
 					{
 						structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
 						structure_collision_material& collision_material = structure->collision_materials[material_index];
 		
-						long render_method_index = collision_material.render_method.index;
+						int32 render_method_index = collision_material.render_method.index;
 						if (render_method_index != NONE)
 							shader_name.set(tag_get_name(render_method_index));
 					}
@@ -295,11 +295,11 @@ void collision_debug_render()
 					collision_model_instance instance{};
 					if (collision_model_instance_new(&instance, collision.object_index))
 					{
-						long bsp_node_index = collision_model_get_bsp_node_index(&instance, collision.bsp_reference);
+						int32 bsp_node_index = collision_model_get_bsp_node_index(&instance, collision.bsp_reference);
 						matrix = &instance.nodes[bsp_node_index];
 		
 						c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
-						long material_index = surface_reference.get_material_index();
+						int32 material_index = surface_reference.get_material_index();
 						if (material_index != NONE)
 						{
 							collision_model_material& material = instance.collision_model->materials[material_index];
@@ -432,11 +432,11 @@ void collision_debug_render()
 				real32 x = fminf(1.0f, collision.plane.n.k);
 				ASSERT(x >= -1.0f - k_real_epsilon && x <= +1.0f + k_real_epsilon);
 
-				angle x_angle = fmaxf(x, -1.0);
+				real32 x_angle = fmaxf(x, -1.0);
 				if (x_angle >= 1.0f)
 					x_angle = 1.0f;
 
-				angle slope = acosf(x_angle);
+				real32 slope = acosf(x_angle);
 				g_collision_debug_status_lines[7].text.print("slope %.0f", slope * RAD);
 
 			}
@@ -451,7 +451,7 @@ void collision_debug_render()
 			real_point3d old_position = collision_debug_point;
 			real_vector3d old_velocity = debug_vector_scaled;
 
-			short count = 0;
+			int16 count = 0;
 			real_point3d new_position{};
 			real_vector3d new_velocity{};
 			collision_plane collisions[16]{};
@@ -495,8 +495,8 @@ void collision_debug_render()
 			collisions[count + 1].point = new_position;
 			collisions[count + 1].plane = {};
 
-			short v112 = count + 2;
-			short v113 = 0;
+			int16 v112 = count + 2;
+			int16 v113 = 0;
 			if (v112 > 0)
 			{
 				collision_plane* collision = collisions;

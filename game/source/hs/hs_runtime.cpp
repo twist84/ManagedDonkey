@@ -35,12 +35,12 @@ bool breakpoints_enabled = true;
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
 
-//.text:00593A00 ; void __cdecl hs_inspect_boolean(short type, long value, char* buffer, long buffer_size)
-//.text:00593A30 ; void __cdecl hs_inspect_real(short type, long value, char* buffer, long buffer_size)
-//.text:00593A60 ; void __cdecl hs_inspect_short_integer(short type, long value, char* buffer, long buffer_size)
-//.text:00593A80 ; void __cdecl hs_inspect_long_integer(short type, long value, char* buffer, long buffer_size)
-//.text:00593AA0 ; void __cdecl hs_inspect_string(short type, long value, char* buffer, long buffer_size)
-//.text:00593AC0 ; void __cdecl hs_inspect_enum(short type, long value, char* buffer, long buffer_size)
+//.text:00593A00 ; void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
+//.text:00593A30 ; void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size)
+//.text:00593A60 ; void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
+//.text:00593A80 ; void __cdecl hs_inspect_long_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
+//.text:00593AA0 ; void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buffer_size)
+//.text:00593AC0 ; void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
 //.text:00593AF0 ; 
 //.text:00593B10 ; 
 //.text:00593B30 ; 
@@ -83,7 +83,7 @@ hs_debug_data_definition hs_debug_data{};
 //.text:00594120 ; 
 //.text:00594130 ; 
 
-long* __cdecl hs_arguments_evaluate(long thread_index, short parameter_count, short const* formal_parameters, bool a4)
+int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 parameter_count, int16 const* formal_parameters, bool a4)
 {
 	return INVOKE(0x00594140, hs_arguments_evaluate, thread_index, parameter_count, formal_parameters, a4);
 }
@@ -102,7 +102,7 @@ void __cdecl hs_breakpoint(char const* s)
 	}
 }
 
-bool __cdecl hs_can_cast(short actual_type, short desired_type)
+bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type)
 {
 	return INVOKE(0x005942F0, hs_can_cast, actual_type, desired_type);
 
@@ -132,56 +132,56 @@ bool __cdecl hs_can_cast(short actual_type, short desired_type)
 	//return false;
 }
 
-//.text:005943A0 ; long __cdecl hs_cast(long thread_index, short actual_type, short desired_type, long value)
-//.text:00594450 ; long __cdecl hs_data_to_void(long _data)
-//.text:00594460 ; long* __cdecl hs_destination(hs_thread*, hs_destination_pointer destination_pointer)
-//.text:005944F0 ; long __cdecl hs_enum_to_real(long _enum)
+//.text:005943A0 ; int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value)
+//.text:00594450 ; int32 __cdecl hs_data_to_void(int32 _data)
+//.text:00594460 ; int32* __cdecl hs_destination(hs_thread*, hs_destination_pointer destination_pointer)
+//.text:005944F0 ; int32 __cdecl hs_enum_to_real(int32 _enum)
 
-//bool hs_evaluate(long thread_index, long expression_index, hs_destination_pointer destination_pointer, long* out_cast)
-bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast)
+//bool hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
+bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, int32 destination_pointer, int32* out_cast)
 {
 	return INVOKE(0x00594510, hs_evaluate, thread_index, expression_index, destination_pointer, out_cast);
 }
 
-//.text:00594680 ; void __cdecl hs_evaluate_arithmetic(short function_index, long thread_index, bool a3)
-//.text:00594960 ; void __cdecl hs_evaluate_begin(short function_index, long thread_index, bool a3)
-//.text:00594AB0 ; void __cdecl hs_evaluate_begin_random(short function_index, long thread_index, bool a3)
-//.text:00594D20 ; void __cdecl hs_evaluate_debug_string(short function_index, long thread_index, bool a3)
-//.text:00594FB0 ; void __cdecl hs_evaluate_equality(short function_index, long thread_index, bool a3)
-//.text:005950B0 ; void __cdecl hs_evaluate_if(short function_index, long thread_index, bool a3)
-//.text:005952A0 ; void __cdecl hs_evaluate_inequality(short function_index, long thread_index, bool a3)
-//.text:00595450 ; void __cdecl hs_evaluate_inspect(short function_index, long thread_index, bool a3)
-//.text:00595550 ; void __cdecl hs_evaluate_logical(short function_index, long thread_index, bool a3)
-//.text:005956F0 ; void __cdecl hs_evaluate_object_cast_up(short function_index, long thread_index, bool a3)
-//.text:005957F0 ; void __cdecl hs_evaluate_set(short function_index, long thread_index, bool a3)
-//.text:00595A00 ; void __cdecl hs_evaluate_sleep(short function_index, long thread_index, bool a3)
-//.text:00595C10 ; void __cdecl hs_evaluate_sleep_forever(short function_index, long thread_index, bool a3)
-//.text:00595CC0 ; void __cdecl hs_evaluate_sleep_until(short function_index, long thread_index, bool a3)
-//.text:00595FF0 ; void __cdecl hs_evaluate_wake(short function_index, long thread_index, bool a3)
+//.text:00594680 ; void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool a3)
+//.text:00594960 ; void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool a3)
+//.text:00594AB0 ; void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool a3)
+//.text:00594D20 ; void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool a3)
+//.text:00594FB0 ; void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool a3)
+//.text:005950B0 ; void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool a3)
+//.text:005952A0 ; void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool a3)
+//.text:00595450 ; void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool a3)
+//.text:00595550 ; void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool a3)
+//.text:005956F0 ; void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index, bool a3)
+//.text:005957F0 ; void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool a3)
+//.text:00595A00 ; void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool a3)
+//.text:00595C10 ; void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool a3)
+//.text:00595CC0 ; void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool a3)
+//.text:00595FF0 ; void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool a3)
 
-long __cdecl hs_find_thread_by_name(char const* script_name)
+int32 __cdecl hs_find_thread_by_name(char const* script_name)
 {
 	return INVOKE(0x00596070, hs_find_thread_by_name, script_name);
 }
 
-//.text:00596130 ; long __cdecl hs_find_thread_by_script(short script_index)
-//.text:005961D0 ; long __cdecl hs_global_evaluate(short global_index)
-//.text:00596230 ; void __cdecl hs_global_reconcile_read(short global_index)
-//.text:00596C10 ; void __cdecl hs_global_reconcile_write(short global_index)
-//.text:00596F50 ; void __cdecl hs_handle_deleted_object(long object_index)
-//.text:00597280 ; long __cdecl hs_long_to_boolean(long _long)
-//.text:005972A0 ; long __cdecl hs_long_to_real(long _long)
-//.text:005972C0 ; long __cdecl hs_boolean_to_long(long _boolean)
+//.text:00596130 ; int32 __cdecl hs_find_thread_by_script(int16 script_index)
+//.text:005961D0 ; int32 __cdecl hs_global_evaluate(int16 global_index)
+//.text:00596230 ; void __cdecl hs_global_reconcile_read(int16 global_index)
+//.text:00596C10 ; void __cdecl hs_global_reconcile_write(int16 global_index)
+//.text:00596F50 ; void __cdecl hs_handle_deleted_object(int32 object_index)
+//.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 _long)
+//.text:005972A0 ; int32 __cdecl hs_long_to_real(int32 _long)
+//.text:005972C0 ; int32 __cdecl hs_boolean_to_long(int32 _boolean)
 //.text:005972E0 ; 
 
-long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool initialize)
+int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize)
 {
 	//return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, initialize);
 
 	hs_function_definition const* function = hs_function_get(function_index);
 	char const* function_name = hs_function_table_names[function_index];
 	
-	long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
+	int32* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
 	if (parameters)
 	{
 		hs_thread* thread = hs_thread_get(thread_index);
@@ -191,7 +191,7 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 			csnzprintf(buffer, sizeof(buffer), "%s: %s ", hs_thread_format(thread_index), function_name);
 			if (parameters)
 			{
-				for (long parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
+				for (int32 parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
 				{
 					char valuebuffer[100]{};
 					inspect_internal(function->formal_parameters[parameter_index], parameters[parameter_index], valuebuffer, sizeof(valuebuffer));
@@ -199,7 +199,7 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 				}
 			}
 	
-			long expression_index = hs_thread_stack(thread)->expression_index;
+			int32 expression_index = hs_thread_stack(thread)->expression_index;
 			if (expression_index != NONE)
 				csnzappendf(buffer, sizeof(buffer), "   (line #%i)", hs_syntax_get(expression_index)->line_number);
 	
@@ -209,36 +209,36 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 	return parameters;
 }
 
-//.text:00597320 ; long __cdecl hs_object_index_from_name_index(long, short)
-//.text:00597330 ; long __cdecl hs_object_name_to_object_list(long name_index)
-//.text:00597370 ; long __cdecl hs_object_to_object_list(long object_index)
+//.text:00597320 ; int32 __cdecl hs_object_index_from_name_index(int32, int16)
+//.text:00597330 ; int32 __cdecl hs_object_name_to_object_list(int32 name_index)
+//.text:00597370 ; int32 __cdecl hs_object_to_object_list(int32 object_index)
 
-bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
+bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 {
 	return INVOKE(0x005973A0, hs_object_type_can_cast, actual_type, desired_type);
 
 	//ASSERT(actual_type >= 0 && actual_type < NUMBER_OF_HS_OBJECT_TYPES);
 	//ASSERT(desired_type >= 0 && desired_type < NUMBER_OF_HS_OBJECT_TYPES);
 	//
-	//short actual_type_mask = hs_object_type_masks[actual_type];
-	//short desired_type_mask = hs_object_type_masks[desired_type];
+	//int16 actual_type_mask = hs_object_type_masks[actual_type];
+	//int16 desired_type_mask = hs_object_type_masks[desired_type];
 	//
 	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
-//.text:005973D0 ; long __cdecl hs_real_to_long(long _real)
-//.text:005973E0 ; long __cdecl hs_real_to_short(long _real)
+//.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 _real)
+//.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 _real)
 //.text:00597400 ; void __cdecl hs_reset_scripts()
-//.text:005974D0 ; void __cdecl hs_restore_from_saved_game(long)
-//.text:005974E0 ; void __cdecl hs_return(long, long)
+//.text:005974D0 ; void __cdecl hs_restore_from_saved_game(int32)
+//.text:005974E0 ; void __cdecl hs_return(int32, int32)
 //.text:005975C0 ; bool __cdecl hs_running_game_scripts()
-//.text:005975D0 ; long __cdecl hs_runtime_command_script_begin(short)
+//.text:005975D0 ; int32 __cdecl hs_runtime_command_script_begin(int16)
 //.text:00597640 ; void __cdecl hs_runtime_delete_internal_global_datums()
 //.text:005976C0 ; void __cdecl hs_runtime_dirty()
 //.text:00597730 ; void __cdecl hs_runtime_dispose()
 //.text:00597750 ; void __cdecl hs_runtime_dispose_from_old_map()
 
-bool __cdecl hs_runtime_evaluate(long expression_index, bool display_expression_result, bool deterministic)
+bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic)
 {
 	return INVOKE(0x005977A0, hs_runtime_evaluate, expression_index, display_expression_result, deterministic);
 }
@@ -248,7 +248,7 @@ char const* __cdecl hs_runtime_get_executing_thread_name()
 	return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
 }
 
-long __cdecl hs_runtime_index_from_global_designator(long designator)
+int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
 {
 	return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
 }
@@ -257,21 +257,21 @@ long __cdecl hs_runtime_index_from_global_designator(long designator)
 //.text:00597A80 ; void __cdecl hs_runtime_initialize_for_new_map()
 //.text:00597C70 ; void __cdecl hs_runtime_initialize_threads()
 //.text:00597CF0 ; bool __cdecl hs_runtime_initialized()
-//.text:00597D10 ; long __cdecl hs_runtime_internal_evaluate(long)
+//.text:00597D10 ; int32 __cdecl hs_runtime_internal_evaluate(int32)
 
 bool __cdecl hs_runtime_nondeterministic_threads_running()
 {
 	return INVOKE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
 }
 
-//.text:00597DE0 ; void __cdecl hs_runtime_push_script(short)
+//.text:00597DE0 ; void __cdecl hs_runtime_push_script(int16)
 //.text:00597E60 ; void __cdecl hs_runtime_require_gc()
 //.text:00597E80 ; void __cdecl hs_runtime_require_object_list_gc()
 //.text:00597EA0 ; void __cdecl hs_runtime_reset()
-//.text:00597F00 ; void __cdecl hs_runtime_reset_time(long)
+//.text:00597F00 ; void __cdecl hs_runtime_reset_time(int32)
 //.text:00597FC0 ; bool __cdecl hs_runtime_safe_to_gc()
 
-long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
+int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);
 
@@ -286,7 +286,7 @@ long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script
 	if (script.script_type != script_type)
 		return NONE;
 
-	long thread_index = hs_thread_new(thread_type, script_index, true);
+	int32 thread_index = hs_thread_new(thread_type, script_index, true);
 	if (thread_index != NONE)
 		hs_evaluate(thread_index, script.root_expression_index, 3, NULL);
 
@@ -298,34 +298,34 @@ void __cdecl hs_runtime_update()
 	INVOKE(0x005980C0, hs_runtime_update);
 }
 
-//.text:005981D0 ; void __cdecl hs_script_evaluate(short function_index, long thread_index, bool initialize)
+//.text:005981D0 ; void __cdecl hs_script_evaluate(int16 function_index, int32 thread_index, bool initialize)
 //.text:00598570 ; bool __cdecl hs_script_finished(char const* script_name)
 //.text:005985C0 ; bool __cdecl hs_script_started(char const* script_name)
 //.text:00598610 ; void __cdecl hs_scripting_debug_thread(char const* thread_name, bool enable)
-//.text:00598620 ; long __cdecl hs_scripting_get_executing_thread_index()
+//.text:00598620 ; int32 __cdecl hs_scripting_get_executing_thread_index()
 //.text:00598640 ; void __cdecl hs_scripting_kill_all_threads()
-//.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(long thread_index)
-//.text:00598740 ; long __cdecl hs_short_to_boolean(long s)
-//.text:00598760 ; long __cdecl hs_short_to_long(long s)
-//.text:00598770 ; long __cdecl hs_short_to_real(long s)
+//.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
+//.text:00598740 ; int32 __cdecl hs_short_to_boolean(int32 s)
+//.text:00598760 ; int32 __cdecl hs_short_to_long(int32 s)
+//.text:00598770 ; int32 __cdecl hs_short_to_real(int32 s)
 //.text:00598790 ; hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
 //.text:005987B0 ; hs_stack_frame const* __cdecl hs_stack(hs_thread const* thread, hs_stack_pointer stack_pointer)
-//.text:005987D0 ; void* __cdecl hs_stack_allocate(long thread_index, long size, long alignment_bits, hs_stack_pointer* out_reference)
-//.text:005988C0 ; long* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
-//.text:005988E0 ; long* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, long parameter_count)
-//.text:00598900 ; void __cdecl hs_stack_pop(long thread_index)
-//.text:00598940 ; bool __cdecl hs_stack_push(long thread_index)
-//.text:005989E0 ; long __cdecl hs_string_to_boolean(long n)
-//.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(long index)
-//.text:00598A30 ; long __cdecl hs_syntax_nth(long expression_index, short n)
-//.text:00598A60 ; void __cdecl hs_thread_delete(long thread_index, bool validate)
+//.text:005987D0 ; void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference)
+//.text:005988C0 ; int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
+//.text:005988E0 ; int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count)
+//.text:00598900 ; void __cdecl hs_stack_pop(int32 thread_index)
+//.text:00598940 ; bool __cdecl hs_stack_push(int32 thread_index)
+//.text:005989E0 ; int32 __cdecl hs_string_to_boolean(int32 n)
+//.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(int32 index)
+//.text:00598A30 ; int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
+//.text:00598A60 ; void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 
-char const* __cdecl hs_thread_format(long thread_index)
+char const* __cdecl hs_thread_format(int32 thread_index)
 {
 	return INVOKE(0x00598A90, hs_thread_format, thread_index);
 }
 
-bool __cdecl hs_thread_is_deterministic(long thread_index)
+bool __cdecl hs_thread_is_deterministic(int32 thread_index)
 {
 	return INVOKE(0x00598B10, hs_thread_is_deterministic, thread_index);
 }
@@ -335,17 +335,17 @@ void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool determi
 	INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
 }
 
-long __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
+int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 {
 	return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
 }
 
-void __cdecl hs_thread_main(long thread_index)
+void __cdecl hs_thread_main(int32 thread_index)
 {
 	INVOKE(0x00598BC0, hs_thread_main, thread_index);
 }
 
-long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic)
+int32 __cdecl hs_thread_new(e_hs_thread_type thread_type, int32 script_index, bool deterministic)
 {
 	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
 }
@@ -362,16 +362,16 @@ hs_stack_frame const* __cdecl hs_thread_stack(hs_thread const* thread)
 	return DECLFUNC(0x00598F50, hs_stack_frame const*, __cdecl, hs_thread const*)(thread);
 }
 
-//.text:00598F70 ; void __cdecl hs_thread_try_to_delete(long, bool)
+//.text:00598F70 ; void __cdecl hs_thread_try_to_delete(int32, bool)
 //.text:00598FC0 ; void __cdecl hs_typecasting_table_initialize()
-//.text:00599170 ; void __cdecl hs_wake(long, long)
+//.text:00599170 ; void __cdecl hs_wake(int32, int32)
 
 bool __cdecl hs_wake_by_name(char const* script_name)
 {
 	return INVOKE(0x00599250, hs_wake_by_name, script_name);
 }
 
-void __cdecl inspect_internal(short type, long value, char* buffer, short buffer_size)
+void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size)
 {
 	INVOKE(0x00599280, inspect_internal, type, value, buffer, buffer_size);
 }
@@ -384,9 +384,9 @@ void __cdecl inspect_internal(short type, long value, char* buffer, short buffer
 //.text:005993E0 ; 
 //.text:00599420 ; 
 //.text:00599460 ; 
-//.text:00599470 ; void __cdecl thread_update_sleep_time_for_reset(long, long)
+//.text:00599470 ; void __cdecl thread_update_sleep_time_for_reset(int32, int32)
 
-hs_thread* hs_thread_get(long thread_index)
+hs_thread* hs_thread_get(int32 thread_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
 
@@ -394,14 +394,14 @@ hs_thread* hs_thread_get(long thread_index)
 	return result;
 }
 
-void hs_find_dormant_script(char const* dormant_script_name, long* script_index_out)
+void hs_find_dormant_script(char const* dormant_script_name, int32* script_index_out)
 {
 	ASSERT(dormant_script_name);
 	ASSERT(script_index_out);
 
 	*script_index_out = NONE;
 
-	long thread_index = hs_find_thread_by_name(dormant_script_name);
+	int32 thread_index = hs_find_thread_by_name(dormant_script_name);
 	if (thread_index == NONE)
 		return;
 
@@ -411,7 +411,7 @@ void hs_find_dormant_script(char const* dormant_script_name, long* script_index_
 		*script_index_out = thread->script_index;
 }
 
-char const* expression_get_function_name(long thread_index, long expression_index)
+char const* expression_get_function_name(int32 thread_index, int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	hs_thread* thread = hs_thread_get(thread_index);
@@ -440,7 +440,7 @@ char const* expression_get_function_name(long thread_index, long expression_inde
 	return "unknown script";
 }
 
-void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_size)
+void thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffer_size)
 {
 	hs_thread* thread = hs_thread_get(thread_index);
 	
@@ -479,7 +479,7 @@ void render_debug_scripting()
 	{
 		char buffer[10240]{};
 	
-		short tab_stops[] { 250, 300, 350 };
+		int16 tab_stops[] { 250, 300, 350 };
 		c_rasterizer_draw_string draw_string{};
 		c_font_cache_mt_safe font_cache{};
 		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
@@ -489,7 +489,7 @@ void render_debug_scripting()
 
 		s_hs_thread_iterator iterator{};
 		hs_thread_iterator_new(&iterator, true, true);
-		for (long thread_index = hs_thread_iterator_next(&iterator); thread_index != NONE; thread_index = hs_thread_iterator_next(&iterator))
+		for (int32 thread_index = hs_thread_iterator_next(&iterator); thread_index != NONE; thread_index = hs_thread_iterator_next(&iterator))
 			thread_render_debug_scripting(thread_index, buffer, sizeof(buffer));
 	
 		draw_string.draw(&font_cache, buffer);
@@ -510,18 +510,18 @@ void render_debug_scripting_globals()
 
 		c_rasterizer_draw_string draw_string{};
 		c_font_cache_mt_safe font_cache{};
-		short tab_stops[]{ 300 };
+		int16 tab_stops[]{ 300 };
 		struct scenario* scenario = global_scenario_get();
 		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 		draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 
 		csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
-		for (long global_index = 0; global_index < scenario->globals.count; global_index++)
+		for (int32 global_index = 0; global_index < scenario->globals.count; global_index++)
 		{
 			hs_global_internal& global = scenario->globals[global_index];
 			csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name);
 
-			long runtime_index = hs_runtime_index_from_global_designator(global_index);
+			int32 runtime_index = hs_runtime_index_from_global_designator(global_index);
 			hs_global_runtime* runtime_global = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime, runtime_index);
 
 			char valuebuffer[1024]{};
@@ -539,7 +539,7 @@ void render_debug_trigger_volumes()
 	if (!debug_trigger_volumes)
 		return;
 
-	long trigger_volume_index = 0;
+	int32 trigger_volume_index = 0;
 	for (scenario_trigger_volume& trigger_volume : global_scenario_get()->trigger_volumes)
 	{
 		real_matrix4x3 matrix{};
@@ -549,13 +549,13 @@ void render_debug_trigger_volumes()
 			real_vector3d world_extent{};
 			matrix4x3_transform_vector(&matrix, &extents, &world_extent);
 
-			for (long i = 0; i < 6; i++)
+			for (int32 i = 0; i < 6; i++)
 			{
 				real_point3d sides[4]{};
 				real_vector3d v23{};
 				real_vector3d v24{};
 
-				short v21 = short(i / 2);
+				int16 v21 = int16(i / 2);
 				if (i % 2)
 				{
 					point_from_line3d(&matrix.position, &world_extent, 1.0f, sides);

@@ -12,7 +12,7 @@ static_assert(sizeof(light_datum) == 0xE4);
 struct lights_game_globals_definition
 {
 	bool can_use_flashlights;
-	long can_use_flashlights_time;
+	int32 can_use_flashlights_time;
 	bool __unknown8;
 	uint8 __data9[0x3];
 
@@ -27,6 +27,6 @@ struct s_nondeterministic_light_data
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 
-extern void __cdecl lights_prepare_for_window(long player_window_index);
+extern void __cdecl lights_prepare_for_window(int32 player_window_index);
 extern void __cdecl lights_update();
 

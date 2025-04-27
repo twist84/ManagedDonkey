@@ -5,7 +5,7 @@
 extern bool __cdecl shell_application_is_paused();
 extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
-extern bool __cdecl shell_build_number_is_compatible(long build_number);
+extern bool __cdecl shell_build_number_is_compatible(int32 build_number);
 extern bool __cdecl shell_build_string_is_compatible(char const* build_string);
 extern void __cdecl shell_dispose();
 extern char const* __cdecl shell_get_target();
@@ -28,10 +28,10 @@ extern char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting
 extern e_subtitle_setting subtitle_setting_from_string(char const* str);
 extern char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty);
 extern e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str);
-extern char const* network_session_mode_get_name(long session_mode);
-extern char const* ui_game_mode_get_name(long ui_game_mode);
-extern char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode);
-extern char const* game_variant_parameter_get_name(long parameter);
+extern char const* network_session_mode_get_name(int32 session_mode);
+extern char const* ui_game_mode_get_name(int32 ui_game_mode);
+extern char const* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode);
+extern char const* game_variant_parameter_get_name(int32 parameter);
 
 extern char const* const k_network_session_mode_names[k_network_session_mode_count];
 extern char const* const k_ui_game_mode_names[k_ui_game_mode_count];

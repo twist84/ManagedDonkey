@@ -26,7 +26,7 @@ static_assert(sizeof(s_network_message_connect_request) == 0x8);
 struct s_network_message_connect_refuse
 {
 	uint32 remote_identifier;
-	long reason;
+	int32 reason;
 };
 static_assert(sizeof(s_network_message_connect_refuse) == 0x8);
 
@@ -41,7 +41,7 @@ struct s_network_message_connect_closed
 {
 	uint32 remote_identifier;
 	uint32 identifier;
-	c_enum<e_network_channel_closure_reason, long, _network_channel_reason_none, k_network_channel_reason_count> reason;
+	c_enum<e_network_channel_closure_reason, int32, _network_channel_reason_none, k_network_channel_reason_count> reason;
 };
 static_assert(sizeof(s_network_message_connect_closed) == 0xC);
 
@@ -50,34 +50,34 @@ struct c_bitstream;
 class c_network_message_connect_request
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_connect_refuse
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_connect_establish
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_connect_closed
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 extern char const* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count];
 
 struct c_network_message_type_collection;
 extern void __cdecl network_message_types_register_connect(c_network_message_type_collection* message_collection);
-extern char const* network_message_connect_refuse_get_reason_string(long reason);
+extern char const* network_message_connect_refuse_get_reason_string(int32 reason);
 

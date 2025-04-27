@@ -13,8 +13,8 @@
 #include "units/bipeds.hpp"
 #include "units/units.hpp"
 
-REFERENCE_DECLARE(0x04FE67A0, long, mainmenu_spartan_unit_index);
-REFERENCE_DECLARE(0x04FE67A4, long, mainmenu_elite_unit_index);
+REFERENCE_DECLARE(0x04FE67A0, int32, mainmenu_spartan_unit_index);
+REFERENCE_DECLARE(0x04FE67A4, int32, mainmenu_elite_unit_index);
 
 HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
 HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
@@ -91,7 +91,7 @@ DATA_PATCH_DECLARE(0x00B26710, dedicated_server_patch, _return); // saber_update
 
 #endif // DEDICATED_SERVER
 
-void __cdecl hf2p_handle_deleted_object(long object_index)
+void __cdecl hf2p_handle_deleted_object(int32 object_index)
 {
 }
 
@@ -123,7 +123,7 @@ void __cdecl hf2p_dispose_from_old_map()
 {
 }
 
-long& mainmenu_unit_index = mainmenu_spartan_unit_index;
+int32& mainmenu_unit_index = mainmenu_spartan_unit_index;
 
 void __cdecl sub_7B7940()
 {
@@ -136,7 +136,7 @@ void __cdecl sub_7B7940()
 		biped_iterator.begin(_object_mask_biped, 0);
 		while (biped_iterator.next())
 		{
-			long player_representation_index = player_unit_get_representation_index(biped_iterator.get_index());
+			int32 player_representation_index = player_unit_get_representation_index(biped_iterator.get_index());
 			switch (player_representation_index)
 			{
 			case 6: // ui_spartan
@@ -183,7 +183,7 @@ void __cdecl hf2p_game_update()
 			//if (VALID_INDEX(secondary_change_color, k_player_color_index_count))
 			//	loadout.colors[_color_type_secondary] = s_game_globals::profile_colors[secondary_change_color];
 
-			for (long color_index = 0; color_index < k_color_type_count; color_index++)
+			for (int32 color_index = 0; color_index < k_color_type_count; color_index++)
 			{
 				rgb_color& color = loadout.colors[color_index];
 				real_rgb_color real_color;
@@ -193,7 +193,7 @@ void __cdecl hf2p_game_update()
 			DECLFUNC(0x005A2FA0, void, __cdecl, uint32)(mainmenu_unit_index);
 		}
 
-		long primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_primary);
+		int32 primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ int16(0xFFFD), _weapon_set_primary);
 		game_engine_add_starting_weapon_to_player(mainmenu_unit_index, primary_weapon_index, 1);
 	}
 }
@@ -279,7 +279,7 @@ s_s3d_player_armor_configuration_loadout& get_armor_loadout()
 {
 	static s_s3d_player_armor_configuration_loadout loadout{};
 
-	long user_index = 0;
+	int32 user_index = 0;
 	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
 	uint32 player_voice_settings = 0;
@@ -297,7 +297,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 {
 	static s_s3d_player_weapon_configuration_loadout loadout;
 
-	long user_index = 0;
+	int32 user_index = 0;
 	e_controller_index controller_index = _controller0;
 	s_player_configuration player_data{};
 	uint32 player_voice_settings = 0;
@@ -384,7 +384,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 				continue;
 			}
 
-			for (long i = 0; i < customized_spartan_character.customized_selection.count; i++)
+			for (int32 i = 0; i < customized_spartan_character.customized_selection.count; i++)
 			{
 				s_multiplayer_customized_model_selection& customized_area = customized_spartan_character.customized_selection[i];
 
@@ -436,7 +436,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 				continue;
 			}
 
-			for (long i = 0; i < customized_elite_character.customized_selection.count; i++)
+			for (int32 i = 0; i < customized_elite_character.customized_selection.count; i++)
 			{
 				s_multiplayer_customized_model_selection& customized_area = customized_elite_character.customized_selection[i];
 

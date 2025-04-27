@@ -117,7 +117,7 @@ private:
 class c_data_patch
 {
 public:
-	c_data_patch(char const* name, uint32 address, long patch_size, uint8 const(&patch)[], bool remove_base = true);
+	c_data_patch(char const* name, uint32 address, int32 patch_size, uint8 const(&patch)[], bool remove_base = true);
 
 	bool apply(bool revert);
 
@@ -136,13 +136,13 @@ private:
 	module_address m_addr;
 	uint8 const* m_bytes;
 	uint8* m_bytes_original;
-	long m_byte_count;
+	int32 m_byte_count;
 };
 
 class c_data_patch_array
 {
 public:
-	c_data_patch_array(char const* name, long address_count, uint32 const(&addresses)[], long patch_size, void* patch, bool remove_base = true);
+	c_data_patch_array(char const* name, int32 address_count, uint32 const(&addresses)[], int32 patch_size, void* patch, bool remove_base = true);
 
 	~c_data_patch_array();
 
@@ -155,16 +155,16 @@ public:
 
 private:
 	c_static_string<128> m_name;
-	long m_address_count;
+	int32 m_address_count;
 	uint32 const* m_addresses;
-	long m_byte_count;
+	int32 m_byte_count;
 	void* m_bytes;
 	uint8** m_bytes_original;
 };
 
-extern void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, long out_string_size);
+extern void buffer_as_byte_string(uint8* buffer, uint32 buffer_size, char* out_string, int32 out_string_size);
 
-template<typename t_type, long k_string_size>
+template<typename t_type, int32 k_string_size>
 void type_as_byte_string(t_type* type, char(&out_string)[k_string_size])
 {
 	buffer_as_byte_string((uint8*)type, sizeof(t_type), out_string, k_string_size);

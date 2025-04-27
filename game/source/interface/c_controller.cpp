@@ -37,12 +37,12 @@ bool c_controller_interface::in_use() const
 //.text:00A7CCB0 ; 
 //.text:00A7CCC0 ; 
 
-void __cdecl controller_activate_as_unsigned_in_user(short controller_index, bool activate)
+void __cdecl controller_activate_as_unsigned_in_user(int16 controller_index, bool activate)
 {
 	INVOKE(0x00A7CCD0, controller_activate_as_unsigned_in_user, controller_index, activate);
 }
 
-//.text:00A7CD30 ; void __cdecl controller_display_storage_device_selection(short)
+//.text:00A7CD30 ; void __cdecl controller_display_storage_device_selection(int16)
 
 c_controller_interface* __cdecl controller_get(e_controller_index controller_index)
 {
@@ -71,7 +71,7 @@ bool __cdecl controller_has_centered_crosshair(e_controller_index controller_ind
 	return controller_centered_crosshair;
 }
 
-e_controller_index __cdecl controller_index_from_user_index(long user_index)
+e_controller_index __cdecl controller_index_from_user_index(int32 user_index)
 {
 	return INVOKE(0x00A7CF00, controller_index_from_user_index, user_index);
 }
@@ -90,7 +90,7 @@ void __cdecl controllers_render()
 //.text:00A7D290 ; public: void c_controller_interface::dispose()
 //.text:00A7D2A0 ; private: void c_controller_interface::generate_random_display_name()
 //.text:00A7D360 ; // vidmaster related
-//.text:00A7D380 ; public: long c_controller_interface::get_button_down_frames(e_gamepad_button)
+//.text:00A7D380 ; public: int32 c_controller_interface::get_button_down_frames(e_gamepad_button)
 //.text:00A7D3E0 ; public: c_content_catalogue* c_controller_interface::get_content_catalogue()
 
 e_controller_index c_controller_interface::get_controller_index() const
@@ -104,10 +104,10 @@ wchar_t const* c_controller_interface::get_display_name() const
 }
 
 //.text:00A7D430 ; 
-//.text:00A7D440 ; public: uint32 c_controller_interface::get_hash_bits(long)
+//.text:00A7D440 ; public: uint32 c_controller_interface::get_hash_bits(int32)
 //.text:00A7D450 ; // vidmaster related
 
-short c_controller_interface::get_or_create_user_index()
+int16 c_controller_interface::get_or_create_user_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00A7D470, c_controller_interface, get_or_create_user_index);
 }
@@ -127,7 +127,7 @@ uint64 const c_controller_interface::get_player_xuid() const
 	return INVOKE_CLASS_MEMBER(0x00A7D540, c_controller_interface, get_player_xuid);
 }
 
-short c_controller_interface::get_user_index() const
+int16 c_controller_interface::get_user_index() const
 {
 	return m_user_index;
 }
@@ -185,13 +185,13 @@ void c_controller_interface::reset_user_index()
 //.text:00A7DA80 ; // vidmaster related
 //.text:00A7DA90 ; 
 //.text:00A7DAA0 ; // vidmaster related
-//.text:00A7DAB0 ; public: void c_controller_interface::set_user_index(short, bool)
+//.text:00A7DAB0 ; public: void c_controller_interface::set_user_index(int16, bool)
 
 void c_controller_interface::sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary)
 {
 	//INVOKE_CLASS_MEMBER(0x00A7DB00, c_controller_interface, sign_in_controller, player_identifier, is_temporary);
 
-	short user_index = get_or_create_user_index();
+	int16 user_index = get_or_create_user_index();
 	network_session_interface_add_local_user(user_index, player_identifier);
 	m_state_flags.set(_temporary_bit, is_temporary);
 	e_controller_index controller_index = get_controller_index();
@@ -224,7 +224,7 @@ void c_controller_interface::sign_out_controller(bool sign_out_for_sign_in_chang
 }
 
 //.text:00A7DCA0 ; public: bool c_controller_interface::storage_device_valid(void)
-//.text:00A7DCE0 ; public: bool c_flags_no_init<c_controller_interface::e_controller_state_flags, short, 12>::test(c_controller_interface::e_controller_state_flags) const
+//.text:00A7DCE0 ; public: bool c_flags_no_init<c_controller_interface::e_controller_state_flags, int16, 12>::test(c_controller_interface::e_controller_state_flags) const
 //.text:00A7DD00 ; public: void c_controller_interface::update(uint32)
 
 void c_controller_interface::update_controller_properties()
@@ -329,7 +329,7 @@ void c_controller_interface::update_controller_properties()
 		{
 			m_time_controller_signed_out = network_time_get();
 		}
-		else if (long(network_time_get() - m_time_controller_signed_out) > 1000)
+		else if (int32(network_time_get() - m_time_controller_signed_out) > 1000)
 		{
 			sign_out_controller(false);
 			m_state_flags.clear();

@@ -96,7 +96,7 @@ struct _equipment_definition
 	real32 phantom_volume_activation_time;
 
 	// -1 means unlimited charges, 0 means fire on creation
-	short charges;
+	int16 charges;
 
 	c_flags<e_equipment_flags, uint16, k_equipment_flags> flags;
 
@@ -190,7 +190,7 @@ static_assert(sizeof(s_equipment_type_super_shield) == 0x3C);
 
 struct s_equipment_type_multiplayer_powerup
 {
-	c_enum<e_multiplayer_powerup_flavor, long, _powerup_flavor_red, _powerup_flavor_yellow> flavor;
+	c_enum<e_multiplayer_powerup_flavor, int32, _powerup_flavor_red, _powerup_flavor_yellow> flavor;
 };
 static_assert(sizeof(s_equipment_type_multiplayer_powerup) == 0x4);
 
@@ -219,7 +219,7 @@ struct s_equipment_type_spawner
 
 	real32 spawn_velocity; // WU/sec
 
-	c_enum<e_spawn_type, short, _spawn_type_along_aiming_vector, k_spawn_type_count> type;
+	c_enum<e_spawn_type, int16, _spawn_type_along_aiming_vector, k_spawn_type_count> type;
 
 	// pad
 	uint8 LSJ[0x2];
@@ -260,7 +260,7 @@ struct s_equipment_type_motion_tracker_noise
 	real32 noise_radius;
 
 	// number of noise points that are generated
-	long noise_count;
+	int32 noise_count;
 
 	// radius in WU that the damage flash noise extends to.
 	real32 flash_radius;
@@ -334,11 +334,11 @@ static_assert(sizeof(s_equipment_type_concussive_blast) == 0x20);
 struct s_equipment_type_tank_mode
 {
 	c_string_id new_player_material;
-	long __unknown4;
+	int32 __unknown4;
 	real32 duration;
 	real32 damage_absorption_scale;
 	real32 __unknown10;
-	long __unknown14;
+	int32 __unknown14;
 	s_tag_reference active_hud;
 
 	void update_reference_names();
@@ -385,7 +385,7 @@ struct s_equipment_type_reactive_armor
 {
 	real32 duration;
 	real32 damage_reflection_ratio;
-	long __unknown8;
+	int32 __unknown8;
 	s_tag_reference activation_effect;
 	s_tag_reference __unknown1C;
 	s_tag_reference melee_impact_effect;
@@ -397,7 +397,7 @@ static_assert(sizeof(s_equipment_type_reactive_armor) == 0x4C);
 
 struct s_equipment_type_bomb_run
 {
-	long grenade_count;
+	int32 grenade_count;
 	real_bounds velocity_bounds;
 	real32 horizontal_randomness;
 	real32 vertical_randomness;
@@ -438,12 +438,12 @@ static_assert(sizeof(s_equipment_type_lightning_strike) == 0x14);
 
 struct s_equipment_type_scrambler
 {
-	long __unknown0;
+	int32 __unknown0;
 	s_tag_reference __unknown4;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
+	int32 __unknown14;
+	int32 __unknown18;
+	int32 __unknown1C;
+	int32 __unknown20;
 
 	void update_reference_names();
 };
@@ -451,12 +451,12 @@ static_assert(sizeof(s_equipment_type_scrambler) == 0x24);
 
 struct s_equipment_type_weapon_jammer
 {
-	long __unknown0;
+	int32 __unknown0;
 	s_tag_reference __unknown4;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
+	int32 __unknown14;
+	int32 __unknown18;
+	int32 __unknown1C;
+	int32 __unknown20;
 
 	void update_reference_names();
 };
@@ -466,7 +466,7 @@ struct s_equipment_type_ammo_pack_weapon
 {
 	c_string_id name;
 	c_typed_tag_reference<WEAPON_TAG, INVALID_TAG> weapon;
-	long clip_size;
+	int32 clip_size;
 
 	void update_reference_names();
 };
@@ -474,12 +474,12 @@ static_assert(sizeof(s_equipment_type_ammo_pack_weapon) == 0x18);
 
 struct s_equipment_type_ammo_pack
 {
-	long radius;
-	long clip_count;
-	long max_use_time;
-	long delay_between_clips;
-	long deployment_delay;
-	long value;
+	int32 radius;
+	int32 clip_count;
+	int32 max_use_time;
+	int32 delay_between_clips;
+	int32 deployment_delay;
+	int32 value;
 	c_typed_tag_block<s_equipment_type_ammo_pack_weapon> weapons;
 	s_tag_reference ammo_delivery_sound;
 
@@ -496,30 +496,30 @@ struct s_equipment_type_vision
 };
 static_assert(sizeof(s_equipment_type_vision) == 0x20);
 
-extern e_equipment_type equipment_definition_get_type(long definition_index, long expected_equipment_type_index);
-extern bool equipment_definition_has_type(long definition_index, e_equipment_type equipment_type);
-extern s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(long definition_index);
-extern s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(long definition_index);
-extern s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(long definition_index);
-extern s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(long definition_index);
-extern s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definition(long definition_index);
-extern s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(long definition_index);
-extern s_equipment_type_health_pack const* equipment_get_health_pack_definition(long definition_index);
-extern s_equipment_type_hologram const* equipment_get_hologram_definition(long definition_index);
-extern s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_mode_definition(long definition_index);
-extern s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mode_definition(long definition_index);
-extern s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_definition(long definition_index);
-extern s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(long definition_index);
-extern s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracker_noise_definition(long definition_index);
-extern s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_powerup_definition(long definition_index);
-extern s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_definition(long definition_index);
-extern s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_definition(long definition_index);
-extern s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(long definition_index);
-extern s_equipment_type_showme const* __cdecl equipment_get_showme_definition(long definition_index);
-extern s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(long definition_index);
-extern s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definition(long definition_index);
-extern s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(long definition_index);
-extern s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(long definition_index);
-extern s_equipment_type_vision const* __cdecl equipment_get_vision_definition(long definition_index);
-extern s_equipment_type_weapon_jammer const* __cdecl equipment_get_weapon_jammer_definition(long definition_index);
+extern e_equipment_type equipment_definition_get_type(int32 definition_index, int32 expected_equipment_type_index);
+extern bool equipment_definition_has_type(int32 definition_index, e_equipment_type equipment_type);
+extern s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(int32 definition_index);
+extern s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(int32 definition_index);
+extern s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(int32 definition_index);
+extern s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(int32 definition_index);
+extern s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definition(int32 definition_index);
+extern s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(int32 definition_index);
+extern s_equipment_type_health_pack const* equipment_get_health_pack_definition(int32 definition_index);
+extern s_equipment_type_hologram const* equipment_get_hologram_definition(int32 definition_index);
+extern s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index);
+extern s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mode_definition(int32 definition_index);
+extern s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_definition(int32 definition_index);
+extern s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(int32 definition_index);
+extern s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracker_noise_definition(int32 definition_index);
+extern s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_powerup_definition(int32 definition_index);
+extern s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_definition(int32 definition_index);
+extern s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_definition(int32 definition_index);
+extern s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(int32 definition_index);
+extern s_equipment_type_showme const* __cdecl equipment_get_showme_definition(int32 definition_index);
+extern s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(int32 definition_index);
+extern s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definition(int32 definition_index);
+extern s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(int32 definition_index);
+extern s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(int32 definition_index);
+extern s_equipment_type_vision const* __cdecl equipment_get_vision_definition(int32 definition_index);
+extern s_equipment_type_weapon_jammer const* __cdecl equipment_get_weapon_jammer_definition(int32 definition_index);
 

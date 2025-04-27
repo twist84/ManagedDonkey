@@ -8,7 +8,7 @@ bool cluster_reference_valid(s_cluster_reference const* cluster_reference)
     return cluster_reference->bsp_index <= 15 && TEST_BIT(g_active_structure_bsp_mask, cluster_reference->bsp_index);
 }
 
-s_structure_cluster_cubemap_info* structure_cluster_try_and_get_cubemap_info(s_cluster_reference cluster_reference, long cubemap_index)
+s_structure_cluster_cubemap_info* structure_cluster_try_and_get_cubemap_info(s_cluster_reference cluster_reference, int32 cubemap_index)
 {
     if (cluster_reference_valid(&cluster_reference) && cubemap_index >= 0)
     {

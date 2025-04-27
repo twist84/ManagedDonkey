@@ -6,7 +6,7 @@
 struct s_network_session_parameter_map_variant
 {
 	bool valid;
-	long : 32; // padding
+	int32 : 32; // padding
 
 	c_map_variant map_variant;
 };

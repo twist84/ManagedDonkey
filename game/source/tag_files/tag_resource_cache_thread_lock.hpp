@@ -26,7 +26,7 @@ struct c_tag_resource_cache_thread_lock_lock_freeish
 	{
 		c_tag_resource_cache_dpc_event m_dpc_event;
 		c_interlocked_long m_reference_count;
-		long : 32;
+		int32 : 32;
 	};
 	static_assert(sizeof(c_synchronized_access_cache) == 0x38);
 	static_assert(0x28 == OFFSETOF(c_synchronized_access_cache, m_dpc_event));
@@ -36,7 +36,7 @@ struct c_tag_resource_cache_thread_lock_lock_freeish
 	t_event_queue<s_access_cache_available_event, 3> m_available_cache_list;
 	t_event_queue<s_access_cache_available_event, 3> m_released_cache_list;
 	c_static_array<c_synchronized_access_cache, 3> m_access_cache_storage; // c_tag_resource_cache_thread_lock_lock_freeish::c_synchronized_access_cache
-	c_reference_count<long> m_published_cache_count;
+	c_reference_count<int32> m_published_cache_count;
 	c_read_write_lock m_read_write_lock;
 	c_interlocked_int64 m_dpc_event_plus_flag;
 	bool m_blocking_update;

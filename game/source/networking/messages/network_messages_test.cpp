@@ -5,12 +5,12 @@
 
 //HOOK_DECLARE(0x004E1000, network_message_types_register_test);
 
-bool __cdecl c_network_message_test::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_test::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004E0F20, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_test::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_test::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004E0F60, encode, packet, message_storage_size, message_storage);
 }

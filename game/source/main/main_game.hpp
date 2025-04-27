@@ -6,16 +6,16 @@
 
 struct s_main_game_globals
 {
-	long map_memory_configuration;
-	c_enum<e_game_loaded_status, long, _game_loaded_status_none, k_game_loaded_status_count> game_loaded_status;
+	int32 map_memory_configuration;
+	c_enum<e_game_loaded_status, int32, _game_loaded_status_none, k_game_loaded_status_count> game_loaded_status;
 	char game_loaded_scenario_path[260];
 
 	bool reset_in_progress;
 	bool map_advance_pending;
 
 	// ODST, game_progression_levels_block: "type" and block index
-	c_enum<e_game_progression_level, long, _game_progression_level_none, k_game_progression_level_count> gp_level_advance_type;
-	long gp_level_block_index;
+	c_enum<e_game_progression_level, int32, _game_progression_level_none, k_game_progression_level_count> gp_level_advance_type;
+	int32 gp_level_block_index;
 
 	bool map_change_pending;
 	bool map_change_pending_unload;
@@ -26,7 +26,7 @@ struct s_main_game_globals
 	// missing in release builds
 	inline static bool load_core_on_game_launch = false;
 	inline static c_static_string<256> core_name = "";
-	inline static long launch_player_count = 1;
+	inline static int32 launch_player_count = 1;
 
 	game_options launch_game_options;
 };
@@ -74,10 +74,10 @@ extern bool __cdecl main_game_loaded_map();
 extern char const* __cdecl main_game_loaded_map_name();
 extern bool __cdecl main_game_loaded_pregame();
 extern void __cdecl main_game_notify_language_change(e_language language);
-extern void __cdecl main_game_progression_request_level_advance_spoke(long level_index);
+extern void __cdecl main_game_progression_request_level_advance_spoke(int32 level_index);
 extern void __cdecl main_game_progression_request_level_advance();
-extern void __cdecl main_game_progression_request_level_advance_hub(long level_index);
-extern void __cdecl main_game_progression_request_level_advance_normal(long level_index);
+extern void __cdecl main_game_progression_request_level_advance_hub(int32 level_index);
+extern void __cdecl main_game_progression_request_level_advance_normal(int32 level_index);
 extern bool __cdecl main_game_reset_in_progress();
 extern void __cdecl main_game_reset_map(bool reset_map_random);
 extern bool __cdecl main_game_start(game_options const* options);

@@ -77,7 +77,7 @@ REFERENCE_DECLARE(0x0189C05C, c_simulation_event_definition, g_simulation_device
 
 //#define ENABLE_ADDITION_ENTITY_TYPES
 
-void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count)
+void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, int32* entity_type_count, int32* event_type_count)
 {
 	//INVOKE(0x004715D0, simulation_game_register_types, type_collection, entity_type_count, event_type_count);
 

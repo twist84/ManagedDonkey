@@ -9,8 +9,8 @@ struct c_controller_input_message;
 
 struct s_start_menu_breadcrumb
 {
-	long screen_id;
-	long element_handle;
+	int32 screen_id;
+	int32 element_handle;
 };
 static_assert(sizeof(s_start_menu_breadcrumb) == 0x8);
 
@@ -18,15 +18,15 @@ struct c_start_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:
-	c_start_menu_screen_widget(long name) :
+	c_start_menu_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00ADFE60, c_start_menu_screen_widget*, __thiscall, c_start_menu_screen_widget*, long)(this, name);
+		DECLFUNC(0x00ADFE60, c_start_menu_screen_widget*, __thiscall, c_start_menu_screen_widget*, int32)(this, name);
 	}
 
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	static bool __cdecl handle_global_start_button_press_(c_controller_input_message* message);
-	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, long breadcrumb_count);
+	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count);
 
 protected:
 	s_player_identifier m_owner_player_id;
@@ -35,7 +35,7 @@ protected:
 	s_service_record_identity m_service_record_identity;
 	real32 m_old_film_playback_speed;
 	c_static_stack<s_start_menu_breadcrumb, 8> m_breadcrumbs;
-	long m_requested_pane;
+	int32 m_requested_pane;
 	bool m_breadcrumb_to_load_valid;
 	s_start_menu_breadcrumb m_breadcrumb_to_load;
 	bool m_is_rooted;

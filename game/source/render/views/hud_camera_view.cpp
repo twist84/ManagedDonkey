@@ -18,7 +18,7 @@ void __cdecl render_hud_camera_dispose_from_old_map()
 
 //.text:00A2D8A0 ; 
 //.text:00A2D8B0 ; 
-//.text:00A2D8F0 ; void __cdecl render_hud_camera_get_projection(long, render_projection*)
+//.text:00A2D8F0 ; void __cdecl render_hud_camera_get_projection(int32, render_projection*)
 //.text:00A2DA10 ; 
 //.text:00A2DAE0 ; 
 

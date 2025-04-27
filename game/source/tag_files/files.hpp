@@ -30,7 +30,7 @@ struct file_reference_info
 {
 	tag signature;
 	uint16 flags;
-	short location;
+	int16 location;
 	c_static_string<k_tag_long_string_length> path;
 };
 static_assert(sizeof(file_reference_info) == 0x108);
@@ -38,7 +38,7 @@ static_assert(sizeof(file_reference_info) == 0x108);
 struct s_file_reference : file_reference_info
 {
 	s_file_handle handle;
-	long position;
+	int32 position;
 };
 static_assert(sizeof(s_file_reference) == 0x110);
 
@@ -52,22 +52,22 @@ extern void* __cdecl file_read_into_memory(s_file_reference* reference, uint32* 
 extern void* __cdecl file_read_into_memory_with_null_padding(s_file_reference* reference, uint32* out_size, uint32 pad_size);
 extern s_file_reference* __cdecl file_reference_add_directory(s_file_reference* reference, char const* directory);
 extern s_file_reference* __cdecl file_reference_add_directory_wide(s_file_reference* reference, wchar_t const* directory);
-extern s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location);
+extern s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, int16 location);
 extern s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other);
 extern s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool a3);
 extern s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference* reference, wchar_t const* path, bool a3);
-extern wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, long full_path_length);
-extern char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, long full_path_length);
-extern short __cdecl file_reference_get_location(s_file_reference const* reference);
-extern char* __cdecl file_reference_get_name(s_file_reference const* reference, uint32 flags, char* out_name, long name_length);
-extern wchar_t* __cdecl file_reference_get_name_wide(s_file_reference const* reference, uint32 flags, wchar_t* out_name, long name_length);
+extern wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, int32 full_path_length);
+extern char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, int32 full_path_length);
+extern int16 __cdecl file_reference_get_location(s_file_reference const* reference);
+extern char* __cdecl file_reference_get_name(s_file_reference const* reference, uint32 flags, char* out_name, int32 name_length);
+extern wchar_t* __cdecl file_reference_get_name_wide(s_file_reference const* reference, uint32 flags, wchar_t* out_name, int32 name_length);
 extern char const* __cdecl file_reference_get_path_for_debugging(s_file_reference const* reference);
 extern s_file_reference* __cdecl file_reference_remove_directory(s_file_reference* reference);
 extern s_file_reference* __cdecl file_reference_remove_name(s_file_reference* reference);
 extern s_file_reference* __cdecl file_reference_set_name(s_file_reference* reference, char const* name);
 extern s_file_reference* __cdecl file_reference_set_name_wide(s_file_reference* reference, wchar_t const* name);
 extern bool __cdecl file_references_equal(s_file_reference const* reference_a, s_file_reference const* reference_b);
-extern void __cdecl file_trim(s_file_reference* reference, long size);
+extern void __cdecl file_trim(s_file_reference* reference, int32 size);
 extern void __cdecl file_vprintf(s_file_reference* reference, char const* format, char* list);
-extern long __cdecl find_files(uint32 flags, s_file_reference const* directory, long maximum_count, s_file_reference* references);
+extern int32 __cdecl find_files(uint32 flags, s_file_reference const* directory, int32 maximum_count, s_file_reference* references);
 

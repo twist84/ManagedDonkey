@@ -50,7 +50,7 @@ HOOK_DECLARE(0x005A9280, task_now_finished);
 //HOOK_DECLARE_CALL(0x00B0BAA0, overlapped_task_start_internal); // c_virtual_keyboard_task, c_gui_screen_game_options::begin_save_as_current_edited_variant
 //HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_string_verify_task, c_gui_screen_game_options::update_save_as_new_operation
 
-long const k_maximum_task_slots = 64;
+int32 const k_maximum_task_slots = 64;
 
 struct s_task_slot
 {
@@ -76,7 +76,7 @@ struct s_overlapped_globals
 	bool pause;
 	c_static_string<64> pause_context;
 
-	long description_count;
+	int32 description_count;
 	c_static_array<c_static_string<64>, k_maximum_task_slots> descriptions;
 };
 //static_assert(sizeof(s_overlapped_globals) == 0x30C);
@@ -105,7 +105,7 @@ bool c_overlapped_task::busy() const
 		|| m_task_state == _overlapped_task_state_completing;
 }
 
-c_overlapped_task* c_overlapped_task::constructor(char const* file, long line)
+c_overlapped_task* c_overlapped_task::constructor(char const* file, int32 line)
 {
 	//INVOKE_CLASS_MEMBER(0x005A8C80, c_overlapped_task, constructor, file, line);
 
@@ -133,7 +133,7 @@ s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
 	ASSERT(task);
 
 	s_task_slot* task_slot = NULL;
-	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (g_overlapped_globals.task_slots[task_slot_index].task == task)
 			task_slot = &g_overlapped_globals.task_slots[task_slot_index];
@@ -182,7 +182,7 @@ void __cdecl overlapped_render()
 
 		draw_string.draw(NULL, "---------- xoverlapped tasks ----------\r\n");
 
-		for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+		for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 		{
 			char const* status = NULL;
 			char string[256]{};
@@ -256,7 +256,7 @@ bool __cdecl overlapped_task_is_running(c_overlapped_task const* task)
 	return false;
 }
 
-bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, long line)
+bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, int32 line)
 {
 	//return INVOKE(0x005A8F40, overlapped_task_start_internal, task, file, line);
 
@@ -269,7 +269,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 	c_async_xoverlapped_scope_lock scope_lock;
 
 	s_task_slot* first_free_task_slot = NULL;
-	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (!g_overlapped_globals.task_slots[task_slot_index].task)
 		{
@@ -286,7 +286,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const*
 		bool context_matches_description = false;
 		if (strlen(task->get_context_string()) < k_maximum_task_slots)
 		{
-			for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+			for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 			{
 				if (g_overlapped_globals.descriptions[description_index].is_equal(task->get_context_string()))
 				{
@@ -345,7 +345,7 @@ void __cdecl overlapped_task_wait_for_all_tasks_to_finish()
 {
 	//INVOKE(0x005A8FB0, overlapped_task_wait_for_all_tasks_to_finish);
 
-	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		c_async_xoverlapped_scope_lock scope_lock;
 		if (g_overlapped_globals.task_slots[task_slot_index].task)
@@ -360,7 +360,7 @@ void __cdecl overlapped_update()
 {
 	//INVOKE(0x005A9050, overlapped_update);
 
-	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		{
 			c_async_xoverlapped_scope_lock scope_lock;
@@ -385,7 +385,7 @@ void __cdecl overlapped_update()
 
 			if (task_slot->task && task_slot->task->get_task_state() == _overlapped_task_state_starting)
 			{
-				long pending_task_count = 0;
+				int32 pending_task_count = 0;
 			
 				for (s_task_slot& pending_task_slot : g_overlapped_globals.task_slots)
 				{
@@ -588,7 +588,7 @@ char const* c_overlapped_task::get_file() const
 	return m_file;
 }
 
-long c_overlapped_task::get_line() const
+int32 c_overlapped_task::get_line() const
 {
 	return m_line;
 }
@@ -598,7 +598,7 @@ void c_overlapped_task::set_file(char const* file)
 	m_file = file;
 }
 
-void c_overlapped_task::set_line(long line)
+void c_overlapped_task::set_line(int32 line)
 {
 	m_line = line;
 }
@@ -607,8 +607,8 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 {
 	c_async_xoverlapped_scope_lock scope_lock;
 
-	long task_index = 0;
-	for (long task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
+	int32 task_index = 0;
+	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (g_overlapped_globals.task_slots[task_slot_index].task)
 		{
@@ -660,7 +660,7 @@ void overlapped_task_display_task_descriptions()
 	event(_event_warning, "xoverlapped: dumping task descriptions [count %d]",
 		g_overlapped_globals.description_count);
 
-	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 	{
 		event(_event_warning, "xoverlapped: %s",
 			g_overlapped_globals.descriptions[description_index].get_string());
@@ -672,7 +672,7 @@ void overlapped_task_inject_error(char const* context, bool inject_error)
 	c_async_xoverlapped_scope_lock scope_lock;
 
 	bool context_matches_description = false;
-	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 	{
 		if (g_overlapped_globals.descriptions[description_index].is_equal(context))
 		{
@@ -703,7 +703,7 @@ void overlapped_task_pause(char const* context, bool pause)
 	c_async_xoverlapped_scope_lock scope_lock;
 
 	bool context_matches_description = false;
-	for (long description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+	for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
 	{
 		if (g_overlapped_globals.descriptions[description_index].is_equal(context))
 		{

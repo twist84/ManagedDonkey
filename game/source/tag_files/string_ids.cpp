@@ -8,7 +8,7 @@
 #include <string>
 
 #define ASSERT_STRING_ID(NAMESPACE, STRING) string_id_get_string_const(STRING_ID(NAMESPACE, STRING)); ASSERT(csstrcmp(NAMESPACE##_##STRING, #STRING) == 0)
-#define ASSERT_STRING_ID_TAGS(STRING, EXPECTED_STRING) { long id_##STRING = string_id_retrieve(EXPECTED_STRING); if (id_##STRING != _string_id_invalid) { tags_##STRING = string_id_get_string_const(id_##STRING); ASSERT(csstrcmp(tags_##STRING, EXPECTED_STRING) == 0); } }
+#define ASSERT_STRING_ID_TAGS(STRING, EXPECTED_STRING) { int32 id_##STRING = string_id_retrieve(EXPECTED_STRING); if (id_##STRING != _string_id_invalid) { tags_##STRING = string_id_get_string_const(id_##STRING); ASSERT(csstrcmp(tags_##STRING, EXPECTED_STRING) == 0); } }
 
 // max string characters 128, string_id_retrieve
 
@@ -70,10 +70,10 @@ void __cdecl string_id_convert_static_string(c_static_string<128>* static_string
 	string_replace_character(static_string->get_buffer(), '-', '_');
 }
 
-//char* __cdecl string_id_get_string(long string_id, char* string, long string_size)
+//char* __cdecl string_id_get_string(int32 string_id, char* string, int32 string_size)
 //{
-//	long storage_index = NONE;
-//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<long const*>(string_id), &storage_index);
+//	int32 storage_index = NONE;
+//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<int32 const*>(string_id), &storage_index);
 //	*string = 0;
 //	if (storage_index != NONE)
 //	{
@@ -84,14 +84,14 @@ void __cdecl string_id_convert_static_string(c_static_string<128>* static_string
 //	return string;
 //}
 
-long __cdecl string_id_retrieve(char const* string)
+int32 __cdecl string_id_retrieve(char const* string)
 {
 	c_static_string<128> string_buffer = string;
 	string_id_convert_static_string(&string_buffer);
 
 	ASSERT(k_constant_string_id_table_entries <= g_string_id_globals.string_id_count);
 
-	for (long string_id_index = 0; string_id_index < g_string_id_globals.string_id_count; string_id_index++)
+	for (int32 string_id_index = 0; string_id_index < g_string_id_globals.string_id_count; string_id_index++)
 	{
 		if (string_id_index < k_constant_string_id_table_entries)
 		{
@@ -110,10 +110,10 @@ long __cdecl string_id_retrieve(char const* string)
 	return _string_id_invalid;
 }
 
-char const* __cdecl string_id_get_string_const(long string_id)
+char const* __cdecl string_id_get_string_const(int32 string_id)
 {
-	long string_namespace = STRING_ID_NAMESPACE_FROM_STRING_ID(string_id);
-	long string_index = STRING_ID_INDEX_FROM_STRING_ID(string_id);
+	int32 string_namespace = STRING_ID_NAMESPACE_FROM_STRING_ID(string_id);
+	int32 string_index = STRING_ID_INDEX_FROM_STRING_ID(string_id);
 
 	if (string_namespace == _string_id_namespace_global && !IN_RANGE_INCLUSIVE(string_index, k_first_string_offset, k_last_string_offset))
 		return g_string_id_globals.ascii_strings[string_index];
@@ -142,17 +142,17 @@ void __cdecl string_id_initialize()
 	FILE* strings_file = NULL;
 	if (fopen_s(&strings_file, k_cache_strings_file, "rb") == 0 && strings_file != NULL)
 	{
-		fread_s(&g_string_id_globals.string_id_count, sizeof(long), sizeof(long), 1, strings_file);
+		fread_s(&g_string_id_globals.string_id_count, sizeof(int32), sizeof(int32), 1, strings_file);
 	
-		long string_buffer_size = 0;
-		fread_s(&string_buffer_size, sizeof(long), sizeof(long), 1, strings_file);
+		int32 string_buffer_size = 0;
+		fread_s(&string_buffer_size, sizeof(int32), sizeof(int32), 1, strings_file);
 
 		g_string_id_globals.ascii_storage = (char*)malloc(string_buffer_size);
 		ASSERT(g_string_id_globals.ascii_storage != NULL);
 		csmemset(g_string_id_globals.ascii_storage, 0, string_buffer_size);
 
-		long* string_offsets = (long*)g_normal_allocation->allocate(sizeof(long) * g_string_id_globals.string_id_count, "string id offsetss");
-		fread_s(string_offsets, sizeof(long) * g_string_id_globals.string_id_count, sizeof(long), g_string_id_globals.string_id_count, strings_file);
+		int32* string_offsets = (int32*)g_normal_allocation->allocate(sizeof(int32) * g_string_id_globals.string_id_count, "string id offsetss");
+		fread_s(string_offsets, sizeof(int32) * g_string_id_globals.string_id_count, sizeof(int32), g_string_id_globals.string_id_count, strings_file);
 	
 		fread_s(g_string_id_globals.ascii_storage, string_buffer_size, sizeof(char), string_buffer_size, strings_file);
 
@@ -160,7 +160,7 @@ void __cdecl string_id_initialize()
 		ASSERT(g_string_id_globals.ascii_strings != NULL);
 		csmemset(g_string_id_globals.ascii_strings, 0, sizeof(char const*) * g_string_id_globals.string_id_count);
 
-		for (long string_id_index = 0; string_id_index < k_constant_string_id_table_entries; string_id_index++)
+		for (int32 string_id_index = 0; string_id_index < k_constant_string_id_table_entries; string_id_index++)
 		{
 			char const* constant_string = g_constant_string_id_table[string_id_index].string;
 			char const* string = g_string_id_globals.ascii_storage + string_offsets[string_id_index];
@@ -169,7 +169,7 @@ void __cdecl string_id_initialize()
 			g_string_id_globals.ascii_strings[string_id_index] = string;
 		}
 
-		for (long string_id_index = k_constant_string_id_table_entries; string_id_index < g_string_id_globals.string_id_count; string_id_index++)
+		for (int32 string_id_index = k_constant_string_id_table_entries; string_id_index < g_string_id_globals.string_id_count; string_id_index++)
 		{
 			if (VALID_INDEX(string_offsets[string_id_index], string_buffer_size))
 			{

@@ -28,11 +28,11 @@ public:
 	bool get_opaque_hill() const;
 	void set_opaque_hill(bool opaque_hill);
 
-	short get_score_to_win() const;
-	void set_score_to_win(short score_to_win);
+	int16 get_score_to_win() const;
+	void set_score_to_win(int16 score_to_win);
 
 	e_king_moving_hill_settings get_moving_hill() const;
-	short get_hill_move_in_seconds() const;
+	int16 get_hill_move_in_seconds() const;
 	void set_moving_hill(e_king_moving_hill_settings moving_hill);
 
 	e_king_moving_hill_order_settings get_moving_hill_order() const;
@@ -56,14 +56,14 @@ public:
 
 protected:
 	c_flags<e_king_flags_settings, uint32, k_king_flags_settings> m_variant_flags;
-	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
-	c_enum<long, short, 0, 1000> m_score_unknown;         // default: 90, halo online specific
+	c_enum<int32, int16, 0, 1000> m_score_to_win;          // default: 100
+	c_enum<int32, int16, 0, 1000> m_score_unknown;         // default: 90, halo online specific
 	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
 	c_enum<e_king_moving_hill_order_settings, char, _king_moving_hill_order_settings_random, k_king_moving_hill_order_settings> m_moving_hill_order;
-	c_enum<long, char, -10, 10> m_uncontested_hill_bonus; // default: 0
-	c_enum<long, char, -10, 10> m_kill_points;            // default: 0
-	c_enum<long, char, -10, 10> m_inside_hill_points;     // default: 0
-	c_enum<long, char, -10, 10> m_outside_hill_points;    // default: 0
+	c_enum<int32, char, -10, 10> m_uncontested_hill_bonus; // default: 0
+	c_enum<int32, char, -10, 10> m_kill_points;            // default: 0
+	c_enum<int32, char, -10, 10> m_inside_hill_points;     // default: 0
+	c_enum<int32, char, -10, 10> m_outside_hill_points;    // default: 0
 	c_player_traits m_inside_hill_traits;
 
 	uint8 m_pad1[6];
@@ -80,12 +80,12 @@ public:
 struct s_king_globals
 {
 	c_area_set<c_area, 10> the_hills;
-	c_static_array<long, 8> team_ticks_in_hill;
-	c_static_array<long, 8> team_ticks_outside_hill;
-	long hill_timer;
+	c_static_array<int32, 8> team_ticks_in_hill;
+	c_static_array<int32, 8> team_ticks_outside_hill;
+	int32 hill_timer;
 	uint16 players_in_hill;
 	uint16 pad;
-	c_static_array<long, 16> hill_kills;
+	c_static_array<int32, 16> hill_kills;
 };
 static_assert(sizeof(s_king_globals) == 0x480);
 

@@ -28,7 +28,7 @@ real_point3d global_ai_debug_drawstack_next_position;
 real32 global_ai_debug_drawstack_height;
 real_point3d global_ai_debug_drawstack_last_position;
 
-short global_ai_debug_string_position = 0;
+int16 global_ai_debug_string_position = 0;
 
 //path_debug_storage* actor_path_debug_array;
 //actor_debug_info* actor_debug_array;
@@ -39,8 +39,8 @@ bool g_ai_render_firing_positions_all = false;
 bool g_ai_render_lineoffire = false;
 bool g_ai_render_lineofsight = false;
 bool g_ai_render_ballistic_lineoffire = false;
-long g_ai_debug_selected_actor_unit_index = NONE;
-long g_ai_debug_selected_actor_index = NONE;
+int32 g_ai_debug_selected_actor_unit_index = NONE;
+int32 g_ai_debug_selected_actor_index = NONE;
 bool g_ai_debug_path = false;
 bool g_ai_render_paths_failed = false;
 bool g_ai_render_aiming_validity = false;
@@ -60,10 +60,10 @@ bool g_ai_render_behavior_stack_all = false;
 bool g_ai_render_character_names = false;
 bool g_ai_render_stimuli = false;
 bool g_ai_render_sectors = false;
-long g_ai_render_sectors_range_max = NONE;
-long g_ai_render_sectors_range_min = NONE;
+int32 g_ai_render_sectors_range_max = NONE;
+int32 g_ai_render_sectors_range_min = NONE;
 bool g_ai_render_sector_geometry_errors = false;
-long g_ai_render_link_specific = 0;
+int32 g_ai_render_link_specific = 0;
 bool g_ai_render_links = false;
 bool g_ai_render_user_hints = false;
 bool g_ai_render_hints = false;
@@ -342,7 +342,7 @@ void __cdecl ai_debug_render()
 
 void ai_debug_drawstack_setup(real_point3d const* position)
 {
-	long user_index = player_mapping_first_active_output_user();
+	int32 user_index = player_mapping_first_active_output_user();
 	s_observer_result const* camera = observer_try_and_get_camera(user_index);
 
 	global_ai_debug_drawstack_last_position = *position;
@@ -376,7 +376,7 @@ real_point3d* ai_debug_drawstack_offset(real32 offset)
 	return &global_ai_debug_drawstack_last_position;
 }
 
-void ai_debug_string(char const* string, short tab_stop_count, short const* tab_stops, real_argb_color const* color)
+void ai_debug_string(char const* string, int16 tab_stop_count, int16 const* tab_stops, real_argb_color const* color)
 {
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
@@ -402,7 +402,7 @@ void ai_debug_string(char const* string, short tab_stop_count, short const* tab_
 	global_ai_debug_string_position -= cursor.y - bounds.y0;
 }
 
-void render_command_scripts_helper(actor_datum* actor, long command_script_index)
+void render_command_scripts_helper(actor_datum* actor, int32 command_script_index)
 {
 	// $TODO: implement me
 
@@ -424,8 +424,8 @@ void render_command_scripts_helper(actor_datum* actor, long command_script_index
 	//	if (thread->script_index != NONE)
 	//		script = &global_scenario_get()->scripts[thread->script_index];
 	//
-	//	short atom_channel_start = actor->meta.swarm ? 1 : 3;
-	//	for (short atom_channel = atom_channel_start - 1; atom_channel >= 0; atom_channel--)
+	//	int16 atom_channel_start = actor->meta.swarm ? 1 : 3;
+	//	for (int16 atom_channel = atom_channel_start - 1; atom_channel >= 0; atom_channel--)
 	//	{
 	//		if (command_script_index == actor->commands.last_script_index)
 	//			color = global_real_argb_white;
@@ -496,7 +496,7 @@ void ai_debug_render_behavior_stacks_all()
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
-		for (short layer_index = 0; layer_index <= actor->state.leaf_layer; layer_index++)
+		for (int16 layer_index = 0; layer_index <= actor->state.leaf_layer; layer_index++)
 			render_debug_string_at_point(ai_debug_drawstack(), behavior_names[actor_behavior_index_get(actor, layer_index)], global_real_argb_green);
 	}
 }
@@ -517,7 +517,7 @@ void ai_debug_render_character_names()
 
 void ai_debug_render_sectors()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
+	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -526,8 +526,8 @@ void ai_debug_render_sectors()
 		if (!pf_data)
 			continue;
 
-		long sectors_range_min = 0;
-		long sectors_range_max = pf_data->sectors.count;
+		int32 sectors_range_min = 0;
+		int32 sectors_range_max = pf_data->sectors.count;
 
 		if (g_ai_render_sectors_range_min != NONE)
 			sectors_range_min = g_ai_render_sectors_range_min;
@@ -535,7 +535,7 @@ void ai_debug_render_sectors()
 		if (g_ai_render_sectors_range_max != NONE)
 			sectors_range_max = g_ai_render_sectors_range_max;
 
-		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
+		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			sector_link& link = pf_data->links[link_index];
 
@@ -593,7 +593,7 @@ void ai_render_object_properties()
 
 void ai_debug_render_intersection_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
+	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -602,7 +602,7 @@ void ai_debug_render_intersection_links()
 		if (!pf_data)
 			continue;
 
-		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
+		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			if (pf_data->links[link_index].link_flags.test(_sector_link_section_link_bit))
 				sector_link_render_debug(link_index, pf_data, NULL, false);
@@ -612,7 +612,7 @@ void ai_debug_render_intersection_links()
 
 void ai_debug_render_threshold_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
+	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -621,7 +621,7 @@ void ai_debug_render_threshold_links()
 		if (!pf_data)
 			continue;
 
-		for (long link_index = 0; link_index < pf_data->links.count; link_index++)
+		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
 		{
 			if (pf_data->links[link_index].link_flags.test(_sector_link_threshold_bit))
 				sector_link_render_debug(link_index, pf_data, global_real_argb_orange, true);
@@ -639,7 +639,7 @@ void ai_debug_render_squads()
 		s_squad_definition* squad_def = &scenario->squads[DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_iter.squad_index)];
 		real_point3d position = *global_origin3d;
 
-		short scale = 0;
+		int16 scale = 0;
 		{
 			squad_actor_iterator squad_actor_iter{};
 			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
@@ -707,8 +707,8 @@ void ai_debug_render_vehicle_reservations()
 	while (vehicle_iter.next())
 	{
 		unit_seat_source sources[64]{};
-		short source_count = unit_get_all_seats(vehicle_iter.get_index(), sources, NUMBEROF(sources), false);
-		for (short source_index = 0; source_index < source_count; source_index++)
+		int16 source_count = unit_get_all_seats(vehicle_iter.get_index(), sources, NUMBEROF(sources), false);
+		for (int16 source_index = 0; source_index < source_count; source_index++)
 		{
 			unit_seat_source& source = sources[source_index];
 			if (!source.flags->test(_unit_seat_allow_ai_noncombatants_bit))
@@ -725,10 +725,10 @@ void ai_debug_render_vehicle_reservations()
 				}
 				else
 				{
-					for (short i = 0; i < 2; i++)
+					for (int16 i = 0; i < 2; i++)
 					{
 						real_argb_color const* color = global_real_argb_white;
-						long actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? _campaign_team_player : _campaign_team_flood);
+						int32 actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? _campaign_team_player : _campaign_team_flood);
 						seat_position.z += 0.1f;
 
 						if (actor_index == NONE)
@@ -760,7 +760,7 @@ void ai_debug_render_vehicle_reservations()
 void ai_debug_tracking_data()
 {
 	char string[50]{};
-	short total_tracking_index = 0;
+	int16 total_tracking_index = 0;
 
 	actor_iterator actor_iter{};
 	actor_iterator_new(&actor_iter, true);
@@ -770,7 +770,7 @@ void ai_debug_tracking_data()
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
-		short tracking_index = 0;
+		int16 tracking_index = 0;
 		actor_prop_ref_iterator actor_prop_ref_iter{};
 		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.index);
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))

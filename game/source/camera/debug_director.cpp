@@ -34,10 +34,10 @@ void __thiscall c_debug_director::update_(real32 dt)
 		{
 			//g_director_camera_speed_scale = int_pin(powf(1.3f, (real32)state->wheel_ticks) * g_director_camera_speed_scale, 0.0009765625f, 256.0f);
 
-			real32 wheel_value = real32(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
+			real32 wheel_value = real32(int16(state->wheel_delta) / input_globals.mouse_wheel_delta);
 			g_director_camera_speed_scale = int_pin(powf(1.3f, wheel_value) * g_director_camera_speed_scale, 0.0009765625f, 256.0f);
 
-			//real32 wheel_value = real32(short(state->wheel_delta) / input_globals.mouse_wheel_delta);
+			//real32 wheel_value = real32(int16(state->wheel_delta) / input_globals.mouse_wheel_delta);
 			//if (wheel_value < 0.0f)
 			//	g_director_camera_speed_scale = int_pin(g_director_camera_speed_scale / 1.03f, 0.0009765625f, 256.0f);
 			//if (wheel_value > 0.0f)
@@ -60,7 +60,7 @@ void __thiscall c_debug_director::update_(real32 dt)
 	INVOKE_CLASS_MEMBER(0x00593540, c_director, update, dt);
 }
 
-void c_debug_director::constructor(long user_index)
+void c_debug_director::constructor(int32 user_index)
 {
 	changed_camera();
 	INVOKE_CLASS_MEMBER(0x007260D0, c_debug_director, constructor, user_index);

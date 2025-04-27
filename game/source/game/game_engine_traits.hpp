@@ -90,22 +90,22 @@ public:
 	void set_round_reset_map(bool round_reset_map);
 
 	uint8 get_round_time_limit_minutes() const;
-	void set_round_time_limit_minutes(long round_time_limit_minutes);
+	void set_round_time_limit_minutes(int32 round_time_limit_minutes);
 
-	long get_round_time_limit_seconds() const;
-	void set_round_time_limit_seconds(long round_time_limit_seconds);
+	int32 get_round_time_limit_seconds() const;
+	void set_round_time_limit_seconds(int32 round_time_limit_seconds);
 
 	uint8 get_round_limit() const;
-	void set_round_limit(long round_limit);
+	void set_round_limit(int32 round_limit);
 
 	uint8 get_early_victory_win_count() const;
-	void set_early_victory_win_count(long early_victory_win_count);
+	void set_early_victory_win_count(int32 early_victory_win_count);
 
 protected:
 	c_flags<e_game_engine_miscellaneous_option_flags, uint8, k_game_engine_miscellaneous_option_flags> m_flags;
-	c_enum<long, uint8, 8, 60> m_round_time_limit_minutes;
-	c_enum<long, uint8, 1, 15> m_round_limit;
-	c_enum<long, uint8, 2, 15> m_early_victory_win_count;
+	c_enum<int32, uint8, 8, 60> m_round_time_limit_minutes;
+	c_enum<int32, uint8, 1, 15> m_round_limit;
+	c_enum<int32, uint8, 2, 15> m_early_victory_win_count;
 };
 static_assert(sizeof(c_game_engine_miscellaneous_options) == 0x4);
 
@@ -136,28 +136,28 @@ public:
 	void set_auto_respawn_disabled(bool auto_respawn_disabled);
 
 	uint8 get_lives_per_round() const;
-	void set_lives_per_round(long lives_per_round);
+	void set_lives_per_round(int32 lives_per_round);
 
 	uint8 get_team_lives_per_round() const;
-	void set_team_lives_per_round(long team_lives_per_round);
+	void set_team_lives_per_round(int32 team_lives_per_round);
 
 	uint8 get_respawn_time_seconds() const;
-	void set_respawn_time_seconds(long respawn_time_seconds);
+	void set_respawn_time_seconds(int32 respawn_time_seconds);
 
 	uint8 get_suicide_penalty_seconds() const;
-	void set_suicide_penalty_seconds(long suicide_penalty_seconds);
+	void set_suicide_penalty_seconds(int32 suicide_penalty_seconds);
 
 	uint8 get_betrayal_penalty_seconds() const;
-	void set_betrayal_penalty_seconds(long betrayal_penalty_seconds);
+	void set_betrayal_penalty_seconds(int32 betrayal_penalty_seconds);
 
 	uint8 get_unknown_penalty_seconds() const;
-	void set_unknown_penalty_seconds(long unknown_penalty_seconds);
+	void set_unknown_penalty_seconds(int32 unknown_penalty_seconds);
 
 	uint8 get_respawn_growth_seconds() const;
-	void set_respawn_growth_seconds(long respawn_growth_seconds);
+	void set_respawn_growth_seconds(int32 respawn_growth_seconds);
 
 	uint8 get_respawn_player_traits_duration_seconds() const;
-	void set_respawn_player_traits_duration_seconds(long respawn_player_traits_duration_seconds);
+	void set_respawn_player_traits_duration_seconds(int32 respawn_player_traits_duration_seconds);
 
 	c_player_traits* get_respawn_player_traits_writeable();
 	c_player_traits const* get_respawn_player_traits() const;
@@ -165,14 +165,14 @@ public:
 
 protected:
 	c_flags<e_game_engine_respawn_options_flags, uint8, k_game_engine_respawn_options_flags> m_flags;
-	c_enum<long, uint8, 0, 50> m_lives_per_round;
-	c_enum<long, uint8, 0, 100> m_team_lives_per_round;
-	c_enum<long, uint8, 5, 100> m_respawn_time_seconds;
-	c_enum<long, uint8, 10, 240> m_suicide_penalty_seconds;
-	c_enum<long, uint8, 5, 240> m_betrayal_penalty_seconds;
-	c_enum<long, uint8, 5, 240> m_unknown_penalty_seconds;
-	c_enum<long, uint8, 0, 15> m_respawn_growth_seconds;
-	c_enum<long, uint8, 5, 60> m_respawn_player_traits_duration_seconds;
+	c_enum<int32, uint8, 0, 50> m_lives_per_round;
+	c_enum<int32, uint8, 0, 100> m_team_lives_per_round;
+	c_enum<int32, uint8, 5, 100> m_respawn_time_seconds;
+	c_enum<int32, uint8, 10, 240> m_suicide_penalty_seconds;
+	c_enum<int32, uint8, 5, 240> m_betrayal_penalty_seconds;
+	c_enum<int32, uint8, 5, 240> m_unknown_penalty_seconds;
+	c_enum<int32, uint8, 0, 15> m_respawn_growth_seconds;
+	c_enum<int32, uint8, 5, 60> m_respawn_player_traits_duration_seconds;
 
 	// woman bound for glory, why you leaving me again?
 	uint8 pad[3];
@@ -219,12 +219,12 @@ public:
 	bool get_team_changing_balancing_only_enabled() const;
 	void set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled);
 
-	long get_team_changing_setting() const;
-	void set_team_changing_setting(long team_changing);
+	int32 get_team_changing_setting() const;
+	void set_team_changing_setting(int32 team_changing);
 
 protected:
 	c_flags<e_game_engine_social_options_flags, uint16, k_game_engine_social_options_flags> m_flags;
-	c_enum<long, uint16, 0, 2> m_team_changing;
+	c_enum<int32, uint16, 0, 2> m_team_changing;
 };
 static_assert(sizeof(c_game_engine_social_options) == 0x4);
 
@@ -249,17 +249,17 @@ public:
 	c_player_traits const* get_base_player_traits() const;
 	void set_base_player_traits(c_player_traits const* traits, bool force);
 
-	short get_weapon_set_absolute_index() const;
-	void set_weapon_set_absolute_index(short weapon_set_absolute_index);
+	int16 get_weapon_set_absolute_index() const;
+	void set_weapon_set_absolute_index(int16 weapon_set_absolute_index);
 
-	short get_vehicle_set_absolute_index() const;
-	void set_vehicle_set_absolute_index(short vehicle_set_absolute_index);
+	int16 get_vehicle_set_absolute_index() const;
+	void set_vehicle_set_absolute_index(int16 vehicle_set_absolute_index);
 
-	long get_weapon_set() const;
-	void set_weapon_set(long weapon_set);
+	int32 get_weapon_set() const;
+	void set_weapon_set(int32 weapon_set);
 	
-	long get_vehicle_set() const;
-	void set_vehicle_set(long vehicle_set);
+	int32 get_vehicle_set() const;
+	void set_vehicle_set(int32 vehicle_set);
 
 	c_player_traits* get_red_powerup_traits_writeable();
 	c_player_traits const* get_red_powerup_traits() const;
@@ -290,9 +290,9 @@ protected:
 	c_player_traits m_red_powerup_traits;
 	c_player_traits m_blue_powerup_traits;
 	c_player_traits m_yellow_powerup_traits;
-	c_enum<long, uint8, 5, 120> m_red_powerup_duration_seconds;
-	c_enum<long, uint8, 30, 120> m_blue_powerup_duration_seconds;
-	c_enum<long, uint8, 30, 120> m_yellow_powerup_duration_seconds;
+	c_enum<int32, uint8, 5, 120> m_red_powerup_duration_seconds;
+	c_enum<int32, uint8, 30, 120> m_blue_powerup_duration_seconds;
+	c_enum<int32, uint8, 30, 120> m_yellow_powerup_duration_seconds;
 
 	// gonna pack her bags and leave this house of pain
 	uint8 pad[1];

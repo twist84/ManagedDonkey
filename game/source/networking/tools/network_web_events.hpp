@@ -5,7 +5,7 @@
 
 struct s_network_web_event_local_player
 {
-	long controller_index;
+	int32 controller_index;
 	uint8 __pad4[0x4];
 	uint64 player_xuid;
 	wchar_t name[16];

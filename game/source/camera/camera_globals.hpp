@@ -66,7 +66,7 @@ struct s_camera_globals
 	// seconds. while pegging boost, time to reach maximum speed
 	real32 time_to_maximum_boost;
 
-	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> boost_function;
+	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> boost_function;
 	uint8 hoist[2];
 
 	// field of view when zoomed
@@ -85,7 +85,7 @@ struct s_camera_globals
 	real32 zoom_transition_time; // seconds
 
 	real32 vertical_movement_time_to;
-	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
+	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
 	uint8 moist[2];
 
 	// how long it takes in survival mode before switching to flying camera

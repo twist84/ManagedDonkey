@@ -8,10 +8,10 @@ struct c_start_menu_pane_screen_widget :
 	public c_gui_screen_widget
 {
 public:
-	c_start_menu_pane_screen_widget(long name) :
+	c_start_menu_pane_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00B1F280, c_start_menu_pane_screen_widget*, __thiscall, c_start_menu_pane_screen_widget*, long)(this, name);
+		DECLFUNC(0x00B1F280, c_start_menu_pane_screen_widget*, __thiscall, c_start_menu_pane_screen_widget*, int32)(this, name);
 	}
 
 	void close_current_subpane();
@@ -20,7 +20,7 @@ public:
 	uint8 __data1AA0[0x18];
 	s_service_record_identity m_identity;
 	uint8 __data2158[0x8];
-	long m_automatic_button_key;
+	int32 m_automatic_button_key;
 	uint8 __data2164[0x4];
 };
 static_assert(sizeof(c_start_menu_pane_screen_widget) == sizeof(c_gui_screen_widget) + 0x6C8);

@@ -80,8 +80,8 @@ struct s_biped_ground_fitting_data
 	real32 root_offset_dampening;   // react to root changes (0=slow, 1= fast)
 	real32 following_cam_scale;     // root offset effect on following cam (0=none, 1=full)
 	real32 root_leaning_scale;      // lean into slopes (0=none, 1=full)
-	angle foot_roll_max;                   // orient to ground slope (degrees)
-	angle foot_pitch_max;                  // orient to ground slope (degrees)
+	real32 foot_roll_max;                   // orient to ground slope (degrees)
+	real32 foot_pitch_max;                  // orient to ground slope (degrees)
 
 
 	// pivot-on-foot data
@@ -120,9 +120,9 @@ struct _biped_definition
 {
 	// $$$ BIPED $$$
 
-	angle moving_turning_speed; // degrees per second
+	real32 moving_turning_speed; // degrees per second
 	c_flags<e_biped_definition_flags, uint32, k_biped_definition_flags> flags;
-	angle stationary_turning_threshold;
+	real32 stationary_turning_threshold;
 
 	// if the biped dies while moving faster than this velocity, immediately transition to ragdoll.  Use 0 for 'never'
 	real32 ragdoll_threshold_velocity; // wu/s
@@ -170,10 +170,10 @@ struct _biped_definition
 	c_typed_tag_block<s_biped_camera_height> camera_heights;
 
 	// looking-downward angle that starts camera interpolation to fp position
-	angle camera_interpolation_start; // degrees
+	real32 camera_interpolation_start; // degrees
 
 	// looking-downward angle at which camera interpolation to fp position is complete
-	angle camera_interpolation_end; // degrees
+	real32 camera_interpolation_end; // degrees
 
 	// amount of fp camera movement forward and back (1.0 is full)
 	real32 camera_forward_movement_scale;
@@ -190,13 +190,13 @@ struct _biped_definition
 	real32 autoaim_width; // world units
 
 	s_biped_lock_on_data lock_on_data;
-	short runtime_physics_control_node_index;
-	short unused2;
+	int16 runtime_physics_control_node_index;
+	int16 unused2;
 	real32 runtime_cosine_stationary_turning_threshold;
 	real32 runtime_crouch_transition_velocity;
 	real32 runtime_camera_height_velocity;
-	short runtime_pelvis_node_index;
-	short runtime_head_node_index;
+	int16 runtime_pelvis_node_index;
+	int16 runtime_head_node_index;
 	real32 fp_crouch_moving_animation_playback_speed_multiplier;
 
 	// when the biped ragdolls from a head shot it acceleartes based on this value.
@@ -226,8 +226,8 @@ struct _biped_definition
 	// when I die, out of the ashes of my death crawls a ...
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> death_spawn_character;
 
-	short death_spawn_count;
-	short death_spawn_unused;
+	int16 death_spawn_count;
+	int16 death_spawn_unused;
 	s_biped_leaping_data leaping_data;
 	s_biped_ground_fitting_data ground_fitting_data;
 

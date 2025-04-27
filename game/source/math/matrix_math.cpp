@@ -88,7 +88,7 @@ void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* res
 //.text:005B2320 ; real_vector3d* __cdecl matrix4x3_inverse_transform_normal(real_matrix4x3 const*, real_vector3d const*, real_vector3d*)
 //.text:005B23C0 ; real_plane3d* __cdecl matrix4x3_inverse_transform_plane(real_matrix4x3 const*, real_plane3d const*, real_plane3d*)
 //.text:005B24D0 ; real_point3d* __cdecl matrix4x3_inverse_transform_point(real_matrix4x3 const*, real_point3d const*, real_point3d*)
-//.text:005B25D0 ; void __cdecl matrix4x3_inverse_transform_points(real_matrix4x3 const*, long, real_point3d const* const, real_point3d* const)
+//.text:005B25D0 ; void __cdecl matrix4x3_inverse_transform_points(real_matrix4x3 const*, int32, real_point3d const* const, real_point3d* const)
 //.text:005B2710 ; real_vector3d* __cdecl matrix4x3_inverse_transform_vector(real_matrix4x3 const*, real_vector3d const*, real_vector3d*)
 
 void __cdecl matrix4x3_multiply(real_matrix4x3 const* a, real_matrix4x3 const* b, real_matrix4x3* result)
@@ -186,11 +186,11 @@ real_point3d* __cdecl matrix4x3_transform_point(real_matrix4x3 const* matrix, re
 	return result;
 }
 
-void __cdecl matrix4x3_transform_points(real_matrix4x3 const* matrix, long point_count, real_point3d const* const points, real_point3d* const results)
+void __cdecl matrix4x3_transform_points(real_matrix4x3 const* matrix, int32 point_count, real_point3d const* const points, real_point3d* const results)
 {
 	//INVOKE(0x005B3B00, matrix4x3_transform_points, matrix, point_count, points, results);
 
-	for (long i = 0; i < point_count; ++i)
+	for (int32 i = 0; i < point_count; ++i)
 		matrix4x3_transform_point(matrix, &points[i], &results[i]);
 }
 

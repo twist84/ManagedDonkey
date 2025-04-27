@@ -30,7 +30,7 @@ static_assert(sizeof(s_structure_soft_ceiling_triangle) == 0x44);
 struct s_structure_soft_ceiling
 {
 	c_string_id name;
-	c_enum<e_soft_ceiling_type, short, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
+	c_enum<e_soft_ceiling_type, int16, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
 	uint8 fresh[0x2];
 	c_typed_tag_block<s_structure_soft_ceiling_triangle> soft_ceiling_triangles;
 };
@@ -50,10 +50,10 @@ static_assert(sizeof(s_structure_physics_water_instance_debug_triangle) == sizeo
 
 struct s_structure_physics_water_instance
 {
-	short group;
+	int16 group;
 	uint8 PAD0[0x2];
 	real_vector3d direction;
-	angle angle;
+	real32 angle;
 	s_tag_block water_planes;
 	c_typed_tag_block<s_structure_physics_water_instance_debug_triangle>  water_debug_triangles;
 };
@@ -61,7 +61,7 @@ static_assert(sizeof(s_structure_physics_water_instance) == 0x2C);
 
 struct s_structure_design_physics
 {
-	long importer_version;
+	int32 importer_version;
 	s_tag_block soft_ceiling_mopp_code;
 	c_typed_tag_block<s_structure_soft_ceiling> soft_ceilings;
 	s_tag_block water_mopp;

@@ -13,7 +13,7 @@ public:
 		ASSERT(hs_global_name);
 
 		m_hs_global_external_index = NONE;
-		for (short hs_global_external_index = 0; hs_global_external_index < k_console_global_count && m_hs_global_external_index == NONE; hs_global_external_index++)
+		for (int16 hs_global_external_index = 0; hs_global_external_index < k_console_global_count && m_hs_global_external_index == NONE; hs_global_external_index++)
 		{
 			if (csstricmp(hs_global_name, k_console_globals[hs_global_external_index].name))
 				continue;
@@ -54,6 +54,6 @@ public:
 	}
 
 protected:
-	short m_hs_global_external_index;
+	int16 m_hs_global_external_index;
 };
 

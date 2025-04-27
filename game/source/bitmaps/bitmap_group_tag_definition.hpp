@@ -7,9 +7,9 @@
 
 struct bitmap_group_sprite
 {
-	short bitmap_index;
-	short bitmap_pad;
-	long unused;
+	int16 bitmap_index;
+	int16 bitmap_pad;
+	int32 unused;
 	real_rectangle2d bounds;
 	real_point2d registration_point;
 };
@@ -18,9 +18,9 @@ static_assert(sizeof(bitmap_group_sprite) == 0x20);
 struct bitmap_group_sequence
 {
 	char name[32];
-	short first_bitmap_index;
-	short bitmap_count;
-	long unused[4];
+	int16 first_bitmap_index;
+	int16 bitmap_count;
+	int32 unused[4];
 	c_typed_tag_block<bitmap_group_sprite> sprites;
 };
 static_assert(sizeof(bitmap_group_sequence) == 0x40);
@@ -215,10 +215,10 @@ struct bitmap_data
 	tag signature; // should be 'bitm'
 
 	// DO NOT CHANGE
-	short width;
+	int16 width;
 
 	// DO NOT CHANGE
-	short height;
+	int16 height;
 
 	// DO NOT CHANGE
 	char depth;
@@ -226,10 +226,10 @@ struct bitmap_data
 	c_flags<e_bitmap_more_flags, uint8, k_bitmap_more_flags> more_flags;
 
 	// DO NOT CHANGE
-	c_enum<e_bitmap_type, short, _bitmap_type_2d, k_bitmap_type_count> type;
+	c_enum<e_bitmap_type, int16, _bitmap_type_2d, k_bitmap_type_count> type;
 
 	// DO NOT CHANGE
-	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
+	c_enum<e_bitmap_format, int16, _bitmap_format_a8, k_bitmap_format_count> format;
 
 	c_flags<e_bitmap_flags, uint16, k_bitmap_flags_count> flags;
 
@@ -246,16 +246,16 @@ struct bitmap_data
 	char interleaved_texture_index;
 
 	// DO NOT CHANGE (offset of the beginning of this bitmap, into pixel data)
-	long pixels_offset; // bytes
+	int32 pixels_offset; // bytes
 
 	// DO NOT CHANGE (total bytes used by this bitmap)
-	long pixels_size; // bytes
+	int32 pixels_size; // bytes
 
 	// DO NOT CHANGE
-	long high_res_pixels_offset_offset;
+	int32 high_res_pixels_offset_offset;
 
 	// DO NOT CHANGE
-	long high_res_pixels_size;
+	int32 high_res_pixels_size;
 
 	c_rasterizer_texture_ref internal_hardware_format;
 
@@ -595,12 +595,12 @@ struct bitmap_group
 	static tag const k_group_tag = BITMAP_TAG;
 
 	// choose how you are using this bitmap
-	c_enum<e_bitmap_usage_global, long, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
+	c_enum<e_bitmap_usage_global, int32, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 
 	c_flags<e_bitmap_group_flags, uint16, k_bitmap_group_flags> flags;
 
 	// number of pixels between adjacent sprites (0 uses default, negative numbers set no spacing)
-	short sprite_spacing;
+	int16 sprite_spacing;
 
 	// the apparent height of the bump map above the triangle it is textured onto, in texture repeats (i.e., 1.0 would be as high as the texture is wide)
 	real32 bump_map_height; // repeats
@@ -615,11 +615,11 @@ struct bitmap_group
 	char max_mipmap_level;
 
 	// 0 = do not downsample source image
-	short max_resolution;
+	int16 max_resolution;
 	uint8 post_max_resolution[2];
 
 	// overrides the format defined by usage
-	c_enum<e_bitmap_usage_format, short, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;
+	c_enum<e_bitmap_usage_format, int16, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;
 
 	s_tag_block tight_bounds;
 	s_tag_block usage_override;
@@ -644,7 +644,7 @@ struct bitmap_group
 	c_typed_tag_block<bitmap_data> xenon_bitmaps;
 	c_typed_tag_block<c_typed_tag_resource<struct s_cache_file_tag_resource_data>> hardware_textures;
 	s_tag_block interleaved_hardware_textures;
-	long __unknownB4;
+	int32 __unknownB4;
 };
 static_assert(sizeof(bitmap_group) == 0xB8);
 

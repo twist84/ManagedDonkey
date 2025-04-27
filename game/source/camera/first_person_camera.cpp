@@ -19,16 +19,16 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, update_);
 
-void __cdecl first_person_camera_for_unit_and_vector(long unit_index, real_vector3d const* forward, s_observer_command* result)
+void __cdecl first_person_camera_for_unit_and_vector(int32 unit_index, real_vector3d const* forward, s_observer_command* result)
 {
 	INVOKE(0x0065F5B0, first_person_camera_for_unit_and_vector, unit_index, forward, result);
 }
 
-void __thiscall c_first_person_camera::update_(long user_index, real32 dt, s_observer_command* result)
+void __thiscall c_first_person_camera::update_(int32 user_index, real32 dt, s_observer_command* result)
 {
 	ASSERT(result);
 	
-	long unit_index = player_mapping_get_unit_by_output_user(user_index);
+	int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (m_target_object_index != unit_index)
 	{
 		event(_event_error, "camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",

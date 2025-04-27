@@ -13,7 +13,7 @@ s_terminal_globals terminal_globals = { .initialized = false };
 bool g_terminal_render_enable = true;
 
 real32 const k_output_total_seconds = 4.0f + 1.0f;
-short const k_tab_stops[] = { 160, 320, 470, 620, 770 };
+int16 const k_tab_stops[] = { 160, 320, 470, 620, 770 };
 
 void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
 {
@@ -120,8 +120,8 @@ bool __cdecl terminal_update_input(real32 shell_seconds_elapsed)
 			terminal_globals.insertion_point_toggle_timer = 0.0f;
 		}
 
-		long cursor_position = terminal_globals.input_state->prompt.length() + terminal_globals.input_state->edit.insertion_point_index;
-		long scroll_amount = terminal_globals.input_state->horizontal_scroll_amount;
+		int32 cursor_position = terminal_globals.input_state->prompt.length() + terminal_globals.input_state->edit.insertion_point_index;
+		int32 scroll_amount = terminal_globals.input_state->horizontal_scroll_amount;
 
 		if (cursor_position > scroll_amount + 59)
 			scroll_amount = cursor_position - 59;
@@ -149,8 +149,8 @@ void __cdecl terminal_update_output(real32 shell_seconds_elapsed)
 		c_font_cache_mt_safe font_cache;
 		c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
-		long line_count = NONE;
-		for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE; line_index = line_count)
+		int32 line_count = NONE;
+		for (int32 line_index = terminal_globals.newest_output_line_index; line_index != NONE; line_index = line_count)
 		{
 			output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, line_index);
 			line_count = line->line_count;
@@ -177,7 +177,7 @@ bool __cdecl terminal_update(real32 shell_seconds_elapsed)
 	return result;
 }
 
-void __cdecl terminal_remove_line(long line_index)
+void __cdecl terminal_remove_line(int32 line_index)
 {
 	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
 
@@ -206,7 +206,7 @@ void __cdecl terminal_remove_line(long line_index)
 	datum_delete(terminal_globals.output_lines, line_index);
 }
 
-long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop)
+int32 __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop)
 {
 	c_font_cache_mt_safe font_cache;
 	c_critical_section_scope critical_section_scope(k_crit_section_terminal);
@@ -214,7 +214,7 @@ long __cdecl terminal_new_line(char const* buffer, real_argb_color const* color,
 	if (data_is_full(terminal_globals.output_lines))
 		terminal_remove_line(terminal_globals.oldest_output_line_index);
 
-	long new_line_index = datum_new(terminal_globals.output_lines);
+	int32 new_line_index = datum_new(terminal_globals.output_lines);
 	ASSERT(new_line_index != NONE);
 
 	output_line_datum* line = DATUM_TRY_AND_GET(terminal_globals.output_lines, output_line_datum, new_line_index);
@@ -293,7 +293,7 @@ void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds
 		c_rasterizer_draw_string draw_string;
 		c_font_cache_mt_safe font_cache;
 
-		short line_height = draw_string.get_line_height();
+		int16 line_height = draw_string.get_line_height();
 
 		rectangle2d pixel_bounds[4]{};
 		interface_get_current_display_settings(&pixel_bounds[0], &pixel_bounds[1], &pixel_bounds[2], &pixel_bounds[3]);
@@ -314,7 +314,7 @@ void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds
 			// cursor blink
 			if (terminal_globals.insertion_point_visible)
 			{
-				short index = short(terminal_globals.input_state->prompt.length()) + terminal_globals.input_state->edit.insertion_point_index;
+				int16 index = int16(terminal_globals.input_state->prompt.length()) + terminal_globals.input_state->edit.insertion_point_index;
 				buffer.set_character(index, '_');
 			}
 
@@ -326,10 +326,10 @@ void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds
 		if (g_terminal_render_enable)
 		{
 			real_argb_color shadow_color = *global_real_argb_black;
-			short line_offset = pixel_bounds_->y1 - line_height;
+			int16 line_offset = pixel_bounds_->y1 - line_height;
 
-			long line_count = NONE;
-			for (long line_index = terminal_globals.newest_output_line_index; line_index != NONE && line_offset - line_height > 0; line_index = line_count)
+			int32 line_count = NONE;
+			for (int32 line_index = terminal_globals.newest_output_line_index; line_index != NONE && line_offset - line_height > 0; line_index = line_count)
 			{
 				if (line_offset - line_height <= 0)
 					break;

@@ -46,10 +46,10 @@ void rasterizer_render_debug_frame_deltas()
 	rectangle2d bounds{};
 	c_rasterizer::get_fullscreen_render_pixel_bounds(&bounds);
 
-	bounds.x0 = short(bounds.x1 - (50.0f * draw_string_get_glyph_scaling_for_display_settings()));
-	bounds.y0 = short(bounds.y1 - (75.0f * draw_string_get_glyph_scaling_for_display_settings()));
+	bounds.x0 = int16(bounds.x1 - (50.0f * draw_string_get_glyph_scaling_for_display_settings()));
+	bounds.y0 = int16(bounds.y1 - (75.0f * draw_string_get_glyph_scaling_for_display_settings()));
 
-	for (long i = (rasterizer_globals.frame_delta_index + 14) % 15; i != rasterizer_globals.frame_delta_index; i = (i + 14) % 15)
+	for (int32 i = (rasterizer_globals.frame_delta_index + 14) % 15; i != rasterizer_globals.frame_delta_index; i = (i + 14) % 15)
 	{
 		bounds.y0 -= 20;
 		bounds.y1 -= 20;
@@ -94,7 +94,7 @@ int64 __cdecl main_time_get_input_collection_time()
 	//return g_main_time_globals->last_input_timestamp;
 }
 
-long __cdecl main_time_get_native_tick_rate()
+int32 __cdecl main_time_get_native_tick_rate()
 {
 	return INVOKE(0x00507E10, main_time_get_native_tick_rate);
 }
@@ -123,7 +123,7 @@ int64 __cdecl main_time_get_target_display_vblank_index()
 	//return g_main_time_globals->target_display_vblank_index;
 }
 
-long __cdecl main_time_get_time_since_input_collection(int64 timestamp)
+int32 __cdecl main_time_get_time_since_input_collection(int64 timestamp)
 {
 	return INVOKE(0x00507EA0, main_time_get_time_since_input_collection, timestamp);
 
@@ -131,7 +131,7 @@ long __cdecl main_time_get_time_since_input_collection(int64 timestamp)
 	//return timestamp - g_main_time_globals->last_input_timestamp;
 }
 
-long __cdecl main_time_get_vblank_rate()
+int32 __cdecl main_time_get_vblank_rate()
 {
 	return INVOKE(0x00507EC0, main_time_get_vblank_rate);
 }
@@ -223,7 +223,7 @@ void __cdecl main_time_reset()
 	//g_main_time_globals->last_input_timestamp = main_time_get_absolute_milliseconds();
 }
 
-void __cdecl main_time_restore(long game_state_flags)
+void __cdecl main_time_restore(int32 game_state_flags)
 {
 	INVOKE(0x00508120, main_time_restore, game_state_flags);
 

@@ -10,7 +10,7 @@ struct s_structure_seams
 	static tag const k_group_tag = STRUCTURE_SEAMS_TAG;
 
 	// This tag defines the geometry between seam connected structures bsp.
-	long import_version;
+	int32 import_version;
 
 	c_typed_tag_block<error_report_category> errors;
 	c_typed_tag_block<s_structure_seam> seams;
@@ -41,14 +41,14 @@ enum e_error_report_flags
 struct error_report_category
 {
 	char name[k_tag_long_string_length];
-	c_enum<e_error_report_types, short, _error_report_type_silent, k_error_report_type_count> report_type;
+	c_enum<e_error_report_types, int16, _error_report_type_silent, k_error_report_type_count> report_type;
 	c_flags<e_error_report_flags, uint16, k_error_report_flags> flags;
 	uint16 runtime_generation_flags;
 
 	// pad
 	uint8 WVTP[0x2];
 
-	long runtime_something;
+	int32 runtime_something;
 
 	s_tag_block reports;
 };
@@ -63,7 +63,7 @@ static_assert(sizeof(s_structure_seam_identifier) == 0x10);
 struct s_structure_seam_original_vertex
 {
 	real_point3d original_vertex;
-	long final_point_index;
+	int32 final_point_index;
 };
 static_assert(sizeof(s_structure_seam_original_vertex) == 0x10);
 
@@ -87,8 +87,8 @@ static_assert(sizeof(s_structure_seam_final_point) == sizeof(real_point3d));
 
 struct s_structure_seam_final_triangle
 {
-	long final_plane;
-	short final_points[3]; // s_structure_seam_final_point
+	int32 final_plane;
+	int16 final_points[3]; // s_structure_seam_final_point
 
 	// PAD
 	uint8 pad0[0x2];
@@ -97,8 +97,8 @@ static_assert(sizeof(s_structure_seam_final_triangle) == 0xC);
 
 struct s_structure_seam_final_edge
 {
-	long final_plane;
-	short final_points[2]; // s_structure_seam_final_point
+	int32 final_plane;
+	int16 final_points[2]; // s_structure_seam_final_point
 };
 static_assert(sizeof(s_structure_seam_final_edge) == 0x8);
 

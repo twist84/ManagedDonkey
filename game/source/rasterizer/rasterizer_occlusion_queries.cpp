@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-void __cdecl rasterizer_occlusions_retrieve(long a1)
+void __cdecl rasterizer_occlusions_retrieve(int32 a1)
 {
 	INVOKE(0x00A756D0, rasterizer_occlusions_retrieve, a1);
 }

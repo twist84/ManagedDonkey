@@ -45,13 +45,13 @@ void c_draw_string::set_style(e_text_style style)
 	m_style = style;
 }
 
-void c_draw_string::set_tab_stops(short const* tab_stops, short count)
+void c_draw_string::set_tab_stops(int16 const* tab_stops, int16 count)
 {
 	ASSERT((tab_stops != NULL && count >= 0) || (tab_stops == NULL && count == 0));
 
 	if (tab_stops)
 	{
-		short tab_stop_count = count;
+		int16 tab_stop_count = count;
 		if (count > NUMBEROF(m_tab_stops))
 			tab_stop_count = NUMBEROF(m_tab_stops);
 
@@ -116,7 +116,7 @@ void c_draw_string::get_cursor(point2d* cursor) const
 //.text:00658410 ; public: void c_draw_string::get_cursor(real_point2d*) const
 //.text:00658430 ; public: e_text_justification c_draw_string::get_justification() const
 
-short c_draw_string::get_line_height() const
+int16 c_draw_string::get_line_height() const
 {
 	return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string, get_line_height);
 }

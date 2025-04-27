@@ -4,7 +4,7 @@
 #include "cseries/cseries_events.hpp"
 
 //.text:005AC870 ; 
-c_async_buffer_set::c_async_buffer_set(long buffer_count) :
+c_async_buffer_set::c_async_buffer_set(int32 buffer_count) :
 	c_async_buffer_set_base(buffer_count)
 {
 	initialize();
@@ -12,7 +12,7 @@ c_async_buffer_set::c_async_buffer_set(long buffer_count) :
 }
 
 //.text:005AC8E0 ; 
-c_async_buffer_set_base::c_async_buffer_set_base(long buffer_count) :
+c_async_buffer_set_base::c_async_buffer_set_base(int32 buffer_count) :
 	m_buffer_count(buffer_count),
 	m_buffers()
 {
@@ -34,7 +34,7 @@ s_async_buffer::s_async_buffer() :
 
 //.text:005AC9C0 ; c_static_array<s_async_buffer,3>::operator[]
 
-bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buffer_size)
+bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, int32 buffer_size)
 {
 	return INVOKE_CLASS_MEMBER(0x005AC9E0, c_async_buffer_set, allocate_storage, allocator, buffer_size);
 
@@ -43,7 +43,7 @@ bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buf
 	//ASSERT(!m_storage_initialized);
 	//
 	//bool failed_to_allocate_storage = false;
-	//for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//{
 	//	s_async_buffer* buffer = get_buffer(buffer_index);
 	//	buffer->data = allocator->allocate(buffer_size, "dbl buffer");
@@ -61,7 +61,7 @@ bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buf
 	//
 	//if (failed_to_allocate_storage)
 	//{
-	//	for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//	for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//	{
 	//		s_async_buffer* buffer = get_buffer(buffer_index);
 	//		if (buffer->data)
@@ -76,12 +76,12 @@ bool c_async_buffer_set::allocate_storage(c_allocation_base* allocator, long buf
 	//return m_storage_initialized;
 }
 
-void c_async_buffer_set::async_read_buffer(long buffer_index)
+void c_async_buffer_set::async_read_buffer(int32 buffer_index)
 {
 	INVOKE_CLASS_MEMBER(0x005AD930, c_async_buffer_set, async_read_buffer, buffer_index);
 }
 
-void c_async_buffer_set::async_write_buffer(long buffer_index)
+void c_async_buffer_set::async_write_buffer(int32 buffer_index)
 {
 	INVOKE_CLASS_MEMBER(0x005ADF50, c_async_buffer_set, async_write_buffer, buffer_index);
 
@@ -147,7 +147,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//case 0:
 	//{
 	//	ASSERT(ready_to_read());
-	//	for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//	for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//	{
 	//		s_async_buffer* buffer = get_buffer(buffer_index);
 	//		internal_async_yield_until_done(&buffer->async_ready, false, false, __FILE__, __LINE__);
@@ -157,7 +157,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//case 1:
 	//{
 	//	ASSERT(ready_to_write());
-	//	for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//	for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//	{
 	//		s_async_buffer* buffer = get_buffer(buffer_index);
 	//		if (buffer->async_ready && buffer->data_size > 0 && !buffer->__unknown18)
@@ -194,7 +194,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//}
 }
 
-long c_async_buffer_set::consume_bytes(void const* source, long bytes_to_consume)
+int32 c_async_buffer_set::consume_bytes(void const* source, int32 bytes_to_consume)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE440, c_async_buffer_set, consume_bytes, source, bytes_to_consume);
 
@@ -216,12 +216,12 @@ long c_async_buffer_set::consume_bytes(void const* source, long bytes_to_consume
 	//return bytes_to_consume;
 }
 
-long c_async_buffer_set::fill_bytes(void* destination, long bytes_to_fill)
+int32 c_async_buffer_set::fill_bytes(void* destination, int32 bytes_to_fill)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE5C0, c_async_buffer_set, fill_bytes, destination, bytes_to_fill);
 
 	//s_async_buffer* buffer = get_buffer(m_buffer_index);
-	//long bytes_available_to_read = buffer->__unknown14 - buffer->__unknownC;
+	//int32 bytes_available_to_read = buffer->__unknown14 - buffer->__unknownC;
 	//if (bytes_to_fill > bytes_available_to_read)
 	//{
 	//	bytes_to_fill = bytes_available_to_read;
@@ -260,21 +260,21 @@ bool c_async_buffer_set::flush()
 	//return false;
 }
 
-s_async_buffer* c_async_buffer_set_base::get_buffer(long buffer_index)
+s_async_buffer* c_async_buffer_set_base::get_buffer(int32 buffer_index)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE6C0, c_async_buffer_set_base, get_buffer, buffer_index);
 
 	//return &m_buffers[buffer_index];
 }
 
-long c_async_buffer_set_base::get_buffer_count() const
+int32 c_async_buffer_set_base::get_buffer_count() const
 {
 	return INVOKE_CLASS_MEMBER(0x005AE6E0, c_async_buffer_set_base, get_buffer_count);
 
 	//return m_buffer_count;
 }
 
-long c_async_buffer_set::get_position()
+int32 c_async_buffer_set::get_position()
 {
 	return INVOKE_CLASS_MEMBER(0x005AE710, c_async_buffer_set, get_position);
 
@@ -303,7 +303,7 @@ void c_async_buffer_set::initialize()
 	//initialize_internal();
 }
 
-void c_async_buffer_set::initialize_buffer(long buffer_index)
+void c_async_buffer_set::initialize_buffer(int32 buffer_index)
 {
 	INVOKE_CLASS_MEMBER(0x005AE7F0, c_async_buffer_set, initialize_buffer, buffer_index);
 
@@ -329,7 +329,7 @@ void c_async_buffer_set::initialize_internal()
 	//m_buffer_index = 0;
 	//m_fatal_error_occurred = false;
 	//invalidate_file_handle(&m_async_file_handle);
-	//for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//{
 	//	initialize_buffer(buffer_index);
 	//}
@@ -339,7 +339,7 @@ bool c_async_buffer_set::is_async_io_in_progress()
 {
 	return INVOKE_CLASS_MEMBER(0x005AE8E0, c_async_buffer_set, is_async_io_in_progress);
 
-	//for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//{
 	//	if (!get_buffer(buffer_index)->async_ready)
 	//		return true;
@@ -376,7 +376,7 @@ void c_async_buffer_set::prime_buffers_for_reading()
 	//{
 	//	ASSERT(m_buffer_index == 0);
 	//	complete_pending_async_buffer_activity();
-	//	for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//	for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//	{
 	//		async_read_buffer(buffer_index);
 	//	}
@@ -384,7 +384,7 @@ void c_async_buffer_set::prime_buffers_for_reading()
 	//}
 }
 
-void c_async_buffer_set::read(void* destination, long bytes_to_read, long* bytes_read)
+void c_async_buffer_set::read(void* destination, int32 bytes_to_read, int32* bytes_read)
 {
 	INVOKE_CLASS_MEMBER(0x005AEC30, c_async_buffer_set, read, destination, bytes_to_read, bytes_read);
 
@@ -415,7 +415,7 @@ void c_async_buffer_set::release_storage(c_allocation_base* allocator)
 	//if (m_storage_initialized)
 	//{
 	//	close_file();
-	//	for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//	for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//	{
 	//		s_async_buffer* buffer = get_buffer(buffer_index);
 	//		ASSERT(buffer->data);
@@ -431,7 +431,7 @@ void c_async_buffer_set::release_storage(c_allocation_base* allocator)
 	//}
 }
 
-bool c_async_buffer_set::set_position(long file_position)
+bool c_async_buffer_set::set_position(int32 file_position)
 {
 	return INVOKE_CLASS_MEMBER(0x005AEF60, c_async_buffer_set, set_position, file_position);
 
@@ -455,14 +455,14 @@ void c_async_buffer_set::swap_buffers()
 	INVOKE_CLASS_MEMBER(0x005AF110, c_async_buffer_set, swap_buffers);
 }
 
-void c_async_buffer_set::use_external_storage(char** buffers, long buffer_count, long buffer_size)
+void c_async_buffer_set::use_external_storage(char** buffers, int32 buffer_count, int32 buffer_size)
 {
 	INVOKE_CLASS_MEMBER(0x005AF240, c_async_buffer_set, use_external_storage, buffers, buffer_count, buffer_size);
 
 	//ASSERT(buffer_count == get_buffer_count());
 	//ASSERT(buffer_size > 0);
 	//ASSERT(!m_storage_initialized);
-	//for (long buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
+	//for (int32 buffer_index = 0; buffer_index < get_buffer_count(); buffer_index++)
 	//{
 	//	s_async_buffer* buffer = get_buffer(buffer_index);
 	//	buffer->data = buffers[buffer_index];
@@ -471,7 +471,7 @@ void c_async_buffer_set::use_external_storage(char** buffers, long buffer_count,
 	//}
 }
 
-void c_async_buffer_set::write(void const* source, long bytes_to_write, long* byte_written)
+void c_async_buffer_set::write(void const* source, int32 bytes_to_write, int32* byte_written)
 {
 	INVOKE_CLASS_MEMBER(0x005AF2A0, c_async_buffer_set, write, source, bytes_to_write, byte_written);
 

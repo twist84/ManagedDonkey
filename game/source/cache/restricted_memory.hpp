@@ -50,11 +50,11 @@ struct c_restricted_section
 	};
 
 	uint32 m_internal_flags;
-	long m_protection_scheme;
-	long m_external_lock;
+	int32 m_protection_scheme;
+	int32 m_external_lock;
 	uint8* m_address;
 	uint32 m_size;
-	long m_owner_thread;
+	int32 m_owner_thread;
 };
 static_assert(sizeof(c_restricted_section) == 0x18);
 
@@ -103,14 +103,14 @@ struct c_restricted_memory
 	uint32 m_tls_handle;
 	uint32 m_subsection_size;
 	uint32 m_reserved_size;
-	long m_mirror_count;
-	long m_internal_lock;
+	int32 m_mirror_count;
+	int32 m_internal_lock;
 	uint32 m_registered_member_count;
 	s_registered_member m_registered_member[k_max_registered_members];
 	c_restricted_memory_callbacks* m_callbacks;
 	void* m_primary_backup_memory;
 	void* m_mirror_backup_memory;
-	long m_region_index;
+	int32 m_region_index;
 };
 static_assert(sizeof(c_restricted_memory) == 0xC88);
 

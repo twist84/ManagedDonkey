@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-//.text:00618B30 ; bool __cdecl texture_cache_bitmap_new(long, bitmap_data*)
+//.text:00618B30 ; bool __cdecl texture_cache_bitmap_new(int32, bitmap_data*)
 
 void __cdecl texture_cache_block_for_one_frame(e_texture_cache_block_type block_type)
 {

@@ -13,7 +13,7 @@ struct s_ui_saved_game_item_metadata
 	uint64 author_id;
 	uint64 size_in_bytes;
 	uint64 date;
-	long length_seconds;
+	int32 length_seconds;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	e_game_engine_type game_engine_index;

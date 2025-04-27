@@ -149,7 +149,7 @@ void c_game_variant::encode(c_bitstream* packet) const
 	//	get_active_variant()->encode(packet);
 }
 
-long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
+int32 c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
 {
 	//INVOKE_CLASS_MEMBER(0x0057A2E0, c_game_variant, get_variant_size_for_game_engine_index, game_engine_index);
 
@@ -159,7 +159,7 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 		c_console::write_line("invalid game engine type #%ld requested variant size", game_engine_index);
 	}
 
-	long size = 0;
+	int32 size = 0;
 	switch (game_engine_index)
 	{
 	case _game_engine_type_none:
@@ -211,7 +211,7 @@ bool c_game_variant::is_equal_to(c_game_variant const* other) const
 	//if (get_game_engine_index() != other->get_game_engine_index())
 	//	return false;
 	//
-	//long structure_size = get_variant_size_for_game_engine_index(get_game_engine_index()) - 4;
+	//int32 structure_size = get_variant_size_for_game_engine_index(get_game_engine_index()) - 4;
 	//ASSERT(structure_size > k_vtable_pointer_size);
 }
 
@@ -404,32 +404,32 @@ c_game_engine_infection_variant* c_game_variant::get_infection_variant_writeable
 	return static_cast<c_game_engine_infection_variant*>(get_active_variant_writeable());
 }
 
-bool c_game_variant::get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+bool c_game_variant::get_integer_game_engine_setting(e_game_variant_parameter parameter, int32* out_value) const
 {
 	return get_game_engine_setting(parameter, _integer_value, out_value);
 }
 
-bool c_game_variant::set_integer_game_engine_setting(e_game_variant_parameter parameter, long value)
+bool c_game_variant::set_integer_game_engine_setting(e_game_variant_parameter parameter, int32 value)
 {
 	return set_game_engine_setting(parameter, _integer_value, value);
 }
 
-bool c_game_variant::get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+bool c_game_variant::get_string_id_game_engine_setting(e_game_variant_parameter parameter, int32* out_value) const
 {
 	return get_game_engine_setting(parameter, _string_id_value, out_value);
 }
 
-bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value)
+bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter parameter, int32 value)
 {
 	return set_game_engine_setting(parameter, _string_id_value, value);
 }
 
-bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const
+bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, int32* out_value) const
 {
 	return INVOKE_CLASS_MEMBER(0x00574530, c_game_variant, get_game_engine_setting, parameter, parameter_type, out_value);
 }
 
-bool c_game_variant::set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value)
+bool c_game_variant::set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, int32 value)
 {
 	return INVOKE_CLASS_MEMBER(0x0057AAB0, c_game_variant, set_game_engine_setting, parameter, parameter_type, value);
 }
@@ -449,7 +449,7 @@ char const* k_game_engine_type_names[k_game_engine_type_count] =
 	"infection"
 };
 
-char const* game_engine_type_get_string(long game_engine_index)
+char const* game_engine_type_get_string(int32 game_engine_index)
 {
 	if (game_engine_index < _game_engine_type_none || game_engine_index >= k_game_engine_type_count)
 		return "<invalid 'game_engine_index'>";
@@ -462,12 +462,12 @@ c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant,
 	return INVOKE(0x005721C0, build_default_game_variant, game_variant, game_engine_index);
 }
 
-bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant)
+bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, int32 variant_index, c_game_variant* game_variant)
 {
 	return INVOKE(0x00572270, game_engine_tag_defined_variant_get_built_in_variant, game_engine_index, variant_index, game_variant);
 }
 
-long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index)
+int32 __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index)
 {
 	return INVOKE(0x00572560, game_engine_tag_defined_variant_get_default_variant_count, game_engine_index);
 
@@ -500,12 +500,12 @@ long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_en
 	//return 0;
 }
 
-long __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant)
+int32 __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant)
 {
 	return INVOKE(0x00572600, game_engine_tag_defined_variant_get_default_variant_index, game_variant);
 }
 
-bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, long variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description)
+bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, int32 variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description)
 {
 	return INVOKE(0x00572690, game_engine_tag_defined_variant_get_strings, game_engine_index, variant_index, variant_name, variant_description);
 }

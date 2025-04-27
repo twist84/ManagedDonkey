@@ -6,7 +6,7 @@ struct c_scenario_resource_registry
 {
 public:
 	c_static_flags<20000>* get_tag_instance_flags();
-	bool is_tag_available(long tag_index) const;
+	bool is_tag_available(int32 tag_index) const;
 
 protected:
 	c_static_flags<20000> m_active_tags_flags;

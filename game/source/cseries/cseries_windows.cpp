@@ -39,14 +39,14 @@ void __cdecl display_debug_string(char const* format, ...)
 	va_end(list);
 }
 
-unsigned long __cdecl system_get_current_thread_id()
+uint32 __cdecl system_get_current_thread_id()
 {
 	//return INVOKE(0x004EBF60, system_get_current_thread_id);
 
 	return GetCurrentThreadId();
 }
 
-void __cdecl system_get_date_and_time(char* buffer, short buffer_size, bool short_date_and_time)
+void __cdecl system_get_date_and_time(char* buffer, int16 buffer_size, bool short_date_and_time)
 {
 	INVOKE(0x004EBF70, system_get_date_and_time, buffer, buffer_size, short_date_and_time);
 }
@@ -70,18 +70,18 @@ void __cdecl system_memory_information_get(s_system_memory_information* informat
 	//information->total = status.ullTotalPhys;
 }
 
-unsigned long __cdecl system_milliseconds()
+uint32 __cdecl system_milliseconds()
 {
 	//return INVOKE(0x004EC110, system_milliseconds);
 
 	return timeGetTime();
 }
 
-unsigned long __cdecl system_seconds()
+uint32 __cdecl system_seconds()
 {
 	//return INVOKE(0x004EC260, system_seconds);
 
-	return static_cast<unsigned long>(_time64(0));
+	return static_cast<uint32>(_time64(0));
 }
 
 void __cdecl system_abort()
@@ -107,7 +107,7 @@ void __cdecl system_set_dll_directory()
 	printf("system: dll directory={ %s }\n", dll_directory);
 }
 
-template<long k_maximum_count>
+template<int32 k_maximum_count>
 bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, c_static_string<k_maximum_count>* value, char const* default_value)
 {
 	if (!command_line)
@@ -124,7 +124,7 @@ bool shell_get_command_line_parameter(char* command_line, char const* parameter_
 	{
 		parameter_offset += strlen(parameter_name) + 1;
 		c_static_string<k_maximum_count> parameter = parameter_offset;
-		long separator = parameter.index_of(" ");
+		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)
 			parameter.set_bounded(parameter_offset, separator);
 

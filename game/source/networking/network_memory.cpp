@@ -5,12 +5,12 @@ REFERENCE_DECLARE(0x01A28D88, s_network_base_memory_globals, network_base_memory
 
 REFERENCE_DECLARE(0x01860454, uint16, g_broadcast_port);
 
-void* __cdecl network_heap_allocate_block(long block_size)
+void* __cdecl network_heap_allocate_block(int32 block_size)
 {
     return INVOKE(0x004621D0, network_heap_allocate_block, block_size);
 }
 
-char* __cdecl network_heap_describe(char* buffer, long buffer_size)
+char* __cdecl network_heap_describe(char* buffer, int32 buffer_size)
 {
     return INVOKE(0x004621F0, network_heap_describe, buffer, buffer_size);
 }

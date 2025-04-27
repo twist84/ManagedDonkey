@@ -33,8 +33,8 @@ struct s_water_physics_test_vector_result
 	real_vector3d normal;
 	uint8 __data18[0x4];
 	real32 t;
-	long structure_bsp_index;
-	long water_instance_index;
+	int32 structure_bsp_index;
+	int32 water_instance_index;
 	c_global_material_type material_type;
 	s_water_physics_effect_parameters effect_parameters;
 };

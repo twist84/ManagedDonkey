@@ -9,9 +9,9 @@ HOOK_DECLARE_CLASS_MEMBER(0x00493980, c_life_cycle_state_handler_matchmaking_sta
 bool net_matchmaking_force_gather = true;
 bool net_matchmaking_force_search = false;
 
-long __thiscall c_life_cycle_state_handler_matchmaking_start::determine_matchmaking_find_match_role(bool a1)
+int32 __thiscall c_life_cycle_state_handler_matchmaking_start::determine_matchmaking_find_match_role(bool a1)
 {
-	long result = 1;
+	int32 result = 1;
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_life_cycle_state_handler_matchmaking_start, determine_matchmaking_find_match_role, a1);
 
 	if (net_matchmaking_force_gather)

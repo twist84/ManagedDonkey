@@ -42,7 +42,7 @@ char const* k_join_refuse_reason_strings[k_network_join_refuse_reason_count]
 	"executable-type-mismatch",
 };
 
-char const* network_message_join_refuse_get_reason_string(long reason)
+char const* network_message_join_refuse_get_reason_string(int32 reason)
 {
 	if (VALID_COUNT(reason, k_network_join_refuse_reason_count))
 		return k_join_refuse_reason_strings[reason];
@@ -50,122 +50,122 @@ char const* network_message_join_refuse_get_reason_string(long reason)
 	return "<unknown>";
 }
 
-bool __cdecl c_network_message_time_synchronize::compare(long a1, void* a2, void* a3)
+bool __cdecl c_network_message_time_synchronize::compare(int32 a1, void* a2, void* a3)
 {
 	return INVOKE(0x004DC8F0, compare, a1, a2, a3);
 }
 
-bool __cdecl c_network_message_host_decline::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_host_decline::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DC920, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_join_abort::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_join_abort::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DC980, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_join_refuse::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_join_refuse::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DC9C0, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_join_request::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_join_request::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCA00, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_leave_acknowledge::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_leave_acknowledge::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCB70, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_leave_session::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_leave_session::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCBA0, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_peer_connect::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_peer_connect::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCBD0, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_peer_establish::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_peer_establish::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCC20, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_session_boot::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_session_boot::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCC50, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_session_disband::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_session_disband::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCC90, decode, packet, message_storage_size, message_storage);
 }
 
-bool __cdecl c_network_message_time_synchronize::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
+bool __cdecl c_network_message_time_synchronize::decode(c_bitstream* packet, int32 message_storage_size, void* message_storage)
 {
 	return INVOKE(0x004DCCC0, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_time_synchronize::dispose(long a1, void* a2)
+void __cdecl c_network_message_time_synchronize::dispose(int32 a1, void* a2)
 {
 	INVOKE(0x004DCD70, dispose, a1, a2);
 }
 
-void __cdecl c_network_message_host_decline::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_host_decline::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DCD80, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_join_abort::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_join_abort::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DCE80, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_join_refuse::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_join_refuse::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DCEB0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_join_request::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_join_request::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DCF10, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_leave_acknowledge::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_leave_acknowledge::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD300, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_leave_session::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_leave_session::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD320, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_peer_connect::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_peer_connect::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD340, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_peer_establish::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_peer_establish::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD3B0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_session_boot::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_session_boot::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD3D0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_session_disband::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_session_disband::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD430, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_time_synchronize::encode(c_bitstream* packet, long message_storage_size, void const* message_storage)
+void __cdecl c_network_message_time_synchronize::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
 {
 	INVOKE(0x004DD450, encode, packet, message_storage_size, message_storage);
 }

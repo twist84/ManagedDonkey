@@ -9,7 +9,7 @@ public:
 
 //protected:
 	uint16 m_flags;
-	long __time2C;
+	int32 __time2C;
 };
 static_assert(sizeof(c_life_cycle_state_handler_end_match_write_stats) == 0x30);
 

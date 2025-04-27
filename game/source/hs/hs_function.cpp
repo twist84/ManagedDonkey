@@ -128,7 +128,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	// 20
 	"sleep",
 	// pauses execution of this script (or, optionally, another script) for the specified number of ticks.\r\nNETWORK SAFE: Yes
-	// <short> [<script>]
+	// <int16> [<script>]
 
 	// 21
 	"sleep_forever",
@@ -138,7 +138,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	// 22
 	"sleep_until",
 	// pauses execution of this script until the specified condition is true, checking once per second unless a different number of ticks is specified.\r\nNETWORK SAFE: Yes
-	// <boolean> [<short>]
+	// <boolean> [<int16>]
 
 	// 23
 	"wake",
@@ -5180,12 +5180,12 @@ hs_function_definition_debug* hs_function_table_debug[hs_function_table_count]
 	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, set, FLAG(1), hs_parse_set, hs_function_table[_hs_function_set]->evaluate /* hs_evaluate_set */, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
 };
 
-DECLARE_LAMBDA2(set_hs_function_table_debug_count, long)
+DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
 {
-	for (long function_index = 0; function_index < hs_function_table_count; function_index++)
+	for (int32 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
 		hs_function_definition const* definition = hs_function_table[function_index];
-		hs_function_table_debug[function_index] = (hs_function_definition_debug*)system_malloc(sizeof(hs_function_definition_debug) + sizeof(short) * definition->formal_parameter_count);
+		hs_function_table_debug[function_index] = (hs_function_definition_debug*)system_malloc(sizeof(hs_function_definition_debug) + sizeof(int16) * definition->formal_parameter_count);
 
 		hs_function_definition_debug* definition_debug = hs_function_table_debug[function_index];
 
@@ -5263,14 +5263,14 @@ DECLARE_LAMBDA2(set_hs_function_table_debug_count, long)
 		definition_debug->formal_parameter_count = definition->formal_parameter_count;
 		if (definition_debug->formal_parameter_count > 0)
 		{
-			csmemcpy(definition_debug->formal_parameters, definition->formal_parameters, sizeof(short) * definition_debug->formal_parameter_count);
+			csmemcpy(definition_debug->formal_parameters, definition->formal_parameters, sizeof(int16) * definition_debug->formal_parameter_count);
 		}
 	}
 
 	return hs_function_table_count;
 };
 
-long const hs_function_table_debug_count = set_hs_function_table_debug_count();
+int32 const hs_function_table_debug_count = set_hs_function_table_debug_count();
 
 #undef MAKE_HS_FUNCTION_TABLE_ENTRY2
 #undef MAKE_HS_FUNCTION_TABLE_ENTRY

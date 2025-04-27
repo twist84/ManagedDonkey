@@ -33,11 +33,11 @@ extern char const* const k_crash_file_archive;
 
 extern bool __cdecl upload_debug_start();
 extern bool upload_debug_complete(bool* out_success);
-extern bool __cdecl upload_debug_get_output(char* output, long output_size);
+extern bool __cdecl upload_debug_get_output(char* output, int32 output_size);
 extern bool __cdecl upload_debug_create_archive();
 extern bool __cdecl upload_debug_create_fake_archive();
 
-extern void __cdecl upload_debug_update_callback(long current_count, long total_count);
+extern void __cdecl upload_debug_update_callback(int32 current_count, int32 total_count);
 extern void __cdecl upload_debug_completion_callback(bool success, void* discard);
 extern void __cdecl create_and_upload_zip_archive();
 

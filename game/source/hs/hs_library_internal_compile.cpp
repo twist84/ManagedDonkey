@@ -1,9 +1,9 @@
 #include "hs/hs_library_internal_compile.hpp"
 
-bool hs_get_parameter_indices(const char* function_name, short count, long* result_indices, long expression_index)
+bool hs_get_parameter_indices(const char* function_name, int16 count, int32* result_indices, int32 expression_index)
 {
 	hs_syntax_node* expr_node = hs_syntax_get(expression_index);
-	long next_node_index = hs_syntax_get(expr_node->long_value)->next_node_index;
+	int32 next_node_index = hs_syntax_get(expr_node->long_value)->next_node_index;
 
 	bool match_count = false;
 
@@ -13,7 +13,7 @@ bool hs_get_parameter_indices(const char* function_name, short count, long* resu
 	}
 	else
 	{
-		for (short i = 0; i < count; i++)
+		for (int16 i = 0; i < count; i++)
 		{
 			result_indices[i] = next_node_index;
 
@@ -48,18 +48,18 @@ bool hs_get_parameter_indices(const char* function_name, short count, long* resu
 	return false;
 }
 
-bool hs_parse_begin(short function_index, long expression_index)
+bool hs_parse_begin(int16 function_index, int32 expression_index)
 {
 	bool parse_success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
+	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	ASSERT(function_index == _hs_function_begin || function_index == _hs_function_begin_random);
 
-	short argument_count = 0;
+	int16 argument_count = 0;
 	while (parse_success && next_node_index != NONE)
 	{
-		long next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
+		int32 next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
 		if (function_index)
 		{
 			parse_success = hs_parse(next_node_index, expression->type);
@@ -68,7 +68,7 @@ bool hs_parse_begin(short function_index, long expression_index)
 		}
 		else
 		{
-			short type = next_next_node_index == NONE ? expression->type.get() : _hs_type_void;
+			int16 type = next_next_node_index == NONE ? expression->type.get() : _hs_type_void;
 			parse_success = hs_parse(next_node_index, type);
 			if (next_next_node_index == NONE && !expression->type && parse_success)
 				expression->type = hs_syntax_get(next_node_index)->type;
@@ -100,16 +100,16 @@ bool hs_parse_begin(short function_index, long expression_index)
 	return parse_success;
 }
 
-bool hs_parse_if(short function_index, long expression_index)
+bool hs_parse_if(int16 function_index, int32 expression_index)
 {
 	bool parse_success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
+	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	ASSERT(function_index == _hs_function_if);
 
-	long next_next_expression = NONE;
-	long next_next_next_node_index = NONE;
+	int32 next_next_expression = NONE;
+	int32 next_next_next_node_index = NONE;
 	if (next_node_index == NONE
 		|| (next_next_expression = hs_syntax_get(next_node_index)->next_node_index, next_next_expression == NONE)
 		|| (next_next_next_node_index = hs_syntax_get(next_next_expression)->next_node_index, next_next_next_node_index != NONE)
@@ -140,18 +140,18 @@ bool hs_parse_if(short function_index, long expression_index)
 	return parse_success;
 }
 
-bool hs_parse_cond(short function_index, long expression_index)
+bool hs_parse_cond(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 }
 
-bool hs_parse_set(short function_index, long expression_index)
+bool hs_parse_set(int16 function_index, int32 expression_index)
 {
 	bool parse_success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	long next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
+	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	if (next_node_index == NONE)
 	{
@@ -160,7 +160,7 @@ bool hs_parse_set(short function_index, long expression_index)
 		return false;
 	}
 
-	long next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
+	int32 next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
 	if (next_next_node_index == NONE)
 	{
 		hs_compile_globals.error_message = "i expected a variable to set and a value.";
@@ -176,7 +176,7 @@ bool hs_parse_set(short function_index, long expression_index)
 	}
 
 	hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-	short global_index = hs_find_global_by_name(&hs_compile_globals.compiled_source[next_expression->source_offset]);
+	int16 global_index = hs_find_global_by_name(&hs_compile_globals.compiled_source[next_expression->source_offset]);
 	if (global_index == NONE)
 	{
 		hs_compile_globals.error_message = "this is not a valid global variable.";
@@ -205,74 +205,74 @@ bool hs_parse_set(short function_index, long expression_index)
 	return true;
 }
 
-bool hs_parse_logical(short function_index, long expression_index)
+bool hs_parse_logical(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_arithmetic(short function_index, long expression_index)
+bool hs_parse_arithmetic(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_equality(short function_index, long expression_index)
+bool hs_parse_equality(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_inequality(short function_index, long expression_index)
+bool hs_parse_inequality(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_sleep(short function_index, long expression_index)
+bool hs_parse_sleep(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_sleep_for_ticks(short function_index, long expression_index)
+bool hs_parse_sleep_for_ticks(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_sleep_forever(short function_index, long expression_index)
+bool hs_parse_sleep_forever(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_sleep_until(short function_index, long expression_index)
+bool hs_parse_sleep_until(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_wake(short function_index, long expression_index)
+bool hs_parse_wake(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 
 	return false;
 };
 
-bool hs_parse_inspect(short function_index, long expression_index)
+bool hs_parse_inspect(int16 function_index, int32 expression_index)
 {
 	ASSERT(function_index == _hs_function_inspect);
 
-	long argument_index;
+	int32 argument_index;
 	if (!hs_get_parameter_indices(hs_function_table_debug[function_index]->name, 1, &argument_index, expression_index))
 	{
 		return false;
@@ -291,7 +291,7 @@ bool hs_parse_inspect(short function_index, long expression_index)
 	return true;
 };
 
-bool hs_parse_object_cast_up(short function_index, long expression_index)
+bool hs_parse_object_cast_up(int16 function_index, int32 expression_index)
 {
 	// $TODO: implement
 

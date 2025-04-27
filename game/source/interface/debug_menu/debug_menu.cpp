@@ -19,11 +19,11 @@ void c_debug_menu::update()
 {
 	if (get_selection() >= 0 && get_selection() < get_num_items() && !get_item(get_selection())->get_active())
 	{
-		short selection = get_selection();
-		short num_items = get_num_items();
-		for (short i = 1; i < get_num_items(); i++)
+		int16 selection = get_selection();
+		int16 num_items = get_num_items();
+		for (int16 i = 1; i < get_num_items(); i++)
 		{
-			short item_index = (selection + i) % num_items;
+			int16 item_index = (selection + i) % num_items;
 			if (get_item(item_index)->get_active())
 			{
 				set_selection(item_index);
@@ -32,7 +32,7 @@ void c_debug_menu::update()
 		}
 	}
 
-	for (short item_index = 0; item_index < get_num_items(); item_index++)
+	for (int16 item_index = 0; item_index < get_num_items(); item_index++)
 		get_item(item_index)->update();
 
 	gamepad_state const& state = debug_menu_get_gamepad_state();
@@ -119,8 +119,8 @@ void c_debug_menu::update()
 			_key_z,
 		};
 
-		short selection = _key_not_a_key;
-		for (short i = _key_1; i <= _key_0; i++)
+		int16 selection = _key_not_a_key;
+		for (int16 i = _key_1; i <= _key_0; i++)
 		{
 			if (input_key_frames_down(e_input_key_code(i), _input_type_ui) == 1)
 			{
@@ -132,7 +132,7 @@ void c_debug_menu::update()
 			}
 		}
 
-		for (short i = _keypad_0; i <= _keypad_9; i++)
+		for (int16 i = _keypad_0; i <= _keypad_9; i++)
 		{
 			if (input_key_frames_down(e_input_key_code(i), _input_type_ui) == 1)
 			{
@@ -144,7 +144,7 @@ void c_debug_menu::update()
 			}
 		}
 
-		for (short i = 0; i < NUMBEROF(letter_keys); i++)
+		for (int16 i = 0; i < NUMBEROF(letter_keys); i++)
 		{
 			if (input_key_frames_down(letter_keys[i], _input_type_ui) == 1)
 			{
@@ -178,13 +178,13 @@ void c_debug_menu::game_render()
 {
 }
 
-void c_debug_menu::notify_selected(short selected_value)
+void c_debug_menu::notify_selected(int16 selected_value)
 {
 }
 
 void c_debug_menu::open()
 {
-	for (short item_index = 0; item_index < get_num_items(); item_index++)
+	for (int16 item_index = 0; item_index < get_num_items(); item_index++)
 		get_item(item_index)->open();
 
 	set_selection(0);
@@ -204,7 +204,7 @@ void c_debug_menu::notify_activated()
 {
 }
 
-long c_debug_menu::get_num_items_to_render()
+int32 c_debug_menu::get_num_items_to_render()
 {
 	return get_num_items();
 }
@@ -223,7 +223,7 @@ void c_debug_menu::close(bool closed)
 	}
 }
 
-short c_debug_menu::get_value_width()
+int16 c_debug_menu::get_value_width()
 {
 	return 0;
 }
@@ -247,13 +247,13 @@ void c_debug_menu::notify_up()
 	if (!get_num_items())
 		return;
 
-	short selection = get_selection();
+	int16 selection = get_selection();
 	m_last_up = debug_menu_get_time();
 	
 	c_debug_menu_item* item = NULL;
 	do
 	{
-		short current_selection = get_selection();
+		int16 current_selection = get_selection();
 		if (get_selection() <= 0)
 			current_selection = get_num_items();
 		set_selection(current_selection - 1);
@@ -276,13 +276,13 @@ void c_debug_menu::notify_down()
 	if (!get_num_items())
 		return;
 
-	short selection = get_selection();
+	int16 selection = get_selection();
 	m_last_down = debug_menu_get_time();
 	
 	c_debug_menu_item* item = NULL;
 	do
 	{
-		short current_selection = get_selection();
+		int16 current_selection = get_selection();
 		if (current_selection >= get_num_items() - 1)
 			set_selection(0);
 		else
@@ -305,7 +305,7 @@ void c_debug_menu::notify_right()
 
 bool c_debug_menu::is_active_menu()
 {
-	for (short item_index = 0; item_index < get_num_items(); item_index++)
+	for (int16 item_index = 0; item_index < get_num_items(); item_index++)
 	{
 		if (get_item(item_index)->get_active())
 			return true;
@@ -314,15 +314,15 @@ bool c_debug_menu::is_active_menu()
 	return false;
 };
 
-short c_debug_menu::get_menu_rate()
+int16 c_debug_menu::get_menu_rate()
 {
 	return 5;
 };
 
-short c_debug_menu::get_max_active_captions()
+int16 c_debug_menu::get_max_active_captions()
 {
-	short max_active_captions = *get_caption() != 0;
-	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
+	int16 max_active_captions = *get_caption() != 0;
+	for (int16 caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
 	{
 		if (*debug_menu_get_caption(caption_index))
 			max_active_captions = caption_index + 2;
@@ -335,10 +335,10 @@ void c_debug_menu::render_background(c_font_cache_base* font_cache, point2d cons
 {
 	real32 item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
 
-	short x0 = short((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
-	short y0 = point.y;
-	short x1 = short((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
-	short y1 = short((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
+	int16 x0 = int16((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
+	int16 y0 = point.y;
+	int16 x1 = int16((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
+	int16 y1 = int16((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
 	real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_tv_blue);
@@ -351,15 +351,15 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, point2d const& po
 	rectangle2d bounds{};
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 
-	short x0 = point.x;
-	short y0 = short(point.y + debug_menu_get_item_indent_y());
-	short x1 = short(point.x + debug_menu_get_item_width());
-	short y1 = short((point.y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+	int16 x0 = point.x;
+	int16 y0 = int16(point.y + debug_menu_get_item_indent_y());
+	int16 x1 = int16(point.x + debug_menu_get_item_width());
+	int16 y1 = int16((point.y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
 	real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 
-	set_rectangle2d(&bounds, point.x, point.y, short(point.x + debug_menu_get_item_width()), bounds.y1);
+	set_rectangle2d(&bounds, point.x, point.y, int16(point.x + debug_menu_get_item_width()), bounds.y1);
 	draw_string.set_bounds(&bounds);
 	draw_string.set_color(debug_real_argb_tv_magenta);
 	draw_string.draw(font_cache, m_name);
@@ -373,16 +373,16 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, point2d const& 
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 	if (*get_caption())
 	{
-		short x0 = point.x;
-		short y0 = short(point.y + debug_menu_get_item_indent_y());
-		short x1 = short(point.x + debug_menu_get_item_width());
-		short y1 = short(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+		int16 x0 = point.x;
+		int16 y0 = int16(point.y + debug_menu_get_item_indent_y());
+		int16 x1 = int16(point.x + debug_menu_get_item_width());
+		int16 y1 = int16(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
 		real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 		debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 	}
 
-	set_rectangle2d(&bounds, point.x, short((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()), short(point.x + debug_menu_get_item_width()), bounds.y1);
+	set_rectangle2d(&bounds, point.x, int16((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()), int16(point.x + debug_menu_get_item_width()), bounds.y1);
 	draw_string.draw(font_cache, get_caption());
 }
 
@@ -393,17 +393,17 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d 
 	rectangle2d bounds{};
 	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 
-	set_rectangle2d(&bounds, point.x, short((point.y + get_title_height()) * (get_num_items_to_render() + 1) * get_item_height()), short(point.x + debug_menu_get_item_width()), bounds.y1);
+	set_rectangle2d(&bounds, point.x, int16((point.y + get_title_height()) * (get_num_items_to_render() + 1) * get_item_height()), int16(point.x + debug_menu_get_item_width()), bounds.y1);
 	draw_string.set_color(debug_real_argb_tv_magenta);
 
-	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
+	for (int16 caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
 	{
 		if (*debug_menu_get_caption(caption_index))
 		{
-			short x0 = point.x;
-			short y0 = short(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
-			short x1 = short(point.x + debug_menu_get_item_width());
-			short y1 = short(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+			int16 x0 = point.x;
+			int16 y0 = int16(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
+			int16 x1 = int16(point.x + debug_menu_get_item_width());
+			int16 y1 = int16(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
 			real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 			debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
@@ -420,20 +420,20 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d 
 	}
 }
 
-void c_debug_menu::render_items(c_font_cache_base* font_cache, point2d const& point, short start_index, short end_index)
+void c_debug_menu::render_items(c_font_cache_base* font_cache, point2d const& point, int16 start_index, int16 end_index)
 {
 	ASSERT(start_index >= 0);
 	ASSERT(start_index <= end_index);
 
-	for (short item_index = start_index; item_index <= end_index && item_index < get_num_items(); item_index++)
+	for (int16 item_index = start_index; item_index <= end_index && item_index < get_num_items(); item_index++)
 	{
 		c_debug_menu_item* item = get_item(item_index);
 		if (item->get_active())
 		{
-			short x0 = point.x;
-			short y0 = short(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
-			short x1 = short(point.x + debug_menu_get_item_width());
-			short y1 = short((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
+			int16 x0 = point.x;
+			int16 y0 = int16(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
+			int16 x1 = int16(point.x + debug_menu_get_item_width());
+			int16 y1 = int16((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
 			real32 alpha = get_enabled() ? 0.7f : 0.1f;
 
 			debug_menu_draw_rect(x0, y0, x1, y1, alpha, item->get_background_color());
@@ -496,7 +496,7 @@ c_debug_menu::c_debug_menu(c_debug_menu* parent, char const* name) :
 
 void c_debug_menu::clear()
 {
-	for (short item_index = 0; item_index < get_num_items(); item_index++)
+	for (int16 item_index = 0; item_index < get_num_items(); item_index++)
 	{
 		//unreachable
 
@@ -508,33 +508,33 @@ void c_debug_menu::clear()
 	set_num_items(0);
 }
 
-short c_debug_menu::get_num_items()
+int16 c_debug_menu::get_num_items()
 {
 	ASSERT(m_num_items >= 0 && m_num_items <= k_max_items);
 
 	return m_num_items;
 }
 
-void c_debug_menu::set_num_items(short num_items)
+void c_debug_menu::set_num_items(int16 num_items)
 {
 	ASSERT(num_items >= 0 && num_items <= k_max_items);
 
 	m_num_items = num_items;
 }
 
-short c_debug_menu::get_selection()
+int16 c_debug_menu::get_selection()
 {
 	return m_selection;
 }
 
-void c_debug_menu::set_selection(short selection)
+void c_debug_menu::set_selection(int16 selection)
 {
 	ASSERT(selection >= 0 && (get_num_items() == 0 || selection < get_num_items()));
 
 	m_selection = selection;
 }
 
-c_debug_menu_item* c_debug_menu::get_item(short item_index)
+c_debug_menu_item* c_debug_menu::get_item(int16 item_index)
 {
 	ASSERT(get_num_items() >= 0 && get_num_items() < k_max_items);
 	ASSERT(m_items[item_index] != NULL);
@@ -558,7 +558,7 @@ char const* c_debug_menu::get_name()
 
 void c_debug_menu::set_name(char const* name)
 {
-	long name_size = strlen(name) + 1;
+	int32 name_size = strlen(name) + 1;
 
 	ASSERT(m_name == NULL);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));
@@ -567,7 +567,7 @@ void c_debug_menu::set_name(char const* name)
 
 void c_debug_menu::set_caption(char const* caption)
 {
-	long caption_size = strlen(caption) + 1;
+	int32 caption_size = strlen(caption) + 1;
 
 	//ASSERT(m_caption == NULL);
 	m_caption = static_cast<char*>(debug_menu_malloc(caption_size));
@@ -589,18 +589,18 @@ void c_debug_menu::set_enabled(bool enable)
 	m_enabled = enable;
 }
 
-short c_debug_menu::get_title_height()
+int16 c_debug_menu::get_title_height()
 {
-	return static_cast<short>(debug_menu_get_title_height());
+	return static_cast<int16>(debug_menu_get_title_height());
 }
 
-short c_debug_menu::get_item_indent()
+int16 c_debug_menu::get_item_indent()
 {
-	return static_cast<short>(debug_menu_get_item_indent_x());
+	return static_cast<int16>(debug_menu_get_item_indent_x());
 }
 
-short c_debug_menu::get_item_height()
+int16 c_debug_menu::get_item_height()
 {
-	return static_cast<short>(debug_menu_get_item_height());
+	return static_cast<int16>(debug_menu_get_item_height());
 }
 

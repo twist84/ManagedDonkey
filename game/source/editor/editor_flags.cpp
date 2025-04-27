@@ -12,7 +12,7 @@ void editor_flag_new_at_camera()
 {
 	//if (enable_controller_flag_drop)
 	//{
-	//	long active_output_user = player_mapping_first_active_output_user();
+	//	int32 active_output_user = player_mapping_first_active_output_user();
 	//	if (active_output_user != NONE)
 	//	{
 	//		s_observer_result const* camera = observer_get_camera(active_output_user);
@@ -29,7 +29,7 @@ void editor_flag_new_at_look_at_point()
 
 void editor_flag_render_look_at_point()
 {
-	//long active_output_user = player_mapping_first_active_output_user();
+	//int32 active_output_user = player_mapping_first_active_output_user();
 	//real_point3d look_at_point{};
 	//if (user_get_look_at_point(active_output_user, &look_at_point))
 	//	editor_render_flag_internal(g_default_flag_name.get_string(), g_default_flag_description.get_string(), &look_at_point, global_real_argb_blue, global_real_argb_cyan);
@@ -39,9 +39,9 @@ void render_debug_scenario_comments()
 {
 	//if (render_comment_flags)
 	//{
-	//	long flag_count = 0;
+	//	int32 flag_count = 0;
 	//	editor_comment_definition* flags = editor_flags_get(&flag_count);
-	//	for (long flag_index = 0; flag_index < flag_count; flag_index++)
+	//	for (int32 flag_index = 0; flag_index < flag_count; flag_index++)
 	//	{
 	//		editor_comment_definition* flag = &flags[flag_index];
 	//		editor_flag_render(flag->name,

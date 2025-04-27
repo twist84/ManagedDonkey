@@ -22,7 +22,7 @@ REFERENCE_DECLARE(0x02240B80, s_networking_join_data, g_network_join_data);
 //.text:0047E580 ; void __cdecl network_join_local_squad_to_remote_group(s_transport_secure_identifier const*, s_transport_secure_key const*, s_transport_secure_address const*, s_group_session_join_request_payload const*)
 //.text:0047E640 ; void __cdecl network_join_local_squad_to_remote_target_group(s_transport_secure_identifier const*, s_transport_secure_key const*, s_transport_secure_address const*, s_group_session_join_request_payload const*)
 //.text:0047E700 ; e_life_cycle_join_result __cdecl network_join_map_refuse_reason_to_join_result(e_network_join_refuse_reason, bool, c_network_session const*)
-//.text:0047E8A0 ; long __cdecl network_join_number_of_joins_in_queue()
+//.text:0047E8A0 ; int32 __cdecl network_join_number_of_joins_in_queue()
 //.text:0047E8B0 ; bool __cdecl network_join_process_joins_from_queue()	
 //.text:0047EA50 ; void __cdecl network_join_queue_update()
 //.text:0047EBB0 ; void __cdecl network_join_remove_join_from_queue(uint64)

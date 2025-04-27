@@ -20,10 +20,10 @@ public:
 	real32 g_target_exposure_stops;
 	real32 g_original_exposure_blend;
 	real32 g_target_exposure_blend;
-	long g_exposure_animation_start_time;
-	long g_exposure_animation_end_time;
-	long g_exposure_adapt_instantly_frames;
-	long g_disable_autoexposure_frames;
+	int32 g_exposure_animation_start_time;
+	int32 g_exposure_animation_end_time;
+	int32 g_exposure_adapt_instantly_frames;
+	int32 g_disable_autoexposure_frames;
 };
 static_assert(sizeof(s_scripted_exposure) == 0x34);
 
@@ -160,16 +160,16 @@ static_assert(sizeof(c_camera_fx_settings) == 0x170);
 // $TODO: figure out the difference
 struct c_exposure
 {
-	long m_render_target_queue_size;
-	long m_render_target_queue_index;
-	long m_render_target_queue[1];
+	int32 m_render_target_queue_size;
+	int32 m_render_target_queue_index;
+	int32 m_render_target_queue[1];
 
 	real32 m_prev_exposure;
 	real32 m_exposure;
 	real32 m_exposure_velocity;
 	real32 m_exposure_buffer[60];
 
-	long m_buffer_index;
+	int32 m_buffer_index;
 };
 static_assert(sizeof(c_exposure) == 0x10C);
 

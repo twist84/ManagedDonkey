@@ -9,7 +9,7 @@
 
 #include <DDS.h>
 
-REFERENCE_DECLARE(0x01670A18, long const, g_cache_file_tag_resource_vtable_count);
+REFERENCE_DECLARE(0x01670A18, int32 const, g_cache_file_tag_resource_vtable_count);
 REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_cache_file_tag_resource_vtable_list, 2);
 
 REFERENCE_DECLARE(0x023916C0, c_cache_file_tag_resource_runtime_manager_allocation, g_resource_runtime_manager);
@@ -59,7 +59,7 @@ struct c_runtime_resource_cache_file_decompressor :
 
 	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
 	{
-		for (long i = 0; i < g_resource_file_headers.count(); i++)
+		for (int32 i = 0; i < g_resource_file_headers.count(); i++)
 		{
 			s_resource_file_header const* file_header = g_resource_file_headers[i];
 
@@ -177,7 +177,7 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
 
 	{
-		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
+		int32 new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
 		ASSERT(new_element_index == _cache_file_compression_codec_runtime_resource);
 
 		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_resource_cache_file_decompressor_service;
@@ -185,7 +185,7 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 	}
 
 	{
-		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
+		int32 new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
 		ASSERT(new_element_index == _cache_file_compression_codec_runtime_tag_resource);
 
 		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_tag_resource_cache_file_decompressor_service;
@@ -257,8 +257,8 @@ void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_resu
 	g_resource_runtime_manager.get()->load_required_resources_blocking(io_result);
 }
 
-//.text:0055F820 ; real32 __cdecl cache_file_tag_resources_map_prefetch_progress(short, char const*)
-//.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(short, char const*)
+//.text:0055F820 ; real32 __cdecl cache_file_tag_resources_map_prefetch_progress(int16, char const*)
+//.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(int16, char const*)
 
 bool __cdecl cache_file_tag_resources_prefetch_update_required()
 {
@@ -280,12 +280,12 @@ void __cdecl cache_file_tag_resources_update_prefetch_state()
 	return INVOKE(0x0055F960, cache_file_tag_resources_update_prefetch_state);
 }
 
-void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state)
+void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, s_scenario_zone_state const* zone_state)
 {
 	INVOKE(0x0055F8E0, cache_file_tag_resources_set_zone_state, scenario_index, zone_set_name, zone_state);
 }
 
-void __cdecl cache_file_tag_resources_start_map_prefetch(short campaign_id, char const* scenario_path)
+void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, char const* scenario_path)
 {
 	INVOKE(0x0055F900, cache_file_tag_resources_start_map_prefetch, campaign_id, scenario_path);
 }
@@ -388,7 +388,7 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
 }
 
-//.text:00563E50 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(long)
+//.text:00563E50 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(int32)
 //.text:00563E80 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(s_tag_resource const*)
 //.text:00563EB0 ; bool __cdecl tag_resource_stream_async(s_tag_resource const*, bool, uint32, uint32, c_basic_buffer<void>, s_async_thread_marker*)
 //.text:00563EE0 ; bool __cdecl tag_resource_test_access_state(s_tag_resource const*, e_tag_resource_access_state_bit)
@@ -399,7 +399,7 @@ void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource)
 	return result;
 }
 
-long __cdecl tag_resources_lock_game()
+int32 __cdecl tag_resources_lock_game()
 {
 	//return INVOKE(0x00563F80, tag_resources_lock_game);
 
@@ -453,7 +453,7 @@ void __cdecl tag_resources_stagnate_deferred_resources()
 	g_resource_runtime_manager.get()->stagnate_deferred_resources();
 }
 
-void __cdecl tag_resources_unlock_game(long& lock)
+void __cdecl tag_resources_unlock_game(int32& lock)
 {
 	//INVOKE(0x005640B0, tag_resources_unlock_game, lock);
 
@@ -501,10 +501,10 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 {
 	data_make_valid(m_shared_file_handles);
 	m_shared_file_datum_indices[6] = 6;
-	for (long& header_file_location_handle : m_shared_file_datum_indices)
+	for (int32& header_file_location_handle : m_shared_file_datum_indices)
 		header_file_location_handle = NONE;
 
-	long header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
+	int32 header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
 	s_cache_file_tag_resource_runtime_shared_file* runtime_shared_file = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, header_file_location_handle);
 
 	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file->indirect_file))
@@ -520,7 +520,7 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 	{
 		for (e_map_file_index map_file_index = _map_file_index_shared_resources; map_file_index < k_cached_map_file_shared_count; map_file_index++)
 		{
-			long next_header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, map_file_index);
+			int32 next_header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, map_file_index);
 			s_cache_file_tag_resource_runtime_shared_file* next_header_file_location = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, next_header_file_location_handle);
 
 			if (cached_map_file_is_shared(map_file_index - 1))
@@ -539,8 +539,8 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 
 void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(
 	e_game_mode game_mode,
-	long cache_file_resource_gestalt_index,
-	long resource_vtable_list_count,
+	int32 cache_file_resource_gestalt_index,
+	int32 resource_vtable_list_count,
 	s_cache_file_tag_resource_vtable const** resource_vtable_list,
 	c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry)
 {

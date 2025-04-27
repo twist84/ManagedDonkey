@@ -2,22 +2,22 @@
 
 #include "cache/cache_files.hpp"
 
-void __cdecl vehicle_definition_fixup(long vehicle_definition_index)
+void __cdecl vehicle_definition_fixup(int32 vehicle_definition_index)
 {
 	INVOKE(0x00B95510, vehicle_definition_fixup, vehicle_definition_index);
 }
 
-e_vehicle_type __cdecl vehicle_definition_get_default_type(long vehicle_definition_index)
+e_vehicle_type __cdecl vehicle_definition_get_default_type(int32 vehicle_definition_index)
 {
 	return INVOKE(0x00B95540, vehicle_definition_get_default_type, vehicle_definition_index);
 }
 
-void __cdecl vehicle_definition_teardown(long vehicle_definition_index)
+void __cdecl vehicle_definition_teardown(int32 vehicle_definition_index)
 {
 	INVOKE(0x00B95580, vehicle_definition_teardown, vehicle_definition_index);
 }
 
-s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_definition(long vehicle_definition_index)
+s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B955B0, vehicle_get_alien_fighter_definition, vehicle_definition_index);
 
@@ -26,7 +26,7 @@ s_vehicle_alien_fighter_definition const* __cdecl vehicle_get_alien_fighter_defi
 	return alien_fighter_definition;
 }
 
-s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definition(long vehicle_definition_index)
+s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B955D0, vehicle_get_alien_scout_definition, vehicle_definition_index);
 
@@ -35,7 +35,7 @@ s_vehicle_alien_scout_definition const* __cdecl vehicle_get_alien_scout_definiti
 	return alien_scout_definition;
 }
 
-s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(long vehicle_definition_index)
+s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B955F0, vehicle_get_chopper_definition, vehicle_definition_index);
 
@@ -44,7 +44,7 @@ s_vehicle_chopper_definition const* __cdecl vehicle_get_chopper_definition(long 
 	return chopper_definition;
 }
 
-s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(long vehicle_definition_index)
+s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B95610, vehicle_get_guardian_definition, vehicle_definition_index);
 
@@ -53,7 +53,7 @@ s_vehicle_guardian_definition const* __cdecl vehicle_get_guardian_definition(lon
 	return guardian_definition;
 }
 
-s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition(long vehicle_definition_index)
+s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B95630, vehicle_get_human_jeep_definition, vehicle_definition_index);
 
@@ -62,7 +62,7 @@ s_vehicle_human_jeep_definition const* __cdecl vehicle_get_human_jeep_definition
 	return human_jeep_definition;
 }
 
-s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definition(long vehicle_definition_index)
+s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B95650, vehicle_get_human_plane_definition, vehicle_definition_index);
 
@@ -71,7 +71,7 @@ s_vehicle_human_plane_definition const* __cdecl vehicle_get_human_plane_definiti
 	return human_plane_definition;
 }
 
-s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition(long vehicle_definition_index)
+s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B95670, vehicle_get_human_tank_definition, vehicle_definition_index);
 
@@ -80,7 +80,7 @@ s_vehicle_human_tank_definition const* __cdecl vehicle_get_human_tank_definition
 	return human_tank_definition;
 }
 
-s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(long vehicle_definition_index)
+s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B95690, vehicle_get_mantis_definition, vehicle_definition_index);
 
@@ -89,7 +89,7 @@ s_vehicle_mantis_definition const* __cdecl vehicle_get_mantis_definition(long ve
 	return mantis_definition;
 }
 
-s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(long vehicle_definition_index)
+s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B956B0, vehicle_get_turret_definition, vehicle_definition_index);
 
@@ -98,7 +98,7 @@ s_vehicle_turret_definition const* __cdecl vehicle_get_turret_definition(long ve
 	return turret_definition;
 }
 
-s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(long vehicle_definition_index)
+s_vehicle_vtol_definition const* __cdecl vehicle_get_vtol_definition(int32 vehicle_definition_index)
 {
 	//return INVOKE(0x00B956D0, vehicle_get_vtol_definition, vehicle_definition_index);
 

@@ -19,8 +19,8 @@ extern void __cdecl ai_dialogue_dispose_from_old_map();
 extern void __cdecl ai_dialogue_initialize();
 extern void __cdecl ai_dialogue_initialize_for_new_map();
 extern void __cdecl ai_dialogue_update();
-extern real64 __cdecl dialogue_player_weighting(long unit_index);
-extern short __cdecl dialogue_team_get(short team);
+extern real64 __cdecl dialogue_player_weighting(int32 unit_index);
+extern int16 __cdecl dialogue_team_get(int16 team);
 
 extern void ai_dialogue_render_player_weights();
 

@@ -6,17 +6,17 @@ HOOK_DECLARE(0x00AF94C0, start_menu_pane_parse_part_count_current);
 HOOK_DECLARE(0x00AF9570, start_menu_pane_parse_part_count_total);
 HOOK_DECLARE(0x00AF9600, start_menu_pane_parse_part_description);
 
-bool __cdecl start_menu_pane_parse_part_count_current(void* this_ptr, wchar_t* buffer, long buffer_size)
+bool __cdecl start_menu_pane_parse_part_count_current(void* this_ptr, wchar_t* buffer, int32 buffer_size)
 {
     return false;
 }
 
-bool __cdecl start_menu_pane_parse_part_count_total(void* this_ptr, wchar_t* buffer, long buffer_size)
+bool __cdecl start_menu_pane_parse_part_count_total(void* this_ptr, wchar_t* buffer, int32 buffer_size)
 {
     return false;
 }
 
-bool __cdecl start_menu_pane_parse_part_description(void* this_ptr, wchar_t* buffer, long buffer_size)
+bool __cdecl start_menu_pane_parse_part_description(void* this_ptr, wchar_t* buffer, int32 buffer_size)
 {
     return false;
 }

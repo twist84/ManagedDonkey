@@ -43,6 +43,6 @@ void __cdecl portal_activation_initialize_for_new_structure_bsp(uint32 activatin
 
 //.text:005FA040 ; 
 //.text:005FA090 ; void __cdecl portal_activation_set_portal_active(s_portal_reference, bool)
-//.text:005FA0F0 ; void __cdecl portal_activation_update_machine_activity(long)
+//.text:005FA0F0 ; void __cdecl portal_activation_update_machine_activity(int32)
 //.text:005FA130 ; 
 

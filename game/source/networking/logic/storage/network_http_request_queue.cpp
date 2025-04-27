@@ -20,9 +20,9 @@ c_network_http_request_description::c_network_http_request_description()
 	DECLFUNC(0x004A2D90, void, __thiscall, c_network_http_request_description*)(this);
 }
 
-c_network_http_request_item::c_network_http_request_item(long request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, c_network_http_request_description const* request_description)
+c_network_http_request_item::c_network_http_request_item(int32 request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, c_network_http_request_description const* request_description)
 {
-	DECLFUNC(0x004A2DC0, void, __thiscall, c_network_http_request_item*, long, c_network_http_request_queue*, e_online_lsp_service_type, c_network_http_request_description const*)(this, request_cookie, request_queue, service_type, request_description);
+	DECLFUNC(0x004A2DC0, void, __thiscall, c_network_http_request_item*, int32, c_network_http_request_queue*, e_online_lsp_service_type, c_network_http_request_description const*)(this, request_cookie, request_queue, service_type, request_description);
 }
 
 c_network_http_request_item::c_network_http_request_item()
@@ -37,14 +37,14 @@ c_network_http_request_queue::c_network_http_request_queue(e_network_http_reques
 
 //.text:004A2F30 ; e_network_http_request_result c_network_http_request_queue::acquire_server(c_network_http_request_item* request_item)
 
-void c_network_http_request_queue::cancel_request(long request_cookie)
+void c_network_http_request_queue::cancel_request(int32 request_cookie)
 {
 	INVOKE_CLASS_MEMBER(0x004A3050, c_network_http_request_queue, cancel_request, request_cookie);
 }
 
 //.text:004A3140 ; void c_network_http_request_item::failed(bool failed)
-//.text:004A3170 ; c_network_http_request_item  c_network_http_request_queue::find_http_request_item_from_cookie(long request_cookie)
-//.text:004A31C0 ; long c_network_http_request_queue::find_http_request_item_index(c_network_http_request_item const* request_item) const 
+//.text:004A3170 ; c_network_http_request_item  c_network_http_request_queue::find_http_request_item_from_cookie(int32 request_cookie)
+//.text:004A31C0 ; int32 c_network_http_request_queue::find_http_request_item_index(c_network_http_request_item const* request_item) const 
 
 c_network_http_request_queue* c_network_http_request_queue::get(e_network_http_request_queue_type queue_type)
 {
@@ -57,14 +57,14 @@ c_network_http_request_queue* c_network_http_request_queue::get(e_network_http_r
 
 //.text:004A3240 ; c_network_http_request_description const* c_network_http_request_item::get_description() const
 //.text:004A3250 ; char* c_network_http_request_item::get_fill_buffer() const
-//.text:004A3260 ; long c_network_http_request_item::get_fill_buffer_length() const
-//.text:004A3270 ; long c_network_http_request_item::get_fill_buffer_progress() const
+//.text:004A3260 ; int32 c_network_http_request_item::get_fill_buffer_length() const
+//.text:004A3270 ; int32 c_network_http_request_item::get_fill_buffer_progress() const
 //.text:004A3280 ; char const* c_network_http_request_description::get_headers() const
 //.text:004A3290 ; c_http_post_source const* c_network_http_request_description::get_post_source() const
 //.text:004A32A0 ; 
 //.text:004A32B0 ; 
 //.text:004A32C0 ; e_http_request_type c_network_http_request_description::get_request_type() const
-//.text:004A32D0 ; long c_network_http_request_item::get_retries_remaining() const
+//.text:004A32D0 ; int32 c_network_http_request_item::get_retries_remaining() const
 //.text:004A32E0 ; e_online_lsp_service_type c_network_http_request_item::get_service_type() const
 //.text:004A32F0 ; 
 
@@ -75,7 +75,7 @@ bool c_network_http_request_queue::has_file_changed(c_network_http_request_descr
 	//return network_http_request_cache_has_file_changed(request_description);
 }
 
-e_network_http_request_result c_network_http_request_queue::is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason)
+e_network_http_request_result c_network_http_request_queue::is_fill_buffer_complete(int32 request_cookie, int32* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason)
 {
 	return INVOKE_CLASS_MEMBER(0x004A3350, c_network_http_request_queue, is_fill_buffer_complete, request_cookie, bytes_read, request_hash, out_failure_reason);
 }
@@ -118,27 +118,27 @@ void __cdecl network_http_request_queue_update()
 //.text:004A36A0 ; void network_storage_set_storage_subdirectory(char const* storage_subdirectory)
 //.text:004A36C0 ; void network_storage_set_storage_user(char const* storage_user)
 
-e_network_http_request_result c_network_http_request_queue::read_bytes(long request_cookie, char* buffer, long buffer_length, long* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason)
+e_network_http_request_result c_network_http_request_queue::read_bytes(int32 request_cookie, char* buffer, int32 buffer_length, int32* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason)
 {
 	return INVOKE_CLASS_MEMBER(0x004A3730, c_network_http_request_queue, read_bytes, request_cookie, buffer, buffer_length, out_bytes_read, out_failure_reason);
 }
 
-//.text:004A37E0 ; e_network_http_request_result c_network_http_request_queue::read_bytes_internal(c_network_http_request_item* request_item, char* buffer, long buffer_length, long* out_bytes_read, bool* out_item_was_removed, e_network_http_request_queue_failure_reason* out_failure_reason)
+//.text:004A37E0 ; e_network_http_request_result c_network_http_request_queue::read_bytes_internal(c_network_http_request_item* request_item, char* buffer, int32 buffer_length, int32* out_bytes_read, bool* out_item_was_removed, e_network_http_request_queue_failure_reason* out_failure_reason)
 //.text:004A3AD0 ; void c_network_http_request_queue::remove_first_item_from_queue()
 //.text:004A3B00 ; void c_network_http_request_queue::request_failed(c_network_http_request_item* request_item, bool, bool )
-//.text:004A3B60 ; bool c_network_http_request_queue::run_request(char* buffer, long buffer_length, long* out_bytes_read, bool* upload_complete, long* http_response_code)
+//.text:004A3B60 ; bool c_network_http_request_queue::run_request(char* buffer, int32 buffer_length, int32* out_bytes_read, bool* upload_complete, int32* http_response_code)
 //.text:004A3C00 ; void c_network_http_request_item::set_client_usage_type(e_client_usage_type client_usage_type)
 //.text:004A3C10 ; void c_network_http_request_item::set_fill_buffer(char* fill_buffer)
-//.text:004A3C20 ; void c_network_http_request_item::set_fill_buffer_length(long fill_buffer_length)
-//.text:004A3C30 ; void c_network_http_request_item::set_fill_buffer_progress(long fill_buffer_progress)
+//.text:004A3C20 ; void c_network_http_request_item::set_fill_buffer_length(int32 fill_buffer_length)
+//.text:004A3C30 ; void c_network_http_request_item::set_fill_buffer_progress(int32 fill_buffer_progress)
 //.text:004A3C40 ; void c_network_http_request_item::set_request_state(e_network_http_request_state request_state)
 
-long c_network_http_request_queue::start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description)
+int32 c_network_http_request_queue::start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description)
 {
 	return INVOKE_CLASS_MEMBER(0x004A3C50, c_network_http_request_queue, start_request, service_type, request_description);
 }
 
-long c_network_http_request_queue::start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, long buffer_length)
+int32 c_network_http_request_queue::start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, int32 buffer_length)
 {
 	return INVOKE_CLASS_MEMBER(0x004A3D80, c_network_http_request_queue, start_request_into_buffer, service_type, request_description, buffer, buffer_length);
 }

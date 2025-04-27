@@ -9,7 +9,7 @@ t_value_type<uint32> const max_channels_as_dword = { .value = uint32(MAX_CHANNEL
 t_value_type<uint8> const max_channels_as_byte = { .value = uint8(MAX_CHANNELS) };
 //t_value_type<uint32> const sound_preferences_channel_counts_loop_count = { .value = 0 };
 //t_value_type<uint32> const sound_channels_datum_size = { .value = uint32(MAX_CHANNELS * 0x38) };
-//t_value_type<short[5]> const sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
+//t_value_type<int16[5]> const sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
 
 HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, LoadCinePreload);
 HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, LoadTagParams);
@@ -72,7 +72,7 @@ namespace FMOD
 	HOOK_DECLARE_CALL(0x01369B0D, System_init);
 
 	// `FMOD::System::init`
-	long __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata)
+	int32 __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata)
 	{
 		return INVOKE(0x013883C1, System_init, system, MAX_CHANNELS, flags, extradriverdata);
 	}
@@ -89,12 +89,12 @@ namespace snd
 	//// result for `SYSTEM_FMOD::sub_4035E0`
 	//DATA_PATCH_DECLARE(0x004035E1, max_channels, max_channels_as_dword.bytes);
 
-	long __cdecl SYSTEM_FMOD::sub_4035E0()
+	int32 __cdecl SYSTEM_FMOD::sub_4035E0()
 	{
 		return MAX_CHANNELS;
 	}
 
-	bool __thiscall SYSTEM_FMOD::Init(long a1, void** a2)
+	bool __thiscall SYSTEM_FMOD::Init(int32 a1, void** a2)
 	{
 		// get pointer to `FMOD::EventSystemI*`
 		static bool(__stdcall * FMOD_EventSystem_Create)(FMOD::EventSystemI**) = reinterpret_cast<decltype(FMOD_EventSystem_Create)>(0x01353A80);
@@ -154,7 +154,7 @@ void __cdecl fmod_initialize()
 {
 	//INVOKE(0x0064E190, fmod_initialize);
 
-	//DECLFUNC(0x004047B0, bool, __thiscall, void*, long, long)(snd::SystemFMod, 256, 1);
+	//DECLFUNC(0x004047B0, bool, __thiscall, void*, int32, int32)(snd::SystemFMod, 256, 1);
 	snd::SystemFMod->__vftable->Init(snd::SystemFMod, 256, 1);
 }
 
@@ -171,9 +171,9 @@ void __cdecl fmod_dispose()
 	snd::SystemFMod->__vftable->Term(snd::SystemFMod);
 }
 
-short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real32 pitch_modifier, short pitch_range_index)
+int16 __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real32 pitch_modifier, int16 pitch_range_index)
 {
-	short result = INVOKE(0x00661C20, sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound, sound, pitch_modifier, pitch_range_index);
+	int16 result = INVOKE(0x00661C20, sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound, sound, pitch_modifier, pitch_range_index);
 	if (result != -1)
 		return result;
 

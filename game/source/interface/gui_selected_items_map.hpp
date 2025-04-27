@@ -11,7 +11,7 @@ public:
 //protected:
 	e_controller_index m_controller_index;
 	s_file_reference m_file_reference;
-	long m_sort_order;
+	int32 m_sort_order;
 };
 static_assert(sizeof(c_gui_map_selected_item) == sizeof(c_gui_selected_item) + 0x118);
 static_assert(0x190 == OFFSETOF(c_gui_map_selected_item, m_controller_index));

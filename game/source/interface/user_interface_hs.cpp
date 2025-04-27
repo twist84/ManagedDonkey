@@ -5,12 +5,12 @@
 #include "hs/hs_runtime.hpp"
 #include "scenario/scenario.hpp"
 
-long start_script(hs_script const* script, long index)
+int32 start_script(hs_script const* script, int32 index)
 {
 	ASSERT(script);
 	ASSERT(index != NONE);
 
-	long thread_index = hs_runtime_script_begin(static_cast<short>(index & 0xFFFF), script->script_type, _hs_thread_type_script);
+	int32 thread_index = hs_runtime_script_begin(static_cast<int16>(index & 0xFFFF), script->script_type, _hs_thread_type_script);
 	if (thread_index == NONE)
 	{
 		event(_event_error, "ui:hs: failed to start script %s", script->name);
@@ -23,13 +23,13 @@ long start_script(hs_script const* script, long index)
 	return thread_index;
 }
 
-long user_interface_start_hs_script_by_name(char const* name)
+int32 user_interface_start_hs_script_by_name(char const* name)
 {
 	struct scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return NONE;
 
-	long script_index;
+	int32 script_index;
 	hs_script const* script = nullptr;
 	for (script_index = 0; script_index < scenario->scripts.count; script_index++)
 	{

@@ -49,7 +49,7 @@ HOOK_DECLARE(0x00604860, main_render_pregame);
 
 bool debug_force_all_player_views_to_default_player = false;
 bool debug_render_horizontal_splitscreen = false;
-long g_watermark_enabled = 0;
+int32 g_watermark_enabled = 0;
 
 //c_stop_watch g_main_render_block_watch = c_stop_watch(true);
 
@@ -66,13 +66,13 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	}
 	else
 	{
-		long output_user_active_count = player_mapping_output_user_active_count();
+		int32 output_user_active_count = player_mapping_output_user_active_count();
 
-		long player_count = 1;
+		int32 player_count = 1;
 		if (output_user_active_count > 1)
 			player_count = output_user_active_count;
 
-		long window_count = MAXIMUM_PLAYER_WINDOWS;
+		int32 window_count = MAXIMUM_PLAYER_WINDOWS;
 		if (player_count < window_count)
 			window_count = player_count;
 
@@ -133,17 +133,17 @@ bool c_player_render_camera_iterator::next()
 	return result;
 }
 
-long c_player_render_camera_iterator::get_window_count() const
+int32 c_player_render_camera_iterator::get_window_count() const
 {
 	return m_window_count;
 }
 
-long c_player_render_camera_iterator::get_window_arrangement() const
+int32 c_player_render_camera_iterator::get_window_arrangement() const
 {
 	return m_window_arrangement;
 }
 
-long c_player_render_camera_iterator::get_output_user_index() const
+int32 c_player_render_camera_iterator::get_output_user_index() const
 {
 	return m_output_user_index;
 }
@@ -163,7 +163,7 @@ void __cdecl main_render()
 	//INVOKE(0x006042C0, main_render);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-	REFERENCE_DECLARE(0x02446778, long, frames_of_consecutive_delay);
+	REFERENCE_DECLARE(0x02446778, int32, frames_of_consecutive_delay);
 
 	PROFILER(main_render)
 	{
@@ -308,8 +308,8 @@ void __cdecl main_render_game()
 		main_render_update_loading_screen();
 
 		c_player_render_camera_iterator iterator{};
-		long window_count = iterator.get_window_count();
-		long window_arrangement = iterator.get_window_arrangement();
+		int32 window_count = iterator.get_window_count();
+		int32 window_arrangement = iterator.get_window_arrangement();
 
 		bool render_freeze = debug_render_freeze;
 
@@ -321,11 +321,11 @@ void __cdecl main_render_game()
 		texture_cache_update_for_render();
 		geometry_cache_update_for_render();
 
-		for (long view_index = 0; view_index < iterator.get_window_count(); view_index++)
+		for (int32 view_index = 0; view_index < iterator.get_window_count(); view_index++)
 		{
 			c_player_view* player_view = c_player_view::get_current(view_index);
 
-			long user_index = NONE;
+			int32 user_index = NONE;
 			s_observer_result const* observer_result = NULL;
 			if (iterator.next())
 			{
@@ -359,7 +359,7 @@ void __cdecl main_render_game()
 
 				if (window_count == 1)
 				{
-					long view_index = 0;
+					int32 view_index = 0;
 					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
 					c_player_view* player_view = c_player_view::get_current(view_index);
 
@@ -369,7 +369,7 @@ void __cdecl main_render_game()
 				}
 				else
 				{
-					for (long view_index = 0; view_index < window_count; view_index++)
+					for (int32 view_index = 0; view_index < window_count; view_index++)
 					{
 						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_1st_pass", view_index));
 						c_player_view* player_view = c_player_view::get_current(view_index);
@@ -383,7 +383,7 @@ void __cdecl main_render_game()
 						PLAYER_VIEW_RENDER_END;
 					}
 
-					for (long view_index = 0; view_index < window_count; view_index++)
+					for (int32 view_index = 0; view_index < window_count; view_index++)
 					{
 						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_2nd_pass", view_index));
 						c_player_view* player_view = c_player_view::get_current(view_index);
@@ -393,7 +393,7 @@ void __cdecl main_render_game()
 						PLAYER_VIEW_RENDER_END;
 					}
 
-					for (long view_index = 0; view_index < window_count; view_index++)
+					for (int32 view_index = 0; view_index < window_count; view_index++)
 					{
 						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_3rd_pass", view_index));
 						c_player_view* player_view = c_player_view::get_current(view_index);
@@ -403,7 +403,7 @@ void __cdecl main_render_game()
 						PLAYER_VIEW_RENDER_END;
 					}
 
-					for (long view_index = 0; view_index < window_count; view_index++)
+					for (int32 view_index = 0; view_index < window_count; view_index++)
 					{
 						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_4th_pass", view_index));
 						c_player_view* player_view = c_player_view::get_current(view_index);
@@ -424,7 +424,7 @@ void __cdecl main_render_game()
 					static bool restore = true;
 					if (restore && window_count > 1)
 					{
-						for (long view_index = window_count - 1; view_index >= 0; view_index--)
+						for (int32 view_index = window_count - 1; view_index >= 0; view_index--)
 						{
 							c_player_view* player_view = c_player_view::get_current(view_index);
 							player_view->restore_to_display_surface();
@@ -490,7 +490,7 @@ void __cdecl main_render_game()
 	}
 }
 
-void __cdecl game_engine_render_window_watermarks(long user_index)
+void __cdecl game_engine_render_window_watermarks(int32 user_index)
 {
 }
 
@@ -512,7 +512,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 		display_name.clear();
 	}
 
-	long player_xuid_upper32 = 0;
+	int32 player_xuid_upper32 = 0;
 	if (controller_index != k_no_controller)
 	{
 		c_controller_interface* controller = controller_get(controller_index);
@@ -523,8 +523,8 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	strings[0].print("ALPHA BUILD");
 	strings[2].print("%s", netdebug_get_sessionid());
 
-	long random_value = 0x19660D * system_milliseconds() + 0x3C6EF35F;
-	long player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xAEA9434D;
+	int32 random_value = 0x19660D * system_milliseconds() + 0x3C6EF35F;
+	int32 player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xAEA9434D;
 
 	player_xuid_rand.print("%.8x|n%.8x", random_value, player_xuid_rand_value);
 
@@ -537,13 +537,13 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
 	draw_string.set_justification(_text_justification_center);
-	short line_height = draw_string.get_line_height();
+	int16 line_height = draw_string.get_line_height();
 
 	{
 		real_rectangle2d rect{};
 		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 4 * line_height), bounds.y1);
 
-		for (long i = 0; i < NUMBEROF(strings); i++)
+		for (int32 i = 0; i < NUMBEROF(strings); i++)
 		{
 			draw_string.set_bounds(&rect);
 			rect.y0 += line_height;
@@ -581,7 +581,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 		display_name.clear();
 	}
 
-	long player_xuid_upper32 = 0;
+	int32 player_xuid_upper32 = 0;
 	if (controller_index != k_no_controller)
 	{
 		c_controller_interface* controller = controller_get(controller_index);
@@ -593,8 +593,8 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 	strings[1].print("%s", display_name.get_string());
 	strings[2].print("%s", netdebug_get_sessionid());
 
-	long random_value = 0x19660D * system_milliseconds() + 0x3C6EF35F;
-	long player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xAEA9434D;
+	int32 random_value = 0x19660D * system_milliseconds() + 0x3C6EF35F;
+	int32 player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xAEA9434D;
 
 	player_xuid_rand.print("%.8x|n%.8x", random_value, player_xuid_rand_value);
 
@@ -607,13 +607,13 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
 	draw_string.set_justification(_text_justification_center);
-	short line_height = draw_string.get_line_height();
+	int16 line_height = draw_string.get_line_height();
 
 	{
 		real_rectangle2d rect{};
 		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 6 * line_height), bounds.y1);
 
-		for (long i = 0; i < NUMBEROF(strings); i++)
+		for (int32 i = 0; i < NUMBEROF(strings); i++)
 		{
 			draw_string.set_bounds(&rect);
 			rect.y0 += line_height;
@@ -651,7 +651,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 		display_name.clear();
 	}
 
-	long player_xuid_upper32 = 0;
+	int32 player_xuid_upper32 = 0;
 	if (controller_index != k_no_controller)
 	{
 		c_controller_interface* controller = controller_get(controller_index);
@@ -673,8 +673,8 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 		date_and_time.second);
 	strings[2].print("%s", netdebug_get_sessionid());
 
-	long random_value = 0x181A04 * system_milliseconds() + 0x2D016C86;
-	long player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xCAF69B89;
+	int32 random_value = 0x181A04 * system_milliseconds() + 0x2D016C86;
+	int32 player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xCAF69B89;
 
 	player_xuid_rand.print("%.8x%.8x", random_value, player_xuid_rand_value);
 
@@ -687,13 +687,13 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
 	draw_string.set_justification(_text_justification_right);
-	short line_height = draw_string.get_line_height();
+	int16 line_height = draw_string.get_line_height();
 
 	{
 		real_rectangle2d rect{};
 		set_real_rectangle2d(&rect, bounds.x0, real32(bounds.x1 - 10), real32(bounds.y1 - 13 * line_height), bounds.y1);
 
-		for (long i = 0; i < NUMBEROF(strings); i++)
+		for (int32 i = 0; i < NUMBEROF(strings); i++)
 		{
 			draw_string.set_bounds(&rect);
 			rect.y0 += line_height;
@@ -738,7 +738,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		c_rasterizer_draw_string draw_string;
 
 		wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
-		long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
+		int32 spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
 		status.print(L"Establishing connection... %s|n(please do not turn off your Xbox 360)|n|n%S",
 			spinner_states[spinner_state_index],
 			simulation_get_starting_up_description());
@@ -765,7 +765,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		game_engine_render_window_watermarks(NONE);
 
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
-	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
+	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, int16, __cdecl)()));
 	game_engine_render_frame_watermarks_for_controller(_controller0);
 }
 
@@ -895,7 +895,7 @@ void __cdecl main_render_update_loading_screen()
 	INVOKE(0x00604C70, main_render_update_loading_screen);
 }
 
-void __cdecl main_render_view(c_player_view* player_view, long player_index)
+void __cdecl main_render_view(c_player_view* player_view, int32 player_index)
 {
 	//INVOKE(0x00604D70, main_render_view, player_view, player_index);
 
