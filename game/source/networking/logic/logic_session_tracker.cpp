@@ -60,9 +60,9 @@ char const* k_network_session_tracker_session_unsuitable_reason_descriptions[]
 };
 static_assert(k_network_session_tracker_session_unsuitable_reason_count == NUMBEROF(k_network_session_tracker_session_unsuitable_reason_descriptions));
 
-bool c_session_tracker::add_session(char const* name, s_transport_session_description const* session_description)
+bool c_session_tracker::add_session(char const* session_name, s_transport_session_description const* session_description)
 {
-	//return INVOKE_CLASS_MEMBER(0x004E2530, c_session_tracker, add_session, name, session_description);
+	//return INVOKE_CLASS_MEMBER(0x004E2530, c_session_tracker, add_session, session_name, session_description);
 
 	ASSERT(m_flags.test(_session_tracker_initialized_bit));
 
@@ -77,7 +77,7 @@ bool c_session_tracker::add_session(char const* name, s_transport_session_descri
 
 	csmemset(tracked_session, 0, sizeof(s_session_tracker_session_data));
 
-	csstrnzcpy(tracked_session->name, name, sizeof(tracked_session->name));
+	csstrnzcpy(tracked_session->name, session_name, sizeof(tracked_session->name));
 	tracked_session->description = *session_description;
 	tracked_session->insertion_index = m_session_count;
 	tracked_session->qos_attempt_index = NONE;
@@ -111,11 +111,11 @@ void c_session_tracker::add_session_to_unsuitable_sessions(s_transport_secure_id
 	m_unsuitable_session_storage[m_unsuitable_session_count++] = *session_id;
 }
 
-bool c_session_tracker::allocate_storage(e_network_session_tracker_sort_method tracker_sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality)
+bool c_session_tracker::allocate_storage(e_network_session_tracker_sort_method sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality)
 {
-	//return INVOKE_CLASS_MEMBER(0x004E2640, c_session_tracker, allocate_storage, tracker_sort_method, qos_status_data_type, matchmaking_quality);
+	//return INVOKE_CLASS_MEMBER(0x004E2640, c_session_tracker, allocate_storage, sort_method, qos_status_data_type, matchmaking_quality);
 
-	m_sort_method = tracker_sort_method;
+	m_sort_method = sort_method;
 	m_matchmaking_quality = matchmaking_quality;
 
 	m_expected_qos_data_type = qos_status_data_type;
@@ -213,48 +213,57 @@ void c_session_tracker::dispose()
 
 int32 c_session_tracker::get_maximum_qos_target_count(e_transport_qos_type qos_type)
 {
-	return INVOKE_CLASS_MEMBER(0x004E2990, c_session_tracker, get_maximum_qos_target_count, qos_type);
+	//return INVOKE_CLASS_MEMBER(0x004E2990, c_session_tracker, get_maximum_qos_target_count, qos_type);
+
+	if (qos_type == _transport_qos_type_probe_only)
+		return 64;
+
+	if (qos_type == _transport_qos_type_default)
+		return g_network_configuration.logic.session_tracker.maximum_target_sessions_per_default_qos_task;
+
+	return 0;
 }
 
 int32 c_session_tracker::get_session_count()
 {
 	//return INVOKE_CLASS_MEMBER(0x004E29C0, c_session_tracker, get_session_count);
 
+	ASSERT(m_flags.test(_session_tracker_initialized_bit));
 	return m_session_count;
 }
 
-bool c_session_tracker::get_session_data(int32 tracked_session_index, s_network_session_tracker_session_data* session_data)
+bool c_session_tracker::get_session_data(int32 tracked_session_index, s_network_session_tracker_session_data* session_data_out)
 {
-	return INVOKE_CLASS_MEMBER(0x004E29D0, c_session_tracker, get_session_data, tracked_session_index, session_data);
+	return INVOKE_CLASS_MEMBER(0x004E29D0, c_session_tracker, get_session_data, tracked_session_index, session_data_out);
 }
 
-void c_session_tracker::get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* session_status)
+void c_session_tracker::get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* status_out)
 {
-	//INVOKE_CLASS_MEMBER(0x004E2AB0, c_session_tracker, get_session_status, tracked_session_index, session_status);
+	//INVOKE_CLASS_MEMBER(0x004E2AB0, c_session_tracker, get_session_status, tracked_session_index, status_out);
 
 	s_session_tracker_session_data* tracked_session = &m_session_storage[tracked_session_index];
 
 	ASSERT(m_flags.test(_session_tracker_initialized_bit));
 	ASSERT(VALID_INDEX(tracked_session_index, m_session_count));
 
-	csmemset(session_status, 0, sizeof(s_network_session_tracker_session_status));
+	csmemset(status_out, 0, sizeof(s_network_session_tracker_session_status));
 	if (tracked_session->flags.test(_session_tracker_session_unsuitable_bit))
 	{
-		session_status->status = _tracked_session_unsuitable;
-		session_status->unsuitable_reason = tracked_session->unsuitable_reason;
+		status_out->status = _tracked_session_unsuitable;
+		status_out->unsuitable_reason = tracked_session->unsuitable_reason;
 	}
 	else if (tracked_session->flags.test(_session_tracker_session_undesireable_bit))
 	{
-		session_status->status = _tracked_session_undesireable;
-		session_status->undesirable_reason = tracked_session->undesirable_reason;
+		status_out->status = _tracked_session_undesireable;
+		status_out->undesirable_reason = tracked_session->undesirable_reason;
 	}
 	else if (tracked_session->qos_received[_transport_qos_type_probe_only])
 	{
-		session_status->status = e_network_session_tracker_session_status(tracked_session->qos_received[_transport_qos_type_default] + 2);
+		status_out->status = e_network_session_tracker_session_status(tracked_session->qos_received[_transport_qos_type_default] + 2);
 	}
 	else
 	{
-		session_status->status = _tracked_session_qos_needed;
+		status_out->status = _tracked_session_qos_needed;
 	}
 }
 
@@ -277,7 +286,7 @@ int32 c_session_tracker::get_tracked_session_index(s_transport_secure_identifier
 
 bool c_session_tracker::initialize(bool verify)
 {
-	//return INVOKE_CLASS_MEMBER(0x004E2B90, c_session_tracker, initialize, averify1);
+	//return INVOKE_CLASS_MEMBER(0x004E2B90, c_session_tracker, initialize, verify);
 
 	m_sort_method = _network_session_tracker_sort_none;
 

@@ -65,7 +65,7 @@ private:
 	void add_session_to_unsuitable_sessions(s_transport_secure_identifier const* session_id);
 
 public:
-	bool allocate_storage(e_network_session_tracker_sort_method tracker_sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
+	bool allocate_storage(e_network_session_tracker_sort_method sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
 
 private:
 	void build_qos_target_list(e_transport_qos_type qos_type, int32* qos_targets_tracked_session_indices_out, int32 qos_target_count_out, int32* qos_target_count);
@@ -81,8 +81,8 @@ private:
 
 public:
 	int32 get_session_count();
-	bool get_session_data(int32 tracked_session_index, s_network_session_tracker_session_data* session_data);
-	void get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* session_status);
+	bool get_session_data(int32 tracked_session_index, s_network_session_tracker_session_data* session_data_out);
+	void get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* status_out);
 
 private:
 	int32 get_tracked_session_index(s_transport_secure_identifier const* session_id);
