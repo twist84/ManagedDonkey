@@ -24,7 +24,7 @@ public:
 	int32 m_interval_duration_msec;
 	real32 m_period_inverse_seconds;
 	int32 m_next_interval_index;
-	s_statistics_interval m_stored_intervals[k_network_statistics_interval_count]; // $TODO: find a better name?
+	s_statistics_interval m_stored_intervals[k_network_statistics_interval_count];
 	s_statistics_interval m_stored_total;
 };
 static_assert(sizeof(c_network_time_statistics) == 0xD8);
