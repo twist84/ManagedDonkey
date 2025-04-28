@@ -5,6 +5,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "interface/user_interface.hpp"
+#include "main/console.hpp"
 #include "main/levels.hpp"
 #include "math/random_math.hpp"
 #include "memory/bitstream.hpp"
@@ -600,7 +601,37 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(uint
 	return result;
 }
 
-//.text:00548EC0 ; void __cdecl multiplayer_game_hopper_set_game_for_current_hopper(int32)
+void __cdecl multiplayer_game_hopper_set_game_for_current_hopper(int32 game_index)
+{
+	INVOKE(0x00548EC0, multiplayer_game_hopper_set_game_for_current_hopper, game_index);
+
+	//if (game_index == NONE)
+	//{
+	//	console_printf("resetting game for hopper");
+	//	override_game_entry_index = NONE;
+	//	return;
+	//}
+	//
+	//s_game_set* game_set = &multiplayer_game_hopper_globals.game_set;
+	//ASSERT(VALID_COUNT(game_set->game_entry_count, NUMBEROF(game_set->entries)));
+	//
+	//for (int32 game_entry_index = 0; game_entry_index < game_set->game_entry_count; game_entry_index++)
+	//{
+	//	if (game_entry_index != game_index)
+	//		continue;
+	//
+	//	if (s_game_set_entry* entry = &game_set->entries[game_entry_index])
+	//	{
+	//		console_printf("setting game for hopper to %s on %d", entry->game_variant_file_name, entry->map_id);
+	//		override_game_entry_index = game_index;
+	//		return;
+	//	}
+	//	break;
+	//}
+	//
+	//console_printf("failed to set game for current hopper");
+	//override_game_entry_index = NONE;
+}
 
 bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, int32 bytes_read, s_game_set* game_set)
 {
@@ -1160,7 +1191,7 @@ char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_
 //.text:00549DF0 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_games_played_requirements() const
 //.text:00549E00 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_live_account_access_requirements() const
 
-void __cdecl network_build_game_variant(char const* filename)
+void __cdecl network_build_game_variant(char const* name)
 {
 	uint8* buffer = new uint8[0x600]{};
 	c_static_string<k_tag_long_string_length> filepath;
@@ -1171,7 +1202,7 @@ void __cdecl network_build_game_variant(char const* filename)
 	// 5:  halo3_cache_debug
 	// 10: halo3_tag_test
 	// 18: hf2p_game_client_cache_release, using `k_cache_file_version`
-	filepath.print("game_variants\\%s_%03u.bin", filename, 18);
+	filepath.print("game_variants\\%s_%03u.bin", name, 18);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
 		event(_event_critical, "failed!");
@@ -1180,7 +1211,7 @@ void __cdecl network_build_game_variant(char const* filename)
 	delete[] buffer;
 }
 
-void __cdecl network_build_map_variant(char const* filename)
+void __cdecl network_build_map_variant(char const* name)
 {
 	uint8* buffer = new uint8[sizeof(s_blffile_map_variant)]{};
 	c_static_string<k_tag_long_string_length> filepath;
@@ -1196,7 +1227,7 @@ void __cdecl network_build_map_variant(char const* filename)
 	// 4:  halo3_cache_debug
 	// 12: halo3_tag_test
 	// 19: hf2p_game_client_cache_release, using `k_cache_file_version` + 1
-	filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
+	filepath.print("map_variants\\%s_%03u.mvar", name, 19);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
 		event(_event_critical, "failed!");
@@ -1205,27 +1236,27 @@ void __cdecl network_build_map_variant(char const* filename)
 	delete[] buffer;
 }
 
-void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_use)
+void __cdecl network_game_variant_file_juju(char const* file_path, bool use_variant_for_current_session)
 {
-	s_file_reference info;
-	if (!file_reference_create_from_path(&info, filename, 0))
+	s_file_reference file;
+	if (!file_reference_create_from_path(&file, file_path, false))
 	{
-		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", file_path);
 		return;
 	}
 
-	uint32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+	uint32 unused_error_code = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
 	{
-		event(_event_warning, "networking:configuration: failed to open file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
 	}
 
 	uint32 size = 0;
-	if (!file_get_size(&info, &size))
+	if (!file_get_size(&file, &size))
 	{
-		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1234,15 +1265,15 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 
 	if (size > sizeof(buffer))
 	{
-		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
-		file_close(&info);
+		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", file_path, size, sizeof(buffer));
+		file_close(&file);
 		return;
 	}
 
-	if (!file_read(&info, size, false, buffer))
+	if (!file_read(&file, size, false, buffer))
 	{
-		event(_event_warning, "networking:configuration: failed to read from file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to read from file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1251,17 +1282,17 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 
 	if (!game_engine_variant_is_valid(game_variant))
 	{
-		event(_event_warning, "networking:configuration: game variant in file '%s' is invalid", filename);
+		event(_event_warning, "networking:configuration: game variant in file '%s' is invalid", file_path);
 
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
-	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", file_path);
 
-	if (!load_and_use)
+	if (!use_variant_for_current_session)
 	{
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1269,34 +1300,34 @@ void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_
 	{
 		event(_event_warning, "networking:configuration: failed to set session game variant traits, probably not in a session");
 
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
-	file_close(&info);
+	file_close(&file);
 }
 
-void __cdecl network_packed_game_variant_file_juju(char const* filename, bool load_and_use)
+void __cdecl network_packed_game_variant_file_juju(char const* file_path, bool use_variant_for_current_session)
 {
-	s_file_reference info;
-	if (!file_reference_create_from_path(&info, filename, 0))
+	s_file_reference file;
+	if (!file_reference_create_from_path(&file, file_path, false))
 	{
-		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", file_path);
 		return;
 	}
 
-	uint32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+	uint32 unused_error_code = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
 	{
-		event(_event_warning, "networking:configuration: failed to open file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
 	}
 
 	uint32 size = 0;
-	if (!file_get_size(&info, &size))
+	if (!file_get_size(&file, &size))
 	{
-		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1305,42 +1336,42 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 
 	if (size > sizeof(buffer))
 	{
-		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
-		file_close(&info);
+		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", file_path, size, sizeof(buffer));
+		file_close(&file);
 		return;
 	}
 
-	if (!file_read(&info, size, false, buffer))
+	if (!file_read(&file, size, false, buffer))
 	{
-		event(_event_warning, "networking:configuration: failed to read from file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to read from file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
 	c_game_variant* game_variant = new c_game_variant();
 	if (!multiplayer_game_hopper_unpack_game_variant(buffer, size, game_variant))
 	{
-		event(_event_warning, "networking:configuration: failed to unpack game variant in file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to unpack game variant in file '%s'", file_path);
 
 		delete game_variant;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
 	if (!game_engine_variant_is_valid(game_variant))
 	{
-		event(_event_warning, "networking:configuration: game variant in file '%s' is invalid", filename);
+		event(_event_warning, "networking:configuration: game variant in file '%s' is invalid", file_path);
 
 		delete game_variant;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
-	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", file_path);
 
-	if (!load_and_use)
+	if (!use_variant_for_current_session)
 	{
-		file_close(&info);
+		file_close(&file);
 		delete game_variant;
 		return;
 	}
@@ -1349,36 +1380,36 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
 	{
 		event(_event_warning, "networking:configuration: failed to set session game variant traits, probably not in a session");
 
-		file_close(&info);
+		file_close(&file);
 		delete game_variant;
 		return;
 	}
 
 	delete game_variant;
-	file_close(&info);
+	file_close(&file);
 }
 
-void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_use)
+void __cdecl network_map_variant_file_juju(char const* file_path, bool use_variant_for_current_session)
 {
-	s_file_reference info;
-	if (!file_reference_create_from_path(&info, filename, 0))
+	s_file_reference file;
+	if (!file_reference_create_from_path(&file, file_path, false))
 	{
-		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", file_path);
 		return;
 	}
 
-	uint32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+	uint32 unused_error_code = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
 	{
-		event(_event_warning, "networking:configuration: failed to open file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
 	}
 
 	uint32 size = 0;
-	if (!file_get_size(&info, &size))
+	if (!file_get_size(&file, &size))
 	{
-		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1387,15 +1418,15 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (size > 0xF000)
 	{
-		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", file_path, size, 0xF000);
+		file_close(&file);
 		return;
 	}
 
-	if (!file_read(&info, size, false, buffer))
+	if (!file_read(&file, size, false, buffer))
 	{
-		event(_event_warning, "networking:configuration: failed to read from file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to read from file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1404,21 +1435,21 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	if (!map_variant->validate())
 	{
-		event(_event_warning, "networking:configuration: map variant in file '%s' is invalid", filename);
+		event(_event_warning, "networking:configuration: map variant in file '%s' is invalid", file_path);
 
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
-	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", file_path);
 
 	//map_variant->print();
 
-	if (!load_and_use)
+	if (!use_variant_for_current_session)
 	{
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1429,7 +1460,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		event(_event_warning, "attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
 
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1438,7 +1469,7 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		event(_event_warning, "networking:configuration: failed to set session map, probably not in a session");
 
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1482,35 +1513,35 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		event(_event_warning, "networking:configuration: failed to set session map variant traits, probably not in a session");
 
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
 	delete[] buffer;
-	file_close(&info);
+	file_close(&file);
 }
 
-void __cdecl network_packed_map_variant_file_juju(char const* filename, bool load_and_use)
+void __cdecl network_packed_map_variant_file_juju(char const* file_path, bool use_variant_for_current_session)
 {
-	s_file_reference info;
-	if (!file_reference_create_from_path(&info, filename, 0))
+	s_file_reference file;
+	if (!file_reference_create_from_path(&file, file_path, false))
 	{
-		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to create file reference for file '%s'", file_path);
 		return;
 	}
 
-	uint32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+	uint32 unused_error_code = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
 	{
-		event(_event_warning, "networking:configuration: failed to open file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
 	}
 
 	uint32 size = 0;
-	if (!file_get_size(&info, &size))
+	if (!file_get_size(&file, &size))
 	{
-		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to determine file size for file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
@@ -1519,48 +1550,48 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	if (size > sizeof(s_blffile_map_variant))
 	{
-		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(s_blffile_map_variant));
-		file_close(&info);
+		event(_event_warning, "networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", file_path, size, sizeof(s_blffile_map_variant));
+		file_close(&file);
 		return;
 	}
 
-	if (!file_read(&info, size, false, buffer))
+	if (!file_read(&file, size, false, buffer))
 	{
-		event(_event_warning, "networking:configuration: failed to read from file '%s'", filename);
-		file_close(&info);
+		event(_event_warning, "networking:configuration: failed to read from file '%s'", file_path);
+		file_close(&file);
 		return;
 	}
 
 	c_map_variant* map_variant = new c_map_variant();
 	if (!multiplayer_game_hopper_unpack_map_variant(buffer, size, map_variant))
 	{
-		event(_event_warning, "networking:configuration: failed to unpack map variant in file '%s'", filename);
+		event(_event_warning, "networking:configuration: failed to unpack map variant in file '%s'", file_path);
 
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
 	if (!map_variant->validate())
 	{
-		event(_event_warning, "networking:configuration: map variant in file '%s' is invalid", filename);
+		event(_event_warning, "networking:configuration: map variant in file '%s' is invalid", file_path);
 
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
-	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+	event(_event_status, "networking:configuration: CONGRATULATIONS! variant file '%s' is valid", file_path);
 
 	//map_variant->print();
 
-	if (!load_and_use)
+	if (!use_variant_for_current_session)
 	{
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1572,7 +1603,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1582,7 +1613,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
@@ -1624,53 +1655,53 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 		delete map_variant;
 		delete[] buffer;
-		file_close(&info);
+		file_close(&file);
 		return;
 	}
 
 	delete map_variant;
 	delete[] buffer;
-	file_close(&info);
+	file_close(&file);
 }
 
-void __cdecl network_verify_game_variant_file(char const* filename)
+void __cdecl network_verify_game_variant_file(char const* file_path)
 {
-	network_game_variant_file_juju(filename, false);
+	network_game_variant_file_juju(file_path, false);
 }
 
-void __cdecl network_load_and_use_game_variant_file(char const* filename)
+void __cdecl network_load_and_use_game_variant_file(char const* file_path)
 {
-	network_game_variant_file_juju(filename, true);
+	network_game_variant_file_juju(file_path, true);
 }
 
-void __cdecl network_verify_packed_game_variant_file(char const* filename)
+void __cdecl network_verify_packed_game_variant_file(char const* file_path)
 {
-	network_packed_game_variant_file_juju(filename, false);
+	network_packed_game_variant_file_juju(file_path, false);
 }
 
-void __cdecl network_load_and_use_packed_game_variant_file(char const* filename)
+void __cdecl network_load_and_use_packed_game_variant_file(char const* file_path)
 {
-	network_packed_game_variant_file_juju(filename, true);
+	network_packed_game_variant_file_juju(file_path, true);
 }
 
-void __cdecl network_verify_map_variant_file(char const* filename)
+void __cdecl network_verify_map_variant_file(char const* file_path)
 {
-	network_map_variant_file_juju(filename, false);
+	network_map_variant_file_juju(file_path, false);
 }
 
-void __cdecl network_load_and_use_map_variant_file(char const* filename)
+void __cdecl network_load_and_use_map_variant_file(char const* file_path)
 {
-	network_map_variant_file_juju(filename, true);
+	network_map_variant_file_juju(file_path, true);
 }
 
-void __cdecl network_verify_packed_map_variant_file(char const* filename)
+void __cdecl network_verify_packed_map_variant_file(char const* file_path)
 {
-	network_packed_map_variant_file_juju(filename, false);
+	network_packed_map_variant_file_juju(file_path, false);
 }
 
-void __cdecl network_load_and_use_packed_map_variant_file(char const* filename)
+void __cdecl network_load_and_use_packed_map_variant_file(char const* file_path)
 {
-	network_packed_map_variant_file_juju(filename, true);
+	network_packed_map_variant_file_juju(file_path, true);
 }
 
 #undef MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE

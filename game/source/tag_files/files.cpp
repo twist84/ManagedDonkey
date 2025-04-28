@@ -106,32 +106,32 @@ s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info,
 	return info;
 }
 
-s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other)
+s_file_reference* __cdecl file_reference_copy(s_file_reference* destination, s_file_reference const* source)
 {
-	//return INVOKE(0x00528530, file_reference_copy, info, other);
+	//return INVOKE(0x00528530, file_reference_copy, destination, source);
 
-	csmemcpy(info, other, sizeof(file_reference_info));
-	return info;
+	csmemcpy(destination, source, sizeof(file_reference_info));
+	return destination;
 }
 
-s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool a3)
+s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool directory)
 {
-	return INVOKE(0x00528550, file_reference_create_from_path, reference, path, a3);
+	return INVOKE(0x00528550, file_reference_create_from_path, reference, path, directory);
 }
 
-s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference* reference, wchar_t const* path, bool a3)
+s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference* reference, wchar_t const* path, bool directory)
 {
-	return INVOKE(0x005285B0, file_reference_create_from_path_wide, reference, path, a3);
+	return INVOKE(0x005285B0, file_reference_create_from_path_wide, reference, path, directory);
 }
 
-wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, int32 full_path_length)
+wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_name, int32 name_length)
 {
-	return INVOKE(0x005285F0, file_reference_get_fullpath_wide, reference, out_full_path, full_path_length);
+	return INVOKE(0x005285F0, file_reference_get_fullpath_wide, reference, out_name, name_length);
 }
 
-char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, int32 full_path_length)
+char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_name, int32 name_length)
 {
-	return INVOKE(0x00528630, file_reference_get_fullpath, reference, out_full_path, full_path_length);
+	return INVOKE(0x00528630, file_reference_get_fullpath, reference, out_name, name_length);
 }
 
 int16 __cdecl file_reference_get_location(s_file_reference const* reference)

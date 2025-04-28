@@ -11,9 +11,9 @@ HOOK_DECLARE(0x0042ED50, network_get_machine_name);
 //.text:0042EC70 ; 
 //.text:0042EC80 ; 
 
-int16 __cdecl _random_range(uint32* seed_ptr, char const* name, char const* filename, uint32 line, int16 range_begin, int16 range_end)
+int16 __cdecl _random_range(uint32* seed, char const* purpose, char const* source_file, uint32 source_line, int16 lower_bound, int16 upper_bound)
 {
-	return INVOKE(0x0042EC90, _random_range, seed_ptr, name, filename, line, range_begin, range_end);
+	return INVOKE(0x0042EC90, _random_range, seed, purpose, source_file, source_line, lower_bound, upper_bound);
 }
 
 //.text:0042ECC0 ; 
@@ -22,7 +22,7 @@ int16 __cdecl _random_range(uint32* seed_ptr, char const* name, char const* file
 //.text:0042ED10 ; 
 //.text:0042ED20 ; void __cdecl network_get_build_identifiers(int32*, int32*, int32*)
 
-bool __cdecl network_get_machine_name(wchar_t* machine_name, int32 machine_name_len)
+bool __cdecl network_get_machine_name(wchar_t* name, int32 name_length)
 {
 	//return INVOKE(0x0042ED50, network_get_machine_name, machine_name, machine_name_len);
 
@@ -30,7 +30,7 @@ bool __cdecl network_get_machine_name(wchar_t* machine_name, int32 machine_name_
 	if (!shell_get_system_identifier(system_identifier, 256) || !system_identifier[0])
 		return false;
 
-	ascii_string_to_wchar_string(system_identifier, machine_name, machine_name_len, nullptr);
+	ascii_string_to_wchar_string(system_identifier, name, name_length, NULL);
 	return true;
 }
 

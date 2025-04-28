@@ -246,6 +246,7 @@ extern int32 __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, int3
 extern void __cdecl multiplayer_game_hopper_request_game_variant(uint16 hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
 extern void __cdecl multiplayer_game_hopper_request_map_variant(uint16 hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
 extern bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(uint16 hopper_identifier);
+extern void __cdecl multiplayer_game_hopper_set_game_for_current_hopper(int32 game_index);
 extern bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, int32 bytes_read, s_game_set* game_set);
 extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int32 bytes_read, c_game_variant* game_variant);
 extern bool __cdecl multiplayer_game_hopper_unpack_hopper_description(void const* buffer, int32 bytes_read, s_game_hopper_description_table* description);
@@ -259,15 +260,15 @@ extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(int32 p
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(uint16 hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, uint16* out_player_error_mask);
 extern char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_error error);
 
-extern void __cdecl network_build_game_variant(char const* filename);
-extern void __cdecl network_load_and_use_game_variant_file(char const* filename);
-extern void __cdecl network_verify_game_variant_file(char const* filename);
-extern void __cdecl network_load_and_use_packed_game_variant_file(char const* filename);
-extern void __cdecl network_verify_packed_game_variant_file(char const* filename);
+extern void __cdecl network_build_game_variant(char const* file_path);
+extern void __cdecl network_load_and_use_game_variant_file(char const* file_path);
+extern void __cdecl network_verify_game_variant_file(char const* file_path);
+extern void __cdecl network_load_and_use_packed_game_variant_file(char const* file_path);
+extern void __cdecl network_verify_packed_game_variant_file(char const* file_path);
 
-extern void __cdecl network_build_map_variant(char const* filename);
-extern void __cdecl network_load_and_use_map_variant_file(char const* filename);
-extern void __cdecl network_verify_map_variant_file(char const* filename);
-extern void __cdecl network_load_and_use_packed_map_variant_file(char const* filename);
-extern void __cdecl network_verify_packed_map_variant_file(char const* filename);
+extern void __cdecl network_build_map_variant(char const* file_path);
+extern void __cdecl network_load_and_use_map_variant_file(char const* file_path);
+extern void __cdecl network_verify_map_variant_file(char const* file_path);
+extern void __cdecl network_load_and_use_packed_map_variant_file(char const* file_path);
+extern void __cdecl network_verify_packed_map_variant_file(char const* file_path);
 

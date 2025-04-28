@@ -53,11 +53,11 @@ extern void* __cdecl file_read_into_memory_with_null_padding(s_file_reference* r
 extern s_file_reference* __cdecl file_reference_add_directory(s_file_reference* reference, char const* directory);
 extern s_file_reference* __cdecl file_reference_add_directory_wide(s_file_reference* reference, wchar_t const* directory);
 extern s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, int16 location);
-extern s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other);
-extern s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool a3);
-extern s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference* reference, wchar_t const* path, bool a3);
-extern wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_full_path, int32 full_path_length);
-extern char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_full_path, int32 full_path_length);
+extern s_file_reference* __cdecl file_reference_copy(s_file_reference* destination, s_file_reference const* source);
+extern s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool directory);
+extern s_file_reference* __cdecl file_reference_create_from_path_wide(s_file_reference* reference, wchar_t const* path, bool directory);
+extern wchar_t* __cdecl file_reference_get_fullpath_wide(s_file_reference const* reference, wchar_t* out_name, int32 name_length);
+extern char* __cdecl file_reference_get_fullpath(s_file_reference const* reference, char* out_name, int32 name_length);
 extern int16 __cdecl file_reference_get_location(s_file_reference const* reference);
 extern char* __cdecl file_reference_get_name(s_file_reference const* reference, uint32 flags, char* out_name, int32 name_length);
 extern wchar_t* __cdecl file_reference_get_name_wide(s_file_reference const* reference, uint32 flags, wchar_t* out_name, int32 name_length);
