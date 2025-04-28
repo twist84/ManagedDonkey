@@ -152,10 +152,10 @@ struct c_player_profile_interface
 
 	struct
 	{
-		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> current_difficulty;
+		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> current_difficulty;
 		int16 current_campaign_absolute_index;
 		int16 current_map_absolute_index;
-		c_static_array<c_flags<e_campaign_difficulty_level, uint8, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
+		c_static_array<c_flags<e_campaign_difficulty_level, uint8, k_campaign_difficulty_levels_count>, k_campaign_game_mode_count> map_difficulties_completed[32 /* campaign_level_index */];
 		c_static_array<uint64, k_campaign_game_mode_count> last_campaign_played_time;
 		int32 awarded_primary_skull_bitvector;
 		int32 awarded_secondary_skull_bitvector;

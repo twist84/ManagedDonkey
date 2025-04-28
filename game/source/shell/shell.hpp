@@ -34,10 +34,10 @@ extern char const* gui_network_session_advertisement_mode_get_name(int32 adverti
 extern char const* game_variant_parameter_get_name(int32 parameter);
 
 extern char const* const k_network_session_mode_names[k_network_session_mode_count];
-extern char const* const k_ui_game_mode_names[k_ui_game_mode_count];
+extern char const* const k_ui_game_mode_names[k_gui_game_setup_mode_count];
 extern char const* const k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count];
 extern char const* const k_game_variant_parameter_names[k_game_variant_parameter_count];
-extern char const* const global_campaign_difficulty_level_names[k_number_of_campaign_difficulty_levels];
+extern char const* const global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count];
 extern char const* const global_campaign_team_names[k_campaign_team_count];
 extern char const* const global_multiplayer_team_names[k_multiplayer_team_count];
 extern char const* const global_controller_index_names[k_number_of_controllers];

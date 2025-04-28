@@ -259,7 +259,7 @@ e_subtitle_setting subtitle_setting_from_string(char const* str)
 
 char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
 {
-	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_number_of_campaign_difficulty_levels)
+	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_campaign_difficulty_levels_count)
 		return "<invalid 'difficulty'>";
 
 	return global_campaign_difficulty_level_names[difficulty];
@@ -268,7 +268,7 @@ char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level diffi
 e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
 {
 	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
-	for (int32 i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
+	for (int32 i = _campaign_difficulty_level_easy; i < k_campaign_difficulty_levels_count; i++)
 	{
 		if (csstricmp(str, global_campaign_difficulty_level_names[i]) != 0)
 			continue;
@@ -289,7 +289,7 @@ char const* network_session_mode_get_name(int32 session_mode)
 
 char const* ui_game_mode_get_name(int32 ui_game_mode)
 {
-	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_ui_game_mode_count)
+	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_gui_game_setup_mode_count)
 		return "<invalid 'ui_game_mode'>";
 
 	return k_ui_game_mode_names[ui_game_mode];
@@ -328,7 +328,7 @@ char const* const k_network_session_mode_names[k_network_session_mode_count]
 	"matchmaking-choosing-game"
 };
 
-char const* const k_ui_game_mode_names[k_ui_game_mode_count]
+char const* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
 {
 	"campaign",
 	"matchmaking",
@@ -1015,7 +1015,7 @@ char const* const k_game_variant_parameter_names[k_game_variant_parameter_count]
 };
 
 // 0189DF28
-char const* const global_campaign_difficulty_level_names[k_number_of_campaign_difficulty_levels]
+char const* const global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count]
 {
 	"easy",
 	"normal",

@@ -2,12 +2,12 @@
 
 enum : tag
 {
-	_tag_none = 0xFFFFFFFF
+	_tag_none = 0xFFFFFFFF,
 };
 
 enum e_none_sentinel
 {
-	NONE = -1
+	NONE = -1,
 };
 
 enum
@@ -75,13 +75,13 @@ enum e_gui_campaign_difficulty_setup_mode
 {
 	_campaign_difficulty_setup_mode_start_new_campaign = 0,
 	_campaign_difficulty_setup_mode_replay_level,
-	_campaign_difficulty_setup_mode_lobby
+	_campaign_difficulty_setup_mode_lobby,
 };
 
 enum e_gui_campaign_level_setup_mode
 {
 	_campaign_level_setup_mode_replay_level = 0,
-	_campaign_level_setup_mode_lobby
+	_campaign_level_setup_mode_lobby,
 };
 
 enum e_team_scoring_method
@@ -114,7 +114,7 @@ enum e_game_engine_type
 	_game_engine_type_infection,
 
 	k_game_engine_type_count,
-	k_game_engine_type_default = _game_engine_type_none
+	k_game_engine_type_default = _game_engine_type_none,
 };
 
 enum e_simulation_world_type
@@ -129,7 +129,7 @@ enum e_simulation_world_type
 	_simulation_world_type_distributed_server,
 	_simulation_world_type_distributed_client,
 
-	k_simulation_world_type_count
+	k_simulation_world_type_count,
 };
 
 enum e_simulation_world_state
@@ -142,7 +142,7 @@ enum e_simulation_world_state
 	_simulation_world_state_handoff,
 	_simulation_world_state_leaving,
 
-	k_simulation_world_state_count
+	k_simulation_world_state_count,
 };
 
 enum e_update_queue_state
@@ -152,7 +152,7 @@ enum e_update_queue_state
 	_update_queue_state_throttling,
 	_update_queue_state_cooling,
 
-	k_update_queue_state_count
+	k_update_queue_state_count,
 };
 
 enum e_simulation_update_flags
@@ -162,7 +162,7 @@ enum e_simulation_update_flags
 	_simulation_update_gamestate_flushed_outside_game_tick_bit,
 	_simulation_update_game_simulation_queue_requires_application_bit,
 
-	k_simulation_update_flags_count
+	k_simulation_update_flags_count,
 };
 
 enum e_simulation_update_metadata_flags
@@ -171,7 +171,7 @@ enum e_simulation_update_metadata_flags
 	_simulation_update_from_synchronous_update_bit,
 	_simulation_update_from_saved_film_bit,
 
-	k_simulation_update_metadata_flags_count
+	k_simulation_update_metadata_flags_count,
 };
 
 enum e_update_queue_node
@@ -180,14 +180,14 @@ enum e_update_queue_node
 	_update_queue_node_playback_event,
 
 	k_update_queue_node_count,
-	k_update_queue_node_invalid = -1
+	k_update_queue_node_invalid = -1,
 };
 
 enum e_simulation_playback_event
 {
 	_simulation_playback_event_revert = 0,
 
-	k_simulation_playback_event_count
+	k_simulation_playback_event_count,
 };
 
 enum e_scenario_camera_type
@@ -198,7 +198,7 @@ enum e_scenario_camera_type
 	_scenario_camera_type_ignore_target_updates,
 
 	k_number_of_scenario_camera_types,
-	_scenario_camera_type_default = _scenario_camera_type_target_relative
+	_scenario_camera_type_default = _scenario_camera_type_target_relative,
 };
 
 enum e_level_flags
@@ -214,7 +214,7 @@ enum e_level_flags
 	_level_in_test_directory_bit,
 	_level_in_temp_directory_bit,
 
-	k_number_of_level_flags
+	k_number_of_level_flags,
 };
 
 enum e_text_justification
@@ -223,7 +223,7 @@ enum e_text_justification
 	_text_justification_right,
 	_text_justification_center,
 
-	k_text_justification_count
+	k_text_justification_count,
 };
 
 enum e_text_vertical_justification
@@ -233,7 +233,7 @@ enum e_text_vertical_justification
 	_text_vertical_justification_center,
 	_text_vertical_justification_bottom,
 
-	k_text_vertical_justification_count
+	k_text_vertical_justification_count,
 };
 
 enum e_text_style
@@ -244,7 +244,7 @@ enum e_text_style
 	_text_style_condense,
 	_text_style_underline,
 
-	k_text_style_count
+	k_text_style_count,
 };
 
 enum e_font_id
@@ -264,22 +264,22 @@ enum e_font_id
 	_subtitle_font,
 	_main_menu_font,
 
-	k_public_font_id_count
+	k_public_font_id_count,
 };
 
 enum e_session_creation_flags
 {
-	_session_creation_unknown_bit0 = 0,
-	_session_creation_unknown_bit1,
-	_session_creation_unknown_bit2,
-	_session_creation_unknown_bit3,
+	_session_creation_master_bit = 0,
+	_session_creation_uses_presence_bit,
+	_session_creation_uses_matchmaking_bit,
+	_session_creation_uses_arbitration_bit,
 
-	k_number_of_session_creation_flags
+	k_session_creation_flags_count,
 };
 
 enum
 {
-	k_number_of_users = 4
+	k_number_of_users = 4,
 };
 
 enum e_network_game_type
@@ -289,18 +289,19 @@ enum e_network_game_type
 	_network_game_type_matchmaking,
 	_network_game_type_film,
 
-	k_network_game_type_count
+	k_network_game_type_count,
 };
+//using c_session_creation_flags = c_flags<e_session_creation_flags, uint8, k_network_game_type_count>;
 
 enum e_desired_multiplayer_mode
 {
 	_desired_multiplayer_mode_none = -1,
-	_desired_multiplayer_mode_campaign,
-	_desired_multiplayer_mode_custom_game,
+	_desired_multiplayer_mode_coop,
+	_desired_multiplayer_mode_custom,
 	_desired_multiplayer_mode_matchmaking,
 	_desired_multiplayer_mode_film,
 
-	k_number_of_desired_multiplayer_modes
+	k_number_of_desired_multiplayer_modes,
 };
 
 enum e_session_game_mode
@@ -311,7 +312,8 @@ enum e_session_game_mode
 	_session_game_mode_ingame,
 	_session_game_mode_postgame,
 
-	k_session_game_mode_count
+	k_number_of_session_game_modes,
+	k_number_of_session_game_bits = 3,//bit_count(k_number_of_session_game_modes),
 };
 
 enum e_gui_game_mode
@@ -324,7 +326,8 @@ enum e_gui_game_mode
 	_ui_game_mode_theater,
 	_ui_game_mode_survival,
 
-	k_ui_game_mode_count
+	k_gui_game_setup_mode_count,
+	k_gui_game_setup_mode_bits = 3,//bit_count(k_gui_game_setup_mode_count),
 };
 
 enum e_game_mode
@@ -335,7 +338,8 @@ enum e_game_mode
 	_game_mode_ui_shell,
 	_game_mode_tool,
 
-	k_game_mode_count
+	k_game_mode_count,
+	k_game_mode_bits = 3,//bit_count(k_game_mode_count),
 };
 
 enum e_campaign_difficulty_level
@@ -343,9 +347,11 @@ enum e_campaign_difficulty_level
 	_campaign_difficulty_level_easy = 0,
 	_campaign_difficulty_level_normal,
 	_campaign_difficulty_level_heroic,
-	_campaign_difficulty_level_legendary,
+	_campaign_difficulty_level_impossible,
 
-	k_number_of_campaign_difficulty_levels
+	k_campaign_difficulty_levels_count,
+	k_campaign_difficulty_level_bits = 2,//bit_count(k_campaign_difficulty_levels_count),
+	k_campaign_difficulty_level_none = -1,
 };
 
 // e_game_skulls
@@ -361,7 +367,7 @@ enum e_primary_skulls
 	_campaign_skull_tilt,
 	_campaign_skull_mythic,
 
-	k_number_of_primary_skulls
+	k_number_of_primary_skulls,
 };
 
 enum e_secondary_skulls
@@ -374,10 +380,9 @@ enum e_secondary_skulls
 	_campaign_skull_third_person,
 	_campaign_skull_directors_cut,
 
-	k_number_of_secondary_skulls
+	k_number_of_secondary_skulls,
 };
 
-// $TODO: find a home
 enum e_game_simulation_type
 {
 	_game_simulation_none = 0,
@@ -387,7 +392,8 @@ enum e_game_simulation_type
 	_game_simulation_distributed_client,
 	_game_simulation_distributed_server,
 
-	k_game_simulation_count
+	k_game_simulation_count,
+	k_game_simulation_bits = 3,//bit_count(k_game_simulation_count),
 };
 
 enum e_network_game_simulation_protocol
@@ -399,7 +405,7 @@ enum e_network_game_simulation_protocol
 	_network_game_simulation_dist_client,
 	_network_game_simulation_dist_server,
 
-	k_network_game_simulation_count
+	k_network_game_simulation_count,
 };
 
 enum e_simulation_abort_reason
@@ -415,7 +421,7 @@ enum e_simulation_abort_reason
 	_simulation_abort_reason_film_ended,
 	_simulation_abort_reason_film_playback_error,
 
-	k_simulation_abort_reason_count
+	k_simulation_abort_reason_count,
 };
 
 enum e_simulation_view_reason
@@ -435,7 +441,7 @@ enum e_simulation_view_reason
 	_simulation_view_reason_no_longer_authority,
 	_simulation_view_reason_signature_invalid,
 
-	k_simulation_view_reason_count
+	k_simulation_view_reason_count,
 };
 
 enum e_simulation_view_type
@@ -446,10 +452,9 @@ enum e_simulation_view_type
 	_simulation_view_type_distributed_to_remote_authority,
 	_simulation_view_type_distributed_to_remote_client,
 
-	k_simulation_view_type_count
+	k_simulation_view_type_count,
 };
 
-// $TODO: find a home
 enum e_game_playback_type
 {
 	_game_playback_none = 0,
@@ -457,7 +462,8 @@ enum e_game_playback_type
 	_game_playback_network_server,
 	_game_playback_network_client,
 
-	k_game_playback_count
+	k_game_playback_count,
+	k_game_playback_bits = 2,//bit_count(k_game_playback_count),
 };
 
 enum e_content_item_type
@@ -467,11 +473,14 @@ enum e_content_item_type
 
 enum e_player_model_choice
 {
-	_player_model_choice_spartan,
+	_player_model_choice_first = 0,
+
+	_player_model_choice_spartan = _player_model_choice_first,
 	_player_model_choice_elite,
 
 	k_number_of_player_model_choices
 };
+//using c_player_model_choice = c_enum<e_player_model_choice, char, _player_model_choice_first, k_number_of_player_model_choices>;
 
 enum e_controller_index
 {
@@ -535,12 +544,13 @@ enum e_window_index
 
 enum e_network_game_start_mode
 {
-	_network_game_start_mode_campaign = 0,
+	_network_game_start_mode_none = 0,
 	_network_game_start_mode_custom_game,
 	_network_game_start_mode_matchmaking,
 	_network_game_start_mode_film,
 
-	k_number_of_network_game_start_modes
+	k_network_game_start_mode_count,
+	k_network_game_start_mode_bits = 2,//bit_count(k_network_game_start_mode_count),
 };
 
 enum e_network_join_queue_mode
@@ -551,7 +561,7 @@ enum e_network_join_queue_mode
 	_network_join_process_queued_group_joins,
 	_network_join_queue_closed_while_in_match,
 
-	k_network_join_queue_mode_count
+	k_network_join_queue_mode_count,
 };
 
 enum e_join_local_state
@@ -562,7 +572,7 @@ enum e_join_local_state
 	_join_local_state_leaving_old_squad,
 	_join_local_state_processing_join_to_us,
 
-	k_join_local_state_count
+	k_join_local_state_count,
 };
 
 enum e_join_remote_state
@@ -575,7 +585,7 @@ enum e_join_remote_state
 	_join_remote_state_party_join_complete,
 	_join_remote_state_leave_group,
 
-	k_join_remote_state_count
+	k_join_remote_state_count,
 };
 
 enum e_join_type
@@ -583,7 +593,7 @@ enum e_join_type
 	_join_type_squad = 0,
 	_join_type_group,
 
-	k_join_type_count
+	k_join_type_count,
 };
 
 enum e_networking_join_destination_squad
@@ -591,7 +601,8 @@ enum e_networking_join_destination_squad
 	_join_destination_target = 0,
 	_join_destination_group,
 
-	k_join_destination_count
+	k_join_destination_count,
+	k_join_destination_bits = 1,//bit_count(k_join_destination_count),
 };
 
 enum e_transport_platform
@@ -599,7 +610,9 @@ enum e_transport_platform
 	_transport_platform_xenon = 0,
 	_transport_platform_windows,
 
-	k_transport_platform_count
+	k_transport_platform_count,
+	k_transport_platform_bits = 2,//bit_count(k_transport_platform_count),
+	k_transport_platform_none = -1,
 };
 
 enum e_network_channel_closure_reason
@@ -625,7 +638,8 @@ enum e_network_channel_closure_reason
 	_network_channel_reason_observer_reset_security,
 	_network_channel_reason_test,
 
-	k_network_channel_reason_count
+	k_network_channel_reason_count,
+	k_network_channel_reason_bits = 5,//bit_count(k_network_channel_reason_count),
 };
 
 enum e_network_join_refuse_reason
@@ -664,7 +678,8 @@ enum e_network_join_refuse_reason
 	_network_join_refuse_reason_survival_in_progress,
 	_network_join_refuse_reason_executable_type_mismatch,
 
-	k_network_join_refuse_reason_count
+	k_network_join_refuse_reason_count,
+	k_network_join_refuse_reason_bits = 6,//bit_count(k_network_join_refuse_reason_count),
 };
 
 enum e_network_session_boot_reason
@@ -683,7 +698,7 @@ enum e_network_session_boot_reason
 	_network_session_boot_unknown11,
 	_network_session_boot_unknown12,
 
-	k_network_session_boot_reason_count
+	k_network_session_boot_reason_count,
 };
 
 enum e_network_session_state
@@ -701,7 +716,8 @@ enum e_network_session_state
 	//_network_session_state_host_reestablish,
 	//_network_session_state_election,
 
-	k_network_session_state_count
+	k_network_session_state_count,
+	k_network_session_state_none = -1,
 };
 
 enum e_life_cycle_join_result
@@ -729,7 +745,8 @@ enum e_life_cycle_join_result
 	_life_cycle_join_result_survival_in_progress,
 	_life_cycle_join_result_invalid_executable_type,
 
-	k_life_cycle_join_result_count
+	k_life_cycle_join_result_count,
+	k_life_cycle_join_result_bits = 5,//bit_count(k_life_cycle_join_result_count),
 };
 
 enum e_network_session_type
@@ -738,7 +755,8 @@ enum e_network_session_type
 	_network_session_type_squad,
 	_network_session_type_group,
 
-	k_network_session_type_count
+	k_network_session_type_count,
+	k_network_session_type_bits = 2,//bit_count(k_network_session_type_count),
 };
 
 enum e_network_session_class
@@ -747,7 +765,9 @@ enum e_network_session_class
 	_network_session_class_system_link,
 	_network_session_class_xbox_live,
 
-	k_network_session_class_count
+	k_network_session_class_count,
+	k_network_session_class_bits = 2,//bit_count(k_network_session_class_count),
+	k_network_session_class_none = -1,
 };
 
 enum e_network_session_mode
@@ -766,7 +786,8 @@ enum e_network_session_mode
 	_network_session_mode_matchmaking_arbitrating,
 	_network_session_mode_matchmaking_choosing_game,
 
-	k_network_session_mode_count
+	k_network_session_mode_count,
+	k_network_session_mode_bits = 5,//bit_count(k_network_session_mode_count),
 };
 
 enum e_matchmaking_search_preference
@@ -776,7 +797,8 @@ enum e_matchmaking_search_preference
 	_matchmaking_search_preference_good_connection,
 	_matchmaking_search_preference_language,
 
-	k_matchmaking_search_preference_count
+	k_matchmaking_search_preference_count,
+	k_matchmaking_search_preference_bits = 2,//bit_count(k_matchmaking_search_preference_count),
 };
 
 enum e_life_cycle_state
@@ -800,7 +822,8 @@ enum e_life_cycle_state
 	_life_cycle_state_end_match_write_stats,
 	_life_cycle_state_post_match,
 
-	k_life_cycle_state_count
+	k_life_cycle_state_count,
+	k_life_cycle_state_bits = 5,//bit_count(k_life_cycle_state_count),
 };
 
 enum e_life_cycle_matchmaking_progress_type
@@ -812,7 +835,8 @@ enum e_life_cycle_matchmaking_progress_type
 	_life_cycle_matchmaking_progress_configuring_match,
 	_life_cycle_matchmaking_progress_post_match,
 
-	k_life_cycle_matchmaking_progress_type_count
+	k_life_cycle_matchmaking_progress_type_count,
+	k_life_cycle_matchmaking_progress_type_bits = 3,//bit_count(k_life_cycle_matchmaking_progress_type_count),
 };
 
 enum e_network_rough_quality
@@ -822,7 +846,8 @@ enum e_network_rough_quality
 	_network_rough_quality_moderate,
 	_network_rough_quality_bad,
 
-	k_network_rough_quality_count
+	k_network_rough_quality_count,
+	k_network_rough_quality_bits = 2,//bit_count(k_network_rough_quality_count),
 };
 
 enum e_session_game_start_status
@@ -837,7 +862,8 @@ enum e_session_game_start_status
 	_session_game_start_status_countdown,
 	_session_game_start_status_error,
 
-	k_session_game_start_status_count
+	k_session_game_start_status_count,
+	k_session_game_start_status_bits = 4,//bit_count(k_session_game_start_status_count),
 };
 
 enum e_session_game_start_error
@@ -906,7 +932,8 @@ enum e_session_game_start_error
 	_session_game_start_error_invalid_film_selected_language,
 	_session_game_start_error_user_controller_not_attached,
 
-	k_session_game_start_error_count
+	k_session_game_start_error_count,
+	k_session_game_start_error_bits = 6,//bit_count(k_session_game_start_error_count),
 };
 
 enum e_network_session_map_status
@@ -917,7 +944,8 @@ enum e_network_session_map_status
 	_network_session_map_status_precached,
 	_network_session_map_status_loaded,
 
-	k_network_session_map_status_count
+	k_network_session_map_status_count,
+	k_network_session_map_status_bits = 3,//bit_count(k_network_session_map_status_count),
 };
 
 enum e_network_session_peer_state
@@ -932,7 +960,8 @@ enum e_network_session_peer_state
 	_network_session_peer_state_waiting,
 	_network_session_peer_state_established,
 
-	k_network_session_peer_state_count
+	k_network_session_peer_state_count,
+	k_network_session_peer_state_bits = 4,//bit_count(k_network_session_peer_state_count),
 };
 
 enum e_gui_network_session_advertisement_mode
@@ -996,12 +1025,15 @@ enum e_network_session_peer_properties_status_flags
 	_network_session_peer_properties_status_match_simulation_aborted_bit,
 	_network_session_peer_properties_status_match_acknowledge_sync_bit,
 
-	k_network_session_peer_properties_status_flags
+	k_network_session_peer_properties_status_flags,
+	k_network_session_peer_properties_status_flags_bits = 5//bit_count(k_network_session_peer_properties_status_flags),
 };
+//using c_network_session_peer_properties_status_flags = c_flags<e_network_session_peer_properties_status_flags, uint32, k_network_session_peer_properties_status_flags>;
 
 enum e_ui_message_type
 {
-	_message_type_error = 0,
+	_message_type_invalid = -1,
+	_message_type_error,
 	_message_type_controller_input,
 	_message_type_xenon,
 	_message_type_load_screen,
@@ -1009,12 +1041,12 @@ enum e_ui_message_type
 	_message_type_screen_custom,
 	_message_type_dialog_result,
 	_message_type_unknown7,
+
+	k_number_of_ui_message_types,
 };
 
 enum e_browser_type
 {
-	// names from string ids used with `<browser-title` game tag parser data function
-
 	_browse_system_link = 0,
 	_browse_friends,
 	_browse_xbox_live,
@@ -1155,7 +1187,6 @@ enum e_damage_reporting_type
 	k_damage_reporting_type_count
 };
 
-// find an actual name for this and also place it in the correct location
 enum e_damage_aftermath_flags
 {
 	_damage_aftermath_body_depleted_bit = 0,
@@ -4209,26 +4240,26 @@ enum e_vertex_type
 enum e_lighting_vertex_types
 {
 	// default
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vertex_none)
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_none, _transfer_vertex_none)
 	// _entry_point_static_prt_ambient
 	// _entry_point_static_prt_linear
 	// _entry_point_static_prt_quadratic
 	// _entry_point_active_camo
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, transfer_vertex_type)
-	_lighting_vertex_type_unknown0 = 0,
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_none, transfer_vertex_type)
+	_lighting_vertex_none = 0,
 
 	// _entry_point_vertex_color_lighting
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown1, _transfer_vertex_none)
-	_lighting_vertex_type_unknown1,
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_vert_color, _transfer_vertex_none)
+	_lighting_vertex_vert_color,
 
 	// _entry_point_static_per_pixel
 	// _entry_point_lightmap_debug_mode
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown2, _transfer_vertex_none)
-	_lighting_vertex_type_unknown2,
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_lightmap_uv, _transfer_vertex_none)
+	_lighting_vertex_lightmap_uv,
 
 	// _entry_point_static_per_vertex
-	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown3, _transfer_vertex_none)
-	_lighting_vertex_type_unknown3,
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_per_vertex_lightprobe, _transfer_vertex_none)
+	_lighting_vertex_per_vertex_lightprobe,
 
 	k_number_of_lighting_vertex_types
 };

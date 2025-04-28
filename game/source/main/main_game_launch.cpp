@@ -34,7 +34,7 @@ void main_game_launch(char const* map_name)
 
 	if (main_game_globals.launch_game_options.game_mode == _game_mode_campaign)
 	{
-		main_game_globals.launch_game_options.campaign_difficulty = int_pin(main_game_globals.launch_game_options.campaign_difficulty, _campaign_difficulty_level_easy, _campaign_difficulty_level_legendary);
+		main_game_globals.launch_game_options.campaign_difficulty = int_pin(main_game_globals.launch_game_options.campaign_difficulty, _campaign_difficulty_level_easy, _campaign_difficulty_level_impossible);
 	}
 	else if (main_game_globals.launch_game_options.game_mode != _game_mode_multiplayer)
 	{

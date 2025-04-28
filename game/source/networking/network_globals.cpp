@@ -579,7 +579,7 @@ void network_test_set_ui_game_mode(char const* ui_game_mode_name)
 {
 	e_gui_game_mode ui_game_mode = _ui_game_mode_none;
 
-	for (int32 i = _ui_game_mode_campaign; i < k_ui_game_mode_count; i++)
+	for (int32 i = _ui_game_mode_campaign; i < k_gui_game_setup_mode_count; i++)
 	{
 		if (csstricmp(ui_game_mode_name, ui_game_mode_get_name(i)) != 0)
 			continue;

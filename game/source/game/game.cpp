@@ -1249,14 +1249,14 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 	//	}
 	//	else
 	//	{
-	//		if (VALID_INDEX(options->campaign_difficulty, k_number_of_campaign_difficulty_levels))
+	//		if (VALID_INDEX(options->campaign_difficulty, k_campaign_difficulty_levels_count))
 	//		{
 	//			csnzprintf(
 	//				error_string,
 	//				error_string_length,
 	//				"campaign_difficulty %d outside valid range [0, %d)",
 	//				options->campaign_difficulty,
-	//				k_number_of_campaign_difficulty_levels);
+	//				k_campaign_difficulty_levels_count);
 	//			return false;
 	//		}
 	//		if (VALID_COUNT(player_count, k_maximum_campaign_players))
@@ -1266,7 +1266,7 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 	//				error_string_length,
 	//				"campaign_difficulty %d outside valid range [0, %d)",
 	//				options->campaign_difficulty,
-	//				k_number_of_campaign_difficulty_levels);
+	//				k_campaign_difficulty_levels_count);
 	//			return false;
 	//		}
 	//		if (!options->machines.local_machine_exists)
@@ -1528,7 +1528,7 @@ void __cdecl game_set_difficulty(int16 campaign_difficulty)
 	if (game_in_progress() &&
 		game_is_campaign() &&
 		campaign_difficulty >= _campaign_difficulty_level_easy &&
-		campaign_difficulty < k_number_of_campaign_difficulty_levels)
+		campaign_difficulty < k_campaign_difficulty_levels_count)
 	{
 		game_options_get()->campaign_difficulty = campaign_difficulty;
 	}

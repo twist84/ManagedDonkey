@@ -36,16 +36,6 @@ struct s_network_message_directed_search :
 };
 static_assert(sizeof(s_network_message_directed_search) == sizeof(s_network_message_broadcast_search));
 
-enum e_network_session_qos_status_data_type
-{
-	_network_session_qos_status_data_none = 0,
-	_network_session_qos_status_data_lobby_or_game,
-	_network_session_qos_status_data_matchmaking,
-
-	k_network_session_qos_status_data_type_count,
-	k_network_session_qos_status_data_type_bits
-};
-
 struct s_player_information
 {
 	s_player_identifier identifier;

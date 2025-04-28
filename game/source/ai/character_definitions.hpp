@@ -133,9 +133,9 @@ static_assert(sizeof(character_vitality_properties) == 0x1);
 struct character_placement_properties
 {
 	int32 flags;
-	real32 few_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
-	real32 normal_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
-	real32 many_upgrade_chance[sizeof(real32) * k_number_of_campaign_difficulty_levels];
+	real32 few_upgrade_chance[sizeof(real32) * k_campaign_difficulty_levels_count];
+	real32 normal_upgrade_chance[sizeof(real32) * k_campaign_difficulty_levels_count];
+	real32 many_upgrade_chance[sizeof(real32) * k_campaign_difficulty_levels_count];
 };
 static_assert(sizeof(character_placement_properties) == 0xC4);
 

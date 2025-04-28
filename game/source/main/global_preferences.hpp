@@ -99,7 +99,7 @@ struct s_gui_game_setup_storage
 		e_campaign_id campaign_id;
 		e_map_id map_id;
 		int16 insertion_point;
-		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
+		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
 		int32 metagame_scoring_option;
 		uint32 active_primary_skulls;
 		uint32 active_secondary_skulls;
@@ -124,7 +124,7 @@ struct s_gui_game_setup_storage
 		e_campaign_id campaign_id;
 		e_map_id map_id;
 		int16 insertion_point;
-		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
+		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
 		int32 metagame_scoring_option;
 		uint32 active_primary_skulls;
 		uint32 active_secondary_skulls;
@@ -301,7 +301,7 @@ struct s_global_preferences_data
 	int32 build_number;
 	real32 betrayal_count; // betrayal_penalty?
 	int32 eviction_count;
-	c_enum<e_gui_game_mode, int32, _ui_game_mode_none, k_ui_game_mode_count> last_main_menu_item;
+	c_enum<e_gui_game_mode, int32, _ui_game_mode_none, k_gui_game_setup_mode_count> last_main_menu_item;
 	int32 last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
 	c_enum<e_gui_network_session_advertisement_mode, int32, _gui_network_session_advertisement_mode_invalid, k_gui_network_session_advertisement_mode_count> xbox_live_private_privacy_setting;
