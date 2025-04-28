@@ -4323,16 +4323,91 @@ enum e_transport_qos_type
 	k_transport_qos_type_none = NONE
 };
 
+enum e_network_session_qos_status_data_type
+{
+	_network_session_qos_status_data_none = 0,
+	_network_session_qos_status_data_lobby_or_game,
+	_network_session_qos_status_data_matchmaking,
+
+	k_network_session_qos_status_data_type_count,
+	k_network_session_qos_status_data_type_bits = 2
+};
+
+enum e_session_tracker_flags
+{
+	_session_tracker_initialized_bit = 0,
+	_session_tracker_sort_required_bit,
+
+	k_session_tracker_flags_count
+};
+
+enum e_network_session_tracker_sort_method
+{
+	_network_session_tracker_sort_none = 0,
+	_network_session_tracker_sort_desirability,
+
+	k_network_session_tracker_sort_method_count,
+};
+
 enum e_session_tracker_session_flags
 {
 	_session_tracker_session_valid_bit = 0,
+	_session_tracker_session_refresh_bit,
+	_session_tracker_session_unsuitable_bit,
+	_session_tracker_session_undesireable_bit,
 
-	// if anyone runs into the names of these bits hit me up on discord
-	_session_tracker_session_bit1,
-	_session_tracker_session_bit2,
-	_session_tracker_session_bit3,
+	k_session_tracker_session_flags_count
+};
 
-	k_session_tracker_session_flags
+enum e_network_session_tracker_session_status
+{
+	_tracked_session_status_none = 0,
+	_tracked_session_qos_needed,
+	_tracked_session_completed_probe_only_qos,
+	_tracked_session_completed_full_qos,
+	_tracked_session_undesireable,
+	_tracked_session_unsuitable,
+
+	k_tracked_session_status_count,
+};
+
+enum e_network_session_tracker_session_undesirable_reason
+{
+	_session_undesirable_reason_none = 0,
+	_session_undesirable_latency,
+
+	k_network_session_tracker_session_undesirable_reason_count,
+};
+
+enum e_network_session_tracker_session_unsuitable_reason
+{
+	_session_unsuitable_reason_none = 0,
+	_session_unsuitable_qos_refused,
+	_session_unsuitable_qos_unreachable,
+	_session_unsuitable_qos_failed_to_get_result,
+	_session_unsuitable_qos_payload_empty,
+	_session_unsuitable_qos_payload_failed_to_decode,
+	_session_unsuitable_qos_payload_wrong_type,
+	_session_unsuitable_qos_timeout,
+	_session_unsuitable_qos_incompatible_version,
+	_session_unsuitable_previously_marked_unsuitable,
+	_session_unsuitable_join_failed,
+	_session_unsuitable_failed_to_get_session_data,
+
+	k_network_session_tracker_session_unsuitable_reason_count,
+};
+
+enum e_transport_qos_target_status
+{
+	_transport_qos_target_status_pending = 0,
+	_transport_qos_target_status_in_progress_wait,
+	_transport_qos_target_status_in_progress_partial,
+	_transport_qos_target_status_unreachable,
+	_transport_qos_target_status_refused,
+	_transport_qos_target_status_succeeded,
+
+	k_transport_qos_target_status_count,
+	k_transport_qos_target_status_none = -1,
 };
 
 enum e_parameter_change_request_access
