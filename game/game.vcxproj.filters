@@ -1893,6 +1893,9 @@
     <ClCompile Include="source\render\render_mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\transport\transport_dns_winsock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4287,6 +4290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\_force_includes\_force_included_macros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\transport\transport_dns_winsock.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

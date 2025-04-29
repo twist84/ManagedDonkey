@@ -40,13 +40,6 @@ struct transport_address
 };
 static_assert(sizeof(transport_address) == 0x14);
 
-struct dns_result
-{
-	transport_address address[8];
-	char name[256];
-};
-static_assert(sizeof(dns_result) == 0x1A0);
-
 extern bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b);
 extern char const* __cdecl transport_address_get_string(transport_address const* address);
 extern void __cdecl transport_address_ipv4_build(transport_address* address, uint32 ip_address, uint16 port);

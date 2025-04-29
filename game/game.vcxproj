@@ -338,6 +338,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />
     <ClCompile Include="source\networking\tools\telnet_console.cpp" />
     <ClCompile Include="source\networking\tools\xbox_connection_manager.cpp" />
+    <ClCompile Include="source\networking\transport\transport_dns_winsock.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\crates.cpp" />
     <ClCompile Include="source\objects\damage_owner.cpp" />
@@ -1250,6 +1251,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\tools\network_web_events.hpp" />
     <ClInclude Include="source\networking\tools\telnet_console.hpp" />
     <ClInclude Include="source\networking\tools\xbox_connection_manager.hpp" />
+    <ClInclude Include="source\networking\transport\transport_dns_winsock.hpp" />
     <ClInclude Include="source\objects\crates.hpp" />
     <ClInclude Include="source\objects\reference_lists.hpp" />
     <ClInclude Include="source\objects\scenery.hpp" />
