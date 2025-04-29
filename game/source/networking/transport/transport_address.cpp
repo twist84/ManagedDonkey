@@ -2,10 +2,13 @@
 
 #include "cseries/cseries_events.hpp"
 #include "game/players.hpp"
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
+#include "networking/transport/transport.hpp"
 #include "networking/transport/transport_security.hpp"
 
 #include <string.h>
+//#include <WinSock2.h>
 
 HOOK_DECLARE(0x0043F660, transport_address_equivalent);
 HOOK_DECLARE(0x0043F6F0, transport_address_get_string);
@@ -15,6 +18,7 @@ HOOK_DECLARE(0x0043F750, transport_address_to_string);
 HOOK_DECLARE(0x0043F860, transport_address_valid);
 HOOK_DECLARE(0x0043F8D0, transport_get_broadcast_address);
 HOOK_DECLARE(0x0043F8F0, transport_get_listen_address);
+HOOK_DECLARE(0x0043F910, transport_get_loopback_address);
 
 transport_address::transport_address() :
 	ipv4_address(0),
@@ -43,8 +47,78 @@ transport_address::transport_address(s_player_identifier const* player_identifie
 	address_length = sizeof(uint32);
 }
 
+bool __cdecl transport_dns_address_to_name(dns_result* result)
+{
+	return INVOKE(0x0043B330, transport_dns_address_to_name, result);
+
+	//if (!transport_available())
+	//	return false;
+	//
+	//ASSERT(result != NULL);
+	//
+	//transport_address* address = &result->address[0];
+	//
+	//union
+	//{
+	//	uint32 ipv4_address;
+	//	uint16 ipv6_address[8];
+	//} ip_address;
+	//
+	//int32 type = 0;
+	//int32 address_length = 0;
+	//switch (address->address_length)
+	//{
+	//case 4:
+	//{
+	//	type = AF_INET;
+	//	address_length = 4;
+	//
+	//	ip_address.ipv4_address = bswap_uint32(result->address[0].ipv4_address);
+	//}
+	//break;
+	//case 16:
+	//{
+	//	type = AF_INET6;
+	//	address_length = 16;
+	//
+	//	ip_address.ipv6_address[0] = bswap_uint16(address->ina6.words[0]);
+	//	ip_address.ipv6_address[1] = bswap_uint16(address->ina6.words[1]);
+	//	ip_address.ipv6_address[2] = bswap_uint16(address->ina6.words[2]);
+	//	ip_address.ipv6_address[3] = bswap_uint16(address->ina6.words[3]);
+	//	ip_address.ipv6_address[4] = bswap_uint16(address->ina6.words[4]);
+	//	ip_address.ipv6_address[5] = bswap_uint16(address->ina6.words[5]);
+	//	ip_address.ipv6_address[6] = bswap_uint16(address->ina6.words[6]);
+	//	ip_address.ipv6_address[7] = bswap_uint16(address->ina6.words[7]);
+	//}
+	//break;
+	//default:
+	//{
+	//	event(_event_error, "networking:transport:dns: reverse dns failed: bad address type");
+	//	return false;
+	//}
+	//break;
+	//}
+	//
+	//hostent* host = gethostbyaddr((const char*)&ip_address, address_length, type);
+	//if (!host || !*host->h_aliases)
+	//{
+	//	return false;
+	//}
+	//
+	//csstrnzcpy(result->name, *host->h_aliases, sizeof(result->name));
+	//result->name[255] = 0;
+	//return true;
+}
+
+bool __cdecl transport_dns_name_to_address(dns_result* result)
+{
+	return INVOKE(0x0043B460, transport_dns_name_to_address, result);
+}
+
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
 {
+	//return INVOKE(0x0043F660, transport_address_equivalent, a, b);
+
 	ASSERT(a != NULL);
 	ASSERT(b != NULL);
 
@@ -73,6 +147,8 @@ void __cdecl transport_address_ipv4_build(transport_address* address, uint32 ip_
 
 uint32 __cdecl transport_address_ipv4_extract(transport_address const* address)
 {
+	//return INVOKE(0x0043F720, transport_address_ipv4_extract, address);
+
 	ASSERT(address);
 
 	return address->ipv4_address;
@@ -80,6 +156,8 @@ uint32 __cdecl transport_address_ipv4_extract(transport_address const* address)
 
 bool __cdecl transport_address_is_loopback(transport_address const* address)
 {
+	//return INVOKE(0x0043F730, transport_address_is_loopback, address);
+
 	ASSERT(address);
 
 	return address->address_length == sizeof(uint32) && address->ipv4_address == 0x7F000001;
@@ -164,6 +242,8 @@ char* __cdecl transport_address_to_string(transport_address const* address, s_tr
 
 bool __cdecl transport_address_valid(transport_address const* address)
 {
+	//return INVOKE(0x0043F860, transport_address_valid, address);
+
 	bool result = false;
 	if (address)
 	{
@@ -203,6 +283,8 @@ bool __cdecl transport_address_valid(transport_address const* address)
 
 void __cdecl transport_get_broadcast_address(transport_address* address, uint16 port)
 {
+	//INVOKE(0x0043F8D0, transport_get_broadcast_address, address, port);
+
 	ASSERT(address);
 
 	address->address_length = sizeof(uint32);
@@ -212,6 +294,8 @@ void __cdecl transport_get_broadcast_address(transport_address* address, uint16 
 
 void __cdecl transport_get_listen_address(transport_address* address, uint16 port)
 {
+	//INVOKE(0x0043F8F0, transport_get_listen_address, address, port);
+
 	ASSERT(address);
 
 	address->address_length = sizeof(uint32);
@@ -221,6 +305,8 @@ void __cdecl transport_get_listen_address(transport_address* address, uint16 por
 
 void __cdecl transport_get_loopback_address(transport_address* address, uint16 port)
 {
+	//INVOKE(0x0043F910, transport_get_loopback_address, address, port);
+
 	ASSERT(address);
 
 	address->address_length = sizeof(uint32);
@@ -256,26 +342,13 @@ void transport_address_from_string(char const* str, transport_address& address)
 	}
 }
 
-struct s_transport_address_list
+void transport_address_from_host(char const* name, transport_address& address)
 {
-	transport_address addresses[8];
-	union
+	dns_result result{};
+	csstrnzcpy(result.name, name, sizeof(result.name));
+	if (transport_dns_name_to_address(&result))
 	{
-		char hostname[256];
-		c_static_string<256> host;
-	};
-};
-
-bool __cdecl sub_43B460(s_transport_address_list* list)
-{
-	return INVOKE(0x0043B460, sub_43B460, list);
-}
-
-void transport_address_from_host(char const* hostname, transport_address& address)
-{
-	s_transport_address_list list{};
-	list.host.set(hostname);
-	if (sub_43B460(&list))
-		address = list.addresses[0];
+		address = result.address[0];
+	}
 }
 

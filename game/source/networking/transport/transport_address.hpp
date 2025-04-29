@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 
 struct s_player_identifier;
+struct s_transport_secure_address;
+
 struct transport_address
 {
 	transport_address();
@@ -38,7 +40,12 @@ struct transport_address
 };
 static_assert(sizeof(transport_address) == 0x14);
 
-struct s_transport_secure_address;
+struct dns_result
+{
+	transport_address address[8];
+	char name[256];
+};
+static_assert(sizeof(dns_result) == 0x1A0);
 
 extern bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b);
 extern char const* __cdecl transport_address_get_string(transport_address const* address);
@@ -53,5 +60,5 @@ extern void __cdecl transport_get_loopback_address(transport_address* address, u
 
 extern void transport_address_from_string(wchar_t const* str, transport_address& address);
 extern void transport_address_from_string(char const* str, transport_address& address);
-extern void transport_address_from_host(char const* hostname, transport_address& address);
+extern void transport_address_from_host(char const* name, transport_address& address);
 
