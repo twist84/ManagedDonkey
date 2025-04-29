@@ -33,7 +33,7 @@ c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest:
 	// prevent big endian a manifest from exploding this call
 	if (m_manifest && !VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
 	{
-		bswap_dword_inplace(m_manifest->file_count);
+		bswap_uint32_inplace(m_manifest->file_count);
 		if (!VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
 		{
 			ASSERT2(c_string_builder("c_network_storage_manifest::get_entry_state: invalid manifest (expected file count %d != %d)",

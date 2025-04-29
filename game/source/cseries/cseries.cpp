@@ -351,7 +351,7 @@ int32 __cdecl ascii_stricmp(char const* s1, char const* s2)
 
 char* tag_to_string(tag _tag, char* buffer)
 {
-	*(tag*)buffer = bswap_dword(_tag);
+	*(tag*)buffer = bswap_uint32(_tag);
 	buffer[4] = 0;
 
 	return buffer;

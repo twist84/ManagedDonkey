@@ -10,10 +10,10 @@ void c_game_engine_territories_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_variant_flags);
-	bswap_word_inplace(m_respawn_on_capture);
-	bswap_word_inplace(m_capture_time);
-	bswap_word_inplace(m_sudden_death_time);
+	bswap_uint16_inplace(m_variant_flags);
+	bswap_uint16_inplace(m_respawn_on_capture);
+	bswap_uint16_inplace(m_capture_time);
+	bswap_uint16_inplace(m_sudden_death_time);
 	m_defender_traits.byteswap();
 	m_attacker_traits.byteswap();
 }

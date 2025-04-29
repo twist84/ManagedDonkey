@@ -10,8 +10,8 @@ void c_game_engine_juggernaut_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_score_to_win_round);
-	bswap_word_inplace(m_score_unknown);
+	bswap_uint16_inplace(m_score_to_win_round);
+	bswap_uint16_inplace(m_score_unknown);
 
 	ASSERT(array_is_zeroed(m_pad));
 

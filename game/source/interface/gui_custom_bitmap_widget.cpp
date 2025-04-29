@@ -153,8 +153,8 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 					char const* buffer = reinterpret_cast<char const*>(chunk + 8);
 
 					// hack
-					if (bswap_dword(buffer_size) == image_data_length - 8)
-						buffer_size = bswap_dword(buffer_size);
+					if (bswap_uint32(buffer_size) == image_data_length - 8)
+						buffer_size = bswap_uint32(buffer_size);
 
 					if (buffer_size == image_data_length - 8)
 					{

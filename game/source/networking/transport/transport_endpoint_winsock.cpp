@@ -368,8 +368,8 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	{
 		sockaddr_in* sock = (sockaddr_in*)socket_address;
 		sock->sin_family = AF_INET;
-		sock->sin_port = bswap_word(address->port);
-		sock->sin_addr.s_addr = bswap_dword(address->ipv4_address);
+		sock->sin_port = bswap_uint16(address->port);
+		sock->sin_addr.s_addr = bswap_uint32(address->ipv4_address);
 		*socket_address_size = sizeof(sockaddr_in);
 		return true;
 	}
@@ -378,15 +378,15 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	{
 		sockaddr_in6* sock = (sockaddr_in6*)socket_address;
 		sock->sin6_family = AF_INET6;
-		sock->sin6_port = bswap_word(address->port);
-		sock->sin6_addr.u.Word[0] = bswap_word(address->ina6.words[0]);
-		sock->sin6_addr.u.Word[1] = bswap_word(address->ina6.words[1]);
-		sock->sin6_addr.u.Word[2] = bswap_word(address->ina6.words[2]);
-		sock->sin6_addr.u.Word[3] = bswap_word(address->ina6.words[3]);
-		sock->sin6_addr.u.Word[4] = bswap_word(address->ina6.words[4]);
-		sock->sin6_addr.u.Word[5] = bswap_word(address->ina6.words[5]);
-		sock->sin6_addr.u.Word[6] = bswap_word(address->ina6.words[6]);
-		sock->sin6_addr.u.Word[7] = bswap_word(address->ina6.words[7]);
+		sock->sin6_port = bswap_uint16(address->port);
+		sock->sin6_addr.u.Word[0] = bswap_uint16(address->ina6.words[0]);
+		sock->sin6_addr.u.Word[1] = bswap_uint16(address->ina6.words[1]);
+		sock->sin6_addr.u.Word[2] = bswap_uint16(address->ina6.words[2]);
+		sock->sin6_addr.u.Word[3] = bswap_uint16(address->ina6.words[3]);
+		sock->sin6_addr.u.Word[4] = bswap_uint16(address->ina6.words[4]);
+		sock->sin6_addr.u.Word[5] = bswap_uint16(address->ina6.words[5]);
+		sock->sin6_addr.u.Word[6] = bswap_uint16(address->ina6.words[6]);
+		sock->sin6_addr.u.Word[7] = bswap_uint16(address->ina6.words[7]);
 		sock->sin6_scope_id = 0;
 		*socket_address_size = sizeof(sockaddr_in6);
 		return true;

@@ -1349,45 +1349,45 @@ public:
 		return csstrnlen(m_string, k_maximum_count);
 	}
 
-	bool is_equal(char const* _string) const
+	bool is_equal(char const* string) const
 	{
-		ASSERT(_string);
+		ASSERT(string);
 
-		return csstrnlen(_string, k_maximum_count) == length() && csmemcmp(get_string(), _string, length()) == 0;
+		return csstrnlen(string, k_maximum_count) == length() && csmemcmp(get_string(), string, length()) == 0;
 	}
 
-	bool starts_with(char const* _string) const
+	bool starts_with(char const* string) const
 	{
-		ASSERT(_string);
+		ASSERT(string);
 
-		return csmemcmp(_string, get_string(), csstrnlen(_string, k_maximum_count)) == 0;
+		return csmemcmp(string, get_string(), csstrnlen(string, k_maximum_count)) == 0;
 	}
 
-	bool ends_with(char const* _string) const
+	bool ends_with(char const* string) const
 	{
-		ASSERT(_string);
+		ASSERT(string);
 
 		int32 _length = length();
-		int32 suffix_length = csstrnlen(_string, k_maximum_count);
+		int32 suffix_length = csstrnlen(string, k_maximum_count);
 
 		if (suffix_length > _length)
 			return false;
 
 		char const* suffix = get_string() + (_length - suffix_length);
 
-		bool result = csmemcmp(suffix, _string, suffix_length) == 0;
+		bool result = csmemcmp(suffix, string, suffix_length) == 0;
 		return result;
 	}
 
-	int32 next_index_of(char const* _string, int32 index) const
+	int32 next_index_of(char const* string, int32 index) const
 	{
-		ASSERT(_string);
+		ASSERT(string);
 
 		int32 result = NONE;
 
 		if (index < length())
 		{
-			char const* s = csstrstr(m_string + index, _string);
+			char const* s = csstrstr(m_string + index, string);
 			if (s)
 				result = s - get_string();
 		}
@@ -1395,21 +1395,21 @@ public:
 		return result;
 	}
 
-	int32 index_of(char const* _string) const
+	int32 index_of(char const* string) const
 	{
-		ASSERT(_string);
+		ASSERT(string);
 
-		return next_index_of(_string, 0);
+		return next_index_of(string, 0);
 	}
 
-	void set_bounded(char const* _string, int32 _length)
+	void set_bounded(char const* string, int32 _length)
 	{
 		if (_length + 1 < k_maximum_count)
 			_length++;
 		else
 			_length = k_maximum_count;
 
-		csstrnzcpy(m_string, _string, _length);
+		csstrnzcpy(m_string, string, _length);
 	}
 
 	bool substring(int32 index, int32 _length, c_static_string<k_maximum_count>& s) const

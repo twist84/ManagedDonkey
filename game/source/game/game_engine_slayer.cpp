@@ -11,9 +11,9 @@ void c_game_engine_slayer_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_score_to_win);
-	bswap_word_inplace(m_score_unknown);
-	bswap_word_inplace(m_kill_points);
+	bswap_uint16_inplace(m_score_to_win);
+	bswap_uint16_inplace(m_score_unknown);
+	bswap_uint16_inplace(m_kill_points);
 	m_leader_traits.byteswap();
 
 	ASSERT(array_is_zeroed(m_pad1));

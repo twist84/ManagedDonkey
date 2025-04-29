@@ -133,9 +133,9 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 	return false;
 }
 
-char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, int32 maximum_string_length, bool include_online, bool include_mac)
+char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac)
 {
-	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, _string, maximum_string_length, include_online, include_mac);
+	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, string, maximum_string_length, include_online, include_mac);
 }
 
 //00430E90 ; XNetRemoveEntry thunk

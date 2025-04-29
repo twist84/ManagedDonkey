@@ -10,7 +10,7 @@ void c_game_engine_sandbox_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_respawn_time);
+	bswap_uint16_inplace(m_respawn_time);
 	m_player_traits.byteswap();
 }
 

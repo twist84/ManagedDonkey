@@ -10,12 +10,12 @@ void c_game_engine_oddball_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_dword_inplace(m_variant_flags);
-	bswap_word_inplace(m_score_to_win);
-	bswap_word_inplace(m_score_unknown);
-	bswap_word_inplace(m_carrying_points);
-	bswap_word_inplace(m_ball_spawn_delay);
-	bswap_word_inplace(m_ball_inactive_respawn_delay);
+	bswap_uint32_inplace(m_variant_flags);
+	bswap_uint16_inplace(m_score_to_win);
+	bswap_uint16_inplace(m_score_unknown);
+	bswap_uint16_inplace(m_carrying_points);
+	bswap_uint16_inplace(m_ball_spawn_delay);
+	bswap_uint16_inplace(m_ball_inactive_respawn_delay);
 	m_carrier_traits.byteswap();
 
 	ASSERT(array_is_zeroed(m_pad1));

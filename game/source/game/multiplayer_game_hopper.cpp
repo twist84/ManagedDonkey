@@ -410,7 +410,7 @@ int32 __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, int32 buff
 	//s_blf_chunk_author* author = (s_blf_chunk_author*)offset_pointer(start_of_file, sizeof(s_blf_chunk_start_of_file));
 	//author->initialize();
 	//author->build_name.set(version_get_build_name());
-	//author->build_identifier = bswap_qword(version_get_build_number_identifier());
+	//author->build_identifier = bswap_uint64(version_get_build_number_identifier());
 	//author->build_string.set(version_get_build_string());
 	//author->author_name.clear();
 	//
@@ -428,7 +428,7 @@ int32 __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, int32 buff
 	//
 	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
 	//end_of_file->initialize();
-	//end_of_file->file_size = bswap_dword((uint8*)end_of_file - start);
+	//end_of_file->file_size = bswap_uint32((uint8*)end_of_file - start);
 	//end_of_file->authentication_type = _blf_file_authentication_type_none;
 	//
 	//uint8* current = (uint8*)offset_pointer(end_of_file, sizeof(s_blf_chunk_end_of_file));
@@ -459,7 +459,7 @@ int32 __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, int32 buffe
 	//s_blf_chunk_author* author = (s_blf_chunk_author*)offset_pointer(start_of_file, sizeof(s_blf_chunk_start_of_file));
 	//author->initialize();
 	//author->build_name.set(version_get_build_name());
-	//author->build_identifier = bswap_qword(version_get_build_number_identifier());
+	//author->build_identifier = bswap_uint64(version_get_build_number_identifier());
 	//author->build_string.set(version_get_build_string());
 	//author->author_name.clear();
 	//
@@ -477,7 +477,7 @@ int32 __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, int32 buffe
 	//
 	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
 	//end_of_file->initialize();
-	//end_of_file->file_size = bswap_dword((uint8*)end_of_file - start);
+	//end_of_file->file_size = bswap_uint32((uint8*)end_of_file - start);
 	//end_of_file->authentication_type = _blf_file_authentication_type_none;
 	//
 	//uint8* current = (uint8*)offset_pointer(end_of_file, sizeof(s_blf_chunk_end_of_file));
@@ -646,7 +646,7 @@ bool packed_game_variant_is_mcc(void const* buffer_, int32 bytes_read)
 	s_blf_header const* chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
 	while (chunk_header->chunk_type != 'msf_')
 	{
-		buffer += bswap_dword(chunk_header->chunk_size);
+		buffer += bswap_uint32(chunk_header->chunk_size);
 		chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
 
 		if (buffer >= buffer_end)
@@ -672,14 +672,14 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 
 		while (buffer < buffer_end && chunk_header->chunk_type != 'ravg')
 		{
-			buffer = static_cast<uint8 const*>(buffer) + bswap_dword(chunk_header->chunk_size);
+			buffer = static_cast<uint8 const*>(buffer) + bswap_uint32(chunk_header->chunk_size);
 			chunk_header = static_cast<s_blf_header const*>(buffer);
 		}
 
 		if (buffer >= buffer_end)
 			return false;
 
-		int32 chunk_size = bswap_dword(chunk_header->chunk_size) - sizeof(s_blf_header);
+		int32 chunk_size = bswap_uint32(chunk_header->chunk_size) - sizeof(s_blf_header);
 		uint8* chunk_data = const_cast<uint8*>(static_cast<uint8 const*>(buffer) + sizeof(s_blf_header));
 
 		c_bitstream packet(chunk_data, chunk_size);
@@ -690,7 +690,7 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 		bool result = decode_succeeded;
 		if (decode_succeeded)
 		{
-			buffer = static_cast<uint8 const*>(buffer) + bswap_dword(chunk_header->chunk_size);
+			buffer = static_cast<uint8 const*>(buffer) + bswap_uint32(chunk_header->chunk_size);
 			chunk_header = static_cast<s_blf_header const*>(buffer);
 
 			if (buffer >= buffer_end)
@@ -702,7 +702,7 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 				// is end of file
 				while (chunk_header->chunk_type != 'foe_')
 				{
-					buffer = static_cast<uint8 const*>(buffer) + bswap_dword(chunk_header->chunk_size);
+					buffer = static_cast<uint8 const*>(buffer) + bswap_uint32(chunk_header->chunk_size);
 					chunk_header = static_cast<s_blf_header const*>(buffer);
 
 					if (buffer >= buffer_end)

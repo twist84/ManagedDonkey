@@ -97,9 +97,9 @@ public:
 	real32 read_quantized_real(char const* name, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	uint64 read_qword_internal(int32 size_in_bits);
 	void read_secure_address(char const* name, s_transport_secure_address* address);
-	void read_string(char const* name, char* _string, int32 max_string_size);
+	void read_string(char const* name, char* string, int32 max_string_size);
 	void read_string_utf8(char const* name, char* char_string, int32 max_string_size);
-	void read_string_wchar(char const* name, wchar_t* _string, int32 max_string_size);
+	void read_string_wchar(char const* name, wchar_t* string, int32 max_string_size);
 	void read_unit_vector(char const* name, real_vector3d* unit_vector, int32 size_in_bits);
 	void read_vector(char const* name, real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
 
@@ -124,9 +124,9 @@ public:
 	void write_quantized_real(char const* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void write_qword_internal(uint64 value, int32 size_in_bits);
 	void write_secure_address(char const* name, s_transport_secure_address const* address);
-	void write_string(char const* name, char const* _string, int32 max_string_size);
-	void write_string_utf8(char const* name, utf8 const* _string, int32 max_string_size);
-	void write_string_wchar(char const* name, wchar_t const* _string, int32 max_string_size);
+	void write_string(char const* name, char const* string, int32 max_string_size);
+	void write_string_utf8(char const* name, utf8 const* string, int32 max_string_size);
+	void write_string_wchar(char const* name, wchar_t const* string, int32 max_string_size);
 	void write_unit_vector(char const* name, real_vector3d const* unit_vector, int32 size_in_bits);
 	void write_vector(char const* name, real_vector3d const* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
 	bool writing() const;

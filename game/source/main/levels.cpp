@@ -204,11 +204,11 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 	e_language language = get_current_language();
 
-	int32 level_chunk_size = must_byte_swap ? bswap_dword(level_data->header.chunk_size) : level_data->header.chunk_size;
+	int32 level_chunk_size = must_byte_swap ? bswap_uint32(level_data->header.chunk_size) : level_data->header.chunk_size;
 
 	decltype(level_data->flags) flags = level_data->flags;
 	if (must_byte_swap)
-		flags.set_unsafe(bswap_dword(flags.get_unsafe()));
+		flags.set_unsafe(bswap_uint32(flags.get_unsafe()));
 
 	s_level_datum* level = NULL;
 
@@ -240,9 +240,9 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 
 		if (must_byte_swap)
 		{
-			level->map_id = (e_map_id)bswap_dword(level_data->map_id);
-			level->presence_context_id = bswap_dword(level_data->presence_context_id);
-			level->sort_order = bswap_dword(level_data->sort_order);
+			level->map_id = (e_map_id)bswap_uint32(level_data->map_id);
+			level->presence_context_id = bswap_uint32(level_data->presence_context_id);
+			level->sort_order = bswap_uint32(level_data->sort_order);
 
 			ustrnzcpy(level->name, level_data->name[language], NUMBEROF(level->name));
 			unicode_byte_swap_wchar_string(level->name, NUMBEROF(level->name), byte_swap_get_runtime_byte_order() != 1);
@@ -302,7 +302,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_word(scenario_insertion->zone_set));
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_uint16(scenario_insertion->zone_set));
 							level_insertion->return_from_map_ids[i] = NONE;
 							level_insertion->survival_presence_context_ids[i] = NONE;
 
@@ -337,9 +337,9 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_atlas->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							level_insertion->return_from_map_ids[i] = bswap_dword(scenario_insertion->return_from_map_id);
-							level_insertion->survival_presence_context_ids[i] = bswap_dword(scenario_insertion->survival_presence_context_id);
-							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_word(scenario_insertion->zone_set));
+							level_insertion->return_from_map_ids[i] = bswap_uint32(scenario_insertion->return_from_map_id);
+							level_insertion->survival_presence_context_ids[i] = bswap_uint32(scenario_insertion->survival_presence_context_id);
+							level_insertion->insertion_point_initial_zone_set[i] = uint8(bswap_uint16(scenario_insertion->zone_set));
 							level_insertion->__flagsB9C[i] = scenario_insertion->flags;
 						}
 						else

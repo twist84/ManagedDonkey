@@ -5,20 +5,20 @@
 
 void s_saved_game_item_metadata::byteswap()
 {
-	bswap_qword_inplace(unique_id);
-	for (int32 i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
-	bswap_dword_inplace(file_type);
+	bswap_uint64_inplace(unique_id);
+	for (int32 i = 0; i < NUMBEROF(name); i++) bswap_uint16_inplace(name[i]);
+	bswap_uint32_inplace(file_type);
 	ASSERT(array_is_zeroed(pad0));
-	bswap_qword_inplace(author_id);
-	bswap_qword_inplace(size_in_bytes);
-	bswap_qword_inplace(date);
-	bswap_dword_inplace(length_seconds);
-	campaign_id = (e_campaign_id)bswap_dword(campaign_id);
-	map_id = (e_map_id)bswap_dword(map_id);
-	bswap_dword_inplace(game_engine_type);
-	bswap_dword_inplace(campaign_difficulty);
+	bswap_uint64_inplace(author_id);
+	bswap_uint64_inplace(size_in_bytes);
+	bswap_uint64_inplace(date);
+	bswap_uint32_inplace(length_seconds);
+	campaign_id = (e_campaign_id)bswap_uint32(campaign_id);
+	map_id = (e_map_id)bswap_uint32(map_id);
+	bswap_uint32_inplace(game_engine_type);
+	bswap_uint32_inplace(campaign_difficulty);
 	ASSERT(array_is_zeroed(pad));
-	bswap_qword_inplace(game_id);
+	bswap_uint64_inplace(game_id);
 }
 
 bool s_saved_game_item_metadata::is_valid() const

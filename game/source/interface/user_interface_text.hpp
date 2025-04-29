@@ -170,7 +170,7 @@ struct c_user_interface_text
 {
 public:
 	virtual ~c_user_interface_text();
-	virtual void set_string(wchar_t const* _string, bool parse_xml, int32);
+	virtual void set_string(wchar_t const* string, bool parse_xml, int32);
 	virtual wchar_t const* get_string();
 	virtual void update(int32);
 

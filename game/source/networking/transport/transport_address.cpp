@@ -54,10 +54,12 @@ bool __cdecl transport_address_equivalent(transport_address const* a, transport_
 
 char const* __cdecl transport_address_get_string(transport_address const* address)
 {
-	static char _string[256]{};
-	transport_address_to_string(address, nullptr, _string, 256, false, true);
+	//return INVOKE(0x0043F6F0, transport_address_get_string, address);
 
-	return _string;
+	static char string[256]{};
+	transport_address_to_string(address, nullptr, string, 256, false, true);
+
+	return string;
 }
 
 void __cdecl transport_address_ipv4_build(transport_address* address, uint32 ip_address, uint16 port)
@@ -83,50 +85,55 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 	return address->address_length == sizeof(uint32) && address->ipv4_address == 0x7F000001;
 }
 
-char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, int16 maximum_string_length, bool include_port, bool include_extra)
+char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* string, int16 maximum_string_length, bool include_port, bool include_extra)
 {
+	//return INVOKE(0x0043F750, transport_address_to_string, address, secure_address, string, maximum_string_length, include_port, include_extra);
+
 	ASSERT(address);
-	ASSERT(_string);
+	ASSERT(string);
 	ASSERT(maximum_string_length > 0);
 
 	char secure_address_string[256]{};
 	s_transport_secure_identifier secure_identifier_from_address;
 	s_transport_secure_address secure_address_from_address;
 
-	csstrnzcpy(_string, "", maximum_string_length);
+	csstrnzcpy(string, "", maximum_string_length);
 	switch (address->address_length)
 	{
 	case 4:
-		csnzprintf(_string, maximum_string_length, "%hd.%hd.%hd.%hd",
+	{
+		csnzprintf(string, maximum_string_length, "%hd.%hd.%hd.%hd",
 			address->ina.bytes[3],
 			address->ina.bytes[2],
 			address->ina.bytes[1],
 			address->ina.bytes[0]);
 
 		if (include_port)
-			csnzappendf(_string, maximum_string_length, ":%hd", address->port);
+			csnzappendf(string, maximum_string_length, ":%hd", address->port);
 
 		if (include_extra)
 		{
 			if (secure_address)
 			{
 				transport_secure_address_to_string(secure_address, secure_address_string, 256, false, false);
-				csstrnzcat(_string, secure_address_string, maximum_string_length);
+				csstrnzcat(string, secure_address_string, maximum_string_length);
 			}
 			else if (transport_secure_identifier_retrieve(address, 0, &secure_identifier_from_address, &secure_address_from_address))
 			{
 				transport_secure_address_to_string(&secure_address_from_address, secure_address_string, 256, false, false);
-				csstrnzcat(_string, secure_address_string, maximum_string_length);
-				csnzappendf(_string, maximum_string_length, "[%s]", transport_secure_identifier_get_string(&secure_identifier_from_address));
+				csstrnzcat(string, secure_address_string, maximum_string_length);
+				csnzappendf(string, maximum_string_length, "[%s]", transport_secure_identifier_get_string(&secure_identifier_from_address));
 			}
 			else
 			{
-				csnzappendf(_string, maximum_string_length, " (insecure)");
+				csnzappendf(string, maximum_string_length, " (insecure)");
 			}
 		}
-		break;
+	}
+	break;
 	case 16:
-		csnzprintf(_string, maximum_string_length, "%04X.%04X.%04X.%04X.%04X.%04X.%04X.%04X",
+	{
+		csnzprintf(string, maximum_string_length, "%04X.%04X.%04X.%04X.%04X.%04X.%04X.%04X",
 			address->ina6.words[0],
 			address->ina6.words[1],
 			address->ina6.words[2],
@@ -137,17 +144,22 @@ char* __cdecl transport_address_to_string(transport_address const* address, s_tr
 			address->ina6.words[7]);
 
 		if (include_port)
-			csnzappendf(_string, maximum_string_length, ":%hd", address->port);
-		break;
+			csnzappendf(string, maximum_string_length, ":%hd", address->port);
+	}
+	break;
 	case 0xFFFF:
-		csstrnzcpy(_string, address->str, maximum_string_length);
-		break;
+	{
+		csstrnzcpy(string, address->str, maximum_string_length);
+	}
+	break;
 	case 0:
-		csstrnzcpy(_string, "NULL_ADDRESS", maximum_string_length);
-		break;
+	{
+		csstrnzcpy(string, "NULL_ADDRESS", maximum_string_length);
+	}
+	break;
 	}
 
-	return _string;
+	return string;
 }
 
 bool __cdecl transport_address_valid(transport_address const* address)

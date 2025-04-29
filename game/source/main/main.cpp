@@ -2131,8 +2131,8 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 	uint32 error = 0;
 	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
-		char const* _string = "stack:\r\n";
-		file_write(&crash_info_output_file, strlen(_string), _string);
+		char const* string = "stack:\r\n";
+		file_write(&crash_info_output_file, strlen(string), string);
 
 		if (context)
 			stack_walk_with_context(&crash_info_output_file, 1, static_cast<_CONTEXT*>(context));

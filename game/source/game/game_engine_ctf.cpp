@@ -10,11 +10,11 @@ void c_game_engine_ctf_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_touch_return_timeout);
-	bswap_word_inplace(m_sudden_death_time);
-	bswap_word_inplace(m_score_to_win);
-	bswap_word_inplace(m_score_unknown);
-	bswap_word_inplace(m_flag_reset_time);
+	bswap_uint16_inplace(m_touch_return_timeout);
+	bswap_uint16_inplace(m_sudden_death_time);
+	bswap_uint16_inplace(m_score_to_win);
+	bswap_uint16_inplace(m_score_unknown);
+	bswap_uint16_inplace(m_flag_reset_time);
 	m_carrier_traits.byteswap();
 
 	ASSERT(array_is_zeroed(m_pad1));

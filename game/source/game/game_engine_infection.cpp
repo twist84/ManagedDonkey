@@ -10,7 +10,7 @@ void c_game_engine_infection_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_word_inplace(m_safe_haven_movement_time);
+	bswap_uint16_inplace(m_safe_haven_movement_time);
 	m_zombie_traits.byteswap();
 	m_first_zombie_traits.byteswap();
 	m_safe_haven_defender_traits.byteswap();

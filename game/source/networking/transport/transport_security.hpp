@@ -76,7 +76,7 @@ extern bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_a
 extern void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callback_data);
 extern bool __cdecl transport_secure_address_resolve();
 extern bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, int32 platform, s_transport_secure_address* secure_address);
-extern char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, int32 maximum_string_length, bool include_online, bool include_mac);
+extern char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac);
 //extern bool __cdecl transport_secure_connection_initiate(transport_address const*);
 //extern e_transport_secure_connection __cdecl transport_secure_connection_status(transport_address const*);
 //extern void __cdecl transport_secure_connection_terminate(transport_address const*);
