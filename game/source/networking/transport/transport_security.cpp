@@ -231,10 +231,10 @@ void __cdecl transport_security_initialize()
 
 	csmemset(&transport_security_globals, 0, sizeof(transport_security_globals));
 	transport_register_transition_functions(
-		0,
+		NULL,
 		transport_secure_address_reset_for_new_networking_mode,
 		transport_secure_address_reset_for_new_networking_mode,
-		0);
+		NULL);
 	transport_security_globals.initialized = true;
 }
 

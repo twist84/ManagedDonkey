@@ -106,8 +106,8 @@ public:
 	static_assert(sizeof(s_incoming_fragment_record) == 0xC);
 
 public:
-	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 	bool has_channel_been_used() const;
+	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
 
 	bool m_allocated;
 	bool m_connection_lost;

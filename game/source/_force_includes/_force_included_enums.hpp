@@ -44,7 +44,7 @@ enum
 
 	k_maximum_machines = 17,
 	k_machine_count_bits = 5,
-	k_maximum_machine_index = 15,
+	k_maximum_machine_index = k_maximum_machines - 1,
 	k_machine_index_bits = 4,
 
 	k_maximum_rounds = 32,

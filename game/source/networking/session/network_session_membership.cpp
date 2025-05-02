@@ -7,7 +7,7 @@ int32 c_network_session_membership::get_first_peer() const
 	//return INVOKE_CLASS_MEMBER(0x0044E690, c_network_session_membership, get_first_peer);
 
 	int32 first_peer = NONE;
-	for (int32 i = 0; i < 17; i++)
+	for (int32 i = 0; i < k_maximum_machines; i++)
 	{
 		if (is_peer_valid(i))
 		{
