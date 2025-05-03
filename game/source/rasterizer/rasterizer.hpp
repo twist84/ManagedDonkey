@@ -626,7 +626,7 @@ protected:
 	//	9:  ............... stencil dither pattern
 	//	10: ............... smooth noise warp
 	//	11: ............... ripple pattern
-	c_typed_tag_block<s_global_bitmaps> default_bitmaps;
+	c_typed_tag_block<s_global_bitmaps> m_default_textures_refs;
 
 	// material textures
 	//	0: ............... SH Glossy CT CC0236
@@ -635,15 +635,15 @@ protected:
 	//	3: ............... TBD
 	//	4: ............... TBD
 	//	5: ............... TBD
-	c_typed_tag_block<s_texture_references_block> material_textures;
+	c_typed_tag_block<s_texture_references_block> m_material_textures_refs;
 
 	// default shader vertex shader
 	//	Renderer uses this shader when a vertex shader is invalid
-	c_typed_tag_reference<VERTEX_SHADER_TAG, INVALID_TAG> default_vertex_shader;
+	c_typed_tag_reference<VERTEX_SHADER_TAG, INVALID_TAG> m_default_vertex_shader_ref;
 
 	// default pixel shader
 	//	Renderer uses this shader when a pixel shader is invalid
-	c_typed_tag_reference<PIXEL_SHADER_TAG, INVALID_TAG> default_pixel_shader;
+	c_typed_tag_reference<PIXEL_SHADER_TAG, INVALID_TAG> m_default_pixel_shader_ref;
 
 	// debug override shader
 	//	When this shader is set, it overrides all shaders coming from geometry.
@@ -762,7 +762,7 @@ protected:
 	//	107: ............. 
 	//	108: ............. hud night vision
 	//	109: ............. 
-	c_typed_tag_block<s_explicit_shader> explicit_shaders;
+	c_typed_tag_block<s_explicit_shader> m_explicit_shader_refs;
 
 	// atmosphere lookup tables
 	//	0: ............... 1D Neta Table
@@ -771,16 +771,16 @@ protected:
 	//	3: ............... TBD
 	//	4: ............... TBD
 	//	5: ............... TBD
-	c_typed_tag_block<s_texture_references_block> atmosphere_lookup_tables;
+	c_typed_tag_block<s_texture_references_block> m_atmosphere_textures;
 
 	// runtime
 	uint32 m_max_vs_gprs;
 	uint32 m_max_ps_gprs;
 
-	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> active_camo_distortion_texture;
-	c_typed_tag_reference<PERFORMANCE_THROTTLES_TAG, INVALID_TAG> default_performance_throttles;
-	c_typed_tag_reference<SHIELD_IMPACT_TAG, INVALID_TAG> shield_impact_settings;
-	c_typed_tag_reference<VISION_MODE_TAG, INVALID_TAG> vision_mode_settings;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> m_active_camo_distort_texture;
+	c_typed_tag_reference<PERFORMANCE_THROTTLES_TAG, INVALID_TAG> m_default_performance_throttles;
+	c_typed_tag_reference<SHIELD_IMPACT_TAG, INVALID_TAG> m_shield_impact_parameters;
+	c_typed_tag_reference<VISION_MODE_TAG, INVALID_TAG> m_vision_mode_parameters;
 
 	// Motion blur parameters
 	//	max blur:............  max amount to blur, as a percentage of the screen
@@ -788,21 +788,20 @@ protected:
 	//	center falloff:....... reduces motion blur around the screen center (larger values give smaller reduction regions...)
 	//	expected dt:.......... expected time per tick, in seconds (used to correct motion blur in fast/slow frames)
 
-	int32 number_of_taps;
-	real32 max_blur_x;
-	real32 max_blur_y;
-	real32 blur_scale_x;
-	real32 blur_scale_y;
-	real32 center_falloff;
-	real32 expected_dt;
-
-	uint8 __padB4[4];
+	uint32 m_motion_blur_taps;
+	real32 m_motion_blur_max_x;
+	real32 m_motion_blur_max_y;
+	real32 m_motion_blur_scale_x;
+	real32 m_motion_blur_scale_y;
+	real32 m_motion_blur_center_falloff;
+	real32 m_motion_blur_expected_dt;
 };
+static_assert(sizeof(c_rasterizer_globals) == 0xB4);
 
 struct s_global_bitmaps
 {
-	uint32 options;
-	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> default_bitmaps;
+	int32 flags;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> ref;
 
 	void update_reference_names();
 };
@@ -810,7 +809,7 @@ static_assert(sizeof(s_global_bitmaps) == 0x14);
 
 struct s_texture_references_block
 {
-	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> reference;
+	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> ref;
 
 	void update_reference_names();
 };
@@ -820,8 +819,8 @@ extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
-extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, int16 bitmap_index, bool a5);
-extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader);
+extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled);
+extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);
 
