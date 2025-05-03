@@ -383,14 +383,14 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, int16 bitmap_index, bool a5)
+void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
 {
-	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, a5);
+	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, point_sampled);
 }
 
-bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader)
+bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type)
 {
-	return INVOKE(0x00A46FB0, rasterizer_set_explicit_debug_shader, explicit_shader);
+	return INVOKE(0x00A46FB0, rasterizer_set_explicit_debug_shader, shader_type);
 
 	//s_game_globals* game_globals = scenario_get_game_globals();
 	//if (!game_globals)

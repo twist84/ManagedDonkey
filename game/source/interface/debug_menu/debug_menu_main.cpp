@@ -87,7 +87,7 @@ void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, 
 	set_point2d(&points[2], x1, y0);
 	set_point2d(&points[3], x0, y0);
 
-	rasterizer_quad_screenspace(points, real_argb_color_to_pixel32(color), nullptr, 0, false);
+	rasterizer_quad_screenspace(points, real_argb_color_to_pixel32(color), NULL, 0, false);
 }
 
 bool debug_menu_get_active()
