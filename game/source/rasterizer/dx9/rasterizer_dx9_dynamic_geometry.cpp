@@ -35,6 +35,7 @@ HOOK_DECLARE_CLASS(0x00A46640, c_rasterizer, draw_textured_screen_triangle_list)
 //HOOK_DECLARE_CLASS(0x00A46750, c_rasterizer, draw_textured_transparent_quad);
 //HOOK_DECLARE(0x00A46820, rasterizer_draw_worldspace_polygon0);
 HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
+HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
 void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uint32 color0, uint32 color1)
 {
@@ -390,30 +391,33 @@ void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color
 
 bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type)
 {
-	return INVOKE(0x00A46FB0, rasterizer_set_explicit_debug_shader, shader_type);
+	//return INVOKE(0x00A46FB0, rasterizer_set_explicit_debug_shader, shader_type);
 
-	//s_game_globals* game_globals = scenario_get_game_globals();
-	//if (!game_globals)
-	//	return false;
-	//
-	//if (game_globals->rasterizer_globals_ref.index == NONE)
-	//	return false;
-	//
-	//c_rasterizer_globals* rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
-	//if (rasterizer_globals->default_vertex_shader.index == NONE || rasterizer_globals->default_pixel_shader.index == NONE)
-	//	return false;
-	//
-	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
-	//c_vertex_declaration_table::set(_vertex_type_debug, _transfer_vertex_none, 0);
-	//
-	//c_rasterizer_vertex_shader* vertex_shader = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_vertex_shader, rasterizer_globals->default_vertex_shader.index);
-	//c_rasterizer::set_vertex_shader(vertex_shader, _vertex_type_debug, _transfer_vertex_none, _entry_point_default);
-	//
-	//c_rasterizer_pixel_shader* pixel_shader = TAG_GET(PIXEL_SHADER_TAG, c_rasterizer_pixel_shader, rasterizer_globals->default_pixel_shader.index);
-	//c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
-	//
-	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
-	//
-	//return true;
+	s_game_globals* game_globals = scenario_get_game_globals();
+	if (!game_globals)
+		return false;
+	
+	if (game_globals->rasterizer_globals_ref.index == NONE)
+		return false;
+	
+	c_rasterizer_globals* rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
+
+	s_tag_reference const* default_vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(shader_type);
+	s_tag_reference const* default_pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(shader_type);
+	if (default_vertex_shader_ref->index == NONE || default_pixel_shader_ref->index == NONE)
+		return false;
+	
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
+	c_vertex_declaration_table::set(_vertex_type_debug, _transfer_vertex_none, _entry_point_default);
+	
+	c_rasterizer_vertex_shader* vertex_shader = TAG_GET(VERTEX_SHADER_TAG, c_rasterizer_vertex_shader, default_vertex_shader_ref->index);
+	c_rasterizer::set_vertex_shader(vertex_shader, _vertex_type_debug, _transfer_vertex_none, _entry_point_default);
+	
+	c_rasterizer_pixel_shader* pixel_shader = TAG_GET(PIXEL_SHADER_TAG, c_rasterizer_pixel_shader, default_pixel_shader_ref->index);
+	c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
+	
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
+	
+	return true;
 }
 

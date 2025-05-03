@@ -592,23 +592,18 @@ public:
 
 	struct s_explicit_shader
 	{
-		c_typed_tag_reference<VERTEX_SHADER_TAG, INVALID_TAG> explicit_vertex_shader;
-		c_typed_tag_reference<PIXEL_SHADER_TAG, INVALID_TAG> explicit_pixel_shader;
+		c_typed_tag_reference<VERTEX_SHADER_TAG, INVALID_TAG> vertex_shader;
+		c_typed_tag_reference<PIXEL_SHADER_TAG, INVALID_TAG> pixel_shader;
 
 		void update_reference_names();
 	};
 	static_assert(sizeof(s_explicit_shader) == 0x20);
 
-	uint32 __cdecl get_max_vs_gprs() const
-	{
-		return m_max_vs_gprs;
-	}
-
-	uint32 __cdecl get_max_ps_gprs() const
-	{
-		return m_max_ps_gprs;
-	}
-
+	s_explicit_shader const* get_explicit_shaders(int32 index);
+	s_tag_reference const* get_explicit_pixel_shader_ref(int32 index);
+	s_tag_reference const* get_explicit_vertex_shader_ref(int32 index);
+	uint32 __cdecl get_max_vs_gprs() const;
+	uint32 __cdecl get_max_ps_gprs() const;
 	void update_reference_names();
 
 protected:

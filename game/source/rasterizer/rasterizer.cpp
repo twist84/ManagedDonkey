@@ -2086,6 +2086,52 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	return result;
 }
 
+c_rasterizer_globals::s_explicit_shader const* c_rasterizer_globals::get_explicit_shaders(int32 index)
+{
+	static bool warned = false;
+	if (!warned && m_explicit_shader_refs.count < 100)
+	{
+		event(_event_error, "Explicit shader count mismatch on access to (%d), TRY GETTING LATEST TAGS AND REBUILDING ANY CACHE FILES",
+			index);
+
+		warned = true;
+	}
+
+	if (!VALID_INDEX(index, m_explicit_shader_refs.count))
+	{
+		event(_event_error, "Explicit shader (%d) doesn't exist in rasterizer_globals - returning NULL, RENDERING MAY BE AFFECTED, CRASHES MAY ENSUE - TRY GETTING LATEST TAGS AND REBUILDING ANY CACHE FILES",
+			index);
+
+		return NULL;
+	}
+
+	return &m_explicit_shader_refs[index];
+}
+
+s_tag_reference const* c_rasterizer_globals::get_explicit_pixel_shader_ref(int32 index)
+{
+	s_explicit_shader const* shader = get_explicit_shaders(index);
+	ASSERT(shader);
+	return &shader->pixel_shader;
+}
+
+s_tag_reference const* c_rasterizer_globals::get_explicit_vertex_shader_ref(int32 index)
+{
+	s_explicit_shader const* shader = get_explicit_shaders(index);
+	ASSERT(shader);
+	return &shader->vertex_shader;
+}
+
+uint32 __cdecl c_rasterizer_globals::get_max_vs_gprs() const
+{
+	return m_max_vs_gprs;
+}
+
+uint32 __cdecl c_rasterizer_globals::get_max_ps_gprs() const
+{
+	return m_max_ps_gprs;
+}
+
 void c_rasterizer_globals::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(m_default_vertex_shader_ref);
@@ -2103,8 +2149,8 @@ void c_rasterizer_globals::update_reference_names()
 
 void c_rasterizer_globals::s_explicit_shader::update_reference_names()
 {
-	UPDATE_REFERENCE_NAME(explicit_vertex_shader);
-	UPDATE_REFERENCE_NAME(explicit_pixel_shader);
+	UPDATE_REFERENCE_NAME(vertex_shader);
+	UPDATE_REFERENCE_NAME(pixel_shader);
 }
 
 void s_global_bitmaps::update_reference_names()
