@@ -1,7 +1,9 @@
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_files.hpp"
 #include "game/game_globals.hpp"
+#include "interface/interface_constants.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
@@ -35,6 +37,7 @@ HOOK_DECLARE_CLASS(0x00A46640, c_rasterizer, draw_textured_screen_triangle_list)
 //HOOK_DECLARE_CLASS(0x00A46750, c_rasterizer, draw_textured_transparent_quad);
 //HOOK_DECLARE(0x00A46820, rasterizer_draw_worldspace_polygon0);
 HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
+HOOK_DECLARE(0x00A46E50, rasterizer_quad_screenspace_explicit);
 HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
 void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1)
@@ -395,6 +398,63 @@ void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(rasterizer_dynamic_scree
 void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
 {
 	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, point_sampled);
+
+	//if (!reference)
+	//{
+	//	c_rasterizer_globals* rasterizer_globals = NULL;
+	//	s_game_globals* game_globals = scenario_get_game_globals();
+	//	if (game_globals->rasterizer_globals_ref.index == NONE)
+	//	{
+	//		rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
+	//	}
+	//	reference = rasterizer_globals->get_default_texture_ref(0);
+	//}
+	//
+	//c_rasterizer_texture_ref hardware_format;
+	//if (bitmap_group_get_bitmap_hardware_format(
+	//	reference->index,
+	//	MIN(MAX(bitmap_index, 0),
+	//	TAG_GET(BITMAP_TAG, bitmap_group, bitmap_index)->bitmaps.count - 1),
+	//	&hardware_format))
+	//{
+	//	rasterizer_quad_screenspace_explicit(points, color, hardware_format, point_sampled, c_rasterizer::_alpha_blend_alpha_blend);
+	//}
+}
+
+void __cdecl rasterizer_quad_screenspace_explicit(point2d const(&points)[4], uns32 color, c_rasterizer_texture_ref texture_ref, bool point_sampled, c_rasterizer::e_alpha_blend_mode blend_mode)
+{
+	//INVOKE(0x00A46E50, rasterizer_quad_screenspace_explicit, points, color, texture_ref, point_sampled, blend_mode);
+
+	rasterizer_dynamic_screen_geometry_parameters parameters{};
+	rasterizer_vertex_screen vertices[4]{};
+
+	real_vector2d const texcoords[4]
+	{
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f }
+	};
+
+	for (int32 vertex_index = 0; vertex_index < NUMBEROF(vertices); vertex_index++)
+	{
+		vertices[vertex_index].position.x = (real32)points[vertex_index].x;
+		vertices[vertex_index].position.y = (real32)points[vertex_index].y;
+		vertices[vertex_index].texcoord = texcoords[vertex_index];
+		vertices[vertex_index].color = color;
+	}
+
+	real_vector2d aspect_ratio_scale = interface_get_aspect_ratio_scaling();
+	interface_scale_screenspace_vertices_for_xenon_scaler(vertices, NUMBEROF(vertices), &aspect_ratio_scale);
+
+	parameters.hardware_formats[0] = texture_ref;
+	parameters.framebuffer_blend_function = blend_mode;
+	parameters.point_sampled = point_sampled;
+	parameters.map_texture_scale[0] = { 1.0f, 1.0f };
+	parameters.map_scale[0] = { 1.0f, 1.0f };
+	parameters.explicit_override_index = NONE;
+
+	rasterizer_psuedo_dynamic_screen_quad_draw(&parameters, vertices);
 }
 
 bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type)

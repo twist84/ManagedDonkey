@@ -840,6 +840,7 @@ extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
 extern void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(rasterizer_dynamic_screen_geometry_parameters const* parameters, rasterizer_vertex_screen* vertices);
 extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled);
+extern void __cdecl rasterizer_quad_screenspace_explicit(point2d const(&points)[4], uns32 color, c_rasterizer_texture_ref texture_ref, bool point_sampled, c_rasterizer::e_alpha_blend_mode blend_mode);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);
