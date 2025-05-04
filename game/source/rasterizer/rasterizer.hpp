@@ -811,6 +811,29 @@ struct s_texture_references_block
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
+struct rasterizer_dynamic_screen_geometry_parameters
+{
+	real_vector2d* offset;
+	bool map_anchor_screen[3];
+	c_rasterizer_texture_ref hardware_formats[3];
+	bool map_wrapped[3];
+	real_point2d* map_offset[3];
+	real_vector2d map_scale[3];
+	real_vector2d map_texture_scale[3];
+	real_rgb_color* map_tint[3][2];
+	real_argb_color plasma_fade;
+	bool doing_plasma_effect;
+	real32* map_fade[3];
+	int16 map0_to_1_blend_function;
+	int16 map1_to_2_blend_function;
+	int16 framebuffer_blend_function;
+	bool point_sampled;
+	bool using_shader_system;
+	int32 explicit_override_index;
+	c_rasterizer::e_surface instead_of_texture;
+};
+static_assert(sizeof(rasterizer_dynamic_screen_geometry_parameters) == 0x9C);
+
 extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
