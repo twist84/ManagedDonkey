@@ -5,6 +5,27 @@
 #include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"
 
+enum e_animation_state;
+struct s_runtime_core_widget_definition;
+struct c_gui_text_widget;
+struct c_gui_bitmap_widget;
+struct c_gui_group_widget;
+struct c_gui_button_key_widget;
+struct c_gui_list_widget;
+struct c_gui_list_item_widget;
+struct c_gui_model_widget;
+struct s_runtime_text_widget_definition;
+struct s_runtime_bitmap_widget_definition;
+struct s_widget_animation_definition;
+struct s_group_widget_definition;
+struct s_button_key_definition;
+struct s_list_widget_block;
+struct s_list_item_widget_block;
+struct s_model_widget_block;
+struct s_animation_transform;
+struct c_controller_input_message;
+struct c_gui_screen_widget;
+
 struct s_core_widget_definition
 {
 	// e_core_widget_definition_flags
@@ -57,28 +78,42 @@ struct s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
 
-enum e_animation_state;
+struct s_gui_widget_render_data
+{
+	enum e_widget_render_data_flags
+	{
+		_render_as_custom_storage_bitmap_bit = 0,
+		_render_texture_camera_bit,
+		_render_blurred_back_buffer_bit,
+		_render_as_player_emblem_bit,
+		_emblem_info_valid_bit,
+		_render_in_screenshot_bit,
+		_render_as_au2_playlist_rating,
+		_render_as_au2_rank_tray,
 
-struct s_runtime_core_widget_definition;
-struct c_gui_text_widget;
-struct c_gui_bitmap_widget;
-struct c_gui_group_widget;
-struct c_gui_button_key_widget;
-struct c_gui_list_widget;
-struct c_gui_list_item_widget;
-struct c_gui_model_widget;
-struct s_runtime_text_widget_definition;
-struct s_runtime_bitmap_widget_definition;
-struct s_widget_animation_definition;
-struct s_group_widget_definition;
-struct s_button_key_definition;
-struct s_list_widget_block;
-struct s_list_item_widget_block;
-struct s_model_widget_block;
-struct s_animation_transform;
-struct s_gui_widget_render_data;
-struct c_controller_input_message;
-struct c_gui_screen_widget;
+		k_number_of_bitmap_render_data_flags
+	};
+
+	e_gui_widget_type type;
+	c_flags<e_widget_render_data_flags, int32, k_number_of_bitmap_render_data_flags> flags;
+	gui_real_rectangle2d projected_bounds;
+	e_controller_index local_controller_index;
+
+	// >= profile builds
+	//string_id name;
+
+	// >= play builds
+	//uns32 debug_color;
+	//uns64 animation_state_flags;
+	//real_point3d rotation_origin_with_depth;
+	//bool render_debug_name;
+	//bool render_debug_animation_state;
+	//bool render_debug_bounds;
+	//bool render_debug_rotation_origin;
+};
+static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
+//static_assert(sizeof(s_gui_widget_render_data) == 0x30); // == profile
+//static_assert(sizeof(s_gui_widget_render_data) == 0x50); // >= play
 
 struct c_gui_widget
 {

@@ -9,28 +9,6 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
 
-struct s_gui_widget_render_data
-{
-	enum e_widget_render_data_flags
-	{
-		_render_as_custom_storage_bitmap_bit = 0,
-		_render_texture_camera_bit,
-		_render_blurred_back_buffer_bit,
-		_render_as_player_emblem_bit,
-		_emblem_info_valid_bit,
-		_render_in_screenshot_bit,
-		_render_as_au2_playlist_rating,
-		_render_as_au2_rank_tray,
-
-		k_number_of_bitmap_render_data_flags
-	};
-
-	e_gui_widget_type type;
-	c_flags<e_widget_render_data_flags, int32, k_number_of_bitmap_render_data_flags> flags;
-	gui_real_rectangle2d projected_bounds;
-	e_controller_index local_controller_index;
-};
-
 /*
 //.text:00AB9F40 ; public: static void __cdecl c_gui_widget::render(int32, s_gui_widget_render_data const*, rectangle2d const*, bool)
 static void __cdecl gui_widget_render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
