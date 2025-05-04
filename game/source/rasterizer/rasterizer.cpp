@@ -2086,6 +2086,14 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	return result;
 }
 
+s_tag_reference const* c_rasterizer_globals::get_default_texture_ref(int32 index)
+{
+	ASSERT(index >= 0 && index <= m_default_textures_refs.count - 1);
+
+	//return &TAG_BLOCK_GET(&m_default_textures_refs, s_global_bitmaps, index)->ref;
+	return &m_default_textures_refs[index].ref;
+}
+
 c_rasterizer_globals::s_explicit_shader const* c_rasterizer_globals::get_explicit_shaders(int32 index)
 {
 	static bool warned = false;

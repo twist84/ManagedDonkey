@@ -599,6 +599,7 @@ public:
 	};
 	static_assert(sizeof(s_explicit_shader) == 0x20);
 
+	s_tag_reference const* get_default_texture_ref(int32 index);
 	s_explicit_shader const* get_explicit_shaders(int32 index);
 	s_tag_reference const* get_explicit_pixel_shader_ref(int32 index);
 	s_tag_reference const* get_explicit_vertex_shader_ref(int32 index);
