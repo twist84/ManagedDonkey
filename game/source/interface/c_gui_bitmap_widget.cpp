@@ -98,6 +98,32 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 	
 		if (render_data->flags.test(s_gui_widget_render_data::_render_texture_camera_bit))
 		{
+			//if (s_dynamic_render_target* target = c_dynamic_render_targets::get_target_from_target_type(_dynamic_render_target_type_texture_camera))
+			//{
+			//	int32 accumulation_surface_width;
+			//	int32 accumulation_surface_height;
+			//	if (target->accumulation_surface.get_width_height(0, &accumulation_surface_width, &accumulation_surface_height))
+			//	{
+			//		real32 ratio = real32(accumulation_surface_width * width) / real32(accumulation_surface_height * height);
+			//		if (render_width > _real_epsilon && render_height > _real_epsilon)
+			//		{
+			//			if (render_width > render_height)
+			//			{
+			//				ratio *= (render_height / render_width);
+			//				left_x += 0.5f * (1.0f - ratio);
+			//				right_x -= 0.5f * (1.0f - ratio);
+			//			}
+			//			else if (render_height > render_width)
+			//			{
+			//				ratio *= (render_width / render_height);
+			//				left_y += 0.5f * (1.0f - ratio);
+			//				right_y -= 0.5f * (1.0f - ratio);
+			//			}
+			//		}
+			//
+			//		hardware_format_primary = target->accumulation_surface;
+			//	}
+			//}
 		}
 		else if (render_data->flags.test(s_gui_widget_render_data::_render_blurred_back_buffer_bit))
 		{
