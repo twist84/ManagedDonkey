@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
 
-enum e_online_arbitration_registration_status
+enum e_network_arbitration_status
 {
 	_network_arbitration_status_none = 0,
 	_network_arbitration_status_registration_in_progress,
@@ -13,16 +13,18 @@ enum e_online_arbitration_registration_status
 	k_network_arbitration_status_count
 };
 
+struct s_arbitration_registrant
+{
+	uns64 machine_id;
+	int32 trustworthiness;
+	uns64 xuid;
+};
+static_assert(sizeof(s_arbitration_registrant) == 0x18);
+
 struct s_arbitration_registration_result
 {
 	int32 registrant_count;
-
-	struct
-	{
-		uint64 machine;
-		uint32 trust;
-		uint64 xuid;
-	} registrants[16];
+	s_arbitration_registrant registrants[16];
 };
 static_assert(sizeof(s_arbitration_registration_result) == 0x188);
 
@@ -30,7 +32,7 @@ struct s_network_arbitration_globals
 {
 	bool initialized;
 	int32 managed_session_index;
-	c_enum<e_online_arbitration_registration_status, int32, _network_arbitration_status_none, k_network_arbitration_status_count> arbitration_status;
+	e_network_arbitration_status arbitration_status;
 	s_arbitration_registration_result registration_result;
 };
 static_assert(sizeof(s_network_arbitration_globals) == 0x198);
