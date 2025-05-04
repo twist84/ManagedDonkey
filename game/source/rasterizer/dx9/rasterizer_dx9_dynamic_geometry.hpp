@@ -1,7 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 extern real32& g_screenspace_scale_x;
 extern real32& g_screenspace_scale_y;
 extern real32& g_screenspace_pixel_center;

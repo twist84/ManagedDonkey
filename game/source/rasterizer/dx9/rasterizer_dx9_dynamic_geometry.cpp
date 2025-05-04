@@ -384,6 +384,14 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const
 	set_cull_mode(_cull_mode_cw);
 }
 
+//.text:00A46910 ; public: static void __cdecl c_rasterizer::normalize_screenspace_vertices(real32, real32, rasterizer_vertex_screen*, int32)
+//.text:00A469D0 ; void __cdecl rasterizer_draw_screen_facing_lens_flare(rasterizer_vertex_screen* const, int32, int32, real32, real32, real32)
+
+void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(rasterizer_dynamic_screen_geometry_parameters const* parameters, rasterizer_vertex_screen* vertices)
+{
+	INVOKE(0x00A46AD0, rasterizer_psuedo_dynamic_screen_quad_draw, parameters, vertices);
+}
+
 void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
 {
 	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, point_sampled);
