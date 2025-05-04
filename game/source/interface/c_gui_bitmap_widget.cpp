@@ -104,6 +104,34 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 			if (render_width >= _real_epsilon && render_height >= _real_epsilon)
 			{
 				c_rasterizer::e_surface surface = c_rasterizer::_surface_display;
+
+				//real32 display_width = real32(out_display_bounds.x1 - out_display_bounds.x0);
+				//real32 display_height = real32(out_display_bounds.y1 - out_display_bounds.y0);
+				//
+				//left_x = render_data->projected_bounds.vertex[0].x / display_width;
+				//left_y = render_data->projected_bounds.vertex[2].y / display_height;
+				//right_x = render_data->projected_bounds.vertex[3].x / display_width;
+				//right_y = render_data->projected_bounds.vertex[3].y / display_height;
+				//
+				//real32 horizontal_blur_factor = 1.5f;
+				//real32 vertical_blur_factor = 1.5f;
+				//
+				//if (s_user_interface_shared_globals const* user_interface_shared_globals = user_interface_shared_tag_globals_try_and_get())
+				//{
+				//	horizontal_blur_factor = user_interface_shared_globals->horizontal_blur_factor;
+				//	vertical_blur_factor = user_interface_shared_globals->vertical_blur_factor;
+				//}
+				//
+				//c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+				//c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
+				//
+				//surface = c_screen_postprocess::blur_display(/*horizontal_blur_factor, vertical_blur_factor*/);
+				//c_rasterizer::set_render_target(0, c_rasterizer::_surface_display, 0xFFFFFFFF);
+				//
+				//c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
+				//c_rasterizer::restore_last_viewport();
+				//c_rasterizer::restore_last_scissor_rect();
+
 				hardware_format_primary = c_rasterizer::get_surface_texture(surface);
 			}
 		}
