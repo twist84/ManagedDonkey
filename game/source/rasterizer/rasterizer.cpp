@@ -6,6 +6,7 @@
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
+#include "interface/user_interface.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
@@ -16,6 +17,7 @@
 #include "rasterizer/rasterizer_main.hpp"
 #include "rasterizer/rasterizer_memory.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "rasterizer/rasterizer_render_targets.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/render_debug_commands.hpp"
 #include "render/render_lens_flares.hpp"
@@ -101,6 +103,7 @@ HOOK_DECLARE_CLASS(0x00A24D30, c_rasterizer, setup_targets_albedo);
 
 HOOK_DECLARE_CLASS(0x00A1F7E0, c_rasterizer, begin);
 HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
+HOOK_DECLARE_CLASS(0x00A487E0, c_rasterizer, get_surface_texture);
 HOOK_DECLARE_CLASS(0x00A49010, c_rasterizer, set_viewport);
 
 // patch clear color if statement
@@ -1087,9 +1090,9 @@ c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_a
 	return INVOKE(0x00A228C0, c_rasterizer::set_gprs_allocation, type);
 }
 
-void __cdecl c_rasterizer::clear_sampler_textures(uns32 a1)
+void __cdecl c_rasterizer::clear_sampler_textures(uns32 samplers_flag)
 {
-	INVOKE(0x00A22AB0, c_rasterizer::clear_sampler_textures, a1);
+	INVOKE(0x00A22AB0, c_rasterizer::clear_sampler_textures, samplers_flag);
 }
 
 enum c_rasterizer::e_cull_mode __cdecl c_rasterizer::get_cull_mode()
@@ -1651,6 +1654,50 @@ c_rasterizer::e_surface c_rasterizer::get_display_surface()
 int32 __cdecl c_rasterizer::get_surface_height(e_surface surface)
 {
 	return INVOKE(0x00A487A0, c_rasterizer::get_surface_height, surface);
+}
+
+//#define ISEXPERIMENTAL_UI_BACKGROUND
+
+// `sub_A487E0` gets called in `render_bitmap` where ui blur is supposed to be handled
+// giving us the `texture_ref` that would be set
+// `unknown` is `2` and potentially a surface (that of `display`)
+c_rasterizer_texture_ref __cdecl c_rasterizer::get_surface_texture(c_rasterizer::e_surface surface)
+{
+	//return INVOKE(0x00A487E0, c_rasterizer::get_surface_texture, surface);
+
+	c_rasterizer_texture_ref result;
+
+#if defined(ISEXPERIMENTAL_UI_BACKGROUND) // ISEXPERIMENTAL_UI_BACKGROUND
+	static bool x_use_blur = true;
+#else
+	static bool x_use_blur = false;
+#endif // ISEXPERIMENTAL_UI_BACKGROUND
+
+	if (x_use_blur)
+	{
+		real32 horizontal_blur_factor = 1.5f;
+		real32 vertical_blur_factor = 1.5f;
+
+		if (s_user_interface_shared_globals const* user_interface_shared_globals = user_interface_shared_tag_globals_try_and_get())
+		{
+			horizontal_blur_factor = user_interface_shared_globals->horizontal_blur_factor;
+			vertical_blur_factor = user_interface_shared_globals->vertical_blur_factor;
+		}
+
+		c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
+		c_rasterizer::e_surface blur_display_surface = c_screen_postprocess::blur_display(/*horizontal_blur_factor, vertical_blur_factor*/);
+		c_rasterizer::set_render_target(0, surface, 0xFFFFFFFF);
+		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
+		c_rasterizer::restore_last_viewport();
+		c_rasterizer::restore_last_scissor_rect();
+
+		c_render_surface* render_surface = c_render_surfaces_interface::get_render_surface(blur_display_surface);
+
+		result.m_datum_ref = (int32)render_surface->m_d3d_surface;
+	}
+
+	return result;
 }
 
 int32 __cdecl c_rasterizer::get_surface_width(e_surface surface)

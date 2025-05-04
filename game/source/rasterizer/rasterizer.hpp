@@ -327,7 +327,7 @@ struct c_rasterizer
 	static bool __cdecl rasterizer_thread_owns_device();
 	static void __cdecl initialize_window();
 	static e_gpr_allocation __cdecl set_gprs_allocation(e_gpr_allocation type);
-	static void __cdecl clear_sampler_textures(uns32);
+	static void __cdecl clear_sampler_textures(uns32 samplers_flag);
 	static e_cull_mode __cdecl get_cull_mode(void);
 	static void __cdecl set_alpha_blend_mode(e_alpha_blend_mode);
 	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
@@ -375,6 +375,7 @@ struct c_rasterizer
 	static e_surface get_display_surface();
 
 	static int32 __cdecl get_surface_height(e_surface surface);
+	static c_rasterizer_texture_ref __cdecl get_surface_texture(c_rasterizer::e_surface surface);
 	static int32 __cdecl get_surface_width(e_surface surface);
 
 	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 x, int16 y);

@@ -108,49 +108,6 @@ void __thiscall c_player_view::queue_patchy_fog()
 }
 
 // $TODO: move this
-struct s_surface_group_description
-{
-	uns32 flags;
-	IDirect3DTexture9* Texture;
-	real32 DepthWidth;
-	real32 __unknownC;
-	uns32 DepthFormat;
-	byte __unknown14[4];
-	uns32 Srgb;
-	uns32 MultiSample;
-	real32 __unknown20;
-	real32 __unknown24;
-	uns32 __unknown28;
-	uns32 __unknown2C;
-	uns32 __unknown30;
-	uns32 __unknown34;
-	uns32 __unknown38;
-	uns32 __unknown3C;
-	uns32 Alias;
-	uns32 __unknown44;
-	uns32 index_unknown_of_size_54;
-};
-
-// $TODO: move this
-struct c_render_surface_group
-{
-	s_surface_group_description description;
-	int32 m_count_specializations;
-	c_render_surface* m_default_surface;
-};
-
-// $TODO: move this
-struct c_render_surfaces_interface
-{
-	static c_render_surface* get_render_surface_default(c_rasterizer::e_surface surface)
-	{
-		return m_render_surface_groups[surface].m_default_surface;
-	}
-
-	static c_render_surface_group(&m_render_surface_groups)[60];
-};
-
-// $TODO: move this
 REFERENCE_DECLARE_ARRAY(0x0510D8D0, c_render_surface_group, c_render_surfaces_interface::m_render_surface_groups, 60);
 
 // $TODO: move this
@@ -278,9 +235,9 @@ void __thiscall c_player_view::render_1st_pass()
 					false,
 					false);
 
-				IDirect3DSurface9* accum_LDR_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_accum_LDR)->m_d3d_surface;
-				IDirect3DSurface9* accum_HDR_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_accum_HDR)->m_d3d_surface;
-				IDirect3DSurface9* depth_stencil_surface = c_render_surfaces_interface::get_render_surface_default(c_rasterizer::_surface_depth_stencil)->m_d3d_surface;
+				IDirect3DSurface9* accum_LDR_surface = c_render_surfaces_interface::get_render_surface(c_rasterizer::_surface_accum_LDR)->m_d3d_surface;
+				IDirect3DSurface9* accum_HDR_surface = c_render_surfaces_interface::get_render_surface(c_rasterizer::_surface_accum_HDR)->m_d3d_surface;
+				IDirect3DSurface9* depth_stencil_surface = c_render_surfaces_interface::get_render_surface(c_rasterizer::_surface_depth_stencil)->m_d3d_surface;
 
 				m_lights_view.render(
 					m_camera_user_data.user_index,
