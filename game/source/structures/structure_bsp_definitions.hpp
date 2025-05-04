@@ -19,6 +19,14 @@ enum e_structure_bsp_flags
 	k_structure_bsp_flags
 };
 
+struct leaf_map
+{
+	int32 unused;
+	s_tag_block leaves;
+	s_tag_block connections;
+};
+static_assert(sizeof(leaf_map) == 0x1C);
+
 struct structure_seam_identifier;
 struct structure_edge_to_seam_edge_mapping;
 struct structure_collision_material;
@@ -70,9 +78,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_runtime_decal> runtime_decals;
 	s_tag_block environment_object_palette;
 	s_tag_block environment_objects;
-	uint8 IMISWXUG[0x4];
-	s_tag_block leaf_map_leaves;
-	s_tag_block leaf_map_connections;
+	leaf_map leaf_map;
 	s_tag_block errors;
 	c_typed_tag_block<structure_instanced_geometry_instance> instanced_geometry_instances;
 	s_tag_block decorator_sets;
