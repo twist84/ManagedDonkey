@@ -90,6 +90,8 @@ struct c_player_profile_interface
 //private:
 	void dirty_or(bool dirty);
 
+	s_emblem_info get_emblem_info() const;
+
 	e_player_color_index get_primary_change_color() const;
 	e_player_color_index get_secondary_change_color() const;
 

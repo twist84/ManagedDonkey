@@ -90,7 +90,14 @@ void __thiscall c_player_profile_interface::dirty_or(bool dirty)
 //.text:00AA0960 ; public: char c_player_profile_interface::get_model_customization_selection(e_player_model_choice, int32) const
 //.text:00AA0A00 ; public: char c_player_profile_interface::get_model_customization_selection(e_player_model_choice, int32) const
 //.text:00AA0A30 ; public: void c_player_profile_interface::get_player_appearance(s_player_appearance*)
-//.text:00AA0AB0 ; public: s_emblem_info c_player_profile_interface::get_emblem_info() const
+
+s_emblem_info c_player_profile_interface::get_emblem_info() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AA0AB0, c_player_profile_interface, get_emblem_info);
+
+	return m_appearance.emblem;
+}
+
 //.text:00AA0AC0 ; public: e_player_model_choice c_player_profile_interface::get_player_model_choice() const
 
 e_player_color_index c_player_profile_interface::get_primary_change_color() const
