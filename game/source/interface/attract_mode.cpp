@@ -8,7 +8,7 @@
 
 REFERENCE_DECLARE(0x0191D300, bool, g_should_music_be_playing);
 REFERENCE_DECLARE(0x0191D330, e_movie_type, last_attract_movie);
-REFERENCE_DECLARE(0x05260708, uint32, g_attract_mode_countdown_timer);
+REFERENCE_DECLARE(0x05260708, uns32, g_attract_mode_countdown_timer);
 
 HOOK_DECLARE(0x00A99120, attract_mode_get_built_in_movie_path);
 HOOK_DECLARE(0x00A99220, attract_mode_get_countdown_time_milliseconds);

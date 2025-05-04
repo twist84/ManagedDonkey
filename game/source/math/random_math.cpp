@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-REFERENCE_DECLARE(0x0238ED14, uint32, random_seed_local);
+REFERENCE_DECLARE(0x0238ED14, uns32, random_seed_local);
 
 //HOOK_DECLARE(0x0051F070, random_math_dispose);
 //HOOK_DECLARE(0x0051F0B0, random_math_initialize);
@@ -20,45 +20,45 @@ s_file_reference random_seed_debug_file{};
 //.text:0051E790 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7B0 ; public: __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::~t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>()
 //.text:0051E7C0 ; void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)
-//.text:0051E7E0 ; real_vector3d* __cdecl _distriubuite_vector_in_cone3d(uint32*, char const*, char const*, uint32, real_vector3d const*, int32, int32, int32, int32, real32, real32, real32, real_vector3d*)
-//.text:0051EAA0 ; real_vector3d* __cdecl _random_direction3d(uint32*, char const*, char const*, uint32, real_vector3d*)
-//.text:0051ECA0 ; real_vector3d* __cdecl _random_vector_in_cone3d(uint32*, char const*, char const*, uint32, real_vector3d const*, real32, real32, real_vector3d*)
+//.text:0051E7E0 ; real_vector3d* __cdecl _distriubuite_vector_in_cone3d(uns32*, char const*, char const*, uns32, real_vector3d const*, int32, int32, int32, int32, real32, real32, real32, real_vector3d*)
+//.text:0051EAA0 ; real_vector3d* __cdecl _random_direction3d(uns32*, char const*, char const*, uns32, real_vector3d*)
+//.text:0051ECA0 ; real_vector3d* __cdecl _random_vector_in_cone3d(uns32*, char const*, char const*, uns32, real_vector3d const*, real32, real32, real_vector3d*)
 //.text:0051EE80 ; public: virtual void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::allocate(unsigned int, char const*)
 //.text:0051EEC0 ; public: virtual void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::deallocate(void*, int32)
-//.text:0051EEF0 ; real64 __cdecl distribute_random_stratified(uint32*, char const*, char const*, uint32, int32, int32)
+//.text:0051EEF0 ; real64 __cdecl distribute_random_stratified(uns32*, char const*, char const*, uns32, int32, int32)
 //.text:0051EF70 ; public: void __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::free_memory()
 
-uint32 __cdecl generate_random_seed()
+uns32 __cdecl generate_random_seed()
 {
 	//return INVOKE(0x0051EFA0, generate_random_seed);
 
-	uint32 time = system_milliseconds();
-	uint32 seed = system_seconds() ^ time;
+	uns32 time = system_milliseconds();
+	uns32 seed = system_seconds() ^ time;
 	return seed ^ rand();
 }
 
-uint32 __cdecl get_local_random_seed()
+uns32 __cdecl get_local_random_seed()
 {
 	return INVOKE(0x0051EFC0, get_local_random_seed);
 
 	return *get_local_random_seed_address();
 }
 
-uint32* __cdecl get_local_random_seed_address()
+uns32* __cdecl get_local_random_seed_address()
 {
 	//return INVOKE(0x0051EFD0, get_local_random_seed_address);
 
 	return &random_seed_local;
 }
 
-uint32 __cdecl get_random_seed()
+uns32 __cdecl get_random_seed()
 {
 	//return INVOKE(0x0051EFE0, get_random_seed);
 
 	return *get_random_seed_address();
 }
 
-uint32* __cdecl get_random_seed_address()
+uns32* __cdecl get_random_seed_address()
 {
 	//return INVOKE(0x0051F000, get_random_seed_address);
 
@@ -70,7 +70,7 @@ uint32* __cdecl get_random_seed_address()
 	return g_deterministic_random_seed_ptr;
 }
 
-uint32 __cdecl random_direction_table_count()
+uns32 __cdecl random_direction_table_count()
 {
 	return INVOKE(0x0051F020, random_direction_table_count);
 }
@@ -109,7 +109,7 @@ void __cdecl random_math_initialize()
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
 
-	g_deterministic_random_seed_ptr = (uint32*)g_deterministic_random_seed_ptr_allocator.allocate(sizeof(uint32), "random math");
+	g_deterministic_random_seed_ptr = (uns32*)g_deterministic_random_seed_ptr_allocator.allocate(sizeof(uns32), "random math");
 	random_math_initialize_internal();
 }
 
@@ -131,20 +131,20 @@ void __cdecl random_math_initialize_tool()
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
 
-	g_deterministic_random_seed_ptr = (uint32*)system_malloc(sizeof(uint32));
+	g_deterministic_random_seed_ptr = (uns32*)system_malloc(sizeof(uns32));
 	random_math_initialize_internal();
 }
 
 //.text:0051F1C0 ; public: void* __cdecl t_restricted_allocation_manager<1, 0, 0, &void __cdecl __tls_set_g_deterministic_random_seed_ptr_allocator(void*)>::reserve_memory(char const*, char const*, unsigned int, int32)
 
-void __cdecl set_local_random_seed(uint32 local_random_seed)
+void __cdecl set_local_random_seed(uns32 local_random_seed)
 {
 	//INVOKE(0x0051F200, set_local_random_seed, local_random_seed);
 
 	*get_local_random_seed_address() = local_random_seed;
 }
 
-void __cdecl set_random_seed(uint32 random_seed)
+void __cdecl set_random_seed(uns32 random_seed)
 {
 	//INVOKE(0x0051F210, set_random_seed, random_seed);
 
@@ -197,11 +197,11 @@ void random_seed_debug_log_begin(game_options const* options)
 		csnzprintf(rand_filename, sizeof(rand_filename), "rand_%s_%s_m%d.txt", scenario_name, date_and_time, options->dump_machine_index);
 		if (create_report_file_reference(&random_seed_debug_file, rand_filename, true) && file_create(&random_seed_debug_file))
 		{
-			uint32 file_open_flags = FLAG(_file_open_flag_desired_access_write);
+			uns32 file_open_flags = FLAG(_file_open_flag_desired_access_write);
 			file_open_flags |= FLAG(_file_open_flag_set_file_end_and_close);
 			file_open_flags |= FLAG(_file_open_flag_share_mode_read);
 
-			uint32 error = 0;
+			uns32 error = 0;
 			random_seed_debug_file_open = file_open(&random_seed_debug_file, file_open_flags, &error);
 		}
 

@@ -17,7 +17,7 @@ public:
 	struct s_internal_vertex
 	{
 		real_point3d position;
-		uint32 color;
+		uns32 color;
 	};
 
 private:
@@ -38,7 +38,7 @@ public:
 protected:
 	int32 m_line_type;
 	real_argb_color m_color_argb;
-	uint32 m_color;
+	uns32 m_color;
 	s_internal_vertex m_internal_queue[k_internal_queue_size];
 	int32 m_internal_queue_vertex_count;
 	real32 m_oo_screen_width;
@@ -116,6 +116,6 @@ extern real32 __cdecl build_height_matrix(real_point3d const* base, real_vector3
 extern void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* points, int32 total_point_count);
 extern void __cdecl render_debug_build_pill_points(real_point3d const* base, real_vector3d const* height, real32 radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5);
 
-extern uint16 __cdecl _random(uint32* seed, char const* string, char const* file, uint32 line);
+extern uns16 __cdecl _random(uns32* seed, char const* string, char const* file, uns32 line);
 extern real_point3d* __cdecl rectangle3d_center(real_rectangle3d const* rect, real_point3d* center);
 

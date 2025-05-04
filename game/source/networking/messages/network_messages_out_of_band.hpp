@@ -9,24 +9,24 @@
 
 struct s_network_message_ping
 {
-	uint16 id;
-	uint32 timestamp;
+	uns16 id;
+	uns32 timestamp;
 	bool request_qos;
 };
 static_assert(sizeof(s_network_message_ping) == 0xC);
 
 struct s_network_message_pong
 {
-	uint16 id;
-	uint32 timestamp;
-	uint32 qos_response;
+	uns16 id;
+	uns32 timestamp;
+	uns32 qos_response;
 };
 static_assert(sizeof(s_network_message_pong) == 0xC);
 
 struct s_network_message_broadcast_search
 {
-	uint16 protocol_version;
-	uint64 nonce;
+	uns16 protocol_version;
+	uns64 nonce;
 };
 static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
 
@@ -78,7 +78,7 @@ struct s_network_squad_status_data_game_details
 	int32 player_encoded_count;
 	int32 game_timer_type;
 	int32 game_timer_seconds;
-	uint32 valid_team_mask;
+	uns32 valid_team_mask;
 	int32 team_scores[8];
 };
 static_assert(sizeof(s_network_squad_status_data_game_details) == 0x163D0);
@@ -137,16 +137,16 @@ struct s_network_squad_status_data
 
 	s_header header;
 	e_network_session_qos_status_data_type session_mode;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 	s_network_squad_status_data_game_details game_details;
 	s_network_squad_status_data_matchmaking matchmaking;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 
 	void update_host_player_identifier(transport_address const* address)
 	{
@@ -161,8 +161,8 @@ static_assert(0x163E8 == OFFSETOF(s_network_squad_status_data, matchmaking));
 
 struct s_network_message_broadcast_reply
 {
-	uint16 protocol_version;
-	uint64 search_nonce;
+	uns16 protocol_version;
+	uns64 search_nonce;
 	s_network_squad_status_data status_data;
 };
 static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);

@@ -27,17 +27,17 @@ struct s_sound_location
 	real_quaternion orientation;
 	real_vector3d vector;
 	s_location location;
-	uint8 __data2A[0x2];
+	byte __data2A[0x2];
 };
 static_assert(sizeof(s_sound_location) == 0x2C);
 
 struct s_sound_source
 {
-	uint16 flags;
+	uns16 flags;
 	int8 volume_type;
 	int8 spatialization_mode;
 	real32 scale;
-	uint8 __dataC[0x4];
+	byte __dataC[0x4];
 	s_sound_location location;
 	real32 __unknown38;
 	real32 minimum_distance;
@@ -52,7 +52,7 @@ struct s_sound_tracker
 {
 	bool(__cdecl* callback)(void*, int32, int32*, s_sound_source*);
 
-	uint8 __data[0x2C];
+	byte __data[0x2C];
 };
 static_assert(sizeof(s_sound_tracker) == 0x30);
 
@@ -64,9 +64,9 @@ struct sound_channel_datum
 	int32 debug_entry_index;
 	int32 __unknownC;
 	int8 type_index; // c_enum<e_sound_channel_type, int8>
-	uint8 flags;
-	uint8 __unknownA_sound_playback; // c_flags<e_sound_playback_bit, uint8>
-	uint8 __unknownB_sound_playback; // c_flags<e_sound_playback_bit, uint8>
+	uns8 flags;
+	uns8 __unknownA_sound_playback; // c_flags<e_sound_playback_bit, uns8>
+	uns8 __unknownB_sound_playback; // c_flags<e_sound_playback_bit, uns8>
 	int16 hardware_source_index;
 	int16 hardware_voice_index;
 
@@ -75,7 +75,7 @@ struct sound_channel_datum
 
 	int32 __unknown1C;
 
-	uint8 __data20[0x4];
+	byte __data20[0x4];
 
 	int32 playing_chunk_definition_index;
 	int32 queued_chunk_definition_index;
@@ -89,13 +89,13 @@ static_assert(sizeof(sound_channel_datum) == 0x38);
 struct s_sound_tracker_datum :
 	s_datum_header
 {
-	uint8 flags;
-	uint8 flip_flop;
+	uns8 flags;
+	uns8 flip_flop;
 	int32 definition_index;
 	void* tracker_callback_data;
 	s_sound_tracker tracker_data;
 
-	uint8 __data3C[0x4];
+	byte __data3C[0x4];
 };
 static_assert(sizeof(s_sound_tracker_datum) == 0x40);
 
@@ -105,9 +105,9 @@ struct sound_datum :
 	int8 software_reference_count;
 	int8 hardware_reference_count;
 
-	uint32 flags;
+	uns32 flags;
 
-	uint8 __data8[0x8];
+	byte __data8[0x8];
 
 	int32 definition_index;
 	int32 looping_sound_index;
@@ -115,14 +115,14 @@ struct sound_datum :
 	s_sound_source source;
 	int32 playback_controller_index;
 
-	uint8 __data6C[4];
+	byte __data6C[4];
 
 	int8 loop_track_index;
-	uint8 __unknown71;
-	uint8 __unknown72;
-	uint8 __unknown73;
+	uns8 __unknown71;
+	uns8 __unknown72;
+	uns8 __unknown73;
 
-	uint8 __data74[0x24];
+	byte __data74[0x24];
 
 	int32 sound_tracker_index;
 	int32 __unknown9C;
@@ -136,10 +136,10 @@ struct sound_datum :
 	int8 permutation_index;
 	int16 permutation_chunk_index;
 
-	c_enum<int32, uint8, 0, 4> listener_index;
-	uint8 __unknownB1;
-	uint8 __unknownB2;
-	uint8 __unknownB3;
+	c_enum<int32, uns8, 0, 4> listener_index;
+	uns8 __unknownB1;
+	uns8 __unknownB2;
+	uns8 __unknownB3;
 
 	int32 playback_controller_index_;
 
@@ -156,18 +156,18 @@ static_assert(sizeof(sound_datum) == 0xC8);
 struct s_xbox_sound_datum :
 	s_datum_header
 {
-	uint8 __data0[0xA];
+	byte __data0[0xA];
 };
 static_assert(sizeof(s_xbox_sound_datum) == 0xC);
 
 struct looping_sound_track_datum
 {
 	int32 sound_index;
-	uint8 __data4[0x8];
+	byte __data4[0x8];
 	int8 current_playback_state;
 	int8 queued_playback_state;
 	int8 playing_sound_count;
-	uint8 __dataF[0x5];
+	byte __dataF[0x5];
 	c_static_array<real32, 4> gains;
 };
 static_assert(sizeof(looping_sound_track_datum) == 0x24);
@@ -175,19 +175,19 @@ static_assert(sizeof(looping_sound_track_datum) == 0x24);
 struct looping_sound_datum :
 	s_datum_header
 {
-	uint8 __data2[0x6];
+	byte __data2[0x6];
 
 	int32 definition_index;
 	int32 sound_identifier;
 
-	uint8 __data10[0x4];
+	byte __data10[0x4];
 
 	s_sound_source source;
-	uint8 flags;
+	uns8 flags;
 	int8 component_sound_count;
 	int32 playback_controller_index;
 
-	uint8 __data68[0x30];
+	byte __data68[0x30];
 
 	c_static_array<looping_sound_track_datum, 4> tracks;
 };
@@ -196,15 +196,15 @@ static_assert(sizeof(looping_sound_datum) == 0x128);
 struct s_sound_effect_datum :
 	s_datum_header
 {
-	uint8 __data2[0x1];
+	byte __data2[0x1];
 
 	int8 source_type;
-	uint16 flags;
+	uns16 flags;
 	int32 playback_controller_index;
 	int32 tracker_index;
 	s_sound_source source;
 
-	uint8 __dataC[0x8];
+	byte __dataC[0x8];
 };
 static_assert(sizeof(s_sound_effect_datum) == 0x64);
 
@@ -212,13 +212,13 @@ struct c_sound_playback_controller :
 	s_datum_header
 {
 	// reference ^= (reference ^ (reference + 1)) & 0x3F
-	uint8 reference;
+	uns8 reference;
 
 	int8 m_ready_count;
 	int32 identifier;
-	uint32 random_seed;
+	uns32 random_seed;
 
-	uint8 __dataC[0x10];
+	byte __dataC[0x10];
 };
 static_assert(sizeof(c_sound_playback_controller) == 0x1C);
 
@@ -272,7 +272,7 @@ REFERENCE_DECLARE(0x02497D3C, c_smart_data_array<c_sound_playback_controller>, g
 REFERENCE_DECLARE(0x02497D4C, c_smart_data_array<s_sound_tracker_datum>, g_sound_tracker_data);
 
 REFERENCE_DECLARE(0x02497D51, bool, g_sound_tracker_inside_update);
-REFERENCE_DECLARE(0x02497D51, uint8, g_sound_tracker_flip_flop);
+REFERENCE_DECLARE(0x02497D51, uns8, g_sound_tracker_flip_flop);
 
 bool debug_sound_class_totals = false;
 bool debug_sound_timing = false;
@@ -365,7 +365,7 @@ sound_channel_datum* __cdecl channel_get(int16 index)
 //.text:00515A90 ; 
 //.text:00515AC0 ; 
 //.text:00515AF0 ; 
-//.text:00515B00 ; uint32 __cdecl sound_cache_sound_request(int32, s_sound_permutation_chunk*)
+//.text:00515B00 ; uns32 __cdecl sound_cache_sound_request(int32, s_sound_permutation_chunk*)
 //.text:00515B20 ; real_decibel __cdecl sound_calculate_fade_db(int32)
 //.text:00515CD0 ; 
 //.text:00515D60 ; void __cdecl sound_calculate_listener_relative_position_and_attenuation(int32, s_sound_source const*, int32, int32, real32*, real32*, real_point3d*)
@@ -414,7 +414,7 @@ void __cdecl sound_dispose_from_old_map()
 	INVOKE(0x00516A90, sound_dispose_from_old_map);
 }
 
-void __cdecl sound_dispose_from_old_structure_bsp(uint32 structure_bps_mask)
+void __cdecl sound_dispose_from_old_structure_bsp(uns32 structure_bps_mask)
 {
 	INVOKE(0x00516BD0, sound_dispose_from_old_structure_bsp, structure_bps_mask);
 }
@@ -450,7 +450,7 @@ void __cdecl sound_initialize_for_new_map()
 	INVOKE(0x00517CF0, sound_initialize_for_new_map);
 }
 
-void __cdecl sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -472,7 +472,7 @@ bool __cdecl sound_is_fading_out(int32 sound_index)
 //.text:005181D0 ; bool __cdecl sound_manager_allocate_hardware_voice_explicit(int16)
 //.text:00518230 ; bool __cdecl sound_manager_can_update_trackers()
 //.text:00518250 ; void __cdecl sound_manager_free_hardware_voice(int16)
-//.text:00518290 ; uint8 __cdecl sound_manager_get_flip_flop()
+//.text:00518290 ; uns8 __cdecl sound_manager_get_flip_flop()
 
 s_sound_listener const* __cdecl sound_manager_get_listener(int32 index)
 {
@@ -512,7 +512,7 @@ void __cdecl sound_render_dispatch()
 	//internal_event_set(k_event_sound_render_deferred_complete);
 }
 
-//.text:00519100 ; uint32 __cdecl sound_render_time()
+//.text:00519100 ; uns32 __cdecl sound_render_time()
 //.text:00519110 ; real32 __cdecl sound_scale_value(real32, real32, s_sound_parameter_range const*)
 //.text:00519140 ; real32 __cdecl sound_scale_value(real32, real32, s_sound_parameter_range_shorts const*)
 //.text:00519180 ; void __cdecl sound_set_cinematic_skip_fade(real32)
@@ -565,7 +565,7 @@ void __cdecl sound_stop_all(int32 game_state_proc_flags)
 //.text:0051A050 ; void __cdecl sound_stop_and_notify(int32, e_sound_event_stop_reason)
 //.text:0051A0B0 ; 
 //.text:0051A120 ; 
-//.text:0051A130 ; bool __cdecl sound_track_and_update(int32, s_sound_tracker const*, c_flags<e_sound_datum_flag_bits, uint32, 18>*)
+//.text:0051A130 ; bool __cdecl sound_track_and_update(int32, s_sound_tracker const*, c_flags<e_sound_datum_flag_bits, uns32, 18>*)
 //.text:0051A230 ; 
 //.text:0051A270 ; s_sound_propagation_definition const* __cdecl sound_try_to_get_global_propagation(bool)
 

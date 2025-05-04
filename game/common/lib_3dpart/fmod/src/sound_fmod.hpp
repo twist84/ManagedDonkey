@@ -89,7 +89,7 @@ struct HALO_SOUND_SYSTEM
 	VolumeStruct VoiceVolume;
 	VolumeStruct MusicVolume;
 	VolumeStruct MasterVolume;
-	uint32 __flags30;
+	uns32 __flags30;
 	int32 __unknown34;
 	int32 __unknown38;
 	int32 __unknown3C;
@@ -100,12 +100,12 @@ struct HALO_SOUND_SYSTEM
 	int32 __unknown50;
 	real32 __unknown54;
 	int32 __unknown58; // 5, SoundEncoding?
-	uint8 __data5C[0x18];
+	byte __data5C[0x18];
 	HALO_CHANNEL* Channels;
 	int32 ChannelCount;
 	int32 MaximumChannelCount;
-	uint8 __data80[0x12C];
-	uint8 __data1AC[0x58];
+	byte __data80[0x12C];
+	byte __data1AC[0x58];
 };
 static_assert(sizeof(HALO_SOUND_SYSTEM) == 0x204);
 
@@ -195,7 +195,7 @@ namespace FMOD
 		};
 
 		EventSystemI_vtbl* __vftable /*VFT*/;
-		uint8 __data[0xE0];
+		byte __data[0xE0];
 	};
 	static_assert(sizeof(EventSystemI) == 0xE4);
 
@@ -223,7 +223,7 @@ namespace snd
 			int32(__thiscall* Term)(SYSTEM*);
 			void* Mute;
 			void* StopAll;
-			int32(__thiscall* Update)(SYSTEM*, uint32);
+			int32(__thiscall* Update)(SYSTEM*, uns32);
 			void* GetBuffer;
 			void* Func07;
 			void* Func08;
@@ -237,12 +237,12 @@ namespace snd
 			void* UnloadSoundbank;
 			void* PrepareWavebanks;
 			void* EnableEAX;
-			void(__thiscall* SetPreset)(SYSTEM*, uint32*);
+			void(__thiscall* SetPreset)(SYSTEM*, uns32*);
 			void* Func20;
-			void(__thiscall* Func21)(SYSTEM*, uint32, uint32);
+			void(__thiscall* Func21)(SYSTEM*, uns32, uns32);
 			void(__thiscall* Func22)(SYSTEM*, int32);
 			void* SetListener;
-			void(__thiscall* GetListener)(SYSTEM*, int32, uint64*, uint32, uint32, uint32);
+			void(__thiscall* GetListener)(SYSTEM*, int32, uns64*, uns32, uns32, uns32);
 			void* GetInfo;
 			void* GetPlayingIter;
 			void* GetInfoIter;
@@ -254,7 +254,7 @@ namespace snd
 
 		SYSTEM_vtbl* __vftable /*VFT*/;
 		dsFLAGS<SYSTEM_STATE, int> state;
-		uint8 __data8[0x24];
+		byte __data8[0x24];
 		int listenersCount;
 	};
 	static_assert(sizeof(SYSTEM) == 0x30);
@@ -271,18 +271,18 @@ namespace snd
 		FMOD::EventSystemI* system;
 		FMOD::ChannelGroup* master;
 		FMOD::ChannelGroup* reverb;
-		uint8 __data3C[04];
-		uint32 m_SpeakerMode;
-		uint8 __data44[0x3C];
+		byte __data3C[04];
+		uns32 m_SpeakerMode;
+		byte __data44[0x3C];
 		float mostAudible;
 		int numPlaying;
 		int numStreamPlaying;
 		int getBufferCounter;
-		uint8 __data90[0x70];
+		byte __data90[0x70];
 		osTIMER lastExpiration;
-		uint8 __data108[0x58];
+		byte __data108[0x58];
 		fioFILE_MEM psbin;
-		uint8 __data1FC[0x5C];
+		byte __data1FC[0x5C];
 		FMOD_REVERB_PROPERTIES targetPreset;
 		FMOD_REVERB_PROPERTIES currentPreset;
 		dsVECTOR<FMOD_REVERB_PROPERTIES, 8> auxPresets;

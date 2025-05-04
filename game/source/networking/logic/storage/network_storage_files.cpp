@@ -26,7 +26,7 @@ bool __cdecl create_configuration_file(char const* filename, void const* file_co
 		return false;
 	}
 
-	uint32 error = 0;
+	uns32 error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		event(_event_warning, "create_configuration_file: unable to open file: %s", filename);

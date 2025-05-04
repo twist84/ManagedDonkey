@@ -14,9 +14,9 @@ enum
 
 struct _control_datum
 {
-	uint32 flags;
+	uns32 flags;
 	int16 hud_override_index;
-	uint16 pad;
+	uns16 pad;
 };
 static_assert(sizeof(_control_datum) == 0x8);
 

@@ -21,8 +21,8 @@ struct c_particle_emitter :
 	};
 	static_assert(sizeof(s_property_values) == 0x3C);
 
-	uint16 m_particle_cpu_count;
-	uint16 m_flags;
+	uns16 m_particle_cpu_count;
+	uns16 m_flags;
 	int32 m_particle_list_head;
 	int32 m_next_sibling_index;
 	int32 m_emitter_gpu_index;

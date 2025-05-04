@@ -201,7 +201,7 @@ public:
 	virtual ~c_load_game_browser_screen_message();
 
 protected:
-	uint32 m_squad_search_flags;
+	uns32 m_squad_search_flags;
 	c_enum<e_browser_type, int32, _browse_system_link, k_number_of_game_browser_types> m_type;
 };
 static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);

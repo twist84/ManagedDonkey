@@ -9,8 +9,8 @@ struct s_scenario_interpolator_state
 	real32 time_current;
 	real32 time_bounds[2];
 	real32 phase;
-	uint8 flags;
-	uint8 pad[0x3];
+	uns8 flags;
+	byte pad[0x3];
 };
 static_assert(sizeof(s_scenario_interpolator_state) == 0x20);
 

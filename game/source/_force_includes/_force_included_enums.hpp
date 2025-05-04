@@ -291,7 +291,7 @@ enum e_network_game_type
 
 	k_network_game_type_count,
 };
-//using c_session_creation_flags = c_flags<e_session_creation_flags, uint8, k_network_game_type_count>;
+//using c_session_creation_flags = c_flags<e_session_creation_flags, uns8, k_network_game_type_count>;
 
 enum e_desired_multiplayer_mode
 {
@@ -1028,7 +1028,7 @@ enum e_network_session_peer_properties_status_flags
 	k_network_session_peer_properties_status_flags,
 	k_network_session_peer_properties_status_flags_bits = 5//bit_count(k_network_session_peer_properties_status_flags),
 };
-//using c_network_session_peer_properties_status_flags = c_flags<e_network_session_peer_properties_status_flags, uint32, k_network_session_peer_properties_status_flags>;
+//using c_network_session_peer_properties_status_flags = c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flags>;
 
 enum e_ui_message_type
 {

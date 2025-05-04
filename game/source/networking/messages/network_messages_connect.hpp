@@ -18,29 +18,29 @@ enum e_network_connect_refuse_reason
 
 struct s_network_message_connect_request
 {
-	uint32 channel_identifier;
-	uint32 flags;
+	uns32 channel_identifier;
+	uns32 flags;
 };
 static_assert(sizeof(s_network_message_connect_request) == 0x8);
 
 struct s_network_message_connect_refuse
 {
-	uint32 remote_identifier;
+	uns32 remote_identifier;
 	int32 reason;
 };
 static_assert(sizeof(s_network_message_connect_refuse) == 0x8);
 
 struct s_network_message_connect_establish
 {
-	uint32 identifier;
-	uint32 remote_identifier;
+	uns32 identifier;
+	uns32 remote_identifier;
 };
 static_assert(sizeof(s_network_message_connect_establish) == 0x8);
 
 struct s_network_message_connect_closed
 {
-	uint32 remote_identifier;
-	uint32 identifier;
+	uns32 remote_identifier;
+	uns32 identifier;
 	c_enum<e_network_channel_closure_reason, int32, _network_channel_reason_none, k_network_channel_reason_count> reason;
 };
 static_assert(sizeof(s_network_message_connect_closed) == 0xC);

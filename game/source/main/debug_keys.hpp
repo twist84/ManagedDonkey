@@ -32,7 +32,7 @@ static_assert(sizeof(s_debug_button) == 0x14);
 
 extern debug_key global_debug_key_list[];
 //extern c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4), NUMBEROF(global_debug_key_list)> global_debug_key_down;
-extern uint32 g_debug_button_down_flags;
+extern uns32 g_debug_button_down_flags;
 extern s_debug_button g_debug_button_list[];
 
 extern void __cdecl debug_keys_initialize();

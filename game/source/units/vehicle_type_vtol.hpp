@@ -63,8 +63,8 @@ public:
 	real32 m_steering;
 	real32 m_turn;
 	real32 m_target_elevation;
-	uint8 m_lift_effect_scale_left_history[4];
-	uint8 m_lift_effect_scale_right_history[4];
+	uns8 m_lift_effect_scale_left_history[4];
+	uns8 m_lift_effect_scale_right_history[4];
 	real_euler_angles2d m_left_lift_angles;
 	real_euler_angles2d m_left_render_lift_angles;
 	real_euler_angles2d m_right_lift_angles;

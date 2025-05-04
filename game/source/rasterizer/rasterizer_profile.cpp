@@ -7,7 +7,7 @@
 
 c_rasterizer_profile_globals g_rasterizer_profile_globals;
 
-uint32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count]
+uns32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count]
 {
 	real_argb_color_to_pixel32(global_real_argb_black),     // total
 	real_argb_color_to_pixel32(global_real_argb_grey),      // texaccum
@@ -131,12 +131,12 @@ void rasterizer_profile_update()
 
 void rasterizer_profile_start_element_timer(e_rasterizer_profile_elements profile_element_index)
 {
-	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uint8)g_rasterizer_profile_globals.get_current_frame_reference(), true);
+	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uns8)g_rasterizer_profile_globals.get_current_frame_reference(), true);
 }
 
 void rasterizer_profile_stop_element_timer(e_rasterizer_profile_elements profile_element_index)
 {
-	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uint8)g_rasterizer_profile_globals.get_current_frame_reference(), false);
+	g_rasterizer_profile_globals.toggle_element_timer(profile_element_index, (uns8)g_rasterizer_profile_globals.get_current_frame_reference(), false);
 }
 
 void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode)
@@ -290,13 +290,13 @@ void c_rasterizer_profile_globals::set_mode(e_rasterizer_profile_modes mode)
 	m_mode = mode;
 }
 
-void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uint8 frame_reference, bool start)
+void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uns8 frame_reference, bool start)
 {
 	//if (get_mode())
 	//{
 	//	ASSERT(profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count);
 	//
-	//	uint8 start_flag = start ? 0x8000 : 0;
+	//	uns8 start_flag = start ? 0x8000 : 0;
 	//
 	//	ASSERT(c_rasterizer::get_device() != NULL);
 	//	c_rasterizer::get_device()->InsertCallback(
@@ -306,7 +306,7 @@ void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_ele
 	//}
 }
 
-void c_rasterizer_profile_globals::frame_time_callback(uint32 packed_value)
+void c_rasterizer_profile_globals::frame_time_callback(uns32 packed_value)
 {
 	bool start_flag = HIWORD(packed_value) & 0x8000;
 	e_rasterizer_profile_elements profile_element_index = e_rasterizer_profile_elements(HIWORD(packed_value) & 0x7FFF);

@@ -24,7 +24,7 @@ public:
 	e_network_session_class m_session_class;
 	s_player_identifier m_last_player_identifiers[16];
 	e_controller_index m_use_saved_game_from_controller;
-	uint32 m_progress_dialog_start_time_milliseconds;
+	uns32 m_progress_dialog_start_time_milliseconds;
 	bool m_catalogue_enumeration_active;
 };
 static_assert(sizeof(c_gui_screen_pregame_lobby_campaign) == sizeof(c_gui_screen_pregame_lobby) + 0x94);

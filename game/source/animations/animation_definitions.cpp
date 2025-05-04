@@ -15,8 +15,8 @@ c_model_animation_graph const* __cdecl c_model_animation_graph::get(int32 defini
 //.text:00784C20 ; public: c_model_animation const* __cdecl c_model_animation_graph::get_animation(c_animation_id) const
 //.text:00784CA0 ; public: int16 __cdecl c_model_animation_graph::get_animation_count() const
 //.text:00784CB0 ; public: void __cdecl c_model_animation_graph::get_animation_data(c_animation_id, c_animation_data*) const
-//.text:00784D10 ; private: uint8 const* __cdecl c_model_animation_graph::get_animation_data_address(c_animation_id) const
-//.text:00784DB0 ; private: uint8 const* __cdecl c_model_animation_graph::get_animation_data_address_from_local_animation(int32) const
+//.text:00784D10 ; private: byte const* __cdecl c_model_animation_graph::get_animation_data_address(c_animation_id) const
+//.text:00784DB0 ; private: byte const* __cdecl c_model_animation_graph::get_animation_data_address_from_local_animation(int32) const
 //.text:00784E10 ; public: c_model_animation const* __cdecl c_model_animation_graph::get_animation_interface(c_animation_id) const
 //.text:00784E20 ; public: int16 __cdecl c_model_animation::get_animation_type() const
 //.text:00784E30 ; public: real32 __cdecl c_model_animation::get_authored_duration() const
@@ -59,7 +59,7 @@ s_animation_graph_node* c_model_animation_graph::get_node(int32 node_index) cons
 	return &definitions.skeleton_nodes[node_index];
 }
 
-//.text:00785700 ; public: uint32 __cdecl c_model_animation::get_node_checksum() const
+//.text:00785700 ; public: uns32 __cdecl c_model_animation::get_node_checksum() const
 //.text:00785710 ; public: int16 __cdecl c_model_animation::get_node_count() const
 //.text:00785720 ; public: int16 __cdecl c_model_animation_graph::get_node_count() const
 //.text:00785730 ; public: s_animation_inheritance const* __cdecl c_model_animation_graph::get_node_remap_data_for_animation(int32, c_animation_id) const

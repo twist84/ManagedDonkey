@@ -5,7 +5,7 @@
 struct s_squad_patrol_datum :
 	s_datum_header
 {
-	uint8 __data[0x6C2];
+	byte __data[0x6C2];
 };
 static_assert(sizeof(s_squad_patrol_datum) == 0x6C4);
 

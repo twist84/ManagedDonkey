@@ -79,7 +79,7 @@ void __cdecl c_water_renderer::render_underwater_fog()
 //.text:00A36660 ; private: static void __cdecl c_water_renderer::render_water_part(s_render_geometry const*, int32, int32, e_entry_point, geometry_material const*)
 //.text:00A36930 ; 
 
-void __cdecl c_water_renderer::ripple_add(uint32 valid_event_count)
+void __cdecl c_water_renderer::ripple_add(uns32 valid_event_count)
 {
 	//INVOKE(0x00A36970, c_water_renderer::ripple_add, valid_event_count);
 
@@ -102,7 +102,7 @@ void __cdecl c_water_renderer::ripple_apply()
 	}
 }
 
-uint32 __cdecl c_water_renderer::ripple_check_new()
+uns32 __cdecl c_water_renderer::ripple_check_new()
 {
 	return INVOKE(0x00A37230, c_water_renderer::ripple_check_new);
 }
@@ -142,7 +142,7 @@ void c_water_renderer::frame_advance(real32 seconds_elapsed)
 	c_water_renderer::set_performance_throttles();
 	if (render_water_enabled && render_water_interaction_enabled)
 	{
-		uint32 ripple_index = c_water_renderer::ripple_check_new();
+		uns32 ripple_index = c_water_renderer::ripple_check_new();
 		if (c_water_renderer::is_active_ripple_exist())
 		{
 			c_rasterizer_profile_scope _ripple_frame_adavance(_rasterizer_profile_element_total, L"ripple_frame_adavance");

@@ -7,7 +7,7 @@ struct c_game_results;
 
 struct s_user_interface_networking_globals
 {
-	uint8 __data0[0x8];
+	byte __data0[0x8];
 
 	bool join_in_progress;
 	c_string_id join_failed_alert_name;
@@ -28,7 +28,7 @@ struct s_user_interface_networking_globals
 	c_string_id active_dialog;
 
 	bool xbox_guide_active;
-	uint32 xbox_guide_last_active_time;
+	uns32 xbox_guide_last_active_time;
 	bool __unknown44;
 	bool __unknown45;
 

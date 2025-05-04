@@ -5,8 +5,8 @@
 
 struct s_online_session_player
 {
-	c_flags_no_init<e_online_session_player_flags, uint16, k_online_session_player_flags_count> flags;
-	uint64 xuid;
+	c_flags_no_init<e_online_session_player_flags, uns16, k_online_session_player_flags_count> flags;
+	uns64 xuid;
 };
 static_assert(sizeof(s_online_session_player) == 0x10);
 static_assert(0x00 == OFFSETOF(s_online_session_player, flags));
@@ -15,11 +15,11 @@ static_assert(0x08 == OFFSETOF(s_online_session_player, xuid));
 struct s_online_session
 {
 	e_controller_index controller_index;
-	uint16 flags;
+	uns16 flags;
 	int32 public_slot_count;
 	int32 private_slot_count;
 	s_transport_session_description session_description;
-	uint64 nonce;
+	uns64 nonce;
 	void* handle;
 	s_online_session_player players[16];
 };

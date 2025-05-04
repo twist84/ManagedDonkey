@@ -232,7 +232,7 @@ extern void __cdecl user_interface_get_number_of_render_windows(int32 user_index
 extern void __cdecl user_interface_initialize();
 extern void __cdecl user_interface_initialize_for_new_map();
 extern bool __cdecl user_interface_is_active();
-extern uint32 __cdecl user_interface_milliseconds();
+extern uns32 __cdecl user_interface_milliseconds();
 extern void __cdecl user_interface_non_idle_event_occured();
 extern void __cdecl user_interface_render(e_controller_index controller, int32 user_index, int32 window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot);
 extern bool __cdecl user_interface_requests_unlocked_framerate();

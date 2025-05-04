@@ -12,8 +12,8 @@ public:
 	e_controller_index m_controller_index;
 	s_file_reference m_file_reference;
 	char m_author[16];
-	uint64 m_date;
-	uint64 m_size_in_bytes;
+	uns64 m_date;
+	uns64 m_size_in_bytes;
 	int32 m_list_item_index;
 };
 static_assert(sizeof(c_gui_saved_screenshot_selected_item) == sizeof(c_gui_selected_item) + 0x140);

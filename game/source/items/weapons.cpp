@@ -71,7 +71,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5D150 ; void __cdecl weapon_barrel_compute_recovery_ticks(int32, int16, real32*, real32*)
 //.text:00B5D360 ; real32 __cdecl weapon_barrel_compute_ticks_per_round(int32, int16)
 //.text:00B5D5A0 ; void __cdecl weapon_barrel_create_projectiles(int32, int16, s_predicted_weapon_fire_data const*, bool)
-//.text:00B5F2D0 ; uint32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(int32, s_predicted_weapon_fire_data const*, bool, bool, uint32*)
+//.text:00B5F2D0 ; uns32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(int32, s_predicted_weapon_fire_data const*, bool, bool, uns32*)
 //.text:00B5F470 ; bool __cdecl weapon_barrel_evaluate_penalty_function(int32, int32, bool, s_projectile_accuracy_penalty_functions::e_penalty_function, real32, real32*)
 //.text:00B5F5D0 ; 
 
@@ -538,7 +538,7 @@ bool __cdecl weapon_is_support_weapon(int32 weapon_index)
 //.text:00B64F20 ; bool __cdecl weapon_new(int32, object_placement_data*, bool*)
 //.text:00B650F0 ; bool __cdecl weapon_overcharged(int32)
 //.text:00B65130 ; bool __cdecl weapon_owner_submit_reload_action(int32, int16, bool)
-//.text:00B65270 ; void __cdecl weapon_owner_update(int32, uint16, real32)
+//.text:00B65270 ; void __cdecl weapon_owner_update(int32, uns16, real32)
 //.text:00B652F0 ; int32 __cdecl weapon_place(int32, s_scenario_weapon const*)
 //.text:00B65390 ; bool __cdecl weapon_prevents_crouching(int32)
 //.text:00B653E0 ; bool __cdecl weapon_prevents_equipment_throwing(int32)

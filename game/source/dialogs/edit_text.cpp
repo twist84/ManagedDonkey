@@ -24,7 +24,7 @@ void __cdecl edit_text_fix_selection(edit_text* edit)
 	if (edit->insertion_point_index < text_len)
 		text_len11 = edit->insertion_point_index;
 
-	uint16 selection_start_index = edit->selection_start_index;
+	uns16 selection_start_index = edit->selection_start_index;
 	bool v8 = edit->selection_start_index <= NONE;
 	edit->insertion_point_index = text_len;
 
@@ -48,11 +48,11 @@ void __cdecl edit_text_selection_reset(edit_text* edit)
 	ASSERT(valid_edit_text(edit));
 
 	edit_text_fix_selection(edit);
-	edit->insertion_point_index = static_cast<uint16>(strlen(edit->buffer));
+	edit->insertion_point_index = static_cast<uns16>(strlen(edit->buffer));
 	edit->selection_start_index = NONE;
 }
 
-uint8 __cdecl edit_text_get_selection_indices(edit_text* edit, int16* start_index, int16* end_index)
+uns8 __cdecl edit_text_get_selection_indices(edit_text* edit, int16* start_index, int16* end_index)
 {
 	ASSERT(valid_edit_text(edit));
 

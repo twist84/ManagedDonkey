@@ -50,7 +50,7 @@ enum e_unit_camera_flags
 struct s_unit_camera
 {
 	c_flags<e_unit_camera_flags, int16, k_unit_camera_flags> flags;
-	uint16 pad;
+	uns16 pad;
 	c_old_string_id camera_marker_name;
 	c_old_string_id camera_submerged_marker_name;
 	real32 pitch_auto_level;
@@ -206,7 +206,7 @@ struct _unit_definition
 {
 	// $$$ UNIT $$$
 
-	c_flags<e_unit_definition_flags, uint32, k_unit_definition_flags> flags;
+	c_flags<e_unit_definition_flags, uns32, k_unit_definition_flags> flags;
 	c_enum<e_unit_default_teams, int16, _unit_default_teams_default, k_unit_default_teams_count> default_team;
 	c_enum<e_ai_sound_volume, int16, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
 	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG, INVALID_TAG> hologram_unit_reference;
@@ -340,7 +340,7 @@ static_assert(sizeof(unit_hud_reference) == 0x10);
 struct dialogue_variant_definition
 {
 	int16 variant_number;
-	uint16 pad;
+	uns16 pad;
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> dialogue;
 
 	void update_reference_names();
@@ -432,7 +432,7 @@ enum e_global_ai_seat_type
 
 struct unit_seat
 {
-	c_flags<e_unit_seat_flags, uint32, k_unit_seat_flags> flags;
+	c_flags<e_unit_seat_flags, uns32, k_unit_seat_flags> flags;
 	c_old_string_id label;
 	c_old_string_id marker_name;
 	c_string_id entry_markers_name;

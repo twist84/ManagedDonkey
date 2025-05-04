@@ -261,7 +261,7 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 					}
 				}
 
-				REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uint32, v20);
+				REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uns32, v20);
 				bool v19 = v20 >> 3 || v20 >> 5;
 				if (user_interface_mouse_globals.left_button_frames_down == 1 && list_item_widget == focused_widget && !v19)
 				{

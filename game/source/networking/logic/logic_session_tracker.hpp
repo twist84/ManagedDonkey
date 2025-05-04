@@ -27,7 +27,7 @@ static_assert(sizeof(s_network_session_tracker_session_status) == 0xC);
 
 struct s_session_tracker_session_data
 {
-	c_flags<e_session_tracker_session_flags, uint8, k_session_tracker_session_flags_count> flags;
+	c_flags<e_session_tracker_session_flags, uns8, k_session_tracker_session_flags_count> flags;
 	char name[16];
 	int32 insertion_index;
 	s_transport_session_description description;
@@ -39,10 +39,10 @@ struct s_session_tracker_session_data
 	e_transport_qos_target_status qos_target_status;
 	s_transport_qos_result qos_result;
 	s_network_squad_status_data qos_data;
-	uint32 status_data_timestamp;
+	uns32 status_data_timestamp;
 	bool desirability_valid;
 	int32 desirability;
-	uint8 __data[4];
+	byte __data[0x4];
 };
 static_assert(sizeof(s_session_tracker_session_data) == 0x16550);
 
@@ -51,7 +51,7 @@ struct s_session_tracker_qos_attempt
 	int32 qos_index;
 	e_transport_qos_type qos_type;
 	int32 target_count;
-	uint32 time;
+	uns32 time;
 };
 static_assert(sizeof(s_session_tracker_qos_attempt) == 0x10);
 
@@ -117,7 +117,7 @@ private:
 protected:
 	e_network_session_tracker_sort_method m_sort_method;
 	e_network_session_qos_status_data_type m_expected_qos_data_type;
-	c_flags<e_session_tracker_flags, uint8, k_session_tracker_flags_count> m_flags;
+	c_flags<e_session_tracker_flags, uns8, k_session_tracker_flags_count> m_flags;
 	c_matchmaking_quality* m_matchmaking_quality;
 	int32 m_session_count;
 	int32 m_session_storage_size_bytes;

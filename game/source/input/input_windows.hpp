@@ -332,8 +332,8 @@ enum e_button_action
 
 struct key_state
 {
-	uint16 msec_down;
-	uint8 frames_down;
+	uns16 msec_down;
+	uns8 frames_down;
 
 	// Set in `sub_511C50`, `sub_511C50` is only referenced by itself
 	bool __unknown3;
@@ -342,7 +342,7 @@ static_assert(sizeof(key_state) == 0x4);
 
 struct key_stroke
 {
-	uint8 modifier_flags;
+	uns8 modifier_flags;
 	int8 key_type;
 	int16 ascii_code;
 	bool repeating;
@@ -352,7 +352,7 @@ static_assert(sizeof(key_stroke) == 0x6);
 // key_stroke
 struct s_key_state
 {
-	uint8 modifier_flags;
+	uns8 modifier_flags;
 	int32 key_type;
 	int16 ascii_code;
 
@@ -360,7 +360,7 @@ struct s_key_state
 	// LOWORD(wParam);
 	union
 	{
-		uint16 vk_code;
+		uns16 vk_code;
 		char character[2];
 	};
 
@@ -376,9 +376,9 @@ static_assert(sizeof(s_key_state) == 0x10);
 struct s_mouse_state
 {
 	c_enum<e_mouse_type, int32, _mouse_type_move, k_mouse_type_count> mouse_type;
-	uint32 x;
-	uint32 y;
-	uint32 wheel_delta;
+	uns32 x;
+	uns32 y;
+	uns32 wheel_delta;
 	c_enum<e_mouse_button, int8, _mouse_button_1, k_mouse_button_count> mouse_button;
 };
 static_assert(sizeof(s_mouse_state) == 0x14);
@@ -388,10 +388,10 @@ struct mouse_state
 	int32 x;
 	int32 y;
 	int32 wheel_ticks;
-	c_static_array<uint8, k_mouse_button_count> frames_down;
-	c_static_array<uint16, k_mouse_button_count> msec_down;
+	c_static_array<uns8, k_mouse_button_count> frames_down;
+	c_static_array<uns16, k_mouse_button_count> msec_down;
 
-	c_flags<e_mouse_button, uint8, k_mouse_button_count> raw_flags;
+	c_flags<e_mouse_button, uns8, k_mouse_button_count> raw_flags;
 	int32 relative_x;
 	int32 relative_y;
 	int16 wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
@@ -402,10 +402,10 @@ static_assert(sizeof(mouse_state) == 0x2C);
 // based on `XINPUT_STATE`
 struct gamepad_state
 {
-	uint8 analog_buttons[2];
-	uint8 analog_button_thresholds[2];
-	uint8 button_frames[k_controller_button_count];
-	uint16 button_msec[k_controller_button_count];
+	uns8 analog_buttons[2];
+	uns8 analog_button_thresholds[2];
+	uns8 button_frames[k_controller_button_count];
+	uns16 button_msec[k_controller_button_count];
 
 	point2d thumb_left;
 	point2d thumb_right;
@@ -415,8 +415,8 @@ static_assert(sizeof(gamepad_state) == 0x3C);
 // based on `XINPUT_VIBRATION`
 struct rumble_state
 {
-	uint16 left_motor_speed;
-	uint16 right_motor_speed;
+	uns16 left_motor_speed;
+	uns16 right_motor_speed;
 };
 static_assert(sizeof(rumble_state) == 0x4);
 
@@ -428,7 +428,7 @@ struct s_input_globals
 	c_static_array<bool, k_input_type_count> input_type_suppressed;
 	bool feedback_suppressed;
 	bool focus_mouse; // unused padding
-	uint32 update_time;
+	uns32 update_time;
 
 	c_static_array<key_state, k_key_code_count> keys;
 
@@ -463,15 +463,15 @@ struct s_input_globals
 
 	c_static_array<rumble_state, k_number_of_controllers> rumble_states;
 
-	uint32 raw_mouse_wheel_update_time;
+	uns32 raw_mouse_wheel_update_time;
 	int32 __unknownC6C;
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
 
 // key_to_virtual_table[_key_escape] = VK_ESCAPE
-//extern c_static_array<uint8 const, k_key_code_count>& key_to_virtual_table;
-extern uint8 const(&key_to_virtual_table)[k_key_code_count];
-//extern uint8 const key_to_virtual_table[k_key_code_count];
+//extern c_static_array<uns8 const, k_key_code_count>& key_to_virtual_table;
+extern uns8 const(&key_to_virtual_table)[k_key_code_count];
+//extern uns8 const key_to_virtual_table[k_key_code_count];
 
 // virtual_to_key_table[VK_ESCAPE] = _key_escape
 //extern c_static_array<int16 const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
@@ -479,9 +479,9 @@ extern int16 const(&virtual_to_key_table)[k_number_of_windows_input_virtual_code
 //extern int16 const virtual_to_key_table[k_number_of_windows_input_virtual_codes];
 
 // key_to_ascii_table[_key_space] = ' '
-//extern c_static_array<uint8 const, k_key_code_count>& key_to_ascii_table;
-extern uint8 const(&key_to_ascii_table)[k_key_code_count];
-//extern uint8 const key_to_ascii_table[k_key_code_count];
+//extern c_static_array<uns8 const, k_key_code_count>& key_to_ascii_table;
+extern uns8 const(&key_to_ascii_table)[k_key_code_count];
+//extern uns8 const key_to_ascii_table[k_key_code_count];
 
 // key_to_ascii_table[' '] = _key_space
 //extern c_static_array<int16 const, k_number_of_input_ascii_codes>& ascii_to_key_table;
@@ -512,14 +512,14 @@ extern void __cdecl input_initialize();
 extern bool __cdecl sub_511AF0();
 extern bool __cdecl sub_511B40();
 extern bool __cdecl input_type_suppressed(e_input_type input_type);
-extern uint8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input_type);
-extern uint16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type);
-extern uint8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type);
-extern uint16 __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
+extern uns8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input_type);
+extern uns16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type);
+extern uns8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type);
+extern uns16 __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
 extern bool __cdecl sub_512450();
-extern void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed);
+extern void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uns16 left_motor_speed, uns16 right_motor_speed);
 extern void __cdecl input_suppress_type(e_input_type input_type, bool suppress);
 extern void __cdecl input_suppress();
 extern void __cdecl sub_5125A0();
@@ -531,7 +531,7 @@ extern void __cdecl input_update_keyboard(int32 duration_ms);
 extern void __cdecl input_update_mouse(int32 duration_ms);
 extern void __cdecl input_update_gamepads(int32 duration_ms);
 extern void __cdecl input_update_gamepads_rumble();
-extern void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, int32 duration_ms);
+extern void __cdecl update_button(uns8* frames_down, uns16* msec_down, bool key_down, int32 duration_ms);
 extern void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms);
 
 extern void input_handle_key_combos();

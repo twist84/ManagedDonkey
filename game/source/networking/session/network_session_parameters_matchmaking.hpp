@@ -8,7 +8,7 @@
 
 struct s_game_hopper_custom_category
 {
-	uint16 category_identifier;
+	uns16 category_identifier;
 	int16 category_image_index;
 	c_static_string<32> category_name;
 };
@@ -16,9 +16,9 @@ static_assert(sizeof(s_game_hopper_custom_category) == 0x24);
 
 struct s_network_session_matchmaking_hopper_entry
 {
-	uint16 hopper_identifier;
-	uint16 category_identifier;
-	uint16 presence_identifier;
+	uns16 hopper_identifier;
+	uns16 category_identifier;
+	uns16 presence_identifier;
 	int32 hopper_image_index;
 	bool is_hopper_visible;
 	bool is_hopper_playable;
@@ -32,7 +32,7 @@ struct s_network_session_matchmaking_hopper_list
 {
 	int32 hopper_load_status;
 	int32 session_membership_version;
-	uint32 visible_category_mask;
+	uns32 visible_category_mask;
 	int32 category_count;
 	s_game_hopper_custom_category categories[4];
 	int32 hopper_count;
@@ -49,7 +49,7 @@ static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD
 
 struct s_network_session_matchmaking_hopper
 {
-	uint16 hopper_identifier;
+	uns16 hopper_identifier;
 	int8 xlast_index;
 	bool is_ranked;
 	bool veto_allowed;
@@ -209,9 +209,9 @@ struct __declspec(align(4)) s_life_cycle_progress_post_match
 	s_replicated_life_cycle_progress_post_match post_match_progress;
 	bool rematch_allowed;
 	bool rematch_available_to_squad_leader;
-	uint32 group_player_can_rematch_mask;
-	uint32 group_player_chosen_to_rematch_mask;
-	uint32 group_player_in_rematching_party_mask;
+	uns32 group_player_can_rematch_mask;
+	uns32 group_player_chosen_to_rematch_mask;
+	uns32 group_player_in_rematching_party_mask;
 	bool is_preparing_for_rematch;
 };
 static_assert(sizeof(s_life_cycle_progress_post_match) == 0x1C);
@@ -234,7 +234,7 @@ static_assert(sizeof(s_life_cycle_matchmaking_progress) == 0xF8);
 struct s_network_session_parameter_matchmaking_rematch_team_data
 {
 	int32 host_peer_index;
-	uint32 rematch_peer_mask;
+	uns32 rematch_peer_mask;
 	bool join_data_valid;
 	s_transport_session_description host_description;
 };
@@ -242,7 +242,7 @@ static_assert(sizeof(s_network_session_parameter_matchmaking_rematch_team_data) 
 
 struct s_network_session_parameter_matchmaking_rematch_data
 {
-	uint32 team_rematch_mask;
+	uns32 team_rematch_mask;
 	c_static_array<s_network_session_parameter_matchmaking_rematch_team_data, 16> teams;
 };
 static_assert(sizeof(s_network_session_parameter_matchmaking_rematch_data) == 0x3C4);

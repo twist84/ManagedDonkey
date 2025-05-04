@@ -250,7 +250,7 @@ struct actor_datum;
 
 extern int16 __cdecl behavior_index_by_name(char* name);
 extern void __cdecl behaviors_initialize();
-extern uint8* __cdecl actor_behavior_state_get(actor_datum const* actor, int16 layer_index);
+extern uns8* __cdecl actor_behavior_state_get(actor_datum const* actor, int16 layer_index);
 
 extern int16 actor_behavior_index_get(actor_datum const* actor, int16 layer_index);
 

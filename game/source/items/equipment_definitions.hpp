@@ -98,7 +98,7 @@ struct _equipment_definition
 	// -1 means unlimited charges, 0 means fire on creation
 	int16 charges;
 
-	c_flags<e_equipment_flags, uint16, k_equipment_flags> flags;
+	c_flags<e_equipment_flags, uns16, k_equipment_flags> flags;
 
 	// AI
 	// 
@@ -222,7 +222,7 @@ struct s_equipment_type_spawner
 	c_enum<e_spawn_type, int16, _spawn_type_along_aiming_vector, k_spawn_type_count> type;
 
 	// pad
-	uint8 LSJ[0x2];
+	byte LSJ[0x2];
 
 	void update_reference_names();
 };
@@ -287,7 +287,7 @@ struct s_equipment_type_invincibility_mode
 	c_global_material_type invincibility_material_type;
 
 	// pad
-	uint8 invincibility_material_pad[0x2];
+	byte invincibility_material_pad[0x2];
 
 	real32 shield_recharge_time; // seconds
 

@@ -38,7 +38,7 @@ protected:
 	real32 m_turn;
 	c_vehicle_stop_counter m_stop_counter;
 	c_vehicle_braking_counter m_braking_counter;
-	uint8 m_control_e_brake;
+	uns8 m_control_e_brake;
 };
 static_assert(sizeof(c_vehicle_type_human_jeep) == 0x3C);
 

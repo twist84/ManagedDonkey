@@ -12,7 +12,7 @@
 
 // max string characters 128, string_id_retrieve
 
-uint32 const k_string_namespace_count_mapping[k_string_id_namespace_count] =
+uns32 const k_string_namespace_count_mapping[k_string_id_namespace_count] =
 {
 	k_string_id_namespace_gui_count,
 	k_string_id_namespace_gui_alert_count,

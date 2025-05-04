@@ -76,7 +76,7 @@ public:
 	void set_last_human_traits(c_player_traits const* traits, bool force);
 
 protected:
-	c_flags<e_infection_variant_flags, uint8, k_infection_variant_flags> m_variant_flags;
+	c_flags<e_infection_variant_flags, uns8, k_infection_variant_flags> m_variant_flags;
 	c_enum<e_infection_safe_havens_settings, int8, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;
 	c_enum<e_infection_next_zombie_settings, int8, _infection_next_zombie_winner, k_infection_next_zombie_settings> m_next_zombie;
 	c_enum<e_infection_initial_zombie_count_settings, int8, _infection_initial_zombie_count_25_percent, k_infection_initial_zombie_count_settings> m_initial_zombie_count;
@@ -92,7 +92,7 @@ protected:
 	c_player_traits m_safe_haven_defender_traits;
 	c_player_traits m_last_human_traits;
 
-	uint8 m_pad1[4];
+	byte m_pad1[4];
 };
 static_assert(sizeof(c_game_engine_infection_variant) == 0x250);
 
@@ -107,11 +107,11 @@ struct s_infection_globals
 {
 	struct
 	{
-		uint16 zombie_bitvector;
-		uint16 first_zombie_bitvector;
+		uns16 zombie_bitvector;
+		uns16 first_zombie_bitvector;
 		int32 safe_haven_timer;
-		uint16 zombie_team_bitvector;
-		uint16 players_in_safe_haven_bitvector;
+		uns16 zombie_team_bitvector;
+		uns16 players_in_safe_haven_bitvector;
 	} networked;
 
 	struct

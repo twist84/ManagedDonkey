@@ -97,8 +97,8 @@ public:
 	e_rasterizer_profile_modes get_mode();
 	void set_mode(e_rasterizer_profile_modes mode);
 
-	void toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uint8 frame_reference, bool a3);
-	static void frame_time_callback(uint32);
+	void toggle_element_timer(e_rasterizer_profile_elements profile_element_index, uns8 frame_reference, bool a3);
+	static void frame_time_callback(uns32);
 
 protected:
 	s_gpu_time_profile m_element_profile[k_rasterizer_profile_element_count][k_max_cpu_frames_ahead_of_gpu];
@@ -124,7 +124,7 @@ protected:
 };
 
 extern c_rasterizer_profile_globals g_rasterizer_profile_globals;
-extern uint32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count];
+extern uns32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count];
 
 extern void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, wchar_t const* name);
 extern void rasterizer_profile_end_event();

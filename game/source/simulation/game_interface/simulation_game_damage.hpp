@@ -6,7 +6,7 @@
 struct s_simulation_damage_aftermath_event_data
 {
 	int32 damage_definition_index;
-	uint32 flags;
+	uns32 flags;
 	int16 damage_owner_player_absolute_index;
 	bool direction_valid;
 	real_vector3d direction;

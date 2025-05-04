@@ -19,16 +19,16 @@ static_assert(sizeof(s_transparent_types) == 0xA4);
 
 struct s_transparency_marker
 {
-	uint16 starting_transparent_index;
+	uns16 starting_transparent_index;
 };
-static_assert(sizeof(s_transparency_marker) == sizeof(uint16));
+static_assert(sizeof(s_transparency_marker) == sizeof(uns16));
 
 template<typename t_type, int32 k_count>
 struct c_sorter
 {
-	c_static_array<uint16, k_count> m_order;
+	c_static_array<uns16, k_count> m_order;
 	int32 m_range[2];
-	uint16 m_count;
+	uns16 m_count;
 	t_type* m_data;
 };
 static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);

@@ -22,8 +22,8 @@ public:
 	bool m_is_scripted;
 	bool m_use_roll;
 
-	uint8 pad[0x2];
-	uint8 unused[0xC];
+	byte pad[0x2];
+	byte unused[0xC];
 };
 static_assert(sizeof(c_editor_director) == 0x160);
 

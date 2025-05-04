@@ -10,15 +10,15 @@ struct s_aim_assist_targeting_result
 	real32 primary_autoaim_level;
 	real32 secondary_autoaim_level;
 	real_vector3d lead_vector;
-	uint32 flags;
+	uns32 flags;
 };
 static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);
 
 struct s_aim_assist_query
 {
-	uint8 __data0[0x1];
+	byte __data0[0x1];
 	bool weapon_melee_only;
-	uint8 __data2[0x2];
+	byte __data2[0x2];
 
 	real32 weapon_autoaim_angle4;
 	real32 weapon_autoaim_range8;
@@ -36,8 +36,8 @@ struct s_aim_assist_query
 		real32 weapon_deviation_angle;
 	};
 
-	uint8 __flags28;
-	uint8 __data29[0x3];
+	uns8 __flags28;
+	byte __data29[0x3];
 
 	real32 weapon_autoaim_angle2C;
 	real32 weapon_autoaim_range30;
@@ -54,7 +54,7 @@ struct s_aim_assist_query
 };
 static_assert(sizeof(s_aim_assist_query) == 0x58);
 
-extern bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uint8 flags, int16 magnification_level, s_aim_assist_query* out_query);
+extern bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uns8 flags, int16 magnification_level, s_aim_assist_query* out_query);
 
 extern void aim_assist_debug_render();
 

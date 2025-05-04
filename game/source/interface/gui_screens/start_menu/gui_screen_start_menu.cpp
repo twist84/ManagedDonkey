@@ -12,7 +12,7 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00AE05B0, c_start_menu_screen_widget, handle_controller_input_message_);
 HOOK_DECLARE_CLASS(0x00AE0720, c_start_menu_screen_widget, handle_global_start_button_press_);
 
-uint8 const handle_global_start_button_press_patch_bytes[] = { 0xEB, 0x10 };
+byte const handle_global_start_button_press_patch_bytes[] = { 0xEB, 0x10 };
 DATA_PATCH_DECLARE(0x00AAC890, handle_global_start_button_press, handle_global_start_button_press_patch_bytes);
 
 bool __thiscall c_start_menu_screen_widget::handle_controller_input_message_(c_controller_input_message* message)
@@ -21,8 +21,9 @@ bool __thiscall c_start_menu_screen_widget::handle_controller_input_message_(c_c
 	{
 		if (message->get_component() == _controller_component_button_b || message->get_component() == _controller_component_button_start)
 		{
+			//m_breadcrumbs.count() != 1;
 			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
-			if (reinterpret_cast<int32>(reinterpret_cast<uint8*>(this) + 0x215C) != 1)
+			if (reinterpret_cast<int32>(reinterpret_cast<byte*>(this) + 0x215C) != 1)
 			{
 				// back_out_current_pane
 				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(this);
@@ -55,14 +56,14 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press_(c_con
 		}
 
 		s_player_identifier player_identifier{};
-		uint64 const player_xuid = controller->get_player_xuid();
+		uns64 const player_xuid = controller->get_player_xuid();
 		return load_start_menu(controller_index, controller->get_player_identifier(&player_identifier), &player_xuid, NULL, NULL, 0);
 	}
 
 	return false;
 }
 
-bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count)
+bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uns64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count)
 {
 	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
 }

@@ -27,12 +27,12 @@ HOOK_DECLARE(0x004E2F90, network_session_tracker_track_session);
 HOOK_DECLARE(0x004E2FB0, network_session_tracker_update);
 
 //// c_session_tracker::add_session
-//t_value_type<uint8> const session_storage_count = { .value = SESSION_STORAGE_COUNT };
+//t_value_type<uns8> const session_storage_count = { .value = SESSION_STORAGE_COUNT };
 //DATA_PATCH_DECLARE(0x004E253A + 2, session_storage_count, session_storage_count.bytes); // cmp     esi, 100
 //DATA_PATCH_DECLARE(0x004E253F + 1, session_storage_count, session_storage_count.bytes); // push    100
 //
 //// c_session_tracker::allocate_storage
-//t_value_type<uint32> const session_storage_size = { .value = SESSION_STORAGE_SIZE };
+//t_value_type<uns32> const session_storage_size = { .value = SESSION_STORAGE_SIZE };
 //DATA_PATCH_DECLARE(0x004E2676 + 1, session_storage_size, session_storage_size.bytes); // push    8B9340h
 //DATA_PATCH_DECLARE(0x004E267E + 3, session_storage_size, session_storage_size.bytes); // mov     dword ptr [esi+14h], 8B9340h
 
@@ -363,7 +363,7 @@ void c_session_tracker::mark_tracked_session_undesireable(s_session_tracker_sess
 	event(_event_message, "networking:logic:session_tracker: marking session #%d/%s/%I64d undesirable [%s]",
 		session->insertion_index,
 		session->name,
-		*(uint64*)&session->description.id,
+		*(uns64*)&session->description.id,
 		k_network_session_tracker_session_undesirable_reason_descriptions[reason]);
 	
 	if (session->flags.test(_session_tracker_session_undesireable_bit))
@@ -386,7 +386,7 @@ void c_session_tracker::mark_tracked_session_unsuitable(s_session_tracker_sessio
 	event(_event_message,"networking:logic:session_tracker: marking session #%d/%s/%I64d unsuitable [%s]",
 		session->insertion_index,
 		session->name,
-		*(uint64*)&session->description.id,
+		*(uns64*)&session->description.id,
 		k_network_session_tracker_session_unsuitable_reason_descriptions[reason]);
 	
 	if (session->flags.test(_session_tracker_session_unsuitable_bit))

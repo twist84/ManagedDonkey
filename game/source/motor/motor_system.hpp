@@ -17,13 +17,13 @@ public:
 	int32 m_motor_task;
 	int32 m_action;
 	int32 m_motor_program;
-	uint8 __unknownC;
-	uint8 m_interrupted;
+	uns8 __unknownC;
+	uns8 m_interrupted;
 	int16 __unknownE;
-	uint8 __data10[0x8];
+	byte __data10[0x8];
 	int16 m_resource_mask;
 	bool __unknown1A;
-	uint8 __data1B[0x1];
+	byte __data1B[0x1];
 };
 static_assert(sizeof(c_motor_task) == 0x1C);
 
@@ -41,7 +41,7 @@ public:
 
 	union
 	{
-		uint8 m_storage[0x2C];
+		byte m_storage[0x2C];
 	};
 };
 static_assert(sizeof(c_motor_request) == 0x38);

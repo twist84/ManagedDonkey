@@ -4,7 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "memory/thread_local.hpp"
 
-void* __cdecl restricted_memory_get_address(int32 index, uint32 offset)
+void* __cdecl restricted_memory_get_address(int32 index, uns32 offset)
 {
 	return INVOKE(0x0059FF70, restricted_memory_get_address, index, offset);
 
@@ -13,7 +13,7 @@ void* __cdecl restricted_memory_get_address(int32 index, uint32 offset)
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
 	//ASSERT(offset < g_restricted_regions[index].subsection_size());
-	//return (uint8*)address + offset;
+	//return (byte*)address + offset;
 }
 
 void __cdecl restricted_memory_set_base_address(int32 index, void* address)
@@ -137,10 +137,10 @@ void* __cdecl restricted_region_get_member_address(int32 index, int32 member_ind
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
-	//return (uint8*)address + g_restricted_regions[index].get_member_offset(member_index);
+	//return (byte*)address + g_restricted_regions[index].get_member_offset(member_index);
 }
 
-uint32 __cdecl restricted_region_get_member_offset(int32 index, int32 member_index)
+uns32 __cdecl restricted_region_get_member_offset(int32 index, int32 member_index)
 {
 	return INVOKE(0x005A0260, restricted_region_get_member_offset, index, member_index);
 
@@ -341,19 +341,19 @@ bool __cdecl restricted_region_validate_address(int32 index, void* address)
 	return INVOKE(0x005A0610, restricted_region_validate_address, index, address);
 }
 
-bool __cdecl restricted_region_wait_for_available_mirror(int32 index, uint32 a2)
+bool __cdecl restricted_region_wait_for_available_mirror(int32 index, uns32 timeout)
 {
-	return INVOKE(0x005A0660, restricted_region_wait_for_available_mirror, index, a2);
+	return INVOKE(0x005A0660, restricted_region_wait_for_available_mirror, index, timeout);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//g_restricted_regions[index].wait_for_available_mirror(a2);
+	//g_restricted_regions[index].wait_for_available_mirror(timeout);
 }
 
-bool __cdecl restricted_region_wait_for_new_write_mirror(int32 index, uint32 a2)
+bool __cdecl restricted_region_wait_for_new_write_mirror(int32 index, uns32 timeout)
 {
-	return INVOKE(0x005A0680, restricted_region_wait_for_new_write_mirror, index, a2);
+	return INVOKE(0x005A0680, restricted_region_wait_for_new_write_mirror, index, timeout);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//g_restricted_regions[index].wait_for_new_write_mirror(a2);
+	//g_restricted_regions[index].wait_for_new_write_mirror(timeout);
 }
 

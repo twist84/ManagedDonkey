@@ -12,53 +12,53 @@ struct s_network_message_membership_update_peer_properties
 	c_static_wchar_string<32> peer_session_name;
 
 	bool has_hard_drive;
-	uint16 ready_hopper_id;
-	uint32 game_start_error;
+	uns16 ready_hopper_id;
+	uns32 game_start_error;
 
 	bool peer_map_id_updated;
-	uint32 peer_map_id;
+	uns32 peer_map_id;
 
 	bool peer_map_updated;
 	int32 peer_map_status;
-	uint32 peer_map_progress_percentage;
+	uns32 peer_map_progress_percentage;
 
 	bool peer_game_instance_updated;
-	uint64 peer_game_instance;
+	uns64 peer_game_instance;
 
 	bool available_multiplayer_map_mask_updated;
-	uint32 available_multiplayer_map_mask;
+	uns32 available_multiplayer_map_mask;
 
 	bool peer_connection_updated;
-	uint32 estimated_downstream_bandwidth_bps;
-	uint32 estimated_upstream_bandwidth_bps;
+	uns32 estimated_downstream_bandwidth_bps;
+	uns32 estimated_upstream_bandwidth_bps;
 
 	bool estimated_upstream_is_reliable;
-	uint32 nat_type;
-	uint32 connectivity_badness_rating;
-	uint32 host_badness_rating;
-	uint32 client_badness_rating;
-	uint32 language;
+	uns32 nat_type;
+	uns32 connectivity_badness_rating;
+	uns32 host_badness_rating;
+	uns32 client_badness_rating;
+	uns32 language;
 	s_network_session_peer_connectivity connectivity;
 
 	bool versions_updated;
-	uint32 determinism_version;
-	uint32 determinism_compatible_version;
+	uns32 determinism_version;
+	uns32 determinism_compatible_version;
 
 	bool flags_updated;
-	uint32 flags;
+	uns32 flags;
 };
 static_assert(sizeof(s_network_message_membership_update_peer_properties) == 0xE0);
 
 struct s_network_message_membership_update_peer
 {
-	uint32 peer_index;
-	uint32 peer_update_type;
-	uint32 peer_connection_state;
+	uns32 peer_index;
+	uns32 peer_update_type;
+	uns32 peer_connection_state;
 
 #pragma pack(push, 1)
 	union
 	{
-		uint8 peer_info_bytes[0x20 - 0xC];
+		byte peer_info_bytes[0x20 - 0xC];
 		struct
 		{
 			bool peer_info_updated;
@@ -66,10 +66,10 @@ struct s_network_message_membership_update_peer
 		} peer_info;
 	};
 #pragma pack(pop)
-	uint64 peer_party_nonce;
-	uint64 peer_join_nonce;
-	uint32 network_version_number;
-	uint32 peer_creation_timestamp;
+	uns64 peer_party_nonce;
+	uns64 peer_join_nonce;
+	uns32 network_version_number;
+	uns32 peer_creation_timestamp;
 
 	bool peer_properties_updated;
 	s_network_message_membership_update_peer_properties peer_properties;
@@ -92,7 +92,7 @@ struct s_network_message_membership_update_player
 	int32 controller_index;
 	int32 : 32;
 	s_player_configuration player_data;
-	uint32 player_voice;
+	uns32 player_voice;
 };
 static_assert(sizeof(s_network_message_membership_update_player) == 0x1650);
 
@@ -101,7 +101,7 @@ struct s_network_message_membership_update
 	s_transport_secure_identifier session_id;
 	int32 update_number;
 	int32 incremental_update_number;
-	uint32 baseline_checksum;
+	uns32 baseline_checksum;
 
 	int16 peer_update_count;
 	int16 player_update_count;
@@ -123,7 +123,7 @@ struct s_network_message_membership_update
 	bool friends_only;
 	bool are_slots_locked;
 
-	uint32 checksum;
+	uns32 checksum;
 	int32 : 32;
 };
 static_assert(sizeof(s_network_message_membership_update) == 0x17870);
@@ -179,9 +179,9 @@ static_assert(sizeof(s_network_message_player_remove) == 0x10);
 struct s_player_configuration_from_host_patial
 {
 	c_static_wchar_string<5> service_tag;
-	c_flags<e_bungienet_user, uint8, k_bungienet_user_count> bungienet_user;
+	c_flags<e_bungienet_user, uns8, k_bungienet_user_count> bungienet_user;
 	c_static_array<rgb_color, k_color_type_count> colors;
-	c_static_array<uint8, k_armor_type_count> armors;
+	c_static_array<uns8, k_armor_type_count> armors;
 	c_static_array<int8, 4> consumables;
 };
 static_assert(sizeof(s_player_configuration_from_host_patial) == 0x30);

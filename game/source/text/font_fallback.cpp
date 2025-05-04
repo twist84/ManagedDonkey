@@ -3,7 +3,7 @@
 #include "text/font_group.hpp"
 #include "text/font_loading.hpp"
 
-enum : uint32
+enum : uns32
 {
 	k_font_character_page_size = 8,
 	k_font_character_maximum_pages = 1026,
@@ -14,16 +14,16 @@ s_font_header const* g_fallback_font_header = NULL;
 bool fallback_font_get_character(e_utf32 utf_character, s_font_character const** out_character, void const** out_pixel_data)
 {
 	ASSERT(g_fallback_font_header);
-	ASSERT(g_fallback_font_header->location_table_offset + g_fallback_font_header->location_table_count * sizeof(uint32) <= sizeof(k_fallback_font_data));
+	ASSERT(g_fallback_font_header->location_table_offset + g_fallback_font_header->location_table_count * sizeof(uns32) <= sizeof(k_fallback_font_data));
 
 	if (VALID_INDEX((int32)utf_character, g_fallback_font_header->location_table_count))
 	{
-		uint32 location = *(uint32*)offset_pointer(k_fallback_font_data, g_fallback_font_header->location_table_offset + sizeof(uint32) * utf_character);
+		uns32 location = *(uns32*)offset_pointer(k_fallback_font_data, g_fallback_font_header->location_table_offset + sizeof(uns32) * utf_character);
 		if (location != NONE)
 		{
-			uint32 page_index = location & MASK(21);
-			uint32 page_count = location >> 21;
-			uint32 character_offset = g_fallback_font_header->character_data_offset + k_font_character_page_size * page_index;
+			uns32 page_index = location & MASK(21);
+			uns32 page_count = location >> 21;
+			uns32 character_offset = g_fallback_font_header->character_data_offset + k_font_character_page_size * page_index;
 			s_font_character* character = (s_font_character*)offset_pointer(k_fallback_font_data, character_offset);
 			ASSERT(page_count > 0 && page_count <= k_font_character_maximum_pages);
 			ASSERT(page_index >= 0 && page_index + page_count <= g_fallback_font_header->character_data_size_bytes / k_font_character_page_size);
@@ -61,17 +61,17 @@ void fallback_font_initialize()
 			font_kerning_pairs_byteswap(kerning_pairs, kerning_pair_count);
 		}
 		ASSERT(font_header_validate(header));
-		uint32* location_table = (uint32*)offset_pointer(header, header->location_table_offset);
-		ASSERT(header->location_table_offset >= 0 && header->location_table_offset + header->location_table_count * sizeof(uint32) <= sizeof(k_fallback_font_data));
+		uns32* location_table = (uns32*)offset_pointer(header, header->location_table_offset);
+		ASSERT(header->location_table_offset >= 0 && header->location_table_offset + header->location_table_count * sizeof(uns32) <= sizeof(k_fallback_font_data));
 		int32 location_table_count = header->location_table_count;
 		for (int32 i = 0; i < location_table_count; ++location_table)
 		{
 			if (*location_table != NONE)
 			{
-				uint32 page_index = *location_table & MASK(21);
-				uint32 page_count = *location_table >> 21;
+				uns32 page_index = *location_table & MASK(21);
+				uns32 page_count = *location_table >> 21;
 
-				uint32 character_offset = header->character_data_offset + k_font_character_page_size * page_index;
+				uns32 character_offset = header->character_data_offset + k_font_character_page_size * page_index;
 				ASSERT(page_count > 0 && page_count <= k_font_character_maximum_pages);
 				ASSERT(page_index >= 0 && page_index + page_count <= header->character_data_size_bytes / k_font_character_page_size);
 				ASSERT(character_offset >= 0 && character_offset + sizeof(s_font_character) <= sizeof(k_fallback_font_data));
@@ -87,7 +87,7 @@ void fallback_font_initialize()
 	}
 }
 
-uint8 k_fallback_font_data[0x1194]
+byte k_fallback_font_data[0x1194]
 {
 	0x05, 0x00, 0x00, 0xF0, 0x66, 0x69, 0x78, 0x65, 0x64, 0x73, 0x79, 0x73,
 	0x2D, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

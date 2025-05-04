@@ -26,9 +26,9 @@ public:
 	static void __cdecl render_shading();
 	static void __cdecl render_tessellation(bool is_screenshot);
 	static void __cdecl render_underwater_fog();
-	static void __cdecl ripple_add(uint32 valid_event_count);
+	static void __cdecl ripple_add(uns32 valid_event_count);
 	static void __cdecl ripple_apply();
-	static uint32 __cdecl ripple_check_new();
+	static uns32 __cdecl ripple_check_new();
 	static void __cdecl ripple_slope();
 	static void __cdecl ripple_update();
 	static void __cdecl set_performance_throttles();

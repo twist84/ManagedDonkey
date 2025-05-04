@@ -55,7 +55,7 @@ struct s_character_physics_update_input_datum
 
 	bool sub_initialized;
 	s_character_physics_definition const* character_physics_definition;
-	uint32 flags;
+	uns32 flags;
 	int32 early_mover_object_index;
 	int32 accepted_early_mover_object_index;
 	int32 havok_component_index;
@@ -119,8 +119,8 @@ struct c_character_physics_mode_ground_datum
 	int32 m_surface_index;
 	int32 m_support_object_index;
 	c_global_material_type m_ground_material_type;
-	uint8 m_ground_physics_update_ticks;
-	uint8 m_flags;
+	uns8 m_ground_physics_update_ticks;
+	uns8 m_flags;
 	real_vector3d m_ground_plane;
 	real32 m_landing_velocity;
 };

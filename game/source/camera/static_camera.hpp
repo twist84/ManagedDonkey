@@ -17,9 +17,9 @@ public:
 	real32 m_field_of_view;
 
 	real32 __unknown2C;
-	uint32 __unknown30;
+	uns32 __unknown30;
 
-	uint8 unused[0x18];
+	byte unused[0x18];
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
 
@@ -33,7 +33,7 @@ public:
 	}
 
 //protected:
-	uint8 unused[0x3C];
+	byte unused[0x3C];
 };
 static_assert(sizeof(c_scripted_camera) == 0x4C);
 

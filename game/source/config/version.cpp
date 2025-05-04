@@ -125,8 +125,8 @@ HOOK_DECLARE(0x00501450, version_get_build_number_sequence_identifier);
 HOOK_DECLARE(0x00501460, version_get_build_string);
 HOOK_DECLARE(0x00501470, version_get_target_configuration);
 
-uint8 const k_build_date[] = VERSION_BUILD_DATE;
-uint8 const k_build_time[] = VERSION_BUILD_TIME;
+byte const k_build_date[] = VERSION_BUILD_DATE;
+byte const k_build_time[] = VERSION_BUILD_TIME;
 DATA_PATCH_DECLARE(0x016704A8, build_date, k_build_date);
 DATA_PATCH_DECLARE(0x016704B4, build_time, k_build_time);
 

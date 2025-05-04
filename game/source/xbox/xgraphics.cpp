@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-uint32 __stdcall XGSetTextureHeader(uint32 width, uint32 height, uint32 levels, uint32 usage, uint32 format, uint32 pool, uint32 base_offset, uint32 mip_offset, uint32 pitch, D3DBaseTexture* out_texture, uint32* out_base_size, uint32* out_mip_size)
+uns32 __stdcall XGSetTextureHeader(uns32 width, uns32 height, uns32 levels, uns32 usage, uns32 format, uns32 pool, uns32 base_offset, uns32 mip_offset, uns32 pitch, D3DBaseTexture* out_texture, uns32* out_base_size, uns32* out_mip_size)
 {
 	return INVOKE(0x00D7AA12, XGSetTextureHeader, width, height, levels, usage, format, pool, base_offset, mip_offset, pitch, out_texture, out_base_size, out_mip_size);
 }

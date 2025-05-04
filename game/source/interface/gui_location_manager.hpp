@@ -22,9 +22,9 @@ public:
 
 //protected:
 	bool m_running;
-	uint32 __unknown4;
+	uns32 __unknown4;
 	bool m_show_postgame_stats_upon_lobby_entrance;
-	uint32 m_change_time;
+	uns32 m_change_time;
 	int32 m_change_location;
 };
 static_assert(sizeof(c_gui_location_manager) == 0x14);

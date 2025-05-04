@@ -17,11 +17,11 @@ struct transport_address;
 struct s_player_identifier
 {
 	s_player_identifier();
-	s_player_identifier(uint64 data);
-	s_player_identifier(uint32 _ipv4_address, uint16 _port, uint16 _flags);
+	s_player_identifier(uns64 data);
+	s_player_identifier(uns32 _ipv4_address, uns16 _port, uns16 _flags);
 	s_player_identifier(transport_address const* address);
 
-	uint8 identifier[8];
+	byte identifier[8];
 
 	bool operator==(s_player_identifier const& other)
 	{
@@ -29,12 +29,12 @@ struct s_player_identifier
 	}
 
 	//// make_int64(ip, port)
-	//uint32 ipv4_address;
-	//uint16 port;
+	//uns32 ipv4_address;
+	//uns16 port;
 	//
 	//// online_xuid_is_guest_account
 	//// 0000 0000 1100 1001
-	//uint16 flags;
+	//uns16 flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
@@ -64,15 +64,15 @@ struct s_emblem_info
 	void __thiscall decode(c_bitstream* packet);
 	void __thiscall encode(c_bitstream* packet);
 
-	uint8 foreground_emblem_index;
-	uint8 background_emblem_index;
-	c_flags<e_emblem_info_flags, uint8, k_emblem_info_flags_count> emblem_info_flags;
+	uns8 foreground_emblem_index;
+	uns8 background_emblem_index;
+	c_flags<e_emblem_info_flags, uns8, k_emblem_info_flags_count> emblem_info_flags;
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> primary_color_index;
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> secondary_color_index;
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> background_color_index;
-	uint16 pad;
+	uns16 pad;
 
-	uint8 __pad8[0x648];
+	byte __pad8[0x648];
 };
 static_assert(sizeof(s_emblem_info) == 0x650);
 
@@ -88,15 +88,15 @@ enum e_bungienet_user
 
 struct s_player_appearance
 {
-	uint8 flags;
-	uint8 player_model_choice;
+	uns8 flags;
+	uns8 player_model_choice;
 
-	uint8 __pad2[0x2];
+	byte __pad2[0x2];
 
 	s_emblem_info emblem_info;
 	c_static_wchar_string<5> service_tag;
 
-	uint8 __pad65E[0x2];
+	byte __pad65E[0x2];
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 
@@ -105,47 +105,47 @@ struct s_s3d_player_armor_configuration_loadout
 	c_static_array<rgb_color, k_color_type_count> colors;
 
 	// array of 10 based on the decode function for this struct
-	c_static_array<uint8, k_armor_type_count> armors;
-	uint8 : 8;
-	uint8 : 8;
+	c_static_array<uns8, k_armor_type_count> armors;
+	uns8 : 8;
+	uns8 : 8;
 };
 static_assert(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
 
 struct s_s3d_player_configuration_armor
 {
-	uint8 flags;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 flags;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 
-	uint32 loadout_index;
+	uns32 loadout_index;
 	c_static_array<s_s3d_player_armor_configuration_loadout, 5> loadouts;
-	c_static_array<c_static_array<uint32, k_gameplay_modifier_count>, 5> loadout_modifiers;
+	c_static_array<c_static_array<uns32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
 static_assert(sizeof(s_s3d_player_configuration_armor) == 0x7EC);
 
 struct s_s3d_player_weapon_configuration_loadout
 {
-	uint8 primary_weapon_index;
-	uint8 secondary_weapon_index;
+	uns8 primary_weapon_index;
+	uns8 secondary_weapon_index;
 	c_enum<e_grenade_type, int8, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_index;
 	c_static_array<int8, 4> consumables;
 
-	// using this uint8 for our implementation
-	c_flags<e_bungienet_user, uint8, k_bungienet_user_count> bungienet_user;
+	// using this uns8 for our implementation
+	c_flags<e_bungienet_user, uns8, k_bungienet_user_count> bungienet_user;
 };
 static_assert(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
 
 struct s_s3d_player_configuration_weapon
 {
 	bool __unknown0;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 
-	uint32 loadout_index;
+	uns32 loadout_index;
 	c_static_array<s_s3d_player_weapon_configuration_loadout, 5> loadouts;
-	c_static_array<c_static_array<uint32, k_gameplay_modifier_count>, 5> loadout_modifiers;
+	c_static_array<c_static_array<uns32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
 static_assert(sizeof(s_s3d_player_configuration_weapon) == 0x774);
 
@@ -154,13 +154,13 @@ struct s_player_configuration_from_client
 	s_player_configuration_from_client();
 
 	c_static_wchar_string<16> desired_name;
-	uint8 user_selected_team_index;
-	uint8 vote_selection_index;
-	uint8 armor_loadout_index;
-	uint8 weapon_loadout_index;
+	uns8 user_selected_team_index;
+	uns8 vote_selection_index;
+	uns8 armor_loadout_index;
+	uns8 weapon_loadout_index;
 	bool player_is_griefer;
-	uint32 cheat_flags;
-	uint32 ban_flags;
+	uns32 cheat_flags;
+	uns32 ban_flags;
 };
 static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 
@@ -190,14 +190,14 @@ static_assert(sizeof(s_player_configuration) == 0x1620);
 #pragma pack(push, 1)
 struct game_machine_options
 {
-	uint32 valid_machine_mask;
+	uns32 valid_machine_mask;
 	s_machine_identifier machines[k_maximum_machines];
 
 	bool local_machine_exists;
 	s_machine_identifier local_machine;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 };
 static_assert(sizeof(game_machine_options) == 0x128);
 #pragma pack(pop)
@@ -216,7 +216,7 @@ static_assert(sizeof(game_player_options) == 0x1640);
 
 struct s_tracking_object
 {
-	uint8 __data[0x4];
+	byte __data[0x4];
 	int32 object_index;
 	int32 __time8;
 };
@@ -246,7 +246,7 @@ struct multiplayer_player_info
 	int8 with_unit_timer;
 	bool was_crouched;
 	bool is_crouched;
-	uint8 pad;
+	byte pad;
 	int16 player_display_count;
 	int16 remaining_lives;
 	int32 last_betrayer_player_index;
@@ -258,7 +258,7 @@ struct multiplayer_player_info
 	struct
 	{
 		bool player_locked_for_manipulation;
-		bool pad[3];
+		bool pad[0x3];
 		real_vector2d roll_distance_amount;
 		real_vector2d yaw_pitch_angles;
 	} map_editor_data;
@@ -292,7 +292,7 @@ struct s_player_shot_info
 {
 	int16 shot_id;
 	s_damage_reporting_info damage_reporting_info;
-	uint16 pad;
+	uns16 pad;
 	int32 game_time;
 };
 static_assert(sizeof(s_player_shot_info) == 0xC);
@@ -342,7 +342,7 @@ struct player_datum :
 	s_datum_header
 {
 	int16 __unknown2;
-	uint32 flags;
+	uns32 flags;
 	s_player_identifier player_identifier;
 	int32 left_game_time;
 	s_machine_identifier machine_identifier;
@@ -354,36 +354,36 @@ struct player_datum :
 	int32 unit_index;
 	int32 dead_unit_index;
 	int32 failed_teleport_unit_index;
-	uint32 latched_control_flags;
+	uns32 latched_control_flags;
 
 	struct // ---------- cooldown_reset ----------
 	{
 		// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
 		// if `player->cooldown_reset_unknown40 == 0` do something with equipment
 		// gameplay_modifier: `cooldown_reset` related
-		uint16 cooldown_reset_unknown40;
-		uint16 cooldown_reset_unknown42;
-		uint16 cooldown_reset_unknown44;
+		uns16 cooldown_reset_unknown40;
+		uns16 cooldown_reset_unknown42;
+		uns16 cooldown_reset_unknown44;
 	};
 
-	uint16 latched_action_flags;
-	uint8 outside_of_world_timer;
-	uint8 next_spawn_control_context;
+	uns16 latched_action_flags;
+	uns8 outside_of_world_timer;
+	uns8 next_spawn_control_context;
 
 	int32 armor_loadout_index;
 	int32 weapon_loadout_index;
 
 	// used in `players_update_after_game`
-	uint8 melee_recovery_ticks;
-	uint8 melee_soft_recovery_ticks;
-	uint8 grenade_suppression_timer;
+	uns8 melee_recovery_ticks;
+	uns8 melee_soft_recovery_ticks;
+	uns8 grenade_suppression_timer;
 
 	bool sprinting;
 	bool crouching;
 	bool shooting_left;
 	bool shooting_right; // $TODO: confirmed this by checking it in ED??
-	uint8 __unknown5B;
-	uint16 magnification_level; // zoom
+	uns8 __unknown5B;
+	uns16 magnification_level; // zoom
 
 	struct // momentum
 	{
@@ -391,8 +391,8 @@ struct player_datum :
 
 		bool __unknown5E; // something todo with `shooting`
 		bool __unknown5F; // something todo with `magnification_level`
-		uint16 __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
-		uint16 __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
+		uns16 __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
+		uns16 __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
 	};
 
 	real_vector3d position;
@@ -406,7 +406,7 @@ struct player_datum :
 		bool early_respawn_requested;
 		bool respawn_in_progress;
 		bool respawn_forced; // if true respawn instantaneously
-		uint8 __unknown2CB7;
+		uns8 __unknown2CB7;
 		int32 respawn_timer;
 		int32 respawn_timer_countdown;
 		int32 respawn_penalty;
@@ -446,7 +446,7 @@ struct player_datum :
 
 	int16 recently_spawned_timer;
 	bool recently_spawned_timer_is_initial_spawn;
-	uint8 respawn_failure_reason;
+	uns8 respawn_failure_reason;
 
 	struct // tank_mode
 	{
@@ -476,7 +476,7 @@ struct player_datum :
 	// used in `sub_536FD0`
 	bool grenade_scavenger_modifier_used; // gameplay_modifier: `grenade_scavenger`
 
-	uint8 __data2D91[0x3];
+	byte __data2D91[0x3];
 
 	// `players_reset`
 	multiplayer_player_info multiplayer;
@@ -508,21 +508,21 @@ struct player_datum :
 	bool revenge_shield_boost_unknown2E24;
 
 	// pad?
-	uint8 __data2E25[3];
+	byte __data2E25[0x3];
 
-	uint8 __data2E28[0x2];
+	byte __data2E28[0x2];
 
 	// used in `player_died`, struct?
 	// `respawn_weapon_definition_indices`?
 	// `respawn_equipment_definition_index`?
 	// `respawn_grenades_additional`?
 	// `desired_respawn_transform_valid`?
-	// *(uint64*)__data2E2A = 0i64;
-	// *(uint64*)&__data2E2A[0x8] = 0i64;
-	// *(uint32*)&__data2E2A[0x10] = 0;
-	// *(uint32*)&__data2E2A[0x16] = -1;
-	// *(uint32*)&__data2E2A[0x1A] = 0;
-	uint8 __data2E2A[0x1E];
+	// *(uns64*)__data2E2A = 0i64;
+	// *(uns64*)&__data2E2A[0x8] = 0i64;
+	// *(uns32*)&__data2E2A[0x10] = 0;
+	// *(uns32*)&__data2E2A[0x16] = -1;
+	// *(uns32*)&__data2E2A[0x1A] = 0;
+	byte __data2E2A[0x1E];
 
 	struct // assassination info
 	{
@@ -535,7 +535,7 @@ struct player_datum :
 
 	c_static_array<s_player_shot_info, 8> shot_info;
 	int16 spawn_count;
-	uint8 __pad2F06[2];
+	byte __pad2F06[0x2];
 };
 static_assert(sizeof(player_datum) == 0x2F08);
 static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
@@ -665,7 +665,7 @@ struct players_global_data
 	bool weapon_pickup_inhibited;
 	bool sprint_inhibited;
 	bool equipment_use_inhibited;
-	uint32 machine_valid_mask;
+	uns32 machine_valid_mask;
 	s_machine_identifier machine_identifiers[k_maximum_machines];
 	bool local_machine_exists;
 	__declspec(align(1)) s_machine_identifier local_machine_identifier;
@@ -680,12 +680,12 @@ struct players_global_data
 	int16 zone_set_switch_check_recursive_ticks;
 	int32 zone_set_switch_player_index;
 	int32 zone_set_switch_previous_zone_set_index;
-	uint32 disabled_zone_set_switch_trigger_volume_flags[32];
-	uint16 terminal_completed_flags;
-	uint16 terminal_accessed_flags;
+	uns32 disabled_zone_set_switch_trigger_volume_flags[32];
+	uns16 terminal_completed_flags;
+	uns16 terminal_accessed_flags;
 	bool terminal_being_read;
-	uint32 combined_pvs[8];
-	uint32 combined_pvs_local[8];
+	uns32 combined_pvs[8];
+	uns32 combined_pvs_local[8];
 };
 static_assert(sizeof(players_global_data) == 0x234);
 static_assert(0x000 == OFFSETOF(players_global_data, players_in_game_count));
@@ -760,16 +760,16 @@ extern void __cdecl player_delete(int32 player_index);
 extern bool __cdecl player_evaluate_interaction(int32 player_index, s_player_interaction const* interaction, s_player_interaction* current_interaction);
 extern void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context);
 extern int32 __cdecl player_index_from_unit_index(int32 unit_index);
-extern bool __cdecl player_interaction_exists(int32 player_index, uint32 object_mask, s_player_interaction const* interaction);
+extern bool __cdecl player_interaction_exists(int32 player_index, uns32 object_mask, s_player_interaction const* interaction);
 extern bool __cdecl player_is_local(int32 player_index);
 extern bool __cdecl player_is_reading_terminal();
 extern int32 __cdecl player_new(int32 player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_positions_dispose();
 extern void __cdecl player_positions_dispose_from_old_map();
-extern void __cdecl player_positions_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl player_positions_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl player_positions_initialize();
 extern void __cdecl player_positions_initialize_for_new_map();
-extern void __cdecl player_positions_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl player_set_facing(int32 player_index, real_vector3d const* facing);
 extern void __cdecl player_set_unit_index(int32 player_index, int32 unit_index);
 extern bool __cdecl player_spawn(int32 player_index, real_point3d const* position, real32 const* facing);
@@ -786,16 +786,16 @@ extern bool __cdecl players_any_are_near_death(int32* out_unit_index);
 extern void __cdecl players_detach_from_map();
 extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();
-extern void __cdecl players_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl players_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl players_finish_creation();
 extern int32 __cdecl players_get_active_and_in_game_count(bool include_joined_in_progress_players);
 extern void __cdecl players_handle_deleted_player_internal(int32 player_index);
 extern void __cdecl players_initialize();
 extern void __cdecl players_initialize_for_new_map();
-extern void __cdecl players_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl players_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl players_rebuild_user_mapping(bool force_rebuild);
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
-extern void __cdecl players_set_machines(uint32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
+extern void __cdecl players_set_machines(uns32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
 extern void __cdecl players_verify();
 extern void __cdecl players_update_after_game(struct simulation_update const* update);
 extern void __cdecl players_update_before_game(struct simulation_update const* update);

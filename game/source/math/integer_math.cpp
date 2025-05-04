@@ -4,62 +4,62 @@
 
 #include <intrin.h>
 
-//.text:0052DD80 ; uint32 __cdecl count_bits<int32>(int32)
+//.text:0052DD80 ; uns32 __cdecl count_bits<int32>(int32)
 //.text:0052DDE0 ; public: __cdecl c_bit_range::c_bit_range(int32, int32, int32)
 //.text:0052DE10 ; 
 
-bool __cdecl bit_vector_and(int32 count, uint32 const* v0, uint32 const* v1, uint32* result)
+bool __cdecl bit_vector_and(int32 count, uns32 const* v0, uns32 const* v1, uns32* result)
 {
 	return INVOKE(0x0052DF40, bit_vector_and, count, v0, v1, result);
 }
 
-int32 __cdecl bit_vector_count_bits(uint32 const* vector, int32 count)
+int32 __cdecl bit_vector_count_bits(uns32 const* vector, int32 count)
 {
 	return INVOKE(0x0052DFA0, bit_vector_count_bits, vector, count);
 }
 
-int32 __cdecl bit_vector_highest_bit_set(uint32 const* vector, int32 count)
+int32 __cdecl bit_vector_highest_bit_set(uns32 const* vector, int32 count)
 {
 	return INVOKE(0x0052E1E0, bit_vector_highest_bit_set, vector, count);
 }
 
-int32 __cdecl bit_vector_lowest_bit_set(uint32 const* vector, int32 count)
+int32 __cdecl bit_vector_lowest_bit_set(uns32 const* vector, int32 count)
 {
 	return INVOKE(0x0052E280, bit_vector_lowest_bit_set, vector, count);
 }
 
-void __cdecl bit_vector_not(int32 count, uint32 const* vector, uint32* result)
+void __cdecl bit_vector_not(int32 count, uns32 const* vector, uns32* result)
 {
 	INVOKE(0x0052E330, bit_vector_not, count, vector, result);
 }
 
 //.text:0052E360 ; 
 
-void __cdecl bit_vector_or(int32 count, uint32 const* v0, uint32 const* v1, uint32* result)
+void __cdecl bit_vector_or(int32 count, uns32 const* v0, uns32 const* v1, uns32* result)
 {
 	INVOKE(0x0052E3A0, bit_vector_or, count, v0, v1, result);
 }
 
 //.text:0052E3E0 ; 
-//.text:0052E4A0 ; int16 __cdecl ceiling_log2(uint32)
+//.text:0052E4A0 ; int16 __cdecl ceiling_log2(uns32)
 
-int32 highest_bit_set(uint32 mask)
+int32 highest_bit_set(uns32 mask)
 {
 	if (mask == 0)
 		return NONE;
 
-	uint32 index;
+	uns32 index;
 	_BitScanReverse(&index, mask);
 
 	return static_cast<int32>(index);
 }
 
-int32 lowest_bit_set(uint32 mask)
+int32 lowest_bit_set(uns32 mask)
 {
 	if (mask == 0)
 		return NONE;
 
-	uint32 index;
+	uns32 index;
 	_BitScanForward(&index, mask);
 
 	return static_cast<int32>(index);

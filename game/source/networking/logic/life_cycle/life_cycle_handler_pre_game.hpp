@@ -17,9 +17,9 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	uint32 m_time;
+	uns32 m_time;
 	int32 m_countdown_timer;
-	uint8 __data[0x8];
+	byte __data[0x8];
 };
 static_assert(sizeof(c_life_cycle_state_handler_pre_game) == 0x38);
 

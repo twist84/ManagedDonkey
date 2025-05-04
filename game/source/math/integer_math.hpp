@@ -109,13 +109,13 @@ union rgb_color
 {
 	struct
 	{
-		uint8 : 8;
-		uint8 red;
-		uint8 green;
-		uint8 blue;
+		uns8 : 8;
+		uns8 red;
+		uns8 green;
+		uns8 blue;
 	};
-	uint8 n[4];
-	uint32 value;
+	uns8 n[4];
+	uns32 value;
 };
 static_assert(sizeof(rgb_color) == 0x4);
 
@@ -123,25 +123,25 @@ union argb_color
 {
 	struct
 	{
-		uint8 alpha;
-		uint8 red;
-		uint8 green;
-		uint8 blue;
+		uns8 alpha;
+		uns8 red;
+		uns8 green;
+		uns8 blue;
 	};
-	uint8 n[4];
-	uint32 value;
+	uns8 n[4];
+	uns32 value;
 };
 static_assert(sizeof(argb_color) == 0x4);
 
-extern bool __cdecl bit_vector_and(int32 count, uint32 const* v0, uint32 const* v1, uint32* result);
-extern int32 __cdecl bit_vector_count_bits(uint32 const* vector, int32 count);
-extern int32 __cdecl bit_vector_highest_bit_set(uint32 const* vector, int32 count);
-extern int32 __cdecl bit_vector_lowest_bit_set(uint32 const* vector, int32 count);
-extern void __cdecl bit_vector_not(int32 count, uint32 const* vector, uint32* result);
-extern void __cdecl bit_vector_or(int32 count, uint32 const* v0, uint32 const* v1, uint32* result);
+extern bool __cdecl bit_vector_and(int32 count, uns32 const* v0, uns32 const* v1, uns32* result);
+extern int32 __cdecl bit_vector_count_bits(uns32 const* vector, int32 count);
+extern int32 __cdecl bit_vector_highest_bit_set(uns32 const* vector, int32 count);
+extern int32 __cdecl bit_vector_lowest_bit_set(uns32 const* vector, int32 count);
+extern void __cdecl bit_vector_not(int32 count, uns32 const* vector, uns32* result);
+extern void __cdecl bit_vector_or(int32 count, uns32 const* v0, uns32 const* v1, uns32* result);
 
-extern int32 highest_bit_set(uint32 mask);
-extern int32 lowest_bit_set(uint32 mask);
+extern int32 highest_bit_set(uns32 mask);
+extern int32 lowest_bit_set(uns32 mask);
 extern rectangle2d* set_rectangle2d(rectangle2d* rect, int16 y0, int16 x0, int16 y1, int16 x1);
 extern point2d* set_point2d(point2d* point, int16 x, int16 y);
 

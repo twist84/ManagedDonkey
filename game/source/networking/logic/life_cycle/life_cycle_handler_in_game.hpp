@@ -9,11 +9,11 @@ struct c_life_cycle_state_handler_in_game :
 public:
 	
 //protected:
-	uint8 m_flags;
+	uns8 m_flags;
 	bool m_handled_simulation_abort;
 	int32 m_time;
-	uint32 m_simulation_aborted_timestamp;
-	uint64 m_game_instance;
+	uns32 m_simulation_aborted_timestamp;
+	uns64 m_game_instance;
 };
 static_assert(sizeof(c_life_cycle_state_handler_in_game) == 0x40);
 

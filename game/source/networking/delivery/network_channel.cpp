@@ -104,14 +104,14 @@ bool c_network_channel::get_remote_address(transport_address* address) const
 	return false;
 }
 
-uint32 c_network_channel::get_remote_identifier() const
+uns32 c_network_channel::get_remote_identifier() const
 {
 	//return INVOKE_CLASS_MEMBER(0x004465C0, c_network_channel, get_remote_identifier);
 
 	return m_remote_channel_identifier;
 }
 
-uint32 c_network_channel::get_identifier() const
+uns32 c_network_channel::get_identifier() const
 {
 	return m_channel_identifier;
 }
@@ -191,7 +191,7 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 //.text:0045FBB0 ; void c_network_channel::deallocate()
 //.text:0045FC00 ; void c_network_channel::detach_simulation(c_network_channel_simulation_interface*)
 
-void c_network_channel::establish(uint32 remote_channel_identifier)
+void c_network_channel::establish(uns32 remote_channel_identifier)
 {
 	INVOKE_CLASS_MEMBER(0x0045FC20, c_network_channel, establish, remote_channel_identifier);
 }

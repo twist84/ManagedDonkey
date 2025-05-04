@@ -13,11 +13,11 @@ struct s_sound_listener
 {
 	tag header_signature;
 	s_location location;
-	uint8 __data6[0x2];
+	byte __data6[0x2];
 	bool valid;
 	bool __unknown9; // underwater?
-	uint8 __unknownA;
-	uint8 __unknownB;
+	uns8 __unknownA;
+	uns8 __unknownB;
 	real_matrix4x3 matrix;
 	real_vector3d velocity;
 	tag footer_signature;
@@ -44,7 +44,7 @@ static_assert(sizeof(s_sound_manager_reverb) == 0x1C);
 
 struct s_platform_sound_status
 {
-	uint8 __data0[0x60];
+	byte __data0[0x60];
 };
 static_assert(sizeof(s_platform_sound_status) == 0x60);
 
@@ -59,21 +59,21 @@ struct s_sound_manager_globals
 	bool __unknown99;
 	bool game_active;
 
-	uint8 pause_state;
+	uns8 pause_state;
 	bool idling;
 	bool recursion_lock;
 
-	uint8 __unknown9E;
-	uint8 __unknown9F;
-	uint8 __unknownA0;
+	uns8 __unknown9E;
+	uns8 __unknown9F;
+	uns8 __unknownA0;
 
-	uint32 system_time;
-	uint32 render_time;
+	uns32 system_time;
+	uns32 render_time;
 
 	c_static_array<s_sound_listener, k_number_of_sound_manager_listeners> listeners;
 
-	uint8 __data1EC[0x40];
-	uint8 __data22C[0x4];
+	byte __data1EC[0x40];
+	byte __data22C[0x4];
 
 	c_static_array<s_sound_manager_reverb, 2> manager_reverbs;
 
@@ -110,7 +110,7 @@ static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
 
 struct s_sound_channel_properties
 {
-	uint8 __data[0x4B8];
+	byte __data[0x4B8];
 };
 static_assert(sizeof(s_sound_channel_properties) == 0x4B8);
 
@@ -125,12 +125,12 @@ extern real32 sound_definition_map_pitch(void const* sound_definition, real32 a1
 extern void __cdecl sound_delete(int32 sound_index);
 extern void __cdecl sound_dispose();
 extern void __cdecl sound_dispose_from_old_map();
-extern void __cdecl sound_dispose_from_old_structure_bsp(uint32 structure_bps_mask);
+extern void __cdecl sound_dispose_from_old_structure_bsp(uns32 structure_bps_mask);
 extern void __cdecl sound_game_pause_handler(bool paused);
 extern void __cdecl sound_idle();
 extern void __cdecl sound_initialize();
 extern void __cdecl sound_initialize_for_new_map();
-extern void __cdecl sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern bool __cdecl sound_is_active();
 extern bool __cdecl sound_is_fading_out(int32 sound_index);
 extern s_sound_listener const* __cdecl sound_manager_get_listener(int32 listener_index);

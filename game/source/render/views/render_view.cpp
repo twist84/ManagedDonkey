@@ -35,7 +35,7 @@ REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_playe
 
 REFERENCE_DECLARE(0x019180B8, int32, c_lights_view::g_gel_bitmap_index);
 REFERENCE_DECLARE(0x019180BC, real32, c_lights_view::g_render_light_intensity);
-REFERENCE_DECLARE(0x019180C0, uint32, c_lights_view::g_debug_clip_planes);
+REFERENCE_DECLARE(0x019180C0, uns32, c_lights_view::g_debug_clip_planes);
 
 REFERENCE_DECLARE(0x01913434, real32, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real32, c_first_person_view::m_z_far_scale);
@@ -245,8 +245,8 @@ void __thiscall c_first_person_view::render_albedo(int32 user_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00A290F0, c_first_person_view, render_albedo, user_index);
 
-	constexpr uint32 k_first_person_squished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_squished_bit);
-	constexpr uint32 k_first_person_unsquished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_unsquished_bit);
+	constexpr uns32 k_first_person_squished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_squished_bit);
+	constexpr uns32 k_first_person_unsquished_flags = FLAG(_render_object_mesh_part_cancel_shadows_for_first_person_albedo) | FLAG(_render_object_mesh_part_first_person_unsquished_bit);
 
 	c_view::sub_A28A90();
 	c_object_renderer::render_albedo(k_first_person_squished_flags);

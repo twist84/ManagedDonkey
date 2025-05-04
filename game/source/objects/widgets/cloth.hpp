@@ -20,14 +20,14 @@ static_assert(sizeof(cloth_vertex_attachment) == 0x4);
 struct cloth_datum :
 	s_datum_header
 {
-	uint16 pad;
+	uns16 pad;
 	int32 definition_index;
 	int32 object_index;
 	real32 time_accumulator;
 	real_point3d last_attached_object_position;
 	real32 object_velocity;
 	cloth_vertex dynamic_vertices[121];
-	uint32 attached_bit_vector[4];
+	uns32 attached_bit_vector[4];
 	cloth_vertex_attachment attachments[6];
 	int16 attachment_count;
 	c_static_array<int16, 1210> attached_links;

@@ -67,7 +67,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 	bool invalid_header = false;
 	for (int32 i = 0; i < header_chars[i]; i++)
 	{
-		if (static_cast<uint8>(packet->read_integer("header_char", 8)) != static_cast<uint8>(header_chars[i]))
+		if (static_cast<uns8>(packet->read_integer("header_char", 8)) != static_cast<uns8>(header_chars[i]))
 			invalid_header = true;
 	}
 
@@ -105,7 +105,7 @@ bool c_network_message_gateway::receive_out_of_band_packet(transport_address con
 
 	e_network_message_type message_type;
 	int32 message_storage_size = 0;
-	uint8 message_storage[0x40000]{};
+	byte message_storage[0x40000]{};
 
 	packet->data_is_untrusted(true);
 	packet->begin_reading();
@@ -145,7 +145,7 @@ bool c_network_message_gateway::receive_out_of_band_packet(transport_address con
 		result = false;
 
 		int32 data_length = 0;
-		uint8 const* data = packet->get_data(&data_length);
+		uns8 const* data = packet->get_data(&data_length);
 		c_static_string<256> data_string;
 
 		// added by us
@@ -205,7 +205,7 @@ void c_network_message_gateway::send_all_pending_messages()
 
 			e_network_message_type message_type;
 			int32 message_storage_size = 0;
-			uint8 message_storage[0x40000]{};
+			byte message_storage[0x40000]{};
 
 			while (m_outgoing_packet.read_bool("has_message"))
 			{
@@ -232,7 +232,7 @@ void c_network_message_gateway::send_all_pending_messages()
 	ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
 }
 
-bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, int32 data_size, void const* data, uint16 port)
+bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, int32 data_size, void const* data, uns16 port)
 {
 	//return INVOKE_CLASS_MEMBER(0x00484080, c_network_message_gateway, send_message_broadcast, message_type, data_size, data, port);
 

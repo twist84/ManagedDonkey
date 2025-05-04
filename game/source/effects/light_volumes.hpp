@@ -26,7 +26,7 @@ struct c_light_volume :
 	real32 m_offset;
 	real32 m_profile_density;
 	real32 m_profile_length;
-	uint32 m_random_seed_starter;
+	uns32 m_random_seed_starter;
 	real32 m_random_seed[2];
 };
 static_assert(sizeof(c_light_volume) == 0x34);
@@ -38,14 +38,14 @@ public:
 	static void __cdecl submit_all(int32 user_index, e_effect_pass effect_pass);
 
 	int32 m_effect_index;
-	uint8 m_event_block_index;
-	uint8 m_priority;
-	uint16 m_event_counter;
+	uns8 m_event_block_index;
+	uns8 m_priority;
+	uns16 m_event_counter;
 	int32 m_part_block_index;
 	int32 m_definition_index;
 	int32 m_first_location_index;
-	uint16 m_flags;
-	uint8 m_camera_mode;
+	uns16 m_flags;
+	uns8 m_camera_mode;
 	int8 m_first_person_user_mask;
 	real32 m_age;
 	real32 m_effect_scale_a;

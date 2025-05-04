@@ -6,7 +6,7 @@ struct s_damage_owner
 {
 	int32 player_index;
 	int32 object_index;
-	uint8 team;
+	uns8 team;
 };
 static_assert(sizeof(s_damage_owner) == 0xC);
 

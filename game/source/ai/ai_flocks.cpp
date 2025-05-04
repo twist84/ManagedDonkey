@@ -59,7 +59,7 @@ void __cdecl flocks_initialize_for_new_map()
 	INVOKE(0x014C3D50, flocks_initialize_for_new_map);
 }
 
-void __cdecl flocks_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl flocks_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x014C3D70, flocks_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

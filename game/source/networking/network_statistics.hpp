@@ -16,9 +16,9 @@ public:
 	};
 	static_assert(sizeof(s_statistics_interval) == 0x8);
 
-	uint64 m_total_events;
-	uint64 m_total_values;
-	uint32 m_current_interval_start_timestamp;
+	uns64 m_total_events;
+	uns64 m_total_values;
+	uns32 m_current_interval_start_timestamp;
 	s_statistics_interval m_current_interval;
 	int32 m_period_duration_msec;
 	int32 m_interval_duration_msec;
@@ -38,7 +38,7 @@ public:
 
 	struct s_statistics_window_entry
 	{
-		uint32 timestamp;
+		uns32 timestamp;
 		int32 value;
 	};
 	static_assert(sizeof(s_statistics_window_entry) == 0x8);

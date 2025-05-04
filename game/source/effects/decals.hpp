@@ -11,16 +11,16 @@ struct c_decal_system :
 	s_datum_header
 {
 public:
-	static void __cdecl prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask);
+	static void __cdecl prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
 	static void __cdecl initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 	static void __cdecl dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* activating_non_bsp_zone_set);
 	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 	static void __cdecl prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	static void __cdecl submit_all();
 
@@ -36,10 +36,10 @@ static_assert(sizeof(c_decal_system) == 0x50);
 
 struct s_decal_counts
 {
-	uint32 m_decal_system_count;
-	uint32 m_decal_count;
-	uint32 m_vertex_count;
-	uint32 m_index_count;
+	uns32 m_decal_system_count;
+	uns32 m_decal_count;
+	uns32 m_vertex_count;
+	uns32 m_index_count;
 };
 static_assert(sizeof(s_decal_counts) == 0x10);
 
@@ -55,9 +55,9 @@ public:
 	int32 m_next_sibling_index;
 	int32 m_vertex_allocation_index;
 	int32 m_index_allocation_index;
-	uint8 __data18[0xC];
-	uint16 m_vertex_count;
-	uint16 m_index_count;
+	byte __data18[0xC];
+	uns16 m_vertex_count;
+	uns16 m_index_count;
 	int32 m_flags;
 	real32 m_age;
 	real32 m_lifespan;

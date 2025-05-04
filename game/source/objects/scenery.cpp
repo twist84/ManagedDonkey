@@ -26,7 +26,7 @@
 //.text:00BB8DD0 ; bool __cdecl scenery_new(int32, object_placement_data*, bool*)
 //.text:00BB8E90 ; int16 __cdecl scenery_pathfinding_policy(int32, s_scenario_scenery*)
 //.text:00BB8F00 ; void __cdecl scenery_place(int32, s_scenario_scenery*)
-//.text:00BB8F90 ; bool __cdecl scenery_play_animation_id(int32, c_animation_id, uint32, int32)
+//.text:00BB8F90 ; bool __cdecl scenery_play_animation_id(int32, c_animation_id, uns32, int32)
 //.text:00BB90F0 ; void __cdecl scenery_preprocess_root_node_matrix(int32, real_matrix4x3*)
 //.text:00BB9170 ; void __cdecl scenery_render_debug(int32)
 //.text:00BB9180 ; bool __cdecl scenery_update(int32)

@@ -5,34 +5,34 @@
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
-//.text:005FB160 ; bool __cdecl flags_are_subset_of(uint32, uint32)
+//.text:005FB160 ; bool __cdecl flags_are_subset_of(uns32, uns32)
 
-uint32 __cdecl scenario_zone_set_bsp_active_mask_get(int32 zone_set_index)
+uns32 __cdecl scenario_zone_set_bsp_active_mask_get(int32 zone_set_index)
 {
 	return INVOKE(0x005FB180, scenario_zone_set_bsp_active_mask_get, zone_set_index);
 }
 
-uint32 __cdecl scenario_zone_set_cinematic_zone_required_mask_get(int32 zone_set_index)
+uns32 __cdecl scenario_zone_set_cinematic_zone_required_mask_get(int32 zone_set_index)
 {
 	return INVOKE(0x005FB1A0, scenario_zone_set_cinematic_zone_required_mask_get, zone_set_index);
 }
 
-uint32 __cdecl scenario_zone_set_compute_new_designer_zone_mask(uint32 a1, uint32 a2, uint32 a3)
+uns32 __cdecl scenario_zone_set_compute_new_designer_zone_mask(uns32 a1, uns32 a2, uns32 a3)
 {
 	return INVOKE(0x005FB1C0, scenario_zone_set_compute_new_designer_zone_mask, a1, a2, a3);
 }
 
-uint32 __cdecl scenario_zone_set_designer_zone_forbidden_mask_get(int32 zone_set_index)
+uns32 __cdecl scenario_zone_set_designer_zone_forbidden_mask_get(int32 zone_set_index)
 {
 	return INVOKE(0x005FB210, scenario_zone_set_designer_zone_forbidden_mask_get, zone_set_index);
 }
 
-uint32 __cdecl scenario_zone_set_designer_zone_required_mask_get(int32 zone_set_index)
+uns32 __cdecl scenario_zone_set_designer_zone_required_mask_get(int32 zone_set_index)
 {
 	return INVOKE(0x005FB240, scenario_zone_set_designer_zone_required_mask_get, zone_set_index);
 }
 
-//.text:005FB290 ; uint32 __cdecl scenario_zone_set_get_valid_designer_zones(int32, uint32)
+//.text:005FB290 ; uns32 __cdecl scenario_zone_set_get_valid_designer_zones(int32, uns32)
 //.text:005FB2D0 ; bool __cdecl scenario_zone_set_switch_loads_anything(s_scenario_game_state const*, int32)
 
 char const* scenario_get_designer_zone_name(struct scenario* scenario, int32 designer_zone_index)

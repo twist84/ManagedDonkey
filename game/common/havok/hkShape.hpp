@@ -71,7 +71,7 @@ struct hkTriangleShape :
 	public hkConvexShape
 {
 public:
-	uint16 m_welding_info;
+	uns16 m_welding_info;
 	unsigned char m_welding_type;
 	unsigned char m_is_extruded;
 	hkVector4 m_vertices[3];

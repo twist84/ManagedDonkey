@@ -4,7 +4,7 @@
 
 struct s_player_effect_globals
 {
-	uint8 __data[0x3A0];
+	byte __data[0x3A0];
 };
 static_assert(sizeof(s_player_effect_globals) == 0x3A0);
 

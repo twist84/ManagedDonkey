@@ -31,8 +31,8 @@ struct s_animation_graph_node
 	int16 next_sibling_node_index;
 	int16 first_child_node_index;
 	int16 parent_node_index;
-	c_flags<e_animation_node_model_flags, uint8, k_animation_node_model_flags> model_flags;
-	c_flags<e_node_joint_flags, uint8, k_node_joint_flags> node_joint_flags;
+	c_flags<e_animation_node_model_flags, uns8, k_animation_node_model_flags> model_flags;
+	c_flags<e_node_joint_flags, uns8, k_node_joint_flags> node_joint_flags;
 	real_vector3d base_vector;
 	real32 vector_range;
 	real32 z_pos;
@@ -54,8 +54,8 @@ struct c_animation_graph_definitions
 	// GRAPH DATA
 
 	s_tag_reference parent_animation_graph;
-	uint8 inheritance_flags;
-	uint8 private_flags;
+	uns8 inheritance_flags;
+	uns8 private_flags;
 	int16 animation_codec_pack;
 	c_typed_tag_block<s_animation_graph_node> skeleton_nodes;
 	s_tag_block sound_references;
@@ -104,10 +104,10 @@ static_assert(sizeof(c_model_animation_tag_resource_group) == 0xC);
 struct c_model_animation_tag_resource_member
 {
 	int32 UNUSED_animation_index;
-	uint32 production_checksum;
+	uns32 production_checksum;
 	int16 frame_count;
-	uint8 node_count;
-	uint8 movement_data_type;
+	uns8 node_count;
+	uns8 movement_data_type;
 	c_animation_data_sizes data_sizes;
 	s_tag_data animation_tag_data;
 };
@@ -118,20 +118,20 @@ struct c_model_animation
 	c_string_id name;
 	real32 weight;
 	int16 private_loop_frame_index;
-	uint16 playback_flags;
+	uns16 playback_flags;
 	int8 blend_screen_index;
 	int8 desired_compression_setting;
 	int8 current_compression_setting;
-	uint8 node_count;
+	uns8 node_count;
 	int16 frame_count;
 	int8 animation_type;
 	int8 frame_info_type;
-	uint16 production_flags;
-	uint16 internal_flags;
-	uint32 node_list_checksum;
-	uint32 production_checksum;
-	uint16 importer_version;
-	uint16 compressor_version;
+	uns16 production_flags;
+	uns16 internal_flags;
+	uns32 node_list_checksum;
+	uns32 production_checksum;
+	uns16 importer_version;
+	uns16 compressor_version;
 	int16 runtime_parent_animation_index;
 	int16 next_animation_index;
 	int16 resource_group_index;

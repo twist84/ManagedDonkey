@@ -26,8 +26,8 @@ struct c_animation_manager
 	int32 m_mixing_board_definition_index;
 	int32 m_object_index;
 	int32 m_graph_tag_index;
-	uint16 m_flags;
-	uint16 m_internal_flags;
+	uns16 m_flags;
+	uns16 m_internal_flags;
 	s_animation_goal_settings m_goal_settings;
 	s_animation_goal_settings m_previous_goal;
 	real_vector3d m_transition_delta;

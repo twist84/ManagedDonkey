@@ -630,7 +630,7 @@ void network_test_set_game_variant_parameter(char const* parameter_name, int32 v
 
 void network_test_ping()
 {
-	static uint16 id = 0;
+	static uns16 id = 0;
 	if (network_initialized())
 	{
 		s_network_message_ping ping =
@@ -641,7 +641,7 @@ void network_test_ping()
 		};
 
 		event(_event_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
-		for (uint16 broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+		for (uns16 broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			g_network_message_gateway->send_message_broadcast(_network_message_ping, sizeof(s_network_message_ping), &ping, broadcast_port);
 	}
 	else
@@ -666,7 +666,7 @@ void network_test_reset_objects()
 
 void network_test_ping_directed(transport_address const* address)
 {
-	static uint16 id = 0;
+	static uns16 id = 0;
 	if (network_initialized())
 	{
 		s_network_message_ping ping =
@@ -695,7 +695,7 @@ void network_test_text_chat(char const* text)
 		text_chat.payload.destination_player_count = 16;
 		text_chat.payload.text.print(L"%hs", text);
 
-		for (uint16 broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+		for (uns16 broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			g_network_message_gateway->send_message_broadcast(_custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat, broadcast_port);
 	}
 	else
@@ -734,7 +734,7 @@ void network_test_set_player_color(int32 profile_color_index)
 	{
 		e_controller_index controller_index = _controller0;
 		s_player_configuration player_data{};
-		uint32 player_voice_settings = 0;
+		uns32 player_voice_settings = 0;
 
 		if (network_session_interface_get_local_user_properties(user_index, &controller_index, &player_data, &player_voice_settings))
 		{

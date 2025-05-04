@@ -30,7 +30,7 @@ struct s_network_shared_memory_globals
 	int32 heap_size;
 	c_fixed_memory_rockall_heap* heap;
 	void* heap_buffer;
-	uint32 : 32;
+	uns32 : 32;
 
 	// non-release builds only
 	//s_network_memory_status total_status;
@@ -42,7 +42,7 @@ struct s_network_base_memory_globals
 {
 	c_network_link link;
 	//c_network_message_type_collection message_types;
-	uint8 message_types[0x57C];
+	byte message_types[0x57C];
 	c_network_message_gateway message_gateway;
 	c_network_message_handler message_handler;
 	c_network_observer observer;
@@ -55,14 +55,14 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
-uint16 const k_broadcast_port = 11774; // port 1001 outside of Halo Online
+uns16 const k_broadcast_port = 11774; // port 1001 outside of Halo Online
 
 // the maximum number of ports to try when the broadcast port is already in use
-uint16 const k_broadcast_port_alt_ammount = 1000; // needs a better name
+uns16 const k_broadcast_port_alt_ammount = 1000; // needs a better name
 
 extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
-extern uint16& g_broadcast_port;
+extern uns16& g_broadcast_port;
 
 extern void* __cdecl network_heap_allocate_block(int32 block_size);
 extern char* __cdecl network_heap_describe(char* buffer, int32 buffer_size);

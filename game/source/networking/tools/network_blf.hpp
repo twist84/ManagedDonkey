@@ -35,11 +35,11 @@ public:
 
 	// BOM: https://en.wikipedia.org/wiki/Byte_order_mark
 	// BOM: { UTF-16 (BE): FE FF }
-	uint16 byte_order_mark;
+	uns16 byte_order_mark;
 
 	c_static_string<k_tag_string_length> name;
 
-	uint8 pad[2];
+	byte pad[0x2];
 };
 static_assert(sizeof(s_blf_chunk_start_of_file) == sizeof(s_blf_header) + 0x24);
 
@@ -84,7 +84,7 @@ public:
 
 	void initialize();
 
-	uint32 checksum;
+	uns32 checksum;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
 
@@ -111,7 +111,7 @@ public:
 	s_blf_header header;
 
 	c_static_string<16> build_name;
-	uint64 build_identifier;
+	uns64 build_identifier;
 	c_static_string<28> build_string;
 	c_static_string<16> author_name;
 };
@@ -164,7 +164,7 @@ public:
 	s_blf_chunk_map_variant();
 
 	s_blf_header header;
-	uint8 pad[0x2];
+	byte pad[0x2];
 	c_map_variant map_variant;
 };
 static_assert(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
@@ -189,7 +189,7 @@ public:
 	s_blf_chunk_game_variant game_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
-	uint8 pad[0x3];
+	byte pad[0x3];
 };
 static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
 #pragma pack(pop)
@@ -205,7 +205,7 @@ public:
 	s_blf_chunk_map_variant map_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
-	uint8 pad[0x7];
+	byte pad[0x7];
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
@@ -222,7 +222,7 @@ struct s_blf_saved_film :
 		static int32 const k_version_minor = 1;
 
 		s_blf_header header;
-		uint32 __unknownC; // alignment
+		uns32 __unknownC; // alignment
 
 		// build_string.set(version_get_build_string());
 		c_static_string<k_tag_string_length> build_string;
@@ -239,18 +239,18 @@ struct s_blf_saved_film :
 		int32 map_minor_version;
 
 		// tracked = get_map_minor_version_is_tracked();
-		uint32 tracked;                 // bool
+		uns32 tracked;                 // bool
 
 		// valid_and_authoritative = game_options_valid() && game_is_authoritative();
-		uint32 valid_and_authoritative; // bool
+		uns32 valid_and_authoritative; // bool
 
-		uint32 __unknown4C; // padding
+		uns32 __unknown4C; // padding
 
 		// sessionid.set(netdebug_get_sessionid());
 		c_static_string<128> sessionid;
 
 		// sizeof(game_options) == 0xD300
-		uint8 options[0xD300];
+		byte options[0xD300];
 
 		// start_ticks = system_seconds();
 		int32 start_ticks;
@@ -280,26 +280,26 @@ struct s_blf_saved_film :
 			e_language map_language;
 			int32 map_minor_version;
 			bool map_minor_version_is_tracked;
-			uint8 pad1[0x3];
-			uint32 pad2[2];
+			byte pad1[0x3];
+			uns32 pad2[2];
 			int32 map_signature_size;
-			uint8 map_signature_bytes[0x3C];
+			byte map_signature_bytes[0x3C];
 		};
 		static_assert(sizeof(s_saved_film_build_compatibility) == 0x80);
 
 		s_blf_header header;
-		uint8 pad0[4];
+		byte pad0[4];
 		s_saved_film_build_compatibility build_compatibility;
 		bool is_host_film;
 		bool contains_gamestate;
 		bool is_snippet;
-		uint8 pad3[0x5];
+		byte pad3[0x5];
 		c_static_string<128> session_id;
 		game_options options;
 		int32 recorded_time;
 		int32 length_in_ticks;
 		int32 snippet_start_tick;
-		uint8 padding_to_align_for_utility_drive[0xD80];
+		byte padding_to_align_for_utility_drive[0xD80];
 	};
 	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
 #pragma pack(pop)
@@ -340,13 +340,13 @@ public:
 
 	e_campaign_id campaign_id;
 
-	uint32 type_flags;
+	uns32 type_flags;
 
 	wchar_t names[k_language_count][64];
 	wchar_t descriptions[k_language_count][128];
 	e_map_id map_ids[64];
 
-	uint8 pad[0x4];
+	byte pad[0x4];
 };
 static_assert(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
 
@@ -362,11 +362,11 @@ struct s_scenario_insertion_point_halo3
 {
 	bool visible;
 
-	uint8 flags;
+	uns8 flags;
 
 	int16 zone_set;
 
-	uint8 __pad4[0x4];
+	byte __pad4[0x4];
 
 	wchar_t names[k_language_count][32];
 	wchar_t descriptions[k_language_count][128];
@@ -377,7 +377,7 @@ struct s_scenario_insertion_point_atlas
 {
 	bool visible;
 
-	uint8 flags;
+	uns8 flags;
 
 	int16 zone_set;
 
@@ -385,7 +385,7 @@ struct s_scenario_insertion_point_atlas
 	e_map_id return_from_map_id;
 	int32 survival_presence_context_id;
 
-	uint8 __padC[0x4];
+	byte __padC[0x4];
 
 	wchar_t names[k_language_count][32];
 	wchar_t descriptions[k_language_count][128];
@@ -406,7 +406,7 @@ struct s_blf_chunk_scenario
 
 	e_map_id map_id;
 
-	c_flags<e_level_flags, uint32, k_number_of_level_flags> flags;
+	c_flags<e_level_flags, uns32, k_number_of_level_flags> flags;
 
 	wchar_t name[k_language_count][32];
 	wchar_t description[k_language_count][128];
@@ -424,7 +424,7 @@ struct s_blf_chunk_scenario
 
 	bool allows_saved_films;
 
-	uint8 __pad112A[0x6];
+	byte __pad112A[0x6];
 };
 static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x1124);
 
@@ -469,7 +469,7 @@ public:
 
 	s_blf_header header;
 
-	uint8 type;
+	uns8 type;
 	int32 buffer_size;
 	__pragma(warning(disable : 4200)) char buffer[];
 };
@@ -487,8 +487,8 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, t_blf_chunk
 	*must_byte_swap = false;
 
 	bool file_added = false;
-	uint32 error = 0;
-	uint32 file_size = 0;
+	uns32 error = 0;
+	uns32 file_size = 0;
 	int32 chunk_size = 0;
 	char const* chunk_buffer = nullptr;
 	bool eof_chunk = false;

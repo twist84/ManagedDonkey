@@ -19,7 +19,7 @@ struct _item_definition
 {
 	// $$$ ITEM $$$
 
-	c_flags<e_item_definition_flags, uint32, k_item_definition_flags> flags;
+	c_flags<e_item_definition_flags, uns32, k_item_definition_flags> flags;
 	int16 old_message_index;
 	int16 sort_order;
 	real32 old_multiplayer_on_ground_scale;

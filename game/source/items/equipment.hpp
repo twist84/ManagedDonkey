@@ -5,8 +5,8 @@
 
 struct _equipment_datum
 {
-	uint16 flags;
-	uint8 __pad2[0x2];
+	uns16 flags;
+	byte __pad2[0x2];
 
 	int32 __time4;
 	int32 __time8;
@@ -14,10 +14,10 @@ struct _equipment_datum
 	int8 current_use_count;
 
 	// some ticks
-	uint8 __unknownD;
+	uns8 __unknownD;
 
-	uint8 __unknownE;
-	uint8 __unknownF;
+	uns8 __unknownE;
+	uns8 __unknownF;
 	int32 __unknown10;
 
 	s_damage_owner creator_damage_owner;

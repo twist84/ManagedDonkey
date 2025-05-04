@@ -55,7 +55,7 @@ public:
 
 	c_flags<e_flags, int32, k_number_of_flags> m_flags;
 
-	uint8 unused[0x10];
+	byte unused[0x10];
 };
 static_assert(sizeof(c_flying_camera) == 0x4C);
 

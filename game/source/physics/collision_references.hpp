@@ -42,11 +42,11 @@ public:
 	c_collision_surface_reference();
 	c_collision_surface_reference(c_collision_bsp_reference bsp_reference, int32 index);
 
-	uint8 get_best_plane_calculation_vertex_index() const;
+	uns8 get_best_plane_calculation_vertex_index() const;
 	int32 get_breakable_surface_set_index() const;
 	int32 get_breakable_surface_index() const;
 	int32 get_first_edge_index() const;
-	uint8 get_flags() const;
+	uns8 get_flags() const;
 	int32 get_material_index() const;
 	real_plane3d const* get_plane(real_plane3d* plane) const;
 	real_plane3d const* get_plane(bool* is_negated) const;

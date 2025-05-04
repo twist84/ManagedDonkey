@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 
 enum e_character_data_index;
-enum e_utf32 : uint32;
+enum e_utf32 : uns32;
 struct s_font_header;
 struct s_font_character;
 
@@ -17,9 +17,9 @@ public:
 		int32(__thiscall* character_data_get_hardware_block_index)(c_font_cache_base* _this, e_character_data_index character_data_index);
 		void(__thiscall* character_data_set_hardware_block_index)(c_font_cache_base* _this, e_character_data_index character_data_index, int32 hardware_block_index);
 		void(__thiscall* character_data_hardware_block_touched)(c_font_cache_base* _this, e_character_data_index character_data_index);
-		bool(__thiscall* get_pixels)(c_font_cache_base* _this, uint32 a1, e_character_data_index character_data_index, s_font_character const* font_character, c_static_array<uint16, 16384>* pixels);
+		bool(__thiscall* get_pixels)(c_font_cache_base* _this, uns32 a1, e_character_data_index character_data_index, s_font_character const* font_character, c_static_array<uns16, 16384>* pixels);
 		bool(__thiscall* character_predict)(c_font_cache_base* _this, e_font_id font_id, e_utf32 utf32);
-		bool(__thiscall* character_load)(c_font_cache_base* _this, e_font_id font_id, e_utf32 utf32, bool a3, uint32* a4, e_character_data_index* out_character_data_index, s_font_character const** out_font_character);
+		bool(__thiscall* character_load)(c_font_cache_base* _this, e_font_id font_id, e_utf32 utf32, bool a3, uns32* a4, e_character_data_index* out_character_data_index, s_font_character const** out_font_character);
 	}*__vftable;
 
 	c_font_cache_base();
@@ -39,7 +39,7 @@ public:
 		__vftable->character_data_hardware_block_touched(this, character_data_index);
 	}
 
-	bool get_pixels(uint32 a1, e_character_data_index character_data_index, s_font_character const* font_character, c_static_array<uint16, 16384>* pixels)
+	bool get_pixels(uns32 a1, e_character_data_index character_data_index, s_font_character const* font_character, c_static_array<uns16, 16384>* pixels)
 	{
 		return __vftable->get_pixels(this, a1, character_data_index, font_character, pixels);
 	}
@@ -49,7 +49,7 @@ public:
 		return __vftable->character_predict(this, font_id, character);
 	}
 
-	bool character_load(e_font_id font_id, e_utf32 character, bool a3, uint32* a4, e_character_data_index* out_character_data_index, s_font_character const** out_font_character)
+	bool character_load(e_font_id font_id, e_utf32 character, bool a3, uns32* a4, e_character_data_index* out_character_data_index, s_font_character const** out_font_character)
 	{
 		return __vftable->character_load(this, font_id, character, a3, a4, out_character_data_index, out_font_character);
 	}
@@ -88,5 +88,5 @@ extern void __cdecl font_cache_delete();
 extern void __cdecl font_cache_flush();
 extern void __cdecl font_cache_idle();
 extern void __cdecl font_cache_new();
-extern e_character_status __cdecl font_cache_retrieve_character(uint32 key, c_flags<e_font_cache_flags, uint32, k_font_cache_flag_count> flags, s_font_character const** out_character, void const** out_pixel_data);
+extern e_character_status __cdecl font_cache_retrieve_character(uns32 key, c_flags<e_font_cache_flags, uns32, k_font_cache_flag_count> flags, s_font_character const** out_character, void const** out_pixel_data);
 

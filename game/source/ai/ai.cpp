@@ -5,7 +5,7 @@
 
 //.text:014308D0 ; void __cdecl __tls_set_g_ai_globals_allocator(void*)
 
-int32 __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_mask, uint32* player_mask_out)
+int32 __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_mask, uns32* player_mask_out)
 {
 	return INVOKE(0x014308F0, actor_endangering_player, must_be_attacking, build_player_mask, player_mask_out);
 }
@@ -62,7 +62,7 @@ void __cdecl ai_dispose_from_old_map()
 	}
 }
 
-void __cdecl ai_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl ai_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	//INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
@@ -101,7 +101,7 @@ void __cdecl ai_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp
 	}
 }
 
-bool __cdecl ai_enemies_attacking_players(int32* attacking_object_index, uint32* player_mask_out)
+bool __cdecl ai_enemies_attacking_players(int32* attacking_object_index, uns32* player_mask_out)
 {
 	return INVOKE(0x01431670, ai_enemies_attacking_players, attacking_object_index, player_mask_out);
 
@@ -154,7 +154,7 @@ void __cdecl ai_erase(int32 squad_index, bool delete_immediately)
 	}
 }
 
-//.text:014317D0 ; void __cdecl ai_find_inactive_squads(int32, uint8*, int32)
+//.text:014317D0 ; void __cdecl ai_find_inactive_squads(int32, uns8*, int32)
 //.text:014318F0 ; void __cdecl ai_find_line_of_fire_friend_pills(int32, int32, line_of_fire_pill*)
 //.text:01431B50 ; bool __cdecl ai_find_location(real_point3d const*, s_location*)
 
@@ -170,7 +170,7 @@ void __cdecl ai_flush_spatial_effects()
 
 //.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(int32, int32, line_of_fire_pill*)
 
-bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uint32* activation_bitvector, int32 cluster_count)
+bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uns32* activation_bitvector, int32 cluster_count)
 {
 	return INVOKE(0x01431C90, ai_get_active_clusters, structure_bsp_index, activation_bitvector, cluster_count);
 }
@@ -212,7 +212,7 @@ void __cdecl ai_globals_update()
 
 //.text:01432690 ; void __cdecl ai_handle_ai_point_move(real_point3d const*, c_ai_point3d*)
 //.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team, e_game_team, bool, bool, bool)
-//.text:01432890 ; void __cdecl ai_handle_areas_delete(int16, uint32 const*)
+//.text:01432890 ; void __cdecl ai_handle_areas_delete(int16, uns32 const*)
 
 void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, real_vector3d const* old_velocity)
 {
@@ -236,21 +236,21 @@ void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, real_vector3d
 //.text:014337D0 ; void __cdecl ai_handle_spatial_effect(int32, real_point3d const*, int16, int16, int16)
 //.text:01433A70 ; void __cdecl ai_handle_spawn_point_change(int16, int16)
 //.text:01433A80 ; void __cdecl ai_handle_squad_addition(int32)
-//.text:01433A90 ; void __cdecl ai_handle_squad_deletion(uint32 const*)
+//.text:01433A90 ; void __cdecl ai_handle_squad_deletion(uns32 const*)
 //.text:01433AA0 ; void __cdecl ai_handle_squad_editing()
 //.text:01433AB0 ; void __cdecl ai_handle_squad_group_addition(int32)
-//.text:01433AC0 ; void __cdecl ai_handle_squad_group_deletion(uint32 const*)
+//.text:01433AC0 ; void __cdecl ai_handle_squad_group_deletion(uns32 const*)
 //.text:01433AD0 ; void __cdecl ai_handle_squad_patrol_editing()
 //.text:01433AE0 ; void __cdecl ai_handle_squad_patrol_waypoint_addition(int32, int32, int32)
 //.text:01433B90 ; void __cdecl ai_handle_squad_patrol_waypoint_deletion(int32, int32, int32)
 //.text:01433C80 ; void __cdecl ai_handle_stun(int32, real32, real_vector3d const*)
 //.text:01433CE0 ; void __cdecl ai_handle_tasks_addition(int32)
-//.text:01433CF0 ; void __cdecl ai_handle_tasks_deletion(uint32 const*)
+//.text:01433CF0 ; void __cdecl ai_handle_tasks_deletion(uns32 const*)
 //.text:01433D00 ; void __cdecl ai_handle_unit_effect(int32, e_sound_type, e_ai_sound_volume)
 //.text:01433E40 ; void __cdecl ai_handle_weapon_trade(int32, int32, int32, int32)
 //.text:01433E70 ; void __cdecl ai_handle_well_point_move(int16, int16, real_vector3d const*)
 //.text:01433E80 ; void __cdecl ai_handle_zone_addition(int32)
-//.text:01433E90 ; void __cdecl ai_handle_zone_deletion(uint32 const*)
+//.text:01433E90 ; void __cdecl ai_handle_zone_deletion(uns32 const*)
 
 void __cdecl ai_initialize()
 {
@@ -309,7 +309,7 @@ void __cdecl ai_initialize_for_new_map()
 	ai_verify_tags();
 }
 
-void __cdecl ai_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
@@ -341,8 +341,8 @@ void __cdecl ai_initialize_for_new_structure_bsp(uint32 activating_structure_bsp
 
 //.text:01434150 ; void __cdecl ai_initialize_for_saved_game(int32)
 //.text:01434180 ; void __cdecl ai_place(int32)
-//.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32, uint8*, int32, bool*, char*, int32)
-//.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32, uint8*, int32, bool*, char*, int32)
+//.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32, uns8*, int32, bool*, char*, int32)
+//.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32, uns8*, int32, bool*, char*, int32)
 //.text:014342E0 ; void __cdecl ai_reset()
 //.text:014343B0 ; void* __cdecl ai_scratch_allocate(unsigned int)
 //.text:01434450 ; void __cdecl ai_scratch_free(void*)

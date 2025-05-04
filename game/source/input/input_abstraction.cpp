@@ -343,9 +343,9 @@ void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_s
 			if (i == _key_z)
 				input_type = _input_type_ui;
 
-			uint16 down_msec = MAX(input_state->abstract_buttons[key_index].down_msec(), input_key_msec_down(key_code, input_type));
-			uint8 down_frames = MAX(input_state->abstract_buttons[key_index].down_frames(), input_key_frames_down(key_code, input_type));
-			uint8 down_amount = MAX((uint8)input_state->abstract_buttons[key_index].down_amount(), input_key_frames_down(key_code, input_type));
+			uns16 down_msec = MAX(input_state->abstract_buttons[key_index].down_msec(), input_key_msec_down(key_code, input_type));
+			uns8 down_frames = MAX(input_state->abstract_buttons[key_index].down_frames(), input_key_frames_down(key_code, input_type));
+			uns8 down_amount = MAX((uns8)input_state->abstract_buttons[key_index].down_amount(), input_key_frames_down(key_code, input_type));
 
 			input_state->abstract_buttons[key_index].update(down_msec, down_frames, -(down_amount != 0));
 		}
@@ -358,21 +358,21 @@ void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_s
 
 //#define UPDATE_BUTTON_KEY(TYPE, KEY, ACTION) \
 //{ \
-//	uint16 msec_down = input_key_msec_down(_key_code_##KEY, _input_type_##TYPE); \
-//	uint8 frames_down = input_key_frames_down(_key_code_##KEY, _input_type_##TYPE); \
+//	uns16 msec_down = input_key_msec_down(_key_code_##KEY, _input_type_##TYPE); \
+//	uns8 frames_down = input_key_frames_down(_key_code_##KEY, _input_type_##TYPE); \
 //	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
 //}
 //#define UPDATE_BUTTON_MOUSE(TYPE, MOUSE, ACTION) \
 //{ \
-//	uint16 msec_down = input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
-//	uint8 frames_down = input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
+//	uns16 msec_down = input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
+//	uns8 frames_down = input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
 //	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
 //}
 //
 //#define UPDATE_BUTTON_MOUSE_AND_KEY(TYPE, MOUSE, KEY, ACTION) \
 //{ \
-//	uint16 msec_down = FLOOR(input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_msec_down(_key_code_##KEY, _input_type_##TYPE)); \
-//	uint8 frames_down = FLOOR(input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_frames_down(_key_code_##KEY, _input_type_##TYPE)); \
+//	uns16 msec_down = FLOOR(input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_msec_down(_key_code_##KEY, _input_type_##TYPE)); \
+//	uns8 frames_down = FLOOR(input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_frames_down(_key_code_##KEY, _input_type_##TYPE)); \
 //	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
 //}
 //
@@ -427,9 +427,9 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 	//	e_mouse_button mouse_button = (i < k_button_action_count ? preferences->keyboard_preferences.mouse_buttons_primary : preferences->keyboard_preferences.mouse_buttons_alternative)[mouse_button_index];
 	//	if (mouse_button < k_mouse_button_count)
 	//	{
-	//		uint16 down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
-	//		uint8 down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), input_mouse_frames_down(mouse_button, _input_type_game));
-	//		uint8 down_amount = MAX((uint8)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
+	//		uns16 down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
+	//		uns8 down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), input_mouse_frames_down(mouse_button, _input_type_game));
+	//		uns8 down_amount = MAX((uns8)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
 	//
 	//		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
 	//	}
@@ -447,9 +447,9 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 	//				continue;
 	//		}
 	//
-	//		uint8 down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
-	//		uint16 down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
-	//		uint8 down_amount = 255;
+	//		uns8 down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
+	//		uns16 down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
+	//		uns8 down_amount = 255;
 	//
 	//		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
 	//	}
@@ -467,16 +467,16 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 
 		if (mouse_button < k_mouse_button_count)
 		{
-			uint16 down_msec = abstract_button.down_msec();
-			uint16 frames_down = input_mouse_frames_down(mouse_button, _input_type_game);
-			uint16 msec_down = input_mouse_msec_down(mouse_button, _input_type_game);
+			uns16 down_msec = abstract_button.down_msec();
+			uns16 frames_down = input_mouse_frames_down(mouse_button, _input_type_game);
+			uns16 msec_down = input_mouse_msec_down(mouse_button, _input_type_game);
 			real32 down_amount = abstract_button.down_amount();
 
 			if (down_msec <= msec_down)
 				down_msec = msec_down;
 
 			if (abstract_button.down_frames() > frames_down)
-				abstract_button.update(down_msec, abstract_button.down_frames(), -static_cast<uint8>(down_amount != 0));
+				abstract_button.update(down_msec, abstract_button.down_frames(), -static_cast<uns8>(down_amount != 0));
 			else
 				abstract_button.update(down_msec, frames_down, 255);
 		}
@@ -488,8 +488,8 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 				if ((mouse_button == _mouse_button_wheel_up && state->wheel_ticks > 0) ||
 					(mouse_button == _mouse_button_wheel_down && state->wheel_ticks < 0))
 				{
-					uint16 down_frames = abstract_button.is_down() ? abstract_button.down_frames() : 1;
-					uint16 down_msec = abstract_button.down_msec() ? abstract_button.down_msec() : 1;
+					uns16 down_frames = abstract_button.is_down() ? abstract_button.down_frames() : 1;
+					uns16 down_msec = abstract_button.down_msec() ? abstract_button.down_msec() : 1;
 
 					abstract_button.update(down_msec, down_frames, 255);
 				}
@@ -510,12 +510,12 @@ void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_s
 	input_state->__unknown324 = true;
 	input_state->aircraft_pitch = input_state->aircraft_pitch1;
 
-	uint8 forward_frames = input_state->abstract_buttons[_button_action_move_forward].down_frames();
-	uint8 back_frames = input_state->abstract_buttons[_button_action_move_back].down_frames();
-	uint8 left_frames = input_state->abstract_buttons[_button_action_move_left].down_frames();
-	uint8 right_frames = input_state->abstract_buttons[_button_action_move_right].down_frames();
-	uint8 vehicle_accelerate_frames = input_state->abstract_buttons[_button_action_vehicle_accelerate].down_frames();
-	uint8 vehicle_reverse_frames = input_state->abstract_buttons[_button_action_vehicle_reverse].down_frames();
+	uns8 forward_frames = input_state->abstract_buttons[_button_action_move_forward].down_frames();
+	uns8 back_frames = input_state->abstract_buttons[_button_action_move_back].down_frames();
+	uns8 left_frames = input_state->abstract_buttons[_button_action_move_left].down_frames();
+	uns8 right_frames = input_state->abstract_buttons[_button_action_move_right].down_frames();
+	uns8 vehicle_accelerate_frames = input_state->abstract_buttons[_button_action_vehicle_accelerate].down_frames();
+	uns8 vehicle_reverse_frames = input_state->abstract_buttons[_button_action_vehicle_reverse].down_frames();
 
 	input_state->forward_movement = real32((forward_frames != 0) - (back_frames != 0));
 	input_state->strafe = real32((left_frames != 0) - (right_frames != 0));
@@ -554,7 +554,7 @@ void __cdecl input_abstraction_update()
 	INVOKE(0x0060D880, input_abstraction_update);
 }
 
-void __cdecl input_abstraction_update_device_changes(uint32 flags)
+void __cdecl input_abstraction_update_device_changes(uns32 flags)
 {
 	INVOKE(0x0060D9E0, input_abstraction_update_device_changes, flags);
 }
@@ -569,10 +569,10 @@ c_abstract_button::c_abstract_button() :
 {
 }
 
-void c_abstract_button::update(uint16 down_msec, uint16 down_frames, uint8 down_amount)
+void c_abstract_button::update(uns16 down_msec, uns16 down_frames, uns8 down_amount)
 {
 	m_down_msec = down_msec;
-	m_down_frames = static_cast<uint8>(down_frames);
+	m_down_frames = static_cast<uns8>(down_frames);
 	m_down_amount = static_cast<real32>(down_amount / 255);
 
 	if (!m_down_frames && latched())
@@ -581,7 +581,7 @@ void c_abstract_button::update(uint16 down_msec, uint16 down_frames, uint8 down_
 
 void c_abstract_button::set_accessor(e_button_action accessor)
 {
-	m_accessor = static_cast<uint8>(accessor);
+	m_accessor = static_cast<uns8>(accessor);
 }
 
 void c_abstract_button::unlock()
@@ -613,7 +613,7 @@ bool c_abstract_button::access_valid() const
 	return m_locked == 0xFF || m_locked == m_accessor;
 }
 
-uint16 c_abstract_button::down_msec()
+uns16 c_abstract_button::down_msec()
 {
 	if (!latched() && access_valid())
 		return m_down_msec;
@@ -626,7 +626,7 @@ bool c_abstract_button::latched() const
 	return TEST_BIT(m_flags, 0);
 }
 
-uint8 c_abstract_button::down_frames() const
+uns8 c_abstract_button::down_frames() const
 {
 	if (!latched() && access_valid())
 		return m_down_frames;

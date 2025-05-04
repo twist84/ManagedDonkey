@@ -356,7 +356,7 @@ s_event_category_default_configuration const g_log_events[]
 
 struct s_event_spamming_list_add_result
 {
-	uint32 last_spam_time;
+	uns32 last_spam_time;
 	int32 hit_count;
 };
 
@@ -725,7 +725,7 @@ void event_logs_flush()
 	//	flush_event_log_cache();
 }
 
-c_event::c_event(e_event_level event_level, int32 event_category_index, uint32 event_response_suppress_flags) :
+c_event::c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags) :
 	m_event_level(event_level),
 	m_event_category_index(event_category_index),
 	m_event_response_suppress_flags(event_response_suppress_flags)
@@ -737,13 +737,13 @@ bool c_event::query()
 	return event_thread_query() && event_level_query(m_event_level);
 }
 
-uint32 event_query(e_event_level event_level, int32 category_index, uint32 event_response_suppress_flags)
+uns32 event_query(e_event_level event_level, int32 category_index, uns32 event_response_suppress_flags)
 {
 	ASSERT(g_events_initialized);
 
 	g_event_read_write_lock.read_lock();
 
-	uint32 flags = 0;
+	uns32 flags = 0;
 	if (event_globals.current_display_level != k_event_level_none)
 		flags = event_level >= event_globals.current_display_level;
 
@@ -822,7 +822,7 @@ void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_ad
 	}
 }
 
-uint32 event_update_spam_prevention(uint32 response_flags, e_event_level event_level, int32 category_index, char const* event_text)
+uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_level, int32 category_index, char const* event_text)
 {
 	if (event_globals.enable_spam_suppression
 		&& event_level != _event_critical
@@ -832,7 +832,7 @@ uint32 event_update_spam_prevention(uint32 response_flags, e_event_level event_l
 		g_event_read_write_lock.write_lock();
 		s_event_category* category = event_category_get(category_index);
 
-		uint32 time = system_milliseconds();
+		uns32 time = system_milliseconds();
 		if (time > category->last_event_time + 10000)
 			category->possible_spam_event_count = 0;
 
@@ -1077,11 +1077,11 @@ void event_generated_handle_halt(char const* event_text)
 	}
 }
 
-void event_generate(e_event_level event_level, int32 category_index, uint32 event_response_suppress_flags, char const* format, va_list argument_list)
+void event_generate(e_event_level event_level, int32 category_index, uns32 event_response_suppress_flags, char const* format, va_list argument_list)
 {
 	ASSERT(g_events_initialized);
 
-	if (uint32 flags = event_query(event_level, category_index, event_response_suppress_flags))
+	if (uns32 flags = event_query(event_level, category_index, event_response_suppress_flags))
 	{
 		char event_text[2048]{};
 
@@ -1089,7 +1089,7 @@ void event_generate(e_event_level event_level, int32 category_index, uint32 even
 
 		s_event_category* category = event_category_get(category_index);
 
-		if (uint32 undated = event_update_spam_prevention(flags, event_level, category_index, event_text))
+		if (uns32 undated = event_update_spam_prevention(flags, event_level, category_index, event_text))
 		{
 			if (TEST_BIT(undated, _category_properties_display_level_bit) || TEST_BIT(undated, _category_properties_force_display_level_bit))
 				event_generated_handle_console(event_level, category_index, event_text, TEST_BIT(undated, _category_properties_force_display_level_bit));

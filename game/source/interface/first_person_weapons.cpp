@@ -37,7 +37,7 @@ bool debug_first_person_skeleton = false;
 //.text:00A9A190 ; void __cdecl first_person_weapon_apply_camera_effect(int32, real_matrix4x3*)
 //.text:00A9A1E0 ; bool __cdecl first_person_weapon_attach(int32, int32, bool)
 //.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(int32, int32, first_person_weapon_attachment const*, bool)
-//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(int32, int32, uint32, real_matrix4x3 const*, int32, real_matrix4x3 const*, int32 const*, render_first_person_model*)
+//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(int32, int32, uns32, real_matrix4x3 const*, int32, real_matrix4x3 const*, int32 const*, render_first_person_model*)
 
 int32 __cdecl first_person_weapon_build_models(int32 user_index, int32 object_index, int32 maximum_model_count, render_first_person_model* first_person_model)
 {

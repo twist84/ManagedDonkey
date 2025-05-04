@@ -106,7 +106,7 @@ struct s_model_definition
 	c_typed_tag_block<s_model_target> targets;
 	s_tag_block runtime_regions;
 	s_tag_block runtime_nodes;
-	uint32 runtime_node_list_checksum;
+	uns32 runtime_node_list_checksum;
 	s_tag_block model_object_data;
 
 
@@ -118,14 +118,14 @@ struct s_model_definition
 	// The default FEMALE dialogue tag for this model (overriden by variants)
 	c_typed_tag_reference<DIALOGUE_TAG, INVALID_TAG> secondary_dialogue;
 
-	c_flags<e_model_definition_flags, uint32, k_model_definition_flags> flags;
+	c_flags<e_model_definition_flags, uns32, k_model_definition_flags> flags;
 
 	// The default dialogue tag for this model (overriden by variants)
 	c_string_id default_dialogue_effect;
 
-	uint32 render_only_node_flags[8];
-	uint32 render_only_section_flags[8];
-	c_flags<e_model_definition_private_flags, uint32, k_model_definition_private_flags> runtime_flags;
+	uns32 render_only_node_flags[8];
+	uns32 render_only_section_flags[8];
+	c_flags<e_model_definition_private_flags, uns32, k_model_definition_private_flags> runtime_flags;
 	s_tag_block scenario_load_parameters;
 
 
@@ -150,7 +150,7 @@ struct s_model_definition
 
 	c_enum<e_model_self_shadow_detail, int8, _model_self_shadow_detail_ambient_occlusion, k_model_self_shadow_detail_count> PRT_shadow_detail;
 	c_enum<e_model_self_shadow_bounces, int8, _model_self_shadow_0_bounces, k_model_self_shadow_bounce_count> PRT_shadow_bounces;
-	uint8 NCFGBA[0x2];
+	byte NCFGBA[0x2];
 
 
 	s_tag_block shadow_cast_override;
@@ -182,7 +182,7 @@ struct s_model_variant
 	c_string_id dialogue_effect;
 
 	c_enum<e_odst_recon_variant, int8, _odst_recon_variant_none, k_odst_recon_variant_count> ai_character;
-	uint8 NASUHJ[0x3];
+	byte NASUHJ[0x3];
 	int8 runtime_variant_region_indices[16];
 	c_typed_tag_block<s_model_variant_region> regions;
 	c_typed_tag_block<s_model_variant_object> objects;
@@ -190,7 +190,7 @@ struct s_model_variant
 	// selects an instance group for this variant
 	int32 instance_group;
 
-	uint8 RHTDQLFD[0x8];
+	byte RHTDQLFD[0x8];
 };
 static_assert(sizeof(s_model_variant) == 0x50);
 
@@ -231,7 +231,7 @@ struct s_model_variant_region
 
 	// negative values mean closer to the camera
 	c_enum<e_region_sort, int16, _region_sort_no_sorting, k_region_sort_count> sort_order;
-	uint8 JO[0x2];
+	byte JO[0x2];
 }; static_assert(sizeof(s_model_variant_region) == 0x18);
 
 enum e_model_variant_permutation_flags
@@ -247,12 +247,12 @@ struct s_model_variant_permutation
 {
 	c_string_id permutation_name;
 	int8 runtime_permutation_index;
-	c_flags<e_model_variant_permutation_flags, uint8, k_model_variant_permutation_flags> flags;
-	uint8 KSJOSR[0x2];
+	c_flags<e_model_variant_permutation_flags, uns8, k_model_variant_permutation_flags> flags;
+	byte KSJOSR[0x2];
 	real32 probability; // (0,+inf)
 	c_typed_tag_block<s_model_variant_state> states;
 	int8 runtime_state_permutation_indices[5];
-	uint8 LOOEL[0x7];
+	byte LOOEL[0x7];
 };
 static_assert(sizeof(s_model_variant_permutation) == 0x24);
 
@@ -270,7 +270,7 @@ struct s_model_variant_state
 {
 	c_string_id permutation_name;
 	int8 runtime_permutation_index;
-	c_flags<e_model_state_property_flags, uint8, k_model_state_property_flags> property_flags;
+	c_flags<e_model_state_property_flags, uns8, k_model_state_property_flags> property_flags;
 	c_enum<e_model_state, int16, _model_state_standard, k_number_of_model_states> state;
 
 	// played while the model is in this state
@@ -332,13 +332,13 @@ static_assert(sizeof(c_model_instance_group) == 0x18);
 struct s_model_material
 {
 	c_string_id material_name;
-	uint8 unused_flags[0x2];
+	byte unused_flags[0x2];
 	int16 damage_section;
 	int16 runtime_collision_material_index;
 	int16 runtime_damager_material_index;
 	c_string_id global_material_name;
 	int16 runtime_global_material_index;
-	uint8 SEWETKHRE[0x2];
+	byte SEWETKHRE[0x2];
 };
 static_assert(sizeof(s_model_material) == 0x14);
 
@@ -349,7 +349,7 @@ struct s_model_damage_section
 	// * absorbs body damage: damage to this section does not count against body vitality
 	// * headshottable: takes extra headshot damage when shot
 	// * ignores shields: damage to this section bypasses shields
-	uint32 flags;
+	uns32 flags;
 
 	// percentage of total object vitality
 	real32 vitality_percentage; // [0,1]
@@ -364,13 +364,13 @@ struct s_model_damage_section
 	int16 runtime_resurrection_restored_region_index;
 
 	// pad
-	uint8 AG[0x2];
+	byte AG[0x2];
 };
 static_assert(sizeof(s_model_damage_section) == 0x44);
 
 struct s_model_damage_info
 {
-	uint32 flags;
+	uns32 flags;
 
 	// absorbes AOE or child damage
 	c_string_id global_indirect_material_name;
@@ -379,19 +379,19 @@ struct s_model_damage_info
 	int16 indirect_damage_section; // short_block_index_custom_search
 
 	// pad
-	uint8 XN[0x2];
+	byte XN[0x2];
 
 	// pad
-	uint8 LPVYKO[0x4];
+	byte LPVYKO[0x4];
 
 	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> collision_damage_reporting_type;
 	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> response_damage_reporting_type;
 
 	// pad
-	uint8 MQ[0x2];
+	byte MQ[0x2];
 
 	// pad
-	uint8 MYON[0x14];
+	byte MYON[0x14];
 
 	// body
 	struct
@@ -413,7 +413,7 @@ struct s_model_damage_info
 	} body;
 
 	// pad
-	uint8 IKEIDYSCX[0x40];
+	byte IKEIDYSCX[0x40];
 
 	struct
 	{
@@ -470,7 +470,7 @@ struct s_model_target_lock_on_data
 {
 	// lock-on fields
 
-	c_flags<e_model_target_lock_on_flags, uint32, k_model_target_lock_on_flags> flags;
+	c_flags<e_model_target_lock_on_flags, uns32, k_model_target_lock_on_flags> flags;
 	real32 lock_on_distance;
 
 	// a weapon can track/lock on this target if this string is in the weapon's tracking block
@@ -491,8 +491,8 @@ enum e_model_target_flags
 
 struct s_model_target
 {
-	c_flags<e_model_target_flags, uint8, k_model_target_flags> flags;
-	uint8 MTBNP1[0x3];
+	c_flags<e_model_target_flags, uns8, k_model_target_flags> flags;
+	byte MTBNP1[0x3];
 
 	// multiple markers become multiple spheres of the same radius
 	c_string_id marker_name;

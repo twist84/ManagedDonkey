@@ -29,7 +29,7 @@ struct s_structure_seam_globals
 	c_static_array<s_collision_materials_extant_flags, 16> flags;
 	c_static_array<s_seam_mapping, 128> seam_mappings;
 	c_static_flags<128> active_seams_mask;
-	uint32 connected_bsps_mask;
+	uns32 connected_bsps_mask;
 };
 static_assert(sizeof(s_structure_seam_globals) == 0x14614);
 
@@ -37,8 +37,8 @@ struct s_structure_seams;
 
 extern void __cdecl structure_seams_dispose();
 extern void __cdecl structure_seams_dispose_from_old_map();
-extern void __cdecl structure_seams_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl structure_seams_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl structure_seams_initialize();
 extern void __cdecl structure_seams_initialize_for_new_map();
-extern void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uint32 new_structure_bsp_mask);
+extern void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uns32 new_structure_bsp_mask);
 

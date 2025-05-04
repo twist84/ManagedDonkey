@@ -383,7 +383,7 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 //void c_network_session_parameter_base::validate_buffer(int32 size, void const* original, void* temporary, void* buffer)
 //{
 //	int32 update_size = size;
-//	c_bitstream encoded_message((uint8*)buffer, size);
+//	c_bitstream encoded_message((byte*)buffer, size);
 //	encoded_message.begin_writing(1);
 //	g_network_session_parameter_type_collection->encode_update(m_parameter_type, &encoded_message, original, update_size);
 //	encoded_message.finish_writing(NULL);

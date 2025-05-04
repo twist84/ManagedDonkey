@@ -21,8 +21,8 @@ bool __cdecl transport_dns_address_to_name(dns_result* result)
 	//
 	//union
 	//{
-	//	uint32 ipv4_address;
-	//	uint16 ipv6_address[8];
+	//	uns32 ipv4_address;
+	//	uns16 ipv6_address[8];
 	//} ip_address;
 	//
 	//int32 type = 0;
@@ -34,7 +34,7 @@ bool __cdecl transport_dns_address_to_name(dns_result* result)
 	//	type = AF_INET;
 	//	address_length = 4;
 	//
-	//	ip_address.ipv4_address = bswap_uint32(result->address[0].ipv4_address);
+	//	ip_address.ipv4_address = bswap_uns32(result->address[0].ipv4_address);
 	//}
 	//break;
 	//case 16:
@@ -42,14 +42,14 @@ bool __cdecl transport_dns_address_to_name(dns_result* result)
 	//	type = AF_INET6;
 	//	address_length = 16;
 	//
-	//	ip_address.ipv6_address[0] = bswap_uint16(address->ina6.words[0]);
-	//	ip_address.ipv6_address[1] = bswap_uint16(address->ina6.words[1]);
-	//	ip_address.ipv6_address[2] = bswap_uint16(address->ina6.words[2]);
-	//	ip_address.ipv6_address[3] = bswap_uint16(address->ina6.words[3]);
-	//	ip_address.ipv6_address[4] = bswap_uint16(address->ina6.words[4]);
-	//	ip_address.ipv6_address[5] = bswap_uint16(address->ina6.words[5]);
-	//	ip_address.ipv6_address[6] = bswap_uint16(address->ina6.words[6]);
-	//	ip_address.ipv6_address[7] = bswap_uint16(address->ina6.words[7]);
+	//	ip_address.ipv6_address[0] = bswap_uns16(address->ina6.words[0]);
+	//	ip_address.ipv6_address[1] = bswap_uns16(address->ina6.words[1]);
+	//	ip_address.ipv6_address[2] = bswap_uns16(address->ina6.words[2]);
+	//	ip_address.ipv6_address[3] = bswap_uns16(address->ina6.words[3]);
+	//	ip_address.ipv6_address[4] = bswap_uns16(address->ina6.words[4]);
+	//	ip_address.ipv6_address[5] = bswap_uns16(address->ina6.words[5]);
+	//	ip_address.ipv6_address[6] = bswap_uns16(address->ina6.words[6]);
+	//	ip_address.ipv6_address[7] = bswap_uns16(address->ina6.words[7]);
 	//}
 	//break;
 	//default:

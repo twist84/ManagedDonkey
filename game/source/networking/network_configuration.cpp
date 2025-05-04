@@ -176,7 +176,7 @@ struct s_network_configuration_file
 	s_blf_header memory_header;
 	s_network_configuration memory;
 	s_blf_chunk_end_of_file_with_crc end_of_file_chunk;
-	uint8 __pad3719[0x3];
+	byte __pad3719[0x3];
 };
 static_assert(sizeof(s_network_configuration_file) == 0x1768);
 
@@ -199,7 +199,7 @@ void network_build_network_configuration()
 
 	network_configuration_file.end_of_file_chunk.header.setup(s_blf_chunk_end_of_file::k_chunk_type, OFFSETOF(s_network_configuration_file, end_of_file_chunk), s_blf_chunk_end_of_file::k_version_major, s_blf_chunk_end_of_file::k_version_minor);
 	network_configuration_file.end_of_file_chunk.authentication_type = _blf_file_authentication_type_crc;
-	network_configuration_file.end_of_file_chunk.checksum = crc_checksum_buffer(crc_new(), (uint8*)&g_network_configuration, sizeof(s_network_configuration));
+	network_configuration_file.end_of_file_chunk.checksum = crc_checksum_buffer(crc_new(), (byte*)&g_network_configuration, sizeof(s_network_configuration));
 
 	c_static_string<256> configuration_filename;
 	configuration_filename.print("%snetwork_configuration_%03u.bin", "bin\\", 142);

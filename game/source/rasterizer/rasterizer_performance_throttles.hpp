@@ -10,7 +10,7 @@ enum e_performance_throttle_flags
 struct s_performance_throttles
 {
 	// e_performance_throttle_flags
-	uint32 flags;
+	uns32 flags;
 
 	real32 water_lod;
 

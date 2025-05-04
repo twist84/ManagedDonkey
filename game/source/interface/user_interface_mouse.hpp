@@ -14,9 +14,9 @@ struct s_user_interface_mouse_globals
 	real_point2d window_cursor_position;
 	real_point2d last_window_cursor_position;
 	long_point2d update_cursor_position;
-	uint8 mouse_move_ticks;
-	uint8 left_button_frames_down;
-	uint8 right_button_frames_down;
+	uns8 mouse_move_ticks;
+	uns8 left_button_frames_down;
+	uns8 right_button_frames_down;
 	int16 mouse_wheel_delta;
 	int16 mouse_hwheel_delta;
 	void* last_focused_widget;

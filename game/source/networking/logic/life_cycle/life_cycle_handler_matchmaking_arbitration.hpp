@@ -17,7 +17,7 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	uint8 __data[0x10];
+	byte __data[0x10];
 	s_arbitration_registration_result m_registration_result;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_arbitration) == 0x1C0);

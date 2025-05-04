@@ -6,7 +6,7 @@
 struct chud_widget_datum :
 	s_datum_header
 {
-	uint8 __data[0x16];
+	byte __data[0x16];
 };
 static_assert(sizeof(chud_widget_datum) == 0x18);
 
@@ -30,23 +30,23 @@ static_assert(sizeof(chud_player_hud_elements) == 0xD);
 
 struct c_chud_persistent_global_data
 {
-	uint8 __data[0x14D];
+	byte __data[0x14D];
 	chud_player_hud_elements player_hud;
-	uint8 __unknown181[0x316];
+	byte __unknown181[0x316];
 };
 static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
 
 struct c_chud_persistent_user_data
 {
-	uint8 __unknown0[0x14D];
+	byte __unknown0[0x14D];
 	chud_player_hud_elements player_hud[4];
-	uint8 __unknown181[0x273];
-	uint8 bonus_round_show_timer;
-	uint8 bonus_round_start_timer;
-	uint8 __unknown3F6[2];
+	byte __unknown181[0x273];
+	uns8 bonus_round_show_timer;
+	uns8 bonus_round_start_timer;
+	byte __unknown3F6[2];
 	int32 bonus_round_set_timer;
 	int32 bonus_round_set_target_score;
-	uint8 __unknown3FC[0xF640];
+	byte __unknown3FC[0xF640];
 };
 static_assert(sizeof(c_chud_persistent_user_data) == 0xFA40);
 
@@ -67,7 +67,7 @@ struct s_some_chud_struct
 {
 	void __thiscall sub_A8AED0(int32 a1, int32 a2, int32 a3);
 
-	uint8 __data[0x910];
+	byte __data[0x910];
 };
 static_assert(sizeof(s_some_chud_struct) == 0x910);
 

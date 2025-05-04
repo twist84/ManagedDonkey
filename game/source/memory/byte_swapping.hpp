@@ -6,12 +6,12 @@
 #pragma intrinsic(_byteswap_ulong)
 #pragma intrinsic(_byteswap_uint64)
 
-#define bswap_uint16(value) _byteswap_ushort(value)
-#define bswap_uint32(value) _byteswap_ulong(value)
-#define bswap_uint64(value) _byteswap_uint64(value)
-#define bswap_uint16_inplace(value) value = bswap_uint16(value)
-#define bswap_uint32_inplace(value) value = bswap_uint32(value)
-#define bswap_uint64_inplace(value) value = bswap_uint64(value)
+#define bswap_uns16(value) _byteswap_ushort(value)
+#define bswap_uns32(value) _byteswap_ulong(value)
+#define bswap_uns64(value) _byteswap_uint64(value)
+#define bswap_uns16_inplace(value) value = bswap_uns16(value)
+#define bswap_uns32_inplace(value) value = bswap_uns32(value)
+#define bswap_uns64_inplace(value) value = bswap_uns64(value)
 
 enum e_byte_order
 {
@@ -41,7 +41,7 @@ struct byte_swap_definition
 	char const* name;
 	int32 size;
 	int32 const* codes;
-	uint32 signature;
+	uns32 signature;
 	bool verified;
 };
 static_assert(sizeof(byte_swap_definition) == 0x14);

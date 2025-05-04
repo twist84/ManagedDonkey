@@ -84,7 +84,7 @@ public:
 template<typename t_type>
 union t_value_type
 {
-	uint8 bytes[sizeof(t_type)];
+	byte bytes[sizeof(t_type)];
 	t_type value;
 };
 
@@ -117,7 +117,7 @@ void _reverse(t_element_type* begin, t_element_type* end)
 struct c_allocation_base
 {
 public:
-	virtual void* allocate(uint32 allocation, char const* name);
+	virtual void* allocate(uns32 allocation, char const* name);
 	virtual void deallocate(void* buffer);
 };
 
@@ -165,7 +165,7 @@ constexpr int32 bit_count(int32 val)
 
 constexpr bool pointer_is_aligned(void* pointer, int32 alignment_bits)
 {
-	return ((uint32)pointer & ((1 << alignment_bits) - 1)) == 0;
+	return ((uns32)pointer & ((1 << alignment_bits) - 1)) == 0;
 }
 
 #if defined(_DEBUG)
@@ -222,18 +222,18 @@ extern int strncmp_debug(char const* s1, char const* s2, size_t size);
 
 extern int32 csstricmp(char const* s1, char const* s2);
 extern int32 csstrcmp(char const* s1, char const* s2);
-extern int32 csstrnicmp(char const* s1, char const* s2, uint32 max_count);
+extern int32 csstrnicmp(char const* s1, char const* s2, uns32 max_count);
 extern char* __cdecl csstristr(char const* s1, char const* s2);
-extern char* csstrnzcpy(char* s1, char const* s2, uint32 size);
-extern char* csstrnzcat(char* s1, char const* s2, uint32 size);
-extern uint32 csstrnlen(char const* s, uint32 size);
-extern char* csstrnupr(char* s, uint32 size);
-extern char* csstrnlwr(char* s, uint32 size);
+extern char* csstrnzcpy(char* s1, char const* s2, uns32 size);
+extern char* csstrnzcat(char* s1, char const* s2, uns32 size);
+extern uns32 csstrnlen(char const* s, uns32 size);
+extern char* csstrnupr(char* s, uns32 size);
+extern char* csstrnlwr(char* s, uns32 size);
 extern char const* csstrstr(char const* look_for, char const* look_inside);
 extern char* __cdecl csstrtok(char* s, char const* delimiters, int32 delimiter_mode, char** data);
-extern int32 cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list);
-extern char* csnzprintf(char* buffer, uint32 size, char const* format, ...);
-extern char* csnzappendf(char* buffer, uint32 size, char const* format, ...);
+extern int32 cvsnzprintf(char* buffer, uns32 size, char const* format, va_list list);
+extern char* csnzprintf(char* buffer, uns32 size, char const* format, ...);
+extern char* csnzappendf(char* buffer, uns32 size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
 extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
 
@@ -326,13 +326,13 @@ public:
 	//{
 	//}
 	//
-	//c_basic_buffer(void* start, uint32 size) :
+	//c_basic_buffer(void* start, uns32 size) :
 	//	m_buffer(start),
 	//	m_size(size)
 	//{
 	//}
 	//
-	//c_basic_buffer(void* start, uint32 size) :
+	//c_basic_buffer(void* start, uns32 size) :
 	//	m_buffer(start),
 	//	m_size(size)
 	//{
@@ -351,7 +351,7 @@ public:
 		m_size = 0;
 	}
 
-	void set_buffer(t_type* start, uint32 size)
+	void set_buffer(t_type* start, uns32 size)
 	{
 		ASSERT(start || size == 0);
 
@@ -367,7 +367,7 @@ public:
 		m_size = pointer_distance(start, end);
 	}
 
-	uint32 size()
+	uns32 size()
 	{
 		return m_size;
 	}
@@ -384,7 +384,7 @@ public:
 
 //protected:
 	t_type* m_buffer;
-	uint32 m_size;
+	uns32 m_size;
 };
 
 template<typename t_type, int32 k_count>
@@ -684,11 +684,11 @@ struct c_typed_opaque_data
 {
 	t_type* get()
 	{
-		ASSERT(((uint32)m_opaque_storage & k_alignment_mask) == 0);
-		return reinterpret_cast<t_type*>(((uint32)m_opaque_storage + k_alignment_mask) & ~k_alignment_mask);
+		ASSERT(((uns32)m_opaque_storage & k_alignment_mask) == 0);
+		return reinterpret_cast<t_type*>(((uns32)m_opaque_storage + k_alignment_mask) & ~k_alignment_mask);
 	}
 
-	uint8 m_opaque_storage[k_type_size];
+	uns8 m_opaque_storage[k_type_size];
 	//t_type* m_live_object;
 };
 
@@ -720,7 +720,7 @@ static_assert(sizeof(c_reference_count<int32>) == 0x4);
 
 struct c_wrapped_flags
 {
-	uint32* m_bit_storage;
+	uns32* m_bit_storage;
 	int32 m_bit_count;
 };
 static_assert(sizeof(c_wrapped_flags) == 0x8);
@@ -893,8 +893,8 @@ struct c_static_flags_no_init
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		uint32 const* vector_a_bits = vector_a->get_bits_direct();
-		uint32 const* vector_b_bits = vector_b->get_bits_direct();
+		uns32 const* vector_a_bits = vector_a->get_bits_direct();
+		uns32 const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (int32 i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & ~vector_b_bits[i];
@@ -904,8 +904,8 @@ struct c_static_flags_no_init
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		uint32 const* vector_a_bits = vector_a->get_bits_direct();
-		uint32 const* vector_b_bits = vector_b->get_bits_direct();
+		uns32 const* vector_a_bits = vector_a->get_bits_direct();
+		uns32 const* vector_b_bits = vector_b->get_bits_direct();
 
 		for (int32 i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & vector_b_bits[i];
@@ -933,19 +933,19 @@ struct c_static_flags_no_init
 		return bit_vector_count_bits(m_flags, k_maximum_count);
 	}
 
-	void fill(int32 count, uint8 fill_value)
+	void fill(int32 count, uns8 fill_value)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
 		csmemset(m_flags, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
-	uint32 const* get_bits_direct() const
+	uns32 const* get_bits_direct() const
 	{
 		return m_flags;
 	}
 
-	uint32* get_writeable_bits_direct()
+	uns32* get_writeable_bits_direct()
 	{
 		return m_flags;
 	}
@@ -963,12 +963,12 @@ struct c_static_flags_no_init
 			m_flags[i] = ~m_flags[i];
 
 		// no clue
-		//m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (uint8)m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
+		//m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (uns8)m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
 	}
 
 	bool is_clear() const
 	{
-		uint8 result = 1;
+		uns8 result = 1;
 		for (int32 i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			result &= m_flags[i] == 0;
 
@@ -985,7 +985,7 @@ struct c_static_flags_no_init
 		m_flags[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
 	}
 
-	void or_bits(uint32 const* bits, int32 count)
+	void or_bits(uns32 const* bits, int32 count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1008,7 +1008,7 @@ struct c_static_flags_no_init
 		csmemset(m_flags, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
-	void set_bits_direct_destructive(int32 count, uint32 const* bits)
+	void set_bits_direct_destructive(int32 count, uns32 const* bits)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1029,7 +1029,7 @@ struct c_static_flags_no_init
 		return BIT_VECTOR_TEST_FLAG(m_flags, index);
 	}
 
-	uint32 m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
+	uns32 m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
 };
 
 template<int32 k_maximum_count>
@@ -1146,7 +1146,7 @@ protected:
 struct s_cluster_reference
 {
 	int8 bsp_index;
-	uint8 cluster_index;
+	uns8 cluster_index;
 };
 static_assert(sizeof(s_cluster_reference) == 0x2);
 
@@ -1154,7 +1154,7 @@ static_assert(sizeof(s_cluster_reference) == 0x2);
 struct s_location
 {
 	s_cluster_reference cluster_reference;
-	//uint16 leaf_index;
+	//uns16 leaf_index;
 };
 static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
 //static_assert(sizeof(s_location) == 0x4);
@@ -1306,7 +1306,7 @@ public:
 
 	char const* append_print_va(char const* format, va_list list)
 	{
-		uint32 current_length = length();
+		uns32 current_length = length();
 
 		ASSERT(format);
 		ASSERT(current_length >= 0 && current_length < k_maximum_count);
@@ -1474,13 +1474,13 @@ static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
 struct c_word_quantized_position
 {
-	uint16 m_position[3];
+	uns16 m_position[3];
 };
 static_assert(sizeof(c_word_quantized_position) == 0x6);
 
 struct c_dword_unit_vector
 {
-	uint32 m_vector;
+	uns32 m_vector;
 };
 static_assert(sizeof(c_dword_unit_vector) == 0x4);
 
@@ -1496,7 +1496,7 @@ extern int64 make_int64(int32 low, int32 high);
 template<class T>
 T rotate_left(T value, int count)
 {
-	const uint32 nbits = sizeof(T) * 8;
+	const uns32 nbits = sizeof(T) * 8;
 
 	if (count > 0)
 	{
@@ -1517,14 +1517,14 @@ T rotate_left(T value, int count)
 	return value;
 }
 
-#define __ROL1__(value, count) rotate_left(static_cast<uint8>(value), count)
-#define __ROL2__(value, count) rotate_left(static_cast<uint16>(value), count)
-#define __ROL4__(value, count) rotate_left(static_cast<uint32>(value), count)
-#define __ROL8__(value, count) rotate_left(static_cast<uint64>(value), count)
-#define __ROR1__(value, count) rotate_left(static_cast<uint8>(value), -count)
-#define __ROR2__(value, count) rotate_left(static_cast<uint16>(value), -count)
-#define __ROR4__(value, count) rotate_left(static_cast<uint32>(value), -count)
-#define __ROR8__(value, count) rotate_left(static_cast<uint64>(value), -count)
+#define __ROL1__(value, count) rotate_left(static_cast<uns8>(value), count)
+#define __ROL2__(value, count) rotate_left(static_cast<uns16>(value), count)
+#define __ROL4__(value, count) rotate_left(static_cast<uns32>(value), count)
+#define __ROL8__(value, count) rotate_left(static_cast<uns64>(value), count)
+#define __ROR1__(value, count) rotate_left(static_cast<uns8>(value), -count)
+#define __ROR2__(value, count) rotate_left(static_cast<uns16>(value), -count)
+#define __ROR4__(value, count) rotate_left(static_cast<uns32>(value), -count)
+#define __ROR8__(value, count) rotate_left(static_cast<uns64>(value), -count)
 
 // IDA
 template <typename T, typename F>

@@ -88,12 +88,12 @@ struct hs_thread :
 	hs_stack_pointer stack;
 	int32 result;
 	int32 tracking_index;
-	uint8 type;
-	uint8 flags;
-	uint8 ai_flags;
+	uns8 type;
+	uns8 flags;
+	uns8 ai_flags;
 	int8 ai_data;
 	int32 ai_index;
-	uint8 stack_data[HS_THREAD_STACK_SIZE];
+	uns8 stack_data[HS_THREAD_STACK_SIZE];
 };
 static_assert(sizeof(hs_thread) == 0x524);
 
@@ -118,16 +118,16 @@ static_assert(sizeof(hs_global_runtime) == 0x8);
 struct hs_distributed_global_data :
 	s_datum_header
 {
-	uint8 __data[0x2A];
+	byte __data[0x2A];
 };
 static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 
 struct hs_thread_tracking_data :
 	s_datum_header
 {
-	uint16 __unknown2;
-	uint32 __unknown4;
-	uint32 __unknown8;
+	uns16 __unknown2;
+	uns32 __unknown4;
+	uns32 __unknown8;
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 

@@ -32,7 +32,7 @@ bool write_bink_tag_resource_to_disk(int32 tag_index, char const* filename)
 		return false;
 	}
 
-	uint32 error = 0;
+	uns32 error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		return false;

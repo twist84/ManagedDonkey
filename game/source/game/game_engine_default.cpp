@@ -326,8 +326,8 @@ void c_game_engine_base_variant::byteswap()
 	m_respawn_options.byteswap();
 	m_social_options.byteswap();
 	m_map_override_options.byteswap();
-	bswap_uint16_inplace(m_flags);
-	bswap_uint16_inplace(m_team_scoring_method);
+	bswap_uns16_inplace(m_flags);
+	bswap_uns16_inplace(m_team_scoring_method);
 }
 
 void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, bool force)

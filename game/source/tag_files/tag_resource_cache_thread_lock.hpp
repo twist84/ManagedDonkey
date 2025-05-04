@@ -9,7 +9,7 @@
 struct s_access_cache_available_event :
 	s_synchronized_list_entry
 {
-	uint8 __data0[0xC];
+	byte __data0[0xC];
 };
 static_assert(sizeof(s_access_cache_available_event) == 0x10);
 //static_assert(sizeof(t_event_queue<s_access_cache_available_event, 3>) == 0x50);

@@ -14,9 +14,9 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00B25C60, c_gui_roster_list_widget, update);
 HOOK_DECLARE_CLASS_MEMBER(0x00B26100, c_gui_roster_list_widget, update_render_state);
 
-void __thiscall c_gui_roster_list_widget::update(uint32 current_milliseconds)
+void __thiscall c_gui_roster_list_widget::update(uns32 current_milliseconds)
 {
-	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, uint32), _this, current_milliseconds);
+	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, uns32), _this, current_milliseconds);
 
 	int32 selectable_item_cap_count = 0;
 
@@ -292,9 +292,9 @@ void __thiscall c_gui_roster_list_widget::update(uint32 current_milliseconds)
 	INVOKE_CLASS_MEMBER(0x00B16650, c_gui_list_widget, update, current_milliseconds);
 }
 
-void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_milliseconds)
+void __thiscall c_gui_roster_list_widget::update_render_state(uns32 current_milliseconds)
 {
-	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, uint32), _this, current_milliseconds);
+	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, uns32), _this, current_milliseconds);
 
 	c_gui_data* data = get_data();
 
@@ -375,10 +375,10 @@ void __thiscall c_gui_roster_list_widget::update_render_state(uint32 current_mil
 				if (!is_team_game)
 				{
 					player_color |= (200 << 24); // set alpha
-					tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uint32>(player_color) });
+					tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uns32>(player_color) });
 
 					player_color |= (150 << 24); // set alpha
-					tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = static_cast<uint32>(player_color) });
+					tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = static_cast<uns32>(player_color) });
 				}
 			}
 		}

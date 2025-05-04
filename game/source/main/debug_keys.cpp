@@ -649,7 +649,7 @@ debug_key global_debug_key_list[]
 
 c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4)> global_debug_key_down; // 16 bit aligned
 //int32 global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
-uint32 g_debug_button_down_flags;
+uns32 g_debug_button_down_flags;
 
 s_debug_button g_debug_button_list[]
 {

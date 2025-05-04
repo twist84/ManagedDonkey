@@ -6,7 +6,7 @@
 //.text:00556360 ; void __cdecl game_engine_build_teams(void)
 //.text:005563B0 ; void __cdecl game_engine_build_valid_team_mapping(void)
 //.text:00556500 ; int32 __cdecl game_engine_get_any_player_from_team(enum e_game_team)
-//.text:00556590 ; uint16 __cdecl game_engine_get_available_teams(void)
+//.text:00556590 ; uns16 __cdecl game_engine_get_available_teams(void)
 
 bool __cdecl game_engine_has_teams()
 {

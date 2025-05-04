@@ -8,16 +8,16 @@
 struct recorded_animation_definition
 {
 	char name[32];
-	uint8 version;
+	uns8 version;
 	int8 raw_animation_data;
-	uint8 unit_control_data_version;
+	uns8 unit_control_data_version;
 
-	uint8 DVU[0x1];
+	byte DVU[0x1];
 
 	int16 length_of_animation; // ticks
 
-	uint8 DCAU[0x2];
-	uint8 HL[0x4];
+	byte DCAU[0x2];
+	byte HL[0x4];
 
 	s_tag_data recorded_animation_event_stream;
 };

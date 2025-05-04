@@ -121,7 +121,7 @@ void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address)
 	//g_main_render_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
-uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line)
+uns32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
 
@@ -139,7 +139,7 @@ uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file,
 	//	if (get_current_thread_index() == k_thread_render)
 	//		return 0;
 	//
-	//	uint32 result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
+	//	uns32 result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
 	//	if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
 	//	{
 	//		restricted_region_lock_primary(k_game_state_render_region);
@@ -176,7 +176,7 @@ uint32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file,
 	//}
 }
 
-uint32 __cdecl audio_thread_loop(void* blah)
+uns32 __cdecl audio_thread_loop(void* blah)
 {
 	//return INVOKE(0x00504F80, audio_thread_loop, blah);
 
@@ -550,7 +550,7 @@ void __cdecl main_halt_and_catch_fire()
 	//crash_report_folder_create_if_not_present();
 	bool crash_ui_enable = true;//network_configuration_is_crash_ui_enabled() || minidump_force_regular_minidump_with_ui;
 
-	uint32 lock_time = system_milliseconds();
+	uns32 lock_time = system_milliseconds();
 
 	bool upload_debug_started = false;
 	bool upload_debug_completed = false;
@@ -600,8 +600,8 @@ void __cdecl main_halt_and_catch_fire()
 	{
 		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 
-		uint32 this_loop_time = system_milliseconds();
-		uint32 time_delta = this_loop_time - lock_time;
+		uns32 this_loop_time = system_milliseconds();
+		uns32 time_delta = this_loop_time - lock_time;
 		real32 shell_seconds_elapsed = time_delta / 1000.0f;
 		lock_time = this_loop_time;
 
@@ -799,8 +799,8 @@ void __cdecl main_loop()
 
 	main_loop_enter();
 
-	uint32 wait_for_render_thread = 0;
-	uint32 time = system_milliseconds();
+	uns32 wait_for_render_thread = 0;
+	uns32 time = system_milliseconds();
 	while (!main_globals.exit_game)
 	{
 		if (main_loop_is_suspended())
@@ -809,7 +809,7 @@ void __cdecl main_loop()
 		}
 		else
 		{
-			uint32 time_delta = system_milliseconds() - time;
+			uns32 time_delta = system_milliseconds() - time;
 			if (!disable_main_loop_throttle && time_delta < 7)
 				sleep(7 - time_delta);
 			time = system_milliseconds();
@@ -1057,10 +1057,10 @@ void __cdecl main_loop_body()
 								else
 									sound_render();
 
-								//static uint32 main_loop_network_time_since_abort = 0;
+								//static uns32 main_loop_network_time_since_abort = 0;
 								//if (simulation_aborted())
 								//{
-								//	uint32 network_time_since_abort = simulation_get_network_time_since_abort();
+								//	uns32 network_time_since_abort = simulation_get_network_time_since_abort();
 								//	if (network_time_since_abort > 1000)
 								//		network_time_since_abort /= 1000;
 								//	else
@@ -1306,12 +1306,12 @@ void __cdecl main_loop_pregame()
 
 	if (is_main_thread())
 	{
-		uint32 current_time = system_milliseconds();
+		uns32 current_time = system_milliseconds();
 		bool bink_active = bink_playback_active();
 
 		if (!main_globals.main_loop_pregame_entered
 			&& main_globals.main_loop_pregame_last_time
-			&& current_time - main_globals.main_loop_pregame_last_time >= uint32(!bink_active ? 24 : 15))
+			&& current_time - main_globals.main_loop_pregame_last_time >= uns32(!bink_active ? 24 : 15))
 		{
 			main_globals.main_loop_pregame_entered++;
 			if (bink_active)
@@ -1821,11 +1821,11 @@ void __cdecl main_save_map_private()
 	//main_globals.save_map = false;
 }
 
-void __cdecl main_set_active_designer_zone_mask(uint32 designer_zone_mask)
+void __cdecl main_set_active_designer_zone_mask(uns32 designer_zone_mask)
 {
 	INVOKE(0x00506E50, main_set_active_designer_zone_mask, designer_zone_mask);
 
-	//uint32 designer_zone_active_mask = global_designer_zone_active_mask_get();
+	//uns32 designer_zone_active_mask = global_designer_zone_active_mask_get();
 	//main_globals.pending_zone_activation.activating_designer_zone_mask = designer_zone_mask & ~designer_zone_active_mask;
 	//main_globals.pending_zone_activation.deactivating_designer_zone_mask = designer_zone_active_mask & ~designer_zone_mask;
 	//main_globals.modify_zone_activation =
@@ -2088,7 +2088,7 @@ e_render_thread_mode __cdecl render_thread_get_mode()
 
 //.text:00507570 ; bool __cdecl render_thread_is_halted_waiting_for_lock()
 //.text:00507590 ; void __cdecl render_thread_lock_rasterizer_and_resources()
-//.text:005075A0 ; uint32 __cdecl render_thread_loop(void*)
+//.text:005075A0 ; uns32 __cdecl render_thread_loop(void*)
 
 bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting)
 {
@@ -2099,7 +2099,7 @@ bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_t
 
 //.text:00507700 ; void __cdecl render_thread_unlock_rasterizer_and_resources()
 
-void __cdecl unlock_resources_and_resume_render_thread(uint32 flags)
+void __cdecl unlock_resources_and_resume_render_thread(uns32 flags)
 {
 	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, flags);
 
@@ -2128,7 +2128,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 	if (file_exists(&crash_info_output_file))
 		file_delete(&crash_info_output_file);
 
-	uint32 error = 0;
+	uns32 error = 0;
 	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		char const* string = "stack:\r\n";

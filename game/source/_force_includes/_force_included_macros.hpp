@@ -55,13 +55,13 @@ const int32 LONG_BITS = SIZEOF_BITS(int32);
 #define INVALID_ASYNC_TASK_ID -1
 
 //#define CHAR_MAX char(0x7F)
-#define UNSIGNED_CHAR_MAX uint8(0xFF)
+#define UNSIGNED_CHAR_MAX uns8(0xFF)
 
 //#define SHORT_MAX int16(0x7FFF)
-#define UNSIGNED_SHORT_MAX uint16(0xFFFF)
+#define UNSIGNED_SHORT_MAX uns16(0xFFFF)
 
 //#define LONG_MAX int32(0x7FFFFFFF)
-#define UNSIGNED_LONG_MAX uint32(0xFFFFFFFF)
+#define UNSIGNED_LONG_MAX uns32(0xFFFFFFFF)
 
 #define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)
 

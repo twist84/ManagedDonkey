@@ -49,11 +49,11 @@ struct c_restricted_section
 		_initialized = 0
 	};
 
-	uint32 m_internal_flags;
+	uns32 m_internal_flags;
 	int32 m_protection_scheme;
 	int32 m_external_lock;
-	uint8* m_address;
-	uint32 m_size;
+	uns8* m_address;
+	uns32 m_size;
 	int32 m_owner_thread;
 };
 static_assert(sizeof(c_restricted_section) == 0x18);
@@ -82,9 +82,9 @@ struct c_restricted_memory
 
 	struct s_registered_member
 	{
-		uint32 original_offset;
-		uint32 member_offset;
-		uint32 size;
+		uns32 original_offset;
+		uns32 member_offset;
+		uns32 size;
 		void(__cdecl* update_function)(void*);
 		void(__cdecl* post_copy_function)(void*);
 		void(__cdecl* overwrite_function)(void*);
@@ -99,13 +99,13 @@ struct c_restricted_memory
 	c_synchronized_long m_alias_allowed;
 	c_synchronized_long m_alias_count;
 	c_restricted_section* m_primary_section;
-	uint32 m_internal_flags;
-	uint32 m_tls_handle;
-	uint32 m_subsection_size;
-	uint32 m_reserved_size;
+	uns32 m_internal_flags;
+	uns32 m_tls_handle;
+	uns32 m_subsection_size;
+	uns32 m_reserved_size;
 	int32 m_mirror_count;
 	int32 m_internal_lock;
-	uint32 m_registered_member_count;
+	uns32 m_registered_member_count;
 	s_registered_member m_registered_member[k_max_registered_members];
 	c_restricted_memory_callbacks* m_callbacks;
 	void* m_primary_backup_memory;

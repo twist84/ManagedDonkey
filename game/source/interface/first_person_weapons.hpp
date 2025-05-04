@@ -54,7 +54,7 @@ enum e_first_person_weapon_data_flags
 struct first_person_weapon_data
 {
 	// e_first_person_weapon_data_flags
-	uint32 flags;
+	uns32 flags;
 	first_person_weapon_attachment attachment;
 	c_animation_manager animation_manager;
 	c_animation_channel channel1;
@@ -90,7 +90,7 @@ static_assert(sizeof(first_person_weapon_data) == 0x27A0);
 
 struct first_person_weapon
 {
-	uint32 flags;
+	uns32 flags;
 	int32 unit_index;
 	first_person_weapon_attachment attachment;
 	first_person_weapon_data weapon[k_first_person_max_weapons];

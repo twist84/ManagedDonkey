@@ -1,6 +1,7 @@
 #pragma once
 
 #include "interface/c_controller.hpp"
+#include "networking/transport/transport_security.hpp"
 
 enum e_event_type
 {
@@ -92,11 +93,11 @@ enum e_bungienet_user_flags
 
 struct s_user_interface_controller
 {
-	uint32 bungienet_user_flags;
-	uint8 hopper_access_flags;
+	uns32 bungienet_user_flags;
+	uns8 hopper_access_flags;
 	bool extras_portal_debug;
 
-	uint8 __unknown6;
+	uns8 __unknown6;
 
 	bool desires_veto;
 	int32 armor_loadout_index;
@@ -104,10 +105,9 @@ struct s_user_interface_controller
 	bool desires_rematch;
 	bool griefer;
 	bool notification_pending;
-	uint32 online_presence_flags;
+	uns32 online_presence_flags;
 	bool online_session_id_valid;
-	//__declspec(align(1)) s_transport_secure_identifier online_session_id;
-	uint8 online_session_id[0x10];
+	s_transport_secure_identifier online_session_id;
 };
 static_assert(sizeof(s_user_interface_controller) == 0x2C);
 static_assert(0x00 == OFFSETOF(s_user_interface_controller, bungienet_user_flags));
@@ -135,8 +135,8 @@ static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
 
 extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 
-extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, uint8 button);
-extern void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uint32 now, e_controller_component component);
+extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, uns8 button);
+extern void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uns32 now, e_controller_component component);
 extern void __cdecl user_interface_controller_attached(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
 extern s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index);

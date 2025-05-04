@@ -23,7 +23,7 @@ struct s_network_message_synchronous_actions
 {
 	int32 action_number;
 	int32 current_update_number;
-	uint32 valid_user_mask;
+	uns32 valid_user_mask;
 	player_action user_actions[4];
 };
 static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);

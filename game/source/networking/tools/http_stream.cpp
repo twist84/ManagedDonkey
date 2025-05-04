@@ -22,7 +22,7 @@ void c_http_post_source::set_source_as_buffer(char const* contents_buffer, int32
 
 	m_source_type = _contents_source_as_buffer;
 	m_contents_buffer = contents_buffer;
-	m_contents_length = static_cast<uint32>(contents_buffer_length);
+	m_contents_length = static_cast<uns32>(contents_buffer_length);
 }
 
 bool c_http_post_source::set_source_as_file(s_file_reference* contents_file)
@@ -307,7 +307,7 @@ bool c_http_post_stream::verify_nescessary_state_is_set()
 {
 	return INVOKE_CLASS_MEMBER(0x00433000, c_http_post_stream, verify_nescessary_state_is_set);
 
-	//uint8 necessary_state_is_set = m_post_source.get_source_type() == c_http_post_source::_contents_source_as_file
+	//uns8 necessary_state_is_set = m_post_source.get_source_type() == c_http_post_source::_contents_source_as_file
 	//	|| m_post_source.get_source_type() == c_http_post_source::_contents_source_as_buffer;
 	//return necessary_state_is_set & (m_url.length() != 0);
 }

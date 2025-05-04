@@ -78,7 +78,7 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 	if (!transport_available())
 		return NULL;
 
-	uint8 socket_address[0x1C];
+	byte socket_address[0x1C];
 	int socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -113,7 +113,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 	if (!transport_available())
 		return false;
 
-	uint8 socket_address[0x1C];
+	byte socket_address[0x1C];
 	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -170,7 +170,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 	if (!transport_available())
 		return false;
 
-	uint8 socket_address[0x1C];
+	byte socket_address[0x1C];
 	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -215,7 +215,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
 	if (!transport_available())
 		return false;
 
-	uint8 socket_address[0x1C];
+	byte socket_address[0x1C];
 	int32 socket_address_size = sizeof(socket_address);
 	csmemset(socket_address, 0, socket_address_size);
 
@@ -356,7 +356,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 	return option_value;
 }
 
-bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, int32* socket_address_size, uint8* const socket_address)
+bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, int32* socket_address_size, uns8* const socket_address)
 {
 	//return INVOKE(0x00440000, transport_endpoint_get_socket_address, address, socket_address_size, socket_address);
 
@@ -368,8 +368,8 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	{
 		sockaddr_in* sock = (sockaddr_in*)socket_address;
 		sock->sin_family = AF_INET;
-		sock->sin_port = bswap_uint16(address->port);
-		sock->sin_addr.s_addr = bswap_uint32(address->ipv4_address);
+		sock->sin_port = bswap_uns16(address->port);
+		sock->sin_addr.s_addr = bswap_uns32(address->ipv4_address);
 		*socket_address_size = sizeof(sockaddr_in);
 		return true;
 	}
@@ -378,15 +378,15 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	{
 		sockaddr_in6* sock = (sockaddr_in6*)socket_address;
 		sock->sin6_family = AF_INET6;
-		sock->sin6_port = bswap_uint16(address->port);
-		sock->sin6_addr.u.Word[0] = bswap_uint16(address->ina6.words[0]);
-		sock->sin6_addr.u.Word[1] = bswap_uint16(address->ina6.words[1]);
-		sock->sin6_addr.u.Word[2] = bswap_uint16(address->ina6.words[2]);
-		sock->sin6_addr.u.Word[3] = bswap_uint16(address->ina6.words[3]);
-		sock->sin6_addr.u.Word[4] = bswap_uint16(address->ina6.words[4]);
-		sock->sin6_addr.u.Word[5] = bswap_uint16(address->ina6.words[5]);
-		sock->sin6_addr.u.Word[6] = bswap_uint16(address->ina6.words[6]);
-		sock->sin6_addr.u.Word[7] = bswap_uint16(address->ina6.words[7]);
+		sock->sin6_port = bswap_uns16(address->port);
+		sock->sin6_addr.u.Word[0] = bswap_uns16(address->ina6.words[0]);
+		sock->sin6_addr.u.Word[1] = bswap_uns16(address->ina6.words[1]);
+		sock->sin6_addr.u.Word[2] = bswap_uns16(address->ina6.words[2]);
+		sock->sin6_addr.u.Word[3] = bswap_uns16(address->ina6.words[3]);
+		sock->sin6_addr.u.Word[4] = bswap_uns16(address->ina6.words[4]);
+		sock->sin6_addr.u.Word[5] = bswap_uns16(address->ina6.words[5]);
+		sock->sin6_addr.u.Word[6] = bswap_uns16(address->ina6.words[6]);
+		sock->sin6_addr.u.Word[7] = bswap_uns16(address->ina6.words[7]);
 		sock->sin6_scope_id = 0;
 		*socket_address_size = sizeof(sockaddr_in6);
 		return true;
@@ -397,7 +397,7 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	return false;
 }
 
-bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, uint8 const* const socket_address, transport_address* address)
+bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, uns8 const* const socket_address, transport_address* address)
 {
 	//return INVOKE(0x00440120, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
 

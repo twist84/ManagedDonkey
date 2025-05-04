@@ -86,7 +86,7 @@ void __cdecl controllers_render()
 	INVOKE(0x00A7D180, controllers_render);
 }
 
-//.text:00A7D1C0 ; void __cdecl controllers_update(uint32)
+//.text:00A7D1C0 ; void __cdecl controllers_update(uns32)
 //.text:00A7D290 ; public: void c_controller_interface::dispose()
 //.text:00A7D2A0 ; private: void c_controller_interface::generate_random_display_name()
 //.text:00A7D360 ; // vidmaster related
@@ -104,7 +104,7 @@ wchar_t const* c_controller_interface::get_display_name() const
 }
 
 //.text:00A7D430 ; 
-//.text:00A7D440 ; public: uint32 c_controller_interface::get_hash_bits(int32)
+//.text:00A7D440 ; public: uns32 c_controller_interface::get_hash_bits(int32)
 //.text:00A7D450 ; // vidmaster related
 
 int16 c_controller_interface::get_or_create_user_index()
@@ -122,7 +122,7 @@ c_player_profile_interface* c_controller_interface::get_player_profile_interface
 	return &m_player_profile;
 }
 
-uint64 const c_controller_interface::get_player_xuid() const
+uns64 const c_controller_interface::get_player_xuid() const
 {
 	return INVOKE_CLASS_MEMBER(0x00A7D540, c_controller_interface, get_player_xuid);
 }
@@ -225,7 +225,7 @@ void c_controller_interface::sign_out_controller(bool sign_out_for_sign_in_chang
 
 //.text:00A7DCA0 ; public: bool c_controller_interface::storage_device_valid(void)
 //.text:00A7DCE0 ; public: bool c_flags_no_init<c_controller_interface::e_controller_state_flags, int16, 12>::test(c_controller_interface::e_controller_state_flags) const
-//.text:00A7DD00 ; public: void c_controller_interface::update(uint32)
+//.text:00A7DD00 ; public: void c_controller_interface::update(uns32)
 
 void c_controller_interface::update_controller_properties()
 {
@@ -253,9 +253,9 @@ void c_controller_interface::update_controller_properties()
 
 	if (is_signed_in || m_state_flags.test(_temporary_bit))
 	{
-		uint64 old_player_identifier = 0;
-		uint64 new_player_identifier = 0;
-		uint64 xuid = 0;
+		uns64 old_player_identifier = 0;
+		uns64 new_player_identifier = 0;
+		uns64 xuid = 0;
 		bool is_silver_or_gold_live = false;
 		bool is_online_enabled = false;
 		bool is_free_live_gold_account = false;

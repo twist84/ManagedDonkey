@@ -73,7 +73,7 @@ void c_network_message_handler::handle_broadcast_reply(transport_address const* 
 
 	if (message->protocol_version == k_network_protocol_version)
 	{
-		uint64 search_nonce;
+		uns64 search_nonce;
 		if (network_broadcast_search_active(&search_nonce))
 		{
 			if (transport_secure_nonce_compare(message->search_nonce, search_nonce))
@@ -100,7 +100,7 @@ void c_network_message_handler::handle_broadcast_search(transport_address const*
 		return;
 	}
 
-	uint64 search_nonce;
+	uns64 search_nonce;
 	if (network_broadcast_search_active(&search_nonce) && transport_secure_nonce_compare(message->nonce, search_nonce))
 		return;
 
@@ -516,7 +516,7 @@ void c_network_message_handler::handle_channel_message(c_network_channel* channe
 
 		if (channel->connected())
 		{
-			handle_synchronous_gamestate(channel, converter.message_synchronous_gamestate, message_storage_size - sizeof(s_network_message_synchronous_gamestate), (uint8*)converter.message_synchronous_gamestate + sizeof(s_network_message_synchronous_gamestate));
+			handle_synchronous_gamestate(channel, converter.message_synchronous_gamestate, message_storage_size - sizeof(s_network_message_synchronous_gamestate), (byte*)converter.message_synchronous_gamestate + sizeof(s_network_message_synchronous_gamestate));
 		}
 		else
 		{

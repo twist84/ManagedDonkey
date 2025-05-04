@@ -52,7 +52,7 @@ c_gui_widget* c_gui_screen_widget::get_focused_widget()
 
 e_gui_game_mode c_gui_screen_widget::get_gui_game_mode()
 {
-	return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[60], c_gui_screen_widget, get_gui_game_mode);
+	return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[60], c_gui_screen_widget, get_gui_game_mode);
 }
 
 e_window_index c_gui_screen_widget::get_render_window()
@@ -63,7 +63,7 @@ e_window_index c_gui_screen_widget::get_render_window()
 bool c_gui_screen_widget::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB14C0, c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
-	//return INVOKE_CLASS_MEMBER((uint32)__vftable->__funcs[49], c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
+	//return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[49], c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
 	return false;
 }

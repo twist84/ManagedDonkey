@@ -18,7 +18,7 @@ void c_draw_string::set_bounds(rectangle2d const* bounds)
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, rectangle2d const*)(this, bounds);
 }
 
-void c_draw_string::set_color(uint32 color)
+void c_draw_string::set_color(uns32 color)
 {
 	real_argb_color real_color{};
 	set_color(pixel32_to_real_argb_color({ .value = color }, &real_color));

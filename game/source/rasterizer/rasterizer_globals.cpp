@@ -18,7 +18,7 @@ REFERENCE_DECLARE(0x050DDA80, s_rasterizer_timing_globals, g_rasterizer_timing_g
 //.text:00A259A0 ; real32 __cdecl rasterizer_get_average_frame_delta()
 //.text:00A25A30 ; int32 __cdecl rasterizer_get_d3d_presentation_interval()
 //.text:00A25A40 ; real32 __cdecl rasterizer_get_most_recent_delta()
-//.text:00A25A60 ; uint32 __cdecl rasterizer_get_most_recent_swap_index()
+//.text:00A25A60 ; uns32 __cdecl rasterizer_get_most_recent_swap_index()
 //.text:00A25A70 ; int32 __cdecl rasterizer_get_presentation_interval()
 //.text:00A25A80 ; int64 __cdecl rasterizer_get_vblank_index()
 //.text:00A25A90 ; int32 __cdecl rasterizer_get_vblank_interval()

@@ -596,7 +596,7 @@ bool hs_parse_point_ref(int32 expression_index)
 			char name[k_tag_string_length]{};
 			if (v7 - source_offset < k_tag_string_length)
 			{
-				uint32 name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
+				uns32 name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
 				csstrnzcpy(name, source_offset, name_size);
 				int16 point_set_index = cs_point_set_index_by_name(name);
 				int16 point_index = NONE;
@@ -1482,7 +1482,7 @@ bool hs_parse_tag_block_element_string_id(int32 expression_index, int32 offset, 
 	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<uint8*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
+		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<byte*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
 		if (block_element_string_id == string_id_retrieve(source_offset))
 		{
 			expression->short_value = static_cast<int16>(block_index);

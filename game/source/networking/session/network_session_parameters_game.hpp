@@ -32,7 +32,7 @@ static_assert(sizeof(s_network_session_privacy_mode) == 0x10);
 // $TODO: map this
 struct s_network_session_parameter_initial_participants
 {
-	uint8 __data[0x16530];
+	byte __data[0x16530];
 };
 static_assert(sizeof(s_network_session_parameter_initial_participants) == 0x16530);
 
@@ -47,7 +47,7 @@ struct s_network_session_parameter_game_start_status
 {
 	e_session_game_start_status game_start_status;
 	e_session_game_start_error game_start_error;
-	uint16 player_error_mask;
+	uns16 player_error_mask;
 	int16 map_load_progress;
 };
 static_assert(sizeof(s_network_session_parameter_game_start_status) == 0xC);

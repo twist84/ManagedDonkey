@@ -3,7 +3,7 @@
 struct c_restricted_section;
 struct c_restricted_memory_callbacks;
 
-extern void* __cdecl restricted_memory_get_address(int32 index, uint32 offset);
+extern void* __cdecl restricted_memory_get_address(int32 index, uns32 offset);
 extern void __cdecl restricted_memory_set_base_address(int32 index, void* address);
 extern void __cdecl restricted_region_add_alias(int32 index);
 extern int32 __cdecl restricted_region_add_member(int32 index, char const* name, char const* type, unsigned int allocation, int32 alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*));
@@ -17,7 +17,7 @@ extern void __cdecl restricted_region_end_aliasing(int32 index);
 extern int32 __cdecl restricted_region_find_address(void* address);
 extern void __cdecl restricted_region_free_member(int32 index, int32 member_index);
 extern void* __cdecl restricted_region_get_member_address(int32 index, int32 member_index);
-extern uint32 __cdecl restricted_region_get_member_offset(int32 index, int32 member_index);
+extern uns32 __cdecl restricted_region_get_member_offset(int32 index, int32 member_index);
 extern int32 __cdecl restricted_region_get_mirror_count(int32 index);
 extern char const* __cdecl restricted_region_get_name(int32 index);
 extern unsigned int __cdecl restricted_region_get_sector_size(int32 index);
@@ -38,6 +38,6 @@ extern void __cdecl restricted_region_unlock_mirror(int32 index);
 extern void __cdecl restricted_region_unlock_primary(int32 index);
 extern bool __cdecl restricted_region_valid(int32 index);
 extern bool __cdecl restricted_region_validate_address(int32 index, void* address);
-extern bool __cdecl restricted_region_wait_for_available_mirror(int32 index, uint32 a2);
-extern bool __cdecl restricted_region_wait_for_new_write_mirror(int32 index, uint32 a2);
+extern bool __cdecl restricted_region_wait_for_available_mirror(int32 index, uns32 timeout);
+extern bool __cdecl restricted_region_wait_for_new_write_mirror(int32 index, uns32 timeout);
 

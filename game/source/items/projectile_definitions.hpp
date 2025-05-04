@@ -51,7 +51,7 @@ struct _projectile_definition
 {
 	// $$$ PROJECTILE $$$
 
-	c_flags<e_projectile_flags, uint32, k_projectile_flags> flags;
+	c_flags<e_projectile_flags, uns32, k_projectile_flags> flags;
 	c_enum<e_projectile_detonation_timer_mode, int16, _projectile_detonation_timer_mode_immediately, k_projectile_detonation_timer_mode_count> detonation_timer_starts;
 	c_enum<e_ai_sound_volume, int16, _ai_sound_volume_silent, k_ai_sound_volume_count> impact_noise;
 	real32 collision_radius; // world units
@@ -89,7 +89,7 @@ struct _projectile_definition
 	c_enum<e_damage_reporting_type, int16, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
 
 	// pad
-	uint8 UAQLONXGN[1];
+	byte UAQLONXGN[0x1];
 
 	c_enum<e_object_type, int8, _object_type_biped, k_object_type_count> super_detonation_object_types;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> super_attached_detonation_damage;
@@ -170,7 +170,7 @@ static_assert(sizeof(projectile_definition) == sizeof(_projectile_definition) + 
 
 struct s_projectile_material_response_definition
 {
-	uint16 flags;
+	uns16 flags;
 
 	// default result
 	// (if the potential result, below, fails to happen)
@@ -180,11 +180,11 @@ struct s_projectile_material_response_definition
 	int16 runtime_material_index;
 
 	// pad
-	uint8 JJHT[2];
+	byte JJHT[0x2];
 
 	// potential result
 	int16 potential_response;
-	uint16 response_flags;
+	uns16 response_flags;
 	real32 chance_fraction; // [0,1]
 	angle_bounds between; // degrees
 	real_bounds _and; // world units per second
@@ -193,7 +193,7 @@ struct s_projectile_material_response_definition
 	int16 scale_effects_by;
 
 	// pad
-	uint8 BDFI[2];
+	byte BDFI[0x2];
 
 	// the angle of incidence is randomly perturbed by at most this amount to simulate irregularity.
 	real32 angular_noise; // degrees

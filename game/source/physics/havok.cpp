@@ -84,19 +84,19 @@ void __cdecl havok_dispose_from_old_map()
 	INVOKE(0x005C55A0, havok_dispose_from_old_map);
 }
 
-void __cdecl havok_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl havok_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x005C55C0, havok_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(uint32)
+//.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(uns32)
 //.text:005C5700 ; void __cdecl havok_entity_post_update(hkEntity*)
 //.text:005C5AB0 ; bool __cdecl havok_environment_bodies_initialized()
 //.text:005C5AD0 ; void __cdecl havok_error_stub(char const*, void*)
 //.text:005C5AE0 ; void __cdecl havok_garbage_collection_lock(bool)
 //.text:005C5AF0 ; bool __cdecl havok_garbage_collection_locked()
 //.text:005C5B00 ; c_environment_mopp_bv_tree_shape const* __cdecl havok_get_environment_mopp_shape(int32)
-//.text:005C5B20 ; uint32 __cdecl havok_get_environment_shape_key_from_cd_body(hkCdBody const*)
+//.text:005C5B20 ; uns32 __cdecl havok_get_environment_shape_key_from_cd_body(hkCdBody const*)
 //.text:005C5B60 ; c_environment_surface_shape const* __cdecl havok_get_environment_surface_shape(int32)
 //.text:005C5B90 ; hkThreadMemory* __cdecl havok_get_render_thread_memory()
 //.text:005C5BA0 ; hkMonitorStream* __cdecl havok_get_render_thread_monitor_stream()
@@ -114,12 +114,12 @@ void __cdecl havok_initialize_for_new_map()
 	INVOKE(0x005C5DB0, havok_initialize_for_new_map);
 }
 
-void __cdecl havok_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl havok_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005C5E00, havok_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:005C5E10 ; void __cdecl havok_initialize_for_new_structure_bsp_internal(uint32)
+//.text:005C5E10 ; void __cdecl havok_initialize_for_new_structure_bsp_internal(uns32)
 //.text:005C5EF0 ; void __cdecl havok_initialize_havok_world()
 //.text:005C6240 ; void __cdecl havok_initialize_object_rigid_bodies()
 //.text:005C6330 ; bool __cdecl havok_inside_simulation_step()

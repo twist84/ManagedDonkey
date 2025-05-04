@@ -70,13 +70,13 @@ private:
 	e_parameter_update_priority m_update_priority;
 	e_parameter_change_request_access m_change_request_access;
 	c_static_array<bool, 17> m_transmitted_peer_updates;
-	uint32 m_flags;
+	uns32 m_flags;
 };
 static_assert(sizeof(c_network_session_parameter_base) == 0x30);
 
 struct s_network_session_parameter_update
 {
-	uint8* payload;
+	byte* payload;
 };
-static_assert(sizeof(s_network_session_parameter_update) == sizeof(uint8*));
+static_assert(sizeof(s_network_session_parameter_update) == sizeof(byte*));
 

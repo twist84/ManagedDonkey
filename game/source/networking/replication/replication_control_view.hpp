@@ -13,12 +13,12 @@ struct c_replication_control_view :
 {
 	bool m_initialized;
 	c_simulation_view_telemetry_provider* m_telemetry_provider;
-	uint32 m_motion_available_send;
-	uint32 m_motion_available_receive;
+	uns32 m_motion_available_send;
+	uns32 m_motion_available_receive;
 	s_player_motion m_motion[k_network_maximum_control_streams];
-	uint32 m_motion_timestamp[k_network_maximum_control_streams];
-	uint32 m_prediction_available_send;
-	uint32 m_prediction_available_receive;
+	uns32 m_motion_timestamp[k_network_maximum_control_streams];
+	uns32 m_prediction_available_send;
+	uns32 m_prediction_available_receive;
 	s_player_prediction m_prediction[k_network_maximum_control_streams];
 };
 static_assert(sizeof(c_replication_control_view) == 0x1320);

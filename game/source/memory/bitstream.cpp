@@ -3,7 +3,7 @@
 #include "math/unit_vector_quantization.hpp"
 #include "memory/byte_swapping.hpp"
 
-#define HIBYTE(x) ((uint8)((x) >> 8 * (sizeof(x) - 1)))
+#define HIBYTE(x) ((byte)((x) >> 8 * (sizeof(x) - 1)))
 
 // ===================== halo 4 begin =====================
 
@@ -43,7 +43,7 @@ t_type right_shift_safe(t_type value, int32 shift_bits)
 
 // ====================== halo 4 end ======================
 
-//.text:0043B5B0 ; c_bitstream::c_bitstream(uint8* data, int32 data_length)
+//.text:0043B5B0 ; c_bitstream::c_bitstream(byte* data, int32 data_length)
 //.text:0043B5D0 ; c_bitstream::~c_bitstream()
 
 //template<int32 k_forward_angle_bits, int32 k_up_quantization_bits>
@@ -112,9 +112,9 @@ void c_bitstream::write_bool(char const* name, bool value)
 	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, char const*, bool)(this, name, value);
 }
 
-void c_bitstream::write_integer(char const* name, uint32 value, int32 size_in_bits)
+void c_bitstream::write_integer(char const* name, uns32 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, char const*, uint32, int32)(this, name, value, size_in_bits);
+	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, char const*, uns32, int32)(this, name, value, size_in_bits);
 }
 
 void c_bitstream::write_raw_data(char const* name, void const* value, int32 size_in_bits)
@@ -128,18 +128,18 @@ void c_bitstream::write_signed_integer(char const* name, int32 value, int32 size
 	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, char const*, int32, int32)(this, name, value, size_in_bits);
 }
 
-uint64 c_bitstream::read_qword(char const* name, int32 size_in_bits)
+uns64 c_bitstream::read_qword(char const* name, int32 size_in_bits)
 {
 	return read_qword_internal(size_in_bits);
 
-	//return DECLFUNC(0x0046E940, uint64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
+	//return DECLFUNC(0x0046E940, uns64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::write_qword(char const* name, uint64 value, int32 size_in_bits)
+void c_bitstream::write_qword(char const* name, uns64 value, int32 size_in_bits)
 {
 	write_qword_internal(value, size_in_bits);
 
-	//DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, uint64, int32)(this, value, size_in_bits);
+	//DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 }
 
 //.text:0049ED60 ; c_bitstream::c_bitstream()
@@ -261,15 +261,15 @@ void c_bitstream::data_is_untrusted(bool is_untrusted)
 	DECLFUNC(0x00557D60, void, __thiscall, c_bitstream*, bool)(this, is_untrusted);
 }
 
-uint64 c_bitstream::decode_qword_from_memory()
+uns64 c_bitstream::decode_qword_from_memory()
 {
-	return DECLFUNC(0x00557D70, uint64, __thiscall, c_bitstream*)(this);
+	return DECLFUNC(0x00557D70, uns64, __thiscall, c_bitstream*)(this);
 	//return INVOKE_CLASS_MEMBER(0x00557D70, c_bitstream, decode_qword_from_memory);
 
-	//uint8* next_data = m_bitstream_data.next_data;
-	//uint8* data_max = m_data_max;
-	//uint64 value = 0;
-	//uint8* v4 = next_data + 8;
+	//byte* next_data = m_bitstream_data.next_data;
+	//byte* data_max = m_data_max;
+	//uns64 value = 0;
+	//byte* v4 = next_data + 8;
 	//int32 size_in_bits = 0;
 	//if (next_data + CHAR_BITS > data_max)
 	//{
@@ -278,8 +278,8 @@ uint64 c_bitstream::decode_qword_from_memory()
 	//else
 	//{
 	//	m_bitstream_data.next_data = v4;
-	//	size_in_bits = SIZEOF_BITS(uint64);
-	//	value = *reinterpret_cast<uint64*>(m_bitstream_data.next_data);
+	//	size_in_bits = SIZEOF_BITS(uns64);
+	//	value = *reinterpret_cast<uns64*>(m_bitstream_data.next_data);
 	//}
 	//
 	//ASSERT(m_bitstream_data.next_data <= m_data_max);
@@ -300,31 +300,31 @@ void c_bitstream::discard_remaining_data()
 	//DECLFUNC(0x00557F60, void, __thiscall, c_bitstream const*)(this);
 }
 
-void c_bitstream::encode_qword_to_memory(uint64 value, int32 size_in_bits)
+void c_bitstream::encode_qword_to_memory(uns64 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00557F80, void, __thiscall, c_bitstream const*, uint64, int32)(this, value, size_in_bits);
+	DECLFUNC(0x00557F80, void, __thiscall, c_bitstream const*, uns64, int32)(this, value, size_in_bits);
 	//INVOKE_CLASS_MEMBER(0x00557F80, c_bitstream, encode_qword_to_memory, value, size_in_bits);
 
-	//uint64 temp_value = bswap_uint64(value);
+	//uns64 temp_value = bswap_uns64(value);
 	//if (m_bitstream_data.next_data + CHAR_BITS > m_data_max)
 	//{
 	//	do
 	//	{
-	//		uint8 byte_to_write = static_cast<uint8>(temp_value & MASK(CHAR_BITS));
+	//		byte byte_to_write = static_cast<byte>(temp_value & MASK(CHAR_BITS));
 	//		*m_bitstream_data.next_data++ = byte_to_write;
 	//		temp_value >>= CHAR_BITS;
 	//	} while (m_bitstream_data.next_data < m_data_max);
 	//
 	//	//while (m_bitstream_data.next_data < m_data_max)
 	//	//{
-	//	//	*m_bitstream_data.next_data++ = static_cast<uint8>(right_shift_fast<uint64>(temp_value, SIZEOF_BITS(uint64) - CHAR_BITS) & MASK(CHAR_BITS));
+	//	//	*m_bitstream_data.next_data++ = static_cast<byte>(right_shift_fast<uns64>(temp_value, SIZEOF_BITS(uns64) - CHAR_BITS) & MASK(CHAR_BITS));
 	//	//	temp_value <<= CHAR_BITS;
 	//	//}
 	//}
 	//else
 	//{
-	//	*reinterpret_cast<uint64*>(m_bitstream_data.next_data) = temp_value;
-	//	m_bitstream_data.next_data += sizeof(uint64);
+	//	*reinterpret_cast<uns64*>(m_bitstream_data.next_data) = temp_value;
+	//	m_bitstream_data.next_data += sizeof(uns64);
 	//}
 	//m_bitstream_data.current_memory_bit_position += size_in_bits;
 }
@@ -402,9 +402,9 @@ int32 c_bitstream::get_space_used_in_bits()
 	return m_bitstream_data.accumulator_bit_count + m_bitstream_data.current_stream_bit_position;
 }
 
-uint8 const* c_bitstream::get_data(int32* data_length) const
+byte const* c_bitstream::get_data(int32* data_length) const
 {
-	//return DECLFUNC(0x00558250, uint8 const*, __thiscall, c_bitstream const*, int32*)(this, data_length);
+	//return DECLFUNC(0x00558250, byte const*, __thiscall, c_bitstream const*, int32*)(this, data_length);
 
 	ASSERT(!writing());
 	ASSERT(data_length);
@@ -429,7 +429,7 @@ void c_bitstream::pop_position(bool pop)
 	DECLFUNC(0x00558310, void, __thiscall, c_bitstream*, bool)(this, pop);
 }
 
-uint64 c_bitstream::read_accumulator_from_memory(int32 a1)
+uns64 c_bitstream::read_accumulator_from_memory(int32 a1)
 {
 	return DECLFUNC(0x005583D0, bool, __thiscall, c_bitstream*, int32)(this, a1);
 }
@@ -448,15 +448,15 @@ void c_bitstream::read_bits_internal(void* data, int32 size_in_bits)
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream*, void*, int32)(this, data, size_in_bits);
 }
 
-uint32 c_bitstream::read_integer(char const* name, int32 size_in_bits)
+uns32 c_bitstream::read_integer(char const* name, int32 size_in_bits)
 {
 	ASSERT(reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
 
-	//uint32 value = read_value_internal(size_in_bits)
+	//uns32 value = read_value_internal(size_in_bits)
 	//ASSERT(value < (1 << size_in_bits));
 
-	return DECLFUNC(0x005589A0, uint32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
+	return DECLFUNC(0x005589A0, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
 void c_bitstream::read_identifier(char const* identifier)
@@ -487,12 +487,12 @@ real32 c_bitstream::read_quantized_real(char const* name, real32 min_value, real
 	return DECLFUNC(0x00559080, real32, __thiscall, c_bitstream*, char const*, real32, real32, int32, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
-uint64 c_bitstream::read_qword_internal(int32 size_in_bits)
+uns64 c_bitstream::read_qword_internal(int32 size_in_bits)
 {
 	ASSERT(reading());
-	ASSERT(size_in_bits > 0 && size_in_bits <= SIZEOF_BITS(uint64));
+	ASSERT(size_in_bits > 0 && size_in_bits <= SIZEOF_BITS(uns64));
 
-	return DECLFUNC(0x00559160, uint64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
+	return DECLFUNC(0x00559160, uns64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
 void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
@@ -553,14 +553,14 @@ bool c_bitstream::reading() const
 	return IN_RANGE_INCLUSIVE(m_state, _bitstream_state_read, _bitstream_state_read_consistency_check);
 }
 
-void c_bitstream::set_data(uint8* data, int32 data_length)
+void c_bitstream::set_data(byte* data, int32 data_length)
 {
 	m_data = data;
 	m_data_max = &data[data_length];
 	m_data_size_bytes = data_length;
 	reset(_bitstream_state_none);
 
-	//DECLFUNC(0x00559D90, void, __thiscall, c_bitstream*, uint8*, int32)(this, data, data_length);
+	//DECLFUNC(0x00559D90, void, __thiscall, c_bitstream*, byte*, int32)(this, data, data_length);
 }
 
 void c_bitstream::skip(int32 bits_to_skip)
@@ -573,40 +573,40 @@ bool c_bitstream::would_overflow(int32 size_in_bits) const
 	return DECLFUNC(0x00559E90, bool, __thiscall, c_bitstream const*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::write_accumulator_to_memory(uint64 value, int32 size_in_bits)
+void c_bitstream::write_accumulator_to_memory(uns64 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream*, uint64, int32)(this, value, size_in_bits);
+	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 
-	//uint64 accumulator = m_bitstream_data.accumulator;
-	//int32 shift_bits = SIZEOF_BITS(uint64) - m_bitstream_data.accumulator_bit_count;
+	//uns64 accumulator = m_bitstream_data.accumulator;
+	//int32 shift_bits = SIZEOF_BITS(uns64) - m_bitstream_data.accumulator_bit_count;
 	//m_bitstream_data.current_stream_bit_position += size_in_bits;
 	//int32 accumulator_bit_count = size_in_bits - shift_bits;
 	//
-	//if (accumulator_bit_count < SIZEOF_BITS(uint64))
+	//if (accumulator_bit_count < SIZEOF_BITS(uns64))
 	//	accumulator = left_shift_fast(accumulator, shift_bits) | (value >> accumulator_bit_count);
 	//
-	//uint8* next_data = m_bitstream_data.next_data;
-	//uint8* data_max = m_data_max;
+	//byte* next_data = m_bitstream_data.next_data;
+	//byte* data_max = m_data_max;
 	//
-	//if (next_data + SIZEOF_BITS(uint8) > data_max)
+	//if (next_data + SIZEOF_BITS(byte) > data_max)
 	//{
 	//	if (next_data < data_max)
 	//	{
 	//		do
 	//		{
-	//			uint8 next_byte = HIBYTE(accumulator);
-	//			accumulator <<= SIZEOF_BITS(uint8);
+	//			byte next_byte = HIBYTE(accumulator);
+	//			accumulator <<= SIZEOF_BITS(byte);
 	//			*m_bitstream_data.next_data++ = next_byte;
 	//		} while (m_bitstream_data.next_data < m_data_max);
 	//	}
 	//
-	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(uint64);
+	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(uns64);
 	//}
 	//else
 	//{
-	//	*(uint64*)next_data = bswap_uint64(accumulator);
-	//	m_bitstream_data.next_data += SIZEOF_BITS(uint8);
-	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(uint64);
+	//	*(uns64*)next_data = bswap_uns64(accumulator);
+	//	m_bitstream_data.next_data += SIZEOF_BITS(byte);
+	//	m_bitstream_data.current_memory_bit_position += SIZEOF_BITS(uns64);
 	//}
 }
 
@@ -634,12 +634,12 @@ void c_bitstream::write_quantized_real(char const* name, real32* value, real32 m
 	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream*, char const*, real32*, real32, real32, int32, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
-void c_bitstream::write_qword_internal(uint64 value, int32 size_in_bits)
+void c_bitstream::write_qword_internal(uns64 value, int32 size_in_bits)
 {
 	ASSERT(writing());
-	ASSERT(size_in_bits <= SIZEOF_BITS(uint64));
+	ASSERT(size_in_bits <= SIZEOF_BITS(uns64));
 
-	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, uint64, int32)(this, value, size_in_bits);
+	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 }
 
 void c_bitstream::write_secure_address(char const* name, s_transport_secure_address const* address)

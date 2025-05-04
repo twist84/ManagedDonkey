@@ -11,7 +11,7 @@ static_assert(sizeof(s_projectile_targeting_data) == sizeof(c_aim_target_object)
 
 struct _projectile_datum
 {
-	uint32 flags;
+	uns32 flags;
 	int8 action;
 	int8 consecutive_collision_counter;
 	c_global_material_type hit_global_material;

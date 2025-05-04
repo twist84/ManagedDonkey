@@ -50,7 +50,7 @@ protected:
 	real32 m_slide;
 	real32 m_speed_anti_gravity_fraction;
 	int8 m_trick_type;
-	uint8 m_trick_tick;
+	uns8 m_trick_tick;
 };
 static_assert(sizeof(c_vehicle_type_alien_fighter) == 0x1C);
 

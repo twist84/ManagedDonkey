@@ -11,11 +11,11 @@ struct s_campaign_metagame_runtime_globals
 		_initialized_bit = 1
 	};
 
-	uint8 __data0[0x1A14C];
+	byte __data0[0x1A14C];
 
-	uint32 flags;
+	uns32 flags;
 
-	uint8 __data[0x8];
+	byte __data[0x8];
 };
 static_assert(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
 
@@ -25,12 +25,12 @@ struct s_campaign_metagame_runtime_sizeof_10C
 	int32 campaign_deaths;
 	int32 campaign_betrayals;
 
-	uint8 __data10[4];
+	byte __data10[0x4];
 
 	int32 points_lost;
-	uint8 buckets[k_campaign_metagame_bucket_type_count][k_campaign_metagame_bucket_class_count];
+	uns8 buckets[k_campaign_metagame_bucket_type_count][k_campaign_metagame_bucket_class_count];
 
-	uint8 __unknown108[4];
+	byte __unknown108[4];
 };
 static_assert(sizeof(s_campaign_metagame_runtime_sizeof_10C) == 0x10C);
 
@@ -38,13 +38,13 @@ struct s_campaign_metagame_runtime_globals_secondary
 {
 	int32 game_ticks;
 	bool initialized;
-	uint8 __pad5[0x3];
+	byte __pad5[0x3];
 
 	s_campaign_metagame_runtime_sizeof_10C __unknown8[4];
 	real_rectangle3d __unknown438[16];
 
 	int32 __unknown5B8; // __unknown5BC_index
-	uint8 __unknown5BC[500][0xE];
+	byte __unknown5BC[500][0xE];
 };
 static_assert(sizeof(s_campaign_metagame_runtime_globals_secondary) == 0x2114);
 

@@ -6,7 +6,7 @@
 
 struct s_player_control_globals_deterministic
 {
-	uint8 __data[0x80];
+	byte __data[0x80];
 };
 static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
@@ -124,15 +124,15 @@ enum e_player_control_bit
 
 struct s_player_control_non_deterministic_input_user_state
 {
-	// c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> action_test_flags
-	uint32 __flags0;
-	uint8 __data4[0x2];
+	// c_flags<e_player_control_action_test_bit, uns64, k_number_of_player_control_action_test_bits> action_test_flags
+	uns32 __flags0;
+	byte __data4[0x2];
 	bool player_input_locked;
-	uint8 __data7[0x1];
+	byte __data7[0x1];
 
-	c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> testing_for_action_flags;
-	c_flags<e_player_control_action_test_bit, uint64, k_number_of_player_control_action_test_bits> inhibit_button_flags;
-	c_flags<e_player_control_bit, uint32, k_number_of_player_control_bits> control_flags;
+	c_flags<e_player_control_action_test_bit, uns64, k_number_of_player_control_action_test_bits> testing_for_action_flags;
+	c_flags<e_player_control_action_test_bit, uns64, k_number_of_player_control_action_test_bits> inhibit_button_flags;
+	c_flags<e_player_control_bit, uns32, k_number_of_player_control_bits> control_flags;
 
 	// Locks the accept button until the player presses accept
 	bool lock_accept_button_until_pressed;
@@ -149,7 +149,7 @@ struct s_player_control_non_deterministic_input_user_state
 	real32 current_input_scale_target;
 	real32 current_input_scale_time_remaining;
 
-	uint8 __pad2C[0x4];
+	byte __pad2C[0x4];
 };
 static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x30);
 
@@ -166,7 +166,7 @@ struct s_player_interaction
 
 		struct
 		{
-			uint8 pick_up_flags;
+			uns8 pick_up_flags;
 		} pick_up_weapon;
 	} data;
 
@@ -187,9 +187,9 @@ struct s_player_control_input
 	real32 primary_trigger;
 	real32 secondary_trigger;
 	real_euler_angles2d facing_delta;
-	uint32 unit_control_flags;
-	uint32 player_control_flags;
-	uint16 player_action_flags;
+	uns32 unit_control_flags;
+	uns32 player_control_flags;
+	uns16 player_action_flags;
 	bool controller_look_inverted;
 	real32 lookstick_pitch;
 	s_aim_assist_targeting_result aim_assist_targeting;
@@ -198,9 +198,9 @@ static_assert(sizeof(s_player_control_input) == 0x50);
 
 struct s_player_control_state
 {
-	uint32 control_flags;
-	uint16 action_flags;
-	uint16 pad;
+	uns32 control_flags;
+	uns16 action_flags;
+	uns16 pad;
 	real_euler_angles2d desired_angles;
 	real_point2d throttle;
 	real32 primary_trigger;
@@ -216,7 +216,7 @@ struct s_player_control_state
 		bool rotation_valid;
 		bool player_locked_for_manipulation;
 		real_euler_angles2d map_editor_rotation;
-		uint16 map_editor_flags;
+		uns16 map_editor_flags;
 	} map_editor_data;
 };
 static_assert(sizeof(s_player_control_state) == 0x6C);
@@ -245,7 +245,7 @@ struct s_player_control_input_state
 	bool crouching;
 	int16 tracking_crouch_ticks;
 	bool tracking_temporary_zoom;
-	uint16 saved_zoom_level;
+	uns16 saved_zoom_level;
 	int16 tracking_temporary_zoom_ticks;
 	bool rotate_weapons_in_progress;
 	bool rotate_weapons_suppress;
@@ -261,9 +261,9 @@ static_assert(sizeof(s_player_control_input_state) == 0xF8);
 
 struct player_action
 {
-	uint32 control_context;
-	uint8 control_context_identifier;
-	uint32 control_flags;
+	uns32 control_context;
+	uns8 control_context_identifier;
+	uns32 control_flags;
 	real_euler_angles2d angles;
 	real_point2d throttle;
 	struct
@@ -271,18 +271,18 @@ struct player_action
 		bool rotation_valid;
 		bool player_locked_for_manipulation;
 		real_euler_angles2d rotation_yaw_pitch;
-		uint16 flags;
+		uns16 flags;
 	};
 	real32 trigger;
 	real32 secondary_trigger;
-	uint16 action_flags;
+	uns16 action_flags;
 	s_unit_weapon_set weapon_set;
-	uint16 grenade_index;
-	uint16 zoom_level;
+	uns16 grenade_index;
+	uns16 zoom_level;
 	s_player_action_context action_context;
 	s_aim_assist_targeting_result targeting;
 	bool velocity_exceeds_motion_tracker_threshold;
-	uint64 action_test_flags;
+	uns64 action_test_flags;
 };
 static_assert(sizeof(player_action) == 0x80);
 
@@ -396,7 +396,7 @@ extern bool __cdecl player_control_machinima_available();
 extern void __cdecl player_control_propagate_output(int32 input_user_index);
 //extern void __cdecl player_control_scale_all_input(real32, real32);
 //extern void __cdecl player_control_scale_all_input_for_player(int32, real32, real32);
-//extern void __cdecl player_control_set_deterministic_action_test_flags(int32, uint64);
+//extern void __cdecl player_control_set_deterministic_action_test_flags(int32, uns64);
 //extern void __cdecl player_control_set_external_action(int32, player_action const*);
 extern void __cdecl player_control_set_facing(int32 input_user_index, real_vector3d const* facing);
 //extern void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*);

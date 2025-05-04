@@ -16,8 +16,8 @@ public:
 		wchar_t const* default_text,
 		wchar_t const* title_text,
 		wchar_t const* description_text,
-		uint32 maximum_input_characters,
-		uint32 character_flags,
+		uns32 maximum_input_characters,
+		uns32 character_flags,
 		bool cancelled
 	);
 
@@ -29,8 +29,8 @@ public:
 	void __cdecl set_default_text(wchar_t const* default_text);
 	void __cdecl set_description_text(wchar_t const* description_text);
 	void __cdecl set_title_text(wchar_t const* title_text);
-	void __cdecl set_maximum_input_characters(uint32 maximum_input_characters);
-	void __cdecl set_character_flags(uint32 character_flags);
+	void __cdecl set_maximum_input_characters(uns32 maximum_input_characters);
+	void __cdecl set_character_flags(uns32 character_flags);
 	void __cdecl set_sanitize_result(bool sanitize_result);
 
 	static c_virtual_keyboard_task* __cdecl get_instance(
@@ -40,25 +40,25 @@ public:
 		wchar_t const* default_text,
 		wchar_t const* title_text,
 		wchar_t const* description_text,
-		uint32 maximum_input_characters,
-		uint32 character_flags,
+		uns32 maximum_input_characters,
+		uns32 character_flags,
 		bool sanitize_result
 	);
 	
 	static void __cdecl dispose_instance();
 
-	virtual void* destructor(uint32 a1) override;
+	virtual void* destructor(uns32 a1) override;
 	virtual char const* get_context_string() override;
-	virtual uint32 start(void* overlapped) override;
+	virtual uns32 start(void* overlapped) override;
 
-	uint32 __thiscall start_(void* overlapped);
-	void __thiscall success_(uint32 return_result);
+	uns32 __thiscall start_(void* overlapped);
+	void __thiscall success_(uns32 return_result);
 
 	static c_virtual_keyboard_task* m_instance;
 
 protected:
 	e_controller_index m_controller_index;
-	uint32 m_character_flags;
+	uns32 m_character_flags;
 	wchar_t m_result_text_buffer[256];
 	wchar_t m_default_text_buffer[256];
 	wchar_t m_title_text_buffer[64];
@@ -116,22 +116,22 @@ struct s_custom_message_text
 	} view_file_button[k_language_count];
 };
 
-extern uint32 __cdecl online_guide_delay_toasts(int32 milliseconds);
+extern uns32 __cdecl online_guide_delay_toasts(int32 milliseconds);
 extern void __cdecl online_guide_dispose();
 extern void __cdecl online_guide_handle_custom_action_pressed();
 extern void __cdecl online_guide_handle_custom_gamercard(bool guide_is_open);
 extern void __cdecl online_guide_initialize();
 extern void __cdecl online_guide_set_toast_position(e_online_guide_toast_position toast_position);
 extern void __cdecl online_guide_show_damaged_media_ui();
-extern uint32 __cdecl online_guide_show_device_selector_ui(e_controller_index controller_index, uint32 requested_bytes, bool always_show, uint32* device_id, void* xenon_task_handle);
-extern void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uint64 file_share_xuid, int32 slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text);
-extern uint32 __cdecl online_guide_show_friend_request_ui(e_controller_index controller_index, uint64 player_xuid);
-extern uint32 __cdecl online_guide_show_friends_ui(e_controller_index controller_index);
-extern uint32 __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_index, uint64 player_xuid);
+extern uns32 __cdecl online_guide_show_device_selector_ui(e_controller_index controller_index, uns32 requested_bytes, bool always_show, uns32* device_id, void* xenon_task_handle);
+extern void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uns64 file_share_xuid, int32 slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text);
+extern uns32 __cdecl online_guide_show_friend_request_ui(e_controller_index controller_index, uns64 player_xuid);
+extern uns32 __cdecl online_guide_show_friends_ui(e_controller_index controller_index);
+extern uns32 __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_index, uns64 player_xuid);
 extern void __cdecl online_guide_show_marketplace(e_controller_index controller_index);
-extern void __cdecl online_guide_show_marketplace_offer(e_controller_index controller_index, uint64 marketplace_offer_id);
-extern uint32 __cdecl online_guide_show_message_ui(e_controller_index controller_index, uint64 target_player_xuid);
-extern uint32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_index, uint64 target_user_xuid);
-extern bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uint32 flags);
-extern uint32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uint32 character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, uint32 maximum_character_count, void* overlapped);
+extern void __cdecl online_guide_show_marketplace_offer(e_controller_index controller_index, uns64 marketplace_offer_id);
+extern uns32 __cdecl online_guide_show_message_ui(e_controller_index controller_index, uns64 target_player_xuid);
+extern uns32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_index, uns64 target_user_xuid);
+extern bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uns32 flags);
+extern uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, uns32 maximum_character_count, void* overlapped);
 extern void __cdecl online_guide_update();

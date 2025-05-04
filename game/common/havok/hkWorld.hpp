@@ -38,7 +38,7 @@ struct hkMultiThreadLock
 {
 	unsigned int m_threadId;
 	int16 m_lockCount;
-	uint16 m_lockBitStack;
+	uns16 m_lockBitStack;
 };
 
 struct hkStepInfo
@@ -57,7 +57,7 @@ struct hkSolverInfo
 		float m_angularVelocityThresholdInv;
 		float m_slowObjectVelocityMultiplier;
 		float m_relativeSleepVelocityThreshold;
-		uint16 m_stepsToDeactivate;
+		uns16 m_stepsToDeactivate;
 		float m_maxDistSqrd[2];
 		hkHalf m_maxRotSqrd[2];
 	};
@@ -306,8 +306,8 @@ struct hkSimulationIsland :
 {
 	hkWorld* m_world;
 	int32 m_numConstraints;
-	uint16 m_storageIndex;
-	uint16 m_dirtyListIndex;
+	uns16 m_storageIndex;
+	uns16 m_dirtyListIndex;
 	unsigned char m_splitCheckFrameCounter;
 	unsigned char m_highFrequencyDeactivationCounter;
 	unsigned char m_lowFrequencyDeactivationCounter;

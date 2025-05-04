@@ -137,7 +137,7 @@ struct s_external_ip
 
 s_external_ip g_external_ip = { .address = transport_address() };
 
-uint32 get_external_ip()
+uns32 get_external_ip()
 {
 	if (g_external_ip.address.ipv4_address == 0)
 	{
@@ -157,7 +157,7 @@ uint32 get_external_ip()
 			int32 http_response_code = 0;
 
 			int32 seconds = 1800;
-			uint32 v7 = 1000 * seconds + system_milliseconds();
+			uns32 v7 = 1000 * seconds + system_milliseconds();
 			while (system_milliseconds() < v7)
 			{
 				int32 response_content_buffer_count = NUMBEROF(response_content_buffer);

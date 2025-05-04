@@ -5,25 +5,25 @@
 struct c_bitstream;
 struct s_saved_game_item_metadata
 {
-	uint64 unique_id;
+	uns64 unique_id;
 	wchar_t name[16];
 	char description[128];
 	char author[16];
 	c_enum<e_saved_game_file_type, int32, _saved_game_file_type_none, k_saved_game_file_type_count> file_type;
 	bool author_is_xuid_online;
-	uint8 pad0[3];
-	uint64 author_id;
-	uint64 size_in_bytes;
-	uint64 date;
+	byte pad0[3];
+	uns64 author_id;
+	uns64 size_in_bytes;
+	uns64 date;
 	int32 length_seconds;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	int32 game_engine_type;
 	int32 campaign_difficulty;
-	uint8 campaign_insertion_point;
+	uns8 campaign_insertion_point;
 	bool campaign_survival_enabled;
-	uint8 pad[0x1];
-	uint64 game_id;
+	byte pad[0x1];
+	uns64 game_id;
 
 	void byteswap();
 	bool is_valid() const;

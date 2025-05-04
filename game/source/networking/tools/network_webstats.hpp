@@ -4,14 +4,14 @@
 
 struct s_game_matchmaking_options
 {
-	uint16 hopper_identifier;
-	uint8 xlast_index;
+	uns16 hopper_identifier;
+	uns8 xlast_index;
 	bool is_ranked;
 	bool team_game;
-	uint8 : 8;
+	uns8 : 8;
 	wchar_t hopper_name[32];
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 	int32 draw_probability;
 	real32 beta;
 	real32 tau;

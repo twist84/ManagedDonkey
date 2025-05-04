@@ -10,7 +10,7 @@ struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<t_group_tags> name;
 
-	uint8 GYFQQPUM[0x20]; // pad
+	byte GYFQQPUM[0x20]; // pad
 
 	void update_reference_names()
 	{
@@ -27,7 +27,7 @@ struct scenario_object_palette_entry_with_string_id
 	int32 maximum_allowed;
 	real32 price_per_instance;
 
-	uint8 GYFQQPUM[0x14]; // pad
+	byte GYFQQPUM[0x14]; // pad
 
 	void update_reference_names()
 	{
@@ -38,30 +38,30 @@ static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x
 
 struct s_scenario_object_datum
 {
-	uint32 placement_flags;
+	uns32 placement_flags;
 	real_point3d position;
 	real_euler_angles3d rotation;
 	real32 scale;
 	s_tag_block node_orientations;
-	uint16 transform_flags;
-	uint16 manual_bsp_flags; // word_block_flags
+	uns16 transform_flags;
+	uns16 manual_bsp_flags; // word_block_flags
 	c_string_id light_airprobe_name;
 	c_object_identifier object_id;
 	int8 bsp_policy;
 	int8 editing_bound_to_bsp; // char_block_index
 	int16 editor_folder; // short_block_index
 	s_scenario_multiplayer_scenario_object_parent parent_id;
-	uint16 can_attach_to_bsp_flags; // word_block_flags
+	uns16 can_attach_to_bsp_flags; // word_block_flags
 
 	// pad
-	uint8 asdf[0x2];
+	byte asdf[0x2];
 };
 static_assert(sizeof(s_scenario_object_datum) == 0x50);
 
 struct s_scenario_object_permutation
 {
 	string_id variant_name;
-	uint32 active_change_colors;
+	uns32 active_change_colors;
 	rgb_color change_colors[5];
 };
 static_assert(sizeof(s_scenario_object_permutation) == 0x1C);
@@ -87,7 +87,7 @@ enum e_scenario_unit_datum_flags
 struct s_scenario_unit_datum
 {
 	real32 body_vitality;
-	c_flags<e_scenario_unit_datum_flags, uint32, k_scenario_unit_datum_flags> flags;
+	c_flags<e_scenario_unit_datum_flags, uns32, k_scenario_unit_datum_flags> flags;
 };
 static_assert(sizeof(s_scenario_unit_datum) == 0x8);
 
@@ -123,11 +123,11 @@ struct scenario_device_group
 {
 	c_static_string<k_tag_string_length> name;
 	real32 initial_value; // [0,1]
-	c_flags<e_device_group_flags, uint32, k_device_group_flags> flags;
+	c_flags<e_device_group_flags, uns32, k_device_group_flags> flags;
 	int16 editor_folder; // short_block_index
 
 	// pad
-	uint8 WAFNDIO[0x2];
+	byte WAFNDIO[0x2];
 };
 static_assert(sizeof(scenario_device_group) == 0x2C);
 
@@ -139,7 +139,7 @@ struct scenario_giant_datum
 	int16 pathfinding_policy;
 
 	// pad
-	uint8 post_pathfinding[0x2];
+	byte post_pathfinding[0x2];
 
 	s_tag_block pathfinding_references;
 };
@@ -176,7 +176,7 @@ struct s_scenario_weapon_datum
 {
 	int16 rounds_left;
 	int16 rounds_loaded;
-	c_flags<e_scenario_weapon_datum_flags, uint32, k_scenario_weapon_datum_flags> flags;
+	c_flags<e_scenario_weapon_datum_flags, uns32, k_scenario_weapon_datum_flags> flags;
 };
 static_assert(sizeof(s_scenario_weapon_datum) == 0x8);
 

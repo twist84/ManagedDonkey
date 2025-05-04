@@ -70,7 +70,7 @@ extern wchar_t const* usnzappend(wchar_t* string, int32 size, wchar_t const* for
 //extern int uremove(wchar_t const *);
 //extern wchar_t * utmpnam(wchar_t *);
 //extern int32 ustrtol(wchar_t const *,wchar_t * *,int);
-//extern uint32 ustrtoul(wchar_t const *,wchar_t * *,int);
+//extern uns32 ustrtoul(wchar_t const *,wchar_t * *,int);
 //extern real64 ustrtod(wchar_t const *,wchar_t * *);
 //extern wchar_t * ustrftime_tm(wchar_t *,int32,wchar_t const *,struct tm const *);
 //extern wchar_t * ustrftime(wchar_t *,int32,wchar_t const *,int64);

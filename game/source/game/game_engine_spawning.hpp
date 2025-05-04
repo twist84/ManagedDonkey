@@ -39,9 +39,9 @@ enum e_dynamic_spawn_influencer_type
 
 struct s_dynamic_spawn_influencer
 {
-	c_enum<e_dynamic_spawn_influencer_shape, uint8, _dynamic_spawn_influencer_shape_cylinder, k_dynamic_spawn_influencer_shapes> shape;
-	c_enum<e_dynamic_spawn_influencer_type, uint8, _dynamic_spawn_influencer_type_enemy_forbid, k_dynamic_spawn_influencer_types> type;
-	uint16 team; // e_multiplayer_team_designator
+	c_enum<e_dynamic_spawn_influencer_shape, uns8, _dynamic_spawn_influencer_shape_cylinder, k_dynamic_spawn_influencer_shapes> shape;
+	c_enum<e_dynamic_spawn_influencer_type, uns8, _dynamic_spawn_influencer_type_enemy_forbid, k_dynamic_spawn_influencer_types> type;
+	uns16 team; // e_multiplayer_team_designator
 	real32 full_weight_radius;
 	real32 fall_off_radius;
 	real32 total_height;

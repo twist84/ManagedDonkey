@@ -55,14 +55,14 @@ struct collision_result
 	int32 object_index;
 	int16 region_index;
 	int16 node_index;
-	uint32 bsp_reference;
+	uns32 bsp_reference;
 	int32 structure_bsp_index;
 	int32 leaf_index;
 	int32 surface_index;
 	int32 plane_designator;
 	int8 edge_index;
-	uint8 flags; // e_surface_flags
-	uint8 breakable_surface_index;
+	uns8 flags; // e_surface_flags
+	uns8 breakable_surface_index;
 	int16 material_index;
 	int8 breakable_surface_set_index;
 };
@@ -76,8 +76,8 @@ struct collision_bsp_test_vector_result
 	int32 surface_index;
 	int32 plane_designator;
 	int8 edge_index;
-	uint8 flags;
-	uint8 breakable_surface_index;
+	uns8 flags;
+	uns8 breakable_surface_index;
 	int16 material_index;
 	int32 leaf_count;
 	int32 leaf_indices[256];
@@ -87,7 +87,7 @@ static_assert(sizeof(collision_bsp_test_vector_result) == 0x424);
 
 struct collision_model_test_vector_result
 {
-	uint32 bsp_reference;
+	uns32 bsp_reference;
 	int16 node_index;
 	int16 region_index;
 	collision_bsp_test_vector_result bsp_result;

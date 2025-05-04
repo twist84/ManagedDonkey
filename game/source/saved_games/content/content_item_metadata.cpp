@@ -5,20 +5,20 @@
 
 void s_saved_game_item_metadata::byteswap()
 {
-	bswap_uint64_inplace(unique_id);
-	for (int32 i = 0; i < NUMBEROF(name); i++) bswap_uint16_inplace(name[i]);
-	bswap_uint32_inplace(file_type);
+	bswap_uns64_inplace(unique_id);
+	for (int32 i = 0; i < NUMBEROF(name); i++) bswap_uns16_inplace(name[i]);
+	bswap_uns32_inplace(file_type);
 	ASSERT(array_is_zeroed(pad0));
-	bswap_uint64_inplace(author_id);
-	bswap_uint64_inplace(size_in_bytes);
-	bswap_uint64_inplace(date);
-	bswap_uint32_inplace(length_seconds);
-	campaign_id = (e_campaign_id)bswap_uint32(campaign_id);
-	map_id = (e_map_id)bswap_uint32(map_id);
-	bswap_uint32_inplace(game_engine_type);
-	bswap_uint32_inplace(campaign_difficulty);
+	bswap_uns64_inplace(author_id);
+	bswap_uns64_inplace(size_in_bytes);
+	bswap_uns64_inplace(date);
+	bswap_uns32_inplace(length_seconds);
+	campaign_id = (e_campaign_id)bswap_uns32(campaign_id);
+	map_id = (e_map_id)bswap_uns32(map_id);
+	bswap_uns32_inplace(game_engine_type);
+	bswap_uns32_inplace(campaign_difficulty);
 	ASSERT(array_is_zeroed(pad));
-	bswap_uint64_inplace(game_id);
+	bswap_uns64_inplace(game_id);
 }
 
 bool s_saved_game_item_metadata::is_valid() const
@@ -48,7 +48,7 @@ void s_saved_game_item_metadata::decode(c_bitstream* packet)
 	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	campaign_insertion_point = static_cast<uint8>(packet->read_integer("campaign-insertion-point", 4));
+	campaign_insertion_point = static_cast<uns8>(packet->read_integer("campaign-insertion-point", 4));
 	campaign_survival_enabled = packet->read_bool("campaign-survival-enabled");
 	game_id = packet->read_qword("game-id", 64);
 }
@@ -102,7 +102,7 @@ void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 	map_id = (e_map_id)packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	uint16 hopper_id = static_cast<uint16>(packet->read_integer("hopper-id", 16));
+	uns16 hopper_id = static_cast<uns16>(packet->read_integer("hopper-id", 16));
 	game_id = packet->read_qword("game-id", 64);
 }
 

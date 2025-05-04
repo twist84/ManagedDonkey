@@ -46,12 +46,12 @@ protected:
 	c_static_string<260> m_filename;
 	char const* m_contents_buffer;
 	s_file_reference* m_contents_file;
-	uint32 m_contents_length;
+	uns32 m_contents_length;
 	int32 m_start_position;
 
 	// Halo Online
 	bool m_is_json;
-	uint8 __pad139[0x3];
+	byte __pad139[0x3];
 };
 static_assert(sizeof(c_http_post_source) == 0x13C);
 

@@ -259,7 +259,7 @@ void __cdecl main_time_throttle(int64 target_display_vblank_index)
 	//	if (main_time_is_throttled())
 	//	{
 	//		volatile int64 current_vblank_index = rasterizer_get_vblank_index();
-	//		for (uint32 previous_swap_index = g_previous_swap_index; g_previous_swap_index; previous_swap_index = g_previous_swap_index)
+	//		for (uns32 previous_swap_index = g_previous_swap_index; g_previous_swap_index; previous_swap_index = g_previous_swap_index)
 	//		{
 	//			if (current_vblank_index != previous_swap_index)
 	//				break;
@@ -278,7 +278,7 @@ void __cdecl main_time_throttle(int64 target_display_vblank_index)
 	//		}
 	//	}
 	//	g_main_time_throttle_debug.final_vblank_index = rasterizer_get_vblank_index();
-	//	uint32 most_recent_swap_index = rasterizer_get_most_recent_swap_index();
+	//	uns32 most_recent_swap_index = rasterizer_get_most_recent_swap_index();
 	//	g_main_time_throttle_debug.count++;
 	//	g_main_time_throttle_debug.final_swap_index = most_recent_swap_index;
 	//	int64 time_ms = system_milliseconds();

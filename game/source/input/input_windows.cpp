@@ -13,9 +13,9 @@
 
 //#include <windows.h> // for `key_to_virtual_table`
 
-REFERENCE_DECLARE_ARRAY(0x01650918, uint8 const, key_to_virtual_table, k_key_code_count);
+REFERENCE_DECLARE_ARRAY(0x01650918, uns8 const, key_to_virtual_table, k_key_code_count);
 REFERENCE_DECLARE_ARRAY(0x01650980, int16 const, virtual_to_key_table, k_number_of_windows_input_virtual_codes);
-REFERENCE_DECLARE_ARRAY(0x01650B80, uint8 const, key_to_ascii_table, k_key_code_count);
+REFERENCE_DECLARE_ARRAY(0x01650B80, uns8 const, key_to_ascii_table, k_key_code_count);
 REFERENCE_DECLARE_ARRAY(0x01650BE8, int16 const, ascii_to_key_table, k_number_of_input_ascii_codes);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
@@ -220,7 +220,7 @@ void __cdecl input_flush()
 	//input_globals.buffered_key_read_count = 0;
 	//input_globals.buffered_keys.clear();
 	//
-	//uint8 raw_flags = input_globals.raw_mouse_state.raw_flags;
+	//uns8 raw_flags = input_globals.raw_mouse_state.raw_flags;
 	//csmemset(&input_globals.raw_mouse_state, 0, sizeof(input_globals.raw_mouse_state));
 	//input_globals.raw_mouse_state.raw_flags = raw_flags;
 	//
@@ -331,7 +331,7 @@ bool __cdecl input_type_suppressed(e_input_type input_type)
 	//return input_globals.input_type_suppressed[input_type];
 }
 
-uint8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input_type)
+uns8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511B60, input_key_frames_down, key_code, input_type);
 
@@ -355,7 +355,7 @@ uint8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type inpu
 	//return input_globals.keys[key_code].frames_down;
 }
 
-uint16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type)
+uns16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511CE0, input_key_msec_down, key_code, input_type);
 
@@ -379,7 +379,7 @@ uint16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input
 	//return input_globals.keys[key_code].msec_down;
 }
 
-uint8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type)
+uns8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type)
 {
 	return INVOKE(0x00511DF0, input_mouse_frames_down, mouse_button, input_type);
 
@@ -390,7 +390,7 @@ uint8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type 
 	//return input_globals.raw_mouse_state.frames_down[mouse_button];
 }
 
-uint16 __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type)
+uns16 __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type)
 {
 	return INVOKE(0x00511E30, input_mouse_msec_down, mouse_button, input_type);
 
@@ -439,7 +439,7 @@ bool __cdecl sub_512450()
 	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
 }
 
-void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uint16 left_motor_speed, uint16 right_motor_speed)
+void __cdecl input_set_gamepad_rumbler_state(int16 gamepad_index, uns16 left_motor_speed, uns16 right_motor_speed)
 {
 	INVOKE(0x005124F0, input_set_gamepad_rumbler_state, gamepad_index, left_motor_speed, right_motor_speed);
 
@@ -521,7 +521,7 @@ void __cdecl input_update()
 
 	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
 	{
-		uint32 time = system_milliseconds();
+		uns32 time = system_milliseconds();
 		int32 duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
 
 		input_globals.input_suppressed = false;
@@ -564,7 +564,7 @@ void __cdecl input_update_keyboard(int32 duration_ms)
 	for (int32 key_index = 0; key_index < k_key_code_count; key_index++)
 	{
 		key_state& key = input_globals.keys[key_index];
-		uint8 virtual_key = key_to_virtual_table[key_index];
+		uns8 virtual_key = key_to_virtual_table[key_index];
 
 		bool key_down = false;
 		if (window_has_focus)
@@ -622,8 +622,8 @@ void __cdecl input_update_mouse(int32 duration_ms)
 	{
 		for (int32 i = 0; i < k_mouse_button_count; i++)
 		{
-			uint8& frames_down = input_globals.raw_mouse_state.frames_down[i];
-			uint16& msec_down = input_globals.raw_mouse_state.msec_down[i];
+			uns8& frames_down = input_globals.raw_mouse_state.frames_down[i];
+			uns16& msec_down = input_globals.raw_mouse_state.msec_down[i];
 			bool key_down = input_globals.raw_mouse_state.raw_flags.test(e_mouse_button(i));
 			update_button(&frames_down, &msec_down, key_down, duration_ms);
 		}
@@ -634,7 +634,7 @@ void __cdecl input_update_gamepads(int32 duration_ms)
 {
 	if (input_abstraction_get_controls_method() == 1)
 	{
-		for (uint32 gamepad_index = 0; gamepad_index < k_number_of_controllers; gamepad_index++)
+		for (uns32 gamepad_index = 0; gamepad_index < k_number_of_controllers; gamepad_index++)
 		{
 			gamepad_state& state = input_globals.gamepad_states[gamepad_index];
 			debug_gamepad_data& debug_gamepad = g_debug_gamepad_data[gamepad_index];
@@ -667,7 +667,7 @@ void __cdecl input_update_gamepads_rumble()
 		suppressed = true;
 	}
 	
-	for (uint32 user_index = 0; user_index < k_number_of_controllers; user_index++)
+	for (uns32 user_index = 0; user_index < k_number_of_controllers; user_index++)
 	{
 		//if (g_display_rumble_status_lines)
 		//	g_rumble_status_lines[user_index].clear();
@@ -676,12 +676,12 @@ void __cdecl input_update_gamepads_rumble()
 	}
 }
 
-void __cdecl update_button(uint8* frames_down, uint16* msec_down, bool key_down, int32 duration_ms)
+void __cdecl update_button(uns8* frames_down, uns16* msec_down, bool key_down, int32 duration_ms)
 {
 	INVOKE(0x00512B00, update_button, frames_down, msec_down, key_down, duration_ms);
 
 	//*frames_down = key_down ? MIN(*frames_down + 1, UNSIGNED_CHAR_MAX) : 0;
-	//*msec_down = key_down ? MIN(*msec_down + (uint16)duration_ms, UNSIGNED_SHORT_MAX) : 0;
+	//*msec_down = key_down ? MIN(*msec_down + (uns16)duration_ms, UNSIGNED_SHORT_MAX) : 0;
 }
 
 void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms)
@@ -762,7 +762,7 @@ void input_mouse_state_get_raw_data_string(char* buffer, int16 size)
 	}
 }
 
-//uint8 const key_to_virtual_table[k_key_code_count]
+//uns8 const key_to_virtual_table[k_key_code_count]
 //{
 //	VK_ESCAPE,           // _key_escape
 //	VK_F1,               // _key_f1
@@ -1130,7 +1130,7 @@ void input_mouse_state_get_raw_data_string(char* buffer, int16 size)
 //	_key_not_a_key,      // reserved
 //};
 //
-//uint8 const key_to_ascii_table[k_key_code_count]
+//uns8 const key_to_ascii_table[k_key_code_count]
 //{
 //	NONE,                // _key_escape
 //	NONE,                // _key_f1

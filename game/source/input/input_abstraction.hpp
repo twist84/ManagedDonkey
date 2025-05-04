@@ -38,27 +38,27 @@ struct c_abstract_button
 public:
 	c_abstract_button();
 	
-	void update(uint16 down_msec, uint16 down_frames, uint8 down_amount);
+	void update(uns16 down_msec, uns16 down_frames, uns8 down_amount);
 	void set_accessor(e_button_action accessor);
 	void unlock();
 	bool locked();
 	void lock();
 	real32 down_amount();
 	bool access_valid() const;
-	uint16 down_msec();
+	uns16 down_msec();
 	bool latched() const;
-	uint8 down_frames() const;
+	uns8 down_frames() const;
 	void set_latch_bit(bool set_bit);
 	void latch();
 	bool is_down();
 
 protected:
-	uint16 m_down_msec;
-	uint8 m_down_frames;
-	uint8 m_flags;
+	uns16 m_down_msec;
+	uns8 m_down_frames;
+	uns8 m_flags;
 	real32 m_down_amount;
-	uint8 m_accessor;
-	uint8 m_locked;
+	uns8 m_accessor;
+	uns8 m_locked;
 };
 static_assert(sizeof(c_abstract_button) == 0xC);
 
@@ -118,7 +118,7 @@ struct s_input_abstraction_globals
 {
 	s_gamepad_input_preferences preferences[k_number_of_controllers];
 	s_game_input_state input_states[k_number_of_controllers];
-	uint32 controller_detection_timer;
+	uns32 controller_detection_timer;
 	bool input_has_gamepad[k_number_of_controllers];
 	int32 controls_method;
 	bool input_device_changed;
@@ -155,7 +155,7 @@ extern void __cdecl input_abstraction_reset_controller_detection_timer();
 extern void __cdecl input_should_suppress_rumble(int32 controls_method);
 extern void __cdecl input_abstraction_set_controller_preferences(int32 controller_index, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_update();
-extern void __cdecl input_abstraction_update_device_changes(uint32 flags);
+extern void __cdecl input_abstraction_update_device_changes(uns32 flags);
 
 extern void input_abstraction_get_raw_data_string(char* buffer, int16 size);
 

@@ -46,7 +46,7 @@ void __cdecl breakable_surfaces_dispose_from_old_map()
 	INVOKE(0x0056ADF0, breakable_surfaces_dispose_from_old_map);
 }
 
-void __cdecl breakable_surfaces_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl breakable_surfaces_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0056AE10, breakable_surfaces_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -68,7 +68,7 @@ void __cdecl breakable_surfaces_initialize_for_new_map()
 
 //.text:0056B7C0 ; void __cdecl breakable_surfaces_initialize_for_new_map_internal()
 
-void __cdecl breakable_surfaces_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl breakable_surfaces_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0056B800, breakable_surfaces_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

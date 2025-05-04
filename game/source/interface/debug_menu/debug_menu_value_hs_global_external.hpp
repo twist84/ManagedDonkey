@@ -30,7 +30,7 @@ public:
 
 	t_type get()
 	{
-		uint8 bytes[sizeof(t_type)];
+		byte bytes[sizeof(t_type)];
 		csmemset(bytes, 0, sizeof(t_type));
 
 		if (m_hs_global_external_index != NONE)

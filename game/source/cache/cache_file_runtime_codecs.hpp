@@ -63,7 +63,7 @@ struct c_single_instance_cache_file_decompressor_service :
 
 	virtual void initialize_decompressor(c_typed_opaque_data<decompressor_class_t>* decompressor_instance) = 0;
 
-	uint8 __data[4];
+	byte __data[0x4];
 	c_typed_opaque_data<decompressor_class_t> m_decompressor_instance;
 	c_cache_file_decompressor* m_decompressor;
 };

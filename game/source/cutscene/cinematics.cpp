@@ -22,7 +22,7 @@ void __cdecl cinematic_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set
 	INVOKE(0x0067CE70, cinematic_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl cinematic_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0067CE80, cinematic_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -67,7 +67,7 @@ void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_s
 	INVOKE(0x0067D400, cinematic_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl cinematic_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0067D410, cinematic_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -75,7 +75,7 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(uint32 activating_struct
 //.text:0067D420 ; bool __cdecl cinematic_is_letterbox()
 //.text:0067D480 ; void __cdecl cinematic_move_attached_objects(int32, int32, int32, int32)
 //.text:0067D550 ; void __cdecl cinematic_new_globals_initialize()
-//.text:0067D620 ; int32 __cdecl cinematic_object_create(char const*, int32, int32, uint32)
+//.text:0067D620 ; int32 __cdecl cinematic_object_create(char const*, int32, int32, uns32)
 //.text:0067D750 ; void __cdecl cinematic_object_create_cinematic_anchor(char const*, int32)
 //.text:0067D820 ; void __cdecl cinematic_object_create_from_cinematic_scene(char const*)
 //.text:0067D950 ; void __cdecl cinematic_object_destroy(char const*)
@@ -86,7 +86,7 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(uint32 activating_struct
 //.text:0067DC40 ; void __cdecl cinematic_outro_start()
 //.text:0067DC60 ; void __cdecl cinematic_predict_shot(s_cinematic_scene*, int32, int32, c_tag_resource_collector*)
 
-void __cdecl cinematic_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask)
+void __cdecl cinematic_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask)
 {
 	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
@@ -176,7 +176,7 @@ void __cdecl cinematics_game_tick()
 //.text:0067F1A0 ; 
 //.text:0067F1D0 ; 
 
-void __cdecl draw_quad(rectangle2d* rect, uint32 color)
+void __cdecl draw_quad(rectangle2d* rect, uns32 color)
 {
 	return INVOKE(0x0067F200, draw_quad, rect, color);
 }

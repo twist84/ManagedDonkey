@@ -65,8 +65,8 @@ enum e_game_engine_queued_event_flags
 
 struct s_game_engine_queued_event
 {
-	uint32 received_game_time;
-	c_flags<e_game_engine_queued_event_flags, uint8, k_game_engine_queued_event_flags_count> flags;
+	uns32 received_game_time;
+	c_flags<e_game_engine_queued_event_flags, uns8, k_game_engine_queued_event_flags_count> flags;
 	s_game_engine_event_data event_data;
 };
 static_assert(sizeof(s_game_engine_queued_event) == 0x30);

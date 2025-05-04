@@ -12,7 +12,7 @@
 
 int32 const k_max_stack_depth = 256;
 
-char const* symbol_name_from_address(uint32 routine_address, int32* out_symbol_offset)
+char const* symbol_name_from_address(uns32 routine_address, int32* out_symbol_offset)
 {
 	static char buffer[16384]{};
 	csstrnzcpy(buffer, "<unknown>", sizeof(buffer));
@@ -42,7 +42,7 @@ char const* symbol_name_from_address(uint32 routine_address, int32* out_symbol_o
 		return buffer;
 	}
 
-	for (uint32 module_index = 0; module_index < (cbNeeded / sizeof(HMODULE)); module_index++)
+	for (uns32 module_index = 0; module_index < (cbNeeded / sizeof(HMODULE)); module_index++)
 	{
 		MODULEINFO module_info{};
 		char module_filename[MAX_PATH]{};
@@ -53,7 +53,7 @@ char const* symbol_name_from_address(uint32 routine_address, int32* out_symbol_o
 		if (!GetModuleInformation(process, module_handles[module_index], &module_info, sizeof(module_info)))
 			continue;
 
-		if (!IN_RANGE_INCLUSIVE(routine_address, (uint32)module_info.lpBaseOfDll, (uint32)module_info.lpBaseOfDll + module_info.SizeOfImage))
+		if (!IN_RANGE_INCLUSIVE(routine_address, (uns32)module_info.lpBaseOfDll, (uns32)module_info.lpBaseOfDll + module_info.SizeOfImage))
 			continue;
 
 		if (!GetModuleFileNameExA(process, module_handles[module_index], module_filename, sizeof(module_filename) / sizeof(char)))
@@ -84,7 +84,7 @@ char const* symbol_name_from_address(uint32 routine_address, int32* out_symbol_o
 	return buffer;
 }
 
-void walk_stack(uint32* routine_addresses, uint32 number_of_levels, int16 levels_to_ignore, int32* levels_dumped)
+void walk_stack(uns32* routine_addresses, uns32 number_of_levels, int16 levels_to_ignore, int32* levels_dumped)
 {
 	levels_to_ignore++;
 
@@ -97,11 +97,11 @@ void walk_stack(uint32* routine_addresses, uint32 number_of_levels, int16 levels
 	int32 stack_trace_result = static_cast<int32>(CaptureStackBackTrace(static_cast<DWORD>(levels_to_ignore), k_max_stack_depth, stack, NULL));
 	ASSERT(SUCCEEDED(stack_trace_result));
 
-	csmemcpy(routine_addresses, stack, sizeof(uint32) * number_of_levels);
+	csmemcpy(routine_addresses, stack, sizeof(uns32) * number_of_levels);
 	*levels_dumped = stack_trace_result;
 }
 
-void stack_walk_with_context_internal(s_file_reference const* file, int16 levels_to_ignore, _CONTEXT* context, int32 number_of_levels, uint32* routine_addresses, int32* out_levels_dumped)
+void stack_walk_with_context_internal(s_file_reference const* file, int16 levels_to_ignore, _CONTEXT* context, int32 number_of_levels, uns32* routine_addresses, int32* out_levels_dumped)
 {
 	levels_to_ignore++;
 
@@ -112,11 +112,11 @@ void stack_walk_with_context_internal(s_file_reference const* file, int16 levels
 		*out_levels_dumped = levels_dumped;
 }
 
-void stack_walk_print(s_file_reference* file, _CONTEXT* context, int32 levels_dumped, uint32 const* routine_addresses)
+void stack_walk_print(s_file_reference* file, _CONTEXT* context, int32 levels_dumped, uns32 const* routine_addresses)
 {
 	for (int32 i = levels_dumped - 1; i >= 0; i--)
 	{
-		uint32 routine_address = routine_addresses[i];
+		uns32 routine_address = routine_addresses[i];
 
 		int32 symbol_offset = 0;
 		char const* symbol_name = symbol_name_from_address(routine_address, &symbol_offset);
@@ -138,7 +138,7 @@ void stack_walk_with_context_common(s_file_reference* file, int16 levels_to_igno
 {
 	levels_to_ignore++;
 
-	uint32 routine_addresses[64]{};
+	uns32 routine_addresses[64]{};
 	int32 levels_dumped = 0;
 	stack_walk_with_context_internal(file, levels_to_ignore, context, NUMBEROF(routine_addresses), routine_addresses, &levels_dumped);
 	stack_walk_print(file, context, levels_dumped, routine_addresses);

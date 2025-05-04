@@ -16,10 +16,10 @@ public:
 //protected:
 	e_camera_mode m_desired_camera_mode;
 	int32 m_show_hud_state;
-	uint8 m_current_camera_mode_index;
+	uns8 m_current_camera_mode_index;
 	bool m_ever_had_target;
 
-	uint8 pad[0x2];
+	byte pad[0x2];
 };
 static_assert(sizeof(c_observer_director) == 0x158);
 

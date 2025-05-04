@@ -53,7 +53,7 @@ struct c_gui_roster_data :
 		int32 machine_index;
 		int32 squad_join_sequence_number;
 		int32 pad1;
-		uint64 squad_nonce;
+		uns64 squad_nonce;
 		int32 leader_team;
 		e_controller_index local_controller_index;
 		int32 voice_state;

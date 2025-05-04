@@ -26,9 +26,9 @@ struct s_game_system
 	void(__cdecl* dispose_proc)();
 	void(__cdecl* initialize_for_new_map_proc)();
 	void(__cdecl* dispose_from_old_map_proc)();
-	void(__cdecl* prepare_for_new_zone_set_proc)(uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask);
-	void(__cdecl* initialize_for_new_structure_bsp_proc)(uint32 new_structure_bsp_mask);
-	void(__cdecl* dispose_from_old_structure_bsp_proc)(uint32 old_structure_bsp_mask);
+	void(__cdecl* prepare_for_new_zone_set_proc)(uns32 old_structure_bsp_mask, uns32 new_structure_bsp_mask);
+	void(__cdecl* initialize_for_new_structure_bsp_proc)(uns32 new_structure_bsp_mask);
+	void(__cdecl* dispose_from_old_structure_bsp_proc)(uns32 old_structure_bsp_mask);
 	void(__cdecl* change_pvs_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, bool);
 	void(__cdecl* activation_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*);
 	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
@@ -61,7 +61,7 @@ struct s_game_options_launch_settings
 
 	int16 insertion_point;
 	int16 zone_set_index;
-	uint32 launch_file_flags; // bit 1, delete after read
+	uns32 launch_file_flags; // bit 1, delete after read
 
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
 	//char zone_set_name[128];
@@ -96,7 +96,7 @@ extern void __cdecl assert_game_options_verify(game_options const* options);
 //.text:00530580 ; game_globals_get_primary_skulls;
 //.text:005305D0 ; game_globals_get_secondary_skulls;
 //extern void __cdecl game_react_to_level_completion();
-extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, uint32 structure_bsp_mask);
+extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, uns32 structure_bsp_mask);
 extern void __cdecl game_clusters_and(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
 extern void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2);
 extern void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
@@ -115,14 +115,14 @@ extern e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy
 extern void __cdecl game_dispose();
 extern void __cdecl game_dispose_from_old_map();
 extern void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
-extern void __cdecl game_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl game_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl game_finish();
 //.text:00530FF0 ; 
 extern void __cdecl game_finished_update();
 extern void __cdecl game_frame(real32 game_seconds_elapsed);
-extern uint32 __cdecl game_get_active_cinematic_zone_mask();
-extern uint32 __cdecl game_get_active_designer_zone_mask();
-extern uint32 __cdecl game_get_active_structure_bsp_mask();
+extern uns32 __cdecl game_get_active_cinematic_zone_mask();
+extern uns32 __cdecl game_get_active_designer_zone_mask();
+extern uns32 __cdecl game_get_active_structure_bsp_mask();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_activation();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local();
@@ -139,7 +139,7 @@ extern bool __cdecl game_in_startup_phase();
 extern void __cdecl game_initialize();
 extern void __cdecl game_initialize_for_new_map(game_options const* options);
 extern void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
-extern void __cdecl game_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl game_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 //extern int16 __cdecl game_insertion_point_get();
 //extern void __cdecl game_insertion_point_lock(int16);
 //extern void __cdecl game_insertion_point_unlock(int16);
@@ -191,7 +191,7 @@ extern bool __cdecl game_options_verify(game_options const* options, char* error
 extern e_game_playback_type __cdecl game_playback_get();
 //extern void __cdecl game_playback_set(e_game_playback_type playback_type);
 extern void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* currently_active_tags_registry);
-extern void __cdecl game_prepare_to_switch_structure_bsp(uint32 old_structure_bsp_mask, uint32 new_structure_bsp_mask);
+extern void __cdecl game_prepare_to_switch_structure_bsp(uns32 old_structure_bsp_mask, uns32 new_structure_bsp_mask);
 //extern void __cdecl skull_primary_enable;
 //extern game_get_game_progression;
 extern void __cdecl game_pvs_clear_scripted_camera_pvs();
@@ -208,7 +208,7 @@ extern void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_sku
 extern bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull);
 extern bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull);
 extern void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable);
-extern void __cdecl game_set_active_skulls(uint32* active_primary_skulls, uint32* active_secondary_skulls);
+extern void __cdecl game_set_active_skulls(uns32* active_primary_skulls, uns32* active_secondary_skulls);
 extern void __cdecl game_set_difficulty(int16 campaign_difficulty);
 extern e_game_simulation_type __cdecl game_simulation_get();
 extern void __cdecl game_simulation_set(e_game_simulation_type game_simulation);
@@ -234,8 +234,8 @@ extern bool __cdecl game_options_read_launch_settings_from_string(char const* bu
 extern bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch_settings);
 extern bool __cdecl game_launch_get_initial_script_name(char const* script_name);
 extern bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress);
-extern void game_bsp_debug_status(char const* status, uint32 structure_bsp_mask);
-extern void game_designer_zone_set_debug_status(char const* status, uint32 designer_zone_mask);
-extern void game_cinematic_zone_set_debug_status(char const* status, uint32 cinematic_zone_mask);
+extern void game_bsp_debug_status(char const* status, uns32 structure_bsp_mask);
+extern void game_designer_zone_set_debug_status(char const* status, uns32 designer_zone_mask);
+extern void game_cinematic_zone_set_debug_status(char const* status, uns32 cinematic_zone_mask);
 extern void __cdecl game_pvs_debug_render();
 

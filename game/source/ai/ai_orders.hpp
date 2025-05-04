@@ -7,8 +7,8 @@ struct orders_definition
 {
 	char name[32];
 	int16 style;
-	uint16 pad1;
-	uint32 flags;
+	uns16 pad1;
+	uns32 flags;
 	int16 force_combat_status;
 	int16 pad2;
 	char script_name[32];

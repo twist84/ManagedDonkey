@@ -12,22 +12,22 @@ _g_upload_debug_globals g_upload_debug_globals{};
 
 char const* const k_crash_file_archive = "crash_report\\crash_file_archive.zip";
 
-c_file_reference::c_file_reference(char const* path, uint32 flags)
+c_file_reference::c_file_reference(char const* path, uns32 flags)
 {
 	ASSERT(path);
 
 	file_reference_create_from_path(this, path, false);
 
-	uint32 error = 0;
+	uns32 error = 0;
 	m_is_open = find_or_create(flags) && file_open(this, flags, &error);
 }
 
-c_file_reference::c_file_reference(s_file_reference const* file, uint32 flags)
+c_file_reference::c_file_reference(s_file_reference const* file, uns32 flags)
 {
 	file_reference_create(this, NONE);
 	file_reference_copy(this, file);
 
-	uint32 error = 0;
+	uns32 error = 0;
 	m_is_open = find_or_create(flags) && file_open(this, flags, &error);
 }
 
@@ -40,7 +40,7 @@ c_file_reference::~c_file_reference()
 	}
 }
 
-bool c_file_reference::find_or_create(uint32 flags)
+bool c_file_reference::find_or_create(uns32 flags)
 {
 	if (file_exists(this))
 		return true;
@@ -126,7 +126,7 @@ bool __cdecl upload_debug_create_fake_archive()
 
 	c_file_reference file_reference(k_crash_file_archive, FLAG(1));
 
-	uint8 fake_contents[0x1000];
+	byte fake_contents[0x1000];
 	csmemset(fake_contents, 0xFE, sizeof(fake_contents));
 
 	bool fake_contents_written = true;
@@ -171,7 +171,7 @@ void __cdecl create_and_upload_zip_archive()
 		s_file_reference file{};
 		file_reference_create_from_path(&file, k_crash_file_archive, false);
 
-		uint32 size = 0;
+		uns32 size = 0;
 		file_get_size(&file, &size);
 		ASSERT(size > 0);
 

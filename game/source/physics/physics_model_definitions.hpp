@@ -21,7 +21,7 @@ struct s_physics_model_primitive
 {
 	c_string_id name;
 	int16 material;
-	c_flags<e_primitive_flags, uint16, k_primitive_flags> flags;
+	c_flags<e_primitive_flags, uns16, k_primitive_flags> flags;
 	real32 relative_mass_scale;
 	real32 friction;
 	real32 restitution;
@@ -96,7 +96,7 @@ struct s_havok_shape_collection // hkShapeCollection
 	void* field_pointer_skip;
 	int8 disable_welding;
 	int8 collection_type;
-	uint8 VDVAPBSS[0x2]; // pad
+	byte VDVAPBSS[0x2]; // pad
 };
 static_assert(sizeof(s_havok_shape_collection) == 0x18);
 
@@ -104,7 +104,7 @@ struct s_physics_model_sphere
 {
 	s_physics_model_primitive base;
 	s_havok_convex_shape sphere_shape;
-	uint8 algn344[0xC]; // pad
+	byte algn344[0xC]; // pad
 	s_havok_convex_translate_shape translate_shape;
 };
 static_assert(sizeof(s_physics_model_sphere) == 0x70);
@@ -113,7 +113,7 @@ struct s_physics_model_pill
 {
 	s_physics_model_primitive base;
 	s_havok_convex_shape capsule_shape;
-	uint8 algn243[0xC]; // pad
+	byte algn243[0xC]; // pad
 	real_vector3d bottom;
 	real32 havok_w_bottom;
 	real_vector3d top;

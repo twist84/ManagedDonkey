@@ -51,10 +51,10 @@
 #include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
 
-// a static uint8 array used in `c_network_channel::receive_packet`
+// a static byte array used in `c_network_channel::receive_packet`
 // passed to `c_network_message_queue::retrieve_message`
 // passed to `c_network_message_handler::handle_channel_message`
-REFERENCE_DECLARE_ARRAY(0x019E8D58, uint8, message_storage, 0x40000);
+REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
 void copy_input_states(bool enabled)
 {

@@ -50,7 +50,7 @@ s_director_globals* director_globals_get()
 //.text:005914B0 ; c_director::c_director(int32)
 //.text:00591540 ; c_director::c_director()
 //.text:00591550 ; c_null_camera::c_null_camera()
-//.text:005915A0 ; uint8(&__cdecl c_static_array<uint8[0x160], 4>::operator[]<int32>(int32))[0x160]
+//.text:005915A0 ; byte(&__cdecl c_static_array<byte[0x160], 4>::operator[]<int32>(int32))[0x160]
 //.text:005915C0 ; s_director_info& __cdecl c_static_array<s_director_info, 4>::operator[]<int32>(int32)
 
 e_director_mode __cdecl choose_appropriate_director(int32 user_index)

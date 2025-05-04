@@ -7,10 +7,10 @@
 struct s_create_file_task
 {
 	wchar_t file_path[256];
-	uint32 desired_access;
-	uint32 share_mode;
-	uint32 creation_disposition;
-	uint32 flags_and_attributes;
+	uns32 desired_access;
+	uns32 share_mode;
+	uns32 creation_disposition;
+	uns32 flags_and_attributes;
 	s_file_handle volatile* file;
 	bool always_open;
 };
@@ -32,10 +32,10 @@ struct s_write_position_task
 	s_file_handle file_handle;
 	void* buffer;
 	int32 size;
-	uint32 offset;
+	uns32 offset;
 	c_synchronized_long* success;
-	uint32 total_bytes_written;
-	c_flags<e_write_position_flags, uint32, k_write_position_flags> flags;
+	uns32 total_bytes_written;
+	c_flags<e_write_position_flags, uns32, k_write_position_flags> flags;
 	bool __unknown1C;
 };
 static_assert(sizeof(s_write_position_task) == 0x20);
@@ -85,7 +85,7 @@ struct s_enumerate_files_task
 	bool find_files_start_called;
 	char directory[256];
 	s_find_file_data* find_file_data;
-	uint32 find_files_flags;
+	uns32 find_files_flags;
 	int32 maximum_count;
 	s_file_reference* out_references;
 	int32* out_reference_count;
@@ -97,11 +97,11 @@ struct s_read_entire_file_task
 {
 	wchar_t path[256];
 	void* buffer;
-	uint32 buffer_size;
-	uint32 volatile* file_size_result;
+	uns32 buffer_size;
+	uns32 volatile* file_size_result;
 	c_synchronized_long* success;
 	s_file_handle file_handle;
-	uint32 file_size;
+	uns32 file_size;
 };
 static_assert(sizeof(s_read_entire_file_task) == 0x218);
 
@@ -109,7 +109,7 @@ struct s_write_buffer_to_file_task
 {
 	wchar_t path[256];
 	void const* buffer;
-	uint32 buffer_size;
+	uns32 buffer_size;
 	int32 dst_on_utility_drive;
 	c_synchronized_long* success;
 	s_file_handle file_handle;
@@ -125,7 +125,7 @@ static_assert(sizeof(s_close_file_task) == 0x4);
 struct s_get_file_size_task
 {
 	s_file_handle file_handle;
-	uint32 volatile* file_size;
+	uns32 volatile* file_size;
 };
 static_assert(sizeof(s_get_file_size_task) == 0x8);
 
@@ -162,7 +162,7 @@ struct s_async_task;
 struct s_async_simple_callback_task
 {
 	e_async_completion(__cdecl* callback)(s_async_task* task, void* data, int32 data_size);
-	uint8 callback_data[0x11C - sizeof(int16)];
+	byte callback_data[0x11C - sizeof(int16)];
 	c_enum<int32, int16, 0, 0x120> callback_data_size;
 };
 static_assert(sizeof(s_async_simple_callback_task) == 0x120);
@@ -188,7 +188,7 @@ struct s_async_task
 		s_dlc_enumeration_task dlc_enumeration_task;
 		s_async_simple_callback_task simple_callback_task;
 
-		uint8 storage[k_maximum_async_task_data_size];
+		byte storage[k_maximum_async_task_data_size];
 	};
 };
 static_assert(sizeof(s_async_task) == k_maximum_async_task_data_size);
@@ -228,7 +228,7 @@ extern bool __cdecl async_category_in_queue(e_async_category category);
 extern void __cdecl async_dispose();
 extern void __cdecl async_idle();
 extern void __cdecl async_initialize();
-extern uint32 __cdecl async_main(void* thread_params);
+extern uns32 __cdecl async_main(void* thread_params);
 extern int32 __cdecl async_task_add(e_async_priority priority, s_async_task* task, e_async_category category, e_async_completion(*work_callback)(s_async_task*), c_synchronized_long* done);
 extern int32 __cdecl async_task_add_ex(e_async_priority priority, s_async_task* task, e_async_category category, e_async_completion(*work_callback)(s_async_task*), c_synchronized_long* done, bool a6);
 extern bool __cdecl async_task_change_priority(int32 task_id, e_async_priority priority);

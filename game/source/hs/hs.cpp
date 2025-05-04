@@ -327,7 +327,7 @@ void hs_enumerate_scenario_data(int16 scenario_offset, int16 block_offset, int32
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	uint8 const* scenario_data = reinterpret_cast<uint8 const*>(global_scenario_get());
+	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
 	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data(block, block_offset, block_size);
 }
@@ -347,7 +347,7 @@ void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_off
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	uint8 const* scenario_data = reinterpret_cast<uint8 const*>(global_scenario_get());
+	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
 	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data_string_id(block, block_offset, block_size);
 }

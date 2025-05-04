@@ -55,7 +55,7 @@ struct s_chud_globals_definition
 	c_typed_tag_reference<BITMAP_TAG, INVALID_TAG> metagame_medals;
 	c_typed_tag_reference<CHUD_ANIMATION_DEFINITION_TAG, INVALID_TAG> metagame_medal_animation;
 	int16 metagame_medal_basis;
-	uint8 __pad6E[0x2];
+	byte __pad6E[0x2];
 	real32 metagame_medal_scale;
 	real32 metagame_medal_width;
 	real32 metagame_medal_horizontal_offset;
@@ -146,7 +146,7 @@ enum e_chud_curvature_res_flags
 
 struct s_chud_curvature_info
 {
-	c_flags<e_chud_curvature_res_flags, uint32, k_chud_curvature_res_flags> res_flags;
+	c_flags<e_chud_curvature_res_flags, uns32, k_chud_curvature_res_flags> res_flags;
 	real32 source_fov_y;
 	real32 souce_aspect;
 	real32 destination_offset_z;
@@ -241,7 +241,7 @@ struct s_chud_sound_character_definition
 	c_enum<e_odst_recon_variant, int8, _odst_recon_variant_none, k_odst_recon_variant_count> character;
 
 	// pad
-	uint8 HKJNCIUW[0x3];
+	byte HKJNCIUW[0x3];
 
 	c_typed_tag_reference<SOUND_TAG, SOUND_LOOPING_TAG, INVALID_TAG> sound;
 
@@ -251,7 +251,7 @@ static_assert(sizeof(s_chud_sound_character_definition) == 0x14);
 
 struct chud_sound_element_definition
 {
-	c_flags<e_chud_sound_cue_flags, uint32, k_chud_sound_cue_flags> latched_to;
+	c_flags<e_chud_sound_cue_flags, uns32, k_chud_sound_cue_flags> latched_to;
 	real32 scale;
 	c_typed_tag_block<s_chud_sound_character_definition> characters;
 
@@ -492,10 +492,10 @@ struct s_player_training_entry_data
 	// how long the event can be triggered before it's displayed
 	real32 display_delay; // seconds
 
-	c_flags<e_player_training_flags, uint16, k_player_training_flags> flags;
+	c_flags<e_player_training_flags, uns16, k_player_training_flags> flags;
 
 	// pad
-	uint8 HURLUV[0x2];
+	byte HURLUV[0x2];
 };
 static_assert(sizeof(s_player_training_entry_data) == 0x14);
 

@@ -103,7 +103,7 @@ void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32
 	INVOKE(0x00A84370, user_interface_get_number_of_render_windows, user_index, horizontal_window_count, vertical_window_count);
 }
 
-//.text:00A84420 ; uint64 __cdecl user_interface_get_player_hash_bits(e_controller_index, int32)
+//.text:00A84420 ; uns64 __cdecl user_interface_get_player_hash_bits(e_controller_index, int32)
 //.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real32*, real32*, real32*)
 //.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
 //.text:00A844E0 ; 
@@ -138,12 +138,12 @@ bool __cdecl user_interface_is_active()
 //.text:00A848C0 ; real64 __cdecl user_interface_main_menu_music_fade_out_progress()
 //.text:00A848D0 ; void __cdecl user_interface_main_menu_music_initialize_for_saved_game()
 
-uint32 __cdecl user_interface_milliseconds()
+uns32 __cdecl user_interface_milliseconds()
 {
 	return INVOKE(0x00A848E0, user_interface_milliseconds);
 }
 
-//.text:00A848F0 ; uint32 __cdecl user_interface_milliseconds_at_last_event()
+//.text:00A848F0 ; uns32 __cdecl user_interface_milliseconds_at_last_event()
 //.text:00A84900 ; bool __cdecl user_interface_non_dead_cam_active_for_game_player_controller(e_controller_index)
 
 void __cdecl user_interface_non_idle_event_occured()
@@ -165,8 +165,8 @@ void __cdecl user_interface_render(e_controller_index controller, int32 user_ind
 
 //.text:00A84B40 ; void __cdecl user_interface_render_begin(c_rasterizer::e_surface)
 //.text:00A84B70 ; void __cdecl user_interface_render_end()
-//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(rectangle2d const*, uint32)
-//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(rectangle2d const*, uint32)
+//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(rectangle2d const*, uns32)
+//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(rectangle2d const*, uns32)
 
 bool __cdecl user_interface_requests_unlocked_framerate()
 {
@@ -295,7 +295,7 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 		}
 	
 		if (g_user_interface_globals.m_user_interface_shutdown_start_time != NONE &&
-			system_milliseconds() > uint32(g_user_interface_globals.m_user_interface_shutdown_start_time + 2000))
+			system_milliseconds() > uns32(g_user_interface_globals.m_user_interface_shutdown_start_time + 2000))
 		{
 			data_mine_flush();
 			exit(0); // relaunch

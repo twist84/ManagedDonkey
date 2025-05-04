@@ -8,8 +8,8 @@ struct c_saved_film_director :
 	bool __unknown158;
 	bool __unknown159;
 
-	uint8 pad[0x2];
-	uint8 unused[0x4];
+	byte pad[0x2];
+	byte unused[0x4];
 
 	void constructor(int32 user_index)
 	{

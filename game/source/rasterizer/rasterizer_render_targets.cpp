@@ -36,7 +36,7 @@ c_rasterizer_texture_ref* __cdecl sub_A487E0(c_rasterizer_texture_ref* texture_r
 	c_rasterizer::restore_last_viewport();
 	c_rasterizer::restore_last_scissor_rect();
 	
-	result->m_datum_ref = (uint32)get_render_surface_default(surface)->m_d3d_texture;
+	result->m_datum_ref = (uns32)get_render_surface_default(surface)->m_d3d_texture;
 
 	return result;
 }

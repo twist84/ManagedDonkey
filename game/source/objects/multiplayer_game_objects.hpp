@@ -120,14 +120,14 @@ struct s_multiplayer_object_properties_definition
 {
 	// GAME ENGINE INCLUSION
 	// Set which game engines you desire this object to appear in
-	c_flags<e_global_game_engine_type_flags, uint16, k_global_game_engine_type_flags> game_engine_flags;
+	c_flags<e_global_game_engine_type_flags, uns16, k_global_game_engine_type_flags> game_engine_flags;
 
 	// TYPE AND FLAGS
 	// Type pertains to how you want the game engine to handle this object
 	// Certain flags applicable only to certain object types, should be self evident
 	c_enum<e_multiplayer_object_type, int8, _multiplayer_object_type_ordinary, k_multiplayer_object_type_count> type;
-	c_flags<e_teleporter_passability_flags, uint8, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
-	c_flags<e_multiplayer_object_data_flags, uint16, k_multiplayer_object_data_tag_flags_count> flags;
+	c_flags<e_teleporter_passability_flags, uns8, k_teleporter_passability_flags> teleporter_passability; // used only for teleporters
+	c_flags<e_multiplayer_object_data_flags, uns16, k_multiplayer_object_data_tag_flags_count> flags;
 
 	// GOAL
 	// These fields are only used for goal area objects with boundaries, and for respawn zones

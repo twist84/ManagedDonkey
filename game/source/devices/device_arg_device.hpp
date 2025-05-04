@@ -5,7 +5,7 @@
 
 struct _arg_device_datum
 {
-	uint16 flags;
+	uns16 flags;
 	int16 pressed_script_index;
 	int16 held_script_index;
 	int16 pad;

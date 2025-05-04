@@ -25,7 +25,7 @@ REFERENCE_DECLARE(0x0194AA34, real32, g_giant_custom_animation_recovery_time); /
 //.text:00BBBED0 ; bool __cdecl giant_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00BBBF70 ; 
 //.text:00BBBF80 ; bool __cdecl giant_find_ground_point(int32, real_point3d const*, real_point3d*, real_vector3d*, real_point3d*)
-//.text:00BBC100 ; void __cdecl giant_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uint32*)
+//.text:00BBC100 ; void __cdecl giant_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uns32*)
 //.text:00BBC350 ; giant_buckle_parameters const* __cdecl giant_get_current_buckle_parameters(int32)
 //.text:00BBC3A0 ; int32 __cdecl giant_get_current_buckle_state_name(int32)
 //.text:00BBC400 ; bool __cdecl giant_handle_motor_update(int32, bool)

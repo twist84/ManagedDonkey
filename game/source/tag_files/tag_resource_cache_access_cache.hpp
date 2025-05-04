@@ -44,10 +44,10 @@ public:
 		return cached_resource;
 	}
 
-	c_wrapped_array<uint64> m_cached_resource_snapshots;
+	c_wrapped_array<uns64> m_cached_resource_snapshots;
 	c_wrapped_array<s_tag_resource_access_datum*> m_cached_resources;
-	c_wrapped_array<uint32*> m_cached_resource_handles;
-	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, uint32, k_tag_resource_access_state_bits>*> m_resource_access_flags;
+	c_wrapped_array<uns32*> m_cached_resource_handles;
+	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, uns32, k_tag_resource_access_state_bits>*> m_resource_access_flags;
 	c_allocation_base* m_allocator;
 	void* m_allocation_base;
 };

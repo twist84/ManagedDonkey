@@ -15,7 +15,7 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	uint8 __data[0x18];
+	byte __data[0x18];
 };
 static_assert(sizeof(c_life_cycle_state_handler_in_match) == 0x40);
 

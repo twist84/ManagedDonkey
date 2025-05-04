@@ -212,7 +212,7 @@ union real_argb_color
 
 	struct
 	{
-		uint8 gap0[4];
+		byte gap0[sizeof(real32)];
 		real32 red;
 		real32 green;
 		real32 blue;
@@ -245,7 +245,7 @@ union real_ahsv_color
 
 	struct
 	{
-		uint8 gap0[4];
+		byte gap0[sizeof(real32)];
 		real32 hue;
 		real32 saturation;
 		real32 value;

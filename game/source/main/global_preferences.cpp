@@ -240,7 +240,7 @@ bool __cdecl global_preferences_get_fullscreen()
 	return global_preferences_get()->current.data.fullscreen;
 }
 
-uint32 __cdecl global_preferences_get_hardware_crc()
+uns32 __cdecl global_preferences_get_hardware_crc()
 {
 	//return INVOKE(0x0050B2D0, global_preferences_get_hardware_crc);
 
@@ -934,7 +934,7 @@ void __cdecl global_preferences_set_fullscreen(bool fullscreen)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_hardware_crc(uint32 crc)
+void __cdecl global_preferences_set_hardware_crc(uns32 crc)
 {
 	//INVOKE(0x0050D580, global_preferences_set_hardware_crc, crc);
 

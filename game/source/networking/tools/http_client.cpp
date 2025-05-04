@@ -132,7 +132,7 @@ bool c_http_client::do_work(
 	return result;
 }
 
-uint32 c_http_client::get_ip_address()
+uns32 c_http_client::get_ip_address()
 {
 	if (m_current_state)
 		return htonl(m_address.ipv4_address);
@@ -145,7 +145,7 @@ void c_http_client::get_ip_address_string(int32 ipv4_address, c_static_string<16
 	union
 	{
 		int32 value;
-		uint8 bytes[4];
+		byte bytes[4];
 	};
 
 	value = ipv4_address;
@@ -416,7 +416,7 @@ bool c_http_client::send_data()
 
 		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
 		{
-			uint16 bytes_written = 0;
+			uns16 bytes_written = 0;
 			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
@@ -477,7 +477,7 @@ void c_http_client::set_upstream_quota(int32 upstream_quota)
 	m_upstream_quota = upstream_quota;
 }
 
-bool c_http_client::start(c_http_stream* stream, int32 ip_address, uint16 port, char const* url, bool endpoint_is_alpha)
+bool c_http_client::start(c_http_stream* stream, int32 ip_address, uns16 port, char const* url, bool endpoint_is_alpha)
 {
 	ASSERT(stream);
 	ASSERT(url);
@@ -487,7 +487,7 @@ bool c_http_client::start(c_http_stream* stream, int32 ip_address, uint16 port, 
 	ASSERT(port != 0);
 
 	m_http_stream = stream;
-	m_address.address_length = sizeof(uint32);
+	m_address.address_length = sizeof(uns32);
 	m_address.ipv4_address = ip_address;
 	m_address.port = port;
 	get_ip_address_string(ip_address, &m_ip_address_string);
@@ -515,7 +515,7 @@ bool c_http_client::start(c_http_stream* stream, int32 ip_address, uint16 port, 
 bool c_http_client::start_connect()
 {
 	ASSERT(m_current_state == _upload_state_none);
-	ASSERT(m_address.address_length == sizeof(uint32));
+	ASSERT(m_address.address_length == sizeof(uns32));
 	ASSERT(m_address.ipv4_address != 0);
 	ASSERT(m_address.port != 0);
 	ASSERT(m_socket_count == 0);

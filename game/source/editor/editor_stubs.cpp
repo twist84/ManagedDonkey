@@ -44,7 +44,7 @@ void __cdecl editor_dispose_from_old_map()
 }
 
 //.text:0042DFB0 ; 
-void __cdecl editor_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl editor_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 }
 
@@ -85,7 +85,7 @@ void __cdecl editor_initialize_for_new_map()
 }
 
 //.text:0042E030 ; 
-void __cdecl editor_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl editor_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 }
 

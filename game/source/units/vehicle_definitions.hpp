@@ -282,7 +282,7 @@ struct s_vehicle_alien_scout_definition
 	// different types are treated differently alien scout controller
 	c_enum<e_specific_type, int8, _specific_type_none, k_specific_type_count> specific_type;
 
-	c_flags<e_flags, uint8, k_flags_count> flags;
+	c_flags<e_flags, uns8, k_flags_count> flags;
 	int8 pad[0x2];
 
 	real32 drag_coeficient;
@@ -356,7 +356,7 @@ static_assert(sizeof(s_vehicle_alien_fighter_definition) == 0x64);
 
 struct s_vehicle_turret_definition
 {
-	int32 pad[1];
+	int32 pad[0x1];
 };
 static_assert(sizeof(s_vehicle_turret_definition) == 0x4);
 
@@ -607,7 +607,7 @@ struct _vehicle_definition
 {
 	// $$$ VEHICLE $$$
 
-	c_flags<e_vehicle_definition_flags, uint32, k_vehicle_definition_flags_count> flags;
+	c_flags<e_vehicle_definition_flags, uns32, k_vehicle_definition_flags_count> flags;
 
 	// physics type
 	// define one of the following blocks for the type of physics you wish this vehicle to have.

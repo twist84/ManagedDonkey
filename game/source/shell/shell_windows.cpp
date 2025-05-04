@@ -355,7 +355,7 @@ void __cdecl shell_idle()
 {
 	//INVOKE(0x0042E940, shell_idle);
 
-	static uint32 quit_timeout = NONE;
+	static uns32 quit_timeout = NONE;
 	
 	MSG message{};
 	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
@@ -478,7 +478,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	int32 cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
-		g_physical_memory_cache_size_increase_mb = static_cast<uint32>(cache_size_increase);
+		g_physical_memory_cache_size_increase_mb = static_cast<uns32>(cache_size_increase);
 
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
 	{
@@ -545,12 +545,12 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		.key_type = k_key_type_none,
 		.ascii_code = _key_not_a_key,
-		.vk_code = uint16(NONE),
+		.vk_code = uns16(NONE),
 		.repeating = false
 	};
 
 	int16 key_code = NONE;
-	uint8 const* key_table = NULL;
+	uns8 const* key_table = NULL;
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP)
 	{
@@ -561,7 +561,7 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			key.key_type = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
 			key.ascii_code = key_code;
-			key.vk_code = uint16(NONE);
+			key.vk_code = uns16(NONE);
 			key_table = key_to_virtual_table;
 		}
 	}

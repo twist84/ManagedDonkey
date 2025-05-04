@@ -9,9 +9,9 @@ struct s_creature_control_data
 {
 	int32 animation_mode;
 	int32 animation_state;
-	uint16 control_flags;
+	uns16 control_flags;
 	int8 turning_speed;
-	uint8 pad;
+	byte pad;
 	real_vector3d throttle;
 	real_vector3d forward;
 	real_vector3d up;
@@ -20,7 +20,7 @@ static_assert(sizeof(s_creature_control_data) == 0x30);
 
 struct _creature_datum
 {
-	uint16 flags;
+	uns16 flags;
 	int16 team_index;
 	int32 ai_state_type;
 	object_header_block_reference ai_state_storage;

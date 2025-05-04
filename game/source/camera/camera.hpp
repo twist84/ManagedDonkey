@@ -39,7 +39,7 @@ static_assert(sizeof(c_camera) == 0x10);
 struct c_null_camera :
 	public c_camera
 {
-	uint8 unused[0x3C];
+	byte unused[0x3C];
 };
 static_assert(sizeof(c_null_camera) == 0x4C);
 

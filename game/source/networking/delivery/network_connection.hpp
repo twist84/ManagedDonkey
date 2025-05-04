@@ -8,17 +8,17 @@
 //{
 //	struct s_connection_incoming_packet
 //	{
-//		uint16 flags;
+//		uns16 flags;
 //	};
 //	static_assert(sizeof(s_connection_incoming_packet) == 0x2);
 //
 //	struct s_connection_outgoing_packet
 //	{
-//		uint32 timestamp;
+//		uns32 timestamp;
 //		int32 size_on_wire;
-//		uint32 round_trip_msec;
+//		uns32 round_trip_msec;
 //		int16 unretired_window_size;
-//		uint16 flags;
+//		uns16 flags;
 //	};
 //	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
 //
@@ -33,9 +33,9 @@
 //	c_static_array<s_connection_incoming_packet, 128> m_incoming_packets;
 //	c_static_array<s_connection_outgoing_packet, 128> m_outgoing_packets;
 //
-//	uint8 __data958[0x10];
+//	byte __data958[0x10];
 //
-//	uint32 m_packet_timeout;
+//	uns32 m_packet_timeout;
 //};
 //static_assert(sizeof(c_network_connection) == 0x960);
 

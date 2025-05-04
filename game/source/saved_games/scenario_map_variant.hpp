@@ -6,7 +6,7 @@
 
 struct c_map_variant;
 
-using c_teleporter_channel = c_enum<enum e_teleporter_channel, uint8, k_channel_default, k_teleporter_channel_count>;
+using c_teleporter_channel = c_enum<enum e_teleporter_channel, uns8, k_channel_default, k_teleporter_channel_count>;
 
 struct s_variant_multiplayer_object_properties_definition
 {
@@ -46,23 +46,23 @@ public:
 
 //protected:
 
-	c_flags<e_game_engine_symmetric_placement, uint16, k_number_of_game_engine_symmetric_placement_settings> symmetry_placement_flags;
-	c_flags<e_scenario_game_engine, uint8, k_scenario_game_engine_type_count> game_engine_flags;
-	c_enum<e_multiplayer_team_designator, uint8, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> team_affiliation;
+	c_flags<e_game_engine_symmetric_placement, uns16, k_number_of_game_engine_symmetric_placement_settings> symmetry_placement_flags;
+	c_flags<e_scenario_game_engine, uns8, k_scenario_game_engine_type_count> game_engine_flags;
+	c_enum<e_multiplayer_team_designator, uns8, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> team_affiliation;
 
 	union
 	{
-		uint8 spare_clips;
-		uint8 teleporter_channel;
-		uint8 spawn_order;
+		uns8 spare_clips;
+		uns8 teleporter_channel;
+		uns8 spawn_order;
 
-		uint8 value;
+		uns8 value;
 	} shared_storage;
 
 	// seconds
-	uint8 spawn_time_in_seconds;
+	uns8 spawn_time_in_seconds;
 
-	uint8 cached_object_type;
+	uns8 cached_object_type;
 
 	c_enum<e_multiplayer_object_boundary_shape, int8, _shape_unused, k_multiplayer_object_boundary_count> shape;
 	tag_shape_data shape_data;
@@ -98,7 +98,7 @@ public:
 	void print(c_map_variant* map_variant, int32 const tab_count);
 
 //protected:
-	c_flags<e_variant_object_placement_flags, uint16, k_variant_object_placement_flags> flags;
+	c_flags<e_variant_object_placement_flags, uns16, k_variant_object_placement_flags> flags;
 	int16 reuse_timeout;
 	int32 object_index;
 	int32 helper_object_index;
@@ -128,10 +128,10 @@ public:
 
 //protected:
 	int32 object_definition_index;
-	uint8 minimum_count;
-	uint8 maximum_count;
-	uint8 placed_on_map;
-	uint8 maximum_allowed;
+	uns8 minimum_count;
+	uns8 maximum_count;
+	uns8 placed_on_map;
+	uns8 maximum_allowed;
 	real32 price_per_item;
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
@@ -169,7 +169,7 @@ public:
 	real32 m_spent_budget;
 	bool m_showing_helpers;
 	bool m_built_in;
-	uint32 m_original_map_signature_hash;
+	uns32 m_original_map_signature_hash;
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
 	c_static_array<int16, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;

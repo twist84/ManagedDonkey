@@ -35,12 +35,12 @@ void __cdecl object_placement_dispose_from_old_map()
 	INVOKE(0x00B59D20, object_placement_dispose_from_old_map);
 }
 
-void __cdecl object_placement_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl object_placement_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00B59D30, object_placement_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(uint32, real_point3d const*, real32, s_location*)
+//.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(uns32, real_point3d const*, real32, s_location*)
 
 void __cdecl object_placement_initialize()
 {
@@ -52,13 +52,13 @@ void __cdecl object_placement_initialize_for_new_map()
 	INVOKE(0x00B59EB0, object_placement_initialize_for_new_map);
 }
 
-void __cdecl object_placement_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl object_placement_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00B59FC0, object_placement_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
 //.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, s_scenario_object const*)
-//.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(uint32, e_object_type, s_scenario_object const*)
+//.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(uns32, e_object_type, s_scenario_object const*)
 //.text:00B5A100 ; bool __cdecl object_placement_is_unloaded(int32)
 //.text:00B5A110 ; void __cdecl object_placement_mark_name_on_create(int16)
 //.text:00B5A190 ; void __cdecl object_placement_mark_name_on_delete(int16)
@@ -66,7 +66,7 @@ void __cdecl object_placement_initialize_for_new_structure_bsp(uint32 activating
 //.text:00B5A270 ; 
 //.text:00B5A2C0 ; 
 
-void __cdecl object_placement_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask)
+void __cdecl object_placement_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask)
 {
 	INVOKE(0x00B5A310, object_placement_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
@@ -101,5 +101,5 @@ void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp
 //.text:00B5ABB0 ; bool __cdecl scenario_object_is_placed_globally(scenario*, s_scenario_object const*)
 //.text:00B5AC40 ; bool __cdecl scenario_object_managed_by_script(struct scenario*, s_scenario_object const*)
 //.text:00B5AC60 ; s_scenario_object const* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
-//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(uint32 const*, scenario*)
+//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(uns32 const*, scenario*)
 

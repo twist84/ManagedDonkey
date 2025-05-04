@@ -48,9 +48,9 @@ struct s_online_user_globals
 	bool is_user_created_content_allowed;
 	bool is_friend_created_content_allowed;
 	int32 guest_number;
-	uint64 player_identifier;
-	uint64 local_xuid;
-	uint64 online_xuid;
+	uns64 player_identifier;
+	uns64 local_xuid;
+	uns64 online_xuid;
 	HSTRING online_xuid_string;
 	HSTRING gamertag;
 	HSTRING display_name;
@@ -67,7 +67,7 @@ s_online_globals online_globals{};
 
 int32 g_nat_type_override = _online_nat_type_open;
 
-uint64 hash64(uint64 h, uint64 s = 0x3B9F1629F7D0609Eu)
+uns64 hash64(uns64 h, uns64 s = 0x3B9F1629F7D0609Eu)
 {
 	// murmur64
 	// https://lemire.me/blog/2018/08/15/fast-strongly-universal-64-bit-hashing-everywhere/
@@ -80,15 +80,15 @@ uint64 hash64(uint64 h, uint64 s = 0x3B9F1629F7D0609Eu)
 	return h;
 }
 
-constexpr bool xuid_is_guest(uint64 xuid)
+constexpr bool xuid_is_guest(uns64 xuid)
 {
-	uint64 guest_bits = xuid >> 48;
+	uns64 guest_bits = xuid >> 48;
 	return (guest_bits & 15) == 9 && (guest_bits & 192) != 0;
 }
 
-uint64 xuid_make_online(uint64 xuid)
+uns64 xuid_make_online(uns64 xuid)
 {
-	uint64 online_xuid = xuid;
+	uns64 online_xuid = xuid;
 	if (xuid_is_guest(online_xuid))
 		online_xuid &= ~0b11001001000000000000000000000000000000000000000000000000;
 	return online_xuid;
@@ -119,7 +119,7 @@ void __cdecl online_dispose()
 	}
 }
 
-void __cdecl online_dump_machine_info(uint64 game_instance)
+void __cdecl online_dump_machine_info(uns64 game_instance)
 {
 	event(_event_message, "networking:online:machine_info: game instance-%0I64X", game_instance);
 }
@@ -181,7 +181,7 @@ e_online_nat_type __cdecl online_get_nat_type()
 	return static_cast<e_online_nat_type>(result);
 }
 
-void __cdecl online_get_title_name_string(uint32 title_id, wchar_t* buffer, int32 buffer_length)
+void __cdecl online_get_title_name_string(uns32 title_id, wchar_t* buffer, int32 buffer_length)
 {
 	usnzprintf(buffer, buffer_length, L"%08lX", title_id);
 }
@@ -210,10 +210,10 @@ void __cdecl online_initialize()
 {
 	for (e_controller_index controller_index = _controller0; controller_index < k_number_of_controllers; controller_index++)
 	{
-		uint64 user_id = hash64(controller_index);
+		uns64 user_id = hash64(controller_index);
 
 		wchar_t computer_name[MAX_COMPUTERNAME_LENGTH + 1];
-		uint32 computer_name_length = MAX_COMPUTERNAME_LENGTH + 1;
+		uns32 computer_name_length = MAX_COMPUTERNAME_LENGTH + 1;
 		if (!GetComputerNameExW(ComputerNamePhysicalDnsHostname, computer_name, &computer_name_length))
 			ustrnzcpy(computer_name, L"User", MAX_COMPUTERNAME_LENGTH);
 
@@ -226,14 +226,14 @@ void __cdecl online_initialize()
 			usnzappend(computer_name, MAX_COMPUTERNAME_LENGTH + 1, L"(%li)", controller_index);
 			computer_name_length = ustrnlen(computer_name, MAX_COMPUTERNAME_LENGTH);
 		}
-		for (uint32 name_hash_index = 0; name_hash_index < computer_name_length; name_hash_index++)
+		for (uns32 name_hash_index = 0; name_hash_index < computer_name_length; name_hash_index++)
 		{
 			user_id = hash64(computer_name[controller_index], user_id);
 		}
 
 		s_online_user_globals& user = online_globals.users[controller_index];
 
-		transport_secure_random(sizeof(user.player_identifier), (uint8*)&user.player_identifier);
+		transport_secure_random(sizeof(user.player_identifier), (byte*)&user.player_identifier);
 		if (!user.player_identifier)
 			user.player_identifier = 3LL;
 
@@ -270,13 +270,13 @@ wchar_t const* __cdecl online_local_user_get_name(e_controller_index controller_
 	return result;
 }
 
-uint64 __cdecl online_local_user_get_player_identifier(e_controller_index controller_index)
+uns64 __cdecl online_local_user_get_player_identifier(e_controller_index controller_index)
 {
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	return online_globals.users[controller_index].player_identifier;
 }
 
-uint64 __cdecl online_local_user_get_xuid(e_controller_index controller_index)
+uns64 __cdecl online_local_user_get_xuid(e_controller_index controller_index)
 {
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	if (online_globals.users[controller_index].online_xuid)
@@ -324,7 +324,7 @@ void __cdecl online_process_debug_output_queue()
 {
 }
 
-void __cdecl online_user_set_xuid(uint64 xuid)
+void __cdecl online_user_set_xuid(uns64 xuid)
 {
 }
 

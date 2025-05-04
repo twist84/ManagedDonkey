@@ -10,7 +10,7 @@
 #include "networking/session/network_managed_session.hpp"
 #include "networking/session/network_observer.hpp"
 
-bool __fastcall network_session_peer_request_player_desired_properties_update(c_network_session* _this, void* usused, int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uint32 player_voice)
+bool __fastcall network_session_peer_request_player_desired_properties_update(c_network_session* _this, void* usused, int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice)
 {
 	return _this->peer_request_player_desired_properties_update(player_update_number, controller_index, player_data_from_client, player_voice);
 }
@@ -472,7 +472,7 @@ bool c_network_session::is_peer_joining_this_session() const
 	//return false;
 }
 
-bool c_network_session::join_abort(transport_address const* incoming_address, uint64 join_nonce)
+bool c_network_session::join_abort(transport_address const* incoming_address, uns64 join_nonce)
 {
 	return INVOKE_CLASS_MEMBER(0x0045CC80, c_network_session, join_abort, incoming_address, join_nonce);
 }
@@ -524,12 +524,12 @@ s_network_session_player* c_network_session::get_player(int32 player_index)
 //.text:0045D760 ; void c_network_session::leave_session()
 //.text:0045D780 ; bool c_network_session::membership_is_locked() const
 //.text:0045D790 ; bool c_network_session::membership_is_stable() const
-//.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(int32, uint32, bool)
+//.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(int32, uns32, bool)
 //.text:0045D9E0 ; virtual void c_network_session::notify_channel_died(int32)
 //.text:0045D9F0 ; bool c_network_session::observing_channel(int32) const
 //.text:0045DA10 ; void c_network_session::peer_complete_player_add(int32, s_player_identifier const*)
 //.text:0045DA50 ; bool c_network_session::peer_is_member(s_transport_secure_address const*) const
-//.text:0045DA70 ; void c_network_session::peer_request_player_add(int32, s_player_identifier const*, int32, e_controller_index, s_player_configuration_from_client const*, uint32)
+//.text:0045DA70 ; void c_network_session::peer_request_player_add(int32, s_player_identifier const*, int32, e_controller_index, s_player_configuration_from_client const*, uns32)
 //.text:0045DCC0 ; e_network_join_refuse_reason c_network_session::peer_request_player_add_status(int32, s_player_identifier const*)
 
 // custom function for `c_network_session::peer_request_player_desired_properties_update`
@@ -547,7 +547,7 @@ void update_player_data(s_player_configuration_for_player_properties* player_dat
 	player_data->host_partial.consumables = weapon_loadout.consumables;
 }
 
-bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uint32 player_voice_settings)
+bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice_settings)
 {
 	//return INVOKE_CLASS_MEMBER(0x0045DD20, c_network_session, peer_request_player_desired_properties_update, player_update_number, controller_index, player_data_from_client, player_voice_settings);
 
@@ -632,7 +632,7 @@ e_network_session_class c_network_session::session_class() const
 //.text:0045EDC0 ; void c_network_session::set_disconnection_policy(e_network_session_disconnection_policy)
 //.text:0045EDF0 ; 
 //.text:0045EE40 ; bool c_network_session::set_privacy_details(e_network_session_privacy, e_network_session_closed_status, int32, int32)
-//.text:0045EFD0 ; uint32 c_network_session::time_get() const
+//.text:0045EFD0 ; uns32 c_network_session::time_get() const
 //.text:0045EFE0 ; void c_network_session::time_release()
 //.text:0045EFF0 ; void c_network_session::time_set(int32)
 

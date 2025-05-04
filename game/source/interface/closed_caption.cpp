@@ -6,7 +6,7 @@ void __cdecl closed_caption_add_caption(int32 a1, bool a2)
 {
 	INVOKE(0x00A98B60, closed_caption_add_caption, a1, a2);
 
-	//uint32 milliseconds = user_interface_milliseconds();
+	//uns32 milliseconds = user_interface_milliseconds();
 	//
 	//s_caption_entry* caption = NULL;
 	//for (int32 caption_index = k_caption_count - 1; caption_index >= 0; caption_index--)
@@ -102,7 +102,7 @@ void __cdecl closed_caption_update()
 {
 	INVOKE(0x00A990E0, closed_caption_update);
 
-	//uint32 milliseconds = user_interface_milliseconds();
+	//uns32 milliseconds = user_interface_milliseconds();
 	//for (int32 caption_index = 0; caption_index < k_caption_count; caption_index++)
 	//{
 	//	s_caption_entry& caption = g_caption_globals.captions[caption_index];

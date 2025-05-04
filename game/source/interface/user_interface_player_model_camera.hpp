@@ -4,7 +4,7 @@
 
 struct s_player_model_camera_state
 {
-	uint8 __data0[0xC];
+	byte __data0[0xC];
 	real_point3d position;
 	real32 __unknown18;
 	real_vector3d forward;

@@ -7,8 +7,8 @@
 struct s_screen_effect_datum :
 	s_datum_header
 {
-	uint8 position_type;
-	uint8 unused;
+	uns8 position_type;
+	uns8 unused;
 	int32 definition_index;
 	real32 time_accumulator;
 	real_point3d world_position;
@@ -82,7 +82,7 @@ static_assert(sizeof(s_screen_effect_settings) == 0x40);
 struct s_single_screen_effect_definition
 {
 	c_string_id name;
-	uint32 flags;
+	uns32 flags;
 
 	// DISTANCE FALLOFF
 
@@ -122,7 +122,7 @@ struct s_screen_effect_shader_sample_result
 	struct s_screen_effect_shader_sample
 	{
 		int32 definition_index;
-		uint8 __data4[0x10];
+		byte __data4[0x10];
 		real_rectangle2d rect;
 	};
 	static_assert(sizeof(s_screen_effect_shader_sample) == 0x24);

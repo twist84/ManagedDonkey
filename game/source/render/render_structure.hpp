@@ -96,7 +96,7 @@ static_assert(sizeof(large_collision_bsp) == 0x60);
 
 struct structure_instanced_geometry_definition
 {
-	uint32 checksum;
+	uns32 checksum;
 	real_point3d bounding_sphere_center;
 	real32 bounding_sphere_radius;
 	collision_bsp collision_info;
@@ -136,8 +136,8 @@ enum e_leaf_flags
 
 struct collision_leaf
 {
-	c_flags<e_leaf_flags, uint8, k_leaf_flags> flags;
-	uint8 pad[0x1];
+	c_flags<e_leaf_flags, uns8, k_leaf_flags> flags;
+	byte pad[0x1];
 	int16 bsp2d_reference_count;
 	int32 first_bsp2d_reference;
 };
@@ -145,7 +145,7 @@ static_assert(sizeof(collision_leaf) == 0x8);
 
 struct large_collision_leaf
 {
-	c_flags<e_leaf_flags, uint16, k_leaf_flags> flags;
+	c_flags<e_leaf_flags, uns16, k_leaf_flags> flags;
 	int16 bsp2d_reference_count;
 	int32 first_bsp2d_reference;
 };
@@ -201,8 +201,8 @@ struct collision_surface
 	int16 material;
 	int16 breakable_surface_set;
 	int16 breakable_surface;
-	c_flags<e_surface_flags, uint8, k_collision_surface_flags> flags;
-	uint8 best_plane_calculation_vertex_index;
+	c_flags<e_surface_flags, uns8, k_collision_surface_flags> flags;
+	uns8 best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(collision_surface) == 0xC);
 
@@ -213,8 +213,8 @@ struct large_collision_surface
 	int16 material;
 	int16 breakable_surface_set;
 	int16 breakable_surface;
-	c_flags<e_surface_flags, uint8, k_collision_surface_flags> flags;
-	uint8 best_plane_calculation_vertex_index;
+	c_flags<e_surface_flags, uns8, k_collision_surface_flags> flags;
+	uns8 best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(large_collision_surface) == 0x10);
 
@@ -254,8 +254,8 @@ struct s_render_cluster_part
 {
 	int32 flags;
 	s_cluster_reference cluster_reference;
-	uint16 mesh_index;
-	uint16 part_index;
+	uns16 mesh_index;
+	uns16 part_index;
 };
 static_assert(sizeof(s_render_cluster_part) == 0xC);
 
@@ -263,10 +263,10 @@ struct s_render_instance_part
 {
 	int32 flags;
 	int16 structure_bsp_index;
-	uint16 structure_instance_index;
-	uint16 mesh_index;
-	uint16 part_index;
-	uint8 alpha_byte;
+	uns16 structure_instance_index;
+	uns16 mesh_index;
+	uns16 part_index;
+	uns8 alpha_byte;
 };
 static_assert(sizeof(s_render_instance_part) == 0x10);
 
@@ -276,7 +276,7 @@ struct render_structure_globals
 {
 	struct
 	{
-		uint32 flags;
+		uns32 flags;
 		c_static_array<int32, 16> lightmap_bsp_type;
 		s_scenario_lightmap_bsp_data const* lightmap_bsp_data[16];
 		s_render_geometry const* render_geometry[16];
@@ -301,10 +301,10 @@ struct c_structure_renderer
 {
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 	static void __cdecl render_albedo();
 	static void __cdecl render_decorators();
 };

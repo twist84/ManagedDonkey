@@ -110,25 +110,25 @@ void __thiscall c_player_view::queue_patchy_fog()
 // $TODO: move this
 struct s_surface_group_description
 {
-	uint32 flags;
+	uns32 flags;
 	IDirect3DTexture9* Texture;
 	real32 DepthWidth;
 	real32 __unknownC;
-	uint32 DepthFormat;
-	uint8 __unknown14[4];
-	uint32 Srgb;
-	uint32 MultiSample;
+	uns32 DepthFormat;
+	byte __unknown14[4];
+	uns32 Srgb;
+	uns32 MultiSample;
 	real32 __unknown20;
 	real32 __unknown24;
-	uint32 __unknown28;
-	uint32 __unknown2C;
-	uint32 __unknown30;
-	uint32 __unknown34;
-	uint32 __unknown38;
-	uint32 __unknown3C;
-	uint32 Alias;
-	uint32 __unknown44;
-	uint32 index_unknown_of_size_54;
+	uns32 __unknown28;
+	uns32 __unknown2C;
+	uns32 __unknown30;
+	uns32 __unknown34;
+	uns32 __unknown38;
+	uns32 __unknown3C;
+	uns32 Alias;
+	uns32 __unknown44;
+	uns32 index_unknown_of_size_54;
 };
 
 // $TODO: move this

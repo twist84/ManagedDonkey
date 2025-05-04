@@ -77,9 +77,9 @@ struct c_tag_resource_fixup
 	static int32 const k_maximum_resource_fixup_value = MAX_INDEX_WITH_BITS(LONG_DESIGNATOR_PRIMARY_INDEX_BITS(k_tag_resource_fixup_type_bits, false));
 	
 public:
-	uint32 get_fixup_value() const
+	uns32 get_fixup_value() const
 	{
-		uint32 fixup_value = designator.get_primary_index();
+		uns32 fixup_value = designator.get_primary_index();
 		ASSERT(IN_RANGE_INCLUSIVE(fixup_value, 0, k_maximum_resource_fixup_value));
 
 		return fixup_value;
@@ -90,7 +90,7 @@ public:
 		return static_cast<e_tag_resource_fixup_type>(designator.get_secondary_index());
 	}
 
-	void set_fixup_value(uint32 fixup_value)
+	void set_fixup_value(uns32 fixup_value)
 	{
 		designator.set_primary_index(static_cast<int32>(fixup_value));
 	}

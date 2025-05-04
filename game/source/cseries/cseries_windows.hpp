@@ -4,16 +4,16 @@ struct s_system_memory_information
 {
 	int32 free;
 	int32 total;
-	int32 pad[2];
+	int32 pad[0x2];
 };
 static_assert(sizeof(s_system_memory_information) == 0x10);
 
 extern void __cdecl display_debug_string(char const* format, ...);
-extern uint32 __cdecl system_get_current_thread_id();
+extern uns32 __cdecl system_get_current_thread_id();
 extern void __cdecl system_get_date_and_time(char* buffer, int16 buffer_size, bool short_date_and_time);
 extern void __cdecl system_memory_information_get(s_system_memory_information* information);
-extern uint32 __cdecl system_milliseconds();
-extern uint32 __cdecl system_seconds();
+extern uns32 __cdecl system_milliseconds();
+extern uns32 __cdecl system_seconds();
 extern void __cdecl system_abort();
 extern void __cdecl system_exit();
 extern void __cdecl system_set_dll_directory();

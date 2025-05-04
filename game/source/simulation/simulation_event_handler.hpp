@@ -13,7 +13,7 @@ struct c_simulation_event_handler
 	c_replication_event_manager* m_event_manager;
 	c_simulation_type_collection* m_type_collection;
 	c_simulation_entity_database* m_entity_database;
-	uint8 __data[4];
+	byte __data[0x4];
 };
 static_assert(sizeof(c_simulation_event_handler) == 0x18);
 

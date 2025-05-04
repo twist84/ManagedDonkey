@@ -66,8 +66,8 @@ struct c_online_service_record_manager
 {
 	int32 m_last_download_status;
 	c_http_stored_buffer_downloader<4373> m_downloader;
-	uint8 __align17B0[0x8];
-	uint64 m_current_service_record_xuid;
+	byte __align17B0[0x8];
+	uns64 m_current_service_record_xuid;
 	int64 m_current_service_record_refresh_milliseconds;
 	c_online_service_record m_current_service_record;
 };
@@ -78,7 +78,7 @@ struct s_service_record_identity
 	c_static_wchar_string<16> name;
 	s_player_appearance appearance;
 	bool extras_portal_debug;
-	uint8 vidmaster;
+	uns8 vidmaster;
 	e_campaign_progress campaign_progress;
 	int32 highest_skill;
 	int32 experience;

@@ -19,7 +19,7 @@ c_interlocked_long thread_should_crash[k_registered_thread_count]{};
 HOOK_DECLARE(0x0051C510, initialize_thread);
 //HOOK_DECLARE(0x0051C960, thread_execution_wrapper);
 
-void __cdecl SetThreadName(uint32 thread_id, char const* thread_name)
+void __cdecl SetThreadName(uns32 thread_id, char const* thread_name)
 {
 	INVOKE(0x0051C330, SetThreadName, thread_id, thread_name);
 }
@@ -87,7 +87,7 @@ void __cdecl destroy_thread_management()
 	//g_thread_globals.initialized.set(FALSE);
 }
 
-uint32 __cdecl get_main_thread_id()
+uns32 __cdecl get_main_thread_id()
 {
 	//return INVOKE(0x0051C430, get_main_thread_id);
 
@@ -132,7 +132,7 @@ void __cdecl initialize_thread(e_registered_threads thread_index)
 	if (definition->start_routine)
 	{
 		//ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE, "Thread already created");
-		uint32 thread_id;
+		uns32 thread_id;
 		HANDLE thread_handle = CreateThread(NULL, definition->stack_size, thread_execution_wrapper, (void*)thread_index, 0, &thread_id);
 		register_thread(thread_handle, thread_index, thread_id, NULL);
 	}
@@ -195,7 +195,7 @@ void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments)
 	//g_thread_assert_triggered = true;
 }
 
-void __cdecl register_thread(void* handle, int32 thread_index, uint32 thread_id, void* user_data)
+void __cdecl register_thread(void* handle, int32 thread_index, uns32 thread_id, void* user_data)
 {
 	//INVOKE(0x0051C710, register_thread, handle, thread_index, thread_id, user_data);
 
@@ -231,7 +231,7 @@ void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_point
 	}
 }
 
-void __cdecl sleep(uint32 milliseconds)
+void __cdecl sleep(uns32 milliseconds)
 {
 	//INVOKE(0x0051C7F0, sleep, milliseconds);
 
@@ -290,7 +290,7 @@ int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_poin
 	//return 0;
 }
 
-uint32 __stdcall thread_execution_wrapper(void* parameter)
+uns32 __stdcall thread_execution_wrapper(void* parameter)
 {
 	return INVOKE(0x0051C960, thread_execution_wrapper, parameter);
 
@@ -389,7 +389,7 @@ void __cdecl unregister_thread(int32 thread_index)
 	//g_thread_globals.thread_user_data[thread_index] = NULL;
 }
 
-bool __cdecl wait_for_thread_to_exit(int32 thread_index, uint32 timeout_in_milliseconds)
+bool __cdecl wait_for_thread_to_exit(int32 thread_index, uns32 timeout_in_milliseconds)
 {
 	return INVOKE(0x0051CB70, wait_for_thread_to_exit, thread_index, timeout_in_milliseconds);
 

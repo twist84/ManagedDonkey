@@ -35,9 +35,9 @@ static_assert(sizeof(collision_model_material) == sizeof(c_string_id));
 
 struct collision_model_definition
 {
-	uint32 import_info_checksum;
+	uns32 import_info_checksum;
 	s_tag_block errors;
-	c_flags<e_collision_model_flags, uint32, k_collision_model_flags> flags;
+	c_flags<e_collision_model_flags, uns32, k_collision_model_flags> flags;
 	c_typed_tag_block<collision_model_material> materials;
 	s_tag_block regions;
 	s_tag_block pathfinding_spheres;

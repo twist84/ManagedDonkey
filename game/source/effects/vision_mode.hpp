@@ -57,11 +57,11 @@ struct s_vision_mode_definition
 {
 	static tag const k_group_tag = VISION_MODE_TAG;
 
-	c_flags<e_vision_mode_global_flags, uint16, k_vision_mode_global_flags> global_flags;
+	c_flags<e_vision_mode_global_flags, uns16, k_vision_mode_global_flags> global_flags;
 	int8 internal_version;
 
 	// pad
-	uint8 FJRE[0x1];
+	byte FJRE[0x1];
 
 	// falloff for on_foot
 	// falloff for in_vehicle
@@ -91,7 +91,7 @@ static_assert(sizeof(s_vision_mode_definition) == 0x194);
 
 struct s_vision_mode_state
 {
-	uint8 __data[0x3C];
+	byte __data[0x3C];
 };
 static_assert(sizeof(s_vision_mode_state) == 0x3C);
 

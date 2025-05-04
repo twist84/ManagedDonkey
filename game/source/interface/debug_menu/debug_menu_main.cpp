@@ -359,6 +359,6 @@ void* debug_menu_malloc(int32 size)
 void xor_buffers(void* dest, void const* source, int32 count)
 {
 	for (int32 i = 0; i < count; i++)
-		((uint8*)dest)[i] ^= ((uint8 const*)source)[i];
+		((byte*)dest)[i] ^= ((byte const*)source)[i];
 }
 

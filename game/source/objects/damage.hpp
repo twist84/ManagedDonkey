@@ -13,7 +13,7 @@ struct s_damage_globals
 		real_vector3d acceleration;
 		int32 object_index;
 		int16 node_index;
-		uint16 flags;
+		uns16 flags;
 	};
 	static_assert(sizeof(s_damage_acceleration) == 0x20);
 
@@ -29,11 +29,11 @@ struct c_aoe_damage_batchifier;
 struct s_damage_data
 {
 	int32 definition_index;
-	uint32 flags;
+	uns32 flags;
 	s_damage_owner damage_owner;
 	int32 collision_damage_object_index;
 	int32 damage_creating_object_index;
-	uint32 melee_damage_unique_identifier;
+	uns32 melee_damage_unique_identifier;
 	s_location location;
 	real_point3d origin;
 	real_point3d epicenter;
@@ -73,9 +73,9 @@ struct s_damage_response_data
 	real32 shield_damage;
 	real32 section_damage;
 	real32 body_damage;
-	uint16 destroyed_constraints;
-	uint16 loosened_constraints;
-	uint16 being_damaged_flags;
+	uns16 destroyed_constraints;
+	uns16 loosened_constraints;
+	uns16 being_damaged_flags;
 	int32 special_death_type;
 	bool supress_damage_effects;
 };
@@ -104,11 +104,11 @@ static_assert(sizeof(s_damage_aftermath_result_data) == 0x58);
 
 struct object_damage_section
 {
-	uint16 response_flags;
-	uint8 current_damage;
-	uint8 timed_response_damage_info;
-	uint16 timed_response_index : 4;
-	uint16 timed_response_timer : 12;
+	uns16 response_flags;
+	uns8 current_damage;
+	uns8 timed_response_damage_info;
+	uns16 timed_response_index : 4;
+	uns16 timed_response_timer : 12;
 	int16 damage_section_recharge_ticks;
 };
 static_assert(sizeof(object_damage_section) == 0x8);

@@ -26,22 +26,22 @@ public:
 		bool simulate_packet;
 		transport_address address;
 		int32 game_data_length;
-		uint8 game_data_buffer[k_network_link_maximum_game_data_size];
+		uns8 game_data_buffer[k_network_link_maximum_game_data_size];
 		int32 voice_data_length;
-		uint8 voice_data_buffer[k_network_link_maximum_voice_data_size];
+		uns8 voice_data_buffer[k_network_link_maximum_voice_data_size];
 	};
 	static_assert(sizeof(s_link_packet) == 0x7E4);
 
 	bool adjust_packet_size(bool game_data, int32 voice_data_length, int32* game_data_length) const;
 	void attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
 	int32 compute_size_on_wire(s_link_packet const* packet) const;
-	bool create_endpoint(e_transport_type type, uint16 port, bool a3, transport_endpoint** out_endpoint);
+	bool create_endpoint(e_transport_type type, uns16 port, bool a3, transport_endpoint** out_endpoint);
 	bool create_endpoints();
-	bool decode_packet(int32 data_buffer_size, uint8 const* data_buffer, s_link_packet* packet) const;
+	bool decode_packet(int32 data_buffer_size, byte const* data_buffer, s_link_packet* packet) const;
 	void destroy_endpoints();
 	void destroy_link();
-	void encode_packet(s_link_packet const* packet, int32* data_length, uint8* data_buffer, int32 data_buffer_size) const;
-	uint32 generate_channel_identifier();
+	void encode_packet(s_link_packet const* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size) const;
+	uns32 generate_channel_identifier();
 	c_network_channel* get_associated_channel(transport_address const* address) const;
 	bool initialize_link();
 	static void __cdecl initialize_packet(s_link_packet* packet);
@@ -49,17 +49,17 @@ public:
 	void process_all_channels();
 	void process_incoming_packets();
 	void process_packet_internal(s_link_packet const* packet);
-	bool read_data_immediate(transport_address* address, int32* packet_data_length, uint8* packet_buffer, int32 packet_buffer_size);
+	bool read_data_immediate(transport_address* address, int32* packet_data_length, byte* packet_buffer, int32 packet_buffer_size);
 	bool read_packet_internal(s_link_packet* packet);
 	void send_broadcast(c_bitstream const* game_data, int32* out_size_on_wire);
-	void send_channel(c_bitstream const* packet, int32 voice_data_length, uint8 const* voice_data, transport_address const* remote_address, int32* out_size_on_wire);
+	void send_channel(c_bitstream const* packet, int32 voice_data_length, byte const* voice_data, transport_address const* remote_address, int32* out_size_on_wire);
 	void send_data_immediate(int32 packet_mode, transport_address const* address, int32 packet_data_length, void const* packet_data);
 	void send_out_of_band(c_bitstream const* game_data, transport_address const* address, int32* out_size_on_wire);
 	void send_packet_internal(s_link_packet const* packet);
 
 //private:
 	bool m_initialized;
-	uint32 m_next_channel_identifier;
+	uns32 m_next_channel_identifier;
 	int32 m_next_first_channel_index;
 	transport_endpoint* m_endpoint;
 	c_network_out_of_band_consumer* m_out_of_band_consumer;

@@ -90,7 +90,7 @@ public:
 protected:
 	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15
 	c_enum<int32, int16, 0, 500> m_score_unknown;              // default: 10, halo online specific
-	c_flags<e_vip_variant_flags, uint16, k_vip_variant_flags> m_variant_flags;
+	c_flags<e_vip_variant_flags, uns16, k_vip_variant_flags> m_variant_flags;
 	c_enum<int32, int8, -10, 10> m_kill_points;                // default: 0
 	c_enum<int32, int8, -10, 10> m_takedown_points;            // default: 0
 	c_enum<int32, int8, -10, 10> m_kill_as_vip_points;         // default: 0
@@ -99,11 +99,11 @@ protected:
 	c_enum<int32, int8, -10, 10> m_suicide_points;             // default: 0
 	c_enum<int32, int8, -10, 10> m_betrayal_points;            // default: 0
 	c_enum<int32, int8, -10, 10> m_vip_suicide_points;         // default: 0
-	c_enum<e_vip_vip_selection_settings, uint8, _vip_vip_selection_settings_random, k_vip_vip_selection_settings> m_vip_selection;
-	c_enum<e_vip_zone_movement_settings, uint8, _vip_zone_movement_settings_off, k_number_of_vip_zone_movement_settings> m_zone_movement;
-	c_enum<e_vip_zone_order_settings, uint8, _vip_zone_order_settings_random, k_vip_zone_order_settings> m_zone_order;
+	c_enum<e_vip_vip_selection_settings, uns8, _vip_vip_selection_settings_random, k_vip_vip_selection_settings> m_vip_selection;
+	c_enum<e_vip_zone_movement_settings, uns8, _vip_zone_movement_settings_off, k_number_of_vip_zone_movement_settings> m_zone_movement;
+	c_enum<e_vip_zone_order_settings, uns8, _vip_zone_order_settings_random, k_vip_zone_order_settings> m_zone_order;
 
-	uint8 m_pad1[1];
+	byte m_pad1[1];
 
 	c_enum<int32, int16, 0, 50> m_influence_radius;
 	c_player_traits m_vip_team_traits;
@@ -122,7 +122,7 @@ public:
 struct c_destination_zone :
 	c_area
 {
-	uint8 m_team_has_visited;
+	uns8 m_team_has_visited;
 };
 static_assert(sizeof(c_destination_zone) == 0x68);
 

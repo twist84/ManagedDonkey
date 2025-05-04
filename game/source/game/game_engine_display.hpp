@@ -5,7 +5,7 @@
 
 struct s_game_engine_render_globals
 {
-	uint8 fade_to_black_cache_latch_faliure_count[4];
+	uns8 fade_to_black_cache_latch_faliure_count[4];
 };
 static_assert(sizeof(s_game_engine_render_globals) == 0x4);
 

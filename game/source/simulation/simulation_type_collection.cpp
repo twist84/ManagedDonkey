@@ -88,7 +88,7 @@ void c_simulation_type_collection::register_entity_definition(e_simulation_entit
 	ASSERT(entity_definition->state_data_size() <= k_simulation_entity_maximum_state_data_size);
 	ASSERT(entity_definition->update_flag_count() <= k_simulation_entity_maximum_update_flag_count);
 
-	//uint64 mask = 0;
+	//uns64 mask = 0;
 	//ASSERT((entity_definition->initial_update_mask(mask) & ~MASK(entity_definition->update_flag_count())) == 0); // $TODO
 
 	ASSERT(m_entity_type_count == NONE);

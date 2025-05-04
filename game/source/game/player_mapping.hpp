@@ -14,7 +14,7 @@ struct s_player_mapping_globals
 	int16 active_output_user_count;
 	c_static_array<int32, k_number_of_users> output_user_player_mapping;
 	c_static_array<int32, k_number_of_users> output_user_unit_mapping;
-	c_static_array<uint8, 16> player_output_user_mapping;
+	c_static_array<uns8, 16> player_output_user_mapping;
 };
 static_assert(sizeof(s_player_mapping_globals) == 0xE8);
 

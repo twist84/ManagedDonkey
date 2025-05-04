@@ -2,7 +2,7 @@
 
 struct s_object_placement_globals
 {
-	uint8 __data[0x320];
+	byte __data[0x320];
 };
 static_assert(sizeof(s_object_placement_globals) == 0x320);
 
@@ -23,10 +23,10 @@ extern void __cdecl object_placement_create_active_zone_set_objects(e_object_pla
 extern void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool test_object_existence_before_creation);
 extern void __cdecl object_placement_dispose();
 extern void __cdecl object_placement_dispose_from_old_map();
-extern void __cdecl object_placement_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl object_placement_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl object_placement_initialize();
 extern void __cdecl object_placement_initialize_for_new_map();
-extern void __cdecl object_placement_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
-extern void __cdecl object_placement_prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask);
+extern void __cdecl object_placement_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
+extern void __cdecl object_placement_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
 extern void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 

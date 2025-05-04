@@ -135,7 +135,7 @@ void c_camera_fx_values::set(c_camera_fx_settings const* settings)
 	//m_bling_count = settings->m_bling_count.m_target;
 }
 
-void s_color_grading_parameter::set_defaults(uint32 flags, real32 blend_time)
+void s_color_grading_parameter::set_defaults(uns32 flags, real32 blend_time)
 {
 	INVOKE_CLASS_MEMBER(0x00A6FDB0, s_color_grading_parameter, set_defaults, flags, blend_time);
 

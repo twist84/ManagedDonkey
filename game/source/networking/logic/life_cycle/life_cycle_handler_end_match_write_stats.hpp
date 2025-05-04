@@ -8,7 +8,7 @@ struct c_life_cycle_state_handler_end_match_write_stats :
 public:
 
 //protected:
-	uint16 m_flags;
+	uns16 m_flags;
 	int32 __time2C;
 };
 static_assert(sizeof(c_life_cycle_state_handler_end_match_write_stats) == 0x30);

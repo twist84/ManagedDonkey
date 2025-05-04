@@ -25,15 +25,15 @@ struct _device_definition
 {
 	// $$$ DEVICE $$$
 
-	uint32 flags;
+	uns32 flags;
 	real32 power_transition_time; // seconds
 	real32 power_acceleration_time; // seconds
 	real32 powered_position_transition_time; // seconds
 	real32 powered_position_acceleration_time; // seconds
 	real32 depowered_position_transition_time; // seconds
 	real32 depowered_position_acceleration_time; // seconds
-	uint16 lightmap_flags;
-	uint16 pad;
+	uns16 lightmap_flags;
+	uns16 pad;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_start_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> negative_start_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> positive_stop_effect;
@@ -127,7 +127,7 @@ enum // flags
 struct _machine_definition
 {
 	int16 type;
-	uint16 flags;
+	uns16 flags;
 	real32 door_open_time; // seconds
 
 	// maps position [0,1] to occlusion
@@ -165,7 +165,7 @@ struct _terminal_definition
 {
 	// $$$ TERMINAL $$$
 
-	uint32 flags;
+	uns32 flags;
 	string_id action_string;
 	int16 terminal_number;
 	int16 pad0;

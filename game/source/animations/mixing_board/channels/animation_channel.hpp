@@ -11,10 +11,10 @@ struct c_animation_channel :
 	real32 m_playback_ratio;
 	c_animation_id m_additional_id[2];
 	int16 m_additional_blend_animations[2]; // t_short_fixed<13>
-	uint32 m_event_flags;
-	uint32 m_future_event_flags;
-	uint32 m_past_event_flags;
-	uint8 m_state_flags;
+	uns32 m_event_flags;
+	uns32 m_future_event_flags;
+	uns32 m_past_event_flags;
+	uns8 m_state_flags;
 };
 static_assert(sizeof(c_animation_channel) == 0x3C);
 

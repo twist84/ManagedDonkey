@@ -26,10 +26,10 @@ bool debug_objects_pendulum = false;
 
 //.text:00B6A2F0 ; void __cdecl biped_adjust_node_matrices(int32, int32, real_matrix4x3*)
 //.text:00B6AF70 ; void __cdecl biped_adjust_placement(object_placement_data*)
-//.text:00B6AFE0 ; bool __cdecl biped_approximate_surface_index(int32, int32, int32, real_point3d*, int16*, int32*, int32*, int32*, uint32*)
+//.text:00B6AFE0 ; bool __cdecl biped_approximate_surface_index(int32, int32, int32, real_point3d*, int16*, int32*, int32*, int32*, uns32*)
 //.text:00B6B0A0 ; void __cdecl biped_bring_ragdoll_inside_world(int32, bool)
 //.text:00B6B160 ; bool __cdecl biped_bring_ragdoll_inside_world(int32, bool, real_point3d const*, real32)
-//.text:00B6B260 ; bool __cdecl biped_bring_ragdoll_inside_world_recursive(int32, bool, real_point3d const*, real32, c_runtime_node_to_havok_component_rigid_body_index_mapping const*, uint32*, int32, bool)
+//.text:00B6B260 ; bool __cdecl biped_bring_ragdoll_inside_world_recursive(int32, bool, real_point3d const*, real32, c_runtime_node_to_havok_component_rigid_body_index_mapping const*, uns32*, int32, bool)
 //.text:00B6B3A0 ; bool __cdecl biped_bring_rigid_body_to_safe_position(int32, bool, real_point3d const*, real32, int32, int32, int32, bool)
 //.text:00B6B770 ; void __cdecl biped_build_2d_camera_frame(real_vector3d const*, real_vector3d const*, real_vector2d*, real_vector2d*)
 
@@ -123,8 +123,8 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, real_vec
 //.text:00B6D620 ; void __cdecl biped_exit_invisible_crouched_animated_jump(int32)
 //.text:00B6D780 ; void __cdecl biped_exit_seat_end(int32, int32)
 //.text:00B6D850 ; bool __cdecl biped_fell_to_death(int32)
-//.text:00B6D890 ; void __cdecl biped_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uint32*)
-//.text:00B6DAE0 ; bool __cdecl biped_find_surface(int32, int32, int32, real32, real_point3d const*, real_vector3d const*, real_point3d*, real_vector3d*, int16*, int32*, int32*, int32*, uint32*)
+//.text:00B6D890 ; void __cdecl biped_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uns32*)
+//.text:00B6DAE0 ; bool __cdecl biped_find_surface(int32, int32, int32, real32, real_point3d const*, real_vector3d const*, real_point3d*, real_vector3d*, int16*, int32*, int32*, int32*, uns32*)
 //.text:00B6DCB0 ; bool __cdecl biped_fix_position(int32, int32, real_point3d const*, real_point3d const*, real_point3d*, real32, real32, bool, bool)
 //.text:00B6DD20 ; void __cdecl biped_fix_position_to_pill(int32, real_point3d*, real32)
 //.text:00B6E040 ; void __cdecl biped_force_ground_fitting_on(int32, bool)

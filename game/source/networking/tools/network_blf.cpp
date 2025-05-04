@@ -384,10 +384,10 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_c
 
 		if (must_byte_swap)
 		{
-			bswap_uint32_inplace(chunk_type);
-			bswap_uint32_inplace(chunk_size);
-			bswap_uint16_inplace(chunk_major_version);
-			bswap_uint16_inplace(chunk_minor_version);
+			bswap_uns32_inplace(chunk_type);
+			bswap_uns32_inplace(chunk_size);
+			bswap_uns16_inplace(chunk_major_version);
+			bswap_uns16_inplace(chunk_minor_version);
 		}
 
 		if (chunk_size >= sizeof(s_blf_header) && chunk_size <= buffer_count && chunk_major_version >= 0 && chunk_minor_version >= 0)
@@ -461,12 +461,12 @@ bool __cdecl network_blf_verify_start_of_file(char const* buffer, int32 buffer_c
 		if (out_byte_swap)
 			*out_byte_swap = false;
 
-		if (sof_chunk->byte_order_mark == bswap_uint16(0xFFFE))
+		if (sof_chunk->byte_order_mark == bswap_uns16(0xFFFE))
 		{
-			bswap_uint32_inplace(chunk_type);
-			bswap_uint32_inplace(chunk_size);
-			bswap_uint16_inplace(chunk_major_version);
-			bswap_uint16_inplace(chunk_minor_version);
+			bswap_uns32_inplace(chunk_type);
+			bswap_uns32_inplace(chunk_size);
+			bswap_uns16_inplace(chunk_major_version);
+			bswap_uns16_inplace(chunk_minor_version);
 
 			if (out_byte_swap)
 				*out_byte_swap = true;

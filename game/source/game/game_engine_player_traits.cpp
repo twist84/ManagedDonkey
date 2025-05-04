@@ -432,7 +432,7 @@ real32 c_player_trait_shield_vitality::get_maximum_shield_vitality()
 
 void c_player_trait_weapons::byteswap()
 {
-	bswap_uint16_inplace(m_initial_grenade_count_setting);
+	bswap_uns16_inplace(m_initial_grenade_count_setting);
 }
 
 void c_player_trait_weapons::set(c_player_trait_weapons const* traits, bool force)
@@ -1039,8 +1039,8 @@ void c_player_trait_appearance::set_forced_change_color_setting(e_forced_change_
 
 void c_player_trait_sensors::byteswap()
 {
-	bswap_uint16_inplace(m_motion_tracker_setting);
-	bswap_uint16_inplace(m_motion_tracker_range_setting);
+	bswap_uns16_inplace(m_motion_tracker_setting);
+	bswap_uns16_inplace(m_motion_tracker_range_setting);
 }
 
 void c_player_trait_sensors::set(c_player_trait_sensors const* traits, bool force)

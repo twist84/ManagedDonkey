@@ -164,6 +164,6 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 //}
 
 //.text:00B00000 ; private: void c_gui_screen_pregame_lobby_campaign::restore_game_setup_from_controller_saved_game(e_controller_index)
-//.text:00B00230 ; public: virtual void c_gui_screen_pregame_lobby_campaign::update(uint32)
+//.text:00B00230 ; public: virtual void c_gui_screen_pregame_lobby_campaign::update(uns32)
 //.text:00B00510 ; 
 

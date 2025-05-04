@@ -42,7 +42,7 @@ public:
 	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
 	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
 
-	void __thiscall update_render_state_(uint32 a1);
+	void __thiscall update_render_state_(uns32 current_milliseconds);
 
 protected:
 	int32 m_current_scoreboard_mode;

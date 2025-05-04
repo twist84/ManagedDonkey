@@ -149,7 +149,7 @@ bool __cdecl valid_real(real32 const& value)
 {
 	//return INVOKE(0x004AB2A0, valid_real, value);
 
-	return ((uint32)value & 0x7F800000) != 0x7F800000;
+	return ((uns32)value & 0x7F800000) != 0x7F800000;
 }
 
 bool __cdecl valid_real_euler_angles2d(real_euler_angles2d const* angles)

@@ -68,16 +68,16 @@ struct s_actor_patrol_state
 	int16 __unknown0;
 	int16 __unknown2;
 	int16 __unknown4;
-	uint16 flags;
+	uns16 flags;
 };
 static_assert(sizeof(s_actor_patrol_state) == 0x8);
 
 struct actor_state_data
 {
-	uint8 behavior_state_data[512];
+	byte behavior_state_data[512];
 	int16 behavior_state_offsets[8];
 	int16 leaf_layer;
-	uint8 __data212[0x2];
+	byte __data212[0x2];
 	invitation_data const invitation[4];
 	int32 const behavior_check_timer[14];
 	int16 mode;
@@ -107,7 +107,7 @@ struct actor_state_data
 	int16 berserk_ticks;
 	int16 covered_ticks;
 	s_actor_patrol_state patrol_state;
-	uint16 engineer_state_flags;
+	uns16 engineer_state_flags;
 	int16 isolated_from_squad_ticks;
 };
 static_assert(sizeof(actor_state_data) == 0x2E4);
@@ -159,14 +159,14 @@ struct c_recent_obstacle
 {
 	int32 m_object_index;
 	int16 m_ticks;
-	uint16 m_flags;
+	uns16 m_flags;
 };
 static_assert(sizeof(c_recent_obstacle) == 0x8);
 
 struct actor_obstacle_data
 {
 	c_recent_obstacle recent_obstacles[3];
-	uint8 interaction_target[8];
+	uns8 interaction_target[8];
 };
 static_assert(sizeof(actor_obstacle_data) == 0x20);
 
@@ -176,7 +176,7 @@ struct actor_memory_data
 	int16 ticks_since_enemy_engaged;
 	int32 last_damage_vocalization_time;
 	int16 most_recent_interest;
-	uint8 recent_interest_objects[4][8];
+	uns8 recent_interest_objects[4][8];
 	int32 current_interest_object_index;
 	real32 current_interest_object_interest;
 	int32 postcombat_flags;
@@ -219,7 +219,7 @@ static_assert(sizeof(actor_situation) == 0xC);
 
 struct actor_target_data
 {
-	uint16 flags;
+	uns16 flags;
 	int16 preferred_target_team_index;
 	int32 preferred_ai_index;
 	int32 target_prop_index;
@@ -261,7 +261,7 @@ struct actor_danger_zone
 	real32 current_distance_from_center;
 	real32 bounding_sphere_radius;
 	real_point3d bounding_sphere_center;
-	uint8 union_storage[2];
+	byte union_storage[2];
 };
 static_assert(sizeof(actor_danger_zone) == 0x58);
 
@@ -491,7 +491,7 @@ struct path_result
 	c_ai_point3d start_point;
 	c_path_destination endpoint;
 	int32 ignorable_object_index;
-	uint16 ignorable_object_flags;
+	uns16 ignorable_object_flags;
 	int8 step_count;
 	int8 step_index;
 	path_step steps[4];
@@ -554,7 +554,7 @@ static_assert(sizeof(hovering_turn_info) == 0x14);
 
 struct actor_control_data
 {
-	uint32 flags;
+	uns32 flags;
 	actor_path_control_data path;
 	real_point3d stuck_point;
 	int16 stuck_ticks;
@@ -579,8 +579,8 @@ struct actor_control_data
 	int16 deceleration_ticks;
 
 	// odst?
-	uint8 __unknown1A2; // actor_ground_throttle_control
-	uint8 __unknown1A3; // actor_ground_throttle_control
+	uns8 __unknown1A2; // actor_ground_throttle_control
+	uns8 __unknown1A3; // actor_ground_throttle_control
 
 	union
 	{
@@ -665,7 +665,7 @@ struct actor_output_data
 	int32 movement_type;
 	actor_animation_orders animation;
 	int16 aiming_speed;
-	uint32 control_flags;
+	uns32 control_flags;
 	real_vector3d throttle;
 	real32 analog_primary_trigger;
 	real32 analog_secondary_trigger;

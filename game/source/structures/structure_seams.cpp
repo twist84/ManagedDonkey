@@ -40,7 +40,7 @@ void __cdecl structure_seams_dispose_from_old_map()
 	//INVOKE(0x005F4940, structure_seams_dispose_from_old_map);
 }
 
-void __cdecl structure_seams_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl structure_seams_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x005F4950, structure_seams_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -58,7 +58,7 @@ void __cdecl structure_seams_initialize_for_new_map()
 	INVOKE(0x005F49C0, structure_seams_initialize_for_new_map);
 }
 
-void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uint32 activating_structure_bsp_mask)
+void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005F49D0, structure_seams_initialize_for_new_structure_bsp, scenario_index, structure_seams, activating_structure_bsp_mask);
 }

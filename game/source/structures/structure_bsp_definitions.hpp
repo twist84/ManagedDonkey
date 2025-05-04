@@ -38,7 +38,7 @@ struct structure_bsp
 	int32 import_info_checksum;
 	int32 import_version;
 	c_string_id visible_name;
-	c_flags<e_structure_bsp_flags, uint32, k_structure_bsp_flags> flags;
+	c_flags<e_structure_bsp_flags, uns32, k_structure_bsp_flags> flags;
 	c_typed_tag_block<structure_seam_identifier> seam_identifiers;
 	c_typed_tag_block<structure_edge_to_seam_edge_mapping> edge_to_seam_edge;
 	c_typed_tag_block<structure_collision_material> collision_materials;
@@ -110,7 +110,7 @@ struct structure_collision_material
 	int16 runtime_global_material_index;
 	int16 conveyor_surface_index;
 	int16 seam_mapping_index;
-	uint8 pad[0x2];
+	byte pad[0x2];
 };
 static_assert(sizeof(structure_collision_material) == 0x18);
 
@@ -147,7 +147,7 @@ struct cluster_portal
 	int32 plane_index;
 	real_point3d centroid;
 	real32 bounding_radius;
-	c_flags<e_cluster_portal_flags, uint32, k_cluster_portal_flags> flags;
+	c_flags<e_cluster_portal_flags, uns32, k_cluster_portal_flags> flags;
 	c_typed_tag_block<real_point3d> vertices;
 };
 static_assert(sizeof(cluster_portal) == 0x28);
@@ -155,12 +155,12 @@ static_assert(sizeof(cluster_portal) == 0x28);
 struct structure_weather_palette_entry
 {
 	char name[32];
-	uint8 SHTA[2];
-	uint8 FI[2];
-	uint8 EJMGHGBY[32];
+	uns8 SHTA[2];
+	uns8 FI[2];
+	uns8 EJMGHGBY[32];
 	real_vector3d wind_direction;
 	real32 wind_magnitude;
-	uint8 XQLJZUE[2];
+	uns8 XQLJZUE[2];
 	int16 runtime_wind_global_scenario_function_index;
 	char wind_scale_function[32];
 };
@@ -185,7 +185,7 @@ struct structure_cluster
 	int8 scenario_sky_index;
 	int8 atmosphere_index;
 	int8 camera_fx_index;
-	uint8 ERERRER[0x1];
+	byte ERERRER[0x1];
 	int16 acoustics;
 	int16 acoustics_sound_cluster_index;
 	int16 background_sound;
@@ -195,12 +195,12 @@ struct structure_cluster
 	int16 reverb_sound_cluster_index;
 	int16 runtime_first_decal_index;
 	int16 runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
-	c_flags<e_structure_cluster_flags, uint16, k_structure_cluster_flags> flags;
+	c_flags<e_structure_cluster_flags, uns16, k_structure_cluster_flags> flags;
 	s_tag_block predicted_resources;
 	s_tag_block portals;
 	s_collision_instanced_geometry_definition collision_instanced_geometry;
 	int16 mesh_index;
-	uint8 FERAIDF[0x2];
+	byte FERAIDF[0x2];
 	s_tag_block seam_indices;
 	s_tag_block decorator_groups;
 	s_tag_block pvs_bound_object_identifiers;
@@ -227,7 +227,7 @@ static_assert(sizeof(structure_marker) == 0x3C);
 struct structure_runtime_decal
 {
 	int16 decal_palette_index;
-	uint8 padding[2];
+	byte padding[2];
 
 	real_quaternion rotation;
 	real_point3d position;
@@ -271,14 +271,14 @@ struct structure_instanced_geometry_instance
 {
 	real_matrix4x3 matrix;
 	int16 instance_definition;
-	c_flags<e_instanced_geometry_flags, uint16, k_instanced_geometry_flags> flags;
+	c_flags<e_instanced_geometry_flags, uns16, k_instanced_geometry_flags> flags;
 	int16 lightmap_texcoord_block_index;
-	uint8 BJOLSRJV[0x2];
+	byte BJOLSRJV[0x2];
 	int16 runtime_subcluster_render_first_bitvector_index;
 	int16 runtime_magic_render_number;
 	real_point3d world_bounding_sphere_center;
 	real32 world_bounding_sphere_radius;
-	uint32 checksum;
+	uns32 checksum;
 	c_string_id name;
 	c_enum<e_instanced_geometry_pathfinding_policy, int16, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
 	c_enum<e_instanced_geometry_lightmapping_policy, int16, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;

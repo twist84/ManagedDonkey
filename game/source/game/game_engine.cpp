@@ -91,7 +91,7 @@ void __cdecl game_engine_game_starting()
 //.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
 //.text:0054F220 ; char const* __cdecl game_engine_get_current_variant_name() // named by us
-//.text:0054F250 ; real32 __cdecl game_engine_get_change_colors(int32, uint32, e_game_team, real_rgb_color*, bool*), modified by saber
+//.text:0054F250 ; real32 __cdecl game_engine_get_change_colors(int32, uns32, e_game_team, real_rgb_color*, bool*), modified by saber
 //.text:0054F5E0 ; int32 __cdecl game_engine_get_current_talker(int32)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
 
@@ -495,7 +495,7 @@ void __cdecl game_engine_update_after_game()
 	//		if (!game_engine_globals->game_finished)
 	//		{
 	//			game_engine_globals->game_finished = true;
-	//			c_flags<int32, uint64, 64> flags = FLAG(3);
+	//			c_flags<int32, uns64, 64> flags = FLAG(3);
 	//			simulation_action_game_engine_globals_update(flags);
 	//
 	//			if (game_engine_globals1->current_state == 1)
@@ -589,7 +589,7 @@ void __cdecl game_engine_update_round_conditions()
 
 	int32 round_time = game_engine_round_time_get();
 
-	c_flags<int32, uint8, 8> round_condition_flags(round_time < 5);
+	c_flags<int32, uns8, 8> round_condition_flags(round_time < 5);
 
 	round_condition_flags.set(1, round_time < game_seconds_integer_to_ticks(1));
 	round_condition_flags.set(2, round_time < game_seconds_integer_to_ticks(3));
@@ -614,7 +614,7 @@ void __cdecl game_engine_update_round_conditions()
 		}
 	}
 
-	c_flags<int32, uint64, 64> flags(64);
+	c_flags<int32, uns64, 64> flags(64);
 	simulation_action_game_engine_globals_update(flags);
 	game_engine_globals->round_condition_flags = round_condition_flags;
 }
@@ -687,7 +687,7 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			if (!file_exists(&file))
 				file_create(&file);
 
-			uint32 error = 0;
+			uns32 error = 0;
 			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 			{
 				c_game_engine const* game_engine = current_game_engine();

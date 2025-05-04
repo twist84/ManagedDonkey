@@ -64,10 +64,10 @@ struct c_runtime_resource_cache_file_decompressor :
 			s_resource_file_header const* file_header = g_resource_file_headers[i];
 
 			// check buffer size is the same as compressed file size we set as the tag index
-			if (static_cast<uint32>(file_header->tag_index) != in_buffer.m_size)
+			if (static_cast<uns32>(file_header->tag_index) != in_buffer.m_size)
 				continue;
 
-			if (static_cast<uint32>(file_header->resource_index) != m_holding_buffer.m_size - 1)
+			if (static_cast<uns32>(file_header->resource_index) != m_holding_buffer.m_size - 1)
 				continue;
 
 			if (file_header->group_tag == BITMAP_TAG)
@@ -211,14 +211,14 @@ void __cdecl cache_file_tag_resources_dispose_from_old_map()
 	//g_resource_runtime_manager.get()->dispose_from_old_map();
 }
 
-void __cdecl cache_file_tag_resources_get_active_tag_set(uint32 active_bsp_zone_mask, uint32 touched_bsp_zone_mask, uint32 active_designer_zone_mask, uint32 active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags)
+void __cdecl cache_file_tag_resources_get_active_tag_set(uns32 active_bsp_zone_mask, uns32 touched_bsp_zone_mask, uns32 active_designer_zone_mask, uns32 active_cinematic_zone_mask, c_scenario_resource_registry* out_active_tags_flags)
 {
 	INVOKE(0x0055F6C0, cache_file_tag_resources_get_active_tag_set, active_bsp_zone_mask, touched_bsp_zone_mask, active_designer_zone_mask, active_cinematic_zone_mask, out_active_tags_flags);
 
 	//g_resource_runtime_manager.get()->mark_available_tags(active_bsp_zone_mask, touched_bsp_zone_mask, active_designer_zone_mask, active_cinematic_zone_mask, out_active_tags_flags->get_tag_instance_flags());
 }
 
-//.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, uint32*)
+//.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, uns32*)
 
 void __cdecl cache_file_tag_resources_initialize()
 {
@@ -390,7 +390,7 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 
 //.text:00563E50 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(int32)
 //.text:00563E80 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(s_tag_resource const*)
-//.text:00563EB0 ; bool __cdecl tag_resource_stream_async(s_tag_resource const*, bool, uint32, uint32, c_basic_buffer<void>, s_async_thread_marker*)
+//.text:00563EB0 ; bool __cdecl tag_resource_stream_async(s_tag_resource const*, bool, uns32, uns32, c_basic_buffer<void>, s_async_thread_marker*)
 //.text:00563EE0 ; bool __cdecl tag_resource_test_access_state(s_tag_resource const*, e_tag_resource_access_state_bit)
 
 void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource)

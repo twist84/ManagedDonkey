@@ -25,9 +25,9 @@ public:
 	real32 total_elapsed_time_in_seconds() const;
 
 protected:
-	uint8 __data0[0x10];
+	byte __data0[0x10];
 	bool m_paused;
-	uint8 __data11[0x7];
+	byte __data11[0x7];
 };
 static_assert(sizeof(c_stop_watch) == 0x18);
 

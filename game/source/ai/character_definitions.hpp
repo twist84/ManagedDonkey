@@ -50,7 +50,7 @@ struct character_definition
 {
 	static tag const k_group_tag = CHARACTER_TAG;
 
-	c_enum<e_character_flags, uint32, _character_flag_flag1_bit, k_character_flags> character_flags;
+	c_enum<e_character_flags, uns32, _character_flag_flag1_bit, k_character_flags> character_flags;
 	c_typed_tag_reference<CHARACTER_TAG, INVALID_TAG> parent_character;
 	c_typed_tag_reference<UNIT_TAG, INVALID_TAG> unit;
 	c_typed_tag_reference<CREATURE_TAG, INVALID_TAG> creature;
@@ -141,7 +141,7 @@ static_assert(sizeof(character_placement_properties) == 0xC4);
 
 struct character_perception_properties
 {
-	uint32 flags;
+	uns32 flags;
 	real32 maximum_vision_distance;
 	real32 central_vision_angle;
 	real32 maximum_vision_angle;

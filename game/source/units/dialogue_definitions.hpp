@@ -6,7 +6,7 @@
 struct s_dialogue_definition
 {
 	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG, INVALID_TAG> global_dialogue_info;
-	uint32 flags;
+	uns32 flags;
 	s_tag_block vocalizations;
 
 	// 3-letter mission dialogue designator name
@@ -21,7 +21,7 @@ struct s_seat_storage
 	c_string_id mission_dialogue_designator;
 	c_string_id dialogue_effect;
 
-	uint8 __dataC[0x50];
+	byte __dataC[0x50];
 };
 static_assert(sizeof(s_seat_storage) == 0x5C);
 

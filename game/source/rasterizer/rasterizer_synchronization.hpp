@@ -9,7 +9,7 @@ public:
 	static void __cdecl wait_for_gpu_to_catch_up();
 
 private:
-	static uint32& m_fence;
+	static uns32& m_fence;
 	static bool& m_fence_is_valid;
 };
 

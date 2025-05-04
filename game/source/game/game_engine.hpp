@@ -70,17 +70,17 @@ enum e_game_engine_performance_flags
 
 	k_game_engine_performance_flags_count
 };
-using c_game_engine_performance_flags = c_flags<e_game_engine_performance_flags, uint16, k_game_engine_performance_flags_count>;
+using c_game_engine_performance_flags = c_flags<e_game_engine_performance_flags, uns16, k_game_engine_performance_flags_count>;
 
 struct s_player_navpoint_data
 {
 	bool last_living_location_valid;
 	real_point3d last_living_location;
-	uint16 total_time_to_respawn_in_ticks;
-	uint16 current_time_to_respawn_in_ticks;
+	uns16 total_time_to_respawn_in_ticks;
+	uns16 current_time_to_respawn_in_ticks;
 	
 	//int32 dead_unit_index;
-	uint8 __data14[0x4];
+	byte __data14[0x4];
 
 	int8 current_navpoint_action;
 	int8 current_navpoint_action_timer;
@@ -91,16 +91,16 @@ static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 struct s_simulation_player_netdebug_data
 {
 	bool is_host;
-	uint8 pad1;
+	byte pad1;
 
-	uint16 host_estimated_bps;
-	uint16 host_transmission_rate;
-	uint16 host_transmission_bps;
+	uns16 host_estimated_bps;
+	uns16 host_transmission_rate;
+	uns16 host_transmission_bps;
 
-	uint16 client_rtt_msec;
-	uint16 client_packet_rate;
-	uint16 client_bandwidth_bps;
-	uint16 client_packet_loss;
+	uns16 client_rtt_msec;
+	uns16 client_packet_rate;
+	uns16 client_bandwidth_bps;
+	uns16 client_packet_loss;
 };
 static_assert(sizeof(s_simulation_player_netdebug_data) == 0x10);
 
@@ -108,7 +108,7 @@ struct s_multiplayer_weapon_tracker
 {
 	int32 weapon_index;
 	int16 multiplayer_weapon_identifier;
-	uint16 pad;
+	uns16 pad;
 	int32 owner_unit_index;
 	int32 owner_player_index;
 };
@@ -117,22 +117,22 @@ static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 struct s_game_engine_globals
 {
 	int32 flags;
-	uint16 allowable_team_designators;
-	uint16 initial_teams;
-	uint16 valid_team_designators;
-	uint16 valid_teams;
-	uint16 active_teams;
-	uint16 ever_active_teams;
+	uns16 allowable_team_designators;
+	uns16 initial_teams;
+	uns16 valid_team_designators;
+	uns16 valid_teams;
+	uns16 active_teams;
+	uns16 ever_active_teams;
 	c_static_array<int16, 9> team_designator_to_team_index;
 	c_static_array<int8, 8> team_lives_per_round;
-	uint32 game_engine_gamestate_index;
-	uint32 statborg_gamestate_index;
+	uns32 game_engine_gamestate_index;
+	uns32 statborg_gamestate_index;
 	c_static_array<int32, 16> player_gamestate_indices;
 	c_map_variant runtime_map_variant;
 	c_enum<e_game_engine_state, int16, _game_engine_state_game_over, k_game_engine_state_count> current_state;
 	int16 round_index;
 	int32 round_start_time;
-	c_flags<int32, uint8, 8> round_condition_flags;
+	c_flags<int32, uns8, 8> round_condition_flags;
 	s_game_engine_score_list round_scoring_list;
 
 	union
@@ -149,13 +149,13 @@ struct s_game_engine_globals
 		s_infection_globals infection_globals;
 
 		// probably contains more bytes than it should
-		uint8 multiplayer_globals_storage[0x1800];
+		byte multiplayer_globals_storage[0x1800];
 	};
 
 	int16 round_timer_in_seconds;
-	uint32 game_variant_round_time_limit_ticks_per_second;
+	uns32 game_variant_round_time_limit_ticks_per_second;
 	real32 fade_to_black_amount[4];
-	uint8 fade_to_black_cache_latch;
+	uns8 fade_to_black_cache_latch;
 	int16 out_of_round_timer;
 	int32 global_shot_id;
 	c_static_array<s_dead_player_info, 64> dead_player_records;
@@ -169,7 +169,7 @@ struct s_game_engine_globals
 	c_static_array<s_simulation_player_netdebug_data, 16> player_netdebug_data;
 
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
-	uint32 game_engine_state_timer;
+	uns32 game_engine_state_timer;
 	c_enum<e_game_engine_state, int32, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
 	bool game_engine_has_handled_game_end;
 	e_garbage_collect_speed garbage_collect_speed;
@@ -187,7 +187,7 @@ struct s_game_engine_globals
 	int32 game_time_at_last_respawn;
 	int32 respawn_count_current_tick;
 
-	uint8 __data15854[0x4];
+	byte __data15854[0x4];
 };
 static_assert(sizeof(s_game_engine_globals) == 0x15858);
 

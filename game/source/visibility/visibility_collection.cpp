@@ -39,7 +39,7 @@ s_visible_items& __cdecl get_global_items()
 }
 
 //.text:00686BB0 ; 
-//.text:00686BC0 ; public: uint32* __cdecl c_visibility_collection::get_part_bitvector_space(int32)
+//.text:00686BC0 ; public: uns32* __cdecl c_visibility_collection::get_part_bitvector_space(int32)
 
 e_collection_shape c_visibility_collection::prepare_collection_for_build(int32 flags, e_collection_type collection_type, visibility_projection const* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index)
 {
@@ -99,37 +99,37 @@ void __cdecl visibility_collection_initialize()
 	g_visibility_globals_keeper.get()->m_visibility_globals.camera_visibility.m_input = &g_visibility_globals_keeper.get()->m_visibility_globals.g_camera_visibility_input;
 }
 
-uint16 __cdecl c_visible_items::get_root_objects_starting_index()
+uns16 __cdecl c_visible_items::get_root_objects_starting_index()
 {
 	return m_marker_indices[m_marker_count].root_objects_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_objects_starting_index()
+uns16 __cdecl c_visible_items::get_objects_starting_index()
 {
 	return m_marker_indices[m_marker_count].objects_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_instance_list_starting_index()
+uns16 __cdecl c_visible_items::get_instance_list_starting_index()
 {
 	return m_marker_indices[m_marker_count].instance_list_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_instances_starting_index()
+uns16 __cdecl c_visible_items::get_instances_starting_index()
 {
 	return m_marker_indices[m_marker_count].instances_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_cluster_starting_index()
+uns16 __cdecl c_visible_items::get_cluster_starting_index()
 {
 	return m_marker_indices[m_marker_count].cluster_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_light_starting_index()
+uns16 __cdecl c_visible_items::get_light_starting_index()
 {
 	return m_marker_indices[m_marker_count].light_starting_index;
 }
 
-uint16 __cdecl c_visible_items::get_sky_starting_index()
+uns16 __cdecl c_visible_items::get_sky_starting_index()
 {
 	return m_marker_indices[m_marker_count].sky_starting_index;
 }

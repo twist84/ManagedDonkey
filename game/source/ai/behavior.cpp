@@ -79,7 +79,7 @@
 //.text:014690F0 ; 
 
 //c_behavior_state* __cdecl actor_behavior_state_get(actor_datum const* actor, int16 layer_index)
-uint8* __cdecl actor_behavior_state_get(actor_datum const* actor, int16 layer_index)
+uns8* __cdecl actor_behavior_state_get(actor_datum const* actor, int16 layer_index)
 {
 	return INVOKE(0x01469180, actor_behavior_state_get, actor, layer_index);
 }

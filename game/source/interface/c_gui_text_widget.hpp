@@ -32,8 +32,8 @@ struct s_text_widget_definition :
 	c_string_id value_identifier;
 	c_string_id text_color_preset;
 	c_enum<e_font_id, int16, _terminal_font, k_public_font_id_count> custom_font;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 };
 static_assert(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
 
@@ -62,7 +62,7 @@ struct c_gui_text_widget :
 public:
 
 	c_user_interface_text* get_text_internal();
-	uint32 get_text_buffer_size() const;
+	uns32 get_text_buffer_size() const;
 	void set_text(wchar_t const* text);
 	void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
 	wchar_t const* get_text();
@@ -82,7 +82,7 @@ struct c_sized_user_interface_text :
 protected:
 	c_static_wchar_string<k_maximum_count> m_string1;
 	c_static_wchar_string<k_maximum_count> m_string2;
-	uint32 m_unknown3;
+	uns32 m_unknown3;
 };
 static_assert(sizeof(c_sized_user_interface_text<48>) == 0x120);
 static_assert(sizeof(c_sized_user_interface_text<256>) == 0x460);

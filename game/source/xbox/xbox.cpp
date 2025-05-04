@@ -90,12 +90,12 @@ bool __cdecl set_clipboard_as_text(char* buf, int32 len)
 struct XShowKeyboardUI_struct
 {
 	int32& controller_index;
-	uint32& character_flags;
+	uns32& character_flags;
 	wchar_t const*& default_text;
 	wchar_t const*& title_text;
 	wchar_t const*& description_text;
 	wchar_t*& result_text;
-	uint32& maximum_character_count;
+	uns32& maximum_character_count;
 	void*& platform_handle;
 
 	void dialog_initialize_handler(HWND dialog_handle)
@@ -147,12 +147,12 @@ INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 
 int32 XShowKeyboardUI(
 	int32 controller_index,
-	uint32 character_flags,
+	uns32 character_flags,
 	wchar_t const* default_text,
 	wchar_t const* title_text,
 	wchar_t const* description_text,
 	wchar_t* result_text,
-	uint32 maximum_character_count,
+	uns32 maximum_character_count,
 	void* overlapped
 )
 {

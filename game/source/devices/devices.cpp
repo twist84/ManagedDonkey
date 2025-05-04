@@ -36,7 +36,7 @@ int32 __cdecl device_group_get_from_scenario_index(int16 device_index)
 }
 
 //.text:00B930A0 ; real32 __cdecl device_group_get_value(int32)
-//.text:00B930D0 ; int32 __cdecl device_group_new(int32, real32, uint32)
+//.text:00B930D0 ; int32 __cdecl device_group_new(int32, real32, uns32)
 //.text:00B93130 ; void __cdecl device_group_set_actual_value(int32, real32)
 //.text:00B93270 ; bool __cdecl device_group_set_desired_value(int32, int32, real32)
 //.text:00B933E0 ; void __cdecl device_groups_reset()

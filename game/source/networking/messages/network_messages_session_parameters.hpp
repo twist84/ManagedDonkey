@@ -11,17 +11,17 @@ struct s_network_message_parameters_update
 {
 	s_transport_secure_identifier session_id;
 	bool initial_update;
-	uint64 cleared_parameters;
-	uint64 updated_parameters;
-	uint8 payload[k_network_session_parameters_update_payload_size];
+	uns64 cleared_parameters;
+	uns64 updated_parameters;
+	byte payload[k_network_session_parameters_update_payload_size];
 };
 static_assert(sizeof(s_network_message_parameters_update) == 0x20028);
 
 struct s_network_message_parameters_request
 {
 	s_transport_secure_identifier session_id;
-	uint64 change_request_parameters;
-	uint8 payload[k_network_session_parameters_request_payload_size];
+	uns64 change_request_parameters;
+	byte payload[k_network_session_parameters_request_payload_size];
 };
 static_assert(sizeof(s_network_message_parameters_request) == 0x20018);
 

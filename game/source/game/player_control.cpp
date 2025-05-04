@@ -291,7 +291,7 @@ void __cdecl player_control_propagate_output(int32 input_user_index)
 
 //.text:005D44E0 ; void __cdecl player_control_scale_all_input(real32, real32)
 //.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(int32, real32, real32)
-//.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(int32, uint64)
+//.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(int32, uns64)
 //.text:005D46C0 ; void __cdecl player_control_set_external_action(int32, player_action const*)
 
 void __cdecl player_control_set_facing(int32 input_user_index, real_vector3d const* facing)
@@ -313,7 +313,7 @@ void __cdecl player_control_update(real32 world_seconds_elapsed, real32 game_sec
 	//collision_log_begin_period(5);
 	//player_control_update_debug_begin();
 
-	uint32 player_mask = 0;
+	uns32 player_mask = 0;
 	player_action actions[k_number_of_users]{};
 
 	for (int32 user_index = first_input_user(); user_index != NONE; user_index = next_input_user(user_index))

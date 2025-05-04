@@ -10,14 +10,14 @@ REFERENCE_DECLARE(0x0238ED0C, void*, k_virtual_to_physical_base_offset);
 
 HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
 
-uint32 g_physical_memory_data_size_increase_mb = 0;
-uint32 g_physical_memory_cache_size_increase_mb = 100;
+uns32 g_physical_memory_data_size_increase_mb = 0;
+uns32 g_physical_memory_cache_size_increase_mb = 100;
 
-uint32 g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
-uint32 g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);
+uns32 g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
+uns32 g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);
 
-uint32 g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
-uint32 g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
+uns32 g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
+uns32 g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
 
 void recalculate_data_size_increase(int32 data_size_increase_mb)
 {
@@ -46,12 +46,12 @@ char const* const k_physical_memory_stage_names[k_memory_stage_count]
 };
 static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
-void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uint32 flags)
+void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uns32 flags)
 {
 	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, stage, name, size, flags);
 }
 
-uint32 __cdecl align_up(uint32 value, int32 alignment_bits)
+uns32 __cdecl align_up(uns32 value, int32 alignment_bits)
 {
 	return INVOKE(0x0051D280, align_up, value, alignment_bits);
 
@@ -114,7 +114,7 @@ void __cdecl physical_memory_free(void* memory) // nullsub
 }
 //HOOK_DECLARE(0x0051D5C0, physical_memory_free);
 
-uint32 __cdecl physical_memory_get_broken_memory_offset()
+uns32 __cdecl physical_memory_get_broken_memory_offset()
 {
 	return INVOKE(0x0051D5E0, physical_memory_get_broken_memory_offset);
 
@@ -150,13 +150,13 @@ void __cdecl physical_memory_initialize()
 
 	k_physical_memory_base_virtual_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, NULL);
 	k_virtual_to_physical_base_offset = k_physical_memory_base_virtual_address;
-	resources_buffer = (uint8*)k_physical_memory_base_virtual_address + g_physical_memory_data_size_new;
+	resources_buffer = (byte*)k_physical_memory_base_virtual_address + g_physical_memory_data_size_new;
 
 	csmemset(&physical_memory_globals, 0, sizeof(physical_memory_globals));
 
 	physical_memory_globals.current_stage = _memory_stage_initial;
-	physical_memory_globals.minimum_address = (uint32)k_virtual_to_physical_base_offset;
-	physical_memory_globals.maximum_address = (uint32)resources_buffer;
+	physical_memory_globals.minimum_address = (uns32)k_virtual_to_physical_base_offset;
+	physical_memory_globals.maximum_address = (uns32)resources_buffer;
 	physical_memory_globals.no_mans_land = (int8*)1;
 
 	if (s_physical_memory_stage* current_stage = physical_memory_get_current_stage())
@@ -176,7 +176,7 @@ void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> old_free_regi
 	//physical_memory_adjust_resize_region(old_free_region, new_free_region);
 }
 
-void __cdecl physical_memory_query_bounds(uint32 physical_memory_base_address, uint32 physical_memory_query_address, uint32* out_physical_memory_start, uint32* out_physical_memory_end)
+void __cdecl physical_memory_query_bounds(uns32 physical_memory_base_address, uns32 physical_memory_query_address, uns32* out_physical_memory_start, uns32* out_physical_memory_end)
 {
 	INVOKE(0x0051D7A0, physical_memory_query_bounds, physical_memory_base_address, physical_memory_query_address, out_physical_memory_start, out_physical_memory_end);
 }
@@ -233,7 +233,7 @@ void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> resize_re
 	//physical_memory_globals.current_stage--;
 }
 
-uint32 __cdecl physical_memory_round_up_allocation_size(uint32 size)
+uns32 __cdecl physical_memory_round_up_allocation_size(uns32 size)
 {
 	return INVOKE(0x0051DB80, physical_memory_round_up_allocation_size, size);
 
@@ -289,26 +289,26 @@ void __cdecl physical_memory_system_free(void* address)
 	//VirtualFree(memory, 0, MEM_RELEASE);
 }
 
-void* __cdecl physical_memory_system_malloc(uint32 size, void* address)
+void* __cdecl physical_memory_system_malloc(uns32 size, void* address)
 {
 	return INVOKE(0x0051DC70, physical_memory_system_malloc, size, address);
 
 	//return VirtualAlloc(address, size, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
 }
 
-bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, uint32 minimum_new_size, c_basic_buffer<void>* out_new_region)
+bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, uns32 minimum_new_size, c_basic_buffer<void>* out_new_region)
 {
 	return INVOKE(0x0051DC90, physical_memory_try_to_resize_contiguous_buffer_simple, region_listener, in_region, minimum_new_size, out_new_region);
 
 	//void* new_base_address = NULL;
-	//uint32 new_region_size = 0;
+	//uns32 new_region_size = 0;
 	//bool result = physical_memory_try_to_resize_contiguous_region(region_listener, in_region.begin(), in_region.size(), minimum_new_size, minimum_new_size, 0, &new_base_address, &new_region_size);
 	//if (result)
 	//	out_new_region->set_buffer(new_base_address, new_region_size);
 	//return result;
 }
 
-bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, uint32 in_region_size, uint32 minimum_new_size, uint32 requested_size, uint32 a6, void** out_new_base_address, uint32* out_new_region_size)
+bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, uns32 in_region_size, uns32 minimum_new_size, uns32 requested_size, uns32 a6, void** out_new_base_address, uns32* out_new_region_size)
 {
 	return INVOKE(0x0051DCD0, physical_memory_try_to_resize_contiguous_region, region_listener, in_region_buffer, in_region_size, minimum_new_size, requested_size, a6, out_new_base_address, out_new_region_size);
 }

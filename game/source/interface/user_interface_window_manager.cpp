@@ -495,7 +495,7 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 //.text:00AAC730 ; public: void c_window_manager::prepare_for_tag_reload()
 //.text:00AAC740 ; public: static void __cdecl c_window_manager::print_active_screen_strings_tag_name()
 //.text:00AAC750 ; public: void c_window_manager::print_active_screens()
-//.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uint32)
+//.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uns32)
 //.text:00AAC910 ; public: void c_window_manager::render(e_window_index, int32, rectangle2d const*, bool)
 //.text:00AACB10 ; public: void c_window_manager::render_fade()
 //.text:00AACBD0 ; public: void c_window_manager::reset_screens()
@@ -513,12 +513,12 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 //.text:00AAD010 ; 
 //.text:00AAD020 ; 
 
-void c_window_manager::update(uint32 milliseconds)
+void c_window_manager::update(uns32 milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00AAD050, c_window_manager, update, milliseconds);
 }
 
-//.text:00AAD540 ; public: void c_window_manager::update_fade(uint32)
+//.text:00AAD540 ; public: void c_window_manager::update_fade(uns32)
 //.text:00AAD670 ; 
 //.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, int32)
 //.text:00AAD8B0 ; void __cdecl window_manager_build_render_data_for_screen(rectangle2d const*, c_gui_screen_widget*, s_window_manager_screen_render_data*)

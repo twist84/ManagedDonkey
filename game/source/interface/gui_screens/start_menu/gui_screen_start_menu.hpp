@@ -26,12 +26,12 @@ public:
 
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	static bool __cdecl handle_global_start_button_press_(c_controller_input_message* message);
-	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uint64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count);
+	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uns64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count);
 
 protected:
 	s_player_identifier m_owner_player_id;
 	s_player_identifier m_target_player_id;
-	uint64 m_target_player_xuid;
+	uns64 m_target_player_xuid;
 	s_service_record_identity m_service_record_identity;
 	real32 m_old_film_playback_speed;
 	c_static_stack<s_start_menu_breadcrumb, 8> m_breadcrumbs;

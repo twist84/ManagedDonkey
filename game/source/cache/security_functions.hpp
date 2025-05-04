@@ -29,17 +29,17 @@ extern void*& g_secure_memory;
 
 extern int32 __cdecl hash_compare_function(void const* in_a, void const* in_b, void const* compare_data);
 extern int32 __cdecl rsa_signature_compare_function(void const* in_a, void const* in_b, void const* compare_data);
-extern bool __cdecl security_calculate_hash(void const* buffer, uint32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash* hash);
+extern bool __cdecl security_calculate_hash(void const* buffer, uns32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash* hash);
 extern void __cdecl security_dispose();
 extern void __cdecl security_get_working_memory(e_secure_memory_region region, void** out_working_memory, int32* out_working_memory_size);
-extern bool __cdecl security_hash_manifest_find_hash(s_network_http_request_hash const* hash, void const* manifest, uint32 manifest_size);
+extern bool __cdecl security_hash_manifest_find_hash(s_network_http_request_hash const* hash, void const* manifest, uns32 manifest_size);
 extern bool __cdecl security_incremental_hash_begin(void* working_memory, int32 working_memory_size, bool use_secret_hash_salt);
 extern void __cdecl security_incremental_hash_finish(void* working_memory, int32 working_memory_size, s_network_http_request_hash* hash);
-extern void __cdecl security_incremental_hash_update(void* working_memory, int32 working_memory_size, void const* buffer, uint32 buffer_size);
+extern void __cdecl security_incremental_hash_update(void* working_memory, int32 working_memory_size, void const* buffer, uns32 buffer_size);
 extern void __cdecl security_initialize();
 extern char* __cdecl security_print_hash(s_network_http_request_hash const* hash, char* buffer, int32 buffer_size);
 extern char* __cdecl security_print_rsa_signature(s_rsa_signature const* rsa_signature, char* buffer, int32 buffer_size);
 extern bool __cdecl security_rsa_compute_and_verify_signature(s_network_http_request_hash const* hash, s_rsa_signature* rsa_signature);
-extern bool __cdecl security_rsa_manifest_find_signature(s_rsa_signature const* rsa_signature, void const* manifest, uint32 manifest_size);
-extern bool __cdecl security_validate_hash(void const* buffer, uint32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash const* hash, s_network_http_request_hash* out_actual_hash);
+extern bool __cdecl security_rsa_manifest_find_signature(s_rsa_signature const* rsa_signature, void const* manifest, uns32 manifest_size);
+extern bool __cdecl security_validate_hash(void const* buffer, uns32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash const* hash, s_network_http_request_hash* out_actual_hash);
 

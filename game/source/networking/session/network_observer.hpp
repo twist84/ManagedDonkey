@@ -80,7 +80,7 @@ struct c_network_observer
 		int32 allocated_bandwidth_bps;
 		int32 maximum_bandwidth_bps;
 		int32 maximum_bandwidth_find_duplicate_count;
-		uint32 time_to_grow_bandwidth_base;
+		uns32 time_to_grow_bandwidth_base;
 		int32 time_to_grow_bandwidth_delta;
 		int32 packet_loss_spike_count;
 		int32 upstream_bandwidth_failures;
@@ -100,16 +100,16 @@ struct c_network_observer
 	{
 		c_network_channel channel;
 		int32 state;
-		uint32 state_entry_timestamp;
-		uint8 flags;
-		uint8 owner_flags;
+		uns32 state_entry_timestamp;
+		uns8 flags;
+		uns8 owner_flags;
 		int16 connection_attempts;
-		uint32 owner_connection_identifier;
+		uns32 owner_connection_identifier;
 		s_transport_secure_address remote_secure_address;
-		uint32 secure_connection_discarded_owner_mask;
+		uns32 secure_connection_discarded_owner_mask;
 		int32 secure_connection_owner;
 		transport_address secure_connection_address;
-		uint32 last_acknowledgement_timestamp;
+		uns32 last_acknowledgement_timestamp;
 		int32 average_rtt_msec;
 		int32 average_rtt_fast_deviation_msec;
 		int32 average_rtt_deviation_msec;
@@ -120,9 +120,9 @@ struct c_network_observer
 		int32 remote_machine_downstream_bandwidth_bps;
 		int32 qos_attempt_index;
 		s_transport_qos_result qos_result;
-		uint32 last_inactive_timestamp;
-		uint32 undesired_connection_timestamp;
-		uint32 undesired_connection_empty_timestamp;
+		uns32 last_inactive_timestamp;
+		uns32 undesired_connection_timestamp;
+		uns32 undesired_connection_empty_timestamp;
 		c_network_time_statistics received_bytes_statistics;
 		c_network_time_statistics transmitted_bytes_statistics;
 		c_network_time_statistics acknowledged_bytes_statistics;
@@ -134,7 +134,7 @@ struct c_network_observer
 		int32 bandwidth_monitor_throughput_maximum_bps;
 		int32 bandwidth_monitor_previous_maximum_bps;
 		int32 bandwidth_event_counters[5];
-		uint32 last_packet_slot_timestamp;
+		uns32 last_packet_slot_timestamp;
 		c_network_observer::s_stream_parameters stream;
 		bool badness_reported_connectivity;
 		bool badness_reported_squad_host;
@@ -145,7 +145,7 @@ struct c_network_observer
 		bool badness_was_ever_game_squad_client;
 		bool badness_was_ever_game_group_host;
 		bool badness_was_ever_game_group_client;
-		uint64 message_backlog_mask;
+		uns64 message_backlog_mask;
 	};
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
@@ -178,16 +178,16 @@ struct c_network_observer
 	int32 m_bandwidth_estimated_bps;
 	int32 m_bandwidth_maximum_throughput_bps;
 	int32 m_bandwidth_congestion_bps;
-	uint32 m_bandwidth_satiation_timestamp;
+	uns32 m_bandwidth_satiation_timestamp;
 	bool m_bandwidth_satiation_setting;
 	int32 m_bandwidth_satiation_count[2];
 	int32 m_maximum_upstream_bandwidth_bps;
 	bool m_has_simulation_stream;
-	uint32 m_recently_probed_streams;
-	uint32 m_time_of_expansion;
-	uint32 m_time_of_probe;
-	uint32 m_time_of_probe_delay;
-	uint32 m_time_of_end_of_last_probe;
+	uns32 m_recently_probed_streams;
+	uns32 m_time_of_expansion;
+	uns32 m_time_of_probe;
+	uns32 m_time_of_probe_delay;
+	uns32 m_time_of_end_of_last_probe;
 	int32 m_time_to_delay_next_probe;
 	int32 m_bandwidth_known_good_kbps;
 	int32 m_bandwidth_known_bad_kbps;
@@ -199,8 +199,8 @@ struct c_network_observer
 	real32 m_allocated_rate_client;
 	int32 m_allocated_upstream_bandwidth;
 	int32 m_allocated_upload_bandwidth;
-	uint32 m_stream_period_start_timestamp;
-	uint32 m_stream_mini_period_start_timestamp;
+	uns32 m_stream_period_start_timestamp;
+	uns32 m_stream_mini_period_start_timestamp;
 	bool m_stream_needs_rebalancing;
 	bool m_stream_abort_growth;
 	bool m_stream_period_restart_flag;
@@ -208,9 +208,9 @@ struct c_network_observer
 	bool m_stream_period_restart_record_congestion_flag;
 	int32 m_stream_period_growth_initiated_count;
 	int32 m_stream_period_growth_maximum_count;
-	uint32 m_stream_reset_timestamp;
+	uns32 m_stream_reset_timestamp;
 	bool m_stream_all_streams_are_stable;
-	uint32 m_streams_that_are_still_growing;
+	uns32 m_streams_that_are_still_growing;
 };
 static_assert(sizeof(c_network_observer) == 0x23F20);
 static_assert(0x00014 == OFFSETOF(c_network_observer, m_owners));

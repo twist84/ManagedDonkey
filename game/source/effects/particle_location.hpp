@@ -5,7 +5,7 @@
 struct c_particle_location :
 	s_datum_header
 {
-	uint8 m_random_seed;
+	uns8 m_random_seed;
 	int32 m_flags;
 	int32 m_emitter_list_head;
 	int32 m_emitter_list_tail;

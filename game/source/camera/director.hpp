@@ -33,13 +33,13 @@ public:
 	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
 
 //protected:
-	uint8 m_camera_storage[0x4C];
+	byte m_camera_storage[0x4C];
 	s_observer_command m_last_observer_command;
 	real32 m_change_camera_pause;
 	int32 m_user_index;
 	int32 m_watched_player_index;
 	bool m_player_switch_gui_activated;
-	uint8 pad[3];
+	byte pad[0x3];
 };
 static_assert(sizeof(c_director) == 0x14C);
 
@@ -53,7 +53,7 @@ static_assert(sizeof(s_director_info) == 0xC);
 
 struct s_director_globals
 {
-	c_static_array<uint8[0x160], 4> directors;
+	c_static_array<byte[0x160], 4> directors;
 	c_static_array<s_director_info, 4> director_info;
 	real32 dtime;
 	real32 fade_timer;

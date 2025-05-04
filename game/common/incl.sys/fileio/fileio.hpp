@@ -44,7 +44,7 @@ struct osASYNC_INFO
 	int isSignaled;
 	int mustRetry;
 	int holdSignal;
-	unsigned char data[0x4A];
+	byte data[0x4A];
 };
 static_assert(sizeof(osASYNC_INFO) == 0x60);
 

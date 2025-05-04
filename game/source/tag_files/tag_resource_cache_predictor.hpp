@@ -11,16 +11,16 @@ static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
 struct s_tag_resource_prediction_atom
 {
 	int16 identifier;
-	uint16 predicted_resource_count;
+	uns16 predicted_resource_count;
 	int32 first_prediction_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
 
 struct s_tag_resource_prediction_molecule
 {
-	uint16 predicted_atom_count;
+	uns16 predicted_atom_count;
 	int16 first_predicted_atom_index;
-	uint16 predicted_resource_count;
+	uns16 predicted_resource_count;
 	int16 first_predicted_resource_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
@@ -104,7 +104,7 @@ struct c_tag_resource_cache_dynamic_predictor :
 	bool m_ran_out_of_molecule_atoms;
 	bool m_ran_out_of_molecules;
 
-	uint32 m_last_reset_time;
+	uns32 m_last_reset_time;
 };
 static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
 

@@ -208,7 +208,7 @@ void __cdecl parse_build_number_string(e_controller_index controller_index, e_ut
 	}
 }
 
-void c_user_interface_text::set_flags(uint32 flags)
+void c_user_interface_text::set_flags(uns32 flags)
 {
 	m_flags = flags;
 }

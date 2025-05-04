@@ -14,7 +14,7 @@ struct object_type_definition
 	int16 placement_tag_block_offset;
 	int16 palette_tag_block_offset;
 	int16 placement_tag_block_element_size;
-	uint32 maximum_placement_count;
+	uns32 maximum_placement_count;
 	int32 animation_mixing_board_definition_index;
 	c_mover_definition_data* mover_definition;
 	void(__cdecl* initialize)();
@@ -40,9 +40,9 @@ struct object_type_definition
 	void(__cdecl* datum_attach_to_node)(int32 parent_object_index, int32 child_object_index, int16 node_index);
 	void(__cdecl* datum_detach_from_parent)(int32 object_index);
 	void(__cdecl* handle_deleted_object)(int32 object_index, int32 deleted_object_index);
-	uint32 deleted_object_type_mask;
+	uns32 deleted_object_type_mask;
 	void(__cdecl* handle_deleted_player)(int32 object_index, int32 deleted_player_index);
-	void(__cdecl* handle_region_destroyed)(int32 object_index, int16 region_index, uint32 damage_region_flags);
+	void(__cdecl* handle_region_destroyed)(int32 object_index, int16 region_index, uns32 damage_region_flags);
 	bool(__cdecl* handle_parent_destroyed)(int32 object_index);
 	void(__cdecl* datum_fix_transform)(int32 object_index, real_point3d* position, real_vector3d* forward, real_vector3d* up);
 	void(__cdecl* datum_fix_transform_to_physics)(int32 object_index, real_matrix4x3* world_matrix);
@@ -55,7 +55,7 @@ struct object_type_definition
 	void(__cdecl* render_debug)(int32 object_index);
 	object_type_definition* part_definitions[16];
 	object_type_definition* next;
-	uint32 deleted_object_notification_mask;
+	uns32 deleted_object_notification_mask;
 };
 static_assert(sizeof(object_type_definition) == 0xF4);
 

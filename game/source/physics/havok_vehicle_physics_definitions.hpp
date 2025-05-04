@@ -17,7 +17,7 @@ struct s_friction_point_definition;
 struct s_vehicle_phantom_shape_definition;
 struct s_havok_vehicle_physics_definition
 {
-	c_flags<e_havok_vehicle_physics_definition_flags, uint32, k_havok_vehicle_physics_definition_flags> flags;
+	c_flags<e_havok_vehicle_physics_definition_flags, uns32, k_havok_vehicle_physics_definition_flags> flags;
 
 	// this sucks.
 	// for friction based vehicles only
@@ -67,7 +67,7 @@ static_assert(sizeof(s_havok_vehicle_physics_definition) == 0x60);
 struct s_anti_gravity_point_definition
 {
 	c_string_id marker_name;
-	uint32 flags;
+	uns32 flags;
 	real32 antigrav_strength;
 	real32 antigrav_offset;
 	real32 antigrav_height;
@@ -77,10 +77,10 @@ struct s_anti_gravity_point_definition
 	real32 radius;
 
 	// pad
-	uint8 OX[0xC];
+	byte OX[0xC];
 
 	// pad
-	uint8 BB[0x2];
+	byte BB[0x2];
 
 	int16 WU;
 	c_string_id damage_source_region_name;
@@ -111,14 +111,14 @@ enum e_friction_type
 struct s_friction_point_definition
 {
 	c_string_id marker_name;
-	c_flags<e_friction_point_flags, uint32, k_friction_point_flags> flags;
+	c_flags<e_friction_point_flags, uns32, k_friction_point_flags> flags;
 	real32 fraction_of_total_mass; // (0.0-1.0) fraction of total vehicle mass
 	real32 radius;
 	real32 damaged_radius; // radius when the tire is blown off.
 	c_enum<e_friction_type, int16, _friction_type_point, k_friction_type_count> friction_type;
 
 	// pad
-	uint8 BTUPMKNC[0x2];
+	byte BTUPMKNC[0x2];
 
 	real32 moving_friction_velocity_diff;
 	real32 e_brake_moving_friction;
@@ -126,7 +126,7 @@ struct s_friction_point_definition
 	real32 e_brake_moving_friction_vel_diff;
 
 	// pad
-	uint8 ESECRABPX[0x14];
+	byte ESECRABPX[0x14];
 
 	c_string_id collision_global_material_name;
 	c_global_material_type runtime_global_material_index;
@@ -177,13 +177,13 @@ struct s_vehicle_phantom_shape_definition
 	int32 child_shapes_pointer;
 	int32 child_shapes_size;
 	int32 child_shapes_capacity;
-	uint8 nail_in_dick[0xC]; // pad
+	byte nail_in_dick[0xC]; // pad
 	real_vector3d aabb_half_extents;
 	real32 havok_w_aabb_half_extents;
 	real_vector3d aabb_center;
 	real32 havok_w_aabb_center;
 	int32 multisphere_count;
-	c_flags<e_vehicle_phantom_shape_flags, uint32, k_vehicle_phantom_shape_flags> flags;
+	c_flags<e_vehicle_phantom_shape_flags, uns32, k_vehicle_phantom_shape_flags> flags;
 	real_rectangle3d bounds;
 	c_multi_sphere_shape multispheres[4];
 	c_list_shape::ChildInfo list_shape_children[4];

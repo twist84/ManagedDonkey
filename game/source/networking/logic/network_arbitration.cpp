@@ -15,7 +15,7 @@ bool __cdecl network_arbitration_initialize()
 	return INVOKE(0x004D9B30, network_arbitration_initialize);
 }
 
-//.text:004D9B60 ; bool __cdecl network_arbitration_initiate(int32, uint64)
+//.text:004D9B60 ; bool __cdecl network_arbitration_initiate(int32, uns64)
 
 void __cdecl network_arbitration_update()
 {

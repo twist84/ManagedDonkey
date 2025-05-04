@@ -17,15 +17,15 @@ static_assert(sizeof(s_network_bandwidth_persistent_data) == 0x6C);
 
 struct s_network_quality_session_statistics
 {
-	uint64 client_badness_history[2];
-	uint64 host_badness_history[2];
+	uns64 client_badness_history[2];
+	uns64 host_badness_history[2];
 };
 static_assert(sizeof(s_network_quality_session_statistics) == 0x20);
 
 struct s_network_quality_statistics
 {
 	s_network_quality_session_statistics session[2];
-	uint64 connectivity_history[2];
+	uns64 connectivity_history[2];
 	s_network_bandwidth_persistent_data bandwidth_data;
 };
 static_assert(sizeof(s_network_quality_statistics) == 0xC0);
@@ -41,7 +41,7 @@ struct s_network_bandwidth_globals
 	bool online_environment;
 	bool tracking_bandwidth;
 	bool in_game;
-	uint32 tracking_start_timestamp;
+	uns32 tracking_start_timestamp;
 	bool estimate_based_on_measurement;
 	int32 estimated_bps;
 	int32 estimated_max_machine_count;

@@ -21,8 +21,8 @@ struct s_survival_mode_globals
 	int32 __unknown1C;
 
 	int32 wave_in_set_index;
-	uint32 primary_skulls;
-	uint32 secondary_skulls;
+	uns32 primary_skulls;
+	uns32 secondary_skulls;
 
 	int32 __unknown2C;
 
@@ -30,11 +30,11 @@ struct s_survival_mode_globals
 
 	struct
 	{
-		uint16 __unknown0; // wave begin seconds?
-		uint16 __unknown2; // active skulls?
+		uns16 __unknown0; // wave begin seconds?
+		uns16 __unknown2; // active skulls?
 	} waves_in_set[225];
 
-	uint8 __data7D8[0x8];
+	byte __data7D8[0x8];
 };
 static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
 

@@ -117,7 +117,7 @@ public:
 
 //protected:
 	bool m_using_stored_cluster;
-	uint8 pad;
+	byte pad;
 	s_cluster_reference m_stored_cluster;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
@@ -139,10 +139,10 @@ public:
 
 	static int32& g_gel_bitmap_index;
 	static real32& g_render_light_intensity;
-	static uint32& g_debug_clip_planes;
+	static uns32& g_debug_clip_planes;
 
 protected:
-	uint8 __data298[0xD54];
+	byte __data298[0xD54];
 	real_vector4d m_light_draw_list[40];
 	real32 m_light_intensity_scale;
 };
@@ -153,7 +153,7 @@ struct c_lightmap_shadows_view :
 	public c_world_view
 {
 protected:
-	uint8 __data298[0x40];
+	byte __data298[0x40];
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
@@ -323,7 +323,7 @@ protected:
 	c_rasterizer_texture_ref __unknown26C8_texture_ref;
 	int32 __unknown26CC;
 	int32 m_depth_stencil_surface_index;
-	uint32 __unknown26D4_flags;
+	uns32 __unknown26D4_flags;
 	int32 __unknown26D8;
 	int32 __unknown26DC;
 	int32 __unknown26E0;

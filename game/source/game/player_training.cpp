@@ -52,7 +52,7 @@ void __cdecl player_training_initialize_for_new_map()
 
 //.text:00689C90 ; void __cdecl player_training_notify_equipment_pickup(int32)
 //.text:00689CD0 ; void __cdecl player_training_notify_grenade_pickup(int32)
-//.text:00689D10 ; void __cdecl player_training_notify_kill(int32, int32, uint8)
+//.text:00689D10 ; void __cdecl player_training_notify_kill(int32, int32, uns8)
 //.text:00689E10 ; int32 __cdecl player_training_profile_data_get_completion_count(s_player_training_profile_data const*, int32)
 //.text:00689E50 ; void __cdecl player_training_profile_data_set_completion_count(s_player_training_profile_data*, int32, int32)
 //.text:00689EB0 ; void __cdecl player_training_profile_data_set_completion_count_all(s_player_training_profile_data*, bool)

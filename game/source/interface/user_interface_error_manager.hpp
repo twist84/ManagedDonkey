@@ -6,10 +6,10 @@
 struct s_gui_alert_description
 {
 	c_string_id error_name;
-	c_flags<e_gui_alert_flags, uint8, k_gui_alert_flags> flags;
-	c_enum<e_gui_error_category, uint8, _gui_error_category_default, k_gui_error_category_count> error_category;
-	c_enum<e_gui_error_icon, uint8, _gui_error_icon_default_alert, k_gui_error_icon_count> error_icon;
-	uint8 pad0[1];
+	c_flags<e_gui_alert_flags, uns8, k_gui_alert_flags> flags;
+	c_enum<e_gui_error_category, uns8, _gui_error_category_default, k_gui_error_category_count> error_category;
+	c_enum<e_gui_error_icon, uns8, _gui_error_icon_default_alert, k_gui_error_icon_count> error_icon;
+	byte pad0[1];
 	c_string_id title;
 	c_string_id message;
 };
@@ -76,12 +76,12 @@ public:
 	void post_toast_with_custom_message(int32 error_name, wchar_t const* custom_title, wchar_t const* custom_message);
 	void resolve_error(int32 error_name, e_controller_index controller_index);
 	void resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message);
-	void update(uint32);
+	void update(uns32 current_milliseconds);
 	
 private:
 	enum e_alert_display_mode
 	{
-		_alert_display_mode_unknown0 = 0, // none?
+		_alert_display_mode_popup = 0,
 		_alert_display_mode_toast,
 		_alert_display_mode_in_render_window,
 
@@ -96,9 +96,9 @@ private:
 	void sort_queue();
 
 protected:
-	c_static_array<c_gui_queued_error, 32> m_errors;
-	c_enum<e_alert_display_mode, int32, _alert_display_mode_unknown0, k_alert_display_mode_count> m_display_mode;
-	bool __unknown8484;
+	c_gui_queued_error m_error_queue[32];
+	e_alert_display_mode m_last_error_display_mode;
+	bool m_utility_drive_cleared_message_shown;
 };
 static_assert(sizeof(c_gui_error_manager) == 0x8488);
 

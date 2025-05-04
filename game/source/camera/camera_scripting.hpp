@@ -37,7 +37,7 @@ struct s_scripted_camera_globals
 
 	union
 	{
-		uint8 storage[0xB0];
+		byte storage[0xB0];
 
 		//s_scripted_camera_control_point internal_control_point;
 		//s_scripted_camera_constant_pan internal_contant_pan;

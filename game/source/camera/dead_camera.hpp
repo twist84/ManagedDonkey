@@ -20,10 +20,10 @@ public:
 	int32 m_player_index;
 	int32 m_killer_object_index;
 	bool m_unit_fell_to_death;
-	uint8 m_user_index;
+	uns8 m_user_index;
 
-	uint8 pad[0x2];
-	uint8 unused[0x10];
+	byte pad[0x2];
+	byte unused[0x10];
 };
 static_assert(sizeof(c_dead_camera) == 0x4C);
 

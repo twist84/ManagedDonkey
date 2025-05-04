@@ -212,7 +212,7 @@ void __cdecl observer_dispose_from_old_map()
 	INVOKE(0x00612530, observer_dispose_from_old_map);
 }
 
-void __cdecl observer_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl observer_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00612540, observer_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -323,7 +323,7 @@ void __cdecl observer_initialize_for_new_map()
 	//observer_gamestate_globals->__unknownA = NONE;
 }
 
-void __cdecl observer_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl observer_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00612AA0, observer_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

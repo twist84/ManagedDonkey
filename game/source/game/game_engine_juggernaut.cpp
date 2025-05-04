@@ -10,8 +10,8 @@ void c_game_engine_juggernaut_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_uint16_inplace(m_score_to_win_round);
-	bswap_uint16_inplace(m_score_unknown);
+	bswap_uns16_inplace(m_score_to_win_round);
+	bswap_uns16_inplace(m_score_unknown);
 
 	ASSERT(array_is_zeroed(m_pad));
 
@@ -71,7 +71,7 @@ void c_game_engine_juggernaut_variant::encode_to_mcc(c_bitstream* packet) const
 	int8 destination_arrival_points = get_destination_arrival_points();
 	int8 suicide_points = get_suicide_points();
 	int8 betrayal_points = get_betrayal_points();
-	uint8 juggernaut_delay = get_juggernaut_delay();
+	uns8 juggernaut_delay = get_juggernaut_delay();
 
 	packet->write_bool("juggernaut-allied-against-juggernaut", allied_against_juggernaut);
 	packet->write_bool("juggernaut-respawn-on-lone-juggernaut", respawn_on_lone_juggernaut);
@@ -109,7 +109,7 @@ void c_game_engine_juggernaut_variant::decode_from_mcc(c_bitstream* packet)
 	int8 destination_arrival_points = static_cast<int8>(packet->read_signed_integer("juggernaut-destination-arrival-points", 5));
 	int8 suicide_points = static_cast<int8>(packet->read_signed_integer("juggernaut-suicide-points", 5));
 	int8 betrayal_points = static_cast<int8>(packet->read_signed_integer("juggernaut-betrayal-points", 5));
-	uint8 juggernaut_delay = static_cast<uint8>(packet->read_integer("juggernaut-juggernaut-delay", 4));
+	uns8 juggernaut_delay = static_cast<uns8>(packet->read_integer("juggernaut-juggernaut-delay", 4));
 	get_juggernaut_traits_writeable()->decode_from_mcc(packet);
 
 	set_allied_against_juggernaut(allied_against_juggernaut);
@@ -371,12 +371,12 @@ void c_game_engine_juggernaut_variant::set_betrayal_points(int8 betrayal_points)
 	}
 }
 
-uint8 c_game_engine_juggernaut_variant::get_juggernaut_delay() const
+uns8 c_game_engine_juggernaut_variant::get_juggernaut_delay() const
 {
 	return m_juggernaut_delay;
 }
 
-void c_game_engine_juggernaut_variant::set_juggernaut_delay(uint8 juggernaut_delay)
+void c_game_engine_juggernaut_variant::set_juggernaut_delay(uns8 juggernaut_delay)
 {
 	if (!VALID_INDEX(juggernaut_delay, 10))
 	{

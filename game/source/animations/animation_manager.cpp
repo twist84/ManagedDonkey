@@ -23,7 +23,7 @@
 //.text:006DA840 ; 
 //.text:006DA850 ; 
 //.text:006DA870 ; 
-//.text:006DA890 ; public: void __cdecl c_animation_manager::adjust_node_orientations_for_rendering(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uint32 const*, real32), int32)
+//.text:006DA890 ; public: void __cdecl c_animation_manager::adjust_node_orientations_for_rendering(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uns32 const*, real32), int32)
 //.text:006DA8D0 ; public: void __cdecl c_animation_manager::animation_get_root_matrix(c_animation_id, real32, real_matrix4x3*) const
 //.text:006DA900 ; public: void __cdecl c_animation_manager::animation_get_root_orientation(c_animation_id, real32, render_model_definition const*, real_orientation*) const
 //.text:006DA930 ; public: void __cdecl c_animation_manager::animation_get_root_starting_point(c_animation_id, render_model_definition const*, real_orientation*) const
@@ -38,7 +38,7 @@
 //.text:006DAB00 ; public: bool __cdecl c_animation_manager::build_model_mapping_table(int32, int32*, int32*, int32)
 //.text:006DAB20 ; 
 //.text:006DAB30 ; 
-//.text:006DAB40 ; public: c_animation_id __cdecl c_animation_manager::choose_random_variation(c_animation_id, uint32*) const
+//.text:006DAB40 ; public: c_animation_id __cdecl c_animation_manager::choose_random_variation(c_animation_id, uns32*) const
 //.text:006DABA0 ; 
 //.text:006DABB0 ; 
 //.text:006DABC0 ; 
@@ -62,8 +62,8 @@
 //.text:006DB410 ; public: c_animation_id __cdecl c_animation_manager::find_facial_animation_base() const
 //.text:006DB440 ; public: c_animation_id __cdecl c_animation_manager::find_facial_animation_cinematic_base() const
 //.text:006DB470 ; public: c_animation_id __cdecl c_animation_manager::find_facial_animation_overlay() const
-//.text:006DB4A0 ; public: bool __cdecl c_animation_manager::find_goal(int32, int32, int32, int32, c_flags<e_animation_state_change_flags, uint16, 16>) const
-//.text:006DB4D0 ; public: c_animation_id __cdecl c_animation_manager::find_goal_animation_id(int32, int32, int32, int32, int32, c_flags<e_animation_state_change_flags, uint16, 16>) const
+//.text:006DB4A0 ; public: bool __cdecl c_animation_manager::find_goal(int32, int32, int32, int32, c_flags<e_animation_state_change_flags, uns16, 16>) const
+//.text:006DB4D0 ; public: c_animation_id __cdecl c_animation_manager::find_goal_animation_id(int32, int32, int32, int32, int32, c_flags<e_animation_state_change_flags, uns16, 16>) const
 //.text:006DB510 ; public: c_model_animation const* __cdecl c_animation_manager::find_impulse_or_state_animation(int32, int32, int32) const
 //.text:006DB560 ; public: c_animation_id __cdecl c_animation_manager::find_impulse_or_state_animation_id(int32, int32, int32) const
 //.text:006DB5E0 ; 
@@ -88,7 +88,7 @@
 //.text:006DB9B0 ; 
 //.text:006DBA30 ; 
 //.text:006DBA40 ; 
-//.text:006DBA50 ; public: bool __cdecl c_animation_manager::get_current_foot_tracking_state(int32, c_enum<e_foot_tracking_state, uint8, 0, 4>*, real32*, int16*) const
+//.text:006DBA50 ; public: bool __cdecl c_animation_manager::get_current_foot_tracking_state(int32, c_enum<e_foot_tracking_state, uns8, 0, 4>*, real32*, int16*) const
 //.text:006DBE40 ; 
 //.text:006DBE80 ; public: e_foot_tracking_state __cdecl c_animation_manager::get_default_foot_tracking_state(int32) const
 //.text:006DBEB0 ; 
@@ -105,11 +105,11 @@ c_model_animation_graph const* c_animation_manager::get_graph() const
 //.text:006DBF30 ; public: c_animation_channel* __cdecl c_animation_manager::get_mixing_board_animation_channel(int32) const
 //.text:006DBF60 ; public: c_auxilary_channel* __cdecl c_animation_manager::get_mixing_board_auxilary_channel(int32) const
 //.text:006DBF90 ; public: c_facial_animation_channel* __cdecl c_animation_manager::get_mixing_board_facial_animation_channel() const
-//.text:006DBFD0 ; public: void __cdecl c_animation_manager::get_mixing_board_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uint32 const*, real32), int32)
-//.text:006DC2C0 ; public: void __cdecl c_animation_manager::get_mixing_board_render_time_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uint32 const*, real32), int32)
+//.text:006DBFD0 ; public: void __cdecl c_animation_manager::get_mixing_board_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uns32 const*, real32), int32)
+//.text:006DC2C0 ; public: void __cdecl c_animation_manager::get_mixing_board_render_time_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uns32 const*, real32), int32)
 //.text:006DC3D0 ; public: c_mixing_board_slider* __cdecl c_animation_manager::get_mixing_board_slider(int32) const
 //.text:006DC400 ; public: int32 __cdecl c_animation_manager::get_node_count() const
-//.text:006DC420 ; public: void __cdecl c_animation_manager::get_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uint32 const*, real32), int32)
+//.text:006DC420 ; public: void __cdecl c_animation_manager::get_node_orientations(render_model_definition const*, real32, c_static_flags<255> const*, int32, real_orientation*, void(__cdecl*)(int32, c_model_animation_graph const*, c_animation_id, uns32 const*, real32), int32)
 //.text:006DC4F0 ; 
 //.text:006DC500 ; 
 //.text:006DC510 ; 

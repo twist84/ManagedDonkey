@@ -14,7 +14,7 @@ void __cdecl c_atmosphere_fog_interface::dispose()
 	INVOKE(0x00530180, c_atmosphere_fog_interface::dispose);
 }
 
-void __cdecl c_atmosphere_fog_interface::dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl c_atmosphere_fog_interface::dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00530190, c_atmosphere_fog_interface::dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -39,7 +39,7 @@ void __cdecl c_atmosphere_fog_interface::initialize_for_new_map()
 	INVOKE(0x00673880, c_atmosphere_fog_interface::initialize_for_new_map);
 }
 
-void __cdecl c_atmosphere_fog_interface::initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl c_atmosphere_fog_interface::initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x006738F0, c_atmosphere_fog_interface::initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

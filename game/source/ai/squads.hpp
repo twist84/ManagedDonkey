@@ -5,7 +5,7 @@
 
 struct s_dynamic_area
 {
-	uint8 __data0[0x6];
+	byte __data0[0x6];
 };
 static_assert(sizeof(s_dynamic_area) == 0x6);
 
@@ -13,9 +13,9 @@ struct squad_datum :
 	s_datum_header
 {
 	// e_squad_runtime_flags
-	uint16 flags;
+	uns16 flags;
 
-	uint8 __data4[0x8];
+	byte __data4[0x8];
 
 	real32 original_vitality;
 	real32 original_count;
@@ -23,7 +23,7 @@ struct squad_datum :
 	int16 current_swarm_count;
 	int16 current_non_swarm_count;
 
-	uint8 __data1A[0x2];
+	byte __data1A[0x2];
 
 	real32 current_strength_fraction;
 	int16 prebattle_living_count;
@@ -32,12 +32,12 @@ struct squad_datum :
 	int16 spawn_count;
 	int8 combat_status;
 
-	uint8 __data33[0x1];
+	byte __data33[0x1];
 
 	int16 remain_active_timer;
 	int8 dynamic_area_count;
 
-	uint8 __data37[0x1];
+	byte __data37[0x1];
 
 	s_dynamic_area const dynamic_areas[16];
 
@@ -53,23 +53,23 @@ struct squad_datum :
 	int16 next_sibling_index;
 	int8 team;
 
-	uint8 __padB7[0x1];
+	byte __padB7[0x1];
 
 	int32 last_active_time;
 	int16 ticks_outside_of_pvs;
 
-	uint8 __padBE[0x2];
+	byte __padBE[0x2];
 
 	int32 follow_target_unit_index;
 	c_static_flags<256> style_bitvector;
 	int16 objective_next_squad_index;
 	bool temporary_task;
 
-	uint8 __dataE7[0x1];
+	byte __dataE7[0x1];
 
 	int16 highest_rank;
 
-	uint8 __padEA[0x2];
+	byte __padEA[0x2];
 };
 static_assert(sizeof(squad_datum) == 0xEC);
 

@@ -8,7 +8,7 @@ struct s_network_session_parameter_session_mode
 {
 	int32 session_mode_sequence;
 	c_enum<e_network_session_mode, int32, _network_session_mode_none, k_network_session_mode_count> session_mode;
-	uint32 session_mode_timestamp;
+	uns32 session_mode_timestamp;
 };
 static_assert(sizeof(s_network_session_parameter_session_mode) == 0xC);
 
@@ -42,7 +42,7 @@ struct s_network_session_remote_session_join_data
 	c_enum<e_join_type, int32, _join_type_squad, k_join_type_count> join_from;
 	c_enum<e_join_type, int32, _join_type_squad, k_join_type_count> join_to;
 	c_enum<e_networking_join_destination_squad, int32, _join_destination_target, k_join_destination_count> join_target;
-	uint64 join_nonce;
+	uns64 join_nonce;
 	c_enum<e_transport_platform, int32, _transport_platform_xenon, k_transport_platform_count> platform;
 	s_transport_secure_identifier session_id;
 	s_transport_secure_key session_key;
@@ -71,14 +71,14 @@ struct s_network_session_parameter_lobby_vote_set
 {
 	struct s_lobby_vote
 	{
-		uint8 __unknown0;
-		uint8 __unknown1;
-		uint8 __unknown2;
+		uns8 __unknown0;
+		uns8 __unknown1;
+		uns8 __unknown2;
 	};
 
 	c_static_array<s_lobby_vote, 2> __unknown0;
-	uint8 __unknown6;
-	uint8 : 8;
+	uns8 __unknown6;
+	uns8 : 8;
 };
 static_assert(sizeof(s_network_session_parameter_lobby_vote_set) == 0x8);
 

@@ -18,7 +18,7 @@ void __cdecl interface_dispose_from_old_map()
 	//user_interface_objectives_dispose_from_old_map();
 }
 
-//.text:00AADC70 ; void __cdecl interface_draw_bitmap_modulated_p32(bitmap_data const*, c_rasterizer_texture_ref const*, point2d const*, real_rectangle2d const*, real32, real32, uint32, int16)
+//.text:00AADC70 ; void __cdecl interface_draw_bitmap_modulated_p32(bitmap_data const*, c_rasterizer_texture_ref const*, point2d const*, real_rectangle2d const*, real32, real32, uns32, int16)
 //.text:00AADF50 ; void __cdecl interface_draw_bitmap_modulated(bitmap_data const*, c_rasterizer_texture_ref const*, point2d const*, real_rectangle2d const*, real32, real32, real_argb_color const*, int16)
 //.text:00AAE230 ; 
 
@@ -50,7 +50,7 @@ void __cdecl interface_initialize_for_new_map()
 	INVOKE(0x00AAE620, interface_initialize_for_new_map);
 }
 
-void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, e_font_id interface_font, e_text_style style, e_text_justification justification, uint32 flags, int16 color_table_index, int16 color_index)
+void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, e_font_id interface_font, e_text_style style, e_text_justification justification, uns32 flags, int16 color_table_index, int16 color_index)
 {
 	//INVOKE(0x00AAE630, interface_set_bitmap_text_draw_mode, draw_string, interface_font, style, justification, flags, color_table_index, color_index);
 

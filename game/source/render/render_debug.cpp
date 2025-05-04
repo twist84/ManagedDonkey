@@ -171,7 +171,7 @@ struct cache_entry
 			real_argb_color color;
 		} box2d_outline;
 
-		uint8 type_storage[0x38];
+		byte type_storage[0x38];
 	};
 };
 
@@ -317,7 +317,7 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	vertex_debug[1].position = *point1;
 	vertex_debug[2].position = *point2;
 
-	uint32 _color = real_argb_color_to_pixel32(color);
+	uns32 _color = real_argb_color_to_pixel32(color);
 	vertex_debug[0].color = _color;
 	vertex_debug[1].color = _color;
 	vertex_debug[2].color = _color;
@@ -1775,7 +1775,7 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, real_vecto
 	}
 }
 
-uint16 __cdecl _random(uint32* seed, char const* string, char const* file, uint32 line)
+uns16 __cdecl _random(uns32* seed, char const* string, char const* file, uns32 line)
 {
 	//random_seed_debug(seed, "random", string, file, line);
 	*seed = 0x19660D * *seed + 0x3C6EF35F;

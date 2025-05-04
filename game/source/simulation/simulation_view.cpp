@@ -7,7 +7,7 @@
 //.text:00465F50 ; void c_simulation_view::destroy_view()
 //.text:00465F60 ; void c_simulation_view::detach_from_world()
 //.text:00465FC0 ; void c_simulation_view::detach_observer_channel()
-//.text:00466100 ; void c_simulation_view::dispatch_synchronous_actions(uint32, c_static_array<player_action, 4> const&)
+//.text:00466100 ; void c_simulation_view::dispatch_synchronous_actions(uns32, c_static_array<player_action, 4> const&)
 //.text:00466230 ; void c_simulation_view::dispatch_synchronous_playback_control(e_network_synchronous_playback_control, int32, int32)
 //.text:004662A0 ; void c_simulation_view::dispatch_synchronous_update(struct simulation_update const*, s_simulation_update_metadata const*)
 //.text:00466350 ; void c_simulation_view::distributed_join_abort()
@@ -15,11 +15,11 @@
 //.text:00466380 ; bool c_simulation_view::distributed_join_in_progress() const
 //.text:004663F0 ; bool c_simulation_view::distributed_join_initiate()
 //.text:00466400 ; bool c_simulation_view::established() const
-//.text:00466420 ; bool c_simulation_view::establishment_add_cache_file_signature(int32*, int32, uint8*) const
-//.text:00466480 ; bool c_simulation_view::establishment_verify_cache_file_signature(int32, uint8 const*) const
+//.text:00466420 ; bool c_simulation_view::establishment_add_cache_file_signature(int32*, int32, uns8*) const
+//.text:00466480 ; bool c_simulation_view::establishment_verify_cache_file_signature(int32, uns8 const*) const
 //.text:00466500 ; void c_simulation_view::failed_to_join()
 //.text:00466590 ; void c_simulation_view::force_unacknowledge_player(int32)
-//.text:004665B0 ; uint32 c_simulation_view::get_acknowledged_player_mask() const
+//.text:004665B0 ; uns32 c_simulation_view::get_acknowledged_player_mask() const
 //.text:004665C0 ; c_replication_control_view* c_simulation_view::get_control_view()
 
 e_simulation_view_type c_simulation_view::view_type() const
@@ -82,12 +82,12 @@ bool c_simulation_view::handle_distributed_game_results(int32 message_establishm
 	//return true;
 }
 
-bool c_simulation_view::handle_player_acknowledge(uint32 player_valid_mask, uint32 player_in_game_mask, s_player_identifier const* player_identifiers)
+bool c_simulation_view::handle_player_acknowledge(uns32 player_valid_mask, uns32 player_in_game_mask, s_player_identifier const* player_identifiers)
 {
 	return INVOKE_CLASS_MEMBER(0x00466820, c_simulation_view, handle_player_acknowledge, player_valid_mask, player_in_game_mask, player_identifiers);
 }
 
-bool c_simulation_view::handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, uint8 const* signature_data)
+bool c_simulation_view::handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, uns8 const* signature_data)
 {
 	return INVOKE_CLASS_MEMBER(0x00466940, c_simulation_view, handle_remote_establishment, establishment_mode, establishment_identifier, signature_size, signature_data);
 }
@@ -97,7 +97,7 @@ bool c_simulation_view::handle_synchronous_acknowledge(int32 current_update_numb
 	return INVOKE_CLASS_MEMBER(0x00466B10, c_simulation_view, handle_synchronous_acknowledge, current_update_number);
 }
 
-bool c_simulation_view::handle_synchronous_actions(int32 action_number, int32 current_action_number, uint32 user_flags, player_action const* actions)
+bool c_simulation_view::handle_synchronous_actions(int32 action_number, int32 current_action_number, uns32 user_flags, player_action const* actions)
 {
 	return INVOKE_CLASS_MEMBER(0x00466B30, c_simulation_view, handle_synchronous_actions, action_number, current_action_number, user_flags, actions);
 }

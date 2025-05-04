@@ -36,10 +36,10 @@ struct hkThreadMemory
 	};
 	static_assert(sizeof(FreeList) == 0x8);
 
-	unsigned char __data4[0xC];
+	byte __data4[0xC];
 	hkMemory* m_memory;
 	int m_referenceCount;
-	unsigned char __data18[0x8];
+	byte __data18[0x8];
 	Stack m_stack;
 	int m_stackSize;
 	int m_maxNumElemsOnFreeList;

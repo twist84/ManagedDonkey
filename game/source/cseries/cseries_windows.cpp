@@ -39,7 +39,7 @@ void __cdecl display_debug_string(char const* format, ...)
 	va_end(list);
 }
 
-uint32 __cdecl system_get_current_thread_id()
+uns32 __cdecl system_get_current_thread_id()
 {
 	//return INVOKE(0x004EBF60, system_get_current_thread_id);
 
@@ -70,18 +70,18 @@ void __cdecl system_memory_information_get(s_system_memory_information* informat
 	//information->total = status.ullTotalPhys;
 }
 
-uint32 __cdecl system_milliseconds()
+uns32 __cdecl system_milliseconds()
 {
 	//return INVOKE(0x004EC110, system_milliseconds);
 
 	return timeGetTime();
 }
 
-uint32 __cdecl system_seconds()
+uns32 __cdecl system_seconds()
 {
 	//return INVOKE(0x004EC260, system_seconds);
 
-	return static_cast<uint32>(_time64(0));
+	return static_cast<uns32>(_time64(0));
 }
 
 void __cdecl system_abort()

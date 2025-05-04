@@ -23,7 +23,7 @@ enum e_movie_type
 
 extern bool& g_should_music_be_playing;
 extern e_movie_type& last_attract_movie;
-extern uint32& g_attract_mode_countdown_timer;
+extern uns32& g_attract_mode_countdown_timer;
 
 extern bool __cdecl attract_mode_get_built_in_movie_path(e_movie_type movie, c_static_string<256>* out_fullpath);
 extern int32 __cdecl attract_mode_get_countdown_time_milliseconds();

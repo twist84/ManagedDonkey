@@ -7,14 +7,14 @@
 
 struct _biped_datum
 {
-	uint16 flags;
+	uns16 flags;
 	int16 pathfinding_structure_index;
 	int32 last_pathfinding_attempt_time;
 	int32 pathfinding_surface_index;
 	c_sector_ref pathfinding_sector;
 	int32 pathfinding_instanced_geometry_index;
 	int32 pathfinding_object_index;
-	uint32 pathfinding_bsp_reference;
+	uns32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 	real_vector3d pathfinding_ground_collision_normal;
 	real_point3d pathfinding_ground_collision_point;
@@ -22,7 +22,7 @@ struct _biped_datum
 	int32 bump_object_index;
 	int8 bump_ticks;
 	int8 jump_control_ticks;
-	uint8 stun_ticks;
+	uns8 stun_ticks;
 	int8 last_known_speed_scale;
 	real32 lean;
 	real32 camera_offset_z;
@@ -62,7 +62,7 @@ struct _biped_datum
 
 	int32 character_definition_index;
 	int16 death_squad_index;
-	uint8 airborne_intentional_ticks;
+	uns8 airborne_intentional_ticks;
 	int8 ai_combat_status;
 };
 static_assert(sizeof(_biped_datum) == 0x2C8);

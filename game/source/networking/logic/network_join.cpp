@@ -8,7 +8,7 @@ REFERENCE_DECLARE(0x02240B80, s_networking_join_data, g_network_join_data);
 //.text:0047E050 ; void __cdecl network_join_clear_squad_join_result()
 //.text:0047E0D0 ; void __cdecl network_join_disable_outgoing_joins(bool)
 //.text:0047E0E0 ; void __cdecl network_join_flush_join_queue()
-//.text:0047E160 ; void __cdecl network_join_flush_our_join_from_join_queue(s_transport_secure_address const*, uint64)
+//.text:0047E160 ; void __cdecl network_join_flush_our_join_from_join_queue(s_transport_secure_address const*, uns64)
 //.text:0047E270 ; e_life_cycle_join_result __cdecl network_join_get_group_join_result()
 //.text:0047E280 ; e_network_join_queue_mode __cdecl network_join_get_join_queue_mode()
 //.text:0047E290 ; e_life_cycle_join_result __cdecl network_join_get_squad_join_result()
@@ -25,7 +25,7 @@ REFERENCE_DECLARE(0x02240B80, s_networking_join_data, g_network_join_data);
 //.text:0047E8A0 ; int32 __cdecl network_join_number_of_joins_in_queue()
 //.text:0047E8B0 ; bool __cdecl network_join_process_joins_from_queue()	
 //.text:0047EA50 ; void __cdecl network_join_queue_update()
-//.text:0047EBB0 ; void __cdecl network_join_remove_join_from_queue(uint64)
+//.text:0047EBB0 ; void __cdecl network_join_remove_join_from_queue(uns64)
 //.text:0047EC40 ; void __cdecl network_join_remove_join_from_queue_internal(s_networking_join_queue_entry*)
 
 void __cdecl network_join_set_join_queue_mode(e_network_join_queue_mode join_queue_mode)

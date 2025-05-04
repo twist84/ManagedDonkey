@@ -10,9 +10,9 @@ void c_game_engine_king_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_uint32_inplace(m_variant_flags);
-	bswap_uint16_inplace(m_score_to_win);
-	bswap_uint16_inplace(m_score_unknown);
+	bswap_uns32_inplace(m_variant_flags);
+	bswap_uns16_inplace(m_score_to_win);
+	bswap_uns16_inplace(m_score_unknown);
 	m_inside_hill_traits.byteswap();
 
 	ASSERT(array_is_zeroed(m_pad1));

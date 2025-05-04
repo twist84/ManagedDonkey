@@ -5,25 +5,25 @@
 
 struct s_transport_unique_identifier
 {
-	uint8 data[0x8];
+	byte data[0x8];
 };
 static_assert(sizeof(s_transport_unique_identifier) == 0x8);
 
 struct s_transport_secure_identifier
 {
-	uint8 data[0x10];
+	byte data[0x10];
 };
 static_assert(sizeof(s_transport_secure_identifier) == 0x10);
 
 struct s_transport_secure_address
 {
-	uint8 data[0x10];
+	byte data[0x10];
 };
 static_assert(sizeof(s_transport_secure_address) == 0x10);
 
 struct s_transport_secure_key
 {
-	uint8 data[0x10];
+	byte data[0x10];
 };
 static_assert(sizeof(s_transport_secure_key) == 0x10);
 
@@ -52,9 +52,9 @@ struct s_transport_security_globals
 	s_transport_secure_address local_secure_address;
 	transport_address local_insecure_address;
 	bool local_machine_nonce_valid;
-	uint64 local_machine_nonce;
+	uns64 local_machine_nonce;
 	s_transport_unique_identifier local_unique_identifier;
-	uint8 pad[8];
+	byte pad[0x8];
 	s_transport_security_key keys[10];
 };
 static_assert(sizeof(s_transport_security_globals) == 0x1D8);
@@ -68,9 +68,9 @@ extern bool __cdecl transport_secure_address_decode(s_transport_session_descript
 extern void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier);
 extern bool __cdecl transport_secure_address_get(s_transport_secure_address*);
 extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
-//extern bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, uint64*);
-extern uint64 __cdecl transport_secure_address_get_local_machine_id();
-extern bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, uint64* secure_machine_id);
+//extern bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, uns64*);
+extern uns64 __cdecl transport_secure_address_get_local_machine_id();
+extern bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, uns64* secure_machine_id);
 //extern s_transport_secure_address const* __cdecl transport_secure_address_get_safe();
 //extern char* __cdecl transport_secure_address_get_string(s_transport_secure_address const*);
 extern void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callback_data);
@@ -84,10 +84,10 @@ extern char* __cdecl transport_secure_identifier_get_string(s_transport_secure_i
 extern bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, int32 transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
 //extern bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform);
 //extern bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform);
-extern bool __cdecl transport_secure_nonce_compare(uint64 nonce1, uint64 nonce2);
-extern uint64 __cdecl transport_secure_nonce_generate();
-extern char const* __cdecl transport_secure_nonce_get_string(uint64 nonce);
-extern void __cdecl transport_secure_random(int32 random_length, uint8* random_data);
+extern bool __cdecl transport_secure_nonce_compare(uns64 nonce1, uns64 nonce2);
+extern uns64 __cdecl transport_secure_nonce_generate();
+extern char const* __cdecl transport_secure_nonce_get_string(uns64 nonce);
+extern void __cdecl transport_secure_random(int32 random_length, uns8* random_data);
 extern void __cdecl transport_security_initialize();
 extern void __cdecl transport_security_startup();
 //extern char const* __cdecl transport_session_description_get_string(s_transport_session_description const*);

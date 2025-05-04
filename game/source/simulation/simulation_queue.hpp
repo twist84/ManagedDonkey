@@ -27,7 +27,7 @@ struct c_simulation_queue_element
 	c_enum<e_simulation_queue_element_type, int32, _simulation_queue_element_type_none, k_simulation_queue_element_type_count> m_type;
 	c_simulation_queue_element* m_next;
 	int32 m_data_size;
-	uint8* m_data;
+	uns8* m_data;
 };
 static_assert(sizeof(c_simulation_queue_element) == 0x10);
 

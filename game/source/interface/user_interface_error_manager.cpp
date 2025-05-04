@@ -148,9 +148,9 @@ e_controller_index c_gui_queued_error::get_controller_index() const
 }
 
 c_gui_error_manager::c_gui_error_manager() :
-	m_errors(),
-	m_display_mode(_alert_display_mode_toast),
-	__unknown8484(false)
+	m_error_queue(),
+	m_last_error_display_mode(_alert_display_mode_toast),
+	m_utility_drive_cleared_message_shown(false)
 {
 }
 
@@ -166,7 +166,7 @@ bool c_gui_error_manager::any_error_active_for_window(e_window_index window_inde
 
 void c_gui_error_manager::clear_all_errors()
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		error.clear();
 	}
@@ -180,7 +180,7 @@ void c_gui_error_manager::clear_error(int32 error_name, e_controller_index contr
 void c_gui_error_manager::clear_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message)
 {
 	bool cleared = false;
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.match(controller_index, error_name, custom_message))
 		{
@@ -198,7 +198,7 @@ void c_gui_error_manager::clear_error_with_custom_message(int32 error_name, e_co
 
 void c_gui_error_manager::dismiss_auto_dismissable_errors(e_controller_index controller_index)
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.is_valid() && (controller_index == k_any_controller || error.get_controller_index() == controller_index))
 		{
@@ -213,7 +213,7 @@ void c_gui_error_manager::dispose_from_old_map()
 
 c_gui_queued_error const* c_gui_error_manager::get_error(e_controller_index controller_index, int32 error_name, wchar_t const* custom_message) const
 {
-	for (c_gui_queued_error const& error : m_errors)
+	for (c_gui_queued_error const& error : m_error_queue)
 	{
 		if (error.match(controller_index, error_name, custom_message))
 		{
@@ -226,7 +226,7 @@ c_gui_queued_error const* c_gui_error_manager::get_error(e_controller_index cont
 
 void c_gui_error_manager::initialize()
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		error.clear();
 	}
@@ -236,7 +236,7 @@ void c_gui_error_manager::initialize_for_new_map()
 {
 	if (s_user_interface_shared_globals const* shared_globals = user_interface_shared_tag_globals_try_and_get())
 	{
-		for (c_gui_queued_error& error : m_errors)
+		for (c_gui_queued_error& error : m_error_queue)
 		{
 			if (!error.is_valid())
 				continue;
@@ -258,10 +258,10 @@ void c_gui_error_manager::initialize_for_new_map()
 		}
 	}
 
-	//if (!__unknown8484 && shell_utility_drive_was_cleared_on_startup())
+	//if (!m_utility_drive_cleared_message_shown && shell_utility_drive_was_cleared_on_startup())
 	//{
 	//	post_error(STRING_ID(gui_alert, utility_drive_was_cleared), k_any_controller, false);
-	//	__unknown8484 = true;
+	//	m_utility_drive_cleared_message_shown = true;
 	//}
 }
 
@@ -295,7 +295,7 @@ void c_gui_error_manager::resolve_error(int32 error_name, e_controller_index con
 
 void c_gui_error_manager::resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message)
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.match(controller_index, error_name, custom_message))
 		{
@@ -305,9 +305,9 @@ void c_gui_error_manager::resolve_error_with_custom_message(int32 error_name, e_
 	}
 }
 
-void c_gui_error_manager::update(uint32 ui_time)
+void c_gui_error_manager::update(uns32 current_milliseconds)
 {
-	INVOKE_CLASS_MEMBER(0x00A92340, c_gui_error_manager, update, ui_time);
+	INVOKE_CLASS_MEMBER(0x00A92340, c_gui_error_manager, update, current_milliseconds);
 
 	//e_controller_index controller_index;
 	//e_alert_display_mode display_mode = c_gui_error_manager::get_error_display_mode(&controller_index);
@@ -357,14 +357,14 @@ void c_gui_error_manager::update(uint32 ui_time)
 	//	// $TODO: implement this loop
 	//}
 	//
-	//m_display_mode = display_mode;
+	//m_last_error_display_mode = display_mode;
 }
 
 void c_gui_error_manager::clean_out_error_queue()
 {
 	e_controller_index controller_index;
 	e_alert_display_mode display_mode = c_gui_error_manager::get_error_display_mode(&controller_index);
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (!error.is_valid() || error.get_controller_index() == k_any_controller)
 			continue;
@@ -388,7 +388,7 @@ void c_gui_error_manager::clean_out_error_queue()
 
 c_gui_queued_error const* c_gui_error_manager::get_current_for_user(e_controller_index controller_index)
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.is_valid() && (controller_index == k_any_controller || error.get_controller_index() == k_any_controller || error.get_controller_index() == controller_index))
 		{
@@ -401,7 +401,7 @@ c_gui_queued_error const* c_gui_error_manager::get_current_for_user(e_controller
 
 c_gui_queued_error const* c_gui_error_manager::get_current_for_window(e_window_index window_index)
 {
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.is_valid())
 		{
@@ -429,7 +429,7 @@ void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers) || controller_index == k_any_controller);
 
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (error.match(controller_index, error_name, custom_message)
 			&& error.get_controller_index() == controller_index
@@ -445,7 +445,7 @@ void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar
 	}
 
 	bool can_add_new_error = false;
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (!error.is_valid())
 			can_add_new_error = true;
@@ -457,7 +457,7 @@ void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar
 		return;
 	}
 
-	for (c_gui_queued_error& error : m_errors)
+	for (c_gui_queued_error& error : m_error_queue)
 	{
 		if (!error.is_valid())
 		{
@@ -514,7 +514,7 @@ int __cdecl queued_error_sort_proc(void const* a, void const* b)
 
 void c_gui_error_manager::sort_queue()
 {
-	qsort(&m_errors, m_errors.get_count(), sizeof(c_gui_queued_error), queued_error_sort_proc);
+	qsort(m_error_queue, NUMBEROF(m_error_queue), sizeof(c_gui_queued_error), queued_error_sort_proc);
 }
 
 c_gui_error_manager* __cdecl user_interface_error_manager_get()

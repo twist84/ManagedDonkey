@@ -4,7 +4,7 @@
 
 struct s_tag_persistent_identifier
 {
-	uint32 data[4];
+	uns32 data[4];
 };
 static_assert(sizeof(s_tag_persistent_identifier) == 0x10);
 

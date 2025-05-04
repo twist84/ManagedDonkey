@@ -125,7 +125,7 @@ void __cdecl game_grief_update()
 	//if (game_is_playback())
 	//	return;
 	//
-	//uint32 time = system_milliseconds();
+	//uns32 time = system_milliseconds();
 	//
 	//real32 betrayal_count = global_preferences_get_betrayal_count();
 	//if (betrayal_count > 0.0f && (time - game_grief_globals.grief_user.time_of_last_betrayal_ms) > g_network_configuration.griefer_config.betrayal_decrement_time)

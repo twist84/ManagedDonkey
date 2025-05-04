@@ -73,7 +73,7 @@ void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum
 	INVOKE(0x0055ACF0, data_initialize, data, name, maximum_count, size, alignment_bits, allocation);
 
 	//void* data_ptr = align_pointer(data + 1, alignment_bits);
-	//data_initialize_disconnected(data, name, maximum_count, size, alignment_bits, allocation, static_cast<uint32*>(offset_pointer(data_ptr, maximum_count * size)));
+	//data_initialize_disconnected(data, name, maximum_count, size, alignment_bits, allocation, static_cast<uns32*>(offset_pointer(data_ptr, maximum_count * size)));
 	//data->data = data_ptr;
 	//data->offset_to_data = pointer_distance(data, data_ptr);
 	//data->flags &= ~FLAG(_data_array_disconnected_bit);
@@ -82,7 +82,7 @@ void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum
 	//data_update_protection(data);
 }
 
-void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uint32* in_use_bit_vector)
+void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector)
 {
 	INVOKE(0x0055ADA0, data_initialize_disconnected, data, name, maximum_count, size, alignment_bits, allocation, in_use_bit_vector);
 
@@ -138,7 +138,7 @@ void* data_iterator_next(s_data_iterator* iterator)
 	return INVOKE(0x0055AE30, data_iterator_next, iterator);
 }
 
-void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
+void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 {
 	return INVOKE(0x0055AE80, data_iterator_next_with_byte_flags, iterator, flag_offset, flag_mask, flag_value);
 }
@@ -185,7 +185,7 @@ s_data_array* __cdecl data_new_disconnected(char const* name, int32 maximum_coun
 	//s_data_array* data = static_cast<s_data_array*>(allocation->allocate(BIT_VECTOR_SIZE_IN_BYTES(maximum_count) + sizeof(s_data_array), name));
 	//if (data)
 	//{
-	//	data_initialize_disconnected(data, name, maximum_count, size, alignment_bits, allocation, static_cast<uint32*>(offset_pointer(data, sizeof(s_data_array))));
+	//	data_initialize_disconnected(data, name, maximum_count, size, alignment_bits, allocation, static_cast<uns32*>(offset_pointer(data, sizeof(s_data_array))));
 	//}
 	//return data;
 }
@@ -195,7 +195,7 @@ int32 __cdecl data_next_absolute_index(s_data_array const* data, int32 absolute_
 	return INVOKE(0x0055B060, data_next_absolute_index, data, absolute_index);
 }
 
-int32 __cdecl data_next_absolute_index_with_byte_flags(s_data_array const* data, int32 absolute_index, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
+int32 __cdecl data_next_absolute_index_with_byte_flags(s_data_array const* data, int32 absolute_index, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 {
 	return INVOKE(0x0055B0B0, data_next_absolute_index_with_byte_flags, data, absolute_index, flag_offset, flag_mask, flag_value);
 }

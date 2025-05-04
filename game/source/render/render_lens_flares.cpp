@@ -24,7 +24,7 @@ void __cdecl lens_flare_render_occlusion(int32 lens_flare_index)
 	lens_flare_render_internal(NONE, lens_flare_index, 1.0f, NONE, false);
 }
 
-int32 __cdecl lens_flares_create(int32 definition_index, e_lens_flare_attachment_types attachment_type, int32 attachment_index, uint16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, int32 user_index)
+int32 __cdecl lens_flares_create(int32 definition_index, e_lens_flare_attachment_types attachment_type, int32 attachment_index, uns16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, int32 user_index)
 {
 	//return INVOKE(0x00A5A250, lens_flares_create, definition_index, attachment_type, attachment_index, attachment_subindex, position, forward, tint_color, age_function_input, scale, marker_scale, first_person, user_index);
 
@@ -32,7 +32,7 @@ int32 __cdecl lens_flares_create(int32 definition_index, e_lens_flare_attachment
 	return result;
 }
 
-int32 __cdecl lens_flares_create_internal(int32 definition_index, e_lens_flare_attachment_types attachment_type, int32 attachment_index, uint16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, int32 user_index)
+int32 __cdecl lens_flares_create_internal(int32 definition_index, e_lens_flare_attachment_types attachment_type, int32 attachment_index, uns16 attachment_subindex, real_point3d const* position, real_vector3d const* forward, real_rgb_color const* tint_color, real32 age_function_input, real32 scale, real32 marker_scale, bool first_person, int32 user_index)
 {
 	return INVOKE(0x00A5A2A0, lens_flares_create_internal, definition_index, attachment_type, attachment_index, attachment_subindex, position, forward, tint_color, age_function_input, scale, marker_scale, first_person, user_index);
 }

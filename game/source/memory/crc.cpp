@@ -9,11 +9,11 @@ HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32); // 0x0052CCC0
 
 const bool g_require_secure_tag_instances = true;
 
-uint32 __cdecl crc_checksum_buffer_adler32(uint32 adler, uint8* buffer, uint32 buffer_size)
+uns32 __cdecl crc_checksum_buffer_adler32(uns32 adler, uns8* buffer, uns32 buffer_size)
 {
-	//uint32 checksum = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, adler, buffer, buffer_size);
+	//uns32 checksum = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, adler, buffer, buffer_size);
 
-	uint32 checksum = adler32(adler, buffer, buffer_size);
+	uns32 checksum = adler32(adler, buffer, buffer_size);
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(buffer - 4);
 
 	if (checksum != instance->checksum)
@@ -32,21 +32,21 @@ uint32 __cdecl crc_checksum_buffer_adler32(uint32 adler, uint8* buffer, uint32 b
 	return checksum;
 }
 
-uint32 __cdecl crc_checksum_buffer(uint32 crc, uint8* buffer, uint32 buffer_size)
+uns32 __cdecl crc_checksum_buffer(uns32 crc, byte* buffer, uns32 buffer_size)
 {
-	uint32 checksum = crc32(crc, buffer, buffer_size);
+	uns32 checksum = crc32(crc, buffer, buffer_size);
 
 	return checksum;
 }
 
-uint32 adler_new()
+uns32 adler_new()
 {
 	return adler32(0, 0, 0);
 }
 
-uint32 adler32(uint32 adler, const uint8* buf, uint32 len)
+uns32 adler32(uns32 adler, const byte* buf, uns32 len)
 {
-	uint32 sum2 = (adler >> 16) & 0xFFFF;
+	uns32 sum2 = (adler >> 16) & 0xFFFF;
 	adler &= 0xFFFF;
 
 	if (len == 1ul)
@@ -86,7 +86,7 @@ uint32 adler32(uint32 adler, const uint8* buf, uint32 len)
 	while (len >= 0x15B0)
 	{
 		len -= 0x15B0;
-		uint32 n = 0x15B0 / 16;
+		uns32 n = 0x15B0 / 16;
 
 		do
 		{
@@ -153,21 +153,21 @@ uint32 adler32(uint32 adler, const uint8* buf, uint32 len)
 	return adler | (sum2 << 16);
 }
 
-uint32 crc_new()
+uns32 crc_new()
 {
 	return 0xFFFFFFFF;
 }
 
-uint32 __cdecl crc32(uint32 crc, const uint8* buf, uint32 len)
+uns32 __cdecl crc32(uns32 crc, const byte* buf, uns32 len)
 {
-	static uint32 crc_table[256]{};
+	static uns32 crc_table[256]{};
 	static bool crc_table_initialized = false;
 
 	if (!crc_table_initialized)
 	{
-		for (int32 uint8 = 0; uint8 < 256; uint8++)
+		for (int32 uns8 = 0; uns8 < 256; uns8++)
 		{
-			uint32 crc = static_cast<uint32>(uint8);
+			uns32 crc = static_cast<uns32>(uns8);
 
 			for (int8 bit = 0; bit < 8; bit++)
 			{
@@ -177,7 +177,7 @@ uint32 __cdecl crc32(uint32 crc, const uint8* buf, uint32 len)
 					crc >>= 1;
 			}
 
-			crc_table[uint8] = crc;
+			crc_table[uns8] = crc;
 		}
 
 		ASSERT(crc_table[128] == 0xEDB88320);

@@ -11,8 +11,8 @@ struct step
 	c_sector_ref sector_ref;
 	real_vector2d direction;
 	real32 distance;
-	uint16 obstacle_index;
-	uint16 disc_index;
+	uns16 obstacle_index;
+	uns16 disc_index;
 	bool obstacle_direction_index;
 	bool turning_point;
 	int16 obstructed_goal_step_indices[2];

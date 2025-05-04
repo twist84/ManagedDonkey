@@ -9,7 +9,7 @@ struct firing_position_definition
 {
 	c_ai_point3d position;
 	int16 flags;
-	uint16 posture_flags;
+	uns16 posture_flags;
 	int16 area_index;
 	int16 cluster_index;
 	c_sector_ref sector_ref;

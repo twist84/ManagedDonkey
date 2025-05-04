@@ -105,7 +105,7 @@ struct s_object_health_pack_definition;
 struct _object_definition
 {
 	c_enum<e_object_type, int16, _object_type_biped, k_object_type_count> type;
-	c_flags<e_object_definition_flags, uint16, k_object_definition_flags_count> flags;
+	c_flags<e_object_definition_flags, uns16, k_object_definition_flags_count> flags;
 	real32 bounding_radius; // world units
 	real_point3d bounding_offset;
 
@@ -115,7 +115,7 @@ struct _object_definition
 	c_enum<e_lightmap_shadow_mode, int16, _lightmap_shadow_mode_default, k_lightmap_shadow_mode_count> lightmap_shadow_mode;
 	c_enum<e_sweetener_size, int8, _sweetener_size_default, k_sweetener_size_count> sweetener_size;
 	c_enum<e_water_density_type, int8, _water_density_type_default, k_water_density_count> water_density;
-	uint32 runtime_flags;
+	uns32 runtime_flags;
 
 	// sphere to use for dynamic lights and shadows. only used if not 0
 	real32 dynamic_light_sphere_radius;
@@ -142,7 +142,7 @@ struct _object_definition
 	c_typed_tag_block<object_ai_properties> ai_properties;
 	c_typed_tag_block<s_object_function_definition> functions;
 	int16 hud_text_message_index;
-	c_flags<e_object_definition_secondary_flags, uint16, k_object_definition_secondary_flags_count> secondary_flags;
+	c_flags<e_object_definition_secondary_flags, uns16, k_object_definition_secondary_flags_count> secondary_flags;
 	c_typed_tag_block<object_attachment_definition> attachments;
 	c_typed_tag_block<object_definition_widget> widgets;
 	c_typed_tag_block<object_change_color_definition> change_colors;
@@ -216,7 +216,7 @@ enum e_global_ai_jump_height
 
 struct object_ai_properties
 {
-	c_flags<e_ai_properties_flags, uint32, k_ai_properties_flags> ai_flags;
+	c_flags<e_ai_properties_flags, uns32, k_ai_properties_flags> ai_flags;
 	c_string_id ai_type_name;
 	c_enum<e_ai_size, int16, _ai_size_default, k_ai_size_count> ai_size;
 	c_enum<e_global_ai_jump_height, int16, _global_ai_jump_height_none, k_global_ai_jump_height_count> leap_jump_speed;
@@ -248,7 +248,7 @@ enum e_object_function_flags
 
 struct s_object_function_definition
 {
-	c_flags<e_object_function_flags, uint32, k_object_function_flags> flags;
+	c_flags<e_object_function_flags, uns32, k_object_function_flags> flags;
 	c_string_id import_name;
 	c_string_id export_name;
 	c_string_id turn_off_with;
@@ -289,7 +289,7 @@ struct object_attachment_definition
 	c_string_id marker; // old string id
 
 	c_enum<e_global_object_change_color, int16, _global_object_change_color_none, k_global_object_change_color_count> change_color;
-	uint8 DPKP[0x2]; // pad
+	byte DPKP[0x2]; // pad
 	c_string_id primary_scale;
 	c_string_id secondary_scale;
 
@@ -336,7 +336,7 @@ enum e_global_rgb_interpolation_flags
 
 struct object_change_color_function
 {
-	uint8 TJJWBYNU[0x4]; // pad
+	byte TJJWBYNU[0x4]; // pad
 	c_flags<e_global_rgb_interpolation_flags, int32_t, k_global_rgb_interpolation_flags> scale_flags;
 	real_rgb_color color_lower_bound;
 	real_rgb_color color_upper_bound;
@@ -361,7 +361,7 @@ static_assert(sizeof(s_object_health_pack_definition) == sizeof(s_tag_reference)
 
 struct s_scenario_multiplayer_scenario_object_parent
 {
-	uint8 der[2];
+	byte der[0x2];
 
 	// if an object with this name exists, we attach to it as a child
 	int16 parent_object; // short_block_index
@@ -385,20 +385,20 @@ struct s_scenario_multiplayer_object_properties
 	// object data for multiplayer game use
 
 	int32 game_engine_symmetric_placement;
-	c_flags<e_global_game_engine_type_flags, uint16, k_global_game_engine_type_flags> game_engine_flags;
+	c_flags<e_global_game_engine_type_flags, uns16, k_global_game_engine_type_flags> game_engine_flags;
 	int16 owner_team;
 	int8 spawn_order; // -1 for random
 	int8 quota_minimum;
 	int8 quota_maximum; // <=0 for unlimited
 
-	c_flags<e_multiplayer_object_placement_spawn_flags, uint8, k_multiplayer_object_placement_spawn_flags> spawn_flags;
+	c_flags<e_multiplayer_object_placement_spawn_flags, uns8, k_multiplayer_object_placement_spawn_flags> spawn_flags;
 	int16 spawn_time; // seconds
 	int16 abandonment_time; // seconds
 
 	int8 remapping_policy;
 	int8 boundary_shape;
 	int8 teleporter_channel;
-	uint8 blah[1];
+	uns8 blah[1];
 
 	s_scenario_multiplayer_scenario_object_parent map_variant_parent;
 

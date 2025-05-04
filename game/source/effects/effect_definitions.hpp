@@ -70,11 +70,11 @@ enum e_effect_disposition
 struct effect_event_definition;
 struct effect_definition
 {
-	//c_flags<e_effect_definition_flags, uint32, k_effect_definition_flag_count> flags;
-	uint32 flags;
+	//c_flags<e_effect_definition_flags, uns32, k_effect_definition_flag_count> flags;
+	uns32 flags;
 
 	// If this is non-zero, the effect will usually be exactly repeatable
-	uint32 fixed_random_seed;
+	uns32 fixed_random_seed;
 
 	// overlap threshold
 	real32 restart_if_within; // world units
@@ -84,7 +84,7 @@ struct effect_definition
 	real32 death_delay;
 	c_enum<e_global_effect_priority, int8, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
-	uint8 pad[0x3];
+	byte pad[0x3];
 
 	int16 loop_start_event;
 	int16 local_location0;
@@ -155,7 +155,7 @@ struct effect_part_definition
 	c_enum<e_effect_disposition, int16, _effect_disposition_either_mode, k_effect_disposition_count> violence_mode;
 	int16 location;
 	int16 secondary_location; // beams
-	c_flags<e_effect_part_flags, uint16, k_effect_part_flags> flags;
+	c_flags<e_effect_part_flags, uns16, k_effect_part_flags> flags;
 	c_enum<e_global_effect_priority, int8, _global_effect_priority_normal, k_global_effect_priority_count> priority;
 
 	// Currently, the only supported use is to turn parts off in first-person view.
@@ -178,18 +178,18 @@ struct effect_part_definition
 	real_euler_angles2d relative_orientation; // yaw, pitch
 
 	// SCALE MODIFIERS
-	c_flags<e_effect_part_scaleable_values, uint32, k_effect_part_scaleable_values> A_scale_value;
-	c_flags<e_effect_part_scaleable_values, uint32, k_effect_part_scaleable_values> B_scale_value;
+	c_flags<e_effect_part_scaleable_values, uns32, k_effect_part_scaleable_values> A_scale_value;
+	c_flags<e_effect_part_scaleable_values, uns32, k_effect_part_scaleable_values> B_scale_value;
 };
 static_assert(sizeof(effect_part_definition) == 0x60);
 
 struct effect_event_definition
 {
 	c_string_id event_name;
-	uint32 flags;
-	uint8 priority;
+	uns32 flags;
+	uns8 priority;
 
-	uint8 pad[0x3];
+	byte pad[0x3];
 
 	// chance that this event will be skipped entirely
 	real32 skip_fraction;

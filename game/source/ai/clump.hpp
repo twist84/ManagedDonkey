@@ -7,7 +7,7 @@
 struct c_clump_behavior_state
 {
 	int16 m_state;
-	uint16 m_flags;
+	uns16 m_flags;
 	int32 m_time;
 };
 static_assert(sizeof(c_clump_behavior_state) == 0x8);

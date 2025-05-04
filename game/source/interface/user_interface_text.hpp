@@ -7,7 +7,7 @@ struct c_font_cache_base;
 
 #define UTF32_STRING(name) wchar_t name[2]{}; utf32_to_string(_utf32_##name, name);
 
-enum e_utf32 : uint32
+enum e_utf32 : uns32
 {
 	_utf32_ampersand = '\u0026',
 
@@ -178,7 +178,7 @@ public:
 	void set_font(int32 font);
 	void set_justification(int32 justification);
 	void set_style(int32 style);
-	void set_flags(uint32 flags);
+	void set_flags(uns32 flags);
 	void set_controller_index(e_controller_index controller_index);
 	void set_drop_shadow_style(int32 drop_shadow_style);
 	void set_rotation_origin(real32 x, real32 y);
@@ -193,7 +193,7 @@ protected:
 	// FLAG(3),  0x8: has_overflowed
 	// FLAG(4), 0x10: ?
 	// FLAG(5), 0x20: get_string_was_set
-	uint32 m_flags;
+	uns32 m_flags;
 
 	e_controller_index m_controller_index;
 	int32 m_font;
@@ -213,14 +213,14 @@ static_assert(sizeof(c_user_interface_text) == 0x5C);
 struct s_parse_text_entry
 {
 	wchar_t* name;
-	uint32 magic_character;
-	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, uint32 magic_character, c_static_wchar_string<1024>* buffer);
+	uns32 magic_character;
+	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, uns32 magic_character, c_static_wchar_string<1024>* buffer);
 };
 static_assert(sizeof(s_parse_text_entry) == 0xC);
 
 struct s_last_known_session_state
 {
-	uint16 hopper_identifier;
+	uns16 hopper_identifier;
 	c_static_wchar_string<256> mapname;
 	c_static_wchar_string<512> variant;
 	c_static_wchar_string<256> leader;

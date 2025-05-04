@@ -7,8 +7,8 @@
 struct s_objective_datum :
 	s_datum_header
 {
-	uint32 __unknown4;
-	uint32 __unknown8;
+	uns32 __unknown4;
+	uns32 __unknown8;
 };
 static_assert(sizeof(s_objective_datum) == 0xC);
 
@@ -18,7 +18,7 @@ struct s_task_record
 	int16 body_count;
 	int16 lowest_rank;
 	int16 highest_rank;
-	uint16 flags; // assume odst flags
+	uns16 flags; // assume odst flags
 	int32 __timeC;
 	int32 __time10;
 	int32 __time14;
@@ -28,7 +28,7 @@ struct s_task_record
 	int32 __time24;
 	real_point3d position;
 	bool position_calculated;
-	uint8 __data35[0x1];
+	byte __data35[0x1];
 	int16 __unknown36;
 	c_clump_behavior_state state;
 };
@@ -42,7 +42,7 @@ struct s_area_reference
 	int16 zone_index;
 	int16 area_index;
 	real32 yaw;
-	//uint32 connection_flags;
+	//uns32 connection_flags;
 };
 static_assert(sizeof(s_area_reference) == 0x10);
 
@@ -165,9 +165,9 @@ enum e_filter
 
 struct s_task
 {
-	c_flags<e_task_flags, uint16, k_task_flags> flags;
-	c_flags<e_inhibit_behavior_flags, uint16, k_inhibit_behavior_flags> inhibit_groups;
-	c_flags<e_inhibit_difficulty_flags, uint16, k_inhibit_difficulty_flags> inhibit_on_difficulty;
+	c_flags<e_task_flags, uns16, k_task_flags> flags;
+	c_flags<e_inhibit_behavior_flags, uns16, k_inhibit_behavior_flags> inhibit_groups;
+	c_flags<e_inhibit_difficulty_flags, uns16, k_inhibit_difficulty_flags> inhibit_on_difficulty;
 	int16_bounds round_range;
 	int16_bounds set_range;
 	int16 movement;
@@ -198,13 +198,13 @@ struct s_task
 	// when someone enters this task for the first time, they play this type of dialogue
 	int16 dialogue_type;
 
-	c_flags<e_task_runtime_flags, uint16, k_task_runtime_flags> runtime_flags;
+	c_flags<e_task_runtime_flags, uns16, k_task_runtime_flags> runtime_flags;
 	s_tag_block pureform_distribution;
 
 	// The number of guys under this task that should be allowed to fight the player at a time
 	int16 kungfu_count;
 
-	uint8 post_kungfu_count[2];
+	uns8 post_kungfu_count[2];
 
 
 	// UI-Controlled
@@ -218,7 +218,7 @@ struct s_task
 	s_tag_block activation_script;
 	int16 activation_script_index; // short_block_index
 	int16 lifetime_count;
-	c_flags<e_filter_flags, uint16, k_filter_flags> filter_flags;
+	c_flags<e_filter_flags, uns16, k_filter_flags> filter_flags;
 	c_enum<e_filter, int16, _filter_none, k_filter_count> filter;
 	int16_bounds capacity;
 
@@ -246,7 +246,7 @@ struct s_objective
 {
 	c_string_id name;
 	s_tag_block opposing_objectives;
-	c_flags<e_objective_flags, uint16, k_objective_flags> objective_flags;
+	c_flags<e_objective_flags, uns16, k_objective_flags> objective_flags;
 	int16 zone_index; // short_block_index
 	int16 first_task_index; // short_block_index
 	int16 editor_folder; // short_block_index
@@ -257,7 +257,7 @@ static_assert(sizeof(s_objective) == 0x24);
 extern s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 task_index);
 extern void __cdecl objectives_initialize();
 extern void __cdecl objectives_initialize_for_new_map();
-extern void __cdecl objectives_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl objectives_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl objectives_update();
 
 extern void ai_debug_render_objectives(int32 squad_index, real_point3d const* position);

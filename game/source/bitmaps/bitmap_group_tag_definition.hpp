@@ -223,7 +223,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	int8 depth;
 
-	c_flags<e_bitmap_more_flags, uint8, k_bitmap_more_flags> more_flags;
+	c_flags<e_bitmap_more_flags, uns8, k_bitmap_more_flags> more_flags;
 
 	// DO NOT CHANGE
 	c_enum<e_bitmap_type, int16, _bitmap_type_2d, k_bitmap_type_count> type;
@@ -231,7 +231,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	c_enum<e_bitmap_format, int16, _bitmap_format_a8, k_bitmap_format_count> format;
 
-	c_flags<e_bitmap_flags, uint16, k_bitmap_flags_count> flags;
+	c_flags<e_bitmap_flags, uns16, k_bitmap_flags_count> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
 	point2d registration_point;
@@ -597,7 +597,7 @@ struct bitmap_group
 	// choose how you are using this bitmap
 	c_enum<e_bitmap_usage_global, int32, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 
-	c_flags<e_bitmap_group_flags, uint16, k_bitmap_group_flags> flags;
+	c_flags<e_bitmap_group_flags, uns16, k_bitmap_group_flags> flags;
 
 	// number of pixels between adjacent sprites (0 uses default, negative numbers set no spacing)
 	int16 sprite_spacing;
@@ -616,7 +616,7 @@ struct bitmap_group
 
 	// 0 = do not downsample source image
 	int16 max_resolution;
-	uint8 post_max_resolution[2];
+	uns8 post_max_resolution[2];
 
 	// overrides the format defined by usage
 	c_enum<e_bitmap_usage_format, int16, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;

@@ -10,20 +10,20 @@ void c_game_engine_assault_variant::byteswap()
 {
 	c_game_engine_base_variant::byteswap();
 
-	bswap_uint16_inplace(m_variant_flags);
-	bswap_uint16_inplace(m_respawn);
-	bswap_uint16_inplace(m_game_type);
-	bswap_uint16_inplace(m_enemy_bomb_waypoint);
-	bswap_uint16_inplace(m_score_to_win);
-	bswap_uint16_inplace(m_score_unknown0);
-	bswap_uint16_inplace(m_score_unknown1);
-	bswap_uint16_inplace(m_score_unknown2);
-	bswap_uint16_inplace(m_score_unknown3);
-	bswap_uint16_inplace(m_sudden_death_time);
-	bswap_uint16_inplace(m_bomb_reset_time);
-	bswap_uint16_inplace(m_bomb_arming_time);
-	bswap_uint16_inplace(m_bomb_disarming_time);
-	bswap_uint16_inplace(m_bomb_fuse_time);
+	bswap_uns16_inplace(m_variant_flags);
+	bswap_uns16_inplace(m_respawn);
+	bswap_uns16_inplace(m_game_type);
+	bswap_uns16_inplace(m_enemy_bomb_waypoint);
+	bswap_uns16_inplace(m_score_to_win);
+	bswap_uns16_inplace(m_score_unknown0);
+	bswap_uns16_inplace(m_score_unknown1);
+	bswap_uns16_inplace(m_score_unknown2);
+	bswap_uns16_inplace(m_score_unknown3);
+	bswap_uns16_inplace(m_sudden_death_time);
+	bswap_uns16_inplace(m_bomb_reset_time);
+	bswap_uns16_inplace(m_bomb_arming_time);
+	bswap_uns16_inplace(m_bomb_disarming_time);
+	bswap_uns16_inplace(m_bomb_fuse_time);
 	m_carrier_traits.byteswap();
 	m_arming_traits.byteswap();
 

@@ -356,7 +356,7 @@ bool __cdecl simulation_get_machine_is_host(s_machine_identifier const* machine)
 	return INVOKE(0x00441720, simulation_get_machine_is_host, machine);
 }
 
-uint32 __cdecl simulation_get_network_time_since_abort()
+uns32 __cdecl simulation_get_network_time_since_abort()
 {
 	return INVOKE(0x00441740, simulation_get_network_time_since_abort);
 }
@@ -685,7 +685,7 @@ void __cdecl simulation_process_actor_control(int32 simulation_actor_index, unit
 	//}
 }
 
-void __cdecl simulation_process_input(uint32 user_action_mask, player_action const* user_actions)
+void __cdecl simulation_process_input(uns32 user_action_mask, player_action const* user_actions)
 {
 	INVOKE(0x00441F60, simulation_process_input, user_action_mask, user_actions);
 
@@ -858,13 +858,13 @@ void __cdecl simulation_update_pregame()
 	//}
 }
 
-bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, uint8 const* buffer)
+bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, uns8 const* buffer)
 {
 	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
 
 	//ASSERT(update);
 	//ASSERT(buffer);
-	//c_bitstream decoded_update((uint8*)buffer, buffer_size);
+	//c_bitstream decoded_update((byte*)buffer, buffer_size);
 	//csmemset(update, 0, sizeof(struct simulation_update));
 	//decoded_update.begin_reading();
 	//if (!simulation_update_decode(&decoded_update, update))
@@ -876,14 +876,14 @@ bool simulation_update_read_from_buffer(struct simulation_update* update, int32 
 	//return true;
 }
 
-bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, int32 buffer_size, uint8* buffer, int32* out_update_length)
+bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, int32 buffer_size, uns8* buffer, int32* out_update_length)
 {
 	return INVOKE(0x00442840, simulation_update_write_to_buffer, update, buffer_size, buffer, out_update_length);
 
 	//ASSERT(update);
 	//ASSERT(buffer);
 	//ASSERT(out_update_length);
-	//c_bitstream encoded_update((uint8*)buffer, buffer_size);
+	//c_bitstream encoded_update((byte*)buffer, buffer_size);
 	//encoded_update.begin_writing(1);
 	//simulation_update_encode(&encoded_update, update);
 	//encoded_update.finish_writing(NULL);

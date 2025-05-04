@@ -4,8 +4,8 @@
 
 struct rumble_data
 {
-	uint16 left_frequency;
-	uint16 right_frequency;
+	uns16 left_frequency;
+	uns16 right_frequency;
 };
 static_assert(sizeof(rumble_data) == 0x4);
 

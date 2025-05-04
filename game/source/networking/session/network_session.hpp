@@ -19,7 +19,7 @@ public:
 	virtual bool desire_channel_heartbeat(int32 observer_channel_index) const;
 	virtual bool channel_is_load_bearing(int32 observer_channel_index) const;
 	virtual bool attempt_channel_reconnection(int32 observer_channel_index, bool a2) const;
-	virtual void notify_channel_connection(int32 observer_channel_index, uint32 a2, bool a3);
+	virtual void notify_channel_connection(int32 observer_channel_index, uns32 a2, bool a3);
 	virtual void notify_channel_died(int32 observer_channel_index);
 };
 static_assert(sizeof(c_network_channel_owner) == 0x4);
@@ -83,7 +83,7 @@ struct c_network_session :
 	bool initialize_session(int32 session_index, e_network_session_type session_type, c_network_message_gateway* message_gateway, c_network_observer* observer, c_network_session_manager* session_manager);
 	void initiate_leave_protocol(bool leave_immediately);
 	bool is_peer_joining_this_session() const;
-	bool join_abort(transport_address const* incoming_address, uint64 join_nonce);
+	bool join_abort(transport_address const* incoming_address, uns64 join_nonce);
 	bool join_abort_in_progress(transport_address const* address) const;
 	void join_abort_successful(transport_address const* address);
 	void join_accept(s_network_session_join_request const* join_request, transport_address const* address);
@@ -93,7 +93,7 @@ struct c_network_session :
 	bool leader_request_delegate_leadership(s_transport_secure_address const* leader_address);
 	e_network_session_mode session_mode() const;
 	s_network_session_player* get_player(int32 player_index);
-	bool peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uint32 player_voice);
+	bool peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice);
 	e_network_session_class session_class() const;
 	bool waiting_for_host_connection(transport_address const* address) const;
 	bool handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message);
@@ -120,7 +120,7 @@ struct c_network_session :
 	{
 		int32 secure_key_platform; // e_transport_platform
 		bool connect_not_join;
-		uint64 join_nonce;
+		uns64 join_nonce;
 		s_network_session_join_request join_request;
 	};
 	static_assert(sizeof(s_local_state_data_peer_creating) == 0x320);
@@ -131,13 +131,13 @@ struct c_network_session :
 		s_transport_secure_address join_remote_address;
 		transport_address join_usable_address;
 		bool connect_not_join;
-		uint64 join_nonce;
+		uns64 join_nonce;
 		s_network_session_join_request join_request;
-		uint32 join_initiated_timestamp;
-		uint32 join_ping_from_host_timestamp;
-		uint32 join_secure_connection_timestamp;
+		uns32 join_initiated_timestamp;
+		uns32 join_ping_from_host_timestamp;
+		uns32 join_secure_connection_timestamp;
 		int32 join_attempt_count;
-		uint32 last_join_attempt_timestamp;
+		uns32 last_join_attempt_timestamp;
 	};
 	static_assert(sizeof(s_local_state_data_peer_joining) == 0x360);
 
@@ -146,25 +146,25 @@ struct c_network_session :
 		s_transport_secure_address join_remote_address;
 		transport_address join_usable_address;
 		s_transport_secure_address joining_local_address;
-		uint64 join_nonce;
-		uint32 join_initiated_timestamp;
-		uint32 join_abort_initiated_timestamp;
-		uint32 last_join_abort_timestamp;
+		uns64 join_nonce;
+		uns32 join_initiated_timestamp;
+		uns32 join_abort_initiated_timestamp;
+		uns32 last_join_abort_timestamp;
 	};
 	static_assert(sizeof(s_local_state_data_peer_join_abort) == 0x50);
 
 	struct s_local_state_data_peer_established
 	{
 		int32 peer_reestablishment_state; // e_peer_reestablish_state
-		uint32 established_timestamp;
+		uns32 established_timestamp;
 	};
 	static_assert(sizeof(s_local_state_data_peer_established) == 0x8);
 
 	struct s_local_state_data_peer_leaving
 	{
 		int32 peer_reestablishment_state; // e_peer_reestablish_state
-		uint32 leave_initiated_timestamp;
-		uint32 last_leave_attempt_timestamp;
+		uns32 leave_initiated_timestamp;
+		uns32 last_leave_attempt_timestamp;
 	};
 	static_assert(sizeof(s_local_state_data_peer_leaving) == 0xC);
 
@@ -193,20 +193,20 @@ struct c_network_session :
 	c_network_session_parameters m_session_parameters;
 	e_network_session_state m_local_state;
 	c_network_session::s_local_state_data m_local_state_data;
-	uint32 m_local_connection_identifier;
-	uint32 m_local_last_time_synchronize_success_timestamp;
-	uint32 m_local_last_time_synchronize_sent_timestamp;
+	uns32 m_local_connection_identifier;
+	uns32 m_local_last_time_synchronize_success_timestamp;
+	uns32 m_local_last_time_synchronize_sent_timestamp;
 	bool m_time_exists;
 	int32 m_time_offset;
 	int32 m_creation_time;
 	int32 m_managed_session_index;
 	e_network_join_refuse_reason m_join_refuse_reason;
-	uint64 m_host_join_nonce;
+	uns64 m_host_join_nonce;
 	bool m_only_use_squad_session_for_election;
 	bool m_enable_speculative_host_migration;
-	uint32 m_time_of_last_speculative_host_migration;
-	uint32 m_time_of_last_speculative_host_migration_check;
-	uint32 m_speculative_host_migration_disallow_mask;
+	uns32 m_time_of_last_speculative_host_migration;
+	uns32 m_time_of_last_speculative_host_migration_check;
+	uns32 m_speculative_host_migration_disallow_mask;
 	e_network_session_disconnection_policy m_disconnection_policy;
 
 	struct s_network_session_local_player
@@ -220,7 +220,7 @@ struct c_network_session :
 	{
 		s_player_identifier player_identifier;
 		e_network_join_refuse_reason refuse_reason;
-		uint32 request_time;
+		uns32 request_time;
 	} m_local_user_player_add;
 };
 static_assert(sizeof(c_network_session) == 0x25BC40);

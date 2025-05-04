@@ -64,8 +64,8 @@ enum e_game_engine_sound_response_flags
 
 struct s_multiplayer_event_sound_response_definition
 {
-	c_flags<e_game_engine_sound_response_flags, uint16, k_game_engine_sound_response_flags> flags;
-	uint16 pad;
+	c_flags<e_game_engine_sound_response_flags, uns16, k_game_engine_sound_response_flags> flags;
+	uns16 pad;
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> sounds[k_language_count];
 	real32 probability;
 
@@ -85,7 +85,7 @@ struct s_multiplayer_event_response_definition
 	c_string_id display_string;
 	c_string_id medal_award;
 	int16 earned_wp;
-	uint16 pad;
+	uns16 pad;
 	real32 display_time; // seconds
 	c_enum<e_game_engine_event_input, int16, _game_engine_event_input_none, k_game_engine_event_input_count> required_field;
 	c_enum<e_game_engine_event_input, int16, _game_engine_event_input_none, k_game_engine_event_input_count> excluded_audience;

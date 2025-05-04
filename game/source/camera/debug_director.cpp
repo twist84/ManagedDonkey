@@ -10,7 +10,7 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00726170, c_debug_director, changed_camera);
 HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, update_);
 
-uint8 const cycle_camera_key_code_bytes[] = { _key_backspace };
+byte const cycle_camera_key_code_bytes[] = { _key_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
 
 //REFERENCE_DECLARE_ARRAY(0x018ECEC4, e_camera_mode, debug_camera_modes, 2);

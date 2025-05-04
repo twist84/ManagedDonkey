@@ -11,7 +11,7 @@ int32 const k_seat_acceleration_memory_length = 6;
 
 struct s_unit_weapon_set
 {
-	uint16 set_identifier;
+	uns16 set_identifier;
 	c_static_array<int8, k_weapon_set_count> weapon_indices;
 };
 
@@ -22,7 +22,7 @@ struct unit_control_data
 	s_unit_weapon_set weapon_set;
 	int16 grenade_index;
 	int16 zoom_level;
-	uint32 control_flags;
+	uns32 control_flags;
 	real_vector3d throttle;
 	real32 primary_trigger;
 	real32 secondary_trigger;
@@ -143,12 +143,12 @@ struct _unit_datum
 	int32 awake_tick_count;
 	int32 actor_index;
 	int32 simulation_actor_index;
-	uint32 flags;
+	uns32 flags;
 	int32 team;
 	int32 player_index;
 	int32 last_weak_player_index;
 	int32 game_time_at_last_unit_effect;
-	uint32 unit_control_flags;
+	uns32 unit_control_flags;
 	int32 desired_mode;
 	real_vector3d facing_vector;
 	real_vector3d desired_aiming_vector;
@@ -160,27 +160,27 @@ struct _unit_datum
 	real_point3d gaze_position;
 	real_vector3d throttle;
 	real_vector3d control_throttle;
-	uint8 control_context_identifier;
+	uns8 control_context_identifier;
 	int8 aiming_speed;
 	s_damage_reporting_info special_death_damage_reporting_info;
 	int8 special_death_type;
 	int16 special_death_node_index;
 
 	bool __unknownAA;
-	uint8 __padAB[0x1];
+	byte __padAB[0x1];
 
 	real_vector3d special_death_node_acceleration;
 	real32 primary_trigger;
 	real32 secondary_trigger;
 	s_aim_assist_targeting_result aim_assist_data;
 	c_target_tracking_system target_tracking;
-	uint32 persistent_control_flags;
+	uns32 persistent_control_flags;
 	int8 weapon_drop_delay_ticks;
 	int8 left_eye_node;
 	int8 right_eye_node;
-	uint8 horizontal_aiming_change;
-	uint8 primary_fire_timer;
-	uint8 secondary_fire_timer;
+	uns8 horizontal_aiming_change;
+	uns8 primary_fire_timer;
+	uns8 secondary_fire_timer;
 	int16 parent_seat_index;
 	real32 ambient_illumination;
 	real32 self_illumination;
@@ -198,7 +198,7 @@ struct _unit_datum
 	int16 weapon_firing_time;
 	int8 current_grenade_index;
 	int8 desired_grenade_index;
-	c_static_array<uint8, 4> grenade_counts;
+	c_static_array<uns8, 4> grenade_counts;
 	int8 current_zoom_level;
 	int8 desired_zoom_level;
 	int8 gunner_inactive_ticks;
@@ -244,7 +244,7 @@ struct _unit_datum
 	real32 healthpack_vitality;
 	real32 healthpack_shield;
 
-	uint8 map_editor_helper_flags;
+	uns8 map_editor_helper_flags;
 
 	int16 emp_timer;
 	int16 emp_campaign_metagame_timer;
@@ -272,7 +272,7 @@ struct _unit_datum
 	real_vector3d sync_action_forward;
 	real_vector3d sync_action_up;
 	bool sync_action_critical_participant;
-	uint8 __pad2F9[0x3];
+	byte __pad2F9[0x3];
 
 	// pass to `sub_B4BCB0`, is this an array?
 	s_unknown_unit_struct_sizeof_14 __unknown2FC;
@@ -287,7 +287,7 @@ struct _unit_datum
 
 	int16 melee_inhibit_ticks;
 
-	uint8 __data336[0x2];
+	byte __data336[0x2];
 
 	// updated in `unit_record_damage`
 	c_static_array<unit_attacker const, 4> attackers;
@@ -313,19 +313,19 @@ struct _unit_datum
 	object_header_block_reference debug_unit_input_storage;
 	object_header_block_reference seat_storage;
 
-	uint32 ai_unit_flags;
+	uns32 ai_unit_flags;
 	c_sector_ref ai_sector;
 	int32 debug_unit_input[16];
 
 	// _equipment_type_armor_lock, e_unit_flags bit 17
 	bool __unknown3FC;
-	uint8 __pad3FD[0x3];
+	byte __pad3FD[0x3];
 
 	// saber related, used is `unit_delete`, `unit_dispose_from_old_structure_bsp`, `sub_B486D0`
 	int32 emblem_player_shoulder;
 	int32 emblem_clan_chest;
 
-	uint8 __data408[0x4];
+	byte __data408[0x4];
 };
 static_assert(sizeof(_unit_datum) == 0x40C);
 static_assert(0x0AA == OFFSETOF(_unit_datum, __unknownAA));
@@ -356,7 +356,7 @@ struct unit_seat_source
 {
 	int32 vehicle_index;
 	int16 seat_index;
-	c_flags<e_unit_seat_flags, uint32, k_unit_seat_flags>* flags;
+	c_flags<e_unit_seat_flags, uns32, k_unit_seat_flags>* flags;
 };
 static_assert(sizeof(unit_seat_source) == 0xC);
 

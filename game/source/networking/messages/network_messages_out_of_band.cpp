@@ -20,7 +20,7 @@ bool __cdecl c_network_message_broadcast_reply::decode(c_bitstream* packet, int3
 
 	ASSERT(message_storage_size == sizeof(s_network_message_broadcast_reply));
 
-	message->protocol_version = static_cast<uint16>(packet->read_integer("protocol", 16));
+	message->protocol_version = static_cast<uns16>(packet->read_integer("protocol", 16));
 	packet->read_raw_data("search-nonce", &message->search_nonce, 64);
 
 	return squad_status_decode(packet, &message->status_data) && !packet->error_occurred();
@@ -34,7 +34,7 @@ bool __cdecl c_network_message_broadcast_search::decode(c_bitstream* packet, int
 
 	ASSERT(message_storage_size == sizeof(s_network_message_broadcast_search));
 
-	message->protocol_version = static_cast<uint16>(packet->read_integer("protocol", 16));
+	message->protocol_version = static_cast<uns16>(packet->read_integer("protocol", 16));
 	packet->read_raw_data("nonce", &message->nonce, 64);
 
 	return !packet->error_occurred();
@@ -48,7 +48,7 @@ bool __cdecl c_network_message_ping::decode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_ping));
 
-	message->id = static_cast<uint16>(packet->read_integer("id", 16));
+	message->id = static_cast<uns16>(packet->read_integer("id", 16));
 	message->timestamp = packet->read_integer("timestamp", 32);
 	message->request_qos = packet->read_bool("request_qos");
 
@@ -63,7 +63,7 @@ bool __cdecl c_network_message_pong::decode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_pong));
 
-	message->id = static_cast<uint16>(packet->read_integer("id", 16));
+	message->id = static_cast<uns16>(packet->read_integer("id", 16));
 	message->timestamp = packet->read_integer("timestamp", 32);
 	message->qos_response = packet->read_integer("qos_response", 2);
 

@@ -66,7 +66,7 @@ struct c_impact :
 	struct s_contact_description
 	{
 		bool new_contact;
-		uint8 type;
+		uns8 type;
 		int16 explicit_pad0;
 		int32 object_index_a;
 		int32 rigid_body_index_a;
@@ -78,13 +78,13 @@ struct c_impact :
 		real_vector3d normal;
 		int32 vehicle_friction_point_index;
 		bool vehicle_friction_point_sound_only;
-		uint8 explicit_pad1;
+		uns8 explicit_pad1;
 		int16 explicit_pad2;
 		s_physics_model_constraint_reference constraint_reference;
 	};
 	static_assert(sizeof(s_contact_description) == 0x40);
 
-	uint8 m_flags;
+	uns8 m_flags;
 	int8 m_score_sorted_order;
 	e_type m_type;
 	real32 m_score;

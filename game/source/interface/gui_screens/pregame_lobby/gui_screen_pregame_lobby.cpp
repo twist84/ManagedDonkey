@@ -176,8 +176,8 @@ bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index cont
 //.text:00B22DB0 ; public: virtual void c_gui_screen_pregame_lobby::start_fade_during_countdown()
 //.text:00B22DC0 ; public: virtual void c_gui_screen_pregame_lobby::stop_fade_during_countdown()
 //.text:00B22DD0 ; protected: virtual bool c_gui_screen_pregame_lobby::team_switching_allowed()
-//.text:00B22DE0 ; public: virtual void c_gui_screen_pregame_lobby::update(uint32)
-//.text:00B23220 ; private: void c_gui_screen_pregame_lobby::update_precaching(uint32)
+//.text:00B22DE0 ; public: virtual void c_gui_screen_pregame_lobby::update(uns32)
+//.text:00B23220 ; private: void c_gui_screen_pregame_lobby::update_precaching(uns32)
 //.text:00B23290 ; protected: virtual void c_gui_screen_pregame_lobby::update_status()
 //.text:00B23340 ; private: void c_gui_screen_pregame_lobby::update_vidmaster_popup()?
 //.text:00B23440 ; private: void c_gui_screen_pregame_lobby::update_widget_visiblility()

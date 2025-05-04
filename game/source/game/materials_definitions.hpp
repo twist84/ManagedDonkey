@@ -41,7 +41,7 @@ enum e_global_material_bit
 
 struct s_material_physics_properties
 {
-	uint32 flags;
+	uns32 flags;
 	real32 friction;
 	real32 restitution;
 	real32 density;
@@ -121,7 +121,7 @@ struct s_global_material_definition
 	c_string_id name;
 	c_string_id parent_name;
 	int16 runtime_material_index;
-	c_flags<e_global_material_bit, uint16, k_number_of_global_material_bits> flags;
+	c_flags<e_global_material_bit, uns16, k_number_of_global_material_bits> flags;
 	c_string_id general_armor;
 	c_string_id specific_armor;
 	s_material_physics_properties physics_properties;
@@ -131,7 +131,7 @@ struct s_global_material_definition
 	c_typed_tag_block<s_global_material_underwater_proxy> underwater_proxies_block;
 	c_string_id footsteps_in_rain_material_name; // When it's raining, use this as the footstep material
 	int16 runtime_rain_material_index;
-	uint8 ASDF[0x2]; // pad
+	byte ASDF[0x2]; // pad
 
 	void update_reference_names();
 };

@@ -8,7 +8,7 @@ struct c_cache_file_combined_tag_resource_datum_handler
 {
 	void* __vftable;
 	s_cache_file_resource_gestalt* m_resource_gestalt;
-	uint32 __unknown8;
+	uns32 __unknown8;
 	c_basic_buffer<void>* m_interop_buffer;
 	bool m_running_off_dvd;
 	c_cache_file_resource_uber_location_table* m_uber_location_table;

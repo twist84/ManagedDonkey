@@ -5,16 +5,16 @@
 
 struct s_simulation_entity
 {
-	uint32 entity_index;
-	uint32 entity_type;
+	uns32 entity_index;
+	uns32 entity_type;
 	bool exists_in_gameworld;
-	uint8 event_reference_count;
-	uint32 gamestate_index;
-	uint64 pending_update_mask;
-	uint64 force_update_mask;
-	uint32 creation_data_size;
+	uns8 event_reference_count;
+	uns32 gamestate_index;
+	uns64 pending_update_mask;
+	uns64 force_update_mask;
+	uns32 creation_data_size;
 	void* creation_data;
-	uint32 state_data_size;
+	uns32 state_data_size;
 	void* state_data;
 };
 static_assert(sizeof(s_simulation_entity) == 0x30);

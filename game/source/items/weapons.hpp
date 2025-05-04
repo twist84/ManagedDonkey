@@ -91,16 +91,16 @@ struct weapon_barrel
 	int8 idle_ticks;
 	c_enum<e_weapon_barrel_state, int8, _weapon_barrel_state_idle, k_weapon_barrel_states> state;
 	int16 timer;
-	c_flags<e_weapon_barrel_flags, uint16, k_weapon_barrel_flags> flags;
+	c_flags<e_weapon_barrel_flags, uns16, k_weapon_barrel_flags> flags;
 
-	uint8 __data4[0x16];
+	byte __data4[0x16];
 
 	real32 current_error;
 	real32 angle_change_scale;
 	real32 bonus_round_fraction;
 	real32 overflow;
 
-	uint8 __data2C[0x8];
+	byte __data2C[0x8];
 };
 static_assert(sizeof(weapon_barrel) == 0x34);
 
@@ -134,12 +134,12 @@ struct weapon_trigger
 {
 	c_enum<e_weapon_trigger_state, int8, _weapon_trigger_state_idle, k_weapon_trigger_states> state;
 
-	uint8 __data1[0x3];
+	byte __data1[0x3];
 
 	int16 timer;
-	c_flags<e_weapon_trigger_flags, uint16, k_weapon_trigger_flags> flags;
+	c_flags<e_weapon_trigger_flags, uns16, k_weapon_trigger_flags> flags;
 
-	uint8 __data8[0x4];
+	byte __data8[0x4];
 };
 static_assert(sizeof(weapon_trigger) == 0xC);
 
@@ -184,7 +184,7 @@ static_assert(sizeof(weapon_magazine) == 0x1A);
 
 struct weapon_first_person_emulation
 {
-	uint8 __data[0x1C];
+	byte __data[0x1C];
 };
 static_assert(sizeof(weapon_first_person_emulation) == 0x1C);
 
@@ -218,17 +218,17 @@ enum e_weapon_state
 
 struct _weapon_datum
 {
-	c_flags<e_weapon_flags, uint16, k_weapon_flags> flags;
-	uint16 control_flags;
-	uint8 primary_trigger;
-	uint8 last_primary_trigger;
-	uint8 last_hill_or_valley;
+	c_flags<e_weapon_flags, uns16, k_weapon_flags> flags;
+	uns16 control_flags;
+	uns8 primary_trigger;
+	uns8 last_primary_trigger;
+	uns8 last_hill_or_valley;
 	int8 primary_trigger_direction;
 	int8 primary_trigger_down_ticks;
 	int8 primary_trigger_firing_ticks;
-	uint8 delay_apply_predicted_state_timer;
+	uns8 delay_apply_predicted_state_timer;
 
-	uint8 __unknownB;
+	uns8 __unknownB;
 
 	c_enum<e_weapon_state, int16, _weapon_state_idle, k_weapon_states> state;
 	int16 state_timer;
@@ -243,8 +243,8 @@ struct _weapon_datum
 	int16 __unknown12;
 
 	int16 multiplayer_weapon_identifier;
-	uint8 turn_on_timer;
-	uint8 ready_for_use_timer;
+	uns8 turn_on_timer;
+	uns8 ready_for_use_timer;
 	real32 heat;
 	real32 age;
 	real32 delayed_age;
@@ -253,11 +253,11 @@ struct _weapon_datum
 	real32 desired_power;
 	c_target_tracking_system tracked_target;
 	
-	uint8 __data70[0x4];
+	byte __data70[0x4];
 
 	int16 alternate_shots_loaded;
 
-	uint8 __data76[0x2];
+	byte __data76[0x2];
 
 	weapon_barrel const barrels[2];
 	weapon_trigger const triggers[2];

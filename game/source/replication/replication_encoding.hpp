@@ -8,7 +8,7 @@ struct s_player_prediction
 {
 	int32 predicted_entity_index;
 	int32 predicted_gamestate_index;
-	uint8 control_context_identifier;
+	uns8 control_context_identifier;
 	real_point3d position;
 	real_vector3d forward;
 	real_vector3d up;
@@ -33,17 +33,17 @@ struct s_player_predicted_aim_assist
 	real32 secondary_autoaim_level;
 	real_vector3d lead_vector;
 
-	c_flags<e_aim_assist_targeting_result_flags, uint8, k_aim_assist_targeting_result_flags> flags;
+	c_flags<e_aim_assist_targeting_result_flags, uns8, k_aim_assist_targeting_result_flags> flags;
 };
 static_assert(sizeof(s_player_predicted_aim_assist) == 0x24);
 
 struct s_player_motion
 {
-	uint32 control_context;
-	uint8 control_context_identifier;
+	uns32 control_context;
+	uns8 control_context_identifier;
 	real_euler_angles2d desired_facing_angles;
 	real_point2d throttle;
-	uint16 motion_flags;
+	uns16 motion_flags;
 	s_unit_weapon_set weapon_set;
 	int16 zoom_level;
 	bool predicted_weapon_fire[2][2];

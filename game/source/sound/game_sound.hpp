@@ -5,7 +5,7 @@
 struct game_looping_sound_datum :
 	s_datum_header
 {
-	uint8 __data[0x1E];
+	byte __data[0x1E];
 };
 static_assert(sizeof(game_looping_sound_datum) == 0x20);
 
@@ -32,7 +32,7 @@ struct s_game_sound_globals
 {
 	c_static_array<s_game_sound_listener, 4> listeners;
 	int32 dialog_ducker_stop_tick;
-	c_static_array<uint16, 128> portal_occlusions;
+	c_static_array<uns16, 128> portal_occlusions;
 	s_sound_global_environment_parameters global_environment_parameters;
 	bool allow_details_in_cinematics;
 	bool suppress_ambience_update_on_revert;
@@ -42,16 +42,16 @@ static_assert(sizeof(s_game_sound_globals) == 0x154);
 
 struct s_game_sound_impulse_datum
 {
-	uint8 __data[0x200];
+	byte __data[0x200];
 };
 static_assert(sizeof(s_game_sound_impulse_datum) == 0x200);
 
 extern void __cdecl game_sound_dispose();
 extern void __cdecl game_sound_dispose_from_old_map();
-extern void __cdecl game_sound_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl game_sound_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl game_sound_initialize();
 extern void __cdecl game_sound_initialize_for_new_map();
-extern void __cdecl game_sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl game_sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl game_sound_process_update_messages();
 extern void __cdecl game_sound_update(real32 game_seconds_elapsed);
 

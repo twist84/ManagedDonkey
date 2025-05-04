@@ -42,19 +42,19 @@ public:
 	c_network_observer* m_observer;
 
 	bool m_pending_state_change;
-	uint8 : 8;
-	uint8 : 8;
-	uint8 : 8;
+	uns8 : 8;
+	uns8 : 8;
+	uns8 : 8;
 	c_enum<e_life_cycle_state, int32, _life_cycle_state_none, k_life_cycle_state_count> m_pending_state;
 
 	int32 m_entry_data_size;
-	uint8 m_entry_data[k_maximum_state_change_entry_data_size];
+	uns8 m_entry_data[k_maximum_state_change_entry_data_size];
 
 	// is this another struct?
-	//uint8 __data7C[0x4];
+	//byte __data7C[0x4];
 	//c_matchmaking_quality m_matchmaking_quality; // c_matchmaking_quality* c_life_cycle_state_manager::get_matchmaking_quality()
-	//uint8 __data9978[0x18];
-	uint8 __data7C[0x9914];
+	//byte __data9978[0x18];
+	byte __data7C[0x9914];
 };
 static_assert(sizeof(c_life_cycle_state_manager) == 0x9990);
 

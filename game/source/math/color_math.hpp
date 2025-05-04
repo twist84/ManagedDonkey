@@ -4,8 +4,8 @@
 
 extern real_argb_color* __cdecl pixel32_to_real_argb_color(argb_color color, real_argb_color* real_color);
 extern real_rgb_color* __cdecl pixel32_to_real_rgb_color(rgb_color color, real_rgb_color* real_color);
-extern uint32 __cdecl real_argb_color_to_pixel32(real_argb_color const* real_color);
-extern uint32 __cdecl real_rgb_color_to_pixel32(real_rgb_color const* real_color);
+extern uns32 __cdecl real_argb_color_to_pixel32(real_argb_color const* real_color);
+extern uns32 __cdecl real_rgb_color_to_pixel32(real_rgb_color const* real_color);
 
 extern real32 __cdecl value_degamma(real32 value);
 extern real32 __cdecl value_regamma(real32 value);

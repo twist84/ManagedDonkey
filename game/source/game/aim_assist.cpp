@@ -5,8 +5,8 @@
 
 HOOK_DECLARE(0x0058A890, aim_assist_build_query_parameters);
 
-//.text:0058A890 ; bool __cdecl aim_assist_build_query_parameters(int32, c_flags<e_aim_assist_query_flags, uint8, 2>, int16, s_aim_assist_query*)
-bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uint8 flags, int16 magnification_level, s_aim_assist_query* out_query)
+//.text:0058A890 ; bool __cdecl aim_assist_build_query_parameters(int32, c_flags<e_aim_assist_query_flags, uns8, 2>, int16, s_aim_assist_query*)
+bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uns8 flags, int16 magnification_level, s_aim_assist_query* out_query)
 {
 	bool result = false;
 	HOOK_INVOKE(result =, aim_assist_build_query_parameters, unit_index, flags, magnification_level, out_query);
@@ -68,7 +68,7 @@ bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uint8 flags, in
 //.text:0058DB50 ; 
 //.text:0058DB60 ; 
 //.text:0058DE40 ; bool __cdecl pin_aiming_for_player(int32)
-//.text:0058DEA0 ; void __cdecl player_aim_assist(int32, uint8, real_vector3d const*, int16, s_aim_assist_control_result*, s_aim_assist_targeting_result*)
+//.text:0058DEA0 ; void __cdecl player_aim_assist(int32, uns8, real_vector3d const*, int16, s_aim_assist_control_result*, s_aim_assist_targeting_result*)
 //.text:0058E390 ; int32 __cdecl player_aim_assist_get_player_under_crosshair(int32)
 //.text:0058E7C0 ; void __cdecl player_aim_assist_update_lead_vector(int32, real_vector3d const*, s_aim_assist_targeting_result*)
 //.text:0058EA50 ; bool __cdecl player_aim_projectile(int32, s_aim_assist_targeting_result const*, int32, e_projectile_source, bool, real_point3d const*, real_point3d const*, real_vector3d*)

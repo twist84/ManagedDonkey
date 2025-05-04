@@ -87,7 +87,7 @@ struct s_multiplayer_customized_model_selection
 	s_tag_reference first_person_armor_object;
 
 	int16 __unknown24;
-	uint8 __pad26[2];
+	byte __pad26[0x2];
 
 	c_string_id parent_attach_marker;
 	c_string_id child_attach_marker;
@@ -101,7 +101,7 @@ struct s_multiplayer_equipment
 	c_string_id name;
 	s_tag_reference object;
 	int16 type;
-	uint8 __pad[2];
+	byte __pad[0x2];
 
 	void update_reference_names();
 };
@@ -406,13 +406,13 @@ static_assert(sizeof(s_multiplayer_constants) == 0x220);
 struct s_game_engine_status_response
 {
 	c_flags<e_game_engine_status_flags, int16, k_game_engine_status_flags> flags;
-	uint8 FAW[0x2]; // pad
+	byte FAW[0x2]; // pad
 	c_enum<e_game_engine_status, int16, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
-	uint8 BNYFIDDGX[0x2]; // pad
+	byte BNYFIDDGX[0x2]; // pad
 	c_string_id ffa_message;
 	c_string_id team_message;
 	s_tag_reference unused;
-	uint8 GTL[0x4]; // pad
+	byte GTL[0x4]; // pad
 
 	void update_reference_names();
 };

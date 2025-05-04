@@ -48,22 +48,22 @@ enum e_statborg_entry
 
 struct s_game_statborg_player
 {
-	c_static_array<uint16, k_statborg_indices_count> statistics;
+	c_static_array<uns16, k_statborg_indices_count> statistics;
 	bool __unknown32;
 };
 static_assert(sizeof(s_game_statborg_player) == 0x34);
 
 struct s_game_statborg_team
 {
-	c_static_array<uint16, 12> statistics;
+	c_static_array<uns16, 12> statistics;
 	bool finalised;
 };
 static_assert(sizeof(s_game_statborg_team) == 0x1A);
 
 struct c_game_statborg
 {
-	uint16 __unknown0;
-	uint16 __unknown2;
+	uns16 __unknown0;
+	uns16 __unknown2;
 	c_static_array<s_game_statborg_player, 16> player;
 	c_static_array<s_game_statborg_team, 8>  team;
 	bool stats_started;

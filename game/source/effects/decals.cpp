@@ -12,7 +12,7 @@ HOOK_DECLARE(0x006948C0, sub_6948C0);
 
 bool disable_sub_6948C0 = true;
 
-void __cdecl c_decal_system::prepare_for_new_zone_set(uint32 old_active_structure_bsp_mask, uint32 new_active_structure_bsp_mask)
+void __cdecl c_decal_system::prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask)
 {
 	INVOKE(0x005302D0, prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
@@ -42,7 +42,7 @@ void __cdecl c_decal_system::dispose_from_old_map()
 	INVOKE(0x00691CD0, dispose_from_old_map);
 }
 
-void __cdecl c_decal_system::dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl c_decal_system::dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00691D70, dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -57,7 +57,7 @@ void __cdecl c_decal_system::initialize_for_new_map()
 	INVOKE(0x006936C0, initialize_for_new_map);
 }
 
-void __cdecl c_decal_system::initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl c_decal_system::initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00693740, initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

@@ -22,7 +22,7 @@ static_assert(sizeof(light_state) == 0x64);
 struct light_datum :
 	s_datum_header
 {
-	uint16 flags;
+	uns16 flags;
 	int32 definition_index;
 	int32 scenario_light_index;
 	int32 first_cluster_reference_index;
@@ -59,7 +59,7 @@ static_assert(sizeof(lights_game_globals_definition) == 0x40);
 
 struct s_nondeterministic_light_data
 {
-	uint8 __data[0x2580];
+	byte __data[0x2580];
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 

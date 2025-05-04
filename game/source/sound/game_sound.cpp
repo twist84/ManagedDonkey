@@ -21,7 +21,7 @@ void __cdecl game_sound_dispose_from_old_map()
 	INVOKE(0x005D8700, game_sound_dispose_from_old_map);
 }
 
-void __cdecl game_sound_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl game_sound_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x005D8750, game_sound_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -52,7 +52,7 @@ void __cdecl game_sound_initialize_for_new_map()
 	INVOKE(0x005D93D0, game_sound_initialize_for_new_map);
 }
 
-void __cdecl game_sound_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl game_sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005D9570, game_sound_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -64,7 +64,7 @@ void __cdecl game_sound_process_update_messages()
 	INVOKE(0x005D9630, game_sound_process_update_messages);
 }
 
-//.text:005D9690 ; uint32 __cdecl game_sound_quantize_normal3d(real_vector3d const*)
+//.text:005D9690 ; uns32 __cdecl game_sound_quantize_normal3d(real_vector3d const*)
 //.text:005D9770 ; void __cdecl game_sound_reset_at_round_finish()
 //.text:005D9780 ; void __cdecl game_sound_reset_scripted_dialog_timer()
 //.text:005D97A0 ; void __cdecl game_sound_restore(int32)

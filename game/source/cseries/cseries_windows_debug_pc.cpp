@@ -20,7 +20,7 @@
 struct s_exception_type_info
 {
 	char const* exception_string;
-	uint32 exception_parameters[3];
+	uns32 exception_parameters[3];
 };
 static_assert(sizeof(s_exception_type_info) == 0x10);
 
@@ -29,10 +29,10 @@ struct s_exception_information
 	c_synchronized_long exception_occurred;
 	int32 thread_id;
 	CONTEXT context_record;
-	uint32 exception_code;
-	uint32 exception_flags;
+	uns32 exception_code;
+	uns32 exception_flags;
 	void* exception_address;
-	uint32 number_parameters;
+	uns32 number_parameters;
 	union
 	{
 		s_exception_type_info exception_type_info;
@@ -43,7 +43,7 @@ static_assert(sizeof(s_exception_information) == 0x2F4);
 
 REFERENCE_DECLARE(0x0238E878, bool, g_set_always_a_debugger_present);
 REFERENCE_DECLARE(0x0238E879, bool, g_set_never_a_debugger_present);
-REFERENCE_DECLARE(0x0238E87C, uint32, g_exception_time);
+REFERENCE_DECLARE(0x0238E87C, uns32, g_exception_time);
 REFERENCE_DECLARE(0x0238E880, PEXCEPTION_POINTERS, g_exception_pointers);
 REFERENCE_DECLARE(0x0238E884, c_synchronized_long, g_exception_caching_in_progress);
 REFERENCE_DECLARE(0x0238E888, s_exception_information, g_exception_information);
@@ -75,12 +75,12 @@ void exception_print_recursive(PEXCEPTION_RECORD exception_record, s_file_refere
 	if (!exception_record)
 		return;
 
-	file_printf(&file, "ExceptionAddress: 0x%08X\n", (uint32)exception_record->ExceptionAddress);
-	file_printf(&file, "   ExceptionCode: 0x%08X\n", (uint32)exception_record->ExceptionCode);
-	file_printf(&file, "  ExceptionFlags: 0x%08X, %s\n", (uint32)exception_record->ExceptionFlags, GetExceptionFlagsString(exception_record->ExceptionFlags));
+	file_printf(&file, "ExceptionAddress: 0x%08X\n", (uns32)exception_record->ExceptionAddress);
+	file_printf(&file, "   ExceptionCode: 0x%08X\n", (uns32)exception_record->ExceptionCode);
+	file_printf(&file, "  ExceptionFlags: 0x%08X, %s\n", (uns32)exception_record->ExceptionFlags, GetExceptionFlagsString(exception_record->ExceptionFlags));
 
 	for (DWORD i = 0; i < exception_record->NumberParameters; i++)
-		file_printf(&file, "\tExceptionInformation[%i]: 0x%08X\n", i, (uint32)exception_record->ExceptionInformation[i]);
+		file_printf(&file, "\tExceptionInformation[%i]: 0x%08X\n", i, (uns32)exception_record->ExceptionInformation[i]);
 
 	file_printf(&file, "\n");
 
@@ -173,7 +173,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//return false;
 }
 
-char const* __cdecl exception_code_get_string(uint32 code)
+char const* __cdecl exception_code_get_string(uns32 code)
 {
 	return INVOKE(0x0051BE40, exception_code_get_string, code);
 
@@ -213,7 +213,7 @@ int32 __cdecl exceptions_update()
 
 	main_loop_pregame_disable(true);
 
-	uint32 code = g_exception_information.exception_code;
+	uns32 code = g_exception_information.exception_code;
 	char const* exception_code_string = exception_code_get_string(g_exception_information.exception_code);
 	if (!g_catch_exceptions)
 	{
@@ -248,7 +248,7 @@ int32 __cdecl exceptions_update()
 	event(_event_message, "crash: ");
 	event(_event_message, "crash: ");
 
-	uint32 exception_address = (uint32)g_exception_information.exception_address;
+	uns32 exception_address = (uns32)g_exception_information.exception_address;
 	char const* symbol_name = symbol_name_from_address(exception_address, nullptr);
 	event(_event_message, "crash: %s",
 		version_get_full_string());

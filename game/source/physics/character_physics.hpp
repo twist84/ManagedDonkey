@@ -25,10 +25,10 @@ public:
 
 protected:
 	int16 m_flags;
-	uint8 m_mode;
-	uint8 m_collision_damage_imunity_counter;
+	uns8 m_mode;
+	uns8 m_collision_damage_imunity_counter;
 	int32 m_object_index;
-	uint8 m_character_physics_mode_datum_buffer[0x78];
+	byte m_character_physics_mode_datum_buffer[0x78];
 };
 static_assert(sizeof(c_character_physics_component) == 0x80); // $TODO: find the exact size
 

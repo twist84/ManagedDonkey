@@ -63,7 +63,7 @@ struct s_game_tick_time_samples
 		elapsed_game_ticks = samples->elapsed_game_ticks;
 	}
 
-	c_flags<e_game_tick_publishing_flags, uint32, k_game_tick_publishing_flag_count> flags;
+	c_flags<e_game_tick_publishing_flags, uns32, k_game_tick_publishing_flag_count> flags;
 	real32 shell_dt;
 	real32 world_dt;
 	real32 game_dt;
@@ -74,7 +74,7 @@ static_assert(sizeof(s_game_tick_time_samples) == 0x14);
 struct game_time_globals_definition
 {
 	bool initialized;
-	c_flags<e_game_time_pause_reason, uint16, k_game_time_pause_reason_count> flags;
+	c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count> flags;
 	int16 tick_rate;
 	real32 tick_length;
 	int32 time;

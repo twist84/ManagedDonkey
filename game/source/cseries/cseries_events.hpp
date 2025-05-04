@@ -5,7 +5,7 @@
 
 struct s_spamming_event
 {
-	uint32 last_spam_time;
+	uns32 last_spam_time;
 	int32 hit_count;
 	char spam_text[2048];
 	bool valid;
@@ -31,7 +31,7 @@ struct s_event_category
 	int32 event_log_index;
 	e_event_level current_display_level;
 	real_rgb_color current_display_color;
-	uint32 last_event_time;
+	uns32 last_event_time;
 	int32 possible_spam_event_count;
 	e_event_level current_log_level;
 	char log_name[256];
@@ -40,7 +40,7 @@ struct s_event_category
 	e_event_level current_debugger_break_level;
 	e_event_level current_halt_level;
 	e_event_level current_force_display_level;
-	uint32 event_listeners;
+	uns32 event_listeners;
 	int32 parent_index;
 	int32 first_child_index;
 	int32 sibling_index;
@@ -99,7 +99,7 @@ static_assert(sizeof(s_event_globals) == 0x82B6C);
 struct c_event
 {
 public:
-	c_event(e_event_level event_level, int32 event_category_index, uint32 event_response_suppress_flags);
+	c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags);
 
 	bool query();
 	int32 generate(char const* format, ...);
@@ -107,7 +107,7 @@ public:
 protected:
 	e_event_level m_event_level;
 	int32 m_event_category_index;
-	uint32 m_event_response_suppress_flags;
+	uns32 m_event_response_suppress_flags;
 };
 static_assert(sizeof(c_event) == 0xC);
 

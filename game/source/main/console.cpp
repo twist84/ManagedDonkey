@@ -251,7 +251,7 @@ void __cdecl console_complete()
 		{
 			suggestion_current_index = 0;
 			console_token_buffer.copy_to(token, k_terminal_gets_state_input_text_size);
-			console_globals.input_state.edit.insertion_point_index = uint16(console_token_buffer.length() + 1);
+			console_globals.input_state.edit.insertion_point_index = uns16(console_token_buffer.length() + 1);
 		}
 		else
 		{
@@ -1126,7 +1126,7 @@ void status_line_draw()
 			s_status_line& status_line = g_status_strings[i].line;
 			if (!status_line.text.is_empty())
 			{
-				uint32 time = system_milliseconds();
+				uns32 time = system_milliseconds();
 				int32 time_delta = time - g_status_strings[i].time_created;
 				if (time_delta > 10000)
 				{

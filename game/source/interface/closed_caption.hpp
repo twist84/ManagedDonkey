@@ -7,16 +7,16 @@ int32 const k_caption_count = 5;
 
 struct s_caption_entry
 {
-	uint16 flags;
+	uns16 flags;
 	int16 __unknown2;
 	int32 __unknown4;
-	uint32 milliseconds;
+	uns32 milliseconds;
 };
 static_assert(sizeof(s_caption_entry) == 0xC);
 
 struct s_caption_globals // $TODO: find the actual name of this
 {
-	uint32 flags;
+	uns32 flags;
 	int32 font;
 	int32 justification;
 	c_static_array<s_caption_entry, k_caption_count> captions;

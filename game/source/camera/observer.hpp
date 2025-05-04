@@ -29,7 +29,7 @@ static_assert(sizeof(s_observer_depth_of_field) == 0x14);
 
 struct s_observer_command
 {
-	uint32 flags;
+	uns32 flags;
 
 	union
 	{
@@ -66,15 +66,15 @@ struct s_observer_command
 	{
 		struct
 		{
-			uint8 position_flags;
-			uint8 focus_offset_flags;
-			uint8 view_offset_flags;
-			uint8 distance_flags;
-			uint8 field_of_view_flags;
-			uint8 orientation_flags;
+			uns8 position_flags;
+			uns8 focus_offset_flags;
+			uns8 view_offset_flags;
+			uns8 distance_flags;
+			uns8 field_of_view_flags;
+			uns8 orientation_flags;
 		};
 
-		uint8 parameter_flags[6];
+		uns8 parameter_flags[6];
 	};
 
 	union
@@ -215,7 +215,7 @@ extern void __cdecl observer_compute_result(int32 user_index, s_focus_and_distan
 extern void __cdecl observer_compute_view_offset_matrix(int32 user_index, real_matrix4x3* view_offset_matrix);
 extern void __cdecl observer_dispose();
 extern void __cdecl observer_dispose_from_old_map();
-extern void __cdecl observer_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl observer_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl observer_game_tick();
 extern s_observer* __cdecl observer_get(int32 user_index);
 extern s_observer_result const* observer_get_camera(int32 user_index);
@@ -226,7 +226,7 @@ extern void __cdecl observer_initialize();
 extern void __cdecl observer_initialize_after_load_saved_game(int32 flags);
 extern void __cdecl observer_initialize_before_saved_game(int32 flags);
 extern void __cdecl observer_initialize_for_new_map();
-extern void __cdecl observer_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl observer_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl observer_initialize_for_saved_game(int32 flags);
 extern void __cdecl observer_obsolete_position(int32 user_index);
 extern void __cdecl observer_pass_time(int32 user_index);

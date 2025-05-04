@@ -19,7 +19,7 @@ HOOK_DECLARE(0x006E5160, game_engine_render_watermarks);
 
 // game_engine_hud_get_state_message
 // skip over `respawning_soon`, and `game_over_{ won, tied, lost, you_lost_but_game_tied }` checks
-uint8 const game_engine_status_skip_patch_bytes[]
+byte const game_engine_status_skip_patch_bytes[]
 {
 	//.text:006E4CF4                 jmp     short loc_6E4D0D
 	//.text:006E4CF6                 nop

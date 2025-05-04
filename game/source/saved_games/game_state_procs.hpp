@@ -15,7 +15,7 @@ enum e_game_state_proc_state
 struct s_game_state_proc_globals
 {
 	c_synchronized_long state; // e_game_state_proc_state
-	uint32 wait_for_render_thread;
+	uns32 wait_for_render_thread;
 };
 static_assert(sizeof(s_game_state_proc_globals) == 0x8);
 

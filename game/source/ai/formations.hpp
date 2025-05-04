@@ -5,7 +5,7 @@
 struct formation_datum :
 	s_datum_header
 {
-	uint8 __data[0x292];
+	byte __data[0x292];
 };
 static_assert(sizeof(formation_datum) == 0x294);
 

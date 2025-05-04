@@ -19,8 +19,8 @@ public:
 	bool m_movement_enabled;
 	bool m_external_distance_set;
 
-	uint8 pad[0x1];
-	uint8 unused[0x28];
+	byte pad[0x1];
+	byte unused[0x28];
 };
 static_assert(sizeof(c_orbiting_camera) == 0x4C);
 

@@ -176,7 +176,7 @@ int32 csstrcmp(char const* s1, char const* s2)
 	return strcmp(s1, s2);
 }
 
-int32 csstrnicmp(char const* s1, char const* s2, uint32 max_count)
+int32 csstrnicmp(char const* s1, char const* s2, uns32 max_count)
 {
 	return _strnicmp(s1, s2, max_count);
 }
@@ -186,7 +186,7 @@ char* __cdecl csstristr(char const* s1, char const* s2)
 	return INVOKE(0x00401520, csstristr, s1, s2);
 }
 
-char* csstrnzcpy(char* s1, char const* s2, uint32 size)
+char* csstrnzcpy(char* s1, char const* s2, uns32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -197,16 +197,16 @@ char* csstrnzcpy(char* s1, char const* s2, uint32 size)
 	return result;
 }
 
-char* csstrnzcat(char* s1, char const* s2, uint32 size)
+char* csstrnzcat(char* s1, char const* s2, uns32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
 
-	uint32 len = csstrnlen(s1, size);
+	uns32 len = csstrnlen(s1, size);
 	return csstrnzcpy(s1 + len, s2, size - len);
 }
 
-uint32 csstrnlen(char const* s, uint32 size)
+uns32 csstrnlen(char const* s, uns32 size)
 {
 	ASSERT(s);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -214,23 +214,23 @@ uint32 csstrnlen(char const* s, uint32 size)
 	return strnlen(s, size);
 }
 
-char* csstrnupr(char* s, uint32 size)
+char* csstrnupr(char* s, uns32 size)
 {
 	ASSERT(s);
 	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
-	for (uint32 i = 0; i < size; i++)
+	for (uns32 i = 0; i < size; i++)
 		s[i] = toupper(s[i]);
 
 	return s;
 }
 
-char* csstrnlwr(char* s, uint32 size)
+char* csstrnlwr(char* s, uns32 size)
 {
 	ASSERT(s);
 	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
-	for (uint32 i = 0; i < size; i++)
+	for (uns32 i = 0; i < size; i++)
 		s[i] = tolower(s[i]);
 
 	return s;
@@ -247,7 +247,7 @@ char* __cdecl csstrtok(char* s, char const* delimiters, int32 delimiter_mode, ch
 	return INVOKE(0x00401A20, csstrtok, s, delimiters, delimiter_mode, data);
 }
 
-int32 cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list)
+int32 cvsnzprintf(char* buffer, uns32 size, char const* format, va_list list)
 {
 	ASSERT(buffer);
 	ASSERT(format);
@@ -262,7 +262,7 @@ int32 cvsnzprintf(char* buffer, uint32 size, char const* format, va_list list)
 	return result;
 }
 
-char* csnzprintf(char* buffer, uint32 size, char const* format, ...)
+char* csnzprintf(char* buffer, uns32 size, char const* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -274,9 +274,9 @@ char* csnzprintf(char* buffer, uint32 size, char const* format, ...)
 	return buffer;
 }
 
-char* csnzappendf(char* buffer, uint32 size, char const* format, ...)
+char* csnzappendf(char* buffer, uns32 size, char const* format, ...)
 {
-	uint32 current_length = strlen(buffer);
+	uns32 current_length = strlen(buffer);
 	ASSERT(current_length >= 0 && current_length < size);
 
 	va_list list;
@@ -351,7 +351,7 @@ int32 __cdecl ascii_stricmp(char const* s1, char const* s2)
 
 char* tag_to_string(tag _tag, char* buffer)
 {
-	*(tag*)buffer = bswap_uint32(_tag);
+	*(tag*)buffer = bswap_uns32(_tag);
 	buffer[4] = 0;
 
 	return buffer;
@@ -379,12 +379,12 @@ int64 make_int64(int32 low, int32 high)
 
 void* offset_pointer(void* pointer, int32 offset)
 {
-	return (uint8*)pointer + offset;
+	return (byte*)pointer + offset;
 }
 
 void const* offset_pointer(void const* pointer, int32 offset)
 {
-	return (uint8 const*)pointer + offset;
+	return (byte const*)pointer + offset;
 }
 
 unsigned int align_address(unsigned int address, int32 alignment_bits)
@@ -399,12 +399,12 @@ void* align_pointer(void* pointer, int32 alignment_bits)
 
 int32 pointer_distance(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<int32>((uint8*)pointer_b - (uint8*)pointer_a);
+	return static_cast<int32>((byte*)pointer_b - (byte*)pointer_a);
 }
 
 int32 pointer_difference(void const* pointer_a, void const* pointer_b)
 {
-	return static_cast<int32>((uint8*)pointer_b - (uint8*)pointer_a);
+	return static_cast<int32>((byte*)pointer_b - (byte*)pointer_a);
 }
 
 void __cdecl cseries_dispose()

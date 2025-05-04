@@ -7,10 +7,10 @@
 struct device_group_datum :
 	s_datum_header
 {
-	uint16 flags;
+	uns16 flags;
 	real32 desired_value;
 	real32 initial_value;
-	uint32 __unknownC;
+	uns32 __unknownC;
 };
 static_assert(sizeof(device_group_datum) == 0x10);
 
@@ -29,7 +29,7 @@ static_assert(sizeof(s_device_animation_control) == 0x20);
 
 struct _device_datum
 {
-	uint32 flags;
+	uns32 flags;
 	int32 power_group_index;
 	real32 power;
 	real32 power_velocity;
@@ -37,7 +37,7 @@ struct _device_datum
 	real32 position;
 	real32 position_velocity;
 	int16 delay_ticks;
-	uint16 pad;
+	uns16 pad;
 	s_device_animation_control position_track;
 	s_device_animation_control power_and_overlay_track;
 	c_animation_channel position_channel;

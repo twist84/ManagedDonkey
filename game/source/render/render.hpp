@@ -27,7 +27,7 @@ public:
 	static bool __cdecl get_weather_occlusion_available();
 
 //private:
-	static uint32& m_frame_index;
+	static uns32& m_frame_index;
 	static real32& m_frame_time;
 	static bool& m_distortion_active;
 	static bool& m_distortion_visible;
@@ -50,13 +50,13 @@ struct render_projection;
 extern void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real32 const (* const projection_matrix)[4], real32* const projection_and_view_matrix);
 extern void __cdecl render_dispose();
 extern void __cdecl render_dispose_from_old_map();
-extern void __cdecl render_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl render_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl render_frame_begin();
 extern void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font);
 extern void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache);
 extern void __cdecl render_initialize();
 extern void __cdecl render_initialize_for_new_map();
-extern void __cdecl render_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl render_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl render_prepare_for_window(int32 player_window_index, int32 user_index);
 extern void __cdecl render_setup_window(render_camera* camera, render_projection* projection);
 extern void __cdecl render_window_reset(int32 user_index);

@@ -43,7 +43,7 @@ struct s_remote_command_globals
 	s_observer_result last_camera_synch_state;
 
 	//int32 light_volume_index;
-	//uint32 light_volume_send_time;
+	//uns32 light_volume_send_time;
 	//scenario_light_block light_volume; // scenario->light_volumes[light_volume_index];
 
 	// int32 connections?

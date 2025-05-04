@@ -20,14 +20,14 @@ public:
 	int32 __thiscall determine_matchmaking_find_match_role(bool a1);
 	
 //protected:
-	uint8 m_flags;
+	uns8 m_flags;
 	int32 m_find_match_role;
 	int32 m_start_mode;
 	int32 m_initial_desperation_sessions_found_count;
 	int32 m_initial_session_search_count;
-	uint32 __time3C;
-	uint32 __time40;
-	uint8 __data[0x4];
+	uns32 __time3C;
+	uns32 __time40;
+	byte __data[0x4];
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_start) == 0x48);
 

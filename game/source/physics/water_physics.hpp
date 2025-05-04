@@ -31,7 +31,7 @@ struct s_water_physics_test_vector_result
 
 	real_point3d position;
 	real_vector3d normal;
-	uint8 __data18[0x4];
+	byte __data18[0x4];
 	real32 t;
 	int32 structure_bsp_index;
 	int32 water_instance_index;

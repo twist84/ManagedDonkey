@@ -107,7 +107,7 @@ protected:
 		c_game_engine_territories_variant m_territories_variant;
 		c_game_engine_assault_variant m_assault_variant;
 		c_game_engine_infection_variant m_infection_variant;
-		uint8 m_variant_storage[k_maximum_game_engine_variant_size];
+		uns8 m_variant_storage[k_maximum_game_engine_variant_size];
 	};
 };
 static_assert(sizeof(c_game_variant) == 0x264);

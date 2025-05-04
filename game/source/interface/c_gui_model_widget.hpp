@@ -112,15 +112,15 @@ struct c_gui_model_widget :
 
 	s_player_appearance m_player_appearance;
 
-	uint32 __unknown1C04;
+	uns32 __unknown1C04;
 	real_point3d __point1C08;
 	real_point3d __point1C14;
 	real_point3d __point1C20;
 
 	bool __unknown1C2C;
-	uint8 __pad1C2D[3];
+	byte __pad1C2D[0x3];
 
-	uint8 __data1C30[0xC];
+	byte __data1C30[0xC];
 
 	//name = get_model()->name;
 	//if (name == STRING_ID(global, masterchief) || name == STRING_ID(global, dervish) || m_texture_camera_unit_available)
@@ -138,11 +138,11 @@ struct c_gui_model_widget :
 
 	c_string_id m_texture_camera_slice_name;
 	real32 m_texture_camera_near_clip_distance;
-	uint32 __time1C60;
+	uns32 __time1C60;
 	bool m_texture_camera_unit_available;
-	uint32 m_texture_camera_unit_index;
+	uns32 m_texture_camera_unit_index;
 
-	uint8 __data1C6C[0x4];
+	byte __data1C6C[0x4];
 };
 static_assert(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B94);
 

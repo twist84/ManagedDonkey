@@ -30,9 +30,9 @@
 REFERENCE_DECLARE(0x050DD9D0, bool, c_rasterizer::g_d3d_device_is_lost);
 REFERENCE_DECLARE(0x050DD9D1, bool, c_rasterizer::g_d3d_device_reset);
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
-REFERENCE_DECLARE(0x019104FC, uint32, c_rasterizer::g_render_thread);
+REFERENCE_DECLARE(0x019104FC, uns32, c_rasterizer::g_render_thread);
 REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
-REFERENCE_DECLARE(0x0194FEA8, uint32, c_rasterizer::g_render_thread_begin_scene);
+REFERENCE_DECLARE(0x0194FEA8, uns32, c_rasterizer::g_render_thread_begin_scene);
 REFERENCE_DECLARE(0x050DADD8, IDirect3D9Ex*, c_rasterizer::g_direct3d);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);
@@ -41,7 +41,7 @@ REFERENCE_DECLARE(0x050DADF4, c_rasterizer::e_alpha_blend_mode, c_rasterizer::g_
 REFERENCE_DECLARE(0x050DADF8, c_rasterizer::e_separate_alpha_blend_mode, c_rasterizer::g_current_separate_alpha_blend_mode);
 REFERENCE_DECLARE(0x050DADFC, c_rasterizer::e_z_buffer_mode, c_rasterizer::g_current_z_buffer_mode);
 REFERENCE_DECLARE(0x050DAE00, bool, c_rasterizer::g_current_z_buffer_floating_point);
-REFERENCE_DECLARE(0x050DAE01, uint8, c_rasterizer::g_current_stencil_value);
+REFERENCE_DECLARE(0x050DAE01, uns8, c_rasterizer::g_current_stencil_value);
 REFERENCE_DECLARE(0x050DAE02, bool, c_rasterizer::initialized);
 REFERENCE_DECLARE(0x050DAE03, bool, c_rasterizer::m_use_floating_point_z_buffer);
 REFERENCE_DECLARE(0x050DAE04, c_rasterizer::e_stencil_mode, c_rasterizer::g_current_stencil_mode);
@@ -59,8 +59,8 @@ REFERENCE_DECLARE(0x050DCA2C, bool, c_rasterizer::g_tiling_force_4x_msaa);
 REFERENCE_DECLARE(0x050DCA30, c_rasterizer::e_splitscreen_res, c_rasterizer::g_current_splitscreen_res);
 REFERENCE_DECLARE(0x050DD998, rectangle2d, c_rasterizer::g_last_viewport);
 REFERENCE_DECLARE(0x050DD9A0, rectangle2d, c_rasterizer::g_last_scissor_rect);
-REFERENCE_DECLARE(0x050DD9BC, uint32, c_rasterizer::g_max_vs_gprs);
-REFERENCE_DECLARE(0x050DD9C0, uint32, c_rasterizer::g_max_ps_gprs);
+REFERENCE_DECLARE(0x050DD9BC, uns32, c_rasterizer::g_max_vs_gprs);
+REFERENCE_DECLARE(0x050DD9C0, uns32, c_rasterizer::g_max_ps_gprs);
 REFERENCE_DECLARE(0x050DD9C4, int32, c_rasterizer::g_adapter);
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
@@ -104,11 +104,11 @@ HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
 HOOK_DECLARE_CLASS(0x00A49010, c_rasterizer, set_viewport);
 
 // patch clear color if statement
-uint8 const rasterizer_clear_color_fix_bytes[9] = { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 };
+byte const rasterizer_clear_color_fix_bytes[9] = { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 };
 DATA_PATCH_DECLARE(0x00A2508C, rasterizer_clear_color_fix, rasterizer_clear_color_fix_bytes);
 
 // patch clear color with pre-applied alpha
-uint8 const rasterizer_clear_color_bytes[4] = { 0xCC, 0x77, 0x55, 0x00 };
+byte const rasterizer_clear_color_bytes[4] = { 0xCC, 0x77, 0x55, 0x00 };
 DATA_PATCH_DECLARE(0x00A250A8 + 1, rasterizer_clear_color, rasterizer_clear_color_bytes);
 
 void __stdcall sub_79BA30(int32 width, int32 height)
@@ -158,7 +158,7 @@ void __cdecl c_rasterizer::dispose_from_old_map()
 	INVOKE(0x00A1F950, c_rasterizer::dispose_from_old_map);
 }
 
-void __cdecl c_rasterizer::dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl c_rasterizer::dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00A1F9A0, c_rasterizer::dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -337,7 +337,7 @@ void __cdecl c_rasterizer::initialize_for_new_map()
 	//rasterizer_profile_initialize_for_new_map();
 }
 
-void __cdecl c_rasterizer::initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl c_rasterizer::initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00A1FF40, c_rasterizer::initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -638,9 +638,9 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 	INVOKE(0x00A21350, c_rasterizer::begin_high_quality_blend);
 }
 
-//void __cdecl c_rasterizer::clearf(uint32, real_vector4d const*, real32, uint32)
+//void __cdecl c_rasterizer::clearf(uns32, real_vector4d const*, real32, uns32)
 
-void __cdecl c_rasterizer::clear(uint32 clear_channels, uint32 clear_color, real32 clear_z, uint8 clear_stencil)
+void __cdecl c_rasterizer::clear(uns32 clear_channels, uns32 clear_color, real32 clear_z, uns8 clear_stencil)
 {
 	INVOKE(0x00A213F0, c_rasterizer::clear, clear_channels, clear_color, clear_z, clear_stencil);
 }
@@ -1087,7 +1087,7 @@ c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_a
 	return INVOKE(0x00A228C0, c_rasterizer::set_gprs_allocation, type);
 }
 
-void __cdecl c_rasterizer::clear_sampler_textures(uint32 a1)
+void __cdecl c_rasterizer::clear_sampler_textures(uns32 a1)
 {
 	INVOKE(0x00A22AB0, c_rasterizer::clear_sampler_textures, a1);
 }
@@ -1331,12 +1331,12 @@ void __cdecl c_rasterizer::set_stencil_mode(e_stencil_mode stencil_mode)
 	INVOKE(0x00A23BA0, c_rasterizer::set_stencil_mode, stencil_mode);
 }
 
-void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mode, uint8 value)
+void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mode, uns8 value)
 {
 	INVOKE(0x00A242E0, c_rasterizer::set_stencil_mode_with_value, stencil_mode, value);
 }
 
-void __cdecl c_rasterizer::set_stencil_write_mask(uint8 mask)
+void __cdecl c_rasterizer::set_stencil_write_mask(uns8 mask)
 {
 	c_rasterizer::g_device->SetRenderState(D3DRS_STENCILWRITEMASK, mask);
 }
@@ -1553,7 +1553,7 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//
 	//if (is_clear)
 	//{
-	//	uint32 clear_channels = D3DCLEAR_ZBUFFER;
+	//	uns32 clear_channels = D3DCLEAR_ZBUFFER;
 	//	if (!clear_stencil)
 	//		clear_channels = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
 	//
@@ -1612,7 +1612,7 @@ void __cdecl c_rasterizer::draw_primitive(c_rasterizer_index_buffer::e_primitive
 	INVOKE(0x00A282F0, c_rasterizer::draw_primitive, primitive_type, start_vertex, primitive_count);
 }
 
-void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uint32 primitive_count, void const* stream_data, uint32 stride)
+void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, void const* stream_data, uns32 stride)
 {
 	INVOKE(0x00A28330, c_rasterizer::draw_primitive_up, primitive_type, primitive_count, stream_data, stride);
 }
@@ -1890,7 +1890,7 @@ bool create_bitmap_info_header(HWND window_handle, HBITMAP bitmap_handle, LPBITM
 		return false;
 	}
 
-	uint16 bit_depth = bitmap.bmPlanes * bitmap.bmBitsPixel;
+	uns16 bit_depth = bitmap.bmPlanes * bitmap.bmBitsPixel;
 
 	// 24 bits per pixel
 	// check if `bit_depth` is not a multiple of 8
@@ -1979,7 +1979,7 @@ bool get_device_context_for_window(HWND window_handle, char const* file_name, HB
 		return false;
 	}
 
-	uint32 error = 0;
+	uns32 error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		c_console::write_line("could not open bitmap file");
@@ -2122,12 +2122,12 @@ s_tag_reference const* c_rasterizer_globals::get_explicit_vertex_shader_ref(int3
 	return &shader->vertex_shader;
 }
 
-uint32 __cdecl c_rasterizer_globals::get_max_vs_gprs() const
+uns32 __cdecl c_rasterizer_globals::get_max_vs_gprs() const
 {
 	return m_max_vs_gprs;
 }
 
-uint32 __cdecl c_rasterizer_globals::get_max_ps_gprs() const
+uns32 __cdecl c_rasterizer_globals::get_max_ps_gprs() const
 {
 	return m_max_ps_gprs;
 }

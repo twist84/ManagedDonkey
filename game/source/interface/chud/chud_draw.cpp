@@ -121,7 +121,7 @@ void __cdecl chud_debug_render()
 	//}
 }
 
-//.text:00AC80E0 ; void __cdecl chud_draw_alpha_watermark(int32 user_index, uint64 magic_bit_pattern)
+//.text:00AC80E0 ; void __cdecl chud_draw_alpha_watermark(int32 user_index, uns64 magic_bit_pattern)
 //.text:00AC80F0 ; void __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, bool setup_cortana_effect, bool drawing_saved_film)
 //.text:00AC8C10 ; 
 
@@ -157,7 +157,7 @@ void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, boo
 //.text:00AC9560 ; void __cdecl chud_draw_training_text(int32 user_index)
 //.text:00AC9570 ; void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence)
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry* geometry, s_anchor_basis* anchor_basis, bool mirror_x, bool mirror_y)
-//.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(uint32 value, real_vector4d* result)
+//.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(uns32 value, real_vector4d* result)
 //.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(s_widget_geometry const* geometry, real_matrix4x3* widget_transform)
 //.text:00AC9C70 ; void __cdecl chud_get_crosshair_screen_position(int32 user_index, real_point2d* position)
 //.text:00AC9DD0 ; int32 __cdecl chud_get_current_resolution(int32 user_index)

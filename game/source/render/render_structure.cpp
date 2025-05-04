@@ -34,7 +34,7 @@ void __cdecl c_structure_renderer::dispose_from_old_map()
 	INVOKE(0x00A2EDB0, dispose_from_old_map);
 }
 
-void __cdecl c_structure_renderer::dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl c_structure_renderer::dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00A2EE00, dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -49,7 +49,7 @@ void __cdecl c_structure_renderer::initialize_for_new_map()
 	INVOKE(0x00A2EF20, initialize_for_new_map);
 }
 
-void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00A2EF70, initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

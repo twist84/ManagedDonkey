@@ -123,15 +123,15 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	//}
 }
 
-void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
+void __thiscall c_gui_screen_scoreboard::update_render_state_(uns32 current_milliseconds)
 {
 	// 0x00AB4920
-	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, uint32), _this, a2);
+	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, uns32), _this, a2);
 
 	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
 	c_gui_data* data = get_data(STRING_ID(gui, scoreboard), 0);
 
-	INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, a1);
+	INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, current_milliseconds);
 
 	if (child_list_widget)
 	{
@@ -173,7 +173,7 @@ void __thiscall c_gui_screen_scoreboard::update_render_state_(uint32 a1)
 					else
 					{
 						base_color |= (255 << 24);
-						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uint32>(base_color) });
+						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uns32>(base_color) });
 					}
 
 					tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
@@ -299,7 +299,7 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 
 	bool include_team_score = include_score && game_engine_has_teams();
 	int32 round_score = 0;
-	uint32 team_flags = 0;
+	uns32 team_flags = 0;
 
 	if (use_session)
 	{

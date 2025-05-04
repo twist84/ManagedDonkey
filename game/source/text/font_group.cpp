@@ -28,9 +28,9 @@ bool __cdecl font_character_validate(s_font_character const* character)
 	//return bitmap_origin_y < 64 && valid;
 }
 
-int16 __cdecl font_get_kerning_pair_offset(s_font_header const* header, uint32 a2, uint32 a3)
+int16 __cdecl font_get_kerning_pair_offset(s_font_header const* header, uns32 first_character, uns32 second_character)
 {
-	return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, a2, a3);
+	return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, first_character, second_character);
 }
 
 int32 __cdecl font_get_line_height(s_font_header const* header)

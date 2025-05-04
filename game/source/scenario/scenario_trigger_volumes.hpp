@@ -28,7 +28,7 @@ struct scenario_trigger_volume
 	int16 type;
 
 	// pad
-	uint8 padding[2];
+	byte padding[0x2];
 	
 	real_vector3d forward;
 	real_vector3d up;

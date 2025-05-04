@@ -24,10 +24,10 @@ render_lighting const* object_get_cached_render_lighting(int32 object_index)
 //.text:00A43D70 ; void __cdecl object_refresh_lighting(int32, int32, real32)
 //.text:00A445A0 ; render_lighting* __cdecl object_update_cached_render_lighting(int32, real32)
 //.text:00A44740 ; 
-//.text:00A44750 ; int32 __cdecl render_model_allocate_and_fill_skinning_matrices(int32, uint8*, uint8, real_matrix4x3 const*, int32*, int32)
+//.text:00A44750 ; int32 __cdecl render_model_allocate_and_fill_skinning_matrices(int32, uns8*, uns8, real_matrix4x3 const*, int32*, int32)
 //.text:00A447B0 ; 
 //.text:00A447C0 ; void __cdecl render_object_adjust_skinning_for_sky(int32, int32, real_matrix4x3 const*, real_matrix4x3*)
-//.text:00A44840 ; void __cdecl render_object_calculate_lod_transparency(int32, real_point3d const*, real32, int32, uint32, uint32, s_lod_transparency*)
+//.text:00A44840 ; void __cdecl render_object_calculate_lod_transparency(int32, real_point3d const*, real32, int32, uns32, uns32, s_lod_transparency*)
 //.text:00A44BE0 ; bool __cdecl render_object_first_person_globals_valid()
 //.text:00A44C10 ; int16 __cdecl render_object_get_render_model_count(int32, bool)
 //.text:00A44C70 ; void __cdecl render_object_get_render_model_from_index(int32, bool, int32*, real_matrix4x3 const**, int32*)

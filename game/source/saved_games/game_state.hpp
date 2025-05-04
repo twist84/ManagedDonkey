@@ -81,14 +81,14 @@ static_assert(sizeof(c_game_state_compressor) == 0x1C);
 
 struct s_game_state_header
 {
-	uint32 cookie[2];
+	uns32 cookie[2];
 	c_static_string<k_tag_long_string_length> scenario_path;
 	c_static_string<k_tag_string_length> build_string;
-	uint32 map_file_checksum;
-	uint8 __data134[0x4];
+	uns32 map_file_checksum;
+	byte __data134[0x4];
 	game_options options;
 	s_scenario_game_state game_state;
-	uint8 __data24C98[0x38];
+	byte __data24C98[0x38];
 };
 static_assert(sizeof(s_game_state_header) == 0x24CD0);
 
@@ -109,10 +109,10 @@ struct s_game_state_globals
 	void* base_address;
 	void* base_address_backup;
 
-	uint8 __data499C0[4];
+	byte __data499C0[0x4];
 
-	uint32 guard_page_size;
-	uint32 checksum;
+	uns32 guard_page_size;
+	uns32 checksum;
 	int32 revert_time;
 
 	s_game_state_header* header;
@@ -139,7 +139,7 @@ extern bool __cdecl game_state_debug_server_file_uploading_enabled(c_static_stri
 extern void __cdecl game_state_dispose();
 extern void __cdecl game_state_dispose_from_old_map();
 extern void __cdecl game_state_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
-extern void __cdecl game_state_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask);
+extern void __cdecl game_state_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void const* __cdecl game_state_get_buffer_address(int32* buffer_size);
 extern c_game_state_compressor* __cdecl game_state_get_compressor();
 extern bool __cdecl game_state_get_game_options_from_core(char const* core_name, game_options* options);
@@ -153,17 +153,17 @@ extern bool __cdecl game_state_header_valid_for_saving(s_game_state_header const
 extern void __cdecl game_state_initialize();
 extern void __cdecl game_state_initialize_for_new_map();
 extern void __cdecl game_state_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
-extern void __cdecl game_state_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask);
+extern void __cdecl game_state_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern bool __cdecl game_state_is_locked();
 extern void __cdecl game_state_load_core(char const* core_name);
 extern void __cdecl game_state_lock(bool a1);
 extern void __cdecl game_state_prepare_for_revert();
 extern void __cdecl game_state_preserve();
-extern bool __cdecl game_state_read_core(char const* core_name, void* buffer, uint32 buffer_length);
-extern bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, uint32 buffer_size);
+extern bool __cdecl game_state_read_core(char const* core_name, void* buffer, uns32 buffer_length);
+extern bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, uns32 buffer_size);
 extern bool __cdecl game_state_read_header_from_persistent_storage_blocking(e_controller_index controller_index, s_game_state_header* header);
 extern void __cdecl game_state_reset_mapping(int32 a1);
-extern void __cdecl game_state_revert(uint32 flags);
+extern void __cdecl game_state_revert(uns32 flags);
 extern bool __cdecl game_state_reverted();
 extern void __cdecl game_state_save();
 extern void __cdecl game_state_save_core(char const* core_name);
@@ -182,9 +182,9 @@ extern void __cdecl game_state_shell_initialize();
 extern void __cdecl game_state_try_and_load_from_persistent_storage(e_controller_index controller_index);
 extern bool __cdecl game_state_validate_and_prepare_to_load_header(s_game_state_header* header);
 extern void const* __cdecl game_state_with_mirrors_get_buffer_address(int32* buffer_size);
-extern bool __cdecl game_state_write_core(char const* core_name, void const* buffer, uint32 buffer_length);
+extern bool __cdecl game_state_write_core(char const* core_name, void const* buffer, uns32 buffer_length);
 extern void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header const* header, int32 header_size, void const* buffer, int32 buffer_length);
-extern void __cdecl initialize_game_state_section(int32 section_index, unsigned int size, uint8** starting_address, uint32* available_memory, e_critical_sections critical_section_id);
+extern void __cdecl initialize_game_state_section(int32 section_index, unsigned int size, uns8** starting_address, uns32* available_memory, e_critical_sections critical_section_id);
 extern bool __cdecl player_identifier_exists_in_game_header(s_player_identifier const* player_identifier, s_game_state_header const* header);
 extern void __cdecl game_state_allocation_record(int32 region_index, char const* name, char const* type, int32 allocation_size);
 

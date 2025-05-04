@@ -68,8 +68,8 @@ public:
 	int8 get_betrayal_points() const;
 	void set_betrayal_points(int8 betrayal_points);
 
-	uint8 get_juggernaut_delay() const;
-	void set_juggernaut_delay(uint8 juggernaut_delay);
+	uns8 get_juggernaut_delay() const;
+	void set_juggernaut_delay(uns8 juggernaut_delay);
 
 	c_player_traits* get_juggernaut_traits_writeable();
 	c_player_traits const* get_juggernaut_traits() const;
@@ -79,23 +79,23 @@ protected:
 	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15
 	c_enum<int32, int16, 0, 500> m_score_unknown;              // default: 13, halo online specific
 
-	uint8 m_pad[2];
+	byte m_pad[0x2];
 
-	c_enum<e_juggernaut_initial_juggernaut_settings, uint8, _juggernaut_initial_juggernaut_settings_random, k_juggernaut_initial_juggernaut_settings> m_initial_juggernaut;
-	c_enum<e_juggernaut_next_juggernaut_settings, uint8, _juggernaut_next_juggernaut_settings_on_killing_juggernaut, k_juggernaut_next_juggernaut_settings> m_next_juggernaut;
-	c_flags<e_juggernaut_variant_flags, uint8, k_juggernaut_variant_flags> m_variant_flags;
-	c_enum<e_juggernaut_zone_movement_settings, uint8, _juggernaut_zone_movement_settings_off, k_number_of_juggernaut_zone_movement_settings> m_zone_movement;
-	c_enum<e_juggernaut_zone_order_settings, uint8, _juggernaut_zone_order_settings_random, k_juggernaut_zone_order_settings> m_zone_order;
+	c_enum<e_juggernaut_initial_juggernaut_settings, uns8, _juggernaut_initial_juggernaut_settings_random, k_juggernaut_initial_juggernaut_settings> m_initial_juggernaut;
+	c_enum<e_juggernaut_next_juggernaut_settings, uns8, _juggernaut_next_juggernaut_settings_on_killing_juggernaut, k_juggernaut_next_juggernaut_settings> m_next_juggernaut;
+	c_flags<e_juggernaut_variant_flags, uns8, k_juggernaut_variant_flags> m_variant_flags;
+	c_enum<e_juggernaut_zone_movement_settings, uns8, _juggernaut_zone_movement_settings_off, k_number_of_juggernaut_zone_movement_settings> m_zone_movement;
+	c_enum<e_juggernaut_zone_order_settings, uns8, _juggernaut_zone_order_settings_random, k_juggernaut_zone_order_settings> m_zone_order;
 	c_enum<int32, int8, -10, 10> m_kill_points;                // default: 0
 	c_enum<int32, int8, -10, 10> m_juggernaut_kill_points;     // default: 1
 	c_enum<int32, int8, -10, 10> m_kill_as_juggernaut_points;  // default: 1
 	c_enum<int32, int8, -10, 10> m_destination_arrival_points; // default: 1
 	c_enum<int32, int8, -10, 10> m_suicide_points;             // default: 1
 	c_enum<int32, int8, -10, 10> m_betrayal_points;            // default: 1
-	c_enum<int32, uint8, 0, 10> m_juggernaut_delay;             // default: 0
+	c_enum<int32, uns8, 0, 10> m_juggernaut_delay;             // default: 0
 	c_player_traits m_juggernaut_traits;
 
-	uint8 m_pad1[2];
+	byte m_pad1[2];
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x200);
 

@@ -58,7 +58,7 @@ struct s_task_slot
 	XOVERLAPPED overlapped;
 
 	c_overlapped_task* task;
-	uint32 calling_result;
+	uns32 calling_result;
 	bool cancelled;
 };
 //static_assert(sizeof(s_task_slot) == 0xC);
@@ -109,7 +109,7 @@ c_overlapped_task* c_overlapped_task::constructor(char const* file, int32 line)
 {
 	//INVOKE_CLASS_MEMBER(0x005A8C80, c_overlapped_task, constructor, file, line);
 
-	REFERENCE_DECLARE(this, uint32, vftable);
+	REFERENCE_DECLARE(this, uns32, vftable);
 	vftable = 0x0165B220;
 
 	m_task_flags.clear();
@@ -124,7 +124,7 @@ c_overlapped_task* c_overlapped_task::constructor(char const* file, int32 line)
 //.text:005A8CB0 ; public: virtual __cdecl c_overlapped_task::~c_overlapped_task()
 //.text:005A8CE0 ; public: virtual void* __cdecl c_overlapped_task::`vector deleting destructor'(unsigned int)
 //.text:005A8D30 ; public: virtual void __cdecl c_overlapped_task::complete()
-//.text:005A8D40 ; public: virtual void __cdecl c_overlapped_task::failure(uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error)
+//.text:005A8D40 ; public: virtual void __cdecl c_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 
 s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
 {
@@ -142,7 +142,7 @@ s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
 	return task_slot;
 }
 
-//.text:005A8DA0 ; public: virtual bool __cdecl c_overlapped_task::is_result_successful(uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error)
+//.text:005A8DA0 ; public: virtual bool __cdecl c_overlapped_task::is_result_successful(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 
 void __cdecl overlapped_dispose()
 {
@@ -368,10 +368,10 @@ void __cdecl overlapped_update()
 
 			if (task_slot->task && task_slot->task->get_task_state() == _overlapped_task_state_pending)
 			{
-				uint32 return_result = ERROR_SUCCESS;
-				uint32 calling_result = ERROR_SUCCESS;
-				uint32 overlapped_error = ERROR_SUCCESS;
-				uint32 overlapped_extended_error = ERROR_SUCCESS;
+				uns32 return_result = ERROR_SUCCESS;
+				uns32 calling_result = ERROR_SUCCESS;
+				uns32 overlapped_error = ERROR_SUCCESS;
+				uns32 overlapped_extended_error = ERROR_SUCCESS;
 				if (task_is_complete(task_slot, &return_result, &calling_result, &overlapped_error, &overlapped_extended_error))
 					task_now_finished(task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 				else
@@ -418,16 +418,16 @@ void c_overlapped_task::set_task_state_internal(e_overlapped_task_state task_sta
 	m_task_state = task_state;
 }
 
-//.text:005A91D0 ; public: virtual void __cdecl c_overlapped_task::success(uint32 return_result)
+//.text:005A91D0 ; public: virtual void __cdecl c_overlapped_task::success(uns32 return_result)
 
 void __cdecl task_block_until_finished(s_task_slot* task_slot)
 {
 	//INVOKE(0x005A91E0, task_block_until_finished, task_slot);
 
-	uint32 return_result = ERROR_SUCCESS;
-	uint32 calling_result = ERROR_SUCCESS;
-	uint32 overlapped_error = ERROR_SUCCESS;
-	uint32 overlapped_extended_error = ERROR_SUCCESS;
+	uns32 return_result = ERROR_SUCCESS;
+	uns32 calling_result = ERROR_SUCCESS;
+	uns32 overlapped_error = ERROR_SUCCESS;
+	uns32 overlapped_extended_error = ERROR_SUCCESS;
 
 	while (task_slot->task && !task_is_complete(task_slot, &return_result, &calling_result, &overlapped_error, &overlapped_extended_error))
 	{
@@ -439,7 +439,7 @@ void __cdecl task_block_until_finished(s_task_slot* task_slot)
 		task_now_finished(task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 }
 
-bool __cdecl task_is_complete(s_task_slot* task_slot, uint32* return_result, uint32* calling_result, uint32* overlapped_error, uint32* overlapped_extended_error)
+bool __cdecl task_is_complete(s_task_slot* task_slot, uns32* return_result, uns32* calling_result, uns32* overlapped_error, uns32* overlapped_extended_error)
 {
 	//return INVOKE(0x005A9230, task_is_complete, task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 
@@ -485,7 +485,7 @@ bool __cdecl task_is_complete(s_task_slot* task_slot, uint32* return_result, uin
 	return result;
 }
 
-void __cdecl task_now_finished(s_task_slot* task_slot, uint32 return_result, uint32 calling_result, uint32 overlapped_error, uint32 overlapped_extended_error)
+void __cdecl task_now_finished(s_task_slot* task_slot, uns32 return_result, uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 {
 	//INVOKE(0x005A9280, task_now_finished, task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 	

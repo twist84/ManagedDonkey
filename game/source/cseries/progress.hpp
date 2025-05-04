@@ -16,11 +16,11 @@ struct s_progress_globals
 	progress_callbacks default_callbacks;
 	progress_callbacks custom_callbacks;
 	bool disable_callbacks;
-	uint32 start_time;
+	uns32 start_time;
 	bool currently_valid;
 	char description[256];
 	int32 last_progress;
-	uint32 last_milliseconds;
+	uns32 last_milliseconds;
 };
 static_assert(sizeof(s_progress_globals) == 0x134);
 

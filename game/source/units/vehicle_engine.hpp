@@ -9,14 +9,14 @@ struct s_vehicle_engine
 	real32 torque_from_wheels;
 	int8 gear;
 	int8 desired_gear;
-	uint8 shift_counter;
-	uint8 clutch_in_ticks;
-	uint8 ticks_in_gear;
-	uint8 ticks_above_shift_threshold;
-	uint8 ticks_below_shift_threshold;
+	uns8 shift_counter;
+	uns8 clutch_in_ticks;
+	uns8 ticks_in_gear;
+	uns8 ticks_above_shift_threshold;
+	uns8 ticks_below_shift_threshold;
 
 	// padding?
-	uint8 __unknown13;
+	byte __unknown13;
 };
 static_assert(sizeof(s_vehicle_engine) == 0x14);
 

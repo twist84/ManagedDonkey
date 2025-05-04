@@ -23,7 +23,7 @@ protected:
 	c_wrapped_array<c_tag_resource_cache_file_access_cache*> m_per_thread_access_cache;
 	c_read_write_lock m_read_write_lock;
 	c_tag_resource_cache_thread_lock_lock_freeish* m_resource_thread_access_lock;
-	uint8 __data[0x10];
+	byte __data[0x10];
 };
 static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
 

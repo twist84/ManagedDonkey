@@ -60,9 +60,9 @@ int32 c_network_link::compute_size_on_wire(s_link_packet const* packet) const
 	return INVOKE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire, packet);
 }
 
-bool c_network_link::create_endpoint(e_transport_type type, uint16 port, bool set_broadcast_option, transport_endpoint** out_endpoint)
+bool c_network_link::create_endpoint(e_transport_type type, uns16 port, bool set_broadcast_option, transport_endpoint** out_endpoint)
 {
-	return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, uint16, bool, transport_endpoint**)(type, port, set_broadcast_option, out_endpoint);
+	return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, uns16, bool, transport_endpoint**)(type, port, set_broadcast_option, out_endpoint);
 
 	//transport_endpoint* endpoint = transport_endpoint_create(type);
 	//if (!endpoint)
@@ -91,7 +91,7 @@ bool c_network_link::create_endpoints()
 
 	bool result = false;
 
-	uint16 broadcast_port = k_broadcast_port;
+	uns16 broadcast_port = k_broadcast_port;
 	while (true)
 	{
 		g_broadcast_port = broadcast_port;
@@ -116,7 +116,7 @@ bool c_network_link::create_endpoints()
 	return result;
 }
 
-bool c_network_link::decode_packet(int32 data_buffer_size, uint8 const* data_buffer, s_link_packet* packet) const
+bool c_network_link::decode_packet(int32 data_buffer_size, byte const* data_buffer, s_link_packet* packet) const
 {
 	return INVOKE_CLASS_MEMBER(0x0043B820, c_network_link, decode_packet, data_buffer_size, data_buffer, packet);
 }
@@ -137,12 +137,12 @@ void c_network_link::destroy_link()
 	INVOKE_CLASS_MEMBER(0x0043B960, c_network_link, destroy_link);
 }
 
-void c_network_link::encode_packet(s_link_packet const* packet, int32* data_length, uint8* data_buffer, int32 data_buffer_size) const
+void c_network_link::encode_packet(s_link_packet const* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size) const
 {
 	INVOKE_CLASS_MEMBER(0x0043B990, c_network_link, encode_packet, packet, data_length, data_buffer, data_buffer_size);
 }
 
-uint32 c_network_link::generate_channel_identifier()
+uns32 c_network_link::generate_channel_identifier()
 {
 	return INVOKE_CLASS_MEMBER(0x0043BA20, c_network_link, generate_channel_identifier);
 }
@@ -213,7 +213,7 @@ void c_network_link::process_packet_internal(s_link_packet const* packet)
 	INVOKE_CLASS_MEMBER(0x0043BDA0, c_network_link, process_packet_internal, packet);
 }
 
-bool c_network_link::read_data_immediate(transport_address* address, int32* packet_data_length, uint8* packet_buffer, int32 packet_buffer_size)
+bool c_network_link::read_data_immediate(transport_address* address, int32* packet_data_length, byte* packet_buffer, int32 packet_buffer_size)
 {
 	return INVOKE_CLASS_MEMBER(0x0043BEC0, c_network_link, read_data_immediate, address, packet_data_length, packet_buffer, packet_buffer_size);
 }
@@ -228,7 +228,7 @@ void c_network_link::send_broadcast(c_bitstream const* game_data, int32* out_siz
 	INVOKE_CLASS_MEMBER(0x0043BFD0, c_network_link, send_broadcast, game_data, out_size_on_wire);
 }
 
-void c_network_link::send_channel(c_bitstream const* packet, int32 voice_data_length, uint8 const* voice_data, transport_address const* remote_address, int32* out_size_on_wire)
+void c_network_link::send_channel(c_bitstream const* packet, int32 voice_data_length, byte const* voice_data, transport_address const* remote_address, int32* out_size_on_wire)
 {
 	INVOKE_CLASS_MEMBER(0x0043C020, c_network_link, send_channel, packet, voice_data_length, voice_data, remote_address, out_size_on_wire);
 }

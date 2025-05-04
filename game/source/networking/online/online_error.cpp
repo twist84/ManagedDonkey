@@ -9,7 +9,7 @@ HOOK_DECLARE(0x00434580, online_error_get_string);
 
 struct s_online_error_entry
 {
-	uint32 error;
+	uns32 error;
 	char const* error_string;
 };
 
@@ -25,7 +25,7 @@ void add_error(char const* error, c_static_string<256>* string)
 	string->append(error);
 }
 
-c_static_string<256> const __cdecl online_error_get_string(uint32 error)
+c_static_string<256> const __cdecl online_error_get_string(uns32 error)
 {
 	//INVOKE(0x00434580, online_error_get_string, error);
 
@@ -67,7 +67,7 @@ c_static_string<256> const __cdecl online_error_get_string(uint32 error)
 	return string;
 }
 
-#define MAKE_ERROR(_ERROR) { (uint32)_ERROR, #_ERROR }
+#define MAKE_ERROR(_ERROR) { (uns32)_ERROR, #_ERROR }
 
 s_online_error_entry k_windows_error_table[1515]
 {

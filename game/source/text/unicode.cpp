@@ -183,7 +183,7 @@ wchar_t const* usnzappend(wchar_t* string, int32 size, wchar_t const* format, ..
 //int uremove(wchar_t const *)
 //wchar_t * utmpnam(wchar_t *)
 //int32 ustrtol(wchar_t const *,wchar_t * *,int)
-//uint32 ustrtoul(wchar_t const *,wchar_t * *,int)
+//uns32 ustrtoul(wchar_t const *,wchar_t * *,int)
 //real64 ustrtod(wchar_t const *,wchar_t * *)
 //wchar_t * ustrftime_tm(wchar_t *,int32,wchar_t const *,struct tm const *)
 //wchar_t * ustrftime(wchar_t *,int32,wchar_t const *,int64)

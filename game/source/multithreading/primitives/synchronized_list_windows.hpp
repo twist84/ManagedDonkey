@@ -14,12 +14,12 @@ struct s_synchronized_list_header
 {
 	union
 	{
-		uint64 alignment;
+		uns64 alignment;
 		struct
 		{
 			s_synchronized_list_entry next;
-			uint16 depth;
-			uint16 sequence;
+			uns16 depth;
+			uns16 sequence;
 		} s;
 	};
 };

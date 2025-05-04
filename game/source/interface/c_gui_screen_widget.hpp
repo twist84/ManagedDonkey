@@ -34,7 +34,7 @@ struct s_screen_widget_definition :
 	char on_load_script_name[32];
 
 	int16 script_index;
-	uint8 scary[2];
+	byte scary[2];
 };
 static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
 
@@ -49,7 +49,7 @@ struct s_runtime_screen_widget_definition :
 	int32 sound_overrides_index;
 	c_static_string<k_tag_string_length> on_load_script_name;
 	int16 script_index;
-	uint8 scary[2];
+	byte scary[2];
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
@@ -107,7 +107,7 @@ public:
 	//virtual void initialize();
 	//virtual void post_initialize();
 	//virtual void dispose();
-	//virtual void update(uint32 current_milliseconds);
+	//virtual void update(uns32 current_milliseconds);
 
 	// get_render_data_size
 	// get_gui_location
@@ -159,9 +159,9 @@ public:
 
 	int32 __unknownDC;
 	int32 m_screen_index;
-	uint32 m_creation_time_milliseconds;
-	uint32 m_disposal_time_milliseconds;
-	uint32 m_last_focus_change_time_milliseconds;
+	uns32 m_creation_time_milliseconds;
+	uns32 m_disposal_time_milliseconds;
+	uns32 m_last_focus_change_time_milliseconds;
 	c_gui_widget* m_current_focused_widget;
 	bool m_suppress_focus;
 	bool m_render_in_screenshot;

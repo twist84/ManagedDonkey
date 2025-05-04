@@ -8,11 +8,11 @@ struct c_file_reference :
 	s_file_reference
 {
 public:
-	c_file_reference(char const* path, uint32 flags);
-	c_file_reference(s_file_reference const* file, uint32 flags);
+	c_file_reference(char const* path, uns32 flags);
+	c_file_reference(s_file_reference const* file, uns32 flags);
 	~c_file_reference();
 
-	bool find_or_create(uint32 flags);
+	bool find_or_create(uns32 flags);
 
 protected:
 	bool m_is_open;

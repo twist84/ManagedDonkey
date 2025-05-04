@@ -25,7 +25,7 @@ enum e_biped_lock_on_flags
 struct s_biped_lock_on_data
 {
 	// lock-on fields
-	c_flags<e_biped_lock_on_flags, uint32, k_biped_lock_on_flags> flags;
+	c_flags<e_biped_lock_on_flags, uns32, k_biped_lock_on_flags> flags;
 	real32 lock_on_distance;
 };
 static_assert(sizeof(s_biped_lock_on_data) == 0x8);
@@ -59,7 +59,7 @@ struct s_biped_leaping_data
 {
 	// wall-leaping fields
 
-	c_flags<e_biped_leap_flags, uint32, k_biped_leap_flags> leap_flags;
+	c_flags<e_biped_leap_flags, uns32, k_biped_leap_flags> leap_flags;
 	real32 dampening_scale;            // [0,1] 1= very slow changes
 	real32 roll_delay;                 // [0,1] 1= roll fast and late
 	real32 cannonball_off_axis_scale;  // [0,1] weight
@@ -121,7 +121,7 @@ struct _biped_definition
 	// $$$ BIPED $$$
 
 	real32 moving_turning_speed; // degrees per second
-	c_flags<e_biped_definition_flags, uint32, k_biped_definition_flags> flags;
+	c_flags<e_biped_definition_flags, uns32, k_biped_definition_flags> flags;
 	real32 stationary_turning_threshold;
 
 	// if the biped dies while moving faster than this velocity, immediately transition to ragdoll.  Use 0 for 'never'

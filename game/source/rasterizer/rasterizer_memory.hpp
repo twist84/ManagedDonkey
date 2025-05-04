@@ -12,8 +12,8 @@ enum
 
 struct s_rasterizer_memory_cost
 {
-	uint16 CPU_memory_blocks; // CPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
-	uint16 GPU_memory_blocks; // GPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
+	uns16 CPU_memory_blocks; // CPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
+	uns16 GPU_memory_blocks; // GPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
 	real32 GPU_frontend_cost;
 };
 static_assert(sizeof(s_rasterizer_memory_cost) == 0x8);
@@ -21,7 +21,7 @@ static_assert(sizeof(s_rasterizer_memory_cost) == 0x8);
 struct s_rasterizer_GPU_memory_pool
 {
 	void* data;
-	uint32 fence_handle;
+	uns32 fence_handle;
 	bool fence_enabled;
 };
 
@@ -30,10 +30,10 @@ struct s_rasterizer_memory_globals
 	bool initialized;
 	void* physical_memory;
 	int32 CPU_memory_pool_size;
-	uint8 CPU_memory_pool[k_rasterizer_CPU_memory_pool_size_in_bytes];
+	uns8 CPU_memory_pool[k_rasterizer_CPU_memory_pool_size_in_bytes];
 	int32 CPU_memory_pool_max_size_reached;
 	int32 CPU_memory_puddle_size;
-	uint8 CPU_memory_puddle[k_rasterizer_CPU_memory_puddle_size_in_bytes];
+	uns8 CPU_memory_puddle[k_rasterizer_CPU_memory_puddle_size_in_bytes];
 	int32 GPU_memory_pool_index;
 	int32 GPU_memory_pool_size;
 	int32 GPU_memory_pool_size_max;

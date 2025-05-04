@@ -43,7 +43,7 @@ c_map_variant::c_map_variant()
 //.text:00580D90 ; 
 //.text:00580E30 ; public: void c_map_variant::apply_multiplayer_properties(int32, int32) const
 //.text:00580E80 ; public: void c_map_variant::apply_multiplayer_properties(s_variant_multiplayer_object_properties_definition const*, int32) const
-//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(int32, uint32, int32, void const*)
+//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(int32, uns32, int32, void const*)
 //.text:00581400 ; public: bool c_map_variant::build_simulation_baseline(int32, int32, void*)
 //.text:005816C0 ; 
 //.text:00581B90 ; public: bool c_map_variant::can_place_scenario_object(e_object_type, int32) const
@@ -57,7 +57,7 @@ void c_map_variant::create_default(e_map_id map_id)
 	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
 
-//.text:00582110 ; public: int32 c_map_variant::create_object(int32, int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*, int32, e_object_type, s_variant_multiplayer_object_properties_definition const*, uint16)
+//.text:00582110 ; public: int32 c_map_variant::create_object(int32, int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*, int32, e_object_type, s_variant_multiplayer_object_properties_definition const*, uns16)
 
 bool c_map_variant::decode(c_bitstream* packet)
 {
@@ -100,7 +100,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//		continue;
 	//	}
 	//
-	//	variant_object.flags.set_unsafe((uint16)packet->read_integer("variant-object-flags", 16));
+	//	variant_object.flags.set_unsafe((uns16)packet->read_integer("variant-object-flags", 16));
 	//	variant_object.variant_quota_index = (int32)packet->read_integer("variant-object-definition-index", 32);
 	//
 	//	if (packet->read_bool("parent-object-exists"))
@@ -119,12 +119,12 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	packet->read_axes<14, 20>("variant-object-axes", &variant_object.forward, &variant_object.up);
 	//
 	//	s_variant_multiplayer_object_properties_definition& variant_properties = variant_object.multiplayer_game_object_properties;
-	//	variant_properties.object_type = (uint8)packet->read_integer("variant-properties-cached-object-type", 8);
-	//	variant_properties.symmetry_placement_flags.set_unsafe((uint16)packet->read_integer("variant-properties-flags", 8));
-	//	variant_properties.game_engine_flags.set_unsafe((uint8)packet->read_integer("variant-properties-game-engine-flags", 8));
-	//	variant_properties.shared_storage.value = (uint8)packet->read_integer("variant-properties-shared-storage", 8);
+	//	variant_properties.object_type = (uns8)packet->read_integer("variant-properties-cached-object-type", 8);
+	//	variant_properties.symmetry_placement_flags.set_unsafe((uns16)packet->read_integer("variant-properties-flags", 8));
+	//	variant_properties.game_engine_flags.set_unsafe((uns8)packet->read_integer("variant-properties-game-engine-flags", 8));
+	//	variant_properties.shared_storage.value = (uns8)packet->read_integer("variant-properties-shared-storage", 8);
 	//	variant_properties.spawn_rate = (char)packet->read_integer("variant-properties-spawn-time", 8);
-	//	variant_properties.owner_team.set_raw_value((uint8)packet->read_integer("variant-properties-team-affiliation", 8));
+	//	variant_properties.owner_team.set_raw_value((uns8)packet->read_integer("variant-properties-team-affiliation", 8));
 	//
 	//	e_multiplayer_object_boundary_shape shape_type = (e_multiplayer_object_boundary_shape)packet->read_integer("variant-properties-shape_type", 8);
 	//	variant_properties.boundary_shape = shape_type;
@@ -166,10 +166,10 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	}
 	//
 	//	variant_quota.object_definition_index = (int32)packet->read_integer("object_definition_index", 32);
-	//	variant_quota.minimum_count = (uint8)packet->read_integer("minimum_count", 8);
-	//	variant_quota.maximum_count = (uint8)packet->read_integer("maximum_count", 8);
-	//	variant_quota.placed_on_map = (uint8)packet->read_integer("placed_on_map", 8);
-	//	variant_quota.maximum_allowed = (uint8)packet->read_integer("maximum_allowed", 8);
+	//	variant_quota.minimum_count = (uns8)packet->read_integer("minimum_count", 8);
+	//	variant_quota.maximum_count = (uns8)packet->read_integer("maximum_count", 8);
+	//	variant_quota.placed_on_map = (uns8)packet->read_integer("placed_on_map", 8);
+	//	variant_quota.maximum_allowed = (uns8)packet->read_integer("maximum_allowed", 8);
 	//	variant_quota.price_per_item = (real32)packet->read_integer("price-per-item", 32);
 	//}
 	//
@@ -308,8 +308,8 @@ void s_variant_multiplayer_object_properties_definition::print(int32 const tab_c
 	char tabs[128]{};
 	csmemset(tabs, ' ', tab_count * 4);
 
-	PRINT_TABS; c_console::write_line("<item name = \"Symmetry Placement Flags\" value = %d>", (uint16)symmetry_placement_flags);
-	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Flags\" value = %d>", (uint8)game_engine_flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Symmetry Placement Flags\" value = %d>", (uns16)symmetry_placement_flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Game Engine Flags\" value = %d>", (uns8)game_engine_flags);
 	PRINT_TABS; c_console::write_line("<item name = \"Team Affiliation\" value = %d>", (int32)team_affiliation);
 	PRINT_TABS; c_console::write_line("<item name = \"Shared Storage\" value = %d>", shared_storage);
 	PRINT_TABS; c_console::write_line("<item name = \"Spawn Time In Seconds\" value = %d>", spawn_time_in_seconds);
@@ -326,7 +326,7 @@ void s_variant_object_datum::print(c_map_variant* map_variant, int32 const tab_c
 	char tabs[128]{};
 	csmemset(tabs, ' ', tab_count * 4);
 
-	PRINT_TABS; c_console::write_line("<item name = \"Flags\" value = %d>", (uint32)flags);
+	PRINT_TABS; c_console::write_line("<item name = \"Flags\" value = %d>", (uns32)flags);
 	PRINT_TABS; c_console::write_line("<item name = \"Object Index\" value = 0x%08X>", object_index);
 	PRINT_TABS; c_console::write_line("<item name = \"Helper Object Index\" value = %d>", helper_object_index);
 

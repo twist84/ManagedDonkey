@@ -35,17 +35,17 @@ struct c_network_connection :
 public:
 	struct s_connection_incoming_packet
 	{
-		uint16 flags;
+		uns16 flags;
 	};
 	static_assert(sizeof(s_connection_incoming_packet) == 0x2);
 
 	struct s_connection_outgoing_packet
 	{
-		uint32 timestamp;
+		uns32 timestamp;
 		int32 size_on_wire;
-		uint32 round_trip_msec;
+		uns32 round_trip_msec;
 		int16 unretired_window_size;
-		uint16 flags;
+		uns16 flags;
 	};
 	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
 
@@ -75,33 +75,33 @@ public:
 	struct s_outgoing_message_description
 	{
 		e_network_message_type message_type;
-		uint16 message_number;
-		uint16 message_raw_size_bytes;
-		uint16 message_encoded_size_bits;
-		uint32 timestamp;
+		uns16 message_number;
+		uns16 message_raw_size_bytes;
+		uns16 message_encoded_size_bits;
+		uns32 timestamp;
 	};
 	static_assert(sizeof(s_outgoing_message_description) == 0x10);
 
 	struct s_outgoing_fragment_record
 	{
-		uint8 flags;
-		uint8 fragment_size_bytes;
-		uint16 fragment_size_bits;
+		uns8 flags;
+		uns8 fragment_size_bytes;
+		uns16 fragment_size_bits;
 		int32 packet_sequence_number;
 		s_outgoing_fragment_record* next_fragment;
 		s_outgoing_message_description message_description;
-		__pragma(warning(disable : 4200)) uint8 payload[];
+		__pragma(warning(disable : 4200)) byte payload[];
 	};
 	static_assert(sizeof(s_outgoing_fragment_record) == 0x1C);
 
 	struct s_incoming_fragment_record
 	{
-		uint8 flags;
-		uint8 fragment_size_bytes;
-		uint16 fragment_size_bits;
+		uns8 flags;
+		uns8 fragment_size_bytes;
+		uns16 fragment_size_bits;
 		int32 sequence_number;
 		s_incoming_fragment_record* next_fragment;
-		__pragma(warning(disable : 4200)) uint8 payload[];
+		__pragma(warning(disable : 4200)) byte payload[];
 	};
 	static_assert(sizeof(s_incoming_fragment_record) == 0xC);
 
@@ -133,7 +133,7 @@ static_assert(sizeof(c_network_message_queue) == 0x64);
 
 struct s_network_channel_client_info
 {
-	uint32 flags;
+	uns32 flags;
 	c_network_channel_client* client;
 };
 static_assert(sizeof(s_network_channel_client_info) == 0x8);
@@ -176,7 +176,7 @@ public:
 
 	struct s_activity_timer
 	{
-		uint32 timestamp;
+		uns32 timestamp;
 	};
 	static_assert(sizeof(s_activity_timer) == 0x4);
 
@@ -185,8 +185,8 @@ public:
 	static char const* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
 	static char const* __cdecl get_state_string(e_network_channel_state state);
 	bool get_remote_address(transport_address* address) const;
-	uint32 get_remote_identifier() const;
-	uint32 get_identifier() const;
+	uns32 get_remote_identifier() const;
+	uns32 get_identifier() const;
 	c_network_message_queue const* network_message_queue_get() const;
 	c_network_connection const* network_connection_get() const;
 	bool allocated() const;
@@ -195,7 +195,7 @@ public:
 	bool established() const;
 	bool connected() const;
 	void close(e_network_channel_closure_reason reason);
-	void establish(uint32 remote_channel_identifier);
+	void establish(uns32 remote_channel_identifier);
 	void open(transport_address const* remote_address, bool send_connect_packets, int32 channel_identifier);
 
 	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
@@ -213,19 +213,19 @@ public:
 	int32 m_client_count;
 	s_network_channel_client_info m_clients[3];
 	c_network_channel_simulation_interface* m_simulation_interface;
-	uint32 m_channel_flags;
-	uint32 m_channel_identifier;
-	uint32 m_remote_channel_identifier;
+	uns32 m_channel_flags;
+	uns32 m_channel_identifier;
+	uns32 m_remote_channel_identifier;
 	c_enum<e_network_channel_state, int32, _network_channel_state_none, k_network_channel_state_count> m_channel_state;
 	c_enum<e_network_channel_closure_reason, int32, _network_channel_reason_none, k_network_channel_reason_count> m_channel_closure_reason;
 	transport_address m_channel_closure_address;
 	transport_address m_remote_address;
 	bool m_send_connect_packets;
-	uint32 m_first_connect_packet_timestamp;
-	uint32 m_next_connect_packet_timestamp;
+	uns32 m_first_connect_packet_timestamp;
+	uns32 m_next_connect_packet_timestamp;
 	int32 m_sent_connect_packet_count;
-	uint32 m_established_timestamp;
-	uint32 m_connected_timestamp;
+	uns32 m_established_timestamp;
+	uns32 m_connected_timestamp;
 	s_activity_timer m_activity_times[6];
 	bool m_destination_unreachable;
 };

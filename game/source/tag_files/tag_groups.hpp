@@ -225,9 +225,9 @@ struct s_tag_block
 	union
 	{
 		void* address;
-		uint8* base;
+		uns8* base;
 	};
-	int32 : 32; // uint8* definition;
+	int32 : 32; // uns8* definition;
 };
 static_assert(sizeof(s_tag_block) == 0xC);
 
@@ -254,20 +254,20 @@ static_assert(sizeof(s_tag_reference) == 0x10);
 struct s_tag_data
 {
 	int32 size;
-	uint32 internal_flags;
-	uint32 file_offset;
+	uns32 internal_flags;
+	uns32 file_offset;
 
 	union
 	{
 		void* address;
-		uint8* base;
+		uns8* base;
 	};
 
-	int32 : 32; // uint8* definition;
+	int32 : 32; // uns8* definition;
 };
 static_assert(sizeof(s_tag_data) == 0x14);
 
-template<typename t_element_type, uint32 ...t_extra>
+template<typename t_element_type, uns32 ...t_extra>
 //using c_typed_tag_block = s_tag_block;
 struct c_typed_tag_block :
 	public s_tag_block
@@ -318,7 +318,7 @@ public:
 template<tag ...k_group_tags>
 using c_typed_tag_reference = s_tag_reference;
 
-template<typename t_data_type, uint32 ...t_extra>
+template<typename t_data_type, uns32 ...t_extra>
 //using c_typed_tag_data = s_tag_data;
 struct c_typed_tag_data :
 	s_tag_data
@@ -334,15 +334,15 @@ struct s_tag_resource
 {
 	union
 	{
-		uint32 resource_handle;
+		uns32 resource_handle;
 		s_cache_file_tag_resource_data* resource_data;
 	};
 
-	uint32 definition_address;
+	uns32 definition_address;
 };
 static_assert(sizeof(s_tag_resource) == 0x8);
 
-template<typename t_resource_type, uint32 ...t_extra>
+template<typename t_resource_type, uns32 ...t_extra>
 struct c_typed_tag_resource :
 	s_tag_resource
 {

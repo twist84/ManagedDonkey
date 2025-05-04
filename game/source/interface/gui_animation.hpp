@@ -4,7 +4,7 @@
 
 struct s_animation_transform
 {
-	uint8 __data0[0x38];
+	byte __data0[0x38];
 
 	real_argb_color color;
 	real_point3d position;

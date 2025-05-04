@@ -4,9 +4,9 @@
 
 struct s_damage_reporting_info
 {
-	c_enum<e_damage_reporting_type, uint16, _damage_reporting_type_unknown, k_damage_reporting_type_count> type;
-	uint8 modifier;
-	uint8 recycling_flag;
+	c_enum<e_damage_reporting_type, uns16, _damage_reporting_type_unknown, k_damage_reporting_type_count> type;
+	uns8 modifier;
+	uns8 recycling_flag;
 };
 static_assert(sizeof(s_damage_reporting_info) == 0x4);
 

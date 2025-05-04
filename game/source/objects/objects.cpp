@@ -70,7 +70,7 @@ void* __cdecl object_header_block_get(int32 object_index, object_header_block_re
 	ASSERT(reference->size > 0);
 	ASSERT(reference->offset + reference->size <= object_header->data_size);
 
-	return (uint8*)object + reference->offset;
+	return (byte*)object + reference->offset;
 }
 
 void* __cdecl object_header_block_get_with_count(int32 object_index, object_header_block_reference const* reference, unsigned int element_size, int32* element_count)
@@ -112,7 +112,7 @@ object_datum* __cdecl object_get(int32 object_index)
 	return result;
 }
 
-void* __cdecl object_get_and_verify_type(int32 object_index, uint32 object_type_mask)
+void* __cdecl object_get_and_verify_type(int32 object_index, uns32 object_type_mask)
 {
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
@@ -355,8 +355,8 @@ void c_object_identifier::create_from_structure(e_object_type type, int16 origin
 //.text:00B285A0 ; 
 //.text:00B285C0 ; 
 //.text:00B28600 ; 
-//.text:00B28610 ; public: void __cdecl t_message_container<s_object_render_thread_message, 2048>::filter_messages(bool(__cdecl*const)(s_object_render_thread_message*, uint32), uint32)
-//.text:00B286A0 ; bool __cdecl filter_object_messages(s_object_render_thread_message*, uint32)
+//.text:00B28610 ; public: void __cdecl t_message_container<s_object_render_thread_message, 2048>::filter_messages(bool(__cdecl*const)(s_object_render_thread_message*, uns32), uns32)
+//.text:00B286A0 ; bool __cdecl filter_object_messages(s_object_render_thread_message*, uns32)
 
 int32 __cdecl find_first_predicted_object_recursive(int32 object_index)
 {
@@ -499,7 +499,7 @@ bool __cdecl object_can_interpolate(int32 object_index)
 	return INVOKE(0x00B2A7E0, object_can_interpolate, object_index);
 }
 
-//.text:00B2A820 ; void __cdecl object_choose_initial_permutation(int32, uint16, s_model_customization_region_permutation const*, int32)
+//.text:00B2A820 ; void __cdecl object_choose_initial_permutation(int32, uns16, s_model_customization_region_permutation const*, int32)
 
 void __cdecl object_choose_variant(int32 object_index, int32 name)
 {
@@ -534,7 +534,7 @@ void __cdecl object_clear_sync_action(int32 object_index)
 //.text:00B2B8E0 ; void __cdecl object_compute_node_matrices(int32)
 //.text:00B2B970 ; void __cdecl object_compute_node_matrices_non_recursive(int32)
 //.text:00B2C240 ; void __cdecl object_compute_origin_matrix(int32, real_point3d const*, real_vector3d const*, real_vector3d const*, real32, bool, real_matrix4x3 const*, bool, real_matrix4x3*)
-//.text:00B2C3D0 ; real_matrix4x3 const* __cdecl object_compute_render_time_node_matrices(int32, int32, uint8 const*, real_matrix4x3 const*)
+//.text:00B2C3D0 ; real_matrix4x3 const* __cdecl object_compute_render_time_node_matrices(int32, int32, uns8 const*, real_matrix4x3 const*)
 
 void __cdecl object_connect_lights(int32 object_index, bool disconnect_this_object, bool reconnect_this_object)
 {
@@ -548,7 +548,7 @@ void __cdecl object_connect_lights_recursive(int32 object_index, bool disconnect
 	INVOKE(0x00B2C7B0, object_connect_lights_recursive, object_index, disconnect_this_object, reconnect_this_object, a3, a4);
 }
 
-int32 __cdecl object_count(int32 type_flags, uint8 header_mask)
+int32 __cdecl object_count(int32 type_flags, uns8 header_mask)
 {
 	return INVOKE(0x00B2C8E0, object_count, type_flags, header_mask);
 }
@@ -871,7 +871,7 @@ bool __cdecl object_is_vehicle(int32 object_index)
 	return INVOKE(0x00B2F470, object_is_vehicle, object_index);
 }
 
-//.text:00B2F4B0 ; protected: void __cdecl c_object_iterator_base::object_iterator_begin_internal(uint32, uint32, uint32, int32)
+//.text:00B2F4B0 ; protected: void __cdecl c_object_iterator_base::object_iterator_begin_internal(uns32, uns32, uns32, int32)
 
 e_object_type c_object_identifier::get_type() const
 {
@@ -883,7 +883,7 @@ int32 c_object_iterator_base::get_index()
 	return m_iterator.index;
 }
 
-void c_object_iterator_base::object_iterator_begin_internal(uint32 type_flags, uint32 header_flags, uint32 iteration_match_flags, int32 next_absolute_index)
+void c_object_iterator_base::object_iterator_begin_internal(uns32 type_flags, uns32 header_flags, uns32 iteration_match_flags, int32 next_absolute_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00B2F4B0, c_object_iterator_base, object_iterator_begin_internal, type_flags, header_flags, iteration_match_flags, next_absolute_index);
 }
@@ -1506,7 +1506,7 @@ void __cdecl object_set_infinite_shield_stun(int32 object_index)
 	INVOKE(0x00B32EE0, object_set_infinite_shield_stun, object_index);
 }
 
-void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uint8, 5> active_change_colors, real_rgb_color const* change_colors)
+void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uns8, 5> active_change_colors, real_rgb_color const* change_colors)
 {
 	INVOKE(0x00B32F20, object_set_initial_change_colors, object_index, active_change_colors, change_colors);
 }
@@ -1625,7 +1625,7 @@ bool __cdecl object_set_position_internal(int32 object_index, real_point3d const
 }
 
 //.text:00B33830 ; void __cdecl object_set_region_permutation_direct(int32, int32, int32, bool)
-//.text:00B33960 ; void __cdecl object_set_region_state(int32, int32, uint8 const*)
+//.text:00B33960 ; void __cdecl object_set_region_state(int32, int32, uns8 const*)
 //.text:00B339E0 ; 
 
 void __cdecl object_set_requires_motion(int32 object_index)
@@ -1655,14 +1655,14 @@ void __cdecl object_set_velocities(int32 object_index, real_vector3d const* line
 //.text:00B34380 ; bool __cdecl object_should_be_deleted_when_deactivated(int32)
 //.text:00B343D0 ; bool __cdecl object_start_interpolation(int32, real32)
 
-void* __cdecl object_try_and_get_and_verify_type(int32 object_index, uint32 object_type_mask)
+void* __cdecl object_try_and_get_and_verify_type(int32 object_index, uns32 object_type_mask)
 {
 	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type_mask);
 }
 
 //.text:00B344E0 ; s_multiplayer_object_properties* __cdecl object_try_and_get_multiplayer(int32 object_index)
 
-void* __cdecl object_try_and_get_unsafe_and_verify_type(int32 object_index, uint32 object_type_mask)
+void* __cdecl object_try_and_get_unsafe_and_verify_type(int32 object_index, uns32 object_type_mask)
 {
 	return INVOKE(0x00B34540, object_try_and_get_unsafe_and_verify_type, object_index, object_type_mask);
 }
@@ -1736,7 +1736,7 @@ void __cdecl objects_dispose_from_old_map()
 	INVOKE(0x00B35430, objects_dispose_from_old_map);
 }
 
-void __cdecl objects_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl objects_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -1794,9 +1794,9 @@ void __cdecl objects_handle_deleted_player(int32 object_index)
 	INVOKE(0x00B35910, objects_handle_deleted_player, object_index);
 }
 
-//.text:00B35990 ; int32 __cdecl objects_in_clusters_by_indices(uint32, bool, c_flags<e_object_collision_cull_flag, uint16, 13>, int32, s_cluster_reference const*, int32, int32*)
+//.text:00B35990 ; int32 __cdecl objects_in_clusters_by_indices(uns32, bool, c_flags<e_object_collision_cull_flag, uns16, 13>, int32, s_cluster_reference const*, int32, int32*)
 
-int32 __cdecl objects_in_sphere(uint32 class_flags, uint32 type_flags, s_location const* location, real_point3d const* center, real32 radius, int32* object_indices, int32 maximum_count)
+int32 __cdecl objects_in_sphere(uns32 class_flags, uns32 type_flags, s_location const* location, real_point3d const* center, real32 radius, int32* object_indices, int32 maximum_count)
 {
 	return INVOKE(0x00B35B60, objects_in_sphere, class_flags, type_flags, location, center, radius, object_indices, maximum_count);
 }
@@ -1816,7 +1816,7 @@ void __cdecl objects_initialize_for_new_map()
 	INVOKE(0x00B36130, objects_initialize_for_new_map);
 }
 
-void __cdecl objects_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl objects_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00B36310, objects_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -1959,7 +1959,7 @@ void __cdecl objects_update()
 	//}
 }
 
-void __cdecl objects_update_header_callback(int32 object_index, uint32 datum_handle)
+void __cdecl objects_update_header_callback(int32 object_index, uns32 datum_handle)
 {
 	INVOKE(0x00B369A0, objects_update_header_callback, object_index, datum_handle);
 }

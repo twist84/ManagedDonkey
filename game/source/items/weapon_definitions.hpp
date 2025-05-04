@@ -122,16 +122,16 @@ struct aim_assist_parameters
 	real32 magnetism_falloff_range;
 	real32 magnetism_near_falloff_range;
 	real32 deviation_angle;
-	uint8 ZHV[0x4];
-	uint8 CVYGPMLMX[0xC];
-	uint8 UQXKLVAXI[0x4];
+	byte ZHV[0x4];
+	byte CVYGPMLMX[0xC];
+	byte UQXKLVAXI[0x4];
 };
 static_assert(sizeof(aim_assist_parameters) == 0x38);
 
 struct weapon_tracking
 {
 	int16 tracking_type;
-	uint8 F[0x2];
+	byte F[0x2];
 };
 static_assert(sizeof(weapon_tracking) == 0x4);
 
@@ -146,7 +146,7 @@ static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
 
 struct s_weapon_magazine
 {
-	uint32 flags;
+	uns32 flags;
 	int16 rounds_recharged; // per second
 	int16 rounds_total_initial;
 	int16 rounds_total_maximum;
@@ -154,7 +154,7 @@ struct s_weapon_magazine
 	int16 runtime_rounds_inventory_maximum;
 
 	// pad
-	uint8 IIO[0x2];
+	byte IIO[0x2];
 
 	// the length of time it takes to load a single magazine into the weapon
 	real32 reload_time; // seconds
@@ -162,16 +162,16 @@ struct s_weapon_magazine
 	int16 rounds_reloaded;
 
 	// pad
-	uint8 VJGZW[0x2];
+	byte VJGZW[0x2];
 
 	// the length of time it takes to chamber the next round
 	real32 chamber_time; // seconds
 
 	// pad
-	uint8 HPMIV[0x8];
+	byte HPMIV[0x8];
 
 	// pad
-	uint8 P[0x10];
+	byte P[0x10];
 
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> reloading_effect;
 	c_typed_tag_reference<DAMAGE_EFFECT_TAG, INVALID_TAG> reloading_damage_effect;
@@ -297,7 +297,7 @@ struct weapon_trigger_definition
 	};
 	static_assert(sizeof(s_charging_fields) == 0x68);
 
-	c_flags<e_weapon_trigger_definition_flags, uint32, k_weapon_trigger_definition_flags> flags;
+	c_flags<e_weapon_trigger_definition_flags, uns32, k_weapon_trigger_definition_flags> flags;
 	c_enum<e_weapon_trigger_input, int16, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
 	c_enum<e_weapon_trigger_behavior, int16, _weapon_trigger_behavior_spew, k_weapon_trigger_behaviors> behavior;
 	int16 primary_barrel;
@@ -305,7 +305,7 @@ struct weapon_trigger_definition
 	c_enum<e_trigger_prediction_type, int16, _trigger_prediction_type_none, k_trigger_prediction_types> prediction;
 
 	// pad
-	uint8 GNFR[0x2];
+	byte GNFR[0x2];
 
 	s_autofire_fields autofire;
 	s_charging_fields charging;
@@ -388,7 +388,7 @@ static_assert(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real32) * 8);
 
 struct s_weapon_barrel
 {
-	uint32 flags;
+	uns32 flags;
 
 	// firing
 	s_weapon_barrel_firing_parameters firing;
@@ -440,7 +440,7 @@ struct s_weapon_barrel
 	angle_bounds error_angle; // degrees
 
 	// $TODO: map the rest of this struct
-	uint8 __data88[0x1AC - 0x88];
+	byte __data88[0x1AC - 0x88];
 };
 static_assert(sizeof(s_weapon_barrel) == 0x1AC);
 
@@ -451,8 +451,8 @@ struct _weapon_definition
 	// All weapons should have 'primary trigger' and 'secondary trigger' markers as appropriate.
 	// Blurred permutations are called '$primary-blur' and '$secondary-blur'.
 
-	c_flags<e_weapon_definition_flags, uint32, k_weapon_definition_flags> flags;
-	c_flags<e_weapon_definition_secondary_flags, uint32, k_weapon_definition_secondary_flags> secondary_flags;
+	c_flags<e_weapon_definition_flags, uns32, k_weapon_definition_flags> flags;
+	c_flags<e_weapon_definition_secondary_flags, uns32, k_weapon_definition_secondary_flags> secondary_flags;
 	c_string_id unused_label;
 	int16 secondary_trigger_mode;
 
@@ -515,12 +515,12 @@ struct _weapon_definition
 	c_enum<e_damage_reporting_type, int8, _damage_reporting_type_unknown, k_damage_reporting_type_count> melee_damage_reporting_type;
 
 	// pad
-	uint8 FEOROBJE[0x1];
+	byte FEOROBJE[0x1];
 
 	// the number of magnification levels this weapon allows
 	int16 magnification_levels;
 	real_bounds magnification_range;
-	uint32 magnification_flags;
+	uns32 magnification_flags;
 	real32 switch_ready_speed;
 
 
@@ -529,7 +529,7 @@ struct _weapon_definition
 	aim_assist_parameters weapon_aim_assist;
 
 	// Halo Online
-	uint32 __unknown1DC;
+	uns32 __unknown1DC;
 
 	s_tag_block target_tracking;
 	real32 ballistics0;
@@ -543,7 +543,7 @@ struct _weapon_definition
 	int16 movement_penalized;
 
 	// pad
-	uint8 GTIXVRPA[0x2];
+	byte GTIXVRPA[0x2];
 
 	real32 forward_movement_penalty;
 	real32 sideways_movement_penalty;

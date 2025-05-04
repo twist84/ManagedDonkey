@@ -140,7 +140,7 @@ struct scenario
 
 	c_enum<e_scenario_type, int8, _scenario_type_solo, k_scenario_type_count> type;
 	c_enum<e_scenario_campaign_type, int8, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
-	c_flags<e_scenario_flags, uint16, k_scenario_flags> flags;
+	c_flags<e_scenario_flags, uns16, k_scenario_flags> flags;
 
 	e_campaign_id campaign_id;
 	e_map_id map_id;
@@ -323,7 +323,7 @@ struct scenario
 	c_typed_tag_block<s_scenario_editor_folder> editor_folders;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> game_engine_strings;
 
-	uint8 QVUC[0x8]; // pad
+	byte QVUC[0x8]; // pad
 
 	c_typed_tag_block<ai_scenario_mission_dialogue> mission_dialogue;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> objectives;
@@ -427,7 +427,7 @@ struct scenario_structure_bsp_reference
 	// this is the most that we can sink a soft surface link snow in the structure_bsp via vertex painting.
 	real32 structure_vertex_sink;
 
-	c_flags<e_scenario_structure_bsp_reference_flags, uint16, k_scenario_structure_bsp_reference_flags> flags;
+	c_flags<e_scenario_structure_bsp_reference_flags, uns16, k_scenario_structure_bsp_reference_flags> flags;
 
 	// s_scenario_sky_reference
 	int16 default_sky; // short_block_index
@@ -446,7 +446,7 @@ struct scenario_structure_bsp_reference
 	// This is used to determine how to attach 'position-only' elements, like decorators, to the bsps:
 	// Each clone gets a separate copy of decorators that are in both.
 	// Non-cloned bsps cannot split decorators this way - the decorator will be given to the lowest numbered bsp
-	uint32 clone_bsp_flags; // long_block_flags
+	uns32 clone_bsp_flags; // long_block_flags
 	
 	void update_reference_names();
 };
@@ -460,7 +460,7 @@ struct s_scenario_sky_reference
 	int16 name;                // short_block_index
 
 	// scenario_structure_bsp_reference_block
-	uint16 active_on_bsps; // word_block_flags
+	uns16 active_on_bsps; // word_block_flags
 	
 	void update_reference_names();
 };
@@ -479,14 +479,14 @@ struct s_scenario_zone_set
 {
 	c_string_id name;
 	int32 pvs_index;                       // long_block_index
-	c_flags<e_scenario_zone_set_flags, uint32, k_scenario_zone_set_flags> flags;
-	uint32 bsp_zone_flags;           // long_block_flags
+	c_flags<e_scenario_zone_set_flags, uns32, k_scenario_zone_set_flags> flags;
+	uns32 bsp_zone_flags;           // long_block_flags
 
 	// designer_zone_flags
-	uint32 required_designer_zones;  // long_block_flags
+	uns32 required_designer_zones;  // long_block_flags
 
-	uint32 forbidden_designer_zones; // long_block_flags
-	uint32 cinematic_zones;          // long_block_flags
+	uns32 forbidden_designer_zones; // long_block_flags
+	uns32 cinematic_zones;          // long_block_flags
 	int32 hint_previous_zone_set;          // long_block_index
 	int32 audibility_index;                // long_block_index
 };
@@ -552,13 +552,13 @@ enum e_soft_ceiling_type
 
 struct s_scenario_soft_ceiling
 {
-	c_flags<e_scenario_soft_ceiling_flags, uint16, k_scenario_soft_ceiling_flags> flags;
-	c_flags<e_scenario_soft_ceiling_flags, uint16, k_scenario_soft_ceiling_flags> runtime_flags;
+	c_flags<e_scenario_soft_ceiling_flags, uns16, k_scenario_soft_ceiling_flags> flags;
+	c_flags<e_scenario_soft_ceiling_flags, uns16, k_scenario_soft_ceiling_flags> runtime_flags;
 	c_string_id name;
 	c_enum<e_soft_ceiling_type, int16, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
 
 	// pad
-	uint8 my_name_is[2];
+	byte my_name_is[0x2];
 };
 static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
 
@@ -593,7 +593,7 @@ struct scenario_starting_profile
 	int16 editor_folder; // short_block_index
 
 	// pad
-	uint8 AHDVHJE[2];
+	byte AHDVHJE[0x2];
 
 	void update_reference_names();
 };
@@ -612,13 +612,13 @@ struct scenario_player
 	real32 facing; // degrees
 	real32 pitch; // degrees
 	int16 insertion_point_index;
-	c_flags<e_scenario_player_flags, uint16, k_scenario_player_flags> flags;
+	c_flags<e_scenario_player_flags, uns16, k_scenario_player_flags> flags;
 
 	// s_scenario_editor_folder
 	int16 editor_folder; // short_block_index
 
 	// pad
-	uint8 ANDYNDGE[2];
+	byte ANDYNDGE[0x2];
 };
 static_assert(sizeof(scenario_player) == 0x1C);
 
@@ -629,7 +629,7 @@ struct squad_group_definition
 	int16 initial_objective;
 
 	// pad
-	uint8 soon_to_be_an_initial_task[0x2];
+	byte soon_to_be_an_initial_task[0x2];
 
 	int16 editor_folder;
 };
@@ -644,7 +644,7 @@ static_assert(sizeof(s_squad_definition_internal) == sizeof(s_tag_block));
 struct s_squad_definition
 {
 	c_static_string<k_tag_string_length> name;
-	uint32 flags;
+	uns32 flags;
 	c_enum<e_game_team, int16, _campaign_team_default, k_campaign_team_count> team;
 	int16 parent;
 	int16 initial_zone;
@@ -653,10 +653,10 @@ struct s_squad_definition
 	int16 editor_folder;
 	s_tag_block spawn_formations;
 	s_tag_block spawn_points;
-	uint16 excluded_placement_flags;
+	uns16 excluded_placement_flags;
 
 	// pad
-	uint8 post_excluded_placement_flags[0x2];
+	byte post_excluded_placement_flags[0x2];
 
 	int32 squad_template_index;
 
@@ -673,7 +673,7 @@ struct area_definition
 	// Clear Manual
 
 	c_static_string<k_tag_string_length> name;
-	uint32 area_flags;
+	uns32 area_flags;
 
 	// c_ai_point3d
 	real_point3d runtime_relative_mean_point;
@@ -693,8 +693,8 @@ struct area_definition
 	// Generation Properties
 
 	int16 preset;
-	uint8 PAD1[2];
-	uint32 flags;
+	uns8 PAD1[2];
+	uns32 flags;
 	real32 extrusion;
 	real32 sink;
 	real32 firing_point_orientation;
@@ -711,8 +711,8 @@ static_assert(sizeof(area_definition) == 0xA8);
 struct zone_definition
 {
 	c_static_string<k_tag_string_length> name;
-	uint16 flags;
-	uint16 runtime_bsp_flags;
+	uns16 flags;
+	uns16 runtime_bsp_flags;
 	s_tag_block firing_positions;
 	c_typed_tag_block<area_definition> areas;
 };
@@ -721,7 +721,7 @@ static_assert(sizeof(zone_definition) == 0x3C);
 struct scenario_cutscene_flag
 {
 	// pad
-	uint8 MMNGQBXC[0x4];
+	byte MMNGQBXC[0x4];
 
 	c_string_id name;
 	real_point3d position;
@@ -729,7 +729,7 @@ struct scenario_cutscene_flag
 	int16 editor_folder;
 
 	// pad
-	uint8 IWERHADF[0x2];
+	byte IWERHADF[0x2];
 };
 static_assert(sizeof(scenario_cutscene_flag) == 0x20);
 
@@ -744,12 +744,12 @@ enum e_scenario_camera_flags
 
 struct scenario_cutscene_camera_point
 {
-	c_flags<e_scenario_camera_flags, uint16, k_scenario_camera_flags> flags;
+	c_flags<e_scenario_camera_flags, uns16, k_scenario_camera_flags> flags;
 	c_enum<e_scenario_camera_type, int16, _scenario_camera_type_default, k_number_of_scenario_camera_types> type;
 	c_static_string<k_tag_string_length> name;
 
 	// pad
-	uint8 pad[0x4];
+	byte pad[0x4];
 
 	real_point3d position;
 	real_euler_angles3d orientation;
@@ -765,7 +765,7 @@ struct s_scenario_cutscene_title
 	c_enum<e_font_id, int16, _terminal_font, k_public_font_id_count> font;
 
 	// pad
-	uint8 padding[0x2];
+	byte padding[0x2];
 
 	rgb_color text_color;
 	rgb_color shadow_color;

@@ -140,7 +140,7 @@ struct s_campaign_metagame_bucket
 	c_flags<e_campaign_metagame_bucket_flag, int8, k_campaign_metagame_bucket_flags> flags;
 	int8 type;
 	int8 _class;
-	uint8 pad0;
+	byte pad0;
 	int16 point_count;
 	int16 pad1;
 };

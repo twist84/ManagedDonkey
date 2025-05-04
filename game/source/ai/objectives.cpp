@@ -49,12 +49,12 @@ char const* const inhibit_behavior_flag_names[k_inhibit_behavior_flags]
 //.text:01446460 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_tasks_data_allocator(void*)>::deallocate
 //.text:01446490 ; bool __cdecl decide_task_group(int16, int16, s_task_info*, real32*, int32*)
 //.text:01446630 ; bool __cdecl decide_tasks_priority_group(int16, int16, int16, int16, int16, s_task_info*, real32*, int32*)
-//.text:01446FB0 ; void __cdecl disallow_task(int16, int16, uint32*)
-//.text:01447050 ; void __cdecl disallowed_tasks_unassign_squads(int16, int16, s_task_info*, uint32*, s_squad_info*, int16*)
+//.text:01446FB0 ; void __cdecl disallow_task(int16, int16, uns32*)
+//.text:01447050 ; void __cdecl disallowed_tasks_unassign_squads(int16, int16, s_task_info*, uns32*, s_squad_info*, int16*)
 //.text:01447180 ; void __cdecl eject_squad(int16, int16, int16, s_task_info*)
 //.text:01447230 ; 
 //.text:01447250 ; void __cdecl finalize_task_change(int32)
-//.text:01447850 ; bool __cdecl find_assignment(int16, int16, int16, int16, s_squad_info*, int16, s_task_info*, uint32*, real32*, int32*)
+//.text:01447850 ; bool __cdecl find_assignment(int16, int16, int16, int16, s_squad_info*, int16, s_task_info*, uns32*, real32*, int32*)
 //.text:01448140 ; 
 //.text:01448150 ; 
 //.text:01448160 ; 
@@ -105,13 +105,13 @@ s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 ta
 //.text:01449960 ; void __cdecl objective_task_signal_search(int32)
 //.text:014499B0 ; bool __cdecl objective_task_test_activation(int16, int16, s_task_info const*, bool, bool*)
 //.text:01449CB0 ; bool __cdecl objective_task_test_script_activation(int16, int16)
-//.text:01449D10 ; int16 __cdecl objective_task_update_fight_count_internal(int32, int32, uint64*)
+//.text:01449D10 ; int16 __cdecl objective_task_update_fight_count_internal(int32, int32, uns64*)
 //.text:0144A150 ; bool __cdecl objective_unassigned_add_squad(int16, int32)
 //.text:0144A1B0 ; bool __cdecl objective_unassigned_remove_squad(int16, int32)
 //.text:0144A1F0 ; void __cdecl objective_update(int32)
 //.text:0144A460 ; void __cdecl objective_update_fight_count(int32)
 //.text:0144A4D0 ; void __cdecl objective_update_leadership(int16, int16, int16, int32)
-//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(int16, uint32 const*)
+//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(int16, uns32 const*)
 //.text:0144A7A0 ; void __cdecl objectives_handle_source_editing(s_script_fragment*)
 
 void __cdecl objectives_initialize()
@@ -124,7 +124,7 @@ void __cdecl objectives_initialize_for_new_map()
 	INVOKE(0x0144A830, objectives_initialize_for_new_map);
 }
 
-void __cdecl objectives_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl objectives_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0144A920, objectives_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

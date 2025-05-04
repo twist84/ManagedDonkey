@@ -55,8 +55,8 @@ struct s_bandwidth_configuration
 	int32 host_speculative_migration_required_match_host_bandwidth_difference;
 	int32 host_speculative_migration_required_custom_host_rating_difference;
 	int32 host_speculative_migration_required_custom_host_bandwidth_difference;
-	uint8 host_preference_latency_table[20];
-	uint8 host_preference_local_user_table[5];
+	uns8 host_preference_latency_table[20];
+	uns8 host_preference_local_user_table[5];
 	s_bandwidth_configuration_host_preference_table host_preferences[4];
 	int32 host_preference_connectivity_rankings_spread;
 	int32 host_preference_host_rankings_spread;
@@ -815,8 +815,8 @@ static_assert(sizeof(s_data_mine_configuration) == 0xC);
 
 struct s_griefer_configuration
 {
-	uint32 betrayal_decrement_time;
-	uint32 eject_decrement_time;
+	uns32 betrayal_decrement_time;
+	uns32 eject_decrement_time;
 	real32 betrayal_cutoff;
 	int32 ejection_cutoff;
 	real32 friendly_assist_amount; // UNUSED

@@ -87,7 +87,7 @@ static_assert(sizeof(s_character_physics_flying_definition) == 0x2C);
 
 struct s_character_physics_definition
 {
-	c_flags<e_character_physics_flags, uint32, k_number_of_character_physics_flags> flags;
+	c_flags<e_character_physics_flags, uns32, k_number_of_character_physics_flags> flags;
 
 	real32 height_standing;
 	real32 height_crouching;

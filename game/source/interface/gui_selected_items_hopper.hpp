@@ -7,9 +7,9 @@ enum e_hopper_category_id;
 struct s_hopper_information
 {
 	wchar_t name[32];
-	uint16 hopper_identifier;
+	uns16 hopper_identifier;
 	e_hopper_category_id category_identifier;
-	uint8 presence_hopper_identifier;
+	uns8 presence_hopper_identifier;
 	int32 image_index;
 	bool is_visible;
 	bool is_playable;

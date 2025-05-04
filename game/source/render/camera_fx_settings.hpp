@@ -11,7 +11,7 @@ public:
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 
-	uint32 m_flags;
+	uns32 m_flags;
 	real32 m_light_intensity_scale;
 	real32 m_exposure_bias;
 	real32 m_exposure_blend;
@@ -32,7 +32,7 @@ struct s_ssao_parameter
 	// SSAO
 	// SSAO parameters
 
-	uint32 m_flags;
+	uns32 m_flags;
 
 	real32 m_intensity;
 	real32 m_radius;
@@ -42,12 +42,12 @@ static_assert(sizeof(s_ssao_parameter) == 0x10);
 
 struct s_color_grading_parameter
 {
-	void set_defaults(uint32 flags, real32 blend_time);
+	void set_defaults(uns32 flags, real32 blend_time);
 
 	// COLOR GRADING
 	// Color grading parameters
 
-	uint32 m_flags;
+	uns32 m_flags;
 
 	real32 m_blend_time;
 
@@ -65,7 +65,7 @@ struct s_lightshafts
 	// LIGHTSHAFTS
 	// Lightshafts parameters
 
-	uint32 m_flags;
+	uns32 m_flags;
 
 	real32 m_pitch;           // [0...90]
 	real32 m_heading;         // [0...360]
@@ -95,13 +95,13 @@ struct c_camera_fx_settings
 
 	struct s_parameter
 	{
-		uint16 m_flags;
+		uns16 m_flags;
 	};
 
 	struct s_real_parameter :
 		s_parameter
 	{
-		uint16 pad;
+		uns16 pad;
 		real32 m_target;
 		real32 m_blend_limit;
 		real32 m_blend_speed;
@@ -110,20 +110,20 @@ struct c_camera_fx_settings
 	struct s_real_instant_parameter :
 		s_parameter
 	{
-		uint16 pad;
+		uns16 pad;
 		real32 m_target;
 	};
 
 	struct s_word_parameter :
 		s_parameter
 	{
-		uint16 m_target;
+		uns16 m_target;
 	};
 
 	struct s_color_parameter :
 		s_parameter
 	{
-		uint16 pad;
+		uns16 pad;
 		real_rgb_color m_color;
 	};
 
@@ -192,7 +192,7 @@ public:
 	real32 m_bling_intensity;
 	real32 m_bling_size;
 	real32 m_bling_angle;
-	uint16 m_bling_count;
+	uns16 m_bling_count;
 	real_rgb_color m_bloom_large_color;
 	real_rgb_color m_bloom_medium_color;
 	real_rgb_color m_bloom_small_color;

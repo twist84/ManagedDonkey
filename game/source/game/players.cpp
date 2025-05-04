@@ -56,18 +56,18 @@ s_player_identifier::s_player_identifier()
 	csmemset(identifier, 0, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(uint64 data)
+s_player_identifier::s_player_identifier(uns64 data)
 {
 	csmemset(identifier, 0, sizeof(identifier));
 	csmemcpy(identifier, &data, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(uint32 _ipv4_address, uint16 _port, uint16 _flags) :
+s_player_identifier::s_player_identifier(uns32 _ipv4_address, uns16 _port, uns16 _flags) :
 	identifier(0)
 {
-	REFERENCE_DECLARE(identifier + 0, uint32, ipv4_address);
-	REFERENCE_DECLARE(identifier + 4, uint16, port);
-	REFERENCE_DECLARE(identifier + 6, uint16, flags);
+	REFERENCE_DECLARE(identifier + 0, uns32, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, uns16, port);
+	REFERENCE_DECLARE(identifier + 6, uns16, flags);
 	ipv4_address = _ipv4_address;
 	port = _port;
 	flags = _flags;
@@ -76,9 +76,9 @@ s_player_identifier::s_player_identifier(uint32 _ipv4_address, uint16 _port, uin
 s_player_identifier::s_player_identifier(transport_address const* address) :
 	identifier(0)
 {
-	REFERENCE_DECLARE(identifier + 0, uint32, ipv4_address);
-	REFERENCE_DECLARE(identifier + 4, uint16, port);
-	REFERENCE_DECLARE(identifier + 6, uint16, flags);
+	REFERENCE_DECLARE(identifier + 0, uns32, ipv4_address);
+	REFERENCE_DECLARE(identifier + 4, uns16, port);
+	REFERENCE_DECLARE(identifier + 6, uns16, flags);
 	ipv4_address = address->ipv4_address;
 	port = address->port;
 	flags = address->address_length;
@@ -511,7 +511,7 @@ int32 __cdecl player_index_from_unit_index(int32 unit_index)
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
 //.text:0053B2D0 ; void __cdecl player_interaction_clear(s_player_interaction*)
 
-bool __cdecl player_interaction_exists(int32 player_index, uint32 object_mask, s_player_interaction const* interaction)
+bool __cdecl player_interaction_exists(int32 player_index, uns32 object_mask, s_player_interaction const* interaction)
 {
 	return INVOKE(0x0053B2F0, player_interaction_exists, player_index, object_mask, interaction);
 }
@@ -573,7 +573,7 @@ void __cdecl player_positions_dispose_from_old_map()
 	INVOKE(0x0053BBA0, player_positions_dispose_from_old_map);
 }
 
-void __cdecl player_positions_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl player_positions_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x0053BBB0, player_positions_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -588,7 +588,7 @@ void __cdecl player_positions_initialize_for_new_map()
 	INVOKE(0x0053BBD0, player_positions_initialize_for_new_map);
 }
 
-void __cdecl player_positions_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -791,7 +791,7 @@ void __cdecl players_dispose_from_old_map()
 	INVOKE(0x00541B30, players_dispose_from_old_map);
 }
 
-void __cdecl players_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl players_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00541B70, players_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -810,13 +810,13 @@ int32 __cdecl players_get_active_and_in_game_count(bool include_joined_in_progre
 
 //.text:00541CF0 ; int32 __cdecl players_get_alive_count()
 //.text:00541D60 ; s_campaign_armaments_player const* __cdecl players_get_campaign_armaments_player_from_player_index(int32)
-//.text:00541DF0 ; uint32 const* __cdecl players_get_combined_pvs()
-//.text:00541E10 ; uint32 const* __cdecl players_get_combined_pvs_local()
+//.text:00541DF0 ; uns32 const* __cdecl players_get_combined_pvs()
+//.text:00541E10 ; uns32 const* __cdecl players_get_combined_pvs_local()
 //.text:00541E30 ; bool __cdecl players_get_local_machine(s_machine_identifier*)
 //.text:00541E90 ; int32 __cdecl players_get_local_machine_index()
 //.text:00541EB0 ; s_machine_identifier const* __cdecl players_get_machine_identifier(int32)
 //.text:00541EE0 ; int32 __cdecl players_get_machine_index(s_machine_identifier const*)
-//.text:00541F60 ; void __cdecl players_get_machines(uint32*, s_machine_identifier*)
+//.text:00541F60 ; void __cdecl players_get_machines(uns32*, s_machine_identifier*)
 //.text:00541FA0 ; int16 __cdecl players_get_respawn_failure()
 //.text:00541FC0 ; void __cdecl players_get_sorted_lifeless_waiting_to_respawn_list(int32, int32*, int32, int32*)
 //.text:00542070 ; int32 __cdecl players_get_total_players_in_game()
@@ -838,7 +838,7 @@ void __cdecl players_initialize_for_new_map()
 	INVOKE(0x00542340, players_initialize_for_new_map);
 }
 
-void __cdecl players_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl players_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00542460, players_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
@@ -859,7 +859,7 @@ void __cdecl players_set_local_machine(s_machine_identifier const* machine_ident
 	INVOKE(0x00542D60, players_set_local_machine, machine_identifier);
 }
 
-void __cdecl players_set_machines(uint32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers)
+void __cdecl players_set_machines(uns32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers)
 {
 	INVOKE(0x00542F80, players_set_machines, new_machine_valid_mask, new_machine_identifiers);
 
@@ -881,7 +881,7 @@ void __cdecl players_set_machines(uint32 new_machine_valid_mask, s_machine_ident
 	//	}
 	//}
 	//
-	//uint32 old_machine_valid_mask = players_globals->machine_valid_mask;
+	//uns32 old_machine_valid_mask = players_globals->machine_valid_mask;
 	//
 	//s_machine_identifier old_machine_identifiers[k_maximum_machines];
 	//int32 new_machine_indices[k_maximum_machines];
@@ -1021,9 +1021,9 @@ void __cdecl players_verify()
 
 void s_emblem_info::decode(c_bitstream* packet)
 {
-	foreground_emblem_index = (uint8)packet->read_integer("foreground-emblem", 6);
-	background_emblem_index = (uint8)packet->read_integer("background-emblem", 6);
-	emblem_info_flags.set_unsafe((uint8)packet->read_integer("emblem-flags", 3));
+	foreground_emblem_index = (uns8)packet->read_integer("foreground-emblem", 6);
+	background_emblem_index = (uns8)packet->read_integer("background-emblem", 6);
+	emblem_info_flags.set_unsafe((uns8)packet->read_integer("emblem-flags", 3));
 	primary_color_index.set_raw_value((int8)packet->read_integer("emblem-primary-color", 6));
 	secondary_color_index.set_raw_value((int8)packet->read_integer("emblem-secondary-color", 6));
 	background_color_index.set_raw_value((int8)packet->read_integer("emblem-background-color", 6));
@@ -1216,8 +1216,8 @@ void apply_player_representation_fixup()
 	static t_value_type<int32> spartan_representation_index = { .value = 2 };
 	static t_value_type<int32> elite_representation_index = { .value = 3 };
 
-	static uint32 const spartan_representation_addresses[] = { 0x00537482 + 1, 0x0053761A + 1, 0x00539EB9 + 1, 0x00539FBD + 1, 0x0053A738 + 1, 0x0053A7C6 + 1 };
-	static uint32 const elite_representation_addresses[] = { 0x0053748F + 1, 0x00537627 + 1, 0x00539EC6 + 1, 0x00539FCA + 1, 0x0053A745 + 1, 0x0053A7BE + 1 };
+	static uns32 const spartan_representation_addresses[] = { 0x00537482 + 1, 0x0053761A + 1, 0x00539EB9 + 1, 0x00539FBD + 1, 0x0053A738 + 1, 0x0053A7C6 + 1 };
+	static uns32 const elite_representation_addresses[] = { 0x0053748F + 1, 0x00537627 + 1, 0x00539EC6 + 1, 0x00539FCA + 1, 0x0053A745 + 1, 0x0053A7BE + 1 };
 
 	DATA_PATCH_ARRAY_DECLARE2(spartan_representation_addresses, spartan_representation_index, spartan_representation_index.bytes);
 	DATA_PATCH_ARRAY_DECLARE2(elite_representation_addresses, elite_representation_index, elite_representation_index.bytes);

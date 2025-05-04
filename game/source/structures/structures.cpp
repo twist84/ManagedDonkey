@@ -32,7 +32,7 @@ void __cdecl structures_dispose_from_old_map()
 	INVOKE(0x006783C0, structures_dispose_from_old_map);
 }
 
-void __cdecl structures_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl structures_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x006783D0, structures_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -47,7 +47,7 @@ void __cdecl structures_initialize_for_new_map()
 	INVOKE(0x006783F0, structures_initialize_for_new_map);
 }
 
-void __cdecl structures_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl structures_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00678400, structures_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }

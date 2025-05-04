@@ -4,7 +4,7 @@
 
 struct s_game_sound_deterministic_globals
 {
-	uint8 __data[0x1300];
+	byte __data[0x1300];
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 

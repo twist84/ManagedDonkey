@@ -515,7 +515,7 @@ callback_result_t script_doc_callback(void const* userdata, int32 token_count, t
 
 	file_create(&help_file);
 
-	uint32 error = 0;
+	uns32 error = 0;
 	if (file_open(&help_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		file_printf(&help_file, "; %s\n\n", "AVAILABLE FUNCTIONS:");
@@ -947,7 +947,7 @@ callback_result_t net_session_create_callback(void const* userdata, int32 token_
 
 			file_create(&invite_file);
 
-			uint32 error = 0;
+			uns32 error = 0;
 			if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
 				file_printf(&invite_file, "%s", invite_string.get_string());
 
@@ -989,7 +989,7 @@ callback_result_t net_session_add_callback(void const* userdata, int32 token_cou
 	static transport_address address{};
 	csmemset(&address, 0, sizeof(address));
 	transport_address_from_host(host, address);
-	address.port = static_cast<uint16>(atol(port));
+	address.port = static_cast<uns16>(atol(port));
 
 	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void
 	{
@@ -1466,7 +1466,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 			// colors
 			{
 				char color_type_name[128]{};
-				uint32 rgb_value = NONE;
+				uns32 rgb_value = NONE;
 				if (sscanf_s(buffer, "colors[%[^]]]: #%08X", color_type_name, sizeof(color_type_name), &rgb_value) && (*color_type_name && rgb_value != NONE))
 				{
 					int32 index = NONE;
@@ -1535,7 +1535,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 
 						if (armor_region && csstricmp(armor_region, armor_region_name) == 0)
 						{
-							armor_loadout.armors[armor_region_index] = static_cast<uint8>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(armor_region, armor_name));
+							armor_loadout.armors[armor_region_index] = static_cast<uns8>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(armor_region, armor_name));
 						}
 					}
 				}
@@ -1916,10 +1916,10 @@ callback_result_t lsp_info_get_callback(void const* userdata, int32 token_count,
 	union
 	{
 		int32 ip_address = 0;
-		uint8 ina[4];
+		uns8 ina[4];
 	};
 
-	uint16 port = 0;
+	uns16 port = 0;
 	online_lsp_get_info(&ip_address, &port);
 	console_printf_color(global_real_argb_cyan, "%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
 

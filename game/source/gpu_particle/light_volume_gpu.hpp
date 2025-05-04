@@ -11,7 +11,7 @@ public:
 	struct s_row :
 		s_datum_header
 	{
-		uint16 m_row;
+		uns16 m_row;
 		int32 m_prev;
 		int32 m_next;
 	};
@@ -19,7 +19,7 @@ public:
 
 	int32 m_light_volume_index;
 	int32 m_row_head;
-	uint16 m_flags;
+	uns16 m_flags;
 };
 static_assert(sizeof(c_light_volume_gpu) == 0x10);
 

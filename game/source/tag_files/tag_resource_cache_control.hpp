@@ -6,10 +6,10 @@
 struct s_tag_resource_control_datum :
 	s_datum_header
 {
-	uint16 flags;
-	uint8 __data4[0x4];
+	uns16 flags;
+	byte __data4[0x4];
 	//s_tag_resource_location_handle_struct page_handle;
-	uint32 page_handle;
+	uns32 page_handle;
 };
 static_assert(sizeof(s_tag_resource_control_datum) == 0xC);
 
@@ -33,7 +33,7 @@ struct c_tag_resource_cache_controller
 	c_tag_resource_runtime_listener* m_resource_listener;
 	c_cache_file_combined_tag_resource_datum_handler* m_resource_datum_handler;
 	c_tag_resource_control_datum* m_control_datum_info;
-	uint32 m_usage_frame_index;
+	uns32 m_usage_frame_index;
 	int32 m_update_since_demand_frame_counter;
 
 	//bool m_any_deferred_demands_pending;

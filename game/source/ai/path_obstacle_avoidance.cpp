@@ -32,7 +32,7 @@ obstacle_path debug_obstacle_path_path = {};
 //.text:014DFB30 ; int16 __cdecl obstacle_from_disc(struct obstacles const*, int16)
 //.text:014DFB60 ; int16 __cdecl path_add_step(obstacle_path*, real_point3d const*, c_sector_ref, int16, bool, bool, int16, real32, int16)
 //.text:014DFEB0 ; int16 __cdecl path_add_steps(obstacle_path*, int16, int16)
-//.text:014E04D0 ; int16 __cdecl path_add_turning_point_step(obstacle_path*, int16, real_point3d const*, int16, uint16, bool, bool)
+//.text:014E04D0 ; int16 __cdecl path_add_turning_point_step(obstacle_path*, int16, real_point3d const*, int16, uns16, bool, bool)
 //.text:014E0800 ; bool __cdecl path_avoid_obstacles(int32, struct path_state*, int16, struct path_step const*, bool, int16*, struct path_step*, bool*, int32*, int16*, bool*)
 //.text:014E17D0 ; bool __cdecl path_find(struct path_state const*, obstacle_path*, bool, struct obstacles const*, real32, real_point3d const*, c_sector_ref, real_point3d const*, c_sector_ref, int16, bool, bool, bool)
 

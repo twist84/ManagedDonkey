@@ -21,7 +21,7 @@
 #include "render/render_visibility_collection.hpp"
 #include "text/draw_string.hpp"
 
-REFERENCE_DECLARE(0x01913474, uint32, c_render_globals::m_frame_index);
+REFERENCE_DECLARE(0x01913474, uns32, c_render_globals::m_frame_index);
 REFERENCE_DECLARE(0x0191347D, bool, render_pc_specular);
 REFERENCE_DECLARE(0x050E88F0, real32, c_render_globals::m_frame_time);
 REFERENCE_DECLARE(0x050E88F4, bool, c_render_globals::m_distortion_active);
@@ -109,7 +109,7 @@ void __cdecl render_dispose_from_old_map()
 	INVOKE(0x00A29730, render_dispose_from_old_map);
 }
 
-void __cdecl render_dispose_from_old_structure_bsp(uint32 deactivating_structure_bsp_mask)
+void __cdecl render_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask)
 {
 	INVOKE(0x00A29750, render_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
@@ -206,7 +206,7 @@ void __cdecl render_initialize_for_new_map()
 	render_objects_initialize_for_new_map();
 }
 
-void __cdecl render_initialize_for_new_structure_bsp(uint32 activating_structure_bsp_mask)
+void __cdecl render_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x00A29980, render_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 

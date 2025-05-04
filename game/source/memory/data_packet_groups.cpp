@@ -8,7 +8,7 @@ char const* data_packet_groups_error;
 
 unsigned char data_packet_group_append_packet_header(data_packet_group_definition* group_definition, void* encoded_packet, int16* encoded_packet_size, int16 packet_type)
 {
-	uint8* encoded_packet_type = static_cast<uint8*>(encoded_packet) + *encoded_packet_size;
+	uns8* encoded_packet_type = static_cast<uns8*>(encoded_packet) + *encoded_packet_size;
 
 	ASSERT(encoded_packet && encoded_packet_size);
 	ASSERT(*encoded_packet_size >= 0);
@@ -21,7 +21,7 @@ unsigned char data_packet_group_append_packet_header(data_packet_group_definitio
 	}
 	else
 	{
-		*encoded_packet_type = static_cast<uint8>(packet_type);
+		*encoded_packet_type = static_cast<uns8>(packet_type);
 		++*encoded_packet_size;
 	}
 	data_packet_groups_error = error;

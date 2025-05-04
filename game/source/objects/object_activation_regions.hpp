@@ -8,7 +8,7 @@ struct s_object_activation_region :
 	// all names subject to change
 
 	// alignment?
-	uint8 __data2[0x2];
+	byte __data2[0x2];
 
 	int32 activation_time;
 	real_rectangle3d region_bounds;
@@ -16,7 +16,7 @@ struct s_object_activation_region :
 	s_location region_location;
 
 	// pad?
-	uint8 __data26[0x2];
+	byte __data26[0x2];
 };
 static_assert(sizeof(s_object_activation_region) == 0x28);
 

@@ -9,7 +9,7 @@ struct s_network_globals
 {
 	bool initialized;
 	bool entered;
-	uint32 thread_id;
+	uns32 thread_id;
 
 	// $TODO: add back all the missing globals
 };

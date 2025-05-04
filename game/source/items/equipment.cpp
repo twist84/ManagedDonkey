@@ -9,8 +9,8 @@
 //.text:00B87E60 ; 
 //.text:00B87EA0 ; 
 //.text:00B87EC0 ; bool __cdecl equipment_begin_activation_animation(int32)
-//.text:00B87FD0 ; bool __cdecl equipment_begin_animation_state(int32, int32, int32, uint32)
-//.text:00B88040 ; void __cdecl equipment_calculate_noise_maker_blip(int32, uint32*, int32, real_point2d*)
+//.text:00B87FD0 ; bool __cdecl equipment_begin_animation_state(int32, int32, int32, uns32)
+//.text:00B88040 ; void __cdecl equipment_calculate_noise_maker_blip(int32, uns32*, int32, real_point2d*)
 //.text:00B88160 ; int32 __cdecl equipment_calculate_noise_maker_blip_count(int32)
 //.text:00B881A0 ; void __cdecl equipment_calculate_spawn_location(int32, real32, real32, real32, int16, real_point3d*, real_vector3d*)
 //.text:00B882F0 ; bool __cdecl equipment_can_be_thrown(int32)

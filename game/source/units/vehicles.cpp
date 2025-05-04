@@ -34,7 +34,7 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(int32* out_vehicle_index)
 //.text:00B75A90 ; int32 __cdecl vehicle_count_bipeds_killed(int32)
 //.text:00B75AD0 ; void __cdecl vehicle_deplete_function_variables(int32)
 //.text:00B75B10 ; void __cdecl vehicle_enable_ghost_effects(bool)
-//.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uint32*)
+//.text:00B75B20 ; void __cdecl vehicle_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uns32*)
 //.text:00B75D90 ; bool __cdecl vehicle_get_auto_turret_damage_owner(int32, s_damage_owner*)
 //.text:00B75DD0 ; int16 __cdecl vehicle_get_driver_seat(int32, int32*)
 

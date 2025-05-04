@@ -5,7 +5,7 @@
 struct data_reference :
 	s_datum_header
 {
-	uint16 pad;
+	uns16 pad;
 	int32 datum_index;
 	int32 next_reference_index;
 };

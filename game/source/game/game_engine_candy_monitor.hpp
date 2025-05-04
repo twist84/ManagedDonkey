@@ -17,7 +17,7 @@ struct c_candy_monitor
 	int32 m_spawned_object_index;
 	int16 m_abandoned_seconds;
 	bool m_disturbed_from_initial_placement;
-	bool m_pad[3];
+	bool m_pad[0x3];
 	int16 m_abandonment_timeout;
 };
 static_assert(sizeof(c_candy_monitor) == 0xC);

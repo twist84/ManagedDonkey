@@ -33,7 +33,7 @@ struct s_status_line
 	c_static_string<256> text;
 	real_rgb_color color;
 	real32 alpha;
-	c_flags<e_status_line_flags, uint32, k_status_line_count> flags;
+	c_flags<e_status_line_flags, uns32, k_status_line_count> flags;
 	bool* in_use;
 	char const* identifier;
 	s_status_line* prev;

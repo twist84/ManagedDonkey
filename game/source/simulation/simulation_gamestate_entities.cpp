@@ -57,7 +57,7 @@ void __cdecl simulation_object_glue_delete(int32 object_index)
 }
 
 //.text:00471F10 ; int32 __cdecl simulation_gamestate_entity_get_object_index(int32)
-//.text:00471F50 ; int32 __cdecl simulation_object_glue_get_object_index_type_safe(int32, uint32)
+//.text:00471F50 ; int32 __cdecl simulation_object_glue_get_object_index_type_safe(int32, uns32)
 
 int32 __cdecl simulation_object_glue_get_simulation_entity_index(int32 object_index)
 {
@@ -111,7 +111,7 @@ void __cdecl simulation_entity_delete(int32 simulation_entity_index, int32 objec
 	INVOKE(0x004AF910, simulation_entity_delete, simulation_entity_index, object_index, simulation_object_glue_index);
 }
 
-void __cdecl simulation_entity_force_update(int32 simulation_entity_index, int32 object_index, c_flags<int32, uint64, 64>& flags)
+void __cdecl simulation_entity_force_update(int32 simulation_entity_index, int32 object_index, c_flags<int32, uns64, 64>& flags)
 {
 	INVOKE(0x004AF970, simulation_entity_force_update, simulation_entity_index, object_index, flags);
 }
@@ -130,7 +130,7 @@ bool __cdecl simulation_entity_type_is_object(e_simulation_entity_type entity_ty
 	//return IN_RANGE_INCLUSIVE(entity_type, _simulation_entity_type_unit, _simulation_entity_type_device);
 }
 
-void __cdecl simulation_entity_update(int32 simulation_entity_index, int32 object_index, c_flags<int32, uint64, 64>& flags)
+void __cdecl simulation_entity_update(int32 simulation_entity_index, int32 object_index, c_flags<int32, uns64, 64>& flags)
 {
 	INVOKE(0x004AFC20, simulation_entity_update, simulation_entity_index, object_index, flags);
 

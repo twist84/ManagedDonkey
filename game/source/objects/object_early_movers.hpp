@@ -24,7 +24,7 @@ struct s_object_early_movers_globals
 		bool valid_frame_transform;
 		bool valid_current_velocities;
 		int32 bsp_reference_count;
-		c_static_array<uint32, 8> bsp_references;
+		c_static_array<uns32, 8> bsp_references;
 	};
 	static_assert(sizeof(s_meta) == 0x130);
 

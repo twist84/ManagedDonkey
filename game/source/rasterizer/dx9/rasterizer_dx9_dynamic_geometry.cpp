@@ -37,12 +37,12 @@ HOOK_DECLARE_CLASS(0x00A46640, c_rasterizer, draw_textured_screen_triangle_list)
 HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
 HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
-void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uint32 color0, uint32 color1)
+void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1)
 {
 	INVOKE(0x00A456A0, draw_debug_line2d, p0, p1, color0, color1);
 }
 
-void __cdecl c_rasterizer::draw_debug_line(real_point3d const& p0, real_point3d const& p1, uint32 color0, uint32 color1)
+void __cdecl c_rasterizer::draw_debug_line(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1)
 {
 	//INVOKE(0x00A45830, draw_debug_line, p0, p1, color0, color1);
 
@@ -96,7 +96,7 @@ void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_linestrip2d(point2d const* points, int32 point_count, uint32 color)
+void __cdecl c_rasterizer::draw_debug_linestrip2d(point2d const* points, int32 point_count, uns32 color)
 {
 	INVOKE(0x00A45970, draw_debug_linestrip2d, points, point_count, color);
 }
@@ -384,7 +384,7 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uint32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
+void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
 {
 	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, point_sampled);
 }

@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 
 // 32-bit data array index handle
-typedef uint32 datum_index;
+typedef uns32 datum_index;
 static_assert(sizeof(datum_index) == 0x4);
 
 enum : datum_index
@@ -42,7 +42,7 @@ static_assert(sizeof(data_address_type) == 0x4);
 
 union data_address
 {
-	uint32 value;
+	uns32 value;
 	struct
 	{
 		data_address_type type : 3;
@@ -56,20 +56,20 @@ struct s_data_array
 	c_static_string<32> name;
 	int32 maximum_count;
 	int32 size;
-	uint8 alignment_bits;
+	uns8 alignment_bits;
 	bool valid;
-	uint16 flags;
+	uns16 flags;
 	tag signature;
 	c_allocation_base* allocation;
 	int32 first_possibly_free_absolute_index;
 	int32 count;
 	int32 actual_count;
-	uint16 next_identifier;
-	uint16 isolated_next_identifier;
+	uns16 next_identifier;
+	uns16 isolated_next_identifier;
 	void* data;
 	void* in_use_bit_vector;
-	uint32 offset_to_data;
-	uint32 offset_to_bit_vector;
+	uns32 offset_to_data;
+	uns32 offset_to_bit_vector;
 };
 static_assert(sizeof(s_data_array) == 0x54);
 
@@ -110,7 +110,7 @@ struct c_smart_data_array
 
 	struct s_typed_access
 	{
-		uint8 unused[offsetof(s_data_array, data)];
+		byte unused[offsetof(s_data_array, data)];
 		t_datum_type* data;
 	};
 
@@ -179,11 +179,11 @@ extern void __cdecl data_delete_all(s_data_array* data);
 extern void __cdecl data_disconnect(s_data_array* data);
 extern void __cdecl data_dispose(s_data_array* data);
 extern void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
-extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uint32* in_use_bit_vector);
+extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector);
 extern bool __cdecl data_is_full(s_data_array const* data);
 extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array const* data);
 extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
-extern void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uint8 flag_mask, uint8 flag_value);
+extern void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uns8 flag_mask, uns8 flag_value);
 extern int32 __cdecl data_last_index(s_data_array* data);
 extern void __cdecl data_make_invalid(s_data_array* data);
 extern void __cdecl data_make_valid(s_data_array* data);
@@ -278,7 +278,7 @@ public:
 	{
 	}
 
-	void begin(s_data_array* data, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
+	void begin(s_data_array* data, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 	{
 		iterator.m_flag_offset = flag_offset;
 		iterator.m_flag_mask = flag_mask;
@@ -286,7 +286,7 @@ public:
 		data_iterator_begin(&iterator, data);
 	}
 
-	void begin(s_data_array const* data, int32 flag_offset, uint8 flag_mask, uint8 flag_value)
+	void begin(s_data_array const* data, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 	{
 		iterator.m_flag_offset = flag_offset;
 		iterator.m_flag_mask = flag_mask;
@@ -318,8 +318,8 @@ public:
 //protected:
 	t_datum_type* m_datum;
 	int32 m_flag_offset;
-	uint8 m_flag_mask;
-	uint8 m_flag_value;
+	uns8 m_flag_mask;
+	uns8 m_flag_value;
 	s_data_iterator iterator;
 };
 static_assert(sizeof(c_data_iterator_with_byte_flags<void>) == 0x18);

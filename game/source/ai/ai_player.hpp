@@ -8,7 +8,7 @@ struct ai_player_state
 	int32 recent_vehicle_index;
 	int16 recent_seat_index;
 	int16 recent_vehicle_ticks;
-	uint16 ticks_since_shooting;
+	uns16 ticks_since_shooting;
 	int16 ticks_since_player_threatening;
 	int32 last_friendly_vehicle_shoot_time;
 	int32 last_friendly_vehicle_shoot_index;

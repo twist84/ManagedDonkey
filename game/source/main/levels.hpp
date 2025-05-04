@@ -12,7 +12,7 @@ struct s_configuration_enumeration_task;
 struct s_campaign_datum :
 	s_datum_header
 {
-	c_flags<e_campaign_flags, uint16, 2> flags;
+	c_flags<e_campaign_flags, uns16, 2> flags;
 	e_campaign_id campaign_id;
 	wchar_t name[64];
 	wchar_t description[128];
@@ -23,7 +23,7 @@ static_assert(sizeof(s_campaign_datum) == 0x288);
 struct s_level_datum :
 	s_datum_header
 {
-	c_flags<e_level_flags, uint16, k_number_of_level_flags> flags;
+	c_flags<e_level_flags, uns16, k_number_of_level_flags> flags;
 	e_map_id map_id;
 	wchar_t name[32];
 	wchar_t description[128];
@@ -47,12 +47,12 @@ struct s_level_insertion_datum :
 	e_map_id map_id;
 	wchar_t insertion_point_names[k_max_campaign_insertion_points][32];
 	wchar_t insertion_point_descriptions[k_max_campaign_insertion_points][128];
-	uint8 insertion_point_initial_zone_set[k_max_campaign_insertion_points];
+	uns8 insertion_point_initial_zone_set[k_max_campaign_insertion_points];
 
 	// odst
 	int32 return_from_map_ids[k_max_campaign_insertion_points];
 	int32 survival_presence_context_ids[k_max_campaign_insertion_points];
-	uint8 __flagsB9C[k_max_campaign_insertion_points];
+	uns8 __flagsB9C[k_max_campaign_insertion_points];
 };
 static_assert(sizeof(s_level_insertion_datum) == 0xBA8);
 
@@ -69,8 +69,8 @@ struct s_level_globals
 	bool need_to_enumerate_dvd;
 	bool need_to_enumerate_dlc;
 	bool initialized;
-	uint8 preorder_unlock_controller_mask;
-	uint32 checksum;
+	uns8 preorder_unlock_controller_mask;
+	uns32 checksum;
 };
 static_assert(sizeof(s_level_globals) == 0xA1C);
 
@@ -89,7 +89,7 @@ extern void __cdecl levels_dispose_from_old_map();
 extern e_async_completion __cdecl levels_dlc_enumeration_callback(s_async_task* work);
 extern e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work);
 extern bool __cdecl levels_enumeration_in_progress();
-extern uint32 __cdecl levels_get_available_map_mask();
+extern uns32 __cdecl levels_get_available_map_mask();
 extern int32 __cdecl levels_get_campaign_count();
 extern e_campaign_id __cdecl levels_get_campaign_id_from_path(char const* path);
 extern int32 __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id);
@@ -98,7 +98,7 @@ extern e_map_id __cdecl levels_get_campaign_map_by_display_name(wchar_t* display
 extern void __cdecl levels_get_campaign_map_ids(e_campaign_id campaign_id, e_map_id* out_map_ids, int32* in_out_count);
 extern e_map_id __cdecl levels_get_campaign_next_map_id(e_campaign_id campaign_id, e_map_id map_id);
 extern e_map_id __cdecl levels_get_default_multiplayer_map_id();
-extern uint32 __cdecl levels_get_checksum();
+extern uns32 __cdecl levels_get_checksum();
 extern e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
 extern void __cdecl levels_get_multiplayer_map_ids(e_map_id* out_map_ids, int32* in_out_count);
 extern bool __cdecl levels_get_multiplayer_map_is_allowed(e_map_id map_id);

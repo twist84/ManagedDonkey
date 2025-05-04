@@ -14,9 +14,9 @@ struct prop_ref_datum :
 	int8 type;
 	int8 dialogue_event;
 	int8 dialogue_index;
-	uint8 dialogue_ticks;
+	uns8 dialogue_ticks;
 	int8 stimulus;
-	uint8 stimulus_decay_ticks;
+	uns8 stimulus_decay_ticks;
 	int32 actor_index;
 	int32 prop_index;
 	int32 object_index;
@@ -26,7 +26,7 @@ struct prop_ref_datum :
 	int8 perception;
 	int8 visibility : 4;
 	int8 line_of_sight : 4;
-	uint8 flags;
+	uns8 flags;
 	int16 status_refresh_timer;
 	int16 state_refresh_timer;
 	int32 actor_next_prop_ref_index;
@@ -93,8 +93,8 @@ struct prop_datum :
 	bool player;
 	bool ignore;
 	int16 flags;
-	uint8 dialogue_ability_flags;
-	uint8 dialogue_completed_flags;
+	uns8 dialogue_ability_flags;
+	uns8 dialogue_completed_flags;
 	int16 magic_sight_ticks;
 	int16 comment_timer;
 	int16 remind_timer;

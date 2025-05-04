@@ -19,9 +19,9 @@ struct game_globals_storage
 {
 	bool initializing;
 	bool map_active;
-	uint32 active_structure_bsp_mask;
-	uint32 active_designer_zone_mask;
-	uint32 active_cinematic_zone_mask;
+	uns32 active_structure_bsp_mask;
+	uns32 active_designer_zone_mask;
+	uns32 active_cinematic_zone_mask;
 	game_options options;
 
 	// ODST
@@ -46,7 +46,7 @@ struct game_globals_storage
 	s_game_cluster_bit_vectors cluster_pvs_local;
 	s_game_cluster_bit_vectors cluster_activation;
 	bool pvs_use_scripted_camera;
-	uint8 unused_pad;
+	uns8 unused_pad;
 	int16 pvs_activation_type;
 	struct
 	{
@@ -56,7 +56,7 @@ struct game_globals_storage
 
 	int32 game_ragdoll_count;
 
-	uint8 __data25204[4];
+	byte __data25204[0x4];
 };
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
@@ -279,7 +279,7 @@ struct s_game_globals_camera
 	real32 time_to_maximum_boost;
 
 	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> boost_function;
-	uint8 hoist[2];
+	uns8 hoist[2];
 
 	// field of view when zoomed
 	real32 zoomed_field_of_view; // degrees
@@ -298,7 +298,7 @@ struct s_game_globals_camera
 
 	real32 vertical_movement_time_to;
 	c_enum<e_global_transition_function, int16, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
-	uint8 moist[2];
+	uns8 moist[2];
 
 	// how long it takes in survival mode before switching to flying camera
 	real32 survival_switch_time; // seconds
@@ -407,7 +407,7 @@ struct s_game_globals_difficulty_information
 	real32 friend_shield[k_campaign_difficulty_levels_count];   // friend maximum shield vitality scale
 	real32 friend_recharge[k_campaign_difficulty_levels_count]; // friend shield recharge scale
 	real32 infection_forms[k_campaign_difficulty_levels_count]; // toughness of infection forms (may be negative)
-	uint8 $[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $[sizeof(real32) * k_campaign_difficulty_levels_count];
 
 	// ranged fire
 	// 
@@ -424,16 +424,16 @@ struct s_game_globals_difficulty_information
 	real32 guidance_vs_player[k_campaign_difficulty_levels_count]; // guidance velocity scale factor for all projectiles targeted on a player.
 	real32 melee_delay_base[k_campaign_difficulty_levels_count];   // delay period added to all melee attacks, even when berserk.
 	real32 melee_delay_scale[k_campaign_difficulty_levels_count];  // multiplier for all existing non-berserk melee delay times.
-	uint8 $$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$[sizeof(real32) * k_campaign_difficulty_levels_count];
 
 	// grenades
 	// 
 	// difficulty-affecting values for enemy grenade behavior
 	real32 grenade_chance_scale[k_campaign_difficulty_levels_count]; // scale factor affecting the desicions to throw a grenade.
 	real32 grenade_timer_scale[k_campaign_difficulty_levels_count];  // scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often).
-	uint8 $$$[sizeof(real32) * k_campaign_difficulty_levels_count];
-	uint8 $$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
-	uint8 $$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
 
 	// placement
 	// 
@@ -446,11 +446,11 @@ struct s_game_globals_difficulty_information
 	// 
 	// difficulty-affecting values for vehicle driving/combat
 	real32 player_vehicle_ram_chance[k_campaign_difficulty_levels_count]; // Chance of deciding to ram the player in a vehicle
-	uint8 $$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
-	uint8 $$$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
-	uint8 $$$$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
+	byte $$$$$$$$[sizeof(real32) * k_campaign_difficulty_levels_count];
 
-	uint8 Q[0x54];
+	byte Q[0x54];
 };
 static_assert(sizeof(s_game_globals_difficulty_information) == 0x284);
 
@@ -474,7 +474,7 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 struct s_game_globals_grenade
 {
 	int16 maximum_count;
-	uint16 pad;
+	uns16 pad;
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> throwing_effect;
 	int32 unused[4];
 	c_typed_tag_reference<ITEM_TAG, INVALID_TAG> item;
@@ -577,7 +577,7 @@ struct s_game_globals_player_representation
 	c_string_id name;
 	int8 model_choice;
 	int8 _class;
-	uint8 __pad6[2];
+	byte __pad6[0x2];
 	s_tag_reference first_person_hands;
 	s_tag_reference first_person_body;
 	s_tag_reference first_person_unit;

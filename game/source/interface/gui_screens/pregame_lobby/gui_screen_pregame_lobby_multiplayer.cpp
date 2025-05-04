@@ -62,5 +62,5 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 //.text:00B013B0 ; public: virtual void c_gui_screen_pregame_lobby_multiplayer::initialize()
 //.text:00B01470 ; parse_xml_lobby_multiplayer_game
 //.text:00B01490 ; parse_xml_lobby_multiplayer_map
-//.text:00B014B0 ; public: virtual void c_gui_screen_pregame_lobby_multiplayer::update(uint32)
+//.text:00B014B0 ; public: virtual void c_gui_screen_pregame_lobby_multiplayer::update(uns32)
 

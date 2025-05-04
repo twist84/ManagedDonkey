@@ -64,7 +64,7 @@ void __cdecl async_initialize()
 	//	thread_set_priority(k_thread_async_io, _thread_priority_above_normal);
 }
 
-uint32 __cdecl async_main(void* thread_params)
+uns32 __cdecl async_main(void* thread_params)
 {
 	//return INVOKE(0x005085A0, async_main, thread_params);
 

@@ -18,18 +18,18 @@ public:
 	s_content_item m_content_item;
 	c_content_item_overlapped_task m_content_item_task;
 	c_content_enumeration_overlapped_task m_enumeration_task;
-	uint32 __unknown29C;
-	uint32 __unknown2A0;
+	uns32 __unknown29C;
+	uns32 __unknown2A0;
 	c_synchronized_long m_content_item_count;
-	uint32 m_flags;
-	uint32 __unknown2AC;
+	uns32 m_flags;
+	uns32 __unknown2AC;
 };
 static_assert(sizeof(c_content_catalogue) == 0x2B0);
 
 struct s_content_catalogue_globals
 {
 	bool initialized;
-	uint32 : 32;
+	uns32 : 32;
 	c_content_catalogue user_catalogues[4];
 	c_storage_device user_storage_devices[4];
 };

@@ -33,16 +33,16 @@ struct s_shader_extern_info
 {
 	int32 context;
 	real32(__cdecl* context_interface)(int32, int32, int32);
-	uint32 cpu_memory_pool_designator;
-	uint32 render_frame_allocated;
+	uns32 cpu_memory_pool_designator;
+	uns32 render_frame_allocated;
 	render_lighting lighting;
-	uint32 change_colors[5];
-	uint8 change_color_count;
-	uint8 tron_amount;
-	uint8 active_camo_amount;
-	uint8 overshield_amount;
-	uint8 current_body_damage;
-	uint8 current_shield_damage;
+	uns32 change_colors[5];
+	uns8 change_color_count;
+	uns8 tron_amount;
+	uns8 active_camo_amount;
+	uns8 overshield_amount;
+	uns8 current_body_damage;
+	uns8 current_shield_damage;
 	real_vector4d bounding_sphere;
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
 	c_rasterizer_texture_ref emblem_clan_chest_texture;
@@ -70,7 +70,7 @@ struct render_first_person_model
 {
 	int32 render_model_index;
 	int32 object_index;
-	uint32 flags;
+	uns32 flags;
 	c_static_array<real_matrix4x3, 150> node_matrices;
 };
 static_assert(sizeof(render_first_person_model) == 0x1E84);

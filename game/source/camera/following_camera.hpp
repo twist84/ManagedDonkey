@@ -23,7 +23,7 @@ public:
 	int16 m_zoom_level;
 	int16 m_seat_index;
 
-	uint8 unused[0x18];
+	byte unused[0x18];
 };
 static_assert(sizeof(c_following_camera) == 0x4C);
 

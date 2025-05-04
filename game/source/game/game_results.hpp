@@ -8,33 +8,33 @@
 struct s_game_results_game_description // s_game_results_multiplayer_game_description?
 {
 	bool team_game;
-	uint64 game_instance;
+	uns64 game_instance;
 	c_game_variant game_variant;
 	c_static_wchar_string<32> map_variant_name;
 	e_map_id map_id;
 	c_static_string<260> scenario_path;
 	bool started;
-	uint32 start_time;
+	uns32 start_time;
 	bool finished;
-	uint32 finish_time;
+	uns32 finish_time;
 
-	uint8 __unknown3CC;
-	uint8 __unknown3CD;
+	uns8 __unknown3CC;
+	uns8 __unknown3CD;
 	bool simulation_aborted;
 
-	uint8 __pad3CF[1];
+	byte __pad3CF[0x1];
 };
 static_assert(sizeof(s_game_results_game_description) == 0x3D0);
 
 struct s_integer_statistic_update
 {
-	uint16 statistic;
+	uns16 statistic;
 };
 
 struct s_game_results_player_data
 {
 	bool player_exists;
-	uint8 machine_index;
+	uns8 machine_index;
 
 	union
 	{
@@ -42,17 +42,17 @@ struct s_game_results_player_data
 		struct
 		{
 			s_player_identifier player_identifier;
-			uint8 __padA[0x6];
+			byte __padA[0x6];
 		};
 #pragma pack(pop)
 
-		uint8 data[sizeof(s_player_identifier) + 0x6];
+		byte data[sizeof(s_player_identifier) + 0x6];
 	};
 
 	s_player_configuration configuration;
 
-	uint8 player_standing;
-	uint8 __pad1631[0xB];
+	uns8 player_standing;
+	byte __pad1631[0xB];
 
 	int32 player_score;
 };
@@ -62,7 +62,7 @@ struct s_game_results_player_data_update
 {
 	bool valid;
 	bool data_valid;
-	uint8 __pad2[0x6];
+	byte __pad2[0x6];
 	s_game_results_player_data update;
 };
 static_assert(sizeof(s_game_results_player_data_update) == 0x1648);
@@ -70,8 +70,8 @@ static_assert(sizeof(s_game_results_player_data_update) == 0x1648);
 struct s_game_results_team_data
 {
 	bool team_exists;
-	uint8 team_standing;
-	uint16 team_score;
+	uns8 team_standing;
+	uns16 team_score;
 };
 static_assert(sizeof(s_game_results_team_data) == 0x4);
 
@@ -87,7 +87,7 @@ static_assert(sizeof(s_game_results_team_data_update) == 0x6);
 struct s_game_results_player_medal_statistics_update
 {
 	bool valid;
-	uint8 __pad[1]; // statistics_valid?
+	byte __pad[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_game_results_medal_count];
 };
 static_assert(sizeof(s_game_results_player_medal_statistics_update) == 0x76);
@@ -95,7 +95,7 @@ static_assert(sizeof(s_game_results_player_medal_statistics_update) == 0x76);
 struct s_game_results_player_achievement_statistics_update
 {
 	bool valid;
-	uint8 __pad[1]; // statistics_valid?
+	byte __pad[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_achievement_count];
 };
 static_assert(sizeof(s_game_results_player_achievement_statistics_update) == 0x60);
@@ -103,7 +103,7 @@ static_assert(sizeof(s_game_results_player_achievement_statistics_update) == 0x6
 struct s_game_results_player_damage_statistics_update
 {
 	bool valid;
-	uint8 __pad1[1]; // statistics_valid?
+	byte __pad1[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_game_results_damage_statistic_count];
 };
 static_assert(sizeof(s_game_results_player_damage_statistics_update) == 0xC);
@@ -148,7 +148,7 @@ static_assert(sizeof(s_game_results_player_vs_player_statistics) == 0x4);
 struct s_game_results_player_vs_player_statistics_update
 {
 	bool valid;
-	uint8 __pad1[1]; // statistics_valid?
+	byte __pad1[0x1]; // statistics_valid?
 	s_game_results_player_vs_player_statistics update;
 };
 static_assert(sizeof(s_game_results_player_vs_player_statistics_update) == 0x6);
@@ -162,7 +162,7 @@ static_assert(sizeof(s_game_results_team_statistics) == 0x66);
 struct s_game_results_team_statistics_update
 {
 	bool team_valid;
-	uint8 __pad1[1]; // statistics_valid?
+	byte __pad1[0x1]; // statistics_valid?
 	s_game_results_team_statistics update;
 };
 static_assert(sizeof(s_game_results_team_statistics_update) == 0x68);
@@ -200,12 +200,12 @@ struct s_game_results_machine_data
 	bool machine_initial_host;
 	bool machine_voluntary_quit;
 
-	uint8 __pad17[1];
+	byte __pad17[0x1];
 
 	struct
 	{
 		// TODO
-		uint8 __data[0xA];
+		byte __data[0xA];
 	} machine_bandwidth_estimate;
 };
 static_assert(sizeof(s_game_results_machine_data) == 0x20);
@@ -214,7 +214,7 @@ static_assert(sizeof(s_game_results_machine_data) == 0x20);
 struct s_game_results_machine_data_update
 {
 	bool machine_valid;
-	uint8 __pad1[1];
+	byte __pad1[0x1];
 
 	s_game_results_machine_data update;
 };
@@ -223,16 +223,16 @@ static_assert(sizeof(s_game_results_machine_data_update) == 0x22);
 struct s_game_results_incremental_update
 {
 	bool started;
-	uint32 start_time;
+	uns32 start_time;
 	bool finished;
-	uint32 finish_time;
+	uns32 finish_time;
 	bool finalized;
-	uint32 finish_reason;
+	uns32 finish_reason;
 	c_static_array<s_game_results_player_data_update, 16> player_updates;
 	c_static_array<s_game_results_team_data_update, 16> team_updates;
 	s_game_results_statistics_update statistics;
 	c_static_array<s_game_results_machine_data_update, 17> machines;
-	uint8 __pad1[6];
+	byte __pad1[0x6];
 };
 static_assert(sizeof(s_game_results_incremental_update) == 0x1B7A0);
 
@@ -240,9 +240,9 @@ struct s_game_results_incremental
 {
 	bool finalized;
 	bool started;
-	uint32 start_time;
+	uns32 start_time;
 	bool finished;
-	uint32 finish_time;
+	uns32 finish_time;
 	c_static_array<s_game_results_player_data, 16> players;
 	c_static_array<s_game_results_team_data, 16> teams;
 	s_game_results_statistics statistics;
@@ -259,9 +259,9 @@ struct s_game_results_event
 #pragma pack(push, 1)
 		struct
 		{
-			/* 0x01 */ uint8 killing_player_index;
-			/* 0x02 */ uint8 dead_player_index;
-			/* 0x03 */ uint8 __pad3;
+			/* 0x01 */ uns8 killing_player_index;
+			/* 0x02 */ uns8 dead_player_index;
+			/* 0x03 */ byte __pad3;
 
 			/* 0x04 */ real_point3d killing_player_position;
 			/* 0x10 */ real_point3d dead_player_position;
@@ -271,9 +271,9 @@ struct s_game_results_event
 
 		struct
 		{
-			/* 0x01 */ uint8 player_index;
-			/* 0x02 */ uint8 __unknown2; // -1
-			/* 0x03 */ uint8 __pad3;
+			/* 0x01 */ uns8 player_index;
+			/* 0x02 */ uns8 __unknown2; // -1
+			/* 0x03 */ byte __pad3;
 
 			/* 0x04 */ real_point3d player_position;
 
@@ -283,9 +283,9 @@ struct s_game_results_event
 
 		struct
 		{
-			/* 0x01 */ uint8 player_index;
-			/* 0x02 */ uint8 __unknown2; // -1
-			/* 0x03 */ uint8 __pad3;
+			/* 0x01 */ uns8 player_index;
+			/* 0x02 */ uns8 __unknown2; // -1
+			/* 0x03 */ byte __pad3;
 
 			/* 0x04 */ real_point3d player_position;
 
@@ -294,16 +294,16 @@ struct s_game_results_event
 		} score;
 #pragma pack(pop)
 
-		uint8 event_type_storage[0x1F];
+		byte event_type_storage[0x1F];
 	};
 
-	/* 0x20 */ uint32 time;
+	/* 0x20 */ uns32 time;
 };
 static_assert(sizeof(s_game_results_event) == 0x24);
 
 struct c_game_results
 {
-	uint8 finish_reason;
+	uns8 finish_reason;
 	bool initialized;
 	bool finalized;
 
@@ -324,7 +324,7 @@ struct s_game_results_globals
 	bool recording_paused;
 	bool updating;
 	int32 event_index;
-	uint32 __time8;
+	uns32 __time8;
 	c_game_results* results;
 };
 static_assert(sizeof(s_game_results_globals) == 0x10);
@@ -337,10 +337,10 @@ struct c_game_results_replicator
 	bool m_sending_updates;
 	bool m_receiving_updates;
 	int32 m_incremental_update_number;
-	uint32 __unknownC;
+	uns32 __unknownC;
 	s_game_results_incremental m_incremental;
-	uint32 __time1B460;
-	uint8 __data1B464[4];
+	uns32 __time1B460;
+	byte __data1B464[0x4];
 };
 static_assert(sizeof(c_game_results_replicator) == 0x1B468);
 
@@ -349,11 +349,11 @@ struct s_integer_statistic_definition
 	char const* name;
 
 	// type?
-	uint32 __unknown4;
+	uns32 __unknown4;
 
-	uint16 minimum_value;
-	uint16 maximum_value;
-	uint32 encoding_bits;
+	uns16 minimum_value;
+	uns16 maximum_value;
+	uns32 encoding_bits;
 };
 static_assert(sizeof(s_integer_statistic_definition) == 0x10);
 

@@ -14,10 +14,10 @@ struct s_tag_resource_page_datum :
 {
 	// 1: c_io_result::set_disk_failure
 	// 2: c_io_result::set_checksum_failure
-	uint8 flags;
+	uns8 flags;
 
-	uint8 state;
-	uint8 __data4[0x2];
+	uns8 state;
+	byte __data4[0x2];
 	c_reference_count<int16> reference_count;
 	int32 reservation;
 	c_basic_buffer<void> buffer;
@@ -59,8 +59,8 @@ struct c_tag_resource_page_table
 	void* m_tracking_allocation_base;
 	c_tag_resource_page_table_control_interface* m_control_interface;
 	c_tag_resource_page_table::s_pending_state m_pending_state;
-	uint32 m_total_prefetch_bytes;
-	uint32 m_current_prefetch_bytes;
+	uns32 m_total_prefetch_bytes;
+	uns32 m_current_prefetch_bytes;
 	bool m_prefetching_can_run;
 	bool m_status_lines_enabled;
 };
@@ -84,19 +84,19 @@ static_assert(0x61 == OFFSETOF(c_tag_resource_page_table, m_status_lines_enabled
 
 struct s_indirect_cache_file_sub_location
 {
-	uint32 offset;
-	uint32 unaligned_read_size;
-	uint32 used_storage_size;
+	uns32 offset;
+	uns32 unaligned_read_size;
+	uns32 used_storage_size;
 	int32 decompressor_identifier;
 	bool valid_checksum;
-	uint32 checksum;
+	uns32 checksum;
 };
 static_assert(sizeof(s_indirect_cache_file_sub_location) == 0x18);
 
 struct s_indirect_cache_file_read_request
 {
 	c_basic_buffer<void> buffer;
-	uint64 location_identifier;
+	uns64 location_identifier;
 	s_indirect_cache_file_sub_location sub_location;
 };
 static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
@@ -127,15 +127,15 @@ struct c_synchronous_resource_io :
 	c_indirect_cache_file_bulk_read_iterator
 {
 //protected:
-	c_static_sized_dynamic_array<uint64, 1500> m_resource_sort_keys;
+	c_static_sized_dynamic_array<uns64, 1500> m_resource_sort_keys;
 	c_static_sized_dynamic_array<s_indirect_cache_file_read_request, 1500> m_resource_read_requests;
 	c_static_sized_dynamic_array<int32, 1500> m_requested_page_handles;
 	c_static_sized_dynamic_array<e_indirect_cache_file_read_result, 1500> m_request_results;
-	uint32 m_total_request_size;
-	uint32 m_finished_io_request_size;
-	uint32 __unknown14844;
-	uint32 __unknown14848;
-	uint32 m_outstanding_request_count;
+	uns32 m_total_request_size;
+	uns32 m_finished_io_request_size;
+	uns32 __unknown14844;
+	uns32 __unknown14848;
+	uns32 m_outstanding_request_count;
 	c_tag_resource_page_table* m_page_table;
 	c_tag_resource_cache_file_reader* m_cache_file_reader;
 	c_tag_resource_cache_file_datum_handler* m_cache_file_datum_handler;

@@ -48,7 +48,7 @@ FILE* game_time_statistics_file = NULL;
 bool game_time_statistics_started;
 bool game_time_statistics_update_time;
 bool game_time_statistics_write_header;
-uint32 game_time_statistics_time;
+uns32 game_time_statistics_time;
 
 void __cdecl __tls_set_g_game_time_globals_allocator(void* address)
 {
@@ -187,7 +187,7 @@ bool __cdecl game_time_get_paused()
 	bool result = false;
 	if (game_time_globals->initialized)
 	{
-		c_flags<e_game_time_pause_reason, uint16, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
+		c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
 	
 		bool v1 = game_is_campaign() && !(game_is_playback() && !game_is_authoritative_playback());
 		result = TEST_FLAG(pause_flags, _game_time_pause_debug);
@@ -355,10 +355,10 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	
-	uint32 game_ticks_target = 0;
+	uns32 game_ticks_target = 0;
 	bool result = false;
-	uint32 game_ticks_limit = 0;
-	uint32 game_ticks_elapsed = 0;
+	uns32 game_ticks_limit = 0;
+	uns32 game_ticks_elapsed = 0;
 	bool discontinuity = false;
 	real32 elapsed_game_dt = 0.0f;
 	real32 real_desired_ticks = 0.0f;
@@ -415,7 +415,7 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 		if (!match_remote_time && !v36)
 		{
 			real32 tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
-			game_ticks_limit = (uint32)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
+			game_ticks_limit = (uns32)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 		}
 	
 		if (thread_is_being_traced(k_thread_main))
@@ -592,8 +592,8 @@ void game_time_statistics_frame(
 			game_time_statistics_update_time = false;
 		}
 
-		uint32 time = system_milliseconds();
-		uint32 milliseconds_elapsed = time - game_time_statistics_time;
+		uns32 time = system_milliseconds();
+		uns32 milliseconds_elapsed = time - game_time_statistics_time;
 		game_time_statistics_time = time;
 
 		if (game_time_statistics_file)

@@ -32,8 +32,8 @@ public:
 	c_synchronized_long m_async_task_result;
 	c_synchronized_long m_created_content_item_index;
 	c_synchronized_long m_async_saved_game_file_operation_result;
-	uint32 m_progress_dialog_start_time_milliseconds;
-	uint32 m_progress_dialog_show_time_milliseconds;
+	uns32 m_progress_dialog_start_time_milliseconds;
+	uns32 m_progress_dialog_show_time_milliseconds;
 	int32 m_progress_title;
 	int32 m_progress_message;
 	s_file_reference m_autosave_queue_source_file;

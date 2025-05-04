@@ -15,8 +15,8 @@ struct s_giant_foot_data
 	real_vector3d test_vector;
 	real32 target_scale;
 	int16 target_frame_index;
-	uint8 foot_flags;
-	uint8 state;
+	uns8 foot_flags;
+	uns8 state;
 };
 static_assert(sizeof(s_giant_foot_data) == 0x3C);
 
@@ -36,8 +36,8 @@ struct _giant_datum
 	real_point3d contact_points[3];
 	s_buckling_workspace buckle_workspace;
 	real_quaternion buckle_rotation;
-	uint32 flags;
-	uint8 static_physics_timer;
+	uns32 flags;
+	uns8 static_physics_timer;
 	real32 buckling_slider_start;
 	real32 buckling_slider_velocity;
 	real32 buckling_slider_acceleration;
@@ -58,7 +58,7 @@ struct _giant_datum
 	c_sector_ref pathfinding_sector;
 	int32 pathfinding_instanced_geometry_index;
 	int32 pathfinding_object_index;
-	uint32 pathfinding_bsp_reference;
+	uns32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 };
 static_assert(sizeof(_giant_datum) == 0x3208);

@@ -10,7 +10,7 @@ public:
 	~c_simple_font_screen_display();
 
 	void close_session();
-	void draw(int32 column, int32 row, uint32 color, char const* format, ...);
+	void draw(int32 column, int32 row, uns32 color, char const* format, ...);
 	bool open_session(real32 scale);
 
 	//int32 get_max_column() const;
@@ -77,18 +77,18 @@ namespace simple_font
 	extern int32 __cdecl get_height();
 	extern int32 __cdecl get_width();
 	extern void __cdecl install();
-	extern int32 __cdecl make_quad(int32 x1, int32 y1, real32 u1, real32 v1, int32 x2, int32 y2, real32 u2, real32 v2, uint32 color, int32 shadow_offset, rasterizer_vertex_screen* triangle_vertices);
-	extern void __cdecl print(int32 x, int32 y, uint32 color, char const* c, int32 count, bool apply_display_scalar_correction);
-	extern void __cdecl print_block(int32 x, int32 y, int32 width, int32 height, uint32 color, char const* c);
+	extern int32 __cdecl make_quad(int32 x1, int32 y1, real32 u1, real32 v1, int32 x2, int32 y2, real32 u2, real32 v2, uns32 color, int32 shadow_offset, rasterizer_vertex_screen* triangle_vertices);
+	extern void __cdecl print(int32 x, int32 y, uns32 color, char const* c, int32 count, bool apply_display_scalar_correction);
+	extern void __cdecl print_block(int32 x, int32 y, int32 width, int32 height, uns32 color, char const* c);
 	extern void __cdecl print_white(int32 x, int32 y, char const* c, int32 count);
-	extern void __cdecl printf(int32 x, int32 y, uint32 color, char const* c, ...);
+	extern void __cdecl printf(int32 x, int32 y, uns32 color, char const* c, ...);
 	extern void __cdecl printf(int32 x, int32 y, char const* c, ...);
-	extern void __cdecl printf_down(int32 x, int32 y, uint32 color, char const* c, ...);
-	extern void __cdecl printf_left(int32 x, int32 y, uint32 color, char const* c, ...);
-	extern void __cdecl printf_up(int32 x, int32 y, uint32 color, char const* c, ...);
+	extern void __cdecl printf_down(int32 x, int32 y, uns32 color, char const* c, ...);
+	extern void __cdecl printf_left(int32 x, int32 y, uns32 color, char const* c, ...);
+	extern void __cdecl printf_up(int32 x, int32 y, uns32 color, char const* c, ...);
 	extern void __cdecl remove();
-	extern void __cdecl render_text(s_font_data const* font, int32 pixelX, int32 pixelY, int32 pixelPitch, int32 flags, uint32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
-	extern void __cdecl vprintf(int32 x, int32 y, int32 flags, uint32 color, char const* c, char* arglist);
+	extern void __cdecl render_text(s_font_data const* font, int32 pixelX, int32 pixelY, int32 pixelPitch, int32 flags, uns32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction);
+	extern void __cdecl vprintf(int32 x, int32 y, int32 flags, uns32 color, char const* c, char* arglist);
 
 	extern s_font_data*(&g_fonts)[2];
 	extern s_font_data& g_font_6x10;

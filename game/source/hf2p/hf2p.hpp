@@ -35,13 +35,13 @@ struct c_service_client
 			wchar_t const** string_value;
 		};
 
-		uint32 __unknownC;
+		uns32 __unknownC;
 	};
 	static_assert(sizeof(s_json_data) == 0x10);
 
 	struct s_json_request
 	{
-		uint32 __unknown0;
+		uns32 __unknown0;
 
 		// success: __unknown4 == 3
 		int32 __unknown4;

@@ -128,7 +128,7 @@ bool __cdecl network_search_session_valid(s_available_session* session)
 	return session->session_valid && session->status_data.header.network_platform == 1;
 }
 
-bool __cdecl network_search_start(int32 controller_index, int32 category, int32 maximum_sessions, uint32 available_squad_search_flags, c_allocation_base* session_allocator)
+bool __cdecl network_search_start(int32 controller_index, int32 category, int32 maximum_sessions, uns32 available_squad_search_flags, c_allocation_base* session_allocator)
 {
 	//return INVOKE(0x004E1260, network_search_start, controller_index, category, maximum_sessions, available_squad_search_flags, session_allocator);
 
