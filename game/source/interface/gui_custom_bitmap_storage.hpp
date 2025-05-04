@@ -61,14 +61,14 @@ struct c_gui_custom_bitmap_storage_manager
 	struct s_bitmap_storage_handle_datum :
 		s_datum_header
 	{
-		uns16 __unknown2;
 		int32 reference_count;
-		int32 __unknown8;
+		int32 state;
 		c_gui_custom_bitmap_storage_item storage_item;
 	};
 	static_assert(sizeof(s_bitmap_storage_handle_datum) == 0x6C);
 
 	static c_gui_custom_bitmap_storage_manager* __cdecl get();
+	c_gui_custom_bitmap_storage_item const* get_bitmap(int32 bitmap_storage_index);
 	bool __cdecl load_bitmap_from_buffer(int32 storage_item_index, char const* buffer, int32 buffer_size, int32 a5);
 
 	c_smart_data_array<s_bitmap_storage_handle_datum> m_bitmap_storage_items;

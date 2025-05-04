@@ -138,7 +138,9 @@ void __thiscall c_gui_custom_bitmap_storage_item::unload_non_rendered_bitmap()
 void __thiscall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap()
 {
 	if (m_hardware_format_bitmap.valid())
+	{
 		c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
+	}
 
 	m_bitmap_ready = false;
 };
@@ -148,13 +150,30 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 	return &g_gui_custom_bitmap_storage_manager;
 }
 
+c_gui_custom_bitmap_storage_item const* c_gui_custom_bitmap_storage_manager::get_bitmap(int32 bitmap_storage_index)
+{
+	c_gui_custom_bitmap_storage_item const* storage_item = NULL;
+
+	internal_critical_section_enter(k_crit_section_ui_custom_bitmaps_lock);
+
+	s_bitmap_storage_handle_datum* bitmap_storage_handle = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
+	if (bitmap_storage_handle && bitmap_storage_handle->reference_count > 0 && bitmap_storage_handle->state == 2)
+	{
+		storage_item = &bitmap_storage_handle->storage_item;
+	}
+
+	internal_critical_section_leave(k_crit_section_ui_custom_bitmaps_lock);
+
+	return storage_item;
+}
+
 bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 storage_item_index, char const* buffer, int32 buffer_size, int32 aspect_ratio)
 {
 	s_bitmap_storage_handle_datum* storage_item = NULL;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		if (storage_item = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, storage_item_index))
-			storage_item->__unknown8 = 1;
+			storage_item->state = 1;
 	}
 
 	if (!storage_item)
@@ -164,7 +183,7 @@ bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 
 
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		storage_item->__unknown8 = result ? 2 : 0;
+		storage_item->state = result ? 2 : 0;
 	}
 
 	return result;
