@@ -1,5 +1,15 @@
 #include "interface/c_gui_bitmap_widget.hpp"
 
+#include "bitmaps/bitmap_group.hpp"
+#include "gui_custom_bitmap_storage.hpp"
+#include "interface/interface_constants.hpp"
+#include "interface/user_interface.hpp"
+#include "memory/module.hpp"
+#include "rasterizer/rasterizer.hpp"
+#include "render/screen_postprocess.hpp"
+
+HOOK_DECLARE(0x00B170F0, render_bitmap);
+
 //.text:00B16670 ; public: __cdecl c_gui_bitmap_widget::c_gui_bitmap_widget()
 
 //c_gui_bitmap_widget::~c_gui_bitmap_widget()
@@ -17,7 +27,11 @@
 //	return INVOKE_CLASS_MEMBER(0x00B16900, c_gui_bitmap_widget, get_ambient_state);
 //}
 
-//.text:00B16970 ; 
+static bitmap_data* get_bitmap_and_hardware_format(int32 bitmap_group_index, int32 sequences_index, int32 bitmap_index, c_rasterizer_texture_ref* bitmap_hardware_format)
+{
+	return INVOKE(0x00B16970, get_bitmap_and_hardware_format, bitmap_group_index, sequences_index, bitmap_index, bitmap_hardware_format);
+}
+
 //.text:00B16A20 ; 
 //.text:00B16AB0 ; public: virtual s_runtime_core_widget_definition* __cdecl c_gui_bitmap_widget::get_core_definition()
 
@@ -37,7 +51,169 @@ bitmap_data const* c_gui_bitmap_widget::get_current_bitmap() const
 //.text:00B16FE0 ; public: virtual void __cdecl c_gui_bitmap_widget::initialize(s_bitmap_widget_block const*)
 //.text:00B170A0 ; 
 //.text:00B170D0 ; 
-//.text:00B170F0 ; void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const*)
+
+struct s_dynamic_render_target
+{
+	int16 identifier;
+	int32 frame_allocated;
+	int32 target_type;
+	c_rasterizer_texture_ref accumulation_surface;
+	c_rasterizer_texture_ref albedo_surface;
+	c_rasterizer_texture_ref normal_surface;
+	c_rasterizer_texture_ref depth_stencil_surface;
+};
+static_assert(sizeof(s_dynamic_render_target) == 0x1C);
+
+void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, rectangle2d const* window_bounds)
+{
+	//INVOKE(0x00B170F0, render_bitmap, render_data, window_bounds);
+
+	ASSERT(render_data != NULL);
+
+	real32 width = render_data->projected_bounds.get_width();
+	real32 height = render_data->projected_bounds.get_height();
+	int32 x0 = window_bounds->x0;
+	int32 y0 = window_bounds->y0;
+
+	if (width >= _real_epsilon && height >= _real_epsilon)
+	{
+		rectangle2d render_bounds{};
+		rectangle2d out_display_bounds{};
+		interface_get_current_display_settings(&render_bounds, NULL, &out_display_bounds, NULL);
+	
+		real32 render_width = real32(render_bounds.x1 - render_bounds.x0);
+		real32 render_height = real32(render_bounds.y1 - render_bounds.y0);
+
+		c_rasterizer_globals::e_explicit_shader explicit_shader_index = (c_rasterizer_globals::e_explicit_shader)render_data->explicit_shader_index;
+
+		real32 left_x = 0.0f;
+		real32 left_y = 0.0f;
+		real32 right_x = 1.0f;
+		real32 right_y = 1.0f;
+
+		bool flipped_axes = false;
+	
+		c_rasterizer_texture_ref hardware_format_primary;
+		c_rasterizer_texture_ref hardware_format_secondary;
+	
+		if (render_data->flags.test(s_gui_widget_render_data::_render_texture_camera_bit))
+		{
+		}
+		else if (render_data->flags.test(s_gui_widget_render_data::_render_blurred_back_buffer_bit))
+		{
+			if (render_width >= _real_epsilon && render_height >= _real_epsilon)
+			{
+				c_rasterizer::e_surface surface = c_rasterizer::_surface_display;
+				hardware_format_primary = c_rasterizer::get_surface_texture(surface);
+			}
+		}
+		else if (render_data->flags.test(s_gui_widget_render_data::_render_as_player_emblem_bit))
+		{
+		}
+		else if (render_data->flags.test(s_gui_widget_render_data::_render_as_custom_storage_bitmap_bit))
+		{
+			if (render_data->source.custom_bitmap.storage_index != NONE)
+			{
+				c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(render_data->source.custom_bitmap.storage_index);
+				if (bitmap && bitmap->m_bitmap_ready && &bitmap->m_bitmap)
+				{
+					hardware_format_primary = bitmap->m_bitmap.internal_hardware_format;
+					explicit_shader_index = c_rasterizer_globals::_shader_custom_gamma_correct;
+				}
+			}
+		}
+		else
+		{
+			if (render_data->bitmap_definition_index != NONE)
+			{
+				bitmap_data* bitmap = get_bitmap_and_hardware_format(
+					render_data->bitmap_definition_index,
+					render_data->source.sprite.sequence,
+					render_data->source.sprite.frame,
+					&hardware_format_primary);
+	
+				if (render_data->source.sprite.sequence != 0xFFFFi16 && render_data->source.sprite.frame != 0xFFFFi16)
+				{
+					real_rectangle2d const* bounding_rect = bitmap_group_get_bounding_rect_from_sequence(
+						render_data->bitmap_definition_index,
+						render_data->source.sprite.sequence,
+						render_data->source.sprite.frame);
+					if (bounding_rect)
+					{
+						left_x = bounding_rect->x0;
+						left_y = bounding_rect->y0;
+						right_x = bounding_rect->x1;
+						right_y = bounding_rect->y1;
+					}
+				}
+
+				flipped_axes = bitmap && bitmap->flags.test(_bitmap_flipped_axes_bit);
+	
+				if (render_data->flags.test(s_gui_widget_render_data::_render_as_au2_playlist_rating))
+				{
+					explicit_shader_index = c_rasterizer_globals::_shader_hack_au2_playlist_rating;
+				}
+				else if (render_data->flags.test(s_gui_widget_render_data::_render_as_au2_rank_tray))
+				{
+					explicit_shader_index = c_rasterizer_globals::_shader_hack_au2_rank_tray;
+				}
+			}
+		}
+	
+		//if (v15 && v66)
+		{
+			rasterizer_dynamic_screen_geometry_parameters parameters{};
+			rasterizer_vertex_screen vertices[4]{};
+	
+			gui_real_rectangle2d projected_bounds = render_data->projected_bounds;
+			projected_bounds.offset((real32)x0, (real32)y0);
+	
+			csmemset(&parameters, 0, sizeof(rasterizer_dynamic_screen_geometry_parameters));
+
+			vertices[0].position = projected_bounds.vertex[0];
+			vertices[0].texcoord.i =render_data->texture_uv_offset.x + left_x;
+			vertices[0].texcoord.j =render_data->texture_uv_offset.y + left_y;
+			vertices[0].color = render_data->argb_tint;
+	
+			vertices[1].position = projected_bounds.vertex[2];
+			vertices[2 * flipped_axes + 1].texcoord.i = render_data->texture_uv_offset.x + right_x;
+			vertices[2 * flipped_axes + 1].texcoord.j = render_data->texture_uv_offset.y + left_y;
+			vertices[1].color = render_data->argb_tint;
+	
+			vertices[2].position = projected_bounds.vertex[3];
+			vertices[2].texcoord.i = render_data->texture_uv_offset.x + right_x;
+			vertices[2].texcoord.j = render_data->texture_uv_offset.y + right_y;
+			vertices[2].color = render_data->argb_tint;
+	
+			vertices[3].position = projected_bounds.vertex[1];
+			vertices[2 * !flipped_axes + 1].texcoord.i = render_data->texture_uv_offset.x + left_x;
+			vertices[2 * !flipped_axes + 1].texcoord.j = render_data->texture_uv_offset.y + right_y;
+			vertices[3].color = render_data->argb_tint;
+	
+			real_vector2d aspect_ratio_scale = interface_get_aspect_ratio_scaling();
+			interface_scale_screenspace_vertices_for_xenon_scaler(vertices, NUMBEROF(vertices), &aspect_ratio_scale);
+	
+			uns32 samplers_flag = 0;
+	
+			parameters.map_wrapped[0] = render_data->texture_uv_offset.x != 0.0f || render_data->texture_uv_offset.y != 0.0f;
+			parameters.map_texture_scale[0] = { 1.0f, 1.0f };
+			parameters.map_scale[0] = { 1.0f, 1.0f };
+	
+			if (hardware_format_primary.valid())
+			{
+				parameters.hardware_formats[0] = hardware_format_primary;
+				samplers_flag = FLAG(0);
+			}
+	
+			parameters.framebuffer_blend_function = MIN(MAX((int16)render_data->frame_buffer_blend_function, 0), 12);
+			parameters.explicit_override_index = explicit_shader_index;
+	
+			rasterizer_psuedo_dynamic_screen_quad_draw(&parameters, vertices);
+			c_rasterizer::clear_sampler_textures(samplers_flag);
+		}
+	}
+}
+
 //.text:00B17640 ; public: bool __cdecl c_gui_bitmap_widget::renders_as_player_emblem() const
 //.text:00B17650 ; public: virtual void __cdecl c_gui_bitmap_widget::set_animated_state_baseline(s_animation_transform*)
 
