@@ -69,3 +69,8 @@ void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle
 	rectangle->x1 = static_cast<int16>(rectangle->x1 * aspect_ratio_scale->j);
 }
 
+void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, real_vector2d const* aspect_ratio_scale)
+{
+	INVOKE(0x00A9FEB0, interface_scale_screenspace_vertices_for_xenon_scaler, vertices, vertex_count, aspect_ratio_scale);
+}
+
