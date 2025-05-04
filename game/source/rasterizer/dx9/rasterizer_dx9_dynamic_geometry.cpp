@@ -37,19 +37,19 @@ HOOK_DECLARE_CLASS(0x00A46640, c_rasterizer, draw_textured_screen_triangle_list)
 HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
 HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
-void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1)
+void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1)
 {
-	INVOKE(0x00A456A0, draw_debug_line2d, p0, p1, color0, color1);
+	INVOKE(0x00A456A0, draw_debug_line2d, point1, point2, color0, color1);
 }
 
-void __cdecl c_rasterizer::draw_debug_line(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1)
+void __cdecl c_rasterizer::draw_debug_line(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1)
 {
-	//INVOKE(0x00A45830, draw_debug_line, p0, p1, color0, color1);
+	//INVOKE(0x00A45830, draw_debug_line, point1, point2, color0, color1);
 
 	rasterizer_vertex_debug point_list[2]{};
-	point_list[0].position = p0;
+	point_list[0].position = point1;
 	point_list[0].color = color0;
-	point_list[1].position = p1;
+	point_list[1].position = point2;
 	point_list[1].color = color1;
 
 	if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_shader_debug))
@@ -62,36 +62,36 @@ void __cdecl c_rasterizer::draw_debug_line(real_point3d const& p0, real_point3d 
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, int32 primitive_count)
+void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* points, int32 line_count)
 {
-	INVOKE(0x00A458B0, draw_debug_line_list2d_explicit, vertex_debug, primitive_count);
+	//INVOKE(0x00A458B0, draw_debug_line_list2d_explicit, points, line_count);
 
-	//if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_shader_debug2d))
-	//{
-	//	real_vector4d constants[1]
-	//	{
-	//		{ 1.0f, 1.0f, 1.0f, 1.0f }
-	//	};
-	//
-	//	set_cull_mode(_cull_mode_off);
-	//	set_z_buffer_mode(_z_buffer_mode_off);
-	//	set_pixel_shader_constant(1, NUMBEROF(constants), constants);
-	//	set_indices(NULL);
-	//	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, primitive_count, vertex_debug, sizeof(rasterizer_vertex_debug));
-	//	set_cull_mode(_cull_mode_cw);
-	//}
+	if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_shader_debug2d))
+	{
+		real_vector4d fill_color[1]
+		{
+			{ 1.0f, 1.0f, 1.0f, 1.0f }
+		};
+
+		set_cull_mode(_cull_mode_off);
+		set_z_buffer_mode(_z_buffer_mode_off);
+		set_pixel_shader_constant(1, NUMBEROF(fill_color), fill_color);
+		set_indices(NULL);
+		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, line_count, points, sizeof(rasterizer_vertex_debug));
+		set_cull_mode(_cull_mode_cw);
+	}
 }
 
-void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, int32 primitive_count)
+void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug const* points, int32 line_count)
 {
-	//INVOKE(0x00A45920, draw_debug_line_list_explicit, vertex_debug, primitive_count);
+	//INVOKE(0x00A45920, draw_debug_line_list_explicit, points, line_count);
 
 	if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_shader_debug))
 	{
 		set_cull_mode(_cull_mode_off);
 		set_z_buffer_mode(_z_buffer_mode_read);
 		set_indices(NULL);
-		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, primitive_count, vertex_debug, sizeof(rasterizer_vertex_debug));
+		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, line_count, points, sizeof(rasterizer_vertex_debug));
 		set_cull_mode(_cull_mode_cw);
 	}
 }
@@ -115,9 +115,9 @@ void __cdecl c_rasterizer::draw_debug_polygon2d(rasterizer_vertex_debug const* p
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_polygon(rasterizer_vertex_debug const* polygon, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
+void __cdecl c_rasterizer::draw_debug_polygon(rasterizer_vertex_debug const* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
 {
-	//INVOKE(0x00A45B90, draw_debug_polygon, polygon, primitive_count, primitive_type);
+	//INVOKE(0x00A45B90, draw_debug_polygon, vertices, primitive_count, primitive_type);
 
 	if (primitive_count > 0)
 	{
@@ -126,7 +126,7 @@ void __cdecl c_rasterizer::draw_debug_polygon(rasterizer_vertex_debug const* pol
 			set_cull_mode(_cull_mode_off);
 			set_z_buffer_mode(_z_buffer_mode_read);
 			set_indices(NULL);
-			draw_primitive_up(primitive_type, primitive_count, polygon, sizeof(rasterizer_vertex_debug));
+			draw_primitive_up(primitive_type, primitive_count, vertices, sizeof(rasterizer_vertex_debug));
 			set_cull_mode(_cull_mode_cw);
 		}
 	}
@@ -395,17 +395,23 @@ bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explic
 
 	s_game_globals* game_globals = scenario_get_game_globals();
 	if (!game_globals)
+	{
 		return false;
+	}
 	
 	if (game_globals->rasterizer_globals_ref.index == NONE)
+	{
 		return false;
+	}
 	
 	c_rasterizer_globals* rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
 
 	s_tag_reference const* default_vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(shader_type);
 	s_tag_reference const* default_pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(shader_type);
 	if (default_vertex_shader_ref->index == NONE || default_pixel_shader_ref->index == NONE)
+	{
 		return false;
+	}
 	
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
 	c_vertex_declaration_table::set(_vertex_type_debug, _transfer_vertex_none, _entry_point_default);

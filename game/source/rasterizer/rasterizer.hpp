@@ -386,13 +386,13 @@ struct c_rasterizer
 	static void __cdecl stretch_rect(e_surface source_surface, e_surface dest_surface);
 	static void __cdecl wait_for_gpu_idle();
 
-	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1);
-	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, uns32 color0, uns32 color1);
-	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, int32 primitive_count);
-	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, int32 primitive_count);
+	static void __cdecl draw_debug_line2d(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1);
+	static void __cdecl draw_debug_line(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1);
+	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* points, int32 primitive_count);
+	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* points, int32 line_count);
 	static void __cdecl draw_debug_linestrip2d(point2d const* points, int32 point_count, uns32 color);
 	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
-	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* polygon, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
+	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
 	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
 	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords);
