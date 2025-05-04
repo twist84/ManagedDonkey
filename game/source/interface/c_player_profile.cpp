@@ -1,5 +1,6 @@
 #include "interface/c_player_profile.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked);
@@ -205,7 +206,28 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA3450 ; public: void c_player_profile_interface::set_map_completed_at_difficulty_level(e_campaign_game_mode, int32, e_campaign_difficulty_level, bool, bool)
 //.text:00AA34D0 ; public: void c_player_profile_interface::set_model_customization_selection(e_player_model_choice, int32, int8, bool)
 //.text:00AA3560 ; public: void c_player_profile_interface::set_player_appearance(s_player_appearance const*, bool)
-//.text:00AA35C0 ; 
+
+//.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, s_emblem_info const*)
+void c_player_profile_interface::set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user)
+{
+	ASSERT(emblem_info != NULL);
+	ASSERT(emblem_info->pad == 0);
+
+	if (emblem_info->foreground_emblem_index >= 80
+		|| emblem_info->background_emblem_index >= 48
+		|| emblem_info->primary_color_index.get() > 31
+		|| emblem_info->secondary_color_index.get() > 31u
+		|| emblem_info->background_color_index.get() > 31u)
+	{
+		event(_event_error, "ui:profile: invalid emblem");
+	}
+	else
+	{
+		dirty_or(set_by_user && *(uns64*)emblem_info != *(uns64*)&m_appearance.emblem);
+		m_appearance.emblem = *emblem_info;
+	}
+}
+
 //.text:00AA3620 ; public: void c_player_profile_interface::set_player_model_choice(e_player_model_choice, bool)
 
 //void c_player_profile_interface::set_primary_change_color(e_player_color_index color, bool set_by_user)

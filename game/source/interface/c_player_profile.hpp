@@ -95,6 +95,8 @@ struct c_player_profile_interface
 	e_player_color_index get_primary_change_color() const;
 	e_player_color_index get_secondary_change_color() const;
 
+	void set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user);
+
 //public:
 	void set_primary_change_color(int32 color, bool set_by_user);
 	void set_secondary_change_color(int32 color, bool set_by_user);
