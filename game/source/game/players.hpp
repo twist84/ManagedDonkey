@@ -56,8 +56,7 @@ struct s_emblem_info
 		primary_color_index(),
 		secondary_color_index(),
 		background_color_index(),
-		pad(0),
-		__pad8()
+		pad(0)
 	{
 	}
 	
@@ -71,10 +70,8 @@ struct s_emblem_info
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> secondary_color_index;
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> background_color_index;
 	uns16 pad;
-
-	byte __pad8[0x648];
 };
-static_assert(sizeof(s_emblem_info) == 0x650);
+static_assert(sizeof(s_emblem_info) == 0x8);
 
 enum e_bungienet_user
 {
@@ -94,6 +91,7 @@ struct s_player_appearance
 	byte __pad2[0x2];
 
 	s_emblem_info emblem_info;
+	byte emblem_pad[0x648];
 	c_static_wchar_string<5> service_tag;
 
 	byte __pad65E[0x2];

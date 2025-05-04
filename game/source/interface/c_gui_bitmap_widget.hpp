@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
 #include "interface/c_gui_widget.hpp"
 
 enum e_bitmap_widget_definition_flags
@@ -105,19 +106,6 @@ struct s_gui_bitmap_widget_render_data :
 			int32 storage_index;
 		};
 		static_assert(sizeof(s_custom_bitmap) == 0x4);
-
-		// this is supposed to be `s_emblem_info` // but the Halo Online on is massive
-		struct s_emblem_info
-		{
-			uns8 foreground_emblem_index;
-			uns8 background_emblem_index;
-			uns8 emblem_info_flags;
-			int8 primary_color_index;
-			int8 secondary_color_index;
-			int8 background_color_index;
-			uns16 pad;
-		};
-		static_assert(sizeof(s_emblem_info) == 0x8);
 
 		s_texture_camera_data texture_camera;
 		s_sprite_data sprite;

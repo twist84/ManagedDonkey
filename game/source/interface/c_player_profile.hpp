@@ -214,6 +214,7 @@ struct c_player_profile_interface
 
 		int32 player_model_choice;
 		s_emblem_info emblem;
+		byte emblem_pad[0x648];
 		uns8 model_area_selections[10];
 		wchar_t last_known_good_service_tag[5];
 		wchar_t desired_service_tag[5];
