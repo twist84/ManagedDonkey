@@ -1896,6 +1896,9 @@
     <ClCompile Include="source\networking\transport\transport_dns_winsock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\bitmaps\bitmap_group.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4293,6 +4296,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\transport\transport_dns_winsock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bitmaps\bitmap_group.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

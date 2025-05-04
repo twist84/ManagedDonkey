@@ -227,6 +227,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\animations\animation_definitions.cpp" />
     <ClCompile Include="source\animations\animation_manager.cpp" />
     <ClCompile Include="source\bink\bink_definitions.cpp" />
+    <ClCompile Include="source\bitmaps\bitmap_group.cpp" />
     <ClCompile Include="source\cache\cache_file_bulk_reader.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
     <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
@@ -861,6 +862,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\animations\mixing_board\channels\channel_base.hpp" />
     <ClInclude Include="source\animations\mixing_board\mixing_board_slider.hpp" />
     <ClInclude Include="source\bink\bink_definitions.hpp" />
+    <ClInclude Include="source\bitmaps\bitmap_group.hpp" />
     <ClInclude Include="source\cache\cache_file_io_failure.hpp" />
     <ClInclude Include="source\cache\fmod_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
