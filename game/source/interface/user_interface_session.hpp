@@ -25,6 +25,7 @@ extern int32 __cdecl user_interface_squad_get_countdown_delaying_player();
 extern int32 __cdecl user_interface_squad_get_countdown_timer();
 extern int32 __cdecl user_interface_squad_get_machine_count();
 extern int32 __cdecl user_interface_squad_get_player_count();
+extern s_player_configuration const* __cdecl user_interface_squad_get_player_data(int32 session_player_index);
 extern s_player_identifier const* __cdecl user_interface_session_get_player_identifier(int32 session_player_index);
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
 extern bool __cdecl user_interface_squad_in_or_after_countdown();

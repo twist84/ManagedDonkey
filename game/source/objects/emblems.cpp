@@ -67,6 +67,19 @@ s_emblem_info* emblem_get_render_constants_emblem_info_from_user_interface(s_emb
 	return emblem_info;
 }
 
+struct fRGBA
+{
+	float r;
+	float g;
+	float b;
+	float a;
+};
+
+void fRGBA_color_to_real_vector4d_color(fRGBA* rgba, real_vector4d* result)
+{
+	set_real_vector4d(result, rgba->r, rgba->g, rgba->b, rgba->a);
+}
+
 bool emblem_set_render_constants_from_user_interface(s_emblem_info const* emblem_info)
 {
 	ASSERT(emblem_info != NULL);
@@ -81,10 +94,15 @@ bool emblem_set_render_constants_from_user_interface(s_emblem_info const* emblem
 	//bool flip_foreground = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_foreground);
 	//bool flip_background = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_background);
 	//
+	//int alternate_foreground_channel_off_constant = alternate_foreground_channel_off;
+	//int flip_foreground_constant = flip_foreground;
+	//int flip_background_constant = flip_background;
+	//
 	//real_vector4d emblem_color_background_argb{};
 	//real_vector4d emblem_color_icon1_argb{};
 	//real_vector4d emblem_color_icon2_argb{};
 	//
+	////fRGBA_color_to_real_vector4d_color(, &emblem_color_background_argb);
 	//set_real_vector4d(&emblem_color_background_argb,
 	//	emblem_color_background_rgb.red,
 	//	emblem_color_background_rgb.green,
@@ -103,6 +121,9 @@ bool emblem_set_render_constants_from_user_interface(s_emblem_info const* emblem
 	//	emblem_color_icon2_rgb.blue,
 	//	flip_background ? 0.0f : 1.0f);
 	//
+	//c_rasterizer::set_pixel_shader_constant_bool(8, 1, &alternate_foreground_channel_off_constant);
+	//c_rasterizer::set_pixel_shader_constant_bool(9, 1, &flip_foreground_constant);
+	//c_rasterizer::set_pixel_shader_constant_bool(10, 1, &flip_background_constant);
 	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_background_argb, 1, &emblem_color_background_argb);
 	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon1_argb, 1, &emblem_color_icon1_argb);
 	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon2_argb, 1, &emblem_color_icon2_argb);

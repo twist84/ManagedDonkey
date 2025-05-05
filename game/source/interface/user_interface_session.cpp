@@ -193,7 +193,10 @@ int32 __cdecl user_interface_squad_get_player_count()
 	return INVOKE(0x00A82E90, user_interface_squad_get_player_count);
 }
 
-//.text:00A82EC0 ; s_player_configuration const* __cdecl user_interface_squad_get_player_data(int32)
+s_player_configuration const* __cdecl user_interface_squad_get_player_data(int32 session_player_index)
+{
+	return INVOKE(0x00A82EC0, user_interface_squad_get_player_data, session_player_index);
+}
 
 s_player_identifier const* __cdecl user_interface_session_get_player_identifier(int32 session_player_index)
 {
