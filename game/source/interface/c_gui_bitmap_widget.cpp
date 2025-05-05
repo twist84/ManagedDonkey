@@ -163,7 +163,7 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 		}
 		else if (render_data->flags.test(s_gui_widget_render_data::_render_as_player_emblem_bit))
 		{
-			//if (render_data->flags.test(s_gui_widget_render_data::_emblem_info_valid_bit) && emblem_set_render_constants_from_user_interface(render_data->source.emblem))
+			if (/*render_data->flags.test(s_gui_widget_render_data::_emblem_info_valid_bit) &&*/ emblem_set_render_constants_from_user_interface(&render_data->source.emblem))
 			{
 				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, render_data->source.emblem.background_emblem_index, &hardware_format_primary);
 				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, render_data->source.emblem.foreground_emblem_index, &hardware_format_secondary);

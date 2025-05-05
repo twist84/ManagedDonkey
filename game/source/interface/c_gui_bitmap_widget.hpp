@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/players.hpp"
+#include "objects/emblems.hpp"
 #include "interface/c_gui_widget.hpp"
 
 enum e_bitmap_widget_definition_flags

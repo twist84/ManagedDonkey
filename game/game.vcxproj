@@ -343,6 +343,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\crates.cpp" />
     <ClCompile Include="source\objects\damage_owner.cpp" />
+    <ClCompile Include="source\objects\emblems.cpp" />
     <ClCompile Include="source\objects\lights.cpp" />
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
     <ClCompile Include="source\objects\object_broadphase.cpp" />
@@ -1255,6 +1256,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\tools\xbox_connection_manager.hpp" />
     <ClInclude Include="source\networking\transport\transport_dns_winsock.hpp" />
     <ClInclude Include="source\objects\crates.hpp" />
+    <ClInclude Include="source\objects\emblems.hpp" />
     <ClInclude Include="source\objects\reference_lists.hpp" />
     <ClInclude Include="source\objects\scenery.hpp" />
     <ClInclude Include="source\objects\target_tracking.hpp" />

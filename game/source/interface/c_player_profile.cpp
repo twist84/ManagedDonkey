@@ -215,15 +215,15 @@ void c_player_profile_interface::set_emblem_info(s_emblem_info const* emblem_inf
 
 	if (emblem_info->foreground_emblem_index >= 80
 		|| emblem_info->background_emblem_index >= 48
-		|| emblem_info->primary_color_index.get() > 31
-		|| emblem_info->secondary_color_index.get() > 31u
-		|| emblem_info->background_color_index.get() > 31u)
+		|| emblem_info->primary_color_index >= k_player_color_index_count
+		|| emblem_info->secondary_color_index >= k_player_color_index_count
+		|| emblem_info->background_color_index >= k_player_color_index_count)
 	{
 		event(_event_error, "ui:profile: invalid emblem");
 	}
 	else
 	{
-		dirty_or(set_by_user && *(uns64*)emblem_info != *(uns64*)&m_appearance.emblem);
+		dirty_or(set_by_user && csmemcmp(emblem_info, &m_appearance.emblem, sizeof(s_emblem_info)) != 0);
 		m_appearance.emblem = *emblem_info;
 	}
 }

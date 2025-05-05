@@ -1899,6 +1899,9 @@
     <ClCompile Include="source\bitmaps\bitmap_group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\objects\emblems.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4299,6 +4302,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\bitmaps\bitmap_group.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\emblems.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

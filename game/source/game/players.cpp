@@ -1,28 +1,20 @@
 #include "game/players.hpp"
 
 #include "cache/cache_files.hpp"
-#include "game/cheats.hpp"
-#include "game/game_engine_notifications.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/interface_constants.hpp"
 #include "items/equipment.hpp"
 #include "items/weapons.hpp"
-#include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
-#include "render/render_debug.hpp"
 #include "scenario/scenario.hpp"
-#include "simulation/game_interface/simulation_game_action.hpp"
 #include "text/draw_string.hpp"
-#include "units/bipeds.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x00539B20, player_find_action_context);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
-HOOK_DECLARE_CLASS_MEMBER(0x00B26390, s_emblem_info, decode);
-HOOK_DECLARE_CLASS_MEMBER(0x00B267B0, s_emblem_info, encode);
 
 bool debug_player_network_aiming = false;
 bool debug_objects_biped_melee_in_range = false;
@@ -1018,26 +1010,6 @@ void __cdecl players_verify()
 //.text:00544440 ; void __cdecl players_zone_set_switch_trigger_clear()
 //.text:00544610 ; 
 //.text:00544680 ; 
-
-void s_emblem_info::decode(c_bitstream* packet)
-{
-	foreground_emblem_index = (uns8)packet->read_integer("foreground-emblem", 6);
-	background_emblem_index = (uns8)packet->read_integer("background-emblem", 6);
-	emblem_info_flags.set_unsafe((uns8)packet->read_integer("emblem-flags", 3));
-	primary_color_index.set_raw_value((int8)packet->read_integer("emblem-primary-color", 6));
-	secondary_color_index.set_raw_value((int8)packet->read_integer("emblem-secondary-color", 6));
-	background_color_index.set_raw_value((int8)packet->read_integer("emblem-background-color", 6));
-}
-
-void s_emblem_info::encode(c_bitstream* packet)
-{
-	packet->write_integer("foreground-emblem", foreground_emblem_index, 6);
-	packet->write_integer("background-emblem", background_emblem_index, 6);
-	packet->write_integer("emblem-flags", emblem_info_flags.get_unsafe(), 3);
-	packet->write_integer("emblem-primary-color", primary_color_index, 6);
-	packet->write_integer("emblem-secondary-color", secondary_color_index, 6);
-	packet->write_integer("emblem-background-color", background_color_index, 6);
-}
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {

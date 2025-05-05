@@ -5,6 +5,7 @@
 #include "game/game_engine_player_traits.hpp"
 #include "memory/data.hpp"
 #include "objects/damage_reporting.hpp"
+#include "objects/emblems.hpp"
 #include "text/unicode.hpp"
 
 struct s_machine_identifier
@@ -37,41 +38,6 @@ struct s_player_identifier
 	//uns16 flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
-
-enum e_emblem_info_flags
-{
-	_emblem_info_flag_alternate_foreground_channel_off = 0,
-	_emblem_info_flag_flip_foreground,
-	_emblem_info_flag_flip_background,
-
-	k_emblem_info_flags_count
-};
-
-struct s_emblem_info
-{
-	s_emblem_info() :
-		foreground_emblem_index(),
-		background_emblem_index(),
-		emblem_info_flags(),
-		primary_color_index(),
-		secondary_color_index(),
-		background_color_index(),
-		pad(0)
-	{
-	}
-	
-	void __thiscall decode(c_bitstream* packet);
-	void __thiscall encode(c_bitstream* packet);
-
-	uns8 foreground_emblem_index;
-	uns8 background_emblem_index;
-	c_flags<e_emblem_info_flags, uns8, k_emblem_info_flags_count> emblem_info_flags;
-	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> primary_color_index;
-	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> secondary_color_index;
-	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> background_color_index;
-	uns16 pad;
-};
-static_assert(sizeof(s_emblem_info) == 0x8);
 
 enum e_bungienet_user
 {
