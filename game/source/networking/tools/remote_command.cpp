@@ -14,6 +14,7 @@
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
 #include "hf2p/hf2p.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
@@ -628,7 +629,7 @@ callback_result_t game_splitscreen_callback(void const* userdata, int32 token_co
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 multiplayer_splitscreen_count = atol(tokens[1]->get_string());
+	int32 multiplayer_splitscreen_count = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_multiplayer_splitscreen_count(multiplayer_splitscreen_count);
 
 	return result;
@@ -649,7 +650,7 @@ callback_result_t game_active_primary_skulls_callback(void const* userdata, int3
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 active_primary_skulls = atol(tokens[1]->get_string());
+	int32 active_primary_skulls = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_active_primary_skulls(active_primary_skulls);
 
 	return result;
@@ -659,7 +660,7 @@ callback_result_t game_active_secondary_skulls_callback(void const* userdata, in
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 active_secondary_skulls = atol(tokens[1]->get_string());
+	int32 active_secondary_skulls = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_active_secondary_skulls(active_secondary_skulls);
 
 	return result;
@@ -669,7 +670,7 @@ callback_result_t game_coop_players_callback(void const* userdata, int32 token_c
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 coop_player_count = atol(tokens[1]->get_string());
+	int32 coop_player_count = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_coop_player_count(coop_player_count);
 
 	return result;
@@ -679,7 +680,7 @@ callback_result_t game_initial_bsp_callback(void const* userdata, int32 token_co
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 initial_zone_set_index = atol(tokens[1]->get_string());
+	int32 initial_zone_set_index = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_initial_zone_set_index(initial_zone_set_index);
 
 	return result;
@@ -689,7 +690,7 @@ callback_result_t game_tick_rate_callback(void const* userdata, int32 token_coun
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 initial_zone_set_index = atol(tokens[1]->get_string());
+	int32 initial_zone_set_index = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_tick_rate(initial_zone_set_index);
 
 	return result;
@@ -1072,7 +1073,7 @@ callback_result_t net_test_player_color_callback(void const* userdata, int32 tok
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 profile_color_index = atol(tokens[1]->get_string());
+	int32 profile_color_index = (int32)atol(tokens[1]->get_string());
 	network_test_set_player_color(profile_color_index);
 
 	return result;
@@ -1142,7 +1143,7 @@ callback_result_t net_test_game_variant_parameter_callback(void const* userdata,
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* parameter_name = tokens[1]->get_string();
-	int32 value = atol(tokens[2]->get_string());
+	int32 value = (int32)atol(tokens[2]->get_string());
 	int32 old_value = -1;
 	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
 
@@ -1285,7 +1286,7 @@ callback_result_t online_user_set_name_callback(void const* userdata, int32 toke
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 user_index = atol(tokens[1]->get_string());
+	int32 user_index = (int32)atol(tokens[1]->get_string());
 	char const* name = tokens[2]->get_string();
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
@@ -1298,7 +1299,7 @@ callback_result_t mp_players_by_team_callback(void const* userdata, int32 token_
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 team = atol(tokens[1]->get_string());
+	int32 team = (int32)atol(tokens[1]->get_string());
 	game_engine_players_by_team(team);
 
 	return result;
@@ -1317,7 +1318,7 @@ callback_result_t mp_active_player_count_by_team_callback(void const* userdata, 
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 team = atol(tokens[1]->get_string());
+	int32 team = (int32)atol(tokens[1]->get_string());
 	game_engine_active_player_count_by_team(team);
 
 	return result;
@@ -1369,7 +1370,7 @@ callback_result_t mp_object_belongs_to_team_callback(void const* userdata, int32
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 object_index = atol(tokens[1]->get_string());
+	int32 object_index = (int32)atol(tokens[1]->get_string());
 	int16 team = static_cast<int16>(atol(tokens[2]->get_string()));
 	game_engine_give_object_ownership_to_team(object_index, team);
 
@@ -1380,7 +1381,7 @@ callback_result_t mp_weapon_belongs_to_team_callback(void const* userdata, int32
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 weapon_index = atol(tokens[1]->get_string());
+	int32 weapon_index = (int32)atol(tokens[1]->get_string());
 	int16 team = static_cast<int16>(atol(tokens[2]->get_string()));
 	game_engine_give_weapon_ownership_to_team(weapon_index, team);
 
@@ -1742,7 +1743,7 @@ callback_result_t cheat_active_camouflage_by_player_callback(void const* userdat
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 user_index = atol(tokens[1]->get_string());
+	int32 user_index = (int32)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
 	{
@@ -1831,7 +1832,7 @@ callback_result_t camera_set_mode_callback(void const* userdata, int32 token_cou
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	int32 user_index = atol(tokens[1]->get_string());
+	int32 user_index = (int32)atol(tokens[1]->get_string());
 	e_camera_mode camera_mode = static_cast<e_camera_mode>(atol(tokens[2]->get_string()));
 	if (user_index != NONE && VALID_INDEX(camera_mode, 4))
 		director_set_camera_mode(user_index, camera_mode);
@@ -1970,7 +1971,7 @@ callback_result_t player_add_weapon_callback(void const* userdata, int32 token_c
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* weapon_name = tokens[1]->get_string();
-	int32 method = atol(tokens[2]->get_string());
+	int32 method = (int32)atol(tokens[2]->get_string());
 
 	int32 weapon_definition_index = tag_loaded(WEAPON_TAG, weapon_name);
 	if (!VALID_INDEX(method, 8))
@@ -2070,6 +2071,264 @@ callback_result_t overlapped_task_pause_callback(void const* userdata, int32 tok
 	if (value != NONE)
 		overlapped_task_pause(context, static_cast<bool>(value - 1));
 
+	return result;
+}
+
+callback_result_t controller_set_background_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_background_emblem_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_button_preset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 presest = (int16)atol(tokens[2]->get_string());
+	debug_set_button_preset(controller_index, presest);
+
+	return result;
+}
+
+callback_result_t controller_set_auto_center_look_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		debug_set_controller_auto_center_look(controller_index, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_crouch_lock_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		debug_set_controller_crouch_lock(controller_index, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_flight_stick_aircraft_controls_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		debug_set_controller_flight_stick_aircraft_controls(controller_index, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_look_inverted_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		debug_set_controller_look_inverted(controller_index, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_vibration_enabled_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		debug_set_controller_vibration_enabled(controller_index, static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_emblem_info_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 foreground_emblem_index = (int16)atol(tokens[2]->get_string());
+	int16 background_emblem_index = (int16)atol(tokens[3]->get_string());
+	debug_set_emblem_info(controller_index, foreground_emblem_index, background_emblem_index);
+
+	return result;
+}
+
+callback_result_t controller_set_joystick_preset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 preset = (int16)atol(tokens[2]->get_string());
+	debug_set_joystick_preset(controller_index, preset);
+
+	return result;
+}
+
+callback_result_t controller_set_look_sensitivity_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 sensitivity = (int16)atol(tokens[2]->get_string());
+	debug_set_look_sensitivity(controller_index, sensitivity);
+
+	return result;
+}
+
+callback_result_t controller_set_player_character_type_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 type = (int16)atol(tokens[2]->get_string());
+	debug_set_player_character_type(controller_index, type);
+
+	return result;
+}
+
+callback_result_t controller_set_popup_message_index_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 message_index = (int32)atol(tokens[2]->get_string());
+	debug_set_popup_message_index(controller_index, message_index);
+
+	return result;
+}
+
+callback_result_t controller_set_primary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_primary_change_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_primary_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_primary_emblem_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_secondary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_secondary_change_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_secondary_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_secondary_emblem_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_single_player_level_completed_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int32 level_index = (int32)atol(tokens[2]->get_string());
+
+	int32 coop = token_try_parse_bool(tokens[3]);
+	if (coop != NONE)
+	{
+		int16 difficulty = (int16)atol(tokens[4]->get_string());
+		int32 completed = token_try_parse_bool(tokens[5]);
+		if (completed != NONE)
+			debug_set_single_player_level_completed(controller_index, level_index, static_cast<bool>(coop - 1), difficulty, static_cast<bool>(completed - 1));
+	}
+
+	return result;
+}
+
+callback_result_t controller_set_single_player_level_unlocked_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 level_index = (int16)atol(tokens[2]->get_string());
+	int32 completed = token_try_parse_bool(tokens[3]);
+	if (completed != NONE)
+		debug_set_single_player_level_unlocked(controller_index, level_index, static_cast<bool>(completed - 1));
+
+	return result;
+}
+
+callback_result_t controller_set_subtitle_setting_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 setting = (int16)atol(tokens[2]->get_string());
+	debug_set_subtitle_setting(controller_index, setting);
+
+	return result;
+}
+
+callback_result_t controller_set_tertiary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 color = (int16)atol(tokens[2]->get_string());
+	debug_set_tertiary_change_color(controller_index, color);
+
+	return result;
+}
+
+callback_result_t controller_set_voice_mask_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 mask = (int16)atol(tokens[2]->get_string());
+	debug_set_voice_mask(controller_index, mask);
+
+	return result;
+}
+
+callback_result_t controller_set_voice_output_setting_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	int16 setting = (int16)atol(tokens[2]->get_string());
+	debug_set_voice_output_setting(controller_index, setting);
+	
 	return result;
 }
 

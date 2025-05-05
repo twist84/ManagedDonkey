@@ -211,6 +211,29 @@ COMMAND_CALLBACK_DECLARE(overlapped_display_task_descriptions);
 COMMAND_CALLBACK_DECLARE(overlapped_task_inject_error);
 COMMAND_CALLBACK_DECLARE(overlapped_task_pause);
 
+COMMAND_CALLBACK_DECLARE(controller_set_background_emblem_color);
+COMMAND_CALLBACK_DECLARE(controller_set_button_preset);
+COMMAND_CALLBACK_DECLARE(controller_set_auto_center_look);
+COMMAND_CALLBACK_DECLARE(controller_set_crouch_lock);
+COMMAND_CALLBACK_DECLARE(controller_set_flight_stick_aircraft_controls);
+COMMAND_CALLBACK_DECLARE(controller_set_look_inverted);
+COMMAND_CALLBACK_DECLARE(controller_set_vibration_enabled);
+COMMAND_CALLBACK_DECLARE(controller_set_emblem_info);
+COMMAND_CALLBACK_DECLARE(controller_set_joystick_preset);
+COMMAND_CALLBACK_DECLARE(controller_set_look_sensitivity);
+COMMAND_CALLBACK_DECLARE(controller_set_player_character_type);
+COMMAND_CALLBACK_DECLARE(controller_set_popup_message_index);
+COMMAND_CALLBACK_DECLARE(controller_set_primary_change_color);
+COMMAND_CALLBACK_DECLARE(controller_set_primary_emblem_color);
+COMMAND_CALLBACK_DECLARE(controller_set_secondary_change_color);
+COMMAND_CALLBACK_DECLARE(controller_set_secondary_emblem_color);
+COMMAND_CALLBACK_DECLARE(controller_set_single_player_level_completed);
+COMMAND_CALLBACK_DECLARE(controller_set_single_player_level_unlocked);
+COMMAND_CALLBACK_DECLARE(controller_set_subtitle_setting);
+COMMAND_CALLBACK_DECLARE(controller_set_tertiary_change_color);
+COMMAND_CALLBACK_DECLARE(controller_set_voice_mask);
+COMMAND_CALLBACK_DECLARE(controller_set_voice_output_setting);
+
 //-----------------------------------------------------------------------------
 
 s_command const k_registered_commands[] =
@@ -313,7 +336,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
 
-	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<bool>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<boolean>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
 
 	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(load_customization_from_file, 1, "<string>", "<customization filename> loads customization from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -323,8 +346,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_chars, 0, "", "drops all characters near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_teleport_to_camera, 0, "", "teleports player to camera location\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage, 1, "<bool>", "gives the player active camouflage\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage_by_player, 2, "<long> <bool>", "gives a specific player active camouflage\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage, 1, "<boolean>", "gives the player active camouflage\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage_by_player, 2, "<long> <boolean>", "gives a specific player active camouflage\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(debug_menu_rebuild, 0, "", "Reparses the debug menu from the text file."),
 
@@ -358,10 +381,33 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(levels_add_fake_map_multi, 1, "<string>", "<scenario_path> adds a fake map for multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(levels_add_map_multi, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
-	COMMAND_CALLBACK_REGISTER(xoverlapped_debug_render, 1, "<bool>", "toggle display a list of active xoverlapped tasks\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(xoverlapped_debug_render, 1, "<boolean>", "toggle display a list of active xoverlapped tasks\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(overlapped_display_task_descriptions, 0, "", "displays all tasks\r\nNETWORK SAFE: lol"),
-	COMMAND_CALLBACK_REGISTER(overlapped_task_inject_error, 2, "<string> <bool>", "inject error for tasks\r\nNETWORK SAFE: lol"),
-	COMMAND_CALLBACK_REGISTER(overlapped_task_pause, 2, "<string> <bool>", "pause tasks\r\nNETWORK SAFE: lol"),
+	COMMAND_CALLBACK_REGISTER(overlapped_task_inject_error, 2, "<string> <boolean>", "inject error for tasks\r\nNETWORK SAFE: lol"),
+	COMMAND_CALLBACK_REGISTER(overlapped_task_pause, 2, "<string> <boolean>", "pause tasks\r\nNETWORK SAFE: lol"),
+
+	COMMAND_CALLBACK_REGISTER(controller_set_background_emblem_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_button_preset, 2, "<controller> <button_preset>", "set button preset for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_auto_center_look, 2, "<controller> <boolean>", "set auto center look for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_crouch_lock, 2, "<controller> <boolean>", "set crouch lock for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_flight_stick_aircraft_controls, 2, "<controller> <boolean>", "set airrcraft flight stick controls for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_look_inverted, 2, "<controller> <boolean>", "set look inversion for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_vibration_enabled, 2, "<controller> <boolean>", "set vibration for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_emblem_info, 3, "<controller> <short> <short>", "set emblem for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_joystick_preset, 2, "<controller> <joystick_preset>", "set joystick preset for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_look_sensitivity, 2, "<controller> <short>", "set look sensitivity for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_player_character_type, 2, "<controller> <player_character_type>", "set player character type for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_popup_message_index, 2, "<controller> <long>", "<controller> <message index> set the highest popup message that the player has accepted\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(controller_set_primary_change_color, 2, "<controller> <player_color>", "set primary change color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_primary_emblem_color, 2, "<controller> <player_color>", "set primary change color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_secondary_change_color, 2, "<controller> <player_color>", "set secondary change color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_secondary_emblem_color, 2, "<controller> <player_color>", "set secondary change color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_single_player_level_completed, 5, "<controller> <long> <boolean> <game_difficulty> <boolean>", "<controller> <level index> <co-op> <difficulty> <completed> set the single player levels completed state for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_single_player_level_unlocked, 3, "<controller> <short> <boolean>", "<controller> <level index> <bool locked> set single player level locked state for specified controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(controller_set_subtitle_setting, 2, "<controller> <subtitle_setting>", "set subtitle setting for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_tertiary_change_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_voice_mask, 2, "<controller> <voice_mask>", "set voice mask for specified controller\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(controller_set_voice_output_setting, 2, "<controller> <voice_output_setting>", "set voice output setting for specified controller\r\nNETWORK SAFE: No"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, int32* token_count);
