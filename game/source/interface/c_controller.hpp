@@ -92,3 +92,26 @@ extern e_controller_index __cdecl controller_index_from_user_index(int32 user_in
 extern void __cdecl controllers_render();
 extern bool __cdecl controller_has_centered_crosshair(e_controller_index controller_index);
 
+extern void debug_set_background_emblem_color(int16 controller_index, int16 color);
+extern void debug_set_button_preset(int16 controller_index, int16 preset);
+extern void debug_set_controller_auto_center_look(int16 controller_index, bool auto_center);
+extern void debug_set_controller_crouch_lock(int16 controller_index, bool crouch_lock);
+extern void debug_set_controller_flight_stick_aircraft_controls(int16 controller_index, bool aircraft_controls);
+extern void debug_set_controller_look_inverted(int16 controller_index, bool invert);
+extern void debug_set_controller_vibration_enabled(int16 controller_index, bool vibrate);
+extern void debug_set_emblem_info(int16 controller_index, int16 foreground_emblem_index, int16 background_emblem_index);
+extern void debug_set_joystick_preset(int16 controller_index, int16 preset);
+extern void debug_set_look_sensitivity(int16 controller_index, int16 sensitivity);
+extern void debug_set_player_character_type(int16 controller_index, int16 type);
+extern void debug_set_popup_message_index(int16 controller_index, int32 message_index);
+extern void debug_set_primary_change_color(int16 controller_index, int16 color);
+extern void debug_set_primary_emblem_color(int16 controller_index, int16 color);
+extern void debug_set_secondary_change_color(int16 controller_index, int16 color);
+extern void debug_set_secondary_emblem_color(int16 controller_index, int16 color);
+extern void debug_set_single_player_level_completed(int16 controller_index, int32 level_index, bool coop, int16 difficulty, bool completed);
+extern void debug_set_single_player_level_unlocked(int16 controller_index, int16 level_index, bool unlocked);
+extern void debug_set_subtitle_setting(int16 controller_index, int16 setting);
+extern void debug_set_tertiary_change_color(int16 controller_index, int16 color);
+extern void debug_set_voice_mask(int16 controller_index, int16 mask);
+extern void debug_set_voice_output_setting(int16 controller_index, int16 setting);
+

@@ -1,5 +1,6 @@
 #include "interface/c_controller.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "input/input_abstraction.hpp"
 #include "input/input_windows.hpp"
 #include "interface/user_interface_controller.hpp"
@@ -357,4 +358,332 @@ void c_controller_interface::update_for_sign_in_change()
 {
 	INVOKE_CLASS_MEMBER(0x00A7E150, c_controller_interface, update_for_sign_in_change);
 }
+
+void debug_set_background_emblem_color(int16 controller_index, int16 color)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	s_emblem_info emblem_info = player_profile->get_emblem_info();
+
+	emblem_info.background_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+
+	player_profile->set_emblem_info(&emblem_info, true);
+}
+
+void debug_set_button_preset(int16 controller_index, int16 preset)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_button_preset((e_button_presets)preset, true);
+}
+
+void debug_set_controller_auto_center_look(int16 controller_index, bool auto_center)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_controller_auto_center_look(auto_center, true);
+}
+
+void debug_set_controller_crouch_lock(int16 controller_index, bool crouch_lock)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_controller_crouch_lock_enabled(crouch_lock, true);
+}
+
+void debug_set_controller_flight_stick_aircraft_controls(int16 controller_index, bool aircraft_controls)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_controller_flight_stick_aircraft_controls(aircraft_controls, true);
+}
+
+void debug_set_controller_look_inverted(int16 controller_index, bool invert)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_controller_look_inverted(invert, true);
+}
+
+void debug_set_controller_vibration_enabled(int16 controller_index, bool vibrate)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	event(_event_warning, "ui: vibration must be set through the guide");
+}
+
+void debug_set_emblem_info(int16 controller_index, int16 foreground_emblem_index, int16 background_emblem_index)
+{
+}
+
+void debug_set_joystick_preset(int16 controller_index, int16 preset)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_joystick_preset((e_joystick_presets)preset, true);
+}
+
+void debug_set_look_sensitivity(int16 controller_index, int16 sensitivity)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_look_sensitivity((e_look_sensitivity)sensitivity, true);
+}
+
+void debug_set_player_character_type(int16 controller_index, int16 type)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_player_model_choice((e_player_model_choice)type, true);
+}
+
+void debug_set_popup_message_index(int16 controller_index, int32 message_index)
+{
+	//ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	//
+	//c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	//if (!controller->in_use())
+	//{
+	//	event(_event_warning, "ui: invalid controller (#%ld)",
+	//		controller_index);
+	//	return;
+	//}
+	//
+	//c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	//player_profile->set_last_shown_popup_message_index(get_is_blue_disk(), message_index, true);
+}
+
+void debug_set_primary_change_color(int16 controller_index, int16 color)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_primary_change_color((e_player_color_index)color, true);
+}
+
+void debug_set_primary_emblem_color(int16 controller_index, int16 color)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	s_emblem_info emblem_info = player_profile->get_emblem_info();
+
+	emblem_info.primary_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+
+	player_profile->set_emblem_info(&emblem_info, true);
+}
+
+void debug_set_secondary_change_color(int16 controller_index, int16 color)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_secondary_change_color((e_player_color_index)color, true);
+}
+
+void debug_set_secondary_emblem_color(int16 controller_index, int16 color)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	s_emblem_info emblem_info = player_profile->get_emblem_info();
+
+	emblem_info.secondary_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+
+	player_profile->set_emblem_info(&emblem_info, true);
+}
+
+void debug_set_single_player_level_completed(int16 controller_index, int32 level_index, bool coop, int16 difficulty, bool completed)
+{
+}
+
+void debug_set_single_player_level_unlocked(int16 controller_index, int16 level_index, bool unlocked)
+{
+}
+
+void debug_set_subtitle_setting(int16 controller_index, int16 setting)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_subtitle_setting((e_subtitle_setting)setting, true);
+}
+
+void debug_set_tertiary_change_color(int16 controller_index, int16 color)
+{
+	//ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	//
+	//c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	//if (!controller->in_use())
+	//{
+	//	event(_event_warning, "ui: invalid controller (#%ld)",
+	//		controller_index);
+	//	return;
+	//}
+	//
+	//c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	//player_profile->set_tertiary_change_color((e_player_color_index)color, true);
+}
+
+void debug_set_voice_mask(int16 controller_index, int16 mask)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_voice_mask((e_voice_mask)mask, true);
+}
+
+void debug_set_voice_output_setting(int16 controller_index, int16 setting)
+{
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_voice_output_setting((e_voice_output_setting)setting, true);
+}
+
 
