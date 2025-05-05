@@ -42,15 +42,21 @@ void s_emblem_info::encode(c_bitstream* packet)
 // $TODO: find this a home
 real_rgb_color player_profile_get_rgb_color(int32 color_index)
 {
-	// $TODO: confirm this implementation/implement this properly
+	if (!global_scenario_try_and_get())
+		return *global_real_rgb_white;
 
 	s_game_globals* game_globals = scenario_get_game_globals();
-	rgb_color profile_color = game_globals->profile_colors[color_index];
+	if (!VALID_INDEX(color_index, game_globals->profile_colors.count))
+	{
+		event(_event_message, "no player color defined in game globals tag for player color index #%ld",
+			color_index);
+		return *global_real_rgb_white;
+	}
+
+	// profile_colors is supposed to be `real_rgb_color`
 
 	real_rgb_color real_color{};
-	pixel32_to_real_rgb_color(profile_color, &real_color);
-
-	return real_color;
+	return *pixel32_to_real_rgb_color(game_globals->profile_colors[color_index], &real_color);
 }
 
 s_emblem_info* emblem_get_render_constants_emblem_info_from_user_interface(s_emblem_info* emblem_info)
