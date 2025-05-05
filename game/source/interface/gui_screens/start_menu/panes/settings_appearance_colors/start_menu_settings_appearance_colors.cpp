@@ -183,12 +183,12 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 				{
 				case STRING_ID(gui, color_armor1):
 				{
-					player_profile->set_primary_change_color(focused_item_index, true);
+					player_profile->set_primary_change_color((e_player_color_index)focused_item_index, true);
 				}
 				return true;
 				case STRING_ID(gui, color_armor2):
 				{
-					player_profile->set_secondary_change_color(focused_item_index, true);
+					player_profile->set_secondary_change_color((e_player_color_index)focused_item_index, true);
 				}
 				return true;
 				//case STRING_ID(gui, color_armor3):

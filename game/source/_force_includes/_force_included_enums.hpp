@@ -354,6 +354,137 @@ enum e_campaign_difficulty_level
 	k_campaign_difficulty_level_none = -1,
 };
 
+enum e_button_presets
+{
+	_button_preset_first = 0,
+	_button_preset_standard = _button_preset_first,
+	_button_preset_south_paw,
+	_button_preset_boxer,
+	_button_preset_green_thumb,
+	_button_preset_professional,
+	_button_preset_walkie_talkie,
+
+	k_button_presets_count,
+};
+
+enum e_camera_attached_horizontal
+{
+	_camera_attached_horizontal_normal = 0,
+	_camera_attached_horizontal_inverted,
+
+	k_number_of_camera_attached_horizontal_settings,
+	k_default_camera_attached_horizontal_setting = _camera_attached_horizontal_normal,
+};
+
+enum e_camera_flying_movement
+{
+	_camera_flying_movement_slow = 0,
+	_camera_flying_movement_normal,
+	_camera_flying_movement_fast,
+	_camera_flying_movement_faster,
+
+	k_number_of_camera_flying_movement_settings,
+	k_default_camera_flying_movement_setting = _camera_flying_movement_normal,
+};
+
+enum e_camera_flying_thrust
+{
+	_camera_flying_thrust_slow = 0,
+	_camera_flying_thrust_normal,
+	_camera_flying_thrust_fast,
+
+	k_number_of_camera_flying_thrust_settings,
+	k_default_camera_flying_thrust_setting = _camera_flying_thrust_normal,
+};
+
+enum e_camera_look_sensitivity
+{
+	_camera_look_sensitivity_slow = 0,
+	_camera_look_sensitivity_normal,
+	_camera_look_sensitivity_fast,
+	_camera_look_sensitivity_very_fast,
+
+	k_number_of_camera_look_sensitivity_settings,
+	k_default_camera_look_sensitivity_setting = _camera_look_sensitivity_normal,
+};
+
+enum e_camera_panning
+{
+	_camera_panning_hold_to_pan = 0,
+	_camera_panning_toggle,
+
+	k_number_of_camera_panning_settings,
+	k_default_camera_panning_setting = _camera_panning_hold_to_pan,
+};
+
+enum e_display_brightness
+{
+	_display_brightness_lower = 0,
+	_display_brightness_low,
+	_display_brightness_normal,
+	_display_brightness_high,
+	_display_brightness_higher,
+
+	k_number_of_display_brightness_settings,
+	k_default_display_brightness_setting = _display_brightness_normal,
+};
+
+enum e_guide_voice_through_speakers
+{
+	_guide_voice_through_speakers_off = 0,
+	_guide_voice_through_speakers_on,
+	_guide_voice_through_speakers_both,
+
+	k_guide_voice_through_speakers_count,
+};
+
+enum e_joystick_presets
+{
+	_joystick_preset_first = 0,
+	_joystick_preset_standard = _joystick_preset_first,
+	_joystick_preset_south_paw,
+	_joystick_preset_legacy,
+	_joystick_preset_legacy_south_paw,
+
+	k_joystick_presets_count,
+};
+
+enum e_look_sensitivity
+{
+	_look_sensitivity0 = 0,
+	_look_sensitivity1,
+	_look_sensitivity2,
+	_look_sensitivity3,
+	_look_sensitivity4,
+	_look_sensitivity5,
+	_look_sensitivity6,
+	_look_sensitivity7,
+	_look_sensitivity8,
+	_look_sensitivity9,
+
+	k_number_of_look_sensitivity_settings,
+	k_default_look_sensitivity = _look_sensitivity2,
+};
+
+enum e_voice_matchmaking_setting
+{
+	_voice_matchmaking_setting_everyone = 0,
+	_voice_matchmaking_setting_team_only,
+
+	k_voice_matchmaking_setting_count,
+	k_voice_matchmaking_setting_default = _voice_matchmaking_setting_everyone,
+};
+
+enum e_voice_mute_setting
+{
+	_voice_mute_setting_off = 0,
+	_voice_mute_setting_on,
+
+	k_voice_mute_setting_count,
+	k_voice_mute_setting_default = _voice_mute_setting_off,
+};
+
+
 // e_game_skulls
 enum e_primary_skulls
 {
@@ -2419,28 +2550,6 @@ enum e_game_team
 	_multiplayer_team_none = -1,
 
 	k_maximum_teams = 16
-};
-
-enum e_button_preset
-{
-	_button_preset_standard = 0,
-	_button_preset_south_paw,
-	_button_preset_boxer,
-	_button_preset_green_thumb,
-	_button_preset_professional,
-	_button_preset_walkie_talkie,
-
-	k_number_of_button_presets
-};
-
-enum e_joystick_preset
-{
-	_joystick_preset_standard = 0,
-	_joystick_preset_south_paw,
-	_joystick_preset_legacy,
-	_joystick_preset_legacy_south_paw,
-
-	k_number_of_joystick_presets
 };
 
 enum e_voice_output_setting

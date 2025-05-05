@@ -5,16 +5,7 @@
 #include "game/players.hpp"
 #include "networking/online/online_guide_pc.hpp"
 
-// e_button_presets
-// e_joystick_presets
-// e_look_sensitivity
-// e_camera_attached_horizontal
-// e_camera_panning
-// e_camera_look_sensitivity
-// e_camera_flying_movement
-// e_camera_flying_thrust
-// e_campaign_difficulty_level
-// e_player_model_choice
+struct s_player_appearance;
 
 struct s_campaign_progression_profile_data
 {
@@ -95,11 +86,51 @@ struct c_player_profile_interface
 	e_player_color_index get_primary_change_color() const;
 	e_player_color_index get_secondary_change_color() const;
 
-	void set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user);
-
 //public:
-	void set_primary_change_color(int32 color, bool set_by_user);
-	void set_secondary_change_color(int32 color, bool set_by_user);
+	void set_button_preset(e_button_presets preset, bool set_by_user);
+	void set_camera_attached_horizontal(e_camera_attached_horizontal value, bool set_by_user);
+	void set_camera_flying_movement(e_camera_flying_movement value, bool set_by_user);
+	void set_camera_flying_thrust(e_camera_flying_thrust value, bool set_by_user);
+	void set_camera_look_sensitivity(e_camera_look_sensitivity value, bool set_by_user);
+	void set_camera_panning(e_camera_panning value, bool set_by_user);
+	void set_campaign_awarded_primary_skull_bitvector(int32 primary_skull_bitvector, bool set_by_user);
+	void set_campaign_awarded_secondary_skull_bitvector(int32 secondary_skull_bitvector, bool set_by_user);
+	void set_campaign_difficulty(e_campaign_difficulty_level difficulty, bool set_by_user);
+	void set_campaign_terminal_read_level1_bitvector(int16 level1_bitvector, bool set_by_user);
+	void set_campaign_terminal_read_level2_bitvector(int16 level2_bitvector, bool set_by_user);
+	void set_controller_auto_center_look(bool auto_center, bool set_by_user);
+	void set_controller_crouch_lock_enabled(bool crouch_lock, bool set_by_user);
+	void set_controller_flight_stick_aircraft_controls(bool aircraft_controls, bool set_by_user);
+	void set_controller_look_inverted(bool invert, bool set_by_user);
+	void set_desired_service_tag(wchar_t const* value, bool set_by_user);
+	void set_display_brightness(e_display_brightness setting, bool set_by_user);
+	void set_female_voice_enabled(bool female, bool set_by_user);
+	void set_film_auto_save(e_film_auto_save_type type, bool value, bool set_by_user);
+	void set_guide_voice_through_speakers(e_guide_voice_through_speakers setting);
+	void set_joystick_preset(e_joystick_presets preset, bool set_by_user);
+	void set_last_campaign_map_played_absolute_index(int16 absolute_map_index, bool set_by_user);
+	void set_last_campaign_played_absolute_index(int16 absolute_campaign_index, bool set_by_user);
+	void set_last_campaign_played_time(e_campaign_game_mode campaign_game_mode, uns64 last_campaign_played_time, bool set_by_user);
+	void set_last_custom_multiplayer_map_played(e_map_id map, bool set_by_user);
+	void set_last_network_game_hopper_played(uns16 hopper_identifier, bool set_by_user);
+	void set_last_shown_popup_message_index(e_popup_message_title title_index, int32 message_index, bool set_by_user);
+	void set_last_variant_played(e_game_engine_type type, int32 checksum, bool set_by_user);
+	void set_look_sensitivity(e_look_sensitivity sensitivity, bool set_by_user);
+	void set_map_completed_at_difficulty_level(e_campaign_game_mode campaign_game_mode, int32 absolute_map_index, e_campaign_difficulty_level difficulty, bool complete, bool set_by_user);
+	void set_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index, int8 selection_index, bool set_by_user);
+	void set_player_appearance(s_player_appearance const* player_appearance, bool set_by_user);
+	void set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user);
+	void set_player_model_choice(e_player_model_choice player_model_choice, bool set_by_user);
+	void __thiscall set_primary_change_color(e_player_color_index color, bool set_by_user);
+	void __thiscall set_secondary_change_color(e_player_color_index color, bool set_by_user);
+	void set_service_tag_failed_verification(bool value, bool set_by_user);
+	void set_service_tag_validated(wchar_t const* value, bool set_by_user);
+	void set_service_tag_was_randomly_generated(bool value, bool set_by_user);
+	void set_subtitle_setting(e_subtitle_setting setting, bool set_by_user);
+	void set_voice_mask(e_voice_mask mask, bool set_by_user);
+	void set_voice_matchmaking_setting(e_voice_matchmaking_setting setting, bool set_by_user);
+	void set_voice_mute_setting(e_voice_mute_setting setting, bool set_by_user);
+	void set_voice_output_setting(e_voice_output_setting setting, bool set_by_user);
 	void signed_out();
 
 //protected:
@@ -147,11 +178,11 @@ struct c_player_profile_interface
 
 	struct
 	{
-		int32 attached_horizontal;
-		int32 panning;
-		int32 look_sensitivity;
-		int32 flying_movement;
-		int32 flying_thrust;
+		e_camera_attached_horizontal attached_horizontal;
+		e_camera_panning panning;
+		e_camera_look_sensitivity look_sensitivity;
+		e_camera_flying_movement flying_movement;
+		e_camera_flying_thrust flying_thrust;
 	} m_camera;
 
 	struct

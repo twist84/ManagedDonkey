@@ -1067,7 +1067,7 @@ char const* const global_controller_index_names[k_number_of_controllers]
 };
 
 // 0191CB10
-char const* const global_button_preset_names[k_number_of_button_presets]
+char const* const global_button_preset_names[k_button_presets_count]
 {
 	"standard",
 	"south_paw",
@@ -1078,7 +1078,7 @@ char const* const global_button_preset_names[k_number_of_button_presets]
 };
 
 // 0191CB28
-char const* const global_joystick_preset_names[k_number_of_joystick_presets]
+char const* const global_joystick_preset_names[k_joystick_presets_count]
 {
 	"standard",
 	"south_paw",

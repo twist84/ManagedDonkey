@@ -168,44 +168,176 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA2430 ; 
 //.text:00AA2450 ; 
 //.text:00AA2460 ; 
-//.text:00AA2470 ; public: void c_player_profile_interface::set_button_preset(e_button_presets, bool)
-//.text:00AA24B0 ; public: void c_player_profile_interface::set_camera_attached_horizontal(e_camera_attached_horizontal, bool)
-//.text:00AA2500 ; public: void c_player_profile_interface::set_camera_flying_movement(e_camera_flying_movement, bool)
-//.text:00AA2550 ; public: void c_player_profile_interface::set_camera_flying_thrust(e_camera_flying_thrust, bool)
-//.text:00AA25A0 ; public: void c_player_profile_interface::set_camera_look_sensitivity(e_camera_look_sensitivity, bool)
-//.text:00AA25F0 ; public: void c_player_profile_interface::set_camera_panning(e_camera_panning, bool)
-//.text:00AA2640 ; public: void c_player_profile_interface::set_campaign_awarded_primary_skull_bitvector(int32, bool)
-//.text:00AA26D0 ; public: void c_player_profile_interface::set_campaign_awarded_secondary_skull_bitvector(int32, bool)
-//.text:00AA2760 ; public: void c_player_profile_interface::set_campaign_difficulty(e_campaign_difficulty_level, bool)
+
+void c_player_profile_interface::set_button_preset(e_button_presets preset, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2470, c_player_profile_interface, set_button_preset, preset, set_by_user);
+}
+
+void c_player_profile_interface::set_camera_attached_horizontal(e_camera_attached_horizontal value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA24B0, c_player_profile_interface, set_camera_attached_horizontal, value, set_by_user);
+}
+
+void c_player_profile_interface::set_camera_flying_movement(e_camera_flying_movement value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2500, c_player_profile_interface, set_camera_flying_movement, value, set_by_user);
+}
+
+void c_player_profile_interface::set_camera_flying_thrust(e_camera_flying_thrust value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2550, c_player_profile_interface, set_camera_flying_thrust, value, set_by_user);
+}
+
+void c_player_profile_interface::set_camera_look_sensitivity(e_camera_look_sensitivity value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA25A0, c_player_profile_interface, set_camera_look_sensitivity, value, set_by_user);
+}
+
+void c_player_profile_interface::set_camera_panning(e_camera_panning value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA25F0, c_player_profile_interface, set_camera_panning, value, set_by_user);
+}
+
+void c_player_profile_interface::set_campaign_awarded_primary_skull_bitvector(int32 primary_skull_bitvector, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2640, c_player_profile_interface, set_campaign_awarded_primary_skull_bitvector, primary_skull_bitvector, set_by_user);
+}
+
+void c_player_profile_interface::set_campaign_awarded_secondary_skull_bitvector(int32 secondary_skull_bitvector, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA26D0, c_player_profile_interface, set_campaign_awarded_secondary_skull_bitvector, secondary_skull_bitvector, set_by_user);
+}
+
+void c_player_profile_interface::set_campaign_difficulty(e_campaign_difficulty_level difficulty, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2760, c_player_profile_interface, set_campaign_difficulty, difficulty, set_by_user);
+}
+
 //.text:00AA27B0 ; 
-//.text:00AA28A0 ; public: void c_player_profile_interface::set_campaign_terminal_read_level1_bitvector(int16, bool)
-//.text:00AA2930 ; public: void c_player_profile_interface::set_campaign_terminal_read_level2_bitvector(int16, bool)
-//.text:00AA29C0 ; public: void c_player_profile_interface::set_controller_auto_center_look(bool, bool)
-//.text:00AA2A50 ; public: void c_player_profile_interface::set_controller_crouch_lock_enabled(bool, bool)
-//.text:00AA2AF0 ; public: void c_player_profile_interface::set_controller_flight_stick_aircraft_controls(bool, bool)
-//.text:00AA2B80 ; public: void c_player_profile_interface::set_controller_look_inverted(bool, bool)
+
+void c_player_profile_interface::set_campaign_terminal_read_level1_bitvector(int16 level1_bitvector, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA28A0, c_player_profile_interface, set_campaign_terminal_read_level1_bitvector, level1_bitvector, set_by_user);
+}
+
+void c_player_profile_interface::set_campaign_terminal_read_level2_bitvector(int16 level2_bitvector, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2930, c_player_profile_interface, set_campaign_terminal_read_level2_bitvector, level2_bitvector, set_by_user);
+}
+
+void c_player_profile_interface::set_controller_auto_center_look(bool auto_center, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA29C0, c_player_profile_interface, set_controller_auto_center_look, auto_center, set_by_user);
+}
+
+void c_player_profile_interface::set_controller_crouch_lock_enabled(bool crouch_lock, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2A50, c_player_profile_interface, set_controller_crouch_lock_enabled, crouch_lock, set_by_user);
+}
+
+void c_player_profile_interface::set_controller_flight_stick_aircraft_controls(bool aircraft_controls, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2AF0, c_player_profile_interface, set_controller_flight_stick_aircraft_controls, aircraft_controls, set_by_user);
+}
+
+void c_player_profile_interface::set_controller_look_inverted(bool invert, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2B80, c_player_profile_interface, set_controller_look_inverted, invert, set_by_user);
+}
+
 //.text:00AA2C00 ; 
 //.text:00AA2C70 ; 
 //.text:00AA2D60 ; 
-//.text:00AA2E30 ; public: void c_player_profile_interface::set_desired_service_tag(wchar_t const*, bool)
-//.text:00AA2EE0 ; public: void c_player_profile_interface::set_display_brightness(e_display_brightness, bool)
+
+void c_player_profile_interface::set_desired_service_tag(wchar_t const* value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2E30, c_player_profile_interface, set_desired_service_tag, value, set_by_user);
+}
+
+void c_player_profile_interface::set_display_brightness(e_display_brightness setting, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2EE0, c_player_profile_interface, set_display_brightness, setting, set_by_user);
+}
+
 //.text:00AA2F00 ; public: void c_player_profile_interface::set_display_hints_enabled(bool)
-//.text:00AA2F80 ; public: void c_player_profile_interface::set_female_voice_enabled(bool, bool)
-//.text:00AA3010 ; public: void c_player_profile_interface::set_film_auto_save(e_film_auto_save_type, bool, bool)
+
+void c_player_profile_interface::set_female_voice_enabled(bool female, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2F80, c_player_profile_interface, set_female_voice_enabled, female, set_by_user);
+}
+
+void c_player_profile_interface::set_film_auto_save(e_film_auto_save_type type, bool value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3010, c_player_profile_interface, set_film_auto_save, type, value, set_by_user);
+}
+
 //.text:00AA3060 ; 
-//.text:00AA3070 ; public: void c_player_profile_interface::set_guide_voice_through_speakers(e_guide_voice_through_speakers)
-//.text:00AA3090 ; public: void c_player_profile_interface::set_joystick_preset(e_joystick_presets, bool)
-//.text:00AA30D0 ; public: void c_player_profile_interface::set_last_campaign_map_played_absolute_index(int16, bool)
-//.text:00AA3160 ; public: void c_player_profile_interface::set_last_campaign_played_absolute_index(int16, bool)
-//.text:00AA31F0 ; public: void c_player_profile_interface::set_last_campaign_played_time(e_campaign_game_mode, uns64, bool)
-//.text:00AA3230 ; public: void c_player_profile_interface::set_last_custom_multiplayer_map_played(e_map_id, bool)
-//.text:00AA32B0 ; public: void c_player_profile_interface::set_last_network_game_hopper_played(uns16, bool)
-//.text:00AA3340 ; public: void c_player_profile_interface::set_last_shown_popup_message_index(e_popup_message_title, int32, bool)
-//.text:00AA33C0 ; public: void c_player_profile_interface::set_last_variant_played(e_game_engine_type, int32, bool)
-//.text:00AA3410 ; public: void c_player_profile_interface::set_look_sensitivity(e_look_sensitivity, bool)
-//.text:00AA3450 ; public: void c_player_profile_interface::set_map_completed_at_difficulty_level(e_campaign_game_mode, int32, e_campaign_difficulty_level, bool, bool)
-//.text:00AA34D0 ; public: void c_player_profile_interface::set_model_customization_selection(e_player_model_choice, int32, int8, bool)
-//.text:00AA3560 ; public: void c_player_profile_interface::set_player_appearance(s_player_appearance const*, bool)
+
+void c_player_profile_interface::set_guide_voice_through_speakers(e_guide_voice_through_speakers setting)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3070, c_player_profile_interface, set_guide_voice_through_speakers, setting);
+}
+
+void c_player_profile_interface::set_joystick_preset(e_joystick_presets preset, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3090, c_player_profile_interface, set_joystick_preset, preset, set_by_user);
+}
+
+void c_player_profile_interface::set_last_campaign_map_played_absolute_index(int16 absolute_map_index, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA30D0, c_player_profile_interface, set_last_campaign_map_played_absolute_index, absolute_map_index, set_by_user);
+}
+
+void c_player_profile_interface::set_last_campaign_played_absolute_index(int16 absolute_campaign_index, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3160, c_player_profile_interface, set_last_campaign_played_absolute_index, absolute_campaign_index, set_by_user);
+}
+
+void c_player_profile_interface::set_last_campaign_played_time(e_campaign_game_mode campaign_game_mode, uns64 last_campaign_played_time, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA31F0, c_player_profile_interface, set_last_campaign_played_time, campaign_game_mode, last_campaign_played_time, set_by_user);
+}
+
+void c_player_profile_interface::set_last_custom_multiplayer_map_played(e_map_id map, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3230, c_player_profile_interface, set_last_custom_multiplayer_map_played, map, set_by_user);
+}
+
+void c_player_profile_interface::set_last_network_game_hopper_played(uns16 hopper_identifier, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA32B0, c_player_profile_interface, set_last_network_game_hopper_played, hopper_identifier, set_by_user);
+}
+
+void c_player_profile_interface::set_last_shown_popup_message_index(e_popup_message_title title_index, int32 message_index, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3340, c_player_profile_interface, set_last_shown_popup_message_index, title_index, message_index, set_by_user);
+}
+
+void c_player_profile_interface::set_last_variant_played(e_game_engine_type type, int32 checksum, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA33C0, c_player_profile_interface, set_last_variant_played, type, checksum, set_by_user);
+}
+
+void c_player_profile_interface::set_look_sensitivity(e_look_sensitivity sensitivity, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3410, c_player_profile_interface, set_look_sensitivity, sensitivity, set_by_user);
+}
+
+void c_player_profile_interface::set_map_completed_at_difficulty_level(e_campaign_game_mode campaign_game_mode, int32 absolute_map_index, e_campaign_difficulty_level difficulty, bool complete, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3450, c_player_profile_interface, set_map_completed_at_difficulty_level, campaign_game_mode, absolute_map_index, difficulty, complete, set_by_user);
+}
+
+void c_player_profile_interface::set_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index, int8 selection_index, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA34D0, c_player_profile_interface, set_model_customization_selection, player_model_choice, area_index, selection_index, set_by_user);
+}
+
+void c_player_profile_interface::set_player_appearance(s_player_appearance const* player_appearance, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3560, c_player_profile_interface, set_player_appearance, player_appearance, set_by_user);
+}
 
 //.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, s_emblem_info const*)
 void c_player_profile_interface::set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user)
@@ -228,10 +360,12 @@ void c_player_profile_interface::set_emblem_info(s_emblem_info const* emblem_inf
 	}
 }
 
-//.text:00AA3620 ; public: void c_player_profile_interface::set_player_model_choice(e_player_model_choice, bool)
+void c_player_profile_interface::set_player_model_choice(e_player_model_choice player_model_choice, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3620, c_player_profile_interface, set_player_model_choice, player_model_choice, set_by_user);
+}
 
-//void c_player_profile_interface::set_primary_change_color(e_player_color_index color, bool set_by_user)
-void __thiscall c_player_profile_interface::set_primary_change_color(int32 color, bool set_by_user)
+void __thiscall c_player_profile_interface::set_primary_change_color(e_player_color_index color, bool set_by_user)
 {
 	INVOKE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color, color, set_by_user);
 
@@ -249,8 +383,7 @@ void __thiscall c_player_profile_interface::set_primary_change_color(int32 color
 //.text:00AA3740 ; 
 //.text:00AA37D0 ; 
 
-//void c_player_profile_interface::set_secondary_change_color(e_player_color_index color, bool set_by_user)
-void __thiscall c_player_profile_interface::set_secondary_change_color(int32 color, bool set_by_user)
+void __thiscall c_player_profile_interface::set_secondary_change_color(e_player_color_index color, bool set_by_user)
 {
 	INVOKE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color, color, set_by_user);
 
@@ -265,21 +398,54 @@ void __thiscall c_player_profile_interface::set_secondary_change_color(int32 col
 	//}
 }
 
-//.text:00AA38F0 ; public: void c_player_profile_interface::set_service_tag_failed_verification(bool, bool)
-//.text:00AA3980 ; public: void c_player_profile_interface::set_service_tag_validated(wchar_t const*, bool)
-//.text:00AA3A30 ; public: void c_player_profile_interface::set_service_tag_was_randomly_generated(bool, bool)
+void c_player_profile_interface::set_service_tag_failed_verification(bool value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA38F0, c_player_profile_interface, set_service_tag_failed_verification, value, set_by_user);
+}
+
+void c_player_profile_interface::set_service_tag_validated(wchar_t const* value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3980, c_player_profile_interface, set_service_tag_validated, value, set_by_user);
+}
+
+void c_player_profile_interface::set_service_tag_was_randomly_generated(bool value, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3A30, c_player_profile_interface, set_service_tag_was_randomly_generated, value, set_by_user);
+}
+
 //.text:00AA3AC0 ; 
 //.text:00AA3B30 ; public: void c_player_profile_interface::set_spartan_program_best_milestone(e_experience_milestone, bool)
 //.text:00AA3B80 ; public: void c_player_profile_interface::set_spartan_program_best_rank(int32, bool)
-//.text:00AA3C10 ; public: void c_player_profile_interface::set_subtitle_setting(e_subtitle_setting, bool)
+
+void c_player_profile_interface::set_subtitle_setting(e_subtitle_setting setting, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3C10, c_player_profile_interface, set_subtitle_setting, setting, set_by_user);
+}
+
 //.text:00AA3C30 ; 
 //.text:00AA3D40 ; 
 //.text:00AA3DD0 ; public: void c_player_profile_interface::set_training_data(s_player_training_profile_data const*, bool)
 //.text:00AA3EA0 ; 
-//.text:00AA3F30 ; public: void c_player_profile_interface::set_voice_mask(e_voice_mask, bool)
-//.text:00AA3F80 ; public: void c_player_profile_interface::set_voice_matchmaking_setting(e_voice_matchmaking_setting, bool)
-//.text:00AA3FD0 ; public: void c_player_profile_interface::set_voice_mute_setting(e_voice_mute_setting, bool)
-//.text:00AA4020 ; public: e_voice_output_setting c_player_profile_interface::get_voice_output_setting() const
+
+void c_player_profile_interface::set_voice_mask(e_voice_mask mask, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3F30, c_player_profile_interface, set_voice_mask, mask, set_by_user);
+}
+
+void c_player_profile_interface::set_voice_matchmaking_setting(e_voice_matchmaking_setting setting, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3F80, c_player_profile_interface, set_voice_matchmaking_setting, setting, set_by_user);
+}
+
+void c_player_profile_interface::set_voice_mute_setting(e_voice_mute_setting setting, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3FD0, c_player_profile_interface, set_voice_mute_setting, setting, set_by_user);
+}
+
+void c_player_profile_interface::set_voice_output_setting(e_voice_output_setting setting, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA4020, c_player_profile_interface, set_voice_output_setting, setting, set_by_user);
+}
 
 void c_player_profile_interface::signed_out()
 {

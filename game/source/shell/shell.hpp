@@ -41,8 +41,8 @@ extern char const* const global_campaign_difficulty_level_names[k_campaign_diffi
 extern char const* const global_campaign_team_names[k_campaign_team_count];
 extern char const* const global_multiplayer_team_names[k_multiplayer_team_count];
 extern char const* const global_controller_index_names[k_number_of_controllers];
-extern char const* const global_button_preset_names[k_number_of_button_presets];
-extern char const* const global_joystick_preset_names[k_number_of_joystick_presets];
+extern char const* const global_button_preset_names[k_button_presets_count];
+extern char const* const global_joystick_preset_names[k_joystick_presets_count];
 extern char const* const global_player_model_choice_names[k_number_of_player_model_choices];
 extern char const* const global_voice_output_setting_names[k_number_of_voice_output_settings];
 extern char const* const global_voice_mask_names[k_number_of_voice_masks];
