@@ -186,12 +186,6 @@ void __cdecl test_main_loop_body_begin()
 		c_visible_items::m_marker_indices;
 
 		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
-		s_thread_local_storage* tls = get_tls();
-
-		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
-		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 		c_player_in_game_iterator player_iterator;
 		{
@@ -242,7 +236,6 @@ void __cdecl test_main_loop_body_begin()
 		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
 		//	event(_event_warning, "ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
 
-		TLS_DATA_GET_VALUE_REFERENCE(players_globals);
 		players_globals->sprint_inhibited = !players_globals->sprint_inhibited;
 #else
 		//shell_halt_with_message("FUCK");
@@ -313,13 +306,11 @@ void __cdecl test_main_loop_body_end()
 	//}
 	if (input_key_frames_down(_key_page_up, _input_type_ui) == 1)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 		player_control_globals->machinima_camera_enabled = !player_control_globals->machinima_camera_enabled;
 		player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
 	}
 	if (input_key_frames_down(_key_page_down, _input_type_ui) == 1)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 		player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
 	}
 	//

@@ -40,7 +40,6 @@ void __cdecl ai_dispose_from_old_map()
 {
 	//INVOKE(0x01431500, ai_dispose_from_old_map);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map)
 	{
 		ai_script_dispose_from_old_map();
@@ -66,7 +65,6 @@ void __cdecl ai_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_
 {
 	//INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map)
 	{
 		flocks_dispose_from_old_structure_bsp();
@@ -105,7 +103,6 @@ bool __cdecl ai_enemies_attacking_players(int32* attacking_object_index, uns32* 
 {
 	return INVOKE(0x01431670, ai_enemies_attacking_players, attacking_object_index, player_mask_out);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//int32 actor_index = actor_endangering_player(true, true, player_mask_out);
 	//if (actor_index != NONE)
 	//{
@@ -119,7 +116,6 @@ bool __cdecl ai_enemies_can_see_player(int32* object_index)
 {
 	return INVOKE(0x014316D0, ai_enemies_can_see_player, object_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//int32 actor_index = actor_endangering_player(false, false, NULL);
 	//if (actor_index != NONE)
 	//{
@@ -134,7 +130,6 @@ void __cdecl ai_erase(int32 squad_index, bool delete_immediately)
 {
 	//INVOKE(0x01431720, ai_erase, squad_index, delete_immediately);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map)
 	{
 		if (squad_index == NONE)
@@ -162,7 +157,6 @@ void __cdecl ai_flush_spatial_effects()
 {
 	//INVOKE(0x01431BC0, ai_flush_spatial_effects);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	ai_globals->spatial_effects_last_index = 0;
 	ai_globals->spatial_effects_first_index = 0;
 	csmemset(ai_globals->spatial_effects, 0, sizeof(ai_globals->spatial_effects));
@@ -256,7 +250,6 @@ void __cdecl ai_initialize()
 {
 	//INVOKE(0x01433EA0, ai_initialize);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	ai_globals = (ai_globals_type*)g_ai_globals_allocator.allocate(sizeof(ai_globals_type), "ai globals");
 
 	ai_globals_initialize();
@@ -287,7 +280,6 @@ void __cdecl ai_initialize_for_new_map()
 {
 	//INVOKE(0x01433F70, ai_initialize_for_new_map);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	ai_globals_initialize_for_new_map();
 	ai_players_initialize_for_new_map();
 	ai_profile_initialize_for_new_map();
@@ -313,7 +305,6 @@ void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_
 {
 	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	//if (ai_globals->ai_initialized_for_map)
 	//{
 	//	actor_iterator iterator{};
@@ -366,7 +357,6 @@ void __cdecl ai_update()
 {
 	//INVOKE(0x014351F0, ai_update);
 
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map && !ai_profile.disable_ai && !game_is_predicted())
 	{
 		ai_debug_update();

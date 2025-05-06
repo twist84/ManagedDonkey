@@ -44,7 +44,6 @@ c_game_engine const* __cdecl current_game_engine()
 	c_game_engine const* result = nullptr;
 	//HOOK_INVOKE(result =, current_game_engine);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	if (game_engine_globals && (game_engine_globals->game_engine_index > _game_engine_type_none && game_engine_globals->game_engine_index < k_game_engine_type_count))
 		return game_engines[game_engine_globals->game_engine_index.get()];
 

@@ -909,8 +909,6 @@ void __cdecl debug_key_rotate_units(bool key_is_down)
 		int32 active_input_user = player_mapping_first_active_input_user();
 		if (active_input_user != k_number_of_users)
 		{
-			TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 			int32 player_index = player_mapping_get_player_by_input_user(active_input_user);
 			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			int32 closest_unit = units_debug_get_closest_unit(player->unit_index);
@@ -927,8 +925,6 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 		int32 active_input_user = player_mapping_first_active_input_user();
 		if (active_input_user != k_number_of_users)
 		{
-			TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 			int32 player_index = player_mapping_get_player_by_input_user(active_input_user);
 			player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			int32 unit_index = player->unit_index;
@@ -1196,8 +1192,6 @@ void __cdecl debug_key_force_respawn(bool key_is_down)
 
 		static bool force_respawn = false;
 		force_respawn = !force_respawn;
-
-		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 
 		c_player_in_game_iterator player_iterator;
 		player_iterator.begin();

@@ -24,7 +24,6 @@ s_depth_of_field* __cdecl s_depth_of_field::get()
 {
 	//return INVOKE(0x00A3EB00, s_depth_of_field::get);
 
-	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	return depth_of_field_game_globals;
 }
 
@@ -37,7 +36,6 @@ real32 __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_
 {
 	return INVOKE(0x00A3EC30, s_depth_of_field::get_depth_of_field_blur_sigma, observer_depth_of_field);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	//real32 actual_blur = depth_of_field_game_globals->actual_blur;
 	//if (observer_depth_of_field && TEST_BIT(observer_depth_of_field->flags, s_observer_depth_of_field::_active_bit))
 	//{
@@ -52,7 +50,6 @@ bool __cdecl s_depth_of_field::get_enabled()
 {
 	//return INVOKE(0x00A3ECB0, s_depth_of_field::get_enabled);
 
-	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	return depth_of_field_game_globals->enabled;
 }
 
@@ -60,7 +57,6 @@ void __cdecl s_depth_of_field::initialize()
 {
 	//INVOKE(0x00A3ECD0, s_depth_of_field::initialize);
 
-	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	depth_of_field_game_globals = (s_depth_of_field*)g_depth_of_field_game_globals_allocator.allocate(sizeof(s_depth_of_field), "DOF globals");
 	depth_of_field_game_globals->set_default_values();
 }
@@ -69,7 +65,6 @@ void __cdecl s_depth_of_field::initialize_for_new_map()
 {
 	//INVOKE(0x00A3ED30, s_depth_of_field::initialize_for_new_map);
 
-	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	depth_of_field_game_globals->enabled = false;
 }
 
@@ -77,7 +72,6 @@ void __cdecl render_animate_depth_of_field(real32 near_distance, real32 far_dist
 {
 	INVOKE(0x00A3ED50, render_animate_depth_of_field, near_distance, far_distance, depth, ticks);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	//depth_of_field_game_globals->enabled = true;
 	//depth_of_field_game_globals->animate = true;
 	//depth_of_field_game_globals->focus_distance_near = near_distance;
@@ -92,7 +86,6 @@ void __cdecl render_animate_depth_of_field_blur(real32 blur, real32 ticks)
 {
 	INVOKE(0x00A3EE30, render_animate_depth_of_field_blur, blur, ticks);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	//depth_of_field_game_globals->blur_start = depth_of_field_game_globals->actual_blur;
 	//depth_of_field_game_globals->blur_target = blur;
 	//depth_of_field_game_globals->blur_start_time = game_time_get();
@@ -103,7 +96,6 @@ void __cdecl render_enable_depth_of_field(bool enable)
 {
 	INVOKE(0x00A3EEB0, render_enable_depth_of_field, enable);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	//depth_of_field_game_globals->enabled = enable;
 	//depth_of_field_game_globals->animate = false;
 }
@@ -112,7 +104,6 @@ void __cdecl render_set_depth_of_field(real32 depth)
 {
 	INVOKE(0x00A3EEE0, render_set_depth_of_field, depth);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	//depth_of_field_game_globals->aperture = 1.0f / (depth > 0.001f ? depth : 0.001f);
 }
 
@@ -145,7 +136,6 @@ void __cdecl s_depth_of_field::update()
 {
 	//INVOKE(0x00A3EFE0, s_depth_of_field::update);
 
-	TLS_DATA_GET_VALUE_REFERENCE(depth_of_field_game_globals);
 	depth_of_field_game_globals->update_internal();
 }
 

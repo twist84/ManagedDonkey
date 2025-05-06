@@ -180,8 +180,6 @@ void __cdecl objectives_update()
 
 void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(squad_data);
-
 	squad_datum* squad = DATUM_GET_ABSOLUTE(squad_data, squad_datum, DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_index));
 	if (squad->objective_index != NONE)
 	{

@@ -29,7 +29,6 @@ c_global_preferences_scope_lock::~c_global_preferences_scope_lock()
 
 s_global_preferences_internals_type* global_preferences_get()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_global_preferences);
 	return g_global_preferences;
 }
 

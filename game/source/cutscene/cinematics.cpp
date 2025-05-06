@@ -211,8 +211,6 @@ void __cdecl draw_quad(rectangle2d* rect, uns32 color)
 
 void cinematic_debug_camera_control_update()
 {
-	//TLS_DATA_GET_VALUE_REFERENCE(cinematic_new_globals);
-	//
 	//int32 input_user_index = player_mapping_first_active_input_user();
 	//int32 player_index = NONE;
 	//

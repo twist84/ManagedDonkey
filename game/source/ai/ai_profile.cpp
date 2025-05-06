@@ -60,14 +60,12 @@ char const* spray_mode_names[NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES]
 
 int16 ai_meter_actor()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	int16 member_count = (int16)actor_data->actual_count;
 	return member_count;
 }
 
 int16 ai_meter_prop()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(prop_data);
 	int16 member_count = (int16)prop_data->actual_count;
 	return member_count;
 }
@@ -84,7 +82,6 @@ int16 ai_meter_swarm_actor()
 
 int16 ai_meter_swarm_cache()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(swarm_data);
 	int16 member_count = (int16)swarm_data->actual_count;
 	return member_count;
 }
@@ -187,7 +184,6 @@ void ai_profile_initialize_for_new_map()
 
 void ai_profile_render()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	if (ai_globals->ai_initialized_for_map)
 	{
 		rectangle2d bounds{};
@@ -216,8 +212,6 @@ void ai_profile_render()
 
 void ai_profile_render_spray()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	int32 active_output_user = player_mapping_first_active_output_user();
 	s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
 	if (ai_profile.render_spray_mode > _ai_profile_render_spray_none && camera && ai_globals->ai_initialized_for_map)
@@ -400,7 +394,6 @@ int32 count_actors(bool active_only)
 
 bool __cdecl actor_general_update_for_ai_meters(int32 actor_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	ai_profile.meters[_ai_meter_actor_active].current_count;
 	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	if (actor && actor->meta.swarm)

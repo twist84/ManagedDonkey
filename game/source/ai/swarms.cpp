@@ -72,7 +72,6 @@ void __cdecl swarm_delete(int32 swarm_index)
 
 swarm_datum* __cdecl swarm_get(int32 swarm_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(swarm_data);
 	swarm_datum* swarm = DATUM_GET(swarm_data, swarm_datum, swarm_index);
 	return swarm;
 }

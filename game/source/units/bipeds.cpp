@@ -313,8 +313,6 @@ bool __cdecl biped_update(int32 biped_index)
 {
 	//return INVOKE(0x00B716C0, biped_update, biped_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-
 	biped_datum* biped = BIPED_GET(biped_index);
 
 	bool v5 = biped_update_soft_ceilings(biped_index);

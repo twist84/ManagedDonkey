@@ -174,7 +174,6 @@ void __cdecl simulation_player_collection_build(s_player_collection* collection)
 	//ASSERT(collection);
 	//ASSERT(collection->player_valid_mask == 0);
 	//
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//c_data_iterator<player_datum> player_iterator;
 	//player_iterator.begin(*player_data);
 	//while (player_iterator.next())
@@ -304,7 +303,6 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_added);
 	//
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//player_datum* player = &player_data[player_update->player_index];
 	//if (!player)
 	//{

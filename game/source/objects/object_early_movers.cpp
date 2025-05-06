@@ -70,8 +70,6 @@ void __cdecl object_get_early_movers(int32 const** object_early_movers, int32* o
 {
 	INVOKE(0x00B98EB0, object_get_early_movers, object_early_movers, object_early_movers_count);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_object_early_movers_globals);
-	//
 	//ASSERT(g_object_early_movers_globals != NULL);
 	//ASSERT(g_object_early_movers_globals->map_initialized);
 	//
@@ -102,7 +100,6 @@ void __cdecl object_early_mover_render_debug()
 	if (!debug_objects_early_movers)
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_object_early_movers_globals);
 	for (int32 i = 0; i < g_object_early_movers_globals->object_index_count; i++)
 	{
 		s_object_early_mover_obb obb{};

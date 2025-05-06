@@ -62,8 +62,6 @@ uns32* __cdecl get_random_seed_address()
 {
 	//return INVOKE(0x0051F000, get_random_seed_address);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
-
 	if (game_in_editor())
 		ASSERT(random_seed_allow_use_count > 0);
 
@@ -95,7 +93,6 @@ void __cdecl random_math_dispose_tool()
 {
 	//INVOKE(0x0051F080, random_math_dispose_tool);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
 	if (g_deterministic_random_seed_ptr)
 	{
 		system_free(g_deterministic_random_seed_ptr);
@@ -107,8 +104,6 @@ void __cdecl random_math_initialize()
 {
 	//INVOKE(0x0051F0B0, random_math_initialize);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
-
 	g_deterministic_random_seed_ptr = (uns32*)g_deterministic_random_seed_ptr_allocator.allocate(sizeof(uns32), "random math");
 	random_math_initialize_internal();
 }
@@ -116,8 +111,6 @@ void __cdecl random_math_initialize()
 void __cdecl random_math_initialize_internal()
 {
 	//INVOKE(0x0051F130, random_math_initialize_internal);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
 	
 	*g_deterministic_random_seed_ptr = 0x78A8;
 	random_seed_local = generate_random_seed();
@@ -128,8 +121,6 @@ void __cdecl random_math_initialize_internal()
 void __cdecl random_math_initialize_tool()
 {
 	//INVOKE(0x0051F170, random_math_initialize_tool);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_deterministic_random_seed_ptr);
 
 	g_deterministic_random_seed_ptr = (uns32*)system_malloc(sizeof(uns32));
 	random_math_initialize_internal();

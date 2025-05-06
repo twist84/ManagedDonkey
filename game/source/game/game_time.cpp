@@ -54,7 +54,6 @@ void __cdecl __tls_set_g_game_time_globals_allocator(void* address)
 {
 	//INVOKE(0x00564A70, __tls_set_g_game_time_globals_allocator, address);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	game_time_globals = (game_time_globals_definition*)address;
 }
 
@@ -62,7 +61,6 @@ int32 __cdecl game_seconds_integer_to_ticks(int32 seconds)
 {
 	//return INVOKE(0x00564B40, game_seconds_integer_to_ticks, seconds);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	return seconds * game_time_globals->tick_rate;
@@ -72,7 +70,6 @@ real32 __cdecl game_seconds_to_ticks_real(real32 seconds)
 {
 	//return INVOKE(0x00564B70, game_seconds_to_ticks_real, seconds);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	return seconds * game_time_globals->tick_rate;
@@ -82,7 +79,6 @@ int32 __cdecl game_seconds_to_ticks_round(real32 seconds)
 {
 	//return INVOKE(0x00564BB0, game_seconds_to_ticks_round, seconds);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	real32 tick_rate = game_time_globals->tick_rate * seconds;
@@ -93,7 +89,6 @@ real32 __cdecl game_tick_length()
 {
 	//return INVOKE(0x00564C20, game_tick_length);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	return game_time_globals->tick_length;
@@ -103,7 +98,6 @@ int32 __cdecl game_tick_rate()
 {
 	//return INVOKE(0x00564C40, game_tick_rate);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	return game_time_globals->tick_rate;
@@ -113,7 +107,6 @@ real32 __cdecl game_ticks_to_seconds(real32 ticks)
 {
 	//return INVOKE(0x00564C60, game_ticks_to_seconds, ticks);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	return game_time_globals->tick_length * ticks;
@@ -123,7 +116,6 @@ void __cdecl game_time_advance()
 {
 	//INVOKE(0x00564C90, game_time_advance);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	game_time_globals->time++;
@@ -133,7 +125,6 @@ void __cdecl game_time_discard(int32 desired_ticks, int32 actual_ticks, real32* 
 {
 	//INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, elapsed_game_dt);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	ASSERT(desired_ticks > 0);
@@ -160,7 +151,6 @@ void __cdecl game_time_dispose_from_old_map()
 {
 	//INVOKE(0x00564D20, game_time_dispose_from_old_map);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	if (game_time_globals && game_time_globals->initialized)
 	{
 		game_time_statistics_stop();
@@ -172,7 +162,6 @@ int32 __cdecl game_time_get()
 {
 	//return INVOKE(0x00564D50, game_time_get);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals && game_time_globals->initialized);
 	return game_time_globals->time;
 }
@@ -181,7 +170,6 @@ bool __cdecl game_time_get_paused()
 {
 	//return INVOKE(0x00564D70, game_time_get_paused);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	
 	bool result = false;
@@ -211,7 +199,6 @@ bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
 {
 	//return INVOKE(0x00564E20, game_time_get_paused_for_reason, reason);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	return game_time_globals->initialized && game_time_globals->flags.test(reason);
 }
 
@@ -219,7 +206,6 @@ real32 __cdecl game_time_get_safe_in_seconds()
 {
 	//return INVOKE(0x00564E60, game_time_get_safe_in_seconds);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	if (game_time_globals && game_time_globals->initialized)
 		return game_time_globals->time * game_time_globals->tick_length;
 	return 0.0f;
@@ -229,15 +215,12 @@ real32 __cdecl game_time_get_speed()
 {
 	//return INVOKE(0x00564EB0, game_time_get_speed);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	return game_time_globals->speed;
 }
 
 void __cdecl game_time_initialize()
 {
 	//INVOKE(0x00564ED0, game_time_initialize);
-
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 
 	game_time_globals = (game_time_globals_definition*)g_game_time_globals_allocator.allocate(sizeof(game_time_globals_definition), "game time globals");
 	csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
@@ -247,7 +230,6 @@ void __cdecl game_time_initialize_for_new_map()
 {
 	//INVOKE(0x00564F30, game_time_initialize_for_new_map);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
 	game_time_globals->tick_rate = game_options_get()->game_tick_rate;
 	game_time_globals->tick_length = 1.0f / game_time_globals->tick_rate;
@@ -261,7 +243,6 @@ bool __cdecl game_time_initialized()
 {
 	//return INVOKE(0x00564FA0, game_time_initialized);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	return game_time_globals && game_time_globals->initialized;
 }
 
@@ -274,7 +255,6 @@ void __cdecl game_time_set(int32 game_time)
 {
 	//INVOKE(0x00564FE0, game_time_set, game_time);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals && game_time_globals->initialized);
 	ASSERT(game_is_networked() && !simulation_in_progress());
 	ASSERT(game_time >= 0);
@@ -285,7 +265,6 @@ void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
 {
 	//INVOKE(0x00565000, game_time_set_paused, enable, reason);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	game_time_globals->flags.set(reason, enable);
@@ -298,7 +277,6 @@ void __cdecl game_time_set_rate_scale(real32 world_seconds_elapsed, real32 game_
 {
 	//INVOKE(0x00565060, game_time_set_rate_scale, world_seconds_elapsed, game_seconds_elapsed, shell_seconds_elapsed);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	world_seconds_elapsed = CLAMP(world_seconds_elapsed, 0.2f, 5.0f);
 	game_seconds_elapsed = CLAMP(game_seconds_elapsed, 0.2f, 5.0f);
 	if (shell_seconds_elapsed > 0.0f)
@@ -315,7 +293,6 @@ void __cdecl game_time_set_rate_scale_direct(real32 rate_scale)
 {
 	//INVOKE(0x00565110, game_time_set_rate_scale_direct, rate_scale);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	real32 game_tick_rate = game_options_get()->game_tick_rate;
 	real32 tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
 	tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2);
@@ -329,7 +306,6 @@ void __cdecl game_time_set_speed(real32 speed)
 {
 	//INVOKE(0x005651D0, game_time_set_speed, speed);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	game_time_globals->speed = speed;
@@ -339,8 +315,6 @@ void game_time_set_cinematic_rate()
 {
 	if (!game_in_progress())
 		return;
-
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 
 	real32 tick_rate = game_options_get()->game_tick_rate;
 	if (game_is_campaign() && cinematic_in_progress())
@@ -353,8 +327,6 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	
 	uns32 game_ticks_target = 0;
 	bool result = false;
 	uns32 game_ticks_limit = 0;
@@ -515,7 +487,6 @@ void __cdecl game_time_update_paused_flags()
 {
 	//INVOKE(0x00565510, game_time_update_paused_flags);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	if (!game_time_get_paused_for_reason(_game_time_pause_recursion_lock_internal))
 	{
 		game_time_globals->flags.set(_game_time_pause_recursion_lock_internal, true);
@@ -582,8 +553,6 @@ void game_time_statistics_frame(
 	real32 game_ticks_leftover,
 	bool discontinuity)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-
 	if (game_time_statistics_started)
 	{
 		if (game_time_statistics_update_time)

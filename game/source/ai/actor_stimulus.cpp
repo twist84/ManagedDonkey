@@ -54,9 +54,6 @@ void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_inde
 {
 	//INVOKE(0x01457200, actor_stimulus_prop_acknowledged, actor_index, prop_index, first_acknowledgement);
 
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
-
 	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
 
@@ -71,7 +68,6 @@ void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_inde
 
 	if (cheat.medusa)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(prop_data);
 		prop_state* state = prop_state_get(pref);
 		prop_datum* prop = DATUM_GET(prop_data, prop_datum, pref->prop_index);
 		if (prop->player && prop->enemy && !state->dead && actor->meta.type != _actor_mounted_weapon)

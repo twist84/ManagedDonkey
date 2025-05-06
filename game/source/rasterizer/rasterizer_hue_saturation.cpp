@@ -26,8 +26,6 @@ void __cdecl c_hue_saturation_control::copy_from_gamestate()
 {
 	//INVOKE(0x00530470, copy_from_gamestate);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_hue_saturation_control_in_gamestate);
-
 	//c_hue_saturation_control::x_exposed_to_hs = *c_hue_saturation_control::x_in_gamestate;
 	g_hue_saturation_control_exposed_to_hs = *g_hue_saturation_control_in_gamestate;
 }
@@ -35,8 +33,6 @@ void __cdecl c_hue_saturation_control::copy_from_gamestate()
 void __cdecl c_hue_saturation_control::copy_to_gamestate()
 {
 	//INVOKE(0x005304B0, copy_from_gamestate);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_hue_saturation_control_in_gamestate);
 
 	//*c_hue_saturation_control::x_in_gamestate = c_hue_saturation_control::x_exposed_to_hs;
 	*g_hue_saturation_control_in_gamestate = g_hue_saturation_control_exposed_to_hs;

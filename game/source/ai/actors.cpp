@@ -37,7 +37,6 @@ bool __cdecl actor_datum_available_to_current_thread()
 {
 	//return INVOKE(0x01429350, actor_datum_available_to_current_thread);
 
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	return actor_data != NULL;
 }
 
@@ -54,8 +53,6 @@ void __cdecl actor_delete(int32 actor_index, bool died)
 void __cdecl actor_erase(int32 actor_index, bool delete_immediately)
 {
 	//INVOKE(0x01429DF0, actor_erase, actor_index, delete_immediately);
-
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 
 	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	int32 unit_index = actor->meta.unit_index;
@@ -136,7 +133,6 @@ bool __cdecl actor_is_blind(int32 actor_index)
 {
 	return INVOKE(0x0142C6A0, actor_is_blind, actor_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//if (actor->state.blind || !actor->meta.active || actor->state.mode == 1)
 	//	return true;
@@ -149,7 +145,6 @@ bool __cdecl actor_is_deaf(int32 actor_index)
 {
 	return INVOKE(0x0142C700, actor_is_deaf, actor_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	//if (actor->state.deaf || !actor->meta.active)
 	//	return true;
@@ -170,9 +165,6 @@ void __cdecl actor_iterator_new(actor_iterator* iterator, bool active_only)
 {
 	//INVOKE(0x0142C950, actor_iterator_new, iterator, active_only);
 
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	
 	if (ai_globals->ai_initialized_for_map)
 	{
 		iterator->iterator.begin(actor_data);
@@ -184,8 +176,6 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 {
 	//return INVOKE(0x0142C990, actor_iterator_next, iterator);
 	
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-
 	actor_datum* actor = NULL;
 	if (ai_globals->ai_initialized_for_map)
 	{

@@ -86,8 +86,6 @@ first_person_weapon* __cdecl first_person_weapon_get(int32 user_index)
 {
 	//return INVOKE(0x00A9BC00, first_person_weapon_get, user_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(first_person_weapons);
-
 	ASSERT(VALID_INDEX(user_index, 4));
 
 	return &first_person_weapons[user_index];

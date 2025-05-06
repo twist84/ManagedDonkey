@@ -286,7 +286,6 @@ s_observer_globals* observer_globals_get()
 {
 	//return INVOKE(0x00612890, observer_globals_get);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
 	ASSERT(g_observer_globals);
 
 	return g_observer_globals;
@@ -315,7 +314,6 @@ void __cdecl observer_initialize_for_new_map()
 
 	//observer_clear_all();
 	//
-	//TLS_DATA_GET_VALUE_REFERENCE(observer_gamestate_globals);
 	//observer_gamestate_globals->__unknown0 = 0;
 	//observer_gamestate_globals->__unknown4 = NONE;
 	//observer_gamestate_globals->__unknown6 = NONE;
@@ -429,8 +427,6 @@ void __cdecl observer_update(real32 world_seconds_elapsed)
 {
 	//INVOKE(0x00613A60, observer_update, world_seconds_elapsed);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
-	
 	//collision_log_begin_period(6);
 
 	g_observer_globals->dtime = g_camera_speed * world_seconds_elapsed;

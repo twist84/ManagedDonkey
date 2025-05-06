@@ -54,7 +54,6 @@ real32 __cdecl game_engine_get_user_fade_to_black_amount(int32 user_index)
 {
 	//return INVOKE(0x006E49F0, game_engine_get_user_fade_to_black_amount, user_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	if (user_index == NONE || !simulation_in_progress())
 		return 1.0f;
 
@@ -108,7 +107,6 @@ void __cdecl game_engine_render_fade_to_black(int32 user_index)
 	if (!VALID_INDEX(user_index, k_number_of_users))
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	if (TEST_BIT(game_engine_globals->fade_to_black_cache_latch, user_index))
 	{
 		int32 ticks = 0;

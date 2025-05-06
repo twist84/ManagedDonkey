@@ -21,7 +21,6 @@ int32 __cdecl game_engine_active_player_count_by_team(int32 team)
 	//
 	//int32 player_count = 0;
 	//
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	//for (int32 i = data_next_index(*player_data, NONE); i != NONE; i = data_next_index(*player_data, i))
 	//{
 	//	player_datum* player = &player_data[i];
@@ -133,8 +132,6 @@ void __cdecl game_engine_respawn_override_timers(int16 team)
 	//
 	//if (!VALID_INDEX(team, k_multiplayer_team_count))
 	//	return;
-	//
-	//TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	//
 	//c_player_in_game_iterator player_iterator;
 	//player_iterator.begin();

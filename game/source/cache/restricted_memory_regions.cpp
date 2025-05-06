@@ -8,7 +8,6 @@ void* __cdecl restricted_memory_get_address(int32 index, uns32 offset)
 {
 	return INVOKE(0x0059FF70, restricted_memory_get_address, index, offset);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
@@ -20,7 +19,6 @@ void __cdecl restricted_memory_set_base_address(int32 index, void* address)
 {
 	INVOKE(0x0059FFA0, restricted_memory_set_base_address, index, address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//g_restricted_address[index] = address;
 }
@@ -29,8 +27,6 @@ void __cdecl restricted_region_add_alias(int32 index)
 {
 	INVOKE(0x0059FFD0, restricted_region_add_alias, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_alias);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_address[index] == NULL);
 	//g_restricted_address[index] = g_restricted_regions[index].add_alias();
@@ -65,8 +61,6 @@ bool __cdecl restricted_region_aliased_for_current_thread(int32 index)
 {
 	return INVOKE(0x005A00A0, restricted_region_aliased_for_current_thread, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_alias);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_regions[index].initialized());
 	//return g_restricted_address[index] && g_restricted_alias[index];
@@ -76,7 +70,6 @@ void __cdecl restricted_region_begin_aliasing(int32 index)
 {
 	INVOKE(0x005A00E0, restricted_region_begin_aliasing, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_address[index] != NULL);
 	//g_restricted_regions[index].begin_aliasing();
@@ -110,7 +103,6 @@ void __cdecl restricted_region_end_aliasing(int32 index)
 {
 	INVOKE(0x005A0170, restricted_region_end_aliasing, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_address[index] != NULL);
 	//g_restricted_regions[index].end_aliasing();
@@ -133,7 +125,6 @@ void* __cdecl restricted_region_get_member_address(int32 index, int32 member_ind
 {
 	return INVOKE(0x005A0220, restricted_region_get_member_address, index, member_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
 	//ASSERT(address != NULL);
@@ -184,7 +175,6 @@ void __cdecl restricted_region_handle_crash_of_current_thread()
 {
 	INVOKE(0x005A02F0, restricted_region_handle_crash_of_current_thread);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//for (int32 index = 0; index < k_total_restricted_memory_regions; index++)
 	//{
 	//	g_restricted_address[index] = NULL;
@@ -205,7 +195,6 @@ bool __cdecl restricted_region_lock_mirror(int32 index)
 {
 	return INVOKE(0x005A0360, restricted_region_lock_mirror, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].lock_mirror();
 	//ASSERT(g_restricted_address[index] == NULL);
@@ -217,7 +206,6 @@ void __cdecl restricted_region_lock_primary(int32 index)
 {
 	INVOKE(0x005A03A0, restricted_region_lock_primary, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].lock_primary();
 	//ASSERT(base_address);
@@ -229,7 +217,6 @@ bool __cdecl restricted_region_locked_for_current_thread(int32 index)
 {
 	return INVOKE(0x005A03E0, restricted_region_locked_for_current_thread, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_regions[index].initialized());
 	//return g_restricted_address[index] != NULL;
@@ -248,7 +235,6 @@ bool __cdecl restricted_region_primary_locked_for_current_thread(int32 index)
 {
 	return INVOKE(0x005A0430, restricted_region_primary_locked_for_current_thread, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//return g_restricted_address[index] && !g_restricted_regions[index].mirror_locked_for_current_thread();
 }
@@ -265,8 +251,6 @@ void __cdecl restricted_region_remove_alias(int32 index)
 {
 	INVOKE(0x005A0490, restricted_region_remove_alias, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_alias);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(restricted_region_aliased_for_current_thread(index));
 	//g_restricted_regions[index].remove_alias();
@@ -286,7 +270,6 @@ bool __cdecl restricted_region_try_and_lock_mirror(int32 index)
 {
 	return INVOKE(0x005A04F0, restricted_region_try_and_lock_mirror, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].try_and_lock_mirror();
 	//ASSERT(g_restricted_address[index] == NULL);
@@ -298,7 +281,6 @@ bool __cdecl restricted_region_try_and_lock_primary(int32 index)
 {
 	return INVOKE(0x005A0530, restricted_region_try_and_lock_primary, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].try_and_lock_primary();
 	//ASSERT(g_restricted_address[index] == NULL);
@@ -310,7 +292,6 @@ void __cdecl restricted_region_unlock_mirror(int32 index)
 {
 	INVOKE(0x005A0570, restricted_region_unlock_mirror, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_address[index] != NULL);
 	//g_restricted_address[index] = NULL;
@@ -321,7 +302,6 @@ void __cdecl restricted_region_unlock_primary(int32 index)
 {
 	INVOKE(0x005A05B0, restricted_region_unlock_primary, index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_address[index] != NULL);
 	//g_restricted_address[index] = NULL;

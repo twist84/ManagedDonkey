@@ -65,7 +65,6 @@ void __cdecl destroy_thread_management()
 {
 	INVOKE(0x0051C3A0, destroy_thread_management);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//ASSERT(g_thread_globals.initialized.peek() != FALSE, "thread management has not been initialized");
 	//ASSERT(g_registered_thread_index == k_thread_main, "Must be called by the main thread");
 	//for (int32 thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
@@ -151,7 +150,6 @@ void __cdecl initialize_thread_management()
 	//	thread_should_assert[thread_index].set(FALSE);
 	//	thread_should_crash[thread_index].set(FALSE);
 	//}
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//g_registered_thread_index = k_thread_main;
 	//g_thread_globals.thread_handle[k_thread_unknown] = INVALID_HANDLE_VALUE;
 	//g_thread_globals.thread_id[k_thread_unknown] = NONE;
@@ -164,7 +162,6 @@ bool __cdecl is_async_thread()
 {
 	return INVOKE(0x0051C620, is_async_thread);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_async_io;
 }
 
@@ -172,7 +169,6 @@ bool __cdecl is_main_thread()
 {
 	return INVOKE(0x0051C650, is_main_thread);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_main;
 }
 
@@ -180,7 +176,6 @@ bool __cdecl is_render_thread()
 {
 	return INVOKE(0x0051C680, is_render_thread);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_render;
 }
 
@@ -188,8 +183,6 @@ void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments)
 {
 	INVOKE(0x0051C6B0, post_thread_assert_arguments, arguments);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_arguments);
-	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_triggered);
 	//if (arguments)
 	//	csmemcpy(&g_thread_assert_arguments, arguments, sizeof(s_thread_assert_arguments));
 	//g_thread_assert_triggered = true;
@@ -214,7 +207,6 @@ void __cdecl register_thread_running(int32 thread_index)
 {
 	INVOKE(0x0051C760, register_thread_running, thread_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//ASSERT(VALID_INDEX(thread_index, k_registered_thread_count));
 	//g_registered_thread_index = thread_index;
 }
@@ -223,7 +215,6 @@ void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_point
 {
 	INVOKE(0x0051C780, set_thread_exception_arguments, exception_pointers);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_arguments);
 	if (exception_pointers && exception_pointers->ExceptionRecord)
 	{
 		csmemcpy(exception_pointers->ExceptionRecord->ExceptionInformation, &g_thread_assert_arguments, sizeof(s_thread_assert_arguments));
@@ -269,8 +260,6 @@ int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_poin
 {
 	return INVOKE(0x0051C8C0, thread_execution_crash_handler, exception_pointers, thread_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_triggered);
-	//
 	//g_thread_globals.thread_has_crashed[thread_index].set(TRUE);
 	//thread_release_locks_and_d3d_device();
 	//if (g_thread_assert_triggered)

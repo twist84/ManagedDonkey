@@ -92,8 +92,6 @@ void __cdecl c_water_renderer::ripple_apply()
 {
 	//INVOKE(0x00A37000, c_water_renderer::ripple_apply);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-
 	if (g_main_render_timing_data->game_dt > 0.00001f)
 	{
 		c_rasterizer_profile_scope _ripple_apply(_rasterizer_profile_element_total, L"ripple_apply");

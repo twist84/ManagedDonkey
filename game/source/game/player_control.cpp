@@ -44,7 +44,6 @@ int32 next_output_user(int32 user_index)
 s_player_control_input_state* player_control_input_get(int32 input_user_index)
 {
 	//ASSERT(VALID_INDEX(input_user_index, k_number_of_users));
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	return &player_control_globals->input_states[input_user_index];
 }
@@ -53,7 +52,6 @@ s_player_control_input_state* player_control_input_get(int32 input_user_index)
 s_player_control_output_state* player_control_output_get(int32 user_index)
 {
 	//ASSERT(VALID_INDEX(user_index, k_number_of_users));
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	return &player_control_globals->output_state[user_index];
 }
@@ -198,8 +196,6 @@ bool __cdecl player_control_get_machinima_camera_debug()
 {
 	//return INVOKE(0x005D2B40, player_control_get_machinima_camera_debug);
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-
 	if (player_control_get_machinima_camera_enabled())
 		return player_control_globals->machinima_camera_debug;
 
@@ -210,8 +206,6 @@ bool __cdecl player_control_get_machinima_camera_enabled()
 {
 	//return INVOKE(0x005D2B90, player_control_get_machinima_camera_enabled);
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-
 	if (player_control_machinima_available())
 		return player_control_globals->machinima_camera_enabled;
 
@@ -221,8 +215,6 @@ bool __cdecl player_control_get_machinima_camera_enabled()
 bool __cdecl player_control_get_machinima_camera_use_old_controls()
 {
 	//return INVOKE(0x005D2BE0, player_control_get_machinima_camera_use_old_controls);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	if (player_control_get_machinima_camera_enabled())
 		return player_control_globals->machinima_camera_old_controls;
@@ -276,8 +268,6 @@ bool __cdecl player_control_machinima_available()
 void __cdecl player_control_propagate_output(int32 input_user_index)
 {
 	//INVOKE(0x005D4430, player_control_propagate_output, input_user_index);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	s_player_control_input_state* player_control_input = player_control_input_get(input_user_index);
 
@@ -340,8 +330,6 @@ void __cdecl player_control_update(real32 world_seconds_elapsed, real32 game_sec
 void __cdecl player_control_update_machinima()
 {
 	//INVOKE(0x005D4A60, player_control_update_machinima);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	if (!player_control_get_machinima_camera_enabled())
 		return;
@@ -437,8 +425,6 @@ void __cdecl player_control_get_controller_input_for_jetpack(int32 input_user_in
 
 	if (!cheat.jetpack)
 		return;
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 
 	int32 unit_index = player_control_globals->input_states[controller_index].output.unit_index;
 	biped_datum* biped = BIPED_GET(unit_index);

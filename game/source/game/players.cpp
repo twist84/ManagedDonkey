@@ -78,7 +78,6 @@ s_player_identifier::s_player_identifier(transport_address const* address) :
 
 void c_player_in_game_iterator::begin()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	m_iterator.begin(player_data);
 }
 
@@ -110,7 +109,6 @@ int16 c_player_in_game_iterator::get_absolute_index() const
 
 void c_player_with_unit_iterator::begin()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	m_iterator.begin(player_data);
 }
 
@@ -164,8 +162,6 @@ void player_override_desired_mode(int32 desired_mode)
 
 void players_debug_render()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	c_font_cache_mt_safe font_cache;
 	char string[2048]{};
 
@@ -293,8 +289,6 @@ bool __cdecl player_consider_device_interaction(int32 player_index, int32 device
 
 bool __cdecl player_consider_equipment_interaction(int32 player_index, int32 equipment_index, s_player_action_context* result)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 	unit_datum* unit = UNIT_GET(player->unit_index);
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
@@ -349,8 +343,6 @@ void __cdecl player_delete(int32 player_index)
 {
 	INVOKE(0x00539050, player_delete, player_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//
 	//player_set_unit_index(player_index, NONE);
 	//player_mapping_set_input_user(player_index, NONE);
 	//player_mapping_set_input_controller(player_index, k_no_controller);
@@ -379,8 +371,6 @@ bool __cdecl player_evaluate_interaction(int32 player_index, s_player_interactio
 void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context)
 {
 	//INVOKE(0x00539B20, player_find_action_context, player_index, out_action_context);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 
@@ -532,9 +522,6 @@ int32 __cdecl player_new(int32 player_array_index, game_player_options const* op
 {
 	return INVOKE(0x0053B880, player_new, player_array_index, options, joined_in_progress);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//TLS_DATA_GET_VALUE_REFERENCE(players_globals);
-	//
 	//int32 player_absolute_index = datum_new_at_absolute_index(*player_data, player_array_index);
 	//if (player_absolute_index != NONE)
 	//{
@@ -597,8 +584,6 @@ void __cdecl player_set_facing(int32 player_index, real_vector3d const* facing)
 {
 	INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//
 	//player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 	//if (game_is_authoritative())
 	//{
@@ -644,7 +629,6 @@ void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_ac
 {
 	//INVOKE(0x0053F220, player_suppress_action, player_index, player_suppress_action_type);
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 
 	int32 input_user = player_mapping_get_input_user(player_index);
@@ -855,9 +839,6 @@ void __cdecl players_set_machines(uns32 new_machine_valid_mask, s_machine_identi
 {
 	INVOKE(0x00542F80, players_set_machines, new_machine_valid_mask, new_machine_identifiers);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//TLS_DATA_GET_VALUE_REFERENCE(players_globals);
-	//
 	//ASSERT(VALID_BITS(new_machine_valid_mask, k_maximum_machines));
 	//ASSERT(new_machine_identifiers);
 	//
@@ -969,7 +950,6 @@ void __cdecl players_set_machines(uns32 new_machine_valid_mask, s_machine_identi
 
 void verify_coop_respawn_effect()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	c_data_iterator<player_datum> player_iterator;
 	player_iterator.begin(player_data);
 	while (player_iterator.next())

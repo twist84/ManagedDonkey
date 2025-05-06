@@ -40,10 +40,6 @@ char const* k_director_mode_names[k_number_of_director_modes]
 
 s_director_globals* director_globals_get()
 {
-	if (!get_tls())
-		return nullptr;
-
-	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	return (director_globals && director_globals->directors[0][0]) ? director_globals : nullptr;
 }
 
@@ -117,7 +113,6 @@ real32 __cdecl director_get_fade_timer()
 {
 	//return INVOKE(0x00591A20, director_get_fade_timer);
 
-	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	return director_globals->fade_timer;
 }
 
@@ -165,10 +160,6 @@ bool __cdecl director_in_scripted_camera()
 {
 	//return INVOKE(0x00591B80, director_in_scripted_camera);
 
-	if (!get_tls())
-		return false;
-
-	TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
 	return director_camera_scripted ? *director_camera_scripted : false;
 }
 
@@ -197,9 +188,6 @@ void __cdecl director_initialize()
 {
 	INVOKE(0x00591C40, director_initialize);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
-	//TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
-	//
 	//director_globals = (s_director_globals*)g_director_globals_allocator.allocate(sizeof(s_director_globals), "director globals");
 	//director_camera_scripted = (bool*)g_director_camera_scripted_allocator.allocate(sizeof(bool), "director scripting");
 	//*director_camera_scripted = false;
@@ -210,9 +198,6 @@ void __cdecl director_initialize_for_new_map()
 {
 	INVOKE(0x00591CE0, director_initialize_for_new_map);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
-	//TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
-	//
 	//static bool initialize_from_tags = true;
 	//if (initialize_from_tags)
 	//{
@@ -304,8 +289,6 @@ void __cdecl director_script_camera(bool scripted)
 {
 	//INVOKE(0x00592320, director_script_camera, scripted);
 
-	TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
-
 	if (*director_camera_scripted != scripted)
 	{
 		*director_camera_scripted = scripted;
@@ -342,7 +325,6 @@ void __cdecl director_set_fade_timer(real32 fade_timer)
 {
 	INVOKE(0x00592440, director_set_fade_timer, fade_timer);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	//director_globals->fade_timer = fade_timer;
 	//director_globals->fade_maximum = fade_timer;
 }
@@ -381,8 +363,6 @@ void __cdecl director_setup_flying_camera_at_scenario_point(int32 user_index, in
 void __cdecl director_update(real32 dt)
 {
 	//INVOKE(0x005926C0, director_update, dt);
-
-	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 
 	if (!g_director_use_dt)
 		dt = 0.016666668f;
@@ -685,7 +665,6 @@ void __cdecl director_set_flying_camera_direct(int32 user_index, real_point3d co
 	if (user_index == NONE)
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	ASSERT(VALID_INDEX(user_index, k_number_of_users));
 
 	c_director* director = director_get(user_index);
@@ -722,7 +701,6 @@ void director_save_camera_named(char const* name)
 	if (!global_scenario_try_and_get())
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(players_globals);
 	if (!players_globals)
 		return;
 
@@ -764,7 +742,6 @@ void director_load_camera_named(char const* name)
 		return;
 	}
 
-	TLS_DATA_GET_VALUE_REFERENCE(players_globals);
 	if (!players_globals)
 		return;
 
@@ -854,7 +831,6 @@ void survival_mode_update_flying_camera(int32 user_index)
 		int32 player_index = player_mapping_get_player_by_output_user(user_index);
 		if (player_index != NONE && game_is_survival())
 		{
-			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 			player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 
 			c_director* director = director_get(user_index);

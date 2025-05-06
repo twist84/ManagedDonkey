@@ -94,14 +94,12 @@ void* __cdecl object_header_block_get_with_count(int32 object_index, object_head
 
 object_header_datum const* __cdecl object_header_get(int32 object_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
 	object_header_datum const* result = DATUM_TRY_AND_GET(object_header_data, object_header_datum const, object_index);
 	return result;
 }
 
 object_header_datum* __cdecl object_header_get_mutable(int32 object_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
 	object_header_datum* result = DATUM_TRY_AND_GET(object_header_data, object_header_datum, object_index);
 	return result;
 }
@@ -292,8 +290,6 @@ void c_object_identifier::create_dynamic(e_object_type type)
 {
 	//INVOKE_CLASS_MEMBER(0x00B282E0, c_object_identifier, create_dynamic, type);
 
-	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
-
 	m_type = type;
 	m_source = _object_source_dynamic;
 	m_origin_bsp_index = NONE;
@@ -303,8 +299,6 @@ void c_object_identifier::create_dynamic(e_object_type type)
 void c_object_identifier::create_from_parent(e_object_type type)
 {
 	//INVOKE_CLASS_MEMBER(0x00B28320, c_object_identifier, create_from_parent, type);
-
-	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
 
 	m_type = type;
 	m_source = _object_source_parent;
@@ -1745,7 +1739,6 @@ void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_
 {
 	INVOKE(0x00B35710, objects_enable_warthog_chaingun_light, enable_warthog_chaingun_light);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
 	//object_globals->warthog_chaingun_light_disabled = !enable_warthog_chaingun_light;
 }
 
@@ -1825,7 +1818,6 @@ bool __cdecl objects_is_warthog_chaingun_light_enabled()
 {
 	return INVOKE(0x00B36480, objects_is_warthog_chaingun_light_enabled);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
 	//return !object_globals->warthog_chaingun_light_disabled;
 }
 
@@ -1863,9 +1855,6 @@ void __cdecl objects_update()
 {
 	INVOKE(0x00B36840, objects_update);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
-	//
 	//PROFILER(object_update)
 	//{
 	//	PROFILER(objects_update)

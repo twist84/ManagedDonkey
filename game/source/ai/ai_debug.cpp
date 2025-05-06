@@ -98,9 +98,6 @@ bool g_ai_render_mission_critical = false;
 
 void __cdecl ai_debug_render()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-	
 	bool flag = g_ai_render
 		&& (g_ai_render_firing_positions_all
 		|| g_ai_render_lineoffire
@@ -408,8 +405,6 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 
 	// $TODO: `hs_thread_get`, `cs_atom_string`
 
-	//TLS_DATA_GET_VALUE_REFERENCE(command_script_data);
-	//
 	//command_script_datum* command_script = DATUM_GET(command_script_data, command_script_datum, command_script_index);
 	//
 	//if (command_script->next_cs != NONE)
@@ -700,8 +695,6 @@ void ai_debug_render_suppress_combat()
 
 void ai_debug_render_vehicle_reservations()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
-
 	c_object_iterator<vehicle_datum> vehicle_iter;
 	vehicle_iter.begin(_object_mask_vehicle, 0);
 	while (vehicle_iter.next())
@@ -791,11 +784,6 @@ void ai_debug_tracking_data()
 
 void ai_debug_perception_data()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(tracking_data);
-	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
-	TLS_DATA_GET_VALUE_REFERENCE(prop_data);
-	TLS_DATA_GET_VALUE_REFERENCE(clump_data);
-
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
 	char string[500]{};
@@ -849,8 +837,6 @@ void ai_debug_render_tracked_props_all()
 
 void ai_debug_render_targets_all()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
-
 	actor_iterator actor_iter{};
 	actor_iterator_new(&actor_iter, true);
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
@@ -888,8 +874,6 @@ void render_dialogue_variants()
 
 void ai_debug_render_dynamic_firing_positions()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(dynamic_firing_set_data);
-
 	c_data_iterator<dynamic_firing_set_datum> dynamic_firing_set_iter;
 	dynamic_firing_set_iter.begin(dynamic_firing_set_data);
 	while (dynamic_firing_set_iter.next())

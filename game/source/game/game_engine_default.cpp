@@ -635,7 +635,6 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 //{
 //	//return DECLFUNC(0x00748900, bool, __thiscall, c_game_engine const*, int32, int32)(this, player_index, weapon_index);
 //
-//	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 //	bool result = game_engine_in_round();
 //	if (result)
 //		result = player_data[player_index].multiplayer.player_traits.get_weapons_traits()->get_weapon_pickup_allowed();

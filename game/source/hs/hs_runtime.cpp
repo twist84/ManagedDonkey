@@ -388,8 +388,6 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 
 hs_thread* hs_thread_get(int32 thread_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
-
 	hs_thread* result = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
 	return result;
 }
@@ -503,7 +501,6 @@ void render_debug_scripting_globals()
 	if (!debug_globals)
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(hs_global_data);
 	if (hs_global_data)
 	{
 		char buffer[10240]{};

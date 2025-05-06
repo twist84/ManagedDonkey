@@ -109,7 +109,6 @@ void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address)
 {
 	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, new_address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	//g_main_gamestate_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
@@ -117,7 +116,6 @@ void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address)
 {
 	INVOKE(0x00504D00, __tls_set_g_main_render_timing_data_allocator, new_address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	//g_main_render_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
@@ -870,8 +868,6 @@ void __cdecl main_loop_body()
 {
 	//INVOKE(0x00505C10, main_loop_body);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-
 	PROFILER(main_loop_body)
 	{
 		// we no longer hook calls from `main_loop_body` for this
@@ -1152,8 +1148,6 @@ void __cdecl main_loop_body_single_threaded()
 {
 	//INVOKE(0x00506080, main_loop_body_single_threaded);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-
 	PROFILER(single_thread_update)
 	{
 		main_loop_body();
@@ -1204,9 +1198,6 @@ void __cdecl main_loop_body_single_threaded()
 void __cdecl main_loop_enter()
 {
 	//INVOKE(0x00506200, main_loop_enter);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 
 	main_globals.startup_sequence = true;
 	main_globals.startup_sequence_performed = false;
@@ -1968,7 +1959,6 @@ void __cdecl main_thread_combine_timing_data(void* address)
 {
 	INVOKE(0x005072D0, main_thread_combine_timing_data, address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	//g_main_gamestate_timing_data->accum((s_game_tick_time_samples*)address);
 }
 
@@ -2038,9 +2028,6 @@ void __cdecl process_published_game_state(bool render)
 {
 	//INVOKE(0x00507450, process_published_game_staterender);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-
 	PROFILER(process_published_game_state)
 	{
 		g_main_render_timing_data->accum(g_main_gamestate_timing_data);
@@ -2060,7 +2047,6 @@ void __cdecl publish_waiting_gamestate()
 {
 	INVOKE(0x005074D0, publish_waiting_gamestate);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
 	//if (render_thread_get_mode() == _render_thread_mode_disabled)
 	//{
 	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flag_count));

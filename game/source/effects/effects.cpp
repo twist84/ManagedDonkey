@@ -188,8 +188,6 @@ void __cdecl sub_5B9820(int32 effect_index, int32 user_index)
 {
 	//INVOKE(0x005B9820, sub_5B9820, effect_index, user_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(effect_data);
-	
 	effect_datum* effect = DATUM_GET(effect_data, effect_datum, effect_index);
 	if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
 		effect_render(effect_index, user_index);
@@ -302,8 +300,6 @@ void __cdecl effects_render(int32 user_index, e_effect_pass pass)
 
 	if (pass == _effect_pass_transparents)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(effect_data);
-
 		for (int32 effect_index = data_next_index(effect_data, NONE);
 			effect_index != NONE;
 			effect_index = data_next_index(effect_data, effect_index))
@@ -533,9 +529,6 @@ void render_debug_damage_effects()
 
 void debug_effects_full()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(effect_data);
-	TLS_DATA_GET_VALUE_REFERENCE(event_data);
-
 	c_static_string<8192> string;
 	string.print("|n|n|n|n|nlayer  index sort  alpha  name|n");
 

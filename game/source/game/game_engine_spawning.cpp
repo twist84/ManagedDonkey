@@ -23,8 +23,6 @@ bool __cdecl game_engine_should_spawn_player(int32 player_index)
 	if (!game_engine_in_round())
 		return false;
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 
 	if ((game_is_survival() || game_is_multiplayer()) && (game_engine_round_time_get() + player->respawn_timer) < game_engine_get_pre_round_ticks())

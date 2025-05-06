@@ -32,8 +32,6 @@ bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index)
 {
 	//return INVOKE(0x014366A0, ai_player_state_needs_vehicle, ai_player_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
-
 	ai_player_state& ai_player = g_ai_players[ai_player_index];
 	if (ai_player.player_index != NONE)
 	{
@@ -69,9 +67,6 @@ void __cdecl ai_players_reset()
 
 void debug_render_player_battle_vector()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	for (int16 ai_player_index = 0; ai_player_index < 4; ai_player_index++)
 	{
 		ai_player_state& ai_player = g_ai_players[ai_player_index];
@@ -96,9 +91,6 @@ void debug_render_player_battle_vector()
 
 void debug_render_player_needs_vehicle()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	for (int16 ai_player_index = 0; ai_player_index < 4; ai_player_index++)
 	{
 		ai_player_state& ai_player = g_ai_players[ai_player_index];

@@ -163,7 +163,6 @@ void __cdecl havok_prepare_fpu_for_update()
 {
 	INVOKE(0x005C7890, havok_prepare_fpu_for_update);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(havok_style_fpu_exceptions_count);
 	//ASSERT(havok_style_fpu_exceptions_count >= 0);
 	//
 	//if (!havok_style_fpu_exceptions_count)
@@ -180,7 +179,6 @@ void __cdecl havok_restore_fpu_from_update()
 {
 	INVOKE(0x005C7A30, havok_restore_fpu_from_update);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(havok_style_fpu_exceptions_count);
 	//ASSERT(havok_style_fpu_exceptions_count > 0);
 	//
 	//if (!--havok_style_fpu_exceptions_count)

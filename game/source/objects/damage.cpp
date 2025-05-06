@@ -59,16 +59,12 @@ void __cdecl damage_acceleration_queue_begin()
 {
 	//INVOKE(0x00B50120, damage_acceleration_queue_begin);
 
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
-
 	damage_globals->damage_acceleration_queue_active = true;
 }
 
 void __cdecl damage_acceleration_queue_end()
 {
 	//INVOKE(0x00B50140, damage_acceleration_queue_end);
-
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
 
 	for (int32 i = 0; i < damage_globals->damage_acceleration_count; i++)
 	{
@@ -90,8 +86,6 @@ void __cdecl damage_data_new(s_damage_data* damage_data, int32 definition_index)
 void __cdecl damage_initialize_for_new_map()
 {
 	//INVOKE(0x00B50720, damage_initialize_for_new_map);
-
-	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
 
 	debug_damage_this_event = false;
 	global_debug_damage_object_index = NONE;

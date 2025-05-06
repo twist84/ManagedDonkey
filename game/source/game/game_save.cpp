@@ -43,7 +43,6 @@ void __cdecl __tls_set_g_game_save_globals_allocator(void* address)
 {
 	//INVOKE(0x00682130, __tls_set_g_game_save_globals_allocator, address);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 	g_game_save_globals = (s_game_save_globals*)address;
 }
 
@@ -73,8 +72,6 @@ bool __cdecl game_safe_to_save()
 bool __cdecl game_safe_to_save_internal(bool a1)
 {
 	//return INVOKE(0x00682260, game_safe_to_save_internal, a1);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
 #define DEBUG_SAFE_TO_SAVE(FUNCTION_NAME, ...) \
 	if (FUNCTION_NAME(__VA_ARGS__)) \
@@ -119,8 +116,6 @@ void __cdecl game_save(int32 save_priority)
 {
 	//INVOKE(0x006823D0, game_save, game_save_type);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
-
 	if (save_priority > g_game_save_globals->save_priority)
 	{
 		g_game_save_globals->save_priority = save_priority;
@@ -133,8 +128,6 @@ void __cdecl game_save(int32 save_priority)
 void __cdecl game_save_cancel()
 {
 	//INVOKE(0x00682420, game_save_cancel);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
 	if (debug_game_save)
 		console_printf("game save cancelled");
@@ -176,16 +169,12 @@ void __cdecl game_save_initialize()
 {
 	//INVOKE(0x00682500, game_save_initialize);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
-
 	g_game_save_globals = (s_game_save_globals*)g_game_save_globals_allocator.allocate(sizeof(s_game_save_globals), "game save globals");
 }
 
 void __cdecl game_save_initialize_for_new_map()
 {
 	//INVOKE(0x00682560, game_save_initialize_for_new_map);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
 	csmemset(g_game_save_globals, 0, sizeof(s_game_save_globals));
 	g_game_save_globals->time_of_last_game_save = NONE;
@@ -216,9 +205,6 @@ void __cdecl game_save_safe()
 void __cdecl game_save_update()
 {
 	//INVOKE(0x00682650, game_save_update);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
 	bool perform_cancel = false;
 	bool perform_save = false;
@@ -385,15 +371,12 @@ bool __cdecl game_saving()
 {
 	//return INVOKE(0x00682770, game_saving);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 	return main_save_map_pending() || g_game_save_globals->save_priority;
 }
 
 bool __cdecl not_enough_time_since_last_save()
 {
 	//return INVOKE(0x006827A0, not_enough_time_since_last_save);
-
-	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
 	bool result = false;
 	if (g_game_save_globals->time_of_last_game_save != NONE)

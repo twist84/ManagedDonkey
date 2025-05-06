@@ -24,7 +24,6 @@ void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_autho
 {
 	INVOKE(0x0058F950, game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	//game_engine_globals->candy_monitor_manager.initialize_for_new_map();
 }
 

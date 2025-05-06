@@ -61,8 +61,6 @@ void __cdecl simulation_apply_before_game(struct simulation_update const* update
 	//{
 	//	PROFILER(simulation)
 	//	{
-	//		TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	//
 	//		ASSERT(update);
 	//		ASSERT(simulation_globals.initialized);
 	//		ASSERT(simulation_globals.world);

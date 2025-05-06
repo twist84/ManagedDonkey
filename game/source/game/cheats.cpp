@@ -43,8 +43,6 @@ void __cdecl cheat_active_camouflage(bool enable)
 
 void __cdecl cheat_active_camouflage_by_player(int32 player_index, bool enable)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	int32 user_index = player_mapping_get_input_user(player_index);
 	if (VALID_INDEX(user_index, k_number_of_users))
 	{
@@ -474,7 +472,6 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 			radius = bounding_radius;
 	}
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 	if (!player)
 		return;
@@ -513,8 +510,6 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 
 int32 __cdecl cheat_player_index()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	c_data_iterator<player_datum> player_iterator;
 	player_iterator.begin(player_data);
 	while (player_iterator.next())

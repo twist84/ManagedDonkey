@@ -7,7 +7,6 @@ void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 {
 	INVOKE(0x00589620, __tls_set_g_player_mapping_globals_allocator, address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
 	//player_mapping_globals = (s_player_mapping_globals*)address;
 }
 
@@ -40,7 +39,6 @@ void __cdecl player_mapping_dispose()
 {
 	INVOKE(0x005899C0, player_mapping_dispose);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
 	//if (player_mapping_globals)
 	//	player_mapping_globals = NULL;
 }
@@ -70,8 +68,6 @@ e_controller_index __cdecl player_mapping_get_input_controller(int32 player_inde
 {
 	return INVOKE(0x00589AD0, player_mapping_get_input_controller, player_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
-	//
 	//ASSERT(player_index != NONE); //ASSERT(player_index != k_player_index_none);
 	//
 	//int32 player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
@@ -86,8 +82,6 @@ int32 __cdecl player_mapping_get_input_user(int32 player_index)
 {
 	return INVOKE(0x00589B00, player_mapping_get_input_user, player_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
-	//
 	//ASSERT(player_index != NONE); //ASSERT(player_index != k_player_index_none);
 	//
 	//int32 input_user_index = NONE;
@@ -204,8 +198,6 @@ void __cdecl player_mapping_reset()
 {
 	INVOKE(0x0058A000, player_mapping_reset);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
-	//
 	//event(_event_message, "player_mapping: reset");
 	//
 	//player_mapping_globals->active_input_user_count = 0;

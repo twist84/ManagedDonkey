@@ -68,8 +68,6 @@ static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
 /*
 void initialize_circle_strip()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
-
 	for (int32 i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->circle_strip); i++)
 	{
 		s_rasterizer_implicit_vertex* vertex_data = &g_rasterizer_implicit_geometry_globals->circle_strip[i];

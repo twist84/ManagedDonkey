@@ -47,7 +47,6 @@ void __cdecl squad_deactivate(int32 squad_index)
 
 squad_datum* __cdecl squad_get(int32 squad_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(squad_data);
 	squad_datum* squad = DATUM_GET(squad_data, squad_datum, squad_index);
 	return squad;
 }

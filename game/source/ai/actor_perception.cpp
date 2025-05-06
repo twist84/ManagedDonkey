@@ -7,9 +7,6 @@
 
 void debug_render_vehicle_interest()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 	actor_iterator actor_iter{};
 	actor_iterator_new(&actor_iter, true);
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))

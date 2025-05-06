@@ -66,16 +66,12 @@ bool string_is_absolute_path(char const* s)
 
 void __cdecl suppress_file_errors(bool suppress)
 {
-	if (get_tls())
-		get_tls()->g_file_errors_suppressed = suppress;
+	g_file_errors_suppressed = suppress;
 }
 
 bool __cdecl file_errors_suppressed()
 {
-	if (get_tls())
-		return get_tls()->g_file_errors_suppressed;
-
-	return true;
+	return g_file_errors_suppressed;
 }
 
 bool __cdecl file_close(s_file_reference* reference)

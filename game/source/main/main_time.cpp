@@ -23,7 +23,6 @@ void __cdecl __tls_set_g_main_time_globals_allocator(void* address)
 {
 	//INVOKE(0x00507A30, __tls_set_g_main_time_globals_allocator, address);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	g_main_time_globals = (s_main_time_globals*)address;
 }
 
@@ -92,7 +91,6 @@ int64 __cdecl main_time_get_input_collection_time()
 {
 	return INVOKE(0x00507DF0, main_time_get_input_collection_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//return g_main_time_globals->last_input_timestamp;
 }
 
@@ -105,7 +103,6 @@ int64 __cdecl main_time_get_publishing_end_time()
 {
 	return INVOKE(0x00507E40, main_time_get_publishing_end_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//return g_main_time_globals->last_publish_end_timestamp;
 }
 
@@ -113,7 +110,6 @@ int64 __cdecl main_time_get_publishing_start_time()
 {
 	return INVOKE(0x00507E60, main_time_get_publishing_start_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//return g_main_time_globals->last_publish_start_timestamp;
 }
 
@@ -121,7 +117,6 @@ int64 __cdecl main_time_get_target_display_vblank_index()
 {
 	return INVOKE(0x00507E80, main_time_get_target_display_vblank_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//return g_main_time_globals->target_display_vblank_index;
 }
 
@@ -129,7 +124,6 @@ int32 __cdecl main_time_get_time_since_input_collection(int64 timestamp)
 {
 	return INVOKE(0x00507EA0, main_time_get_time_since_input_collection, timestamp);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//return timestamp - g_main_time_globals->last_input_timestamp;
 }
 
@@ -149,7 +143,6 @@ void __cdecl main_time_initialize()
 {
 	INVOKE(0x00507F10, main_time_initialize);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals = (s_main_time_globals*)g_main_time_globals_allocator.allocate(sizeof(s_main_time_globals), "main_timing");
 	//
 	//g_main_time_globals->last_milliseconds = system_milliseconds();
@@ -175,7 +168,6 @@ bool __cdecl main_time_is_throttled()
 	if (!game_in_progress() || debug_disable_frame_rate_throttle)
 		return false;
 	
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	return !g_main_time_globals->temporary_throttle_control || g_main_time_globals->temporary_throttle;
 }
 
@@ -183,7 +175,6 @@ void __cdecl main_time_mark_input_collection_time()
 {
 	INVOKE(0x00508030, main_time_mark_input_collection_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->last_input_timestamp = main_time_get_absolute_milliseconds();
 }
 
@@ -191,7 +182,6 @@ void __cdecl main_time_mark_publishing_end_time()
 {
 	INVOKE(0x00508070, main_time_mark_publishing_end_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->last_publish_end_timestamp = main_time_get_absolute_milliseconds();
 }
 
@@ -199,7 +189,6 @@ void __cdecl main_time_mark_publishing_start_time()
 {
 	INVOKE(0x005080B0, main_time_mark_publishing_start_time);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->last_publish_start_timestamp = main_time_get_absolute_milliseconds();
 }
 
@@ -207,7 +196,6 @@ void __cdecl main_time_remove_temporary_throttle()
 {
 	INVOKE(0x005080F0, main_time_remove_temporary_throttle);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->temporary_throttle_control = false;
 }
 
@@ -218,7 +206,6 @@ void __cdecl main_time_reset()
 	//LARGE_INTEGER vblank_snapshot;
 	//QueryPerformanceCounter(&vblank_snapshot);
 	//
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->last_vblank_index = vblank_snapshot.QuadPart;
 	//g_main_time_globals->last_initial_vblank_index = vblank_snapshot.QuadPart;
 	//g_main_time_globals->target_display_vblank_index = vblank_snapshot.QuadPart;
@@ -236,7 +223,6 @@ void __cdecl main_time_set_temporary_throttle(bool throttle)
 {
 	INVOKE(0x00508130, main_time_set_temporary_throttle, throttle);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
 	//g_main_time_globals->temporary_throttle_control = true;
 	//g_main_time_globals->temporary_throttle = throttle;
 }

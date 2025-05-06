@@ -162,7 +162,6 @@ void __cdecl main_render()
 {
 	//INVOKE(0x006042C0, main_render);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	REFERENCE_DECLARE(0x02446778, int32, frames_of_consecutive_delay);
 
 	PROFILER(main_render)
@@ -838,7 +837,6 @@ void __cdecl sub_604A20()
 {
 	INVOKE(0x00604A20, sub_604A20);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	//c_rasterizer::end_frame();
 	//g_main_render_timing_data->reset();
 }

@@ -414,9 +414,6 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 	
 		if (c_rasterizer::initialized)
 		{
-			TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_game_states);
-			TLS_DATA_GET_VALUE_REFERENCE(g_hue_saturation_control_in_gamestate);
-	
 			g_rasterizer_game_states = (s_rasterizer_game_states*)g_rasterizer_game_states_allocator.allocate(sizeof(s_rasterizer_game_states), "rasterizer game states");
 			g_rasterizer_game_states->motion_blur = true;
 			g_rasterizer_game_states->atmosphere_fog = true;

@@ -140,8 +140,6 @@ void __thiscall c_player_view::render_1st_pass()
 
 	if (!game_engine_suppress_render_scene(m_camera_user_data.user_index))
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_game_states);
-
 		render_method_clear_externs();
 
 		s_cluster_reference cluster_reference{};
@@ -425,8 +423,6 @@ void __thiscall c_player_view::render_3rd_pass()
 {
 	if (screenshot_allow_ui_render())
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
-
 		c_rasterizer_profile_scope _interface_and_hud(_rasterizer_profile_element_interface_hud, L"interface_and_hud");
 
 		c_rasterizer::restore_last_viewport();
@@ -681,7 +677,6 @@ void __cdecl render_texture_camera_align_to_attached_object()
 {
 	INVOKE(0x00A3AB00, render_texture_camera_align_to_attached_object);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_attached_object_orient;
 }
 
@@ -689,7 +684,6 @@ void __cdecl render_texture_camera_attach_to_object(int32 object_index, int32 ma
 {
 	INVOKE(0x00A3AB20, render_texture_camera_attach_to_object, object_index, marker_id);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//if (object_try_and_get_and_verify_type(object_index, NONE))
 	//{
 	//	g_render_texture_camera_globals->position_type = _texture_camera_type_marker_id;
@@ -719,7 +713,6 @@ void __cdecl render_texture_camera_enable_dynamic_lights(bool enable)
 {
 	INVOKE(0x00A3ABB0, render_texture_camera_enable_dynamic_lights, enable);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->dynamic_lights = enable;
 }
 
@@ -727,7 +720,6 @@ real32 __cdecl render_texture_camera_get_aspect_ratio()
 {
 	return INVOKE(0x00A3ABD0, render_texture_camera_get_aspect_ratio);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//return g_render_texture_camera_globals->aspect_ratio;
 }
 
@@ -735,7 +727,6 @@ int32 __cdecl render_texture_camera_get_height()
 {
 	return INVOKE(0x00A3ABF0, render_texture_camera_get_height);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//return g_render_texture_camera_globals->height;
 }
 
@@ -743,7 +734,6 @@ int32 __cdecl render_texture_camera_get_render_mode()
 {
 	return INVOKE(0x00A3AC10, render_texture_camera_get_render_mode);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//return g_render_texture_camera_globals->render_mode;
 }
 
@@ -751,7 +741,6 @@ int32 __cdecl render_texture_camera_get_sub_A3AC30()
 {
 	return INVOKE(0x00A3AC30, render_texture_camera_get_sub_A3AC30);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//if (!object_try_and_get_and_verify_type(g_render_texture_camera_globals->__unknown40_object_index, NONE))
 	//	g_render_texture_camera_globals->__unknown40_object_index = NONE;
 	//
@@ -762,7 +751,6 @@ int32 __cdecl render_texture_camera_get_target_object_index()
 {
 	return INVOKE(0x00A3AC70, render_texture_camera_get_target_object_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//if (g_render_texture_camera_globals->target_type == _texture_camera_type_position)
 	//	return NONE;
 	//
@@ -777,7 +765,6 @@ int32 __cdecl render_texture_camera_get_width()
 {
 	return INVOKE(0x00A3ACB0, render_texture_camera_get_width);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//return g_render_texture_camera_globals->width;
 }
 
@@ -785,7 +772,6 @@ void __cdecl render_texture_camera_initialize()
 {
 	INVOKE(0x00A3ACD0, render_texture_camera_initialize);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals = (s_render_texture_camera_globals*)g_render_texture_camera_globals_allocator.allocate(
 	//	sizeof(s_render_texture_camera_globals),
 	//	"render texture globals");
@@ -795,7 +781,6 @@ void __cdecl render_texture_camera_initialize_for_new_map()
 {
 	INVOKE(0x00A3AD30, render_texture_camera_initialize_for_new_map);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//csmemset(g_render_texture_camera_globals, 0, sizeof(s_render_texture_camera_globals));
 	//g_render_texture_camera_globals->active = false;
 	//g_render_texture_camera_globals->dynamic_lights = false;
@@ -825,7 +810,6 @@ void __cdecl render_texture_camera_off()
 {
 	INVOKE(0x00A3AE50, render_texture_camera_off);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->active = false;
 }
 
@@ -833,7 +817,6 @@ void __cdecl render_texture_camera_on()
 {
 	INVOKE(0x00A3AE70, render_texture_camera_on);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->active = true;
 }
 
@@ -841,7 +824,6 @@ void __cdecl render_texture_camera_position_world_offset(real32 offset_x, real32
 {
 	INVOKE(0x00A3AE90, render_texture_camera_position_world_offset, offset_x, offset_y, offset_z);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->position_offset.i = offset_x;
 	//g_render_texture_camera_globals->position_offset.j = offset_x;
 	//g_render_texture_camera_globals->position_offset.k = offset_y;
@@ -851,7 +833,6 @@ void __cdecl render_texture_camera_render_mode(int32 mode)
 {
 	INVOKE(0x00A3AEE0, render_texture_camera_render_mode, mode);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->render_mode = (e_texture_camera_render_mode)MAX(_texture_camera_render_default, MIN(mode, _texture_camera_render_target_only));
 }
 
@@ -859,7 +840,6 @@ void __cdecl render_texture_camera_set_aspect_ratio(real32 aspect_ratio)
 {
 	INVOKE(0x00A3AF20, render_texture_camera_set_aspect_ratio, aspect_ratio);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->aspect_ratio = aspect_ratio;
 }
 
@@ -867,7 +847,6 @@ void __cdecl render_texture_camera_set_fov(real32 vertical_field_of_view_degrees
 {
 	INVOKE(0x00A3AF50, render_texture_camera_set_fov, vertical_field_of_view_degrees);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->fov_type = _texture_camera_fov_fixed;
 	//g_render_texture_camera_globals->fov.vertical_fov_radians = CLAMP(vertical_field_of_view_degrees, 1.0f, 180.0f) * DEG;
 }
@@ -876,7 +855,6 @@ void __cdecl render_texture_camera_set_fov_frame_target(real32 target_zoom)
 {
 	INVOKE(0x00A3AFB0, render_texture_camera_set_fov_frame_target, target_zoom);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->fov_type = _texture_camera_fov_frame_target;
 	//g_render_texture_camera_globals->fov.target_scale = target_zoom;
 }
@@ -885,7 +863,6 @@ void __cdecl render_texture_camera_set_object_marker(int32 object_index, int32 m
 {
 	INVOKE(0x00A3AFF0, render_texture_camera_set_object_marker, object_index, marker_id, vertical_field_of_view_degrees);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//object_marker marker[1]{};
 	//if (object_index != NONE
 	//	&& object_try_and_get_and_verify_type(object_index, NONE)
@@ -916,7 +893,6 @@ void __cdecl render_texture_camera_set_position(real32 position_x, real32 positi
 {
 	INVOKE(0x00A3B0F0, render_texture_camera_set_position, position_x, position_y, position_z);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->position_type = _texture_camera_type_position;
 	//g_render_texture_camera_globals->position.position.x = position_x;
 	//g_render_texture_camera_globals->position.position.y = position_y;
@@ -930,7 +906,6 @@ void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real
 {
 	INVOKE(0x00A3B150, render_texture_camera_set_position_and_direction, enabled, position, forward, up, vertical_field_of_view_degrees);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->position_type = _texture_camera_type_position;
 	//g_render_texture_camera_globals->target_type = _texture_camera_type_position;
 	//g_render_texture_camera_globals->orientation_type = _texture_camera_orientation_explicit;
@@ -949,7 +924,6 @@ void __cdecl render_texture_camera_set_sub_A3B240(int32 object_index)
 {
 	INVOKE(0x00A3B240, render_texture_camera_set_sub_A3B240, object_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//if (object_try_and_get_and_verify_type(object_index, NONE))
 	//	g_render_texture_camera_globals->__unknown40_object_index = object_index;
 }
@@ -958,7 +932,6 @@ void __cdecl render_texture_camera_set_resolution(int32 width, int32 height)
 {
 	INVOKE(0x00A3B280, render_texture_camera_set_resolution, width, height);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->width = MAX(1, MIN(width, 512));
 	//g_render_texture_camera_globals->height = MAX(1, MIN(height, 288));
 }
@@ -967,7 +940,6 @@ void __cdecl render_texture_camera_set_target(real32 position_x, real32 position
 {
 	INVOKE(0x00A3B2E0, render_texture_camera_set_target, position_x, position_y, position_z);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//g_render_texture_camera_globals->target_type = _texture_camera_type_position;
 	//g_render_texture_camera_globals->target.position.x = position_x;
 	//g_render_texture_camera_globals->target.position.y = position_y;
@@ -978,7 +950,6 @@ void __cdecl render_texture_camera_target_object(int32 object_index, int32 marke
 {
 	INVOKE(0x00A3B330, render_texture_camera_target_object, object_index, marker_id);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_render_texture_camera_globals);
 	//if (object_try_and_get_and_verify_type(object_index, NONE))
 	//{
 	//	g_render_texture_camera_globals->target_type = _texture_camera_type_marker_id;
@@ -1164,7 +1135,6 @@ void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool condi
 
 void c_player_view::frame_advance()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	effects_frame_advance(g_main_render_timing_data->game_dt);
 	effects_frame_advance_gpu(g_main_render_timing_data->game_dt);
 	c_water_renderer::frame_advance(g_main_render_timing_data->game_dt);

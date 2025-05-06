@@ -547,8 +547,6 @@ struct s_global_preference
 	e_global_preference_type parameter_types[k_maximum_global_preference_parameters];
 };
 
-extern s_global_preferences_internals_type* g_global_preferences;
-
 extern char const* const k_global_preference_names[k_global_preference_count];
 extern s_global_preference const* k_global_preferences[k_global_preference_count];
 

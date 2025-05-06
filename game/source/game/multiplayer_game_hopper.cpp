@@ -1218,7 +1218,6 @@ void __cdecl network_build_map_variant(char const* name)
 
 	c_map_variant const* map_variant = &game_options_get()->map_variant;
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals); // use runtime map variant
 		map_variant = &game_engine_globals->runtime_map_variant;
 	}
 

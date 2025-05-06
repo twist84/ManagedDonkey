@@ -15,7 +15,6 @@ void __cdecl __tls_set_g_impact_array_data_allocator(void* new_address)
 {
 	INVOKE(0x00696A00, __tls_set_g_impact_array_data_allocator, new_address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_impact_array_data);
 	//data_set_new_base_address(&g_impact_array_data.m_data_array, (s_data_array*)new_address);
 }
 
@@ -23,7 +22,6 @@ void __cdecl __tls_set_g_impact_data_allocator(void* new_address)
 {
 	INVOKE(0x00696A30, __tls_set_g_impact_data_allocator, new_address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_impact_data);
 	//data_set_new_base_address(&g_impact_data.m_data_array, (s_data_array*)new_address);
 }
 
@@ -31,7 +29,6 @@ void __cdecl __tls_set_g_impact_globals_allocator(void* new_address)
 {
 	INVOKE(0x00696A60, __tls_set_g_impact_globals_allocator, new_address);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(g_impact_globals);
 	//g_impact_globals = (impact_globals*)new_address;
 }
 

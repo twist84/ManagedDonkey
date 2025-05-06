@@ -126,7 +126,6 @@ s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug
 	return INVOKE(0x005506C0, game_engine_get_player_netdebug_data, player_index);
 
 	//ASSERT(VALID_INDEX(player_index, k_maximum_players));
-	//TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 	//return &game_engine_globals->player_netdebug_data[player_index];
 }
 
@@ -159,9 +158,6 @@ e_game_engine_status __cdecl game_engine_get_player_state_index(int32 player_ind
 c_game_statborg* __cdecl game_engine_get_statborg()
 {
 	//00550B80
-
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	TLS_DATA_GET_VALUE_REFERENCE(g_survival_mode_globals);
 
 	if (current_game_engine())
 		return &game_engine_globals->stats;
@@ -234,9 +230,6 @@ void __cdecl game_engine_initialize_for_new_round()
 void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 {
 	//INVOKE(0x00551780, game_engine_interface_update, world_seconds_elapsed);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
 
 	if (game_in_progress() && !game_is_ui_shell())
 	{
@@ -398,8 +391,6 @@ int32 __cdecl game_engine_round_time_get()
 {
 	//INVOKE(0x005523D0, game_engine_round_time_get);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-
 	if ((game_time_get() - game_engine_globals->round_start_time) >= 0)
 		return game_time_get() - game_engine_globals->round_start_time;
 
@@ -427,8 +418,6 @@ void __cdecl game_engine_update()
 
 	//if (current_game_engine())
 	//{
-	//	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	//
 	//	game_engine_update_time();
 	//	game_engine_update_round_conditions();
 	//	game_engine_update_multiplayer_sound();
@@ -488,8 +477,6 @@ void __cdecl game_engine_update_after_game()
 
 	//if (current_game_engine() && game_is_authoritative())
 	//{
-	//	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	//
 	//	if (game_is_finished())
 	//	{
 	//		if (!game_engine_globals->game_finished)
@@ -585,8 +572,6 @@ void __cdecl game_engine_update_round_conditions()
 	if (!game_is_authoritative())
 		return;
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-
 	int32 round_time = game_engine_round_time_get();
 
 	c_flags<int32, uns8, 8> round_condition_flags(round_time < 5);
@@ -604,8 +589,6 @@ void __cdecl game_engine_update_round_conditions()
 
 	if (game_engine_globals->round_condition_flags.test(3) && !round_condition_flags.test(3))
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_data);
-
 		c_player_in_game_iterator player_iterator;
 		player_iterator.begin();
 		while (player_iterator.next())
