@@ -14,6 +14,13 @@ struct s_transport_qos_listener_stats
 };
 static_assert(sizeof(s_transport_qos_listener_stats) == 0x1C);
 
+struct s_qos_listener_data
+{
+	bool logged_initial;
+	uns32 update_time;
+	s_transport_qos_listener_stats qos_listener_stats;
+};
+static_assert(sizeof(s_qos_listener_data) == 0x24);
 
 struct s_transport_qos_result
 {
