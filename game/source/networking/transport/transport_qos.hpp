@@ -2,7 +2,18 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_transport_qos_listener_stats;
+struct s_transport_qos_listener_stats
+{
+	int32 data_size;
+	int32 data_requests_received;
+	int32 probe_requests_received;
+	int32 discarded_count;
+	int32 data_replies_sent;
+	int32 data_replies_bytes_sent;
+	int32 probe_replies_sent;
+};
+static_assert(sizeof(s_transport_qos_listener_stats) == 0x1C);
+
 
 struct s_transport_qos_result
 {
