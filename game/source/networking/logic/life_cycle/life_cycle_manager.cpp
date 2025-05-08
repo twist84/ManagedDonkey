@@ -65,13 +65,13 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 	m_pending_state_change = true;
 	m_pending_state = state;
-	m_entry_data_size = entry_data_size;
-	csmemset(m_entry_data, 0, k_maximum_state_change_entry_data_size);
+	m_pending_state_change_entry_data_size = entry_data_size;
+	csmemset(m_pending_state_change_entry_data, 0, k_maximum_state_change_entry_data_size);
 
-	if (m_entry_data_size > 0)
+	if (m_pending_state_change_entry_data_size > 0)
 	{
 		ASSERT(entry_data != NULL);
-		csmemcpy(m_entry_data, entry_data, m_entry_data_size);
+		csmemcpy(m_pending_state_change_entry_data, entry_data, m_pending_state_change_entry_data_size);
 	}
 }
 
@@ -107,7 +107,7 @@ void c_life_cycle_state_manager::swap_target_and_group_sessions()
 
 e_life_cycle_state c_life_cycle_state_manager::get_current_state() const
 {
-	ASSERT(m_current_state.get() >= _life_cycle_state_none && m_current_state.get() < k_life_cycle_state_count);
+	ASSERT(m_current_state >= _life_cycle_state_none && m_current_state < k_life_cycle_state_count);
 	return m_current_state;
 }
 

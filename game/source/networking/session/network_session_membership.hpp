@@ -40,7 +40,7 @@ struct s_network_session_peer_properties
 	c_enum<e_language, int32, _language_invalid, k_language_count> language;
 	int32 determinism_version;
 	int32 determinism_compatible_version;
-	c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flags> flags;
+	c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flag_count> flags;
 };
 static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
 

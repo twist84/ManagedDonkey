@@ -2,6 +2,9 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+//typedef c_flags<e_matchmaking_select_host_flags, uns8, k_matchmaking_select_host_flags_count> c_matchmaking_select_host_flags;
+typedef uns8 c_matchmaking_select_host_flags;
+
 struct c_life_cycle_state_handler_matchmaking_select_host :
 	public c_life_cycle_state_handler
 {
@@ -16,7 +19,8 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte __data[0x8];
+	c_matchmaking_select_host_flags m_flags;
+	uns32 m_select_host_start_time;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_select_host) == 0x30);
 

@@ -2,16 +2,21 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+//typedef c_flags<e_joining_flags, uns8, k_joining_flags_count> c_joining_flags;
+typedef uns8 c_joining_flags;
+
 struct c_life_cycle_state_handler_joining :
 	public c_life_cycle_state_handler
 {
 public:
 	
 //protected:
-	uns8 m_flags;
-	e_gui_game_mode m_game_mode;
-	e_life_cycle_state m_enter_state;
-	byte __data[0x4];
+	c_joining_flags m_flags;
+	e_gui_game_mode m_failure_game_mode;
+	e_life_cycle_state m_previous_state;
 };
 static_assert(sizeof(c_life_cycle_state_handler_joining) == 0x38);
+static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_joining, m_flags));
+static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_joining, m_failure_game_mode));
+static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_joining, m_previous_state));
 

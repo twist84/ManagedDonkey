@@ -56,7 +56,7 @@ enum
 enum e_campaign_id
 {
 	_campaign_id_default = 1,
-	_campaign_id_none = -1,
+	_campaign_id_none = NONE,
 };
 
 enum e_map_id
@@ -65,7 +65,7 @@ enum e_map_id
 	_map_id_tutorial = 3010,
 	_map_id_first_playable = 3010,
 
-	_map_id_none = -1,
+	_map_id_none = NONE,
 	_map_id_use_scenario_path = -2,
 
 	_map_id_mainmenu = 0x10231971,
@@ -295,7 +295,7 @@ enum e_network_game_type
 
 enum e_desired_multiplayer_mode
 {
-	_desired_multiplayer_mode_none = -1,
+	_desired_multiplayer_mode_none = NONE,
 	_desired_multiplayer_mode_coop,
 	_desired_multiplayer_mode_custom,
 	_desired_multiplayer_mode_matchmaking,
@@ -318,7 +318,7 @@ enum e_session_game_mode
 
 enum e_gui_game_mode
 {
-	_ui_game_mode_none = -1,
+	_ui_game_mode_none = NONE,
 	_ui_game_mode_campaign,
 	_ui_game_mode_matchmaking,
 	_ui_game_mode_multiplayer,
@@ -351,7 +351,7 @@ enum e_campaign_difficulty_level
 
 	k_campaign_difficulty_levels_count,
 	k_campaign_difficulty_level_bits = 2,//bit_count(k_campaign_difficulty_levels_count),
-	k_campaign_difficulty_level_none = -1,
+	k_campaign_difficulty_level_none = NONE,
 };
 
 enum e_button_presets
@@ -743,7 +743,7 @@ enum e_transport_platform
 
 	k_transport_platform_count,
 	k_transport_platform_bits = 2,//bit_count(k_transport_platform_count),
-	k_transport_platform_none = -1,
+	k_transport_platform_none = NONE,
 };
 
 enum e_network_channel_closure_reason
@@ -848,7 +848,7 @@ enum e_network_session_state
 	//_network_session_state_election,
 
 	k_network_session_state_count,
-	k_network_session_state_none = -1,
+	k_network_session_state_none = NONE,
 };
 
 enum e_life_cycle_join_result
@@ -898,7 +898,7 @@ enum e_network_session_class
 
 	k_network_session_class_count,
 	k_network_session_class_bits = 2,//bit_count(k_network_session_class_count),
-	k_network_session_class_none = -1,
+	k_network_session_class_none = NONE,
 };
 
 enum e_network_session_mode
@@ -1156,10 +1156,10 @@ enum e_network_session_peer_properties_status_flags
 	_network_session_peer_properties_status_match_simulation_aborted_bit,
 	_network_session_peer_properties_status_match_acknowledge_sync_bit,
 
-	k_network_session_peer_properties_status_flags,
-	k_network_session_peer_properties_status_flags_bits = 5//bit_count(k_network_session_peer_properties_status_flags),
+	k_network_session_peer_properties_status_flag_count,
+	k_network_session_peer_properties_status_flags_bits = 5//bit_count(k_network_session_peer_properties_status_flag_count),
 };
-//using c_network_session_peer_properties_status_flags = c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flags>;
+//using c_network_session_peer_properties_status_flags = c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flag_count>;
 
 enum e_ui_message_type
 {
@@ -2261,7 +2261,7 @@ enum e_game_variant_parameter
 	_template_forced_change_colors,
 
 	k_game_variant_parameter_count,
-	k_game_variant_parameter_none = -1,
+	k_game_variant_parameter_none = NONE,
 };
 
 enum e_text_value_pair_parameter_type
@@ -2513,7 +2513,7 @@ enum e_init_file_type
 
 enum e_game_team
 {
-	_game_team_none = -1,
+	_game_team_none = NONE,
 
 	_campaign_team_default = 0,
 	_campaign_team_player,
@@ -2547,7 +2547,7 @@ enum e_game_team
 	k_multiplayer_team_count,
 
 	_multiplayer_team_last = _multiplayer_team_grey,
-	_multiplayer_team_none = -1,
+	_multiplayer_team_none = NONE,
 
 	k_maximum_teams = 16
 };
@@ -2782,7 +2782,7 @@ enum e_player_color_index
 
 	k_player_color_index_count,
 
-	_player_color_none = -1,
+	_player_color_none = NONE,
 
 	k_default_primary_color = _player_color_13,
 	k_default_secondary_color = _player_color_13,
@@ -3544,7 +3544,7 @@ enum e_simulation_event_type
 
 	k_simulation_event_type_count_plus_additional,
 
-	k_simulation_event_type_none = -1,
+	k_simulation_event_type_none = NONE,
 	k_simulation_event_type_maximum_count = 64
 };
 
@@ -3575,7 +3575,7 @@ enum e_simulation_entity_type
 
 	k_simulation_entity_type_count,
 
-	k_simulation_entity_type_none = -1,
+	k_simulation_entity_type_none = NONE,
 	k_simulation_entity_type_maximum_count = 32
 };
 
@@ -3835,7 +3835,7 @@ enum
 
 enum e_font_index
 {
-	_font_index_none = -1,
+	_font_index_none = NONE,
 	_font_index_fallback = -2,
 
 	k_maximum_font_index_count = 10
@@ -4300,7 +4300,7 @@ enum e_synchronization_semaphore
 
 enum e_saved_game_file_type
 {
-	_saved_game_file_type_none = -1,
+	_saved_game_file_type_none = NONE,
 	_saved_game_file_type_personal,
 	_saved_game_file_type_ctf,
 	_saved_game_file_type_slayer,
@@ -4518,7 +4518,7 @@ enum e_transport_qos_target_status
 	_transport_qos_target_status_succeeded,
 
 	k_transport_qos_target_status_count,
-	k_transport_qos_target_status_none = -1,
+	k_transport_qos_target_status_none = NONE,
 };
 
 enum e_parameter_change_request_access
@@ -4947,5 +4947,254 @@ enum e_gui_error_icon
 	_gui_error_icon_completed,
 
 	k_gui_error_icon_count
+};
+
+enum e_online_leaderboard_id
+{
+	_online_leaderboard_id_skill = 0,
+	_online_leaderboard_id_global_arbitrated,
+	_online_leaderboard_id_global_unarbitrated,
+
+#define DEFINE_HOPPER(ID) \
+_online_leaderboard_id_hopper_##ID, \
+_online_leaderboard_id_hopper_##ID##_ranked_skill, \
+_online_leaderboard_id_hopper_##ID##_social_skill
+
+	DEFINE_HOPPER(0),
+	DEFINE_HOPPER(1),
+	DEFINE_HOPPER(2),
+	DEFINE_HOPPER(3),
+	DEFINE_HOPPER(4),
+	DEFINE_HOPPER(5),
+	DEFINE_HOPPER(6),
+	DEFINE_HOPPER(7),
+	DEFINE_HOPPER(8),
+	DEFINE_HOPPER(9),
+	DEFINE_HOPPER(10),
+	DEFINE_HOPPER(11),
+	DEFINE_HOPPER(12),
+	DEFINE_HOPPER(13),
+	DEFINE_HOPPER(14),
+	DEFINE_HOPPER(15),
+	DEFINE_HOPPER(16),
+	DEFINE_HOPPER(17),
+	DEFINE_HOPPER(18),
+	DEFINE_HOPPER(19),
+	DEFINE_HOPPER(20),
+	DEFINE_HOPPER(21),
+	DEFINE_HOPPER(22),
+	DEFINE_HOPPER(23),
+	DEFINE_HOPPER(24),
+	DEFINE_HOPPER(25),
+	DEFINE_HOPPER(26),
+	DEFINE_HOPPER(27),
+	DEFINE_HOPPER(28),
+	DEFINE_HOPPER(29),
+	DEFINE_HOPPER(30),
+	DEFINE_HOPPER(31),
+
+#undef DEFINE_HOPPER
+
+	k_online_leaderboard_id_count, // 99
+	k_online_leaderboard_id_none = NONE,
+};
+
+enum e_online_leaderboard_column_id
+{
+	_online_leaderboard_column_id_skill_mu = 0,
+	_online_leaderboard_column_id_skill_sigma,
+	_online_leaderboard_column_id_global_unarbitrated_custom_games_completed,
+	_online_leaderboard_column_id_global_unarbitrated_custom_games_won,
+	_online_leaderboard_column_id_global_arbitrated_experience_base,
+	_online_leaderboard_column_id_global_arbitrated_experience_penalty,
+	_online_leaderboard_column_id_global_arbitrated_highest_skill_level_attained,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_ranked_games_completed,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_ranked_games_played,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_ranked_games_won,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_unranked_games_completed,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_unranked_games_played,
+	_online_leaderboard_column_id_global_arbitrated_matchmade_unranked_games_won,
+	_online_leaderboard_column_id_global_arbitrated_first_game_played_date,
+	_online_leaderboard_column_id_global_arbitrated_last_game_played_date,
+
+#define DEFINE_HOPPER(ID) \
+_online_leaderboard_column_id_hopper_##ID##_skill, \
+_online_leaderboard_column_id_hopper_##ID##_games_completed, \
+_online_leaderboard_column_id_hopper_##ID##_games_played, \
+_online_leaderboard_column_id_hopper_##ID##_games_won, \
+_online_leaderboard_column_id_hopper_##ID##_experience_base, \
+_online_leaderboard_column_id_hopper_##ID##_experience_penalty
+
+	DEFINE_HOPPER(0),
+	DEFINE_HOPPER(1),
+	DEFINE_HOPPER(2),
+	DEFINE_HOPPER(3),
+	DEFINE_HOPPER(4),
+	DEFINE_HOPPER(5),
+	DEFINE_HOPPER(6),
+	DEFINE_HOPPER(7),
+	DEFINE_HOPPER(8),
+	DEFINE_HOPPER(9),
+	DEFINE_HOPPER(10),
+	DEFINE_HOPPER(11),
+	DEFINE_HOPPER(12),
+	DEFINE_HOPPER(13),
+	DEFINE_HOPPER(14),
+	DEFINE_HOPPER(15),
+	DEFINE_HOPPER(16),
+	DEFINE_HOPPER(17),
+	DEFINE_HOPPER(18),
+	DEFINE_HOPPER(19),
+	DEFINE_HOPPER(20),
+	DEFINE_HOPPER(21),
+	DEFINE_HOPPER(22),
+	DEFINE_HOPPER(23),
+	DEFINE_HOPPER(24),
+	DEFINE_HOPPER(25),
+	DEFINE_HOPPER(26),
+	DEFINE_HOPPER(27),
+	DEFINE_HOPPER(28),
+	DEFINE_HOPPER(29),
+	DEFINE_HOPPER(30),
+	DEFINE_HOPPER(31),
+
+#undef DEFINE_HOPPER
+
+	k_online_leaderboard_id_column_count, // 207
+	k_online_leaderboard_id_column_none = NONE,
+};
+
+enum e_network_leaderboard_user_highest_skill_update_state
+{
+	_network_leaderboard_user_highest_skill_update_none = 0,
+	_network_leaderboard_user_highest_skill_update_ready,
+	_network_leaderboard_user_highest_skill_update_uploading,
+};
+
+enum e_network_leaderboard_statistics_write_state
+{
+	_network_leaderboard_statistic_write_none = 0,
+	_network_leaderboard_statistic_write_in_progress,
+	_network_leaderboard_statistic_written,
+
+	k_network_leaderboard_statistic_write_state_count,
+};
+
+enum e_leaderboard_statistic
+{
+	_leaderboard_statistic_hopper_skill_mu = 0,
+	_leaderboard_statistic_hopper_skill_sigma,
+	_leaderboard_statistic_hopper_skill,
+
+	_leaderboard_statistic_hopper_games_played,
+	_leaderboard_statistic_hopper_games_completed,
+	_leaderboard_statistic_hopper_games_won,
+
+	//_leaderboard_statistic_hopper_experience_base,
+	//_leaderboard_statistic_hopper_experience_penalty,
+
+	_leaderboard_statistic_global_experience_base,
+	_leaderboard_statistic_global_experience_penalty,
+
+	_leaderboard_statistic_global_highest_skill_level_attained,
+
+	_leaderboard_statistic_global_matchmade_ranked_games_played,
+	_leaderboard_statistic_global_matchmade_ranked_games_completed,
+	_leaderboard_statistic_global_matchmade_ranked_games_won,
+
+	_leaderboard_statistic_global_matchmade_unranked_games_played,
+	_leaderboard_statistic_global_matchmade_unranked_games_completed,
+	_leaderboard_statistic_global_matchmade_unranked_games_won,
+
+	_leaderboard_statistic_global_first_game_played_date,
+	_leaderboard_statistic_global_last_game_played_date,
+
+	_leaderboard_statistic_global_custom_games_completed,
+	_leaderboard_statistic_global_custom_games_won,
+
+	k_leaderboard_statistic_count,
+	k_leaderboard_statistic_none = NONE,
+};
+
+enum e_online_property_id
+{
+	_online_property_id_gamer_language = 0,
+	_online_property_id_gamer_zone,
+	_online_property_id_gamer_hostname,
+	_online_property_id_affiliate_score,
+	_online_property_id_skill_draw_probability,
+	_online_property_id_skill_beta,
+	_online_property_id_skill_tau,
+	_online_property_id_relative_score,
+	_online_property_id_session_team,
+	_online_property_id_skill_hill_climbing_factor,
+	_online_property_id_hopper_skill,
+	_online_property_id_hopper_games_played,
+	_online_property_id_hopper_games_completed,
+	_online_property_id_hopper_games_won,
+	//_online_property_id_hopper_experience_base,
+	//_online_property_id_hopper_experience_penalty,
+	_online_property_id_global_experience_base,
+	_online_property_id_global_experience_penalty,
+	_online_property_id_global_highest_skill_level_attained,
+	_online_property_id_global_matchmade_ranked_games_played,
+	_online_property_id_global_matchmade_ranked_games_completed,
+	_online_property_id_global_matchmade_ranked_games_won,
+	_online_property_id_global_matchmade_unranked_games_played,
+	_online_property_id_global_matchmade_unranked_games_completed,
+	_online_property_id_global_matchmade_unranked_games_won,
+	_online_property_id_global_custom_games_played,
+	_online_property_id_global_custom_games_completed,
+	_online_property_id_global_custom_games_won,
+	_online_property_id_global_first_game_played_date,
+	_online_property_id_global_last_game_played_date,
+	_online_property_id_hopper_identifier,
+	_online_property_id_lowest_skill_level,
+	_online_property_id_highest_skill_level,
+	_online_property_id_average_skill_level,
+	_online_property_id_average_experience_rating,
+	_online_property_id_has_all_dlc_maps,
+	_online_property_id_session_of_quitters,
+	_online_property_id_language_override,
+	_online_property_id_gamerzone_override,
+	_online_property_id_country_code_override,
+	_online_property_id_mixed_skill_restricted,
+	_online_property_id_joinable_party_size_1,
+	_online_property_id_joinable_party_size_2,
+	_online_property_id_joinable_party_size_3,
+	_online_property_id_joinable_party_size_4,
+	_online_property_id_joinable_party_size_5,
+	_online_property_id_joinable_party_size_6,
+	_online_property_id_joinable_party_size_7,
+	_online_property_id_joinable_party_size_8,
+	_online_property_id_joinable_party_size_9,
+	_online_property_id_nat_type,
+	_online_property_id_average_mu,
+	_online_property_id_min_average_skill_level,
+	_online_property_id_max_average_skill_level,
+	_online_property_id_min_average_experience_rating,
+	_online_property_id_max_average_experience_rating,
+	_online_property_id_min_average_mu,
+	_online_property_id_max_average_mu,
+	_online_property_id_min_skill_level,
+	_online_property_id_max_skill_level,
+	_online_property_unused,
+	k_online_property_id_count,
+
+	k_online_property_id_none = NONE,
+};
+
+enum e_online_data_type
+{
+	_online_data_context = 0,
+	_online_data_integer,
+	_online_data_qword,
+	_online_data_double,
+	_online_data_unicode,
+	_online_data_float,
+	_online_data_binary,
+	_online_data_date_time,
+
+	_online_data_null = 0xFF,
 };
 

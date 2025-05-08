@@ -2,6 +2,9 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+//typedef c_flags<e_matchmaking_find_match_client_flags, uns8, k_matchmaking_find_match_client_flags_count> c_matchmaking_find_match_client_flags;
+typedef uns8 c_matchmaking_find_match_client_flags;
+
 struct c_life_cycle_state_handler_matchmaking_find_match_client :
 	public c_life_cycle_state_handler
 {
@@ -16,7 +19,7 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte __data[0x8];
+	c_matchmaking_find_match_client_flags m_flags;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_find_match_client) == 0x30);
 

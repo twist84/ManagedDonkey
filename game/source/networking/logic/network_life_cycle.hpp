@@ -24,9 +24,7 @@
 struct s_network_life_cycle_globals
 {
 	bool initialized;
-
-	byte __data[0x7];
-
+	byte pad[0x7];
 	c_life_cycle_state_manager manager;
 	c_life_cycle_state_handler_none handler_none;
 	c_life_cycle_state_handler_pre_game handler_pre_game;
@@ -48,6 +46,26 @@ struct s_network_life_cycle_globals
 	c_life_cycle_state_handler_post_match handler_post_match;
 };
 static_assert(sizeof(s_network_life_cycle_globals) == 0x3D538);
+static_assert(0x00000 == OFFSETOF(s_network_life_cycle_globals, initialized));
+static_assert(0x00008 == OFFSETOF(s_network_life_cycle_globals, manager));
+static_assert(0x09998 == OFFSETOF(s_network_life_cycle_globals, handler_none));
+static_assert(0x099C0 == OFFSETOF(s_network_life_cycle_globals, handler_pre_game));
+static_assert(0x099F8 == OFFSETOF(s_network_life_cycle_globals, handler_start_game));
+static_assert(0x09A20 == OFFSETOF(s_network_life_cycle_globals, handler_in_game));
+static_assert(0x09A60 == OFFSETOF(s_network_life_cycle_globals, handler_end_game_write_stats));
+static_assert(0x09A90 == OFFSETOF(s_network_life_cycle_globals, handler_leaving));
+static_assert(0x09AC0 == OFFSETOF(s_network_life_cycle_globals, handler_joining));
+static_assert(0x09AF8 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_start));
+static_assert(0x09B40 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_find_match_client));
+static_assert(0x09B70 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_find_match));
+static_assert(0x235D8 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_find_and_assemble_match));
+static_assert(0x3D138 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_assemble_match));
+static_assert(0x3D260 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_select_host));
+static_assert(0x3D290 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_arbitration));
+static_assert(0x3D450 == OFFSETOF(s_network_life_cycle_globals, handler_matchmaking_prepare_map));
+static_assert(0x3D488 == OFFSETOF(s_network_life_cycle_globals, handler_in_match));
+static_assert(0x3D4C8 == OFFSETOF(s_network_life_cycle_globals, handler_end_match_write_stats));
+static_assert(0x3D4F8 == OFFSETOF(s_network_life_cycle_globals, handler_post_match));
 
 extern s_network_life_cycle_globals& life_cycle_globals;
 

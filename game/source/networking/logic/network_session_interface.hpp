@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
@@ -54,14 +55,15 @@ static_assert(0x167C == OFFSETOF(s_network_session_interface_user, desired_team_
 static_assert(0x1680 == OFFSETOF(s_network_session_interface_user, user_update_timestamp));
 static_assert(0x168C == OFFSETOF(s_network_session_interface_user, user_remove_timestamp));
 
+enum e_saved_film_category;
 struct s_saved_film_description
 {
-	int32 category;
+	e_saved_film_category category;
 	e_campaign_id campaign_id;
 	e_map_id map_id;
 	int16 campaign_insertion_point;
 	bool campaign_survival_enabled;
-	int32 difficulty;
+	e_campaign_difficulty_level difficulty;
 	wchar_t film_path[256];
 	wchar_t film_name[128];
 	e_controller_index controller_index;
@@ -79,94 +81,106 @@ static_assert(0x214 == OFFSETOF(s_saved_film_description, film_name));
 static_assert(0x314 == OFFSETOF(s_saved_film_description, controller_index));
 static_assert(0x318 == OFFSETOF(s_saved_film_description, length_seconds));
 
-#pragma pack(push, 1)
+typedef c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flag_count> c_network_session_peer_properties_status_flags;
+
 struct s_network_session_interface_globals
 {
 	bool initialized;
-	uns8 : 8;
-	c_static_wchar_string<16> machine_name;
-	c_static_wchar_string<32> session_name;
-	bool has_live_connection_info;
-	uns8 : 8;
-	s_transport_qos_result qos_result;
-	int32 bandwidth_bps;
-	int32 max_machine_count;
-	c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flags> peer_status_flags;
+	wchar_t machine_name[16];
+	wchar_t session_name[32];
+	bool live_service_qos_valid;
+	s_transport_qos_result live_service_qos_result;
+	int32 live_estimated_bandwidth_bps;
+	int32 live_max_machine_count;
+	c_network_session_peer_properties_status_flags flags;
 	int16 ready_hopper_identifier;
-	uns8 : 8;
-	uns8 : 8;
-	int32 game_start_error;
-	bool was_guide_opened_during_a_multiplayer_session;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	e_map_id map_id;
-	int32 current_map;
+	e_session_game_start_error game_start_error;
+	bool guide_opened_during_multiplayer_session;
+	e_map_id current_map_id;
+	e_network_session_map_status current_map_status;
 	int32 current_map_progress_percentage;
-	int16 hopper_identifier;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	c_static_array<s_network_session_interface_user, k_number_of_users> users;
-	uns64 game_instance;
-	int32 scenario_type;
-	c_static_string<128> scenario_path;
-	int16 campaign_insertion_point;
-	int16 map_status;
-	real32 map_progress;
-	s_saved_film_description local_specific_film;
-	uns32 local_specific_film_time;
-	c_static_array<int32, 3> session_connection_identifiers;
-	c_static_array<int32, 3> session_peer_properties_update_times;
-	c_static_array<int32, 3> session_membership_update_number;
-	c_static_array<bool, 3> session_variant_has_teams;
-	c_static_array<bool, 3> session_variant_has_sve_teams;
-	c_static_array<bool, 3> session_variant_observers_allowed;
-	byte __pad5EF1[0x3];
-	c_static_array<int32, 3> session_variant_session_maximum_team_counts;
+	uns16 current_display_level_hopper_identifier;
+	byte pad[4];
+	s_network_session_interface_user users[4];
+	uns64 current_game_instance;
+	int32 persistent_progress_scenario_type;
+	char persistent_progress_scenario_path[128];
+	int16 persistent_campaign_insertion_point_index;
+	int16 persistent_load_status;
+	real32 persistent_progress_initial;
+	s_saved_film_description local_saved_film_description;
+	uns32 local_saved_film_description_timestamp;
+	int32 session_connection_identifier[3];
+	uns32 peer_update_timestamp[3];
+	int32 membership_update_number[3];
+	bool variant_is_team_game[3];
+	bool session_variant_has_sve_teams[3];
+	bool variant_are_observers_allowed[3];
+	int32 variant_team_count[3];
 	c_network_session_manager* session_manager;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
-	uns8 : 8;
+
+	//char friend_to_join[32];
+	//s_transport_secure_identifier session_id_to_join;
+	//bool join_with_squad;
+	//bool found_friend;
+	//uns32 time_of_last_join_attempt;
+	//int32 join_attempt_delay_msec;
+	//int32 this_join_attempt_delay_msec;
 };
 static_assert(sizeof(s_network_session_interface_globals) == 0x5F08);
-#pragma pack(pop)
+static_assert(0x0000 == OFFSETOF(s_network_session_interface_globals, initialized));
+static_assert(0x0002 == OFFSETOF(s_network_session_interface_globals, machine_name));
+static_assert(0x0022 == OFFSETOF(s_network_session_interface_globals, session_name));
+static_assert(0x0062 == OFFSETOF(s_network_session_interface_globals, live_service_qos_valid));
+static_assert(0x0064 == OFFSETOF(s_network_session_interface_globals, live_service_qos_result));
+static_assert(0x0084 == OFFSETOF(s_network_session_interface_globals, live_estimated_bandwidth_bps));
+static_assert(0x0088 == OFFSETOF(s_network_session_interface_globals, live_max_machine_count));
+static_assert(0x008C == OFFSETOF(s_network_session_interface_globals, flags));
+static_assert(0x0090 == OFFSETOF(s_network_session_interface_globals, ready_hopper_identifier));
+static_assert(0x0094 == OFFSETOF(s_network_session_interface_globals, game_start_error));
+static_assert(0x0098 == OFFSETOF(s_network_session_interface_globals, guide_opened_during_multiplayer_session));
+static_assert(0x009C == OFFSETOF(s_network_session_interface_globals, current_map_id));
+static_assert(0x00A0 == OFFSETOF(s_network_session_interface_globals, current_map_status));
+static_assert(0x00A4 == OFFSETOF(s_network_session_interface_globals, current_map_progress_percentage));
+static_assert(0x00A8 == OFFSETOF(s_network_session_interface_globals, current_display_level_hopper_identifier));
+static_assert(0x00B0 == OFFSETOF(s_network_session_interface_globals, users));
+static_assert(0x5B10 == OFFSETOF(s_network_session_interface_globals, current_game_instance));
+static_assert(0x5B18 == OFFSETOF(s_network_session_interface_globals, persistent_progress_scenario_type));
+static_assert(0x5B1C == OFFSETOF(s_network_session_interface_globals, persistent_progress_scenario_path));
+static_assert(0x5B9C == OFFSETOF(s_network_session_interface_globals, persistent_campaign_insertion_point_index));
+static_assert(0x5B9E == OFFSETOF(s_network_session_interface_globals, persistent_load_status));
+static_assert(0x5BA0 == OFFSETOF(s_network_session_interface_globals, persistent_progress_initial));
+static_assert(0x5BA4 == OFFSETOF(s_network_session_interface_globals, local_saved_film_description));
+static_assert(0x5EC0 == OFFSETOF(s_network_session_interface_globals, local_saved_film_description_timestamp));
+static_assert(0x5EC4 == OFFSETOF(s_network_session_interface_globals, session_connection_identifier));
+static_assert(0x5ED0 == OFFSETOF(s_network_session_interface_globals, peer_update_timestamp));
+static_assert(0x5EDC == OFFSETOF(s_network_session_interface_globals, membership_update_number));
+static_assert(0x5EE8 == OFFSETOF(s_network_session_interface_globals, variant_is_team_game));
+static_assert(0x5EEB == OFFSETOF(s_network_session_interface_globals, session_variant_has_sve_teams));
+static_assert(0x5EEE == OFFSETOF(s_network_session_interface_globals, variant_are_observers_allowed));
+static_assert(0x5EF4 == OFFSETOF(s_network_session_interface_globals, variant_team_count));
+static_assert(0x5F00 == OFFSETOF(s_network_session_interface_globals, session_manager));
 
 extern s_network_session_interface_globals& session_interface_globals;
 
 extern int32 __cdecl network_squad_session_get_countdown_timer();
 extern bool __cdecl network_life_cycle_in_matchmaking();
-//network_squad_session_get_active_skulls_primary
-//network_squad_session_get_active_skulls_secondary
 extern e_campaign_difficulty_level __cdecl network_life_cycle_session_get_campaign_difficulty();
 extern int16 __cdecl network_squad_session_get_campaign_insertion_point();
 extern int16 __cdecl network_squad_session_get_campaign_metagame_scoring();
-//sub_435160
 extern s_saved_film_description const* __cdecl network_squad_session_get_film();
 extern c_game_variant const* __cdecl network_life_cycle_session_get_game_variant();
 extern bool __cdecl network_life_cycle_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id);
 extern c_map_variant const* __cdecl network_squad_session_get_map_variant();
-//sub_4355A0
 extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode();
-//sub_4356A0
 extern void __cdecl network_session_check_properties(c_network_session* session);
-//network_session_get_membership
 extern void __cdecl network_session_inteface_update_host_framerate_quality();
 extern void __cdecl network_session_interface_add_local_user(int32 user_index, s_player_identifier const* player_identifier);
-//network_session_interface_calculate_map_progress
 extern void __cdecl network_session_interface_clear_peer_status_flags();
 extern void __cdecl network_session_interface_dispose();
-//sub_436230
-//simulation_debug_globals_get_game_network_quality
 extern bool __cdecl network_session_interface_get_is_user_signed_in(int32 user_index);
 extern bool __cdecl network_session_interface_get_is_zombie_local_user(int32 user_index);
 extern bool __cdecl network_session_interface_get_live_connection_info(s_transport_qos_result* qos_result, e_online_nat_type* nat_type, int32* bandwidth_bps, int32* max_machine_count);
-//network_session_interface_get_local_framerate_quality
-//.text:004364A0 ; int32 __cdecl network_session_interface_get_local_user_count(void)
 extern bool __cdecl network_session_interface_get_local_user_identifier(int32 user_index, s_player_identifier* player_identifier, bool allow_users_in_erroneous_states);
 extern bool __cdecl network_session_interface_get_local_user_properties(int32 user_index, e_controller_index* controller_index, s_player_configuration* player_data, uns32* player_voice_settings);
 extern int32 __cdecl network_session_interface_get_local_user_state(int32 user_index);
@@ -193,9 +207,6 @@ extern void __cdecl network_session_interface_update_local_state();
 extern void __cdecl network_session_interface_update_session(c_network_session* session);
 extern bool __cdecl network_session_interface_was_guide_opened_during_a_multiplayer_session();
 extern void __cdecl network_session_set_player_failure_reason(int32 user_index, e_network_join_refuse_reason reason);
-//network_session_update_local_specific_parameters
-//network_session_update_local_peer_properties
-//network_session_update_team_indices
 extern void __cdecl network_session_update_user_properties(c_network_session* session, int32 user_index);
 extern void __cdecl network_session_update_user_removal(c_network_session* session);
 extern bool __cdecl network_squad_session_boot_player(int32 player_index, e_network_session_boot_reason reason);

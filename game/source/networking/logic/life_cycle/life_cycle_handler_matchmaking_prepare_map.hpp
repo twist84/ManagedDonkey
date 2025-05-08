@@ -2,6 +2,9 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+//typedef c_flags<e_matchmaking_prepare_map_flags, uns8, k_matchmaking_prepare_map_flags_count> c_matchmaking_prepare_map_flags;
+typedef uns8 c_matchmaking_prepare_map_flags;
+
 struct c_life_cycle_state_handler_matchmaking_prepare_map :
 	public c_life_cycle_state_handler
 {
@@ -16,7 +19,14 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte __data[0x10];
+	c_matchmaking_prepare_map_flags m_flags;
+	uns32 m_prepare_map_start_time;
+	uns32 m_countdown_start_time;
+	uns32 m_loading_start_time;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_prepare_map) == 0x38);
+static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_flags));
+static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_prepare_map_start_time));
+static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_countdown_start_time));
+static_assert(0x34 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_loading_start_time));
 

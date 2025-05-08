@@ -7,7 +7,7 @@
 #define QOS_ATTEMPT_MIN_COUNT 2
 #define QOS_ATTEMPT_MAX_COUNT 10
 
-struct s_network_session_tracker_session_data
+struct __declspec(align(8)) s_network_session_tracker_session_data
 {
 	char name[16];
 	s_transport_session_description description;
@@ -15,7 +15,7 @@ struct s_network_session_tracker_session_data
 	s_network_squad_status_data status_data;
 	int32 desirability;
 };
-static_assert(sizeof(s_network_session_tracker_session_data) == 0x16524);
+static_assert(sizeof(s_network_session_tracker_session_data) == 0x16528);
 
 struct s_network_session_tracker_session_status
 {

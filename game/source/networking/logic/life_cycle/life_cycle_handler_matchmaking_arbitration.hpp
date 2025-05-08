@@ -3,6 +3,9 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/logic/network_arbitration.hpp"
 
+//typedef c_flags<e_matchmaking_arbitration_flags, uns32, k_matchmaking_arbitration_flags_count> c_matchmaking_arbitration_flags;
+typedef uns32 c_matchmaking_arbitration_flags;
+
 struct c_life_cycle_state_handler_matchmaking_arbitration :
 	public c_life_cycle_state_handler
 {
@@ -17,8 +20,14 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	byte __data[0x10];
+	c_matchmaking_arbitration_flags m_flags;
+	uns32 m_arbitration_start_time;
+	uns32 m_arbitration_waiting_for_completion_start_time;
 	s_arbitration_registration_result m_registration_result;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_arbitration) == 0x1C0);
+static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_flags));
+static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_start_time));
+static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_waiting_for_completion_start_time));
+static_assert(0x38 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_registration_result));
 

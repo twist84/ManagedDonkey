@@ -17,9 +17,12 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	uns32 m_time;
-	int32 m_countdown_timer;
-	byte __data[0x8];
+	uns32 m_last_countdown_timestamp;
+	int32 m_last_countdown_timer;
+	uns32 m_game_start_timestamp;
 };
 static_assert(sizeof(c_life_cycle_state_handler_pre_game) == 0x38);
+static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timestamp));
+static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timer));
+static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_game_start_timestamp));
 

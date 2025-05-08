@@ -2,6 +2,9 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+//typedef c_flags<e_leaving_flags, uns8, k_leaving_flags_count> c_leaving_flags;
+typedef uns8 c_leaving_flags;
+
 struct c_life_cycle_state_handler_leaving :
 	public c_life_cycle_state_handler
 {
@@ -15,9 +18,12 @@ public:
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
-	uns8 m_flags;
-	bool m_disconnected;
-	byte __data[0x6];
+	c_leaving_flags m_flags;
+	bool m_leave_and_disconnect;
+	e_gui_game_mode m_failure_game_mode;
 };
 static_assert(sizeof(c_life_cycle_state_handler_leaving) == 0x30);
+static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_leaving, m_flags));
+static_assert(0x29 == OFFSETOF(c_life_cycle_state_handler_leaving, m_leave_and_disconnect));
+static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_leaving, m_failure_game_mode));
 

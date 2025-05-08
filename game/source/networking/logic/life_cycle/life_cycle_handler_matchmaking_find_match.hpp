@@ -5,18 +5,29 @@
 #include "networking/logic/logic_matchmaking_seeker.hpp"
 #include "networking/logic/logic_session_tracker.hpp"
 
+//typedef c_flags<e_matchmaking_find_match_flags, uns8, k_matchmaking_find_match_flags_count> c_matchmaking_find_match_flags;
+typedef uns8 c_matchmaking_find_match_flags;
+
+struct s_suitable_matchmaking_session
+{
+	s_network_session_tracker_session_data tracked_session_data;
+};
+static_assert(sizeof(s_suitable_matchmaking_session) == sizeof(s_network_session_tracker_session_data));
+
 struct c_life_cycle_state_handler_matchmaking_find_match :
 	public c_life_cycle_state_handler
 {
 public:
 	
 //protected:
-	uns8 m_flags;
-	byte __data29[0x3];
-	byte __data2C[0x4];
-	c_matchmaking_seeker m_seeker;
-	s_network_session_tracker_session_data m_session;
-	byte __data19A5C[0xC];
+	c_matchmaking_find_match_flags m_flags;
+	c_matchmaking_seeker m_matchmaking_seeker;
+	s_suitable_matchmaking_session m_current_session_join_attempt;
+	uns32 m_desparation_start_time;
 };
 static_assert(sizeof(c_life_cycle_state_handler_matchmaking_find_match) == 0x19A68);
+static_assert(0x00028 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_match, m_flags));
+static_assert(0x00030 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_match, m_matchmaking_seeker));
+static_assert(0x03538 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_match, m_current_session_join_attempt));
+static_assert(0x19A60 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_match, m_desparation_start_time));
 
