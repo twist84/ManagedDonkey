@@ -1,11 +1,14 @@
 #include "game/players.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
+#include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/interface_constants.hpp"
 #include "items/equipment.hpp"
 #include "items/weapons.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
@@ -573,6 +576,26 @@ void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 activating_
 }
 
 //.text:0053BD90 ; void __cdecl player_prepare_action(int32, player_action*)
+
+real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index)
+{
+	if (!global_scenario_try_and_get())
+		return *global_real_rgb_white;
+
+	s_game_globals* game_globals = scenario_get_game_globals();
+	if (!VALID_INDEX(color_index, game_globals->profile_colors.count))
+	{
+		event(_event_message, "no player color defined in game globals tag for player color index #%ld",
+			color_index);
+		return *global_real_rgb_white;
+	}
+
+	// profile_colors is supposed to be `real_rgb_color`
+
+	real_rgb_color real_color{};
+	return *pixel32_to_real_rgb_color(game_globals->profile_colors[color_index], &real_color);
+}
+
 //.text:0053BFF0 ; void __cdecl player_reading_terminal_set(bool)
 //.text:0053C020 ; void __cdecl player_rejoined_game(int32,  game_player_options const*, bool)
 //.text:0053C070 ; void __cdecl player_reset(int32, bool, bool,  game_player_options const*)

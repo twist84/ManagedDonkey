@@ -734,6 +734,7 @@ extern void __cdecl player_positions_dispose_from_old_structure_bsp(uns32 deacti
 extern void __cdecl player_positions_initialize();
 extern void __cdecl player_positions_initialize_for_new_map();
 extern void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
+extern real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index);
 extern void __cdecl player_set_facing(int32 player_index, real_vector3d const* facing);
 extern void __cdecl player_set_unit_index(int32 player_index, int32 unit_index);
 extern bool __cdecl player_spawn(int32 player_index, real_point3d const* position, real32 const* facing);

@@ -41,5 +41,6 @@ static_assert(sizeof(s_emblem_info) == 0x8);
 extern s_emblem_info g_user_interface_emblem_info;
 
 extern s_emblem_info* emblem_get_render_constants_emblem_info_from_user_interface(s_emblem_info* emblem_info);
+extern bool emblem_set_render_constants_for_local_user(e_controller_index controller_index, int16* foreground_emblem, int16* background_emblem);
 extern bool emblem_set_render_constants_from_user_interface(s_emblem_info const* emblem_info);
 

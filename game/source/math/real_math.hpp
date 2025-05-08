@@ -499,4 +499,5 @@ extern real32 __cdecl square_root(real32 x);
 extern real32 __cdecl triple_product3d(real_vector3d const* a, real_vector3d const* b, real_vector3d const* n);
 extern real_vector2d* __cdecl vector_from_points2d(real_point2d const* a, real_point2d const* b, real_vector2d* result);
 extern real_vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, real_vector3d* result);
+extern real_vector4d* __cdecl real_rgb_color_to_real_vector4d(real_rgb_color* color, real32 alpha, real_vector4d* result);
 

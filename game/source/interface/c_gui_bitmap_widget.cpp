@@ -2,10 +2,7 @@
 
 #include "bitmaps/bitmap_group.hpp"
 #include "gui_custom_bitmap_storage.hpp"
-#include "interface/c_controller.hpp"
 #include "interface/interface_constants.hpp"
-#include "interface/user_interface.hpp"
-#include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/screen_postprocess.hpp"
@@ -65,39 +62,6 @@ struct s_dynamic_render_target
 	c_rasterizer_texture_ref depth_stencil_surface;
 };
 static_assert(sizeof(s_dynamic_render_target) == 0x1C);
-
-bool emblem_set_render_constants_for_local_user(e_controller_index controller_index, int16* foreground_emblem, int16* background_emblem)
-{
-	if (VALID_CONTROLLER(controller_index))
-	{
-		s_emblem_info emblem_info = controller_get(controller_index)->get_player_profile_interface()->get_emblem_info();
-		emblem_set_render_constants_from_user_interface(&emblem_info);
-
-		if (foreground_emblem)
-			*foreground_emblem = emblem_info.foreground_emblem_index;
-
-		if (background_emblem)
-			*background_emblem = emblem_info.background_emblem_index;
-
-		return true;
-	}
-
-	if (controller_index == k_any_controller)
-	{
-		if (s_player_configuration const* player_data = user_interface_squad_get_player_data(0))
-		{
-			if (foreground_emblem)
-				*foreground_emblem = player_data->host.appearance.emblem_info.foreground_emblem_index;
-
-			if (background_emblem)
-				*background_emblem = player_data->host.appearance.emblem_info.background_emblem_index;
-
-			return true;
-		}
-	}
-
-	return false;
-}
 
 void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, rectangle2d const* window_bounds)
 {

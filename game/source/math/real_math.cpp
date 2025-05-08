@@ -848,3 +848,8 @@ real_vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d 
 	return result;
 }
 
+real_vector4d* __cdecl real_rgb_color_to_real_vector4d(real_rgb_color* color, real32 alpha, real_vector4d* result)
+{
+	return set_real_vector4d(result, color->red, color->green, color->blue, alpha);
+}
+

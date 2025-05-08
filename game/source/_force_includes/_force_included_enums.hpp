@@ -2783,9 +2783,11 @@ enum e_player_color_index
 	k_player_color_index_count,
 
 	_player_color_none = -1,
+
 	k_default_primary_color = _player_color_13,
 	k_default_secondary_color = _player_color_13,
 	k_default_tertiary_color = _player_color_13,
+
 	k_default_emblem_icon_color1 = _player_color_27,
 	k_default_emblem_icon_color2 = _player_color_10,
 	k_default_emblem_background_color = _player_color_02,
