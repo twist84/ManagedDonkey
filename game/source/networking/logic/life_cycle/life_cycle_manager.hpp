@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "life_cycle_matchmaking_quality.hpp"
+#include "networking/logic/life_cycle/life_cycle_matchmaking_quality.hpp"
 
 const int32 k_maximum_state_change_entry_data_size = 16;
 

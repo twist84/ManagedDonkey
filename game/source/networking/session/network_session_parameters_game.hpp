@@ -56,6 +56,8 @@ struct c_network_session_parameter_game_start_status :
 	public c_network_session_parameter_base,
 	c_generic_network_session_parameter_data<s_network_session_parameter_game_start_status>
 {
+public:
+	bool set(s_network_session_parameter_game_start_status const* game_status);
 };
 static_assert(sizeof(c_network_session_parameter_game_start_status) == 0x48);
 
