@@ -2,7 +2,9 @@
 
 c_life_cycle_state_handler_leaving::c_life_cycle_state_handler_leaving() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_leave_and_disconnect(),
+	m_failure_game_mode()
 {
 	//DECLFUNC(0x00453F70, void, __thiscall, c_life_cycle_state_handler_leaving*)(this);
 }

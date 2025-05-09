@@ -4,9 +4,23 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/session/network_session.hpp"
 
-c_life_cycle_state_manager::c_life_cycle_state_manager()
+c_life_cycle_state_manager::c_life_cycle_state_manager() :
+	m_current_state(),
+	m_handlers(),
+	m_session_manager(),
+	m_active_squad_session(),
+	m_target_session(),
+	m_group_session(),
+	m_observer(),
+	m_pending_state_change(),
+	m_pending_state(),
+	m_pending_state_change_entry_data_size(),
+	m_pending_state_change_entry_data(),
+	m_matchmaking_quality(),
+	m_matchmaking_messaging_session_identifier_valid(),
+	m_matchmaking_messaging_session_identifier(),
+	m_matchmaking_messaging_current_cookie()
 {
-	csmemset(this, 0, sizeof(*this));
 }
 
 bool c_life_cycle_state_manager::current_state_ready_for_state_transition_or_query() const

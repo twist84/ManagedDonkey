@@ -1950,6 +1950,12 @@
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_post_match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\logic_matchmaking_seeker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

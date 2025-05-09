@@ -9,6 +9,8 @@ typedef uns8 c_matchmaking_seeker_flags;
 
 struct __declspec(align(8)) c_matchmaking_seeker
 {
+	c_matchmaking_seeker();
+
 	c_matchmaking_seeker_flags m_flags;
 	int32 m_current_session_search_index;
 	int32 m_search_stage;

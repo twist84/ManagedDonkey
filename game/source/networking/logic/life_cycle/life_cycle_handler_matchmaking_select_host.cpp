@@ -2,7 +2,8 @@
 
 c_life_cycle_state_handler_matchmaking_select_host::c_life_cycle_state_handler_matchmaking_select_host() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_select_host_start_time()
 {
 	//DECLFUNC(0x00454090, void, __thiscall, c_life_cycle_state_handler_matchmaking_select_host*)(this);
 }

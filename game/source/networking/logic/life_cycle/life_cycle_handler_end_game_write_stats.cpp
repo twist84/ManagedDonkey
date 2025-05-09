@@ -1,9 +1,11 @@
 #include "networking/logic/life_cycle/life_cycle_handler_end_game_write_stats.hpp"
 
 c_life_cycle_state_handler_end_game_write_stats::c_life_cycle_state_handler_end_game_write_stats() :
-	c_life_cycle_state_handler()
+	c_life_cycle_state_handler(),
+	m_end_game_write_stats_start_time(),
+	m_flags(0)
 {
-	DECLFUNC(0x00453ED0, void, __thiscall, c_life_cycle_state_handler_end_game_write_stats*)(this);
+	//DECLFUNC(0x00453ED0, void, __thiscall, c_life_cycle_state_handler_end_game_write_stats*)(this);
 }
 
 char const* c_life_cycle_state_handler_end_game_write_stats::get_state_string()

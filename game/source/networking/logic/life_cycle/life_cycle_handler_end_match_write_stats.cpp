@@ -2,7 +2,8 @@
 
 c_life_cycle_state_handler_end_match_write_stats::c_life_cycle_state_handler_end_match_write_stats() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_end_match_write_stats_start_time()
 {
 	//DECLFUNC(0x00453EF0, void, __thiscall, c_life_cycle_state_handler_end_match_write_stats*)(this);
 }

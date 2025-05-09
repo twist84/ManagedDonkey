@@ -2,7 +2,11 @@
 
 c_life_cycle_state_handler_in_match::c_life_cycle_state_handler_in_match() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_match_start_time(),
+	m_match_game_instance(),
+	m_handled_simulation_abort(),
+	m_simulation_aborted_timestamp()
 {
 	//DECLFUNC(0x00453F30, void, __thiscall, c_life_cycle_state_handler_in_match*)(this);
 }

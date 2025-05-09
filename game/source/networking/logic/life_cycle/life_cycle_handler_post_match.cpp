@@ -2,7 +2,12 @@
 
 c_life_cycle_state_handler_post_match::c_life_cycle_state_handler_post_match() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_countdown_seconds_timer(),
+	m_rematch_squad_host_update_timer(),
+	m_ready_for_next_match_timer(),
+	m_waiting_for_stats_replication_timer(),
+	m_pre_rematch_squad_peer_count()
 {
 	//DECLFUNC(0x004540E0, void, __thiscall, c_life_cycle_state_handler_post_match*)(this);
 }

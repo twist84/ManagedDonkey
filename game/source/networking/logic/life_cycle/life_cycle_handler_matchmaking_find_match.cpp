@@ -6,9 +6,10 @@ c_life_cycle_state_handler_matchmaking_find_match::c_life_cycle_state_handler_ma
 	c_life_cycle_state_handler(),
 	m_flags(0),
 	m_matchmaking_seeker(),
-	m_current_session_join_attempt()
+	m_current_session_join_attempt(),
+	m_desparation_start_time()
 {
-	DECLFUNC(0x00454010, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
+	//DECLFUNC(0x00454010, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
 }
 
 char const* c_life_cycle_state_handler_matchmaking_find_match::get_state_string()

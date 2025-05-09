@@ -146,6 +146,8 @@ static_assert(sizeof(s_matchmaking_quality_data) == 0x98F0);
 
 struct c_matchmaking_quality
 {
+	c_matchmaking_quality();
+
 	bool m_needs_submission_to_webstats;
 	s_matchmaking_quality_data m_data;
 };

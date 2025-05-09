@@ -2,7 +2,11 @@
 
 c_life_cycle_state_handler_in_game::c_life_cycle_state_handler_in_game() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_handled_simulation_abort(),
+	m_time_of_handled_campaign_quit(),
+	m_simulation_aborted_timestamp(),
+	m_game_instance()
 {
 	//DECLFUNC(0x00453F10, void, __thiscall, c_life_cycle_state_handler_in_game*)(this);
 }

@@ -6,9 +6,17 @@ c_life_cycle_state_handler_matchmaking_find_and_assemble_match::c_life_cycle_sta
 	c_life_cycle_state_handler(),
 	m_flags(0),
 	m_matchmaking_seeker(),
-	m_current_session_join_attempt()
+	m_current_session_join_attempt(),
+	m_gather_start_time(),
+	m_desparation_start_time(),
+	m_force_gather_in_matchmaking_start(),
+	m_advertised_session_properties(),
+	m_enter_find_and_assemble_data(),
+	m_qos_listener_data()
 {
-	DECLFUNC(0x00453FD0, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*)(this);
+	//DECLFUNC(0x00453FD0, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*)(this);
+
+	zero_array(pad);
 }
 
 char const* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_state_string()

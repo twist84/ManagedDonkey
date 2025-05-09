@@ -19,6 +19,7 @@ void __cdecl dynamic_initializer_for_life_cycle_globals()
 HOOK_DECLARE(0x01594C20, dynamic_initializer_for_life_cycle_globals);
 
 s_network_life_cycle_globals::s_network_life_cycle_globals() :
+	initialized(false),
 	life_cycle_state_manager(),
 	life_cycle_state_handler_none(),
 	life_cycle_state_handler_pre_game(),
@@ -40,6 +41,8 @@ s_network_life_cycle_globals::s_network_life_cycle_globals() :
 	life_cycle_state_handler_post_match()
 {
 	//DECLFUNC(0x00454200, void, __thiscall, s_network_life_cycle_globals*)(this);
+
+	zero_array(pad);
 }
 
 //.text:00454830 ; void __cdecl network_life_cycle_abort_matchmaking()

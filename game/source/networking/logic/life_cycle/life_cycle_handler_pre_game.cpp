@@ -9,7 +9,10 @@
 bool net_skip_countdown = false;
 
 c_life_cycle_state_handler_pre_game::c_life_cycle_state_handler_pre_game() :
-	c_life_cycle_state_handler()
+	c_life_cycle_state_handler(),
+	m_last_countdown_timestamp(),
+	m_last_countdown_timer(),
+	m_game_start_timestamp()
 {
 	//DECLFUNC(0x00454100, void, __thiscall, c_life_cycle_state_handler_pre_game*)(this);
 }

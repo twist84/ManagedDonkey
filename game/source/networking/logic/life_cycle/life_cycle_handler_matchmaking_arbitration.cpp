@@ -2,9 +2,12 @@
 
 c_life_cycle_state_handler_matchmaking_arbitration::c_life_cycle_state_handler_matchmaking_arbitration() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_arbitration_start_time(),
+	m_arbitration_waiting_for_completion_start_time(),
+	m_registration_result()
 {
-	DECLFUNC(0x00453F90, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
+	//DECLFUNC(0x00453F90, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
 }
 
 char const* c_life_cycle_state_handler_matchmaking_arbitration::get_state_string()

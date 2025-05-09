@@ -2,7 +2,10 @@
 
 c_life_cycle_state_handler_matchmaking_prepare_map::c_life_cycle_state_handler_matchmaking_prepare_map() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_prepare_map_start_time(),
+	m_countdown_start_time(),
+	m_loading_start_time()
 {
 	//DECLFUNC(0x00454070, void, __thiscall, c_life_cycle_state_handler_matchmaking_prepare_map*)(this);
 }

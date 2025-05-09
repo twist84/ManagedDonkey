@@ -13,7 +13,11 @@ bool net_matchmaking_force_search = false;
 
 c_life_cycle_state_handler_matchmaking_start::c_life_cycle_state_handler_matchmaking_start() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_matchmaking_find_match_role(),
+	m_entry_data(),
+	m_waiting_to_start_timer(),
+	m_last_warning_toast_time()
 {
 	//DECLFUNC(0x004540B0, void, __thiscall, c_life_cycle_state_handler_matchmaking_start*)(this);
 }

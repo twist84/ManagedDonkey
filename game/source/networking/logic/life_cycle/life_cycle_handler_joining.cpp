@@ -2,7 +2,9 @@
 
 c_life_cycle_state_handler_joining::c_life_cycle_state_handler_joining() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_failure_game_mode(),
+	m_previous_state()
 {
 	//DECLFUNC(0x00453F50, void, __thiscall, c_life_cycle_state_handler_joining*)(this);
 }

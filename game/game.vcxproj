@@ -335,8 +335,10 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_none.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_post_match.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_start_game.cpp" />
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp" />
     <ClCompile Include="source\networking\logic\logic_managed_user.cpp" />
+    <ClCompile Include="source\networking\logic\logic_matchmaking_seeker.cpp" />
     <ClCompile Include="source\networking\logic\network_bandwidth.cpp" />
     <ClCompile Include="source\networking\logic\network_banhammer.cpp" />
     <ClCompile Include="source\networking\logic\network_leaderboard.cpp" />

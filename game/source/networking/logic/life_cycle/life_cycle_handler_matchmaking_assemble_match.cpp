@@ -2,7 +2,13 @@
 
 c_life_cycle_state_handler_matchmaking_assemble_match::c_life_cycle_state_handler_matchmaking_assemble_match() :
 	c_life_cycle_state_handler(),
-	m_flags(0)
+	m_flags(0),
+	m_gather_start_time(),
+	m_ready_to_start_time(),
+	m_advertised_session_properties(),
+	m_qos_listener_stats_query_time(),
+	m_last_qos_listener_data_replies_sent(),
+	m_qos_listener_data()
 {
 	//DECLFUNC(0x00453FB0, void, __thiscall, c_life_cycle_state_handler_matchmaking_assemble_match*)(this);
 }
