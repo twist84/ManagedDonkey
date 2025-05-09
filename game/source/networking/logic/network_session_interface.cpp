@@ -410,8 +410,7 @@ bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user)
 	return INVOKE(0x00439660, network_squad_session_set_closed_by_user, closed_by_user);
 }
 
-//bool __cdecl network_squad_session_set_closed_status(enum e_network_session_closed_status closed_status)
-bool __cdecl network_squad_session_set_closed_status(int32 closed_status)
+bool __cdecl network_squad_session_set_closed_status(e_network_session_closed_status closed_status)
 {
 	return INVOKE(0x004396B0, network_squad_session_set_closed_status, closed_status);
 }
@@ -477,11 +476,6 @@ bool __cdecl network_squad_session_whack_to_offline_session_class()
 	return INVOKE(0x00439DF0, network_squad_session_whack_to_offline_session_class);
 }
 
-bool __cdecl network_squad_session_local_peer_is_leader()
-{
-	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
-}
-
 bool __cdecl network_session_interface_wants_main_menu_to_load()
 {
 	return INVOKE(0x00454B90, network_session_interface_wants_main_menu_to_load);
@@ -490,6 +484,11 @@ bool __cdecl network_session_interface_wants_main_menu_to_load()
 bool __cdecl network_life_cycle_game_is_in_progress()
 {
 	return INVOKE(0x00454BB0, network_life_cycle_game_is_in_progress);
+}
+
+bool __cdecl network_squad_session_local_peer_is_leader()
+{
+	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
 }
 
 bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode)

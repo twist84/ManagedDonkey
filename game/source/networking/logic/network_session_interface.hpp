@@ -218,7 +218,7 @@ extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(int16 campaign_insertion_point);
 extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);
-extern bool __cdecl network_squad_session_set_closed_status(int32 closed_status);
+extern bool __cdecl network_squad_session_set_closed_status(e_network_session_closed_status closed_status);
 extern bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path);
 extern bool __cdecl network_squad_session_set_film(s_saved_film_description const* film);
 extern bool __cdecl network_squad_session_set_game_variant(c_game_variant const* game_variant);
