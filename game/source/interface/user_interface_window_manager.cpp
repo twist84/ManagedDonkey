@@ -521,7 +521,24 @@ void c_window_manager::update(uns32 milliseconds)
 //.text:00AAD540 ; public: void c_window_manager::update_fade(uns32)
 //.text:00AAD670 ; 
 //.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, int32)
-//.text:00AAD8B0 ; void __cdecl window_manager_build_render_data_for_screen(rectangle2d const*, c_gui_screen_widget*, s_window_manager_screen_render_data*)
+
+void __cdecl window_manager_build_render_data_for_screen(rectangle2d const* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data)
+{
+	INVOKE(0x00AAD8B0, window_manager_build_render_data_for_screen, viewport_bounds, screen, render_data);
+
+	//render_data->clear();
+	//render_data->built_for_viewport_bounds = *viewport_bounds;
+	//
+	//if (screen->should_render(NULL))
+	//{
+	//	window_manager_add_widgets_to_render_list_recursive(viewport_bounds, screen, render_data, screen->get_driving_controller());
+	//}
+	//
+	//if (render_data->current_count > 0)
+	//{
+	//	qsort(render_data->render_list, render_data->current_count, sizeof(s_depth_sorted_render_widget), gui_widget_depth_sort_proc);
+	//}
+}
 
 c_window_manager* __cdecl window_manager_get()
 {
@@ -535,13 +552,27 @@ c_window_manager* __cdecl window_manager_get()
 void __cdecl window_manager_load_screen_hs(int32 screen_name)
 {
 	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen_name);
+
+	//if (user_interface_memory_initialized())
+	//{
+	//	if (c_load_screen_message* screen_message = new c_load_screen_message(screen_name, k_any_controller, k_number_of_player_windows, STRING_ID(gui, top_most)))
+	//	{
+	//		user_interface_messaging_post(screen_message);
+	//	}
+	//}
 }
 
-//.text:00AADA20 ; void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data*, int32, rectangle2d*, bool)
+void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d* viewport_bounds, bool is_screenshot)
+{
+	INVOKE(0x00AADA20, window_manager_render_screen_internal, render_data, user_index, viewport_bounds, is_screenshot);
+}
 
 void __cdecl window_manager_reset_screens()
 {
 	INVOKE(0x00AADAC0, window_manager_reset_screens);
+
+	//g_window_manager.reset_screens();
+	//user_interface_error_manager_get()->clear_all_errors();
 }
 
 //.text:00AADAE0 ; bool __cdecl window_manager_screen_is_alert_or_dialog(c_gui_screen_widget const*)

@@ -5,6 +5,8 @@
 
 struct s_data_array;
 struct s_event_record;
+struct s_window_manager_screen_render_data;
+struct s_window_manager_static_render_data;
 struct c_gui_screen_widget;
 struct c_load_screen_message;
 
@@ -48,6 +50,8 @@ static_assert(sizeof(c_window_manager) == 0x128);
 
 extern c_window_manager& g_window_manager;
 
+extern void __cdecl window_manager_build_render_data_for_screen(rectangle2d const* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data);
 extern c_window_manager* __cdecl window_manager_get();
 extern void __cdecl window_manager_load_screen_hs(int32 screen_name);
+extern void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d* viewport_bounds, bool is_screenshot);
 extern void __cdecl window_manager_reset_screens();
