@@ -640,14 +640,14 @@ bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, int32 b
 
 bool packed_game_variant_is_mcc(void const* buffer_, int32 bytes_read)
 {
-	uns8 const* buffer = static_cast<uns8 const*>(buffer_);
+	byte const* buffer = (byte const*)buffer_;
 	void const* buffer_end = buffer + bytes_read;
 
-	s_blf_header const* chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
+	s_blf_header const* chunk_header = (s_blf_header const*)buffer;
 	while (chunk_header->chunk_type != 'msf_')
 	{
 		buffer += bswap_uns32(chunk_header->chunk_size);
-		chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
+		chunk_header = (s_blf_header const*)buffer;
 
 		if (buffer >= buffer_end)
 			return false;
@@ -662,9 +662,9 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 
 	if (packed_game_variant_is_mcc(buffer, bytes_read))
 	{
-		void const* buffer_end = static_cast<uns8 const*>(buffer) + bytes_read;
+		void const* buffer_end = offset_pointer(buffer, bytes_read);
 
-		s_blf_header const* chunk_header = static_cast<s_blf_header const*>(buffer);
+		s_blf_header const* chunk_header = (s_blf_header const*)buffer;
 		csmemset(game_variant, 0, sizeof(c_game_variant));
 
 		ASSERT(0x9D == sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file));
@@ -672,15 +672,15 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 
 		while (buffer < buffer_end && chunk_header->chunk_type != 'ravg')
 		{
-			buffer = static_cast<uns8 const*>(buffer) + bswap_uns32(chunk_header->chunk_size);
-			chunk_header = static_cast<s_blf_header const*>(buffer);
+			buffer = offset_pointer(buffer, bswap_uns32(chunk_header->chunk_size));
+			chunk_header = (s_blf_header const*)buffer;
 		}
 
 		if (buffer >= buffer_end)
 			return false;
 
 		int32 chunk_size = bswap_uns32(chunk_header->chunk_size) - sizeof(s_blf_header);
-		uns8* chunk_data = const_cast<uns8*>(static_cast<uns8 const*>(buffer) + sizeof(s_blf_header));
+		byte* chunk_data = (byte*)offset_pointer(buffer, sizeof(s_blf_header));
 
 		c_bitstream packet(chunk_data, chunk_size);
 		packet.begin_reading();
@@ -690,8 +690,8 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 		bool result = decode_succeeded;
 		if (decode_succeeded)
 		{
-			buffer = static_cast<uns8 const*>(buffer) + bswap_uns32(chunk_header->chunk_size);
-			chunk_header = static_cast<s_blf_header const*>(buffer);
+			buffer = offset_pointer(buffer, bswap_uns32(chunk_header->chunk_size));
+			chunk_header = (s_blf_header const*)buffer;
 
 			if (buffer >= buffer_end)
 			{
@@ -702,8 +702,8 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, int
 				// is end of file
 				while (chunk_header->chunk_type != 'foe_')
 				{
-					buffer = static_cast<uns8 const*>(buffer) + bswap_uns32(chunk_header->chunk_size);
-					chunk_header = static_cast<s_blf_header const*>(buffer);
+					buffer = offset_pointer(buffer, bswap_uns32(chunk_header->chunk_size));
+					chunk_header = (s_blf_header const*)buffer;
 
 					if (buffer >= buffer_end)
 						return false;
@@ -1276,7 +1276,7 @@ void __cdecl network_game_variant_file_juju(char const* file_path, bool use_vari
 		return;
 	}
 
-	s_blffile_game_variant* game_variant_file = reinterpret_cast<s_blffile_game_variant*>(buffer);
+	s_blffile_game_variant* game_variant_file = (s_blffile_game_variant*)buffer;
 	c_game_variant* game_variant = &game_variant_file->game_variant_chunk.game_variant;
 
 	if (!game_engine_variant_is_valid(game_variant))
@@ -1429,7 +1429,7 @@ void __cdecl network_map_variant_file_juju(char const* file_path, bool use_varia
 		return;
 	}
 
-	s_blffile_map_variant* map_variant_file = reinterpret_cast<s_blffile_map_variant*>(buffer);
+	s_blffile_map_variant* map_variant_file = (s_blffile_map_variant*)buffer;
 	c_map_variant* map_variant = &map_variant_file->map_variant_chunk.map_variant;
 
 	if (!map_variant->validate())

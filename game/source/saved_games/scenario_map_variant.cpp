@@ -72,7 +72,7 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//
 	//bool variant_has_objects = VALID_INDEX(m_number_of_variant_objects, 640) && VALID_INDEX(m_number_of_placeable_object_quotas, 256);
 	//
-	//m_map_id = (int32)packet->read_integer("map_id", 32);
+	//m_map_id = (e_map_id)packet->read_integer("map_id", 32);
 	//m_built_in = packet->read_bool("built_in");
 	//packet->read_bits_internal(&m_variant_scenario_bounds, SIZEOF_BITS(m_variant_scenario_bounds)); // world-bounds
 	//m_game_engine_subtype = (int32)packet->read_integer("game_engine_subtype", 4);
@@ -105,11 +105,11 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//
 	//	if (packet->read_bool("parent-object-exists"))
 	//	{
-	//		packet->read_bits_internal(&variant_object.parent_object_identifier, 64); // parent-object-identifier
+	//		packet->read_bits_internal(&variant_object.spawn_attached_to, 64); // parent-object-identifier
 	//	}
 	//	else
 	//	{
-	//		variant_object.parent_object_identifier.clear();
+	//		variant_object.spawn_attached_to.clear();
 	//	}
 	//
 	//	if (!packet->read_bool("variant_object_position_exists"))
@@ -119,31 +119,31 @@ bool c_map_variant::decode(c_bitstream* packet)
 	//	packet->read_axes<14, 20>("variant-object-axes", &variant_object.forward, &variant_object.up);
 	//
 	//	s_variant_multiplayer_object_properties_definition& variant_properties = variant_object.multiplayer_game_object_properties;
-	//	variant_properties.object_type = (uns8)packet->read_integer("variant-properties-cached-object-type", 8);
+	//	variant_properties.cached_object_type = (uns8)packet->read_integer("variant-properties-cached-object-type", 8);
 	//	variant_properties.symmetry_placement_flags.set_unsafe((uns16)packet->read_integer("variant-properties-flags", 8));
 	//	variant_properties.game_engine_flags.set_unsafe((uns8)packet->read_integer("variant-properties-game-engine-flags", 8));
 	//	variant_properties.shared_storage.value = (uns8)packet->read_integer("variant-properties-shared-storage", 8);
 	//	variant_properties.spawn_rate = (char)packet->read_integer("variant-properties-spawn-time", 8);
-	//	variant_properties.owner_team.set_raw_value((uns8)packet->read_integer("variant-properties-team-affiliation", 8));
+	//	variant_properties.team_affiliation.set_raw_value((uns8)packet->read_integer("variant-properties-team-affiliation", 8));
 	//
 	//	e_multiplayer_object_boundary_shape shape_type = (e_multiplayer_object_boundary_shape)packet->read_integer("variant-properties-shape_type", 8);
-	//	variant_properties.boundary_shape = shape_type;
+	//	variant_properties.shape = shape_type;
 	//
 	//	switch (shape_type)
 	//	{
 	//	case _shape_sphere:
-	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_width_or_radius = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
 	//		break;
 	//	case _shape_cylinder:
-	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
-	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
-	//		variant_properties.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_width_or_radius = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
 	//		break;
 	//	case _shape_box:
-	//		variant_properties.boundary_width = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
-	//		variant_properties.boundary_box_length = packet->read_quantized_real("variant-properties-shape-length", 0.0f, 60.0f, 16, false, false);
-	//		variant_properties.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
-	//		variant_properties.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_width_or_radius = packet->read_quantized_real("variant-properties-shape-radius-width", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_box_length = packet->read_quantized_real("variant-properties-shape-length", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_positive_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
+	//		variant_properties.shape_data.boundary_negative_height = packet->read_quantized_real("variant-properties-shape-positive_height", 0.0f, 60.0f, 16, false, false);
 	//		break;
 	//	}
 	//}
