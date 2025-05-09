@@ -92,10 +92,13 @@ struct c_network_session :
 	bool leader_request_boot_machine(s_transport_secure_address const* boot_peer_address, e_network_session_boot_reason boot_reason);
 	bool leader_request_delegate_leadership(s_transport_secure_address const* leader_address);
 	e_network_session_mode session_mode() const;
+	e_network_session_type session_type() const;
 	s_network_session_player* get_player(int32 player_index);
+	void leave_session();
 	bool peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice);
 	e_network_session_class session_class() const;
 	bool waiting_for_host_connection(transport_address const* address) const;
+	void leave_session_and_disconnect();
 	bool handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message);
 	bool handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message);
 	bool handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message);

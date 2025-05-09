@@ -1,7 +1,13 @@
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 
-#include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "cseries/cseries_events.hpp"
+#include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
+#include "networking/session/network_session.hpp"
+
+c_life_cycle_state_manager::c_life_cycle_state_manager()
+{
+	csmemset(this, 0, sizeof(*this));
+}
 
 bool c_life_cycle_state_manager::current_state_ready_for_state_transition_or_query() const
 {
@@ -21,6 +27,25 @@ void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state sta
 	m_handlers[state] = NULL;
 }
 
+void c_life_cycle_state_manager::display_state_strings()
+{
+	for (int32 state = 0; state < m_handlers.get_count(); state++)
+	{
+		c_life_cycle_state_handler* handler = m_handlers[state];
+		event(_event_warning, "%s", handler->get_state_string());
+	}
+}
+
+void c_life_cycle_state_manager::dispose()
+{
+}
+
+c_network_session* c_life_cycle_state_manager::get_active_squad_session() const
+{
+	ASSERT(m_active_squad_session != NULL);
+	return m_active_squad_session;
+}
+
 c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handler() const
 {
 	//return INVOKE_CLASS_MEMBER(0x0048D340, c_life_cycle_state_manager, get_current_state_handler);
@@ -29,9 +54,48 @@ c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handle
 	return m_handlers[get_current_state()];
 }
 
-void c_life_cycle_state_manager::initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* active_squad_session, c_network_session* target_session, c_network_session* group_session)
+c_network_session* c_life_cycle_state_manager::get_group_session() const
 {
-	INVOKE_CLASS_MEMBER(0x0048D820, c_life_cycle_state_manager, initialize, observer, session_manager, active_squad_session, target_session, group_session);
+	ASSERT(m_group_session != NULL);
+	return m_group_session;
+}
+
+c_matchmaking_quality* c_life_cycle_state_manager::get_matchmaking_quality()
+{
+	return &m_matchmaking_quality;
+}
+
+c_network_observer* c_life_cycle_state_manager::get_observer() const
+{
+	ASSERT(m_observer != NULL);
+	return m_observer;
+}
+
+c_network_session* c_life_cycle_state_manager::get_target_session() const
+{
+	ASSERT(m_target_session != NULL);
+	return m_target_session;
+}
+
+void c_life_cycle_state_manager::initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* squad_session_one, c_network_session* squad_session_two, c_network_session* group_session)
+{
+	//INVOKE_CLASS_MEMBER(0x0048D820, c_life_cycle_state_manager, initialize, observer, session_manager, squad_session_one, squad_session_two, group_session);
+
+	m_handlers.clear();
+	m_target_session = squad_session_two;
+	m_current_state = _life_cycle_state_none;
+	m_group_session = group_session;
+	m_observer = observer;
+	m_session_manager = session_manager;
+	m_active_squad_session = squad_session_one;
+	m_pending_state_change = 0;
+	m_matchmaking_messaging_session_identifier_valid = 0;
+	m_matchmaking_messaging_session_identifier = {};
+	m_matchmaking_messaging_current_cookie = NONE;
+
+	// >= play builds
+	//m_pause_state_enabled = false;
+	//m_pause_state = _life_cycle_state_none;
 }
 
 void c_life_cycle_state_manager::notify_expect_squad_join()
@@ -39,21 +103,56 @@ void c_life_cycle_state_manager::notify_expect_squad_join()
 	INVOKE_CLASS_MEMBER(0x0048D9F0, c_life_cycle_state_manager, notify_expect_squad_join);
 }
 
-//.text:0048DA40 ; public: void __cdecl c_life_cycle_state_manager::notify_lost_connection(e_network_lost_connection_type)
-//.text:0048DAB0 ; c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption
-
-void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
+void c_life_cycle_state_manager::notify_lost_connection()
 {
-	//INVOKE_CLASS_MEMBER(0x0048DDD0, c_life_cycle_state_manager, request_leave_sessions, disconnect);
+	INVOKE_CLASS_MEMBER(0x0048DA40, c_life_cycle_state_manager, notify_lost_connection);
 
-	event(_event_message, "networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
+	c_life_cycle_state_handler* current_state_handler = get_current_state_handler();
+	event(_event_message, "networking:logic:life-cycle: manager notified of connection loss");
+	
+	if (current_state_handler->test_flag(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit))
+	{
+		bool leave_and_disconnect = false;
+		event(_event_message, "networking:logic:life-cycle: notified of connection loss in state '%s', going to leaving right now!",
+			current_state_handler->get_state_string());
+	
+		set_current_state(_life_cycle_state_leaving, sizeof(leave_and_disconnect), &leave_and_disconnect);
+	}
+}
 
-	if (m_current_state == _life_cycle_state_leaving)
+void c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption(c_network_session const* session)
+{
+	//INVOKE_CLASS_MEMBER(0x0048DAB0, c_life_cycle_state_manager, notify_session_disbandment_and_host_assumption, session);
+
+	if (session == get_group_session())
+	{
+		event(_event_message, "networking:logic:life-cycle: out group session has disbanded and become host, leaving the squad");
+
+		get_active_squad_session()->leave_session();
+	}
+}
+
+void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
+{
+	ASSERT(m_handlers[state] == NULL);
+	m_handlers[state] = handler;
+}
+
+void c_life_cycle_state_manager::request_leave_sessions(bool leave_and_disconnect)
+{
+	//INVOKE_CLASS_MEMBER(0x0048DDD0, c_life_cycle_state_manager, request_leave_sessions, leave_and_disconnect);
+
+	event(_event_message, "networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)",
+		leave_and_disconnect ? "TRUE" : "FALSE");
+
+	if (get_current_state() == _life_cycle_state_leaving)
 	{
 		event(_event_message, "networking:logic:life-cycle: we are already leaving, no need to try again");
 	}
 	else
-		request_state_change(_life_cycle_state_leaving, sizeof(bool), &disconnect);
+	{
+		request_state_change(_life_cycle_state_leaving, sizeof(leave_and_disconnect), &leave_and_disconnect);
+	}
 }
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, int32 entry_data_size, void const* entry_data)
@@ -97,12 +196,22 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int
 
 void c_life_cycle_state_manager::swap_squad_sessions()
 {
-	INVOKE_CLASS_MEMBER(0x0048E420, c_life_cycle_state_manager, swap_squad_sessions);
+	//INVOKE_CLASS_MEMBER(0x0048E420, c_life_cycle_state_manager, swap_squad_sessions);
+
+	ASSERT(m_target_session->session_type() == _network_session_type_squad);
+	c_network_session* temp_target_session = m_active_squad_session;
+	m_active_squad_session = m_target_session;
+	m_target_session = temp_target_session;
 }
 
 void c_life_cycle_state_manager::swap_target_and_group_sessions()
 {
-	INVOKE_CLASS_MEMBER(0x0048E430, c_life_cycle_state_manager, swap_target_and_group_sessions);
+	//INVOKE_CLASS_MEMBER(0x0048E430, c_life_cycle_state_manager, swap_target_and_group_sessions);
+
+	ASSERT(m_target_session->session_type() == _network_session_type_group);
+	c_network_session* temp_target_session = m_group_session;
+	m_group_session = m_target_session;
+	m_target_session = temp_target_session;
 }
 
 e_life_cycle_state c_life_cycle_state_manager::get_current_state() const
@@ -123,37 +232,19 @@ void c_life_cycle_state_manager::update()
 	INVOKE_CLASS_MEMBER(0x0048E4B0, c_life_cycle_state_manager, update);
 }
 
-//.text:0048E890 ; private: void __cdecl c_life_cycle_state_manager::update_handle_session_parameters()
-//.text:0048E920 ; private: void __cdecl c_life_cycle_state_manager::update_handle_session_states()
-//.text:0048EE30 ; private: void __cdecl c_life_cycle_state_manager::update_messaging()
-
-c_network_session* c_life_cycle_state_manager::get_active_squad_session() const
+void c_life_cycle_state_manager::update_handle_session_parameters()
 {
-	ASSERT(m_active_squad_session != NULL);
-	return m_active_squad_session;
+	INVOKE_CLASS_MEMBER(0x0048E890, c_life_cycle_state_manager, update_handle_session_parameters);
 }
 
-c_network_session* c_life_cycle_state_manager::get_target_session() const
+void c_life_cycle_state_manager::update_handle_session_states()
 {
-	ASSERT(m_target_session != NULL);
-	return m_target_session;
+	INVOKE_CLASS_MEMBER(0x0048E920, c_life_cycle_state_manager, update_handle_session_states);
 }
 
-c_network_session* c_life_cycle_state_manager::get_group_session() const
+void c_life_cycle_state_manager::update_messaging()
 {
-	ASSERT(m_group_session != NULL);
-	return m_group_session;
+	INVOKE_CLASS_MEMBER(0x0048EE30, c_life_cycle_state_manager, update_messaging);
 }
 
-void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
-{
-	ASSERT(m_handlers[state] == NULL);
-	m_handlers[state] = handler;
-}
-
-c_network_observer* c_life_cycle_state_manager::get_observer() const
-{
-	ASSERT(m_observer != NULL);
-	return m_observer;
-}
 

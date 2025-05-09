@@ -28,37 +28,44 @@ struct c_life_cycle_state_manager;
 struct c_life_cycle_state_handler
 {
 public:
-	virtual void update();
-	virtual e_life_cycle_state_transition_type update_for_state_transition();
-	virtual void enter(c_life_cycle_state_handler* handler, int32 entry_data_size, void* entry_data);
-	virtual void exit(c_life_cycle_state_handler* handler);
-	virtual char const* get_state_string();
+	virtual void update() = 0;
+	virtual e_life_cycle_state_transition_type update_for_state_transition() = 0;
+	virtual void enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data);
+	virtual void exit(c_life_cycle_state_handler* to);
+	virtual char const* get_state_string() = 0;
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
 
+	c_life_cycle_state_handler();
+	void dispose();
 	c_life_cycle_state_manager* get_manager() const;
+	uns64 get_required_group_session_parameter_mask() const;
+	uns64 get_required_squad_session_parameter_mask() const;
+	e_life_cycle_state get_state() const;
+	void initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_life_cycle_state_handler_flags const* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask);
+	bool test_flag(e_life_cycle_state_handler_flags flag);
 
 //protected:
-
-	byte __data4[0x4]; // What are you?
-
 	e_life_cycle_state m_state;
 	c_life_cycle_state_manager* m_manager;
 	c_life_cycle_state_handler_flags m_handler_flags;
+	byte pad[0x7];
 	uns64 m_required_squad_session_parameter_mask;
 	uns64 m_required_group_session_parameter_mask;
 };
 static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
 
 #ifdef __INTELLISENSE__
-static_assert(0x08 == OFFSETOF(c_life_cycle_state_handler, m_state));
-static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_manager));
-static_assert(0x10 == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+static_assert(0x04 == OFFSETOF(c_life_cycle_state_handler, m_state));
+static_assert(0x08 == OFFSETOF(c_life_cycle_state_handler, m_manager));
+static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+static_assert(0x0D == OFFSETOF(c_life_cycle_state_handler, pad));
 static_assert(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
 static_assert(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
 #else
-static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_state));
-static_assert(0x10 == OFFSETOF(c_life_cycle_state_handler, m_manager));
-static_assert(0x14 == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+static_assert(0x08 == OFFSETOF(c_life_cycle_state_handler, m_state));
+static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_manager));
+static_assert(0x10 == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+static_assert(0x11 == OFFSETOF(c_life_cycle_state_handler, pad));
 static_assert(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
 static_assert(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
 #endif // __INTELLENSE__

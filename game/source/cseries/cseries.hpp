@@ -853,7 +853,7 @@ public:
 	template <class T>
 	operator T () const
 	{
-		return static_cast<T>(m_flags);
+		return (T)m_flags;
 	}
 
 protected:

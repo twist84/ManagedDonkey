@@ -12,41 +12,64 @@ struct c_network_session_membership;
 
 struct s_group_session_join_request_payload
 {
-	int32 payload_type;
+	s_matchmaking_search_party_properties search_party_properties;
+};
+static_assert(sizeof(s_group_session_join_request_payload) == 0xD8);
+
+struct s_squad_session_join_request_payload
+{
+	int32 dummy;
+};
+static_assert(sizeof(s_squad_session_join_request_payload) == 0x4);
+
+struct s_network_session_join_request_payload
+{
+	e_network_session_type payload_type;
 	union
 	{
-		s_matchmaking_gather_party_properties gather_party_properties;
-		s_matchmaking_search_party_properties search_party_properties;
+		s_group_session_join_request_payload group_payload;
+		s_squad_session_join_request_payload squad_payload;
 	};
 };
-static_assert(sizeof(s_group_session_join_request_payload) == 0xDC);
+static_assert(sizeof(s_network_session_join_request_payload) == 0xDC);
+static_assert(0x0 == OFFSETOF(s_network_session_join_request_payload, payload_type));
+static_assert(0x4 == OFFSETOF(s_network_session_join_request_payload, group_payload));
+static_assert(0x4 == OFFSETOF(s_network_session_join_request_payload, squad_payload));
 
-struct s_joining_peer
+struct s_network_session_join_request_peer
 {
 	s_transport_secure_address joining_peer_address;
 	int32 joining_network_version_number;
 	int32 user_player_index;
 };
-static_assert(sizeof(s_joining_peer) == 0x18);
+static_assert(sizeof(s_network_session_join_request_peer) == 0x18);
 
-struct s_joining_player
+struct s_network_session_join_request_player
 {
 	s_player_identifier joining_peer_player_id;
 };
-static_assert(sizeof(s_joining_player) == sizeof(s_player_identifier));
+static_assert(sizeof(s_network_session_join_request_player) == sizeof(s_player_identifier));
 
 struct s_network_session_join_request
 {
 	uns64 join_nonce;
-	uns64 join_party_nonce;
+	uns64 party_nonce;
 	int32 joining_peer_count;
-	s_joining_peer joining_peers[17];
+	s_network_session_join_request_peer joining_peers[17];
 	int32 joining_player_count;
-	s_joining_player joining_players[16];
+	s_network_session_join_request_player joining_players[16];
 	bool join_to_public_slots;
-	s_group_session_join_request_payload join_request_payload;
+	s_network_session_join_request_payload payload;
 };
 static_assert(sizeof(s_network_session_join_request) == 0x310);
+static_assert(0x000 == OFFSETOF(s_network_session_join_request, join_nonce));
+static_assert(0x008 == OFFSETOF(s_network_session_join_request, party_nonce));
+static_assert(0x010 == OFFSETOF(s_network_session_join_request, joining_peer_count));
+static_assert(0x014 == OFFSETOF(s_network_session_join_request, joining_peers));
+static_assert(0x1AC == OFFSETOF(s_network_session_join_request, joining_player_count));
+static_assert(0x1B0 == OFFSETOF(s_network_session_join_request, joining_players));
+static_assert(0x230 == OFFSETOF(s_network_session_join_request, join_to_public_slots));
+static_assert(0x234 == OFFSETOF(s_network_session_join_request, payload));
 
 struct s_networking_join_queue_entry
 {
@@ -59,31 +82,24 @@ static_assert(sizeof(s_networking_join_queue_entry) == 0x338);
 
 struct s_networking_join_data
 {
-	bool disable_outgoing_joins;
-	c_enum<e_join_local_state, int32, _join_local_state_none, k_join_local_state_count> local_join_state;
-	c_enum<e_life_cycle_join_result, int32, _life_cycle_join_result_none, k_life_cycle_join_result_count> local_join_result;
-	uns32 time;
-
-	// network_join_update
-	bool __unknown10;
-
-	s_network_session_remote_session_join_data join_data;
+	bool disable_joins;
+	e_networking_join_local_state local_join_state;
+	e_life_cycle_join_result local_join_result;
+	uns32 timeout_start_time;
+	bool client_already_joining;
+	__declspec(align(8)) s_network_session_remote_session_join_data queued_squad_join;
 	bool request_join_squad_to_group;
 	bool request_join_squad_to_target_group;
 	bool request_join_group_to_group;
-	s_network_session_remote_session_join_data new_join_data;
-	int32 join_group_result;
-	s_group_session_join_request_payload join_request_payload;
-
-	// network_join_update
-	// network_join_leave_group_session_and_swap_if_necessary
-	bool __unknown1B0;
-
-	c_enum<e_networking_join_destination_squad, int32, _join_destination_target, k_join_destination_count> join_target;
-	c_enum<e_network_join_queue_mode, int32, _network_join_closed_to_all_joins, k_network_join_queue_mode_count> join_queue_mode;
+	__declspec(align(8)) s_network_session_remote_session_join_data requested_group_join;
+	e_life_cycle_join_result group_join_result;
+	s_network_session_join_request_payload requested_payload;
+	bool request_leave_group;
+	e_networking_join_destination_squad requested_group_to_leave;
+	e_network_join_queue_mode join_queue_mode;
 	int32 join_queue_entry_count;
-	int32 join_peer_count;
-	c_static_array<s_networking_join_queue_entry, 32> join_queue;
+	int32 number_of_peers_expected_in_membership_at_last_desiribility_calculation;
+	s_networking_join_queue_entry join_queue[32];
 };
 static_assert(sizeof(s_networking_join_data) == 0x68C8);
 

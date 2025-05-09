@@ -514,6 +514,12 @@ e_network_session_mode c_network_session::session_mode() const
 	return m_session_parameters.session_mode.get();
 }
 
+e_network_session_type c_network_session::session_type() const
+{
+	ASSERT(m_session_type >= 0 && m_session_type < k_network_session_type_count);
+	return m_session_type;
+}
+
 s_network_session_player* c_network_session::get_player(int32 player_index)
 {
 	ASSERT(!disconnected());
@@ -521,7 +527,13 @@ s_network_session_player* c_network_session::get_player(int32 player_index)
 	return &m_session_membership.m_shared_network_membership.players[player_index];
 }
 
-//.text:0045D760 ; void c_network_session::leave_session()
+void c_network_session::leave_session()
+{
+	//INVOKE_CLASS_MEMBER(0x0045D760, c_network_session, leave_session);
+
+	initiate_leave_protocol(false);
+}
+
 //.text:0045D780 ; bool c_network_session::membership_is_locked() const
 //.text:0045D790 ; bool c_network_session::membership_is_stable() const
 //.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(int32, uns32, bool)
@@ -643,6 +655,11 @@ bool c_network_session::waiting_for_host_connection(transport_address const* add
 
 //.text:0045F060 ; bool c_network_session::waiting_for_initial_update() const
 //.text:0045F080 ; void c_network_session::whack_session_to_offline_session_class()
+
+void c_network_session::leave_session_and_disconnect()
+{
+	INVOKE_CLASS_MEMBER(0x0047DC40, c_network_session, leave_session_and_disconnect);
+}
 
 bool c_network_session::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
 {

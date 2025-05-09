@@ -11,10 +11,11 @@ struct c_life_cycle_state_handler_leaving :
 public:
 	virtual void update() override;
 	virtual e_life_cycle_state_transition_type update_for_state_transition() override;
-	virtual void enter(c_life_cycle_state_handler* handler, int32 entry_data_size, void* entry_data) override;
-	virtual void exit(c_life_cycle_state_handler* handler) override;
+	virtual void enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data) override;
+	virtual void exit(c_life_cycle_state_handler* to) override;
 	virtual char const* get_state_string() override;
 
+	c_life_cycle_state_handler_leaving();
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:
