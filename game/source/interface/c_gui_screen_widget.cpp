@@ -90,3 +90,8 @@ void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget,
 	INVOKE_CLASS_MEMBER(0x00AB2640, c_gui_screen_widget, transfer_focus_to_list, list_widget, element_handle, play_received_animation, play_lost_animation);
 }
 
+bool c_gui_screen_widget::try_and_get_render_data_emblem_info(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info)
+{
+	return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[54], c_gui_screen_widget, try_and_get_render_data_emblem_info, bitmap_widget, emblem_info);
+}
+

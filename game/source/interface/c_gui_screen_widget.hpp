@@ -4,6 +4,9 @@
 #include "interface/c_gui_widget.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct c_gui_bitmap_widget;
+struct s_emblem_info;
+
 enum e_screen_widget_definition_flags
 {
 	_screen_widget_definition_flag_b_back_shouldnt_dispose_screen_bit = k_core_widget_definition_flags,
@@ -142,6 +145,7 @@ public:
 	bool running_in_codeless_mode();
 	void transfer_focus(c_gui_widget* widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
+	bool try_and_get_render_data_emblem_info(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info);
 
 public:
 	enum

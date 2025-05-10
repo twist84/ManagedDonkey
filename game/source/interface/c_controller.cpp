@@ -487,8 +487,8 @@ void debug_set_emblem_info(int16 controller_index, int16 foreground_emblem_index
 	}
 
 	s_emblem_info emblem_info{};
-	emblem_info.foreground_emblem_index = foreground_emblem_index;
-	emblem_info.background_emblem_index = background_emblem_index;
+	emblem_info.foreground_emblem_index = (uns8)foreground_emblem_index;
+	emblem_info.background_emblem_index = (uns8)background_emblem_index;
 	emblem_info.emblem_info_flags.clear();
 	emblem_info.primary_color_index = 0;
 	emblem_info.secondary_color_index = 0;

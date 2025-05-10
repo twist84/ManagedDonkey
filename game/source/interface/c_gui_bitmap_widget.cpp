@@ -87,7 +87,7 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data_(
 		c_gui_screen_widget* parent_screen = get_parent_screen();
 		ASSERT(parent_screen != NULL);
 
-		bool emblem_info_valid = false;// parent_screen->try_and_get_render_data_emblem_info(&render_data->source.emblem);
+		bool emblem_info_valid = parent_screen->try_and_get_render_data_emblem_info(this, &render_data->source.emblem);
 		if (!emblem_info_valid)
 		{
 			s_player_appearance player_appearance{};
@@ -98,10 +98,7 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data_(
 				{
 					if (c_gui_data* data = parent_list->get_data())
 					{
-						//emblem_info_valid = data->get_player_appearance(get_element_handle(), &player_appearance);
-
-						render_data->source.emblem = controller_get(_controller0)->get_player_profile_interface()->get_emblem_info();
-						emblem_info_valid = true;
+						emblem_info_valid = data->get_player_appearance(get_element_handle(), &player_appearance);
 					}
 				}
 			}
