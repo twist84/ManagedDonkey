@@ -1,12 +1,14 @@
 #include "interface/gui_screens/player_select/gui_player_select_screen_widget.hpp"
 
 #include "game/game_results.hpp"
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_text.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B08A10, c_gui_player_select_screen_widget, initialize_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B0A130, c_gui_player_select_screen_widget, try_and_get_render_data_emblem_info_);
 
 // $TODO: reimplement `c_gui_player_select_screen_widget::update`
 // $TODO: reimplement `c_gui_player_select_screen_widget::update_render_state`
@@ -251,4 +253,41 @@ void __thiscall c_gui_player_select_screen_widget::initialize_()
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<most-killed-by-name", this, parse_most_killed_by_name));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<most-killed-by-count", this, parse_most_killed_by_count));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<rematch-timer", this, parse_rematch_timer));
+}
+
+bool __thiscall c_gui_player_select_screen_widget::try_and_get_render_data_emblem_info_(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info)
+{
+	ASSERT(bitmap_widget != NULL);
+	ASSERT(emblem_info != NULL);
+
+	if (!bitmap_widget->renders_as_player_emblem())
+	{
+		return false;
+	}
+
+	c_game_results const* final_game_results = user_interface_networking_get_final_game_results();
+
+	s_player_configuration const* configuration = NULL;
+	if (bitmap_widget->m_name == STRING_ID(gui, killed_emblem))
+	{
+		if (final_game_results && m_killed_most_player_index != NONE)
+		{
+			configuration = &final_game_results->players[m_killed_most_player_index].configuration;
+		}
+	}
+	else if (bitmap_widget->m_name == STRING_ID(gui, killed_by_emblem))
+	{
+		if (final_game_results && m_killed_most_by_player_index != NONE)
+		{
+			configuration = &final_game_results->players[m_killed_most_by_player_index].configuration;
+		}
+	}
+
+	if (!configuration)
+	{
+		return false;
+	}
+
+	*emblem_info = configuration->host.appearance.emblem_info;
+	return true;
 }

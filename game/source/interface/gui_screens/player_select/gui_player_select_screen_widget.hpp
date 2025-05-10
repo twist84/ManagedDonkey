@@ -9,6 +9,8 @@ struct c_gui_player_select_screen_widget :
 public:
 	void __thiscall initialize_();
 
+	bool __thiscall try_and_get_render_data_emblem_info_(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info);
+
 	c_gui_player_select_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
