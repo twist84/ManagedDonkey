@@ -569,7 +569,9 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 
 	int32 total_resource_fixup_count = 0;
 	for (int32 i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
-		total_resource_fixup_count += g_cache_file_globals.tag_instances[i]->resource_fixup_count;
+	{
+		total_resource_fixup_count += g_cache_file_globals.tag_instances[i]->resource_fixup_count & 0xFFFF;
+	}
 
 	int32 resource_fixup_size = sizeof(s_cache_file_tag_resource_data*) * total_resource_fixup_count;
 	int32 resource_gestalt_size = resource_fixup_size + sizeof(s_cache_file_resource_gestalt);
