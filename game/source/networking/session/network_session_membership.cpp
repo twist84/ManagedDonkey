@@ -176,6 +176,12 @@ void c_network_session_membership::set_player_properties(int32 player_index, int
 		update_increment = true;
 	}
 
+	if (csmemcmp(&player->player_data.host.appearance.emblem_info, &player_data->host_partial.emblem, sizeof(s_emblem_info)))
+	{
+		player->player_data.host.appearance.emblem_info = player_data->host_partial.emblem;
+		update_increment = true;
+	}
+
 	if (player->player_voice_settings != player_voice_settings)
 	{
 		player->player_voice_settings = player_voice_settings;

@@ -557,6 +557,7 @@ void update_player_data(s_player_configuration_for_player_properties* player_dat
 	player_data->host_partial.colors = armor_loadout.colors;
 	player_data->host_partial.armors = armor_loadout.armors;
 	player_data->host_partial.consumables = weapon_loadout.consumables;
+	player_data->host_partial.emblem = player_profile.get_emblem_info();
 }
 
 bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice_settings)

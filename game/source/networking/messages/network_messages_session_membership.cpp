@@ -57,6 +57,8 @@ bool __cdecl c_network_message_player_properties::decode(c_bitstream* packet, in
 
 		for (int32 consumable_index = 0; consumable_index < 4; consumable_index++)
 			message->player_data.host_partial.consumables[consumable_index] = static_cast<int8>(packet->read_integer("consumable", 8));
+
+		message->player_data.host_partial.emblem.decode(packet);
 	}
 
 	message->player_voice_settings = packet->read_integer("player-voice", 32);
@@ -123,6 +125,8 @@ void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, in
 
 		for (int32 consumable_index = 0; consumable_index < 4; consumable_index++)
 			packet->write_integer("consumable", message->player_data.host_partial.consumables[consumable_index], 8);
+
+		message->player_data.host_partial.emblem.encode_const(packet);
 	}
 
 	packet->write_integer("player-voice", message->player_voice_settings, 32);

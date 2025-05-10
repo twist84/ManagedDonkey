@@ -27,6 +27,7 @@ struct s_emblem_info
 
 	void __thiscall decode(c_bitstream* packet);
 	void __thiscall encode(c_bitstream* packet);
+	void __thiscall encode_const(c_bitstream* packet) const;
 
 	uns8 foreground_emblem_index;
 	uns8 background_emblem_index;

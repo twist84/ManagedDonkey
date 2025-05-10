@@ -183,15 +183,16 @@ struct s_player_configuration_from_host_patial
 	c_static_array<rgb_color, k_color_type_count> colors;
 	c_static_array<uns8, k_armor_type_count> armors;
 	c_static_array<int8, 4> consumables;
+	s_emblem_info emblem;
 };
-static_assert(sizeof(s_player_configuration_from_host_patial) == 0x30);
+static_assert(sizeof(s_player_configuration_from_host_patial) == 0x38);
 
 struct s_player_configuration_for_player_properties
 {
 	s_player_configuration_from_client client;
 	s_player_configuration_from_host_patial host_partial;
 };
-static_assert(sizeof(s_player_configuration_for_player_properties) == 0x60);
+static_assert(sizeof(s_player_configuration_for_player_properties) == 0x68);
 
 struct s_network_message_player_properties
 {

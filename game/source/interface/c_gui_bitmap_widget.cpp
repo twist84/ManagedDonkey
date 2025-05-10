@@ -59,7 +59,7 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data_(
 	bool render_blurred_back_buffer = TEST_BIT(m_definition.flags, 4);
 	render_data->flags.set(s_gui_widget_render_data::_render_blurred_back_buffer_bit, render_blurred_back_buffer);
 
-	bool render_as_player_emblem = TEST_BIT(m_definition.flags, 5);
+	bool render_as_player_emblem = renders_as_player_emblem();
 	render_data->flags.set(s_gui_widget_render_data::_render_as_player_emblem_bit, render_as_player_emblem);
 
 	if (m_override_sprite_bitmap_index != NONE)
@@ -391,7 +391,13 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 	}
 }
 
-//.text:00B17640 ; public: bool __cdecl c_gui_bitmap_widget::renders_as_player_emblem() const
+bool c_gui_bitmap_widget::renders_as_player_emblem() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00B17640, c_gui_bitmap_widget, renders_as_player_emblem);
+
+	return TEST_BIT(m_definition.flags, 5);
+}
+
 //.text:00B17650 ; public: virtual void __cdecl c_gui_bitmap_widget::set_animated_state_baseline(s_animation_transform*)
 
 void c_gui_bitmap_widget::set_sprite_frame(int32 sprite_frame)

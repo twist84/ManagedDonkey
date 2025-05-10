@@ -71,6 +71,7 @@ public:
 
 
 public:
+	bool renders_as_player_emblem() const;
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);
 	bitmap_data const* get_current_bitmap() const;
