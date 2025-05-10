@@ -476,6 +476,27 @@ void debug_set_controller_vibration_enabled(int16 controller_index, bool vibrate
 
 void debug_set_emblem_info(int16 controller_index, int16 foreground_emblem_index, int16 background_emblem_index)
 {
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+
+	s_emblem_info emblem_info{};
+	emblem_info.foreground_emblem_index = foreground_emblem_index;
+	emblem_info.background_emblem_index = background_emblem_index;
+	emblem_info.emblem_info_flags.clear();
+	emblem_info.primary_color_index = 0;
+	emblem_info.secondary_color_index = 0;
+	emblem_info.background_color_index = 0;
+	emblem_info.pad = 0;
+
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_emblem_info(&emblem_info, true);
 }
 
 void debug_set_joystick_preset(int16 controller_index, int16 preset)
