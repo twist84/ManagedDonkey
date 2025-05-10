@@ -37,18 +37,18 @@ void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_ty
 
 void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
 {
-	m_desired_async_file_to_display.set(file_path);
+	m_desired_async_file_to_display.set(tag_name_strip_path(file_path));
 	m_use_compressed_format = use_compressed_format;
 	m_desired_aspect_ratio = 0;
 }
 
 void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
-	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(get_core_definition()))
+	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = (s_runtime_bitmap_widget_definition*)get_core_definition())
 	{
 		if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
 		{
-			bitmap_widget_definition->bitmap_tag_reference_index = NONE;
+			bitmap_widget_definition->bitmap_reference_index = NONE;
 
 			// the base cache has over 17K tags so only check the last 256 tags, this is bad but acceptable for now
 			for (int32 i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
@@ -57,12 +57,17 @@ void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_d
 
 				cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 				if (!instance)
+				{
 					continue;
+				}
 
-				if (!m_desired_async_file_to_display.is_equal(reinterpret_cast<char const*>(instance->base + instance->total_size)))
+				char const* tag_name = (char const*)offset_pointer(instance->base, instance->total_size);
+				if (!m_desired_async_file_to_display.is_equal(tag_name_strip_path(tag_name)))
+				{
 					continue;
+				}
 
-				bitmap_widget_definition->bitmap_tag_reference_index = tag_index;
+				bitmap_widget_definition->bitmap_reference_index = tag_index;
 				break;
 			}
 		}
@@ -70,8 +75,7 @@ void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_d
 		set_visible(true);
 	}
 
-	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, rectangle2d*, e_controller_index, bool, bool, bool)
-		(this, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
+	INVOKE_CLASS_MEMBER(0x00B167B0, c_gui_custom_bitmap_widget, assemble_render_data_, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
 }
 
 void __cdecl c_gui_custom_bitmap_widget::clear()
@@ -97,7 +101,7 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
 			wchar_t* name = file_reference_get_name_wide(callback_data->file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
-			callback_data->image_source_was_dlc = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, int32)(name, 1);// levels_dlc_open(name, 1);
+			callback_data->image_source_was_dlc = content_catalogue_open_dlc(name, true);
 
 			uns32 error = 0;
 			if (file_open(callback_data->file, FLAG(_file_open_flag_desired_access_read), &error))

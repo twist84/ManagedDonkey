@@ -47,7 +47,12 @@ c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index 
 //.text:005A57D0 ; bool __cdecl content_catalogue_handle_dialog_result_message(c_dialog_result_message const*)
 //.text:005A5800 ; void __cdecl content_catalogue_initialize()
 //.text:005A58A0 ; void __cdecl content_catalogue_initialize_for_new_map()
-//.text:005A5990 ; bool __cdecl content_catalogue_open_dlc(wchar_t const*, bool)
+
+bool __cdecl content_catalogue_open_dlc(wchar_t const* path, bool block)
+{
+	return INVOKE(0x005A5990, content_catalogue_open_dlc, path, block);
+}
+
 //.text:005A5AB0 ; content_catalogue_retrieve_content_item_metadata_callback
 //.text:005A5C20 ; content_catalogue_retrieve_metadata_for_content_items
 //.text:005A5CA0 ; void __cdecl content_catalogue_storage_devices_changed()

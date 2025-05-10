@@ -38,9 +38,9 @@ static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definit
 struct s_runtime_bitmap_widget_definition :
 	s_runtime_core_widget_definition
 {
-	int32 bitmap_tag_reference_index;
-	int32 __unknown38;
-	int32 bitmap_blend_method;
+	int32 bitmap_reference_index;
+	int32 explicit_shader_reference_index;
+	int32 render_blend_mode;
 	int16 initial_sprite_sequence;
 	int16 initial_sprite_frame;
 	c_string_id value_override_list;
