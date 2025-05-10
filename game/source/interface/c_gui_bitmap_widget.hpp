@@ -49,9 +49,13 @@ struct s_runtime_bitmap_widget_definition :
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
 struct bitmap_data;
+struct s_gui_bitmap_widget_render_data;
 struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
+public:
+	void __thiscall assemble_render_data_(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+
 protected:
 	//virtual e_animation_state get_ambient_state();
 
@@ -73,10 +77,10 @@ public:
 
 protected:
 	int32 __unknownDC;
-	int32 m_bitmap_tag_reference_index;
-	int32 m_sprite_frame;
-	int32 m_sprite_sequence;
-	s_runtime_bitmap_widget_definition m_core_definition;
+	int32 m_override_sprite_bitmap_index;
+	int32 m_override_sprite_frame;
+	int32 m_override_sprite_sequence;
+	s_runtime_bitmap_widget_definition m_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
 

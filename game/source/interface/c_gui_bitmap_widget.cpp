@@ -2,11 +2,17 @@
 
 #include "bitmaps/bitmap_group.hpp"
 #include "gui_custom_bitmap_storage.hpp"
+#include "interface/c_controller.hpp"
+#include "interface/c_gui_list_widget.hpp"
+#include "interface/c_gui_screen_widget.hpp"
 #include "interface/interface_constants.hpp"
+#include "interface/user_interface_data.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/screen_postprocess.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data_);
 HOOK_DECLARE(0x00B170F0, render_bitmap);
 
 //.text:00B16670 ; public: __cdecl c_gui_bitmap_widget::c_gui_bitmap_widget()
@@ -18,7 +24,114 @@ HOOK_DECLARE(0x00B170F0, render_bitmap);
 
 //.text:00B166E0 ; public: static void __cdecl c_gui_bitmap_widget::add_definition_fields(s_bitmap_widget_definition const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*, bool)
 //.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(s_bitmap_widget_block const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
-//.text:00B167B0 ; public: virtual void __cdecl c_gui_bitmap_widget::assemble_render_data(s_gui_widget_render_data*, rectangle2d const*, e_controller_index, int32, bool, bool, bool)
+
+void __thiscall c_gui_bitmap_widget::assemble_render_data_(
+	s_gui_bitmap_widget_render_data* render_data,
+	rectangle2d* window_bounds,
+	e_controller_index local_controller_index,
+	bool apply_translation,
+	bool apply_scale,
+	bool apply_rotation)
+{
+	//INVOKE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data,
+	//	render_data,
+	//	window_bounds,
+	//	local_controller_index,
+	//	apply_translation,
+	//	apply_scale,
+	//	apply_rotation);
+
+	c_gui_widget::assemble_render_data(
+		render_data,
+		window_bounds,
+		local_controller_index,
+		apply_translation,
+		apply_scale,
+		apply_rotation);
+	//INVOKE_CLASS_MEMBER(0x00AB7330, c_gui_widget, assemble_render_data,
+	//	render_data,
+	//	window_bounds,
+	//	local_controller_index,
+	//	apply_translation,
+	//	apply_scale,
+	//	apply_rotation);
+
+	bool render_blurred_back_buffer = TEST_BIT(m_definition.flags, 4);
+	render_data->flags.set(s_gui_widget_render_data::_render_blurred_back_buffer_bit, render_blurred_back_buffer);
+
+	bool render_as_player_emblem = TEST_BIT(m_definition.flags, 5);
+	render_data->flags.set(s_gui_widget_render_data::_render_as_player_emblem_bit, render_as_player_emblem);
+
+	if (m_override_sprite_bitmap_index != NONE)
+	{
+		render_data->bitmap_definition_index = m_override_sprite_bitmap_index;
+	}
+	else
+	{
+		render_data->bitmap_definition_index = m_definition.bitmap_reference_index;
+	}
+
+	if (render_blurred_back_buffer)
+	{
+		real_rectangle2d pin_bounds
+		{
+			.x0 = (real32)window_bounds->x0,
+			.x1 = (real32)window_bounds->x1,
+			.y0 = (real32)window_bounds->y0,
+			.y1 = (real32)window_bounds->y1,
+		};
+		render_data->projected_bounds.pin(&pin_bounds);
+	}
+	else if (render_as_player_emblem)
+	{
+		c_gui_screen_widget* parent_screen = get_parent_screen();
+		ASSERT(parent_screen != NULL);
+
+		bool emblem_info_valid = false;// parent_screen->try_and_get_render_data_emblem_info(&render_data->source.emblem);
+		if (!emblem_info_valid)
+		{
+			s_player_appearance player_appearance{};
+
+			if (get_element_handle() != NONE)
+			{
+				if (c_gui_list_widget* parent_list = get_parent_list())
+				{
+					if (c_gui_data* data = parent_list->get_data())
+					{
+						//emblem_info_valid = data->get_player_appearance(get_element_handle(), &player_appearance);
+
+						render_data->source.emblem = controller_get(_controller0)->get_player_profile_interface()->get_emblem_info();
+						emblem_info_valid = true;
+					}
+				}
+			}
+
+			if (emblem_info_valid)
+			{
+				render_data->source.emblem = player_appearance.emblem_info;
+			}
+			else if (VALID_CONTROLLER(render_data->local_controller_index))
+			{
+				render_data->source.emblem = controller_get(render_data->local_controller_index)->get_player_profile_interface()->get_emblem_info();
+				emblem_info_valid = true;
+			}
+		}
+
+		render_data->flags.set(s_gui_widget_render_data::_emblem_info_valid_bit, emblem_info_valid);
+	}
+	else
+	{
+		render_data->source.sprite.sequence = m_animated_state.bitmap_sprite_sequence;
+		render_data->source.sprite.frame = m_animated_state.bitmap_sprite_frame;
+	}
+
+	real_argb_color argb_tint_color{};
+	render_data->argb_tint = real_argb_color_to_pixel32(get_cumulative_color_tint(&argb_tint_color));
+	render_data->texture_uv_offset = m_animated_state.texture_uv;
+	render_data->frame_buffer_blend_function = MIN(MAX(m_definition.render_blend_mode, 0), 12);
+	render_data->explicit_shader_index = m_definition.explicit_shader_reference_index;
+}
+
 //.text:00B168F0 ; public: virtual bool __cdecl c_gui_bitmap_widget::can_receive_focus()
 
 //e_animation_state c_gui_bitmap_widget::get_ambient_state()
@@ -162,24 +275,10 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 		}
 		else if (render_data->flags.test(s_gui_widget_render_data::_render_as_player_emblem_bit))
 		{
-			int16 background_emblem_index = 0;
-			int16 foreground_emblem_index = 0;
-
-			bool v39 = false;
-			if (VALID_CONTROLLER(render_data->local_controller_index))
+			if (render_data->flags.test(s_gui_widget_render_data::_emblem_info_valid_bit) && emblem_set_render_constants_from_user_interface(&render_data->source.emblem))
 			{
-				v39 = emblem_set_render_constants_for_local_user(render_data->local_controller_index, &foreground_emblem_index, &background_emblem_index);
-			}
-			else
-			{
-				v39 = emblem_set_render_constants_for_local_user(render_data->local_controller_index, &foreground_emblem_index, &background_emblem_index);
-			}
-
-			///*render_data->flags.test(s_gui_widget_render_data::_emblem_info_valid_bit) &&*/ emblem_set_render_constants_from_user_interface(&render_data->source.emblem)
-			if (v39)
-			{
-				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, background_emblem_index, &hardware_format_primary);
-				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, foreground_emblem_index, &hardware_format_secondary);
+				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, render_data->source.emblem.background_emblem_index, &hardware_format_primary);
+				get_bitmap_and_hardware_format(render_data->bitmap_definition_index, 0, render_data->source.emblem.foreground_emblem_index, &hardware_format_secondary);
 				explicit_shader_index = c_rasterizer_globals::_shader_player_emblem_screen;
 			}
 		}
@@ -300,12 +399,12 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 
 void c_gui_bitmap_widget::set_sprite_frame(int32 sprite_frame)
 {
-	m_sprite_frame = sprite_frame;
+	m_override_sprite_frame = sprite_frame;
 }
 
 void c_gui_bitmap_widget::set_sprite_sequence(int32 sprite_sequence)
 {
-	m_sprite_sequence = sprite_sequence;
+	m_override_sprite_sequence = sprite_sequence;
 }
 
 //.text:00B17690 ; public: virtual void __cdecl c_gui_bitmap_widget::update_render_state(uns32)
