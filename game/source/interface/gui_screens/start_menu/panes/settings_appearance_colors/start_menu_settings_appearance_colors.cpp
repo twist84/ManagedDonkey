@@ -80,30 +80,30 @@ void player_emblem_toggle_alternate_emblem_foreground(e_controller_index control
 
 void player_emblem_toggle_flip_emblem_foreground(e_controller_index controller_index)
 {
-	//c_controller_interface* controller = controller_get(controller_index);
-	//if (TEST_BIT(controller->m_player_profile.m_flags, 8))
-	//{
-	//	event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
-	//	return;
-	//}
-	//
-	//s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
-	//emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_foreground, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_foreground));
-	//controller->m_player_profile.set_emblem_info(&emblem_info, true);
+	c_controller_interface* controller = controller_get(controller_index);
+	if (TEST_BIT(controller->m_player_profile.m_flags, 8))
+	{
+		event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
+		return;
+	}
+	
+	s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
+	emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_foreground, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_foreground));
+	controller->m_player_profile.set_emblem_info(&emblem_info, true);
 }
 
 void player_emblem_toggle_flip_emblem_background(e_controller_index controller_index)
 {
-	//c_controller_interface* controller = controller_get(controller_index);
-	//if (TEST_BIT(controller->m_player_profile.m_flags, 8))
-	//{
-	//	event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
-	//	return;
-	//}
-	//
-	//s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
-	//emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_background, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_background));
-	//controller->m_player_profile.set_emblem_info(&emblem_info, true);
+	c_controller_interface* controller = controller_get(controller_index);
+	if (TEST_BIT(controller->m_player_profile.m_flags, 8))
+	{
+		event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
+		return;
+	}
+	
+	s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
+	emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_background, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_background));
+	controller->m_player_profile.set_emblem_info(&emblem_info, true);
 }
 
 bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* message)
