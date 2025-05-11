@@ -1,15 +1,11 @@
 #include "interface/gui_custom_bitmap_storage.hpp"
 
+#include "bitmaps/bitmaps.hpp"
+#include "cseries/cseries_events.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
-#include "networking/online/online_error.hpp"
-#include "rasterizer/rasterizer.hpp"
-#include "rasterizer/rasterizer_d3d_allocations.hpp"
-#include "rasterizer/rasterizer_textures_xenon_formats.hpp"
-#include "xbox/xgraphics.hpp"
 
-#include <stdio.h>
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -34,48 +30,26 @@ void __thiscall c_gui_custom_bitmap_storage_item::dispose()
 	ASSERT(!m_bitmap_ready);
 	ASSERT(!m_hardware_format_bitmap.valid());
 
-	if (m_bitmap_pixel_buffer)
+	if (m_bitmap_pixel_buffer_allocation)
 	{
-		user_interface_free(m_bitmap_pixel_buffer);
-		m_bitmap_pixel_buffer = nullptr;
+		user_interface_free(m_bitmap_pixel_buffer_allocation);
+		m_bitmap_pixel_buffer_allocation = NULL;
 	}
 
 	m_allocated = false;
 }
 
-const uns32 bitmap_pixel_buffer_alignment_bits = 12;
 void __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 height, bool use_compressed_format)
 {
 	m_use_compressed_format = use_compressed_format;
 	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
-	D3DFORMAT d3d_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
-	uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_use_base_address_for_hardware_format_bit);
+	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
+	uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
 
-	bitmap_2d_initialize(&m_bitmap, static_cast<int16>(width), static_cast<int16>(height), 0, bitmap_format, flags, false, false);
-	m_bitmap.curve = 3;
+	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, false);
+	m_bitmap_data.curve = 3;
 
-	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, d3d_format, D3DPOOL_DEFAULT, false, 0, 0);
-	texture_header = new D3DBaseTexture();
-
-	uns32 base_size = 0;
-	uns32 mip_size = 0;
-	uns32 resource_bytes = XGSetTextureHeader(m_bitmap.width, m_bitmap.height, 1, 4, d3d_format, 0, 0, -1, 0, texture_header, &base_size, &mip_size);
-	if (resource_bytes)
-	{
-		int32 allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
-		m_bitmap_pixel_buffer = (char*)user_interface_malloc_tracked(allocate_bytes, __FILE__, __LINE__);
-		if (m_bitmap_pixel_buffer)
-		{
-			m_width = width;
-			m_height = height;
-			m_bitmap_pixel_buffer_base = (char*)ALIGN((int32)m_bitmap_pixel_buffer, bitmap_pixel_buffer_alignment_bits);
-			m_bitmap_pixel_buffer_length = allocate_bytes - (m_bitmap_pixel_buffer_base - m_bitmap_pixel_buffer);
-			ASSERT(m_bitmap_pixel_buffer_length <= allocate_bytes);
-
-			XGOffsetResourceAddress(texture_header, m_bitmap_pixel_buffer_base);
-			m_allocated = true;
-		}
-	}
+	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, hardware_format, D3DPOOL_DEFAULT, false, 0, 0);
 }
 
 bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached)
@@ -88,13 +62,15 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	ASSERT(buffer);
 	ASSERT(!m_bitmap_ready);
 
-	bool result = false;
-
-	if (!m_allocated)
-		return false;
+	//if (!m_allocated)
+	//{
+	//	return false;
+	//}
 
 	if (!m_hardware_format_bitmap.valid())
+	{
 		return false;
+	}
 
 	IDirect3DTexture9* d3d_texture = m_hardware_format_bitmap.get_d3d_texture();
 	if (d3d_texture == NULL)
@@ -106,21 +82,19 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	IDirect3DSurface9* d3d_surface = NULL;
 	HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
 	if (FAILED(get_surface_level_result))
+	{
 		return false;
+	}
 
-	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, NULL);
+	D3DXIMAGE_INFO d3dximage_info{};
+	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, &d3dximage_info);
 	d3d_surface->Release();
-
+	
 	if (FAILED(load_surface_result))
 	{
 		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
 		return false;
 	}
-
-	uns32 bytes = XGSetTextureHeader(m_bitmap.width, m_bitmap.height, 1, 4, m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 1, 0, -1, 0, texture_header, 0, 0);
-	ASSERT(bytes > 0);
-
-	XGOffsetResourceAddress(texture_header, m_bitmap_pixel_buffer_base);
 
 	m_bitmap_ready = true;
 	return true;
@@ -157,10 +131,10 @@ c_gui_custom_bitmap_storage_item const* c_gui_custom_bitmap_storage_manager::get
 
 	internal_critical_section_enter(k_crit_section_ui_custom_bitmaps_lock);
 
-	s_bitmap_storage_handle_datum* bitmap_storage_handle = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
-	if (bitmap_storage_handle && bitmap_storage_handle->reference_count > 0 && bitmap_storage_handle->state == 2)
+	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
+	if (bitmap_storage_handle_datum && bitmap_storage_handle_datum->reference_count > 0 && bitmap_storage_handle_datum->state == _bitmap_storage_state_ready)
 	{
-		storage_item = &bitmap_storage_handle->storage_item;
+		storage_item = &bitmap_storage_handle_datum->storage_item;
 	}
 
 	internal_critical_section_leave(k_crit_section_ui_custom_bitmaps_lock);
@@ -168,24 +142,33 @@ c_gui_custom_bitmap_storage_item const* c_gui_custom_bitmap_storage_manager::get
 	return storage_item;
 }
 
-bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 storage_item_index, char const* buffer, int32 buffer_size, int32 aspect_ratio)
+bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_size, int32 aspect_ratio)
 {
-	s_bitmap_storage_handle_datum* storage_item = NULL;
+	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = NULL;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		if (storage_item = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, storage_item_index))
-			storage_item->state = 1;
+		if (bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index))
+			bitmap_storage_handle_datum->state = _bitmap_storage_state_loading;
 	}
 
-	if (!storage_item)
+	if (!bitmap_storage_handle_datum)
+	{
 		return false;
+	}
 
-	bool result = storage_item->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, aspect_ratio);
+	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer starting %d",
+		bitmap_storage_index);
+
+	bool bitmap_ready = bitmap_storage_handle_datum->storage_item.load_from_buffer(buffer, buffer_size, m_buffer, m_buffer_size, aspect_ratio);
 
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		storage_item->state = result ? 2 : 0;
+		ASSERT(bitmap_storage_handle_datum->state == _bitmap_storage_state_loading);
+		bitmap_storage_handle_datum->state = bitmap_ready ? _bitmap_storage_state_ready : _bitmap_storage_state_none;
 	}
 
-	return result;
+	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer ending %d",
+		bitmap_storage_index);
+
+	return bitmap_ready;
 }

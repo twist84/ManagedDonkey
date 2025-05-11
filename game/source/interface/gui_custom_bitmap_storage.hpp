@@ -1,23 +1,9 @@
 #pragma once
 
 #include "bitmaps/bitmap_group_tag_definition.hpp"
-#include "bitmaps/bitmaps.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 #include "rasterizer/rasterizer_text.hpp"
-
-struct D3DBaseTexture
-{
-	int16 width;
-	int16 height;
-	int8 depth;
-	int8 mipmap_count_plus_one;
-	bool high_res_pixels_size_nonzero;
-	int8 type;
-	uns32 xenon_d3d_format;
-	byte __dataC[0x28];
-};
-static_assert(sizeof(D3DBaseTexture) == 0x34);
 
 struct c_gui_custom_bitmap_storage_item
 {
@@ -31,50 +17,62 @@ struct c_gui_custom_bitmap_storage_item
 
 	int32 m_width;
 	int32 m_height;
-
-	// true for `dxt5`, false for `a8r8g8b8`
 	bool m_use_compressed_format;
-
-	bitmap_data m_bitmap;
-
+	bitmap_data m_bitmap_data;
 	bool m_allocated;
-	byte __pad3D[0x3];
-
+	byte pad[0x3];
 	c_rasterizer_texture_ref m_hardware_format_bitmap;
 	bool m_bitmap_ready;
+	char* m_bitmap_pixel_buffer_allocation;
 	char* m_bitmap_pixel_buffer;
-
-	// unsure on the name
-	char* m_bitmap_pixel_buffer_base;
-
 	int32 m_bitmap_pixel_buffer_length;
-
-	// in `halo3_cache_debug` this isn't a pointer making the struct size 0x90
-	D3DBaseTexture* texture_header;
-
-	byte __data58[0x8];
 };
-static_assert(sizeof(c_gui_custom_bitmap_storage_item) == 0x60);
+static_assert(sizeof(c_gui_custom_bitmap_storage_item) == 0x54);
+static_assert(0x00 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_width));
+static_assert(0x04 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_height));
+static_assert(0x08 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_use_compressed_format));
+static_assert(0x0C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_data));
+static_assert(0x3C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_allocated));
+static_assert(0x40 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_hardware_format_bitmap));
+static_assert(0x44 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_ready));
+static_assert(0x48 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_allocation));
+static_assert(0x4C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer));
+static_assert(0x50 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_length));
 
 struct c_gui_custom_bitmap_storage_manager
 {
+	enum
+	{
+		k_maximum_number_of_bitmap_items = 32
+	};
+
+	enum e_bitmap_storage_state
+	{
+		_bitmap_storage_state_none = 0,
+		_bitmap_storage_state_loading,
+		_bitmap_storage_state_ready,
+	};
+
 	struct s_bitmap_storage_handle_datum :
 		s_datum_header
 	{
 		int32 reference_count;
-		int32 state;
+		e_bitmap_storage_state state;
 		c_gui_custom_bitmap_storage_item storage_item;
 	};
-	static_assert(sizeof(s_bitmap_storage_handle_datum) == 0x6C);
+	static_assert(sizeof(s_bitmap_storage_handle_datum) == 0x60);
 
 	static c_gui_custom_bitmap_storage_manager* __cdecl get();
 	c_gui_custom_bitmap_storage_item const* get_bitmap(int32 bitmap_storage_index);
-	bool __cdecl load_bitmap_from_buffer(int32 storage_item_index, char const* buffer, int32 buffer_size, int32 a5);
+	bool __cdecl load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_size, int32 a5);
 
 	c_smart_data_array<s_bitmap_storage_handle_datum> m_bitmap_storage_items;
 	void* m_buffer;
 	int32 m_buffer_size;
 };
 static_assert(sizeof(c_gui_custom_bitmap_storage_manager) == 0xC);
+static_assert(0x0 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_bitmap_storage_items));
+static_assert(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_buffer));
+static_assert(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_buffer_size));
 
 extern c_gui_custom_bitmap_storage_manager& g_gui_custom_bitmap_storage_manager;

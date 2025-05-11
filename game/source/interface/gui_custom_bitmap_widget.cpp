@@ -26,52 +26,25 @@ void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_ty
 	map_image_path.clear();
 
 	if (get_map_filename(image_type, map_id, &map_image_path))
+	{
 		load_from_file_async(use_compressed_format, map_image_path.get_string());
+	}
 	else
+	{
 		clear();
+	}
 }
 
 void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
 {
-	m_desired_async_file_to_display.set(tag_name_strip_path(file_path));
+	m_desired_async_file_to_display.set(file_path);
 	m_use_compressed_format = use_compressed_format;
 	m_desired_aspect_ratio = 0;
 }
 
 void __thiscall c_gui_custom_bitmap_widget::assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
-	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data_, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
-
-	//if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = (s_runtime_bitmap_widget_definition*)get_core_definition())
-	//{
-	//	if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
-	//	{
-	//		bitmap_widget_definition->bitmap_reference_index = NONE;
-	//
-	//		// the base cache has over 17K tags so only check the last 256 tags, this is bad but acceptable for now
-	//		for (int32 i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
-	//		{
-	//			int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
-	//
-	//			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-	//			if (!instance)
-	//			{
-	//				continue;
-	//			}
-	//
-	//			char const* tag_name = (char const*)offset_pointer(instance->base, instance->total_size);
-	//			if (!m_desired_async_file_to_display.is_equal(tag_name_strip_path(tag_name)))
-	//			{
-	//				continue;
-	//			}
-	//
-	//			bitmap_widget_definition->bitmap_reference_index = tag_index;
-	//			break;
-	//		}
-	//	}
-	//
-	//	set_visible(true);
-	//}
+	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 
 	c_gui_bitmap_widget::assemble_render_data(render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 	render_data->flags.set(s_gui_bitmap_widget_render_data::_render_as_custom_storage_bitmap_bit, true);
