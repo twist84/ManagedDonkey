@@ -25,9 +25,9 @@ public:
 		k_custom_map_image_type_count
 	};
 
+	void __thiscall assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	static bool __cdecl get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename);
 	void __thiscall set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format);
-	void __thiscall assemble_render_data_(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	void __cdecl load_from_file_async(bool use_compressed_format, char const* file_path);
 	void __cdecl clear();
 
@@ -62,6 +62,5 @@ struct s_load_image_from_file_task
 };
 static_assert(sizeof(s_load_image_from_file_task) == 0x28);
 
-extern void patch_gui_custom_bitmap_widget();
 extern int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data);
 

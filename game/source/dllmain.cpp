@@ -4,8 +4,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
-#include "interface/gui_custom_bitmap_widget.hpp"
-
 void process_attach(HMODULE hModule)
 {
 	set_donkey_module(hModule);
@@ -16,8 +14,6 @@ void process_attach(HMODULE hModule)
 
 	apply_all_patches(false);
 	apply_all_hooks(false);
-
-	patch_gui_custom_bitmap_widget();
 }
 
 void process_detach(HMODULE hModule)

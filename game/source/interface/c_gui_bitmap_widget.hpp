@@ -54,7 +54,7 @@ struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
 public:
-	void __thiscall assemble_render_data_(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	void __thiscall assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 protected:
 	//virtual e_animation_state get_ambient_state();

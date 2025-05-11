@@ -12,7 +12,7 @@
 #include "rasterizer/rasterizer.hpp"
 #include "render/screen_postprocess.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data);
 HOOK_DECLARE(0x00B170F0, render_bitmap);
 
 //.text:00B16670 ; public: __cdecl c_gui_bitmap_widget::c_gui_bitmap_widget()
@@ -25,7 +25,7 @@ HOOK_DECLARE(0x00B170F0, render_bitmap);
 //.text:00B166E0 ; public: static void __cdecl c_gui_bitmap_widget::add_definition_fields(s_bitmap_widget_definition const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*, bool)
 //.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(s_bitmap_widget_block const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
 
-void __thiscall c_gui_bitmap_widget::assemble_render_data_(
+void __thiscall c_gui_bitmap_widget::assemble_render_data(
 	s_gui_bitmap_widget_render_data* render_data,
 	rectangle2d* window_bounds,
 	e_controller_index local_controller_index,
@@ -48,13 +48,6 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data_(
 		apply_translation,
 		apply_scale,
 		apply_rotation);
-	//INVOKE_CLASS_MEMBER(0x00AB7330, c_gui_widget, assemble_render_data,
-	//	render_data,
-	//	window_bounds,
-	//	local_controller_index,
-	//	apply_translation,
-	//	apply_scale,
-	//	apply_rotation);
 
 	bool render_blurred_back_buffer = TEST_BIT(m_definition.flags, 4);
 	render_data->flags.set(s_gui_widget_render_data::_render_blurred_back_buffer_bit, render_blurred_back_buffer);

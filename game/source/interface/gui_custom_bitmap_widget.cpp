@@ -8,14 +8,10 @@
 #include "saved_games/content_catalogue.hpp"
 #include "tag_files/string_ids.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data);
 HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
 HOOK_DECLARE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image_);
 HOOK_DECLARE(0x00AC3B80, load_image_from_blf_file_callback);
-
-void patch_gui_custom_bitmap_widget()
-{
-	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, member_to_static_function(&c_gui_custom_bitmap_widget::assemble_render_data_));
-}
 
 bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
 {
@@ -42,8 +38,10 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
 	m_desired_aspect_ratio = 0;
 }
 
-void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void __thiscall c_gui_custom_bitmap_widget::assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
+	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data_, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+
 	//if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = (s_runtime_bitmap_widget_definition*)get_core_definition())
 	//{
 	//	if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
@@ -75,7 +73,9 @@ void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(byte* render_d
 	//	set_visible(true);
 	//}
 
-	INVOKE_CLASS_MEMBER(0x00B167B0, c_gui_custom_bitmap_widget, assemble_render_data_, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
+	c_gui_bitmap_widget::assemble_render_data(render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+	render_data->flags.set(s_gui_bitmap_widget_render_data::_render_as_custom_storage_bitmap_bit, true);
+	render_data->source.custom_bitmap.storage_index = m_storage_item_index;
 }
 
 void __cdecl c_gui_custom_bitmap_widget::clear()
@@ -88,9 +88,8 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 	wchar_t name_buffer[256];
 
 	bool v2 = false;
-	bool v3 = false;
-	int32 v4 = callback_data->cancelled->peek();
-	bool v5 = v4 != 0;
+	bool success = false;
+	bool v5 = callback_data->cancelled->peek() != 0;
 
 	switch (callback_data->state)
 	{
@@ -166,7 +165,7 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 						{
 							callback_data->state = 3;
 							v2 = true;
-							v3 = true;
+							success = true;
 						}
 					}
 				}
@@ -176,9 +175,9 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 	break;
 	}
 
-	*callback_data->success = v3;
+	*callback_data->success = success;
 
-	if (v2 && !v3)
+	if (v2 && !success)
 		return false;
 
 	if (callback_data->image_source_was_dlc)
