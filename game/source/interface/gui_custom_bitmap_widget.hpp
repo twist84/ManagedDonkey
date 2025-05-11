@@ -40,7 +40,7 @@ public:
 	c_synchronized_long m_async_task_success;
 	s_file_reference m_file;
 	bool m_use_compressed_format;
-	int32 m_desired_aspect_ratio;
+	e_custom_bitmap_desired_aspect_ratio m_desired_aspect_ratio;
 	c_static_string<256> m_desired_async_file_to_display;
 	c_static_string<256> m_current_async_file_to_display;
 	byte __data46C[0x4];
@@ -49,13 +49,21 @@ static_assert(sizeof(c_gui_custom_bitmap_widget) == 0x470);
 
 struct s_load_image_from_file_task
 {
-	int32 state;
+	enum e_state
+	{
+		_state_starting = 0,
+		_state_reading,
+		_state_decompressing,
+		_state_done,
+	};
+
+	e_state state;
 	s_file_reference* file;
 	uns32 file_size;
 	char* load_buffer;
 	int32 load_buffer_length;
 	int32 storage_item_index;
-	int32 desired_aspect_ratio;
+	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
 	c_synchronized_long* cancelled;
 	c_synchronized_long* success;
 	bool image_source_was_dlc;

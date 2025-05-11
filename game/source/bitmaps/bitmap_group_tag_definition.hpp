@@ -209,6 +209,18 @@ enum e_bitmap_flags
 	k_bitmap_flags_count
 };
 
+enum e_bitmap_curve
+{
+	_bitmap_curve_unknown = 0,
+	_bitmap_curve_xrgb_gamma2,
+	_bitmap_curve_gamma2,
+	_bitmap_curve_linear,
+	_bitmap_curve_offset_log,
+	_bitmap_curve_srgb_gamma22,
+
+	k_bitmap_curve_count,
+};
+
 // constructors in `rasterizer_textures_xenon_header` and `font_cache`
 struct bitmap_data
 {

@@ -5210,3 +5210,12 @@ enum e_network_session_closed_status
 	k_network_session_closed_bits = 2,
 };
 
+enum e_custom_bitmap_desired_aspect_ratio
+{
+	_custom_bitmap_desired_aspect_ratio_stretch_to_fit = 0,
+	_custom_bitmap_desired_aspect_ratio_16x9,
+	_custom_bitmap_desired_aspect_ratio_4x3,
+
+	k_custom_bitmap_desired_aspect_ratio_count,
+};
+

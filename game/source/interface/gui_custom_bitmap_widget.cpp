@@ -22,6 +22,9 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
 
 void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
 {
+	// using a compressed format seems to cause a hang in D3D, overriding until a solution is found
+	use_compressed_format = false;
+
 	static c_static_string<256> map_image_path;
 	map_image_path.clear();
 
@@ -39,7 +42,7 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
 {
 	m_desired_async_file_to_display.set(file_path);
 	m_use_compressed_format = use_compressed_format;
-	m_desired_aspect_ratio = 0;
+	m_desired_aspect_ratio = _custom_bitmap_desired_aspect_ratio_stretch_to_fit;
 }
 
 void __thiscall c_gui_custom_bitmap_widget::assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
@@ -62,13 +65,13 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 
 	bool v2 = false;
 	bool success = false;
-	bool v5 = callback_data->cancelled->peek() != 0;
+	bool cancelled = callback_data->cancelled->peek() != 0;
 
 	switch (callback_data->state)
 	{
-	case 0: // get file size
+	case s_load_image_from_file_task::_state_starting:
 	{
-		if (!v5)
+		if (!cancelled)
 		{
 			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
 			wchar_t* name = file_reference_get_name_wide(callback_data->file, name_flags, name_buffer, NUMBEROF(name_buffer));
@@ -81,7 +84,7 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 				if (file_get_size(callback_data->file, &callback_data->file_size)
 					&& callback_data->file_size < (uns32)callback_data->load_buffer_length)
 				{
-					callback_data->state = 1;
+					callback_data->state = s_load_image_from_file_task::_state_reading;
 					v2 = true;
 
 					break;
@@ -92,13 +95,13 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 		}
 	}
 	break;
-	case 1: // read file info memory
+	case s_load_image_from_file_task::_state_reading:
 	{
-		if (!v5 && file_read(callback_data->file, callback_data->file_size, true, callback_data->load_buffer))
+		if (!cancelled && file_read(callback_data->file, callback_data->file_size, true, callback_data->load_buffer))
 		{
 			file_close(callback_data->file);
 
-			callback_data->state = 2;
+			callback_data->state = s_load_image_from_file_task::_state_decompressing;
 			v2 = true;
 
 			break;
@@ -107,9 +110,9 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 		file_close(callback_data->file);
 	}
 	break;
-	case 2: // find chunk and load bitmap
+	case s_load_image_from_file_task::_state_decompressing:
 	{
-		if (!v5)
+		if (!cancelled)
 		{
 			int32 image_data_length = 0;
 			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
@@ -136,7 +139,7 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 					{
 						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(callback_data->storage_item_index, buffer, buffer_size, callback_data->desired_aspect_ratio))
 						{
-							callback_data->state = 3;
+							callback_data->state = s_load_image_from_file_task::_state_done;
 							v2 = true;
 							success = true;
 						}

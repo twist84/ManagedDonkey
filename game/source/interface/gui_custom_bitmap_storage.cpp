@@ -6,16 +6,12 @@
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 
-
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <d3dx9tex.h>
 
 REFERENCE_DECLARE(0x05270C14, c_gui_custom_bitmap_storage_manager, g_gui_custom_bitmap_storage_manager);
 
-//#define ISEXPERIMENTAL
-
-#if defined(ISEXPERIMENTAL)
 HOOK_DECLARE_CLASS_MEMBER(0x00B20460, c_gui_custom_bitmap_storage_item, dispose);
 HOOK_DECLARE_CLASS_MEMBER(0x00B20470, c_gui_custom_bitmap_storage_item, initialize);
 HOOK_DECLARE_CLASS_MEMBER(0x00B20480, c_gui_custom_bitmap_storage_item, initialize_raw);
@@ -23,7 +19,6 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B20490, c_gui_custom_bitmap_storage_item, load_fro
 HOOK_DECLARE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_from_file_or_buffer);
 HOOK_DECLARE_CLASS_MEMBER(0x00B204D0, c_gui_custom_bitmap_storage_item, unload_non_rendered_bitmap);
 HOOK_DECLARE_CLASS_MEMBER(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
-#endif // ISEXPERIMENTAL
 
 void __thiscall c_gui_custom_bitmap_storage_item::dispose()
 {
@@ -46,10 +41,15 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 
 	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
 	uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
 
-	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, false);
-	m_bitmap_data.curve = 3;
+	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, true);
+	m_bitmap_data.curve = _bitmap_curve_linear;
 
+	c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
 	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, hardware_format, D3DPOOL_DEFAULT, false, 0, 0);
+
+	m_width = m_bitmap_data.width;
+	m_height = m_bitmap_data.height;
+	m_allocated = true;
 }
 
 bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached)
@@ -62,10 +62,10 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	ASSERT(buffer);
 	ASSERT(!m_bitmap_ready);
 
-	//if (!m_allocated)
-	//{
-	//	return false;
-	//}
+	if (!m_allocated)
+	{
+		return false;
+	}
 
 	if (!m_hardware_format_bitmap.valid())
 	{
@@ -83,16 +83,18 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
 	if (FAILED(get_surface_level_result))
 	{
+		d3d_surface->Release();
 		return false;
 	}
 
 	D3DXIMAGE_INFO d3dximage_info{};
 	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, &d3dximage_info);
+
 	d3d_surface->Release();
-	
+
 	if (FAILED(load_surface_result))
 	{
-		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
+		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFileInMemory failed with error code 0x%08X", load_surface_result);
 		return false;
 	}
 
@@ -129,15 +131,13 @@ c_gui_custom_bitmap_storage_item const* c_gui_custom_bitmap_storage_manager::get
 {
 	c_gui_custom_bitmap_storage_item const* storage_item = NULL;
 
-	internal_critical_section_enter(k_crit_section_ui_custom_bitmaps_lock);
+	c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 
 	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
 	if (bitmap_storage_handle_datum && bitmap_storage_handle_datum->reference_count > 0 && bitmap_storage_handle_datum->state == _bitmap_storage_state_ready)
 	{
 		storage_item = &bitmap_storage_handle_datum->storage_item;
 	}
-
-	internal_critical_section_leave(k_crit_section_ui_custom_bitmaps_lock);
 
 	return storage_item;
 }
