@@ -50,6 +50,7 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 
 	m_width = m_bitmap_data.width;
 	m_height = m_bitmap_data.height;
 	m_allocated = true;
+	m_use_shader_custom_gamma_correct = false; // added by us
 }
 
 bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached)

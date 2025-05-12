@@ -20,7 +20,8 @@ struct c_gui_custom_bitmap_storage_item
 	bool m_use_compressed_format;
 	bitmap_data m_bitmap_data;
 	bool m_allocated;
-	byte pad[0x3];
+	bool m_use_shader_custom_gamma_correct; // added by us
+	byte pad[0x2]; // 0x3
 	c_rasterizer_texture_ref m_hardware_format_bitmap;
 	bool m_bitmap_ready;
 	char* m_bitmap_pixel_buffer_allocation;

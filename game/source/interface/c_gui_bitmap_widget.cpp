@@ -283,7 +283,10 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 			if (bitmap && bitmap->m_bitmap_ready && &bitmap->m_bitmap_data)
 			{
 				hardware_format_primary = bitmap->m_hardware_format_bitmap;
-				explicit_shader_index = c_rasterizer_globals::_shader_custom_gamma_correct;
+				if (bitmap->m_use_shader_custom_gamma_correct) // added by us
+				{
+					explicit_shader_index = c_rasterizer_globals::_shader_custom_gamma_correct;
+				}
 			}
 		}
 	}
