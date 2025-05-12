@@ -2,9 +2,9 @@
 
 REFERENCE_DECLARE(0x01910748, s_hardware_character_cache_globals, hardware_character_cache_globals);
 
-void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref texture_ref, rectangle2d const* dirty_rect, bool a4)
+void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref hardware_format, rectangle2d const* dirty_rect, bool unused_wait_until_idle)
 {
-	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, texture_ref, dirty_rect, a4);
+	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, hardware_format, dirty_rect, unused_wait_until_idle);
 }
 
 void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 mipmaps, uns32 format, int32 multisample_type, bool use_srgb_curve, e_bitmap_type type, int32 a9)
