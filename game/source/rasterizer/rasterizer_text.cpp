@@ -7,18 +7,18 @@ void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rast
 	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, texture_ref, dirty_rect, a4);
 }
 
-void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 levels, uns32 format, int32 a6, bool a7, int32 a8, int32 a9)
+void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 mipmaps, uns32 format, int32 multisample_type, bool use_srgb_curve, e_bitmap_type type, int32 a9)
 {
-	//INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, levels, format, a6, a7, a8, a9);
+	//INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, mipmaps, format, multisample_type, use_srgb_curve, type, a9);
 	DECLFUNC(0x00A6DEF0, void, __cdecl, c_rasterizer_texture_ref&, int32, int32, int32, uns32, int32, bool, int32, int32)(
 		texture_ref,
 		width,
 		height,
-		levels,
+		mipmaps,
 		format,
-		a6,
-		a7,
-		a8,
+		multisample_type,
+		use_srgb_curve,
+		type,
 		a9);
 }
 

@@ -4,6 +4,7 @@
 
 #define INVALID_TEXTURE_REF_HANDLE -1
 
+enum e_bitmap_type;
 enum e_character_data_index;
 struct bitmap_data;
 struct s_font_character;
@@ -28,7 +29,7 @@ public:
 		ASSERT(m_datum_ref == INVALID_TEXTURE_REF_HANDLE);
 	}
 
-	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 levels, uns32 format, int32 a6, bool a7, int32 a8, int32 a9);
+	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 mipmaps, uns32 format, int32 multisample_type, bool use_srgb_curve, e_bitmap_type type, int32 a9);
 	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory);
 	static void __cdecl dispose();
 	IDirect3DTexture9* get_d3d_texture() const;
