@@ -39,13 +39,13 @@ void __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 
 	m_use_compressed_format = use_compressed_format;
 	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
 	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
-	uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
+	constexpr uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
 
 	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, true);
 	m_bitmap_data.curve = _bitmap_curve_linear;
 
 	c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
-	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, hardware_format, D3DPOOL_DEFAULT, false, 0, 0);
+	c_rasterizer_texture_ref::allocate(m_hardware_format_bitmap, width, height, 1, hardware_format, D3DPOOL_DEFAULT, true, _bitmap_type_2d, 0);
 
 	m_width = m_bitmap_data.width;
 	m_height = m_bitmap_data.height;
