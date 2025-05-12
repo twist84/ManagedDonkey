@@ -1,6 +1,7 @@
 #include "cache/cache_files.hpp"
 
 #include "bitmaps/bitmap_group_tag_definition.hpp"
+#include "bitmaps/bitmaps.hpp"
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files_windows.hpp"
@@ -2256,7 +2257,9 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 {
 	DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
 	if (!dds_file)
+	{
 		return;
+	}
 
 	bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
 	ASSERT(bitmap_instance->bitmaps.count == bitmap_instance->hardware_textures.count);
@@ -2265,13 +2268,15 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 	s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[file_header->resource_index].get();
 
 	if (!resource_data->runtime_data.control_data.base)
+	{
 		return;
+	}
 
 	s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 
 	// update the width and height to that of the dds file
-	bitmap.width = static_cast<int16>(dds_file->header.width);
-	bitmap.height = static_cast<int16>(dds_file->header.height);
+	bitmap.width = (int16)dds_file->header.width;
+	bitmap.height = (int16)dds_file->header.height;
 
 	// update the pixels offset and size base on the linear size and resource index
 	bitmap.pixels_offset = (dds_file->header.pitchOrLinearSize * file_header->resource_index);
@@ -2307,7 +2312,9 @@ void external_tag_fixup(s_file_reference* file, int32 tag_index, cache_file_tag_
 		s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
 
 		if (!resource_data->runtime_data.control_data.base)
+		{
 			return;
+		}
 
 		s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 
@@ -2338,11 +2345,15 @@ bool check_for_specific_scenario(s_file_reference* file)
 	s_file_reference specific_scenario_file{};
 	file_reference_create_from_path(&specific_scenario_file, directory, false);
 	if (!file_exists(&specific_scenario_file))
+	{
 		return false;
+	}
 
 	uns32 error = 0;
 	if (!file_open(&specific_scenario_file, FLAG(_file_open_flag_desired_access_read), &error))
+	{
 		return false;
+	}
 
 	uns32 file_size = 0;
 	if (!file_get_size(&specific_scenario_file, &file_size))
@@ -2367,26 +2378,103 @@ bool check_for_specific_scenario(s_file_reference* file)
 
 bool load_external_tag(s_file_reference* file)
 {
-	if (!file->path.ends_with("bitmap"))
+	static bool x_bitmap = false;
+	static bool x_dds = false;
+
+	if (x_bitmap && file->path.ends_with("bitmap"))
+	{
+		if (check_for_specific_scenario(file))
+		{
+			return false;
+		}
+
+		int32 tag_index = NONE;
+		cache_file_tag_instance* instance = nullptr;
+		if (!cache_file_tags_single_tag_file_load(file, &tag_index, &instance))
+		{
+			return false;
+		}
+
+		if (tag_index == NONE || !instance)
+		{
+			return false;
+		}
+
+		if (!cache_file_tags_single_tag_instance_fixup(instance))
+		{
+			return false;
+		}
+
+		external_tag_fixup(file, tag_index, instance);
+
+		return true;
+	}
+
+	if (x_dds && file->path.ends_with("dds"))
+	{
+		cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
+
+		bitmap_data* bitmap = (bitmap_data*)(instance + 1);
+		bitmap_group* bitmap_definition = (bitmap_group*)(bitmap + 1);
+		DirectX::DDS_FILE_HEADER* dds_file = (DirectX::DDS_FILE_HEADER*)(instance + 1);
+
+		uns32 file_size = 0;
+		file_get_size(file, &file_size);
+
+		if (!file_read(file, file_size, false, dds_file) || !dds_file)
+		{
+			return false;
+		}
+
+		e_bitmap_format bitmap_format = _bitmap_format_unused4;
+		switch (dds_file->header.ddspf.fourCC)
+		{
+		case MAKEFOURCC('D', 'X', 'T', '5'):
+		{
+			bitmap_format = _bitmap_format_dxt5;
+		}
+		break;
+		default:
+		{
+			event(_event_error, "cache:bitmaps: no supported bitmap type");
+		}
 		return false;
+		}
 
-	if (check_for_specific_scenario(file))
-		return false;
+		uns32 tag_loaded_size = ((byte*)dds_file - (byte*)instance) + file_size;
 
-	int32 tag_index = NONE;
-	cache_file_tag_instance* instance = nullptr;
-	if (!cache_file_tags_single_tag_file_load(file, &tag_index, &instance))
-		return false;
+		instance->checksum = 0;
+		instance->total_size;
+		instance->dependency_count = 0;
+		instance->data_fixup_count = 0;
+		instance->resource_fixup_count = 0;
+		instance->offset = (byte*)bitmap_definition - (byte*)instance;
+		instance->tag_group.group_tag = BITMAP_TAG;
+		instance->tag_group.parent_group_tags[0] = INVALID_TAG;
+		instance->tag_group.parent_group_tags[1] = INVALID_TAG;
+		instance->tag_group.name = STRING_ID(global, bitmap);
 
-	if (tag_index == NONE || !instance)
-		return false;
+		bitmap_definition->bitmaps.count = 1;
+		bitmap_definition->bitmaps.address = bitmap;
 
-	if (!cache_file_tags_single_tag_instance_fixup(instance))
-		return false;
+		constexpr uns16 flags = FLAG(_bitmap_use_base_address_for_hardware_format_bit) | FLAG(_bitmap_hardware_format_is_tracked_externally_bit);
+		bitmap_2d_initialize(&bitmap_definition->bitmaps[0], (int16)dds_file->header.width, (int16)dds_file->header.height, (int16)dds_file->header.mipMapCount - 1, bitmap_format, flags, true, true);
+		bitmap_definition->bitmaps[0].base_address = dds_file;
+		bitmap_definition->bitmaps[0].pixels_offset = 0;
+		bitmap_definition->bitmaps[0].pixels_size = dds_file->header.pitchOrLinearSize;
 
-	external_tag_fixup(file, tag_index, instance);
+		g_cache_file_globals.tag_loaded_size += file_size;
+		g_cache_file_globals.tag_instances[g_cache_file_globals.tag_loaded_count] = instance;
+		g_cache_file_globals.tag_index_absolute_mapping[g_cache_file_globals.tag_total_count] = g_cache_file_globals.tag_loaded_count;
+		g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count] = g_cache_file_globals.tag_total_count;
 
-	return true;
+		g_cache_file_globals.tag_loaded_count++;
+		g_cache_file_globals.tag_total_count++;
+
+		return true;
+	}
+
+	return false;
 }
 
 void external_resource_fixup(int32 tag_index, cache_file_tag_instance* instance)
@@ -2395,11 +2483,8 @@ void external_resource_fixup(int32 tag_index, cache_file_tag_instance* instance)
 	{
 		s_resource_file_header const* file_header = g_resource_file_headers[i];
 
-		if (instance->tag_group == file_header->group_tag)
+		if (instance->tag_group == file_header->group_tag && tag_index == file_header->tag_index)
 		{
-			if (tag_index != file_header->tag_index)
-				continue;
-
 			bitmap_fixup(instance, file_header);
 		}
 	}
@@ -2409,17 +2494,25 @@ bool load_external_resource(s_file_reference* file)
 {
 	int32 valid_extension = 0;
 	for (int32 i = 0; i < k_cache_file_resource_type_count; i++)
+	{
 		valid_extension += file->path.ends_with(cache_file_resource_type_get_name(i));
+	}
 
 	if (valid_extension <= 0)
+	{
 		return false;
+	}
 
 	uns32 file_size = 0;
 	if (!file_get_size(file, &file_size))
+	{
 		return false;
+	}
 
 	if (file_size <= sizeof(s_resource_file_header))
+	{
 		return false;
+	}
 
 	void* buffer = new byte[file_size]{};
 	ASSERT(buffer != nullptr);
