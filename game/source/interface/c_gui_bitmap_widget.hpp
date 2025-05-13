@@ -86,7 +86,7 @@ protected:
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
 
 struct s_gui_bitmap_widget_render_data :
-	public s_gui_widget_render_data
+	s_gui_widget_render_data
 {
 	union u_source_data
 	{

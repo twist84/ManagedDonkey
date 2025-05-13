@@ -103,9 +103,34 @@ struct s_runtime_model_widget_definition :
 };
 static_assert(sizeof(s_runtime_model_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1490);
 
+struct s_gui_model_widget_render_data :
+	s_gui_widget_render_data
+{
+	bool use_texture_camera;
+	int32 unit_index;
+	s_player_appearance player_appearance;
+	real_point3d camera_position;
+	real_vector3d camera_up;
+	real_vector3d camera_forward;
+	real32 fov_radians;
+	real32 z_near;
+	uns32 argb_tint;
+	rectangle2d window_bounds;
+	real_argb_color tron_shader_color;
+	int32 render_window;
+	real32 camera_slice_left;
+	real32 camera_slice_right;
+	real32 camera_slice_top;
+	real32 camera_slice_bottom;
+};
+static_assert(sizeof(s_gui_model_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x6C4);
+
 struct c_gui_model_widget :
 	public c_gui_widget
 {
+public:
+	static void __cdecl render(s_gui_model_widget_render_data const* render_data, rectangle2d const* window_bounds);
+
 	int32 __unknownDC;
 
 	s_runtime_model_widget_definition m_definition;
