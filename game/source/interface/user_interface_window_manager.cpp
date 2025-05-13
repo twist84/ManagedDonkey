@@ -656,7 +656,36 @@ void __cdecl window_manager_load_screen_hs(int32 screen_name)
 
 void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
 {
-	INVOKE(0x00AADA20, window_manager_render_screen_internal, render_data, user_index, viewport_bounds, is_screenshot);
+	//INVOKE(0x00AADA20, window_manager_render_screen_internal, render_data, user_index, viewport_bounds, is_screenshot);
+
+	real32 near_clip_plane_distance;
+	real32 projection_plane_distance;
+	real32 far_clip_plane_distance;
+	user_interface_get_projection_plane_distances(&near_clip_plane_distance, &projection_plane_distance, &far_clip_plane_distance);
+
+	real32 near_depth = near_clip_plane_distance - projection_plane_distance;
+	real32 far_depth = far_clip_plane_distance - projection_plane_distance;
+	near_clip_plane_distance = near_clip_plane_distance - projection_plane_distance;
+	far_clip_plane_distance = far_clip_plane_distance - projection_plane_distance;
+
+	ASSERT(VALID_COUNT(render_data->current_count, NUMBEROF(render_data->render_list)));
+	int32 current_count = render_data->current_count & 0x1FF;
+	for (int32 render_index = 0; render_index < current_count; render_index++)
+	{
+		s_depth_sorted_render_widget* render_item = &render_data->render_list[render_index];
+		if (render_item->depth < near_depth || far_depth < render_item->depth)
+		{
+			continue;
+		}
+
+		if (s_gui_widget_render_data* widget_render_data = (s_gui_widget_render_data*)offset_pointer(render_data->render_data_buffer, render_item->render_data_offset))
+		{
+			c_gui_widget::render(user_index, widget_render_data, viewport_bounds, is_screenshot);
+
+			far_depth = far_clip_plane_distance;
+			near_depth = near_clip_plane_distance;
+		}
+	}
 }
 
 void __cdecl window_manager_reset_screens()
