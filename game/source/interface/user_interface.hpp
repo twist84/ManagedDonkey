@@ -193,7 +193,7 @@ struct s_user_interface_globals
 		_storage_device_selection_deferred
 	};
 
-	c_synchronized_long flags;
+	c_synchronized_long m_flags;
 	c_synchronized_long m_reload_from_persistent_storage_controller_at_next_map_load;
 	real32 shell_seconds_elapsed;
 	c_synchronized_long m_current_milliseconds;
@@ -229,12 +229,17 @@ extern void __cdecl user_interface_dispose();
 extern void __cdecl user_interface_dispose_from_old_map();
 extern void __cdecl user_interface_enter_game_shell();
 extern void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32* horizontal_window_count, int32* vertical_window_count);
+extern void __cdecl user_interface_get_projection_plane_distances(real32* near_clip_plane_distance, real32* projection_plane_distance, real32* far_clip_plane_distance);
 extern void __cdecl user_interface_initialize();
 extern void __cdecl user_interface_initialize_for_new_map();
 extern bool __cdecl user_interface_is_active();
 extern uns32 __cdecl user_interface_milliseconds();
 extern void __cdecl user_interface_non_idle_event_occured();
-extern void __cdecl user_interface_render(e_controller_index controller, int32 user_index, int32 window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot);
+extern void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot);
+extern void __cdecl user_interface_render_begin(int32 render_surface);
+extern void __cdecl user_interface_render_end();
+extern void __cdecl user_interface_render_quad_in_viewport(rectangle2d const* viewport_bounds, uns32 color);
+extern void __cdecl user_interface_render_quad_in_window(rectangle2d const* bounds, uns32 color);
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();
 extern void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_index controller_index);

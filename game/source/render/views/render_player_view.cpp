@@ -487,7 +487,7 @@ void __thiscall c_player_view::render_3rd_pass()
 			user_interface_render(
 				m_camera_user_data.controller_index,
 				m_camera_user_data.user_index,
-				m_camera_user_data.player_window_index,
+				(e_window_index)m_camera_user_data.player_window_index,
 				&display_pixel_bounds,
 				c_rasterizer::get_display_surface(),
 				false);

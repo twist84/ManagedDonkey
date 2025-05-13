@@ -1,6 +1,7 @@
 #include "interface/user_interface.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cutscene/cinematics.hpp"
 #include "data_mining/data_mine_management.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
@@ -9,6 +10,7 @@
 #include "interface/damaged_media.hpp"
 #include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
+#include "interface/interface_constants.hpp"
 #include "interface/user_interface_mouse.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_player_model_camera.hpp"
@@ -17,6 +19,7 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 #include <windows.h>
@@ -29,6 +32,7 @@ REFERENCE_DECLARE(0x0191CC24, bool, g_eula_accepted);
 REFERENCE_DECLARE(0x052559E0, bool, g_user_interface_is_alpha);
 REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
 
+HOOK_DECLARE(0x00A849B0, user_interface_render);
 HOOK_DECLARE(0x00A84EE0, user_interface_update);
 
 //.text:00A84030 ; void __cdecl debug_render_title_safe_bounds(bool)
@@ -104,7 +108,12 @@ void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32
 }
 
 //.text:00A84420 ; uns64 __cdecl user_interface_get_player_hash_bits(e_controller_index, int32)
-//.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real32*, real32*, real32*)
+
+void __cdecl user_interface_get_projection_plane_distances(real32* near_clip_plane_distance, real32* projection_plane_distance, real32* far_clip_plane_distance)
+{
+	INVOKE(0x00A84450, user_interface_get_projection_plane_distances, near_clip_plane_distance, projection_plane_distance, far_clip_plane_distance);
+}
+
 //.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
 //.text:00A844E0 ; 
 //.text:00A844F0 ; int32 __cdecl user_interface_get_selected_campaign_difficulty()
@@ -158,15 +167,96 @@ void __cdecl user_interface_non_idle_event_occured()
 //.text:00A849A0 ; 
 
 //void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
-void __cdecl user_interface_render(e_controller_index controller, int32 user_index, int32 window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot)
+void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot)
 {
-	INVOKE(0x00A849B0, user_interface_render, controller, user_index, window, viewport_bounds, rasterizer_render_surface, is_screenshot);
+	//INVOKE(0x00A849B0, user_interface_render, controller, user_index, window, viewport_bounds, rasterizer_render_surface, is_screenshot);
+
+	user_interface_render_begin((c_rasterizer::e_surface)rasterizer_render_surface);
+
+	if (window <= k_number_of_player_windows)
+	{
+		window_manager_get()->render(window, user_index, viewport_bounds, is_screenshot);
+	}
+
+	if (window == k_number_of_player_windows)
+	{
+		g_user_interface_globals.m_music_manager.render();
+		if (g_user_interface_globals.m_flags.test_bit(s_user_interface_globals::_debug_render_title_safe_bounds))
+		{
+			struct s_safe_bounds
+			{
+				real32 fraction;
+				uns32 color;
+			};
+			static_assert(sizeof(s_safe_bounds) == 0x8);
+
+			s_safe_bounds k_safe_bounds[4]
+			{
+				{ .fraction = 0.0f,   .color = 0xFFFF0000 },
+				{ .fraction = 0.05f,  .color = 0xFFFF7F00 },
+				{ .fraction = 0.075f, .color = 0xFFFFFF00 },
+				{ .fraction = 0.1f,   .color = 0xFF00FF00 }
+			};
+
+			rectangle2d frame_bounds{};
+			interface_get_current_display_settings(&frame_bounds, NULL, NULL, NULL);
+			real32 rect_height = rectangle2d_height(&frame_bounds);
+			real32 rect_width = rectangle2d_width(&frame_bounds);
+
+			for (int32 safe_bound_index = 0; safe_bound_index < NUMBEROF(k_safe_bounds); safe_bound_index++)
+			{
+				real32 fraction = k_safe_bounds[safe_bound_index].fraction;
+				uns32 color = k_safe_bounds[safe_bound_index].color;
+
+				point2d points[5]{};
+				points[0].x = (int16)(fraction * rect_width);
+				points[0].y = (int16)(fraction * rect_height);
+				points[1].x = points[0].x;
+				points[2].x = (int16)(((1.0f - fraction) * rect_width) - 1.0f);
+				points[3].x = points[2].x;
+				points[1].y = (int16)(((1.0f - fraction) * rect_height) - 1.0f);
+				points[2].y = points[1].y;
+				points[3].y = points[0].y;
+				points[4] = points[0];
+				c_rasterizer::draw_debug_linestrip2d(points, NUMBEROF(points), color);
+			}
+		}
+	}
+
+	user_interface_render_end();
 }
 
-//.text:00A84B40 ; void __cdecl user_interface_render_begin(c_rasterizer::e_surface)
-//.text:00A84B70 ; void __cdecl user_interface_render_end()
-//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(rectangle2d const*, uns32)
-//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(rectangle2d const*, uns32)
+//void __cdecl user_interface_render_begin(c_rasterizer::e_surface render_surface)
+void __cdecl user_interface_render_begin(int32 render_surface)
+{
+	//INVOKE(0x00A84B40, user_interface_render_begin, render_surface);
+
+	c_rasterizer::begin_high_quality_blend();
+	c_rasterizer::set_render_target(0, (c_rasterizer::e_surface)render_surface, 0xFFFFFFFF);
+	c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+}
+
+void __cdecl user_interface_render_end()
+{
+	//INVOKE(0x00A84B70, user_interface_render_end);
+}
+
+void __cdecl user_interface_render_quad_in_viewport(rectangle2d const* viewport_bounds, uns32 color)
+{
+	INVOKE(0x00A84B80, user_interface_render_quad_in_viewport, viewport_bounds, color);
+
+	rectangle2d rect = *viewport_bounds;
+	offset_rectangle2d(&rect, -rect.x0, -rect.y0);
+	draw_quad(&rect, color);
+}
+
+void __cdecl user_interface_render_quad_in_window(rectangle2d const* bounds, uns32 color)
+{
+	//INVOKE(0x00A84BC0, user_interface_render_quad_in_window, bounds, color);
+
+	rectangle2d rect = *bounds;
+	draw_quad(&rect, color);
+}
 
 bool __cdecl user_interface_requests_unlocked_framerate()
 {
