@@ -479,6 +479,7 @@ extern real32 __cdecl magnitude_squared3d(real_vector3d const* v);
 extern real32 __cdecl magnitude2d(real_vector2d const* v);
 extern real32 __cdecl magnitude3d(real_vector3d const* v);
 extern real_vector3d* __cdecl negate_vector3d(real_vector3d const* a, real_vector3d* result);
+extern real_rectangle2d* __cdecl offset_real_rectangle2d(real_rectangle2d* rectangle, real32 dx, real32 dy);
 extern real32 __cdecl normalize3d(real_vector3d* v);
 extern real_vector3d* __cdecl perpendicular3d(real_vector3d const* a, real_vector3d* result);
 extern real32 __cdecl plane3d_distance_to_point(real_plane3d const* plane, real_point3d const* point);

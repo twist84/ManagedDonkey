@@ -675,6 +675,16 @@ real32 __cdecl normalize3d(real_vector3d* v)
 	return magnitude;
 }
 
+real_rectangle2d* __cdecl offset_real_rectangle2d(real_rectangle2d* rectangle, real32 dx, real32 dy)
+{
+	rectangle->x0 += dx;
+	rectangle->x1 += dx;
+	rectangle->y0 += dy;
+	rectangle->y1 += dy;
+
+	return rectangle;
+}
+
 real_vector3d* __cdecl perpendicular3d(real_vector3d const* a, real_vector3d* result)
 {
 	real32 i = fabsf(a->i);
