@@ -13,6 +13,7 @@
 #include "interface/chud/chud_draw.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/first_person_weapons.hpp"
+#include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_hs.hpp"
@@ -968,6 +969,8 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_tone_curve, c_screen_postprocess::x_editable_settings.m_tone_curve),
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_tone_curve_white, c_screen_postprocess::x_editable_settings.m_tone_curve_white_point),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_exposure_lock, c_screen_postprocess::x_editable_settings.m_auto_exposure_lock),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(gui_custom_bitmaps_enabled, g_gui_custom_bitmaps_enabled),
 
 };
 int32 const k_console_global_count = NUMBEROF(k_console_globals);

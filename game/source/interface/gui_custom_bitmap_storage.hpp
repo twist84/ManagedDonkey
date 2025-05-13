@@ -87,3 +87,5 @@ static_assert(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratc
 static_assert(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer_length));
 
 extern c_gui_custom_bitmap_storage_manager& g_gui_custom_bitmap_storage_manager;
+extern bool g_gui_custom_bitmaps_enabled;
+

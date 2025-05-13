@@ -21,6 +21,8 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_fro
 HOOK_DECLARE_CLASS_MEMBER(0x00B204D0, c_gui_custom_bitmap_storage_item, unload_non_rendered_bitmap);
 HOOK_DECLARE_CLASS_MEMBER(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
 
+bool g_gui_custom_bitmaps_enabled = false;
+
 //.text:00B20430 ; public: c_gui_custom_bitmap_storage_item::c_gui_custom_bitmap_storage_item()
 
 void __thiscall c_gui_custom_bitmap_storage_item::dispose()
@@ -42,6 +44,11 @@ void __thiscall c_gui_custom_bitmap_storage_item::dispose()
 bool __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 height, bool use_compressed_format)
 {
 	//INVOKE_CLASS_MEMBER(0x00B20470, c_gui_custom_bitmap_storage_item, initialize, width, height, use_compressed_format);
+
+	if (!g_gui_custom_bitmaps_enabled)
+	{
+		return false;
+	}
 
 	m_use_compressed_format = use_compressed_format;
 	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
