@@ -140,6 +140,8 @@ extern int32 __cdecl bit_vector_lowest_bit_set(uns32 const* vector, int32 count)
 extern void __cdecl bit_vector_not(int32 count, uns32 const* vector, uns32* result);
 extern void __cdecl bit_vector_or(int32 count, uns32 const* v0, uns32 const* v1, uns32* result);
 
+extern bool equal_rectangle2d(rectangle2d const* r1, rectangle2d const* r2);
+
 extern int32 highest_bit_set(uns32 mask);
 extern int32 lowest_bit_set(uns32 mask);
 extern rectangle2d* set_rectangle2d(rectangle2d* rect, int16 y0, int16 x0, int16 y1, int16 x1);

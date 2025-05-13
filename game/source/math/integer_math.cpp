@@ -43,6 +43,11 @@ void __cdecl bit_vector_or(int32 count, uns32 const* v0, uns32 const* v1, uns32*
 //.text:0052E3E0 ; 
 //.text:0052E4A0 ; int16 __cdecl ceiling_log2(uns32)
 
+bool equal_rectangle2d(rectangle2d const* r1, rectangle2d const* r2)
+{
+	return r1->x0 == r2->x0 && r1->x1 == r2->x1 && r1->y0 == r2->y0 && r1->y1 == r2->y1;
+}
+
 int32 highest_bit_set(uns32 mask)
 {
 	if (mask == 0)
