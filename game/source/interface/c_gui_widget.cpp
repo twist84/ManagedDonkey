@@ -1,11 +1,14 @@
 #include "interface/c_gui_widget.hpp"
 
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/user_interface_data.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "text/draw_string.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
 
@@ -554,7 +557,111 @@ void c_gui_widget::remove_child_widget(c_gui_widget* child)
 
 void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
 {
-	INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
+	// $TODO: implement other render type functions `_gui_text`, _gui_model
+
+	if (render_data->type != _gui_bitmap)
+	{
+		INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
+	}
+
+	ASSERT(render_data != NULL);
+	ASSERT(window_bounds != NULL);
+
+	//c_rasterizer_profile_scope _render(, L"");
+
+	if (!is_screenshot || render_data->flags.test(s_gui_widget_render_data::_render_in_screenshot_bit))
+	{
+		if (render_data->type == _gui_text)
+		{
+			//c_user_interface_text::render((s_user_interface_text_render_data const*)render_data, window_bounds);
+		}
+		else if (render_data->type == _gui_bitmap)
+		{
+			render_bitmap((s_gui_bitmap_widget_render_data const*)render_data, window_bounds);
+		}
+		else if (render_data->type == _gui_model)
+		{
+			//c_gui_model_widget::render((s_gui_model_widget_render_data const*)render_data, window_bounds);
+		}
+	}
+
+	//if (render_data->render_debug_name)
+	//{
+	//	c_simple_font_draw_string draw_string;
+	//	real_rectangle2d text_bounds
+	//	{
+	//		.x0 = render_data->projected_bounds.vertex[0].x,
+	//		.x1 = render_data->projected_bounds.vertex[0].y,
+	//		.y0 = (real32)window_bounds->y0,
+	//		.y1 = (real32)window_bounds->y1
+	//	};
+	//	draw_string.set_bounds(&text_bounds);
+	//	draw_string.set_color(render_data->debug_color);
+	//	draw_string.draw(NULL, string_id_get_string_const(render_data->name));
+	//}
+	//
+	//if (render_data->render_debug_animation_state)
+	//{
+	//	c_static_string<1024> text;
+	//	for (int32 animation_state = 0; animation_state < k_number_of_ui_animation_states; animation_state++)
+	//	{
+	//		switch (animation_state)
+	//		{
+	//		// $TODO: add all cases
+	//		default:
+	//		{
+	//			ASSERT2("unreachable");
+	//		}
+	//		break;
+	//		}
+	//	}
+	//	c_simple_font_draw_string draw_string;
+	//	real_rectangle2d text_bounds
+	//	{
+	//		.x0 = render_data->projected_bounds.vertex[0].x,
+	//		.x1 = render_data->projected_bounds.vertex[0].y,
+	//		.y0 = (real32)window_bounds->y0,
+	//		.y1 = (real32)window_bounds->y1
+	//	};
+	//	draw_string.set_bounds(&text_bounds);
+	//	draw_string.set_color(render_data->debug_color);
+	//	draw_string.draw(NULL, text.get_string());
+	//}
+	//
+	//if (render_data->render_debug_bounds)
+	//{
+	//	point2d points[5]{};
+	//
+	//	points[0].x = (int16)render_data->projected_bounds.vertex[0].x;
+	//	points[0].y = (int16)render_data->projected_bounds.vertex[0].y;
+	//	points[1].x = (int16)render_data->projected_bounds.vertex[2].x;
+	//	points[1].y = (int16)render_data->projected_bounds.vertex[2].y;
+	//	points[2].x = (int16)render_data->projected_bounds.vertex[3].x;
+	//	points[2].y = (int16)render_data->projected_bounds.vertex[3].y;
+	//	points[3].x = (int16)render_data->projected_bounds.vertex[1].x;
+	//	points[3].y = (int16)render_data->projected_bounds.vertex[1].y;
+	//	points[4].x = (int16)render_data->projected_bounds.vertex[0].x;
+	//	points[4].y = (int16)render_data->projected_bounds.vertex[0].y;
+	//
+	//	real_vector2d aspect_ratio_scale = interface_get_aspect_ratio_scaling();
+	//	interface_scale_points_for_xenon_scaler(points, NUMBEROF(points), &aspect_ratio_scale);
+	//	c_rasterizer::draw_debug_linestrip2d(points, NUMBEROF(points), render_data->debug_color);
+	//}
+	//
+	//if (render_data->render_debug_rotation_origin)
+	//{
+	//	c_simple_font_draw_string draw_string;
+	//	real_rectangle2d text_bounds
+	//	{
+	//		.x0 = render_data->rotation_origin_with_depth.x - 8.0,
+	//		.x1 = render_data->rotation_origin_with_depth.y - 8.0,
+	//		.y0 = (real32)window_bounds->y0,
+	//		.y1 = (real32)window_bounds->y1
+	//	};
+	//	draw_string.set_bounds(&text_bounds);
+	//	draw_string.set_color(render_data->debug_color);
+	//	draw_string.draw(NULL, "(+)");
+	//}
 }
 
 //.text:00AB9F90 ; 
