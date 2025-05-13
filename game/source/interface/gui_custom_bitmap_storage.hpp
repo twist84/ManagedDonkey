@@ -8,10 +8,10 @@
 struct c_gui_custom_bitmap_storage_item
 {
 	void __thiscall dispose();
-	void __thiscall initialize(int32 width, int32 height, bool use_compressed_format);
+	bool __thiscall initialize(int32 width, int32 height, bool use_compressed_format);
 	bool __thiscall initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached);
-	bool __thiscall load_from_buffer(char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, int32 aspect_ratio);
-	bool __thiscall load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, int32 aspect_ratio);
+	bool __thiscall load_from_buffer(char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool __thiscall load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
 	void __thiscall unload_non_rendered_bitmap();
 	void __thiscall unload_rendered_bitmap();
 
@@ -63,17 +63,27 @@ struct c_gui_custom_bitmap_storage_manager
 	};
 	static_assert(sizeof(s_bitmap_storage_handle_datum) == 0x60);
 
+	c_gui_custom_bitmap_storage_manager();
+	void acquire_bitmap(int32 bitmap_storage_index);
+	int32 allocate_bitmap(int32 width, int32 height, bool use_compressed_format);
+	void dispose();
+	void dispose_from_old_map();
 	static c_gui_custom_bitmap_storage_manager* __cdecl get();
 	c_gui_custom_bitmap_storage_item const* get_bitmap(int32 bitmap_storage_index);
-	bool __cdecl load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_size, int32 a5);
+	void initialize();
+	void initialize_for_new_map();
+	bool load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	void release_bitmap(int32 bitmap_storage_index);
+	void release_unused_bitmap(int32 bitmap_storage_index);
+	void update_render();
 
 	c_smart_data_array<s_bitmap_storage_handle_datum> m_bitmap_storage_items;
-	void* m_buffer;
-	int32 m_buffer_size;
+	void* m_d3dx_scratch_buffer;
+	int32 m_d3dx_scratch_buffer_length;
 };
 static_assert(sizeof(c_gui_custom_bitmap_storage_manager) == 0xC);
 static_assert(0x0 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_bitmap_storage_items));
-static_assert(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_buffer));
-static_assert(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_buffer_size));
+static_assert(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer));
+static_assert(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer_length));
 
 extern c_gui_custom_bitmap_storage_manager& g_gui_custom_bitmap_storage_manager;
