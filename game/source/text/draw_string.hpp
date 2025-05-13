@@ -4,7 +4,6 @@
 #include "interface/user_interface_text.hpp"
 #include "text/font_cache.hpp"
 
-enum e_text_drop_shadow_style;
 struct s_font_header;
 struct s_font_character;
 
@@ -86,25 +85,38 @@ public:
 	{
 		return __vftable->draw_character(this, font_cache, font_id, character, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-	
-	void set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b);
+
+	bool draw_more(c_font_cache_base* font_cache, char const* string);
+	//draw_partial
+
+	void get_cursor(point2d* cursor) const;
+	void get_cursor(real_point2d* cursor) const;
+	e_text_justification get_justification() const;
+	int16 get_line_height() const;
+
+	void set_align_bottom_vertically(bool align_bottom);
+	void set_bounds(real_rectangle2d const* bounds, real_rectangle2d const* clip);
 	void set_bounds(real_rectangle2d const* bounds);
 	void set_bounds(rectangle2d const* bounds);
+	void set_center_vertically(bool center_vertically);
 	void set_color(uns32 color);
 	void set_color(argb_color color);
 	void set_color(real_argb_color const* color);
-	void set_shadow_color(real_argb_color const* shadow_color);
+	void set_display_resolution_scale_adjustment(real32 scale);
+	void set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style);
+	void set_font(e_font_id font);
+	void set_height_adjust(int16 height_adjust);
+	void set_justification(e_text_justification justification);
+	void set_paragraph_indent(int16 indent);
+	void set_permutation_proc(bool(__cdecl* proc)(dynamic_screen_vertex*, void*), void* permutation_context);
+	void set_precache_required(bool precache);
+	void set_scale(real32 scale);
+	void set_shadow_color(uns32 color);
+	void set_shadow_color(real_argb_color const* color);
 	void set_style(e_text_style style);
 	void set_tab_stops(int16 const* tab_stops, int16 count);
 	void set_wrap_horizontally(bool wrap_horizontally);
-	void text_bounds_draw_character(real32 a1, real32 a2, real32 a3, real32 a4);
-	void set_scale(real32 scale);
-	void set_font(e_font_id font);
-	void set_justification(e_text_justification justification);
-	bool draw_more(c_font_cache_base* font_cache, char const* s);
-	//draw_partial
-	void get_cursor(point2d* cursor) const;
-	int16 get_line_height() const;
+	void text_bounds_draw_character(real32 screen_left, real32 screen_top, real32 bitmap_widthm, real32 bitmap_height);
 
 protected:
 	c_flags<e_text_flags, uns32, k_text_flags> m_flags;
@@ -125,7 +137,7 @@ protected:
 	real_rectangle2d m_clip;
 	real_point2d m_cursor;
 	bool(__cdecl* m_permutation_proc)(dynamic_screen_vertex*, void*);
-	void* m_permutation_proc_data;
+	void* m_permutation_context;
 	int16 m_initial_indent;
 	int16 m_paragraph_indent;
 	c_draw_string::s_parse_string_state m_saved_parse_state;
@@ -205,6 +217,8 @@ struct c_rasterizer_draw_string :
 
 public:
 	c_rasterizer_draw_string();
+	void set_rotation(real32 angle_radians);
+	void set_rotation_origin(real_point2d const* origin);
 
 protected:
 	real_point2d m_rotation_origin;

@@ -1,11 +1,57 @@
 #include "text/draw_string.hpp"
 
 #include "math/color_math.hpp"
+#include "text/font_group.hpp"
 #include "text/font_loading.hpp"
 
-void c_draw_string::set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b)
+bool c_draw_string::draw_more(c_font_cache_base* font_cache, char const* string)
 {
-	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, real_rectangle2d const*, real_rectangle2d const*)(this, bounds_a, bounds_b);
+	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string, draw_more, font_cache, string);
+}
+
+void c_draw_string::get_cursor(point2d* cursor) const
+{
+	//DECLFUNC(0x006583E0, void, __thiscall, c_draw_string const*, point2d*)(this, cursor);
+
+	ASSERT(cursor != NULL);
+	cursor->x = (int16)m_cursor.x;
+	cursor->y = (int16)m_cursor.y;
+}
+
+void c_draw_string::get_cursor(real_point2d* cursor) const
+{
+	//DECLFUNC(0x00658410, void, __thiscall, c_draw_string const*, real_point2d*)(this, cursor);
+
+	ASSERT(cursor != NULL);
+	*cursor = m_cursor;
+}
+
+e_text_justification c_draw_string::get_justification() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00658430, c_draw_string, get_justification);
+
+	return m_justification;
+}
+
+int16 c_draw_string::get_line_height() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string, get_line_height);
+
+	s_font_header const* header = font_get_header(m_font_id);
+	real32 scale = m_display_resolution_scale_adjustment * m_scale;
+	return (int16)((real32)font_get_line_height(header) * scale);
+}
+
+//.text:00658AA0 ; private: bool c_draw_string::recache_font_header()
+
+void c_draw_string::set_align_bottom_vertically(bool align_bottom)
+{
+	m_flags.set(_text_flag_align_bottom_vertically_bit, align_bottom);
+}
+
+void c_draw_string::set_bounds(real_rectangle2d const* bounds, real_rectangle2d const* clip)
+{
+	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, real_rectangle2d const*, real_rectangle2d const*)(this, bounds, clip);
 }
 
 void c_draw_string::set_bounds(real_rectangle2d const* bounds)
@@ -16,6 +62,13 @@ void c_draw_string::set_bounds(real_rectangle2d const* bounds)
 void c_draw_string::set_bounds(rectangle2d const* bounds)
 {
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, rectangle2d const*)(this, bounds);
+}
+
+void c_draw_string::set_center_vertically(bool center_vertically)
+{
+	//INVOKE_CLASS_MEMBER(0x00658DA0, c_draw_string, set_center_vertically, center_vertically);
+
+	m_flags.set(_text_flag_center_vertically_bit, center_vertically);
 }
 
 void c_draw_string::set_color(uns32 color)
@@ -35,9 +88,82 @@ void c_draw_string::set_color(real_argb_color const* color)
 	m_color = *color;
 }
 
-void c_draw_string::set_shadow_color(real_argb_color const* shadow_color)
+void c_draw_string::set_display_resolution_scale_adjustment(real32 scale)
 {
-	m_shadow_color = *shadow_color;
+	m_display_resolution_scale_adjustment = scale;
+}
+
+void c_draw_string::set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style)
+{
+	m_drop_shadow_style = drop_shadow_style;
+}
+
+void c_draw_string::set_font(e_font_id font)
+{
+	if (font == _font_id_fallback)
+	{
+		m_font_id = _font_id_fallback;
+		m_styled_font_header = font_get_header(_font_id_fallback);
+	}
+	else
+	{
+		if (font < 0)
+			font = _terminal_font;
+		if (font > 10)
+			font = _main_menu_font;
+		m_font_id = font;
+		m_styled_font_header = font_get_header(font);
+	}
+}
+
+void c_draw_string::set_height_adjust(int16 height_adjust)
+{
+	m_height_adjust = height_adjust;
+}
+
+void c_draw_string::set_justification(e_text_justification justification)
+{
+	m_justification = justification;
+}
+
+void c_draw_string::set_paragraph_indent(int16 indent)
+{
+	m_paragraph_indent = indent;
+}
+
+void c_draw_string::set_permutation_proc(bool(__cdecl* proc)(dynamic_screen_vertex*, void*), void* permutation_context)
+{
+	m_permutation_proc = proc;
+	m_permutation_context = permutation_context;
+}
+
+void c_draw_string::set_precache_required(bool precache)
+{
+	m_flags.set(_text_flag_precache_required_bit, precache);
+}
+
+void c_draw_string::set_scale(real32 scale)
+{
+	m_scale = scale;
+}
+
+void c_draw_string::set_shadow_color(uns32 color)
+{
+	real_argb_color real_color{};
+	set_shadow_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
+}
+
+void c_draw_string::set_shadow_color(real_argb_color const* color)
+{
+	ASSERT(color != NULL);
+
+	real_argb_color use_color = *color;
+	use_color.alpha = MIN(MAX(color->alpha, 0.0f), 1.0f);
+	use_color.red = MIN(MAX(color->red, 0.0f), 1.0f);
+	use_color.green = MIN(MAX(color->green, 0.0f), 1.0f);
+	use_color.blue = MIN(MAX(color->blue, 0.0f), 1.0f);
+
+	m_shadow_color = use_color;
 }
 
 void c_draw_string::set_style(e_text_style style)
@@ -70,55 +196,9 @@ void c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
 	m_flags.set(_text_flag_wrap_horizontally_bit, wrap_horizontally);
 }
 
-void c_draw_string::text_bounds_draw_character(real32 a1, real32 a2, real32 a3, real32 a4)
+void c_draw_string::text_bounds_draw_character(real32 screen_left, real32 screen_top, real32 bitmap_widthm, real32 bitmap_height)
 {
-	INVOKE_CLASS_MEMBER(0x00659340, c_draw_string, text_bounds_draw_character, a1, a2, a3, a4);
-}
-
-void c_draw_string::set_scale(real32 scale)
-{
-	m_scale = scale;
-}
-
-void c_draw_string::set_font(e_font_id font)
-{
-	if (font == _font_id_fallback)
-	{
-		m_font_id = _font_id_fallback;
-		m_styled_font_header = font_get_header(_font_id_fallback);
-	}
-	else
-	{
-		if (font < 0)
-			font = _terminal_font;
-		if (font > 10)
-			font = _main_menu_font;
-		m_font_id = font;
-		m_styled_font_header = font_get_header(font);
-	}
-}
-
-void c_draw_string::set_justification(e_text_justification justification)
-{
-	m_justification = justification;
-}
-
-bool c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
-{
-	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string, draw_more, font_cache, s);
-}
-
-void c_draw_string::get_cursor(point2d* cursor) const
-{
-	return INVOKE_CLASS_MEMBER(0x006583E0, c_draw_string, get_cursor, cursor);
-}
-
-//.text:00658410 ; public: void c_draw_string::get_cursor(real_point2d*) const
-//.text:00658430 ; public: e_text_justification c_draw_string::get_justification() const
-
-int16 c_draw_string::get_line_height() const
-{
-	return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string, get_line_height);
+	INVOKE_CLASS_MEMBER(0x00659340, c_draw_string, text_bounds_draw_character, screen_left, screen_top, bitmap_widthm, bitmap_height);
 }
 
 c_draw_string::c_draw_string() :
@@ -141,7 +221,7 @@ c_draw_string::c_draw_string() :
 	m_clip(),
 	m_cursor(),
 	m_permutation_proc(),
-	m_permutation_proc_data(),
+	m_permutation_context(),
 	m_initial_indent(),
 	m_paragraph_indent(),
 	m_saved_parse_state(),
@@ -207,6 +287,25 @@ c_rasterizer_draw_string::c_rasterizer_draw_string() :
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x01692AF0);
 	DECLFUNC(0x00A25F00, void, __thiscall, c_rasterizer_draw_string*)(this);
+}
+
+void c_rasterizer_draw_string::set_rotation(real32 angle_radians)
+{
+	INVOKE_CLASS_MEMBER(0x00A28160, c_rasterizer_draw_string, set_rotation, angle_radians);
+}
+
+void c_rasterizer_draw_string::set_rotation_origin(real_point2d const* origin)
+{
+	INVOKE_CLASS_MEMBER(0x00A28210, c_rasterizer_draw_string, set_rotation_origin, origin);
+
+	//if (origin)
+	//{
+	//	m_rotation_origin = *origin;
+	//}
+	//else
+	//{
+	//	m_rotation_origin = {};
+	//}
 }
 
 c_chud_draw_string::c_chud_draw_string() :

@@ -247,6 +247,16 @@ enum e_text_style
 	k_text_style_count,
 };
 
+enum e_text_drop_shadow_style
+{
+	_shadow_none = 0,
+	_shadow_drop,
+	_shadow_outline,
+
+	k_number_of_text_drop_shadow_styles,
+	k_default_drop_shadow_style = _shadow_drop,
+};
+
 enum e_font_id
 {
 	_font_id_fallback = -2,
