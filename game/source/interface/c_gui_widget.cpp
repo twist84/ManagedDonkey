@@ -13,41 +13,6 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
 
-/*
-//.text:00AB9F40 ; public: static void __cdecl c_gui_widget::render(int32, s_gui_widget_render_data const*, rectangle2d const*, bool)
-static void __cdecl gui_widget_render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
-{
-	c_rasterizer_profile_scope _widget_render(_rasterizer_profile_element_interface_hud, L"c_gui_widget::render");
-	INVOKE(0x00AB9F40, gui_widget_render, user_index, render_data, window_bounds, is_screenshot);
-
-	//if (!is_screenshot || render_data->flags.test(s_gui_widget_render_data::_render_in_screenshot_bit))
-	//{
-	//	switch (render_data->type)
-	//	{
-	//	case _gui_text:
-	//	{
-	//		s_user_interface_text_render_data const* text_render_data = (s_user_interface_text_render_data const*)render_data;
-	//		c_user_interface_text::render(text_render_data, window_bounds);
-	//	}
-	//	break;
-	//	case _gui_bitmap:
-	//	{
-	//		s_gui_bitmap_widget_render_data const* bitmap_render_data = (s_gui_bitmap_widget_render_data const*)render_data;
-	//		render_bitmap(bitmap_render_data, window_bounds);
-	//	}
-	//	break;
-	//	case _gui_model:
-	//	{
-	//		s_gui_model_widget_render_data const* model_render_data = (s_gui_model_widget_render_data const*)render_data;
-	//		c_gui_model_widget::render(model_render_data, window_bounds);
-	//	}
-	//	break;
-	//	}
-	//}
-}
-HOOK_DECLARE_CALL(0x00AADA93, gui_widget_render);
-*/
-
 c_gui_widget::~c_gui_widget()
 {
 	DECLFUNC(0x00AB61A0, void, __thiscall, c_gui_widget*)(this);
@@ -83,6 +48,11 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, r
 	render_data->local_controller_index = local_controller_index;
 	render_data->flags.clear();
 	render_data->flags.set(s_gui_widget_render_data::_render_in_screenshot_bit, get_render_in_screenshot());
+
+	//render_data->name = m_name.get_value();
+	//real_argb_color const* debug_color = get_debug_color();
+	//render_data->debug_color = real_argb_color_to_pixel32(debug_color);
+	//render_data->animation_state_flags = m_animated_state.state_flags;
 }
 
 void c_gui_widget::calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished)

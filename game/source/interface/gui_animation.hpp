@@ -5,6 +5,14 @@
 struct s_animation_transform
 {
 	byte __data0[0x38];
+	//uns32 timer_ambient_start;
+	//uns32 timer_screen_transition_start;
+	//uns32 timer_widget_transition_start;
+	//uns32 timer_focus_transfer_start;
+	//uns32 timer_list_item_indicator_activated_start;
+	//uns32 timer_mouse_hover_start;
+	//uns64 state_flags;
+	//byte __data[0x18];
 
 	real_argb_color color;
 	real_point3d position;
