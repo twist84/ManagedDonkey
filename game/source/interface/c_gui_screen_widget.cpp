@@ -95,3 +95,8 @@ bool c_gui_screen_widget::try_and_get_render_data_emblem_info(c_gui_bitmap_widge
 	return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[54], c_gui_screen_widget, try_and_get_render_data_emblem_info, bitmap_widget, emblem_info);
 }
 
+void c_gui_screen_widget::update_render()
+{
+	INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[46], c_gui_screen_widget, update_render);
+}
+

@@ -140,6 +140,7 @@ public:
 	c_gui_widget* get_focused_widget();
 	e_gui_game_mode get_gui_game_mode();
 	e_window_index get_render_window();
+	void update_render();
 	bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void play_sound(e_user_interface_sound_effect sound_effect);
 	bool running_in_codeless_mode();
