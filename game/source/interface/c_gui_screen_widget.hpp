@@ -72,7 +72,7 @@ struct s_window_manager_static_render_data
 		k_maximum_rendered_child_widgets_per_screen = 384
 	};
 
-	int8 render_data_buffer[0x14000];
+	byte render_data_buffer[0x14000];
 	int32 render_data_buffer_count;
 	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
 	int32 current_count;
@@ -85,6 +85,11 @@ struct s_window_manager_screen_render_data
 	{
 		k_maximum_rendered_child_widgets_per_screen = 384
 	};
+
+	bool valid()
+	{
+		return render_data_buffer != nullptr;
+	}
 
 	char* render_data_buffer;
 	int32 render_data_buffer_length;
