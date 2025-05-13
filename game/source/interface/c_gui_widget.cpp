@@ -2,6 +2,7 @@
 
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_model_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/user_interface_data.hpp"
@@ -557,12 +558,7 @@ void c_gui_widget::remove_child_widget(c_gui_widget* child)
 
 void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot)
 {
-	// $TODO: implement other render type functions `_gui_text`, _gui_model
-
-	if (render_data->type != _gui_bitmap)
-	{
-		INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
-	}
+	//INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
 
 	ASSERT(render_data != NULL);
 	ASSERT(window_bounds != NULL);
@@ -573,7 +569,7 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 	{
 		if (render_data->type == _gui_text)
 		{
-			//c_user_interface_text::render((s_user_interface_text_render_data const*)render_data, window_bounds);
+			c_user_interface_text::render((s_user_interface_text_render_data*)render_data, window_bounds);
 		}
 		else if (render_data->type == _gui_bitmap)
 		{
@@ -581,7 +577,7 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		}
 		else if (render_data->type == _gui_model)
 		{
-			//c_gui_model_widget::render((s_gui_model_widget_render_data const*)render_data, window_bounds);
+			c_gui_model_widget::render((s_gui_model_widget_render_data const*)render_data, window_bounds);
 		}
 	}
 
