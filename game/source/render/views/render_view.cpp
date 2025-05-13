@@ -42,6 +42,7 @@ REFERENCE_DECLARE(0x01913470, real32, c_first_person_view::m_z_far_scale);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, render_);
+HOOK_DECLARE_CLASS_MEMBER(0x00A290A0, c_ui_view, render_);
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 
@@ -241,6 +242,15 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 		rasterizer_camera_modifiable->vertical_field_of_view = static_vertical_field_of_view;
 }
 
+void __thiscall c_ui_view::render_()
+{
+	//INVOKE_CLASS_MEMBER(0x00A290A0, c_ui_view, render);
+
+	rectangle2d window_bounds{};
+	interface_get_current_display_settings(NULL, NULL, &window_bounds, NULL);
+	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, m_render_surface, m_is_screenshot);
+}
+
 void __thiscall c_first_person_view::render_albedo(int32 user_index)
 {
 	//INVOKE_CLASS_MEMBER(0x00A290F0, c_first_person_view, render_albedo, user_index);
@@ -306,20 +316,19 @@ void __cdecl render_debug_frame_render()
 
 void __cdecl render_debug_window_render(int32 user_index)
 {
+	//INVOKE(0x00A29230, render_debug_window_render, user_index);
+
 	c_rasterizer_profile_scope _window_debug(_rasterizer_profile_element_debug, L"window_debug");
 
-	// asserts
-
-	INVOKE(0x00A29230, render_debug_window_render, user_index);
-	//c_rasterizer::restore_last_viewport();
-	//c_rasterizer::set_depth_stencil_surface(4);
-
-	render_debug_begin(false, false, false);
-
-	render_debug_structure_draw();
-	render_debug_clients(user_index);
-
-	render_debug_end(true, false, false);
+	c_rasterizer::restore_last_viewport();
+	c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
+	if (c_view::top())
+	{
+		render_debug_begin(false, false, false);
+		render_debug_structure_draw();
+		render_debug_clients(user_index);
+		render_debug_end(true, false, false);
+	}
 }
 
 void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface)

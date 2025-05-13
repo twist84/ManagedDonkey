@@ -1,11 +1,12 @@
 #pragma once
 
+#include "camera/observer.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_text.hpp"
-#include "camera/observer.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_game_state.hpp"
 #include "render/render_patchy_fog.hpp"
+#include "visibility/visibility_collection.hpp"
 
 struct s_observer_result;
 
@@ -82,6 +83,8 @@ public:
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBAC);
 	}
 
+	void __thiscall render_();
+
 	void setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface);
 
 	bool m_is_screenshot;
@@ -142,8 +145,40 @@ public:
 	static uns32& g_debug_clip_planes;
 
 protected:
-	byte __data298[0xD54];
-	real_vector4d m_light_draw_list[40];
+	struct s_simple_light
+	{
+		real_point3d m_position;
+		real32 m_light_source_size;
+		real_vector3d m_inv_direction;
+		real32 m_sphere;
+		real_rgb_color m_color;
+		real32 m_cone_smooth;
+		real32 m_distance_scale;
+		real32 m_cone_scale;
+		real32 m_distance_offset;
+		real32 m_cone_offset;
+		real32 m_bounding_radius2;
+		real32 m_padding[3];
+	};
+	static_assert(sizeof(s_simple_light) == 0x50);
+
+	IDirect3DSurface9* m_ldr_surface;
+	IDirect3DSurface9* m_hdr_surface;
+	IDirect3DSurface9* m_depth_surface;
+	visibility_projection visibility_projections[6];
+	int16 projection_count;
+	real32 texture_projection_matrix[4][4];
+	bool light_orthogonal;
+	real32 light_near_width;
+	real32 light_near_height;
+	real32 light_near_depth;
+	real32 light_far_depth;
+	int32 shadow_res_x;
+	int32 shadow_res_y;
+	int32 m_user_index;
+	int32 m_simple_light_count;
+	s_simple_light m_local_light;
+	s_simple_light m_simple_lights[8];
 	real32 m_light_intensity_scale;
 };
 static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
@@ -153,7 +188,7 @@ struct c_lightmap_shadows_view :
 	public c_world_view
 {
 protected:
-	byte __data298[0x40];
+	s_oriented_bounding_box m_projection_bounds;
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
@@ -273,7 +308,6 @@ public:
 	};
 	static_assert(sizeof(s_camera_user_data) == 0x1C);
 
-
 	s_render_game_state::s_player_window* m_window_game_state;
 	real32 m_render_exposure;
 	real32 m_illum_render_scale;
@@ -316,18 +350,18 @@ struct c_texture_camera_view :
 	public c_player_view
 {
 protected:
-	c_rasterizer_texture_ref m_accumulation_texture_ref;
-	c_rasterizer_texture_ref m_albedo_texture_ref;
-	c_rasterizer_texture_ref m_normal_texture_ref;
+	c_rasterizer_texture_ref m_render_target_surface;
+	c_rasterizer_texture_ref m_albedo_target_surface;
+	c_rasterizer_texture_ref m_normal_target_surface;
 	c_rasterizer_texture_ref __unknown26C4_texture_ref;
 	c_rasterizer_texture_ref __unknown26C8_texture_ref;
-	int32 __unknown26CC;
-	int32 m_depth_stencil_surface_index;
-	uns32 __unknown26D4_flags;
+	int32 m_cubemap_face;
+	c_rasterizer::e_surface m_depth_surface;
+	uns32 m_flags;
 	int32 __unknown26D8;
-	int32 __unknown26DC;
-	int32 __unknown26E0;
-	int32 __unknown26E4;
+	int32 m_user_index;
+	void(__cdecl* m_render_callback)(int32);
+	int32 m_callback_user_data;
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
 
