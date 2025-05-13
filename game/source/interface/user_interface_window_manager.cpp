@@ -19,6 +19,7 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
+#include "interface/user_interface.hpp"
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
 
@@ -502,86 +503,82 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 
 void c_window_manager::render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
 {
-	INVOKE_CLASS_MEMBER(0x00AAC910, c_window_manager, render, window_index, user_index, viewport_bounds, is_screenshot);
+	//INVOKE_CLASS_MEMBER(0x00AAC910, c_window_manager, render, window_index, user_index, viewport_bounds, is_screenshot);
 
-	//ASSERT(VALID_INDEX(window_index, k_number_of_render_windows));
-	//
-	//if (bink_playback_ui_rendering_inhibited())
-	//{
-	//	return;
-	//}
-	//
-	//int32 screen_index_array[10]{};
-	//int32 screen_count = 0;
-	//
-	//{
-	//	FONT_CACHE_SCOPE_LOCK;
-	//
-	//	c_gui_custom_bitmap_storage_manager::get()->update_render();
-	//	m_last_known_viewport_bounds[window_index] = *viewport_bounds;
-	//	for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index]; channel_count++)
-	//	{
-	//		for (int32 channel_index = 0; channel_index < channel_count; channel_index++)
-	//		{
-	//			c_gui_screen_widget* channel = m_channels[window_index][channel_index];
-	//			if (channel)
-	//			{
-	//				ASSERT(screen_count < NUMBEROF(screen_index_array));
-	//				screen_index_array[screen_count++] = channel->m_screen_index;
-	//			}
-	//		}
-	//	}
-	//}
-	//ASSERT(VALID_COUNT(screen_count, NUMBEROF(screen_index_array)));
-	//
-	//bool is_rendering_fade = false;
-	//if (window_index == k_number_of_player_windows && m_render_fade)
-	//{
-	//	render_fade();
-	//	is_rendering_fade = true;
-	//}
-	//
-	//for (int32 screen_num = 0; screen_num < screen_count; screen_num++)
-	//{
-	//	s_window_manager_static_render_data render_data{};
-	//	render_data.current_count = 0;
-	//
-	//	{
-	//		FONT_CACHE_SCOPE_LOCK;
-	//
-	//		int32 screen_index = screen_index_array[screen_num];
-	//		if (s_screen_handle_datum* active_screen = DATUM_TRY_AND_GET(m_active_screens, s_screen_handle_datum, screen_index))
-	//		{
-	//			if (c_gui_screen_widget* screen = active_screen->screen)
-	//			{
-	//				screen->update_render();
-	//				s_window_manager_screen_render_data* screen_render_data = &screen->m_render_data;
-	//				if (screen_render_data->valid())
-	//				{
-	//					if (screen_render_data && equal_rectangle2d(&screen_render_data->built_for_viewport_bounds, viewport_bounds))
-	//					{
-	//						ASSERT(sizeof(render_data.render_data_buffer) >= screen_render_data->render_data_buffer_count);
-	//
-	//						csmemcpy(&render_data, screen_render_data->render_data_buffer, screen_render_data->render_data_buffer_count);
-	//						render_data.render_data_buffer_count = screen_render_data->render_data_buffer_count;
-	//						csmemcpy(render_data.render_list, screen_render_data->render_list, sizeof(s_depth_sorted_render_widget) * s_window_manager_static_render_data::k_maximum_rendered_child_widgets_per_screen);
-	//						render_data.current_count = screen_render_data->current_count;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//
-	//	if (render_data.current_count > 0)
-	//	{
-	//		window_manager_render_screen_internal(&render_data, user_index, viewport_bounds, is_screenshot);
-	//	}
-	//}
-	//
-	//if (window_index == k_number_of_player_windows && !is_rendering_fade)
-	//{
-	//	render_fade();
-	//}
+	ASSERT(VALID_INDEX(window_index, k_number_of_render_windows));
+	
+	if (bink_playback_ui_rendering_inhibited())
+	{
+		return;
+	}
+	
+	int32 screen_index_array[k_maximum_number_of_channels_per_render_window]{};
+	int32 screen_count = 0;
+	
+	{
+		FONT_CACHE_SCOPE_LOCK;
+	
+		c_gui_custom_bitmap_storage_manager::get()->update_render();
+		m_last_known_viewport_bounds[window_index] = *viewport_bounds;
+		for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index].peek(); channel_count++)
+		{
+			if (c_gui_screen_widget* channel = m_channels[window_index][channel_count])
+			{
+				ASSERT(screen_count < NUMBEROF(screen_index_array));
+				screen_index_array[screen_count++] = channel->m_screen_index;
+			}
+		}
+	}
+	ASSERT(VALID_COUNT(screen_count, NUMBEROF(screen_index_array)));
+	
+	bool is_rendering_fade = false;
+	if (window_index == k_number_of_player_windows && m_render_fade)
+	{
+		render_fade();
+		is_rendering_fade = true;
+	}
+	
+	for (int32 screen_num = 0; screen_num < screen_count; screen_num++)
+	{
+		s_window_manager_static_render_data render_data{};
+		render_data.current_count = 0;
+	
+		{
+			FONT_CACHE_SCOPE_LOCK;
+	
+			int32 screen_index = screen_index_array[screen_num];
+			if (s_screen_handle_datum* active_screen = DATUM_TRY_AND_GET(m_active_screens, s_screen_handle_datum, screen_index))
+			{
+				if (c_gui_screen_widget* screen = active_screen->screen)
+				{
+					screen->update_render();
+					s_window_manager_screen_render_data* screen_render_data = &screen->m_render_data;
+					if (screen_render_data->valid())
+					{
+						if (screen_render_data && equal_rectangle2d(&screen_render_data->built_for_viewport_bounds, viewport_bounds))
+						{
+							ASSERT(sizeof(render_data.render_data_buffer) >= screen_render_data->render_data_buffer_count);
+	
+							csmemcpy(&render_data, screen_render_data->render_data_buffer, screen_render_data->render_data_buffer_count);
+							render_data.render_data_buffer_count = screen_render_data->render_data_buffer_count;
+							csmemcpy(render_data.render_list, screen_render_data->render_list, sizeof(s_depth_sorted_render_widget) * s_window_manager_static_render_data::k_maximum_rendered_child_widgets_per_screen);
+							render_data.current_count = screen_render_data->current_count;
+						}
+					}
+				}
+			}
+		}
+	
+		if (render_data.current_count > 0)
+		{
+			window_manager_render_screen_internal(&render_data, user_index, viewport_bounds, is_screenshot);
+		}
+	}
+	
+	if (window_index == k_number_of_player_windows && !is_rendering_fade)
+	{
+		render_fade();
+	}
 }
 
 
