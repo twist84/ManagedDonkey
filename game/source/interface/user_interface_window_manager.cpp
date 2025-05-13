@@ -1,9 +1,11 @@
 #include "interface/user_interface_window_manager.hpp"
 
+#include "bink/bink_playback.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/c_gui_widget.hpp"
+#include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/gui_screens/boot_betrayer/gui_screen_boot_betrayer.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
@@ -18,6 +20,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "memory/module.hpp"
+#include "text/font_cache.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);
@@ -496,8 +499,97 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 //.text:00AAC740 ; public: static void __cdecl c_window_manager::print_active_screen_strings_tag_name()
 //.text:00AAC750 ; public: void c_window_manager::print_active_screens()
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uns32)
-//.text:00AAC910 ; public: void c_window_manager::render(e_window_index, int32, rectangle2d const*, bool)
-//.text:00AACB10 ; public: void c_window_manager::render_fade()
+
+void c_window_manager::render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
+{
+	INVOKE_CLASS_MEMBER(0x00AAC910, c_window_manager, render, window_index, user_index, viewport_bounds, is_screenshot);
+
+	//ASSERT(VALID_INDEX(window_index, k_number_of_render_windows));
+	//
+	//if (bink_playback_ui_rendering_inhibited())
+	//{
+	//	return;
+	//}
+	//
+	//int32 screen_index_array[10]{};
+	//int32 screen_count = 0;
+	//
+	//{
+	//	FONT_CACHE_SCOPE_LOCK;
+	//
+	//	c_gui_custom_bitmap_storage_manager::get()->update_render();
+	//	m_last_known_viewport_bounds[window_index] = *viewport_bounds;
+	//	for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index]; channel_count++)
+	//	{
+	//		for (int32 channel_index = 0; channel_index < channel_count; channel_index++)
+	//		{
+	//			c_gui_screen_widget* channel = m_channels[window_index][channel_index];
+	//			if (channel)
+	//			{
+	//				ASSERT(screen_count < NUMBEROF(screen_index_array));
+	//				screen_index_array[screen_count++] = channel->m_screen_index;
+	//			}
+	//		}
+	//	}
+	//}
+	//ASSERT(VALID_COUNT(screen_count, NUMBEROF(screen_index_array)));
+	//
+	//bool is_rendering_fade = false;
+	//if (window_index == k_number_of_player_windows && m_render_fade)
+	//{
+	//	render_fade();
+	//	is_rendering_fade = true;
+	//}
+	//
+	//for (int32 screen_num = 0; screen_num < screen_count; screen_num++)
+	//{
+	//	s_window_manager_static_render_data render_data{};
+	//	render_data.current_count = 0;
+	//
+	//	{
+	//		FONT_CACHE_SCOPE_LOCK;
+	//
+	//		int32 screen_index = screen_index_array[screen_num];
+	//		if (s_screen_handle_datum* active_screen = DATUM_TRY_AND_GET(m_active_screens, s_screen_handle_datum, screen_index))
+	//		{
+	//			if (c_gui_screen_widget* screen = active_screen->screen)
+	//			{
+	//				screen->update_render();
+	//				s_window_manager_screen_render_data* screen_render_data = &screen->m_render_data;
+	//				if (screen_render_data->valid())
+	//				{
+	//					if (screen_render_data && equal_rectangle2d(&screen_render_data->built_for_viewport_bounds, viewport_bounds))
+	//					{
+	//						ASSERT(sizeof(render_data.render_data_buffer) >= screen_render_data->render_data_buffer_count);
+	//
+	//						csmemcpy(&render_data, screen_render_data->render_data_buffer, screen_render_data->render_data_buffer_count);
+	//						render_data.render_data_buffer_count = screen_render_data->render_data_buffer_count;
+	//						csmemcpy(render_data.render_list, screen_render_data->render_list, sizeof(s_depth_sorted_render_widget) * s_window_manager_static_render_data::k_maximum_rendered_child_widgets_per_screen);
+	//						render_data.current_count = screen_render_data->current_count;
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//
+	//	if (render_data.current_count > 0)
+	//	{
+	//		window_manager_render_screen_internal(&render_data, user_index, viewport_bounds, is_screenshot);
+	//	}
+	//}
+	//
+	//if (window_index == k_number_of_player_windows && !is_rendering_fade)
+	//{
+	//	render_fade();
+	//}
+}
+
+
+void c_window_manager::render_fade()
+{
+	INVOKE_CLASS_MEMBER(0x00AACB10, c_window_manager, render_fade);
+}
+
 //.text:00AACBD0 ; public: void c_window_manager::reset_screens()
 //.text:00AACE40 ; public: void c_window_manager::run_screen_hs_script(int32)
 //.text:00AACEA0 ; 
@@ -562,7 +654,7 @@ void __cdecl window_manager_load_screen_hs(int32 screen_name)
 	//}
 }
 
-void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d* viewport_bounds, bool is_screenshot)
+void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
 {
 	INVOKE(0x00AADA20, window_manager_render_screen_internal, render_data, user_index, viewport_bounds, is_screenshot);
 }

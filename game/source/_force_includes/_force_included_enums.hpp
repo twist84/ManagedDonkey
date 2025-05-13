@@ -660,7 +660,7 @@ enum e_window_index
 {
 	_player_window_first = 0,
 
-	_window0 = 0,
+	_window0 = _player_window_first,
 	_window1,
 	_window2,
 	_window3,
