@@ -3,6 +3,7 @@
 #include "config/version.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
+#include "text/draw_string.hpp"
 
 #include <string.h>
 
@@ -82,7 +83,37 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_l
 //.text:00ABD490 ; public: bool __cdecl c_user_interface_text::get_wrap_horizontally() const
 //.text:00ABD4A0 ; public: void __cdecl c_user_interface_text::initialize(wchar_t const*, int16, e_font_id, real_rgb_color const*, int32, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
-//.text:00ABD530 ; public: static void __cdecl c_user_interface_text::render(s_user_interface_text_render_data*, rectangle2d*)
+
+void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds)
+{
+	//INVOKE(0x00ABD530, c_user_interface_text::render, render_data, window_bounds);
+
+	c_rasterizer_draw_string draw_string;
+	c_font_cache_mt_safe font_cache;
+
+	real_rectangle2d bounds_rect = render_data->bounds_rect;
+	real_rectangle2d clip_rect = render_data->clip_rect;
+
+	offset_real_rectangle2d(&bounds_rect, (real32)window_bounds->x0, (real32)window_bounds->y0);
+	offset_real_rectangle2d(&clip_rect, (real32)window_bounds->x0, (real32)window_bounds->y0);
+
+	draw_string.set_font(render_data->font);
+	draw_string.set_style(render_data->style);
+	draw_string.set_justification(render_data->justification);
+	draw_string.set_drop_shadow_style(render_data->drop_shadow_style);
+	draw_string.set_color(render_data->color);
+	draw_string.set_shadow_color(render_data->shadow_color);
+	draw_string.set_wrap_horizontally(render_data->wrap_horizontally);
+	draw_string.set_align_bottom_vertically(render_data->align_vertically);
+	draw_string.set_tab_stops(render_data->tab_stops, render_data->tab_stop_count);
+	draw_string.set_rotation_origin(&render_data->rotation_origin);
+	draw_string.set_rotation(render_data->rotation_angle_radians);
+	draw_string.set_scale(render_data->glyph_scale);
+	draw_string.set_bounds(&bounds_rect, &clip_rect);
+	draw_string.set_precache_required(true);
+	draw_string.draw(&font_cache, ((s_gui_text_widget_extra_large_render_data*)render_data)->text);
+}
+
 //.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(int32, real_rectangle2d const*, real_rectangle2d const*, real32, real32, rectangle2d const*)
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
@@ -92,25 +123,25 @@ void c_user_interface_text::set_argb_color(real_argb_color* color)
 	m_argb_color.value = real_argb_color_to_pixel32(color);
 }
 
-void c_user_interface_text::set_font(int32 font)
+void c_user_interface_text::set_font(e_font_id font)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABDAB0, c_user_interface_text, set_font, font);
 
 	m_font = font;
 }
 
-void c_user_interface_text::set_justification(int32 justification)
+void c_user_interface_text::set_justification(e_text_justification justification)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABDAC0, c_user_interface_text, set_justification, justification);
 
 	m_justification = justification;
 }
 
-void c_user_interface_text::set_style(int32 style)
+void c_user_interface_text::set_style(e_text_style new_style)
 {
-	//INVOKE_CLASS_MEMBER(0x00ABDAD0, c_user_interface_text, set_style, style);
+	//INVOKE_CLASS_MEMBER(0x00ABDAD0, c_user_interface_text, set_style, new_style);
 
-	m_style = style;
+	m_text_style = new_style;
 }
 
 //.text:00ABDAE0 ; 
@@ -218,7 +249,7 @@ void c_user_interface_text::set_controller_index(e_controller_index controller_i
 	m_controller_index = controller_index;
 }
 
-void c_user_interface_text::set_drop_shadow_style(int32 drop_shadow_style)
+void c_user_interface_text::set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style)
 {
 	m_drop_shadow_style = drop_shadow_style;
 }

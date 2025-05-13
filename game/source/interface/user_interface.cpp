@@ -243,7 +243,7 @@ void __cdecl user_interface_render_end()
 
 void __cdecl user_interface_render_quad_in_viewport(rectangle2d const* viewport_bounds, uns32 color)
 {
-	INVOKE(0x00A84B80, user_interface_render_quad_in_viewport, viewport_bounds, color);
+	//INVOKE(0x00A84B80, user_interface_render_quad_in_viewport, viewport_bounds, color);
 
 	rectangle2d rect = *viewport_bounds;
 	offset_rectangle2d(&rect, -rect.x0, -rect.y0);

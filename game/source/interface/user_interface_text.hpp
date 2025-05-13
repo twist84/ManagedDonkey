@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "interface/c_gui_widget.hpp"
 #include "text/unicode.hpp"
 
 struct c_font_cache_base;
@@ -166,41 +167,91 @@ struct utf32
 	e_utf32 character;
 };
 
+struct s_user_interface_text_render_data :
+	s_gui_widget_render_data
+{
+	e_font_id font;
+	e_text_style style;
+	e_text_justification justification;
+	e_text_drop_shadow_style drop_shadow_style;
+	uns32 color;
+	uns32 shadow_color;
+	bool wrap_horizontally;
+	bool align_vertically;
+	int16 tab_stop_count;
+	int16 tab_stops[16];
+	real_point2d rotation_origin;
+	real32 rotation_angle_radians;
+	real32 glyph_scale;
+	real_rectangle2d bounds_rect;
+	real_rectangle2d clip_rect;
+};
+static_assert(sizeof(s_user_interface_text_render_data) == 0x98);
+
+struct s_gui_text_widget_small_render_data :
+	s_user_interface_text_render_data
+{
+	wchar_t text[48];
+};
+static_assert(sizeof(s_gui_text_widget_small_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 48));
+
+struct s_gui_text_widget_large_render_data :
+	s_user_interface_text_render_data
+{
+	wchar_t text[256];
+};
+static_assert(sizeof(s_gui_text_widget_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 256));
+
+struct s_gui_text_widget_extra_large_render_data :
+	s_user_interface_text_render_data
+{
+	wchar_t text[1024];
+};
+static_assert(sizeof(s_gui_text_widget_extra_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 1024));
+
 struct c_user_interface_text
 {
 public:
+	enum // m_flags
+	{
+		_interface_text_render_uppercase_bit = 0,
+		_align_vertically_bit,
+		_wrap_horizontally_bit,
+		_has_overflowed_bit,
+		_has_special_characters_bit,
+		_string_was_set_bit,
+
+		k_number_of_interface_text_flags,
+	};
+
 	virtual ~c_user_interface_text();
 	virtual void set_string(wchar_t const* string, bool parse_xml, int32);
 	virtual wchar_t const* get_string();
 	virtual void update(int32);
 
+	static void __cdecl render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds);
+
 	void set_argb_color(real_argb_color* color);
-	void set_font(int32 font);
-	void set_justification(int32 justification);
-	void set_style(int32 style);
+	void set_font(e_font_id font);
+	void set_justification(e_text_justification justification);
+	void set_style(e_text_style new_style);
 	void set_flags(uns32 flags);
 	void set_controller_index(e_controller_index controller_index);
-	void set_drop_shadow_style(int32 drop_shadow_style);
+	void set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style);
 	void set_rotation_origin(real32 x, real32 y);
 	void set_rotation(real32 rotation);
 	void set_scroll_amount(real32 i, real32 j);
 	void set_scale(real32 scale);
 
 protected:
-	// FLAG(0),  0x1: render_uppercase
-	// FLAG(1),  0x2: align_vertically
-	// FLAG(2),  0x4: wrap_horizontally
-	// FLAG(3),  0x8: has_overflowed
-	// FLAG(4), 0x10: ?
-	// FLAG(5), 0x20: get_string_was_set
 	uns32 m_flags;
 
 	e_controller_index m_controller_index;
-	int32 m_font;
+	e_font_id m_font;
 	argb_color m_argb_color;
-	int32 m_drop_shadow_style;
-	int32 m_style;
-	int32 m_justification;
+	e_text_drop_shadow_style m_drop_shadow_style;
+	e_text_style m_text_style;
+	e_text_justification m_justification;
 	int16 m_tab_stops[16];
 	int32 m_tab_stop_count;
 	real_point2d m_rotation_origin;
