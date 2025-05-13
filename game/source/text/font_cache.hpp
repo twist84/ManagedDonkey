@@ -68,6 +68,8 @@ protected:
 };
 static_assert(sizeof(c_font_cache_scope_lock) == sizeof(bool));
 
+#define FONT_CACHE_SCOPE_LOCK c_font_cache_scope_lock __local_font_cache_scope_lock
+
 // 0165FCCC
 struct c_font_cache_mt_safe : // thread safe
 	c_font_cache_base
