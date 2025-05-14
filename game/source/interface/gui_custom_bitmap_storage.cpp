@@ -51,8 +51,8 @@ bool __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 
 	}
 
 	m_use_compressed_format = use_compressed_format;
-	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8;
-	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
+	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_x8r8g8b8;
+	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_X8R8G8B8;
 	constexpr uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
 
 	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, true);
@@ -93,6 +93,14 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 		return false;
 	}
 
+	D3DXIMAGE_INFO d3dximage_info{};
+	HRESULT D3DXGetImageInfoFromFileInMemory_result = D3DXGetImageInfoFromFileInMemory(buffer, buffer_length, &d3dximage_info);
+	if (FAILED(D3DXGetImageInfoFromFileInMemory_result))
+	{
+		event(_event_error, "ui:custom_bitmaps: D3DXGetImageInfoFromFileInMemory failed with error code 0x%08X", D3DXGetImageInfoFromFileInMemory_result);
+		return false;
+	}
+
 	IDirect3DTexture9* d3d_texture = m_hardware_format_bitmap.get_d3d_texture();
 	if (d3d_texture == NULL)
 	{
@@ -101,14 +109,13 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 	}
 
 	IDirect3DSurface9* d3d_surface = NULL;
-	HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
-	if (FAILED(get_surface_level_result))
+	HRESULT GetSurfaceLevel_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
+	if (FAILED(GetSurfaceLevel_result))
 	{
-		d3d_surface->Release();
+		event(_event_error, "ui:custom_bitmaps: GetSurfaceLevel failed with error code 0x%08X", GetSurfaceLevel_result);
 		return false;
 	}
 
-	D3DXIMAGE_INFO d3dximage_info{};
 	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, &d3dximage_info);
 
 	d3d_surface->Release();
