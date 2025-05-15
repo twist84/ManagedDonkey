@@ -6,6 +6,7 @@
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
+#include "networking/online/online_error.hpp"
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -53,7 +54,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::initialize(int32 width, int32 
 	m_use_compressed_format = use_compressed_format;
 	e_bitmap_format bitmap_format = m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_x8r8g8b8;
 	D3DFORMAT hardware_format = m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_X8R8G8B8;
-	constexpr uns16 flags = FLAG(_bitmap_free_on_delete_bit) | FLAG(_bitmap_hardware_only_bit);
+	constexpr uns16 flags = FLAG(_bitmap_free_on_delete_bit);
 
 	bitmap_2d_initialize(&m_bitmap_data, (int16)width, (int16)height, 0, bitmap_format, flags, false, true);
 	m_bitmap_data.curve = _bitmap_curve_linear;
@@ -80,77 +81,76 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* b
 {
 	//return INVOKE_CLASS_MEMBER(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
-	ASSERT(buffer);
-	ASSERT(!m_bitmap_ready);
-
-	if (!m_allocated)
-	{
-		return false;
-	}
-
-	if (!m_hardware_format_bitmap.valid())
-	{
-		return false;
-	}
-
-	D3DXIMAGE_INFO d3dximage_info{};
-	HRESULT D3DXGetImageInfoFromFileInMemory_result = D3DXGetImageInfoFromFileInMemory(buffer, buffer_length, &d3dximage_info);
-	if (FAILED(D3DXGetImageInfoFromFileInMemory_result))
-	{
-		event(_event_error, "ui:custom_bitmaps: D3DXGetImageInfoFromFileInMemory failed with error code 0x%08X", D3DXGetImageInfoFromFileInMemory_result);
-		return false;
-	}
-
-	IDirect3DTexture9* d3d_texture = m_hardware_format_bitmap.get_d3d_texture();
-	if (d3d_texture == NULL)
-	{
-		event(_event_error, "ui:custom_bitmaps: d3d_texture is null");
-		return false;
-	}
-
-	IDirect3DSurface9* d3d_surface = NULL;
-	HRESULT GetSurfaceLevel_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
-	if (FAILED(GetSurfaceLevel_result))
-	{
-		event(_event_error, "ui:custom_bitmaps: GetSurfaceLevel failed with error code 0x%08X", GetSurfaceLevel_result);
-		return false;
-	}
-
-	HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, &d3dximage_info);
-
-	d3d_surface->Release();
-
-	if (FAILED(load_surface_result))
-	{
-		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFileInMemory failed with error code 0x%08X", load_surface_result);
-		return false;
-	}
-
-	m_bitmap_ready = true;
-	return true;
+	return load_from_file_or_buffer(NULL, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 }
 
 bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_from_file_or_buffer, filename, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
-	return false;
+	bool load_from_file = filename != NULL;
+
+	ASSERT(!load_from_file || (filename && !buffer));
+	ASSERT(load_from_file || (!filename && buffer));
+	ASSERT(!m_bitmap_ready);
+
+	if (!m_allocated || !m_hardware_format_bitmap.valid())
+	{
+		return false;
+	}
+
+	m_bitmap_data.internal_hardware_format = m_hardware_format_bitmap;
+	m_bitmap_data.flags.set(_bitmap_hardware_only_bit, true);
+
+	IDirect3DSurface9* d3d_surface = m_bitmap_data.internal_hardware_format.get_d3d_surface(0, 0);
+
+	HRESULT load_surface_from_file_result = S_OK;
+	if (load_from_file)
+	{
+		load_surface_from_file_result = D3DXLoadSurfaceFromFileA(d3d_surface, NULL, NULL, filename, NULL, D3DX_DEFAULT, 0, NULL);
+	}
+	else
+	{
+		load_surface_from_file_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, NULL);
+	}
+
+	d3d_surface->Release();
+
+	if (FAILED(load_surface_from_file_result))
+	{
+ 		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code %s",
+			online_error_get_string(load_surface_from_file_result));
+	}
+	else
+	{
+		m_bitmap_ready = true;
+	}
+
+	return m_bitmap_ready;
 }
 
 void __thiscall c_gui_custom_bitmap_storage_item::unload_non_rendered_bitmap()
 {
 	//INVOKE_CLASS_MEMBER(0x00B204D0, c_gui_custom_bitmap_storage_item, unload_non_rendered_bitmap);
+
+	if (m_hardware_format_bitmap.valid())
+	{
+		c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
+		//m_hardware_format_bitmap.m_datum_ref = NONE;
+	}
+	m_bitmap_ready = false;
 }
 
 void __thiscall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap()
 {
 	//INVOKE_CLASS_MEMBER(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
 
+	//c_rasterizer::debug_wait_for_gpu_idle();
 	if (m_hardware_format_bitmap.valid())
 	{
 		c_rasterizer_texture_ref::release(m_hardware_format_bitmap);
+		//m_hardware_format_bitmap.m_datum_ref = NONE;
 	}
-
 	m_bitmap_ready = false;
 };
 
