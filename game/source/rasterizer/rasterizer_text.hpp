@@ -8,6 +8,8 @@ enum e_bitmap_type;
 enum e_character_data_index;
 struct bitmap_data;
 struct s_font_character;
+__interface IDirect3DCubeTexture9;
+__interface IDirect3DSurface9;
 __interface IDirect3DTexture9;
 
 struct c_rasterizer_texture_ref
@@ -32,9 +34,13 @@ public:
 	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 mipmaps, uns32 format, int32 multisample_type, bool use_srgb_curve, e_bitmap_type type, int32 a9);
 	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory);
 	static void __cdecl dispose();
+	uns32 get_d3d_format();
+	IDirect3DSurface9* get_d3d_surface(int32 level, int32 cubemap_face);
 	IDirect3DTexture9* get_d3d_texture() const;
+	int32 get_mipmap_count();
 	bool get_width_height(int32 level, int32* width, int32* height);
 	static void __cdecl initialize();
+	bool is_cubemap() const;
 	static void __cdecl release(c_rasterizer_texture_ref& texture_ref);
 	void* lock(int32* pitch);
 	void unlock();

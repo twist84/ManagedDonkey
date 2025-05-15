@@ -37,9 +37,24 @@ void __cdecl c_rasterizer_texture_ref::dispose()
 	INVOKE(0x00A6E7B0, c_rasterizer_texture_ref::dispose);
 }
 
+uns32 c_rasterizer_texture_ref::get_d3d_format()
+{
+	return INVOKE_CLASS_MEMBER(0x00A6E820, c_rasterizer_texture_ref, get_d3d_format);
+}
+
+IDirect3DSurface9* c_rasterizer_texture_ref::get_d3d_surface(int32 level, int32 cubemap_face)
+{
+	return INVOKE_CLASS_MEMBER(0x00A6E860, c_rasterizer_texture_ref, get_d3d_surface, level, cubemap_face);
+}
+
 IDirect3DTexture9* c_rasterizer_texture_ref::get_d3d_texture() const
 {
 	return INVOKE_CLASS_MEMBER(0x00A6E8E0, c_rasterizer_texture_ref, get_d3d_texture);
+}
+
+int32 c_rasterizer_texture_ref::get_mipmap_count()
+{
+	return INVOKE_CLASS_MEMBER(0x00A6E920, c_rasterizer_texture_ref, get_mipmap_count);
 }
 
 bool c_rasterizer_texture_ref::get_width_height(int32 level, int32* width, int32* height)
@@ -50,6 +65,11 @@ bool c_rasterizer_texture_ref::get_width_height(int32 level, int32* width, int32
 void __cdecl c_rasterizer_texture_ref::initialize()
 {
 	INVOKE(0x00A6E9C0, c_rasterizer_texture_ref::initialize);
+}
+
+bool c_rasterizer_texture_ref::is_cubemap() const
+{
+	return INVOKE_CLASS_MEMBER(0x00A6EAB0, c_rasterizer_texture_ref, is_cubemap);
 }
 
 void __cdecl c_rasterizer_texture_ref::release(c_rasterizer_texture_ref& texture_ref)
