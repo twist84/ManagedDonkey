@@ -5229,3 +5229,16 @@ enum e_custom_bitmap_desired_aspect_ratio
 	k_custom_bitmap_desired_aspect_ratio_count,
 };
 
+enum e_gui_location
+{
+	_gui_location_none = NONE,
+	_gui_location_main_menu,
+	_gui_location_pregame_lobby,
+	_gui_location_matchmaking_searching,
+	_gui_location_matchmaking_match_found,
+	_gui_location_in_game,
+	_gui_location_postgame_lobby,
+
+	k_gui_location_count,
+};
+

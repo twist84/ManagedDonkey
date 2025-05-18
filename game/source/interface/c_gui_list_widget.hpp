@@ -43,6 +43,15 @@ struct c_gui_list_widget :
 	public c_gui_widget
 {
 public:
+	virtual ~c_gui_list_widget();
+	virtual void post_initialize() override;
+	virtual int32 get_datasource_index() override;
+	virtual s_runtime_core_widget_definition* get_core_definition() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual void update_render_state(uns32 current_milliseconds) override;
+	virtual bool handle_tab(c_controller_input_message const* message) override;
+	virtual void initialize(s_list_widget_block const* template_and_override_block);
+
 	c_gui_data* get_data();
 	int32 get_focused_item_index();
 	int32 get_scroll_position();

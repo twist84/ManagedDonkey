@@ -48,29 +48,46 @@ struct s_runtime_text_widget_definition :
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
 struct c_gui_screen_widget;
+struct s_text_widget_block;
 struct c_gui_text_widget :
 	public c_gui_widget
 {
 	struct s_text_source_data
 	{
-		int32 type;
-		c_string_id id;
-		int32 __unknown8;
+		enum e_text_source
+		{
+			_source_invalid = -1,
+			_source_raw,
+			_source_string_id,
+			_source_exported_data,
+		};
+
+		e_text_source type;
+		int32 name;
+		int32 element_handle;
 	};
 	static_assert(sizeof(s_text_source_data) == 0xC);
 
 public:
-
-	c_user_interface_text* get_text_internal();
-	uns32 get_text_buffer_size() const;
-	void set_text(wchar_t const* text);
-	void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
-	wchar_t const* get_text();
+	virtual ~c_gui_text_widget();
+	virtual s_runtime_core_widget_definition* get_core_definition() override;
+	virtual real_argb_color* get_cumulative_color_tint(real_argb_color* tint) override;
+	virtual bool within_focus_chain() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual void update_render_state(uns32 current_milliseconds) override;
+	virtual void set_animated_state_baseline(s_animation_transform* transform) override;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual c_user_interface_text* get_text_internal() = 0;
+	virtual uns32 get_text_buffer_size() const = 0;
+	virtual void initialize(s_text_widget_block const* template_and_override_block);
+	virtual void set_text(wchar_t const* text);
+	virtual void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
+	virtual wchar_t const* get_text();
 
 protected:
 	real32 __unknownDC;
-	s_text_source_data text_source_data;
-	s_runtime_text_widget_definition m_core_definition;
+	s_text_source_data m_text_source_data;
+	s_runtime_text_widget_definition m_definition;
 	int32 __unknown13C;
 };
 static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x64);

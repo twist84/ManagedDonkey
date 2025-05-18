@@ -106,6 +106,12 @@ void player_emblem_toggle_flip_emblem_background(e_controller_index controller_i
 	controller->m_player_profile.set_emblem_info(&emblem_info, true);
 }
 
+int32 c_gui_list_item_widget::get_list_item_index()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AF9A20, c_gui_list_item_widget, get_list_item_index);
+	return m_list_item_index;
+}
+
 bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AF9A30, c_start_menu_settings_appearance_colors*, handle_controller_input_message, message);

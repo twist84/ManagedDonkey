@@ -14,10 +14,20 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AFFAE0, c_gui_screen_pregame_lobby_campaign, handl
 //HOOK_DECLARE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign, load_progress_ui_);
 
 //.text:00AFF9D0 ; public: virtual enum e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
-//.text:00AFF9E0 ; public: virtual enum e_gui_location c_gui_screen_pregame_lobby::get_gui_location() const
+
+e_gui_location c_gui_screen_pregame_lobby::get_gui_location() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AFF9E0, c_gui_screen_pregame_lobby, get_gui_location);
+}
+
 //.text:00AFF9F0 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_header()
 //.text:00AFFA00 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_title()
-//.text:00AFFA10 ; protected: virtual enum e_render_data_size c_gui_screen_pregame_lobby::get_render_data_size()
+
+e_render_data_size c_gui_screen_pregame_lobby::get_render_data_size()
+{
+	return INVOKE_CLASS_MEMBER(0x00AFFA10, c_gui_screen_pregame_lobby, get_render_data_size);
+}
+
 //.text:00AFFA20 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_start_button_name()
 //.text:00AFFA80 ; 
 

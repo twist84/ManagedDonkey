@@ -143,12 +143,12 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_gui_screen_campaign_select_difficulty(screen_name);
 	case STRING_ID(gui, campaign_select_level):
 		return new c_gui_screen_campaign_select_level(screen_name);
-	case STRING_ID(gui, pregame_lobby_campaign):
-		return new c_gui_screen_pregame_lobby_campaign(screen_name);
-	case STRING_ID(gui, pregame_lobby_matchmaking):
-		return new c_gui_screen_pregame_lobby_matchmaking(screen_name);
-	case STRING_ID(gui, pregame_lobby_multiplayer):
-		return new c_gui_screen_pregame_lobby_multiplayer(screen_name);
+	//case STRING_ID(gui, pregame_lobby_campaign):
+	//	return new c_gui_screen_pregame_lobby_campaign(screen_name);
+	//case STRING_ID(gui, pregame_lobby_matchmaking):
+	//	return new c_gui_screen_pregame_lobby_matchmaking(screen_name);
+	//case STRING_ID(gui, pregame_lobby_multiplayer):
+	//	return new c_gui_screen_pregame_lobby_multiplayer(screen_name);
 	//case STRING_ID(gui, pregame_lobby_mapeditor):
 	//	return new c_gui_screen_pregame_lobby_mapeditor(screen_name);
 	//case STRING_ID(gui, pregame_lobby_theater):
@@ -300,7 +300,14 @@ c_gui_widget* c_gui_widget::get_children()
 //.text:00AAB1A0 ; 
 //.text:00AAB1B0 ; 
 //.text:00AAB1C0 ; 
-//.text:00AAB1D0 ; public: virtual e_gui_location c_gui_screen_widget::get_gui_location() const
+
+e_gui_location c_gui_screen_widget::get_gui_location() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AAB1D0, c_gui_screen_widget, get_gui_location);
+
+	return _gui_location_none;
+}
+
 //.text:00AAB1E0 ; 
 
 c_gui_widget* c_gui_widget::get_next()
@@ -314,7 +321,14 @@ c_gui_widget* c_gui_widget::get_parent()
 }
 
 //.text:00AAB250 ; 
-//.text:00AAB260 ; protected: virtual e_render_data_size c_gui_screen_widget::get_render_data_size()
+
+e_render_data_size c_gui_screen_widget::get_render_data_size()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AAB260, c_gui_screen_widget, get_render_data_size);
+
+	return k_render_data_size_normal;
+}
+
 //.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
 //.text:00AAB290 ; public: e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widget*)
 //.text:00AAB300 ; 

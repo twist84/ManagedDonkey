@@ -11,21 +11,76 @@
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00B25C60, c_gui_roster_list_widget, update);
-HOOK_DECLARE_CLASS_MEMBER(0x00B26100, c_gui_roster_list_widget, update_render_state);
+HOOK_DECLARE_CLASS_MEMBER(0x00B25C60, c_gui_roster_list_widget, update_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B26100, c_gui_roster_list_widget, update_render_state_);
 
-void __thiscall c_gui_roster_list_widget::update(uns32 current_milliseconds)
+void __thiscall c_gui_roster_list_widget::update_(uns32 current_milliseconds)
+{
+	c_gui_roster_list_widget::update(current_milliseconds);
+}
+
+void __thiscall c_gui_roster_list_widget::update_render_state_(uns32 current_milliseconds)
+{
+	c_gui_roster_list_widget::update_render_state(current_milliseconds);
+}
+
+c_gui_roster_list_widget::c_gui_roster_list_widget(bool game_roster_is_local_party, bool remote_team_game) :
+	c_gui_list_widget(),
+	m_game_roster_is_local_party_internal(game_roster_is_local_party),
+	m_is_team_game_internal(remote_team_game),
+	m_show_party_bar_internal(false)
+{
+	//DECLFUNC(0x00B25A60, void, __thiscall, c_gui_roster_list_widget*, bool, bool)(this, game_roster_is_local_party, remote_team_game);
+
+	for (int32 team_index = 0; team_index < NUMBEROF(m_temporary_team); team_index++)
+	{
+		m_temporary_team[team_index].temporary_team_change_active = false;
+		m_temporary_team[team_index].desired_team = NONE;
+		m_temporary_team[team_index].set_time = 0;
+		m_temporary_team[team_index].lying_end_time = 0;
+	}
+}
+
+//.text:00B25AC0 ; 
+
+//.text:00B25AD0 ; public: virtual void* c_gui_roster_list_widget::`vector deleting destructor'(unsigned int)
+c_gui_roster_list_widget::~c_gui_roster_list_widget()
+{
+	DECLFUNC(0x00B25AD0, void, __thiscall, c_gui_roster_list_widget*)(this);
+}
+
+//.text:00B25B00 ; public: void c_gui_roster_list_widget::end_team_change(int32, int32)
+//.text:00B25B30 ; public: bool c_gui_roster_list_widget::get_current_team_change_is_active(int32)
+//.text:00B25B50 ; public: bool c_gui_roster_list_widget::get_current_team_change_is_lying(int32)
+//.text:00B25B70 ; public: int32 c_gui_roster_list_widget::get_current_team_change_team_index(int32)
+//.text:00B25BB0 ; public: int32 c_gui_roster_list_widget::get_current_team_change_time(int32)
+//.text:00B25BD0 ; public: bool c_gui_roster_list_widget::get_game_roster_is_local_party() const
+//.text:00B25BE0 ; public: bool c_gui_roster_list_widget::get_team_switching_enabled() const
+//.text:00B25BF0 ; 
+//.text:00B25C00 ; public: void c_gui_roster_list_widget::set_is_team_game(bool)
+
+void c_gui_list_widget::set_selectable_item_cap_count(int32 selectable_item_cap_count)
+{
+	//INVOKE_CLASS_MEMBER(0x00B25C10, c_gui_list_widget, set_selectable_item_cap_count, selectable_item_cap_count);
+
+	m_selectable_item_cap_count = selectable_item_cap_count;
+}
+
+//.text:00B25C20 ; public: void c_gui_roster_list_widget::set_team_switching_enabled(bool)
+//.text:00B25C30 ; public: void c_gui_roster_list_widget::start_team_change(int32, int32, int32)
+
+void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 {
 	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, uns32), _this, current_milliseconds);
 
 	int32 selectable_item_cap_count = 0;
 
-	c_gui_roster_data* data = static_cast<c_gui_roster_data*>(get_data());
+	c_gui_roster_data* data = (c_gui_roster_data*)get_data();
 	if (data)
 	{
 		update_team_mode();
 
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_list_item));
+		for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)get_first_child_widget_by_type(_gui_list_item);
 			list_item_widget;
 			list_item_widget = list_item_widget->get_next_list_item_widget(true))
 		{
@@ -260,7 +315,7 @@ void __thiscall c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				{
 					if (session_player_index != NONE && m_temporary_team[session_player_index].temporary_team_change_active)
 					{
-						game_engine_get_team_name(m_temporary_team[session_player_index].temporary_team_index, &team_name);
+						game_engine_get_team_name(m_temporary_team[session_player_index].desired_team, &team_name);
 
 						UTF32_STRING(left_bumper);
 						UTF32_STRING(right_bumper);
@@ -289,97 +344,101 @@ void __thiscall c_gui_roster_list_widget::update(uns32 current_milliseconds)
 	}
 
 	set_selectable_item_cap_count(selectable_item_cap_count);
-	INVOKE_CLASS_MEMBER(0x00B16650, c_gui_list_widget, update, current_milliseconds);
+
+	//INVOKE_CLASS_MEMBER(0x00B16510, c_gui_list_widget, update, current_milliseconds);
+	c_gui_list_widget::update(current_milliseconds);
 }
 
-void __thiscall c_gui_roster_list_widget::update_render_state(uns32 current_milliseconds)
+void c_gui_roster_list_widget::update_render_state(uns32 current_milliseconds)
 {
 	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, uns32), _this, current_milliseconds);
 
 	c_gui_data* data = get_data();
 
-	//c_gui_list_widget::update_render_state
-	INVOKE_CLASS_MEMBER(0x00B16650, c_gui_list_widget, update_render_state, current_milliseconds);
+	//INVOKE_CLASS_MEMBER(0x00B165D0, c_gui_list_widget, update_render_state, current_milliseconds);
+	c_gui_list_widget::update_render_state(current_milliseconds);
 
-	if (data)
+	if (!data)
 	{
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_list_item));
-			list_item_widget;
-			list_item_widget = list_item_widget->get_next_list_item_widget(true))
+		return;
+	}
+
+	for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)get_first_child_widget_by_type(_gui_list_item);
+		list_item_widget;
+		list_item_widget = list_item_widget->get_next_list_item_widget(true))
+	{
+		c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
+		c_gui_bitmap_widget* base_color_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color_hilite));
+		c_gui_bitmap_widget* party_bar_player_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, party_bar_player));
+		c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
+		c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
+
+		int32 element_handle = list_item_widget->get_element_handle();
+
+		int32 session_player_index = NONE;
+		int32 player_row_type_index = c_gui_roster_data::_player_row_type_player;
+		int32 party_bar_length = 0;
+		int32 player_color = 0;
+
+		if (base_color_bitmap_widget != NULL
+			&& base_color_hilite_bitmap_widget != NULL
+			&& party_bar_player_bitmap_widget != NULL
+			&& name_text_widget != NULL
+			&& service_tag_text_widget != NULL
+			&& data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
+			&& data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type_index)
+			&& data->get_integer_value(element_handle, STRING_ID(gui, party_bar_length), &party_bar_length)
+			&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &player_color))
 		{
-			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
-			c_gui_bitmap_widget* base_color_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color_hilite));
-			c_gui_bitmap_widget* party_bar_player_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, party_bar_player));
-			c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
-			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
+			ASSERT((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
-			int32 element_handle = list_item_widget->get_element_handle();
+			bool row_is_player = player_row_type_index == c_gui_roster_data::_player_row_type_player;
+			bool show_party_bar = row_is_player && m_show_party_bar_internal && party_bar_length > 0;
 
-			int32 session_player_index = NONE;
-			int32 player_row_type_index = c_gui_roster_data::_player_row_type_player;
-			int32 party_bar_length = 0;
-			int32 player_color = 0;
+			base_color_bitmap_widget->set_visible(row_is_player);
+			base_color_hilite_bitmap_widget->set_visible(row_is_player);
+			party_bar_player_bitmap_widget->set_visible(show_party_bar);
 
-			if (base_color_bitmap_widget != NULL
-				&& base_color_hilite_bitmap_widget != NULL
-				&& party_bar_player_bitmap_widget != NULL
-				&& name_text_widget != NULL
-				&& service_tag_text_widget != NULL
-				&& data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type_index)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, party_bar_length), &party_bar_length)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &player_color))
+			bool is_team_game = m_is_team_game_internal;
+
+			int32 desired_team = NONE;
+			if (is_team_game)
 			{
-				ASSERT((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
-
-				bool row_is_player = player_row_type_index == c_gui_roster_data::_player_row_type_player;
-				bool show_party_bar = row_is_player && m_show_party_bar && party_bar_length > 0;
-
-				base_color_bitmap_widget->set_visible(row_is_player);
-				base_color_hilite_bitmap_widget->set_visible(row_is_player);
-				party_bar_player_bitmap_widget->set_visible(show_party_bar);
-
-				bool is_team_game = m_is_team_game_internal;
-
-				int32 desired_team = NONE;
-				if (is_team_game)
+				if (session_player_index == NONE
+					// swap this for `get_current_team_change_team_index`?
+					|| /*!get_current_team_change_is_active(session_player_index)*/ !m_temporary_team[session_player_index].temporary_team_change_active
+					&& /*get_current_team_change_is_lying(session_player_index)*/ (uns32)m_temporary_team[session_player_index].lying_end_time < current_milliseconds)
 				{
-					if (session_player_index == NONE
-						// swap this for `get_current_team_change_team_index`?
-						|| !m_temporary_team[session_player_index].temporary_team_change_active
-						&& m_temporary_team->lying_begin_time < current_milliseconds)
-					{
-						int32 temporary_team_color = NONE;
-						if (data)
-							data->get_integer_value(element_handle, STRING_ID(global, team), &temporary_team_color);
+					int32 temporary_team_color = NONE;
+					if (data)
+						data->get_integer_value(element_handle, STRING_ID(global, team), &temporary_team_color);
 
-						desired_team = temporary_team_color;
-					}
-					else
-					{
-						desired_team = m_temporary_team[session_player_index].temporary_team_index;
-					}
+					desired_team = temporary_team_color;
 				}
-
-				int32 color_list_index = player_color;
-				if (is_team_game)
-					color_list_index = desired_team;
-
-				tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, is_team_game);
-				tint_widget_to_change_color(base_color_hilite_bitmap_widget, color_list_index, is_team_game);
-				tint_widget_to_change_color(party_bar_player_bitmap_widget, color_list_index, is_team_game);
-				tint_widget_to_change_color(name_text_widget, color_list_index, is_team_game);
-				tint_widget_to_change_color(service_tag_text_widget, color_list_index, is_team_game);
-				party_bar_player_bitmap_widget->set_sprite_frame(party_bar_length - 1);
-
-				if (!is_team_game)
+				else
 				{
-					player_color |= (200 << 24); // set alpha
-					tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uns32>(player_color) });
-
-					player_color |= (150 << 24); // set alpha
-					tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = static_cast<uns32>(player_color) });
+					desired_team = m_temporary_team[session_player_index].desired_team;
 				}
+			}
+
+			int32 color_list_index = player_color;
+			if (is_team_game)
+				color_list_index = desired_team;
+
+			tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, is_team_game);
+			tint_widget_to_change_color(base_color_hilite_bitmap_widget, color_list_index, is_team_game);
+			tint_widget_to_change_color(party_bar_player_bitmap_widget, color_list_index, is_team_game);
+			tint_widget_to_change_color(name_text_widget, color_list_index, is_team_game);
+			tint_widget_to_change_color(service_tag_text_widget, color_list_index, is_team_game);
+			party_bar_player_bitmap_widget->set_sprite_frame(party_bar_length - 1);
+
+			if (!is_team_game)
+			{
+				player_color |= (200 << 24); // set alpha
+				tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = (uns32)player_color });
+
+				player_color |= (150 << 24); // set alpha
+				tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = (uns32)player_color });
 			}
 		}
 	}

@@ -4,7 +4,13 @@
 #include "interface/c_gui_widget.hpp"
 #include "tag_files/tag_groups.hpp"
 
+enum e_screen_transition_type;
+enum e_transition_out_type;
+struct c_dialog_result_message;
+struct c_game_tag_parser;
 struct c_gui_bitmap_widget;
+struct c_gui_data;
+struct c_message;
 struct s_emblem_info;
 
 enum e_screen_widget_definition_flags
@@ -100,22 +106,36 @@ struct s_window_manager_screen_render_data
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
-struct c_gui_data;
-struct c_game_tag_parser;
 struct c_gui_screen_widget :
 	public c_gui_widget
 {
 public:
-	c_gui_screen_widget(int32 name)
-	{
-		DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
-	}
-
-	//virtual ~c_gui_screen_widget();
-	//virtual void initialize();
-	//virtual void post_initialize();
-	//virtual void dispose();
-	//virtual void update(uns32 current_milliseconds);
+	virtual ~c_gui_screen_widget();
+	virtual void initialize() override;
+	virtual void post_initialize() override;
+	virtual void dispose() override;
+	virtual s_runtime_core_widget_definition* get_core_definition() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual bool handle_controller_input_message(c_controller_input_message const* message) override;
+	virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer) override;
+	virtual e_render_data_size get_render_data_size();
+	virtual e_gui_location get_gui_location() const;
+	virtual void reconstruct();
+	virtual void initialize_datasource();
+	virtual void reload_assets();
+	virtual void reload_next_frame();
+	virtual void predict_immediate_resources(int32 a1);
+	virtual void predict_pending_resources(int32 a1);
+	virtual bool can_receive_focus() const;
+	virtual void update_render();
+	virtual bool process_message(c_message const* message);
+	virtual bool handle_focused_widget_selected(c_controller_input_message const* message, c_gui_widget* widget);
+	virtual bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	virtual bool handle_dialog_result(c_dialog_result_message const* message);
+	virtual void submenu_invoked(c_gui_list_widget* submenu_widget);
+	virtual void transition_out_with_transition_type(e_transition_out_type transition_out, e_screen_transition_type transition_type);
+	virtual bool __funcs53();
+	virtual bool try_and_get_render_data_emblem_info(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info);
 
 	// get_render_data_size
 	// get_gui_location
@@ -136,6 +156,8 @@ public:
 	// __funcs53, function between `initialize_datasource` and `load_display_group` this means the name starts with i, j, k, or l
 	// try_and_get_render_data_emblem_info
 
+	c_gui_screen_widget(int32 name);
+
 protected:
 	void add_datasource(c_gui_data* datasource);
 
@@ -143,15 +165,11 @@ public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
-	e_gui_game_mode get_gui_game_mode();
 	e_window_index get_render_window();
-	void update_render();
-	bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void play_sound(e_user_interface_sound_effect sound_effect);
 	bool running_in_codeless_mode();
 	void transfer_focus(c_gui_widget* widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
-	bool try_and_get_render_data_emblem_info(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info);
 
 public:
 	enum
@@ -193,3 +211,4 @@ public:
 	bool m_running_in_codeless_mode;
 };
 static_assert(sizeof(c_gui_screen_widget) == 0x1AA0);
+
