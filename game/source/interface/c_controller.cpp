@@ -374,7 +374,7 @@ void debug_set_background_emblem_color(int16 controller_index, int16 color)
 	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 	s_emblem_info emblem_info = player_profile->get_emblem_info();
 
-	emblem_info.background_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+	emblem_info.background_color_index = PIN(color, _player_color_00, _player_color_31);
 
 	player_profile->set_emblem_info(&emblem_info, true);
 }
@@ -594,7 +594,7 @@ void debug_set_primary_emblem_color(int16 controller_index, int16 color)
 	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 	s_emblem_info emblem_info = player_profile->get_emblem_info();
 
-	emblem_info.primary_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+	emblem_info.primary_color_index = PIN(color, _player_color_00, _player_color_31);
 
 	player_profile->set_emblem_info(&emblem_info, true);
 }
@@ -630,7 +630,7 @@ void debug_set_secondary_emblem_color(int16 controller_index, int16 color)
 	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 	s_emblem_info emblem_info = player_profile->get_emblem_info();
 
-	emblem_info.secondary_color_index = MIN(MAX(color, _player_color_00), _player_color_31);
+	emblem_info.secondary_color_index = PIN(color, _player_color_00, _player_color_31);
 
 	player_profile->set_emblem_info(&emblem_info, true);
 }

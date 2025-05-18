@@ -106,7 +106,7 @@ bool __cdecl simple_font::begin_rendering(real32 scale, bool drop_shadow)
 	//{
 	//	bool rendering = c_rasterizer_draw_string::begin_rendering();
 	//	c_rasterizer::set_sampler_texture(0, simple_font::g_activeFont->hardware_format);
-	//	simple_font::g_activeFont->char_scale = MIN(MAX(scale, 0.1f), 10.0f);
+	//	simple_font::g_activeFont->char_scale = PIN(scale, 0.1f, 10.0f);
 	//	simple_font::g_simple_font_globals.render_drop_shadow = drop_shadow;
 	//	return rendering;
 	//}

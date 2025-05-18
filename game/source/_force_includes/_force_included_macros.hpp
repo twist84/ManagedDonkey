@@ -27,6 +27,7 @@
 #define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
 #define MIN(x, low) ((x) < (low) ? (x) : (low))
 #define MAX(x, high) ((x) > (high) ? (x) : (high))
+#define PIN(x, low, high) MIN(MAX((x), (low)), (high))
 #define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
 #define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
 #define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))

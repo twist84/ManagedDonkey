@@ -158,10 +158,10 @@ void c_draw_string::set_shadow_color(real_argb_color const* color)
 	ASSERT(color != NULL);
 
 	real_argb_color use_color = *color;
-	use_color.alpha = MIN(MAX(color->alpha, 0.0f), 1.0f);
-	use_color.red = MIN(MAX(color->red, 0.0f), 1.0f);
-	use_color.green = MIN(MAX(color->green, 0.0f), 1.0f);
-	use_color.blue = MIN(MAX(color->blue, 0.0f), 1.0f);
+	use_color.alpha = PIN(color->alpha, 0.0f, 1.0f);
+	use_color.red = PIN(color->red, 0.0f, 1.0f);
+	use_color.green = PIN(color->green, 0.0f, 1.0f);
+	use_color.blue = PIN(color->blue, 0.0f, 1.0f);
 
 	m_shadow_color = use_color;
 }

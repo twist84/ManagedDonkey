@@ -119,7 +119,7 @@ bool c_session_tracker::allocate_storage(e_network_session_tracker_sort_method s
 	m_matchmaking_quality = matchmaking_quality;
 
 	m_expected_qos_data_type = qos_status_data_type;
-	m_maximum_qos_tasks = MIN(MAX(QOS_ATTEMPT_MIN_COUNT, g_network_configuration.logic.session_tracker.maximum_qos_tasks), QOS_ATTEMPT_MAX_COUNT);
+	m_maximum_qos_tasks = PIN(QOS_ATTEMPT_MIN_COUNT, g_network_configuration.logic.session_tracker.maximum_qos_tasks, QOS_ATTEMPT_MAX_COUNT);
 
 	// logic-session-array
 	m_session_storage_size_bytes = sizeof(s_session_tracker_session_data) * SESSION_STORAGE_COUNT;

@@ -118,7 +118,7 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data(
 	real_argb_color argb_tint_color{};
 	render_data->argb_tint = real_argb_color_to_pixel32(get_cumulative_color_tint(&argb_tint_color));
 	render_data->texture_uv_offset = m_animated_state.texture_uv;
-	render_data->frame_buffer_blend_function = MIN(MAX(m_definition.render_blend_mode, 0), 12);
+	render_data->frame_buffer_blend_function = PIN(m_definition.render_blend_mode, 0, 12);
 	render_data->explicit_shader_index = m_definition.explicit_shader_reference_index;
 }
 
@@ -381,7 +381,7 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 			samplers_flag |= FLAG(1);
 		}
 	
-		parameters.framebuffer_blend_function = MIN(MAX((int16)render_data->frame_buffer_blend_function, 0), 12);
+		parameters.framebuffer_blend_function = PIN((int16)render_data->frame_buffer_blend_function, 0, 12);
 		parameters.explicit_override_index = explicit_shader_index;
 	
 		rasterizer_psuedo_dynamic_screen_quad_draw(&parameters, vertices);
