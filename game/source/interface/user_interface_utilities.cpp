@@ -13,9 +13,7 @@ void __cdecl tint_widget_to_change_argb_color(c_gui_widget* widget, argb_color c
 {
 	real_argb_color real_color{};
 	pixel32_to_real_argb_color(color, &real_color);
-
-	// c_gui_widget::modulate_tint_color
-	DECLFUNC(0x00AB9D70, void, __thiscall, c_gui_widget*, real_argb_color*)(widget, &real_color);
+	widget->modulate_tint_color(&real_color);
 }
 
 //.text:00AA4CD0 ; void __cdecl user_interface_build_local_machine_and_players(s_machine_identifier*, int32*, game_player_options*)
