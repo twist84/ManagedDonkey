@@ -8,7 +8,7 @@
 
 c_gui_screen_widget::c_gui_screen_widget(int32 name)
 {
-	//DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
+	DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
 }
 
 //.text:00AB0500 ; 
