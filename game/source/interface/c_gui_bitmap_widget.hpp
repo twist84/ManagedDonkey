@@ -4,6 +4,11 @@
 #include "objects/emblems.hpp"
 #include "interface/c_gui_widget.hpp"
 
+struct bitmap_data;
+struct c_tag_resource_demand_collector;
+struct s_bitmap_widget_block;
+struct s_gui_bitmap_widget_render_data;
+
 enum e_bitmap_widget_definition_flags
 {
 	_bitmap_widget_definition_flag_scale_to_fit_bounds_bit = k_core_widget_definition_flags,
@@ -48,33 +53,34 @@ struct s_runtime_bitmap_widget_definition :
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
-struct bitmap_data;
-struct s_gui_bitmap_widget_render_data;
 struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
 public:
-	void __thiscall assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 protected:
-	//virtual e_animation_state get_ambient_state();
+	virtual e_animation_state get_ambient_state() override;
 
 public:
-	//virtual ~c_gui_bitmap_widget();
-	//virtual s_runtime_core_widget_definition* get_core_definition();
-	//virtual real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds);
-	//virtual bool can_receive_focus();
-	//virtual bool within_focus_chain();
-	//virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition);
-	//virtual void update_render_state(uns32 current_milliseconds);
-	//virtual void set_animated_state_baseline(s_animation_transform* transform);
-
+	virtual ~c_gui_bitmap_widget();
+	virtual s_runtime_core_widget_definition* get_core_definition() override;
+	virtual real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds) override;
+	virtual bool can_receive_focus() override;
+	virtual bool within_focus_chain() override;
+	virtual void update_render_state(uns32 current_milliseconds) override;
+	virtual void set_animated_state_baseline(s_animation_transform* transform) override;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual void initialize(s_bitmap_widget_block const* template_and_override_block);
+	virtual bitmap_data const* get_current_bitmap() const;
+	virtual void __func39(c_tag_resource_demand_collector* demand_collector);
+	virtual void __func40(c_tag_resource_demand_collector* demand_collector);
 
 public:
+	c_gui_bitmap_widget();
 	bool renders_as_player_emblem() const;
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);
-	bitmap_data const* get_current_bitmap() const;
 
 protected:
 	int32 __unknownDC;

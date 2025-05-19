@@ -12,22 +12,48 @@
 #include "rasterizer/rasterizer.hpp"
 #include "render/screen_postprocess.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data);
+HOOK_DECLARE_CLASS_MEMBER(0x00B167B0, c_gui_bitmap_widget, assemble_render_data_);
 HOOK_DECLARE(0x00B170F0, render_bitmap);
 
-//.text:00B16670 ; public: __cdecl c_gui_bitmap_widget::c_gui_bitmap_widget()
+c_gui_bitmap_widget::c_gui_bitmap_widget() :
+	c_gui_widget(),
+	m_override_sprite_bitmap_index(NONE),
+	m_override_sprite_frame(NONE),
+	m_override_sprite_sequence(NONE),
+	m_definition()
+{
+	DECLFUNC(0x00B16670, void, __thiscall, c_gui_bitmap_widget*)(this);
+}
 
-//c_gui_bitmap_widget::~c_gui_bitmap_widget()
-//{
-//	DECLFUNC(0x00B166B0, void, __thiscall, c_gui_bitmap_widget*)(this);
-//}
+//.text:00B166B0 ; public: virtual void* c_gui_bitmap_widget::`vector deleting destructor'(unsigned int)
+c_gui_bitmap_widget::~c_gui_bitmap_widget()
+{
+	DECLFUNC(0x00B166B0, void, __thiscall, c_gui_bitmap_widget*)(this);
+}
 
 //.text:00B166E0 ; public: static void __cdecl c_gui_bitmap_widget::add_definition_fields(s_bitmap_widget_definition const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*, bool)
 //.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(s_bitmap_widget_block const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
 
-void __thiscall c_gui_bitmap_widget::assemble_render_data(
-	s_gui_bitmap_widget_render_data* render_data,
-	rectangle2d* window_bounds,
+void __thiscall c_gui_bitmap_widget::assemble_render_data_(
+	s_gui_widget_render_data* render_data,
+	rectangle2d const* window_bounds,
+	e_controller_index local_controller_index,
+	bool apply_translation,
+	bool apply_scale,
+	bool apply_rotation)
+{
+	c_gui_bitmap_widget::assemble_render_data(
+		render_data,
+		window_bounds,
+		local_controller_index,
+		apply_translation,
+		apply_scale,
+		apply_rotation);
+}
+
+void c_gui_bitmap_widget::assemble_render_data(
+	s_gui_widget_render_data* render_data,
+	rectangle2d const* window_bounds,
 	e_controller_index local_controller_index,
 	bool apply_translation,
 	bool apply_scale,
@@ -49,19 +75,21 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data(
 		apply_scale,
 		apply_rotation);
 
+	s_gui_bitmap_widget_render_data* bitmap_render_data = (s_gui_bitmap_widget_render_data*)render_data;
+
 	bool render_blurred_back_buffer = TEST_BIT(m_definition.flags, 4);
-	render_data->flags.set(s_gui_widget_render_data::_render_blurred_back_buffer_bit, render_blurred_back_buffer);
+	bitmap_render_data->flags.set(s_gui_widget_render_data::_render_blurred_back_buffer_bit, render_blurred_back_buffer);
 
 	bool render_as_player_emblem = renders_as_player_emblem();
-	render_data->flags.set(s_gui_widget_render_data::_render_as_player_emblem_bit, render_as_player_emblem);
+	bitmap_render_data->flags.set(s_gui_widget_render_data::_render_as_player_emblem_bit, render_as_player_emblem);
 
 	if (m_override_sprite_bitmap_index != NONE)
 	{
-		render_data->bitmap_definition_index = m_override_sprite_bitmap_index;
+		bitmap_render_data->bitmap_definition_index = m_override_sprite_bitmap_index;
 	}
 	else
 	{
-		render_data->bitmap_definition_index = m_definition.bitmap_reference_index;
+		bitmap_render_data->bitmap_definition_index = m_definition.bitmap_reference_index;
 	}
 
 	if (render_blurred_back_buffer)
@@ -73,14 +101,14 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data(
 			.y0 = (real32)window_bounds->y0,
 			.y1 = (real32)window_bounds->y1,
 		};
-		render_data->projected_bounds.pin(&pin_bounds);
+		bitmap_render_data->projected_bounds.pin(&pin_bounds);
 	}
 	else if (render_as_player_emblem)
 	{
 		c_gui_screen_widget* parent_screen = get_parent_screen();
 		ASSERT(parent_screen != NULL);
 
-		bool emblem_info_valid = parent_screen->try_and_get_render_data_emblem_info(this, &render_data->source.emblem);
+		bool emblem_info_valid = parent_screen->try_and_get_render_data_emblem_info(this, &bitmap_render_data->source.emblem);
 		if (!emblem_info_valid)
 		{
 			s_player_appearance player_appearance{};
@@ -98,36 +126,39 @@ void __thiscall c_gui_bitmap_widget::assemble_render_data(
 
 			if (emblem_info_valid)
 			{
-				render_data->source.emblem = player_appearance.emblem_info;
+				bitmap_render_data->source.emblem = player_appearance.emblem_info;
 			}
-			else if (VALID_CONTROLLER(render_data->local_controller_index))
+			else if (VALID_CONTROLLER(bitmap_render_data->local_controller_index))
 			{
-				render_data->source.emblem = controller_get(render_data->local_controller_index)->get_player_profile_interface()->get_emblem_info();
+				bitmap_render_data->source.emblem = controller_get(bitmap_render_data->local_controller_index)->get_player_profile_interface()->get_emblem_info();
 				emblem_info_valid = true;
 			}
 		}
 
-		render_data->flags.set(s_gui_widget_render_data::_emblem_info_valid_bit, emblem_info_valid);
+		bitmap_render_data->flags.set(s_gui_widget_render_data::_emblem_info_valid_bit, emblem_info_valid);
 	}
 	else
 	{
-		render_data->source.sprite.sequence = m_animated_state.bitmap_sprite_sequence;
-		render_data->source.sprite.frame = m_animated_state.bitmap_sprite_frame;
+		bitmap_render_data->source.sprite.sequence = m_animated_state.bitmap_sprite_sequence;
+		bitmap_render_data->source.sprite.frame = m_animated_state.bitmap_sprite_frame;
 	}
 
 	real_argb_color argb_tint_color{};
-	render_data->argb_tint = real_argb_color_to_pixel32(get_cumulative_color_tint(&argb_tint_color));
-	render_data->texture_uv_offset = m_animated_state.texture_uv;
-	render_data->frame_buffer_blend_function = PIN(m_definition.render_blend_mode, 0, 12);
-	render_data->explicit_shader_index = m_definition.explicit_shader_reference_index;
+	bitmap_render_data->argb_tint = real_argb_color_to_pixel32(get_cumulative_color_tint(&argb_tint_color));
+	bitmap_render_data->texture_uv_offset = m_animated_state.texture_uv;
+	bitmap_render_data->frame_buffer_blend_function = PIN(m_definition.render_blend_mode, 0, 12);
+	bitmap_render_data->explicit_shader_index = m_definition.explicit_shader_reference_index;
 }
 
-//.text:00B168F0 ; public: virtual bool __cdecl c_gui_bitmap_widget::can_receive_focus()
+bool c_gui_bitmap_widget::can_receive_focus()
+{
+	return INVOKE_CLASS_MEMBER(0x00B168F0, c_gui_bitmap_widget, can_receive_focus);
+}
 
-//e_animation_state c_gui_bitmap_widget::get_ambient_state()
-//{
-//	return INVOKE_CLASS_MEMBER(0x00B16900, c_gui_bitmap_widget, get_ambient_state);
-//}
+e_animation_state c_gui_bitmap_widget::get_ambient_state()
+{
+	return INVOKE_CLASS_MEMBER(0x00B16900, c_gui_bitmap_widget, get_ambient_state);
+}
 
 static bitmap_data* get_bitmap_and_hardware_format(int32 bitmap_group_index, int32 sequences_index, int32 bitmap_index, c_rasterizer_texture_ref* bitmap_hardware_format)
 {
@@ -135,24 +166,44 @@ static bitmap_data* get_bitmap_and_hardware_format(int32 bitmap_group_index, int
 }
 
 //.text:00B16A20 ; 
-//.text:00B16AB0 ; public: virtual s_runtime_core_widget_definition* __cdecl c_gui_bitmap_widget::get_core_definition()
+
+s_runtime_core_widget_definition* c_gui_bitmap_widget::get_core_definition()
+{
+	return INVOKE_CLASS_MEMBER(0x00B16AB0, c_gui_bitmap_widget, get_core_definition);
+}
 
 bitmap_data const* c_gui_bitmap_widget::get_current_bitmap() const
 {
-	//return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[38], c_gui_bitmap_widget, get_current_bitmap);
 	return INVOKE_CLASS_MEMBER(0x00B16AC0, c_gui_bitmap_widget, get_current_bitmap);
 }
 
-//.text:00B16B70 ; public: bitmap_data const* __cdecl c_gui_bitmap_widget::get_current_bitmap_hardware_format(c_rasterizer_texture_ref*) const
-//.text:00B16C40 ; public: virtual real_rectangle2d* __cdecl c_gui_bitmap_widget::get_current_bounds(real_rectangle2d*)
+//.text:00B16B70 ; public: bitmap_data const* c_gui_bitmap_widget::get_current_bitmap_hardware_format(c_rasterizer_texture_ref*) const
+
+real_rectangle2d* c_gui_bitmap_widget::get_current_bounds(real_rectangle2d* unanimated_bounds)
+{
+	return INVOKE_CLASS_MEMBER(0x00B16C40, c_gui_bitmap_widget, get_current_bounds, unanimated_bounds);
+}
+
 //.text:00B16E10 ; 
 //.text:00B16E40 ; 
 //.text:00B16F00 ; 
 //.text:00B16F20 ; 
 //.text:00B16FC0 ; 
-//.text:00B16FE0 ; public: virtual void __cdecl c_gui_bitmap_widget::initialize(s_bitmap_widget_block const*)
-//.text:00B170A0 ; 
-//.text:00B170D0 ; 
+
+void c_gui_bitmap_widget::initialize(s_bitmap_widget_block const* template_and_override_block)
+{
+	INVOKE_CLASS_MEMBER(0x00B16FE0, c_gui_bitmap_widget, initialize, template_and_override_block);
+}
+
+void c_gui_bitmap_widget::__func39(c_tag_resource_demand_collector* demand_collector)
+{
+	INVOKE_CLASS_MEMBER(0x00B170A0, c_gui_bitmap_widget, __func39, demand_collector);
+}
+
+void c_gui_bitmap_widget::__func40(c_tag_resource_demand_collector* demand_collector)
+{
+	INVOKE_CLASS_MEMBER(0x00B170D0, c_gui_bitmap_widget, __func40, demand_collector);
+}
 
 struct s_dynamic_render_target
 {
@@ -396,7 +447,10 @@ bool c_gui_bitmap_widget::renders_as_player_emblem() const
 	return TEST_BIT(m_definition.flags, 5);
 }
 
-//.text:00B17650 ; public: virtual void __cdecl c_gui_bitmap_widget::set_animated_state_baseline(s_animation_transform*)
+void c_gui_bitmap_widget::set_animated_state_baseline(s_animation_transform* transform)
+{
+	INVOKE_CLASS_MEMBER(0x00B17650, c_gui_bitmap_widget, set_animated_state_baseline, transform);
+}
 
 void c_gui_bitmap_widget::set_sprite_frame(int32 sprite_frame)
 {
@@ -408,6 +462,13 @@ void c_gui_bitmap_widget::set_sprite_sequence(int32 sprite_sequence)
 	m_override_sprite_sequence = sprite_sequence;
 }
 
-//.text:00B17690 ; public: virtual void __cdecl c_gui_bitmap_widget::update_render_state(uns32)
-//.text:00B17810 ; public: virtual bool __cdecl c_gui_bitmap_widget::within_focus_chain()
+void c_gui_bitmap_widget::update_render_state(uns32 current_milliseconds)
+{
+	INVOKE_CLASS_MEMBER(0x00B17690, c_gui_bitmap_widget, update_render_state, current_milliseconds);
+}
+
+bool c_gui_bitmap_widget::within_focus_chain()
+{
+	return INVOKE_CLASS_MEMBER(0x00B17810, c_gui_bitmap_widget, within_focus_chain);
+}
 
