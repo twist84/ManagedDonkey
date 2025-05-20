@@ -167,6 +167,39 @@ struct s_async_simple_callback_task
 };
 static_assert(sizeof(s_async_simple_callback_task) == 0x120);
 
+struct s_load_image_from_file_task
+{
+	enum e_state
+	{
+		_state_starting = 0,
+		_state_reading,
+		_state_decompressing,
+		_state_done,
+	};
+
+	e_state state;
+	s_file_reference* file;
+	uns32 file_size;
+	char* load_buffer;
+	int32 load_buffer_length;
+	int32 storage_item_index;
+	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
+	c_synchronized_long* cancelled;
+	c_synchronized_long* success;
+	bool image_source_was_dlc;
+};
+static_assert(sizeof(s_load_image_from_file_task) == 0x28);
+
+struct s_load_image_from_buffer_task
+{
+	char const* buffer;
+	int32 buffer_length;
+	int32 storage_item_index;
+	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
+	c_synchronized_long* success;
+};
+static_assert(sizeof(s_load_image_from_buffer_task) == 0x14);
+
 struct s_async_task
 {
 	union
@@ -187,6 +220,8 @@ struct s_async_task
 		s_configuration_enumeration_task configuration_enumeration_task;
 		s_dlc_enumeration_task dlc_enumeration_task;
 		s_async_simple_callback_task simple_callback_task;
+		s_load_image_from_file_task load_image_from_file_task;
+		s_load_image_from_buffer_task load_image_from_buffer_task;
 
 		byte storage[k_maximum_async_task_data_size];
 	};

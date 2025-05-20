@@ -185,7 +185,7 @@ public:
 		k_display_group_type_count
 	};
 
-	int32 __unknownDC;
+//protected:
 	int32 m_screen_index;
 	uns32 m_creation_time_milliseconds;
 	uns32 m_disposal_time_milliseconds;
@@ -211,4 +211,5 @@ public:
 	bool m_running_in_codeless_mode;
 };
 static_assert(sizeof(c_gui_screen_widget) == 0x1AA0);
+static_assert(sizeof(c_gui_screen_widget) == sizeof(c_gui_widget) + 0x19C0);
 

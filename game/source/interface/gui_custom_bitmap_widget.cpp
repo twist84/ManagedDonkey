@@ -1,113 +1,215 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/async.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "saved_games/content_catalogue.hpp"
 #include "tag_files/string_ids.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data);
-HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
+HOOK_DECLARE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AC3A80, c_gui_custom_bitmap_widget, load_from_buffer_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image_);
 HOOK_DECLARE(0x00AC3B80, load_image_from_blf_file_callback);
+HOOK_DECLARE(0x00AC3D00, load_image_from_buffer_callback);
 
-bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
+void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
-	bool result = false;
-	HOOK_INVOKE_CLASS(result =, c_gui_custom_bitmap_widget, get_map_filename, decltype(&get_map_filename), type, map_id, out_filename);
-	return result;
+	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+
+	c_gui_custom_bitmap_widget::assemble_render_data(render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+}
+
+bool __thiscall c_gui_custom_bitmap_widget::load_from_buffer_(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+{
+	return c_gui_custom_bitmap_widget::load_from_buffer(use_compressed_format, buffer, buffer_length, aspect_ratio);
 }
 
 void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
 {
-	// using a compressed format seems to cause a hang in D3D, overriding until a solution is found
-	use_compressed_format = false;
-
-	static c_static_string<256> map_image_path;
-	map_image_path.clear();
-
-	if (get_map_filename(image_type, map_id, &map_image_path))
-	{
-		load_from_file_async(use_compressed_format, map_image_path.get_string());
-	}
-	else
-	{
-		clear();
-	}
+	c_gui_custom_bitmap_widget::set_map_image(image_type, map_id, use_compressed_format);
 }
 
-void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
+//.text:00AC3610 ; public: c_gui_custom_bitmap_widget::c_gui_custom_bitmap_widget()
+//.text:00AC36A0 ; 
+//.text:00AC36B0 ; 
+
+//.text:00AC36C0 ; public: virtual void* c_gui_custom_bitmap_widget::`scalar deleting destructor'(unsigned int)
+c_gui_custom_bitmap_widget::~c_gui_custom_bitmap_widget()
 {
-	m_desired_async_file_to_display.set(file_path);
-	m_use_compressed_format = use_compressed_format;
-	m_desired_aspect_ratio = _custom_bitmap_desired_aspect_ratio_stretch_to_fit;
+	DECLFUNC(0x00AC36C0, void, __thiscall, c_gui_custom_bitmap_widget*)(this);
 }
 
-void __thiscall c_gui_custom_bitmap_widget::assemble_render_data(s_gui_bitmap_widget_render_data* render_data, rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
+//.text:00AC36F0 ; public: bool c_gui_custom_bitmap_widget::acquire_from_custom_bitmap(c_gui_custom_bitmap_widget const*)
+//.text:00AC3730 ; public: bool c_gui_custom_bitmap_widget::allocate(bool)
+
+void c_gui_custom_bitmap_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 
-	c_gui_bitmap_widget::assemble_render_data(render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
-	render_data->flags.set(s_gui_bitmap_widget_render_data::_render_as_custom_storage_bitmap_bit, true);
-	render_data->source.custom_bitmap.storage_index = m_storage_item_index;
+	s_gui_bitmap_widget_render_data* bitmap_render_data = (s_gui_bitmap_widget_render_data*)render_data;
+	c_gui_bitmap_widget::assemble_render_data(bitmap_render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+	bitmap_render_data->flags.set(s_gui_bitmap_widget_render_data::_render_as_custom_storage_bitmap_bit, true);
+	bitmap_render_data->source.custom_bitmap.storage_index = m_storage_item_index;
 }
 
-void __cdecl c_gui_custom_bitmap_widget::clear()
+//.text:00AC37F0 ; public: void c_gui_custom_bitmap_widget::blank()
+
+void c_gui_custom_bitmap_widget::clear()
 {
+	//INVOKE_CLASS_MEMBER(0x00AC3800, c_gui_custom_bitmap_widget, clear);
+
 	m_desired_async_file_to_display.clear();
 }
 
-int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* callback_data)
+void c_gui_custom_bitmap_widget::dispose()
 {
+	INVOKE_CLASS_MEMBER(0x00AC3820, c_gui_custom_bitmap_widget, dispose);
+}
+
+//.text:00AC3830 ; 
+
+bitmap_data const* c_gui_custom_bitmap_widget::get_current_bitmap() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AC3840, c_gui_custom_bitmap_widget, get_current_bitmap);
+}
+
+char* c_gui_custom_bitmap_widget::get_current_buffer() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AC3870, c_gui_custom_bitmap_widget, get_current_buffer);
+}
+
+int32 c_gui_custom_bitmap_widget::get_current_buffer_length() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AC3890, c_gui_custom_bitmap_widget, get_current_buffer_length);
+}
+
+bool c_gui_custom_bitmap_widget::get_dimensions(int32* out_width, int32* out_height)
+{
+	return INVOKE_CLASS_MEMBER(0x00AC38B0, c_gui_custom_bitmap_widget, get_dimensions, out_width, out_height);
+}
+
+bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
+{
+	return INVOKE(0x00AC3900, c_gui_custom_bitmap_widget::get_map_filename, type, map_id, out_filename);
+}
+
+//.text:00AC3A10 ; 
+//.text:00AC3A20 ; 
+//.text:00AC3A30 ; 
+
+void c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+{
+	//INVOKE_CLASS_MEMBER(0x00AC3A40, c_gui_custom_bitmap_widget, load_from_file_async, use_compressed_format, file_path, aspect_ratio);
+
+	m_desired_async_file_to_display.set(file_path);
+	m_use_compressed_format = use_compressed_format;
+	m_desired_aspect_ratio = aspect_ratio;
+}
+
+bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AC3A80, c_gui_custom_bitmap_widget, load_from_buffer, use_compressed_format, buffer, buffer_length, aspect_ratio);
+
+	reset();
+
+	int32 width = 0;
+	int32 height = 0;
+	if (!get_dimensions(&width, &height))
+	{
+		reset();
+		return false;
+	}
+
+	m_storage_item_index = c_gui_custom_bitmap_storage_manager::get()->allocate_bitmap(width, height, use_compressed_format);
+	if (m_storage_item_index == NONE)
+	{
+		reset();
+		return false;
+	}
+
+	s_async_task task{};
+	task.load_image_from_buffer_task.buffer = buffer;
+	task.load_image_from_buffer_task.buffer_length = buffer_length;
+	task.load_image_from_buffer_task.storage_item_index = m_storage_item_index;
+	task.load_image_from_buffer_task.desired_aspect_ratio = aspect_ratio;
+	task.load_image_from_buffer_task.success = &m_async_task_success;
+	m_async_task_success.set(false);
+	
+	//while (m_async_task_success.peek() != 1 && load_image_from_buffer_callback(&task) != _async_completion_done)
+	//{
+	//	sleep(5);
+	//}
+
+	m_async_task_id = async_task_add(_async_priority_important_non_blocking, &task, _async_category_online_files, load_image_from_buffer_callback, &m_async_task_signal);
+	if (m_async_task_id == NONE)
+	{
+		reset();
+		return false;
+	}
+
+	return true;
+}
+
+bool c_gui_custom_bitmap_widget::load_from_file_async_in_progress() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AC3B70, c_gui_custom_bitmap_widget, load_from_file_async_in_progress);
+}
+
+e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
+{
+	//return INVOKE(0x00AC3B80, load_image_from_blf_file_callback, work);
+
 	wchar_t name_buffer[256];
 
 	bool v2 = false;
 	bool success = false;
-	bool cancelled = callback_data->cancelled->peek() != 0;
+	bool cancelled = work->load_image_from_file_task.cancelled->peek() != 0;
 
-	switch (callback_data->state)
+	switch (work->load_image_from_file_task.state)
 	{
 	case s_load_image_from_file_task::_state_starting:
 	{
 		if (!cancelled)
 		{
 			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
-			wchar_t* name = file_reference_get_name_wide(callback_data->file, name_flags, name_buffer, NUMBEROF(name_buffer));
+			wchar_t* name = file_reference_get_name_wide(work->load_image_from_file_task.file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
-			callback_data->image_source_was_dlc = content_catalogue_open_dlc(name, true);
+			work->load_image_from_file_task.image_source_was_dlc = content_catalogue_open_dlc(name, true);
 
 			uns32 error = 0;
-			if (file_open(callback_data->file, FLAG(_file_open_flag_desired_access_read), &error))
+			if (file_open(work->load_image_from_file_task.file, FLAG(_file_open_flag_desired_access_read), &error))
 			{
-				if (file_get_size(callback_data->file, &callback_data->file_size)
-					&& callback_data->file_size < (uns32)callback_data->load_buffer_length)
+				if (file_get_size(work->load_image_from_file_task.file, &work->load_image_from_file_task.file_size)
+					&& work->load_image_from_file_task.file_size < (uns32)work->load_image_from_file_task.load_buffer_length)
 				{
-					callback_data->state = s_load_image_from_file_task::_state_reading;
+					work->load_image_from_file_task.state = s_load_image_from_file_task::_state_reading;
 					v2 = true;
 
 					break;
 				}
 
-				file_close(callback_data->file);
+				file_close(work->load_image_from_file_task.file);
 			}
 		}
 	}
 	break;
 	case s_load_image_from_file_task::_state_reading:
 	{
-		if (!cancelled && file_read(callback_data->file, callback_data->file_size, true, callback_data->load_buffer))
+		if (!cancelled && file_read(work->load_image_from_file_task.file, work->load_image_from_file_task.file_size, true, work->load_image_from_file_task.load_buffer))
 		{
-			file_close(callback_data->file);
+			file_close(work->load_image_from_file_task.file);
 
-			callback_data->state = s_load_image_from_file_task::_state_decompressing;
+			work->load_image_from_file_task.state = s_load_image_from_file_task::_state_decompressing;
 			v2 = true;
 
 			break;
 		}
 		// left over from `case 0`
-		file_close(callback_data->file);
+		file_close(work->load_image_from_file_task.file);
 	}
 	break;
 	case s_load_image_from_file_task::_state_decompressing:
@@ -117,8 +219,8 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 			int32 image_data_length = 0;
 			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
 			char const* chunk = DECLFUNC(0x00462B40, char const*, __cdecl, char const*, int32, int32, int32, int32, int32*)(
-				callback_data->load_buffer,
-				callback_data->file_size,
+				work->load_image_from_file_task.load_buffer,
+				work->load_image_from_file_task.file_size,
 				s_blf_chunk_map_image::k_chunk_type,
 				s_blf_chunk_map_image::k_version_major,
 				_blf_file_authentication_type_rsa,
@@ -137,9 +239,9 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 
 					if (buffer_size == image_data_length - 8)
 					{
-						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(callback_data->storage_item_index, buffer, buffer_size, callback_data->desired_aspect_ratio))
+						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(work->load_image_from_file_task.storage_item_index, buffer, buffer_size, work->load_image_from_file_task.desired_aspect_ratio))
 						{
-							callback_data->state = s_load_image_from_file_task::_state_done;
+							work->load_image_from_file_task.state = s_load_image_from_file_task::_state_done;
 							v2 = true;
 							success = true;
 						}
@@ -151,14 +253,93 @@ int32 __cdecl load_image_from_blf_file_callback(s_load_image_from_file_task* cal
 	break;
 	}
 
-	*callback_data->success = success;
+	*work->load_image_from_file_task.success = success;
 
 	if (v2 && !success)
-		return false;
+		return _async_completion_retry;
 
-	if (callback_data->image_source_was_dlc)
+	if (work->load_image_from_file_task.image_source_was_dlc)
 		content_catalogue_close_all_dlc(true);
 
-	return true;
+	return _async_completion_done;
+}
+
+e_async_completion __cdecl load_image_from_buffer_callback(s_async_task* work)
+{
+	//return INVOKE(0x00AC3D00, load_image_from_buffer_callback, work);
+
+	if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(
+		work->load_image_from_buffer_task.storage_item_index,
+		work->load_image_from_buffer_task.buffer,
+		work->load_image_from_buffer_task.buffer_length,
+		work->load_image_from_buffer_task.desired_aspect_ratio))
+	{
+		work->load_image_from_buffer_task.success->set(true);
+	}
+
+	return _async_completion_done;
+}
+
+void c_gui_custom_bitmap_widget::__func39(c_tag_resource_demand_collector* demand_collector)
+{
+	//INVOKE_CLASS_MEMBER(0x00AC3D40, c_gui_custom_bitmap_widget, __func39, demand_collector);
+}
+
+void c_gui_custom_bitmap_widget::reset()
+{
+	//INVOKE_CLASS_MEMBER(0x00AC3D50, c_gui_custom_bitmap_widget, reset);
+
+	if (m_async_task_id != INVALID_ASYNC_TASK_ID)
+	{
+		m_async_task_cancelled.set(true);
+		internal_async_yield_until_done(&m_async_task_signal, true, false, __FILE__, __LINE__);
+		m_async_task_id = INVALID_ASYNC_TASK_ID;
+	}
+
+	if (m_storage_item_index != NONE)
+	{
+		c_gui_custom_bitmap_storage_manager::get()->release_bitmap(m_storage_item_index);
+		m_storage_item_index = NONE;
+	}
+
+	if (m_async_load_buffer != NULL)
+	{
+		user_interface_free(m_async_load_buffer);
+		m_async_load_buffer = NULL;
+	}
+}
+
+void c_gui_custom_bitmap_widget::set_map_image(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format)
+{
+	//INVOKE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image, image_type, map_id, use_compressed_format);
+
+	// using a compressed format seems to cause a hang in D3D, overriding until a solution is found
+	use_compressed_format = false;
+
+	static c_static_string<256> map_image_path;
+	map_image_path.clear();
+
+	if (get_map_filename(image_type, map_id, &map_image_path))
+	{
+		load_from_file_async(use_compressed_format, map_image_path.get_string(), _custom_bitmap_desired_aspect_ratio_stretch_to_fit);
+	}
+	else
+	{
+		clear();
+	}
+}
+
+//.text:00AC3E60 ; public: void c_gui_custom_bitmap_widget::set_map_image_from_metadata_datasource(c_gui_data*, int32, bool)
+
+bool c_gui_custom_bitmap_widget::should_render(bool* add_to_render_list)
+{
+	return INVOKE_CLASS_MEMBER(0x00AC3F30, c_gui_custom_bitmap_widget, should_render, add_to_render_list);
+
+	//return c_gui_widget::should_render(add_to_render_list) && m_async_task_id == INVALID_ASYNC_TASK_ID;
+}
+
+void c_gui_custom_bitmap_widget::update(uns32 current_milliseconds)
+{
+	INVOKE_CLASS_MEMBER(0x00AC3F60, c_gui_custom_bitmap_widget, update, current_milliseconds);
 }
 

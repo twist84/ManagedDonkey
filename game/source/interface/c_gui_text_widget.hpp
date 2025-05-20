@@ -85,12 +85,12 @@ public:
 	virtual wchar_t const* get_text();
 
 protected:
-	real32 __unknownDC;
 	s_text_source_data m_text_source_data;
 	s_runtime_text_widget_definition m_definition;
 	int32 __unknown13C;
 };
-static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x64);
+static_assert(sizeof(c_gui_text_widget) == 0x140);
+static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x60);
 
 template<int32 k_maximum_count>
 struct c_sized_user_interface_text :

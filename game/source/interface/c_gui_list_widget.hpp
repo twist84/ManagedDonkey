@@ -43,6 +43,16 @@ struct c_gui_list_widget :
 	public c_gui_widget
 {
 public:
+	enum e_list_scroll_direction
+	{
+		_list_scroll_direction_none = 0,
+		_list_scroll_direction_forward,
+		_list_scroll_direction_backward,
+		_list_scroll_direction_page_next,
+		_list_scroll_direction_page_previous,
+	};
+
+public:
 	virtual ~c_gui_list_widget();
 	virtual void post_initialize() override;
 	virtual int32 get_datasource_index() override;
@@ -61,18 +71,29 @@ public:
 	void set_selectable_item_cap_count(int32 selectable_item_cap_count);
 
 //protected:
-	int32 __unknownDC;
 	s_runtime_list_widget_definition m_core_definition;
 	c_string_id m_datasource_name;
 	c_gui_widget* m_prev_indicator;
 	c_gui_widget* m_next_indicator;
 	int32 m_focused_item_index;
-	int32 __unknown144;
+	e_list_scroll_direction m_current_scroll_direction;
 	int32 m_scroll_position;
 	int32 m_selectable_item_cap_count;
 	c_gui_widget* m_submenu_item;
 	bool m_is_submenu;
 	bool m_is_submenu_that_needs_disposal;
 };
-static_assert(sizeof(c_gui_list_widget) == sizeof(c_gui_widget) + 0x7C);
+static_assert(sizeof(c_gui_list_widget) == 0x158);
+static_assert(sizeof(c_gui_list_widget) == sizeof(c_gui_widget) + 0x78);
+static_assert(0x0E0 == OFFSETOF(c_gui_list_widget, m_core_definition));
+static_assert(0x134 == OFFSETOF(c_gui_list_widget, m_datasource_name));
+static_assert(0x138 == OFFSETOF(c_gui_list_widget, m_prev_indicator));
+static_assert(0x13C == OFFSETOF(c_gui_list_widget, m_next_indicator));
+static_assert(0x140 == OFFSETOF(c_gui_list_widget, m_focused_item_index));
+static_assert(0x144 == OFFSETOF(c_gui_list_widget, m_current_scroll_direction));
+static_assert(0x148 == OFFSETOF(c_gui_list_widget, m_scroll_position));
+static_assert(0x14C == OFFSETOF(c_gui_list_widget, m_selectable_item_cap_count));
+static_assert(0x150 == OFFSETOF(c_gui_list_widget, m_submenu_item));
+static_assert(0x154 == OFFSETOF(c_gui_list_widget, m_is_submenu));
+static_assert(0x155 == OFFSETOF(c_gui_list_widget, m_is_submenu_that_needs_disposal));
 

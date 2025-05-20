@@ -53,7 +53,7 @@ void __cdecl async_initialize()
 	//	s_async_queue_element* task = &async_globals.task_list[i];
 	//	s_async_queue_element* next_task = &async_globals.task_list[i + 1];
 	//	task->next = next_task;
-	//	next_task->task_id = NONE;
+	//	next_task->task_id = INVALID_ASYNC_TASK_ID;
 	//}
 	//async_globals.task_list[NUMBEROF(async_globals.task_list) - 1].next = NULL;
 	//async_globals.free_list = async_globals.task_list;
@@ -353,7 +353,7 @@ void __cdecl work_list_remove(s_async_queue_element* element)
 
 	work_list_lock_internal();
 	work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(element);
-	element->task_id = NONE;
+	element->task_id = INVALID_ASYNC_TASK_ID;
 	work_list_unlock();
 }
 

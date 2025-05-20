@@ -131,8 +131,7 @@ struct c_gui_model_widget :
 public:
 	static void __cdecl render(s_gui_model_widget_render_data const* render_data, rectangle2d const* window_bounds);
 
-	int32 __unknownDC;
-
+//protected:
 	s_runtime_model_widget_definition m_definition;
 
 	s_player_appearance m_player_appearance;
@@ -169,5 +168,6 @@ public:
 
 	byte __data1C6C[0x4];
 };
-static_assert(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B94);
+static_assert(sizeof(c_gui_model_widget) == 0x1C70);
+static_assert(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B90);
 

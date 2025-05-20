@@ -148,7 +148,7 @@ bool __cdecl cache_file_copy_do_action()
 			&cache_file_copy_globals.copy_bytes_transferred,
 			&cache_file_copy_globals.copy_task_is_done,
 			false);
-		copy_state = e_cache_copy_state((cache_file_copy_globals.copy_task_id != NONE) + _cache_copy_state_read_dvd_header);
+		copy_state = e_cache_copy_state((cache_file_copy_globals.copy_task_id != INVALID_ASYNC_TASK_ID) + _cache_copy_state_read_dvd_header);
 	}
 	break;
 	case _cache_copy_state_verify_read_dvd_header:
@@ -788,7 +788,7 @@ void __cdecl cache_files_initialize()
 	cache_file_table_of_contents.pending_map_file_index = k_no_cached_map_file_index;
 
 	cache_file_copy_globals.copy_task_is_done = true;
-	cache_file_copy_globals.copy_task_id = NONE;
+	cache_file_copy_globals.copy_task_id = INVALID_ASYNC_TASK_ID;
 	cache_file_copy_globals.copying_to_map_file_index = k_no_cached_map_file_index;
 
 	cache_files_delete_if_language_has_changed();

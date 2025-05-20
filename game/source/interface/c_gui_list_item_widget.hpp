@@ -41,11 +41,15 @@ public:
 	int32 get_item_label();
 
 //protected:
-	int32 __unknownDC;
 	s_runtime_list_item_widget_definition m_definition;
 	int32 m_list_item_index;
 	bool __unknown11C;
 	c_static_wchar_string<200> __string11E;
 };
-static_assert(sizeof(c_gui_list_item_widget) == sizeof(c_gui_widget) + 0x1D4);
+static_assert(sizeof(c_gui_list_item_widget) == 0x2B0);
+static_assert(sizeof(c_gui_list_item_widget) == sizeof(c_gui_widget) + 0x1D0);
+static_assert(0x0E0 == OFFSETOF(c_gui_list_item_widget, m_definition));
+static_assert(0x118 == OFFSETOF(c_gui_list_item_widget, m_list_item_index));
+static_assert(0x11C == OFFSETOF(c_gui_list_item_widget, __unknown11C));
+static_assert(0x11E == OFFSETOF(c_gui_list_item_widget, __string11E));
 

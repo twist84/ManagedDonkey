@@ -232,28 +232,38 @@ public:
 //protected:
 	int32 __unknown4;
 	e_gui_widget_type m_type;
-
 	bool m_visible;
 	bool m_enabled;
 	bool m_needs_disposal;
 	bool m_use_alternate_ambient_state;
-
 	c_robust_pointer<c_gui_widget> m_parent;
 	c_robust_pointer<c_gui_widget> m_children;
 	c_robust_pointer<c_gui_widget> m_next;
 	c_robust_pointer<c_gui_widget> m_previous;
-
-	//c_gui_widget* m_parent;
-	//c_gui_widget* m_children;
-	//c_gui_widget* m_next;
-	//c_gui_widget* m_previous;
-
 	c_string_id m_name;
 	real32 __unknown44;
 	uns32 m_flags;
 	int32 __unknown4C;
 	s_animation_transform m_animated_state;
 	int32 m_last_animated_milliseconds;
+	int32 __unknownDC;
 };
-static_assert(sizeof(c_gui_widget) == 0xDC);
+static_assert(sizeof(c_gui_widget) == 0xE0);
+static_assert(0x04 == OFFSETOF(c_gui_widget, __unknown4));
+static_assert(0x08 == OFFSETOF(c_gui_widget, m_type));
+static_assert(0x0C == OFFSETOF(c_gui_widget, m_visible));
+static_assert(0x0D == OFFSETOF(c_gui_widget, m_enabled));
+static_assert(0x0E == OFFSETOF(c_gui_widget, m_needs_disposal));
+static_assert(0x0F == OFFSETOF(c_gui_widget, m_use_alternate_ambient_state));
+static_assert(0x10 == OFFSETOF(c_gui_widget, m_parent));
+static_assert(0x1C == OFFSETOF(c_gui_widget, m_children));
+static_assert(0x28 == OFFSETOF(c_gui_widget, m_next));
+static_assert(0x34 == OFFSETOF(c_gui_widget, m_previous));
+static_assert(0x40 == OFFSETOF(c_gui_widget, m_name));
+static_assert(0x44 == OFFSETOF(c_gui_widget, __unknown44));
+static_assert(0x48 == OFFSETOF(c_gui_widget, m_flags));
+static_assert(0x4C == OFFSETOF(c_gui_widget, __unknown4C));
+static_assert(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
+static_assert(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
+static_assert(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
 

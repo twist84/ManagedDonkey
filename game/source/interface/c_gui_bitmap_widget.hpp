@@ -82,14 +82,18 @@ public:
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);
 
-protected:
-	int32 __unknownDC;
+//protected:
 	int32 m_override_sprite_bitmap_index;
 	int32 m_override_sprite_frame;
 	int32 m_override_sprite_sequence;
 	s_runtime_bitmap_widget_definition m_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
+static_assert(sizeof(c_gui_bitmap_widget) == sizeof(c_gui_widget) + 0x58);
+static_assert(0xE0 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_bitmap_index));
+static_assert(0xE4 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_frame));
+static_assert(0xE8 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_sequence));
+static_assert(0xEC == OFFSETOF(c_gui_bitmap_widget, m_definition));
 
 struct s_gui_bitmap_widget_render_data :
 	s_gui_widget_render_data
