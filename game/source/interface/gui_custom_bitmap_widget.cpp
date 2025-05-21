@@ -9,6 +9,7 @@
 #include "networking/tools/network_blf.hpp"
 #include "saved_games/content_catalogue.hpp"
 #include "tag_files/string_ids.hpp"
+#include "main/levels.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AC3A80, c_gui_custom_bitmap_widget, load_from_buffer_);

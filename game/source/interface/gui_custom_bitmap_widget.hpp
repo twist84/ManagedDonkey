@@ -44,6 +44,7 @@ public:
 	virtual int32 get_current_buffer_length() const;
 
 public:
+	c_gui_custom_bitmap_widget();
 	void clear();
 
 private:

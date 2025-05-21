@@ -92,7 +92,14 @@ struct s_window_manager_screen_render_data
 		k_maximum_rendered_child_widgets_per_screen = 384
 	};
 
-	bool valid()
+	//s_window_manager_screen_render_data();
+	
+	void clear();
+
+	//void dispose();
+	//bool initialize(int32);
+
+	bool valid() const
 	{
 		return render_data_buffer != nullptr;
 	}
@@ -109,6 +116,20 @@ static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 struct c_gui_screen_widget :
 	public c_gui_widget
 {
+public:
+	enum
+	{
+		k_maximum_number_of_game_tag_parsers = 20,
+	};
+
+	enum e_display_group_type
+	{
+		_display_group_type_default = 0,
+		_display_group_type_button_key,
+
+		k_display_group_type_count
+	};
+
 public:
 	virtual ~c_gui_screen_widget();
 	virtual void initialize() override;
@@ -163,6 +184,11 @@ protected:
 
 public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
+
+private:
+	void clear_display_groups();
+
+public:
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
 	s_window_manager_screen_render_data* get_render_state();

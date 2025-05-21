@@ -1,14 +1,48 @@
 #include "interface/c_gui_screen_widget.hpp"
 
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_text_parser.hpp"
+#include "interface/user_interface_window_manager.hpp"
 
 //.text:00AAB260 ; protected: virtual e_render_data_size c_gui_screen_widget::get_render_data_size()
 //.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
 
-c_gui_screen_widget::c_gui_screen_widget(int32 name)
+c_gui_screen_widget::c_gui_screen_widget(int32 name) :
+	c_gui_widget(_gui_screen),
+	m_screen_index(NONE),
+	m_creation_time_milliseconds(user_interface_milliseconds()),
+	m_disposal_time_milliseconds(-1),
+	m_last_focus_change_time_milliseconds(-1),
+	m_current_focused_widget(NULL),
+	m_suppress_focus(false),
+	m_render_in_screenshot(false),
+	m_reload_next_frame(true),
+	m_responds_to_controller_events(true),
+	m_initial_focused_widget(NONE),
+	m_initial_focused_widget_element_handle(NONE),
+	m_initial_focused_widget_column_name(NONE),
+	m_initial_focused_widget_column_value(NONE),
+	m_definition(),
+	m_datasource_count(0),
+	m_game_tag_parser_count(0),
+	m_render_data(),
+	m_running_in_codeless_mode()
 {
-	DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
+	//DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
+
+	m_definition.widget_identifier = name;
+	for (int32 datasource_index = 0; datasource_index < NUMBEROF(m_datasource); datasource_index++)
+	{
+		m_datasource[datasource_index] = NULL;
+	}
+
+	for (int32 datasource_index = 0; datasource_index < NUMBEROF(m_game_tag_parsers); datasource_index++)
+	{
+		m_game_tag_parsers[datasource_index] = NULL;
+	}
+
+	clear_display_groups();
 }
 
 //.text:00AB0500 ; 
@@ -51,8 +85,18 @@ bool c_gui_screen_widget::can_receive_focus() const
 	return INVOKE_CLASS_MEMBER(0x00AB0840, c_gui_screen_widget, can_receive_focus);
 }
 
-//.text:00AB0850 ; public: void s_window_manager_screen_render_data::clear()
-//.text:00AB0870 ; 
+void s_window_manager_screen_render_data::clear()
+{
+	//INVOKE_CLASS_MEMBER(0x00AB0850, s_window_manager_screen_render_data, clear);
+
+	render_data_buffer_count = 0;
+	current_count = 0;
+}
+
+void c_gui_screen_widget::clear_display_groups()
+{
+	INVOKE_CLASS_MEMBER(0x00AB0870, c_gui_screen_widget, clear_display_groups);
+}
 //.text:00AB08B0 ; private: void c_gui_screen_widget::create_and_add_child_widgets_from_definition(s_runtime_screen_widget_definition*)
 
 void c_gui_screen_widget::dispose()
@@ -114,7 +158,9 @@ c_gui_widget* c_gui_screen_widget::get_focused_widget()
 
 e_window_index c_gui_screen_widget::get_render_window()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB0FF0, c_gui_screen_widget, get_render_window);
+	//return INVOKE_CLASS_MEMBER(0x00AB0FF0, c_gui_screen_widget, get_render_window);
+
+	return window_manager_get()->get_render_window_for_screen(this);
 }
 
 bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer)
@@ -168,6 +214,8 @@ void c_gui_screen_widget::initialize_datasource()
 bool c_gui_screen_widget::__funcs53()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB1760, c_gui_screen_widget, __funcs53);
+
+	int32 render_window_for_screen = window_manager_get()->get_render_window_for_screen(this);
 }
 
 //.text:00AB17D0 ; private: c_gui_group_widget* c_gui_screen_widget::load_display_group(s_runtime_screen_widget_definition const*, c_gui_screen_widget::e_display_group_type, int32)
