@@ -17,6 +17,8 @@ enum e_list_widget_definition_flags
 struct s_list_widget_definition :
 	s_core_widget_definition
 {
+	s_list_widget_definition();
+
 	c_string_id datasource_name;
 	s_tag_reference skin;
 	int32 rows;
@@ -29,14 +31,25 @@ static_assert(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definitio
 struct s_runtime_list_widget_definition :
 	s_runtime_core_widget_definition
 {
+	s_runtime_list_widget_definition();
+
 	c_string_id datasource_name;
-	int32 skin_index;
+	int32 gui_skin_reference_index;
 	int32 rows;
-	s_tag_block items;
-	int32 prev_indicator_bitmap_reference_index;
+	s_tag_block list_items;
+	int32 previous_indicator_bitmap_reference_index;
 	int32 next_indicator_bitmap_reference_index;
 };
 static_assert(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
+
+struct s_list_widget_block
+{
+	s_list_widget_block();
+
+	s_tag_reference widget_template_reference;
+	s_list_widget_definition override_definition;
+};
+static_assert(sizeof(s_list_widget_block) == 0x80);
 
 struct c_gui_data;
 struct c_gui_list_widget :
@@ -53,6 +66,9 @@ public:
 	};
 
 public:
+	void __thiscall close_active_submenu_(c_gui_list_widget* submenu_widget);
+
+public:
 	virtual ~c_gui_list_widget();
 	virtual void post_initialize() override;
 	virtual int32 get_datasource_index() override;
@@ -62,12 +78,24 @@ public:
 	virtual bool handle_tab(c_controller_input_message const* message) override;
 	virtual void initialize(s_list_widget_block const* template_and_override_block);
 
+public:
 	c_gui_list_widget();
+	void add_definition_fields(s_list_widget_definition const* definition, bool was_templated);
+	void close_active_submenu(c_gui_list_widget* submenu_widget);
+	void create_and_add_additional_items_indicators_bitmaps();
+	void dispose_submenu(c_gui_list_widget* submenu_widget);
 	c_gui_data* get_data();
+	int32 get_element_handle_from_list_item_index(int32 list_item_index);
+	int32 get_focused_element_handle();
 	int32 get_focused_item_index();
 	int32 get_scroll_position();
 	int32 get_selectable_item_count();
-	bool set_focused_item_index(int32 focused_item_index, bool a2);
+
+private:
+	void offset_horizontal_list_item_indicators();
+
+public:
+	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);
 	void set_scroll_position(int32 scroll_position);
 	void set_selectable_item_cap_count(int32 value);
 
