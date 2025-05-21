@@ -4,6 +4,11 @@
 
 struct s_animation_transform
 {
+	s_animation_transform()
+	{
+		DECLFUNC(0x00B17830, void, __thiscall, s_animation_transform*)(this);
+	}
+
 	byte __data0[0x38];
 	//uns32 timer_ambient_start;
 	//uns32 timer_screen_transition_start;

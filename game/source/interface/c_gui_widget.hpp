@@ -118,6 +118,13 @@ static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
 
 struct c_gui_widget
 {
+public:
+	c_gui_bitmap_widget* __thiscall create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition);
+	bool __thiscall handle_alt_stick_(c_controller_input_message const* message);
+	bool __thiscall handle_alt_tab_(c_controller_input_message const* message);
+	bool __thiscall handle_controller_input_message_(c_controller_input_message const* message);
+	bool __thiscall handle_tab_(c_controller_input_message const* message);
+
 protected:
 	virtual e_animation_state get_ambient_state();
 
@@ -160,6 +167,7 @@ public:
 	virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer);
 
 public:
+	c_gui_widget(e_gui_widget_type type);
 	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
 	bool const can_all_children_be_disposed();
 	bool const can_be_disposed();
