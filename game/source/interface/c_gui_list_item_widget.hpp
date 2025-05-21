@@ -2,17 +2,19 @@
 
 #include "interface/c_gui_widget.hpp"
 
-struct s_list_item_widget_definition :
+struct s_list_item_widget_block :
 	s_core_widget_definition
 {
-	c_string_id item_label;
+	c_string_id item_text_identifier;
 };
-static_assert(sizeof(s_list_item_widget_definition) == sizeof(s_core_widget_definition) + 0x4);
+static_assert(sizeof(s_list_item_widget_block) == sizeof(s_core_widget_definition) + 0x4);
 
 struct s_runtime_list_item_widget_definition :
 	s_runtime_core_widget_definition
 {
-	c_string_id item_label;
+	s_runtime_list_item_widget_definition();
+
+	c_string_id item_text_identifier;
 };
 static_assert(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x4);
 
@@ -37,8 +39,11 @@ public:
 	virtual int32 get_list_item_index();
 	virtual void initialize(s_list_item_widget_block const* item_block);
 
-	//int32 get_list_item_index();
+public:
+	c_gui_list_item_widget();
 	int32 get_item_label();
+	bool invokes_submenu(int32* submenu_name);
+	void set_list_item_index(int32 list_item_index);
 
 //protected:
 	s_runtime_list_item_widget_definition m_definition;
