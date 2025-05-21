@@ -59,11 +59,11 @@ c_gui_roster_list_widget::~c_gui_roster_list_widget()
 //.text:00B25BF0 ; 
 //.text:00B25C00 ; public: void c_gui_roster_list_widget::set_is_team_game(bool)
 
-void c_gui_list_widget::set_selectable_item_cap_count(int32 selectable_item_cap_count)
+void c_gui_list_widget::set_selectable_item_cap_count(int32 value)
 {
-	//INVOKE_CLASS_MEMBER(0x00B25C10, c_gui_list_widget, set_selectable_item_cap_count, selectable_item_cap_count);
+	//INVOKE_CLASS_MEMBER(0x00B25C10, c_gui_list_widget, set_selectable_item_cap_count, value);
 
-	m_selectable_item_cap_count = selectable_item_cap_count;
+	m_selectable_item_cap = value;
 }
 
 //.text:00B25C20 ; public: void c_gui_roster_list_widget::set_team_switching_enabled(bool)
