@@ -2,6 +2,7 @@
 
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_model_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
@@ -14,6 +15,12 @@
 #include "text/draw_string.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB81A0, c_gui_widget, create_bitmap_widget_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AB8200, c_gui_widget, create_button_key_widget_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AB8260, c_gui_widget, create_group_widget_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
@@ -23,6 +30,36 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB9B40, c_gui_widget, handle_tab_);
 c_gui_bitmap_widget* __thiscall c_gui_widget::create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition)
 {
 	return c_gui_widget::create_bitmap_widget(definition);
+}
+
+c_gui_button_key_widget* __thiscall c_gui_widget::create_button_key_widget_(s_button_key_definition const* definition)
+{
+	return c_gui_widget::create_button_key_widget(definition);
+}
+
+c_gui_group_widget* __thiscall c_gui_widget::create_group_widget_(s_group_widget_definition const* definition)
+{
+	return c_gui_widget::create_group_widget(definition);
+}
+
+c_gui_list_item_widget* __thiscall c_gui_widget::create_list_item_widget_(s_list_item_widget_block const* definition)
+{
+	return c_gui_widget::create_list_item_widget(definition);
+}
+
+c_gui_list_widget* __thiscall c_gui_widget::create_list_widget_(s_list_widget_block const* definition)
+{
+	return c_gui_widget::create_list_widget(definition);
+}
+
+c_gui_model_widget* __thiscall c_gui_widget::create_model_widget_(s_model_widget_block const* definition)
+{
+	return c_gui_widget::create_model_widget(definition);
+}
+
+c_gui_text_widget* __thiscall c_gui_widget::create_text_widget_(s_runtime_text_widget_definition const* definition)
+{
+	return c_gui_widget::create_text_widget(definition);
 }
 
 bool __thiscall c_gui_widget::handle_alt_stick_(c_controller_input_message const* message)
@@ -78,9 +115,35 @@ c_gui_widget::~c_gui_widget()
 }
 
 //.text:00AB63D0 ; public: void c_gui_widget::add_child_widget(c_gui_widget*)
-//.text:00AB64B0 ; public: static void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type, s_core_widget_definition const*, s_runtime_core_widget_definition*, real_rectangle2d const*, bool)
-//.text:00AB6680 ; private: void c_gui_widget::animate(uns32)
-//.text:00AB6C20 ; protected: void c_gui_widget::animate_recursively(uns32)
+
+void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type type, s_core_widget_definition const* source_definition, s_runtime_core_widget_definition* dest_definition, real_rectangle2d const* unanimated_bounds, bool was_templated)
+{
+	return INVOKE(0x00AB64B0, c_gui_widget::add_definition_fields, type, source_definition, dest_definition, unanimated_bounds, was_templated);
+}
+
+void c_gui_widget::animate(uns32 current_milliseconds)
+{
+	INVOKE_CLASS_MEMBER(0x00AB6680, c_gui_widget, animate, current_milliseconds);
+}
+
+void c_gui_widget::animate_recursively(uns32 current_milliseconds)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB6C20, c_gui_widget, animate_recursively, current_milliseconds);
+
+	return;
+
+	c_gui_widget::animate(current_milliseconds);
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type == _gui_screen)
+		{
+			continue;
+		}
+
+		child_widget->animate_recursively(current_milliseconds);
+	}
+}
+
 //.text:00AB6C90 ; void __cdecl apply_color_animation(s_animation_transform*, real32 const, bool const, s_color_keyframe_block const*, s_color_keyframe_block const*, c_function_definition const*)
 //.text:00AB6D40 ; void __cdecl apply_font_animation(s_animation_transform*, real32 const, bool const, s_font_keyframe_block const*, s_font_keyframe_block const*, c_function_definition const*)
 //.text:00AB6D90 ; void __cdecl apply_position_animation(s_animation_transform*, real32 const, bool const, real_vector2d const*, s_position_keyframe_block const*, s_position_keyframe_block const*, c_function_definition const*)
@@ -142,7 +205,12 @@ bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 
 //.text:00AB79D0 ; public: c_gui_button_key_widget* c_gui_widget::create_and_add_button_key(s_button_key_block const*)
 //.text:00AB7A30 ; public: c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(s_bitmap_widget_block const*)
-//.text:00AB7AC0 ; public: void c_gui_widget::create_and_add_child_list_item_widgets(s_tag_block const*, int32)
+
+void c_gui_widget::create_and_add_child_list_item_widgets(s_tag_block const* list_items_block, int32 gui_skin_tag_index)
+{
+	INVOKE_CLASS_MEMBER(0x00AB7AC0, c_gui_widget, create_and_add_child_list_item_widgets, list_items_block, gui_skin_tag_index);
+}
+
 //.text:00AB7B80 ; public: c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(s_list_widget_block const*)
 //.text:00AB7BC0 ; public: c_gui_model_widget* c_gui_widget::create_and_add_child_model_widget(s_model_widget_block const*)
 //.text:00AB7C00 ; public: c_gui_text_widget* c_gui_widget::create_and_add_child_text_widget(s_text_widget_block const*)
@@ -187,26 +255,26 @@ c_gui_group_widget* c_gui_widget::create_group_widget(s_group_widget_definition 
 
 c_gui_list_item_widget* c_gui_widget::create_list_item_widget(s_list_item_widget_block const* definition)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget, definition);
+	//return INVOKE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget, definition);
 
-	//c_gui_list_item_widget* list_item_widget = new c_gui_list_item_widget();
-	//if (!list_item_widget)
-	//{
-	//	return NULL;
-	//}
-	//return list_item_widget;
+	c_gui_list_item_widget* list_item_widget = new c_gui_list_item_widget();
+	if (!list_item_widget)
+	{
+		return NULL;
+	}
+	return list_item_widget;
 }
 
 c_gui_list_widget* c_gui_widget::create_list_widget(s_list_widget_block const* definition)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget, definition);
+	//return INVOKE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget, definition);
 
-	//c_gui_list_widget* list_widget = new c_gui_list_widget();
-	//if (!list_widget)
-	//{
-	//	return NULL;
-	//}
-	//return list_widget;
+	c_gui_list_widget* list_widget = new c_gui_list_widget();
+	if (!list_widget)
+	{
+		return NULL;
+	}
+	return list_widget;
 }
 
 c_gui_model_widget* c_gui_widget::create_model_widget(s_model_widget_block const* definition)
@@ -1055,12 +1123,33 @@ void c_gui_widget::set_driving_controller(e_controller_index controller_index)
 
 void c_gui_widget::set_enabled(bool value)
 {
-	INVOKE_CLASS_MEMBER(0x00ABA2D0, c_gui_widget, set_enabled, value);
+	//INVOKE_CLASS_MEMBER(0x00ABA2D0, c_gui_widget, set_enabled, value);
+
+	m_enabled = value;
+
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type == _gui_screen)
+		{
+			continue;
+		}
+
+		child_widget->set_enabled(value);
+	}
 }
 
 void c_gui_widget::set_full_animation_state(s_animation_transform const* transform, bool recursive)
 {
-	INVOKE_CLASS_MEMBER(0x00ABA340, c_gui_widget, set_full_animation_state, transform, recursive);
+	//INVOKE_CLASS_MEMBER(0x00ABA340, c_gui_widget, set_full_animation_state, transform, recursive);
+
+	m_animated_state = *transform;
+	if (recursive)
+	{
+		for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+		{
+			child_widget->set_full_animation_state(transform, recursive);
+		}
+	}
 }
 
 void c_gui_widget::set_next(c_gui_widget* next)
@@ -1100,14 +1189,31 @@ void c_gui_widget::set_tint_color_direct(real_argb_color const* color)
 
 void c_gui_widget::set_use_alternate_ambient_state(bool value)
 {
-	INVOKE_CLASS_MEMBER(0x00ABA760, c_gui_widget, set_use_alternate_ambient_state, value);
+	//INVOKE_CLASS_MEMBER(0x00ABA760, c_gui_widget, set_use_alternate_ambient_state, value);
+
+	m_use_alternate_ambient_state = value;
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		child_widget->set_use_alternate_ambient_state(value);
+	}
 }
 
 //.text:00ABA7D0 ; public: void c_robust_pointer<c_gui_widget>::set_value(c_gui_widget* value)
 
 void c_gui_widget::set_visible(bool value)
 {
-	INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget, set_visible, value);
+	//INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget, set_visible, value);
+
+	m_visible = value;
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (m_type == _gui_screen)
+		{
+			continue;
+		}
+
+		child_widget->set_visible(value);
+	}
 }
 
 bool c_gui_widget::should_render(bool* add_to_render_list)
@@ -1212,16 +1318,36 @@ bool c_gui_widget::verify_animation_period(e_animation_state animation_state, in
 
 bool c_gui_widget::within_focus_chain()
 {
-	return INVOKE_CLASS_MEMBER(0x00ABB300, c_gui_widget, within_focus_chain);
+	//return INVOKE_CLASS_MEMBER(0x00ABB300, c_gui_widget, within_focus_chain);
 
-	//if (c_gui_screen_widget* screen = m_type == _gui_screen ? (c_gui_screen_widget*)this : get_parent_screen())
-	//{
-	//	if (c_gui_widget* focused_widget = screen->get_focused_widget())
-	//	{
-	//		c_gui_widget* branch_widget = m_type == _gui_list_item || !get_parent_list_item() ? this : get_parent_list_item();
-	//		return leaf_node_of_widget(branch_widget);
-	//	}
-	//}
-	//return false;
+	c_gui_screen_widget* screen = (c_gui_screen_widget*)this;
+	if (m_type != _gui_screen)
+	{
+		screen = get_parent_screen();
+	}
+
+	if (!screen)
+	{
+		return false;
+	}
+
+	c_gui_widget* focused_widget = screen->get_focused_widget();
+	if (!focused_widget)
+	{
+		return false;
+	}
+
+	c_gui_widget* branch_widget = this;
+	if (m_type != _gui_list_item && get_parent_list_item())
+	{
+		branch_widget = get_parent_list_item();
+	}
+
+	if (!branch_widget)
+	{
+		return false;
+	}
+
+	return focused_widget->leaf_node_of_widget(branch_widget);
 }
 

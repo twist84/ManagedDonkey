@@ -120,6 +120,13 @@ struct c_gui_widget
 {
 public:
 	c_gui_bitmap_widget* __thiscall create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition);
+	c_gui_button_key_widget* __thiscall create_button_key_widget_(s_button_key_definition const* definition);
+	c_gui_group_widget* __thiscall create_group_widget_(s_group_widget_definition const* definition);
+	c_gui_list_item_widget* __thiscall create_list_item_widget_(s_list_item_widget_block const* definition);
+	c_gui_list_widget* __thiscall create_list_widget_(s_list_widget_block const* definition);
+	c_gui_model_widget* __thiscall create_model_widget_(s_model_widget_block const* definition);
+	c_gui_text_widget* __thiscall create_text_widget_(s_runtime_text_widget_definition const* definition);
+
 	bool __thiscall handle_alt_stick_(c_controller_input_message const* message);
 	bool __thiscall handle_alt_tab_(c_controller_input_message const* message);
 	bool __thiscall handle_controller_input_message_(c_controller_input_message const* message);
@@ -168,10 +175,20 @@ public:
 
 public:
 	c_gui_widget(e_gui_widget_type type);
+	static void __cdecl add_definition_fields(e_gui_widget_type type, s_core_widget_definition const* source_definition, s_runtime_core_widget_definition* dest_definition, real_rectangle2d const* unanimated_bounds, bool was_templated);
+
+private:
+	void animate(uns32 current_milliseconds);
+
+protected:
+	void animate_recursively(uns32 current_milliseconds);
+
+public:
 	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
 	bool const can_all_children_be_disposed();
 	bool const can_be_disposed();
 	bool controller_can_drive(e_controller_index controller_index);
+	void create_and_add_child_list_item_widgets(s_tag_block const* list_items_block, int32 gui_skin_tag_index);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;
 	real_rectangle2d* get_authored_bounds(real_rectangle2d* unanimated_bounds);
