@@ -22,27 +22,43 @@ s_user_interface_mouse_globals user_interface_mouse_globals{};
 void user_interface_mouse_update()
 {
 	if (g_windows_params.game_window_handle != GetForegroundWindow())
+	{
 		return;
+	}
 
 	if (director_get(0)->get_camera()->get_type() == _camera_mode_flying)
+	{
 		return;
+	}
 
 	user_interface_mouse_update_internal();
 
 	c_gui_screen_widget* topmost_screen = window_manager_get()->get_topmost_screen(_console_window);
 	if (!topmost_screen)
-		topmost_screen = window_manager_get()->get_topmost_screen(_window0);
-	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window1);
-	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window2);
-	//if (!topmost_screen)
-	//	topmost_screen = window_manager_get()->get_topmost_screen(_window3);
-
-	if (topmost_screen && topmost_screen->get_focused_widget())
 	{
-		if (!user_interface_mouse_handle_screen_widget(topmost_screen))
-			user_interface_mouse_globals.last_focused_widget = NULL;
+		topmost_screen = window_manager_get()->get_topmost_screen(_window0);
+	}
+	//if (!topmost_screen)
+	//{
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window1);
+	//}
+	//if (!topmost_screen)
+	//{
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window2);
+	//}
+	//if (!topmost_screen)
+	//{
+	//	topmost_screen = window_manager_get()->get_topmost_screen(_window3);
+	//}
+
+	if (!topmost_screen || !topmost_screen->get_focused_widget())
+	{
+		return;
+	}
+
+	if (!user_interface_mouse_handle_screen_widget(topmost_screen))
+	{
+		user_interface_mouse_globals.last_focused_widget = NULL;
 	}
 }
 
@@ -87,14 +103,22 @@ void user_interface_mouse_update_tracking()
 	mouse_move_delta += ((real32(y_delta * y_delta + x_delta * x_delta) * 1.0f) / 60.0f);
 
 	if (mouse_move_delta > 0.00001f)
+	{
 		mouse_move_delta *= 0.4f;
+	}
 	else
+	{
 		mouse_move_delta = 0.0f;
+	}
 
 	if (mouse_move_delta < 0.01f)
+	{
 		user_interface_mouse_globals.mouse_move_ticks = 0;
+	}
 	else if (user_interface_mouse_globals.mouse_move_ticks != 255)
+	{
 		user_interface_mouse_globals.mouse_move_ticks++;
+	}
 }
 
 void user_interface_mouse_update_internal()
@@ -130,22 +154,32 @@ void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_recta
 		child_widget;
 		child_widget = WIDGET_GET_NEXT_CHILD(child_widget))
 	{
-		if (child_filter(child_widget))
+		if (!child_filter(child_widget))
 		{
-			csmemset(&bounds, 0, sizeof(bounds));
-			child_widget->get_current_bounds(&bounds);
+			continue;
+		}
 
-			if (accumulated_bounds->x0 > bounds.x0 || accumulated_bounds->x0 == 0.0f)
-				accumulated_bounds->x0 = bounds.x0;
+		csmemset(&bounds, 0, sizeof(bounds));
+		child_widget->get_current_bounds(&bounds);
 
-			if (bounds.x1 > accumulated_bounds->x1 || accumulated_bounds->x1 == 0.0f)
-				accumulated_bounds->x1 = bounds.x1;
+		if (accumulated_bounds->x0 > bounds.x0 || accumulated_bounds->x0 == 0.0f)
+		{
+			accumulated_bounds->x0 = bounds.x0;
+		}
 
-			if (accumulated_bounds->y0 > bounds.y0 || accumulated_bounds->y0 == 0.0f)
-				accumulated_bounds->y0 = bounds.y0;
+		if (bounds.x1 > accumulated_bounds->x1 || accumulated_bounds->x1 == 0.0f)
+		{
+			accumulated_bounds->x1 = bounds.x1;
+		}
 
-			if (bounds.y1 > accumulated_bounds->y1 || accumulated_bounds->y1 == 0.0f)
-				accumulated_bounds->y1 = bounds.y1;
+		if (accumulated_bounds->y0 > bounds.y0 || accumulated_bounds->y0 == 0.0f)
+		{
+			accumulated_bounds->y0 = bounds.y0;
+		}
+
+		if (bounds.y1 > accumulated_bounds->y1 || accumulated_bounds->y1 == 0.0f)
+		{
+			accumulated_bounds->y1 = bounds.y1;
 		}
 	}
 }
@@ -168,30 +202,44 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 {
 	c_gui_widget* focused_widget = screen_widget->get_focused_widget();
 	if (list_widget != focused_widget->get_parent_list())
+	{
 		return false;
+	}
 
 	if (!list_widget->get_parent_list())
+	{
 		return false;
+	}
 
 	if (!list_widget->get_parent_list_item())
+	{
 		return false;
+	}
 
 	if (user_interface_mouse_globals.left_button_frames_down == 1)
+	{
 		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
+	}
 
 	c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
 	int32 current_item_count = data->get_current_item_count();
 	if (!current_item_count)
+	{
 		return true;
+	}
 
 	int32 index = list_widget->m_focused_item_index - (user_interface_mouse_globals.mouse_wheel_delta / input_globals.mouse_wheel_delta);
 	int32 focused_item_index = index + current_item_count;
 
 	if (index >= 0)
+	{
 		focused_item_index = index;
+	}
 
 	if (focused_item_index >= current_item_count)
+	{
 		focused_item_index -= current_item_count;
+	}
 
 	list_widget->set_focused_item_index(focused_item_index, true);
 
@@ -200,30 +248,36 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 
 void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget, int32 scroll_amount)
 {
-	if (scroll_amount)
+	if (scroll_amount < 1)
 	{
-		c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
-		int32 current_item_count = data->get_current_item_count();
-		if (current_item_count)
-		{
-			s_runtime_list_widget_definition* definition = (s_runtime_list_widget_definition*)list_widget->get_core_definition();
-			if (list_widget->m_scroll_position != NONE)
-			{
-				int32 scroll_position = list_widget->m_scroll_position + scroll_amount;
-
-				if (scroll_position > current_item_count - definition->items.count)
-					scroll_position = current_item_count - definition->items.count;
-
-				if (scroll_position < 0)
-					scroll_position = 0;
-
-				if (list_widget->m_scroll_position != scroll_position)
-					list_widget->m_focused_item_index = NONE;
-
-				list_widget->m_scroll_position = scroll_position;
-			}
-		}
+		return;
 	}
+
+	c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
+	int32 current_item_count = data->get_current_item_count();
+	if (current_item_count < 1)
+	{
+		return;
+	}
+
+	s_runtime_list_widget_definition* definition = (s_runtime_list_widget_definition*)list_widget->get_core_definition();
+	if (list_widget->m_scroll_position == NONE)
+	{
+		return;
+	}
+
+	int32 scroll_position = list_widget->m_scroll_position + scroll_amount;
+
+	if (scroll_position > current_item_count - definition->list_items.count)
+		scroll_position = current_item_count - definition->list_items.count;
+
+	if (scroll_position < 0)
+		scroll_position = 0;
+
+	if (list_widget->m_scroll_position != scroll_position)
+		list_widget->m_focused_item_index = NONE;
+
+	list_widget->m_scroll_position = scroll_position;
 }
 
 bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget)
@@ -232,47 +286,49 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 		list_item_widget;
 		list_item_widget = list_item_widget->get_next_list_item_widget(true))
 	{
-		if (list_item_widget->m_visible && list_item_widget->get_element_handle() != NONE)
+		if (!list_item_widget->m_visible || list_item_widget->get_element_handle() == NONE)
 		{
-			real_rectangle2d bounds{};
-			user_interface_mouse_compute_list_item_bounds(list_item_widget, &bounds);
-			widget_bounds_from_window_bounds(&user_interface_mouse_globals.window_bounds, &bounds);
+			continue;
+		}
 
-			if (point_intersects_rectangle2d(&user_interface_mouse_globals.window_cursor_position, &bounds))
+		real_rectangle2d bounds{};
+		user_interface_mouse_compute_list_item_bounds(list_item_widget, &bounds);
+		widget_bounds_from_window_bounds(&user_interface_mouse_globals.window_bounds, &bounds);
+
+		if (point_intersects_rectangle2d(&user_interface_mouse_globals.window_cursor_position, &bounds))
+		{
+			c_gui_list_item_widget* focused_widget = static_cast<c_gui_list_item_widget*>(screen_widget->get_focused_widget());
+
+			if (user_interface_mouse_globals.mouse_move_ticks && user_interface_mouse_globals.last_focused_widget != list_item_widget || user_interface_mouse_globals.list_item_selected_dirty)
 			{
-				c_gui_list_item_widget* focused_widget = static_cast<c_gui_list_item_widget*>(screen_widget->get_focused_widget());
+				user_interface_mouse_globals.list_item_selected_dirty = false;
 
-				if (user_interface_mouse_globals.mouse_move_ticks && user_interface_mouse_globals.last_focused_widget != list_item_widget || user_interface_mouse_globals.list_item_selected_dirty)
+				if (!focused_widget || focused_widget->get_parent_list() == list_widget)
 				{
-					user_interface_mouse_globals.list_item_selected_dirty = false;
-
-					if (!focused_widget || focused_widget->get_parent_list() == list_widget)
-					{
-						if (focused_widget != list_item_widget)
-						{
-							user_interface_mouse_globals.last_focused_widget = NULL;
-							screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, true);
-						}
-					}
-					else
+					if (focused_widget != list_item_widget)
 					{
 						user_interface_mouse_globals.last_focused_widget = NULL;
-						screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, false);
+						screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, true);
 					}
 				}
-
-				REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uns32, v20);
-				bool v19 = v20 >> 3 || v20 >> 5;
-				if (user_interface_mouse_globals.left_button_frames_down == 1 && list_item_widget == focused_widget && !v19)
+				else
 				{
-					user_interface_mouse_globals.last_focused_widget = list_item_widget;
-					event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
+					user_interface_mouse_globals.last_focused_widget = NULL;
+					screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, false);
 				}
 			}
-			else if (user_interface_mouse_globals.last_focused_widget == list_item_widget)
+
+			REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uns32, state_flags);
+			bool v19 = state_flags >> 3 || state_flags >> 5;
+			if (user_interface_mouse_globals.left_button_frames_down == 1 && list_item_widget == focused_widget && !v19)
 			{
-				user_interface_mouse_globals.last_focused_widget = NULL;
+				user_interface_mouse_globals.last_focused_widget = list_item_widget;
+				event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
 			}
+		}
+		else if (user_interface_mouse_globals.last_focused_widget == list_item_widget)
+		{
+			user_interface_mouse_globals.last_focused_widget = NULL;
 		}
 	}
 
@@ -284,24 +340,28 @@ bool user_interface_mouse_handle_list_widgets(c_gui_screen_widget* screen_widget
 	bool result = false;
 
 	if (!parent_widget)
+	{
 		parent_widget = screen_widget;
+	}
 
 	for (c_gui_list_widget* list_widget = (c_gui_list_widget*)WIDGET_GET_FIRST_CHILD(parent_widget);
 		list_widget && !result;
 		list_widget = (c_gui_list_widget*)WIDGET_GET_NEXT_CHILD(list_widget))
 	{
-		if (list_widget->m_visible)
+		if (!list_widget->m_visible)
 		{
-			e_gui_widget_type widget_type = list_widget->m_type;
-			switch (widget_type)
-			{
-			case _gui_list:
-				result = user_interface_mouse_handle_list_widget(screen_widget, list_widget);
-				break;
-			default:
-				result = user_interface_mouse_handle_list_widgets(screen_widget, list_widget);
-				break;
-			}
+			continue;
+		}
+
+		e_gui_widget_type widget_type = list_widget->m_type;
+		switch (widget_type)
+		{
+		case _gui_list:
+			result = user_interface_mouse_handle_list_widget(screen_widget, list_widget);
+			break;
+		default:
+			result = user_interface_mouse_handle_list_widgets(screen_widget, list_widget);
+			break;
 		}
 	}
 
