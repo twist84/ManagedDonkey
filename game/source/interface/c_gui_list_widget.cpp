@@ -1,6 +1,22 @@
 #include "interface/c_gui_list_widget.hpp"
 
-//.text:00B14890 ; public: c_gui_list_widget::c_gui_list_widget()
+c_gui_list_widget::c_gui_list_widget() :
+	c_gui_widget(_gui_list),
+	m_definition(),
+	m_datasource_name(NONE),
+	m_more_items_preceeding_bitmap(NULL),
+	m_more_items_following_bitmap(NULL),
+	m_focused_item_index(0),
+	m_current_scroll_direction(_list_scroll_direction_none),
+	m_scroll_position(0),
+	m_selectable_item_cap(NONE),
+	m_submenu_item(NULL),
+	m_is_submenu(false),
+	m_is_submenu_needs_disposal(false)
+{
+	//DECLFUNC(0x00B14890, void, __thiscall, c_gui_list_widget*)(this);
+}
+
 //.text:00B14910 ; public: s_list_widget_block::s_list_widget_block()
 //.text:00B14970 ; public: s_list_widget_definition::s_list_widget_definition()
 //.text:00B149E0 ; public: s_runtime_list_widget_definition::s_runtime_list_widget_definition()
