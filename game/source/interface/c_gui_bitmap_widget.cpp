@@ -217,10 +217,10 @@ void c_gui_bitmap_widget::initialize(s_bitmap_widget_block const* template_and_o
 		if (template_and_override_block->widget_template_reference.index != NONE)
 		{
 			s_bitmap_widget_definition* bitmap_widget_definition = TAG_GET(BITMAP_TAG, s_bitmap_widget_definition, template_and_override_block->widget_template_reference.index);
-			add_definition_fields(bitmap_widget_definition, &m_definition, &positioning_bounds, false);
+			c_gui_bitmap_widget::add_definition_fields(bitmap_widget_definition, &m_definition, &positioning_bounds, false);
 			was_templated = true;
 		}
-		add_definition_fields(&template_and_override_block->override_definition, &m_definition, &positioning_bounds, was_templated);
+		c_gui_bitmap_widget::add_definition_fields(&template_and_override_block->override_definition, &m_definition, &positioning_bounds, was_templated);
 		m_name = m_definition.widget_identifier;
 	}
 
