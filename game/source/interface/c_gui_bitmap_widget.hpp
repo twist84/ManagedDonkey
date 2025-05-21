@@ -6,7 +6,6 @@
 
 struct bitmap_data;
 struct c_tag_resource_demand_collector;
-struct s_bitmap_widget_block;
 struct s_gui_bitmap_widget_render_data;
 
 enum e_bitmap_widget_definition_flags
@@ -40,9 +39,21 @@ struct s_bitmap_widget_definition :
 };
 static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
+struct s_bitmap_widget_block
+{
+	s_tag_reference widget_template_reference;
+	s_bitmap_widget_definition override_definition;
+};
+static_assert(sizeof(s_bitmap_widget_block) == 0x6C);
+
 struct s_runtime_bitmap_widget_definition :
 	s_runtime_core_widget_definition
 {
+	s_runtime_bitmap_widget_definition()
+	{
+		DECLFUNC(0x00AB5EA0, void, __thiscall, s_runtime_bitmap_widget_definition*)(this);
+	}
+
 	int32 bitmap_reference_index;
 	int32 explicit_shader_reference_index;
 	int32 render_blend_mode;
@@ -78,6 +89,7 @@ public:
 
 public:
 	c_gui_bitmap_widget();
+	static void __cdecl add_definition_fields(s_bitmap_widget_definition const* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated);
 	bool renders_as_player_emblem() const;
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);
