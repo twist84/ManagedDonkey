@@ -38,6 +38,7 @@ struct c_window_manager
 
 	c_gui_screen_widget* allocate_codeless_screen(int32 screen_name);
 	c_gui_screen_widget* allocate_named_screen(int32 screen_name);
+	e_window_index get_render_window_for_screen(c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);

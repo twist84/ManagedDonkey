@@ -286,7 +286,9 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 
 c_gui_widget* c_gui_widget::get_children()
 {
-	return INVOKE_CLASS_MEMBER(0x00AAB0D0, c_gui_widget, get_children);
+	//return INVOKE_CLASS_MEMBER(0x00AAB0D0, c_gui_widget, get_children);
+
+	return m_children.get_value();
 }
 
 //.text:00AAB100 ; 
@@ -312,12 +314,16 @@ e_gui_location c_gui_screen_widget::get_gui_location() const
 
 c_gui_widget* c_gui_widget::get_next()
 {
-	return INVOKE_CLASS_MEMBER(0x00AAB1F0, c_gui_widget, get_next);
+	//return INVOKE_CLASS_MEMBER(0x00AAB1F0, c_gui_widget, get_next);
+
+	return m_next.get_value();
 }
 
 c_gui_widget* c_gui_widget::get_parent()
 {
-	return INVOKE_CLASS_MEMBER(0x00AAB220, c_gui_widget, get_parent);
+	//return INVOKE_CLASS_MEMBER(0x00AAB220, c_gui_widget, get_parent);
+
+	return m_parent.get_value();
 }
 
 //.text:00AAB250 ; 
@@ -330,7 +336,12 @@ e_render_data_size c_gui_screen_widget::get_render_data_size()
 }
 
 //.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
-//.text:00AAB290 ; public: e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widget*)
+
+e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widget* screen)
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB290, c_window_manager, get_render_window_for_screen, screen);
+}
+
 //.text:00AAB300 ; 
 //.text:00AAB310 ; 
 //.text:00AAB320 ; public: c_gui_screen_widget* c_window_manager::get_responding_screen(e_controller_index, e_window_index*)
@@ -345,7 +356,7 @@ c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_in
 //.text:00AAB4E0 ; public: c_gui_screen_widget* c_window_manager::get_screen_below(e_window_index, c_gui_screen_widget*)
 //.text:00AAB550 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index, int32)
 //.text:00AAB5B0 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32)
-//.text:00AAB620 ; 
+//.text:00AAB620 ; public: int32 c_gui_screen_widget::get_screen_index() const
 
 c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_index)
 {
@@ -372,7 +383,6 @@ void c_window_manager::handle_global_controller_event(s_event_record* event_reco
 c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00AABC30, c_window_manager, load_screen, controller_index, load_as_error, screen_message, window_index);
-	//return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, c_window_manager*, int32, bool, c_load_screen_message const*, int32)(&g_window_manager, controller_index, load_as_error, screen_message, window_index);
 }
 
 int32 __cdecl c_window_manager::locate_screen_definition_tag_by_name(int32 name)
