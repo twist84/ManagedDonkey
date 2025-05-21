@@ -33,7 +33,24 @@ void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_ty
 	c_gui_custom_bitmap_widget::set_map_image(image_type, map_id, use_compressed_format);
 }
 
-//.text:00AC3610 ; public: c_gui_custom_bitmap_widget::c_gui_custom_bitmap_widget()
+c_gui_custom_bitmap_widget::c_gui_custom_bitmap_widget() :
+	c_gui_bitmap_widget(),
+	m_storage_item_index(NONE),
+	m_async_load_buffer(NULL),
+	m_async_load_buffer_count(0),
+	m_async_task_id(INVALID_ASYNC_TASK_ID),
+	m_async_task_signal(0),
+	m_async_task_cancelled(0),
+	m_async_task_success(0),
+	m_use_compressed_format(),
+	m_desired_aspect_ratio(),
+	m_desired_async_file_to_display(),
+	m_current_async_file_to_display(),
+	__data46C()
+{
+	//DECLFUNC(0x00AC3610, void, __thiscall, c_gui_custom_bitmap_widget*)(this);
+}
+
 //.text:00AC36A0 ; 
 //.text:00AC36B0 ; 
 
@@ -68,23 +85,50 @@ void c_gui_custom_bitmap_widget::clear()
 void c_gui_custom_bitmap_widget::dispose()
 {
 	INVOKE_CLASS_MEMBER(0x00AC3820, c_gui_custom_bitmap_widget, dispose);
+
+	c_gui_widget::dispose();
+	c_gui_custom_bitmap_widget::reset();
 }
 
 //.text:00AC3830 ; 
 
 bitmap_data const* c_gui_custom_bitmap_widget::get_current_bitmap() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AC3840, c_gui_custom_bitmap_widget, get_current_bitmap);
+	//return INVOKE_CLASS_MEMBER(0x00AC3840, c_gui_custom_bitmap_widget, get_current_bitmap);
+
+	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	if (!bitmap || !bitmap->m_bitmap_ready)
+	{
+		return NULL;
+	}
+
+	return &bitmap->m_bitmap_data;
 }
 
 char* c_gui_custom_bitmap_widget::get_current_buffer() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AC3870, c_gui_custom_bitmap_widget, get_current_buffer);
+	//return INVOKE_CLASS_MEMBER(0x00AC3870, c_gui_custom_bitmap_widget, get_current_buffer);
+
+	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	if (!bitmap)
+	{
+		return NULL;
+	}
+
+	return bitmap->m_bitmap_pixel_buffer;
 }
 
 int32 c_gui_custom_bitmap_widget::get_current_buffer_length() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AC3890, c_gui_custom_bitmap_widget, get_current_buffer_length);
+	//return INVOKE_CLASS_MEMBER(0x00AC3890, c_gui_custom_bitmap_widget, get_current_buffer_length);
+
+	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	if (!bitmap)
+	{
+		return 0;
+	}
+
+	return bitmap->m_bitmap_pixel_buffer_length;
 }
 
 bool c_gui_custom_bitmap_widget::get_dimensions(int32* out_width, int32* out_height)
@@ -94,7 +138,45 @@ bool c_gui_custom_bitmap_widget::get_dimensions(int32* out_width, int32* out_hei
 
 bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename)
 {
-	return INVOKE(0x00AC3900, c_gui_custom_bitmap_widget::get_map_filename, type, map_id, out_filename);
+	//return INVOKE(0x00AC3900, c_gui_custom_bitmap_widget::get_map_filename, type, map_id, out_filename);
+
+	if (map_id == _map_id_none)
+	{
+		return false;
+	}
+
+	c_static_string<256> image_file_path;
+	s_level_datum level{};
+
+	if (levels_try_and_get_campaign_map(map_id, &level) || levels_try_and_get_multiplayer_map(map_id, &level))
+	{
+		image_file_path.set(level.image_file_base);
+	}
+
+	bool result = image_file_path.length() > 0;
+	if (result)
+	{
+		switch (type)
+		{
+		case _custom_map_image_type_blf:
+			out_filename->print("%s.blf", image_file_path.get_string());
+			break;
+		case _custom_map_image_type_sm_blf:
+			out_filename->print("%s_sm.blf", image_file_path.get_string());
+			break;
+		case _custom_map_image_type_variant_blf:
+			out_filename->print("%s_variant.blf", image_file_path.get_string());
+			break;
+		case _custom_map_image_type_film_blf:
+			out_filename->print("%s_film.blf", image_file_path.get_string());
+			break;
+		case _custom_map_image_type_clip_blf:
+			out_filename->print("%s_clip.blf", image_file_path.get_string());
+			break;
+		}
+	}
+
+	return result;
 }
 
 //.text:00AC3A10 ; 
@@ -145,7 +227,7 @@ bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, ch
 	//}
 
 	m_async_task_id = async_task_add(_async_priority_important_non_blocking, &task, _async_category_online_files, load_image_from_buffer_callback, &m_async_task_signal);
-	if (m_async_task_id == NONE)
+	if (!load_from_file_async_in_progress())
 	{
 		reset();
 		return false;
@@ -156,7 +238,9 @@ bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, ch
 
 bool c_gui_custom_bitmap_widget::load_from_file_async_in_progress() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AC3B70, c_gui_custom_bitmap_widget, load_from_file_async_in_progress);
+	//return INVOKE_CLASS_MEMBER(0x00AC3B70, c_gui_custom_bitmap_widget, load_from_file_async_in_progress);
+
+	return m_async_task_id != INVALID_ASYNC_TASK_ID;
 }
 
 e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
@@ -289,7 +373,7 @@ void c_gui_custom_bitmap_widget::reset()
 {
 	//INVOKE_CLASS_MEMBER(0x00AC3D50, c_gui_custom_bitmap_widget, reset);
 
-	if (m_async_task_id != INVALID_ASYNC_TASK_ID)
+	if (load_from_file_async_in_progress())
 	{
 		m_async_task_cancelled.set(true);
 		internal_async_yield_until_done(&m_async_task_signal, true, false, __FILE__, __LINE__);
@@ -335,7 +419,7 @@ bool c_gui_custom_bitmap_widget::should_render(bool* add_to_render_list)
 {
 	return INVOKE_CLASS_MEMBER(0x00AC3F30, c_gui_custom_bitmap_widget, should_render, add_to_render_list);
 
-	//return c_gui_widget::should_render(add_to_render_list) && m_async_task_id == INVALID_ASYNC_TASK_ID;
+	//return c_gui_widget::should_render(add_to_render_list) && load_from_file_async_in_progress();
 }
 
 void c_gui_custom_bitmap_widget::update(uns32 current_milliseconds)
