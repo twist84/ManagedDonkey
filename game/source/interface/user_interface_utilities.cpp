@@ -42,8 +42,13 @@ bool __cdecl user_interface_global_string_get(int32 id, c_static_wchar_string<10
 
 //.text:00AA59B0 ; bool __cdecl user_interface_global_string_get_and_parse_xml(e_controller_index, int32, int32, wchar_t*, int32)
 
-bool __cdecl user_interface_play_sound(e_user_interface_sound_effect ui_sound_effect, int32 ui_sound_effect_definition_index)
+bool __cdecl user_interface_play_sound(e_user_interface_sound_effect sound, int32 override_sound_tag_index)
 {
-	return INVOKE(0x00AA5CD0, user_interface_play_sound, ui_sound_effect, ui_sound_effect_definition_index);
+	return INVOKE(0x00AA5CD0, user_interface_play_sound, sound, override_sound_tag_index);
+}
+
+bool __cdecl user_interface_precache_bitmaps_from_tag(int32 bitmap_tag_index)
+{
+	return INVOKE(0x00AA5FE0, user_interface_precache_bitmaps_from_tag, bitmap_tag_index);
 }
 
