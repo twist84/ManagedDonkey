@@ -31,9 +31,8 @@ struct s_text_widget_definition :
 	c_string_id value_override_list;
 	c_string_id value_identifier;
 	c_string_id text_color_preset;
-	c_enum<e_font_id, int16, _terminal_font, k_public_font_id_count> custom_font;
-	uns8 : 8;
-	uns8 : 8;
+	int16 font;
+	int16 pad0;
 };
 static_assert(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
 
@@ -42,8 +41,8 @@ struct s_runtime_text_widget_definition :
 {
 	c_string_id value_override_list;
 	c_string_id value_identifier;
-	real_argb_color text_color_preset;
-	c_enum<e_font_id, int32, _terminal_font, k_public_font_id_count> custom_font;
+	real_argb_color text_color;
+	e_font_id font;
 };
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
@@ -78,7 +77,7 @@ public:
 	virtual void set_animated_state_baseline(s_animation_transform* transform) override;
 	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
 	virtual c_user_interface_text* get_text_internal() = 0;
-	virtual uns32 get_text_buffer_size() const = 0;
+	virtual unsigned int get_text_buffer_size() const = 0;
 	virtual void initialize(s_text_widget_block const* template_and_override_block);
 	virtual void set_text(wchar_t const* text);
 	virtual void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
@@ -96,23 +95,68 @@ template<int32 k_maximum_count>
 struct c_sized_user_interface_text :
 	public c_user_interface_text
 {
+public:
+	//virtual void set_string(wchar_t const* new_string, bool parse_xml, int32 screen_index)
+	//{
+	//	// $TODO: implement me
+	//}
+	//
+	//virtual wchar_t const* get_string()
+	//{
+	//	return m_text_render_buffer.get_string();
+	//}
+	//
+	//virtual void update(int32 user_index)
+	//{
+	//	// $TODO: implement me
+	//}
+
+public:
+	//c_sized_user_interface_text() :
+	//	c_user_interface_text(),
+	//	m_text_render_buffer(),
+	//	m_text_cache_buffer()
+	//{
+	//}
+
 protected:
-	c_static_wchar_string<k_maximum_count> m_string1;
-	c_static_wchar_string<k_maximum_count> m_string2;
-	uns32 m_unknown3;
+	c_static_wchar_string<k_maximum_count> m_text_render_buffer;
+	c_static_wchar_string<k_maximum_count> m_text_cache_buffer;
 };
-static_assert(sizeof(c_sized_user_interface_text<48>) == 0x120);
-static_assert(sizeof(c_sized_user_interface_text<256>) == 0x460);
-static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x1060);
+static_assert(sizeof(c_sized_user_interface_text<48>) == 0x11C);
+static_assert(sizeof(c_sized_user_interface_text<256>) == 0x45C);
+static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x105C);
 
 template<int32 k_text_buffer_size>
 struct c_gui_sized_text_widget :
 	public c_gui_text_widget
 {
+public:
+	//virtual ~c_gui_sized_text_widget()
+	//{
+	//}
+	//
+	//virtual c_user_interface_text* get_text_internal() override
+	//{
+	//	return &m_text;
+	//}
+	//
+	//virtual unsigned int get_text_buffer_size() const override
+	//{
+	//	return k_text_buffer_size;
+	//}
+
+public:
+	//c_gui_sized_text_widget() :
+	//	c_gui_text_widget(),
+	//	m_text()
+	//{
+	//}
+
 protected:
-	c_sized_user_interface_text<k_text_buffer_size> m_text_buffer;
+	c_sized_user_interface_text<k_text_buffer_size> m_text;
 };
-static_assert(sizeof(c_gui_sized_text_widget<48>) == 0x260);
-static_assert(sizeof(c_gui_sized_text_widget<256>) == 0x5A0);
-static_assert(sizeof(c_gui_sized_text_widget<1024>) == 0x11A0);
+static_assert(sizeof(c_gui_sized_text_widget<48>) == 0x25C);
+static_assert(sizeof(c_gui_sized_text_widget<256>) == 0x59C);
+static_assert(sizeof(c_gui_sized_text_widget<1024>) == 0x119C);
 

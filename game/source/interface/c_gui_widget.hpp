@@ -35,20 +35,20 @@ struct s_core_widget_definition
 	// override: e_model_widget_definition_flags
 	// override: e_screen_widget_definition_flags
 	// override: e_text_widget_definition_flags
-	uns32 flags;
+	int32 flags;
 
 	// identification only
-	c_string_id name;
+	string_id widget_identifier;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, int16, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
+	int16 scaled_anchoring;
 	int16 render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
 	// bounds 480i & bounds 4x3 (640x480)
-	rectangle2d ui_bounds[2];
+	rectangle2d bounds[2];
 
-	c_typed_tag_reference<GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG, INVALID_TAG> animation_collection;
+	c_typed_tag_reference<GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG, INVALID_TAG> animation_collection_reference;
 };
 static_assert(sizeof(s_core_widget_definition) == 0x2C);
 
@@ -61,20 +61,21 @@ struct s_runtime_core_widget_definition
 	// override: e_model_widget_definition_flags
 	// override: e_screen_widget_definition_flags
 	// override: e_text_widget_definition_flags
-	uns32 flags;
+	int32 flags;
 
 	// identification only
-	c_string_id name;
+	string_id widget_identifier;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, int32, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
+	e_widget_anchoring scaled_anchoring;
 	int32 render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
 	// bounds 480i & bounds 4x3 (640x480)
-	real_rectangle2d ui_bounds[2];
+	real_rectangle2d runtime_bounds;
+	real_rectangle2d authored_bounds;
 
-	int32 animation_collection_index;
+	int32 animation_collection_reference_index;
 };
 static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
 

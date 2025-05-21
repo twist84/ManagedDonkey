@@ -3789,20 +3789,20 @@ enum e_core_widget_definition_flags
 	k_core_widget_definition_flags
 };
 
-enum e_widget_positioning
+enum e_widget_anchoring
 {
-	_widget_positioning_unused = 0,
-	_widget_positioning_centered,
-	_widget_positioning_top_edge,
-	_widget_positioning_bottom_edge,
-	_widget_positioning_left_edge,
-	_widget_positioning_right_edge,
-	_widget_positioning_top_left_corner,
-	_widget_positioning_top_right_corner,
-	_widget_positioning_bottom_right_corner,
-	_widget_positioning_bottom_left_corner,
+	_anchor_UNUSED = 0,
+	_anchor_center,
+	_anchor_top,
+	_anchor_bottom,
+	_anchor_left,
+	_anchor_right,
+	_anchor_top_left,
+	_anchor_top_right,
+	_anchor_bottom_right,
+	_anchor_bottom_left,
 
-	k_widget_positioning_count
+	k_number_of_widget_anchor_settings
 };
 
 enum e_gui_widget_type
