@@ -141,14 +141,134 @@ public:
 
 int32 const k_vtable_pointer_size = sizeof(void*);
 
+template<typename t_type>
+static uns32 count_bits_dont_call_me(t_type v);
+
+static uns32 count_bits(uns32 v)
+{
+	return INVOKE(0x004566E0, count_bits_dont_call_me<uns32>, v);
+}
+
+static uns32 count_bits(int32 v)
+{
+	return INVOKE(0x0052DD80, count_bits_dont_call_me<int32>, v);
+}
+
+static uns32 count_bits(void* v)
+{
+	return INVOKE(0x014E9ED0, count_bits_dont_call_me<void*>, v);
+}
+
 struct c_robust_void_pointer
 {
+	c_robust_void_pointer(void* value) :
+		c_robust_void_pointer()
+	{
+		set_value(value);
+	}
+
+	c_robust_void_pointer()
+	{
+		set_value(nullptr);
+	}
+
+	void* get_corrected_value() const
+	{
+		//INVOKE_CLASS_MEMBER(0x014E9F30, c_robust_void_pointer, get_corrected_value);
+
+		if (!internally_consistent())
+		{
+			//event(_event_warning, "ecc: memory error detected, values were 0x%08x, 0x%08x, 0x%08x",
+			//	m_value[0],
+			//	m_value[1],
+			//	m_value[2]);
+
+			if (m_value[1] == m_value[2])
+			{
+				return m_value[1];
+			}
+
+			if (m_value[2] == m_value[0])
+			{
+				return m_value[2];
+			}
+
+			bool value0 = m_value[0] && count_bits(m_value[0]) != 1;
+			bool value1 = m_value[1] && count_bits(m_value[1]) != 1;
+			bool value2 = m_value[2] && count_bits(m_value[2]) != 1;
+			if (!value0 && !value1 && !value2)
+			{
+				return nullptr;
+			}
+			//else
+			//{
+			//	event(_event_critical, "ecc: memory error was uncorrectable!");
+			//}
+		}
+
+		return m_value[0];
+	}
+
+	void* get_value()
+	{
+		if (!internally_consistent())
+		{
+			set_value(get_corrected_value());
+		}
+
+		return m_value[0];
+	}
+
+	//void* get_value_const() const;
+
+	bool internally_consistent() const
+	{
+		return m_value[0] == m_value[1] && m_value[0] == m_value[2];
+	}
+
+	void set_value(void* value)
+	{
+		do
+		{
+			m_value[0] = value;
+			m_value[1] = value;
+			m_value[2] = value;
+		}
+		while (!internally_consistent());
+	}
+
 	void* m_value[3];
 };
 
 template<typename t_type>
 struct c_robust_pointer
 {
+public:
+	c_robust_pointer() :
+		m_pointer()
+	{
+	}
+
+	c_robust_pointer(t_type* value) :
+		m_pointer(value)
+	{
+	}
+
+	t_type* get_value()
+	{
+		return (t_type*)m_pointer.get_value();
+	}
+
+	//t_type* get_value_const() const
+	//{
+	//	return m_pointer.get_value_const();
+	//}
+
+	void set_value(t_type* value)
+	{
+		m_pointer.set_value(value);
+	}
+
 	c_robust_void_pointer m_pointer;
 };
 
