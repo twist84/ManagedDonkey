@@ -33,7 +33,7 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 
 bool __thiscall c_gui_screen_pregame_lobby::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
-	return handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
 
 void __thiscall c_gui_screen_pregame_lobby::initialize_()
@@ -43,20 +43,20 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 	//INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 
 	//c_gui_screen_widget::initialize();
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_lobby_title));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_lobby_header));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_lobby_network));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_lobby_party_leader));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_lobby_start_button_name));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_lobby_current_players));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_lobby_max_players));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_lobby_countdown_remaining));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_xml_lobby_title));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_xml_lobby_header));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_xml_lobby_network));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_xml_lobby_party_leader));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_xml_lobby_start_button_name));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_xml_lobby_current_players));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_xml_lobby_max_players));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_xml_lobby_countdown_remaining));
 	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_lobby_privacy));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_lobby_delaying_player));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_lobby_film_max_players));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_lobby_film_party_leader_requirement));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_lobby_coop_max_players));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_xml_lobby_delaying_player));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_xml_lobby_film_max_players));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_xml_lobby_film_party_leader_requirement));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_xml_lobby_coop_max_players));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_xml_lobby_percent_loaded));
 }
 
 c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32 name) :
@@ -201,20 +201,20 @@ void c_gui_screen_pregame_lobby::initialize()
 	//INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 	c_gui_screen_widget::initialize();
 
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_lobby_title));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_lobby_header));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_lobby_network));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_lobby_party_leader));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_lobby_start_button_name));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_lobby_current_players));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_lobby_max_players));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_lobby_countdown_remaining));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_xml_lobby_title));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_xml_lobby_header));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_xml_lobby_network));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_xml_lobby_party_leader));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_xml_lobby_start_button_name));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_xml_lobby_current_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_xml_lobby_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_xml_lobby_countdown_remaining));
 	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_lobby_privacy));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_lobby_delaying_player));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_lobby_film_max_players));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_lobby_film_party_leader_requirement));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_lobby_coop_max_players));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_xml_lobby_delaying_player));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_xml_lobby_film_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_xml_lobby_film_party_leader_requirement));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_xml_lobby_coop_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_xml_lobby_percent_loaded));
 }
 
 void c_gui_screen_pregame_lobby::initialize_datasource()

@@ -60,28 +60,28 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_l
 	return INVOKE(0x00AA4B50, parse_lobby_privacy, this_ptr, buffer, buffer_length);
 }
 
-//.text:00ABCE90 ; public: __cdecl c_user_interface_text::c_user_interface_text()
-//.text:00ABCF40 ; public: virtual __cdecl c_user_interface_text::~c_user_interface_text()
-//.text:00ABCF70 ; public: virtual void* __cdecl c_user_interface_text::`scalar deleting destructor'(unsigned int)
-//.text:00ABCFA0 ; protected: bool __cdecl c_user_interface_text::compute_bounds_internal(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*, rectangle2d*)
-//.text:00ABD170 ; public: void __cdecl c_user_interface_text::compute_caret_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*)
-//.text:00ABD1B0 ; public: bool __cdecl c_user_interface_text::compute_text_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, rectangle2d*)
+//.text:00ABCE90 ; public: c_user_interface_text::c_user_interface_text()
+//.text:00ABCF40 ; public: virtual c_user_interface_text::~c_user_interface_text()
+//.text:00ABCF70 ; public: virtual void* c_user_interface_text::`scalar deleting destructor'(unsigned int)
+//.text:00ABCFA0 ; protected: bool c_user_interface_text::compute_bounds_internal(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*, rectangle2d*)
+//.text:00ABD170 ; public: void c_user_interface_text::compute_caret_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*)
+//.text:00ABD1B0 ; public: bool c_user_interface_text::compute_text_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, rectangle2d*)
 //.text:00ABD200 ; 
-//.text:00ABD210 ; public: bool __cdecl c_user_interface_text::get_align_vertically() const
-//.text:00ABD220 ; public: real_argb_color __cdecl c_user_interface_text::get_argb_color() const
+//.text:00ABD210 ; public: bool c_user_interface_text::get_align_vertically() const
+//.text:00ABD220 ; public: real_argb_color c_user_interface_text::get_argb_color() const
 //.text:00ABD240 ; 
 //.text:00ABD3A0 ; 
-//.text:00ABD3D0 ; public: e_text_drop_shadow_style __cdecl c_user_interface_text::get_drop_shadow_style() const
-//.text:00ABD3E0 ; public: e_text_justification __cdecl c_user_interface_text::get_justification() const
-//.text:00ABD3F0 ; public: bool __cdecl c_user_interface_text::get_render_uppercase() const
-//.text:00ABD400 ; public: real64 __cdecl c_user_interface_text::get_rotation() const
-//.text:00ABD410 ; public: real_point2d const * __cdecl c_user_interface_text::get_rotation_origin() const
-//.text:00ABD420 ; public: real64 __cdecl c_user_interface_text::get_scale() const
-//.text:00ABD430 ; public: e_text_style __cdecl c_user_interface_text::get_style() const
-//.text:00ABD440 ; public: void __cdecl c_user_interface_text::get_tab_stops(int16*, int16*)
+//.text:00ABD3D0 ; public: e_text_drop_shadow_style c_user_interface_text::get_drop_shadow_style() const
+//.text:00ABD3E0 ; public: e_text_justification c_user_interface_text::get_justification() const
+//.text:00ABD3F0 ; public: bool c_user_interface_text::get_render_uppercase() const
+//.text:00ABD400 ; public: real64 c_user_interface_text::get_rotation() const
+//.text:00ABD410 ; public: real_point2d const* c_user_interface_text::get_rotation_origin() const
+//.text:00ABD420 ; public: real64 c_user_interface_text::get_scale() const
+//.text:00ABD430 ; public: e_text_style c_user_interface_text::get_style() const
+//.text:00ABD440 ; public: void c_user_interface_text::get_tab_stops(int16*, int16*)
 //.text:00ABD480 ; 
-//.text:00ABD490 ; public: bool __cdecl c_user_interface_text::get_wrap_horizontally() const
-//.text:00ABD4A0 ; public: void __cdecl c_user_interface_text::initialize(wchar_t const*, int16, e_font_id, real_rgb_color const*, int32, e_text_style, e_text_justification, e_controller_index)
+//.text:00ABD490 ; public: bool c_user_interface_text::get_wrap_horizontally() const
+//.text:00ABD4A0 ; public: void c_user_interface_text::initialize(wchar_t const*, int16, e_font_id, real_rgb_color const*, int32, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
 
 void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds)
@@ -114,7 +114,7 @@ void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* re
 	draw_string.draw(&font_cache, ((s_gui_text_widget_extra_large_render_data*)render_data)->text);
 }
 
-//.text:00ABD750 ; public: void __cdecl c_user_interface_text::render_halox(int32, real_rectangle2d const*, real_rectangle2d const*, real32, real32, rectangle2d const*)
+//.text:00ABD750 ; public: void c_user_interface_text::render_halox(int32, real_rectangle2d const*, real_rectangle2d const*, real32, real32, rectangle2d const*)
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
 {
@@ -156,87 +156,85 @@ void c_user_interface_text::set_style(e_text_style new_style)
 //.text:00ABE000 ; 
 //.text:00ABE030 ; 
 
-bool __cdecl parse_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B226F0, parse_lobby_coop_max_players, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22710, parse_lobby_countdown_remaining, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22750, parse_lobby_current_players, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_delaying_player(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22790, parse_lobby_delaying_player, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_film_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B227E0, parse_lobby_film_max_players, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22800, parse_lobby_film_party_leader_requirement, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_header(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22850, parse_lobby_header, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B228C0, parse_lobby_max_players, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_network(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22910, parse_lobby_network, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_party_leader(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22930, parse_lobby_party_leader, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22980, parse_lobby_percent_loaded, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22A10, parse_lobby_start_button_name, this_ptr, buffer, buffer_length);
-}
-
-bool __cdecl parse_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length)
-{
-	return INVOKE(0x00B22A80, parse_lobby_title, this_ptr, buffer, buffer_length);
-}
-
 // this hook never gets hit
-void __cdecl parse_build_number_string(e_controller_index controller_index, e_utf32 utf32, c_static_wchar_string<1024>* out_string)
+void __cdecl parse_build_number_string(int32 user_index, e_utf32 character, c_static_wchar_string<1024>* text)
 {
 	char const* build_name = version_get_build_name();
 	char const* build_string = version_get_build_string();
 
-	out_string->set(L"");
-
 	if (strlen(build_name) > 1)
 	{
-		out_string->append_print(L"%hs (%hs)", build_name, build_string);
+		text->append_print(L"%hs (%hs)", build_name, build_string);
 	}
 	else
 	{
-		out_string->append_print(L"%hs", build_string);
+		text->append_print(L"%hs", build_string);
 	}
+}
+
+bool __cdecl parse_xml_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B226F0, parse_xml_lobby_coop_max_players, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22710, parse_xml_lobby_countdown_remaining, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22750, parse_xml_lobby_current_players, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_delaying_player(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22790, parse_xml_lobby_delaying_player, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_film_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B227E0, parse_xml_lobby_film_max_players, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22800, parse_xml_lobby_film_party_leader_requirement, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_header(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22850, parse_xml_lobby_header, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B228C0, parse_xml_lobby_max_players, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_network(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22910, parse_xml_lobby_network, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_party_leader(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22930, parse_xml_lobby_party_leader, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22980, parse_xml_lobby_percent_loaded, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22A10, parse_xml_lobby_start_button_name, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00B22A80, parse_xml_lobby_title, this_ptr, buffer, buffer_length);
 }
 
 void c_user_interface_text::set_flags(uns32 flags)

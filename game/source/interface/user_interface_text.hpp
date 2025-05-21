@@ -225,9 +225,9 @@ public:
 	};
 
 	virtual ~c_user_interface_text();
-	virtual void set_string(wchar_t const* string, bool parse_xml, int32);
-	virtual wchar_t const* get_string();
-	virtual void update(int32);
+	virtual void set_string(wchar_t const* new_string, bool parse_xml, int32 screen_index);// = 0;
+	virtual wchar_t const* get_string();// = 0;
+	virtual void update(int32 user_index);// = 0;
 
 	static void __cdecl render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds);
 
@@ -284,19 +284,19 @@ extern s_last_known_session_state& g_last_known_session_state;
 
 extern void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
-extern void __cdecl parse_build_number_string(e_controller_index controller_index, e_utf32 utf32, c_static_wchar_string<1024>* out_string);
+extern void __cdecl parse_build_number_string(int32 user_index, e_utf32 character, c_static_wchar_string<1024>* text);
 extern bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_delaying_player(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_film_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_header(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_network(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_party_leader(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length);
-extern bool __cdecl parse_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_delaying_player(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_film_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_header(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_network(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_party_leader(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 
