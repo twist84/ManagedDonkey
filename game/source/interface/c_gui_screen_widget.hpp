@@ -165,6 +165,7 @@ public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
+	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
 	void play_sound(e_user_interface_sound_effect sound_effect);
 	bool running_in_codeless_mode();
@@ -172,19 +173,6 @@ public:
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
 
 public:
-	enum
-	{
-		k_maximum_number_of_game_tag_parsers = 20,
-	};
-
-	enum e_display_group_type
-	{
-		_display_group_type_default = 0,
-		_display_group_type_button_key,
-
-		k_display_group_type_count
-	};
-
 //protected:
 	int32 m_screen_index;
 	uns32 m_creation_time_milliseconds;

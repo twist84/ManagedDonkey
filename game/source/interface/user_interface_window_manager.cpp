@@ -335,7 +335,17 @@ e_render_data_size c_gui_screen_widget::get_render_data_size()
 	return k_render_data_size_normal;
 }
 
-//.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
+s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AAB270, c_gui_screen_widget, get_render_state);
+
+	if (!m_render_data.valid())
+	{
+		return NULL;
+	}
+
+	return &m_render_data;
+}
 
 e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widget* screen)
 {
