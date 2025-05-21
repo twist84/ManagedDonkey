@@ -197,6 +197,7 @@ public:
 	bool running_in_codeless_mode();
 	void transfer_focus(c_gui_widget* widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
+	void transfer_focus_without_animations(c_gui_widget* new_focused_widget, bool play_received_animation, bool play_lost_animation);
 
 public:
 //protected:

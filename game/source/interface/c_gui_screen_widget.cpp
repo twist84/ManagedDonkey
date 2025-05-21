@@ -311,7 +311,12 @@ void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget,
 }
 
 //.text:00AB2740 ; 
-//.text:00AB27D0 ; public: void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget*, bool, bool)
+
+void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget* new_focused_widget, bool play_received_animation, bool play_lost_animation)
+{
+	INVOKE_CLASS_MEMBER(0x00AB27D0, c_gui_screen_widget, transfer_focus_without_animations, new_focused_widget, play_received_animation, play_lost_animation);
+}
+
 //.text:00AB2830 ; public: void c_gui_screen_widget::transition_out(e_transition_out_type)
 
 void c_gui_screen_widget::transition_out_with_transition_type(e_transition_out_type transition_out, e_screen_transition_type transition_type)
