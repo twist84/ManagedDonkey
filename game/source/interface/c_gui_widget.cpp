@@ -130,8 +130,6 @@ void c_gui_widget::animate_recursively(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB6C20, c_gui_widget, animate_recursively, current_milliseconds);
 
-	return;
-
 	c_gui_widget::animate(current_milliseconds);
 	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
 	{
