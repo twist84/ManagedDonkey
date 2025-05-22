@@ -69,9 +69,17 @@ protected:
 	int32 m_subscription_details_cookie;
 	int32 m_subscription_info_checked;
 	bool m_subscription_info_valid;
+
+	// Status
+	// 1: NeverSubscribed
+	// 2: Subscribed
+	// 3: SubscribedRenew
+	// 4: Expired
 	e_subscription_status m_subscription_status;
+
 	// NextOfferID
 	uns64 m_subscription_next_offer_id;
+
 	// 0: HQButton
 	// 1: HQMessage
 	// 2: FileShareButton
@@ -81,23 +89,28 @@ protected:
 	// 6: CurrentlySubscribedMessage
 	// 7: OverQuotaMessage
 	c_static_wchar_string<256> m_subscription_message[k_message_type_count];
+
 	// SubscriptionSecondsPast19700101
 	uns64 m_subscription_expiration_time;
+
 	// SubscriptionHash
 	int32 m_subscription_hash;
 
-	// ODST, Bungie why isn't this a the end of the struct?
-
 	// PortalButton
 	c_static_wchar_string<256> m_extras_portal;
+
 	// PortalOfferCount
 	int32 m_portal_offer_count;
+
 	// PortalOfferID
 	uns64 m_portal_offer_id;
+
 	// PortalExecuteImageFilename
 	c_static_string<256> m_portal_execute_package_filename;
+
 	// PortalExecuteImageFilename
 	c_static_string<256> m_portal_execute_image_filename;
+
 	// PortalExecuteLaunchData
 	uns64 m_portal_execute_launch_data;
 
