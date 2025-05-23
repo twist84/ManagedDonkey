@@ -1310,9 +1310,190 @@ public:
 		set(s);
 	}
 
+	void append(char const* s)
+	{
+		csstrnzcat(m_string, s, k_maximum_count);
+	}
+
+	void append_line(char const* s = nullptr)
+	{
+		if (s != nullptr)
+			csstrnzcat(m_string, s, k_maximum_count);
+		csstrnzcat(m_string, "\r\n", k_maximum_count);
+	}
+
+	char const* append_print(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		char const* result = append_print_va(format, list);
+
+		va_end(list);
+		return result;
+	}
+
+	char const* append_print_line(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		char const* result = append_print_va(format, list);
+		append_line();
+
+		va_end(list);
+		return result;
+	}
+
+	char const* append_print_va(char const* format, va_list argument_list)
+	{
+		uns32 current_length = length();
+
+		ASSERT(format);
+		ASSERT(current_length >= 0 && current_length < k_maximum_count);
+
+		cvsnzprintf(m_string + current_length, k_maximum_count - current_length, format, argument_list);
+
+		return m_string;
+	}
+
+	void clear()
+	{
+		csmemset(m_string, 0, sizeof(m_string));
+	}
+
+	char* copy_to(char* string, uns32 string_length)const
+	{
+		if (string_length > k_maximum_count)
+			string_length = k_maximum_count;
+
+		return csstrnzcpy(string, m_string, string_length);
+	}
+
+	bool ends_with(char const* string) const
+	{
+		ASSERT(string);
+
+		int32 _length = length();
+		int32 suffix_length = csstrnlen(string, k_maximum_count);
+
+		if (suffix_length > _length)
+			return false;
+
+		char const* suffix = get_string() + (_length - suffix_length);
+
+		bool result = csmemcmp(suffix, string, suffix_length) == 0;
+		return result;
+	}
+
+	char* get_buffer()
+	{
+		return m_string;
+	}
+
+	char const* get_offset(int32 offset) const
+	{
+		if (VALID_INDEX(offset, length()))
+			return &m_string[offset];
+
+		return "";
+	}
+
+	char const* get_string() const
+	{
+		return m_string;
+	}
+
+	int32 index_of(char const* string) const
+	{
+		ASSERT(string);
+
+		return next_index_of(string, 0);
+	}
+
+	bool is_empty() const
+	{
+		return !m_string[0];
+	}
+
+	bool is_equal(char const* string) const
+	{
+		ASSERT(string);
+
+		return csstrnlen(string, k_maximum_count) == length() && csmemcmp(get_string(), string, length()) == 0;
+	}
+
+	int32 length() const
+	{
+		return csstrnlen(m_string, k_maximum_count);
+	}
+
+	int32 next_index_of(char const* string, int32 start_at) const
+	{
+		ASSERT(string);
+
+		int32 result = NONE;
+
+		if (start_at < length())
+		{
+			char const* s = csstrstr(m_string + start_at, string);
+			if (s)
+				result = s - get_string();
+		}
+
+		return result;
+	}
+
 	void null_terminate_buffer()
 	{
 		m_string[k_maximum_count - 1] = 0;
+	}
+
+	char const* print(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		print_va(format, list);
+
+		va_end(list);
+
+		return m_string;
+	}
+
+	char const* print_line(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		print_va(format, list);
+		append_line();
+
+		va_end(list);
+
+		return m_string;
+	}
+
+	char const* print_va(char const* format, va_list argument_list)
+	{
+		cvsnzprintf(m_string, k_maximum_count, format, argument_list);
+
+		return m_string;
+	}
+
+	void set(char const* s)
+	{
+		csstrnzcpy(m_string, s, k_maximum_count);
+	}
+
+	void set_bounded(char const* src, int32 length)
+	{
+		if (length + 1 < k_maximum_count)
+			length++;
+		else
+			length = k_maximum_count;
+
+		csstrnzcpy(m_string, src, length);
 	}
 
 	void set_character(int32 index, char character)
@@ -1341,137 +1522,18 @@ public:
 		m_string[index] = character;
 	}
 
-	void set_length(int32 length)
+	void set_length(int32 desired_length)
 	{
-		if (VALID_COUNT(length, k_maximum_count - 1))
+		if (VALID_COUNT(desired_length, k_maximum_count - 1))
 		{
-			m_string[length] = 0;
+			m_string[desired_length] = 0;
 		}
 	}
 
-	void set(char const* s)
-	{
-		csstrnzcpy(m_string, s, k_maximum_count);
-	}
-
-	void append(char const* s)
-	{
-		csstrnzcat(m_string, s, k_maximum_count);
-	}
-
-	void append_line(char const* s = nullptr)
-	{
-		if (s != nullptr)
-			csstrnzcat(m_string, s, k_maximum_count);
-		csstrnzcat(m_string, "\r\n", k_maximum_count);
-	}
-
-	char const* print(char const* format, ...)
-	{
-		va_list list;
-		va_start(list, format);
-
-		print_va(format, list);
-
-		va_end(list);
-
-		return m_string;
-	}
-
-	char const* print_line(char const* format, ...)
-	{
-		va_list list;
-		va_start(list, format);
-
-		print_va(format, list);
-		append_line();
-
-		va_end(list);
-
-		return m_string;
-	}
-
-	char const* print_va(char const* format, va_list list)
-	{
-		cvsnzprintf(m_string, k_maximum_count, format, list);
-
-		return m_string;
-	}
-
-	char const* append_print(char const* format, ...)
-	{
-		va_list list;
-		va_start(list, format);
-
-		char const* result = append_print_va(format, list);
-
-		va_end(list);
-		return result;
-	}
-
-	char const* append_print_line(char const* format, ...)
-	{
-		va_list list;
-		va_start(list, format);
-
-		char const* result = append_print_va(format, list);
-		append_line();
-
-		va_end(list);
-		return result;
-	}
-
-	char const* append_print_va(char const* format, va_list list)
-	{
-		uns32 current_length = length();
-
-		ASSERT(format);
-		ASSERT(current_length >= 0 && current_length < k_maximum_count);
-
-		cvsnzprintf(m_string + current_length, k_maximum_count - current_length, format, list);
-
-		return m_string;
-	}
-
-	void clear()
-	{
-		csmemset(m_string, 0, sizeof(m_string));
-	}
-
-	bool is_empty() const
-	{
-		return !m_string[0];
-	}
-
-	char const* get_string() const
-	{
-		return m_string;
-	}
-
-	char const* get_offset(int32 offset) const
-	{
-		if (VALID_INDEX(offset, length()))
-			return &m_string[offset];
-
-		return "";
-	}
-
-	char* get_buffer()
-	{
-		return m_string;
-	}
-
-	int32 length() const
-	{
-		return csstrnlen(m_string, k_maximum_count);
-	}
-
-	bool is_equal(char const* string) const
-	{
-		ASSERT(string);
-
-		return csstrnlen(string, k_maximum_count) == length() && csmemcmp(get_string(), string, length()) == 0;
-	}
+	//void set_wchar(wchar_t const* src)
+	//{
+	//	wchar_string_to_ascii_string(src, m_string, k_maximum_count, nullptr);
+	//}
 
 	bool starts_with(char const* string) const
 	{
@@ -1480,71 +1542,14 @@ public:
 		return csmemcmp(string, get_string(), csstrnlen(string, k_maximum_count)) == 0;
 	}
 
-	bool ends_with(char const* string) const
+	bool substring(int32 start_index, int32 count, c_static_string<k_maximum_count>& sub) const
 	{
-		ASSERT(string);
-
-		int32 _length = length();
-		int32 suffix_length = csstrnlen(string, k_maximum_count);
-
-		if (suffix_length > _length)
+		if (start_index < 0 || count <= 0 || start_index + count > length())
 			return false;
 
-		char const* suffix = get_string() + (_length - suffix_length);
-
-		bool result = csmemcmp(suffix, string, suffix_length) == 0;
-		return result;
-	}
-
-	int32 next_index_of(char const* string, int32 index) const
-	{
-		ASSERT(string);
-
-		int32 result = NONE;
-
-		if (index < length())
-		{
-			char const* s = csstrstr(m_string + index, string);
-			if (s)
-				result = s - get_string();
-		}
-
-		return result;
-	}
-
-	int32 index_of(char const* string) const
-	{
-		ASSERT(string);
-
-		return next_index_of(string, 0);
-	}
-
-	void set_bounded(char const* string, int32 _length)
-	{
-		if (_length + 1 < k_maximum_count)
-			_length++;
-		else
-			_length = k_maximum_count;
-
-		csstrnzcpy(m_string, string, _length);
-	}
-
-	bool substring(int32 index, int32 _length, c_static_string<k_maximum_count>& s) const
-	{
-		if (index < 0 || _length <= 0 || index + _length > length())
-			return false;
-
-		s.set_bounded(get_offset(index), _length);
+		sub.set_bounded(get_offset(start_index), count);
 
 		return true;
-	}
-
-	char* copy_to(char* s, unsigned int size)const
-	{
-		if (size > k_maximum_count)
-			size = k_maximum_count;
-
-		return csstrnzcpy(s, m_string, size);
 	}
 
 protected:

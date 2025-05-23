@@ -86,17 +86,17 @@ void __cdecl make_url(c_static_string<256> const* url, c_static_string<256>* out
  
 	ASSERT(out_url);
 
-	c_static_string<256> temp = *url;
+	c_static_string<256> url_string = *url;
 	c_static_string<256> title_storage = "/storage/title/";
 
-	if (temp.starts_with(title_storage.get_string()))
+	if (url_string.starts_with(title_storage.get_string()))
 	{
-		c_static_string<256> temp_substring;
-		temp.substring(title_storage.length(), temp.length() - title_storage.length(), temp_substring);
-		temp.print("%s%s/%s", title_storage.get_string(), g_storage_url_subdirectory.get_string(), temp_substring.get_string());
+		c_static_string<256> temp_string;
+		url_string.substring(title_storage.length(), url_string.length() - title_storage.length(), temp_string);
+		url_string.print("%s%s/%s", title_storage.get_string(), g_storage_url_subdirectory.get_string(), temp_string.get_string());
 	}
 
-	out_url->set(temp.get_string());
+	out_url->set(url_string.get_string());
 }
 HOOK_DECLARE(0x004A34B0, make_url);
 

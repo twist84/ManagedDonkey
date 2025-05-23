@@ -121,21 +121,21 @@ int32 c_url_string::get_untracked_cache_lifetime_seconds() const
 	return m_untracked_cache_lifetime_seconds;
 }
 
-void __cdecl make_hopper_network_directory(char* hopper_directory, int32 hopper_directory_size, char some_char /* separator? */)
+void __cdecl make_hopper_network_directory(char* hopper_directory, int32 length, char separator)
 {
-	//INVOKE(0x00451710, make_hopper_network_directory, hopper_directory, hopper_directory_size, some_char);
+	//INVOKE(0x00451710, make_hopper_network_directory, hopper_directory, length, separator);
 
 	if (g_online_url.current_hopper_directory[0])
 	{
-		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.current_hopper_directory, sizeof(g_online_url.current_hopper_directory));
+		strncpy_s(hopper_directory, length, g_online_url.current_hopper_directory, sizeof(g_online_url.current_hopper_directory));
 	}
 	else if (g_online_url.current_user_override_hopper_directory[0])
 	{
-		strncpy_s(hopper_directory, hopper_directory_size, g_online_url.current_user_override_hopper_directory, sizeof(g_online_url.current_user_override_hopper_directory));
+		strncpy_s(hopper_directory, length, g_online_url.current_user_override_hopper_directory, sizeof(g_online_url.current_user_override_hopper_directory));
 	}
 	else
 	{
-		strncpy_s(hopper_directory, hopper_directory_size, "default_hoppers", strlen("default_hoppers") + 1);
+		strncpy_s(hopper_directory, length, "default_hoppers", strlen("default_hoppers") + 1);
 	}
 }
 
