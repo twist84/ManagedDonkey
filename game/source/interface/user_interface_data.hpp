@@ -1,22 +1,25 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/players.hpp"
+#include "text/unicode.hpp"
 
 struct c_gui_selected_item;
+struct s_data_array;
+struct s_player_appearance;
+
 struct c_gui_data
 {
 public:
-	virtual void* destructor(uns32); // void *`scalar deleting destructor'(unsigned int)
+	virtual ~c_gui_data();
 	virtual bool initialize(int32 name);
 	virtual void dispose();
 	virtual void update();
 	virtual bool is_busy() const;
-	virtual int32 get_current_item_count();
-	virtual int32 get_first_element_handle();
-	virtual int32 get_next_element_handle(int32 element_handle);
-	virtual int32 get_previous_element_handle(int32 element_handle);
-	virtual void get_column_names(int32* const column_names, int32* column_count);
+	virtual int32 get_current_item_count() = 0;
+	virtual int32 get_first_element_handle() = 0;
+	virtual int32 get_next_element_handle(int32 element_handle) = 0;
+	virtual int32 get_previous_element_handle(int32 element_handle) = 0;
+	virtual void get_column_names(int32* const column_names, int32* column_count) = 0;
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size);
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value);
 	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer);
@@ -35,19 +38,79 @@ public:
 	virtual void disable_all_elements(int32 string_id_column_name);
 	virtual void enable_element(int32 string_id_column_name, int32 string_id_value);
 
-	c_string_id get_name() { return m_name; }
+public:
+	c_gui_data();
+	bool contains(int32 element_handle);
+	int32 find_element_handle_from_string_id_value(int32 column_name, int32 value);
+	int32 get_name();
+	void set_name(int32 name);
 
 protected:
-	virtual int32 get_current_item_count_internal();
-
-	c_string_id m_name;
+	int32 m_name;
 };
 static_assert(sizeof(c_gui_data) == 0x8);
 
-struct c_gui_ordered_data :
-	c_gui_data
+struct c_gui_data_array :
+	public c_gui_data
 {
+public:
+	virtual ~c_gui_data_array();
+	virtual bool initialize(int32 name) override;
+	virtual int32 get_current_item_count() override;
+	virtual int32 get_first_element_handle() override;
+	virtual int32 get_next_element_handle(int32 element_handle) override;
+	virtual int32 get_previous_element_handle(int32 element_handle) override;
+	virtual bool get_element(int32 element_handle, void* element, int32 element_size) override;
+	virtual int32 get_maximum_item_count() override;
+	virtual int32 add_element() override;
+	virtual void delete_element(int32 element_handle) override;
+	virtual void set_element(int32 element_handle, void const* element, int32 element_size) override;
+
+public:
+	c_gui_data_array();
+
 protected:
+	s_data_array* m_list_data;
+};
+static_assert(sizeof(c_gui_data_array) == 0xC);
+static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
+
+struct c_gui_data_array_test:
+	public c_gui_data_array
+{
+public:
+	enum
+	{
+		k_test_datum_count = 101,
+	};
+
+	struct s_test_datum :
+		s_datum_header
+	{
+		int16 pad;
+	};
+
+public:
+	virtual ~c_gui_data_array_test();
+	virtual bool initialize(int32 name) override;
+	virtual void get_column_names(int32* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
+
+public:
+	c_gui_data_array_test();
+
+protected:
+	s_data_array* m_list_data;
+};
+static_assert(sizeof(c_gui_data_array) == 0xC);
+static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
+
+struct c_gui_ordered_data :
+	public c_gui_data
+{
+public:
 	enum
 	{
 		k_maximum_disabled_elements = 32,
@@ -60,15 +123,51 @@ protected:
 	};
 	static_assert(sizeof(s_disabled_element) == 0x8);
 
+public:
+	virtual ~c_gui_ordered_data();
+	virtual int32 get_current_item_count() override;
+	virtual int32 get_first_element_handle() override;
+	virtual int32 get_next_element_handle(int32 element_handle) override;
+	virtual int32 get_previous_element_handle(int32 element_handle) override;
+	virtual void clear_disabled_elements() override;
+	virtual void set_disabled_element(int32 string_id_column_name, int32 string_id_value) override;
+	virtual void disable_all_elements(int32 string_id_column_name) override;
+	virtual void enable_element(int32 string_id_column_name, int32 string_id_value) override;
+
+protected:
+	virtual int32 get_current_item_count_internal() = 0;
+
+public:
+	c_gui_ordered_data();
+
+protected:
 	s_disabled_element m_disabled_elements[k_maximum_disabled_elements];
 	int32 m_disabled_element_count;
 };
 static_assert(sizeof(c_gui_ordered_data) == 0x10C);
+static_assert(sizeof(c_gui_ordered_data) == sizeof(c_gui_data) + 0x104);
 
 struct c_gui_tag_datasource :
-	c_gui_ordered_data
+	public c_gui_ordered_data
 {
+public:
+	virtual ~c_gui_tag_datasource();
+	virtual bool initialize(int32 name) override;
+	virtual void get_column_names(int32* const column_names, int32* column_count) override;
+	virtual bool get_element(int32 element_handle, void* element, int32 element_size) override;
+	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool get_invoked_control(int32 element_handle, int32* control_name) override;
+	virtual int32 get_current_item_count_internal() override;
+
+public:
+	c_gui_tag_datasource(int32 tag_index);
+	c_gui_tag_datasource();
+
+protected:
 	int32 m_tag_index;
 };
 static_assert(sizeof(c_gui_tag_datasource) == 0x110);
+static_assert(sizeof(c_gui_tag_datasource) == sizeof(c_gui_ordered_data) + 0x4);
 
