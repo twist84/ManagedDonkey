@@ -62,6 +62,11 @@ c_gui_text_widget* __thiscall c_gui_widget::create_text_widget_(s_runtime_text_w
 	return c_gui_widget::create_text_widget(definition);
 }
 
+gui_real_rectangle2d* __thiscall c_gui_widget::get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
+{
+	return c_gui_widget::get_unprojected_bounds(unprojected_bounds, apply_translation, apply_scale, apply_rotation);
+}
+
 bool __thiscall c_gui_widget::handle_alt_stick_(c_controller_input_message const* message)
 {
 	return c_gui_widget::handle_alt_stick(message);
@@ -704,7 +709,7 @@ gui_real_rectangle2d* c_gui_widget::get_projected_bounds(rectangle2d const* wind
 	//return INVOKE_CLASS_MEMBER(0x00AB95D0, c_gui_widget, get_projected_bounds, window_bounds, projected_bounds, apply_translation, apply_scale, apply_rotation);
 
 	ASSERT(window_bounds != NULL);
-	ASSERT(projected_bounds!=NULL);
+	ASSERT(projected_bounds != NULL);
 
 	c_gui_widget::get_unprojected_bounds(projected_bounds, apply_translation, apply_scale, apply_rotation);
 	projected_bounds->apply_projection_transform(m_animated_state.position.z, window_bounds);
@@ -746,8 +751,7 @@ bool c_gui_widget::get_string_by_string_id(int32 string_identifier, c_static_wch
 //.text:00AB9760 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<1024>::get_text_internal()
 //.text:00AB9770 ; 
 
-//.text:00AB97C0 ; public: gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*, bool, bool, bool)
-void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
+gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
 
@@ -779,6 +783,8 @@ void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unpro
 	scale.i = (render_window_bounds.x1 - render_window_bounds.x0) / 1152.0f;
 	scale.j = (render_window_bounds.y1 - render_window_bounds.y0) / 640.0f;
 	unprojected_bounds->scale_direct(&scale);
+
+	return unprojected_bounds;
 }
 
 //.text:00AB9870 ; 

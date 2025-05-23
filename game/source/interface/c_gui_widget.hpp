@@ -127,6 +127,8 @@ public:
 	c_gui_model_widget* __thiscall create_model_widget_(s_model_widget_block const* definition);
 	c_gui_text_widget* __thiscall create_text_widget_(s_runtime_text_widget_definition const* definition);
 
+	gui_real_rectangle2d* __thiscall get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+
 	bool __thiscall handle_alt_stick_(c_controller_input_message const* message);
 	bool __thiscall handle_alt_tab_(c_controller_input_message const* message);
 	bool __thiscall handle_controller_input_message_(c_controller_input_message const* message);
@@ -230,7 +232,7 @@ public:
 	gui_real_rectangle2d* get_projected_bounds(rectangle2d const* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 	bool get_render_in_screenshot();
 	e_controller_index get_single_responding_controller() const;
-	void __thiscall get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	gui_real_rectangle2d* get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 	bool is_animation_active(e_animation_state animation_state);
 	bool leaf_node_of_widget(c_gui_widget* branch_widget);
 	void modulate_tint_color(real_argb_color const* modulation);
