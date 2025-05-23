@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 
+enum e_screen_transition_type;
 struct s_data_array;
 struct s_event_record;
 struct s_window_manager_screen_render_data;
@@ -38,6 +39,7 @@ struct c_window_manager
 
 	c_gui_screen_widget* allocate_codeless_screen(int32 screen_name);
 	c_gui_screen_widget* allocate_named_screen(int32 screen_name);
+	void begin_transition_out(c_gui_screen_widget* screen, e_screen_transition_type transition_type);
 	e_window_index get_render_window_for_screen(c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
@@ -45,8 +47,11 @@ struct c_window_manager
 	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index);
 	static int32 __cdecl locate_screen_definition_tag_by_name(int32 name);
 	static bool __cdecl named_screen_defined_in_code(int32 screen_name);
+	static void __cdecl play_controller_sound(int32 optional_sound_tag_override_index, e_event_type event_type, e_controller_component controller_component);
 	void render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot);
 	void render_fade();
+	void reset_screens();
+	void run_screen_hs_script(int32 script_index);
 	void update(uns32 milliseconds);
 };
 static_assert(sizeof(c_window_manager) == 0x128);

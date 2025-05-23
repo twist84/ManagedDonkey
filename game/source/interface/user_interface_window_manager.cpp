@@ -272,7 +272,12 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 
 //.text:00AAA7A0 ; public: bool c_window_manager::any_ui_active()
 //.text:00AAA7D0 ; public: bool c_window_manager::any_ui_active_in_window(e_window_index)
-//.text:00AAA7F0 ; public: void c_window_manager::begin_transition_out(c_gui_screen_widget*, e_screen_transition_type)
+
+void c_window_manager::begin_transition_out(c_gui_screen_widget* screen, e_screen_transition_type transition_type)
+{
+	INVOKE_CLASS_MEMBER(0x00AAA7F0, c_window_manager, begin_transition_out, screen, transition_type);
+}
+
 //.text:00AAA870 ; 
 //.text:00AAA970 ; public: bool c_window_manager::controller_input_should_be_suppressed(e_controller_index)
 //.text:00AAA9F0 ; public: void c_window_manager::debug_widget_state(e_gui_widget_type, int32, c_window_manager::e_widget_debug_state, bool, bool)
@@ -527,7 +532,12 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 }
 
 //.text:00AAC430 ; public: bool c_window_manager::non_dead_cam_ui_active_for_game_player_controller(e_controller_index)
-//.text:00AAC510 ; public: static void __cdecl c_window_manager::play_controller_sound(int32, e_event_type, e_controller_component)
+
+void __cdecl c_window_manager::play_controller_sound(int32 optional_sound_tag_override_index, e_event_type event_type, e_controller_component controller_component)
+{
+	INVOKE(0x00AAC510, c_window_manager::play_controller_sound, optional_sound_tag_override_index, event_type, controller_component);
+}
+
 //.text:00AAC650 ; c_window_manager::predict_immediate_resources
 //.text:00AAC6C0 ; c_window_manager::predict_pending_resources
 //.text:00AAC730 ; public: void c_window_manager::prepare_for_tag_reload()
@@ -621,13 +631,21 @@ void c_window_manager::render_fade()
 	INVOKE_CLASS_MEMBER(0x00AACB10, c_window_manager, render_fade);
 }
 
-//.text:00AACBD0 ; public: void c_window_manager::reset_screens()
-//.text:00AACE40 ; public: void c_window_manager::run_screen_hs_script(int32)
+void c_window_manager::reset_screens()
+{
+	INVOKE_CLASS_MEMBER(0x00AACBD0, c_window_manager, reset_screens);
+}
+
+void c_window_manager::run_screen_hs_script(int32 script_index)
+{
+	INVOKE_CLASS_MEMBER(0x00AACE40, c_window_manager, run_screen_hs_script, script_index);
+}
+
 //.text:00AACEA0 ; 
 //.text:00AACEC0 ; 
 //.text:00AACEF0 ; 
 //.text:00AACF10 ; 
-//.text:00AACF40 ; public: void c_window_manager::set_fade_out_and_quit_campaign(bool,bool)
+//.text:00AACF40 ; public: void c_window_manager::set_fade_out_and_quit_campaign(bool, bool)
 //.text:00AACF60 ; public: void c_window_manager::set_fading(bool)
 //.text:00AACF70 ; public: void c_window_manager::set_fading_instant(bool)
 //.text:00AACFB0 ; 
