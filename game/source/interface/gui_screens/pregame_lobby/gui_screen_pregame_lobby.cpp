@@ -120,7 +120,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 				if (c_load_pregame_selection_screen_message* screen_message = new c_load_pregame_selection_screen_message(
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value(),
+					m_name,
 					_gui_selection_type_network_mode))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
@@ -137,7 +137,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 					STRING_ID(gui, pregame_switch_lobby),
 					k_any_controller,
 					get_render_window(),
-					m_name.get_value()))
+					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
 					screen_message->set_focus_on_load_by_name(

@@ -32,7 +32,7 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 				if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new c_load_pregame_selection_screen_message(
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value(),
+					m_name,
 					selection_type))
 				{
 					pregame_selection_screen_message->set_parent_screen_index(m_screen_index);

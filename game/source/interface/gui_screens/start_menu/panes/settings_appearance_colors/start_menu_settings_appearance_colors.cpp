@@ -136,8 +136,7 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 				if (c_gui_widget* focused_widget = get_focused_widget())
 					parent_list_item = focused_widget->get_parent_list_item();
 
-				int32 parent_list_item_name = parent_list_item->m_name.get_value();
-				if (c_gui_list_widget* child_list = get_child_list_widget(parent_list_item_name))
+				if (c_gui_list_widget* child_list = get_child_list_widget(parent_list_item->m_name))
 				{
 					int32 focused_item_index = child_list->get_focused_item_index();
 					for (c_gui_list_item_widget* child_list_item = (c_gui_list_item_widget*)child_list->get_first_child_widget_by_type(_gui_list_item);
@@ -161,12 +160,12 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 		}
 		else if (event_type == _event_type_button_press && (component == _controller_component_button_a || component == _controller_component_button_b))
 		{
-			int32 parent_list_name = focused_parent_list_widget->m_name.get_value();
+			int32 parent_list_name = focused_parent_list_widget->m_name;
 			for (c_gui_list_item_widget* child_list_item = (c_gui_list_item_widget*)group_selector_child_list->get_first_child_widget_by_type(_gui_list_item);
 				child_list_item;
 				child_list_item = get_next_list_item_widget(true))
 			{
-				if (child_list_item->m_name.get_value() == parent_list_name)
+				if (child_list_item->m_name == parent_list_name)
 				{
 					group_selector_child_list->set_focused_item_index(child_list_item->get_list_item_index(), false);
 					transfer_focus(child_list_item);

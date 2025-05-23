@@ -256,6 +256,7 @@ public:
 	void stomp_bounds(real_rectangle2d const* new_bounds);
 	void update_animation(uns32 current_milliseconds);
 	bool verify_animation_period(e_animation_state animation_state, int32 period);
+	static char const* __cdecl widget_name_to_string(int32 name);
 
 //protected:
 	int32 __unknown4;
@@ -268,7 +269,7 @@ public:
 	c_robust_pointer<c_gui_widget> m_children;
 	c_robust_pointer<c_gui_widget> m_next;
 	c_robust_pointer<c_gui_widget> m_previous;
-	c_string_id m_name;
+	string_id m_name;
 	real32 __unknown44;
 	uns32 m_flags;
 	int32 __unknown4C;
@@ -295,3 +296,4 @@ static_assert(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
 static_assert(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
 static_assert(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
 
+extern char const* __cdecl gui_widget_type_to_string(e_gui_widget_type type);

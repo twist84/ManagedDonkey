@@ -47,7 +47,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 				STRING_ID(gui, campaign_settings),
 				message->get_controller(),
 				get_render_window(),
-				m_name.get_value()))
+				m_name))
 			{
 				screen_message->set_parent_screen_index(m_screen_index);
 				user_interface_messaging_post(screen_message);
@@ -77,7 +77,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					STRING_ID(gui, campaign_select_level),
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value(),
+					m_name,
 					_campaign_level_setup_mode_lobby,
 					campaign_id,
 					map_id,
@@ -94,7 +94,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					STRING_ID(gui, campaign_select_difficulty),
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value(),
+					m_name,
 					_campaign_difficulty_setup_mode_lobby,
 					_campaign_id_default,
 					_map_id_none,
@@ -114,7 +114,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					STRING_ID(gui, select_scoring),
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value()))
+					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
@@ -127,7 +127,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_
 					STRING_ID(gui, campaign_select_skulls),
 					message->get_controller(),
 					get_render_window(),
-					m_name.get_value()))
+					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);

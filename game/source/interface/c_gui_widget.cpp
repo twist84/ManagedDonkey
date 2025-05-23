@@ -204,6 +204,8 @@ bool c_gui_widget::can_receive_focus()
 bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB7960, c_gui_widget, controller_can_drive, controller_index);
+
+	//return controller_index == k_any_controller || get_driving_controller() == k_any_controller || get_driving_controller() == controller_index;
 }
 
 //.text:00AB79D0 ; public: c_gui_button_key_widget* c_gui_widget::create_and_add_button_key(s_button_key_block const*)
@@ -507,6 +509,33 @@ c_gui_widget* c_gui_widget::get_deepest_widget_that_can_receive_focus()
 int32 c_gui_widget::get_definition_index()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8E20, c_gui_widget, get_definition_index);
+
+	//c_gui_widget* parent_widget = get_parent();
+	//if (!parent_widget)
+	//{
+	//	return NONE;
+	//}
+	//
+	//c_gui_widget* child_widget = parent_widget->get_children();
+	//if (!child_widget)
+	//{
+	//	return NONE;
+	//}
+	//
+	//int32 definition_index = 0;
+	//
+	//while (child_widget != this)
+	//{
+	//	child_widget = child_widget->get_next();
+	//	if (!child_widget)
+	//	{
+	//		return NONE;
+	//	}
+	//
+	//	definition_index++;
+	//}
+	//
+	//return definition_index;
 }
 
 e_controller_index c_gui_widget::get_driving_controller() const
@@ -572,6 +601,18 @@ c_gui_widget* c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type typ
 c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
+
+	//c_gui_widget* last_child_widget = NULL;
+	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	//{
+	//	if (child_widget->m_type != type)
+	//	{
+	//		continue;
+	//	}
+	//
+	//	last_child_widget = child_widget;
+	//}
+	//return last_child_widget;
 }
 
 //.text:00AB9080 ; void __cdecl get_local_coordinate_system_position_from_rotation_keyframe(c_gui_widget*, s_rotation_keyframe_block const*, real_point2d*)
@@ -648,7 +689,7 @@ int32 c_gui_widget::get_name() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB94B0, c_gui_widget, get_name);
 
-	return m_name.get_value();
+	return m_name;
 }
 
 c_gui_widget* c_gui_widget::get_previous()
@@ -1317,8 +1358,31 @@ bool c_gui_widget::verify_animation_period(e_animation_state animation_state, in
 	return INVOKE_CLASS_MEMBER(0x00ABB220, c_gui_widget, verify_animation_period, animation_state, period);
 }
 
-//.text:00ABB270 ; public: static char const* __cdecl c_gui_widget::widget_name_to_string(int32)
-//.text:00ABB280 ; public: static char const* __cdecl c_gui_widget::widget_type_to_string(e_gui_widget_type)
+char const* __cdecl c_gui_widget::widget_name_to_string(int32 name)
+{
+	//return INVOKE(0x00ABB270, c_gui_widget::widget_name_to_string, name);
+
+	return "";
+}
+
+char const* __cdecl gui_widget_type_to_string(e_gui_widget_type type)
+{
+	//return INVOKE(0x00ABB280, gui_widget_type_to_string, type);
+
+	switch (type)
+	{
+	case _gui_text:       return "text";
+	case _gui_bitmap:     return "bitmap";
+	case _gui_model:      return "model";
+	case _gui_group:      return "group";
+	case _gui_button_key: return "button_key";
+	case _gui_list_item:  return "item";
+	case _gui_slider:     return "slider";
+	case _gui_list:       return "list";
+	case _gui_screen:     return "screen";
+	}
+	return "<unknown>";
+}
 
 bool c_gui_widget::within_focus_chain()
 {
