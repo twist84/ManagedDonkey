@@ -305,6 +305,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\gui_selected_items_saved_film.cpp" />
     <ClCompile Include="source\interface\gui_selected_items_saved_screenshot.cpp" />
     <ClCompile Include="source\interface\overhead_map.cpp" />
+    <ClCompile Include="source\interface\user_interface_data.cpp" />
     <ClCompile Include="source\interface\user_interface_main_menu_music.cpp" />
     <ClCompile Include="source\interface\user_interface_mouse.cpp" />
     <ClCompile Include="source\interface\user_interface_player_model_camera.cpp" />

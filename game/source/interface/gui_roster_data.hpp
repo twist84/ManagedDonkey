@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
 #include "interface/user_interface_data.hpp"
 
 struct c_gui_roster_data :
