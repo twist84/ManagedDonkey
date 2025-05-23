@@ -5306,3 +5306,20 @@ enum e_controller_component
 	_controller_component_right_stick_y,
 };
 
+enum e_screen_transition_type
+{
+	_screen_transition_type_none = 0,
+	_screen_transition_type_normal,
+	_screen_transition_type_backwards,
+	_screen_transition_type_cycle_previous,
+	_screen_transition_type_cycle_next,
+	_screen_transition_type_custom0,
+	_screen_transition_type_custom1,
+};
+
+enum e_transition_out_type
+{
+	_transition_out_normal = 0,
+	_transition_out_back_out,
+};
+

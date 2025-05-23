@@ -4,8 +4,6 @@
 #include "interface/c_gui_widget.hpp"
 #include "tag_files/tag_groups.hpp"
 
-enum e_screen_transition_type;
-enum e_transition_out_type;
 struct c_dialog_result_message;
 struct c_game_tag_parser;
 struct c_gui_bitmap_widget;
@@ -50,15 +48,15 @@ static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definit
 struct s_runtime_screen_widget_definition :
 	s_runtime_core_widget_definition
 {
-	int32 string_list_index;
-	c_string_id initial_button_key_name;
-	s_tag_block debug_datasources;
-	s_tag_block groups;
-	s_tag_block button_keys;
-	int32 sound_overrides_index;
-	c_static_string<k_tag_string_length> on_load_script_name;
+	int32 string_list_tag_reference_index;
+	int32 initial_button_key_name;
+	s_tag_block datasource_blocks;
+	s_tag_block group_blocks;
+	s_tag_block button_key_blocks;
+	int32 sound_override_reference_index;
+	char script_name[32];
 	int16 script_index;
-	byte scary[2];
+	int16 pad;
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
@@ -189,15 +187,24 @@ private:
 	void clear_display_groups();
 
 public:
+	void dispose_child_screens();
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
 	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
 	void play_sound(e_user_interface_sound_effect sound_effect);
 	bool running_in_codeless_mode();
-	void transfer_focus(c_gui_widget* widget);
+
+private:
+	void set_initial_focused_widget();
+
+public:
+	void set_text_widget_string_id(int32 widget_name, int32 widget_text);
+	void set_text_widget_text(int32 widget_name, wchar_t const* widget_text);
+	void transfer_focus(c_gui_widget* new_focused_widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
 	void transfer_focus_without_animations(c_gui_widget* new_focused_widget, bool play_received_animation, bool play_lost_animation);
+	void transition_out(e_transition_out_type transition_out);
 
 public:
 //protected:
