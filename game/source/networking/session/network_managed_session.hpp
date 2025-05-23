@@ -12,14 +12,20 @@ struct c_network_session_membership;
 struct c_managed_session_overlapped_task :
 	public c_overlapped_task
 {
-	void __thiscall process_add_players(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns64 const* a4, bool const* a5, bool const* a6, int32 a7);
-	void __thiscall process_create(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns16 flags);
-	void __thiscall process_delete(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session);
-	void __thiscall process_game_end(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session);
-	void __thiscall process_modify(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, s_online_session* desired_session, s_online_session* actual_session);
-	void __thiscall process_game_start(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session);
-	void __thiscall process_remove_players(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns64 const* a4, bool const* a5, int32 player_count);
-	void __thiscall process_session_host_migrate(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, bool is_host, s_transport_session_description* host_migration_description);
+	using t_completion_routine = void __cdecl(int32, bool, uns32);
+
+	void filter_local_users(int32 player_count, uns64 const* players, bool const* online_enabled, bool const* private_slots);
+	void process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count);
+	bool process_add_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count);
+	void process_create(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns16 mask);
+	void process_delete(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
+	void process_game_end(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
+	void process_modify(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, s_online_session* desired_session, s_online_session* actual_session);
+	static bool __cdecl process_modify_immediately(s_online_session* desired_session, s_online_session* actual_session);
+	void process_game_start(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
+	void process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count);
+	bool process_remove_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count);
+	void process_session_host_migrate(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, bool is_host, s_transport_session_description* host_migration_description);
 	uns32 __thiscall start_(void* overlapped);
 
 	void __thiscall complete_();
@@ -43,7 +49,7 @@ struct c_managed_session_overlapped_task :
 	s_online_session* m_desired_session;
 	s_online_session* m_actual_session;
 	int32 m_managed_session_index;
-	void(__cdecl* m_completion_routine)(int32, bool, uns32);
+	t_completion_routine* m_completion_routine;
 	bool m_result;
 	uns32 m_return_result;
 	uns16 m_mask;

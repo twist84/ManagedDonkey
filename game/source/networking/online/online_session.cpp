@@ -16,23 +16,28 @@ HOOK_DECLARE_CLASS_MEMBER(0x00442C30, c_managed_session_overlapped_task, process
 HOOK_DECLARE_CLASS_MEMBER(0x00442C40, c_managed_session_overlapped_task, process_game_end);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C50, c_managed_session_overlapped_task, process_game_start);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C60, c_managed_session_overlapped_task, process_modify);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
+//HOOK_DECLARE_CLASS(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
 
-//.text:00442C00 ; void __cdecl c_managed_session_overlapped_task::process_add_players(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*, uns64 const*, bool const*, bool const*, int32);
-void __thiscall c_managed_session_overlapped_task::process_add_players(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns64 const* a4, bool const* a5, bool const* a6, int32 player_count)
+void c_managed_session_overlapped_task::filter_local_users(int32 player_count, uns64 const* players, bool const* online_enabled, bool const* private_slots)
 {
+	// $TODO: implement me
+}
+
+void c_managed_session_overlapped_task::process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count)
+{
+	//INVOKE_CLASS_MEMBER(0x00442C00, c_managed_session_overlapped_task, process_add_players, managed_session_index, completion_routine, session, player_xuids, online_enabled, private_slots, player_count);
+
 	m_session = session;
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_context = _process_add_players;
 	m_result = false;
 	m_return_result = 0;
 
-	// $TODO: implement `filter_local_users`
-	//filter_local_users(player_count, a4, a5, a6);
+	filter_local_users(player_count, player_xuids, online_enabled, private_slots);
 
 	if (!m_player_count)
 	{
@@ -45,28 +50,37 @@ void __thiscall c_managed_session_overlapped_task::process_add_players(int32 man
 	}
 }
 
-//.text:00442C10 ; bool __cdecl c_managed_session_overlapped_task::process_add_players_immediately(s_online_session*, uns64 const*, bool const*, bool const*, int32)
-
-//.text:00442C20 ; void __cdecl c_managed_session_overlapped_task::process_create(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*, c_flags<e_online_session_flags, uns16, 9>);
-void __thiscall c_managed_session_overlapped_task::process_create(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns16 flags)
+bool c_managed_session_overlapped_task::process_add_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count)
 {
+	//return INVOKE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately, session, player_xuids, online_enabled, private_slots, player_count);
+
+	// $TODO: implement me
+
+	return true;
+}
+
+void c_managed_session_overlapped_task::process_create(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns16 mask)
+{
+	//INVOKE_CLASS_MEMBER(0x00442C20, c_managed_session_overlapped_task, process_create, managed_session_index, completion_routine, session, mask);
+
 	m_context = _process_create;
 	m_session = session;
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_result = false;
 	m_return_result = 0;
-	m_mask = flags;
+	m_mask = mask;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
 		reset();
 }
 
-//.text:00442C30 ; void __cdecl c_managed_session_overlapped_task::process_delete(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_delete(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session)
+void c_managed_session_overlapped_task::process_delete(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session)
 {
+	//INVOKE_CLASS_MEMBER(0x00442C30, c_managed_session_overlapped_task, process_delete, managed_session_index, completion_routine, session);
+
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_session = session;
 	m_context = _process_delete;
 	m_result = false;
@@ -76,11 +90,12 @@ void __thiscall c_managed_session_overlapped_task::process_delete(int32 managed_
 		reset();
 }
 
-//.text:00442C40 ; void __cdecl c_managed_session_overlapped_task::process_game_end(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_game_end(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session)
+void c_managed_session_overlapped_task::process_game_end(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session)
 {
+	//INVOKE_CLASS_MEMBER(0x00442C40, c_managed_session_overlapped_task, process_game_end, managed_session_index, completion_routine, session);
+
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_session = session;
 	m_context = _process_end;
 	m_result = false;
@@ -90,11 +105,12 @@ void __thiscall c_managed_session_overlapped_task::process_game_end(int32 manage
 		reset();
 }
 
-//.text:00442C50 ; void __cdecl c_managed_session_overlapped_task::process_game_start(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_game_start(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session)
+void c_managed_session_overlapped_task::process_game_start(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session)
 {
+	//INVOKE_CLASS_MEMBER(0x00442C50, c_managed_session_overlapped_task, process_game_start, managed_session_index, completion_routine, session);
+
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_session = session;
 	m_context = _process_start;
 	m_result = false;
@@ -104,15 +120,16 @@ void __thiscall c_managed_session_overlapped_task::process_game_start(int32 mana
 		reset();
 }
 
-//.text:00442C60 ; void __cdecl c_managed_session_overlapped_task::process_modify(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*, s_online_session*, s_online_session*);
-void __thiscall c_managed_session_overlapped_task::process_modify(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, s_online_session* desired_session, s_online_session* actual_session)
+void c_managed_session_overlapped_task::process_modify(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, s_online_session* desired_session, s_online_session* actual_session)
 {
+	//INVOKE_CLASS_MEMBER(0x00442C60, c_managed_session_overlapped_task, process_modify, managed_session_index, completion_routine, session, desired_session, actual_session);
+
 	m_managed_session_index = managed_session_index;
 	m_desired_session = desired_session;
 	m_session = session;
 	m_actual_session = actual_session;
 	m_context = _process_modify;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_result = false;
 	m_return_result = 0;
 
@@ -120,20 +137,27 @@ void __thiscall c_managed_session_overlapped_task::process_modify(int32 managed_
 		reset();
 }
 
-//.text:00442C70 ; static bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_online_session*, s_online_session*);
-
-//.text:00442C80 ; void __cdecl c_managed_session_overlapped_task::process_remove_players(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*, uns64 const*, bool const*, int32);
-void __thiscall c_managed_session_overlapped_task::process_remove_players(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, uns64 const* a4, bool const* a5, int32 player_count)
+bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_online_session* desired_session, s_online_session* actual_session)
 {
+	//return INVOKE(0x00442C70, c_managed_session_overlapped_task::process_modify_immediately, desired_session, actual_session);
+
+	// $TODO: implement me
+
+	return true;
+}
+
+void c_managed_session_overlapped_task::process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count)
+{
+	//INVOKE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players, managed_session_index, completion_routine, session, player_xuids, online_enabled, player_count);
+
 	m_session = session;
 	m_managed_session_index = managed_session_index;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_context = _process_remove_players;
 	m_result = false;
 	m_return_result = 0;
 
-	// $TODO: implement `filter_local_users`
-	//filter_local_users(player_count, a5, a6, NULL);
+	filter_local_users(player_count, player_xuids, online_enabled, NULL);
 
 	if (!m_player_count)
 	{
@@ -146,17 +170,23 @@ void __thiscall c_managed_session_overlapped_task::process_remove_players(int32 
 	}
 }
 
-//.text:00442C90 ; bool __cdecl c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session*, uns64 const*, bool const*, int32);
-
-//.text:00442CA0 ; void __cdecl c_managed_session_overlapped_task::process_session_host_migrate(int32, void(__cdecl*)(int32, bool, uns32), s_online_session*, bool, s_transport_session_description*);
-void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(int32 managed_session_index, void(__cdecl* callback)(int32, bool, uns32), s_online_session* session, bool is_host, s_transport_session_description* host_migration_description)
+bool c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count)
 {
+	//return INVOKE_CLASS_MEMBER(0x00442C90, c_managed_session_overlapped_task, process_remove_players_immediately, session, player_xuids, online_enabled, player_count);
+
+	return true;
+}
+
+void c_managed_session_overlapped_task::process_session_host_migrate(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, bool is_host, s_transport_session_description* host_migration_description)
+{
+	//INVOKE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate, managed_session_index, completion_routine, session, is_host, host_migration_description);
+
 	m_managed_session_index = managed_session_index;
 	m_is_host = is_host;
 	m_session = session;
 	m_host_migration_description = host_migration_description;
 	m_context = _process_session_host_migrate;
-	m_completion_routine = callback;
+	m_completion_routine = completion_routine;
 	m_result = false;
 	m_return_result = 0;
 
@@ -164,9 +194,10 @@ void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(
 		reset();
 }
 
-//.text:00442CB0 ; virtual uns32 __cdecl c_managed_session_overlapped_task::start(void*);
-uns32 __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
+uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 {
+	//return INVOKE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start, overlapped);
+
 	uns32 result = 0;
 
 	e_overlapped_task context = m_context;
