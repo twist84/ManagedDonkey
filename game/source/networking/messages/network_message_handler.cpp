@@ -711,7 +711,7 @@ void c_network_message_handler::handle_connect_refuse(c_network_channel* channel
 		break;
 		default:
 		{
-			ASSERT2("unreachable");
+			VASSERT("unreachable");
 		}
 		break;
 		}

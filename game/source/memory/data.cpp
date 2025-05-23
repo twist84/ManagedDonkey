@@ -254,7 +254,7 @@ void __cdecl data_verify(s_data_array const* data)
 	//{
 	//	c_static_string<256> assert_string;
 	//	assert_string.print("%s data array @%p is bad or not allocated", data->name, data);
-	//	ASSERT3(assert_string.get_string());
+	//	VASSERT(assert_string.get_string());
 	//}
 }
 
@@ -320,29 +320,29 @@ void* __cdecl datum_get(s_data_array* data, int32 index)
 	ASSERT(data->valid);
 
 	if (index == NONE)
-		ASSERT2(c_string_builder("tried to access %s index NONE",
+		VASSERT(c_string_builder("tried to access %s index NONE",
 			data->name.get_string()).get_string());
 
 	if (!identifier)
-		ASSERT2(c_string_builder("tried to access %s using datum_get() with an absolute index #%d",
+		VASSERT(c_string_builder("tried to access %s using datum_get() with an absolute index #%d",
 			data->name.get_string(),
 			index).get_string());
 
 	if (absolute_index < 0 || absolute_index >= data->count)
-		ASSERT2(c_string_builder("%s index #%d (0x%x) is out of range (%d)",
+		VASSERT(c_string_builder("%s index #%d (0x%x) is out of range (%d)",
 			data->name.get_string(),
 			absolute_index,
 			index,
 			data->count).get_string());
 
 	if (!header->identifier)
-		ASSERT2(c_string_builder("%s index #%d (0x%x) is unused",
+		VASSERT(c_string_builder("%s index #%d (0x%x) is unused",
 			data->name.get_string(),
 			absolute_index,
 			index).get_string());
 
 	if (header->identifier != identifier)
-		ASSERT2(c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
+		VASSERT(c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
 			data->name.get_string(),
 			absolute_index,
 			index,
@@ -373,12 +373,12 @@ void* __cdecl datum_try_and_get(s_data_array const* data, int32 index)
 	if (index != NONE || absolute_index != int16(0xFFFF))
 	{
 		if (!identifier)
-			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
+			VASSERT(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
 				data->name.get_string(),
 				absolute_index).get_string());
 
 		if (absolute_index < 0 || absolute_index >= (int16)data->maximum_count)
-			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+			VASSERT(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
 				data->name.get_string(),
 				index,
 				data->maximum_count).get_string());
@@ -408,22 +408,22 @@ void* __cdecl datum_get_absolute(s_data_array* data, int32 index)
 	ASSERT(data->valid);
 
 	if (index == NONE)
-		ASSERT2(c_string_builder("tried to access %s index NONE",
+		VASSERT(c_string_builder("tried to access %s index NONE",
 			data->name.get_string()).get_string());
 
 	if (TEST_MASK(index, 0xFFFF0000))
-		ASSERT2(c_string_builder("tried to access %s using datum_get_absolute() with a non absolute index #%d",
+		VASSERT(c_string_builder("tried to access %s using datum_get_absolute() with a non absolute index #%d",
 			data->name.get_string(),
 			index).get_string());
 
 	if (index < 0 || index >= data->count)
-		ASSERT2(c_string_builder("%s absolute index #%d is out of range (%d)",
+		VASSERT(c_string_builder("%s absolute index #%d is out of range (%d)",
 			data->name.get_string(),
 			index,
 			data->count).get_string());
 
 	if (!header->identifier)
-		ASSERT2(c_string_builder("%s absolute index #%d is unused",
+		VASSERT(c_string_builder("%s absolute index #%d is unused",
 			data->name.get_string(),
 			index).get_string());
 
@@ -454,7 +454,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index)
 	//			DATUM_INDEX_TO_ABSOLUTE_INDEX(index),
 	//			index);
 	//
-	//		ASSERT2(assert_string.get_string());
+	//		VASSERT(assert_string.get_string());
 	//	}
 	//
 	//	if (index < 0 || index >= data->maximum_count)
@@ -464,7 +464,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index)
 	//			data->name.get_string(),
 	//			index,
 	//			data->maximum_count);
-	//		ASSERT2(assert_string.get_string());
+	//		VASSERT(assert_string.get_string());
 	//	}
 	//
 	//	if (absolute_index < data->count)

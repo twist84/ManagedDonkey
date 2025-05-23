@@ -470,7 +470,7 @@ int32 event_parse_categories(char const* event_name, int32 max_categories, int32
 			}
 			else
 			{
-				ASSERT2(c_string_builder("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length).get_string());
+				VASSERT(c_string_builder("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length).get_string());
 
 				failed = true;
 			}
@@ -501,7 +501,7 @@ int32 event_parse_categories(char const* event_name, int32 max_categories, int32
 	} while (!succeeded && !failed);
 
 	if (failed)
-		ASSERT2(c_string_builder("failed to parse network event '%s'", event_name).get_string());
+		VASSERT(c_string_builder("failed to parse network event '%s'", event_name).get_string());
 
 	if (category_index > category_count)
 		category_index = category_count;

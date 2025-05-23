@@ -551,7 +551,7 @@ void __cdecl main_game_launch_default()
 		}
 		else if (game_in_editor())
 		{
-			ASSERT2("editor did not specify a level to load!");
+			VASSERT("editor did not specify a level to load!");
 		}
 		else
 		{

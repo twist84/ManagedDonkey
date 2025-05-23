@@ -520,7 +520,7 @@ void c_message_globals::queue(c_message* message)
 	{
 		if (node->m_message && node->m_message == message)
 		{
-			ASSERT2("ui: attempting to queue a message that has already been queued");
+			VASSERT("ui: attempting to queue a message that has already been queued");
 			break;
 		}
 	}

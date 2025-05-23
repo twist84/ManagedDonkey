@@ -4,7 +4,7 @@
 { \
 	if (!valid_real_normal3d(NORMAL)) \
 	{ \
-		ASSERT2(c_string_builder("%s: assert_valid_real_normal3d(%f, %f, %f)", \
+		VASSERT(c_string_builder("%s: assert_valid_real_normal3d(%f, %f, %f)", \
 			#NORMAL, \
 			##NORMAL->i, \
 			##NORMAL->j, \
@@ -17,7 +17,7 @@
 { \
 	if (!valid_real_vector3d_axes3(FORWARD, LEFT, UP)) \
 	{ \
-		ASSERT2(c_string_builder("%s, %s, %s: assert_valid_real_vector3d_axes3(%f, %f, %f / %f, %f, %f / %f, %f, %f)", \
+		VASSERT(c_string_builder("%s, %s, %s: assert_valid_real_vector3d_axes3(%f, %f, %f / %f, %f, %f / %f, %f, %f)", \
 			#FORWARD, \
 			#LEFT, \
 			#UP, \

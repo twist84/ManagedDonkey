@@ -160,7 +160,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//}
 	//break;
 	//default:
-	//	ASSERT2("unreachable");
+	//	VASSERT("unreachable");
 	//	break;
 	//}
 	//

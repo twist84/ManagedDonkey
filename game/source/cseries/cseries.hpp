@@ -303,8 +303,8 @@ do { \
 	} \
 } while (false)
 
-#define ASSERT2(STATEMENT) ASSERT_EXCEPTION2(STATEMENT, true)
-#define ASSERT_EXCEPTION2(STATEMENT, IS_EXCEPTION, ...) \
+#define VASSERT(STATEMENT) VASSERT_EXCEPTION(STATEMENT, true)
+#define VASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
 do { \
 	if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 	{ \
@@ -321,11 +321,8 @@ do { \
 #define ASSERT(STATEMENT, ...) do { } while (false)
 #define ASSERT_EXCEPTION(STATEMENT, ...) do { } while (false)
 
-#define ASSERT2(STATEMENT, ...) do { } while (false)
-#define ASSERT_EXCEPTION2(STATEMENT, ...) do { } while (false)
-
-#define ASSERT3(STATEMENT, ...) do { } while (false)
-#define ASSERT_EXCEPTION3(STATEMENT, ...) do { } while (false)
+#define VASSERT(STATEMENT, ...) do { } while (false)
+#define VASSERT_EXCEPTION(STATEMENT, ...) do { } while (false)
 
 #endif // _DEBUG
 

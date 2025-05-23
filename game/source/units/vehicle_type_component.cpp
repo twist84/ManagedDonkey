@@ -87,7 +87,7 @@ void c_vehicle_type_component::adjust_gravity(int32 vehicle_index, real_vector3d
 		get_type_guardian()->adjust_gravity(vehicle_index, gravity_acceleration);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -152,7 +152,7 @@ bool c_vehicle_type_component::compute_function_value(int32 vehicle_index, int32
 		result = get_type_guardian()->compute_function_value(vehicle_index, function, magnitude, force_active);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -195,7 +195,7 @@ void c_vehicle_type_component::create_effects(int32 vehicle_index)
 		get_type_guardian()->create_effects(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -236,7 +236,7 @@ void c_vehicle_type_component::deplete_function_variables(int32 vehicle_index)
 		get_type_guardian()->deplete_function_variables(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -279,7 +279,7 @@ bool c_vehicle_type_component::effected_by_vehicle_ceiling(int32 vehicle_index)
 		result = get_type_guardian()->effected_by_vehicle_ceiling(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -540,7 +540,7 @@ bool c_vehicle_type_component::is_stopped(int32 vehicle_index)
 		result = get_type_guardian()->is_stopped(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -585,7 +585,7 @@ bool c_vehicle_type_component::kills_riders_at_terminal_velocity(int32 vehicle_i
 		result = get_type_guardian()->kills_riders_at_terminal_velocity(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -630,7 +630,7 @@ bool c_vehicle_type_component::physics_disabled(int32 vehicle_index)
 		result = get_type_guardian()->physics_disabled(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -673,7 +673,7 @@ void c_vehicle_type_component::process_animation_channels(int32 vehicle_index, v
 		get_type_guardian()->process_animation_channels(vehicle_index, callback, user_data, channel, find_animations);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -717,7 +717,7 @@ void c_vehicle_type_component::reset(int32 vehicle_index)
 		get_type_guardian()->reset(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -780,7 +780,7 @@ bool c_vehicle_type_component::should_override_deactivation(int32 vehicle_index)
 		result = get_type_guardian()->should_override_deactivation(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return result;
@@ -831,7 +831,7 @@ void c_vehicle_type_component::update_control(int32 vehicle_index)
 		get_type_guardian()->update_control(vehicle_index);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 }
 
@@ -872,7 +872,7 @@ void c_vehicle_type_component::update_physics(int32 vehicle_index, s_havok_vehic
 		get_type_guardian()->update_physics(vehicle_index, instance);
 		break;
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 	
 	vehicle_try_to_join_local_physics(vehicle_index, instance);
@@ -905,7 +905,7 @@ bool c_vehicle_type_component::vector_is_upsides_down(int32 vehicle_index, real_
 	case _vehicle_type_guardian:
 		return get_type_guardian()->vector_is_upsides_down(vehicle_index, vector);
 	default:
-		ASSERT2("unreachable");
+		VASSERT("unreachable");
 	}
 
 	return false;

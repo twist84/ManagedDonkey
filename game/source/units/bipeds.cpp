@@ -274,7 +274,7 @@ void __cdecl biped_render_debug(int32 biped_index)
 			mode_string = "melee";
 			break;
 		default:
-			ASSERT2("unreachable");
+			VASSERT("unreachable");
 			break;
 		}
 

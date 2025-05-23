@@ -369,7 +369,7 @@ void c_bitstream::finish_reading()
 
 	if (overflowed())
 	{
-		ASSERT2(c_string_builder("finish_reading: bitstream read off the end of the stream (%d bits > %d max-size)",
+		VASSERT(c_string_builder("finish_reading: bitstream read off the end of the stream (%d bits > %d max-size)",
 			m_bitstream_data.current_memory_bit_position, 8 * m_data_size_bytes).get_string());
 	}
 
@@ -382,7 +382,7 @@ void c_bitstream::finish_writing(int32* bits_wasted)
 {
 	if (overflowed())
 	{
-		ASSERT2(c_string_builder("bitstream overflowed (%d bits > %d max-size), cannot be written successfully",
+		VASSERT(c_string_builder("bitstream overflowed (%d bits > %d max-size), cannot be written successfully",
 			m_bitstream_data.current_stream_bit_position, 8 * m_data_size_bytes).get_string());
 	}
 

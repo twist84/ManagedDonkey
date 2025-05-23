@@ -1421,7 +1421,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 		}
 		break;
 		default:
-			ASSERT2("unreachable");
+			VASSERT("unreachable");
 		}
 	}
 }
@@ -1846,7 +1846,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 	//		{
 	//			if (!hs_compile_globals.error_message)
 	//			{
-	//				ASSERT2("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+	//				VASSERT("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
 	//			}
 	//
 	//			*error_message_pointer = hs_compile_globals.error_message;

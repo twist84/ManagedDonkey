@@ -2238,7 +2238,7 @@ void event_context_push(char const* type, bool display_to_console, char const* d
 	//}
 	//else
 	//{
-	//	ASSERT2("exceeded the maximum event context depth!");
+	//	VASSERT("exceeded the maximum event context depth!");
 	//}
 }
 

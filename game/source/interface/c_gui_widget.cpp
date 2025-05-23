@@ -993,7 +993,7 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 	//		// $TODO: add all cases
 	//		default:
 	//		{
-	//			ASSERT2("unreachable");
+	//			VASSERT("unreachable");
 	//		}
 	//		break;
 	//		}

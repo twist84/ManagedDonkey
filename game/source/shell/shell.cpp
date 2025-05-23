@@ -96,7 +96,7 @@ void __cdecl shell_halt_on_pure_virtual_call()
 {
 	INVOKE(0x0042E4A0, shell_halt_on_pure_virtual_call);
 
-	//ASSERT2("calling pure virtual function!");
+	//VASSERT("calling pure virtual function!");
 }
 
 void __cdecl shell_halt_with_message(char const* message)

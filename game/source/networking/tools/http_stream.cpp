@@ -34,7 +34,7 @@ bool c_http_post_source::set_source_as_file(s_file_reference* contents_file)
 	if (file_get_size(contents_file, &m_contents_length))
 	{
 		if (m_contents_length < 0)
-			ASSERT2("We shouldn't be uploading files larger than 2 GB anyway.");
+			VASSERT("We shouldn't be uploading files larger than 2 GB anyway.");
 
 		return true;
 	}
@@ -348,7 +348,7 @@ bool c_http_post_stream::read(char* buffer, int32 buffer_length, int32* bytes_re
 	//					if (position >= m_mime_footer_length)
 	//					{
 	//						if (!at_end())
-	//							ASSERT2("c_http_stream::read: Read past the maximum length of the stream.");
+	//							VASSERT("c_http_stream::read: Read past the maximum length of the stream.");
 	//
 	//						success = false;
 	//						break;

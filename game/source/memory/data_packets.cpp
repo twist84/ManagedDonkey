@@ -24,7 +24,7 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 
 		if (packet_size != packet_definition->size)
 		{
-			ASSERT2(c_string_builder("packet '%s' fields added up to #%d bytes but should have been #%d bytes.",
+			VASSERT(c_string_builder("packet '%s' fields added up to #%d bytes but should have been #%d bytes.",
 				packet_definition->name,
 				packet_size,
 				packet_definition->size).get_string());

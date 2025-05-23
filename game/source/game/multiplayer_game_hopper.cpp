@@ -501,7 +501,7 @@ int32 __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, int32 buffe
 	//		byte* test_map_variant_byte = test_map_variant_start + byte_index;
 	//		if (map_variant_copy_byte != test_map_variant_byte)
 	//		{
-	//			ASSERT2(c_string_builder("Map variant encode/decode mismatch at byte index %d. 0x%02X != 0x%02X",
+	//			VASSERT(c_string_builder("Map variant encode/decode mismatch at byte index %d. 0x%02X != 0x%02X",
 	//				byte_index,
 	//				map_variant_copy_byte,
 	//				test_map_variant_start).get_string());
@@ -568,7 +568,7 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(uns1
 		}
 		else
 		{
-			ASSERT2("unreachable");
+			VASSERT("unreachable");
 		}
 	}
 
@@ -817,7 +817,7 @@ void __cdecl multiplayer_game_hopper_update()
 			}
 			break;
 			default:
-				ASSERT2("unreachable");
+				VASSERT("unreachable");
 				break;
 			}
 
