@@ -1,8 +1,11 @@
 #include "simulation/simulation_watcher.hpp"
 
 #include "main/loading.hpp"
+#include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "simulation/simulation_world.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
 
 void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) const
 {
@@ -169,6 +172,20 @@ int32 c_simulation_watcher::describe_status_simple() const
 	return INVOKE_CLASS_MEMBER(0x0046C0A0, c_simulation_watcher, describe_status_simple);
 }
 
+bool c_simulation_watcher::in_online_networked_session()
+{
+	//return INVOKE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
+
+	return false;
+
+	//if (!m_session)
+	//{
+	//	return false;
+	//}
+	//
+	//return m_session->session_class() == _network_session_class_xbox_live
+	//	&& m_session->get_session_membership_unsafe()->m_shared_network_membership.peer_count > 1;
+}
 bool c_simulation_watcher::need_to_generate_updates() const
 {
 	return INVOKE_CLASS_MEMBER(0x0046D090, c_simulation_watcher, need_to_generate_updates);

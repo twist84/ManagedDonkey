@@ -10,20 +10,38 @@
 #define VALID_HANDLE(HANDLE) (HANDLE && HANDLE != INVALID_HANDLE_VALUE)
 
 HOOK_DECLARE_CLASS_MEMBER(0x00442C00, c_managed_session_overlapped_task, process_add_players);
-//HOOK_DECLARE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately);
+HOOK_DECLARE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C20, c_managed_session_overlapped_task, process_create);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C30, c_managed_session_overlapped_task, process_delete);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C40, c_managed_session_overlapped_task, process_game_end);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C50, c_managed_session_overlapped_task, process_game_start);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C60, c_managed_session_overlapped_task, process_modify);
-//HOOK_DECLARE_CLASS(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
+HOOK_DECLARE_CLASS(0x00442C70, c_managed_session_overlapped_task, process_modify_immediately);
 HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
 
 void c_managed_session_overlapped_task::filter_local_users(int32 player_count, uns64 const* players, bool const* online_enabled, bool const* private_slots)
 {
-	// $TODO: implement me
+	int32 filtered_player_count = 0;
+
+	for (int32 player_index = 0; player_index < player_count; player_index++)
+	{
+		if (!online_enabled[player_index])
+		{
+			continue;
+		}
+
+		if (private_slots)
+		{
+			m_private_slots[filtered_player_count] = private_slots[player_index];
+		}
+
+		m_player_xuids[filtered_player_count] = players[player_index];
+		filtered_player_count++;
+	}
+	
+	m_player_count = filtered_player_count;
 }
 
 void c_managed_session_overlapped_task::process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count)
@@ -54,7 +72,7 @@ bool c_managed_session_overlapped_task::process_add_players_immediately(s_online
 {
 	//return INVOKE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately, session, player_xuids, online_enabled, private_slots, player_count);
 
-	// $TODO: implement me
+	filter_local_users(player_count, player_xuids, online_enabled, private_slots);
 
 	return true;
 }
@@ -227,6 +245,35 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//
 		//event(_event_message, "networking:managed_session: created XSession handle %08X",
 		//	m_session->handle);
+
+		DWORD dwFlags = m_session->controller_index;
+		DWORD dwUserIndex = m_session->controller_index;
+		DWORD dwMaxPublicSlots = m_session->public_slot_count;
+		DWORD dwMaxPrivateSlots = m_session->private_slot_count;
+
+		s_transport_secure_identifier blank_identifier{};
+
+		// If a valid session description exists, we use it.
+		if (csmemcmp(&m_session->session_description.id, &blank_identifier, sizeof(s_transport_secure_identifier)) == 0)
+		{
+			transport_secure_random(sizeof(m_session->nonce), (byte*)&m_session->nonce);
+			//transport_secure_random(sizeof(m_session->handle), (byte*)&m_session->handle);
+			transport_secure_random(sizeof(m_session->session_description.id), m_session->session_description.id.data);
+			transport_secure_address_get(&m_session->session_description.host_address);
+			m_session->players[0].xuid = 1;
+			//transport_secure_random(sizeof(m_session->session_description.host_address), m_session->session_description.host_address.data);
+		}
+		//transport_secure_random(sizeof(m_session->session_description.key), m_session->session_description.key.data); // not used
+
+		//SessionInfo->hostAddress.inaOnline.S_un.S_addr = 0x7F000001;
+		//SessionInfo->hostAddress.wPortOnline = 8080;
+		//memset(SessionInfo->hostAddress.abEnet, 0x8B, sizeof(SessionInfo->hostAddress.abEnet));
+		//memset(SessionInfo->hostAddress.abOnline, 0x56, sizeof(SessionInfo->hostAddress.abOnline));
+
+		c_console::write_line("donkey-matchmaking: Made session with ID '%s'", transport_secure_identifier_get_string(&m_session->session_description.id));
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_delete:
@@ -248,6 +295,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//{
 		//	result = XSessionDelete(m_session->handle, (PXOVERLAPPED)overlapped);
 		//}
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_session_host_migrate:
@@ -258,6 +308,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//
 		//DWORD userIndex = m_is_host ? m_session->controller_index : 0xFE;
 		//result = XSessionMigrateHost(m_session->handle, userIndex, m_host_migration_description, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_modify:
@@ -276,6 +329,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//	dwMaxPrivateSlots);
 		//
 		//result = XSessionModify(m_session->handle, dwFlags, dwMaxPublicSlots, dwMaxPrivateSlots, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_add_players:
@@ -288,6 +344,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//ASSERT(m_private_slots);
 		//
 		//result = XSessionJoinRemote(m_session->handle, m_player_count, m_player_xuids, m_private_slots, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_remove_players:
@@ -300,6 +359,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//ASSERT(VALID_HANDLE(m_session->handle));
 		//
 		//result = XSessionLeaveRemote(m_session->handle, m_player_count, m_player_xuids, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_start:
@@ -310,6 +372,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//ASSERT(VALID_HANDLE(m_session->handle));
 		//
 		//result = XSessionStart(m_session->handle, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	case _process_end:
@@ -320,6 +385,9 @@ uns32 c_managed_session_overlapped_task::start_(void* overlapped)
 		//ASSERT(VALID_HANDLE(m_session->handle));
 		//
 		//result = XSessionEnd(m_session->handle, (PXOVERLAPPED)overlapped);
+
+		c_managed_session_overlapped_task::success_(0);
+		c_managed_session_overlapped_task::complete_();
 	}
 	break;
 	default:

@@ -1146,6 +1146,13 @@ enum e_user_interface_session_leave_reason
 	k_user_interface_session_leave_reason_count
 };
 
+enum e_peer_property_flag_test_type
+{
+	_peer_property_flag_test_all_peers = 0,
+	_peer_property_flag_test_host,
+	_peer_property_flag_test_all_peers_but_host,
+};
+
 enum e_network_session_peer_properties_status_flags
 {
 	_network_session_peer_properties_status_game_stats_written_bit = 0,
@@ -5321,5 +5328,14 @@ enum e_transition_out_type
 {
 	_transition_out_normal = 0,
 	_transition_out_back_out,
+};
+
+enum e_network_leaderboard_write_status
+{
+	_network_leaderboard_write_status_none = 0,
+	_network_leaderboard_write_in_progress,
+	_network_leaderboard_write_completed,
+
+	k_network_leaderboard_write_status_count,
 };
 

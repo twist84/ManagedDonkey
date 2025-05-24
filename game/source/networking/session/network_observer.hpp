@@ -157,6 +157,7 @@ struct c_network_observer
 	int32 observer_channel_find_by_network_channel(int32 owner_type, c_network_channel* channel) const;
 	void observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, void const* message_payload);
 	void observer_prioritize_upload_bandwidth(bool prioritize);
+	void quality_statistics_get_ratings(int32* out_connectivity_badness_rating, int32* out_host_badness_rating, int32* out_client_badness_rating);
 	void set_online_network_environment(bool online_network_environment);
 
 	c_network_link* m_link;

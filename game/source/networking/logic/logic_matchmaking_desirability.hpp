@@ -14,6 +14,18 @@ struct s_matchmaking_session_player_properties
 };
 static_assert(sizeof(s_matchmaking_session_player_properties) == 0x8);
 
+enum e_network_session_matchmaking_composition_flags
+{
+	_network_session_matchmaking_composition_session_of_quitters_bit = 0,
+	_network_session_matchmaking_composition_mixed_skill_bit,
+	_network_session_matchmaking_composition_enable_mixed_skill_restriction_bit,
+	_network_session_matchmaking_composition_valid_bit,
+
+	k_network_session_matchmaking_composition_flags_count,
+};
+
+typedef c_flags_no_init<e_network_session_matchmaking_composition_flags, uns8, k_network_session_matchmaking_composition_flags_count> c_network_session_matchmaking_composition_flags;
+
 struct s_matchmaking_session_properties
 {
 	uns16 hopper_identifier;
@@ -34,7 +46,7 @@ struct s_matchmaking_session_properties
 	e_gamer_region gamer_region;
 	e_language language;
 	e_online_nat_type nat_type;
-	uns8 flags;
+	c_network_session_matchmaking_composition_flags flags;
 };
 static_assert(sizeof(s_matchmaking_session_properties) == 0xC4);
 

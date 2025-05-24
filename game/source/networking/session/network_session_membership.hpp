@@ -165,8 +165,8 @@ public:
 
 	void increment_update()
 	{
-		++m_shared_network_membership.update_number;
-		++m_local_membership_update_number;
+		m_shared_network_membership.update_number++;
+		m_local_membership_update_number++;
 	}
 
 	s_network_session_player* get_player(int32 player_index)
@@ -185,7 +185,8 @@ public:
 	bool is_peer_valid(int32 peer_index) const;
 	int32 get_observer_channel_index(int32 peer_index) const;
 	int32 get_peer_from_observer_channel(int32 observer_channel_index) const;
-
+	bool peer_property_flag_test(e_peer_property_flag_test_type test_type, e_network_session_peer_properties_status_flags flag) const;
+	bool peer_property_flag_test_any_peer(e_network_session_peer_properties_status_flags flag) const;
 	void set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, void const* player_data_from_client, int32 player_voice_settings);
 
 	c_network_session* m_session;

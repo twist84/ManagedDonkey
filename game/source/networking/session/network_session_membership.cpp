@@ -83,7 +83,6 @@ s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 //.text:0044FA60 ; 
 //.text:0044FA80 ; public: bool c_network_session_membership::is_peer_a_bad_client(int32) const
 //.text:0044FAF0 ; public: bool c_network_session_membership::is_peer_established(int32) const
-//.text: ; public: bool c_network_session_membership::is_peer_valid(int32) const
 
 bool c_network_session_membership::is_peer_valid(int32 peer_index) const
 {

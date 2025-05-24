@@ -2,6 +2,13 @@
 
 #include "memory/module.hpp"
 
+HOOK_DECLARE(0x00434010, transport_qos_get_result);
+HOOK_DECLARE(0x00434030, transport_qos_get_target_status);
+HOOK_DECLARE(0x00434050, transport_qos_is_complete);
+HOOK_DECLARE(0x00434070, transport_qos_listener_initiate);
+HOOK_DECLARE(0x004340B0, transport_qos_service_new);
+HOOK_DECLARE(0x004340E0, transport_qos_target_new);
+
 void __cdecl transport_qos_delete(int32 index)
 {
 	INVOKE(0x00433FF0, transport_qos_delete, index);
@@ -14,7 +21,18 @@ void __cdecl transport_qos_dispose()
 
 bool __cdecl transport_qos_get_result(int32 index, int32 target_index, s_transport_qos_result* result)
 {
-	return INVOKE(0x00434010, transport_qos_get_result, index, target_index, result);
+	//return INVOKE(0x00434010, transport_qos_get_result, index, target_index, result);
+
+	result->probes_sent = 1;
+	result->probes_received = 1;
+	result->ping_msec_minimum = 70;
+	result->ping_msec_median = 30;
+	result->bandwidth_upstream_bps = 20 * 1024;
+	result->bandwidth_downstream_bps = 20 * 1024;
+	result->data_block_size = 0;
+	result->data_block = NULL;
+
+	return true;
 }
 
 int32 __cdecl transport_qos_get_target_count(int32 index)
@@ -24,7 +42,9 @@ int32 __cdecl transport_qos_get_target_count(int32 index)
 
 e_transport_qos_target_status __cdecl transport_qos_get_target_status(int32 index, int32 target_index)
 {
-	return INVOKE(0x00434030, transport_qos_get_target_status, index, target_index);
+	//return INVOKE(0x00434030, transport_qos_get_target_status, index, target_index);
+
+	return _transport_qos_target_status_succeeded;
 }
 
 void __cdecl transport_qos_initialize()
@@ -34,7 +54,9 @@ void __cdecl transport_qos_initialize()
 
 bool __cdecl transport_qos_is_complete(int32 index)
 {
-	return INVOKE(0x00434050, transport_qos_is_complete, index);
+	//return INVOKE(0x00434050, transport_qos_is_complete, index);
+
+	return true;
 }
 
 bool __cdecl transport_qos_listener_get_stats(s_transport_secure_identifier const* secure_identifier, s_transport_qos_listener_stats* stats)
@@ -44,7 +66,9 @@ bool __cdecl transport_qos_listener_get_stats(s_transport_secure_identifier cons
 
 bool __cdecl transport_qos_listener_initiate(s_transport_secure_identifier const* secure_identifier)
 {
-	return INVOKE(0x00434070, transport_qos_listener_initiate, secure_identifier);
+	//return INVOKE(0x00434070, transport_qos_listener_initiate, secure_identifier);
+
+	return true;
 }
 
 void __cdecl transport_qos_listener_set_bandwidth_limit(s_transport_secure_identifier const* secure_identifier, bool a2, int32 bandwidth_limit)
@@ -64,7 +88,9 @@ void __cdecl transport_qos_listener_terminate(s_transport_secure_identifier cons
 
 int32 __cdecl transport_qos_service_new()
 {
-	return INVOKE(0x004340B0, transport_qos_service_new);
+	//return INVOKE(0x004340B0, transport_qos_service_new);
+
+	return true;
 }
 
 void __cdecl transport_qos_shutdown()
@@ -77,9 +103,10 @@ void __cdecl transport_qos_startup()
 	INVOKE(0x004340D0, transport_qos_startup);
 }
 
-int32 __cdecl transport_qos_target_new(e_transport_qos_type type, int32 target_count, s_transport_qos_target const* target, int32 a4)
+int32 __cdecl transport_qos_target_new(e_transport_qos_type qos_type, int32 target_count, s_transport_qos_target const* targets, int32 qos_bps)
 {
-	return INVOKE(0x004340E0, transport_qos_target_new, type, target_count, target, a4);
-}
+	//return INVOKE(0x004340E0, transport_qos_target_new, qos_type, target_count, targets, qos_bps);
 
+	return 1;
+}
 

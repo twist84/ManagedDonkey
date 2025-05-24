@@ -3,8 +3,32 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/logic/network_arbitration.hpp"
 
-//typedef c_flags<e_matchmaking_arbitration_flags, uns32, k_matchmaking_arbitration_flags_count> c_matchmaking_arbitration_flags;
-typedef uns32 c_matchmaking_arbitration_flags;
+enum e_matchmaking_arbitration_flags
+{
+	_matchmaking_arbitration_entered_as_host_bit = 0,
+	_matchmaking_arbitration_initiated_bit,
+	_matchmaking_arbitration_blocked_bit,
+	_matchmaking_arbitration_complete_bit,
+	_matchmaking_arbitration_complete_as_host_bit,
+	_matchmaking_arbitration_set_teams_bit,
+	_matchmaking_arbitration_repeated_play_set_bit,
+	_matchmaking_arbitration_set_initial_participants_bit,
+	_matchmaking_arbitration_failed_bit,
+	_matchmaking_arbitration_start_match_session_initiated_bit,
+	_matchmaking_arbitration_start_match_session_completed_bit,
+	_matchmaking_arbitration_start_match_session_failed_bit,
+	_matchmaking_arbitration_start_match_initial_stats_write_initiated_bit,
+	_matchmaking_arbitration_start_match_initial_stats_write_completed_bit,
+	_matchmaking_arbitration_start_match_initial_stats_write_failed_bit,
+	_matchmaking_arbitration_start_match_initial_stats_write_blocked_bit,
+	_matchmaking_arbitration_failed_not_enough_hosts_bit,
+	_matchmaking_arbitration_waiting_for_repeated_play_ready_bit,
+	_matchmaking_arbitration_waiting_for_clients_to_arbitrate_bit,
+
+	k_matchmaking_arbitration_flags_count,
+};
+
+typedef c_flags<e_matchmaking_arbitration_flags, uns32, k_matchmaking_arbitration_flags_count> c_matchmaking_arbitration_flags;
 
 struct c_life_cycle_state_handler_matchmaking_arbitration :
 	public c_life_cycle_state_handler
@@ -19,6 +43,9 @@ public:
 
 	c_life_cycle_state_handler_matchmaking_arbitration();
 	void initialize(c_life_cycle_state_manager* manager);
+	void mark_arbitration_complete();
+	bool ready_to_start();
+	bool session_membership_matches_arbitration_registration_results();
 	
 //protected:
 	c_matchmaking_arbitration_flags m_flags;

@@ -109,6 +109,7 @@ struct c_network_session_parameters
 	//static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
 
 	bool handle_update(s_network_message_parameters_update const* update);
+	bool parameters_transmitted_to_peers(uns64 parameter_mask) const;
 
 	//s_network_session_parameters_internal m_parameters_internal;
 	c_network_session* m_session;

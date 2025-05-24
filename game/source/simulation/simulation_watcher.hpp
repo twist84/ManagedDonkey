@@ -14,6 +14,7 @@ struct c_simulation_watcher :
 public:
 	void describe_status(char* buffer, int32 buffer_length) const;
 	int32 describe_status_simple() const;
+	bool in_online_networked_session();
 	bool need_to_generate_updates() const;
 
 protected:

@@ -1,10 +1,13 @@
 #include "networking/logic/network_bandwidth.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/module.hpp"
 #include "networking/network_time.hpp"
 #include "networking/session/network_observer.hpp"
 
 REFERENCE_DECLARE(0x019E8D28, s_network_bandwidth_globals, network_bandwidth_globals);
+
+HOOK_DECLARE(0x00455890, network_bandwidth_set_online_network_environment);
 
 int32 __cdecl network_bandwidth_compute_average(int32 sample_count, int32 const* samples)
 {
@@ -73,13 +76,13 @@ void __cdecl network_bandwidth_notify_live_service_qos_measurement(s_transport_q
 	INVOKE(0x004557F0, network_bandwidth_notify_live_service_qos_measurement, qos_result);
 }
 
-void __cdecl network_bandwidth_set_online_network_environment(bool online_network_environment)
+void __cdecl network_bandwidth_set_online_network_environment(bool online_environment)
 {
-	INVOKE(0x00455890, network_bandwidth_set_online_network_environment, online_network_environment);
+	//INVOKE(0x00455890, network_bandwidth_set_online_network_environment, online_environment);
 
 	//ASSERT(network_bandwidth_globals.observer);
-	//network_bandwidth_globals.observer->set_online_network_environment(online_network_environment);
-	//network_bandwidth_globals.online_network_environment = online_network_environment;
+	//network_bandwidth_globals.observer->set_online_network_environment(online_environment);
+	//network_bandwidth_globals.online_network_environment = online_environment;
 	//network_bandwidth_update_estimate();
 }
 

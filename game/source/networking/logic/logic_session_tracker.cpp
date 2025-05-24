@@ -91,6 +91,13 @@ bool c_session_tracker::add_session(char const* session_name, s_transport_sessio
 
 	tracked_session->flags.set(_session_tracker_session_valid_bit, true);
 	m_session_count++;
+
+	// Matchmaking hack: We don't have a valid QoS payload from transport_qos_get_result,
+	// but we can just set these to tru to skip the requirement for now.
+	// $TODO: MM, Reimplement QoS payloads via API.
+	tracked_session->qos_received[_transport_qos_type_probe_only] = true;
+	tracked_session->qos_received[_transport_qos_type_default] = true;
+
 	return false;
 }
 

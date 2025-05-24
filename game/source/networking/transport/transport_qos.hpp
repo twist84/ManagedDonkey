@@ -53,5 +53,5 @@ extern void __cdecl transport_qos_listener_terminate(s_transport_secure_identifi
 extern int32 __cdecl transport_qos_service_new();
 extern void __cdecl transport_qos_shutdown();
 extern void __cdecl transport_qos_startup();
-extern int32 __cdecl transport_qos_target_new(e_transport_qos_type type, int32 target_count, s_transport_qos_target const* target, int32 a4);
+extern int32 __cdecl transport_qos_target_new(e_transport_qos_type qos_type, int32 target_count, s_transport_qos_target const* targets, int32 qos_bps);
 

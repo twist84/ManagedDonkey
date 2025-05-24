@@ -1,6 +1,11 @@
 #include "networking/logic/network_leaderboard.hpp"
 
+#include "memory/module.hpp"
+
 REFERENCE_DECLARE(0x0226B508, s_network_leaderboard_globals, network_leaderboard_globals);
+
+HOOK_DECLARE(0x004D60B0, network_leaderboard_get_write_status);
+HOOK_DECLARE(0x004D62D0, network_leaderboard_player_stats_valid);
 
 //.text:004D53A0 ; void __cdecl network_leaderboard_add_unused_parameter_to_stat_write(s_online_stat_write* stat_write)
 //.text:004D53D0 ; void __cdecl network_leaderboard_add_users()
@@ -17,7 +22,7 @@ REFERENCE_DECLARE(0x0226B508, s_network_leaderboard_globals, network_leaderboard
 //.text:004D5C40 ; void __cdecl network_leaderboard_build_skill_stats(s_network_leaderboard_player_game_results const* player_game_results, s_online_stat_write* stat_write)
 //.text:004D5C90 ; void __cdecl network_leaderboard_clear_query_stats(e_controller_index controller_index)
 //.text:004D5CC0 ; void __cdecl network_leaderboard_clear_user_stats(e_controller_index controller_index, e_network_leaderboard_player_stats_clear_type stats_clear_type)
-//.text:004D5D70 ; bool __cdecl sub_4D5D70(e_controller_index, int32* highest_skill_out) // controller get highest skill
+//.text:004D5D70 ; bool __cdecl network_leaderboard_controller_get_highest_skill(e_controller_index, int32*)
 
 void __cdecl network_leaderboard_destory()
 {
@@ -29,8 +34,15 @@ void __cdecl network_leaderboard_destory()
 //.text:004D5F50 ; e_hopper_load_status __cdecl network_leaderboard_get_query_status()
 //.text:004D5FA0 ; void __cdecl network_leaderboard_get_results(e_controller_index controller_index)
 //.text:004D5FF0 ; e_leaderboard_statistic __cdecl network_leaderboard_get_statistic_by_column_id(e_online_leaderboard_column_id column_id, e_online_leaderboard_id leaderboard_id)
-//.text:004D6070 ; int32 sub_4D6070(uns64 xuid) // get valid query user index?
-//.text:004D60B0 ; e_network_leaderboard_write_status __cdecl network_leaderboard_get_write_status()
+//.text:004D6070 ; int32 network_leaderboard_get_user_by_xuid(uns64 const)
+
+e_network_leaderboard_write_status __cdecl network_leaderboard_get_write_status()
+{
+	//return INVOKE(0x004D60B0, network_leaderboard_get_write_status);
+
+	return _network_leaderboard_write_completed;
+}
+
 //.text:004D6130 ; bool __cdecl network_leaderboard_id_valid_for_query(e_online_leaderboard_id leaderboard_id)
 
 bool __cdecl network_leaderboard_initialize()
@@ -38,13 +50,20 @@ bool __cdecl network_leaderboard_initialize()
 	return INVOKE(0x004D6170, network_leaderboard_initialize);
 }
 
-//.text:004D6200 ; 
-//.text:004D6210 ; 
-//.text:004D6220 ; 
+//.text:004D6200 ; void __cdecl network_leaderboard_log_global_stat_write(s_online_stat_write const*, bool)
+//.text:004D6210 ; void __cdecl network_leaderboard_log_player_stat_write(int32, s_network_leaderboard_player_game_results const*, s_online_stat_write const*, bool)
+//.text:004D6220 ; void __cdecl network_leaderboard_log_user_stats_read(int32, c_static_array<s_network_leaderboard_statistic, 21> const*)
 //.text:004D6230 ; void __cdecl network_leaderboard_notify_user_stats_updated(int32 user_index)
-//.text:004D62D0 ; bool __cdecl network_leaderboard_player_stats_valid(s_network_session_player const* player)
+
+bool __cdecl network_leaderboard_player_stats_valid(s_network_session_player const* player)
+{
+	//return INVOKE(0x004D62D0, network_leaderboard_player_stats_valid, player);
+
+	return true;
+}
+
 //.text:004D62E0 ; void __cdecl network_leaderboard_refresh()
-//.text:004D6300 ; network_leaderboard_remove_users
+//.text:004D6300 ; void __cdecl network_leaderboard_remove_users()
 //.text:004D6390 ; void __cdecl network_leaderboard_submit_query_for_user(e_controller_index controller_index)
 
 void __cdecl network_leaderboard_update()
@@ -59,7 +78,7 @@ void __cdecl network_leaderboard_update()
 //.text:004D68B0 ; void __cdecl network_leaderboard_update_queries_initiate()
 //.text:004D6960 ; void __cdecl network_leaderboard_update_queries_refresh()
 //.text:004D6A10 ; void __cdecl network_leaderboard_update_queries_request()
-//.text:004D6A80 ; void __cdecl sub_4D6A80()
+//.text:004D6A80 ; void __cdecl network_leaderboard_update_users()
 //.text:004D6A90 ; void __cdecl network_leaderboard_update_writes()
 //.text:004D6AA0 ; void __cdecl network_leaderboard_update_writes_in_progress()
 //.text:004D6AF0 ; void __cdecl network_leaderboard_user_query_failed(e_controller_index controller_index)

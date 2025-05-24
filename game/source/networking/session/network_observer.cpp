@@ -1,7 +1,10 @@
 #include "networking/session/network_observer.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/module.hpp"
 #include "networking/messages/network_messages_connect.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x00447B70, c_network_observer, quality_statistics_get_ratings);
 
 c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const* observer) const
 {
@@ -134,7 +137,16 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize)
 //.text:00447B10 ; bool c_network_observer::quality_statistics_are_set() const
 //.text:00447B20 ; c_network_oberserver::quality_statistics_report_badness
 //.text:00447B60 ; s_network_quality_statistics* c_network_observer::quality_statistics_get()
-//.text:00447B70 ; void c_network_observer::quality_statistics_get_ratings(int32*, int32*, int32*)
+
+void c_network_observer::quality_statistics_get_ratings(int32* out_connectivity_badness_rating, int32* out_host_badness_rating, int32* out_client_badness_rating)
+{
+    //INVOKE_CLASS_MEMBER(0x00447B70, c_network_observer, quality_statistics_get_ratings, out_connectivity_badness_rating, out_host_badness_rating, out_client_badness_rating);
+
+    *out_connectivity_badness_rating = 1;
+    *out_host_badness_rating = 1;
+    *out_client_badness_rating = 1;
+}
+
 //.text:00447CC0 ; void c_network_observer::quality_statistics_notify_established_connectivity(e_network_observer_owner, int32, bool)
 //.text:00447D90 ; void c_network_observer::quality_statistics_notify_peer_left_gracefully(e_network_observer_owner, int32)
 //.text:00447DE0 ; void c_network_observer::quality_statistics_report_badness(int32, bool, char const*)

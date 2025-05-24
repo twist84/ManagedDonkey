@@ -58,10 +58,10 @@ bool c_network_session::is_host() const
 
 bool c_network_session::is_leader() const
 {
-	//return INVOKE_CLASS_MEMBER(0x00434DB0, c_network_session, is_leader);
+	return INVOKE_CLASS_MEMBER(0x00434DB0, c_network_session, is_leader);
 
 	//return m_session_membership.is_leader();
-	return m_session_membership.m_local_peer_index == m_session_membership.m_shared_network_membership.leader_peer_index;
+	//return m_session_membership.m_local_peer_index == m_session_membership.m_shared_network_membership.leader_peer_index;
 }
 
 bool c_network_session::leaving_session() const
@@ -72,6 +72,16 @@ bool c_network_session::leaving_session() const
 bool c_network_session::peer_joining() const
 {
 	return INVOKE_CLASS_MEMBER(0x0044FD10, c_network_session, peer_joining);
+}
+
+bool c_network_session_membership::peer_property_flag_test(e_peer_property_flag_test_type test_type, e_network_session_peer_properties_status_flags flag) const
+{
+	return INVOKE_CLASS_MEMBER(0x0044FD20, c_network_session_membership, peer_property_flag_test, test_type, flag);
+}
+
+bool c_network_session_membership::peer_property_flag_test_any_peer(e_network_session_peer_properties_status_flags flag) const
+{
+	return INVOKE_CLASS_MEMBER(0x0044FDA0, c_network_session_membership, peer_property_flag_test_any_peer, flag);
 }
 
 bool c_network_session::channel_is_authoritative(c_network_channel* channel)

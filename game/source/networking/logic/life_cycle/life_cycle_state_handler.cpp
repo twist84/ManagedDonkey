@@ -1,8 +1,11 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/module.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/session/network_session.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x0048E130, c_life_cycle_state_handler, setup_initial_participants);
 
 c_life_cycle_state_handler::c_life_cycle_state_handler() :
 	m_handler_flags()
@@ -109,7 +112,22 @@ void c_life_cycle_state_handler::initialize(c_life_cycle_state_manager* manager,
 //.text:0048DB10 ; private: bool c_life_cycle_state_handler::pick_teams_for_group_internal(bool, uns32)
 //.text:0048DE90 ; protected: bool c_life_cycle_state_handler::session_composition_valid(c_network_session const*)
 //.text:0048DEE0 ; protected: bool c_life_cycle_state_handler::session_has_minimum_player_count_to_start_game_in_hopper(c_network_session const*)
-//.text:0048E130 ; protected: bool c_life_cycle_state_handler::setup_initial_participants(c_network_session*)
+
+bool c_life_cycle_state_handler::setup_initial_participants(c_network_session* session)
+{
+	//return INVOKE_CLASS_MEMBER(0x0048E130, c_life_cycle_state_handler, setup_initial_participants, session);
+
+	c_console::write_line("donkey:matchmaking c_life_cycle_state_handler::setup_initial_participants");
+	if (!session->is_host())
+	{
+		return true;
+	}
+
+	bool result = false;
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_life_cycle_state_handler, setup_initial_participants, session);
+	return result;
+}
+
 //.text:0048E3D0 ; protected: void c_life_cycle_state_handler::squad_session_host_abort_matchmaking()
 
 bool c_life_cycle_state_handler::test_flag(e_life_cycle_state_handler_flags flag)

@@ -4,6 +4,8 @@
 #include "game/players.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
+struct s_network_session_player;
+
 typedef c_enum<e_online_data_type, uns8, _online_data_context, _online_data_null> c_online_data_type;
 
 struct s_online_data
@@ -185,6 +187,8 @@ static_assert(sizeof(s_network_leaderboard_globals) == 0x25C8);
 extern s_network_leaderboard_globals& network_leaderboard_globals;
 
 extern void __cdecl network_leaderboard_destory();
+extern e_network_leaderboard_write_status __cdecl network_leaderboard_get_write_status();
 extern bool __cdecl network_leaderboard_initialize();
+extern bool __cdecl network_leaderboard_player_stats_valid(s_network_session_player const* player);
 extern void __cdecl network_leaderboard_update();
 

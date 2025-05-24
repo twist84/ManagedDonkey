@@ -41,5 +41,6 @@ extern s_network_arbitration_globals& network_arbitration_globals;
 
 extern void __cdecl network_arbitration_destory();
 extern bool __cdecl network_arbitration_initialize();
+extern bool __cdecl network_arbitration_initiate(int32 managed_session_index, uns64 nonce);
 extern void __cdecl network_arbitration_update();
 

@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+struct c_life_cycle_state_manager;
+struct c_network_session;
+
 enum e_life_cycle_state_transition_type
 {
 	_life_cycle_state_transition_unhandled = 0,
@@ -24,7 +27,6 @@ enum e_life_cycle_state_handler_flags
 };
 typedef c_flags<e_life_cycle_state_handler_flags, uns8, k_life_cycle_state_handler_flags_count> c_life_cycle_state_handler_flags;
 
-struct c_life_cycle_state_manager;
 struct c_life_cycle_state_handler
 {
 public:
@@ -42,6 +44,11 @@ public:
 	uns64 get_required_squad_session_parameter_mask() const;
 	e_life_cycle_state get_state() const;
 	void initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_life_cycle_state_handler_flags const* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask);
+
+//protected:
+	bool setup_initial_participants(c_network_session* session);
+
+public:
 	bool test_flag(e_life_cycle_state_handler_flags flag);
 
 //protected:

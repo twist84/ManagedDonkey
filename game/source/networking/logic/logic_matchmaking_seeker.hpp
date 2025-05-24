@@ -4,12 +4,39 @@
 #include "networking/logic/life_cycle/life_cycle_matchmaking_quality.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 
-//typedef c_flags<e_matchmaking_seeker_flags, uns8, k_matchmaking_seeker_search_flags_count> c_matchmaking_seeker_flags;
-typedef uns8 c_matchmaking_seeker_flags;
+struct s_suitable_matchmaking_session;
+
+enum e_matchmaking_seeker_flags
+{
+	_matchmaking_seeker_search_in_progress_bit = 0,
+	_matchmaking_seeker_expect_local_machine_in_search_results_bit,
+	_matchmaking_seeker_online_search_in_progress_bit,
+	_matchmaking_seeker_online_search_failed_bit,
+	_matchmaking_seeker_online_search_results_being_tracked_bit,
+	_matchmaking_seeker_online_search_blocked_bit,
+	_matchmaking_seeker_search_failed_bit,
+
+	k_matchmaking_seeker_search_flags_count,
+};
+typedef c_flags<e_matchmaking_seeker_flags, uns8, k_matchmaking_seeker_search_flags_count> c_matchmaking_seeker_flags;
+
+enum e_matchmaking_search_stage
+{
+	_matchmaking_search_stage_strict_skill = 0,
+	_matchmaking_search_stage_skill,
+	_matchmaking_search_stage_any,
+	_matchmaking_search_stage_desparation,
+
+	k_matchmaking_search_stage_count,
+	k_matchmaking_search_stage_bits = 2,
+};
 
 struct __declspec(align(8)) c_matchmaking_seeker
 {
 	c_matchmaking_seeker();
+
+	bool get_session_to_join(s_suitable_matchmaking_session* session_out);
+	bool search_in_progress();
 
 	c_matchmaking_seeker_flags m_flags;
 	int32 m_current_session_search_index;
