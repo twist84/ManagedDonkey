@@ -340,6 +340,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp" />
     <ClCompile Include="source\networking\logic\logic_managed_user.cpp" />
+    <ClCompile Include="source\networking\logic\logic_matchmaking_composition.cpp" />
     <ClCompile Include="source\networking\logic\logic_matchmaking_seeker.cpp" />
     <ClCompile Include="source\networking\logic\network_bandwidth.cpp" />
     <ClCompile Include="source\networking\logic\network_banhammer.cpp" />
@@ -1078,6 +1079,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_state_handler.hpp" />
     <ClInclude Include="source\networking\logic\logic_managed_user.hpp" />
+    <ClInclude Include="source\networking\logic\logic_matchmaking_composition.hpp" />
     <ClInclude Include="source\networking\logic\logic_matchmaking_seeker.hpp" />
     <ClInclude Include="source\networking\logic\logic_session_tracker.hpp" />
     <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />

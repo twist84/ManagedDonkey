@@ -1962,6 +1962,9 @@
     <ClCompile Include="source\interface\user_interface_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\logic_matchmaking_composition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4365,6 +4368,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\objects\emblems.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_matchmaking_composition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
