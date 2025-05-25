@@ -1,8 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "game/players.hpp"
-
 enum e_network_arbitration_status
 {
 	_network_arbitration_status_none = 0,
@@ -31,16 +28,21 @@ static_assert(sizeof(s_arbitration_registration_result) == 0x188);
 struct s_network_arbitration_globals
 {
 	bool initialized;
-	int32 managed_session_index;
+	int32 arbitration_managed_session_index;
 	e_network_arbitration_status arbitration_status;
 	s_arbitration_registration_result registration_result;
 };
 static_assert(sizeof(s_network_arbitration_globals) == 0x198);
 
+//extern char const*(&g_network_arbitration_status_string)[k_network_arbitration_status_count];
+extern char const* g_network_arbitration_status_string[k_network_arbitration_status_count];
 extern s_network_arbitration_globals& network_arbitration_globals;
 
 extern void __cdecl network_arbitration_destory();
+extern bool __cdecl network_arbitration_get_results(int32 managed_session_index, s_arbitration_registration_result* registration_result);
+extern e_network_arbitration_status __cdecl network_arbitration_get_status();
 extern bool __cdecl network_arbitration_initialize();
 extern bool __cdecl network_arbitration_initiate(int32 managed_session_index, uns64 nonce);
 extern void __cdecl network_arbitration_update();
+extern void __cdecl network_arbitration_update_registration();
 

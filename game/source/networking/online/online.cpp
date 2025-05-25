@@ -4,6 +4,7 @@
 #include "interface/user_interface_controller.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/online/online_arbitration_windows.hpp"
 #include "text/unicode.hpp"
 #include "xbox/xnet.hpp"
 
@@ -117,6 +118,10 @@ void __cdecl online_dispose()
 			user.display_name = NULL;
 		}
 	}
+
+	online_arbitration_dispose();
+	//online_statistics_dispose();
+	//online_session_search_dispose();
 }
 
 void __cdecl online_dump_machine_info(uns64 game_instance)
@@ -208,6 +213,10 @@ bool __cdecl online_has_any_silver_or_gold_live_users()
 
 void __cdecl online_initialize()
 {
+	online_arbitration_initialize();
+	//online_statistics_initialize();
+	//online_session_search_initialize();
+
 	for (e_controller_index controller_index = _controller0; controller_index < k_number_of_controllers; controller_index++)
 	{
 		uns64 user_id = hash64(controller_index);

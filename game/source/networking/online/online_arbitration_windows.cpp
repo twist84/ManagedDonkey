@@ -37,8 +37,10 @@ bool online_arbitration_initiate_registration(void* session_handle, uns64 sessio
 	//}
 	//
 	//return started;
+	//
+	//return false;
 
-	return false;
+	return true;
 }
 
 bool online_arbitration_registration_get_result(s_arbitration_registration_result* arbitration_result_out)
