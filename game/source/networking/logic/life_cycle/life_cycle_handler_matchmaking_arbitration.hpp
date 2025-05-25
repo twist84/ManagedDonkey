@@ -46,7 +46,11 @@ public:
 	void mark_arbitration_complete();
 	bool ready_to_start();
 	bool session_membership_matches_arbitration_registration_results();
-	
+
+private:
+	void update_arbitration();
+
+public:
 //protected:
 	c_matchmaking_arbitration_flags m_flags;
 	uns32 m_arbitration_start_time;

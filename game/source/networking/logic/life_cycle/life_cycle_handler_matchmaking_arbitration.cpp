@@ -46,7 +46,18 @@ void c_life_cycle_state_handler_matchmaking_arbitration::initialize(c_life_cycle
 
 void c_life_cycle_state_handler_matchmaking_arbitration::mark_arbitration_complete()
 {
-	INVOKE_CLASS_MEMBER(0x00494A10, c_life_cycle_state_handler_matchmaking_arbitration, mark_arbitration_complete);
+	//INVOKE_CLASS_MEMBER(0x00494A10, c_life_cycle_state_handler_matchmaking_arbitration, mark_arbitration_complete);
+
+	ASSERT(!m_flags.test(_matchmaking_arbitration_complete_bit));
+	ASSERT(!m_flags.test(_matchmaking_arbitration_complete_as_host_bit));
+
+	network_session_interface_set_peer_status_flag(_network_session_peer_properties_status_match_arbitration_succeeded_bit, true);
+	m_flags.set(_matchmaking_arbitration_complete_bit, true);
+
+	if (get_manager()->get_group_session()->is_host())
+	{
+		m_flags.set(_matchmaking_arbitration_complete_as_host_bit, true);
+	}
 }
 
 bool c_life_cycle_state_handler_matchmaking_arbitration::ready_to_start()
@@ -141,6 +152,11 @@ void c_life_cycle_state_handler_matchmaking_arbitration::update()
 	// $TODO: confirm this function gets called without the hook
 	//INVOKE_CLASS_MEMBER(0x00494EF0, c_life_cycle_state_handler_matchmaking_arbitration, update);
 	HOOK_INVOKE_CLASS_MEMBER(, c_life_cycle_state_handler_matchmaking_arbitration, update);
+}
+
+void c_life_cycle_state_handler_matchmaking_arbitration::update_arbitration()
+{
+	INVOKE_CLASS_MEMBER(0x004952F0, c_life_cycle_state_handler_matchmaking_arbitration, update_arbitration);
 }
 
 e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_arbitration::update_for_state_transition()
