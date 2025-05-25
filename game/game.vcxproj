@@ -352,6 +352,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\logic\storage\network_storage_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
+    <ClCompile Include="source\networking\online\online_arbitration_windows.cpp" />
     <ClCompile Include="source\networking\online\online_files.cpp" />
     <ClCompile Include="source\networking\online\online_presence_pc.cpp" />
     <ClCompile Include="source\networking\online\online_service_record.cpp" />
@@ -1269,6 +1270,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\networking\online\online_achievements.hpp" />
+    <ClInclude Include="source\networking\online\online_arbitration_windows.hpp" />
     <ClInclude Include="source\networking\online\online_files.hpp" />
     <ClInclude Include="source\networking\online\online_presence_pc.hpp" />
     <ClInclude Include="source\networking\online\online_session.hpp" />

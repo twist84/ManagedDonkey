@@ -1965,6 +1965,9 @@
     <ClCompile Include="source\networking\logic\logic_matchmaking_composition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\online\online_arbitration_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4371,6 +4374,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\logic\logic_matchmaking_composition.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\online\online_arbitration_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
