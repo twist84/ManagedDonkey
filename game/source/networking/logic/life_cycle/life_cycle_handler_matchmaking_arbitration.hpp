@@ -3,6 +3,8 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/logic/network_arbitration.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 enum e_matchmaking_arbitration_flags
 {
 	_matchmaking_arbitration_entered_as_host_bit = 0,
@@ -41,14 +43,38 @@ public:
 	virtual char const* get_state_string() override;
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type) override;
 
+public:
 	c_life_cycle_state_handler_matchmaking_arbitration();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
+
+private:
+	void initial_stats_write_mark_complete();
+	void initial_stats_write_mark_failed();
+
+public:
 	void initialize(c_life_cycle_state_manager* manager);
+
+private:
 	void mark_arbitration_complete();
+	void mark_arbitration_failed();
+
+public:
 	bool ready_to_start();
+
+private:
+	bool ready_to_update_repeated_play();
+
+public:
 	bool session_membership_matches_arbitration_registration_results();
 
 private:
+	void start_match_mark_complete();
+	void start_match_mark_failed();
 	void update_arbitration();
+	void update_initial_stats_write();
+	void update_progress();
+	void update_repeated_play();
+	void update_start_match();
 
 public:
 //protected:
