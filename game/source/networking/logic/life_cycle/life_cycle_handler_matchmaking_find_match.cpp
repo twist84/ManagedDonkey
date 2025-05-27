@@ -19,6 +19,8 @@ char const* c_life_cycle_state_handler_matchmaking_find_match::get_state_string(
 	return "matchmaking-find-match";
 }
 
+//.text:00495B50 ; public: void c_life_cycle_state_handler_matchmaking_find_match::dispose()
+
 void c_life_cycle_state_handler_matchmaking_find_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x00495B60, c_life_cycle_state_handler_matchmaking_find_match, enter, from, entry_data_size, entry_data);
@@ -28,6 +30,11 @@ void c_life_cycle_state_handler_matchmaking_find_match::exit(c_life_cycle_state_
 {
 	INVOKE_CLASS_MEMBER(0x00495BB0, c_life_cycle_state_handler_matchmaking_find_match, exit, to);
 }
+
+//.text:00495C50 ; 
+//.text:00495C60 ; 
+//.text:00495C70 ; public: void c_life_cycle_state_handler_matchmaking_find_match::get_progress(s_life_cycle_matchmaking_progress*)
+//.text:00495C80 ; public: bool c_life_cycle_state_handler_matchmaking_find_match::get_search_party_properties(s_matchmaking_search_party_properties*)
 
 void c_life_cycle_state_handler_matchmaking_find_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
@@ -49,6 +56,13 @@ void c_life_cycle_state_handler_matchmaking_find_match::initialize(c_life_cycle_
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_find_match, &parent_flags, 0xA40000000ULL, 0ULL);
 }
 
+//.text:00495D80 ; 
+//.text:00495D90 ; 
+//.text:00495DB0 ; 
+//.text:00495DC0 ; 
+//.text:00495DE0 ; 
+//.text:00495E00 ; 
+
 void c_life_cycle_state_handler_matchmaking_find_match::update()
 {
 	INVOKE_CLASS_MEMBER(0x00495E20, c_life_cycle_state_handler_matchmaking_find_match, update);
@@ -58,4 +72,8 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_find_m
 {
 	return INVOKE_CLASS_MEMBER(0x00495EA0, c_life_cycle_state_handler_matchmaking_find_match, update_for_state_transition);
 }
+
+//.text:00495F50 ; private: void c_life_cycle_state_handler_matchmaking_find_match::update_joining()
+//.text:00496270 ; private: void c_life_cycle_state_handler_matchmaking_find_match::update_leaving()
+//.text:00496390 ; private: void c_life_cycle_state_handler_matchmaking_find_match::update_progress()
 

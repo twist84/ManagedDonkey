@@ -15,6 +15,8 @@ char const* c_life_cycle_state_handler_matchmaking_select_host::get_state_string
 	return "matchmaking-select-host";
 }
 
+//.text:004907F0 ; public: void c_life_cycle_state_handler_matchmaking_select_host::dispose()
+
 void c_life_cycle_state_handler_matchmaking_select_host::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x00490800, c_life_cycle_state_handler_matchmaking_select_host, enter, from, entry_data_size, entry_data);
@@ -24,6 +26,10 @@ void c_life_cycle_state_handler_matchmaking_select_host::exit(c_life_cycle_state
 {
 	INVOKE_CLASS_MEMBER(0x00490850, c_life_cycle_state_handler_matchmaking_select_host, exit, to);
 }
+
+//.text:00490900 ; 
+//.text:00490910 ; 
+//.text:00490920 ; public: void c_life_cycle_state_handler_matchmaking_select_host::get_progress(s_life_cycle_matchmaking_progress*)
 
 void c_life_cycle_state_handler_matchmaking_select_host::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
@@ -35,6 +41,13 @@ void c_life_cycle_state_handler_matchmaking_select_host::initialize(c_life_cycle
 	INVOKE_CLASS_MEMBER(0x00490950, c_life_cycle_state_handler_matchmaking_select_host, initialize, manager);
 }
 
+//.text:00490980 ; 
+//.text:00490990 ; 
+//.text:004909B0 ; 
+//.text:004909C0 ; 
+//.text:004909E0 ; 
+//.text:00490A00 ; 
+
 void c_life_cycle_state_handler_matchmaking_select_host::update()
 {
 	INVOKE_CLASS_MEMBER(0x00490A20, c_life_cycle_state_handler_matchmaking_select_host, update);
@@ -44,4 +57,6 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_select
 {
 	return INVOKE_CLASS_MEMBER(0x00490AC0, c_life_cycle_state_handler_matchmaking_select_host, update_for_state_transition);
 }
+
+//.text:00490BB0 ; private: void c_life_cycle_state_handler_matchmaking_select_host::update_progress()
 

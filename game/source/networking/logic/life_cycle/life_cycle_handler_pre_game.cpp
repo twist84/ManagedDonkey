@@ -24,6 +24,8 @@ char const* c_life_cycle_state_handler_pre_game::get_state_string()
 	return "pre-game";
 }
 
+//.text:0048F280 ; public: void c_life_cycle_state_handler_pre_game::dispose()
+
 void c_life_cycle_state_handler_pre_game::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x0048F290, c_life_cycle_state_handler_pre_game, enter, from, entry_data_size, entry_data);
@@ -52,6 +54,8 @@ void c_life_cycle_state_handler_pre_game::exit(c_life_cycle_state_handler* to)
 	//c_life_cycle_state_handler::exit(to);
 }
 
+//.text:0048F570 ; private: void c_life_cycle_state_handler_pre_game::host_update_countdown()
+
 void c_life_cycle_state_handler_pre_game::initialize(c_life_cycle_state_manager* manager)
 {
 	//INVOKE_CLASS_MEMBER(0x0048F7E0, c_life_cycle_state_handler_pre_game, initialize, manager);
@@ -60,6 +64,18 @@ void c_life_cycle_state_handler_pre_game::initialize(c_life_cycle_state_manager*
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_pre_game, &parent_flags, 0ULL, 0ULL);
 }
+
+//.text:0048F810 ; 
+//.text:0048F820 ; private: void c_life_cycle_state_handler_pre_game::leader_update_countdown()
+//.text:0048F8D0 ; private: void c_life_cycle_state_handler_pre_game::matchmaking_host_update()
+//.text:0048FD40 ; 
+//.text:0048FD50 ; 
+//.text:0048FD70 ; 
+//.text:0048FD80 ; 
+//.text:0048FDA0 ; 
+//.text:0048FDB0 ; 
+//.text:0048FDC0 ; 
+//.text:0048FDE0 ; private: void c_life_cycle_state_handler_pre_game::squad_game_start_status_update()
 
 void c_life_cycle_state_handler_pre_game::update()
 {

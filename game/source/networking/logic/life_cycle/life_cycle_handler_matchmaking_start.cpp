@@ -29,6 +29,8 @@ char const* c_life_cycle_state_handler_matchmaking_start::get_state_string()
 	return "matchmaking-start";
 }
 
+//.text:00493900 ; private: void c_life_cycle_state_handler_matchmaking_start::create_group_session()
+
 e_life_cycle_matchmaking_find_match_role __thiscall c_life_cycle_state_handler_matchmaking_start::determine_matchmaking_find_match_role(bool force_gather)
 {
 	//return INVOKE_CLASS_MEMBER(0x00493980, c_life_cycle_state_handler_matchmaking_start, determine_matchmaking_find_match_role, force_gather);
@@ -44,21 +46,29 @@ e_life_cycle_matchmaking_find_match_role __thiscall c_life_cycle_state_handler_m
 	else if (net_matchmaking_force_search) // network_globals.matchmaking_force_search
 	{
 		event(_event_message, "networking:logic:life-cycle:matchmaking_start: FORCE SEARCH");
-		result =  _life_cycle_matchmaking_find_match_role_search;
+		result = _life_cycle_matchmaking_find_match_role_search;
 	}
 
 	return result;
 }
+
+//.text:00493A40 ; public: void c_life_cycle_state_handler_matchmaking_start::dispose()
 
 void c_life_cycle_state_handler_matchmaking_start::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x00493A50, c_life_cycle_state_handler_matchmaking_start, enter, from, entry_data_size, entry_data);
 }
 
+//.text:00493C40 ; 
+
 void c_life_cycle_state_handler_matchmaking_start::exit(c_life_cycle_state_handler* to)
 {
 	INVOKE_CLASS_MEMBER(0x00493C60, c_life_cycle_state_handler_matchmaking_start, exit, to);
 }
+
+//.text:00493CC0 ; private: void c_life_cycle_state_handler_matchmaking_start::finish_group_session_creation()
+//.text:00493E60 ; 
+//.text:00493E70 ; public: void c_life_cycle_state_handler_matchmaking_start::get_progress(s_life_cycle_matchmaking_progress*)
 
 void c_life_cycle_state_handler_matchmaking_start::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
@@ -77,6 +87,14 @@ void c_life_cycle_state_handler_matchmaking_start::initialize(c_life_cycle_state
 	m_last_warning_toast_time = -1;
 }
 
+//.text:00494070 ; 
+//.text:00494080 ; 
+//.text:004940A0 ; 
+//.text:004940B0 ; 
+//.text:004940D0 ; 
+//.text:004940F0 ; private: bool c_life_cycle_state_handler_matchmaking_start::squad_allowed_to_start_matchmaking(bool)
+//.text:004941B0 ; 
+
 void c_life_cycle_state_handler_matchmaking_start::update()
 {
 	INVOKE_CLASS_MEMBER(0x004941D0, c_life_cycle_state_handler_matchmaking_start, update);
@@ -86,4 +104,7 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_start:
 {
 	return INVOKE_CLASS_MEMBER(0x00494440, c_life_cycle_state_handler_matchmaking_start, update_for_state_transition);
 }
+
+//.text:00494530 ; private: void c_life_cycle_state_handler_matchmaking_start::update_group_creation()
+//.text:00494690 ; private: void c_life_cycle_state_handler_matchmaking_start::update_squad_ready()
 

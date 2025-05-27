@@ -13,6 +13,9 @@ char const* c_life_cycle_state_handler_start_game::get_state_string()
 	return "start-game";
 }
 
+//.text:00490C00 ; private: static bool __cdecl c_life_cycle_state_handler_start_game::check_host(c_network_session*)
+//.text:00490C20 ; public: void c_life_cycle_state_handler_start_game::dispose()
+
 void c_life_cycle_state_handler_start_game::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x00490C30, c_life_cycle_state_handler_start_game, enter, from, entry_data_size, entry_data);
@@ -33,6 +36,11 @@ void c_life_cycle_state_handler_start_game::initialize(c_life_cycle_state_manage
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_start_game, &parent_flags, 0ULL, 0ULL);
 }
+
+//.text:00490CE0 ; public: virtual bool c_generic_network_session_parameter<uns32>::set(uns32 const*)
+//.text:00490D70 ; public: virtual bool c_generic_network_session_parameter<e_language>::set(e_language const*)
+//.text:00490E00 ; public: bool c_generic_network_session_parameter<uns64>::set(uns64 const*)
+//.text:00490EA0 ; private: void c_life_cycle_state_handler_start_game::set_unique_game_parameters()
 
 void c_life_cycle_state_handler_start_game::update()
 {

@@ -16,6 +16,8 @@ char const* c_life_cycle_state_handler_joining::get_state_string()
 	return "joining";
 }
 
+//.text:00493660 ; public: void c_life_cycle_state_handler_joining::dispose()
+
 void c_life_cycle_state_handler_joining::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x004933E0, c_life_cycle_state_handler_joining, enter, from, entry_data_size, entry_data);
@@ -26,6 +28,8 @@ void c_life_cycle_state_handler_joining::exit(c_life_cycle_state_handler* to)
 	INVOKE_CLASS_MEMBER(0x00493460, c_life_cycle_state_handler_joining, exit, to);
 }
 
+//.text:00493760 ; 
+
 void c_life_cycle_state_handler_joining::initialize(c_life_cycle_state_manager* manager)
 {
 	//INVOKE_CLASS_MEMBER(0x00493770, c_life_cycle_state_handler_joining, initialize, manager);
@@ -34,6 +38,10 @@ void c_life_cycle_state_handler_joining::initialize(c_life_cycle_state_manager* 
 	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_joining, &parent_flags, 0ULL, 0ULL);
 }
+
+//.text:004937A0 ; public: bool c_life_cycle_state_handler_joining::rematch_join_in_progress() const
+//.text:004937B0 ; 
+//.text:004937D0 ; 
 
 void c_life_cycle_state_handler_joining::update()
 {

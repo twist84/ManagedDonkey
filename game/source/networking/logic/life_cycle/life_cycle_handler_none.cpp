@@ -18,6 +18,8 @@ char const* c_life_cycle_state_handler_none::get_state_string()
 	return "none";
 }
 
+//.text:0048F170 ; public: void c_life_cycle_state_handler_none::dispose()
+
 void c_life_cycle_state_handler_none::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	//INVOKE_CLASS_MEMBER(0x0048F180, c_life_cycle_state_handler_none, enter, from, entry_data_size, entry_data);

@@ -26,6 +26,8 @@ char const* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_
 	return "matchmaking-find-and-assemble-match";
 }
 
+//.text:004963C0 ; public: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::dispose()
+
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x004963D0, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, enter, from, entry_data_size, entry_data);
@@ -35,6 +37,12 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::exit(c_life
 {
 	INVOKE_CLASS_MEMBER(0x00496490, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, exit, to);
 }
+
+//.text:00496530 ; 
+//.text:00496540 ; 
+//.text:00496580 ; public: bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_gather_party_properties(s_matchmaking_gather_party_properties*)
+//.text:00496670 ; public: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_progress(s_life_cycle_matchmaking_progress*)
+//.text:00496680 ; public: bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_search_party_properties(s_matchmaking_search_party_properties*)
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
@@ -58,6 +66,14 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::initialize(
 	INVOKE_CLASS_MEMBER(0x00496780, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, initialize, manager);
 }
 
+//.text:004967B0 ; 
+//.text:004967C0 ; 
+//.text:004967E0 ; 
+//.text:004967F0 ; 
+//.text:00496810 ; public: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::notify_qos_reply_block_set()
+//.text:00496820 ; 
+//.text:00496840 ; 
+
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update()
 {
 	INVOKE_CLASS_MEMBER(0x00496860, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, update);
@@ -67,4 +83,9 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_find_a
 {
 	return INVOKE_CLASS_MEMBER(0x00496910, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, update_for_state_transition);
 }
+
+//.text:00496A00 ; private: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_gathering()
+//.text:00496BA0 ; private: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_joining()
+//.text:00496F80 ; private: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_leaving()
+//.text:00497040 ; private: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_progress()
 

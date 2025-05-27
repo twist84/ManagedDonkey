@@ -14,6 +14,8 @@ char const* c_life_cycle_state_handler_matchmaking_find_match_client::get_state_
 	return "matchmaking-find-match-client";
 }
 
+//.text:00495A00 ; public: void c_life_cycle_state_handler_matchmaking_find_match_client::dispose()
+
 void c_life_cycle_state_handler_matchmaking_find_match_client::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
 	INVOKE_CLASS_MEMBER(0x00495A10, c_life_cycle_state_handler_matchmaking_find_match_client, enter, from, entry_data_size, entry_data);
@@ -23,6 +25,8 @@ void c_life_cycle_state_handler_matchmaking_find_match_client::exit(c_life_cycle
 {
 	INVOKE_CLASS_MEMBER(0x00495A40, c_life_cycle_state_handler_matchmaking_find_match_client, exit, to);
 }
+
+//.text:00495A50 ; public: void c_life_cycle_state_handler_matchmaking_find_match_client::get_progress(s_life_cycle_matchmaking_progress*)
 
 void c_life_cycle_state_handler_matchmaking_find_match_client::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
