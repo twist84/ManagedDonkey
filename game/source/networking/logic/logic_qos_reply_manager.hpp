@@ -48,6 +48,7 @@ protected:
 	virtual void notify_qos_reply_block_set() = 0;
 
 public:
+	c_session_qos_reply_manager();
 	void dispose();
 	int32 get_qos_reply_block(s_network_squad_status_data const* qos_status, int32 max_block_size, byte* block_data);
 	void initialize();
@@ -70,6 +71,9 @@ protected:
 	virtual bool get_qos_status(s_network_squad_status_data* qos_status_out) override;
 	virtual int32 get_qos_reply_bandwidth_limit() override;
 	virtual void notify_qos_reply_block_set() override;
+
+public:
+	c_squad_session_qos_reply_manager();
 };
 static_assert(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 
@@ -82,6 +86,9 @@ protected:
 	virtual bool get_qos_status(s_network_squad_status_data* qos_status_out) override;
 	virtual int32 get_qos_reply_bandwidth_limit() override;
 	virtual void notify_qos_reply_block_set() override;
+
+public:
+	c_group_session_qos_reply_manager();
 };
 static_assert(sizeof(c_group_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 

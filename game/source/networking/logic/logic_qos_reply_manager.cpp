@@ -12,15 +12,19 @@
 
 REFERENCE_DECLARE(0x018639A0, s_logic_qos_reply_manager_globals, g_logic_qos_reply_manager_globals);
 
-//// $TODO: remove this when we have full control over `logic_qos_reply_manager_globals`
-//void __cdecl dynamic_initializer_for_logic_qos_reply_manager_globals()
-//{
-//	static s_logic_qos_reply_manager_globals temp;
-//	csmemcpy(&g_logic_qos_reply_manager_globals, &temp, sizeof(s_logic_qos_reply_manager_globals));
-//}
-//HOOK_DECLARE(0x01594CD0, dynamic_initializer_for_logic_qos_reply_manager_globals);
+// $TODO: remove this when we have full control over `logic_qos_reply_manager_globals`
+void __cdecl dynamic_initializer_for_logic_qos_reply_manager_globals()
+{
+	static s_logic_qos_reply_manager_globals temp;
+	csmemcpy(&g_logic_qos_reply_manager_globals, &temp, sizeof(s_logic_qos_reply_manager_globals));
+}
+HOOK_DECLARE(0x01594CD0, dynamic_initializer_for_logic_qos_reply_manager_globals);
 
-//.text:0049AD90 ; public: c_group_session_qos_reply_manager::c_group_session_qos_reply_manager()
+c_group_session_qos_reply_manager::c_group_session_qos_reply_manager() :
+	c_session_qos_reply_manager()
+{
+	//DECLFUNC(0x0049AD90, void, __thiscall, c_group_session_qos_reply_manager*)(this);
+}
 
 c_live_service_qos_manager::c_live_service_qos_manager() :
 	m_flags()
@@ -28,8 +32,20 @@ c_live_service_qos_manager::c_live_service_qos_manager() :
 	//DECLFUNC(0x0049ADB0, void, __thiscall, c_live_service_qos_manager*)(this);
 }
 
-//.text:0049ADC0 ; public: c_session_qos_reply_manager::c_session_qos_reply_manager()
-//.text:0049ADE0 ; public: c_squad_session_qos_reply_manager::c_squad_session_qos_reply_manager()
+c_session_qos_reply_manager::c_session_qos_reply_manager() :
+	m_initialized(),
+	m_qos_listener_update_timestamp(),
+	saved_qos_status()
+{
+	//DECLFUNC(0x0049ADC0, void, __thiscall, c_session_qos_reply_manager*)(this);
+}
+
+c_squad_session_qos_reply_manager::c_squad_session_qos_reply_manager() :
+	c_session_qos_reply_manager()
+{
+	//DECLFUNC(0x0049ADE0, void, __thiscall, c_squad_session_qos_reply_manager*)(this);
+}
+
 //.text:0049AE00 ; public: s_logic_qos_reply_manager_globals::s_logic_qos_reply_manager_globals()
 //.text:0049AE40 ; 
 
@@ -170,7 +186,7 @@ void __cdecl logic_qos_reply_manager_initialize()
 	g_logic_qos_reply_manager_globals.live_service_qos_manager.initialize();
 	g_logic_qos_reply_manager_globals.squad_qos_reply_manager.initialize();
 	g_logic_qos_reply_manager_globals.group_qos_reply_manager.initialize();
-	g_logic_qos_reply_manager_globals.initialized = false;
+	g_logic_qos_reply_manager_globals.initialized = true;
 }
 
 void __cdecl logic_qos_reply_manager_update()
