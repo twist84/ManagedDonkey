@@ -52,7 +52,14 @@ void c_life_cycle_state_handler_post_match::initialize(c_life_cycle_state_manage
 //.text:0049A430 ; 
 //.text:0049A450 ; 
 //.text:0049A460 ; 
-//.text:0049A480 ; public: bool c_life_cycle_state_handler_post_match::rematch_join_in_progress() const
+
+bool c_life_cycle_state_handler_post_match::rematch_join_in_progress() const
+{
+	//return INVOKE_CLASS_MEMBER(0x0049A480, c_life_cycle_state_handler_post_match, rematch_join_in_progress);
+
+	return m_flags.test(_life_cycle_post_match_rematch_joining_bit);
+}
+
 //.text:0049A490 ; 
 //.text:0049A4C0 ; 
 //.text:0049A4E0 ; 

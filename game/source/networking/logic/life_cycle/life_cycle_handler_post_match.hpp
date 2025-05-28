@@ -2,8 +2,21 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
-//typedef c_flags<e_life_cycle_post_match_flags, int16, k_life_cycle_post_match_flags_count> c_life_cycle_post_match_flags;
-typedef int16 c_life_cycle_post_match_flags;
+enum e_life_cycle_post_match_flags
+{
+	_life_cycle_post_match_in_main_menu_bit = 0,
+	_life_cycle_post_match_timer_countdown_bit,
+	_life_cycle_post_match_rematch_squad_host_bit,
+	_life_cycle_post_match_rematch_joining_bit,
+	_life_cycle_post_match_refreshed_stats_bit,
+	_life_cycle_post_match_ready_for_matchmaking_start_bit,
+	_life_cycle_post_match_ready_for_next_match_bit,
+	_life_cycle_post_match_rematch_expected_bit,
+	_life_cycle_post_match_waiting_for_stats_replication_bit,
+
+	k_life_cycle_post_match_flags_count,
+};
+typedef c_flags<e_life_cycle_post_match_flags, int16, k_life_cycle_post_match_flags_count> c_life_cycle_post_match_flags;
 
 struct c_life_cycle_state_handler_post_match :
 	public c_life_cycle_state_handler
@@ -18,6 +31,7 @@ public:
 
 	c_life_cycle_state_handler_post_match();
 	void initialize(c_life_cycle_state_manager* manager);
+	bool rematch_join_in_progress() const;
 
 //protected:
 	c_life_cycle_post_match_flags m_flags;
