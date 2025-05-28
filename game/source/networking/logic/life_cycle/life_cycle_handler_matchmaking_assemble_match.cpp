@@ -43,7 +43,12 @@ void c_life_cycle_state_handler_matchmaking_assemble_match::exit(c_life_cycle_st
 //.text:00497450 ; 
 //.text:00497460 ; public: int32 c_network_session_membership::get_established_player_count() const
 //.text:004974C0 ; 
-//.text:004974D0 ; public: bool c_life_cycle_state_handler_matchmaking_assemble_match::get_gather_party_properties(s_matchmaking_gather_party_properties*)
+
+bool c_life_cycle_state_handler_matchmaking_assemble_match::get_gather_party_properties(s_matchmaking_gather_party_properties* gather_party_properties_out)
+{
+	return INVOKE_CLASS_MEMBER(0x004974D0, c_life_cycle_state_handler_matchmaking_assemble_match, get_gather_party_properties, gather_party_properties_out);
+}
+
 //.text:004975C0 ; 
 //.text:004975D0 ; private: uns32 c_life_cycle_state_handler_matchmaking_assemble_match::get_peer_mask_to_evict_for_team_balance()
 

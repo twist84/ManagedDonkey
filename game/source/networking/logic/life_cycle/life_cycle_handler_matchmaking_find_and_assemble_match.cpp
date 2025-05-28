@@ -45,7 +45,11 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::exit(c_life
 
 //.text:00496530 ; 
 //.text:00496540 ; 
-//.text:00496580 ; public: bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_gather_party_properties(s_matchmaking_gather_party_properties*)
+
+bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_gather_party_properties(s_matchmaking_gather_party_properties* gather_party_properties_out)
+{
+	return INVOKE_CLASS_MEMBER(0x00496580, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, get_gather_party_properties, gather_party_properties_out);
+}
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_progress(s_life_cycle_matchmaking_progress* progress_out)
 {
