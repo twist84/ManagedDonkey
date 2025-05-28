@@ -70,31 +70,31 @@ void __cdecl network_life_cycle_display_state_strings()
 
 void __cdecl network_life_cycle_dispose()
 {
-	INVOKE(0x00454A80, network_life_cycle_dispose);
+	//INVOKE(0x00454A80, network_life_cycle_dispose);
 
-	//multiplayer_game_hopper_dispose();
-	//logic_qos_reply_manager_dispose();
-	//
-	//life_cycle_globals.life_cycle_state_handler_none.dispose();
-	//life_cycle_globals.life_cycle_state_handler_pre_game.dispose();
-	//life_cycle_globals.life_cycle_state_handler_start_game.dispose();
-	//life_cycle_globals.life_cycle_state_handler_in_game.dispose();
-	//life_cycle_globals.life_cycle_state_handler_end_game_write_stats.dispose();
-	//life_cycle_globals.life_cycle_state_handler_leaving.dispose();
-	//life_cycle_globals.life_cycle_state_handler_joining.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_start.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.dispose();
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.dispose();
-	//life_cycle_globals.life_cycle_state_handler_in_match.dispose();
-	//life_cycle_globals.life_cycle_state_handler_end_match_write_stats.dispose();
-	//life_cycle_globals.life_cycle_state_handler_post_match.dispose();
-	//
-	//life_cycle_globals.initialized = false;
+	multiplayer_game_hopper_dispose();
+	logic_qos_reply_manager_dispose();
+	
+	life_cycle_globals.life_cycle_state_handler_none.dispose();
+	life_cycle_globals.life_cycle_state_handler_pre_game.dispose();
+	life_cycle_globals.life_cycle_state_handler_start_game.dispose();
+	life_cycle_globals.life_cycle_state_handler_in_game.dispose();
+	life_cycle_globals.life_cycle_state_handler_end_game_write_stats.dispose();
+	life_cycle_globals.life_cycle_state_handler_leaving.dispose();
+	life_cycle_globals.life_cycle_state_handler_joining.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_start.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.dispose();
+	life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.dispose();
+	life_cycle_globals.life_cycle_state_handler_in_match.dispose();
+	life_cycle_globals.life_cycle_state_handler_end_match_write_stats.dispose();
+	life_cycle_globals.life_cycle_state_handler_post_match.dispose();
+	
+	life_cycle_globals.initialized = false;
 }
 
 void __cdecl network_life_cycle_end()
@@ -114,64 +114,64 @@ void __cdecl network_life_cycle_end()
 
 void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmaking_progress* progress_out)
 {
-	INVOKE(0x00454C20, network_life_cycle_get_matchmaking_progress, progress_out);
+	//INVOKE(0x00454C20, network_life_cycle_get_matchmaking_progress, progress_out);
 
-	//csmemset(progress_out, 0, sizeof(s_life_cycle_matchmaking_progress));
-	//progress_out->progress_type = _life_cycle_matchmaking_progress_none;
-	//
-	//if (!life_cycle_globals.life_cycle_state_manager.current_state_ready_for_state_transition_or_query())
-	//{
-	//	return;
-	//}
-	//
-	//switch (network_life_cycle_get_state())
-	//{
-	//case _life_cycle_state_matchmaking_start:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_start.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_find_match_client:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_find_match:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_find_and_assemble_match:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_assemble_match:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_arbitration:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_select_host:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_matchmaking_prepare_map:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.get_progress(progress_out);
-	//}
-	//break;
-	//case _life_cycle_state_post_match:
-	//{
-	//	life_cycle_globals.life_cycle_state_handler_post_match.get_progress(progress_out);
-	//}
-	//break;
-	//}
+	csmemset(progress_out, 0, sizeof(s_life_cycle_matchmaking_progress));
+	progress_out->progress_type = _life_cycle_matchmaking_progress_none;
+	
+	if (!life_cycle_globals.life_cycle_state_manager.current_state_ready_for_state_transition_or_query())
+	{
+		return;
+	}
+	
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_matchmaking_start:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_start.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_find_match_client:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_find_match:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_find_and_assemble_match:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_assemble_match:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_arbitration:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_select_host:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_prepare_map:
+	{
+		life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.get_progress(progress_out);
+	}
+	break;
+	case _life_cycle_state_post_match:
+	{
+		life_cycle_globals.life_cycle_state_handler_post_match.get_progress(progress_out);
+	}
+	break;
+	}
 }
 
 //.text:00454D30 ; bool __cdecl network_life_cycle_get_matchmaking_search_party_properties(s_matchmaking_search_party_properties*)
@@ -401,34 +401,34 @@ bool __cdecl network_life_cycle_in_target_session(c_network_session** session)
 
 bool __cdecl network_life_cycle_initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* squad_session_one, c_network_session* squad_session_two, c_network_session* group_session)
 {
-	return INVOKE(0x00454FD0, network_life_cycle_initialize, observer, session_manager, squad_session_one, squad_session_two, group_session);
+	//return INVOKE(0x00454FD0, network_life_cycle_initialize, observer, session_manager, squad_session_one, squad_session_two, group_session);
 
-	//life_cycle_globals.life_cycle_state_manager.initialize(observer, session_manager, squad_session_one, squad_session_two, group_session);
-	//
-	//life_cycle_globals.life_cycle_state_handler_none.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_pre_game.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_start_game.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_in_game.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_end_game_write_stats.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_leaving.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_joining.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_start.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_in_match.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_end_match_write_stats.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//life_cycle_globals.life_cycle_state_handler_post_match.initialize(&life_cycle_globals.life_cycle_state_manager);
-	//
-	//multiplayer_game_hopper_initialize();
-	//logic_qos_reply_manager_initialize();
-	//
-	//life_cycle_globals.initialized = true;
-	//return true;
+	life_cycle_globals.life_cycle_state_manager.initialize(observer, session_manager, squad_session_one, squad_session_two, group_session);
+	
+	life_cycle_globals.life_cycle_state_handler_none.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_pre_game.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_start_game.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_in_game.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_end_game_write_stats.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_leaving.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_joining.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_start.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match_client.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_select_host.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_arbitration.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_matchmaking_prepare_map.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_in_match.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_end_match_write_stats.initialize(&life_cycle_globals.life_cycle_state_manager);
+	life_cycle_globals.life_cycle_state_handler_post_match.initialize(&life_cycle_globals.life_cycle_state_manager);
+	
+	multiplayer_game_hopper_initialize();
+	logic_qos_reply_manager_initialize();
+	
+	life_cycle_globals.initialized = true;
+	return true;
 }
 
 bool __cdecl network_life_cycle_map_load_pending()
