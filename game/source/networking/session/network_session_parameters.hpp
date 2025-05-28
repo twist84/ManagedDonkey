@@ -37,8 +37,8 @@ static_assert(sizeof(s_network_ui_state) == 0x2);
 
 struct s_network_session_parameter_synchronous_out_of_sync
 {
-	bool synchronous_out_of_sync;
-	bool synchronous_determinism_failure;
+	bool out_of_sync;
+	bool determinism_failure;
 };
 static_assert(sizeof(s_network_session_parameter_synchronous_out_of_sync) == 0x2);
 
