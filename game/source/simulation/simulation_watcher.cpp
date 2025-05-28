@@ -2,7 +2,7 @@
 
 #include "main/loading.hpp"
 #include "memory/module.hpp"
-#include "networking/logic/network_session_interface.hpp"
+#include "networking/logic/network_life_cycle.hpp"
 #include "simulation/simulation_world.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
@@ -99,14 +99,20 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 		}
 		return;
 		case _simulation_world_state_active:
+		{
 			csstrnzcpy(buffer, "Active gameworld authority", buffer_length);
-			return;
+		}
+		return;
 		case _simulation_world_state_handoff:
+		{
 			csnzprintf(buffer, buffer_length, "Handing off authority to new host '%s'", host_name);
-			return;
+		}
+		return;
 		case _simulation_world_state_leaving:
+		{
 			csstrnzcpy(buffer, "Gameworld authority leaving", buffer_length);
-			return;
+		}
+		return;
 		}
 
 		csnzprintf(buffer, buffer_length, "Gameworld authority: state %s", c_simulation_world::get_state_string(state));
@@ -117,8 +123,10 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 		switch (state)
 		{
 		case _simulation_world_state_dead:
+		{
 			csstrnzcpy(buffer, "Gameworld client connection is dead", buffer_length);
-			return;
+		}
+		return;
 		case _simulation_world_state_joining:
 		{
 			csnzprintf(buffer, buffer_length, "Gameworld client joining '%s'...|n(attempt %d of %d, abort %4.1fsec, fail %4.1fsec)",
@@ -130,11 +138,15 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 		}
 		return;
 		case _simulation_world_state_active:
+		{
 			csstrnzcpy(buffer, "Active gameworld client", buffer_length);
-			return;
+		}
+		return;
 		case _simulation_world_state_leaving:
+		{
 			csstrnzcpy(buffer, "Gameworld client leaving", buffer_length);
-			return;
+		}
+		return;
 		}
 
 		csnzprintf(buffer, buffer_length, "Gameworld client: state %s", c_simulation_world::get_state_string(state));

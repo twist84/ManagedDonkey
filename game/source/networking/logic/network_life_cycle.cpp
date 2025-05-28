@@ -48,17 +48,56 @@ s_network_life_cycle_globals::s_network_life_cycle_globals() :
 }
 
 //.text:00454830 ; void __cdecl network_life_cycle_abort_matchmaking()
-//.text:004548E0 ; bool __cdecl network_life_cycle_can_change_network_files()
+
+bool __cdecl network_life_cycle_can_change_network_files()
+{
+	//return INVOKE(0x004548E0, network_life_cycle_can_change_network_files);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_none:
+	case _life_cycle_state_pre_game:
+	case _life_cycle_state_in_game:
+	case _life_cycle_state_end_game_write_stats:
+	case _life_cycle_state_in_match:
+	case _life_cycle_state_post_match:
+	{
+		result = true;
+	}
+	break;
+	}
+	return result;
+}
+
 //.text:00454930 ; bool __cdecl network_life_cycle_create_local_squad(e_network_session_class)
 
 bool __cdecl network_life_cycle_desires_qos_reply_block_for_group()
 {
-	return INVOKE(0x00454A10, network_life_cycle_desires_qos_reply_block_for_group);
+	//return INVOKE(0x00454A10, network_life_cycle_desires_qos_reply_block_for_group);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_matchmaking_find_and_assemble_match:
+	case _life_cycle_state_matchmaking_assemble_match:
+	{
+		result = true;
+	}
+	break;
+	}
+	return result;
 }
 
 void __cdecl network_life_cycle_disconnect_sessions()
 {
-	INVOKE(0x00454A30, network_life_cycle_disconnect_sessions);
+	//INVOKE(0x00454A30, network_life_cycle_disconnect_sessions);
+
+	event(_event_message, "networking:lifecycle: FORCE-DISCONNECTING SQUAD");
+	life_cycle_globals.life_cycle_state_manager.get_active_squad_session()->force_disconnect();
+
+	event(_event_message, "networking:lifecycle: FORCE-DISCONNECTING GROUP");
+	life_cycle_globals.life_cycle_state_manager.get_group_session()->force_disconnect();
 }
 
 void __cdecl network_life_cycle_display_state_strings()
@@ -107,10 +146,72 @@ void __cdecl network_life_cycle_end()
 	life_cycle_globals.life_cycle_state_manager.terminate();
 }
 
-//.text:00454B90 ; bool __cdecl network_life_cycle_game_ending()
-//.text:00454BB0 ; bool __cdecl network_life_cycle_game_is_in_progress()
-//.text:00454BD0 ; c_network_session* __cdecl network_life_cycle_get_group_session_for_join()
-//.text:00454BE0 ; bool __cdecl network_life_cycle_get_matchmaking_gather_party_properties(s_matchmaking_gather_party_properties*)
+bool __cdecl network_life_cycle_game_ending()
+{
+	//return INVOKE(0x00454B90, network_life_cycle_game_ending);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_end_game_write_stats:
+	case _life_cycle_state_end_match_write_stats:
+	{
+		result = true;
+	}
+	break;
+	}
+	return result;
+}
+
+bool __cdecl network_life_cycle_game_is_in_progress()
+{
+	//return INVOKE(0x00454BB0, network_life_cycle_game_is_in_progress);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_in_game:
+	case _life_cycle_state_in_match:
+	{
+		result = true;
+	}
+	break;
+	}
+	return result;
+}
+
+c_network_session* __cdecl network_life_cycle_get_group_session_for_join()
+{
+	//return INVOKE(0x00454BD0, network_life_cycle_get_group_session_for_join);
+
+	if (!life_cycle_globals.initialized)
+	{
+		return NULL;
+	}
+
+	return life_cycle_globals.life_cycle_state_manager.get_group_session();
+}
+
+bool __cdecl network_life_cycle_get_matchmaking_gather_party_properties(s_matchmaking_gather_party_properties* gather_party_properties_out)
+{
+	//return INVOKE(0x00454BE0, network_life_cycle_get_matchmaking_gather_party_properties, gather_party_properties_out);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_matchmaking_find_and_assemble_match:
+	{
+		result = life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.get_gather_party_properties(gather_party_properties_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_assemble_match:
+	{
+		result = life_cycle_globals.life_cycle_state_handler_matchmaking_assemble_match.get_gather_party_properties(gather_party_properties_out);
+	}
+	break;
+	}
+	return result;
+}
 
 void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmaking_progress* progress_out)
 {
@@ -118,12 +219,12 @@ void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmakin
 
 	csmemset(progress_out, 0, sizeof(s_life_cycle_matchmaking_progress));
 	progress_out->progress_type = _life_cycle_matchmaking_progress_none;
-	
+
 	if (!life_cycle_globals.life_cycle_state_manager.current_state_ready_for_state_transition_or_query())
 	{
 		return;
 	}
-	
+
 	switch (network_life_cycle_get_state())
 	{
 	case _life_cycle_state_matchmaking_start:
@@ -174,7 +275,26 @@ void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmakin
 	}
 }
 
-//.text:00454D30 ; bool __cdecl network_life_cycle_get_matchmaking_search_party_properties(s_matchmaking_search_party_properties*)
+bool __cdecl network_life_cycle_get_matchmaking_search_party_properties(s_matchmaking_search_party_properties* search_party_properties_out)
+{
+	//return INVOKE(0x00454D30, network_life_cycle_get_matchmaking_search_party_properties, search_party_properties_out);
+
+	bool result = false;
+	switch (network_life_cycle_get_state())
+	{
+	case _life_cycle_state_matchmaking_find_match:
+	{
+		result = life_cycle_globals.life_cycle_state_handler_matchmaking_find_match.get_search_party_properties(search_party_properties_out);
+	}
+	break;
+	case _life_cycle_state_matchmaking_find_and_assemble_match:
+	{
+		result = life_cycle_globals.life_cycle_state_handler_matchmaking_find_and_assemble_match.get_search_party_properties(search_party_properties_out);
+	}
+	break;
+	}
+	return result;
+}
 
 bool __cdecl network_life_cycle_get_observer(c_network_observer** observer)
 {
@@ -262,6 +382,7 @@ bool __cdecl network_life_cycle_in_interactive_session(c_network_session** sessi
 {
 	//return INVOKE(0x00454E20, network_life_cycle_in_interactive_session, session);
 
+	bool result = false;
 	switch (network_life_cycle_get_state())
 	{
 	case _life_cycle_state_pre_game:
@@ -276,24 +397,26 @@ bool __cdecl network_life_cycle_in_interactive_session(c_network_session** sessi
 	case _life_cycle_state_matchmaking_arbitration:
 	case _life_cycle_state_matchmaking_select_host:
 	{
-		return network_life_cycle_in_squad_session(session);
+		result = network_life_cycle_in_squad_session(session);
 	}
+	break;
 	case _life_cycle_state_matchmaking_prepare_map:
 	case _life_cycle_state_in_match:
 	case _life_cycle_state_end_match_write_stats:
 	case _life_cycle_state_post_match:
 	{
-		return network_life_cycle_in_group_session(session);
+		result = network_life_cycle_in_group_session(session);
 	}
+	break;
 	}
-	
-	return false;
+	return result;
 }
 
 bool __cdecl network_life_cycle_in_session(c_network_session** session)
 {
 	//return INVOKE(0x00454EA0, network_life_cycle_in_session, session);
 
+	bool result = false;
 	switch (network_life_cycle_get_state())
 	{
 	case _life_cycle_state_pre_game:
@@ -308,8 +431,9 @@ bool __cdecl network_life_cycle_in_session(c_network_session** session)
 	case _life_cycle_state_matchmaking_find_and_assemble_match:
 	case _life_cycle_state_matchmaking_assemble_match:
 	{
-		return network_life_cycle_in_squad_session(session);
+		result = network_life_cycle_in_squad_session(session);
 	}
+	break;
 	case _life_cycle_state_matchmaking_arbitration:
 	case _life_cycle_state_matchmaking_select_host:
 	case _life_cycle_state_matchmaking_prepare_map:
@@ -317,11 +441,11 @@ bool __cdecl network_life_cycle_in_session(c_network_session** session)
 	case _life_cycle_state_end_match_write_stats:
 	case _life_cycle_state_post_match:
 	{
-		return network_life_cycle_in_group_session(session);
+		result = network_life_cycle_in_group_session(session);
 	}
+	break;
 	}
-	
-	return false;
+	return result;
 }
 
 bool __cdecl network_life_cycle_in_squad_session(c_network_session** session)
@@ -435,23 +559,23 @@ bool __cdecl network_life_cycle_map_load_pending()
 {
 	//return INVOKE(0x00455110, network_life_cycle_map_load_pending);
 
+	bool result = false;
 	switch (network_life_cycle_get_state())
 	{
 	case _life_cycle_state_in_game:
 	{
-		return ((c_life_cycle_state_handler_in_game*)life_cycle_globals.life_cycle_state_manager.get_current_state_handler())->is_map_load_pending();
-		//return life_cycle_globals.life_cycle_state_handler_in_game.is_map_load_pending();
+		result = ((c_life_cycle_state_handler_in_game*)life_cycle_globals.life_cycle_state_manager.get_current_state_handler())->is_map_load_pending();
+		//result = life_cycle_globals.life_cycle_state_handler_in_game.is_map_load_pending();
 	}
 	break;
 	case _life_cycle_state_in_match:
 	{
-		return ((c_life_cycle_state_handler_in_match*)life_cycle_globals.life_cycle_state_manager.get_current_state_handler())->is_map_load_pending();
-		//return life_cycle_globals.life_cycle_state_handler_in_match.is_map_load_pending();
+		result = ((c_life_cycle_state_handler_in_match*)life_cycle_globals.life_cycle_state_manager.get_current_state_handler())->is_map_load_pending();
+		//result = life_cycle_globals.life_cycle_state_handler_in_match.is_map_load_pending();
 	}
 	break;
 	}
-
-	return false;
+	return result;
 }
 
 void __cdecl network_life_cycle_notify_core_load()
@@ -531,21 +655,21 @@ bool __cdecl network_life_cycle_post_match_rematch_join_in_progress()
 		return false;
 	}
 
+	bool result = false;
 	switch (network_life_cycle_get_state())
 	{
 	case _life_cycle_state_joining:
 	{
-		return life_cycle_globals.life_cycle_state_handler_joining.rematch_join_in_progress();
+		result = life_cycle_globals.life_cycle_state_handler_joining.rematch_join_in_progress();
 	}
 	break;
 	case _life_cycle_state_post_match:
 	{
-		return life_cycle_globals.life_cycle_state_handler_post_match.rematch_join_in_progress();
+		result = life_cycle_globals.life_cycle_state_handler_post_match.rematch_join_in_progress();
 	}
 	break;
 	}
-
-	return false;
+	return result;
 }
 
 void __cdecl network_life_cycle_prepare_for_squad_join()
@@ -593,11 +717,67 @@ bool __cdecl network_life_cycle_set_pre_game_state()
 	return true;
 }
 
-//.text:004552D0 ; bool __cdecl network_life_cycle_squad_is_offline()
-//.text:004552F0 ; bool __cdecl network_life_cycle_squad_local_peer_is_host()
-//.text:00455320 ; bool __cdecl network_life_cycle_squad_local_peer_is_leader()
-//.text:00455350 ; void __cdecl network_life_cycle_swap_squad_sessions()
-//.text:00455370 ; void __cdecl network_life_cycle_swap_target_and_group_sessions()
+bool __cdecl network_life_cycle_squad_is_offline()
+{
+	//return INVOKE(0x004552D0, network_life_cycle_squad_is_offline);
+
+	ASSERT(life_cycle_globals.initialized);
+
+	c_network_session* squad_session = life_cycle_globals.life_cycle_state_manager.get_active_squad_session();
+	return squad_session->established() && squad_session->session_class() == _network_session_class_offline;
+}
+
+bool __cdecl network_life_cycle_squad_local_peer_is_host()
+{
+	//return INVOKE(0x004552F0, network_life_cycle_squad_local_peer_is_host);
+
+	c_network_session* squad_session = NULL;
+	if (!network_life_cycle_in_squad_session(&squad_session))
+	{
+		return false;
+	}
+
+	ASSERT(squad_session);
+	return squad_session->is_host();
+}
+
+bool __cdecl network_life_cycle_squad_local_peer_is_leader()
+{
+	//return INVOKE(0x00455320, network_life_cycle_squad_local_peer_is_leader);
+
+	c_network_session* squad_session = NULL;
+	if (!network_life_cycle_in_squad_session(&squad_session))
+	{
+		return false;
+	}
+
+	ASSERT(squad_session);
+	return squad_session->is_leader();
+}
+
+void __cdecl network_life_cycle_swap_squad_sessions()
+{
+	//INVOKE(0x00455350, network_life_cycle_swap_squad_sessions);
+
+	if (!life_cycle_globals.initialized)
+	{
+		return;
+	}
+
+	life_cycle_globals.life_cycle_state_manager.swap_squad_sessions();
+}
+
+void __cdecl network_life_cycle_swap_target_and_group_sessions()
+{
+	//INVOKE(0x00455370, network_life_cycle_swap_target_and_group_sessions);
+
+	if (!life_cycle_globals.initialized)
+	{
+		return;
+	}
+
+	life_cycle_globals.life_cycle_state_manager.swap_target_and_group_sessions();
+}
 
 void __cdecl network_life_cycle_update()
 {

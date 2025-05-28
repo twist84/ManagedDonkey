@@ -25,6 +25,8 @@ struct c_network_observer;
 struct c_network_session;
 struct c_network_session_manager;
 struct s_life_cycle_matchmaking_progress;
+struct s_matchmaking_gather_party_properties;
+struct s_matchmaking_search_party_properties;
 
 struct s_network_life_cycle_globals
 {
@@ -78,12 +80,18 @@ static_assert(0x3D4F8 == OFFSETOF(s_network_life_cycle_globals, life_cycle_state
 extern char const* k_life_cycle_state_descriptions[k_life_cycle_state_count]; // char const*(&k_life_cycle_state_descriptions)[k_life_cycle_state_count];
 extern s_network_life_cycle_globals& life_cycle_globals;
 
+extern bool __cdecl network_life_cycle_can_change_network_files();
 extern bool __cdecl network_life_cycle_desires_qos_reply_block_for_group();
 extern void __cdecl network_life_cycle_disconnect_sessions();
 extern void __cdecl network_life_cycle_display_state_strings();
 extern void __cdecl network_life_cycle_dispose();
 extern void __cdecl network_life_cycle_end();
+extern bool __cdecl network_life_cycle_game_ending();
+extern bool __cdecl network_life_cycle_game_is_in_progress();
+extern c_network_session* __cdecl network_life_cycle_get_group_session_for_join();
+extern bool __cdecl network_life_cycle_get_matchmaking_gather_party_properties(s_matchmaking_gather_party_properties* gather_party_properties_out);
 extern void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmaking_progress* progress_out);
+extern bool __cdecl network_life_cycle_get_matchmaking_search_party_properties(s_matchmaking_search_party_properties* search_party_properties_out);
 extern bool __cdecl network_life_cycle_get_observer(c_network_observer** observer);
 extern c_network_session* __cdecl network_life_cycle_get_squad_session_for_join();
 extern e_life_cycle_state __cdecl network_life_cycle_get_state();
@@ -107,5 +115,10 @@ extern bool __cdecl network_life_cycle_post_match_rematch_join_in_progress();
 extern void __cdecl network_life_cycle_prepare_for_squad_join();
 extern void __cdecl network_life_cycle_request_leave(bool leave_and_disconnect);
 extern bool __cdecl network_life_cycle_set_pre_game_state();
+extern bool __cdecl network_life_cycle_squad_is_offline();
+extern bool __cdecl network_life_cycle_squad_local_peer_is_host();
+extern bool __cdecl network_life_cycle_squad_local_peer_is_leader();
+extern void __cdecl network_life_cycle_swap_squad_sessions();
+extern void __cdecl network_life_cycle_swap_target_and_group_sessions();
 extern void __cdecl network_life_cycle_update();
 
