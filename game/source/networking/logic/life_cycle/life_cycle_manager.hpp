@@ -32,6 +32,7 @@ public:
 	void request_leave_sessions(bool leave_and_disconnect);
 	void request_state_change(e_life_cycle_state state, int32 entry_data_size, void const* entry_data);
 	void set_current_state(e_life_cycle_state state, int32 entry_data_size, void* entry_data);
+	void set_pause_state(char const* state_string, bool enabled);
 	void swap_squad_sessions();
 	void swap_target_and_group_sessions();
 	e_life_cycle_state get_current_state() const;

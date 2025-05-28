@@ -114,22 +114,34 @@ void c_life_cycle_state_manager::initialize(c_network_observer* observer, c_netw
 
 void c_life_cycle_state_manager::notify_expect_squad_join()
 {
-	INVOKE_CLASS_MEMBER(0x0048D9F0, c_life_cycle_state_manager, notify_expect_squad_join);
+	//INVOKE_CLASS_MEMBER(0x0048D9F0, c_life_cycle_state_manager, notify_expect_squad_join);
+
+	c_network_session* squad_session = c_life_cycle_state_manager::get_active_squad_session();
+	ASSERT(squad_session->disconnected() || squad_session->leaving_session());
+
+	event(_event_message, "networking:logic:life-cycle: life-cycle manager notified that we should expect a squad join, going to joining");
+	if (c_life_cycle_state_manager::get_current_state() == _life_cycle_state_joining)
+	{
+		event(_event_warning, "networking:logic:life-cycle: we are already joining, no need to try again");
+		return;
+	}
+	
+	c_life_cycle_state_manager::set_current_state(_life_cycle_state_joining, 0, NULL);
 }
 
 void c_life_cycle_state_manager::notify_lost_connection()
 {
-	INVOKE_CLASS_MEMBER(0x0048DA40, c_life_cycle_state_manager, notify_lost_connection);
+	//INVOKE_CLASS_MEMBER(0x0048DA40, c_life_cycle_state_manager, notify_lost_connection);
 
-	c_life_cycle_state_handler* current_state_handler = get_current_state_handler();
+	c_life_cycle_state_handler* current_state_handler = c_life_cycle_state_manager::get_current_state_handler();
 	event(_event_message, "networking:logic:life-cycle: manager notified of connection loss");
 	
 	if (current_state_handler->test_flag(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit))
 	{
-		bool leave_and_disconnect = false;
 		event(_event_message, "networking:logic:life-cycle: notified of connection loss in state '%s', going to leaving right now!",
 			current_state_handler->get_state_string());
 	
+		bool leave_and_disconnect = false;
 		set_current_state(_life_cycle_state_leaving, sizeof(leave_and_disconnect), &leave_and_disconnect);
 	}
 }
@@ -138,7 +150,7 @@ void c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption(
 {
 	//INVOKE_CLASS_MEMBER(0x0048DAB0, c_life_cycle_state_manager, notify_session_disbandment_and_host_assumption, session);
 
-	if (session == get_group_session())
+	if (session == c_life_cycle_state_manager::get_group_session())
 	{
 		event(_event_message, "networking:logic:life-cycle: out group session has disbanded and become host, leaving the squad");
 
@@ -206,6 +218,31 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int
 		from_handler->exit(to_handler);
 		to_handler->enter(from_handler, entry_data_size, entry_data);
 	}
+}
+
+void c_life_cycle_state_manager::set_pause_state(char const* state_string, bool enabled)
+{
+	//INVOKE_CLASS_MEMBER(0x0048E120, c_life_cycle_state_manager, set_pause_state, state_string, enabled);
+
+	// >= play builds
+	//for (int32 handler_index = 0; handler_index < k_life_cycle_state_count; handler_index++)
+	//{
+	//	c_life_cycle_state_handler* handler = m_handlers[handler_index];
+	//
+	//	if (strncmp_debug(handler->get_state_string(), state_string, strlen(state_string)) == 0)
+	//	{
+	//		event(_event_warning, "networking:logic:life-cycle: set pause state for '%s' %s",
+	//			state_string,
+	//			enabled ? "ENABLED" : "DISABLED");
+	//
+	//		m_pause_state_enabled = enabled;
+	//		m_pause_state = m_handlers[handler_index]->m_state;
+	//		return;
+	//	}
+	//}
+	//
+	//event(_event_warning, "networking:logic:life-cycle: failed to set set pause state for '%s'",
+	//	state_string);
 }
 
 void c_life_cycle_state_manager::swap_squad_sessions()
