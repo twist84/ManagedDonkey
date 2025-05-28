@@ -34,6 +34,7 @@ public:
 	void dispose();
 	bool get_gather_party_properties(s_matchmaking_gather_party_properties* gather_party_properties_out);
 	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
+	bool get_search_party_properties(s_matchmaking_search_party_properties* search_party_properties_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	void notify_qos_reply_block_set();
 	

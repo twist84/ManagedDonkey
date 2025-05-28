@@ -31,6 +31,7 @@ public:
 	c_life_cycle_state_handler_matchmaking_find_match();
 	void dispose();
 	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
+	bool get_search_party_properties(s_matchmaking_search_party_properties* search_party_properties_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:

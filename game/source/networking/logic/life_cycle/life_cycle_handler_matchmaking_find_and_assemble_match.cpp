@@ -56,7 +56,10 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_progres
 	INVOKE_CLASS_MEMBER(0x00496670, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, get_progress, progress_out);
 }
 
-//.text:00496680 ; public: bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_search_party_properties(s_matchmaking_search_party_properties*)
+bool c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_search_party_properties(s_matchmaking_search_party_properties* search_party_properties_out)
+{
+	return INVOKE_CLASS_MEMBER(0x00496680, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, get_search_party_properties, search_party_properties_out);
+}
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
