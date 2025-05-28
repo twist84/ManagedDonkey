@@ -70,7 +70,12 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::initialize(
 //.text:004967C0 ; 
 //.text:004967E0 ; 
 //.text:004967F0 ; 
-//.text:00496810 ; public: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::notify_qos_reply_block_set()
+
+void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::notify_qos_reply_block_set()
+{
+	INVOKE_CLASS_MEMBER(0x00496810, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, notify_qos_reply_block_set);
+}
+
 //.text:00496820 ; 
 //.text:00496840 ; 
 
