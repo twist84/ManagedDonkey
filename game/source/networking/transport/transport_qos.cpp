@@ -59,31 +59,31 @@ bool __cdecl transport_qos_is_complete(int32 index)
 	return true;
 }
 
-bool __cdecl transport_qos_listener_get_stats(s_transport_secure_identifier const* secure_identifier, s_transport_qos_listener_stats* stats)
+bool __cdecl transport_qos_listener_get_stats(s_transport_secure_identifier const* secure_id, s_transport_qos_listener_stats* transport_qos_listener_stats_out)
 {
-	return INVOKE(0x00434060, transport_qos_listener_get_stats, secure_identifier, stats);
+	return INVOKE(0x00434060, transport_qos_listener_get_stats, secure_id, transport_qos_listener_stats_out);
 }
 
-bool __cdecl transport_qos_listener_initiate(s_transport_secure_identifier const* secure_identifier)
+bool __cdecl transport_qos_listener_initiate(s_transport_secure_identifier const* secure_id)
 {
-	//return INVOKE(0x00434070, transport_qos_listener_initiate, secure_identifier);
+	//return INVOKE(0x00434070, transport_qos_listener_initiate, secure_id);
 
 	return true;
 }
 
-void __cdecl transport_qos_listener_set_bandwidth_limit(s_transport_secure_identifier const* secure_identifier, bool a2, int32 bandwidth_limit)
+void __cdecl transport_qos_listener_set_bandwidth_limit(s_transport_secure_identifier const* secure_id, bool enabled, int32 outgoing_bps)
 {
-	INVOKE(0x00434080, transport_qos_listener_set_bandwidth_limit, secure_identifier, a2, bandwidth_limit);
+	INVOKE(0x00434080, transport_qos_listener_set_bandwidth_limit, secure_id, enabled, outgoing_bps);
 }
 
-void __cdecl transport_qos_listener_set_reply_block(s_transport_secure_identifier const* secure_identifier, bool a2, int32 reply_block_size, void const* reply_block)
+void __cdecl transport_qos_listener_set_reply_block(s_transport_secure_identifier const* secure_id, bool enabled, int32 reply_block_size, void const* reply_block)
 {
-	INVOKE(0x00434090, transport_qos_listener_set_reply_block, secure_identifier, a2, reply_block_size, reply_block);
+	INVOKE(0x00434090, transport_qos_listener_set_reply_block, secure_id, enabled, reply_block_size, reply_block);
 }
 
-void __cdecl transport_qos_listener_terminate(s_transport_secure_identifier const* secure_identifier)
+void __cdecl transport_qos_listener_terminate(s_transport_secure_identifier const* secure_id)
 {
-	INVOKE(0x004340A0, transport_qos_listener_terminate, secure_identifier);
+	INVOKE(0x004340A0, transport_qos_listener_terminate, secure_id);
 }
 
 int32 __cdecl transport_qos_service_new()
