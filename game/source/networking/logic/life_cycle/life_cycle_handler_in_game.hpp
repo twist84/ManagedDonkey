@@ -3,8 +3,19 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
-//typedef c_flags<e_life_cycle_state_handler_in_game_flags, uns8, k_life_cycle_state_handler_in_game_flags_count> c_life_cycle_state_handler_in_game_flags;
-typedef uns8 c_life_cycle_state_handler_in_game_flags;
+enum e_life_cycle_state_handler_in_game_flags
+{
+	_life_cycle_state_handler_in_game_map_load = 0,
+	_life_cycle_state_handler_in_game_core_load_pending,
+
+	// ODST?
+	_life_cycle_state_handler_in_game_bit2,
+
+	// any more ODST flags?
+
+	k_life_cycle_state_handler_in_game_flags_count,
+};
+typedef c_flags<e_life_cycle_state_handler_in_game_flags, uns8, k_life_cycle_state_handler_in_game_flags_count> c_life_cycle_state_handler_in_game_flags;
 
 struct c_life_cycle_state_handler_in_game :
 	public c_life_cycle_state_handler
@@ -18,6 +29,8 @@ public:
 
 	c_life_cycle_state_handler_in_game();
 	void initialize(c_life_cycle_state_manager* manager);
+	bool is_map_load_pending() const;
+	void notify_core_load();
 	
 //protected:
 	c_life_cycle_state_handler_in_game_flags m_flags;

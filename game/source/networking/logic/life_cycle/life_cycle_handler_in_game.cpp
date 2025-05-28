@@ -50,11 +50,23 @@ void c_life_cycle_state_handler_in_game::initialize(c_life_cycle_state_manager* 
 	m_game_instance = NONE;
 }
 
-//.text:004922D0 ; 
-//.text:004922E0 ; 
-//.text:00492300 ; 
-//.text:00492310 ; 
-//.text:00492330 ; public: void c_life_cycle_state_handler_in_game::notify_core_load()
+bool c_life_cycle_state_handler_in_game::is_map_load_pending() const
+{
+	return m_flags.test(_life_cycle_state_handler_in_game_map_load);
+}
+
+//.text:004922D0 ; network_time_difference_msec
+//.text:004922E0 ; network_time_get
+//.text:00492300 ; network_time_get_exact
+//.text:00492310 ; network_time_since
+
+void c_life_cycle_state_handler_in_game::notify_core_load()
+{
+	//INVOKE_CLASS_MEMBER(0x00492330, c_life_cycle_state_handler_in_game, notify_core_load);
+
+	m_flags.set(_life_cycle_state_handler_in_game_core_load_pending, true);
+}
+
 //.text:00492340 ; 
 //.text:00492350 ; 
 //.text:00492360 ; 
