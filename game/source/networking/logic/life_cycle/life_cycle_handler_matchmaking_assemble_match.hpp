@@ -4,6 +4,8 @@
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 #include "networking/transport/transport_qos.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 //typedef c_flags<e_matchmaking_assemble_match_flags, uns8, k_matchmaking_assemble_match_flags_count> c_matchmaking_assemble_match_flags;
 typedef uns8 c_matchmaking_assemble_match_flags;
 
@@ -21,6 +23,7 @@ public:
 public:
 	c_life_cycle_state_handler_matchmaking_assemble_match();
 	void dispose();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	void notify_qos_reply_block_set();
 	

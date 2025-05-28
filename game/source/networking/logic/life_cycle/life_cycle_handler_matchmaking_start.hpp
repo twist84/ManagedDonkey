@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 enum e_matchmaking_start_mode
 {
 	_matchmaking_start_mode_default = 0,
@@ -53,6 +55,7 @@ public:
 public:
 	c_life_cycle_state_handler_matchmaking_start();
 	void dispose();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 	void initialize(c_life_cycle_state_manager* manager);
 
 	e_life_cycle_matchmaking_find_match_role __thiscall determine_matchmaking_find_match_role(bool force_gather);

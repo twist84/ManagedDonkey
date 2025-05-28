@@ -5,6 +5,8 @@
 #include "networking/logic/logic_matchmaking_seeker.hpp"
 #include "networking/logic/logic_session_tracker.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 //typedef c_flags<e_matchmaking_find_and_assemble_match_flags, uns8, 7> c_matchmaking_find_and_assemble_match_flags;
 typedef uns8 c_matchmaking_find_and_assemble_match_flags;
 
@@ -30,6 +32,7 @@ public:
 public:
 	c_life_cycle_state_handler_matchmaking_find_and_assemble_match();
 	void dispose();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	void notify_qos_reply_block_set();
 	

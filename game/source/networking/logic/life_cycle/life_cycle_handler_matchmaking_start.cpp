@@ -73,7 +73,11 @@ void c_life_cycle_state_handler_matchmaking_start::exit(c_life_cycle_state_handl
 
 //.text:00493CC0 ; private: void c_life_cycle_state_handler_matchmaking_start::finish_group_session_creation()
 //.text:00493E60 ; 
-//.text:00493E70 ; public: void c_life_cycle_state_handler_matchmaking_start::get_progress(s_life_cycle_matchmaking_progress*)
+
+void c_life_cycle_state_handler_matchmaking_start::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00493E70, c_life_cycle_state_handler_matchmaking_start, get_progress, progress_out);
+}
 
 void c_life_cycle_state_handler_matchmaking_start::handle_missing_required_session_parameter(e_network_session_type session_type)
 {

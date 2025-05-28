@@ -38,7 +38,12 @@ void c_life_cycle_state_handler_matchmaking_find_match::exit(c_life_cycle_state_
 
 //.text:00495C50 ; 
 //.text:00495C60 ; 
-//.text:00495C70 ; public: void c_life_cycle_state_handler_matchmaking_find_match::get_progress(s_life_cycle_matchmaking_progress*)
+
+void c_life_cycle_state_handler_matchmaking_find_match::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00495C70, c_life_cycle_state_handler_matchmaking_find_match, get_progress, progress_out);
+}
+
 //.text:00495C80 ; public: bool c_life_cycle_state_handler_matchmaking_find_match::get_search_party_properties(s_matchmaking_search_party_properties*)
 
 void c_life_cycle_state_handler_matchmaking_find_match::handle_missing_required_session_parameter(e_network_session_type session_type)

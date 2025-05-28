@@ -40,7 +40,12 @@ void c_life_cycle_state_handler_post_match::exit(c_life_cycle_state_handler* to)
 //.text:00499E20 ; 
 //.text:00499EB0 ; private: int32 c_life_cycle_state_handler_post_match::get_peer_rematch_team_index(int32)
 //.text:00499F60 ; private: int32 c_life_cycle_state_handler_post_match::get_player_rematch_team_index(int32)
-//.text:00499FB0 ; public: void c_life_cycle_state_handler_post_match::get_progress(s_life_cycle_matchmaking_progress*)
+
+void c_life_cycle_state_handler_post_match::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00499FB0, c_life_cycle_state_handler_post_match, get_progress, progress_out);
+}
+
 //.text:0049A340 ; private: void c_life_cycle_state_handler_post_match::get_state_from_progress(s_replicated_life_cycle_progress_post_match*)
 
 void c_life_cycle_state_handler_post_match::handle_missing_required_session_parameter(e_network_session_type session_type)

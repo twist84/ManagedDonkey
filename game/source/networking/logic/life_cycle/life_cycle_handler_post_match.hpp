@@ -2,6 +2,8 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 enum e_life_cycle_post_match_flags
 {
 	_life_cycle_post_match_in_main_menu_bit = 0,
@@ -32,6 +34,7 @@ public:
 public:
 	c_life_cycle_state_handler_post_match();
 	void dispose();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	bool rematch_join_in_progress() const;
 

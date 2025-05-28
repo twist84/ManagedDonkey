@@ -34,7 +34,11 @@ void c_life_cycle_state_handler_matchmaking_select_host::exit(c_life_cycle_state
 
 //.text:00490900 ; 
 //.text:00490910 ; 
-//.text:00490920 ; public: void c_life_cycle_state_handler_matchmaking_select_host::get_progress(s_life_cycle_matchmaking_progress*)
+
+void c_life_cycle_state_handler_matchmaking_select_host::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00490920, c_life_cycle_state_handler_matchmaking_select_host, get_progress, progress_out);
+}
 
 void c_life_cycle_state_handler_matchmaking_select_host::handle_missing_required_session_parameter(e_network_session_type session_type)
 {

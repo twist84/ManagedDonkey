@@ -2,6 +2,8 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
+struct s_life_cycle_matchmaking_progress;
+
 //typedef c_flags<e_matchmaking_select_host_flags, uns8, k_matchmaking_select_host_flags_count> c_matchmaking_select_host_flags;
 typedef uns8 c_matchmaking_select_host_flags;
 
@@ -19,6 +21,7 @@ public:
 public:
 	c_life_cycle_state_handler_matchmaking_select_host();
 	void dispose();
+	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:

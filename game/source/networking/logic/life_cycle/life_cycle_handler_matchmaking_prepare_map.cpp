@@ -37,7 +37,12 @@ void c_life_cycle_state_handler_matchmaking_prepare_map::exit(c_life_cycle_state
 //.text:00498500 ; 
 //.text:00498510 ; public: s_game_hopper_picked_game_collection const* c_generic_network_session_parameter<s_game_hopper_picked_game_collection>::get() const
 //.text:00498540 ; 
-//.text:00498550 ; public: void c_life_cycle_state_handler_matchmaking_prepare_map::get_progress(s_life_cycle_matchmaking_progress*)
+
+void c_life_cycle_state_handler_matchmaking_prepare_map::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00498550, c_life_cycle_state_handler_matchmaking_prepare_map, get_progress, progress_out);
+}
+
 //.text:00498760 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::get_state_from_progress(s_replicated_life_cycle_matchmaking_progress_configuring_match*)
 
 void c_life_cycle_state_handler_matchmaking_prepare_map::handle_missing_required_session_parameter(e_network_session_type session_type)

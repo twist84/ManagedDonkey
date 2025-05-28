@@ -31,7 +31,10 @@ void c_life_cycle_state_handler_matchmaking_find_match_client::exit(c_life_cycle
 	INVOKE_CLASS_MEMBER(0x00495A40, c_life_cycle_state_handler_matchmaking_find_match_client, exit, to);
 }
 
-//.text:00495A50 ; public: void c_life_cycle_state_handler_matchmaking_find_match_client::get_progress(s_life_cycle_matchmaking_progress*)
+void c_life_cycle_state_handler_matchmaking_find_match_client::get_progress(s_life_cycle_matchmaking_progress* progress_out)
+{
+	INVOKE_CLASS_MEMBER(0x00495A50, c_life_cycle_state_handler_matchmaking_find_match_client, get_progress, progress_out);
+}
 
 void c_life_cycle_state_handler_matchmaking_find_match_client::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
