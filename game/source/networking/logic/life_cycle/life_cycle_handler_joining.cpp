@@ -39,7 +39,13 @@ void c_life_cycle_state_handler_joining::initialize(c_life_cycle_state_manager* 
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_joining, &parent_flags, 0ULL, 0ULL);
 }
 
-//.text:004937A0 ; public: bool c_life_cycle_state_handler_joining::rematch_join_in_progress() const
+bool c_life_cycle_state_handler_joining::rematch_join_in_progress() const
+{
+	//return INVOKE_CLASS_MEMBER(0x004937A0, c_life_cycle_state_handler_joining, rematch_join_in_progress);
+
+	return m_previous_state == _life_cycle_state_post_match;
+}
+
 //.text:004937B0 ; 
 //.text:004937D0 ; 
 

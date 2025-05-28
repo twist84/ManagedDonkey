@@ -17,6 +17,7 @@ public:
 
 	c_life_cycle_state_handler_joining();
 	void initialize(c_life_cycle_state_manager* manager);
+	bool rematch_join_in_progress() const;
 	
 //protected:
 	c_joining_flags m_flags;
