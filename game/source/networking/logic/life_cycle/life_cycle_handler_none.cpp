@@ -1,5 +1,6 @@
 #include "networking/logic/life_cycle/life_cycle_handler_none.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -18,7 +19,12 @@ char const* c_life_cycle_state_handler_none::get_state_string()
 	return "none";
 }
 
-//.text:0048F170 ; public: void c_life_cycle_state_handler_none::dispose()
+void c_life_cycle_state_handler_none::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x0048F170, c_life_cycle_state_handler_none, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_none::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
@@ -50,7 +56,22 @@ void c_life_cycle_state_handler_none::initialize(c_life_cycle_state_manager* man
 
 void c_life_cycle_state_handler_none::update()
 {
-	INVOKE_CLASS_MEMBER(0x0048F200, c_life_cycle_state_handler_none, update);
+	//INVOKE_CLASS_MEMBER(0x0048F200, c_life_cycle_state_handler_none, update);
+
+	c_life_cycle_state_manager* manager = get_manager();
+	c_network_session* active_squad_session = manager->get_active_squad_session();
+	if (active_squad_session->disconnected() || active_squad_session->leaving_session())
+	{
+		return;
+	}
+
+	if (active_squad_session->is_host())
+	{
+		active_squad_session->get_session_parameters()->session_mode.set(_network_session_mode_idle);
+	}
+
+	event(_event_message, "lifecycle: state none with a squad, entering pregame");
+	manager->request_state_change(_life_cycle_state_pre_game, 0, NULL);
 }
 
 e_life_cycle_state_transition_type c_life_cycle_state_handler_none::update_for_state_transition()
