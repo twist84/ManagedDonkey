@@ -37,11 +37,16 @@ void c_life_cycle_state_handler_in_match::initialize(c_life_cycle_state_manager*
 	INVOKE_CLASS_MEMBER(0x004911C0, c_life_cycle_state_handler_in_match, initialize, manager);
 }
 
-//.text:004911F0 ; 
-//.text:00491200 ; 
-//.text:00491220 ; 
-//.text:00491230 ; 
-//.text:00491250 ; 
+bool c_life_cycle_state_handler_in_match::is_map_load_pending() const
+{
+	return m_flags.test(_life_cycle_state_handler_in_match_map_load);
+}
+
+//.text:004911F0 ; network_time_difference_msec
+//.text:00491200 ; network_time_get
+//.text:00491220 ; network_time_get_exact
+//.text:00491230 ; network_time_since
+//.text:00491250 ; public: void c_flags_no_init<e_life_cycle_state_handler_in_match_flags, 1>::set(e_life_cycle_state_handler_in_match_flags, bool)
 
 void c_life_cycle_state_handler_in_match::update()
 {
