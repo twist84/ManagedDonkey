@@ -21,6 +21,7 @@ public:
 
 	c_life_cycle_state_handler_matchmaking_assemble_match();
 	void initialize(c_life_cycle_state_manager* manager);
+	void notify_qos_reply_block_set();
 	
 //protected:
 	c_matchmaking_assemble_match_flags m_flags;

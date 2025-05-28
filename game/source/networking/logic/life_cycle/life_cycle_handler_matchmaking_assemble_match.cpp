@@ -56,7 +56,12 @@ void c_life_cycle_state_handler_matchmaking_assemble_match::initialize(c_life_cy
 //.text:004979A0 ; 
 //.text:004979C0 ; 
 //.text:004979D0 ; 
-//.text:004979F0 ; public: void c_life_cycle_state_handler_matchmaking_assemble_match::notify_qos_reply_block_set()
+
+void c_life_cycle_state_handler_matchmaking_assemble_match::notify_qos_reply_block_set()
+{
+	INVOKE_CLASS_MEMBER(0x004979F0, c_life_cycle_state_handler_matchmaking_assemble_match, notify_qos_reply_block_set);
+}
+
 //.text:00497A00 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::pick_games()
 //.text:00497AE0 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::ready_to_lockdown()
 //.text:00497BD0 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::ready_to_start()
