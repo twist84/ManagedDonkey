@@ -40,7 +40,7 @@ void c_life_cycle_state_handler_leaving::initialize(c_life_cycle_state_manager* 
 	//INVOKE_CLASS_MEMBER(0x00493490, c_life_cycle_state_handler_leaving, initialize, manager);
 
 	c_life_cycle_state_handler_flags parent_flags;
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_leaving, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_leaving, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 //.text:004934C0 ; 

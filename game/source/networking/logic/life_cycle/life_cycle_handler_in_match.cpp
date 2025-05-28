@@ -39,7 +39,14 @@ void c_life_cycle_state_handler_in_match::exit(c_life_cycle_state_handler* to)
 
 void c_life_cycle_state_handler_in_match::initialize(c_life_cycle_state_manager* manager)
 {
-	INVOKE_CLASS_MEMBER(0x004911C0, c_life_cycle_state_handler_in_match, initialize, manager);
+	//INVOKE_CLASS_MEMBER(0x004911C0, c_life_cycle_state_handler_in_match, initialize, manager);
+
+	c_life_cycle_state_handler_flags parent_flags;
+	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_requires_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_group_session_disconnect_recreates_group_bit, true);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_in_match, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 bool c_life_cycle_state_handler_in_match::is_map_load_pending() const

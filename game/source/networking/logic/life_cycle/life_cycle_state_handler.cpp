@@ -92,18 +92,21 @@ void c_life_cycle_state_handler::handle_missing_required_session_parameter(e_net
 
 void c_life_cycle_state_handler::initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_life_cycle_state_handler_flags const* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask)
 {
-	INVOKE_CLASS_MEMBER(0x0048D7E0, c_life_cycle_state_handler, initialize, manager, state, flags, required_squad_session_parameter_mask, m_required_group_session_parameter_mask);
+	//INVOKE_CLASS_MEMBER(0x0048D7E0, c_life_cycle_state_handler, initialize, manager, state, flags, required_squad_session_parameter_mask, m_required_group_session_parameter_mask);
 
-	//m_manager = manager;
-	//m_state = state;
-	//m_handler_flags = *flags;
-	//m_required_squad_session_parameter_mask = required_squad_session_parameter_mask;
-	//m_required_group_session_parameter_mask = required_group_session_parameter_mask;
-	//
-	//ASSERT(m_handler_flags.test(_life_cycle_state_handler_allows_group_session_bit));
-	//ASSERT(m_handler_flags.test(_life_cycle_state_handler_group_session_disconnect_leaves_squad_bit) || m_handler_flags.test(_life_cycle_state_handler_group_session_disconnect_recreates_group_bit));
-	//
-	//manager->register_state_handler(state, this);
+	m_manager = manager;
+	m_state = state;
+	m_handler_flags = *flags;
+	m_required_squad_session_parameter_mask = required_squad_session_parameter_mask;
+	m_required_group_session_parameter_mask = required_group_session_parameter_mask;
+	
+	if (m_handler_flags.test(_life_cycle_state_handler_requires_group_session_bit))
+	{
+		ASSERT(m_handler_flags.test(_life_cycle_state_handler_allows_group_session_bit));
+		ASSERT(m_handler_flags.test(_life_cycle_state_handler_group_session_disconnect_leaves_squad_bit) || m_handler_flags.test(_life_cycle_state_handler_group_session_disconnect_recreates_group_bit));
+	}
+	
+	manager->register_state_handler(state, this);
 }
 
 //.text:0048D8A0 ; protected: static bool __cdecl c_life_cycle_state_handler::is_map_precached(c_network_session const*, uns32*)

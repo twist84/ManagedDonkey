@@ -51,7 +51,7 @@ void c_life_cycle_state_handler_none::initialize(c_life_cycle_state_manager* man
 	//INVOKE_CLASS_MEMBER(0x0048F1D0, c_life_cycle_state_handler_none, initialize, manager);
 
 	c_life_cycle_state_handler_flags parent_flags;
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_none, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_none, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 void c_life_cycle_state_handler_none::update()

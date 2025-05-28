@@ -41,7 +41,7 @@ void c_life_cycle_state_handler_joining::initialize(c_life_cycle_state_manager* 
 
 	c_life_cycle_state_handler_flags parent_flags;
 	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_joining, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_joining, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 bool c_life_cycle_state_handler_joining::rematch_join_in_progress() const

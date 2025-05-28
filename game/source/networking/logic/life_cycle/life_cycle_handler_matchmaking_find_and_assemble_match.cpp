@@ -73,7 +73,15 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::handle_miss
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::initialize(c_life_cycle_state_manager* manager)
 {
-	INVOKE_CLASS_MEMBER(0x00496780, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, initialize, manager);
+	//INVOKE_CLASS_MEMBER(0x00496780, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, initialize, manager);
+
+	c_life_cycle_state_handler_flags parent_flags;
+	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_requires_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_group_session_disconnect_leaves_squad_bit, true);
+	parent_flags.set(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit, true);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_find_and_assemble_match, &parent_flags, 0xA40000000ULL, 0xA60004C80ULL);
 }
 
 //.text:004967B0 ; 

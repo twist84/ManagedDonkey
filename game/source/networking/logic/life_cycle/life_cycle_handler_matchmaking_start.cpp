@@ -92,7 +92,7 @@ void c_life_cycle_state_handler_matchmaking_start::initialize(c_life_cycle_state
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
 	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
 	parent_flags.set(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_start, &parent_flags, 0x240000000ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_start, &parent_flags, 0x240000000ULL, 0x0ULL);
 	m_last_warning_toast_time = -1;
 }
 

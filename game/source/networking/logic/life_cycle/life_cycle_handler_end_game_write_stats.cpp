@@ -41,7 +41,7 @@ void c_life_cycle_state_handler_end_game_write_stats::initialize(c_life_cycle_st
 
 	c_life_cycle_state_handler_flags parent_flags;
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_end_game_write_stats, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_end_game_write_stats, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 //.text:00492D40 ; 

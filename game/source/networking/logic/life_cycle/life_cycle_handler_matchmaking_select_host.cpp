@@ -47,7 +47,15 @@ void c_life_cycle_state_handler_matchmaking_select_host::handle_missing_required
 
 void c_life_cycle_state_handler_matchmaking_select_host::initialize(c_life_cycle_state_manager* manager)
 {
-	INVOKE_CLASS_MEMBER(0x00490950, c_life_cycle_state_handler_matchmaking_select_host, initialize, manager);
+	//INVOKE_CLASS_MEMBER(0x00490950, c_life_cycle_state_handler_matchmaking_select_host, initialize, manager);
+
+	c_life_cycle_state_handler_flags parent_flags;
+	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_requires_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
+	parent_flags.set(_life_cycle_state_handler_group_session_disconnect_leaves_squad_bit, true);
+	parent_flags.set(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit, true);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_select_host, &parent_flags, 0x0ULL, 0xAE0004E80ULL);
 }
 
 //.text:00490980 ; 

@@ -40,7 +40,7 @@ void c_life_cycle_state_handler_start_game::initialize(c_life_cycle_state_manage
 
 	c_life_cycle_state_handler_flags parent_flags;
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_start_game, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_start_game, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 //.text:00490CE0 ; public: virtual bool c_generic_network_session_parameter<uns32>::set(uns32 const*)

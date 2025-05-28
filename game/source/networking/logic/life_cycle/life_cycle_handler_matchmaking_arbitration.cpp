@@ -90,7 +90,7 @@ void c_life_cycle_state_handler_matchmaking_arbitration::initialize(c_life_cycle
 	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
 	parent_flags.set(_life_cycle_state_handler_group_session_disconnect_leaves_squad_bit, true);
 	parent_flags.set(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_assemble_match, &parent_flags, 0ULL, 0xAE0004C80ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_arbitration, &parent_flags, 0x0ULL, 0xAE0004C80ULL);
 }
 
 //.text:00494A00 ; 

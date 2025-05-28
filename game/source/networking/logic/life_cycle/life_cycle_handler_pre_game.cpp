@@ -67,7 +67,7 @@ void c_life_cycle_state_handler_pre_game::initialize(c_life_cycle_state_manager*
 
 	c_life_cycle_state_handler_flags parent_flags;
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_pre_game, &parent_flags, 0ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_pre_game, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
 //.text:0048F810 ; 

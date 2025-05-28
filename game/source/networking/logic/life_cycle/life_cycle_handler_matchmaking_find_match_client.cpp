@@ -49,7 +49,7 @@ void c_life_cycle_state_handler_matchmaking_find_match_client::initialize(c_life
 	parent_flags.set(_life_cycle_state_handler_requires_squad_session_bit, true);
 	parent_flags.set(_life_cycle_state_handler_allows_group_session_bit, true);
 	parent_flags.set(_life_cycle_state_handler_live_disconnection_returns_to_pre_game_bit, true);
-	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_find_match_client, &parent_flags, 0xA40000000ULL, 0ULL);
+	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_matchmaking_find_match_client, &parent_flags, 0xA40000000ULL, 0x0ULL);
 }
 
 void c_life_cycle_state_handler_matchmaking_find_match_client::update()
