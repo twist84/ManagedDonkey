@@ -335,6 +335,7 @@ extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size
 extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);
 extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
 
+extern size_t strlen_debug(char const* str);
 extern int strncmp_debug(char const* s1, char const* s2, size_t size);
 
 extern int32 csstricmp(char const* s1, char const* s2);
