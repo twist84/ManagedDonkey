@@ -34,6 +34,16 @@ bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, int32
 	return INVOKE(0x00A7E3C0, user_interface_join_remote_session, join_to_public_slots, session_class, remote_session_id, remote_host_address, key);
 }
 
+void __cdecl user_interface_network_update_live_service_qos(s_transport_qos_result const* qos_result)
+{
+	INVOKE(0x00A7EBF0, user_interface_network_update_live_service_qos, qos_result);
+
+	//ASSERT(qos_result);
+	//data_mine_insert_qos_service(qos_result, online_get_nat_type());
+	//network_bandwidth_notify_live_service_qos_measurement(qos_result);
+	//network_session_interface_set_live_service_qos(qos_result);
+}
+
 bool __cdecl user_interface_networking_build_is_compatible(int32 executable_type, int32 executable_version, int32 compatible_version)
 {
 	return INVOKE(0x00A7EC20, user_interface_networking_build_is_compatible, executable_type, executable_version, compatible_version);
