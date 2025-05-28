@@ -16,7 +16,12 @@ char const* c_life_cycle_state_handler_joining::get_state_string()
 	return "joining";
 }
 
-//.text:00493660 ; public: void c_life_cycle_state_handler_joining::dispose()
+void c_life_cycle_state_handler_joining::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00493660, c_life_cycle_state_handler_joining, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_joining::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

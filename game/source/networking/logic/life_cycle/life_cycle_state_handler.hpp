@@ -37,6 +37,7 @@ public:
 	virtual char const* get_state_string() = 0;
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
 
+public:
 	c_life_cycle_state_handler();
 	void dispose();
 	c_life_cycle_state_manager* get_manager() const;

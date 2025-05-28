@@ -14,7 +14,13 @@ char const* c_life_cycle_state_handler_start_game::get_state_string()
 }
 
 //.text:00490C00 ; private: static bool __cdecl c_life_cycle_state_handler_start_game::check_host(c_network_session*)
-//.text:00490C20 ; public: void c_life_cycle_state_handler_start_game::dispose()
+
+void c_life_cycle_state_handler_start_game::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00490C20, c_life_cycle_state_handler_start_game, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_start_game::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

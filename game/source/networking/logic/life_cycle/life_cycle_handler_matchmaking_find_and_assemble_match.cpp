@@ -26,7 +26,12 @@ char const* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_
 	return "matchmaking-find-and-assemble-match";
 }
 
-//.text:004963C0 ; public: void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::dispose()
+void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x004963C0, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

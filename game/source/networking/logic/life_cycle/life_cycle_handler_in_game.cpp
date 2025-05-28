@@ -22,7 +22,14 @@ char const* c_life_cycle_state_handler_in_game::get_state_string()
 //.text:004914E0 ; 
 //.text:004914F0 ; 
 //.text:00491520 ; private: static bool __cdecl c_life_cycle_state_handler_in_game::begin_load_map(c_network_session*, s_game_matchmaking_options const*)
-//.text:00491FD0 ; public: void c_life_cycle_state_handler_in_game::dispose()
+
+void c_life_cycle_state_handler_in_game::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00491FD0, c_life_cycle_state_handler_in_game, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
+
 //.text:00491FE0 ; private: static uns64 __cdecl c_life_cycle_state_handler_in_game::end_load_map(c_network_session*)
 
 void c_life_cycle_state_handler_in_game::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)

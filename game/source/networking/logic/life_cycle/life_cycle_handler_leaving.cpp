@@ -16,7 +16,12 @@ char const* c_life_cycle_state_handler_leaving::get_state_string()
 	return "leaving";
 }
 
-//.text:004933D0 ; public: void c_life_cycle_state_handler_leaving::dispose()
+void c_life_cycle_state_handler_leaving::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x004933D0, c_life_cycle_state_handler_leaving, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_leaving::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

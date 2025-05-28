@@ -19,7 +19,12 @@ char const* c_life_cycle_state_handler_post_match::get_state_string()
 	return "post-match";
 }
 
-//.text:00499D60 ; public: void c_life_cycle_state_handler_post_match::dispose()
+void c_life_cycle_state_handler_post_match::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00499D60, c_life_cycle_state_handler_post_match, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_post_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

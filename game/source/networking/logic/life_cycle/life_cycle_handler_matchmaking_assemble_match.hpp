@@ -1,7 +1,6 @@
 #pragma once
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
-
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 #include "networking/transport/transport_qos.hpp"
 
@@ -19,7 +18,9 @@ public:
 	virtual char const* get_state_string() override;
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type) override;
 
+public:
 	c_life_cycle_state_handler_matchmaking_assemble_match();
+	void dispose();
 	void initialize(c_life_cycle_state_manager* manager);
 	void notify_qos_reply_block_set();
 	

@@ -27,7 +27,9 @@ public:
 	virtual void exit(c_life_cycle_state_handler* to) override;
 	virtual char const* get_state_string() override;
 
+public:
 	c_life_cycle_state_handler_in_game();
+	void dispose();
 	void initialize(c_life_cycle_state_manager* manager);
 	bool is_map_load_pending() const;
 	void notify_core_load();

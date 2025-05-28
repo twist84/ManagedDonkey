@@ -15,7 +15,12 @@ char const* c_life_cycle_state_handler_end_game_write_stats::get_state_string()
 	return "end-game-write-stats";
 }
 
-//.text:00492B40 ; public: void c_life_cycle_state_handler_end_game_write_stats::dispose()
+void c_life_cycle_state_handler_end_game_write_stats::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00492B40, c_life_cycle_state_handler_end_game_write_stats, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_end_game_write_stats::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

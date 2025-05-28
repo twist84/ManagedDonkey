@@ -17,7 +17,12 @@ char const* c_life_cycle_state_handler_matchmaking_prepare_map::get_state_string
 	return "matchmaking-prepare-map";
 }
 
-//.text:004983B0 ; public: void c_life_cycle_state_handler_matchmaking_prepare_map::dispose()
+void c_life_cycle_state_handler_matchmaking_prepare_map::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x004983B0, c_life_cycle_state_handler_matchmaking_prepare_map, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_prepare_map::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

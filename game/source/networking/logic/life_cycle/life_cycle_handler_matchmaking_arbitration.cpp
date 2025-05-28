@@ -25,7 +25,12 @@ char const* c_life_cycle_state_handler_matchmaking_arbitration::get_state_string
 	return "matchmaking-arbitration";
 }
 
-//.text:004946D0 ; public: void c_life_cycle_state_handler_matchmaking_arbitration::dispose()
+void c_life_cycle_state_handler_matchmaking_arbitration::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x004946D0, c_life_cycle_state_handler_matchmaking_arbitration, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_arbitration::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

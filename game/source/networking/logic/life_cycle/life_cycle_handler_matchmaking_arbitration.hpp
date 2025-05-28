@@ -45,6 +45,7 @@ public:
 
 public:
 	c_life_cycle_state_handler_matchmaking_arbitration();
+	void dispose();
 	void get_progress(s_life_cycle_matchmaking_progress* progress_out);
 
 private:

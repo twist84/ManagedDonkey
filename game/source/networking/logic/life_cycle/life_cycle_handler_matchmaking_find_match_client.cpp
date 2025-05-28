@@ -14,7 +14,12 @@ char const* c_life_cycle_state_handler_matchmaking_find_match_client::get_state_
 	return "matchmaking-find-match-client";
 }
 
-//.text:00495A00 ; public: void c_life_cycle_state_handler_matchmaking_find_match_client::dispose()
+void c_life_cycle_state_handler_matchmaking_find_match_client::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00495A00, c_life_cycle_state_handler_matchmaking_find_match_client, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_find_match_client::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

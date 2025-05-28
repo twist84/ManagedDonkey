@@ -22,12 +22,13 @@ public:
 	virtual void exit(c_life_cycle_state_handler* to) override;
 	virtual char const* get_state_string() override;
 
+public:
 	c_life_cycle_state_handler_in_match();
+	void dispose();
 	void initialize(c_life_cycle_state_manager* manager);
 	bool is_map_load_pending() const;
 	
 //protected:
-
 	c_life_cycle_state_handler_in_match_flags m_flags;
 	uns32 m_match_start_time;
 	uns64 m_match_game_instance;

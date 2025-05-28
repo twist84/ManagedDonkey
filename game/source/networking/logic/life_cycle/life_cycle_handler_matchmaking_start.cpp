@@ -52,7 +52,12 @@ e_life_cycle_matchmaking_find_match_role __thiscall c_life_cycle_state_handler_m
 	return result;
 }
 
-//.text:00493A40 ; public: void c_life_cycle_state_handler_matchmaking_start::dispose()
+void c_life_cycle_state_handler_matchmaking_start::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00493A40, c_life_cycle_state_handler_matchmaking_start, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_start::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

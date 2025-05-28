@@ -15,7 +15,12 @@ char const* c_life_cycle_state_handler_matchmaking_select_host::get_state_string
 	return "matchmaking-select-host";
 }
 
-//.text:004907F0 ; public: void c_life_cycle_state_handler_matchmaking_select_host::dispose()
+void c_life_cycle_state_handler_matchmaking_select_host::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x004907F0, c_life_cycle_state_handler_matchmaking_select_host, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_select_host::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

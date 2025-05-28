@@ -22,7 +22,13 @@ char const* c_life_cycle_state_handler_matchmaking_assemble_match::get_state_str
 
 //.text:00497080 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::clients_ready_to_start()
 //.text:004970A0 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::continue_assembling()
-//.text:00497270 ; public: void c_life_cycle_state_handler_matchmaking_assemble_match::dispose()
+
+void c_life_cycle_state_handler_matchmaking_assemble_match::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00497270, c_life_cycle_state_handler_matchmaking_assemble_match, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_matchmaking_assemble_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {

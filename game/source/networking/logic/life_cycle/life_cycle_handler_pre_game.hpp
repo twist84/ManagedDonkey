@@ -14,7 +14,9 @@ public:
 	virtual void exit(c_life_cycle_state_handler* to) override;
 	virtual char const* get_state_string() override;
 
+public:
 	c_life_cycle_state_handler_pre_game();
+	void dispose();
 	void initialize(c_life_cycle_state_manager* manager);
 	
 //protected:

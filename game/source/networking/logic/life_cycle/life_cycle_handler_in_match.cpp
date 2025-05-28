@@ -18,7 +18,12 @@ char const* c_life_cycle_state_handler_in_match::get_state_string()
 	return "in-match";
 }
 
-//.text:00491070 ; public: void c_life_cycle_state_handler_in_match::dispose()
+void c_life_cycle_state_handler_in_match::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00491070, c_life_cycle_state_handler_in_match, dispose);
+
+	c_life_cycle_state_handler::dispose();
+}
 
 void c_life_cycle_state_handler_in_match::enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data)
 {
