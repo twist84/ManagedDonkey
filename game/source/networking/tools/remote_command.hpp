@@ -135,6 +135,32 @@ COMMAND_CALLBACK_DECLARE(game_save_cinematic_skip);
 COMMAND_CALLBACK_DECLARE(game_saving);
 COMMAND_CALLBACK_DECLARE(game_reverted);
 COMMAND_CALLBACK_DECLARE(gui_reset);
+COMMAND_CALLBACK_DECLARE(gui_print_active_screens);
+COMMAND_CALLBACK_DECLARE(gui_print_active_screen_strings);
+COMMAND_CALLBACK_DECLARE(gui_debug_screen_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_screen_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_screen_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_screen_rotation);
+COMMAND_CALLBACK_DECLARE(gui_debug_group_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_group_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_group_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_group_rotation);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_rotation);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_item_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_item_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_item_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_list_item_rotation);
+COMMAND_CALLBACK_DECLARE(gui_debug_text_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_text_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_text_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_text_rotation);
+COMMAND_CALLBACK_DECLARE(gui_debug_bitmap_name);
+COMMAND_CALLBACK_DECLARE(gui_debug_bitmap_animation);
+COMMAND_CALLBACK_DECLARE(gui_debug_bitmap_bounds);
+COMMAND_CALLBACK_DECLARE(gui_debug_bitmap_rotation);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
@@ -286,6 +312,33 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(gui_reset, 0, "", "cleans out the halox ui screens and errors\r\nNETWORK SAFE: No"),
 
+	COMMAND_CALLBACK_REGISTER(gui_print_active_screens, 0, "", "display list of active halox ui screens\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_print_active_screen_strings, 0, "display strings tag file name for current topmost screen", "\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_screen_name, 3, "<string_id> <boolean> <boolean>", "Toggle display of given screen's name, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_screen_animation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given screen animations, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_screen_bounds, 3, "<string_id> <boolean> <boolean>", "Toggle display of given screen's bounds, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_screen_rotation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given screen's rotation, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_group_name, 3, "<string_id> <boolean> <boolean>", "Toggle display of given group's name, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_group_animation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given group's animations, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_group_bounds, 3, "<string_id> <boolean> <boolean>", "Toggle display of given group's bounds, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_group_rotation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given group's rotation, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_name, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list's name, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_animation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list's animations, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_bounds, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list's bounds, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_rotation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list's rotation, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_item_name, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list item's name, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_item_animation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list item's animation, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_item_bounds, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list item's bounds, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_list_item_rotation, 3, "<string_id> <boolean> <boolean>", "Toggle display of given list item's rotation, optionally recursive\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_text_name, 2, "<string_id> <boolean>", "Toggle display of given text widget's name\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_text_animation, 2, "<string_id> <boolean>", "Toggle display of given text widget's animation state\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_text_bounds, 2, "<string_id> <boolean>", "Toggle display of given text widget's bounds\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_text_rotation, 2, "<string_id> <boolean>", "Toggle display of given text widget's rotation\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_bitmap_name, 2, "<string_id> <boolean>", "Toggle display of given bitmap widget's name\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_bitmap_animation, 2, "<string_id> <boolean>", "Toggle display of given bitmap widget's animation state\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_bitmap_bounds, 2, "<string_id> <boolean>", "Toggle display of given bitmap widget's bounds\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(gui_debug_bitmap_rotation, 2, "<string_id> <boolean>", "Toggle display of given bitmap widget's rotation\r\nNETWORK SAFE: No"),
+
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
@@ -408,6 +461,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(controller_set_tertiary_change_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_mask, 2, "<controller> <voice_mask>", "set voice mask for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_output_setting, 2, "<controller> <voice_output_setting>", "set voice output setting for specified controller\r\nNETWORK SAFE: No"),
+
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, int32* token_count);
