@@ -43,13 +43,13 @@ DATA_PATCH_DECLARE(0x00AAD81B + 1, gui_text_widget_extra_large_render_data, gui_
 DATA_PATCH_DECLARE(0x00AAD822 + 1, gui_text_widget_large_render_data, gui_text_widget_large_render_data.bytes);
 DATA_PATCH_DECLARE(0x00AAD829 + 1, gui_text_widget_small_render_data, gui_text_widget_small_render_data.bytes);
 
-bool gui_debug_text_bounds_global = true;
-bool gui_debug_bitmap_bounds_global = true;
-bool gui_debug_model_bounds_global = true;
-bool gui_debug_list_item_bounds_global = true;
-bool gui_debug_list_bounds_global = true;
-bool gui_debug_group_bounds_global = true;
-bool gui_debug_screen_bounds_global = true;
+bool gui_debug_text_bounds_global = false;
+bool gui_debug_bitmap_bounds_global = false;
+bool gui_debug_model_bounds_global = false;
+bool gui_debug_list_item_bounds_global = false;
+bool gui_debug_list_bounds_global = false;
+bool gui_debug_group_bounds_global = false;
+bool gui_debug_screen_bounds_global = false;
 
 c_gui_bitmap_widget* __thiscall c_gui_widget::create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition)
 {
