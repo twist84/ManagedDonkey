@@ -25,7 +25,7 @@
 //}
 
 //int ustrcmp(wchar_t const*, wchar_t const*)
-//unsigned int ustrlen(wchar_t const *)
+//unsigned int ustrlen(wchar_t const*)
 
 unsigned int ustrnlen(wchar_t const* string, int32 count)
 {
@@ -34,9 +34,9 @@ unsigned int ustrnlen(wchar_t const* string, int32 count)
 	return wcsnlen(string, count);
 }
 
-//wchar_t const * ustrchr(wchar_t const *,wchar_t)
-//int ustrcoll(wchar_t const *,wchar_t const *)
-//unsigned int ustrcspn(wchar_t const *,wchar_t const *)
+//wchar_t const* ustrchr(wchar_t const*,wchar_t)
+//int ustrcoll(wchar_t const*,wchar_t const*)
+//unsigned int ustrcspn(wchar_t const*,wchar_t const*)
 
 wchar_t* ustrnzcat(wchar_t* dest, wchar_t const* src, int32 count)
 {
@@ -73,14 +73,18 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, int32 count)
 	return ustrncpy(dest, src, count);
 }
 
-//wchar_t const * ustrpbrk(wchar_t const *,wchar_t const *)
-//wchar_t const * ustrrchr(wchar_t const *,wchar_t)
-//unsigned int ustrspn(wchar_t const *,wchar_t const *)
-//wchar_t const * ustrstr(wchar_t const *,wchar_t const *)
-//wchar_t * ustrtok(wchar_t *,wchar_t const *)
-//unsigned int ustrxfrm(wchar_t *,wchar_t const *,int32)
-//wchar_t * ustrnlwr(wchar_t *,int32)
-//wchar_t * ustrnupr(wchar_t *,int32)
+//wchar_t const* ustrpbrk(wchar_t const*,wchar_t const*)
+//wchar_t const* ustrrchr(wchar_t const*,wchar_t)
+//unsigned int ustrspn(wchar_t const*,wchar_t const*)
+//wchar_t const* ustrstr(wchar_t const*,wchar_t const*)
+//wchar_t* ustrtok(wchar_t*,wchar_t const*)
+//unsigned int ustrxfrm(wchar_t*,wchar_t const*,int32)
+//wchar_t* ustrnlwr(wchar_t*,int32)
+
+wchar_t* ustrnupr(wchar_t* string, int32 count)
+{
+	return INVOKE(0x004ECC30, ustrnupr, string, count);
+}
 
 int __cdecl ustricmp(wchar_t const* string1, wchar_t const* string2)
 {
@@ -116,16 +120,16 @@ int __cdecl ustrnicmp(wchar_t const* string1, wchar_t const* string2, int32 max_
 //int uiscntrl(wchar_t)
 //wchar_t utoupper(wchar_t)
 //int utolower(wchar_t)
-//wchar_t ufgetc(struct _iobuf *)
-//wchar_t ufputc(wchar_t,struct _iobuf *)
-//wchar_t uungetc(wchar_t,struct _iobuf *)
-//wchar_t * ufgets(wchar_t *,int,struct _iobuf *)
-//int ufputs(wchar_t const *,struct _iobuf *)
-//wchar_t * ugets(wchar_t *)
-//int uputs(wchar_t const *)
-//int ufprintf(struct _iobuf *,wchar_t const *,...)
-//int uprintf(wchar_t const *,...)
-//int usnprintf(wchar_t *,int32,wchar_t const *,...)
+//wchar_t ufgetc(_iobuf*)
+//wchar_t ufputc(wchar_t,_iobuf*)
+//wchar_t uungetc(wchar_t,_iobuf*)
+//wchar_t* ufgets(wchar_t*,int,_iobuf*)
+//int ufputs(wchar_t const*,_iobuf*)
+//wchar_t* ugets(wchar_t*)
+//int uputs(wchar_t const*)
+//int ufprintf(_iobuf*,wchar_t const*,...)
+//int uprintf(wchar_t const*,...)
+//int usnprintf(wchar_t*,int32,wchar_t const*,...)
 
 int usnzprintf(wchar_t* string, int32 size, wchar_t const* format, ...)
 {
@@ -138,8 +142,8 @@ int usnzprintf(wchar_t* string, int32 size, wchar_t const* format, ...)
 	return result;
 }
 
-//int uvfprintf(struct _iobuf *,wchar_t const *,char *)
-//int uvprintf(wchar_t const *,char *)
+//int uvfprintf(_iobuf*,wchar_t const*,char*)
+//int uvprintf(wchar_t const*,char*)
 
 int uvsnzprintf(wchar_t* string, int32 size, wchar_t const* format, va_list list)
 {
@@ -175,43 +179,43 @@ wchar_t const* usnzappend(wchar_t* string, int32 size, wchar_t const* format, ..
 	return string;
 }
 
-//struct _iobuf * ufdopen(int,wchar_t const *)
-//struct _iobuf * ufopen(wchar_t const *,wchar_t const *)
-//int ufclose(struct _iobuf *)
-//struct _iobuf * ufreopen(wchar_t const *,wchar_t const *,struct _iobuf *)
-//void uperror(wchar_t const *)
-//int uremove(wchar_t const *)
-//wchar_t * utmpnam(wchar_t *)
-//int32 ustrtol(wchar_t const *,wchar_t * *,int)
-//uns32 ustrtoul(wchar_t const *,wchar_t * *,int)
-//real64 ustrtod(wchar_t const *,wchar_t * *)
-//wchar_t * ustrftime_tm(wchar_t *,int32,wchar_t const *,struct tm const *)
-//wchar_t * ustrftime(wchar_t *,int32,wchar_t const *,int64)
-//int uatoi(wchar_t const *)
+//_iobuf* ufdopen(int,wchar_t const*)
+//_iobuf* ufopen(wchar_t const*,wchar_t const*)
+//int ufclose(_iobuf*)
+//_iobuf* ufreopen(wchar_t const*,wchar_t const*,_iobuf*)
+//void uperror(wchar_t const*)
+//int uremove(wchar_t const*)
+//wchar_t* utmpnam(wchar_t*)
+//int32 ustrtol(wchar_t const*,wchar_t**,int)
+//uns32 ustrtoul(wchar_t const*,wchar_t**,int)
+//real64 ustrtod(wchar_t const*,wchar_t**)
+//wchar_t* ustrftime_tm(wchar_t*,int32,wchar_t const*,tm const*)
+//wchar_t* ustrftime(wchar_t*,int32,wchar_t const*,int64)
+//int uatoi(wchar_t const*)
 
 void wchar_string_to_ascii_string(wchar_t const* source, char* destination, int32 source_length, int32* destination_length)
 {
 	INVOKE(0x004EDD60, wchar_string_to_ascii_string, source, destination, source_length, destination_length);
 }
 
-//struct utf32 ascii_string_to_utf32_characters(char const *,struct s_escape_table const *,char const * *,int32 *,struct utf32 *,int32,int32 *)
-//struct utf32 wchar_string_to_utf32_characters(wchar_t const *,struct s_escape_table const *,wchar_t const * *,int32 *,struct utf32 *,int32,int32 *)
-//void ascii_string_to_utf32_string(char const *,struct s_escape_table const *,struct utf32 *,int32,int32 *)
-//void wchar_string_to_utf32_string(wchar_t const *,struct s_escape_table const *,struct utf32 *,int32,int32 *)
-//void ascii_string_to_wchar_string(char const *,wchar_t *,int32,int32 *)
-//int32 utf32_character_to_utf16_string(struct utf32,struct utf16 *,int32)
-//struct utf32 utf16_string_to_utf32_character(struct utf16 const *,struct utf16 const * *)
-//bool utf32_in_list(struct utf32,struct s_utf32_range const *,int32)
-//bool utf32_isspace(struct utf32)
-//bool utf32_is_id_start(struct utf32)
-//bool utf32_is_id_continue(struct utf32)
-//bool utf32_isalpha(struct utf32)
-//bool utf32_isprint(struct utf32)
-//bool utf32_ismonochrome(struct utf32)
-//bool utf32_can_line_break(struct utf32,struct utf32)
-//unsigned int utf32_strlen(struct utf32 const *)
+//utf32 ascii_string_to_utf32_characters(char const*,s_escape_table const*,char const**,int32*,utf32*,int32,int32*)
+//utf32 wchar_string_to_utf32_characters(wchar_t const*,s_escape_table const*,wchar_t const**,int32*,utf32*,int32,int32*)
+//void ascii_string_to_utf32_string(char const*,s_escape_table const*,utf32*,int32,int32*)
+//void wchar_string_to_utf32_string(wchar_t const*,s_escape_table const*,utf32*,int32,int32*)
+//void ascii_string_to_wchar_string(char const*,wchar_t*,int32,int32*)
+//int32 utf32_character_to_utf16_string(utf32,utf16*,int32)
+//utf32 utf16_string_to_utf32_character(utf16 const*,utf16 const**)
+//bool utf32_in_list(utf32,s_utf32_range const*,int32)
+//bool utf32_isspace(utf32)
+//bool utf32_is_id_start(utf32)
+//bool utf32_is_id_continue(utf32)
+//bool utf32_isalpha(utf32)
+//bool utf32_isprint(utf32)
+//bool utf32_ismonochrome(utf32)
+//bool utf32_can_line_break(utf32,utf32)
+//unsigned int utf32_strlen(utf32 const*)
 //bool is_private_use_character(wchar_t)
-//void utf8_string_to_wchar_string(struct utf8 const *,wchar_t *,int32,int32 *)
-//void wchar_string_to_utf8_string(wchar_t const *,struct utf8 *,int32,int32 *)
-//void string_to_utf32_string<char,8>(char const *,struct s_escape_table const *,struct utf32 *,struct utf32 (*)(char const *,struct s_escape_table const *,char const * *,int32 *,struct utf32 *,int32,int32 *),int32,int32 *)
-//void string_to_utf32_string<wchar_t,8>(wchar_t const *,struct s_escape_table const *,struct utf32 *,struct utf32 (*)(wchar_t const *,struct s_escape_table const *,wchar_t const * *,int32 *,struct utf32 *,int32,int32 *),int32,int32 *)
+//void utf8_string_to_wchar_string(utf8 const*,wchar_t*,int32,int32*)
+//void wchar_string_to_utf8_string(wchar_t const*,utf8*,int32,int32*)
+//void string_to_utf32_string<char,8>(char const*,s_escape_table const*,utf32*,utf32 (*)(char const*,s_escape_table const*,char const**,int32*,utf32*,int32,int32*),int32,int32*)
+//void string_to_utf32_string<wchar_t,8>(wchar_t const*,s_escape_table const*,utf32*,utf32 (*)(wchar_t const*,s_escape_table const*,wchar_t const**,int32*,utf32*,int32,int32*),int32,int32*)
