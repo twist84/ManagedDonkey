@@ -278,11 +278,74 @@ void c_window_manager::begin_transition_out(c_gui_screen_widget* screen, e_scree
 	INVOKE_CLASS_MEMBER(0x00AAA7F0, c_window_manager, begin_transition_out, screen, transition_type);
 }
 
-//.text:00AAA870 ; 
+//.text:00AAA870 ; public: void c_window_manager::close_all_screens(c_gui_screen_widget const**, int32)
 //.text:00AAA970 ; public: bool c_window_manager::controller_input_should_be_suppressed(e_controller_index)
-//.text:00AAA9F0 ; public: void c_window_manager::debug_widget_state(e_gui_widget_type, int32, c_window_manager::e_widget_debug_state, bool, bool)
-//.text:00AAAA70 ; public: void c_window_manager::debug_widget_state_for_screen(c_gui_screen_widget*, e_gui_widget_type, int32, c_window_manager::e_widget_debug_state, bool, bool)
-//.text:00AAAAA0 ; public: void c_window_manager::debug_widget_state_for_widget(c_gui_widget*, c_window_manager::e_widget_debug_state, bool, bool)
+
+void c_window_manager::debug_widget_state(e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children)
+{
+	INVOKE_CLASS_MEMBER(0x00AAA9F0, c_window_manager, debug_widget_state, type, name, state, activate, include_children);
+}
+
+void c_window_manager::debug_widget_state_for_screen(c_gui_screen_widget* screen, e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children)
+{
+	INVOKE_CLASS_MEMBER(0x00AAAA70, c_window_manager, debug_widget_state_for_screen, screen, type, name, state, activate, include_children);
+
+	//c_gui_widget* child_widget = screen->get_child_widget(type, name);
+	//if (child_widget)
+	//{
+	//	event(_event_warning, "ui: failed to find widget of type '%s' named '%s'",
+	//		gui_widget_type_to_string(type),
+	//		string_id_get_string_const(name));
+	//	return;
+	//}
+	//
+	//c_window_manager::debug_widget_state_for_widget(child_widget, state, activate, include_children);
+}
+
+void c_window_manager::debug_widget_state_for_widget(c_gui_widget* widget, e_widget_debug_state state, bool activate, bool include_children)
+{
+	INVOKE_CLASS_MEMBER(0x00AAAAA0, c_window_manager, debug_widget_state_for_widget, widget, state, activate, include_children);
+
+	//switch (state)
+	//{
+	//case _debug_name:
+	//{
+	//	widget->set_debug_name(activate);
+	//}
+	//break;
+	//case _debug_bounds:
+	//{
+	//	widget->set_debug_bounds(activate);
+	//}
+	//break;
+	//case _debug_animation_state:
+	//{
+	//	widget->set_debug_animation_state(activate);
+	//}
+	//break;
+	//case _debug_rotation_origin:
+	//{
+	//	widget->set_debug_rotation_origin(activate);
+	//}
+	//break;
+	//default:
+	//{
+	//	VASSERT("unreachable");
+	//}
+	//break;
+	//}
+	//
+	//if (!include_children)
+	//{
+	//	return;
+	//}
+	//
+	//for (c_gui_widget* child_widget = widget->get_children(); child_widget; child_widget = widget->get_next())
+	//{
+	//	c_window_manager::debug_widget_state_for_widget(child_widget, state, activate, include_children);
+	//}
+}
+
 //.text:00AAABB0 ; public: void c_window_manager::dispose()
 //.text:00AAABE0 ; public: void c_window_manager::dispose_from_old_map()
 //.text:00AAAE80 ; public: void c_window_manager::dispose_screen(c_gui_screen_widget*)

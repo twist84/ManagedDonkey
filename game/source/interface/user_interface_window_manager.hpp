@@ -9,6 +9,7 @@ struct s_event_record;
 struct s_window_manager_screen_render_data;
 struct s_window_manager_static_render_data;
 struct c_gui_screen_widget;
+struct c_gui_widget;
 struct c_load_screen_message;
 
 struct c_window_manager
@@ -16,6 +17,14 @@ struct c_window_manager
 	enum
 	{
 		k_maximum_number_of_channels_per_render_window = 10
+	};
+
+	enum e_widget_debug_state
+	{
+		_debug_name = 0,
+		_debug_bounds,
+		_debug_animation_state,
+		_debug_rotation_origin,
 	};
 
 	struct s_screen_handle_datum :
@@ -40,6 +49,9 @@ struct c_window_manager
 	c_gui_screen_widget* allocate_codeless_screen(int32 screen_name);
 	c_gui_screen_widget* allocate_named_screen(int32 screen_name);
 	void begin_transition_out(c_gui_screen_widget* screen, e_screen_transition_type transition_type);
+	void debug_widget_state(e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children);
+	void debug_widget_state_for_screen(c_gui_screen_widget* screen, e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children);
+	void debug_widget_state_for_widget(c_gui_widget* widget, e_widget_debug_state state, bool activate, bool include_children);
 	e_window_index get_render_window_for_screen(c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);

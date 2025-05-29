@@ -186,7 +186,8 @@ struct s_user_interface_text_render_data :
 	real_rectangle2d bounds_rect;
 	real_rectangle2d clip_rect;
 };
-static_assert(sizeof(s_user_interface_text_render_data) == 0x98);
+//static_assert(sizeof(s_user_interface_text_render_data) == 0x98);
+static_assert(sizeof(s_user_interface_text_render_data) == sizeof(s_gui_widget_render_data) + 0x6C);
 
 struct s_gui_text_widget_small_render_data :
 	s_user_interface_text_render_data
@@ -243,7 +244,7 @@ public:
 	void set_scroll_amount(real32 i, real32 j);
 	void set_scale(real32 scale);
 
-protected:
+//protected:
 	uns32 m_flags;
 
 	e_controller_index m_controller_index;
