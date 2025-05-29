@@ -200,13 +200,15 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, r
 	render_data->name = m_name;
 	real_argb_color const* debug_color = get_debug_color();
 	render_data->debug_color = real_argb_color_to_pixel32(debug_color);
-	//render_data->animation_state_flags = m_animated_state.state_flags;
-	
+
+	csmemcpy(render_data->animation_state_flags, m_animated_state.state_flags, sizeof(uns64));
+	render_data->rotation_origin_with_depth = m_animated_state.position;
+
 	render_data->render_debug_name = TEST_BIT(m_flags, _debug_name_bit);
 	render_data->render_debug_animation_state = TEST_BIT(m_flags, _debug_animation_state_bit) || TEST_BIT(get_core_definition()->flags, 2);
 	render_data->render_debug_bounds = TEST_BIT(m_flags, _debug_bounds_bit);
 	render_data->render_debug_rotation_origin = TEST_BIT(m_flags, _debug_rotation_origin_bit);
-	
+
 	switch (m_type)
 	{
 	case _gui_text:
@@ -1079,39 +1081,183 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		draw_string.set_color(render_data->debug_color);
 		draw_string.draw(NULL, string_id_get_string_const(render_data->name));
 	}
-	
+
 	if (render_data->render_debug_animation_state)
 	{
-		//c_static_string<1024> text;
-		//for (int32 animation_state = 0; animation_state < k_number_of_ui_animation_states; animation_state++)
-		//{
-		//	switch (animation_state)
-		//	{
-		//	// $TODO: add all cases
-		//	default:
-		//	{
-		//		VASSERT("unreachable");
-		//	}
-		//	break;
-		//	}
-		//}
-		//c_simple_font_draw_string draw_string;
-		//real_rectangle2d text_bounds
-		//{
-		//	.x0 = render_data->projected_bounds.vertex[0].x,
-		//	.x1 = (real32)window_bounds->x1,
-		//	.y0 = render_data->projected_bounds.vertex[0].y,
-		//	.y1 = (real32)window_bounds->y1
-		//};
-		//draw_string.set_bounds(&text_bounds);
-		//draw_string.set_color(render_data->debug_color);
-		//draw_string.draw(NULL, text.get_string());
+		// $TODO: implement `c_gui_text_widget::update` for `#string#` text render
+
+		c_static_string<1024> text;
+		text.set("");
+
+		union
+		{
+			uns64 value;
+			byte bytes[sizeof(uns64)];
+		} animation_state_flags;
+		csmemcpy(animation_state_flags.bytes, render_data->animation_state_flags, sizeof(uns64));
+
+		for (int32 animation_state = 0; animation_state < k_number_of_ui_animation_states; animation_state++)
+		{
+			if (!TEST_BIT64(animation_state_flags.value, animation_state))
+			{
+				continue;
+			}
+
+			switch (animation_state)
+			{
+			case _focused_ambient:
+				text.append("focused-ambient:");
+				break;
+			case _unfocused_ambient:
+				text.append("unfocused-ambient:");
+				break;
+			case _focused_disabled_ambient:
+				text.append("focused-disabled-ambient:");
+				break;
+			case _unfocused_disabled_ambient:
+				text.append("unfocused-disabled-ambient:");
+				break;
+			case _alternate_focused_ambient:
+				text.append("alt-focused-ambient:");
+				break;
+			case _alternate_unfocused_ambient:
+				text.append("alt-unfocused-ambient:");
+				break;
+			case _transition_from_screen:
+				text.append("transition-from:");
+				break;
+			case _transition_to_screen:
+				text.append("transition-to:");
+				break;
+			case _transition_back_from_screen:
+				text.append("transition-back-from:");
+				break;
+			case _transition_back_to_screen:
+				text.append("transition-back-to:");
+				break;
+			case _cycle_in_previous_screen:
+				text.append("cycle-in-prev-screen:");
+				break;
+			case _cycle_in_next_screen:
+				text.append("cycle-in-next-screen:");
+				break;
+			case _cycle_out_previous_screen:
+				text.append("cycle-out-prev-screen:");
+				break;
+			case _cycle_out_next_screen:
+				text.append("cycle-out-next-screen:");
+				break;
+			case _list_display_group_transition_in:
+				text.append("display-group-in:");
+				break;
+			case _list_display_group_transition_out:
+				text.append("display-group-out:");
+				break;
+			case _control_received_focus:
+				text.append("control-focus:");
+				break;
+			case _control_lost_focus:
+				text.append("control-unfocus:");
+				break;
+			case _indicator_ambient_additional_items:
+				text.append("indicator-ambient-more-items:");
+				break;
+			case _indicator_ambient_no_additional_items:
+				text.append("indicator-ambient-no-more-items:");
+				break;
+			case _indicator_activated_additional_items:
+				text.append("indicator-active-more-items:");
+				break;
+			case _indicator_activated_no_additional_items:
+				text.append("indicator-active-no-more-items:");
+				break;
+			case _load_submenu_focused:
+				text.append("load-submenu-focused:");
+				break;
+			case _load_submenu_unfocused:
+				text.append("load-submenu-unfocused:");
+				break;
+			case _unload_submenu_focused:
+				text.append("unload-submenu-focused:");
+				break;
+			case _unload_submenu_unfocused:
+				text.append("unload-submenu-unfocused:");
+				break;
+			case _load_as_submenu:
+				text.append("load-as-submenu:");
+				break;
+			case _unload_as_submenu:
+				text.append("unload-as-submenu:");
+				break;
+			case _child_submenu_ambient_focused:
+				text.append("child-submenu-ambient-focused:");
+				break;
+			case _child_submenu_ambient_unfocused:
+				text.append("child-submenu-ambient-unfocused:");
+				break;
+			case _custom_animation0:
+				text.append("custom0:");
+				break;
+			case _custom_animation1:
+				text.append("custom1:");
+				break;
+			case _custom_screen_transition_in0:
+				text.append("custom-transition-in0:");
+				break;
+			case _custom_screen_transition_out0:
+				text.append("custom-transition-out0:");
+				break;
+			case _custom_screen_transition_in1:
+				text.append("custom-transition-in1:");
+				break;
+			case _custom_screen_transition_out1:
+				text.append("custom-transition-out1:");
+				break;
+			case _animation_state_36:
+				text.append("unknown-36:");
+				break;
+			case _animation_state_37:
+				text.append("unknown-37:");
+				break;
+			case _animation_state_38:
+				text.append("unknown-38:");
+				break;
+			case _animation_state_39:
+				text.append("unknown-39:");
+				break;
+			//case _mouse_enter:
+			//	text.append("mouse-enter:");
+			//	break;
+			//case _mouse_leave:
+			//	text.append("mouse-leave:");
+			//	break;
+			//case _mouse_hover_ambient:
+			//	text.append("mouse-hover-ambient:");
+			//	break;
+			default:
+			{
+				VASSERT("unreachable");
+			}
+			break;
+			}
+		}
+		c_simple_font_draw_string draw_string;
+		real_rectangle2d text_bounds
+		{
+			.x0 = render_data->projected_bounds.vertex[0].x,
+			.x1 = (real32)window_bounds->x1,
+			.y0 = render_data->projected_bounds.vertex[0].y,
+			.y1 = (real32)window_bounds->y1
+		};
+		draw_string.set_bounds(&text_bounds);
+		draw_string.set_color(render_data->debug_color);
+		draw_string.draw(NULL, text.get_string());
 	}
-	
+
 	if (render_data->render_debug_bounds)
 	{
 		point2d points[5]{};
-	
+
 		points[0].x = (int16)render_data->projected_bounds.vertex[0].x;
 		points[0].y = (int16)render_data->projected_bounds.vertex[0].y;
 		points[1].x = (int16)render_data->projected_bounds.vertex[2].x;
@@ -1122,12 +1268,12 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		points[3].y = (int16)render_data->projected_bounds.vertex[1].y;
 		points[4].x = (int16)render_data->projected_bounds.vertex[0].x;
 		points[4].y = (int16)render_data->projected_bounds.vertex[0].y;
-	
+
 		real_vector2d aspect_ratio_scale = interface_get_aspect_ratio_scaling();
 		interface_scale_points_for_xenon_scaler(points, NUMBEROF(points), &aspect_ratio_scale);
 		c_rasterizer::draw_debug_linestrip2d(points, NUMBEROF(points), render_data->debug_color);
 	}
-	
+
 	if (render_data->render_debug_rotation_origin)
 	{
 		c_simple_font_draw_string draw_string;

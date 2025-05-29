@@ -1,5 +1,6 @@
 #include "interface/c_gui_screen_widget.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
@@ -169,6 +170,16 @@ c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 c_gui_widget* c_gui_screen_widget::get_focused_widget()
 {
 	return INVOKE_CLASS_MEMBER(0x00AB0F40, c_gui_screen_widget, get_focused_widget);
+}
+
+char const* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
+{
+	if (m_definition.string_list_tag_reference_index == NONE)
+	{
+		return NULL;
+	}
+
+	return tag_get_name_safe(m_definition.string_list_tag_reference_index);
 }
 
 //.text:00AB0F60 ; 

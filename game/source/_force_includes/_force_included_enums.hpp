@@ -3828,6 +3828,54 @@ enum e_gui_widget_type
 	k_gui_widget_type_invalid = -1
 };
 
+enum e_animation_state
+{
+	_first_animation_state = 0,
+	_focused_ambient = _first_animation_state,
+	_unfocused_ambient,
+	_focused_disabled_ambient,
+	_unfocused_disabled_ambient,
+	_alternate_focused_ambient,
+	_alternate_unfocused_ambient,
+	_transition_from_screen,
+	_transition_to_screen,
+	_transition_back_from_screen,
+	_transition_back_to_screen,
+	_cycle_in_previous_screen,
+	_cycle_in_next_screen,
+	_cycle_out_previous_screen,
+	_cycle_out_next_screen,
+	_list_display_group_transition_in,
+	_list_display_group_transition_out,
+	_control_received_focus,
+	_control_lost_focus,
+	_indicator_ambient_additional_items,
+	_indicator_ambient_no_additional_items,
+	_indicator_activated_additional_items,
+	_indicator_activated_no_additional_items,
+	_load_submenu_focused,
+	_load_submenu_unfocused,
+	_unload_submenu_focused,
+	_unload_submenu_unfocused,
+	_load_as_submenu,
+	_unload_as_submenu,
+	_child_submenu_ambient_focused,
+	_child_submenu_ambient_unfocused,
+	_custom_animation0,
+	_custom_animation1,
+	_custom_screen_transition_in0,
+	_custom_screen_transition_out0,
+	_custom_screen_transition_in1,
+	_custom_screen_transition_out1,
+	_animation_state_36,
+	_animation_state_37,
+	_animation_state_38,
+	_animation_state_39,
+
+	k_number_of_ui_animation_states,
+	k_invalid_animation_state = NONE,
+};
+
 enum e_vehicle_trick_type
 {
 	_vehicle_trick_type_none = 0,

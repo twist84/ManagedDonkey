@@ -9,7 +9,9 @@ struct s_animation_transform
 		DECLFUNC(0x00B17830, void, __thiscall, s_animation_transform*)(this);
 	}
 
-	byte __data0[0x38];
+	byte __data0[0x18];
+	byte state_flags[sizeof(uns64)];
+	byte __data20[0x18];
 	//uns32 timer_ambient_start;
 	//uns32 timer_screen_transition_start;
 	//uns32 timer_widget_transition_start;

@@ -5,7 +5,6 @@
 #include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"
 
-enum e_animation_state;
 struct s_runtime_core_widget_definition;
 struct c_gui_text_widget;
 struct c_gui_bitmap_widget;
@@ -105,7 +104,8 @@ struct s_gui_widget_render_data
 
 	// >= play builds
 	uns32 debug_color;
-	//uns64 __declspec(align(4)) animation_state_flags;
+	byte animation_state_flags[sizeof(uns64)];
+	//uns64 animation_state_flags;
 	real_point3d rotation_origin_with_depth;
 	bool render_debug_name;
 	bool render_debug_animation_state;

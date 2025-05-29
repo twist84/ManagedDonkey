@@ -190,6 +190,7 @@ public:
 	void dispose_child_screens();
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 	c_gui_widget* get_focused_widget();
+	char const* get_multilingual_unicode_string_list_tag_name();
 	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
 	void play_sound(e_user_interface_sound_effect sound_effect);

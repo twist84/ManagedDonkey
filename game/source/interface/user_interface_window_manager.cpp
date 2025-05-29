@@ -20,6 +20,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "interface/user_interface.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
 
@@ -604,8 +605,63 @@ void __cdecl c_window_manager::play_controller_sound(int32 optional_sound_tag_ov
 //.text:00AAC650 ; c_window_manager::predict_immediate_resources
 //.text:00AAC6C0 ; c_window_manager::predict_pending_resources
 //.text:00AAC730 ; public: void c_window_manager::prepare_for_tag_reload()
-//.text:00AAC740 ; public: static void __cdecl c_window_manager::print_active_screen_strings_tag_name()
-//.text:00AAC750 ; public: void c_window_manager::print_active_screens()
+
+void __cdecl c_window_manager::print_active_screen_strings_tag_name()
+{
+	//INVOKE(0x00AAC740, c_window_manager, print_active_screen_strings_tag_name);
+
+	c_gui_screen_widget* topmost_screen = window_manager_get()->get_topmost_screen(k_number_of_player_windows);
+	if (!topmost_screen)
+	{
+		return;
+	}
+
+	char const* tag_name = topmost_screen->get_multilingual_unicode_string_list_tag_name();
+	if (!tag_name)
+	{
+		tag_name = "unavailable";
+	}
+
+	char const* topmost_screen_name_string = string_id_get_string_const(topmost_screen->m_name);
+	console_printf("ui:debug: screen '%s' uses tag file '%s'",
+		topmost_screen_name_string,
+		tag_name);
+}
+
+void c_window_manager::print_active_screens()
+{
+	//INVOKE_CLASS_MEMBER(0x00AAC750, c_window_manager, print_active_screens);
+
+	char const* window_strings[k_number_of_render_windows]
+	{
+		"player 1",
+		"player 2",
+		"player 3",
+		"player 4",
+		"console",
+	};
+
+	for (int32 window_index = 0; window_index < k_number_of_render_windows; window_index++)
+	{
+		char const* window_string = window_strings[window_index];
+
+		for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index].peek(); channel_count++)
+		{
+			c_gui_screen_widget* screen = m_channels[window_index][channel_count];
+			if (!screen)
+			{
+				continue;
+			}
+
+			int32 channel_name = screen->m_name;
+			char const* channel_name_string = string_id_get_string_const(channel_name);
+			console_printf("ui:debug: window '%s' name '%s'",
+				window_string,
+				channel_name_string);
+		}
+	}
+}
+
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uns32)
 
 void c_window_manager::render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)

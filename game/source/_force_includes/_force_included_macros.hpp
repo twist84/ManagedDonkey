@@ -53,6 +53,18 @@ const int32 LONG_BITS = SIZEOF_BITS(int32);
 #define SET_MASK(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
 #define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
 
+#define FLAG64(bit) (1ULL << (bit))
+#define MASK64(bit) ((1ULL << (bit)) - 1)
+#define TEST_BIT64(flags, bit) (((flags) & (1ULL << (bit))) != 0)
+#define TEST_RANGE64(flags, start_bit, end_bit) (((flags) & (((1ULL << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
+#define TEST_FLAG64(flags, bit) (flags.test((bit)))
+#define TEST_MASK64(flags, mask) (((flags) & (mask)) != 0)
+#define ALIGN64(value, bit) (((value) & ~((1ULL << (bit)) - 1)) + (1ULL << (bit)))
+#define ALIGN_UP64(value, bit) ((((value) & ((1ULL << (bit)) - 1)) == 0) ? (value) : ((value) | ((1ULL << (bit)) - 1)) + 1)
+#define SET_BIT64(flags, bit, enable) { if ((enable)) { (flags) |= FLAG64((bit)); } else { (flags) &= ~FLAG64((bit)); } }
+#define SET_MASK64(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
+#define VALID_BITS64(flags, max_bits) ((flags) & ~((1ULL << (max_bits)) - 1))
+
 #define INVALID_ASYNC_TASK_ID -1
 
 //#define CHAR_MAX char(0x7F)

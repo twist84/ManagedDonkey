@@ -60,6 +60,8 @@ struct c_window_manager
 	static int32 __cdecl locate_screen_definition_tag_by_name(int32 name);
 	static bool __cdecl named_screen_defined_in_code(int32 screen_name);
 	static void __cdecl play_controller_sound(int32 optional_sound_tag_override_index, e_event_type event_type, e_controller_component controller_component);
+	static void __cdecl print_active_screen_strings_tag_name();
+	void print_active_screens();
 	void render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot);
 	void render_fade();
 	void reset_screens();
