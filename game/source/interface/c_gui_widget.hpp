@@ -101,23 +101,41 @@ struct s_gui_widget_render_data
 	e_controller_index local_controller_index;
 
 	// >= profile builds
-	//string_id name;
+	string_id name;
 
 	// >= play builds
-	//uns32 debug_color;
-	//uns64 animation_state_flags;
-	//real_point3d rotation_origin_with_depth;
-	//bool render_debug_name;
-	//bool render_debug_animation_state;
-	//bool render_debug_bounds;
-	//bool render_debug_rotation_origin;
+	uns32 debug_color;
+	//uns64 __declspec(align(4)) animation_state_flags;
+	real_point3d rotation_origin_with_depth;
+	bool render_debug_name;
+	bool render_debug_animation_state;
+	bool render_debug_bounds;
+	bool render_debug_rotation_origin;
 };
-static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
+//static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
 //static_assert(sizeof(s_gui_widget_render_data) == 0x30); // == profile
 //static_assert(sizeof(s_gui_widget_render_data) == 0x50); // >= play
 
 struct c_gui_widget
 {
+public:
+	enum e_gui_widget_flags
+	{
+		_responds_to_controller0_bit,
+		_responds_to_controller1_bit,
+		_responds_to_controller2_bit,
+		_responds_to_controller3_bit,
+		_initializing_bit,
+
+		_debug_name_bit,
+		_debug_animation_state_bit,
+		_debug_bounds_bit,
+		_debug_rotation_origin_bit,
+
+		k_number_of_widget_flags,
+		k_controller_mask = MASK(4),
+	};
+
 public:
 	c_gui_bitmap_widget* __thiscall create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition);
 	c_gui_button_key_widget* __thiscall create_button_key_widget_(s_button_key_definition const* definition);
@@ -243,6 +261,10 @@ public:
 	void set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, int32 widget_name, bool value);
 	void set_child_visible(e_gui_widget_type widget_type, int32 widget_name, bool visible);
 	void set_children(c_gui_widget* children);
+	void set_debug_animation_state(bool activate);
+	void set_debug_bounds(bool activate);
+	void set_debug_name(bool activate);
+	void set_debug_rotation_origin(bool activate);
 	void set_driving_controller(e_controller_index controller_index);
 	void set_full_animation_state(s_animation_transform const* transform, bool recursive);
 	void set_next(c_gui_widget* next);
@@ -295,5 +317,13 @@ static_assert(0x4C == OFFSETOF(c_gui_widget, __unknown4C));
 static_assert(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
 static_assert(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
 static_assert(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
+
+extern bool gui_debug_text_bounds_global;
+extern bool gui_debug_bitmap_bounds_global;
+extern bool gui_debug_model_bounds_global;
+extern bool gui_debug_list_item_bounds_global;
+extern bool gui_debug_list_bounds_global;
+extern bool gui_debug_group_bounds_global;
+extern bool gui_debug_screen_bounds_global;
 
 extern char const* __cdecl gui_widget_type_to_string(e_gui_widget_type type);

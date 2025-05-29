@@ -10,6 +10,7 @@
 #include "hs/hs_runtime.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/c_gui_widget.hpp"
 #include "interface/chud/chud_draw.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/first_person_weapons.hpp"
@@ -971,6 +972,14 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_exposure_lock, c_screen_postprocess::x_editable_settings.m_auto_exposure_lock),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(gui_custom_bitmaps_enabled, g_gui_custom_bitmaps_enabled),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_text_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_bitmap_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_model_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_list_item_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_list_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_group_bounds_global),
+	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_screen_bounds_global),
 
 };
 int32 const k_console_global_count = NUMBEROF(k_console_globals);
