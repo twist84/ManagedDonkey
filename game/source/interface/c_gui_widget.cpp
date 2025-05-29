@@ -1071,8 +1071,8 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		real_rectangle2d text_bounds
 		{
 			.x0 = render_data->projected_bounds.vertex[0].x,
-			.x1 = render_data->projected_bounds.vertex[0].y,
-			.y0 = (real32)window_bounds->y0,
+			.x1 = (real32)window_bounds->x1,
+			.y0 = render_data->projected_bounds.vertex[0].y,
 			.y1 = (real32)window_bounds->y1
 		};
 		draw_string.set_bounds(&text_bounds);
@@ -1099,8 +1099,8 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		//real_rectangle2d text_bounds
 		//{
 		//	.x0 = render_data->projected_bounds.vertex[0].x,
-		//	.x1 = render_data->projected_bounds.vertex[0].y,
-		//	.y0 = (real32)window_bounds->y0,
+		//	.x1 = (real32)window_bounds->x1,
+		//	.y0 = render_data->projected_bounds.vertex[0].y,
 		//	.y1 = (real32)window_bounds->y1
 		//};
 		//draw_string.set_bounds(&text_bounds);
@@ -1134,8 +1134,8 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		real_rectangle2d text_bounds
 		{
 			.x0 = render_data->rotation_origin_with_depth.x - 8.0f,
-			.x1 = render_data->rotation_origin_with_depth.y - 8.0f,
-			.y0 = (real32)window_bounds->y0,
+			.x1 = (real32)window_bounds->x1,
+			.y0 = render_data->rotation_origin_with_depth.y - 8.0f,
 			.y1 = (real32)window_bounds->y1
 		};
 		draw_string.set_bounds(&text_bounds);
