@@ -52,27 +52,27 @@ struct s_user_interface_shared_globals
 
 	// UI Rendering Globals
 	// miscellaneous rendering globals, more below...
-	int16 inc_text_update_period;
-	int16 inc_text_block_character;
+	int16 incremental_text_update_period_milliseconds;
+	int16 incremental_text_block_character;
 	real32 near_clip_plane_distance;
 	real32 projection_plane_distance;
 	real32 far_clip_plane_distance;
 
 	// Global Text Strings
 	// Global UI Text goes here
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_string_list_tag;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_damage_reporting_string_list_tag;
-	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> unicode_input_string_list_tag;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> ui_string_list;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> ui_damage_reporting_list;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> ui_input_string_list;
 
 	// Main menu music
 	// Looping sound that plays while the main menu is active
 	c_typed_tag_reference<SOUND_LOOPING_TAG, INVALID_TAG> main_menu_music;
-	int32 music_fade_time; // milliseconds
+	int32 main_menu_music_fade_time; // milliseconds
 
 	// Default Text and Shadow Colors
 	// These are the default values used for text glyphs and text shadows
-	real_argb_color text_color;
-	real_argb_color shadow_color;
+	real_argb_color default_text_color;
+	real_argb_color default_text_shadow_color;
 
 	// Color presets
 	// Colors are defined here and used in text widgets throughout the UI.
@@ -86,20 +86,20 @@ struct s_user_interface_shared_globals
 
 	// User interface sounds
 	// Default sound effects for various UI actions
-	c_typed_tag_reference<USER_INTERFACE_SOUNDS_DEFINITION_TAG, INVALID_TAG> default_sounds;
+	c_typed_tag_reference<USER_INTERFACE_SOUNDS_DEFINITION_TAG, INVALID_TAG> ui_default_sounds;
 
 	// HaloX Alerts
 	// Alerts are triggered by specific events that happen in the game.
 	// The game can require that an error be resolved before the dialog can be dismissed.
 	// Once the error is resolved (or if it doesn't require resolution,) the user can dismiss it.
-	c_typed_tag_block<struct s_gui_alert_description> alert_descriptions;
+	c_typed_tag_block<struct s_gui_alert_description> gui_alert_descriptions;
 
 	// HaloX Dialogs
 	// Dialogs are brought up by individual screens or UI systems to ask the user a question, typically of the Ok/Cancel sort such as: 'Are you sure you want to leave the game?'.
 	// Notes:
 	// - first item defaults to 'ok', second item defaults to 'cancel.  third and fourth items don't display if they're not set
 	// - if 'b button action' is set to 'button ignored' then the b button doesn't do anything (such as cancelling)
-	s_tag_block dialog_descriptions;
+	s_tag_block gui_dialog_descriptions;
 
 	// Global datasources
 	// Datasources that are available from anywhere in the UI
@@ -107,7 +107,7 @@ struct s_user_interface_shared_globals
 
 	// Content Aspect Ratio Scaling
 	// These define the scaling that will get applied to UI content and animations when running at the specified display modes
-	real_vector2d authoring_aspect_conversion_scaling[2]; // 16x9, 4x3
+	real_vector2d aspect_ratio_content_scale_factor[2]; // 16x9, 4x3
 
 	// Blur Constants
 	// These control the blur kernel used when blurring overlayed UI
@@ -154,9 +154,9 @@ struct s_user_interface_shared_globals
 	// This controls tabbing around the UI.
 	// The tab delay is how fast you move around normally.
 	// Tab fast wait is how long the UI waits till using the tab fast delay instead of the tab delay.
-	int32 navigation_tab_delay_msec;
-	int32 navigation_tab_fast_wait_msec;
-	int32 navigation_tab_fast_delay_msec;
+	int32 navigation_tab_delay; // milliseconds
+	int32 navigation_tab_fast_wait; // milliseconds
+	int32 navigation_tab_fast_delay; // milliseconds
 
 	// Attract Mode Settings
 	// These control behavior of the attract mode movies

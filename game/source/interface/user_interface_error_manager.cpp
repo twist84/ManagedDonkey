@@ -241,7 +241,7 @@ void c_gui_error_manager::initialize_for_new_map()
 			if (!error.is_valid())
 				continue;
 
-			for (s_gui_alert_description const& alert_description : shared_globals->alert_descriptions)
+			for (s_gui_alert_description const& alert_description : shared_globals->gui_alert_descriptions)
 			{
 				if (alert_description.error_name.get_value() == error.get_error_name())
 				{
@@ -464,7 +464,7 @@ void c_gui_error_manager::post_error_with_custom_message(int32 error_name, wchar
 			if (s_user_interface_shared_globals const* shared_globals = user_interface_shared_tag_globals_try_and_get())
 			{
 				bool found_alert_description = false;
-				for (s_gui_alert_description const& alert_description : shared_globals->alert_descriptions)
+				for (s_gui_alert_description const& alert_description : shared_globals->gui_alert_descriptions)
 				{
 					if (alert_description.error_name.get_value() == error_name)
 					{
