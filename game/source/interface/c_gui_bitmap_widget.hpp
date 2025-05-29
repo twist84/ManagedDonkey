@@ -148,6 +148,7 @@ struct s_gui_bitmap_widget_render_data :
 	int32 frame_buffer_blend_function;
 	int32 explicit_shader_index;
 };
+//static_assert(sizeof(s_gui_bitmap_widget_render_data) == 0x54);
 static_assert(sizeof(s_gui_bitmap_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x28);
 
 extern void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, rectangle2d const* window_bounds);

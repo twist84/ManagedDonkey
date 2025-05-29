@@ -51,6 +51,9 @@ struct s_text_widget_block;
 struct c_gui_text_widget :
 	public c_gui_widget
 {
+public:
+	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+
 	struct s_text_source_data
 	{
 		enum e_text_source
@@ -82,6 +85,9 @@ public:
 	virtual void set_text(wchar_t const* text);
 	virtual void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
 	virtual wchar_t const* get_text();
+
+private:
+	void compute_text_bounds(rectangle2d const* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale);
 
 protected:
 	s_text_source_data m_text_source_data;

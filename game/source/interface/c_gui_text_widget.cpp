@@ -1,6 +1,28 @@
 #include "interface/c_gui_text_widget.hpp"
 
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface.hpp"
+#include "math/color_math.hpp"
+#include "memory/module.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x00B18A10, c_gui_text_widget, assemble_render_data_);
+
+void __thiscall c_gui_text_widget::assemble_render_data_(
+	s_gui_widget_render_data* render_data,
+	rectangle2d const* window_bounds,
+	e_controller_index local_controller_index,
+	bool apply_translation,
+	bool apply_scale,
+	bool apply_rotation)
+{
+	c_gui_text_widget::assemble_render_data(
+		render_data,
+		window_bounds,
+		local_controller_index,
+		apply_translation,
+		apply_scale,
+		apply_rotation);
+}
 
 //.text:00B18810 ; public: c_gui_text_widget::c_gui_text_widget()
 //.text:00B18850 ; 
@@ -16,10 +38,92 @@ c_gui_text_widget::~c_gui_text_widget()
 
 void c_gui_text_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
-	INVOKE_CLASS_MEMBER(0x00B18A10, c_gui_text_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+	//INVOKE_CLASS_MEMBER(0x00B18A10, c_gui_text_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
+
+	s_gui_text_widget_extra_large_render_data* text_render_data = (s_gui_text_widget_extra_large_render_data*)render_data;
+
+	c_gui_widget::assemble_render_data(
+		render_data,
+		window_bounds,
+		local_controller_index,
+		apply_translation,
+		apply_scale,
+		apply_rotation);
+
+	c_user_interface_text* text_internal = get_text_internal();
+
+	real_argb_color tint_color = { 0.0f, 0.0f, 0.0f, 0.0f };
+	if (TEST_BIT(m_flags, 5))
+	{
+		tint_color = *c_gui_widget::get_debug_color();
+	}
+	else
+	{
+		get_cumulative_color_tint(&tint_color);
+	}
+
+	real_argb_color shadow_color = { 1.0f, 0.0f, 0.0f, 0.0f };
+	s_user_interface_shared_globals const* shared_globals = user_interface_shared_tag_globals_try_and_get();
+	if (shared_globals && shared_globals->default_text_shadow_color.alpha > 0.0f)
+	{
+		shadow_color = shared_globals->default_text_shadow_color;
+	}
+	if (text_internal->m_drop_shadow_style)
+	{
+		shadow_color.alpha = tint_color.alpha * shadow_color.alpha;
+	}
+	else
+	{
+		shadow_color.alpha = 0.0f;
+	}
+
+	text_render_data->font = text_internal->m_font;
+	text_render_data->style = text_internal->m_text_style;
+	text_render_data->justification = text_internal->m_justification;
+	text_render_data->drop_shadow_style = text_internal->m_drop_shadow_style;
+	text_render_data->color = real_argb_color_to_pixel32(&tint_color);
+	text_render_data->shadow_color = real_argb_color_to_pixel32(&shadow_color);
+	text_render_data->wrap_horizontally = TEST_BIT(text_internal->m_flags, 2);
+	text_render_data->align_vertically = TEST_BIT(text_internal->m_flags, 1);
+	text_render_data->tab_stop_count = 16;
+	text_render_data->rotation_angle_radians = m_animated_state.rotation_angle_radians;
+
+	int16 tab_stop_count = (int16)text_internal->m_tab_stop_count;
+	if (tab_stop_count > text_render_data->tab_stop_count)
+	{
+		tab_stop_count = text_render_data->tab_stop_count;
+	}
+	text_render_data->tab_stop_count = tab_stop_count;
+
+	if (tab_stop_count > 0)
+	{
+		csmemcpy(text_render_data->tab_stops, text_internal->m_tab_stops, sizeof(int16) * tab_stop_count);
+	}
+
+	c_gui_text_widget::compute_text_bounds(
+		window_bounds,
+		m_animated_state.local_rotation_origin,
+		m_animated_state.position.x,
+		m_animated_state.position.y,
+		m_animated_state.position.z,
+		m_animated_state.scale.i,
+		m_animated_state.scale.j,
+		&text_render_data->rotation_origin,
+		&text_render_data->bounds_rect,
+		&text_render_data->clip_rect,
+		&text_render_data->glyph_scale);
+
+	ustrnzcpy(text_render_data->text, get_text(), get_text_buffer_size());
+	if (TEST_BIT(get_text_internal()->m_flags, 0))
+	{
+		ustrnupr(text_render_data->text, NUMBEROF(text_render_data->text));
+	}
 }
 
-//.text:00B18C60 ; private: void c_gui_text_widget::compute_text_bounds(rectangle2d const*, real_point2d, real32, real32, real32, real32, real32, real_point2d*, real_rectangle2d*, real_rectangle2d*, real32*)
+void c_gui_text_widget::compute_text_bounds(rectangle2d const* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale)
+{
+	INVOKE_CLASS_MEMBER(0x00B18C60, c_gui_text_widget, compute_text_bounds, window_bounds, rotation_origin, position_x, position_y, depth, scale_i, scale_j, out_rotation_origin, out_transformed_text_rect, out_transformed_clip_rect, out_glyph_scale);
+}
 
 s_runtime_core_widget_definition* c_gui_text_widget::get_core_definition()
 {
