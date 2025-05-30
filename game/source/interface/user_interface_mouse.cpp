@@ -14,9 +14,6 @@
 #include "rasterizer/rasterizer.hpp"
 #include "shell/shell_windows.hpp"
 
-#define WIDGET_GET_FIRST_CHILD(WIDGET) (c_gui_widget*)(WIDGET)->m_children.m_pointer.m_value[0]
-#define WIDGET_GET_NEXT_CHILD(WIDGET) (c_gui_widget*)(WIDGET)->m_next.m_pointer.m_value[0]
-
 s_user_interface_mouse_globals user_interface_mouse_globals{};
 
 void user_interface_mouse_update()
@@ -150,9 +147,9 @@ void user_interface_mouse_update_internal()
 void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_rectangle2d* accumulated_bounds, bool(*child_filter)(c_gui_widget const*))
 {
 	real_rectangle2d bounds{};
-	for (c_gui_widget* child_widget = WIDGET_GET_FIRST_CHILD(widget);
+	for (c_gui_widget* child_widget = widget->get_children();
 		child_widget;
-		child_widget = WIDGET_GET_NEXT_CHILD(child_widget))
+		child_widget = child_widget->get_next())
 	{
 		if (!child_filter(child_widget))
 		{
@@ -344,9 +341,9 @@ bool user_interface_mouse_handle_list_widgets(c_gui_screen_widget* screen_widget
 		parent_widget = screen_widget;
 	}
 
-	for (c_gui_list_widget* list_widget = (c_gui_list_widget*)WIDGET_GET_FIRST_CHILD(parent_widget);
+	for (c_gui_list_widget* list_widget = (c_gui_list_widget*)parent_widget->get_children();
 		list_widget && !result;
-		list_widget = (c_gui_list_widget*)WIDGET_GET_NEXT_CHILD(list_widget))
+		list_widget = (c_gui_list_widget*)list_widget->get_next())
 	{
 		if (!list_widget->m_visible)
 		{
