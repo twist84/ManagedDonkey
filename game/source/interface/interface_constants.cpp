@@ -5,7 +5,15 @@ void __cdecl calculate_aspect_ratio_scaling()
 	INVOKE(0x00A9F6F0, calculate_aspect_ratio_scaling);
 }
 
-//00A9F800 ; void __cdecl sub_A9F800()
+void __cdecl calculate_authoring_to_target_dimensions_scaling()
+{
+	INVOKE(0x00A9F800, calculate_authoring_to_target_dimensions_scaling);
+}
+
+render_camera* __cdecl get_render_camera()
+{
+	return INVOKE(0x00A9F8F0, get_render_camera);
+}
 
 real_vector2d __cdecl interface_get_aspect_ratio_scaling()
 {
@@ -19,7 +27,7 @@ real_vector2d __cdecl interface_get_authoring_aspect_conversion_scaling(int32 de
 
 real_vector2d __cdecl interface_get_authoring_to_target_dimensions_scaling()
 {
-	return INVOKE(0x00A9F960, interface_get_aspect_ratio_scaling);
+	return INVOKE(0x00A9F960, interface_get_authoring_to_target_dimensions_scaling);
 }
 
 int32 __cdecl interface_get_closest_authored_ui_aspect_ratio()
@@ -30,6 +38,11 @@ int32 __cdecl interface_get_closest_authored_ui_aspect_ratio()
 int32 __cdecl interface_get_closest_authoring_screen_dimensions()
 {
 	return INVOKE(0x00A9F9D0, interface_get_closest_authoring_screen_dimensions);
+}
+
+point2d __cdecl interface_get_content_authoring_screen_dimensions()
+{
+	return INVOKE(0x00A9FA30, interface_get_content_authoring_screen_dimensions);
 }
 
 void __cdecl interface_get_current_display_or_window_settings(rectangle2d* out_render_bounds, rectangle2d* out_render_title_safe_bounds, rectangle2d* out_display_bounds, rectangle2d* out_display_title_safe_bounds)
@@ -59,22 +72,41 @@ void __cdecl interface_get_current_window_settings(rectangle2d* out_render_windo
 	INVOKE(0x00A9FAF0, interface_get_current_window_settings, out_render_window_bounds, out_render_window_title_safe_bounds, out_display_window_bounds, out_display_window_title_safe_bounds);
 }
 
-//.text:00A9FC70 ; 
-//.text:00A9FCB0 ; 
-//.text:00A9FCF0 ; 
-//.text:00A9FD30 ; 
-//.text:00A9FD40 ; bool __cdecl interface_is_split_screen()
-
-void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale)
+real_vector3d* __cdecl interface_get_render_camera_forward(real_vector3d* forward)
 {
-	//INVOKE(0x00A9FD50, interface_scale_points_for_xenon_scaler, points, point_count, aspect_ratio_scale);
-	DECLFUNC(0x00A9FD50, void, __cdecl, point2d*, int32, real_vector2d const*)(points, point_count, aspect_ratio_scale);
+	return INVOKE(0x00A9FC70, interface_get_render_camera_forward, forward);
 }
 
+real_point3d* __cdecl interface_get_render_camera_position(real_point3d* position)
+{
+	return INVOKE(0x00A9FCB0, interface_get_render_camera_position, position);
+}
+
+real_vector3d* __cdecl interface_get_render_camera_up(real_vector3d* up)
+{
+	return INVOKE(0x00A9FCF0, interface_get_render_camera_up, up);
+}
+
+bool __cdecl interface_is_hi_rez_split_screen()
+{
+	return INVOKE(0x00A9FD30, interface_is_hi_rez_split_screen);
+}
+
+bool __cdecl interface_is_split_screen()
+{
+	return INVOKE(0x00A9FD40, interface_is_split_screen);
+}
+
+void __cdecl interface_scale_points_for_xenon_scaler_point2d_dont_call_me(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
+void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale)
+{
+	INVOKE(0x00A9FD50, interface_scale_points_for_xenon_scaler_point2d_dont_call_me, points, point_count, aspect_ratio_scale);
+}
+
+void __cdecl interface_scale_points_for_xenon_scaler_real_point2d_dont_call_me(real_point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
 void __cdecl interface_scale_points_for_xenon_scaler(real_point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale)
 {
-	//INVOKE(0x00A9FDA0, interface_scale_points_for_xenon_scaler, points, point_count, aspect_ratio_scale);
-	DECLFUNC(0x00A9FDA0, void, __cdecl, real_point2d*, int32, real_vector2d const*)(points, point_count, aspect_ratio_scale);
+	INVOKE(0x00A9FDA0, interface_scale_points_for_xenon_scaler_real_point2d_dont_call_me, points, point_count, aspect_ratio_scale);
 }
 
 void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d* rectangle, real_vector2d const* aspect_ratio_scale)
