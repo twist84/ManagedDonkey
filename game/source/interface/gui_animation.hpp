@@ -9,17 +9,19 @@ struct s_animation_transform
 		DECLFUNC(0x00B17830, void, __thiscall, s_animation_transform*)(this);
 	}
 
-	byte __data0[0x18];
-	byte state_flags[sizeof(uns64)];
-	byte __data20[0x18];
-	//uns32 timer_ambient_start;
-	//uns32 timer_screen_transition_start;
-	//uns32 timer_widget_transition_start;
-	//uns32 timer_focus_transfer_start;
-	//uns32 timer_list_item_indicator_activated_start;
-	//uns32 timer_mouse_hover_start;
-	//uns64 state_flags;
-	//byte __data[0x18];
+	uns32 timer_ambient_start;
+	uns32 timer_screen_transition_start;
+	uns32 timer_widget_transition_start;
+	uns32 timer_focus_transfer_start;
+	uns32 timer_list_item_indicator_activated_start;
+	uns32 timer_mouse_hover_start;
+
+#pragma pack(push, 4)
+	uns64 state_flags;
+	uns64 __flags20;
+	uns64 __flags28;
+	uns64 __flags30;
+#pragma pack(pop)
 
 	real_argb_color color;
 	real_point3d position;

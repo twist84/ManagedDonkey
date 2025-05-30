@@ -22,7 +22,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget_);
-HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9A40, c_gui_widget, handle_controller_input_message_);
@@ -197,13 +197,14 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, r
 	render_data->flags.clear();
 	render_data->flags.set(s_gui_widget_render_data::_render_in_screenshot_bit, get_render_in_screenshot());
 
+	// >= profile builds
 	render_data->name = m_name;
+
+	// >= play builds
 	real_argb_color const* debug_color = get_debug_color();
 	render_data->debug_color = real_argb_color_to_pixel32(debug_color);
-
-	csmemcpy(render_data->animation_state_flags, m_animated_state.state_flags, sizeof(uns64));
+	render_data->animation_state_flags = m_animated_state.state_flags;
 	render_data->rotation_origin_with_depth = m_animated_state.position;
-
 	render_data->render_debug_name = TEST_BIT(m_flags, _debug_name_bit);
 	render_data->render_debug_animation_state = TEST_BIT(m_flags, _debug_animation_state_bit) || TEST_BIT(get_core_definition()->flags, 2);
 	render_data->render_debug_bounds = TEST_BIT(m_flags, _debug_bounds_bit);
@@ -1089,16 +1090,9 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 		c_static_string<1024> text;
 		text.set("");
 
-		union
-		{
-			uns64 value;
-			byte bytes[sizeof(uns64)];
-		} animation_state_flags;
-		csmemcpy(animation_state_flags.bytes, render_data->animation_state_flags, sizeof(uns64));
-
 		for (int32 animation_state = 0; animation_state < k_number_of_ui_animation_states; animation_state++)
 		{
-			if (!TEST_BIT64(animation_state_flags.value, animation_state))
+			if ((FLAG_64(animation_state) & render_data->animation_state_flags) == 0)
 			{
 				continue;
 			}

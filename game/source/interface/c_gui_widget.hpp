@@ -99,18 +99,19 @@ struct s_gui_widget_render_data
 	gui_real_rectangle2d projected_bounds;
 	e_controller_index local_controller_index;
 
+#pragma pack(push, 4)
 	// >= profile builds
 	string_id name;
 
 	// >= play builds
 	uns32 debug_color;
-	byte animation_state_flags[sizeof(uns64)];
-	//uns64 animation_state_flags;
+	uns64 animation_state_flags;
 	real_point3d rotation_origin_with_depth;
 	bool render_debug_name;
 	bool render_debug_animation_state;
 	bool render_debug_bounds;
 	bool render_debug_rotation_origin;
+#pragma pack(pop)
 };
 //static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
 //static_assert(sizeof(s_gui_widget_render_data) == 0x30); // == profile
