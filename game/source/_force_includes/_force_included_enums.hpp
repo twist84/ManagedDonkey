@@ -3867,10 +3867,17 @@ enum e_animation_state
 	_custom_screen_transition_out0,
 	_custom_screen_transition_in1,
 	_custom_screen_transition_out1,
-	_animation_state_36,
-	_animation_state_37,
-	_animation_state_38,
-	_animation_state_39,
+
+	// ODST
+	_custom_display_group_in,
+	_custom_display_group_out,
+	_transition_to_overlaid,
+	_transition_from_overlaid,
+
+	// H3MCC
+	//_mouse_enter,
+	//_mouse_leave,
+	//_mouse_hover_ambient,
 
 	k_number_of_ui_animation_states,
 	k_invalid_animation_state = NONE,

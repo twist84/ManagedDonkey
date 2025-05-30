@@ -1213,17 +1213,17 @@ void c_gui_widget::render(int32 user_index, s_gui_widget_render_data const* rend
 			case _custom_screen_transition_out1:
 				text.append("custom-transition-out1:");
 				break;
-			case _animation_state_36:
-				text.append("unknown-36:");
+			case _custom_display_group_in:
+				text.append("custom-display-group-in:");
 				break;
-			case _animation_state_37:
-				text.append("unknown-37:");
+			case _custom_display_group_out:
+				text.append("custom-display-group-out:");
 				break;
-			case _animation_state_38:
-				text.append("unknown-38:");
+			case _transition_to_overlaid:
+				text.append("transition-to-overlaid:");
 				break;
-			case _animation_state_39:
-				text.append("unknown-39:");
+			case _transition_from_overlaid:
+				text.append("transition-from-overlaid:");
 				break;
 			//case _mouse_enter:
 			//	text.append("mouse-enter:");
