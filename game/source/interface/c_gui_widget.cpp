@@ -1,6 +1,7 @@
 #include "interface/c_gui_widget.hpp"
 
 #include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_model_widget.hpp"
@@ -1345,8 +1346,6 @@ void c_gui_widget::set_children(c_gui_widget* children)
 	m_children.set_value(children);
 }
 
-//.text:00ABA270 ; 
-
 void c_gui_widget::set_debug_animation_state(bool activate)
 {
 	SET_BIT(m_flags, _debug_animation_state_bit, activate);
@@ -1370,6 +1369,13 @@ void c_gui_widget::set_debug_rotation_origin(bool activate)
 void c_gui_widget::set_driving_controller(e_controller_index controller_index)
 {
 	INVOKE_CLASS_MEMBER(0x00ABA280, c_gui_widget, set_driving_controller, controller_index);
+}
+
+void c_gui_group_widget::set_dispose_as_display_group(bool dispose)
+{
+	//INVOKE_CLASS_MEMBER(0x00ABA270, c_gui_group_widget, set_dispose_as_display_group, dispose);
+
+	m_dispose_as_display_group = dispose;
 }
 
 void c_gui_widget::set_enabled(bool value)

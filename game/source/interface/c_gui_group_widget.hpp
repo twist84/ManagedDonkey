@@ -38,6 +38,7 @@ struct c_gui_group_widget :
 	public c_gui_widget
 {
 public:
+	void set_dispose_as_display_group(bool dispose);
 
 //protected:
 	s_runtime_group_widget_definition m_core_definition;
