@@ -2,16 +2,60 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "interface/user_interface_window_manager.hpp"
 
-//.text:00AAB260 ; protected: virtual e_render_data_size c_gui_screen_widget::get_render_data_size()
-//.text:00AAB270 ; public: s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
+template<>
+void ui_track_delete<c_gui_data>(c_gui_data const* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_data();
+	user_interface_free(object);
+}
+
+template<>
+void ui_track_delete<c_gui_tag_datasource>(c_gui_tag_datasource const* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_tag_datasource();
+	user_interface_free(object);
+}
+
+template<>
+void ui_track_delete<c_game_tag_parser>(c_game_tag_parser const* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_game_tag_parser();
+	user_interface_free(object);
+}
+
+template<>
+void ui_track_delete<c_gui_data_array_test>(c_gui_data_array_test const* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_data_array_test();
+	user_interface_free(object);
+}
+
+template<>
+void ui_track_delete<c_gui_group_widget>(c_gui_group_widget const* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_group_widget();
+	user_interface_free(object);
+}
 
 c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	c_gui_widget(_gui_screen),
